@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDF1698AED
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 04:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04C5698AF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 04:10:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSUeF-0007VS-Ef; Wed, 15 Feb 2023 22:09:27 -0500
+	id 1pSUeI-0007Vk-Jp; Wed, 15 Feb 2023 22:09:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUeB-0007RF-AQ
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 22:09:23 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1pSUeD-0007TC-3L
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 22:09:25 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUe9-0000CQ-7W
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 22:09:23 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- n20-20020a17090aab9400b00229ca6a4636so4494293pjq.0
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 19:09:20 -0800 (PST)
+ id 1pSUeA-0000Cu-Vd
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 22:09:24 -0500
+Received: by mail-pg1-x532.google.com with SMTP id s8so414848pgg.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 19:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rrGYft0PYoFjdkgdndGx+3sC+bi057jkIwu9gTCtgvM=;
- b=W6tqc5Al7n+lfcfdM7MHYKXstmkf/Wnm1CIiLCfWNMyIiYzXD0vPpD0CbXRUeDbmzL
- kyhUOJJzsUmWYTmZ0VpHRiq8xsAA6HOdgqCi8gy2rFhyRClqm5ISHYASBM7JHjNKEfFQ
- EFJADJq2dcGoVQV4N5Vks/VpLmfxvh2nEp3cUEZQeCZzk7ZIzCh588VOvFm8aI5Tofpi
- rrMBOVG94ad7tH2uNJZ9NNIMgG1DI+en3ad9IkErsEPMz5GYmc/4mnYH72U4warDo/J7
- 4zS/LZBLVoBkAwrathClt8q/ely1qjsRfs02Zm7uKR+uw/AbnnP/xg9iHEKp6r1VjKXx
- Nmaw==
+ bh=iR+OHJC4d8S9ZWAhhg9mI80eUMQ8XMvPXGDeNwWOMUY=;
+ b=xarLZJqHQWhA4fIKMCEcxFVwZ5Iw+nFFo5TKQofK/gFI6uwKZC1gRSMCLXzQ+2IaT7
+ ME5JznTey3OMrvkSFchbm71mjC4z0cl7w1h1xo5IY7348HzQrPmEy7neqqg6hF0h8s4u
+ nrLZsyjIJ60DrldHJonu0idqd36FigVQnFGJcisl2+JjsZEcocZSC5qFfHThFYI9XiYs
+ X5xHDDLm2FWdJSL8QUNOiefbZlD9S/7q7+Hx0orsP4iIj+0ey4GnTLhH0Jvosiqeduwd
+ OopotCFDepdPwETQXoybq+xciJZcHxlb9uOnO26WBaN4H64D+CpvMXvXMrlaUu0V5ZlM
+ elnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rrGYft0PYoFjdkgdndGx+3sC+bi057jkIwu9gTCtgvM=;
- b=gXyzqyELGYhpgJ6fOInPlZtHzd5NuKF2XE1Sa1rxZR2OoVYnC0KsGwuM8X92cLP8VS
- nGcbg5QhEuNCw+IXVKgJR52rIDXhZY45D4ix9G2Mx6AE+X/CRloMEf+k8ldp8oQjP4Df
- bdCx676psyHf+ik6ia3wdAiDSo23HNp9fcbZI3PQoWqn7oti6758t+nPZCXRSS3PXToO
- y/5bqvqLFGWsVTM7XQV/GTymnYlssv3RfPl8YOZo7MAHl9F27PXJ5ZFpEMdXG3SJLSPb
- Fwlii2orcnlWwokEXqVRUZQS6zl1kk1L8hTXxc34SoPuienY56nJGhY5nz9lxTJhvftM
- zYYw==
-X-Gm-Message-State: AO0yUKXAlQh3y+YEIFZ5DNjWqjTdYAvd9wvoYo0Fa0NvGb49u3hNeu+3
- Phebg0NglyfJTdVXV7P/zjSCrzujqNhjxI52t1s=
-X-Google-Smtp-Source: AK7set9Mw2NekA0mKDKfmiTM8K1wdj5O8GUnEhrcJA6VtPO7CRQvejKoG8dKRkNzjU3z7EDIiC2JQg==
-X-Received: by 2002:a05:6a20:a0a4:b0:bc:6ef3:1e74 with SMTP id
- r36-20020a056a20a0a400b000bc6ef31e74mr3459034pzj.37.1676516959986; 
- Wed, 15 Feb 2023 19:09:19 -0800 (PST)
+ bh=iR+OHJC4d8S9ZWAhhg9mI80eUMQ8XMvPXGDeNwWOMUY=;
+ b=HFl2TPyQUO4HXFTnlbJLH+E3HvCBvRtOJ0TF44e5bKRAu8e4MGipHV/Z29oeTzS++L
+ ee7p2sCZyH2OptDiItrHGTfYP6fT14QkFfg0m6v4u1rZ3m+IblGdgvXUZ7XkOaIvvq+u
+ U89dEz0HQ7B0w1lqjeN+82dse9PXJs/W4SO2pttMNwRez043JWlZnElhN0H1MJP11U6Q
+ rCgxtoeJWZay+Yln/6qHUapynrEaW7Wr5FQY/++6mBp6AJtLjxk9YF6kjh22O95PocZn
+ 6UKRo0IK1mj9R3LxPPTnulie8Kpnu3ahlzQXhd2T0OgqINEAReSF2LgNbG6OvNzZw2Vs
+ +M0Q==
+X-Gm-Message-State: AO0yUKW2ADjV9fKcjGloRjxAMcPmYNnMXKUY7Fq7lA3UJ0Sp8x7Ce+DG
+ rmWp5EhUwRN1MHV7ZKGN5CJGaGO0oRPTZDGV4K8=
+X-Google-Smtp-Source: AK7set+Ejh9g0htrZB2xtgoWC/AJoCwuR2FTCNLqOitsP5/EKFOEkMfDiPGt7FjgD27Ma2hWy+c3cg==
+X-Received: by 2002:aa7:95a9:0:b0:5a8:bfe5:3076 with SMTP id
+ a9-20020aa795a9000000b005a8bfe53076mr3712933pfk.19.1676516961641; 
+ Wed, 15 Feb 2023 19:09:21 -0800 (PST)
 Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
  by smtp.gmail.com with ESMTPSA id
- i25-20020aa79099000000b005810a54fdefsm79051pfa.114.2023.02.15.19.09.18
+ i25-20020aa79099000000b005810a54fdefsm79051pfa.114.2023.02.15.19.09.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 19:09:19 -0800 (PST)
+ Wed, 15 Feb 2023 19:09:21 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH v1 15/19] target/arm: Add SCTLR.nAA to TBFLAG_A64
-Date: Wed, 15 Feb 2023 17:08:50 -1000
-Message-Id: <20230216030854.1212208-16-richard.henderson@linaro.org>
+Subject: [PATCH v1 16/19] target/arm: Relax ordered/atomic alignment checks
+ for LSE2
+Date: Wed, 15 Feb 2023 17:08:51 -1000
+Message-Id: <20230216030854.1212208-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216030854.1212208-1-richard.henderson@linaro.org>
 References: <20230216030854.1212208-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,77 +90,221 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+FEAT_LSE2 only requires that atomic operations not cross a
+16-byte boundary.  Ordered operations may be completely
+unaligned if SCTLR.nAA is set.
+
+Because this alignment check is so special, do it by hand.
+Make sure not to keep TCG temps live across the branch.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h           | 3 ++-
- target/arm/translate.h     | 2 ++
- target/arm/helper.c        | 6 ++++++
- target/arm/translate-a64.c | 1 +
- 4 files changed, 11 insertions(+), 1 deletion(-)
+ target/arm/helper-a64.h    |  3 ++
+ target/arm/helper-a64.c    |  7 +++
+ target/arm/translate-a64.c | 95 ++++++++++++++++++++++++++++++++------
+ 3 files changed, 92 insertions(+), 13 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 2108caf753..b814c52469 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1243,7 +1243,7 @@ void pmu_init(ARMCPU *cpu);
- #define SCTLR_D       (1U << 5) /* up to v5; RAO in v6 */
- #define SCTLR_CP15BEN (1U << 5) /* v7 onward */
- #define SCTLR_L       (1U << 6) /* up to v5; RAO in v6 and v7; RAZ in v8 */
--#define SCTLR_nAA     (1U << 6) /* when v8.4-LSE is implemented */
-+#define SCTLR_nAA     (1U << 6) /* when FEAT_LSE2 is implemented */
- #define SCTLR_B       (1U << 7) /* up to v6; RAZ in v7 */
- #define SCTLR_ITD     (1U << 7) /* v8 onward */
- #define SCTLR_S       (1U << 8) /* up to v6; RAZ in v7 */
-@@ -3247,6 +3247,7 @@ FIELD(TBFLAG_A64, SVL, 24, 4)
- /* Indicates that SME Streaming mode is active, and SMCR_ELx.FA64 is not. */
- FIELD(TBFLAG_A64, SME_TRAP_NONSTREAMING, 28, 1)
- FIELD(TBFLAG_A64, FGT_ERET, 29, 1)
-+FIELD(TBFLAG_A64, NAA, 30, 1)
- 
- /*
-  * Helpers for using the above.
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 809479f9b7..46a60f8987 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -137,6 +137,8 @@ typedef struct DisasContext {
-     bool fgt_eret;
-     /* True if fine-grained trap on SVC is enabled */
-     bool fgt_svc;
-+    /* True if FEAT_LSE2 SCTLR_ELx.nAA is set */
-+    bool naa;
-     /*
-      * >= 0, a copy of PSTATE.BTYPE, which will be 0 without v8.5-BTI.
-      *  < 0, set by the current instruction.
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c62ed05c12..d1683155a1 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -12053,6 +12053,12 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-         }
-     }
- 
-+    if (cpu_isar_feature(aa64_lse2, env_archcpu(env))) {
-+        if (sctlr & SCTLR_nAA) {
-+            DP_TBFLAG_A64(flags, NAA, 1);
-+        }
-+    }
+diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+index ff56807247..3d5957c11f 100644
+--- a/target/arm/helper-a64.h
++++ b/target/arm/helper-a64.h
+@@ -110,3 +110,6 @@ DEF_HELPER_FLAGS_2(st2g_stub, TCG_CALL_NO_WG, void, env, i64)
+ DEF_HELPER_FLAGS_2(ldgm, TCG_CALL_NO_WG, i64, env, i64)
+ DEF_HELPER_FLAGS_3(stgm, TCG_CALL_NO_WG, void, env, i64, i64)
+ DEF_HELPER_FLAGS_3(stzgm_tags, TCG_CALL_NO_WG, void, env, i64, i64)
 +
-     /* Compute the condition for using AccType_UNPRIV for LDTR et al. */
-     if (!(env->pstate & PSTATE_UAO)) {
-         switch (mmu_idx) {
++DEF_HELPER_FLAGS_4(unaligned_access, TCG_CALL_NO_WG,
++                   noreturn, env, i64, i32, i32)
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index 0972a4bdd0..abbe3f7077 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -952,3 +952,10 @@ void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
+ 
+     memset(mem, 0, blocklen);
+ }
++
++void HELPER(unaligned_access)(CPUARMState *env, uint64_t addr,
++                              uint32_t access_type, uint32_t mmu_idx)
++{
++    arm_cpu_do_unaligned_access(env_cpu(env), addr, access_type,
++                                mmu_idx, GETPC());
++}
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index caeb91efa5..56c9d63664 100644
+index 56c9d63664..78103f723d 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -14813,6 +14813,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->pstate_sm = EX_TBFLAG_A64(tb_flags, PSTATE_SM);
-     dc->pstate_za = EX_TBFLAG_A64(tb_flags, PSTATE_ZA);
-     dc->sme_trap_nonstreaming = EX_TBFLAG_A64(tb_flags, SME_TRAP_NONSTREAMING);
-+    dc->naa = EX_TBFLAG_A64(tb_flags, NAA);
-     dc->vec_len = 0;
-     dc->vec_stride = 0;
-     dc->cp_regs = arm_cpu->cp_regs;
+@@ -310,6 +310,77 @@ TCGv_i64 gen_mte_checkN(DisasContext *s, TCGv_i64 addr, bool is_write,
+     return clean_data_tbi(s, addr);
+ }
+ 
++/*
++ * Generate the special alignment check that applies to AccType_ATOMIC
++ * and AccType_ORDERED insns under FEAT_LSE2: the access need not be
++ * naturally aligned, but it must not cross a 16-byte boundary.
++ * See AArch64.CheckAlignment().
++ */
++static void check_lse2_align(DisasContext *s, int rn, int imm,
++                             bool is_write, MemOp mop)
++{
++    TCGv_i32 tmp;
++    TCGv_i64 addr;
++    TCGLabel *over_label;
++    MMUAccessType type;
++    int mmu_idx;
++
++    tmp = tcg_temp_new_i32();
++    tcg_gen_extrl_i64_i32(tmp, cpu_reg_sp(s, rn));
++    tcg_gen_addi_i32(tmp, tmp, imm & 15);
++    tcg_gen_andi_i32(tmp, tmp, 15);
++    tcg_gen_addi_i32(tmp, tmp, memop_size(mop));
++
++    over_label = gen_new_label();
++    tcg_gen_brcond_i32(TCG_COND_LEU, tmp, tcg_constant_i32(16), over_label);
++    tcg_temp_free_i32(tmp);
++
++    addr = tcg_temp_new_i64();
++    tcg_gen_addi_i64(addr, cpu_reg_sp(s, rn), imm);
++
++    type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD,
++    mmu_idx = get_mem_index(s);
++    gen_helper_unaligned_access(cpu_env, addr, tcg_constant_i32(type),
++                                tcg_constant_i32(mmu_idx));
++    tcg_temp_free_i64(addr);
++
++    gen_set_label(over_label);
++
++}
++
++/* Handle the alignment check for AccType_ATOMIC instructions. */
++static MemOp check_atomic_align(DisasContext *s, int rn, MemOp mop)
++{
++    MemOp size = mop & MO_SIZE;
++
++    if (size == MO_8) {
++        return mop;
++    }
++    if (size >= MO_128 || !dc_isar_feature(aa64_lse2, s)) {
++        return mop | MO_ALIGN | s->be_data;
++    }
++    check_lse2_align(s, rn, 0, true, mop);
++    return mop | s->be_data;
++}
++
++/* Handle the alignment check for AccType_ORDERED instructions. */
++static MemOp check_ordered_align(DisasContext *s, int rn, int imm,
++                                 bool is_write, MemOp mop)
++{
++    MemOp size = mop & MO_SIZE;
++
++    if (size == MO_8) {
++        return mop;
++    }
++    if (size >= MO_128 || !dc_isar_feature(aa64_lse2, s)) {
++        return mop | MO_ALIGN | s->be_data;
++    }
++    if (!s->naa) {
++        check_lse2_align(s, rn, imm, is_write, mop);
++    }
++    return mop | s->be_data;
++}
++
+ typedef struct DisasCompare64 {
+     TCGCond cond;
+     TCGv_i64 value;
+@@ -2525,8 +2596,7 @@ static void gen_load_exclusive(DisasContext *s, int rt, int rt2, int rn,
+     if (memop == MO_128) {
+         memop |= MO_ATMAX_8;
+     }
+-    memop |= MO_ALIGN;
+-    memop = finalize_memop(s, memop);
++    memop = check_atomic_align(s, rn, memop);
+ 
+     s->is_ldex = true;
+     dirty_addr = cpu_reg_sp(s, rn);
+@@ -2663,7 +2733,7 @@ static void gen_compare_and_swap(DisasContext *s, int rs, int rt,
+     if (rn == 31) {
+         gen_check_sp_alignment(s);
+     }
+-    memop = finalize_memop(s, size | MO_ALIGN);
++    memop = check_atomic_align(s, rn, size);
+     clean_addr = gen_mte_check1(s, cpu_reg_sp(s, rn), true, rn != 31, memop);
+     tcg_gen_atomic_cmpxchg_i64(tcg_rs, clean_addr, tcg_rs, tcg_rt,
+                                memidx, memop);
+@@ -2685,7 +2755,7 @@ static void gen_compare_and_swap_pair(DisasContext *s, int rs, int rt,
+     }
+ 
+     /* This is a single atomic access, despite the "pair". */
+-    memop = finalize_memop(s, (size + 1) | MO_ALIGN);
++    memop = check_atomic_align(s, rn, size + 1);
+     clean_addr = gen_mte_check1(s, cpu_reg_sp(s, rn), true, rn != 31, memop);
+ 
+     if (size == 2) {
+@@ -2809,8 +2879,7 @@ static void disas_ldst_excl(DisasContext *s, uint32_t insn)
+             gen_check_sp_alignment(s);
+         }
+         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
+-        /* TODO: ARMv8.4-LSE SCTLR.nAA */
+-        memop = finalize_memop(s, size | MO_ALIGN);
++        memop = check_ordered_align(s, rn, 0, true, size);
+         clean_addr = gen_mte_check1(s, cpu_reg_sp(s, rn),
+                                     true, rn != 31, memop);
+         do_gpr_st(s, cpu_reg(s, rt), clean_addr, memop, true, rt,
+@@ -2828,8 +2897,7 @@ static void disas_ldst_excl(DisasContext *s, uint32_t insn)
+         if (rn == 31) {
+             gen_check_sp_alignment(s);
+         }
+-        /* TODO: ARMv8.4-LSE SCTLR.nAA */
+-        memop = finalize_memop(s, size | MO_ALIGN);
++        memop = check_ordered_align(s, rn, 0, false, size);
+         clean_addr = gen_mte_check1(s, cpu_reg_sp(s, rn),
+                                     false, rn != 31, memop);
+         do_gpr_ld(s, cpu_reg(s, rt), clean_addr, memop, false, true,
+@@ -3510,7 +3578,7 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+     bool a = extract32(insn, 23, 1);
+     TCGv_i64 tcg_rs, tcg_rt, clean_addr;
+     AtomicThreeOpFn *fn = NULL;
+-    MemOp mop = finalize_memop(s, size | MO_ALIGN);
++    MemOp mop = size;
+ 
+     if (is_vector || !dc_isar_feature(aa64_atomics, s)) {
+         unallocated_encoding(s);
+@@ -3561,6 +3629,8 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+     if (rn == 31) {
+         gen_check_sp_alignment(s);
+     }
++
++    mop = check_atomic_align(s, rn, mop);
+     clean_addr = gen_mte_check1(s, cpu_reg_sp(s, rn), false, rn != 31, mop);
+ 
+     if (o3_opc == 014) {
+@@ -3685,16 +3755,13 @@ static void disas_ldst_ldapr_stlr(DisasContext *s, uint32_t insn)
+     bool is_store = false;
+     bool extend = false;
+     bool iss_sf;
+-    MemOp mop;
++    MemOp mop = size;
+ 
+     if (!dc_isar_feature(aa64_rcpc_8_4, s)) {
+         unallocated_encoding(s);
+         return;
+     }
+ 
+-    /* TODO: ARMv8.4-LSE SCTLR.nAA */
+-    mop = finalize_memop(s, size | MO_ALIGN);
+-
+     switch (opc) {
+     case 0: /* STLURB */
+         is_store = true;
+@@ -3726,6 +3793,8 @@ static void disas_ldst_ldapr_stlr(DisasContext *s, uint32_t insn)
+         gen_check_sp_alignment(s);
+     }
+ 
++    mop = check_ordered_align(s, rn, offset, is_store, mop);
++
+     dirty_addr = read_cpu_reg_sp(s, rn, 1);
+     tcg_gen_addi_i64(dirty_addr, dirty_addr, offset);
+     clean_addr = clean_data_tbi(s, dirty_addr);
 -- 
 2.34.1
 
