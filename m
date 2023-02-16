@@ -2,99 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDFC6989D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 02:33:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5515698A26
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 02:39:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pST8O-0003Yk-Rn; Wed, 15 Feb 2023 20:32:28 -0500
+	id 1pSTDL-0006tV-To; Wed, 15 Feb 2023 20:37:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pST8M-0003YK-Cu
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:32:26 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pST8G-0003HY-6q
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 20:32:26 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 59B045C00F4;
- Wed, 15 Feb 2023 20:32:15 -0500 (EST)
-Received: from imap44 ([10.202.2.94])
- by compute2.internal (MEProxy); Wed, 15 Feb 2023 20:32:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1676511135; x=
- 1676597535; bh=JY9fe2GKOrCHxQ7zEllzVWgM9Wi5e7DJGFH3l4YtSmQ=; b=w
- 2e8L9i3SsuGea9fpHIMsGQqjjt+35Rfx0zjkgqxUZv0/0IbbXg/mlQHdktVVCgNB
- 7zXprsfegL4odXkJCrnBHQnTMoBSSL5G799NHekFUSigi6xVjfcZCziCpNt/iDBt
- Hgf/MDquVMSYddHbiDxjAh3fzVoZiLEaYcOSzkGVuz/211z2BG1ClZbFCINJ+Tq/
- kpr8/5telYQ+CjIf9PSVhkyESm/6Dm5M/BvNS1U9FIDqYNp6ur1KW6XWE+coSfXV
- Cpl+MBNysn2NXNXUe5IbNWkO/rBziQQkWiIzq2wSF8HRLI0COSu6lBSlJRPPOpFB
- Huk6h/1cRyxnsLRkG7H0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676511135; x=
- 1676597535; bh=JY9fe2GKOrCHxQ7zEllzVWgM9Wi5e7DJGFH3l4YtSmQ=; b=F
- E38pXk4SNEmHy3mAeZKobKPjcmeiAAN8h0vlxcfrnsPJlTxY0/D1KPLt7sj1L7XH
- Yt9ohOUrLTdCedqoRegjcd4XqX2eBedx6wIqEBh2jTeeMK+FvN0e9i1iloGawiXF
- zObeSmTzSrYFGAr34EC4YLFB7l1VHp+Q+GmdGfg/uu1cB7TFGKGjyqIMCJWejPw1
- 9Gz5UtCOu+PROeIXymuqrOyAQOvjdeptidajUHn+6ftu6yKOoVkLUctDfyibQKTA
- vbB4Nq3PS7zmVRw8oFxWq7gzM39kVsNY5I5qxarepSpxonZzR1TRlrG0aNkDyqUk
- jMikG0PbQuY1ooVmKyjxQ==
-X-ME-Sender: <xms:noftY-jX2NCRkKaC2qdwBzNgIVT2bBhFnaAT4ig3JgfWbDXadA6ZMg>
- <xme:noftY_B5JEC-HJwwC0Rd3PZZHhqW2W20FbsRiapIqu9zMMIsUOsP93F8yy1_blktI
- H3qu4HMbRiOXZqLIqs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiiedgfeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdfl
- ihgrgihunhcujggrnhhgfdcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtoh
- hmqeenucggtffrrghtthgvrhhnpedufeegfeetudeghefftdehfefgveffleefgfehhfej
- ueegveethfduuddvieehgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
- grihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:noftY2HjtZX-hfCC0jlLwoSfwsRCElv8pn-idzbimKbyGL2JlS3tSg>
- <xmx:noftY3RiCik7MsVG902GD_u31zprAPH9jHRdKm4Jlmqoj-uNSYKAbg>
- <xmx:noftY7znE2UlgdoF82KekPvhH4ilsYo60UD8NWCDE-iIcw2-I6CHrw>
- <xmx:n4ftY7_i8gxXLXF_ZudoMNemdxGai-iOW1XaYeJ5hLo3fVyaRKplKQ>
-Feedback-ID: ifd894703:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C4ED336A0073; Wed, 15 Feb 2023 20:32:14 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
-Mime-Version: 1.0
-Message-Id: <ff59a570-7e1a-43c9-bf7c-62f82d50451e@app.fastmail.com>
-In-Reply-To: <92e0e4dd-0aee-7d12-06b5-eb087766e087@linaro.org>
-References: <20230215084754.3816747-1-marcin.nowakowski@fungible.com>
- <20230215084754.3816747-2-marcin.nowakowski@fungible.com>
- <645427aa-2630-a2be-9f1a-bee60a2d2885@linaro.org>
- <92e0e4dd-0aee-7d12-06b5-eb087766e087@linaro.org>
-Date: Thu, 16 Feb 2023 01:31:54 +0000
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Richard Henderson" <richard.henderson@linaro.org>,
- "Marcin Nowakowski" <marcin.nowakowski@fungible.com>,
- "BALATON Zoltan via" <qemu-devel@nongnu.org>
-Cc: "Aurelien Jarno" <aurelien@aurel32.net>,
- "Aleksandar Rikalo" <aleksandar.rikalo@syrmia.com>
-Subject: Re: [PATCH 1/3] target/mips: fix JALS32/J32 instruction handling for
- microMIPS
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pSTDI-0006tA-69; Wed, 15 Feb 2023 20:37:32 -0500
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pSTDF-0000Vo-7T; Wed, 15 Feb 2023 20:37:31 -0500
+Received: from [192.168.0.119] (unknown [114.95.238.225])
+ by APP-01 (Coremail) with SMTP id qwCowADnANXEiO1j9vhQBQ--.7938S2;
+ Thu, 16 Feb 2023 09:37:09 +0800 (CST)
+Message-ID: <cae5f597-cc2a-bcee-924f-7094e41d97a2@iscas.ac.cn>
+Date: Thu, 16 Feb 2023 09:37:07 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Cc: liweiwei@iscas.ac.cn, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ bmeng@tinylab.org, zhiwei_liu@linux.alibaba.com
+Subject: Re: [PATCH v3 02/10] target/riscv: always allow write_misa() to write
+ MISA
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+References: <20230215185726.691759-1-dbarboza@ventanamicro.com>
+ <20230215185726.691759-3-dbarboza@ventanamicro.com>
+Content-Language: en-US
+From: weiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230215185726.691759-3-dbarboza@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADnANXEiO1j9vhQBQ--.7938S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJF48tr18KF1fKrW8Ww45Jrb_yoW5GFW8pF
+ WF93yrKrWDtFZF9an7JrWUJr1Uuwn8G3y3C3s7ur10vws8JrW0gFn7tay8CF98Jas5Zw1j
+ gF4Y9F9xAF4jva7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
+ 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+ 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+ 0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+ bIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+ AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+ rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+ v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+ JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUU
+ UU=
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.257,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,51 +79,87 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-
-=E5=9C=A82023=E5=B9=B42=E6=9C=8815=E6=97=A5=E4=BA=8C=E6=9C=88 =E4=B8=8B=E5=
-=8D=888:50=EF=BC=8CPhilippe Mathieu-Daud=C3=A9=E5=86=99=E9=81=93=EF=BC=9A
-> On 15/2/23 21:21, Richard Henderson wrote:
->> On 2/14/23 22:47, Marcin Nowakowski wrote:
->>> @@ -4860,6 +4860,7 @@ static void gen_compute_branch(DisasContext=20
->>> *ctx, uint32_t opc,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 target_ulong btgt =3D -1;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int blink =3D 0;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int bcond_compute =3D 0;
->>> +=C2=A0=C2=A0=C2=A0 int jal_mask =3D 0;
->>=20
->> Better to limit the scope of the variable to the block below.
->>=20
->>> @@ -4917,6 +4918,11 @@ static void gen_compute_branch(DisasContext=20
->>> *ctx, uint32_t opc,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case OPC_J:
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case OPC_JAL:
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Jump to immediate */
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 jal_mask =3D ctx->hflags=
- & MIPS_HFLAG_M16 ? 0xF8000000 :=20
->>> 0xF0000000;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 btgt =3D ((ctx->base.pc_=
-next + insn_bytes) & jal_mask) |
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-(uint32_t)offset;
->>=20
->> Ideally we wouldn't have one huge helper function, and could pass dow=
-n=20
->> the mask from the translator.=C2=A0 But that's on-going cleanup.
+On 2023/2/16 02:57, Daniel Henrique Barboza wrote:
+> At this moment, and apparently since ever, we have no way of enabling
+> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
+> the nuts and bolts that handles how to properly write this CSR, has
+> always been a no-op as well because write_misa() will always exit
+> earlier.
 >
-> Yes, this is the approach taken in decodetree conversion.
+> This seems to be benign in the majority of cases. Booting an Ubuntu
+> 'virt' guest and logging all the calls to 'write_misa' shows that no
+> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
+> RISC-V extensions after the machine is powered on, seems to be a niche
+> use.
 >
-> I hope to rebase / respin incorporating Jiaxun patches some day...
-
-Which series are you referring?
-Just caught some time so I might able to help.
-
+> Regardless, the spec says that MISA is a WARL read-write CSR, and gating
+> the writes in the register doesn't make sense. OS and applications
+> should be wary of the consequences when writing it, but the write itself
+> must always be allowed.
 >
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>=20
->>=20
->> r~
+> Remove the RISCV_FEATURE_MISA verification at the start of write_misa(),
+> removing RISCV_FEATURE_MISA altogether since there will be no more
+> callers of this enum.
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>   target/riscv/cpu.h | 1 -
+>   target/riscv/csr.c | 5 -----
+>   2 files changed, 6 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 7128438d8e..01803a020d 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -89,7 +89,6 @@ enum {
+>       RISCV_FEATURE_MMU,
+>       RISCV_FEATURE_PMP,
+>       RISCV_FEATURE_EPMP,
+> -    RISCV_FEATURE_MISA,
+>       RISCV_FEATURE_DEBUG
+>   };
+>   
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index e149b453da..5bd4cdbef5 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1329,11 +1329,6 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
+>   static RISCVException write_misa(CPURISCVState *env, int csrno,
+>                                    target_ulong val)
+>   {
+> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
+> -        /* drop write to misa */
+> -        return RISCV_EXCP_NONE;
+> -    }
+> -
 
---=20
-- Jiaxun
+I have a question here:
+
+If we directly remove this here without other limits, the bugs 
+introduced by following code
+
+will be exposed to users, such as:
+
+- V may be still enabled when misa.D is cleared.
+
+- Zfh/Zfhmin may be still enabled when misa.D is cleared
+
+- Misa.U may be cleared when Misa.S is still set.
+
+...
+
+Should we fix these bugs before this patch? Or fix them in following 
+patchset?
+
+If we choose the latter, I think it's better to add a limitation(such 
+as  writable_mask) to the changable fields of misa here.
+
+Regards,
+
+Weiwei Li
+
+>       /* 'I' or 'E' must be present */
+>       if (!(val & (RVI | RVE))) {
+>           /* It is not, drop write to misa */
+
 
