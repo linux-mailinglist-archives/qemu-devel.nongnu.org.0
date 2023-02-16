@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB5D698DB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 08:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBE8698DBB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 08:25:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSYam-00017C-Qu; Thu, 16 Feb 2023 02:22:08 -0500
+	id 1pSYd9-0002h6-Lr; Thu, 16 Feb 2023 02:24:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSYak-00015N-7p
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:22:06 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSYd7-0002gb-3U
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:24:33 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSYai-0008MW-J8
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:22:05 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d4so812645wrj.1
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 23:22:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSYd4-0000AF-Kn
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 02:24:31 -0500
+Received: by mail-wr1-x433.google.com with SMTP id m14so860052wrg.13
+ for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 23:24:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HW+EenpcXxwhDl79dQT50h99rlppkT6TwTdVGDGGtbs=;
- b=WkkutAoSTnAAm7IFe8Zi/47SHujjNhvU9Ip8NciziZTSyu2idKt+yIW+6XWUdRnp2O
- 2jNhA8ATiI9P4DeG+hHtlZru/wihQymCOC5AGx9FZGP2EfVaNirjITrdNSRpjnsra45I
- nNkTcywXOhpNixZ+36BDmaIuOLwatYChzXvkjWGKKlOkJBfGcQXfCg/OgGgb+lLcQ8/A
- Gz80Jf/mw1qSxpbDf6secYCzsRup9YVdh9qXpW9FW+LSh6sh1ANjUm3w6CZpNRDzuNAV
- lQq97FEkeOZyxkIafrfZyR9azigSib6EKaOD9oR5QnSOKH2DY6l25cOZTptQAmOqS5dg
- UHqg==
+ bh=Phe2LQlCqaP8FJhR9Uv31P4FviZfuKElnLJVtUKvxXo=;
+ b=R7HyVeY6exMmQyS8jMzSlrkyyUzxJ90KB4BIbgbdXZKHdKuTZ5xNsUvgq9ptofKMgD
+ TNMQYurLxR5dwluX3tQtwqoNyC5fFusm2lFrWPRJykS4IcJtyOLZJkTbCj3qdJdIbLgM
+ lEUbH3SWLwYvjP+KQJujieMq0uOstmmiGNvFCwUB3FCEemR2crzZvfP8D96KVjbPSUVn
+ K+uFpM1WgYeBr/gKl8llE7WjHGnQo558pSfTM8pGWbxT4FGRGyW6C585l95zHn2wb8aW
+ iTnz7KubSslpC/qic9MW0jV4m9x1GO77dBfw27MMeLNIG1w+6Qotq4njaunhqtARncoM
+ L+uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HW+EenpcXxwhDl79dQT50h99rlppkT6TwTdVGDGGtbs=;
- b=p/NXGG6rOlaaL/9dLpMDgFV69d7f8x5x7jQkQdPi1yuwgHi5nQlzM7v2jjjP+blDCl
- bHlS2EarjUGcD9+xQGKWesqQYNsF9oPGO4ivoRA0q2liIg7OU3/HOnfjsRSzq8+SM3G6
- 4ShB3WZmwGzD/8f3oCFq5Gq+k2gbAhrmAz63MZ2XkJRvxhV1xT2/aFgx6vwlGJ6Njrcj
- 9ACjpD8Vise4DsYcIvz736Iedfze0D/tGudhLeC0884ayoQUhHHStO26qsvVsHvlKpVi
- t0aMGc5MniDs2hllugM8dGOZYM5TYIi+NMC8xTOfF7ylxsagI+6ewhMlkZyhDylTNyWl
- 0zFA==
-X-Gm-Message-State: AO0yUKXzfDNITRKlWXQQzJHnxvBcDXWA3/oBqgjhq74YjfVimVQXaa4L
- W2WfEfoFvMogzGm8MuM9f44xiQ==
-X-Google-Smtp-Source: AK7set8YiQYw31n1Ni4361wb9oYowiiq/QXhiLLnplrEbf6+awVEF8Y/d9x1hxapm63ikNeachYfTA==
-X-Received: by 2002:adf:fc88:0:b0:2c5:7c7a:78fb with SMTP id
- g8-20020adffc88000000b002c57c7a78fbmr1310129wrr.40.1676532122794; 
- Wed, 15 Feb 2023 23:22:02 -0800 (PST)
+ bh=Phe2LQlCqaP8FJhR9Uv31P4FviZfuKElnLJVtUKvxXo=;
+ b=rePvE9YzBCyStGubEHxmAprI+2vGEVixH14z247tGLt7OaIxs/dY2/ZOuAXDX/SqxD
+ ZP6dSFz6WbAa+zM7KO3mqMj7JDl/UumtX8e0VwnVDDMZJrnsC3Vl0+ttgIYhblXyFUBU
+ AfeY/BAwrKrnFGWgM/OTIDyQ7vpLgAiYJO8zTLe6rrPDSINJqZ1DoegZFF2tXzcTJ6D5
+ ycvbwg22ZKaEjUiNE9moH/cpw+ByXbXnzyx0dy/flC5RviX0w8HxW6EuRdPlCG86+9Pa
+ 03lOGt61+EkPT0K2sV83lcgBtNwUFK9MLnZ8IIuNPWIs+mAGd+lY4mIIExHs42Yn9I4x
+ rnJA==
+X-Gm-Message-State: AO0yUKXevF9xsNa0rcZrBOtaLVOAZXWZoyVSywXYBiBW7jhzRwcuQZYZ
+ yodfaMuRpJjLwLyuS8FJMzBIVQ==
+X-Google-Smtp-Source: AK7set9bgQmp+LR8EMbvQzAdNO89Mv1grS0yqxk+WDLPPVp7qiOPbPqW07PzfAwjIqRY0OQF+ETszw==
+X-Received: by 2002:a05:6000:16c5:b0:2c5:5ee9:6b27 with SMTP id
+ h5-20020a05600016c500b002c55ee96b27mr910908wrf.13.1676532269129; 
+ Wed, 15 Feb 2023 23:24:29 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- z12-20020a056000110c00b002c563b124basm704989wrw.103.2023.02.15.23.22.02
+ z12-20020a056000110c00b002c563b124basm709881wrw.103.2023.02.15.23.24.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Feb 2023 23:22:02 -0800 (PST)
-Message-ID: <b223a63c-9d59-4c9c-2812-1fabeb1703c1@linaro.org>
-Date: Thu, 16 Feb 2023 08:22:01 +0100
+ Wed, 15 Feb 2023 23:24:28 -0800 (PST)
+Message-ID: <774ed4da-2afa-dc6c-7890-18acd5dea10d@linaro.org>
+Date: Thu, 16 Feb 2023 08:24:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.7.2
-Subject: Re: [PATCH 12/27] accel/tcg/plugin: Use tcg_temp_ebb_*
+Subject: Re: [PATCH 02/27] accel/tcg: Pass max_insn to gen_intermediate_code
+ by pointer
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, cota@braap.org
 References: <20230130205935.1157347-1-richard.henderson@linaro.org>
- <20230130205935.1157347-14-richard.henderson@linaro.org>
+ <20230130205935.1157347-4-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230130205935.1157347-14-richard.henderson@linaro.org>
+In-Reply-To: <20230130205935.1157347-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -91,14 +92,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 30/1/23 21:59, Richard Henderson wrote:
-> All of these uses have quite local scope.
-> Avoid tcg_const_*, because we haven't added a corresponding
-> interface for TEMP_EBB.  Use explicit tcg_gen_movi_* instead.
+> In preparation for returning the number of insns generated
+> via the same pointer.  Adjust only the prototypes so far.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   accel/tcg/plugin-gen.c | 24 ++++++++++++++----------
->   1 file changed, 14 insertions(+), 10 deletions(-)
+>   include/exec/translator.h     | 4 ++--
+>   accel/tcg/translate-all.c     | 2 +-
+>   accel/tcg/translator.c        | 4 ++--
+>   target/alpha/translate.c      | 2 +-
+>   target/arm/translate.c        | 2 +-
+>   target/avr/translate.c        | 2 +-
+>   target/cris/translate.c       | 2 +-
+>   target/hexagon/translate.c    | 2 +-
+>   target/hppa/translate.c       | 2 +-
+>   target/i386/tcg/translate.c   | 2 +-
+>   target/loongarch/translate.c  | 2 +-
+>   target/m68k/translate.c       | 2 +-
+>   target/microblaze/translate.c | 2 +-
+>   target/mips/tcg/translate.c   | 2 +-
+>   target/nios2/translate.c      | 2 +-
+>   target/openrisc/translate.c   | 2 +-
+>   target/ppc/translate.c        | 2 +-
+>   target/riscv/translate.c      | 2 +-
+>   target/rx/translate.c         | 2 +-
+>   target/s390x/tcg/translate.c  | 2 +-
+>   target/sh4/translate.c        | 2 +-
+>   target/sparc/translate.c      | 2 +-
+>   target/tricore/translate.c    | 2 +-
+>   target/xtensa/translate.c     | 2 +-
+>   24 files changed, 26 insertions(+), 26 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
