@@ -2,69 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA726699ABD
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA30699AC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 18:08:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pShea-0000mf-NQ; Thu, 16 Feb 2023 12:02:40 -0500
+	id 1pShif-00047S-Gq; Thu, 16 Feb 2023 12:06:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSheY-0000kw-Rh
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:02:39 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pShiT-00046b-S6
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:06:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSheW-0002kX-5z
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:02:38 -0500
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 534E861EE2;
- Thu, 16 Feb 2023 20:02:29 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:8813::1:16] (unknown
- [2a02:6b8:b081:8813::1:16])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- S2pT790R00U1-Z39DvYbi; Thu, 16 Feb 2023 20:02:28 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676566948; bh=AvUhGzXjt2ymreYc9TyOrL8/jo+X+o+tiv+CMAIV+gg=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=FHbdEiIJqyrAUC0M9TA9aUJMRFGp0TglE2lQVJuUGVprELeRQhz0wPJ+RvvVRoH0e
- fT24cMUFjBfoTQK2M73vlxvNEP5Z3la2OpRxiV1pgfh5V/5zoG0j6ye5Dob3z0wOCh
- E4LPpKqW05TLCoUZ9vnL4WdfF9VJ3Bb+caDkDsqg=
-Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <0a749ec2-3b5a-64dc-909e-803222d7a3d8@yandex-team.ru>
-Date: Thu, 16 Feb 2023 20:02:28 +0300
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pShiR-0003YE-AJ
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 12:06:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676567197;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iMI56UeYLJ0/JuaJKS00EMiHqlcOZdL/C1u16xQYgQs=;
+ b=dUYwf7OZCEYHvFkKY4pSLbH0MWUvip0hkG+UsxeqyGLpQjWxPHpQxD9wGiuy7quhCD2zNm
+ uybTkUV4p58myEEG7KHBB1+Tu35ZucomhJL6mICBqysQtiWq31WyRG6rIB3QdT9To2BCv4
+ KT0TJPcxhWC9FSRArWmp25mjOJXbmQY=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-465-sCwUxioBPuC2F1vSqupTMg-1; Thu, 16 Feb 2023 12:06:35 -0500
+X-MC-Unique: sCwUxioBPuC2F1vSqupTMg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ v3-20020a05622a188300b003ba183e8272so1591213qtc.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 09:06:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iMI56UeYLJ0/JuaJKS00EMiHqlcOZdL/C1u16xQYgQs=;
+ b=T2gX2CS3JXxAUJUJ/DY2oFELUSFD3gSJrfYCnR2u3nkurNonvx6H5qO7f6ZGPhaIds
+ CB/rEofLOQ3ql2nj/ihv4lhp896h7C5bAueWOt51ONl2jDC3x3rzGj8R7WDMaageKhp6
+ 0dPC2zewHfrIOyEHdQXuPkd9aL88EB0eve1BktzkZWOg26DhMmVId4jm5rvofkrSzeHx
+ +s1DNAbEUaht/ecHqH7xL4Oe+3vzMO7+Fikqlbpz/G6Gxrbb/RZqp7ISJgYvY+TYsEO6
+ 1kEypjg8qZQgfaT73A4KyR8h1WHzjA+5LgCKO+4l3gxKOdm6Nx9VsuBO8eRuOROu3lwD
+ KXsw==
+X-Gm-Message-State: AO0yUKXnvXBZlHjZZrX6iKP6ZwU4P3nq+GfdeC4fPAkQbxiWiiiMNeju
+ Xcc876xra8DeK1oToDh9VCEqKNBQBjzoc00K6S5XSOx/5ahb13k0w1mUjDUBh/t1TP6EpRDdEQ0
+ EQtNBSHGvPcj3l520sxAG
+X-Received: by 2002:ac8:7f0e:0:b0:3bd:140:4f4e with SMTP id
+ f14-20020ac87f0e000000b003bd01404f4emr9810037qtk.2.1676567193283; 
+ Thu, 16 Feb 2023 09:06:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set/FOV99sHMfmHwmTMgiIVyZ6WzDfbIh68UP/aCxJcJXtCAwIF2dgMJzYQzkaC7erxKPp+zI9w==
+X-Received: by 2002:ac8:7f0e:0:b0:3bd:140:4f4e with SMTP id
+ f14-20020ac87f0e000000b003bd01404f4emr9809995qtk.2.1676567192866; 
+ Thu, 16 Feb 2023 09:06:32 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ e15-20020a05620a014f00b0073b399700adsm1564791qkn.3.2023.02.16.09.06.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Feb 2023 09:06:32 -0800 (PST)
+Message-ID: <e537087d-a8ab-f30b-aeff-76750966a08b@redhat.com>
+Date: Thu, 16 Feb 2023 18:06:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] qemu: make version available in coredump
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2] target/arm: Add raw_writes ops for register whose
+ write induce TLB maintenance
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, Laszlo Ersek <lersek@redhat.com>
-References: <20220607203221.966261-1-vsementsov@yandex-team.ru>
- <CAJSP0QVNnGg+5OkDwpk3Kgc=kicsSt+f5QVg1tyd+ze76N_KVw@mail.gmail.com>
- <Y+368RcZsG+t7SjW@redhat.com>
- <56843688-7985-2e54-de54-817298f213eb@yandex-team.ru>
- <Y+4bd1ao+o1ZLmTP@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <Y+4bd1ao+o1ZLmTP@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: eric.auger.pro@gmail.com, richard.henderson@linaro.org,
+ pbonzini@redhat.com, qemu-devel@nongnu.org, philmd@linaro.org
+References: <20230213183803.3239258-1-eric.auger@redhat.com>
+ <CAFEAcA9sOykbFg=ZNvMRvjaSEJCEsn0MXODdu22zWSsyhDxAGQ@mail.gmail.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <CAFEAcA9sOykbFg=ZNvMRvjaSEJCEsn0MXODdu22zWSsyhDxAGQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_NOVOWEL=0.5 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.351, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,160 +104,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16.02.23 15:03, Daniel P. Berrangé wrote:
-> On Thu, Feb 16, 2023 at 02:30:16PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> On 16.02.23 12:44, Daniel P. Berrangé wrote:
->>> On Wed, Feb 15, 2023 at 05:05:47PM -0500, Stefan Hajnoczi wrote:
->>>> On Tue, 7 Jun 2022 at 16:33, Vladimir Sementsov-Ogievskiy
->>>> <vsementsov@yandex-team.ru> wrote:
->>>>>
->>>>> Add a variable with QEMU_FULL_VERSION definition. Then the content of
->>>>> the variable is easily searchable:
->>>>>
->>>>>      strings /path/to/core | grep QEMU_FULL_VERSION
->>>>>
->>>>> 'volatile' keyword is used to avoid removing the variable by compiler as
->>>>> unused.
->>>>>
->>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>>>> ---
->>>>>
->>>>> Hi all!
->>>>>
->>>>> Probably, I just don't know the correct way to get version from core
->>>>> file. If so, please teach me :)
->>>>
->>>> I've never hit this issue because bug reports usually include the QEMU
->>>> distro package version. Keeping the version string in the core file
->>>> seems reasonable (unless there is already another way to do this).
->>>>
->>>> Something I'm curious about: is the coredump guaranteed to contain
->>>> static const variables? I wondered if they might be located in the
->>>> .rodata ELF section and excluded from the coredump because they are
->>>> referenced in the NT_FILE mmap note instead. Maybe volatile prevents
->>>> this?
->>>
->>> In Fedora / RHEL based systems (and some other distros too IIUC) for
->>> many years, all binaries have included a "build-id" ELF note which
->>> uniquely identifies the package build.
->>>
->>> Note section [ 3] '.note.gnu.build-id' of 36 bytes at offset 0x3c0:
->>>     Owner          Data size  Type
->>>     GNU                   20  GNU_BUILD_ID
->>>       Build ID: e3143405b7f653a0a65b3295df760fdf2c09ba79
->>>
->>> This can be used to query what RPM it came from (assuming the RPM
->>> is still in your repos)
->>>
->>>    dnf repoquery --whatprovides debuginfo(build-id) = ...hash...
->>>
->>> this makes it into the coredump files and is what current distro
->>> tooling uses to find the binary (and libraries).
->>>
->>> There are some downsides/limitations with this though, so in
->>> Fedora 36 a new impl was added alongside which provides full
->>> package info in json
->>>
->>> Note section [ 5] '.note.package' of 136 bytes at offset 0x404:
->>>     Owner          Data size  Type
->>>     FDO                  120  FDO_PACKAGING_METADATA
->>>       Packaging Metadata: {"type":"rpm","name":"qemu","version":"7.0.0-13.fc37","architecture":"x86_64","osCpe":"cpe:/o:fedoraproject:fedora:37"}
->>
->> Looks very good
->>
->>>
->>> This format is supported by systemd core dump tools
->>>
->>>     https://systemd.io/ELF_PACKAGE_METADATA/
->>>
->>> I believe it has been proposed (and possibly implemented?) for
->>> Debian too.
->>>
->>> This is a long winded way of asking, do we really need a QEMU specific
->>> solution here ? Especially one that only tells us a QEMU verison, and
->>> nothing about the many libraries QEMU links to which affect its
->>> operational behaviour.
->>
->>
->> Generic solution is of course better.
->>
->> Hmm. I'm on Ubuntu 22.04.
->>
->> readelf -n /usr/bin/qemu-system-x86_64
->>
->> Displaying notes found in: .note.gnu.property
->>    Owner                Data size        Description
->>    GNU                  0x00000020       NT_GNU_PROPERTY_TYPE_0
->>        Properties: x86 feature: IBT, SHSTK
->>          x86 ISA needed: x86-64-baseline
->>
->> Displaying notes found in: .note.gnu.build-id
->>    Owner                Data size        Description
->>    GNU                  0x00000014       NT_GNU_BUILD_ID (unique build ID bitstring)
->>      Build ID: 4298cd7c2623c58e1cd71668d9d48508bb7f8d52
->>
->> Displaying notes found in: .note.ABI-tag
->>    Owner                Data size        Description
->>    GNU                  0x00000010       NT_GNU_ABI_TAG (ABI version tag)
->>      OS: Linux, ABI: 3.2.0
->>
->>
->> OK. But I can't find this build-id in core file..
->>
->> readelf -n /tmp/cores/core.qemu-system-x86.20351.vsementsov-win.1676544081 | grep -i 'build'  ----  gets nothing
->>
->> strings /tmp/cores//core.qemu-system-x86.20351.vsementsov-win.1676544081 | grep 4298cd7c2623c58e   ---- nothing as well
-> 
-> I don't understand why that's not visible directly, I guess it must
-> be encoded in some binary format instead, because at least tools like
-> eu-unstrip can extract it. eg "
-> 
-> # eu-unstrip -n --core a
+Hi Peter,
 
-O, great! That works for me on Ubuntu.
-
-> 0x558ff8145000+0xd3f000 e3143405b7f653a0a65b3295df760fdf2c09ba79@0x558ff81453d0 . - /usr/bin/qemu-system-x86_64
-> 0x7fffdf36e000+0x1000 9ff92e165010e0806172add635849ec55533b287@0x7fffdf36e554 . - linux-vdso.so.1
-> 0x7f00d2e35000+0x6028 e62598a2d2be298ca20184413edea75fc5a3f1d7@0x7f00d2e352f8 /usr/bin/../lib64/qemu/accel-tcg-x86_64.so - accel-tcg-x86_64.so
-> 0x7f00d02bd000+0x432b0 05ba68b0c1f03dd879a78a4a8b75713d7134bdbc@0x7f00d02bd2f8 /usr/lib64/gvfs/libgvfscommon.so - libgvfscommon.so
-> 0x7f00d0301000+0x34300 7c9fd184be4d2c3593d4901feca9fd59c4981d11@0x7f00d03012f8 /usr/lib64/gio/modules/libgvfsdbus.so - libgvfsdbus.so
-> 0x7f00d2e3c000+0xf0e0 08e41432bd5cec0b0dd36158402ce963c711e46f@0x7f00d2e3c2f8 /usr/lib64/gio/modules/libdconfsettings.so - libdconfsettings.so
-> 0x7f00d0491000+0x22008 ee65b3f0999329d66676c60df8ed1feaab83e15f@0x7f00d04912f8 /lib64/libbrotlicommon.so.1 - libbrotlicommon.so.1
-> 0x7f00d094b000+0x8008 73a48146553f6009aea4cbfe65a01fed665c9bed@0x7f00d094b2f8 /lib64/libdatrie.so.1 - libdatrie.so.1
-> 0x7f00d0954000+0x22008 5c9099941d5c7af74f952367da1368a78d06347c@0x7f00d09542f8 /lib64/liblz4.so.1 - liblz4.so.1
-> 0x7f00d0977000+0x9038 f3f24bb6e411e3885602e753eda1e764fc1f5bfb@0x7f00d09772f8 /lib64/libcap.so.2 - libcap.so.2
-> 0x7f00ca200000+0x1d05008 47276216e74b87c4b9bd01ac85c7bf332e6f2aed@0x7f00ca2002c0 /lib64/libicudata.so.71 - libicudata.so.71
-> 0x7f00d0981000+0x5020 5f69b36d838d0ec4967f94dd1ea95fd830262997@0x7f00d09812f8 /lib64/libXau.so.6 - libXau.so.6
-> 0x7f00d0987000+0xc008 5fc05a35af263c2149bb2c0fae2533c2ebe0a225@0x7f00d09872f8 /lib64/libbrotlidec.so.1 - libbrotlidec.so.1
-> 0x7f00d0994000+0x12c08 101a76ab214af7a108f9a601fd298bcf405eff5d@0x7f00d09942f8 /lib64/libbz2.so.1 - libbz2.so.1
-> 0x7f00d04b4000+0x14beb8 931d94ba5734f5d1a4b24af1283af44c786ef5d0@0x7f00d04b42f8 /lib64/libsqlite3.so.0 - libsqlite3.so.0
-> 0x7f00d09a7000+0x2b198 e21ae41532eae88d92bd3b18dd7cba5d3873f960@0x7f00d09a72f8 /lib64/libjson-glib-1.0.so.0 - libjson-glib-1.0.so.0
-> 0x7f00d0600000+0x32e328 f4748e4011f7e0fd328ade31e62bc9167e417b74@0x7f00d06002f8 /lib64/libicui18n.so.71 - libicui18n.so.71
-> 0x7f00d09d3000+0x540a8 a3251522721d67203dd4dbe5166334f6643d16c0@0x7f00d09d32f8 /lib64/libstemmer.so.0 - libstemmer.so.0
-> 0x7f00d0a28000+0x3c4a8 62c94aa0bc23c6d131160f48caaef6afdc7625ca@0x7f00d0a282f8 /lib64/libatspi.so.0 - libatspi.so.0
-> 0x7f00d0a65000+0x542c8 d0687c050fb1599e99195661d70fdbbe6bf9c4b1@0x7f00d0a652f8 /lib64/libdbus-1.so.3 - libdbus-1.so.3
-> 0x7f00d0aba000+0x179728 946e0bba5825d11471d055a39041747e2db65d7a@0x7f00d0aba2f8 /lib64/libxml2.so.2 - libxml2.so.2
-> 0x7f00d0c34000+0x21008 24975d617308ccea1539745afa0ace7a6057f225@0x7f00d0c342f8 /lib64/libgraphite2.so.3 - libgraphite2.so.3
-> 0x7f00d0c56000+0xa870 99e9f4339b7296c8be1d4e1a51049598ffc9af1e@0x7f00d0c562f8 /lib64/libthai.so.0 - libthai.so.0
-> 0x7f00d0c61000+0xdc578 35de99f90f9858bb028b57fa6eef9d8238562527@0x7f00d0c61330 /lib64/libsystemd.so.0 - libsystemd.so.0
-> 0x7f00d0d3e000+0x1fc2a0 f0a97a601f057dd0739c60482ff1b33c5e054456@0x7f00d0d3e2f8 /lib64/libicuuc.so.71 - libicuuc.so.71
-> 
->> So the case is to find the package not having the binary, only by core file.
+On 2/16/23 14:51, Peter Maydell wrote:
+> On Mon, 13 Feb 2023 at 18:38, Eric Auger <eric.auger@redhat.com> wrote:
+>> Some registers whose 'cooked' writefns induce TLB maintenance do
+>> not have raw_writefn ops defined. If only the writefn ops is set
+>> (ie. no raw_writefn is provided), it is assumed the cooked also
+>> work as the raw one. For those registers it is not obvious the
+>> tlb_flush works on KVM mode so better/safer setting the raw write.
 >>
->> Probably right solution is to fix our workflow so that if you have core file you always have corresponding binary as well.
-> 
-> With debuginfod present, Fedora can find the binaries, even if they
-> are not installed. Older RHEL versions probably lack this, but IIRC
-> it should bein RHEL-9
-> 
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+>>
+>> ---
+>>
+>> v1 -> v2:
+>> - do not add raw_writefn if type is set to ARM_CP_NO_RAW [Peter]
+>>
+>> I am not familiar with those callbacks. I am not sure whether
+>> the .raw_writefn must be set only for registers only doing some
+>> TLB maintenance or shall be set safely on other registers doing
+>> TLB maintenance + other state settings.
+>> ---
+>>  target/arm/helper.c | 39 +++++++++++++++++++++++----------------
+>>  1 file changed, 23 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/target/arm/helper.c b/target/arm/helper.c
+>> index c62ed05c12..0bd8806999 100644
+>> --- a/target/arm/helper.c
+>> +++ b/target/arm/helper.c
+>> @@ -719,16 +719,20 @@ static const ARMCPRegInfo not_v7_cp_reginfo[] = {
+>>       * the unified TLB ops but also the dside/iside/inner-shareable variants.
+>>       */
+>>      { .name = "TLBIALL", .cp = 15, .crn = 8, .crm = CP_ANY,
+>> -      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W, .writefn = tlbiall_write,
+>> +      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W,
+>> +      .writefn = tlbiall_write, .raw_writefn = raw_write,
+>>        .type = ARM_CP_NO_RAW },
+>>      { .name = "TLBIMVA", .cp = 15, .crn = 8, .crm = CP_ANY,
+>> -      .opc1 = CP_ANY, .opc2 = 1, .access = PL1_W, .writefn = tlbimva_write,
+>> +      .opc1 = CP_ANY, .opc2 = 1, .access = PL1_W,
+>> +      .writefn = tlbimva_write, .raw_writefn = raw_write,
+>>        .type = ARM_CP_NO_RAW },
+>>      { .name = "TLBIASID", .cp = 15, .crn = 8, .crm = CP_ANY,
+>> -      .opc1 = CP_ANY, .opc2 = 2, .access = PL1_W, .writefn = tlbiasid_write,
+>> +      .opc1 = CP_ANY, .opc2 = 2, .access = PL1_W,
+>> +      .writefn = tlbiasid_write, .raw_writefn = raw_write,
+>>        .type = ARM_CP_NO_RAW },
+>>      { .name = "TLBIMVAA", .cp = 15, .crn = 8, .crm = CP_ANY,
+>> -      .opc1 = CP_ANY, .opc2 = 3, .access = PL1_W, .writefn = tlbimvaa_write,
+>> +      .opc1 = CP_ANY, .opc2 = 3, .access = PL1_W,
+>> +      .writefn = tlbimvaa_write, .raw_writefn = raw_write,
+>>        .type = ARM_CP_NO_RAW },
+>>      { .name = "PRRR", .cp = 15, .crn = 10, .crm = 2,
+>>        .opc1 = 0, .opc2 = 0, .access = PL1_RW, .type = ARM_CP_NOP },
+> These are all type ARM_CP_NO_RAW, so don't want a raw_writefn.
+damned, need to change my eyes :-(
+>
+>> @@ -4183,14 +4187,14 @@ static const ARMCPRegInfo vmsa_cp_reginfo[] = {
+>>        .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 0, .opc2 = 0,
+>>        .access = PL1_RW, .accessfn = access_tvm_trvm,
+>>        .fgt = FGT_TTBR0_EL1,
+>> -      .writefn = vmsa_ttbr_write, .resetvalue = 0,
+>> +      .writefn = vmsa_ttbr_write, .resetvalue = 0, .raw_writefn = raw_write,
+>>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr0_s),
+>>                               offsetof(CPUARMState, cp15.ttbr0_ns) } },
+>>      { .name = "TTBR1_EL1", .state = ARM_CP_STATE_BOTH,
+>>        .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 0, .opc2 = 1,
+>>        .access = PL1_RW, .accessfn = access_tvm_trvm,
+>>        .fgt = FGT_TTBR1_EL1,
+>> -      .writefn = vmsa_ttbr_write, .resetvalue = 0,
+>> +      .writefn = vmsa_ttbr_write, .resetvalue = 0, .raw_writefn = raw_write,
+>>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr1_s),
+>>                               offsetof(CPUARMState, cp15.ttbr1_ns) } },
+>>      { .name = "TCR_EL1", .state = ARM_CP_STATE_AA64,
+>> @@ -4450,13 +4454,13 @@ static const ARMCPRegInfo lpae_cp_reginfo[] = {
+>>        .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+>>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr0_s),
+>>                               offsetof(CPUARMState, cp15.ttbr0_ns) },
+>> -      .writefn = vmsa_ttbr_write, },
+>> +      .writefn = vmsa_ttbr_write, .raw_writefn = raw_write },
+>>      { .name = "TTBR1", .cp = 15, .crm = 2, .opc1 = 1,
+>>        .access = PL1_RW, .accessfn = access_tvm_trvm,
+>>        .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+>>        .bank_fieldoffsets = { offsetof(CPUARMState, cp15.ttbr1_s),
+>>                               offsetof(CPUARMState, cp15.ttbr1_ns) },
+>> -      .writefn = vmsa_ttbr_write, },
+>> +      .writefn = vmsa_ttbr_write, .raw_writefn = raw_write },
+>>  };
+>>
+>>  static uint64_t aa64_fpcr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+>> @@ -5899,12 +5903,12 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+>>        .type = ARM_CP_IO,
+>>        .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 0,
+>>        .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.hcr_el2),
+>> -      .writefn = hcr_write },
+>> +      .writefn = hcr_write, .raw_writefn = raw_write },
+> These ones are OK.
+>
+>>      { .name = "HCR", .state = ARM_CP_STATE_AA32,
+>>        .type = ARM_CP_ALIAS | ARM_CP_IO,
+>>        .cp = 15, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 0,
+>>        .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.hcr_el2),
+>> -      .writefn = hcr_writelow },
+>> +      .writefn = hcr_writelow, .raw_writefn = raw_write },
+> This is going to do the wrong thing on big-endian hosts, because
+> the data value is the low 32 bits and the raw_writefn will
+> write that to the whole 64-bit value. We could implement a
+> special purpose raw write for this register which just writes
+> the value to the low 32 bits, I guess.
+>
+> For KVM we could ignore this, though -- the register is EL2 only,
+> and also is ARM_CP_ALIAS, which means we won't try to do anything
+> with it for the KVM<->QEMU state sync or the migration codepaths.
+OK so can I simply revert that change.
+>
+>>      { .name = "HACR_EL2", .state = ARM_CP_STATE_BOTH,
+>>        .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 7,
+>>        .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+>> @@ -5971,6 +5975,7 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+>>      { .name = "TCR_EL2", .state = ARM_CP_STATE_BOTH,
+>>        .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 2,
+>>        .access = PL2_RW, .writefn = vmsa_tcr_el12_write,
+>> +      .raw_writefn = raw_write,
+>>        .fieldoffset = offsetof(CPUARMState, cp15.tcr_el[2]) },
+>>      { .name = "VTCR", .state = ARM_CP_STATE_AA32,
+>>        .cp = 15, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
+>> @@ -5987,10 +5992,10 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+>>        .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+>>        .access = PL2_RW, .accessfn = access_el3_aa32ns,
+>>        .fieldoffset = offsetof(CPUARMState, cp15.vttbr_el2),
+>> -      .writefn = vttbr_write },
+>> +      .writefn = vttbr_write, .raw_writefn = raw_write },
+>>      { .name = "VTTBR_EL2", .state = ARM_CP_STATE_AA64,
+>>        .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 0,
+>> -      .access = PL2_RW, .writefn = vttbr_write,
+>> +      .access = PL2_RW, .writefn = vttbr_write, .raw_writefn = raw_write,
+>>        .fieldoffset = offsetof(CPUARMState, cp15.vttbr_el2) },
+>>      { .name = "SCTLR_EL2", .state = ARM_CP_STATE_BOTH,
+>>        .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 0, .opc2 = 0,
+>> @@ -6002,7 +6007,8 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+>>        .fieldoffset = offsetof(CPUARMState, cp15.tpidr_el[2]) },
+>>      { .name = "TTBR0_EL2", .state = ARM_CP_STATE_AA64,
+>>        .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 0,
+>> -      .access = PL2_RW, .resetvalue = 0, .writefn = vmsa_tcr_ttbr_el2_write,
+>> +      .access = PL2_RW, .resetvalue = 0,
+>> +      .writefn = vmsa_tcr_ttbr_el2_write, .raw_writefn = raw_write,
+>>        .fieldoffset = offsetof(CPUARMState, cp15.ttbr0_el[2]) },
+>>      { .name = "HTTBR", .cp = 15, .opc1 = 4, .crm = 2,
+>>        .access = PL2_RW, .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+> These ones are all OK.
+>
+>> @@ -6139,7 +6145,7 @@ static const ARMCPRegInfo el2_v8_cp_reginfo[] = {
+>>        .cp = 15, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 4,
+>>        .access = PL2_RW,
+>>        .fieldoffset = offsetofhigh32(CPUARMState, cp15.hcr_el2),
+>> -      .writefn = hcr_writehigh },
+>> +      .writefn = hcr_writehigh, .raw_writefn = raw_write },
+> Similarly this would need a special purpose raw write function
+> since we want to only touch the high 32 bits; and again for
+> the KVM case we won't ever be doing a raw access to this register.
 
-Ok, I see now how finding the binary may be automated without the patch, so it's not really needed. Thanks!
+same question: can I simply revert that change?
 
--- 
-Best regards,
-Vladimir
+>
+>
+>>  };
+>>
+>>  static CPAccessResult sel2_access(CPUARMState *env, const ARMCPRegInfo *ri,
+>> @@ -6189,12 +6195,12 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
+>>      { .name = "SCR_EL3", .state = ARM_CP_STATE_AA64,
+>>        .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 1, .opc2 = 0,
+>>        .access = PL3_RW, .fieldoffset = offsetof(CPUARMState, cp15.scr_el3),
+>> -      .resetfn = scr_reset, .writefn = scr_write },
+>> +      .resetfn = scr_reset, .writefn = scr_write, .raw_writefn = raw_write },
+>>      { .name = "SCR",  .type = ARM_CP_ALIAS | ARM_CP_NEWEL,
+>>        .cp = 15, .opc1 = 0, .crn = 1, .crm = 1, .opc2 = 0,
+>>        .access = PL1_RW, .accessfn = access_trap_aa32s_el1,
+>>        .fieldoffset = offsetoflow32(CPUARMState, cp15.scr_el3),
+>> -      .writefn = scr_write },
+>> +      .writefn = scr_write, .raw_writefn = raw_write },
+>>      { .name = "SDER32_EL3", .state = ARM_CP_STATE_AA64,
+>>        .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 1, .opc2 = 1,
+>>        .access = PL3_RW, .resetvalue = 0,
+>> @@ -7862,6 +7868,7 @@ static const ARMCPRegInfo vhe_reginfo[] = {
+>>      { .name = "TTBR1_EL2", .state = ARM_CP_STATE_AA64,
+>>        .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 1,
+>>        .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
+>> +      .raw_writefn = raw_write,
+>>        .fieldoffset = offsetof(CPUARMState, cp15.ttbr1_el[2]) },
+> These are OK.
+
+Than you for the review!
+
+Eric
+>
+>>  #ifndef CONFIG_USER_ONLY
+>>      { .name = "CNTHV_CVAL_EL2", .state = ARM_CP_STATE_AA64,
+>> --
+>> 2.37.3
+>>
+> thanks
+> -- PMM
+>
 
 
