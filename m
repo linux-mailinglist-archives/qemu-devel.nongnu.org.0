@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B479699BC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE72699BD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:06:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSiaW-0006Pf-Ov; Thu, 16 Feb 2023 13:02:33 -0500
+	id 1pSicA-0008Ss-AN; Thu, 16 Feb 2023 13:04:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pSiaK-0006IR-M9; Thu, 16 Feb 2023 13:02:20 -0500
-Received: from sin.source.kernel.org ([145.40.73.55])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSic7-0008NH-U6
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:11 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1pSiaI-0005YO-Kn; Thu, 16 Feb 2023 13:02:20 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id BCDF1CE2D0C;
- Thu, 16 Feb 2023 18:02:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33433C433EF;
- Thu, 16 Feb 2023 18:02:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676570532;
- bh=UqbAlQrdQMxevQz0bcvyR17oDh1rKc74S6A79BPV98E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fgAqYExU5Erc8VWCXLgab2wFjA2t46enljBAyUfjlVvtyuUdtmdO16TCZksEdfMUj
- Ull7z9xozV1g0Ic+3cTh566u9mO9CE18OIOuwnGeoeIx17KwUO7XAJp+R+NB5ZXKHf
- NGNglyu89ZcdKD0izO5qNJvKd9iW7N/PzP7qBEVumOXaHZ+ME2gslZZiB4yuZUAXtR
- cl5fRzc4o78HUyyogRPhrsLl4Yzh3VOZirhE+6JyxaBTcIFVx5xokts1kG2kL0DDRH
- YVSEBc2bBFc8UB0/JejUUwMeKWN/g+niYTz+qNSEfdrRJjJS2t5KjkVKe/PNRGqBZv
- 0IHZSy1xgbZxw==
-Date: Thu, 16 Feb 2023 11:02:08 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: Jesper Devantier <jwd@defmacro.it>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= via <qemu-block@nongnu.org>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH 4/5] hw/nvme: basic directives support
-Message-ID: <Y+5voERIYfXkrCIx@kbusch-mbp>
-References: <20230216164806.233533-1-jwd@defmacro.it>
- <20230216164806.233533-5-jwd@defmacro.it>
- <Y+5ml5+YGC+kpU86@kbusch-mbp>
- <f1c9dd4e-be82-415f-bd27-554962b97eb4@app.fastmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pSic5-0005li-Hn
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:11 -0500
+Received: from iva8-99b070b76c56.qloud-c.yandex.net
+ (iva8-99b070b76c56.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:1099:0:640:99b0:70b7])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 40D27600F7;
+ Thu, 16 Feb 2023 21:04:01 +0300 (MSK)
+Received: from vsementsov-win.yandex-team.ru (unknown
+ [2a02:6b8:b081:8813::1:16])
+ by iva8-99b070b76c56.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ u3q89J0Qp8c1-QsYdnq3S; Thu, 16 Feb 2023 21:04:00 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1676570640; bh=4mU3EYAumtlwOvRhED6qkVjVOWEvF441x7Q1zRMItdw=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=jEu2Awijbe7ZqxDGXFHZkwLs/Jwfpw/WAuhWImajq1giVfDY6GCbRWbFfjCVNhfha
+ e7Bhwr2bRRl5tq9foVWsQvG2obQ/CwnooRIYW/iSiYXNA5jsXHXyPQ+H0mGiEQRCi9
+ 96+n6Fz/BRfAomtrb79do4CW/0qCfTUrRVVZxrYQ=
+Authentication-Results: iva8-99b070b76c56.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
+ berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
+ mst@redhat.com, philmd@linaro.org, vsementsov@yandex-team.ru,
+ den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
+Subject: [PATCH v5 00/18] pci hotplug tracking
+Date: Thu, 16 Feb 2023 21:03:38 +0300
+Message-Id: <20230216180356.156832-1-vsementsov@yandex-team.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f1c9dd4e-be82-415f-bd27-554962b97eb4@app.fastmail.com>
-Received-SPF: pass client-ip=145.40.73.55; envelope-from=kbusch@kernel.org;
- helo=sin.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,17 +74,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 06:35:27PM +0100, Klaus Jensen wrote:
-> On Thu, Feb 16, 2023, at 18:23, Keith Busch wrote:
-> > On Thu, Feb 16, 2023 at 05:48:05PM +0100, Jesper Devantier wrote:
-> >> +enum NvmeDirective {
-> >> +    NVME_DIRECTIVE_SUPPORTED = 0x0,
-> >> +    NVME_DIRECTIVE_ENABLED   = 0x1,
-> >> +};
-> >
-> > What's this?
-> 
-> That’s a left-over from my rebase. I’ll fix that one up.
+Hi all!
 
-Okay, other than that, this one looks good.
+v5: - don't deprecate IDs and return to ID & QOM scheme
+    - split complicated HOTPLUG_STATE patch into several ones
+
+----
+
+The main patches are the last four ones:
+
+- introduce HOTPLUG_STATE event, that inform when hotplug controller
+change it's state, especially indicator leds
+
+- query-hotplug command, that provides same information as event on
+demand
+
+- DEVICE_ON event - a kind of counterpart for DEVICE_DELETED, signals
+when device is finally accepted by guest, power indicator is on and so
+on.
+
+That's all for smarter handling of SHPC and PCIe-native hotplug.
+
+If you want to test new events, don't forget
+  -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
+flag, to disable ACPI hotplug default.
+
+Vladimir Sementsov-Ogievskiy (18):
+  pci/shpc: set attention led to OFF on reset
+  pci/shpc: change shpc_get_status() return type to uint8_t
+  pci/shpc: shpc_slot_command(): handle PWRONLY -> ENABLED transition
+  pci/shpc: more generic handle hot-unplug in shpc_slot_command()
+  pci/shpc: pass PCIDevice pointer to shpc_slot_command()
+  pci/shpc: refactor shpc_device_plug_common()
+  pcie: pcie_cap_slot_write_config(): use correct macro
+  pcie_regs: drop duplicated indicator value macros
+  pcie: drop unused PCIExpressIndicator
+  pcie: pcie_cap_slot_enable_power() use correct helper
+  pcie: introduce pcie_sltctl_powered_off() helper
+  pcie: set power indicator to off on reset by default
+  pci: introduce pci_find_the_only_child()
+  qapi/qdev.json: unite DEVICE_* event data into single structure
+  qapi: add HOTPLUG_STATE infrastructure
+  shpc: implement HOTPLUG_STATE event and query-hotplug
+  pcie: implement HOTPLUG_STATE event and query-hotplug
+  qapi: introduce DEVICE_ON event
+
+ qapi/qdev.json                  | 224 ++++++++++++++++++++++++++++++--
+ include/hw/hotplug.h            |  12 ++
+ include/hw/pci/pci.h            |   1 +
+ include/hw/pci/pci_bridge.h     |   2 +
+ include/hw/pci/pcie.h           |  10 +-
+ include/hw/pci/pcie_regs.h      |  14 --
+ include/hw/pci/shpc.h           |   2 +
+ include/monitor/qdev.h          |   7 +
+ hw/core/hotplug.c               |  13 ++
+ hw/pci-bridge/pci_bridge_dev.c  |  14 ++
+ hw/pci-bridge/pcie_pci_bridge.c |   1 +
+ hw/pci/pci.c                    |  33 +++++
+ hw/pci/pcie.c                   | 122 +++++++++++++++--
+ hw/pci/pcie_port.c              |   1 +
+ hw/pci/shpc.c                   | 214 ++++++++++++++++++++++--------
+ softmmu/qdev-monitor.c          |  67 ++++++++++
+ 16 files changed, 639 insertions(+), 98 deletions(-)
+
+-- 
+2.34.1
+
 
