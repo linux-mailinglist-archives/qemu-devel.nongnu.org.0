@@ -2,81 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D1D6999DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1146999DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:23:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSh1g-0001zt-NL; Thu, 16 Feb 2023 11:22:28 -0500
+	id 1pSh22-0002lP-6Z; Thu, 16 Feb 2023 11:22:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pSh1f-0001xs-Bb
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:22:27 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pSh1c-0006yA-ME
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:22:27 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- kk7-20020a17090b4a0700b00234463de251so6343272pjb.3
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:22:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B165yzoaoQ4pNicAlRZpJSozM0YC8BhzYoYDe1uoDBI=;
- b=xfWVY79zZuteURWVs9e86mfCSjXvu4t34HTnh9TBtdCC16tpndhHicL8UbG2X6ea2u
- j/2ZckzKrb8WsRt+gAIMReNtScDfoLI7KzgJvCSNCCiX49AziOUKvBVYnQwjuRaiYLdw
- /gIJyajXY8TE6tVhlVm/1Kco4eNczhjPCKzJmg7kFeECe669cn3mWg84AwXeMXjqGp1A
- mxmOYCMK+2OYWM/9MJosXDrLNwijSaY5WHCLOaHNf1IUwGHh99E2EehQC2dJ/FhsR/Sg
- kC+tl56MQ/jIwD7T81MS3BFfzkFCxD3+UTFZw9uxBucOq4szm3PsGiNO8KT18MWdu+9L
- ggyw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSh1s-0002Va-Fq
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:22:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pSh1q-0007Rf-Lr
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:22:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676564557;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=6y2fFqRuZ2dF6zn+d9ZE1rZ9ez5Vz6J4HtuxFS3Wk20=;
+ b=JDvsr/8ChfVP8qpmoz1HI8KQ5qZ607ys7THdncM4L9ICl+Wz/5cIDxmoTZyQMST3fkExT/
+ rOW9zht9yQeCJgGYrZu6ih4nNZA8AAZep47zSQTLtd99HcwpOf5JQPpgvtAzhDFE7JRHXs
+ z6SEJLeRxLBR/fF047qY8dsdFaVEaXk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-297-7GdCo49vMqub44AXKrvS_w-1; Thu, 16 Feb 2023 11:22:35 -0500
+X-MC-Unique: 7GdCo49vMqub44AXKrvS_w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n4-20020a05600c3b8400b003dfe223de49so3400008wms.5
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:22:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=B165yzoaoQ4pNicAlRZpJSozM0YC8BhzYoYDe1uoDBI=;
- b=LBzBHIWgTRov2t0nqG+oG5smjkN/w/IpdP00uO9e1oe1xAiTlSk8AF6MJrgH7FSpV7
- N5vZtgB5cX7Qqo/gnKRwxXetdU5T3w0MWl6YHdt/bzDTlMI7AiSF1YZP2zRhL+wNaz2i
- tcmxG1qqxKfo8qLmC8OOZQ5G38jByW4yEN8q050wmytunSvIjXelqnQc20kxSHDHMRkM
- j3vWlcSUMC83zz/Bb7vpBbRi4adIE8UQDfxCFKJqD8vCh083l5M2FqSubnc/2jlP3El0
- b1wlHoVQawZR4LVu0HXDZs+Rkta8c+unbhQQaD2816I8Ti8tSEN4KBSreL8ImDEJr1FX
- Z3dQ==
-X-Gm-Message-State: AO0yUKUQcAq5Mfm/zwiAOBlLyLiM9eWuAf+GHhcpNtPZmMrKHqizBtXZ
- 3KmimpkM5PudYxNAyPe9qEe8WfRYER4CJFR72co6TA==
-X-Google-Smtp-Source: AK7set/i7tDNf3b/prKKyZcYfixSmBCcTnSAW2MrM5NCGX8XxjucnyjmgDvBtpRT6iIh+6xr14UddH9y0dHhup/18s0=
-X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
- sc9-20020a17090b510900b00233dcb5ee15mr758545pjb.92.1676564542795; Thu, 16 Feb
- 2023 08:22:22 -0800 (PST)
+ bh=6y2fFqRuZ2dF6zn+d9ZE1rZ9ez5Vz6J4HtuxFS3Wk20=;
+ b=oheXqGV8J2rDsz2afwscYBBiPX31LBO7lZOILEQCg5drAhlalU2qBYAt/amE4JKfys
+ 95UxfbBDkIZ1dG1JG+RuB4wRh0crIjYPqzsMZ6Gx7dLkAup3AUkypzD3bcpLN6NyBXBl
+ Z+U/+NckuTUOjbYU3qaQ9ZBLGCkrzUwYNxS2CA8zxDJI186WTmOvf/4S1Fcsz/w9noB1
+ oZL3BbGrgLTOzP5zcHSckCKC0M4+ukhgK8B/md+bmSTzowudgM8hJ16ZiRKv3JgN1JlU
+ s9s/mCR8wXO0bONspSsKVLJevOOuQ3eh3/miBGNBt+719DY1Olv7+13uIFdJKjC17DtR
+ 47Xw==
+X-Gm-Message-State: AO0yUKVe4p4ssQuL4A5DPabI4daO9zaOk7VQJ6R9oneKk8QyJavLN/0Q
+ lkR79784mi7xVJ3xPue6AHtWe0wnW/OBGyJb0lqo5BVdYD7eZNT1ctuGAtHgfSCfr34RVCPVnta
+ Ma2O7zKGJTBZLfgk=
+X-Received: by 2002:adf:e10c:0:b0:2c5:8353:e0ec with SMTP id
+ t12-20020adfe10c000000b002c58353e0ecmr2148044wrz.10.1676564554607; 
+ Thu, 16 Feb 2023 08:22:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set/I71wHZ0yoGP/QwT3epUfNP2ykc/wsU9zn/zgWuPaHoBYgLDXpvurSIheBTxO2Pj6s61FFRA==
+X-Received: by 2002:adf:e10c:0:b0:2c5:8353:e0ec with SMTP id
+ t12-20020adfe10c000000b002c58353e0ecmr2148024wrz.10.1676564554317; 
+ Thu, 16 Feb 2023 08:22:34 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ g11-20020adffc8b000000b002c3f9404c45sm1851094wrr.7.2023.02.16.08.22.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Feb 2023 08:22:33 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Anton Kuchin <antonkuchin@yandex-team.ru>,  qemu-devel@nongnu.org,  "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,  Eduardo Habkost
+ <eduardo@habkost.net>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Markus
+ Armbruster <armbru@redhat.com>,  yc-core@yandex-team.ru,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  virtio-fs@redhat.com,  Eric Blake
+ <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 1/1] vhost-user-fs: add property to allow migration
+In-Reply-To: <20230216111134-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Thu, 16 Feb 2023 11:13:04 -0500")
+References: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
+ <20230216140003.1103681-2-antonkuchin@yandex-team.ru>
+ <87v8k1itoy.fsf@secure.mitica>
+ <20230216110952-mutt-send-email-mst@kernel.org>
+ <20230216111134-mutt-send-email-mst@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 16 Feb 2023 17:22:32 +0100
+Message-ID: <87zg9dfulz.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230213202927.28992-1-farosas@suse.de>
- <20230213202927.28992-8-farosas@suse.de>
-In-Reply-To: <20230213202927.28992-8-farosas@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Feb 2023 16:22:11 +0000
-Message-ID: <CAFEAcA8CDr110xtvThtoC3+Rhr1hDLjShxBCxca1oC0mdNvYiQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND v5 07/28] target/arm: Move define_debug_regs() to
- cpregs.c
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>, 
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,31 +104,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Feb 2023 at 20:31, Fabiano Rosas <farosas@suse.de> wrote:
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+> On Thu, Feb 16, 2023 at 11:11:22AM -0500, Michael S. Tsirkin wrote:
+>> On Thu, Feb 16, 2023 at 03:14:05PM +0100, Juan Quintela wrote:
+>> > Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+>> > > Now any vhost-user-fs device makes VM unmigratable, that also prevents
+>> > > qemu update without stopping the VM. In most cases that makes sense
+>> > > because qemu has no way to transfer FUSE session state.
+>> > >
+>> > > But it is good to have an option for orchestrator to tune this according to
+>> > > backend capabilities and migration configuration.
+>> > >
+>> > > This patch adds device property 'migration' that is 'none' by default
+>> > > to keep old behaviour but can be set to 'external' to explicitly allow
+>> > > migration with minimal virtio device state in migration stream if daemon
+>> > > has some way to sync FUSE state on src and dst without help from qemu.
+>> > >
+>> > > Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+>> > 
+>> > Reviewed-by: Juan Quintela <quintela@redhat.com>
+>> > 
+>> > The migration bits are correct.
+>> > 
+>> > And I can think a better way to explain that one device is migrated
+>> > externally.
+>> > 
+>> > If you have to respin:
+>> > 
+>> > > +static int vhost_user_fs_pre_save(void *opaque)
+>> > > +{
+>> > > +    VHostUserFS *fs = (VHostUserFS *)opaque;
+>> > 
+>> > This hack is useless.
+>> 
+>> meaning the cast? yes.
+>> 
+>> > I know that there are still lots of code that still have it.
+>> > 
+>> > 
+>> > Now remember that I have no clue about vhost-user-fs.
+>> > 
+>> > But this looks fishy
+>> > >  static const VMStateDescription vuf_vmstate = {
+>> > >      .name = "vhost-user-fs",
+>> > > -    .unmigratable = 1,
+>> > > +    .minimum_version_id = 0,
+>> > > +    .version_id = 0,
+>> > > +    .fields = (VMStateField[]) {
+>> > > +        VMSTATE_VIRTIO_DEVICE,
+>> > > +        VMSTATE_UINT8(migration_type, VHostUserFS),
+>> > > +        VMSTATE_END_OF_LIST()
 >
-> The debug_helper.c file will move into a tcg-specific directory, so
-> take the cpregs code out of it. That code needs to be present in KVM
-> builds as well.
->
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  target/arm/cpregs.c       | 473 ++++++++++++++++++++++++++++++++++++++
->  target/arm/debug_helper.c | 459 ------------------------------------
->  target/arm/internals.h    |   9 -
->  3 files changed, 473 insertions(+), 468 deletions(-)
+> In fact why do we want to migrate this property?
+> We generally don't, we only migrate state.
 
-I definitely think this is not an improvement. Currently we
-have a file debug_helper.c with a reasonably well defined
-purpose (debug related cpregs and code). This patch moves
-half of that into the already massively too large cpregs.c,
-thus undoing the cleanup we did by separating out the debug
-register code from the huge pile of code in helper.c.
+See previous discussion.
+In a nutshell, we are going to have internal migration in the future
+(not done yet).
 
-thanks
--- PMM
+Later, Juan.
+
+>> > > +    },
+>> > > +   .pre_save = vhost_user_fs_pre_save,
+>> > >  };
+>> > >  
+>> > >  static Property vuf_properties[] = {
+>> > > @@ -309,6 +337,10 @@ static Property vuf_properties[] = {
+>> > >      DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
+>> > >                         conf.num_request_queues, 1),
+>> > >      DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 128),
+>> > > +    DEFINE_PROP_UNSIGNED("migration", VHostUserFS, migration_type,
+>> > > +                         VHOST_USER_MIGRATION_TYPE_NONE,
+>> > > +                         qdev_prop_vhost_user_migration_type,
+>> > > +                         uint8_t),
+>> > >      DEFINE_PROP_END_OF_LIST(),
+>> > 
+>> > We have four properties here (5 with the new migration one), and you
+>> > only migrate one.
+>> > 
+>> > This looks fishy, but I don't know if it makes sense.
+>> > If they _have_ to be configured the same on source and destination, I
+>> > would transfer them and check in post_load that the values are correct.
+>> > 
+>> > Later, Juan.
+>> 
+>> Weird suggestion.  We generally don't do this kind of check - that
+>> would be open-coding each property. It's management's job to make
+>> sure things are consistent.
+>> 
+>> -- 
+>> MST
+
 
