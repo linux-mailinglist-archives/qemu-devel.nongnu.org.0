@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046D9699437
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 13:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD507699449
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 13:26:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSdHd-0001gg-NB; Thu, 16 Feb 2023 07:22:41 -0500
+	id 1pSdKh-0002gR-4t; Thu, 16 Feb 2023 07:25:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pSdHV-0001g5-Oh
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:22:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pSdHU-0007MK-6d
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:22:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676550151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oOkObDG1EoKY4xs4CktS346rhzJlqX4tIEaU3b2S9wo=;
- b=JwzRE1jCi51l5MTgJxQ1LUpqRhu/EORpK667pYX/apj0H6mP07N3rebiAhPvViVX0ecKeo
- FHZjrkxrqghRkzgvTk6iUDLSC31iR5B8oiOj7xT5qTRe6GwPVU+1KaiMIpDee/BJhWQRg0
- nag3eZA4+cpexo8K6W9YXZMUyeimiZs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-391-Y9KBZsu-M0G8xzzxbgOJBQ-1; Thu, 16 Feb 2023 07:22:27 -0500
-X-MC-Unique: Y9KBZsu-M0G8xzzxbgOJBQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k3-20020a05600c1c8300b003e209b61ebbso767314wms.3
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 04:22:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSdKO-0002dJ-1Z
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:25:32 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSdKM-0007z3-AV
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 07:25:31 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id bu23so1661838wrb.8
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 04:25:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yGqtHyWNpk4JgfDYgeUJwDwc4J1LJaE/TAF4Khed5eI=;
+ b=pP9PtTFwqWBEITP2sMQCCrbr4I5ffrIGMuJ4lDFXem/rpo2Vjx88vHu0f2WXAKA8T2
+ 9C244q1trUO8EQmEcICOBWuHf1cUwv7RL2cZ0lfGqSPG9EvIwqcpZprtuv+9sAvvXbci
+ QePWg5wPT5mEaBC/tsVXaeU5BsMORnCvegSNZiKqZHvDXxM4CrzFoqP8O865/t/2wdAp
+ 9TCIbhWYd573yrffLm0AuXNyLSKjDZ2eL4Vu2CNFsmeMo0beGq7vgpkUIp60IA+u7NHb
+ 5T0fFJlys2q6yNo/mN/X60E0RzZBqM6M+7/N8/hXJ+1N4B43NQokQlyH01KF7C7mhB/E
+ xuwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oOkObDG1EoKY4xs4CktS346rhzJlqX4tIEaU3b2S9wo=;
- b=ZH9EEmVA0LZ5hMtiRZcxsTgfE+oJmeetLXpthwriwsR13c4IRR9YwAnotiTyNc9c5O
- PZpokX9aq3vZhKRGYwDgT52cGADhw1OSzw9g3us3Gj4UFGLsL40n7GBe+BDm6N10gcuS
- EWnwG1CTIkJ5qWEC0vU/0/vlaX4VAe53i6VYVpw0BOv4Yf3eh4pyytTOzesv2YAA9CeO
- 0RoQ1mWHqpukRZOQUC6NHUzNu+xyMqw3bFx6gMyfQ3zxW/zMHMWvIFv1JX0QHJwL7YD8
- QgDwV2AsLfhFsgW/9x//j9Gu+rmV9ZB0kQTru2aJvCK+GIYE17HrKlSt7yR8dJz+hfo3
- 8B+A==
-X-Gm-Message-State: AO0yUKV+qSqco8RXfYKgH84ADX4J5NF4iMW3A8akuR/nbZhSo3R6M5vv
- Cw7t8CGklSDKAJ9bun4ipN0SRrKuxjzHiozzt/q14NgL83JFpMMbfjbOE2HFKp0TlEchsi0oAzy
- wHc8kDwHL5RyPx4E=
-X-Received: by 2002:adf:fd87:0:b0:2c5:5916:fc1d with SMTP id
- d7-20020adffd87000000b002c55916fc1dmr6253007wrr.18.1676550146645; 
- Thu, 16 Feb 2023 04:22:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set9NnKPasu9sGXZiCNo9g7Jyf4CW1QJ2t1oiaHy46jSU0xizLZjR+qV3HwlSDA/q281lbDjvTw==
-X-Received: by 2002:adf:fd87:0:b0:2c5:5916:fc1d with SMTP id
- d7-20020adffd87000000b002c55916fc1dmr6252987wrr.18.1676550146386; 
- Thu, 16 Feb 2023 04:22:26 -0800 (PST)
-Received: from redhat.com ([2.52.5.34]) by smtp.gmail.com with ESMTPSA id
- a4-20020a05600c348400b003df5be8987esm5225960wmq.20.2023.02.16.04.22.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 04:22:25 -0800 (PST)
-Date: Thu, 16 Feb 2023 07:22:22 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Tiwei Bie <tiwei.bie@intel.com>
-Subject: Re: [PATCH v1 1/2] vhost: Defer filtering memory sections until
- building the vhost memory structure
-Message-ID: <20230216072142-mutt-send-email-mst@kernel.org>
-References: <20230216114752.198627-1-david@redhat.com>
- <20230216114752.198627-2-david@redhat.com>
- <20230216070037-mutt-send-email-mst@kernel.org>
- <0fe7b18c-507a-2c11-8440-e9e35294b4ba@redhat.com>
- <92c8b5a0-319f-bca4-3b2e-a7dd68ac8649@redhat.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yGqtHyWNpk4JgfDYgeUJwDwc4J1LJaE/TAF4Khed5eI=;
+ b=ZUZ0witNe6FLSgNEH95BzswYLUV0gfP/81r0IV+bJV/Ky9dglIbVPaiaM6pHoorwlp
+ AmtEkfXYY6CgNke2uQjuoS06ewTrIyVJi4zQXIHvwC6ZDv0ok18RklSLu6azRH2fIHMs
+ mz9KhS5RJ02H8XVurz7c1kK+WBAR+VbfQ7f6hC+RI83feMrMkXHxo8MUwjSj6Qe6phgP
+ hJTIVR3I6EV/OwY2//POykEyvE+RDExWIYN8mprgx9b51/P6V+AViw4VhZTgC6+1aUhZ
+ xrnMZjg7ly3nygyr7cNlTJjuNsMmck7rQ3TsEmNFIYQZTl2faVp71Ury4dKIkKNmcBss
+ Bf9g==
+X-Gm-Message-State: AO0yUKVrIFzQxMNtC9TC6XVpOeBjS7TkKod7X1K4sPkR65mZROEVZvVC
+ wNJracSkKlRVGvJGUkitnnVpsjqCbVMQfCZo
+X-Google-Smtp-Source: AK7set+sfNc8DuV8qZMbWQRvkBk1qQuom735CmW8ENqEYqFR1GwOtdERg89J8oUeeCFkV9eWeFBBWQ==
+X-Received: by 2002:adf:f203:0:b0:2c5:5870:b589 with SMTP id
+ p3-20020adff203000000b002c55870b589mr5691036wro.14.1676550326157; 
+ Thu, 16 Feb 2023 04:25:26 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ g1-20020a5d46c1000000b002c57384dfe0sm1368992wrs.113.2023.02.16.04.25.25
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 16 Feb 2023 04:25:25 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/5] bulk: Have object_child_foreach() take Error* and return
+ boolean
+Date: Thu, 16 Feb 2023 13:25:19 +0100
+Message-Id: <20230216122524.67212-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92c8b5a0-319f-bca4-3b2e-a7dd68ac8649@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,49 +88,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 01:13:07PM +0100, David Hildenbrand wrote:
-> On 16.02.23 13:10, David Hildenbrand wrote:
-> > On 16.02.23 13:04, Michael S. Tsirkin wrote:
-> > > On Thu, Feb 16, 2023 at 12:47:51PM +0100, David Hildenbrand wrote:
-> > > > Having multiple devices, some filtering memslots and some not filtering
-> > > > memslots, messes up the "used_memslot" accounting. If we'd have a device
-> > > > the filters out less memory sections after a device that filters out more,
-> > > > we'd be in trouble, because our memslot checks stop working reliably.
-> > > > For example, hotplugging a device that filters out less memslots might end
-> > > > up passing the checks based on max vs. used memslots, but can run out of
-> > > > memslots when getting notified about all memory sections.
-> > > > 
-> > > > Further, it will be helpful in memory device context in the near future
-> > > > to know that a RAM memory region section will consume a memslot, and be
-> > > > accounted for in the used vs. free memslots, such that we can implement
-> > > > reservation of memslots for memory devices properly. Whether a device
-> > > > filters this out and would theoretically still have a free memslot is
-> > > > then hidden internally, making overall vhost memslot accounting easier.
-> > > > 
-> > > > Let's filter the memslots when creating the vhost memory array,
-> > > > accounting all RAM && !ROM memory regions as "used_memslots" even if
-> > > > vhost_user isn't interested in anonymous RAM regions, because it needs
-> > > > an fd.
-> > > > 
-> > > > When a device actually filters out regions (which should happen rarely
-> > > > in practice), we might detect a layout change although only filtered
-> > > > regions changed. We won't bother about optimizing that for now.
-> > > 
-> > > That caused trouble in the past when using VGA because it is playing
-> > > with mappings in weird ways.
-> > > I think we have to optimize it, sorry.
-> > 
-> > We still filter them out, just later.
-> 
-> To be precise, we still filter out all DIRTY_MEMORY_VGA as we used to. Only
-> the device-specific filtering (vhost-user) is modified.
+The objective of this series is to allow object_child_foreach()
+and object_child_foreach_recursive() propagate Error to their
+callers.
+Instead of adding temporary helpers with the new prototype, and
+converting per subsystem, a bulk conversion is done as a single
+patch... The changes aren't mechanical, but quite obvious.
 
+Philippe Mathieu-Daudé (5):
+  hw/nmi: Have nmi_monitor_handler() return a boolean indicating error
+  spapr/ddw: Remove confuse return value in spapr_phb_get_free_liobn()
+  bulk: Have object_child_foreach() take Error* and return boolean
+  hw/nmi: Simplify nmi_monitor_handle() and do_nmi()
+  hw/ppc/pnv_bmc: Simplify pnv_bmc_find()
 
-Oh good so the VGA use-case is unaffected.
+ chardev/char-mux.c              |  6 ++--
+ chardev/char.c                  |  6 ++--
+ gdbstub/gdbstub.c               |  8 +++---
+ hw/acpi/cxl.c                   |  7 +++--
+ hw/acpi/viot.c                  |  6 ++--
+ hw/arm/boot.c                   |  6 ++--
+ hw/arm/virt-acpi-build.c        |  8 +++---
+ hw/core/machine-qmp-cmds.c      | 18 ++++++------
+ hw/core/nmi.c                   | 44 +++++------------------------
+ hw/core/qdev.c                  |  8 ++++--
+ hw/core/sysbus.c                | 10 +++----
+ hw/cpu/cluster.c                |  7 +++--
+ hw/display/virtio-gpu-udmabuf.c |  7 +++--
+ hw/hppa/machine.c               |  3 +-
+ hw/i386/acpi-build.c            | 16 +++++------
+ hw/i386/intel_iommu.c           |  7 +++--
+ hw/i386/pc.c                    | 13 ++++-----
+ hw/i386/sgx.c                   |  7 ++---
+ hw/i386/x86.c                   |  3 +-
+ hw/intc/m68k_irqc.c             |  4 ++-
+ hw/m68k/q800.c                  |  4 ++-
+ hw/mem/memory-device.c          | 25 ++++++++---------
+ hw/mem/pc-dimm.c                |  8 +++---
+ hw/misc/macio/gpio.c            |  4 ++-
+ hw/misc/mos6522.c               |  6 ++--
+ hw/ppc/pnv.c                    | 18 ++++++------
+ hw/ppc/pnv_bmc.c                | 28 ++++++++----------
+ hw/ppc/pnv_xscom.c              |  6 ++--
+ hw/ppc/spapr.c                  |  3 +-
+ hw/ppc/spapr_pci.c              | 50 ++++++++++++++++-----------------
+ hw/ppc/spapr_rtas_ddw.c         | 17 ++++++-----
+ hw/rdma/vmw/pvrdma_main.c       |  7 +++--
+ hw/s390x/s390-virtio-ccw.c      |  4 ++-
+ hw/virtio/virtio-balloon.c      |  7 ++---
+ include/hw/nmi.h                |  3 +-
+ include/qom/object.h            | 28 ++++++++++--------
+ iothread.c                      |  8 +++---
+ monitor/hmp-cmds.c              |  6 ++--
+ qom/object.c                    | 36 ++++++++++++------------
+ qom/qom-hmp-cmds.c              |  7 +++--
+ scsi/pr-manager.c               |  8 +++---
+ softmmu/physmem.c               | 13 +++++----
+ softmmu/qdev-monitor.c          |  9 +++---
+ tests/qtest/fuzz/generic_fuzz.c |  6 ++--
+ ui/dbus-chardev.c               | 14 ++++-----
+ util/nvdimm-utils.c             |  8 +++---
+ 46 files changed, 256 insertions(+), 271 deletions(-)
 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
+-- 
+2.38.1
 
 
