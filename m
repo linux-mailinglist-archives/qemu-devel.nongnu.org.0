@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D10869A20A
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3A069A207
 	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 00:03:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSnGX-0001wu-RB; Thu, 16 Feb 2023 18:02:13 -0500
+	id 1pSnGf-00020Y-HI; Thu, 16 Feb 2023 18:02:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pSnGV-0001vV-8O
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:02:11 -0500
+ id 1pSnGd-0001zF-Bs
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:02:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pSnGT-0005Vo-Fa
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:02:11 -0500
+ id 1pSnGb-0005Wz-FQ
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 18:02:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676588528;
+ s=mimecast20190719; t=1676588536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+IkozIjQKiHH8PGuRoil87YVIIzA8rfKzX2Mdki6k7g=;
- b=KoWYhC5mPtFQ+6KtXAPXjvtA/197cLkz4iQfYwkE1B3NsTZyLqhMqWkR6oV4XiQ3zoW+u6
- Uq/x83staPwVzwJ2kcEXUPzPXMFaJklRk986OW6bIR4CQd42cQWrEpgfwzW/9ty+/ZTAkv
- tnXIBl227pMDVBmzXVzi9peYVhouh+E=
+ bh=TEh5RLvI+4g9HhMwUZhGRrz3GVG0WNvonHRYe2qiraU=;
+ b=Nicn0RA52moegrmf5ykXMG3tw2YiL793AZJu6QAno4QtPC8PQsS7JjHWGLN2ueYKBIFB7K
+ onxoVqle+ZTyK16gHq6Ng2WBQuIqXJ71eLHPLiFQSsRCgGwJQrjfY7Gy8MHd3Bx/pSBZyU
+ PP9x/BHuXNdhlmytQn2E+IQgyQ38sh4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-_N7IldneNfCNHyXdz6GqWw-1; Thu, 16 Feb 2023 18:02:07 -0500
-X-MC-Unique: _N7IldneNfCNHyXdz6GqWw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-583-x6j0barrOEeWf4xfzciQlw-1; Thu, 16 Feb 2023 18:02:13 -0500
+X-MC-Unique: x6j0barrOEeWf4xfzciQlw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA5F1802D32;
- Thu, 16 Feb 2023 23:02:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ADB5885A5B1;
+ Thu, 16 Feb 2023 23:02:12 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.22.32.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E6E01415108;
- Thu, 16 Feb 2023 23:02:06 +0000 (UTC)
-Subject: [PULL 03/12] vfio/migration: Allow migration without VFIO IOMMU dirty
- tracking support
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FF814010E82;
+ Thu, 16 Feb 2023 23:02:12 +0000 (UTC)
+Subject: [PULL 04/12] vfio/common: Change
+ vfio_devices_all_running_and_saving() logic to equivalent one
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, avihaih@nvidia.com, clg@redhat.com
-Date: Thu, 16 Feb 2023 16:02:06 -0700
-Message-ID: <167658852600.932837.15806628304062927059.stgit@omen>
+Date: Thu, 16 Feb 2023 16:02:11 -0700
+Message-ID: <167658853197.932837.14827553929075999057.stgit@omen>
 In-Reply-To: <167658846945.932837.1420176491103357684.stgit@omen>
 References: <167658846945.932837.1420176491103357684.stgit@omen>
 User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,111 +83,95 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Avihai Horon <avihaih@nvidia.com>
 
-Currently, if IOMMU of a VFIO container doesn't support dirty page
-tracking, migration is blocked. This is because a DMA-able VFIO device
-can dirty RAM pages without updating QEMU about it, thus breaking the
-migration.
+vfio_devices_all_running_and_saving() is used to check if migration is
+in pre-copy phase. This is done by checking if migration is in setup or
+active states and if all VFIO devices are in pre-copy state, i.e.
+_SAVING | _RUNNING.
 
-However, this doesn't mean that migration can't be done at all.
-In such case, allow migration and let QEMU VFIO code mark all pages
-dirty.
+In VFIO migration protocol v2 pre-copy support is made optional. Hence,
+a matching v2 protocol pre-copy state can't be used here.
 
-This guarantees that all pages that might have gotten dirty are reported
-back, and thus guarantees a valid migration even without VFIO IOMMU
-dirty tracking support.
+As preparation for adding v2 protocol, change
+vfio_devices_all_running_and_saving() logic such that it doesn't use the
+VFIO pre-copy state.
 
-The motivation for this patch is the introduction of iommufd [1].
-iommufd can directly implement the /dev/vfio/vfio container IOCTLs by
-mapping them into its internal ops, allowing the usage of these IOCTLs
-over iommufd. However, VFIO IOMMU dirty tracking is not supported by
-this VFIO compatibility API.
+The new equivalent logic checks if migration is in active state and if
+all VFIO devices are in running state [1]. No functional changes
+intended.
 
-This patch will allow migration by hosts that use the VFIO compatibility
-API and prevent migration regressions caused by the lack of VFIO IOMMU
-dirty tracking support.
-
-[1]
-https://lore.kernel.org/kvm/0-v6-a196d26f289e+11787-iommufd_jgg@nvidia.com/
+[1] Note that checking if migration is in setup or active states and if
+all VFIO devices are in running state doesn't guarantee that we are in
+pre-copy phase, thus we check if migration is only in active state.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Link: https://lore.kernel.org/r/20230216143630.25610-4-avihaih@nvidia.com
+Link: https://lore.kernel.org/r/20230216143630.25610-5-avihaih@nvidia.com
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/common.c    |   20 ++++++++++++++++++--
- hw/vfio/migration.c |    3 +--
- 2 files changed, 19 insertions(+), 4 deletions(-)
+ hw/vfio/common.c |   17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 130e5d1dc702..f6dd5715492e 100644
+index f6dd5715492e..3a35f4afad64 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -488,6 +488,12 @@ static int vfio_dma_unmap(VFIOContainer *container,
+@@ -40,6 +40,7 @@
+ #include "trace.h"
+ #include "qapi/error.h"
+ #include "migration/migration.h"
++#include "migration/misc.h"
+ #include "sysemu/tpm.h"
+ 
+ VFIOGroupList vfio_group_list =
+@@ -363,13 +364,16 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+     return true;
+ }
+ 
+-static bool vfio_devices_all_running_and_saving(VFIOContainer *container)
++/*
++ * Check if all VFIO devices are running and migration is active, which is
++ * essentially equivalent to the migration being in pre-copy phase.
++ */
++static bool vfio_devices_all_running_and_mig_active(VFIOContainer *container)
+ {
+     VFIOGroup *group;
+     VFIODevice *vbasedev;
+-    MigrationState *ms = migrate_get_current();
+ 
+-    if (!migration_is_setup_or_active(ms->state)) {
++    if (!migration_is_active(migrate_get_current())) {
+         return false;
+     }
+ 
+@@ -381,8 +385,7 @@ static bool vfio_devices_all_running_and_saving(VFIOContainer *container)
+                 return false;
+             }
+ 
+-            if ((migration->device_state & VFIO_DEVICE_STATE_V1_SAVING) &&
+-                (migration->device_state & VFIO_DEVICE_STATE_V1_RUNNING)) {
++            if (migration->device_state & VFIO_DEVICE_STATE_V1_RUNNING) {
+                 continue;
+             } else {
+                 return false;
+@@ -461,7 +464,7 @@ static int vfio_dma_unmap(VFIOContainer *container,
+     };
+ 
+     if (iotlb && container->dirty_pages_supported &&
+-        vfio_devices_all_running_and_saving(container)) {
++        vfio_devices_all_running_and_mig_active(container)) {
+         return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+     }
+ 
+@@ -488,7 +491,7 @@ static int vfio_dma_unmap(VFIOContainer *container,
          return -errno;
      }
  
-+    if (iotlb && vfio_devices_all_running_and_saving(container)) {
-+        cpu_physical_memory_set_dirty_range(iotlb->translated_addr, size,
-+                                            tcg_enabled() ? DIRTY_CLIENTS_ALL :
-+                                            DIRTY_CLIENTS_NOCODE);
-+    }
-+
-     return 0;
- }
- 
-@@ -1201,6 +1207,10 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
-         .argsz = sizeof(dirty),
-     };
- 
-+    if (!container->dirty_pages_supported) {
-+        return;
-+    }
-+
-     if (start) {
-         dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
-     } else {
-@@ -1236,6 +1246,13 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
-     uint64_t pages;
-     int ret;
- 
-+    if (!container->dirty_pages_supported) {
-+        cpu_physical_memory_set_dirty_range(ram_addr, size,
-+                                            tcg_enabled() ? DIRTY_CLIENTS_ALL :
-+                                            DIRTY_CLIENTS_NOCODE);
-+        return 0;
-+    }
-+
-     dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
- 
-     dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
-@@ -1409,8 +1426,7 @@ static void vfio_listener_log_sync(MemoryListener *listener,
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
- 
--    if (vfio_listener_skipped_section(section) ||
--        !container->dirty_pages_supported) {
-+    if (vfio_listener_skipped_section(section)) {
-         return;
-     }
- 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 65f3f3bef795..e56eef1ee83c 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -858,11 +858,10 @@ int64_t vfio_mig_bytes_transferred(void)
- 
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
- {
--    VFIOContainer *container = vbasedev->group->container;
-     struct vfio_region_info *info = NULL;
-     int ret = -ENOTSUP;
- 
--    if (!vbasedev->enable_migration || !container->dirty_pages_supported) {
-+    if (!vbasedev->enable_migration) {
-         goto add_blocker;
-     }
- 
+-    if (iotlb && vfio_devices_all_running_and_saving(container)) {
++    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
+         cpu_physical_memory_set_dirty_range(iotlb->translated_addr, size,
+                                             tcg_enabled() ? DIRTY_CLIENTS_ALL :
+                                             DIRTY_CLIENTS_NOCODE);
 
 
 
