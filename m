@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C9D699CE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:16:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE21699CF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 20:22:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSjjo-0000rB-L8; Thu, 16 Feb 2023 14:16:12 -0500
+	id 1pSjp0-0003Sg-Fv; Thu, 16 Feb 2023 14:21:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSjjm-0000qJ-8D
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:16:10 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSjoy-0003Rp-5Y
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:21:32 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSjji-00028S-VM
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:16:09 -0500
-Received: by mail-wm1-x333.google.com with SMTP id n33so2369175wms.0
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 11:16:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pSjow-0006gT-Ni
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 14:21:31 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id r18so1898783pgr.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 11:21:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=AZeWqv2ZNAQJbJtqJWL9bZQ/ArEq6WS/wXiLtp5D8xo=;
- b=S6i9sSlpUlScXSmjKewv9t2rk6H7jsG1kL+BWjVMjcJqWPHfWTViRi9knNmoTEHGN5
- ng0R4VEpLZx+/KZSVpo9oQikjqkC08WnrjJAe2lT9M9iwDOLLgA8EEyvv76JM80BG1Cq
- EFoIzMr1iqY4joSfU0q+8sxCdjEYcnwPAST54z2OUUdGs1rWIRDVZWXSW6ZPPljfXmCy
- QGjtFgLseOqaPAzP6FchVqPC2ZZtbzfL3kWTgqrko6nmxz8oIcVID9LaRwj1tm62QP8j
- VxBXBBImuI88EbPz8HR8vywVLH8+b45nI9i7QGD4Hd5Gb9oGqD4MpUIeI35hgfToWbdv
- 3MJQ==
+ bh=oiowY3BEaR5AcvwNJ3+5Yt+7D990ExrCQ4lZv6loti8=;
+ b=ei+HIckx5uOXEf4dpZfU7Ya8/hMSdg+GThi5zb81bghY3gOnojao8tndzKn8swDeJj
+ kh/c7XS3iMqujTD5KW2WKxH2ZiZNs9Y3gxiaRd02KJRGHbIDafi+sukm/wU3vUNWpOT6
+ qSClTwXplqI7m3uMCLR1W0WeZzkMl3XI6A+SUXgJ59SwR1RS0OmO0TBBCMxsD/iRgG5S
+ X9lEU2LaPpF87yR827D5eIAbXMwyAsh0Fop4Nn9pVxZgBDkz7SgQegiUFPPcTQKsZh75
+ EfiyukU2yiLZicwbdhTgRx8a7nau70aI1l9CV1mN4w4rpjRnKkehO/0EPQhqwNugxhZV
+ 8nrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AZeWqv2ZNAQJbJtqJWL9bZQ/ArEq6WS/wXiLtp5D8xo=;
- b=sPMR9iTdwq11mDvGJhuUQ4+WNNghTYf1Spklph/v9UHJyZZYlkyMz5cIf7FfpMHiE5
- raVnDo4U/GRKtDLv91ngBhEvy9oTsiKvXuCiS8cT94h0gpQc4EB+kbQbepjVDPhcmNRL
- u/dHg2rXE9WMCBb2xKn8wkkMnqHbRhmOEtAtQEP7FblL/IprFaAfy6+TQ0q3Ic9blo6O
- NMx95JoIMrqUTu16vUAAReyxs+0VYzC5Y4MVpiYMFeeeqvbl3LV2QDIrQIob+8020LMt
- ND18FxsY4ee0NzG/KZsD3yDwiVW5JXh2ay9dVomXLAqCkauZvLLYOl3Hnsv87OR1PLCy
- Qohg==
-X-Gm-Message-State: AO0yUKUI8vfb/hglktgLLnls/3xl1tFK0ZzfBB81/dJJYaPdneYLAjLi
- PjqseJO1COGtZMPyRFAFkzwoaQ==
-X-Google-Smtp-Source: AK7set8RzH9QtCs1XeDZic9CwgdXsJTVbCqN2Cdw1YcljXWDpAzPId8igheqArqltUv1xWtuNy7iHg==
-X-Received: by 2002:a05:600c:318f:b0:3df:e659:f9d9 with SMTP id
- s15-20020a05600c318f00b003dfe659f9d9mr5270226wmp.34.1676574965097; 
- Thu, 16 Feb 2023 11:16:05 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=oiowY3BEaR5AcvwNJ3+5Yt+7D990ExrCQ4lZv6loti8=;
+ b=emDQ+dGD0iUbzGzSs4rep/fIidRtl7Yh0BBGjFNv/DDtJ5qZeNgP05NIRVWYd0oY+H
+ ArSAGW00Zaq0/lLsh0cJ+Xed3AqBepRuZ3qK28ItU1EcZiwYw3FhrAeeJexA7dHQafeP
+ tdMf7bUXIN+Kc3dZQxXTLtbkbrcb1YQmaMNBzUsDHzZISuUCtGIDR3+LipalP/Uwl6zF
+ spqckF9CXJ2WrfwdSWQ9Mf7f5c2FTWOn7UFaVCr5wQbC2bcPzPZM05+RUo8kG3J1pQPv
+ LpREm5ZG2WVEAb7UNlX8k+lk7dDu0XFgl3Dzu14Ih+VXpbPqMFYAlftCtTfXRwtZmJ/R
+ Ed/Q==
+X-Gm-Message-State: AO0yUKVdiRLS1Clqa5Io2WRpCExgDUcuwT2ylHWGpH1RJOTBlK0b+Dal
+ y/KsGjdUijy+1AKImyVELmbDgw==
+X-Google-Smtp-Source: AK7set+chf/ANxx+AKS7bZEajq5zLIaLCxzAmuGGg+0YL+oCJOeHzgRc6jLi54u7+sMSANh2UNNvgg==
+X-Received: by 2002:a62:7955:0:b0:5a8:bd6e:90fb with SMTP id
+ u82-20020a627955000000b005a8bd6e90fbmr6295199pfc.19.1676575288855; 
+ Thu, 16 Feb 2023 11:21:28 -0800 (PST)
+Received: from ?IPV6:2607:fb90:8f62:8652:bed9:812b:5b9e:e49a?
+ ([2607:fb90:8f62:8652:bed9:812b:5b9e:e49a])
  by smtp.gmail.com with ESMTPSA id
- p22-20020a05600c205600b003de2fc8214esm2502497wmg.20.2023.02.16.11.16.04
+ v19-20020aa78093000000b0058e24050648sm1703459pff.12.2023.02.16.11.21.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 11:16:04 -0800 (PST)
-Message-ID: <56bb0fe8-d1f0-73a6-7881-f2a0e43bf2fa@linaro.org>
-Date: Thu, 16 Feb 2023 20:16:02 +0100
+ Thu, 16 Feb 2023 11:21:28 -0800 (PST)
+Message-ID: <ebdd4b42-22c8-9903-79bc-1b106765198d@linaro.org>
+Date: Thu, 16 Feb 2023 09:21:24 -1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [RFC PATCH 5/5] hw/ppc/pnv_bmc: Simplify pnv_bmc_find()
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, qemu-block@nongnu.org
-References: <20230216122524.67212-1-philmd@linaro.org>
- <20230216122524.67212-6-philmd@linaro.org>
- <e4e0217e-9bd3-1bb7-c91c-0686cf67fc02@kaod.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH RESEND v5 00/28] target/arm: Allow CONFIG_TCG=n builds
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <e4e0217e-9bd3-1bb7-c91c-0686cf67fc02@kaod.org>
+To: Fabiano Rosas <farosas@suse.de>, Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20230213202927.28992-1-farosas@suse.de>
+ <CAFEAcA8yXgqdCvt6KWHQBUNrjca_n2gWeBG-=RGQQKR1vWrf6A@mail.gmail.com>
+ <87357536br.fsf@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87357536br.fsf@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -93,83 +100,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/2/23 19:12, Cédric Le Goater wrote:
-> On 2/16/23 13:25, Philippe Mathieu-Daudé wrote:
->> ForeachArgs::name is only used once as TYPE_IPMI_BMC.
->> Since the penultimate commit, object_child_foreach_recursive()'s
->> handler takes an Error* argument and return a boolean.
->> We can directly pass ForeachArgs::obj as context, removing the
->> ForeachArgs structure.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>
->> ---
->> RFC: please double-check...
->>
->>
->>   hw/ppc/pnv_bmc.c | 25 +++++++++----------------
->>   1 file changed, 9 insertions(+), 16 deletions(-)
->>
->> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
->> index 05acc88a55..566284469f 100644
->> --- a/hw/ppc/pnv_bmc.c
->> +++ b/hw/ppc/pnv_bmc.c
->> @@ -278,36 +278,29 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
->>       return IPMI_BMC(obj);
->>   }
->> -typedef struct ForeachArgs {
->> -    const char *name;
->> -    Object *obj;
->> -} ForeachArgs;
->> -
->>   static bool bmc_find(Object *child, void *opaque, Error **errp)
->>   {
->> -    ForeachArgs *args = opaque;
->> +    Object **obj = opaque;
->> -    if (object_dynamic_cast(child, args->name)) {
->> -        if (args->obj) {
->> -            return false;
-> 
-> The purpose of this test was to catch multiple bmc devices and it's removed
-> now.
+On 2/16/23 06:47, Fabiano Rosas wrote:
+> I'll try to split it up, let's see how it goes, the ARMCPRegInfo arrays
+> are huge, they might end up pulling everything with them.
 
-Great.
+Feel free to make static functions non-static in e.g. internals.h or cpregs.h as necessary 
+to allow an array to be moved without all of the helper functions at the same time.
 
->> +    if (object_dynamic_cast(child, TYPE_IPMI_BMC)) {
->> +        if (*obj) {
->> +            return true;
->>           }
->> -        args->obj = child;
->> +        *obj = child;
->>       }
->>       return true;
->>   }
->>   IPMIBmc *pnv_bmc_find(Error **errp)
->>   {
->> -    ForeachArgs args = { TYPE_IPMI_BMC, NULL };
->> -    int ret;
->> +    Object *obj = NULL;
->> -    ret = object_child_foreach_recursive(object_get_root(), bmc_find,
->> -                                         &args, NULL);
->> -    if (ret) {
->> +    if (!object_child_foreach_recursive(object_get_root(), bmc_find, 
->> &obj,
->> +                                        NULL)) {
->>           error_setg(errp, "machine should have only one BMC device. "
->>                      "Use '-nodefaults'");>           return NULL;
->>       }
-> 
-> We don't test obj against NULL any more. This could break the QOM cast 
-> below.
 
-IIUC QOM cast-macros are NULL-safe, see
-https://lore.kernel.org/qemu-devel/20210107121304.1db97130@bahia.lan/
-
-If you concur I'll try to update the QOM API doc where relevant.
-
->> -    return args.obj ? IPMI_BMC(args.obj) : NULL;
->> +    return IPMI_BMC(obj);
->>   }
-> 
+r~
 
 
