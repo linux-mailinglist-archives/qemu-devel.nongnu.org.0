@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3049B699BDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C68699BCA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 19:05:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSicK-0000FA-GU; Thu, 16 Feb 2023 13:04:24 -0500
+	id 1pSicM-0000Fq-CI; Thu, 16 Feb 2023 13:04:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSicI-0000EG-M7
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:22 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ id 1pSicJ-0000Ew-CF
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:23 -0500
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pSicG-0005q8-Ry
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:22 -0500
+ id 1pSicH-0005qS-M9
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 13:04:23 -0500
 Received: from iva8-99b070b76c56.qloud-c.yandex.net
  (iva8-99b070b76c56.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:1099:0:640:99b0:70b7])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id A651560153;
- Thu, 16 Feb 2023 21:04:16 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id BC44062A6E;
+ Thu, 16 Feb 2023 21:04:17 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:8813::1:16])
  by iva8-99b070b76c56.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- u3q89J0Qp8c1-DbdLt7Bv; Thu, 16 Feb 2023 21:04:15 +0300
+ u3q89J0Qp8c1-peyGi9TG; Thu, 16 Feb 2023 21:04:16 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1676570655; bh=VH7cB3OHOb41tMa8KzVmevyAQ6J4RBo6JMPZOuTkaSM=;
+ t=1676570656; bh=6LzK5JcKoqQp/AREI8ga/H9CKv30XnA168S3R/9Tv0I=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=pu4Nz/A6fYG6u6jep9Z0QII1YLW7ok9uYZkx9qumgbM1BvApGALGPlOHY+BIrHWOK
- LrtORcntTDY69pDICFKfgJpCTR+gbBvHEIA6raUcgKprs7nsZyQW9jDa+AGvbmzpeM
- CGm5EYRxomQnB2dr3pEWBcw6LMf2r4EhfvcRdNNA=
+ b=HKQHbfXxtwmILHkkBqz/vgvEcVxfwS5v8oR7Wr3793tv8P+lfE2c4P26e0WsPm4US
+ g1gpxAwtftOIyvp2Y4E4/owmPhQq1T6YNROFoGlVPAoCzxKUCdzqGj5eVsXfYfkoeh
+ NDHU1C9oTYZAjw6IaR8U1knkBiNofJqnDazP0D74=
 Authentication-Results: iva8-99b070b76c56.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -43,16 +44,16 @@ Cc: armbru@redhat.com, eblake@redhat.com, eduardo@habkost.net,
  berrange@redhat.com, pbonzini@redhat.com, marcel.apfelbaum@gmail.com,
  mst@redhat.com, philmd@linaro.org, vsementsov@yandex-team.ru,
  den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
-Subject: [PATCH v5 17/18] pcie: implement HOTPLUG_STATE event and query-hotplug
-Date: Thu, 16 Feb 2023 21:03:55 +0300
-Message-Id: <20230216180356.156832-18-vsementsov@yandex-team.ru>
+Subject: [PATCH v5 18/18] qapi: introduce DEVICE_ON event
+Date: Thu, 16 Feb 2023 21:03:56 +0300
+Message-Id: <20230216180356.156832-19-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230216180356.156832-1-vsementsov@yandex-team.ru>
 References: <20230216180356.156832-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -74,157 +75,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For PCIe and SHPC hotplug it's important to track led indicators,
-especially the power led. At this step implement the prepared
-infrastructure in PCIe.
+We have DEVICE_DELETED event, that signals that device_del command is
+actually completed. But we don't have a counter-part for device_add.
+Still it's sensible for SHPC and PCIe-native hotplug, as there are time
+when the device in some intermediate state. Let's add an event that say
+that the device is finally powered on, power indicator is on and
+everything is OK for next manipulation on that device.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 ---
- include/hw/pci/pcie.h |  2 ++
- hw/pci/pcie.c         | 78 +++++++++++++++++++++++++++++++++++++++++++
- hw/pci/pcie_port.c    |  1 +
- 3 files changed, 81 insertions(+)
+ qapi/qdev.json | 10 ++++++++++
+ hw/pci/pcie.c  | 14 ++++++++++++++
+ hw/pci/shpc.c  | 12 ++++++++++++
+ 3 files changed, 36 insertions(+)
 
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 3cc2b15957..f755a7cacb 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -146,4 +146,6 @@ void pcie_cap_slot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-                              Error **errp);
- void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
-                                      DeviceState *dev, Error **errp);
-+HotplugInfo *pcie_cap_slot_get_hotplug_state(HotplugHandler *hotplug_dev,
-+                                             DeviceState *dev, Error **errp);
- #endif /* QEMU_PCIE_H */
+diff --git a/qapi/qdev.json b/qapi/qdev.json
+index 6f2d8d6647..116a8a7de8 100644
+--- a/qapi/qdev.json
++++ b/qapi/qdev.json
+@@ -348,3 +348,13 @@
+ { 'command': 'query-hotplug',
+   'data': { 'id': 'str' },
+   'returns': 'HotplugInfo' }
++
++##
++# @DEVICE_ON:
++#
++# Emitted whenever the device insertion completion is acknowledged by the guest.
++# For now only emitted for SHPC and PCIe-native hotplug.
++#
++# Since: 8.0
++##
++{ 'event': 'DEVICE_ON', 'data': 'DeviceAndPath' }
 diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index b8c24cf45f..636f962a23 100644
+index 636f962a23..4297e4e8dc 100644
 --- a/hw/pci/pcie.c
 +++ b/hw/pci/pcie.c
-@@ -19,6 +19,8 @@
-  */
+@@ -22,6 +22,7 @@
  
- #include "qemu/osdep.h"
-+
-+#include "monitor/qdev.h"
+ #include "monitor/qdev.h"
  #include "qapi/error.h"
++#include "qapi/qapi-events-qdev.h"
  #include "hw/pci/pci_bridge.h"
  #include "hw/pci/pcie.h"
-@@ -45,6 +47,23 @@ static bool pcie_sltctl_powered_off(uint16_t sltctl)
+ #include "hw/pci/msix.h"
+@@ -47,6 +48,13 @@ static bool pcie_sltctl_powered_off(uint16_t sltctl)
          && (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF;
  }
  
-+static LedActivity pcie_led_state_to_qapi(uint16_t value)
++static bool pcie_sltctl_powered_on(uint16_t sltctl)
 +{
-+    switch (value) {
-+    case PCI_EXP_SLTCTL_PWR_IND_ON:
-+    case PCI_EXP_SLTCTL_ATTN_IND_ON:
-+        return LED_ACTIVITY_ON;
-+    case PCI_EXP_SLTCTL_PWR_IND_BLINK:
-+    case PCI_EXP_SLTCTL_ATTN_IND_BLINK:
-+        return LED_ACTIVITY_BLINK;
-+    case PCI_EXP_SLTCTL_PWR_IND_OFF:
-+    case PCI_EXP_SLTCTL_ATTN_IND_OFF:
-+        return LED_ACTIVITY_OFF;
-+    default:
-+        abort();
-+    }
++    return (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON &&
++        (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_ON &&
++        (sltctl & PCI_EXP_SLTCTL_AIC) == PCI_EXP_SLTCTL_ATTN_IND_OFF;
 +}
 +
- /***************************************************************************
-  * pci express capability helper functions
-  */
-@@ -728,9 +747,17 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-                                 uint16_t old_slt_ctl, uint16_t old_slt_sta,
-                                 uint32_t addr, uint32_t val, int len)
+ static LedActivity pcie_led_state_to_qapi(uint16_t value)
  {
-+    PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
-     uint32_t pos = dev->exp.exp_cap;
-     uint8_t *exp_cap = dev->config + pos;
-     uint16_t sltsta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
-+    uint16_t power_led, attn_led, pcc, old_power_led, old_attn_led, old_pcc;
-+    DeviceState *child_dev =
-+        DEVICE(pci_find_the_only_child(sec_bus, pci_bus_num(sec_bus), NULL));
-+    HotplugState changed_state = {
-+        .type = HOTPLUG_TYPE_PCIE_NATIVE,
-+    };
-+    HotplugPCIeNativeState *cs = &changed_state.u.pcie_native;
- 
-     if (ranges_overlap(addr, len, pos + PCI_EXP_SLTSTA, 2)) {
-         /*
-@@ -768,6 +795,27 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
-                         sltsta);
+     switch (value) {
+@@ -816,6 +824,12 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+         qdev_hotplug_state_event(DEVICE(dev), NULL, child_dev, &changed_state);
      }
  
-+    power_led = val & PCI_EXP_SLTCTL_PIC;
-+    old_power_led = old_slt_ctl & PCI_EXP_SLTCTL_PIC;
-+    cs->has_power_led = power_led != old_power_led;
-+    cs->power_led = cs->has_power_led ? pcie_led_state_to_qapi(power_led) : 0;
-+
-+    attn_led = val & PCI_EXP_SLTCTL_AIC;
-+    old_attn_led = old_slt_ctl & PCI_EXP_SLTCTL_AIC;
-+    cs->has_attention_led = attn_led != old_attn_led;
-+    cs->attention_led =
-+        cs->has_attention_led ? pcie_led_state_to_qapi(attn_led) : 0;
-+
-+    pcc = val & PCI_EXP_SLTCTL_PCC;
-+    old_pcc = old_slt_ctl & PCI_EXP_SLTCTL_PCC;
-+    cs->has_power_on = pcc != old_pcc;
-+    cs->power_on = cs->has_power_on ? pcc == PCI_EXP_SLTCTL_PWR_ON : false;
-+
-+
-+    if (cs->has_power_led || cs->has_attention_led || cs->has_power_on) {
-+        qdev_hotplug_state_event(DEVICE(dev), NULL, child_dev, &changed_state);
++    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_on(val) &&
++        !pcie_sltctl_powered_on(old_slt_ctl) && child_dev)
++    {
++        qapi_event_send_device_on(child_dev->id, child_dev->canonical_path);
 +    }
 +
      /*
       * If the slot is populated, power indicator is off and power
       * controller is off, it is safe to detach the devices.
-@@ -1100,3 +1148,33 @@ void pcie_acs_reset(PCIDevice *dev)
-         pci_set_word(dev->config + dev->exp.acs_cap + PCI_ACS_CTRL, 0);
-     }
- }
-+
-+HotplugInfo *pcie_cap_slot_get_hotplug_state(HotplugHandler *hotplug_dev,
-+                                             DeviceState *dev, Error **errp)
-+{
-+    PCIDevice *hotplug_pdev = PCI_DEVICE(hotplug_dev);
-+    uint8_t *exp_cap = hotplug_pdev->config + hotplug_pdev->exp.exp_cap;
-+    uint16_t sltctl = pci_get_word(exp_cap + PCI_EXP_SLTCTL);
-+    uint16_t power_led = sltctl & PCI_EXP_SLTCTL_PIC;
-+    uint16_t attn_led = sltctl & PCI_EXP_SLTCTL_AIC;
-+    uint16_t pcc = sltctl & PCI_EXP_SLTCTL_PCC;
-+    HotplugInfo *res = g_new(HotplugInfo, 1);
-+
-+    *res = (HotplugInfo) {
-+        .bus = qdev_new_device_and_path(DEVICE(hotplug_pdev)),
-+        .child = qdev_new_device_and_path(dev),
-+        .state = g_new(HotplugState, 1),
-+    };
-+
-+    *res->state = (HotplugState) {
-+        .type = HOTPLUG_TYPE_PCIE_NATIVE,
-+        .u.pcie_native.has_power_led = true,
-+        .u.pcie_native.power_led = pcie_led_state_to_qapi(power_led),
-+        .u.pcie_native.has_attention_led = true,
-+        .u.pcie_native.attention_led = pcie_led_state_to_qapi(attn_led),
-+        .u.pcie_native.has_power_on = true,
-+        .u.pcie_native.power_on = pcc == PCI_EXP_SLTCTL_PWR_ON,
-+    };
-+
-+    return res;
-+}
-diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-index 65a397ad23..8b28efc52d 100644
---- a/hw/pci/pcie_port.c
-+++ b/hw/pci/pcie_port.c
-@@ -188,6 +188,7 @@ static void pcie_slot_class_init(ObjectClass *oc, void *data)
-     hc->plug = pcie_cap_slot_plug_cb;
-     hc->unplug = pcie_cap_slot_unplug_cb;
-     hc->unplug_request = pcie_cap_slot_unplug_request_cb;
-+    hc->get_hotplug_state = pcie_cap_slot_get_hotplug_state;
+diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
+index 6a4f93949d..380b2b83b3 100644
+--- a/hw/pci/shpc.c
++++ b/hw/pci/shpc.c
+@@ -299,6 +299,12 @@ static bool shpc_slot_is_off(uint8_t state, uint8_t power, uint8_t attn)
+     return state == SHPC_STATE_DISABLED && power == SHPC_LED_OFF;
  }
  
- static const TypeInfo pcie_slot_type_info = {
++static bool shpc_slot_is_on(uint8_t state, uint8_t power, uint8_t attn)
++{
++    return state == SHPC_STATE_ENABLED && power == SHPC_LED_ON &&
++        attn == SHPC_LED_OFF;
++}
++
+ static void shpc_slot_command(PCIDevice *d, uint8_t target,
+                               uint8_t state, uint8_t power, uint8_t attn)
+ {
+@@ -366,6 +372,12 @@ static void shpc_slot_command(PCIDevice *d, uint8_t target,
+             SHPC_SLOT_EVENT_MRL |
+             SHPC_SLOT_EVENT_PRESENCE;
+     }
++
++    if (!shpc_slot_is_on(old_state, old_power, old_attn) &&
++        shpc_slot_is_on(state, power, attn) && child_dev)
++    {
++        qapi_event_send_device_on(child_dev->id, child_dev->canonical_path);
++    }
+ }
+ 
+ static void shpc_command(PCIDevice *d)
 -- 
 2.34.1
 
