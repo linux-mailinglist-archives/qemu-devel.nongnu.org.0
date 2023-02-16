@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E427A69934D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:39:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE6B69935A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 12:41:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pScag-0006Y5-AF; Thu, 16 Feb 2023 06:38:18 -0500
+	id 1pScdR-000802-6A; Thu, 16 Feb 2023 06:41:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pScae-0006XX-5t
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:38:16 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pScdP-0007zg-U1
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:41:07 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pScac-0000Pb-IY
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:38:15 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- z14-20020a17090abd8e00b00233bb9d6bdcso1833400pjr.4
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 03:38:14 -0800 (PST)
+ id 1pScdO-0000zi-0T
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 06:41:07 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id mg23so1650305pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 03:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VomnUL+3XuvtEbMt0DdUNmtDVYJfH8CorCP0gI0KR9w=;
- b=Shn4itiUDBalUjvxho935T53ZvPTELb+n105vHhLi8brf9Wn+b5w6x9IgkXpokryNI
- uGfiKcOeBEGzxaxN9JwpOgf9uEU/wO4ePHBoqX3TKx1fryK6gaE3+9UgoOvrtt/78cUq
- mdaTuV6xsMU+i5u6fxkeoiSVr+/L0LlDfKduNkaAlYfaqbesxDVWPkIEYaVS7Y0WkoYs
- yXuQI9uxmUb1QDMXYDg7YzuD7IFhUYjYtMOFwjHOF2MCaOuzhYH5ANhr5FtSQwsCTMRU
- wThNLnznFtM9DTXPHrT7eRsCYU+j4npa5LkFeX86jVCu8MFZRqxI/tJeJfA6L6kTL9HS
- 6J+Q==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=HcDU0QdDBp6Yu8TjFSb3VmDDKlCY+rGLjdYpbDC/h1Q=;
+ b=nWxQNRUADSRrTp10zKdldphEMLCx+zS3gH4e3q/aVxeOW/9OaGMeNWh07jHq14aRgw
+ 6sOvq6u+xvxPeYHta9pQxQjD9z+ZaCinL0defWRx2jpCywuC8oSqYgY61XMU01YM4MB8
+ WvdHjFgFwEuIuP6OqPkaTE8SLmrmxXECj2GP01cLrZbWlpjQHYnJULMXuCX3WXDPJguJ
+ OHCwk8eYJcwAE07fY1TDOalYtMstM9Dr+vx5d3RVSN4k8fSiD9GNZiSj1EyoWLPusyn8
+ 4mugDd95LDrs0Yl/hPko7nuC/0s4YIIKks6Rpxh4C5waGUazeafo0Kg6acx3uAEnLgS8
+ wV6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VomnUL+3XuvtEbMt0DdUNmtDVYJfH8CorCP0gI0KR9w=;
- b=4AJiR5GwVCBHN1eyh/YB4FpfGeNXkt5s+Bw5seFRMzCwe9IunOqXICNNUSInvGjYry
- hcXcmi8Tpbr3OexevD7SgHZr4qjGPvzXyATkOUC4v1SZmAenuMTW2KLNP40WkSX1xJny
- i22kgJeveIALH2ZbNvY82s4U+DpHHD2FPUsHXv5QyGN9ShYVBN8HZG4UdrZQ7ueepSnO
- pHEuzf/3xYskGvIVTgoCYJWffcstlSVPWtg4ZlpwAc0ALDaaKXkySLOHfK/4fEGih/JO
- W/WOGp1ZxPYXYj9LtuAYL7zU/Y0WVbimONP3i+gednrVgdBiAi5hhXnUl0ueXDsij75v
- n3rw==
-X-Gm-Message-State: AO0yUKWJnehluMUN1DQxPQshUOWxdmRaTbVdrZ+yZPlDYLf+qmESQvl+
- wKb5MtMF/i2QTUDfq/CyI4YhS5lm+D7A2uSJx2F0dQ==
-X-Google-Smtp-Source: AK7set/I5kjMzyGwVAxyBWwfRYmgtFDh4dAtEjRI8MhuzhqBuAJGkKYUizMTdaq0xjINH2WqeCFQrp8P5GofPDxLyMM=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HcDU0QdDBp6Yu8TjFSb3VmDDKlCY+rGLjdYpbDC/h1Q=;
+ b=FrWMlSSdrbVfIY2W8KVeZ1JFpR+yMgEUFGNna57+fpLbO6Ta71iy69O188AO+tQoCS
+ S1A8JTkR1QGUCjwouZoledfALvscEwcx9qIuVnG974a7hVOL3t3rW9dgQuEFgkaMBNrV
+ 6yvJSWnFOcFtQgBc/7XK2rv/84kP+64HgKAUGRPzyl5bqjBVHfyGOMXnJVgkAImx7T2V
+ uBLI8Lb/UkfBQ7wJzwMI9THv6ATlnAGzNTkCKwBVxLiPbXmhGgjMsSZE19c9HF2nDsk+
+ CtmTInfELaQIz0eXCnVls5BJXjdZ9TReHIcpnNrRG0NRIk0FSmPCqCK8fkvPQZCC+AtO
+ fBTQ==
+X-Gm-Message-State: AO0yUKXAR5N2SrIBSGmNcO3yxjJCV4MwxMWXaQ3Q0KMo/inTt3VM/3XA
+ CL2YYwuz6hKrJx3a4/Qe0UjNsfZA8XYDKUzrjE2hSg==
+X-Google-Smtp-Source: AK7set/Ce+HDTeH8BnNWuaA0z4ErlysWxitsd7W3p0Zr9P5tvLcAMCSm2qVpXytfqmUYmKNQEk4Mtoq6cACl1C11GRM=
 X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
- sc9-20020a17090b510900b00233dcb5ee15mr520948pjb.92.1676547492921; Thu, 16 Feb
- 2023 03:38:12 -0800 (PST)
+ sc9-20020a17090b510900b00233dcb5ee15mr523032pjb.92.1676547664551; Thu, 16 Feb
+ 2023 03:41:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20230216092327.2203-1-philmd@linaro.org>
- <4175aa01-03fc-94b9-dd7d-3e0268a92b55@linaro.org>
-In-Reply-To: <4175aa01-03fc-94b9-dd7d-3e0268a92b55@linaro.org>
+References: <20230203134433.31513-1-cohuck@redhat.com>
+In-Reply-To: <20230203134433.31513-1-cohuck@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Feb 2023 11:38:01 +0000
-Message-ID: <CAFEAcA_sjZcKQc8V+TCZvrui2mby-vV-ZzxrPY_YL-cELxrdvw@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm: Add missing ZynqMP ZCU102 -> USB_DWC3 Kconfig
- dependency
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Francisco Iglesias <francisco.iglesias@amd.com>,
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, Thomas Huth <thuth@redhat.com>
+Date: Thu, 16 Feb 2023 11:40:53 +0000
+Message-ID: <CAFEAcA_QiVe=ZZ1VTVwUiGh6EL8F7qXT=3dnEb+xzUZORO_4Dw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] arm: enable MTE for QEMU + kvm
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-arm@nongnu.org, 
+ qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric Auger <eauger@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,29 +88,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Feb 2023 at 09:27, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
+On Fri, 3 Feb 2023 at 13:44, Cornelia Huck <cohuck@redhat.com> wrote:
 >
-> Oops I meant this as subject:
-> "hw/arm: Add missing XLNX_ZYNQMP_ARM -> USB_DWC3 Kconfig dependency"
->
-> On 16/2/23 10:23, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Since commit acc0b8b05a when running the ZynqMP ZCU102 board with
-> > a QEMU configured using --without-default-devices, we get:
-> >
-> >    $ qemu-system-aarch64 -M xlnx-zcu102
-> >    qemu-system-aarch64: missing object type 'usb_dwc3'
-> >    Abort trap: 6
-> >
-> > Fix by adding the missing Kconfig dependency.
-> >
-> > Fixes: acc0b8b05a ("hw/arm/xlnx-zynqmp: Connect ZynqMP's USB controller=
-s")
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Respin of my kvm mte series; tested via check + check-tcg and on FVP.
 
+I've taken patch 1 into target-arm.next since it's a simple
+cleanup.
 
-
-Applied to target-arm.next with the subject line fixed, thanks.
-
+thanks
 -- PMM
 
