@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0BF6A3483
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 23:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D01E6A3489
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 23:16:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWPHw-0003Hr-QX; Sun, 26 Feb 2023 17:14:36 -0500
+	id 1pWPI0-0003L4-1j; Sun, 26 Feb 2023 17:14:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pWPHu-0003GO-2A; Sun, 26 Feb 2023 17:14:34 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ id 1pWPHx-0003IU-4a; Sun, 26 Feb 2023 17:14:37 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pWPHr-0004zz-PE; Sun, 26 Feb 2023 17:14:33 -0500
+ id 1pWPHv-00050q-BL; Sun, 26 Feb 2023 17:14:36 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3313074638A;
- Sun, 26 Feb 2023 23:14:29 +0100 (CET)
+ by localhost (Postfix) with SMTP id 5D2D8746F34;
+ Sun, 26 Feb 2023 23:14:33 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 02057746377; Sun, 26 Feb 2023 23:14:29 +0100 (CET)
-Message-Id: <17ef3c59dc7868f75034e9ebe21e2999c8f718d4.1677445307.git.balaton@eik.bme.hu>
+ id 34712746F2F; Sun, 26 Feb 2023 23:14:33 +0100 (CET)
+Message-Id: <eca1ecce0b814ece8d285cb869ff839130a37b70.1677445307.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1677445307.git.balaton@eik.bme.hu>
 References: <cover.1677445307.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Wed, 15 Feb 2023 16:35:42 +0100
-Subject: [PATCH v3 1/8] hw/display/sm501: Implement more 2D raster operations
+Date: Thu, 16 Feb 2023 21:27:32 +0100
+Subject: [PATCH v3 5/8] hw/ppc/pegasos2: Fix PCI interrupt routing
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -38,13 +38,14 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
  vr_qemu@t-online.de, ReneEngel80@emailn.de
 X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: 15
-X-Spam_score: 1.5
-X-Spam_bar: +
-X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,68 +61,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add simple implementation for two raster operations that are used by
-AmigaOS which fixes graphics problems in some programs using these.
+According to the PegasosII schematics the PCI interrupt lines are
+connected to both the gpp pins of the Mv64361 north bridge and the
+PINT pins of the VT8231 south bridge so guests can get interrupts from
+either of these. So far we only had the MV64361 connections which
+worked for on board devices but for additional PCI devices (such as
+network or sound card added with -device) guest OSes expect interrupt
+from the ISA IRQ 9 where the firmware routes these PCI interrupts in
+VT8231 ISA bridge. After the previous patches we can now model this
+and also remove the board specific connection from mv64361. Also
+configure routing of these lines when using Virtual Open Firmware to
+match board firmware for guests that expect this.
+
+This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reported-by: Rene Engel <ReneEngel80@emailn.de>
 Tested-by: Rene Engel <ReneEngel80@emailn.de>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
-These are documented for example at:
-https://learn.microsoft.com/en-us/windows/win32/gdi/ternary-raster-operations
+ hw/pci-host/mv64361.c |  4 ----
+ hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
+ 2 files changed, 25 insertions(+), 5 deletions(-)
 
- hw/display/sm501.c | 30 +++++++++++++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
-
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index e1d0591d36..58bc9701ee 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -753,7 +753,7 @@ static void sm501_2d_operation(SM501State *s)
-         }
+diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+index f43f33fbd9..3d9132f989 100644
+--- a/hw/pci-host/mv64361.c
++++ b/hw/pci-host/mv64361.c
+@@ -874,10 +874,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
+     }
+     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
+     qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
+-    /* FIXME: PCI IRQ connections may be board specific */
+-    for (i = 0; i < PCI_NUM_PINS; i++) {
+-        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
+-    }
+ }
  
-         if ((rop_mode && rop == 0x5) || (!rop_mode && rop == 0x55)) {
--            /* Invert dest, is there a way to do this with pixman? */
-+            /* DSTINVERT, is there a way to do this with pixman? */
-             unsigned int x, y, i;
-             uint8_t *d = s->local_mem + dst_base;
+ static void mv64361_reset(DeviceState *dev)
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index a9563f4fb2..4e1476673b 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -74,6 +74,8 @@ struct Pegasos2MachineState {
+     MachineState parent_obj;
+     PowerPCCPU *cpu;
+     DeviceState *mv;
++    qemu_irq mv_pirq[PCI_NUM_PINS];
++    qemu_irq via_pirq[PCI_NUM_PINS];
+     Vof *vof;
+     void *fdt_blob;
+     uint64_t kernel_addr;
+@@ -96,6 +98,15 @@ static void pegasos2_cpu_reset(void *opaque)
+     }
+ }
  
-@@ -763,6 +763,34 @@ static void sm501_2d_operation(SM501State *s)
-                     stn_he_p(&d[i], bypp, ~ldn_he_p(&d[i], bypp));
-                 }
-             }
-+        } else if (!rop_mode && rop == 0x99) {
-+            /* DSxn, is there a way to do this with pixman? */
-+            unsigned int x, y, i, j;
-+            uint8_t *sp = s->local_mem + src_base;
-+            uint8_t *d = s->local_mem + dst_base;
++static void pegasos2_pci_irq(void *opaque, int n, int level)
++{
++    Pegasos2MachineState *pm = opaque;
 +
-+            for (y = 0; y < height; y++) {
-+                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
-+                j = (src_x + (src_y + y) * src_pitch) * bypp;
-+                for (x = 0; x < width; x++, i += bypp, j += bypp) {
-+                    stn_he_p(&d[i], bypp,
-+                             ~(ldn_he_p(&sp[j], bypp) ^ ldn_he_p(&d[i], bypp)));
-+                }
-+            }
-+        } else if (!rop_mode && rop == 0xee) {
-+            /* SRCPAINT, is there a way to do this with pixman? */
-+            unsigned int x, y, i, j;
-+            uint8_t *sp = s->local_mem + src_base;
-+            uint8_t *d = s->local_mem + dst_base;
++    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
++    qemu_set_irq(pm->mv_pirq[n], level);
++    qemu_set_irq(pm->via_pirq[n], level);
++}
 +
-+            for (y = 0; y < height; y++) {
-+                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
-+                j = (src_x + (src_y + y) * src_pitch) * bypp;
-+                for (x = 0; x < width; x++, i += bypp, j += bypp) {
-+                    stn_he_p(&d[i], bypp,
-+                             ldn_he_p(&sp[j], bypp) | ldn_he_p(&d[i], bypp));
-+                }
-+            }
-         } else {
-             /* Do copy src for unimplemented ops, better than unpainted area */
-             if ((rop_mode && (rop != 0xc || rop2_source_is_pattern)) ||
+ static void pegasos2_init(MachineState *machine)
+ {
+     Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
+@@ -107,7 +118,7 @@ static void pegasos2_init(MachineState *machine)
+     I2CBus *i2c_bus;
+     const char *fwname = machine->firmware ?: PROM_FILENAME;
+     char *filename;
+-    int sz;
++    int i, sz;
+     uint8_t *spd_data;
+ 
+     /* init CPU */
+@@ -157,11 +168,18 @@ static void pegasos2_init(MachineState *machine)
+     /* Marvell Discovery II system controller */
+     pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
+                           qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
++    for (i = 0; i < PCI_NUM_PINS; i++) {
++        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
++    }
+     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
++    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+ 
+     /* VIA VT8231 South Bridge (multifunction PCI device) */
+     via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
+                                                  true, TYPE_VT8231_ISA));
++    for (i = 0; i < PCI_NUM_PINS; i++) {
++        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
++    }
+     object_property_add_alias(OBJECT(machine), "rtc-time",
+                               object_resolve_path_component(via, "rtc"),
+                               "date");
+@@ -268,6 +286,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
+                               PCI_INTERRUPT_LINE, 2, 0x9);
+     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+                               0x50, 1, 0x2);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x55, 1, 0x90);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x56, 1, 0x99);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x57, 1, 0x90);
+ 
+     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
+                               PCI_INTERRUPT_LINE, 2, 0x109);
 -- 
 2.30.7
 
