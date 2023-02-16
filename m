@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141ED699529
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:07:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879FB699527
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 14:06:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSdx3-0004Sg-7m; Thu, 16 Feb 2023 08:05:29 -0500
+	id 1pSdx7-0004Tz-6y; Thu, 16 Feb 2023 08:05:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pSdwt-0004PO-PH
+ id 1pSdww-0004QK-RU
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:05:22 -0500
 Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pSdwr-0002Eb-Rs
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:05:19 -0500
+ id 1pSdwu-0002FV-JA
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 08:05:22 -0500
 Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-16cc1e43244so2381963fac.12
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:05:17 -0800 (PST)
+ 586e51a60fabf-15f97c478a8so2376507fac.13
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 05:05:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KEoLHmo0Wwd1VEBIJTRfk11UDfKznhZCWuv+sKrLWfU=;
- b=ZtwfDRudZ7HYleIYYH/Jms14FvduGSmcAyfoP10m898CDOCiLQkfqRFNO8+vC+0buM
- yefW2NC8TSvihrRUDhTMibXxsQidRZ7yxyEorZ5Em/xLdt+ewhjp9I9U4xJOsk11mYol
- 5Cak5ww8Upt3qakyy/K5x2mdmZqvPTLBtDa0XZZptm5Dcmf9cdhXYnDEWxBjbcjZh0/w
- yTfakWLJcF/fcv5gdFx2RmfMUqPOksPVwE+kH5j5tJbpftxlJFpsDEb3qHeBbaSgjQTk
- 9Pd7NYWHey5JzdFGOzXz3j2sudbSXXvfh0T+fsgpEetaV5sbfRGTCdlgEf3xtQqdBtYE
- 7yLg==
+ bh=Rhjy4ZuFr2J/YQsYfjypiNp1FTwn/nVolIeKKoKX5g0=;
+ b=ojPAbb5G93ZpFTO5nAompoxnSBCg6hpGvRUYFbQ83iAhT3NxnAff99RPPb+y4k7znp
+ 5UaTplX1t1cGk6HahVAmdMtD1IKTFS0yLFNWxZ+gZ4nmH1CcVw2ncjzqeivsDNdKNFZJ
+ wBDtQwwt7vvANWXnkKjKxoaeg/ybOhf4rrbCZyk0YU6VzStBSRy0lTG2SQhdupOgXEdq
+ n6hjnNMpxEyQxwNZPo+hbg0xNpgZ1+VdD5LsIsNlrHSn6FzmJT/XCFLbfmTskxf7szL6
+ A4gUlwJQ4ZVP+3tEZwTmrQC625/Cp3iboCgQgkhyvy2FFFCrjEA8V2azb0LQS+X+6EqR
+ U70Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KEoLHmo0Wwd1VEBIJTRfk11UDfKznhZCWuv+sKrLWfU=;
- b=qaFdXhzcZKJpD0Pcp0xj408Fmkh21ikLAJC9+onzaZil6eGpqz6HNBUi5P1JCiuDso
- 7Iz2MAJYjZkPv/jcuxWKhah/wN4KUgg533kNDe9NUK9YWhQt3TwqlK+WzI/jfZKVj4B/
- wfx4su5G6nUYCmzREP6L+Q2zkehWgxl8XW8dee+cir8OMEq2mO5pvvdJf+Z7FQdQs0dO
- 1uLL5BeORZilgkPzEKgsMVoI5+Is01lr+1CD80gf52NgvVB9buB/7PnDExur2hHYqZiy
- RPCc/nb5pE9v4tISUXNFe3QvyqQ8bM7qNZp+wfMEyBTbP2ErjJwdDzpb/Xmw9QoZXGzd
- 5VFw==
-X-Gm-Message-State: AO0yUKUK1iKsw+0c7sMq8Vn5RiTfH9ewR5tTxwKnfS66iqTnjucS1rDM
- +xcjHRwAEm6Cll5xDIkS9dx+7DAEh5/80l2Z
-X-Google-Smtp-Source: AK7set8ZsC50GtJh2KKHUefwEaJzv+x+NX3GpGJPEAE919S192xrXLozQsel29ibOo9P3NR0Jja5bw==
-X-Received: by 2002:a05:6870:7027:b0:163:4e13:cd90 with SMTP id
- u39-20020a056870702700b001634e13cd90mr3568563oae.26.1676552716104; 
- Thu, 16 Feb 2023 05:05:16 -0800 (PST)
+ bh=Rhjy4ZuFr2J/YQsYfjypiNp1FTwn/nVolIeKKoKX5g0=;
+ b=ozTuderdiuFPAOFf5XZbdIJMswYJ0WRltZixLTTX11sKcXBsHwBuseqMJ/PI0O4bBF
+ ojod9ZmFKS4EtGbJe8llE6RTC9ip6I5mMGj1Nt8HGHANd8mPuDlvZ8tz57U2qSS3YHY1
+ XYwmX9Oyz5gx/GU++rQBaGZX2m7ogLHkaexlkDkATsrOZp/4GcPlkFFGx2QpxCfUqczk
+ FcTh8UFttDuvvlAhM3DKnISoHMv7f8Ac4sM7jbcnPg3xiYN+YGrwulmU+fN2YgB4W6WI
+ v2bMD4+vCwyafE+3wCq96Dy7mllRSQV5AOLaVQe/WjOrUkRR+PUjck7upz5ogUataH2f
+ S7TQ==
+X-Gm-Message-State: AO0yUKU6KSuDpd6oH08Q33SP7rncmNgL5E8m2YJkORKFtRadNdE637Jw
+ mSbW2rWQRukmjibdoFfiCDSYFQ9SFq/wCBQl
+X-Google-Smtp-Source: AK7set94LQev3fimvrZwLMQNNg+oWY1lZu9uiqFhmc1zO6RPvcPnzZMo9GB2x0tl/y6/mcprx9x4dQ==
+X-Received: by 2002:a05:6870:1708:b0:16d:bbb9:9693 with SMTP id
+ h8-20020a056870170800b0016dbbb99693mr3212199oae.57.1676552719096; 
+ Thu, 16 Feb 2023 05:05:19 -0800 (PST)
 Received: from grind.dc1.ventanamicro.com ([191.19.40.109])
  by smtp.gmail.com with ESMTPSA id
- c74-20020a4a4f4d000000b0051f97e8a1d5sm594315oob.35.2023.02.16.05.05.13
+ c74-20020a4a4f4d000000b0051f97e8a1d5sm594315oob.35.2023.02.16.05.05.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 05:05:15 -0800 (PST)
+ Thu, 16 Feb 2023 05:05:18 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
  ajones@ventanamicro.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v4 07/10] target/riscv: remove RISCV_FEATURE_PMP
-Date: Thu, 16 Feb 2023 10:04:41 -0300
-Message-Id: <20230216130444.795997-8-dbarboza@ventanamicro.com>
+Subject: [PATCH v4 08/10] hw/riscv/virt.c: do not use RISCV_FEATURE_MMU in
+ create_fdt_socket_cpus()
+Date: Thu, 16 Feb 2023 10:04:42 -0300
+Message-Id: <20230216130444.795997-9-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230216130444.795997-1-dbarboza@ventanamicro.com>
 References: <20230216130444.795997-1-dbarboza@ventanamicro.com>
@@ -94,117 +95,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RISCV_FEATURE_PMP is being set via riscv_set_feature() by mirroring the
-cpu->cfg.pmp flag. Use the flag instead.
+Read cpu_ptr->cfg.mmu directly. As a bonus, use cpu_ptr in
+riscv_isa_string().
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 ---
- target/riscv/cpu.c        | 4 ----
- target/riscv/cpu.h        | 1 -
- target/riscv/cpu_helper.c | 2 +-
- target/riscv/csr.c        | 2 +-
- target/riscv/machine.c    | 3 +--
- target/riscv/op_helper.c  | 2 +-
- target/riscv/pmp.c        | 2 +-
- 7 files changed, 5 insertions(+), 11 deletions(-)
+ hw/riscv/virt.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 71b2042d73..7b1360d6ba 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -923,10 +923,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         riscv_set_feature(env, RISCV_FEATURE_MMU);
-     }
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 86c4adc0c9..49f2c157f7 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -232,20 +232,21 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
+     bool is_32_bit = riscv_is_32bit(&s->soc[0]);
  
--    if (cpu->cfg.pmp) {
--        riscv_set_feature(env, RISCV_FEATURE_PMP);
--    }
--
-     if (cpu->cfg.epmp && !cpu->cfg.pmp) {
-         /*
-          * Enhanced PMP should only be available
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index c87e50e804..bd7ab5fceb 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -87,7 +87,6 @@
-    so a cpu features bitfield is required, likewise for optional PMP support */
- enum {
-     RISCV_FEATURE_MMU,
--    RISCV_FEATURE_PMP,
- };
+     for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
++        RISCVCPU *cpu_ptr = &s->soc[socket].harts[cpu];
++
+         cpu_phandle = (*phandle)++;
  
- /* Privileged specification version */
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 4cdd247c6c..15d9542691 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -706,7 +706,7 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
-     pmp_priv_t pmp_priv;
-     int pmp_index = -1;
- 
--    if (!riscv_feature(env, RISCV_FEATURE_PMP)) {
-+    if (!riscv_cpu_cfg(env).pmp) {
-         *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-         return TRANSLATE_SUCCESS;
-     }
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 3a2e85918a..a8a7d0aa34 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -419,7 +419,7 @@ static int aia_hmode32(CPURISCVState *env, int csrno)
- 
- static RISCVException pmp(CPURISCVState *env, int csrno)
- {
--    if (riscv_feature(env, RISCV_FEATURE_PMP)) {
-+    if (riscv_cpu_cfg(env).pmp) {
-         return RISCV_EXCP_NONE;
-     }
- 
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 4634968898..67e9e56853 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -27,9 +27,8 @@
- static bool pmp_needed(void *opaque)
- {
-     RISCVCPU *cpu = opaque;
--    CPURISCVState *env = &cpu->env;
- 
--    return riscv_feature(env, RISCV_FEATURE_PMP);
-+    return cpu->cfg.pmp;
- }
- 
- static int pmp_post_load(void *opaque, int version_id)
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 48f918b71b..f34701b443 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -195,7 +195,7 @@ target_ulong helper_mret(CPURISCVState *env)
-     uint64_t mstatus = env->mstatus;
-     target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
- 
--    if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-+    if (riscv_cpu_cfg(env).pmp &&
-         !pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-         riscv_raise_exception(env, RISCV_EXCP_INST_ACCESS_FAULT, GETPC());
-     }
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index bb54899635..1e7903dffa 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -265,7 +265,7 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
+         cpu_name = g_strdup_printf("/cpus/cpu@%d",
+             s->soc[socket].hartid_base + cpu);
+         qemu_fdt_add_subnode(ms->fdt, cpu_name);
+-        if (riscv_feature(&s->soc[socket].harts[cpu].env,
+-                          RISCV_FEATURE_MMU)) {
++        if (cpu_ptr->cfg.mmu) {
+             qemu_fdt_setprop_string(ms->fdt, cpu_name, "mmu-type",
+                                     (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
+         } else {
+             qemu_fdt_setprop_string(ms->fdt, cpu_name, "mmu-type",
+                                     "riscv,none");
          }
-     }
- 
--    if ((!riscv_feature(env, RISCV_FEATURE_PMP)) || (mode == PRV_M)) {
-+    if (!riscv_cpu_cfg(env).pmp || (mode == PRV_M)) {
-         /*
-          * Privileged spec v1.10 states if HW doesn't implement any PMP entry
-          * or no PMP entry matches an M-Mode access, the access succeeds.
+-        name = riscv_isa_string(&s->soc[socket].harts[cpu]);
++        name = riscv_isa_string(cpu_ptr);
+         qemu_fdt_setprop_string(ms->fdt, cpu_name, "riscv,isa", name);
+         g_free(name);
+         qemu_fdt_setprop_string(ms->fdt, cpu_name, "compatible", "riscv");
 -- 
 2.39.1
 
