@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635AB6999BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:18:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E93B6999C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:19:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSgxi-00064h-H2; Thu, 16 Feb 2023 11:18:22 -0500
+	id 1pSgyy-0008Cp-3x; Thu, 16 Feb 2023 11:19:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
- id 1pSgxg-00062q-KX
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:18:20 -0500
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
- id 1pSgxe-0004uS-Dg
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:18:20 -0500
-Received: from mta-01.yadro.com (localhost.localdomain [127.0.0.1])
- by mta-01.yadro.com (Proxmox) with ESMTP id E8A8E341DC2;
- Thu, 16 Feb 2023 19:18:15 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; h=cc
- :cc:content-id:content-transfer-encoding:content-type
- :content-type:date:from:from:message-id:mime-version:reply-to
- :subject:subject:to:to; s=mta-01; bh=NbQ22chFNcHrTG4fGMJGKGCYJ6a
- C4/XmzbiljAuBXTI=; b=EW1M0zeww2pL6HxpB2hT0nNvh1nbgjigCrDY+vNIVa0
- 98ZAIKfylxJVu8s7lALcA9NNnN4Mlbr5HOS7LBeU9VzrrIa2oTYrJv5DVaJBqGq5
- g7Y6Q1DDU6EG7FefE/24pZulHbJa1q3Iv3a4w17mxFciu92YOr5gQoT3IJxPTKKQ
- =
-Received: from T-EXCH-08.corp.yadro.com (unknown [172.17.10.14])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Proxmox) with ESMTPS id DD193341D71;
- Thu, 16 Feb 2023 19:18:15 +0300 (MSK)
-Received: from T-Exch-05.corp.yadro.com (172.17.10.109) by
- T-EXCH-08.corp.yadro.com (172.17.11.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Thu, 16 Feb 2023 19:18:15 +0300
-Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
- T-Exch-05.corp.yadro.com (172.17.10.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Thu, 16 Feb 2023 19:18:15 +0300
-Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
- T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Thu,
- 16 Feb 2023 19:18:15 +0300
-From: Mikhail Tyutin <m.tyutin@yadro.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "alex.bennee@linaro.org" <alex.bennee@linaro.org>, "erdnaxe@crans.org"
- <erdnaxe@crans.org>, "ma.mandourr@gmail.com" <ma.mandourr@gmail.com>
-Subject: [PATCH] TCG plugin API extension to read guest memory content by an
- address
-Thread-Topic: [PATCH] TCG plugin API extension to read guest memory content by
- an address
-Thread-Index: AQHZQiJFFLHBBoEMdkSyQJ0m9+QggA==
-Date: Thu, 16 Feb 2023 16:18:15 +0000
-Message-ID: <209f0f05-b982-eecd-f4e2-70da12e91892@yadro.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.17.10.14]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <22706CAB80392C48ADCEBB25C1C56455@yadro.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1pSgyh-000867-PS
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:19:25 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1pSgyd-000520-LM
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:19:23 -0500
+HMM_SOURCE_IP: 172.18.0.188:50698.1319324123
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-118.116.19.27 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id CEA402800E0;
+ Fri, 17 Feb 2023 00:18:42 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([118.116.19.27])
+ by app0023 with ESMTP id 1e296d2022fe432d927df9cefe344e14 for
+ qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:19:01 CST
+X-Transaction-ID: 1e296d2022fe432d927df9cefe344e14
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 118.116.19.27
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
+Subject: [PATCH v4 00/10] migration: introduce dirtylimit capability 
+Date: Fri, 17 Feb 2023 00:18:29 +0800
+Message-Id: <cover.1676563222.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=m.tyutin@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,56 +69,306 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-VENHIHBsdWdpbiBBUEkgZXh0ZW5zaW9uIHRvIHJlYWQgZ3Vlc3QgbWVtb3J5IGNvbnRlbnQuIHFl
-bXVfcGx1Z2luX3ZjcHVfcmVhZF9waHlzX21lbSgpDQpmdW5jdGlvbiBjYW4gYmUgdXNlZCBieSBU
-Q0cgcGx1Z2luIGluc2lkZSBvZiBxZW11X3BsdWdpbl92Y3B1X21lbV9jYl90IGNhbGxiYWNrIHRv
-IGFkanVzdA0KcmVjZWl2ZWQgYWRkcmVzcyBhY2NvcmRpbmcgdG8gaW50ZXJuYWwgbWVtb3J5IG1h
-cHBpbmdzIGFuZCByZWFkIGNvbnRlbnQgb2YgZ3Vlc3QgbWVtb3J5Lg0KV29ya3MgZm9yIGJvdGgg
-dXNlci1sZXZlbCBhbmQgc3lzdGVtLWxldmVsIGVtdWxhdGlvbiBtb2Rlcy4NCg0KU2lnbmVkLW9m
-Zi1ieTogTWlraGFpbCBUeXV0aW4gPG0udHl1dGluQHlhZHJvLmNvbT4NClNpZ25lZC1vZmYtYnk6
-IEFsZWtzZXkgVGl0b3YgPGEudGl0b3ZAeWFkcm8uY29tPg0KLS0tDQpRRU1VX1BMVUdJTl9SRUFE
-X1BIWVNfTUVNX0VOQUJMRUQgZGVmaW5lIGJlbG93IGlzIHRvIGxldCBwbHVnaW5zIHRvIGNoZWNr
-IGlmIHRoaXMgQVBJDQppcyBhdmFpbGFibGUgaW4gUWVtdSBidWlsZC4NCg0KICBpbmNsdWRlL3Fl
-bXUvcWVtdS1wbHVnaW4uaCAgIHwgMTggKysrKysrKysrKysrKysrKysrDQogIHBsdWdpbnMvYXBp
-LmMgICAgICAgICAgICAgICAgfCAyMCArKysrKysrKysrKysrKysrKysrKw0KICBwbHVnaW5zL3Fl
-bXUtcGx1Z2lucy5zeW1ib2xzIHwgIDEgKw0KICAzIGZpbGVzIGNoYW5nZWQsIDM5IGluc2VydGlv
-bnMoKykNCg0KZGlmZiAtLWdpdCBhL2luY2x1ZGUvcWVtdS9xZW11LXBsdWdpbi5oIGIvaW5jbHVk
-ZS9xZW11L3FlbXUtcGx1Z2luLmgNCmluZGV4IGQwZTlkMDNhZGYuLjU3NjU5N2Y2MDEgMTAwNjQ0
-DQotLS0gYS9pbmNsdWRlL3FlbXUvcWVtdS1wbHVnaW4uaA0KKysrIGIvaW5jbHVkZS9xZW11L3Fl
-bXUtcGx1Z2luLmgNCkBAIC02MjUsNCArNjI1LDIyIEBAIHVpbnQ2NF90IHFlbXVfcGx1Z2luX2Vu
-ZF9jb2RlKHZvaWQpOw0KICAgKi8NCiAgdWludDY0X3QgcWVtdV9wbHVnaW5fZW50cnlfY29kZSh2
-b2lkKTsNCiAgDQorDQorI2RlZmluZSBRRU1VX1BMVUdJTl9SRUFEX1BIWVNfTUVNX0VOQUJMRUQN
-CisvKioNCisgKiBxZW11X3BsdWdpbl92Y3B1X3JlYWRfcGh5c19tZW0oKSAtIHJlYWRzIGd1ZXN0
-J3MgbWVtb3J5IGNvbnRlbnQNCisgKg0KKyAqIEB2Y3B1X2luZGV4OiB2Y3B1IGluZGV4DQorICog
-QGFkZHI6IGd1ZXN0J3MgdmlydHVhbCBhZGRyZXNzDQorICogQGJ1ZjogZGVzdGluYXRpb24gYnVm
-ZmVyIHRvIHJlYWQgZGF0YSB0bw0KKyAqIEBsZW46IG51bWJlciBvZiBieXRlcyB0byByZWFkDQor
-ICoNCisgKiBBZGp1c3RzIGFkZHJlc3MgYWNjb3JkaW5nIHRvIGludGVybmFsIG1lbW9yeSBtYXBw
-aW5nIGFuZCByZWFkcw0KKyAqIGNvbnRlbnQgb2YgZ3Vlc3QgbWVtb3J5Lg0KKyAqLw0KK3ZvaWQg
-cWVtdV9wbHVnaW5fdmNwdV9yZWFkX3BoeXNfbWVtKHVuc2lnbmVkIGludCB2Y3B1X2luZGV4LA0K
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IGFkZHIsDQorICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdm9pZCAqYnVmLA0KKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IGxlbik7DQorDQogICNlbmRpZiAvKiBR
-RU1VX1FFTVVfUExVR0lOX0ggKi8NCmRpZmYgLS1naXQgYS9wbHVnaW5zL2FwaS5jIGIvcGx1Z2lu
-cy9hcGkuYw0KaW5kZXggMjA3OGIxNmVkYi4uOTU3NTNiY2U5NSAxMDA2NDQNCi0tLSBhL3BsdWdp
-bnMvYXBpLmMNCisrKyBiL3BsdWdpbnMvYXBpLmMNCkBAIC00NDIsMyArNDQyLDIzIEBAIHVpbnQ2
-NF90IHFlbXVfcGx1Z2luX2VudHJ5X2NvZGUodm9pZCkNCiAgI2VuZGlmDQogICAgICByZXR1cm4g
-ZW50cnk7DQogIH0NCisNCit2b2lkIHFlbXVfcGx1Z2luX3ZjcHVfcmVhZF9waHlzX21lbSh1bnNp
-Z25lZCBpbnQgdmNwdV9pbmRleCwNCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB1aW50NjRfdCBhZGRyLA0KKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZv
-aWQgKmJ1ZiwNCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1aW50NjRfdCBs
-ZW4pIHsNCisjaWZuZGVmIENPTkZJR19VU0VSX09OTFkNCisgICAgY3B1X3BoeXNpY2FsX21lbW9y
-eV9ydyhhZGRyLCBidWYsIGxlbiwgZmFsc2UpOw0KKyNlbHNlDQorICAgIENQVUNsYXNzICpjYzsN
-CisgICAgQ1BVU3RhdGUgKmNwdTsNCisNCisgICAgY3B1ID0gcWVtdV9nZXRfY3B1KHZjcHVfaW5k
-ZXgpOw0KKyAgICBjYyA9IENQVV9HRVRfQ0xBU1MoY3B1KTsNCisgICAgaWYgKGNjLT5tZW1vcnlf
-cndfZGVidWcpIHsNCisgICAgICAgIGNjLT5tZW1vcnlfcndfZGVidWcoY3B1LCBhZGRyLCBidWYs
-IGxlbiwgZmFsc2UpOw0KKyAgICB9IGVsc2Ugew0KKyAgICAgICAgY3B1X21lbW9yeV9yd19kZWJ1
-ZyhjcHUsIGFkZHIsIGJ1ZiwgbGVuLCBmYWxzZSk7DQorICAgIH0NCisjZW5kaWYNCit9DQpcIE5v
-IG5ld2xpbmUgYXQgZW5kIG9mIGZpbGUNCmRpZmYgLS1naXQgYS9wbHVnaW5zL3FlbXUtcGx1Z2lu
-cy5zeW1ib2xzIGIvcGx1Z2lucy9xZW11LXBsdWdpbnMuc3ltYm9scw0KaW5kZXggNzFmNmM5MDU0
-OS4uZjBjZThjNzMwZiAxMDA2NDQNCi0tLSBhL3BsdWdpbnMvcWVtdS1wbHVnaW5zLnN5bWJvbHMN
-CisrKyBiL3BsdWdpbnMvcWVtdS1wbHVnaW5zLnN5bWJvbHMNCkBAIC00Miw0ICs0Miw1IEBADQog
-ICAgcWVtdV9wbHVnaW5fdGJfdmFkZHI7DQogICAgcWVtdV9wbHVnaW5fdW5pbnN0YWxsOw0KICAg
-IHFlbXVfcGx1Z2luX3ZjcHVfZm9yX2VhY2g7DQorICBxZW11X3BsdWdpbl92Y3B1X3JlYWRfcGh5
-c19tZW07DQogIH07DQotLSANCjIuMzQuMQ0K
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+
+v4:
+1. Polish the docs and update the release version suggested by Markus 
+2. Rename the migrate exported info "dirty-limit-throttle-time-per-round"
+   to "dirty-limit-throttle-time-per-full". 
+
+The following 5 commits hasn't been acked or reviewed yet:
+
+kvm: dirty-ring: Fix race with vcpu creation
+qapi/migration: Introduce x-vcpu-dirty-limit-period parameter
+migration: Implement dirty-limit convergence algo
+migration: Extend query-migrate to provide dirty page limit info
+tests: Add migration dirty-limit capability test
+
+Ping David and Juan. 
+
+Please review if you have time. Thanks. 
+
+Yong
+
+v3(resend):
+- fix the syntax error of the topic.
+
+v3:
+This version make some modifications inspired by Peter and Markus
+as following:
+1. Do the code clean up in [PATCH v2 02/11] suggested by Markus 
+2. Replace the [PATCH v2 03/11] with a much simpler patch posted by
+   Peter to fix the following bug:
+   https://bugzilla.redhat.com/show_bug.cgi?id=2124756
+3. Fix the error path of migrate_params_check in [PATCH v2 04/11]
+   pointed out by Markus. Enrich the commit message to explain why
+   x-vcpu-dirty-limit-period an unstable parameter.
+4. Refactor the dirty-limit convergence algo in [PATCH v2 07/11] 
+   suggested by Peter:
+   a. apply blk_mig_bulk_active check before enable dirty-limit
+   b. drop the unhelpful check function before enable dirty-limit
+   c. change the migration_cancel logic, just cancel dirty-limit
+      only if dirty-limit capability turned on. 
+   d. abstract a code clean commit [PATCH v3 07/10] to adjust
+      the check order before enable auto-converge 
+5. Change the name of observing indexes during dirty-limit live
+   migration to make them more easy-understanding. Use the
+   maximum throttle time of vpus as "dirty-limit-throttle-time-per-full"
+6. Fix some grammatical and spelling errors pointed out by Markus
+   and enrich the document about the dirty-limit live migration
+   observing indexes "dirty-limit-ring-full-time"
+   and "dirty-limit-throttle-time-per-full"
+7. Change the default value of x-vcpu-dirty-limit-period to 1000ms,
+   which is optimal value pointed out in cover letter in that
+   testing environment.
+8. Drop the 2 guestperf test commits [PATCH v2 10/11],
+   [PATCH v2 11/11] and post them with a standalone series in the
+   future.
+
+Thanks Peter and Markus sincerely for the passionate, efficient
+and careful comments and suggestions.
+
+Please review.  
+
+Yong
+
+v2: 
+This version make a little bit modifications comparing with
+version 1 as following:
+1. fix the overflow issue reported by Peter Maydell
+2. add parameter check for hmp "set_vcpu_dirty_limit" command
+3. fix the racing issue between dirty ring reaper thread and
+   Qemu main thread.
+4. add migrate parameter check for x-vcpu-dirty-limit-period
+   and vcpu-dirty-limit.
+5. add the logic to forbid hmp/qmp commands set_vcpu_dirty_limit,
+   cancel_vcpu_dirty_limit during dirty-limit live migration when
+   implement dirty-limit convergence algo.
+6. add capability check to ensure auto-converge and dirty-limit
+   are mutually exclusive.
+7. pre-check if kvm dirty ring size is configured before setting
+   dirty-limit migrate parameter 
+
+A more comprehensive test was done comparing with version 1.
+
+The following are test environment:
+-------------------------------------------------------------
+a. Host hardware info:
+
+CPU:
+Intel(R) Xeon(R) Gold 5218 CPU @ 2.30GHz
+
+CPU(s):                          64
+On-line CPU(s) list:             0-63
+Thread(s) per core:              2
+Core(s) per socket:              16
+Socket(s):                       2
+NUMA node(s):                    2
+
+NUMA node0 CPU(s):               0-15,32-47
+NUMA node1 CPU(s):               16-31,48-63
+
+Memory:
+Hynix  503Gi
+
+Interface:
+Intel Corporation Ethernet Connection X722 for 1GbE (rev 09)
+Speed: 1000Mb/s
+
+b. Host software info:
+
+OS: ctyunos release 2
+Kernel: 4.19.90-2102.2.0.0066.ctl2.x86_64
+Libvirt baseline version:  libvirt-6.9.0
+Qemu baseline version: qemu-5.0
+
+c. vm scale
+CPU: 4
+Memory: 4G
+-------------------------------------------------------------
+
+All the supplementary test data shown as follows are basing on
+above test environment.
+
+In version 1, we post a test data from unixbench as follows:
+
+$ taskset -c 8-15 ./Run -i 2 -c 8 {unixbench test item}
+
+host cpu: Intel(R) Xeon(R) Platinum 8378A
+host interface speed: 1000Mb/s
+  |---------------------+--------+------------+---------------|
+  | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+  |---------------------+--------+------------+---------------|
+  | dhry2reg            | 32800  | 32786      | 25292         |
+  | whetstone-double    | 10326  | 10315      | 9847          |
+  | pipe                | 15442  | 15271      | 14506         |
+  | context1            | 7260   | 6235       | 4514          |
+  | spawn               | 3663   | 3317       | 3249          |
+  | syscall             | 4669   | 4667       | 3841          |
+  |---------------------+--------+------------+---------------|
+
+In version 2, we post a supplementary test data that do not use
+taskset and make the scenario more general, see as follows:
+
+$ ./Run
+
+per-vcpu data:
+  |---------------------+--------+------------+---------------|
+  | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+  |---------------------+--------+------------+---------------|
+  | dhry2reg            | 2991   | 2902       | 1722          |
+  | whetstone-double    | 1018   | 1006       | 627           |
+  | Execl Throughput    | 955    | 320        | 660           |
+  | File Copy - 1       | 2362   | 805        | 1325          |
+  | File Copy - 2       | 1500   | 1406       | 643           |  
+  | File Copy - 3       | 4778   | 2160       | 1047          | 
+  | Pipe Throughput     | 1181   | 1170       | 842           |
+  | Context Switching   | 192    | 224        | 198           |
+  | Process Creation    | 490    | 145        | 95            |
+  | Shell Scripts - 1   | 1284   | 565        | 610           |
+  | Shell Scripts - 2   | 2368   | 900        | 1040          |
+  | System Call Overhead| 983    | 948        | 698           |
+  | Index Score         | 1263   | 815        | 600           |
+  |---------------------+--------+------------+---------------|
+Note:
+  File Copy - 1: File Copy 1024 bufsize 2000 maxblocks
+  File Copy - 2: File Copy 256 bufsize 500 maxblocks 
+  File Copy - 3: File Copy 4096 bufsize 8000 maxblocks 
+  Shell Scripts - 1: Shell Scripts (1 concurrent)
+  Shell Scripts - 2: Shell Scripts (8 concurrent)
+
+Basing on above data, we can draw a conclusion that dirty-limit
+can hugely improve the system benchmark almost in every respect,
+the "System Benchmarks Index Score" show it improve 35% performance
+comparing with auto-converge during live migration.
+
+4-vcpu parallel data(we run a test vm with 4c4g-scale):
+  |---------------------+--------+------------+---------------|
+  | UnixBench test item | Normal | Dirtylimit | Auto-converge |
+  |---------------------+--------+------------+---------------|
+  | dhry2reg            | 7975   | 7146       | 5071          |
+  | whetstone-double    | 3982   | 3561       | 2124          |
+  | Execl Throughput    | 1882   | 1205       | 768           |
+  | File Copy - 1       | 1061   | 865        | 498           |
+  | File Copy - 2       | 676    | 491        | 519           |  
+  | File Copy - 3       | 2260   | 923        | 1329          | 
+  | Pipe Throughput     | 3026   | 3009       | 1616          |
+  | Context Switching   | 1219   | 1093       | 695           |
+  | Process Creation    | 947    | 307        | 446           |
+  | Shell Scripts - 1   | 2469   | 977        | 989           |
+  | Shell Scripts - 2   | 2667   | 1275       | 984           |
+  | System Call Overhead| 1592   | 1459       | 692           |
+  | Index Score         | 1976   | 1294       | 997           |
+  |---------------------+--------+------------+---------------|
+
+For the parallel data, the "System Benchmarks Index Score" show it
+also improve 29% performance.
+
+In version 1, migration total time is shown as follows: 
+
+host cpu: Intel(R) Xeon(R) Platinum 8378A
+host interface speed: 1000Mb/s
+  |-----------------------+----------------+-------------------|
+  | dirty memory size(MB) | Dirtylimit(ms) | Auto-converge(ms) |
+  |-----------------------+----------------+-------------------|
+  | 60                    | 2014           | 2131              |
+  | 70                    | 5381           | 12590             |
+  | 90                    | 6037           | 33545             |
+  | 110                   | 7660           | [*]               |
+  |-----------------------+----------------+-------------------|
+  [*]: This case means migration is not convergent. 
+
+In version 2, we post more comprehensive migration total time test data
+as follows: 
+
+we update N MB on 4 cpus and sleep S us every time 1 MB data was updated.
+test twice in each condition, data is shown as follow: 
+
+  |-----------+--------+--------+----------------+-------------------|
+  | ring size | N (MB) | S (us) | Dirtylimit(ms) | Auto-converge(ms) |
+  |-----------+--------+--------+----------------+-------------------|
+  | 1024      | 1024   | 1000   | 44951          | 191780            |
+  | 1024      | 1024   | 1000   | 44546          | 185341            |
+  | 1024      | 1024   | 500    | 46505          | 203545            |
+  | 1024      | 1024   | 500    | 45469          | 909945            |
+  | 1024      | 1024   | 0      | 61858          | [*]               |
+  | 1024      | 1024   | 0      | 57922          | [*]               |
+  | 1024      | 2048   | 0      | 91982          | [*]               |
+  | 1024      | 2048   | 0      | 90388          | [*]               |
+  | 2048      | 128    | 10000  | 14511          | 25971             |
+  | 2048      | 128    | 10000  | 13472          | 26294             |
+  | 2048      | 1024   | 10000  | 44244          | 26294             |
+  | 2048      | 1024   | 10000  | 45099          | 157701            |
+  | 2048      | 1024   | 500    | 51105          | [*]               |
+  | 2048      | 1024   | 500    | 49648          | [*]               |
+  | 2048      | 1024   | 0      | 229031         | [*]               |
+  | 2048      | 1024   | 0      | 154282         | [*]               |
+  |-----------+--------+--------+----------------+-------------------|
+  [*]: This case means migration is not convergent. 
+
+Not that the larger ring size is, the less sensitively dirty-limit responds,
+so we should choose a optimal ring size base on the test data with different 
+scale vm.
+
+We also test the effect of "x-vcpu-dirty-limit-period" parameter on
+migration total time. test twice in each condition, data is shown
+as follows:
+
+  |-----------+--------+--------+-------------+----------------------|
+  | ring size | N (MB) | S (us) | Period (ms) | migration total time | 
+  |-----------+--------+--------+-------------+----------------------|
+  | 2048      | 1024   | 10000  | 100         | [*]                  |
+  | 2048      | 1024   | 10000  | 100         | [*]                  |
+  | 2048      | 1024   | 10000  | 300         | 156795               |
+  | 2048      | 1024   | 10000  | 300         | 118179               |
+  | 2048      | 1024   | 10000  | 500         | 44244                |
+  | 2048      | 1024   | 10000  | 500         | 45099                |
+  | 2048      | 1024   | 10000  | 700         | 41871                |
+  | 2048      | 1024   | 10000  | 700         | 42582                |
+  | 2048      | 1024   | 10000  | 1000        | 41430                |
+  | 2048      | 1024   | 10000  | 1000        | 40383                |
+  | 2048      | 1024   | 10000  | 1500        | 42030                |
+  | 2048      | 1024   | 10000  | 1500        | 42598                |
+  | 2048      | 1024   | 10000  | 2000        | 41694                |
+  | 2048      | 1024   | 10000  | 2000        | 42403                |
+  | 2048      | 1024   | 10000  | 3000        | 43538                |
+  | 2048      | 1024   | 10000  | 3000        | 43010                |
+  |-----------+--------+--------+-------------+----------------------|
+
+It shows that x-vcpu-dirty-limit-period should be configured with 1000 ms
+in above condition.
+
+Please review, any comments and suggestions are very appreciated, thanks
+
+Yong
+
+Hyman Huang (9):
+  dirtylimit: Fix overflow when computing MB
+  softmmu/dirtylimit: Add parameter check for hmp "set_vcpu_dirty_limit"
+  qapi/migration: Introduce x-vcpu-dirty-limit-period parameter
+  qapi/migration: Introduce vcpu-dirty-limit parameters
+  migration: Introduce dirty-limit capability
+  migration: Refactor auto-converge capability logic
+  migration: Implement dirty-limit convergence algo
+  migration: Extend query-migrate to provide dirty page limit info
+  tests: Add migration dirty-limit capability test
+
+Peter Xu (1):
+  kvm: dirty-ring: Fix race with vcpu creation
+
+ accel/kvm/kvm-all.c            |   9 ++
+ include/sysemu/dirtylimit.h    |   2 +
+ migration/migration-hmp-cmds.c |  26 ++++++
+ migration/migration.c          |  88 ++++++++++++++++++
+ migration/migration.h          |   1 +
+ migration/ram.c                |  63 ++++++++++---
+ migration/trace-events         |   1 +
+ qapi/migration.json            |  64 ++++++++++++--
+ softmmu/dirtylimit.c           |  91 ++++++++++++++++---
+ tests/qtest/migration-test.c   | 157 +++++++++++++++++++++++++++++++++
+ 10 files changed, 470 insertions(+), 32 deletions(-)
+
+-- 
+2.17.1
 
 
