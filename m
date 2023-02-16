@@ -2,94 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5986D6999BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:18:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635AB6999BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:18:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSgwm-0004Di-Jn; Thu, 16 Feb 2023 11:17:24 -0500
+	id 1pSgxi-00064h-H2; Thu, 16 Feb 2023 11:18:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSgwk-0004CS-FO
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:17:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
+ id 1pSgxg-00062q-KX
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:18:20 -0500
+Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pSgwi-0004kw-Nf
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:17:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676564238;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=iU2IFh8ZNZx9upEErzOfH16BKAa6ktDhpA2Z2H7zrWE=;
- b=jVUvJfua6zVnh+RKQKCrzI/VayKcUoyv18NjJCP/x4o0DHg8QJkJUYTj1hPWH0s6QxRN2p
- CfVoUQhQ4Tnadl/QANb9XTHezYKtjveN5oVIi6fhO71/9hHzWBxZAC3nehNFQ2KeSQRkWO
- pixLgmd35gBmEDSf2WN0bzG74NBlYz4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-630-oDU1vBE-Pd6qwMuiIomeEA-1; Thu, 16 Feb 2023 11:17:16 -0500
-X-MC-Unique: oDU1vBE-Pd6qwMuiIomeEA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o42-20020a05600c512a00b003dc5341afbaso1354405wms.7
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:17:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iU2IFh8ZNZx9upEErzOfH16BKAa6ktDhpA2Z2H7zrWE=;
- b=hTAaUNlxvxEDHjW5nZgRmV8mslgdeROZtYDdJpKT0HfOZr8ubbOY7VqldH1VxXfo2Y
- cNer4BZhQhnQNlurHu7BzAA6SMSAmziI4iP5BUCKWLxDXXdS1vNLUpI2u4cZJJVa8lom
- oO/snUijcQ5cfPK2qWwiM+GWZjLuI+neJ6O2IYYrV+sC4GgF0t7j4Z99iso9dSYis6VV
- kxKxMmk7GTuGDhRvH/wRW8rJ4mezh0hzYXpbwOFD4AE/oFbNPopJWuyhSxfZu9wkOT+n
- pHiDuviJ1YRuXNqOxVLrH2eCpL43fYcqWYx68SRc8bTDvNexex0hfIWzcO9rfJ00dZOA
- SgZg==
-X-Gm-Message-State: AO0yUKVUSF4oba7M8950FidVtB9XmeMXgHu30aCvH4NlD1fJ7VWjgirt
- fQ300ZzSMnaGfI4f99eXTy+j9d/R07objQkVuXil1Bm5NIaXjkFrepKF4nwS5eboPZpbl+0rfpz
- PSS1HHWSrZrdObFw=
-X-Received: by 2002:adf:e701:0:b0:2c5:5331:5516 with SMTP id
- c1-20020adfe701000000b002c553315516mr5262542wrm.51.1676564235073; 
- Thu, 16 Feb 2023 08:17:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set9P+Waab5AdIfmCzuDd1lJw9iGZAWdYqMdqJ8ShpOReyqXDVUR+B5UWYfZpmn/IpNFlxtXubQ==
-X-Received: by 2002:adf:e701:0:b0:2c5:5331:5516 with SMTP id
- c1-20020adfe701000000b002c553315516mr5262520wrm.51.1676564234799; 
- Thu, 16 Feb 2023 08:17:14 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- r9-20020adff709000000b002c55efa9cbesm1917889wrp.39.2023.02.16.08.17.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 08:17:13 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Anton Kuchin <antonkuchin@yandex-team.ru>,  qemu-devel@nongnu.org,  "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,  Eduardo Habkost
- <eduardo@habkost.net>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Markus
- Armbruster <armbru@redhat.com>,  yc-core@yandex-team.ru,  Stefan Hajnoczi
- <stefanha@redhat.com>,  virtio-fs@redhat.com,  Eric Blake
- <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 1/1] vhost-user-fs: add property to allow migration
-In-Reply-To: <20230216110952-mutt-send-email-mst@kernel.org> (Michael
- S. Tsirkin's message of "Thu, 16 Feb 2023 11:11:18 -0500")
-References: <20230216140003.1103681-1-antonkuchin@yandex-team.ru>
- <20230216140003.1103681-2-antonkuchin@yandex-team.ru>
- <87v8k1itoy.fsf@secure.mitica>
- <20230216110952-mutt-send-email-mst@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 16 Feb 2023 17:17:12 +0100
-Message-ID: <87cz69h9fb.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
+ id 1pSgxe-0004uS-Dg
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:18:20 -0500
+Received: from mta-01.yadro.com (localhost.localdomain [127.0.0.1])
+ by mta-01.yadro.com (Proxmox) with ESMTP id E8A8E341DC2;
+ Thu, 16 Feb 2023 19:18:15 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; h=cc
+ :cc:content-id:content-transfer-encoding:content-type
+ :content-type:date:from:from:message-id:mime-version:reply-to
+ :subject:subject:to:to; s=mta-01; bh=NbQ22chFNcHrTG4fGMJGKGCYJ6a
+ C4/XmzbiljAuBXTI=; b=EW1M0zeww2pL6HxpB2hT0nNvh1nbgjigCrDY+vNIVa0
+ 98ZAIKfylxJVu8s7lALcA9NNnN4Mlbr5HOS7LBeU9VzrrIa2oTYrJv5DVaJBqGq5
+ g7Y6Q1DDU6EG7FefE/24pZulHbJa1q3Iv3a4w17mxFciu92YOr5gQoT3IJxPTKKQ
+ =
+Received: from T-EXCH-08.corp.yadro.com (unknown [172.17.10.14])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Proxmox) with ESMTPS id DD193341D71;
+ Thu, 16 Feb 2023 19:18:15 +0300 (MSK)
+Received: from T-Exch-05.corp.yadro.com (172.17.10.109) by
+ T-EXCH-08.corp.yadro.com (172.17.11.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.9; Thu, 16 Feb 2023 19:18:15 +0300
+Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
+ T-Exch-05.corp.yadro.com (172.17.10.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.9; Thu, 16 Feb 2023 19:18:15 +0300
+Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
+ T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Thu,
+ 16 Feb 2023 19:18:15 +0300
+From: Mikhail Tyutin <m.tyutin@yadro.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "alex.bennee@linaro.org" <alex.bennee@linaro.org>, "erdnaxe@crans.org"
+ <erdnaxe@crans.org>, "ma.mandourr@gmail.com" <ma.mandourr@gmail.com>
+Subject: [PATCH] TCG plugin API extension to read guest memory content by an
+ address
+Thread-Topic: [PATCH] TCG plugin API extension to read guest memory content by
+ an address
+Thread-Index: AQHZQiJFFLHBBoEMdkSyQJ0m9+QggA==
+Date: Thu, 16 Feb 2023 16:18:15 +0000
+Message-ID: <209f0f05-b982-eecd-f4e2-70da12e91892@yadro.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.17.10.14]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <22706CAB80392C48ADCEBB25C1C56455@yadro.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=m.tyutin@yadro.com;
+ helo=mta-01.yadro.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,93 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-> On Thu, Feb 16, 2023 at 03:14:05PM +0100, Juan Quintela wrote:
->> Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
->> > Now any vhost-user-fs device makes VM unmigratable, that also prevents
->> > qemu update without stopping the VM. In most cases that makes sense
->> > because qemu has no way to transfer FUSE session state.
->> >
->> > But it is good to have an option for orchestrator to tune this according to
->> > backend capabilities and migration configuration.
->> >
->> > This patch adds device property 'migration' that is 'none' by default
->> > to keep old behaviour but can be set to 'external' to explicitly allow
->> > migration with minimal virtio device state in migration stream if daemon
->> > has some way to sync FUSE state on src and dst without help from qemu.
->> >
->> > Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
->> 
->> Reviewed-by: Juan Quintela <quintela@redhat.com>
->> 
->> The migration bits are correct.
->> 
->> And I can think a better way to explain that one device is migrated
->> externally.
->> 
->> If you have to respin:
->> 
->> > +static int vhost_user_fs_pre_save(void *opaque)
->> > +{
->> > +    VHostUserFS *fs = (VHostUserFS *)opaque;
->> 
->> This hack is useless.
->
-> meaning the cast? yes.
-
-Yeap.  Sorry.
-
-
->> I know that there are still lots of code that still have it.
->> 
->> 
->> Now remember that I have no clue about vhost-user-fs.
->> 
->> But this looks fishy
->> >  static const VMStateDescription vuf_vmstate = {
->> >      .name = "vhost-user-fs",
->> > -    .unmigratable = 1,
->> > +    .minimum_version_id = 0,
->> > +    .version_id = 0,
->> > +    .fields = (VMStateField[]) {
->> > +        VMSTATE_VIRTIO_DEVICE,
->> > +        VMSTATE_UINT8(migration_type, VHostUserFS),
->> > +        VMSTATE_END_OF_LIST()
->> > +    },
->> > +   .pre_save = vhost_user_fs_pre_save,
->> >  };
->> >  
->> >  static Property vuf_properties[] = {
->> > @@ -309,6 +337,10 @@ static Property vuf_properties[] = {
->> >      DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
->> >                         conf.num_request_queues, 1),
->> >      DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 128),
->> > +    DEFINE_PROP_UNSIGNED("migration", VHostUserFS, migration_type,
->> > +                         VHOST_USER_MIGRATION_TYPE_NONE,
->> > +                         qdev_prop_vhost_user_migration_type,
->> > +                         uint8_t),
->> >      DEFINE_PROP_END_OF_LIST(),
->> 
->> We have four properties here (5 with the new migration one), and you
->> only migrate one.
->> 
->> This looks fishy, but I don't know if it makes sense.
->> If they _have_ to be configured the same on source and destination, I
->> would transfer them and check in post_load that the values are correct.
->> 
->> Later, Juan.
->
-> Weird suggestion.  We generally don't do this kind of check - that
-> would be open-coding each property. It's management's job to make
-> sure things are consistent.
-
-I was wondering why we don't need the other properties.
-If you think we don't need them, fine with me.
-
-Later, Juan.
+VENHIHBsdWdpbiBBUEkgZXh0ZW5zaW9uIHRvIHJlYWQgZ3Vlc3QgbWVtb3J5IGNvbnRlbnQuIHFl
+bXVfcGx1Z2luX3ZjcHVfcmVhZF9waHlzX21lbSgpDQpmdW5jdGlvbiBjYW4gYmUgdXNlZCBieSBU
+Q0cgcGx1Z2luIGluc2lkZSBvZiBxZW11X3BsdWdpbl92Y3B1X21lbV9jYl90IGNhbGxiYWNrIHRv
+IGFkanVzdA0KcmVjZWl2ZWQgYWRkcmVzcyBhY2NvcmRpbmcgdG8gaW50ZXJuYWwgbWVtb3J5IG1h
+cHBpbmdzIGFuZCByZWFkIGNvbnRlbnQgb2YgZ3Vlc3QgbWVtb3J5Lg0KV29ya3MgZm9yIGJvdGgg
+dXNlci1sZXZlbCBhbmQgc3lzdGVtLWxldmVsIGVtdWxhdGlvbiBtb2Rlcy4NCg0KU2lnbmVkLW9m
+Zi1ieTogTWlraGFpbCBUeXV0aW4gPG0udHl1dGluQHlhZHJvLmNvbT4NClNpZ25lZC1vZmYtYnk6
+IEFsZWtzZXkgVGl0b3YgPGEudGl0b3ZAeWFkcm8uY29tPg0KLS0tDQpRRU1VX1BMVUdJTl9SRUFE
+X1BIWVNfTUVNX0VOQUJMRUQgZGVmaW5lIGJlbG93IGlzIHRvIGxldCBwbHVnaW5zIHRvIGNoZWNr
+IGlmIHRoaXMgQVBJDQppcyBhdmFpbGFibGUgaW4gUWVtdSBidWlsZC4NCg0KICBpbmNsdWRlL3Fl
+bXUvcWVtdS1wbHVnaW4uaCAgIHwgMTggKysrKysrKysrKysrKysrKysrDQogIHBsdWdpbnMvYXBp
+LmMgICAgICAgICAgICAgICAgfCAyMCArKysrKysrKysrKysrKysrKysrKw0KICBwbHVnaW5zL3Fl
+bXUtcGx1Z2lucy5zeW1ib2xzIHwgIDEgKw0KICAzIGZpbGVzIGNoYW5nZWQsIDM5IGluc2VydGlv
+bnMoKykNCg0KZGlmZiAtLWdpdCBhL2luY2x1ZGUvcWVtdS9xZW11LXBsdWdpbi5oIGIvaW5jbHVk
+ZS9xZW11L3FlbXUtcGx1Z2luLmgNCmluZGV4IGQwZTlkMDNhZGYuLjU3NjU5N2Y2MDEgMTAwNjQ0
+DQotLS0gYS9pbmNsdWRlL3FlbXUvcWVtdS1wbHVnaW4uaA0KKysrIGIvaW5jbHVkZS9xZW11L3Fl
+bXUtcGx1Z2luLmgNCkBAIC02MjUsNCArNjI1LDIyIEBAIHVpbnQ2NF90IHFlbXVfcGx1Z2luX2Vu
+ZF9jb2RlKHZvaWQpOw0KICAgKi8NCiAgdWludDY0X3QgcWVtdV9wbHVnaW5fZW50cnlfY29kZSh2
+b2lkKTsNCiAgDQorDQorI2RlZmluZSBRRU1VX1BMVUdJTl9SRUFEX1BIWVNfTUVNX0VOQUJMRUQN
+CisvKioNCisgKiBxZW11X3BsdWdpbl92Y3B1X3JlYWRfcGh5c19tZW0oKSAtIHJlYWRzIGd1ZXN0
+J3MgbWVtb3J5IGNvbnRlbnQNCisgKg0KKyAqIEB2Y3B1X2luZGV4OiB2Y3B1IGluZGV4DQorICog
+QGFkZHI6IGd1ZXN0J3MgdmlydHVhbCBhZGRyZXNzDQorICogQGJ1ZjogZGVzdGluYXRpb24gYnVm
+ZmVyIHRvIHJlYWQgZGF0YSB0bw0KKyAqIEBsZW46IG51bWJlciBvZiBieXRlcyB0byByZWFkDQor
+ICoNCisgKiBBZGp1c3RzIGFkZHJlc3MgYWNjb3JkaW5nIHRvIGludGVybmFsIG1lbW9yeSBtYXBw
+aW5nIGFuZCByZWFkcw0KKyAqIGNvbnRlbnQgb2YgZ3Vlc3QgbWVtb3J5Lg0KKyAqLw0KK3ZvaWQg
+cWVtdV9wbHVnaW5fdmNwdV9yZWFkX3BoeXNfbWVtKHVuc2lnbmVkIGludCB2Y3B1X2luZGV4LA0K
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IGFkZHIsDQorICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdm9pZCAqYnVmLA0KKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ2NF90IGxlbik7DQorDQogICNlbmRpZiAvKiBR
+RU1VX1FFTVVfUExVR0lOX0ggKi8NCmRpZmYgLS1naXQgYS9wbHVnaW5zL2FwaS5jIGIvcGx1Z2lu
+cy9hcGkuYw0KaW5kZXggMjA3OGIxNmVkYi4uOTU3NTNiY2U5NSAxMDA2NDQNCi0tLSBhL3BsdWdp
+bnMvYXBpLmMNCisrKyBiL3BsdWdpbnMvYXBpLmMNCkBAIC00NDIsMyArNDQyLDIzIEBAIHVpbnQ2
+NF90IHFlbXVfcGx1Z2luX2VudHJ5X2NvZGUodm9pZCkNCiAgI2VuZGlmDQogICAgICByZXR1cm4g
+ZW50cnk7DQogIH0NCisNCit2b2lkIHFlbXVfcGx1Z2luX3ZjcHVfcmVhZF9waHlzX21lbSh1bnNp
+Z25lZCBpbnQgdmNwdV9pbmRleCwNCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB1aW50NjRfdCBhZGRyLA0KKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZv
+aWQgKmJ1ZiwNCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1aW50NjRfdCBs
+ZW4pIHsNCisjaWZuZGVmIENPTkZJR19VU0VSX09OTFkNCisgICAgY3B1X3BoeXNpY2FsX21lbW9y
+eV9ydyhhZGRyLCBidWYsIGxlbiwgZmFsc2UpOw0KKyNlbHNlDQorICAgIENQVUNsYXNzICpjYzsN
+CisgICAgQ1BVU3RhdGUgKmNwdTsNCisNCisgICAgY3B1ID0gcWVtdV9nZXRfY3B1KHZjcHVfaW5k
+ZXgpOw0KKyAgICBjYyA9IENQVV9HRVRfQ0xBU1MoY3B1KTsNCisgICAgaWYgKGNjLT5tZW1vcnlf
+cndfZGVidWcpIHsNCisgICAgICAgIGNjLT5tZW1vcnlfcndfZGVidWcoY3B1LCBhZGRyLCBidWYs
+IGxlbiwgZmFsc2UpOw0KKyAgICB9IGVsc2Ugew0KKyAgICAgICAgY3B1X21lbW9yeV9yd19kZWJ1
+ZyhjcHUsIGFkZHIsIGJ1ZiwgbGVuLCBmYWxzZSk7DQorICAgIH0NCisjZW5kaWYNCit9DQpcIE5v
+IG5ld2xpbmUgYXQgZW5kIG9mIGZpbGUNCmRpZmYgLS1naXQgYS9wbHVnaW5zL3FlbXUtcGx1Z2lu
+cy5zeW1ib2xzIGIvcGx1Z2lucy9xZW11LXBsdWdpbnMuc3ltYm9scw0KaW5kZXggNzFmNmM5MDU0
+OS4uZjBjZThjNzMwZiAxMDA2NDQNCi0tLSBhL3BsdWdpbnMvcWVtdS1wbHVnaW5zLnN5bWJvbHMN
+CisrKyBiL3BsdWdpbnMvcWVtdS1wbHVnaW5zLnN5bWJvbHMNCkBAIC00Miw0ICs0Miw1IEBADQog
+ICAgcWVtdV9wbHVnaW5fdGJfdmFkZHI7DQogICAgcWVtdV9wbHVnaW5fdW5pbnN0YWxsOw0KICAg
+IHFlbXVfcGx1Z2luX3ZjcHVfZm9yX2VhY2g7DQorICBxZW11X3BsdWdpbl92Y3B1X3JlYWRfcGh5
+c19tZW07DQogIH07DQotLSANCjIuMzQuMQ0K
 
 
