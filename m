@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FBE6999DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D1D6999DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 17:22:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSh1M-0000Rz-V3; Thu, 16 Feb 2023 11:22:10 -0500
+	id 1pSh1g-0001zt-NL; Thu, 16 Feb 2023 11:22:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pSh1F-0000OU-Ks
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:22:03 -0500
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSh1f-0001xs-Bb
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:22:27 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pSh1E-0006UE-0e
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:22:01 -0500
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-15ff0a1f735so3110620fac.5
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:21:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pSh1c-0006yA-ME
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 11:22:27 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ kk7-20020a17090b4a0700b00234463de251so6343272pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 08:22:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GvaH81B5hBrpGPqem9kaUkSdCiGN0le0jCxW0/4CJJg=;
- b=E7OJbtq9YQyCvo5gnaNMZ0nr1lMKzUU/f4ohf0M9qx7BAttBfZGOeMPaQIKr9Eq2tg
- IIOeytZK/CHU1dw/rs5pTm864Hnhi7sy2WynqG3fIY5fwCMHn+XKnX9s7s4awND+UpbC
- zp9n/dFf3fQCpCUDfAlCyCjH1ZouvO2KRQMJdGYSV2xX5QGUSZYGsUZ3cdCZNMJmYE9f
- +JC3nqHsSd9u072BCMhYPxJBy6mEOWDR/NF/nhZBlXw2+0P55FnYbPPJaw1ar/31Ryg1
- d57zIQHb3b3mYSiJvv1s71BB2REJKwuCvgwKgFawlspJPii/jW/UiAcazZ6CAePcIpBq
- 0gNw==
+ bh=B165yzoaoQ4pNicAlRZpJSozM0YC8BhzYoYDe1uoDBI=;
+ b=xfWVY79zZuteURWVs9e86mfCSjXvu4t34HTnh9TBtdCC16tpndhHicL8UbG2X6ea2u
+ j/2ZckzKrb8WsRt+gAIMReNtScDfoLI7KzgJvCSNCCiX49AziOUKvBVYnQwjuRaiYLdw
+ /gIJyajXY8TE6tVhlVm/1Kco4eNczhjPCKzJmg7kFeECe669cn3mWg84AwXeMXjqGp1A
+ mxmOYCMK+2OYWM/9MJosXDrLNwijSaY5WHCLOaHNf1IUwGHh99E2EehQC2dJ/FhsR/Sg
+ kC+tl56MQ/jIwD7T81MS3BFfzkFCxD3+UTFZw9uxBucOq4szm3PsGiNO8KT18MWdu+9L
+ ggyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GvaH81B5hBrpGPqem9kaUkSdCiGN0le0jCxW0/4CJJg=;
- b=VpO9C1m5eyeamaVc5OJmh9DxKgC4kH/rkAG2q5AsQnLv2JvQL6QpOsdBXsxgzXhw49
- Cn1EfaEi83thfOb4DVnaaA/QSk7LEpk400KpqusEpmcxXrkMXUL0lFs4LjhKtT6bFLGn
- +3Cs2uRSsSy3UoHuY/z9RdKKQtk9KnR5SYP0cfvCb7Sx07YKK8MDWCz+r8GggjovBMdC
- 8Ay8HCGvCqEgikL68tXiTd3ge/uSy4ZLQBWfek43e55Hjb21cBZXcwU1ByIKOfAnj8xi
- EnGbcPCFudm5SHoxgRtZBjoHxYC3BcTBeuv2usHNPJmXL8RMbuKvMzi4eXmXkIe7lDIs
- v9hQ==
-X-Gm-Message-State: AO0yUKU3gh1Dt4wXdhvzsTTy+uZCYIF0W0Nu86oSLG/vkUGcCvcMJkPi
- 7jgpWAUP52xiIPHZo1eP5G66fATYvLAdKvTV
-X-Google-Smtp-Source: AK7set+Q2NU5jFXq2+4IavOL9jdUQFbS/y4/fkMlA9IwMXdFda/G8vdgL2bO1O7mGpwuwVAJkBCGAg==
-X-Received: by 2002:a05:6870:e305:b0:16e:11f0:79e9 with SMTP id
- z5-20020a056870e30500b0016e11f079e9mr3352972oad.18.1676564518994; 
- Thu, 16 Feb 2023 08:21:58 -0800 (PST)
-Received: from grind.dc1.ventanamicro.com ([191.19.40.109])
- by smtp.gmail.com with ESMTPSA id
- z17-20020a056870e15100b001600797d1b5sm693029oaa.41.2023.02.16.08.21.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 08:21:58 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Andrew Jones <ajones@ventanamicro.com>
-Subject: [PATCH v5 9/9] target/riscv/cpu: remove CPUArchState::features and
- friends
-Date: Thu, 16 Feb 2023 13:21:26 -0300
-Message-Id: <20230216162126.809482-10-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230216162126.809482-1-dbarboza@ventanamicro.com>
-References: <20230216162126.809482-1-dbarboza@ventanamicro.com>
+ bh=B165yzoaoQ4pNicAlRZpJSozM0YC8BhzYoYDe1uoDBI=;
+ b=LBzBHIWgTRov2t0nqG+oG5smjkN/w/IpdP00uO9e1oe1xAiTlSk8AF6MJrgH7FSpV7
+ N5vZtgB5cX7Qqo/gnKRwxXetdU5T3w0MWl6YHdt/bzDTlMI7AiSF1YZP2zRhL+wNaz2i
+ tcmxG1qqxKfo8qLmC8OOZQ5G38jByW4yEN8q050wmytunSvIjXelqnQc20kxSHDHMRkM
+ j3vWlcSUMC83zz/Bb7vpBbRi4adIE8UQDfxCFKJqD8vCh083l5M2FqSubnc/2jlP3El0
+ b1wlHoVQawZR4LVu0HXDZs+Rkta8c+unbhQQaD2816I8Ti8tSEN4KBSreL8ImDEJr1FX
+ Z3dQ==
+X-Gm-Message-State: AO0yUKUQcAq5Mfm/zwiAOBlLyLiM9eWuAf+GHhcpNtPZmMrKHqizBtXZ
+ 3KmimpkM5PudYxNAyPe9qEe8WfRYER4CJFR72co6TA==
+X-Google-Smtp-Source: AK7set/i7tDNf3b/prKKyZcYfixSmBCcTnSAW2MrM5NCGX8XxjucnyjmgDvBtpRT6iIh+6xr14UddH9y0dHhup/18s0=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr758545pjb.92.1676564542795; Thu, 16 Feb
+ 2023 08:22:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2b.google.com
+References: <20230213202927.28992-1-farosas@suse.de>
+ <20230213202927.28992-8-farosas@suse.de>
+In-Reply-To: <20230213202927.28992-8-farosas@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Feb 2023 16:22:11 +0000
+Message-ID: <CAFEAcA8CDr110xtvThtoC3+Rhr1hDLjShxBCxca1oC0mdNvYiQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v5 07/28] target/arm: Move define_debug_regs() to
+ cpregs.c
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>, 
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,76 +93,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The attribute is no longer used since we can retrieve all the enabled
-features in the hart by using cpu->cfg instead.
+On Mon, 13 Feb 2023 at 20:31, Fabiano Rosas <farosas@suse.de> wrote:
+>
+> The debug_helper.c file will move into a tcg-specific directory, so
+> take the cpregs code out of it. That code needs to be present in KVM
+> builds as well.
+>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> ---
+>  target/arm/cpregs.c       | 473 ++++++++++++++++++++++++++++++++++++++
+>  target/arm/debug_helper.c | 459 ------------------------------------
+>  target/arm/internals.h    |   9 -
+>  3 files changed, 473 insertions(+), 468 deletions(-)
 
-Remove env->feature, riscv_feature() and riscv_set_feature(). We also
-need to bump vmstate_riscv_cpu version_id and minimal_version_id since
-'features' is no longer being migrated.
+I definitely think this is not an improvement. Currently we
+have a file debug_helper.c with a reasonably well defined
+purpose (debug related cpregs and code). This patch moves
+half of that into the already massively too large cpregs.c,
+thus undoing the cleanup we did by separating out the debug
+register code from the huge pile of code in helper.c.
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
- target/riscv/cpu.h     | 12 ------------
- target/riscv/machine.c |  5 ++---
- 2 files changed, 2 insertions(+), 15 deletions(-)
-
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 7ff4d90261..671734420b 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -173,8 +173,6 @@ struct CPUArchState {
-     /* 128-bit helpers upper part return value */
-     target_ulong retxh;
- 
--    uint32_t features;
--
- #ifdef CONFIG_USER_ONLY
-     uint32_t elf_flags;
- #endif
-@@ -524,16 +522,6 @@ static inline int riscv_has_ext(CPURISCVState *env, target_ulong ext)
-     return (env->misa_ext & ext) != 0;
- }
- 
--static inline bool riscv_feature(CPURISCVState *env, int feature)
--{
--    return env->features & (1ULL << feature);
--}
--
--static inline void riscv_set_feature(CPURISCVState *env, int feature)
--{
--    env->features |= (1ULL << feature);
--}
--
- #include "cpu_user.h"
- 
- extern const char * const riscv_int_regnames[];
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 67e9e56853..9c455931d8 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -331,8 +331,8 @@ static const VMStateDescription vmstate_pmu_ctr_state = {
- 
- const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
--    .version_id = 6,
--    .minimum_version_id = 6,
-+    .version_id = 7,
-+    .minimum_version_id = 7,
-     .post_load = riscv_cpu_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
-@@ -351,7 +351,6 @@ const VMStateDescription vmstate_riscv_cpu = {
-         VMSTATE_UINT32(env.misa_ext, RISCVCPU),
-         VMSTATE_UINT32(env.misa_mxl_max, RISCVCPU),
-         VMSTATE_UINT32(env.misa_ext_mask, RISCVCPU),
--        VMSTATE_UINT32(env.features, RISCVCPU),
-         VMSTATE_UINTTL(env.priv, RISCVCPU),
-         VMSTATE_UINTTL(env.virt, RISCVCPU),
-         VMSTATE_UINT64(env.resetvec, RISCVCPU),
--- 
-2.39.1
-
+thanks
+-- PMM
 
