@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1948C699790
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:37:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4981699794
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 15:38:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSfOB-0005Af-2y; Thu, 16 Feb 2023 09:37:35 -0500
+	id 1pSfOD-0005C5-6N; Thu, 16 Feb 2023 09:37:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pSfO8-00058X-UW
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:37:32 -0500
-Received: from mail-dm6nam10on20626.outbound.protection.outlook.com
- ([2a01:111:f400:7e88::626]
+ id 1pSfOA-0005Ah-M4
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:37:34 -0500
+Received: from mail-dm6nam10on20610.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::610]
  helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pSfO6-0004r4-9E
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:37:32 -0500
+ id 1pSfO7-0004rK-5x
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 09:37:34 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rw1unwfEe+s6nDz5WXE51c69aXEp8dE/YGGIaJj/m1eLG5wNm3jwEOoEKaTOIfm9Cn1QKyodlCETy/HhndrM3ECnVNy7Y4ovgBiM5Lp+Hqz+RQRoy5gXFoOgTTNZ17tPh7pTMEC0EWJjV/2upBheBMwy26xKomU86fdDsp9G7tDAK41a8bxfR0Xar+bZmjk6xYzg2bgR3WbiIUglVTWcHq5ICY/6lzEwtn5saKKahVtwPiLzju3J/htUQ9su1not1iMZrNqzBzNTG3iIO0eD6HPS3yTTr/Q/LlZkbJQfHLDt782YGFpSaeI3IovTtkkdcE0M8592xtPpXOlWG2hyKQ==
+ b=DX6mO+fMzCjdkv8NaF3XaZfRFBQo7xDWd1/IKKdSNamaowYxqaTj2HouIfB54BpilX4lUbjdHUhEpK/Zu4oOMqonPJasoVLvHsKSGMJZkgzQMRKA3CeVA8a6w0PptXnqKdRmL73DTwNXn/JjLQex5DUSo9e7Rd1ht6GHSjPJiS15uVfF1X/7eaW9jXZe/aAwnjxbxpLoDGGmxVunwOXp6CU+aPUJS/G9sPjQKboqxFgWjHsWAw0qcYvlsoIpiHuSkzoWKITnzy8FxlnAHqz1ciW9ApZR5lLti7NQuQtlQHA5pXVKHPhLujPWLYK7mAhD5nsxDotzucX3lXkQdQNZSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IRwSme5PlUkzXnsi9vtXkU9hSZCMG0pUbjYHeyyUymA=;
- b=k2LmpJoYFO5fmHBrSiydKfujvT0m1CwoW5hRbjaWqY8B9SR5/pb470fiTTQawKLWc8f2GJFGuq+RQAXPICnpbUB5/imPzQEJxzrxuYsQf0uxDPc4rmfkJne04lINiHLk6YQGL2MTEwJ1Vc0/p3lHM8ltf5ITAGNLqAjkhXPF5KMrvmiffHW6JvplAOSKXEf2XTr0UELI4PzgSXQ5A33AckVUGSO74XEDsoqcrDirICM6u25rEEiygdOhMK7LlHK+nn2LHamibXcvs1hOVS8A8i/X6ENqQqNnr33XPAiUStEbe7N1dJyW84kiHPN5gb3IiAk/vpoEWraFj22muqZLlw==
+ bh=ts+NLArg9Gg1LIpiIGbfDxpubqd6oiM/+UFZPO2E5xA=;
+ b=DkERwtXmJCv/51UTo8CXmsqGJk/WfJFpx9WEIy+kvknvgHtHaR5Yfj3bBogGkTMdds2KC+TR8V/+wl9Ky3iU+53HlXWhUAKeiejLRAjZS3J8pq3feexF8l+syepvnw0VwyYmWyDHhlXoIPuet8bT8T1kQx0xhtR/Iep+YoOqGK0y3FOVot83Ggq4IRgsKTETEr9rf/evo/opHkpK/ukOMQRA+Sv2UuYYiXU8rQ6NJDpXuQBYXdqorVwQ+v6V7QAFs/dSAMKyxDFzV6q+jbphHmGWnKeCo/X6z9TMUpuJkX7Ek1vafMyOIw7710lnz4OpFe93z6rkVf36F/vHHJc4Zg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.117.161) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -34,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IRwSme5PlUkzXnsi9vtXkU9hSZCMG0pUbjYHeyyUymA=;
- b=R2VVFvkVceyQDEu1QSbBR0GVmgv9aQPZECHe1VMyAis29h27yvsbC82jgYjmq576WD/YG/iWScp9Rtwnwueda3HlWqe/KXdMpYN16P4j3jf0owqrcqN09FtO8N9HCRKqUB96JFEMwaogEcSvVxYILN2Wxv7nihboubbap8/KFG7Be0swQvU8NumR4Igi2BMhXLarCpLVpygHqaGAZL8sPoRoE8aMLGKrosk7tt71x1Kua7/8ecA8aYWlAtzTIxM2Fazs46uHJXL0QWVvEgwhFN/chUXDbrTM+gVX9SL6fJucUJBNwVd88Sj+H0Tgta1vcKXmlju3TZzoGSTVR771eg==
-Received: from BN9PR03CA0415.namprd03.prod.outlook.com (2603:10b6:408:111::30)
- by PH7PR12MB6834.namprd12.prod.outlook.com (2603:10b6:510:1b4::18)
+ bh=ts+NLArg9Gg1LIpiIGbfDxpubqd6oiM/+UFZPO2E5xA=;
+ b=qNIH5l0E7kadqeu47m06p3UQvKfHNykne8rgG4ltc8/JFWM/0ARyjXWSth0f+hnWyuWbAspaS0OwlX+HBwRGbO4ZjbfMPyWORiqi2Gbz3523d5CsJFLqUpVlbEYLEv9uwAy4EAot/kJ/Ai6yfbu6r+gVPP7nJxeDVeUQthCGXc9Vz4xmNDRssS5n8MOpIPJMf/xIiakYWtOC60OdyiI/UQIGs171NY+qMBtbNIv790X2ZZytIKS2FUxuV3+TLsyo5CvllERFgWtGxuEK36tPTYHNrtILfVAWDvzYA+vR9w12NGQIGlOJtDJjULekUTXQK+kM34CWrmmeTkyuAgvbMw==
+Received: from BN9PR03CA0416.namprd03.prod.outlook.com (2603:10b6:408:111::31)
+ by SJ0PR12MB8090.namprd12.prod.outlook.com (2603:10b6:a03:4ea::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Thu, 16 Feb
- 2023 14:37:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Thu, 16 Feb
+ 2023 14:37:26 +0000
 Received: from BN8NAM11FT094.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:111:cafe::70) by BN9PR03CA0415.outlook.office365.com
- (2603:10b6:408:111::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.27 via Frontend
- Transport; Thu, 16 Feb 2023 14:37:21 +0000
+ (2603:10b6:408:111:cafe::e3) by BN9PR03CA0416.outlook.office365.com
+ (2603:10b6:408:111::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.12 via Frontend
+ Transport; Thu, 16 Feb 2023 14:37:26 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
@@ -56,18 +56,18 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
 Received: from mail.nvidia.com (216.228.117.161) by
  BN8NAM11FT094.mail.protection.outlook.com (10.13.176.131) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6111.13 via Frontend Transport; Thu, 16 Feb 2023 14:37:21 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ 15.20.6111.13 via Frontend Transport; Thu, 16 Feb 2023 14:37:26 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
  (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 16 Feb
- 2023 06:38:02 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ 2023 06:38:06 -0800
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 16 Feb
- 2023 06:37:09 -0800
+ 2023 06:37:13 -0800
 Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.6)
  with Microsoft SMTP Server id 15.2.986.36 via Frontend Transport; Thu, 16 Feb
- 2023 06:37:04 -0800
+ 2023 06:37:09 -0800
 From: Avihai Horon <avihaih@nvidia.com>
 To: <qemu-devel@nongnu.org>
 CC: Alex Williamson <alex.williamson@redhat.com>, Juan Quintela
@@ -79,39 +79,38 @@ CC: Alex Williamson <alex.williamson@redhat.com>, Juan Quintela
  <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Avihai Horon
  <avihaih@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
  <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v11 07/11] vfio/migration: Rename functions/structs related to
- v1 protocol
-Date: Thu, 16 Feb 2023 16:36:26 +0200
-Message-ID: <20230216143630.25610-8-avihaih@nvidia.com>
+Subject: [PATCH v11 08/11] vfio/migration: Implement VFIO migration protocol v2
+Date: Thu, 16 Feb 2023 16:36:27 +0200
+Message-ID: <20230216143630.25610-9-avihaih@nvidia.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20230216143630.25610-1-avihaih@nvidia.com>
 References: <20230216143630.25610-1-avihaih@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT094:EE_|PH7PR12MB6834:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d4a66f3-ed54-41a9-58bc-08db102b5039
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT094:EE_|SJ0PR12MB8090:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8525877c-bab2-447b-1833-08db102b52ef
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EWCunlXLnDRpV6GtyuT4kztV1d1CrbTycGKLCWiGtgxeMt40zSV0xms3u5n8O/W2SMd20svkgdxI3pFbIJEjyTBWOxyR2vRulu2P5SHrTo/t07g2+HaKFD4P1RXlMLS4O32Aayvs808R3dxxB3H2nHhspj1/YkqsqtAkZ23rvoe8Vl5v4AOrEXObnu8dHDBStieC8hr3O4E9CtdBL96uC6PwrtxI/+Pr4L8KXlcvsxWbqHZzsjzp53kncR6RNZFaERNfObnSqNlOWqhSoiA1lVP2OU50z4ilXNZzYDSQI3cR4xYoXy8yA7EQrw+eOqE2N7I+iVbpP6JBA912zQVYAH7m5iRIAxTJDwsekQBwDTFHnWHFGWBDISd2ZE/jM06KfgqNPsk3uZm+5dETgPWplpvkjPYnw56lQm0CtiKQ8un8+MMxb+LVpH6dw5+n00kTl5Bwgwd3fTawtCT1pxPkZuhljxOCfBgWDlg3+pSCrbvEjRW6dsQ0Ofe3S7wZwPMD833YT2+hjGZpzqxR6PbboFPywr1Hq+DZ0DHrTpZzne/1+cKRmsrKDwlAzjIRa3uDrwHIS0tnZpGIDUwSNsavyeHr+g/5KVf21WelLX+2wVquJiSeLbU+Ro8jLY8TjvVlSgSadokbWQkacQFDS077a5yNhl9hj3k2PdAWM0tNhriXFkmZPBhf0Wyb7TVhgB6gieM5NHGvNryEhzsMkLWsAg==
+X-Microsoft-Antispam-Message-Info: 4yBwCgoRZ5L5puYYgKcW1df2yJQaKyiPvTAlGoydGwlmw3Br1M6l8Kh2wTQ9nsN6MdqKwCCclo6/j2QeqTMi5UwWuuSmgKQKny2PiC4g+N5Xwg5N9d25xbV/BNFo8+N6RpC4yfE5mWXxsnbuOGI5H21mru12qDYw54y9btnDpyIx4HCshN5bOWAua2LAh2CfxdEw14HYohw1OR7m3OP/UfoeVBZstd1vfEtn+2H+l+trZQJ90nMrdhZrvhd4qaGQ/drJpaV3l/2/0GF0rKc+nRIauzNCJ8b59trQ19VkWoo35V1TarKJ/b5dcdAcydi02axUHtzV6tW1ibqrksF54U4OW5dBBq7sM5QI16Ju65wkSQ4JPvguxm0ondEhHLKrNDEmen+ITdP64jfSohWTSV6TzFqPSKZmtn1GofQXzdylrRJagYx1L/SopxEVbgUsLdjt3R48B+2AdQmBSuxLj5CK3L4qwEwb1HWotek7XJODyDFz2IosHn1x6elAx2Q/CrNh7Ndi5W1B1DU35SGadANfWBodmdw+l62Ymca01dtUNX4iX4wO5JHtgV31Pwh2FMjpgTDSudzId/sEjK86XPSPrI90OfYm1eeH+8E1JNZ2v5DzNk7jDSnUGL2vmd8Rj90GbL3AF3HQp2mPZbPmt1BBKkxaccpxlN7bkLL0k5b5Npj1LjtHO+KkgPmcRJV5Bh8XgJl5RErh+ShJLmGpVQLHY1gsJ7TmaavzOovdinGQVEw36FIw0pKzDU3zUgk9
 X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(346002)(396003)(136003)(39860400002)(451199018)(36840700001)(46966006)(40470700004)(7636003)(36860700001)(82740400003)(5660300002)(7416002)(8936002)(30864003)(356005)(41300700001)(478600001)(36756003)(186003)(6666004)(86362001)(2616005)(1076003)(40480700001)(8676002)(26005)(82310400005)(2906002)(70206006)(316002)(6916009)(4326008)(7696005)(40460700003)(66574015)(54906003)(83380400001)(70586007)(426003)(336012)(47076005);
+ SFS:(13230025)(4636009)(376002)(396003)(136003)(39860400002)(346002)(451199018)(46966006)(36840700001)(40470700004)(356005)(36756003)(7696005)(40460700003)(86362001)(70586007)(4326008)(8676002)(6916009)(70206006)(336012)(30864003)(8936002)(5660300002)(316002)(54906003)(966005)(41300700001)(2906002)(186003)(82310400005)(7416002)(83380400001)(36860700001)(7636003)(40480700001)(82740400003)(6666004)(1076003)(426003)(26005)(478600001)(2616005)(47076005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 14:37:21.6599 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d4a66f3-ed54-41a9-58bc-08db102b5039
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 14:37:26.2065 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8525877c-bab2-447b-1833-08db102b52ef
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
  Helo=[mail.nvidia.com]
 X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT094.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6834
-Received-SPF: softfail client-ip=2a01:111:f400:7e88::626;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB8090
+Received-SPF: softfail client-ip=2a01:111:f400:7e88::610;
  envelope-from=avihaih@nvidia.com;
  helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -135,378 +134,745 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To avoid name collisions, rename functions and structs related to VFIO
-migration protocol v1. This will allow the two protocols to co-exist
-when v2 protocol is added, until v1 is removed. No functional changes
-intended.
+Implement the basic mandatory part of VFIO migration protocol v2.
+This includes all functionality that is necessary to support
+VFIO_MIGRATION_STOP_COPY part of the v2 protocol.
+
+The two protocols, v1 and v2, will co-exist and in the following patches
+v1 protocol code will be removed.
+
+There are several main differences between v1 and v2 protocols:
+- VFIO device state is now represented as a finite state machine instead
+  of a bitmap.
+
+- Migration interface with kernel is now done using VFIO_DEVICE_FEATURE
+  ioctl and normal read() and write() instead of the migration region.
+
+- Pre-copy is made optional in v2 protocol. Support for pre-copy will be
+  added later on.
+
+Detailed information about VFIO migration protocol v2 and its difference
+compared to v1 protocol can be found here [1].
+
+[1]
+https://lore.kernel.org/all/20220224142024.147653-10-yishaih@nvidia.com/
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
 ---
- include/hw/vfio/vfio-common.h |   2 +-
- hw/vfio/common.c              |   6 +-
- hw/vfio/migration.c           | 102 +++++++++++++++++-----------------
- hw/vfio/trace-events          |  12 ++--
- 4 files changed, 61 insertions(+), 61 deletions(-)
+ include/hw/vfio/vfio-common.h |   5 +
+ hw/vfio/common.c              |  17 +-
+ hw/vfio/migration.c           | 479 +++++++++++++++++++++++++++++++---
+ hw/vfio/trace-events          |   7 +
+ 4 files changed, 469 insertions(+), 39 deletions(-)
 
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 56b1683824..2c0fb1d622 100644
+index 2c0fb1d622..c4eab55af9 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -62,7 +62,7 @@ typedef struct VFIOMigration {
-     struct VFIODevice *vbasedev;
-     VMChangeStateEntry *vm_state;
-     VFIORegion region;
--    uint32_t device_state;
-+    uint32_t device_state_v1;
+@@ -66,6 +66,11 @@ typedef struct VFIOMigration {
      int vm_running;
      Notifier migration_state;
      uint64_t pending_bytes;
++    uint32_t device_state;
++    int data_fd;
++    void *data_buffer;
++    size_t data_buffer_size;
++    bool v2;
+ } VFIOMigration;
+ 
+ typedef struct VFIOAddressSpace {
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index fe80ccf914..1c974e9c5a 100644
+index 1c974e9c5a..54fee2d5de 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -408,8 +408,8 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+@@ -408,10 +408,17 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
                  return false;
              }
  
--            if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
--                && (migration->device_state & VFIO_DEVICE_STATE_V1_RUNNING)) {
-+            if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF) &&
-+                (migration->device_state_v1 & VFIO_DEVICE_STATE_V1_RUNNING)) {
+-            if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF) &&
++            if (!migration->v2 &&
++                (vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF) &&
+                 (migration->device_state_v1 & VFIO_DEVICE_STATE_V1_RUNNING)) {
                  return false;
              }
++
++            if (migration->v2 &&
++                vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF &&
++                migration->device_state == VFIO_DEVICE_STATE_RUNNING) {
++                return false;
++            }
          }
-@@ -438,7 +438,7 @@ static bool vfio_devices_all_running_and_mig_active(VFIOContainer *container)
+     }
+     return true;
+@@ -438,7 +445,13 @@ static bool vfio_devices_all_running_and_mig_active(VFIOContainer *container)
                  return false;
              }
  
--            if (migration->device_state & VFIO_DEVICE_STATE_V1_RUNNING) {
-+            if (migration->device_state_v1 & VFIO_DEVICE_STATE_V1_RUNNING) {
+-            if (migration->device_state_v1 & VFIO_DEVICE_STATE_V1_RUNNING) {
++            if (!migration->v2 &&
++                migration->device_state_v1 & VFIO_DEVICE_STATE_V1_RUNNING) {
++                continue;
++            }
++
++            if (migration->v2 &&
++                migration->device_state == VFIO_DEVICE_STATE_RUNNING) {
                  continue;
              } else {
                  return false;
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index a3bf7327a1..a5fe285721 100644
+index a5fe285721..452d96a520 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -107,8 +107,8 @@ static int vfio_mig_rw(VFIODevice *vbasedev, __u8 *buf, size_t count,
-  * an error is returned.
-  */
+@@ -10,6 +10,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/cutils.h"
++#include "qemu/units.h"
+ #include <linux/vfio.h>
+ #include <sys/ioctl.h>
  
--static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
--                                    uint32_t value)
-+static int vfio_migration_v1_set_state(VFIODevice *vbasedev, uint32_t mask,
-+                                       uint32_t value)
+@@ -44,8 +45,114 @@
+ #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+ #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+ 
++/*
++ * This is an arbitrary size based on migration of mlx5 devices, where typically
++ * total device migration size is on the order of 100s of MB. Testing with
++ * larger values, e.g. 128MB and 1GB, did not show a performance improvement.
++ */
++#define VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE (1 * MiB)
++
+ static int64_t bytes_transferred;
+ 
++static const char *mig_state_to_str(enum vfio_device_mig_state state)
++{
++    switch (state) {
++    case VFIO_DEVICE_STATE_ERROR:
++        return "ERROR";
++    case VFIO_DEVICE_STATE_STOP:
++        return "STOP";
++    case VFIO_DEVICE_STATE_RUNNING:
++        return "RUNNING";
++    case VFIO_DEVICE_STATE_STOP_COPY:
++        return "STOP_COPY";
++    case VFIO_DEVICE_STATE_RESUMING:
++        return "RESUMING";
++    default:
++        return "UNKNOWN STATE";
++    }
++}
++
++static int vfio_migration_set_state(VFIODevice *vbasedev,
++                                    enum vfio_device_mig_state new_state,
++                                    enum vfio_device_mig_state recover_state)
++{
++    VFIOMigration *migration = vbasedev->migration;
++    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature) +
++                              sizeof(struct vfio_device_feature_mig_state),
++                              sizeof(uint64_t))] = {};
++    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
++    struct vfio_device_feature_mig_state *mig_state =
++        (struct vfio_device_feature_mig_state *)feature->data;
++    int ret;
++
++    feature->argsz = sizeof(buf);
++    feature->flags =
++        VFIO_DEVICE_FEATURE_SET | VFIO_DEVICE_FEATURE_MIG_DEVICE_STATE;
++    mig_state->device_state = new_state;
++    if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
++        /* Try to set the device in some good state */
++        ret = -errno;
++
++        if (recover_state == VFIO_DEVICE_STATE_ERROR) {
++            error_report("%s: Failed setting device state to %s, err: %s. "
++                         "Recover state is ERROR. Resetting device",
++                         vbasedev->name, mig_state_to_str(new_state),
++                         strerror(errno));
++
++            goto reset_device;
++        }
++
++        error_report(
++            "%s: Failed setting device state to %s, err: %s. Setting device in recover state %s",
++                     vbasedev->name, mig_state_to_str(new_state),
++                     strerror(errno), mig_state_to_str(recover_state));
++
++        mig_state->device_state = recover_state;
++        if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
++            ret = -errno;
++            error_report(
++                "%s: Failed setting device in recover state, err: %s. Resetting device",
++                         vbasedev->name, strerror(errno));
++
++            goto reset_device;
++        }
++
++        migration->device_state = recover_state;
++
++        return ret;
++    }
++
++    migration->device_state = new_state;
++    if (mig_state->data_fd != -1) {
++        if (migration->data_fd != -1) {
++            /*
++             * This can happen if the device is asynchronously reset and
++             * terminates a data transfer.
++             */
++            error_report("%s: data_fd out of sync", vbasedev->name);
++            close(mig_state->data_fd);
++
++            return -EBADF;
++        }
++
++        migration->data_fd = mig_state->data_fd;
++    }
++
++    trace_vfio_migration_set_state(vbasedev->name, mig_state_to_str(new_state));
++
++    return 0;
++
++reset_device:
++    if (ioctl(vbasedev->fd, VFIO_DEVICE_RESET)) {
++        hw_error("%s: Failed resetting device, err: %s", vbasedev->name,
++                 strerror(errno));
++    }
++
++    migration->device_state = VFIO_DEVICE_STATE_RUNNING;
++
++    return ret;
++}
++
+ static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
+                                   off_t off, bool iswrite)
  {
-     VFIOMigration *migration = vbasedev->migration;
-     VFIORegion *region = &migration->region;
-@@ -145,8 +145,8 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
-         return ret;
-     }
- 
--    migration->device_state = device_state;
--    trace_vfio_migration_set_state(vbasedev->name, device_state);
-+    migration->device_state_v1 = device_state;
-+    trace_vfio_migration_v1_set_state(vbasedev->name, device_state);
-     return 0;
- }
- 
-@@ -260,8 +260,8 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
+@@ -260,6 +367,18 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
      return ret;
  }
  
--static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
--                            uint64_t data_size)
-+static int vfio_v1_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
-+                               uint64_t data_size)
++static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
++                            uint64_t data_size)
++{
++    VFIOMigration *migration = vbasedev->migration;
++    int ret;
++
++    ret = qemu_file_get_to_fd(f, migration->data_fd, data_size);
++    trace_vfio_load_state_device_data(vbasedev->name, data_size, ret);
++
++    return ret;
++}
++
+ static int vfio_v1_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
+                                uint64_t data_size)
  {
-     VFIORegion *region = &vbasedev->migration->region;
-     uint64_t data_offset = 0, size, report_size;
-@@ -288,7 +288,7 @@ static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
-             data_size = 0;
-         }
- 
--        trace_vfio_load_state_device_data(vbasedev->name, data_offset, size);
-+        trace_vfio_v1_load_state_device_data(vbasedev->name, data_offset, size);
- 
-         while (size) {
-             void *buf;
-@@ -394,7 +394,7 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+@@ -394,6 +513,14 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
      return qemu_file_get_error(f);
  }
  
--static void vfio_migration_cleanup(VFIODevice *vbasedev)
-+static void vfio_migration_v1_cleanup(VFIODevice *vbasedev)
++static void vfio_migration_cleanup(VFIODevice *vbasedev)
++{
++    VFIOMigration *migration = vbasedev->migration;
++
++    close(migration->data_fd);
++    migration->data_fd = -1;
++}
++
+ static void vfio_migration_v1_cleanup(VFIODevice *vbasedev)
  {
      VFIOMigration *migration = vbasedev->migration;
+@@ -403,8 +530,80 @@ static void vfio_migration_v1_cleanup(VFIODevice *vbasedev)
+     }
+ }
  
-@@ -405,13 +405,13 @@ static void vfio_migration_cleanup(VFIODevice *vbasedev)
- 
++static int vfio_query_stop_copy_size(VFIODevice *vbasedev,
++                                     uint64_t *stop_copy_size)
++{
++    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature) +
++                              sizeof(struct vfio_device_feature_mig_data_size),
++                              sizeof(uint64_t))] = {};
++    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
++    struct vfio_device_feature_mig_data_size *mig_data_size =
++        (struct vfio_device_feature_mig_data_size *)feature->data;
++
++    feature->argsz = sizeof(buf);
++    feature->flags =
++        VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_MIG_DATA_SIZE;
++
++    if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
++        return -errno;
++    }
++
++    *stop_copy_size = mig_data_size->stop_copy_length;
++
++    return 0;
++}
++
++/* Returns 1 if end-of-stream is reached, 0 if more data and -errno if error */
++static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
++{
++    ssize_t data_size;
++
++    data_size = read(migration->data_fd, migration->data_buffer,
++                     migration->data_buffer_size);
++    if (data_size < 0) {
++        return -errno;
++    }
++    if (data_size == 0) {
++        return 1;
++    }
++
++    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
++    qemu_put_be64(f, data_size);
++    qemu_put_buffer(f, migration->data_buffer, data_size);
++    bytes_transferred += data_size;
++
++    trace_vfio_save_block(migration->vbasedev->name, data_size);
++
++    return qemu_file_get_error(f);
++}
++
  /* ---------------------------------------------------------------------- */
  
--static int vfio_save_setup(QEMUFile *f, void *opaque)
-+static int vfio_v1_save_setup(QEMUFile *f, void *opaque)
++static int vfio_save_setup(QEMUFile *f, void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++    VFIOMigration *migration = vbasedev->migration;
++    uint64_t stop_copy_size = VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE;
++
++    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
++
++    vfio_query_stop_copy_size(vbasedev, &stop_copy_size);
++    migration->data_buffer_size = MIN(VFIO_MIG_DEFAULT_DATA_BUFFER_SIZE,
++                                      stop_copy_size);
++    migration->data_buffer = g_try_malloc0(migration->data_buffer_size);
++    if (!migration->data_buffer) {
++        error_report("%s: Failed to allocate migration data buffer",
++                     vbasedev->name);
++        return -ENOMEM;
++    }
++
++    trace_vfio_save_setup(vbasedev->name, migration->data_buffer_size);
++
++    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
++
++    return qemu_file_get_error(f);
++}
++
+ static int vfio_v1_save_setup(QEMUFile *f, void *opaque)
  {
      VFIODevice *vbasedev = opaque;
-     VFIOMigration *migration = vbasedev->migration;
-     int ret;
- 
--    trace_vfio_save_setup(vbasedev->name);
-+    trace_vfio_v1_save_setup(vbasedev->name);
- 
-     qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
- 
-@@ -431,8 +431,8 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
-         }
-     }
- 
--    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_MASK,
--                                   VFIO_DEVICE_STATE_V1_SAVING);
-+    ret = vfio_migration_v1_set_state(vbasedev, VFIO_DEVICE_STATE_MASK,
-+                                      VFIO_DEVICE_STATE_V1_SAVING);
-     if (ret) {
-         error_report("%s: Failed to set state SAVING", vbasedev->name);
-         return ret;
-@@ -448,16 +448,16 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+@@ -448,6 +647,17 @@ static int vfio_v1_save_setup(QEMUFile *f, void *opaque)
      return 0;
  }
  
--static void vfio_save_cleanup(void *opaque)
-+static void vfio_v1_save_cleanup(void *opaque)
++static void vfio_save_cleanup(void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++    VFIOMigration *migration = vbasedev->migration;
++
++    g_free(migration->data_buffer);
++    migration->data_buffer = NULL;
++    vfio_migration_cleanup(vbasedev);
++    trace_vfio_save_cleanup(vbasedev->name);
++}
++
+ static void vfio_v1_save_cleanup(void *opaque)
  {
      VFIODevice *vbasedev = opaque;
- 
--    vfio_migration_cleanup(vbasedev);
-+    vfio_migration_v1_cleanup(vbasedev);
+@@ -456,6 +666,35 @@ static void vfio_v1_save_cleanup(void *opaque)
      trace_vfio_save_cleanup(vbasedev->name);
  }
  
--static void vfio_state_pending(void *opaque, uint64_t *must_precopy,
--                               uint64_t *can_postcopy)
-+static void vfio_v1_state_pending(void *opaque, uint64_t *must_precopy,
-+                                  uint64_t *can_postcopy)
++/*
++ * Migration size of VFIO devices can be as little as a few KBs or as big as
++ * many GBs. This value should be big enough to cover the worst case.
++ */
++#define VFIO_MIG_STOP_COPY_SIZE (100 * GiB)
++
++/*
++ * Only exact function is implemented and not estimate function. The reason is
++ * that during pre-copy phase of migration the estimate function is called
++ * repeatedly while pending RAM size is over the threshold, thus migration
++ * can't converge and querying the VFIO device pending data size is useless.
++ */
++static void vfio_state_pending_exact(void *opaque, uint64_t *must_precopy,
++                                     uint64_t *can_postcopy)
++{
++    VFIODevice *vbasedev = opaque;
++    uint64_t stop_copy_size = VFIO_MIG_STOP_COPY_SIZE;
++
++    /*
++     * If getting pending migration size fails, VFIO_MIG_STOP_COPY_SIZE is
++     * reported so downtime limit won't be violated.
++     */
++    vfio_query_stop_copy_size(vbasedev, &stop_copy_size);
++    *must_precopy += stop_copy_size;
++
++    trace_vfio_state_pending_exact(vbasedev->name, *must_precopy, *can_postcopy,
++                                   stop_copy_size);
++}
++
+ static void vfio_v1_state_pending(void *opaque, uint64_t *must_precopy,
+                                   uint64_t *can_postcopy)
  {
-     VFIODevice *vbasedev = opaque;
-     VFIOMigration *migration = vbasedev->migration;
-@@ -470,7 +470,7 @@ static void vfio_state_pending(void *opaque, uint64_t *must_precopy,
- 
-     *must_precopy += migration->pending_bytes;
- 
--    trace_vfio_state_pending(vbasedev->name, *must_precopy, *can_postcopy);
-+    trace_vfio_v1_state_pending(vbasedev->name, *must_precopy, *can_postcopy);
- }
- 
- static int vfio_save_iterate(QEMUFile *f, void *opaque)
-@@ -520,15 +520,15 @@ static int vfio_save_iterate(QEMUFile *f, void *opaque)
+@@ -520,6 +759,42 @@ static int vfio_save_iterate(QEMUFile *f, void *opaque)
      return 0;
  }
  
--static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
-+static int vfio_v1_save_complete_precopy(QEMUFile *f, void *opaque)
++static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++    int ret;
++
++    /* We reach here with device state STOP only */
++    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOP_COPY,
++                                   VFIO_DEVICE_STATE_STOP);
++    if (ret) {
++        return ret;
++    }
++
++    do {
++        ret = vfio_save_block(f, vbasedev->migration);
++        if (ret < 0) {
++            return ret;
++        }
++    } while (!ret);
++
++    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
++    ret = qemu_file_get_error(f);
++    if (ret) {
++        return ret;
++    }
++
++    /*
++     * If setting the device in STOP state fails, the device should be reset.
++     * To do so, use ERROR state as a recover state.
++     */
++    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOP,
++                                   VFIO_DEVICE_STATE_ERROR);
++    trace_vfio_save_complete_precopy(vbasedev->name, ret);
++
++    return ret;
++}
++
+ static int vfio_v1_save_complete_precopy(QEMUFile *f, void *opaque)
  {
      VFIODevice *vbasedev = opaque;
-     VFIOMigration *migration = vbasedev->migration;
-     uint64_t data_size;
-     int ret;
- 
--    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_V1_RUNNING,
--                                   VFIO_DEVICE_STATE_V1_SAVING);
-+    ret = vfio_migration_v1_set_state(vbasedev, ~VFIO_DEVICE_STATE_V1_RUNNING,
-+                                      VFIO_DEVICE_STATE_V1_SAVING);
-     if (ret) {
-         error_report("%s: Failed to set state STOP and SAVING",
-                      vbasedev->name);
-@@ -565,13 +565,14 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
-         return ret;
+@@ -589,6 +864,14 @@ static void vfio_save_state(QEMUFile *f, void *opaque)
      }
+ }
  
--    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_V1_SAVING, 0);
-+    ret = vfio_migration_v1_set_state(vbasedev, ~VFIO_DEVICE_STATE_V1_SAVING,
-+                                      0);
-     if (ret) {
-         error_report("%s: Failed to set state STOPPED", vbasedev->name);
-         return ret;
-     }
- 
--    trace_vfio_save_complete_precopy(vbasedev->name);
-+    trace_vfio_v1_save_complete_precopy(vbasedev->name);
++static int vfio_load_setup(QEMUFile *f, void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++
++    return vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RESUMING,
++                                   vbasedev->migration->device_state);
++}
++
+ static int vfio_v1_load_setup(QEMUFile *f, void *opaque)
+ {
+     VFIODevice *vbasedev = opaque;
+@@ -616,6 +899,16 @@ static int vfio_v1_load_setup(QEMUFile *f, void *opaque)
      return ret;
  }
  
-@@ -588,7 +589,7 @@ static void vfio_save_state(QEMUFile *f, void *opaque)
-     }
- }
- 
--static int vfio_load_setup(QEMUFile *f, void *opaque)
-+static int vfio_v1_load_setup(QEMUFile *f, void *opaque)
++static int vfio_load_cleanup(void *opaque)
++{
++    VFIODevice *vbasedev = opaque;
++
++    vfio_migration_cleanup(vbasedev);
++    trace_vfio_load_cleanup(vbasedev->name);
++
++    return 0;
++}
++
+ static int vfio_v1_load_cleanup(void *opaque)
  {
      VFIODevice *vbasedev = opaque;
-     VFIOMigration *migration = vbasedev->migration;
-@@ -604,8 +605,8 @@ static int vfio_load_setup(QEMUFile *f, void *opaque)
-         }
-     }
- 
--    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
--                                   VFIO_DEVICE_STATE_V1_RESUMING);
-+    ret = vfio_migration_v1_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
-+                                      VFIO_DEVICE_STATE_V1_RESUMING);
-     if (ret) {
-         error_report("%s: Failed to set state RESUMING", vbasedev->name);
-         if (migration->region.mmaps) {
-@@ -615,11 +616,11 @@ static int vfio_load_setup(QEMUFile *f, void *opaque)
-     return ret;
- }
- 
--static int vfio_load_cleanup(void *opaque)
-+static int vfio_v1_load_cleanup(void *opaque)
- {
-     VFIODevice *vbasedev = opaque;
- 
--    vfio_migration_cleanup(vbasedev);
-+    vfio_migration_v1_cleanup(vbasedev);
-     trace_vfio_load_cleanup(vbasedev->name);
-     return 0;
- }
-@@ -657,7 +658,7 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+@@ -658,7 +951,11 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
              uint64_t data_size = qemu_get_be64(f);
  
              if (data_size) {
--                ret = vfio_load_buffer(f, vbasedev, data_size);
-+                ret = vfio_v1_load_buffer(f, vbasedev, data_size);
+-                ret = vfio_v1_load_buffer(f, vbasedev, data_size);
++                if (vbasedev->migration->v2) {
++                    ret = vfio_load_buffer(f, vbasedev, data_size);
++                } else {
++                    ret = vfio_v1_load_buffer(f, vbasedev, data_size);
++                }
                  if (ret < 0) {
                      return ret;
                  }
-@@ -678,22 +679,22 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+@@ -679,6 +976,17 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
      return ret;
  }
  
--static SaveVMHandlers savevm_vfio_handlers = {
--    .save_setup = vfio_save_setup,
--    .save_cleanup = vfio_save_cleanup,
--    .state_pending_exact = vfio_state_pending,
--    .state_pending_estimate = vfio_state_pending,
-+static SaveVMHandlers savevm_vfio_v1_handlers = {
-+    .save_setup = vfio_v1_save_setup,
-+    .save_cleanup = vfio_v1_save_cleanup,
-+    .state_pending_exact = vfio_v1_state_pending,
-+    .state_pending_estimate = vfio_v1_state_pending,
-     .save_live_iterate = vfio_save_iterate,
--    .save_live_complete_precopy = vfio_save_complete_precopy,
-+    .save_live_complete_precopy = vfio_v1_save_complete_precopy,
-     .save_state = vfio_save_state,
--    .load_setup = vfio_load_setup,
--    .load_cleanup = vfio_load_cleanup,
-+    .load_setup = vfio_v1_load_setup,
-+    .load_cleanup = vfio_v1_load_cleanup,
-     .load_state = vfio_load_state,
- };
++static const SaveVMHandlers savevm_vfio_handlers = {
++    .save_setup = vfio_save_setup,
++    .save_cleanup = vfio_save_cleanup,
++    .state_pending_exact = vfio_state_pending_exact,
++    .save_live_complete_precopy = vfio_save_complete_precopy,
++    .save_state = vfio_save_state,
++    .load_setup = vfio_load_setup,
++    .load_cleanup = vfio_load_cleanup,
++    .load_state = vfio_load_state,
++};
++
+ static SaveVMHandlers savevm_vfio_v1_handlers = {
+     .save_setup = vfio_v1_save_setup,
+     .save_cleanup = vfio_v1_save_cleanup,
+@@ -694,6 +1002,38 @@ static SaveVMHandlers savevm_vfio_v1_handlers = {
  
  /* ---------------------------------------------------------------------- */
  
--static void vfio_vmstate_change(void *opaque, bool running, RunState state)
-+static void vfio_v1_vmstate_change(void *opaque, bool running, RunState state)
++static void vfio_vmstate_change(void *opaque, bool running, RunState state)
++{
++    VFIODevice *vbasedev = opaque;
++    enum vfio_device_mig_state new_state;
++    int ret;
++
++    if (running) {
++        new_state = VFIO_DEVICE_STATE_RUNNING;
++    } else {
++        new_state = VFIO_DEVICE_STATE_STOP;
++    }
++
++    /*
++     * If setting the device in new_state fails, the device should be reset.
++     * To do so, use ERROR state as a recover state.
++     */
++    ret = vfio_migration_set_state(vbasedev, new_state,
++                                   VFIO_DEVICE_STATE_ERROR);
++    if (ret) {
++        /*
++         * Migration should be aborted in this case, but vm_state_notify()
++         * currently does not support reporting failures.
++         */
++        if (migrate_get_current()->to_dst_file) {
++            qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
++        }
++    }
++
++    trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
++                              mig_state_to_str(new_state));
++}
++
+ static void vfio_v1_vmstate_change(void *opaque, bool running, RunState state)
  {
      VFIODevice *vbasedev = opaque;
-     VFIOMigration *migration = vbasedev->migration;
-@@ -733,21 +734,21 @@ static void vfio_vmstate_change(void *opaque, bool running, RunState state)
-         }
-     }
- 
--    ret = vfio_migration_set_state(vbasedev, mask, value);
-+    ret = vfio_migration_v1_set_state(vbasedev, mask, value);
-     if (ret) {
-         /*
-          * Migration should be aborted in this case, but vm_state_notify()
-          * currently does not support reporting failures.
-          */
-         error_report("%s: Failed to set device state 0x%x", vbasedev->name,
--                     (migration->device_state & mask) | value);
-+                     (migration->device_state_v1 & mask) | value);
-         if (migrate_get_current()->to_dst_file) {
-             qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
-         }
-     }
-     vbasedev->migration->vm_running = running;
--    trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
--            (migration->device_state & mask) | value);
-+    trace_vfio_v1_vmstate_change(vbasedev->name, running, RunState_str(state),
-+            (migration->device_state_v1 & mask) | value);
- }
- 
- static void vfio_migration_state_notifier(Notifier *notifier, void *data)
-@@ -766,10 +767,10 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+@@ -767,12 +1107,21 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
      case MIGRATION_STATUS_CANCELLED:
      case MIGRATION_STATUS_FAILED:
          bytes_transferred = 0;
--        ret = vfio_migration_set_state(vbasedev,
--                                       ~(VFIO_DEVICE_STATE_V1_SAVING |
--                                         VFIO_DEVICE_STATE_V1_RESUMING),
--                                       VFIO_DEVICE_STATE_V1_RUNNING);
-+        ret = vfio_migration_v1_set_state(vbasedev,
-+                                          ~(VFIO_DEVICE_STATE_V1_SAVING |
-+                                            VFIO_DEVICE_STATE_V1_RESUMING),
-+                                          VFIO_DEVICE_STATE_V1_RUNNING);
-         if (ret) {
-             error_report("%s: Failed to set state RUNNING", vbasedev->name);
+-        ret = vfio_migration_v1_set_state(vbasedev,
+-                                          ~(VFIO_DEVICE_STATE_V1_SAVING |
+-                                            VFIO_DEVICE_STATE_V1_RESUMING),
+-                                          VFIO_DEVICE_STATE_V1_RUNNING);
+-        if (ret) {
+-            error_report("%s: Failed to set state RUNNING", vbasedev->name);
++        if (migration->v2) {
++            /*
++             * If setting the device in RUNNING state fails, the device should
++             * be reset. To do so, use ERROR state as a recover state.
++             */
++            vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RUNNING,
++                                     VFIO_DEVICE_STATE_ERROR);
++        } else {
++            ret = vfio_migration_v1_set_state(vbasedev,
++                                              ~(VFIO_DEVICE_STATE_V1_SAVING |
++                                                VFIO_DEVICE_STATE_V1_RESUMING),
++                                              VFIO_DEVICE_STATE_V1_RUNNING);
++            if (ret) {
++                error_report("%s: Failed to set state RUNNING", vbasedev->name);
++            }
          }
-@@ -813,7 +814,7 @@ static int vfio_migration_init(VFIODevice *vbasedev)
+     }
+ }
+@@ -781,12 +1130,42 @@ static void vfio_migration_exit(VFIODevice *vbasedev)
+ {
+     VFIOMigration *migration = vbasedev->migration;
+ 
+-    vfio_region_exit(&migration->region);
+-    vfio_region_finalize(&migration->region);
++    if (!migration->v2) {
++        vfio_region_exit(&migration->region);
++        vfio_region_finalize(&migration->region);
++    }
+     g_free(vbasedev->migration);
+     vbasedev->migration = NULL;
+ }
+ 
++static int vfio_migration_query_flags(VFIODevice *vbasedev, uint64_t *mig_flags)
++{
++    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature) +
++                                  sizeof(struct vfio_device_feature_migration),
++                              sizeof(uint64_t))] = {};
++    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
++    struct vfio_device_feature_migration *mig =
++        (struct vfio_device_feature_migration *)feature->data;
++
++    feature->argsz = sizeof(buf);
++    feature->flags = VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_MIGRATION;
++    if (ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature)) {
++        if (errno == ENOTTY) {
++            error_report("%s: VFIO migration is not supported in kernel",
++                         vbasedev->name);
++        } else {
++            error_report("%s: Failed to query VFIO migration support, err: %s",
++                         vbasedev->name, strerror(errno));
++        }
++
++        return -errno;
++    }
++
++    *mig_flags = mig->flags;
++
++    return 0;
++}
++
+ static int vfio_migration_init(VFIODevice *vbasedev)
+ {
+     int ret;
+@@ -795,6 +1174,7 @@ static int vfio_migration_init(VFIODevice *vbasedev)
+     char id[256] = "";
+     g_autofree char *path = NULL, *oid = NULL;
+     struct vfio_region_info *info;
++    uint64_t mig_flags = 0;
+ 
+     if (!vbasedev->ops->vfio_get_object) {
+         return -EINVAL;
+@@ -805,34 +1185,50 @@ static int vfio_migration_init(VFIODevice *vbasedev)
+         return -EINVAL;
      }
  
-     vbasedev->migration = g_new0(VFIOMigration, 1);
--    vbasedev->migration->device_state = VFIO_DEVICE_STATE_V1_RUNNING;
-+    vbasedev->migration->device_state_v1 = VFIO_DEVICE_STATE_V1_RUNNING;
-     vbasedev->migration->vm_running = runstate_is_running();
+-    ret = vfio_get_dev_region_info(vbasedev,
+-                                   VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
+-                                   VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
+-                                   &info);
+-    if (ret) {
+-        return ret;
+-    }
++    ret = vfio_migration_query_flags(vbasedev, &mig_flags);
++    if (!ret) {
++        /* Migration v2 */
++        /* Basic migration functionality must be supported */
++        if (!(mig_flags & VFIO_MIGRATION_STOP_COPY)) {
++            return -EOPNOTSUPP;
++        }
++        vbasedev->migration = g_new0(VFIOMigration, 1);
++        vbasedev->migration->device_state = VFIO_DEVICE_STATE_RUNNING;
++        vbasedev->migration->data_fd = -1;
++        vbasedev->migration->v2 = true;
++    } else if (ret == -ENOTTY) {
++        /* Migration v1 */
++        ret = vfio_get_dev_region_info(vbasedev,
++                                       VFIO_REGION_TYPE_MIGRATION_DEPRECATED,
++                                       VFIO_REGION_SUBTYPE_MIGRATION_DEPRECATED,
++                                       &info);
++        if (ret) {
++            return ret;
++        }
  
-     ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
-@@ -844,12 +845,11 @@ static int vfio_migration_init(VFIODevice *vbasedev)
+-    vbasedev->migration = g_new0(VFIOMigration, 1);
+-    vbasedev->migration->device_state_v1 = VFIO_DEVICE_STATE_V1_RUNNING;
+-    vbasedev->migration->vm_running = runstate_is_running();
++        vbasedev->migration = g_new0(VFIOMigration, 1);
++        vbasedev->migration->device_state_v1 = VFIO_DEVICE_STATE_V1_RUNNING;
++        vbasedev->migration->vm_running = runstate_is_running();
+ 
+-    ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
+-                            info->index, "migration");
+-    if (ret) {
+-        error_report("%s: Failed to setup VFIO migration region %d: %s",
+-                     vbasedev->name, info->index, strerror(-ret));
+-        goto err;
+-    }
++        ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
++                                info->index, "migration");
++        if (ret) {
++            error_report("%s: Failed to setup VFIO migration region %d: %s",
++                         vbasedev->name, info->index, strerror(-ret));
++            goto err;
++        }
+ 
+-    if (!vbasedev->migration->region.size) {
+-        error_report("%s: Invalid zero-sized VFIO migration region %d",
+-                     vbasedev->name, info->index);
+-        ret = -EINVAL;
+-        goto err;
+-    }
++        if (!vbasedev->migration->region.size) {
++            error_report("%s: Invalid zero-sized VFIO migration region %d",
++                         vbasedev->name, info->index);
++            ret = -EINVAL;
++            goto err;
++        }
+ 
+-    g_free(info);
++        g_free(info);
++    } else {
++        return ret;
++    }
+ 
+     migration = vbasedev->migration;
+     migration->vbasedev = vbasedev;
+@@ -845,11 +1241,20 @@ static int vfio_migration_init(VFIODevice *vbasedev)
      }
      strpadcpy(id, sizeof(id), path, '\0');
  
--    register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1, &savevm_vfio_handlers,
--                         vbasedev);
-+    register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1,
-+                         &savevm_vfio_v1_handlers, vbasedev);
+-    register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1,
+-                         &savevm_vfio_v1_handlers, vbasedev);
++    if (migration->v2) {
++        register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1,
++                             &savevm_vfio_handlers, vbasedev);
++
++        migration->vm_state = qdev_add_vm_change_state_handler(
++            vbasedev->dev, vfio_vmstate_change, vbasedev);
++    } else {
++        register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1,
++                             &savevm_vfio_v1_handlers, vbasedev);
++
++        migration->vm_state = qdev_add_vm_change_state_handler(
++            vbasedev->dev, vfio_v1_vmstate_change, vbasedev);
++    }
  
--    migration->vm_state = qdev_add_vm_change_state_handler(vbasedev->dev,
--                                                           vfio_vmstate_change,
--                                                           vbasedev);
-+    migration->vm_state = qdev_add_vm_change_state_handler(
-+        vbasedev->dev, vfio_v1_vmstate_change, vbasedev);
+-    migration->vm_state = qdev_add_vm_change_state_handler(
+-        vbasedev->dev, vfio_v1_vmstate_change, vbasedev);
      migration->migration_state.notify = vfio_migration_state_notifier;
      add_migration_state_change_notifier(&migration->migration_state);
      return 0;
 diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 6be5381cc9..c8739449df 100644
+index c8739449df..b24e448534 100644
 --- a/hw/vfio/trace-events
 +++ b/hw/vfio/trace-events
-@@ -149,20 +149,20 @@ vfio_display_edid_write_error(void) ""
+@@ -149,20 +149,27 @@ vfio_display_edid_write_error(void) ""
  
  # migration.c
  vfio_migration_probe(const char *name) " (%s)"
--vfio_migration_set_state(const char *name, uint32_t state) " (%s) state %d"
--vfio_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
-+vfio_migration_v1_set_state(const char *name, uint32_t state) " (%s) state %d"
-+vfio_v1_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
++vfio_migration_set_state(const char *name, const char *state) " (%s) state %s"
+ vfio_migration_v1_set_state(const char *name, uint32_t state) " (%s) state %d"
++vfio_vmstate_change(const char *name, int running, const char *reason, const char *dev_state) " (%s) running %d reason %s device state %s"
+ vfio_v1_vmstate_change(const char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
  vfio_migration_state_notifier(const char *name, const char *state) " (%s) state %s"
--vfio_save_setup(const char *name) " (%s)"
-+vfio_v1_save_setup(const char *name) " (%s)"
++vfio_save_setup(const char *name, uint64_t data_buffer_size) " (%s) data buffer size 0x%"PRIx64
+ vfio_v1_save_setup(const char *name) " (%s)"
  vfio_save_cleanup(const char *name) " (%s)"
  vfio_save_buffer(const char *name, uint64_t data_offset, uint64_t data_size, uint64_t pending) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64" pending 0x%"PRIx64
  vfio_update_pending(const char *name, uint64_t pending) " (%s) pending 0x%"PRIx64
  vfio_save_device_config_state(const char *name) " (%s)"
--vfio_state_pending(const char *name, uint64_t precopy, uint64_t postcopy) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64
-+vfio_v1_state_pending(const char *name, uint64_t precopy, uint64_t postcopy) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64
++vfio_state_pending_exact(const char *name, uint64_t precopy, uint64_t postcopy, uint64_t stopcopy_size) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" stopcopy size 0x%"PRIx64
+ vfio_v1_state_pending(const char *name, uint64_t precopy, uint64_t postcopy) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64
  vfio_save_iterate(const char *name, int data_size) " (%s) data_size %d"
--vfio_save_complete_precopy(const char *name) " (%s)"
-+vfio_v1_save_complete_precopy(const char *name) " (%s)"
++vfio_save_complete_precopy(const char *name, int ret) " (%s) ret %d"
+ vfio_v1_save_complete_precopy(const char *name) " (%s)"
  vfio_load_device_config_state(const char *name) " (%s)"
  vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
--vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
-+vfio_v1_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+ vfio_v1_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
++vfio_load_state_device_data(const char *name, uint64_t data_size, int ret) " (%s) size 0x%"PRIx64" ret %d"
  vfio_load_cleanup(const char *name) " (%s)"
  vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
  vfio_iommu_map_dirty_notify(uint64_t iova_start, uint64_t iova_end) "iommu dirty @ 0x%"PRIx64" - 0x%"PRIx64
++vfio_save_block(const char *name, int data_size) " (%s) data_size %d"
 -- 
 2.26.3
 
