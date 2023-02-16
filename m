@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B40698AF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 04:11:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163B0698B65
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Feb 2023 05:18:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSUeM-0007YI-Qy; Wed, 15 Feb 2023 22:09:34 -0500
+	id 1pSVhs-0007Mq-32; Wed, 15 Feb 2023 23:17:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUeJ-0007X0-Sp
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 22:09:31 -0500
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pSUeE-0000Br-MP
- for qemu-devel@nongnu.org; Wed, 15 Feb 2023 22:09:31 -0500
-Received: by mail-pf1-x436.google.com with SMTP id bd35so594336pfb.6
- for <qemu-devel@nongnu.org>; Wed, 15 Feb 2023 19:09:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8oTGtji2gFH3RPMGsbULntVwagtctLLdB2UDLnFD4qU=;
- b=fu/XE7ozh1m1IF2AGnAXm0CwKpYNz7sPFNk1V0BruBVbN3LJzSdHq76glFoyMrsOKH
- TwkFwrFMNLmmnJM9hO+dpUF7++HucE3R6umH9cod8Gbqhb4IQAqtWggFo4sBptIXCKrm
- EE8X93ldJkOhMeU12AWfqZkj5T+RpioZChdPIfUuCDUITd7hXogsRTQfmcixyEXILANm
- lmR/zOEa00K8k/B6h3INQ3KaVyrTGDxrA67P9+vGDvYJnXrAUu9VjM03lxEIh3jDY4xd
- Fz7//jBnuQk6EzT5HftQtRtRq6tSxAm7F/PPcTgMLaMiSyMw95RKbChLIImNmmCNGhcH
- M8Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8oTGtji2gFH3RPMGsbULntVwagtctLLdB2UDLnFD4qU=;
- b=6eEaBGkseg8cGrFM9vjNPqA3tE+vUF6ajMuqPgJFEgFjTmle/EQ92N7dGrZDJyHw+y
- rzFuDFi6h/ey2Fw2Ypfaot2sQpSP7wlo67ZJgnaAlink7f82U2rqKiy6x5dnJ0br0k85
- eyZH50awVpYC79IGFUrui1Nn5NN9dHZIIM/y2RumLJVhDzCEbzvN/IBroVO7Sx9kelLh
- lqEZ6MkrtcUeYG1Mzw54AWK+HzfQyNiT2l/Dwf1VvCXwMypb8lSuVK5bun8dr+rJFPEA
- 0XLSrvzxDj/2YyARXNCx1bXUDvUHKvJOs5euSBh3Ca7XoLxbTHDDwXtXp+jogyO0evdl
- JGSA==
-X-Gm-Message-State: AO0yUKVrB39QGpw+svNkArWQHtd2v7s8qWdlSF7v1Fio2tnIGWS7sgVk
- 3lOwUnev2pKo6Tdy0TAg55+EG2hEjW/PZp5KKMc=
-X-Google-Smtp-Source: AK7set9T/VusCJvHu7lg8CNH4Gogv9SrjsNgvXN9hO8W6CDTVlGEF/4q6lpXGjqNWjbvtS62aR0DJw==
-X-Received: by 2002:aa7:9402:0:b0:5a8:bf60:fa57 with SMTP id
- x2-20020aa79402000000b005a8bf60fa57mr3196974pfo.4.1676516965844; 
- Wed, 15 Feb 2023 19:09:25 -0800 (PST)
-Received: from stoup.. (rrcs-74-87-59-234.west.biz.rr.com. [74.87.59.234])
- by smtp.gmail.com with ESMTPSA id
- i25-20020aa79099000000b005810a54fdefsm79051pfa.114.2023.02.15.19.09.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 19:09:25 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Subject: [PATCH v1 19/19] target/arm: Enable FEAT_LSE2 for -cpu max
-Date: Wed, 15 Feb 2023 17:08:54 -1000
-Message-Id: <20230216030854.1212208-20-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230216030854.1212208-1-richard.henderson@linaro.org>
-References: <20230216030854.1212208-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
+ id 1pSVhp-0007Lj-6N
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 23:17:13 -0500
+Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
+ id 1pSVhl-0005wc-DQ
+ for qemu-devel@nongnu.org; Wed, 15 Feb 2023 23:17:12 -0500
+Received: from mta-01.yadro.com (localhost.localdomain [127.0.0.1])
+ by mta-01.yadro.com (Proxmox) with ESMTP id 96EFF3419D6;
+ Thu, 16 Feb 2023 07:17:04 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :from:from:in-reply-to:message-id:mime-version:references
+ :reply-to:subject:subject:to:to; s=mta-01; bh=c2PzTnftiX1LIpjv5K
+ f1jtz6xnjit4KvTxWp0VN84e0=; b=dbJOgKeFeNhLDMFoGb3jLC8azhd/B/mwRu
+ O03Tk3lxGxnQs1GsYuRecYHoH1XlfbYXfOw9vLwmJkY34YQN/AnxI5HvEKJHHt0b
+ kCKn/cOvglS41cqGFAGyCvxNux2R/9ajQk62q2UDNhoDV7IHOZ5kHVKI5x64SoD0
+ CV6ZATsRs=
+Received: from T-EXCH-08.corp.yadro.com (unknown [172.17.10.14])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Proxmox) with ESMTPS id 8BDB534107B;
+ Thu, 16 Feb 2023 07:17:04 +0300 (MSK)
+Received: from [10.199.22.165] (10.199.22.165) by T-EXCH-08.corp.yadro.com
+ (172.17.11.58) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.9; Thu, 16 Feb
+ 2023 07:17:04 +0300
+Message-ID: <be45264f-03d5-e6d1-f12e-c92b0ef7b557@yadro.com>
+Date: Thu, 16 Feb 2023 07:17:03 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH] Adding ability to change disassembler syntax in TCG
+ plugins
+From: Mikhail Tyutin <m.tyutin@yadro.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, <alex.bennee@linaro.org>
+References: <7d17f0cbb5ed4c90bbadd3992429006f@yadro.com>
+CC: <erdnaxe@crans.org>, <ma.mandourr@gmail.com>
+In-Reply-To: <7d17f0cbb5ed4c90bbadd3992429006f@yadro.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.199.22.165]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-08.corp.yadro.com (172.17.11.58)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=m.tyutin@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.257,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,37 +78,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- docs/system/arm/emulation.rst | 1 +
- target/arm/cpu64.c            | 1 +
- 2 files changed, 2 insertions(+)
+ping
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index 2062d71261..a97e05e746 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -50,6 +50,7 @@ the following architecture extensions:
- - FEAT_LRCPC (Load-acquire RCpc instructions)
- - FEAT_LRCPC2 (Load-acquire RCpc instructions v2)
- - FEAT_LSE (Large System Extensions)
-+- FEAT_LSE2 (Large System Extensions v2)
- - FEAT_LVA (Large Virtual Address space)
- - FEAT_MTE (Memory Tagging Extension)
- - FEAT_MTE2 (Memory Tagging Extension)
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 4066950da1..ab91b579bc 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -1245,6 +1245,7 @@ static void aarch64_max_initfn(Object *obj)
-     t = FIELD_DP64(t, ID_AA64MMFR2, IESB, 1);     /* FEAT_IESB */
-     t = FIELD_DP64(t, ID_AA64MMFR2, VARANGE, 1);  /* FEAT_LVA */
-     t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1);       /* FEAT_TTST */
-+    t = FIELD_DP64(t, ID_AA64MMFR2, AT, 1);       /* FEAT_LSE2 */
-     t = FIELD_DP64(t, ID_AA64MMFR2, IDS, 1);      /* FEAT_IDST */
-     t = FIELD_DP64(t, ID_AA64MMFR2, FWB, 1);      /* FEAT_S2FWB */
-     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1);      /* FEAT_TTL */
--- 
-2.34.1
+patchew link:
+https://patchew.org/QEMU/7d17f0cbb5ed4c90bbadd3992429006f@yadro.com/
+
+10.02.2023 18:24, Mikhail Tyutin wrote:
+> This patch adds new function qemu_plugin_insn_disas_with_syntax() that allows TCG plugins to get disassembler string with non-default syntax if it wants to.
+> 
+> Signed-off-by: Mikhail Tyutin <m.tyutin@yadro.com>
+> ---
+>   contrib/plugins/execlog.c    |  2 +-
+>   disas.c                      |  4 +++-
+>   disas/capstone.c             |  9 ++++++++-
+>   include/disas/dis-asm.h      |  2 ++
+>   include/disas/disas.h        |  4 +++-
+>   include/qemu/qemu-plugin.h   | 17 +++++++++++++++++
+>   plugins/api.c                | 10 ++++++++--
+>   plugins/qemu-plugins.symbols |  1 +
+>   8 files changed, 43 insertions(+), 6 deletions(-)
+> 
+> diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+> index e255bd21fd..6006490b1d 100644
+> --- a/contrib/plugins/execlog.c
+> +++ b/contrib/plugins/execlog.c
+> @@ -121,7 +121,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+>            * a limitation for CISC architectures.
+>            */
+>           insn = qemu_plugin_tb_get_insn(tb, i);
+> -        insn_disas = qemu_plugin_insn_disas(insn);
+> +        insn_disas = qemu_plugin_insn_disas_with_syntax(insn, QEMU_PLUGIN_DISAS_SYNTAX_INTEL);
+>           insn_vaddr = qemu_plugin_insn_vaddr(insn);
+>   
+>           /*
+> diff --git a/disas.c b/disas.c
+> index b087c12c47..19b0f9d15f 100644
+> --- a/disas.c
+> +++ b/disas.c
+> @@ -267,7 +267,8 @@ static void plugin_print_address(bfd_vma addr, struct disassemble_info *info)
+>    * there is left over it usually indicates the front end has read more
+>    * bytes than it needed.
+>    */
+> -char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
+> +char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size,
+> +                   enum qemu_plugin_disas_syntax syntax)
+>   {
+>       CPUDebug s;
+>       GString *ds = g_string_new(NULL);
+> @@ -278,6 +279,7 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
+>       s.info.buffer_vma = addr;
+>       s.info.buffer_length = size;
+>       s.info.print_address_func = plugin_print_address;
+> +    s.info.dis_syntax = syntax;
+>   
+>       if (s.info.cap_arch >= 0 && cap_disas_plugin(&s.info, addr, size)) {
+>           ; /* done */
+> diff --git a/disas/capstone.c b/disas/capstone.c
+> index fe3efb0d3c..7476ee4044 100644
+> --- a/disas/capstone.c
+> +++ b/disas/capstone.c
+> @@ -5,6 +5,7 @@
+>   
+>   #include "qemu/osdep.h"
+>   #include "qemu/bswap.h"
+> +#include "qemu/plugin.h"
+>   #include "disas/dis-asm.h"
+>   #include "disas/capstone.h"
+>   
+> @@ -87,7 +88,13 @@ static cs_err cap_disas_start(disassemble_info *info, csh *handle)
+>            * is compiled without AT&T syntax); the user will just have
+>            * to deal with the Intel syntax.
+>            */
+> -        cs_option(*handle, CS_OPT_SYNTAX, CS_OPT_SYNTAX_ATT);
+> +
+> +        size_t cs_opt_syntax = CS_OPT_SYNTAX_ATT;
+> +        if (info->dis_syntax == QEMU_PLUGIN_DISAS_SYNTAX_INTEL) {
+> +            cs_opt_syntax = CS_OPT_SYNTAX_INTEL;
+> +        }
+> +
+> +        cs_option(*handle, CS_OPT_SYNTAX, cs_opt_syntax);
+>           break;
+>       }
+>   
+> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+> index 64247ecb11..0153165ca2 100644
+> --- a/include/disas/dis-asm.h
+> +++ b/include/disas/dis-asm.h
+> @@ -409,6 +409,8 @@ typedef struct disassemble_info {
+>     int cap_insn_unit;
+>     int cap_insn_split;
+>   
+> +  int dis_syntax;
+> +
+>   } disassemble_info;
+>   
+>   /* Standard disassemblers.  Disassemble one instruction at the given
+> diff --git a/include/disas/disas.h b/include/disas/disas.h
+> index d363e95ede..f8e4f97ab1 100644
+> --- a/include/disas/disas.h
+> +++ b/include/disas/disas.h
+> @@ -2,6 +2,7 @@
+>   #define QEMU_DISAS_H
+>   
+>   #include "exec/hwaddr.h"
+> +#include "qemu/plugin.h"
+>   
+>   #ifdef NEED_CPU_H
+>   #include "cpu.h"
+> @@ -14,7 +15,8 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+>   void monitor_disas(Monitor *mon, CPUState *cpu,
+>                      target_ulong pc, int nb_insn, int is_physical);
+>   
+> -char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size);
+> +char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size,
+> +                   enum qemu_plugin_disas_syntax syntax);
+>   
+>   /* Look up symbol for debugging purpose.  Returns "" if unknown. */
+>   const char *lookup_symbol(target_ulong orig_addr);
+> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+> index d0e9d03adf..a4bd543579 100644
+> --- a/include/qemu/qemu-plugin.h
+> +++ b/include/qemu/qemu-plugin.h
+> @@ -233,6 +233,12 @@ enum qemu_plugin_mem_rw {
+>       QEMU_PLUGIN_MEM_RW,
+>   };
+>   
+> +enum qemu_plugin_disas_syntax {
+> +    QEMU_PLUGIN_DISAS_SYNTAX_DEFAULT,
+> +    QEMU_PLUGIN_DISAS_SYNTAX_ATT,
+> +    QEMU_PLUGIN_DISAS_SYNTAX_INTEL,
+> +};
+> +
+>   /**
+>    * typedef qemu_plugin_vcpu_tb_trans_cb_t - translation callback
+>    * @id: unique plugin id
+> @@ -526,6 +532,17 @@ qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
+>   
+>   char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn);
+>   
+> +#define QEMU_PLUGIN_DISAS_SYNTAX_ENABLED
+> +/**
+> + * qemu_plugin_insn_disas_with_syntax() - return disassembly string for instruction
+> + * @insn: instruction reference
+> + * @syntax: syntax style
+> + *
+> + * Returns an allocated string containing the disassembly
+> + */
+> +char *qemu_plugin_insn_disas_with_syntax(const struct qemu_plugin_insn *insn,
+> +                                         enum qemu_plugin_disas_syntax syntax);
+> +
+>   /**
+>    * qemu_plugin_insn_symbol() - best effort symbol lookup
+>    * @insn: instruction reference
+> diff --git a/plugins/api.c b/plugins/api.c
+> index 2078b16edb..579dcaa0e3 100644
+> --- a/plugins/api.c
+> +++ b/plugins/api.c
+> @@ -232,10 +232,16 @@ void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn)
+>       return insn->haddr;
+>   }
+>   
+> -char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn)
+> +char *qemu_plugin_insn_disas_with_syntax(const struct qemu_plugin_insn *insn,
+> +                                         enum qemu_plugin_disas_syntax syntax)
+>   {
+>       CPUState *cpu = current_cpu;
+> -    return plugin_disas(cpu, insn->vaddr, insn->data->len);
+> +    return plugin_disas(cpu, insn->vaddr, insn->data->len, syntax);
+> +}
+> +
+> +char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn)
+> +{
+> +    return qemu_plugin_insn_disas_with_syntax(insn, QEMU_PLUGIN_DISAS_SYNTAX_DEFAULT);
+>   }
+>   
+>   const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn)
+> diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+> index 71f6c90549..895526ff74 100644
+> --- a/plugins/qemu-plugins.symbols
+> +++ b/plugins/qemu-plugins.symbols
+> @@ -8,6 +8,7 @@
+>     qemu_plugin_hwaddr_phys_addr;
+>     qemu_plugin_insn_data;
+>     qemu_plugin_insn_disas;
+> +  qemu_plugin_insn_disas_with_syntax;
+>     qemu_plugin_insn_haddr;
+>     qemu_plugin_insn_size;
+>     qemu_plugin_insn_symbol;
 
 
