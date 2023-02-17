@@ -2,80 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D01D69B1C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:29:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B017069B1C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:30:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT4XL-00067I-Ss; Fri, 17 Feb 2023 12:28:44 -0500
+	id 1pT4Y5-0006Xm-Mv; Fri, 17 Feb 2023 12:29:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pT4XH-00066O-Iz
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:28:39 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pT4XE-00010g-UI
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:28:39 -0500
-Received: by mail-pl1-x634.google.com with SMTP id jw12so145905plb.1
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:28:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=DdcJx4wDNl/1y2B/L5izpMKhcCM9J/D1mPCqoDIxm6M=;
- b=iA4DUX2rqo/PJr6D+/6gvInVVhoE+Z3alHy8oKxYoGxGujsAwyzjBT22VDG42en2Cb
- rikId8AgDdUqHNKQ8vKPwcSWr6GHTpC8nHPyW3fpNIDWUynuJgvkvdia62JgIiOHoDhW
- UjczyarEWj7N/uGDBpgvQA+vJlCCBnsuQGeCJEF5Y8QtOPx2Rfny3ZN4YGALYg0f477X
- +fOHRYh7jLfQsoyAIla6r2/HYc2SPbUg9MYJmjD1xkoGSsDXU1Di/kk9yqfONMu/sJN9
- fFct49qzduI47dmy7hsG1DAadh3GC85i98Sxo72cPQlxAYzuVQAAlfpIX76rfsrvU2IH
- zVGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DdcJx4wDNl/1y2B/L5izpMKhcCM9J/D1mPCqoDIxm6M=;
- b=YsMjrRVxInBh1C5N8y/1W+AGCahA/iTHEZcDl1/Ol8iXeZhR56SXZHBgW+QEkweAf6
- J840McsD7FmwgOvbYU3HjK15RrDkI5p3RG+/8723esoJN+Uw5zQJSB9jZyDcpyqMctGv
- VB9EN03P9wPB9wPlkvDG3p9Vlwe+132vJjwaJbFmVjjiISEg3FSblMah0Li+8mgmD3kl
- ADgoJcppWoQ9vcCwEIZ4IPtHwVnesXyZxVXp1HNNDjR2opVE8zxIvrhdcSA0UHbGVwy0
- W1GStWf6nNn9m1y4hKikTbxnKWVeJXA5c5XuAVFaQcVOnQ97EOWsljWEofNDAKn+25rv
- 2LIA==
-X-Gm-Message-State: AO0yUKXQU65u+N5bAq3ffAQQpeYzTsXXrJhPk67Jzh2EA9proqDXRLkm
- rEEs/df5+8s+7tFFXuU3Ly4lRA==
-X-Google-Smtp-Source: AK7set//EmCQX7R2peBSehl7Im16+XaqQbx95hbCknuHPaAuxjxHuz8TIW/RHNKf9MvENji4ZoRi9Q==
-X-Received: by 2002:a17:90a:19d0:b0:234:d1c:f112 with SMTP id
- 16-20020a17090a19d000b002340d1cf112mr501392pjj.0.1676654911581; 
- Fri, 17 Feb 2023 09:28:31 -0800 (PST)
-Received: from localhost ([135.180.226.51]) by smtp.gmail.com with ESMTPSA id
- 6-20020a17090a08c600b00234115a2221sm3134329pjn.39.2023.02.17.09.28.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 09:28:30 -0800 (PST)
-Date: Fri, 17 Feb 2023 09:28:30 -0800 (PST)
-X-Google-Original-Date: Fri, 17 Feb 2023 09:28:17 PST (-0800)
-Subject: Re: [PATCH 18/18] target/riscv: Move configuration check to envcfg
- CSRs predicate()
-In-Reply-To: <CAEUhbmWQtabLO-whpqO8WDCgjXTfb7wQoqdWezzAUY-JSg9T2w@mail.gmail.com>
-CC: liweiwei@iscas.ac.cn, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, 
- zhiwei_liu@linux.alibaba.com, qemu-riscv@nongnu.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Message-ID: <mhng-bb66054f-f2ac-44dd-b8dc-a8e80afa1983@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pT4Xy-0006Qv-G2
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:29:23 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pT4Xv-00016F-HK
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:29:22 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PJJbH1SQKz6J6V3;
+ Sat, 18 Feb 2023 01:24:43 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Fri, 17 Feb 2023 17:29:14 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>, Markus
+ Armbruster <armbru@redhat.com>, Dave Jiang <dave.jiang@intel.com>
+Subject: [PATCH v4 0/8] hw/cxl: RAS error emulation and injection
+Date: Fri, 17 Feb 2023 17:29:16 +0000
+Message-ID: <20230217172924.25239-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=palmer@dabbelt.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,115 +62,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Feb 2023 17:59:42 PST (-0800), Bin Meng wrote:
-> Hi Palmer,
->
-> On Fri, Feb 17, 2023 at 12:40 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
->>
->> On Tue, 14 Feb 2023 18:22:21 PST (-0800), Bin Meng wrote:
->> > On Tue, Feb 14, 2023 at 10:59 PM weiwei <liweiwei@iscas.ac.cn> wrote:
->> >>
->> >>
->> >> On 2023/2/14 22:27, Bin Meng wrote:
->> >> > At present the envcfg CSRs predicate() routines are generic one like
->> >> > smode(), hmode. The configuration check is done in the read / write
->> >> > routine. Create a new predicate routine to cover such check, so that
->> >> > gdbstub can correctly report its existence.
->> >> >
->> >> > Signed-off-by: Bin Meng <bmeng@tinylab.org>
->> >> >
->> >> > ---
->> >> >
->> >> >   target/riscv/csr.c | 98 +++++++++++++++++++++++++++++-----------------
->> >> >   1 file changed, 61 insertions(+), 37 deletions(-)
->> >> >
->> >> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> >> > index 37350b8a6d..284ccc09dd 100644
->> >> > --- a/target/riscv/csr.c
->> >> > +++ b/target/riscv/csr.c
->> >> > @@ -41,40 +41,6 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
->> >> >   }
->> >> >
->> >> >   /* Predicates */
->> >> > -#if !defined(CONFIG_USER_ONLY)
->> >> > -static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
->> >> > -                                       uint64_t bit)
->> >> > -{
->> >> > -    bool virt = riscv_cpu_virt_enabled(env);
->> >> > -    RISCVCPU *cpu = env_archcpu(env);
->> >> > -
->> >> > -    if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
->> >> > -        return RISCV_EXCP_NONE;
->> >> > -    }
->> >> > -
->> >> > -    if (!(env->mstateen[index] & bit)) {
->> >> > -        return RISCV_EXCP_ILLEGAL_INST;
->> >> > -    }
->> >> > -
->> >> > -    if (virt) {
->> >> > -        if (!(env->hstateen[index] & bit)) {
->> >> > -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> >> > -        }
->> >> > -
->> >> > -        if (env->priv == PRV_U && !(env->sstateen[index] & bit)) {
->> >> > -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> >> > -        }
->> >> > -    }
->> >> > -
->> >> > -    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
->> >> > -        if (!(env->sstateen[index] & bit)) {
->> >> > -            return RISCV_EXCP_ILLEGAL_INST;
->> >> > -        }
->> >> > -    }
->> >> > -
->> >> > -    return RISCV_EXCP_NONE;
->> >> > -}
->> >> > -#endif
->> >> >
->> >> >   static RISCVException fs(CPURISCVState *env, int csrno)
->> >> >   {
->> >> > @@ -318,6 +284,32 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
->> >> >       return umode(env, csrno);
->> >> >   }
->> >> >
->> >> > +static RISCVException envcfg(CPURISCVState *env, int csrno)
->> >> > +{
->> >> > +    RISCVCPU *cpu = env_archcpu(env);
->> >> > +    riscv_csr_predicate_fn predicate;
->> >> > +
->> >> > +    if (cpu->cfg.ext_smstateen) {
->> >> > +        return RISCV_EXCP_ILLEGAL_INST;
->> >> > +    }
->> >>
->> >> This check seems not right here.  Why  ILLEGAL_INST is directly
->> >> triggered if smstateen is enabled?
->> >
->> > This logic was there in the original codes. I was confused when I
->> > looked at this as well.
->> >
->> > Anyway, if it is an issue, it should be a separate patch.
->>
->> Seems reasonable to me, it's always nice to split up the refactoring types.  So
->> I queued this up as 4ac6c32224 ("Merge patch series "target/riscv: Various
->> fixes to gdbstub and CSR access"").
->>
->> I had to fix up the From address on the patch you re-sent and there was a minor
->> merge conflict, but otherwise things look sane to me.  I'll hold off on sending
->> anything for a bit just in case, though.
->>
->
-> There are some open comments in this series I need to address. Please
-> drop this v1. I will send v2 soon.
+v4: (no functional changes)
+In response to similar feedback on poison injection series (Markus Armbruster).
+ - More detailed documentation in cxl.json
+ - Based on tag in format suggested by Markus.
 
-Sorry aobut that, I'd thought they were all reviewed.  I've dropped it 
-from the queue.
+Based on series "[PATCH v4 00/10] hw/cxl: CXL emulation cleanups and minor fixes for upstream"
 
-Thanks!
+Based on: Message-Id: 20230206172816.8201-1-Jonathan.Cameron@huawei.com
 
->
-> Regards,
-> Bin
+v3 cover letter.
+
+CXL error reporting is complex. This series only covers the protocol
+related errors reported via PCIe AER - Ira Weiny has posted support for
+Event log based injection and I will post an update of Poison list injection
+shortly. My proposal is to upstream this one first, followed by Ira's Event
+Log series, then finally the Poison List handling. That is based on likely
+order of Linux kernel support (the support for this type of error reporting
+went in during the recent merge window, the others are still under review).
+Note we may propose other non error related features in between!
+
+In order to test the kernel support for RAS error handling, I previously
+provided this series via gitlab, enabling David Jiang's kernel patches
+to be tested.
+
+Now that Linux kernel support is upstream, this series is proposing the
+support for upstream inclusion in QEMU. Note that support for Multiple
+Header Recording has been added to QEMU the meantime and a kernel
+patch to use that feature sent out.
+
+https://lore.kernel.org/linux-cxl/20230113154058.16227-1-Jonathan.Cameron@huawei.com/T/#t
+
+There are two generic PCI AER precursor feature additions.
+1) The PCI_ERR_UCOR_MASK register has not been implemented until now
+   and is necessary for correct emulation.
+2) The routing for AER errors, via existing AER error injection, only
+   covered one of two paths given in the PCIe base specification,
+   unfortunately not the one used by the Linux kernel CXL support.
+
+The use of MSI for the CXL root ports, both makes sense from the point
+of view of how it may well be implemented, and works around the documented
+lack of PCI interrupt routing in i386/q35. I have a hack that lets
+us correctly route those interrupts but don't currently plan to post it.
+
+The actual CXL error injection uses a new QMP interface as documented
+in the final patch description. The existing AER error injection
+internals are reused though it's HMP interface is not.
+
+Injection via QMP:
+{ "execute": "qmp_capabilities" }
+...
+{ "execute": "cxl-inject-uncorrectable-errors",
+  "arguments": {
+    "path": "/machine/peripheral/cxl-pmem0",
+    "errors": [
+        {
+            "type": "cache-address-parity",
+            "header": [ 3, 4]
+        },
+        {
+            "type": "cache-data-parity",
+            "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        },
+        {
+            "type": "internal",
+            "header": [ 1, 2, 4]
+        }
+        ]
+  }}
+...
+{ "execute": "cxl-inject-correctable-error",
+    "arguments": {
+        "path": "/machine/peripheral/cxl-pmem0",
+        "type": "physical"
+    } }
+
+Jonathan Cameron (8):
+  hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
+  hw/pci/aer: Add missing routing for AER errors
+  hw/pci-bridge/cxl_root_port: Wire up AER
+  hw/pci-bridge/cxl_root_port: Wire up MSI
+  hw/mem/cxl-type3: Add AER extended capability
+  hw/cxl: Fix endian issues in CXL RAS capability defaults / masks
+  hw/pci/aer: Make PCIE AER error injection facility available for other
+    emulation to use.
+  hw/mem/cxl_type3: Add CXL RAS Error Injection Support.
+
+ hw/cxl/cxl-component-utils.c   |  20 ++-
+ hw/mem/cxl_type3.c             | 294 +++++++++++++++++++++++++++++++++
+ hw/mem/cxl_type3_stubs.c       |  10 ++
+ hw/mem/meson.build             |   2 +
+ hw/pci-bridge/cxl_root_port.c  |  64 +++++++
+ hw/pci/pci-internal.h          |   1 -
+ hw/pci/pcie_aer.c              |  14 +-
+ include/hw/cxl/cxl_component.h |  26 +++
+ include/hw/cxl/cxl_device.h    |  11 ++
+ include/hw/pci/pcie_aer.h      |   1 +
+ include/hw/pci/pcie_regs.h     |   3 +
+ qapi/cxl.json                  | 118 +++++++++++++
+ qapi/meson.build               |   1 +
+ qapi/qapi-schema.json          |   1 +
+ 14 files changed, 555 insertions(+), 11 deletions(-)
+ create mode 100644 hw/mem/cxl_type3_stubs.c
+ create mode 100644 qapi/cxl.json
+
+-- 
+2.37.2
+
 
