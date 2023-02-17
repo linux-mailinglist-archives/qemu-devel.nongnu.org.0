@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFCAA69B1B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2DF169B1B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:24:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT4Q2-0002WZ-5w; Fri, 17 Feb 2023 12:21:10 -0500
+	id 1pT4SV-00045h-Et; Fri, 17 Feb 2023 12:23:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pT4Py-0002WL-Vt
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:21:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pT4Px-0007Q4-5d
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:21:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676654464;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=H1aok+YUuu/SVL9DaaFfopjW593iFvC/Z2Rz3nBCet8=;
- b=guCLW18UKoBd96UzB40hljhLhEM32rAOebpsu9BNAwalT5zAO0pOIakUF0UPcCmlM0YHo+
- CPtpK2KBM77GATa3AixyVHLBEND+sf6hOMmMqqryYNJ+6inYEsTbhgZoUcxIHcU9P0KMRO
- dlez/xzq35EkoWGiQDx2esFsCMT7IGg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-X9l0myFeOyqyiwGnomHefQ-1; Fri, 17 Feb 2023 12:20:59 -0500
-X-MC-Unique: X9l0myFeOyqyiwGnomHefQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CA58A3C14869;
- Fri, 17 Feb 2023 17:20:58 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CD622166B30;
- Fri, 17 Feb 2023 17:20:56 +0000 (UTC)
-Date: Fri, 17 Feb 2023 17:20:53 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Reinoud Zandijk <reinoud@netbsd.org>
-Cc: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
-Message-ID: <Y++3deW3JDukiRGr@redhat.com>
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <87a61cbmti.fsf@pond.sub.org>
- <Y++mEtUSmWYPTkPN@gorilla.13thmonkey.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pT4ST-00045L-9B
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:23:41 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pT4SR-0008C7-MR
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:23:41 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ t6-20020a7bc3c6000000b003dc57ea0dfeso1455879wmj.0
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:23:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2wOF4H5RIHvnZj2IIar7QoxyOdikrouaRC/WMGfxlwY=;
+ b=Ke5Pxec6YslZ2IFmepAT/hW2fS5IrdYE7H1ZDQWF9+cI+qEc1ue7AHUNPzJE+q5oAj
+ PoN9V27VDjbUM0Jewn8SYH3XWqcJZJ+NkjbQDoUxbqvhaR5Fteg6z2iOKvbLK3mETQim
+ Rn/RtClceFDqW8rPkBbiK5DauZEkaK++sI0MNE42H0m+5Um1etrshqVefkbVTKkRDxyz
+ g043qflFs6bnaN9czCEZ7BnYzg25VmmTJP9uDODhk8tTWHBAhTdponWMdBbMKgIVcsol
+ NLSPDRG0A+REUO7bdFcZCbJdwF00e9/0IACHj7yl9huETaCf5bZMLQEX2BfzyLNqeZQa
+ jOFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2wOF4H5RIHvnZj2IIar7QoxyOdikrouaRC/WMGfxlwY=;
+ b=ZpcI5TmWAnpo+0d2gdd6nIBGKpFoClZna1QqZkDpvJxTd98vUx3OlNHljpfs0MwgsN
+ V+YD05R7+Iu2ytovclHrnShDXXlTq2DmBdAgEw57nCZ+zVcbkDNIf/zk46qMpBSPzA26
+ 1WeCFVa2PYxq9SQtBUiJn2bxFbyD6vFHr+TRazzVWZ9a2Df9nv/NymIvnt6j+lnpduSC
+ ogNjA5V/NBYWOdquMraHyguBl4NpaNUqiOukiPDQPP1lQzz5bKlHG4hkKXFk2ofl83Dk
+ 1wCAKRrYBbSH5UOIBAyMXtrKWyy/y35Pj/Wk8IED5X3SwInFZTf/PYoaahfxkoGHrpAp
+ Uwsw==
+X-Gm-Message-State: AO0yUKVAniphkwtclCQYQcUKiJk/m2S4c08mOEBd/VgH+sxYk5g9e7Sq
+ /ZZEGInybW+Ki0KmLeqSJMd7YQ==
+X-Google-Smtp-Source: AK7set99qrwq/Oss1mdOT1HYzKrvBvNVASzT2QEIWSCHZPYHcZADSmH9sPh1Ul18DvQbFuuoN5QhEA==
+X-Received: by 2002:a05:600c:2e87:b0:3e2:201a:5bcc with SMTP id
+ p7-20020a05600c2e8700b003e2201a5bccmr2212765wmn.33.1676654617357; 
+ Fri, 17 Feb 2023 09:23:37 -0800 (PST)
+Received: from [192.168.129.175] (217.red-88-29-172.dynamicip.rima-tde.net.
+ [88.29.172.217]) by smtp.gmail.com with ESMTPSA id
+ 7-20020a05600c028700b003e214803343sm5489801wmk.46.2023.02.17.09.23.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Feb 2023 09:23:36 -0800 (PST)
+Message-ID: <fa58c710-d362-c472-2858-b6bbe75fbcec@linaro.org>
+Date: Fri, 17 Feb 2023 18:23:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y++mEtUSmWYPTkPN@gorilla.13thmonkey.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 4/4] target/ppc: fix warning with clang-15
+To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
+Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
+ richard.henderson@linaro.org, alex.bennee@linaro.org,
+ peter.maydell@linaro.org
+References: <20230216134911.6803-1-pierrick.bouvier@linaro.org>
+ <20230216134911.6803-5-pierrick.bouvier@linaro.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230216134911.6803-5-pierrick.bouvier@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.256,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,39 +91,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 17, 2023 at 05:06:42PM +0100, Reinoud Zandijk wrote:
-> On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
-> > I feel the discussion petered out without a conclusion.
-> > 
-> > I don't think letting the status quo win by inertia is a good outcome
-> > here.
-> > 
-> > Which 32-bit hosts are still useful, and why?
+On 16/2/23 14:49, Pierrick Bouvier wrote:
+> When compiling for windows-arm64 using clang-15, it reports a sometimes
+> uninitialized variable. This seems to be a false positive, as a default
+> case guards switch expressions, preventing to return an uninitialized
+> value, but clang seems unhappy with assert(0) definition.
 > 
-> NetBSD runs on a bunch of 32 bit-only hosts (sparc32, ppc32, armv7, vax,
-> mips32 etc.) that all run Qemu fine. They are all actively maintained and
-> released as part of the main releases.
+> Change code to g_assert_not_reached() fix the warning.
 > 
-> Maintaining 32 bit host support is thus vital for those machines; not everyone
-> runs a 64 bit system.
+> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+> ---
+>   target/ppc/dfp_helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
+> index cc024316d5..0a40bcfee3 100644
+> --- a/target/ppc/dfp_helper.c
+> +++ b/target/ppc/dfp_helper.c
+> @@ -121,7 +121,7 @@ static void dfp_set_round_mode_from_immediate(uint8_t r, uint8_t rmc,
+>           case 3: /* use FPSCR rounding mode */
+>               return;
+>           default:
+> -            assert(0); /* cannot get here */
+> +            g_assert_not_reached(); /* cannot get here */
 
-In the context of NetBSD, is QEMU a leaf node package, or is it a
-dependancy of anything involved in delivery of the distro ?
-
-ie, if QEMU were to drop 32-bit support, if it is merely a leaf node
-package, then end users of NetBSD would not have access to QEMU, but
-you would still be able to deliver the rest of NetBSD on those platforms
-without the QEMU package present ?
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+If you respin to update the comments to match QEMU style (also
+the // in configure), please remove this pointless comment here.
 
