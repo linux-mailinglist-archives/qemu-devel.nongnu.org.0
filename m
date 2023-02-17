@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE4869B3A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 21:16:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 392E569B393
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 21:14:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT793-00069x-Bh; Fri, 17 Feb 2023 15:15:49 -0500
+	id 1pT75z-0000g9-0b; Fri, 17 Feb 2023 15:12:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pT78x-0005RJ-2s; Fri, 17 Feb 2023 15:15:43 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pT78v-0001Ev-2A; Fri, 17 Feb 2023 15:15:42 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5FB7E21B85;
- Fri, 17 Feb 2023 20:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676664939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pT75q-0000fQ-Ps
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 15:12:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pT75p-0000Tn-AD
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 15:12:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676664745;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IZIy8Z3iGPcCgRkuMHF+6DkhbdLUaHXoLVg5l0Z77Vk=;
- b=o3/db6s78brkhwLwQxg4nwW6bHaUHHmrW9pigJI/BpA3gWn6hCYTNRpR9QBW2jp5eR1d8T
- T4ss9hq2SayiQWscmDC/t3aiR0D0/esNYj3H0L8bZJKj1xGwr3e+IxvQS46bUIYkN+Ac++
- xaBFQdjC+MzlwKW581f/eYvWcI3XkjE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676664939;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IZIy8Z3iGPcCgRkuMHF+6DkhbdLUaHXoLVg5l0Z77Vk=;
- b=YLNGxPgTlzYUZQsxHY7zIfiIY+p4i0vZ0lZf/Mfk3AMYXn8UAA0T71kWlJ72VZpqO8vECk
- 0GY9yS3bxbNlkiBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F365F138E3;
- Fri, 17 Feb 2023 20:15:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SK1ZLmbg72MwIAAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 17 Feb 2023 20:15:34 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH v6 29/29] tests/qtest: Fix tests when no KVM or TCG are present
-Date: Fri, 17 Feb 2023 17:11:50 -0300
-Message-Id: <20230217201150.22032-30-farosas@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230217201150.22032-1-farosas@suse.de>
-References: <20230217201150.22032-1-farosas@suse.de>
+ bh=Uia+tHnxXF1Mxd7b2m+Kq0+7PoLy8W9C48q6jFmAAqA=;
+ b=IzjDN1cT6toJ8o7hqoPucNjK5cKaCboijZmdgk4cqMqkGjvquA6HxY9KKOD+P6vP+DMdbf
+ aibTQK04YOkLOqb6u1h/wiH35zhc3TZYQetLi/1iV6xmRUZUCXPXjEYJsSPCezVVIJv5iH
+ P/9/cQ3Zue5kXze3RWRxaPW34+s1xlM=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-117-oSoZYhQhOS6ZvmNHv9NCzA-1; Fri, 17 Feb 2023 15:12:23 -0500
+X-MC-Unique: oSoZYhQhOS6ZvmNHv9NCzA-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ d16-20020a170903231000b00198aa765a9dso1260280plh.6
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 12:12:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Uia+tHnxXF1Mxd7b2m+Kq0+7PoLy8W9C48q6jFmAAqA=;
+ b=xDuLns/4VIeTCQdALFkGGw0Z3vorjd+BkkU7kOCxPmcVKlpOrQLpHjLaE90OHmeAOt
+ 6lgjAAezsMiIeVlvpxzw//KASSY8aiq2u3i3M61Qju/M9NKoKhK09cAOCRajVVVG/mFH
+ uTgRScsFasPLVbYKabw4Kr48X4mgrY/zMzsO5R+Us+Zw9/qvNlnyosODeTQrUlSdZO2c
+ 0WTJ2aVDTiqjxCFqHBWJYo4hRmBmSW5p0/Pe1mERX4Jo0xh+KcwxQAEA95D/Tf5RCh5P
+ uDojZSrYYidweTPWHGeSD9lwDLSqdARRrquYZ1dRIAjIzHeAkjUdj872DVK5yDWiVQMl
+ OM8w==
+X-Gm-Message-State: AO0yUKX5eRkCWA4VTNMx84HU8i8gH0xSsfsy1eju5g/6gItaOIjsVlV4
+ JRk1yY8X4pXrsGwAA3/R+N35uxzBqI9RPiLLggHpirJupsQTZVwoA3xr5RhFZWPg1hqjHX3Q5Gg
+ FAZRWRDubT9ua3Tvu9hAeBjCKFWY14jc=
+X-Received: by 2002:a17:90b:3906:b0:234:2592:efbe with SMTP id
+ ob6-20020a17090b390600b002342592efbemr1602383pjb.131.1676664742881; 
+ Fri, 17 Feb 2023 12:12:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set8kuqx6XlQ3wrYDOhG78OgPeSL4m3pywNgX23wAZnpwqR+rxEjdtiseMPT6u9yfs0Y2lX8RX+DgmswWKhSfHGc=
+X-Received: by 2002:a17:90b:3906:b0:234:2592:efbe with SMTP id
+ ob6-20020a17090b390600b002342592efbemr1602380pjb.131.1676664742620; Fri, 17
+ Feb 2023 12:12:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20230217103130.42077-1-f.ebner@proxmox.com>
+ <3bfcd5cf-7564-6462-d1e6-65011e8bbe47@linaro.org>
+In-Reply-To: <3bfcd5cf-7564-6462-d1e6-65011e8bbe47@linaro.org>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 17 Feb 2023 15:12:11 -0500
+Message-ID: <CAFn=p-Zx_mSWjiF_uCv5wztm8novucQn-F644wnNVBjxnMkiuA@mail.gmail.com>
+Subject: Re: [PATCH] hw/ide/ahci: trace ncq write command as write instead of
+ read
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,127 +94,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is possible to have a build with both TCG and KVM disabled due to
-Xen requiring the i386 and x86_64 binaries to be present in an aarch64
-host.
+On Fri, Feb 17, 2023 at 7:27 AM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> On 17/2/23 11:31, Fiona Ebner wrote:
+> > Fixes: e4baa9f00b ("AHCI: Replace DPRINTF with trace-events")
+>
+> Oops
 
-If we build with --disable-tcg on the aarch64 host, we will end-up
-with a QEMU binary (x86) that does not support TCG nor KVM.
+Seconding the whoops.
 
-Fix tests that crash or hang in the above scenario. Do not include any
-test cases if TCG and KVM are missing.
+>
+> > Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
+> > ---
+> >
+> > Or should it be sorted alphabetically below execute_ncq_command_unsup?
+>
+> No, there is no convention...
+>
+> > I felt read and write belong close together and this reflects the
+> > positions in the code.
+>
+> probably for this reason.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>
+> Thanks!
+>
 
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
----
-This currently affects Arm, but will also affect x86 after the xenpvh
-series gets merged. This patch fixes both scenarios.
----
- tests/qtest/bios-tables-test.c |  4 ++++
- tests/qtest/boot-serial-test.c | 10 ++++++++++
- tests/qtest/migration-test.c   |  5 +++++
- tests/qtest/pxe-test.c         |  6 ++++++
- tests/qtest/vmgenid-test.c     |  6 ++++++
- 5 files changed, 31 insertions(+)
-
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index d29a4e47af..f6c2a010d2 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -2114,6 +2114,10 @@ int main(int argc, char *argv[])
-     char *v_env = getenv("V");
-     int ret;
- 
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
-+
-     if (v_env) {
-         verbosity_level = atoi(v_env);
-     }
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index 3aef3a97a9..45490f5931 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -17,6 +17,9 @@
- #include "libqtest.h"
- #include "libqos/libqos-spapr.h"
- 
-+static bool has_tcg;
-+static bool has_kvm;
-+
- static const uint8_t bios_avr[] = {
-     0x88, 0xe0,             /* ldi r24, 0x08   */
-     0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
-@@ -285,6 +288,13 @@ int main(int argc, char *argv[])
-     const char *arch = qtest_get_arch();
-     int i;
- 
-+    has_tcg = qtest_has_accel("tcg");
-+    has_kvm = qtest_has_accel("kvm");
-+
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
-+
-     g_test_init(&argc, &argv, NULL);
- 
-     for (i = 0; tests[i].arch != NULL; i++) {
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 109bc8e7b1..a6e3ca9f7d 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2460,11 +2460,16 @@ static bool kvm_dirty_ring_supported(void)
- int main(int argc, char **argv)
- {
-     const bool has_kvm = qtest_has_accel("kvm");
-+    const bool has_tcg = qtest_has_accel("tcg");
-     const bool has_uffd = ufd_version_check();
-     const char *arch = qtest_get_arch();
-     g_autoptr(GError) err = NULL;
-     int ret;
- 
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
-+
-     g_test_init(&argc, &argv, NULL);
- 
-     /*
-diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
-index 62b6eef464..05575f7687 100644
---- a/tests/qtest/pxe-test.c
-+++ b/tests/qtest/pxe-test.c
-@@ -130,6 +130,12 @@ int main(int argc, char *argv[])
- {
-     int ret;
-     const char *arch = qtest_get_arch();
-+    bool has_tcg = qtest_has_accel("tcg");
-+    bool has_kvm = qtest_has_accel("kvm");
-+
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
- 
-     ret = boot_sector_init(disk);
-     if(ret)
-diff --git a/tests/qtest/vmgenid-test.c b/tests/qtest/vmgenid-test.c
-index efba76e716..8045d3d706 100644
---- a/tests/qtest/vmgenid-test.c
-+++ b/tests/qtest/vmgenid-test.c
-@@ -164,6 +164,12 @@ static void vmgenid_query_monitor_test(void)
- int main(int argc, char **argv)
- {
-     int ret;
-+    bool has_tcg = qtest_has_accel("tcg");
-+    bool has_kvm = qtest_has_accel("kvm");
-+
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
- 
-     ret = boot_sector_init(disk);
-     if (ret) {
--- 
-2.35.3
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 
