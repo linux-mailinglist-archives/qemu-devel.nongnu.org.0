@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6172469AF3B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFC969AF38
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:13:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT2Nb-0004vx-WA; Fri, 17 Feb 2023 10:10:32 -0500
+	id 1pT2Nb-0004vt-PM; Fri, 17 Feb 2023 10:10:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NV-0004qU-S6
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:25 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NW-0004qo-2f
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:26 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NS-0007UL-N7
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NS-0007UE-Nf
  for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1676646621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iX5amJWrhuVNwnzXLAkWB0HtD2Kd+TSKoYIaorCoBIk=;
- b=Ea3B0alJ2f9AABQuMC4rIC/WhIlV0m9QD/QAOPufla7YjGz+RVwCCg6WRyvN7tTmyLKwDK
- RjJVOXP7ZFoDhObJgOGY6Ddqlr+5+WhP8EL6U0010BqXeWS/fcAjMYSpA8dtqFZJrke0XG
- +7j1AfAqNSy17Du0Hrr1j2ZHaaqGMSE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rSDkLkKQVdvjcnfHIpzzjA1h3QTnl6s0oXq+cCOf2/U=;
+ b=Mim6CCjLK/sg7/qY35u7ctIPY+B+YSKcj38P2VHckBJmYApFRlMcT9CXnXW38gybd5bFwK
+ Ke8lepW1SO129JatzYnGEsnf69R/V+1xQoSY7OSbNXyvqHKiw7ryru0A3mv2nQVz0oMANb
+ IpzfdWShaBzTrhzYziHV6sKSaGchuqw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-398-eKaQM3C3Py-IYp27aTSJRg-1; Fri, 17 Feb 2023 10:10:19 -0500
-X-MC-Unique: eKaQM3C3Py-IYp27aTSJRg-1
+ us-mta-618-Tgwlz7tUNRurP_73mKKTRg-1; Fri, 17 Feb 2023 10:10:20 -0500
+X-MC-Unique: Tgwlz7tUNRurP_73mKKTRg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE2543C1023E;
- Fri, 17 Feb 2023 15:10:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4900800B23;
+ Fri, 17 Feb 2023 15:10:19 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1674E492C14;
- Fri, 17 Feb 2023 15:10:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 14CC8492C14;
+ Fri, 17 Feb 2023 15:10:18 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 18/22] block: Handle curl 7.55.0, 7.85.0 version changes
-Date: Fri, 17 Feb 2023 16:09:50 +0100
-Message-Id: <20230217150954.283920-18-kwolf@redhat.com>
+Subject: [PULL 19/22] block: temporarily hold the new AioContext of bs_top in
+ bdrv_append()
+Date: Fri, 17 Feb 2023 16:09:51 +0100
+Message-Id: <20230217150954.283920-19-kwolf@redhat.com>
 In-Reply-To: <20230217150954.283920-1-kwolf@redhat.com>
 References: <20230217150829.283583-1-kwolf@redhat.com>
  <20230217150954.283920-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
@@ -63,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,120 +79,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Anton Johansson <anjo@rev.ng>
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-* 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of a *_T
-  version, which returns curl_off_t instead of a double.
-* 7.85.0 deprecates CURLOPT_PROTOCOLS and CURLOPT_REDIR_PROTOCOLS in
-  favour of *_STR variants, specifying the desired protocols via a
-  string.
+bdrv_append() is called with bs_top AioContext held, but
+bdrv_attach_child_noperm() could change the AioContext of bs_top.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1440
-Signed-off-by: Anton Johansson <anjo@rev.ng>
-Message-Id: <20230123201431.23118-1-anjo@rev.ng>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+bdrv_replace_node_noperm() calls bdrv_drained_begin() starting from
+commit 2398747128 ("block: Don't poll in bdrv_replace_child_noperm()").
+bdrv_drained_begin() can call BDRV_POLL_WHILE that assumes the new lock
+is taken, so let's temporarily hold the new AioContext to prevent QEMU
+from failing in BDRV_POLL_WHILE when it tries to release the wrong
+AioContext.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2168209
+Reported-by: Aihua Liang <aliang@redhat.com>
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20230214171621.11574-1-sgarzare@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/curl.c | 44 +++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 37 insertions(+), 7 deletions(-)
+ block.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/block/curl.c b/block/curl.c
-index ba9977af5a..8bb39a134e 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -38,8 +38,15 @@
- 
- // #define DEBUG_VERBOSE
- 
-+/* CURL 7.85.0 switches to a string based API for specifying
-+ * the desired protocols.
-+ */
-+#if LIBCURL_VERSION_NUM >= 0x075500
-+#define PROTOCOLS "HTTP,HTTPS,FTP,FTPS"
-+#else
- #define PROTOCOLS (CURLPROTO_HTTP | CURLPROTO_HTTPS | \
-                    CURLPROTO_FTP | CURLPROTO_FTPS)
-+#endif
- 
- #define CURL_NUM_STATES 8
- #define CURL_NUM_ACB    8
-@@ -510,9 +517,18 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
-          * obscure protocols.  For example, do not allow POP3/SMTP/IMAP see
-          * CVE-2013-0249.
-          *
--         * Restricting protocols is only supported from 7.19.4 upwards.
-+         * Restricting protocols is only supported from 7.19.4 upwards. Note:
-+         * version 7.85.0 deprecates CURLOPT_*PROTOCOLS in favour of a string
-+         * based CURLOPT_*PROTOCOLS_STR API.
-          */
--#if LIBCURL_VERSION_NUM >= 0x071304
-+#if LIBCURL_VERSION_NUM >= 0x075500
-+        if (curl_easy_setopt(state->curl,
-+                             CURLOPT_PROTOCOLS_STR, PROTOCOLS) ||
-+            curl_easy_setopt(state->curl,
-+                             CURLOPT_REDIR_PROTOCOLS_STR, PROTOCOLS)) {
-+            goto err;
-+        }
-+#elif LIBCURL_VERSION_NUM >= 0x071304
-         if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
-             curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
-             goto err;
-@@ -670,7 +686,12 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     const char *file;
-     const char *cookie;
-     const char *cookie_secret;
--    double d;
-+    /* CURL >= 7.55.0 uses curl_off_t for content length instead of a double */
-+#if LIBCURL_VERSION_NUM >= 0x073700
-+    curl_off_t cl;
-+#else
-+    double cl;
-+#endif
-     const char *secretid;
-     const char *protocol_delimiter;
+diff --git a/block.c b/block.c
+index 122aa9a9ac..0c807d15cd 100644
+--- a/block.c
++++ b/block.c
+@@ -5265,6 +5265,8 @@ int bdrv_drop_filter(BlockDriverState *bs, Error **errp)
+  * child.
+  *
+  * This function does not create any image files.
++ *
++ * The caller must hold the AioContext lock for @bs_top.
+  */
+ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+                 Error **errp)
+@@ -5272,11 +5274,14 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
      int ret;
-@@ -797,27 +818,36 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     }
-     if (curl_easy_perform(state->curl))
+     BdrvChild *child;
+     Transaction *tran = tran_new();
++    AioContext *old_context, *new_context = NULL;
+ 
+     GLOBAL_STATE_CODE();
+ 
+     assert(!bs_new->backing);
+ 
++    old_context = bdrv_get_aio_context(bs_top);
++
+     child = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
+                                      &child_of_bds, bdrv_backing_role(bs_new),
+                                      tran, errp);
+@@ -5285,6 +5290,19 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
          goto out;
--    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
-+    /* CURL 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of
-+     * the *_T version which returns a more sensible type for content length.
+     }
+ 
++    /*
++     * bdrv_attach_child_noperm could change the AioContext of bs_top.
++     * bdrv_replace_node_noperm calls bdrv_drained_begin, so let's temporarily
++     * hold the new AioContext, since bdrv_drained_begin calls BDRV_POLL_WHILE
++     * that assumes the new lock is taken.
 +     */
-+#if LIBCURL_VERSION_NUM >= 0x073700
-+    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl)) {
-+        goto out;
++    new_context = bdrv_get_aio_context(bs_top);
++
++    if (old_context != new_context) {
++        aio_context_release(old_context);
++        aio_context_acquire(new_context);
 +    }
-+#else
-+    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &cl)) {
++
+     ret = bdrv_replace_node_noperm(bs_top, bs_new, true, tran, errp);
+     if (ret < 0) {
          goto out;
-     }
-+#endif
-     /* Prior CURL 7.19.4 return value of 0 could mean that the file size is not
-      * know or the size is zero. From 7.19.4 CURL returns -1 if size is not
-      * known and zero if it is really zero-length file. */
- #if LIBCURL_VERSION_NUM >= 0x071304
--    if (d < 0) {
-+    if (cl < 0) {
-         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
-                 "Server didn't report file size.");
-         goto out;
-     }
- #else
--    if (d <= 0) {
-+    if (cl <= 0) {
-         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
-                 "Unknown file size or zero-length file.");
-         goto out;
-     }
- #endif
+@@ -5296,6 +5314,11 @@ out:
  
--    s->len = d;
-+    s->len = cl;
+     bdrv_refresh_limits(bs_top, NULL, NULL);
  
-     if ((!strncasecmp(s->url, "http://", strlen("http://"))
-         || !strncasecmp(s->url, "https://", strlen("https://")))
++    if (new_context && old_context != new_context) {
++        aio_context_release(new_context);
++        aio_context_acquire(old_context);
++    }
++
+     return ret;
+ }
+ 
 -- 
 2.39.2
 
