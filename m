@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F235F69B413
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 21:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57DAC69B42C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 21:47:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT7X5-0000Pa-30; Fri, 17 Feb 2023 15:40:39 -0500
+	id 1pT7d2-0003WC-0x; Fri, 17 Feb 2023 15:46:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
- id 1pT7Wy-0000LT-KV; Fri, 17 Feb 2023 15:40:32 -0500
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
- id 1pT7Wt-0000rq-ES; Fri, 17 Feb 2023 15:40:31 -0500
-Received: by mail-qt1-x831.google.com with SMTP id l23so1914299qtj.1;
- Fri, 17 Feb 2023 12:40:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tUyuG/CRTSQnQCWXCu0mkyQIzHGiIdCBSGldULbzDRE=;
- b=GLyFXytDU/3BSAswHFdtOsELDH1MwRB8wzgc9tKlqn1CR+ZriXdAsGCFlUhkFOK3cw
- ZlmHWJMydGdD+Me2I8lMX00r1w0xxW0vUF+118JfnDO6lB/jkZegrRULgWpDfOk44Aml
- BsGLZL23moO4/lf/vHxPLA5YoMIi5loxOI4NlauJpgMRpYtPe1vigc5Y6Tv/8P60+lhU
- 0JTiTzKP8ygOPY5gw0xp6NkltcbEkA+owWEw3OJSmmrLkbbyfplsB1Sm1Lekw2CN5TqI
- tTcGsoG7ymgSic5RgFjG9J4ix25INPz2Vnq56FrQVmAVcqkIowHB0fS0xgfNaWvXG+iV
- Yr1g==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pT7cz-0003Vu-GO
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 15:46:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pT7cx-00043P-Ke
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 15:46:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676666802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eyaKjefJoZeTbmPkX6Z3OHZqmzL4eOhZaLSB5yKQYrE=;
+ b=YO2lRubX//zAdAr+a1XLV6E6BnHwAlLsjw4zWrKQI2R1uUAkLC0CzkpEW/EHD46XToxbTy
+ z+ruXy5Wu4mCauN03PGiaZYAkj/GgirnvCxnVVOf44u8HG4geIvKbhK4QB+Mu8H5axdW4A
+ EUApFpLHFomI+Y/4O0I/7DY1P0EdA6E=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-489-aOKwEPcSPd6DNFm44OoN0w-1; Fri, 17 Feb 2023 15:46:40 -0500
+X-MC-Unique: aOKwEPcSPd6DNFm44OoN0w-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ z16-20020aa785d0000000b005a9d0e66a7aso212795pfn.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 12:46:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20210112; t=1676666799;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=tUyuG/CRTSQnQCWXCu0mkyQIzHGiIdCBSGldULbzDRE=;
- b=q/+thdLPOODi9FUW7xvZVU/a49MuZHc1gxbTeBERnavKllQggagkyU+FaVrl7IjeIl
- KhoCRytxFUzo6LC++jcPEtPcIVaRPoiKCeKzydENTrXLrMmvwNrpZyIVpt1nLSZBo6wo
- 8blmeJ4At41GDO1IBCis761h6InVyqZUut8eHyJSEH1AGrGXwV32YnnnDdZj18zkmcYU
- AOlv5i7bywFzCWdqX9W4GpVz2wXDkotIqURru6hV9G0ljw7Vr21O9c8JA9fkX4aikmTy
- VxRDdq0h86HeSSmK3xq1Vkcwz/LBnk+QIYrOSX5ukoZ43mYZLpnfiLHuH+Z7q2aqZVM0
- nKNg==
-X-Gm-Message-State: AO0yUKWDJe5Rm4P0UCgn9/o6QdFx+yiR5Jt0AnxMhYXl6Usn9vm+1xqW
- p79AheXNQPuXg46oONAAhiegdgIa1vC52w==
-X-Google-Smtp-Source: AK7set8LYT3/ODu1GLwPoHIRlbp21jXV+4sfRnKRcTqy2BcCUQ5azYuMOY/i60nBbWtmV6Z9y/3FXA==
-X-Received: by 2002:ac8:5742:0:b0:3b8:6dc8:a9b5 with SMTP id
- 2-20020ac85742000000b003b86dc8a9b5mr11528936qtx.34.1676666424970; 
- Fri, 17 Feb 2023 12:40:24 -0800 (PST)
-Received: from debian.hsd1.ma.comcast.net ([2601:182:cc00:77b0::2bf5])
- by smtp.gmail.com with ESMTPSA id
- l28-20020ac8459c000000b003b9bf862c04sm3952363qtn.55.2023.02.17.12.40.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 12:40:24 -0800 (PST)
-From: Dinah Baum <dinahbaum123@gmail.com>
-To: dinahbaum123@gmail.com
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v3] configure: Add 'mkdir build' check
-Date: Fri, 17 Feb 2023 15:40:06 -0500
-Message-Id: <20230217204007.371525-1-dinahbaum123@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ bh=eyaKjefJoZeTbmPkX6Z3OHZqmzL4eOhZaLSB5yKQYrE=;
+ b=KEmGwojoUXAaEcXS6m07d/WadGBm+pq0mOWhwbA1X9pwWlZb2RRLriOsNyKU9rCEqB
+ GvfwaPgJNl1T/h74iYuQUROkVEOFkEIaG4kBxlSR0kutadRffz5rM99HfWjtJGvjlSu3
+ gcG1SOQeVyRHS5hN2hbSGj6iw/nh+FE4fs5y0kMA+kf9t6ZkHPOZ+ZObZdtVl61U9zFg
+ mwQEXYG1nCTaiK3VMYt1DvieEc/YkSyNZnDqp+lxMGll/qMqQnud6+AIOuiF+NHuSuJX
+ Cb2fGgfIGay6l2iOCjZJGhJzWUwJO+KWQgVfERmfic7JDeQWMIHFMWfvjjSsW+coaVVU
+ HJ5Q==
+X-Gm-Message-State: AO0yUKVDie/18s/b2lXP7roJinl3FJ/6aKk/wARP7B+oaE6FF9iuHDVb
+ CMLVsAojFZfjF5rlvHQVUzO93mxPtgh8zXNGUrakIoaW9+RSl83PRfCP8IeAxzy03vyl/vyRJRo
+ K/+fCQOvTpQjUkMcqVCQudL64bBVhEwA=
+X-Received: by 2002:a62:87cf:0:b0:5a9:c4fc:e3d7 with SMTP id
+ i198-20020a6287cf000000b005a9c4fce3d7mr701375pfe.17.1676666799740; 
+ Fri, 17 Feb 2023 12:46:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set+v/PzsKpDyDQiPQovvR4m1zLVeLJX+lMWEjxIBK9TI7uWr1Ov2sS0LniTkTrTJ3o4EFR0ZbQ7vMjOITJpmX34=
+X-Received: by 2002:a62:87cf:0:b0:5a9:c4fc:e3d7 with SMTP id
+ i198-20020a6287cf000000b005a9c4fce3d7mr701354pfe.17.1676666799372; Fri, 17
+ Feb 2023 12:46:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=dinahbaum123@gmail.com; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <87v8k2ycjb.fsf@pond.sub.org>
+ <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com>
+In-Reply-To: <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 17 Feb 2023 15:46:27 -0500
+Message-ID: <CAFn=p-YnR-hFAg=yxCi7oNKHXirMqv2vJSYmaY8VBPq+Q2UVbA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
+To: Thomas Huth <thuth@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org, 
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,40 +100,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QEMU configure script goes into an infinite error printing loop
-when in read only directory due to 'build' dir never being created.
+On Thu, Feb 16, 2023 at 5:58 AM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 15/02/2023 20.05, Markus Armbruster wrote:
+> > The discussion under PATCH 6 makes me think there's a bit of confusion
+> > about the actual impact of dropping support for Python 3.6.  Possibly
+> > because it's spelled out in the commit message of PATCH 7.  Let me
+> > summarize it in one sentence:
+> >
+> >      *** All supported host systems continue to work ***
+> >
+> > Evidence: CI remains green.
+>
+> The CI remains green since one of the patches disabled the building of the
+> docs on CentOS 8. That's not how I'd describe "continue to work", at least
+> not in the same extend as before.
+>
+> > On some supported host systems, different packages need to be installed.
+> > On CentOS 8, for instance, we need to install Python 3.8.13 or 3.9.16
+> > instead of 3.6.8.  Let me stress again: same repository, different
+> > package.  No downsides I can see.
+> >
+> > The *one* exception is Sphinx on CentOS 8.  CentOS 8 does not ship a
+> > version of Sphinx that works with Python 3.7 or newer.  This series
+> > proposes to simply stop building the docs there, unless the user
+> > provides a suitable version of Sphinx (which is easy enough with pip).
+>
+> I think we've all understood that. The thing that you obviously did not
+> understood: This breaks our support statement.
+> I'm pretty sure that you could also build the whole QEMU suite successfully
+> on an ancient CentOS 7 or Ubuntu 18.04 system if you manually install a
+> newer version of GCC and some of the required libraries first. But that's
+> not how we understand our support statement.
+>
+> Sure, you can argue that you can use "pip install" to get a newer version of
+> Sphinx on RHEL 8 / CentOS 8 to continue building the docs there - but is
+> that really that much different from installing a newer version of GCC and
+> libraries on an ancient distro that we do not officially support anymore?
+> I'd say no. You also have to consider that not every build host has access
+> to the internet, maybe some companies only have an internal mirror of the
+> distro packages in their intranet (I remember some discussion about such a
+> case in the past) - so while you were perfectly fine to build the whole of
+> QEMU on a CentOS 8 there before this change, you could now not build parts
+> of QEMU anymore there due to the missing possibility to run "pip install"
+> without full internet connection.
 
-Checking if 'mkdir dir' succeeds prevents this error.
+There are good points elsewhere in this thread and I am taking notes,
+but this critique caught my eye as something I was not specifically
+planning around, so I wanted to get an elaboration here if I may.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/321
-Signed-off-by: Dinah Baum <dinahbaum123@gmail.com>
----
-Changes since v2:
-Updated error message
-Reverted changes to 'help' command
+Do we have a support statement for this? I find this critique somewhat
+surprising -- If we don't have internet, how did we get the other 20
+to 30 dependencies needed to build QEMU? To what extent are we
+*required* to preserve a build that works without internet access?
 
- configure | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+you generally need internet to run "dnf install", as you would to "pip
+install", so how does this distinction exclude one but not the other?
 
-diff --git a/configure b/configure
-index 00415f0b48..784f9d18a5 100755
---- a/configure
-+++ b/configure
-@@ -31,7 +31,12 @@ then
-         fi
-     fi
- 
--    mkdir build
-+    if ! mkdir build || ! touch $MARKER
-+    then
-+        echo "ERROR: Could not create ./build directory. Check the permissions on
-+            your source directory, or try doing an out-of-tree build."
-+        exit 1
-+    fi
-     touch $MARKER
- 
-     cat > GNUmakefile <<'EOF'
--- 
-2.30.2
+If you mean to say: "The build cannot rely on using internet-connected
+pip to configure an environment just-in-time during a build because
+internet may not be present" -- I completely agree, as this is a
+necessity for e.g. RHEL packaging downstream. That requirement won't
+be violated by me.
+
+--js
 
 
