@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B424C69A420
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 04:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E9669A442
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 04:22:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSr59-0005bx-IX; Thu, 16 Feb 2023 22:06:43 -0500
+	id 1pSrJ1-0007Ap-26; Thu, 16 Feb 2023 22:21:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSr57-0005bS-NQ
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:06:41 -0500
-Received: from mga02.intel.com ([134.134.136.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSr55-00013c-DS
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:06:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676603199; x=1708139199;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=+8lRVvFDWeebHLq4PjEE2NqdBl3tIFqp9SUSHgmn+WA=;
- b=kIW94dxK7SnYwa9+++8jZYjK9gm6Ywzy3b2wtbofKdlCZsfcs/Z/b+7o
- +o5dzdXDNWRs3v60ox568b4GO00PekdFeMki1HUB9hLd/d8aNWZPoTXmq
- 6xfzRpyYeiK7q8jUFYhicNw3thgVLSxq9gL60OQQPBl+5eb0sfiX6AIJ5
- hn7E29wAJSIik/FIrcQcJJH9zir4kMOxoeaGkV6sf49FpTpth9nPhbVfq
- wkqA2FA+ax7gd/5WLzt63r7CsUSJKZZU36BzRQNYzxN5ODsHjoMHJ2gSE
- Q6w1vCpy148WgraFU/5ULlxlrKdBtA23+1FcG7c8BdUhLhGrjptjGc9il Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="319998795"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="319998795"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 19:06:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="759211713"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="759211713"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by FMSMGA003.fm.intel.com with ESMTP; 16 Feb 2023 19:06:33 -0800
-Date: Fri, 17 Feb 2023 11:14:25 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
- Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC 12/52] hw/acpi: Replace MachineState.smp access with
- topology helpers
-Message-ID: <Y+7xEVrlsoPpLnvg@liuzhao-OptiPlex-7080>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-13-zhao1.liu@linux.intel.com>
- <38f00a43-dc24-0a5b-e197-536c414354e7@huawei.com>
+ (Exim 4.90_1) (envelope-from <ssinprem@celestica.com>)
+ id 1pSrIy-000791-D2
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:21:00 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ssinprem@celestica.com>)
+ id 1pSrIw-0006J3-Kg
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:21:00 -0500
+Received: by mail-pg1-x534.google.com with SMTP id v3so2492462pgh.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 19:20:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=celestica.com; s=google-201810; t=1676604057;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=WfJG9S7n0TN875rrUng9CuCRxbI1KmTFZy8NPQKWgr8=;
+ b=TQ+n29EBIQDg4fgNenccsf12pglyq39sonM/cO0/SZ4cgI2SZPEy1OKdwTeuwDEqX2
+ WfS+nG+GsWp9GGqe+HLmwi5KY6ctAotJiT9TepK+nGm9TNUK8itFTItndXtHK6pH0d0D
+ nSfU2F0Pkaxk0zgOEEisdHYx+VEVW/OHKSdSQyYpUPD6aqwv2PSBCc8ClSNuGCHWqBwK
+ C86p07wDkB5oju5d76LthJMB/NN9Mn3hEtHEm8Uyqifcmylry1pK560tqCUyZqHsYrJm
+ s3gQcU0V3CiPVGhbMbYs22EYXX813Nviq0P38xK8nPiXh8z/E9UxGXBiw+emAsLaerH6
+ y5LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1676604057;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WfJG9S7n0TN875rrUng9CuCRxbI1KmTFZy8NPQKWgr8=;
+ b=rvZtH2ihURnuOL6jAXVhmxh6pHUiv+CmWRN5BLNivUj+a1aFj+kV3Q6HzgMIZkVFF7
+ SM80WG2fpxGPy9gmLvf/SyLig+4DZD6OIl2ERcIL/CTmoaDMfo8PK0h0mbxXptBxF3Yk
+ V+RM1VTphOiRoQiEE5qomnbUA29eK0SFlT0J6fPQQ03LHAwC43GKqjGRTH8FfhDsn4+A
+ SZNCAjjJBpuywCB8WI+qxjkRQxe7goVy/BQ77ntuStZcIhzJyDW/F1TeHQYgAp4YFIU1
+ xUq20h0FzNtI1B2RS+vFixZU5JaQbJ0xe4qB5MVgZ775yUrLNNOtrQxybRf6qQFGHOFM
+ rQGQ==
+X-Gm-Message-State: AO0yUKW4AigUsGaogD0TXmacUtAcXYioZBCW5KFC/SMB/FlNFWQ1ecBY
+ Gq4Ys5i6U0OtQ6P7jvB+XWG7A1ZqOTjW2dl+f92nz7fjR3hfxq1DmXgUv8XTvVyZuvDfUah3G/L
+ mRk2XpTlNg2uCJ9c68/X9aYAJd2xGpVxrOeMC2LkA/RK83Rgmqhs43CE5guYmlyxA5x8+Iib3sZ
+ pZn06UVBOQv7V+bZptkQGkgSPR8mirpQ8SPg==
+X-Google-Smtp-Source: AK7set/ice6wRSvOSDL1vXJNhJ16PMbXKwh0T2lGJ4Q5sgAkMDYqcam8dQoyyEGo3CnPBwbMF0FbJAZuL+TjeQMIQKE=
+X-Received: by 2002:aa7:989a:0:b0:5a8:4c7e:bafd with SMTP id
+ r26-20020aa7989a000000b005a84c7ebafdmr1262762pfl.32.1676604056607; Thu, 16
+ Feb 2023 19:20:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <38f00a43-dc24-0a5b-e197-536c414354e7@huawei.com>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <167660357595.26523.10278976309538219635-0@git.sr.ht>
+ <167660357595.26523.10278976309538219635-1@git.sr.ht>
+In-Reply-To: <167660357595.26523.10278976309538219635-1@git.sr.ht>
+From: Sittisak Sinprem <ssinprem@celestica.com>
+Date: Fri, 17 Feb 2023 10:20:30 +0700
+Message-ID: <CAE+aGtV6Ytk-eLS6oZsxZqQ2QHwu8GD4DMVHE3HFVUyqKjsR1A@mail.gmail.com>
+Subject: Re: [PATCH qemu v2 2/2] aspeed/fuji : correct the eeprom size
+To: "~ssinprem" <ssinprem@celestica.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-stable@nongnu.org, 
+ ssumet@celestica.com, srikanth@celestica.com, kgengan@celestica.com, 
+ clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au
+Content-Type: text/plain; charset="UTF-8"
+X-CLS-Gapps: True
+X-CLOUD-SEC-AV-Sent: true
+X-CLOUD-SEC-AV-Info: celesticainc,google_mail,monitor
+X-Gm-Spam: 0
+X-Gm-Phishy: 0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=ssinprem@celestica.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,81 +93,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 05:31:11PM +0800, wangyanan (Y) wrote:
-> Date: Thu, 16 Feb 2023 17:31:11 +0800
-> From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [RFC 12/52] hw/acpi: Replace MachineState.smp access with
->  topology helpers
-> 
-> Hi Zhao,
-> 
-> 在 2023/2/13 17:49, Zhao Liu 写道:
-> > From: Zhao Liu <zhao1.liu@intel.com>
-> > 
-> > At present, in QEMU only arm needs PPTT table to build cpu topology.
-> > 
-> > Before QEMU's arm supports hybrid architectures, it's enough to limit
-> > the cpu topology of PPTT to smp type through the explicit smp interface
-> > (machine_topo_get_smp_threads()).
-> > 
-> > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > Cc: Igor Mammedov <imammedo@redhat.com>
-> > Cc: Ani Sinha <ani@anisinha.ca>
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   hw/acpi/aml-build.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> > index ea331a20d131..693bd8833d10 100644
-> > --- a/hw/acpi/aml-build.c
-> > +++ b/hw/acpi/aml-build.c
-> > @@ -2044,7 +2044,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-> >               cluster_offset = socket_offset;
-> >           }
-> > -        if (ms->smp.threads == 1) {
-> > +        if (machine_topo_get_smp_threads(ms) == 1) {
-> >               build_processor_hierarchy_node(table_data,
-> >                   (1 << 1) | /* ACPI Processor ID valid */
-> >                   (1 << 3),  /* Node is a Leaf */
-> ACPI PPTT table is designed to also support the hybrid CPU topology
-> case where nodes on the same CPU topology level can have different
-> number of child nodes.
-> 
-> So to be general, the diff should be:
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index ea331a20d1..dfded95bbc 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2044,7 +2044,7 @@ void build_pptt(GArray *table_data, BIOSLinker
-> *linker, MachineState *ms,
->              cluster_offset = socket_offset;
->          }
-> 
-> -        if (ms->smp.threads == 1) {
-> +        if (machine_topo_get_threads_by_idx(n) == 1) {
->              build_processor_hierarchy_node(table_data,
->                  (1 << 1) | /* ACPI Processor ID valid */
->                  (1 << 3),  /* Node is a Leaf */
+the rebase auto merge failure, I will resend patches again.
 
-Nice! I'll replace that.
 
-> 
-> Actually I'm recently working on ARM hmp virtualization which relys on
-> PPTT for topology representation, so we will also need PPTT to be general
-> for hybrid case anyway.
 
-Good to know that you are considering hybrid support for arm.
-BTW, I explained the difference between arm and x86's hybrid in previous
-email [1] [2], mainly about whether the cpm model is the same.
-
-I tentatively think that this difference can be solved by arch-specific
-coretype(). Do you have any comments on this? Thanks!
-
-[1]: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03884.html
-[2]: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03789.html
-
-> 
-> Thanks,
-> Yanan
+On Fri, Feb 17, 2023 at 10:13 AM ~ssinprem <ssinprem@git.sr.ht> wrote:
+>
+> From: Sittisak Sinprem <ssinprem@celestica.com>
+>
+> Device 24C64 the size is 64 kilobits = 8kilobyte
+> Device 24C02 the size is 2 kilobits = 256byte
+>
+> Signed-off-by: Sittisak Sinprem <ssinprem@celestica.com>
+> ---
+>  hw/arm/aspeed.c | 36 ++++++++++++++++++++----------------
+>  1 file changed, 20 insertions(+), 16 deletions(-)
+>
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 27dda58338..40f6076b44 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -840,42 +840,46 @@ static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
+>      i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+>      i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
+>
+> -    at24c_eeprom_init(i2c[19], 0x52, 64 * KiB);
+> -    at24c_eeprom_init(i2c[20], 0x50, 2 * KiB);
+> -    at24c_eeprom_init(i2c[22], 0x52, 2 * KiB);
+> +    /*
+> +    * EEPROM 24c64 size is 64Kbits or 8 Kbytes
+> +    *        24c02 size is 2Kbits or 256 bytes
+> +    */
+> +    at24c_eeprom_init(i2c[19], 0x52, 8 * KiB);
+> +    at24c_eeprom_init(i2c[20], 0x50, 256);
+> +    at24c_eeprom_init(i2c[22], 0x52, 256);
+>
+>      i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
+>      i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
+>      i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
+>      i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
+>
+> -    at24c_eeprom_init(i2c[8], 0x51, 64 * KiB);
+> +    at24c_eeprom_init(i2c[8], 0x51, 8 * KiB);
+>      i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
+>
+>      i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
+> -    at24c_eeprom_init(i2c[50], 0x52, 64 * KiB);
+> +    at24c_eeprom_init(i2c[50], 0x52, 8 * KiB);
+>      i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
+>      i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
+>
+>      i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
+>      i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
+>
+> -    at24c_eeprom_init(i2c[65], 0x53, 64 * KiB);
+> +    at24c_eeprom_init(i2c[65], 0x53, 8 * KiB);
+>      i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
+>      i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
+> -    at24c_eeprom_init(i2c[68], 0x52, 64 * KiB);
+> -    at24c_eeprom_init(i2c[69], 0x52, 64 * KiB);
+> -    at24c_eeprom_init(i2c[70], 0x52, 64 * KiB);
+> -    at24c_eeprom_init(i2c[71], 0x52, 64 * KiB);
+> +    at24c_eeprom_init(i2c[68], 0x52, 8 * KiB);
+> +    at24c_eeprom_init(i2c[69], 0x52, 8 * KiB);
+> +    at24c_eeprom_init(i2c[70], 0x52, 8 * KiB);
+> +    at24c_eeprom_init(i2c[71], 0x52, 8 * KiB);
+>
+> -    at24c_eeprom_init(i2c[73], 0x53, 64 * KiB);
+> +    at24c_eeprom_init(i2c[73], 0x53, 8 * KiB);
+>      i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
+>      i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
+> -    at24c_eeprom_init(i2c[76], 0x52, 64 * KiB);
+> -    at24c_eeprom_init(i2c[77], 0x52, 64 * KiB);
+> -    at24c_eeprom_init(i2c[78], 0x52, 64 * KiB);
+> -    at24c_eeprom_init(i2c[79], 0x52, 64 * KiB);
+> -    at24c_eeprom_init(i2c[28], 0x50, 2 * KiB);
+> +    at24c_eeprom_init(i2c[76], 0x52, 8 * KiB);
+> +    at24c_eeprom_init(i2c[77], 0x52, 8 * KiB);
+> +    at24c_eeprom_init(i2c[78], 0x52, 8 * KiB);
+> +    at24c_eeprom_init(i2c[79], 0x52, 8 * KiB);
+> +    at24c_eeprom_init(i2c[28], 0x50, 256);
+>
+>      for (int i = 0; i < 8; i++) {
+>          at24c_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
+> --
+> 2.34.6
 
