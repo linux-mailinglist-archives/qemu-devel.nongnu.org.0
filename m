@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EEF169B52E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 23:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A1069B52C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 23:01:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT8lZ-0004aX-Cu; Fri, 17 Feb 2023 16:59:41 -0500
+	id 1pT8mQ-0005C0-II; Fri, 17 Feb 2023 17:00:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dave.jiang@intel.com>)
- id 1pT8lT-0004a4-HS
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 16:59:35 -0500
+ id 1pT8mF-0005AK-VP
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 17:00:24 -0500
 Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dave.jiang@intel.com>)
- id 1pT8lR-0000TC-Nl
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 16:59:35 -0500
+ id 1pT8mE-0000ib-17
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 17:00:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676671173; x=1708207173;
+ t=1676671222; x=1708207222;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=9rFXKQKYXkDjn2mTILG5+hmWGqUGN2tqB//SQOvTZtQ=;
- b=n7aleiwAT42nCTEAjL2AClDBnrP2Y6mmUKJTLyAigtZTj70o+AgkYvlN
- HSnd0fDm4EtJpcD05Py9O9uM8QCX7Bk7CBPdYeJv4104qPkqxfJoG5jTK
- Hd/claAyXWwpQzb9KsFr+gPLrGtwibvkZRNV9ns8O6EHia0b0EcV/yxVT
- 8XNddPq40a9/Ls1cP2PSKMxK+HxBL0Pi6yon51qA70mQ41MTSyvd3F9ky
- ZqrCxhKPjaG5H5r/8XO8PYWEqZIcjDkdc4yIiNtZCl4qpLS2oXYjU4+6J
- DHLJqjVGHXMTbPoBJq9cOK0gNBdgrBV8SWPxKFUAtMN7Tapr6L2Pfjwh2 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="311727212"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="311727212"
+ bh=tIYZ6a+3sbvHSRoqLIcYH/edSnZLE6ChkR5avYfvaGo=;
+ b=OncOZABUYZbvvSjKau5hZ2Yq8AEbrXdJSSe4QgGnnEhOPMBsXQ33TZZ7
+ nhQ5aaqB0nptCp8WRSax5TeS3HcfqRoc1A31kP1GMR8uFu28GdxS7RqNi
+ ctghLdO6wPS/lGEVLieAZisf8d9qpfXFokOsQXlXT+SxfJRXH0Y4S7FrY
+ O/QWMJNYIDgwb8+g9i5vmeKARWAgm/GyqJGdA6x5JxntXfT2Kh7jyYWp2
+ rusc892+J8+aQVSrB1lCFECZu0OW0Q+1xCvTdtu9TCGAH5tRGjDiKE+Y3
+ p22f3/9lNNMwBr/KlCe3vLHyQy25GF4gQLo4HEsBshvrLHEnuU3mwGXRP w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="311727438"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="311727438"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 13:59:31 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="648208386"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="648208386"
+ 17 Feb 2023 14:00:19 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="648208855"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="648208855"
 Received: from djiang5-mobl3.amr.corp.intel.com (HELO [10.213.187.252])
  ([10.213.187.252])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 13:59:30 -0800
-Message-ID: <67625ea3-7e5a-d9c1-82db-57227827b96f@intel.com>
-Date: Fri, 17 Feb 2023 14:59:29 -0700
+ 17 Feb 2023 14:00:18 -0800
+Message-ID: <ff7b2293-5a86-297e-6483-53e1970b6029@intel.com>
+Date: Fri, 17 Feb 2023 15:00:17 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.6.0
-Subject: Re: [PATCH v4 6/8] hw/cxl: Fix endian issues in CXL RAS capability
- defaults / masks
+Subject: Re: [PATCH v4 7/8] hw/pci/aer: Make PCIE AER error injection facility
+ available for other emulation to use.
 Content-Language: en-US
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
  Michael Tsirkin <mst@redhat.com>
@@ -58,9 +58,9 @@ Cc: Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
  Mike Maslenkin <mike.maslenkin@gmail.com>,
  Markus Armbruster <armbru@redhat.com>
 References: <20230217172924.25239-1-Jonathan.Cameron@huawei.com>
- <20230217172924.25239-7-Jonathan.Cameron@huawei.com>
+ <20230217172924.25239-8-Jonathan.Cameron@huawei.com>
 From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20230217172924.25239-7-Jonathan.Cameron@huawei.com>
+In-Reply-To: <20230217172924.25239-8-Jonathan.Cameron@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=192.55.52.136; envelope-from=dave.jiang@intel.com;
@@ -90,51 +90,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 On 2/17/23 10:29 AM, Jonathan Cameron wrote:
-> As these are about to be modified, fix the endian handle for
-> this set of registers rather than making it worse.
-> 
-> Note that CXL is currently only supported in QEMU on
-> x86 (arm64 patches out of tree) so we aren't going to yet hit
-> an problems with big endian. However it is good to avoid making
-> things worse for that support in the future.
+> This infrastructure will be reused for CXL RAS error injection
+> in patches that follow.
 > 
 > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
 > ---
->   hw/cxl/cxl-component-utils.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
+>   hw/pci/pci-internal.h     | 1 -
+>   include/hw/pci/pcie_aer.h | 1 +
+>   2 files changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-> index 3edd303a33..737b4764b9 100644
-> --- a/hw/cxl/cxl-component-utils.c
-> +++ b/hw/cxl/cxl-component-utils.c
-> @@ -141,17 +141,17 @@ static void ras_init_common(uint32_t *reg_state, uint32_t *write_msk)
->        * Error status is RW1C but given bits are not yet set, it can
->        * be handled as RO.
->        */
-> -    reg_state[R_CXL_RAS_UNC_ERR_STATUS] = 0;
-> +    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_STATUS, 0);
->       /* Bits 12-13 and 17-31 reserved in CXL 2.0 */
-> -    reg_state[R_CXL_RAS_UNC_ERR_MASK] = 0x1cfff;
-> -    write_msk[R_CXL_RAS_UNC_ERR_MASK] = 0x1cfff;
-> -    reg_state[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1cfff;
-> -    write_msk[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1cfff;
-> -    reg_state[R_CXL_RAS_COR_ERR_STATUS] = 0;
-> -    reg_state[R_CXL_RAS_COR_ERR_MASK] = 0x7f;
-> -    write_msk[R_CXL_RAS_COR_ERR_MASK] = 0x7f;
-> +    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_MASK, 0x1cfff);
-> +    stl_le_p(write_msk + R_CXL_RAS_UNC_ERR_MASK, 0x1cfff);
-> +    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_SEVERITY, 0x1cfff);
-> +    stl_le_p(write_msk + R_CXL_RAS_UNC_ERR_SEVERITY, 0x1cfff);
-> +    stl_le_p(reg_state + R_CXL_RAS_COR_ERR_STATUS, 0);
-> +    stl_le_p(reg_state + R_CXL_RAS_COR_ERR_MASK, 0x7f);
-> +    stl_le_p(write_msk + R_CXL_RAS_COR_ERR_MASK, 0x7f);
->       /* CXL switches and devices must set */
-> -    reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0x00;
-> +    stl_le_p(reg_state + R_CXL_RAS_ERR_CAP_CTRL, 0x00);
->   }
+> diff --git a/hw/pci/pci-internal.h b/hw/pci/pci-internal.h
+> index 2ea356bdf5..a7d6d8a732 100644
+> --- a/hw/pci/pci-internal.h
+> +++ b/hw/pci/pci-internal.h
+> @@ -20,6 +20,5 @@ void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent);
 >   
->   static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk,
+>   int pcie_aer_parse_error_string(const char *error_name,
+>                                   uint32_t *status, bool *correctable);
+> -int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
+>   
+>   #endif
+> diff --git a/include/hw/pci/pcie_aer.h b/include/hw/pci/pcie_aer.h
+> index 65e71d98fe..1234fdc4e2 100644
+> --- a/include/hw/pci/pcie_aer.h
+> +++ b/include/hw/pci/pcie_aer.h
+> @@ -100,4 +100,5 @@ void pcie_aer_root_write_config(PCIDevice *dev,
+>                                   uint32_t addr, uint32_t val, int len,
+>                                   uint32_t root_cmd_prev);
+>   
+> +int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
+>   #endif /* QEMU_PCIE_AER_H */
 
