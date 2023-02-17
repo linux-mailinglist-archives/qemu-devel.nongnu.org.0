@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967B169A7AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 10:00:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F233F69A7DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 10:08:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSwbE-0006ac-Td; Fri, 17 Feb 2023 04:00:12 -0500
+	id 1pSwho-0001Od-G7; Fri, 17 Feb 2023 04:07:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSwbB-0006aP-0b
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 04:00:09 -0500
-Received: from mga14.intel.com ([192.55.52.115])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSwhm-0001Nx-Cu
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 04:06:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSwb7-0003KK-Uq
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 04:00:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676624405; x=1708160405;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=m6mF1FVoL2wItspX8Gpfm5iA20bPgh0dJ/l/gAuti+Q=;
- b=l+kWhQeMiuUVJpG4K70ozS+Ynu+UZrwXWi8kY6TiqpKlp9yo6gLLdOQX
- Fa6RuVuIevRZDSCqRpJNFc6uL9jb8VAODebtuMo9ULdiV42P4lkGOUEWp
- 3kCQM/fp8WSpKx0v9RGnQOhBsR3aOTBkrWEr/cfsiRvZWgQ+1Mb5HA7RZ
- xKu2neRrRXIua0iWMAZW7e7jy2FZpzEsI0Pu9MQanTN2zvikd11RdvvHC
- 317ziUysJiRSC6fXkHYVhvvOL0W8IO6p7Zyj5E1oZL68IqPYrxvIUkC6v
- OVUK9270mvb9nGhT0pkHTTZZSqkGW5lXAk/iJnkaCQxB40eea744XxzTL A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="331946165"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="331946165"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 01:00:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="759294835"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="759294835"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
- ([10.239.160.112])
- by FMSMGA003.fm.intel.com with ESMTP; 17 Feb 2023 00:59:58 -0800
-Date: Fri, 17 Feb 2023 17:07:50 +0800
-From: Zhao Liu <zhao1.liu@linux.intel.com>
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
-Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
- Dapeng Mi <dapeng1.mi@intel.com>,
- Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>,
- Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC 08/52] machine: Add helpers to get cpu topology info from
- MachineState.topo
-Message-ID: <Y+9D5oFoa9WH6zBq@liuzhao-OptiPlex-7080>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-9-zhao1.liu@linux.intel.com>
- <6fb117f7-4d7e-326d-d0e4-0a77ef65e179@huawei.com>
- <Y+7vfpbAsnXOqbxo@liuzhao-OptiPlex-7080>
- <a6cb0be8-3eff-31b6-b5a9-66f0ec6dcb8d@huawei.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSwhk-0005RC-EI
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 04:06:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676624815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0N7zx6sdtNUG5TdFijJcQM29VpdGP4bpD4qhxHcXZYw=;
+ b=fbFYFevTLRMWG+5Nfti5Y1LpgmYAhzEHfmjP/EPC8SJmRkgV+S8ud2tbKP+nNGUX6YZ41H
+ Gyo0cTGWp6La0aUeOnP/hSejp6FgQ0o/dGmNBQOFcYS6KYtdLkjeBauHh5r8HbUY91eE3I
+ AZ8+G2xpGmqmDaedqYXq0LL4b18B5ns=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-5-7QdsG3xyM-a7cxtHl_E5KQ-1; Fri, 17 Feb 2023 04:06:51 -0500
+X-MC-Unique: 7QdsG3xyM-a7cxtHl_E5KQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1B32100802C;
+ Fri, 17 Feb 2023 09:06:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65D3A1121314;
+ Fri, 17 Feb 2023 09:06:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3EC1621E6A1F; Fri, 17 Feb 2023 10:06:49 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org,  John Snow <jsnow@redhat.com>,  Peter Maydell
+ <peter.maydell@linaro.org>,  Cleber Rosa <crosa@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Daniel Berrange
+ <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,  Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  qemu-block@nongnu.org,  Hanna Reitz
+ <hreitz@redhat.com>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <87v8k2ycjb.fsf@pond.sub.org>
+ <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com>
+Date: Fri, 17 Feb 2023 10:06:49 +0100
+In-Reply-To: <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com> (Thomas Huth's
+ message of "Thu, 16 Feb 2023 11:58:46 +0100")
+Message-ID: <87zg9cirti.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a6cb0be8-3eff-31b6-b5a9-66f0ec6dcb8d@huawei.com>
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,304 +88,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 17, 2023 at 03:41:30PM +0800, wangyanan (Y) wrote:
-> Date: Fri, 17 Feb 2023 15:41:30 +0800
-> From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [RFC 08/52] machine: Add helpers to get cpu topology info from
->  MachineState.topo
-> 
-> 在 2023/2/17 11:07, Zhao Liu 写道:
-> > On Thu, Feb 16, 2023 at 04:38:38PM +0800, wangyanan (Y) wrote:
-> > > Date: Thu, 16 Feb 2023 16:38:38 +0800
-> > > From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> > > Subject: Re: [RFC 08/52] machine: Add helpers to get cpu topology info from
-> > >   MachineState.topo
-> > > 
-> > > Hi Zhao,
-> > > 
-> > > 在 2023/2/13 17:49, Zhao Liu 写道:
-> > > > From: Zhao Liu <zhao1.liu@intel.com>
-> > > > 
-> > > > When MachineState.topo is introduced, the topology related structures
-> > > > become complicated. In the general case (hybrid or smp topology),
-> > > > accessing the topology information needs to determine whether it is
-> > > > currently smp or hybrid topology, and then access the corresponding
-> > > > MachineState.topo.smp or MachineState.topo.hybrid.
-> > > > 
-> > > > The best way to do this is to wrap the access to the topology to
-> > > > avoid having to check each time it is accessed.
-> > > > 
-> > > > The following helpers are provided here:
-> > > > 
-> > > > - General interfaces - no need to worry about whether the underlying
-> > > >     topology is smp or hybrid:
-> > > > 
-> > > > * machine_topo_get_cpus()
-> > > > * machine_topo_get_max_cpus()
-> > > > * machine_topo_is_smp()
-> > > > * machine_topo_get_sockets()
-> > > > * machine_topo_get_dies()
-> > > > * machine_topo_get_clusters()
-> > > > * machine_topo_get_threads();
-> > > > * machine_topo_get_cores();
-> > > > * machine_topo_get_threads_by_idx()
-> > > > * machine_topo_get_cores_by_idx()
-> > > > * machine_topo_get_cores_per_socket()
-> > > > * machine_topo_get_threads_per_socket()
-> > > > 
-> > > > - SMP-specific interfaces - provided for the cases that are clearly
-> > > > known to be smp topology:
-> > > > 
-> > > > * machine_topo_get_smp_cores()
-> > > > * machine_topo_get_smp_threads()
-> > > > 
-> > > > Since for hybrid topology, each core may has different threads, if
-> > > > someone wants "cpus per core", the cpu_index is need to target a
-> > > > specific core (machine_topo_get_threads_by_idx()). But for smp, there is
-> > > > no need to be so troublesome, so for this case, we provide smp-specific
-> > > > interfaces.
-> > > > 
-> > > > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > > > ---
-> > > >    hw/core/machine-topo.c | 142 +++++++++++++++++++++++++++++++++++++++++
-> > > >    include/hw/boards.h    |  35 ++++++++++
-> > > >    2 files changed, 177 insertions(+)
-> > > > 
-> > > > diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
-> > > > index 7223f73f99b0..b20160479629 100644
-> > > > --- a/hw/core/machine-topo.c
-> > > > +++ b/hw/core/machine-topo.c
-> > > > @@ -21,6 +21,148 @@
-> > > >    #include "hw/boards.h"
-> > > >    #include "qapi/error.h"
-> > > > +unsigned int machine_topo_get_sockets(const MachineState *ms)
-> > > > +{
-> > > > +    return machine_topo_is_smp(ms) ? ms->topo.smp.sockets :
-> > > > +                                     ms->topo.hybrid.sockets;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_dies(const MachineState *ms)
-> > > > +{
-> > > > +    return machine_topo_is_smp(ms) ? ms->topo.smp.dies :
-> > > > +                                     ms->topo.hybrid.dies;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_clusters(const MachineState *ms)
-> > > > +{
-> > > > +    return machine_topo_is_smp(ms) ? ms->topo.smp.clusters :
-> > > > +                                     ms->topo.hybrid.clusters;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_smp_cores(const MachineState *ms)
-> > > > +{
-> > > > +    g_assert(machine_topo_is_smp(ms));
-> > > > +    return ms->topo.smp.cores;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_smp_threads(const MachineState *ms)
-> > > > +{
-> > > > +    g_assert(machine_topo_is_smp(ms));
-> > > > +    return ms->topo.smp.threads;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_threads(const MachineState *ms,
-> > > > +                                      unsigned int cluster_id,
-> > > > +                                      unsigned int core_id)
-> > > > +{
-> > > > +    if (machine_topo_is_smp(ms)) {
-> > > > +        return ms->topo.smp.threads;
-> > > > +    } else {
-> > > > +        return ms->topo.hybrid.cluster_list[cluster_id]
-> > > > +                   .core_list[core_id].threads;
-> > > > +    }
-> > > > +
-> > > > +    return 0;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_cores(const MachineState *ms,
-> > > > +                                    unsigned int cluster_id)
-> > > > +{
-> > > > +    if (machine_topo_is_smp(ms)) {
-> > > > +        return ms->topo.smp.cores;
-> > > > +    } else {
-> > > > +        return ms->topo.hybrid.cluster_list[cluster_id].cores;
-> > > > +    }
-> > > > +}
-> > > Is it possible to use variadic function so that those two smp specific
-> > > helpers can be avoided? It's a bit wired that we have the generic
-> > > machine_topo_get_threads but also need machine_topo_get_smp_threads
-> > > at the same time.
-> > I am not sure about this, because variadic functions unify function
-> > naming, but eliminate the "smp-specific" information from the name.
-> > 
-> > Trying to get the cres/threads without considering the cpu index can
-> > only be used in smp scenarios, and I think the caller needs to
-> > understand that he knows it's smp.
-> Ok, I get the point.
-> When it comes to the naming, would it be more concise to remove the
-> *_get_* in the fun name, such as machine_topo_get_cpus to
-> machine_topo_cpus, machine_topo_get_clusters to machine_topo_clusters.
+Thomas Huth <thuth@redhat.com> writes:
 
-Good, thanks!
+> On 15/02/2023 20.05, Markus Armbruster wrote:
+>> The discussion under PATCH 6 makes me think there's a bit of confusion
+>> about the actual impact of dropping support for Python 3.6.  Possibly
+>> because it's spelled out in the commit message of PATCH 7.  Let me
+>> summarize it in one sentence:
+>> 
+>>      *** All supported host systems continue to work ***
+>> 
+>> Evidence: CI remains green.
+>
+> The CI remains green since one of the patches disabled the building of the 
+> docs on CentOS 8. That's not how I'd describe "continue to work", at least 
+> not in the same extend as before.
 
-> 
-> And maybe rename machine_topo_get_cores(int cluster_id, int core_id) to
-> machine_topo_cores_by_ids?
-> 
-> Or machine_topo_get_cores() to machine_topo_cores_by_topo_ids()
-> and machine_topo_get_cores_by_idx to machine_topo_cores_by_cpu_idx()
+Thus the exception ...
 
-I like the latter, nice name.
+>> On some supported host systems, different packages need to be installed.
+>> On CentOS 8, for instance, we need to install Python 3.8.13 or 3.9.16
+>> instead of 3.6.8.  Let me stress again: same repository, different
+>> package.  No downsides I can see.
 
-> > > > +
-> > > > +unsigned int machine_topo_get_threads_by_idx(const MachineState *ms,
-> > > > +                                             unsigned int cpu_index)
-> > > > +{
-> > > > +    unsigned cpus_per_die;
-> > > > +    unsigned tmp_idx;
-> > > > +    HybridCluster *cluster;
-> > > > +    HybridCore *core;
-> > > > +
-> > > > +    if (machine_topo_is_smp(ms)) {
-> > > > +        return ms->topo.smp.threads;
-> > > > +    }
-> > > > +
-> > > > +    cpus_per_die = ms->topo.max_cpus / (ms->topo.hybrid.sockets *
-> > > > +                            ms->topo.hybrid.dies);
-> > > > +    tmp_idx = cpu_index % cpus_per_die;
-> > > > +
-> > > > +    for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
-> > > > +        cluster = &ms->topo.hybrid.cluster_list[i];
-> > > > +
-> > > > +        for (int j = 0; j < cluster->cores; j++) {
-> > > > +            core = &cluster->core_list[j];
-> > > > +
-> > > > +            if (tmp_idx < core->threads) {
-> > > > +                return core->threads;
-> > > > +            } else {
-> > > > +                tmp_idx -= core->threads;
-> > > > +            }
-> > > > +        }
-> > > > +    }
-> > > > +
-> > > > +    return 0;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_cores_by_idx(const MachineState *ms,
-> > > > +                                           unsigned int cpu_index)
-> > > > +{
-> > > > +    unsigned cpus_per_die;
-> > > > +    unsigned tmp_idx;
-> > > > +    HybridCluster *cluster;
-> > > > +    HybridCore *core;
-> > > > +
-> > > > +    if (machine_topo_is_smp(ms)) {
-> > > > +        return ms->topo.smp.cores;
-> > > > +    }
-> > > > +
-> > > > +    cpus_per_die = ms->topo.max_cpus / (ms->topo.hybrid.sockets *
-> > > > +                            ms->topo.hybrid.dies);
-> > > > +    tmp_idx = cpu_index % cpus_per_die;
-> > > > +
-> > > > +    for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
-> > > > +        cluster = &ms->topo.hybrid.cluster_list[i];
-> > > > +
-> > > > +        for (int j = 0; j < cluster->cores; j++) {
-> > > > +            core = &cluster->core_list[j];
-> > > > +
-> > > > +            if (tmp_idx < core->threads) {
-> > > > +                return cluster->cores;
-> > > > +            } else {
-> > > > +                tmp_idx -= core->threads;
-> > > > +            }
-> > > > +        }
-> > > > +    }
-> > > > +
-> > > > +    return 0;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_cores_per_socket(const MachineState *ms)
-> > > > +{
-> > > > +    unsigned int cores_per_die = 0;
-> > > > +
-> > > > +    if (machine_topo_is_smp(ms)) {
-> > > > +        return ms->topo.smp.cores * ms->topo.smp.clusters * ms->topo.smp.dies;
-> > > > +    }
-> > > > +
-> > > > +    for (int i = 0; i < ms->topo.hybrid.clusters; i++) {
-> > > > +        cores_per_die += ms->topo.hybrid.cluster_list[i].cores;
-> > > > +    }
-> > > > +
-> > > > +    return cores_per_die * ms->topo.hybrid.dies;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_threads_per_socket(const MachineState *ms)
-> > > > +{
-> > > > +    unsigned int sockets = machine_topo_is_smp(ms) ? ms->topo.smp.sockets :
-> > > > +                           ms->topo.hybrid.sockets;
-> > > > +    return ms->topo.max_cpus / sockets;
-> > > > +}
-> > > > +
-> > > >    /*
-> > > >     * Report information of a machine's supported CPU topology hierarchy.
-> > > >     * Topology members will be ordered from the largest to the smallest
-> > > > diff --git a/include/hw/boards.h b/include/hw/boards.h
-> > > > index 0a61855499e3..34b64b012022 100644
-> > > > --- a/include/hw/boards.h
-> > > > +++ b/include/hw/boards.h
-> > > > @@ -461,4 +461,39 @@ extern const size_t hw_compat_2_2_len;
-> > > >    extern GlobalProperty hw_compat_2_1[];
-> > > >    extern const size_t hw_compat_2_1_len;
-> > > > +static inline
-> > > > +unsigned int machine_topo_get_cpus(const MachineState *ms)
-> > > > +{
-> > > > +    return ms->topo.cpus;
-> > > > +}
-> > > > +
-> > > > +static inline
-> > > > +unsigned int machine_topo_get_max_cpus(const MachineState *ms)
-> > > > +{
-> > > > +    return ms->topo.max_cpus;
-> > > > +}
-> > > > +
-> > > > +static inline
-> > > > +bool machine_topo_is_smp(const MachineState *ms)
-> > > > +{
-> > > > +    return ms->topo.topo_type == CPU_TOPO_TYPE_SMP;
-> > > > +}
-> > > > +
-> > > > +unsigned int machine_topo_get_sockets(const MachineState *ms);
-> > > > +unsigned int machine_topo_get_dies(const MachineState *ms);
-> > > > +unsigned int machine_topo_get_clusters(const MachineState *ms);
-> > > > +unsigned int machine_topo_get_smp_cores(const MachineState *ms);
-> > > > +unsigned int machine_topo_get_smp_threads(const MachineState *ms);
-> > > > +unsigned int machine_topo_get_threads(const MachineState *ms,
-> > > > +                                      unsigned int cluster_id,
-> > > > +                                      unsigned int core_id);
-> > > > +unsigned int machine_topo_get_cores(const MachineState *ms,
-> > > > +                                    unsigned int cluster_id);
-> > > > +unsigned int machine_topo_get_threads_by_idx(const MachineState *ms,
-> > > > +                                             unsigned int cpu_index);
-> > > > +unsigned int machine_topo_get_cores_by_idx(const MachineState *ms,
-> > > > +                                           unsigned int cpu_index);
-> > > > +unsigned int machine_topo_get_cores_per_socket(const MachineState *ms);
-> > > > +unsigned int machine_topo_get_threads_per_socket(const MachineState *ms);
-> > > > +
-> > > >    #endif
-> > > I think it's necessary to document the ablity for each helper.
-> > > For example, at a flance, I cant figure out what
-> > > machine_topo_get_threads_idx
-> > > does. Add some something like:
-> > > /*
-> > >   * Get number of threads within the CPU core where a processor locates,
-> > >   * according to the processor index.
-> > >   *
-> > >   * @param: ...
-> > >   */
-> > > will be friendly to future users.
-> > Yeah, thanks! I will.
-> > 
-> > > Thanks,
-> > > Yanan
-> 
+... right here:
+
+>> The *one* exception is Sphinx on CentOS 8.  CentOS 8 does not ship a
+>> version of Sphinx that works with Python 3.7 or newer.  This series
+>> proposes to simply stop building the docs there, unless the user
+>> provides a suitable version of Sphinx (which is easy enough with pip).
+>
+> I think we've all understood that. The thing that you obviously did not 
+> understood: This breaks our support statement.
+> I'm pretty sure that you could also build the whole QEMU suite successfully 
+> on an ancient CentOS 7 or Ubuntu 18.04 system if you manually install a 
+> newer version of GCC and some of the required libraries first. But that's 
+> not how we understand our support statement.
+>
+> Sure, you can argue that you can use "pip install" to get a newer version of 
+> Sphinx on RHEL 8 / CentOS 8 to continue building the docs there - but is 
+> that really that much different from installing a newer version of GCC and 
+> libraries on an ancient distro that we do not officially support anymore? 
+> I'd say no. You also have to consider that not every build host has access 
+> to the internet, maybe some companies only have an internal mirror of the 
+> distro packages in their intranet (I remember some discussion about such a 
+> case in the past) - so while you were perfectly fine to build the whole of 
+> QEMU on a CentOS 8 there before this change, you could now not build parts 
+> of QEMU anymore there due to the missing possibility to run "pip install" 
+> without full internet connection.
+>
+> And sure, you can argue that it's "just" the documentation. But IMHO that's 
+> still an essential part of the QEMU build, and it used to work before, so it 
+> feels wrong to cut that now out. And also, if we start with the 
+> documentation now, what's next? If for example scripts/shaderinclude.py 
+> stops working with Python 3.6, do we then simply say: "Oh, it's fine, you 
+> can still build all the other targets that work without this script, just 
+> not the ones anymore that need it"?
+
+My view on all this is a bit more pragmatic.
+
+For a human developer, the difference between "dnf install
+python-sphinx" and "pip install sphinx" is, in my opinion, close to
+negligible.  Really no comparison to "git-clone GCC and bootstap it".
+You seem to disagree with that.
+
+For automated builds in general, and distro packaging in particular, the
+difference is real, and could even be a show stopper.  But who's
+packaging bleeding edge QEMU on CentOS 8?  I suspect the only automated
+builds are our own CI, where the difference is real, but hardly a show
+stopper.  John's patch is the stupidest solution that could possibly
+work for us: disable doc building on CentOS 8.  Alternative solutions
+have been proposed, and that's fair.  Again, you seem to think this
+issue is a lot more serious.
+
+So maybe this breaks our support statement for a sufficiently rigid
+interpretation of our support statement.  Not the way interpreted it,
+but if it's the way it is to be interpreted, I stand corrected.
+
+But then I'd like us to be a bit more pragmatic.  Is minor and graceful
+degradation for systems close to the trailing edge really so
+unacceptably terrible that we have to bend over backwards to avoid it?
+
+>> All the angst about CentOS falling off the end of our "supported build
+>> platforms" list is not actually warranted by this series :)
+>
+> Using the term "angst" for the concerns of your fellows here is quite 
+> cheeky. It's not about "angst", it's about a discussion that our support 
+> policy might need to be adjusted if we do this step. So instead of writing 
+> such sentences, I'd rather would like to see you posting a patch for 
+> docs/about/build-platforms.rst for constructive further discussion instead.
+
+The phrasing of this sentence was ill-advised.  If it caused offense, I
+apologize.
+
 
