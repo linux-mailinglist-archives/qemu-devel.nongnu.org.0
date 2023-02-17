@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E24B69AF21
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D2169AF2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:12:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT2Ni-00050c-TM; Fri, 17 Feb 2023 10:10:39 -0500
+	id 1pT2Ns-0005CF-TM; Fri, 17 Feb 2023 10:10:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NY-0004tK-1I
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NY-0004uF-Px
  for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NV-0007YW-Bx
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:27 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NW-0007ZX-C8
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676646624;
+ s=mimecast20190719; t=1676646625;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AXQgVWaQES+pKXQokSrrczUQsrx5n6vWlsNSC1fjj5M=;
- b=LQFtiOKCJPPlRe2SLIlkWcHi77mssM1hsKPes5ndwkPf9uXTz1MswFigLYx/FZ/V1zPd2A
- PwTL+oPejxowtPcqNgYH1rRrznnaJl+9Z4m/L/RjtTAX/BixSdsEqOVXPpTw6TeQxKTgbS
- FyxEWGVIjDAqtRMh5AIdTnLOlYfGQrI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LWohMRuh9zgDR1GH+Ur7Wtwbar4xs9BetIOHAE4lCQA=;
+ b=isBvJdadd/sUrgiiDbEgN3kmpbue/zoop9E49vLGzQFYYv400PRO3j3km0RpWq6yrmPv00
+ YW4KlZ2PAKievBpOU2XGS8+8MESHfgaYTbyo4XTnbY1X24zrdLlozpEEbkx1UaFuAlYhLb
+ qvZE3CpEnwvJDBy3jNAvro5nLK4Ll+o=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-267-VWeUMB_pOrWUhTBh0o0-MQ-1; Fri, 17 Feb 2023 10:10:21 -0500
-X-MC-Unique: VWeUMB_pOrWUhTBh0o0-MQ-1
+ us-mta-421-3ce3Hv2BOvyNiAuiXrblJw-1; Fri, 17 Feb 2023 10:10:22 -0500
+X-MC-Unique: 3ce3Hv2BOvyNiAuiXrblJw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7D82185A794;
- Fri, 17 Feb 2023 15:10:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0F1E3828895;
+ Fri, 17 Feb 2023 15:10:21 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C746492C14;
- Fri, 17 Feb 2023 15:10:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1ED58492C14;
+ Fri, 17 Feb 2023 15:10:21 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 20/22] MAINTAINERS: drop Vladimir from parallels block driver
-Date: Fri, 17 Feb 2023 16:09:52 +0100
-Message-Id: <20230217150954.283920-20-kwolf@redhat.com>
+Subject: [PULL 21/22] block/file-posix: don't use functions calling
+ AIO_WAIT_WHILE in worker threads
+Date: Fri, 17 Feb 2023 16:09:53 +0100
+Message-Id: <20230217150954.283920-21-kwolf@redhat.com>
 In-Reply-To: <20230217150954.283920-1-kwolf@redhat.com>
 References: <20230217150829.283583-1-kwolf@redhat.com>
  <20230217150954.283920-1-kwolf@redhat.com>
@@ -78,36 +79,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-I have to admit this is out of my scope now. Still feel free to Cc me
-directly if my help is needed :)
+When calling bdrv_getlength() in handle_aiocb_write_zeroes(), the
+function creates a new coroutine and then waits that it finishes using
+AIO_WAIT_WHILE.
+The problem is that this function could also run in a worker thread,
+that has a different AioContext from main loop and iothreads, therefore
+in AIO_WAIT_WHILE we will have in_aio_context_home_thread(ctx) == false
+and therefore
+assert(qemu_get_current_aio_context() == qemu_get_aio_context());
+in the else branch will fail, crashing QEMU.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20230214182848.1564714-1-vsementsov@yandex-team.ru>
+Aside from that, bdrv_getlength() is wrong also conceptually, because
+it reads the BDS graph from another thread and is not protected by
+any lock.
+
+Replace it with raw_co_getlength, that doesn't create a coroutine and
+doesn't read the BDS graph.
+
+Reported-by: Ninad Palsule <ninad@linux.vnet.ibm.com>
+Suggested-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-Id: <20230209154522.1164401-1-eesposit@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- MAINTAINERS | 2 --
- 1 file changed, 2 deletions(-)
+ block/file-posix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fd54c1f140..65ee4c31b1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3579,13 +3579,11 @@ F: block/dmg.c
- parallels
- M: Stefan Hajnoczi <stefanha@redhat.com>
- M: Denis V. Lunev <den@openvz.org>
--M: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
- L: qemu-block@nongnu.org
- S: Supported
- F: block/parallels.c
- F: block/parallels-ext.c
- F: docs/interop/parallels.txt
--T: git https://gitlab.com/vsementsov/qemu.git block
- 
- qed
- M: Stefan Hajnoczi <stefanha@redhat.com>
+diff --git a/block/file-posix.c b/block/file-posix.c
+index d3073a7caa..9a99111f45 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1738,7 +1738,7 @@ static int handle_aiocb_write_zeroes(void *opaque)
+ #ifdef CONFIG_FALLOCATE
+     /* Last resort: we are trying to extend the file with zeroed data. This
+      * can be done via fallocate(fd, 0) */
+-    len = bdrv_getlength(aiocb->bs);
++    len = raw_co_getlength(aiocb->bs);
+     if (s->has_fallocate && len >= 0 && aiocb->aio_offset >= len) {
+         int ret = do_fallocate(s->fd, 0, aiocb->aio_offset, aiocb->aio_nbytes);
+         if (ret == 0 || ret != -ENOTSUP) {
 -- 
 2.39.2
 
