@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D9069A515
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:27:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 194E969A517
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:28:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pStG6-0003Pr-Qc; Fri, 17 Feb 2023 00:26:11 -0500
+	id 1pStHp-0004Gj-IK; Fri, 17 Feb 2023 00:27:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pStG4-0003PY-0m
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:26:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
+ id 1pStHi-0004GC-QX
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:27:51 -0500
+Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pStFx-0004Pb-Mm
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:26:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676611559;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3I6b/id4Nv8hBz4fV4YxRlZPV5Y/kaofXCvKZL2stFA=;
- b=WJaEyo0rfrzAaYHy1lWddL+hzXF00izttkoy1S6tDdkNtYzupYwyo9+Y7e7R6qp5Z5FLrP
- Z4GMgu+aQHump3hxjTwsDfuRvipWhWFytZaDRiywhj5S8tMA0QidQVhHnvq7DVxWKCfefa
- uHbVgaqnKvtSggHKrTceFd1+m30dpOI=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-215-TFWrZykpMB2cikYiNvLsGw-1; Fri, 17 Feb 2023 00:25:58 -0500
-X-MC-Unique: TFWrZykpMB2cikYiNvLsGw-1
-Received: by mail-oi1-f197.google.com with SMTP id
- s15-20020a0568080b0f00b0037874eb34c8so120076oij.19
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 21:25:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3I6b/id4Nv8hBz4fV4YxRlZPV5Y/kaofXCvKZL2stFA=;
- b=x2CAauG6SPy2uDTtaNwbbFtwhFCgBybzeZtMuBk9L+l6tx5iywc/ZR8yPnWOegqpPt
- r8JELUwQ6ZaOrNAEXSB3Hdl3x9diHxXx/wyeBQoDYurZYM84n0owz3ed0kBDY+aobXRc
- qLGwfAOlf4eiJHdXZelZ1sfXXSYpt2x1EURIrHlf0+KL5+Llx5kemoSXdVGZPwNRfj8l
- 224cx82VbROmVpgrYeF9DJhu/WDAWnlLKZktZnq2+xEw8TzaisfMg1edoDV56oSblmDK
- RIWzhB2GEHIVgqX+wifz2xI7/vRXn2ioaA97xX67iZx/L9+SgT8Pk7f3sv7p72R3a7VV
- jJEA==
-X-Gm-Message-State: AO0yUKXW22Yh1+KaCqqdo/eTGj08dEAGogKBylb7/qsTOgfAiqtcAYZu
- ASLumkmKn2hTJnTnhaUsA/0KqET7ruHnmG9j8tXrNJyClTD99uMNDLjuqyYKr8Uzl+TCdrMlGc7
- dYSivwIMZEjhqVn99euTNG/z2dy1AgWw=
-X-Received: by 2002:a05:6871:84ca:b0:16a:2c1a:e416 with SMTP id
- sw10-20020a05687184ca00b0016a2c1ae416mr302017oab.35.1676611557458; 
- Thu, 16 Feb 2023 21:25:57 -0800 (PST)
-X-Google-Smtp-Source: AK7set/dyR15sR5mg+tIZ4f1PrnjfbBWylD8RtAPfFrLQSz/NN3BUmf80umTzezS8+wW8Jl1Vh6OBE70mE7Cozhkv/E=
-X-Received: by 2002:a05:6871:84ca:b0:16a:2c1a:e416 with SMTP id
- sw10-20020a05687184ca00b0016a2c1ae416mr302016oab.35.1676611557247; Thu, 16
- Feb 2023 21:25:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
+ id 1pStHg-0004bm-U5
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:27:50 -0500
+Received: from mta-01.yadro.com (localhost.localdomain [127.0.0.1])
+ by mta-01.yadro.com (Proxmox) with ESMTP id 36C083417C5;
+ Fri, 17 Feb 2023 08:27:45 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; h=cc
+ :cc:content-id:content-transfer-encoding:content-type
+ :content-type:date:from:from:message-id:mime-version:reply-to
+ :subject:subject:to:to; s=mta-01; bh=emN6cq0Xji3iMNEKWPUOlKKCg/m
+ Kl0TrRgy571/XsJI=; b=QoUwQCUsfKbvewIMGfkftndfhEjsV39VjPFjqV6hmHz
+ ipMIQM/bthTbWbbX/sEDjshhJsTcdimDU4YEkEhm9cGTaAK2a5SHB9Ll12TZScYI
+ MwUUHHmr1XMG+m5//ehobqhd/dkEwSmHIcXCNVEOVC5zKJrY/RUEzWrmno5XAorU
+ =
+Received: from T-EXCH-08.corp.yadro.com (unknown [172.17.10.14])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Proxmox) with ESMTPS id 2C945341660;
+ Fri, 17 Feb 2023 08:27:45 +0300 (MSK)
+Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
+ T-EXCH-08.corp.yadro.com (172.17.11.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.9; Fri, 17 Feb 2023 08:27:44 +0300
+Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
+ T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Fri,
+ 17 Feb 2023 08:27:44 +0300
+From: Mikhail Tyutin <m.tyutin@yadro.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "alex.bennee@linaro.org" <alex.bennee@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: TCG asserts on some of translation blocks with plugin memory callback
+Thread-Topic: TCG asserts on some of translation blocks with plugin memory
+ callback
+Thread-Index: AQHZQpCQZUyYKKfKzUKg+ugTeuoVKA==
+Date: Fri, 17 Feb 2023 05:27:44 +0000
+Message-ID: <13fc40e4-2637-02bc-5f83-4fb9f04cd730@yadro.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.17.10.14]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9B00C3741DBB614587B1E8D6E3CEAE0A@yadro.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20230216052424.50926-1-jasowang@redhat.com>
- <d2571e12-661b-60f0-1afd-d3624477ea5c@linaro.org>
-In-Reply-To: <d2571e12-661b-60f0-1afd-d3624477ea5c@linaro.org>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 17 Feb 2023 13:25:46 +0800
-Message-ID: <CACGkMEvFMewCpcPwCCR69-eTQXcrvDGnQ6_CYzgQ4Arh-76Pow@mail.gmail.com>
-Subject: Re: [PULL V2 00/10] Net patches
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, 
- Qiang Liu <cyruscyliu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=m.tyutin@yadro.com;
+ helo=mta-01.yadro.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,65 +83,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 4:00 PM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> Hi Jason,
->
-> On 16/2/23 06:24, Jason Wang wrote:
-> > The following changes since commit 6a50f64ca01d0a7b97f14f069762bfd88160=
-f31e:
-> >
-> >    Merge tag 'pull-request-2023-02-14' of https://gitlab.com/thuth/qemu=
- into staging (2023-02-14 14:46:10 +0000)
-> >
-> > are available in the git repository at:
-> >
-> >    https://github.com/jasowang/qemu.git tags/net-pull-request
-> >
-> > for you to fetch changes up to 5e53a346d8bd2bd22522e1e7abd8f122673e4adf=
-:
-> >
-> >    vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check (2023-02-16 13:17:57=
- +0800)
-> >
-> > ----------------------------------------------------------------
-> >
-> > Changes since V1:
-> > - Fix the wrong guest error detection in xlnx-zynqmp-can
-> >
-> > ----------------------------------------------------------------
-> > Christian Svensson (1):
-> >        net: Increase L2TPv3 buffer to fit jumboframes
-> >
-> > Eugenio P=C3=A9rez (1):
-> >        vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
-> >
-> > Fiona Ebner (1):
-> >        hw/net/vmxnet3: allow VMXNET3_MAX_MTU itself as a value
-> >
-> > Joelle van Dyne (1):
-> >        vmnet: stop recieving events when VM is stopped
-> >
-> > Laurent Vivier (1):
-> >        net: stream: add a new option to automatically reconnect
-> >
-> > Qiang Liu (2):
-> >        hw/net/lan9118: log [read|write]b when mode_16bit is enabled rat=
-her than abort
-> >        hw/net/can/xlnx-zynqmp-can: fix assertion failures in transfer_f=
-ifo()
->
-> Can you have a look at this comment from v1?
-> https://lore.kernel.org/qemu-devel/572fcb76-b2f7-20ca-0701-e22dd4e4cb59@l=
-inaro.org/
-
-For some reason, I miss this.
-
-I will drop this patch from the pull request now.
-
-Thanks
-
->
+SGVsbG8sDQoNCkkgaGF2ZSBiZWVuIHRlc3RpbmcgVENHIHBsdWdpbiBwYXRjaCBvbiBsYXRlc3Qg
+UWVtdSBidWlsZCBidXQgbm90aWNlZCB0aGF0IGl0DQpmYWlscyB3aXRoIGFzc2VydCBvbiBzb21l
+IG9mIHRoZSBhcHBsaWNhdGlvbnMuDQoNCiAgIEVSUk9SOi4uL2FjY2VsL3RjZy9jcHUtZXhlYy5j
+Ojk4MzpjcHVfZXhlY19sb29wOg0KICAgICAgIGFzc2VydGlvbiBmYWlsZWQ6IChjcHUtPnBsdWdp
+bl9tZW1fY2JzID09ICgodm9pZCAqKTApKQ0KDQpJdCBoYXBwZW5zIHdoZW4gVENHIHBsdWdpbiBz
+ZXRzIG1lbW9yeSBjYWxsYmFjayBpbiBzb21lIG9mIHRyYW5zbGF0aW9uIGJsb2Nrcy4NClRoZSBj
+YWxsYmFjayBjYW4gYmUgZW1wdHksIGl0IGp1c3QgbmVlZHMgdG8gYmUgdGhlcmUuIERlYnVnZ2lu
+ZyBpdCBmdXJ0aGVyIEkNCnNlZSBpbmplY3RfbWVtX2VuYWJsZV9oZWxwZXIoKSBhbmQgaW5qZWN0
+X21lbV9kaXNhYmxlX2hlbHBlcigpIGZ1bmN0aW9ucyB0aGF0DQphcmUgaW50ZW5kZWQgdG8gc2V0
+IGFuZCByZXNldCBjcHUtPnBsdWdpbl9tZW1fY2JzIHRvIGFwcHJvcHJpYXRlIHZhbHVlLg0KDQpU
+aGUgcHJvYmxlbSBpcyB0aGF0IGluamVjdF9tZW1fZGlzYWJsZV9oZWxwZXIoKSBwYXJ0IGdldHMg
+cmVtb3ZlZCBpbnNpZGUgb2YNCnJlYWNoYWJsZV9jb2RlX3Bhc3MoKSBmdW5jdGlvbi4gQXMgdGhl
+IHJlc3VsdCB3ZSBzZWUgdGhpcyBhc3NlcnQgKHRoZSBwb2ludGVyDQppcyBub3Qgc2V0IHRvIE5V
+TEwgYXQgdGhlIGVuZCBvZiB0cmFuc2xhdGlvbiBibG9jayBhcyBpdCBleHBlY3RzKS4gSGVyZSBp
+cyBPUA0KbGlzdGluZyBqdXN0IGJlZm9yZSByZWFjaGFibGVfY29kZV9wYXNzKCkgY2FsbDoNCg0K
+ICBleHQzMnVfaTY0IHJjeCx0bXAzDQogIGFkZF9pNjQgcmlwLHJpcCwkMHhhDQogIGdvdG9fdGIg
+JDB4MA0KICBleGl0X3RiICQweDdmZmY2NDAxMzMwMA0KICBtb3ZfaTY0IHRtcDExLCQweDAgICAg
+ICAgICAgICAgICAgICAgIDsgdGhpcyBpcyBhIHBhcnQNCiAgc3RfaTY0ICQweDAsZW52LCQweGZm
+ZmZmZmZmZmZmZmY1NDAgICA7IG9mIGluamVjdF9tZW1fZGlzYWJsZV9oZWxwZXIoKQ0KICBzZXRf
+bGFiZWwgJEwwDQogIGV4aXRfdGIgJDB4N2ZmZjY0MDEzMzAzDQoNCg0KcmVhY2hhYmxlX2NvZGVf
+cGFzcygpIHJlbW92ZXMgZXZlcnl0aGluZyBhZnRlciBleGl0X3RiIHVudGlsIGl0IHJlYWNoZXMN
+CnNldF9sYWJlbCBvcCBhcyDigJhkZWFk4oCZIGNvZGUsIHdoaWNoIHNlZW1zIHRvIGJlIGNvcnJl
+Y3QuDQoNClRoZSBxdWVzdGlvbiBpcyBob3cgaXQgaXMgZXhwZWN0ZWQgdG8gd29yaz8gU2hvdWxk
+IGluamVjdF9tZW1fZGlzYWJsZV9oZWxwZXIoKQ0KaW5zZXJ0IGl0cyB6ZXJvaW5nIE9QcyBhZnRl
+ciDigJxzZXRfbGFiZWwgJEww4oCdIG9yIGJlZm9yZSDigJxnb3RvX3RiICQweDDigJ0gb3BlcmF0
+aW9uDQp0byBhdm9pZCBkZWFkIGNvZGUgYmxvY2s/DQo=
 
 
