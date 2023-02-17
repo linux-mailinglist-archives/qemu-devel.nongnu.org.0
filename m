@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B5669B1F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:42:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6B769B1F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:44:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT4jW-0007dA-Dj; Fri, 17 Feb 2023 12:41:18 -0500
+	id 1pT4lu-00013w-EX; Fri, 17 Feb 2023 12:43:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pT4jU-0007cf-4q
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:41:16 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pT4lr-00013R-FG
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:43:43 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pT4jS-0005XW-Ly
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:41:15 -0500
-Received: by mail-pl1-x634.google.com with SMTP id 19so2337813plo.7
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:41:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pT4lp-0005xX-QT
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:43:43 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ m21-20020a05600c3b1500b003e1f5f2a29cso1536342wms.4
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:43:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Z3TXaPJnG5p4ZTttn7gLA6eb2p/PHMpKCU9JCw/BWx8=;
- b=CVxFp8SrYrH8+rdpvnbn6rLO43GaURaFWp5RqM+5C3BJD10PiblngMAyLM5PoB9pj8
- uHbDVgAFjE5P0vXblmyO/eENYFromR8ko1tKfW+fk8nXI22T78jksQIhdFkwMZbhU4F3
- VdvJr3EdV+wb3SGBmxWevUOJaT34Kzdn9YsKAeoyEhRXtGSylrCppvzPVKV5Nw+AmxKH
- JQupg+3oKAJtQAIBj0/HSy79oJtnJwjUC3LwuNhyLjVtxFiY4DK0qeC/Hv7D4j67Ujt0
- bsDcVTX+SsWok6SGfAXAxbmrqgDAFw2F+leDwDetdteEMw51fwoSRXwoKdhPwdb7MAzK
- 5FRQ==
+ bh=SwIpN4I2jUyFOv7sgsjRSye+phBiMmBzwPA/wuVZglc=;
+ b=b9WZ/p0vMDzWW0/slrhd5AiQoI/x+Y/7CowHHXpWU756wtK0b5FVz+y0FOUU/K/GR4
+ XyPTsbNEnoVHqZkgse3hlD3w/FakOkqfkim6Z22cx+Xqi4kDeaFxYmG4pYNJtuoLYy+u
+ r6weiZJCEMlIpNK6uxQcVMOqwmAWqc83K2zhLWLzRzyz3Bo24F4aUqiOEYyxc68Lveiu
+ ATtQL6b9TjRhfIod5ENCWfeDoi3OOlSgqyKjUff6VT5E+M2jHpeNOwP3TTmuFka7omhz
+ VPnRMI2ikCMIlvH8z7DrL3l8TphgHPTV9q9t2omtwrx7w4rFbuhaRbdiLxGyv/5BplOJ
+ 3ehQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z3TXaPJnG5p4ZTttn7gLA6eb2p/PHMpKCU9JCw/BWx8=;
- b=pwKZzwYeGQd4VmI9xqLECXkRbv3Ip3PKrnzHOOn/+lJhJo7+Ij77PW1/GClOl7jzKn
- IMQKDJ8yyLuxOdrqxhRX+JRwuDPEmkVv2R3Pmuae8eecI75YHDMi5PPEtwbmK1WaAzrU
- iEK3L0zsWpwB4J1LXfG8t1Cak1ELG4a9AwYUrTX2CYBlA/3qDAEI0bZDbNl5lGbpvazu
- isQLK5q+R/NI1a7HCVEEKZNugqRJBhrqXXSFlonV/zikbNVu9fg13x0mBM5Fy83H7nI9
- 9yvRdeoa1u8HSZUp49UN54IrBwcDeuL4muAHPlYIUxb7C94H/9LvNlNlU/yYUpMJbnlw
- 0klA==
-X-Gm-Message-State: AO0yUKWIntOf9kpRdHGJivLO8wsUI5Wkw0QFZckhsLsY5Fne2WsGXJH9
- ZXtTrr2kX+L294GBbnRDas4PHnY+cPBsv3qG678=
-X-Google-Smtp-Source: AK7set+2OnRkIb+nYIHT1QiHWcyRHkQLKJq9gxWLlUhVnmkujjUjq+2kKGX9+TVl3MFVuY0d+t+piA==
-X-Received: by 2002:a05:6a20:2e0c:b0:bc:a2a9:1ad with SMTP id
- be12-20020a056a202e0c00b000bca2a901admr1697794pzb.2.1676655673136; 
- Fri, 17 Feb 2023 09:41:13 -0800 (PST)
-Received: from [172.20.100.240] (rrcs-173-198-77-219.west.biz.rr.com.
- [173.198.77.219]) by smtp.gmail.com with ESMTPSA id
- e13-20020a62aa0d000000b005a8da934214sm838182pff.168.2023.02.17.09.41.10
+ bh=SwIpN4I2jUyFOv7sgsjRSye+phBiMmBzwPA/wuVZglc=;
+ b=5XmlEW5mm4d5DXmUedifquKMSKr+owSJ9/1H0YaWJk/Qxp2GpB2L3lCy1XIyimBa0f
+ 8nSxLBdRWAcT4CbW6BgOmsg0DQNjLDzRL9xLekDLQsp/eIFgJ9fZEfeR3nBWWxtxy8P7
+ vBbStu9eXxSUQgLV2NYoKalyYIYLsTKuFWElHpywsf0FYQSCEe43qXdbHH/oyg7YCGrZ
+ 9dyNVR3QGKkn0qyozkU8AU3NYEs1x/uz+6sqzPBuXIyEyUZj5cWu9wYq80OWzyNtrikL
+ 7eItG/Jo+ktR3Tyw2lV/BookO34Gf1F3a5lfAooFU/LVKVqTKwA8pzzkDB130seIvjkU
+ 9V7A==
+X-Gm-Message-State: AO0yUKVnb+kMO/KVvawFpoE484g5SGp4VacZuSq1+OfP+eZE3X87eHeX
+ MwkkQ+3MsQ/zGLCeHU8KZ2jowg==
+X-Google-Smtp-Source: AK7set/NJE+wmFhLqsLbfY75jVkxaeD6qLO/6a0OB4dRUvOLGF1a51oxtzdh8erfrVxVdW/mhAO0nQ==
+X-Received: by 2002:a05:600c:747:b0:3dc:5823:d6c0 with SMTP id
+ j7-20020a05600c074700b003dc5823d6c0mr1539823wmn.6.1676655819917; 
+ Fri, 17 Feb 2023 09:43:39 -0800 (PST)
+Received: from [192.168.129.175] (217.red-88-29-172.dynamicip.rima-tde.net.
+ [88.29.172.217]) by smtp.gmail.com with ESMTPSA id
+ 7-20020a05600c028700b003e214803343sm5536482wmk.46.2023.02.17.09.43.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 09:41:12 -0800 (PST)
-Message-ID: <c1b0959b-4af7-a432-4391-e57d26a81894@linaro.org>
-Date: Fri, 17 Feb 2023 07:41:08 -1000
+ Fri, 17 Feb 2023 09:43:39 -0800 (PST)
+Message-ID: <72bd7694-9d37-1f9b-db4e-6d5818f7c55c@linaro.org>
+Date: Fri, 17 Feb 2023 18:43:36 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 06/11] bsd-user: Helper routines h2g_old_sysctl
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
 Content-Language: en-US
-To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, f4bug@amsat.org,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Sean Bruno <sbruno@FreeBSD.org>, Juergen Lock <nox@jelal.kn-bremen.de>,
- Raphael Kubo da Costa <rakuco@FreeBSD.org>, Stacey Son <sson@FreeBSD.org>
-References: <20230216233353.13944-1-imp@bsdimp.com>
- <20230216233353.13944-7-imp@bsdimp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230216233353.13944-7-imp@bsdimp.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com,
+ Reinoud Zandijk <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>,
+ Brad Smith <brad@comstyle.com>, Stefan Weil <sw@weilnetz.de>,
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20230130114428.1297295-1-thuth@redhat.com>
+ <87a61cbmti.fsf@pond.sub.org> <Y+9bSHshiNnek31J@redhat.com>
+ <b55b506e-5a73-329a-24ee-14eafc5a95c1@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <b55b506e-5a73-329a-24ee-14eafc5a95c1@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -97,35 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/16/23 13:33, Warner Losh wrote:
-> h2g_old_sysctl does the byte swapping in the data to return it to the
-> target for the 'well known' types. For most of the types, either the
-> data is returned verbatim (strings, byte size, opaque we don't know
-> about) or it's returned with byte swapping (for all the integer
-> types). However, for ABI32 targets, LONG and ULONG are different sizes,
-> and need to be carefully converted (along with help from the caller).
+(Cc'ing Huacai & Jiaxun).
+
+On 17/2/23 17:38, Paolo Bonzini wrote:
+> On 2/17/23 11:47, Daniel P. Berrangé wrote:
+>> On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
+>>> I feel the discussion petered out without a conclusion.
+>>>
+>>> I don't think letting the status quo win by inertia is a good outcome
+>>> here.
+>>>
+>>> Which 32-bit hosts are still useful, and why?
+>>
+>> Which 32-bit hosts does Linux still provide KVM  support for.
 > 
-> Co-Authored-by: Sean Bruno<sbruno@FreeBSD.org>
-> Signed-off-by: Sean Bruno<sbruno@FreeBSD.org>
-> Co-Authored-by: Juergen Lock<nox@jelal.kn-bremen.de>
-> Signed-off-by: Juergen Lock<nox@jelal.kn-bremen.de>
-> Co-Authored-by: Raphael Kubo da Costa<rakuco@FreeBSD.org>
-> Signed-off-by: Raphael Kubo da Costa<rakuco@FreeBSD.org>
-> Co-Authored-by: Stacey Son<sson@FreeBSD.org>
-> Signed-off-by: Stacey Son<sson@FreeBSD.org>
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
-> ---
->   bsd-user/freebsd/os-sys.c | 100 ++++++++++++++++++++++++++++++++++++--
->   1 file changed, 96 insertions(+), 4 deletions(-)
+> All except ARM: MIPS, x86, PPC and RISC-V.
+> 
+> I would like to remove x86, but encountered some objections.
+> 
+> MIPS, nobody is really using it I think.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+32-bit was added in 2014, commit 222e7d11e7 ("target-mips: Enable KVM
+support in build system"). I'm not aware of anybody using it (even
+testing it). I don't have hardware to test it (neither time).
+We are still cross-compiling it although.
 
-> +        }
-> +        else {
-> +#ifdef TARGET_ABI32
+64-bit support was added recently (see commit aa2953fd16 "configure:
+Add KVM target support for MIPS64") and is used (see commit fbc5884ce2
+"meson.build: Re-enable KVM support for MIPS" from 2020), however I
+tend to see it more as hobbyist use than production one. Besides it
+is listed as 'Odd Fixes' in MAINTAINERS (still 2020, commit 134f7f7da1
+"MAINTAINERS: Reactivate MIPS KVM CPUs").
 
-} else {
+> So that leaves PPC and RISC-V.
+> 
+>> If any, is there an EOL date for Linux 32-bit KVM support ?
+> 
+> No, and I don't think there's going to be one.
+> 
+> Paolo
+> 
 
-
-r~
 
