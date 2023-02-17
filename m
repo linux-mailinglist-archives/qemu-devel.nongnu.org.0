@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38E969B260
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 19:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D69069B291
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 19:49:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT5V5-0007Hw-Ca; Fri, 17 Feb 2023 13:30:27 -0500
+	id 1pT5m6-0004bL-Fo; Fri, 17 Feb 2023 13:48:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT5Ut-0007EM-LX
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 13:30:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT5m4-0004ar-AY
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 13:48:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT5Ur-0007KC-1y
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 13:30:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT5m2-0005xD-LM
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 13:48:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676658611;
+ s=mimecast20190719; t=1676659677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H9VOjDRuSwXRfHna+iGkGDUpgDSUg676a6AjhjuLINg=;
- b=E53TjprOGePVHKe0/2K7ZJiKb59c88P6Mh2ThoBwh54y9tAu4atEKK4bqdz6Wtf2NzHCGu
- D1SnBdVIKeKg/l3jGf8xjh/LULm3cv8BI57vFFYGxUJWVCxONz0kbNDWCCyUWTgA7jDRmK
- qgtAb7w3HZLf9Ra3UjhzvIRh3v4LxZw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DHUvpsr4oPJ0GOY4xGj2d9Ecruh+V2SlNMkXku7h2oE=;
+ b=DVycfaK/YFoMvAqFnARY03Y50r8IkUf64ZDTZMX8SdNQ7f2pGnsA2y3dn5Vuf07n2uhZ/Y
+ ZE338ZfaI02ufZWMiyIW4p6ValHC8WSzgy3CwykZiLwi8O4NDx7u+ZTL+TchV/zgbG5k7J
+ 6rg70jDvOFrw3FAIuj5PhNYD2AV4emo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-637-4XgOudVSOoSvD0-yQV2cYw-1; Fri, 17 Feb 2023 13:30:09 -0500
-X-MC-Unique: 4XgOudVSOoSvD0-yQV2cYw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u1-20020a5d4681000000b002c3f54b828bso256465wrq.21
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 10:30:09 -0800 (PST)
+ us-mta-638-j9OvzHjkMXiA50NvVmKa_g-1; Fri, 17 Feb 2023 13:47:55 -0500
+X-MC-Unique: j9OvzHjkMXiA50NvVmKa_g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ s10-20020a7bc38a000000b003dfecb98d38so1048355wmj.0
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 10:47:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
  :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H9VOjDRuSwXRfHna+iGkGDUpgDSUg676a6AjhjuLINg=;
- b=Hm1du0cEWylL2EU5P4xjwJJTp3SaaQIGI0hQ3ByGfJCvyBQHkFiL2OxrMaIzimR57I
- YYdEqdXeUIX/YJ1TJxOe83hdUw4nMWql/xjeA128rZT6g3aA0VadVqVdWnB4jm6evg6D
- /qLsC8l6A/kxA8/XcdtvhefaV4Jq7Oq2j6yRQJVYDDWmi3aAuOUyLPJ2JyeQ8HTFoead
- hiC0Q/Y/yfSk/34myufDGKRpfUn02uPezqih9OsV0yMP4EHPo88jq3b9lmKHkt+f7J7t
- Y2QAUM4uOK8j+gM9FtJqMFdhLVX4cKwjtUiqPD9sOFbgiXkjI1snvPEFsbNm06GH5PkL
- 3g1g==
-X-Gm-Message-State: AO0yUKVA3vLY1bjzlwitBJTquUC39i+d9ZCO1KyVGN5+7G2xn5DXmQh9
- jnlhHURPUDDozRlq8Thoa+MfatXQmqvcphZmhQTEeBtG6fGx5l2XIPoyT3h59J2lFM1YZ7vrOx3
- akD87AK5KOTmoKTI=
-X-Received: by 2002:a5d:6150:0:b0:2c3:f6ff:292c with SMTP id
- y16-20020a5d6150000000b002c3f6ff292cmr211446wrt.55.1676658608814; 
- Fri, 17 Feb 2023 10:30:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set8RI1ATCl7XjEjqK55cYGWwzCEt4+LnMSxst0rZweW1HcCb6YTvik16gWLwmxWp9EmBMFXioA==
-X-Received: by 2002:a5d:6150:0:b0:2c3:f6ff:292c with SMTP id
- y16-20020a5d6150000000b002c3f6ff292cmr211433wrt.55.1676658608562; 
- Fri, 17 Feb 2023 10:30:08 -0800 (PST)
+ bh=DHUvpsr4oPJ0GOY4xGj2d9Ecruh+V2SlNMkXku7h2oE=;
+ b=zOkEq8lEktXVaDYVVdiF2TLUIZ4eTVsXjR4sVpjno3J63r/bF/5vzlFT39AVf5HQnr
+ M0uWhYGdPvLtvnc1LrVSOQIsm0Fnu0wa9dSrks+6H2qwtboRn86je75ue1qmZVC3Qtrz
+ AZUljk1bSKeu74XMAE3EJ1CSmgq3F2U4w0AuG9YJG/5EcA5SzfO55EzxLudVAad7PVhY
+ mlcoZblFiQ0kHxilsZv3Orv8wuw5tvWVJC+r//0mIw4tDWtkl4U0gQwPrwYgWkYFUNEr
+ y+Hb0XLGZEzgZfx30V8YbHWUjp+QWXVDYgdAnJtc360YdYV2m9WPh6oee8KkLX+XCXOf
+ 3lCw==
+X-Gm-Message-State: AO0yUKWh3sbYdfzm/R29LDxadx6mQOLMWJblt3TWzzPBACeHHD4X63kL
+ fgLCXgmak/GpDZ2NBK6TSmN0YiP5PFHjjOdfRFVLKR46yGkEyz5hlj/2MJJ4WIRBmddP1hChBpL
+ sByMXtAvV9Tjey+A=
+X-Received: by 2002:a5d:4dc5:0:b0:2c5:4ca0:1abb with SMTP id
+ f5-20020a5d4dc5000000b002c54ca01abbmr2007603wru.60.1676659674596; 
+ Fri, 17 Feb 2023 10:47:54 -0800 (PST)
+X-Google-Smtp-Source: AK7set9bNA/kcizBQntsmtExEJMIsKhRuQdfhXiOkN+J3H6ue++Qa+aQIsF/gEd3BkpOOxKz4pAKSQ==
+X-Received: by 2002:a5d:4dc5:0:b0:2c5:4ca0:1abb with SMTP id
+ f5-20020a5d4dc5000000b002c54ca01abbmr2007576wru.60.1676659674295; 
+ Fri, 17 Feb 2023 10:47:54 -0800 (PST)
 Received: from [192.168.8.104] (tmo-110-21.customers.d1-online.com.
  [80.187.110.21]) by smtp.gmail.com with ESMTPSA id
- x8-20020a5d54c8000000b002c5503a8d21sm4887375wrv.70.2023.02.17.10.30.06
+ k8-20020a5d4288000000b002c559843748sm4850663wrq.10.2023.02.17.10.47.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 10:30:07 -0800 (PST)
-Message-ID: <b2b54f1a-735c-acab-bd75-3d8cce9fb34d@redhat.com>
-Date: Fri, 17 Feb 2023 19:30:05 +0100
+ Fri, 17 Feb 2023 10:47:53 -0800 (PST)
+Message-ID: <fe0de452-86df-ca43-8294-eac3938f72df@redhat.com>
+Date: Fri, 17 Feb 2023 19:47:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, Claudio Fontana <cfontana@suse.de>
 References: <20230217132631.403112-1-thuth@redhat.com>
- <Y++X2XtyfJEIzcln@redhat.com>
+ <87sff470lj.fsf@pond.sub.org> <Y++ka8oPpHrNyonT@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Subject: Re: [RFC PATCH] docs/about/build-platforms: Refine the distro support
  policy
-In-Reply-To: <Y++X2XtyfJEIzcln@redhat.com>
+In-Reply-To: <Y++ka8oPpHrNyonT@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -104,30 +105,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/02/2023 16.06, Daniel P. Berrangé wrote:
-> On Fri, Feb 17, 2023 at 02:26:31PM +0100, Thomas Huth wrote:
-...
-> I'm also not so comfortable dropping the only version of SLES that we
-> explicitly target, when we don't know when their new major release
-> will arrive.
+On 17/02/2023 16.59, Daniel P. Berrangé wrote:
+> On Fri, Feb 17, 2023 at 04:55:49PM +0100, Markus Armbruster wrote:
+....
+> The cost/benefit tradeoff of dropping the platforms entirely
+> is not obviously favourable when we don't have clear demand
+> to bump the min versions of native packages, and the cost to
+> users stuck on these platforms to build their own toolchain
+> or libraries is very high.
 
-Let's hope that the next major version will show up at least five years 
-after the previous one ... but what if it takes many more years? Do we want 
-to support very old long term distros for "almost forever"?
+There's another urgent point which I completely forget to mention in my 
+patch description (not sure how I managed that, since it's bugging me quite 
+badly in the past weeks): We're struggling heavily with CI minutes. If we 
+have to support multiple major releases for a long time in parallel, there 
+will always be the desire to have all major releases also tested in the CI 
+... and honestly, we're really struggling quite badly there right now - as 
+you know, we've already run out of CI minutes in January in the main 
+project, and also in my forked repo I'm struggling each month. Additionally, 
+it's of course additional effort to keep everything in the "green" state the 
+more you have to support.
 
-Also, should we maybe at least limit the time to 5 years? Otherwise, if 
-openSUSE 16 gets released 5 years after v15, we have to support v15 for 7 
-years in total due to the "two more years" rule...
-
-> If we allow compilers, libraries to be bumped, then someone stuck on
-> RHEL-8 has a significant task to build their own toolchain/libraries
-> in order to work with QEMU still. If we only allow python modules to
-> be bumped, the solution is just a pip install / virtualenv away.
-
-Honestly, being a Python ignorant, I'm more comfortable with "./configure && 
-make && make install" instead of messing up my system with pip like I did in 
-the past ... but I guess it's ok if it is properly done automatically under 
-the hood with a venv ... I'll get used to it ;-)
+We're currently "lucky" in a sense that we're only testing one version of 
+CentOS, Debian and Ubuntu right now, but there have been voices in the past 
+weeks asking for more already (like we also did in the past already). I'd 
+really appreciate if we could have a clearer policy here to support less at 
+the same time. It would help with the pressure on the CI and the effort and 
+time it takes to maintain all that stuff.
 
   Thomas
 
