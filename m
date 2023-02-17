@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94EEE69B2C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 19:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF37869B359
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 20:51:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT5vN-0007R4-K9; Fri, 17 Feb 2023 13:57:37 -0500
+	id 1pT6jz-0003xR-5W; Fri, 17 Feb 2023 14:49:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT5vM-0007Qo-4y
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 13:57:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT6jx-0003xG-27
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 14:49:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT5vK-0008S2-Lr
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 13:57:35 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT6jv-000856-9d
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 14:49:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676660254;
+ s=mimecast20190719; t=1676663390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t6ROWSIjVF1DpUHydtrU5JMxqvnOdLEF5CYHu22z/To=;
- b=McG5Edf3oLQ//fOREn2BQue/I7oebQ37FIVbtYkb1mJdbdWb7SSaKDtoIWT0FWXivwXDDH
- G6wVl0+vYeY0PvQvWLwMpxGpFDLrTGrTgjYoIPwstB1xGXDpn9I4dYDN1KUN8kXCFIj2Hn
- 64cKJEdOujnrSQWyVK5uDyCjkBxbtbg=
+ bh=ToLcNKcTtuy9bcS0Jy8QbtXgWrYt7WCZ7TkY6O1dt18=;
+ b=Kcjj75XMwVdjaQWPToIPpku980aA+sSucCmQCjc/H6VcWRNpUxVZqXEo9RkKSsNCZz82nd
+ qii6F6o+lqu/rruCo0PB+7S+Zfm9NaTf40K0mo2mXHSVxQj4BL0TphlULLQjLUgOGPo+4F
+ xIEwhbfR4KmsLrhvnVvPLMBhqzuIt2M=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-335-6xpBwZ9hMpm2_vSxjko4zA-1; Fri, 17 Feb 2023 13:57:32 -0500
-X-MC-Unique: 6xpBwZ9hMpm2_vSxjko4zA-1
+ us-mta-628-zkCuyinOOhaUyW7KZz4YeQ-1; Fri, 17 Feb 2023 14:49:48 -0500
+X-MC-Unique: zkCuyinOOhaUyW7KZz4YeQ-1
 Received: by mail-wm1-f71.google.com with SMTP id
- v6-20020a05600c444600b003e206cbce8dso1106053wmn.7
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 10:57:32 -0800 (PST)
+ v6-20020a05600c444600b003e206cbce8dso1151892wmn.7
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 11:49:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t6ROWSIjVF1DpUHydtrU5JMxqvnOdLEF5CYHu22z/To=;
- b=Py4KzUkgDPtrtcBrbF2a9JjlqXFpl4HJfwczanuC1FGX0HOX2cgT/x2ERzf127Vegr
- T9dXejpkkTnw5xlaAz0uDFmgPL/2cmmCNN++9KjHaH81bA/aCB6TAOhF2ye5/Wc7xgTe
- F+qWsimmKzuM7MyJJ0rB7V9dfC1S3KDNzVrniJcsg1+1dis097onr4D1NzFgUYmnSB18
- jiNlkjzo1zBvcGa5XzjQcecMtMlPo4SnqNiDQeHhbUoeu7KRJBn6i/8FYJzzmdR5DoyQ
- 4iq/VraqlUJH1GJlb2DjqZU3pERdwrPvAYMlEg+iekNoXOmBmoanV2honyOKi52s6wcF
- Z1WA==
-X-Gm-Message-State: AO0yUKWaVAmFVL0gXwm7Ss8F6XsrsuQjd5mkXNWJiBv/L84dLS1YRi+F
- 5a122w0NKCOKjz+mjZsjsNcYGqDNaw+64w7Z5GppiefSHBjcvTA+Su4s4t1qcD+gGJ/t62vcx4E
- PfYQp0qp2slU9EiU=
-X-Received: by 2002:adf:f749:0:b0:2c4:873:16b4 with SMTP id
- z9-20020adff749000000b002c4087316b4mr1897452wrp.16.1676660251825; 
- Fri, 17 Feb 2023 10:57:31 -0800 (PST)
-X-Google-Smtp-Source: AK7set9jDKuyLS6QEtdUE5bC7qQrGycOV8iwpZxX3PJh31GQFn+LfQxQ+qbUC1h2QeMdOIol1xRagw==
-X-Received: by 2002:adf:f749:0:b0:2c4:873:16b4 with SMTP id
- z9-20020adff749000000b002c4087316b4mr1897435wrp.16.1676660251582; 
- Fri, 17 Feb 2023 10:57:31 -0800 (PST)
+ bh=ToLcNKcTtuy9bcS0Jy8QbtXgWrYt7WCZ7TkY6O1dt18=;
+ b=0cZSTTM5tHJayMdPapoakZxIe8WuAev7RSE6j3Vp/+at8063FsK9sjP415oqKYrkYe
+ 0qLlP7dxtNet9v9kB0eelGKa7LD668dTE03SZTROFCS2Jy9rnsf4B8obQJr+PSRBb8Ga
+ auRbEGMk7KUg6t9cAWjWANrTpReUe/H2WGuUZrEvrfTa6xJCAAFYn0JbyP4cMBunu+EX
+ BAusFIbn1NwyD7OH+2yzn6wg5ezr6PezohDVAuvYIabuwLQc6jKU1PRHGpTf5fYuF7Ev
+ /Ij/6cUjTd7k3Zna6TyCHDE4KzHXJLDIPTJiQ4r9mv/a4KmaUGqGrg4gESqYf54rTGbh
+ N31Q==
+X-Gm-Message-State: AO0yUKXunio+8c6zxE6hnAJ4fWncCOuxp751/MHn250qtDqFX6mKdid0
+ SGNQ2pQlRZsTjgFTGD4JUJMRkmgiJTD5Ys/kInkhjm5jE+R1A52V8IRtLY8G0al4ofly6gO6bC3
+ fj4w2i3vieNRrp5w=
+X-Received: by 2002:a5d:5944:0:b0:2c5:3ccf:e99a with SMTP id
+ e4-20020a5d5944000000b002c53ccfe99amr1681587wri.6.1676663387499; 
+ Fri, 17 Feb 2023 11:49:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set9SdPXy/N+vpHg8QL24H+o1OVUv5lA/KnXmOF0HilvWdLZA5vd87zHQXWboS0/6wXsiLshm3g==
+X-Received: by 2002:a5d:5944:0:b0:2c5:3ccf:e99a with SMTP id
+ e4-20020a5d5944000000b002c53ccfe99amr1681576wri.6.1676663387193; 
+ Fri, 17 Feb 2023 11:49:47 -0800 (PST)
 Received: from [192.168.8.104] (tmo-110-21.customers.d1-online.com.
  [80.187.110.21]) by smtp.gmail.com with ESMTPSA id
- x8-20020a5d54c8000000b002c5503a8d21sm4938510wrv.70.2023.02.17.10.57.28
+ m2-20020adffe42000000b002c5d3f0f737sm2901428wrs.30.2023.02.17.11.49.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 10:57:30 -0800 (PST)
-Message-ID: <113c15a8-689c-de03-7543-5548b7c658e6@redhat.com>
-Date: Fri, 17 Feb 2023 19:57:16 +0100
+ Fri, 17 Feb 2023 11:49:46 -0800 (PST)
+Message-ID: <dbe6f1de-b67e-5ece-cc27-698da4387677@redhat.com>
+Date: Fri, 17 Feb 2023 20:49:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- Stefan Weil <sw@weilnetz.de>, Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
- Brad Smith <brad@comstyle.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>,
+ Brad Smith <brad@comstyle.com>, Stefan Weil <sw@weilnetz.de>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Sean Christopherson <sean.j.christopherson@intel.com>
 References: <20230130114428.1297295-1-thuth@redhat.com>
  <87a61cbmti.fsf@pond.sub.org> <Y+9bSHshiNnek31J@redhat.com>
  <b55b506e-5a73-329a-24ee-14eafc5a95c1@redhat.com>
- <72bd7694-9d37-1f9b-db4e-6d5818f7c55c@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <72bd7694-9d37-1f9b-db4e-6d5818f7c55c@linaro.org>
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+In-Reply-To: <b55b506e-5a73-329a-24ee-14eafc5a95c1@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -109,34 +110,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/02/2023 18.43, Philippe Mathieu-Daudé wrote:
-> (Cc'ing Huacai & Jiaxun).
-> 
-> On 17/2/23 17:38, Paolo Bonzini wrote:
->> On 2/17/23 11:47, Daniel P. Berrangé wrote:
->>> On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
->>>> I feel the discussion petered out without a conclusion.
->>>>
->>>> I don't think letting the status quo win by inertia is a good outcome
->>>> here.
->>>>
->>>> Which 32-bit hosts are still useful, and why?
+On 17/02/2023 17.38, Paolo Bonzini wrote:
+> On 2/17/23 11:47, Daniel P. Berrangé wrote:
+>> On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
+>>> I feel the discussion petered out without a conclusion.
 >>>
->>> Which 32-bit hosts does Linux still provide KVM  support for.
+>>> I don't think letting the status quo win by inertia is a good outcome
+>>> here.
+>>>
+>>> Which 32-bit hosts are still useful, and why?
 >>
->> All except ARM: MIPS, x86, PPC and RISC-V.
->>
->> I would like to remove x86, but encountered some objections.
->>
->> MIPS, nobody is really using it I think.
+>> Which 32-bit hosts does Linux still provide KVM  support for.
 > 
-> 32-bit was added in 2014, commit 222e7d11e7 ("target-mips: Enable KVM
-> support in build system"). I'm not aware of anybody using it (even
-> testing it). I don't have hardware to test it (neither time).
+> All except ARM: MIPS, x86, PPC and RISC-V.
+> 
+> I would like to remove x86, but encountered some objections.
 
-Could you maybe suggest a kernel patch to remove it, to see what happens? 
-... if nobody objects to the removal of the 32-bit MIPS KVM kernel support 
-and the patch gets merged, that would help us in the long run, I think.
+So if I got that right:
+
+ 
+https://lore.kernel.org/all/b8fa9561295bb6af2b7fcaa8125c6a3b89b305c7.camel@redhat.com/
+
+... the objection is mainly that some kernel developers want to keep the 
+code around for easier testing of nested 32-bit guests L1 hypervisors.
+
+If that's the only use case that is still around for the 32-bit KVM x86 
+kernel code, I guess it should also be fine to use older versions of QEMU in 
+those L1 hypervisor guests (assuming you have to use an older 32-bit Linux 
+distro for this anyway).
+
+So unless I got that wrong, there is really nobody around anymore who needs 
+an *upstream* QEMU for running 32-bit x86 KVM hosts, is there?
+
+Please correct me if I'm wrong, but I think we can really deprecated at 
+least qemu-system-i386 and qemu-system-arm now, can't we?
 
   Thanks,
    Thomas
