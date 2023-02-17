@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351E369B037
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90EB69B049
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:12:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT3He-0008Gb-LT; Fri, 17 Feb 2023 11:08:26 -0500
+	id 1pT3Kn-0003jJ-Cx; Fri, 17 Feb 2023 11:11:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <reinoud@gorilla.13thmonkey.org>)
- id 1pT3HB-0007qd-Kk
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:07:58 -0500
-Received: from 77-173-18-117.fixed.kpn.net ([77.173.18.117]
- helo=gorilla.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@gorilla.13thmonkey.org>) id 1pT3H0-0001fb-J8
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:07:55 -0500
-Received: by gorilla.13thmonkey.org (Postfix, from userid 103)
- id F0B452FF093F; Fri, 17 Feb 2023 17:06:42 +0100 (CET)
-Date: Fri, 17 Feb 2023 17:06:42 +0100
-From: Reinoud Zandijk <reinoud@NetBSD.org>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Daniel Berrange <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
-Message-ID: <Y++mEtUSmWYPTkPN@gorilla.13thmonkey.org>
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <87a61cbmti.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
+ id 1pT3Kl-0003iD-1V; Fri, 17 Feb 2023 11:11:39 -0500
+Received: from forward101j.mail.yandex.net ([2a02:6b8:0:801:2::101])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
+ id 1pT3Kj-0004bp-17; Fri, 17 Feb 2023 11:11:38 -0500
+Received: from myt6-870ea81e6a0f.qloud-c.yandex.net
+ (myt6-870ea81e6a0f.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:2229:0:640:870e:a81e])
+ by forward101j.mail.yandex.net (Yandex) with ESMTP id E086369B6852;
+ Fri, 17 Feb 2023 19:10:33 +0300 (MSK)
+Received: by myt6-870ea81e6a0f.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
+ id WApOEJ4ZYeA1-BFQiZbYm; Fri, 17 Feb 2023 19:10:33 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
+ t=1676650233; bh=qibHtBAjn1wySo/090s3+lphFFNyPzNlHf4KIoMmokc=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=XMs/8DP6XAkGQJKwrCFeVBWJHBpyPN8MKPfjQPmw+98a6rnZjbqiPWT20627/7zhb
+ OLLewbbsVlVEhavgc7dLaz5/aQj/wU6NIgv3JP3k896wnsPbVu4axjX2NbLZT+VUrY
+ fgDlM6Zd6sA7skjPcgWnJkVns2Zk7/NP3Frw0iBU=
+Authentication-Results: myt6-870ea81e6a0f.qloud-c.yandex.net;
+ dkim=pass header.i=@syntacore.com
+From: Ivan Klokov <ivan.klokov@syntacore.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, palmer@dabbelt.com,
+ Ivan Klokov <ivan.klokov@syntacore.com>
+Subject: [PATCH] [PATCH] disas/riscv Fix ctzw disassemble
+Date: Fri, 17 Feb 2023 19:10:27 +0300
+Message-Id: <20230217161027.56859-1-ivan.klokov@syntacore.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IeTsL3ygDfdK2IKP"
-Content-Disposition: inline
-In-Reply-To: <87a61cbmti.fsf@pond.sub.org>
-Received-SPF: none client-ip=77.173.18.117;
- envelope-from=reinoud@gorilla.13thmonkey.org; helo=gorilla.13thmonkey.org
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, KHOP_HELO_FCRDNS=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- TVD_RCVD_IP=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:801:2::101;
+ envelope-from=ivan.klokov@syntacore.com; helo=forward101j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,45 +65,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Due to typo in opcode list, ctzw is disassembled as clzw instruction.
 
---IeTsL3ygDfdK2IKP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fixes: 02c1b569a15b ("disas/riscv: Add Zb[abcs] instructions")
+Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
+---
+v2:
+   - added fixes line
+---
+ disas/riscv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
-> I feel the discussion petered out without a conclusion.
-> 
-> I don't think letting the status quo win by inertia is a good outcome
-> here.
-> 
-> Which 32-bit hosts are still useful, and why?
+diff --git a/disas/riscv.c b/disas/riscv.c
+index ddda687c13..54455aaaa8 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -1645,7 +1645,7 @@ const rv_opcode_data opcode_data[] = {
+     { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+-    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "ctzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
+     { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+-- 
+2.34.1
 
-NetBSD runs on a bunch of 32 bit-only hosts (sparc32, ppc32, armv7, vax,
-mips32 etc.) that all run Qemu fine. They are all actively maintained and
-released as part of the main releases.
-
-Maintaining 32 bit host support is thus vital for those machines; not everyone
-runs a 64 bit system.
-
-with regards,
-Reinoud Zandijk,
-NetBSD developer.
-
-
---IeTsL3ygDfdK2IKP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEELRHWktq6GkG74/X0gpw3AEPIqmgFAmPvphAACgkQgpw3AEPI
-qmjUTwf/YeWTHxyKgHEsdxGKaH4uHuyVuRPS9biWrQf/4cD/i7arHhkfjfz54Li2
-dGRtnWtZY95BVvbo9qiSGD0aTnUAJDLrVXt1O5uLb3JiRt4csUcBKVK1TZqWTuE0
-HJgnWiIJYsGMSw6W69+cF8gWi0bXsaY5kd6sWo3rcr+tTzzGa3Mn5mGDVG9J7y+/
-ioJh6SVpT91qZasauGjeGKPH2ENTs3V1mhuh+BRY54ojVBbaVArnaK0EI9C4hRUM
-ZtMlsm4mmkL1QGPxEFhR+uWys1fI1kPT2inriW6rURWUAsqEgqVBvooWdzwukKqq
-mEaBygxAde3FlPBC3dht69doPK328Q==
-=c5dn
------END PGP SIGNATURE-----
-
---IeTsL3ygDfdK2IKP--
 
