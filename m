@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965D969A6E8
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 09:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA2869A72C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 09:41:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSw6w-0000ZB-B6; Fri, 17 Feb 2023 03:28:54 -0500
+	id 1pSwHW-0000WS-Bp; Fri, 17 Feb 2023 03:39:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSw6s-0000Yd-OM
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 03:28:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSw6q-00069l-KL
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 03:28:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676622527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8b9UKFGB3zaKtjNpU9qICyVtpz3E/bPX1xwD0lr9DrM=;
- b=Y8XLuu6Z7piC8re1dF01aIWFuwOJrDJcloTdey+7tGZzqRWan34l6kPA+BPLCNpeN1raQK
- Niofb0+xPNfQAriLIsYKZrD6IlTdpquNDsPsGrZ8Iu+opJ62okLOv+lp8pH0BQSRoRIuvJ
- xLmAvSSOxgm8h5PzJgSy/T7VUWX6Gvg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-135-WUeu6zWGN9O2EbmJt4dPcw-1; Fri, 17 Feb 2023 03:28:44 -0500
-X-MC-Unique: WUeu6zWGN9O2EbmJt4dPcw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CBF585D180;
- Fri, 17 Feb 2023 08:28:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 18DED140EBF4;
- Fri, 17 Feb 2023 08:28:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 09A9F21E6A1F; Fri, 17 Feb 2023 09:28:42 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Beraldo Leal <bleal@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael Roth
- <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Thomas Huth
- <thuth@redhat.com>,  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-8-marcandre.lureau@redhat.com>
-Date: Fri, 17 Feb 2023 09:28:42 +0100
-In-Reply-To: <20230207142535.1153722-8-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Tue, 7 Feb 2023 18:25:32 +0400")
-Message-ID: <87fsb4k85h.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pSwHM-0000OJ-5e
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 03:39:41 -0500
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pSwHG-00027J-BY
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 03:39:35 -0500
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-17068acb0c2so679457fac.6
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 00:39:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tqe5bvOLUO3nnKulW7H58rW5hVogZBFNXWSoc4fiB2o=;
+ b=C3u6y4wa7v4FzwqZIeKzWjfaliTBXNrbzcU5KBgCvSoAbhT1WI+bB6VDZttunTnVHB
+ 3SeRcROtJ9lQ1Qn++6p/S9IEAnbLOrwBcCFps/Bq8yWuTYWzV6h+/iC8gRYzuZRmrXww
+ 3efSWVWo8PXyxgzY7wUJ+OhYlUvchVjCP8aGiICIUtMaC7Dl+NY2CQeeezoD6PAtC2Cc
+ gLLHppuAKVEqwEujPNKJ32Exxc4lCmuS7tdIfjdtuCry7lj15fmwnAA9kV4cVbU8Wgl3
+ 6zqdqGefso5AfkDb11p/0lgvKU289lTJ1h3vQapQJBKgSxwsI3WPsAElVST9MSwVWhJD
+ 7upg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tqe5bvOLUO3nnKulW7H58rW5hVogZBFNXWSoc4fiB2o=;
+ b=f1nHTiGZQM6E1/v70fxNAAKWn1UK7eIQZmoKVrSO1AqSifwyaALrs1htGeoLIp/beT
+ JMN4WU7xRJEr2lKdC5Ttv0fdvanspGjTvPrrZA5dkpBq2ltJ0aWMp+t4FBf2siPXE0bD
+ MKbxEgQP8YCJeHLVcT7jO0qLvfIlMy8k67eiIo4ynWqOQ9Ou4a0Fv6FxPd7PoVnZQ853
+ dGEMrSw0JrgmGbrfAiP+aQIQj9YxMaAplcPRR7ictZkiUN7kn9CDrpzYC2T8nCJyqrY0
+ xHVboIHt2P4axLCPPs1/OEUdLgLo9uHhhdmtfvcI3frU3qbY4Fsmy+rNpWY1QFYHF3Hy
+ 5N5Q==
+X-Gm-Message-State: AO0yUKWTD6YeWs9+1fAqSZbw3qP4ut5T/hV5g5Iod0rgYLTWpFGodeos
+ u23fSqfHL1LpV9UzHVX0IM3lhg==
+X-Google-Smtp-Source: AK7set/UAt17S9oPvobYN0Ez0PIVyartH+THqPvTwTVz8OobGcxCmiKYgObPZbSxf94UTM8Fui9Fiw==
+X-Received: by 2002:a05:6870:e890:b0:16a:b526:59a6 with SMTP id
+ q16-20020a056870e89000b0016ab52659a6mr5148352oan.43.1676623172802; 
+ Fri, 17 Feb 2023 00:39:32 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ s7-20020a056871050700b0015f83e16a10sm1422753oal.44.2023.02.17.00.39.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Feb 2023 00:39:32 -0800 (PST)
+Message-ID: <3b27a67d-a08d-e1ba-a185-508c6c43f47b@ventanamicro.com>
+Date: Fri, 17 Feb 2023 05:39:28 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v6 2/9] target/riscv: introduce riscv_cpu_cfg()
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, richard.henderson@linaro.org
+References: <20230216215550.1011637-1-dbarboza@ventanamicro.com>
+ <20230216215550.1011637-3-dbarboza@ventanamicro.com>
+ <9c48a83d-7cdf-4691-d7c5-da022737f1bc@linux.alibaba.com>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <9c48a83d-7cdf-4691-d7c5-da022737f1bc@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,163 +97,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-marcandre.lureau@redhat.com writes:
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The generated code doesn't quite handle the conditional arguments.
-> For example, 'bar' in 'test-if-cmd' is not correctly surrounded by #if
-> conditions. See generated code in qmp_marshal_test_if_cmd().
->
-> Note that if there are multiple optional arguments at the last position,
-> there might be compilation issues due to extra comas. I left an assert
-> and FIXME for later.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  scripts/qapi/commands.py                |  4 ++++
->  scripts/qapi/gen.py                     | 19 ++++++++++++++-----
->  scripts/qapi/visit.py                   |  2 ++
->  tests/qapi-schema/qapi-schema-test.json |  3 ++-
->  4 files changed, 22 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index 79c5e5c3a9..07997d1586 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -64,9 +64,13 @@ def gen_call(name: str,
->      elif arg_type:
->          assert not arg_type.variants
->          for memb in arg_type.members:
-> +            if memb.ifcond.is_present():
-> +                argstr +=3D '\n' + memb.ifcond.gen_if()
->              if memb.need_has():
->                  argstr +=3D 'arg.has_%s, ' % c_name(memb.name)
->              argstr +=3D 'arg.%s, ' % c_name(memb.name)
-> +            if memb.ifcond.is_present():
-> +                argstr +=3D '\n' + memb.ifcond.gen_endif()
->=20=20
->      lhs =3D ''
->      if ret_type:
 
-@argstr is emitted further down:
+On 2/16/23 23:55, LIU Zhiwei wrote:
+> 
+> On 2023/2/17 5:55, Daniel Henrique Barboza wrote:
+>> We're going to do changes that requires accessing the RISCVCPUConfig
+>> struct from the RISCVCPU, having access only to a CPURISCVState 'env'
+>> pointer. Add a helper to make the code easier to read.
+>>
+>> Signed-off-by: Daniel Henrique Barboza<dbarboza@ventanamicro.com>
+>> ---
+>>   target/riscv/cpu.h | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 01803a020d..5e9626837b 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -653,6 +653,11 @@ static inline RISCVMXL riscv_cpu_mxl(CPURISCVState *env)
+>>   #endif
+>>   #define riscv_cpu_mxl_bits(env) (1UL << (4 + riscv_cpu_mxl(env)))
+>>   
+>> +static inline const RISCVCPUConfig *riscv_cpu_cfg(CPURISCVState *env)
+>> +{
+>> +    return &env_archcpu(env)->cfg;
+>> +}
+>> +
+> 
+> There many places in branch should use this interface, not just in this patch set.
+> 
+> For example,
+> 
+> static RISCVException seed(CPURISCVState *env, int csrno)
+> {
+>      RISCVCPU *cpu = env_archcpu(env);
+> 
+>      if (!cpu->cfg.ext_zkr) {
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+> 
+> The cpu here will not be used, except referring to the cfg.
+> 
+> Do you mind to unify the use?
 
-       %(lhs)sqmp_%(name)s(%(args)s&err);
-   ''',
-                    name=3Dname, args=3Dargstr, lhs=3Dlhs)
+Sure, I can look into that to make the cfg access more uniform across the code.
 
-       ret +=3D mcgen('''
-       if (err) {
-   ''')
+I believe this would be too much to do in this series though. Let's do it as a
+follow-up.
 
-Before the patch, @argstr contains no newlines.  Works.
 
-After the patch, it may contain newlines, and if it does, intentation is
-messed up.  For instance, in the code generated for
-qapi-schema-test.json:
+Thanks.
 
-        retval =3D qmp_test_if_cmd(arg.foo,=20
-    #if defined(TEST_IF_CMD_BAR)
-    arg.bar,=20
-    #endif /* defined(TEST_IF_CMD_BAR) */
-    &err);
 
-Strings interpolated into the mcgen() argument should not contain
-newlines.  I'm afraid you have to rewrite the code emitting the call.
+Daniel
 
-> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-> index b5a8d03e8e..ba57e72c9b 100644
-> --- a/scripts/qapi/gen.py
-> +++ b/scripts/qapi/gen.py
-> @@ -111,22 +111,31 @@ def build_params(arg_type: Optional[QAPISchemaObjec=
-tType],
->                   boxed: bool,
->                   extra: Optional[str] =3D None) -> str:
->      ret =3D ''
-> -    sep =3D ''
->      if boxed:
->          assert arg_type
->          ret +=3D '%s arg' % arg_type.c_param_type()
-> -        sep =3D ', '
-> +        if extra:
-> +            ret +=3D ', '
->      elif arg_type:
->          assert not arg_type.variants
-> +        n =3D 0
->          for memb in arg_type.members:
-> -            ret +=3D sep
-> -            sep =3D ', '
-> +            n +=3D 1
-> +            if memb.ifcond.is_present():
-> +                ret +=3D '\n' + memb.ifcond.gen_if()
->              if memb.need_has():
->                  ret +=3D 'bool has_%s, ' % c_name(memb.name)
->              ret +=3D '%s %s' % (memb.type.c_param_type(),
->                                c_name(memb.name))
-> +            if extra or n !=3D len(arg_type.members):
-> +                ret +=3D ', '
-> +            else:
-> +                # FIXME: optional last argument may break compilation
-> +                assert not memb.ifcond.is_present()
-
-Does the assertion guard against the C compilation failure?
-
-Is it possible to write schema code that triggers it?
-
-> +            if memb.ifcond.is_present():
-> +                ret +=3D '\n' + memb.ifcond.gen_endif()
->      if extra:
-> -        ret +=3D sep + extra
-> +        ret +=3D extra
->      return ret if ret else 'void'
->=20=20
->=20=20
-
-Same newline issue as in gen_call().  Generated code:
-
-    UserDefThree *qmp_test_if_cmd(TestIfStruct *foo,=20
-    #if defined(TEST_IF_CMD_BAR)
-    TestIfEnum bar,=20
-    #endif /* defined(TEST_IF_CMD_BAR) */
-    Error **errp);
-
-> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-> index 26a584ee4c..c56ea4d724 100644
-> --- a/scripts/qapi/visit.py
-> +++ b/scripts/qapi/visit.py
-> @@ -74,11 +74,13 @@ def gen_visit_object_members(name: str,
->      sep =3D ''
->      for memb in members:
->          if memb.optional and not memb.need_has():
-> +            ret +=3D memb.ifcond.gen_if()
->              ret +=3D mcgen('''
->      bool has_%(c_name)s =3D !!obj->%(c_name)s;
->  ''',
->                           c_name=3Dc_name(memb.name))
->              sep =3D '\n'
-> +            ret +=3D memb.ifcond.gen_endif()
->      ret +=3D sep
->=20=20
->      if base:
-
-This hunk has no effect on the code generated for our schemas as far as
-I can tell.  Is it superfluous?  Incorrect?  Gap in test coverage?  Or
-am I confused?
-
-> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
-qapi-schema-test.json
-> index ba7302f42b..baa4e69f63 100644
-> --- a/tests/qapi-schema/qapi-schema-test.json
-> +++ b/tests/qapi-schema/qapi-schema-test.json
-> @@ -258,7 +258,8 @@
->=20=20
->  { 'event': 'TEST_IF_EVENT',
->    'data': { 'foo': 'TestIfStruct',
-> -            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' } },
-> +            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' },
-> +            'baz': 'int' },
->    'if': { 'all': ['TEST_IF_EVT', 'TEST_IF_STRUCT'] } }
->=20=20
->  { 'event': 'TEST_IF_EVENT2', 'data': {},
-
+> 
+> Zhiwei
+> 
+>>   #if defined(TARGET_RISCV32)
+>>   #define cpu_recompute_xl(env)  ((void)(env), MXL_RV32)
+>>   #else
 
