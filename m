@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18E869AB0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 13:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F8E69AB07
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 13:09:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSzWr-0005Bv-Ba; Fri, 17 Feb 2023 07:07:53 -0500
+	id 1pSzWs-0005DU-EK; Fri, 17 Feb 2023 07:07:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jwd@defmacro.it>)
- id 1pSzWo-0005B3-Gt; Fri, 17 Feb 2023 07:07:50 -0500
+ id 1pSzWp-0005BU-Dw; Fri, 17 Feb 2023 07:07:51 -0500
 Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jwd@defmacro.it>)
- id 1pSzWm-0003Ph-DG; Fri, 17 Feb 2023 07:07:50 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id D26035C00C3;
- Fri, 17 Feb 2023 07:07:46 -0500 (EST)
+ id 1pSzWn-0003Pv-S0; Fri, 17 Feb 2023 07:07:51 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 2028F5C0129;
+ Fri, 17 Feb 2023 07:07:49 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 17 Feb 2023 07:07:46 -0500
+ by compute2.internal (MEProxy); Fri, 17 Feb 2023 07:07:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=defmacro.it; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1676635666; x=1676722066; bh=2ZTG+W9VeQ
- 5VLa5/MXWjXuP/9fmriiJMiXu6chYH4gQ=; b=NEjCHaXlfr0EkhF7oPSYTOQjdu
- hcfQE/zrM0tVPwjlgMteVaEbR8URbHERMM7Wsi7DlySXPMTHLutMmw1lCaZAS2G4
- 68IaCbgyXKk2NUFtpMiPJkE480kIUfytQX+7oHvSbdcIr7RKalZAmZTlxciul9iC
- 5LItD0ijDIH0n4HEKskFwb9NbyyKKBYeetpFOARV0hnTcOzZviQEFtF2Wh/aI/mn
- FR7zfvqGolJMlWhCuCoEUIdEPrgB0cvqIc9Lxh0d6NfBc9KqF90Pc0DUEGJaoOya
- sydmH1ReiYicx+RkhExUeccA37v7Hdq27cAjsxjRLZHM+ElvbsQWFXcufeLw==
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1676635669; x=1676722069; bh=yN
+ qkIi9DTxLm3SgOgUDJlmyKa+80oFSROj6j8Gdhsfo=; b=NL5hE+cP6j0ka1K4cd
+ sr3iKY7YTEyBOD+V/NLYbaTTI4JR0y/Mb4weRm9YpHeQGs0w70u3ctlaJp5mlfl0
+ qPBrdZi3OgwuGFezupdD/A1DVKZy+cOGnnyn+5/R0P0TvuE9/8TQxPTOm2cH5tgx
+ 8VZkVLErHWhl/TqznQfVQeefAL5sZCG6SSWIFKfyLCIrkxjz1Xn6mwAEayOyJvsL
+ 5aqLTOKWYF+HWEUXZhoni3TbkvMrPczrAXvxfVvhu1KcjBRH+ZIRM7Y53nvC4ajx
+ pKb++pZblk+SH7oFCEJMd23zSlHmsABvbfaN73r4O75pIZuLrcUmP9F7yXORzqMS
+ +/qQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1676635666; x=1676722066; bh=2ZTG+W9VeQ5VL
- a5/MXWjXuP/9fmriiJMiXu6chYH4gQ=; b=KzNoWCgkVJy4Nj7j5AVdWEfTZsEC5
- 7QpxinZ7s2Yq49mi5VmUNbcf6pZOUc1z1Z0HL9RMfuhgFGW0np8CkjoYQnyzDDa+
- UrnxyqqVQy9q+wsRiHMW//7rcFNSvCori+3mp0Il6F65ksSbJMBQTsfkhTH7+DXe
- rxG3Lj/SCPEfwvMEceGV6Sbm7mfNDgblGnXTtNUv8Yfglu4FaxB8vZfu3RiLBlyO
- eZF7t+WBPwq2j3kuj+xebw50WqAt8eHsPEzPdawjKdqnSBLEnkeLDAq+PEAOKkuK
- nhJaq7Anaqr3t/pgk7VuTtvbjRRnO+eGaPcz56XWWdTjy4mnq7aCBqBBQ==
-X-ME-Sender: <xms:EW7vY5MM-enxx7RW4emw4HA0opeIe1GNw0-12rHfHgzW3orOqQRauQ>
- <xme:EW7vY7-I0LkCZlRX5BAkOtav8h8fw44UwDDwDPASL611JDOohfrd-WmI1YOjuTsTZ
- auKhyGucqgZgWL4Jiw>
-X-ME-Received: <xmr:EW7vY4QrGiKXDe4WbgTSJugDgP_r-5Nsq7CWtIpInqKCoYj7IKewxCv1lQNVYFKG1B8q97T54471kcjj>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiledgfeegucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm1; t=1676635669; x=1676722069; bh=yNqkIi9DTxLm3
+ SgOgUDJlmyKa+80oFSROj6j8Gdhsfo=; b=iA2G2mqJFExJ9Fd1gPW78Zc+MTQug
+ TReKcGwKG7VHFNo5umXixID92cqZLpEdMiHYTJ9dt5DBKZ9ZzLb8r0Nkul/PJLfU
+ bkg8cN4m1zOYQzIKOgN5xh8Ux10GbyqEZELlHXBb8x5zRlyy10rCpJk9QjE2ZDMw
+ Mjx2aFAJ94p5/16liEYtUgBP9C+HTDNmTOanA8l3aODtGROk1/Ox2wh98enijXnK
+ agpbuEJpsD62+sYorHvf3Giqw/wRJXfMfYFamQJ8Liv1h7tcaZFVzmQSIREKQdWr
+ 5MFk3YtKIL1/9FhSMhENXrye+LrkeK518dXKhX1A+mPFRf5BE+oyDVEYw==
+X-ME-Sender: <xms:FG7vYzCS8goZ01143xikil5Q-FK1HlXQSytkMKa7SuYxeTY032y0SQ>
+ <xme:FG7vY5h61UQUVpIC6rgPNcjVzcgAMgEathSJdrC78Nw8FJzHDH736NVUBU7qt9TPb
+ 8QBVTpMNfZGC3gaKY0>
+X-ME-Received: <xmr:FG7vY-kaiuYyKgjfGyHeAxn9Eag01cv0gJDCzlNUnT--sbXJZj8slmhSEt_-H13fDLpu69H5mV4jbjvu>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiledgfeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpeflvghsphgv
- rhcuffgvvhgrnhhtihgvrhcuoehjfiguseguvghfmhgrtghrohdrihhtqeenucggtffrrg
- htthgvrhhnpeffgffftdefffelgeeggfehgeekkeffveeghfetgfdtteeuuedtkeeugedv
- vdegheenucffohhmrghinhepnhhvmhgvgihprhgvshhsrdhorhhgnecuvehluhhsthgvrh
- fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhifugesuggvfhhmrggtrhho
- rdhith
-X-ME-Proxy: <xmx:EW7vY1uL0OKKNkdVjCCQrcOwHvJSbfS5HAlEmopHdmhfMXPpjdXhEw>
- <xmx:EW7vYxfcJo6gYMQ4DIkAJ9wvZ5NqStqYtMUZQcZPcx8I8YoapKBFmA>
- <xmx:EW7vYx38Ysg-_4qzM3tZkKwXkYOgeWVYTiuVSPEE-df-6YmPVC99kg>
- <xmx:Em7vY944W5obARzr0qQ_HswvHXc5sqh6PqFrAy44MZ_ppXDWUbylrQ>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheplfgvshhp
+ vghrucffvghvrghnthhivghruceojhifugesuggvfhhmrggtrhhordhitheqnecuggftrf
+ grthhtvghrnhepvddvtefhtdeugfetfeeukedtfeeitddugfffleehkeelveektdevteef
+ leduueevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epjhifugesuggvfhhmrggtrhhordhith
+X-ME-Proxy: <xmx:FG7vY1w3ql51U8SJcvf5QtwFRj_CIGvAQOzrvFZjqDkk2_ZvIBvfuw>
+ <xmx:FG7vY4T-SUlgXd8PXQxrIRdR9hvdq99-iLanBgwGL1hk2G2sqtrRnQ>
+ <xmx:FG7vY4aSwklA_ghY06qgQwOBie7tm6OXS2d-zGYbxhLXqtmCUcZVzw>
+ <xmx:FW7vY9I5_ZPni5SZi_HdhbW1xylkD2sp_QRY-ouU2zhigiE9tiGXkw>
 Feedback-ID: i0f41475f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Feb 2023 07:07:44 -0500 (EST)
+ 17 Feb 2023 07:07:46 -0500 (EST)
 From: Jesper Devantier <jwd@defmacro.it>
 To: qemu-devel@nongnu.org,
 	jwd@defmacro.it
@@ -71,12 +71,13 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org,
  Keith Busch <kbusch@kernel.org>, Fam Zheng <fam@euphon.net>,
- Jesper Wendel Devantier <j.devantier@samsung.com>
-Subject: [PATCH v2 0/5] Support Flexible Data Placement (FDP)
-Date: Fri, 17 Feb 2023 13:07:38 +0100
-Message-Id: <20230217120743.308632-1-jwd@defmacro.it>
+ Joel Granados <j.granados@samsung.com>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH v2 1/5] hw/nvme: move adjustment of data_units{read,written}
+Date: Fri, 17 Feb 2023 13:07:39 +0100
+Message-Id: <20230217120743.308632-2-jwd@defmacro.it>
 X-Mailer: git-send-email 2.39.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230217120743.308632-1-jwd@defmacro.it>
+References: <20230217120743.308632-1-jwd@defmacro.it>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=jwd@defmacro.it;
@@ -103,58 +104,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jesper Wendel Devantier <j.devantier@samsung.com>
+From: Joel Granados <j.granados@samsung.com>
 
-Flexible Data Placement (FDP) is a newly introduced enhancement
-of the NVM command set introduced by the NVM Express, Inc.
-organization as TP 4146. FDP aims to extend the NVM command set
-to enable host-guided data placement. FDP-enabled namespaces
-can be used as before, but writes may now reference a specific
-placement id which in turn points to a reclaim unit (RU). RUs
-are defined as some amount of physical, non-volatile storage which
-can be erased/reused/repurposed without disturbing any other
-reclaim units.
+In order to return the units_{read/written} required by the SMART log we
+need to shift the number of bytes value by BDRV_SECTORS_BITS and multiply
+by 1000. This is a prep patch that moves this adjustment to where the SMART
+log is calculated in order to use the stats struct for calculating OCP
+extended smart log values.
 
-For further details on FDP, consult the specification, which is
-available as "TP4146 Flexible Data Placement 2022.11.30 Ratified.pdf"
-in the following link:
-https://nvmexpress.org/wp-content/uploads/NVM-Express-2.0-Ratified-TPs_20230111.zip
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Joel Granados <j.granados@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-The FDP work builds on 4 preparatory patches, chiefly to add support for
-endurance groups and directives.
-The final patch adds FDP support itself.
-
-Changelog:
-==========
-
-* v1 -> v2:
-  - "hw/nvme: add fleible...": check that max 128 placement handles
-    are being created (Keith)
-  - removed unused NVMe directives struct (Keith)
-
-Gollu Appalanaidu (1):
-  hw/nvme: basic directives support
-
-Jesper Devantier (1):
-  hw/nvme: flexible data placement emulation
-
-Joel Granados (1):
-  hw/nvme: move adjustment of data_units{read,written}
-
-Klaus Jensen (1):
-  hw/nvme: add basic endurance group support
-
-Niklas Cassel (1):
-  hw/nvme: store a pointer to the NvmeSubsystem in the NvmeNamespace
-
- hw/nvme/ctrl.c       | 803 ++++++++++++++++++++++++++++++++++++++++++-
- hw/nvme/ns.c         | 146 ++++++++
- hw/nvme/nvme.h       |  92 ++++-
- hw/nvme/subsys.c     |  94 ++++-
- hw/nvme/trace-events |   5 +
- include/block/nvme.h | 236 ++++++++++++-
- 6 files changed, 1349 insertions(+), 27 deletions(-)
-
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index f25cc2c235..99b92ff20b 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4386,8 +4386,8 @@ static void nvme_set_blk_stats(NvmeNamespace *ns, struct nvme_stats *stats)
+ {
+     BlockAcctStats *s = blk_get_stats(ns->blkconf.blk);
+ 
+-    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ] >> BDRV_SECTOR_BITS;
+-    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE] >> BDRV_SECTOR_BITS;
++    stats->units_read += s->nr_bytes[BLOCK_ACCT_READ];
++    stats->units_written += s->nr_bytes[BLOCK_ACCT_WRITE];
+     stats->read_commands += s->nr_ops[BLOCK_ACCT_READ];
+     stats->write_commands += s->nr_ops[BLOCK_ACCT_WRITE];
+ }
+@@ -4401,6 +4401,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+     uint32_t trans_len;
+     NvmeNamespace *ns;
+     time_t current_ms;
++    uint64_t u_read, u_written;
+ 
+     if (off >= sizeof(smart)) {
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -4427,10 +4428,11 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+     trans_len = MIN(sizeof(smart) - off, buf_len);
+     smart.critical_warning = n->smart_critical_warning;
+ 
+-    smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_read,
+-                                                        1000));
+-    smart.data_units_written[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_written,
+-                                                           1000));
++    u_read = DIV_ROUND_UP(stats.units_read >> BDRV_SECTOR_BITS, 1000);
++    u_written = DIV_ROUND_UP(stats.units_written >> BDRV_SECTOR_BITS, 1000);
++
++    smart.data_units_read[0] = cpu_to_le64(u_read);
++    smart.data_units_written[0] = cpu_to_le64(u_written);
+     smart.host_read_commands[0] = cpu_to_le64(stats.read_commands);
+     smart.host_write_commands[0] = cpu_to_le64(stats.write_commands);
+ 
 -- 
 2.39.1
 
