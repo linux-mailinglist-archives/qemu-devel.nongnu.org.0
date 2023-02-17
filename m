@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEBD769A6E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 09:27:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965D969A6E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 09:29:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSw4z-0007Eh-9B; Fri, 17 Feb 2023 03:26:53 -0500
+	id 1pSw6w-0000ZB-B6; Fri, 17 Feb 2023 03:28:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSw4x-0007EB-4n
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 03:26:51 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSw6s-0000Yd-OM
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 03:28:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pSw4v-0005lD-3L
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 03:26:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 9CD3A207B3;
- Fri, 17 Feb 2023 08:26:46 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 17 Feb
- 2023 09:26:45 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0055da8626f-0d22-44fc-9463-3169362b8339,
- D8AD3BA2C27EEBE7B4560DA8411A9B1E3CFED360) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <cf4f3bee-a02f-3fc0-f86e-dccbda7a7613@kaod.org>
-Date: Fri, 17 Feb 2023 09:26:44 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSw6q-00069l-KL
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 03:28:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676622527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8b9UKFGB3zaKtjNpU9qICyVtpz3E/bPX1xwD0lr9DrM=;
+ b=Y8XLuu6Z7piC8re1dF01aIWFuwOJrDJcloTdey+7tGZzqRWan34l6kPA+BPLCNpeN1raQK
+ Niofb0+xPNfQAriLIsYKZrD6IlTdpquNDsPsGrZ8Iu+opJ62okLOv+lp8pH0BQSRoRIuvJ
+ xLmAvSSOxgm8h5PzJgSy/T7VUWX6Gvg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-135-WUeu6zWGN9O2EbmJt4dPcw-1; Fri, 17 Feb 2023 03:28:44 -0500
+X-MC-Unique: WUeu6zWGN9O2EbmJt4dPcw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CBF585D180;
+ Fri, 17 Feb 2023 08:28:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18DED140EBF4;
+ Fri, 17 Feb 2023 08:28:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 09A9F21E6A1F; Fri, 17 Feb 2023 09:28:42 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Beraldo Leal <bleal@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?=
+ <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
+ Vivier <lvivier@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael Roth
+ <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-8-marcandre.lureau@redhat.com>
+Date: Fri, 17 Feb 2023 09:28:42 +0100
+In-Reply-To: <20230207142535.1153722-8-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 7 Feb 2023 18:25:32 +0400")
+Message-ID: <87fsb4k85h.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH 0/8] aspeed: I2C fixes, -drive removal (first step)
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, Markus Armbruster
- <armbru@redhat.com>
-CC: <qemu-block@nongnu.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>
-References: <20230214171830.681594-1-clg@kaod.org>
- <01ff80e9-c564-5566-5405-b2ca26dfbf09@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <01ff80e9-c564-5566-5405-b2ca26dfbf09@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 4217542f-066d-4169-a46f-66d92e029410
-X-Ovh-Tracer-Id: 4199043706563431276
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeikedguddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhjohgvlhesjhhmshdrihgurdgruhdprghnughrvgifsegrjhdrihgurdgruhdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpoh
- huth
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,68 +90,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/15/23 11:45, Philippe Mathieu-Daudé wrote:
-> On 14/2/23 18:18, Cédric Le Goater wrote:
->> Hello,
->>
->> This series starts with a first set of patches fixing I2C slave mode
->> in the Aspeed I2C controller, a test device and its associated test in
->> avocado.
->>
->> Follow some cleanups which allow the use of block devices instead of
->> drives. So that, instead of specifying :
->>
->>    -drive file=./flash-ast2600-evb,format=raw,if=mtd
->>    -drive file=./ast2600-evb.pnor,format=raw,if=mtd
->>    ...
->>
->> and guessing from the order which bus the device is attached to, we
->> can use :
->>
->>    -blockdev node-name=fmc0,driver=file,filename=./bmc.img
->>    -device mx66u51235f,bus=ssi.0,drive=fmc0
->>    -blockdev node-name=fmc1,driver=file,filename=./bmc-alt.img
->>    -device mx66u51235f,bus=ssi.0,drive=fmc1
->>    -blockdev node-name=pnor,driver=file,filename=./pnor
->>    -device mx66l1g45g,bus=ssi.1,drive=pnor
->>    ...
->>
->> It is not perfect, the CS index still depends on the order
-> 
-> Quick thoughts here:
-> 
-> TYPE_SSI_PERIPHERAL devices have one input SSI_GPIO_CS.
-> 
-> TYPE_SSI_BUS could have a "cs-num" property (how many
-> CS line associated with this bus) and create an array of
-> #cs-num output SSI_GPIO_CS.
-> 
-> TYPE_SSI_PERIPHERAL could have a "cs" (index) property;
-> if set, upon ssi_peripheral_realize() when the device is
-> plugged on the bus, the GPIO line is wired.
+marcandre.lureau@redhat.com writes:
 
-yes. I would like to check first the impact on migration compatibility.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> The generated code doesn't quite handle the conditional arguments.
+> For example, 'bar' in 'test-if-cmd' is not correctly surrounded by #if
+> conditions. See generated code in qmp_marshal_test_if_cmd().
+>
+> Note that if there are multiple optional arguments at the last position,
+> there might be compilation issues due to extra comas. I left an assert
+> and FIXME for later.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  scripts/qapi/commands.py                |  4 ++++
+>  scripts/qapi/gen.py                     | 19 ++++++++++++++-----
+>  scripts/qapi/visit.py                   |  2 ++
+>  tests/qapi-schema/qapi-schema-test.json |  3 ++-
+>  4 files changed, 22 insertions(+), 6 deletions(-)
+>
+> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+> index 79c5e5c3a9..07997d1586 100644
+> --- a/scripts/qapi/commands.py
+> +++ b/scripts/qapi/commands.py
+> @@ -64,9 +64,13 @@ def gen_call(name: str,
+>      elif arg_type:
+>          assert not arg_type.variants
+>          for memb in arg_type.members:
+> +            if memb.ifcond.is_present():
+> +                argstr +=3D '\n' + memb.ifcond.gen_if()
+>              if memb.need_has():
+>                  argstr +=3D 'arg.has_%s, ' % c_name(memb.name)
+>              argstr +=3D 'arg.%s, ' % c_name(memb.name)
+> +            if memb.ifcond.is_present():
+> +                argstr +=3D '\n' + memb.ifcond.gen_endif()
+>=20=20
+>      lhs =3D ''
+>      if ret_type:
 
-Thanks,
+@argstr is emitted further down:
 
-C.
+       %(lhs)sqmp_%(name)s(%(args)s&err);
+   ''',
+                    name=3Dname, args=3Dargstr, lhs=3Dlhs)
 
-> So we could set the 'cs=' property from CLI:
-> 
->    -blockdev node-name=fmc0,driver=file,filename=./bmc.img
->    -device mx66u51235f,bus=ssi.0,cs=1,drive=fmc0
->    -blockdev node-name=fmc1,driver=file,filename=./bmc-alt.img
->    -device mx66u51235f,bus=ssi.0,cs=0,drive=fmc1
-> 
->> but it is
->> now possible to run a machine without -drive ...,if=mtd.
->>
->> This lacks the final patch enabling the '-nodefaults' option by not
->> creating the default devices if specified on the command line. It
->> needs some more evaluation of the possible undesired effects.
->> Thanks,
->>
->> C.
-> 
+       ret +=3D mcgen('''
+       if (err) {
+   ''')
+
+Before the patch, @argstr contains no newlines.  Works.
+
+After the patch, it may contain newlines, and if it does, intentation is
+messed up.  For instance, in the code generated for
+qapi-schema-test.json:
+
+        retval =3D qmp_test_if_cmd(arg.foo,=20
+    #if defined(TEST_IF_CMD_BAR)
+    arg.bar,=20
+    #endif /* defined(TEST_IF_CMD_BAR) */
+    &err);
+
+Strings interpolated into the mcgen() argument should not contain
+newlines.  I'm afraid you have to rewrite the code emitting the call.
+
+> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> index b5a8d03e8e..ba57e72c9b 100644
+> --- a/scripts/qapi/gen.py
+> +++ b/scripts/qapi/gen.py
+> @@ -111,22 +111,31 @@ def build_params(arg_type: Optional[QAPISchemaObjec=
+tType],
+>                   boxed: bool,
+>                   extra: Optional[str] =3D None) -> str:
+>      ret =3D ''
+> -    sep =3D ''
+>      if boxed:
+>          assert arg_type
+>          ret +=3D '%s arg' % arg_type.c_param_type()
+> -        sep =3D ', '
+> +        if extra:
+> +            ret +=3D ', '
+>      elif arg_type:
+>          assert not arg_type.variants
+> +        n =3D 0
+>          for memb in arg_type.members:
+> -            ret +=3D sep
+> -            sep =3D ', '
+> +            n +=3D 1
+> +            if memb.ifcond.is_present():
+> +                ret +=3D '\n' + memb.ifcond.gen_if()
+>              if memb.need_has():
+>                  ret +=3D 'bool has_%s, ' % c_name(memb.name)
+>              ret +=3D '%s %s' % (memb.type.c_param_type(),
+>                                c_name(memb.name))
+> +            if extra or n !=3D len(arg_type.members):
+> +                ret +=3D ', '
+> +            else:
+> +                # FIXME: optional last argument may break compilation
+> +                assert not memb.ifcond.is_present()
+
+Does the assertion guard against the C compilation failure?
+
+Is it possible to write schema code that triggers it?
+
+> +            if memb.ifcond.is_present():
+> +                ret +=3D '\n' + memb.ifcond.gen_endif()
+>      if extra:
+> -        ret +=3D sep + extra
+> +        ret +=3D extra
+>      return ret if ret else 'void'
+>=20=20
+>=20=20
+
+Same newline issue as in gen_call().  Generated code:
+
+    UserDefThree *qmp_test_if_cmd(TestIfStruct *foo,=20
+    #if defined(TEST_IF_CMD_BAR)
+    TestIfEnum bar,=20
+    #endif /* defined(TEST_IF_CMD_BAR) */
+    Error **errp);
+
+> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+> index 26a584ee4c..c56ea4d724 100644
+> --- a/scripts/qapi/visit.py
+> +++ b/scripts/qapi/visit.py
+> @@ -74,11 +74,13 @@ def gen_visit_object_members(name: str,
+>      sep =3D ''
+>      for memb in members:
+>          if memb.optional and not memb.need_has():
+> +            ret +=3D memb.ifcond.gen_if()
+>              ret +=3D mcgen('''
+>      bool has_%(c_name)s =3D !!obj->%(c_name)s;
+>  ''',
+>                           c_name=3Dc_name(memb.name))
+>              sep =3D '\n'
+> +            ret +=3D memb.ifcond.gen_endif()
+>      ret +=3D sep
+>=20=20
+>      if base:
+
+This hunk has no effect on the code generated for our schemas as far as
+I can tell.  Is it superfluous?  Incorrect?  Gap in test coverage?  Or
+am I confused?
+
+> diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
+qapi-schema-test.json
+> index ba7302f42b..baa4e69f63 100644
+> --- a/tests/qapi-schema/qapi-schema-test.json
+> +++ b/tests/qapi-schema/qapi-schema-test.json
+> @@ -258,7 +258,8 @@
+>=20=20
+>  { 'event': 'TEST_IF_EVENT',
+>    'data': { 'foo': 'TestIfStruct',
+> -            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' } },
+> +            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' },
+> +            'baz': 'int' },
+>    'if': { 'all': ['TEST_IF_EVT', 'TEST_IF_STRUCT'] } }
+>=20=20
+>  { 'event': 'TEST_IF_EVENT2', 'data': {},
 
 
