@@ -2,104 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF3C69A4AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 05:10:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6AE69A4A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 05:09:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSs47-0000i5-MV; Thu, 16 Feb 2023 23:09:43 -0500
+	id 1pSs48-0000iA-9T; Thu, 16 Feb 2023 23:09:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs46-0000he-9B
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs46-0000hf-9x
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:09:42 -0500
-Received: from esa6.hc2706-39.iphmx.com ([216.71.137.79])
+Received: from esa4.hc2706-39.iphmx.com ([216.71.146.118])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs40-00018s-Qp
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs44-00019C-Kl
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:09:42 -0500
-X-IronPort-RemoteIP: 209.85.222.198
-X-IronPort-MID: 262966609
+X-IronPort-RemoteIP: 209.85.160.199
+X-IronPort-MID: 258600152
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:qTHG9q+prI+bCsK41/SfDrUDPnyTJUtcMsCJ2f8bNWPcYEJGY0x3n
- TEXDW+COqyCYjeheYgkYYy3/EkOvJbWxoRqSgo/rioxFiIbosf7XuiUfxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yI6jefQHeCU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
- MiaT/f3YTdJ4BYpdDNLg06/gEk35q+q4mpG5gdWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
- uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
- DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJFE5etU01c99PUVl9
- 9goGTAidQGnhsvjldpXSsE07igiBMziPYdao3I5iD+AXKZgTpfETKHHo9Rf2V/chOgURaeYN
- 5dfM2A1Kk2RM3WjOX9OYH46tO6sln/zaRVStRSYqbdfD237llIrgeazboKEEjCMbZVRpBjAh
- SHNxW78AxAAMtCF+wKO933504cjmgu+Aur+DoaQ7/NvnRify3IeDDUQUl20p+T/jVSxM++zM
- GQR8ysq6LExrQmlF4itGRK/p3GAs1gXXN84//AG1TxhA5H8u26xblXohBYbADD6nKfanQAX6
- 2I=
-IronPort-HdrOrdr: A9a23:RBC6xqhhCFxJsexz/C0ovUb+RHBQXgwji2hC6mlwRA09TyVXrb
- HLoB19726JtN91YhsdcL+7Sc+9qB/nhPxICMwqTMyftWrdyRaVxf9ZnPLfKlTbckWUh41gPO
- VbAtJD4bXLbWSS5vyKhzVQfexQpeWvweSDqd2b4U1QbTxHXYld0iYRMHflLqS0fmV77FgCea
- Z0KvAom9PZQwVuUi1zPBZlY9T+
-Received: from mail-qk1-f198.google.com ([209.85.222.198])
+IronPort-Data: A9a23:RnaE8Kzte/2DHdstv/l6t+eJxCrEfRIJ4+MujC+fZmUNrF6WrkVRn
+ WcYCjjXaPvca2CnKdB1PN+wph8O75fXmtNnTAtr+S00HyNBpPSeOdnIdU2Y0wF+jyHgoOCLy
+ +1EN7Es+ehtFie0Si+Fa+Sn9j8kk/nTHNIQMcacUghpXwhoVSw9vhxqnu89k+ZAjMOwRgiAo
+ rsemeWGULOe82MyYz18B56r8ks156yo4GNA5DTSWNgQ1LPgvyhNZH4gDfzpR5fIatE8NvK3Q
+ e/F0Ia48gvxl/v6Ior4+lpTWhRiro/6ZGBiuFIPM0SRqkEqShgJ70oOHKF0hXG7Ktm+t4sZJ
+ N1l7fRcQOqyV0HGsL11vxJwSkmSMUDakVNuzLfWXcG7liX7n3XQL/pGS0E9AaIq2LlOMFpy7
+ tlbOg8ORR2eiLfjqF67YrEEasULKcDqOMYGpiglw2iIXLApRpfMR6iM7thdtNsyrpoWTLCOO
+ oxAN2IpNUWRC/FMEg5/5JYWleO4gHXlWzdF7l+ZuMLb5kCJkVwviOC0bYC9ltqieuVewkO9v
+ mX/0D7aGDs8OYe6zTzd7Sf57gPItWahMG4IL5Wh+/t3xVGe2GEXIBsRU1S9vL++kEHWZj5EA
+ 0kd+y5rtLRrsULyH4i7UBq/r3qJ+BUbXrK8DtEH1e1E8YKMiy7xO4TOZmcphAAO3CPueQEX6
+ w==
+IronPort-HdrOrdr: A9a23:fvf2oqiVwbAKK2mFwwXWy+RKunBQXhYji2hC6mlwRA09TyVXrb
+ HLoB19726KtN9xYgBdpTnkAsO9qBznhPhICOUqTNWftUzdyRCVxeJZnPbfKkPbalTDH4dmvM
+ 8KAstD4Z/LfCJHZK7BgDVQeOxQp+VvnprY4Nv2/jNGYTsvRZtdzzpUPC6mL2wefng5OXP7Lv
+ ahDwh8ygZItU54Ui3CPAh8YwELnbKrqK7b
+Received: from mail-qt1-f199.google.com ([209.85.160.199])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 16 Feb 2023 23:09:34 -0500
-Received: by mail-qk1-f198.google.com with SMTP id
- s7-20020a05620a0bc700b006e08208eb31so2437862qki.3
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 20:09:34 -0800 (PST)
+ 16 Feb 2023 23:09:38 -0500
+Received: by mail-qt1-f199.google.com with SMTP id
+ i5-20020ac813c5000000b003b86b748aadso2426515qtj.14
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 20:09:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AJf59aTRwaYQyNp2JJrZnCn+KTG3sP5V/gP1PZsBjOU=;
- b=avHOetoyB8+ryA853ecNy4YWkDPwOz1PEo1cWH0a/CGndztIdcGFbIlPiRGiZ4iiRu
- xs8hqaVya1mEvCwtiWH8gUYUfTb8ZNs17+p5bZzVwFCBFB1XccCgF4KhSaP6dN5adH98
- KxilhiQp3Z+uCuFGTLUb+3HMHIN+Zs5srh4jxH/xSOnq3XkAyDnIBe+S8CEdF3Pub0G5
- 4jKseAMaOlO8pWsutGub+grWtyxdhhLRxYfCS6WCnMnLYLphBLncVurJPs+8gGhhVZ1c
- g4PKrAgcOZlxGGzqtpf8KQWm0NExX2AtLnSN29+yJ+newXIr8d59WotqzZsNTA/4AVy/
- IXAQ==
+ bh=Kzjbw0bY3n9Mlk4J3cnpwOVTTHZIbU7scMt6+artRNQ=;
+ b=gfizW9x7d5YXITKrQS5ZNYS+wQAQBbY/urGuEd1KFYc9jz3B5uKWDjXBN17ATEvgZr
+ 9NhByC5fvyNIpMC4FYnV29y4b9Cezs3FFpmvBxOdMgcyPbbNc3LJQ+MBD0YmQoCev3ap
+ JdZ8xFqZ/VaDZocsliHT59g2rXMaYgmZvwnZJ5siU3Eg9QebHfon6ZYgtcG0ZN/MNME7
+ LHOHIr5lsMND1RBsQ6gV8+XucONbEpknx+cMYuXmoMKFxgpqFcrGBgW6IJSiBMk4gdxl
+ WO72qz1VxE6oG65RGLAkOYmvS+JKVdL3okvB4ZlIl/xQXKP2ZkFwGjmtgSCrh7dell+a
+ SJSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AJf59aTRwaYQyNp2JJrZnCn+KTG3sP5V/gP1PZsBjOU=;
- b=eXO6Q141Va7cQTuR1VwL0COC9XHs+bmwGa1/ovd6/Y0+0xLTVirJQX3CcX41fGOGbh
- FxV0J4R04XrQjNkjRsiGOXwQC/ZSiyPhVPoTsOuVA+7U70pBo7kMAnTACvoSyH3fMUGe
- OzBA+ZLqxAN0EVOsELL1d2JOxI8K1sV6yDfstWsSuMjEPRHK8mb5IWLtyXNiPSiqX9uc
- OceTnxUretW4IG9/c9iu5gqHPgW21n8rt/mWILlZM34l5+2WnOXo6Kjf9pA794t3qLkp
- Hb45vgNU0lW0KRIbCl7Dnm2voSLnj471NrRfCwwktbRche2rbEr6gmY332PCBarMhQ9k
- pr6Q==
-X-Gm-Message-State: AO0yUKWB/L6RdLIDIMv5zQd03WWdiQWJadedy2F1Lgrtzr5QoqsjXovY
- 2A5fG3G1/J8pwWJVEuxsO7NshfBLtN5d97eHH7H9YzPtzu9/shuIJ3/HpiKL9xpKjqQudoZV+zv
- RzOsz384zzfzMTUbEfQc/HRrp8atoQAcGVNXhdg==
-X-Received: by 2002:ac8:5b86:0:b0:3b8:4144:fe72 with SMTP id
- a6-20020ac85b86000000b003b84144fe72mr14621897qta.9.1676606973455; 
- Thu, 16 Feb 2023 20:09:33 -0800 (PST)
-X-Google-Smtp-Source: AK7set+syyyF+H7sW+/pZjrDIGgRCelF6QKyudOA2LdItno0YE7bqLp/cZe0DASMyFC52OEI6+MQ+w==
-X-Received: by 2002:ac8:5b86:0:b0:3b8:4144:fe72 with SMTP id
- a6-20020ac85b86000000b003b84144fe72mr14621866qta.9.1676606973116; 
- Thu, 16 Feb 2023 20:09:33 -0800 (PST)
+ bh=Kzjbw0bY3n9Mlk4J3cnpwOVTTHZIbU7scMt6+artRNQ=;
+ b=tOGT8LN+YTGCSln7GpQ+cj9YVF9gt0bMt5Kqe04LbmYMImPZPKycEHFhvzIuX+x+TD
+ gDBlCa6yfxFdS1dwlxwERpC2Z2kLDmjyG0refjq7iVnhE5oYuKzYhYaZzHqVD08vd8S5
+ dNrFqVgLLUW31rWu3JqRPRgQQN68Ehxntsy893/hCA0j+oQXpsN3zHud+NJ1T2+RuU38
+ 0IN6bAkQ70WBj5l+8RQfLAcyBC3od9W+d3pExjMIODKy55nXY7GBSD7Cl3okEyz/t4xD
+ dh95sOu5Q5kPN5z4WYpgijNFNyUTxL/5iW+QVub6SBSEVmjgUwdy3eMcq7Gheb6tLU4h
+ EQSQ==
+X-Gm-Message-State: AO0yUKWNTkUUjiH6JJMaKuSK/ZDKFv6v0B0QYEwOOet4mHHcqgCKs0VO
+ yFbYE7phFVhKQkPW6rGw4ej9nltSu8jNf7O1yIOkJsDFm2qRcCzwJPHTwKiVqqjL6jx8moTWXxX
+ DGxbp3jLBXUh4x/X8WqaNXXHllIUvhj9FcZRPBQ==
+X-Received: by 2002:a05:622a:296:b0:3b2:1003:37e5 with SMTP id
+ z22-20020a05622a029600b003b2100337e5mr14382973qtw.55.1676606976649; 
+ Thu, 16 Feb 2023 20:09:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set/pKL8WUlnDeHl1prs4II+qAaPdAnfudsL1DccPZb+yHNyE4m0spghavVkr9gl9Zy9/nfXCoQ==
+X-Received: by 2002:a05:622a:296:b0:3b2:1003:37e5 with SMTP id
+ z22-20020a05622a029600b003b2100337e5mr14382952qtw.55.1676606976369; 
+ Thu, 16 Feb 2023 20:09:36 -0800 (PST)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- r17-20020ac85211000000b003a5c6ad428asm2418067qtn.92.2023.02.16.20.09.31
+ 13-20020ac8564d000000b003afbf704c7csm1392066qtt.24.2023.02.16.20.09.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 20:09:32 -0800 (PST)
+ Thu, 16 Feb 2023 20:09:35 -0800 (PST)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Darren Kenny <darren.kenny@oracle.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Qiuhao Li <Qiuhao.Li@outlook.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PULL 03/10] fuzz/generic-fuzz: use reboots instead of forks to reset
- state
-Date: Thu, 16 Feb 2023 23:08:48 -0500
-Message-Id: <20230217040855.16873-4-alxndr@bu.edu>
+Subject: [PULL 04/10] fuzz/generic-fuzz: add a limit on DMA bytes written
+Date: Thu, 16 Feb 2023 23:08:49 -0500
+Message-Id: <20230217040855.16873-5-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230217040855.16873-1-alxndr@bu.edu>
 References: <20230217040855.16873-1-alxndr@bu.edu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.79; envelope-from=alxndr@bu.edu;
- helo=esa6.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.146.118; envelope-from=alxndr@bu.edu;
+ helo=esa4.hc2706-39.iphmx.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -122,206 +123,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+As we have repplaced fork-based fuzzing, with reboots - we can no longer
+use a timeout+exit() to avoid slow inputs. Libfuzzer has its own timer
+that it uses to catch slow inputs, however these timeouts are usually
+seconds-minutes long: more than enough to bog-down the fuzzing process.
+However, I found that slow inputs often attempt to fill overly large DMA
+requests. Thus, we can mitigate most timeouts by setting a cap on the
+total number of DMA bytes written by an input.
+
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- tests/qtest/fuzz/generic_fuzz.c | 114 ++++++--------------------------
- 1 file changed, 22 insertions(+), 92 deletions(-)
+ tests/qtest/fuzz/generic_fuzz.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 7326f6840b..f4acfa45cc 100644
+index f4acfa45cc..c525d22951 100644
 --- a/tests/qtest/fuzz/generic_fuzz.c
 +++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -18,7 +18,6 @@
- #include "tests/qtest/libqtest.h"
- #include "tests/qtest/libqos/pci-pc.h"
- #include "fuzz.h"
--#include "fork_fuzz.h"
- #include "string.h"
- #include "exec/memory.h"
- #include "exec/ramblock.h"
-@@ -29,6 +28,8 @@
- #include "generic_fuzz_configs.h"
- #include "hw/mem/sparse-mem.h"
- 
-+static void pci_enum(gpointer pcidev, gpointer bus);
-+
- /*
-  * SEPARATOR is used to separate "operations" in the fuzz input
-  */
-@@ -47,7 +48,6 @@ enum cmds {
-     OP_CLOCK_STEP,
- };
- 
--#define DEFAULT_TIMEOUT_US 100000
+@@ -51,6 +51,7 @@ enum cmds {
  #define USEC_IN_SEC 1000000000
  
  #define MAX_DMA_FILL_SIZE 0x10000
-@@ -60,8 +60,6 @@ typedef struct {
-     ram_addr_t size; /* The number of bytes until the end of the I/O region */
++#define MAX_TOTAL_DMA_SIZE 0x10000000
+ 
+ #define PCI_HOST_BRIDGE_CFG 0xcf8
+ #define PCI_HOST_BRIDGE_DATA 0xcfc
+@@ -61,6 +62,7 @@ typedef struct {
  } address_range;
  
--static useconds_t timeout = DEFAULT_TIMEOUT_US;
--
  static bool qtest_log_enabled;
++size_t dma_bytes_written;
  
  MemoryRegion *sparse_mem_mr;
-@@ -589,30 +587,6 @@ static void op_disable_pci(QTestState *s, const unsigned char *data, size_t len)
-     pci_disabled = true;
- }
  
--static void handle_timeout(int sig)
--{
--    if (qtest_log_enabled) {
--        fprintf(stderr, "[Timeout]\n");
--        fflush(stderr);
--    }
--
--    /*
--     * If there is a crash, libfuzzer/ASAN forks a child to run an
--     * "llvm-symbolizer" process for printing out a pretty stacktrace. It
--     * communicates with this child using a pipe.  If we timeout+Exit, while
--     * libfuzzer is still communicating with the llvm-symbolizer child, we will
--     * be left with an orphan llvm-symbolizer process. Sometimes, this appears
--     * to lead to a deadlock in the forkserver. Use waitpid to check if there
--     * are any waitable children. If so, exit out of the signal-handler, and
--     * let libfuzzer finish communicating with the child, and exit, on its own.
--     */
--    if (waitpid(-1, NULL, WNOHANG) == 0) {
--        return;
--    }
--
--    _Exit(0);
--}
--
- /*
-  * Here, we interpret random bytes from the fuzzer, as a sequence of commands.
-  * Some commands can be variable-width, so we use a separator, SEPARATOR, to
-@@ -669,64 +643,32 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-     size_t cmd_len;
-     uint8_t op;
- 
--    if (fork() == 0) {
--        struct sigaction sact;
--        struct itimerval timer;
--        sigset_t set;
--        /*
--         * Sometimes the fuzzer will find inputs that take quite a long time to
--         * process. Often times, these inputs do not result in new coverage.
--         * Even if these inputs might be interesting, they can slow down the
--         * fuzzer, overall. Set a timeout for each command to avoid hurting
--         * performance, too much
--         */
--        if (timeout) {
--
--            sigemptyset(&sact.sa_mask);
--            sact.sa_flags   = SA_NODEFER;
--            sact.sa_handler = handle_timeout;
--            sigaction(SIGALRM, &sact, NULL);
-+    op_clear_dma_patterns(s, NULL, 0);
-+    pci_disabled = false;
- 
--            sigemptyset(&set);
--            sigaddset(&set, SIGALRM);
--            pthread_sigmask(SIG_UNBLOCK, &set, NULL);
--
--            memset(&timer, 0, sizeof(timer));
--            timer.it_value.tv_sec = timeout / USEC_IN_SEC;
--            timer.it_value.tv_usec = timeout % USEC_IN_SEC;
--        }
--
--        op_clear_dma_patterns(s, NULL, 0);
--        pci_disabled = false;
--
--        while (cmd && Size) {
--            /* Reset the timeout, each time we run a new command */
--            if (timeout) {
--                setitimer(ITIMER_REAL, &timer, NULL);
--            }
-+    QPCIBus *pcibus = qpci_new_pc(s, NULL);
-+    g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
-+    qpci_free_pc(pcibus);
- 
--            /* Get the length until the next command or end of input */
--            nextcmd = memmem(cmd, Size, SEPARATOR, strlen(SEPARATOR));
--            cmd_len = nextcmd ? nextcmd - cmd : Size;
-+    while (cmd && Size) {
-+        /* Get the length until the next command or end of input */
-+        nextcmd = memmem(cmd, Size, SEPARATOR, strlen(SEPARATOR));
-+        cmd_len = nextcmd ? nextcmd - cmd : Size;
- 
--            if (cmd_len > 0) {
--                /* Interpret the first byte of the command as an opcode */
--                op = *cmd % (sizeof(ops) / sizeof((ops)[0]));
--                ops[op](s, cmd + 1, cmd_len - 1);
-+        if (cmd_len > 0) {
-+            /* Interpret the first byte of the command as an opcode */
-+            op = *cmd % (sizeof(ops) / sizeof((ops)[0]));
-+            ops[op](s, cmd + 1, cmd_len - 1);
- 
--                /* Run the main loop */
--                flush_events(s);
--            }
--            /* Advance to the next command */
--            cmd = nextcmd ? nextcmd + sizeof(SEPARATOR) - 1 : nextcmd;
--            Size = Size - (cmd_len + sizeof(SEPARATOR) - 1);
--            g_array_set_size(dma_regions, 0);
-+            /* Run the main loop */
-+            flush_events(s);
+@@ -194,6 +196,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
+      */
+     if (dma_patterns->len == 0
+         || len == 0
++        || dma_bytes_written + len > MAX_TOTAL_DMA_SIZE
+         || (mr != current_machine->ram && mr != sparse_mem_mr)) {
+         return;
+     }
+@@ -266,6 +269,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
+                 fflush(stderr);
+             }
+             qtest_memwrite(qts_global, addr, buf, l);
++            dma_bytes_written += l;
          }
--        _Exit(0);
--    } else {
--        flush_events(s);
--        wait(0);
-+        /* Advance to the next command */
-+        cmd = nextcmd ? nextcmd + sizeof(SEPARATOR) - 1 : nextcmd;
-+        Size = Size - (cmd_len + sizeof(SEPARATOR) - 1);
-+        g_array_set_size(dma_regions, 0);
-     }
-+    fuzz_reset(s);
- }
+         len -= l;
+         buf += l;
+@@ -645,6 +649,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
  
- static void usage(void)
-@@ -738,8 +680,6 @@ static void usage(void)
-     printf("Optionally: QEMU_AVOID_DOUBLE_FETCH= "
-             "Try to avoid racy DMA double fetch bugs? %d by default\n",
-             avoid_double_fetches);
--    printf("Optionally: QEMU_FUZZ_TIMEOUT= Specify a custom timeout (us). "
--            "0 to disable. %d by default\n", timeout);
-     exit(0);
- }
+     op_clear_dma_patterns(s, NULL, 0);
+     pci_disabled = false;
++    dma_bytes_written = 0;
  
-@@ -825,7 +765,6 @@ static void generic_pre_fuzz(QTestState *s)
- {
-     GHashTableIter iter;
-     MemoryRegion *mr;
--    QPCIBus *pcibus;
-     char **result;
-     GString *name_pattern;
- 
-@@ -838,9 +777,6 @@ static void generic_pre_fuzz(QTestState *s)
-     if (getenv("QEMU_AVOID_DOUBLE_FETCH")) {
-         avoid_double_fetches = 1;
-     }
--    if (getenv("QEMU_FUZZ_TIMEOUT")) {
--        timeout = g_ascii_strtoll(getenv("QEMU_FUZZ_TIMEOUT"), NULL, 0);
--    }
-     qts_global = s;
- 
-     /*
-@@ -883,12 +819,6 @@ static void generic_pre_fuzz(QTestState *s)
-         printf("No fuzzable memory regions found...\n");
-         exit(1);
-     }
--
--    pcibus = qpci_new_pc(s, NULL);
--    g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
--    qpci_free_pc(pcibus);
--
--    counter_shm_init();
- }
- 
- /*
+     QPCIBus *pcibus = qpci_new_pc(s, NULL);
+     g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
 -- 
 2.39.0
 
