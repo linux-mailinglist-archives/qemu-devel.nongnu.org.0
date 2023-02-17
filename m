@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682FB69A92F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 11:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BEF569A939
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 11:46:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSyCM-00021n-Eu; Fri, 17 Feb 2023 05:42:38 -0500
+	id 1pSyFD-0003mx-Az; Fri, 17 Feb 2023 05:45:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pSyCK-00021e-20
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:42:36 -0500
-Received: from mout.kundenserver.de ([212.227.17.10])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pSyCE-0007Yy-De
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:42:31 -0500
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MEVqu-1pLpKU0SJm-00FyFS; Fri, 17 Feb 2023 11:42:24 +0100
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH] vhost: svq: fix uninitialized variable
-Date: Fri, 17 Feb 2023 11:42:19 +0100
-Message-Id: <20230217104219.1675667-1-lvivier@redhat.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pSyF4-0003mS-JX
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:45:33 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1pSyF3-00019f-0g
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:45:26 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 87CBE1FE57;
+ Fri, 17 Feb 2023 10:45:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676630721; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=icGPsAR79wCA29Xt46NXPY6n6gEE9rUunbNU1aBmVMY=;
+ b=LGjAgXDRDx/dkOElOz2M8N3At/cc8Haztwk1mAnnDlp3DVr6FlzjSqBe5+Flr+HBKIDC25
+ 05Iijg1coz/rpA07ZS2Rbujm+aXNobgUGoJxaPHGjh8nTHO8IJDh1fXqz76K9Ppik1pKs1
+ ydtbNuXuR/kVahnrlfVxmG7wg7KKQjY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676630721;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=icGPsAR79wCA29Xt46NXPY6n6gEE9rUunbNU1aBmVMY=;
+ b=AiQ/LaDGqhYGEHEQoLQnkE2Q7DCuzIwkG1wZuP8hAwoQb3qWJ7pozM7xGKZCiIEa7VkJE5
+ Xnch1nreRz/0wrDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2186C138E3;
+ Fri, 17 Feb 2023 10:45:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Ag+lBsFa72NdNgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 17 Feb 2023 10:45:21 +0000
+Message-ID: <b816a3a5-c101-050e-9e14-4af0cc99984e@suse.de>
+Date: Fri, 17 Feb 2023 11:45:20 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>,
+ Brad Smith <brad@comstyle.com>, Stefan Weil <sw@weilnetz.de>
+References: <20230130114428.1297295-1-thuth@redhat.com>
+ <87a61cbmti.fsf@pond.sub.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <87a61cbmti.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:DqODt38SfGnZQzmo+7tYYJqZB0hVny24ayFTjpo/h+7GjLo/Jiu
- prl1v1Uv3SYwK93MzKx6CN6PZ/dKSFb/8Mb1Ov9AJeST5e7vOfDfC1ejO0kGZwH4EPte3GV
- LKWxfNXmvBr9Fh+3HMA9Q8OkRcpQ8m9bHoivCQwK07+Ku/VxrmHgTL/q0hPcbrOtSyZV65Z
- xC0pZ5SuPIHSwWTsFWdNA==
-UI-OutboundReport: notjunk:1;M01:P0:mdV92zthZZI=;uulAEe3RWLSkRoYQ6OpiK2Ovo3y
- qAC8sFLnpCIHjJp2KDfNQjVr/H/y5pjVBr5L3JKMkB2o22yOYZ/+0CDe3yd14BVsd/3WIbaqX
- gBaKeKs0hjOLXHDtN26D2gfIPibqPIsUNvFAoWoFwpH2EyFpCC7Ky6s5YjDr9rdKTz4tjbf6r
- MFx4U/IwLyTCYZd/ebfXKIRW4YlhseuFeGv9RP57ZxyUNSstxbs7qiXaWKL0yZpsNm7Iv+Ev/
- 3ee/Zu8A1idYnzv6E1erPiC0tpzcfrpVSTz7smg5Q7BUR1SfrqCVe/EcmQI9Z1tB5aiGJCShH
- eLEyw0wK7bnE2vLuKsmHXGvEG777WuSFbnKJbfzMSw4rdWCyFLghRdGU4YYaplJJVrRlRIeMH
- lPR3Ke9KJalKbveqcLoNDxoivVvokPwmnkl8PXy4TXq7ssWYo7KKCuJ26YEC11gblkQFgSwRm
- HhWA2/hy3h9Lp7VW6VOl86dgsj7wv1Tkg8kGL87/qvRQmLFG0nnJ0sEgrZXiLSe08WFkXKlVj
- uXIy08UEEapQUyXhIdm1CVOj139sxNcm5/phG68nXB62FlWlrEQthZk5b6UxS6ByDviMg1uc2
- RYqsH6DmbB9t7zTdQkNrazM96wV7ghHubaUwlBqUesZ1IKgV1aBybNwQaAzdfiezPzqGGKFKy
- wGC+ZuO/fRIYDqUnHfvf88FeS0LxLwYsugOQAmzrhA==
-Received-SPF: permerror client-ip=212.227.17.10;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
- SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,37 +94,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The problem has been reported by gcc with CFLAGS=-O3:
+On 2/17/23 11:36, Markus Armbruster wrote:
+> I feel the discussion petered out without a conclusion.
+> 
+> I don't think letting the status quo win by inertia is a good outcome
+> here.
+> 
+> Which 32-bit hosts are still useful, and why?
 
-.../hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_svq_poll’:
-.../hw/virtio/vhost-shadow-virtqueue.c:538:12:
-error: ‘len’ may be used uninitialized [-Werror=maybe-uninitialized]
-  538 |     return len;
-      |            ^~~
-
-vhost_svq_get_buf() returns NULL if SVQ is empty but doesn't set len to 0,
-and vhost_svq_poll() returns len without checking the return of
-vhost_svq_get_buf(). So if the SVQ is empty vhost_svq_poll() can return
-an random value.
-
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- hw/virtio/vhost-shadow-virtqueue.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 430729635815..31cf642db267 100644
---- a/hw/virtio/vhost-shadow-virtqueue.c
-+++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -420,6 +420,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
-     vring_used_elem_t used_elem;
-     uint16_t last_used, last_used_chain, num;
+Hi Markus,
  
-+    *len = 0;
-     if (!vhost_svq_more_used(svq)) {
-         return NULL;
-     }
--- 
-2.39.1
+if the question is very very general, my opinion is that some of the most useful 32-bit systems are things like ARMv8-R capable systems for deeply embedded real time applications.
+
+Ciao,
+
+Claudio
+
 
 
