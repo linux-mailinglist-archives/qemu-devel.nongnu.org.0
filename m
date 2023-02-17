@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A01B69B211
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:54:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747DE69B21D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:57:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT4vb-0005Ea-Sb; Fri, 17 Feb 2023 12:53:47 -0500
+	id 1pT4vd-0005Ft-Lb; Fri, 17 Feb 2023 12:53:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pT4vZ-0005D0-8A
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:53:45 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pT4va-0005Dm-EZ
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:53:46 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pT4vX-0000wJ-HP
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:53:44 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id y2so1948106pjd.5
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:53:43 -0800 (PST)
+ id 1pT4vY-0000wr-PD
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:53:46 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ p15-20020a17090a2d8f00b00233ceae8407so1937353pjd.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:53:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LNYI9dmX50T6dGo7VdQuyO6akiZafXJYK1pmz8lKKOc=;
- b=LZkODX28HuTrsCQ/i241FbzbJoMXs7xZ7PhankcvYCodN5KoGnzEeQtkOafy7u6aWB
- IMJ19q1rLlbwdIwJ2KBwNYlWc/C3R50V/I9y7a6mv9SjHWHU+eGBHvT9xmviagjmco+I
- CrIJ8uTzawrBbVRMHT1ussNrBzcUm7OweDYqEColbepyEkFBsLQ3BpXZm5CtCsqmyjeI
- 2MBllWS5xVQ3y1IBSZLj4yilcRacJUGyoxX+dGjPlIxbXgvezN81JrxAREi7YE1ct2VE
- zZmrRvkxDo+4CE0xhTe2XffAtm5cgVASn83W9OJk5/sKv07KX9bw90c9H/Nid3MVUzC/
- 8RVA==
+ bh=Dvwt/N5z68Lhd9kFSQNr2cRX2YRLFZu4dbfdxwq/zxM=;
+ b=EKVHhP5gnNTPWIX0rnOgSnveNg56CGBDQrT5aMbY/4IK+duSy7ag0Ap1Fnz2xKW9LS
+ vCxb0g+B1qPeVCGtBAUQ7TjeUYwvUeDelPYwgIFIaQPU5Ihlgndb7GbDIgkuW1NmPcU5
+ 61u5z6k7LIPO48nZFq08FYQoRMjXYLVjG6yeCjgwMbKk7EHDdXk0Wa779kF/NIzgN3oj
+ zdFC3/i4nlTB9IWpNwRJL6rdWxp6Gl2SXUZ9i6a+8rldaVaC5VCCoXm7e+kz+WCRa2Av
+ vKpjEHlf5EyOJijDyuf56sa7CC7u/kg5N25pnYajyTc4B9yR/+ehn0SLTzsqikJe51PE
+ Lomg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LNYI9dmX50T6dGo7VdQuyO6akiZafXJYK1pmz8lKKOc=;
- b=JfeKPTzCdaW7zJjzrH974TL5X26eyBjO9voz7dkHVsya3BdsU8bbD0IVM9hJrauzJw
- eHuhlt37WuIH/5tXefuIdCieBXLIQObO7N8UD8WvSTpJhu1VDnCEEfi+M/mR/04HqLnE
- eeW56rIUpppAPv/E60ZaXAboSNquaBEJKvbDumo3qAoBQIWQSnbPgnfB/f1zAaPJpwON
- TYPx0KciTR/CMlQu2g8U4AclOvQpOMVgKQhBc2FHYuOWv2L+evXDpFfwrBxbSssstrts
- CHBw7RMwpLGWCCkdzJ4DExeA4H/W31DB3m/8h2N3ZPs2p6LF1a4kNyBLc3OmOzIqHAdi
- bv7A==
-X-Gm-Message-State: AO0yUKWOb/hK6Usq3lonY0fAw/t6qiC5FshFPEiE1KHju1mljrcBc+LV
- dT4uQKXmSeEiIABonzx7QloIWg==
-X-Google-Smtp-Source: AK7set9WrULX4Ak0RER7PdY1Gf8r+4U7zvhUxrfLbbtGe9bIZowFstAhfPgHdk2+fUsLcxJOe4isFg==
-X-Received: by 2002:a17:902:da8d:b0:19b:c37:25e7 with SMTP id
- j13-20020a170902da8d00b0019b0c3725e7mr5975009plx.66.1676656422172; 
- Fri, 17 Feb 2023 09:53:42 -0800 (PST)
+ bh=Dvwt/N5z68Lhd9kFSQNr2cRX2YRLFZu4dbfdxwq/zxM=;
+ b=BJ2pO8DhovZzXWSGlKDgxRXMSqxs0XrwwTkynzyDfOLSZDzdtBHY5L+qUxcXwuEx7L
+ WE/xw/QhTevaaozr5WaZhB18Lfii4mfN/G9vn4Av9xghL1UlmMp/raejmoRTYJPUIzoJ
+ 2kOHol2yoP2RQ7qTECqrDJOZKuaJZB5vu4BNlsMpWjqi1NJ1sJwmT5e7rW+VW+c65UJJ
+ xrsosA2GtRmyhZgbKdWTb+QLKYXXiwFl/umEYxR5zGP2B7VwtxCWIU1pkKsI5Fd7vuZM
+ UqX74IUrlHf+I0Gj03nL/0IyHiGFPUmr6SFgRqMcPrKha5ft+DaMQQLyxgWFPmm7kEQf
+ yFng==
+X-Gm-Message-State: AO0yUKWobsIr68tP5KoPG7jZ9q89GrKCeALA+ycvhZSVMGSw/LDPPLQu
+ FoZ0IRh0kCJRTjBqgxH1G8N0Kg==
+X-Google-Smtp-Source: AK7set8wD4CUaRVyCzf9tRrgFFGaH1hGKm1MtFCg1ZdIxHP8JYTUSPuk28Sleyly9ZwpKSIlbXLPjg==
+X-Received: by 2002:a05:6a20:3d88:b0:c7:6f26:c85 with SMTP id
+ s8-20020a056a203d8800b000c76f260c85mr4091241pzi.36.1676656423538; 
+ Fri, 17 Feb 2023 09:53:43 -0800 (PST)
 Received: from localhost ([135.180.226.51]) by smtp.gmail.com with ESMTPSA id
- jc11-20020a17090325cb00b0019607547f29sm3392267plb.304.2023.02.17.09.53.41
+ h38-20020a631226000000b004fab2ba60adsm2989699pgl.81.2023.02.17.09.53.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 09:53:41 -0800 (PST)
-Subject: [PULL 8/9] target/riscv: avoid env_archcpu() in cpu_get_tb_cpu_state()
-Date: Fri, 17 Feb 2023 09:52:02 -0800
-Message-Id: <20230217175203.19510-9-palmer@rivosinc.com>
+ Fri, 17 Feb 2023 09:53:43 -0800 (PST)
+Subject: [PULL 9/9] target/riscv: Fix vslide1up.vf and vslide1down.vf
+Date: Fri, 17 Feb 2023 09:52:03 -0800
+Message-Id: <20230217175203.19510-10-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230217175203.19510-1-palmer@rivosinc.com>
 References: <20230217175203.19510-1-palmer@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- ilippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>, 
- Weiwei Li <liweiwei@iscas.ac.cn>, Palmer Dabbelt <palmer@rivosinc.com>
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,32 +91,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-We have a RISCVCPU *cpu pointer available at the start of the function.
+vslide1up_##BITWIDTH is used by the vslide1up.vx and vslide1up.vf. So its
+scalar input should be uint64_t to hold the 64 bits float register.And the
+same for vslide1down_##BITWIDTH.
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+This bug is caught when run these instructions on qemu-riscv32.
+
+Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <20230210123836.506286-1-dbarboza@ventanamicro.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Message-ID: <20230213094550.29621-1-zhiwei_liu@linux.alibaba.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/vector_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index ad8d82662c..3a9472a2ff 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -60,7 +60,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-          * which is not supported by GVEC. So we set vl_eq_vlmax flag to true
-          * only when maxsz >= 8 bytes.
-          */
--        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
-+        uint32_t vlmax = vext_get_vlmax(cpu, env->vtype);
-         uint32_t sew = FIELD_EX64(env->vtype, VTYPE, VSEW);
-         uint32_t maxsz = vlmax << sew;
-         bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl) &&
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 00de879787..3073c54871 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -5038,7 +5038,7 @@ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_w, uint32_t, H4)
+ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_d, uint64_t, H8)
+ 
+ #define GEN_VEXT_VSLIE1UP(BITWIDTH, H)                                      \
+-static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
++static void vslide1up_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
+                      void *vs2, CPURISCVState *env, uint32_t desc)          \
+ {                                                                           \
+     typedef uint##BITWIDTH##_t ETYPE;                                       \
+@@ -5086,7 +5086,7 @@ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_w, 32)
+ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_d, 64)
+ 
+ #define GEN_VEXT_VSLIDE1DOWN(BITWIDTH, H)                                     \
+-static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
++static void vslide1down_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
+                        void *vs2, CPURISCVState *env, uint32_t desc)          \
+ {                                                                             \
+     typedef uint##BITWIDTH##_t ETYPE;                                         \
 -- 
 2.39.0
 
