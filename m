@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD4169A542
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB0D69A540
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:44:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pStXQ-0000aZ-M0; Fri, 17 Feb 2023 00:44:04 -0500
+	id 1pStXO-0000Yu-GS; Fri, 17 Feb 2023 00:44:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pStXH-0000Xw-14
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:43:55 -0500
+ id 1pStXD-0000XM-NA
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:43:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pStXF-0001Mv-Fg
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:43:54 -0500
+ id 1pStXB-0001Kq-Fp
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:43:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676612632;
+ s=mimecast20190719; t=1676612628;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Xz/5bAkleicl62MdzztWocE2YfMrKDcRo4PcgO3ivss=;
- b=F0q41SSOe5O3f+pKtAS70AKdCXd+Us1BhvdU3Xo6fPttIGaQM2iquhZWWPC9MOeBE3DmSG
- 9ueVP9uFOdNBFp6j6Vk98zIgaLoxQQ6FZd1Fmh+Zsbg5m8a/K6JjRxe00Q5u1PgpGn/F1U
- dTGorbSuLFwMO3DVVet0oBp0AInH1YM=
+ bh=b6zLyjzW2coplxQWhNEa5xZCZZqJPHDht9T2ys6BfN0=;
+ b=FwdDmIGdnfjHFv/z8GFJJ824ZUvH3Lg5eUc3GUwys8xSVLsViJ0XV184wShpQ7sqH9KUCC
+ Eek/nC6AhfJCBLTl621PqhMx2N5Zc5oQqWLzaVvnWnjnTofqTNrXH32KxQhC7OqSrRQ2b7
+ eqjwTAB/zTuwXSJWRm3WeEzy8pOCzeE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-365-id2zVPdlNqakwu8sM773BQ-1; Fri, 17 Feb 2023 00:43:43 -0500
-X-MC-Unique: id2zVPdlNqakwu8sM773BQ-1
+ us-mta-57-NMAK7mB9OsKWRimPtgmHeQ-1; Fri, 17 Feb 2023 00:43:46 -0500
+X-MC-Unique: NMAK7mB9OsKWRimPtgmHeQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8BCA1C04B77;
- Fri, 17 Feb 2023 05:43:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 797303C01E0A;
+ Fri, 17 Feb 2023 05:43:46 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-12-47.pek2.redhat.com [10.72.12.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE218492B15;
- Fri, 17 Feb 2023 05:43:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7072C492B15;
+ Fri, 17 Feb 2023 05:43:43 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: peter.maydell@linaro.org
 Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL V3 1/9] net: Move the code to collect available NIC models to a
- separate function
-Date: Fri, 17 Feb 2023 13:43:27 +0800
-Message-Id: <20230217054335.57595-2-jasowang@redhat.com>
+Subject: [PULL V3 2/9] net: Restore printing of the help text with "-nic help"
+Date: Fri, 17 Feb 2023 13:43:28 +0800
+Message-Id: <20230217054335.57595-3-jasowang@redhat.com>
 In-Reply-To: <20230217054335.57595-1-jasowang@redhat.com>
 References: <20230217054335.57595-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -82,135 +81,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Thomas Huth <thuth@redhat.com>
 
-The code that collects the available NIC models is not really specific
-to PCI anymore and will be required in the next patch, too, so let's
-move this into a new separate function in net.c instead.
+Running QEMU with "-nic help" used to work in QEMU 5.2 and earlier versions
+(it showed the available netdev backends), but this feature got broken during
+some refactoring in version 6.0. Let's restore the old behavior, and while
+we're at it, let's also print the available NIC models here now since this
+option can be used to configure both, netdev backend and model in one go.
 
+Fixes: ad6f932fe8 ("net: do not exit on "netdev_add help" monitor command")
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/pci/pci.c      | 29 +----------------------------
- include/net/net.h | 14 ++++++++++++++
- net/net.c         | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 49 insertions(+), 28 deletions(-)
+ net/net.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 208c16f..cc51f98 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1789,7 +1789,6 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
-                                const char *default_devaddr)
- {
-     const char *devaddr = nd->devaddr ? nd->devaddr : default_devaddr;
--    GSList *list;
-     GPtrArray *pci_nic_models;
-     PCIBus *bus;
-     PCIDevice *pci_dev;
-@@ -1804,33 +1803,7 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
-         nd->model = g_strdup("virtio-net-pci");
-     }
- 
--    list = object_class_get_list_sorted(TYPE_PCI_DEVICE, false);
--    pci_nic_models = g_ptr_array_new();
--    while (list) {
--        DeviceClass *dc = OBJECT_CLASS_CHECK(DeviceClass, list->data,
--                                             TYPE_DEVICE);
--        GSList *next;
--        if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
--            dc->user_creatable) {
--            const char *name = object_class_get_name(list->data);
--            /*
--             * A network device might also be something else than a NIC, see
--             * e.g. the "rocker" device. Thus we have to look for the "netdev"
--             * property, too. Unfortunately, some devices like virtio-net only
--             * create this property during instance_init, so we have to create
--             * a temporary instance here to be able to check it.
--             */
--            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
--            if (object_property_find(obj, "netdev")) {
--                g_ptr_array_add(pci_nic_models, (gpointer)name);
--            }
--            object_unref(obj);
--        }
--        next = list->next;
--        g_slist_free_1(list);
--        list = next;
--    }
--    g_ptr_array_add(pci_nic_models, NULL);
-+    pci_nic_models = qemu_get_nic_models(TYPE_PCI_DEVICE);
- 
-     if (qemu_show_nic_models(nd->model, (const char **)pci_nic_models->pdata)) {
-         exit(0);
-diff --git a/include/net/net.h b/include/net/net.h
-index fad589c..1d88621 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -203,6 +203,20 @@ void net_socket_rs_init(SocketReadState *rs,
-                         bool vnet_hdr);
- NetClientState *qemu_get_peer(NetClientState *nc, int queue_index);
- 
-+/**
-+ * qemu_get_nic_models:
-+ * @device_type: Defines which devices should be taken into consideration
-+ *               (e.g. TYPE_DEVICE for all devices, or TYPE_PCI_DEVICE for PCI)
-+ *
-+ * Get an array of pointers to names of NIC devices that are available in
-+ * the QEMU binary. The array is terminated with a NULL pointer entry.
-+ * The caller is responsible for freeing the memory when it is not required
-+ * anymore, e.g. with g_ptr_array_free(..., true).
-+ *
-+ * Returns: Pointer to the array that contains the pointers to the names.
-+ */
-+GPtrArray *qemu_get_nic_models(const char *device_type);
-+
- /* NIC info */
- 
- #define MAX_NICS 8
 diff --git a/net/net.c b/net/net.c
-index 251fc5a..476a4b7 100644
+index 476a4b7..e8cd95c 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -899,6 +899,40 @@ static int nic_get_free_idx(void)
-     return -1;
- }
+@@ -1542,8 +1542,18 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
+     const char *type;
  
-+GPtrArray *qemu_get_nic_models(const char *device_type)
-+{
-+    GPtrArray *nic_models = g_ptr_array_new();
-+    GSList *list = object_class_get_list_sorted(device_type, false);
-+
-+    while (list) {
-+        DeviceClass *dc = OBJECT_CLASS_CHECK(DeviceClass, list->data,
-+                                             TYPE_DEVICE);
-+        GSList *next;
-+        if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
-+            dc->user_creatable) {
-+            const char *name = object_class_get_name(list->data);
-+            /*
-+             * A network device might also be something else than a NIC, see
-+             * e.g. the "rocker" device. Thus we have to look for the "netdev"
-+             * property, too. Unfortunately, some devices like virtio-net only
-+             * create this property during instance_init, so we have to create
-+             * a temporary instance here to be able to check it.
-+             */
-+            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
-+            if (object_property_find(obj, "netdev")) {
-+                g_ptr_array_add(nic_models, (gpointer)name);
-+            }
-+            object_unref(obj);
+     type = qemu_opt_get(opts, "type");
+-    if (type && g_str_equal(type, "none")) {
+-        return 0;    /* Nothing to do, default_net is cleared in vl.c */
++    if (type) {
++        if (g_str_equal(type, "none")) {
++            return 0;    /* Nothing to do, default_net is cleared in vl.c */
 +        }
-+        next = list->next;
-+        g_slist_free_1(list);
-+        list = next;
-+    }
-+    g_ptr_array_add(nic_models, NULL);
-+
-+    return nic_models;
-+}
-+
- int qemu_show_nic_models(const char *arg, const char *const *models)
- {
-     int i;
++        if (is_help_option(type)) {
++            GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
++            show_netdevs();
++            printf("\n");
++            qemu_show_nic_models(type, (const char **)nic_models->pdata);
++            g_ptr_array_free(nic_models, true);
++            exit(0);
++        }
+     }
+ 
+     idx = nic_get_free_idx();
 -- 
 2.7.4
 
