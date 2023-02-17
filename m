@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE6F69A405
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 03:49:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2613D69A40F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 03:56:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSqo2-0007Ej-T3; Thu, 16 Feb 2023 21:49:02 -0500
+	id 1pSquK-0000uX-0a; Thu, 16 Feb 2023 21:55:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1pSqo1-0007Ea-SC
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 21:49:01 -0500
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1pSqo0-0002Rj-2B
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 21:49:01 -0500
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4PHx8Z0TyXz8PbP;
- Thu, 16 Feb 2023 21:48:46 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=message-id
- :date:mime-version:subject:from:to:cc:references:in-reply-to
- :content-type:content-transfer-encoding; s=default; bh=4l1W8wi+A
- bhooZvxvmaKbCg5IN4=; b=qADaoTkjRHYStOnjfe5hVdtSGxPHKwCmO9aXh+Emi
- ZhAWohSzetwmS5JdfuBsuR+oMNysJVzrDJNqntVrTPBKYTvuUxlatD4o03lEFiRc
- rpeEwrWGrTa5nLD8B1r0/ZlRn16yZAzejiEWalMzFJHxcj1+oAvFwSj5bSbM+2Br
- ZU=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=message-id
- :date:mime-version:subject:from:to:cc:references:in-reply-to
- :content-type:content-transfer-encoding; q=dns; s=default; b=eka
- 2kQEqsEz+yvu9GODPLRNwn8OAKLrSKCH4WyV0S+ipcq04aBvj1bj6JQI8JVb+qlR
- 6Yp6atTllNXqCJU6xAgfrA8tOaD9e51iobugunto5avMZeHtaYWkK0T9VNiXBUkU
- /62Cswn8xvMISCOr7pH5ch18p5rzAOmyLCDGOFWs=
-Received: from [IPV6:2001:470:b050:6:cc31:46d5:f26a:a82b] (unknown
- [IPv6:2001:470:b050:6:cc31:46d5:f26a:a82b])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4PHx8Y4tYcz8PbN;
- Thu, 16 Feb 2023 21:48:45 -0500 (EST)
-Message-ID: <0bcd2493-4be4-6295-a193-2fc7b7180a19@comstyle.com>
-Date: Thu, 16 Feb 2023 21:48:44 -0500
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pSquG-0000u4-Tv; Thu, 16 Feb 2023 21:55:28 -0500
+Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pSquE-00053o-Cr; Thu, 16 Feb 2023 21:55:28 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
+ TI=SMTPD_---0Vbqa7u0_1676602516; 
+Received: from 30.221.98.44(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0Vbqa7u0_1676602516) by smtp.aliyun-inc.com;
+ Fri, 17 Feb 2023 10:55:17 +0800
+Content-Type: multipart/alternative;
+ boundary="------------vC0jWu3swt5j0IXxW8dNjFAF"
+Message-ID: <9c48a83d-7cdf-4691-d7c5-da022737f1bc@linux.alibaba.com>
+Date: Fri, 17 Feb 2023 10:55:14 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH] thread-posix: add support for setting threads name on
- OpenBSD
-From: Brad Smith <brad@comstyle.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <Y57NrCmPTVSXLWC4@humpty.home.comstyle.com>
+Subject: Re: [PATCH v6 2/9] target/riscv: introduce riscv_cpu_cfg()
 Content-Language: en-US
-In-Reply-To: <Y57NrCmPTVSXLWC4@humpty.home.comstyle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, richard.henderson@linaro.org
+References: <20230216215550.1011637-1-dbarboza@ventanamicro.com>
+ <20230216215550.1011637-3-dbarboza@ventanamicro.com>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230216215550.1011637-3-dbarboza@ventanamicro.com>
+Received-SPF: pass client-ip=115.124.30.97;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-97.freemail.mail.aliyun.com
+X-Spam_score_int: -101
+X-Spam_score: -10.2
+X-Spam_bar: ----------
+X-Spam_report: (-10.2 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ HTML_MESSAGE=0.001, NICE_REPLY_A=-0.351, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,73 +64,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ping.
+This is a multi-part message in MIME format.
+--------------vC0jWu3swt5j0IXxW8dNjFAF
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2022-12-18 3:22 a.m., Brad Smith wrote:
-> Make use of pthread_set_name_np() to be able to set the threads name
-> on OpenBSD.
+
+On 2023/2/17 5:55, Daniel Henrique Barboza wrote:
+> We're going to do changes that requires accessing the RISCVCPUConfig
+> struct from the RISCVCPU, having access only to a CPURISCVState 'env'
+> pointer. Add a helper to make the code easier to read.
 >
-> Signed-off-by: Brad Smith <brad@comstyle.com>
+> Signed-off-by: Daniel Henrique Barboza<dbarboza@ventanamicro.com>
 > ---
->   meson.build              | 12 ++++++++++++
->   util/qemu-thread-posix.c |  9 ++++++++-
->   2 files changed, 20 insertions(+), 1 deletion(-)
+>   target/riscv/cpu.h | 5 +++++
+>   1 file changed, 5 insertions(+)
 >
-> diff --git a/meson.build b/meson.build
-> index 5c6b5a1c75..68adcb6291 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2123,6 +2123,18 @@ config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links(gnu_source_pre
->       pthread_create(&thread, 0, f, 0);
->       return 0;
->     }''', dependencies: threads))
-> +config_host_data.set('CONFIG_PTHREAD_SET_NAME_NP', cc.links(gnu_source_prefix + '''
-> +  #include <pthread.h>
-> +  #include <pthread_np.h>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 01803a020d..5e9626837b 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -653,6 +653,11 @@ static inline RISCVMXL riscv_cpu_mxl(CPURISCVState *env)
+>   #endif
+>   #define riscv_cpu_mxl_bits(env) (1UL << (4 + riscv_cpu_mxl(env)))
+>   
+> +static inline const RISCVCPUConfig *riscv_cpu_cfg(CPURISCVState *env)
+> +{
+> +    return &env_archcpu(env)->cfg;
+> +}
 > +
-> +  static void *f(void *p) { return NULL; }
-> +  int main(void)
-> +  {
-> +    pthread_t thread;
-> +    pthread_create(&thread, 0, f, 0);
-> +    pthread_set_name_np(thread, "QEMU");
-> +    return 0;
-> +  }''', dependencies: threads))
->   config_host_data.set('CONFIG_PTHREAD_CONDATTR_SETCLOCK', cc.links(gnu_source_prefix + '''
->     #include <pthread.h>
->     #include <time.h>
-> diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-> index bae938c670..412caa45ef 100644
-> --- a/util/qemu-thread-posix.c
-> +++ b/util/qemu-thread-posix.c
-> @@ -18,6 +18,10 @@
->   #include "qemu/tsan.h"
->   #include "qemu/bitmap.h"
->   
-> +#ifdef CONFIG_PTHREAD_SET_NAME_NP
-> +#include <pthread_np.h>
-> +#endif
-> +
->   static bool name_threads;
->   
->   void qemu_thread_naming(bool enable)
-> @@ -25,7 +29,8 @@ void qemu_thread_naming(bool enable)
->       name_threads = enable;
->   
->   #if !defined CONFIG_PTHREAD_SETNAME_NP_W_TID && \
-> -    !defined CONFIG_PTHREAD_SETNAME_NP_WO_TID
-> +    !defined CONFIG_PTHREAD_SETNAME_NP_WO_TID && \
-> +    !defined CONFIG_PTHREAD_SET_NAME_NP
->       /* This is a debugging option, not fatal */
->       if (enable) {
->           fprintf(stderr, "qemu: thread naming not supported on this host\n");
-> @@ -480,6 +485,8 @@ static void *qemu_thread_start(void *args)
->           pthread_setname_np(pthread_self(), qemu_thread_args->name);
->   # elif defined(CONFIG_PTHREAD_SETNAME_NP_WO_TID)
->           pthread_setname_np(qemu_thread_args->name);
-> +# elif defined(CONFIG_PTHREAD_SET_NAME_NP)
-> +        pthread_set_name_np(pthread_self(), qemu_thread_args->name);
->   # endif
->       }
->       QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
+
+There many places in branch should use this interface, not just in this 
+patch set.
+
+For example,
+
+static RISCVException seed(CPURISCVState *env, int csrno)
+{
+     RISCVCPU *cpu = env_archcpu(env);
+
+     if (!cpu->cfg.ext_zkr) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+
+The cpu here will not be used, except referring to the cfg.
+
+Do you mind to unify the use?
+
+Zhiwei
+
+>   #if defined(TARGET_RISCV32)
+>   #define cpu_recompute_xl(env)  ((void)(env), MXL_RV32)
+>   #else
+--------------vC0jWu3swt5j0IXxW8dNjFAF
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2023/2/17 5:55, Daniel Henrique
+      Barboza wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20230216215550.1011637-3-dbarboza@ventanamicro.com">
+      <pre class="moz-quote-pre" wrap="">We're going to do changes that requires accessing the RISCVCPUConfig
+struct from the RISCVCPU, having access only to a CPURISCVState 'env'
+pointer. Add a helper to make the code easier to read.
+
+Signed-off-by: Daniel Henrique Barboza <a class="moz-txt-link-rfc2396E" href="mailto:dbarboza@ventanamicro.com">&lt;dbarboza@ventanamicro.com&gt;</a>
+---
+ target/riscv/cpu.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 01803a020d..5e9626837b 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -653,6 +653,11 @@ static inline RISCVMXL riscv_cpu_mxl(CPURISCVState *env)
+ #endif
+ #define riscv_cpu_mxl_bits(env) (1UL &lt;&lt; (4 + riscv_cpu_mxl(env)))
+ 
++static inline const RISCVCPUConfig *riscv_cpu_cfg(CPURISCVState *env)
++{
++    return &amp;env_archcpu(env)-&gt;cfg;
++}
++</pre>
+    </blockquote>
+    <p>There many places in branch should use this interface, not just
+      in this patch set.  <br>
+    </p>
+    <p>For example,</p>
+    <pre>static RISCVException seed(CPURISCVState *env, int csrno)
+{
+    RISCVCPU *cpu = env_archcpu(env);
+
+    if (!cpu-&gt;cfg.ext_zkr) {
+        return RISCV_EXCP_ILLEGAL_INST;
+    }
+
+</pre>
+    <p>The cpu here will not be used, except referring to the cfg.</p>
+    <p>Do you mind to unify the use?</p>
+    <p>Zhiwei<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:20230216215550.1011637-3-dbarboza@ventanamicro.com">
+      <pre class="moz-quote-pre" wrap="">
+ #if defined(TARGET_RISCV32)
+ #define cpu_recompute_xl(env)  ((void)(env), MXL_RV32)
+ #else
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------vC0jWu3swt5j0IXxW8dNjFAF--
 
