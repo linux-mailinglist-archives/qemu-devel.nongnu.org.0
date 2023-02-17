@@ -2,101 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFF669B0C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850DF69B132
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:41:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT3WT-0001bD-FM; Fri, 17 Feb 2023 11:23:45 -0500
+	id 1pT3nV-0003pA-I6; Fri, 17 Feb 2023 11:41:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pT3WR-0001ax-H5
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:23:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
+ id 1pT3nS-0003nf-QH
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:41:18 -0500
+Received: from mail-dm6nam04on2063.outbound.protection.outlook.com
+ ([40.107.102.63] helo=NAM04-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pT3WP-0003ab-9q
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:23:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676651020;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MjzchUN/f8n3YVcteUgl6j3t1/V7XmUc2chEf4jEeMU=;
- b=JdlOpCeQhK5XVEajOlsl7FKhAZ22l80pQwP6IUezGGIbl6wUDP2tNU+bmyS8b/EEJNat+t
- thVFGejL2DuwCQ38C6CV9pCWXFRA9q2IFZ/w0uHZCi9gaNwP0s/MW9AnAOXoTnjTGyexqX
- 8TUrH9+k5ekovxtkzE5TA3dPVunDVDo=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-484-2YjN4LoBMc2dwXk7uYzOvw-1; Fri, 17 Feb 2023 11:23:38 -0500
-X-MC-Unique: 2YjN4LoBMc2dwXk7uYzOvw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- j10-20020a05640211ca00b004acbf564d75so1671824edw.5
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 08:23:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MjzchUN/f8n3YVcteUgl6j3t1/V7XmUc2chEf4jEeMU=;
- b=e07HkrDzDCWzQzBwT/BoOJWXWNgVI/7s0qn0/PCar8ctF7WYQgNQToLCOoR6Py6tC1
- PjIcYwCOxFIeoaQeQurnZUtcPz0ybeaTPZIFoUJu35BzhgS8K566IH0OTbQcahoby98T
- 6gb7Q0a+KI9WNnOlwEF8Egsima+bMFYe5MGR3euhGF3hJeIb86dZydogLO5KENYj561n
- 733rWcAxMlNoc3JMV1gaPIAKwkh2s0tSpXwsPoRmZCg3qf+LOTLonU8w1sLqb7WIQD1U
- ekfOcYv+JLDIZFvr9ET50ucLND76fO9MeELUJ8HDDTmCpS8X6RhcgNNSS/jSfKzYGPhP
- qvAw==
-X-Gm-Message-State: AO0yUKUU4hH3jFqkQfTisYLhvR5fOFP+PH+PPaQl5c8Wp2YvIRov/spy
- WGQFxKYsyJOku5L55oGOjR+Lt/KDMGMiNsbe+hVf/oUODHPPcnihVCX4VhWsTYy3/lOektCGSJb
- fAF6n3/HVVuXaHy4=
-X-Received: by 2002:a05:6402:445:b0:4ac:b2c8:aeaf with SMTP id
- p5-20020a056402044500b004acb2c8aeafmr1350125edw.26.1676651017691; 
- Fri, 17 Feb 2023 08:23:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set8fpWKhTwJpxJnLqUuZMMmEGvGXFqrqsJXG8Kb6oEsgQzjVEOaZq9IYVHv29Q90e2WfR8p/7A==
-X-Received: by 2002:a05:6402:445:b0:4ac:b2c8:aeaf with SMTP id
- p5-20020a056402044500b004acb2c8aeafmr1350091edw.26.1676651017394; 
- Fri, 17 Feb 2023 08:23:37 -0800 (PST)
-Received: from sgarzare-redhat (host-87-11-6-224.retail.telecomitalia.it.
- [87.11.6.224]) by smtp.gmail.com with ESMTPSA id
- s27-20020a50ab1b000000b004acb6d659eesm2494746edc.52.2023.02.17.08.23.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 08:23:36 -0800 (PST)
-Date: Fri, 17 Feb 2023 17:23:34 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>,
- Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
- "Florescu, Andreea" <fandree@amazon.com>,
- Damien <damien.lemoal@opensource.wdc.com>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Hanna Reitz <hreitz@redhat.com>, Alberto Faria <afaria@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
- Bernhard Beschow <shentey@gmail.com>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, gmaglione@redhat.com
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2023
-Message-ID: <20230217162334.b33myqqfzz33634b@sgarzare-redhat>
-References: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
+ id 1pT3nQ-0000MK-VZ
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:41:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UmZTuVIQdCfMBNIVbM380sUMRGQ3s9GFs1KAQ1fxWLU3wdN/DgRZ4nFEF68eHE2GKdKDXg6tjrYTecwa0XL+7Yml3/qDtI46dk/l+ajDS4oSmZPe7ebBqT4X/nHoL0m/6uSDrO5/Qz/5xFjGGU06I1TIupBGYqzleq8bVY5EKcoGi2nSO9OmcxQsONUGHvzHa8vfyRRv+Rj2xeYoV+PyJN1GaUC2Gr7jwey6o8zat5x6oNq0r38uGQy1RW+FzojfNqNuRHJPxqrtyii8E0qUZUuILRcISHlrxs6EdQ4Gu+FMlKKTTuOSuuI7Hip4Ekp7JDunUDt+sFRJ7l17Z9PoZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o2rMmG2IHIE3FkWFvIfnwvF3gplEvTAqRloWEcBM4kY=;
+ b=H3E68hTx8SN4snWlD11CnPF12JhOf0IAYN1pWbO71VhWDuGZphKEbOMwZ7+iO5Bxj9Ir2ZGJWPOjTfvOWTgwNpSoE5kmKBnvsVLtapL+V5v8wQ/xUl4VHYKFmhAkeLLbGopdno9G6gxcP2IDX4EHXOoMPs6LuEyWVSF0V/sxsDq4M/sz6YVhJZbyvuDvWvmw36ovGvLovI56jNmQd3unyF2hSw6ER2+pxUW65GNwpustsovSVEHgvrMbdXh2z9b1MQLks/FsIMiHxTbw37aGAMaaE119KMRrnSoUf3JD5IOzilp8pGRaCnQM8c3jx/CSWXG+M/B+oUbVOxVdMpyW9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
+ dkim=pass header.d=silabs.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o2rMmG2IHIE3FkWFvIfnwvF3gplEvTAqRloWEcBM4kY=;
+ b=l2ef153wxfCNj8/JhF2pEgVuOpJuPxhhqefN0Gx8iIIH2vbuBZF8qg5b7EuOI2O2m50TO0UewS9xkQiXJKAPHnyUmgkT84dBBvwPFrEQcHTrVlU+jbFT54HZe1wPjJRfXsIkOUB98ccCfqUDaZDWtwM3Ofh7t5FUnfu7oAGsEt0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=silabs.com;
+Received: from MN2PR11MB4711.namprd11.prod.outlook.com (2603:10b6:208:24e::13)
+ by PH7PR11MB6932.namprd11.prod.outlook.com (2603:10b6:510:207::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
+ 2023 16:36:11 +0000
+Received: from MN2PR11MB4711.namprd11.prod.outlook.com
+ ([fe80::bc75:99b6:488f:fd50]) by MN2PR11MB4711.namprd11.prod.outlook.com
+ ([fe80::bc75:99b6:488f:fd50%9]) with mapi id 15.20.6111.013; Fri, 17 Feb 2023
+ 16:36:11 +0000
+From: Mathis Marion <Mathis.Marion@silabs.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= <jerome.pouiller@silabs.com>,
+ Mathis Marion <mathis.marion@silabs.com>
+Subject: [PATCH v1 0/4] Missing endianness conversions in user mode
+Date: Fri, 17 Feb 2023 17:35:23 +0100
+Message-Id: <20230217163527.619486-1-Mathis.Marion@silabs.com>
+X-Mailer: git-send-email 2.39.1
+Content-Transfer-Encoding: base64
+Content-Type: text/plain
+X-ClientProxiedBy: MR2P264CA0081.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:32::21) To MN2PR11MB4711.namprd11.prod.outlook.com
+ (2603:10b6:208:24e::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4711:EE_|PH7PR11MB6932:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ef596d5-867c-4eb1-1724-08db11051422
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VCU/XFDLlxl9V+oEfFE2jdSWeMuHhYD3/5WNpXQkFZO2FEy9TB26SuSwyrHF+5vzEv9Qp886QG4uks3lyJQUAjrsChQtGKioux2MiB2FTDKOpJnKjk1sQ0LRQgS2AN9WF9+hxfiQVV5JFp2/on5gHh+K2RzssPZU4oGi+gdm8TAgyGu5P09FD9dH/zS/8rKbq4DZTilIvYvmrjTvI4nkK0K70v6QOE8OZtKps73vw/eDyX69ROZJfNE0ohFMe/uC/fGuwJlj03sbTyDgEfgbZL4ceuRHJIAPDpziFzNmvOm0J2FiqIOmhb0oB8NpDokgHLdHioYXWyEBw5GQYImcEl5USOa3DF8C+QSKyV6cYW3RYp6LOH1p9rka5HeYomZO6Mok8fnvOf3qnWPNzMX1stHmiR4eXJ2ZLD/XpHY1qV+4lNUsnZH2dltSxcnEQwqDWUGzJGLnLr3kr+AUkA2PM+Hjw3gVs765xqRhbv2Qm/eoLhSHfL3FPmbPkjGT3lvclO/j7bhP8LApi3na+P3VLEohODmW3wM93DIHBRbaEJv/xmiUcXD+CsPHlKvUPKq2Id216JSu8p9WWJ34VeQbRDmNQe1yYooPATaKcbPiqE4bSw6Gcnz1bvjDF4XJ49KSAQun7ukWpKyW4/GgDuyPg/Ve3XWNyV6teOeu5qeJWui7QGhWFXUOWKEVQiRXoyXSiSJongAzx6oj73mKa13K5w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR11MB4711.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(39860400002)(366004)(396003)(376002)(346002)(136003)(451199018)(966005)(2616005)(83380400001)(2906002)(66574015)(36756003)(26005)(478600001)(6486002)(52116002)(186003)(107886003)(6666004)(6512007)(6506007)(1076003)(86362001)(38350700002)(38100700002)(5660300002)(8936002)(6916009)(4326008)(41300700001)(4744005)(66946007)(66476007)(66556008)(8676002)(316002)(54906003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fPteCyKiHnq4L98mT/0XOVju+Lf/0EYVI0Rgi4wQMqXDQTrqK4HLzoQsM6Zz?=
+ =?us-ascii?Q?OBwbnmNNUeTUqriwgxcwjx6ZTa0iFfY9FFZF34X3LljMOv9E85lPPjnsOef6?=
+ =?us-ascii?Q?8yyb/tZqDa/7em6x/SkknqSS6PEtpbLsEQ4ISjV3632u+2ixz5P3AClfxG/S?=
+ =?us-ascii?Q?whwze8GPpYKWtG4Ormd9YMMJndUDJkiufyL1d6+J1I/nluxLUqakKUEwx/51?=
+ =?us-ascii?Q?DjfV/qulD/8JpWvkRAB1qokpzuPo9UERr61KuM+2Q/0JEbFYBgWyp3DwuCtl?=
+ =?us-ascii?Q?T6F+kwNuKNf1UJYg3WHrYy3Yy+JgaUoI6k3fDVjbzYjd5t/A+XCVo6pTb/7r?=
+ =?us-ascii?Q?LycIBEvBUECt05rToxnbCVVr+Aog0pfhXDC/VBr87ARZAA65bl6JXTfCw3Po?=
+ =?us-ascii?Q?5u55pfV35dWx9kEXd6945U+XVmeRCOKDyXMO2LSNG//zZRKp0VoofKYll/m2?=
+ =?us-ascii?Q?VsPLdZ4yPx/2l046uIc+Cvn+PV5VffEck9K9PX2lijXUXb5LkU1M2u3I1EON?=
+ =?us-ascii?Q?0sVy2j0urgvIJw0PGi9TgNPNqqaKQvHIAy0+IjuAcgIlsjq9JzQ4jUg4Bwgp?=
+ =?us-ascii?Q?nv/TTBGV6Eo6HwGeDf55OcQaRgS+147I6VMDiX/nJPsFIoRtjstlnpHZp/Wu?=
+ =?us-ascii?Q?e5wxcfyYY8YJsnycCyps9FpC4TbOfal9v+ASDjhMlVoIEOTU5TWrJ0eJt4nz?=
+ =?us-ascii?Q?gQl1z7SA/HtfmejII8zAR9q2hmupCefQuYlSxzFlL2QhV1LpySJYPcD5TKla?=
+ =?us-ascii?Q?vJZ4jjgO20tWt6CmX9DmNUCtmR4Xx1ikdnBuu78Egc0Z7S8p8z9X+NmR2stY?=
+ =?us-ascii?Q?3FQ9+9CcVDZO8XO5E78Tb1FtgwMj0S2pIfm4SiucRxf9ZgtE+VAOzMvgvc2/?=
+ =?us-ascii?Q?uR9/zJMsjEx2C84vCTn55iC5Nwrj0R6xFS45yfOpYn5is+MU5Dl9JVooUvtq?=
+ =?us-ascii?Q?5JDa8/kEzUb4YOx9kw9a0GFVpoQfkG7W6JUxzGffxCH9q6ipa0Z01Ua0TkhO?=
+ =?us-ascii?Q?hvvX0jLlqHqX2P5UNmJencZouHCt059JeBrQZRhhId4lTSsP6awRcOFVcLRh?=
+ =?us-ascii?Q?YalkYx0/Py4efY2E5yPLmrdBrI7ZwXkdY9yllkOsROltcAONLGzEzt+qXlVt?=
+ =?us-ascii?Q?be/FRfjCOnsed5yrTib6Eg/sTvaZAnxwqunse2DQuVcJ36RMXjqbdytWHvva?=
+ =?us-ascii?Q?jIqrxkKvcurHpCSLqP0k+nvv2/WuJ/qpS8BooWJBJ2wxIog6kZilqQ3cPLFx?=
+ =?us-ascii?Q?/IVRW1wLcrKZ6Xv+Je+D76i0xAKlu/u6VLHGy0CfAFB8DX+Yp/oV1zaHqott?=
+ =?us-ascii?Q?8xRLrBUmzpqL9ApYmrqc9nEBi1yx9BM6a4OK36Py+uYt8+/cTiXL9UCtA5HA?=
+ =?us-ascii?Q?BcjMSzWil/fDP4o7agxXwE+vsrGwfBFaOfdfFi+CqNbU+H/j0plBkrTzer3g?=
+ =?us-ascii?Q?g7XT2HEFIWwit/UEeXEAIJJNC1v42yejil5lUzVX49cpwCoE0tZzn3mWG0yB?=
+ =?us-ascii?Q?zdmPFhO6m+1swD3gyUSA9neMU/4ekLnWyeSisGBqV7R97eAyGoPj91+fNcmp?=
+ =?us-ascii?Q?xD4gKucVR0qCkMgm2VFC4Keu7N0/sd5P+Joid/x3?=
+X-OriginatorOrg: silabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ef596d5-867c-4eb1-1724-08db11051422
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4711.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 16:36:11.6312 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dBMbYbmR1/XVuFW3hhEghGA++cCTTuPToSRNqzxztWFQTMfCgGKLlmDDGWqAQMl1UVZp5OZstMpX0n2jlonR5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6932
+Received-SPF: pass client-ip=40.107.102.63;
+ envelope-from=Mathis.Marion@silabs.com;
+ helo=NAM04-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,76 +134,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Stefan,
-
-On Fri, Jan 27, 2023 at 10:17:40AM -0500, Stefan Hajnoczi wrote:
->Dear QEMU, KVM, and rust-vmm communities,
->QEMU will apply for Google Summer of Code 2023
->(https://summerofcode.withgoogle.com/) and has been accepted into
->Outreachy May 2023 (https://www.outreachy.org/). You can now
->submit internship project ideas for QEMU, KVM, and rust-vmm!
->
->Please reply to this email by February 6th with your project ideas.
-
-sorry for being late, if there is still time I would like to propose the 
-following project.
-
-Please, let me know if I should add it to the wiki page.
-
-Any feedback or co-mentors are welcome :-)
-
-Thanks,
-Stefano
-
-
-
-=== Sibling VM communication in vhost-user-vsock ===
-
-'''Summary:''' Extend the existing vhost-user-vsock Rust application to
-support sibling VM communication
-
-During GSoC 2021, we developed vhost-user-vsock application in Rust. It
-leveraged the vhost-user protocol to emulate a virtio-vsock device in an
-external process. It provides the hybrid VSOCK interface over AF_UNIX
-introduced by Firecracker.
-
-The current implementation supports a single virtual machine (VM) per
-process instance.
-The idea of this project is to extend the vhost-user-vsock crate
-available in the rust-vmm/vhost-device workspace to support multiple VMs
-per instance and allow communication between sibling VMs.
-
-This project will allow you to learn more about the virtio-vsock
-specification, rust-vmm crates, and vhost-user protocol to interface
-with QEMU.
-
-This work will be done in Rust, but we may need to patch the
-virtio-vsock driver or vsock core in Linux if we will find some issues.
-AF_VSOCK in Linux already supports the VMADDR_FLAG_TO_HOST flag to be
-used in the struct sockaddr_vm to communicate with sibling VMs.
-
-Goals:
-* Understand how a virtio-vsock device works
-* Refactor vhost-user-vsock code to allow multiple virtio-vsock device instances
-* Extend the vhost-user-vsock CLI
-* Implement sibling VM communication
-* (optional) Support adding new VMs at runtime
-
-'''Links:'''
-* [https://gitlab.com/vsock/vsock vsock info and issues]
-* [https://wiki.qemu.org/Features/VirtioVsock virtio-vsock QEMU wiki page]
-* [https://github.com/rust-vmm/vhost-device/tree/main/crates/vsock vhost-user-vsock application]
-* [https://summerofcode.withgoogle.com/archive/2021/projects/6126117680840704 vhost-user-vsock project @ GSoC 2021]
-* [https://github.com/firecracker-microvm/firecracker/blob/master/docs/vsock.md Firecracker's hybrid VSOCK]
-* [https://gitlab.com/qemu-project/qemu/-/blob/master/docs/interop/vhost-user.rst vhost-user protocol]
-* [https://lore.kernel.org/lkml/20201214161122.37717-1-andraprs@amazon.com/ VMADDR_FLAG_TO_HOST flag support in Linux]
-
-'''Details:'''
-* Project size: 350 hours
-* Skill level: intermediate (knowledge of Rust and virtualization)
-* Language: Rust
-* Mentor: Stefano Garzarella <sgarzare@redhat.com>
-** IRC: sgarzare / Matrix: @sgarzare:matrix.org
-* Suggested by: Stefano Garzarella <sgarzare@redhat.com>
-
+RnJvbTogTWF0aGlzIE1hcmlvbiA8bWF0aGlzLm1hcmlvbkBzaWxhYnMuY29tPgoKRm9yIGEgYml0
+IG9mIGNvbnRleHQsIEkgd2FzIHRyeWluZyB0byB0ZXN0IGEgbmV0d29yayBib3JkZXIgcm91dGVy
+IFsxXQpkYWVtb24gdXNpbmcgdGhlIE1JUFMgYXJjaGl0ZWN0dXJlIChzZWUgWzJdKS4gSSBkaWRu
+J3QgaGF2ZSBhY2Nlc3MgdG8KcmVhbCBNSVBTIGhhcmR3YXJlIHNvIEkgZmlndXJlZCBJIHdvdWxk
+IGVtdWxhdGUgaXQgdXNpbmcgUUVNVSB1c2VyIG1vZGUuCkkgcmFuIGludG8gYSBjb3VwbGUgb2Yg
+cHJvYmxlbXMgYWxsIHJlbGF0ZWQgdG8gZW5kaWFubmVzcyBjb252ZXJzaW9uIGZvcgpzeXNjYWxs
+cyBiZXR3ZWVuIGhvc3QgYW5kIHRhcmdldCBhcyBNSVBTIGlzIGJpZyBlbmRpYW4gYW5kIG15IHg4
+NiBob3N0CmlzIGxpdHRsZS4KClsxXTogaHR0cHM6Ly9naXRodWIuY29tL1NpbGljb25MYWJzL3dp
+c3VuLWJyLWxpbnV4ClsyXTogaHR0cHM6Ly9naXRodWIuY29tL1NpbGljb25MYWJzL3dpc3VuLWJy
+LWxpbnV4L2lzc3Vlcy81CgpNYXRoaXMgTWFyaW9uICg0KToKICBsaW51eC11c2VyOiBmaXggdGlt
+ZXJmZCByZWFkIGVuZGlhbm5lc3MgY29udmVyc2lvbgogIGxpbnV4LXVzZXI6IGZpeCBzb2NrYWRk
+cl9pbjYgZW5kaWFubmVzcwogIGxpbnV4LXVzZXI6IGFkZCB0YXJnZXQgdG8gaG9zdCBuZXRsaW5r
+IGNvbnZlcnNpb25zCiAgbGludXgtdXNlcjogaGFuZGxlIG5ldGxpbmsgZmxhZyBOTEFfRl9ORVNU
+RUQKCiBsaW51eC11c2VyL2ZkLXRyYW5zLmMgfCA3NiArKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrLS0tCiBsaW51eC11c2VyL2ZkLXRyYW5zLmggfCAgMSArCiBsaW51eC11
+c2VyL3N5c2NhbGwuYyAgfCAxNCArKysrKystLQogMyBmaWxlcyBjaGFuZ2VkLCA4NSBpbnNlcnRp
+b25zKCspLCA2IGRlbGV0aW9ucygtKQoKLS0gCjIuMzkuMQoK
 
