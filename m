@@ -2,53 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90EB69B049
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:12:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42A269B076
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:18:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT3Kn-0003jJ-Cx; Fri, 17 Feb 2023 11:11:41 -0500
+	id 1pT3Pn-0006qb-Dy; Fri, 17 Feb 2023 11:16:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1pT3Kl-0003iD-1V; Fri, 17 Feb 2023 11:11:39 -0500
-Received: from forward101j.mail.yandex.net ([2a02:6b8:0:801:2::101])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pT3PN-0006pu-IU
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:16:26 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1pT3Kj-0004bp-17; Fri, 17 Feb 2023 11:11:38 -0500
-Received: from myt6-870ea81e6a0f.qloud-c.yandex.net
- (myt6-870ea81e6a0f.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:2229:0:640:870e:a81e])
- by forward101j.mail.yandex.net (Yandex) with ESMTP id E086369B6852;
- Fri, 17 Feb 2023 19:10:33 +0300 (MSK)
-Received: by myt6-870ea81e6a0f.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id WApOEJ4ZYeA1-BFQiZbYm; Fri, 17 Feb 2023 19:10:33 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
- t=1676650233; bh=qibHtBAjn1wySo/090s3+lphFFNyPzNlHf4KIoMmokc=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=XMs/8DP6XAkGQJKwrCFeVBWJHBpyPN8MKPfjQPmw+98a6rnZjbqiPWT20627/7zhb
- OLLewbbsVlVEhavgc7dLaz5/aQj/wU6NIgv3JP3k896wnsPbVu4axjX2NbLZT+VUrY
- fgDlM6Zd6sA7skjPcgWnJkVns2Zk7/NP3Frw0iBU=
-Authentication-Results: myt6-870ea81e6a0f.qloud-c.yandex.net;
- dkim=pass header.i=@syntacore.com
-From: Ivan Klokov <ivan.klokov@syntacore.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, palmer@dabbelt.com,
- Ivan Klokov <ivan.klokov@syntacore.com>
-Subject: [PATCH] [PATCH] disas/riscv Fix ctzw disassemble
-Date: Fri, 17 Feb 2023 19:10:27 +0300
-Message-Id: <20230217161027.56859-1-ivan.klokov@syntacore.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pT3PL-0006wS-Bq
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:16:25 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PJGyz6g9fz6J7R6;
+ Sat, 18 Feb 2023 00:11:39 +0800 (CST)
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Fri, 17 Feb
+ 2023 16:16:18 +0000
+Date: Fri, 17 Feb 2023 16:16:17 +0000
+To: Jonathan Cameron via <qemu-devel@nongnu.org>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Michael Tsirkin
+ <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Mike Maslenkin
+ <mike.maslenkin@gmail.com>
+Subject: Re: [PATCH 2/2] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
+ and Persistent)
+Message-ID: <20230217161617.000064d1@huawei.com>
+In-Reply-To: <20230131163847.23025-3-Jonathan.Cameron@huawei.com>
+References: <20230131163847.23025-1-Jonathan.Cameron@huawei.com>
+ <20230131163847.23025-3-Jonathan.Cameron@huawei.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:801:2::101;
- envelope-from=ivan.klokov@syntacore.com; helo=forward101j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,34 +68,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Due to typo in opcode list, ctzw is disassembled as clzw instruction.
+On Tue, 31 Jan 2023 16:38:47 +0000
+Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
 
-Fixes: 02c1b569a15b ("disas/riscv: Add Zb[abcs] instructions")
-Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
----
-v2:
-   - added fixes line
----
- disas/riscv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> From: Gregory Price <gourry.memverge@gmail.com>
+> 
+> This commit enables each CXL Type-3 device to contain one volatile
+> memory region and one persistent region.
+> 
+> Two new properties have been added to cxl-type3 device initialization:
+>     [volatile-memdev] and [persistent-memdev]
+> 
+> The existing [memdev] property has been deprecated and will default the
+> memory region to a persistent memory region (although a user may assign
+> the region to a ram or file backed region). It cannot be used in
+> combination with the new [persistent-memdev] property.
+> 
+> Partitioning volatile memory from persistent memory is not yet supported.
+> 
+> Volatile memory is mapped at DPA(0x0), while Persistent memory is mapped
+> at DPA(vmem->size), per CXL Spec 8.2.9.8.2.0 - Get Partition Info.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+Hi Gregory,
 
-diff --git a/disas/riscv.c b/disas/riscv.c
-index ddda687c13..54455aaaa8 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -1645,7 +1645,7 @@ const rv_opcode_data opcode_data[] = {
-     { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
--    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "ctzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-     { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
--- 
-2.34.1
+I've added support for multiple HDM decoders and hence can now
+test both volatile and non volatile on same device.
+It very nearly all works. With one exception which is I couldn't
+poke the first byte of the non volatile region.
 
+I think we have an off by one in a single check.
+
+Interestingly it makes no difference when creating an FS on top
+(which was my standard test) so I only noticed when poking memory
+addresses directly to sanity check the HDM decoder setup.
+
+I'll roll a v2 if no one shouts out that I'm wrong.
+
+Note that adding multiple HDM decoders massively increases
+the number of test cases over what we had before to poke all the
+corners so I may well be missing stuff.  Hopefully can send an RFC
+of that support out next week.
+
+Jonathan
+
+> -MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+> -                           unsigned size, MemTxAttrs attrs)
+> +static int cxl_type3_hpa_to_as_and_dpa(CXLType3Dev *ct3d,
+> +                                       hwaddr host_addr,
+> +                                       unsigned int size,
+> +                                       AddressSpace **as,
+> +                                       uint64_t *dpa_offset)
+>  {
+> -    CXLType3Dev *ct3d = CXL_TYPE3(d);
+> -    uint64_t dpa_offset;
+> -    MemoryRegion *mr;
+> +    MemoryRegion *vmr = NULL, *pmr = NULL;
+>  
+> -    /* TODO support volatile region */
+> -    mr = host_memory_backend_get_memory(ct3d->hostmem);
+> -    if (!mr) {
+> -        return MEMTX_ERROR;
+> +    if (ct3d->hostvmem) {
+> +        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
+> +    }
+> +    if (ct3d->hostpmem) {
+> +        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
+>      }
+>  
+> -    if (!cxl_type3_dpa(ct3d, host_addr, &dpa_offset)) {
+> -        return MEMTX_ERROR;
+> +    if (!vmr && !pmr) {
+> +        return -ENODEV;
+> +    }
+> +
+> +    if (!cxl_type3_dpa(ct3d, host_addr, dpa_offset)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    if (*dpa_offset > int128_get64(ct3d->cxl_dstate.mem_size)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    if (vmr) {
+> +        if (*dpa_offset <= int128_get64(vmr->size)) {
+
+Off by one I think.  < 
+
+> +            *as = &ct3d->hostvmem_as;
+> +        } else {
+> +            *as = &ct3d->hostpmem_as;
+> +            *dpa_offset -= vmr->size;
+> +        }
+> +    } else {
+> +        *as = &ct3d->hostpmem_as;
+>      }
+>  
+> -    if (dpa_offset > int128_get64(mr->size)) {
+> +    return 0;
+> +}
 
