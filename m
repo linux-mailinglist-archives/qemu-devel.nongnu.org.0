@@ -2,87 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A284B69B17C
+	by mail.lfdr.de (Postfix) with ESMTPS id AB43E69B17D
 	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:58:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT42X-0002ei-By; Fri, 17 Feb 2023 11:56:53 -0500
+	id 1pT42h-0002kQ-1F; Fri, 17 Feb 2023 11:57:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pT42S-0002eE-US
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:56:48 -0500
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pT42R-0005zW-1x
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:56:48 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id 188so1680343ybi.8
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 08:56:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=J4RHINuYWc62wuiZUYoVA1vr2xMboB0oFkSwWLbZ724=;
- b=RilVJ/HKpoW7n5UWDOfmrCHM8smsB9ocQ/p3kdiPDCSdDzuOlCJEft4fkow+1dxspC
- GC8C4lRh3cOpNfXNe6d4qZZp98hQu6zKVw3dmJp4Xx6Oc7yZJk+tJpIREqR6DX5P8AZV
- YFpHe/T1skf1BjQ0qqt6rq3LcasxdRFSrcW98DOzWrr81YY80DpinOc4vjfb5LmHjF6h
- uXsCTd3/tK9RtuGq35Z0leESq2HGjaeosMdNT8xA3RsTGFDOB4LWBhp1LeylZDK+bBus
- OFQQJptLk7+igo7m3ejC12+xx66bsaz0a5wCgpuZa1i5gHIPenso0tLc+viophHTM4rZ
- Qb1w==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pT42e-0002hV-MO
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:57:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pT42c-0006CV-FI
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:57:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676653017;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fxPt34nrZPuavKcm7iaVj1yB8nD5qAN79wOAGplqJ+U=;
+ b=QYOK9DwJWdNc3/NG/tUpwnRAIT/nJ6gyQH6bFEubFsPVhH5NqYcEwXhCa/pXO5m0C6Ue8o
+ iJRCPFk2zTyZOJwKSXpuoygfUvA/zRU8kBk0gxurBn/RpjqTfNNC4Hcs/aFk/xchFViYlS
+ gWf6aCa++sOtNOFugwPqWZt9YemTxUw=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-592-UIy1ogvdP72GsvX7jAJC_g-1; Fri, 17 Feb 2023 11:56:55 -0500
+X-MC-Unique: UIy1ogvdP72GsvX7jAJC_g-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z20-20020a05640235d400b004a26cc7f6cbso2457989edc.4
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 08:56:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=J4RHINuYWc62wuiZUYoVA1vr2xMboB0oFkSwWLbZ724=;
- b=O4MWNi5UNfEOtPH7r2zcizF8Zq15+mpc0zthXNEBUpAPTslNQEw2A4xHKShTppsT3I
- /dhfpdy1xFdKd/BZnUqRF00FqRUyAR6XzTFqc1+ghBDS0bGkVBObmHeDaVhFBdvn0dpd
- HCAr3NE6XmecKy2oYZ8nrj0TUf0Y02+u9mAm6d/8B4FYfJTtJc5xgHdrjuDogxqqpcGR
- rnptlnq0HwbVjy1wmJB7BNP3iV1rrAVHRNcKlmo1w+qo1qkdweE76bo9Ka+4Udk3sTJO
- rOVaITtl8HNrtwmLyl7fFIXaBIe94aeM2WxRuxA6HYkpRmmWOw2HfW3w1nWgCILAtjTO
- u5ig==
-X-Gm-Message-State: AO0yUKVdkpIh4E43OV3552iQU3lVcqMFyF8RbGy2cRyrJm7aYGg0XKil
- vAMe4G/bhE3XxRkrs6FGlMraaMMlqTe/SeXZr6Y=
-X-Google-Smtp-Source: AK7set9I98nAtJXAqf2cGgeSocah47oxAOCKp17Pa8rpZh8CKcwj6w7QL2PwPvnpDaxatA7kg/Dbt82bbdNpUSZSncI=
-X-Received: by 2002:a5b:1c1:0:b0:95d:85ed:4594 with SMTP id
- f1-20020a5b01c1000000b0095d85ed4594mr704527ybp.513.1676653005832; Fri, 17 Feb
- 2023 08:56:45 -0800 (PST)
-MIME-Version: 1.0
-References: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
- <CAJh=p+4_XkR-MN4ByiOHmu_8-RSMDS69zKd_AXYX-47Kzp7Ciw@mail.gmail.com>
-In-Reply-To: <CAJh=p+4_XkR-MN4ByiOHmu_8-RSMDS69zKd_AXYX-47Kzp7Ciw@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 17 Feb 2023 11:56:34 -0500
-Message-ID: <CAJSP0QUrXeySuD4xi-sbuAeniuKJQLHfg9+Xu-Xpn=-SZdKsxQ@mail.gmail.com>
-Subject: Re: Call for GSoC and Outreachy project ideas for summer 2023
-To: German Maglione <gmaglione@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>, 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fxPt34nrZPuavKcm7iaVj1yB8nD5qAN79wOAGplqJ+U=;
+ b=dlAwr5byJeXoDrLb4HmFvl8K4tfkWOVpb4mE/lbx2eConr1bg75GqtBO/Kww5O0a4s
+ nqHWpeHffLCdy7oER7mOWrWtiYslwRDCZxkARY9ML6jbu1wCgSiUeQkQbXDGwVOR3OSw
+ NNK7+Y2Vm01otWuA3Fv8xWx+x+Up7mfcYxJSxDafa1pFfH81T+2CUwdhHvaXSpysLO5o
+ roMGkHxcKxQ5Ro4KCm4f64QPNDu0kCD3MfopiX8uoAytl8AtoXIG6xcisT5/quwG1pLd
+ 33Xr4fKhHm4cfvzLGspTYk+Mda8opiIde6qMdUn4S2Sq3h7QjoxRhPFwXWsI/n3yhk8C
+ 9gEw==
+X-Gm-Message-State: AO0yUKXLkxh9F9IKGk1wQ4xhsO3RaR/4pccc2ml0+4XkAOwTXuVcToQG
+ J4poaQ0ry2todwBsrJfuvE9cCUiEw+NbnE3joQQE1H2jwoErXWgumE9pY8iV9/iT+QBfU7I44Hg
+ gaEe7S1STBx+u7zQ=
+X-Received: by 2002:a17:907:2d0f:b0:879:d438:4d1c with SMTP id
+ gs15-20020a1709072d0f00b00879d4384d1cmr482899ejc.21.1676653014717; 
+ Fri, 17 Feb 2023 08:56:54 -0800 (PST)
+X-Google-Smtp-Source: AK7set8wr1SrS1L6I+vNIQrdU6DEeg2rU2MbgqdidJX1cMh2eZLmHk6xCYyJgA+NuoqLeF3rmgmmHA==
+X-Received: by 2002:a17:907:2d0f:b0:879:d438:4d1c with SMTP id
+ gs15-20020a1709072d0f00b00879d4384d1cmr482864ejc.21.1676653014390; 
+ Fri, 17 Feb 2023 08:56:54 -0800 (PST)
+Received: from sgarzare-redhat (host-87-11-6-224.retail.telecomitalia.it.
+ [87.11.6.224]) by smtp.gmail.com with ESMTPSA id
+ w7-20020a17090649c700b0073d796a1043sm2310060ejv.123.2023.02.17.08.56.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Feb 2023 08:56:53 -0800 (PST)
+Date: Fri, 17 Feb 2023 17:56:50 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>,
  Rust-VMM Mailing List <rust-vmm@lists.opendev.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
  "Florescu, Andreea" <fandree@amazon.com>,
- Damien <damien.lemoal@opensource.wdc.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hanna Reitz <hreitz@redhat.com>, 
- Alberto Faria <afaria@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Bernhard Beschow <shentey@gmail.com>, Sean Christopherson <seanjc@google.com>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb30.google.com
+ Damien <damien.lemoal@opensource.wdc.com>,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Hanna Reitz <hreitz@redhat.com>, Alberto Faria <afaria@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Bernhard Beschow <shentey@gmail.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, gmaglione@redhat.com
+Subject: Re: Call for GSoC and Outreachy project ideas for summer 2023
+Message-ID: <20230217165650.g6easy422igaa73e@sgarzare-redhat>
+References: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
+ <20230217162334.b33myqqfzz33634b@sgarzare-redhat>
+ <CAJSP0QXDD5uyY5Neccf4WmGyuXwHuefwbToBdZDwegV2XHMnHA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAJSP0QXDD5uyY5Neccf4WmGyuXwHuefwbToBdZDwegV2XHMnHA@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,100 +115,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 17 Feb 2023 at 11:43, German Maglione <gmaglione@redhat.com> wrote:
+On Fri, Feb 17, 2023 at 11:53:03AM -0500, Stefan Hajnoczi wrote:
+>On Fri, 17 Feb 2023 at 11:23, Stefano Garzarella <sgarzare@redhat.com> wrote:
+>>
+>> Hi Stefan,
+>>
+>> On Fri, Jan 27, 2023 at 10:17:40AM -0500, Stefan Hajnoczi wrote:
+>> >Dear QEMU, KVM, and rust-vmm communities,
+>> >QEMU will apply for Google Summer of Code 2023
+>> >(https://summerofcode.withgoogle.com/) and has been accepted into
+>> >Outreachy May 2023 (https://www.outreachy.org/). You can now
+>> >submit internship project ideas for QEMU, KVM, and rust-vmm!
+>> >
+>> >Please reply to this email by February 6th with your project ideas.
+>>
+>> sorry for being late, if there is still time I would like to propose the
+>> following project.
+>>
+>> Please, let me know if I should add it to the wiki page.
 >
-> Hi Stefan,
->
-> Sorry for being so late, if it is still possible I would like to propose the
-> following project:
+>Hi Stefano,
+>I have added it to the wiki page:
+>https://wiki.qemu.org/Internships/ProjectIdeas/VsockSiblingCommunication
 
-Added, thanks!
-https://wiki.qemu.org/Internships/ProjectIdeas/VirtiofsdSandboxingTool
-
-Stefan
+Great, thanks!
 
 >
-> === A sandboxing tool for virtiofsd ===
->
-> ''Summary:''' Create a tool that runs virtiofsd in a sandboxed environment
->
-> Virtiofs is a shared file system that lets virtual machines access a directory
-> tree on the host. Unlike existing approaches, it is designed to
-> offer local file system semantics and performance.
->
-> Currently, virtiofsd integrates the sandboxing code and the server code in a
-> single binary. The goal is to extract that code and create an external tool that
-> creates a sandbox environment and runs virtiofsd in it. In addition, that tool
-> should be extended to be able to run virtiofsd in a restricted environment with
-> Landlock.
->
-> This will allow greater flexibility when integrating virtiofsd into a VMM or
-> running it inside a container.
->
-> Goals:
-> * Understand how to setup a restricted environment using chroot, namespaces, and
->   Landlock
-> * Refactor virtiofsd to extract the sandbox code to its own crate
-> * Create an external sandboxing tool for virtiofsd
->
-> '''Links:'''
-> * https://virtio-fs.gitlab.io/
-> * https://gitlab.com/virtio-fs/virtiofsd
-> * https://landlock.io/
->
-> '''Details:'''
-> * Project size: 175 hours
-> * Skill level: intermediate (knowledge of Rust and C)
-> * Language: Rust
-> * Mentor: German Maglione <gmaglione@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
-> * Suggested by: German Maglione <gmaglione@redhat.com>
->
->
-> On Fri, Jan 27, 2023 at 4:18 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->>
->> Dear QEMU, KVM, and rust-vmm communities,
->> QEMU will apply for Google Summer of Code 2023
->> (https://summerofcode.withgoogle.com/) and has been accepted into
->> Outreachy May 2023 (https://www.outreachy.org/). You can now
->> submit internship project ideas for QEMU, KVM, and rust-vmm!
->>
->> Please reply to this email by February 6th with your project ideas.
->>
->> If you have experience contributing to QEMU, KVM, or rust-vmm you can
->> be a mentor. Mentors support interns as they work on their project. It's a
->> great way to give back and you get to work with people who are just
->> starting out in open source.
->>
->> Good project ideas are suitable for remote work by a competent
->> programmer who is not yet familiar with the codebase. In
->> addition, they are:
->> - Well-defined - the scope is clear
->> - Self-contained - there are few dependencies
->> - Uncontroversial - they are acceptable to the community
->> - Incremental - they produce deliverables along the way
->>
->> Feel free to post ideas even if you are unable to mentor the project.
->> It doesn't hurt to share the idea!
->>
->> I will review project ideas and keep you up-to-date on QEMU's
->> acceptance into GSoC.
->>
->> Internship program details:
->> - Paid, remote work open source internships
->> - GSoC projects are 175 or 350 hours, Outreachy projects are 30
->> hrs/week for 12 weeks
->> - Mentored by volunteers from QEMU, KVM, and rust-vmm
->> - Mentors typically spend at least 5 hours per week during the coding period
->>
->> For more background on QEMU internships, check out this video:
->> https://www.youtube.com/watch?v=xNVCX7YMUL8
->>
->> Please let me know if you have any questions!
->>
->> Stefan
->>
->
->
-> --
-> German
+>I noticed that the project idea describes in words but never gives
+>concrete details about what sibling VM communication is and how it
+>should work. For someone who has never heard of AF_VSOCK or know how
+>addressing works, I think it would help to have more detail: does the
+>vhost-user-vsock program need new command-line arguments that define
+>sibling VMs, does a { .svm_cid = 2, .svm_port = 1234 } address usually
+>talk to a guest but the TO_HOST flag changes the meaning and you wish
+>to exploit that, etc? I'm not suggesting making the description much
+>longer, but instead tweaking it with more concrete details/keywords so
+>someone can research the idea and understand what the tasks will be.
+
+You are right, I will add more details/keywords to make it clearer.
+
+Thanks,
+Stefano
+
 
