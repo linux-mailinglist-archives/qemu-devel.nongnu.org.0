@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A3D69AF8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC6469AF94
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:33:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT2iB-0006bC-Rd; Fri, 17 Feb 2023 10:31:47 -0500
+	id 1pT2jI-0007sj-71; Fri, 17 Feb 2023 10:32:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pT2i7-0006Wx-PQ
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:31:45 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1pT2jG-0007sX-73
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:32:54 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pT2i6-00077O-BL
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:31:43 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- q5-20020a17090a1b0500b00229ca6a4636so1838086pjq.0
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 07:31:41 -0800 (PST)
+ id 1pT2jE-0007JB-LT
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:32:53 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id oo3so23820pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 07:32:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GrHZ7Ej3VH2mZmEuckH77TcTUYrBeEs8vw/6zO9j1aM=;
- b=sfxvzDdejijcv2Lq/M5nVwzMWnbrgGtsIlVdqZUdkxOCAJInvfLNO44UgHu40Yk5Dj
- WNATwglAz0MrGF5ZpvmPYGfNirFn+7aamTI8w33oPvhf20mp7VrWoqgQQ6eIMxW8TC5X
- 3Sny6S3hr18iFagpTqNLK7oaGyq78ghqFDAmVLMgt6qqRGLJJLd1DHENtLm98bINoP/L
- piRM2MoNvE1fz3mpZBpyMlqUyxD9t6bpJkeLHFqEwl50tdLGCqcaRvfa4m3fllMHQtK1
- WBwMnrgacsfYw3xwkDoM/792Jl8OzhFSsFonMrlPL3L2232RbV+stfI1KubTbzFBtShx
- c84A==
+ bh=H3/suotgdEcuwaacJi/IHnbJovylEiGIrDSwa/AwIWM=;
+ b=U9H/oGIykrhkgUi4eaIBsEEMnBCeRbVMoLGceKogdkDsyS6W0udunH4yRgKNA8qsZV
+ VOkfDd2f3sDPZ9q8BrZ09r/CDoeDrfipKyb9NuwyILWs+Y0nuoSAv/STkNZwVXG90X+5
+ tXrZPKWdyikqf7gJiZzGebgZiSUQQKDIZYXu/7gvPHyk7cL8T6kOoSjCoZ+R+asPUqki
+ 9cmU9+TBmjCXMl2wRjsii6iiro8YH/qx7/vtC3HL7YDYycCrWiWsaqe8LfMTTS3OYndx
+ bjqQzPXcZWEn3V3qVF5jGzdpIHlKhbQi6MQrwjBiIrkvsnOLEsiz4nz2onT1I3Jmiuhf
+ w+Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=GrHZ7Ej3VH2mZmEuckH77TcTUYrBeEs8vw/6zO9j1aM=;
- b=FQotF7/8Rbi/2snlkacqPUW//rBWzv7Sk5mJk29GqzYQktZwrCZe7tx9I6GKZ/Eri4
- Nxs29QVX1YsamYC2O+cmN9re6BVKw/F1pVRAY1E5yGjnB9KCJwscJc9Sjy+lD2rneAEF
- pzSO7s8CQuCtCMGOqv3Eq6d3lcDbiTUwXD+LcLv9g/CFClOgc1q0ZB0fRUQ2LMAs+V3D
- MW0HhXdbkRCufs9fYm9Ldi6+tEoqsOnwZfVU6GNqgPsv+72XribfQOm00Hahm67u7zjo
- pckOHKjqJmZBuwWeC57Ymw0C/ya+op6nvWLLPBHqzHc+DM2mYSkZu//M8I+TtnGJxifV
- Kv2Q==
-X-Gm-Message-State: AO0yUKWwxHNox5jrFKCCmDxqqrkjv9tOYSZ5QlnPtyekcFC0yb2A4Yjb
- XwKRfj1GksZwgjF72NamyjuV8QyffUoB7LXfFcTDQw==
-X-Google-Smtp-Source: AK7set+tEzuLHbJ+97EoQI0KGaOmGbIaaDUoTjX8fjf8wXponFJpbjBk4e1IEk+hfgE4CkwZo6NpPSs98NPUZij64U4=
+ bh=H3/suotgdEcuwaacJi/IHnbJovylEiGIrDSwa/AwIWM=;
+ b=Htk1KHmgLWTQ0WioRigT9jDJcAtT1V2Q2n1o1iEZhViXaMYsJqCzYI8x5cWkhFdv3S
+ f8eAxJFoF8v7FXSKt3Vxikn3irxQKmAgVglVSnNn9vFzMDGnfsyubdh/CjRvBlMi729b
+ C5inTyRzOnDhqYMmlDWUxkRrm6EEblVnBLBEChDZssJOuIexGLF6Ink/piGZdR18x3TQ
+ QRSbr77hKJCDBX7gMbmUIL06c0KEU5SRr3dbjzPckpOKL/h3t1gcC0DndWqtGilaECjD
+ yqLoDmy05lAyFh1u3OrSRcjChUFgEKNo0ntRyiEeiSGvCd2j1PIlHqaYxVIx7Mcn99ey
+ 8SaA==
+X-Gm-Message-State: AO0yUKUMJcOrqkBT0Qxo61v0U8pFknmyxysHgR0SKuwEvoBJHSDVG/o7
+ sloeonLiD3wT8BTGZ2biFymhFrZ52X9IHEMUDr7HfQ==
+X-Google-Smtp-Source: AK7set8zvsYTvfZd6Rz7fJrqbs9L6dK7scrsHCVbFaiopjIVKNHsy03Yw7QNRpADWXRdFllUbietjXopwYT1rZRJCi4=
 X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
- sc9-20020a17090b510900b00233dcb5ee15mr1732525pjb.92.1676647900229; Fri, 17
- Feb 2023 07:31:40 -0800 (PST)
+ sc9-20020a17090b510900b00233dcb5ee15mr1733748pjb.92.1676647971390; Fri, 17
+ Feb 2023 07:32:51 -0800 (PST)
 MIME-Version: 1.0
-References: <CAPWd1mzg0rWgpf_D+NC+yAosx8oJnA+tR=NpsuFNtWP-j25=pQ@mail.gmail.com>
- <CAFEAcA8dH+DDPHWg6xRmT=3oCu1rwyb1gbyVCXFTSDSzBrGg-w@mail.gmail.com>
- <4ea862746a066107573650d04f4eee6992e0ede9.camel@infradead.org>
- <c2011213-8c8b-95c0-9565-47eaf7d33688@linaro.org>
- <5c7026171d3ab5d530784308a5ce71d32e6760c7.camel@infradead.org>
-In-Reply-To: <5c7026171d3ab5d530784308a5ce71d32e6760c7.camel@infradead.org>
+References: <20230216134911.6803-1-pierrick.bouvier@linaro.org>
+ <20230216134911.6803-2-pierrick.bouvier@linaro.org>
+In-Reply-To: <20230216134911.6803-2-pierrick.bouvier@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Feb 2023 15:31:28 +0000
-Message-ID: <CAFEAcA95DdTcRXQQTC1vKrnD69S1YuEfnPC6uga7_=fjepBMsQ@mail.gmail.com>
-Subject: Re: Runnig solaris binary(32 bit) on linux(64 bit)
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- ginu samuel <samuel.ginu2010@gmail.com>, qemu-devel@nongnu.org
+Date: Fri, 17 Feb 2023 15:32:40 +0000
+Message-ID: <CAFEAcA9yGESbN6GbX-mBL16gPkEacE+xGN6K3mF8nCLGuwJdQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] util/cacheflush: fix cache on windows-arm64
+To: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+Cc: qemu-devel@nongnu.org, sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org, 
+ richard.henderson@linaro.org, alex.bennee@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,31 +84,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Feb 2023 at 19:39, David Woodhouse <dwmw2@infradead.org> wrote:
+On Thu, 16 Feb 2023 at 13:49, Pierrick Bouvier
+<pierrick.bouvier@linaro.org> wrote:
 >
-> On Thu, 2023-02-16 at 09:29 -1000, Richard Henderson wrote:
-> > On 2/16/23 09:02, David Woodhouse wrote:
-> > > It wouldn't be beyond the wit of man to extend qemu-user to support the
-> > > similar personality variations for SCO/Solaris/etc. using that as a
-> > > guide.
-> >
-> > Not beyond wit but perhaps beyond patience.
-> >
-> > It would certainly be possible to emulate the "easy middle" of one POSIX guest on a
-> > different POSIX host.  But the dusty corners are going to get in the way, where we
-> > currently rely on guest and host having identical semantics, and pass the system call
-> > through to the host.
-> >
-> > It's a big job.
+> ctr_el0 access is privileged on this platform and fails as an illegal
+> instruction.
 >
-> True, but the existing iBCS / linux-abi kernel patches should highlight
-> a lot of those dusty corners.
+> Windows does not offer a way to flush data cache from userspace, and
+> only FlushInstructionCache is available in Windows API.
+>
+> The generic implementation of flush_idcache_range uses,
+> __builtin___clear_cache, which already use the FlushInstructionCache
+> function. So we rely on that.
+>
+> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+> ---
+>  util/cacheflush.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/util/cacheflush.c b/util/cacheflush.c
+> index 2c2c73e085..0a0acd70fa 100644
+> --- a/util/cacheflush.c
+> +++ b/util/cacheflush.c
+> @@ -121,8 +121,10 @@ static void sys_cache_info(int *isize, int *dsize)
+>  static bool have_coherent_icache;
+>  #endif
+>
+> -#if defined(__aarch64__) && !defined(CONFIG_DARWIN)
+> -/* Apple does not expose CTR_EL0, so we must use system interfaces. */
+> +#if defined(__aarch64__) && !defined(CONFIG_DARWIN) && !defined(CONFIG_WIN32)
+> +/* Apple does not expose CTR_EL0, so we must use system interfaces.
+> + * Windows neither, but we use a generic implementation of flush_idcache_range
+> + * in this case. */
 
-linux-user is pretty low on maintenance effort as it is; I
-just don't think there's any likelihood of anybody with the
-time and interest in doing Solaris-on-Linux emulation showing
-up to do the work, especially given that our user-mode infra pretty
-heavily assumes same-host-same-guest-OS.
+QEMU multiline comment syntax requires the /* and */ to be
+on lines of their own (here and in your other comment).
 
 thanks
 -- PMM
