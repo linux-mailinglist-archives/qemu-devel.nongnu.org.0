@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C362569AF37
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1504469AF32
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:13:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT2Nd-0004wh-QG; Fri, 17 Feb 2023 10:10:33 -0500
+	id 1pT2NX-0004qO-2Y; Fri, 17 Feb 2023 10:10:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NQ-0004ka-W6
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NS-0004mc-OQ
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NN-0007Oc-Rt
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:20 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pT2NO-0007PD-OL
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:10:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676646613;
+ s=mimecast20190719; t=1676646616;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MzPO+a3P5RomtP6nzC8VuWD580Xp0NiPCb9oCH1NzQA=;
- b=E3qFdQ7rhM5WnHfkkFfEQ1fVcG97nKXsyD9mTPOmihDurwxJPPgcZpUpA+o5Ob7bfaONr4
- jGupGp5CQNzHlEVbdMKNfD4/e8T6w5kkBgDaMWqSamgZdJzw+SV/TId/XuMzDYeGSCdCsh
- G1hK2ot+ZhS0oJZzJiwOakRnxoiG6hM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1wT92EJv8U7RuDgh0XUbBFawJL1ifBPOEcQL24PXUv4=;
+ b=XHuL8NIW4RmP7GJP2JYgNQwZ10bQ00sO1sOE3wiv/LzDoMxIwbrPNT+TZCEAP5DRKkc6tc
+ ZIFH7yrFV6IV6IkPI3mClESA/cNGG8lZ5lixNsjaTekPQj8PVeI3G3BKf9qsDukHHhTjJb
+ zz+lrR5zILzPDpqjAELsjp4On9/shbY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-435-fJQNpVocOpCMyTZDmhWimw-1; Fri, 17 Feb 2023 10:10:12 -0500
-X-MC-Unique: fJQNpVocOpCMyTZDmhWimw-1
+ us-mta-452-Bj-quqe5Oryprlr9pfFK5Q-1; Fri, 17 Feb 2023 10:10:13 -0500
+X-MC-Unique: Bj-quqe5Oryprlr9pfFK5Q-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF87385CBE7;
- Fri, 17 Feb 2023 15:10:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7DC92807D7F;
+ Fri, 17 Feb 2023 15:10:12 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C539492C14;
- Fri, 17 Feb 2023 15:10:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12F05492C14;
+ Fri, 17 Feb 2023 15:10:11 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 11/22] qed: Fix .bdrv_co_create(_opts) to open images with
+Subject: [PULL 12/22] vdi: Fix .bdrv_co_create(_opts) to open images with
  no_co_wrapper
-Date: Fri, 17 Feb 2023 16:09:43 +0100
-Message-Id: <20230217150954.283920-11-kwolf@redhat.com>
+Date: Fri, 17 Feb 2023 16:09:44 +0100
+Message-Id: <20230217150954.283920-12-kwolf@redhat.com>
 In-Reply-To: <20230217150954.283920-1-kwolf@redhat.com>
 References: <20230217150829.283583-1-kwolf@redhat.com>
  <20230217150954.283920-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,7 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,46 +84,47 @@ not allowed to open images directly. Fix the calls to use the
 corresponding no_co_wrappers instead.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20230126172432.436111-8-kwolf@redhat.com>
+Message-Id: <20230126172432.436111-9-kwolf@redhat.com>
 Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qed.c | 10 +++++-----
+ block/vdi.c | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/block/qed.c b/block/qed.c
-index 4473465bba..175a46c67b 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -676,13 +676,13 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevCreateOptions *opts,
+diff --git a/block/vdi.c b/block/vdi.c
+index 9c8736b26f..27db67d493 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -800,14 +800,14 @@ static int coroutine_fn vdi_co_do_create(BlockdevCreateOptions *create_options,
      }
  
      /* Create BlockBackend to write to the image */
--    bs = bdrv_open_blockdev_ref(qed_opts->file, errp);
-+    bs = bdrv_co_open_blockdev_ref(qed_opts->file, errp);
-     if (bs == NULL) {
-         return -EIO;
+-    bs_file = bdrv_open_blockdev_ref(vdi_opts->file, errp);
++    bs_file = bdrv_co_open_blockdev_ref(vdi_opts->file, errp);
+     if (!bs_file) {
+         ret = -EIO;
+         goto exit;
      }
  
--    blk = blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL,
--                          errp);
-+    blk = blk_co_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL,
-+                             errp);
+-    blk = blk_new_with_bs(bs_file, BLK_PERM_WRITE | BLK_PERM_RESIZE,
+-                          BLK_PERM_ALL, errp);
++    blk = blk_co_new_with_bs(bs_file, BLK_PERM_WRITE | BLK_PERM_RESIZE,
++                             BLK_PERM_ALL, errp);
      if (!blk) {
          ret = -EPERM;
-         goto out;
-@@ -783,8 +783,8 @@ static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
-         goto fail;
+         goto exit;
+@@ -940,8 +940,8 @@ static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
+         goto done;
      }
  
--    bs = bdrv_open(filename, NULL, NULL,
--                   BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL, errp);
-+    bs = bdrv_co_open(filename, NULL, NULL,
-+                      BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL, errp);
-     if (bs == NULL) {
+-    bs_file = bdrv_open(filename, NULL, NULL,
+-                        BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL, errp);
++    bs_file = bdrv_co_open(filename, NULL, NULL,
++                           BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL, errp);
+     if (!bs_file) {
          ret = -EIO;
-         goto fail;
+         goto done;
 -- 
 2.39.2
 
