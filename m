@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A247869AADE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 12:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18E869AB0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 13:09:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSzLI-0001K9-NP; Fri, 17 Feb 2023 06:55:56 -0500
+	id 1pSzWr-0005Bv-Ba; Fri, 17 Feb 2023 07:07:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSzLF-0001Jp-SW
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 06:55:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jwd@defmacro.it>)
+ id 1pSzWo-0005B3-Gt; Fri, 17 Feb 2023 07:07:50 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSzLD-0007rb-RV
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 06:55:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676634950;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O2r7lrdvHV79uqJ/u5bL6DGPDH+lscZhgTqchkMfpg0=;
- b=Wq5t2T6KrqJYwO2DMXTno3fpWasLX8cjBY5DeFI/maWekvEcmetTTMayCcoFzpEToWkSsU
- 8CMX3y3+I/+EHAsgABdKsF64+cPlT3wzxrx+NYGY3bywCYe1IOhqMMl/oTgnxoVBFI6g9o
- uy64ut8pUWLmkJNtseAQeyl515p+vcU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-Pe-V5sh8Nzak8zbpksq3nw-1; Fri, 17 Feb 2023 06:55:47 -0500
-X-MC-Unique: Pe-V5sh8Nzak8zbpksq3nw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D0A938123BF;
- Fri, 17 Feb 2023 11:55:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CAED140EBF4;
- Fri, 17 Feb 2023 11:55:44 +0000 (UTC)
-Date: Fri, 17 Feb 2023 11:55:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- prerna.saxena@nutanix.com, quintela@redhat.com, dgilbert@redhat.com,
- pbonzini@redhat.com, eblake@redhat.com, manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: QAPI unions as branches / unifying struct and union types
-Message-ID: <Y+9rPrYeBq1Y9XyL@redhat.com>
-References: <20230208093600.242665-1-het.gala@nutanix.com>
- <20230208093600.242665-3-het.gala@nutanix.com>
- <Y+TLJ9Ui790bIR3b@redhat.com> <87o7q2vv7v.fsf_-_@pond.sub.org>
- <2157ed5c-7e1e-bd8f-1644-b7231fffe7ef@nutanix.com>
- <87v8k4lfgj.fsf@pond.sub.org>
- <7eba90f1-b28e-650b-e3ae-9c8e64c29d77@nutanix.com>
+ (Exim 4.90_1) (envelope-from <jwd@defmacro.it>)
+ id 1pSzWm-0003Ph-DG; Fri, 17 Feb 2023 07:07:50 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id D26035C00C3;
+ Fri, 17 Feb 2023 07:07:46 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Fri, 17 Feb 2023 07:07:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=defmacro.it; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1676635666; x=1676722066; bh=2ZTG+W9VeQ
+ 5VLa5/MXWjXuP/9fmriiJMiXu6chYH4gQ=; b=NEjCHaXlfr0EkhF7oPSYTOQjdu
+ hcfQE/zrM0tVPwjlgMteVaEbR8URbHERMM7Wsi7DlySXPMTHLutMmw1lCaZAS2G4
+ 68IaCbgyXKk2NUFtpMiPJkE480kIUfytQX+7oHvSbdcIr7RKalZAmZTlxciul9iC
+ 5LItD0ijDIH0n4HEKskFwb9NbyyKKBYeetpFOARV0hnTcOzZviQEFtF2Wh/aI/mn
+ FR7zfvqGolJMlWhCuCoEUIdEPrgB0cvqIc9Lxh0d6NfBc9KqF90Pc0DUEGJaoOya
+ sydmH1ReiYicx+RkhExUeccA37v7Hdq27cAjsxjRLZHM+ElvbsQWFXcufeLw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1676635666; x=1676722066; bh=2ZTG+W9VeQ5VL
+ a5/MXWjXuP/9fmriiJMiXu6chYH4gQ=; b=KzNoWCgkVJy4Nj7j5AVdWEfTZsEC5
+ 7QpxinZ7s2Yq49mi5VmUNbcf6pZOUc1z1Z0HL9RMfuhgFGW0np8CkjoYQnyzDDa+
+ UrnxyqqVQy9q+wsRiHMW//7rcFNSvCori+3mp0Il6F65ksSbJMBQTsfkhTH7+DXe
+ rxG3Lj/SCPEfwvMEceGV6Sbm7mfNDgblGnXTtNUv8Yfglu4FaxB8vZfu3RiLBlyO
+ eZF7t+WBPwq2j3kuj+xebw50WqAt8eHsPEzPdawjKdqnSBLEnkeLDAq+PEAOKkuK
+ nhJaq7Anaqr3t/pgk7VuTtvbjRRnO+eGaPcz56XWWdTjy4mnq7aCBqBBQ==
+X-ME-Sender: <xms:EW7vY5MM-enxx7RW4emw4HA0opeIe1GNw0-12rHfHgzW3orOqQRauQ>
+ <xme:EW7vY7-I0LkCZlRX5BAkOtav8h8fw44UwDDwDPASL611JDOohfrd-WmI1YOjuTsTZ
+ auKhyGucqgZgWL4Jiw>
+X-ME-Received: <xmr:EW7vY4QrGiKXDe4WbgTSJugDgP_r-5Nsq7CWtIpInqKCoYj7IKewxCv1lQNVYFKG1B8q97T54471kcjj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiledgfeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpeflvghsphgv
+ rhcuffgvvhgrnhhtihgvrhcuoehjfiguseguvghfmhgrtghrohdrihhtqeenucggtffrrg
+ htthgvrhhnpeffgffftdefffelgeeggfehgeekkeffveeghfetgfdtteeuuedtkeeugedv
+ vdegheenucffohhmrghinhepnhhvmhgvgihprhgvshhsrdhorhhgnecuvehluhhsthgvrh
+ fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhifugesuggvfhhmrggtrhho
+ rdhith
+X-ME-Proxy: <xmx:EW7vY1uL0OKKNkdVjCCQrcOwHvJSbfS5HAlEmopHdmhfMXPpjdXhEw>
+ <xmx:EW7vYxfcJo6gYMQ4DIkAJ9wvZ5NqStqYtMUZQcZPcx8I8YoapKBFmA>
+ <xmx:EW7vYx38Ysg-_4qzM3tZkKwXkYOgeWVYTiuVSPEE-df-6YmPVC99kg>
+ <xmx:Em7vY944W5obARzr0qQ_HswvHXc5sqh6PqFrAy44MZ_ppXDWUbylrQ>
+Feedback-ID: i0f41475f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Feb 2023 07:07:44 -0500 (EST)
+From: Jesper Devantier <jwd@defmacro.it>
+To: qemu-devel@nongnu.org,
+	jwd@defmacro.it
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org,
+ Keith Busch <kbusch@kernel.org>, Fam Zheng <fam@euphon.net>,
+ Jesper Wendel Devantier <j.devantier@samsung.com>
+Subject: [PATCH v2 0/5] Support Flexible Data Placement (FDP)
+Date: Fri, 17 Feb 2023 13:07:38 +0100
+Message-Id: <20230217120743.308632-1-jwd@defmacro.it>
+X-Mailer: git-send-email 2.39.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7eba90f1-b28e-650b-e3ae-9c8e64c29d77@nutanix.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=jwd@defmacro.it;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,162 +100,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 17, 2023 at 04:48:59PM +0530, Het Gala wrote:
-> 
-> On 14/02/23 3:46 pm, Markus Armbruster wrote:
-> > Het Gala <het.gala@nutanix.com> writes:
-> > 
-> > > On 10/02/23 12:54 pm, Markus Armbruster wrote:
-> > > > Daniel P. Berrangé <berrange@redhat.com> writes:
-> > > > 
-> > > > [...]
-> > > > 
-> > > > > > +##
-> > > > > > +# @MigrateAddress:
-> > > > > > +#
-> > > > > > +# The options available for communication transport mechanisms for migration
-> > > > > > +#
-> > > > > > +# Since 8.0
-> > > > > > +##
-> > > > > > +{ 'union' : 'MigrateAddress',
-> > > > > > +  'base' : { 'transport' : 'MigrateTransport'},
-> > > > > > +  'discriminator' : 'transport',
-> > > > > > +  'data' : {
-> > > > > > +    'socket' : 'MigrateSocketAddr',
-> > > > > > +    'exec' : 'MigrateExecAddr',
-> > > > > > +    'rdma': 'MigrateRdmaAddr' } }
-> > > > > Ideally this would be
-> > > > > 
-> > > > >      'data' : {
-> > > > >        'socket' : 'SocketAddress',
-> > > > >        'exec' : 'MigrateCommand',
-> > > > >        'rdma': 'InetSocketAddress' } }
-> > > > > 
-> > > > > though the first SocketAddress isn't possible unless it is easy to
-> > > > > lift the QAPI limitation.
-> > > > Context: SocketAddress is a QAPI union, and "the QAPI limitation" is
-> > > > 
-> > > >       scripts/qapi-gen.py: In file included from ../qapi/qapi-schema.json:79:
-> > > >       ../qapi/migration.json: In union 'MigrateAddress':
-> > > >       ../qapi/migration.json:1505: branch 'socket' cannot use union type 'SocketAddress'
-> > > > 
-> > > > Emitted by schema.py like this:
-> > > > 
-> > > >                   if (not isinstance(v.type, QAPISchemaObjectType)
-> > > >                           or v.type.variants):
-> > > >                       raise QAPISemError(
-> > > >                           self.info,
-> > > >                           "%s cannot use %s"
-> > > >                           % (v.describe(self.info), v.type.describe()))
-> > > > 
-> > > > This enforces docs/devel/qapi-code-gen.rst's clause
-> > > > 
-> > > >       The BRANCH's value defines the branch's properties, in particular its
-> > > >       type.  The type must a struct type.  [...]
-> > > > 
-> > > > Next paragraph:
-> > > > 
-> > > >       In the Client JSON Protocol, a union is represented by an object with
-> > > >       the common members (from the base type) and the selected branch's
-> > > >       members.  The two sets of member names must be disjoint.
-> > > > 
-> > > > So, we're splicing in the members of the branch's JSON object.  For that
-> > > > to even make sense, the branch type needs to map to a JSON object.  This
-> > > > is fundamental.  It's the first part of the condition in the code
-> > > > snippet above.
-> > > > 
-> > > > We have two kinds of QAPI types that map to a JSON object: struct and
-> > > > union.  The second part of the condition restricts to struct.  Unless
-> > > > I'm missing something (imperfect memory...), this is *not* fundamental,
-> > > > just a matter of implementing it.  But I'd have to try to be sure.
-> > > > 
-> > > > 
-> > > > Instead of simply allowing unions in addition to structs here, I'd like
-> > > > to go one step further, and fuse the two into "objects".  Let me
-> > > > explain.
-> > > > 
-> > > > If we abstract from syntax, structs have become almost a special kind of
-> > > > union.  Unions have a set of common members and sets of variant members,
-> > > > and a special common member (the tag) selects the set of variant
-> > > > members.  Structs are unions with zero variants and no tag.
-> > > > 
-> > > > The generator code actually represents both structs and unions as a
-> > > > common QAPISchemaObjectType already.  QAPI/QMP introspection does the
-> > > > same: it uses a single meta type 'object' for both.
-> > > > 
-> > > > 
-> > > > There is another spot where only structs are allowed: a struct or
-> > > > union's base type.  That restriction will be awkward to lift, as I made
-> > > > the mistake of baking the assumption "object type has at most one tag
-> > > > member" into QAPI/QMP introspection .
-> > > Hi Markus, thankyou for explaning in such detail. I tried to understand of what you explained.
-> > > 
-> > > So IIUC, you mentioned the QAPI generator treats both structs and unions same, but basically in the schema.py checks is where it tries to distinguish between the two ? and because of the fact that docs/devel/qapi-code-gen.rst states that for a union, it's branches must be 'struct', and that's the reason it gives an error ?
-> > Permit me a brief digression into history.
-> > 
-> > The initial QAPI design language provided product types (structs) and
-> > sum types (unions containing exactly one of several types, and a tag
-> > member that tells which one).  The two are orthogonal.
-> > 
-> > These unions turned out rather awkward.
-> > 
-> > The unions we have today are more general.  They have common members,
-> > and one of them is the tag member, of enumeration type.  For each tag
-> > value, they have variant members.  Both the common members and each tag
-> > value's variant members are given as struct types.
-> > 
-> > What if the tag's enumeration type is empty, i.e. has no values?  We get
-> > a union with no variant members, only common ones.  Isn't that a struct?
-> > 
-> > Not quite.  To get a struct, we also have to drop the tag member.  It
-> > has no possible values anyway.
-> > 
-> > You see, struct types are almost a special case of today's union types.
-> > To overcome "almost", we can introduce the notion of "object type":
-> > 
-> > * An object type has common members, one of them can be a tag member, of
-> >    enumeration type, not empty.  For each tag value, it additionally has
-> >    variant members.
-> > 
-> > * A union type is an object type with a tag member and variant members.
-> > 
-> > * A struct type is an object type without tag member and variant
-> >    members.
-> > 
-> > The QAPI generator code already made the jump to this object type
-> > notion.  It transform the special cases into the general case at first
-> > opportunity, in QAPISchema._def_struct_type() and ._def_union_type().
-> > 
-> > *Except* we haven't implemented support for variant members in a few
-> > places where they cannot occur now, e.g. as a tag value's variant.  This
-> > is the restriction you ran into.
-> > 
-> > I'd like to make the jump to object type in the QAPI schema language,
-> > too.  But that's not a prerequisite to lifting the restriction.
-> > 
-> > > If that's the case, can we improve on our checks and allow union as a part of branch of a union ? or something else ?
-> > I believe we can implement the missing parts and relax the checks.  But
-> > to be sure, we need to try.
-> > 
-> > > or I may have completely misunderstood most of the part 😅. Please let me know
-> > More questions?
-> 
-> Completely understood everything. Thankyou for the wonderful explanation.
-> Looking forward to implement the missing parts in QAPI schema language.
+From: Jesper Wendel Devantier <j.devantier@samsung.com>
 
-I cc'd you on a patch that implements this missing feature a couple
-of days ago, and its on Markus' review todo list. So we should be
-able to decide how to move forward sometime next week.
+Flexible Data Placement (FDP) is a newly introduced enhancement
+of the NVM command set introduced by the NVM Express, Inc.
+organization as TP 4146. FDP aims to extend the NVM command set
+to enable host-guided data placement. FDP-enabled namespaces
+can be used as before, but writes may now reference a specific
+placement id which in turn points to a reclaim unit (RU). RUs
+are defined as some amount of physical, non-volatile storage which
+can be erased/reused/repurposed without disturbing any other
+reclaim units.
 
-With regards,
-Daniel
+For further details on FDP, consult the specification, which is
+available as "TP4146 Flexible Data Placement 2022.11.30 Ratified.pdf"
+in the following link:
+https://nvmexpress.org/wp-content/uploads/NVM-Express-2.0-Ratified-TPs_20230111.zip
+
+The FDP work builds on 4 preparatory patches, chiefly to add support for
+endurance groups and directives.
+The final patch adds FDP support itself.
+
+Changelog:
+==========
+
+* v1 -> v2:
+  - "hw/nvme: add fleible...": check that max 128 placement handles
+    are being created (Keith)
+  - removed unused NVMe directives struct (Keith)
+
+Gollu Appalanaidu (1):
+  hw/nvme: basic directives support
+
+Jesper Devantier (1):
+  hw/nvme: flexible data placement emulation
+
+Joel Granados (1):
+  hw/nvme: move adjustment of data_units{read,written}
+
+Klaus Jensen (1):
+  hw/nvme: add basic endurance group support
+
+Niklas Cassel (1):
+  hw/nvme: store a pointer to the NvmeSubsystem in the NvmeNamespace
+
+ hw/nvme/ctrl.c       | 803 ++++++++++++++++++++++++++++++++++++++++++-
+ hw/nvme/ns.c         | 146 ++++++++
+ hw/nvme/nvme.h       |  92 ++++-
+ hw/nvme/subsys.c     |  94 ++++-
+ hw/nvme/trace-events |   5 +
+ include/block/nvme.h | 236 ++++++++++++-
+ 6 files changed, 1349 insertions(+), 27 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.39.1
 
 
