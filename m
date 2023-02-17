@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D826D69B223
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F2669B23E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 19:15:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT50a-0008Rx-CT; Fri, 17 Feb 2023 12:58:56 -0500
+	id 1pT5Fj-0007W4-Ne; Fri, 17 Feb 2023 13:14:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pT50Y-0008QH-Da
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:58:54 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pT50W-00035h-SF
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:58:54 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- fh15-20020a17090b034f00b0023127b2d602so2142583pjb.2
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0AVDKGqUneVwaX617wmIgTEGGcv3X1RxiQPvq0Gql40=;
- b=mqTE/wG25k6dR7TDqwAVZgKkvSDWT810sqYOyht6E49eq905uNLkjaX7gbfrc2ew2d
- +/iBt6VRX0CRQuu6TnV6XCgmw0MZUb03R/c8bP8eBdOxFqPWEsKUXbbJs8M/ixPMnNdN
- WXu+mXxgzts1V70083uoAKnLYeha5BP1+t9sksGXksKhHihxdvItMFJ/pIs/3XMbmYsS
- 8u4MU6t5LULLBXh2DOOvBri1MOcbIwCSa7rcalyX2OjYC70RL5RJ4s0lK5wLVT5iHQvi
- 85oz3sXLBoRLCx1NXFxfXUGofVCC6jGsNVDYclhsXRNDCGCV/H0zjwsKocUkRrZ+F81W
- 3iPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0AVDKGqUneVwaX617wmIgTEGGcv3X1RxiQPvq0Gql40=;
- b=mMA/aCLfjhuL2VZseoPktBrqr3fiq9lArWyLoJyz9aQWjsSRUM6utigXwEdaCg5PZG
- IRq2gJfHctQZP3xfUSl1FVioocyKjp9JQFm/eyH9vkNdM8Exxa5Ae1egzHuf3uylAPV/
- sJLlfhl3AWx7XCY01lGTCbMaIClJLMO4qFF25cBd0f+NozxiG2ydvy8APYecUrBQNnvX
- bhxnwelibJmSDyDKXgs2rw7CuZ4efFsWRK2CwyNpypSoAKYXWgO8a0FPDP4T5/b8qRhG
- +w0Vd4CNszxqV8C0rlrRJ3xei5VMRM/8bCyODztaSz4Jyr0rewLExGp4ZSppleF9nyfy
- 5qCA==
-X-Gm-Message-State: AO0yUKXTDrNU1T/JQ382nVD6/+XvzBxsSYDVIgNg8P7mRQCIt6GUuGas
- XCoDvnUTOXUMBcIKM50Z71zIYQ==
-X-Google-Smtp-Source: AK7set/gZZ9e4KOQNsWL4QxysNe06bgw6nhZOXpNDDeCjQ15E2ZQ5xbw9Z6LP3nO2wy46vPRdpiKMA==
-X-Received: by 2002:a17:902:e84e:b0:19a:7758:e5e6 with SMTP id
- t14-20020a170902e84e00b0019a7758e5e6mr650946plg.48.1676656731219; 
- Fri, 17 Feb 2023 09:58:51 -0800 (PST)
-Received: from [172.20.100.240] (rrcs-173-198-77-219.west.biz.rr.com.
- [173.198.77.219]) by smtp.gmail.com with ESMTPSA id
- j10-20020a170902c3ca00b0019a777ff433sm3438358plj.17.2023.02.17.09.58.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 09:58:50 -0800 (PST)
-Message-ID: <609eead8-8e51-ee43-f50a-eedabc72b72a@linaro.org>
-Date: Fri, 17 Feb 2023 07:58:47 -1000
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1pT5Fh-0007PI-4I; Fri, 17 Feb 2023 13:14:33 -0500
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1pT5Ff-0002xJ-Bd; Fri, 17 Feb 2023 13:14:32 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4435061EBC;
+ Fri, 17 Feb 2023 18:14:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7ED0C433D2;
+ Fri, 17 Feb 2023 18:14:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1676657660;
+ bh=RYGk4IBup8TVaRUvbcuDg0zVP81zbrgdV7xaHKQ3iuM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=O+0jDYeHlLnSHHp8Ly/a/ZKeSt7JhJdF5I9+sF3F661qCXBF5AC/YW3QblEcDLusD
+ CsIiOUvtCsuCDheO0nbqzwZF9Jrzj3y8Gp4uIaGOhGXH1N+9qaGiSh8CobWFg5pIS9
+ eteo/DRwi97ZJYkaR6QmmG3669OsFItAqb/g9EbFvJQUN+3ymvpOncu4xPGMROFsna
+ rYSjK1WjZhtj9ITrH72S1YFwPALHRXGh0PFBQoO7nIxvmtfpnhSXI+pbb5tvzNvZXP
+ kMgh/Mjhc7jM5b4AZeIqlJz0/Bk0lOJrUlaF2melnh4Rp4Y4EIXPpiXrUW8oTgMobj
+ AEtdtJwIcpFhg==
+Date: Fri, 17 Feb 2023 11:14:17 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Jesper Devantier <jwd@defmacro.it>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org,
+ Fam Zheng <fam@euphon.net>, Jesper Devantier <j.devantier@samsung.com>,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH v2 5/5] hw/nvme: flexible data placement emulation
+Message-ID: <Y+/D+WkGXh+CM40y@kbusch-mbp>
+References: <20230217120743.308632-1-jwd@defmacro.it>
+ <20230217120743.308632-6-jwd@defmacro.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/2] hw/timer: Reduce 'hw/ptimer.h' inclusion
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-References: <20230217141832.24777-1-philmd@linaro.org>
- <20230217141832.24777-3-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230217141832.24777-3-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.256,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230217120743.308632-6-jwd@defmacro.it>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=kbusch@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,23 +74,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/17/23 04:18, Philippe Mathieu-Daudé wrote:
-> "hw/ptimer.h" API is mostly used by timer / watchdog device
-> models. Since the SoC / machines only access the ptimer via
-> reference, they don't need its definition: the declartion is
-> enough.
-> 
-> On order to reduce the inclusion on the source files,
-> forward-declare 'ptimer_state' in "qemu/typedefs.h".
-> Use the typedef in few place instead of the structure.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
-> ---
-> "30 files changed"... but since this is trivial, there is
-> no point in splitting per subsystem IMO.
-> ---
+On Fri, Feb 17, 2023 at 01:07:43PM +0100, Jesper Devantier wrote:
+> +static void nvme_do_write_fdp(NvmeCtrl *n, NvmeRequest *req, uint64_t slba,
+> +                              uint32_t nlb)
+> +{
+> +    NvmeNamespace *ns = req->ns;
+> +    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
+> +    uint64_t data_size = nvme_l2b(ns, nlb);
+> +    uint32_t dw12 = le32_to_cpu(req->cmd.cdw12);
+> +    uint8_t dtype = (dw12 >> 20) & 0xf;
+> +    uint16_t pid = le16_to_cpu(rw->dspec);
+> +    uint16_t ph, rg, ruhid;
+> +    NvmeReclaimUnit *ru;
+> +
+> +    if (dtype != NVME_DIRECTIVE_DATA_PLACEMENT
+> +        || !nvme_parse_pid(ns, pid, &ph, &rg)) {
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Style nit, the "||" ought to go in the previous line.
 
-r~
+> +        ph = 0;
+> +        rg = 0;
+> +    }
+> +
+> +    ruhid = ns->fdp.phs[ph];
+> +    ru = &ns->endgrp->fdp.ruhs[ruhid].rus[rg];
+> +
+> +    nvme_fdp_stat_inc(&ns->endgrp->fdp.hbmw, data_size);
+> +    nvme_fdp_stat_inc(&ns->endgrp->fdp.mbmw, data_size);
+> +
+> +    //trace_pci_nvme_fdp_ruh_write(ruh->rgid, ruh->ruhid, ruh->nlb_ruamw, nlb);
+> +
+> +    while (nlb) {
+> +        if (nlb < ru->ruamw) {
+> +            ru->ruamw -= nlb;
+> +            break;
+> +        }
+> +
+> +        nlb -= ru->ruamw;
+> +        //trace_pci_nvme_fdp_ruh_change(ruh->rgid, ruh->ruhid);
+
+Please use the trace points if you find them useful, otherwise just delete
+them instead of committing commented out code.
+
+Beyond that, looks good! For the series:
+
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
