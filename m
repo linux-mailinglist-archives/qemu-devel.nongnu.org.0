@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3401869A884
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 10:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B253269A894
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 10:49:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSxHv-0004Al-SW; Fri, 17 Feb 2023 04:44:19 -0500
+	id 1pSxMj-0005eq-I3; Fri, 17 Feb 2023 04:49:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <a.lauterer@proxmox.com>)
- id 1pSxHt-0004AX-Tl; Fri, 17 Feb 2023 04:44:17 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSxMf-0005eN-9n
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 04:49:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <a.lauterer@proxmox.com>)
- id 1pSxHr-0000wJ-IU; Fri, 17 Feb 2023 04:44:17 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A682947744;
- Fri, 17 Feb 2023 10:44:01 +0100 (CET)
-Message-ID: <f1548b80-ccd6-2b9f-1740-5f8a038eaf64@proxmox.com>
-Date: Fri, 17 Feb 2023 10:44:00 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pSxMb-0004P1-Sb
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 04:49:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676627342;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ECZyY3G/zuSix8fBOMVTy2x0bpzM8sMGPVsKJIMIRC0=;
+ b=ex+uUYeEi2rkC4CLexy0v3Q962+Be7vbAp+bHfw6+svD5sjJA0Kgtmgnzx5bpHOz2q+zYV
+ WiVXz4A1AqpxLCxYTDzjI/LwLi5KJtOvTPecdu47x8bLntmTz3ss/GKl/rXeP7a6EIDu7s
+ ZFN+H2rE2DHhbtM1nKV2Y9GAERwnwCU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-606-iSH9LcoVOMK9CaCXadDkvQ-1; Fri, 17 Feb 2023 04:49:00 -0500
+X-MC-Unique: iSH9LcoVOMK9CaCXadDkvQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14D151C05129;
+ Fri, 17 Feb 2023 09:49:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E4B7D40B40C9;
+ Fri, 17 Feb 2023 09:48:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D2FBE21E6A1F; Fri, 17 Feb 2023 10:48:58 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Beraldo Leal <bleal@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?=
+ <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
+ Vivier <lvivier@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael Roth
+ <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v3 08/10] qmp: teach 'getfd' to import sockets on win32
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-9-marcandre.lureau@redhat.com>
+Date: Fri, 17 Feb 2023 10:48:58 +0100
+In-Reply-To: <20230207142535.1153722-9-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 7 Feb 2023 18:25:33 +0400")
+Message-ID: <87zg9chbat.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: Lost partition tables on ide-hd + ahci drive
-To: Fiona Ebner <f.ebner@proxmox.com>, John Snow <jsnow@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
-References: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
- <CAFn=p-ahLoVd3W2GaFp5EUFq5EOudz+bUkEk5DV+Z07AjHaHtg@mail.gmail.com>
- <d07bdbc1-065e-f8ec-2a44-ab141ffedd41@proxmox.com>
-Content-Language: en-US
-From: Aaron Lauterer <a.lauterer@proxmox.com>
-In-Reply-To: <d07bdbc1-065e-f8ec-2a44-ab141ffedd41@proxmox.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106;
- envelope-from=a.lauterer@proxmox.com; helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,160 +90,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I am a bit late, but nonetheless, some comments inline.
+marcandre.lureau@redhat.com writes:
 
-On 2/15/23 11:53, Fiona Ebner wrote:
-> Am 14.02.23 um 19:21 schrieb John Snow:
->> On Thu, Feb 2, 2023 at 7:08 AM Fiona Ebner <f.ebner@proxmox.com> wrote:
->>>
->>> Hi,
->>> over the years we've got 1-2 dozen reports[0] about suddenly
->>> missing/corrupted MBR/partition tables. The issue seems to be very rare
->>> and there was no success in trying to reproduce it yet. I'm asking here
->>> in the hope that somebody has seen something similar.
->>>
->>> The only commonality seems to be the use of an ide-hd drive with ahci bus.
->>>
->>> It does seem to happen with both Linux and Windows guests (one of the
->>> reports even mentions FreeBSD) and backing storages for the VMs include
->>> ZFS, RBD, LVM-Thin as well as file-based storages.
->>>
->>> Relevant part of an example configuration:
->>>
->>>>    -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
->>>>    -drive 'file=/dev/zvol/myzpool/vm-168-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
->>>>    -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0' \
->>>
->>> The first reports are from before io_uring was used and there are also
->>> reports with writeback cache mode and discard=on,detect-zeroes=unmap.
->>>
->>> Some reports say that the issue occurred under high IO load.
->>>
->>> Many reports suspect backups causing the issue. Our backup mechanism
->>> uses backup_job_create() for each drive and runs the jobs sequentially.
->>> It uses a custom block driver as the backup target which just forwards
->>> the writes to the actual target which can be a file or our backup server.
->>> (If you really want to see the details, apply the patches in [1] and see
->>> pve-backup.c and block/backup-dump.c).
->>>
->>> Of course, the backup job will read sector 0 of the source disk, but I
->>> really can't see where a stray write would happen, why the issue would
->>> trigger so rarely or why seemingly only ide-hd+ahci would be affected.
->>>
->>> So again, just asking if somebody has seen something similar or has a
->>> hunch of what the cause might be.
->>>
->>
->> Hi Floria;
->>
->> I'm sorry to say that I haven't worked on the block devices (or
->> backup) for a little while now, so I am not immediately sure what
->> might be causing this problem. In general, I advise against using AHCI
->> in production as better performance (and dev support) can be achieved
->> through virtio.
-> 
-> Yes, we also recommend using virtio-{scsi,blk}-pci to our users and most
-> do. Still, some use AHCI, I'd guess mostly for Windows, but not only.
-> 
->> Still, I am not sure why the combination of AHCI with
->> backup_job_create() would be corrupting the early sectors of the disk.
-> 
-> It's not clear that backup itself is causing the issue. Some of the
-> reports do correlate it with backup, but there are no precise timestamps
-> when the corruption happened. It might be that the additional IO during
-> backup is somehow triggering the issue.
-> 
->> Do you have any analysis on how much data gets corrupted? Is it the
->> first sector only, the first few? Has anyone taken a peek at the
->> backing storage to see if there are any interesting patterns that can
->> be observed? (Zeroes, garbage, old data?)
-> 
-> It does seem to be the first sector only, but it's not entirely clear.
-> Many of the affected users said that after fixing the partition table
-> with TestDisk, the VMs booted/worked normally again. We only have dumps
-> for the first MiB of three images. In this case, all Windows with Ceph
-> RBD images.
-> 
-> See below[0] for the dumps. One was a valid MBR and matched the latest
-> good backup, so that VM didn't boot for some other reason, not sure if
-> even related to this bug. I did not include this one. One was completely
-> empty and one contained other data in the first 512 Bytes, then again
-> zeroes, but those zeroes are nothing special AFAIK.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> A process with enough capabilities can duplicate a socket to QEMU.
+> Modify 'getfd' to import it and add it to the monitor fd list, so it can
+> be later used by other commands.
+>
+> Note that we actually store the SOCKET in the FD list, appropriate care
+> must now be taken to use the correct socket functions (similar approach
+> is taken by our io/ code and in glib, this is internal and shouldn't
+> affect the QEMU/QMP users)
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  qapi/misc.json     | 16 ++++++++--
+>  monitor/fds.c      | 79 ++++++++++++++++++++++++++++++++++++----------
+>  monitor/hmp-cmds.c |  6 +++-
+>  3 files changed, 81 insertions(+), 20 deletions(-)
+>
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 27ef5a2b20..cd36d8befb 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -249,10 +249,18 @@
+>  ##
+>  # @getfd:
+>  #
+> -# Receive a file descriptor via SCM rights and assign it a name
+> +# On UNIX, receive a file descriptor via SCM rights and assign it a name.
+> +#
+> +# On Windows, (where ancillary socket fd-passing isn't an option yet), a=
+dd a
+> +# socket that was duplicated to QEMU process with WSADuplicateSocketW() =
+via
+> +# WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name. A SOCK=
+ET is
+> +# considered as a kind of "file descriptor" in QMP context, for historic=
+al
+> +# reasons and simplicity. QEMU takes care to use socket functions approp=
+riately.
 
-Unfortunately, we only had direct access to those 3 disks mentioned. I took a 
-look at them and for the first MiB, it matches what @Fiona explained. At the 
-first MiB, all 3 disk images looked normal when compared to a similar test 
-Windows installation: the start of the NTFS file system. The VMs were installed 
-in BIOS mode, so no ESP.
+The Windows part explains things in terms of the C socket API.  Less
+than ideal for the QEMU QMP Reference Manual, isn't it?  I don't know
+nearly enough about this stuff to suggest concrete improvements...
 
-Cloning the VMs and replacing the first 512 bytes of the disk image from a good 
-known earlier backup to restore the partition table seems to be all that was 
-necessary. Afterward, those VMs were able to boot all the way to the Windows 
-login screen. That matches the reports we have from the community.
+What does this command do under Windows before this patch?  Fail always?
 
-We were not able to confirm the integrity of the rest of the disk, though.
+Wrap your lines a bit earlier, please.
 
+>  #
+>  # @fdname: file descriptor name
+>  #
+> +# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Since 8.=
+0.
+> +#
 
-> 
->> Have any errors or warnings been observed in either the guest or the
->> host that might offer some clues?
-> 
-> There is a single user who seemed to have hardware issues, and I'd be
-> inclined to blame those in that case. But none of the other users
-> reported any errors or warnings, though I can't say if any checked
-> inside the guests.
-> 
->> Is there any commonality in the storage format being used? Is it
->> qcow2? Is it network-backed?
-> 
-> There are reports with local ZFS volumes, local LVM-Thin volumes, RBD
-> images, qcow2 on NFS. So no pattern to be seen.
-> 
->> Apologies for the "tier 1" questions.
-> 
-> Thank you for your time!
-> 
-> Best Regards,
-> Fiona
-> 
-> @Aaron (had access to the broken images): please correct me/add anything
-> relevant I missed. Are the broken VMs/backups still present? If yes, can
-> we ask the user to check the logs inside?
+No way around passing a binary blob?
 
-I can ask. I guess the plan would be to clone the failed VM, restore the boot 
-sector and then check the logs (Event Viewer) if there is anything of interest?
+>  # Returns: Nothing on success
+>  #
+>  # Since: 0.14
+> @@ -270,7 +278,11 @@
+>  # <- { "return": {} }
+>  #
+>  ##
+> -{ 'command': 'getfd', 'data': {'fdname': 'str'} }
+> +{ 'command': 'getfd', 'data': {
+> +    'fdname': 'str',
+> +    '*wsa-info': {'type': 'str', 'if': 'CONFIG_WIN32'}
+> +  }
+> +}
 
-It is possible, that we won't be able to get access to the VM itself, if the 
-customer doesn't want that for data privacy reasons.
+What happens when QEMU runs on a Windows host and the client doesn't
+pass @wsa-info?
 
-> 
-> [0]:
->> febner@enia ~/Downloads % hexdump -C dump-vm-120.raw
->> 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
->> *
->> 00100000
->> febner@enia ~/Downloads % hexdump -C dump-vm-130.raw
->> 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
->> *
->> 000000c0  00 00 19 03 46 4d 66 6e  00 00 00 00 00 00 00 00  |....FMfn........|
->> 000000d0  04 f2 7a 01 00 00 00 00  00 00 00 00 00 00 00 00  |..z.............|
->> 000000e0  f0 a4 01 00 00 00 00 00  c8 4d 5b 99 0c 81 ff ff  |.........M[.....|
->> 000000f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
->> 00000100  00 42 e1 38 0d da ff ff  00 bc b4 3b 0d da ff ff  |.B.8.......;....|
->> 00000110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
->> 00000120  78 00 00 00 01 00 00 00  a8 00 aa 00 00 00 00 00  |x...............|
->> 00000130  a0 71 ba b0 0c 81 ff ff  2e 00 2e 00 00 00 00 00  |.q..............|
->> 00000140  a0 71 ba b0 0c 81 ff ff  00 00 00 00 00 00 00 00  |.q..............|
->> 00000150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
->> *
->> 000001a0  5c 00 44 00 65 00 76 00  69 00 63 00 65 00 5c 00  |\.D.e.v.i.c.e.\.|
->> 000001b0  48 00 61 00 72 00 64 00  64 00 69 00 73 00 6b 00  |H.a.r.d.d.i.s.k.|
->> 000001c0  56 00 6f 00 6c 00 75 00  6d 00 65 00 32 00 5c 00  |V.o.l.u.m.e.2.\.|
->> 000001d0  57 00 69 00 6e 00 64 00  6f 00 77 00 73 00 5c 00  |W.i.n.d.o.w.s.\.|
->> 000001e0  4d 00 69 00 63 00 72 00  6f 00 73 00 6f 00 66 00  |M.i.c.r.o.s.o.f.|
->> 000001f0  74 00 2e 00 4e 00 45 00  54 00 5c 00 46 00 72 00  |t...N.E.T.\.F.r.|
->> 00000200  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
->> *
->> 00100000
+>=20=20
+>  ##
+>  # @closefd:
 
 
