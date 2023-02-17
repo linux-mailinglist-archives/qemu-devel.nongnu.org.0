@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFAAF69A4B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 05:11:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CB469A4A8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 05:10:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSs4q-0001qo-Bb; Thu, 16 Feb 2023 23:10:28 -0500
+	id 1pSs4p-0001hw-GA; Thu, 16 Feb 2023 23:10:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs4i-0001Hl-Hy
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs4i-0001Hz-IP
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:10:20 -0500
 Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs4f-0001C4-RY
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs4f-0001CO-Ga
  for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:10:20 -0500
-X-IronPort-RemoteIP: 209.85.160.199
-X-IronPort-MID: 259423681
+X-IronPort-RemoteIP: 209.85.222.198
+X-IronPort-MID: 259423688
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:ZBVYP6qTmTQfYkdwwKD34Pw6hKteBmKmZxIvgKrLsJaIsI4StFCzt
- garIBmOaP+DZjf9e9tyYdy08EgB7JLdzYIyTwU4ry00HysU85acVYWSI3mrAy7DdceroGCLT
- ik9hnssCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
- Mj75sbSIzdJ4RYtWo4vw//F+UwHUMja4mtC5QRkPK4T5zcyqlFOZH4hDfDpR5fHatQMdgKKb
- 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+AsBOsDAbzsAB+v9T2M4nVKtio27hc+ada
- Tl6ncfYpQ8BZsUgkQmGOvVSO3gW0aZuodcrLZUj2CA6IoKvn3bEmp1T4E8K0YIwxOFLAj5o3
- PgicmopbgCTxOS2nIOgc7w57igjBJGD0II3v3hhyXTAEa9jT8mSEuPF4thX2Dp2jcdLdRrcT
- 5BBOHw/MVKZPUUJYwZGYH49tL7Aan3XejlIrl6PjaAqpWXf0WSd1ZC3bYuJIIfUFZw9ckCwh
- Ebv9Fn9ADgjafuA5wuo/S22md/AgnauMG4VPPjinhJwu3WKy2kOTREbS1a/if++jEG4RpRYM
- UN8x8Y1ha079UjuV8WkGhPh8S/CsRkbVN5dVeY97Wlh15bp3upQPUBcJhYpVTDsnJVeqeACv
- rNRo+7UOA==
-IronPort-HdrOrdr: A9a23:X5Kf8qp3hBpxNSC02kxc1LsaV5r9eYIsimQD101hICG9vPbo8/
+IronPort-Data: A9a23:/k5S86B4j44RVhVW/5fhw5YqxClBgxIJ4kV8jS/XYbTApDlz12FSn
+ zAbWziDbqqCNzejf9FzOY208kxT6sSEztJiTANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
+ ynLQoCYdKjYdleF+lH2dOCn9SImvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYctitWia++3k
+ YqaT/b3ZRn0hFaYDkpOs/jY8Ek24qyp0N8llgdWic5j7Qe2e0Y9Ucp3yZGZdxPQXoRSF+imc
+ OfPpJnRErTxpkpF5nuNy94XQ2VTKlLgFVHmZkl+AsBOtiN/Shkaic7XAha9hXB/0F1ll/gpo
+ DlEWAfZpQ0BZ8Ugk8xEO/VU/r0X0QSrN9YrLFDm2fF/wXEqfFP8/uxUDkcEOrECoN5cI3sS3
+ NwWIzACO0Xra+KemNpXS8Fpj8UnadDoZcYR4yAwiz7eCvkiTNbIRKCiCd1whm9hwJATW6yEP
+ YxAOGoHgBfoOnWjPn8eDII4kP2AjGS5fjFFwL6QjfBqsjSJl1IhgNABNvLUWtOhWdRnvn/Bu
+ 1rE3HygGQ05bdWmnG/tHnWEw7WncTnAcJsfEaD9+vN0jVm7wGsVBxsLE1yhrpGEZlWWXtteL
+ wkN+XNro/FjpAqkSd7yWxD+q3mB1vIBZ+dt/yQBwFnl4sLpD8yxXwDokhYphAQaifIL
+IronPort-HdrOrdr: A9a23:+oIzj6q/91yQ7T6EwidG5KgaV5r9eYIsimQD101hICG9vPbo8/
  xG+85rqSMc7Qx6ZJhOo6HnBEDtewK/yXcx2/hrAV7AZniahILXFvAa0WKK+VSJcFycygce79
  YbT0EXMr3N5DNB/KHHCWeDYrMd6ejC2oyTwcnl81dRYTdDV5xAhj0JdTpz0XcbeOCFP/cE/V
  aniPav3wDQAUj/p/7VZ0U4Yw==
-Received: from mail-qt1-f199.google.com ([209.85.160.199])
+Received: from mail-qk1-f198.google.com ([209.85.222.198])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 16 Feb 2023 23:09:48 -0500
-Received: by mail-qt1-f199.google.com with SMTP id
- v8-20020a05622a144800b003ba0dc5d798so2422322qtx.22
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 20:09:48 -0800 (PST)
+ 16 Feb 2023 23:09:51 -0500
+Received: by mail-qk1-f198.google.com with SMTP id
+ x14-20020a05620a14ae00b0072f7f0f356bso2453158qkj.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 20:09:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=k+rkA7yqe1v+7MHE0IZMKWViVHmTa9V+2cxVonneGdM=;
- b=ZN4Td4vsCoU/hUW7hCp6pxTvQfswziU/JHwCg+ASNt4V3zLD7HS2LsRN46sWEv+dpw
- fG82FakUqT+z6VFuRo+rTE2p6vPQWGhR/CEI/eszQiIpS9L/z/LF/2Vwbl16vrjLey1P
- 1sxVjCmAf2vjTT85p2vlPVp7NBlJo7X7iEFLDQMU1KxHR+wsOQ01SOMSODeODSHYzNjQ
- XE/o0xwIFpwxbBeJ4a8ps/AS9Dd00/EBdzNPpew3nmXpT+0hko1XNuRtTk+nubof7yYf
- JQ4JcbPnSqmZBov6twq8dXVGJHjrWIFVN4Td8V3xyoOj8fCPvBlXpzm5iHVGKDRD5C1+
- uSLg==
+ bh=4PAaI03fXa/LDgvfkr7+SODyHcwEOPlKcrbifwWxogs=;
+ b=CPmCfvPxxhTPSF6YYzmOJ8HtJeHERYgh7BDllE0/g+FJQxkUmPcU7TlUpjlO2NjAhx
+ soopPsYtHa15ozTGx7LYCm9edwIhOpvmpv8wVvnG/iSkWnE/BUbbwYsk2ColkHUOrWxq
+ ZPgG/txT31OnLfxqNq4uYrIq7BPbWSuNMq2M8j84vQEJ4gLZufaKUe+W7XrXTB8M8iQP
+ JIRfmWAC81e0kt/4WoP8uciocQXM5UOyZ1QTyYzZn1mcZw77qbO/8Ijp72TbSQNTKkww
+ kyEiotCoO5A+XLlqyEWMyASMwhBib80OJqm+obfM0IddTZm0TL6bqDKCjkCyJByAE9Hq
+ 8deQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=k+rkA7yqe1v+7MHE0IZMKWViVHmTa9V+2cxVonneGdM=;
- b=PQOUYidSYlTrMNV7ESLXcDDWlAX/nYWQYZQTuqHspywzQOiYqrcJKUXk0FI23mebVM
- kLdB+c4C3V+IEh5ZZ9kIwUEVrMImTqnJ+mUvol1AHSphfsVu4OCBJcV4kZxPtUSgQhOe
- xKvW27aEPKdWz9Pe0asG2zRKSGEeopUmBL9lj/W6u7JuKqJj989Rbuojuke6BwuVItuD
- nJyifEp/7Dpiyjc27btanB5p4xrKCEHk8HVrwOQPbIepgD0rCBKm8/vIsz1C8EvlUTiT
- GCsEOVgM1eX7nlXB0Q9Y4rt/IqCuI7CAkLuKPwuTpahaRko53bFWFMwm1o+TTLRWUwkS
- WvKg==
-X-Gm-Message-State: AO0yUKUW2fMt4prjPmW1APRbZ0m0rw4YTSrN5xf50WaThwKBnrHDcEyp
- zjKYEfhxO03esTXAOq6aSWn+XUV0BL86j3S17ksj+wcIJcDmtUJMq5dktJBsTWtM7v6IJs+9fTO
- 3YA0Zgr2t5aEZ2BfUMnEgzx3/YdAgIGUcylrt2A==
-X-Received: by 2002:a05:6214:23cc:b0:56e:f1fd:f16c with SMTP id
- hr12-20020a05621423cc00b0056ef1fdf16cmr8638792qvb.20.1676606987148; 
- Thu, 16 Feb 2023 20:09:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set94/RB1USkEdYBdQOE+vbH1Mk9S1f30OiDruEr7MFWiUAm5mvjyrEi1F3aq6cw5rzqK3+KH9A==
-X-Received: by 2002:a05:6214:23cc:b0:56e:f1fd:f16c with SMTP id
- hr12-20020a05621423cc00b0056ef1fdf16cmr8638759qvb.20.1676606986833; 
- Thu, 16 Feb 2023 20:09:46 -0800 (PST)
+ bh=4PAaI03fXa/LDgvfkr7+SODyHcwEOPlKcrbifwWxogs=;
+ b=Okkd7Oyse2PooWB/3yyrRroIFCtHARVxXJiurJFz4j9MSIse5NVR9Tvwn0bQCZ0wTQ
+ XpoVUxj68TxUtSsP09i2WHZ8efGfU0W9O6n+6afmMuKFfDwKa/oBUerhzE77r9c/i99J
+ JItE5F0zwJDeULZmlvVV6ieI15Tmki0cpubtHbQRnKmjmb5KS4ZfTckfQq/Oc/4pkHB2
+ nhUWnHs4YV0K3qlh8cH2LiGZhYysqTFLEiNWtMVDIzUORsO+G2KIPMP9M8s/W+kvWSAa
+ vseEqSCrC8gWGUmCnbh4cqW9deNYI7M1OMIIl+q5CiAcWN6QN68vMDNsY1hlv0eGpWSx
+ xeaw==
+X-Gm-Message-State: AO0yUKXcIaNe0r7HSebmKyAOQLBaes8481NnSwE890W6RpnvPHfHtMTa
+ VszmEUrsNIPOonkknlRgbYMff/69qA1kQcMof+N0dKyaGQz4oqI9jClLn25mkvlsv637y65VLgQ
+ 28KHptct1OZSBZgndASWhr+bDgefB9voxepeVsw==
+X-Received: by 2002:a05:622a:43:b0:3b8:6a41:c329 with SMTP id
+ y3-20020a05622a004300b003b86a41c329mr14227013qtw.21.1676606990883; 
+ Thu, 16 Feb 2023 20:09:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set99eFVMWA2GiNppfox4bzSp+36UXS5j8Ogn2uXptmaMC4EpaXhb1KFbXQNgSpSwcZ40dmY55Q==
+X-Received: by 2002:a05:622a:43:b0:3b8:6a41:c329 with SMTP id
+ y3-20020a05622a004300b003b86a41c329mr14226996qtw.21.1676606990629; 
+ Thu, 16 Feb 2023 20:09:50 -0800 (PST)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- e187-20020a3769c4000000b0073b9c59e668sm1842810qkc.74.2023.02.16.20.09.45
+ v14-20020ac8748e000000b003a81eef14efsm2562801qtq.45.2023.02.16.20.09.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 20:09:46 -0800 (PST)
+ Thu, 16 Feb 2023 20:09:50 -0800 (PST)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, Alexander Bulekov <alxndr@bu.edu>,
@@ -88,9 +87,9 @@ Cc: peter.maydell@linaro.org, Alexander Bulekov <alxndr@bu.edu>,
  Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Qiuhao Li <Qiuhao.Li@outlook.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: [PULL 07/10] fuzz/virtio-blk: remove fork-based fuzzer
-Date: Thu, 16 Feb 2023 23:08:52 -0500
-Message-Id: <20230217040855.16873-8-alxndr@bu.edu>
+Subject: [PULL 08/10] fuzz/i440fx: remove fork-based fuzzer
+Date: Thu, 16 Feb 2023 23:08:53 -0500
+Message-Id: <20230217040855.16873-9-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230217040855.16873-1-alxndr@bu.edu>
 References: <20230217040855.16873-1-alxndr@bu.edu>
@@ -124,36 +123,37 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- tests/qtest/fuzz/virtio_blk_fuzz.c | 51 ++++--------------------------
- 1 file changed, 7 insertions(+), 44 deletions(-)
+ tests/qtest/fuzz/i440fx_fuzz.c | 27 +--------------------------
+ 1 file changed, 1 insertion(+), 26 deletions(-)
 
-diff --git a/tests/qtest/fuzz/virtio_blk_fuzz.c b/tests/qtest/fuzz/virtio_blk_fuzz.c
-index a9fb9ecf6c..651fd4f043 100644
---- a/tests/qtest/fuzz/virtio_blk_fuzz.c
-+++ b/tests/qtest/fuzz/virtio_blk_fuzz.c
-@@ -19,7 +19,6 @@
- #include "standard-headers/linux/virtio_pci.h"
- #include "standard-headers/linux/virtio_blk.h"
+diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
+index b17fc725df..155fe018f8 100644
+--- a/tests/qtest/fuzz/i440fx_fuzz.c
++++ b/tests/qtest/fuzz/i440fx_fuzz.c
+@@ -18,7 +18,6 @@
+ #include "tests/qtest/libqos/pci-pc.h"
  #include "fuzz.h"
--#include "fork_fuzz.h"
  #include "qos_fuzz.h"
+-#include "fork_fuzz.h"
  
- #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
-@@ -128,48 +127,24 @@ static void virtio_blk_fuzz(QTestState *s, QVirtioBlkQueues* queues,
-     }
+ 
+ #define I440FX_PCI_HOST_BRIDGE_CFG 0xcf8
+@@ -89,6 +88,7 @@ static void i440fx_fuzz_qtest(QTestState *s,
+                               size_t Size)
+ {
+     ioport_fuzz_qtest(s, Data, Size);
++    fuzz_reset(s);
  }
  
--static void virtio_blk_fork_fuzz(QTestState *s,
--        const unsigned char *Data, size_t Size)
--{
--    QVirtioBlk *blk = fuzz_qos_obj;
--    static QVirtioBlkQueues *queues;
--    if (!queues) {
--        queues = qvirtio_blk_init(blk->vdev, 0);
--    }
+ static void pciconfig_fuzz_qos(QTestState *s, QPCIBus *bus,
+@@ -145,17 +145,6 @@ static void i440fx_fuzz_qos(QTestState *s,
+     pciconfig_fuzz_qos(s, bus, Data, Size);
+ }
+ 
+-static void i440fx_fuzz_qos_fork(QTestState *s,
+-        const unsigned char *Data, size_t Size) {
 -    if (fork() == 0) {
--        virtio_blk_fuzz(s, queues, Data, Size);
--        flush_events(s);
+-        i440fx_fuzz_qos(s, Data, Size);
 -        _Exit(0);
 -    } else {
 -        flush_events(s);
@@ -161,63 +161,37 @@ index a9fb9ecf6c..651fd4f043 100644
 -    }
 -}
 -
- static void virtio_blk_with_flag_fuzz(QTestState *s,
-         const unsigned char *Data, size_t Size)
- {
-     QVirtioBlk *blk = fuzz_qos_obj;
-     static QVirtioBlkQueues *queues;
- 
--    if (fork() == 0) {
--        if (Size >= sizeof(uint64_t)) {
--            queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
--            virtio_blk_fuzz(s, queues,
--                             Data + sizeof(uint64_t), Size - sizeof(uint64_t));
--            flush_events(s);
--        }
--        _Exit(0);
--    } else {
-+    if (Size >= sizeof(uint64_t)) {
-+        queues = qvirtio_blk_init(blk->vdev, *(uint64_t *)Data);
-+        virtio_blk_fuzz(s, queues,
-+                Data + sizeof(uint64_t), Size - sizeof(uint64_t));
-         flush_events(s);
--        wait(NULL);
-     }
-+    fuzz_reset(s);
+ static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
+                                        " -m 0 -display none";
+ static GString *i440fx_argv(FuzzTarget *t)
+@@ -163,10 +152,6 @@ static GString *i440fx_argv(FuzzTarget *t)
+     return g_string_new(i440fx_qtest_argv);
  }
  
- static void virtio_blk_pre_fuzz(QTestState *s)
- {
-     qos_init_path(s);
+-static void fork_init(void)
+-{
 -    counter_shm_init();
- }
+-}
  
- static void drive_destroy(void *path)
-@@ -208,22 +183,10 @@ static void *virtio_blk_test_setup(GString *cmd_line, void *arg)
- 
- static void register_virtio_blk_fuzz_targets(void)
+ static void register_pci_fuzz_targets(void)
  {
+@@ -178,16 +163,6 @@ static void register_pci_fuzz_targets(void)
+                 .get_init_cmdline = i440fx_argv,
+                 .fuzz = i440fx_fuzz_qtest});
+ 
+-    /* Uses libqos and forks to prevent state leakage */
 -    fuzz_add_qos_target(&(FuzzTarget){
--                .name = "virtio-blk-fuzz",
--                .description = "Fuzz the virtio-blk virtual queues, forking "
--                                "for each fuzz run",
--                .pre_vm_init = &counter_shm_init,
--                .pre_fuzz = &virtio_blk_pre_fuzz,
--                .fuzz = virtio_blk_fork_fuzz,},
--                "virtio-blk",
--                &(QOSGraphTestOptions){.before = virtio_blk_test_setup}
+-                .name = "i440fx-qos-fork-fuzz",
+-                .description = "Fuzz the i440fx using raw qtest commands and "
+-                               "rebooting after each run",
+-                .pre_vm_init = &fork_init,
+-                .fuzz = i440fx_fuzz_qos_fork,},
+-                "i440FX-pcihost",
+-                &(QOSGraphTestOptions){}
 -                );
--
-     fuzz_add_qos_target(&(FuzzTarget){
-                 .name = "virtio-blk-flags-fuzz",
--                .description = "Fuzz the virtio-blk virtual queues, forking "
--                "for each fuzz run (also fuzzes the virtio flags)",
--                .pre_vm_init = &counter_shm_init,
-+                .description = "Fuzz the virtio-blk virtual queues. "
-+                "Also fuzzes the virtio flags)",
-                 .pre_fuzz = &virtio_blk_pre_fuzz,
-                 .fuzz = virtio_blk_with_flag_fuzz,},
-                 "virtio-blk",
+ 
+     /*
+      * Uses libqos. Doesn't do anything to reset state. Note that if we were to
 -- 
 2.39.0
 
