@@ -2,95 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB41869B111
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE1769B11A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:38:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT3iR-0006up-Tx; Fri, 17 Feb 2023 11:36:07 -0500
+	id 1pT3kh-0002Vc-OH; Fri, 17 Feb 2023 11:38:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pT3iN-0006su-D4
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:36:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pT3kd-0002U2-AJ
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:38:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pT3iK-0007MA-RZ
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:36:02 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pT3kb-0008Cn-I1
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:38:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676651758;
+ s=mimecast20190719; t=1676651900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uJbQLb5EaKoLhLqN+hIHDXoiAwO6kPoe91m4bbqfh5o=;
- b=fnIwXHVXxJk+KFR3X4p4ar9efKMwhqQguF4uCaoLRw2Sp4h+aP1ryXBtceVNG8mTU8DceE
- Tl4oOuf8f94NoqQGcb+tmUK/xykL0uZbyftWQOHDb+axNJvc32lY3WQl4yuM/3S73zAMrg
- k9Jato90hw+FRoa/sFU8HlSKr3ImKLo=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=h1RtxEreGjpeu6w9jCvskREESVW8GRlfjHnkyi//YiU=;
+ b=OzR+m1ZhPoL5jhZqIKrGultFSQXrczZehtoE5wBRmWDw5jTXt/8k5DHqNz3adfOQuOsApa
+ LJKJBH7QvNDsrghvgUEBjkVuElhmGk4BKCtDK1mD10m4kJ75coHcLqfutEA0pUq/1At/xD
+ 3f5p7vFUEky9qNUY7uOGNa6B6T8Ljzc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-384-ivU9rYYMNK2hvtljHLOIkw-1; Fri, 17 Feb 2023 11:35:56 -0500
-X-MC-Unique: ivU9rYYMNK2hvtljHLOIkw-1
-Received: by mail-pg1-f197.google.com with SMTP id
- w64-20020a636243000000b004fb5e56e652so720138pgb.9
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 08:35:56 -0800 (PST)
+ us-mta-141-wAgJNr2WOpWwvFFcqtPvxQ-1; Fri, 17 Feb 2023 11:38:16 -0500
+X-MC-Unique: wAgJNr2WOpWwvFFcqtPvxQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay3-20020a05600c1e0300b003e21fa6f404so1193358wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 08:38:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uJbQLb5EaKoLhLqN+hIHDXoiAwO6kPoe91m4bbqfh5o=;
- b=eVD39mcO/EXdyJ7/nYQ37LqD46PgZeHudKqB9MQ+LKQkJjnPaZPBzAnMsDh9DRmAaU
- LhsW3FWTj0jk6G9xgKddnwZ6JEvAcqt1ViAIWOaPmZNooUsqjrvyVU6uts37Y5FDLaE4
- T4sFLEg4dpE6FtjmZGAscaKkWD3dJQXLIyc3oIFMd4Cu0US8H8cXirbHPkkjDv/MGz70
- 0uTZQeo6rtw6f6sUMi3/IpfR/crblspZnJ+d+D1+b4dK9aYlY+514WxPSTefg0IutmfL
- lV1db93tL6CmgCj3zIrMv2NiqE48uBE8WdF8NCar8CRaZPbOAzCucHoyDIma9ycWxTM4
- uFOA==
-X-Gm-Message-State: AO0yUKVBo3Kjt4K219I6l2mNj8UEFyF0IhrlpCQwSS9mV9xn/2wXLNg5
- oRjTl3o3Utf9HpuoaEj2sBeq5yudhGJV6z9W8mdRCpxtfkG9o9jG7zu7aOzWzVdHmb2+Tq7udmi
- XpOFRq8PYrTMl0OLOB91XOYew61sallY=
-X-Received: by 2002:a17:902:d489:b0:19a:9b8c:279f with SMTP id
- c9-20020a170902d48900b0019a9b8c279fmr152354plg.26.1676651755855; 
- Fri, 17 Feb 2023 08:35:55 -0800 (PST)
-X-Google-Smtp-Source: AK7set+e62kPqj4adqigPRBFZNzBrpzspmdlDJrioj5lxGAEZ+Zb9mbcbngzcBmacJUahignoT6A4tU4F5UqIAVC5UE=
-X-Received: by 2002:a17:902:d489:b0:19a:9b8c:279f with SMTP id
- c9-20020a170902d48900b0019a9b8c279fmr152326plg.26.1676651755535; Fri, 17 Feb
- 2023 08:35:55 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=h1RtxEreGjpeu6w9jCvskREESVW8GRlfjHnkyi//YiU=;
+ b=O1x1Csilw5DNakb6QsjUITMZ4BNBdiAfnY9fjC4XhOxQcMc7/y1Imv3dedq0OrZgbI
+ AJUo8ChDsEXZsu2IqU5kNJT9WheplWuJp9Dk0HolKigFGC6KWk8Tq0ADZjg365DXCDMK
+ 7zEopvRe6bNu5Y7S0T9zRHt8roQ8dsaRYtL5mr2CJTYavfww/WjreilUdfNoL3UaLBAc
+ fKvjOal3GIvLfy3wdvUIz05599iBmICRUPugJLNLFPI1o/Yr7pXmr3MztA0YuTA4DHgo
+ xsO9I7W8x27MuoMAPTBmONhw1tAl0U3WKkp3UhMog3Mk65coiltgCc+hLkenRvmTS6VA
+ s6qA==
+X-Gm-Message-State: AO0yUKXfe2CEiQCxA1PcIUBOy0cYfyF0sazcaQyiMRU/mb4OcJp5ttZU
+ twsMZWyVvjITbENe986Tt3vb9p3Jm9wypkHkbePWFv+w2zvAwBs0svaq1PH8DC1njCG0/B1YP6U
+ 7JCF7883mgVm6kls=
+X-Received: by 2002:a05:600c:6011:b0:3e2:2057:b9d6 with SMTP id
+ az17-20020a05600c601100b003e22057b9d6mr2408927wmb.20.1676651895376; 
+ Fri, 17 Feb 2023 08:38:15 -0800 (PST)
+X-Google-Smtp-Source: AK7set/KGEP1e2wcntRbZpKZqyFpXGD3/Pu9CVT9A/AtmX6CXk61/h62DdteZI9uBQK/CbJ8peIt4Q==
+X-Received: by 2002:a05:600c:6011:b0:3e2:2057:b9d6 with SMTP id
+ az17-20020a05600c601100b003e22057b9d6mr2408913wmb.20.1676651895106; 
+ Fri, 17 Feb 2023 08:38:15 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ iz7-20020a05600c554700b003e203681b26sm5158153wmb.29.2023.02.17.08.38.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Feb 2023 08:38:14 -0800 (PST)
+Message-ID: <b55b506e-5a73-329a-24ee-14eafc5a95c1@redhat.com>
+Date: Fri, 17 Feb 2023 17:38:13 +0100
 MIME-Version: 1.0
-References: <20230215192530.299263-1-alex.bennee@linaro.org>
- <20230215192530.299263-8-alex.bennee@linaro.org>
- <CAFn=p-b18P0oOhiYPkoQvVzQfqVu4XLprp4-JMbPRF4y72-svQ@mail.gmail.com>
- <Y+6HjEUG2fpalQWv@redhat.com>
-In-Reply-To: <Y+6HjEUG2fpalQWv@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 17 Feb 2023 11:35:44 -0500
-Message-ID: <CAFn=p-b8nK8pNWk3WZgVqjUMx27E4ekeypjGpyk2nrRz=UmNJg@mail.gmail.com>
-Subject: Re: [PATCH 07/12] testing: update ubuntu2004 to ubuntu2204
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
- Alexander Bulekov <alxndr@bu.edu>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, 
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Darren Kenny <darren.kenny@oracle.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Yonggang Luo <luoyonggang@gmail.com>, 
- Li-Wen Hsu <lwhsu@freebsd.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004d115c05f4e7e8ba"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, libvir-list@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>,
+ Brad Smith <brad@comstyle.com>, Stefan Weil <sw@weilnetz.de>
+References: <20230130114428.1297295-1-thuth@redhat.com>
+ <87a61cbmti.fsf@pond.sub.org> <Y+9bSHshiNnek31J@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Y+9bSHshiNnek31J@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,172 +110,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000004d115c05f4e7e8ba
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 16, 2023, 2:44 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-wrote:
-
-> On Thu, Feb 16, 2023 at 01:15:30PM -0500, John Snow wrote:
-> > On Wed, Feb 15, 2023 at 2:25 PM Alex Benn=C3=A9e <alex.bennee@linaro.or=
-g>
-> wrote:
-> > >
-> > > The 22.04 LTS release has been out for almost a year now so its time
-> > > to update all the remaining images to the current LTS. We can also
-> > > drop some hacks we need for older clang TSAN support.
-> >
-> > We still support Ubuntu 20.04 until 2024 though, don't we? Is it safe
-> > to not test this platform?
-> >
-> > I've long been uncertain about what our policy actually is for docker
-> > tests, if we want to test every platform we support or only some of
-> > them; and if it's only some of them, when do we choose the older and
-> > when do we choose the newer?
+On 2/17/23 11:47, Daniel P. Berrangé wrote:
+> On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
+>> I feel the discussion petered out without a conclusion.
+>>
+>> I don't think letting the status quo win by inertia is a good outcome
+>> here.
+>>
+>> Which 32-bit hosts are still useful, and why?
 >
-> Ideally we would test both the oldest & newest versions of each
-> distro we support. Practically though, we're compromised by the
-> limited CI resources available.
->
+> Which 32-bit hosts does Linux still provide KVM  support for.
 
-Yes, understood.
+All except ARM: MIPS, x86, PPC and RISC-V.
 
+I would like to remove x86, but encountered some objections.
 
-> Dropping older Ubuntu images is a reasonable tradeoff, since we
-> still have Debian images covered in CI. Debian can be thought
-> of as an older version of Ubuntu to some extent, giving coverage
-> that will mitigate the risks of dropping 20.04.
->
+MIPS, nobody is really using it I think.
 
-Okay, I'll take your word for that. I am not personally familiar with how
-much those distros diverge; I know Ubuntu is debian-based but that's the
-extent of my knowledge as I don't daily-drive either.
+So that leaves PPC and RISC-V.
 
-So, firstly:
+> If any, is there an EOL date for Linux 32-bit KVM support ?
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+No, and I don't think there's going to be one.
 
-because I suspect we all have our reasons and I also agree testing newer is
-generally of higher value than testing older.
-
-However, would it be possible to keep the older Ubuntu test as a manual
-execution that we could invoke at will, only during RC testing phase? If
-it's not a lot of work, I could even check that in myself as a follow-up if
-it isn't unwanted.
-
-I find that "oldest version of x" is quite useful to me for testing Python
-stuff in particular, as that ecosystem moves pretty fast. It'd be mighty
-convenient to me in particular to keep an old Ubuntu test around to run
-manually as needed.
-
-(Heck, even if it wasn't on CI at all but was just a container I could run
-locally, that would still be quite useful.)
-
-Whaddaya think?
-
-
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
-
---0000000000004d115c05f4e7e8ba
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Feb 16, 2023, 2:44 PM Daniel P. Berrang=C3=A9 =
-&lt;<a href=3D"mailto:berrange@redhat.com" target=3D"_blank" rel=3D"norefer=
-rer">berrange@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">On Thu, Feb 16, 2023 at 01:15:30PM -0500, John Snow wrote:<br>
-&gt; On Wed, Feb 15, 2023 at 2:25 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto=
-:alex.bennee@linaro.org" rel=3D"noreferrer noreferrer" target=3D"_blank">al=
-ex.bennee@linaro.org</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; The 22.04 LTS release has been out for almost a year now so its t=
-ime<br>
-&gt; &gt; to update all the remaining images to the current LTS. We can als=
-o<br>
-&gt; &gt; drop some hacks we need for older clang TSAN support.<br>
-&gt; <br>
-&gt; We still support Ubuntu 20.04 until 2024 though, don&#39;t we? Is it s=
-afe<br>
-&gt; to not test this platform?<br>
-&gt; <br>
-&gt; I&#39;ve long been uncertain about what our policy actually is for doc=
-ker<br>
-&gt; tests, if we want to test every platform we support or only some of<br=
->
-&gt; them; and if it&#39;s only some of them, when do we choose the older a=
-nd<br>
-&gt; when do we choose the newer?<br>
-<br>
-Ideally we would test both the oldest &amp; newest versions of each<br>
-distro we support. Practically though, we&#39;re compromised by the<br>
-limited CI resources available.<br></blockquote></div></div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">Yes, understood.=C2=A0</div><div dir=3D"auto=
-"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<br>
-Dropping older Ubuntu images is a reasonable tradeoff, since we<br>
-still have Debian images covered in CI. Debian can be thought<br>
-of as an older version of Ubuntu to some extent, giving coverage<br>
-that will mitigate the risks of dropping 20.04.<br></blockquote></div></div=
-><div dir=3D"auto"><br></div><div dir=3D"auto">Okay, I&#39;ll take your wor=
-d for that. I am not personally familiar with how much those distros diverg=
-e; I know Ubuntu is debian-based but that&#39;s the extent of my knowledge =
-as I don&#39;t daily-drive either.</div><div dir=3D"auto"><br></div><div di=
-r=3D"auto">So, firstly:</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_b=
-lank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">because I suspect we all have our reasons and I a=
-lso agree testing newer is generally of higher value than testing older.</d=
-iv><div dir=3D"auto"><br></div><div dir=3D"auto">However, would it be possi=
-ble to keep the older Ubuntu test as a manual execution that we could invok=
-e at will, only during RC testing phase? If it&#39;s not a lot of work, I c=
-ould even check that in myself as a follow-up if it isn&#39;t unwanted.</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">I find that &quot;oldest ve=
-rsion of x&quot; is quite useful to me for testing Python stuff in particul=
-ar, as that ecosystem moves pretty fast. It&#39;d be mighty convenient to m=
-e in particular to keep an old Ubuntu test around to run manually as needed=
-.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(Heck, even if it wasn=
-&#39;t on CI at all but was just a container I could run locally, that woul=
-d still be quite useful.)</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-">Whaddaya think?</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div c=
-lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer noreferrer=
-" target=3D"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =
-=C2=A0 <a href=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferre=
-r noreferrer noreferrer" target=3D"_blank">https://www.flickr.com/photos/db=
-errange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer noreferrer"=
- target=3D"_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0-o-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138=
-.berrange.com" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">h=
-ttps://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer nore=
-ferrer" target=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=
-=C2=A0 =C2=A0 <a href=3D"https://www.instagram.com/dberrange" rel=3D"norefe=
-rrer noreferrer noreferrer" target=3D"_blank">https://www.instagram.com/dbe=
-rrange</a> :|<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000004d115c05f4e7e8ba--
+Paolo
 
 
