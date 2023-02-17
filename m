@@ -2,49 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C3E69ACB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 14:42:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A76769ACED
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 14:48:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT0z1-00058C-WC; Fri, 17 Feb 2023 08:41:04 -0500
+	id 1pT152-0008Jh-Qj; Fri, 17 Feb 2023 08:47:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pT0yt-000532-Hr; Fri, 17 Feb 2023 08:40:55 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT14p-0008J1-Ff
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 08:47:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pT0yq-0000oL-Gf; Fri, 17 Feb 2023 08:40:54 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 0B3B947713;
- Fri, 17 Feb 2023 14:40:47 +0100 (CET)
-Message-ID: <85488658-80df-f6ac-8a1d-51172148a436@proxmox.com>
-Date: Fri, 17 Feb 2023 14:40:45 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT14n-0002pl-Aj
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 08:47:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676641620;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NV1+KkcBb35+xZP15Xazh5vsZZnqqwBc9RR+t5xzvJk=;
+ b=Ati9KCwDmwyBoOQM5P9/Tee1G/xePV8e8FE+JrpiqAsdfLaG8Gm84GGY5UWQk3YTLnJIUa
+ intkbx4GMYHLHiuDJk+sDD4Bhowv780rW7cwOXMC8RW8iLym+doGdGrls0FwJU7v2/vPsE
+ wcYpyTgB0RhCYgY5vhOMtt1wc14eBbE=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-501-LNWcjIVKNnGFDQVcnN63Zg-1; Fri, 17 Feb 2023 08:46:58 -0500
+X-MC-Unique: LNWcjIVKNnGFDQVcnN63Zg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ y4-20020a05620a0e0400b007389d2f57f3so39305qkm.21
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 05:46:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NV1+KkcBb35+xZP15Xazh5vsZZnqqwBc9RR+t5xzvJk=;
+ b=JKIOB+dHFQPj4atRRtVTK8tENc+Mxv/d4cCfR8bXw3SCBRnGWrSSJCZvLlDWPAMrtT
+ C0ayzKNt/GblADjClHXfIsVq02nSLkHftBJWQ7OhQWpZVDHjMPMPEjVeiUE/876Et57w
+ DFlfiecreLx1EhJ6yaDIYrqkxc4TT87TxUmoaeW9g8zDJiVr2/Mf/3WXdHRj2bnWIGkZ
+ wXAhncke+95wThD1sDLfctXjf/rv2BT7eoD8v/3ZaNeqBpIEoH5mYzG8eJA/ljByLXUF
+ UMUZQ7773Rl47pgYhQTSN3SusQbqogZT2CjnFcLz6jiQktdxUhxNrMkT/E8fwcq83Qrx
+ rY8g==
+X-Gm-Message-State: AO0yUKU82io72GmKP1Mk85S92FADncAVRTRL4L73zoQREbnyzrtonW16
+ q0DJCj6SLb5ELz4ph77owVXT0dtwAO34eygOgHuAFqWPVl5+aYGPNG1I118fw0eTdKCsR9JXejv
+ BbxLIOTemxXa1oSc=
+X-Received: by 2002:a05:622a:64c:b0:3b8:6d57:93ab with SMTP id
+ a12-20020a05622a064c00b003b86d5793abmr780909qtb.0.1676641618085; 
+ Fri, 17 Feb 2023 05:46:58 -0800 (PST)
+X-Google-Smtp-Source: AK7set/NSQhJfoml4dmScJQjbn3vjS9c3tQRZWVYUjHYf71YIlHRP1hW1tD0ChY7iXhH671PzTRDlA==
+X-Received: by 2002:a05:622a:64c:b0:3b8:6d57:93ab with SMTP id
+ a12-20020a05622a064c00b003b86d5793abmr780878qtb.0.1676641617849; 
+ Fri, 17 Feb 2023 05:46:57 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-32.web.vodafone.de.
+ [109.43.176.32]) by smtp.gmail.com with ESMTPSA id
+ cp6-20020a05622a420600b003b9bc00c2f1sm3088287qtb.94.2023.02.17.05.46.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Feb 2023 05:46:57 -0800 (PST)
+Message-ID: <ffe372fc-2842-bb64-6c0c-42dcd68da775@redhat.com>
+Date: Fri, 17 Feb 2023 14:46:53 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: Lost partition tables on ide-hd + ahci drive
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Mike Maslenkin <mike.maslenkin@gmail.com>
-Cc: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>,
- Aaron Lauterer <a.lauterer@proxmox.com>
-References: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
- <CAFn=p-ahLoVd3W2GaFp5EUFq5EOudz+bUkEk5DV+Z07AjHaHtg@mail.gmail.com>
- <d07bdbc1-065e-f8ec-2a44-ab141ffedd41@proxmox.com>
- <CAL77WPAdDyKFWP_Dqsz_xr7OCzHLTkw6VbYDMGobi8kek4e_8A@mail.gmail.com>
-From: Fiona Ebner <f.ebner@proxmox.com>
-In-Reply-To: <CAL77WPAdDyKFWP_Dqsz_xr7OCzHLTkw6VbYDMGobi8kek4e_8A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20230210003147.1309376-1-jsnow@redhat.com>
+ <Y+9m6g0MAEfFNUYC@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: Proposed way forward Re: [PATCH v2 0/7] Python: Drop support for
+ Python 3.6
+In-Reply-To: <Y+9m6g0MAEfFNUYC@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.256,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.256, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,54 +110,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 16.02.23 um 15:17 schrieb Mike Maslenkin:
-> Does additional comparison make a sense here: check for LBA == 0 and
-> then check MBR signature bytes.
-> Additionally it’s easy to check buffer_is_zero() result or even print
-> FIS contents under these conditions.
-> Data looks like a part of guest memory of 64bit Windows.
+On 17/02/2023 12.37, Daniel P. Berrangé wrote:
+...
+> The long life enterprise distros are the pain point in unlocking the
+> new of python features. So the proposal is that, at a minimum, we
+> augment the current policy with words to the effect that:
+> 
+>    * For long life cycle distributions, QEMU will follow normal
+>      policy for platform level dependancies / native code. For
+>      Python modules, QEMU may choose to require a newer versions
+>      than are available from the distribution package manager.
 
-Just today we got a new dump [0], and it's very similar. Again only 512
-bytes and again guest memory?
+Sounds reasonable to me. But I think we still should also add a sentence 
+where we limit the total amount of time that we promise to support a 
+long-term distro. Otherwise we'll also get problems with other way too 
+backlevel native code dependencies at one point in time.
 
-> febner@enia ~/Downloads % hexdump -C dump.raw 
-> 00000000  00 03 22 00 4e 74 46 73  da 4c a3 1c 3b f5 7d 19  |..".NtFs.L..;.}.|
-> 00000010  60 a5 a6 d4 0c a8 ff ff  30 15 d9 e6 0c a8 ff ff  |`.......0.......|
-> 00000020  5c 00 53 00 6f 00 66 00  74 00 77 00 61 00 72 00  |\.S.o.f.t.w.a.r.|
-> 00000030  65 00 44 00 69 00 73 00  74 00 72 00 69 00 62 00  |e.D.i.s.t.r.i.b.|
-> 00000040  75 00 74 00 69 00 6f 00  6e 00 5c 00 44 00 6f 00  |u.t.i.o.n.\.D.o.|
-> 00000050  77 00 6e 00 6c 00 6f 00  61 00 64 00 5c 00 37 00  |w.n.l.o.a.d.\.7.|
-> 00000060  33 00 63 00 36 00 33 00  65 00 32 00 64 00 37 00  |3.c.6.3.e.2.d.7.|
-> 00000070  66 00 66 00 38 00 66 00  36 00 35 00 31 00 31 00  |f.f.8.f.6.5.1.1.|
-> 00000080  39 00 36 00 63 00 65 00  61 00 31 00 65 00 30 00  |9.6.c.e.a.1.e.0.|
-> 00000090  39 00 66 00 66 00 36 00  32 00 30 00 65 00 5c 00  |9.f.f.6.2.0.e.\.|
-> 000000a0  69 00 6e 00 73 00 74 00  5c 00 70 00 61 00 63 00  |i.n.s.t.\.p.a.c.|
-> 000000b0  6b 00 61 00 67 00 65 00  5f 00 39 00 31 00 37 00  |k.a.g.e._.9.1.7.|
-> 000000c0  31 00 5f 00 66 00 6f 00  72 00 5f 00 6b 00 62 00  |1._.f.o.r._.k.b.|
-> 000000d0  35 00 30 00 32 00 32 00  38 00 33 00 38 00 7e 00  |5.0.2.2.8.3.8.~.|
-> 000000e0  33 00 31 00 62 00 66 00  33 00 38 00 35 00 36 00  |3.1.b.f.3.8.5.6.|
-> 000000f0  61 00 64 00 33 00 36 00  34 00 65 00 33 00 35 00  |a.d.3.6.4.e.3.5.|
-> 00000100  7e 00 61 00 6d 00 64 00  36 00 34 00 7e 00 7e 00  |~.a.m.d.6.4.~.~.|
-> 00000110  31 00 30 00 2e 00 30 00  2e 00 31 00 2e 00 31 00  |1.0...0...1...1.|
-> 00000120  33 00 2e 00 63 00 61 00  74 00 1d 08 0d a8 ff ff  |3...c.a.t.......|
-> 00000130  13 03 0f 00 4e 74 46 73  ea 4d a3 1c 3b f5 7d 19  |....NtFs.M..;.}.|
-> 00000140  90 05 4d 0f 0d a8 ff ff  a0 0c 55 0d 0d a8 ff ff  |..M.......U.....|
-> 00000150  43 52 4f 53 4f 46 54 2d  57 49 4e 44 4f 57 53 2d  |CROSOFT-WINDOWS-|
-> 00000160  44 2e 2e 2d 57 49 4e 50  52 4f 56 49 44 45 52 53  |D..-WINPROVIDERS|
-> 00000170  2d 41 53 53 4f 43 5f 33  31 42 46 33 38 35 36 41  |-ASSOC_31BF3856A|
-> 00000180  0c 03 67 00 70 00 73 00  63 00 72 00 69 00 70 00  |..g.p.s.c.r.i.p.|
-> 00000190  74 00 2e 00 65 00 78 00  65 00 37 00 36 00 34 00  |t...e.x.e.7.6.4.|
-> 000001a0  37 00 62 00 33 00 36 00  30 00 30 00 63 00 64 00  |7.b.3.6.0.0.c.d.|
-> 000001b0  65 00 30 00 34 00 31 00  35 00 39 00 35 00 32 00  |e.0.4.1.5.9.5.2.|
-> 000001c0  31 00 2e 00 74 00 6d 00  70 00 47 00 50 00 53 00  |1...t.m.p.G.P.S.|
-> 000001d0  43 00 52 00 49 00 50 00  54 00 2e 00 45 00 58 00  |C.R.I.P.T...E.X.|
-> 000001e0  45 00 37 00 36 00 34 00  37 00 42 00 33 00 36 00  |E.7.6.4.7.B.3.6.|
-> 000001f0  30 00 30 00 43 00 44 00  45 00 30 00 34 00 31 00  |0.0.C.D.E.0.4.1.|
-> 00000200  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-> *
-> 00100000
+I just sent a patch for discussion, shortly before I noticed your mail here. 
+Feel free to grab the ideas from there into your patch (if you're planning 
+to send one), or let me know if I should try to include the Python-related 
+sentences in mine.
 
-[0]:
-https://forum.proxmox.com/threads/not-a-bootable-disk-vm-ms-server-2016.122849/post-534473
+  Thomas
 
 
