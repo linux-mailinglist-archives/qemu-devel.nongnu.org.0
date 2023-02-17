@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FCA69AB76
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 13:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F81769ABB7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 13:42:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSzpV-0006xI-C5; Fri, 17 Feb 2023 07:27:09 -0500
+	id 1pT03p-0005wy-L0; Fri, 17 Feb 2023 07:41:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSzpS-0006wp-NW
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 07:27:07 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pSzpP-0003Hj-UC
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 07:27:06 -0500
-Received: by mail-wm1-x331.google.com with SMTP id l25so1411076wms.1
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 04:27:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=meY+yVPg7EpBm29ZYRW3OnUm7aHYPwi/rSMY0zPvua4=;
- b=KjGPLrSSc94k3eeIb4CCJuWcNeQZCQg4ErnUyo5/kOBI5JE15ubYz1OTQaeOfITtAO
- EcOjr2tbEW8recET1RI9dy8u9qx4jvLJ87ImWXpOQpqjcyKcbWywbXV/X3bZ9uFzUyCH
- SRWdGyhp66z+6GPEHkLKMrs4fXf6lBrgvkAq87BB5QMXkPziuErbZxefOab2IsfTEKlg
- 5L5YSkSBsRyVwuRGvFT3+ZLGebGq7dDZlGnrWRqPbZPI2pVhOEnFlB7DfxoO/CtRzYsR
- A++D/ktOosGy1xGXvEOo3Los3yg3OLAzaoV4j0i8gZotZ2NpKY5ZizRpsNI9Y+DUroe8
- /sfg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pT03j-0005o3-R8
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 07:41:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pT03h-0001s5-CW
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 07:41:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676637708;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mJ8wyJUdF4piWr+xC0xDa1Q0GHL5KCMgD1x489onYFI=;
+ b=gkhSslRNQLvwjCMe1fOXs2WLDbkP/v1RImIkwnnHQtft3c/iShL3Ywz0X70tbNewm6wfL1
+ KrXtwtFEx8m7ogDjSdNhh87dgYt8SJ9VvpQtir4hwBl1ygmhaE02xaaI0TuVUlt8bK2zfJ
+ jxj5COeOFpjkMdK1R1xzial+X1b60ac=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-9-kA3egAUUOcOeLY5FbLnP7g-1; Fri, 17 Feb 2023 07:41:46 -0500
+X-MC-Unique: kA3egAUUOcOeLY5FbLnP7g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ ay3-20020a05600c1e0300b003e21fa6f404so918797wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 04:41:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=meY+yVPg7EpBm29ZYRW3OnUm7aHYPwi/rSMY0zPvua4=;
- b=AH9+vHWCOv5mBqWWZvDAZ1Wpfj88JILnbyPyvbTSdZW7XBhZsGkdGNbBHjFt7SAX7x
- cROtvwK+kPxIhYM9yVqiRAM9PPpu2OSpMO6L1gu/XGKS4n1PXyCsPggIt+MFcgLjvGbo
- dgYO+BhCzVgJx3egX4gBOXY+icytE08DYlwjSX6DYF9i3F8hptBBQMBK1vXEpXCYzvx3
- 2/g3eELKBk4OwpLdzQ23hSh6EH14dPKd2qlcNbcslLnGedlnjJXauhT5sNbDeFy6YRLC
- 6GCtbIObq/PXFwh+8S00pcQ1qVBRa++qvBgFpEtdF9z5Yut3MfQ0R5RbRbJd3Q1hPRSm
- J5Zw==
-X-Gm-Message-State: AO0yUKUDrskFfDk05k4NwCal2Ixx1rkyINxiG0cD/uSdtZO5UGFUnPg7
- WtZ7cvuJYvUpUOASbstFkdAIhQ==
-X-Google-Smtp-Source: AK7set+nvQmHotd9xwhcLVb39kZqT5heH7rntBeFRwDV8ba5yXUezrmuKxOISgHdbsLo3VZlug0Q9g==
-X-Received: by 2002:a05:600c:a29d:b0:3de:b1ec:7f95 with SMTP id
- hu29-20020a05600ca29d00b003deb1ec7f95mr970298wmb.18.1676636821601; 
- Fri, 17 Feb 2023 04:27:01 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- q12-20020a7bce8c000000b003daf672a616sm4956751wmj.22.2023.02.17.04.27.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 04:27:01 -0800 (PST)
-Message-ID: <3bfcd5cf-7564-6462-d1e6-65011e8bbe47@linaro.org>
-Date: Fri, 17 Feb 2023 13:26:59 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mJ8wyJUdF4piWr+xC0xDa1Q0GHL5KCMgD1x489onYFI=;
+ b=V2sRYY9GViLXS3JAHBI4n+6hbasf18iBGX57sAX8AZHw8yuVZA+14CZbqqDQF4Kotu
+ CdbdQh7vydUHcjC8a46Kb0v8MvduJcbXmTBV0uq2i+/TtAqx2XHCqoyD5N3hfPbSa93V
+ NVwOfB7+hDIZfEIQCGPoqHLj5kNfI78XU/1LcjDQTEC/CXP301xwD6vNII8q7nwnf/wP
+ nkeFCZbPX0Uw7ZIIayGPxlfhLl0FEES19/9/N7SEAbcpqA9tkhv7xbJ4aBuvOlIPipkI
+ LAQHZ6nFtlZ/eUa4T3bAgCqQyznLQe4YgM17xSllQ1B9stpxP2PMR1xPp2b8UTXgX0+t
+ BRyA==
+X-Gm-Message-State: AO0yUKWjIItoU6wY1z5VAkHTNqQR9V9wunCPMxjmAoJ8HrPbb6tyN2MC
+ 3cuxjQBtf7Ej8Kk2Gvlplfd1G0xmLv9d5OWqy/V5uaQoJC+U5hETglcxttJZeIfCJ42N7B0n602
+ OP8WVAJnC/11v0ps1SiQcDosJaaTL6WtRhm+Sj5ZZxoQEvmxYuTpKER1STZOZ+MUftJS83aNV
+X-Received: by 2002:a05:600c:90f:b0:3df:3bd6:63e5 with SMTP id
+ m15-20020a05600c090f00b003df3bd663e5mr482601wmp.12.1676637704471; 
+ Fri, 17 Feb 2023 04:41:44 -0800 (PST)
+X-Google-Smtp-Source: AK7set93+ceWYB7oHE8pKmso95lghxQTjoP45Sdt06d9J2/6JNFIZCS9m5o6osCBQDbTFXJ2MDnRRQ==
+X-Received: by 2002:a05:600c:90f:b0:3df:3bd6:63e5 with SMTP id
+ m15-20020a05600c090f00b003df3bd663e5mr482576wmp.12.1676637704045; 
+ Fri, 17 Feb 2023 04:41:44 -0800 (PST)
+Received: from avogadro.local ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
+ by smtp.gmail.com with ESMTPSA id
+ l19-20020a1ced13000000b003e1f6e18c95sm8569647wmh.21.2023.02.17.04.41.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Feb 2023 04:41:43 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH] docs: build-platforms: refine requirements on Python build
+ dependencies
+Date: Fri, 17 Feb 2023 13:41:42 +0100
+Message-Id: <20230217124142.204986-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH] hw/ide/ahci: trace ncq write command as write instead of
- read
-To: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org
-Cc: jsnow@redhat.com, qemu-block@nongnu.org
-References: <20230217103130.42077-1-f.ebner@proxmox.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230217103130.42077-1-f.ebner@proxmox.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.256,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,24 +101,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/2/23 11:31, Fiona Ebner wrote:
-> Fixes: e4baa9f00b ("AHCI: Replace DPRINTF with trace-events")
+Historically, the critical dependency for both building and running
+QEMU has been the distro packages.  Because QEMU is written in C and C's
+package management has been tied to distros (at least if you do not want
+to bundle libraries with the binary, otherwise I suppose you could use
+something like conda or wrapdb), C dependencies of QEMU would target the
+version that is shipped in relatively old but still commonly used distros.
 
-Oops
+For non-C libraries, however, the situation is different, as these
+languages have their own package management tool (cpan, pip, gem, npm,
+and so on).  For some of these languages, the amount of dependencies
+for even a simple program can easily balloon to the point that many
+distros have given up on packaging non-C code.  For this reason, it has
+become increasingly normal for developers to download dependencies into
+a self-contained local environment, instead of relying on distro packages.
 
-> Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
-> ---
-> 
-> Or should it be sorted alphabetically below execute_ncq_command_unsup?
+Fortunately, this affects QEMU only at build time, as qemu.git does
+not package non-C artifacts such as the qemu.qmp package; but still,
+as we make more use of Python, we experience a clash between a support
+policy that is written for the C world, and dependencies (both direct
+and indirect) that increasingly do not care for the distro versions
+and are quick at moving past Python runtime versions that are declared
+end-of-life.
 
-No, there is no convention...
+For example, Python 3.6 has been EOL'd since December 2021 and Meson 0.62
+(released the following March) already dropped support for it.  Yet,
+Python 3.6 is the default version of the Python runtime for RHEL/CentOS
+8 and SLE 15, respectively the penultimate and the most recent version
+of two distros that QEMU would like to support.  (It is also the version
+used by Ubuntu 18.04, but QEMU stopped supporting it in April 2022).
 
-> I felt read and write belong close together and this reflects the
-> positions in the code.
+Fortunately, these long-term support distros do include newer versions of
+the Python runtime.  However, these more recent runtimes only come with
+a very small subset of the Python packages that the distro includes.
+Because most dependencies are optional tests (avocado, mypy, flake8)
+and Meson is bundled with QEMU, the most noticeably missing package is
+Sphinx (and the readthedocs theme).
 
-probably for this reason.
+Assuming QEMU would like to move forward with the deprecation of
+Python 3.6 (for which there are some good reasons: completing the
+configure->meson switch, which requires Meson 0.63, or making qapidoc
+fully typed which requires newer versions of mypy and also Python due
+to PEP563), there are four possibilities:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+* we change the support policy and stop supporting CentOS 8 and SLE 15;
+  not a good idea since CentOS 8 is not an unreasonable distro for us to
+  want to continue to support
 
-Thanks!
+* we keep supporting Python 3.6 until CentOS 8 and SLE 15 stop being
+  supported.  This is a possibility---but we may want to revise the support
+  policy anyway because SLE 16 has not even been released, so this would
+  mean delaying those desirable reasons for perhaps three years;
+
+* we support Python 3.6 just for building documentation, i.e. we are
+  careful not to use Python 3.7+ features in our Sphinx extensions but are
+  free to use them elsewhere.  Besides being more complicated to understand
+  for developers, this is difficult to apply because qapidoc runs at
+  sphinx-build time, and it is one of the areas which would benefit from
+  a newer version of the runtime;
+
+* we only support Python 3.7+, which means CentOS 8 CI and users
+  have to either install Sphinx from pip or disable documentation.
+
+This proposed update to the support policy chooses the last of these
+possibilities.  It does by modifying two aspects of the support policy:
+
+* it introduces different support periods for *native* vs. *non-native*
+  dependencies.  Non-native dependencies are currently Python ones only,
+  and for simplicity the policy only mentions Python; however, the concept
+  generalizes to other languages with a well-known upstream package
+  manager, that users of older distributions can fetch dependencies from;
+
+* it limits the support period for non-native dependencies to a fixed
+  amount of 4 years.  This is intended to be close to the Python 5-year
+  lifecycle while accounting for the time between a distro's feature freeze
+  and the day it's released.  This limit applies to all distro versions,
+  not just the previous one, in order to cater for the delay of SLE 16.
+
+The 4 year cutoff in practice means that QEMU will be able to drop Python
+3.6 support for QEMU 7.1 (RHEL8 becomes 4 year old next May, while SLE
+is already over the threshold).
+
+Note that all "non-native" packages are currently build dependencies.
+If in the future some non-native packages became runtime dependencies for
+parts of QEMU, it would still be possible to choose any of the first
+three possibilities for them.
+
+Another possible future change is to the way that these dependencies
+have to be obtained by the person building QEMU.  Right now they have to
+run pip before the build; it may be desirable for configure to set up a
+virtual environment and download them in the same way that it populates
+git submodules.  Just like with submodules, this would make things
+easier for people that can afford accessing the network in their build
+environment; the option to populate the build environment manually with
+pip would remain for people whose build machines lack network access.
+The change to the support policy neither requires nor forbids this change.
+
+[Thanks to Daniel P. Berrangé, Peter Maydell and others for discussions
+ that were copied or summarized in the above commit message]
+
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ docs/about/build-platforms.rst | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index 1c1e7b9e11c3..e1ea09789107 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -86,6 +86,25 @@ respective ports repository, while NetBSD will use the pkgsrc repository.
+ For macOS, `Homebrew`_ will be used, although `MacPorts`_ is expected to carry
+ similar versions.
+ 
++Python build dependencies
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++The minimum supported version of Python is currently 3.6.
++
++Distributions with long-term support often provide multiple
++versions of the Python runtime.  QEMU aims to support the default
++Python runtime for 4 years after the initial release of a new version.
++Afterwards, you may have to point QEMU to a newer version of the Python
++runtime using the ``--python`` command line option of the ``configure``
++script.
++
++Some of QEMU's build dependencies are written in Python and available
++through the Python Package Index (PyPI).  QEMU aims to be compatible
++with the versions packaged by common Linux distributions for the first
++4 years after the major release of the distribution.  After 4 years,
++you may have to use ``pip`` to install some of these build dependencies.
++
++
+ Windows
+ -------
+ 
+-- 
+2.39.1
+
 
