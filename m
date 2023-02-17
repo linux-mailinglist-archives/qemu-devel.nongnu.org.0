@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5297F69AFB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925AE69AFB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 16:46:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT2rq-0004qz-PU; Fri, 17 Feb 2023 10:41:46 -0500
+	id 1pT2vO-0007pL-US; Fri, 17 Feb 2023 10:45:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pT2ro-0004qM-4S
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:41:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pT2rm-0002fP-FK
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:41:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676648501;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=hx4301BLyHK+b24mJzOODZV4dRoRaWh2EZvl3smGDcg=;
- b=jKl72QH2Ntst/iumMmbyX9s9GC80Dd6F03xb5Nu+Yh9AbYrW/CTHcFd52W5xl5dIKXfhkH
- TQP/APiZQ9hpMo0hD/kCiXtuFZAlBoh89jPexAMq4u/vB8z/epRWSOqKIEVVUtzuZ4W8/Z
- YLNs8HoPKtUx0s6RGu4ACuV4vWSO1zM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-AW9fPCBKNEOJO1FG1EgHkA-1; Fri, 17 Feb 2023 10:41:36 -0500
-X-MC-Unique: AW9fPCBKNEOJO1FG1EgHkA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4674E185A7A4;
- Fri, 17 Feb 2023 15:41:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B0F64010E83;
- Fri, 17 Feb 2023 15:41:33 +0000 (UTC)
-Date: Fri, 17 Feb 2023 15:41:31 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
-Message-ID: <Y++gK3NhmRaN7WdA@redhat.com>
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <87v8k2ycjb.fsf@pond.sub.org>
- <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com>
- <87zg9cirti.fsf@pond.sub.org>
- <331ac041-254e-8db8-33f3-23b36e6a431c@redhat.com>
- <CAFEAcA-JbjSSjR05_zA-g+L7G_Y2QjvEL2COxKD407y0=nUNrg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pT2vK-0007op-Bk
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:45:22 -0500
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pT2vI-0003bh-5Y
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 10:45:22 -0500
+Received: by mail-oi1-x22d.google.com with SMTP id bg20so1117518oib.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 07:45:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9zayra838Yie6KN+r0BYDlvm93hWztDg7msmRUTD1gE=;
+ b=meQ+sjPJhbX/JmXO0WRKXS+pWy8DMlA/u2F14ZGFo/tWx/pWZ0jbKW6GPwkr7gU6Kd
+ FnGW6wPR/OQXDNW3Ykk/gRH+lXo3JVR7rneITPqrO/Ok5gUrrjH2OQjq5K5hnQABri1J
+ dD+V6LZf5+xdCyZUFjUaFszNIjD3qFrVUQkg4+z/NqzqiCWGaNdjnuz9qugeeAfhlxxk
+ 2hNaSctvxsGjPSMqqfjw+yLHN0kCd5qteWBYu92UV4mgYSYNVzR+ZUuSeSUArGkgJmNN
+ nlSyWvcaKxxY+7+JKfhVTS8/RjPS1Pz4sc/jLfWb2Dgt9WrbHtrSKApXWeicAE8Z8IIm
+ ascg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9zayra838Yie6KN+r0BYDlvm93hWztDg7msmRUTD1gE=;
+ b=t5LDVD3froccYstAMPJ/f6QReY+sLHYBT0HhL30op6bZC7t3+jqFnkATaimompwZWF
+ lprewjQhThmcdj6OhOGW3puTpKnwwGKwAW1oYsQHsMLtLkPEjLd7Z4jrkr56tcICcJK1
+ LPZM/Cv26OddviIcJAwJ2/VcC6z+kaHdyVODnq5xz7CXXqKFiFe9OlONe90d36RarcmC
+ Eb5mYcnB8965GQWLZFsBZlDCnfhpORpsv8ET6hZ32RLwDQzLDwys6uXLdPv/CVrBDh6g
+ 3y8s9wHALJIcs1E5TbUANMGvfEZX5vR6U7AplHu+qBTQ0XQ293lMrVlShUXqG62xbaVP
+ SJnA==
+X-Gm-Message-State: AO0yUKWeWW/wScdtDs+Tt+AE8tg7hUtmYZObSp9nplxIDp2B3ZRqVEGt
+ wqwWPxQ0eYmH1ir2RsCe0+Lizw==
+X-Google-Smtp-Source: AK7set83xznkB4byFVB9bXmuhfz7BHY1h3u6c/S/r52tevl9R65OpIQnPRY1ldjGFxetDFoNa+qfkg==
+X-Received: by 2002:a54:4505:0:b0:378:8312:c0b8 with SMTP id
+ l5-20020a544505000000b003788312c0b8mr597046oil.19.1676648717688; 
+ Fri, 17 Feb 2023 07:45:17 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ i11-20020aca3b0b000000b0037d80581a35sm1885176oia.34.2023.02.17.07.45.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Feb 2023 07:45:17 -0800 (PST)
+Message-ID: <4acbf2e9-ce6d-7d02-0435-485ecf3184b0@ventanamicro.com>
+Date: Fri, 17 Feb 2023 12:45:14 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-JbjSSjR05_zA-g+L7G_Y2QjvEL2COxKD407y0=nUNrg@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH] [PATCH] disas/riscv Fix ctzw disassemble
+Content-Language: en-US
+To: Ivan Klokov <ivan.klokov@syntacore.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, palmer@dabbelt.com
+References: <20230217151459.54649-1-ivan.klokov@syntacore.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230217151459.54649-1-ivan.klokov@syntacore.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.256,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,62 +90,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 17, 2023 at 03:37:16PM +0000, Peter Maydell wrote:
-> On Fri, 17 Feb 2023 at 09:56, Thomas Huth <thuth@redhat.com> wrote:
-> >
-> > On 17/02/2023 10.06, Markus Armbruster wrote:
-> > > Thomas Huth <thuth@redhat.com> writes:
-> > ...
-> > > My view on all this is a bit more pragmatic.
-> > >
-> > > For a human developer, the difference between "dnf install
-> > > python-sphinx" and "pip install sphinx" is, in my opinion, close to
-> > > negligible.  Really no comparison to "git-clone GCC and bootstap it".
-> > > You seem to disagree with that.
-> >
-> > Honestly, being a Python ignorant, I completely messed up my system with
-> > "pip" already a couple of times, especially if the instructions forgot to
-> > tell me to use the "--user" switch. So yes, I tend to disagree ;-)
+
+
+On 2/17/23 12:14, Ivan Klokov wrote:
+> Due to typo in opcode list, ctzw is disassembled as clzw instruction.
 > 
-> Seconded. I trust my distro package manager and I know how it works,
-> and I know how to uninstall a package later if I want to revert what
-> I've done. I do not know or trust what the heck pip is doing or where it's
-> trying to install anything, because it's not a tool I habitually
-> use. I can't remember if I've managed to mess up the system with it,
-> but I've definitely had the experience of "install stuff with pip,
-> do a distro upgrade later, the pip installed stuff is all busted".
+
+The code was added by 02c1b569a15b4b06a so I believe a "Fixes:" tag is in
+order:
+
+Fixes: 02c1b569a15b ("disas/riscv: Add Zb[abcs] instructions")
+
+> Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
+> ---
+>   disas/riscv.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > > For automated builds in general, and distro packaging in particular, the
-> > > difference is real, and could even be a show stopper.  But who's
-> > > packaging bleeding edge QEMU on CentOS 8?  I suspect the only automated
-> > > builds are our own CI, where the difference is real, but hardly a show
-> > > stopper.
-> >
-> > If we've got the feeling that nobody out there really builds QEMU on older
-> > long-term distros anymore, then why the heck are we still trying to support
-> > this according to our support statement?
-> 
-> I don't think anybody is *packaging* new QEMU on an old distro.
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index ddda687c13..d0639cd047 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -1644,7 +1644,7 @@ const rv_opcode_data opcode_data[] = {
+>       { "minu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>       { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>       { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> -    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> +    { "ctzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>       { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
 
-I recall that at one time the openvz folks where packaging new QEMU on
-RHEL-7 for a while after we had already dropped RHEL-7 as a target.
-That's the trouble with enterprise distros, their usage sticks around
-way longer than any of us would care to admit.
 
-> I do think we have users who do ad-hoc from-source builds.
+Does the order matter here? This patch is putting ctzw before clzw, but 20 lines
+or so before we have "clz" after "ctz".
 
-We'll certainly have contributors using it as a dev platform from
-the corporate world.
+If the order doesn't matter I think it would be nice to put ctzw after clzw.
 
-With regards,
+
+
+Thanks,
+
+
 Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+>       { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>       { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
 
