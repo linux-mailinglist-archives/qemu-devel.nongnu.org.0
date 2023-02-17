@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F27269A489
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 04:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5003769A42F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 04:14:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSreZ-0005Yv-AB; Thu, 16 Feb 2023 22:43:19 -0500
+	id 1pSrBJ-000075-La; Thu, 16 Feb 2023 22:13:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pSreX-0005YK-Il; Thu, 16 Feb 2023 22:43:17 -0500
+ id 1pSrBG-0008Vb-VV; Thu, 16 Feb 2023 22:13:02 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1pSreV-0007B1-CT; Thu, 16 Feb 2023 22:43:17 -0500
+ id 1pSrBF-0004rw-Cc; Thu, 16 Feb 2023 22:13:02 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id BFF2411F104;
- Fri, 17 Feb 2023 03:43:13 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 6150911F055;
+ Fri, 17 Feb 2023 03:12:56 +0000 (UTC)
 From: ~ssinprem <ssinprem@git.sr.ht>
 Date: Fri, 17 Feb 2023 09:59:53 +0700
-Subject: [PATCH qemu v3 2/2] aspeed/fuji : correct the eeprom size
-Message-ID: <167660539263.10409.9736070122710923479-2@git.sr.ht>
+Subject: [PATCH qemu v2 2/2] aspeed/fuji : correct the eeprom size
+Message-ID: <167660357595.26523.10278976309538219635-1@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <167660539263.10409.9736070122710923479-0@git.sr.ht>
+In-Reply-To: <167660357595.26523.10278976309538219635-0@git.sr.ht>
 To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Cc: qemu-stable@nongnu.org, ssinprem@celestica.com, ssumet@celestica.com,
  srikanth@celestica.com, kgengan@celestica.com, clg@kaod.org,
@@ -39,7 +39,7 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
