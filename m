@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194E969A517
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:28:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFB4469A53B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:43:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pStHp-0004Gj-IK; Fri, 17 Feb 2023 00:27:57 -0500
+	id 1pStUw-0007rY-Jq; Fri, 17 Feb 2023 00:41:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
- id 1pStHi-0004GC-QX
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:27:51 -0500
-Received: from mta-02.yadro.com ([89.207.88.252] helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <m.tyutin@yadro.com>)
- id 1pStHg-0004bm-U5
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:27:50 -0500
-Received: from mta-01.yadro.com (localhost.localdomain [127.0.0.1])
- by mta-01.yadro.com (Proxmox) with ESMTP id 36C083417C5;
- Fri, 17 Feb 2023 08:27:45 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; h=cc
- :cc:content-id:content-transfer-encoding:content-type
- :content-type:date:from:from:message-id:mime-version:reply-to
- :subject:subject:to:to; s=mta-01; bh=emN6cq0Xji3iMNEKWPUOlKKCg/m
- Kl0TrRgy571/XsJI=; b=QoUwQCUsfKbvewIMGfkftndfhEjsV39VjPFjqV6hmHz
- ipMIQM/bthTbWbbX/sEDjshhJsTcdimDU4YEkEhm9cGTaAK2a5SHB9Ll12TZScYI
- MwUUHHmr1XMG+m5//ehobqhd/dkEwSmHIcXCNVEOVC5zKJrY/RUEzWrmno5XAorU
- =
-Received: from T-EXCH-08.corp.yadro.com (unknown [172.17.10.14])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Proxmox) with ESMTPS id 2C945341660;
- Fri, 17 Feb 2023 08:27:45 +0300 (MSK)
-Received: from T-EXCH-08.corp.yadro.com (172.17.11.58) by
- T-EXCH-08.corp.yadro.com (172.17.11.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.9; Fri, 17 Feb 2023 08:27:44 +0300
-Received: from T-EXCH-08.corp.yadro.com ([172.17.11.58]) by
- T-EXCH-08.corp.yadro.com ([172.17.11.58]) with mapi id 15.02.1118.009; Fri,
- 17 Feb 2023 08:27:44 +0300
-From: Mikhail Tyutin <m.tyutin@yadro.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "alex.bennee@linaro.org" <alex.bennee@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>
-Subject: TCG asserts on some of translation blocks with plugin memory callback
-Thread-Topic: TCG asserts on some of translation blocks with plugin memory
- callback
-Thread-Index: AQHZQpCQZUyYKKfKzUKg+ugTeuoVKA==
-Date: Fri, 17 Feb 2023 05:27:44 +0000
-Message-ID: <13fc40e4-2637-02bc-5f83-4fb9f04cd730@yadro.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.17.10.14]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9B00C3741DBB614587B1E8D6E3CEAE0A@yadro.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pStUt-0007r8-Np
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:41:27 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pStUs-0000wz-3Z
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:41:27 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id cp18so1971107pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 21:41:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ENRC84PSYcXJNXmV9Mz3Zk2hlDOdE7xGSEXc5EjlWbM=;
+ b=ak8fwLAnn8wkdT0pGEOvLvSxgrJ1dJmmMcGjHz6g8Ab6PElvrNW6WCD7c9RssVisth
+ svC23XUBi9hZHeBrO57Q7ewUAVA+7z7dLBkXaHRzuOvPdbbakN7z0Pr2vLA7N+Zk7ddY
+ 0H6BnYScc5r+4SxoZ3zh/j777GSGvZD5dBjJ0OxmUsr//kt37n+ppDvobUxJPRJcqkJW
+ GC9t5Kg5FZ4uhB//GVVX9Y3sHzv/iCYMaV17cKcK7+FacS/s65O5wVGnpJ2cd4v8NDGR
+ ZJ6CcdGwglhV7vepyGfkJMyYMI1NCJEgbtziT5gSm/vThm/kq09kpssV98JwIGECjfXc
+ zTrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ENRC84PSYcXJNXmV9Mz3Zk2hlDOdE7xGSEXc5EjlWbM=;
+ b=w+zYM+ljIxAHh4X8u0dkoNPWR5GQ2fK3BHkyuBsAuIXgtIVKClsrw2yxJKVzZXugIc
+ evat+TN3h0+zuhuI1wmb9uIzRv8QYlfoKRgJHzxrrW/wxKxUt7mmb4JIb+jZxH4h72ik
+ yI7wOs6Tn04AUCHTjnC4k0AdQpgDBaLtcmvmfJyludZdDnNj7xiZhaR560I+ULkD7DBr
+ YqRek1DD1QOnO4mXM7yuxONniDiGX5K1sqZP/6VVyU+IGBHvh+KJPJCecE0J0gBINwgP
+ e9j/9PhyBIEYrwI692rqZFqtibMBalW4LHrHhS+P9jyGMzbZr1IOWFy3Ja8zfCL2fjCv
+ 2jTQ==
+X-Gm-Message-State: AO0yUKXm3FytScaJrzpyYrXz46J8R5uWX2yU1rOgb+g6WAiPpuadSfxT
+ sT3Ea0JST5xmfhzY2zL6PCgweQ==
+X-Google-Smtp-Source: AK7set9qZ9mlhkxvEpy2mWj/3h0vUzfi5DgUCSaocFeFTCDCqyB4sksIn+UKvmYKyfcCg0OiyY4n6A==
+X-Received: by 2002:a17:90b:3146:b0:233:76bd:9faa with SMTP id
+ ip6-20020a17090b314600b0023376bd9faamr9407686pjb.47.1676612483722; 
+ Thu, 16 Feb 2023 21:41:23 -0800 (PST)
+Received: from [172.20.100.240] (rrcs-173-198-77-219.west.biz.rr.com.
+ [173.198.77.219]) by smtp.gmail.com with ESMTPSA id
+ q18-20020a637512000000b004fc2eb3fe45sm611188pgc.54.2023.02.16.21.41.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Feb 2023 21:41:22 -0800 (PST)
+Message-ID: <38499f24-94b5-1e46-2561-bce47bcc92ed@linaro.org>
+Date: Thu, 16 Feb 2023 19:40:58 -1000
 MIME-Version: 1.0
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=m.tyutin@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v6 2/9] target/riscv: introduce riscv_cpu_cfg()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
+References: <20230216215550.1011637-1-dbarboza@ventanamicro.com>
+ <20230216215550.1011637-3-dbarboza@ventanamicro.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230216215550.1011637-3-dbarboza@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,31 +94,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-SGVsbG8sDQoNCkkgaGF2ZSBiZWVuIHRlc3RpbmcgVENHIHBsdWdpbiBwYXRjaCBvbiBsYXRlc3Qg
-UWVtdSBidWlsZCBidXQgbm90aWNlZCB0aGF0IGl0DQpmYWlscyB3aXRoIGFzc2VydCBvbiBzb21l
-IG9mIHRoZSBhcHBsaWNhdGlvbnMuDQoNCiAgIEVSUk9SOi4uL2FjY2VsL3RjZy9jcHUtZXhlYy5j
-Ojk4MzpjcHVfZXhlY19sb29wOg0KICAgICAgIGFzc2VydGlvbiBmYWlsZWQ6IChjcHUtPnBsdWdp
-bl9tZW1fY2JzID09ICgodm9pZCAqKTApKQ0KDQpJdCBoYXBwZW5zIHdoZW4gVENHIHBsdWdpbiBz
-ZXRzIG1lbW9yeSBjYWxsYmFjayBpbiBzb21lIG9mIHRyYW5zbGF0aW9uIGJsb2Nrcy4NClRoZSBj
-YWxsYmFjayBjYW4gYmUgZW1wdHksIGl0IGp1c3QgbmVlZHMgdG8gYmUgdGhlcmUuIERlYnVnZ2lu
-ZyBpdCBmdXJ0aGVyIEkNCnNlZSBpbmplY3RfbWVtX2VuYWJsZV9oZWxwZXIoKSBhbmQgaW5qZWN0
-X21lbV9kaXNhYmxlX2hlbHBlcigpIGZ1bmN0aW9ucyB0aGF0DQphcmUgaW50ZW5kZWQgdG8gc2V0
-IGFuZCByZXNldCBjcHUtPnBsdWdpbl9tZW1fY2JzIHRvIGFwcHJvcHJpYXRlIHZhbHVlLg0KDQpU
-aGUgcHJvYmxlbSBpcyB0aGF0IGluamVjdF9tZW1fZGlzYWJsZV9oZWxwZXIoKSBwYXJ0IGdldHMg
-cmVtb3ZlZCBpbnNpZGUgb2YNCnJlYWNoYWJsZV9jb2RlX3Bhc3MoKSBmdW5jdGlvbi4gQXMgdGhl
-IHJlc3VsdCB3ZSBzZWUgdGhpcyBhc3NlcnQgKHRoZSBwb2ludGVyDQppcyBub3Qgc2V0IHRvIE5V
-TEwgYXQgdGhlIGVuZCBvZiB0cmFuc2xhdGlvbiBibG9jayBhcyBpdCBleHBlY3RzKS4gSGVyZSBp
-cyBPUA0KbGlzdGluZyBqdXN0IGJlZm9yZSByZWFjaGFibGVfY29kZV9wYXNzKCkgY2FsbDoNCg0K
-ICBleHQzMnVfaTY0IHJjeCx0bXAzDQogIGFkZF9pNjQgcmlwLHJpcCwkMHhhDQogIGdvdG9fdGIg
-JDB4MA0KICBleGl0X3RiICQweDdmZmY2NDAxMzMwMA0KICBtb3ZfaTY0IHRtcDExLCQweDAgICAg
-ICAgICAgICAgICAgICAgIDsgdGhpcyBpcyBhIHBhcnQNCiAgc3RfaTY0ICQweDAsZW52LCQweGZm
-ZmZmZmZmZmZmZmY1NDAgICA7IG9mIGluamVjdF9tZW1fZGlzYWJsZV9oZWxwZXIoKQ0KICBzZXRf
-bGFiZWwgJEwwDQogIGV4aXRfdGIgJDB4N2ZmZjY0MDEzMzAzDQoNCg0KcmVhY2hhYmxlX2NvZGVf
-cGFzcygpIHJlbW92ZXMgZXZlcnl0aGluZyBhZnRlciBleGl0X3RiIHVudGlsIGl0IHJlYWNoZXMN
-CnNldF9sYWJlbCBvcCBhcyDigJhkZWFk4oCZIGNvZGUsIHdoaWNoIHNlZW1zIHRvIGJlIGNvcnJl
-Y3QuDQoNClRoZSBxdWVzdGlvbiBpcyBob3cgaXQgaXMgZXhwZWN0ZWQgdG8gd29yaz8gU2hvdWxk
-IGluamVjdF9tZW1fZGlzYWJsZV9oZWxwZXIoKQ0KaW5zZXJ0IGl0cyB6ZXJvaW5nIE9QcyBhZnRl
-ciDigJxzZXRfbGFiZWwgJEww4oCdIG9yIGJlZm9yZSDigJxnb3RvX3RiICQweDDigJ0gb3BlcmF0
-aW9uDQp0byBhdm9pZCBkZWFkIGNvZGUgYmxvY2s/DQo=
+On 2/16/23 11:55, Daniel Henrique Barboza wrote:
+> We're going to do changes that requires accessing the RISCVCPUConfig
+> struct from the RISCVCPU, having access only to a CPURISCVState 'env'
+> pointer. Add a helper to make the code easier to read.
+> 
+> Signed-off-by: Daniel Henrique Barboza<dbarboza@ventanamicro.com>
+> ---
+>   target/riscv/cpu.h | 5 +++++
+>   1 file changed, 5 insertions(+)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
