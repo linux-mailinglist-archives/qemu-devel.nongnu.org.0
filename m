@@ -2,66 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFF069A48E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 04:46:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3DD69A49A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 05:01:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSrhT-0008NR-EB; Thu, 16 Feb 2023 22:46:19 -0500
+	id 1pSrur-0003K3-F9; Thu, 16 Feb 2023 23:00:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSrhQ-0008MD-T7
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:46:16 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSrup-0003Jr-96
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:00:07 -0500
+Received: from esa10.hc2706-39.iphmx.com ([216.71.140.198])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSrhN-00021f-QH
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:46:16 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PHyMr19wZznWKD;
- Fri, 17 Feb 2023 11:43:36 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Fri, 17 Feb 2023 11:45:58 +0800
-Message-ID: <9955313c-5d0f-3c76-4c41-fb49baa3f2ea@huawei.com>
-Date: Fri, 17 Feb 2023 11:45:58 +0800
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSrun-0005Yl-6e
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:00:06 -0500
+X-IronPort-RemoteIP: 209.85.222.198
+X-IronPort-MID: 261145023
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:Xo3g+qqDtrr0ajXLw2kgiuUpfixeBmKmZxIvgKrLsJaIsI4StFCzt
+ garIBmFbvrbZ2D2L41yPt6/8UNTusWHzNUwSwtq/3tkQysQopacVYWSI3mrAy7DdceroGCLT
+ ik9hnssCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
+ Mj75sbSIzdJ4RYtWo4vw//F+UwHUMja4mtC5QRkPK4T5zcyqlFOZH4hDfDpR5fHatQMdgKKb
+ 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+AsBOsDAbzsAB+v9T2M4nVKtio27hc+ada
+ Tl6ncfYpQ8BZsUgkQmGOvVSO3gW0aZuodcrLZUj2CA6IoKvn3bEmp1T4E8K0YIw3MJYM0FH7
+ uQhDjkQaB2inOS33qy8c7w57igjBJGD0II3v3hhyXTADq9jT8mSE+PF4thX2Dp2jcdLdRrcT
+ 5BBOHw/MVKaOUcJYwZHYH49tL7Aan3XejlIrl6PjaAqpWXf0WSd1ZC3boOMJoHSH549ckCwo
+ Hnq8SfXPzYmL/+08BO67l6luP7vknauMG4VPPjinhJwu3WKy2kOTREbS1a/if++jEG4RpRYM
+ UN8x8Y1ha079UjuV9qkGhPh8S7CsRkbVN5dVeY97Wlh15bp3upQPUBcJhYpVTDsnJVeqeACv
+ rNRo+7UOA==
+IronPort-HdrOrdr: A9a23:sussIKnh59BUSQI/4K6+SPjeDN3pDfL63DAbv31ZSRFFG/FwWf
+ re+8jz8SWE9Qr5OUtQ4+xoXZPrfZqyz+8W3WB8B8bGYOCighrVEGgA1/qY/9SDIVyGygc178
+ 4JGNkcNDSzNykDsS+T2mmF+r0bsb+6Gc6T9IPj5kYoZy1RL49b0ydFJjCyLnBWLTM2eqbR16
+ Dx2iOEnVedkLgsAPhTz0NrPtT+mw==
+Received: from mail-qk1-f198.google.com ([209.85.222.198])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 Feb 2023 22:59:56 -0500
+Received: by mail-qk1-f198.google.com with SMTP id
+ w17-20020a05620a425100b00706bf3b459eso2437512qko.11
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 19:59:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hExIX0W3hYLZ2em3fiTBJy8F+fH+eAARcIcBV8+Wk3A=;
+ b=Fb7bGOjiltX9kRSqogYJ3bBHMCzL6tXAShDFA6Is72La2ux5VUMD4CFhOBFNuks6DS
+ GVA4FuueyfGJXkQ+uimfQ42SZ9HsK7LTSJeAw1NW5Wzisv+x6KkzQQT50KbhvfNhO9IA
+ JopvK/BbxKLYrsFAlMisi+lhBjeSaUFGHkTZFfhpnZgthBPGEIGJSpspBLwTpiwR14w3
+ wiwvukOfYrcYVFtYUwtLVS58kqDgkXDGKe0ol1Z0OtHL3r955fd2Ej7O7ktRzLNsxoEY
+ rjIc34rsqYf2B2uMc9cVyLhkuk/kMfuzZ9eUmWdRU5SonUzc3IX0NAApUZc3N+Ev+dj3
+ +wkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hExIX0W3hYLZ2em3fiTBJy8F+fH+eAARcIcBV8+Wk3A=;
+ b=GtWLozFi1FDLMQIRvl+w9KO5ttvV4+ez87S3doNCugImdE8iW4jRyOfxWKCaX9SjLu
+ fDVzBEXl3ZSdzeMbH6XjHg2EamNvGxuGOZnbV3acHiCUIy13GjBjt+iXJPQtbCBOOVKD
+ LmPFXlMBmak1d6rzqnu54ia0FY/1UEwbjA4JJUinxjE8nQGfm+vbr9BLeKKpMbZjv+HO
+ pXxkMEj/YLbyi1z9OGWX/eDEeZMdhIl4CTDzMuDeYr3caPDWDHKkVb7G7pP/5msmQ4i8
+ FBmt/mvxQke9l83eB9bjwUaYFBNXH8/EzAdBekF4CsOH0sPheTjKwietlk00agIJhzzG
+ nbYQ==
+X-Gm-Message-State: AO0yUKWlj66ag7KEgVx+P0pUg/VXqWkAIyPE08f3SXgmoeT6bXFTFemy
+ i77vciXRgiw1sHlyYTZOMuEr5Z8ZpI3p0TIlP6AqcRk3hXT2v/OgDKyBHLspcw4l9iC5D93JZdu
+ /la+RtrzcjXpk/s9ObIFg1JDffVTmeA==
+X-Received: by 2002:a05:622a:20d:b0:3b1:c538:7026 with SMTP id
+ b13-20020a05622a020d00b003b1c5387026mr13568730qtx.42.1676606395567; 
+ Thu, 16 Feb 2023 19:59:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set+WHc8PT+mIAZbqh7Oy2pSZmT+K7SQWwRf8a0V43y7ULzwkVkWHfffZt4Vg+Lfwdr9NrdSLeg==
+X-Received: by 2002:a05:622a:20d:b0:3b1:c538:7026 with SMTP id
+ b13-20020a05622a020d00b003b1c5387026mr13568707qtx.42.1676606395320; 
+ Thu, 16 Feb 2023 19:59:55 -0800 (PST)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ t68-20020ae9df47000000b0073b8459d221sm2498246qkf.31.2023.02.16.19.59.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Feb 2023 19:59:54 -0800 (PST)
+Date: Thu, 16 Feb 2023 22:59:51 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Darren Kenny <darren.kenny@oracle.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH 04/10] fuzz/generic-fuzz: add a limit on DMA bytes written
+Message-ID: <20230217035951.ii2xj4f4c4ysyl5e@mozz.bu.edu>
+References: <20230205042951.3570008-1-alxndr@bu.edu>
+ <20230205042951.3570008-5-alxndr@bu.edu>
+ <m2lel1r5p7.fsf@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RESEND 18/18] i386: Add new property to control L2 cache
- topo in CPUID.04H
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Xiaoyao Li <xiaoyao.li@intel.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-19-zhao1.liu@linux.intel.com>
- <f88368fe-2ef1-2f54-7afe-646ec4d11460@huawei.com>
- <Y+71/BXqsixQMGFV@liuzhao-OptiPlex-7080>
-In-Reply-To: <Y+71/BXqsixQMGFV@liuzhao-OptiPlex-7080>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <m2lel1r5p7.fsf@oracle.com>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.140.198; envelope-from=alxndr@bu.edu;
+ helo=esa10.hc2706-39.iphmx.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.649, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,141 +118,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-在 2023/2/17 11:35, Zhao Liu 写道:
-> On Thu, Feb 16, 2023 at 09:14:54PM +0800, wangyanan (Y) wrote:
->> Date: Thu, 16 Feb 2023 21:14:54 +0800
->> From: "wangyanan (Y)" <wangyanan55@huawei.com>
->> Subject: Re: [PATCH RESEND 18/18] i386: Add new property to control L2
->>   cache topo in CPUID.04H
->>
->> 在 2023/2/13 17:36, Zhao Liu 写道:
->>> From: Zhao Liu <zhao1.liu@intel.com>
->>>
->>> The property x-l2-cache-topo will be used to change the L2 cache
->>> topology in CPUID.04H.
->>>
->>> Now it allows user to set the L2 cache is shared in core level or
->>> cluster level.
->>>
->>> If user passes "-cpu x-l2-cache-topo=[core|cluster]" then older L2 cache
->>> topology will be overrided by the new topology setting.
->> Currently x-l2-cache-topo only defines the share level *globally*.
-> Yes, will set for all CPUs.
+On 230213 1438, Darren Kenny wrote:
+> Hi Alex,
+> 
+> On Saturday, 2023-02-04 at 23:29:45 -05, Alexander Bulekov wrote:
+> > As we have repplaced fork-based fuzzing, with reboots - we can no longer
+> > use a timeout+exit() to avoid slow inputs. Libfuzzer has its own timer
+> > that it uses to catch slow inputs, however these timeouts are usually
+> > seconds-minutes long: more than enough to bog-down the fuzzing process.
+> > However, I found that slow inputs often attempt to fill overly large DMA
+> > requests. Thus, we can mitigate most timeouts by setting a cap on the
+> > total number of DMA bytes written by an input.
+> >
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> >  tests/qtest/fuzz/generic_fuzz.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+> > index c2e5642150..eab92cbc23 100644
+> > --- a/tests/qtest/fuzz/generic_fuzz.c
+> > +++ b/tests/qtest/fuzz/generic_fuzz.c
+> > @@ -52,6 +52,7 @@ enum cmds {
+> >  #define USEC_IN_SEC 1000000000
+> >  
+> >  #define MAX_DMA_FILL_SIZE 0x10000
+> > +#define MAX_TOTAL_DMA_SIZE 0x10000000
+> >  
+> >  #define PCI_HOST_BRIDGE_CFG 0xcf8
+> >  #define PCI_HOST_BRIDGE_DATA 0xcfc
+> > @@ -64,6 +65,7 @@ typedef struct {
+> >  static useconds_t timeout = DEFAULT_TIMEOUT_US;
+> >  
+> >  static bool qtest_log_enabled;
+> > +size_t dma_bytes_written;
+> >  
+> >  MemoryRegion *sparse_mem_mr;
+> >  
+> > @@ -197,6 +199,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
+> >       */
+> >      if (dma_patterns->len == 0
+> >          || len == 0
+> > +        || dma_bytes_written > MAX_TOTAL_DMA_SIZE
+> 
+> NIT: Just wondering if you should check dma_bytes_written + l as opposed
+>      to dma_bytes_written? It's probably not important enough given it's
+>      just an artificial limit, but thought I'd ask.
 >
->> I'm thinking how we can make the property more powerful so that it
->> can specify which CPUs share l2 on core level and which CPUs share
->> l2 on cluster level.
->>
->> What would Intel's Hybrid CPUs do? Determine the l2 share level
->> is core or cluster according to the CPU core type (Atom or Core)?
->> While ARM does not have the core type concept but have CPUs
->> that l2 is shared on different levels in the same system.
-> For example, Alderlake's "core" shares 1 L2 per core and every 4 "atom"s
-> share 1 L2. For this case, we can set the topology as:
->
-> cluster0 has 1 "core" and cluster1 has 4 "atom". Then set L2 shared on
-> cluster level.
->
-> Since cluster0 has only 1 "core" type core, then L2 per "core" works.
-This brings restriction to the users that cluster0 must have *1* 
-core-type core.
-What if we set 2 vCores in cluster0 and 4 vCores in cluster1,  and bind 
-cores in
-cluster0 to 2 core-type pCores and bind cores in cluster1 to 4 atom-type
-pCores？I think this is a necessary use case too.
-> Not sure if this idea can be applied to arm?
->
->> Thanks,
->> Yanan
->>> Here we expose to user "cluster" instead of "module", to be consistent
->>> with "cluster-id" naming.
->>>
->>> Since CPUID.04H is used by intel CPUs, this property is available on
->>> intel CPUs as for now.
->>>
->>> When necessary, it can be extended to CPUID.8000001DH for amd CPUs.
->>>
->>> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
->>> ---
->>>    target/i386/cpu.c | 33 ++++++++++++++++++++++++++++++++-
->>>    target/i386/cpu.h |  2 ++
->>>    2 files changed, 34 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->>> index 5816dc99b1d4..cf84c720a431 100644
->>> --- a/target/i386/cpu.c
->>> +++ b/target/i386/cpu.c
->>> @@ -240,12 +240,15 @@ static uint32_t max_processor_ids_for_cache(CPUCacheInfo *cache,
->>>        case CORE:
->>>            num_ids = 1 << apicid_core_offset(topo_info);
->>>            break;
->>> +    case MODULE:
->>> +        num_ids = 1 << apicid_module_offset(topo_info);
->>> +        break;
->>>        case DIE:
->>>            num_ids = 1 << apicid_die_offset(topo_info);
->>>            break;
->>>        default:
->>>            /*
->>> -         * Currently there is no use case for SMT, MODULE and PACKAGE, so use
->>> +         * Currently there is no use case for SMT and PACKAGE, so use
->>>             * assert directly to facilitate debugging.
->>>             */
->>>            g_assert_not_reached();
->>> @@ -6633,6 +6636,33 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->>>            env->cache_info_amd.l3_cache = &legacy_l3_cache;
->>>        }
->>> +    if (cpu->l2_cache_topo_level) {
->>> +        /*
->>> +         * FIXME: Currently only supports changing CPUID[4] (for intel), and
->>> +         * will support changing CPUID[0x8000001D] when necessary.
->>> +         */
->>> +        if (!IS_INTEL_CPU(env)) {
->>> +            error_setg(errp, "only intel cpus supports x-l2-cache-topo");
->>> +            return;
->>> +        }
->>> +
->>> +        if (!strcmp(cpu->l2_cache_topo_level, "core")) {
->>> +            env->cache_info_cpuid4.l2_cache->share_level = CORE;
->>> +        } else if (!strcmp(cpu->l2_cache_topo_level, "cluster")) {
->>> +            /*
->>> +             * We expose to users "cluster" instead of "module", to be
->>> +             * consistent with "cluster-id" naming.
->>> +             */
->>> +            env->cache_info_cpuid4.l2_cache->share_level = MODULE;
->>> +        } else {
->>> +            error_setg(errp,
->>> +                       "x-l2-cache-topo doesn't support '%s', "
->>> +                       "and it only supports 'core' or 'cluster'",
->>> +                       cpu->l2_cache_topo_level);
->>> +            return;
->>> +        }
->>> +    }
->>> +
->>>    #ifndef CONFIG_USER_ONLY
->>>        MachineState *ms = MACHINE(qdev_get_machine());
->>>        qemu_register_reset(x86_cpu_machine_reset_cb, cpu);
->>> @@ -7135,6 +7165,7 @@ static Property x86_cpu_properties[] = {
->>>                         false),
->>>        DEFINE_PROP_BOOL("x-intel-pt-auto-level", X86CPU, intel_pt_auto_level,
->>>                         true),
->>> +    DEFINE_PROP_STRING("x-l2-cache-topo", X86CPU, l2_cache_topo_level),
->>>        DEFINE_PROP_END_OF_LIST()
->>>    };
->>> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
->>> index 5a955431f759..aa7e96c586c7 100644
->>> --- a/target/i386/cpu.h
->>> +++ b/target/i386/cpu.h
->>> @@ -1987,6 +1987,8 @@ struct ArchCPU {
->>>        int32_t thread_id;
->>>        int32_t hv_max_vps;
->>> +
->>> +    char *l2_cache_topo_level;
->>>    };
 
+Done :)
+
+> >          || (mr != current_machine->ram && mr != sparse_mem_mr)) {
+> >          return;
+> >      }
+> > @@ -269,6 +272,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
+> >                  fflush(stderr);
+> >              }
+> >              qtest_memwrite(qts_global, addr, buf, l);
+> > +            dma_bytes_written += l;
+> >          }
+> >          len -= l;
+> >          buf += l;
+> > @@ -648,6 +652,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+> >  
+> >      op_clear_dma_patterns(s, NULL, 0);
+> >      pci_disabled = false;
+> > +    dma_bytes_written = 0;
+> >  
+> >      QPCIBus *pcibus = qpci_new_pc(s, NULL);
+> >      g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
+> > -- 
+> > 2.39.0
+> 
+> While this will still consume the existing corpus, is it likely to
+> cause these existing corpus to be trimmed?
+
+Not sure - It would affect inputs that generate a lot of DMA
+activity (though those should have been caught by our previous timeout
+mechanism).
+
+> 
+> Otherwise, the changes look good:
+> 
+> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+> 
+> Thanks,
+> 
+> Darren.
 
