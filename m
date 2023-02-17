@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC8D69A906
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 11:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE4E69A91A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 11:32:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSxsf-0003oq-5u; Fri, 17 Feb 2023 05:22:17 -0500
+	id 1pSy1g-00021z-Jj; Fri, 17 Feb 2023 05:31:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pSxsc-0003mO-HL
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:22:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pSxsZ-00084z-Hz
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:22:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676629330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7t228B0XFy4g5DkD34jmGMNYqK2o3g0dyGL7RpwsuJA=;
- b=LqhcFcndQM8Wip60TRdqNZMdGgpiaQFgRuEPm5pUvhqODVnEI2HXNqbsYFiej1hs3Ds9ND
- 1rGEym/WlSEGReM8IZ1Z6k9UZoBF35VX9OOAIhKOtp0MB68HIMD/L5CrquXMROVR4Zn1Km
- hSHt4MQBGAflyEZHKOcr6kzs0d5dzeM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-ZTzOm4sKMDuCglEsKwk7kA-1; Fri, 17 Feb 2023 05:22:05 -0500
-X-MC-Unique: ZTzOm4sKMDuCglEsKwk7kA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14F45885620;
- Fri, 17 Feb 2023 10:22:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E29D492C14;
- Fri, 17 Feb 2023 10:22:03 +0000 (UTC)
-Date: Fri, 17 Feb 2023 11:22:02 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Fam Zheng <fam@euphon.net>, Qing Wang <qinwang@redhat.com>
-Subject: Re: [PATCH v2 3/3] virtio-scsi: reset SCSI devices from main loop
- thread
-Message-ID: <Y+9VShQtrC1KeEWU@redhat.com>
-References: <20230210143238.524357-1-stefanha@redhat.com>
- <20230210143238.524357-4-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pSy1e-00020Z-Om; Fri, 17 Feb 2023 05:31:34 -0500
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pSy1d-0002CI-8Q; Fri, 17 Feb 2023 05:31:34 -0500
+Received: by mail-oi1-x229.google.com with SMTP id bg20so262646oib.9;
+ Fri, 17 Feb 2023 02:31:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kCTlagYfWgLEiXnsIz5tTMEmvqpOXp/IYE2XzsBlc6E=;
+ b=AlLNmN8aRlcCmfxD2qlxPQK4T996KOWzUxmjO+Y1rcUgL4nCrjytYIqP0n0P0VfxCB
+ ygKe4YLRSRUhU7LfXx8XBxqovHazVIFDlC9s14b7RhopUmP12yBgTiLb3iisl5Efsjjx
+ mtB+Y2DQnx1tklad9ba08gxRUNw+Y6fNDQIAc7JAh14e+3nGI66v61V6rkegTXS3nOn9
+ d7ko5oLG4enhMNb4Bsn1a0FR08QR3rHbcy9M/TR3g2ypBHtulovQyYaM926xRq1iPeiI
+ AUNA2Mp2vnJgSJSHCTBSKqI6uPc8graTh27EuCx3eFzA7BInAaXjGSagHJb4cPJ85WPR
+ CHHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kCTlagYfWgLEiXnsIz5tTMEmvqpOXp/IYE2XzsBlc6E=;
+ b=6rMLODSu5t1EKmr+BmHsEkaGxdgzWhElUAwn+So2yxnhSQlN/UdEQmGXlC81n24eDF
+ 9ChI3FhLTPEIzdfqeGEFC/yPu/tCQeSmKawucyhQ9P19tbYp2HdBUQQUFURTKm5l+oIx
+ Qu4+c+KnsIOfuXO6evXPRO7mZn0SeR/LerEmSprFlQdtAHOntvXx4y9he6ypL+CSnamF
+ 8XyEMKjSbG8Yfz/SSvs1OXUzs/7kLX2YXFy968R42g/lOP2IKxHuMwNNQQV3JGeWKoz3
+ j+w/Bq7lb3mkrrvtEPOMf/I3ofRBFzceLR0lF6eJ7HsEfRg6X2MwZdPlnJQGqWqRpX7H
+ ywGw==
+X-Gm-Message-State: AO0yUKWaRuWAmjmeb6osDWvBCLftxIXkdd9tSRTbQbbWBvXmtoEsAQ01
+ Y6JV1SAy3Ahb8CjnS08AI7I=
+X-Google-Smtp-Source: AK7set9p3UFtR0CdpkWMCgJJy8rniXbJW5Mb4/IybBVwaELfXTnZv3DV4SemQvF7jOxpHws4x6KVNA==
+X-Received: by 2002:a05:6808:bcd:b0:37f:523e:1da6 with SMTP id
+ o13-20020a0568080bcd00b0037f523e1da6mr2685885oik.11.1676629890314; 
+ Fri, 17 Feb 2023 02:31:30 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ b65-20020aca3444000000b0037f879e46b9sm1602280oia.3.2023.02.17.02.31.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Feb 2023 02:31:29 -0800 (PST)
+Message-ID: <8a573926-42d8-4e7f-7c8e-9c2b39e32bd7@gmail.com>
+Date: Fri, 17 Feb 2023 07:31:26 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230210143238.524357-4-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH 2/5] spapr/ddw: Remove confuse return value in
+ spapr_phb_get_free_liobn()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, qemu-block@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20230216122524.67212-1-philmd@linaro.org>
+ <20230216122524.67212-3-philmd@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20230216122524.67212-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.351,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,65 +97,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 10.02.2023 um 15:32 hat Stefan Hajnoczi geschrieben:
-> When an IOThread is configured, the ctrl virtqueue is processed in the
-> IOThread. TMFs that reset SCSI devices are currently called directly
-> from the IOThread and trigger an assertion failure in blk_drain():
+
+
+On 2/16/23 09:25, Philippe Mathieu-Daudé wrote:
+> The '1' returned value isn't used because
+> spapr_phb_get_free_liobn_cb() isn't called recursively
+> (it is only called once in spapr_phb_get_free_liobn()).
 > 
->   ../block/block-backend.c:1780: void blk_drain(BlockBackend *): Assertion `qemu_in_main_thread()' failed.
+> The next commit will convert object_child_foreach()
+> handlers to return a boolean indicating error.
+> Remove this value to avoid confusion.
 > 
-> The blk_drain() function is not designed to be called from an IOThread
-> because it needs the Big QEMU Lock (BQL).
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/ppc/spapr_rtas_ddw.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> This patch defers TMFs that reset SCSI devices to a Bottom Half (BH)
-> that runs in the main loop thread under the BQL. This way it's safe to
-> call blk_drain() and the assertion failure is avoided.
-
-It's not entirely obvious what is the call path that leads to
-blk_drain(). Do we somehow call into virtio_scsi_dataplane_stop()?
-
-> Introduce s->tmf_bh_list for tracking TMF requests that have been
-> deferred to the BH. When the BH runs it will grab the entire list and
-> process all requests. Care must be taken to clear the list when the
-> virtio-scsi device is reset or unrealized. Otherwise deferred TMF
-> requests could execute later and lead to use-after-free or other
-> undefined behavior.
-
-Why don't we already need the same for other asynchronously processed
-requests? Certainly having a read request write to guest memory after
-the device has been reset or unplugged isn't what we want either.
-
-I see that we assert(!s->dataplane_started) in virtio_scsi_reset(),
-which may be part of the reason. If we're not processing any requests,
-then we're safe. virtio_scsi_dataplane_stop() calls blk_drain_all()
-(which is really a too big hammer) in order to make sure that in-flight
-requests are completed before dataplane_started becomes false.
-
-I was wondering if we couldn't just blk_inc_in_flight() while a TMF
-request is in flight and then use the same draining logic to be covered.
-You could use oneshot BHs then and do away with the list because you
-don't need to cancel anything any more, you just wait until the BHs have
-completed.
-
-The practical problem may be that we don't have a blk here (which is
-probably also why blk_drain_all() is used). We could have our own
-AIO_WAIT_WHILE() instead. I feel waiting instead of cancelling BHs would
-simplify the code.
-
-In fact, I think technically, you may not need any of that because
-blk_drain_all() also executes all BHs in the main loop before it
-returns, but that might be a bit subtle...
-
-> The s->resetting counter that's used by TMFs that reset SCSI devices is
-> accessed from multiple threads. This patch makes that explicit by using
-> atomic accessor functions. With this patch applied the counter is only
-> modified by the main loop thread under the BQL but can be read by any
-> thread.
-> 
-> Reported-by: Qing Wang <qinwang@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-Kevin
-
+> diff --git a/hw/ppc/spapr_rtas_ddw.c b/hw/ppc/spapr_rtas_ddw.c
+> index 7ba11382bc..98f1310c6e 100644
+> --- a/hw/ppc/spapr_rtas_ddw.c
+> +++ b/hw/ppc/spapr_rtas_ddw.c
+> @@ -51,7 +51,6 @@ static int spapr_phb_get_free_liobn_cb(Object *child, void *opaque)
+>       tcet = (SpaprTceTable *) object_dynamic_cast(child, TYPE_SPAPR_TCE_TABLE);
+>       if (tcet && !tcet->nb_table) {
+>           *(uint32_t *)opaque = tcet->liobn;
+> -        return 1;
+>       }
+>       return 0;
+>   }
 
