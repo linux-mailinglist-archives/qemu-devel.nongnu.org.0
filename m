@@ -2,79 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747DE69B21D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B299969B21F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:57:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT4vd-0005Ft-Lb; Fri, 17 Feb 2023 12:53:49 -0500
+	id 1pT4yf-0004Od-CB; Fri, 17 Feb 2023 12:56:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pT4va-0005Dm-EZ
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:53:46 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pT4vY-0000wr-PD
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:53:46 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- p15-20020a17090a2d8f00b00233ceae8407so1937353pjd.3
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:53:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=to:from:cc:content-transfer-encoding:mime-version:references
- :in-reply-to:message-id:date:subject:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Dvwt/N5z68Lhd9kFSQNr2cRX2YRLFZu4dbfdxwq/zxM=;
- b=EKVHhP5gnNTPWIX0rnOgSnveNg56CGBDQrT5aMbY/4IK+duSy7ag0Ap1Fnz2xKW9LS
- vCxb0g+B1qPeVCGtBAUQ7TjeUYwvUeDelPYwgIFIaQPU5Ihlgndb7GbDIgkuW1NmPcU5
- 61u5z6k7LIPO48nZFq08FYQoRMjXYLVjG6yeCjgwMbKk7EHDdXk0Wa779kF/NIzgN3oj
- zdFC3/i4nlTB9IWpNwRJL6rdWxp6Gl2SXUZ9i6a+8rldaVaC5VCCoXm7e+kz+WCRa2Av
- vKpjEHlf5EyOJijDyuf56sa7CC7u/kg5N25pnYajyTc4B9yR/+ehn0SLTzsqikJe51PE
- Lomg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:from:cc:content-transfer-encoding:mime-version:references
- :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Dvwt/N5z68Lhd9kFSQNr2cRX2YRLFZu4dbfdxwq/zxM=;
- b=BJ2pO8DhovZzXWSGlKDgxRXMSqxs0XrwwTkynzyDfOLSZDzdtBHY5L+qUxcXwuEx7L
- WE/xw/QhTevaaozr5WaZhB18Lfii4mfN/G9vn4Av9xghL1UlmMp/raejmoRTYJPUIzoJ
- 2kOHol2yoP2RQ7qTECqrDJOZKuaJZB5vu4BNlsMpWjqi1NJ1sJwmT5e7rW+VW+c65UJJ
- xrsosA2GtRmyhZgbKdWTb+QLKYXXiwFl/umEYxR5zGP2B7VwtxCWIU1pkKsI5Fd7vuZM
- UqX74IUrlHf+I0Gj03nL/0IyHiGFPUmr6SFgRqMcPrKha5ft+DaMQQLyxgWFPmm7kEQf
- yFng==
-X-Gm-Message-State: AO0yUKWobsIr68tP5KoPG7jZ9q89GrKCeALA+ycvhZSVMGSw/LDPPLQu
- FoZ0IRh0kCJRTjBqgxH1G8N0Kg==
-X-Google-Smtp-Source: AK7set8wD4CUaRVyCzf9tRrgFFGaH1hGKm1MtFCg1ZdIxHP8JYTUSPuk28Sleyly9ZwpKSIlbXLPjg==
-X-Received: by 2002:a05:6a20:3d88:b0:c7:6f26:c85 with SMTP id
- s8-20020a056a203d8800b000c76f260c85mr4091241pzi.36.1676656423538; 
- Fri, 17 Feb 2023 09:53:43 -0800 (PST)
-Received: from localhost ([135.180.226.51]) by smtp.gmail.com with ESMTPSA id
- h38-20020a631226000000b004fab2ba60adsm2989699pgl.81.2023.02.17.09.53.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 09:53:43 -0800 (PST)
-Subject: [PULL 9/9] target/riscv: Fix vslide1up.vf and vslide1down.vf
-Date: Fri, 17 Feb 2023 09:52:03 -0800
-Message-Id: <20230217175203.19510-10-palmer@rivosinc.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230217175203.19510-1-palmer@rivosinc.com>
-References: <20230217175203.19510-1-palmer@rivosinc.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pT4yc-0004O4-Rx
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:56:54 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pT4ya-0001yj-96
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:56:54 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PJKC45XR7z6J6Gj;
+ Sat, 18 Feb 2023 01:52:16 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Fri, 17 Feb 2023 17:56:48 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang
+ <dave.jiang@intel.com>
+Subject: [PATCH v2 0/2] hw/mem: CXL Type-3 Volatile Memory Support
+Date: Fri, 17 Feb 2023 17:56:55 +0000
+Message-ID: <20230217175657.26632-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@rivosinc.com>
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,49 +62,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+v2:
+- Fix an off by one in address space matching when both volatile and
+  persistent memory is in present (meant 1st byte of persistent memory
+  not readale)
+- Picked up tags (thanks to all who tested!)
 
-vslide1up_##BITWIDTH is used by the vslide1up.vx and vslide1up.vf. So its
-scalar input should be uint64_t to hold the 64 bits float register.And the
-same for vslide1down_##BITWIDTH.
+Based on following series (in order)
+1. [PATCH v4 00/10] hw/cxl: CXL emulation cleanups and minor fixes for upstream
+2. [PATCH v4 0/8] hw/cxl: RAS error emulation and injection
+3. [PATCH 0/2] hw/cxl: Passthrough HDM decoder emulation
 
-This bug is caught when run these instructions on qemu-riscv32.
+Based on: Message-Id: 20230206172816.8201-1-Jonathan.Cameron@huawei.com
+Based-on: Message-id: 20230217172924.25239-1-Jonathan.Cameron@huawei.com
+Based-on: Message-id: 20230125152703.9928-1-Jonathan.Cameron@huawei.com
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-ID: <20230213094550.29621-1-zhiwei_liu@linux.alibaba.com>
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
----
- target/riscv/vector_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Kernel code is queued up in kernel.org cxl/pending.
 
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 00de879787..3073c54871 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -5038,7 +5038,7 @@ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_w, uint32_t, H4)
- GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_d, uint64_t, H8)
- 
- #define GEN_VEXT_VSLIE1UP(BITWIDTH, H)                                      \
--static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
-+static void vslide1up_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
-                      void *vs2, CPURISCVState *env, uint32_t desc)          \
- {                                                                           \
-     typedef uint##BITWIDTH##_t ETYPE;                                       \
-@@ -5086,7 +5086,7 @@ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_w, 32)
- GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_d, 64)
- 
- #define GEN_VEXT_VSLIDE1DOWN(BITWIDTH, H)                                     \
--static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
-+static void vslide1down_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
-                        void *vs2, CPURISCVState *env, uint32_t desc)          \
- {                                                                             \
-     typedef uint##BITWIDTH##_t ETYPE;                                         \
+Now we have some kernel code to test this against (and it looks good)
+I'd like to propose this series for upstream following 3 other series
+already proposed for inclusion:
+
+Original cover letter with minor updates.
+
+This patches provides 2 features to the CXL Type-3 Device:
+    1) Volatile Memory Region Support
+    2) Multi-Region support (1 Volatile, 1 Persistent)
+
+Summary of Changes per-commit:
+1) Whitespace updates to docs and tests
+2) Refactor CDAT DSMAS Initialization for multi-region initialization
+   Multi-Region and Volatile Memory support for CXL Type-3 Devices
+   Test and Documentation updates
+
+The final patch in this series makes 6 major changes to the type-3
+device in order to implement multi-region and volatile region support
+    1) The HostMemoryBackend [hostmem] has been replaced by two
+       [hostvmem] and [hostpmem] to store volatile and persistent memory
+       respectively
+    2) The single AddressSpace has been replaced by two AddressSpaces
+       [hostvmem_as] and [hostpmem_as] to map respective memdevs.
+    3) Each memory region size and total region are stored separately
+    4) The CDAT and DVSEC memory map entries have been updated:
+       a) if vmem is present, vmem is mapped at DPA(0)
+       b) if pmem is present
+          i)  and vmem is present, pmem is mapped at DPA(vmem->size)
+          ii) else, pmem is mapped at DPA(0)
+       c) partitioning of pmem is not supported in this patch set but
+          has been discussed and this design should suffice.
+    5) Read/Write functions have been updated to access AddressSpaces
+       according to the mapping described in #4.  Access to the
+       persistent address space is calculated by (dpa-vmem_len)
+    6) cxl-mailbox has been updated to report the respective size of
+       volatile and persistent memory region
+
+Gregory Price (2):
+  tests/qtest/cxl-test: whitespace, line ending cleanup
+  hw/cxl: Multi-Region CXL Type-3 Devices (Volatile and Persistent)
+
+ docs/system/devices/cxl.rst    |  49 ++++--
+ hw/cxl/cxl-mailbox-utils.c     |  26 +--
+ hw/mem/cxl_type3.c             | 300 +++++++++++++++++++++++++--------
+ include/hw/cxl/cxl_device.h    |  11 +-
+ tests/qtest/bios-tables-test.c |   8 +-
+ tests/qtest/cxl-test.c         | 146 +++++++++++-----
+ 6 files changed, 398 insertions(+), 142 deletions(-)
+
 -- 
-2.39.0
+2.37.2
 
 
