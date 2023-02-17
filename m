@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66D469B3A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 21:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC5169B3BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 21:19:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT783-0002yZ-Mv; Fri, 17 Feb 2023 15:14:47 -0500
+	id 1pT784-00037y-Po; Fri, 17 Feb 2023 15:14:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pT77m-0002cZ-P3; Fri, 17 Feb 2023 15:14:30 -0500
+ id 1pT77o-0002gY-Jc; Fri, 17 Feb 2023 15:14:36 -0500
 Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pT77j-0000oC-6I; Fri, 17 Feb 2023 15:14:29 -0500
+ id 1pT77m-0000oq-Qs; Fri, 17 Feb 2023 15:14:32 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9A4D520FB3;
- Fri, 17 Feb 2023 20:14:25 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F0AB720FB9;
+ Fri, 17 Feb 2023 20:14:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676664865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1676664868; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hy2cNC4cK/PMZdfqfDxXauSL8bS6+cHJmfDoGKJ3/3s=;
- b=UivnYipbvB87SgjVgI2tWMpAALbCgMz74LJQP1e56pOQ90CDKvaxBlrxFArRmKY6UPMYg0
- LDX1xxZZ6f0QhjwnltktUz5CxJ27j74QQ3k/2sU//KAkHmq3I0mmmARMjHt/asOCc9IOOs
- dXtJFYLB4GsL5wD395/FNsVdVNzVSEE=
+ bh=idMRdTknij5akfDpU2EHeXHT1plxdisEKd5SP6dUfeA=;
+ b=bm3lutw566+78owGzZKoWC+A2DfJbowsqaElh7l9bydoIm0vuUVN1ipC+Sh8xjSbkIjdXD
+ iBMxeqQzbPoYPqo8FieRlIpMZ01py/Xnwo2DE/M5G/u4tjey8qRUTeJ5g+N9yGBZ/RNA4r
+ k/7Kb6dfq9IxD2S3WzWtxx6CCXg6VjU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676664865;
+ s=susede2_ed25519; t=1676664868;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hy2cNC4cK/PMZdfqfDxXauSL8bS6+cHJmfDoGKJ3/3s=;
- b=Zy9oWl43eHmsdUYJkgArYYxwyRAr59E24oWZPwnJi7yB/kuS9U15hqtQ3/gKO6AFadpn/7
- tv5ZEy2iksVXVMDA==
+ bh=idMRdTknij5akfDpU2EHeXHT1plxdisEKd5SP6dUfeA=;
+ b=bYnAAtdSRGHWqT0+Xo5VhIEp3pttgDFkh4xvgHhM4pG00FfIBpxshnPZbml/8F8Ma6q9Th
+ XcHGoo4Knh2Iv9Dg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B8223138E3;
- Fri, 17 Feb 2023 20:14:22 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 143AD138E3;
+ Fri, 17 Feb 2023 20:14:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qBLfHx7g72MwIAAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 17 Feb 2023 20:14:22 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0HZxMyHg72MwIAAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 17 Feb 2023 20:14:25 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -58,9 +58,9 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
  Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v6 09/29] target/arm: move helpers to tcg/
-Date: Fri, 17 Feb 2023 17:11:30 -0300
-Message-Id: <20230217201150.22032-10-farosas@suse.de>
+Subject: [PATCH v6 10/29] target/arm: Move psci.c into the tcg directory
+Date: Fri, 17 Feb 2023 17:11:31 -0300
+Message-Id: <20230217201150.22032-11-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230217201150.22032-1-farosas@suse.de>
 References: <20230217201150.22032-1-farosas@suse.de>
@@ -96,199 +96,43 @@ From: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/arm/meson.build               | 15 ++-------------
- target/arm/tcg-stubs.c               | 23 +++++++++++++++++++++++
- target/arm/{ => tcg}/crypto_helper.c |  0
- target/arm/{ => tcg}/helper-a64.c    |  0
- target/arm/{ => tcg}/iwmmxt_helper.c |  0
- target/arm/{ => tcg}/m_helper.c      |  0
- target/arm/tcg/meson.build           | 13 +++++++++++++
- target/arm/{ => tcg}/mte_helper.c    |  0
- target/arm/{ => tcg}/mve_helper.c    |  0
- target/arm/{ => tcg}/neon_helper.c   |  0
- target/arm/{ => tcg}/op_helper.c     |  0
- target/arm/{ => tcg}/pauth_helper.c  |  0
- target/arm/{ => tcg}/sme_helper.c    |  0
- target/arm/{ => tcg}/sve_helper.c    |  0
- target/arm/{ => tcg}/tlb_helper.c    |  0
- target/arm/{ => tcg}/vec_helper.c    |  0
- target/arm/{ => tcg}/vec_internal.h  |  0
- 17 files changed, 38 insertions(+), 13 deletions(-)
- create mode 100644 target/arm/tcg-stubs.c
- rename target/arm/{ => tcg}/crypto_helper.c (100%)
- rename target/arm/{ => tcg}/helper-a64.c (100%)
- rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
- rename target/arm/{ => tcg}/m_helper.c (100%)
- rename target/arm/{ => tcg}/mte_helper.c (100%)
- rename target/arm/{ => tcg}/mve_helper.c (100%)
- rename target/arm/{ => tcg}/neon_helper.c (100%)
- rename target/arm/{ => tcg}/op_helper.c (100%)
- rename target/arm/{ => tcg}/pauth_helper.c (100%)
- rename target/arm/{ => tcg}/sme_helper.c (100%)
- rename target/arm/{ => tcg}/sve_helper.c (100%)
- rename target/arm/{ => tcg}/tlb_helper.c (100%)
- rename target/arm/{ => tcg}/vec_helper.c (100%)
- rename target/arm/{ => tcg}/vec_internal.h (100%)
+ target/arm/meson.build      | 1 -
+ target/arm/tcg/meson.build  | 4 ++++
+ target/arm/{ => tcg}/psci.c | 0
+ 3 files changed, 4 insertions(+), 1 deletion(-)
+ rename target/arm/{ => tcg}/psci.c (100%)
 
 diff --git a/target/arm/meson.build b/target/arm/meson.build
-index b2904b676b..3e2f403005 100644
+index 3e2f403005..a5191b57e1 100644
 --- a/target/arm/meson.build
 +++ b/target/arm/meson.build
-@@ -1,17 +1,9 @@
- arm_ss = ss.source_set()
- arm_ss.add(files(
-   'cpu.c',
--  'crypto_helper.c',
-   'debug_helper.c',
-   'gdbstub.c',
-   'helper.c',
--  'iwmmxt_helper.c',
--  'm_helper.c',
--  'mve_helper.c',
--  'neon_helper.c',
--  'op_helper.c',
--  'tlb_helper.c',
--  'vec_helper.c',
-   'vfp_helper.c',
-   'cpu_tcg.c',
- ))
-@@ -22,11 +14,6 @@ arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: fil
- arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-   'cpu64.c',
-   'gdbstub64.c',
--  'helper-a64.c',
--  'mte_helper.c',
--  'pauth_helper.c',
--  'sve_helper.c',
--  'sme_helper.c',
+@@ -22,7 +22,6 @@ arm_softmmu_ss.add(files(
+   'arm-powerctl.c',
+   'machine.c',
+   'monitor.c',
+-  'psci.c',
+   'ptw.c',
  ))
  
- arm_softmmu_ss = ss.source_set()
-@@ -43,6 +30,8 @@ subdir('hvf')
- 
- if 'CONFIG_TCG' in config_all
-    subdir('tcg')
-+else
-+    arm_ss.add(files('tcg-stubs.c'))
- endif
- 
- target_arch += {'arm': arm_ss}
-diff --git a/target/arm/tcg-stubs.c b/target/arm/tcg-stubs.c
-new file mode 100644
-index 0000000000..1a7ddb3664
---- /dev/null
-+++ b/target/arm/tcg-stubs.c
-@@ -0,0 +1,23 @@
-+/*
-+ * QEMU ARM stubs for some TCG helper functions
-+ *
-+ * Copyright 2021 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internals.h"
-+
-+void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void raise_exception_ra(CPUARMState *env, uint32_t excp, uint32_t syndrome,
-+                        uint32_t target_el, uintptr_t ra)
-+{
-+    g_assert_not_reached();
-+}
-diff --git a/target/arm/crypto_helper.c b/target/arm/tcg/crypto_helper.c
-similarity index 100%
-rename from target/arm/crypto_helper.c
-rename to target/arm/tcg/crypto_helper.c
-diff --git a/target/arm/helper-a64.c b/target/arm/tcg/helper-a64.c
-similarity index 100%
-rename from target/arm/helper-a64.c
-rename to target/arm/tcg/helper-a64.c
-diff --git a/target/arm/iwmmxt_helper.c b/target/arm/tcg/iwmmxt_helper.c
-similarity index 100%
-rename from target/arm/iwmmxt_helper.c
-rename to target/arm/tcg/iwmmxt_helper.c
-diff --git a/target/arm/m_helper.c b/target/arm/tcg/m_helper.c
-similarity index 100%
-rename from target/arm/m_helper.c
-rename to target/arm/tcg/m_helper.c
 diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index 044561bd4d..1f27ba1272 100644
+index 1f27ba1272..fa8a9eab93 100644
 --- a/target/arm/tcg/meson.build
 +++ b/target/arm/tcg/meson.build
-@@ -23,10 +23,23 @@ arm_ss.add(files(
-   'translate-mve.c',
-   'translate-neon.c',
-   'translate-vfp.c',
-+  'crypto_helper.c',
-+  'iwmmxt_helper.c',
-+  'm_helper.c',
-+  'mve_helper.c',
-+  'neon_helper.c',
-+  'op_helper.c',
-+  'tlb_helper.c',
-+  'vec_helper.c',
+@@ -43,3 +43,7 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'sme_helper.c',
+   'sve_helper.c',
  ))
- 
- arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-   'translate-a64.c',
-   'translate-sve.c',
-   'translate-sme.c',
-+  'helper-a64.c',
-+  'mte_helper.c',
-+  'pauth_helper.c',
-+  'sme_helper.c',
-+  'sve_helper.c',
- ))
-diff --git a/target/arm/mte_helper.c b/target/arm/tcg/mte_helper.c
++
++arm_softmmu_ss.add(files(
++  'psci.c',
++))
+diff --git a/target/arm/psci.c b/target/arm/tcg/psci.c
 similarity index 100%
-rename from target/arm/mte_helper.c
-rename to target/arm/tcg/mte_helper.c
-diff --git a/target/arm/mve_helper.c b/target/arm/tcg/mve_helper.c
-similarity index 100%
-rename from target/arm/mve_helper.c
-rename to target/arm/tcg/mve_helper.c
-diff --git a/target/arm/neon_helper.c b/target/arm/tcg/neon_helper.c
-similarity index 100%
-rename from target/arm/neon_helper.c
-rename to target/arm/tcg/neon_helper.c
-diff --git a/target/arm/op_helper.c b/target/arm/tcg/op_helper.c
-similarity index 100%
-rename from target/arm/op_helper.c
-rename to target/arm/tcg/op_helper.c
-diff --git a/target/arm/pauth_helper.c b/target/arm/tcg/pauth_helper.c
-similarity index 100%
-rename from target/arm/pauth_helper.c
-rename to target/arm/tcg/pauth_helper.c
-diff --git a/target/arm/sme_helper.c b/target/arm/tcg/sme_helper.c
-similarity index 100%
-rename from target/arm/sme_helper.c
-rename to target/arm/tcg/sme_helper.c
-diff --git a/target/arm/sve_helper.c b/target/arm/tcg/sve_helper.c
-similarity index 100%
-rename from target/arm/sve_helper.c
-rename to target/arm/tcg/sve_helper.c
-diff --git a/target/arm/tlb_helper.c b/target/arm/tcg/tlb_helper.c
-similarity index 100%
-rename from target/arm/tlb_helper.c
-rename to target/arm/tcg/tlb_helper.c
-diff --git a/target/arm/vec_helper.c b/target/arm/tcg/vec_helper.c
-similarity index 100%
-rename from target/arm/vec_helper.c
-rename to target/arm/tcg/vec_helper.c
-diff --git a/target/arm/vec_internal.h b/target/arm/tcg/vec_internal.h
-similarity index 100%
-rename from target/arm/vec_internal.h
-rename to target/arm/tcg/vec_internal.h
+rename from target/arm/psci.c
+rename to target/arm/tcg/psci.c
 -- 
 2.35.3
 
