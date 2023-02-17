@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD9A69A430
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 04:14:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DF969A43B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 04:19:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSrCD-00017D-LE; Thu, 16 Feb 2023 22:14:01 -0500
+	id 1pSrHF-0004w2-Iz; Thu, 16 Feb 2023 22:19:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSrC8-00010f-EO
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:13:57 -0500
-Received: from mga02.intel.com ([134.134.136.20])
+ id 1pSrHC-0004vi-U0
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:19:10 -0500
+Received: from mga09.intel.com ([134.134.136.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pSrC4-0004xL-W8
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:13:56 -0500
+ id 1pSrH9-0005ow-UJ
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 22:19:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676603632; x=1708139632;
+ t=1676603947; x=1708139947;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=EeqSXCljEb8VO/OVC63jJuBS8l4Y1XbMYemXMLNgGXI=;
- b=iv9F+bk6nFIB1QO912tUeCoPBB4J7Ad3yLIS2qfRu53TAueYmMPNzsVk
- npOF68vTfDjV8QPpyen6YBgrWEK0oKfNmZJXWXTBcxwrBdYhHY1mp1d0D
- tHSE2w4aZuICNZ26GGLjQdZ/r5QiFGXXbJmu8QPg5mhvADKrReUQ6azJa
- VsS1gJEsSfC4OyOR+re/goYC88MbB1wOUsnrr8K0OenEpE0AmloXxQli8
- 1q9XScHSGAEWy1GCa0JdOSt/FPN/i3b3bIy1sPyXZLP7b2qVuaFysQ7l1
- Zw3ltKZ4U3p/R8mOfA8I4J8a+4ORJXlE/bNaF0KcdRCs3k952zV9n9GnR g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="319999870"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="319999870"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 19:13:50 -0800
+ bh=OQi4QeYXLilZ1FoUs29zapfSdFlKRT7876VN/aPxQHA=;
+ b=Rg+tQInqUteREfYifgo+hGfhLGpVY3XBkHIc4R05u6jhYh83QoMpH/4B
+ WBZt7J+QouLsF2IBsQLYUHSexA0C1kAOEy2EV6h5XJiyNRQcuzeptwlap
+ 39BoPQPDRFDDISwrd06QXFr3J/sQC6FGR9ZSfokODppTdKGbsNRYiZAkV
+ h27xioX2NfPy5+N7A82eHj3RTGSynoMdbzz30k9eNmwutgzOrzLIBxh7g
+ btEZMMwqIhigEPCOj2w4WkN+r9YQzS4SiGJ07ABDo468q6Ze1TfzX1+pB
+ VJC7kPtyl3ZLoQ7uKaR6RPYzs7tAR5RWvScHb8nMS678J4vd2T19EoixM w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333259852"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="333259852"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2023 19:19:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="739109928"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="739109928"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="702827123"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="702827123"
 Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
  ([10.239.160.112])
- by fmsmga004.fm.intel.com with ESMTP; 16 Feb 2023 19:13:45 -0800
-Date: Fri, 17 Feb 2023 11:21:37 +0800
+ by orsmga001.jf.intel.com with ESMTP; 16 Feb 2023 19:19:01 -0800
+Date: Fri, 17 Feb 2023 11:26:53 +0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: "wangyanan (Y)" <wangyanan55@huawei.com>
 Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
@@ -50,13 +50,6 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Sean Christopherson <seanjc@google.com>,
  Like Xu <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Radoslaw Biernacki <rad@semihalf.com>,
- Leif Lindholm <quic_llindhol@quicinc.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
@@ -64,25 +57,25 @@ Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC 23/52] arm: Replace MachineState.smp access with topology
- helpers
-Message-ID: <Y+7ywUoEmdAlZE+r@liuzhao-OptiPlex-7080>
+Subject: Re: [RFC 41/52] machine: Introduce core_type() hook
+Message-ID: <Y+7z/Y4LEmrLGSpC@liuzhao-OptiPlex-7080>
 References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-24-zhao1.liu@linux.intel.com>
- <dc3020ad-20cd-108b-91d5-20b00fb3aa28@huawei.com>
+ <20230213095035.158240-42-zhao1.liu@linux.intel.com>
+ <9fe2480d-d3e0-3cda-6bed-0132d1bdd1a0@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=gb2312
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <dc3020ad-20cd-108b-91d5-20b00fb3aa28@huawei.com>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=zhao1.liu@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <9fe2480d-d3e0-3cda-6bed-0132d1bdd1a0@huawei.com>
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=zhao1.liu@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,415 +92,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 06:46:30PM +0800, wangyanan (Y) wrote:
-> Date: Thu, 16 Feb 2023 18:46:30 +0800
+On Thu, Feb 16, 2023 at 08:15:23PM +0800, wangyanan (Y) wrote:
+> Date: Thu, 16 Feb 2023 20:15:23 +0800
 > From: "wangyanan (Y)" <wangyanan55@huawei.com>
-> Subject: Re: [RFC 23/52] arm: Replace MachineState.smp access with topology
->  helpers
+> Subject: Re: [RFC 41/52] machine: Introduce core_type() hook
 > 
-> åœ¨ 2023/2/13 17:50, Zhao Liu å†™é“:
+> Hi Zhao,
+> 
+> ÔÚ 2023/2/13 17:50, Zhao Liu Ð´µÀ:
 > > From: Zhao Liu <zhao1.liu@intel.com>
 > > 
-> > When MachineState.topo is introduced, the topology related structures
-> > become complicated. So we wrapped the access to topology fields of
-> > MachineState.topo into some helpers, and we are using these helpers
-> > to replace the use of MachineState.smp.
+> > Since supported core types are architecture specific, we need this hook
+> > to allow archs define its own parsing or validation method.
 > > 
-> > Before arm supports hybrid, here we use smp-specific interface to get
-> > "threads per core" and "cores per cluster".
+> > As the example, add the x86 core_type() which will be used in "-hybrid"
+> > parameter parsing.
 > > 
-> > For other cases, it's straightforward to replace topology access with
-> > wrapped generic interfaces.
-> Sorry. I have not yet understand the necessity of the mixed use
-> of generic helpers and smp specific helpersðŸ˜‰. For a machine, the
-> topo type is either smp or hybrid. So far the ARM virt machine's
-> topo type is always smp, I don't see the difference between
-> machine_topo_get_cores and machine_topo_get_smp_cores.
+> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> > ---
+> >   hw/core/machine-topo.c | 14 ++++++++++++++
+> >   hw/core/machine.c      |  1 +
+> >   hw/i386/x86.c          | 15 +++++++++++++++
+> >   include/hw/boards.h    |  7 +++++++
+> >   4 files changed, 37 insertions(+)
+> > 
+> > diff --git a/hw/core/machine-topo.c b/hw/core/machine-topo.c
+> > index 12c05510c1b5..f9ab08a1252e 100644
+> > --- a/hw/core/machine-topo.c
+> > +++ b/hw/core/machine-topo.c
+> > @@ -352,3 +352,17 @@ void machine_parse_smp_config(MachineState *ms,
+> >           return;
+> >       }
+> >   }
+> > +
+> > +/*
+> > + * machine_parse_hybrid_core_type: the default hook to parse hybrid core
+> > + *                                 type corresponding to the coretype
+> > + *                                 string option.
+> > + */
+> > +int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype)
+> > +{
+> > +    if (strcmp(coretype, "") == 0 || strcmp(coretype, "none") == 0) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    return -1;
+> > +}
+> Is it possible that coretype can be NULL?
+> What would *coretype be if the users don't explicitly specify coretype
+> in the command line?
 
-For hybrid, the cpu index is necessary.
-But for the common usage of smp, people don't care about the cpu index,
-so the cpu index cannot be obtained in many places.
+At present, the coretype field cannot be omitted, which requires other code
+changes to support omission (if omission is required in the future, there
+should be an arch-specific method to supplement the default coretype at the
+same time).
 
-Of course, in this smp case, it is also possible to pass in any cpu index
-for machine_topo_get_cores() (such as machine_topo_get_cores(0)), but an
-irrelevant cpu index always looks strange...so I introduced the
-smp-specific interface.
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index fad990f49b03..acc32b3be5f6 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -926,6 +926,7 @@ static void machine_class_init(ObjectClass *oc, void *data)
+> >        * On Linux, each node's border has to be 8MB aligned
+> >        */
+> >       mc->numa_mem_align_shift = 23;
+> > +    mc->core_type = machine_parse_hybrid_core_type;
+> >       object_class_property_add_str(oc, "kernel",
+> >           machine_get_kernel, machine_set_kernel);
+> > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> > index f381fdc43180..f58a90359170 100644
+> > --- a/hw/i386/x86.c
+> > +++ b/hw/i386/x86.c
+> > @@ -1569,6 +1569,20 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
+> >       qapi_free_SgxEPCList(list);
+> >   }
+> > +static int x86_parse_hybrid_core_type(MachineState *ms, const char *coretype)
+> > +{
+> > +    X86HybridCoreType type;
+> > +
+> > +    if (strcmp(coretype, "atom") == 0) {
+> > +        type = INTEL_ATOM_TYPE;
+> > +    } else if (strcmp(coretype, "core") == 0) {
+> > +        type = INTEL_CORE_TYPE;
+> > +    } else {
+> > +        type = INVALID_HYBRID_TYPE;
+> > +    }
+> What about:
+> INTEL_CORE_TYPE_ATOM
+> INTEL_CORE_TYPE_CORE
+> X86_CORE_TYPE_UNKNOWN ?
+> just a suggestion.
 
-> 
-> When we want to support hybrid for ARM, change the naming
-> of variables will be enough.
+It looks better! Thanks.
+
 > 
 > Thanks,
 > Yanan
-> > Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
-> > Cc: Andrey Smirnov <andrew.smirnov@gmail.com>
-> > Cc: Radoslaw Biernacki <rad@semihalf.com>
-> > Cc: Leif Lindholm <quic_llindhol@quicinc.com>
-> > Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
-> > Cc: Alistair Francis <alistair@alistair23.me>
-> > Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
-> > ---
-> >   hw/arm/fsl-imx6.c        |  4 ++--
-> >   hw/arm/fsl-imx6ul.c      |  4 ++--
-> >   hw/arm/fsl-imx7.c        |  4 ++--
-> >   hw/arm/highbank.c        |  2 +-
-> >   hw/arm/realview.c        |  2 +-
-> >   hw/arm/sbsa-ref.c        |  8 +++----
-> >   hw/arm/vexpress.c        |  2 +-
-> >   hw/arm/virt-acpi-build.c |  4 ++--
-> >   hw/arm/virt.c            | 50 ++++++++++++++++++++++------------------
-> >   hw/arm/xlnx-zynqmp.c     |  6 ++---
-> >   include/hw/arm/virt.h    |  2 +-
-> >   target/arm/cpu.c         |  2 +-
-> >   target/arm/cpu_tcg.c     |  2 +-
-> >   target/arm/kvm.c         |  2 +-
-> >   14 files changed, 50 insertions(+), 44 deletions(-)
-> > 
-> > diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-> > index 00dafe3f62de..e94dec5e6c8d 100644
-> > --- a/hw/arm/fsl-imx6.c
-> > +++ b/hw/arm/fsl-imx6.c
-> > @@ -41,7 +41,7 @@ static void fsl_imx6_init(Object *obj)
-> >       char name[NAME_SIZE];
-> >       int i;
-> > -    for (i = 0; i < MIN(ms->smp.cpus, FSL_IMX6_NUM_CPUS); i++) {
-> > +    for (i = 0; i < MIN(machine_topo_get_cpus(ms), FSL_IMX6_NUM_CPUS); i++) {
-> >           snprintf(name, NAME_SIZE, "cpu%d", i);
-> >           object_initialize_child(obj, name, &s->cpu[i],
-> >                                   ARM_CPU_TYPE_NAME("cortex-a9"));
-> > @@ -108,7 +108,7 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-> >       FslIMX6State *s = FSL_IMX6(dev);
-> >       uint16_t i;
-> >       Error *err = NULL;
-> > -    unsigned int smp_cpus = ms->smp.cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(ms);
-> >       if (smp_cpus > FSL_IMX6_NUM_CPUS) {
-> >           error_setg(errp, "%s: Only %d CPUs are supported (%d requested)",
-> > diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-> > index d88d6cc1c5f9..1216b7ff1a92 100644
-> > --- a/hw/arm/fsl-imx6ul.c
-> > +++ b/hw/arm/fsl-imx6ul.c
-> > @@ -160,9 +160,9 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-> >       SysBusDevice *sbd;
-> >       DeviceState *d;
-> > -    if (ms->smp.cpus > 1) {
-> > +    if (machine_topo_get_cpus(ms) > 1) {
-> >           error_setg(errp, "%s: Only a single CPU is supported (%d requested)",
-> > -                   TYPE_FSL_IMX6UL, ms->smp.cpus);
-> > +                   TYPE_FSL_IMX6UL, machine_topo_get_cpus(ms));
-> >           return;
-> >       }
-> > diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-> > index afc74807990f..f3e569a6ec29 100644
-> > --- a/hw/arm/fsl-imx7.c
-> > +++ b/hw/arm/fsl-imx7.c
-> > @@ -36,7 +36,7 @@ static void fsl_imx7_init(Object *obj)
-> >       char name[NAME_SIZE];
-> >       int i;
-> > -    for (i = 0; i < MIN(ms->smp.cpus, FSL_IMX7_NUM_CPUS); i++) {
-> > +    for (i = 0; i < MIN(machine_topo_get_cpus(ms), FSL_IMX7_NUM_CPUS); i++) {
-> >           snprintf(name, NAME_SIZE, "cpu%d", i);
-> >           object_initialize_child(obj, name, &s->cpu[i],
-> >                                   ARM_CPU_TYPE_NAME("cortex-a7"));
-> > @@ -148,7 +148,7 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-> >       int i;
-> >       qemu_irq irq;
-> >       char name[NAME_SIZE];
-> > -    unsigned int smp_cpus = ms->smp.cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(ms);
-> >       if (smp_cpus > FSL_IMX7_NUM_CPUS) {
-> >           error_setg(errp, "%s: Only %d CPUs are supported (%d requested)",
-> > diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-> > index f12aacea6b86..22d6987eafe1 100644
-> > --- a/hw/arm/highbank.c
-> > +++ b/hw/arm/highbank.c
-> > @@ -181,7 +181,7 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
-> >       SysBusDevice *busdev;
-> >       qemu_irq pic[128];
-> >       int n;
-> > -    unsigned int smp_cpus = machine->smp.cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(machine);
-> >       qemu_irq cpu_irq[4];
-> >       qemu_irq cpu_fiq[4];
-> >       qemu_irq cpu_virq[4];
-> > diff --git a/hw/arm/realview.c b/hw/arm/realview.c
-> > index a5aa2f046aec..0a2022a34629 100644
-> > --- a/hw/arm/realview.c
-> > +++ b/hw/arm/realview.c
-> > @@ -87,7 +87,7 @@ static void realview_init(MachineState *machine,
-> >       DriveInfo *dinfo;
-> >       I2CBus *i2c;
-> >       int n;
-> > -    unsigned int smp_cpus = machine->smp.cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(machine);
-> >       int done_nic = 0;
-> >       qemu_irq cpu_irq[4];
-> >       int is_mpcore = 0;
-> > diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> > index f778cb6d0979..35f2b83849d5 100644
-> > --- a/hw/arm/sbsa-ref.c
-> > +++ b/hw/arm/sbsa-ref.c
-> > @@ -394,7 +394,7 @@ static void create_secure_ram(SBSAMachineState *sms,
-> >   static void create_gic(SBSAMachineState *sms)
+> > +    return type;
+> > +}
+> > +
+> >   static void x86_machine_initfn(Object *obj)
 > >   {
-> > -    unsigned int smp_cpus = MACHINE(sms)->smp.cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(MACHINE(sms));
-> >       SysBusDevice *gicbusdev;
-> >       const char *gictype;
-> >       uint32_t redist0_capacity, redist0_count;
-> > @@ -674,8 +674,8 @@ static void create_secure_ec(MemoryRegion *mem)
-> >   static void sbsa_ref_init(MachineState *machine)
-> >   {
-> > -    unsigned int smp_cpus = machine->smp.cpus;
-> > -    unsigned int max_cpus = machine->smp.max_cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(machine);
-> > +    unsigned int max_cpus = machine_topo_get_max_cpus(machine);
-> >       SBSAMachineState *sms = SBSA_MACHINE(machine);
-> >       MachineClass *mc = MACHINE_GET_CLASS(machine);
-> >       MemoryRegion *sysmem = get_system_memory();
-> > @@ -801,7 +801,7 @@ static void sbsa_ref_init(MachineState *machine)
-> >   static const CPUArchIdList *sbsa_ref_possible_cpu_arch_ids(MachineState *ms)
-> >   {
-> > -    unsigned int max_cpus = ms->smp.max_cpus;
-> > +    unsigned int max_cpus = machine_topo_get_max_cpus(ms);
-> >       SBSAMachineState *sms = SBSA_MACHINE(ms);
-> >       int n;
-> > diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-> > index 34b012b528b0..5e486da27ee8 100644
-> > --- a/hw/arm/vexpress.c
-> > +++ b/hw/arm/vexpress.c
-> > @@ -207,7 +207,7 @@ static void init_cpus(MachineState *ms, const char *cpu_type,
-> >       DeviceState *dev;
-> >       SysBusDevice *busdev;
-> >       int n;
-> > -    unsigned int smp_cpus = ms->smp.cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(ms);
-> >       /* Create the actual CPUs */
-> >       for (n = 0; n < smp_cpus; n++) {
-> > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> > index 4156111d49f0..985b945e762d 100644
-> > --- a/hw/arm/virt-acpi-build.c
-> > +++ b/hw/arm/virt-acpi-build.c
-> > @@ -67,7 +67,7 @@ static void acpi_dsdt_add_cpus(Aml *scope, VirtMachineState *vms)
-> >       MachineState *ms = MACHINE(vms);
-> >       uint16_t i;
-> > -    for (i = 0; i < ms->smp.cpus; i++) {
-> > +    for (i = 0; i < machine_topo_get_cpus(ms); i++) {
-> >           Aml *dev = aml_device("C%.03X", i);
-> >           aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
-> >           aml_append(dev, aml_name_decl("_UID", aml_int(i)));
-> > @@ -725,7 +725,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> >       build_append_int_noprefix(table_data, vms->gic_version, 1);
-> >       build_append_int_noprefix(table_data, 0, 3);   /* Reserved */
-> > -    for (i = 0; i < MACHINE(vms)->smp.cpus; i++) {
-> > +    for (i = 0; i < machine_topo_get_cpus(MACHINE(vms)); i++) {
-> >           ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
-> >           uint64_t physical_base_address = 0, gich = 0, gicv = 0;
-> >           uint32_t vgic_interrupt = vms->virt ? PPI(ARCH_GIC_MAINT_IRQ) : 0;
-> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > index 75f28947de07..ae65ba2c929c 100644
-> > --- a/hw/arm/virt.c
-> > +++ b/hw/arm/virt.c
-> > @@ -346,7 +346,7 @@ static void fdt_add_timer_nodes(const VirtMachineState *vms)
-> >       if (vms->gic_version == VIRT_GIC_VERSION_2) {
-> >           irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
-> >                                GIC_FDT_IRQ_PPI_CPU_WIDTH,
-> > -                             (1 << MACHINE(vms)->smp.cpus) - 1);
-> > +                             (1 << machine_topo_get_cpus(MACHINE(vms))) - 1);
-> >       }
-> >       qemu_fdt_add_subnode(ms->fdt, "/timer");
-> > @@ -374,7 +374,10 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-> >       int addr_cells = 1;
-> >       const MachineState *ms = MACHINE(vms);
-> >       const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-> > -    int smp_cpus = ms->smp.cpus;
-> > +    int smp_cpus = machine_topo_get_cpus(ms);
-> > +    int smp_clusters = machine_topo_get_clusters(ms);
-> > +    int smp_cores = machine_topo_get_smp_cores(ms);
-> > +    int smp_threads = machine_topo_get_smp_threads(ms);
-> >       /*
-> >        * See Linux Documentation/devicetree/bindings/arm/cpus.yaml
-> > @@ -461,19 +464,19 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-> >               char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
-> >               char *map_path;
-> > -            if (ms->smp.threads > 1) {
-> > +            if (smp_threads > 1) {
-> >                   map_path = g_strdup_printf(
-> >                       "/cpus/cpu-map/socket%d/cluster%d/core%d/thread%d",
-> > -                    cpu / (ms->smp.clusters * ms->smp.cores * ms->smp.threads),
-> > -                    (cpu / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters,
-> > -                    (cpu / ms->smp.threads) % ms->smp.cores,
-> > -                    cpu % ms->smp.threads);
-> > +                    cpu / (smp_clusters * smp_cores * smp_threads),
-> > +                    (cpu / (smp_cores * smp_threads)) % smp_clusters,
-> > +                    (cpu / smp_threads) % smp_cores,
-> > +                    cpu % smp_threads);
-> >               } else {
-> >                   map_path = g_strdup_printf(
-> >                       "/cpus/cpu-map/socket%d/cluster%d/core%d",
-> > -                    cpu / (ms->smp.clusters * ms->smp.cores),
-> > -                    (cpu / ms->smp.cores) % ms->smp.clusters,
-> > -                    cpu % ms->smp.cores);
-> > +                    cpu / (smp_clusters * smp_cores),
-> > +                    (cpu / smp_cores) % smp_clusters,
-> > +                    cpu % smp_cores);
-> >               }
-> >               qemu_fdt_add_path(ms->fdt, map_path);
-> >               qemu_fdt_setprop_phandle(ms->fdt, map_path, "cpu", cpu_path);
-> > @@ -613,7 +616,7 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
-> >       if (vms->gic_version == VIRT_GIC_VERSION_2) {
-> >           irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
-> >                                GIC_FDT_IRQ_PPI_CPU_WIDTH,
-> > -                             (1 << MACHINE(vms)->smp.cpus) - 1);
-> > +                             (1 << machine_topo_get_cpus(MACHINE(vms))) - 1);
-> >       }
-> >       qemu_fdt_add_subnode(ms->fdt, "/pmu");
-> > @@ -708,7 +711,7 @@ static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
-> >       SysBusDevice *gicbusdev;
-> >       const char *gictype;
-> >       int i;
-> > -    unsigned int smp_cpus = ms->smp.cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(ms);
-> >       uint32_t nb_redist_regions = 0;
-> >       int revision;
-> > @@ -1277,7 +1280,7 @@ static FWCfgState *create_fw_cfg(const VirtMachineState *vms, AddressSpace *as)
-> >       char *nodename;
-> >       fw_cfg = fw_cfg_init_mem_wide(base + 8, base, 8, base + 16, as);
-> > -    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)ms->smp.cpus);
-> > +    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)machine_topo_get_cpus(ms));
-> >       nodename = g_strdup_printf("/fw-cfg@%" PRIx64, base);
-> >       qemu_fdt_add_subnode(ms->fdt, nodename);
-> > @@ -1908,7 +1911,7 @@ static VirtGICType finalize_gic_version_do(const char *accel_name,
-> >   static void finalize_gic_version(VirtMachineState *vms)
-> >   {
-> >       const char *accel_name = current_accel_name();
-> > -    unsigned int max_cpus = MACHINE(vms)->smp.max_cpus;
-> > +    unsigned int max_cpus = machine_topo_get_max_cpus(MACHINE(vms));
-> >       int gics_supported = 0;
-> >       /* Determine which GIC versions the current environment supports */
-> > @@ -1958,7 +1961,7 @@ static void finalize_gic_version(VirtMachineState *vms)
-> >    */
-> >   static void virt_cpu_post_init(VirtMachineState *vms, MemoryRegion *sysmem)
-> >   {
-> > -    int max_cpus = MACHINE(vms)->smp.max_cpus;
-> > +    int max_cpus = machine_topo_get_max_cpus(MACHINE(vms));
-> >       bool aarch64, pmu, steal_time;
-> >       CPUState *cpu;
-> > @@ -2032,8 +2035,8 @@ static void machvirt_init(MachineState *machine)
-> >       bool firmware_loaded;
-> >       bool aarch64 = true;
-> >       bool has_ged = !vmc->no_ged;
-> > -    unsigned int smp_cpus = machine->smp.cpus;
-> > -    unsigned int max_cpus = machine->smp.max_cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(machine);
-> > +    unsigned int max_cpus = machine_topo_get_max_cpus(machine);
-> >       if (!cpu_type_valid(machine->cpu_type)) {
-> >           error_report("mach-virt: CPU type %s not supported", machine->cpu_type);
-> > @@ -2664,7 +2667,10 @@ static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
-> >   static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
-> >   {
-> >       int n;
-> > -    unsigned int max_cpus = ms->smp.max_cpus;
-> > +    unsigned int max_cpus = machine_topo_get_max_cpus(ms);
-> > +    unsigned int smp_clusters = machine_topo_get_clusters(ms);
-> > +    unsigned int smp_cores = machine_topo_get_smp_cores(ms);
-> > +    unsigned int smp_threads = machine_topo_get_smp_threads(ms);
-> >       VirtMachineState *vms = VIRT_MACHINE(ms);
-> >       MachineClass *mc = MACHINE_GET_CLASS(vms);
-> > @@ -2684,16 +2690,16 @@ static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
-> >           assert(!mc->smp_props.dies_supported);
-> >           ms->possible_cpus->cpus[n].props.has_socket_id = true;
-> >           ms->possible_cpus->cpus[n].props.socket_id =
-> > -            n / (ms->smp.clusters * ms->smp.cores * ms->smp.threads);
-> > +            n / (smp_clusters * smp_cores * smp_threads);
-> >           ms->possible_cpus->cpus[n].props.has_cluster_id = true;
-> >           ms->possible_cpus->cpus[n].props.cluster_id =
-> > -            (n / (ms->smp.cores * ms->smp.threads)) % ms->smp.clusters;
-> > +            (n / (smp_cores * smp_threads)) % smp_clusters;
-> >           ms->possible_cpus->cpus[n].props.has_core_id = true;
-> >           ms->possible_cpus->cpus[n].props.core_id =
-> > -            (n / ms->smp.threads) % ms->smp.cores;
-> > +            (n / smp_threads) % smp_cores;
-> >           ms->possible_cpus->cpus[n].props.has_thread_id = true;
-> >           ms->possible_cpus->cpus[n].props.thread_id =
-> > -            n % ms->smp.threads;
-> > +            n % smp_threads;
-> >       }
-> >       return ms->possible_cpus;
-> >   }
-> > diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> > index 335cfc417d70..773de7a51680 100644
-> > --- a/hw/arm/xlnx-zynqmp.c
-> > +++ b/hw/arm/xlnx-zynqmp.c
-> > @@ -213,7 +213,7 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
-> >                                      const char *boot_cpu, Error **errp)
-> >   {
-> >       int i;
-> > -    int num_rpus = MIN(ms->smp.cpus - XLNX_ZYNQMP_NUM_APU_CPUS,
-> > +    int num_rpus = MIN(machine_topo_get_cpus(ms) - XLNX_ZYNQMP_NUM_APU_CPUS,
-> >                          XLNX_ZYNQMP_NUM_RPU_CPUS);
-> >       if (num_rpus <= 0) {
-> > @@ -376,7 +376,7 @@ static void xlnx_zynqmp_init(Object *obj)
-> >       MachineState *ms = MACHINE(qdev_get_machine());
-> >       XlnxZynqMPState *s = XLNX_ZYNQMP(obj);
-> >       int i;
-> > -    int num_apus = MIN(ms->smp.cpus, XLNX_ZYNQMP_NUM_APU_CPUS);
-> > +    int num_apus = MIN(machine_topo_get_cpus(ms), XLNX_ZYNQMP_NUM_APU_CPUS);
-> >       object_initialize_child(obj, "apu-cluster", &s->apu_cluster,
-> >                               TYPE_CPU_CLUSTER);
-> > @@ -449,7 +449,7 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-> >       MemoryRegion *system_memory = get_system_memory();
-> >       uint8_t i;
-> >       uint64_t ram_size;
-> > -    int num_apus = MIN(ms->smp.cpus, XLNX_ZYNQMP_NUM_APU_CPUS);
-> > +    int num_apus = MIN(machine_topo_get_cpus(ms), XLNX_ZYNQMP_NUM_APU_CPUS);
-> >       const char *boot_cpu = s->boot_cpu ? s->boot_cpu : "apu-cpu[0]";
-> >       ram_addr_t ddr_low_size, ddr_high_size;
-> >       qemu_irq gic_spi[GIC_NUM_SPI_INTR];
-> > diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> > index e1ddbea96bea..e046f530990f 100644
-> > --- a/include/hw/arm/virt.h
-> > +++ b/include/hw/arm/virt.h
-> > @@ -213,7 +213,7 @@ static inline int virt_gicv3_redist_region_count(VirtMachineState *vms)
-> >       assert(vms->gic_version != VIRT_GIC_VERSION_2);
-> > -    return (MACHINE(vms)->smp.cpus > redist0_capacity &&
-> > +    return (machine_topo_get_cpus(MACHINE(vms)) > redist0_capacity &&
-> >               vms->highmem_redists) ? 2 : 1;
-> >   }
-> > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> > index 5f63316dbf22..a7f1d470eed7 100644
-> > --- a/target/arm/cpu.c
-> > +++ b/target/arm/cpu.c
-> > @@ -2079,7 +2079,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-> >   #ifndef CONFIG_USER_ONLY
-> >       MachineState *ms = MACHINE(qdev_get_machine());
-> > -    unsigned int smp_cpus = ms->smp.cpus;
-> > +    unsigned int smp_cpus = machine_topo_get_cpus(ms);
-> >       bool has_secure = cpu->has_el3 || arm_feature(env, ARM_FEATURE_M_SECURITY);
-> >       /*
-> > diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-> > index ccde5080eb70..a098d797637c 100644
-> > --- a/target/arm/cpu_tcg.c
-> > +++ b/target/arm/cpu_tcg.c
-> > @@ -515,7 +515,7 @@ static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-> >        * Linux wants the number of processors from here.
-> >        * Might as well set the interrupt-controller bit too.
-> >        */
-> > -    return ((ms->smp.cpus - 1) << 24) | (1 << 23);
-> > +    return ((machine_topo_get_cpus(ms) - 1) << 24) | (1 << 23);
-> >   }
-> >   #endif
-> > diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> > index f022c644d2ff..eefded5d203b 100644
-> > --- a/target/arm/kvm.c
-> > +++ b/target/arm/kvm.c
-> > @@ -263,7 +263,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >       cap_has_mp_state = kvm_check_extension(s, KVM_CAP_MP_STATE);
-> > -    if (ms->smp.cpus > 256 &&
-> > +    if (machine_topo_get_cpus(ms) > 256 &&
-> >           !kvm_check_extension(s, KVM_CAP_ARM_IRQ_LINE_LAYOUT_2)) {
-> >           error_report("Using more than 256 vcpus requires a host kernel "
-> >                        "with KVM_CAP_ARM_IRQ_LINE_LAYOUT_2");
+> >       X86MachineState *x86ms = X86_MACHINE(obj);
+> > @@ -1596,6 +1610,7 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+> >       x86mc->save_tsc_khz = true;
+> >       x86mc->fwcfg_dma_enabled = true;
+> >       nc->nmi_monitor_handler = x86_nmi;
+> > +    mc->core_type = x86_parse_hybrid_core_type;
+> >       object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
+> >           x86_machine_get_smm, x86_machine_set_smm,
+> > diff --git a/include/hw/boards.h b/include/hw/boards.h
+> > index 9364c90d5f1a..34ec035b5c9f 100644
+> > --- a/include/hw/boards.h
+> > +++ b/include/hw/boards.h
+> > @@ -36,6 +36,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+> >                                  Error **errp);
+> >   void machine_parse_smp_config(MachineState *ms,
+> >                                 const SMPConfiguration *config, Error **errp);
+> > +int machine_parse_hybrid_core_type(MachineState *ms, const char *coretype);
+> >   /**
+> >    * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+> > @@ -199,6 +200,11 @@ typedef struct {
+> >    *    Return the type of KVM corresponding to the kvm-type string option or
+> >    *    computed based on other criteria such as the host kernel capabilities.
+> >    *    kvm-type may be NULL if it is not needed.
+> > + * @core_type:
+> > + *    Return the type of hybrid cores corresponding to the coretype string
+> > + *    option. The default hook only accept "none" or "" since the most generic
+> > + *    core topology should not specify any specific core type. Each arch can
+> > + *    define its own core_type() hook to override the default one.
+> >    * @numa_mem_supported:
+> >    *    true if '--numa node.mem' option is supported and false otherwise
+> >    * @hotplug_allowed:
+> > @@ -237,6 +243,7 @@ struct MachineClass {
+> >       void (*reset)(MachineState *state, ShutdownCause reason);
+> >       void (*wakeup)(MachineState *state);
+> >       int (*kvm_type)(MachineState *machine, const char *arg);
+> > +    int (*core_type)(MachineState *state, const char *type);
+> >       BlockInterfaceType block_default_type;
+> >       int units_per_default_bus;
 > 
 
