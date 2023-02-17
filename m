@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF58669B405
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 21:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F235F69B413
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 21:41:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT7Rs-0002gq-1x; Fri, 17 Feb 2023 15:35:16 -0500
+	id 1pT7X5-0000Pa-30; Fri, 17 Feb 2023 15:40:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pT7Rp-0002f6-TA
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 15:35:14 -0500
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
+ (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
+ id 1pT7Wy-0000LT-KV; Fri, 17 Feb 2023 15:40:32 -0500
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pT7Rk-0006Tf-Cn
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 15:35:10 -0500
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-17172b43531so2588235fac.1
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 12:35:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h8I3/loqCXLPJq7Ot2kL3eJ1UPZjr/7NB5ZYHvYcxs4=;
- b=hXlYR+c/vmtjgfPiCUTY2Egvj7W8wG+htq8q1k1Ot9eRL5PxM/sctvLKXh0GQ5dor1
- A2KWh3UKhfGMaFV5MaH5obMlqpUbmgsXyaftIx2HTjkjZbosrFSorvYZB/26sNYbWLbn
- i57ZW+0letC+xpBRJrBG7qXyEs5GLIG/mewnnCukqqwlPNzBTshbFYxeflE63kNLjesl
- SNP4tZacMPLiH4j90OP8ulSYXrACWX9FwobNn9EH3h4TmwPCUrq/guKSS5e82wzrljKL
- E2y1aPW6Tk+v8XlWe2vdBl6rPsTXktFQKLyiUDlso7fWQ0uS1fgIg8zFrN6vfv+kdxBV
- sxPA==
+ (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
+ id 1pT7Wt-0000rq-ES; Fri, 17 Feb 2023 15:40:31 -0500
+Received: by mail-qt1-x831.google.com with SMTP id l23so1914299qtj.1;
+ Fri, 17 Feb 2023 12:40:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tUyuG/CRTSQnQCWXCu0mkyQIzHGiIdCBSGldULbzDRE=;
+ b=GLyFXytDU/3BSAswHFdtOsELDH1MwRB8wzgc9tKlqn1CR+ZriXdAsGCFlUhkFOK3cw
+ ZlmHWJMydGdD+Me2I8lMX00r1w0xxW0vUF+118JfnDO6lB/jkZegrRULgWpDfOk44Aml
+ BsGLZL23moO4/lf/vHxPLA5YoMIi5loxOI4NlauJpgMRpYtPe1vigc5Y6Tv/8P60+lhU
+ 0JTiTzKP8ygOPY5gw0xp6NkltcbEkA+owWEw3OJSmmrLkbbyfplsB1Sm1Lekw2CN5TqI
+ tTcGsoG7ymgSic5RgFjG9J4ix25INPz2Vnq56FrQVmAVcqkIowHB0fS0xgfNaWvXG+iV
+ Yr1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=h8I3/loqCXLPJq7Ot2kL3eJ1UPZjr/7NB5ZYHvYcxs4=;
- b=2Rvh36wZk/hNgWAPzXrLzshCIhUDQ+whHDUEAHXno1bQbiwFYOMnqxAeA1Oc/UY9Yp
- /q2PQ6fXfiAdgBWeac3MrW6fbbGeX9EPUaBLBjeQcSnsyu6yrQqZz5Az4qAibPSEB8ON
- tr9nxsZOoJjPbgTB0Q+FMGJBy4Xocf6uYCD0H2vlOKKO0OYeVTOWdfmePmNpxbxLN4VW
- CZ0a03iunE38f3PaUm9d02jm/JxCcALpjdMU9iCAVenB2A3W6tmLzkBkHP0DOC8PobJr
- zl11sA2FeJELR8CjH0A+zZVW4VFfSub94c4oVhY/kxa/SrukxDuQlulHmzfE50uXXIPl
- Ae8A==
-X-Gm-Message-State: AO0yUKX0lbnrFqdvyZ/yE7tMCtN7DvAjVBWiLOtNsL4iTfDdyVkJKoIs
- VJ/QBL5cUZumtiW/Yads9Cm5YToLUr7lGEx/
-X-Google-Smtp-Source: AK7set9wTy5XMNG0AfZzG70AeWXPVGhlGN0uQo1qyDKSbFIXWJeh5j1rzHnfWcDkLefLUReNexsHCA==
-X-Received: by 2002:a05:6870:171d:b0:16a:16cc:8a0a with SMTP id
- h29-20020a056870171d00b0016a16cc8a0amr3712563oae.28.1676666107281; 
- Fri, 17 Feb 2023 12:35:07 -0800 (PST)
-Received: from grind.dc1.ventanamicro.com ([191.19.40.109])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tUyuG/CRTSQnQCWXCu0mkyQIzHGiIdCBSGldULbzDRE=;
+ b=q/+thdLPOODi9FUW7xvZVU/a49MuZHc1gxbTeBERnavKllQggagkyU+FaVrl7IjeIl
+ KhoCRytxFUzo6LC++jcPEtPcIVaRPoiKCeKzydENTrXLrMmvwNrpZyIVpt1nLSZBo6wo
+ 8blmeJ4At41GDO1IBCis761h6InVyqZUut8eHyJSEH1AGrGXwV32YnnnDdZj18zkmcYU
+ AOlv5i7bywFzCWdqX9W4GpVz2wXDkotIqURru6hV9G0ljw7Vr21O9c8JA9fkX4aikmTy
+ VxRDdq0h86HeSSmK3xq1Vkcwz/LBnk+QIYrOSX5ukoZ43mYZLpnfiLHuH+Z7q2aqZVM0
+ nKNg==
+X-Gm-Message-State: AO0yUKWDJe5Rm4P0UCgn9/o6QdFx+yiR5Jt0AnxMhYXl6Usn9vm+1xqW
+ p79AheXNQPuXg46oONAAhiegdgIa1vC52w==
+X-Google-Smtp-Source: AK7set8LYT3/ODu1GLwPoHIRlbp21jXV+4sfRnKRcTqy2BcCUQ5azYuMOY/i60nBbWtmV6Z9y/3FXA==
+X-Received: by 2002:ac8:5742:0:b0:3b8:6dc8:a9b5 with SMTP id
+ 2-20020ac85742000000b003b86dc8a9b5mr11528936qtx.34.1676666424970; 
+ Fri, 17 Feb 2023 12:40:24 -0800 (PST)
+Received: from debian.hsd1.ma.comcast.net ([2601:182:cc00:77b0::2bf5])
  by smtp.gmail.com with ESMTPSA id
- ef5-20020a0568701a8500b00152c52608dbsm1125616oab.34.2023.02.17.12.35.04
+ l28-20020ac8459c000000b003b9bf862c04sm3952363qtn.55.2023.02.17.12.40.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 12:35:06 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- dbarboza@ventanamicro.com, richard.henderson@linaro.org,
- Christoph Muellner <cmuellner@linux.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
-Subject: [PATCH v6 4/4] target/riscv: add Zicbop cbo.prefetch{i, r,
- m} placeholder
-Date: Fri, 17 Feb 2023 17:34:45 -0300
-Message-Id: <20230217203445.51077-5-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230217203445.51077-1-dbarboza@ventanamicro.com>
-References: <20230217203445.51077-1-dbarboza@ventanamicro.com>
+ Fri, 17 Feb 2023 12:40:24 -0800 (PST)
+From: Dinah Baum <dinahbaum123@gmail.com>
+To: dinahbaum123@gmail.com
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH v3] configure: Add 'mkdir build' check
+Date: Fri, 17 Feb 2023 15:40:06 -0500
+Message-Id: <20230217204007.371525-1-dinahbaum123@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=dinahbaum123@gmail.com; helo=mail-qt1-x831.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,36 +88,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Christoph Muellner <cmuellner@linux.com>
+QEMU configure script goes into an infinite error printing loop
+when in read only directory due to 'build' dir never being created.
 
-The cmo.prefetch instructions are nops for QEMU (no emulation of the
-memory hierarchy, no illegal instructions, no permission faults, no
-traps).
+Checking if 'mkdir dir' succeeds prevents this error.
 
-Add a comment noting where they would be decoded in case cbo.prefetch
-instructions become relevant in the future.
-
-Co-developed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Signed-off-by: Christoph Muellner <cmuellner@linux.com>
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/321
+Signed-off-by: Dinah Baum <dinahbaum123@gmail.com>
 ---
- target/riscv/insn32.decode | 1 +
- 1 file changed, 1 insertion(+)
+Changes since v2:
+Updated error message
+Reverted changes to 'help' command
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 3788f86528..1aebd37572 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -134,6 +134,7 @@ addi     ............     ..... 000 ..... 0010011 @i
- slti     ............     ..... 010 ..... 0010011 @i
- sltiu    ............     ..... 011 ..... 0010011 @i
- xori     ............     ..... 100 ..... 0010011 @i
-+# cbo.prefetch_{i,r,m} instructions are ori with rd=x0 and not decoded.
- ori      ............     ..... 110 ..... 0010011 @i
- andi     ............     ..... 111 ..... 0010011 @i
- slli     00000. ......    ..... 001 ..... 0010011 @sh
+ configure | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index 00415f0b48..784f9d18a5 100755
+--- a/configure
++++ b/configure
+@@ -31,7 +31,12 @@ then
+         fi
+     fi
+ 
+-    mkdir build
++    if ! mkdir build || ! touch $MARKER
++    then
++        echo "ERROR: Could not create ./build directory. Check the permissions on
++            your source directory, or try doing an out-of-tree build."
++        exit 1
++    fi
+     touch $MARKER
+ 
+     cat > GNUmakefile <<'EOF'
 -- 
-2.39.2
+2.30.2
 
 
