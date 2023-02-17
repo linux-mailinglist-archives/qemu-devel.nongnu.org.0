@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F81769ABB7
+	by mail.lfdr.de (Postfix) with ESMTPS id D623A69ABB8
 	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 13:42:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT03p-0005wy-L0; Fri, 17 Feb 2023 07:41:57 -0500
+	id 1pT03u-00062o-Gx; Fri, 17 Feb 2023 07:42:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pT03j-0005o3-R8
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 07:41:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pT03s-00062Q-Q8
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 07:42:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pT03h-0001s5-CW
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 07:41:51 -0500
+ id 1pT03o-0001sX-It
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 07:42:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676637708;
+ s=mimecast20190719; t=1676637715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
  bh=mJ8wyJUdF4piWr+xC0xDa1Q0GHL5KCMgD1x489onYFI=;
- b=gkhSslRNQLvwjCMe1fOXs2WLDbkP/v1RImIkwnnHQtft3c/iShL3Ywz0X70tbNewm6wfL1
- KrXtwtFEx8m7ogDjSdNhh87dgYt8SJ9VvpQtir4hwBl1ygmhaE02xaaI0TuVUlt8bK2zfJ
- jxj5COeOFpjkMdK1R1xzial+X1b60ac=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=Mi7mZ+hbcbL3ALrpYCwx9P0FDEUyCTQL4KVL8q42dwTdXXLWHo+iyl1vzfPO9XShxB1xgM
+ ZZmxtZTUL4t5Z8qcdof9qXyzmTv3oKgazAViYm8y6ogQ+m1zOu0V7BM3TNz9UXvXBjtGQN
+ EYgeceffq1xBF3XYD8wga26YmrlULE8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-9-kA3egAUUOcOeLY5FbLnP7g-1; Fri, 17 Feb 2023 07:41:46 -0500
-X-MC-Unique: kA3egAUUOcOeLY5FbLnP7g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- ay3-20020a05600c1e0300b003e21fa6f404so918797wmb.2
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 04:41:46 -0800 (PST)
+ us-mta-628-5NssOKlMPFyrbxfEV0Q4YQ-1; Fri, 17 Feb 2023 07:41:54 -0500
+X-MC-Unique: 5NssOKlMPFyrbxfEV0Q4YQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n21-20020a7bcbd5000000b003e21fa60ec1so1085752wmi.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 04:41:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=mJ8wyJUdF4piWr+xC0xDa1Q0GHL5KCMgD1x489onYFI=;
- b=V2sRYY9GViLXS3JAHBI4n+6hbasf18iBGX57sAX8AZHw8yuVZA+14CZbqqDQF4Kotu
- CdbdQh7vydUHcjC8a46Kb0v8MvduJcbXmTBV0uq2i+/TtAqx2XHCqoyD5N3hfPbSa93V
- NVwOfB7+hDIZfEIQCGPoqHLj5kNfI78XU/1LcjDQTEC/CXP301xwD6vNII8q7nwnf/wP
- nkeFCZbPX0Uw7ZIIayGPxlfhLl0FEES19/9/N7SEAbcpqA9tkhv7xbJ4aBuvOlIPipkI
- LAQHZ6nFtlZ/eUa4T3bAgCqQyznLQe4YgM17xSllQ1B9stpxP2PMR1xPp2b8UTXgX0+t
- BRyA==
-X-Gm-Message-State: AO0yUKWjIItoU6wY1z5VAkHTNqQR9V9wunCPMxjmAoJ8HrPbb6tyN2MC
- 3cuxjQBtf7Ej8Kk2Gvlplfd1G0xmLv9d5OWqy/V5uaQoJC+U5hETglcxttJZeIfCJ42N7B0n602
- OP8WVAJnC/11v0ps1SiQcDosJaaTL6WtRhm+Sj5ZZxoQEvmxYuTpKER1STZOZ+MUftJS83aNV
-X-Received: by 2002:a05:600c:90f:b0:3df:3bd6:63e5 with SMTP id
- m15-20020a05600c090f00b003df3bd663e5mr482601wmp.12.1676637704471; 
- Fri, 17 Feb 2023 04:41:44 -0800 (PST)
-X-Google-Smtp-Source: AK7set93+ceWYB7oHE8pKmso95lghxQTjoP45Sdt06d9J2/6JNFIZCS9m5o6osCBQDbTFXJ2MDnRRQ==
-X-Received: by 2002:a05:600c:90f:b0:3df:3bd6:63e5 with SMTP id
- m15-20020a05600c090f00b003df3bd663e5mr482576wmp.12.1676637704045; 
- Fri, 17 Feb 2023 04:41:44 -0800 (PST)
+ b=6fQiLDX+XseQkPUJyfT5OfMVwlZcQUUuiTXKNCOfEYlNnCDawoeRxfHFBinaSM+NYY
+ Sy/o8DW+MDK3zfz3kbA/IuBki9BnFVEZyCkhXTGw42Nql8gvJOYgoW9mLXhW+q5mV2dF
+ 3cNdUE6HpACYSSzvoHmVD0/J01NKIUnTnG3PsWvVzDRl0wS7pcplfl6LRen8F3yd6j20
+ qyuo+k49gTtTLYWaGmb9jKWPlOU/F/Ve3CjNj5Xw29AWY8X8hDD1ICWMDuxJJqE8T7gp
+ w+DSXpWN/P5q3mhWz2djW1+VBKdmtRTZdzOWpCtYeZFUY5q7RhjLoSiy3Bl2PubiGE/L
+ Oo1Q==
+X-Gm-Message-State: AO0yUKXKiHwnvFBJoz0Ttr3AwE2Z8A3PcgGixpai+f59B17j/NdxwL89
+ /3OlP1I4rjnOAPh0uAYfXi9uiTkqy+A5NNoSYKjiMOIJjp/fvCKg4hellLiyS409SuE2fT0UmxH
+ Kv8FtyMgk7A4RY29ehu/muSTIKmTlRhx1tPkvWRpS7uoDk2tlH4Ed0/VVOFDXrgi4jRMYRBu+
+X-Received: by 2002:a05:600c:1605:b0:3dc:5a9f:1c7a with SMTP id
+ m5-20020a05600c160500b003dc5a9f1c7amr242475wmn.30.1676637712023; 
+ Fri, 17 Feb 2023 04:41:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set9HXTEhuteht7N9ZeRjIRWFqkV2wfVqis5d1IEWjw/7SYLbgdcWzXsPTGqvpaIYVKbA5WhSNA==
+X-Received: by 2002:a05:600c:1605:b0:3dc:5a9f:1c7a with SMTP id
+ m5-20020a05600c160500b003dc5a9f1c7amr242453wmn.30.1676637711686; 
+ Fri, 17 Feb 2023 04:41:51 -0800 (PST)
 Received: from avogadro.local ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a1ced13000000b003e1f6e18c95sm8569647wmh.21.2023.02.17.04.41.43
+ bi23-20020a05600c3d9700b003e200d3b2d1sm4959382wmb.38.2023.02.17.04.41.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 04:41:43 -0800 (PST)
+ Fri, 17 Feb 2023 04:41:51 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH] docs: build-platforms: refine requirements on Python build
- dependencies
-Date: Fri, 17 Feb 2023 13:41:42 +0100
-Message-Id: <20230217124142.204986-1-pbonzini@redhat.com>
+Subject: [RFC PATCH] docs: build-platforms: refine requirements on Python
+ build dependencies
+Date: Fri, 17 Feb 2023 13:41:50 +0100
+Message-Id: <20230217124150.205012-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
