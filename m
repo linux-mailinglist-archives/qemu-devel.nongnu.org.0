@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A76769ACED
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B80C69ACEE
 	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 14:48:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT152-0008Jh-Qj; Fri, 17 Feb 2023 08:47:17 -0500
+	id 1pT16F-00011Y-VU; Fri, 17 Feb 2023 08:48:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT14p-0008J1-Ff
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 08:47:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pT166-00011C-0Q
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 08:48:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pT14n-0002pl-Aj
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 08:47:02 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pT163-0003DB-A0
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 08:48:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676641620;
+ s=mimecast20190719; t=1676641695;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NV1+KkcBb35+xZP15Xazh5vsZZnqqwBc9RR+t5xzvJk=;
- b=Ati9KCwDmwyBoOQM5P9/Tee1G/xePV8e8FE+JrpiqAsdfLaG8Gm84GGY5UWQk3YTLnJIUa
- intkbx4GMYHLHiuDJk+sDD4Bhowv780rW7cwOXMC8RW8iLym+doGdGrls0FwJU7v2/vPsE
- wcYpyTgB0RhCYgY5vhOMtt1wc14eBbE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=09HJBvtvglfoK//OmBgo3mgH3bTLRWAtT78UjjoR7RA=;
+ b=U0YWnMM+k6b4csYpLHnexLoNQrZJHR0eMDnP3Z3Fqbts5g9mWRX23eFp4iK4+NsSFuMgnu
+ uj1xOw6c2C6ZC2qfjnncosMlJ5/8JGEBrg2uH9d5OlQ1s3/RTWCVYwwB5VEizIQPRgLI1h
+ GL9leCDZdlm0YuDnDZM+YZjVPRMDU2g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-501-LNWcjIVKNnGFDQVcnN63Zg-1; Fri, 17 Feb 2023 08:46:58 -0500
-X-MC-Unique: LNWcjIVKNnGFDQVcnN63Zg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- y4-20020a05620a0e0400b007389d2f57f3so39305qkm.21
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 05:46:58 -0800 (PST)
+ us-mta-564-f9s6S7emP5OwScPpN_GLfA-1; Fri, 17 Feb 2023 08:48:14 -0500
+X-MC-Unique: f9s6S7emP5OwScPpN_GLfA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v6-20020a05600c444600b003e206cbce8dso756032wmn.7
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 05:48:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NV1+KkcBb35+xZP15Xazh5vsZZnqqwBc9RR+t5xzvJk=;
- b=JKIOB+dHFQPj4atRRtVTK8tENc+Mxv/d4cCfR8bXw3SCBRnGWrSSJCZvLlDWPAMrtT
- C0ayzKNt/GblADjClHXfIsVq02nSLkHftBJWQ7OhQWpZVDHjMPMPEjVeiUE/876Et57w
- DFlfiecreLx1EhJ6yaDIYrqkxc4TT87TxUmoaeW9g8zDJiVr2/Mf/3WXdHRj2bnWIGkZ
- wXAhncke+95wThD1sDLfctXjf/rv2BT7eoD8v/3ZaNeqBpIEoH5mYzG8eJA/ljByLXUF
- UMUZQ7773Rl47pgYhQTSN3SusQbqogZT2CjnFcLz6jiQktdxUhxNrMkT/E8fwcq83Qrx
- rY8g==
-X-Gm-Message-State: AO0yUKU82io72GmKP1Mk85S92FADncAVRTRL4L73zoQREbnyzrtonW16
- q0DJCj6SLb5ELz4ph77owVXT0dtwAO34eygOgHuAFqWPVl5+aYGPNG1I118fw0eTdKCsR9JXejv
- BbxLIOTemxXa1oSc=
-X-Received: by 2002:a05:622a:64c:b0:3b8:6d57:93ab with SMTP id
- a12-20020a05622a064c00b003b86d5793abmr780909qtb.0.1676641618085; 
- Fri, 17 Feb 2023 05:46:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set/NSQhJfoml4dmScJQjbn3vjS9c3tQRZWVYUjHYf71YIlHRP1hW1tD0ChY7iXhH671PzTRDlA==
-X-Received: by 2002:a05:622a:64c:b0:3b8:6d57:93ab with SMTP id
- a12-20020a05622a064c00b003b86d5793abmr780878qtb.0.1676641617849; 
- Fri, 17 Feb 2023 05:46:57 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-32.web.vodafone.de.
- [109.43.176.32]) by smtp.gmail.com with ESMTPSA id
- cp6-20020a05622a420600b003b9bc00c2f1sm3088287qtb.94.2023.02.17.05.46.55
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=09HJBvtvglfoK//OmBgo3mgH3bTLRWAtT78UjjoR7RA=;
+ b=B50r4eXeLrtVGM3Jq5sZ0kyihXdGoxS1eclXfojhsNJeaCiRwvQv/3z5p9Zelm1gZe
+ ues+b8vbvpaPEBHr0YCrMO2TEKjrXNHeVhgp/ZSqexL9erbEsgUqsA0Qsnvv6oXLHIJr
+ AFVA+B7iIhoxCLLOEdA3sAdO+P+v2DybKba3tS5rzINyoFZYstZsBVp2fU22nULiIbB7
+ 5UIJsa0Ch0fTGBivNz25TBNxNKJpIgRl9Xsdq6s6Y6NTPK+DflrewizpG4lmTcrZhCxV
+ wepChiBKWalZrRjiLIdQW9qtzTeCgBCLALiXyQqQKcgvd4e3Yp+jBkSdpBuYi3vSdGvJ
+ tkwA==
+X-Gm-Message-State: AO0yUKW9bZzAHQDuwerI7mjMAkFdSW6FJRhVXOuR0+SkPIYW8moZQdKS
+ A4GVSloakk5xQXYd1BJZApPwbBHFLGpvv3URH2gdNpT3SV2FAAYqtXgBqUEtKyv1HGmbEJavkIH
+ o3faxij+SdqCcKPU=
+X-Received: by 2002:a05:600c:998:b0:3cf:68d3:3047 with SMTP id
+ w24-20020a05600c099800b003cf68d33047mr907482wmp.41.1676641693281; 
+ Fri, 17 Feb 2023 05:48:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set8BVBpS8em36gZQHaCYLZQO+k1GvLZc+c+ZHMQSYpC5K5ZNnpvzJO0q1pMpPlCEdN9bWFCNNQ==
+X-Received: by 2002:a05:600c:998:b0:3cf:68d3:3047 with SMTP id
+ w24-20020a05600c099800b003cf68d33047mr907469wmp.41.1676641692937; 
+ Fri, 17 Feb 2023 05:48:12 -0800 (PST)
+Received: from ?IPV6:2003:cb:c707:9800:59ba:1006:9052:fb40?
+ (p200300cbc707980059ba10069052fb40.dip0.t-ipconnect.de.
+ [2003:cb:c707:9800:59ba:1006:9052:fb40])
+ by smtp.gmail.com with ESMTPSA id
+ l2-20020a1c7902000000b003dd1bd66e0dsm5034084wme.3.2023.02.17.05.48.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 05:46:57 -0800 (PST)
-Message-ID: <ffe372fc-2842-bb64-6c0c-42dcd68da775@redhat.com>
-Date: Fri, 17 Feb 2023 14:46:53 +0100
+ Fri, 17 Feb 2023 05:48:12 -0800 (PST)
+Message-ID: <4869861d-651a-34ee-d6ac-734d21e0d092@redhat.com>
+Date: Fri, 17 Feb 2023 14:48:11 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v1 0/2] vhost: memslot handling improvements
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <Y+9m6g0MAEfFNUYC@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Proposed way forward Re: [PATCH v2 0/7] Python: Drop support for
- Python 3.6
-In-Reply-To: <Y+9m6g0MAEfFNUYC@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+References: <20230216114752.198627-1-david@redhat.com>
+ <Y+5UB2+lrNf1pWOH@fedora>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <Y+5UB2+lrNf1pWOH@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
@@ -110,27 +105,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/02/2023 12.37, Daniel P. Berrangé wrote:
-...
-> The long life enterprise distros are the pain point in unlocking the
-> new of python features. So the proposal is that, at a minimum, we
-> augment the current policy with words to the effect that:
-> 
->    * For long life cycle distributions, QEMU will follow normal
->      policy for platform level dependancies / native code. For
->      Python modules, QEMU may choose to require a newer versions
->      than are available from the distribution package manager.
+On 16.02.23 17:04, Stefan Hajnoczi wrote:
+> Acked-by: Stefan Hajnoczi<stefanha@redhat.com>
 
-Sounds reasonable to me. But I think we still should also add a sentence 
-where we limit the total amount of time that we promise to support a 
-long-term distro. Otherwise we'll also get problems with other way too 
-backlevel native code dependencies at one point in time.
+Thanks!
 
-I just sent a patch for discussion, shortly before I noticed your mail here. 
-Feel free to grab the ideas from there into your patch (if you're planning 
-to send one), or let me know if I should try to include the Python-related 
-sentences in mine.
+-- 
+Thanks,
 
-  Thomas
+David / dhildenb
 
 
