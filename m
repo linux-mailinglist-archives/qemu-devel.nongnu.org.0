@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B42C69A545
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB9D69A563
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:55:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pStXZ-0000jY-CG; Fri, 17 Feb 2023 00:44:13 -0500
+	id 1pStgp-00024i-5z; Fri, 17 Feb 2023 00:53:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pStXW-0000gT-AG
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:44:10 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pStgl-000234-Bz
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:53:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pStXU-0001QV-PT
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:44:09 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pStgg-0004B5-Oi
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:53:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676612648;
+ s=mimecast20190719; t=1676613217;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DSWyl+JQ+g2bk0l3ZTYBnaA+DxoOXvy4fW45aw/Or2s=;
- b=SzMt+zuCL85U05Hx0kERfOiwoJa0aAU/c8QWs+WesrauyIivTMooRjxhmrPV979RTr72FT
- wq6P28AER4wM6JapxFKRu7EPbIcc8bYhzwznCaFt2TxTV64ePgIzapHjlNpaebqQekHhna
- EYfClIKPbNa4LqIQl2JqD9U3kqTxosI=
+ bh=g0jVrrpr7eF1jlQutBjQp0bJdIPgEVjXmZ5t61T8qRw=;
+ b=YG7mHPwOvY+mS7HdMcXJV5ZPuxFtRXrc6oBGphCpSpo8CTtASOOKdS/DzLspLs4Wnar/yK
+ 7Hv2kzyNcMlJ9Gm5FYIDw3LbJ9QiU1lNqoCyxePIJAqlMfp4y+rCqf5kpjWfWCHCWmI9IN
+ Ok/swqFYf8S+28dE0Ua+8lBAp0yBo4Y=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-59-IphE1WsJPbuQ8dQaSCSzBw-1; Fri, 17 Feb 2023 00:44:06 -0500
-X-MC-Unique: IphE1WsJPbuQ8dQaSCSzBw-1
+ us-mta-311-6cegviT6P9e7QmC0Otj6fw-1; Fri, 17 Feb 2023 00:53:36 -0500
+X-MC-Unique: 6cegviT6P9e7QmC0Otj6fw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E566802C1D;
- Fri, 17 Feb 2023 05:44:06 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-12-47.pek2.redhat.com [10.72.12.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15DEE492B15;
- Fri, 17 Feb 2023 05:44:03 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V3 9/9] vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
-Date: Fri, 17 Feb 2023 13:43:35 +0800
-Message-Id: <20230217054335.57595-10-jasowang@redhat.com>
-In-Reply-To: <20230217054335.57595-1-jasowang@redhat.com>
-References: <20230217054335.57595-1-jasowang@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C5271857A81;
+ Fri, 17 Feb 2023 05:53:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C713492B15;
+ Fri, 17 Feb 2023 05:53:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2CFB521E6A1F; Fri, 17 Feb 2023 06:53:34 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>,  qemu-devel@nongnu.org,  Eric Blake
+ <eblake@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>,  Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH v6 1/3] multifd: Create property
+ multifd-flush-after-each-section
+References: <20230215180231.7644-1-quintela@redhat.com>
+ <20230215180231.7644-2-quintela@redhat.com> <Y+05hM4JPbfjUjn8@x1n>
+ <87edqqlma4.fsf@secure.mitica> <87v8k1myjs.fsf@pond.sub.org>
+ <87a61dfs8t.fsf@secure.mitica>
+Date: Fri, 17 Feb 2023 06:53:34 +0100
+In-Reply-To: <87a61dfs8t.fsf@secure.mitica> (Juan Quintela's message of "Thu, 
+ 16 Feb 2023 18:13:38 +0100")
+Message-ID: <87r0uokfc1.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,35 +86,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Eugenio Pérez <eperezma@redhat.com>
+Juan Quintela <quintela@redhat.com> writes:
 
-VHOST_BACKEND_F_IOTLB_ASID is the feature bit, not the bitmask. Since
-the device under test also provided VHOST_BACKEND_F_IOTLB_MSG_V2 and
-VHOST_BACKEND_F_IOTLB_BATCH, this went unnoticed.
+> Markus Armbruster <armbru@redhat.com> wrote:
+>> Juan Quintela <quintela@redhat.com> writes:
+>>
+>>>>> @@ -478,6 +478,24 @@
+>>>>>  #                    should not affect the correctness of postcopy migration.
+>>>>>  #                    (since 7.1)
+>>>>>  #
+>>>>> +# @multifd-flush-after-each-section: flush every channel after each
+>>>>> +#                                    section sent.  This assures that
+>>>>> +#                                    we can't mix pages from one
+>>>>> +#                                    iteration through ram pages with
+>>
+>> RAM
+>
+> OK.
+>
+>>>>> +#                                    pages for the following
+>>>>> +#                                    iteration.  We really only need
+>>>>> +#                                    to do this flush after we have go
+>>
+>> to flush after we have gone
+>
+> OK
+>
+>>>>> +#                                    through all the dirty pages.
+>>>>> +#                                    For historical reasons, we do
+>>>>> +#                                    that after each section.  This is
+>
+>> we flush after each section
+>
+> OK
+>
+>>>>> +#                                    suboptimal (we flush too many
+>>>>> +#                                    times).
+>
+>> inefficient: we flush too often.
+>
+> OK
+>
+>>>>> +#                                    Default value is false.
+>>>>> +#                                    Setting this capability has no
+>>>>> +#                                    effect until the patch that
+>>>>> +#                                    removes this comment.
+>>>>> +#                                    (since 8.0)
+>>>>
+>>>> IMHO the core of this new "cap" is the new RAM_SAVE_FLAG_MULTIFD_FLUSH bit
+>>>> in the stream protocol, but it's not referenced here.  I would suggest
+>>>> simplify the content but highlight the core change:
+>>>
+>>> Actually it is the other way around.  What this capability will do is
+>>> _NOT_ use RAM_SAVE_FLAG_MULTIFD_FLUSH protocol.
+>>>
+>>>>  @multifd-lazy-flush:  When enabled, multifd will only do sync flush after
+>>
+>> Spell out "synchronrous".
+>
+> ok.
+>
+>>>>                        each whole round of bitmap scan.  Otherwise it'll be
+>>
+>> Suggest to scratch "whole".
+>
+> ok.
+>
+>>>>                        done per RAM save iteration (which happens with a much
+>>>>                        higher frequency).
+>>
+>> Less detail than Juan's version.  I'm not sure how much detail is
+>> appropriate for QMP reference documentation.
+>>
+>>>>                        Please consider enable this as long as possible, and
+>>>>                        keep this off only if any of the src/dst QEMU binary
+>>>>                        doesn't support it.
+>>
+>> Clear guidance on how to use it, good!
+>>
+>> Perhaps state it more forcefully: "Enable this when both source and
+>> destination support it."
+>>
+>>>>
+>>>>                        This capability is bound to the new RAM save flag
+>>>>                        RAM_SAVE_FLAG_MULTIFD_FLUSH, the new flag will only
+>>>>                        be used and recognized when this feature bit set.
+>>
+>> Is RAM_SAVE_FLAG_MULTIFD_FLUSH visible in the QMP interface?  Or in the
+>> migration stream?
+>
+> No.  Only migration stream.
 
-Fixes: c1a1008685 ("vdpa: always start CVQ in SVQ mode if possible")
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- net/vhost-vdpa.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Doc comments should be written for readers of the QEMU QMP Reference
+Manual.  Is RAM_SAVE_FLAG_MULTIFD_FLUSH relevant for them?
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 1a13a34..de5ed8f 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -384,7 +384,7 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
-             g_strerror(errno), errno);
-         return -1;
-     }
--    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
-+    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
-         !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
-         return 0;
-     }
--- 
-2.7.4
+Perhaps the relevant part is "the peer needs to enable this capability
+too, or else", for a value of "or else".
+
+What happens when the source enables, and the destination doesn't?
+
+What happens when the destination enables, and the source doesn't?
+
+Any particular reason for having the destination recognize the flag only
+when the capability is enabled?
+
+>> I'm asking because doc comments are QMP reference documentation, but
+>> when writing them, it's easy to mistake them for internal documentation,
+>> because, well, they're comments.
+>
+>>> Name is wrong.  It would be multifd-non-lazy-flush.  And I don't like
+>>> negatives.  Real name is:
+>>>
+>>> multifd-I-messed-and-flush-too-many-times.
+>>
+>> If you don't like "non-lazy", say "eager".
+>
+> more than eager it is unnecesary.
+
+"overeager"?
+
+>>>> I know you dislike multifd-lazy-flush, but that's still the best I can come
+>>>> up with when writting this (yeah I still like it :-p), please bare with me
+>>>> and take whatever you think the best.
+>>>
+>>> Libvirt assumes that all capabilities are false except if enabled.
+>>> We want RAM_SAVE_FLAG_MULTFD_FLUSH by default (in new machine types).
+>>>
+>>> So, if we can do
+>>>
+>>> capability_use_new_way = true
+>>>
+>>> We change that to
+>>>
+>>> capability_use_old_way = true
+>>>
+>>> And then by default with false value is what we want.
+>>
+>> Eventually, all supported migration peers will support lazy flush.  What
+>> then?  Will we flip the default?  Or will we ignore the capability and
+>> always flush lazily?
+>
+> I have to take a step back.  Cope with me.
+>
+> How we fix problems in migration that make the stream incompatible.
+> We create a property.
+>
+> static Property migration_properties[] = {
+>     ...
+>     DEFINE_PROP_BOOL("decompress-error-check", MigrationState,
+>                       decompress_error_check, true),
+>     ....
+> }
+>
+> In this case it is true by default.
+>
+> GlobalProperty hw_compat_2_12[] = {
+>     { "migration", "decompress-error-check", "off" },
+>     ...
+> };
+>
+> We introduced it on whatever machine that is newer than 2_12.
+> Then we make it "off" for older machine types, that way we make sure
+> that migration from old qemu to new qemu works.
+>
+> And we can even left libvirt, if they know that both qemus are new, they
+> can setup the property to true even for old machine types.
+>
+> So, what we have:
+>
+> Machine 2_13 and newer use the new code.
+> Machine 2_12 and older use the old code (by default).
+> We _can_ migrate machine 2_12 with new code, but we need to setup it
+> correctly on both sides.
+> We can run the old code with machine type 2_13.  But I admit than that
+> is only useful for testing, debugging, meassuring performance, etc.
+>
+> So, the idea here is that we flush a lot of times for old machine types,
+> and we only flush when needed for new machine types.  Libvirt (or
+> whoever) can use the new method if it sees fit just using the
+> capability.
+
+Got it.
+
+What should be done, if anything, when all machines defaulting to the
+old code are gone?  Getting rid of the old code along with the
+capability is desirable, isn't it?  But if the capability is a stable
+interface, the deprecation process applies.  Should it be stable?  Or
+should it be just something we use to do the right thing depending on
+the machine types (primary purpose), and also enable experimentation
+(secondary purpose)?
+
+> Now that I am telling this, I can switch back to a property instead of a
+> capability:
+> - I can have the any default value that I want
+> - So I can name it multifd_lazy_flush or whatever.
+>
+> Later, Juan.
 
 
