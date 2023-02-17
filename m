@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB4469A53B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:43:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E6A69A53E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 06:44:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pStUw-0007rY-Jq; Fri, 17 Feb 2023 00:41:30 -0500
+	id 1pStXN-0000Xu-As; Fri, 17 Feb 2023 00:44:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pStUt-0007r8-Np
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:41:27 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pStUs-0000wz-3Z
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:41:27 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id cp18so1971107pjb.0
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 21:41:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ENRC84PSYcXJNXmV9Mz3Zk2hlDOdE7xGSEXc5EjlWbM=;
- b=ak8fwLAnn8wkdT0pGEOvLvSxgrJ1dJmmMcGjHz6g8Ab6PElvrNW6WCD7c9RssVisth
- svC23XUBi9hZHeBrO57Q7ewUAVA+7z7dLBkXaHRzuOvPdbbakN7z0Pr2vLA7N+Zk7ddY
- 0H6BnYScc5r+4SxoZ3zh/j777GSGvZD5dBjJ0OxmUsr//kt37n+ppDvobUxJPRJcqkJW
- GC9t5Kg5FZ4uhB//GVVX9Y3sHzv/iCYMaV17cKcK7+FacS/s65O5wVGnpJ2cd4v8NDGR
- ZJ6CcdGwglhV7vepyGfkJMyYMI1NCJEgbtziT5gSm/vThm/kq09kpssV98JwIGECjfXc
- zTrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ENRC84PSYcXJNXmV9Mz3Zk2hlDOdE7xGSEXc5EjlWbM=;
- b=w+zYM+ljIxAHh4X8u0dkoNPWR5GQ2fK3BHkyuBsAuIXgtIVKClsrw2yxJKVzZXugIc
- evat+TN3h0+zuhuI1wmb9uIzRv8QYlfoKRgJHzxrrW/wxKxUt7mmb4JIb+jZxH4h72ik
- yI7wOs6Tn04AUCHTjnC4k0AdQpgDBaLtcmvmfJyludZdDnNj7xiZhaR560I+ULkD7DBr
- YqRek1DD1QOnO4mXM7yuxONniDiGX5K1sqZP/6VVyU+IGBHvh+KJPJCecE0J0gBINwgP
- e9j/9PhyBIEYrwI692rqZFqtibMBalW4LHrHhS+P9jyGMzbZr1IOWFy3Ja8zfCL2fjCv
- 2jTQ==
-X-Gm-Message-State: AO0yUKXm3FytScaJrzpyYrXz46J8R5uWX2yU1rOgb+g6WAiPpuadSfxT
- sT3Ea0JST5xmfhzY2zL6PCgweQ==
-X-Google-Smtp-Source: AK7set9qZ9mlhkxvEpy2mWj/3h0vUzfi5DgUCSaocFeFTCDCqyB4sksIn+UKvmYKyfcCg0OiyY4n6A==
-X-Received: by 2002:a17:90b:3146:b0:233:76bd:9faa with SMTP id
- ip6-20020a17090b314600b0023376bd9faamr9407686pjb.47.1676612483722; 
- Thu, 16 Feb 2023 21:41:23 -0800 (PST)
-Received: from [172.20.100.240] (rrcs-173-198-77-219.west.biz.rr.com.
- [173.198.77.219]) by smtp.gmail.com with ESMTPSA id
- q18-20020a637512000000b004fc2eb3fe45sm611188pgc.54.2023.02.16.21.41.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Feb 2023 21:41:22 -0800 (PST)
-Message-ID: <38499f24-94b5-1e46-2561-bce47bcc92ed@linaro.org>
-Date: Thu, 16 Feb 2023 19:40:58 -1000
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pStX7-0000WL-7g
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:43:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pStX5-0001Jp-8S
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 00:43:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676612622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ic1JKR5CAcdTwH23Dc7G3PiC1Iggt3ZW1Vl8VSHToXk=;
+ b=VyIxox4B+pROWin9MqMnca9LJDzR2TlRf6/QhvGNaVlnzNphCYSKnDjqdrBdFXLAfz2bG1
+ +6TsCIx9sQrnjhfpiDf9VWayu9M6ysLgcNMz27wZmnF+Whb46BGDsvCkEGnm87EX2jHE9M
+ FQwvUodN5iRdw8UHRt0C5shD5ojNCdo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-212-zZkFXyn9PsWGIaVYIXHZMg-1; Fri, 17 Feb 2023 00:43:40 -0500
+X-MC-Unique: zZkFXyn9PsWGIaVYIXHZMg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 217E43815F7D;
+ Fri, 17 Feb 2023 05:43:40 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-12-47.pek2.redhat.com [10.72.12.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D33B492B15;
+ Fri, 17 Feb 2023 05:43:38 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org,
+	Jason Wang <jasowang@redhat.com>
+Subject: [PULL V3 0/9] Net patches
+Date: Fri, 17 Feb 2023 13:43:26 +0800
+Message-Id: <20230217054335.57595-1-jasowang@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v6 2/9] target/riscv: introduce riscv_cpu_cfg()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
-References: <20230216215550.1011637-1-dbarboza@ventanamicro.com>
- <20230216215550.1011637-3-dbarboza@ventanamicro.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230216215550.1011637-3-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.351,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,17 +76,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/16/23 11:55, Daniel Henrique Barboza wrote:
-> We're going to do changes that requires accessing the RISCVCPUConfig
-> struct from the RISCVCPU, having access only to a CPURISCVState 'env'
-> pointer. Add a helper to make the code easier to read.
-> 
-> Signed-off-by: Daniel Henrique Barboza<dbarboza@ventanamicro.com>
-> ---
->   target/riscv/cpu.h | 5 +++++
->   1 file changed, 5 insertions(+)
+The following changes since commit 6dffbe36af79e26a4d23f94a9a1c1201de99c261:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge tag 'migration-20230215-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-02-16 13:09:51 +0000)
 
-r~
+are available in the git repository at:
+
+  https://github.com/jasowang/qemu.git tags/net-pull-request
+
+for you to fetch changes up to 525ae115222f0b0b6de7f9665976f640d18c200a:
+
+  vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check (2023-02-17 13:31:33 +0800)
+
+----------------------------------------------------------------
+
+Changes since V2:
+- drop patch hw/net/can/xlnx-zynqmp-can: fix assertion failures in transfer_fifo()
+
+Changes since V1:
+- Fix the wrong guest error detection in xlnx-zynqmp-can
+
+----------------------------------------------------------------
+Christian Svensson (1):
+      net: Increase L2TPv3 buffer to fit jumboframes
+
+Eugenio Pérez (1):
+      vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
+
+Fiona Ebner (1):
+      hw/net/vmxnet3: allow VMXNET3_MAX_MTU itself as a value
+
+Joelle van Dyne (1):
+      vmnet: stop recieving events when VM is stopped
+
+Laurent Vivier (1):
+      net: stream: add a new option to automatically reconnect
+
+Qiang Liu (1):
+      hw/net/lan9118: log [read|write]b when mode_16bit is enabled rather than abort
+
+Thomas Huth (3):
+      net: Move the code to collect available NIC models to a separate function
+      net: Restore printing of the help text with "-nic help"
+      net: Replace "Supported NIC models" with "Available NIC models"
+
+ hw/net/lan9118.c            |  17 ++++----
+ hw/net/vmxnet3.c            |   2 +-
+ hw/pci/pci.c                |  29 +------------
+ include/net/net.h           |  14 ++++++
+ net/l2tpv3.c                |   2 +-
+ net/net.c                   |  50 ++++++++++++++++++++--
+ net/stream.c                |  53 ++++++++++++++++++++++-
+ net/vhost-vdpa.c            |   2 +-
+ net/vmnet-common.m          |  48 +++++++++++++++------
+ net/vmnet_int.h             |   2 +
+ qapi/net.json               |   7 ++-
+ qemu-options.hx             |   6 +--
+ tests/qtest/netdev-socket.c | 101 ++++++++++++++++++++++++++++++++++++++++++++
+ 13 files changed, 272 insertions(+), 61 deletions(-)
+
 
