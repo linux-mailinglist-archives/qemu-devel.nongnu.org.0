@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408EB69A649
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 08:54:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC2669A687
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 09:06:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSvZi-0000xx-HZ; Fri, 17 Feb 2023 02:54:34 -0500
+	id 1pSvjs-00065u-OV; Fri, 17 Feb 2023 03:05:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSvZf-0000xQ-Sy
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 02:54:31 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pSvjX-0005gO-2f; Fri, 17 Feb 2023 03:04:46 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1pSvZc-0007pE-8W
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 02:54:31 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4PJ3qk6f5lzDsXV;
- Fri, 17 Feb 2023 15:49:38 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Fri, 17 Feb 2023 15:54:24 +0800
-Message-ID: <3906f328-e2e5-ec34-9a72-15a5189d78df@huawei.com>
-Date: Fri, 17 Feb 2023 15:54:23 +0800
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pSvjV-0004TS-7r; Fri, 17 Feb 2023 03:04:42 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.210])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id F2FA52137E;
+ Fri, 17 Feb 2023 08:04:35 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 17 Feb
+ 2023 09:04:35 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0016414ffb8-42f3-491e-a364-db46bc645b32,
+ D8AD3BA2C27EEBE7B4560DA8411A9B1E3CFED360) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <5f15b7d5-c31d-25f2-cad6-51e30b3d0a01@kaod.org>
+Date: Fri, 17 Feb 2023 09:04:34 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC 12/52] hw/acpi: Replace MachineState.smp access with
- topology helpers
-To: Zhao Liu <zhao1.liu@linux.intel.com>
-CC: <qemu-devel@nongnu.org>, Zhenyu Wang <zhenyu.z.wang@intel.com>, Dapeng Mi
- <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo
- <robert.hu@linux.intel.com>, Sean Christopherson <seanjc@google.com>, Like Xu
- <like.xu.linux@gmail.com>, Zhao Liu <zhao1.liu@intel.com>, Igor Mammedov
- <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>, "Michael S .
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>, Markus
- Armbruster <armbru@redhat.com>
-References: <20230213095035.158240-1-zhao1.liu@linux.intel.com>
- <20230213095035.158240-13-zhao1.liu@linux.intel.com>
- <38f00a43-dc24-0a5b-e197-536c414354e7@huawei.com>
- <Y+7xEVrlsoPpLnvg@liuzhao-OptiPlex-7080>
-In-Reply-To: <Y+7xEVrlsoPpLnvg@liuzhao-OptiPlex-7080>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [RFC PATCH 5/5] hw/ppc/pnv_bmc: Simplify pnv_bmc_find()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: Markus Armbruster <armbru@redhat.com>, <qemu-arm@nongnu.org>,
+ <qemu-s390x@nongnu.org>, <qemu-ppc@nongnu.org>, <qemu-block@nongnu.org>
+References: <20230216122524.67212-1-philmd@linaro.org>
+ <20230216122524.67212-6-philmd@linaro.org>
+ <e4e0217e-9bd3-1bb7-c91c-0686cf67fc02@kaod.org>
+ <56bb0fe8-d1f0-73a6-7881-f2a0e43bf2fa@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <56bb0fe8-d1f0-73a6-7881-f2a0e43bf2fa@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: a4f960e5-89d5-42cc-9423-e48228921d0b
+X-Ovh-Tracer-Id: 3824400511499537257
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudeikedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieekheekheehjefgffekffevgeeludffieetjeeugfeftdejkeeggfevffeviefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehphhhilhhmugeslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepsh
+ hmthhpohhuth
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,85 +74,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-在 2023/2/17 11:14, Zhao Liu 写道:
-> On Thu, Feb 16, 2023 at 05:31:11PM +0800, wangyanan (Y) wrote:
->> Date: Thu, 16 Feb 2023 17:31:11 +0800
->> From: "wangyanan (Y)" <wangyanan55@huawei.com>
->> Subject: Re: [RFC 12/52] hw/acpi: Replace MachineState.smp access with
->>   topology helpers
->>
->> Hi Zhao,
->>
->> 在 2023/2/13 17:49, Zhao Liu 写道:
->>> From: Zhao Liu <zhao1.liu@intel.com>
+On 2/16/23 20:16, Philippe Mathieu-Daudé wrote:
+> On 16/2/23 19:12, Cédric Le Goater wrote:
+>> On 2/16/23 13:25, Philippe Mathieu-Daudé wrote:
+>>> ForeachArgs::name is only used once as TYPE_IPMI_BMC.
+>>> Since the penultimate commit, object_child_foreach_recursive()'s
+>>> handler takes an Error* argument and return a boolean.
+>>> We can directly pass ForeachArgs::obj as context, removing the
+>>> ForeachArgs structure.
 >>>
->>> At present, in QEMU only arm needs PPTT table to build cpu topology.
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 >>>
->>> Before QEMU's arm supports hybrid architectures, it's enough to limit
->>> the cpu topology of PPTT to smp type through the explicit smp interface
->>> (machine_topo_get_smp_threads()).
->>>
->>> Cc: Michael S. Tsirkin <mst@redhat.com>
->>> Cc: Igor Mammedov <imammedo@redhat.com>
->>> Cc: Ani Sinha <ani@anisinha.ca>
->>> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 >>> ---
->>>    hw/acpi/aml-build.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>> RFC: please double-check...
 >>>
->>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
->>> index ea331a20d131..693bd8833d10 100644
->>> --- a/hw/acpi/aml-build.c
->>> +++ b/hw/acpi/aml-build.c
->>> @@ -2044,7 +2044,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->>>                cluster_offset = socket_offset;
->>>            }
->>> -        if (ms->smp.threads == 1) {
->>> +        if (machine_topo_get_smp_threads(ms) == 1) {
->>>                build_processor_hierarchy_node(table_data,
->>>                    (1 << 1) | /* ACPI Processor ID valid */
->>>                    (1 << 3),  /* Node is a Leaf */
->> ACPI PPTT table is designed to also support the hybrid CPU topology
->> case where nodes on the same CPU topology level can have different
->> number of child nodes.
+>>>
+>>>   hw/ppc/pnv_bmc.c | 25 +++++++++----------------
+>>>   1 file changed, 9 insertions(+), 16 deletions(-)
+>>>
+>>> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+>>> index 05acc88a55..566284469f 100644
+>>> --- a/hw/ppc/pnv_bmc.c
+>>> +++ b/hw/ppc/pnv_bmc.c
+>>> @@ -278,36 +278,29 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
+>>>       return IPMI_BMC(obj);
+>>>   }
+>>> -typedef struct ForeachArgs {
+>>> -    const char *name;
+>>> -    Object *obj;
+>>> -} ForeachArgs;
+>>> -
+>>>   static bool bmc_find(Object *child, void *opaque, Error **errp)
+>>>   {
+>>> -    ForeachArgs *args = opaque;
+>>> +    Object **obj = opaque;
+>>> -    if (object_dynamic_cast(child, args->name)) {
+>>> -        if (args->obj) {
+>>> -            return false;
 >>
->> So to be general, the diff should be:
->> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
->> index ea331a20d1..dfded95bbc 100644
->> --- a/hw/acpi/aml-build.c
->> +++ b/hw/acpi/aml-build.c
->> @@ -2044,7 +2044,7 @@ void build_pptt(GArray *table_data, BIOSLinker
->> *linker, MachineState *ms,
->>               cluster_offset = socket_offset;
->>           }
+>> The purpose of this test was to catch multiple bmc devices and it's removed
+>> now.
+> 
+> Great.
+
+But it should be an error ! :) See the error_setg below.
+  
+>>> +    if (object_dynamic_cast(child, TYPE_IPMI_BMC)) {
+>>> +        if (*obj) {
+>>> +            return true;
+>>>           }
+>>> -        args->obj = child;
+>>> +        *obj = child;
+>>>       }
+>>>       return true;
+>>>   }
+>>>   IPMIBmc *pnv_bmc_find(Error **errp)
+>>>   {
+>>> -    ForeachArgs args = { TYPE_IPMI_BMC, NULL };
+>>> -    int ret;
+>>> +    Object *obj = NULL;
+>>> -    ret = object_child_foreach_recursive(object_get_root(), bmc_find,
+>>> -                                         &args, NULL);
+>>> -    if (ret) {
+>>> +    if (!object_child_foreach_recursive(object_get_root(), bmc_find, &obj,
+>>> +                                        NULL)) {
+>>>           error_setg(errp, "machine should have only one BMC device. "
+>>>                      "Use '-nodefaults'");>           return NULL;
+>>>       }
 >>
->> -        if (ms->smp.threads == 1) {
->> +        if (machine_topo_get_threads_by_idx(n) == 1) {
->>               build_processor_hierarchy_node(table_data,
->>                   (1 << 1) | /* ACPI Processor ID valid */
->>                   (1 << 3),  /* Node is a Leaf */
-> Nice! I'll replace that.
->
->> Actually I'm recently working on ARM hmp virtualization which relys on
->> PPTT for topology representation, so we will also need PPTT to be general
->> for hybrid case anyway.
-> Good to know that you are considering hybrid support for arm.
-> BTW, I explained the difference between arm and x86's hybrid in previous
-> email [1] [2], mainly about whether the cpm model is the same.
->
-> I tentatively think that this difference can be solved by arch-specific
-> coretype(). Do you have any comments on this? Thanks!
-Will look at that. Thanks.
->
-> [1]: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03884.html
-> [2]: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg03789.html
->
->> Thanks,
->> Yanan
+>> We don't test obj against NULL any more. This could break the QOM cast below.
+> 
+> IIUC QOM cast-macros are NULL-safe, see
+> https://lore.kernel.org/qemu-devel/20210107121304.1db97130@bahia.lan/
+
+even when CONFIG_QOM_CAST_DEBUG is set ? I might have missed something.
+
+Thanks,
+
+C.
+
+> 
+> If you concur I'll try to update the QOM API doc where relevant.
+> 
+>>> -    return args.obj ? IPMI_BMC(args.obj) : NULL;
+>>> +    return IPMI_BMC(obj);
+>>>   }
+>>
+> 
 
 
