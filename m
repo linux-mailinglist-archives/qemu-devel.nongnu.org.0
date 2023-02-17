@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DF169B1B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:24:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D01D69B1C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:29:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT4SV-00045h-Et; Fri, 17 Feb 2023 12:23:43 -0500
+	id 1pT4XL-00067I-Ss; Fri, 17 Feb 2023 12:28:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pT4ST-00045L-9B
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:23:41 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1pT4XH-00066O-Iz
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:28:39 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pT4SR-0008C7-MR
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:23:41 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- t6-20020a7bc3c6000000b003dc57ea0dfeso1455879wmj.0
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:23:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2wOF4H5RIHvnZj2IIar7QoxyOdikrouaRC/WMGfxlwY=;
- b=Ke5Pxec6YslZ2IFmepAT/hW2fS5IrdYE7H1ZDQWF9+cI+qEc1ue7AHUNPzJE+q5oAj
- PoN9V27VDjbUM0Jewn8SYH3XWqcJZJ+NkjbQDoUxbqvhaR5Fteg6z2iOKvbLK3mETQim
- Rn/RtClceFDqW8rPkBbiK5DauZEkaK++sI0MNE42H0m+5Um1etrshqVefkbVTKkRDxyz
- g043qflFs6bnaN9czCEZ7BnYzg25VmmTJP9uDODhk8tTWHBAhTdponWMdBbMKgIVcsol
- NLSPDRG0A+REUO7bdFcZCbJdwF00e9/0IACHj7yl9huETaCf5bZMLQEX2BfzyLNqeZQa
- jOFQ==
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1pT4XE-00010g-UI
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:28:39 -0500
+Received: by mail-pl1-x634.google.com with SMTP id jw12so145905plb.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 09:28:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=DdcJx4wDNl/1y2B/L5izpMKhcCM9J/D1mPCqoDIxm6M=;
+ b=iA4DUX2rqo/PJr6D+/6gvInVVhoE+Z3alHy8oKxYoGxGujsAwyzjBT22VDG42en2Cb
+ rikId8AgDdUqHNKQ8vKPwcSWr6GHTpC8nHPyW3fpNIDWUynuJgvkvdia62JgIiOHoDhW
+ UjczyarEWj7N/uGDBpgvQA+vJlCCBnsuQGeCJEF5Y8QtOPx2Rfny3ZN4YGALYg0f477X
+ +fOHRYh7jLfQsoyAIla6r2/HYc2SPbUg9MYJmjD1xkoGSsDXU1Di/kk9yqfONMu/sJN9
+ fFct49qzduI47dmy7hsG1DAadh3GC85i98Sxo72cPQlxAYzuVQAAlfpIX76rfsrvU2IH
+ zVGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2wOF4H5RIHvnZj2IIar7QoxyOdikrouaRC/WMGfxlwY=;
- b=ZpcI5TmWAnpo+0d2gdd6nIBGKpFoClZna1QqZkDpvJxTd98vUx3OlNHljpfs0MwgsN
- V+YD05R7+Iu2ytovclHrnShDXXlTq2DmBdAgEw57nCZ+zVcbkDNIf/zk46qMpBSPzA26
- 1WeCFVa2PYxq9SQtBUiJn2bxFbyD6vFHr+TRazzVWZ9a2Df9nv/NymIvnt6j+lnpduSC
- ogNjA5V/NBYWOdquMraHyguBl4NpaNUqiOukiPDQPP1lQzz5bKlHG4hkKXFk2ofl83Dk
- 1wCAKRrYBbSH5UOIBAyMXtrKWyy/y35Pj/Wk8IED5X3SwInFZTf/PYoaahfxkoGHrpAp
- Uwsw==
-X-Gm-Message-State: AO0yUKVAniphkwtclCQYQcUKiJk/m2S4c08mOEBd/VgH+sxYk5g9e7Sq
- /ZZEGInybW+Ki0KmLeqSJMd7YQ==
-X-Google-Smtp-Source: AK7set99qrwq/Oss1mdOT1HYzKrvBvNVASzT2QEIWSCHZPYHcZADSmH9sPh1Ul18DvQbFuuoN5QhEA==
-X-Received: by 2002:a05:600c:2e87:b0:3e2:201a:5bcc with SMTP id
- p7-20020a05600c2e8700b003e2201a5bccmr2212765wmn.33.1676654617357; 
- Fri, 17 Feb 2023 09:23:37 -0800 (PST)
-Received: from [192.168.129.175] (217.red-88-29-172.dynamicip.rima-tde.net.
- [88.29.172.217]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c028700b003e214803343sm5489801wmk.46.2023.02.17.09.23.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 09:23:36 -0800 (PST)
-Message-ID: <fa58c710-d362-c472-2858-b6bbe75fbcec@linaro.org>
-Date: Fri, 17 Feb 2023 18:23:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 4/4] target/ppc: fix warning with clang-15
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- richard.henderson@linaro.org, alex.bennee@linaro.org,
- peter.maydell@linaro.org
-References: <20230216134911.6803-1-pierrick.bouvier@linaro.org>
- <20230216134911.6803-5-pierrick.bouvier@linaro.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230216134911.6803-5-pierrick.bouvier@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.256,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DdcJx4wDNl/1y2B/L5izpMKhcCM9J/D1mPCqoDIxm6M=;
+ b=YsMjrRVxInBh1C5N8y/1W+AGCahA/iTHEZcDl1/Ol8iXeZhR56SXZHBgW+QEkweAf6
+ J840McsD7FmwgOvbYU3HjK15RrDkI5p3RG+/8723esoJN+Uw5zQJSB9jZyDcpyqMctGv
+ VB9EN03P9wPB9wPlkvDG3p9Vlwe+132vJjwaJbFmVjjiISEg3FSblMah0Li+8mgmD3kl
+ ADgoJcppWoQ9vcCwEIZ4IPtHwVnesXyZxVXp1HNNDjR2opVE8zxIvrhdcSA0UHbGVwy0
+ W1GStWf6nNn9m1y4hKikTbxnKWVeJXA5c5XuAVFaQcVOnQ97EOWsljWEofNDAKn+25rv
+ 2LIA==
+X-Gm-Message-State: AO0yUKXQU65u+N5bAq3ffAQQpeYzTsXXrJhPk67Jzh2EA9proqDXRLkm
+ rEEs/df5+8s+7tFFXuU3Ly4lRA==
+X-Google-Smtp-Source: AK7set//EmCQX7R2peBSehl7Im16+XaqQbx95hbCknuHPaAuxjxHuz8TIW/RHNKf9MvENji4ZoRi9Q==
+X-Received: by 2002:a17:90a:19d0:b0:234:d1c:f112 with SMTP id
+ 16-20020a17090a19d000b002340d1cf112mr501392pjj.0.1676654911581; 
+ Fri, 17 Feb 2023 09:28:31 -0800 (PST)
+Received: from localhost ([135.180.226.51]) by smtp.gmail.com with ESMTPSA id
+ 6-20020a17090a08c600b00234115a2221sm3134329pjn.39.2023.02.17.09.28.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Feb 2023 09:28:30 -0800 (PST)
+Date: Fri, 17 Feb 2023 09:28:30 -0800 (PST)
+X-Google-Original-Date: Fri, 17 Feb 2023 09:28:17 PST (-0800)
+Subject: Re: [PATCH 18/18] target/riscv: Move configuration check to envcfg
+ CSRs predicate()
+In-Reply-To: <CAEUhbmWQtabLO-whpqO8WDCgjXTfb7wQoqdWezzAUY-JSg9T2w@mail.gmail.com>
+CC: liweiwei@iscas.ac.cn, qemu-devel@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, 
+ zhiwei_liu@linux.alibaba.com, qemu-riscv@nongnu.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Message-ID: <mhng-bb66054f-f2ac-44dd-b8dc-a8e80afa1983@palmer-ri-x1c9>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=palmer@dabbelt.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,30 +91,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 16/2/23 14:49, Pierrick Bouvier wrote:
-> When compiling for windows-arm64 using clang-15, it reports a sometimes
-> uninitialized variable. This seems to be a false positive, as a default
-> case guards switch expressions, preventing to return an uninitialized
-> value, but clang seems unhappy with assert(0) definition.
-> 
-> Change code to g_assert_not_reached() fix the warning.
-> 
-> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-> ---
->   target/ppc/dfp_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-> index cc024316d5..0a40bcfee3 100644
-> --- a/target/ppc/dfp_helper.c
-> +++ b/target/ppc/dfp_helper.c
-> @@ -121,7 +121,7 @@ static void dfp_set_round_mode_from_immediate(uint8_t r, uint8_t rmc,
->           case 3: /* use FPSCR rounding mode */
->               return;
->           default:
-> -            assert(0); /* cannot get here */
-> +            g_assert_not_reached(); /* cannot get here */
+On Thu, 16 Feb 2023 17:59:42 PST (-0800), Bin Meng wrote:
+> Hi Palmer,
+>
+> On Fri, Feb 17, 2023 at 12:40 AM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+>>
+>> On Tue, 14 Feb 2023 18:22:21 PST (-0800), Bin Meng wrote:
+>> > On Tue, Feb 14, 2023 at 10:59 PM weiwei <liweiwei@iscas.ac.cn> wrote:
+>> >>
+>> >>
+>> >> On 2023/2/14 22:27, Bin Meng wrote:
+>> >> > At present the envcfg CSRs predicate() routines are generic one like
+>> >> > smode(), hmode. The configuration check is done in the read / write
+>> >> > routine. Create a new predicate routine to cover such check, so that
+>> >> > gdbstub can correctly report its existence.
+>> >> >
+>> >> > Signed-off-by: Bin Meng <bmeng@tinylab.org>
+>> >> >
+>> >> > ---
+>> >> >
+>> >> >   target/riscv/csr.c | 98 +++++++++++++++++++++++++++++-----------------
+>> >> >   1 file changed, 61 insertions(+), 37 deletions(-)
+>> >> >
+>> >> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> >> > index 37350b8a6d..284ccc09dd 100644
+>> >> > --- a/target/riscv/csr.c
+>> >> > +++ b/target/riscv/csr.c
+>> >> > @@ -41,40 +41,6 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
+>> >> >   }
+>> >> >
+>> >> >   /* Predicates */
+>> >> > -#if !defined(CONFIG_USER_ONLY)
+>> >> > -static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
+>> >> > -                                       uint64_t bit)
+>> >> > -{
+>> >> > -    bool virt = riscv_cpu_virt_enabled(env);
+>> >> > -    RISCVCPU *cpu = env_archcpu(env);
+>> >> > -
+>> >> > -    if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
+>> >> > -        return RISCV_EXCP_NONE;
+>> >> > -    }
+>> >> > -
+>> >> > -    if (!(env->mstateen[index] & bit)) {
+>> >> > -        return RISCV_EXCP_ILLEGAL_INST;
+>> >> > -    }
+>> >> > -
+>> >> > -    if (virt) {
+>> >> > -        if (!(env->hstateen[index] & bit)) {
+>> >> > -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> >> > -        }
+>> >> > -
+>> >> > -        if (env->priv == PRV_U && !(env->sstateen[index] & bit)) {
+>> >> > -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>> >> > -        }
+>> >> > -    }
+>> >> > -
+>> >> > -    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
+>> >> > -        if (!(env->sstateen[index] & bit)) {
+>> >> > -            return RISCV_EXCP_ILLEGAL_INST;
+>> >> > -        }
+>> >> > -    }
+>> >> > -
+>> >> > -    return RISCV_EXCP_NONE;
+>> >> > -}
+>> >> > -#endif
+>> >> >
+>> >> >   static RISCVException fs(CPURISCVState *env, int csrno)
+>> >> >   {
+>> >> > @@ -318,6 +284,32 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
+>> >> >       return umode(env, csrno);
+>> >> >   }
+>> >> >
+>> >> > +static RISCVException envcfg(CPURISCVState *env, int csrno)
+>> >> > +{
+>> >> > +    RISCVCPU *cpu = env_archcpu(env);
+>> >> > +    riscv_csr_predicate_fn predicate;
+>> >> > +
+>> >> > +    if (cpu->cfg.ext_smstateen) {
+>> >> > +        return RISCV_EXCP_ILLEGAL_INST;
+>> >> > +    }
+>> >>
+>> >> This check seems not right here.  Why  ILLEGAL_INST is directly
+>> >> triggered if smstateen is enabled?
+>> >
+>> > This logic was there in the original codes. I was confused when I
+>> > looked at this as well.
+>> >
+>> > Anyway, if it is an issue, it should be a separate patch.
+>>
+>> Seems reasonable to me, it's always nice to split up the refactoring types.  So
+>> I queued this up as 4ac6c32224 ("Merge patch series "target/riscv: Various
+>> fixes to gdbstub and CSR access"").
+>>
+>> I had to fix up the From address on the patch you re-sent and there was a minor
+>> merge conflict, but otherwise things look sane to me.  I'll hold off on sending
+>> anything for a bit just in case, though.
+>>
+>
+> There are some open comments in this series I need to address. Please
+> drop this v1. I will send v2 soon.
 
-If you respin to update the comments to match QEMU style (also
-the // in configure), please remove this pointless comment here.
+Sorry aobut that, I'd thought they were all reviewed.  I've dropped it 
+from the queue.
+
+Thanks!
+
+>
+> Regards,
+> Bin
 
