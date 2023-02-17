@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0778269AAAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 12:45:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C61969AAB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 12:48:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSzAG-0004cC-Mn; Fri, 17 Feb 2023 06:44:32 -0500
+	id 1pSzDX-0006hr-AD; Fri, 17 Feb 2023 06:47:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pSzAE-0004bk-AG
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 06:44:30 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSzDR-0006hS-RJ
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 06:47:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pSzAC-00030r-Qn
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 06:44:30 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSzDQ-00054l-9o
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 06:47:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676634267;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1676634467;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ae880lvNDNx2lWZuHQTbxG+B9c6oktdwkhkF/DpMkM4=;
- b=eE7Jnh72vDKAosIiKnN9ojU8+hdj5sLwmqrz5Zw8ummk02AQvHDix70QQCSMlhOn8TgQ9+
- SyvC1Lct3qlkjeLCeUvmEJIPgn26BoD+lG4O8Rd4969pfCZLg1Vw7690QsMTxhcwBIguQO
- qPGj3pS5PvGU5LhXLQdB0otwxMVXjyQ=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-377-VpFnpFamPLyjaiLQMKWfnA-1; Fri, 17 Feb 2023 06:44:26 -0500
-X-MC-Unique: VpFnpFamPLyjaiLQMKWfnA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- p18-20020ac84612000000b003ba3c280fabso158834qtn.2
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 03:44:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ae880lvNDNx2lWZuHQTbxG+B9c6oktdwkhkF/DpMkM4=;
- b=QjjUG4Fk2OmFD30NLJ3cEuDvMhwVEEBG5dLN/J9Aj3cFq1L4H+HLEQF64crFVqDgJo
- VNp+gJJgEriKnlTt/IhpiQDWMdG4KqBlWsBk7XSyEUzRVYQir7absyOkmWIekDqIhYRQ
- GwxlyYG2XU/P8xIG8mj296SXnk7sRfY7oAU5pPOtLt3kDO6jYhtYvjDezEh4yGTvwDAG
- ENobpPzzcvWNhnlurqp6imM4cUrv5U2vX0k15l9B0sQRisIsfJWGTJjIBSzzw06wIfQj
- tHU9MytyUcTatytRhj4uYI5ffoEYICNiSVADTo+d/vUBBvi0RkMGJsU3l4BbczuBJeZe
- 6Qrw==
-X-Gm-Message-State: AO0yUKUGBigqXVxUojtU9iCDx+6DjowPhNDqcb5ITAFWPsX/aLmk4uAS
- 5GeecolVYiPPbkHsmx79VntvMDge9C3EwGGaev/xoqZRzDJyZld5yscXQPy6hpRhwkYJbKn9zD0
- 40LY67uVlKy/OyHI=
-X-Received: by 2002:a05:622a:548:b0:3bd:16cf:2f10 with SMTP id
- m8-20020a05622a054800b003bd16cf2f10mr5176211qtx.35.1676634265989; 
- Fri, 17 Feb 2023 03:44:25 -0800 (PST)
-X-Google-Smtp-Source: AK7set9zGhj1ltp6eOfpz1VZFE9vKm6QrlS82btTdVbb8kCWFhPhrKwAdRIXr8fptd8LsgxZpFGmvg==
-X-Received: by 2002:a05:622a:548:b0:3bd:16cf:2f10 with SMTP id
- m8-20020a05622a054800b003bd16cf2f10mr5176188qtx.35.1676634265656; 
- Fri, 17 Feb 2023 03:44:25 -0800 (PST)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- z20-20020ac84314000000b003b630456b8fsm3030287qtm.89.2023.02.17.03.44.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 03:44:25 -0800 (PST)
-Message-ID: <728ea0a5-0bf6-4cb9-4597-55d53f531420@redhat.com>
-Date: Fri, 17 Feb 2023 12:44:22 +0100
+ bh=H7OWKTzw15EPMDjNZ/isxd8k89Q8TB9CPbHjt3t/Zc0=;
+ b=K5QZQtiR3xS/BIeaJHWBn6RzXMyxGxdd1q8zOwjowX08Db3dvTU2tngKgAv7pabz8+aVAT
+ k59bHq4AdhSrgttSpe6Q2Bti7fGHDff6+UN12DPVq63UYNnm06n4JmLG3M5YDXeYLCAiFS
+ uLGi8ean3s5xTH8ys3fjK5yBORi/wk0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-441-LZBOoAxDMFaBTY_PbY7FVg-1; Fri, 17 Feb 2023 06:47:44 -0500
+X-MC-Unique: LZBOoAxDMFaBTY_PbY7FVg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFE4E1019CBC;
+ Fri, 17 Feb 2023 11:47:43 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F960140EBF4;
+ Fri, 17 Feb 2023 11:47:41 +0000 (UTC)
+Date: Fri, 17 Feb 2023 11:47:39 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Weil <sw@weilnetz.de>
+Cc: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+Message-ID: <Y+9pW43XDp1qt7T6@redhat.com>
+References: <20230130114428.1297295-1-thuth@redhat.com>
+ <87a61cbmti.fsf@pond.sub.org> <Y+9bSHshiNnek31J@redhat.com>
+ <39bc9b17-e6f2-ed1b-0d6d-31bbb98842cf@weilnetz.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] vhost: svq: fix uninitialized variable
-Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20230217104219.1675667-1-lvivier@redhat.com>
- <CAJaqyWfvL0vNu6nT6sKHLATdW7QBwZ6NdW2t4RiVBtiVBARiuA@mail.gmail.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <CAJaqyWfvL0vNu6nT6sKHLATdW7QBwZ6NdW2t4RiVBtiVBARiuA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+In-Reply-To: <39bc9b17-e6f2-ed1b-0d6d-31bbb98842cf@weilnetz.de>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.351, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,59 +87,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/17/23 12:24, Eugenio Perez Martin wrote:
-> On Fri, Feb 17, 2023 at 11:42 AM Laurent Vivier <lvivier@redhat.com> wrote:
->>
->> The problem has been reported by gcc with CFLAGS=-O3:
->>
->> .../hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_svq_poll’:
->> .../hw/virtio/vhost-shadow-virtqueue.c:538:12:
->> error: ‘len’ may be used uninitialized [-Werror=maybe-uninitialized]
->>    538 |     return len;
->>        |            ^~~
->>
->> vhost_svq_get_buf() returns NULL if SVQ is empty but doesn't set len to 0,
->> and vhost_svq_poll() returns len without checking the return of
->> vhost_svq_get_buf(). So if the SVQ is empty vhost_svq_poll() can return
->> an random value.
->>
+On Fri, Feb 17, 2023 at 12:05:46PM +0100, Stefan Weil wrote:
+> On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
 > 
-> s/an random/a random/.
+> > Which 32-bit hosts are still useful, and why?
 > 
-> I think this solves the same as
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg939383.html ?
+> 
+> Citing my previous mail:
+> 
+>    I now checked all downloads of the latests installers since 2022-12-30.
+> 
+>    qemu-w32-setup-20221230.exe – 509 different IP addresses
+>    qemu-w64-setup-20221230.exe - 5471 different IP addresses
+> 
+>    339 unique IP addresses are common for 32- and 64-bit, either
+>    crawlers or people who simply got both variants. So there remain 170
+>    IP addresses which only downloaded the 32-bit variant in the last week.
+> 
+>    I see 437 different strings for the browser type, but surprisingly
+>    none of them looks like a crawler.
+> 
+> So there still seems to be a certain small need for QEMU installers for
+> 32-bit Windows: 170 users für 32 bit only, 339 users for both 32 and 64 bit,
+> 5132 users for 64 bit only.
 
-Yes, exactly.
+The question which is hard/impossible to answer is whether the people
+who downloaded the 32-bit build genuinely needed a 32-bit build or
+just did so out of habit or confusion.
 
-Thanks,
-Laurent
+I know you can't believe everything you see with statistics, but as an
+example, the chart at the bottom of this page suggests new deployments
+of 32-bit Windows are negligible today:
 
-> 
-> Thanks!
-> 
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> ---
->>   hw/virtio/vhost-shadow-virtqueue.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
->> index 430729635815..31cf642db267 100644
->> --- a/hw/virtio/vhost-shadow-virtqueue.c
->> +++ b/hw/virtio/vhost-shadow-virtqueue.c
->> @@ -420,6 +420,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
->>       vring_used_elem_t used_elem;
->>       uint16_t last_used, last_used_chain, num;
->>
->> +    *len = 0;
->>       if (!vhost_svq_more_used(svq)) {
->>           return NULL;
->>       }
->> --
->> 2.39.1
->>
-> 
+    https://www.pcbenchmarks.net/os-marketshare.html
+
+there are existing deployments not accounted for there, but that may
+still suggest many of the 32-bit downloads of QEMU will end up being
+run on 64-bit hosts.
+
+If we were to apply our support platform rule of only targetting the
+latest 2 versions of the OS, this limits our targets to Win 10 and
+Win 11. Windows 11 dropped 32-bit IIUC, so we're talking about
+32-bit installs of Windows 10 only - even in Win10 days all new
+physical hardware would have been 64-bit capable.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
