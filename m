@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC9869A92E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 11:42:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682FB69A92F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 11:43:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSyAm-0000i4-5Z; Fri, 17 Feb 2023 05:41:00 -0500
+	id 1pSyCM-00021n-Eu; Fri, 17 Feb 2023 05:42:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSyAj-0000hn-77
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:40:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pSyCK-00021e-20
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:42:36 -0500
+Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pSyAh-00075G-5y
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:40:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676630454;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=R5UZVQBb6Py6k5EccI/X6G97FS3G6/MvxoYIVM7OVVY=;
- b=LMgSetJrLxUbHpX9GNvIAo0RtykSFMxZnqny8/jswteKNaKLJ3dOvX5mQvwX5btC2jNKtE
- 3UYS6iY+0a8SqVmvEQ1Rr1m4docTuxxq+/4lFew0MiBBHJpgqfGta5n6utbB25sJ1Neeh9
- nGUIYVPl6/nqq2gu0AB8SK3qQOvipvY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-374-t7m2pPAiOAeXVbNUQWC4sA-1; Fri, 17 Feb 2023 05:40:49 -0500
-X-MC-Unique: t7m2pPAiOAeXVbNUQWC4sA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D0698027EB;
- Fri, 17 Feb 2023 10:40:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB9682026D4B;
- Fri, 17 Feb 2023 10:40:46 +0000 (UTC)
-Date: Fri, 17 Feb 2023 10:40:44 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
-Message-ID: <Y+9ZrIEbvXeG+4E/@redhat.com>
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <87a61cbmti.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pSyCE-0007Yy-De
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:42:31 -0500
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MEVqu-1pLpKU0SJm-00FyFS; Fri, 17 Feb 2023 11:42:24 +0100
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH] vhost: svq: fix uninitialized variable
+Date: Fri, 17 Feb 2023 11:42:19 +0100
+Message-Id: <20230217104219.1675667-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87a61cbmti.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:DqODt38SfGnZQzmo+7tYYJqZB0hVny24ayFTjpo/h+7GjLo/Jiu
+ prl1v1Uv3SYwK93MzKx6CN6PZ/dKSFb/8Mb1Ov9AJeST5e7vOfDfC1ejO0kGZwH4EPte3GV
+ LKWxfNXmvBr9Fh+3HMA9Q8OkRcpQ8m9bHoivCQwK07+Ku/VxrmHgTL/q0hPcbrOtSyZV65Z
+ xC0pZ5SuPIHSwWTsFWdNA==
+UI-OutboundReport: notjunk:1;M01:P0:mdV92zthZZI=;uulAEe3RWLSkRoYQ6OpiK2Ovo3y
+ qAC8sFLnpCIHjJp2KDfNQjVr/H/y5pjVBr5L3JKMkB2o22yOYZ/+0CDe3yd14BVsd/3WIbaqX
+ gBaKeKs0hjOLXHDtN26D2gfIPibqPIsUNvFAoWoFwpH2EyFpCC7Ky6s5YjDr9rdKTz4tjbf6r
+ MFx4U/IwLyTCYZd/ebfXKIRW4YlhseuFeGv9RP57ZxyUNSstxbs7qiXaWKL0yZpsNm7Iv+Ev/
+ 3ee/Zu8A1idYnzv6E1erPiC0tpzcfrpVSTz7smg5Q7BUR1SfrqCVe/EcmQI9Z1tB5aiGJCShH
+ eLEyw0wK7bnE2vLuKsmHXGvEG777WuSFbnKJbfzMSw4rdWCyFLghRdGU4YYaplJJVrRlRIeMH
+ lPR3Ke9KJalKbveqcLoNDxoivVvokPwmnkl8PXy4TXq7ssWYo7KKCuJ26YEC11gblkQFgSwRm
+ HhWA2/hy3h9Lp7VW6VOl86dgsj7wv1Tkg8kGL87/qvRQmLFG0nnJ0sEgrZXiLSe08WFkXKlVj
+ uXIy08UEEapQUyXhIdm1CVOj139sxNcm5/phG68nXB62FlWlrEQthZk5b6UxS6ByDviMg1uc2
+ RYqsH6DmbB9t7zTdQkNrazM96wV7ghHubaUwlBqUesZ1IKgV1aBybNwQaAzdfiezPzqGGKFKy
+ wGC+ZuO/fRIYDqUnHfvf88FeS0LxLwYsugOQAmzrhA==
+Received-SPF: permerror client-ip=212.227.17.10;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,35 +68,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
-> I feel the discussion petered out without a conclusion.
-> 
-> I don't think letting the status quo win by inertia is a good outcome
-> here.
-> 
-> Which 32-bit hosts are still useful, and why?
-> 
-> Please note my question is not about the cost of keeping them (or
-> savings from not keeping them), it's about the value they provide.  When
-> value rounds to zero, cost is irrelevant, so let's get a firm idea of
-> value *first*.
+The problem has been reported by gcc with CFLAGS=-O3:
 
-With my OS maintainer hat on, 32-bit host support is not relevant
-to Fedora[1] or RHEL. Both have dropped all 32-bit host install
-support, only maintaining 32-bit builds of some libaries for use
-on 64-bit host install, which is not relevant to QEMU's deliverables.
+.../hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_svq_poll’:
+.../hw/virtio/vhost-shadow-virtqueue.c:538:12:
+error: ‘len’ may be used uninitialized [-Werror=maybe-uninitialized]
+  538 |     return len;
+      |            ^~~
 
-With regards,
-Daniel
+vhost_svq_get_buf() returns NULL if SVQ is empty but doesn't set len to 0,
+and vhost_svq_poll() returns len without checking the return of
+vhost_svq_get_buf(). So if the SVQ is empty vhost_svq_poll() can return
+an random value.
 
-[1] Arm7 was the last 32-bit host in Fedora, dropped after F36
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 430729635815..31cf642db267 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -420,6 +420,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+     vring_used_elem_t used_elem;
+     uint16_t last_used, last_used_chain, num;
+ 
++    *len = 0;
+     if (!vhost_svq_more_used(svq)) {
+         return NULL;
+     }
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.39.1
 
 
