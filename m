@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4598069B191
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C35069B199
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 18:09:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT46v-0005os-Pu; Fri, 17 Feb 2023 12:01:25 -0500
+	id 1pT4D9-0005qt-UW; Fri, 17 Feb 2023 12:07:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pT46g-0005Tt-PK
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:01:11 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <dbassey@redhat.com>)
+ id 1pT4D8-0005qg-7M
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:07:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pT46b-0000AK-Go
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:01:10 -0500
-Received: from sas1-2d2912cdb877.qloud-c.yandex.net
- (sas1-2d2912cdb877.qloud-c.yandex.net
- [IPv6:2a02:6b8:c14:280d:0:640:2d29:12cd])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 610745EE02;
- Fri, 17 Feb 2023 20:01:00 +0300 (MSK)
-Received: from antonkuchin-nix.yandex-team.ru (unknown
- [2a02:6b8:b081:7313::1:33])
- by sas1-2d2912cdb877.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- d0qKL50Sl4Y1-okhr4jJG; Fri, 17 Feb 2023 20:00:59 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1676653259; bh=ElC44zDuXKHsXhZI+PshUzHKnTsHBHxKXXZurHdcMeg=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=cVQOCsMN9xu2ne/YnXgcAWm31e4lGq7v2S4bcOGp6E8VzIqx5tfRJkxikNb5fCy6z
- 761tfj73ybSHrhfkjLIQm/ZZkdbivz5Srn+6g2c61sn3rEQTKPJ2XsghY34miH08gA
- N+uqTEEoaFxPn/yE06bLFMbtIhCxkeGVK+WYOvYE=
-Authentication-Results: sas1-2d2912cdb877.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Anton Kuchin <antonkuchin@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <dbassey@redhat.com>)
+ id 1pT4D4-0001fP-Lh
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 12:07:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676653665;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=o9pBsKdN6VWkUwP2V/TLUlYosbSP6Vp5r9/KHp3I++w=;
+ b=iW0u5ml13rBre/RAkyjy3e0CbiPxeBptkS6lRzfRLzECjnUwV8BOUfsXAttUm0CwpufIki
+ FJxb/nW9NvqFvGvd4JPrTdcYmj5TMxydVirDJsT/asoP6aSW/ZWKBJUQbXw2ZoTX4mZn7f
+ uo3b83MnFkTg9yzNttyTQ6BThgYBpB0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-438-U6KiCDh1Psqd834nx2DXYA-1; Fri, 17 Feb 2023 12:07:42 -0500
+X-MC-Unique: U6KiCDh1Psqd834nx2DXYA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C895101A52E;
+ Fri, 17 Feb 2023 17:07:42 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E983492C3E;
+ Fri, 17 Feb 2023 17:07:39 +0000 (UTC)
+From: Dorinda Bassey <dbassey@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- virtio-fs@redhat.com, Eric Blake <eblake@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>
-Subject: [PATCH v3 1/1] vhost-user-fs: add migration type property
-Date: Fri, 17 Feb 2023 19:00:38 +0200
-Message-Id: <20230217170038.1273710-2-antonkuchin@yandex-team.ru>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230217170038.1273710-1-antonkuchin@yandex-team.ru>
-References: <20230217170038.1273710-1-antonkuchin@yandex-team.ru>
+Cc: kraxel@redhat.com, armbru@redhat.com, qemu_oss@crudebyte.com,
+ pbonzini@redhat.com, wtaymans@redhat.com,
+ Dorinda Bassey <dbassey@redhat.com>
+Subject: [PATCH v4] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+Date: Fri, 17 Feb 2023 18:07:32 +0100
+Message-Id: <20230217170732.298264-1-dbassey@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dbassey@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,147 +76,1111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Migration of vhost-user-fs device requires transfer of FUSE internal state
-from backend. There is no standard way to do it now so by default migration
-must be blocked. But if this state can be externally transferred by
-orchestrator give it an option to explicitly allow migration.
+This commit adds a new audiodev backend to allow QEMU to use Pipewire as
+both an audio sink and source. This backend is available on most systems
 
-Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+Add Pipewire entry points for QEMU Pipewire audio backend
+Add wrappers for QEMU Pipewire audio backend in qpw_pcm_ops()
+qpw_write function returns the current state of the stream to pwaudio
+and Writes some data to the server for playback streams using pipewire
+spa_ringbuffer implementation.
+qpw_read function returns the current state of the stream to pwaudio and
+reads some data from the server for capture streams using pipewire
+spa_ringbuffer implementation. These functions qpw_write and qpw_read
+are called during playback and capture.
+Added some functions that convert pw audio formats to QEMU audio format
+and vice versa which would be needed in the pipewire audio sink and
+source functions qpw_init_in() & qpw_init_out().
+These methods that implement playback and recording will create streams
+for playback and capture that will start processing and will result in
+the on_process callbacks to be called.
+Built a connection to the Pipewire sound system server in the
+qpw_audio_init() method.
+
+Signed-off-by: Dorinda Bassey <dbassey@redhat.com>
 ---
- hw/core/qdev-properties-system.c    | 10 +++++++++
- hw/virtio/vhost-user-fs.c           | 32 ++++++++++++++++++++++++++++-
- include/hw/qdev-properties-system.h |  1 +
- include/hw/virtio/vhost-user-fs.h   |  2 ++
- qapi/migration.json                 | 16 +++++++++++++++
- 5 files changed, 60 insertions(+), 1 deletion(-)
+fix typo
+raise version dependency
 
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index d42493f630..d9b1aa2a5d 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -1143,3 +1143,13 @@ const PropertyInfo qdev_prop_uuid = {
-     .set   = set_uuid,
-     .set_default_value = set_default_uuid_auto,
- };
+ audio/audio.c                 |   3 +
+ audio/audio_template.h        |   4 +
+ audio/meson.build             |   1 +
+ audio/pwaudio.c               | 827 ++++++++++++++++++++++++++++++++++
+ meson.build                   |   8 +
+ meson_options.txt             |   4 +-
+ qapi/audio.json               |  45 ++
+ qemu-options.hx               |  17 +
+ scripts/meson-buildoptions.sh |   8 +-
+ 9 files changed, 914 insertions(+), 3 deletions(-)
+ create mode 100644 audio/pwaudio.c
+
+diff --git a/audio/audio.c b/audio/audio.c
+index 4290309d18..aa55e41ad8 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -2069,6 +2069,9 @@ void audio_create_pdos(Audiodev *dev)
+ #ifdef CONFIG_AUDIO_PA
+         CASE(PA, pa, Pa);
+ #endif
++#ifdef CONFIG_AUDIO_PIPEWIRE
++        CASE(PIPEWIRE, pipewire, Pipewire);
++#endif
+ #ifdef CONFIG_AUDIO_SDL
+         CASE(SDL, sdl, Sdl);
+ #endif
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index 42b4712acb..0f02afb921 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -355,6 +355,10 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
+     case AUDIODEV_DRIVER_PA:
+         return qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.TYPE);
+ #endif
++#ifdef CONFIG_AUDIO_PIPEWIRE
++    case AUDIODEV_DRIVER_PIPEWIRE:
++        return qapi_AudiodevPipewirePerDirectionOptions_base(dev->u.pipewire.TYPE);
++#endif
+ #ifdef CONFIG_AUDIO_SDL
+     case AUDIODEV_DRIVER_SDL:
+         return qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.TYPE);
+diff --git a/audio/meson.build b/audio/meson.build
+index 0722224ba9..65a49c1a10 100644
+--- a/audio/meson.build
++++ b/audio/meson.build
+@@ -19,6 +19,7 @@ foreach m : [
+   ['sdl', sdl, files('sdlaudio.c')],
+   ['jack', jack, files('jackaudio.c')],
+   ['sndio', sndio, files('sndioaudio.c')],
++  ['pipewire', pipewire, files('pwaudio.c')],
+   ['spice', spice, files('spiceaudio.c')]
+ ]
+   if m[1].found()
+diff --git a/audio/pwaudio.c b/audio/pwaudio.c
+new file mode 100644
+index 0000000000..aa22f40a80
+--- /dev/null
++++ b/audio/pwaudio.c
+@@ -0,0 +1,827 @@
++/*
++ * QEMU Pipewire audio driver
++ *
++ * Copyright (c) 2023 Red Hat Inc.
++ *
++ * Author: Dorinda Bassey       <dbassey@redhat.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
-+const PropertyInfo qdev_prop_vhost_user_migration_type = {
-+    .name = "VhostUserMigrationType",
-+    .description = "none/external",
-+    .enum_table = &VhostUserMigrationType_lookup,
-+    .get = qdev_propinfo_get_enum,
-+    .set = qdev_propinfo_set_enum,
-+    .set_default_value = qdev_propinfo_set_default_value_enum,
-+    .realized_set_allowed = true,
++#include "qemu/osdep.h"
++#include "qemu/module.h"
++#include "audio.h"
++#include <errno.h>
++#include <spa/param/audio/format-utils.h>
++#include <spa/utils/ringbuffer.h>
++#include <spa/utils/result.h>
++
++#include <pipewire/pipewire.h>
++
++#define AUDIO_CAP "pipewire"
++#define RINGBUFFER_SIZE    (1u << 22)
++#define RINGBUFFER_MASK    (RINGBUFFER_SIZE - 1)
++#define BUFFER_SAMPLES    512
++
++#include "audio_int.h"
++
++enum {
++    MODE_SINK,
++    MODE_SOURCE
 +};
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 83fc20e49e..7deb9df5ec 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -298,9 +298,35 @@ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
-     return &fs->vhost_dev;
- }
- 
-+static int vhost_user_fs_pre_save(void *opaque)
-+{
-+    VHostUserFS *fs = opaque;
-+    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
 +
-+    switch (fs->migration_type) {
-+    case VHOST_USER_MIGRATION_TYPE_NONE:
-+        error_report("Migration is blocked by device %s", path);
++typedef struct pwaudio {
++    Audiodev *dev;
++    struct pw_thread_loop *thread_loop;
++    struct pw_context *context;
++
++    struct pw_core *core;
++    struct spa_hook core_listener;
++    int seq;
++} pwaudio;
++
++typedef struct PWVoice {
++    pwaudio *g;
++    bool enabled;
++    struct pw_stream *stream;
++    struct spa_hook stream_listener;
++    struct spa_audio_info_raw info;
++    uint32_t frame_size;
++    struct spa_ringbuffer ring;
++    uint8_t buffer[RINGBUFFER_SIZE];
++
++    uint32_t mode;
++    struct pw_properties *props;
++} PWVoice;
++
++typedef struct PWVoiceOut {
++    HWVoiceOut hw;
++    PWVoice v;
++} PWVoiceOut;
++
++typedef struct PWVoiceIn {
++    HWVoiceIn hw;
++    PWVoice v;
++} PWVoiceIn;
++
++static void
++stream_destroy(void *data)
++{
++    PWVoice *v = (PWVoice *) data;
++    spa_hook_remove(&v->stream_listener);
++    v->stream = NULL;
++}
++
++/* output data processing function to read stuffs from the buffer */
++static void
++playback_on_process(void *data)
++{
++    PWVoice *v = (PWVoice *) data;
++    void *p;
++    struct pw_buffer *b;
++    struct spa_buffer *buf;
++    uint32_t n_frames, req, index, n_bytes;
++    int32_t avail;
++
++    if (!v->stream) {
++        return;
++    }
++
++    /* obtain a buffer to read from */
++    b = pw_stream_dequeue_buffer(v->stream);
++    if (b == NULL) {
++        pw_log_warn("out of buffers: %m");
++        return;
++    }
++
++    buf = b->buffer;
++    p = buf->datas[0].data;
++    if (p == NULL) {
++        return;
++    }
++    req = b->requested * v->frame_size;
++    if (req == 0) {
++        req = 4096 * v->frame_size;
++    }
++    n_frames = SPA_MIN(req, buf->datas[0].maxsize);
++    n_bytes = n_frames * v->frame_size;
++
++    /* get no of available bytes to read data from buffer */
++
++    avail = spa_ringbuffer_get_read_index(&v->ring, &index);
++
++    if (!v->enabled) {
++        avail = 0;
++    }
++
++    if (avail == 0) {
++        memset(p, 0, n_bytes);
++    } else {
++        if (avail < (int32_t) n_bytes) {
++            n_bytes = avail;
++        }
++
++        spa_ringbuffer_read_data(&v->ring,
++                                    v->buffer, RINGBUFFER_SIZE,
++                                    index & RINGBUFFER_MASK, p, n_bytes);
++
++        index += n_bytes;
++        spa_ringbuffer_read_update(&v->ring, index);
++    }
++
++    buf->datas[0].chunk->offset = 0;
++    buf->datas[0].chunk->stride = v->frame_size;
++    buf->datas[0].chunk->size = n_bytes;
++
++    /* queue the buffer for playback */
++    pw_stream_queue_buffer(v->stream, b);
++}
++
++/* output data processing function to generate stuffs in the buffer */
++static void
++capture_on_process(void *data)
++{
++    PWVoice *v = (PWVoice *) data;
++    void *p;
++    struct pw_buffer *b;
++    struct spa_buffer *buf;
++    int32_t filled;
++    uint32_t index, offs, n_bytes;
++
++    if (!v->stream) {
++        return;
++    }
++
++    /* obtain a buffer */
++    b = pw_stream_dequeue_buffer(v->stream);
++    if (b == NULL) {
++        pw_log_warn("out of buffers: %m");
++        return;
++    }
++
++    /* Write data into buffer */
++    buf = b->buffer;
++    p = buf->datas[0].data;
++    if (p == NULL) {
++        return;
++    }
++    offs = SPA_MIN(buf->datas[0].chunk->offset, buf->datas[0].maxsize);
++    n_bytes = SPA_MIN(buf->datas[0].chunk->size, buf->datas[0].maxsize - offs);
++
++    filled = spa_ringbuffer_get_write_index(&v->ring, &index);
++
++    if (!v->enabled) {
++        n_bytes = 0;
++    }
++
++    if (filled < 0) {
++        pw_log_warn("%p: underrun write:%u filled:%d", p, index, filled);
++    } else {
++        if ((uint32_t) filled + n_bytes > RINGBUFFER_SIZE) {
++            pw_log_warn("%p: overrun write:%u filled:%d + size:%u > max:%u",
++            p, index, filled, n_bytes, RINGBUFFER_SIZE);
++        }
++    }
++    spa_ringbuffer_write_data(&v->ring,
++                                v->buffer, RINGBUFFER_SIZE,
++                                index & RINGBUFFER_MASK,
++                                SPA_PTROFF(p, offs, void), n_bytes);
++    index += n_bytes;
++    spa_ringbuffer_write_update(&v->ring, index);
++
++    /* queue the buffer for playback */
++    pw_stream_queue_buffer(v->stream, b);
++}
++
++static void
++on_stream_state_changed(void *_data, enum pw_stream_state old,
++                        enum pw_stream_state state, const char *error)
++{
++    PWVoice *v = (PWVoice *) _data;
++
++    printf("stream state: \"%s\"\n", pw_stream_state_as_string(state));
++
++    switch (state) {
++    case PW_STREAM_STATE_ERROR:
++    case PW_STREAM_STATE_UNCONNECTED:
++        {
++            break;
++        }
++    case PW_STREAM_STATE_PAUSED:
++        printf("node id: %d\n", pw_stream_get_node_id(v->stream));
 +        break;
-+    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
-+        return 0;
++    case PW_STREAM_STATE_CONNECTING:
++    case PW_STREAM_STATE_STREAMING:
++        break;
++    }
++}
++
++static const struct pw_stream_events capture_stream_events = {
++    PW_VERSION_STREAM_EVENTS,
++    .destroy = stream_destroy,
++    .state_changed = on_stream_state_changed,
++    .process = capture_on_process
++};
++
++static const struct pw_stream_events playback_stream_events = {
++    PW_VERSION_STREAM_EVENTS,
++    .destroy = stream_destroy,
++    .state_changed = on_stream_state_changed,
++    .process = playback_on_process
++};
++
++static size_t
++qpw_read(HWVoiceIn *hw, void *data, size_t len)
++{
++    PWVoiceIn *pw = (PWVoiceIn *) hw;
++    PWVoice *v = &pw->v;
++    pwaudio *c = v->g;
++    const char *error = NULL;
++    size_t l;
++    int32_t avail;
++    uint32_t index;
++
++    pw_thread_loop_lock(c->thread_loop);
++    if (pw_stream_get_state(v->stream, &error) != PW_STREAM_STATE_STREAMING) {
++        /* wait for stream to become ready */
++        l = 0;
++        goto done_unlock;
++    }
++    /* get no of available bytes to read data from buffer */
++    avail = spa_ringbuffer_get_read_index(&v->ring, &index);
++
++    if (avail < (int32_t) len) {
++        len = avail;
++    }
++
++    spa_ringbuffer_read_data(&v->ring,
++                             v->buffer, RINGBUFFER_SIZE,
++                             index & RINGBUFFER_MASK, data, len);
++    index += len;
++    spa_ringbuffer_read_update(&v->ring, index);
++    l = len;
++
++done_unlock:
++    pw_thread_loop_unlock(c->thread_loop);
++    return l;
++}
++
++static size_t
++qpw_write(HWVoiceOut *hw, void *data, size_t len)
++{
++    PWVoiceOut *pw = (PWVoiceOut *) hw;
++    PWVoice *v = &pw->v;
++    pwaudio *c = v->g;
++    const char *error = NULL;
++    const int periods = 3;
++    size_t l;
++    int32_t filled, avail;
++    uint32_t index;
++
++    pw_thread_loop_lock(c->thread_loop);
++    if (pw_stream_get_state(v->stream, &error) != PW_STREAM_STATE_STREAMING) {
++        /* wait for stream to become ready */
++        l = 0;
++        goto done_unlock;
++    }
++    filled = spa_ringbuffer_get_write_index(&v->ring, &index);
++
++    avail = BUFFER_SAMPLES * v->frame_size * periods - filled;
++
++    pw_log_debug("%u %u %u %zu", filled, avail, index, len);
++
++    if (len > avail) {
++        len = avail;
++    }
++
++    if (filled < 0) {
++        pw_log_warn("%p: underrun write:%u filled:%d", pw, index, filled);
++    } else {
++        if ((uint32_t) filled + len > RINGBUFFER_SIZE) {
++            pw_log_warn("%p: overrun write:%u filled:%d + size:%zu > max:%u",
++            pw, index, filled, len, RINGBUFFER_SIZE);
++        }
++    }
++
++    spa_ringbuffer_write_data(&v->ring,
++                                v->buffer, RINGBUFFER_SIZE,
++                                index & RINGBUFFER_MASK, data, len);
++    index += len;
++    spa_ringbuffer_write_update(&v->ring, index);
++    l = len;
++
++done_unlock:
++    pw_thread_loop_unlock(c->thread_loop);
++    return l;
++}
++
++static int
++audfmt_to_pw(AudioFormat fmt, int endianness)
++{
++    int format;
++
++    switch (fmt) {
++    case AUDIO_FORMAT_S8:
++        format = SPA_AUDIO_FORMAT_S8;
++        break;
++    case AUDIO_FORMAT_U8:
++        format = SPA_AUDIO_FORMAT_U8;
++        break;
++    case AUDIO_FORMAT_S16:
++        format = endianness ? SPA_AUDIO_FORMAT_S16_BE : SPA_AUDIO_FORMAT_S16_LE;
++        break;
++    case AUDIO_FORMAT_U16:
++        format = endianness ? SPA_AUDIO_FORMAT_U16_BE : SPA_AUDIO_FORMAT_U16_LE;
++        break;
++    case AUDIO_FORMAT_S32:
++        format = endianness ? SPA_AUDIO_FORMAT_S32_BE : SPA_AUDIO_FORMAT_S32_LE;
++        break;
++    case AUDIO_FORMAT_U32:
++        format = endianness ? SPA_AUDIO_FORMAT_U32_BE : SPA_AUDIO_FORMAT_U32_LE;
++        break;
++    case AUDIO_FORMAT_F32:
++        format = endianness ? SPA_AUDIO_FORMAT_F32_BE : SPA_AUDIO_FORMAT_F32_LE;
++        break;
 +    default:
-+        error_report("Migration type '%s' is not supported by device %s",
-+                     VhostUserMigrationType_str(fs->migration_type), path);
++        dolog("Internal logic error: Bad audio format %d\n", fmt);
++        format = SPA_AUDIO_FORMAT_U8;
++        break;
++    }
++    return format;
++}
++
++static AudioFormat
++pw_to_audfmt(enum spa_audio_format fmt, int *endianness,
++             uint32_t *frame_size)
++{
++    switch (fmt) {
++    case SPA_AUDIO_FORMAT_S8:
++        *frame_size = 1;
++        return AUDIO_FORMAT_S8;
++    case SPA_AUDIO_FORMAT_U8:
++        *frame_size = 1;
++        return AUDIO_FORMAT_U8;
++    case SPA_AUDIO_FORMAT_S16_BE:
++        *frame_size = 2;
++        *endianness = 1;
++        return AUDIO_FORMAT_S16;
++    case SPA_AUDIO_FORMAT_S16_LE:
++        *frame_size = 2;
++        *endianness = 0;
++        return AUDIO_FORMAT_S16;
++    case SPA_AUDIO_FORMAT_U16_BE:
++        *frame_size = 2;
++        *endianness = 1;
++        return AUDIO_FORMAT_U16;
++    case SPA_AUDIO_FORMAT_U16_LE:
++        *frame_size = 2;
++        *endianness = 0;
++        return AUDIO_FORMAT_U16;
++    case SPA_AUDIO_FORMAT_S32_BE:
++        *frame_size = 4;
++        *endianness = 1;
++        return AUDIO_FORMAT_S32;
++    case SPA_AUDIO_FORMAT_S32_LE:
++        *frame_size = 4;
++        *endianness = 0;
++        return AUDIO_FORMAT_S32;
++    case SPA_AUDIO_FORMAT_U32_BE:
++        *frame_size = 4;
++        *endianness = 1;
++        return AUDIO_FORMAT_U32;
++    case SPA_AUDIO_FORMAT_U32_LE:
++        *frame_size = 4;
++        *endianness = 0;
++        return AUDIO_FORMAT_U32;
++    case SPA_AUDIO_FORMAT_F32_BE:
++        *frame_size = 4;
++        *endianness = 1;
++        return AUDIO_FORMAT_F32;
++    case SPA_AUDIO_FORMAT_F32_LE:
++        *frame_size = 4;
++        *endianness = 0;
++        return AUDIO_FORMAT_F32;
++    default:
++        *frame_size = 1;
++        dolog("Internal logic error: Bad spa_audio_format %d\n", fmt);
++        return AUDIO_FORMAT_U8;
++    }
++}
++
++static int
++create_stream(pwaudio *c, PWVoice *v, const char *name)
++{
++    int res;
++    uint32_t n_params;
++    const struct spa_pod *params[2];
++    uint8_t buffer[1024];
++    struct spa_pod_builder b;
++
++    v->stream = pw_stream_new(c->core, name, NULL);
++
++    if (v->stream == NULL) {
++        res = -errno;
++        goto error;
++    }
++
++    if (v->mode == MODE_SOURCE) {
++        pw_stream_add_listener(v->stream,
++                            &v->stream_listener, &capture_stream_events, v);
++    } else {
++        pw_stream_add_listener(v->stream,
++                            &v->stream_listener, &playback_stream_events, v);
++    }
++
++    n_params = 0;
++    spa_pod_builder_init(&b, buffer, sizeof(buffer));
++    params[n_params++] = spa_format_audio_raw_build(&b,
++                            SPA_PARAM_EnumFormat,
++                            &v->info);
++
++    /* connect the stream to a sink or source */
++    res = pw_stream_connect(v->stream,
++                            v->mode ==
++                            MODE_SOURCE ? PW_DIRECTION_INPUT :
++                            PW_DIRECTION_OUTPUT, PW_ID_ANY,
++                            PW_STREAM_FLAG_AUTOCONNECT |
++                            PW_STREAM_FLAG_MAP_BUFFERS |
++                            PW_STREAM_FLAG_RT_PROCESS, params, n_params);
++    if (res < 0) {
++        goto error;
++    }
++
++    return 0;
++error:
++    return res;
++}
++
++static void
++pw_destroy(pwaudio *c)
++{
++    if (c->thread_loop) {
++        pw_thread_loop_stop(c->thread_loop);
++    }
++    if (c->core) {
++        pw_core_disconnect(c->core);
++    }
++
++    g_free(c);
++}
++
++static int
++qpw_stream_new(pwaudio *c, PWVoice *v, const char *name)
++{
++    int r;
++
++    pw_thread_loop_lock(c->thread_loop);
++
++    switch (v->info.channels) {
++    case 8:
++        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
++        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
++        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
++        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
++        v->info.position[4] = SPA_AUDIO_CHANNEL_RL;
++        v->info.position[5] = SPA_AUDIO_CHANNEL_RR;
++        v->info.position[6] = SPA_AUDIO_CHANNEL_SL;
++        v->info.position[7] = SPA_AUDIO_CHANNEL_SR;
++        break;
++    case 6:
++        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
++        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
++        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
++        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
++        v->info.position[4] = SPA_AUDIO_CHANNEL_RL;
++        v->info.position[5] = SPA_AUDIO_CHANNEL_RR;
++        break;
++    case 5:
++        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
++        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
++        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
++        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
++        v->info.position[4] = SPA_AUDIO_CHANNEL_RC;
++        break;
++    case 4:
++        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
++        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
++        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
++        v->info.position[3] = SPA_AUDIO_CHANNEL_RC;
++        break;
++    case 3:
++        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
++        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
++        v->info.position[2] = SPA_AUDIO_CHANNEL_LFE;
++        break;
++    case 2:
++        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
++        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
++        break;
++    case 1:
++        v->info.position[0] = SPA_AUDIO_CHANNEL_MONO;
++        break;
++    default:
++        for (size_t i = 0; i < v->info.channels; i++) {
++            v->info.position[i] = SPA_AUDIO_CHANNEL_UNKNOWN;
++        }
 +        break;
 +    }
 +
++    /* create a new unconnected pwstream */
++    r = create_stream(c, v, name);
++    if (r < 0) {
++        goto error;
++    }
++
++    pw_thread_loop_unlock(c->thread_loop);
++    return r;
++
++error:
++    AUD_log(AUDIO_CAP, "Failed to create stream.");
++    pw_thread_loop_unlock(c->thread_loop);
++    pw_destroy(c);
 +    return -1;
 +}
 +
- static const VMStateDescription vuf_vmstate = {
-     .name = "vhost-user-fs",
--    .unmigratable = 1,
-+    .minimum_version_id = 0,
-+    .version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_VIRTIO_DEVICE,
-+        VMSTATE_END_OF_LIST()
-+    },
-+   .pre_save = vhost_user_fs_pre_save,
- };
++static int
++qpw_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
++{
++    PWVoiceOut *pw = (PWVoiceOut *) hw;
++    PWVoice *v = &pw->v;
++    struct audsettings obt_as = *as;
++    pwaudio *c = v->g = drv_opaque;
++    AudiodevPipewireOptions *popts = &c->dev->u.pipewire;
++    AudiodevPipewirePerDirectionOptions *ppdo = popts->out;
++    int r;
++    v->enabled = false;
++
++    v->mode = MODE_SINK;
++
++    pw_thread_loop_lock(c->thread_loop);
++
++    v->info.format = audfmt_to_pw(as->fmt, as->endianness);
++    v->info.channels = as->nchannels;
++    v->info.rate = as->freq;
++
++    obt_as.fmt =
++        pw_to_audfmt(v->info.format, &obt_as.endianness, &v->frame_size);
++    v->frame_size *= as->nchannels;
++
++    /* call the function that creates a new stream for playback */
++    r = qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id);
++    if (r < 0) {
++        pw_log_error("qpw_stream_new for playback failed\n ");
++        goto fail;
++    }
++
++    /* report the audio format we support */
++    audio_pcm_init_info(&hw->info, &obt_as);
++
++    /* report the buffer size to qemu */
++    hw->samples = BUFFER_SAMPLES;
++
++    pw_thread_loop_unlock(c->thread_loop);
++    return 0;
++fail:
++    pw_thread_loop_unlock(c->thread_loop);
++    return -1;
++}
++
++static int
++qpw_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
++{
++    PWVoiceIn *pw = (PWVoiceIn *) hw;
++    PWVoice *v = &pw->v;
++    struct audsettings obt_as = *as;
++    pwaudio *c = v->g = drv_opaque;
++    AudiodevPipewireOptions *popts = &c->dev->u.pipewire;
++    AudiodevPipewirePerDirectionOptions *ppdo = popts->in;
++    int r;
++    v->enabled = false;
++
++    v->mode = MODE_SOURCE;
++    pw_thread_loop_lock(c->thread_loop);
++
++    v->info.format = audfmt_to_pw(as->fmt, as->endianness);
++    v->info.channels = as->nchannels;
++    v->info.rate = as->freq;
++
++    obt_as.fmt =
++        pw_to_audfmt(v->info.format, &obt_as.endianness, &v->frame_size);
++    v->frame_size *= as->nchannels;
++
++    /* call the function that creates a new stream for recording */
++    r = qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id);
++    if (r < 0) {
++        pw_log_error("qpw_stream_new for recording failed\n ");
++        goto fail;
++    }
++
++    /* report the audio format we support */
++    audio_pcm_init_info(&hw->info, &obt_as);
++
++    /* report the buffer size to qemu */
++    hw->samples = BUFFER_SAMPLES;
++
++    pw_thread_loop_unlock(c->thread_loop);
++    return 0;
++fail:
++    pw_thread_loop_unlock(c->thread_loop);
++    return -1;
++}
++
++static void
++qpw_fini_out(HWVoiceOut *hw)
++{
++    PWVoiceOut *pw = (PWVoiceOut *) hw;
++    PWVoice *v = &pw->v;
++
++    if (v->stream) {
++        pwaudio *c = v->g;
++        pw_thread_loop_lock(c->thread_loop);
++        pw_stream_destroy(v->stream);
++        v->stream = NULL;
++        pw_thread_loop_unlock(c->thread_loop);
++    }
++}
++
++static void
++qpw_fini_in(HWVoiceIn *hw)
++{
++    PWVoiceIn *pw = (PWVoiceIn *) hw;
++    PWVoice *v = &pw->v;
++
++    if (v->stream) {
++        pwaudio *c = v->g;
++        pw_thread_loop_lock(c->thread_loop);
++        pw_stream_destroy(v->stream);
++        v->stream = NULL;
++        pw_thread_loop_unlock(c->thread_loop);
++    }
++}
++
++static void
++qpw_enable_out(HWVoiceOut *hw, bool enable)
++{
++    PWVoiceOut *po = (PWVoiceOut *) hw;
++    PWVoice *v = &po->v;
++    v->enabled = enable;
++}
++
++static void
++qpw_enable_in(HWVoiceIn *hw, bool enable)
++{
++    PWVoiceIn *pi = (PWVoiceIn *) hw;
++    PWVoice *v = &pi->v;
++    v->enabled = enable;
++}
++
++static void
++on_core_error(void *data, uint32_t id, int seq, int res, const char *message)
++{
++    pwaudio *pw = data;
++
++    pw_log_warn("error id:%u seq:%d res:%d (%s): %s",
++                id, seq, res, spa_strerror(res), message);
++
++    pw_thread_loop_signal(pw->thread_loop, FALSE);
++}
++
++static void
++on_core_done(void *data, uint32_t id, int seq)
++{
++    pwaudio *pw = data;
++    if (id == PW_ID_CORE) {
++        pw->seq = seq;
++        pw_thread_loop_signal(pw->thread_loop, FALSE);
++    }
++}
++
++static const struct pw_core_events core_events = {
++    PW_VERSION_CORE_EVENTS,
++    .done = on_core_done,
++    .error = on_core_error,
++};
++
++static void *
++qpw_audio_init(Audiodev *dev)
++{
++    pwaudio *pw;
++    pw = g_new0(pwaudio, 1);
++    pw_init(NULL, NULL);
++
++    AudiodevPipewireOptions *popts;
++    AUD_log(AUDIO_CAP, "Initialize PW context\n");
++    assert(dev->driver == AUDIODEV_DRIVER_PIPEWIRE);
++    popts = &dev->u.pipewire;
++
++    if (!popts->has_latency) {
++        popts->has_latency = true;
++        popts->latency = 15000;
++    }
++
++    pw->dev = dev;
++    pw->thread_loop = pw_thread_loop_new("Pipewire thread loop", NULL);
++    if (pw->thread_loop == NULL) {
++        goto fail;
++    }
++    pw->context =
++        pw_context_new(pw_thread_loop_get_loop(pw->thread_loop), NULL, 0);
++
++    if (pw_thread_loop_start(pw->thread_loop) < 0) {
++        goto fail;
++    }
++
++    pw_thread_loop_lock(pw->thread_loop);
++
++    pw->core = pw_context_connect(pw->context, NULL, 0);
++    if (pw->core == NULL) {
++        goto fail;
++    }
++
++    pw_core_add_listener(pw->core, &pw->core_listener, &core_events, pw);
++
++    pw_thread_loop_unlock(pw->thread_loop);
++
++    return pw;
++
++fail:
++    AUD_log(AUDIO_CAP, "Failed to initialize PW context");
++    pw_thread_loop_unlock(pw->thread_loop);
++    pw_context_destroy(pw->context);
++    pw_thread_loop_destroy(pw->thread_loop);
++    g_free(pw);
++    return NULL;
++}
++
++static void
++qpw_audio_fini(void *opaque)
++{
++    pwaudio *pw = opaque;
++
++    pw_thread_loop_stop(pw->thread_loop);
++
++    if (pw->core) {
++        spa_hook_remove(&pw->core_listener);
++        spa_zero(pw->core_listener);
++        pw_core_disconnect(pw->core);
++    }
++
++    if (pw->context) {
++        pw_context_destroy(pw->context);
++    }
++    pw_thread_loop_destroy(pw->thread_loop);
++
++    g_free(pw);
++}
++
++static struct audio_pcm_ops qpw_pcm_ops = {
++    .init_out = qpw_init_out,
++    .fini_out = qpw_fini_out,
++    .write = qpw_write,
++    .buffer_get_free = audio_generic_buffer_get_free,
++    .run_buffer_out = audio_generic_run_buffer_out,
++    .enable_out = qpw_enable_out,
++
++    .init_in = qpw_init_in,
++    .fini_in = qpw_fini_in,
++    .read = qpw_read,
++    .run_buffer_in = audio_generic_run_buffer_in,
++    .enable_in = qpw_enable_in
++};
++
++static struct audio_driver pw_audio_driver = {
++    .name = "pipewire",
++    .descr = "http://www.pipewire.org/",
++    .init = qpw_audio_init,
++    .fini = qpw_audio_fini,
++    .pcm_ops = &qpw_pcm_ops,
++    .can_be_default = 1,
++    .max_voices_out = INT_MAX,
++    .max_voices_in = INT_MAX,
++    .voice_size_out = sizeof(PWVoiceOut),
++    .voice_size_in = sizeof(PWVoiceIn),
++};
++
++static void
++register_audio_pw(void)
++{
++    audio_driver_register(&pw_audio_driver);
++}
++
++type_init(register_audio_pw);
+diff --git a/meson.build b/meson.build
+index a76c855312..eafe068044 100644
+--- a/meson.build
++++ b/meson.build
+@@ -734,6 +734,12 @@ if not get_option('jack').auto() or have_system
+   jack = dependency('jack', required: get_option('jack'),
+                     method: 'pkg-config', kwargs: static_kwargs)
+ endif
++pipewire = not_found
++if not get_option('pipewire').auto() or (targetos == 'linux' and have_system)
++  pipewire = dependency('libpipewire-0.3', version: '>=0.3.60',
++                    required: get_option('pipewire'),
++                    method: 'pkg-config', kwargs: static_kwargs)
++endif
+ sndio = not_found
+ if not get_option('sndio').auto() or have_system
+   sndio = dependency('sndio', required: get_option('sndio'),
+@@ -1671,6 +1677,7 @@ if have_system
+     'jack': jack.found(),
+     'oss': oss.found(),
+     'pa': pulse.found(),
++    'pipewire': pipewire.found(),
+     'sdl': sdl.found(),
+     'sndio': sndio.found(),
+   }
+@@ -3949,6 +3956,7 @@ endif
+ if targetos == 'linux'
+   summary_info += {'ALSA support':    alsa}
+   summary_info += {'PulseAudio support': pulse}
++  summary_info += {'Pipewire support':   pipewire}
+ endif
+ summary_info += {'JACK support':      jack}
+ summary_info += {'brlapi support':    brlapi}
+diff --git a/meson_options.txt b/meson_options.txt
+index 7e5801db90..1b7847250d 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -21,7 +21,7 @@ option('tls_priority', type : 'string', value : 'NORMAL',
+ option('default_devices', type : 'boolean', value : true,
+        description: 'Include a default selection of devices in emulators')
+ option('audio_drv_list', type: 'array', value: ['default'],
+-       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'sdl', 'sndio'],
++       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss', 'pa', 'pipewire', 'sdl', 'sndio'],
+        description: 'Set audio driver list')
+ option('block_drv_rw_whitelist', type : 'string', value : '',
+        description: 'set block driver read-write whitelist (by default affects only QEMU, not tools like qemu-img)')
+@@ -255,6 +255,8 @@ option('oss', type: 'feature', value: 'auto',
+        description: 'OSS sound support')
+ option('pa', type: 'feature', value: 'auto',
+        description: 'PulseAudio sound support')
++option('pipewire', type: 'feature', value: 'auto',
++       description: 'Pipewire sound support')
+ option('sndio', type: 'feature', value: 'auto',
+        description: 'sndio sound support')
  
- static Property vuf_properties[] = {
-@@ -309,6 +335,10 @@ static Property vuf_properties[] = {
-     DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
-                        conf.num_request_queues, 1),
-     DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 128),
-+    DEFINE_PROP_UNSIGNED("migration", VHostUserFS, migration_type,
-+                         VHOST_USER_MIGRATION_TYPE_NONE,
-+                         qdev_prop_vhost_user_migration_type,
-+                         VhostUserMigrationType),
-     DEFINE_PROP_END_OF_LIST(),
- };
+diff --git a/qapi/audio.json b/qapi/audio.json
+index 4e54c00f51..b872e9f10d 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -324,6 +324,48 @@
+     '*out':    'AudiodevPaPerDirectionOptions',
+     '*server': 'str' } }
  
-diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-properties-system.h
-index 0ac327ae60..1a67591590 100644
---- a/include/hw/qdev-properties-system.h
-+++ b/include/hw/qdev-properties-system.h
-@@ -22,6 +22,7 @@ extern const PropertyInfo qdev_prop_audiodev;
- extern const PropertyInfo qdev_prop_off_auto_pcibar;
- extern const PropertyInfo qdev_prop_pcie_link_speed;
- extern const PropertyInfo qdev_prop_pcie_link_width;
-+extern const PropertyInfo qdev_prop_vhost_user_migration_type;
- 
- #define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
-diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-index 94c3aaa84e..821b2a121c 100644
---- a/include/hw/virtio/vhost-user-fs.h
-+++ b/include/hw/virtio/vhost-user-fs.h
-@@ -19,6 +19,7 @@
- #include "hw/virtio/vhost-user.h"
- #include "chardev/char-fe.h"
- #include "qom/object.h"
-+#include "qapi/qapi-types-migration.h"
- 
- #define TYPE_VHOST_USER_FS "vhost-user-fs-device"
- OBJECT_DECLARE_SIMPLE_TYPE(VHostUserFS, VHOST_USER_FS)
-@@ -40,6 +41,7 @@ struct VHostUserFS {
-     VirtQueue **req_vqs;
-     VirtQueue *hiprio_vq;
-     int32_t bootindex;
-+    VhostUserMigrationType migration_type;
- 
-     /*< public >*/
- };
-diff --git a/qapi/migration.json b/qapi/migration.json
-index c84fa10e86..78feb20ffc 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -2178,3 +2178,19 @@
-   'data': { 'job-id': 'str',
-             'tag': 'str',
-             'devices': ['str'] } }
++##
++# @AudiodevPipewirePerDirectionOptions:
++#
++# Options of the Pipewire backend that are used for both playback and
++# recording.
++#
++# @name: name of the sink/source to use
++#
++# @stream-name: name of the Pipewire stream created by qemu.  Can be
++#               used to identify the stream in Pipewire when you
++#               create multiple Pipewire devices or run multiple qemu
++#               instances (default: audiodev's id, since 7.1)
++#
++#
++# Since: 7.2
++##
++{ 'struct': 'AudiodevPipewirePerDirectionOptions',
++  'base': 'AudiodevPerDirectionOptions',
++  'data': {
++    '*name': 'str',
++    '*stream-name': 'str' } }
 +
 +##
-+# @VhostUserMigrationType:
++# @AudiodevPipewireOptions:
 +#
-+# Type of vhost-user device migration.
++# Options of the Pipewire audio backend.
 +#
-+# @none: Migration is not supported, attempts to migrate with this device
-+#        will be blocked.
++# @in: options of the capture stream
 +#
-+# @external: Migration stream contains only virtio device state,
-+#            daemon state should be transferred externally by orchestrator.
++# @out: options of the playback stream
 +#
-+# Since: 8.0
++# @latency: add latency to playback in microseconds
++#           (default 44100)
++#
++# Since: 7.2
 +##
-+{ 'enum': 'VhostUserMigrationType',
-+  'data': [ 'none', 'external' ] }
++{ 'struct': 'AudiodevPipewireOptions',
++  'data': {
++    '*in':     'AudiodevPipewirePerDirectionOptions',
++    '*out':    'AudiodevPipewirePerDirectionOptions',
++    '*latency': 'uint32' } }
++
+ ##
+ # @AudiodevSdlPerDirectionOptions:
+ #
+@@ -416,6 +458,7 @@
+             { 'name': 'jack', 'if': 'CONFIG_AUDIO_JACK' },
+             { 'name': 'oss', 'if': 'CONFIG_AUDIO_OSS' },
+             { 'name': 'pa', 'if': 'CONFIG_AUDIO_PA' },
++            { 'name': 'pipewire', 'if': 'CONFIG_AUDIO_PIPEWIRE' },
+             { 'name': 'sdl', 'if': 'CONFIG_AUDIO_SDL' },
+             { 'name': 'sndio', 'if': 'CONFIG_AUDIO_SNDIO' },
+             { 'name': 'spice', 'if': 'CONFIG_SPICE' },
+@@ -456,6 +499,8 @@
+                    'if': 'CONFIG_AUDIO_OSS' },
+     'pa':        { 'type': 'AudiodevPaOptions',
+                    'if': 'CONFIG_AUDIO_PA' },
++    'pipewire':  { 'type': 'AudiodevPipewireOptions',
++                   'if': 'CONFIG_AUDIO_PIPEWIRE' },
+     'sdl':       { 'type': 'AudiodevSdlOptions',
+                    'if': 'CONFIG_AUDIO_SDL' },
+     'sndio':     { 'type': 'AudiodevSndioOptions',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index cafd8be8ed..95ed5e5c2d 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -779,6 +779,11 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+     "                in|out.name= source/sink device name\n"
+     "                in|out.latency= desired latency in microseconds\n"
+ #endif
++#ifdef CONFIG_AUDIO_PIPEWIRE
++    "-audiodev pipewire,id=id[,prop[=value][,...]]\n"
++    "                in|out.name= source/sink device name\n"
++    "                latency= desired latency in microseconds\n"
++#endif
+ #ifdef CONFIG_AUDIO_SDL
+     "-audiodev sdl,id=id[,prop[=value][,...]]\n"
+     "                in|out.buffer-count= number of buffers\n"
+@@ -942,6 +947,18 @@ SRST
+         Desired latency in microseconds. The PulseAudio server will try
+         to honor this value but actual latencies may be lower or higher.
+ 
++``-audiodev pipewire,id=id[,prop[=value][,...]]``
++    Creates a backend using Pipewire. This backend is available on
++    most systems.
++
++    Pipewire specific options are:
++
++    ``latency=latency``
++        Add extra latency to playback in microseconds
++
++    ``in|out.name=sink``
++        Use the specified source/sink for recording/playback.
++
+ ``-audiodev sdl,id=id[,prop[=value][,...]]``
+     Creates a backend using SDL. This backend is available on most
+     systems, but you should use your platform's native backend if
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 939cc114dd..05c0090118 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -1,7 +1,8 @@
+ # This file is generated by meson-buildoptions.py, do not edit!
+ meson_options_help() {
+-  printf "%s\n" '  --audio-drv-list=CHOICES Set audio driver list [default] (choices: alsa/co'
+-  printf "%s\n" '                           reaudio/default/dsound/jack/oss/pa/sdl/sndio)'
++  printf "%s\n" '  --audio-drv-list=CHOICES Set audio driver list [default] (choices: al'
++  printf "%s\n" '                           sa/coreaudio/default/dsound/jack/oss/pa/'
++  printf "%s\n" '                           pipewire/sdl/sndio)'
+   printf "%s\n" '  --block-drv-ro-whitelist=VALUE'
+   printf "%s\n" '                           set block driver read-only whitelist (by default'
+   printf "%s\n" '                           affects only QEMU, not tools like qemu-img)'
+@@ -135,6 +136,7 @@ meson_options_help() {
+   printf "%s\n" '  oss             OSS sound support'
+   printf "%s\n" '  pa              PulseAudio sound support'
+   printf "%s\n" '  parallels       parallels image format support'
++  printf "%s\n" '  pipewire        Pipewire sound support'
+   printf "%s\n" '  png             PNG support with libpng'
+   printf "%s\n" '  pvrdma          Enable PVRDMA support'
+   printf "%s\n" '  qcow1           qcow1 image format support'
+@@ -370,6 +372,8 @@ _meson_option_parse() {
+     --disable-pa) printf "%s" -Dpa=disabled ;;
+     --enable-parallels) printf "%s" -Dparallels=enabled ;;
+     --disable-parallels) printf "%s" -Dparallels=disabled ;;
++    --enable-pipewire) printf "%s" -Dpipewire=enabled ;;
++    --disable-pipewire) printf "%s" -Dpipewire=disabled ;;
+     --with-pkgversion=*) quote_sh "-Dpkgversion=$2" ;;
+     --enable-png) printf "%s" -Dpng=enabled ;;
+     --disable-png) printf "%s" -Dpng=disabled ;;
 -- 
-2.37.2
+2.39.1
 
 
