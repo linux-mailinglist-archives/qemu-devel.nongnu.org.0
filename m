@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3AB69AE40
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 15:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4D369AE47
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 15:45:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT1w7-0001yR-9n; Fri, 17 Feb 2023 09:42:07 -0500
+	id 1pT1yX-0002yh-Sn; Fri, 17 Feb 2023 09:44:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pT1w4-0001xk-Oo
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 09:42:04 -0500
+ id 1pT1yU-0002yU-4T
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 09:44:36 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pT1w2-0007GY-Aa
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 09:42:04 -0500
+ id 1pT1yS-0007Yd-C3
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 09:44:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676644920;
+ s=mimecast20190719; t=1676645068;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AekNVf8smIAovZMUBgmWt1HWQ/3DFD2mt98LNJriAc0=;
- b=OXioXKZlAiu3DfN0swn2z9/+/6OHhDKooU72/da5RdRS1uT1srnV/uKC+EMacIxrwWEEuB
- Gij3zLRlLLRj2a19q0Bu8yESuj+qiZbk8PsWSBB/CyzEabMfD/Df36GmyUtrZNd52Egadv
- YtULgv0gIsrICfmDyanl3QMD7KLyjUA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5mKQIRAhj8AOFan+eCMqKnBcH6EMqeY92zkvNhp47lY=;
+ b=KSaN/HeLnkeDwISvzQnN7mivnDel7gNBaXQkxkdzDYHFjl6mA0za7Duj8+sWLbGj2FkkPn
+ I0bgp6tTTiAGK4khnmEDuPzwMRc0KlclBCKwSFEuHYzjhvqaakIO2ZCeiOUSYb/uNxH/cv
+ uOJTyF1aKHwAHBXWT8R7/T6NxZrkiK8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-190--ur9VDfAOh-nJ78Em2zO1g-1; Fri, 17 Feb 2023 09:40:41 -0500
-X-MC-Unique: -ur9VDfAOh-nJ78Em2zO1g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bi27-20020a05600c3d9b00b003e1e7d3db06so747479wmb.5
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 06:40:40 -0800 (PST)
+ us-mta-76-Z_pPZ36UMPaDwjZYBVbC4g-1; Fri, 17 Feb 2023 09:44:27 -0500
+X-MC-Unique: Z_pPZ36UMPaDwjZYBVbC4g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n11-20020a5d588b000000b002c54a27803cso86988wrf.22
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 06:44:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AekNVf8smIAovZMUBgmWt1HWQ/3DFD2mt98LNJriAc0=;
- b=xXEEGowtGCesPz633FU8nvnzlzXe82VpGqwMgi23lnjxSDXMIq789NDS9gDNFHOqeu
- qVnuK8xgCnxnJDMZVgieBYxG+KziD/iV/wts2B7PwB98tLMofLx7RTswxddaMqU4nrkK
- ZHIIi7fFmkRkevA5JP65lTKM2XmEJ8baP/9Yw/JVik1djt1t7VVHJjq0Zcp0FeSmiBDY
- juTCVXdidm3bvFpttid+Gml6zgU1OltEekIMfWROwQ2dEoPDoQk8C/SWB2beM1ZFUxyV
- 0M/Ams4xJvytK8sLkkPKu64dKa8l0hG9poDplDzWTlO/acT+8MZSGnJRnqdPnTVSvPCi
- cpZA==
-X-Gm-Message-State: AO0yUKVmgsPIFVkooVxXR8WpIZReIb1jh6HQLGDiSVZCSX78ijBiKxfF
- jpDlmDILT/SufvB57+0iCjzPduYC+NEMP9458LyLlb3Be+8E2vmzJp0REwPuyLwQJoAn8obPzX8
- 68UwrlEpwiSO+UP0=
-X-Received: by 2002:a05:600c:92a:b0:3dc:573c:6601 with SMTP id
- m42-20020a05600c092a00b003dc573c6601mr970511wmp.36.1676644839430; 
- Fri, 17 Feb 2023 06:40:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set8N87XlieF4OjnvrSMzwbN7vEzW4kMUFci1v/lr/DFw3gpUgs9ZioXrIHq1TnAiOEFAvpbqgg==
-X-Received: by 2002:a05:600c:92a:b0:3dc:573c:6601 with SMTP id
- m42-20020a05600c092a00b003dc573c6601mr970326wmp.36.1676644834300; 
- Fri, 17 Feb 2023 06:40:34 -0800 (PST)
+ bh=5mKQIRAhj8AOFan+eCMqKnBcH6EMqeY92zkvNhp47lY=;
+ b=0lbDqs5gTh1EvGRnrigL3RoR3UpVHvG3YqELgIRHNW4gS/425JzPbRqjLpjRA0Dl7S
+ Gxj6gg9KB4Tiu64qBUewSOaE1CqMzWg46fqAtzDaQT+11N6AP6UPeHedaLV+n1m9Tgnt
+ JeeitdftwwGIUNlaD4uDoTPXxnWI3RzKaxgSCC4CEF706Amc0KdYnit+VqOazQcD1mmP
+ 0ZQuOuWxhDourxlZ6pidyqDDxufWeM6/PyKjFZdNrxgSL2Nm4G7AvM4IAtghpbegYIy4
+ B2sXEyyzHeryfzgiGWuzssHke9p6eAOZS1yBCgRYXgMmKn97zDD40vYNogay/+sjgH9k
+ 1iFw==
+X-Gm-Message-State: AO0yUKUSxcVSScuG6sqszOcR6CZVJy4ionkfdemmhaLvV2pSxiKGyktA
+ rlfWVI9tch3SbERP9PVFeQwWsLyb04m/eNzUVyv0qSMifRp0TVj1600vp3KqBh+2upWApKJnSsn
+ gyQlR22FYuTjKDaI=
+X-Received: by 2002:a05:600c:90f:b0:3df:3bd6:63e5 with SMTP id
+ m15-20020a05600c090f00b003df3bd663e5mr765658wmp.12.1676645066603; 
+ Fri, 17 Feb 2023 06:44:26 -0800 (PST)
+X-Google-Smtp-Source: AK7set9ZQJ474sUmNDRuh33LnAWW71+wiHz8fFwATgnTwkcpzzSMGz5BWhxwHvfUehDf8Wbbe/GkkQ==
+X-Received: by 2002:a05:600c:90f:b0:3df:3bd6:63e5 with SMTP id
+ m15-20020a05600c090f00b003df3bd663e5mr765648wmp.12.1676645066284; 
+ Fri, 17 Feb 2023 06:44:26 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
  ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.googlemail.com with ESMTPSA id
- x8-20020a05600c21c800b003dc434b39c7sm1648965wmj.0.2023.02.17.06.40.31
+ 1-20020a05600c028100b003e200dc15f5sm5213380wmk.42.2023.02.17.06.44.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 06:40:33 -0800 (PST)
-Message-ID: <d86f3035-e0db-b4ea-06fd-a8c597ae05aa@redhat.com>
-Date: Fri, 17 Feb 2023 15:40:30 +0100
+ Fri, 17 Feb 2023 06:44:25 -0800 (PST)
+Message-ID: <3b6b4035-0a7b-431e-6479-70753f850554@redhat.com>
+Date: Fri, 17 Feb 2023 15:44:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: Proposed way forward Re: [PATCH v2 0/7] Python: Drop support for
- Python 3.6
+Subject: Re: [RFC PATCH] docs/about/build-platforms: Refine the distro support
+ policy
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Kevin Wolf <kwolf@redhat.com>
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <Y+9m6g0MAEfFNUYC@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20230217132631.403112-1-thuth@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Y+9m6g0MAEfFNUYC@redhat.com>
+In-Reply-To: <20230217132631.403112-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -23
@@ -112,23 +107,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/17/23 12:37, Daniel P. Berrangé wrote:
+On 2/17/23 14:26, Thomas Huth wrote:
+> Note: These changes mean that openSUSE is not considered as supported
+> anymore (since version 15.0 has been released in May 2018), and
+> RHEL/CentOS 8 will not be supported anymore in 3 months (since version
+> 8.0 has been released in May 2019).
 > 
-> So basically I'm suggesting we take a combination of John's series
-> here, and Paolo's series. John's last patch would change so that our
-> dockerfiles grab docutils with pip instead of disabling docs build
-> on centos8. Then look at introducing the use of virtualenvs for auto
-> installing any python mods the OS doesn't satisfy.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Sounds good.  I'll post a v3 of this series shortly, in the meanwhile 
-I've already posted a suggested update to the support policy, but don't 
-plan to drop support for Python 3.6 in 7.0 so that we can give a heads 
-up in the release notes.
+This has the advantage of being a very simple change to the support 
+policy.  However, it has the disadvantage that at this point both SLE15 
+and RHEL8 are not hard to support _at run-time_, only the build is a bit 
+problematic; so, it kinda throws away the baby with the bathwater.
 
-John is looking at building the virtualenv at configure time, which will 
-have the characteristics that you detailed, so both the minimum version 
-bump and the virtualenv change would happen in time for 7.1.
+I have posted another RFC at 
+https://lore.kernel.org/qemu-devel/20230217124150.205012-1-pbonzini@redhat.com; 
+they share the 4 year deadline but it only applies to non-native 
+dependencies (which means Python right now).
+
+Thanks for posting this, it's useful to have two different possibilities 
+to compare.
 
 Paolo
+
+> ---
+>   docs/about/build-platforms.rst | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+> index 1c1e7b9e11..cdc38f16a4 100644
+> --- a/docs/about/build-platforms.rst
+> +++ b/docs/about/build-platforms.rst
+> @@ -67,10 +67,11 @@ Non-supported architectures may be removed in the future following the
+>   Linux OS, macOS, FreeBSD, NetBSD, OpenBSD
+>   -----------------------------------------
+>   
+> -The project aims to support the most recent major version at all times. Support
+> -for the previous major version will be dropped 2 years after the new major
+> -version is released or when the vendor itself drops support, whichever comes
+> -first. In this context, third-party efforts to extend the lifetime of a distro
+> +The project aims to support the most recent major version at all times for
+> +up to four years after its initial release. Support for the previous major
+> +version will be dropped one years after the new major version is released
+> +or when the vendor itself drops support, whichever comes first.
+> +In this context, third-party efforts to extend the lifetime of a distro
+>   are not considered, even when they are endorsed by the vendor (eg. Debian LTS);
+>   the same is true of repositories that contain packages backported from later
+>   releases (e.g. Debian backports). Within each major release, only the most
 
 
