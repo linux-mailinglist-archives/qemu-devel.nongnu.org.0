@@ -2,62 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BABF69ADD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 15:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3401869A884
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 10:45:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT1Zr-0004h9-0w; Fri, 17 Feb 2023 09:19:07 -0500
+	id 1pSxHv-0004Al-SW; Fri, 17 Feb 2023 04:44:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1pSxGR-0003sv-7d; Fri, 17 Feb 2023 04:42:47 -0500
-Received: from m12.mail.163.com ([220.181.12.197])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qianfanguijin@163.com>)
- id 1pSxGL-0000ds-Sh; Fri, 17 Feb 2023 04:42:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Jmj+D
- kxKlXQx+ze+c/Skb1A7l3kxqAfEA4I248QEw48=; b=A1BWiOLgoKLNGBaxyd+Co
- 27oJvkx2TDdOwoT3W2C227ZRuxF0ScU0TKzA4ExBKbtUbc+96UdzHCzv5KgkM09t
- ZSsfoY5MbyCsXiG/iXl9vujSRCcO7/X6+no7Yn1kwvcrG6c6SD5CCapsEcc6Zfad
- O9puvNA4IqEGZd2ZXZc750=
-Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.20])
- by zwqz-smtp-mta-g0-0 (Coremail) with SMTP id _____wBnbAHwS+9jgz5zAA--.48578S3;
- Fri, 17 Feb 2023 17:42:08 +0800 (CST)
-From: qianfanguijin@163.com
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH v1 2/2] hw: allwinner-i2c: Fix TWI_CNTR_INT_FLAG
-Date: Fri, 17 Feb 2023 17:42:07 +0800
-Message-Id: <20230217094207.16882-2-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230217094207.16882-1-qianfanguijin@163.com>
-References: <20230217094207.16882-1-qianfanguijin@163.com>
+ (Exim 4.90_1) (envelope-from <a.lauterer@proxmox.com>)
+ id 1pSxHt-0004AX-Tl; Fri, 17 Feb 2023 04:44:17 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <a.lauterer@proxmox.com>)
+ id 1pSxHr-0000wJ-IU; Fri, 17 Feb 2023 04:44:17 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id A682947744;
+ Fri, 17 Feb 2023 10:44:01 +0100 (CET)
+Message-ID: <f1548b80-ccd6-2b9f-1740-5f8a038eaf64@proxmox.com>
+Date: Fri, 17 Feb 2023 10:44:00 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBnbAHwS+9jgz5zAA--.48578S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AFW7ArWDtw43Xw13try5Arb_yoW8uF43p3
- 4DKr45Kw15t34vgr1qva98WF18CryUJ3yIkwsFyF17urn8W3ZF9ryrAr4rKr98u3y5Jw4F
- yFWYyFyxGF15taDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zi_-P8UUUUU=
-X-Originating-IP: [218.201.129.20]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGhcZ7VaEESo2QwAAsl
-Received-SPF: pass client-ip=220.181.12.197;
- envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: Lost partition tables on ide-hd + ahci drive
+To: Fiona Ebner <f.ebner@proxmox.com>, John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+References: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
+ <CAFn=p-ahLoVd3W2GaFp5EUFq5EOudz+bUkEk5DV+Z07AjHaHtg@mail.gmail.com>
+ <d07bdbc1-065e-f8ec-2a44-ab141ffedd41@proxmox.com>
+Content-Language: en-US
+From: Aaron Lauterer <a.lauterer@proxmox.com>
+In-Reply-To: <d07bdbc1-065e-f8ec-2a44-ab141ffedd41@proxmox.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106;
+ envelope-from=a.lauterer@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.351,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 17 Feb 2023 09:18:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,56 +59,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: qianfan Zhao <qianfanguijin@163.com>
+I am a bit late, but nonetheless, some comments inline.
 
-TWI_CNTR_INT_FLAG is W1C(write 1 to clear and write 0 has non-effect)
-register, we should lower interrupt when the guest write this bit.
+On 2/15/23 11:53, Fiona Ebner wrote:
+> Am 14.02.23 um 19:21 schrieb John Snow:
+>> On Thu, Feb 2, 2023 at 7:08 AM Fiona Ebner <f.ebner@proxmox.com> wrote:
+>>>
+>>> Hi,
+>>> over the years we've got 1-2 dozen reports[0] about suddenly
+>>> missing/corrupted MBR/partition tables. The issue seems to be very rare
+>>> and there was no success in trying to reproduce it yet. I'm asking here
+>>> in the hope that somebody has seen something similar.
+>>>
+>>> The only commonality seems to be the use of an ide-hd drive with ahci bus.
+>>>
+>>> It does seem to happen with both Linux and Windows guests (one of the
+>>> reports even mentions FreeBSD) and backing storages for the VMs include
+>>> ZFS, RBD, LVM-Thin as well as file-based storages.
+>>>
+>>> Relevant part of an example configuration:
+>>>
+>>>>    -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
+>>>>    -drive 'file=/dev/zvol/myzpool/vm-168-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
+>>>>    -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0' \
+>>>
+>>> The first reports are from before io_uring was used and there are also
+>>> reports with writeback cache mode and discard=on,detect-zeroes=unmap.
+>>>
+>>> Some reports say that the issue occurred under high IO load.
+>>>
+>>> Many reports suspect backups causing the issue. Our backup mechanism
+>>> uses backup_job_create() for each drive and runs the jobs sequentially.
+>>> It uses a custom block driver as the backup target which just forwards
+>>> the writes to the actual target which can be a file or our backup server.
+>>> (If you really want to see the details, apply the patches in [1] and see
+>>> pve-backup.c and block/backup-dump.c).
+>>>
+>>> Of course, the backup job will read sector 0 of the source disk, but I
+>>> really can't see where a stray write would happen, why the issue would
+>>> trigger so rarely or why seemingly only ide-hd+ahci would be affected.
+>>>
+>>> So again, just asking if somebody has seen something similar or has a
+>>> hunch of what the cause might be.
+>>>
+>>
+>> Hi Floria;
+>>
+>> I'm sorry to say that I haven't worked on the block devices (or
+>> backup) for a little while now, so I am not immediately sure what
+>> might be causing this problem. In general, I advise against using AHCI
+>> in production as better performance (and dev support) can be achieved
+>> through virtio.
+> 
+> Yes, we also recommend using virtio-{scsi,blk}-pci to our users and most
+> do. Still, some use AHCI, I'd guess mostly for Windows, but not only.
+> 
+>> Still, I am not sure why the combination of AHCI with
+>> backup_job_create() would be corrupting the early sectors of the disk.
+> 
+> It's not clear that backup itself is causing the issue. Some of the
+> reports do correlate it with backup, but there are no precise timestamps
+> when the corruption happened. It might be that the additional IO during
+> backup is somehow triggering the issue.
+> 
+>> Do you have any analysis on how much data gets corrupted? Is it the
+>> first sector only, the first few? Has anyone taken a peek at the
+>> backing storage to see if there are any interesting patterns that can
+>> be observed? (Zeroes, garbage, old data?)
+> 
+> It does seem to be the first sector only, but it's not entirely clear.
+> Many of the affected users said that after fixing the partition table
+> with TestDisk, the VMs booted/worked normally again. We only have dumps
+> for the first MiB of three images. In this case, all Windows with Ceph
+> RBD images.
+> 
+> See below[0] for the dumps. One was a valid MBR and matched the latest
+> good backup, so that VM didn't boot for some other reason, not sure if
+> even related to this bug. I did not include this one. One was completely
+> empty and one contained other data in the first 512 Bytes, then again
+> zeroes, but those zeroes are nothing special AFAIK.
 
-The linux kernel will hang in irq handler(mv64xxx_i2c_intr) if no
-device connected on the i2c bus, next is the trace log:
+Unfortunately, we only had direct access to those 3 disks mentioned. I took a 
+look at them and for the first MiB, it matches what @Fiona explained. At the 
+first MiB, all 3 disk images looked normal when compared to a similar test 
+Windows installation: the start of the NTFS file system. The VMs were installed 
+in BIOS mode, so no ESP.
 
-[    7.004130] axp20x-i2c 0-0034: AXP20x variant AXP221 found
-allwinner_i2c_rw write   CNTR[0x0c]: e4 { A_ACK M_STA BUS_EN INT_EN  }
-allwinner_i2c_rw  read   CNTR[0x0c]: cc { A_ACK INT_FLAG BUS_EN INT_EN }
-allwinner_i2c_rw  read   STAT[0x10]: 08 { STAT_M_STA_TX }
-allwinner_i2c_rw write   DATA[0x08]: 68
-allwinner_i2c_rw write   CNTR[0x0c]: c4 { A_ACK BUS_EN INT_EN  }
-allwinner_i2c_rw write   CNTR[0x0c]: cc { A_ACK INT_FLAG BUS_EN INT_EN }
-allwinner_i2c_rw  read   CNTR[0x0c]: cc { A_ACK INT_FLAG BUS_EN INT_EN }
-allwinner_i2c_rw  read   STAT[0x10]: 20 { STAT_M_ADDR_WR_NACK }
-allwinner_i2c_rw write   CNTR[0x0c]: 54 { A_ACK M_STP BUS_EN  }
-allwinner_i2c_rw write   CNTR[0x0c]: 4c { A_ACK INT_FLAG BUS_EN  }
-allwinner_i2c_rw  read   CNTR[0x0c]: 4c { A_ACK INT_FLAG BUS_EN  }
-allwinner_i2c_rw  read   STAT[0x10]: f8 { STAT_IDLE }
-allwinner_i2c_rw write   CNTR[0x0c]: 54 { A_ACK M_STP BUS_EN  }
-allwinner_i2c_rw write   CNTR[0x0c]: 4c { A_ACK INT_FLAG BUS_EN  }
-allwinner_i2c_rw  read   CNTR[0x0c]: 4c { A_ACK INT_FLAG BUS_EN  }
-allwinner_i2c_rw  read   STAT[0x10]: f8 { STAT_IDLE }
+Cloning the VMs and replacing the first 512 bytes of the disk image from a good 
+known earlier backup to restore the partition table seems to be all that was 
+necessary. Afterward, those VMs were able to boot all the way to the Windows 
+login screen. That matches the reports we have from the community.
 
-Fix it.
+We were not able to confirm the integrity of the rest of the disk, though.
 
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
----
- hw/i2c/allwinner-i2c.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
-index 36b387520f..86a77d4a59 100644
---- a/hw/i2c/allwinner-i2c.c
-+++ b/hw/i2c/allwinner-i2c.c
-@@ -443,8 +443,9 @@ static void allwinner_i2c_write(void *opaque, hwaddr offset,
-                 s->stat = STAT_FROM_STA(STAT_IDLE);
-                 s->cntr &= ~TWI_CNTR_M_STP;
-             }
--            if ((s->cntr & TWI_CNTR_INT_FLAG) == 0) {
--                /* Interrupt flag cleared */
-+            if (s->cntr & TWI_CNTR_INT_FLAG) {
-+                /* Write 1 to clear this flag */
-+                s->cntr &= ~TWI_CNTR_INT_FLAG;
-                 qemu_irq_lower(s->irq);
-             }
-             if ((s->cntr & TWI_CNTR_A_ACK) == 0) {
--- 
-2.25.1
+> 
+>> Have any errors or warnings been observed in either the guest or the
+>> host that might offer some clues?
+> 
+> There is a single user who seemed to have hardware issues, and I'd be
+> inclined to blame those in that case. But none of the other users
+> reported any errors or warnings, though I can't say if any checked
+> inside the guests.
+> 
+>> Is there any commonality in the storage format being used? Is it
+>> qcow2? Is it network-backed?
+> 
+> There are reports with local ZFS volumes, local LVM-Thin volumes, RBD
+> images, qcow2 on NFS. So no pattern to be seen.
+> 
+>> Apologies for the "tier 1" questions.
+> 
+> Thank you for your time!
+> 
+> Best Regards,
+> Fiona
+> 
+> @Aaron (had access to the broken images): please correct me/add anything
+> relevant I missed. Are the broken VMs/backups still present? If yes, can
+> we ask the user to check the logs inside?
+
+I can ask. I guess the plan would be to clone the failed VM, restore the boot 
+sector and then check the logs (Event Viewer) if there is anything of interest?
+
+It is possible, that we won't be able to get access to the VM itself, if the 
+customer doesn't want that for data privacy reasons.
+
+> 
+> [0]:
+>> febner@enia ~/Downloads % hexdump -C dump-vm-120.raw
+>> 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+>> *
+>> 00100000
+>> febner@enia ~/Downloads % hexdump -C dump-vm-130.raw
+>> 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+>> *
+>> 000000c0  00 00 19 03 46 4d 66 6e  00 00 00 00 00 00 00 00  |....FMfn........|
+>> 000000d0  04 f2 7a 01 00 00 00 00  00 00 00 00 00 00 00 00  |..z.............|
+>> 000000e0  f0 a4 01 00 00 00 00 00  c8 4d 5b 99 0c 81 ff ff  |.........M[.....|
+>> 000000f0  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+>> 00000100  00 42 e1 38 0d da ff ff  00 bc b4 3b 0d da ff ff  |.B.8.......;....|
+>> 00000110  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+>> 00000120  78 00 00 00 01 00 00 00  a8 00 aa 00 00 00 00 00  |x...............|
+>> 00000130  a0 71 ba b0 0c 81 ff ff  2e 00 2e 00 00 00 00 00  |.q..............|
+>> 00000140  a0 71 ba b0 0c 81 ff ff  00 00 00 00 00 00 00 00  |.q..............|
+>> 00000150  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+>> *
+>> 000001a0  5c 00 44 00 65 00 76 00  69 00 63 00 65 00 5c 00  |\.D.e.v.i.c.e.\.|
+>> 000001b0  48 00 61 00 72 00 64 00  64 00 69 00 73 00 6b 00  |H.a.r.d.d.i.s.k.|
+>> 000001c0  56 00 6f 00 6c 00 75 00  6d 00 65 00 32 00 5c 00  |V.o.l.u.m.e.2.\.|
+>> 000001d0  57 00 69 00 6e 00 64 00  6f 00 77 00 73 00 5c 00  |W.i.n.d.o.w.s.\.|
+>> 000001e0  4d 00 69 00 63 00 72 00  6f 00 73 00 6f 00 66 00  |M.i.c.r.o.s.o.f.|
+>> 000001f0  74 00 2e 00 4e 00 45 00  54 00 5c 00 46 00 72 00  |t...N.E.T.\.F.r.|
+>> 00000200  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+>> *
+>> 00100000
 
 
