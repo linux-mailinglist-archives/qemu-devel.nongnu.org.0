@@ -2,125 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3109C69B113
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:37:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB41869B111
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 17:37:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pT3jC-0007YG-VK; Fri, 17 Feb 2023 11:36:54 -0500
+	id 1pT3iR-0006up-Tx; Fri, 17 Feb 2023 11:36:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
- id 1pT3jA-0007Uj-ME
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:36:52 -0500
-Received: from mail-bn7nam10on20608.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::608]
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pT3iN-0006su-D4
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:36:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
- id 1pT3j9-0007zs-7B
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:36:52 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a9r3wZvjHXK67hXmm7K172fzQLi1NA3R+t/EFjlPutwWHpahzjPwsXEsdm5hxBsCD3VYyEYvOMPM0V17ug0rruBFs0pR+qiKfLFvXAPEc7+YwLgbZeNif1e3eQoUodl5yZmqtL+DgP8wJ6yoMMt72j/oCkQZwU+YUhs2P6ZzALtsh08jg2TyC6DF1XMf+MrkclmPoW6vKSX4n6qvMfNbXivCmkKHZt/ISkUe2mDIBd5nMxAbtdmV0vp9TULF+2l4CReTvX7uO77cH6Tu56fDLuQsbAEhymkYMc619ajBXYwF94PNtElAk+As4bzeN+o7J9/C2mKUoWP2XkMeeeKsHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dp7Ib6kQxJG1/ofxYXkisi9FeYc2Y/YD1iNiyk2hxH8=;
- b=U6BixS+5J2FpiJA8RoAfX8P8VJ7v8WKLlz8vQB+SRuuDs0Clg/u+LEEXy/x/n5f0e90mL/wc9sdMaLsO8cRc/hrM480eAXoDgvoCdqADVpVjpouQmZhSrud6chOhPU1YWt9dQDW7APO7BXIs4xme9UJA5sGGsGD5H7KIlIKWD5s99Sw7HtunqRfmVd0hJDTlacTg4gLXKZ+3xdue9bHsgy26yjiGr5nBTZGG+XSgAjXkrv7btxZi3kGuBcnbWz+qXlsnsMYYNRhWDu5geTEnSAadPiS32Q5v0Jpinb/IhrkN+2Y7+9Y3OJamRvtFje5eMQSWJD00Ryylt4bQLXpb7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
- dkim=pass header.d=silabs.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dp7Ib6kQxJG1/ofxYXkisi9FeYc2Y/YD1iNiyk2hxH8=;
- b=WS1VuW72ZUuOeDmc4aHqc/i+cKvqzEcvivJVvqnsVtd9+9ULZYr8o+IUp99MSdwH3iXiv/g8/Ma3ytLV3NLvlJpIjflaPknYQIj97jr2m+SU4M8gTIhPHRJrN/GFGamzENGnafFunXIfx9PGwLIOTH90eckFvwdc169tKUtPdMA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=silabs.com;
-Received: from MN2PR11MB4711.namprd11.prod.outlook.com (2603:10b6:208:24e::13)
- by PH7PR11MB6932.namprd11.prod.outlook.com (2603:10b6:510:207::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
- 2023 16:36:16 +0000
-Received: from MN2PR11MB4711.namprd11.prod.outlook.com
- ([fe80::bc75:99b6:488f:fd50]) by MN2PR11MB4711.namprd11.prod.outlook.com
- ([fe80::bc75:99b6:488f:fd50%9]) with mapi id 15.20.6111.013; Fri, 17 Feb 2023
- 16:36:16 +0000
-From: Mathis Marion <Mathis.Marion@silabs.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= <jerome.pouiller@silabs.com>,
- Mathis Marion <mathis.marion@silabs.com>
-Subject: [PATCH v1 4/4] linux-user: handle netlink flag NLA_F_NESTED
-Date: Fri, 17 Feb 2023 17:35:27 +0100
-Message-Id: <20230217163527.619486-5-Mathis.Marion@silabs.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230217163527.619486-1-Mathis.Marion@silabs.com>
-References: <20230217163527.619486-1-Mathis.Marion@silabs.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain
-X-ClientProxiedBy: MR2P264CA0081.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:32::21) To MN2PR11MB4711.namprd11.prod.outlook.com
- (2603:10b6:208:24e::13)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pT3iK-0007MA-RZ
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 11:36:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676651758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uJbQLb5EaKoLhLqN+hIHDXoiAwO6kPoe91m4bbqfh5o=;
+ b=fnIwXHVXxJk+KFR3X4p4ar9efKMwhqQguF4uCaoLRw2Sp4h+aP1ryXBtceVNG8mTU8DceE
+ Tl4oOuf8f94NoqQGcb+tmUK/xykL0uZbyftWQOHDb+axNJvc32lY3WQl4yuM/3S73zAMrg
+ k9Jato90hw+FRoa/sFU8HlSKr3ImKLo=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-384-ivU9rYYMNK2hvtljHLOIkw-1; Fri, 17 Feb 2023 11:35:56 -0500
+X-MC-Unique: ivU9rYYMNK2hvtljHLOIkw-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ w64-20020a636243000000b004fb5e56e652so720138pgb.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 08:35:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uJbQLb5EaKoLhLqN+hIHDXoiAwO6kPoe91m4bbqfh5o=;
+ b=eVD39mcO/EXdyJ7/nYQ37LqD46PgZeHudKqB9MQ+LKQkJjnPaZPBzAnMsDh9DRmAaU
+ LhsW3FWTj0jk6G9xgKddnwZ6JEvAcqt1ViAIWOaPmZNooUsqjrvyVU6uts37Y5FDLaE4
+ T4sFLEg4dpE6FtjmZGAscaKkWD3dJQXLIyc3oIFMd4Cu0US8H8cXirbHPkkjDv/MGz70
+ 0uTZQeo6rtw6f6sUMi3/IpfR/crblspZnJ+d+D1+b4dK9aYlY+514WxPSTefg0IutmfL
+ lV1db93tL6CmgCj3zIrMv2NiqE48uBE8WdF8NCar8CRaZPbOAzCucHoyDIma9ycWxTM4
+ uFOA==
+X-Gm-Message-State: AO0yUKVBo3Kjt4K219I6l2mNj8UEFyF0IhrlpCQwSS9mV9xn/2wXLNg5
+ oRjTl3o3Utf9HpuoaEj2sBeq5yudhGJV6z9W8mdRCpxtfkG9o9jG7zu7aOzWzVdHmb2+Tq7udmi
+ XpOFRq8PYrTMl0OLOB91XOYew61sallY=
+X-Received: by 2002:a17:902:d489:b0:19a:9b8c:279f with SMTP id
+ c9-20020a170902d48900b0019a9b8c279fmr152354plg.26.1676651755855; 
+ Fri, 17 Feb 2023 08:35:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set+e62kPqj4adqigPRBFZNzBrpzspmdlDJrioj5lxGAEZ+Zb9mbcbngzcBmacJUahignoT6A4tU4F5UqIAVC5UE=
+X-Received: by 2002:a17:902:d489:b0:19a:9b8c:279f with SMTP id
+ c9-20020a170902d48900b0019a9b8c279fmr152326plg.26.1676651755535; Fri, 17 Feb
+ 2023 08:35:55 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR11MB4711:EE_|PH7PR11MB6932:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb8abd06-94da-4c0c-2faa-08db110516cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q0SEfHZp1wE692bSQYhjPYRwwUHj87VEEu8cteZMsIJeEIdxLBlIaQzJlVVMbK7WvTM6pMaYSMc9/YmpcFY+QgXSgSetGoFerThsJUlJLaQ7LAht9F7zM2u0rvJ61C++BqrnQKe8s+vALlUCIrRAYHFXIGGb3caBXv38Vki0WUc08q0/OhRNY6DBkZqHkqM5dTqu1mweFQb+++klO+Ff0dxDhnQ61LjSFHX26QkssVlTyx6d3rQzodNKjX+QQNhqZBEG33fZXHmN4c2aZ3Oh4Vaq8Lay9FLzbs7CkVMmmSwMg4P9AUNvW1JFtMa6iydwTf2qcy/bGINF39TIw9qqu521lIeEKMJW8KVjKbxUnXgQ06DMdZXfweNiGZz9r1vE2v409nahKzZeNw8/uXpbxTCTGAmFKYYDNxZyKkD++LnDfb4U/bk75GE1wZjIKDPL6+Ns2Vhz5MJ0Rn2MHY7kncT6uhVEk3qZzqPH2Hqm4nurJMVqSPi50PM/dFqDjhm+xsj0fXqbY/Bj3r7GOoK5Ka4NznpY6lwa0moi4ZK/x6umz5vfmNi6fTB1tI6LISdi72kWdf1KYpnJCeTnrENDDVR7WlP/cjJF601UKFTbPrVbRIJT9s8oHQFdF7+6FqGC0MAiuXiK/cINL/1YwA8gY/Hr89L6Wq5lreBvT56Tr9rSBw1L4OTJB97Ef8DZS4Lx0MkxhHlDKC3m+MrZPUqYNQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR11MB4711.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(39860400002)(366004)(396003)(376002)(346002)(136003)(451199018)(2616005)(83380400001)(2906002)(36756003)(26005)(478600001)(6486002)(52116002)(186003)(107886003)(6666004)(6512007)(6506007)(1076003)(86362001)(38350700002)(38100700002)(5660300002)(8936002)(6916009)(4326008)(41300700001)(66946007)(66476007)(66556008)(8676002)(316002)(54906003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3/VdE64f/EF2ljNh7pAyLMGQhmZyokrKb4ti+qiVcfmwa5O1oVdCSozjtO3F?=
- =?us-ascii?Q?vUFdp87Hh4qImzloOepf1TO6e5bSUHvEABZQ0QtNRuu3T4tQK/k93Qd90WbA?=
- =?us-ascii?Q?Tg4z3rchSnFL8UlPLZtXz4lVpD6rvShNisogy/OJGbnUSVBP0fXfO5sKV0lZ?=
- =?us-ascii?Q?4OhmTglHAjDse6efINbrGYbqnpJGXstcY/mt/WD2T2kNMvhP6yqVgo1Fvijc?=
- =?us-ascii?Q?/EGEeOlcE2e8eWcQMLTnGR5XW91oUyTCHFtWw4qxygE3J6raUW/lksR7GLwf?=
- =?us-ascii?Q?HhOsjJGLx3xeeRDld5PgKvSyB4M212NOIf534tShfoSkYtG1IUsVvwFM+/Hq?=
- =?us-ascii?Q?M8duzMlMLmh+qLxgE8urpzyqSoIV+lrS9uzf+nUAm7l+LyYQoX1wTZKR7xys?=
- =?us-ascii?Q?TdwAAk0+JmI5Gtne9Dp9BwvwAV95aK9qFsMgPtFTI8IUaOhsDRGQMGpxsa0O?=
- =?us-ascii?Q?56aOHSxt8Dee2MDm4JxsgxQIpDl1F/DKbV8DdLeIgdhVbV4zSDQREW13dEPI?=
- =?us-ascii?Q?CJQONFrIbT7vmYu31RalvOumO9+Heu6L+ORxzvxnXb7ep/IGu7Nper/Jew/f?=
- =?us-ascii?Q?1S3K+4jWnBJECLNJBMh47PLyt2e7SJdCPHx9rOr194mYziVq9p18lTMI+SsX?=
- =?us-ascii?Q?06FMHh8WdE7jhoHN3WP29faoXN+kcNkrHhJ1vucv5TK26ZCkeqG3/uWVCDhx?=
- =?us-ascii?Q?zYLgyXiUuwOC97y1dGF89lsCVfYPUvlWsjHS3GGYIn2hsq77hvVdEhOX/Y+G?=
- =?us-ascii?Q?gRkUWj3UrElGEpI5SKHL8b/cVag75WMx7ddfxoDKn7ftIuHvKTBAktGwOJap?=
- =?us-ascii?Q?4Kk/p9IY5+Peg7nmAlZoqjuUax5DB79UIZwmkpcixN19stBvcCbZN+SHSYW/?=
- =?us-ascii?Q?XIDSgDjrHt8JcjAn4oRB3MV7uddOsU+YtH07s0IQ7AG/edqfMCXtSCjw5z/A?=
- =?us-ascii?Q?v+FequsTrEXZGwNdWMcRL8ge37a8ADpAoF4Jk9ASKZkOrBaM7USlfzvVTo6f?=
- =?us-ascii?Q?LCBEmd5xuBJ8LtthpabKEVrsloh5TnRpujIONIjLFQ5nCEGWIWBbRykD2o75?=
- =?us-ascii?Q?AkZJyvhcDlwv38x3y2L3RguSqwubsGRol+HurMhi6AyrXMChpAwIt4eRb3Ct?=
- =?us-ascii?Q?rLoHblECe8JrMbfWqE4rcx8gnPhVqitJY05Vwn/K1/7PwYk8fUEqKzd3psIW?=
- =?us-ascii?Q?oXFCpZuazU/c3DWQgVKF+RlRST5y/e0+uyAn/7fS3Bg01hH0VS7HJiaDLNZe?=
- =?us-ascii?Q?UQeP8ieuN3xzOWu9GRLgLpgUIq9/waMk+WjBl4QxE2mapPpRu7zy2KC/eVBT?=
- =?us-ascii?Q?xQRqc1MKWIY5nS+rsqaEwNSdnv6GQrET7OgiaKdGHEiTTRvBhWhhwsFu2ZbN?=
- =?us-ascii?Q?m4WE9Z20Kl7M1fVtkC2QVau4hMeRvRIsiHphgkyMJIOhw6CXmRr7oUrG/vAg?=
- =?us-ascii?Q?p1NHyBw8hu1xJemxrfXzZNTA7ImAn9/mXHL3yZcXVYT7yvQ8MiAqPxmO+DJv?=
- =?us-ascii?Q?mKXai/9miBkr+jfW01KtOv3Y5nl1pQ3Lk+3I3+NBZdBin0RNB6P+3iizr/pG?=
- =?us-ascii?Q?X5jp7b9boJiCwD7dF192A4M6l6vnrXgfvExOdWu9?=
-X-OriginatorOrg: silabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb8abd06-94da-4c0c-2faa-08db110516cc
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4711.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 16:36:15.9140 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s0ce1W5+hPAEQSw7AMdjcHYpC79qillrV5Hb6SjFyxND2C9ajFdWcrdGCdQsSpjcSJ1VJJ+EpW4dl0/iToM5XQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6932
-Received-SPF: permerror client-ip=2a01:111:f400:7e8a::608;
- envelope-from=Mathis.Marion@silabs.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FORGED_SPF_HELO=1, MIME_BASE64_TEXT=1.741, SPF_HELO_PASS=-0.001,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+References: <20230215192530.299263-1-alex.bennee@linaro.org>
+ <20230215192530.299263-8-alex.bennee@linaro.org>
+ <CAFn=p-b18P0oOhiYPkoQvVzQfqVu4XLprp4-JMbPRF4y72-svQ@mail.gmail.com>
+ <Y+6HjEUG2fpalQWv@redhat.com>
+In-Reply-To: <Y+6HjEUG2fpalQWv@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 17 Feb 2023 11:35:44 -0500
+Message-ID: <CAFn=p-b8nK8pNWk3WZgVqjUMx27E4ekeypjGpyk2nrRz=UmNJg@mail.gmail.com>
+Subject: Re: [PATCH 07/12] testing: update ubuntu2004 to ubuntu2204
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
+ Alexander Bulekov <alxndr@bu.edu>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, 
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Darren Kenny <darren.kenny@oracle.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Yonggang Luo <luoyonggang@gmail.com>, 
+ Li-Wen Hsu <lwhsu@freebsd.org>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004d115c05f4e7e8ba"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -136,34 +107,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RnJvbTogTWF0aGlzIE1hcmlvbiA8bWF0aGlzLm1hcmlvbkBzaWxhYnMuY29tPgoKTmV3ZXIga2Vy
-bmVsIHZlcnNpb25zIHJlcXVpcmUgdGhpcyBmbGFnIHRvIGJlIHByZXNlbnQgY29udHJhcnkgdG8g
-b2xkZXIKb25lcy4gRGVwZW5kaW5nIG9uIHRoZSBsaWJubCB2ZXJzaW9uIGl0IGlzIGFkZGVkIG9y
-IG5vdC4KClR5cGljYWxseSB3aGVuIHVzaW5nIHJ0bmxfbGlua19pbmV0Nl9zZXRfYWRkcl9nZW5f
-bW9kZSwgdGhlIG5ldGxpbmsKcGFja2V0IGdlbmVyYXRlZCBtYXkgY29udGFpbiB0aGUgZm9sbG93
-aW5nIGF0dHJpYnV0ZToKCndpdGggbGlibmwgMy40CgogIHtubGFfbGVuPTE2LCBubGFfdHlwZT1J
-RkxBX0FGX1NQRUN9LAogIFsKICAgIHtubGFfbGVuPTEyLCBubGFfdHlwZT1BRl9JTkVUNn0sCiAg
-ICBbe25sYV9sZW49NSwgbmxhX3R5cGU9SUZMQV9JTkVUNl9BRERSX0dFTl9NT0RFfSwgSU42X0FE
-RFJfR0VOX01PREVfTk9ORV0KICBdCgp3aXRoIGxpYm5sIDMuNwoKICB7bmxhX2xlbj0xNiwgbmxh
-X3R5cGU9TkxBX0ZfTkVTVEVEfElGTEFfQUZfU1BFQ30sCiAgWwogICAge25sYV9sZW49MTIsIG5s
-YV90eXBlPU5MQV9GX05FU1RFRHxBRl9JTkVUNn0sCiAgICBbe25sYV9sZW49NSwgbmxhX3R5cGU9
-SUZMQV9JTkVUNl9BRERSX0dFTl9NT0RFfSwgSU42X0FERFJfR0VOX01PREVfTk9ORV1dCiAgXQoK
-U2lnbmVkLW9mZi1ieTogTWF0aGlzIE1hcmlvbiA8bWF0aGlzLm1hcmlvbkBzaWxhYnMuY29tPgot
-LS0KIGxpbnV4LXVzZXIvZmQtdHJhbnMuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5z
-ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9saW51eC11c2VyL2ZkLXRy
-YW5zLmMgYi9saW51eC11c2VyL2ZkLXRyYW5zLmMKaW5kZXggYWEzOTgwOThlYy4uNzkwZjhiYmNm
-NCAxMDA2NDQKLS0tIGEvbGludXgtdXNlci9mZC10cmFucy5jCisrKyBiL2xpbnV4LXVzZXIvZmQt
-dHJhbnMuYwpAQCAtMTM1OSw3ICsxMzU5LDcgQEAgc3RhdGljIGFiaV9sb25nIHRhcmdldF90b19o
-b3N0X2Zvcl9lYWNoX3J0YXR0cihzdHJ1Y3QgcnRhdHRyICpydGF0dHIsCiAKIHN0YXRpYyBhYmlf
-bG9uZyB0YXJnZXRfdG9faG9zdF9kYXRhX3NwZWNfbmxhdHRyKHN0cnVjdCBubGF0dHIgKm5sYXR0
-cikKIHsKLSAgICBzd2l0Y2ggKG5sYXR0ci0+bmxhX3R5cGUpIHsKKyAgICBzd2l0Y2ggKG5sYXR0
-ci0+bmxhX3R5cGUgJiB+TkxBX0ZfTkVTVEVEKSB7CiAgICAgY2FzZSBBRl9JTkVUNjoKICAgICAg
-ICAgcmV0dXJuIHRhcmdldF90b19ob3N0X2Zvcl9lYWNoX25sYXR0cihOTEFfREFUQShubGF0dHIp
-LCBubGF0dHItPm5sYV9sZW4sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgTlVMTCwKQEAgLTEzNzYsNyArMTM3Niw3IEBAIHN0YXRpYyBhYmlfbG9uZyB0YXJn
-ZXRfdG9faG9zdF9kYXRhX2xpbmtfcnRhdHRyKHN0cnVjdCBydGF0dHIgKnJ0YXR0cikKIHsKICAg
-ICB1aW50MzJfdCAqdTMyOwogCi0gICAgc3dpdGNoIChydGF0dHItPnJ0YV90eXBlKSB7CisgICAg
-c3dpdGNoIChydGF0dHItPnJ0YV90eXBlICYgfk5MQV9GX05FU1RFRCkgewogICAgIC8qIHVpbnQz
-Ml90ICovCiAgICAgY2FzZSBRRU1VX0lGTEFfTVRVOgogICAgIGNhc2UgUUVNVV9JRkxBX1RYUUxF
-TjoKLS0gCjIuMzkuMQoK
+--0000000000004d115c05f4e7e8ba
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Feb 16, 2023, 2:44 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+wrote:
+
+> On Thu, Feb 16, 2023 at 01:15:30PM -0500, John Snow wrote:
+> > On Wed, Feb 15, 2023 at 2:25 PM Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g>
+> wrote:
+> > >
+> > > The 22.04 LTS release has been out for almost a year now so its time
+> > > to update all the remaining images to the current LTS. We can also
+> > > drop some hacks we need for older clang TSAN support.
+> >
+> > We still support Ubuntu 20.04 until 2024 though, don't we? Is it safe
+> > to not test this platform?
+> >
+> > I've long been uncertain about what our policy actually is for docker
+> > tests, if we want to test every platform we support or only some of
+> > them; and if it's only some of them, when do we choose the older and
+> > when do we choose the newer?
+>
+> Ideally we would test both the oldest & newest versions of each
+> distro we support. Practically though, we're compromised by the
+> limited CI resources available.
+>
+
+Yes, understood.
+
+
+> Dropping older Ubuntu images is a reasonable tradeoff, since we
+> still have Debian images covered in CI. Debian can be thought
+> of as an older version of Ubuntu to some extent, giving coverage
+> that will mitigate the risks of dropping 20.04.
+>
+
+Okay, I'll take your word for that. I am not personally familiar with how
+much those distros diverge; I know Ubuntu is debian-based but that's the
+extent of my knowledge as I don't daily-drive either.
+
+So, firstly:
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
+because I suspect we all have our reasons and I also agree testing newer is
+generally of higher value than testing older.
+
+However, would it be possible to keep the older Ubuntu test as a manual
+execution that we could invoke at will, only during RC testing phase? If
+it's not a lot of work, I could even check that in myself as a follow-up if
+it isn't unwanted.
+
+I find that "oldest version of x" is quite useful to me for testing Python
+stuff in particular, as that ecosystem moves pretty fast. It'd be mighty
+convenient to me in particular to keep an old Ubuntu test around to run
+manually as needed.
+
+(Heck, even if it wasn't on CI at all but was just a container I could run
+locally, that would still be quite useful.)
+
+Whaddaya think?
+
+
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
+
+--0000000000004d115c05f4e7e8ba
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Feb 16, 2023, 2:44 PM Daniel P. Berrang=C3=A9 =
+&lt;<a href=3D"mailto:berrange@redhat.com" target=3D"_blank" rel=3D"norefer=
+rer">berrange@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">On Thu, Feb 16, 2023 at 01:15:30PM -0500, John Snow wrote:<br>
+&gt; On Wed, Feb 15, 2023 at 2:25 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto=
+:alex.bennee@linaro.org" rel=3D"noreferrer noreferrer" target=3D"_blank">al=
+ex.bennee@linaro.org</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; The 22.04 LTS release has been out for almost a year now so its t=
+ime<br>
+&gt; &gt; to update all the remaining images to the current LTS. We can als=
+o<br>
+&gt; &gt; drop some hacks we need for older clang TSAN support.<br>
+&gt; <br>
+&gt; We still support Ubuntu 20.04 until 2024 though, don&#39;t we? Is it s=
+afe<br>
+&gt; to not test this platform?<br>
+&gt; <br>
+&gt; I&#39;ve long been uncertain about what our policy actually is for doc=
+ker<br>
+&gt; tests, if we want to test every platform we support or only some of<br=
+>
+&gt; them; and if it&#39;s only some of them, when do we choose the older a=
+nd<br>
+&gt; when do we choose the newer?<br>
+<br>
+Ideally we would test both the oldest &amp; newest versions of each<br>
+distro we support. Practically though, we&#39;re compromised by the<br>
+limited CI resources available.<br></blockquote></div></div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto">Yes, understood.=C2=A0</div><div dir=3D"auto=
+"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<br>
+Dropping older Ubuntu images is a reasonable tradeoff, since we<br>
+still have Debian images covered in CI. Debian can be thought<br>
+of as an older version of Ubuntu to some extent, giving coverage<br>
+that will mitigate the risks of dropping 20.04.<br></blockquote></div></div=
+><div dir=3D"auto"><br></div><div dir=3D"auto">Okay, I&#39;ll take your wor=
+d for that. I am not personally familiar with how much those distros diverg=
+e; I know Ubuntu is debian-based but that&#39;s the extent of my knowledge =
+as I don&#39;t daily-drive either.</div><div dir=3D"auto"><br></div><div di=
+r=3D"auto">So, firstly:</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
+Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_b=
+lank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;</div><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">because I suspect we all have our reasons and I a=
+lso agree testing newer is generally of higher value than testing older.</d=
+iv><div dir=3D"auto"><br></div><div dir=3D"auto">However, would it be possi=
+ble to keep the older Ubuntu test as a manual execution that we could invok=
+e at will, only during RC testing phase? If it&#39;s not a lot of work, I c=
+ould even check that in myself as a follow-up if it isn&#39;t unwanted.</di=
+v><div dir=3D"auto"><br></div><div dir=3D"auto">I find that &quot;oldest ve=
+rsion of x&quot; is quite useful to me for testing Python stuff in particul=
+ar, as that ecosystem moves pretty fast. It&#39;d be mighty convenient to m=
+e in particular to keep an old Ubuntu test around to run manually as needed=
+.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(Heck, even if it wasn=
+&#39;t on CI at all but was just a container I could run locally, that woul=
+d still be quite useful.)</div><div dir=3D"auto"><br></div><div dir=3D"auto=
+">Whaddaya think?</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div c=
+lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+With regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer noreferrer=
+" target=3D"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =
+=C2=A0 <a href=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferre=
+r noreferrer noreferrer" target=3D"_blank">https://www.flickr.com/photos/db=
+errange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer noreferrer"=
+ target=3D"_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0-o-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138=
+.berrange.com" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">h=
+ttps://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer nore=
+ferrer" target=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=
+=C2=A0 =C2=A0 <a href=3D"https://www.instagram.com/dberrange" rel=3D"norefe=
+rrer noreferrer noreferrer" target=3D"_blank">https://www.instagram.com/dbe=
+rrange</a> :|<br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000004d115c05f4e7e8ba--
+
 
