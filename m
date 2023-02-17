@@ -2,98 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F8669A4A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 05:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA4969A4A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 05:09:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSs3y-0000gc-2a; Thu, 16 Feb 2023 23:09:34 -0500
+	id 1pSs3x-0000g9-Lv; Thu, 16 Feb 2023 23:09:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs3v-0000fV-7l
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:09:31 -0500
-Received: from esa5.hc2706-39.iphmx.com ([216.71.137.63])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs3w-0000fj-Is
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:09:32 -0500
+Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs3p-00017A-K8
- for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:09:30 -0500
-X-IronPort-RemoteIP: 209.85.222.197
-X-IronPort-MID: 271087189
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pSs3t-00017Y-Hl
+ for qemu-devel@nongnu.org; Thu, 16 Feb 2023 23:09:32 -0500
+X-IronPort-RemoteIP: 209.85.222.198
+X-IronPort-MID: 259423657
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:Maamna7wvTysHG8pre/rAgxRtIbFchMFZxGqfqrLsTDasY5as4F+v
- mVKDWrQO/jYYzemLot0O4u/px8B75OHx4M2QANvpSA9Eysa+MHIO4+lIxarNUt+DCFioGGLT
- Sk6QoOdRCzhZiaE/n9BCpC48T8nk/nOHuGmYAL9EngZbRd+Tys8gg5Ulec8g4p56fC0GArIs
- t7pyyHlEAbNNwVcbyRFtMpvlDs15K6p4GlB4ARlDRx2lAS2e0c9Xcp3yZ6ZciOQrrl8RoaSW
- +vFxbelyWLVlz9F5gSNy+uTnuUiG9Y+DCDX4pZkc/HKbitq/0Te5p0G2M80Mi+7vdkoc+dZk
- 72hvbToIesg0zaldO41CnG0GAknVUFKFSOuzdFSfqV/wmWfG0YAzcmCA2ktBKscqudTPFhSq
- /syMBUxaSyIxN2PlefTpulE3qzPLeHuNYIb/2hjlHTXVKd5B5/ERKrO6JlT2zJYasJmR66PI
- ZpEL2A1NlKZMkIn1lQ/UfrSmM+hgmn5fydwok/TqKYqi4TW5FYuieC9b4OFK7RmQ+13vFSTu
- DPaxF+hAzxFBea/lBCF106z07qncSTTHdh6+KeD3udnhUDWymENBRk+U1y9rv+kzEmkVLpix
- 1c8/yMvqe0r9xXuQICsAFu3p3mLuhNaUN1VewEn1DywJmPvy17xLgA5ovRpMbTKaOdeqeQW6
- 2K0
-IronPort-HdrOrdr: A9a23:A9v7+Kylq++n/0ayxcKkKrPw/L1zdoMgy1knxilNoNJuA6ilfq
- eV7YkmPH7P+UwssRQb8+xoV5PwJ080maQFg7X5Xo3SJzUOxlHYVb2KhLGKq1aQeBEWntQ86U
- 4KSdkYNDSfNykese/KpCOVKZIP+uWmzYyfrdvi7h5WPH1XgmJbgzuRyDz3LqS7fmd77OICZe
- KhDwN8yFudRUg=
-Received: from mail-qk1-f197.google.com ([209.85.222.197])
+IronPort-Data: A9a23:V3VmUKuw/gRi3GKWDK06MIr7KefnVOhcMUV32f8akzHdYApBsoF/q
+ tZmKT+AbPqOZjOkedF+Ydi39hhXsMDUnIdrHAVqqn01ES0a9ZOVVN+UEBzMMnLJJKUvbq7GA
+ +byyDXkBJppJpMJjk71atANlVEliefTAOK6ULWeUsxIbVcMYD87jh5+kPIOjIdtgNyoayuAo
+ tq3qMDEULOf82cc3lk8tuTS93uDgNyo4GlD5gZnO6gQ1LPjvyJ94Kw3dPnZw0TQH9E88t6SH
+ 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IPM0SQqkEqSh8ai87XAMEhhXJ/0F1lqTzQJ
+ OJl7vRcQS9xVkHFdX90vxNwSkmSNoUfkFPLzOTWXWV+ACQqflO1q8iCAn3aMqUD1cJuA1NC9
+ cVCCxUJdyuIqMa/3+uSH7wEasQLdKEHPasas3BkiCjaVLMoGMGTBarN4tBc0XE7gcUm8fT2P
+ ZJIL2oyKk6aOVsWawd/5JEWxY9EglH2dy1epEi9r7dx7mTOpOB0+OKwYYaPIYLXGq25mG6lt
+ lKZp1nBKChALZuW5wDZ+Em3q7XmyHaTtIU6UefQGuRRqESew3FWBBAIWF+Tp/6/hUijHdVFJ
+ CQpFjEGqKEz8AmyTYC4UUTp8DiLuRkTX9cWGOo/gO2Q9pfpD8+iLjBsZlZ8hBYO7afamRRCO
+ oe1ou7U
+IronPort-HdrOrdr: A9a23:RgKHFK6cHmKpZdsc8gPXwFbXdLJyesId70hD6qkRc3Nom6mj/f
+ xG88526faZskd3ZJhYo6H5BEDiex3hHPxOkO0sFI64UAjrsGalN+hZjLcKqgeIcxEWkNQtt5
+ uIGJIOceEYY2IWse/KpCm+HtotzZ2s9aClgvqb5251JDsaDZ1I3kNYDQuWHkAzbg9AGJY/Cd
+ 6g9tNKzgDQHEg/X4CaAXQIU+WGiPbv/aiHXTc2Qz4h5QWDgHeUytfBYmOlN0clOA9n0PMp+W
+ zdmwz24eGivpiAu3zh61M=
+Received: from mail-qk1-f198.google.com ([209.85.222.198])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 16 Feb 2023 23:09:22 -0500
-Received: by mail-qk1-f197.google.com with SMTP id
- op8-20020a05620a534800b0073b2e9d5061so2420236qkn.5
- for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 20:09:23 -0800 (PST)
+ 16 Feb 2023 23:09:26 -0500
+Received: by mail-qk1-f198.google.com with SMTP id
+ c9-20020a05620a11a900b0072a014ecc4aso2428032qkk.18
+ for <qemu-devel@nongnu.org>; Thu, 16 Feb 2023 20:09:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=D1Gnk93yd5GPP+8PqPwTBtwTCgTfTH0W++PVK3WzzWE=;
- b=faVRlsHR3EXXo4B7C78sc9gebCWCC5UDQiZwhUik5ejjwVuaxm5vz2ysFrNv1jmRll
- Pn5E6h7snKXLGsGpYCRkpz7v9To3QrUdeDQ6US3g8XoPFqyPkMVaCigjKL8DHShoE7Wv
- eU0iwlFkaz6vW+E3J1j0ytH4BNHB4hVryki9wXGxiAyTi1XNRnIxSFSgAZ3qYFQNPiDN
- Nz7TYDy75ov9sKDze5ASWUeJcV1Fh6aMkhltJQRqn2yOBqjl87H95KEJRi3bDoPF7Xgh
- OTveQbf4vsZMC9mSh8EEOqdNh7kaNmwHPEWkYp6MrTVUCLzo5FVqnZTfI0zeu9MfMBFs
- sPjg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fIzRevXJLYfs+SfsjeJmqdfmNwjNEhZx1/WXfBx6Mlc=;
+ b=I0U5o3HKbbjsjvfT4UBApVnRkJeP7sVmZZcn1A8Qa8tKWmJlVdNYVfjIww+S2yn1oc
+ VZg49nAqeSSBxkweW7xmUXm42HbH2X79paI3dykKPb1KEoboVcwWOEdl8FhK/RdRiPTk
+ eX3bKzPjcEgu0MaB4cdLu1Hwwge0l/ZR72cIyNV01vt3sho5sVFfHH2IfNp3OHsl9U2I
+ /8/Via3ILb5qs/OXtckxA5vakt97o4EyZQpKgagQ2orMMTTqsLiy2b4xbKheZgQauq7U
+ 1jbzPxImakY2QR6cz3q0UagwJqJyjaQgqH2OXme6oE/4V/7vtkOL+QIYJb+0AUZRdIVt
+ NTeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D1Gnk93yd5GPP+8PqPwTBtwTCgTfTH0W++PVK3WzzWE=;
- b=MD0Et2hjgWmmnrfxt92FsFSY66lrSiasLLqQ6zoFdQf0yJAjda12rzZHGdscQPoBSE
- KVfkY2uD58J7lCUH3wJcFR5rWRASuIfhXY+CcvwT0s1RgMmR3kkbr2gtbezNhIWurAgJ
- RurWFFKO12jZk3uqjccXbMdQW5Gu4wDK7lEl6NKSlxIu8+7HrzKfsNR2FOh72obkjNwy
- NAfOlYmucuzXuzbakkUMXTXIxnVuIgcT30Y7PVgyhPN1QQwOJBDcFOHRGuIm7Cjd81B1
- nZ1meucCmokwYZY73S79IVAT0rZ5i2E2RABOT5Sx3jGsaEN8SY7lhu2F6DKpESHZ1zy/
- oJZw==
-X-Gm-Message-State: AO0yUKU99Tuz9tyGAeDerZKOwP6HJhBbv/2dSBwp9+Y0zrsEVYW72oWp
- gJHKxnhEpIyYT0FovQ6mRtBp55HFuBUoTIcgQsrgMZfiezqslfwtWbmWtHWwow2ho5mGrhTsN7b
- my5kMvT4oK1W9cgHjTgKxbyRNyXw3AqkzLN4=
-X-Received: by 2002:a05:6214:29ce:b0:537:6e29:e9e9 with SMTP id
- gh14-20020a05621429ce00b005376e29e9e9mr14196498qvb.21.1676606962030; 
- Thu, 16 Feb 2023 20:09:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set9mm8sNWN/yPpaaE7Cmws+D5DGpnJOtc77h2UWOGSWdDdo/GMMQ5cTQs34nC6RDMjFLYee0SA==
-X-Received: by 2002:a05:6214:29ce:b0:537:6e29:e9e9 with SMTP id
- gh14-20020a05621429ce00b005376e29e9e9mr14196479qvb.21.1676606961714; 
- Thu, 16 Feb 2023 20:09:21 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fIzRevXJLYfs+SfsjeJmqdfmNwjNEhZx1/WXfBx6Mlc=;
+ b=pPM5o9ltW5sNQ7/joCwtKlarukIkf37/SdZtHLkuv9C23WazrJT3X962lDihHDYiwx
+ hbLS89Jrkr3o1CnjeL+RfQq6qJ9YSGCfhxbWlj1bEpeVWLwB9daAwjksePrZvJ+VmpYW
+ dSiu/eeJ9h7A9sDw3loz5o+Uyiq7PDaQwHo9Zj/wllKKJndSocUYfAseYSfKwsdf0dxC
+ bieOIIMIpHQoQo57iGF5l2QpjwuLO84kGymmU2T2hID+zvoGt5ipkp8LBsIJ9G1s1W4G
+ 5ZAneUHKuakvDcX098mWLya5BZ7KpMR4Jb2XAXc0lHB/EyWAQQquxn6X0OlPIRQGV8Ae
+ r/Aw==
+X-Gm-Message-State: AO0yUKUGYHHmdLGqH2XLzjdLuG/ySiUDzTe/NhVkzafgQl7JLx723sgh
+ zFEQg5TEJvegrIAhsflJY+6FOAQa+rPEpl52Pc4GbXibXV4B9r+3iG1XCsj7YvZtzwHu1ofjh4X
+ ETa7LiNs9L4FFI5+Sonmu4+K9DVRrnbPmWM6spA==
+X-Received: by 2002:ac8:4e84:0:b0:3bd:adc:66cc with SMTP id
+ 4-20020ac84e84000000b003bd0adc66ccmr6678926qtp.66.1676606965809; 
+ Thu, 16 Feb 2023 20:09:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set9xyiJ95wI73mdwIROG8Lz++9rKKhX8kGPDenael4K2Su1/KtEezMm53LCfkHyMxtbwKzhOFQ==
+X-Received: by 2002:ac8:4e84:0:b0:3bd:adc:66cc with SMTP id
+ 4-20020ac84e84000000b003bd0adc66ccmr6678907qtp.66.1676606965542; 
+ Thu, 16 Feb 2023 20:09:25 -0800 (PST)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- y126-20020a376484000000b00738e8e81dc9sm2521998qkb.75.2023.02.16.20.09.21
+ q7-20020ae9dc07000000b0071f40a59fe5sm2468047qkf.127.2023.02.16.20.09.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 20:09:21 -0800 (PST)
+ Thu, 16 Feb 2023 20:09:25 -0800 (PST)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
-	Alexander Bulekov <alxndr@bu.edu>
-Subject: [PULL 00/10] Replace fork-based fuzzing with reboots
-Date: Thu, 16 Feb 2023 23:08:45 -0500
-Message-Id: <20230217040855.16873-1-alxndr@bu.edu>
+Cc: peter.maydell@linaro.org, Alexander Bulekov <alxndr@bu.edu>,
+ Darren Kenny <darren.kenny@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>
+Subject: [PULL 01/10] hw/sparse-mem: clear memory on reset
+Date: Thu, 16 Feb 2023 23:08:46 -0500
+Message-Id: <20230217040855.16873-2-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230217040855.16873-1-alxndr@bu.edu>
+References: <20230217040855.16873-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.63; envelope-from=alxndr@bu.edu;
- helo=esa5.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
+ helo=esa12.hc2706-39.iphmx.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -116,52 +124,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Peter,
-The following changes since commit 6dffbe36af79e26a4d23f94a9a1c1201de99c261:
+We use sparse-mem for fuzzing. For long-running fuzzing processes, we
+eventually end up with many allocated sparse-mem pages. To avoid this,
+clear the allocated pages on system-reset.
 
-  Merge tag 'migration-20230215-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-02-16 13:09:51 +0000)
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/mem/sparse-mem.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/hw/mem/sparse-mem.c b/hw/mem/sparse-mem.c
+index e6640eb8e7..72f038d47d 100644
+--- a/hw/mem/sparse-mem.c
++++ b/hw/mem/sparse-mem.c
+@@ -77,6 +77,13 @@ static void sparse_mem_write(void *opaque, hwaddr addr, uint64_t v,
+ 
+ }
+ 
++static void sparse_mem_enter_reset(Object *obj, ResetType type)
++{
++    SparseMemState *s = SPARSE_MEM(obj);
++    g_hash_table_remove_all(s->mapped);
++    return;
++}
++
+ static const MemoryRegionOps sparse_mem_ops = {
+     .read = sparse_mem_read,
+     .write = sparse_mem_write,
+@@ -123,7 +130,8 @@ static void sparse_mem_realize(DeviceState *dev, Error **errp)
+ 
+     assert(s->baseaddr + s->length > s->baseaddr);
+ 
+-    s->mapped = g_hash_table_new(NULL, NULL);
++    s->mapped = g_hash_table_new_full(NULL, NULL, NULL,
++                                      (GDestroyNotify)g_free);
+     memory_region_init_io(&s->mmio, OBJECT(s), &sparse_mem_ops, s,
+                           "sparse-mem", s->length);
+     sysbus_init_mmio(sbd, &s->mmio);
+@@ -131,12 +139,15 @@ static void sparse_mem_realize(DeviceState *dev, Error **errp)
+ 
+ static void sparse_mem_class_init(ObjectClass *klass, void *data)
+ {
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     device_class_set_props(dc, sparse_mem_properties);
+ 
+     dc->desc = "Sparse Memory Device";
+     dc->realize = sparse_mem_realize;
++
++    rc->phases.enter = sparse_mem_enter_reset;
+ }
+ 
+ static const TypeInfo sparse_mem_types[] = {
+-- 
+2.39.0
 
-  https://gitlab.com/a1xndr/qemu/ tags/pr-2023-02-16
-
-for you to fetch changes up to 7d9e5f18a94792ed875a1caed2bfcd1e68a49481:
-
-  docs/fuzz: remove mentions of fork-based fuzzing (2023-02-16 23:02:46 -0500)
-
-----------------------------------------------------------------
-Replace fork-based fuzzing with reboots.
-Now the fuzzers will reboot the guest between inputs.
-
-----------------------------------------------------------------
-Alexander Bulekov (10):
-      hw/sparse-mem: clear memory on reset
-      fuzz: add fuzz_reset API
-      fuzz/generic-fuzz: use reboots instead of forks to reset state
-      fuzz/generic-fuzz: add a limit on DMA bytes written
-      fuzz/virtio-scsi: remove fork-based fuzzer
-      fuzz/virtio-net: remove fork-based fuzzer
-      fuzz/virtio-blk: remove fork-based fuzzer
-      fuzz/i440fx: remove fork-based fuzzer
-      fuzz: remove fork-fuzzing scaffolding
-      docs/fuzz: remove mentions of fork-based fuzzing
-
- docs/devel/fuzzing.rst              |  22 +------
- hw/mem/sparse-mem.c                 |  13 +++-
- meson.build                         |   4 --
- tests/qtest/fuzz/fork_fuzz.c        |  41 -------------
- tests/qtest/fuzz/fork_fuzz.h        |  23 -------
- tests/qtest/fuzz/fork_fuzz.ld       |  56 -----------------
- tests/qtest/fuzz/fuzz.c             |   6 ++
- tests/qtest/fuzz/fuzz.h             |   2 +-
- tests/qtest/fuzz/generic_fuzz.c     | 119 ++++++++----------------------------
- tests/qtest/fuzz/i440fx_fuzz.c      |  27 +-------
- tests/qtest/fuzz/meson.build        |   6 +-
- tests/qtest/fuzz/virtio_blk_fuzz.c  |  51 +++-------------
- tests/qtest/fuzz/virtio_net_fuzz.c  |  54 ++--------------
- tests/qtest/fuzz/virtio_scsi_fuzz.c |  51 +++-------------
- 14 files changed, 71 insertions(+), 404 deletions(-)
- delete mode 100644 tests/qtest/fuzz/fork_fuzz.c
- delete mode 100644 tests/qtest/fuzz/fork_fuzz.h
- delete mode 100644 tests/qtest/fuzz/fork_fuzz.ld
 
