@@ -2,99 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A4169A8BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 10:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A6269A8CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Feb 2023 11:02:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pSxTu-0007sL-LU; Fri, 17 Feb 2023 04:56:42 -0500
+	id 1pSxYm-0001s4-El; Fri, 17 Feb 2023 05:01:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSxTs-0007rv-Fr
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 04:56:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSxYk-0001rk-7b
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:01:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pSxTq-0007Lq-RK
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 04:56:40 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pSxYi-0000Of-EY
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 05:01:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676627797;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fGi7cWbHmiOulPJ2tTkT9NKwr+l1zYFkbNAa0THo0vw=;
- b=DW4MrX7i6Gni4lOOvAZcRgUkL1FGclqfqhJn7Fiask4hZXbunsPiSRE3A5YLxQpoY9sQ5H
- AouOAAMu+DP6JBXuL6otvxuiDWA7sfOZOgESaaquyI40Dr07baTxvq7IhR73Z2xTL0JJ3w
- BqVjs79rFIljEgMuU117GwWwIE144zQ=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-196-jiUnSoYSN0ebrbISGztsvA-1; Fri, 17 Feb 2023 04:56:36 -0500
-X-MC-Unique: jiUnSoYSN0ebrbISGztsvA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- k5-20020a05620a0b8500b0072db6346c39so32033qkh.16
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 01:56:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fGi7cWbHmiOulPJ2tTkT9NKwr+l1zYFkbNAa0THo0vw=;
- b=T7SN6wBzyFhdsjgG0UQrrwZivJjYAD+M8RHgIlkIekWVqq9YFg6LFkQeQV5mPG4mJs
- E2ngEd+WxOSIOnbeG+jKBcqd52X8FjASJdXwHHS6yuh6Epk5PtR68xhJzH9HktJYCCyg
- kC0VdggG+PbdeMeT1VfmToT2yAScfz/Z0iq+b0x4wg7bUnQDGcHHGhXFL7SyLZvwTLJx
- GKd6EmpAaljvKRcnA4B73SBKZqoe3yzLZ1l4WuF5DVpUmGZlKePmdNrvOVfhgNAedGR+
- VfiC5XZUYatJ3f2pJVdcL4+MQSbU6WcGgM2Q3dHnnqoyr4xqSfo44NcayZ7wBt43yGy7
- VEsQ==
-X-Gm-Message-State: AO0yUKVBsWqo0G5JFy4Ny8FNhGJbpSoKjEvgU4l/LB32ytIMb0n+Iabw
- kNltjryy1sN/HJym9Zh8Kk+cDeuNH82EfSflPURD/YAeDTrwJG8yqcKObMsaHL+jf6fECGsrI9w
- YG3dQgSETDjMxK/E=
-X-Received: by 2002:ac8:58c4:0:b0:3b8:118d:ad86 with SMTP id
- u4-20020ac858c4000000b003b8118dad86mr809512qta.21.1676627795714; 
- Fri, 17 Feb 2023 01:56:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set+4HZ816qD4fF0txk7rnDL9EB2zqobpMnyKqIfZxdaw4AGX5/9LEG16G109OCtkRVRmXB5Jpg==
-X-Received: by 2002:ac8:58c4:0:b0:3b8:118d:ad86 with SMTP id
- u4-20020ac858c4000000b003b8118dad86mr809487qta.21.1676627795456; 
- Fri, 17 Feb 2023 01:56:35 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-32.web.vodafone.de.
- [109.43.176.32]) by smtp.gmail.com with ESMTPSA id
- f17-20020ac80691000000b003b9b48cdbe8sm2950026qth.58.2023.02.17.01.56.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 01:56:34 -0800 (PST)
-Message-ID: <331ac041-254e-8db8-33f3-23b36e6a431c@redhat.com>
-Date: Fri, 17 Feb 2023 10:56:31 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
+ s=mimecast20190719; t=1676628099;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=nmNUQU566hFm6n1qHrDJHLP/L1IRnSRHsjn0mYTTtjc=;
+ b=RkhfcDK4ECtPNpIE8Y6iklCP2g1Erh4k2ttwSRfuHVR3RlwSkUFq824cA9KeaXvJ1Asi+M
+ xE/RV4OAYBUyuzWgt1K+3tg29dEMql8ERZjpfOpltkKII5LJGgE5dmOjWd86qbdHDf5NQ4
+ wEMq4Fx6z0j+n9PpWLJs5cnw95g1vWo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-379-Kvloaia1NEimAT4PauKCug-1; Fri, 17 Feb 2023 05:01:34 -0500
+X-MC-Unique: Kvloaia1NEimAT4PauKCug-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D68080D0E9;
+ Fri, 17 Feb 2023 10:01:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3428C1121314;
+ Fri, 17 Feb 2023 10:01:31 +0000 (UTC)
+Date: Fri, 17 Feb 2023 10:01:28 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Michael Roth <michael.roth@amd.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Kevin Wolf <kwolf@redhat.com>
+ Hanna Reitz <hreitz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
+Message-ID: <Y+9QeFzvdG4j9aMO@redhat.com>
 References: <20230210003147.1309376-1-jsnow@redhat.com>
  <87v8k2ycjb.fsf@pond.sub.org>
  <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com>
  <87zg9cirti.fsf@pond.sub.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <87zg9cirti.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.351, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,12 +87,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/02/2023 10.06, Markus Armbruster wrote:
+On Fri, Feb 17, 2023 at 10:06:49AM +0100, Markus Armbruster wrote:
 > Thomas Huth <thuth@redhat.com> writes:
-...
+> 
+> > On 15/02/2023 20.05, Markus Armbruster wrote:
+> >> The discussion under PATCH 6 makes me think there's a bit of confusion
+> >> about the actual impact of dropping support for Python 3.6.  Possibly
+> >> because it's spelled out in the commit message of PATCH 7.  Let me
+> >> summarize it in one sentence:
+> >> 
+> >>      *** All supported host systems continue to work ***
+> >> 
+> >> Evidence: CI remains green.
+> >
+> > The CI remains green since one of the patches disabled the building of the 
+> > docs on CentOS 8. That's not how I'd describe "continue to work", at least 
+> > not in the same extend as before.
+> 
+> Thus the exception ...
+> 
+> >> On some supported host systems, different packages need to be installed.
+> >> On CentOS 8, for instance, we need to install Python 3.8.13 or 3.9.16
+> >> instead of 3.6.8.  Let me stress again: same repository, different
+> >> package.  No downsides I can see.
+> 
+> ... right here:
+> 
+> >> The *one* exception is Sphinx on CentOS 8.  CentOS 8 does not ship a
+> >> version of Sphinx that works with Python 3.7 or newer.  This series
+> >> proposes to simply stop building the docs there, unless the user
+> >> provides a suitable version of Sphinx (which is easy enough with pip).
+> >
+> > I think we've all understood that. The thing that you obviously did not 
+> > understood: This breaks our support statement.
+> > I'm pretty sure that you could also build the whole QEMU suite successfully 
+> > on an ancient CentOS 7 or Ubuntu 18.04 system if you manually install a 
+> > newer version of GCC and some of the required libraries first. But that's 
+> > not how we understand our support statement.
+> >
+> > Sure, you can argue that you can use "pip install" to get a newer version of 
+> > Sphinx on RHEL 8 / CentOS 8 to continue building the docs there - but is 
+> > that really that much different from installing a newer version of GCC and 
+> > libraries on an ancient distro that we do not officially support anymore? 
+> > I'd say no. You also have to consider that not every build host has access 
+> > to the internet, maybe some companies only have an internal mirror of the 
+> > distro packages in their intranet (I remember some discussion about such a 
+> > case in the past) - so while you were perfectly fine to build the whole of 
+> > QEMU on a CentOS 8 there before this change, you could now not build parts 
+> > of QEMU anymore there due to the missing possibility to run "pip install" 
+> > without full internet connection.
+> >
+> > And sure, you can argue that it's "just" the documentation. But IMHO that's 
+> > still an essential part of the QEMU build, and it used to work before, so it 
+> > feels wrong to cut that now out. And also, if we start with the 
+> > documentation now, what's next? If for example scripts/shaderinclude.py 
+> > stops working with Python 3.6, do we then simply say: "Oh, it's fine, you 
+> > can still build all the other targets that work without this script, just 
+> > not the ones anymore that need it"?
+> 
 > My view on all this is a bit more pragmatic.
 > 
 > For a human developer, the difference between "dnf install
@@ -120,45 +156,56 @@ On 17/02/2023 10.06, Markus Armbruster wrote:
 > negligible.  Really no comparison to "git-clone GCC and bootstap it".
 > You seem to disagree with that.
 
-Honestly, being a Python ignorant, I completely messed up my system with 
-"pip" already a couple of times, especially if the instructions forgot to 
-tell me to use the "--user" switch. So yes, I tend to disagree ;-)
+The command for installing the package is certainly not
+significantly different.
 
-> For automated builds in general, and distro packaging in particular, the
-> difference is real, and could even be a show stopper.  But who's
-> packaging bleeding edge QEMU on CentOS 8?  I suspect the only automated
-> builds are our own CI, where the difference is real, but hardly a show
-> stopper.
+What I think is lacking with pip is what happens after that
+point - the ongoing management of the installed packages, or
+rather than lack thereof.
 
-If we've got the feeling that nobody out there really builds QEMU on older 
-long-term distros anymore, then why the heck are we still trying to support 
-this according to our support statement?
+If doing user installs, my $HOME/.local/lib ends up with multiple
+orphaned previously installed versions. After each python version
+upgrade, pip ceases to report about existance previously installed
+bits at all, alone ever upgrade them.
 
-> But then I'd like us to be a bit more pragmatic.  Is minor and graceful
-> degradation for systems close to the trailing edge really so
-> unacceptably terrible that we have to bend over backwards to avoid it?
+Then there is the issue that pip will refuse to install a package,
+if it already exists either from pip or the distro install, even
+if the version that already exists doesn't satisfy the version
+required. This would impact if the user has 'flake8'  N installed,
+and QEMU wanted version N+1 installed, both using the same python
+runtime version.
 
-Let's just get our support statement adjusted - it was written with good 
-intention originally, but apparently this is causing too much pain, so we 
-should adjust it instead of suffering in upstream development.
+This is not the situation we're in with centos8/docutils, but
+it is plausible in future once we decide we'll no longer rely
+on exclusively on distro provided python packages, and instead
+use pip if we ever want a newer version of something.
 
->>> All the angst about CentOS falling off the end of our "supported build
->>> platforms" list is not actually warranted by this series :)
->>
->> Using the term "angst" for the concerns of your fellows here is quite
->> cheeky. It's not about "angst", it's about a discussion that our support
->> policy might need to be adjusted if we do this step. So instead of writing
->> such sentences, I'd rather would like to see you posting a patch for
->> docs/about/build-platforms.rst for constructive further discussion instead.
-> 
-> The phrasing of this sentence was ill-advised.  If it caused offense, I
-> apologize.
 
-Ok, thanks. And just to make it clear again: I certainly do not object 
-dropping the support for Python 3.6 - I just want to make sure that we 
-adjust our support statement if the current version is causing too much pain 
-for us. Sorry if I got that across in the wrong way.
+The python answer to this IIUC, is to use virtualenvs to isolate
+everything. If we use keep the virtualenv under the QEMU build
+root, then any time you clean your build root the virtualenv
+content needs re-populating. At least pip has the sense to use
+a cache, so $HOME/.cache/pip keeps a copy of everything you've
+previously downloaded (presumably they age out the cache at
+some time/size?), to avoid spending time re-loading all the
+time. 
 
-  Thomas
+
+NB, I'm not saying the above is a blocker against use of pip.
+Just that there are real differences between use of pip and
+the distro packaging tools, beyond the initial install command.
+
+
+If we're going to use pip, then using virtualenvs looks likely
+to be very desirable to avoid conflicts between versions of
+pkgs QEMU wants vs what the user might already have installed,
+as well as to avoid leaving cruft behind in $HOME/.local/lib.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
