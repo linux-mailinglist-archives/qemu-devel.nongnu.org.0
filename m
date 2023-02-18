@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D2969BAF7
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 17:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A3769BAF6
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 17:23:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTPzT-00034h-LO; Sat, 18 Feb 2023 11:23:11 -0500
+	id 1pTPzS-00034H-6p; Sat, 18 Feb 2023 11:23:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pTPzM-00033u-To
- for qemu-devel@nongnu.org; Sat, 18 Feb 2023 11:23:05 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pTPzL-00033g-Dx
+ for qemu-devel@nongnu.org; Sat, 18 Feb 2023 11:23:03 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pTPzJ-0002Yp-RX
- for qemu-devel@nongnu.org; Sat, 18 Feb 2023 11:23:04 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pTPzJ-0002Yh-GY
+ for qemu-devel@nongnu.org; Sat, 18 Feb 2023 11:23:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1676737381;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jdsZMfmG13E3u0d8KfhRcr7kuPFXQEB/eoYUE0NxlrM=;
- b=NKRph8XInphSryufH7klO+i1TWD7SRHdWdYjE+OkLbCvvsu5F8KeVRcgD1OiCqOy+lMN8p
- PVCi8w1IIH3abENNnHwf6wCazsEDzCckI/hmF4/t9ogyHQ81RoV5J3wf+gZ5YyXvTbIT8y
- AqCB62Ak0X2QPqN0PTXHLmwMQT3ffSM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=++qV7MlktFIh1RnTKADG5hOSuOpaBRC4UWhQKw6FTyU=;
+ b=a2VnK3Y453MqqW1ExedC7DRe6RsLnjHwlB0n+JpDWuP/tpWqnH6eePztYvbSkDLpyMmcQn
+ gGH/kUJMjoY/moT+ya4iT9PKWUjF9FlMAmE5prR4LMWdf8kDMr5UNPoJg/l56lNYQUmyhg
+ u+Bk7sZcGjPOvvBHCwiA3OitvJqlUMg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-zPgMR4XeN9-mExterN5Dqw-1; Sat, 18 Feb 2023 11:21:16 -0500
-X-MC-Unique: zPgMR4XeN9-mExterN5Dqw-1
+ us-mta-577-lt2sZNfqMoKWBPcewM7A5g-1; Sat, 18 Feb 2023 11:21:17 -0500
+X-MC-Unique: lt2sZNfqMoKWBPcewM7A5g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF3F81871CC6;
- Sat, 18 Feb 2023 16:21:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C78929AA2C1;
+ Sat, 18 Feb 2023 16:21:17 +0000 (UTC)
 Received: from toolbox.redhat.com (unknown [10.33.36.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89D9A1731B;
- Sat, 18 Feb 2023 16:21:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 279561731B;
+ Sat, 18 Feb 2023 16:21:16 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
  "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Eric Blake <eblake@redhat.com>, Sergio Lopez <slp@redhat.com>
-Subject: [PATCH 3/4] ui: add helpers for virtio-multitouch events
-Date: Sat, 18 Feb 2023 17:22:15 +0100
-Message-Id: <20230218162216.46944-4-slp@redhat.com>
+Subject: [PATCH 4/4] ui/gtk: enable backend to send multi-touch events
+Date: Sat, 18 Feb 2023 17:22:16 +0100
+Message-Id: <20230218162216.46944-5-slp@redhat.com>
 In-Reply-To: <20230218162216.46944-1-slp@redhat.com>
 References: <20230218162216.46944-1-slp@redhat.com>
 MIME-Version: 1.0
@@ -78,78 +78,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add helpers for generating Multi-touch events from the UI backends that
-can be sent to the guest through a virtio-multitouch device.
+GTK3 provides the infrastructure to receive and process multi-touch
+events through the "touch-event" signal and the GdkEventTouch type.
+Make use of it to transpose events from the host to the guest.
+
+This allows users of machines with hardware capable of receiving
+multi-touch events to run guests that can also receive those events
+and interpret them as gestures, when appropriate.
+
+An example of this in action can be seen here:
+
+ https://fosstodon.org/@slp/109545849296546767
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- include/ui/input.h |  5 +++++
- ui/input.c         | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+ ui/gtk.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
 
-diff --git a/include/ui/input.h b/include/ui/input.h
-index 2a3dffd417..c37251e1e9 100644
---- a/include/ui/input.h
-+++ b/include/ui/input.h
-@@ -64,6 +64,11 @@ int qemu_input_scale_axis(int value,
- void qemu_input_queue_rel(QemuConsole *src, InputAxis axis, int value);
- void qemu_input_queue_abs(QemuConsole *src, InputAxis axis, int value,
-                           int min_in, int max_in);
-+void qemu_input_queue_mtt(QemuConsole *src, InputMultitouchType type, int slot,
-+                          int tracking_id);
-+void qemu_input_queue_mtt_abs(QemuConsole *src, InputAxis axis, int value,
-+                              int min_in, int max_in,
-+                              int slot, int tracking_id);
+diff --git a/ui/gtk.c b/ui/gtk.c
+index fd82e9b1ca..bf1e7f086d 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -130,6 +130,13 @@ typedef struct VCChardev VCChardev;
+ DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+                          TYPE_CHARDEV_VC)
  
- void qemu_input_check_mode_change(void);
- void qemu_add_mouse_mode_change_notifier(Notifier *notify);
-diff --git a/ui/input.c b/ui/input.c
-index f788db20f7..34331b7b0b 100644
---- a/ui/input.c
-+++ b/ui/input.c
-@@ -547,6 +547,42 @@ void qemu_input_queue_abs(QemuConsole *src, InputAxis axis, int value,
-     qemu_input_event_send(src, &evt);
++struct touch_slot {
++    int x;
++    int y;
++    int tracking_id;
++};
++static struct touch_slot touch_slots[INPUT_EVENT_SLOTS_MAX];
++
+ bool gtk_use_gl_area;
+ 
+ static void gd_grab_pointer(VirtualConsole *vc, const char *reason);
+@@ -1058,6 +1065,74 @@ static gboolean gd_scroll_event(GtkWidget *widget, GdkEventScroll *scroll,
  }
  
-+void qemu_input_queue_mtt(QemuConsole *src, InputMultitouchType type,
-+                          int slot, int tracking_id)
+ 
++static gboolean gd_touch_event(GtkWidget *widget, GdkEventTouch *touch,
++                               void *opaque)
 +{
-+    InputMultitouchEvent mtt = {
-+        .type = type,
-+        .slot = slot,
-+        .tracking_id = tracking_id,
-+    };
-+    InputEvent evt = {
-+        .type = INPUT_EVENT_KIND_MTT,
-+        .u.mtt.data = &mtt,
-+    };
++    VirtualConsole *vc = opaque;
++    struct touch_slot *slot;
++    uint64_t num_slot = (uint64_t) touch->sequence;
++    int update;
++    int type = -1;
++    int i;
 +
-+    qemu_input_event_send(src, &evt);
++    if (num_slot >= INPUT_EVENT_SLOTS_MAX) {
++        return FALSE;
++    }
++
++    slot = &touch_slots[num_slot];
++    slot->x = touch->x;
++    slot->y = touch->y;
++
++    switch (touch->type) {
++    case GDK_TOUCH_BEGIN:
++        type = INPUT_MULTITOUCH_TYPE_BEGIN;
++        slot->tracking_id = num_slot;
++        break;
++    case GDK_TOUCH_UPDATE:
++        type = INPUT_MULTITOUCH_TYPE_UPDATE;
++        break;
++    case GDK_TOUCH_END:
++    case GDK_TOUCH_CANCEL:
++        type = INPUT_MULTITOUCH_TYPE_END;
++        break;
++    default:
++        fprintf(stderr, "%s: unexpected touch event\n", __func__);
++    }
++
++    for (i = 0; i < INPUT_EVENT_SLOTS_MAX; ++i) {
++        if (i == num_slot) {
++            update = type;
++        } else {
++            update = INPUT_MULTITOUCH_TYPE_UPDATE;
++        }
++
++        slot = &touch_slots[i];
++
++        if (slot->tracking_id == -1) {
++            continue;
++        }
++
++        if (update == INPUT_MULTITOUCH_TYPE_END) {
++            slot->tracking_id = -1;
++            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->tracking_id);
++        } else {
++            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->tracking_id);
++            qemu_input_queue_btn(vc->gfx.dcl.con, INPUT_BUTTON_TOUCH, true);
++            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
++                                     INPUT_AXIS_X, (int) slot->x,
++                                     0, surface_width(vc->gfx.ds),
++                                     i, slot->tracking_id);
++            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
++                                     INPUT_AXIS_Y, (int) slot->y,
++                                     0, surface_height(vc->gfx.ds),
++                                     i, slot->tracking_id);
++        }
++        qemu_input_event_sync();
++    }
++
++    return TRUE;
 +}
 +
-+void qemu_input_queue_mtt_abs(QemuConsole *src, InputAxis axis, int value,
-+                              int min_in, int max_in, int slot, int tracking_id)
-+{
-+    InputMultitouchEvent mtt = {
-+        .type = INPUT_MULTITOUCH_TYPE_DATA,
-+        .slot = slot,
-+        .tracking_id = tracking_id,
-+        .axis = axis,
-+        .value = qemu_input_scale_axis(value, min_in, max_in,
-+                                       INPUT_EVENT_ABS_MIN,
-+                                       INPUT_EVENT_ABS_MAX),
-+    };
-+    InputEvent evt = {
-+        .type = INPUT_EVENT_KIND_MTT,
-+        .u.mtt.data = &mtt,
-+    };
-+
-+    qemu_input_event_send(src, &evt);
-+}
-+
- void qemu_input_check_mode_change(void)
+ static const guint16 *gd_get_keymap(size_t *maplen)
  {
-     static int current_is_absolute;
+     GdkDisplay *dpy = gdk_display_get_default();
+@@ -1977,6 +2052,8 @@ static void gd_connect_vc_gfx_signals(VirtualConsole *vc)
+                          G_CALLBACK(gd_key_event), vc);
+         g_signal_connect(vc->gfx.drawing_area, "key-release-event",
+                          G_CALLBACK(gd_key_event), vc);
++        g_signal_connect(vc->gfx.drawing_area, "touch-event",
++                         G_CALLBACK(gd_touch_event), vc);
+ 
+         g_signal_connect(vc->gfx.drawing_area, "enter-notify-event",
+                          G_CALLBACK(gd_enter_event), vc);
+@@ -2086,6 +2163,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+                               GSList *group, GtkWidget *view_menu)
+ {
+     bool zoom_to_fit = false;
++    int i;
+ 
+     vc->label = qemu_console_get_label(con);
+     vc->s = s;
+@@ -2133,6 +2211,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+                           GDK_BUTTON_PRESS_MASK |
+                           GDK_BUTTON_RELEASE_MASK |
+                           GDK_BUTTON_MOTION_MASK |
++                          GDK_TOUCH_MASK |
+                           GDK_ENTER_NOTIFY_MASK |
+                           GDK_LEAVE_NOTIFY_MASK |
+                           GDK_SCROLL_MASK |
+@@ -2168,6 +2247,11 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+         s->free_scale = true;
+     }
+ 
++    for (i = 0; i < INPUT_EVENT_SLOTS_MAX; i++) {
++        struct touch_slot *slot = &touch_slots[i];
++        slot->tracking_id = -1;
++    }
++
+     return group;
+ }
+ 
 -- 
 2.38.1
 
