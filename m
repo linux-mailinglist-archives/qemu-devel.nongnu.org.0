@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A40D69B91A
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 10:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AEB69B91C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 10:29:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTJUx-0004Wg-8N; Sat, 18 Feb 2023 04:27:15 -0500
+	id 1pTJWF-000590-FU; Sat, 18 Feb 2023 04:28:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pTJUu-0004WI-Iv
- for qemu-devel@nongnu.org; Sat, 18 Feb 2023 04:27:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pTJUs-00080h-Ci
- for qemu-devel@nongnu.org; Sat, 18 Feb 2023 04:27:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676712429;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gcNEQf5cz/ncO1PnHwrsasxGimYWG1aL1Ey8i//t1ZI=;
- b=iYi20SoGx3sMUZKxIN3590F0G6LfQk+MKBt3dtw6zdQ6Q3zm954mas3pbu1jBzfR8Z+FPi
- 6xgD2rx9t89ghDsdrdbwxJDcxZ7IhtEF3jbJatc13BShT7mB9wiGFA04wwa0U8MA6rMJXI
- YQf63T9tDp9vYjvMeXQ33097ZL9EsFA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-YG14EKJtMxKSNqVLl5u0fg-1; Sat, 18 Feb 2023 04:27:05 -0500
-X-MC-Unique: YG14EKJtMxKSNqVLl5u0fg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E05A3C01E17;
- Sat, 18 Feb 2023 09:27:05 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F1822166B30;
- Sat, 18 Feb 2023 09:27:05 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2716821E6A1F; Sat, 18 Feb 2023 10:27:04 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,  qemu-devel@nongnu.org,  Peter
- Maydell <peter.maydell@linaro.org>,  John Snow <jsnow@redhat.com>,  Kevin
- Wolf <kwolf@redhat.com>
-Subject: Re: [RFC PATCH] docs: build-platforms: refine requirements on
- Python build dependencies
-References: <20230217124150.205012-1-pbonzini@redhat.com>
- <Y++dVjax+6GdtEr1@redhat.com>
-Date: Sat, 18 Feb 2023 10:27:04 +0100
-In-Reply-To: <Y++dVjax+6GdtEr1@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Fri, 17 Feb 2023 15:29:26 +0000")
-Message-ID: <87cz67493r.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pTJWD-000580-IO
+ for qemu-devel@nongnu.org; Sat, 18 Feb 2023 04:28:33 -0500
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pTJWB-0008B9-SW
+ for qemu-devel@nongnu.org; Sat, 18 Feb 2023 04:28:33 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id 189so434505oih.12
+ for <qemu-devel@nongnu.org>; Sat, 18 Feb 2023 01:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DIa8j9bz6MRNdmbdMkc/Z+jMkMfQQHhLjS3nelQIF7M=;
+ b=lP/1PNhiDtq813i/IcGjXpCCm8QeC6YrijxkmI1c+uvRainnxEoJGzSvA2xmhvkd+S
+ MSr4NOxNl/19o1qBL5mQnsf43JGA/V18VlXOlILGGUFMBD02FcGFEQ75XOPb4QXzV8Wh
+ 4gW3cNuVbJy3hgUqM5x2Zkfl9XbMZKYuEk/L+bvQq60AThVGG4Q0QpRB6e0RKwCKTpeX
+ Vh0Cr5CPGj1MXipmtNNOEVpjioB2fwWTUPlMEIkByhFiXzxjj89gFm1M07NawbRTMepn
+ TVZZnrH+wnRrW8qKPmLddEgE1mL6829tyagN91cMnuEOdx2etVAe1OXgUvYU3MXr+XSG
+ gU7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DIa8j9bz6MRNdmbdMkc/Z+jMkMfQQHhLjS3nelQIF7M=;
+ b=ORDjSYNSSSqNuJ4IpkJORfjA3uzAhArl/J6zgTjzGv2gtzS394lOFiH0KLdy5958+N
+ QKHEDwsMZbHL1IkGpTQPmKbm5DJM23RpNxi3tn6E6HWtmR0djXEk5DSxSK8DTwnPUQtC
+ HJNY2RuaFEPHpdRlRmkS1HP8HPHaLUTwCPZ5FKUZw6/4mxDka2QC1gKr4Hvzo3WDbJ8Y
+ U12tgSGMLtAOo06LuY6uDi3hRtPV9RmO+mwKyF6iCzrjv+lj28hgCEATaxk1xOTk+HyS
+ gyVfbf9dlonaFLLiJVDWVafhNRY84kr8ZhZX0RcgChKNRuCCyLeJNyBhqNycnrYCjfWU
+ 0l1g==
+X-Gm-Message-State: AO0yUKUVb+yeIEiB3DEu7Pb8H1Nz4HBCbHXe96wopt9d1/RtmfXakxsv
+ M0ZOXaOo64StNtPpDEEwNETdRA==
+X-Google-Smtp-Source: AK7set+JCV+WmOq79Tby0tqxww+SGWjOxpzsEQIEMRWO0U8adpgpdsZwehZusOgOUdpb1I9MhYw4/A==
+X-Received: by 2002:aca:1110:0:b0:37f:ae54:155a with SMTP id
+ 16-20020aca1110000000b0037fae54155amr2271640oir.32.1676712510255; 
+ Sat, 18 Feb 2023 01:28:30 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ b132-20020aca348a000000b0037b6f5d6309sm2812811oia.2.2023.02.18.01.28.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Feb 2023 01:28:29 -0800 (PST)
+Message-ID: <d468f8c6-f8ec-6d40-44ab-3e76df458680@ventanamicro.com>
+Date: Sat, 18 Feb 2023 06:28:24 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v6 2/4] target/riscv: implement Zicboz extension
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
+ Christoph Muellner <cmuellner@linux.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
+References: <20230217203445.51077-1-dbarboza@ventanamicro.com>
+ <20230217203445.51077-3-dbarboza@ventanamicro.com>
+ <20408b85-2ad0-4cbc-4ccd-c512ba15ba06@linaro.org>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20408b85-2ad0-4cbc-4ccd-c512ba15ba06@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.256,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,225 +98,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Fri, Feb 17, 2023 at 01:41:50PM +0100, Paolo Bonzini wrote:
 
-[...]
-
->> This proposed update to the support policy chooses the last of these
->> possibilities.  It does by modifying two aspects of the support policy:
->>=20
->> * it introduces different support periods for *native* vs. *non-native*
->>   dependencies.  Non-native dependencies are currently Python ones only,
->>   and for simplicity the policy only mentions Python; however, the conce=
-pt
->>   generalizes to other languages with a well-known upstream package
->>   manager, that users of older distributions can fetch dependencies from;
->
-> I guess this would mean its applicable to perl/ruby/etc, but really
-> we should be exclusively using Python for our scripting needs, except
-> for legacy stuff we already have. So in practice non-native =3D=3D python.
->
-> Potentially if we want to use Rust, we'd want vendoring of deps needed
-> by Rust code, and that's native deps arguably, rather than non-native.
->
-> Still I think it is unlikely we would replace existing working code in
-> qemu.git with a rust impl, while discarding the original impl. More
-> likely we'd have a Rust impl in parallel, or use Rust only for a brand
-> new feature, where we don't need to support all possible old platforms.
-
-I'm not sure.  However, there's no real need to anticipate right now how
-we will use Rust; we can update our support policy when we know.
-
->> * it limits the support period for non-native dependencies to a fixed
->>   amount of 4 years.  This is intended to be close to the Python 5-year
->>   lifecycle while accounting for the time between a distro's feature fre=
-eze
->>   and the day it's released.  This limit applies to all distro versions,
->>   not just the previous one, in order to cater for the delay of SLE 16.
->>=20
->> The 4 year cutoff in practice means that QEMU will be able to drop Python
->> 3.6 support for QEMU 7.1 (RHEL8 becomes 4 year old next May, while SLE
->> is already over the threshold).
->
-> So the 4 year timeframe enables us to move off 3.6, but it is still
-> potentially limiting.
->
-> That doesn't explicitly allow for the case where we decide we want
-> to increae min version of flake8/pylint/mypy to one that is merly
-> 1 year old. As noted, covering multiple versions of these linting
-> tools is a burden, as the issues reported from new versions are
-> not always a superset of the old version. So it is somewhat
-> desirable to fixate on a specific release, or a narrow range of
-> releases.
-
-Concur.
-
-> I guess we can argue that any optional build time components that
-> only affect testing don't need to be constrained by our platform
-> policy in the first, since they are optional and don't affect the
-> ability to build QEMU. Still if I'm a distro maintainer, and
-> backporting patches I like to run all static analysis tools to
-> catch silly python mistake that happen when cherry-picking.
-
-Yes, but you want to run the static analysis tools required by the QEMU
-you're backporting to, not the one you're backporting from (unless
-you're backporting the patches needed to make the newer linters happy,
-and then bump the dependencies).
-
-> Equally if I'm a contributor working on QEMU I would like to
-> run all the static linting tests available.
-
-This one is valid.  Still, it's a "want", not a "must have".  If it was
-a hard "must have", then CentOS 8 support would be in trouble: no mypy
-out of the box, as far as I can tell.
-
-We can rely on CI to find the lint.  Delays the feedback, which not
-ideal, but also not unlike how we use CI to keep the build working on
-all hosts (because not every developer has access to all hosts) and in a
-multitude of configurations (requiring all developers to test all
-configurations at all times would be impractical, so we don't).
-
-Let's consider the special case mypy.  Right now, you have to run it
-manually, but John has been working on integrating it into the build
-process.  Now compare two extremes:
-
-(A) Commit to keeping mypy happy for all versions of mypy provided by
-    any supported build host
-
-    The build runs mypy if the build host provides it.  Immediate
-    feedback then, but only from a single mypy version.
-
-    Developers still have to run all the mypy versions somehow, or else
-    punt to maintainers, who may in turn punt to CI.  Delayed feedback
-    from all mypy versions but one.
-
-    We operate with the intersection of mypy features and the union of
-    mypy bugs, which is bound to complicate the typing job, and may well
-    limit typing power.
-
-(B) Pick a single mypy version
-
-    Developers have to run this mypy version, or else punt to
-    maintainers.  We'll naturally pick a mypy version the maintainers
-    are happy to run, so no need for them to punt to CI.  We can exploit
-    the full typing power of that mypy version.  We don't have to work
-    around issues older versions may have.
-
-    Developers unable to run this mypy version locally get delayed
-    feedback.  Affects the intersection of "people working on Python
-    code we check with mypy" and "people developing exclusively on older
-    hosts".  If we further intersect with "people doing so on a somewhat
-    regular basis", I posit we get the empty set.
-
-I think (A) is pretty much all downsides.  I like (B), but could be too
-rigid in practice.  We could also
-
-(C) Pick a narrow range range of mypy versions
-
-> Implicit in the 4 year timeframe is that it is actually easy to
-> cope with the fallout, because the long life distros support many
-> newer python runtime versions. The only impact is on the need to
-> use pip to grab extra pieces.
->
-> So a different way of expressing this is to not limit ourselves
-> by time. Instead declare that we reserve the right to bump the
-> python runtime version, provided the new version is available
-> from the disto as an optional alternative to the default python
-> version.
->
-> This would mean we would have had the option to adopt python
-> 3.8 a year ago (or whenever it first became an option in RHEL
-> /SLES). Today 4 years would suit our immediate needs, but John
-> probably would have liked to have bumped the version last year
-> already if it weren't for our support policy, and 4 year cut
-> off wouldn't have helped last year.
-
-Good points.
-
-> Basically if it is acceptable to require a non-default python
-> version, it should be ok to require that are more or less
-> any time, as long as the version is available from the OS
-> vendor officially.
->
->> Note that all "non-native" packages are currently build dependencies.
->> If in the future some non-native packages became runtime dependencies for
->> parts of QEMU, it would still be possible to choose any of the first
->> three possibilities for them.
->>=20
->> Another possible future change is to the way that these dependencies
->> have to be obtained by the person building QEMU.  Right now they have to
->> run pip before the build; it may be desirable for configure to set up a
->> virtual environment and download them in the same way that it populates
->> git submodules.  Just like with submodules, this would make things
->> easier for people that can afford accessing the network in their build
->> environment; the option to populate the build environment manually with
->> pip would remain for people whose build machines lack network access.
->> The change to the support policy neither requires nor forbids this chang=
-e.
->>=20
->> [Thanks to Daniel P. Berrang=C3=A9, Peter Maydell and others for discuss=
-ions
->>  that were copied or summarized in the above commit message]
->>=20
->> Cc: Markus Armbruster <armbru@redhat.com>
->> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: John Snow <jsnow@redhat.com>
->> Cc: Kevin Wolf <kwolf@redhat.com>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>  docs/about/build-platforms.rst | 19 +++++++++++++++++++
->>  1 file changed, 19 insertions(+)
->>=20
->> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms=
-.rst
->> index 1c1e7b9e11c3..e1ea09789107 100644
->> --- a/docs/about/build-platforms.rst
->> +++ b/docs/about/build-platforms.rst
->> @@ -86,6 +86,25 @@ respective ports repository, while NetBSD will use th=
-e pkgsrc repository.
->>  For macOS, `Homebrew`_ will be used, although `MacPorts`_ is expected t=
-o carry
->>  similar versions.
->>=20=20
->> +Python build dependencies
->> +~~~~~~~~~~~~~~~~~~~~~~~~~
+On 2/18/23 00:44, Richard Henderson wrote:
+> On 2/17/23 10:34, Daniel Henrique Barboza wrote:
+>> +void helper_cbo_zero(CPURISCVState *env, target_ulong address)
+>> +{
+>> +    RISCVCPU *cpu = env_archcpu(env);
+>> +    uintptr_t ra = GETPC();
+>> +    uint16_t cbozlen;
+>> +    void *mem;
 >> +
->> +The minimum supported version of Python is currently 3.6.
+>> +    check_zicbo_envcfg(env, MENVCFG_CBZE, ra);
 >> +
->> +Distributions with long-term support often provide multiple
->> +versions of the Python runtime.  QEMU aims to support the default
->> +Python runtime for 4 years after the initial release of a new version.
->> +Afterwards, you may have to point QEMU to a newer version of the Python
->> +runtime using the ``--python`` command line option of the ``configure``
->> +script.
->
-> My counter proposal is to remove the 4 year marker, and give us
-> more flexibility:
->
->  Distributions with long-term support often provide multiple
->  versions of the Python runtime.  QEMU will initially aim to
->  support the default python runtime. QEMU reserves the right
->  to increase its minimum version to any newer python that is
->  available as an option from the vendor.
-
-Sounds good to me.
-
+>> +    /* Get the size of the cache block for zero instructions. */
+>> +    cbozlen = cpu->cfg.cboz_blocksize;
 >> +
->> +Some of QEMU's build dependencies are written in Python and available
->> +through the Python Package Index (PyPI).  QEMU aims to be compatible
->> +with the versions packaged by common Linux distributions for the first
->> +4 years after the major release of the distribution.  After 4 years,
->> +you may have to use ``pip`` to install some of these build dependencies.
->
-> And for this I'd say
->
->   If QEMU bumps its minimum python version to a non-default version,
->   then it may be neccessary to fetch python modules from 'pip' to
->   build or test QEMU.
+>> +    /* Mask off low-bits to align-down to the cache-block. */
+>> +    address &= ~(cbozlen - 1);
+>> +
+>> +    mem = tlb_vaddr_to_host(env, address, MMU_DATA_STORE,
+>> +                            cpu_mmu_index(env, false));
+>> +
+>> +    if (likely(mem)) {
+>> +        /* Zero the block */
+>> +        memset(mem, 0, cbozlen);
+>> +    }
+>> +}
+> 
+> Not correct.  This fails to zero the block at all under a number of conditions.
 
-Likewise.
+Ops. The 'else' conditional in which we would zero the mem in case it's an I/O
+region got lost in the middle of rebasing it seems ....
 
+By the way, looking at the lack of any probing in this particular function and at
+the probe_writes() that ARM does, I read the spec again. A paragraph in 2.5.2
+says:
+
+"A cache-block zero instruction is permitted to access the specified cache block whenever
+a store instruction is permitted to access the corresponding physical addresses and when
+the PMAs indicate that cache-block zero instructions are a supported access type. If access
+to the cache block is not permitted, a cache-block zero instruction raises a store page fault
+or store guest-page fault exception if address translation does not permit write access or
+raises a store access fault exception otherwise. During address translation, the instruction
+also checks the accessed and dirty bits and may either raise an exception or set the bits as
+required."
+
+PMA (Physical Memory Access) doesn't seem to be implemented in RISC-V, or at the very least
+it's not using the PMA acronym, so let's skip that for now. I'll add a comment mentioning
+it in the code mentioning that PMA for I/O should be checked and we're not doing it.
+
+But PMA aside, we have wording and conditionals that resembles the cache-block management
+permissions and so on, with the exception that we're not caring about LOAD access this time
+around. So I guess we'll also need here something like what check_zicbom_access() is doing
+in the next patch.
+
+
+Thanks,
+
+Daniel
+
+
+
+> Please have a closer look at the feedback on v5.
+> 
+> 
+> r~
 
