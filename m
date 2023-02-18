@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B488869B708
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 01:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD20669B721
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 01:47:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTBK3-0006GN-Kl; Fri, 17 Feb 2023 19:43:27 -0500
+	id 1pTBNt-0000CK-M4; Fri, 17 Feb 2023 19:47:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3KR_wYwsKCk4qs0u71uE93ww44w1u.s426u2A-tuBu1343w3A.47w@flex--ackerleytng.bounces.google.com>)
- id 1pTBK1-0006GE-Dm
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 19:43:25 -0500
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pTBNr-0000Bm-Ey; Fri, 17 Feb 2023 19:47:23 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3KR_wYwsKCk4qs0u71uE93ww44w1u.s426u2A-tuBu1343w3A.47w@flex--ackerleytng.bounces.google.com>)
- id 1pTBJz-0003L6-M1
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 19:43:25 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id
- v74-20020a252f4d000000b0087f69905709so2651785ybv.10
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 16:43:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=9mwmDPnm22mSNSwTn0VodViIvXaPz9XlM8QDWYhbyM8=;
- b=eMm01hnumElMl3UotGf8lJtLmKUjjLEmp4ZHK0o1H0LRyNA5w7x33BZeE7ifCfM7pg
- Cd3CBejXIUZT0dDASkiYet2Q11r1oqaxT2jWL7729gQTvNyIV+Z3A265SCXl8KKZFvM6
- J2aSWma9rqTSDwyH7vONqfORZObAwWA+6hRLW5QjldLuMtFrDr6CiZLUw313wtVBTkEY
- Uql860ZaIf2fzbiPBXmxv8De94uhU4jaykP5woFVxM5M2xVs65vFvbC27a8oelqLROik
- ucodFnqa/c0QR5Ark7refIrmAYAsOKE19K26vuVEVEq0bwodrw1HGi4stiNrcoXlrrSh
- sdyA==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pTBNp-0004Qu-OF; Fri, 17 Feb 2023 19:47:23 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id eg30so10337153edb.7;
+ Fri, 17 Feb 2023 16:47:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NEHK813y4oEUqCf2Y89xf5DDxDT8iVyjNz4gG827eZQ=;
+ b=dyC4PhEG2Bpl+s0AkexmfyZOANf2QyZlbK0HkO7ILGRgFneTbutCdBv1b92LD4o1hr
+ wHM1ICId1spZwO8uA/+U6ppqIwshXo4fGQe6ou/B1yQYcKIyTOWEbXNqlBSXNhjP70Sk
+ vVlfc9LQ0ikuwFaNXKdRk58Gxx41FzPcvmdrPp5wOBsS9g0kKp27cozwdj1n9ftFYjkM
+ xhi8YFmU6gDWQrHgje5edFk2QBCg8JvGDa7HFzMWsz65tHG3LT4NQUiVSXRkWhMIAxHq
+ 2OZP+t/ZRso5rHSV4n2CzGkgdryo7FIL/7oUjDnHgYgXjDj1yMKnlKkpflDKFGQpgyOP
+ 7NRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9mwmDPnm22mSNSwTn0VodViIvXaPz9XlM8QDWYhbyM8=;
- b=cY27fW1NBAcrhgnsxT2h5zV8gsCx54nQyR/L1xhY70pqKj8r0xyUv+uQmuw7jKDly2
- PR8EzDar6T3nl8w8foNqun5qs0VFIsnvl++puorE5GAVgu2/0JXRke5KmQb2snDen+9R
- O0LXMPUGdHNEEA5e4xGsW58yPDD8sRDmDWLuus7pJ1WwAWNTtY1KL5hCd5IoF4UExU8C
- RwP5PTvOkxMDe/djsUB0Yj9TXBI8t5UpCD0+TnC5Z2uYkJX30UyptjdXkqvxYTOUm51X
- 1y6s3GGHRvJcvndXvo8F1pUjkyrlteChsqS/s96h1E1NqVkFqtQYlbGOXBww96erUXYK
- wwlw==
-X-Gm-Message-State: AO0yUKWp6rM5v4MWJ8Hrh5SGyOHtKt0OyW+vPswZnxmCPhCZm+CL/Prr
- Kag1LjexTtjqENJUQKvJuuF+bor5+YufeMgFVw==
-X-Google-Smtp-Source: AK7set8GCw+l6Q5gppx0SI7xgHF70UCy3j05OUIa+XJfbCoB3vIVoiRjffivwnfUze8k0uHuDZvSsWzxIhc/w0Mo2w==
-X-Received: from ackerleytng-cloudtop.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a05:6902:10e:b0:95d:6b4f:a73a with
- SMTP id o14-20020a056902010e00b0095d6b4fa73amr5895ybh.8.1676681001601; Fri,
- 17 Feb 2023 16:43:21 -0800 (PST)
-Date: Sat, 18 Feb 2023 00:43:02 +0000
-In-Reply-To: <cover.1676680548.git.ackerleytng@google.com>
-Mime-Version: 1.0
-References: <cover.1676680548.git.ackerleytng@google.com>
-X-Mailer: git-send-email 2.39.2.637.g21b0678d19-goog
-Message-ID: <67956539824ea9dd66a94d67b046b2f4bb0aa6f2.1676680548.git.ackerleytng@google.com>
-Subject: [RFC PATCH 2/2] selftests: restrictedmem: Add selftest for
- RMFD_HUGEPAGE
-From: Ackerley Tng <ackerleytng@google.com>
-To: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, qemu-devel@nongnu.org
-Cc: aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org, 
- arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, 
- chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com, 
- david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com, 
- hughd@google.com, jlayton@kernel.org, jmattson@google.com, joro@8bytes.org, 
- jun.nakajima@intel.com, kirill.shutemov@linux.intel.com, linmiaohe@huawei.com, 
- luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com, 
- michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com, 
- pbonzini@redhat.com, qperret@google.com, rppt@kernel.org, seanjc@google.com, 
- shuah@kernel.org, steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
- vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com, 
- wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org, 
- yu.c.zhang@linux.intel.com, Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3KR_wYwsKCk4qs0u71uE93ww44w1u.s426u2A-tuBu1343w3A.47w@flex--ackerleytng.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NEHK813y4oEUqCf2Y89xf5DDxDT8iVyjNz4gG827eZQ=;
+ b=X5ucccVEO38KKfKWATU1uG9h5zVqamjgBzfcepXzj3gYhIPe6kmi19j1k4YbzMTaFk
+ bro5JOYHkMNdn+HX3kbvDqHbaWlk2vGDxosJpRYdR0ohVQSBkyPg5s/irewWLyyIWKHI
+ 7G5pnCyDQZcVFbERezNQce+irM9ijVQ+9PjyBa+zohKZ+unCrcu4feRmBkdwzKc0g6c7
+ BzI5dZmG0LLO93scEPVGDbwP8D+/ttGg7A59fvQ2Ijkqja//6Z/dBWgWeOYRWl77MWR0
+ 48rD0JeDIdQ+pKZwZ6YMdVNqiX1JIsAa2BFv6NSwBYwPL49Qve1uB1iQTNqtohSXQS4D
+ 2JwA==
+X-Gm-Message-State: AO0yUKXd0hHXZyjVVIXxkBHsoMxpSeUwBdBzJyVxn1e21LMBfriL7PtC
+ YLs4Vl3lkIETsJz8L6lADuD0xIDofqI=
+X-Google-Smtp-Source: AK7set8FdL9nJdqach6Deb24zr04hJZvyPgyAzA5Gj4nV4eQ/4nzdNpEPe8awSnTx3nE0U2n4IVCLQ==
+X-Received: by 2002:a17:906:4e90:b0:8a5:8620:575 with SMTP id
+ v16-20020a1709064e9000b008a586200575mr3160821eju.3.1676681238484; 
+ Fri, 17 Feb 2023 16:47:18 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-011-045-171.77.11.pool.telefonica.de.
+ [77.11.45.171]) by smtp.gmail.com with ESMTPSA id
+ j11-20020a170906474b00b0088f8a61eb48sm2720015ejs.154.2023.02.17.16.47.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Feb 2023 16:47:18 -0800 (PST)
+Date: Sat, 18 Feb 2023 00:47:09 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_1/2=5D_qemu/typedefs=3A_Sort_in_ca?=
+ =?US-ASCII?Q?se-insensitive_alphabetical_order_=28again=29?=
+In-Reply-To: <20230217141832.24777-2-philmd@linaro.org>
+References: <20230217141832.24777-1-philmd@linaro.org>
+ <20230217141832.24777-2-philmd@linaro.org>
+Message-ID: <7120D9B2-2ED1-4D06-A98B-9FB2CB95C6CE@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,51 +93,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Tests that when RMFD_HUGEPAGE is specified, restrictedmem will be
-backed by Transparent HugePages.
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- .../restrictedmem_hugepage_test.c             | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
 
-diff --git a/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c b/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-index 0d9cf2ced754..75283d68696f 100644
---- a/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-+++ b/tools/testing/selftests/restrictedmem/restrictedmem_hugepage_test.c
-@@ -180,6 +180,31 @@ TEST_F(reset_shmem_enabled, restrictedmem_fstat_shmem_enabled_always)
- 	close(mfd);
- }
- 
-+TEST(restrictedmem_invalid_flags)
-+{
-+	int mfd = memfd_restricted(99, NULL);
-+
-+	ASSERT_EQ(-1, mfd);
-+	ASSERT_EQ(EINVAL, errno);
-+}
-+
-+TEST_F(reset_shmem_enabled, restrictedmem_rmfd_hugepage)
-+{
-+	int mfd = -1;
-+	struct stat stat;
-+
-+	ASSERT_EQ(0, set_shmem_thp_policy("never"));
-+
-+	mfd = memfd_restricted(RMFD_HUGEPAGE, NULL);
-+	ASSERT_NE(-1, mfd);
-+
-+	ASSERT_EQ(0, fstat(mfd, &stat));
-+
-+	ASSERT_EQ(stat.st_blksize, get_hpage_pmd_size());
-+
-+	close(mfd);
-+}
-+
- TEST(restrictedmem_tmpfile_no_mount_path)
- {
- 	int mfd = memfd_restricted(RMFD_TMPFILE, NULL);
--- 
-2.39.2.637.g21b0678d19-goog
+Am 17=2E Februar 2023 14:18:31 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+philmd@linaro=2Eorg>:
+>Following the recommendation added in commit a98c370c46
+>("typedefs: (Re-)sort entries alphabetically"), and similarly
+>to commit 64baadc272 ("Sort include/qemu/typedefs=2Eh"), sort
+>again the type definitions (in case-insensitive alphabetical
+>order, using 'sort --ignore-case')=2E
 
+Since it can be done mechanically: Maybe add a checkpach check?
+
+>
+>Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>---
+> include/qemu/typedefs=2Eh | 10 +++++-----
+> 1 file changed, 5 insertions(+), 5 deletions(-)
+>
+>diff --git a/include/qemu/typedefs=2Eh b/include/qemu/typedefs=2Eh
+>index c7c8a85315=2E=2Edf4b55ac65 100644
+>--- a/include/qemu/typedefs=2Eh
+>+++ b/include/qemu/typedefs=2Eh
+>@@ -49,6 +49,7 @@ typedef struct DeviceState DeviceState;
+> typedef struct DirtyBitmapSnapshot DirtyBitmapSnapshot;
+> typedef struct DisplayChangeListener DisplayChangeListener;
+> typedef struct DriveInfo DriveInfo;
+>+typedef struct DumpState DumpState;
+> typedef struct Error Error;
+> typedef struct EventNotifier EventNotifier;
+> typedef struct FlatView FlatView;
+>@@ -56,6 +57,7 @@ typedef struct FWCfgEntry FWCfgEntry;
+> typedef struct FWCfgIoState FWCfgIoState;
+> typedef struct FWCfgMemState FWCfgMemState;
+> typedef struct FWCfgState FWCfgState;
+>+typedef struct GraphicHwOps GraphicHwOps;
+> typedef struct HostMemoryBackend HostMemoryBackend;
+> typedef struct I2CBus I2CBus;
+> typedef struct I2SCodec I2SCodec;
+>@@ -90,10 +92,10 @@ typedef struct PCIDevice PCIDevice;
+> typedef struct PCIEAERErr PCIEAERErr;
+> typedef struct PCIEAERLog PCIEAERLog;
+> typedef struct PCIEAERMsg PCIEAERMsg;
+>-typedef struct PCIESriovPF PCIESriovPF;
+>-typedef struct PCIESriovVF PCIESriovVF;
+> typedef struct PCIEPort PCIEPort;
+> typedef struct PCIESlot PCIESlot;
+>+typedef struct PCIESriovPF PCIESriovPF;
+>+typedef struct PCIESriovVF PCIESriovVF;
+> typedef struct PCIExpressDevice PCIExpressDevice;
+> typedef struct PCIExpressHost PCIExpressHost;
+> typedef struct PCIHostDeviceAddress PCIHostDeviceAddress;
+>@@ -106,6 +108,7 @@ typedef struct QBool QBool;
+> typedef struct QDict QDict;
+> typedef struct QEMUBH QEMUBH;
+> typedef struct QemuConsole QemuConsole;
+>+typedef struct QEMUCursor QEMUCursor;
+> typedef struct QEMUFile QEMUFile;
+> typedef struct QemuLockable QemuLockable;
+> typedef struct QemuMutex QemuMutex;
+>@@ -132,9 +135,6 @@ typedef struct VirtIODevice VirtIODevice;
+> typedef struct Visitor Visitor;
+> typedef struct VMChangeStateEntry VMChangeStateEntry;
+> typedef struct VMStateDescription VMStateDescription;
+>-typedef struct DumpState DumpState;
+>-typedef struct GraphicHwOps GraphicHwOps;
+>-typedef struct QEMUCursor QEMUCursor;
+>=20
+> /*
+>  * Pointer types
 
