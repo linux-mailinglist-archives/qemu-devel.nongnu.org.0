@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D68B69B7F6
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 04:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6740E69B7F7
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 04:46:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTE9w-0000Pc-J0; Fri, 17 Feb 2023 22:45:12 -0500
+	id 1pTEBB-00018Z-FJ; Fri, 17 Feb 2023 22:46:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pTE9r-0000P5-UI
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 22:45:07 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pTEB9-00018J-FQ
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 22:46:27 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pTE9q-0007i3-8a
- for qemu-devel@nongnu.org; Fri, 17 Feb 2023 22:45:07 -0500
-Received: by mail-pl1-x632.google.com with SMTP id ja17so539784plb.13
- for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 19:45:05 -0800 (PST)
+ id 1pTEB7-0008Sq-Rb
+ for qemu-devel@nongnu.org; Fri, 17 Feb 2023 22:46:27 -0500
+Received: by mail-pl1-x634.google.com with SMTP id k10so3294708plg.0
+ for <qemu-devel@nongnu.org>; Fri, 17 Feb 2023 19:46:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Sf9athrlZ9RdQSQYsNsHOLfJc9Vc0DwGeKda5qEEZvI=;
- b=ppHU/sc8jPZXfOmj5769raswq8LWXwjO1o6kUAlyAXzGOoSUl+7m4q0ZiEfuFSYPib
- c3HY/qC5tWeb1finrSmWxSt1xbXkJ5VF0lF3RXBqeRVWU+CMl8c+RFbKU+iiaRnAbH1H
- B7bt17o6BZBoVVlH5iG+A54MFgaEP1SNstgK2TRZESwxVgYXSQnu5mFtwvl+8JhBboVM
- cOxtP3GfND/P33StDHnPMUgojgzQJZQJIx2oS+BZlIF74Tby0rVGQ02Hr0OdDLsHv9pC
- yBXdCMwqDvDxxRBglSskdd/g757SV6ngqryd2BvLV8flxoCsFRBpL/7UANIZWHBOOUFu
- bp/Q==
+ bh=4ORPZA/pWVotURg6W8ELgZu2Ji+ogWXQa28mKpeOMQs=;
+ b=yRHs1t9oL+VYrq9gtd+WRaASYQIm5pR/yYZz9p8JPkeLu8XzsLXvNfu1zEbRprFiRl
+ 3rVLzExfTF8LxQipz0JhorQw8Oz/VVx4XnppazOmeqrCkVN+KfbQhMhBBhlogIOZp1k0
+ XRbNX6v6SI9Mso/ut26Skcm4JvLgOIkcvTsBxGmOBgmLj5+snzqWPsB1R5z8MO/MckLr
+ yhiquUfAhhxH3Fra+TyHP8luByPet1/M4CwiOPe1Arab43D63UOTOExu14J6+UjIqlhH
+ 5Iv0b/MxOkmjkNptg7wO9zkT2ZPgBTDLshWnxNpLIUeI6K+B4bb3m86rwbymGZ3xaeLw
+ xiNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Sf9athrlZ9RdQSQYsNsHOLfJc9Vc0DwGeKda5qEEZvI=;
- b=LpfPaQZS8tTklCKtiFqIifUKeUCR3NsCiXG3KJP99yaSSburOfiuSWjnl0Cb2g1Bec
- xVEP/RPjwigkxVpnYLOSBEdj1S7CQrSp6inZwy4g5Op8dzHr2OPu5KKV2XPTFlvhfh5u
- KmT8kaOOBmr9dC6gqev0tACaFILDFx0EIZ5SEc/gUPqrfttaficXl+mBIl1+7zuQypla
- Yr6nP9WIon/Sj48FvFEkYxQizRPMbxSkwrKupuAgR+mqpPFwxM0cOi2s3eUrv0St8odE
- NYRMXXFvM7AvqlT2Zn4qmPaTfw6Z0s0xETg42tQEeyu4WHleZjiABkGR5wc/eNkpfmx9
- bHDQ==
-X-Gm-Message-State: AO0yUKW1thgbr3BVU2tmakRVRxiM25RnOAGXE9AttTNbYXi3Eq61Qkp0
- WO1SjPENmPY7j+9ttu5wroA7Sw==
-X-Google-Smtp-Source: AK7set/LbH9Luf8KE3mRNS7xC0s72+/z0sqtm5jNj9rubMdO9ll0HubGv/JLN7sXfwapQxq0iVjbRA==
-X-Received: by 2002:a05:6a20:c701:b0:be:8c7e:4dfc with SMTP id
- hi1-20020a056a20c70100b000be8c7e4dfcmr1925859pzb.20.1676691903542; 
- Fri, 17 Feb 2023 19:45:03 -0800 (PST)
-Received: from [172.20.100.240] ([173.198.77.219])
- by smtp.gmail.com with ESMTPSA id
- e22-20020aa78256000000b00575d1ba0ecfsm3764495pfn.133.2023.02.17.19.45.01
+ bh=4ORPZA/pWVotURg6W8ELgZu2Ji+ogWXQa28mKpeOMQs=;
+ b=uwPjGmdUKJNmGskNgQimhgUfldkVp08UJRUG1NnecPoNDX1ufgg3bdmxDFab9eYLMo
+ vgvBQkY3xNYCrCqBQx9hdgu4XqJ7I/9Q4VoQwQj/S3wpQtWVKN7VdZrk0UoJEcVHpg/y
+ TVVv3zzWdhHOzGLKCPjz9cO7KWF3h4251DYyM4vkdD3LvSnLKBnCg8JMK+WjNLop0Dvg
+ phtYRyqusfk21o4fJ9xvDBw7WLWJ5t5qwfFvjb4dd7a2MMwIIzSaSiOYnXJMEeiA+n3g
+ c1R9qERQgM4ckqx6gaprkMahShPv7Oyol9A3dQESRhySL3K2GteOeAQi2t62BM5WgTYl
+ 0IGg==
+X-Gm-Message-State: AO0yUKWu00ffgPEtK8jsyJXAftKmcfL78vnkMgqNn35lPLuLdbRVZdKY
+ OY+Hn5WWzU2Zxn7QPto0/i9YUw==
+X-Google-Smtp-Source: AK7set+Va4qsqgReJIoLzlYr7rijDBIQoSwA8VHqSXJOuJFWAewD4ajNSm27PZtnRK1rnuxsgyaiqg==
+X-Received: by 2002:a17:90b:1e4d:b0:234:b35b:f8e7 with SMTP id
+ pi13-20020a17090b1e4d00b00234b35bf8e7mr7370212pjb.7.1676691984391; 
+ Fri, 17 Feb 2023 19:46:24 -0800 (PST)
+Received: from [172.20.100.240] (rrcs-173-198-77-219.west.biz.rr.com.
+ [173.198.77.219]) by smtp.gmail.com with ESMTPSA id
+ gz8-20020a17090b0ec800b002343e59709asm3096432pjb.46.2023.02.17.19.46.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 19:45:03 -0800 (PST)
-Message-ID: <20408b85-2ad0-4cbc-4ccd-c512ba15ba06@linaro.org>
-Date: Fri, 17 Feb 2023 17:44:56 -1000
+ Fri, 17 Feb 2023 19:46:23 -0800 (PST)
+Message-ID: <dc7706fb-6b7c-7b08-9197-1a1a0f973143@linaro.org>
+Date: Fri, 17 Feb 2023 17:46:20 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v6 2/4] target/riscv: implement Zicboz extension
+Subject: Re: [PATCH v6 3/4] target/riscv: implement Zicbom extension
 Content-Language: en-US
 To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
@@ -67,13 +67,13 @@ Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
  Christoph Muellner <cmuellner@linux.com>,
  Philipp Tomsich <philipp.tomsich@vrull.eu>
 References: <20230217203445.51077-1-dbarboza@ventanamicro.com>
- <20230217203445.51077-3-dbarboza@ventanamicro.com>
+ <20230217203445.51077-4-dbarboza@ventanamicro.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230217203445.51077-3-dbarboza@ventanamicro.com>
+In-Reply-To: <20230217203445.51077-4-dbarboza@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -97,32 +97,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/17/23 10:34, Daniel Henrique Barboza wrote:
-> +void helper_cbo_zero(CPURISCVState *env, target_ulong address)
-> +{
-> +    RISCVCPU *cpu = env_archcpu(env);
-> +    uintptr_t ra = GETPC();
-> +    uint16_t cbozlen;
-> +    void *mem;
+> +    /*
+> +     * Section 2.5.2 of cmobase v1.0.1:
+> +     *
+> +     * "A cache-block management instruction is permitted to
+> +     * access the specified cache block whenever a load instruction
+> +     * or store instruction is permitted to access the corresponding
+> +     * physical addresses. If neither a load instruction nor store
+> +     * instruction is permitted to access the physical addresses,
+> +     * but an instruction fetch is permitted to access the physical
+> +     * addresses, whether a cache-block management instruction is
+> +     * permitted to access the cache block is UNSPECIFIED.
+> +     *
+> +     * This means we have to make a choice of whether checking
+> +     * MMU_INST_FETCH is worth it or not. We'll go the easier
+> +     * route and check MMU_DATA_LOAD and MMU_DATA_STORE only.
+> +     */
+> +    ret = probe_access_range_flags(env, address, cbomlen,
+> +                                   MMU_DATA_LOAD,
+> +                                   mmu_idx, true, &phost, ra);
 > +
-> +    check_zicbo_envcfg(env, MENVCFG_CBZE, ra);
-> +
-> +    /* Get the size of the cache block for zero instructions. */
-> +    cbozlen = cpu->cfg.cboz_blocksize;
-> +
-> +    /* Mask off low-bits to align-down to the cache-block. */
-> +    address &= ~(cbozlen - 1);
-> +
-> +    mem = tlb_vaddr_to_host(env, address, MMU_DATA_STORE,
-> +                            cpu_mmu_index(env, false));
-> +
-> +    if (likely(mem)) {
-> +        /* Zero the block */
-> +        memset(mem, 0, cbozlen);
+> +    if (ret == TLB_INVALID_MASK) {
+> +        probe_access_range_flags(env, address, cbomlen,
+> +                                 MMU_DATA_STORE,
+> +                                 mmu_idx, true, &phost, ra);
 > +    }
-> +}
 
-Not correct.  This fails to zero the block at all under a number of conditions.
-Please have a closer look at the feedback on v5.
+Not correct, at minimum for discarding the result of the second call.  But I suggested a 
+different ordering of operations which avoid a third probe.
 
 
 r~
