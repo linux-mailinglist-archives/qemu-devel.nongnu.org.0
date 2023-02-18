@@ -2,90 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B9269BBD6
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 21:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A5F69BD90
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Feb 2023 23:56:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTTmJ-00078L-Sv; Sat, 18 Feb 2023 15:25:51 -0500
+	id 1pTW6I-00035L-8v; Sat, 18 Feb 2023 17:54:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1pTTlz-00075l-IL
- for qemu-devel@nongnu.org; Sat, 18 Feb 2023 15:25:32 -0500
-Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1pTTlx-0006Ji-RF
- for qemu-devel@nongnu.org; Sat, 18 Feb 2023 15:25:31 -0500
-Received: by mail-oo1-xc2a.google.com with SMTP id
- q204-20020a4a33d5000000b0051fcc9bff19so115097ooq.12
- for <qemu-devel@nongnu.org>; Sat, 18 Feb 2023 12:25:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KUC7V402GBjVvd7RKpxHh32NaGD9df0qenjggKaHLF4=;
- b=pAG1zt+uFbzonx12cWAr8G+1jS8e8VUwdv03nFw4asTJBFQjEBX8t9+RgTVJQBQ2Oh
- v+hnbEorboe5INALWJYbs9VUfdAktetRaVsy0FuFJGS0Hccjfo9ygXVBjpQX1q3ouz1Q
- HnpUopsZ0oexmLTvJWxYsEZpl+7eUvdaSfaPNDzGsV23avUfqDJ8+bst1z23ujjQ/AR8
- qgphVkrfHD7xhILjnGs6zgd1eQ32Wtcdnc05eAAXP+bmxGI1dJEc/QSR1HDg6utZLQmB
- 3YCg1LoIKTXlUzM72T/9/qjNiGZEUUcfFh0N+9eGIw75s/eCX9xWIvxrrfvkTNBnl9Gq
- q/tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:reply-to
- :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=KUC7V402GBjVvd7RKpxHh32NaGD9df0qenjggKaHLF4=;
- b=OSbvHsPwvUzZaWcM8xduhr7Q03wl36dfZ7BRp5S22QRHBi2T/5CGYaQg7CvXc3AGLw
- TwIYc6guk97mcEVfGJWqcTiI0NZgquFF37LLOu7YvuW7dS+dgX+kkWqZMDNhtIQ3fN7A
- AG7IzwXcNW+hHTkxnv0BL5/jX3actOyN0EiRcGf0oBg1V/PP3VKWUrjiP0Tx6iQ+mww3
- f0fWryOEYh5ncMAibm3LXhgTq79EVc3mLz3o8Kx/NJ7RCiixRFpY5NtROCDsKG1gVJcs
- DhjPWp/3n4ufKv1cm0Ed32fmKYTq+wdDmNRQ548mr27B+lwX4RU7j7nN4Yqh4ZuBORwJ
- RNPg==
-X-Gm-Message-State: AO0yUKV2RIYb/B4M4o3K9Iq2ePtc3uvsFBPTPBD6rS0W8VtfAYrcVhGd
- n+kxBD1LVdu2wPGiNZsd3A==
-X-Google-Smtp-Source: AK7set9sMTWTRUZmnqo4o/BU4szgM05OuRV4bx4qwDs6oJQEX6R5p1OYLeJvCZwYhMNmy2aN+jQNuA==
-X-Received: by 2002:a4a:952d:0:b0:517:70f7:2207 with SMTP id
- m42-20020a4a952d000000b0051770f72207mr2513269ooi.7.1676751915992; 
- Sat, 18 Feb 2023 12:25:15 -0800 (PST)
-Received: from serve.minyard.net ([47.189.91.183])
- by smtp.gmail.com with ESMTPSA id
- b26-20020a4ad89a000000b0051a6cb524b6sm2863885oov.2.2023.02.18.12.25.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Feb 2023 12:25:15 -0800 (PST)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:55c5:6aa7:18c:fb6b])
- by serve.minyard.net (Postfix) with ESMTPSA id 0A0711800BF;
- Sat, 18 Feb 2023 20:25:14 +0000 (UTC)
-Date: Sat, 18 Feb 2023 14:25:12 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Eduardo Habkost <eduardo@habkost.net>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 05/12] hw/i2c/smbus_ich9: Inline ich9_smb_init() and
- remove it
-Message-ID: <Y/E0KN6slRJucBms@minyard.net>
-References: <20230213173033.98762-1-shentey@gmail.com>
- <20230213173033.98762-6-shentey@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230213173033.98762-6-shentey@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
- envelope-from=tcminyard@gmail.com; helo=mail-oo1-xc2a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pTW6F-00034y-UL
+ for qemu-devel@nongnu.org; Sat, 18 Feb 2023 17:54:36 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pTW6E-0000lc-6f
+ for qemu-devel@nongnu.org; Sat, 18 Feb 2023 17:54:35 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 683225C00AC;
+ Sat, 18 Feb 2023 17:54:30 -0500 (EST)
+Received: from imap44 ([10.202.2.94])
+ by compute2.internal (MEProxy); Sat, 18 Feb 2023 17:54:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1676760870; x=
+ 1676847270; bh=xfy4M6yfJjzrch62fe+0v7UyKRTVkUhxdzluL14h3hA=; b=f
+ CbLavu1h7kluaoesx9B9zRwdNI4TjWsOz43xcY8B/+Aq4Y/Plpww8mY4ozxTFPHK
+ 97ZgSGvq048+6zybJYQT4rDCoQq2ASmVChHy4kZAGZVffr5K8xoYX4gFI5KDe9pi
+ PmnfDp4G/oYTyxcaqoTrDDc4ydwtdKKynN+BqU+eim9kNJWPsBs78xhrtJpEsycI
+ hQ1GF0uUkFRYfPSUMEHd3PzjN7thJkgpirx74R/nDnXKJtlZz3NjWqDGGD0peYyU
+ +EO5/FnFHwC/4kzAMDlhXr+YF1w9q9HjgvfCKirhukmwWVhzODFRJmC1l7VPN72T
+ cu5S8J/KCg5QJVvWGpHog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676760870; x=
+ 1676847270; bh=xfy4M6yfJjzrch62fe+0v7UyKRTVkUhxdzluL14h3hA=; b=E
+ Si1e4fKbga+eSKANOe8JNZ9TjEAw00l80JY7l8u/897GxmZM57S83A3K7mi20UHk
+ KnmPvXY0HGa69iPq7kPjl2+7p3fND9xrVvUFH7EgAsHLL+gxcqIzoBFNqkyUlRIu
+ MG/DiwKiDu7JoyHDnM+s59g5qGLxLTRxgGlPVmHMwFVtrAruLlSpeZIs4lxaZLHv
+ KHfdBRJeXhYt8uahcMD+Wuf+gJTOdUcXKP8esCVqDY0kItLXLpeFBlK+Zg/y24pA
+ uHkPDy9WE3yx8xwI9YpCMYEssvFe3a0ePKQsfdYKo5div0H1uP+XSpul26WoHZG5
+ mv1aw20/SMiKE/S2Mt4Uw==
+X-ME-Sender: <xms:JlfxY8lW63PNDPRplg07jxGqSHECdCc2tIB0OAdbULFPiCRNZdLQgg>
+ <xme:JlfxY72lbmI7prPQOg3dKTO6Ijo9H9xByGtzAyUNhknFwfLI1NnSQY5bSDkV0hLG9
+ rM4iJLm5XlCX_-aAkY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejvddgtddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdfl
+ ihgrgihunhcujggrnhhgfdcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtoh
+ hmqeenucggtffrrghtthgvrhhnpedufeegfeetudeghefftdehfefgveffleefgfehhfej
+ ueegveethfduuddvieehgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+ grihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:JlfxY6q3oPnB17i4hPTEX2YIxklopLYnW53qBWJzWv958ujlOnSbMA>
+ <xmx:JlfxY4lbDLBUsSEEmYAGHc_ICXKgRVoMIfydgz2m-21THwt40IZJbA>
+ <xmx:JlfxY63TD3yiFAkPSr2BwJdKucBWzMNTLHJtjqLU9kWiL_z0z9Sgaw>
+ <xmx:JlfxYwNEQwpWwjesKV-v8yuNKu_h6TSmUO4R0gfQsI25xQtSK-y4zg>
+Feedback-ID: ifd894703:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 02A3B36A0076; Sat, 18 Feb 2023 17:54:29 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
+Mime-Version: 1.0
+Message-Id: <ab38f963-f6a1-4451-a2ac-282dcac199e9@app.fastmail.com>
+In-Reply-To: <113c15a8-689c-de03-7543-5548b7c658e6@redhat.com>
+References: <20230130114428.1297295-1-thuth@redhat.com>
+ <87a61cbmti.fsf@pond.sub.org> <Y+9bSHshiNnek31J@redhat.com>
+ <b55b506e-5a73-329a-24ee-14eafc5a95c1@redhat.com>
+ <72bd7694-9d37-1f9b-db4e-6d5818f7c55c@linaro.org>
+ <113c15a8-689c-de03-7543-5548b7c658e6@redhat.com>
+Date: Sat, 18 Feb 2023 22:54:08 +0000
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "Thomas Huth" <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ "Paolo Bonzini" <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Markus Armbruster" <armbru@redhat.com>
+Cc: "Peter Maydell" <peter.maydell@linaro.org>, libvir-list@redhat.com,
+ "Stefan Weil" <sw@weilnetz.de>, "Huacai Chen" <chenhuacai@kernel.org>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "BALATON Zoltan via" <qemu-devel@nongnu.org>,
+ "Reinoud Zandijk" <reinoud@netbsd.org>,
+ "Stefan Hajnoczi" <stefanha@redhat.com>, "Ryo ONODERA" <ryoon@netbsd.org>,
+ "Brad Smith" <brad@comstyle.com>
+Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,93 +113,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 06:30:26PM +0100, Bernhard Beschow wrote:
-> ich9_smb_init() is a legacy init function, so modernize the code.
-> 
-> Note that the smb_io_base parameter was unused.
 
-Acked-by: Corey Minyard <cminyard@mvista.com>
 
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  include/hw/i386/ich9.h |  1 -
->  hw/i2c/smbus_ich9.c    | 13 +++----------
->  hw/i386/pc_q35.c       | 11 ++++++++---
->  3 files changed, 11 insertions(+), 14 deletions(-)
-> 
-> diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-> index 05464f6965..52ea116f44 100644
-> --- a/include/hw/i386/ich9.h
-> +++ b/include/hw/i386/ich9.h
-> @@ -9,7 +9,6 @@
->  #include "qom/object.h"
->  
->  void ich9_lpc_pm_init(PCIDevice *pci_lpc, bool smm_enabled);
-> -I2CBus *ich9_smb_init(PCIBus *bus, int devfn, uint32_t smb_io_base);
->  
->  void ich9_generate_smi(void);
->  
-> diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
-> index d29c0f6ffa..f0dd3cb147 100644
-> --- a/hw/i2c/smbus_ich9.c
-> +++ b/hw/i2c/smbus_ich9.c
-> @@ -105,6 +105,9 @@ static void ich9_smbus_realize(PCIDevice *d, Error **errp)
->      pm_smbus_init(&d->qdev, &s->smb, false);
->      pci_register_bar(d, ICH9_SMB_SMB_BASE_BAR, PCI_BASE_ADDRESS_SPACE_IO,
->                       &s->smb.io);
-> +
-> +    s->smb.set_irq = ich9_smb_set_irq;
-> +    s->smb.opaque = s;
->  }
->  
->  static void build_ich9_smb_aml(AcpiDevAmlIf *adev, Aml *scope)
-> @@ -137,16 +140,6 @@ static void ich9_smb_class_init(ObjectClass *klass, void *data)
->      adevc->build_dev_aml = build_ich9_smb_aml;
->  }
->  
-> -I2CBus *ich9_smb_init(PCIBus *bus, int devfn, uint32_t smb_io_base)
-> -{
-> -    PCIDevice *d =
-> -        pci_create_simple_multifunction(bus, devfn, true, TYPE_ICH9_SMB_DEVICE);
-> -    ICH9SMBState *s = ICH9_SMB_DEVICE(d);
-> -    s->smb.set_irq = ich9_smb_set_irq;
-> -    s->smb.opaque = s;
-> -    return s->smb.smbus;
-> -}
-> -
->  static const TypeInfo ich9_smb_info = {
->      .name   = TYPE_ICH9_SMB_DEVICE,
->      .parent = TYPE_PCI_DEVICE,
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 4af8474f31..85ba8ed951 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -316,10 +316,15 @@ static void pc_q35_init(MachineState *machine)
->      }
->  
->      if (pcms->smbus_enabled) {
-> +        PCIDevice *smb;
-> +
->          /* TODO: Populate SPD eeprom data.  */
-> -        pcms->smbus = ich9_smb_init(host_bus,
-> -                                    PCI_DEVFN(ICH9_SMB_DEV, ICH9_SMB_FUNC),
-> -                                    0xb100);
-> +        smb = pci_create_simple_multifunction(host_bus,
-> +                                              PCI_DEVFN(ICH9_SMB_DEV,
-> +                                                        ICH9_SMB_FUNC),
-> +                                              true, TYPE_ICH9_SMB_DEVICE);
-> +        pcms->smbus = I2C_BUS(qdev_get_child_bus(DEVICE(smb), "i2c"));
-> +
->          smbus_eeprom_init(pcms->smbus, 8, NULL, 0);
->      }
->  
-> -- 
-> 2.39.1
-> 
-> 
+=E5=9C=A82023=E5=B9=B42=E6=9C=8817=E6=97=A5=E4=BA=8C=E6=9C=88 =E4=B8=8B=E5=
+=8D=886:57=EF=BC=8CThomas Huth=E5=86=99=E9=81=93=EF=BC=9A
+> On 17/02/2023 18.43, Philippe Mathieu-Daud=C3=A9 wrote:
+>> (Cc'ing Huacai & Jiaxun).
+>>=20
+>> On 17/2/23 17:38, Paolo Bonzini wrote:
+>>> On 2/17/23 11:47, Daniel P. Berrang=C3=A9 wrote:
+>>>> On Fri, Feb 17, 2023 at 11:36:41AM +0100, Markus Armbruster wrote:
+>>>>> I feel the discussion petered out without a conclusion.
+>>>>>
+>>>>> I don't think letting the status quo win by inertia is a good outc=
+ome
+>>>>> here.
+>>>>>
+>>>>> Which 32-bit hosts are still useful, and why?
+>>>>
+>>>> Which 32-bit hosts does Linux still provide KVM=C2=A0 support for.
+>>>
+>>> All except ARM: MIPS, x86, PPC and RISC-V.
+>>>
+>>> I would like to remove x86, but encountered some objections.
+>>>
+>>> MIPS, nobody is really using it I think.
+>>=20
+>> 32-bit was added in 2014, commit 222e7d11e7 ("target-mips: Enable KVM
+>> support in build system"). I'm not aware of anybody using it (even
+>> testing it). I don't have hardware to test it (neither time).
+>
+> Could you maybe suggest a kernel patch to remove it, to see what happe=
+ns?=20
+> ... if nobody objects to the removal of the 32-bit MIPS KVM kernel sup=
+port=20
+> and the patch gets merged, that would help us in the long run, I think.
+
+I=E2=80=99m still occasionally testing 32-bit MIPS KVM support with MIPS=
+ P5600.
+
+It works just fine so there is no need for further maintenance work.
+
+I=E2=80=99d be sad to see the support go but I can live with it.
+
+There are commercial users for MIPS 32 KVM but they=E2=80=99re all runni=
+ng customized downstream QEMU so I guess it=E2=80=99s fine.
+
+Thanks
+- Jiaxun
+
+>
+>   Thanks,
+>    Thomas
+
+--=20
+- Jiaxun
 
