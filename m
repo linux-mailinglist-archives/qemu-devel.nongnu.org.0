@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339F569BF15
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Feb 2023 09:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 565EE69BF1C
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Feb 2023 09:30:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTejt-0001Lk-2m; Sun, 19 Feb 2023 03:08:05 -0500
+	id 1pTf3m-0004XP-Nq; Sun, 19 Feb 2023 03:28:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pTejp-0001LI-LL
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 03:08:02 -0500
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131])
+ id 1pTf3l-0004XG-Hn
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 03:28:37 -0500
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pTejn-0005hK-US
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 03:08:01 -0500
-Received: by mail-lf1-x131.google.com with SMTP id bp6so533359lfb.0
- for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 00:07:59 -0800 (PST)
+ id 1pTf3j-0000UZ-Lg
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 03:28:37 -0500
+Received: by mail-lf1-x134.google.com with SMTP id t5so231778lfe.11
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 00:28:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ETierStTdn35K3DoIPL+T7/eChY7wp8RCMdl+jWm4Bc=;
- b=mX4qRIk9Hn8u+gPDSznghU5T6iv9WY1zKgeBo15dHreTVpY1rEVp/tS/DK290rg/Ad
- ZIzwDW1IXGpyOBeKHrs1GyRAXhrJO+MH7xcoMtfa08n5YXvE7sWZpefKYu9K+7NZp6Tb
- cszXbm9wCRgoxQbqPZiCB4TnVvlJlwHJY/0JNd9afXrfkdxO3cqccVN30aOhL02LApOz
- ZgdqfKCBAZl8Kfu0dnYREhcmtD4f6EF6zpQLyv0mJ4FUUP28dsynQGpRhcX55fgNchjm
- es0vvZMYeHhNj1CJ3fy2PTsatscX2sYZ5LMab1kMt543BgPBAUnWR9QIvrHQ+m2usQf8
- 9jKw==
+ bh=ESfOvN/Jv8hOy8HvnalxIKNYBzCQFv+ib7bmdjV2Vr4=;
+ b=Mr9wTOdujJ0U2sUTB/zv6dVQplkTeOd82Ye0qiqSSL0cUDsLTAnOT7VH9PbkQoG3Jm
+ F9diozirgeMnujBncoeG6u82QMiJ+CitW2D6ydDvzmCsjiYoGYwXZXPKke2ni/3Q+A5J
+ DMUXX4r0dUtGEL15euOUp6TK6l2UoING6Orm1AdR1T+SPhHPQ1pjjY0ECEHkqA0FqKO2
+ 0/EQApLN+8yb8xdPZDOxiIr57BHGLRh4oZ+qqERaUYf0csOrgU3auVWOEei5BkH4JGH5
+ WyftcP39FioaIXazmooQKmmCqQPp1lXFExonZ4qNqa9buWdB/6ktceW0AM5d8Lw6lnnQ
+ Hk3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ETierStTdn35K3DoIPL+T7/eChY7wp8RCMdl+jWm4Bc=;
- b=0jIHKH/OKUiAssuoLH1pksRsPb72NQQ9T+M2yugm4Erg2aadoevPhgzLpjoCjQmwvg
- oFx8EBqXk9/SWDuaQH8IV6qt/OjvxxGpHvGAsGm3euszkf2Yeo/YS6ilVpz5u0rkVGWl
- vV5owJpUxTfrGfm3Xpi+T8Vqu8FFdcaGialqyp61o812t0vZcJBlBbkaNcetXwYvaqwW
- c1hPoVFS8nV9i7xmKkLEarV9ptT/IJce1DikHnrgjNHwvRsWuivhc2paWDzngJvIdNeP
- LOzcqXmOdKovda28enVyAq6Qt7aIcUlE02EfZJABEhvkjyVHRD9uuh7I+oL1VA2RuMMk
- Qhog==
-X-Gm-Message-State: AO0yUKWoMj6VjgTJZDT4PA9F7AS9kLfQGvCLl7+XkIvybMQ3TXAR4JL7
- Ua9e4rq5mlMMcdfsVw+UVyMsRPbUX2gugtVP9bY=
-X-Google-Smtp-Source: AK7set+qSb6sVhnCVdrvytEg8ehBVNUi++ELetJF4PwrAcFxGRkBmrP1xTRvRb3Ro1XjsETsfB9sx/vAKuuCoA24eKg=
-X-Received: by 2002:a05:6512:b08:b0:4dc:8004:7689 with SMTP id
- w8-20020a0565120b0800b004dc80047689mr922758lfu.4.1676794078222; Sun, 19 Feb
- 2023 00:07:58 -0800 (PST)
+ bh=ESfOvN/Jv8hOy8HvnalxIKNYBzCQFv+ib7bmdjV2Vr4=;
+ b=l/8MsHdtf4VNff12bcPOwUAWC6W64asLjj+Fbt6UAyL3oSF2xjm2qD4GsqO0Y4Gqgu
+ VLouFQKuJK2S170Rj8G8zx3LrtXpL2PY/W7B2aEZWR+eQasV5Axm5jWCufOkZwkgubm6
+ jNfqcpt+TGz4bERMRPJv6IpHvmBbTE/iWbRJ5reSnFWyCMsYrBi+1uUQX0lgqmILhB2v
+ MA/n+qYMYwGkdlnwiXAh98Ta2w80ucNREDb+qBGdbrnbixgknU2O94DPQY29VaC/fnDP
+ VJVXtsU0jvNT5AyqkJTQdYa+uqYwrrTuMGZ1zEaleqklHNxoKIuPDRoDKZrtwoOwbu9j
+ 8huQ==
+X-Gm-Message-State: AO0yUKUNgNpFp5qFu90d9pxR10V8irjCbJqGXz3dzcRRCDxgFKiU2xZa
+ LnaD4uPqn+kJ7rKCYDNLKgprz82OZEZPsHgNBbw=
+X-Google-Smtp-Source: AK7set/YNgzf5vQWw9ir/LKo5czGCK/KzLB7gVvw4d62nRiFjpG+3icqhsYmtFxE5ErAo6pzvmFQ4cfScrQ5OuFnsrA=
+X-Received: by 2002:ac2:5316:0:b0:4d5:ca42:aee5 with SMTP id
+ c22-20020ac25316000000b004d5ca42aee5mr395145lfh.5.1676795313734; Sun, 19 Feb
+ 2023 00:28:33 -0800 (PST)
 MIME-Version: 1.0
 References: <20230218162216.46944-1-slp@redhat.com>
- <20230218162216.46944-2-slp@redhat.com>
-In-Reply-To: <20230218162216.46944-2-slp@redhat.com>
+ <20230218162216.46944-5-slp@redhat.com>
+In-Reply-To: <20230218162216.46944-5-slp@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sun, 19 Feb 2023 12:07:46 +0400
-Message-ID: <CAJ+F1CLZoEnVFkfM69uOyDnd4N5QrLVjCrhh33Zi6CK=+CWbwQ@mail.gmail.com>
-Subject: Re: [PATCH 1/4] virtio-input: generalize virtio_input_key_config()
+Date: Sun, 19 Feb 2023 12:28:22 +0400
+Message-ID: <CAJ+F1C+An6Mbi0DdXVQ2z-VjEUZDkBGVwzo633N_Eeqr53CdHA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] ui/gtk: enable backend to send multi-touch events
 To: Sergio Lopez <slp@redhat.com>
 Cc: qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, 
  "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
@@ -64,8 +64,8 @@ Cc: qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
  Eric Blake <eblake@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x131.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,115 +88,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Sergio
+
 On Sat, Feb 18, 2023 at 8:23 PM Sergio Lopez <slp@redhat.com> wrote:
 >
-> As there are other bitmap-based config properties that need to be dealt i=
-n a
-> similar fashion as VIRTIO_INPUT_CFG_EV_BITS, generalize the function to
-> receive select and subsel as arguments, and rename it to
-> virtio_input_extend_config()
+> GTK3 provides the infrastructure to receive and process multi-touch
+> events through the "touch-event" signal and the GdkEventTouch type.
+> Make use of it to transpose events from the host to the guest.
+>
+> This allows users of machines with hardware capable of receiving
+> multi-touch events to run guests that can also receive those events
+> and interpret them as gestures, when appropriate.
+>
+> An example of this in action can be seen here:
+>
+>  https://fosstodon.org/@slp/109545849296546767
 >
 > Signed-off-by: Sergio Lopez <slp@redhat.com>
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-
 > ---
->  hw/input/virtio-input-hid.c | 38 ++++++++++++++++++++-----------------
->  1 file changed, 21 insertions(+), 17 deletions(-)
+>  ui/gtk.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 84 insertions(+)
 >
-> diff --git a/hw/input/virtio-input-hid.c b/hw/input/virtio-input-hid.c
-> index a7a244a95d..d28dab69ba 100644
-> --- a/hw/input/virtio-input-hid.c
-> +++ b/hw/input/virtio-input-hid.c
-> @@ -44,30 +44,31 @@ static const unsigned short axismap_abs[INPUT_AXIS__M=
-AX] =3D {
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index fd82e9b1ca..bf1e7f086d 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -130,6 +130,13 @@ typedef struct VCChardev VCChardev;
+>  DECLARE_INSTANCE_CHECKER(VCChardev, VC_CHARDEV,
+>                           TYPE_CHARDEV_VC)
 >
->  /* ----------------------------------------------------------------- */
+> +struct touch_slot {
+> +    int x;
+> +    int y;
+> +    int tracking_id;
+> +};
+> +static struct touch_slot touch_slots[INPUT_EVENT_SLOTS_MAX];
+> +
+>  bool gtk_use_gl_area;
 >
-> -static void virtio_input_key_config(VirtIOInput *vinput,
-> -                                    const unsigned short *keymap,
-> -                                    size_t mapsize)
-> +static void virtio_input_extend_config(VirtIOInput *vinput,
-> +                                       const unsigned short *map,
-> +                                       size_t mapsize,
-> +                                       uint8_t select, uint8_t subsel)
+>  static void gd_grab_pointer(VirtualConsole *vc, const char *reason);
+> @@ -1058,6 +1065,74 @@ static gboolean gd_scroll_event(GtkWidget *widget,=
+ GdkEventScroll *scroll,
+>  }
+>
+>
+> +static gboolean gd_touch_event(GtkWidget *widget, GdkEventTouch *touch,
+> +                               void *opaque)
+> +{
+> +    VirtualConsole *vc =3D opaque;
+> +    struct touch_slot *slot;
+> +    uint64_t num_slot =3D (uint64_t) touch->sequence;
+
+Perhaps use GPOINTER_TO_UINT?
+
+> +    int update;
+> +    int type =3D -1;
+> +    int i;
+> +
+> +    if (num_slot >=3D INPUT_EVENT_SLOTS_MAX) {
+> +        return FALSE;
+> +    }
+
+Hmm, a pointer < INPUT_EVENT_SLOTS_MAX ?
+
+This seems to work because the wayland GDK backend uses presumably
+evdev slot id + 1.. We may want to have some slot id mapping, or at
+least report some warning for discarded events.
+
+> +
+> +    slot =3D &touch_slots[num_slot];
+> +    slot->x =3D touch->x;
+> +    slot->y =3D touch->y;
+> +
+> +    switch (touch->type) {
+> +    case GDK_TOUCH_BEGIN:
+> +        type =3D INPUT_MULTITOUCH_TYPE_BEGIN;
+> +        slot->tracking_id =3D num_slot;
+> +        break;
+> +    case GDK_TOUCH_UPDATE:
+> +        type =3D INPUT_MULTITOUCH_TYPE_UPDATE;
+> +        break;
+> +    case GDK_TOUCH_END:
+> +    case GDK_TOUCH_CANCEL:
+> +        type =3D INPUT_MULTITOUCH_TYPE_END;
+> +        break;
+> +    default:
+> +        fprintf(stderr, "%s: unexpected touch event\n", __func__);
+> +    }
+> +
+> +    for (i =3D 0; i < INPUT_EVENT_SLOTS_MAX; ++i) {
+> +        if (i =3D=3D num_slot) {
+> +            update =3D type;
+> +        } else {
+> +            update =3D INPUT_MULTITOUCH_TYPE_UPDATE;
+> +        }
+> +
+> +        slot =3D &touch_slots[i];
+> +
+> +        if (slot->tracking_id =3D=3D -1) {
+> +            continue;
+> +        }
+> +
+> +        if (update =3D=3D INPUT_MULTITOUCH_TYPE_END) {
+> +            slot->tracking_id =3D -1;
+> +            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->track=
+ing_id);
+> +        } else {
+> +            qemu_input_queue_mtt(vc->gfx.dcl.con, update, i, slot->track=
+ing_id);
+> +            qemu_input_queue_btn(vc->gfx.dcl.con, INPUT_BUTTON_TOUCH, tr=
+ue);
+> +            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
+> +                                     INPUT_AXIS_X, (int) slot->x,
+> +                                     0, surface_width(vc->gfx.ds),
+> +                                     i, slot->tracking_id);
+> +            qemu_input_queue_mtt_abs(vc->gfx.dcl.con,
+> +                                     INPUT_AXIS_Y, (int) slot->y,
+> +                                     0, surface_height(vc->gfx.ds),
+> +                                     i, slot->tracking_id);
+> +        }
+> +        qemu_input_event_sync();
+
+Shouldn't you sync at the end of the loop? (otherwise you get several
+SYN_REPORT, no?)
+
+> +    }
+> +
+> +    return TRUE;
+> +}
+> +
+>  static const guint16 *gd_get_keymap(size_t *maplen)
 >  {
-> -    virtio_input_config keys;
-> +    virtio_input_config ext;
->      int i, bit, byte, bmax =3D 0;
+>      GdkDisplay *dpy =3D gdk_display_get_default();
+> @@ -1977,6 +2052,8 @@ static void gd_connect_vc_gfx_signals(VirtualConsol=
+e *vc)
+>                           G_CALLBACK(gd_key_event), vc);
+>          g_signal_connect(vc->gfx.drawing_area, "key-release-event",
+>                           G_CALLBACK(gd_key_event), vc);
+> +        g_signal_connect(vc->gfx.drawing_area, "touch-event",
+> +                         G_CALLBACK(gd_touch_event), vc);
 >
-> -    memset(&keys, 0, sizeof(keys));
-> +    memset(&ext, 0, sizeof(ext));
->      for (i =3D 0; i < mapsize; i++) {
-> -        bit =3D keymap[i];
-> +        bit =3D map[i];
->          if (!bit) {
->              continue;
->          }
->          byte =3D bit / 8;
->          bit  =3D bit % 8;
-> -        keys.u.bitmap[byte] |=3D (1 << bit);
-> +        ext.u.bitmap[byte] |=3D (1 << bit);
->          if (bmax < byte+1) {
->              bmax =3D byte+1;
->          }
+>          g_signal_connect(vc->gfx.drawing_area, "enter-notify-event",
+>                           G_CALLBACK(gd_enter_event), vc);
+> @@ -2086,6 +2163,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, V=
+irtualConsole *vc,
+>                                GSList *group, GtkWidget *view_menu)
+>  {
+>      bool zoom_to_fit =3D false;
+> +    int i;
+>
+>      vc->label =3D qemu_console_get_label(con);
+>      vc->s =3D s;
+> @@ -2133,6 +2211,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, V=
+irtualConsole *vc,
+>                            GDK_BUTTON_PRESS_MASK |
+>                            GDK_BUTTON_RELEASE_MASK |
+>                            GDK_BUTTON_MOTION_MASK |
+> +                          GDK_TOUCH_MASK |
+>                            GDK_ENTER_NOTIFY_MASK |
+>                            GDK_LEAVE_NOTIFY_MASK |
+>                            GDK_SCROLL_MASK |
+> @@ -2168,6 +2247,11 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, =
+VirtualConsole *vc,
+>          s->free_scale =3D true;
 >      }
-> -    keys.select =3D VIRTIO_INPUT_CFG_EV_BITS;
-> -    keys.subsel =3D EV_KEY;
-> -    keys.size   =3D bmax;
-> -    virtio_input_add_config(vinput, &keys);
-> +    ext.select =3D select;
-> +    ext.subsel =3D subsel;
-> +    ext.size   =3D bmax;
-> +    virtio_input_add_config(vinput, &ext);
+>
+> +    for (i =3D 0; i < INPUT_EVENT_SLOTS_MAX; i++) {
+> +        struct touch_slot *slot =3D &touch_slots[i];
+> +        slot->tracking_id =3D -1;
+> +    }
+> +
+>      return group;
 >  }
 >
->  static void virtio_input_handle_event(DeviceState *dev, QemuConsole *src=
-,
-> @@ -281,8 +282,9 @@ static void virtio_keyboard_init(Object *obj)
->
->      vhid->handler =3D &virtio_keyboard_handler;
->      virtio_input_init_config(vinput, virtio_keyboard_config);
-> -    virtio_input_key_config(vinput, qemu_input_map_qcode_to_linux,
-> -                            qemu_input_map_qcode_to_linux_len);
-> +    virtio_input_extend_config(vinput, qemu_input_map_qcode_to_linux,
-> +                               qemu_input_map_qcode_to_linux_len,
-> +                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
->  }
->
->  static const TypeInfo virtio_keyboard_info =3D {
-> @@ -373,8 +375,9 @@ static void virtio_mouse_init(Object *obj)
->      virtio_input_init_config(vinput, vhid->wheel_axis
->                               ? virtio_mouse_config_v2
->                               : virtio_mouse_config_v1);
-> -    virtio_input_key_config(vinput, keymap_button,
-> -                            ARRAY_SIZE(keymap_button));
-> +    virtio_input_extend_config(vinput, keymap_button,
-> +                               ARRAY_SIZE(keymap_button),
-> +                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
->  }
->
->  static const TypeInfo virtio_mouse_info =3D {
-> @@ -497,8 +500,9 @@ static void virtio_tablet_init(Object *obj)
->      virtio_input_init_config(vinput, vhid->wheel_axis
->                               ? virtio_tablet_config_v2
->                               : virtio_tablet_config_v1);
-> -    virtio_input_key_config(vinput, keymap_button,
-> -                            ARRAY_SIZE(keymap_button));
-> +    virtio_input_extend_config(vinput, keymap_button,
-> +                               ARRAY_SIZE(keymap_button),
-> +                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
->  }
->
->  static const TypeInfo virtio_tablet_info =3D {
 > --
 > 2.38.1
 >
 >
 
 
---
+--=20
 Marc-Andr=C3=A9 Lureau
 
