@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A8069C138
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Feb 2023 16:27:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297B769C159
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Feb 2023 17:39:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTlZc-0005qc-4y; Sun, 19 Feb 2023 10:25:56 -0500
+	id 1pTmhS-0006Hw-Pz; Sun, 19 Feb 2023 11:38:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pTlZX-0005qS-S6
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 10:25:51 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pTlZV-00051P-MH
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 10:25:51 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PKTpZ1kkGz67PTQ;
- Sun, 19 Feb 2023 23:23:34 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Sun, 19 Feb
- 2023 15:25:28 +0000
-Date: Sun, 19 Feb 2023 15:25:27 +0000
-To: Dave Jiang <dave.jiang@intel.com>
-CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
- "Ira Weiny" <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, 
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, "Mike
- Maslenkin" <mike.maslenkin@gmail.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support.
-Message-ID: <20230219152527.00005c5f@huawei.com>
-In-Reply-To: <b99089d3-d271-14c5-fb8d-c4f0437847cb@intel.com>
-References: <20230217172924.25239-1-Jonathan.Cameron@huawei.com>
- <20230217172924.25239-9-Jonathan.Cameron@huawei.com>
- <b99089d3-d271-14c5-fb8d-c4f0437847cb@intel.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pTmhO-0006Hi-Vl
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 11:38:02 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pTmhM-0006hl-U8
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 11:38:02 -0500
+Received: by mail-ed1-x535.google.com with SMTP id eg19so4189155edb.0
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 08:38:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xmqX1HbLZNFRuqU2REmpGWGsl4LkgUtheELjRCgQwmA=;
+ b=tJIogemhet4Iawlv0R2wVvrzD8ALQUtTL642eZj2lfu8uBp6TMXu8WtrvfvKC+Cred
+ DUWCgiScmINPn7RYBHXjtIafMRLaUyIfhEXprloPykR83B4KI197bzciChnLlu+PyIZ5
+ b1UYHpanwhIkHIvLjDQ+9TrTkvxQlfzpPfQIAd/NkxtqEJ13L7icSTw/ZcP47nQr1KXq
+ nEyjKBo3RliZwexpLqykvUwS5GPizNb5smY06hGN4PpTpPaZghpqHbfnegQhvaiozfGA
+ hepXLTtVNPqS42jmr8ELDS/HP2xu8ZyQqAjNaPHX5s1h19MC66uMR4+bRZQ/a5UO3DWr
+ G0bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xmqX1HbLZNFRuqU2REmpGWGsl4LkgUtheELjRCgQwmA=;
+ b=ktL5huihprEj0FVCJZAEIktqTx9xzsWCgP4P1iCaezAvxNanp5de69DdU+FrmHZToI
+ BMKi/pjhbMoxWQ84BOuVHzEV+8iWGfnqIKtpiX6VV8b4J2mtWzICKib0yZjomviL9qyG
+ dYb1bdhU8YDy1tUuivmpvgzMZYR+KHiYWHHFKsA8UvDIPwk1mwA0G/0poYhb4l9a1wiy
+ CDd9hbKXsTnUVJxH60ycm3oj2uKH01Bjjyvd57XYhZbhxgzsqLzzITcddme5CGZdQ/5Y
+ eO8ape8HoZv+nmwBezN6pRDsOKifHS1ZcU0l/MCSY0qh6n/LwbEymvr7w9duMQYu8L1G
+ 2wLg==
+X-Gm-Message-State: AO0yUKWAQqRtwBzuKxtuc1R/G9SuQVJAh++JVU6946OcnAi4vYHHlURE
+ GAlY4282jLE12i2NmCL2s/2Z9g==
+X-Google-Smtp-Source: AK7set9FQtxJg81yyuNcY0rF8Kf+H1E3kPUa0KOI9iKHBGLw+UaqoDlHNGkoAaVjcAJZYZ+zJZcxIQ==
+X-Received: by 2002:a17:906:518d:b0:8b1:78b6:bbd7 with SMTP id
+ y13-20020a170906518d00b008b178b6bbd7mr10445007ejk.10.1676824678700; 
+ Sun, 19 Feb 2023 08:37:58 -0800 (PST)
+Received: from localhost.localdomain ([193.33.38.48])
+ by smtp.gmail.com with ESMTPSA id
+ l13-20020a1709066b8d00b008cdb0628991sm647516ejr.57.2023.02.19.08.37.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Feb 2023 08:37:55 -0800 (PST)
+From: Andrew Melnychenko <andrew@daynix.com>
+To: jasowang@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, berrange@redhat.com, thuth@redhat.com,
+ philmd@linaro.org, armbru@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, toke@redhat.com, mprivozn@redhat.com
+Cc: yuri.benditovich@daynix.com,
+	yan@daynix.com
+Subject: [PATCH 0/5] eBPF RSS Helper support.
+Date: Sun, 19 Feb 2023 18:20:55 +0200
+Message-Id: <20230219162100.174318-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::535;
+ envelope-from=andrew@daynix.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: 14
+X-Spam_score: 1.4
+X-Spam_bar: +
+X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,52 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This series of patches provides the ability to initialize eBPF RSS steering
+with the helper.
+Now, virtio-net devices can accept eBPF programs and maps through properties
+as external file descriptors. Access to the eBPF map is direct through mmap()
+call, so it should not require additional capabilities to bpf* calls.
+eBPF file descriptors can be passed to QEMU from parent process or by unix
+socket with sendfd() qmp command.
+The helper is provided that would load eBPF RSS program/maps and pass fd to
+the called process(in future - Libvirtd) through unix socket.
+Because of structures stored in the maps, it's crucial that the helper provides a proper eBPF program. That's why the stamp was added to the helper and
+QEMU may check the binary. Also, additional qmp command was added for checking
+the stamp.
+Overall, the basic scenario of using the helper looks like this:
+ * Libvirt checks for ebpf_fds property.
+ * Libvirt ask QEMU for the proper helper(where is located and proper stamp)
+ * Libvirt calls the helper with BPF capabilities and retrieves fds.
+ * Libvirt launches the QEMU with eBPF fds passed.
 
-> >   static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
-> >                              unsigned size)
-> >   {
-> > @@ -341,6 +402,83 @@ static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value,
-> >           should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
-> >           which_hdm = 0;
-> >           break;
-> > +    case A_CXL_RAS_UNC_ERR_STATUS:
-> > +    {
-> > +        uint32_t capctrl = ldl_le_p(cache_mem + R_CXL_RAS_ERR_CAP_CTRL);
-> > +        uint32_t fe = FIELD_EX32(capctrl, CXL_RAS_ERR_CAP_CTRL, FIRST_ERROR_POINTER);
-> > +        CXLError *cxl_err;
-> > +        uint32_t unc_err;
-> > +
-> > +        /*
-> > +         * If single bit written that corresponds to the first error
-> > +         * pointer being cleared, update the status and header log.
-> > +         */
-> > +        if (!QTAILQ_EMPTY(&ct3d->error_list)) {
-> > +            if ((1 << fe) ^ value) {
-> > +                CXLError *cxl_next;
-> > +                /*
-> > +                 * Software is using wrong flow for multiple header recording
-> > +                 * Following behaviour in PCIe r6.0 and assuming multiple
-> > +                 * header support. Imdef choice to clear all matching records  
-> 
-> What does "Imdef" mean?
+Changes since RFC:
+ * refactored/rebased code.
+ * changed qmp command.
+ * refactored helper.
+ 
+Andrew Melnychenko (5):
+  ebpf: Added eBPF initialization by fds and map update.
+  virtio-net: Added property to load eBPF RSS with fds.
+  qmp: Added the helper stamp check.
+  ebpf_rss_helper: Added helper for eBPF RSS.
+  qmp: Added find-ebpf-rss-helper command.
 
-Good spot. Should have been Impdef, but there is no reason not to spell it out
-as "Implementation defined".
-What I'm trying to indicate here is that the PCIe r6.0 base specification lets
-hardware do one of several different things.  I picked one of those options.
+ ebpf/ebpf_rss-stub.c                       |   6 +
+ ebpf/ebpf_rss.c                            | 120 ++++++--
+ ebpf/ebpf_rss.h                            |  10 +
+ ebpf/qemu-ebpf-rss-helper.c                | 132 +++++++++
+ hw/net/virtio-net.c                        |  77 ++++-
+ include/hw/virtio/virtio-net.h             |   1 +
+ meson.build                                |  47 ++-
+ monitor/meson.build                        |   1 +
+ monitor/qemu-ebpf-rss-helper-stamp-utils.c | 322 +++++++++++++++++++++
+ monitor/qemu-ebpf-rss-helper-stamp-utils.h |  39 +++
+ monitor/qmp-cmds.c                         |  28 ++
+ qapi/misc.json                             |  42 +++
+ 12 files changed, 785 insertions(+), 40 deletions(-)
+ create mode 100644 ebpf/qemu-ebpf-rss-helper.c
+ create mode 100644 monitor/qemu-ebpf-rss-helper-stamp-utils.c
+ create mode 100644 monitor/qemu-ebpf-rss-helper-stamp-utils.h
 
-In PCIe it's a little less critical than in CXL as there is an explicit opt in
-so you can expect software to do the right thing.  Unfortunately not so for
-CXL where we have to assume the capability being there means the hardware will
-do it.  I guess there was no need for backwards compatibility for CXL.
+-- 
+2.39.1
 
-Jonathan
-
-> 
-> DJ
 
