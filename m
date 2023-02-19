@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B944369C15B
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Feb 2023 17:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D45869C156
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Feb 2023 17:39:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTmhW-0006NQ-JA; Sun, 19 Feb 2023 11:38:10 -0500
+	id 1pTmhc-0006Ou-9g; Sun, 19 Feb 2023 11:38:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pTmhU-0006Mc-HA
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 11:38:08 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pTmhY-0006O8-2Z
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 11:38:12 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pTmhS-0006kQ-QY
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 11:38:08 -0500
-Received: by mail-ed1-x531.google.com with SMTP id i31so1423535eda.12
- for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 08:38:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pTmhV-0006ls-J4
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 11:38:11 -0500
+Received: by mail-ed1-x533.google.com with SMTP id et7so3541527edb.9
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 08:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cS2SfuOZUDUCnHCsD2utKdDjr/whiLBUbqxQeAy3dWs=;
- b=cTE8Bqd9WSkh7BTr0Ex07aec9q/A3Ut21NJaCIaXKLFdkwqdlIAiGrAe0p9Ti2T2lB
- 5rXt2OSz0XMfuAqOAP/iPY3sIKAVgJfuwuRba24jsHOpqZ0TDawNMQOx3goi+Fy4MIs8
- fK/qRQuXzYjFLCW72ACe316eQLMtZnkIOhV9Z3UqN4XlpeYp2FcjKF+0FRYxP/dKxaXN
- 3sbFhPCXc+4ltB/mwlk9RkgM9y6GIf/t1+24Vc54mVUIe3ILNd1GaB8oAn5rxQqiruiH
- 8pCYnG7K2xLn51O4g+v744jeIuiR45bfFl5t/14ABv1dhQC0W25exG5b10xS76xlepMp
- y/7Q==
+ bh=KXeG5Lesc64lZ0N6XEF8MFMqxfZtfauyqXJNBxusQSk=;
+ b=CENDdJfF+n5gfZ2VCmcN0R1euN0Hz8NHHSlqhJDKaLm7OoxRUyESBqLJz580eObnrf
+ i4vVOlBV2Gv4KSFTPbl40cK7jTliFt4N77bh6zKvfKRI5FE+vI+/c7wpNv0JW5U1MIzG
+ OZ7EEC87oFoSpoIC8cpG4uYZVYTVAyj8dk1bAGV7JT1hlBLrIoL3pvQZobQEJNztwmrJ
+ 0XQ0G/d3p5uVBNvdmfto2t09BIRa2Sr2FMLx2EjaP7gfEyKa17NP0qdy60AYi0slFzbB
+ w/hLxAC70UDh9DXMaxoUNBQ2xmWcLLZDpp52hAtSbYbWrzKjDFQ/RwgpxLAmPRacCyCn
+ QQeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cS2SfuOZUDUCnHCsD2utKdDjr/whiLBUbqxQeAy3dWs=;
- b=GGhS/mD9ysX4t0pzZEe5IatzxZ2oTmaHHJRw6YPegWA4msVIlxo7SrCYyXzzYoJT6H
- EMH5OlA47l1wxoAHdZsIkUX/CpLs0ZpsbxrHQBMHuBxb2IeRInMINMU8S3a8Cdcbzjwm
- Ew3aKzOGq4ZJsocUZy2Gh/GWy2yhASTdmwotJXaz5q29jJeTLfWeCXzxgbA1XnSpH9XG
- PV2krc7K0rzricu+Rqd0Vh6tgHLEg7Ro8JLV3ONIQO+MmamTEf00zjY7YQS8P7xFYhAT
- HB3BxQoO7hgbvp4rDrZmI40x30odiyeMl7PrgK0a0gjNHoHB5RkDn0fkFO4+sn6uvVNu
- A4ww==
-X-Gm-Message-State: AO0yUKVmyJdKPH7ddqY71Iy+FXzQ0UXBwvCn1Mn0S2NFyaOGOIAV09KC
- AkHTOXIry/X0SZkvQMzqZK9Mog==
-X-Google-Smtp-Source: AK7set+Mp6ggUZ67UvudCmv/WbjDXTe5Po9NMtdVjJcZsNfv2yDAf5akeWLM5wxRSbnaCcziI/Qbeg==
-X-Received: by 2002:a17:906:af1a:b0:880:a42d:dfb4 with SMTP id
- lx26-20020a170906af1a00b00880a42ddfb4mr5287323ejb.16.1676824685205; 
- Sun, 19 Feb 2023 08:38:05 -0800 (PST)
+ bh=KXeG5Lesc64lZ0N6XEF8MFMqxfZtfauyqXJNBxusQSk=;
+ b=rkIuJQtuA8L2RkWVBr72iGlnNKBl0Bt1OU1S0sytRHcSYFV871Hm5banDzmCFsUdTL
+ fPJsraj+DfXW8Mf25e9ID5Z4z6q40CRRn66bW5Y0fRb2LRZzkEvcH49hop7lc+25VYwZ
+ B+VaAuwS/Qos+2rfP2Be9FALeHLSIR2gnhak772A107Ckj4/DdHNyD3rsTp6hvGc5A7V
+ dHHKIvhmm5Fty+Zia67QIXAGyxulMTDPW1z1XRXKWNNH+2CAQp5wvZZFBkW+WvxQztia
+ RyKLmJQNFlb+djj63f2lUG2eXrmr3ukQbygnPzcZXZh+PkLEgj7SaX6Ae7txme1ewNt/
+ K8Wg==
+X-Gm-Message-State: AO0yUKV4WRIFB/6Q5MrAgYWNDDwPVaQbA2YjJlcLyuMthtXhCw0wnuXF
+ OmxyLmEi8dBrcHC0cc9lqRMGCw==
+X-Google-Smtp-Source: AK7set9s4MXAAJmrgwBqr+6oiKKIvMwU00sGIFlja7GM6psL9y70F6av4PpmerfAgnXvEC1Wt+RSYw==
+X-Received: by 2002:a17:907:97c3:b0:8af:ef00:b853 with SMTP id
+ js3-20020a17090797c300b008afef00b853mr7098218ejc.73.1676824688208; 
+ Sun, 19 Feb 2023 08:38:08 -0800 (PST)
 Received: from localhost.localdomain ([193.33.38.48])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a1709066b8d00b008cdb0628991sm647516ejr.57.2023.02.19.08.38.01
+ l13-20020a1709066b8d00b008cdb0628991sm647516ejr.57.2023.02.19.08.38.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Feb 2023 08:38:03 -0800 (PST)
+ Sun, 19 Feb 2023 08:38:06 -0800 (PST)
 From: Andrew Melnychenko <andrew@daynix.com>
 To: jasowang@redhat.com, mst@redhat.com, pbonzini@redhat.com,
  marcandre.lureau@redhat.com, berrange@redhat.com, thuth@redhat.com,
@@ -60,16 +60,16 @@ To: jasowang@redhat.com, mst@redhat.com, pbonzini@redhat.com,
  qemu-devel@nongnu.org, toke@redhat.com, mprivozn@redhat.com
 Cc: yuri.benditovich@daynix.com,
 	yan@daynix.com
-Subject: [PATCH 2/5] virtio-net: Added property to load eBPF RSS with fds.
-Date: Sun, 19 Feb 2023 18:20:57 +0200
-Message-Id: <20230219162100.174318-3-andrew@daynix.com>
+Subject: [PATCH 3/5] qmp: Added the helper stamp check.
+Date: Sun, 19 Feb 2023 18:20:58 +0200
+Message-Id: <20230219162100.174318-4-andrew@daynix.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230219162100.174318-1-andrew@daynix.com>
 References: <20230219162100.174318-1-andrew@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::531;
- envelope-from=andrew@daynix.com; helo=mail-ed1-x531.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::533;
+ envelope-from=andrew@daynix.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: 14
 X-Spam_score: 1.4
 X-Spam_bar: +
@@ -91,134 +91,427 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-eBPF RSS program and maps may now be passed during initialization.
-Initially was implemented for libvirt to launch qemu without permissions,
-and initialized eBPF program through the helper.
+Added a function to check the stamp in the helper.
+eBPF helper should have a special symbol that generates during the build.
+QEMU checks the helper and determines that it fits, so the helper
+will produce proper output.
 
 Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 ---
- hw/net/virtio-net.c            | 77 ++++++++++++++++++++++++++++++++--
- include/hw/virtio/virtio-net.h |  1 +
- 2 files changed, 74 insertions(+), 4 deletions(-)
+ meson.build                                |  10 +
+ monitor/meson.build                        |   1 +
+ monitor/qemu-ebpf-rss-helper-stamp-utils.c | 322 +++++++++++++++++++++
+ monitor/qemu-ebpf-rss-helper-stamp-utils.h |  39 +++
+ 4 files changed, 372 insertions(+)
+ create mode 100644 monitor/qemu-ebpf-rss-helper-stamp-utils.c
+ create mode 100644 monitor/qemu-ebpf-rss-helper-stamp-utils.h
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 3ae909041a..0ab2cf33f9 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -42,6 +42,7 @@
- #include "sysemu/sysemu.h"
- #include "trace.h"
- #include "monitor/qdev.h"
-+#include "monitor/monitor.h"
- #include "hw/pci/pci_device.h"
- #include "net_rx_pkt.h"
- #include "hw/virtio/vhost.h"
-@@ -1290,14 +1291,81 @@ static void virtio_net_detach_epbf_rss(VirtIONet *n)
-     virtio_net_attach_ebpf_to_backend(n->nic, -1);
- }
+diff --git a/meson.build b/meson.build
+index a76c855312..b409912aed 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2868,6 +2868,16 @@ foreach d : hx_headers
+ endforeach
+ genh += hxdep
  
--static bool virtio_net_load_ebpf(VirtIONet *n)
-+static int virtio_net_get_ebpf_rss_fds(char *str, char *fds[], int nfds)
++ebpf_rss_helper_stamp = custom_target(
++    'qemu-ebpf-rss-helper-stamp.h',
++    output : 'qemu-ebpf-rss-helper-stamp.h',
++    input : 'ebpf/rss.bpf.skeleton.h',
++    command : [python, '-c', 'import hashlib; print(\'#define QEMU_EBPF_RSS_HELPER_STAMP qemuEbpfRssHelperStamp_{}\'.format(hashlib.sha1(open(\'@INPUT@\', \'rb\').read()).hexdigest()))'],
++    capture: true,
++)
++
++genh += ebpf_rss_helper_stamp
++
+ ###################
+ # Collect sources #
+ ###################
+diff --git a/monitor/meson.build b/monitor/meson.build
+index ccb4d1a8e6..36de73414b 100644
+--- a/monitor/meson.build
++++ b/monitor/meson.build
+@@ -6,6 +6,7 @@ softmmu_ss.add(files(
+   'hmp.c',
+ ))
+ softmmu_ss.add([spice_headers, files('qmp-cmds.c')])
++softmmu_ss.add(files('qemu-ebpf-rss-helper-stamp-utils.c'))
+ 
+ specific_ss.add(when: 'CONFIG_SOFTMMU',
+ 		if_true: [files( 'hmp-cmds-target.c', 'hmp-target.c'), spice])
+diff --git a/monitor/qemu-ebpf-rss-helper-stamp-utils.c b/monitor/qemu-ebpf-rss-helper-stamp-utils.c
+new file mode 100644
+index 0000000000..23efc36ef0
+--- /dev/null
++++ b/monitor/qemu-ebpf-rss-helper-stamp-utils.c
+@@ -0,0 +1,322 @@
++/*
++ * QEMU helper stamp check utils.
++ *
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ *  Andrew Melnychenko <andrew@daynix.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ *
++ * Description: This file mostly implements helper stamp checking.
++ *              The stamp is implemented in a similar way as in qemu modules.
++ *              The helper should contain a specific symbol.
++ *              Not in a similar way is symbol checking - here we parse
++ *              the ELF file. For now, only eBPF helper contains
++ *              the stamp, and the stamp is generated from
++ *              sha1 ebpf/rss.bpf.skeleton.h (see meson.build).
++ */
++
++#include "qemu/osdep.h"
++#include "elf.h"
++#include "qemu-ebpf-rss-helper-stamp-utils.h"
++
++#include <glib/gstdio.h>
++
++#ifdef CONFIG_LINUX
++
++static void *file_allocate_and_read(int fd, off_t off, size_t size)
 +{
-+    char *ptr = str;
-+    char *cur = NULL;
-+    size_t len = strlen(str);
-+    int i = 0;
++    void *data;
++    int err;
 +
-+    for (; i < nfds && ptr < str + len;) {
-+        cur = strchr(ptr, ':');
++    if (fd < 0) {
++        return NULL;
++    }
 +
-+        if (cur == NULL) {
-+            fds[i] = g_strdup(ptr);
-+        } else {
-+            fds[i] = g_strndup(ptr, cur - ptr);
-+        }
++    err = lseek(fd, off, SEEK_SET);
++    if (err < 0) {
++        return NULL;
++    }
 +
-+        i++;
-+        if (cur == NULL) {
++    data = g_new0(char, size);
++    if (data == NULL) {
++        return NULL;
++    }
++
++    err = read(fd, data, size);
++    if (err < 0) {
++        g_free(data);
++        return NULL;
++    }
++
++    return data;
++}
++
++static Elf64_Shdr *elf64_get_section_table(int fd, Elf64_Ehdr *elf_header)
++{
++    if (elf_header == NULL) {
++        return NULL;
++    }
++    return (Elf64_Shdr *)file_allocate_and_read(fd, elf_header->e_shoff,
++                             elf_header->e_shnum * elf_header->e_shentsize);
++}
++
++static Elf32_Shdr *elf32_get_section_table(int fd, Elf32_Ehdr *elf_header)
++{
++    if (elf_header == NULL) {
++        return NULL;
++    }
++    return (Elf32_Shdr *)file_allocate_and_read(fd, elf_header->e_shoff,
++                             elf_header->e_shnum * elf_header->e_shentsize);
++}
++
++static void *elf64_get_section_data(int fd, const Elf64_Shdr* section_header)
++{
++    if (fd < 0 || section_header == NULL) {
++        return NULL;
++    }
++    return file_allocate_and_read(fd, section_header->sh_offset,
++                                  section_header->sh_size);
++}
++
++static void *elf32_get_section_data(int fd, const Elf32_Shdr* section_header)
++{
++    if (fd < 0 || section_header == NULL) {
++        return NULL;
++    }
++    return file_allocate_and_read(fd, section_header->sh_offset,
++                                  section_header->sh_size);
++}
++
++static bool elf64_check_symbol_in_symbol_table(int fd,
++                                               Elf64_Shdr *section_table,
++                                               Elf64_Shdr *symbol_section,
++                                               const char *symbol)
++{
++    Elf64_Sym *symbol_table;
++    char *string_table;
++    uint32_t i;
++    bool ret = false;
++
++    symbol_table = (Elf64_Sym *) elf64_get_section_data(fd, symbol_section);
++    if (symbol_table == NULL) {
++        return false;
++    }
++
++    string_table = (char *) elf64_get_section_data(
++            fd, section_table + symbol_section->sh_link);
++    if (string_table == NULL) {
++        g_free(symbol_table);
++        return false;
++    }
++
++    for (i = 0; i < (symbol_section->sh_size / sizeof(Elf64_Sym)); ++i) {
++        if (strncmp((string_table + symbol_table[i].st_name),
++                     symbol, strlen(symbol)) == 0)
++        {
++            ret = true;
 +            break;
-+        } else {
-+            ptr = cur + 1;
 +        }
 +    }
 +
-+    return i;
-+}
-+
-+static bool virtio_net_load_ebpf_fds(VirtIONet *n)
- {
--    if (!virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
--        /* backend does't support steering ebpf */
-+    char *fds_strs[EBPF_RSS_MAX_FDS];
-+    int fds[EBPF_RSS_MAX_FDS];
-+    int nfds;
-+    int ret = false;
-+    Error *errp;
-+    int i = 0;
-+
-+    if (n == NULL || !n->ebpf_rss_fds) {
-         return false;
-     }
- 
--    return ebpf_rss_load(&n->ebpf_rss);
-+    nfds = virtio_net_get_ebpf_rss_fds(n->ebpf_rss_fds,
-+                                       fds_strs, EBPF_RSS_MAX_FDS);
-+    for (i = 0; i < nfds; i++) {
-+        fds[i] = monitor_fd_param(monitor_cur(), fds_strs[i], &errp);
-+    }
-+
-+    if (nfds == EBPF_RSS_MAX_FDS) {
-+        ret = ebpf_rss_load_fds(&n->ebpf_rss, fds[0], fds[1], fds[2], fds[3]);
-+    }
-+
-+    if (!ret) {
-+        for (i = 0; i < nfds; i++) {
-+            close(fds[i]);
-+        }
-+    }
-+
-+    for (i = 0; i < nfds; i++) {
-+        g_free(fds_strs[i]);
-+    }
-+
++    g_free(string_table);
++    g_free(symbol_table);
 +    return ret;
 +}
 +
-+static bool virtio_net_load_ebpf(VirtIONet *n)
++static bool elf32_check_symbol_in_symbol_table(int fd,
++                                               Elf32_Shdr *section_table,
++                                               Elf32_Shdr *symbol_section,
++                                               const char *symbol)
 +{
-+    bool ret = true;
++    Elf32_Sym *symbol_table;
++    char *string_table;
++    uint32_t i;
++    bool ret = false;
 +
-+    if (virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
-+        if (!(n->ebpf_rss_fds
-+                && virtio_net_load_ebpf_fds(n))) {
-+            ret = ebpf_rss_load(&n->ebpf_rss);
++    symbol_table = (Elf32_Sym *) elf32_get_section_data(fd, symbol_section);
++    if (symbol_table == NULL) {
++        return false;
++    }
++
++    string_table = (char *) elf32_get_section_data(fd,
++                                       section_table + symbol_section->sh_link);
++    if (string_table == NULL) {
++        g_free(symbol_table);
++        return false;
++    }
++
++    for (i = 0; i < (symbol_section->sh_size / sizeof(Elf32_Sym)); ++i) {
++        if (strncmp((string_table + symbol_table[i].st_name),
++                     symbol, strlen(symbol)) == 0)
++        {
++            ret = true;
++            break;
 +        }
 +    }
 +
++    g_free(string_table);
++    g_free(symbol_table);
 +    return ret;
- }
- 
- static void virtio_net_unload_ebpf(VirtIONet *n)
-@@ -3868,6 +3936,7 @@ static Property virtio_net_properties[] = {
-                     VIRTIO_NET_F_RSS, false),
-     DEFINE_PROP_BIT64("hash", VirtIONet, host_features,
-                     VIRTIO_NET_F_HASH_REPORT, false),
-+    DEFINE_PROP_STRING("ebpf_rss_fds", VirtIONet, ebpf_rss_fds),
-     DEFINE_PROP_BIT64("guest_rsc_ext", VirtIONet, host_features,
-                     VIRTIO_NET_F_RSC_EXT, false),
-     DEFINE_PROP_UINT32("rsc_interval", VirtIONet, rsc_timeout,
-diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index ef234ffe7e..e10ce88f91 100644
---- a/include/hw/virtio/virtio-net.h
-+++ b/include/hw/virtio/virtio-net.h
-@@ -219,6 +219,7 @@ struct VirtIONet {
-     VirtioNetRssData rss_data;
-     struct NetRxPkt *rx_pkt;
-     struct EBPFRSSContext ebpf_rss;
-+    char *ebpf_rss_fds;
- };
- 
- size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
++}
++
++static bool elf64_check_stamp(int fd, Elf64_Ehdr *elf_header, const char *stamp)
++{
++    Elf64_Shdr *section_table;
++    size_t i;
++    bool ret = false;
++
++    section_table = elf64_get_section_table(fd, elf_header);
++    if (section_table == NULL) {
++        return false;
++    }
++
++    for (i = 0; i < elf_header->e_shnum; ++i) {
++        if ((section_table[i].sh_type == SHT_SYMTAB)
++             || (section_table[i].sh_type == SHT_DYNSYM)) {
++            if (elf64_check_symbol_in_symbol_table(fd, section_table,
++                                                   section_table + i, stamp)) {
++                ret = true;
++                break;
++            }
++        }
++    }
++
++    g_free(section_table);
++    return ret;
++}
++
++static bool elf32_check_stamp(int fd, Elf32_Ehdr *elf_header, const char *stamp)
++{
++    Elf32_Shdr *section_table;
++    size_t i;
++    bool ret = false;
++
++    section_table = elf32_get_section_table(fd, elf_header);
++    if (section_table == NULL) {
++        return false;
++    }
++
++    for (i = 0; i < elf_header->e_shnum; ++i) {
++        if ((section_table[i].sh_type == SHT_SYMTAB)
++             || (section_table[i].sh_type == SHT_DYNSYM)) {
++            if (elf32_check_symbol_in_symbol_table(fd, section_table,
++                                                   section_table + i, stamp)) {
++                ret = true;
++                break;
++            }
++        }
++    }
++
++    g_free(section_table);
++    return ret;
++}
++
++static bool qemu_check_helper_stamp(const char *path, const char *stamp)
++{
++    int fd;
++    bool ret = false;
++    Elf64_Ehdr *elf_header;
++
++    fd = open(path, O_RDONLY | O_SYNC);
++    if (fd < 0) {
++        return false;
++    }
++
++    elf_header = (Elf64_Ehdr *)file_allocate_and_read(
++            fd, 0, sizeof(Elf64_Ehdr));
++    if (elf_header == NULL) {
++        goto error;
++    }
++
++    if (strncmp((char *)elf_header->e_ident, ELFMAG, SELFMAG)) {
++        g_free(elf_header);
++        goto error;
++    }
++
++    if (elf_header->e_ident[EI_CLASS] == ELFCLASS64) {
++        ret = elf64_check_stamp(fd, elf_header, stamp);
++    } else if (elf_header->e_ident[EI_CLASS] == ELFCLASS32) {
++        ret = elf32_check_stamp(fd, (Elf32_Ehdr *)elf_header, stamp);
++    }
++
++    g_free(elf_header);
++error:
++    close(fd);
++    return ret;
++}
++
++#else
++
++static bool qemu_check_helper_stamp(const char *path, const char *stamp)
++{
++    return false;
++}
++
++#endif
++
++char *qemu_find_default_ebpf_rss_helper(void)
++{
++    char *qemu_exec = NULL;
++    char *qemu_dir = NULL;
++    char *helper = NULL;
++
++    helper = g_build_filename(CONFIG_QEMU_HELPERDIR,
++            QEMU_DEFAULT_EBPF_RSS_HELPER_BIN_NAME, NULL);
++    if (g_access(helper, X_OK) == 0
++        && qemu_check_helper_stamp(helper, QEMU_EBPF_RSS_HELPER_STAMP_STR)) {
++        return helper;
++    }
++    g_free(helper);
++
++#ifdef CONFIG_LINUX
++    qemu_exec = g_file_read_link("/proc/self/exe", NULL);
++#else
++    qemu_exec = NULL;
++#endif
++    if (qemu_exec != NULL) {
++        qemu_dir = g_path_get_dirname(qemu_exec);
++        g_free(qemu_exec);
++        helper = g_build_filename(qemu_dir,
++                QEMU_DEFAULT_EBPF_RSS_HELPER_BIN_NAME, NULL);
++        g_free(qemu_dir);
++        if (g_access(helper, X_OK) == 0
++           && qemu_check_helper_stamp(helper, QEMU_EBPF_RSS_HELPER_STAMP_STR)) {
++            return helper;
++        }
++        g_free(helper);
++    }
++
++    return NULL;
++}
++
++char *qemu_check_suggested_ebpf_rss_helper(const char *path)
++{
++    char *helperbin = NULL;
++    struct stat statbuf; /* NOTE: use GStatBuf? */
++
++    /* check is dir or file */
++    if (g_stat(path, &statbuf) < 0) {
++        return NULL;
++    }
++
++    if (statbuf.st_mode & S_IFDIR) {
++        /* is dir */
++        helperbin = g_build_filename(path,
++                QEMU_DEFAULT_EBPF_RSS_HELPER_BIN_NAME, NULL);
++
++    } else if (statbuf.st_mode & S_IFREG) {
++        /* is file */
++        helperbin = g_strdup(path);
++    }
++
++    if (qemu_check_helper_stamp(helperbin, QEMU_EBPF_RSS_HELPER_STAMP_STR)) {
++        return helperbin;
++    }
++
++    g_free(helperbin);
++
++    return NULL;
++}
+diff --git a/monitor/qemu-ebpf-rss-helper-stamp-utils.h b/monitor/qemu-ebpf-rss-helper-stamp-utils.h
+new file mode 100644
+index 0000000000..7490568aa1
+--- /dev/null
++++ b/monitor/qemu-ebpf-rss-helper-stamp-utils.h
+@@ -0,0 +1,39 @@
++/*
++ * QEMU helper stamp check utils.
++ *
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ *  Andrew Melnychenko <andrew@daynix.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ */
++
++#ifndef QEMU_QEMU_HELPER_STAMP_UTILS_H
++#define QEMU_QEMU_HELPER_STAMP_UTILS_H
++
++#include "qemu-ebpf-rss-helper-stamp.h" /* generated stamp per build */
++
++#define QEMU_EBPF_RSS_HELPER_STAMP_STR     stringify(QEMU_EBPF_RSS_HELPER_STAMP)
++
++#define QEMU_DEFAULT_EBPF_RSS_HELPER_BIN_NAME "qemu-ebpf-rss-helper"
++
++/**
++ * Trying to find the helper with a valid stamp in HELPERDIR
++ * or next to the QEMU binary.
++ * @return path to the eBPF RSS helper bin or NULL(helper not found).
++ */
++char *qemu_find_default_ebpf_rss_helper(void);
++
++/**
++ * Check the helper by the suggested path. The helper should have a valid stamp.
++ * @param path - it can be either a file or directory path.
++ * For the file - checks the stamp of the file.
++ * For the directory - looks for QEMU_DEFAULT_EBPF_RSS_HELPER_BIN_NAME
++ * and checks the stamp of that file.
++ * @return path to valid eBPF RSS helper bin or NULL.
++ */
++char *qemu_check_suggested_ebpf_rss_helper(const char *path);
++
++#endif /* QEMU_QEMU_HELPER_STAMP_UTILS_H */
 -- 
 2.39.1
 
