@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B9E69BF16
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Feb 2023 09:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339F569BF15
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Feb 2023 09:08:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTejq-0001L6-PM; Sun, 19 Feb 2023 03:08:02 -0500
+	id 1pTejt-0001Lk-2m; Sun, 19 Feb 2023 03:08:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pTejm-0001Kh-GZ
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 03:07:58 -0500
-Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f])
+ id 1pTejp-0001LI-LL
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 03:08:02 -0500
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pTejk-0005h3-Se
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 03:07:58 -0500
-Received: by mail-lj1-x22f.google.com with SMTP id y41so1081499ljq.5
- for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 00:07:56 -0800 (PST)
+ id 1pTejn-0005hK-US
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 03:08:01 -0500
+Received: by mail-lf1-x131.google.com with SMTP id bp6so533359lfb.0
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 00:07:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nRFxn/FqSV3e6y4Q4H8twyNjOfXMD5JQ6M/N66oVq3A=;
- b=Ikl+fyuZYEEz9fA5lY+sm+steLp5TiLOBxbWX7MlMeQ8P1WZCSTplPyoqrIaWtVADQ
- gYyhB8Gg+YUc10arbDtNCbs7xLY6bG1HnMIg8tzx7Rx+1R9PGXMFxBKskrXYISOM+FTU
- Q4NRRd4ufhAJmBYA7BxZmnNXpk27paOZ0nhz6PbzxW0CBkgYK/95PGt6oI5eLIakortA
- 08sJzvWFUknoJ0cXRaY3bQLilvENN3f/Fyk/CzH7JQPwwr8NgqagIuAEowrW2hIIpCFm
- ldkqqQ7wLjx2m7bi9FK1mVxITeik5PljqUnckl0Of23eN6+g6eA0tL9Ol1j2vT0V8JQE
- S6yw==
+ bh=ETierStTdn35K3DoIPL+T7/eChY7wp8RCMdl+jWm4Bc=;
+ b=mX4qRIk9Hn8u+gPDSznghU5T6iv9WY1zKgeBo15dHreTVpY1rEVp/tS/DK290rg/Ad
+ ZIzwDW1IXGpyOBeKHrs1GyRAXhrJO+MH7xcoMtfa08n5YXvE7sWZpefKYu9K+7NZp6Tb
+ cszXbm9wCRgoxQbqPZiCB4TnVvlJlwHJY/0JNd9afXrfkdxO3cqccVN30aOhL02LApOz
+ ZgdqfKCBAZl8Kfu0dnYREhcmtD4f6EF6zpQLyv0mJ4FUUP28dsynQGpRhcX55fgNchjm
+ es0vvZMYeHhNj1CJ3fy2PTsatscX2sYZ5LMab1kMt543BgPBAUnWR9QIvrHQ+m2usQf8
+ 9jKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nRFxn/FqSV3e6y4Q4H8twyNjOfXMD5JQ6M/N66oVq3A=;
- b=fuwjNj8+YdJAjVhwaWQJ7FDMnjwh8BRbilICzNMK93gN47MKfb/YAKbUeQsQasI9m3
- WBbrjICaEaHZginRkeErEavV/qSAfMbbloH6we8wJQdRqPDVSROcSuGRx61U3z5cAv25
- B9P0ooBcX4bVBkb3x4mm3EjwTAYC3dlyOJOvd9rQui/ay6tHdcfRlhM1JgHv7vuFIxfK
- IFwspgAJRuWTr/pvWC1wOWLT/dbEFebqWD+PvleNbs70i/QcZet2bzdr3yzpZOks7d0s
- 8sdfh51gFxenqMbc6zBCdfP4qpq5PTSJSOk5JHC+m0xscwIPi7OYrpkLfaaqj+Q0Kawj
- 2+TA==
-X-Gm-Message-State: AO0yUKX1knT/643op+/kylFYFlj70m7f7TwBRBK3kAFU6z8AoNx2OXgy
- P9ydD3/w7UBEG1YsSLFYmjUu5nnkUTYjz/0+mRM=
-X-Google-Smtp-Source: AK7set/Oin/+8W0+Krdb7vtdHtsWKUgVbNMioNluOVXkOf4+floMKFsLt7CwO3M/71VLh8Xav4uViM8ayOHTVifZaFc=
-X-Received: by 2002:a2e:b5ce:0:b0:293:531b:90ce with SMTP id
- g14-20020a2eb5ce000000b00293531b90cemr346623ljn.4.1676794074958; Sun, 19 Feb
- 2023 00:07:54 -0800 (PST)
+ bh=ETierStTdn35K3DoIPL+T7/eChY7wp8RCMdl+jWm4Bc=;
+ b=0jIHKH/OKUiAssuoLH1pksRsPb72NQQ9T+M2yugm4Erg2aadoevPhgzLpjoCjQmwvg
+ oFx8EBqXk9/SWDuaQH8IV6qt/OjvxxGpHvGAsGm3euszkf2Yeo/YS6ilVpz5u0rkVGWl
+ vV5owJpUxTfrGfm3Xpi+T8Vqu8FFdcaGialqyp61o812t0vZcJBlBbkaNcetXwYvaqwW
+ c1hPoVFS8nV9i7xmKkLEarV9ptT/IJce1DikHnrgjNHwvRsWuivhc2paWDzngJvIdNeP
+ LOzcqXmOdKovda28enVyAq6Qt7aIcUlE02EfZJABEhvkjyVHRD9uuh7I+oL1VA2RuMMk
+ Qhog==
+X-Gm-Message-State: AO0yUKWoMj6VjgTJZDT4PA9F7AS9kLfQGvCLl7+XkIvybMQ3TXAR4JL7
+ Ua9e4rq5mlMMcdfsVw+UVyMsRPbUX2gugtVP9bY=
+X-Google-Smtp-Source: AK7set+qSb6sVhnCVdrvytEg8ehBVNUi++ELetJF4PwrAcFxGRkBmrP1xTRvRb3Ro1XjsETsfB9sx/vAKuuCoA24eKg=
+X-Received: by 2002:a05:6512:b08:b0:4dc:8004:7689 with SMTP id
+ w8-20020a0565120b0800b004dc80047689mr922758lfu.4.1676794078222; Sun, 19 Feb
+ 2023 00:07:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20230218162216.46944-1-slp@redhat.com>
- <20230218162216.46944-4-slp@redhat.com>
-In-Reply-To: <20230218162216.46944-4-slp@redhat.com>
+ <20230218162216.46944-2-slp@redhat.com>
+In-Reply-To: <20230218162216.46944-2-slp@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sun, 19 Feb 2023 12:07:43 +0400
-Message-ID: <CAJ+F1CK_0-6+W2wYSAjt-ES9ot6=Q3tj4ZBujPMCvCXnX5JeRQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] ui: add helpers for virtio-multitouch events
+Date: Sun, 19 Feb 2023 12:07:46 +0400
+Message-ID: <CAJ+F1CLZoEnVFkfM69uOyDnd4N5QrLVjCrhh33Zi6CK=+CWbwQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] virtio-input: generalize virtio_input_key_config()
 To: Sergio Lopez <slp@redhat.com>
 Cc: qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, 
  "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
@@ -64,8 +64,8 @@ Cc: qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
  Eric Blake <eblake@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x131.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,93 +90,113 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Sat, Feb 18, 2023 at 8:23 PM Sergio Lopez <slp@redhat.com> wrote:
 >
-> Add helpers for generating Multi-touch events from the UI backends that
-> can be sent to the guest through a virtio-multitouch device.
+> As there are other bitmap-based config properties that need to be dealt i=
+n a
+> similar fashion as VIRTIO_INPUT_CFG_EV_BITS, generalize the function to
+> receive select and subsel as arguments, and rename it to
+> virtio_input_extend_config()
 >
 > Signed-off-by: Sergio Lopez <slp@redhat.com>
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
+
 > ---
->  include/ui/input.h |  5 +++++
->  ui/input.c         | 36 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 41 insertions(+)
+>  hw/input/virtio-input-hid.c | 38 ++++++++++++++++++++-----------------
+>  1 file changed, 21 insertions(+), 17 deletions(-)
 >
-> diff --git a/include/ui/input.h b/include/ui/input.h
-> index 2a3dffd417..c37251e1e9 100644
-> --- a/include/ui/input.h
-> +++ b/include/ui/input.h
-> @@ -64,6 +64,11 @@ int qemu_input_scale_axis(int value,
->  void qemu_input_queue_rel(QemuConsole *src, InputAxis axis, int value);
->  void qemu_input_queue_abs(QemuConsole *src, InputAxis axis, int value,
->                            int min_in, int max_in);
-> +void qemu_input_queue_mtt(QemuConsole *src, InputMultitouchType type, in=
-t slot,
-> +                          int tracking_id);
-> +void qemu_input_queue_mtt_abs(QemuConsole *src, InputAxis axis, int valu=
-e,
-> +                              int min_in, int max_in,
-> +                              int slot, int tracking_id);
+> diff --git a/hw/input/virtio-input-hid.c b/hw/input/virtio-input-hid.c
+> index a7a244a95d..d28dab69ba 100644
+> --- a/hw/input/virtio-input-hid.c
+> +++ b/hw/input/virtio-input-hid.c
+> @@ -44,30 +44,31 @@ static const unsigned short axismap_abs[INPUT_AXIS__M=
+AX] =3D {
 >
->  void qemu_input_check_mode_change(void);
->  void qemu_add_mouse_mode_change_notifier(Notifier *notify);
-> diff --git a/ui/input.c b/ui/input.c
-> index f788db20f7..34331b7b0b 100644
-> --- a/ui/input.c
-> +++ b/ui/input.c
-> @@ -547,6 +547,42 @@ void qemu_input_queue_abs(QemuConsole *src, InputAxi=
-s axis, int value,
->      qemu_input_event_send(src, &evt);
+>  /* ----------------------------------------------------------------- */
+>
+> -static void virtio_input_key_config(VirtIOInput *vinput,
+> -                                    const unsigned short *keymap,
+> -                                    size_t mapsize)
+> +static void virtio_input_extend_config(VirtIOInput *vinput,
+> +                                       const unsigned short *map,
+> +                                       size_t mapsize,
+> +                                       uint8_t select, uint8_t subsel)
+>  {
+> -    virtio_input_config keys;
+> +    virtio_input_config ext;
+>      int i, bit, byte, bmax =3D 0;
+>
+> -    memset(&keys, 0, sizeof(keys));
+> +    memset(&ext, 0, sizeof(ext));
+>      for (i =3D 0; i < mapsize; i++) {
+> -        bit =3D keymap[i];
+> +        bit =3D map[i];
+>          if (!bit) {
+>              continue;
+>          }
+>          byte =3D bit / 8;
+>          bit  =3D bit % 8;
+> -        keys.u.bitmap[byte] |=3D (1 << bit);
+> +        ext.u.bitmap[byte] |=3D (1 << bit);
+>          if (bmax < byte+1) {
+>              bmax =3D byte+1;
+>          }
+>      }
+> -    keys.select =3D VIRTIO_INPUT_CFG_EV_BITS;
+> -    keys.subsel =3D EV_KEY;
+> -    keys.size   =3D bmax;
+> -    virtio_input_add_config(vinput, &keys);
+> +    ext.select =3D select;
+> +    ext.subsel =3D subsel;
+> +    ext.size   =3D bmax;
+> +    virtio_input_add_config(vinput, &ext);
 >  }
 >
-> +void qemu_input_queue_mtt(QemuConsole *src, InputMultitouchType type,
-> +                          int slot, int tracking_id)
-> +{
-> +    InputMultitouchEvent mtt =3D {
-> +        .type =3D type,
-> +        .slot =3D slot,
-> +        .tracking_id =3D tracking_id,
-> +    };
-> +    InputEvent evt =3D {
-> +        .type =3D INPUT_EVENT_KIND_MTT,
-> +        .u.mtt.data =3D &mtt,
-> +    };
-> +
-> +    qemu_input_event_send(src, &evt);
-> +}
-> +
-> +void qemu_input_queue_mtt_abs(QemuConsole *src, InputAxis axis, int valu=
-e,
-> +                              int min_in, int max_in, int slot, int trac=
-king_id)
-> +{
-> +    InputMultitouchEvent mtt =3D {
-> +        .type =3D INPUT_MULTITOUCH_TYPE_DATA,
-> +        .slot =3D slot,
-> +        .tracking_id =3D tracking_id,
-> +        .axis =3D axis,
-> +        .value =3D qemu_input_scale_axis(value, min_in, max_in,
-> +                                       INPUT_EVENT_ABS_MIN,
-> +                                       INPUT_EVENT_ABS_MAX),
-> +    };
-> +    InputEvent evt =3D {
-> +        .type =3D INPUT_EVENT_KIND_MTT,
-> +        .u.mtt.data =3D &mtt,
-> +    };
-> +
-> +    qemu_input_event_send(src, &evt);
-> +}
-> +
->  void qemu_input_check_mode_change(void)
->  {
->      static int current_is_absolute;
+>  static void virtio_input_handle_event(DeviceState *dev, QemuConsole *src=
+,
+> @@ -281,8 +282,9 @@ static void virtio_keyboard_init(Object *obj)
+>
+>      vhid->handler =3D &virtio_keyboard_handler;
+>      virtio_input_init_config(vinput, virtio_keyboard_config);
+> -    virtio_input_key_config(vinput, qemu_input_map_qcode_to_linux,
+> -                            qemu_input_map_qcode_to_linux_len);
+> +    virtio_input_extend_config(vinput, qemu_input_map_qcode_to_linux,
+> +                               qemu_input_map_qcode_to_linux_len,
+> +                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
+>  }
+>
+>  static const TypeInfo virtio_keyboard_info =3D {
+> @@ -373,8 +375,9 @@ static void virtio_mouse_init(Object *obj)
+>      virtio_input_init_config(vinput, vhid->wheel_axis
+>                               ? virtio_mouse_config_v2
+>                               : virtio_mouse_config_v1);
+> -    virtio_input_key_config(vinput, keymap_button,
+> -                            ARRAY_SIZE(keymap_button));
+> +    virtio_input_extend_config(vinput, keymap_button,
+> +                               ARRAY_SIZE(keymap_button),
+> +                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
+>  }
+>
+>  static const TypeInfo virtio_mouse_info =3D {
+> @@ -497,8 +500,9 @@ static void virtio_tablet_init(Object *obj)
+>      virtio_input_init_config(vinput, vhid->wheel_axis
+>                               ? virtio_tablet_config_v2
+>                               : virtio_tablet_config_v1);
+> -    virtio_input_key_config(vinput, keymap_button,
+> -                            ARRAY_SIZE(keymap_button));
+> +    virtio_input_extend_config(vinput, keymap_button,
+> +                               ARRAY_SIZE(keymap_button),
+> +                               VIRTIO_INPUT_CFG_EV_BITS, EV_KEY);
+>  }
+>
+>  static const TypeInfo virtio_tablet_info =3D {
 > --
 > 2.38.1
 >
 >
 
 
---=20
+--
 Marc-Andr=C3=A9 Lureau
 
