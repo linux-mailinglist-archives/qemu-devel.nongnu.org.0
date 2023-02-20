@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5F869D53D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B0269D530
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:50:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUD5T-0000GY-ML; Mon, 20 Feb 2023 15:48:39 -0500
+	id 1pUD5Y-0000e8-VI; Mon, 20 Feb 2023 15:48:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pUD4o-0007Xe-6Q
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:47:58 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pUD4z-0007Zi-QR
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:22 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pUD4j-0003Td-Qn
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:47:57 -0500
+ <BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pUD4v-0003XO-DL
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=GNPtFOBDP2//P8XTyjUghCf2tCczE9lgRa42KJz8gD4=; b=kiF0dSkGa7Iw7xExA1vlJUQNTW
- ZbFuwEzF9VJY4wtZxYKCSy1MjMhGK5BCRADS1fne6gl7DUXnSH0SNRKNJL0WtJYBkbPpTqhMKi8Av
- AowkVVWo4vPQJh0CRvRhT0KYS3AG0BOZt7veACi4CTGGWCYeqHiRu4AiT6sm9NgJYJkgKU+XwA6mN
- E6iQGl+lN5LM3Sq4fnfpHo+nSFKvGnpDe7x1LD+9bC0esQTp/A/gUGAkmrQy9iuwwKDAu47bd+goj
- 9TMlH0KcTzx1ko0BiF7pvOEFLxgIJOlYI8oNYjOjlOZUFPg6wd4tB1T81WoNU07GgHVprLdq8e/IB
- CiVf/V6Q==;
+ bh=vr0cMdx3xb7N+X2a8EQW4pCI8dl9FyQ8IxCgJPGuMsc=; b=QSIXokHZfEH3HmLjR8Sh3K6Cds
+ EkCIoCr/bAZfEvnYSgnBZE45LE+GFEEmXaZYKfkw5+vtMkYzdJ1WWWfJnq5l5naO+ey+UCL/XV1pS
+ xHC/Gax3MBL2dAksNkvrrnHJFHxKFHv6YIvL8U4lNT5KCdOD1o48+NQbr6Aj3gMiABnrBOTL1WOoa
+ XBANUfBdkbw2gET1LJ6GmcgDocqT/WcpV0BgbmO/D9FrRtEigs5Id605tumIdVmWS1EuQFkvU3LZo
+ rM/5kEQRGEuuX1sq9HJA4WRmptl0JfpG3W0Utn9Z6W6AEog3mWCUa8emGIP1XpXQSeR6cIwg2kmdi
+ J2IjnmTQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pUD4U-00C0ps-HV; Mon, 20 Feb 2023 20:47:39 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pUD4U-00BvKV-2H; Mon, 20 Feb 2023 20:47:51 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pUD4U-00B4rH-1j; Mon, 20 Feb 2023 20:47:38 +0000
+ Linux)) id 1pUD4U-00B4rM-1u; Mon, 20 Feb 2023 20:47:38 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,19 +50,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v12 14/60] xen: Permit --xen-domid argument when accel is KVM
-Date: Mon, 20 Feb 2023 20:46:50 +0000
-Message-Id: <20230220204736.2639601-15-dwmw2@infradead.org>
+Subject: [PATCH v12 15/60] i386/xen: add pc_machine_kvm_type to initialize
+ XEN_EMULATE mode
+Date: Mon, 20 Feb 2023 20:46:51 +0000
+Message-Id: <20230220204736.2639601-16-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230220204736.2639601-1-dwmw2@infradead.org>
 References: <20230220204736.2639601-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,27 +86,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Paul Durrant <pdurrant@amazon.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-Signed-off-by: David Wooodhouse <dwmw@amazon.co.uk>
+The xen_overlay device (and later similar devices for event channels and
+grant tables) need to be instantiated. Do this from a kvm_type method on
+the PC machine derivatives, since KVM is only way to support Xen emulation
+for now.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- softmmu/vl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/pc.c         | 11 +++++++++++
+ include/hw/i386/pc.h |  3 +++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 459588aa7d..289bbb27a5 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3366,7 +3366,7 @@ void qemu_init(int argc, char **argv)
-                 has_defaults = 0;
-                 break;
-             case QEMU_OPTION_xen_domid:
--                if (!(accel_find("xen"))) {
-+                if (!(accel_find("xen")) && !(accel_find("kvm"))) {
-                     error_report("Option not supported for this target");
-                     exit(1);
-                 }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 6e592bd969..9169305f4f 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -89,6 +89,7 @@
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/virtio/virtio-pmem-pci.h"
+ #include "hw/virtio/virtio-mem-pci.h"
++#include "hw/i386/kvm/xen_overlay.h"
+ #include "hw/mem/memory-device.h"
+ #include "sysemu/replay.h"
+ #include "target/i386/cpu.h"
+@@ -1844,6 +1845,16 @@ static void pc_machine_initfn(Object *obj)
+     cxl_machine_init(obj, &pcms->cxl_devices_state);
+ }
+ 
++int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
++{
++#ifdef CONFIG_XEN_EMU
++    if (xen_mode == XEN_EMULATE) {
++        xen_overlay_create();
++    }
++#endif
++    return 0;
++}
++
+ static void pc_machine_reset(MachineState *machine, ShutdownCause reason)
+ {
+     CPUState *cs;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 66e3d059ef..740497a961 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -291,12 +291,15 @@ extern const size_t pc_compat_1_5_len;
+ extern GlobalProperty pc_compat_1_4[];
+ extern const size_t pc_compat_1_4_len;
+ 
++extern int pc_machine_kvm_type(MachineState *machine, const char *vm_type);
++
+ #define DEFINE_PC_MACHINE(suffix, namestr, initfn, optsfn) \
+     static void pc_machine_##suffix##_class_init(ObjectClass *oc, void *data) \
+     { \
+         MachineClass *mc = MACHINE_CLASS(oc); \
+         optsfn(mc); \
+         mc->init = initfn; \
++        mc->kvm_type = pc_machine_kvm_type; \
+     } \
+     static const TypeInfo pc_machine_type_##suffix = { \
+         .name       = namestr TYPE_MACHINE_SUFFIX, \
 -- 
 2.39.0
 
