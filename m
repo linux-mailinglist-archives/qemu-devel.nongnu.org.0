@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B792669D5F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 22:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0DD69D5FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 22:52:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUE2k-0003Wk-PF; Mon, 20 Feb 2023 16:49:54 -0500
+	id 1pUE2t-0003aS-VY; Mon, 20 Feb 2023 16:50:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUE2i-0003W7-5K
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:49:52 -0500
+ id 1pUE2q-0003Yv-OE
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:50:00 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUE2Z-0007ze-WC
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:49:51 -0500
+ id 1pUE2h-00080E-5T
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:50:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676929778;
+ s=mimecast20190719; t=1676929781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=31gihj7l1EooZlr2HPmQTeZif0MfFmViDpJvmbS/8zc=;
- b=Dtme+aqt3rOeNBDBSnhf4ZfQMoMr/ETR2+0df8cuSuCmR+z8L2z2C77RBhwXv6qRAZKouF
- FHkrgkHa9muDdlUqrGfOsRJzEmZnKeNt9HUTI7UanO+Ve9WiQYKKh+1YjxUwh17unqYzod
- WMX1dE39pSWuoEtLXiHYarjyu9Yucl8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EYUJ+dSm1+Qpjq7FR2xXuL1pVn+UustNl9pTfsiPi9E=;
+ b=El8/rTl+/TdW+T/OOIghmH7Doh3PXhqedacmFb0rLr7NQ22Ub3lKzQtOBeL3iBqcttmrfG
+ kGtWYGe8nZIncKuITX2cusxot3i5j1zi5SKx8BXvE7uWnK3SI6bbgkKEW700qJ9ziUQrkf
+ 3L14mR+h6kK/qIbL2pCk1aBdVNWNwrM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-s8q3oTueMJyWdGI4BacEuw-1; Mon, 20 Feb 2023 16:49:33 -0500
-X-MC-Unique: s8q3oTueMJyWdGI4BacEuw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-175-TOFD5QvdO3CBk01bRVI7Zg-1; Mon, 20 Feb 2023 16:49:37 -0500
+X-MC-Unique: TOFD5QvdO3CBk01bRVI7Zg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F72D2A59568;
- Mon, 20 Feb 2023 21:49:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4193F101163D;
+ Mon, 20 Feb 2023 21:49:36 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A5728C15BA0;
- Mon, 20 Feb 2023 21:49:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 80C62400EA89;
+ Mon, 20 Feb 2023 21:49:35 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Michael Roth <michael.roth@amd.com>,
@@ -57,15 +57,15 @@ Cc: Michael Roth <michael.roth@amd.com>,
  Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 07/15] aio: make aio_set_fd_poll() static to aio-posix.c
-Date: Tue, 21 Feb 2023 01:48:51 +0400
-Message-Id: <20230220214859.3792171-8-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 08/15] aio/win32: aio_set_fd_handler() only supports SOCKET
+Date: Tue, 21 Feb 2023 01:48:52 +0400
+Message-Id: <20230220214859.3792171-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20230220214859.3792171-1-marcandre.lureau@redhat.com>
 References: <20230220214859.3792171-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -75,7 +75,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,67 +93,42 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Let's check if the argument is actually a SOCKET, else report an error
+and return.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/block/aio.h | 8 --------
- util/aio-posix.c    | 6 +++---
- util/aio-win32.c    | 7 -------
- 3 files changed, 3 insertions(+), 18 deletions(-)
+ util/aio-win32.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 8fba6a3584..543717f294 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -482,14 +482,6 @@ void aio_set_fd_handler(AioContext *ctx,
-                         IOHandler *io_poll_ready,
-                         void *opaque);
- 
--/* Set polling begin/end callbacks for a file descriptor that has already been
-- * registered with aio_set_fd_handler.  Do nothing if the file descriptor is
-- * not registered.
-- */
--void aio_set_fd_poll(AioContext *ctx, int fd,
--                     IOHandler *io_poll_begin,
--                     IOHandler *io_poll_end);
--
- /* Register an event notifier and associated callbacks.  Behaves very similarly
-  * to event_notifier_set_handler.  Unlike event_notifier_set_handler, these callbacks
-  * will be invoked when using aio_poll().
-diff --git a/util/aio-posix.c b/util/aio-posix.c
-index 6cc6256d53..a8be940f76 100644
---- a/util/aio-posix.c
-+++ b/util/aio-posix.c
-@@ -180,9 +180,9 @@ void aio_set_fd_handler(AioContext *ctx,
-     }
- }
- 
--void aio_set_fd_poll(AioContext *ctx, int fd,
--                     IOHandler *io_poll_begin,
--                     IOHandler *io_poll_end)
-+static void aio_set_fd_poll(AioContext *ctx, int fd,
-+                            IOHandler *io_poll_begin,
-+                            IOHandler *io_poll_end)
- {
-     AioHandler *node = find_aio_handler(ctx, fd);
- 
 diff --git a/util/aio-win32.c b/util/aio-win32.c
-index be5136e486..74d63fa21e 100644
+index 74d63fa21e..08e8f5615d 100644
 --- a/util/aio-win32.c
 +++ b/util/aio-win32.c
-@@ -125,13 +125,6 @@ void aio_set_fd_handler(AioContext *ctx,
-     aio_notify(ctx);
- }
+@@ -22,6 +22,7 @@
+ #include "qemu/sockets.h"
+ #include "qapi/error.h"
+ #include "qemu/rcu_queue.h"
++#include "qemu/error-report.h"
  
--void aio_set_fd_poll(AioContext *ctx, int fd,
--                     IOHandler *io_poll_begin,
--                     IOHandler *io_poll_end)
--{
--    /* Not implemented */
--}
--
- void aio_set_event_notifier(AioContext *ctx,
-                             EventNotifier *e,
-                             bool is_external,
+ struct AioHandler {
+     EventNotifier *e;
+@@ -70,10 +71,14 @@ void aio_set_fd_handler(AioContext *ctx,
+                         IOHandler *io_poll_ready,
+                         void *opaque)
+ {
+-    /* fd is a SOCKET in our case */
+     AioHandler *old_node;
+     AioHandler *node = NULL;
+ 
++    if (!fd_is_socket(fd)) {
++        error_report("fd=%d is not a socket, AIO implementation is missing", fd);
++        return;
++    }
++
+     qemu_lockcnt_lock(&ctx->list_lock);
+     QLIST_FOREACH(old_node, &ctx->aio_handlers, node) {
+         if (old_node->pfd.fd == fd && !old_node->deleted) {
 -- 
 2.39.1
 
