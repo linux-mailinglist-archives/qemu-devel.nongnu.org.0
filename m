@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AC469D381
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:57:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A86569D392
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:59:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUBLN-00035o-P0; Mon, 20 Feb 2023 13:56:57 -0500
+	id 1pUBNA-0005n8-1P; Mon, 20 Feb 2023 13:58:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUBLI-00034x-H8
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:56:54 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUBN2-0005g1-Nt
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:58:42 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUBLE-00079y-3V
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:56:52 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- x20-20020a17090a8a9400b00233ba727724so1509284pjn.1
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 10:56:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUBN0-0007Wg-2z
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:58:39 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id 6so1806071wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 10:58:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=59OILGZq1goYLb2j3kwFEicXFGE7Rhg80OG1p6jumeQ=;
- b=ZDwMz41aGShLfkpPEMa8JdfvXNTJZAO5IZg6Lr7BRg2s94deJ/lwBUyzGwpWBkSKqM
- qbFCfxcJBn4tBiS7K0Js1S08M7DGMwgDd0EE96oVza7/2PJIP8Djn3KF2Bdl0t67Zsw6
- NR156NpRYD1irTqwytVD2OhEoShPMcxwQudxMoLPplyksQdU6TvkC8ndrPxZfFejetsP
- II/PQPOyDMtLAV7i4lLM4pdcfvAnhVuE68ebPOA1PFxQhgK6l1ICWN1znNKpYb/ZguhN
- +u/lCOBfCc8NTJHFp1P1OoDVGwjApLNL8jyY8FHhqA2q4DZB43eUWURXOxDvc3lWZVYi
- IRkQ==
+ bh=i83hVbYglmB3maWAdz8Kv4+aifm2v7i+Dva3N5vVxsQ=;
+ b=lrn24KjRkx12WRu7Y2MSwhAuojkc/9b9iY+pzIIi2QZ1a5fuxpKLaejSl17BBYZ05k
+ 1zIVDCkQJMi8iDZcyXJqNT0b0kPo8URyYUrAo/AWsHKm0K0rf4ei+Ty5TfRNom2tknGi
+ Q/Ia7s42vmLycZ8Z2OdKp/oZPEXb9UTZI7rRkRs1OW/Ja+rKfX8yeTipSPGty5fmTUpf
+ 6O2hMRIzXBtklIW45yVg52UL7rTUUxPw1kPrHOZu9Htprq6wlyCV9uSEhw3tGrh9J94a
+ yqtvIatv6SwacMk0JtrNdALu6ZSFzTjCODlatjRfcdNKlgYfPwv74Zwu9z2WrSl5mpPd
+ Oi9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=59OILGZq1goYLb2j3kwFEicXFGE7Rhg80OG1p6jumeQ=;
- b=GC8dAJAKnJOQdk4yUsMBNIK6DUoW4Z7VPKO4NCWLZf27rs4Ks29x2dIjHFHUwnb1qD
- MYRzQf6yUsqsO8Z8kL5EBS1ZefHVpkUS7F1VyTrXJxFEVNJkwIotbRUCKuFKzvzwzTAy
- p6Lex+c0oOeqpyfy30rEuGzYvqS5jO/TRRgXkn1ve816vrNfFfSqGeHlj+UmD0QQvjfB
- Jcg+jWKrvn+et9xajLIvMTToL/esOFaZHp/caeEF7DSfuHaGEvlB30CYGX5yYR+BD5dJ
- /hynYYQiW129fWtADJTcGJf5aAYmELPCvSKQYFjLNkCeejy0cZuJkmxgCxaQ0dGU4jDv
- gcbQ==
-X-Gm-Message-State: AO0yUKUoWAUx+L3iDQE4KG6tIFcjCoPJPuVotMWVlHJceuyZ9YgpxguQ
- Uo67ekEGZzOK7C7AE2cj4mpkKw==
-X-Google-Smtp-Source: AK7set/PJV9ouQ56llf/QqpfQ7F81dBhwyn4pgpg/cZT/xh8Ag1g0dvHULwYy8E87MKLErehfseyyA==
-X-Received: by 2002:a17:903:280e:b0:19b:c6a:6bbf with SMTP id
- kp14-20020a170903280e00b0019b0c6a6bbfmr2122370plb.8.1676919405869; 
- Mon, 20 Feb 2023 10:56:45 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- h7-20020a170902680700b0019a60b7cc0esm8206217plk.248.2023.02.20.10.56.44
+ bh=i83hVbYglmB3maWAdz8Kv4+aifm2v7i+Dva3N5vVxsQ=;
+ b=5RbSrIXf1dk7oAM8j6hnR0UrLJfYD2GpkDDmeFvwgq7E1mjPWMqHfr7eWw5+/Hyq87
+ 0PIY6nouiaaC7XQgVyB9t4OtiHcg6kxrDrpL4zyfJvyZAa6PLKYt9V+45KqIesL8zRGj
+ O4A5ta/PFeUtT3G6B4pYi+2vfPUzN1EF0KXOoMkhoSZ7bNuABtA3lTzJIt4jn+mnOIah
+ 0mFdpyPsmpCjF9y8hVpNgj4iMGjls4fsvm3Jkce+fJ/biD1Pl7bak3oX0/7ofZao4WMF
+ PxgAkCD1KYpSL/RlpCvfZ1B77UaZqJBlQVuHjNMDf0EJpfvZw7IItxwAPJCC/K9ct+HR
+ n0+Q==
+X-Gm-Message-State: AO0yUKW7aCIrBrhe13Yiv1cdAZITHDGBlLJg2RDfqGb6ipPudE3Psy1h
+ O2o/U7D0Ua5KHEfRLHIZElL3tg==
+X-Google-Smtp-Source: AK7set8cqro2zxjW0TWTypvcQNOrelGYg3pRIZZtI35kJS0rLQ3JnKAWgzXHCZcBiq1BRCvf0NHACQ==
+X-Received: by 2002:a5d:6992:0:b0:2c5:5878:e5a6 with SMTP id
+ g18-20020a5d6992000000b002c55878e5a6mr2859603wru.61.1676919515863; 
+ Mon, 20 Feb 2023 10:58:35 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ n13-20020a5d4c4d000000b002c55de1c72bsm6005556wrt.62.2023.02.20.10.58.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 10:56:45 -0800 (PST)
-Message-ID: <0c394e48-0a03-7152-69ce-cd5e034dae91@linaro.org>
-Date: Mon, 20 Feb 2023 08:56:41 -1000
+ Mon, 20 Feb 2023 10:58:35 -0800 (PST)
+Message-ID: <874aa225-f86d-bbc2-4c46-c3fc099612b8@linaro.org>
+Date: Mon, 20 Feb 2023 19:58:33 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 5/8] hw/char/xilinx_uartlite: Open-code
- xilinx_uartlite_create()
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 20/27] target/s390x: Split per_branch
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <20230220115114.25237-1-philmd@linaro.org>
- <20230220115114.25237-6-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230220115114.25237-6-philmd@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20230109200819.3916395-1-richard.henderson@linaro.org>
+ <20230109200819.3916395-21-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230109200819.3916395-21-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -100,16 +92,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/20/23 01:51, Philippe Mathieu-Daudé wrote:
-> Open-code the single use of xilinx_uartlite_create().
+On 9/1/23 21:08, Richard Henderson wrote:
+> Split into per_branch_dest and per_branch_disp, which can be
+> used for direct and indirect.  In preperation for TARGET_TB_PCREL,
+> call per_branch_* before indirect branches.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/microblaze/petalogix_s3adsp1800_mmu.c |  7 +++++--
->   include/hw/char/xilinx_uartlite.h        | 20 --------------------
->   2 files changed, 5 insertions(+), 22 deletions(-)
+>   target/s390x/tcg/translate.c | 30 +++++++++++++++++-------------
+>   1 file changed, 17 insertions(+), 13 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-r~
 
