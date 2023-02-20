@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0351369D22C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 18:39:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB1269D22F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 18:42:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUA6n-000068-7p; Mon, 20 Feb 2023 12:37:49 -0500
+	id 1pUAAn-00023I-5l; Mon, 20 Feb 2023 12:41:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUA6m-00005y-9e
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 12:37:48 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUA6j-0000gx-HU
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 12:37:47 -0500
-Received: by mail-pl1-x634.google.com with SMTP id c1so2576946plg.4
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 09:37:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2bohxXLr1BfTy/poubrVhXXEy8MGhXoKryYmKOezeZY=;
- b=hY1CmKcGhb/t3/2y8ZzmDkMfG9fqiX/Z09aXGBzXO50DDqRh/iX4LKkQlaY3+BxUjk
- r94/KNimiOWvN/U0ypZ0V8s2L8F9aY1jJEsz8F1XJJzftDusYGgjS6dODXHdjD5O9s6/
- 7TEAsYomA+D78zc8OaXUu8LP9c/B9sYwhw9RDJBaWK7sUeaza0agNcr5B0/UG/ctb9oo
- XSPPWIxmHnSXlBRiA7+O+vg6FT75UjVxEzwVP/mQqZbmB/jHeiLLZrUvS9doH1VEVRO7
- 8X5OoqpWlsnuiInhamhksJVwMtBZZcQlFMzUCPGDge/8K8LL+bVC912JSo5JgTz3xOFr
- Dkog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2bohxXLr1BfTy/poubrVhXXEy8MGhXoKryYmKOezeZY=;
- b=tk0LQ91T7ks6b3WjeY/ePYie01D/9YGiACrIsjatx3Ih/bvZwrgMRrjC57N7tHtuEh
- hobeoZSHxJ8p7PxPZLeHjCGfgYoS/8sKTsdDwSmvFv5lU+HSHVpGFsiX4S7OG6sVPKg+
- 0VQ6RZPZwgpiYKyyBGh0NtVU7d5MA6FFqwLfKH1R3mTe4xfmV9gGrb+Txez1REB7ekCR
- 8gfh3I/d2hOvu/ZEa6R3Q81JC80RUv1I8YDP9CZbnxxsMYq+RkU3LyJIw5gpjn7KdoBx
- r4b16jD1CYGna2Xu3tVI9xpklm8sb/B5t6Yehg9N3697flJNiHqnfcRN4+jMM6WbKMJo
- fcfA==
-X-Gm-Message-State: AO0yUKXNJX3E+AbASmf1PLg0FggGvFtAJP3EaYDa/Sr9oOHBX4U8AxNf
- 3TSTrIM4yH1w0m6WO5lcM00XMklel8YJYiB/D13pQw==
-X-Google-Smtp-Source: AK7set/a0KIK/1YAgKuVO+7Bf8M5WHot/lnWb81oM3vANR03qeM9QHxww0l8uCSlofdN5f5TjY4zUSGWR2MoUi/q+As=
-X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
- sc9-20020a17090b510900b00233dcb5ee15mr1051728pjb.92.1676914663817; Mon, 20
- Feb 2023 09:37:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pUAAj-00022P-J8
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 12:41:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pUAAh-0001UG-Jy
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 12:41:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676914909;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bMF2zngLiUvCD1ITnRWLc5F9Qt4lUqepcse5al0BfkI=;
+ b=MpfJNfdj/G7/7qjR2N90KSMqG/ixB39eOcctQL5KnpFMlDcsS8Vg4RA0GYw+FRPso6Tacx
+ x2qZaPaW9hNfiMlTp9zUL6JDLgJ4k+kFmcoAH32zCetrfqZR+XTlx5cvX+ooIiYECM5VOA
+ KakGfa0x15Y8CbpQziPKacxq349xWKI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-12-obqDxJGTPzW_7ACxkF0phA-1; Mon, 20 Feb 2023 12:41:46 -0500
+X-MC-Unique: obqDxJGTPzW_7ACxkF0phA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A10D88B781;
+ Mon, 20 Feb 2023 17:41:46 +0000 (UTC)
+Received: from kostyanf14nb.Dlink (unknown [10.45.224.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B3EF404CD84;
+ Mon, 20 Feb 2023 17:41:44 +0000 (UTC)
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Yan Vugenfirer <yvugenfi@redhat.com>
+Subject: [PATCH 0/2] QGA installer fixes
+Date: Mon, 20 Feb 2023 19:41:40 +0200
+Message-Id: <20230220174142.240393-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
-References: <20230214163048.903964-1-richard.henderson@linaro.org>
- <20230214163048.903964-15-richard.henderson@linaro.org>
- <CAFEAcA96L2V0dvnrygnr00PsKkAcko30h+RCKUMcAJGv0utH4A@mail.gmail.com>
- <c6d768e4-6f48-b68d-26f0-227d70bce82e@linaro.org>
-In-Reply-To: <c6d768e4-6f48-b68d-26f0-227d70bce82e@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Feb 2023 17:37:32 +0000
-Message-ID: <CAFEAcA8sfvQFFArnkm8aGXSvhB6t+vg52bdQCPvLu26VXRkNtQ@mail.gmail.com>
-Subject: Re: [PATCH 14/14] target/arm: Support reading m-profile system
- registers from gdb
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, David Reiss <dreiss@meta.com>, 
- Luis Machado <luis.machado@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x634.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,37 +77,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 20 Feb 2023 at 17:00, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/20/23 06:02, Peter Maydell wrote:
-> >> +    g_string_printf(s, "<?xml version=\"1.0\"?>");
-> >> +    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
-> >> +    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.arm.m-system\">\n");
-> >
-> > Half of these need to be in org.gnu.gdb.arm.secext.
-> > These aren't our own XML features we're making up (if they
-> > were then they would be in org.qemu.something), so we should
-> > follow the existing precedent about what registers go in them.
->
-> Now that you point it out (and I should have checked myself), we are kinda making them up.
->   The only registers within upstream gdb m-system and secext are MSP, PSP, MSP_NS, MSP_S,
-> PSP_NS, PSP_S.  All the others are our own addition.
+Konstantin Kostiuk (2):
+  qga/win32: Remove change action from MSI installer
+  qga/win32: Use rundll for VSS installation
 
-I think OpenOCD's implementation includes more than that:
-https://openocd.org/doc-release/doxygen/armv7m_8c_source.html
+ qga/installer/qemu-ga.wxs | 11 ++++++-----
+ qga/vss-win32/install.cpp |  9 +++++++++
+ qga/vss-win32/qga-vss.def |  2 ++
+ 3 files changed, 17 insertions(+), 5 deletions(-)
 
-> Should all the rest be in a third bit of xml?
+--
+2.25.1
 
-Luis, do you have the specs for what the existing implementations
-are doing here ?
-
-Ideally gdb should document for every bit of XML it is the
-official owner of (ie in the org.gnu.gdb namespace) what the
-required and optional register values are, including details
-like the register width (which I think the two existing
-implementations that output m-system disagree on).
-
-thanks
--- PMM
 
