@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AD269C45B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 04:05:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCBC69C476
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 04:24:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTwTh-0006Xz-GW; Sun, 19 Feb 2023 22:04:33 -0500
+	id 1pTwmL-00018t-EQ; Sun, 19 Feb 2023 22:23:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1pTwTe-0006Xe-MH
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:04:30 -0500
-Received: from mga14.intel.com ([192.55.52.115])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuan.yao@linux.intel.com>)
- id 1pTwTb-0001R6-Nf
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:04:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676862267; x=1708398267;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=E8xZ7auVU/piWMLG1AXlZIsK3dlj5WYN4ckwufDorRE=;
- b=YRSBm2Z2SSjT8HA9+MLBitGwpls9YpjMcIpz7LxZjsgi7SIJkhuzIOmK
- puV47Bro6ukUKeNWvEXSt1NYqiAbqDX2tJc7UHcegpLGrZWNewGgh37dR
- O9y3ykrJlRR+8+E+DWcfCtRYyM63XYhZCMIhxzPvE0/bhzfTarM7KhXwy
- I8wflCYD4eCSmyQbnfM6MTrmsU+jk1fMd7VfN7syfggmSqGhfi0sFk60q
- 0PFh5HpxJr7HdsEFPsZluRUJwPFbQBJf5cjB8bexsznlrh6ZzzrFqYHea
- 4mBjPX85w74ym4MWW2jE+ris/WxvLlRqNFTvQYvWPx5/SGV2VlNIZihoq g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="332319340"
-X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; d="scan'208";a="332319340"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2023 19:04:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="1000125665"
-X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; d="scan'208";a="1000125665"
-Received: from yy-desk-7060.sh.intel.com (HELO localhost) ([10.239.159.76])
- by fmsmga005.fm.intel.com with ESMTP; 19 Feb 2023 19:04:13 -0800
-Date: Mon, 20 Feb 2023 11:04:12 +0800
-From: Yuan Yao <yuan.yao@linux.intel.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: kvm@vger.kernel.org, linux-api@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, qemu-devel@nongnu.org, aarcange@redhat.com,
- ak@linux.intel.com, akpm@linux-foundation.org, arnd@arndb.de,
- bfields@fieldses.org, bp@alien8.de, chao.p.peng@linux.intel.com,
- corbet@lwn.net, dave.hansen@intel.com, david@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com,
- hughd@google.com, jlayton@kernel.org, jmattson@google.com,
- joro@8bytes.org, jun.nakajima@intel.com,
- kirill.shutemov@linux.intel.com, linmiaohe@huawei.com,
- luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com,
- michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com,
- pbonzini@redhat.com, qperret@google.com, rppt@kernel.org,
- seanjc@google.com, shuah@kernel.org, steven.price@arm.com,
- tabba@google.com, tglx@linutronix.de, vannapurve@google.com,
- vbabka@suse.cz, vkuznets@redhat.com, wanpengli@tencent.com,
- wei.w.wang@intel.com, x86@kernel.org, yu.c.zhang@linux.intel.com
-Subject: Re: [RFC PATCH 0/2] Add flag as THP allocation hint for
- memfd_restricted() syscall
-Message-ID: <20230220030412.fgh3f5qzgihz4f4x@yy-desk-7060>
-References: <cover.1676680548.git.ackerleytng@google.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pTwmJ-00018d-S4
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:47 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pTwmI-0005po-7T
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:47 -0500
+Received: by mail-pl1-x641.google.com with SMTP id q9so2040082plh.6
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 19:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UOihc448srJe4HKo/7mBKCaeeAg13XcIhCz0dW+ajOw=;
+ b=JfcNNcR08H13Id9Ea381vgLLSZu740OLtVhYFfbkkEJRzCtQBna7NbVVa/oPoPfzpA
+ SmTqplY5jXZt3E6bD7JL88cGnRBv7yZKPGDMr0ipNuA4IY/nIrLlaucWj2YUgzwpAw+t
+ 0cjNF+VY9RRUZYwg82TuoCMCfdzSwIEgCkVodE8jfUCIyUmtraqEfxTYcDCjwF9E62Br
+ /28jcGK1FueguyXZUMDKzwr5+AlXX/C2AJZWGfZBVZm/xpkI05J4bFx1eQvZiXN+TE7N
+ idqtKoO7DdtYPpTz9dTRAvRzenmpXxeONSdKpdXVpIX2CcSuV1uMLTRsreGo5N3Ao38H
+ rTAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UOihc448srJe4HKo/7mBKCaeeAg13XcIhCz0dW+ajOw=;
+ b=JTo2wmvrzwT130M1cxFgDx290BU8/aKgQ3zwp87ip8yYIcUVo8a6Jkc/L8wbNgZ3kT
+ BlQbenHU0D0OLSJHuLajun5YNW7VaaQacrzZw27vopCtn5ki7CrtHW9qZKbxEUUmVxLz
+ E12Dl7Kq3iljg/YlC4nG8vP5FCaW7aqRyDMvM/T6BYFxaN16iYlFBQILyuNelpoC/Rkd
+ AhqFQBfL15Z1Zv6znAzHwn4f3Hpv42FH26mWru9OUiRZ5H1qphRfZSG79Ydu6PB4k0k1
+ yfzQ76mEXIkbJHDgKanaZYAB1y68I+pqkQj51rz9iFaN86KqBXX5sFQiXz8Xq3xDxjCG
+ 8jMw==
+X-Gm-Message-State: AO0yUKWA4TtbRVXWJoYEUzK+/MZqeO7px+NVaRKIsTpxpXVJBLOJBjjJ
+ 67rj885NJgl2ez8G/+h2W8QP2EkZUx2T3c/ABD1Gow==
+X-Google-Smtp-Source: AK7set/ch/34fprOL2UnpjKBZxX4vpKVK6BcZibBKP/Q1+rK3PW6Vzq7dMI2mIWhSPODYaf357HU+g==
+X-Received: by 2002:a17:902:db02:b0:19a:96a0:4af5 with SMTP id
+ m2-20020a170902db0200b0019a96a04af5mr3525197plx.57.1676863424193; 
+ Sun, 19 Feb 2023 19:23:44 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a170902d34b00b00198e1bc9d83sm6621302plk.266.2023.02.19.19.23.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Feb 2023 19:23:43 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PULL 0/7] tcg patch queue
+Date: Sun, 19 Feb 2023 17:23:31 -1000
+Message-Id: <20230220032338.5619-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1676680548.git.ackerleytng@google.com>
-User-Agent: NeoMutt/20171215
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=yuan.yao@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,60 +87,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Feb 18, 2023 at 12:43:00AM +0000, Ackerley Tng wrote:
-> Hello,
->
-> This patchset builds upon the memfd_restricted() system call that has
-> been discussed in the ‘KVM: mm: fd-based approach for supporting KVM’
-> patch series, at
-> https://lore.kernel.org/lkml/20221202061347.1070246-1-chao.p.peng@linux.intel.com/T/#m7e944d7892afdd1d62a03a287bd488c56e377b0c
->
-> The tree can be found at:
-> https://github.com/googleprodkernel/linux-cc/tree/restrictedmem-rmfd-hugepage
->
-> Following the RFC to provide mount for memfd_restricted() syscall at
-> https://lore.kernel.org/lkml/cover.1676507663.git.ackerleytng@google.com/T/#u,
-> this patchset adds the RMFD_HUGEPAGE flag to the memfd_restricted()
-> syscall, which will hint the kernel to use Transparent HugePages to
-> back restrictedmem pages.
->
-> This supplements the interface proposed earlier, which requires the
-> creation of a tmpfs mount to be passed to memfd_restricted(), with a
-> more direct per-file hint.
->
-> Dependencies:
->
-> + Sean’s iteration of the ‘KVM: mm: fd-based approach for supporting
->   KVM’ patch series at
->   https://github.com/sean-jc/linux/tree/x86/upm_base_support
-> + Proposed fix for restrictedmem_getattr() as mentioned on the mailing
->   list at
->   https://lore.kernel.org/lkml/diqzzga0fv96.fsf@ackerleytng-cloudtop-sg.c.googlers.com/
-> + Hugh’s patch:
->   https://lore.kernel.org/lkml/c140f56a-1aa3-f7ae-b7d1-93da7d5a3572@google.com/,
->   which provides functionality in shmem that reads the VM_HUGEPAGE
->   flag in key functions shmem_is_huge() and shmem_get_inode()
+The linux-user patches are on the tcg-ish side of user-only
+emulation, rather than the syscall-ish side, so queuing here.
+Solving the deadlock issue is quite important vs timeouts.
 
-Will Hugh's patch be merged into 6.3 ? I didn't find it in 6.2-rc8.
-IMHO this patch won't work without Hugh's patch, or at least need
-another way, e.g. HMEM_SB(inode->i_sb)->huge.
 
->
-> Future work/TODOs:
-> + man page for the memfd_restricted() syscall
-> + Support for per file NUMA binding hints
->
-> Ackerley Tng (2):
->   mm: restrictedmem: Add flag as THP allocation hint for
->     memfd_restricted() syscall
->   selftests: restrictedmem: Add selftest for RMFD_HUGEPAGE
->
->  include/uapi/linux/restrictedmem.h            |  1 +
->  mm/restrictedmem.c                            | 27 ++++++++++++-------
->  .../restrictedmem_hugepage_test.c             | 25 +++++++++++++++++
->  3 files changed, 43 insertions(+), 10 deletions(-)
->
-> --
-> 2.39.2.637.g21b0678d19-goog
->
+r~
+
+
+The following changes since commit 6dffbe36af79e26a4d23f94a9a1c1201de99c261:
+
+  Merge tag 'migration-20230215-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-02-16 13:09:51 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230219
+
+for you to fetch changes up to 2f5b4792c0220920831ac84f94c3435b14791857:
+
+  target/microblaze: Add gdbstub xml (2023-02-19 16:12:26 -1000)
+
+----------------------------------------------------------------
+tcg: Allow first half of insn in ram, and second half in mmio
+linux-user/sparc: SIGILL for unknown trap vectors
+linux-user/microblaze: SIGILL for privileged insns
+linux-user: Fix deadlock while exiting due to signal
+target/microblaze: Add gdbstub xml
+
+----------------------------------------------------------------
+Ilya Leoshkevich (4):
+      linux-user: Always exit from exclusive state in fork_end()
+      cpus: Make {start,end}_exclusive() recursive
+      linux-user/microblaze: Handle privileged exception
+      tests/tcg/linux-test: Add linux-fork-trap test
+
+Richard Henderson (3):
+      accel/tcg: Allow the second page of an instruction to be MMIO
+      linux-user/sparc: Raise SIGILL for all unhandled software traps
+      target/microblaze: Add gdbstub xml
+
+ configs/targets/microblaze-linux-user.mak   |  1 +
+ configs/targets/microblaze-softmmu.mak      |  1 +
+ configs/targets/microblazeel-linux-user.mak |  1 +
+ configs/targets/microblazeel-softmmu.mak    |  1 +
+ include/hw/core/cpu.h                       |  4 +-
+ target/microblaze/cpu.h                     |  2 +
+ accel/tcg/translator.c                      | 12 +++++-
+ cpus-common.c                               | 12 +++++-
+ linux-user/main.c                           | 10 +++--
+ linux-user/microblaze/cpu_loop.c            | 10 ++++-
+ linux-user/sparc/cpu_loop.c                 |  8 ++++
+ linux-user/syscall.c                        |  1 +
+ target/microblaze/cpu.c                     |  7 ++-
+ target/microblaze/gdbstub.c                 | 51 ++++++++++++++++------
+ tests/tcg/multiarch/linux/linux-fork-trap.c | 51 ++++++++++++++++++++++
+ gdb-xml/microblaze-core.xml                 | 67 +++++++++++++++++++++++++++++
+ gdb-xml/microblaze-stack-protect.xml        | 12 ++++++
+ 17 files changed, 224 insertions(+), 27 deletions(-)
+ create mode 100644 tests/tcg/multiarch/linux/linux-fork-trap.c
+ create mode 100644 gdb-xml/microblaze-core.xml
+ create mode 100644 gdb-xml/microblaze-stack-protect.xml
 
