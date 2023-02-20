@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF7069C60A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 08:32:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849C469C620
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 08:49:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU0e1-0001bP-T9; Mon, 20 Feb 2023 02:31:29 -0500
+	id 1pU0uG-00053b-Tv; Mon, 20 Feb 2023 02:48:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU0dt-0001aN-VK
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:31:26 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU0dr-0002N8-Kt
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:31:21 -0500
-Received: by mail-wr1-x431.google.com with SMTP id p8so203878wrt.12
- for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 23:31:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CuXcOz8vk+vQ8FxXnYLWND/TQOzqLO/fL8qBtq+noh8=;
- b=oqcHgagyn7FaiCd6BiK5a1Hz43dB/cqezYEXAyWFcKaT+IzujGW1QDJ5+OHA/0Vbx9
- 1sSVa2AEQBlH/hnEgcEbM2ENZiEPqZkpSjMXKCg5XfHnjVhJbDPNzZ+IZrGl0S35Bw42
- t4JTeh+SHvH8zgtwxU0Q7B5QFDtbWjRkP2QWMrDh2yiIs4Gpa7cAkTxjsGRM4QyYJOf/
- BtP9rPHHNdAyX0yylEmzF9N4vtRBqS8P0Rb5v5Sl0L4lIPOV+3ANjzlN8L85Ypb87qSs
- d/GCfC0EGVpanCjryF94eO1ClKWBcphKO6FDb9xhwcvlBbOkjtFH8hAMnXF2c+A8HJzS
- jYTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CuXcOz8vk+vQ8FxXnYLWND/TQOzqLO/fL8qBtq+noh8=;
- b=zDuu+SN0DD7rrMgc3PJUp0Bqz19NF1FwZB3fv6gByM2G4GRWVKP0+2dL6eKr7mCEca
- zqsbZfpAvvHH9PGmk0E+YVUPK2iGNDhpYRP0xcPS1Z3tcWWlOxg6YeO3WWJHs1GpFUk1
- TRNmkdSUIumobOX/J93fIOYGgcyQOLxI/SD+Xy939Llzdr/JhDiEarCI3uwPRLMVwv/U
- t3WRTYYwFvGaeWwfH7pAHo9pawPa1Dqff0YEwLQEPRgQg2tL+SibqsqfX1XQLmC7cliO
- BO72M1cvLGObV8xktUgXKI3sA/CY3pTsdia0HnCS3rE2qggzS3EyeX4E9FetrXCfzIhz
- THYA==
-X-Gm-Message-State: AO0yUKUZiXkatTlUg3nBicm9R7qBMisw2eYQI4KmDTFufADpLi2zYKs5
- 5WuJ5mSn4gVk9ziTxl+tVT3/pQ==
-X-Google-Smtp-Source: AK7set8+t8Zu+sRJTTLit1LJ0CF9Ugb228qPB5unuhWaHaY/DuXM5rAzR0mSgLBw2+CwldrloX9crQ==
-X-Received: by 2002:a5d:6f1a:0:b0:2c5:55c3:d18d with SMTP id
- ay26-20020a5d6f1a000000b002c555c3d18dmr1117530wrb.9.1676878277801; 
- Sun, 19 Feb 2023 23:31:17 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- v20-20020a5d5914000000b002c552c6c8c2sm1834874wrd.87.2023.02.19.23.31.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Feb 2023 23:31:17 -0800 (PST)
-Message-ID: <316e2dfa-1551-6277-1a61-fe0f4d9c231f@linaro.org>
-Date: Mon, 20 Feb 2023 08:31:16 +0100
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pU0tw-00052F-FN
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:48:01 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pU0tu-0003zV-14
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:47:56 -0500
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8DxldigJfNjs7gCAA--.5298S3;
+ Mon, 20 Feb 2023 15:47:44 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxD7+gJfNj2AU3AA--.63565S3; 
+ Mon, 20 Feb 2023 15:47:44 +0800 (CST)
+Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-11-gaosong@loongson.cn>
+ <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
+Date: Mon, 20 Feb 2023 15:47:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH] ui: fix crash on serial reset, during init
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-References: <20230220072251.3385878-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230220072251.3385878-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8DxD7+gJfNj2AU3AA--.63565S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxGr1UKFW7tF1xWFWDGF1xXwb_yoW5ur1rp3
+ yUKw1xt3WjkaykZ3W09anI9wsxKrsIgw1j9w4kJryqyrWUXrnFvryxtws0gFW5Kw4Fq3Wx
+ Jw12yr4jyr1DArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+ kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm
+ 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
+ k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+ MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr4
+ 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+ IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8czVUUUUUU==
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,49 +79,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/2/23 08:22, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> For ex, when resetting the xlnx-zcu102 machine:
-> 
-> (lldb) bt
-> * thread #1, queue = 'com.apple.main-thread', stop reason =
-> EXC_BAD_ACCESS (code=1, address=0x50)
->     * frame #0: 0x10020a740 gd_vc_send_chars(vc=0x000000000) at
-> gtk.c:1759:41 [opt]
->       frame #1: 0x100636264 qemu_chr_fe_accept_input(be=<unavailable>) at
-> char-fe.c:159:9 [opt]
->       frame #2: 0x1000608e0 cadence_uart_reset_hold [inlined]
-> uart_rx_reset(s=0x10810a960) at cadence_uart.c:158:5 [opt]
->       frame #3: 0x1000608d4 cadence_uart_reset_hold(obj=0x10810a960) at
-> cadence_uart.c:530:5 [opt]
->       frame #4: 0x100580ab4 resettable_phase_hold(obj=0x10810a960,
-> opaque=0x000000000, type=<unavailable>) at resettable.c:0 [opt]
->       frame #5: 0x10057d1b0 bus_reset_child_foreach(obj=<unavailable>,
-> cb=(resettable_phase_hold at resettable.c:162), opaque=0x000000000,
-> type=RESET_TYPE_COLD) at bus.c:97:13 [opt]
->       frame #6: 0x1005809f8 resettable_phase_hold [inlined]
-> resettable_child_foreach(rc=0x000060000332d2c0, obj=0x0000600002c1c180,
-> cb=<unavailable>, opaque=0x000000000, type=RESET_TYPE_COLD) at
-> resettable.c:96:9 [opt]
->       frame #7: 0x1005809d8 resettable_phase_hold(obj=0x0000600002c1c180,
-> opaque=0x000000000, type=RESET_TYPE_COLD) at resettable.c:173:5 [opt]
->       frame #8: 0x1005803a0
-> resettable_assert_reset(obj=0x0000600002c1c180, type=<unavailable>) at
-> resettable.c:60:5 [opt]
->       frame #9: 0x10058027c resettable_reset(obj=0x0000600002c1c180,
-> type=RESET_TYPE_COLD) at resettable.c:45:5 [opt]
-> 
-> While the chardev is created early, the VirtualConsole is associated
-> after, during qemu_init_displays().
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   ui/gtk.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+Hi, Richard
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+在 2022/12/25 上午1:48, Richard Henderson 写道:
+> On 12/24/22 00:16, Song Gao wrote:
+>> +TRANS(vaddwev_h_b, gen_vvv, gen_helper_vaddwev_h_b)
+>> +TRANS(vaddwev_w_h, gen_vvv, gen_helper_vaddwev_w_h)
+>> +TRANS(vaddwev_d_w, gen_vvv, gen_helper_vaddwev_d_w)
+>> +TRANS(vaddwev_q_d, gen_vvv, gen_helper_vaddwev_q_d)
+>> +TRANS(vaddwod_h_b, gen_vvv, gen_helper_vaddwod_h_b)
+>> +TRANS(vaddwod_w_h, gen_vvv, gen_helper_vaddwod_w_h)
+>> +TRANS(vaddwod_d_w, gen_vvv, gen_helper_vaddwod_d_w)
+>> +TRANS(vaddwod_q_d, gen_vvv, gen_helper_vaddwod_q_d)
+>> +TRANS(vsubwev_h_b, gen_vvv, gen_helper_vsubwev_h_b)
+>> +TRANS(vsubwev_w_h, gen_vvv, gen_helper_vsubwev_w_h)
+>> +TRANS(vsubwev_d_w, gen_vvv, gen_helper_vsubwev_d_w)
+>> +TRANS(vsubwev_q_d, gen_vvv, gen_helper_vsubwev_q_d)
+>> +TRANS(vsubwod_h_b, gen_vvv, gen_helper_vsubwod_h_b)
+>> +TRANS(vsubwod_w_h, gen_vvv, gen_helper_vsubwod_w_h)
+>> +TRANS(vsubwod_d_w, gen_vvv, gen_helper_vsubwod_d_w)
+>> +TRANS(vsubwod_q_d, gen_vvv, gen_helper_vsubwod_q_d)
+>
+> These can be implemented with a combination of vector shift + vector add.
+>
+>> +TRANS(vaddwev_h_bu, gen_vvv, gen_helper_vaddwev_h_bu)
+>> +TRANS(vaddwev_w_hu, gen_vvv, gen_helper_vaddwev_w_hu)
+>> +TRANS(vaddwev_d_wu, gen_vvv, gen_helper_vaddwev_d_wu)
+>> +TRANS(vaddwev_q_du, gen_vvv, gen_helper_vaddwev_q_du)
+>> +TRANS(vaddwod_h_bu, gen_vvv, gen_helper_vaddwod_h_bu)
+>> +TRANS(vaddwod_w_hu, gen_vvv, gen_helper_vaddwod_w_hu)
+>> +TRANS(vaddwod_d_wu, gen_vvv, gen_helper_vaddwod_d_wu)
+>> +TRANS(vaddwod_q_du, gen_vvv, gen_helper_vaddwod_q_du)
+>> +TRANS(vsubwev_h_bu, gen_vvv, gen_helper_vsubwev_h_bu)
+>> +TRANS(vsubwev_w_hu, gen_vvv, gen_helper_vsubwev_w_hu)
+>> +TRANS(vsubwev_d_wu, gen_vvv, gen_helper_vsubwev_d_wu)
+>> +TRANS(vsubwev_q_du, gen_vvv, gen_helper_vsubwev_q_du)
+>> +TRANS(vsubwod_h_bu, gen_vvv, gen_helper_vsubwod_h_bu)
+>> +TRANS(vsubwod_w_hu, gen_vvv, gen_helper_vsubwod_w_hu)
+>> +TRANS(vsubwod_d_wu, gen_vvv, gen_helper_vsubwod_d_wu)
+>> +TRANS(vsubwod_q_du, gen_vvv, gen_helper_vsubwod_q_du)
+>
+> These can be implemented with a combination of vector and + vector add.
+>
+>> +TRANS(vaddwev_h_bu_b, gen_vvv, gen_helper_vaddwev_h_bu_b)
+>> +TRANS(vaddwev_w_hu_h, gen_vvv, gen_helper_vaddwev_w_hu_h)
+>> +TRANS(vaddwev_d_wu_w, gen_vvv, gen_helper_vaddwev_d_wu_w)
+>> +TRANS(vaddwev_q_du_d, gen_vvv, gen_helper_vaddwev_q_du_d)
+>> +TRANS(vaddwod_h_bu_b, gen_vvv, gen_helper_vaddwod_h_bu_b)
+>> +TRANS(vaddwod_w_hu_h, gen_vvv, gen_helper_vaddwod_w_hu_h)
+>> +TRANS(vaddwod_d_wu_w, gen_vvv, gen_helper_vaddwod_d_wu_w)
+>> +TRANS(vaddwod_q_du_d, gen_vvv, gen_helper_vaddwod_q_du_d)
+>
+> Likewise.
+>
+> For an example of how to bundle vector operations, see e.g. 
+> gen_gvec_rax1 and subroutines in target/arm/translate-a64.c. There are 
+> many others, but ask if you need more help.
+>
+I have some questions:
+1 Should we need implement  GVecGen*  for simple gvec instructiosn?
+     such as add, sub , or , xor..
+2 Should we need implement all fni8/fni4, fniv,  fno?
 
+Thanks
+Song Gao
 
 
