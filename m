@@ -2,91 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC08A69C548
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 07:17:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9EF69C562
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 07:37:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTzTB-0001mh-K2; Mon, 20 Feb 2023 01:16:13 -0500
+	id 1pTzmM-0004wb-C4; Mon, 20 Feb 2023 01:36:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pTzT9-0001mP-Ih
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 01:16:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pTzm7-0004w7-Ec
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 01:35:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pTzT7-0005BZ-OS
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 01:16:11 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pTzm5-00014x-IT
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 01:35:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676873767;
+ s=mimecast20190719; t=1676874944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7NEWdPocEWGNu+5T59CvRuPufptA/2hhFe6k9qDBp3o=;
- b=f+ilHa6P/BpQV5Ica7waDVbsh7okitN8LM8PDnCxLVB7hWQJOnIBqguogmsEsSDjXbZEoq
- x+nsvfcO6ZmwS/Ykevv5G0axhTHi2PWP7ymKqDvlRjWXZN4ejCUeQ7SskP0fh4vQA2JUfR
- Zq/4ZCcbhobDjWNkUoGT5sTD9Ra9O6o=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8MLx2+rnNctmUvlbrAQiG3fA5GIkOmb98UUo/wH6si0=;
+ b=Rvt99PUpCOse+NyKKQ85rxMNmnRsmSWJxsrxYE6rKFxXWALXihuIvDKAz5TyaQdNZ9RGNz
+ HppgugmbU/fD9Jn9Hb9lXuZL/E91qM4n+sjKihiK0xBLmPDPi4ba2CihU3TU/dLOjc6jlc
+ KVghhDWctw9MQZgmeH3JpQJD7PVhoWY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-567-G3Y5fSkvOOO_51YfNKxYLA-1; Mon, 20 Feb 2023 01:16:06 -0500
-X-MC-Unique: G3Y5fSkvOOO_51YfNKxYLA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d11-20020a056000186b00b002bde0366b11so129075wri.7
- for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 22:16:05 -0800 (PST)
+ us-mta-492-QrkN-GfNM6-O4zBlBa3XHA-1; Mon, 20 Feb 2023 01:35:42 -0500
+X-MC-Unique: QrkN-GfNM6-O4zBlBa3XHA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ z6-20020a5d4406000000b002c54ce46094so135017wrq.17
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 22:35:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
  :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7NEWdPocEWGNu+5T59CvRuPufptA/2hhFe6k9qDBp3o=;
- b=OhhPV2HJfbMJPeXK8UErl5vKzxB9JeLDs/bzQB4jCMip9F893Tc34b9/Cx9DVsmx9R
- JI9LZPC/3H+Af05vZtjDDr4CcXDSWDrbcr+0ZGpbY3IH6ugk0p/zNbAbFvnuWQeqCV81
- b+ZdhvO0OLGAXkWQ87URLi1HN8siyZRwKC3LH7OCb1Q3pxMAaUbbO8+uy9xW2+DHzdmm
- pHKh/FwWXgCXDhHkFgbspr/2nSsD3gD9UZBI3u8/OE/CvwBA2MfYehyyz0K+XYkkKfx7
- YOnd9eEsYnT73AX+qW4FIcxL8c+Cl9gn3rqA0WVysvdF+1kl+wSO6RPYBUtNghQUdJvP
- JGOQ==
-X-Gm-Message-State: AO0yUKX/RtctQjjLFpfKxTVFwYHFYMay/Z8Hw7re4YbVd/mxth4zeeKI
- NzagHoLWaDEtRCANlTRduqKlIx0x182cMl+m6acUafbDmjKF52tJqC9XKXbyKRZrosHphicjkqE
- w77WHsngvT9TA7fM=
-X-Received: by 2002:a05:600c:43d5:b0:3e2:1d1e:78dc with SMTP id
- f21-20020a05600c43d500b003e21d1e78dcmr8227848wmn.36.1676873765028; 
- Sun, 19 Feb 2023 22:16:05 -0800 (PST)
-X-Google-Smtp-Source: AK7set9sYrh8RjeImmzF79BXAoGGWDB11FOESinbR+2P8b3RRF9bYhak1OhEKG1finynV5BpmWnj1Q==
-X-Received: by 2002:a05:600c:43d5:b0:3e2:1d1e:78dc with SMTP id
- f21-20020a05600c43d500b003e21d1e78dcmr8227821wmn.36.1676873764636; 
- Sun, 19 Feb 2023 22:16:04 -0800 (PST)
+ bh=8MLx2+rnNctmUvlbrAQiG3fA5GIkOmb98UUo/wH6si0=;
+ b=0egsqoei4uxx9eebPFw/pX9YZuY/sy6h5k4kcWx2JQyL7ll5drQwVX3suTvb2sjIUr
+ vMA7hDBoOkxhmMVe7dOCOlKcT/Zm/PDzDaAgL5ZKIiINYlFESXZyMS82e6NS/ZQDqnpP
+ TmEQ2p+NcOYoCLBh/8ypQr4iLOdqHcS14YEoGQSPpGjAK3mCYfhCf8hpgEmgt3u199nf
+ 1sQs6+MD6XLutbw/saU0wD1WF3E6+LsTZFbD27KYJsi9OCrssmAqaIkeGRdvYM2UE5ga
+ wqUfscAsQX8Q4ChSmCk1TCnNP0AxLC6tPEkOrlQ8815AHJPDzdGcpt2rtTKfjE9h5TUc
+ +SdA==
+X-Gm-Message-State: AO0yUKWLwrrJiSczUS4wDV0O8nPH7JBeZUYbXIPRcgYVi4h+yECGUKel
+ 1zc6O2uF/wY5X6CA7YGDLVgmewgTn9D7vHHNu+rUNoh8uqZFPTH3wRI5iOjex7KIdarHJ+yLJnE
+ 67tJ+t3/WgR9GkHw=
+X-Received: by 2002:a05:600c:4393:b0:3e2:8f1:7684 with SMTP id
+ e19-20020a05600c439300b003e208f17684mr10993202wmn.33.1676874941480; 
+ Sun, 19 Feb 2023 22:35:41 -0800 (PST)
+X-Google-Smtp-Source: AK7set8iWMA52F5F3vis9YGXQ6pi/5cQYruwadHGbGiBLHnb+55eB8M+AA3/vqdq/ZTJm5Y2qbIcGA==
+X-Received: by 2002:a05:600c:4393:b0:3e2:8f1:7684 with SMTP id
+ e19-20020a05600c439300b003e208f17684mr10993183wmn.33.1676874941179; 
+ Sun, 19 Feb 2023 22:35:41 -0800 (PST)
 Received: from [192.168.8.104] (tmo-100-40.customers.d1-online.com.
  [80.187.100.40]) by smtp.gmail.com with ESMTPSA id
- t16-20020a05600c2f9000b003dc521f336esm12895288wmn.14.2023.02.19.22.16.02
+ e1-20020a05600c4e4100b003e1fee8baacsm9214780wmq.25.2023.02.19.22.35.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Feb 2023 22:16:03 -0800 (PST)
-Message-ID: <ee04b184-75e3-7c4a-856f-4543f51f8412@redhat.com>
-Date: Mon, 20 Feb 2023 07:16:01 +0100
+ Sun, 19 Feb 2023 22:35:40 -0800 (PST)
+Message-ID: <45496628-6a2b-cdfd-666f-a7a9dca887bd@redhat.com>
+Date: Mon, 20 Feb 2023 07:35:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
 Content-Language: en-US
-To: John Snow <jsnow@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Kevin Wolf <kwolf@redhat.com>
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <87v8k2ycjb.fsf@pond.sub.org>
- <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com>
- <CAFn=p-YnR-hFAg=yxCi7oNKHXirMqv2vJSYmaY8VBPq+Q2UVbA@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Jan Kiszka <jan.kiszka@web.de>, Vikram Garhwal <vikram.garhwal@amd.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-ppc@nongnu.org,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, Thomas Huth
+ <huth@tuxfamily.org>, Francisco Iglesias <francisco.iglesias@amd.com>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Jason Wang
+ <jasowang@redhat.com>, Beniamino Galvani <b.galvani@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Frederic Konrad <konrad.frederic@yahoo.fr>
+References: <20230217141832.24777-1-philmd@linaro.org>
+ <20230217215836.40328-1-philmd@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
-In-Reply-To: <CAFn=p-YnR-hFAg=yxCi7oNKHXirMqv2vJSYmaY8VBPq+Q2UVbA@mail.gmail.com>
+Subject: Re: [PATCH 3/2] hw/timer: Rename ptimer_state -> PTimer
+In-Reply-To: <20230217215836.40328-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -94,7 +100,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,79 +116,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/02/2023 21.46, John Snow wrote:
-> On Thu, Feb 16, 2023 at 5:58 AM Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 15/02/2023 20.05, Markus Armbruster wrote:
->>> The discussion under PATCH 6 makes me think there's a bit of confusion
->>> about the actual impact of dropping support for Python 3.6.  Possibly
->>> because it's spelled out in the commit message of PATCH 7.  Let me
->>> summarize it in one sentence:
->>>
->>>       *** All supported host systems continue to work ***
->>>
->>> Evidence: CI remains green.
->>
->> The CI remains green since one of the patches disabled the building of the
->> docs on CentOS 8. That's not how I'd describe "continue to work", at least
->> not in the same extend as before.
->>
->>> On some supported host systems, different packages need to be installed.
->>> On CentOS 8, for instance, we need to install Python 3.8.13 or 3.9.16
->>> instead of 3.6.8.  Let me stress again: same repository, different
->>> package.  No downsides I can see.
->>>
->>> The *one* exception is Sphinx on CentOS 8.  CentOS 8 does not ship a
->>> version of Sphinx that works with Python 3.7 or newer.  This series
->>> proposes to simply stop building the docs there, unless the user
->>> provides a suitable version of Sphinx (which is easy enough with pip).
->>
->> I think we've all understood that. The thing that you obviously did not
->> understood: This breaks our support statement.
->> I'm pretty sure that you could also build the whole QEMU suite successfully
->> on an ancient CentOS 7 or Ubuntu 18.04 system if you manually install a
->> newer version of GCC and some of the required libraries first. But that's
->> not how we understand our support statement.
->>
->> Sure, you can argue that you can use "pip install" to get a newer version of
->> Sphinx on RHEL 8 / CentOS 8 to continue building the docs there - but is
->> that really that much different from installing a newer version of GCC and
->> libraries on an ancient distro that we do not officially support anymore?
->> I'd say no. You also have to consider that not every build host has access
->> to the internet, maybe some companies only have an internal mirror of the
->> distro packages in their intranet (I remember some discussion about such a
->> case in the past) - so while you were perfectly fine to build the whole of
->> QEMU on a CentOS 8 there before this change, you could now not build parts
->> of QEMU anymore there due to the missing possibility to run "pip install"
->> without full internet connection.
+On 17/02/2023 22.58, Philippe Mathieu-Daudé wrote:
+> Remove a pointless cast in ptimer_tick() and rename 'ptimer_state'
+> as 'PTimer' to follow the Structure naming convention.
 > 
-> There are good points elsewhere in this thread and I am taking notes,
-> but this critique caught my eye as something I was not specifically
-> planning around, so I wanted to get an elaboration here if I may.
+> See docs/devel/style.rst:
 > 
-> Do we have a support statement for this? I find this critique somewhat
-> surprising -- If we don't have internet, how did we get the other 20
-> to 30 dependencies needed to build QEMU? To what extent are we
-> *required* to preserve a build that works without internet access?
+>    Variables are lower_case_with_underscores; easy to type and
+>    read.  Structured type names are in CamelCase; harder to type
+>    but standing out.  Enum type names and function type names
+>    should also be in CamelCase.  Scalar type names are
+>    lower_case_with_underscores_ending_with_a_t, like the POSIX
+>    uint64_t and family.
+> 
+> Mechanical change doing:
+> 
+>    $ sed -i -e s/ptimer_state/PTimer/g \
+>        $(git grep -l ptimer_state)
+> 
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+...
+> @@ -154,7 +154,7 @@ static void ptimer_reload(ptimer_state *s, int delta_adjust)
+>   
+>   static void ptimer_tick(void *opaque)
+>   {
+> -    ptimer_state *s = (ptimer_state *)opaque;
+> +    PTimer *s = opaque;
 
-It's not written in stone, but I saw it this way: If I have a complete 
-mirror of a distro repository in my intrAnet, I can use that mirror to set 
-up a QEMU build host system that has no access to the internet. Or maybe 
-think of a DVD image(s) with all distro packages that you use to install a 
-host without network access (and you copy the QEMU tarball there via USB 
-stick). I think it's not that uncommon to have such scenarios out there.
+I like that you also removed the useless cast here.
 
-For example, do you remember that SDL 1.2 discussion a some years ago? See:
+>       bool trigger = true;
+>   
+>       /*
+> @@ -198,7 +198,7 @@ static void ptimer_tick(void *opaque)
+>       ptimer_transaction_commit(s);
+>   }
+>   
+> -uint64_t ptimer_get_count(ptimer_state *s)
+> +uint64_t ptimer_get_count(PTimer *s)
+>   {
+>       uint64_t counter;
+>   
+> @@ -294,7 +294,7 @@ uint64_t ptimer_get_count(ptimer_state *s)
+>       return counter;
+>   }
+>   
+> -void ptimer_set_count(ptimer_state *s, uint64_t count)
+> +void ptimer_set_count(PTimer *s, uint64_t count)
+>   {
+>       assert(s->in_transaction);
+>       s->delta = count;
+> @@ -303,7 +303,7 @@ void ptimer_set_count(ptimer_state *s, uint64_t count)
+>       }
+>   }
+>   
+> -void ptimer_run(ptimer_state *s, int oneshot)
+> +void ptimer_run(PTimer *s, int oneshot)
+>   {
+>       bool was_disabled = !s->enabled;
+>   
+> @@ -323,7 +323,7 @@ void ptimer_run(ptimer_state *s, int oneshot)
+>   
+>   /* Pause a timer.  Note that this may cause it to "lose" time, even if it
+>      is immediately restarted.  */
+> -void ptimer_stop(ptimer_state *s)
+> +void ptimer_stop(PTimer *s)
+>   {
+>       assert(s->in_transaction);
+>   
+> @@ -337,7 +337,7 @@ void ptimer_stop(ptimer_state *s)
+>   }
+>   
+>   /* Set counter increment interval in nanoseconds.  */
+> -void ptimer_set_period(ptimer_state *s, int64_t period)
+> +void ptimer_set_period(PTimer *s, int64_t period)
+>   {
+>       assert(s->in_transaction);
+>       s->delta = ptimer_get_count(s);
+> @@ -349,7 +349,7 @@ void ptimer_set_period(ptimer_state *s, int64_t period)
+>   }
+>   
+>   /* Set counter increment interval from a Clock */
+> -void ptimer_set_period_from_clock(ptimer_state *s, const Clock *clk,
+> +void ptimer_set_period_from_clock(PTimer *s, const Clock *clk,
+>                                     unsigned int divisor)
+>   {
+>       /*
+> @@ -382,7 +382,7 @@ void ptimer_set_period_from_clock(ptimer_state *s, const Clock *clk,
+>   }
+>   
+>   /* Set counter frequency in Hz.  */
+> -void ptimer_set_freq(ptimer_state *s, uint32_t freq)
+> +void ptimer_set_freq(PTimer *s, uint32_t freq)
+>   {
+>       assert(s->in_transaction);
+>       s->delta = ptimer_get_count(s);
+> @@ -395,7 +395,7 @@ void ptimer_set_freq(ptimer_state *s, uint32_t freq)
+>   
+>   /* Set the initial countdown value.  If reload is nonzero then also set
+>      count = limit.  */
+> -void ptimer_set_limit(ptimer_state *s, uint64_t limit, int reload)
+> +void ptimer_set_limit(PTimer *s, uint64_t limit, int reload)
+>   {
+>       assert(s->in_transaction);
+>       s->limit = limit;
+> @@ -406,19 +406,19 @@ void ptimer_set_limit(ptimer_state *s, uint64_t limit, int reload)
+>       }
+>   }
+>   
+> -uint64_t ptimer_get_limit(ptimer_state *s)
+> +uint64_t ptimer_get_limit(PTimer *s)
+>   {
+>       return s->limit;
+>   }
+>   
+> -void ptimer_transaction_begin(ptimer_state *s)
+> +void ptimer_transaction_begin(PTimer *s)
+>   {
+>       assert(!s->in_transaction);
+>       s->in_transaction = true;
+>       s->need_reload = false;
+>   }
+>   
+> -void ptimer_transaction_commit(ptimer_state *s)
+> +void ptimer_transaction_commit(PTimer *s)
+>   {
+>       assert(s->in_transaction);
+>       /*
+> @@ -442,27 +442,27 @@ const VMStateDescription vmstate_ptimer = {
+>       .version_id = 1,
+>       .minimum_version_id = 1,
+>       .fields = (VMStateField[]) {
+> -        VMSTATE_UINT8(enabled, ptimer_state),
+> -        VMSTATE_UINT64(limit, ptimer_state),
+> -        VMSTATE_UINT64(delta, ptimer_state),
+> -        VMSTATE_UINT32(period_frac, ptimer_state),
+> -        VMSTATE_INT64(period, ptimer_state),
+> -        VMSTATE_INT64(last_event, ptimer_state),
+> -        VMSTATE_INT64(next_event, ptimer_state),
+> -        VMSTATE_TIMER_PTR(timer, ptimer_state),
+> +        VMSTATE_UINT8(enabled, PTimer),
+> +        VMSTATE_UINT64(limit, PTimer),
+> +        VMSTATE_UINT64(delta, PTimer),
+> +        VMSTATE_UINT32(period_frac, PTimer),
+> +        VMSTATE_INT64(period, PTimer),
+> +        VMSTATE_INT64(last_event, PTimer),
+> +        VMSTATE_INT64(next_event, PTimer),
+> +        VMSTATE_TIMER_PTR(timer, PTimer),
+>           VMSTATE_END_OF_LIST()
+>       }
+>   };
+>   
+> -ptimer_state *ptimer_init(ptimer_cb callback, void *callback_opaque,
+> +PTimer *ptimer_init(ptimer_cb callback, void *callback_opaque,
+>                             uint8_t policy_mask)
 
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg631628.html
+Just a nit: In case you respin, please adjust the indentation here.
 
-It was not exactly the same situation, since those folks were even unable to 
-install a SDL2-devel package on their pre-installed hosts, though it was 
-theoretically available as an update in their distro, but I think it gives 
-an impression of what people are using and expecting out there... (and no, 
-I'm not happy with this, I'd also rather love if we could move faster in the 
-QEMU project sometimes).
-
-  Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
