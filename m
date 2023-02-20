@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9FC69CA42
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 12:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8699269CA4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 12:52:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU4hk-0001jB-BB; Mon, 20 Feb 2023 06:51:36 -0500
+	id 1pU4hp-0001kb-Ug; Mon, 20 Feb 2023 06:51:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU4hi-0001i9-Ud
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:51:34 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU4hn-0001jo-Vl
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:51:40 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU4hh-00056R-EU
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:51:34 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- az11-20020a05600c600b00b003dc4fd6e61dso812046wmb.5
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 03:51:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU4hm-00056v-E0
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:51:39 -0500
+Received: by mail-wr1-x429.google.com with SMTP id t15so968263wrz.7
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 03:51:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wg6knbur2mmJV8L9g7D6SKJ7/ERhPsRC33COYh3Bljw=;
- b=VDZ000fopMnMKslEBLL9pEqrmVFf6Xs+q7tczg18RLnpAu5FoBKA0uFfeC37vrT2jg
- SN2ndwkQHgN/DevtloSzAbEot55W2BfIBGZCthMfcJTNzuOfxJSOQECx8gNwhG0ijIDp
- Rf6mvFysejO1GmNcFGdhh2UPPxKJ5sCOLdixtObDrSk44krnxezNyqwgDnd0g+YKUD10
- K1PQBKDMbx6l1y/WMM4/Ux6YgtbfClWWKL9H7RaP610wjjUDFLI9W0NAIvB43cdBhHju
- Pkmcnmhxmp4Te5xh/0Fn6TmWRWIJWSqoNnvhJn4GPcmYpJYMZo9z4hIvRHzmIwygacUN
- i1ow==
+ bh=czXwdqthQ5iacnX5do69zMxtKzZ1dl3WlnS0e9zwEDE=;
+ b=b2DjAQfnxzKe3h+ZHHA22LUFtI9mytzQYQysG0K7h+w9xmboePDKh2M9B1k2BOzEO0
+ YkSfC5cqUvU9v7E2F4BgcyG44uXVe+ZXvG4vVkZeB45t6fh19w9UXjevYSD8FIXZpfPY
+ 78D22PzQQtESoOKHkIGF07q/UGkIzXrm86eB7k60m/4rJ8Td7esoRBHZ3ggtfUD//Tv3
+ n4B9evQhpc+NVdS70Wpyj4kcEiz+8nZspxzs3ZlaXbQL4AvkwP0onVIDGjtHJZInsMwO
+ N0SOMAauxRXy9WUW5oEb2fxoJDiqjX+fXdpdFUTL92By/3RPk0pN63YJ2SzOPgesXs5T
+ /SAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wg6knbur2mmJV8L9g7D6SKJ7/ERhPsRC33COYh3Bljw=;
- b=1kG/Wr3BX8vfLmyRloglVCih50Yk87VhbWIa5amzsWfInmxmehUCcD6AuCUe8PMI1S
- B84l7dwAp5mKXP5Helr1jEZKLAGUgOsrSgCiHVJZHbk4RxbLFCzRsDjLyeQA+M6S3ICa
- /oV1J3DD+b8Wz6q0QwZk2hxpNGgOce1G8GXe7GPYzfbU7xKZQtMwK7ku7c4lMLD4qjTU
- AEBF0AlNhcftFtdb061T/qpXs7ZPugoO+n816MF0QduN3gtMBqPjo88o12C9bwpr6x1K
- FZFK5HBmwp3Y/bUvNmfPzGvIReOpC0XxtFjc1xeUuAbngmzcZ61983fLlaOxRrLoLm8H
- gVFQ==
-X-Gm-Message-State: AO0yUKWVGLKTv2oEpB6Z/DpiSa+DLn/DUhs37b1sjXvyO3shuIZSJQaC
- 7hVvHbikk7goaRfw+S/Ptn5qFwQtIa/AFBzU
-X-Google-Smtp-Source: AK7set8AdtaGwhUINf61DXhdgFMfuGeRDfgQVWoU4CiKOyy6kwV9yP0jiJz2T16PfKOQcO7KubqPBg==
-X-Received: by 2002:a05:600c:1895:b0:3e2:589:2512 with SMTP id
- x21-20020a05600c189500b003e205892512mr780466wmp.21.1676893891694; 
- Mon, 20 Feb 2023 03:51:31 -0800 (PST)
+ bh=czXwdqthQ5iacnX5do69zMxtKzZ1dl3WlnS0e9zwEDE=;
+ b=eEz1ls+kLr+/mYGq1wyCCJUO7RlITorI9C3Z+JULZQm9kW9DorVCPaVfiTatXUG9rJ
+ f/Qh+qQ8nuxNanPe9Ipk8u1tr//IOUy/D9Nye5VXs8ELzdp0YHY6zPwgUJ0KL7T58sSV
+ jDz22AD0ldThqNUEt+DWG++KOo4JPbrly91zwa7txov0ynn5fT54AwGJ2lgIf255d9Ft
+ CXNJlkigy2OMHp/gwh3tov6RHK4KRLcCMnKBNAuRbp7VRVROelVOdp0AjdEjOYK0SH2G
+ IOHWb58/hF8CljruOrfelyFMARX203WqojKkrHdsKMuIRcR0LmRCCUsz6FSlDpGAZOHo
+ RGlg==
+X-Gm-Message-State: AO0yUKVkx9MdDY8/6mbNuDcZRN9BUq3jTV/97Vk0ZrO4ljZS/h4k37ue
+ i6dVdjbaNwb0aSr0fFUbc2FKNsH1GR9qo6Bv
+X-Google-Smtp-Source: AK7set+H5fqA0/SEBI6do3W1i4gMxS86GIpzpX572wnNvvzNStCLNx5wLBHyTMATON7+1cWv2t6wCw==
+X-Received: by 2002:a05:6000:1c5:b0:2c5:941d:26b8 with SMTP id
+ t5-20020a05600001c500b002c5941d26b8mr431674wrx.15.1676893896874; 
+ Mon, 20 Feb 2023 03:51:36 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- x8-20020a1c7c08000000b003dc4480df80sm89905wmc.34.2023.02.20.03.51.30
+ l18-20020adfe9d2000000b002bfe08c566fsm2001141wrn.106.2023.02.20.03.51.35
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Feb 2023 03:51:31 -0800 (PST)
+ Mon, 20 Feb 2023 03:51:36 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -61,17 +60,17 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 3/8] hw/char/pl011: Open-code pl011_luminary_create()
-Date: Mon, 20 Feb 2023 12:51:09 +0100
-Message-Id: <20230220115114.25237-4-philmd@linaro.org>
+Subject: [PATCH 4/8] hw/char/xilinx_uartlite: Expose XILINX_UARTLITE QOM type
+Date: Mon, 20 Feb 2023 12:51:10 +0100
+Message-Id: <20230220115114.25237-5-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230220115114.25237-1-philmd@linaro.org>
 References: <20230220115114.25237-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,63 +93,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-pl011_luminary_create() is only used for the Stellaris board,
-open-code it.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/stellaris.c      | 11 ++++++++---
- include/hw/char/pl011.h | 17 -----------------
- 2 files changed, 8 insertions(+), 20 deletions(-)
+ hw/char/xilinx_uartlite.c         | 4 +---
+ include/hw/char/xilinx_uartlite.h | 6 +++++-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index 67a2293d35..f7e99baf62 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -1146,9 +1146,14 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
+diff --git a/hw/char/xilinx_uartlite.c b/hw/char/xilinx_uartlite.c
+index 99b9a6f851..180bb97202 100644
+--- a/hw/char/xilinx_uartlite.c
++++ b/hw/char/xilinx_uartlite.c
+@@ -24,6 +24,7 @@
  
-     for (i = 0; i < 4; i++) {
-         if (board->dc2 & (1 << i)) {
--            pl011_luminary_create(0x4000c000 + i * 0x1000,
--                                  qdev_get_gpio_in(nvic, uart_irq[i]),
--                                  serial_hd(i));
-+            SysBusDevice *sbd;
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "hw/char/xilinx_uartlite.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/qdev-properties-system.h"
+@@ -53,9 +54,6 @@
+ #define CONTROL_RST_RX    0x02
+ #define CONTROL_IE        0x10
+ 
+-#define TYPE_XILINX_UARTLITE "xlnx.xps-uartlite"
+-OBJECT_DECLARE_SIMPLE_TYPE(XilinxUARTLite, XILINX_UARTLITE)
+-
+ struct XilinxUARTLite {
+     SysBusDevice parent_obj;
+ 
+diff --git a/include/hw/char/xilinx_uartlite.h b/include/hw/char/xilinx_uartlite.h
+index dd09c06801..753d3a453e 100644
+--- a/include/hw/char/xilinx_uartlite.h
++++ b/include/hw/char/xilinx_uartlite.h
+@@ -18,6 +18,10 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/sysbus.h"
+ #include "qapi/error.h"
++#include "qom/object.h"
 +
-+            dev = qdev_new("pl011_luminary");
-+            sbd = SYS_BUS_DEVICE(dev);
-+            qdev_prop_set_chr(dev, "chardev", serial_hd(i));
-+            sysbus_realize_and_unref(sbd, &error_fatal);
-+            sysbus_mmio_map(sbd, 0, 0x4000c000 + i * 0x1000);
-+            sysbus_connect_irq(sbd, 0, qdev_get_gpio_in(nvic, uart_irq[i]));
-         }
-     }
-     if (board->dc2 & (1 << 4)) {
-diff --git a/include/hw/char/pl011.h b/include/hw/char/pl011.h
-index d82870c006..d853802132 100644
---- a/include/hw/char/pl011.h
-+++ b/include/hw/char/pl011.h
-@@ -57,21 +57,4 @@ struct PL011State {
++#define TYPE_XILINX_UARTLITE "xlnx.xps-uartlite"
++OBJECT_DECLARE_SIMPLE_TYPE(XilinxUARTLite, XILINX_UARTLITE)
  
- DeviceState *pl011_create(hwaddr addr, qemu_irq irq, Chardev *chr);
+ static inline DeviceState *xilinx_uartlite_create(hwaddr addr,
+                                         qemu_irq irq,
+@@ -26,7 +30,7 @@ static inline DeviceState *xilinx_uartlite_create(hwaddr addr,
+     DeviceState *dev;
+     SysBusDevice *s;
  
--static inline DeviceState *pl011_luminary_create(hwaddr addr,
--                                                 qemu_irq irq,
--                                                 Chardev *chr)
--{
--    DeviceState *dev;
--    SysBusDevice *s;
--
--    dev = qdev_new("pl011_luminary");
--    s = SYS_BUS_DEVICE(dev);
--    qdev_prop_set_chr(dev, "chardev", chr);
--    sysbus_realize_and_unref(s, &error_fatal);
--    sysbus_mmio_map(s, 0, addr);
--    sysbus_connect_irq(s, 0, irq);
--
--    return dev;
--}
--
- #endif
+-    dev = qdev_new("xlnx.xps-uartlite");
++    dev = qdev_new(TYPE_XILINX_UARTLITE);
+     s = SYS_BUS_DEVICE(dev);
+     qdev_prop_set_chr(dev, "chardev", chr);
+     sysbus_realize_and_unref(s, &error_fatal);
 -- 
 2.38.1
 
