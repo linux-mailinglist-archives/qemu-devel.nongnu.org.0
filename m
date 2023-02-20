@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A95969D047
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FEE69D046
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:06:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU7k9-00023q-Pq; Mon, 20 Feb 2023 10:06:19 -0500
+	id 1pU7kF-0002G0-Ko; Mon, 20 Feb 2023 10:06:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7jn-0001oh-Qw
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:05:57 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7ju-0001t1-FI
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:06:10 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7jm-0008U6-8s
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:05:55 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id v3so1462948wrp.2
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 07:05:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7js-0008Um-RI
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:06:02 -0500
+Received: by mail-wr1-x429.google.com with SMTP id bo30so983088wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 07:05:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=p8o9rMHYIWugBzDHKzJd9qgUvI0GxAA+Ds+7D1kDUBM=;
- b=dXKm87OvSP5t8PW1VhPsHLOYT9xOV5RBpPkg0viuHrxaBLSMDwyK9WyS0P0WvJqq9Z
- nQsJKmGynhhaoa3VULViKj/X0t9nQY646RqArIXdw1aUFzRtYvxNu9YOJUOtbaOd505p
- lbldkY5rmBe5CfTSI6cwQqxASSh20HdkVf22RRS70SdgtNFPA3Fotx2tXKGh93VRHkkI
- BoVJYmeKXcL2LbeNVOAhJeJAD01yV1v2daZ7s75rmDBnCt25f16lGOmzICUZmfv9RcbR
- BbDjbi1p5Lk97pgBXCnQqxJ3FSc+7KO0FlQCFneeYgisWyLAVeXxkaXUFTIvqVcjWMzp
- cnLA==
+ bh=Rwk3S75FdqWeTle70LswE0cg7wHk0orFnQPLyZ5g350=;
+ b=rdS4B/WCFnvVO5TKYbKcoQK/WeA9T17pLMTOkt3wcMDJbyTNGZo2NcMKcZMLFztdlY
+ Nw0vyvHeN8wnYCYBixoHw50+uYX10oNRlj+tKB+zVkJVXDO/58oOljosON5Z6/CHx3rx
+ k6fwLBMUtYt1vrcO97UAlGu6kUCN82ov+wRzh00nBd/UlG3sRVI7ejix9TNIAYyyrdxv
+ fgoSkLXVdl//8JWnWjf84YOGRvoYu5MGWmR85r1BNL3Rw8E/tsZU9fd6ANL9aAhjHm7D
+ /QdnTeAl+JyYi8BjGWcDMKU+vYI35wNTxak8GHNTQIw3xRkS6mCtgvEwYOms1y2OJciw
+ Yz0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=p8o9rMHYIWugBzDHKzJd9qgUvI0GxAA+Ds+7D1kDUBM=;
- b=FKaCncCYz3EPq/Dunz3KrCEsGqVNkeh4tGgEN9gBGEjVQxXgjazY7pCqrdy4r1qjsk
- Kw3xlgBFALaWjAaPsn1dcdTK5i+WwMsDC3Ca16xgndcbotxoPKGCZunw1JU77pXSnRpU
- 85zIoTXjnYPU47uZB5q5kVgAGJkavJCiR0aS7m6C3lZF7kj+97k0OYU27AyMPiGu42Hh
- FwskH96jJgO9HAj8gvNjvc3TeikJsAOKJ6RWyHa4UpaXSQcaQ7Xwo0znOX7da+1wr6Ib
- ZjoDydNP5MoVxe2b/kzi5uP0ZbTheSDVp5AlN4CrnT7rrij+m3R9gYT9r4ZBYLoHVeF9
- z0oA==
-X-Gm-Message-State: AO0yUKWqb4tuDJZ5jvpIcEJWSXDRtBea3ITJc9U52ZXb8voOp7N9uz7p
- W143ma7plCNvTSg3mphm8/HhNfx3ZhM+FFHq
-X-Google-Smtp-Source: AK7set+Fr+RlRaTSgA1TIOlDInqd6M5dPOqikpRdcBaMu0dyb4K5F0wuH0UHZvPQR0zDqTnIrIcXiQ==
-X-Received: by 2002:adf:ee43:0:b0:2c5:afce:6080 with SMTP id
- w3-20020adfee43000000b002c5afce6080mr334045wro.12.1676905552497; 
- Mon, 20 Feb 2023 07:05:52 -0800 (PST)
+ bh=Rwk3S75FdqWeTle70LswE0cg7wHk0orFnQPLyZ5g350=;
+ b=rEiz/kF+n7eyzGWFct5NU9cKUhwYZuJ4WUPX88HKVPRtIesucOHlJ0kA/d9cQfKTuw
+ DEueZXXDksKUReqwRkZPIECjk6xy79XpvqMiOwrGHglZixd81yLHGz3iTyPgVbKl241v
+ MXFTQMSRS7oDFhLoMtv3ToEJvBDLnJb9wmANhnmeshVuvFJItJ0T6snC2pFRYxEibiD7
+ ThLEzQyPTbwSWhLaBSiv0Nz/95T0K8jBSf/ShktCAlTnW6Z4Ys8rh8Asf6gbW/hXnTcB
+ OlIEmSLhjWTIlPlL2L0N4U9mHOoGN/lOdCpw/rYFL2e8uf9Y3+PxL0Be5HZkzPlxTZ+Z
+ VJIw==
+X-Gm-Message-State: AO0yUKU78PK6a4RGKK/1UPESdceElQkNPCFtv5Qg/eAIwG6GFzRPO4Am
+ CaDBXZjlvBtCT8YzP3hFI12zWNMcHhnWZ5H7
+X-Google-Smtp-Source: AK7set/roX5wuRRwTdlRtsijr0lBSa2FsN9FX7wsbjw+iSMlCc43HtDgsjOEbxL4OFAUigSTvwrD3g==
+X-Received: by 2002:adf:fc12:0:b0:2c3:e20b:82aa with SMTP id
+ i18-20020adffc12000000b002c3e20b82aamr1973309wrr.22.1676905557565; 
+ Mon, 20 Feb 2023 07:05:57 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- t5-20020adfdc05000000b002c556f36116sm4133914wri.66.2023.02.20.07.05.51
+ y1-20020adff141000000b002c58f199a49sm11428923wro.117.2023.02.20.07.05.56
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Feb 2023 07:05:52 -0800 (PST)
+ Mon, 20 Feb 2023 07:05:57 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 7/9] hw/usb/hcd-xhci-nec: Replace container_of() by NEC_XHCI()
- QOM cast macro
-Date: Mon, 20 Feb 2023 16:05:13 +0100
-Message-Id: <20230220150515.32549-8-philmd@linaro.org>
+Subject: [PATCH 8/9] hw/usb/u2f: Declare QOM macros using OBJECT_DECLARE_TYPE()
+Date: Mon, 20 Feb 2023 16:05:14 +0100
+Message-Id: <20230220150515.32549-9-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230220150515.32549-1-philmd@linaro.org>
 References: <20230220150515.32549-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,24 +89,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+hw/usb/u2f.h was added by commit 80e267f1d1 ("hw/usb: Add
+U2F key base class"), almost the same time of the automatic
+conversion done by commit c821774a3b ("Use OBJECT_DECLARE_TYPE
+where posible"). Manually convert to OBJECT_DECLARE_TYPE().
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/usb/hcd-xhci-nec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/usb/u2f.h | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/hw/usb/hcd-xhci-nec.c b/hw/usb/hcd-xhci-nec.c
-index d732be0ef9..328e5bfe7c 100644
---- a/hw/usb/hcd-xhci-nec.c
-+++ b/hw/usb/hcd-xhci-nec.c
-@@ -53,7 +53,7 @@ static Property nec_xhci_properties[] = {
- static void nec_xhci_instance_init(Object *obj)
- {
-     XHCIPciState *pci = XHCI_PCI(obj);
--    XHCINecState *nec = container_of(pci, XHCINecState, parent_obj);
-+    XHCINecState *nec = NEC_XHCI(obj);
+diff --git a/hw/usb/u2f.h b/hw/usb/u2f.h
+index a408a82927..8bff13141a 100644
+--- a/hw/usb/u2f.h
++++ b/hw/usb/u2f.h
+@@ -31,22 +31,16 @@
+ #define U2FHID_PACKET_SIZE 64
+ #define U2FHID_PENDING_IN_NUM 32
  
-     pci->xhci.flags    = nec->flags;
-     pci->xhci.numintrs = nec->intrs;
+-typedef struct U2FKeyState U2FKeyState;
+ typedef struct U2FKeyInfo U2FKeyInfo;
+ 
+ #define TYPE_U2F_KEY "u2f-key"
+-#define U2F_KEY(obj) \
+-    OBJECT_CHECK(U2FKeyState, (obj), TYPE_U2F_KEY)
+-#define U2F_KEY_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(U2FKeyClass, (klass), TYPE_U2F_KEY)
+-#define U2F_KEY_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(U2FKeyClass, (obj), TYPE_U2F_KEY)
++OBJECT_DECLARE_TYPE(U2FKeyState, U2FKeyClass, U2F_KEY)
+ 
+ /*
+  * Callbacks to be used by the U2F key base device (i.e. hw/u2f.c)
+  * to interact with its variants (i.e. hw/u2f-*.c)
+  */
+-typedef struct U2FKeyClass {
++struct U2FKeyClass {
+     /*< private >*/
+     USBDeviceClass parent_class;
+ 
+@@ -55,12 +49,12 @@ typedef struct U2FKeyClass {
+                             const uint8_t packet[U2FHID_PACKET_SIZE]);
+     void (*realize)(U2FKeyState *key, Error **errp);
+     void (*unrealize)(U2FKeyState *key);
+-} U2FKeyClass;
++};
+ 
+ /*
+  * State of the U2F key base device (i.e. hw/u2f.c)
+  */
+-typedef struct U2FKeyState {
++struct U2FKeyState {
+     USBDevice dev;
+     USBEndpoint *ep;
+     uint8_t idle;
+@@ -70,7 +64,7 @@ typedef struct U2FKeyState {
+     uint8_t pending_in_start;
+     uint8_t pending_in_end;
+     uint8_t pending_in_num;
+-} U2FKeyState;
++};
+ 
+ /*
+  * API to be used by the U2F key device variants (i.e. hw/u2f-*.c)
 -- 
 2.38.1
 
