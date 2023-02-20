@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADA669D344
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:51:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA52569D35A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:53:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUBFx-0008NT-AG; Mon, 20 Feb 2023 13:51:21 -0500
+	id 1pUBHk-0001RT-Qp; Mon, 20 Feb 2023 13:53:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUBFr-0008Im-AI
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:51:15 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pUBHh-0001R3-RA
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:53:09 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUBFp-0006JO-NX
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:51:14 -0500
-Received: by mail-pl1-x632.google.com with SMTP id t14so2837619plo.2
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 10:51:13 -0800 (PST)
+ id 1pUBHg-0006X1-Bp
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:53:09 -0500
+Received: by mail-pf1-x429.google.com with SMTP id a7so1235939pfx.10
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 10:53:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=9ngagxltp/pj0L5xJ7citQRxeVgJMhPUIstQCvSUy3Q=;
- b=NPWW1BOy08zzMgt1ss9rlbJPmDzu66Lw03gIAwxUQh2/c3X8AKvTbAcbsxNjMMnzBy
- H638ZpCEyEB6qOSYE3gqKL3sE8h836yu4hqeiX/K/TqpK6j0UQMqVUI967MLy7cEmdes
- nQ1e5GThVb/lWYv7WWO5tJ6PFnC1//RINk9Ok1mE7MQK9eO17HXI8aSRk46EvF0FSykp
- 6+4ihNDOPo2S2jFVTb665n+CETPAeU8ylhIK7n0sGg2N+FozzcewcRULuVBcVeZbUiSR
- mQo23DzsmJ8ozq4K0keL0scy09zYwrzzKvoSbOBUK8bmpCIkIAdRyAvYIiyAotkuQNck
- BvQw==
+ bh=QyqJGYnzn3CyQ7ZynQjBNHLmbapPWH7iiYsf0vhVRWw=;
+ b=FllENUYUg52QZg5BYtHT1ltt2BKLkdwpA2fFprwiwp0Otjz/59ICJugW/gcczFUv2m
+ U7OBLbGZJMAdfEI6NfXE9djv/xvBGBl3fod7ecwwRwfMZmx2qbujkKHn2eC2cAchCmgJ
+ S9xgdG7agOslqzmRXQRkVJEgnAPoyHiNjf6nNwRyYCf9g9thb9rqka0fwkEXHz8FYqcK
+ byuAw7zJ2jCOLBJfQ42HCJ8OUmm5N0ZE9jLNgHVEqdPKHaJHHrN2q84FH30GgMBxkPJk
+ vioVnND9A3b2k1VPG9NfChTmbaITzZcb9B1qux9X4s7/y1jM3kxJEVdbtaZtThZ7u5uy
+ 1aMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9ngagxltp/pj0L5xJ7citQRxeVgJMhPUIstQCvSUy3Q=;
- b=ZFcA+IwMNzGROMWY9V7tV5rBNuBDX860DlRWTF79YorOkZm5ey/7ouTIyA/GaJKB5r
- ti/lXpBXJ2Xv9pPsGGXE4egni9QMb+GHyLZJlkbLg5QNzsRuKMu4z0QtbuiyjLWzKXFe
- SJxC/gDFo8OKQg4uYPW/54+0ZEgF5PMr3aUogFHjMfg550kCZfnnTA5Xp0ez1tj0VgnF
- 2X5OcYBNiUMELd1Q7SgSHXisYAl2bcul5TP4EMcy3d5a+5pdDXSUyVBEoKPwL9rm1W4z
- ZTZTM3yuXfjFFhPMvQ7CBzRH2oUe9hbO/iQ7noTo5IHIngootgHPq2bcT5mvxLRpd/Ln
- E7pQ==
-X-Gm-Message-State: AO0yUKXrs3eXroS91C2P/ddqhpxRc2XIxcx7T94SkPWs4KGA84OvtWuO
- j8KjjjnUcrKIgQiijpeyqNMFCw==
-X-Google-Smtp-Source: AK7set+0swR+0JOvFzflb397G3AUPKvwaxjjBC9VcjLatL7KaZC7RmlXMXyJuRLaKeQDqbflZ9yqLg==
-X-Received: by 2002:a17:903:28cb:b0:19a:a43c:41a3 with SMTP id
- kv11-20020a17090328cb00b0019aa43c41a3mr3768256plb.42.1676919072201; 
- Mon, 20 Feb 2023 10:51:12 -0800 (PST)
+ bh=QyqJGYnzn3CyQ7ZynQjBNHLmbapPWH7iiYsf0vhVRWw=;
+ b=f0q/MYXl6mkP85xxTgvwYpq4WxIue7P0Dim5Z9RhFVjochGmVRC69xReVh67ePRKd6
+ d8kSr0QzPnHs5/E+M1kS6Ryyms/1Z1/RgVMvS3+BEYidTEamLNMudRzQKGJnSYUrjAhr
+ O0SCuAfpQdjwLfPhXlYvon1+u1lazxaub+kdL2K/qznkzFaz7HrEeAyiew3jfV23oLXS
+ t7C6EYBFAAZkgElDgP7IERQKOIHlRu+glcXCPA6k29CLhQmRoGGd3J+SfttcDz8XHmxa
+ 6CAJXuMiZ09U9ZzGOOTg4u+BTH90WVHz5WZFB5oDnT8DPg111f3Gx7XF4pPi1KGkubnF
+ IKOQ==
+X-Gm-Message-State: AO0yUKUyrWPGfhlGATiG/gyGuMmqbOkpCRutTw38nzyQHDrtAaENgwfh
+ Rwriji41wfoay7i3t1Un58zDTQ==
+X-Google-Smtp-Source: AK7set+u6fgCqKAq16qeBKOSHuZ2th2Rmw9IzVB9cfzYbtCCXQBva7KZ+KZKB7tq4YFiq5I+Qe5cBg==
+X-Received: by 2002:aa7:8f28:0:b0:590:7659:9c33 with SMTP id
+ y8-20020aa78f28000000b0059076599c33mr1961139pfr.22.1676919186859; 
+ Mon, 20 Feb 2023 10:53:06 -0800 (PST)
 Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- s2-20020a170902a50200b0019926c77577sm8273010plq.90.2023.02.20.10.51.10
+ e14-20020a62aa0e000000b005a816b7c3e8sm8014569pff.24.2023.02.20.10.53.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 10:51:11 -0800 (PST)
-Message-ID: <300c815f-fc69-4aac-c1b2-81526419623d@linaro.org>
-Date: Mon, 20 Feb 2023 08:51:08 -1000
+ Mon, 20 Feb 2023 10:53:06 -0800 (PST)
+Message-ID: <c52a8d72-49f3-76eb-a80d-2b2389eef1fa@linaro.org>
+Date: Mon, 20 Feb 2023 08:53:02 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 3/8] hw/char/pl011: Open-code pl011_luminary_create()
+Subject: Re: [PATCH 4/8] hw/char/xilinx_uartlite: Expose XILINX_UARTLITE QOM
+ type
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -69,13 +70,13 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 References: <20230220115114.25237-1-philmd@linaro.org>
- <20230220115114.25237-4-philmd@linaro.org>
+ <20230220115114.25237-5-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230220115114.25237-4-philmd@linaro.org>
+In-Reply-To: <20230220115114.25237-5-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -99,14 +100,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/20/23 01:51, Philippe Mathieu-Daudé wrote:
-> pl011_luminary_create() is only used for the Stellaris board,
-> open-code it.
-> 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   hw/arm/stellaris.c      | 11 ++++++++---
->   include/hw/char/pl011.h | 17 -----------------
->   2 files changed, 8 insertions(+), 20 deletions(-)
+>   hw/char/xilinx_uartlite.c         | 4 +---
+>   include/hw/char/xilinx_uartlite.h | 6 +++++-
+>   2 files changed, 6 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
