@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC15069D03D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:06:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D50569D042
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:06:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU7jX-0001UG-O8; Mon, 20 Feb 2023 10:05:40 -0500
+	id 1pU7jd-0001ZD-JD; Mon, 20 Feb 2023 10:05:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7jP-0001S9-Vy
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:05:32 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7jV-0001Ud-Sv
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:05:37 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7jN-0008Pc-Rm
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:05:31 -0500
-Received: by mail-wr1-x434.google.com with SMTP id c5so2229783wrr.5
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 07:05:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7jS-0008Q8-Hm
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:05:35 -0500
+Received: by mail-wr1-x433.google.com with SMTP id l1so1265211wry.10
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 07:05:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WvQXFHkymgCugjl5w0M5Pkt74ouZE927KClvNUr2f1I=;
- b=oNbyK5bmWx489XuCKxFfaXarv7cwfVphOyQH3WvLtfsWk5rp2/H2tCe15B+Gw82YOi
- BM9lsmBHxu5uTDzHEcdgA4ygYFkD18nJ4++SNEiNoNEynJP4X54mOdQdtQeZiM9tIiTU
- 1+NygPMdKY35KGvLc9QDcSUxa7Ldi/J0dzf/f+AdsQOzgYs3L2sFcpMt8nTAl4wzCgW3
- OdAsDjdyDwJc4diwmlJcnWgxVXxRTMrwVC8lJgmDzk/LCmH0EyG6XK5vmUJVs0pAE/Ky
- hPNbC08/vo1TpsR8D0H3Xcg5KgCAP9/pFVXg+isZ9UaxWs1244vdEQPtasCMl11daFb1
- 0Fmg==
+ bh=7fg6HCxs6YpFo/+46boIzya1hKfktdzojAtH+afSJyQ=;
+ b=r9D8/sZ57wMWYURio6MgHiplYoREPPP5ECnZWbkTvd1XGr+lIeT0nApvdJUXrTD4Pv
+ ts4EtFGdrza8Q8Dqlk6QFEBiTByaEbH1raEoXSSXCcpgyEGQaj0DcPVLFf8ke3uBply7
+ tGnmcx1rIAPnGajolZyE1zTcQPwoecPbJtelOpmVI8nRo0ZN+R34kpSmpgjoDeQYZESH
+ rqVdBFEZl1lxwmc+RmvOHBlLgTPfYJMuQUEgqRe2gOX03gIpGunW0T3IPuS5QR6Vca7c
+ iXh7ZxIakDuDlYXQHpg1b+DwnLDiSJ95M2AWNbhKxU8ytXuf9SaNh9DNqnX0pBIC2miN
+ Oykw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WvQXFHkymgCugjl5w0M5Pkt74ouZE927KClvNUr2f1I=;
- b=n0cW7ZjGXqyGH9NSWE7LGfed49MWMa8VYZsUhRL6gWjWhwspa0UJF71mGaQ0AhjJ03
- DlaCRbebTLEWqxkOuHvLBrNnPVjt6+rVxVuLw8bLOVvjBefx5nfueYYCgj1Zs1tO7Kef
- keJoYF0yhVX1Dog+PITjTZtWwS47RHHyOmOTqgCgbLnoClbSr27HoqESrxgM0r/Rahe6
- WY1xIbE4FkU8Lah3ME2yGGUcyxBSQWufCBmzEpVga1TbUfYqdSpuiaJ4sooCB3jyNZYR
- NpxZReU/8Q9kH0FoTyQMlpbmpAlEWGn2f4kWAXKiWS6BXcbAaftCbDfTWOC8n5EQ4dp8
- Ynuw==
-X-Gm-Message-State: AO0yUKX6hbVoHdwGHaVswXKATLXvGnDftjViNtHw6Il6UN6LG8bs/4XU
- OAa0NzYNC16YtkRAjlpQHeYHkMrnb77NhgOS
-X-Google-Smtp-Source: AK7set9wOPJyT/SXml6PHb6eRhI1d7QfpYWhO1coMcPLrn8JB9m6DzsY6wADJnXSE1OeKhAQcTNaoQ==
-X-Received: by 2002:a5d:4f87:0:b0:2c5:8d06:75c2 with SMTP id
- d7-20020a5d4f87000000b002c58d0675c2mr2981896wru.35.1676905528225; 
- Mon, 20 Feb 2023 07:05:28 -0800 (PST)
+ bh=7fg6HCxs6YpFo/+46boIzya1hKfktdzojAtH+afSJyQ=;
+ b=8SJxntMib3BmIJlMvAxqi36tYYP/Uuoj/JlrnAYBIO0TY6P3R+wfW0O8dEyhIrYjhG
+ y2gcZyBhXgLkVC3iEujzYB/mYcfGKnK4yhnd86flaqjepY6UqcrIrq8bHoVUPMI0fM3w
+ M4RohKLeuOeo/gJU6txXezV4bDWo80q1Rq1mHnJQxnbC97i3WtfwY4ycmqdipunX9UO1
+ P+j7T8BwvfwRWTBq90G17psaLGF/8gEPSVulFO6TGGn/2kQ7dxVEccijzEVW6FalEPLK
+ EePu0nNmpELIAuDQKOFFN/4pqKuiam76D//Au8M196YdivGZ/PQ+QBsR02/UP6P777jz
+ azAQ==
+X-Gm-Message-State: AO0yUKVIrmElAwhYrPqFzPYAYiSq2doVaX6KaJ6XuhvIBinxJxmOHT2I
+ sgg0sTlCSpV0zg1E3JQj5DkjKkaithcTwNgg
+X-Google-Smtp-Source: AK7set+nPjQc+NySf/0HGsmAmLPQNFM8i/rDFL997S2BPuimChtlBhe2FWqr5/1lmfm5E5OagoblyQ==
+X-Received: by 2002:a05:6000:188b:b0:2c5:4e06:b689 with SMTP id
+ a11-20020a056000188b00b002c54e06b689mr641490wri.28.1676905532987; 
+ Mon, 20 Feb 2023 07:05:32 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- t20-20020a1c7714000000b003dc3f3d77e3sm1437266wmi.7.2023.02.20.07.05.27
+ v6-20020adfedc6000000b002c5544b3a69sm12652486wro.89.2023.02.20.07.05.32
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Feb 2023 07:05:27 -0800 (PST)
+ Mon, 20 Feb 2023 07:05:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 2/9] hw/usb/hcd-ohci: Use OHCIState type definition
-Date: Mon, 20 Feb 2023 16:05:08 +0100
-Message-Id: <20230220150515.32549-3-philmd@linaro.org>
+Subject: [PATCH 3/9] hw/usb/hcd-ohci-pci: Use QOM type-safe cast conversion
+ macro
+Date: Mon, 20 Feb 2023 16:05:09 +0100
+Message-Id: <20230220150515.32549-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230220150515.32549-1-philmd@linaro.org>
 References: <20230220150515.32549-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,62 +90,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Forward-define the type first, then use it for the ohci_die() handler.
+Use the PCI_DEVICE() QOM cast macros to avoid accessing internal fields.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/usb/hcd-ohci.c |  2 +-
- hw/usb/hcd-ohci.h | 10 ++++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ hw/usb/hcd-ohci-pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index 9d68036d23..7ecf9b15b7 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
-@@ -1827,7 +1827,7 @@ static USBBusOps ohci_bus_ops = {
- void usb_ohci_init(OHCIState *ohci, DeviceState *dev, uint32_t num_ports,
-                    dma_addr_t localmem_base, char *masterbus,
-                    uint32_t firstport, AddressSpace *as,
--                   void (*ohci_die_fn)(struct OHCIState *), Error **errp)
-+                   void (*ohci_die_fn)(OHCIState *), Error **errp)
+diff --git a/hw/usb/hcd-ohci-pci.c b/hw/usb/hcd-ohci-pci.c
+index 6b630d35a7..3234408f1a 100644
+--- a/hw/usb/hcd-ohci-pci.c
++++ b/hw/usb/hcd-ohci-pci.c
+@@ -52,11 +52,11 @@ struct OHCIPCIState {
+ static void ohci_pci_die(struct OHCIState *ohci)
  {
-     Error *err = NULL;
-     int i;
-diff --git a/hw/usb/hcd-ohci.h b/hw/usb/hcd-ohci.h
-index 11ac57058d..8a9ba8b959 100644
---- a/hw/usb/hcd-ohci.h
-+++ b/hw/usb/hcd-ohci.h
-@@ -33,7 +33,9 @@ typedef struct OHCIPort {
-     uint32_t ctrl;
- } OHCIPort;
+     OHCIPCIState *dev = container_of(ohci, OHCIPCIState, state);
++    PCIDevice *pdev = PCI_DEVICE(dev);
  
--typedef struct OHCIState {
-+typedef struct OHCIState OHCIState;
-+
-+struct OHCIState {
-     USBBus bus;
-     qemu_irq irq;
-     MemoryRegion mem;
-@@ -89,8 +91,8 @@ typedef struct OHCIState {
-     uint32_t async_td;
-     bool async_complete;
+     ohci_sysbus_die(ohci);
  
--    void (*ohci_die)(struct OHCIState *ohci);
--} OHCIState;
-+    void (*ohci_die)(OHCIState *ohci);
-+};
+-    pci_set_word(dev->parent_obj.config + PCI_STATUS,
+-                 PCI_STATUS_DETECTED_PARITY);
++    pci_set_word(pdev->config + PCI_STATUS, PCI_STATUS_DETECTED_PARITY);
+ }
  
- #define TYPE_SYSBUS_OHCI "sysbus-ohci"
- OBJECT_DECLARE_SIMPLE_TYPE(OHCISysBusState, SYSBUS_OHCI)
-@@ -112,7 +114,7 @@ extern const VMStateDescription vmstate_ohci_state;
- void usb_ohci_init(OHCIState *ohci, DeviceState *dev, uint32_t num_ports,
-                    dma_addr_t localmem_base, char *masterbus,
-                    uint32_t firstport, AddressSpace *as,
--                   void (*ohci_die_fn)(struct OHCIState *), Error **errp);
-+                   void (*ohci_die_fn)(OHCIState *), Error **errp);
- void ohci_bus_stop(OHCIState *ohci);
- void ohci_stop_endpoints(OHCIState *ohci);
- void ohci_hard_reset(OHCIState *ohci);
+ static void usb_ohci_realize_pci(PCIDevice *dev, Error **errp)
 -- 
 2.38.1
 
