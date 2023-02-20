@@ -2,95 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C2269C7A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:25:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E0C69C79D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:23:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU2JK-0002Eo-Qa; Mon, 20 Feb 2023 04:18:15 -0500
+	id 1pU2NN-0007hs-7O; Mon, 20 Feb 2023 04:22:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pU2Gv-0007EG-C9
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:15:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pU2Ml-0006hX-C5
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:21:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pU2Gs-0004I6-NJ
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:15:45 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pU2Mi-0005U9-Na
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:21:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676884541;
+ s=mimecast20190719; t=1676884894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lSdD1Zk9qDQXe02xtdMd0IbCJTGRDYlrK9A/K8vlWho=;
- b=MiY6p/B9QmA+MP4WK9+ZesQZ9qqeErSm+q4AC731Qvya32YeYSungoI9P/FnxAWL2kbsWM
- ebPC0CTxGkf9NO3DrsGZsbe3Y/jlzf5HEpmQsnsLsbhcRxntG3glcO+paks62ZJz1gmVyO
- bb6nTvsMy5eZ44dr/9PICkI5T9eM2ss=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-19-bFa76ss8M2G5bOsu1izKow-1; Mon, 20 Feb 2023 04:15:39 -0500
-X-MC-Unique: bFa76ss8M2G5bOsu1izKow-1
-Received: by mail-wm1-f72.google.com with SMTP id
- t1-20020a7bc3c1000000b003dfe223de49so377439wmj.5
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:15:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lSdD1Zk9qDQXe02xtdMd0IbCJTGRDYlrK9A/K8vlWho=;
- b=q6isS/OfXKtZTkG1YAob63119PUqY5oMxOhCfNZC3tqA8Yx/0UekgfLEXSX2OmoZ5S
- Gp2m1gpmJSqH37JdY8NfHZPI/T36m+rTIdrVL8XpDpK/FdsXKzP/kiek0jul9vm/pQhw
- gppfA4LeGmXsId0IzHdYRGBbG2sVUXRTeYWWLJFbM/ErAM/ZyEr1bBOtl5Vjq2bLCWHX
- QtT3F4jvKS0A9s/sROLJB2z4YXalHzGB02OO1ERYnD8K0PrRBuXjO18SNiXWYG6TJeCh
- COMuw6/0L5TeM6myPipGclvZSMYNDVOihOio5KvRxXUExpvau1zsLVlF8VtRh3UlQXjP
- nHdQ==
-X-Gm-Message-State: AO0yUKWd7fjveUYm4BMEi4r4ZEsMdYlFePUUy8werRSbYXZcaT0xI+Zl
- qtjQZkP/DGAj5fbWkuxFMSzIN7qbDujtnryaWNhVfEG7nyGj4vxrMb6pBI6Rt07VyYgpjSHDVoh
- TChoP93cAUDAvhh4=
-X-Received: by 2002:a05:600c:4d89:b0:3e0:1a9:b1e0 with SMTP id
- v9-20020a05600c4d8900b003e001a9b1e0mr342308wmp.25.1676884538628; 
- Mon, 20 Feb 2023 01:15:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set/ECv61uI0/dBX9R38JtuRAVJCV4u9s8Eoz48JFATTveIQcy876MwX7JhNLrUTz9pC3ya4aHA==
-X-Received: by 2002:a05:600c:4d89:b0:3e0:1a9:b1e0 with SMTP id
- v9-20020a05600c4d8900b003e001a9b1e0mr342288wmp.25.1676884538286; 
- Mon, 20 Feb 2023 01:15:38 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:8300:e519:4218:a8b5:5bec?
- (p200300cbc7058300e5194218a8b55bec.dip0.t-ipconnect.de.
- [2003:cb:c705:8300:e519:4218:a8b5:5bec])
- by smtp.gmail.com with ESMTPSA id
- z8-20020a1c4c08000000b003e1f319b87bsm13477799wmf.24.2023.02.20.01.15.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 01:15:37 -0800 (PST)
-Message-ID: <bbbd3382-f33c-1e8a-789b-dec1c4766730@redhat.com>
-Date: Mon, 20 Feb 2023 10:15:37 +0100
+ bh=aM+9qdfYeaQgZV1mMl6MBJgeYU7a4b40TFO12f06g+w=;
+ b=LP48O+agkfzYGjbh1EMCWJKVVnzQN0S6c7nVXZlMsgYz/e87An+ODEdKykw3EGqqsmKM+9
+ pmT7QoO7MQmQsbVdvWJUfbcJfpwzIT0i7KcVg31Ckf3TU0BiTtifygeNDU2/2WJ4SKaXwV
+ /JN5R8OjiivtX2PCSMewGkiWZTVp8Ug=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556-cyIx9jlsOQ2FrC4E5VxbnA-1; Mon, 20 Feb 2023 04:21:30 -0500
+X-MC-Unique: cyIx9jlsOQ2FrC4E5VxbnA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65766185A794;
+ Mon, 20 Feb 2023 09:21:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 444041415113;
+ Mon, 20 Feb 2023 09:21:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 40DC821E6A1F; Mon, 20 Feb 2023 10:21:29 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,  John
+ Snow <jsnow@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,  Paolo
+ Bonzini <pbonzini@redhat.com>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>, Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC PATCH] docs/about/build-platforms: Refine the distro
+ support policy
+References: <20230217132631.403112-1-thuth@redhat.com>
+ <Y++X2XtyfJEIzcln@redhat.com>
+ <b2b54f1a-735c-acab-bd75-3d8cce9fb34d@redhat.com>
+Date: Mon, 20 Feb 2023 10:21:29 +0100
+In-Reply-To: <b2b54f1a-735c-acab-bd75-3d8cce9fb34d@redhat.com> (Thomas Huth's
+ message of "Fri, 17 Feb 2023 19:30:05 +0100")
+Message-ID: <87ilfwzo86.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Content-Language: en-US
-To: Yangming <yangming73@huawei.com>, "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "wangzhigang (O)" <wangzhigang17@huawei.com>,
- "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
-References: <8c6d264163574d8b886afdd3e4b77a2d@huawei.com>
- <0a0e1f05073d44a38a35e270ca735819@huawei.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: Optimization for the virtio-balloon feature on the ARM platform
-In-Reply-To: <0a0e1f05073d44a38a35e270ca735819@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,54 +87,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20.02.23 02:33, Yangming via wrote:
-> Dear QEMU maintainers,
-> 
-> I am writing to discuss a possible optimization for the virtio-balloon 
-> feature on the ARM platform. The ‘virtio_balloon_set_config’ function is 
-> called frequently during the balloon inflation process, and its 
-> subfunction ‘get_current_ram_size’ needs to traverse the virtual 
-> machine's memory modules in order to count the current virtual machine's 
-> memory (i.e initial ram size + hotplugged memory). This can be very time 
-> consuming on the ARM platform, as the ARM virtual machine has much more 
-> complex memory modules than the x86 virtual machine.
-> 
-> Therefore, I suggest introducing a global variable, ‘total_ram_size’, 
-> that would be updated only when the balloon is initialized and hotplug 
-> memory has completed. This would increase the efficiency of balloon 
-> inflation by more than 60% on the ARM platform.
-> 
-> The following code is part of the optimization for balloon:
-> 
-> --- a/qemu/hw/virtio/virtio-balloon.c
-> 
-> +++ b/qemu/hw/virtio/virtio-balloon.c
-> 
-> static void virtio_balloon_set_config(…)
-> 
-> …
-> 
-> -    ram_addr_t vm_ram_size = get_current_ram_size();
-> 
-> +   ram_addr_t vm_ram_size = total_ram_size;
-> 
-> …
-> 
-> I hope this suggestion could be considered or discussed by QEMU 
-> developers. I would love to seeing this improvement added to QEMU in the 
-> future.
+Thomas Huth <thuth@redhat.com> writes:
 
-I'd suggest keeping track of the plugged DIMM size inside 
-ms->device_memory->dimm_size. We can update it from 
-pc_dimm_plug/pc_dimm_unplug. We just have to make sure to exclude NVDIMMs.
+> On 17/02/2023 16.06, Daniel P. Berrang=C3=A9 wrote:
+>> On Fri, Feb 17, 2023 at 02:26:31PM +0100, Thomas Huth wrote:
+> ...
+>> I'm also not so comfortable dropping the only version of SLES that we
+>> explicitly target, when we don't know when their new major release
+>> will arrive.
+>
+> Let's hope that the next major version will show up at least five
+> years after the previous one ... but what if it takes many more years?
+> Do we want to support very old long term distros for "almost forever"?
+>
+> Also, should we maybe at least limit the time to 5 years? Otherwise,
+> if openSUSE 16 gets released 5 years after v15, we have to support v15
+> for 7 years in total due to the "two more years" rule...
 
-We can then optimize get_current_ram_size() to return "ms->ram_size + 
-ms->device_memory->dimm_size", of course taking care of 
-ms->device_memory == NULL on some machines.
+Let's keep in mind that "2 years after the new major version" isn't the
+law, it's a rule we give ourselves so we don't have to debate from first
+principles every time.  If supporting a major version of SLES (or
+anything for that matter) according to the rule becomes too expensive,
+we can and should change the rule.
 
--- 
-Thanks,
+>> If we allow compilers, libraries to be bumped, then someone stuck on
+>> RHEL-8 has a significant task to build their own toolchain/libraries
+>> in order to work with QEMU still. If we only allow python modules to
+>> be bumped, the solution is just a pip install / virtualenv away.
+>
+> Honestly, being a Python ignorant, I'm more comfortable with
+> "./configure && make && make install" instead of messing up my system
+> with pip like I did in the past ... but I guess it's ok if it is
+> properly done automatically under the hood with a venv ... I'll get
+> used to it ;-)
 
-David / dhildenb
+"pip in venv" should not mess up your system.
+
+Automation is of course welcome, and likely to reduce mess-ups through
+incorrect use / non-use of venvs.
+
+Optional dependencies default to off when not satisfied.  Without
+automation, satisfying them is up to the developer.  When you're not
+hacking on Python code yourself, there is no need for you to satisfy the
+mypy dependency, be it with dnf, pip, or whatever.
+
+I believe the one Python-related dependency of general interest right
+now is Sphinx, which is required for building documentation.
 
 
