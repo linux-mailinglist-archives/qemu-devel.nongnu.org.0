@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C1569D045
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:06:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6260069D050
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:10:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU7kN-0002UG-NV; Mon, 20 Feb 2023 10:06:31 -0500
+	id 1pU7nU-0007ll-IH; Mon, 20 Feb 2023 10:09:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7k0-00024M-J5
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:06:11 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pU7nS-0007lV-5M
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:09:42 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU7jy-0008VO-DZ
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:06:08 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t13so1467229wrv.13
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 07:06:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pU7nQ-0000l6-9x
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:09:41 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ p3-20020a05600c358300b003e206711347so1125356wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 07:09:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qkM29ZYnS80tOuTl6ndvH0Cr2j3m8kabXDaXkwn7EWs=;
- b=xV0y1/nXiJXWfsgXH359JNNC1H61ZrNTma9hfWvppEhSx3TrrIB3NA+T0u0DfoJq9Q
- wTxmtTBiXERCPC1cX0rj3CenoO2V11GEtWpN61Rfo9XAJFJk+LVRKmFNHJMHn2ZyT+1C
- PiMoEFzMV6/aH7vM27DCiMxLjBcjBXSoKQSJ6LBSS3W0ke2jl6dffJOM8khHiF1WWorK
- VVAV7Iq8r+9aMaCGG50aWJByqYd3xtRT21FVC9A6lLt6vQ3R/mtOx5zrp0jn6WRhAvhJ
- tXqCfklNEydlZQjVHVHP/o1BSgy3ENXSN1SfNtJJuFLiUo6Zx5ya1LNu5CzjWKOFEh4t
- mmOg==
+ bh=NvFYgrANl//l7WFmiisVy/kuWwUNX3mT1IiTqD8ctX0=;
+ b=WD0yRYndygZ/kmD0TAJ/Mo9nt7921ELlbWbEC2ifMHCn6jGdnTHQJKzyyJgYk6gqu7
+ lFaU5qha6VN3burngNbGfb0PKmd9hvo5Ds0gKI8TahEjYoa5u6f/yav2JoUS6HwNYzhb
+ eR6IEGaGwN+vwb8IYU1I/YDyaHHlkM7rEf5u3bfLXHvm9g/6EzRddJxFRsNc9Ji2UgaJ
+ Iev1Nsc5ZZR1bnqXo0Ovu2CAF4757FgTUKVDia9GkzPmi8xTnfuZ3v4xevEZ9Ve86IKC
+ WZB3EZeXNTUgIwucoHFMri/BeTe9ahJ51B7g7f2dUpLAf9p5M1wU/q1YYbviBQNRnmos
+ /Zhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qkM29ZYnS80tOuTl6ndvH0Cr2j3m8kabXDaXkwn7EWs=;
- b=uoUlw4orzE3Fbg/1WgSCCAV0qWcoPjlEhYMsILhKGPLcPQtlrnZYAoH2rTbCG1nD9A
- UDdlpHWnaC+GLHo8FA6ff7Dmz77axT7+6SlMGTu4JeJJwwka7jEjtqjUwC6DL8VNAJU0
- K8VNLoNvAkxD/Yhgjnb29XBPwuPzrmThUxphM5CO0m/B1UwFZwyc/Cl8+CUF/sjOWPhe
- Ke6kVbKdGdEqTXgaOuCfX6UzlxVKX1TaZmAg9T1a8IVqKpBl/07U38sOjCaMrGKUk1Cy
- MEvKzyIsQXxGSYyY2Gbkk13T8TL0hYNrWLpolBMIKEfXKQpGCBmkVXfCop8v/fzd7w9o
- FLmA==
-X-Gm-Message-State: AO0yUKWGDVlHwv34ocMY3DPdd/QsqwZA3surMw5Bv63yoPLKL8P0UlBr
- Q7SZGdsd65tE6F/CutDWKiQ7odzbyGQetluD
-X-Google-Smtp-Source: AK7set+ZQetSGsq8kf85jT4wjshhQOk6OFSxAKh4s69hJtKvpOlaO0KxjTOCUha+vSv6CreEQih36w==
-X-Received: by 2002:a5d:4610:0:b0:2c5:98f2:5b16 with SMTP id
- t16-20020a5d4610000000b002c598f25b16mr3257738wrq.1.1676905562416; 
- Mon, 20 Feb 2023 07:06:02 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=NvFYgrANl//l7WFmiisVy/kuWwUNX3mT1IiTqD8ctX0=;
+ b=e5DBb4FggMLzVX7swGTuKvlk81VwxijWQhCHoE5Y1dRw7GMy1L9Xm43TPq3+SkYBb5
+ 0gLDMyYdtPfwU2JoGy4lUuwo2QmpgbYLtTVXs2aoTEXTt5GtmJDYnWLjVCHcCwkCLZ3X
+ tB8U16EQ6SpJMGvGB9cUHccxYRvVFNwzvfeFv6SNb86TPkuWip3dC1mjqFr/APpOUEVj
+ WWjMtPNE8sqpWXD+ECeWvFI1zBRm3P1zYEwU3AX/1LzA53pW5Z+T7/+061FDaEl+msjJ
+ dicoO+xcDGLU8Yb+Htw55BDnq2Iwx0RmGlwBPO6SYEZSIU3Nv5yMVfuD2S5PfxqsagvL
+ HTuw==
+X-Gm-Message-State: AO0yUKUgU3a64BEVjRpT2YHgnZku31Cql5w1ITwD3sgdYDe2ewa7sKyj
+ MK4pTflWYiDmLltOZTKR5SGz8A==
+X-Google-Smtp-Source: AK7set9cQaWV6NuO8zBLkrH9AuCsCnRqWTZylUTQrmFjgd9n1MTSWFctg4zQIjClG52LPb6/kiPNzA==
+X-Received: by 2002:a05:600c:994:b0:3df:e1cc:94ff with SMTP id
+ w20-20020a05600c099400b003dfe1cc94ffmr1235219wmp.28.1676905777924; 
+ Mon, 20 Feb 2023 07:09:37 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- p9-20020adfce09000000b002c5493a17efsm12617632wrn.25.2023.02.20.07.06.01
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Feb 2023 07:06:02 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 9/9] hw/usb/u2f-passthru: Use QOM type-safe cast conversion
- macros
-Date: Mon, 20 Feb 2023 16:05:15 +0100
-Message-Id: <20230220150515.32549-10-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230220150515.32549-1-philmd@linaro.org>
-References: <20230220150515.32549-1-philmd@linaro.org>
+ n3-20020a1c7203000000b003dc522dd25esm1893324wmc.30.2023.02.20.07.09.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Feb 2023 07:09:37 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3C5CA1FFB7;
+ Mon, 20 Feb 2023 15:09:37 +0000 (GMT)
+References: <20230123201431.23118-1-anjo@rev.ng>
+ <CAFEAcA_WiWwMVt8GQa8AHW5pO57W0NrHaGYJzoj8UVGyvTxmVQ@mail.gmail.com>
+ <Y+pKBVkzivH+Xwvb@redhat.com>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Anton Johansson <anjo@rev.ng>,
+ ale@rev.ng, hreitz@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH] block: Handle curl 7.55.0, 7.85.0 version changes
+Date: Mon, 20 Feb 2023 15:09:11 +0000
+In-reply-to: <Y+pKBVkzivH+Xwvb@redhat.com>
+Message-ID: <877cwctlu6.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,40 +97,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the QOM cast macros to avoid accessing internal fields.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/usb/u2f-passthru.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Kevin Wolf <kwolf@redhat.com> writes:
 
-diff --git a/hw/usb/u2f-passthru.c b/hw/usb/u2f-passthru.c
-index fc93429c9c..b99c0b622f 100644
---- a/hw/usb/u2f-passthru.c
-+++ b/hw/usb/u2f-passthru.c
-@@ -299,7 +299,7 @@ static void u2f_passthru_recv_from_host(U2FPassthruState *key,
-     if (transaction->resp_size >= transaction->resp_bcnt) {
-         u2f_transaction_close(key, cid);
-     }
--    u2f_send_to_guest(&key->base, packet);
-+    u2f_send_to_guest(U2F_KEY(key), packet);
- }
- 
- static void u2f_passthru_read(void *opaque)
-@@ -316,9 +316,10 @@ static void u2f_passthru_read(void *opaque)
- 
-     ret = read(key->hidraw_fd, packet, sizeof(packet));
-     if (ret < 0) {
-+        USBDevice *udev = USB_DEVICE(key);
-         /* Detach */
--        if (base->dev.attached) {
--            usb_device_detach(&base->dev);
-+        if (udev->attached) {
-+            usb_device_detach(udev);
-             u2f_passthru_reset(key);
-         }
-         return;
--- 
-2.38.1
+> Am 13.02.2023 um 14:28 hat Peter Maydell geschrieben:
+>> On Mon, 23 Jan 2023 at 20:15, Anton Johansson via <qemu-devel@nongnu.org=
+> wrote:
+>> >
+>> > * 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of a *_T
+>> >   version, which returns curl_off_t instead of a double.
+>> > * 7.85.0 deprecates CURLOPT_PROTOCOLS and CURLOPT_REDIR_PROTOCOLS in
+>> >   favour of *_STR variants, specifying the desired protocols via a
+>> >   string.
+>> >
+>> > Signed-off-by: Anton Johansson <anjo@rev.ng>
+>>=20
+>> Block folks -- this patch has been reviewed, are you going to
+>> pick it up (with the Resolves: line added) ?
+>
+> Yes, I'm going through the patches right now that were stuck because the
+> previous pull request was blocked by CI.
+>
+> Thanks, applied to the block branch.
 
+I've also applied to my testing/next (for the same reason) just in case
+the block branch doesn't go in soon.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
