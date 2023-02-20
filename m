@@ -2,82 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48E269CA53
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 12:52:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDF469CA59
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 12:54:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU4iF-0002Jh-Fp; Mon, 20 Feb 2023 06:52:07 -0500
+	id 1pU4kj-0007om-N7; Mon, 20 Feb 2023 06:54:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU4i8-00027C-DA
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:52:00 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU4i6-0005Dp-IW
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:51:59 -0500
-Received: by mail-wm1-x332.google.com with SMTP id n31so657450wms.2
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 03:51:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=74ZBJo9MLan5PaXAa/O0nRsZBEqss8JkgGSoLyAn+kU=;
- b=ru+R0vnBsBcT77qvnS3HbagtCp0d513COHI2GV9uR+qZh39ygYBMGtzmPUxbnSFbW9
- Rv7V3ES5J0T34/3JxlcIr4svuVVr00jGkGd1nXUooJDHG9cFIdGpwZO9HR4kXWg9LsbJ
- CiR+V6vgNHv3pLQS01R4vQAPh9bp+baflg6VeJdfQqcjL2z5+3kPPlnJ88CnJpCt3RX/
- j2qyGH7mPr3rfBTipOd2yOr8pn9alaIPhXMb6/1uy1rWdtRBRrIcopgSKNjmyPztjItT
- /D8qkFEDayLIfPCHCzyh1i4ScRB7DZzKMWpWZhcQ2mA+6q4FVCqS+bXEa3GKrEA5aazP
- iy2A==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pU4kg-0007oA-7y
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:54:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pU4ke-0005Yv-D3
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:54:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676894074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TH4heAkd9VMklcYtFtHsbJ7cFvEpofoQQlBNmQcmA7U=;
+ b=NlHV9o+Tr3zbTD/1ghh1nyE6anaF4TpNAIeo+QVeGhYfMTa9VQG9vm+c/F3WzQE5C5AZva
+ GVg9SBJsN+dy2Mb7dD3tkANxy6NnbW/71Mf3Y6Ntg8wkWKMWL2SVs0A6zzy0elxts0+Uu/
+ 6/2gALdWw1GEY8ENM+OJ6ECaWutjOcg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-421-UkiSl4kdMHKdt33IEmK2VA-1; Mon, 20 Feb 2023 06:54:32 -0500
+X-MC-Unique: UkiSl4kdMHKdt33IEmK2VA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z6-20020a7bc7c6000000b003e0107732f4so511118wmk.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 03:54:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=74ZBJo9MLan5PaXAa/O0nRsZBEqss8JkgGSoLyAn+kU=;
- b=JfsSD1go0De6zyRcyGMBndT2SdsA8p9MlFR+S+gssstahVkAo8aAwhxYcQx3sz+KUL
- SB7hYbyDjuHshh7AWHHY9Y9Bipne69mamHYvXATTP8tLAvo051CV3rXUEYk6II2GlVCN
- PxQyp9emDFmVpguuzGbnyBmWM+bTuOHjHyPPLKsXhVdfeWhH/ADjQVZAMNhEZwfmDoeF
- CmBbXPffvUWjgzipxg18IBGcxb9i7BeINGOr2/utiwGbpAMIfComoSu4d87fh8YHQ9sf
- mMXwMcIqSAtPKi/kqPbg34YwFdxQ4Dul/IgS/hTBEYy1LTu3IrXhqttPUuwtmVOc/voo
- f12w==
-X-Gm-Message-State: AO0yUKWwxz8NH4TOw8lplJWpGq+lLmelCFGa9QYCimcJbvEp9ntmpXD0
- Nr88nwJgWJ9MiHH3uqIBPlvfUtEUrSpV6bVZ
-X-Google-Smtp-Source: AK7set/wPEmD4x4IJvdDGpOhRapA9F0GKBelcTevekgvnBR6uSQWKdP7XcyOsPHvBw+axmS9WjD9Ag==
-X-Received: by 2002:a05:600c:3b95:b0:3db:3e8:feca with SMTP id
- n21-20020a05600c3b9500b003db03e8fecamr472122wms.15.1676893917095; 
- Mon, 20 Feb 2023 03:51:57 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- o2-20020a05600c4fc200b003e2059c7978sm15219215wmq.36.2023.02.20.03.51.56
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Feb 2023 03:51:56 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 8/8] hw/intc/armv7m_nvic: Use QOM cast CPU() macro
-Date: Mon, 20 Feb 2023 12:51:14 +0100
-Message-Id: <20230220115114.25237-9-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230220115114.25237-1-philmd@linaro.org>
-References: <20230220115114.25237-1-philmd@linaro.org>
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TH4heAkd9VMklcYtFtHsbJ7cFvEpofoQQlBNmQcmA7U=;
+ b=iVeWx2R8xKaNmelzwJpxWBGzIdS2FyBZa7Q3YGi4s6DbHgzEZx0e6GR6xLIL0A83rv
+ IK+Xz9aq2SsqbHW44UkYpwexuJ+5mBLbk7+z1wIo5L5R+dPIIaTpUgU22a6hBd70EPah
+ FjZNGRx89NiYMw2XZoaKsiNCO7ioX64H3INDbe2wmx4wqSzgWyYORovmvP0Xqw6VhGLJ
+ RXGt7AQI19VbjS0YLcMqK2YGQWKq4p/asQNykxe1ox34kJiVwCfFb7Y3FP/B5sQ5tZnW
+ XzQmeW5s0w6Y+mrvWczQJiukqfRZerU9D3sY54N8hDryVydnJorj37TLAOOPkLmIq/qA
+ uNzw==
+X-Gm-Message-State: AO0yUKVvhMNeK4MeSNxaNJF5njlgJ8u7eKfMjWRQY58ADViUOF8qgjpk
+ nJ/eE6IF6kMejxDDuT66XGgAwiQicGhbjcKTWWYqNQ6UhPfnWEJaiCp25Hsgu5G5lgNcAYYQOtg
+ hFNJEOXI1LyHn1A4=
+X-Received: by 2002:a05:600c:a698:b0:3e2:1e31:36bc with SMTP id
+ ip24-20020a05600ca69800b003e21e3136bcmr110362wmb.12.1676894071593; 
+ Mon, 20 Feb 2023 03:54:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set/cmHCer5I++eQzXfxaAsD+TKAnuLkw6cXg2aGfsbXV/ILAK/XbJNFn/oWrn3mcd7fYW9rmvA==
+X-Received: by 2002:a05:600c:a698:b0:3e2:1e31:36bc with SMTP id
+ ip24-20020a05600ca69800b003e21e3136bcmr110346wmb.12.1676894071316; 
+ Mon, 20 Feb 2023 03:54:31 -0800 (PST)
+Received: from redhat.com ([2.52.5.34]) by smtp.gmail.com with ESMTPSA id
+ ja13-20020a05600c556d00b003e4326a6d53sm2783361wmb.35.2023.02.20.03.54.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Feb 2023 03:54:30 -0800 (PST)
+Date: Mon, 20 Feb 2023 06:54:27 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ x86@kernel.org, linux-kernel@vger.kernel.org,
+ Dov Murik <dovmurik@linux.ibm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "H . Peter Anvin" <hpa@zytor.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Eric Biggers <ebiggers@kernel.org>
+Subject: Re: [PATCH RFC 0/7] revert RNG seed mess
+Message-ID: <20230220065418-mutt-send-email-mst@kernel.org>
+References: <20230208211212.41951-1-mst@redhat.com>
+ <Y+YratFIX/WHWbFy@redhat.com> <Y/NQGfiH322iZuhX@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+In-Reply-To: <Y/NQGfiH322iZuhX@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,45 +105,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Avoid accessing 'parent_obj' directly.
+On Mon, Feb 20, 2023 at 10:48:57AM +0000, Daniel P. BerrangÈ wrote:
+> On Fri, Feb 10, 2023 at 11:32:58AM +0000, Daniel P. BerrangÈ wrote:
+> > On Wed, Feb 08, 2023 at 04:12:23PM -0500, Michael S. Tsirkin wrote:
+> > > All attempts to fix up passing RNG seed via setup_data entry failed.
+> > > Let's just rip out all of it.  We'll start over.
+> > > 
+> > > 
+> > > Warning: all I did was git revert the relevant patches and resolve the
+> > > (trivial) conflicts. Not even compiled - it's almost midnight here.
+> > > 
+> > > Jason this is the kind of approach I'd like to see, not yet another
+> > > pointer math rich patch I need to spend time reviewing. Just get us back
+> > > to where we started. We can redo "x86: use typedef for SetupData struct"
+> > > later if we want, it's benign.
+> > 
+> > This approach looks suitable for applying to the 7.2 tree too,
+> > which will be good for fixing the regressions in stable.
+> 
+> Since no further alternative has been proposed, can you consider sending
+> a pull request for this series. This has been broken for too long and
+> many users & vendors are looking for an official fix to be applied to
+> master before they backport to 7.2
+> 
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Signed-off-by: Philippe Mathieu-Daud√© <philmd@linaro.org>
----
- hw/intc/armv7m_nvic.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 1f7763964c..2fe5b1c4e1 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -584,7 +584,7 @@ static void do_armv7m_nvic_set_pending(void *opaque, int irq, bool secure,
-              * which saves having to have an extra argument is_terminal
-              * that we'd only use in one place.
-              */
--            cpu_abort(&s->cpu->parent_obj,
-+            cpu_abort(CPU(s->cpu),
-                       "Lockup: can't take terminal derived exception "
-                       "(original exception priority %d)\n",
-                       s->vectpending_prio);
-@@ -650,7 +650,7 @@ static void do_armv7m_nvic_set_pending(void *opaque, int irq, bool secure,
-                  * Lockup condition due to a guest bug. We don't model
-                  * Lockup, so report via cpu_abort() instead.
-                  */
--                cpu_abort(&s->cpu->parent_obj,
-+                cpu_abort(CPU(s->cpu),
-                           "Lockup: can't escalate %d to HardFault "
-                           "(current priority %d)\n", irq, running);
-             }
-@@ -749,7 +749,7 @@ void armv7m_nvic_set_pending_lazyfp(void *opaque, int irq, bool secure)
-              * We want to escalate to HardFault but the context the
-              * FP state belongs to prevents the exception pre-empting.
-              */
--            cpu_abort(&s->cpu->parent_obj,
-+            cpu_abort(CPU(s->cpu),
-                       "Lockup: can't escalate to HardFault during "
-                       "lazy FP register stacking\n");
-         }
--- 
-2.38.1
+Will do. Thanks!
 
 
