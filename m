@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849C469C620
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 08:49:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A47269C62F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 08:58:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU0uG-00053b-Tv; Mon, 20 Feb 2023 02:48:16 -0500
+	id 1pU13g-0006Xk-KW; Mon, 20 Feb 2023 02:58:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pU0tw-00052F-FN
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:48:01 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pU0tu-0003zV-14
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:47:56 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8DxldigJfNjs7gCAA--.5298S3;
- Mon, 20 Feb 2023 15:47:44 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxD7+gJfNj2AU3AA--.63565S3; 
- Mon, 20 Feb 2023 15:47:44 +0800 (CST)
-Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-11-gaosong@loongson.cn>
- <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
-Date: Mon, 20 Feb 2023 15:47:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pU13Z-0006XS-AZ
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:57:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pU13X-0006TC-AT
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:57:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676879870;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zXtMiq5BmyeVGZY4xHKVuLKJGck9UX02kyioaS+xNgQ=;
+ b=ZvnhWE6wH/js/Q18ge7hOiwOoOm3egHdRs3cjoVOscJvJEw9Vre7THWdB1OfLF+AlkvR0K
+ qwbxRA/hpTH/REpNtuWUXqTH6V+ffW6lw6Pvt4BVrij9XL1sg6T32FJGsSAgMhqka3gL7/
+ RKN1Iu8JmyUB893cOYXj1W/oFYBgjLg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-653-HVWIr88iPpO9GEnQH_u_EQ-1; Mon, 20 Feb 2023 02:57:41 -0500
+X-MC-Unique: HVWIr88iPpO9GEnQH_u_EQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m24-20020a7bce18000000b003e21a3f4e84so1113188wmc.8
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 23:57:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zXtMiq5BmyeVGZY4xHKVuLKJGck9UX02kyioaS+xNgQ=;
+ b=oc3sw+BPn83K6rdptyT1zTo+U3qOzRmLe91NXNgkjZnsSMETi3TrohjsdnGliokTKm
+ 0g1LVsdXnXzDiKiVdA8Lq9GI+WC+liKLKX2OOtuhP1d4lQOLO1VRuRycjoyAW3E4vba9
+ V+QHhzIdV6aUyr0dvwQFCYqASo3+bdu2TqGrTFAAtq9FCNhmokIR+idEaY9bRLk64aIo
+ 6en5C7aXeemwBExTjrTk9yXzsA3HtTFCg1SUyA0SFYnSZKDSJ4Zo7m488E4c9uNBosqP
+ 8uSpq0FO2RVmshUaY1g7fiAaGMgy/Cm0QAN4R71nw+SfanMyIR3XMIDfxrmlSfl3XHMu
+ 16Xw==
+X-Gm-Message-State: AO0yUKXtScNVoUJ9RzE1/8xImZRrBiqRYRSz9rXHwLgIJg7DV+JIMUlI
+ uNP0l5TudIFCVTjMonWgxF4yy6sH86T8cYM8unQ0t9KsWi88Pa9BpdAcWaoiwJ+8oZ5Kv0t18Zh
+ BOhV3RVYBrUw4Oqc=
+X-Received: by 2002:a05:600c:3420:b0:3e2:153e:6940 with SMTP id
+ y32-20020a05600c342000b003e2153e6940mr673374wmp.3.1676879859023; 
+ Sun, 19 Feb 2023 23:57:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set833tXKiCilmqUVYuz83UexjOGJv2jtGDeE6GCWjatCr5j4vnePl9iemBrus22N/FOaktKxnA==
+X-Received: by 2002:a05:600c:3420:b0:3e2:153e:6940 with SMTP id
+ y32-20020a05600c342000b003e2153e6940mr673367wmp.3.1676879858758; 
+ Sun, 19 Feb 2023 23:57:38 -0800 (PST)
+Received: from [192.168.8.104] (tmo-100-40.customers.d1-online.com.
+ [80.187.100.40]) by smtp.gmail.com with ESMTPSA id
+ y24-20020a1c4b18000000b003e22508a343sm578653wma.12.2023.02.19.23.57.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Feb 2023 23:57:37 -0800 (PST)
+Message-ID: <e7b799a4-c718-00a4-9107-9ea222fdd162@redhat.com>
+Date: Mon, 20 Feb 2023 08:57:36 +0100
 MIME-Version: 1.0
-In-Reply-To: <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 00/27] target/s390x: pc-relative translation blocks
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8DxD7+gJfNj2AU3AA--.63565S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxGr1UKFW7tF1xWFWDGF1xXwb_yoW5ur1rp3
- yUKw1xt3WjkaykZ3W09anI9wsxKrsIgw1j9w4kJryqyrWUXrnFvryxtws0gFW5Kw4Fq3Wx
- Jw12yr4jyr1DArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
- kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
- k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
- MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr4
- 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
- IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8czVUUUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230109200819.3916395-1-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230109200819.3916395-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,69 +99,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Richard
+On 09/01/2023 21.07, Richard Henderson wrote:
+> This is the S390 specific changes required to reduce the
+> amount of translation for address space randomization.
+> 
+> Changes for v3:
+>    * Rebase and fixup conflicts.
+> 
+> All patches are reviewed.
 
-在 2022/12/25 上午1:48, Richard Henderson 写道:
-> On 12/24/22 00:16, Song Gao wrote:
->> +TRANS(vaddwev_h_b, gen_vvv, gen_helper_vaddwev_h_b)
->> +TRANS(vaddwev_w_h, gen_vvv, gen_helper_vaddwev_w_h)
->> +TRANS(vaddwev_d_w, gen_vvv, gen_helper_vaddwev_d_w)
->> +TRANS(vaddwev_q_d, gen_vvv, gen_helper_vaddwev_q_d)
->> +TRANS(vaddwod_h_b, gen_vvv, gen_helper_vaddwod_h_b)
->> +TRANS(vaddwod_w_h, gen_vvv, gen_helper_vaddwod_w_h)
->> +TRANS(vaddwod_d_w, gen_vvv, gen_helper_vaddwod_d_w)
->> +TRANS(vaddwod_q_d, gen_vvv, gen_helper_vaddwod_q_d)
->> +TRANS(vsubwev_h_b, gen_vvv, gen_helper_vsubwev_h_b)
->> +TRANS(vsubwev_w_h, gen_vvv, gen_helper_vsubwev_w_h)
->> +TRANS(vsubwev_d_w, gen_vvv, gen_helper_vsubwev_d_w)
->> +TRANS(vsubwev_q_d, gen_vvv, gen_helper_vsubwev_q_d)
->> +TRANS(vsubwod_h_b, gen_vvv, gen_helper_vsubwod_h_b)
->> +TRANS(vsubwod_w_h, gen_vvv, gen_helper_vsubwod_w_h)
->> +TRANS(vsubwod_d_w, gen_vvv, gen_helper_vsubwod_d_w)
->> +TRANS(vsubwod_q_d, gen_vvv, gen_helper_vsubwod_q_d)
->
-> These can be implemented with a combination of vector shift + vector add.
->
->> +TRANS(vaddwev_h_bu, gen_vvv, gen_helper_vaddwev_h_bu)
->> +TRANS(vaddwev_w_hu, gen_vvv, gen_helper_vaddwev_w_hu)
->> +TRANS(vaddwev_d_wu, gen_vvv, gen_helper_vaddwev_d_wu)
->> +TRANS(vaddwev_q_du, gen_vvv, gen_helper_vaddwev_q_du)
->> +TRANS(vaddwod_h_bu, gen_vvv, gen_helper_vaddwod_h_bu)
->> +TRANS(vaddwod_w_hu, gen_vvv, gen_helper_vaddwod_w_hu)
->> +TRANS(vaddwod_d_wu, gen_vvv, gen_helper_vaddwod_d_wu)
->> +TRANS(vaddwod_q_du, gen_vvv, gen_helper_vaddwod_q_du)
->> +TRANS(vsubwev_h_bu, gen_vvv, gen_helper_vsubwev_h_bu)
->> +TRANS(vsubwev_w_hu, gen_vvv, gen_helper_vsubwev_w_hu)
->> +TRANS(vsubwev_d_wu, gen_vvv, gen_helper_vsubwev_d_wu)
->> +TRANS(vsubwev_q_du, gen_vvv, gen_helper_vsubwev_q_du)
->> +TRANS(vsubwod_h_bu, gen_vvv, gen_helper_vsubwod_h_bu)
->> +TRANS(vsubwod_w_hu, gen_vvv, gen_helper_vsubwod_w_hu)
->> +TRANS(vsubwod_d_wu, gen_vvv, gen_helper_vsubwod_d_wu)
->> +TRANS(vsubwod_q_du, gen_vvv, gen_helper_vsubwod_q_du)
->
-> These can be implemented with a combination of vector and + vector add.
->
->> +TRANS(vaddwev_h_bu_b, gen_vvv, gen_helper_vaddwev_h_bu_b)
->> +TRANS(vaddwev_w_hu_h, gen_vvv, gen_helper_vaddwev_w_hu_h)
->> +TRANS(vaddwev_d_wu_w, gen_vvv, gen_helper_vaddwev_d_wu_w)
->> +TRANS(vaddwev_q_du_d, gen_vvv, gen_helper_vaddwev_q_du_d)
->> +TRANS(vaddwod_h_bu_b, gen_vvv, gen_helper_vaddwod_h_bu_b)
->> +TRANS(vaddwod_w_hu_h, gen_vvv, gen_helper_vaddwod_w_hu_h)
->> +TRANS(vaddwod_d_wu_w, gen_vvv, gen_helper_vaddwod_d_wu_w)
->> +TRANS(vaddwod_q_du_d, gen_vvv, gen_helper_vaddwod_q_du_d)
->
-> Likewise.
->
-> For an example of how to bundle vector operations, see e.g. 
-> gen_gvec_rax1 and subroutines in target/arm/translate-a64.c. There are 
-> many others, but ask if you need more help.
->
-I have some questions:
-1 Should we need implement  GVecGen*  for simple gvec instructiosn?
-     such as add, sub , or , xor..
-2 Should we need implement all fni8/fni4, fniv,  fno?
+  Hi Richard,
 
-Thanks
-Song Gao
+as far as I can see, this series has not been merged yet? Were there any 
+issues left here? ... soft freeze is coming rather sooner than later ... do 
+you want me to take this trough my s390x tree, or will you take it through 
+your tcg tree?
+
+  Thomas
 
 
