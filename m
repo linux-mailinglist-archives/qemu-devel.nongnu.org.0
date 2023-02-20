@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFCB69C77B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF3E69C7A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:25:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU2Fa-0005al-ER; Mon, 20 Feb 2023 04:14:22 -0500
+	id 1pU2Fc-0005g5-Be; Mon, 20 Feb 2023 04:14:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2FT-0005Yg-7F
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:14:16 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2FX-0005ab-QR
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:14:20 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2FQ-0003kM-3N
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:14:13 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id g7so1924009wrd.3
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:14:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2FV-0003ly-8l
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:14:19 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t13so254682wrv.13
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:14:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tVwFPC8/Cym1VDjogehpU1u1QuWz7q979OWiyNkc7u4=;
- b=ixQoK3vRNaLvZtGNYpq6vHbDKkGj/0dNxU6uYwWZvItEbg6p9W3FTZXmoDwwoAFFUn
- jtbbkgjQRIcynPUQSdZT8oN8QzGxTuamy9z37kOpC8+iHtgNpRqvXlxFG77Hl+lITss2
- p330O5RlMIKwt6Akg0Y08+gtBaDn6TxtoyjqadVVA++h50YytsfFCXITKc4mWbpuJ5fj
- UrwXJcLt/DFwk0Zg1SqwaQ7CIkTWfUIE4pPMpwGYhX7l4EqxdSiay8MAAv4MT7fSLVOa
- 0/je56tDs4DBt6hvjrabCPxE8W1Ub6O26DiHD7Ppfkxt0TLjqPWuHw/lz/GRCaqKo964
- WTwg==
+ bh=qK71KEeZ1dXO+J7OSOV435FopVrvh5A+el2kM0w8yiE=;
+ b=E4kzdFZElZdBHc1j5MrlE89N7qaa4yexo/AxhYkWB593YndVBY+dsR0H0jYdvViQOA
+ SROuqjlQY/pHYRp7d954cKLIl7KF/qBOvzSWb5cvo2De2gUcFDt4c9aRLaUp4ZozpNkP
+ KZaStCdzw2+9LqrQuuH8fOk6AlTsk1PH+/8h2Z3Aom6PA2oJQkxnN/rhqThOe46jMce8
+ pqxEAp/6ruXfFnL01b21RBvMTfKwYS7IFdFrxBBWaflDKgf/oO8Ifj6uoMJK/+0FT0Ui
+ 5OgRWucFcEzSolEtoyszDecoq90jAJIbVAllf77SWPvMRYUY4q2Dr881f0BZYaZ7yuZk
+ weIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tVwFPC8/Cym1VDjogehpU1u1QuWz7q979OWiyNkc7u4=;
- b=QHiODLg57Z3xpGNVpRg9X389QCWeoRSG/2pvB00IFWndX4n6w7R5Hul7QltHBfAfOY
- 5XG56DrtijWGFCiGhIlcPUMUdN9/+XzOiG6QIXvYJi7vDAN6yfuYU8LMi1PRNWC8PP9x
- jqfkgMCwrkkU2TVnE7ks2nfbcSlVDdlOU1snGQX1HUDHqH90bTeP/Zp4M6zS/+6Wx8Zr
- OhJgU9U4g8ZF0czlK/T28Id54AEom0TzynH6KM4UJ3B9anXGlrdFQw8MscPdDhMSlITY
- FEWzSbS7mhVJG27cFU+FkzmPdpV6FFZimgvb9hcyOZBX2yqvHiCKO6CsmBFkfNWHciqe
- GCSg==
-X-Gm-Message-State: AO0yUKXHkV52nF/CRNdyVjGBMY/6go1JsAPT7qccSRbg0lBeHh8dwEG1
- mV1m7wndFTl+NFLj+ZRD6c7DtvEORxj3/dgB
-X-Google-Smtp-Source: AK7set/z5aT1cKNFWuZwZhqQPPoMCy4H4EZtUMttfpcYX5au4pVioT1jHAAQ4kzAT3nMbhEXXCPi9w==
-X-Received: by 2002:adf:dd86:0:b0:2c5:a370:df65 with SMTP id
- x6-20020adfdd86000000b002c5a370df65mr528344wrl.10.1676884450408; 
- Mon, 20 Feb 2023 01:14:10 -0800 (PST)
+ bh=qK71KEeZ1dXO+J7OSOV435FopVrvh5A+el2kM0w8yiE=;
+ b=llgDR1QoL3hcHNWoK27TOMuRRJVXeTP86L9MK6mI7olJflPNvnh4PqpPh1x/UpDUfH
+ O9W3zPqtjEDPeb9SDbZ93NuzCsyyumoJNz1GMI7Va9v3mjnJWkQwuzwArUvBjXq4cd5q
+ S4ZdWSWoADLL3p/ygOCiMKSpDoV0wYayOotjhAQyyAZGrwpp9g/ELH/HEVAOJtJFvkwX
+ rPiN7X3S9jHY4014OpjjDYoG/SpsFXISb2GiCXfomUZplJmddgbDGi+7ENSrmlivTTH/
+ S2Trfbnau3dn+/LgK+kYG6tSWce3efcr/lQn0i2WUyPWiAf7L0/YQCmP9tw3EtOKGcdw
+ goVA==
+X-Gm-Message-State: AO0yUKUnWNTgLU2CQXlzGZpqavFYuwxK5OWT1E+Cf96GUm1TpH8T4EEI
+ hTJlkFF9ttOPam5UbkX3PlbRB7NDSC/W4f8J
+X-Google-Smtp-Source: AK7set/tmrcSRyxp53OiIqFH0gWMA28qGaCvciLvxUnS99dokxSCCh1iO4+PJzJsj9i/PwZeHlrNMA==
+X-Received: by 2002:a5d:4e49:0:b0:2c3:e4f5:18c with SMTP id
+ r9-20020a5d4e49000000b002c3e4f5018cmr302337wrt.30.1676884455709; 
+ Mon, 20 Feb 2023 01:14:15 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- n3-20020a5d67c3000000b002c59f186739sm1919995wrw.23.2023.02.20.01.14.09
+ b11-20020adfe30b000000b002c573a6216fsm11911601wrj.37.2023.02.20.01.14.14
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Feb 2023 01:14:10 -0800 (PST)
+ Mon, 20 Feb 2023 01:14:15 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
  qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 02/24] hw/ide/mmio: Use CamelCase for MMIO_IDE state name
-Date: Mon, 20 Feb 2023 10:13:36 +0100
-Message-Id: <20230220091358.17038-3-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Magnus Damm <magnus.damm@gmail.com>
+Subject: [PATCH v2 03/24] hw/ide/mmio: Extract TYPE_MMIO_IDE declarations to
+ 'hw/ide/mmio.h'
+Date: Mon, 20 Feb 2023 10:13:37 +0100
+Message-Id: <20230220091358.17038-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230220091358.17038-1-philmd@linaro.org>
 References: <20230220091358.17038-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,139 +95,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Following docs/devel/style.rst guidelines, rename MMIOIDEState
-as MmioIdeState.
+"hw/ide.h" is a mixed bag of lost IDE declarations.
 
-Having the structure name and its typedef named equally,
-we can manually convert from the old DECLARE_INSTANCE_CHECKER()
-macro to the more recent OBJECT_DECLARE_SIMPLE_TYPE().
+Extract mmio_ide_init_drives() and the TYPE_MMIO_IDE QOM
+declarations to a new "hw/ide/mmio.h" header.
 
-Note, due to that name mismatch, this macro wasn't automatically
-converted during commit 8063396bf3 ("Use OBJECT_DECLARE_SIMPLE_TYPE
-when possible").
+Document the SysBus interface.
 
+Message-Id: <20230215112712.23110-4-philmd@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/ide/mmio.c | 30 ++++++++++++++----------------
- 1 file changed, 14 insertions(+), 16 deletions(-)
+ hw/ide/mmio.c         |  5 +----
+ hw/sh4/r2d.c          |  4 ++--
+ include/hw/ide.h      |  3 ---
+ include/hw/ide/mmio.h | 26 ++++++++++++++++++++++++++
+ 4 files changed, 29 insertions(+), 9 deletions(-)
+ create mode 100644 include/hw/ide/mmio.h
 
 diff --git a/hw/ide/mmio.c b/hw/ide/mmio.c
-index fb2ebd4847..c33d42437f 100644
+index c33d42437f..8b2ba604c5 100644
 --- a/hw/ide/mmio.c
 +++ b/hw/ide/mmio.c
-@@ -40,11 +40,9 @@
+@@ -29,9 +29,9 @@
+ #include "qemu/module.h"
+ #include "sysemu/dma.h"
+ 
++#include "hw/ide/mmio.h"
+ #include "hw/ide/internal.h"
+ #include "hw/qdev-properties.h"
+-#include "qom/object.h"
+ 
+ /***********************************************************/
+ /* MMIO based ide port
+@@ -39,9 +39,6 @@
+  * dedicated ide controller, which is often seen on embedded boards.
   */
  
- #define TYPE_MMIO_IDE "mmio-ide"
--typedef struct MMIOIDEState MMIOState;
--DECLARE_INSTANCE_CHECKER(MMIOState, MMIO_IDE,
--                         TYPE_MMIO_IDE)
-+OBJECT_DECLARE_SIMPLE_TYPE(MmioIdeState, MMIO_IDE)
- 
--struct MMIOIDEState {
-+struct MmioIdeState {
+-#define TYPE_MMIO_IDE "mmio-ide"
+-OBJECT_DECLARE_SIMPLE_TYPE(MmioIdeState, MMIO_IDE)
+-
+ struct MmioIdeState {
      /*< private >*/
      SysBusDevice parent_obj;
-     /*< public >*/
-@@ -58,7 +56,7 @@ struct MMIOIDEState {
+diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+index 39fc4f19d9..7aaa11b748 100644
+--- a/hw/sh4/r2d.c
++++ b/hw/sh4/r2d.c
+@@ -38,7 +38,7 @@
+ #include "hw/qdev-properties.h"
+ #include "net/net.h"
+ #include "sh7750_regs.h"
+-#include "hw/ide.h"
++#include "hw/ide/mmio.h"
+ #include "hw/irq.h"
+ #include "hw/loader.h"
+ #include "hw/usb.h"
+@@ -283,7 +283,7 @@ static void r2d_init(MachineState *machine)
  
- static void mmio_ide_reset(DeviceState *dev)
- {
--    MMIOState *s = MMIO_IDE(dev);
-+    MmioIdeState *s = MMIO_IDE(dev);
+     /* onboard CF (True IDE mode, Master only). */
+     dinfo = drive_get(IF_IDE, 0, 0);
+-    dev = qdev_new("mmio-ide");
++    dev = qdev_new(TYPE_MMIO_IDE);
+     busdev = SYS_BUS_DEVICE(dev);
+     sysbus_connect_irq(busdev, 0, irq[CF_IDE]);
+     qdev_prop_set_uint32(dev, "shift", 1);
+diff --git a/include/hw/ide.h b/include/hw/ide.h
+index 60f1f4f714..5f8c36b2aa 100644
+--- a/include/hw/ide.h
++++ b/include/hw/ide.h
+@@ -8,9 +8,6 @@
+ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
+                         DriveInfo *hd0, DriveInfo *hd1);
  
-     ide_bus_reset(&s->bus);
- }
-@@ -66,7 +64,7 @@ static void mmio_ide_reset(DeviceState *dev)
- static uint64_t mmio_ide_read(void *opaque, hwaddr addr,
-                               unsigned size)
- {
--    MMIOState *s = opaque;
-+    MmioIdeState *s = opaque;
-     addr >>= s->shift;
-     if (addr & 7)
-         return ide_ioport_read(&s->bus, addr);
-@@ -77,7 +75,7 @@ static uint64_t mmio_ide_read(void *opaque, hwaddr addr,
- static void mmio_ide_write(void *opaque, hwaddr addr,
-                            uint64_t val, unsigned size)
- {
--    MMIOState *s = opaque;
-+    MmioIdeState *s = opaque;
-     addr >>= s->shift;
-     if (addr & 7)
-         ide_ioport_write(&s->bus, addr, val);
-@@ -94,14 +92,14 @@ static const MemoryRegionOps mmio_ide_ops = {
- static uint64_t mmio_ide_status_read(void *opaque, hwaddr addr,
-                                      unsigned size)
- {
--    MMIOState *s= opaque;
-+    MmioIdeState *s= opaque;
-     return ide_status_read(&s->bus, 0);
- }
- 
- static void mmio_ide_ctrl_write(void *opaque, hwaddr addr,
-                                 uint64_t val, unsigned size)
- {
--    MMIOState *s = opaque;
-+    MmioIdeState *s = opaque;
-     ide_ctrl_write(&s->bus, 0, val);
- }
- 
-@@ -116,8 +114,8 @@ static const VMStateDescription vmstate_ide_mmio = {
-     .version_id = 3,
-     .minimum_version_id = 0,
-     .fields = (VMStateField[]) {
--        VMSTATE_IDE_BUS(bus, MMIOState),
--        VMSTATE_IDE_DRIVES(bus.ifs, MMIOState),
-+        VMSTATE_IDE_BUS(bus, MmioIdeState),
-+        VMSTATE_IDE_DRIVES(bus.ifs, MmioIdeState),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -125,7 +123,7 @@ static const VMStateDescription vmstate_ide_mmio = {
- static void mmio_ide_realizefn(DeviceState *dev, Error **errp)
- {
-     SysBusDevice *d = SYS_BUS_DEVICE(dev);
--    MMIOState *s = MMIO_IDE(dev);
-+    MmioIdeState *s = MMIO_IDE(dev);
- 
-     ide_init2(&s->bus, s->irq);
- 
-@@ -140,14 +138,14 @@ static void mmio_ide_realizefn(DeviceState *dev, Error **errp)
- static void mmio_ide_initfn(Object *obj)
- {
-     SysBusDevice *d = SYS_BUS_DEVICE(obj);
--    MMIOState *s = MMIO_IDE(obj);
-+    MmioIdeState *s = MMIO_IDE(obj);
- 
-     ide_bus_init(&s->bus, sizeof(s->bus), DEVICE(obj), 0, 2);
-     sysbus_init_irq(d, &s->irq);
- }
- 
- static Property mmio_ide_properties[] = {
--    DEFINE_PROP_UINT32("shift", MMIOState, shift, 0),
-+    DEFINE_PROP_UINT32("shift", MmioIdeState, shift, 0),
-     DEFINE_PROP_END_OF_LIST()
- };
- 
-@@ -164,7 +162,7 @@ static void mmio_ide_class_init(ObjectClass *oc, void *data)
- static const TypeInfo mmio_ide_type_info = {
-     .name = TYPE_MMIO_IDE,
-     .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(MMIOState),
-+    .instance_size = sizeof(MmioIdeState),
-     .instance_init = mmio_ide_initfn,
-     .class_init = mmio_ide_class_init,
- };
-@@ -176,7 +174,7 @@ static void mmio_ide_register_types(void)
- 
- void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1)
- {
--    MMIOState *s = MMIO_IDE(dev);
-+    MmioIdeState *s = MMIO_IDE(dev);
- 
-     if (hd0 != NULL) {
-         ide_create_drive(&s->bus, 0, hd0);
+-/* ide-mmio.c */
+-void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
+-
+ int ide_get_geometry(BusState *bus, int unit,
+                      int16_t *cyls, int8_t *heads, int8_t *secs);
+ int ide_get_bios_chs_trans(BusState *bus, int unit);
+diff --git a/include/hw/ide/mmio.h b/include/hw/ide/mmio.h
+new file mode 100644
+index 0000000000..fccfd17c79
+--- /dev/null
++++ b/include/hw/ide/mmio.h
+@@ -0,0 +1,26 @@
++/*
++ * QEMU IDE Emulation: mmio support (for embedded).
++ *
++ * Copyright (c) 2003 Fabrice Bellard
++ * Copyright (c) 2006 Openedhand Ltd.
++ *
++ * SPDX-License-Identifier: MIT
++ */
++
++#ifndef HW_IDE_MMIO_H
++#define HW_IDE_MMIO_H
++
++#include "qom/object.h"
++
++/*
++ * QEMU interface:
++ *  + sysbus IRQ 0: asserted by the IDE channel
++ *  + sysbus MMIO region 0: data registers
++ *  + sysbus MMIO region 1: status & control registers
++ */
++#define TYPE_MMIO_IDE "mmio-ide"
++OBJECT_DECLARE_SIMPLE_TYPE(MmioIdeState, MMIO_IDE)
++
++void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
++
++#endif
 -- 
 2.38.1
 
