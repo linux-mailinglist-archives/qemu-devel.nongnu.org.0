@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4932C69D5FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 22:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D7369D5F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 22:51:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUE26-0003Ns-9V; Mon, 20 Feb 2023 16:49:15 -0500
+	id 1pUE2A-0003ON-4n; Mon, 20 Feb 2023 16:49:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUE22-0003NG-Dx
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:49:10 -0500
+ id 1pUE25-0003O5-8s
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:49:14 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUE20-0007v9-De
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:49:10 -0500
+ id 1pUE22-0007vN-FZ
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:49:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676929746;
+ s=mimecast20190719; t=1676929749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8XBtvi3wPEbn04OfSm75RT2PhGLFcN17qJlhJD1pomg=;
- b=XTvFSSi7vtP4yDmuJV+aNGyOz0HJkYQKkweBrkjFGiNhARMX3AMy7besPOvN35HKJtxN0U
- yhtumkO5AsCKawlQFvW0AOp4TuRpLymwAMKogrgCqIsVQ/iynV8OtSWwKO2qjT3ZDRes1O
- f4JTJ/6lqCkkBYKy2cne3eaGDimxEm0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tjjwd784Y94WrzQQX5HuuQunV9l5Ak3IUG0XDnxdkl4=;
+ b=LkNxWgReI1TnT+Rmhr3RHcQ/Q1OnURyE5qRMvv4I3AhcOh3iS/DBqH1DIDlsB86WQd5Ye3
+ ZSX6Rz6/mKHcJnzdv3URShr/sNs16O//67RzbrP/TXw3KWjj9ZWsvB5esIGuUQp1TI4PEj
+ H7DUKiWkORSlaZ/C+m7ilSfh5Y3d/YA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-erBcdkLyPaignqBUXDOQ2Q-1; Mon, 20 Feb 2023 16:49:04 -0500
-X-MC-Unique: erBcdkLyPaignqBUXDOQ2Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-191-aV9EnTwiNJWc9AUkPnL0Fw-1; Mon, 20 Feb 2023 16:49:08 -0500
+X-MC-Unique: aV9EnTwiNJWc9AUkPnL0Fw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B02B42A5956F;
- Mon, 20 Feb 2023 21:49:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01AD3802D19;
+ Mon, 20 Feb 2023 21:49:08 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C87040B40D7;
- Mon, 20 Feb 2023 21:49:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C7D7492B04;
+ Mon, 20 Feb 2023 21:49:06 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Michael Roth <michael.roth@amd.com>,
@@ -56,13 +57,15 @@ Cc: Michael Roth <michael.roth@amd.com>,
  Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 00/15] win32: do not mix SOCKET and fd space
-Date: Tue, 21 Feb 2023 01:48:44 +0400
-Message-Id: <20230220214859.3792171-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 01/15] util: drop qemu_fork()
+Date: Tue, 21 Feb 2023 01:48:45 +0400
+Message-Id: <20230220214859.3792171-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20230220214859.3792171-1-marcandre.lureau@redhat.com>
+References: <20230220214859.3792171-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,76 +93,143 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,
+Fortunately, qemu_fork() is no longer used since commit
+a95570e3e4d6 ("io/command: use glib GSpawn, instead of open-coding
+fork/exec"). (GSpawn uses posix_spawn() whenever possible instead)
 
-A win32 SOCKET handle is often cast to an int file descriptor, as this is what
-other OS use for sockets. When necessary, QEMU eventually queries whether it's a
-socket with the help of fd_is_socket(). However, there is no guarantee of
-conflict between the fd and SOCKET space. Such conflict would have surprising
-consequences. We can fix this by using FDs only.
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ include/qemu/osdep.h | 14 ---------
+ util/oslib-posix.c   | 70 --------------------------------------------
+ util/oslib-win32.c   |  9 ------
+ 3 files changed, 93 deletions(-)
 
-After fixing a few missed closesocket(), this patch series makes the win32
-socket API wrappers take FDs. It finally get rid of closesocket() usage by using
-a close() wrapper instead. (note that fdopen/fclose would not be enough either
-to close the underlying socket appropriately)
-
-v2:
-- add clean up patch "util: drop qemu_fork()"
-- add a "&error_warn", to help with basic error reporting
-- fix errno handling after _get_osfhandle()
-- introduce qemu_socket_(un)select() helpers
-- add patch "aio_set_fd_handler() only supports SOCKET"
-- add meson slirp.wrap RFC
-- various misc cleanups
-- add r-b tags
-
-Marc-André Lureau (15):
-  util: drop qemu_fork()
-  tests: use closesocket()
-  io: use closesocket()
-  error: add global &error_warn destination
-  win32/socket: introduce qemu_socket_select() helper
-  win32/socket: introduce qemu_socket_unselect() helper
-  aio: make aio_set_fd_poll() static to aio-posix.c
-  aio/win32: aio_set_fd_handler() only supports SOCKET
-  RFC: build-sys: add slirp.wrap
-  main-loop: remove qemu_fd_register(), win32/slirp/socket specific
-  slirp: unregister the win32 SOCKET
-  slirp: open-code qemu_socket_(un)select()
-  win32: avoid mixing SOCKET and file descriptor space
-  os-posix: remove useless ioctlsocket() define
-  win32: replace closesocket() with close() wrapper
-
- include/block/aio.h         |   8 --
- include/qapi/error.h        |   6 ++
- include/qemu/main-loop.h    |   2 -
- include/qemu/osdep.h        |  14 ---
- include/sysemu/os-posix.h   |   3 -
- include/sysemu/os-win32.h   |  15 ++-
- backends/tpm/tpm_emulator.c |   6 +-
- crypto/afalg.c              |   6 +-
- hw/hyperv/syndbg.c          |   4 +-
- io/channel-socket.c         |   8 +-
- io/channel-watch.c          |  10 +-
- net/dgram.c                 |  14 +--
- net/slirp.c                 |  16 ++-
- net/socket.c                |  22 ++--
- tests/qtest/libqtest.c      |   8 +-
- tests/qtest/microbit-test.c |   2 +-
- tests/qtest/netdev-socket.c |  10 +-
- tests/unit/socket-helpers.c |   2 +-
- util/aio-posix.c            |   6 +-
- util/aio-win32.c            |  23 ++--
- util/error.c                |  10 +-
- util/main-loop.c            |  11 --
- util/oslib-posix.c          |  70 -------------
- util/oslib-win32.c          | 202 ++++++++++++++++++++++++++++++------
- util/qemu-sockets.c         |  22 ++--
- .gitignore                  |   2 +
- subprojects/slirp.wrap      |   6 ++
- 27 files changed, 289 insertions(+), 219 deletions(-)
- create mode 100644 subprojects/slirp.wrap
-
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 88c9facbf2..f68b5d8708 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -665,20 +665,6 @@ void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
+  */
+ char *qemu_get_pid_name(pid_t pid);
+ 
+-/**
+- * qemu_fork:
+- *
+- * A version of fork that avoids signal handler race
+- * conditions that can lead to child process getting
+- * signals that are otherwise only expected by the
+- * parent. It also resets all signal handlers to the
+- * default settings.
+- *
+- * Returns 0 to child process, pid number to parent
+- * or -1 on failure.
+- */
+-pid_t qemu_fork(Error **errp);
+-
+ /* Using intptr_t ensures that qemu_*_page_mask is sign-extended even
+  * when intptr_t is 32-bit and we are aligning a long long.
+  */
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 77d882e681..760390b31e 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -583,76 +583,6 @@ char *qemu_get_pid_name(pid_t pid)
+ }
+ 
+ 
+-pid_t qemu_fork(Error **errp)
+-{
+-    sigset_t oldmask, newmask;
+-    struct sigaction sig_action;
+-    int saved_errno;
+-    pid_t pid;
+-
+-    /*
+-     * Need to block signals now, so that child process can safely
+-     * kill off caller's signal handlers without a race.
+-     */
+-    sigfillset(&newmask);
+-    if (pthread_sigmask(SIG_SETMASK, &newmask, &oldmask) != 0) {
+-        error_setg_errno(errp, errno,
+-                         "cannot block signals");
+-        return -1;
+-    }
+-
+-    pid = fork();
+-    saved_errno = errno;
+-
+-    if (pid < 0) {
+-        /* attempt to restore signal mask, but ignore failure, to
+-         * avoid obscuring the fork failure */
+-        (void)pthread_sigmask(SIG_SETMASK, &oldmask, NULL);
+-        error_setg_errno(errp, saved_errno,
+-                         "cannot fork child process");
+-        errno = saved_errno;
+-        return -1;
+-    } else if (pid) {
+-        /* parent process */
+-
+-        /* Restore our original signal mask now that the child is
+-         * safely running. Only documented failures are EFAULT (not
+-         * possible, since we are using just-grabbed mask) or EINVAL
+-         * (not possible, since we are using correct arguments).  */
+-        (void)pthread_sigmask(SIG_SETMASK, &oldmask, NULL);
+-    } else {
+-        /* child process */
+-        size_t i;
+-
+-        /* Clear out all signal handlers from parent so nothing
+-         * unexpected can happen in our child once we unblock
+-         * signals */
+-        sig_action.sa_handler = SIG_DFL;
+-        sig_action.sa_flags = 0;
+-        sigemptyset(&sig_action.sa_mask);
+-
+-        for (i = 1; i < NSIG; i++) {
+-            /* Only possible errors are EFAULT or EINVAL The former
+-             * won't happen, the latter we expect, so no need to check
+-             * return value */
+-            (void)sigaction(i, &sig_action, NULL);
+-        }
+-
+-        /* Unmask all signals in child, since we've no idea what the
+-         * caller's done with their signal mask and don't want to
+-         * propagate that to children */
+-        sigemptyset(&newmask);
+-        if (pthread_sigmask(SIG_SETMASK, &newmask, NULL) != 0) {
+-            Error *local_err = NULL;
+-            error_setg_errno(&local_err, errno,
+-                             "cannot unblock signals");
+-            error_report_err(local_err);
+-            _exit(1);
+-        }
+-    }
+-    return pid;
+-}
+-
+ void *qemu_alloc_stack(size_t *sz)
+ {
+     void *ptr, *guardpage;
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 07ade41800..528c9ee156 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -283,15 +283,6 @@ char *qemu_get_pid_name(pid_t pid)
+ }
+ 
+ 
+-pid_t qemu_fork(Error **errp)
+-{
+-    errno = ENOSYS;
+-    error_setg_errno(errp, errno,
+-                     "cannot fork child process");
+-    return -1;
+-}
+-
+-
+ #undef connect
+ int qemu_connect_wrap(int sockfd, const struct sockaddr *addr,
+                       socklen_t addrlen)
 -- 
 2.39.1
 
