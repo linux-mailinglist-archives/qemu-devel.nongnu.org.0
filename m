@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB9869C7FB
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3ED69C7FC
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:52:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU2qK-0006zL-DN; Mon, 20 Feb 2023 04:52:20 -0500
+	id 1pU2qY-00072U-6D; Mon, 20 Feb 2023 04:52:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pU2qG-0006yl-Pm
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:52:16 -0500
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2qW-000726-AB
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:52:32 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pU2qE-0005LO-Nu
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:52:16 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id s22so863753lfi.9
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:52:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gt9zNz75qraQ4Oxmc3ZcXIgmJWkIJK+mad56TIQh+v0=;
- b=dOckDNzFsA4EB0OkEnzp+rT1nO7MRdCCnlIXu7auFp1i4jhhAMK+7q8xyVomdGmDE3
- 1YljhV4K8qwQyEIwNv2hXAaAQN9wxbCOZn3KJVR93bGjoedvr48olC7tgpmUzgbxkGZy
- fFg4Ek4wrbx0ZhNRQq/IkqAUQj53wkzp78ZdFWIxC4OStIQ1td1EUMRFsyZ3tz5LrsQR
- UDfpflz88jboSx6EhAEOG41l/UWfVHO8e4JPxR4/RwsgFaZeOsP0t86pnj7t0vdLnOsy
- O2LJWuVwTjA+++j/+o9jOnxBNh0rCk76A4URSiJou1K81ivhFPvDPQiuHX9PdNqa1xkX
- FL3A==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2qU-0005Nx-Ex
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:52:31 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id 6so54449wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:52:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BBt3SQ9mw98YuY/+AJbV8Ns8AzoLe2hqu1O30UxIsa0=;
+ b=Dc+gz92s2OMQqRHBwgB7VrceQT/w7mFAz8syeKpGgOLhM88TFZ3VBJifGSEPeqJ6de
+ 2UT33Xf8Z7BmgtXoaLcMJQiNtwvUaiGnbM5YLVo3pNpq3a8ycI8dEVguojtrFUmGCRF7
+ dWazPfgELKEBXpUNVWKQKtCaMR+LHPI/7g2sdy508NziLBn2ikdwFh9s/cO3kFFxNlA2
+ yXsXW4Q9nHvQzgoNyBNX3EPTmFVBLyQCnWkCq/mNpU+L73PCjwwKffFgtcxChQ/dscHV
+ rUody4lTIytfiEVNZYZx1NxdiijF0VQ7cjglNcEMrdZThgAw8MSOG+Ei6qoZya3qWs8D
+ LfjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gt9zNz75qraQ4Oxmc3ZcXIgmJWkIJK+mad56TIQh+v0=;
- b=SDx8nn4wQyRXxZyl9J2i4Cfrb5SCKI2htfZwMvrxJWW4tzPjjM57oCSDXekvd9Kwzg
- 5rVJXeZqL85C1KwCHaA/PsZX7FJ4STF7COh7/RoS5vYmaqOwfP4m9uEue10r/ifIHb7m
- MMkjIRlyu8WFd8KXDZ2jzeQZp8Z2VihRYQ5HCl8vQ3KrUX7ZsN3oSpRC3ZlIPoZ5QvPe
- aNzVb5knlNe+YM4bbpBPRsr0MqNOxzOYtRogAItcxZgtPUR3WUipiEst94RBxFQxBQAd
- bkRufvG6f9mhEj1T1oFRX936LS8dexVFHQmvrAuahuuoowniDgVUXxOlAEBZcPr7jGVr
- Xh2Q==
-X-Gm-Message-State: AO0yUKXIt1iJkP05zYxDpy1rLLGHQwudyWa6HyG7avjvmXXqxqp4J7Pw
- attu6P4X/fmyrFn5nXzVJFYO7aIEPeKeSEV1n24=
-X-Google-Smtp-Source: AK7set/VhehmW50joUBsedJBwMXMAaXuUgjcd+K7JCOF12Nd/6bdaStDoRKalRr747aWATXQleEOngroTm9BQtKRKFY=
-X-Received: by 2002:a19:f009:0:b0:4db:eeb:3dea with SMTP id
- p9-20020a19f009000000b004db0eeb3deamr431131lfc.11.1676886732454; Mon, 20 Feb
- 2023 01:52:12 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BBt3SQ9mw98YuY/+AJbV8Ns8AzoLe2hqu1O30UxIsa0=;
+ b=AmbiFZESzakEf0zG2YeFv0B1dow12tOxHx0EdeuqeJ/jrChI+Nx25mDO+1QhT7edH/
+ P/6U0j02nfi8ICVqi+nO6HQO2OlNwlXaKysGYzwpduje0UcCv5MKjCNKRbgSBlabgcih
+ DchM5aK7U2v/57jY+KTiRxLwvGEpWwIzPHkXXYi+5vmZPDjr5m3J0QwFWEsvxkAAJrwG
+ CiqBhxy+6BhZXBz0hd4R1BBZzauRubISyPbAiyfFLtQgnZKrhI73GZFe/jy1Bl0YoG/3
+ saodTrQ07qJLkc/vpG/rIQ5dWg5JdSfCF7LxEmK4SPbLHgsRKqY2AHqOF5WxvksWXAu+
+ n5GQ==
+X-Gm-Message-State: AO0yUKXHB/nx2Mkn/azKPanfXLUVhWpzrrYPHx8izSNc+GBf5ipiX8S8
+ ZY8m8UNeHiEYtGZfk7LhhdfoyQ==
+X-Google-Smtp-Source: AK7set9k09+1Ms53s62ra+Ds7AS0F5lGbSiGPuDe+mczZclZbR/8LVo24R2HTeuzzI8Mw5ZCqtuYeg==
+X-Received: by 2002:adf:fb8f:0:b0:2c5:58fb:fa92 with SMTP id
+ a15-20020adffb8f000000b002c558fbfa92mr766498wrr.7.1676886748909; 
+ Mon, 20 Feb 2023 01:52:28 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ y16-20020a5d4710000000b002c553509db7sm5373540wrq.52.2023.02.20.01.52.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 01:52:28 -0800 (PST)
+Message-ID: <f6e24ede-2d91-5258-18e0-bf9ecf3afc18@linaro.org>
+Date: Mon, 20 Feb 2023 10:52:27 +0100
 MIME-Version: 1.0
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-9-marcandre.lureau@redhat.com>
- <87zg9chbat.fsf@pond.sub.org>
- <CAJ+F1CJYYRzKPpDVuuX7Q0bB9M8cAO4OcD_BTeMRe7goueiUgg@mail.gmail.com>
- <87zg98zqrz.fsf@pond.sub.org>
-In-Reply-To: <87zg98zqrz.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 20 Feb 2023 13:52:00 +0400
-Message-ID: <CAJ+F1CKUmnQ36vCdE07R6rF3H=Kgd684uay=sJXbP9ttEraUxg@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] qmp: teach 'getfd' to import sockets on win32
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 06.5/18] hw/ide/piix: Allow using PIIX3-IDE as
+ standalone PCI function
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>, pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, hreitz@redhat.com,
+ kwolf@redhat.com, mst@redhat.com, qemu-block@nongnu.org,
+ hpoussin@reactos.org, richard.henderson@linaro.org, eduardo@habkost.net,
+ John Snow <jsnow@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20230215161641.32663-1-philmd@linaro.org>
+ <20230220080044.4646-1-philmd@linaro.org>
+ <20230220091008.tgg2pqockjsttbsm@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230220091008.tgg2pqockjsttbsm@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,151 +98,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+On 20/2/23 10:10, Gerd Hoffmann wrote:
+> On Mon, Feb 20, 2023 at 09:00:44AM +0100, Philippe Mathieu-Daudé wrote:
+>> In order to allow Frankenstein uses such plugging a PIIX3
+>> IDE function on a ICH9 chipset (which already exposes AHCI
+>> ports...) as:
+>>
+>>    $ qemu-system-x86_64 -M q35 -device piix3-ide
+>>
+>> add a kludge to automatically wires the IDE IRQs on an ISA
+>> bus exposed by a PCI-to-ISA bridge (usually function #0).
+>> Restrict this kludge to the PIIX3.
+> 
+> Well.  On physical hardware you have a config switch in the bios
+> setup which turns off sata and enables ide instead (i.e. the
+> chipset implements both and can be configured to expose the one
+> or the other).
+> 
+> If we want support ide for q35 we should IMHO do something simliar
+> instead of making piix-ide user-pluggable.  We already have -machine
+> q35,sata={on,off}.  We could extend that somehow, by adding
+> ide={on,off}, or by using storage={sata,ide,off} instead.
+> 
+> This has been discussed now and then in the past and the usual
+> conclusion was that there is little reason to implement that given
+> that you can just use the 'pc' machine type.  For guests that old
+> that they can't handle sata storage this is usually the better fit
+> anyway ...
 
-On Mon, Feb 20, 2023 at 12:26 PM Markus Armbruster <armbru@redhat.com> wrot=
-e:
->
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
->
-> > Hi Markus
-> >
-> > On Fri, Feb 17, 2023 at 1:49 PM Markus Armbruster <armbru@redhat.com> w=
-rote:
-> >>
-> >> marcandre.lureau@redhat.com writes:
-> >>
-> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >> >
-> >> > A process with enough capabilities can duplicate a socket to QEMU.
-> >> > Modify 'getfd' to import it and add it to the monitor fd list, so it=
- can
-> >> > be later used by other commands.
-> >> >
-> >> > Note that we actually store the SOCKET in the FD list, appropriate c=
-are
-> >> > must now be taken to use the correct socket functions (similar appro=
-ach
-> >> > is taken by our io/ code and in glib, this is internal and shouldn't
-> >> > affect the QEMU/QMP users)
-> >> >
-> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >> > ---
-> >> >  qapi/misc.json     | 16 ++++++++--
-> >> >  monitor/fds.c      | 79 ++++++++++++++++++++++++++++++++++++-------=
----
-> >> >  monitor/hmp-cmds.c |  6 +++-
-> >> >  3 files changed, 81 insertions(+), 20 deletions(-)
-> >> >
-> >> > diff --git a/qapi/misc.json b/qapi/misc.json
-> >> > index 27ef5a2b20..cd36d8befb 100644
-> >> > --- a/qapi/misc.json
-> >> > +++ b/qapi/misc.json
-> >> > @@ -249,10 +249,18 @@
-> >> >  ##
-> >> >  # @getfd:
-> >> >  #
-> >> > -# Receive a file descriptor via SCM rights and assign it a name
-> >> > +# On UNIX, receive a file descriptor via SCM rights and assign it a=
- name.
-> >> > +#
-> >> > +# On Windows, (where ancillary socket fd-passing isn't an option ye=
-t), add a
-> >> > +# socket that was duplicated to QEMU process with WSADuplicateSocke=
-tW() via
-> >> > +# WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name. A=
- SOCKET is
-> >> > +# considered as a kind of "file descriptor" in QMP context, for his=
-torical
-> >> > +# reasons and simplicity. QEMU takes care to use socket functions a=
-ppropriately.
-> >>
-> >> The Windows part explains things in terms of the C socket API.  Less
-> >> than ideal for the QEMU QMP Reference Manual, isn't it?  I don't know
-> >> nearly enough about this stuff to suggest concrete improvements...
-> >
-> > We don't have to, after all we don't explain how to use sendmsg/cmsg
-> > stuff to pass FDs.
-> >
-> > I will drop the part about "A SOCKET is considered as a kind of "file
-> > descriptor" in QMP context", after we get "[PATCH 0/4] win32: do not
-> > mix SOCKET and fd space"
-> > (https://patchew.org/QEMU/20230212204942.1905959-1-marcandre.lureau@red=
-hat.com/)
-> > merged.
->
-> Would it make sense to rebase this series on top of that one, so we
-> can have simpler documentation from the start?
+I think we might not using the same words, but agree on the goal :)
 
-Sure, if only I had more reviews/acks...
+Since this has been discussed in the past, I suppose some users
+want this config available. Why are they using this convoluted
+config? Could it be due to lack of good documentation?
 
+Do we really need a storage={sata,ide,off} flag? I don't see its
+value. Help cloud users to have a sane config?
 
->
-> >> What does this command do under Windows before this patch?  Fail alway=
-s?
-> >
-> > Without ancillary data support on Windows, you can't make it work.
->
-> Yes, but how does it fail?  Hmm, you actually answer that below.
->
-> >> Wrap your lines a bit earlier, please.
-> >>
-> >> >  #
-> >> >  # @fdname: file descriptor name
-> >> >  #
-> >> > +# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Sin=
-ce 8.0.
-> >> > +#
-> >>
-> >> No way around passing a binary blob?
-> >
-> > WSAPROTOCOL_INFOW is a fairly big structure, with private/reserved fiel=
-ds,
-> > it contains another structure (WSAPROTOCOLCHAIN), has fixed-length arra=
-ys,
-> > GUID, and utf16 string.
-> >
-> > QAPI'fying that structure back and forth would be tedious and
-> > error-prone. Better to treat it as an opaque blob imho.
->
-> I worry about potential consequences of baking Windows ABI into QMP.
->
-> What if the memory representation of this struct changes?
->
-> Such ABI changes are unpleasant, but they are not impossible.
+(old) boards exist with both IDE/SATA and we might want to emulate
+some of them, but IMO such boards should be well modeled (Either
+in C or later in declarative language) but not automagically created
+from CLI.
 
-This is unlikely, the API users are typically sharing that structure
-between processes since it was introduced, back in 2000. (see also
-Daniel reply)
+IOW:
 
->
-> >> >  # Returns: Nothing on success
-> >> >  #
-> >> >  # Since: 0.14
-> >> > @@ -270,7 +278,11 @@
-> >> >  # <- { "return": {} }
-> >> >  #
-> >> >  ##
-> >> > -{ 'command': 'getfd', 'data': {'fdname': 'str'} }
-> >> > +{ 'command': 'getfd', 'data': {
-> >> > +    'fdname': 'str',
-> >> > +    '*wsa-info': {'type': 'str', 'if': 'CONFIG_WIN32'}
-> >> > +  }
-> >> > +}
-> >>
-> >> What happens when QEMU runs on a Windows host and the client doesn't
-> >> pass @wsa-info?
-> >
-> > It attempts to get the fd from the last recv, but it will fail on
-> > Windows, this is not available.
->
-> So it fails exactly like it fails on a POSIX host when you execute getfd
-> without passing along a file descriptor with SCM_RIGHTS.  Correct?
+- using PIIX on Q35 (or any machine exposing a PCI bus) is
+   acceptable, but the chipset should be instantiated as a whole.
+   So to be clear I'm not against "-M q35 -device piix3", we should
+   keep that working.
 
-Correct, I get something like:
-Error { class: GenericError, desc: "No file descriptor supplied via
-SCM_RIGHTS", id: None }
+- we shouldn't try to maintain such Frankenstein corner cases which
+   force us to add complex hacks, hard to remove, which limit us
+   in implementing new features and cost us a lot of maintenance /
+   testing time.
 
---=20
-Marc-Andr=C3=A9 Lureau
+So I propose we deprecate this config so we can keep going forward.
+
+(More generally I'd like to not allow instantiating part of chipset).
 
