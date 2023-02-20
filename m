@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BE969D3CE
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA0069D3CD
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 20:07:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUBU0-0001uD-BE; Mon, 20 Feb 2023 14:05:52 -0500
+	id 1pUBUj-0002wc-3m; Mon, 20 Feb 2023 14:06:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUBTu-0001pv-Mb
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:05:46 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1pUBUh-0002tu-1W
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:06:35 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUBTr-0000oT-PJ
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:05:45 -0500
-Received: by mail-pl1-x631.google.com with SMTP id q11so2890778plx.5
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 11:05:43 -0800 (PST)
+ id 1pUBUd-0000xp-Ee
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:06:34 -0500
+Received: by mail-pf1-x430.google.com with SMTP id fd25so287721pfb.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 11:06:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Cp9uKmWSef+07nF/2nAqBmzxGyGYY3axMHMWFHKB1SY=;
- b=WCmthzqOHQenuWPQkusZo5n7F18Khiuy6k25u7ODq7SbNx+5V71pz20nhvhP5HZBbh
- Avj31P9bT6UQGRkRP7FGDhUfMFs8siwmoV0qsBPSUcaXMQfpIt2v0LWhEzauN10l6BIE
- PP+68Bw96jZrIfu+Sodi7fg4uUZ3bmJs+VFpa7mj/tR33Ocbxh03sgreVchcbr8mN8Qe
- OxPY5fvB80ueVWs2Fl9DYnITjGCrhuwE5z639O2sjmCZyMMiCGyRmX+s1PGqGmj1xVqz
- vVgFepQUH8Boy10vHjW/dr2fX4Ks44jQ+ZwpYGz6bHFxkax5RfteVuGmiJrloPsjCvr5
- /Gfg==
+ bh=VL/N0M/IaCwowRk1oS8ozeiIXvHnRHocpTP75PytFnY=;
+ b=pUq4wdk0bDb31vj+YerQ/Y7WW5iuf8cIbIoZsZYrSFqzRIUs/xWPY5ejIQnUHgnQGv
+ jLZFWeq60br6+nEK/h105oRhocuv36ql408Iefrzsp0cO3jql1gBLWLq29E1aYNSG8BU
+ 780iMlVjT2E44BdFi0XJcs5JaVV1cG9sA4geDZhzyQlF0uoXLNDWh8+D21AlVDhsWDdM
+ ob4BiFpsbOpWPR/1FpP3poOFtB+h+dCkMC7LmQdyc3qeyDr9/uWEHb49PuGKlPf4lAf1
+ VVFpRFZCY5dgPL0J2pDizX+yKEcH4iy8uR5C6yTNVJM3A90TfKSlbJQN6V6CjR6BwQDC
+ GNBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Cp9uKmWSef+07nF/2nAqBmzxGyGYY3axMHMWFHKB1SY=;
- b=ztl4asEYrlhbJ+EpbqE3Dp7nJtxrxHIPkXgnAVSia0SbWhMylFX7YYaYK/ojkAE8Qg
- 8Cb9vgMymWQzVm8scZ7OOleNnZTsIb46gKb3Wh8go6L5d8osdu8p2INc6xxld+E3WBtK
- MKvtsx80MXuTsyYDMLcEptgTIYkj/Wwp2qhEPs+dITI8FNP6r2pm3noryVTcnfa5yITs
- PghdtHlwRcgPjC0sB7JUV5kFh26/6R4czZtsdZTXQeXu0c/HxAhbTy5aefkN0fDnp35p
- 6SM9QlcQ5WjytzgnrhXlZZIPssZFvsN+ZoqrA77xGuVvd4ir43iP6Wu/iVXB4h8PMQWC
- /oYg==
-X-Gm-Message-State: AO0yUKWSNG7S6oeQ2B40LQ+BnRnEYncT0StKQpDmHuFwv/tGK098GohA
- qYZcw/KVCvhWec+XpMKkDh6rDA==
-X-Google-Smtp-Source: AK7set9Q18QHINPwNd6zoJ/y+Tsu0IUeJWCrYYUf3J4gYe8/ez34fHkGmRKitsMSXw9D2A7PHCY9hw==
-X-Received: by 2002:a17:90b:350b:b0:234:f3c:17cd with SMTP id
- ls11-20020a17090b350b00b002340f3c17cdmr3948781pjb.43.1676919942044; 
- Mon, 20 Feb 2023 11:05:42 -0800 (PST)
+ bh=VL/N0M/IaCwowRk1oS8ozeiIXvHnRHocpTP75PytFnY=;
+ b=ZpK8XxRemT+m5mH38bf5tuLNEeA+b0/EQACraNiPqr17XnW9+zwoj5mHAJkO6HsETu
+ 5pnYaBUzvBfDocRuoa1tv3cCFlqFSWp4M7+a5x1MA6yDBy7Q0G88U06aWSZzSrYZ/wB2
+ ZblZcMoYOGJsT5roBe5lougRq83RjctyOaEDBxOin+eVr5RwmXv1TXS46jn1YI65Q3r4
+ 8Jmon2Vhlr63XEALkTDuSy8q4T8epbGjlWiu/cRWePnF8a9g/gTF/0SGixBd5IrYv59i
+ 2lvXPL/B/MRcsxnhQD985MbYA/2AOivqaB7n3GKnxsMHJdoHzIVnkH9rKh8lKeFUTflE
+ wtUg==
+X-Gm-Message-State: AO0yUKUWeNVzAfVPkYGNA7gAAxo67+Dm0IQqMAgOgwJ+0lfmwjIQQoAI
+ FI7ToDT/cG7m5itc7TVOEl2wug==
+X-Google-Smtp-Source: AK7set8Hi0EWHKdXSo0bYqkcCKqlegCsMg82d12Y9K9pPu1zzB+88VogZYo1QAYM/QMzhxCLTIclOg==
+X-Received: by 2002:aa7:95b9:0:b0:5a8:aa1d:30e9 with SMTP id
+ a25-20020aa795b9000000b005a8aa1d30e9mr815301pfk.18.1676919990073; 
+ Mon, 20 Feb 2023 11:06:30 -0800 (PST)
 Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- d6-20020a17090a498600b00231261061a5sm1482954pjh.5.2023.02.20.11.05.40
+ r11-20020a62e40b000000b0059416691b64sm8307635pfh.19.2023.02.20.11.06.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 11:05:41 -0800 (PST)
-Message-ID: <82d751cc-9375-17d9-ec91-61f17ca7df0f@linaro.org>
-Date: Mon, 20 Feb 2023 09:05:37 -1000
+ Mon, 20 Feb 2023 11:06:16 -0800 (PST)
+Message-ID: <c6191066-aad2-7457-0090-57f0ba232f63@linaro.org>
+Date: Mon, 20 Feb 2023 09:06:13 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 3/5] hw/audio/es1370: Replace container_of() by ES1370()
- QOM cast macro
+Subject: Re: [PATCH 4/5] hw/audio/ac97: Replace container_of() by AC97() QOM
+ cast macro
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -69,13 +69,13 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
  Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 References: <20230220131837.26292-1-philmd@linaro.org>
- <20230220131837.26292-4-philmd@linaro.org>
+ <20230220131837.26292-5-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230220131837.26292-4-philmd@linaro.org>
+In-Reply-To: <20230220131837.26292-5-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -101,8 +101,8 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 2/20/23 03:18, Philippe Mathieu-Daudé wrote:
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   hw/audio/es1370.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   hw/audio/ac97.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
