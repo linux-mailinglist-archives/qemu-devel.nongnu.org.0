@@ -2,84 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6D469C702
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 09:53:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E1669C723
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:00:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU1tz-00026w-6G; Mon, 20 Feb 2023 03:52:03 -0500
+	id 1pU215-0003aM-J9; Mon, 20 Feb 2023 03:59:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pU1tw-00026d-4u
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:52:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
+ id 1pU20w-0003Zn-A8
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:59:14 -0500
+Received: from mail-bn8nam12on20609.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5b::609]
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pU1tt-0008Ap-LC
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:51:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676883116;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WFbn8IElbs1MR2Kzb4s+hoEVJUa5oG+Or7AFPw2P4v4=;
- b=RMHjd5zaL1xJaTndwIA/tO40OFKnjwiZGb+GqAaeix892u357/65+3trM7us8Epxi5eI7W
- Vr2vN9nB1HiloedydTGdXqOxxKRhNbn6wWPXMMKsoHXgtsxAbLWExmaQB79aFHP5M5hjpn
- CBxd8pa3vNKg48q2DSOltaFePpCsUKg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-ZH0lo02PMHW58zdDTaJ4lw-1; Mon, 20 Feb 2023 03:51:52 -0500
-X-MC-Unique: ZH0lo02PMHW58zdDTaJ4lw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF08A18E5345;
- Mon, 20 Feb 2023 08:51:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DC88C15BA0;
- Mon, 20 Feb 2023 08:51:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6D7F721E6A1F; Mon, 20 Feb 2023 09:51:50 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Peter Maydell
- <peter.maydell@linaro.org>,  qemu-devel <qemu-devel@nongnu.org>,  Cleber
- Rosa <crosa@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,  Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,  Wainer dos Santos Moschetta
- <wainersm@redhat.com>,  Qemu-block <qemu-block@nongnu.org>,  Hanna Reitz
- <hreitz@redhat.com>,  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 6/7] CI: Stop building docs on centos8
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <20230210003147.1309376-7-jsnow@redhat.com>
- <CAFEAcA-c5y0TR8vYg_FYEmGv3mOOmBgeD0cyb+mVotsP=r-Dsw@mail.gmail.com>
- <CAFn=p-aDV9=vG6hjTWRE6c52TpYSjDBU22nthTuejDCv_XrYMQ@mail.gmail.com>
- <CAFEAcA_eGvz_BQVLhVWtedRh2mcBuMEhv0RKF+6DW4t+9FdPAw@mail.gmail.com>
- <Y+Z2Kcq17HGWuoTV@redhat.com> <87cz6cpue3.fsf@pond.sub.org>
- <Y+t1J72iMsLWXHne@redhat.com>
- <CABgObfb-_upmc=36_bnxLMCB+0KqWoZNK62rnD5KpBKhW4N+hw@mail.gmail.com>
- <Y+vEKTgwoPtj86Z1@redhat.com>
- <CAFn=p-Zg-LsRxG3rc7W1tmXcEWjqQtYF4c8RiioWpHEoa-JT5Q@mail.gmail.com>
-Date: Mon, 20 Feb 2023 09:51:50 +0100
-In-Reply-To: <CAFn=p-Zg-LsRxG3rc7W1tmXcEWjqQtYF4c8RiioWpHEoa-JT5Q@mail.gmail.com>
- (John Snow's message of "Fri, 17 Feb 2023 17:49:36 -0500")
-Message-ID: <87ttzgzpll.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
+ id 1pU20t-0000uY-Qy
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:59:13 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EF48GCPDQtVe1YlzHp5q4HLxT1rAa8nS1QMHWaVenRY6VjSsS0ffdopCHaZr5v7jSy/0XGkzLrZ/zQGJ81BIoKXdtjcUPqMIFsYCCXoYLmqLz+OzMfbYPLuZRM9tk3PB6v6AyOm8TTQGsxRCvIQjIVGhPcD1vR9mAHKT9Snu6EWXwTW2HfcyMAwGA4WNArK5bGKReQkWdEcgCo/71kHTxQuYz57dT0uDZPKa4brTVk5HMrjmvie8yU7mHdY+Z6iXrXQUUk40uu8kQRQ7ZRcXQugJBCu/iZC1kUlOpzwHOgvuBctuZH0VrjdHazXKt31UK5IXLSGaTxHA5CiuuIjCCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UknrdXCnEroFLiHAJ7si7pEx75Z2EBrAvCuBhhhjrn4=;
+ b=OSTuB95LIidLQczZ9pnYf+FC6OzRTRezh/Tj2hzgtSBRUgL0aujX6/Vv6OUM7urRlooDfpR1cpsSKokloO5hIKdXmuzDlrkGe0KSBv+nrsPmPZk1rfocEq9m24idzSczSgRduEL8HwOC9vdGaG1+roI4M3GYdjFIOKdC+C6irb3pN2Rfm8kwLA6vdk8VjbR1ibv3UmFNFFnp7xR7zbJjwsJL6vyJPXZ7+FdIUjpQ6kTYkvv3o6Aq/x1i+DfeKkMY2H2j8P52h5rKjr8BX0HT4rnb5ovwPtXXJTHadkJLUe4+wRgGf4cOzzn9b0l8yFzK1FrEm1uK6tgK7Mu+Npx92g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
+ dkim=pass header.d=silabs.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UknrdXCnEroFLiHAJ7si7pEx75Z2EBrAvCuBhhhjrn4=;
+ b=AmlbgQbUuZrCnfWQWGtmMgumOAmw1m/GJ7FrgnFFxU+9Dv9YD6V3F+S52eLNB6nWtyMjge423QSuDAnyKXx0lIcQRYcP/boDjlfo6ngvCbuBlaULBXwHDFK2FlszEO3kYoknu91gu0dp4UIzjRvVIyrCKT8b5gsg0eKQia0oj9Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=silabs.com;
+Received: from MN2PR11MB4711.namprd11.prod.outlook.com (2603:10b6:208:24e::13)
+ by PH7PR11MB8033.namprd11.prod.outlook.com (2603:10b6:510:246::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
+ 2023 08:59:06 +0000
+Received: from MN2PR11MB4711.namprd11.prod.outlook.com
+ ([fe80::bc75:99b6:488f:fd50]) by MN2PR11MB4711.namprd11.prod.outlook.com
+ ([fe80::bc75:99b6:488f:fd50%9]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
+ 08:59:06 +0000
+From: Mathis Marion <Mathis.Marion@silabs.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= <jerome.pouiller@silabs.com>,
+ Mathis Marion <mathis.marion@silabs.com>
+Subject: [PATCH v2 0/4] Missing endianness conversions in user mode
+Date: Mon, 20 Feb 2023 09:58:18 +0100
+Message-Id: <20230220085822.626798-1-Mathis.Marion@silabs.com>
+X-Mailer: git-send-email 2.39.1
+Content-Transfer-Encoding: base64
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: MR1P264CA0159.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:54::19) To MN2PR11MB4711.namprd11.prod.outlook.com
+ (2603:10b6:208:24e::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4711:EE_|PH7PR11MB8033:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4341e53-89b0-43f8-0a6b-08db1320b888
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eG19WRKk/1bRRCTifWfLuHwuYAI6EdWOxGXDINoTuRf3ewmKytWGMMhPPR4P2J4boM7ptEbJokdwN50hS6sqY53DS6LDhOdd0+S8QDqPYlW8lQSmQJG4JOQ2rp5yM4wXMKU3QlgWWKBN9IBu9MAWjbPd83WOKNkYakB8ZwjlWSg7H+dfpatg5J8qI5I7nVHBowVehWGoLNeyEQKc8wjdramA5yJNkUPYEY5c1QsM5sIaSZ2jlhnY08qpXSnly9KQKfQDF1IwSOD7HBepRwcnl96pHZSBfkBOc9wrjxYz1Wi2jk/TOj9SQ4acM/ztxECyfCnCQGLbUto7emNctOtVDKre+znTKKUlw983BJP2z2uczwsxsEvgsWRZtbZjrp039yaBeSeIULFJT5zG23yffIn3vqIHtc2dL0AsuwrF5n8oxB00EX/daBBZzHRW/OUu8+99KyBtUF78D3OD4N0yS0N3l6MAgu1+CfN5kdK91xtpLiZntbfcjmOoYr5KK7DCFKFx8k0fhfYHgzDXNhIxWe+RUS9e9m0sy5fIIObpF/0wtrjNkSpwS2//ak1eajG5iqDKt3HIEmhu6/q56HuFQ0gjwEGpl7R6X9tIvutStRAJ6CYG/4yi1dHsWMPzbE99GYBFS62RbCvQ0UeUeFe5sWRuu1UWLiHMhgU0WKLA3uEfNiET+fUY4zG7PsnM3InDEqyXx0xMjgXcqg8FuJB0PQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR11MB4711.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(366004)(136003)(39850400004)(396003)(346002)(376002)(451199018)(186003)(2616005)(6506007)(6512007)(6486002)(4326008)(66476007)(8676002)(5660300002)(83380400001)(66946007)(966005)(8936002)(66556008)(26005)(52116002)(1076003)(107886003)(36756003)(6666004)(478600001)(66574015)(110136005)(54906003)(41300700001)(316002)(38100700002)(38350700002)(86362001)(2906002)(4744005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fJt8+33coIZRKwh4+3HvKWErdEKmzlNnH5geMQcFvCAPeNdVOvIzPrCZRDr0?=
+ =?us-ascii?Q?816Ik9HkCgFUSEZQOrSZ7rovEMUt4AZEcAHC6Z9s0yLUzzVVBX3cnL/BliCy?=
+ =?us-ascii?Q?bqmE/FeUrKZBMiIQDXIG/C1Aplz6Nd6zxAhfKQ21/+SQZuCzb+LWDu3kIgVi?=
+ =?us-ascii?Q?nxN1PPCl5fwm0Yn6X1jbttXLF14QfoOxIeessg+k2OWpxArdgdbquFxKe/2n?=
+ =?us-ascii?Q?eWnIRw6tPT1KYjkNTtiRhISIw0F+ShJyJdZ2DR/0BQSGAQCxKLCJhZAeIK43?=
+ =?us-ascii?Q?8Be0/cuaubK4zVMpoGzqMOhhlwQ7q8hktP2XrUISnsZpHJoh6tHWwb8Vxerb?=
+ =?us-ascii?Q?9HXHKcK12nau2ZgIUjagCZ1AsS397idKhbaO3EFMuTTHQb0u151tm7DM+w7C?=
+ =?us-ascii?Q?jVAziB2l9kln/64SWMo6nASxkqqdKn5N/T07/wl+AfZMEHZpzo7Uo0MLskWk?=
+ =?us-ascii?Q?JzOZAJtCYKip3NGm0ZUEtLnhheUbuwNBoU+WsN2KiPrhOeyye5B1oX+O68Sh?=
+ =?us-ascii?Q?HyqLkYOuqV+lqW17p57TYfg5KFovN3BxMIryHdyZnCTUlb+3zY5GPRmDut1k?=
+ =?us-ascii?Q?O393Ko9GnBCerr+i7M3IttPPlEzxHHYPbkY2lD+ViL0CHTHU/XNE0fCuvoXE?=
+ =?us-ascii?Q?HNt4BeddEUBFogFUTYFrv53tGtWonhl6K93JjAfZ2ZDRJhAhD4mOetSsB46D?=
+ =?us-ascii?Q?yeEcpvCDlBK/v4WctaQCVG+qCPkcw01GkWprdT7tXai8p+yZFyEBwbnhqHku?=
+ =?us-ascii?Q?VkZ4WnTu6gzHxonONmquFjaBMFc4oi/VIoctoguwEjCIxlsRDsbTcVsPxdWS?=
+ =?us-ascii?Q?AP8npeCddgXq69w7AUSc8Eur5IdGi1d8F8LYqoxkJ47eCaaiHuPQ599FRJmV?=
+ =?us-ascii?Q?19SPMJhhAZCDklOpbgisauqw9G2apMLRCqx/2pZzfYh5+mhlQ6A7k/oFmlct?=
+ =?us-ascii?Q?teWqeQckl/4eOdERGGSmSQi0OWWEIcj1cVTxTTHefAi7wqK2dr0ftwPSpjG+?=
+ =?us-ascii?Q?8IBpp0sTsDI/fGR3PO2BFkhDz6EtH/zyo9qyTIxVwo28US7izD0KEoz6RUE0?=
+ =?us-ascii?Q?xfUyYY9SCw+ilxq44R5qDQZ/B7HhxQvCiop+sHNew5e1z5DYz9o0RswlB6h0?=
+ =?us-ascii?Q?ao4pBg6Bu62ExJs0EcuYHOD3IrOxziNIMqWkIXseQdqkzZlw7T377YrTCgNK?=
+ =?us-ascii?Q?J5BG9xY/u+YwxZQm6xccSGdmj81cAw26qrPXsDUX6HzjNed6zHkuAg7b2I6o?=
+ =?us-ascii?Q?wphKSTTdsciq0f1snXppJka8PpvA4c3MsgswzL98SWezC2rtcEcXj3e8kCVm?=
+ =?us-ascii?Q?0h8AUth2vi+hjSP0L7Ercd1OC+RV/5W+C7muujwfguJgmEtfC0GS7fgNNubL?=
+ =?us-ascii?Q?e4Vevd3erbRCcovJ17tlzafAXaDaK/ejZjm8qZOHPKgSAU9hwz820EpaRMd5?=
+ =?us-ascii?Q?7o4Plu42jMBobQZh/0bRYn1bpkymjYKBDgWFcxRImX7/TQkPs1k/DFMmyRxZ?=
+ =?us-ascii?Q?tDA7gHkrHZa37Ic0wi03ci85RvoYKKx1lvkV9aje+QAE+skBTLdTS+qiUJNd?=
+ =?us-ascii?Q?4aG3QmvaWR04K7RhATHDrA3IqeCOgb5luxP+Inji?=
+X-OriginatorOrg: silabs.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4341e53-89b0-43f8-0a6b-08db1320b888
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4711.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 08:59:06.0892 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dvqHf7BljJ2mZOFRcdCcMCI+e7o0+0vLeO3YDL0TqmB4pshC8/IaZ1Fii4FfFfnaQC41PqO7Eg1iask9IH7sVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8033
+Received-SPF: permerror client-ip=2a01:111:f400:fe5b::609;
+ envelope-from=Mathis.Marion@silabs.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FORGED_SPF_HELO=0.756, MIME_BASE64_TEXT=1.741, SPF_HELO_PASS=-0.001,
+ T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,123 +135,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-John Snow <jsnow@redhat.com> writes:
-
-> On Tue, Feb 14, 2023 at 12:26 PM Kevin Wolf <kwolf@redhat.com> wrote:
->>
->> Am 14.02.2023 um 15:03 hat Paolo Bonzini geschrieben:
->> > In the case of Python the issue is not the interpreter per se, though
->> > there are a couple new feature in Python 3.7 that are quite nice (for
->> > example improved data classes[1] or context variables[2]). The main
->> > problem as far as I understood (and have seen in my experience) is
->> > linting tools. New versions fix bugs that caused false positives, but
->> > also become more strict at the same time. The newer versions at the
->> > same time are very quick at dropping support for old versions of
->> > Python; while older versions sometimes throw deprecation warnings on
->> > new versions of Python. This makes it very hard to support a single
->> > version of, say, mypy that works on all versions from RHEL8 and SLE15
->> > to Fedora 38 and Ubuntu 23.04.
->>
->> Why do we have to support a single version of mypy? What is wrong with
->> running an old mypy version with old Python version, and a newer mypy
->> with newer Python versions?
->
-> Well, the problem is, ...
->
->>
->> Sure, they will complain about different things, but it doesn't feel
->> that different from supporting multiple C compilers in various versions.
-
-Different C compilers often produce different, useful warnings, so
-compiling with several of them can get you more useful warnings.
-
-However, you get pretty much all the useful warnings just from the
-latest versions, at least in my experience.  You keep the old ones
-working not for getting additional useful warnings, but to compile on
-additional hosts.  As the version range widens, warnings from old
-versions might even become such an annoyance that switching them off
-becomes sensible.
-
-> ...well, it's this.
->
-> The first dimension of the test matrix is the version of mypy itself.
-> The second dimension of the test matrix is the version of Python mypy
-> runs under. A given version of mypy can run under multiple versions of
-> Python and may indeed have different behaviors under each.
-> The third dimension of this test matrix is the version(s) of Python
-> our code is targeting; for instance we configure mypy to understand
-> that we require Python 3.6.
->
-> Trying to cast the net wide on *all of these* gets tough; the very
-> latest versions of mypy don't support 3.6 at all, so you'll have cases
-> where the mypy that just so happens to come with your Fedora
-> installation just won't work properly with our code anymore, which has
-> to test under 3.6 appropriately.
->
-> In general, the majority of python package upstreams I am aware of
-> simply pin a python version and a mypy version and leave it at that.
-
-When pretty much everybody else doesn't do something we're doing, there
-are two obvious explanations: (1) we're so smart we discovered something
-worth doing pretty much first, or (2) the thing we're doing is a bad
-idea in general.
-
-In this case, my money is on (2).  It may still be a good idea for us
-(because "in general").  But that notion needs to be supported with
-concrete reasons, such as ...
-
-> Compatibility concerns for most of the upstreams just do not really
-> ever consider that you'd be running *and* testing against a large
-> spread of versions. I've gone the extra mile and I run mypy and pylint
-> under all versions of python from 3.6 to 3.11 to ensure that developer
-> workstations can run the same linting tests and feel assured that if
-> it passes locally, it will pass on the CI and vice-versa. Our matrix
-> is generally quite a bit larger than most upstreams, so I am playing a
-> lot of whack-a-mole to keep things functioning consistently across the
-> versions. I will probably even add support for Python 3.12 alpha
-> *soon* because it's already available in the Fedora repo, and it will
-> be good to find any compatibility issues before that version is
-> officially released. (I'll need to do this for the qemu.qmp package,
-> which should have support for 3.12 on the day 3.12 releases and not
-> sometime afterwards.)
->
-> I know the "check-tox" test was annoying upstream as it sometimes
-> turned yellow because a new pylint version was released, but that's
-> how I stay ahead of breaking changes before they're on local
-> workstations.
->
-> We could avoid at least one of the reasons for dropping 3.6 support by
-> saying "Tough cookies, you'll use precisely this version of mypy and
-> precisely this python interpreter, or you'll get nothing" and that
-> does relieve a huge amount of pressure as-is.
-
-... this one:
-
->                                               But, as a courtesy, I do
-> go out of my way -- where possible -- to ensure that developers can
-> use whichever versions of tools their distro is providing them so that
-> they don't have to mess around with that stuff. Unfortunately, that
-> means when upstreams start dropping support for older things, it gets
-> hairier and quite a bit more painful.
-
-I appreciate the courtesy.  But it feels like it's gotten rather costly,
-and getting costlier.
-
-> I think 3.6 being the first version that offers full-throated type
-> hint support has unique pain in this circumstance because a lot of the
-> details did not get hammered out until 3.7 or later; in general the
-> amount of workarounds I have had to apply because something type
-> checks only in 3.7+ but not 3.6 is fairly high compared to the number
-> of times I've found that a different version was the odd one out. I
-> don't expect this to become a recurring desire where I start to whine
-> about old Python versions before our support window would otherwise
-> let me drop them; I think this is actually just a unique pain point of
-> this one version if we keep static typing.
->
-> That's the tooling issue, anyway.
-
-Perhaps dropping just 3.6 from the test matrix will get us back to a
-reasonable cost / benefit ratio.  But I'd like to encourage you to have
-a sober look at the test matrix, and not shy away from cutting more.
-
+RnJvbTogTWF0aGlzIE1hcmlvbiA8bWF0aGlzLm1hcmlvbkBzaWxhYnMuY29tPgoKRm9yIGEgYml0
+IG9mIGNvbnRleHQsIEkgd2FzIHRyeWluZyB0byB0ZXN0IGEgbmV0d29yayBib3JkZXIgcm91dGVy
+IFsxXQpkYWVtb24gdXNpbmcgdGhlIE1JUFMgYXJjaGl0ZWN0dXJlIChzZWUgWzJdKS4gSSBkaWRu
+J3QgaGF2ZSBhY2Nlc3MgdG8KcmVhbCBNSVBTIGhhcmR3YXJlIHNvIEkgZmlndXJlZCBJIHdvdWxk
+IGVtdWxhdGUgaXQgdXNpbmcgUUVNVSB1c2VyIG1vZGUuCkkgcmFuIGludG8gYSBjb3VwbGUgb2Yg
+cHJvYmxlbXMgYWxsIHJlbGF0ZWQgdG8gZW5kaWFubmVzcyBjb252ZXJzaW9uIGZvcgpzeXNjYWxs
+cyBiZXR3ZWVuIGhvc3QgYW5kIHRhcmdldCBhcyBNSVBTIGlzIGJpZyBlbmRpYW4gYW5kIG15IHg4
+NiBob3N0CmlzIGxpdHRsZS4KClsxXTogaHR0cHM6Ly9naXRodWIuY29tL1NpbGljb25MYWJzL3dp
+c3VuLWJyLWxpbnV4ClsyXTogaHR0cHM6Ly9naXRodWIuY29tL1NpbGljb25MYWJzL3dpc3VuLWJy
+LWxpbnV4L2lzc3Vlcy81Cgp2MjoKLSByZW1vdmUgY29udGV4dCBmcm9tIHRhcmdldF90b19ob3N0
+X2Zvcl9lYWNoX25sYXR0cigpCgpNYXRoaXMgTWFyaW9uICg0KToKICBsaW51eC11c2VyOiBmaXgg
+dGltZXJmZCByZWFkIGVuZGlhbm5lc3MgY29udmVyc2lvbgogIGxpbnV4LXVzZXI6IGZpeCBzb2Nr
+YWRkcl9pbjYgZW5kaWFubmVzcwogIGxpbnV4LXVzZXI6IGFkZCB0YXJnZXQgdG8gaG9zdCBuZXRs
+aW5rIGNvbnZlcnNpb25zCiAgbGludXgtdXNlcjogaGFuZGxlIG5ldGxpbmsgZmxhZyBOTEFfRl9O
+RVNURUQKCiBsaW51eC11c2VyL2ZkLXRyYW5zLmMgfCA3NCArKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrLS0tCiBsaW51eC11c2VyL2ZkLXRyYW5zLmggfCAgMSArCiBsaW51
+eC11c2VyL3N5c2NhbGwuYyAgfCAxNCArKysrKystLQogMyBmaWxlcyBjaGFuZ2VkLCA4MyBpbnNl
+cnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQoKLS0gCjIuMzkuMQoK
 
