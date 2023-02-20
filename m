@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12F069D29A
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB2869D299
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:16:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUAhZ-0006qq-2t; Mon, 20 Feb 2023 13:15:53 -0500
+	id 1pUAhV-0006h1-MF; Mon, 20 Feb 2023 13:15:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUAhE-0006Pp-Bh
+ id 1pUAhE-0006Pr-C3
  for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:15:36 -0500
 Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUAh9-0007Uz-Cg
+ id 1pUAh9-0007Uy-CZ
  for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:15:27 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AFC297470C6;
- Mon, 20 Feb 2023 19:15:08 +0100 (CET)
+ by localhost (Postfix) with SMTP id B7A827470C9;
+ Mon, 20 Feb 2023 19:15:09 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8C34C7470B2; Mon, 20 Feb 2023 19:15:08 +0100 (CET)
-Message-Id: <1bb4985e5dfc1df5a290e77f76fd827ae3592ab7.1676916640.git.balaton@eik.bme.hu>
+ id 97B667470C8; Mon, 20 Feb 2023 19:15:09 +0100 (CET)
+Message-Id: <35c4d4ccf2f73e6a87cdbd28fb6a1b33de72ed74.1676916640.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1676916639.git.balaton@eik.bme.hu>
 References: <cover.1676916639.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 5/7] usb/ohci: Add trace points for register access
+Subject: [PATCH v2 6/7] usb/ohci: Implement resume on connection status change
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Peter Maydell <"peter.maydell@linaro.org>, philmd"@linaro.org>
-Date: Mon, 20 Feb 2023 19:15:08 +0100 (CET)
+Date: Mon, 20 Feb 2023 19:15:09 +0100 (CET)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -58,95 +58,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To help debugging add trace points that print values read from or
-written to the device's registers.
+If certain bit is set remote wake up should change state from
+suspended to resume and generate interrupt. There was a todo comment
+for this, implement that by moving existing resume logic to a function
+and call that.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/usb/hcd-ohci.c   | 27 +++++++++++++++++++++++++++
- hw/usb/trace-events |  4 ++++
- 2 files changed, 31 insertions(+)
+ hw/usb/hcd-ohci.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index 52fcfcd4ab..bad8db7b1d 100644
+index bad8db7b1d..88bd42b14a 100644
 --- a/hw/usb/hcd-ohci.c
 +++ b/hw/usb/hcd-ohci.c
-@@ -235,6 +235,24 @@ struct ohci_iso_td {
+@@ -1410,6 +1410,18 @@ static void ohci_set_hub_status(OHCIState *ohci, uint32_t val)
+     }
+ }
  
- #define OHCI_HRESET_FSBIR       (1 << 0)
- 
-+static const char *ohci_reg_names[] = {
-+    "HcRevision", "HcControl", "HcCommandStatus", "HcInterruptStatus",
-+    "HcInterruptEnable", "HcInterruptDisable", "HcHCCA", "HcPeriodCurrentED",
-+    "HcControlHeadED", "HcControlCurrentED", "HcBulkHeadED", "HcBulkCurrentED",
-+    "HcDoneHead", "HcFmInterval", "HcFmRemaining", "HcFmNumber",
-+    "HcPeriodicStart", "HcLSThreshold", "HcRhDescriptorA", "HcRhDescriptorB",
-+    "HcRhStatus"
-+};
-+
-+static const char *ohci_reg_name(hwaddr addr)
++/* This is the one state transition the controller can do by itself */
++static int ohci_resume(OHCIState *s)
 +{
-+    if (addr >> 2 < ARRAY_SIZE(ohci_reg_names)) {
-+        return ohci_reg_names[addr >> 2];
-+    } else {
-+        return "<unknown>";
++    if ((s->ctl & OHCI_CTL_HCFS) == OHCI_USB_SUSPEND) {
++        trace_usb_ohci_remote_wakeup(s->name);
++        s->ctl &= ~OHCI_CTL_HCFS;
++        s->ctl |= OHCI_USB_RESUME;
++        return 1;
 +    }
++    return 0;
 +}
 +
- static void ohci_die(OHCIState *ohci)
- {
-     ohci->ohci_die(ohci);
-@@ -1478,6 +1496,8 @@ static uint64_t ohci_mem_read(void *opaque,
-     } else if (addr >= 0x54 && addr < 0x54 + ohci->num_ports * 4) {
-         /* HcRhPortStatus */
-         retval = ohci->rhport[(addr - 0x54) >> 2].ctrl | OHCI_PORT_PPS;
-+        trace_usb_ohci_mem_port_read(size, "HcRhPortStatus", (addr - 0x50) >> 2,
-+                                     addr, addr >> 2, retval);
-     } else {
-         switch (addr >> 2) {
-         case 0: /* HcRevision */
-@@ -1582,6 +1602,10 @@ static uint64_t ohci_mem_read(void *opaque,
-             trace_usb_ohci_mem_read_bad_offset(addr);
-             retval = 0xffffffff;
+ /*
+  * Sets a flag in a port status reg but only set it if the port is connected.
+  * If not set ConnectStatusChange flag. If flag is enabled return 1.
+@@ -1426,7 +1438,10 @@ static int ohci_port_set_if_connected(OHCIState *ohci, int i, uint32_t val)
+     if (!(ohci->rhport[i].ctrl & OHCI_PORT_CCS)) {
+         ohci->rhport[i].ctrl |= OHCI_PORT_CSC;
+         if (ohci->rhstatus & OHCI_RHS_DRWE) {
+-            /* TODO: CSC is a wakeup event */
++            /* CSC is a wakeup event */
++            if (ohci_resume(ohci)) {
++                ohci_set_interrupt(ohci, OHCI_INTR_RD);
++            }
          }
-+        if (addr != 0xc || retval) {
-+            trace_usb_ohci_mem_read(size, ohci_reg_name(addr), addr, addr >> 2,
-+                                    retval);
-+        }
+         return 0;
      }
- 
-     return retval;
-@@ -1602,10 +1626,13 @@ static void ohci_mem_write(void *opaque,
- 
-     if (addr >= 0x54 && addr < 0x54 + ohci->num_ports * 4) {
-         /* HcRhPortStatus */
-+        trace_usb_ohci_mem_port_write(size, "HcRhPortStatus", (addr - 0x50) >> 2,
-+                                      addr, addr >> 2, val);
-         ohci_port_set_status(ohci, (addr - 0x54) >> 2, val);
-         return;
+@@ -1828,11 +1843,7 @@ static void ohci_wakeup(USBPort *port1)
+         intr = OHCI_INTR_RHSC;
      }
- 
-+    trace_usb_ohci_mem_write(size, ohci_reg_name(addr), addr, addr >> 2, val);
-     switch (addr >> 2) {
-     case 1: /* HcControl */
-         ohci_set_ctl(ohci, val);
-diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-index b65269892c..6bb9655c8d 100644
---- a/hw/usb/trace-events
-+++ b/hw/usb/trace-events
-@@ -57,8 +57,12 @@ usb_ohci_ed_read_error(uint32_t addr) "ED read error at 0x%x"
- usb_ohci_ed_pkt(uint32_t cur, int h, int c, uint32_t head, uint32_t tail, uint32_t next) "ED @ 0x%.8x h=%u c=%u\n  head=0x%.8x tailp=0x%.8x next=0x%.8x"
- usb_ohci_ed_pkt_flags(uint32_t fa, uint32_t en, uint32_t d, int s, int k, int f, uint32_t mps) "fa=%u en=%u d=%u s=%u k=%u f=%u mps=%u"
- usb_ohci_hcca_read_error(uint32_t addr) "HCCA read error at 0x%x"
-+usb_ohci_mem_read(uint32_t size, const char *name, uint32_t addr, uint32_t offs, uint32_t val) "%d %s 0x%x %d -> 0x%x"
-+usb_ohci_mem_port_read(uint32_t size, const char *name, uint32_t port, uint32_t addr, uint32_t offs, uint32_t val) "%d %s[%d] 0x%x %d -> 0x%x"
- usb_ohci_mem_read_unaligned(uint32_t addr) "at 0x%x"
- usb_ohci_mem_read_bad_offset(uint32_t addr) "0x%x"
-+usb_ohci_mem_write(uint32_t size, const char *name, uint32_t addr, uint32_t offs, uint32_t val) "%d %s 0x%x %d <- 0x%x"
-+usb_ohci_mem_port_write(uint32_t size, const char *name, uint32_t port, uint32_t addr, uint32_t offs, uint32_t val) "%d %s[%d] 0x%x %d <- 0x%x"
- usb_ohci_mem_write_unaligned(uint32_t addr) "at 0x%x"
- usb_ohci_mem_write_bad_offset(uint32_t addr) "0x%x"
- usb_ohci_process_lists(uint32_t head, uint32_t cur) "head 0x%x, cur 0x%x"
+     /* Note that the controller can be suspended even if this port is not */
+-    if ((s->ctl & OHCI_CTL_HCFS) == OHCI_USB_SUSPEND) {
+-        trace_usb_ohci_remote_wakeup(s->name);
+-        /* This is the one state transition the controller can do by itself */
+-        s->ctl &= ~OHCI_CTL_HCFS;
+-        s->ctl |= OHCI_USB_RESUME;
++    if (ohci_resume(s)) {
+         /*
+          * In suspend mode only ResumeDetected is possible, not RHSC:
+          * see the OHCI spec 5.1.2.3.
 -- 
 2.30.7
 
