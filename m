@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750F869D709
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 00:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B699469D719
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 00:31:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUFYr-0004if-Pj; Mon, 20 Feb 2023 18:27:09 -0500
+	id 1pUFcs-0002w7-Id; Mon, 20 Feb 2023 18:31:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUFYo-0004bz-1l
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:27:06 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pUFcq-0002jh-7G
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:31:16 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUFYm-0000QK-1G
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:27:05 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- v3-20020a17090a6b0300b002341a2656e5so2796166pjj.1
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 15:27:03 -0800 (PST)
+ id 1pUFco-0001BE-CA
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:31:15 -0500
+Received: by mail-pl1-x632.google.com with SMTP id q11so3451892plx.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 15:31:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=H9Qr7wA8wSIkfPgh/j+3hKBpjrPyoBLV3ksLdpb2kIs=;
- b=Cr7nFj4SILcFDKj/Sxrao5rEXlPsCryfOXCDlh+Nf1jQ4Sxl300qNIafsVBRnM25Fk
- D/A+8heOpnJxYc88c8ntJRleQ457TPRKotefEojkvIm8nXTdqAitoFjgd+5XCVzwD7ad
- M1ccXMHwKuKRKRUZktgLABKUqg5mhRYNpWl6e//ZB4IEz4nYIgEWq4QBSc8WyI0fTQ5i
- KyVEw0v63kMzUAeamE6x+4WnTHXZPyFmE303IUUnQRTxWRj8Utcl6w0FIudRCgTKBaoy
- TTWDTxukPBJFtz9M2yxoR73YUM5LRqnblk3AeyrwPh+YjwLWUITFFPz37jdwU3t/arYh
- v/Aw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Z4WfDmG+GycnFhNsHkQnhebQ3MP2RsxeLNc7lNelRjs=;
+ b=iaJa6/U63SuyO0+6UE9RLSkXI86YSpOa032JPSCCxR3UwB6wK+n6E3BGxpaT+mqqiQ
+ vqhwjDN+Sig6N9MYhg1ICShR4w/NDG2/k2ZUt6Fl3ch6NWCRYj6nV4kJCIkU5Zh1gdGR
+ 00roEhU4bzJl3RNOIhMpS4PRTbuXKNrP5pxkGHCV+ZBNDzLWJ+NlSkeVQMQgutB6zMsk
+ WvYIpdvOVLPcB41xaCS5LTUERnGTpopbAeuXerZpkbtBWUWBA4pH2Mz5kRsBQfzaId1x
+ xne6uglZf/H3oy+cnilBsqcvp7ejAhu6NgL7Iam1HzSsL+1Regmrc8QGZ2xGg2Qcpv/m
+ 3r/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=H9Qr7wA8wSIkfPgh/j+3hKBpjrPyoBLV3ksLdpb2kIs=;
- b=afejGhz+hRHU8HyEXPJnRKtgygquXQ3ZSlffz64GQGt64fUEGQmB+MNx5Mf4zOP+xy
- hFAM7nd0qwq2CKRl4PHuzEVD4tzDnJiU4ZILM/IpDPZgNaJ6SjXhDHxG78F9fUPt60q7
- 0WaW4DsB2NsPMd7/KvQrQMfD9YA9dvDgNc6A77SSvPlsk2DKuJ05NOI1a9ktwbLZjXgu
- 3qtDrfHjfkMKR32JY9X/WLWKKl9o6fNRFovNeJOx3hdh6O8MYQEPaPLwWTXhq0xtlFi9
- g4fiweCdeBplKup4TypPnH54AN8m8AUJxxmCPVKm5XxD+xI5BTwRHTL/Y+7BWRf05VNo
- oihA==
-X-Gm-Message-State: AO0yUKV6bQHAd88giGDISVuesKadteMk0RiJ5sILLcy6lOCYc30VpUlm
- ShOX/vR0AfchkG3hg8Gzbh7qojcX57QpeVHVghQ=
-X-Google-Smtp-Source: AK7set/+5BuffwV81xNHv8WTk6pDHlNrrQ78RZ0T9WHpNc5/Kanp6xWQMx0rW0mB018AkQ/mEzEEBw==
-X-Received: by 2002:a17:902:f544:b0:196:6577:5a96 with SMTP id
- h4-20020a170902f54400b0019665775a96mr5634257plf.30.1676935623209; 
- Mon, 20 Feb 2023 15:27:03 -0800 (PST)
-Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id
- j10-20020a170902690a00b001992e74d058sm2665348plk.7.2023.02.20.15.27.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 15:27:02 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Subject: [NOTFORMERGE PATCH v2 21/21] hw/arm/virt: Add some memory for Realm
- Management Monitor
-Date: Mon, 20 Feb 2023 13:26:26 -1000
-Message-Id: <20230220232626.429947-22-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230220232626.429947-1-richard.henderson@linaro.org>
-References: <20230220232626.429947-1-richard.henderson@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z4WfDmG+GycnFhNsHkQnhebQ3MP2RsxeLNc7lNelRjs=;
+ b=bj3NPcam3R78tLk3afK7Mz7yYmWiNZ7MucieKEkRXl6MP4zdJnN0d2V4UVpX5ByNNa
+ RWIrUvwzkbny/zTm+o14PbZJAoMH99JTtUxKhqwB/63p0zR7H49qSPTfoC/L0y3buuOI
+ tKMSPg51n4SXUToReTlValJk2oXNlK3pTJxYzAXVtbvgW/b4cNPoIg+FOe9AJa/+l+8q
+ snpvLwhyvLBvlJ1J/tE8SqjEuK1Oi2kq3OXIBu+rvqJ5E1nSNbmFMXHeVETL8m2P71GI
+ 3jp7XasQCYuS03jZud/zPFSvhPHTyyoL64ghJwgURdgw4zx+x3zQ0XLfoKxyCJsINKdn
+ 37xg==
+X-Gm-Message-State: AO0yUKWcwmnn6Z3D8WZLpEJg0xPw8gnAeoUxZBTkG43Ipany9/N0/1iy
+ YhH1AI8R/V0EU/TclV29vPXjcw==
+X-Google-Smtp-Source: AK7set+R8nRbkI87gTO2lLHEvqQBWcBWhpyAwYK0vGAjMGUJcyfPAGHQub3ekBVYFtqpVW5X5shPkg==
+X-Received: by 2002:a17:903:230b:b0:198:b945:4108 with SMTP id
+ d11-20020a170903230b00b00198b9454108mr4040443plh.0.1676935872812; 
+ Mon, 20 Feb 2023 15:31:12 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ j4-20020a170902c3c400b00196519d8647sm8504966plj.4.2023.02.20.15.31.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 15:31:12 -0800 (PST)
+Message-ID: <44e82a43-648b-79bf-63d6-cfd4475495ca@linaro.org>
+Date: Mon, 20 Feb 2023 13:31:08 -1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 21/22] target/arm: Enable RME for -cpu max
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com,
+ jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
+References: <20230124000027.3565716-1-richard.henderson@linaro.org>
+ <20230124000027.3565716-22-richard.henderson@linaro.org>
+ <CAFEAcA_NQ=-nS4qQ3QQE6_9fn01YkJgPiwsPq6XDCCpYy4NkjQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_NQ=-nS4qQ3QQE6_9fn01YkJgPiwsPq6XDCCpYy4NkjQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,117 +95,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is arbitrary, but used by the Huawei TF-A test code.
+On 2/10/23 04:20, Peter Maydell wrote:
+> On Tue, 24 Jan 2023 at 00:01, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Add a cpu property to set GPCCR_EL3.L0GPTSZ, for testing
+>> various possible configurations.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> Looks OK, but I think we probably shouldn't enable RME by default
+> until we're happy with what we're planning to do at the
+> system/board level (eg should it be like MTE where it's only
+> turned on if the board has support and turns it on?)
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/hw/arm/virt.h |  2 ++
- hw/arm/virt.c         | 43 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+You're probably right about not enabling by default, and certainly right about figuring 
+out what firmware actually expects and needs.
 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index e1ddbea96b..5c0c8a67e4 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -86,6 +86,7 @@ enum {
-     VIRT_ACPI_GED,
-     VIRT_NVDIMM_ACPI,
-     VIRT_PVTIME,
-+    VIRT_RMM_MEM,
-     VIRT_LOWMEMMAP_LAST,
- };
- 
-@@ -159,6 +160,7 @@ struct VirtMachineState {
-     bool virt;
-     bool ras;
-     bool mte;
-+    bool rmm;
-     bool dtb_randomness;
-     OnOffAuto acpi;
-     VirtGICType gic_version;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ac626b3bef..067f16cd77 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -159,6 +159,7 @@ static const MemMapEntry base_memmap[] = {
-     /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
-     [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
-     [VIRT_SECURE_MEM] =         { 0x0e000000, 0x01000000 },
-+    [VIRT_RMM_MEM] =            { 0x0f000000, 0x00100000 },
-     [VIRT_PCIE_MMIO] =          { 0x10000000, 0x2eff0000 },
-     [VIRT_PCIE_PIO] =           { 0x3eff0000, 0x00010000 },
-     [VIRT_PCIE_ECAM] =          { 0x3f000000, 0x01000000 },
-@@ -1602,6 +1603,25 @@ static void create_secure_ram(VirtMachineState *vms,
-     g_free(nodename);
- }
- 
-+static void create_rmm_ram(VirtMachineState *vms,
-+                           MemoryRegion *sysmem,
-+                           MemoryRegion *tag_sysmem)
-+{
-+    MemoryRegion *rmm_ram = g_new(MemoryRegion, 1);
-+    hwaddr base = vms->memmap[VIRT_RMM_MEM].base;
-+    hwaddr size = vms->memmap[VIRT_RMM_MEM].size;
-+
-+    memory_region_init_ram(rmm_ram, NULL, "virt.rmm-ram", size,
-+                           &error_fatal);
-+    memory_region_add_subregion(sysmem, base, rmm_ram);
-+
-+    /* do not fill in fdt to hide rmm from normal world guest */
-+
-+    if (tag_sysmem) {
-+        create_tag_ram(tag_sysmem, base, size, "mach-virt.rmm-tag");
-+    }
-+}
-+
- static void *machvirt_dtb(const struct arm_boot_info *binfo, int *fdt_size)
- {
-     const VirtMachineState *board = container_of(binfo, VirtMachineState,
-@@ -2283,6 +2303,10 @@ static void machvirt_init(MachineState *machine)
-                        machine->ram_size, "mach-virt.tag");
-     }
- 
-+    if (vms->rmm) {
-+        create_rmm_ram(vms, sysmem, tag_sysmem);
-+    }
-+
-     vms->highmem_ecam &= (!firmware_loaded || aarch64);
- 
-     create_rtc(vms);
-@@ -2562,6 +2586,20 @@ static void virt_set_mte(Object *obj, bool value, Error **errp)
-     vms->mte = value;
- }
- 
-+static bool virt_get_rmm(Object *obj, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    return vms->rmm;
-+}
-+
-+static void virt_set_rmm(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->rmm = value;
-+}
-+
- static char *virt_get_gic_version(Object *obj, Error **errp)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
-@@ -3115,6 +3153,11 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "guest CPU which implements the ARM "
-                                           "Memory Tagging Extension");
- 
-+    object_class_property_add_bool(oc, "rmm", virt_get_rmm, virt_set_rmm);
-+    object_class_property_set_description(oc, "rmm",
-+                                          "Set on/off to enable/disable ram "
-+                                          "for the Realm Management Monitor");
-+
-     object_class_property_add_bool(oc, "its", virt_get_its,
-                                    virt_set_its);
-     object_class_property_set_description(oc, "its",
--- 
-2.34.1
 
+r~
 
