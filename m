@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A85669C68F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 09:28:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CACC69C6A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 09:30:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU1Vh-0005j2-CC; Mon, 20 Feb 2023 03:26:57 -0500
+	id 1pU1YN-0006Ul-F0; Mon, 20 Feb 2023 03:29:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pU1VL-0005ij-8V
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:26:35 -0500
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pU1YE-0006Tt-Nh
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:29:36 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pU1VI-0003lP-9g
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:26:34 -0500
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pU1YC-00045E-IM
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:29:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676881590;
+ s=mimecast20190719; t=1676881770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1bi93Ez8hG7qySlM7OxVvgP5bgNpEkYf+v38GGaAvIk=;
- b=VjK6Fmu+qNLe5ewAEVEziZwJhENEVesRqGsTj34ER6lQGFVpMp1oz3VIcxutyeH4nDBGLX
- ys/dTu6QrJBysbbm3yJff17DnbAaPg+6nyraXBWOvH6W/5dYqQB61QrMskIT8BZz9ab/hm
- ZDrf7cqnzGvnuQ1TQLsL6rC1R9R4eRg=
+ bh=a4fL/iQU105ogPIoh+kMayK1d5QPAaWRGsXMH5bBMDc=;
+ b=itEQL7Ud7tU5cN6U8JAYa0OTO/odnXSmOAszuBzArjHhqjNAZ23VJp6nccVvJQ2UvscYqr
+ PCcGNRLXkDshvcxmuVxS4qYhz5jsSIk+6OeH7idI0msYSJII4eqJCe41pL3nsbjGYgbWeP
+ FbFzfEwAdHkQqkzi0JGEzrQtQ70OBqM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-NZegOOe_OEGp4DNAsuvaPw-1; Mon, 20 Feb 2023 03:26:25 -0500
-X-MC-Unique: NZegOOe_OEGp4DNAsuvaPw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-41-Rb6yYgunMGiCFeWAtcYhDw-1; Mon, 20 Feb 2023 03:29:28 -0500
+X-MC-Unique: Rb6yYgunMGiCFeWAtcYhDw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C35F3C02B66;
- Mon, 20 Feb 2023 08:26:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A0A9492B03;
- Mon, 20 Feb 2023 08:26:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0938C21E6A1F; Mon, 20 Feb 2023 09:26:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org,  Beraldo Leal <bleal@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael Roth
- <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Thomas Huth
- <thuth@redhat.com>,  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 08/10] qmp: teach 'getfd' to import sockets on win32
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-9-marcandre.lureau@redhat.com>
- <87zg9chbat.fsf@pond.sub.org>
- <CAJ+F1CJYYRzKPpDVuuX7Q0bB9M8cAO4OcD_BTeMRe7goueiUgg@mail.gmail.com>
-Date: Mon, 20 Feb 2023 09:26:24 +0100
-In-Reply-To: <CAJ+F1CJYYRzKPpDVuuX7Q0bB9M8cAO4OcD_BTeMRe7goueiUgg@mail.gmail.com>
- (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Sat, 18 Feb 2023
- 14:15:11 +0400")
-Message-ID: <87zg98zqrz.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52FEE1C0518C;
+ Mon, 20 Feb 2023 08:29:28 +0000 (UTC)
+Received: from [10.39.192.147] (unknown [10.39.192.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 281E72026D4B;
+ Mon, 20 Feb 2023 08:29:27 +0000 (UTC)
+Message-ID: <3468a643-6bea-9243-3569-23a07cca582d@redhat.com>
+Date: Mon, 20 Feb 2023 09:29:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Subject: Re: [PATCH] qemu: make version available in coredump
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com
+References: <20220607203221.966261-1-vsementsov@yandex-team.ru>
+ <CAJSP0QVNnGg+5OkDwpk3Kgc=kicsSt+f5QVg1tyd+ze76N_KVw@mail.gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+In-Reply-To: <CAJSP0QVNnGg+5OkDwpk3Kgc=kicsSt+f5QVg1tyd+ze76N_KVw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lersek@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,125 +79,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
-
-> Hi Markus
->
-> On Fri, Feb 17, 2023 at 1:49 PM Markus Armbruster <armbru@redhat.com> wro=
-te:
+On 2/15/23 23:05, Stefan Hajnoczi wrote:
+> On Tue, 7 Jun 2022 at 16:33, Vladimir Sementsov-Ogievskiy
+> <vsementsov@yandex-team.ru> wrote:
 >>
->> marcandre.lureau@redhat.com writes:
+>> Add a variable with QEMU_FULL_VERSION definition. Then the content of
+>> the variable is easily searchable:
 >>
->> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >
->> > A process with enough capabilities can duplicate a socket to QEMU.
->> > Modify 'getfd' to import it and add it to the monitor fd list, so it c=
-an
->> > be later used by other commands.
->> >
->> > Note that we actually store the SOCKET in the FD list, appropriate care
->> > must now be taken to use the correct socket functions (similar approach
->> > is taken by our io/ code and in glib, this is internal and shouldn't
->> > affect the QEMU/QMP users)
->> >
->> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> > ---
->> >  qapi/misc.json     | 16 ++++++++--
->> >  monitor/fds.c      | 79 ++++++++++++++++++++++++++++++++++++----------
->> >  monitor/hmp-cmds.c |  6 +++-
->> >  3 files changed, 81 insertions(+), 20 deletions(-)
->> >
->> > diff --git a/qapi/misc.json b/qapi/misc.json
->> > index 27ef5a2b20..cd36d8befb 100644
->> > --- a/qapi/misc.json
->> > +++ b/qapi/misc.json
->> > @@ -249,10 +249,18 @@
->> >  ##
->> >  # @getfd:
->> >  #
->> > -# Receive a file descriptor via SCM rights and assign it a name
->> > +# On UNIX, receive a file descriptor via SCM rights and assign it a n=
-ame.
->> > +#
->> > +# On Windows, (where ancillary socket fd-passing isn't an option yet)=
-, add a
->> > +# socket that was duplicated to QEMU process with WSADuplicateSocketW=
-() via
->> > +# WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name. A S=
-OCKET is
->> > +# considered as a kind of "file descriptor" in QMP context, for histo=
-rical
->> > +# reasons and simplicity. QEMU takes care to use socket functions app=
-ropriately.
+>>    strings /path/to/core | grep QEMU_FULL_VERSION
 >>
->> The Windows part explains things in terms of the C socket API.  Less
->> than ideal for the QEMU QMP Reference Manual, isn't it?  I don't know
->> nearly enough about this stuff to suggest concrete improvements...
->
-> We don't have to, after all we don't explain how to use sendmsg/cmsg
-> stuff to pass FDs.
->
-> I will drop the part about "A SOCKET is considered as a kind of "file
-> descriptor" in QMP context", after we get "[PATCH 0/4] win32: do not
-> mix SOCKET and fd space"
-> (https://patchew.org/QEMU/20230212204942.1905959-1-marcandre.lureau@redha=
-t.com/)
-> merged.
-
-Would it make sense to rebase this series on top of that one, so we
-can have simpler documentation from the start?
-
->> What does this command do under Windows before this patch?  Fail always?
->
-> Without ancillary data support on Windows, you can't make it work.
-
-Yes, but how does it fail?  Hmm, you actually answer that below.
-
->> Wrap your lines a bit earlier, please.
+>> 'volatile' keyword is used to avoid removing the variable by compiler as
+>> unused.
 >>
->> >  #
->> >  # @fdname: file descriptor name
->> >  #
->> > +# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Since=
- 8.0.
->> > +#
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> ---
 >>
->> No way around passing a binary blob?
->
-> WSAPROTOCOL_INFOW is a fairly big structure, with private/reserved fields,
-> it contains another structure (WSAPROTOCOLCHAIN), has fixed-length arrays,
-> GUID, and utf16 string.
->
-> QAPI'fying that structure back and forth would be tedious and
-> error-prone. Better to treat it as an opaque blob imho.
-
-I worry about potential consequences of baking Windows ABI into QMP.
-
-What if the memory representation of this struct changes?
-
-Such ABI changes are unpleasant, but they are not impossible.
-
->> >  # Returns: Nothing on success
->> >  #
->> >  # Since: 0.14
->> > @@ -270,7 +278,11 @@
->> >  # <- { "return": {} }
->> >  #
->> >  ##
->> > -{ 'command': 'getfd', 'data': {'fdname': 'str'} }
->> > +{ 'command': 'getfd', 'data': {
->> > +    'fdname': 'str',
->> > +    '*wsa-info': {'type': 'str', 'if': 'CONFIG_WIN32'}
->> > +  }
->> > +}
+>> Hi all!
 >>
->> What happens when QEMU runs on a Windows host and the client doesn't
->> pass @wsa-info?
->
-> It attempts to get the fd from the last recv, but it will fail on
-> Windows, this is not available.
+>> Probably, I just don't know the correct way to get version from core
+>> file. If so, please teach me :)
+> 
+> I've never hit this issue because bug reports usually include the QEMU
+> distro package version. Keeping the version string in the core file
+> seems reasonable (unless there is already another way to do this).
+> 
+> Something I'm curious about: is the coredump guaranteed to contain
+> static const variables? I wondered if they might be located in the
+> .rodata ELF section and excluded from the coredump because they are
+> referenced in the NT_FILE mmap note instead. Maybe volatile prevents
+> this?
+> 
+> I CCed Laszlo because I think he worked on crash dumping in the past
+> and might know the answer to my question about coredumps.
 
-So it fails exactly like it fails on a POSIX host when you execute getfd
-without passing along a file descriptor with SCM_RIGHTS.  Correct?
+Apologies -- I don't know. (But, I see the original problem has been
+resolved down-thread!)
+
+[FWIW, I've now grepped the tree for QEMU_FULL_VERSION cursorily, and
+I'd say doing something like Vladimir's patch, and then replacing all
+the references too, could be a good cleanup. At least personally I'm not
+a huge fan of macros that expand to string literals (format strings such
+as PRIu32, HWADDR_FMT_plx, DMA_ADDR_FMT etc are exceptions of course).
+But this is really just a thought in passing.]
+
+Laszlo
+
+> 
+> Stefan
+> 
+>>
+>>  softmmu/vl.c | 13 +++++++++++++
+>>  1 file changed, 13 insertions(+)
+>>
+>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>> index 4c1e94b00e..1f51a713a0 100644
+>> --- a/softmmu/vl.c
+>> +++ b/softmmu/vl.c
+>> @@ -164,6 +164,19 @@ typedef struct DeviceOption {
+>>      QTAILQ_ENTRY(DeviceOption) next;
+>>  } DeviceOption;
+>>
+>> +/*
+>> + * qemu_full_version_decl is for debugging. Assume you have coredump file, but
+>> + * don't know the version neither have original qemu binary file. You need to
+>> + * download a package with corresponding binary (and debug package with
+>> + * symbols), but which one? You need the version.
+>> + *
+>> + * This variable makes it simple to get the version by command
+>> + *
+>> + *     strings path/to/core | grep QEMU_FULL_VERSION
+>> + */
+>> +static volatile const char qemu_full_version_decl[] =
+>> +    "QEMU_FULL_VERSION: " QEMU_FULL_VERSION;
+>> +
+>>  static const char *cpu_option;
+>>  static const char *mem_path;
+>>  static const char *incoming;
+>> --
+>> 2.25.1
+>>
+>>
+> 
 
 
