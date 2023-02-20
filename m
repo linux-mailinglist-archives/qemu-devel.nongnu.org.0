@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A4469C74D
+	by mail.lfdr.de (Postfix) with ESMTPS id 583D969C74E
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:05:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU25i-0007ux-MY; Mon, 20 Feb 2023 04:04:10 -0500
+	id 1pU26F-000088-6a; Mon, 20 Feb 2023 04:04:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU25V-0007n4-Oc
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:04:01 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU26C-0008Tu-4K
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:04:40 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU25T-0001jE-RJ
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:03:57 -0500
-Received: by mail-wr1-x433.google.com with SMTP id c5so990019wrr.5
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:03:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU26A-0001oG-Cc
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:04:39 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ j2-20020a05600c1c0200b003e1e754657aso422757wms.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:04:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=012l1QKzM8GDXsREXmgLDGOitaK1A9lTtGbaCckSZvk=;
- b=G/nNr0Z8VlJinGxzqlYE2+JTTcKSd+zW7h2TevN0ln/XMDlbi1CWLY+6HHXJDb74dM
- WLMZvTJ9U11tgTWYAz6Vr/rhiLz94Vv5K7XioIMbSToVnP2ZbZARgAdRgZRxLZn7P1nJ
- Hzdom2dxW6eClnPiEq/o5YB9aR2lHLhcLL20AWymS2ueBAcFbOLHI8Uy64Y1ZPWoWOss
- dv1XyjaUXbQi/Icmi5yfjVoDgdotkw58LP/302K7kNc+Bms27he8SHQAdOsOWJ1ops00
- fipCgZ9IpKLusQqEYaUa0TFjMMhWWx9/PUfxmkZo1PL6BASFNt6ziY66ZDG/l14lMvFH
- PL4g==
+ bh=6D/eTatBmHSKID3xazI6LHHL0R4uBWQmUBJ8O6ekbCI=;
+ b=K4/mM05MnxZZnFf99BVJHyBRTMX9Uo2EYVYcRHfxSaRrArxh+liF9rvUrTukIzvYAF
+ XeLGL5Nd14SKGWnvEN7v8ztpoIOklbGhsAuaF/cgoFjRguInShsM1yWlt5wQKzJGMSvB
+ zNQfhCVAdCFCgzP64WYaKU94ofvv3DCVn27HHJqSAA0XEMkpv1sG+KZMptmy/c3HVpub
+ nZ4ffX/yenCsldokPuPCKLVr0wExzH/PiZxuZutfyP8nj72wjGmsMwnvK8/+69RXKUyW
+ rNVQFoj1AZs6s93JTwSBrbQMgI5/lpq7f8iypsMo5iEDCJKsh7Se9npnvrcZ3XCHxJfC
+ Vh6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=012l1QKzM8GDXsREXmgLDGOitaK1A9lTtGbaCckSZvk=;
- b=EN/qyJsPCC7vapXqqNgD+XwfvFSdGcP5G1SY7eXRBPSzNn3rQoa7aktiqXMDobjR3r
- 9pLsbZaIROKojnFyVT3whVgwVplrmTh6CN68aVZ4kOzKQGjucTscg1yRcvqbPmL8SfkA
- MBwyCPVGwxYuYK5exB5X7QlLUz7hLUo98BHD66Ws1E8HyAG7QK7RT6h8JOIk29o0s86g
- SoHbrPrfA4fJABcIBgbHu02z4zCAcFZ1zqZa2StyK9h2ctl/xruHZRrM4+7uacHtAoo+
- h+2AlA1dV1YWap+cif83Bdr9dHIt0QA2X06+mhh3lHSAx1cELto65SasdjKsX0SD/saE
- sZ9Q==
-X-Gm-Message-State: AO0yUKUX2ctVD94M2JMqT7U1Z4Rmw64cHA3tHgctNdvov00cCIWlceyj
- M2NNy5Q07yvgSB0KmMp0WjPetg==
-X-Google-Smtp-Source: AK7set+Jy2Akeh/Ue90j2hlzvRXO0Ni3PMVOU6aMGclBxTi5dzXCThwV1fjgwj5hf+sYjF6UufCv3A==
-X-Received: by 2002:adf:f1c4:0:b0:2c5:594b:10d5 with SMTP id
- z4-20020adff1c4000000b002c5594b10d5mr428550wro.1.1676883834077; 
- Mon, 20 Feb 2023 01:03:54 -0800 (PST)
+ bh=6D/eTatBmHSKID3xazI6LHHL0R4uBWQmUBJ8O6ekbCI=;
+ b=W8M950uESUL9lMxHYY9wbhHmXzM9GYBt3wYIGjAYB8o+03uKaC475RrRO0OP1ZOLew
+ rHcMRoUS1ABSTW6ejeSZojb8uxuiLdjbYpfB0VCcge3QIAUll3ex7T0SP83qs/QoYov6
+ 8m91ItK2dyB36v2S5vUaXG7Fo9oiQBR9SaNmLpTjMStBwCuKvxgC474+uqPBaPxclcwo
+ nvHqmQzibGVeY1gcrcRfSZE1WpZr5ZNlJ1fDLGr5ENFt9NEnYFxXhReWHj7q9sZOtL3j
+ 5w6zMYUnHOTMHpybI8nJx2CyDj+um91GMyvJWfUxRJuy2Vbib9dOIJEUXEibi7dt2aHN
+ vVLQ==
+X-Gm-Message-State: AO0yUKWMvizNe876Ia4OmA4n8tRRdaOW0xF+bgKK7+K29LQ3n256MYHd
+ 8gbQGtnV+peZwCq/+Kvd/c03Bg==
+X-Google-Smtp-Source: AK7set96H5JQCCnbfMRKy+fr+1KkBw10EQN5WL6enqOK7oMO3ftQ4x1/T2jBwj3C4YigaWhI4C244w==
+X-Received: by 2002:a05:600c:2b46:b0:3df:fd8c:8f2f with SMTP id
+ e6-20020a05600c2b4600b003dffd8c8f2fmr290536wmf.40.1676883876764; 
+ Mon, 20 Feb 2023 01:04:36 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j2-20020adfea42000000b002c573cff730sm11698703wrn.68.2023.02.20.01.03.53
+ u8-20020a05600c00c800b003e2243cfe15sm10166811wmm.39.2023.02.20.01.04.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 01:03:53 -0800 (PST)
-Message-ID: <58e18d8f-4381-a809-35e7-2145bd4bcbbf@linaro.org>
-Date: Mon, 20 Feb 2023 10:03:52 +0100
+ Mon, 20 Feb 2023 01:04:36 -0800 (PST)
+Message-ID: <aaec48f3-fb3c-56c8-7d61-5aa7fd12e28f@linaro.org>
+Date: Mon, 20 Feb 2023 10:04:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v1 3/4] linux-user: add target to host netlink conversions
+Subject: Re: [PATCH v2 3/4] linux-user: add target to host netlink conversions
 Content-Language: en-US
-To: Mathis MARION <mamarion1@silabs.com>,
- Mathis Marion <Mathis.Marion@silabs.com>, Laurent Vivier <laurent@vivier.eu>
+To: Mathis Marion <Mathis.Marion@silabs.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Cc: qemu-devel@nongnu.org, =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?=
- <jerome.pouiller@silabs.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230217163527.619486-1-Mathis.Marion@silabs.com>
- <20230217163527.619486-4-Mathis.Marion@silabs.com>
- <823c5357-4403-ed2b-61aa-58b99d80f20a@linaro.org>
- <b2776059-7922-ce15-c63b-d5580f20aa5d@silabs.com>
+ <jerome.pouiller@silabs.com>
+References: <20230220085822.626798-1-Mathis.Marion@silabs.com>
+ <20230220085822.626798-4-Mathis.Marion@silabs.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <b2776059-7922-ce15-c63b-d5580f20aa5d@silabs.com>
+In-Reply-To: <20230220085822.626798-4-Mathis.Marion@silabs.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,61 +93,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/2/23 09:24, Mathis MARION wrote:
-> On 20/02/2023 08:22, Philippe Mathieu-Daudé wrote:
->> On 17/2/23 17:35, Mathis Marion wrote:
->>> From: Mathis Marion <mathis.marion@silabs.com>
->>>
->>> Added conversions for:
->>> - IFLA_MTU
->>> - IFLA_TXQLEN
->>> - IFLA_AF_SPEC AF_INET6 IFLA_INET6_ADDR_GEN_MODE
->>> These relate to the libnl functions rtnl_link_set_mtu,
->>> rtnl_link_set_txqlen, and rtnl_link_inet6_set_addr_gen_mode.
->>>
->>> Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
->>> ---
->>>   linux-user/fd-trans.c | 64 +++++++++++++++++++++++++++++++++++++++++++
->>>   1 file changed, 64 insertions(+)
-
->>> +                                               abi_long 
->>> (*target_to_host_nlattr)
->>> +                                                        (struct 
->>> nlattr *))
->>> +{
->>> +    unsigned short aligned_nla_len;
->>> +    abi_long ret;
->>> +
->>> +    while (len > sizeof(struct nlattr)) {
->>> +        if (tswap16(nlattr->nla_len) < sizeof(struct rtattr) ||
->>> +            tswap16(nlattr->nla_len) > len) {
->>> +            break;
->>> +        }
->>> +        nlattr->nla_len = tswap16(nlattr->nla_len);
->>> +        nlattr->nla_type = tswap16(nlattr->nla_type);
->>> +        ret = target_to_host_nlattr(nlattr);
->>> +        if (ret < 0) {
->>
->> If this fail, guest's nlattr is now inconsistent. Is this OK?
->>
+On 20/2/23 09:58, Mathis Marion wrote:
+> From: Mathis Marion <mathis.marion@silabs.com>
 > 
-> The same check is done in target_to_host_for_each_rtattr(), and in all
-> host_to_target_for_each* functions so I think this is OK.
+> Added conversions for:
+> - IFLA_MTU
+> - IFLA_TXQLEN
+> - IFLA_AF_SPEC AF_INET6 IFLA_INET6_ADDR_GEN_MODE
+> These relate to the libnl functions rtnl_link_set_mtu,
+> rtnl_link_set_txqlen, and rtnl_link_inet6_set_addr_gen_mode.
+> 
+> Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
+> ---
+>   linux-user/fd-trans.c | 62 +++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 62 insertions(+)
 
-Yeah this is pre-existing, so your patch is OK, but I still wonder
-if this is safe. Laurent?
-
->>> +            return ret;
->>> +        }
->>> +
->>> +        aligned_nla_len = NLA_ALIGN(nlattr->nla_len);
->>> +        if (aligned_nla_len >= len) {
->>> +            break;
->>> +        }
->>> +        len -= aligned_nla_len;
->>> +        nlattr = (struct nlattr *)(((char *)nlattr) + aligned_nla_len);
->>> +    }
->>> +    return 0;
->>> +}
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
