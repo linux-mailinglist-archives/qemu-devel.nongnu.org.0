@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A5E69D3CF
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BE969D3CE
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 20:07:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUBTa-0001h3-Ck; Mon, 20 Feb 2023 14:05:26 -0500
+	id 1pUBU0-0001uD-BE; Mon, 20 Feb 2023 14:05:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUBTP-0001fO-TS
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:05:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUBTN-0000db-UK
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:05:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676919909;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6t9ViPeToZrmGbMf+ISOeDpwBmcksoBTd722qb6RGTQ=;
- b=Zb6N/ekBpVEDBLEmJtgO+7xel9l9CvJJXga/T1U19fN7XskdE08Lhd7eJVxM2bRAjI9OP5
- ikdQEGEWF46prAefne36AtQR1/qIQGMCrFVYxijgGL/fHvXb+MBeSVsRzyd9NlyovUW69l
- HaPrbRzSuHnrUDpsGLLHz0FZzA1xpk4=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-317-dDq___SsNXy14TiDbuQGkA-1; Mon, 20 Feb 2023 14:05:08 -0500
-X-MC-Unique: dDq___SsNXy14TiDbuQGkA-1
-Received: by mail-pl1-f198.google.com with SMTP id
- j18-20020a170903025200b00198aa765a9dso1186530plh.6
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 11:05:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUBTu-0001pv-Mb
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:05:46 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUBTr-0000oT-PJ
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:05:45 -0500
+Received: by mail-pl1-x631.google.com with SMTP id q11so2890778plx.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 11:05:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Cp9uKmWSef+07nF/2nAqBmzxGyGYY3axMHMWFHKB1SY=;
+ b=WCmthzqOHQenuWPQkusZo5n7F18Khiuy6k25u7ODq7SbNx+5V71pz20nhvhP5HZBbh
+ Avj31P9bT6UQGRkRP7FGDhUfMFs8siwmoV0qsBPSUcaXMQfpIt2v0LWhEzauN10l6BIE
+ PP+68Bw96jZrIfu+Sodi7fg4uUZ3bmJs+VFpa7mj/tR33Ocbxh03sgreVchcbr8mN8Qe
+ OxPY5fvB80ueVWs2Fl9DYnITjGCrhuwE5z639O2sjmCZyMMiCGyRmX+s1PGqGmj1xVqz
+ vVgFepQUH8Boy10vHjW/dr2fX4Ks44jQ+ZwpYGz6bHFxkax5RfteVuGmiJrloPsjCvr5
+ /Gfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6t9ViPeToZrmGbMf+ISOeDpwBmcksoBTd722qb6RGTQ=;
- b=xpm8G6gC6xMqSVUGJhSqDKAQI3YeSW55YssU1FxEw43MRtB8q/9Dw3pervkMsKrFXp
- vG3HWyc+VhCIDLc4Pz4Kj2LVh35vqLe1oFDZILoM/NDyzy2NKUnEDRZ2zb6Eh2Xr7yst
- zoiYU81bRRKCtY5WSRIPXiX2qXUWnSvhy5mKVkKT5ZJmzg75Ek5woauADGbc+clRtqBK
- sn/7HntcDCQXpexmBXzEQtTP7vB9I9Z717ekH1ZPMTOg6vopLJyobcIClhuOLzQYMklC
- 8hGzv9DshNhtuuHxoyWwAanjplgUu90NeCFZ2YfTJq1/F2CH6sMVhcQhBioZUhsv8hjD
- /sZA==
-X-Gm-Message-State: AO0yUKXXAt+8RS0RQFw09x86GHUn4cSIQuKmsYRZinyT1xzRMMQ+11fV
- FLLD2bimOupGVrx2o7uoyrXUn6vuUNFHM7ETu1DLCUgqLVq67bXO8JbPC9hQAmjPZzCLw7vIBkI
- /YoosfRd5H0/9T7q2tw9CZJVYoi1bNwE=
-X-Received: by 2002:a17:90b:380b:b0:233:a695:f441 with SMTP id
- mq11-20020a17090b380b00b00233a695f441mr289347pjb.54.1676919907339; 
- Mon, 20 Feb 2023 11:05:07 -0800 (PST)
-X-Google-Smtp-Source: AK7set/DLFG3V0NOkgSgi+It3Lp7vuI04jykXE5cLWBPfUJ9X6G5ks3EWBqO8JIS4VYVoUlyzM8LOjpgq98rbnHjTGY=
-X-Received: by 2002:a17:90b:380b:b0:233:a695:f441 with SMTP id
- mq11-20020a17090b380b00b00233a695f441mr289344pjb.54.1676919907037; Mon, 20
- Feb 2023 11:05:07 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cp9uKmWSef+07nF/2nAqBmzxGyGYY3axMHMWFHKB1SY=;
+ b=ztl4asEYrlhbJ+EpbqE3Dp7nJtxrxHIPkXgnAVSia0SbWhMylFX7YYaYK/ojkAE8Qg
+ 8Cb9vgMymWQzVm8scZ7OOleNnZTsIb46gKb3Wh8go6L5d8osdu8p2INc6xxld+E3WBtK
+ MKvtsx80MXuTsyYDMLcEptgTIYkj/Wwp2qhEPs+dITI8FNP6r2pm3noryVTcnfa5yITs
+ PghdtHlwRcgPjC0sB7JUV5kFh26/6R4czZtsdZTXQeXu0c/HxAhbTy5aefkN0fDnp35p
+ 6SM9QlcQ5WjytzgnrhXlZZIPssZFvsN+ZoqrA77xGuVvd4ir43iP6Wu/iVXB4h8PMQWC
+ /oYg==
+X-Gm-Message-State: AO0yUKWSNG7S6oeQ2B40LQ+BnRnEYncT0StKQpDmHuFwv/tGK098GohA
+ qYZcw/KVCvhWec+XpMKkDh6rDA==
+X-Google-Smtp-Source: AK7set9Q18QHINPwNd6zoJ/y+Tsu0IUeJWCrYYUf3J4gYe8/ez34fHkGmRKitsMSXw9D2A7PHCY9hw==
+X-Received: by 2002:a17:90b:350b:b0:234:f3c:17cd with SMTP id
+ ls11-20020a17090b350b00b002340f3c17cdmr3948781pjb.43.1676919942044; 
+ Mon, 20 Feb 2023 11:05:42 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ d6-20020a17090a498600b00231261061a5sm1482954pjh.5.2023.02.20.11.05.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 11:05:41 -0800 (PST)
+Message-ID: <82d751cc-9375-17d9-ec91-61f17ca7df0f@linaro.org>
+Date: Mon, 20 Feb 2023 09:05:37 -1000
 MIME-Version: 1.0
-References: <20230217103130.42077-1-f.ebner@proxmox.com>
- <e5446443-7ba6-0d6c-5ec7-e853ea03f71d@linaro.org>
-In-Reply-To: <e5446443-7ba6-0d6c-5ec7-e853ea03f71d@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 20 Feb 2023 14:04:55 -0500
-Message-ID: <CAFn=p-b6EWttwNGRatTMBxYXChHBte985bVcS0n=UWrf=eTL=g@mail.gmail.com>
-Subject: Re: [PATCH] hw/ide/ahci: trace ncq write command as write instead of
- read
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 3/5] hw/audio/es1370: Replace container_of() by ES1370()
+ QOM cast macro
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20230220131837.26292-1-philmd@linaro.org>
+ <20230220131837.26292-4-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230220131837.26292-4-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,44 +98,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 20, 2023 at 3:12 AM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> On 17/2/23 11:31, Fiona Ebner wrote:
-> > Fixes: e4baa9f00b ("AHCI: Replace DPRINTF with trace-events")
-> > Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
-> > ---
-> >
-> > Or should it be sorted alphabetically below execute_ncq_command_unsup?
-> > I felt read and write belong close together and this reflects the
-> > positions in the code.
-> >
-> >   hw/ide/ahci.c       | 4 ++--
-> >   hw/ide/trace-events | 1 +
-> >   2 files changed, 3 insertions(+), 2 deletions(-)
->
-> > diff --git a/hw/ide/trace-events b/hw/ide/trace-events
-> > index 15d7921f15..5ef344ae73 100644
-> > --- a/hw/ide/trace-events
-> > +++ b/hw/ide/trace-events
-> > @@ -91,6 +91,7 @@ ahci_populate_sglist_short_map(void *s, int port) "ah=
-ci(%p)[%d]: mapped less tha
-> >   ahci_populate_sglist_bad_offset(void *s, int port, int off_idx, int64=
-_t off_pos) "ahci(%p)[%d]: Incorrect offset! off_idx: %d, off_pos: %"PRId64
-> >   ncq_finish(void *s, int port, uint8_t tag) "ahci(%p)[%d][tag:%d]: NCQ=
- transfer finished"
-> >   execute_ncq_command_read(void *s, int port, uint8_t tag, int count, i=
-nt64_t lba) "ahci(%p)[%d][tag:%d]: NCQ reading %d sectors from LBA %"PRId64
-> > +execute_ncq_command_write(void *s, int port, uint8_t tag, int count, i=
-nt64_t lba) "ahci(%p)[%d][tag:%d]: NCQ writing %d sectors to LBA %"PRId64
->
-> Note that ideally the tag format should be '%u' (pre-existing).
->
-> I'll carry this patch along with other QDev IDE patches I plan to merge
-> (with John's blessing).
+On 2/20/23 03:18, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> ---
+>   hw/audio/es1370.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
-Sounds good to me, thank you Phil.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
---js
-
+r~
 
