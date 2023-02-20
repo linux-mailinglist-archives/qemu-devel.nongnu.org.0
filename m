@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 174E369D31D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F8569D31C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:48:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUB8H-0006yc-Ae; Mon, 20 Feb 2023 13:43:26 -0500
+	id 1pUBAF-0004sD-H9; Mon, 20 Feb 2023 13:45:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUB6k-0004jp-0k
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:41:50 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pUB9z-0004lq-Fw
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:45:17 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUB6g-0004HV-Aw
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:41:48 -0500
-Received: by mail-pl1-x634.google.com with SMTP id s5so2424396plg.0
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 10:41:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nhcflml4JRvY7oryEDQJR+jOvLdQs2W3Z2C+LbDJ1BM=;
- b=IEIzH0rIvFf92LFH1hJ1HGSmkgBLjZKvt8aG+VBE1PbsmUzda5pKy9nLYpIysf923v
- jt9bN59f8hYERM93RDZ6GiCzybAC0gTUujBxLLSJA4zLL5AwAraQ3Nfg1WfE9KjFxTOv
- DVox7THA7/Ypw/C+a5EMaQ60Wj8VMITM9O3pXBhaSo+cKPQIUvVawwZ1p37iYZcADQeC
- Vh2iFdSYFshFUxHh0KgVEW1mdEBkmICi3g/Si90Iu3n4L56rjmJ5EYidbd1noXI8yKp3
- 1bPIEpFXySISkjbd33AUbrFGr6W4+4hzZjexYuutVAvTtgzOJnYFzcdYu38DyrxXroH2
- nUbA==
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pUB9w-00054N-KD
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:45:11 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id e5so3563292plg.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 10:45:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=AbwySDNvdaEuNnPGdb1KzLC3ObzX0M7s1RFORPVaYjw=;
+ b=TyHUhhe3BxopEozuc7Y/v8rL+23o9rSojbJvXkNUOol4iNTa3+ddTnvg55UiKPn7pY
+ g2gdo9DS06Omrq6JdiZ2+LuXgtLkf0vVd/gaaJlrFQthujIaJTxBKyf5ogYxW9twGe88
+ qtBvgDd7SH7ceqjYmGriHCTKXhsnHd9v7OuT98ixhvNxoJ4FcbLc9tEFdcmCwu/dWnv9
+ SP79DnHjOMSPnK141f61Ga8fMWgMK6YdZ53ZQT86Amnsmh5OmAPgiPlL+9VgcSliWwuk
+ FUU7Ia/uF8Ef5dQKEzg1TPthMsS9uavYiTn0o1ht3lnUzWBX0Q7j6/BE0PoE96oFLwlJ
+ IMEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nhcflml4JRvY7oryEDQJR+jOvLdQs2W3Z2C+LbDJ1BM=;
- b=irs+hT162O5CfdFbljOADNllnLlkyrUPCf/XhCrMBrewkNlvgeEbpvvNPKkb+vozFz
- 282wKrlbkfs/KW1M9BiwH16LmLFe1+1eDfPRYbHB3U17O/tMroLFkG4wcfcqB7FX5pL4
- ZTqmK3H4sZUizpW5EHuEHchpUJ+xBqsOqU8bR7v4ZlvRY53eIoVn2tH3mCnG7YjbyZmB
- 2ATdQGrlsO/9pAcEmbOhhW0F39Y8u0c2aOLFSLY/TTAUHevPjqutY7wvsh7YPm/jtHkT
- fWsboWxrNqbybQBBRcn7KawMKpOZVG433kI/DBKzn2Sj8DxGEig8MM4QJTg+RWD6cvCH
- MSHA==
-X-Gm-Message-State: AO0yUKXHHDFnQuzZSOgVV8+B5mCDyduernI/lM05EvhuUOGTRcltzysi
- J3XH+IR9u5vKPpQyE2ml7gFQF7HM/YzSwLrau+g=
-X-Google-Smtp-Source: AK7set90OnXRIMCC3UbDQura0xuzUGoesBktKyhbKoln8tuC+dmYBZHUikJB3Ktazls3TMUNrafl+w==
-X-Received: by 2002:a17:902:e74f:b0:199:2e77:fe56 with SMTP id
- p15-20020a170902e74f00b001992e77fe56mr4502851plf.52.1676918504980; 
- Mon, 20 Feb 2023 10:41:44 -0800 (PST)
-Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id
- jk20-20020a170903331400b0019258bcf3ffsm1911676plb.56.2023.02.20.10.41.43
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AbwySDNvdaEuNnPGdb1KzLC3ObzX0M7s1RFORPVaYjw=;
+ b=z6MRc6ZMzPaDKZIbEMAGVj3OOLhh+QU5Fr0JagDnWhYQCcNxarQ0N5P7kBFAt4zuUQ
+ h3PkMzPqjAXg6ZFeMK6VFYG4AVt8B6ERCX5DnGuV+TjKk0/a9y60ftuEAschwCRJ40y5
+ lGQTP/9vebwX/RiH4nUZnK85S1MmcAx1xtHTlJNNuIEWZgqG17GHMPtxN84Vwong12sc
+ tUUwdA+I9di7kEay83km4kiSGel9eRJ0CUqLETqi33zwPmiMNX8MxSKSnrI6FZ8gL7rv
+ wLKNcIPO7t6ZFFiq5wXYSENmVSSkO+lyAPovLb0PnPjhRRt/wlEt7I8DWTQAEXRL+BvD
+ 3JQA==
+X-Gm-Message-State: AO0yUKVmRE2HWsWMOMQsuY3n+Ht/ng2CGLlZBU+Ej49MYvPuYRRDxRio
+ w+Vo2KAX3ddYeEGvc9zwD+dK+w==
+X-Google-Smtp-Source: AK7set/Hcv+fVGM1O77wLrbLE1fk6gAOWwl1QB4603zCGGwvxwYmIpS6TsM0FAXuSW4OA6aCj6ZNgQ==
+X-Received: by 2002:a17:902:e54e:b0:19a:ac93:64c with SMTP id
+ n14-20020a170902e54e00b0019aac93064cmr3376255plf.29.1676918706526; 
+ Mon, 20 Feb 2023 10:45:06 -0800 (PST)
+Received: from sunil-laptop ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
+ j10-20020a170902690a00b001992e74d058sm2465108plk.7.2023.02.20.10.45.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 10:41:44 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com, qemu-s390x@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v4 27/27] target/s390x: Enable TARGET_TB_PCREL
-Date: Mon, 20 Feb 2023 08:40:52 -1000
-Message-Id: <20230220184052.163465-28-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230220184052.163465-1-richard.henderson@linaro.org>
-References: <20230220184052.163465-1-richard.henderson@linaro.org>
+ Mon, 20 Feb 2023 10:45:06 -0800 (PST)
+Date: Tue, 21 Feb 2023 00:15:00 +0530
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: Re: [PATCH V3 4/8] hw/riscv/virt: Enable basic ACPI infrastructure
+Message-ID: <Y/O/rFl1RrSJP1WL@sunil-laptop>
+References: <20230216164125.1945633-1-sunilvl@ventanamicro.com>
+ <20230216164125.1945633-5-sunilvl@ventanamicro.com>
+ <20230216173619.6j64cjxlyzw5vyjm@orel>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216173619.6j64cjxlyzw5vyjm@orel>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,246 +95,238 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/s390x/cpu-param.h     |  4 ++
- target/s390x/cpu.c           | 12 +++++
- target/s390x/tcg/translate.c | 86 +++++++++++++++++++++++-------------
- 3 files changed, 71 insertions(+), 31 deletions(-)
+On Thu, Feb 16, 2023 at 06:36:19PM +0100, Andrew Jones wrote:
+> On Thu, Feb 16, 2023 at 10:11:21PM +0530, Sunil V L wrote:
+> > Add basic ACPI infrastructure for RISC-V with below tables.
+> >         1) DSDT with below basic objects
+> >                 - CPUs
+> >                 - fw_cfg
+> >         2) FADT revision 6 with HW_REDUCED flag
+> >         3) XSDT
+> >         4) RSDP
+> > 
+> > Add this functionality in a new file virt-acpi-build.c and enable
+> > building this infrastructure.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > ---
+> >  hw/riscv/Kconfig           |   1 +
+> >  hw/riscv/meson.build       |   1 +
+> >  hw/riscv/virt-acpi-build.c | 267 +++++++++++++++++++++++++++++++++++++
+> >  include/hw/riscv/virt.h    |   1 +
+> >  4 files changed, 270 insertions(+)
+> >  create mode 100644 hw/riscv/virt-acpi-build.c
+> > 
+> > diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> > index 4550b3b938..6528ebfa3a 100644
+> > --- a/hw/riscv/Kconfig
+> > +++ b/hw/riscv/Kconfig
+> > @@ -44,6 +44,7 @@ config RISCV_VIRT
+> >      select VIRTIO_MMIO
+> >      select FW_CFG_DMA
+> >      select PLATFORM_BUS
+> > +    select ACPI
+> >  
+> >  config SHAKTI_C
+> >      bool
+> > diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
+> > index ab6cae57ea..2f7ee81be3 100644
+> > --- a/hw/riscv/meson.build
+> > +++ b/hw/riscv/meson.build
+> > @@ -9,5 +9,6 @@ riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
+> >  riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c'))
+> >  riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('spike.c'))
+> >  riscv_ss.add(when: 'CONFIG_MICROCHIP_PFSOC', if_true: files('microchip_pfsoc.c'))
+> > +riscv_ss.add(when: 'CONFIG_ACPI', if_true: files('virt-acpi-build.c'))
+> >  
+> >  hw_arch += {'riscv': riscv_ss}
+> > diff --git a/hw/riscv/virt-acpi-build.c b/hw/riscv/virt-acpi-build.c
+> > new file mode 100644
+> > index 0000000000..30af974db3
+> > --- /dev/null
+> > +++ b/hw/riscv/virt-acpi-build.c
+> > @@ -0,0 +1,267 @@
+> > +/*
+> > + * Support for generating ACPI tables and passing them to Guests
+> > + *
+> > + * RISC-V virt ACPI generation
+> > + *
+> > + * Copyright (C) 2008-2010  Kevin O'Connor <kevin@koconnor.net>
+> > + * Copyright (C) 2006 Fabrice Bellard
+> > + * Copyright (C) 2013 Red Hat Inc
+> > + * Copyright (c) 2015 HUAWEI TECHNOLOGIES CO.,LTD.
+> > + * Copyright (C) 2021-2023 Ventana Micro Systems Inc
+> > + *
+> > + * This program is free software; you can redistribute it and/or modify
+> > + * it under the terms of the GNU General Public License as published by
+> > + * the Free Software Foundation; either version 2 of the License, or
+> > + * (at your option) any later version.
+> > +
+> > + * This program is distributed in the hope that it will be useful,
+> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > + * GNU General Public License for more details.
+> > +
+> > + * You should have received a copy of the GNU General Public License along
+> > + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "hw/acpi/acpi-defs.h"
+> > +#include "hw/acpi/acpi.h"
+> > +#include "hw/acpi/aml-build.h"
+> > +#include "hw/acpi/utils.h"
+> > +#include "qapi/error.h"
+> > +#include "sysemu/reset.h"
+> > +#include "migration/vmstate.h"
+> > +#include "hw/riscv/virt.h"
+> > +
+> > +#define ACPI_BUILD_TABLE_SIZE             0x20000
+> > +
+> > +typedef struct AcpiBuildState {
+> > +    /* Copy of table in RAM (for patching) */
+> > +    MemoryRegion *table_mr;
+> > +    MemoryRegion *rsdp_mr;
+> > +    MemoryRegion *linker_mr;
+> > +    /* Is table patched? */
+> > +    bool patched;
+> > +} AcpiBuildState;
+> > +
+> > +static void acpi_dsdt_add_cpus(Aml *scope, RISCVVirtState *s)
+> > +{
+> > +    MachineState *ms = MACHINE(s);
+> > +    uint16_t i;
+> > +
+> > +    for (i = 0; i < ms->smp.cpus; i++) {
+> > +        Aml *dev = aml_device("C%.03X", i);
+> > +        aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
+> > +        aml_append(dev, aml_name_decl("_UID", aml_int(i)));
+> > +        aml_append(scope, dev);
+> > +    }
+> > +}
+> > +
+> > +static void acpi_dsdt_add_fw_cfg(Aml *scope, const MemMapEntry *fw_cfg_memmap)
+> > +{
+> > +    Aml *dev = aml_device("FWCF");
+> > +    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0002")));
+> > +
+> > +    /* device present, functioning, decoding, not shown in UI */
+> > +    aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
+> > +    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+> > +
+> > +    Aml *crs = aml_resource_template();
+> > +    aml_append(crs, aml_memory32_fixed(fw_cfg_memmap->base,
+> > +                                       fw_cfg_memmap->size, AML_READ_WRITE));
+> > +    aml_append(dev, aml_name_decl("_CRS", crs));
+> > +    aml_append(scope, dev);
+> > +}
+> > +
+> > +/* FADT */
+> > +static void build_fadt_rev6(GArray *table_data,
+> > +                            BIOSLinker *linker,
+> > +                            RISCVVirtState *s,
+> > +                            unsigned dsdt_tbl_offset)
+> > +{
+> > +    AcpiFadtData fadt = {
+> > +        .rev = 6,
+> > +        .minor_ver = 0,
+> > +        .flags = 1 << ACPI_FADT_F_HW_REDUCED_ACPI,
+> > +        .xdsdt_tbl_offset = &dsdt_tbl_offset,
+> > +    };
+> > +
+> > +    build_fadt(table_data, linker, &fadt, s->oem_id, s->oem_table_id);
+> > +}
+> > +
+> > +/* DSDT */
+> > +static void build_dsdt(GArray *table_data,
+> > +                       BIOSLinker *linker,
+> > +                       RISCVVirtState *s)
+> > +{
+> > +    Aml *scope, *dsdt;
+> > +    const MemMapEntry *memmap = s->memmap;
+> > +    AcpiTable table = { .sig = "DSDT", .rev = 2, .oem_id = s->oem_id,
+> > +                        .oem_table_id = s->oem_table_id };
+> > +
+> > +
+> > +    acpi_table_begin(&table, table_data);
+> > +    dsdt = init_aml_allocator();
+> > +
+> > +    /*
+> > +     * When booting the VM with UEFI, UEFI takes ownership of the RTC hardware.
+> > +     * While UEFI can use libfdt to disable the RTC device node in the DTB that
+> > +     * it passes to the OS, it cannot modify AML. Therefore, we won't generate
+> > +     * the RTC ACPI device at all when using UEFI.
+> > +     */
+> > +    scope = aml_scope("\\_SB");
+> > +    acpi_dsdt_add_cpus(scope, s);
+> > +
+> > +    acpi_dsdt_add_fw_cfg(scope, &memmap[VIRT_FW_CFG]);
+> > +
+> > +    aml_append(dsdt, scope);
+> > +
+> > +    /* copy AML table into ACPI tables blob and patch header there */
+> > +    g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+> > +
+> > +    acpi_table_end(linker, &table);
+> > +    free_aml_allocator();
+> > +}
+> > +
+> > +static void virt_acpi_build(RISCVVirtState *s, AcpiBuildTables *tables)
+> > +{
+> > +    GArray *table_offsets;
+> > +    unsigned dsdt, xsdt;
+> > +    GArray *tables_blob = tables->table_data;
+> > +
+> > +    table_offsets = g_array_new(false, true,
+> > +                                sizeof(uint32_t));
+> > +
+> > +    bios_linker_loader_alloc(tables->linker,
+> > +                             ACPI_BUILD_TABLE_FILE, tables_blob,
+> > +                             64, false);
+> > +
+> > +    /* DSDT is pointed to by FADT */
+> > +    dsdt = tables_blob->len;
+> > +    build_dsdt(tables_blob, tables->linker, s);
+> > +
+> > +    /* FADT and others pointed to by XSDT */
+> > +    acpi_add_table(table_offsets, tables_blob);
+> > +    build_fadt_rev6(tables_blob, tables->linker, s, dsdt);
+> > +
+> > +    /* XSDT is pointed to by RSDP */
+> > +    xsdt = tables_blob->len;
+> > +    build_xsdt(tables_blob, tables->linker, table_offsets, s->oem_id,
+> > +                s->oem_table_id);
+> > +
+> > +    /* RSDP is in FSEG memory, so allocate it separately */
+> > +    {
+> > +        AcpiRsdpData rsdp_data = {
+> > +            .revision = 2,
+> > +            .oem_id = s->oem_id,
+> > +            .xsdt_tbl_offset = &xsdt,
+> > +            .rsdt_tbl_offset = NULL,
+> > +        };
+> > +        build_rsdp(tables->rsdp, tables->linker, &rsdp_data);
+> > +    }
+> > +
+> > +    /*
+> > +     * The align size is 128, warn if 64k is not enough therefore
+> > +     * the align size could be resized.
+> > +     */
+> > +    if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
+> > +        warn_report("ACPI table size %u exceeds %d bytes,"
+> > +                    " migration may not work",
+> > +                    tables_blob->len, ACPI_BUILD_TABLE_SIZE / 2);
+> > +        error_printf("Try removing some objects.");
+> > +    }
+> > +    g_array_set_size(tables_blob, ROUND_UP(acpi_data_len(tables_blob),
+> > +                     ACPI_BUILD_TABLE_SIZE));
+> 
+> I would have kept acpi_align_size(), as it'll be easier to find the
+> duplication when refactoring later.
+> 
+Okay.. Let me add this back. Will wait till Friday to check if there are
+any other comments and send updated series.
 
-diff --git a/target/s390x/cpu-param.h b/target/s390x/cpu-param.h
-index bf951a002e..52bb95de57 100644
---- a/target/s390x/cpu-param.h
-+++ b/target/s390x/cpu-param.h
-@@ -14,4 +14,8 @@
- #define TARGET_VIRT_ADDR_SPACE_BITS 64
- #define NB_MMU_MODES 4
- 
-+#ifndef CONFIG_USER_ONLY
-+# define TARGET_TB_PCREL 1
-+#endif
-+
- #endif
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index b10a8541ff..933ff06395 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -37,6 +37,7 @@
- #ifndef CONFIG_USER_ONLY
- #include "sysemu/reset.h"
- #endif
-+#include "exec/exec-all.h"
- 
- #define CR0_RESET       0xE0UL
- #define CR14_RESET      0xC2000000UL;
-@@ -83,6 +84,16 @@ uint64_t s390_cpu_get_psw_mask(CPUS390XState *env)
-     return r;
- }
- 
-+static void s390_cpu_synchronize_from_tb(CPUState *cs,
-+                                         const TranslationBlock *tb)
-+{
-+    /* The program counter is always up to date with TARGET_TB_PCREL. */
-+    if (!TARGET_TB_PCREL) {
-+        S390CPU *cpu = S390_CPU(cs);
-+        cpu->env.psw.addr = tb_pc(tb);
-+    }
-+}
-+
- static void s390_cpu_set_pc(CPUState *cs, vaddr value)
- {
-     S390CPU *cpu = S390_CPU(cs);
-@@ -274,6 +285,7 @@ static void s390_cpu_reset_full(DeviceState *dev)
- 
- static const struct TCGCPUOps s390_tcg_ops = {
-     .initialize = s390x_translate_init,
-+    .synchronize_from_tb = s390_cpu_synchronize_from_tb,
-     .restore_state_to_opc = s390x_restore_state_to_opc,
- 
- #ifdef CONFIG_USER_ONLY
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index e4db5f1c02..a016d23d53 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -139,6 +139,7 @@ struct DisasContext {
-     DisasContextBase base;
-     const DisasInsn *insn;
-     TCGOp *insn_start;
-+    target_ulong pc_save;
-     DisasFields fields;
-     uint64_t ex_value;
-     uint32_t ilen;
-@@ -163,29 +164,6 @@ static uint64_t inline_branch_hit[CC_OP_MAX];
- static uint64_t inline_branch_miss[CC_OP_MAX];
- #endif
- 
--static void gen_psw_addr_disp(DisasContext *s, TCGv_i64 dest, int64_t disp)
--{
--    tcg_gen_movi_i64(dest, s->base.pc_next + disp);
--}
--
--static void pc_to_link_info(TCGv_i64 out, DisasContext *s)
--{
--    TCGv_i64 tmp;
--
--    if (s->base.tb->flags & FLAG_MASK_64) {
--        gen_psw_addr_disp(s, out, s->ilen);
--        return;
--    }
--
--    tmp = tcg_temp_new_i64();
--    gen_psw_addr_disp(s, tmp, s->ilen);
--    if (s->base.tb->flags & FLAG_MASK_32) {
--        tcg_gen_ori_i64(tmp, tmp, 0x80000000);
--    }
--    tcg_gen_deposit_i64(out, out, tmp, 0, 32);
--    tcg_temp_free_i64(tmp);
--}
--
- static TCGv_i64 psw_addr;
- static TCGv_i64 psw_mask;
- static TCGv_i64 gbea;
-@@ -348,9 +326,39 @@ static void return_low128(TCGv_i64 dest)
-     tcg_gen_ld_i64(dest, cpu_env, offsetof(CPUS390XState, retxl));
- }
- 
-+static void gen_psw_addr_disp(DisasContext *s, TCGv_i64 dest, int64_t disp)
-+{
-+    assert(s->pc_save != -1);
-+    if (TARGET_TB_PCREL) {
-+        disp += s->base.pc_next - s->pc_save;
-+        tcg_gen_addi_i64(dest, psw_addr, disp);
-+    } else {
-+        tcg_gen_movi_i64(dest, s->base.pc_next + disp);
-+    }
-+}
-+
-+static void pc_to_link_info(TCGv_i64 out, DisasContext *s)
-+{
-+    TCGv_i64 tmp;
-+
-+    if (s->base.tb->flags & FLAG_MASK_64) {
-+        gen_psw_addr_disp(s, out, s->ilen);
-+        return;
-+    }
-+
-+    tmp = tcg_temp_new_i64();
-+    gen_psw_addr_disp(s, tmp, s->ilen);
-+    if (s->base.tb->flags & FLAG_MASK_32) {
-+        tcg_gen_ori_i64(tmp, tmp, 0x80000000);
-+    }
-+    tcg_gen_deposit_i64(out, out, tmp, 0, 32);
-+    tcg_temp_free_i64(tmp);
-+}
-+
- static void update_psw_addr_disp(DisasContext *s, int64_t disp)
- {
-     gen_psw_addr_disp(s, psw_addr, disp);
-+    s->pc_save = s->base.pc_next + disp;
- }
- 
- static inline bool per_enabled(DisasContext *s)
-@@ -1188,6 +1196,7 @@ static DisasJumpType help_goto_indirect(DisasContext *s, TCGv_i64 dest)
- {
-     per_breaking_event(s);
-     tcg_gen_mov_i64(psw_addr, dest);
-+    s->pc_save = -1;
-     per_branch_dest(s, psw_addr);
-     return DISAS_PC_UPDATED;
- }
-@@ -1197,6 +1206,7 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
- {
-     DisasJumpType ret;
-     int64_t disp = (int64_t)imm * 2;
-+    TCGv_i64 cdest_save = NULL;
-     TCGLabel *lab;
- 
-     /* Take care of the special cases first.  */
-@@ -1229,12 +1239,12 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
-     update_cc_op(s);
- 
-     /*
--     * Store taken branch destination before the brcond.  This
--     * avoids having to allocate a new local temp to hold it.
--     * We'll overwrite this in the not taken case anyway.
-+     * Save taken branch destination across the brcond if required.
-      */
-     if (!is_imm) {
--        tcg_gen_mov_i64(psw_addr, cdest);
-+        cdest_save = tcg_temp_local_new_i64();
-+        tcg_gen_mov_i64(cdest_save, cdest);
-+        cdest = cdest_save;
-     }
- 
-     lab = gen_new_label();
-@@ -1250,6 +1260,11 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
-     per_breaking_event(s);
-     if (is_imm) {
-         gen_psw_addr_disp(s, psw_addr, disp);
-+    } else {
-+        tcg_gen_mov_i64(psw_addr, cdest);
-+    }
-+    if (cdest_save) {
-+        tcg_temp_free_i64(cdest_save);
-     }
-     per_branch_dest(s, psw_addr);
- 
-@@ -1263,15 +1278,15 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
-     gen_set_label(lab);
- 
-     /* Branch not taken.  */
-+    gen_psw_addr_disp(s, psw_addr, s->ilen);
-     if (use_goto_tb(s, s->base.pc_next + s->ilen)) {
-         tcg_gen_goto_tb(1);
--        gen_psw_addr_disp(s, psw_addr, s->ilen);
-         tcg_gen_exit_tb(s->base.tb, 1);
-     } else {
--        gen_psw_addr_disp(s, psw_addr, s->ilen);
-         tcg_gen_lookup_and_goto_ptr();
-     }
- 
-+    s->pc_save = -1;
-     ret = DISAS_NORETURN;
- 
-  egress:
-@@ -6523,6 +6538,7 @@ static void s390x_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- 
-     /* Note cpu_get_tb_cpu_state asserts PC is masked for the mode. */
- 
-+    dc->pc_save = dc->base.pc_first;
-     dc->cc_op = CC_OP_DYNAMIC;
-     dc->ex_value = dc->base.tb->cs_base;
-     dc->exit_to_mainloop = per_enabled(dc) || dc->ex_value;
-@@ -6535,9 +6551,13 @@ static void s390x_tr_tb_start(DisasContextBase *db, CPUState *cs)
- static void s390x_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
- {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
-+    target_ulong pc_arg = dc->base.pc_next;
- 
-+    if (TARGET_TB_PCREL) {
-+        pc_arg &= ~TARGET_PAGE_MASK;
-+    }
-     /* Delay the set of ilen until we've read the insn. */
--    tcg_gen_insn_start(dc->base.pc_next, dc->cc_op, 0);
-+    tcg_gen_insn_start(pc_arg, dc->cc_op, 0);
-     dc->insn_start = tcg_last_op();
- }
- 
-@@ -6631,7 +6651,11 @@ void s390x_restore_state_to_opc(CPUState *cs,
-     CPUS390XState *env = &cpu->env;
-     int cc_op = data[1];
- 
--    env->psw.addr = data[0];
-+    if (TARGET_TB_PCREL) {
-+        env->psw.addr = (env->psw.addr & TARGET_PAGE_MASK) | data[0];
-+    } else {
-+        env->psw.addr = data[0];
-+    }
- 
-     /* Update the CC opcode if it is not already up-to-date.  */
-     if ((cc_op != CC_OP_DYNAMIC) && (cc_op != CC_OP_STATIC)) {
--- 
-2.34.1
-
+Thanks!
+Sunil
 
