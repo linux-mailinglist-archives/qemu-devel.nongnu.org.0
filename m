@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50EE69D06A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E8F69D135
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 17:17:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU7ub-0003kr-Sp; Mon, 20 Feb 2023 10:17:07 -0500
+	id 1pU8qK-00019i-Ba; Mon, 20 Feb 2023 11:16:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pU7uZ-0003Xk-AX
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:17:03 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pU7uX-0002bV-9y
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:17:02 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l25so1174110wrb.3
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 07:17:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WzcBr/MvJRW8+xOdQkcNWyqz6ZFwjEzpJSvH2pez51w=;
- b=DfQAdhzD4Biso1t6wq+Hn9UGBT1f8UzBRsyBNvPvO7MmHC814jernFENHinArB1JQp
- KtQcqJwwFmzrCjKNaAY4yMvQLBOV8jjQPbGDii2wxd/RH4suHcUOQQ1l5Tw/83Az0Dcv
- VHEPOGm8bVJ7gPfasqEj3BDmoOVaHihXleygWCrBn0TaICohDQvflU3xK5xh//WGhNkc
- aMGYUPWN9+IdgxjiMORn2fGJd0d8Gn6XGr6lpV14++1//XJh5EiYzxLqgdz04MYgLn2s
- J+M9FQnIXYWuqw79YH37zgyEXHGLfjpZc07qVYVsmFFyBouAAz8SpC6oOlt19e2xihxj
- ZEVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WzcBr/MvJRW8+xOdQkcNWyqz6ZFwjEzpJSvH2pez51w=;
- b=ODXsklDiYRLB0IE2d9poNbCqkIuoVRNViHYdMBneFdzGjFpaUCwU2HG+mZ1Yy7GDd0
- 1yyVQkkMcDVS5tYyqC9bHQnTqYjrVEy8miW3Q7Tuo3jVNVIJWp3IC86rpfIojhl+sn94
- chGsew5yqIseF5jBNdjjUXJKQgh10X7e7Fz6F///g3jrsPtL6sJPB4iel0qbuk0SN/qB
- PyzLOjZAFD502BL/ljVDChElGG3onkQ0078ztDhH9L7jI0WA4cb2A3AV9007kNGt8MZ0
- iGC+MGaiIyWSLnU+IpfyTslUtZDk07Dm1z3cub0EOlZmum04e6wZ4CXik/bq/n4G2kij
- nQmQ==
-X-Gm-Message-State: AO0yUKXQrUp66XiI0vlzQ6AM6qn3qlfxgdSdHurElRUZtNjr5rE5bB42
- HVqj8WCynwXHQt2URHkKLo1RoA6UGjw2MtiManM=
-X-Google-Smtp-Source: AK7set8625pLf5jAWPp8Ag0vBc6utLMooypByprklA8DERGLYQ4fmRT/o/VjOG/ri+PPtg1XF9NnVg==
-X-Received: by 2002:a05:6000:2cf:b0:2c5:5313:9d19 with SMTP id
- o15-20020a05600002cf00b002c553139d19mr881364wry.26.1676906218581; 
- Mon, 20 Feb 2023 07:16:58 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:5cc:caa0:de33:fc7:48d9:9d12?
- ([2a01:e0a:5cc:caa0:de33:fc7:48d9:9d12])
- by smtp.gmail.com with ESMTPSA id
- j27-20020a5d453b000000b002c577e2fc87sm3659404wra.15.2023.02.20.07.16.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 07:16:58 -0800 (PST)
-Message-ID: <c3a0bb80-5057-0e6e-f804-056a6ec90cc2@linaro.org>
-Date: Mon, 20 Feb 2023 16:16:57 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v3 4/4] target/ppc: fix warning with clang-15
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- richard.henderson@linaro.org, alex.bennee@linaro.org,
- peter.maydell@linaro.org
-References: <20230220111215.27471-1-pierrick.bouvier@linaro.org>
- <20230220111215.27471-5-pierrick.bouvier@linaro.org>
-From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-In-Reply-To: <20230220111215.27471-5-pierrick.bouvier@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=pierrick.bouvier@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+ (Exim 4.90_1) (envelope-from <jmaline@mac.com>) id 1pU7vt-0005rD-LW
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:18:25 -0500
+Received: from ms11p00im-qufo17291901.me.com ([17.58.38.48])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jmaline@mac.com>) id 1pU7vr-0002m4-Rt
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:18:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mac.com; s=1a1hai;
+ t=1676906300; bh=aZSLZlvwf5Z0rPUn59j29QNAXScpBWVyGALPAORl9TY=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=c1QJiIXVPJm1Qk8RWItLu/WB2xD9WmN+gdpPFTH8rXVwWtxVDirmlTyGirtF/Fhlp
+ iBHLzgpctEuTDXBJGLamu7/jHGxSvNPgyTv7s/vPNcj/WRSlNSXfQoKFo/6kOhZ02H
+ q7IgeX7nvL7lynu6+CN2xzz1up7eFyLqQrvkG2SmfbBBOGZnzgHK1qJCb1i9UEKwuu
+ dqCWMnOKPp3TOTn68D2IDtCKZ+I5tB/SZhaJ9J8UhrY7A1XLxUo1cA1tO6sRaTRsPZ
+ aFPKr5lTiFJZ5CiWMcHvpM0z5CEqE1PTUP48M1SLLQaLTao1fx+S+4J1ZCKi7Xsbk5
+ Atg1Mm89zMMag==
+Received: from smtpclient.apple (ms11p00im-dlb-asmtpmailmevip.me.com
+ [17.57.154.19])
+ by ms11p00im-qufo17291901.me.com (Postfix) with ESMTPSA id 66A37BC0CC1;
+ Mon, 20 Feb 2023 15:18:19 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.2\))
+Subject: online blockdev-backup, a clarification (was: Summary on new backup
+ interfaces in QEMU)
+From: John Maline <jmaline@mac.com>
+In-Reply-To: <b68833dd-8864-4d72-7c61-c134a9835036@ya.ru>
+Date: Mon, 20 Feb 2023 09:18:18 -0600
+Cc: qemu block <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A02B88C5-7655-401B-92BA-4EDE169BF6B8@mac.com>
+References: <b68833dd-8864-4d72-7c61-c134a9835036@ya.ru>
+To: Vladimir Sementsov-Ogievskiy <v.sementsov-og@ya.ru>
+X-Mailer: Apple Mail (2.3696.120.41.1.2)
+X-Proofpoint-GUID: cnzMSFbbHdgU8PuaZyj-9EahErQApykz
+X-Proofpoint-ORIG-GUID: cnzMSFbbHdgU8PuaZyj-9EahErQApykz
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0
+ mlxlogscore=999 bulkscore=0 adultscore=0 clxscore=1011 mlxscore=0
+ malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2209130000 definitions=main-2302200140
+Received-SPF: pass client-ip=17.58.38.48; envelope-from=jmaline@mac.com;
+ helo=ms11p00im-qufo17291901.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 20 Feb 2023 11:16:37 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,41 +83,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+As a qemu newcomer I had a related question and confusion from reading =
+existing docs. Searching qemu-block, this seemed related to my question =
+so I=E2=80=99ll ask=E2=80=A6
 
-On 2/20/23 12:12, Pierrick Bouvier wrote:
-> When compiling for windows-arm64 using clang-15, it reports a sometimes
-> uninitialized variable. This seems to be a false positive, as a default
-> case guards switch expressions, preventing to return an uninitialized
-> value, but clang seems unhappy with assert(0) definition.
-> 
-> Change code to g_assert_not_reached() fix the warning.
-> 
-> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-> ---
->   target/ppc/dfp_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-> index cc024316d5..5967ea07a9 100644
-> --- a/target/ppc/dfp_helper.c
-> +++ b/target/ppc/dfp_helper.c
-> @@ -121,7 +121,7 @@ static void dfp_set_round_mode_from_immediate(uint8_t r, uint8_t rmc,
->           case 3: /* use FPSCR rounding mode */
->               return;
->           default:
-> -            assert(0); /* cannot get here */
-> +            g_assert_not_reached();
->           }
->       } else { /* r == 1 */
->           switch (rmc & 3) {
-> @@ -138,7 +138,7 @@ static void dfp_set_round_mode_from_immediate(uint8_t r, uint8_t rmc,
->               rnd = DEC_ROUND_HALF_DOWN;
->               break;
->           default:
-> -            assert(0); /* cannot get here */
-> +            g_assert_not_reached();
->           }
->       }
->       decContextSetRounding(&dfp->context, rnd);
+
+> On Mar 15, 2022, at 12:57 PM, Vladimir Sementsov-Ogievskiy =
+<v.sementsov-og@ya.ru> wrote:
+>=20
+> Hi all!
+>=20
+> Here I want to summarize new interfaces and use cases for backup in =
+QEMU.
+>=20
+> TODO for me: convert this into good rst documentation in docs/.
+
+The existing docs I found at =
+https://qemu.readthedocs.io/en/latest/interop/live-block-operations.html#l=
+ive-disk-backup-blockdev-backup-and-the-deprecated-drive-backup are =
+confusing me. This, if I=E2=80=99m understanding, seem clearer.
+
+
+>=20
+> OK, let's begin.
+>=20
+> First, note that drive-backup qmp command is deprecated.
+>=20
+> Next, some terminology:
+>=20
+> push backup: the whole process is inside QEMU process, also may be =
+called "internal backup"
+>=20
+> pull backup: QEMU only exports a kind of snapshot (for example by =
+NBD), and third party software reads this export and stores it somehow, =
+also called "external backup"
+>=20
+> copy-before-write operations: We usually do backup of active disk, =
+guest is running and may write to the disk during the process of backup. =
+When guest wants to rewrite data region which is not backed up yet, we =
+must stop this guest write, and copy original data to somewhere before =
+continuing guest write. That's a copy-before-write operation.
+>=20
+> image-fleecing: the technique that allows to export a "snapshotted" =
+state of the active disk with help of copy-before-write operations. We =
+create a temporary image - target for copy-before-write operations, and =
+provide an interface to the user to read the "snapshotted" state. And =
+for read, we do read from temporary image the data which is already =
+changed in original active disk, and we read unchanged data directly =
+from active disk. The temporary image itself is also called "reverse =
+delta" or "reversed delta".
+>=20
+>=20
+>=20
+> =3D=3D Simple push backup =3D=3D
+>=20
+> Just use blockdev-backup, nothing new here. I just note some technical =
+details, that are relatively new:
+>=20
+> 1. First, backup job inserts copy-before-write filter above source =
+disk, to do copy-before-write operation.
+> 2. Created copy-before-write filter shares internal block-copy state =
+with backup job, so they work in collaboration, to not copy same things =
+twice.
+
+The simple case I=E2=80=99m aiming for matches a push backup. I=E2=80=99m =
+OK w/ a snapshot.
+
+Environment - macos 12.6 on arm processor, guest is aarch64 centos linux =
+using hvf accelerator. Qemu 7.2.
+
+I assume what you describe w/ copy-before-write is behavior in qemu 7.2. =
+I=E2=80=99m fine if the Linux client needs to do a bit of log replay if =
+I revert to a backup.
+
+In the docs I link above it talks as if a VM shutdown is recommended =
+after the job completes. Seems to ruin the whole point of an online =
+backup. I tried instead finishing w/ a blockdev-del and I see the backup =
+file closed by qemu. I=E2=80=99m guessing that=E2=80=99s an appropriate =
+way to flush/complete the backup. In an experiment, it seemed the =
+generated backup worked as expected.
+
+I=E2=80=99m hoping for confirmation or correction on my approach.
+
+Specifically I=E2=80=99m doing the following QMP commands.
+
+{"execute": "qmp_capabilities"}
+
+{"execute":"blockdev-add",
+ "arguments":{"node-name":"backup-node", "driver":"qcow2", =
+"file":{"driver":"file", "filename":"backups/backup1.img"}}
+}
+
+{"execute":"blockdev-backup",
+ "arguments":{"device":"drive0", "job-id":"job0", =
+"target":"backup-node", "sync":"full"}
+}
+
+... watch many job state change events ...
+
+{"execute":"blockdev-del",
+ "arguments": {"node-name":"backup-node"}
+}
+
+
+
+--
+John Maline
+jmaline@mac.com
+
+
 
