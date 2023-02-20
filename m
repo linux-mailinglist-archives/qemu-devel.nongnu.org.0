@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2D369C478
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 04:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DA369C474
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 04:24:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTwmN-00019i-NI; Sun, 19 Feb 2023 22:23:51 -0500
+	id 1pTwmP-00019k-2b; Sun, 19 Feb 2023 22:23:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pTwmL-00018v-7z
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:49 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pTwmM-00019Y-RY
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:50 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pTwmJ-0005px-O4
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:48 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id e13so1903631pjt.4
- for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 19:23:47 -0800 (PST)
+ id 1pTwmL-0005q9-DB
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:50 -0500
+Received: by mail-pl1-x636.google.com with SMTP id l15so1047359pls.1
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 19:23:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gmPWamcS039ttvGx+0lkOqlpPNASpmKk9ydxcZXcCPQ=;
- b=NqcROCFoPy2d/NxUlGPdbaV3r1FHLet8VoX4MJnu0AjqJPDI5ChfBjIkP9/2sFqYEg
- OH9aNk+6QNLg0IVH38vdfLwjMXoVAhn8l6T725mlINHdXpVZSXFYeY788DCW9OqWwbXT
- QwvSWLNwEFgTfpDfrXIvcqnt3vwaSNwbeYIF9I9obPApQRrulukmBaeV35uGr8zl+cBB
- pSQvacDZ2dCLU792gYRYJHAxx7Rz0CxdRc4XokGKne5zva4zZKpIiAt/ka8Rp8eFF5fX
- 98sGX5RqdEP94mLrSfhQobQFx/r56jx3VtHOZ5kVUe2JS/RZItRoAvDAROZDp3Qnr5zj
- VpBg==
+ bh=4zhGePcD91yQ6ch+7pxzLZ4Aayz4MXPEoGj6QOyVgUM=;
+ b=k1iPuwWN05dCebnyza/8iKydDRbNtnylTmzUoMu/7cBwmY2XaQuwYPx49P7cBGxXk4
+ kK6d/Zv2KXyFCexiJs5Zi4PW+8Bi3I8vPLlDzNrCaM4d8OgJSUxeBbBRo57qoBScswHw
+ Fm5uhGTD2AKoWSvABq77cLDJYH+PRlnsOg3WsTKMJTqDrGE6sNGmOXRajAwp+p6b5nIx
+ bNJR2CEukN8AIKGuQgEf7euxMZjiHxsVI8d237BLPTZBQCR9HPSKH94fmoGWLJZ8glNv
+ Yby83iy0HqLP7fUFmHU9xqiK/Je1NpnFbeXPWgHtB6R27yYOfHMekEhVsc49ocAjKaTn
+ YL6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gmPWamcS039ttvGx+0lkOqlpPNASpmKk9ydxcZXcCPQ=;
- b=fi5Yt/dGcIV5XIrOl0YYJn6GUAZDNVwRgKWfMTlimug/mCETHJP6sxpYSj3d1//5Th
- /mK38u6yYFUMn1GzWMi5rYGcGOddyd3aWoEE4x8MkyYp49K75PjdMbHkjej11Gac4YlQ
- ElW9VyNYkCY94e7SEsmThOiAbqVMc/0rM69xY9zFZomkPRfMSrBaUQMuNDz4m5/SdCJ/
- GcCeIGzwlJNvYsZzqYj1YKUkKpqeHuGYNf92RiXNcAQO/5Hltn1HwUpPTGfHTUjk5aTF
- UdZK7ViqcSQdprqgkykzXXJtTqI2b+SNW1ZxyDgRfJCq4MQn/XS7wKooi3N8yFPpumoL
- izlg==
-X-Gm-Message-State: AO0yUKUeIjNRm2JbqJJnlXQ6mS68fezwnThANToIwff5YRySy0rQo3Qn
- IJyaFB5YSWKuZ70jHoH3nJsUbWHqG3LsIbxF7io=
-X-Google-Smtp-Source: AK7set+JLca32i6PpzVlQN2MYXibGX1kgoPQ8uS1YCB33oikoJiMD3ZJqMDmm4ifT6x9Z7tkb5cK0Q==
-X-Received: by 2002:a17:902:d4c3:b0:19c:17d1:28a4 with SMTP id
- o3-20020a170902d4c300b0019c17d128a4mr412493plg.67.1676863426206; 
- Sun, 19 Feb 2023 19:23:46 -0800 (PST)
+ bh=4zhGePcD91yQ6ch+7pxzLZ4Aayz4MXPEoGj6QOyVgUM=;
+ b=P5MsLMomqy49wlgQfznQXc2c8zhkNL009+Cd+UskYzGucanDhD6PXKyimA0tMbv4rS
+ zUFTvhKEhaKQ2GuvpHP+lvrEbX/A8xhSrjGvQJjvitnX6rG/1ZFli8bHe8n43ULs3Wcy
+ 1+1ETq0B/ZF+VuOncDZenjc06XKGHv+OlNMeaV3vMPx2aGTxI1k/PQGXwPxM8GNBqLSL
+ z2AYlTdtHAoSXf/1IdrmvNrUSaUyjMTfwqlLQqbujV8Pk9q1MsZYow8/2ZIxF1RSeNZ2
+ Lk2RHmnRUDNKO2Djg6gK1SX6sbaXjSOxoLsP61HFQxlRgaPha10jyW4APAUE9rYz1vxQ
+ R+OA==
+X-Gm-Message-State: AO0yUKUdI8OYB8EdVzEnf9JVeeHHVwOEVJs45aRHaTmaxf8ER089gHK3
+ tRR/QKrRBJbhhTceanxNc6Wsmt+ipwcM1m3I1gk=
+X-Google-Smtp-Source: AK7set9thZDqf+q3yfs/fX9G86K2coYsmYbw1BvcKptRm2E27sd6oKCcMAs3LkBghifgKUdPCATiOQ==
+X-Received: by 2002:a17:902:d502:b0:194:a531:4b39 with SMTP id
+ b2-20020a170902d50200b00194a5314b39mr1670980plg.67.1676863427727; 
+ Sun, 19 Feb 2023 19:23:47 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- l11-20020a170902d34b00b00198e1bc9d83sm6621302plk.266.2023.02.19.19.23.44
+ l11-20020a170902d34b00b00198e1bc9d83sm6621302plk.266.2023.02.19.19.23.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Feb 2023 19:23:45 -0800 (PST)
+ Sun, 19 Feb 2023 19:23:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Sid Manning <sidneym@quicinc.com>,
- =?UTF-8?q?J=C3=B8rgen=20Hansen?= <Jorgen.Hansen@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 1/7] accel/tcg: Allow the second page of an instruction to be
- MMIO
-Date: Sun, 19 Feb 2023 17:23:32 -1000
-Message-Id: <20230220032338.5619-2-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org,
+	Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PULL 2/7] linux-user/sparc: Raise SIGILL for all unhandled software
+ traps
+Date: Sun, 19 Feb 2023 17:23:33 -1000
+Message-Id: <20230220032338.5619-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230220032338.5619-1-richard.henderson@linaro.org>
 References: <20230220032338.5619-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,42 +91,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If an instruction straddles a page boundary, and the first page
-was ram, but the second page was MMIO, we would abort.  Handle
-this as if both pages are MMIO, by setting the ram_addr_t for
-the first page to -1.
+The linux kernel's trap tables vector all unassigned trap
+numbers to BAD_TRAP, which then raises SIGILL.
 
-Reported-by: Sid Manning <sidneym@quicinc.com>
-Reported-by: Jørgen Hansen <Jorgen.Hansen@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reported-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translator.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ linux-user/sparc/cpu_loop.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index ef5193c67e..1cf404ced0 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -176,8 +176,16 @@ static void *translator_access(CPUArchState *env, DisasContextBase *db,
-         if (host == NULL) {
-             tb_page_addr_t phys_page =
-                 get_page_addr_code_hostp(env, base, &db->host_addr[1]);
--            /* We cannot handle MMIO as second page. */
--            assert(phys_page != -1);
-+
+diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
+index 434c90a55f..c120c42278 100644
+--- a/linux-user/sparc/cpu_loop.c
++++ b/linux-user/sparc/cpu_loop.c
+@@ -248,6 +248,14 @@ void cpu_loop (CPUSPARCState *env)
+             cpu_exec_step_atomic(cs);
+             break;
+         default:
 +            /*
-+             * If the second page is MMIO, treat as if the first page
-+             * was MMIO as well, so that we do not cache the TB.
++             * Most software trap numbers vector to BAD_TRAP.
++             * Handle anything not explicitly matched above.
 +             */
-+            if (unlikely(phys_page == -1)) {
-+                tb_set_page_addr0(tb, -1);
-+                return NULL;
++            if (trapnr >= TT_TRAP && trapnr <= TT_TRAP + 0x7f) {
++                force_sig_fault(TARGET_SIGILL, ILL_ILLTRP, env->pc);
++                break;
 +            }
-+
-             tb_set_page_addr1(tb, phys_page);
- #ifdef CONFIG_USER_ONLY
-             page_protect(end);
+             fprintf(stderr, "Unhandled trap: 0x%x\n", trapnr);
+             cpu_dump_state(cs, stderr, 0);
+             exit(EXIT_FAILURE);
 -- 
 2.34.1
 
