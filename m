@@ -2,63 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D166A69C3E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 02:03:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A92D869C3F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 02:35:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTuZH-0004QN-Uw; Sun, 19 Feb 2023 20:02:11 -0500
+	id 1pTv3z-0001XD-S6; Sun, 19 Feb 2023 20:33:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1pTuZD-0004O4-Dd; Sun, 19 Feb 2023 20:02:07 -0500
-Received: from m12.mail.163.com ([220.181.12.217])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qianfanguijin@163.com>)
- id 1pTuZ9-0002TT-9s; Sun, 19 Feb 2023 20:02:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
- Content-Type; bh=JDU2jchFSjeFiZv4v3OfI8HcYKm9V0cGLMFE9v6l+dw=;
- b=JIv+ADoxDw9WLDBLTY/gjqTq1+VWWvxntNDl60hTUocPzTyx8SjwwRy9H9Ct/F
- GiDQP1ME87SytMPNmXWN5ZRVspehQC47SN6+qF/dAYvk0+ml+TF/U6enGSO38Xtp
- GUcV6r7YafLHQ3GCg5F78/klev1l/IwIBeDFStY/s9yKM=
-Received: from [172.21.25.67] (unknown [218.201.129.20])
- by zwqz-smtp-mta-g4-2 (Coremail) with SMTP id _____wDnmVxzxvJjKNzEAQ--.32377S2;
- Mon, 20 Feb 2023 09:01:39 +0800 (CST)
-Message-ID: <f0eff552-197c-3f7e-051c-691633ab0b39@163.com>
-Date: Mon, 20 Feb 2023 09:01:41 +0800
+ (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
+ id 1pTv3x-0001Ww-Up
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 20:33:53 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
+ id 1pTv3u-0007lZ-Js
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 20:33:53 -0500
+Received: from dggpemm100001.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PKlHb3r85znWDT;
+ Mon, 20 Feb 2023 09:31:07 +0800 (CST)
+Received: from dggpemm500010.china.huawei.com (7.185.36.134) by
+ dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Mon, 20 Feb 2023 09:33:34 +0800
+Received: from dggpemm500010.china.huawei.com ([7.185.36.134]) by
+ dggpemm500010.china.huawei.com ([7.185.36.134]) with mapi id 15.01.2507.017;
+ Mon, 20 Feb 2023 09:33:34 +0800
+To: "mst@redhat.com" <mst@redhat.com>, "david@redhat.com" <david@redhat.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "wangzhigang (O)" <wangzhigang17@huawei.com>, "zhangliang (AG)"
+ <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
+Subject: Optimization for the virtio-balloon feature on the ARM platform
+Thread-Topic: Optimization for the virtio-balloon feature on the ARM platform
+Thread-Index: AdlEyiq0ho6dn5EQSS65n1CEKd/bMgAALcjg
+Date: Mon, 20 Feb 2023 01:33:34 +0000
+Message-ID: <0a0e1f05073d44a38a35e270ca735819@huawei.com>
+References: <8c6d264163574d8b886afdd3e4b77a2d@huawei.com>
+In-Reply-To: <8c6d264163574d8b886afdd3e4b77a2d@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.184.140]
+Content-Type: multipart/alternative;
+ boundary="_000_0a0e1f05073d44a38a35e270ca735819huaweicom_"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v1 1/2] hw: allwinner-i2c: Make the trace message more
- readable
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>
-References: <20230217094207.16882-1-qianfanguijin@163.com>
- <1e0cbd22-18c1-dfdc-b3a9-8961903bfa6a@linaro.org>
-Content-Language: en-US
-From: qianfan <qianfanguijin@163.com>
-In-Reply-To: <1e0cbd22-18c1-dfdc-b3a9-8961903bfa6a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDnmVxzxvJjKNzEAQ--.32377S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Ar13uFWUGw45Jw4fZFWkWFg_yoW3Xryfpr
- Z0krsxKF15Ca4qqr1SyF1DJF1rJryDKr12yr4Ik347ZF93CwnxZryfKF4Yk3909w12qr42
- kFW5AFy2gFZ0yaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jbvtZUUUUU=
-X-Originating-IP: [218.201.129.20]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGhsc7VaEEUIBEAAAsg
-Received-SPF: pass client-ip=220.181.12.217;
- envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.09, SPF_HELO_NONE=0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=yangming73@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,234 +68,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Yangming <yangming73@huawei.com>
+From:  Yangming via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--_000_0a0e1f05073d44a38a35e270ca735819huaweicom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+Dear QEMU maintainers,
 
-在 2023/2/20 6:30, Philippe Mathieu-Daudé 写道:
-> Hi,
->
-> On 17/2/23 10:42, qianfanguijin@163.com wrote:
->> From: qianfan Zhao <qianfanguijin@163.com>
->>
->> Next is an example when allwinner_i2c_rw enabled:
->>
->> allwinner_i2c_rw write   CNTR[0x0c]: 50 { M_STP BUS_EN  }
->> allwinner_i2c_rw write   CNTR[0x0c]: e4 { A_ACK M_STA BUS_EN INT_EN  }
->> allwinner_i2c_rw  read   CNTR[0x0c]: cc { A_ACK INT_FLAG BUS_EN INT_EN }
->> allwinner_i2c_rw  read   STAT[0x10]: 08 { STAT_M_STA_TX }
->>
->> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
->> ---
->>   hw/i2c/allwinner-i2c.c | 90 +++++++++++++++++++++++++++++++++++++++++-
->>   hw/i2c/trace-events    |  4 +-
->>   2 files changed, 89 insertions(+), 5 deletions(-)
->>
->> diff --git a/hw/i2c/allwinner-i2c.c b/hw/i2c/allwinner-i2c.c
->> index a435965836..36b387520f 100644
->> --- a/hw/i2c/allwinner-i2c.c
->> +++ b/hw/i2c/allwinner-i2c.c
->> @@ -129,6 +129,39 @@ enum {
->>       STAT_IDLE = 0x1f
->>   } TWI_STAT_STA;
->>   +#define TWI_STAT_STA_DESC(sta)  [sta] = #sta
->> +static const char *twi_stat_sta_descriptors[] = {
->> +    TWI_STAT_STA_DESC(STAT_BUS_ERROR),
->> +    TWI_STAT_STA_DESC(STAT_M_STA_TX),
->> +    TWI_STAT_STA_DESC(STAT_M_RSTA_TX),
->> +    TWI_STAT_STA_DESC(STAT_M_ADDR_WR_ACK),
->> +    TWI_STAT_STA_DESC(STAT_M_ADDR_WR_NACK),
->> +    TWI_STAT_STA_DESC(STAT_M_DATA_TX_ACK),
->> +    TWI_STAT_STA_DESC(STAT_M_DATA_TX_NACK),
->> +    TWI_STAT_STA_DESC(STAT_M_ARB_LOST),
->> +    TWI_STAT_STA_DESC(STAT_M_ADDR_RD_ACK),
->> +    TWI_STAT_STA_DESC(STAT_M_ADDR_RD_NACK),
->> +    TWI_STAT_STA_DESC(STAT_M_DATA_RX_ACK),
->> +    TWI_STAT_STA_DESC(STAT_M_DATA_RX_NACK),
->> +    TWI_STAT_STA_DESC(STAT_S_ADDR_WR_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_ARB_LOST_AW_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_GCA_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_ARB_LOST_GCA_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_DATA_RX_SA_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_DATA_RX_SA_NACK),
->> +    TWI_STAT_STA_DESC(STAT_S_DATA_RX_GCA_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_DATA_RX_GCA_NACK),
->> +    TWI_STAT_STA_DESC(STAT_S_STP_RSTA),
->> +    TWI_STAT_STA_DESC(STAT_S_ADDR_RD_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_ARB_LOST_AR_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_DATA_TX_ACK),
->> +    TWI_STAT_STA_DESC(STAT_S_DATA_TX_NACK),
->> +    TWI_STAT_STA_DESC(STAT_S_LB_TX_ACK),
->> +    TWI_STAT_STA_DESC(STAT_M_2ND_ADDR_WR_ACK),
->> +    TWI_STAT_STA_DESC(STAT_M_2ND_ADDR_WR_NACK),
->> +    TWI_STAT_STA_DESC(STAT_IDLE),
->> +};
->> +
->>   static const char *allwinner_i2c_get_regname(unsigned offset)
->>   {
->>       switch (offset) {
->> @@ -155,6 +188,59 @@ static const char 
->> *allwinner_i2c_get_regname(unsigned offset)
->>       }
->>   }
->>   +static const char *twi_cntr_reg_bits[] = {
->> +    [2] = "A_ACK",
->> +    [3] = "INT_FLAG",
->> +    [4] = "M_STP",
->> +    [5] = "M_STA",
->> +    [6] = "BUS_EN",
->> +    [7] = "INT_EN",
->> +};
->> +
->> +static void trace_buffer_append_bit_descriptors(char *s, size_t sz,
->> +                                                unsigned int value,
->> +                                                unsigned int start,
->> +                                                unsigned int end,
->> +                                                const char 
->> **desc_arrays)
->> +{
->> +    for (; start <= end; start++) {
->
-> You call this once, so no need to pass a desc_arrays[] argument.
-> Directly iterate over twi_cntr_reg_bits[] and its ARRAY_SIZE().
+I am writing to discuss a possible optimization for the virtio-balloon feat=
+ure on the ARM platform. The 'virtio_balloon_set_config' function is called=
+ frequently during the balloon inflation process, and its subfunction 'get_=
+current_ram_size' needs to traverse the virtual machine's memory modules in=
+ order to count the current virtual machine's memory (i.e initial ram size =
++ hotplugged memory). This can be very time consuming on the ARM platform, =
+as the ARM virtual machine has much more complex memory modules than the x8=
+6 virtual machine.
 
-create desc_arrays is useful if there has more register need dump. such as
-trace_buffer_append_bit_descriptors(..., twi_cntr_reg_bits)
-or trace_buffer_append_bit_descriptors(..., twi_line_cntr_reg_bits)
+Therefore, I suggest introducing a global variable, 'total_ram_size', that =
+would be updated only when the balloon is initialized and hotplug memory ha=
+s completed. This would increase the efficiency of balloon inflation by mor=
+e than 60% on the ARM platform.
 
->
->> +        if (value & (1 << start)) {
->> +            strncat(s, desc_arrays[start], sz - 1);
->
-> Watch out, desc_arrays[start] could be NULL.
+The following code is part of the optimization for balloon:
 
-if ((value & (1 << start)) && desc_arrays[start]) is better.
+--- a/qemu/hw/virtio/virtio-balloon.c
++++ b/qemu/hw/virtio/virtio-balloon.c
+static void virtio_balloon_set_config(...)
+...
+-    ram_addr_t vm_ram_size =3D get_current_ram_size();
++   ram_addr_t vm_ram_size =3D total_ram_size;
+...
+I hope this suggestion could be considered or discussed by QEMU developers.=
+ I would love to seeing this improvement added to QEMU in the future.
 
->
->> +            strncat(s, " ", sz - 1);
->> +        }
->> +    }
->> +}
->> +
->> +static void allwinner_i2c_trace_rw(int is_write, unsigned int offset,
->
-> Please use 'bool' for 'is_write' which is a boolean.
->
->> + unsigned int value)
->> +{
->
-> You can call trace_event_get_state_backends() to check if a
-> trace event is enabled and return early without further processing.
+Best regards,
+Qi
 
-got it.
+--_000_0a0e1f05073d44a38a35e270ca735819huaweicom_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
->> +    char s[256] = { 0 };
->> +
->> +    snprintf(s, sizeof(s), "%s %6s[0x%02x]: %02x ",
->
-> Please prefix hexadecimal values with 0x.
->
-OK.
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	line-height:150%;
+	layout-grid-mode:char;
+	text-autospace:none;
+	font-size:10.5pt;
+	font-family:"Times New Roman",serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal;
+	font-family:DengXian;
+	color:windowtext;}
+span.EmailStyle18
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72" style=3D"text-justi=
+fy-trim:punctuation">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">Dear QEMU maintainers,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">I am writing to discuss a possible optimization for the virtio=
+-balloon feature on the ARM platform. The &#8216;virtio_balloon_set_config&=
+#8217; function is called frequently during the balloon
+ inflation process, and its subfunction &#8216;get_current_ram_size&#8217; =
+needs to traverse the virtual machine's memory modules in order to count th=
+e current virtual machine's memory (i.e initial ram size &#43; hotplugged m=
+emory). This can be very time consuming on the ARM
+ platform, as the ARM virtual machine has much more complex memory modules =
+than the x86 virtual machine.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">Therefore, I suggest introducing a global variable, &#8216;tot=
+al_ram_size&#8217;, that would be updated only when the balloon is initiali=
+zed and hotplug memory has completed. This would increase
+ the efficiency of balloon inflation by more than 60% on the ARM platform. =
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">The following code is part of the optimization for balloon:
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">--- a/qemu/hw/virtio/virtio-balloon.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">&#43;&#43;&#43; b/qemu/hw/virtio/virtio-balloon.c<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">static void virtio_balloon_set_config(&#8230;)<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">&#8230;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">-&nbsp;&nbsp;&nbsp; ram_addr_t vm_ram_size =3D get_current_ram=
+_size();<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">&#43;&nbsp;&nbsp; ram_addr_t vm_ram_size =3D total_ram_size;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">&#8230;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">I hope this suggestion could be considered or discussed by QEM=
+U developers. I would love to seeing this improvement added to QEMU in the =
+future.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">Best regards,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:12.0pt;line-=
+height:150%">Qi</span><span lang=3D"EN-US" style=3D"font-family:DengXian"><=
+o:p></o:p></span></p>
+</div>
+</body>
+</html>
 
->> +             is_write ? "write": " read",
->> +             allwinner_i2c_get_regname(offset), offset,
->> +             value);
->
-> We prefer the safer g_autofree ... g_strdup_printf().
-
-The next trace_buffer_append_bit_descriptors will appending to a pre-alloced buffer,
-so I create a buffer. Total 256 bytes seems enough for the trace strings.
-
->
->> +    switch (offset) {
->> +    case TWI_CNTR_REG:
->> +        strncat(s, "{ ", sizeof(s) - 1);
->> +        trace_buffer_append_bit_descriptors(s, sizeof(s), value,
->> +                                            2, 7, twi_cntr_reg_bits);
->> +        strncat(s, " }", sizeof(s) - 1);
->> +        break;
->> +    case TWI_STAT_REG:
->> +        if (STAT_TO_STA(value) <= STAT_IDLE) {
->> +            strncat(s, "{ ", sizeof(s) - 1);
->> +            strncat(s, twi_stat_sta_descriptors[STAT_TO_STA(value)],
->> +                    sizeof(s) - 1);
->> +            strncat(s, " }", sizeof(s) - 1);
->> +        }
->> +        break;
->> +    }
->> +
->> +    trace_allwinner_i2c_rw(s);
->> +}
->> +
->>   static inline bool allwinner_i2c_is_reset(AWI2CState *s)
->>   {
->>       return s->srst & TWI_SRST_MASK;
->> @@ -271,7 +357,7 @@ static uint64_t allwinner_i2c_read(void *opaque, 
->> hwaddr offset,
->>           break;
->>       }
->>   - trace_allwinner_i2c_read(allwinner_i2c_get_regname(offset), 
->> offset, value);
->> +    allwinner_i2c_trace_rw(0, (unsigned int)offset, (unsigned 
->> int)value);
->>         return (uint64_t)value;
->>   }
->> @@ -283,7 +369,7 @@ static void allwinner_i2c_write(void *opaque, 
->> hwaddr offset,
->>         value &= 0xff;
->>   - trace_allwinner_i2c_write(allwinner_i2c_get_regname(offset), 
->> offset, value);
->> +    allwinner_i2c_trace_rw(1, (unsigned int)offset, (unsigned 
->> int)value);
->>         switch (offset) {
->>       case TWI_ADDR_REG:
->> diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
->> index 8e88aa24c1..fa5e8d5021 100644
->> --- a/hw/i2c/trace-events
->> +++ b/hw/i2c/trace-events
->> @@ -16,9 +16,7 @@ i2c_recv(uint8_t address, uint8_t data) 
->> "recv(addr:0x%02x) data:0x%02x"
->>   i2c_ack(void) ""
->>     # allwinner_i2c.c
->> -
->> -allwinner_i2c_read(const char* reg_name, uint64_t offset, uint64_t 
->> value) "read %s [0x%" PRIx64 "]: -> 0x%" PRIx64
->> -allwinner_i2c_write(const char* reg_name, uint64_t offset, uint64_t 
->> value) "write %s [0x%" PRIx64 "]: <- 0x%" PRIx64
->> +allwinner_i2c_rw(const char *s) "%s"
->
-> Please do not remove the other events. The tracing framework provides
-> multiple backends. Some can be processed by scripts, and providing
-> integer values are simpler to parse than a string.
->
-> That said, your event would be more useful for other backends as:
->
-> allwinner_i2c_rw(unsigned is_write,
->                  const char *regname,
->                  uing8_t regaddr,
->                  uing8_t value,
->                  const char *desc)
->                  "wr:%u   %s[0x02x]: 0x%02x { %s }"
-
-I am a beginner for qemu and don't know how to use scripts to parse trace strings. Could you please
-give me an example for that? In my opinion the trace string is for humal, not machine, so I convert
-the register value to a humal readable string.
-
-I had merge the allwinner_i2c_read and allwinner_i2c_write to allwinner_i2c_rw, but it is good to
-split them, someone may interested the write events only.
-
-How about this?
-
-allwinner_i2c_read(const char *regname, uint8_t offset, uint8_t value, const char *desc);
-allwinner_i2c_write(const char *regname, uint8_t offset, uint8_t value, const char *desc);
-
-And I had a question: which type is better for offset and value, uint8_t or uint64_t?
-
->
-> Regards,
->
-> Phil.
-
+--_000_0a0e1f05073d44a38a35e270ca735819huaweicom_--
 
