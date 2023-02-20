@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C1369D555
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C346869D52D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:50:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUD5S-0000FD-Ii; Mon, 20 Feb 2023 15:48:38 -0500
+	id 1pUD5W-0000Lb-1g; Mon, 20 Feb 2023 15:48:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pUD5C-0007b1-QZ
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:25 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pUD4q-0007Yp-LR
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:02 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pUD57-0003aX-Qd
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:22 -0500
+ <BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pUD4j-0003U1-Pr
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:47:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=6XHxxnLS5BCthv2ut4iHEwJLXuz/z2IaxOyHhaxaGCo=; b=Lyop7NC2WzQGqrFLE7UWmGjICi
- PGOZH1PmUTeZ0tr5HXEA8jRBEOZvA8buRe8jpNbjQHy+s3dFb0K88J/PO90rNUl+DNJxllu+c+PCV
- DZiSbS26M68u/UIb9IKxvpL5KQLDyR4DBmZHuW3QL/PF19sa/ThiPiPppbQTt3DRb/zs585EjEWcs
- r75vbz7wj+sGxHeAsUyu1y+kmPZTfL5KnJEsFosvQjK1Bx/7LuDIzZjYyLkNJfRVTER/18PNuLE5L
- 0n645ll7aaVBLJbWvQQE0eZvLMRp+a40zaK9dhuuwm8u1vgOFSQBdNAkk3rL5/4RlJBgw5C6NFHN3
- P0fMX3Tw==;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=IcaEWVTz0/hs3T6B+hW0k0DjUCSE2BniAT2dyp9UsEs=; b=cPvTweDL/bx2+LZi/7VvKMD4v6
+ 0p7shaEmgmMEjzqGv9ExtMmy80JkT8OyYTvLqrDRR6SLHQhYb3/2fwgcevUMqG63kIwvf994Pr2Kc
+ tV3W63keQtcv6sqEitfg9r0PvE6q0+GqhJsVf3fZTIJwgVqEYvsn+d/G+nODQiHfzVl6kE/oGmWd+
+ fcaRqZFvuoUSOyEv4LYiFrDxIA/v9aHpisBv2AQmvxvdmQd1aKSe8ghhX2OGinTnBadb7fKQKK5ZD
+ 5JS9tziIH+ryPn69uuouszPZdK+62qYf0qDq6XO+pYu7o+7OT3RoGUHXZLSOpsqsA2JT5oEsVi8rk
+ rGUPNt3A==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pUD4W-00BvKp-31; Mon, 20 Feb 2023 20:48:04 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pUD4W-00C0r5-Sl; Mon, 20 Feb 2023 20:47:41 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pUD4W-00B4tz-2d; Mon, 20 Feb 2023 20:47:40 +0000
+ Linux)) id 1pUD4W-00B4u4-2p; Mon, 20 Feb 2023 20:47:40 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,21 +50,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v12 51/60] hw/xen: Add xen_xenstore device for xenstore
- emulation
-Date: Mon, 20 Feb 2023 20:47:27 +0000
-Message-Id: <20230220204736.2639601-52-dwmw2@infradead.org>
+Subject: [PATCH v12 52/60] hw/xen: Add basic ring handling to xenstore
+Date: Mon, 20 Feb 2023 20:47:28 +0000
+Message-Id: <20230220204736.2639601-53-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230220204736.2639601-1-dwmw2@infradead.org>
 References: <20230220204736.2639601-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -89,390 +87,264 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Just the basic shell, with the event channel hookup. It only dumps the
-buffer for now; a real ring implmentation will come in a subsequent patch.
+Extract requests, return ENOSYS to all of them. This is enough to allow
+older Linux guests to boot, as they need *something* back but it doesn't
+matter much what.
+
+A full implementation of a single-tentant internal XenStore copy-on-write
+tree with transactions and watches is waiting in the wings to be sent in
+a subsequent round of patches along with hooking up the actual PV disk
+back end in qemu, but this is enough to get guests booting for now.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/meson.build    |   1 +
- hw/i386/kvm/xen_evtchn.c   |   1 +
- hw/i386/kvm/xen_xenstore.c | 248 +++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_xenstore.h |  20 +++
- hw/i386/pc.c               |   2 +
- target/i386/kvm/xen-emu.c  |  12 ++
- 6 files changed, 284 insertions(+)
- create mode 100644 hw/i386/kvm/xen_xenstore.c
- create mode 100644 hw/i386/kvm/xen_xenstore.h
+ hw/i386/kvm/xen_xenstore.c | 223 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 220 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
-index e02449e4d4..6d6981fced 100644
---- a/hw/i386/kvm/meson.build
-+++ b/hw/i386/kvm/meson.build
-@@ -8,6 +8,7 @@ i386_kvm_ss.add(when: 'CONFIG_XEN_EMU', if_true: files(
-   'xen_overlay.c',
-   'xen_evtchn.c',
-   'xen_gnttab.c',
-+  'xen_xenstore.c',
-   ))
- 
- i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 519b8e0600..7412139154 100644
---- a/hw/i386/kvm/xen_evtchn.c
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -34,6 +34,7 @@
- 
- #include "xen_evtchn.h"
- #include "xen_overlay.h"
-+#include "xen_xenstore.h"
- 
- #include "sysemu/kvm.h"
- #include "sysemu/kvm_xen.h"
 diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
-new file mode 100644
-index 0000000000..702f417633
---- /dev/null
+index 702f417633..2388842d15 100644
+--- a/hw/i386/kvm/xen_xenstore.c
 +++ b/hw/i386/kvm/xen_xenstore.c
-@@ -0,0 +1,248 @@
-+/*
-+ * QEMU Xen emulation: Shared/overlay pages support
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "qemu/host-utils.h"
-+#include "qemu/module.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/cutils.h"
-+#include "qapi/error.h"
-+#include "qom/object.h"
-+#include "migration/vmstate.h"
-+
-+#include "hw/sysbus.h"
-+#include "hw/xen/xen.h"
-+#include "xen_overlay.h"
-+#include "xen_evtchn.h"
-+#include "xen_xenstore.h"
-+
-+#include "sysemu/kvm.h"
-+#include "sysemu/kvm_xen.h"
-+
-+#include "hw/xen/interface/io/xs_wire.h"
-+#include "hw/xen/interface/event_channel.h"
-+
-+#define TYPE_XEN_XENSTORE "xen-xenstore"
-+OBJECT_DECLARE_SIMPLE_TYPE(XenXenstoreState, XEN_XENSTORE)
-+
-+#define XEN_PAGE_SHIFT 12
-+#define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
-+
-+#define ENTRIES_PER_FRAME_V1 (XEN_PAGE_SIZE / sizeof(grant_entry_v1_t))
-+#define ENTRIES_PER_FRAME_V2 (XEN_PAGE_SIZE / sizeof(grant_entry_v2_t))
-+
-+#define XENSTORE_HEADER_SIZE ((unsigned int)sizeof(struct xsd_sockmsg))
-+
-+struct XenXenstoreState {
-+    /*< private >*/
-+    SysBusDevice busdev;
-+    /*< public >*/
-+
-+    MemoryRegion xenstore_page;
-+    struct xenstore_domain_interface *xs;
-+    uint8_t req_data[XENSTORE_HEADER_SIZE + XENSTORE_PAYLOAD_MAX];
-+    uint8_t rsp_data[XENSTORE_HEADER_SIZE + XENSTORE_PAYLOAD_MAX];
-+    uint32_t req_offset;
-+    uint32_t rsp_offset;
-+    bool rsp_pending;
-+    bool fatal_error;
-+
-+    evtchn_port_t guest_port;
-+    evtchn_port_t be_port;
-+    struct xenevtchn_handle *eh;
-+};
-+
-+struct XenXenstoreState *xen_xenstore_singleton;
-+
-+static void xen_xenstore_event(void *opaque);
-+
-+static void xen_xenstore_realize(DeviceState *dev, Error **errp)
+@@ -188,18 +188,235 @@ uint16_t xen_xenstore_get_port(void)
+     return s->guest_port;
+ }
+ 
++static bool req_pending(XenXenstoreState *s)
 +{
-+    XenXenstoreState *s = XEN_XENSTORE(dev);
++    struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
 +
-+    if (xen_mode != XEN_EMULATE) {
-+        error_setg(errp, "Xen xenstore support is for Xen emulation");
-+        return;
-+    }
-+    memory_region_init_ram(&s->xenstore_page, OBJECT(dev), "xen:xenstore_page",
-+                           XEN_PAGE_SIZE, &error_abort);
-+    memory_region_set_enabled(&s->xenstore_page, true);
-+    s->xs = memory_region_get_ram_ptr(&s->xenstore_page);
-+    memset(s->xs, 0, XEN_PAGE_SIZE);
-+
-+    /* We can't map it this early as KVM isn't ready */
-+    xen_xenstore_singleton = s;
-+
-+    s->eh = xen_be_evtchn_open();
-+    if (!s->eh) {
-+        error_setg(errp, "Xenstore evtchn port init failed");
-+        return;
-+    }
-+    aio_set_fd_handler(qemu_get_aio_context(), xen_be_evtchn_fd(s->eh), true,
-+                       xen_xenstore_event, NULL, NULL, NULL, s);
++    return s->req_offset == XENSTORE_HEADER_SIZE + req->len;
 +}
 +
-+static bool xen_xenstore_is_needed(void *opaque)
++static void reset_req(XenXenstoreState *s)
 +{
-+    return xen_mode == XEN_EMULATE;
++    memset(s->req_data, 0, sizeof(s->req_data));
++    s->req_offset = 0;
 +}
 +
-+static int xen_xenstore_pre_save(void *opaque)
++static void reset_rsp(XenXenstoreState *s)
 +{
-+    XenXenstoreState *s = opaque;
-+
-+    if (s->eh) {
-+        s->guest_port = xen_be_evtchn_get_guest_port(s->eh);
-+    }
-+    return 0;
-+}
-+
-+static int xen_xenstore_post_load(void *opaque, int ver)
-+{
-+    XenXenstoreState *s = opaque;
-+
-+    /*
-+     * As qemu/dom0, rebind to the guest's port. The Windows drivers may
-+     * unbind the XenStore evtchn and rebind to it, having obtained the
-+     * "remote" port through EVTCHNOP_status. In the case that migration
-+     * occurs while it's unbound, the "remote" port needs to be the same
-+     * as before so that the guest can find it, but should remain unbound.
-+     */
-+    if (s->guest_port) {
-+        int be_port = xen_be_evtchn_bind_interdomain(s->eh, xen_domid, s->guest_port);
-+        if (be_port < 0) {
-+            return be_port;
-+        }
-+        s->be_port = be_port;
-+    }
-+    return 0;
-+}
-+
-+static const VMStateDescription xen_xenstore_vmstate = {
-+    .name = "xen_xenstore",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = xen_xenstore_is_needed,
-+    .pre_save = xen_xenstore_pre_save,
-+    .post_load = xen_xenstore_post_load,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8_ARRAY(req_data, XenXenstoreState, sizeof_field(XenXenstoreState, req_data)),
-+        VMSTATE_UINT8_ARRAY(rsp_data, XenXenstoreState, sizeof_field(XenXenstoreState, rsp_data)),
-+        VMSTATE_UINT32(req_offset, XenXenstoreState),
-+        VMSTATE_UINT32(rsp_offset, XenXenstoreState),
-+        VMSTATE_BOOL(rsp_pending, XenXenstoreState),
-+        VMSTATE_UINT32(guest_port, XenXenstoreState),
-+        VMSTATE_BOOL(fatal_error, XenXenstoreState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void xen_xenstore_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->realize = xen_xenstore_realize;
-+    dc->vmsd = &xen_xenstore_vmstate;
-+}
-+
-+static const TypeInfo xen_xenstore_info = {
-+    .name          = TYPE_XEN_XENSTORE,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(XenXenstoreState),
-+    .class_init    = xen_xenstore_class_init,
-+};
-+
-+void xen_xenstore_create(void)
-+{
-+    xen_xenstore_singleton = XEN_XENSTORE(sysbus_create_simple(TYPE_XEN_XENSTORE,
-+                                                           -1, NULL));
-+
-+    /*
-+     * Defer the init (xen_xenstore_reset()) until KVM is set up and the
-+     * overlay page can be mapped.
-+     */
-+}
-+
-+static void xen_xenstore_register_types(void)
-+{
-+    type_register_static(&xen_xenstore_info);
-+}
-+
-+type_init(xen_xenstore_register_types)
-+
-+uint16_t xen_xenstore_get_port(void)
-+{
-+    XenXenstoreState *s = xen_xenstore_singleton;
-+    if (!s) {
-+        return 0;
-+    }
-+    return s->guest_port;
-+}
-+
-+static void xen_xenstore_event(void *opaque)
-+{
-+    XenXenstoreState *s = opaque;
-+    evtchn_port_t port = xen_be_evtchn_pending(s->eh);
-+    if (port != s->be_port) {
-+        return;
-+    }
-+    printf("xenstore event\n");
-+    /* We know this is a no-op. */
-+    xen_be_evtchn_unmask(s->eh, port);
-+    qemu_hexdump(stdout, "", s->xs, sizeof(*s->xs));
-+    xen_be_evtchn_notify(s->eh, s->be_port);
-+}
-+
-+static void alloc_guest_port(XenXenstoreState *s)
-+{
-+    struct evtchn_alloc_unbound alloc = {
-+        .dom = DOMID_SELF,
-+        .remote_dom = DOMID_QEMU,
-+    };
-+
-+    if (!xen_evtchn_alloc_unbound_op(&alloc)) {
-+        s->guest_port = alloc.port;
-+    }
-+}
-+
-+int xen_xenstore_reset(void)
-+{
-+    XenXenstoreState *s = xen_xenstore_singleton;
-+    int err;
-+
-+    if (!s) {
-+        return -ENOTSUP;
-+    }
-+
-+    s->req_offset = s->rsp_offset = 0;
 +    s->rsp_pending = false;
 +
-+    if (!memory_region_is_mapped(&s->xenstore_page)) {
-+        uint64_t gpa = XEN_SPECIAL_PFN(XENSTORE) << TARGET_PAGE_BITS;
-+        xen_overlay_do_map_page(&s->xenstore_page, gpa);
-+    }
-+
-+    alloc_guest_port(s);
-+
-+    /*
-+     * As qemu/dom0, bind to the guest's port. For incoming migration, this
-+     * will be unbound as the guest's evtchn table is overwritten. We then
-+     * rebind to the correct guest port in xen_xenstore_post_load().
-+     */
-+    err = xen_be_evtchn_bind_interdomain(s->eh, xen_domid, s->guest_port);
-+    if (err < 0) {
-+        return err;
-+    }
-+    s->be_port = err;
-+
-+    return 0;
++    memset(s->rsp_data, 0, sizeof(s->rsp_data));
++    s->rsp_offset = 0;
 +}
-diff --git a/hw/i386/kvm/xen_xenstore.h b/hw/i386/kvm/xen_xenstore.h
-new file mode 100644
-index 0000000000..8c3768e075
---- /dev/null
-+++ b/hw/i386/kvm/xen_xenstore.h
-@@ -0,0 +1,20 @@
-+/*
-+ * QEMU Xen emulation: Xenstore emulation
-+ *
-+ * Copyright © 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+ *
-+ * Authors: David Woodhouse <dwmw2@infradead.org>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
 +
-+#ifndef QEMU_XEN_XENSTORE_H
-+#define QEMU_XEN_XENSTORE_H
++static void process_req(XenXenstoreState *s)
++{
++    struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
++    struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
++    const char enosys[] = "ENOSYS";
 +
-+void xen_xenstore_create(void);
-+int xen_xenstore_reset(void);
++    assert(req_pending(s));
++	assert(!s->rsp_pending);
 +
-+uint16_t xen_xenstore_get_port(void);
++    rsp->type = XS_ERROR;
++    rsp->req_id = req->req_id;
++    rsp->tx_id = req->tx_id;
++    rsp->len = sizeof(enosys);
++    memcpy((void *)&rsp[1], enosys, sizeof(enosys));
 +
-+#endif /* QEMU_XEN_XENSTORE_H */
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index ae1d50e084..a12a7a67e9 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -92,6 +92,7 @@
- #include "hw/i386/kvm/xen_overlay.h"
- #include "hw/i386/kvm/xen_evtchn.h"
- #include "hw/i386/kvm/xen_gnttab.h"
-+#include "hw/i386/kvm/xen_xenstore.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "target/i386/cpu.h"
-@@ -1860,6 +1861,7 @@ int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
-         xen_overlay_create();
-         xen_evtchn_create();
-         xen_gnttab_create();
-+        xen_xenstore_create();
-     }
- #endif
-     return 0;
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 6e23a277df..b994a1d04d 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -27,6 +27,7 @@
- #include "hw/i386/kvm/xen_overlay.h"
- #include "hw/i386/kvm/xen_evtchn.h"
- #include "hw/i386/kvm/xen_gnttab.h"
-+#include "hw/i386/kvm/xen_xenstore.h"
- 
- #include "hw/xen/interface/version.h"
- #include "hw/xen/interface/sched.h"
-@@ -179,6 +180,9 @@ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
-         return ret;
-     }
- 
-+    /* The page couldn't be overlaid until KVM was initialized */
-+    xen_xenstore_reset();
++    s->rsp_pending = true;
++    reset_req(s);
++}
 +
-     return 0;
- }
- 
-@@ -786,6 +790,9 @@ static bool handle_get_param(struct kvm_xen_exit *exit, X86CPU *cpu,
-     case HVM_PARAM_STORE_PFN:
-         hp.value = XEN_SPECIAL_PFN(XENSTORE);
-         break;
-+    case HVM_PARAM_STORE_EVTCHN:
-+        hp.value = xen_xenstore_get_port();
-+        break;
-     default:
-         return false;
-     }
-@@ -1365,6 +1372,11 @@ int kvm_xen_soft_reset(void)
-         return err;
-     }
- 
-+    err = xen_xenstore_reset();
-+    if (err) {
-+        return err;
++static unsigned int copy_from_ring(XenXenstoreState *s, uint8_t *ptr, unsigned int len)
++{
++    if (!len)
++        return 0;
++
++    XENSTORE_RING_IDX prod = qatomic_read(&s->xs->req_prod);
++    XENSTORE_RING_IDX cons = qatomic_read(&s->xs->req_cons);
++    unsigned int copied = 0;
++
++    smp_mb();
++
++    while (len) {
++        unsigned int avail = prod - cons;
++        unsigned int offset = MASK_XENSTORE_IDX(cons);
++        unsigned int copylen = avail;
++
++        if (avail > XENSTORE_RING_SIZE) {
++            error_report("XenStore ring handling error");
++            s->fatal_error = true;
++            break;
++        } else if (avail == 0)
++            break;
++
++        if (copylen > len) {
++            copylen = len;
++        }
++        if (copylen > XENSTORE_RING_SIZE - offset) {
++            copylen = XENSTORE_RING_SIZE - offset;
++        }
++
++        memcpy(ptr, &s->xs->req[offset], copylen);
++        copied += copylen;
++
++        ptr += copylen;
++        len -= copylen;
++
++        cons += copylen;
 +    }
 +
-     return 0;
++    smp_mb();
++
++    qatomic_set(&s->xs->req_cons, cons);
++
++    return copied;
++}
++
++static unsigned int copy_to_ring(XenXenstoreState *s, uint8_t *ptr, unsigned int len)
++{
++    if (!len)
++        return 0;
++
++    XENSTORE_RING_IDX cons = qatomic_read(&s->xs->rsp_cons);
++    XENSTORE_RING_IDX prod = qatomic_read(&s->xs->rsp_prod);
++    unsigned int copied = 0;
++
++    smp_mb();
++
++    while (len) {
++        unsigned int avail = cons + XENSTORE_RING_SIZE - prod;
++        unsigned int offset = MASK_XENSTORE_IDX(prod);
++        unsigned int copylen = len;
++
++        if (avail > XENSTORE_RING_SIZE) {
++            error_report("XenStore ring handling error");
++            s->fatal_error = true;
++            break;
++        } else if (avail == 0)
++            break;
++
++        if (copylen > avail) {
++            copylen = avail;
++        }
++        if (copylen > XENSTORE_RING_SIZE - offset) {
++            copylen = XENSTORE_RING_SIZE - offset;
++        }
++
++
++        memcpy(&s->xs->rsp[offset], ptr, copylen);
++        copied += copylen;
++
++        ptr += copylen;
++        len -= copylen;
++
++        prod += copylen;
++    }
++
++    smp_mb();
++
++    qatomic_set(&s->xs->rsp_prod, prod);
++
++    return copied;
++}
++
++static unsigned int get_req(XenXenstoreState *s)
++{
++    unsigned int copied = 0;
++
++    if (s->fatal_error)
++        return 0;
++
++    assert(!req_pending(s));
++
++    if (s->req_offset < XENSTORE_HEADER_SIZE) {
++        void *ptr = s->req_data + s->req_offset;
++        unsigned int len = XENSTORE_HEADER_SIZE;
++        unsigned int copylen = copy_from_ring(s, ptr, len);
++
++        copied += copylen;
++        s->req_offset += copylen;
++    }
++
++    if (s->req_offset >= XENSTORE_HEADER_SIZE) {
++        struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
++
++        if (req->len > (uint32_t)XENSTORE_PAYLOAD_MAX) {
++            error_report("Illegal XenStore request");
++            s->fatal_error = true;
++            return 0;
++        }
++
++        void *ptr = s->req_data + s->req_offset;
++        unsigned int len = XENSTORE_HEADER_SIZE + req->len - s->req_offset;
++        unsigned int copylen = copy_from_ring(s, ptr, len);
++
++        copied += copylen;
++        s->req_offset += copylen;
++    }
++
++    return copied;
++}
++
++static unsigned int put_rsp(XenXenstoreState *s)
++{
++    if (s->fatal_error)
++        return 0;
++
++    assert(s->rsp_pending);
++
++    struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
++    assert(s->rsp_offset < XENSTORE_HEADER_SIZE + rsp->len);
++
++    void *ptr = s->rsp_data + s->rsp_offset;
++    unsigned int len = XENSTORE_HEADER_SIZE + rsp->len - s->rsp_offset;
++    unsigned int copylen = copy_to_ring(s, ptr, len);
++
++    s->rsp_offset += copylen;
++
++    /* Have we produced a complete response? */
++    if (s->rsp_offset == XENSTORE_HEADER_SIZE + rsp->len)
++        reset_rsp(s);
++
++    return copylen;
++}
++
+ static void xen_xenstore_event(void *opaque)
+ {
+     XenXenstoreState *s = opaque;
+     evtchn_port_t port = xen_be_evtchn_pending(s->eh);
++    unsigned int copied_to, copied_from;
++    bool processed, notify = false;
++
+     if (port != s->be_port) {
+         return;
+     }
+-    printf("xenstore event\n");
++
+     /* We know this is a no-op. */
+     xen_be_evtchn_unmask(s->eh, port);
+-    qemu_hexdump(stdout, "", s->xs, sizeof(*s->xs));
+-    xen_be_evtchn_notify(s->eh, s->be_port);
++
++    do {
++        copied_to = copied_from = 0;
++        processed = false;
++
++        if (s->rsp_pending)
++            copied_to = put_rsp(s);
++
++        if (!req_pending(s))
++            copied_from = get_req(s);
++
++        if (req_pending(s) && !s->rsp_pending) {
++            process_req(s);
++            processed = true;
++        }
++
++        notify |= copied_to || copied_from;
++    } while (copied_to || copied_from || processed);
++
++    if (notify) {
++        xen_be_evtchn_notify(s->eh, s->be_port);
++    }
  }
  
+ static void alloc_guest_port(XenXenstoreState *s)
 -- 
 2.39.0
 
