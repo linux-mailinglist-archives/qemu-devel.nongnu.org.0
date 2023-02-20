@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1066969C7B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 331C469C7BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:34:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU2W7-0005Ov-7K; Mon, 20 Feb 2023 04:31:27 -0500
+	id 1pU2Y3-0008Mu-BU; Mon, 20 Feb 2023 04:33:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pU2Vr-0004go-W2
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:31:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pU2Vn-00083J-0H
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:31:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676885465;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V2Ajk5PsYz80osvea1e62Xj/D1S9l0K4VAh4hzlqcxo=;
- b=CHnRl3dnrKf8KMVS7yxBwQnQ2nLY2UkVFjAVhwDdJ9ABQ72g1HSFp+t1pYG/7nB1t5NQWy
- 1y6d3nGQ66+E7RAvRCPGsEtJ197hiVOZ0ou40Q8XZ7H7hfuExVK8FBagFt3yxm+Y4K1cUj
- b1Dn7gigP5EiRb38zXhwvWRGToLJokA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-K7is-beBPCOIGnduDqgFcA-1; Mon, 20 Feb 2023 04:31:00 -0500
-X-MC-Unique: K7is-beBPCOIGnduDqgFcA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDBD12A59559;
- Mon, 20 Feb 2023 09:30:59 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 234A4492B00;
- Mon, 20 Feb 2023 09:30:57 +0000 (UTC)
-Date: Mon, 20 Feb 2023 09:30:54 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 08/10] qmp: teach 'getfd' to import sockets on win32
-Message-ID: <Y/M9zgAz8r49hCPS@redhat.com>
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-9-marcandre.lureau@redhat.com>
- <87zg9chbat.fsf@pond.sub.org>
- <CAJ+F1CJYYRzKPpDVuuX7Q0bB9M8cAO4OcD_BTeMRe7goueiUgg@mail.gmail.com>
- <87zg98zqrz.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2Xn-0008Ht-O3
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:33:15 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2Xk-0000FE-IF
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:33:11 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ l2-20020a05600c1d0200b003e1f6dff952so415635wms.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:32:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SxUkKogj0OHT2CNnIaMX4tw5KuKOFfRBaSJr60hQU4Q=;
+ b=Nlu4EmMf61CyU7OZ/rRFB2ET8SFvUuphIfJXTcO14/PHdkybSC2BgteZ4lmlDbsHEj
+ LCIQI2bEKZ4QVzAIvnRyTRtuP6LpuFteSJ2xfMKFQp5iLFpcPNcb6p7CKe9Ebhxu2/PV
+ gSwLjVgpAtQnst4hvLpNuBzqsfBUyNuoOfyBXlOyc5fOZoKkXPV0MivCCD1uyYX5h0VY
+ MhaW1ohjzLZPwUvKf8pI01Lyon2jF6LB0fZ9mzpWU8UoFc5KiZcKNS/n1j3YKHWtAMYL
+ UbLCkiZW1zEsa/smhw9J2vo2DzqWdON/kPprDb6yCrX/5Az3dVQhbDlz8rl7gcK7/vQH
+ nGhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SxUkKogj0OHT2CNnIaMX4tw5KuKOFfRBaSJr60hQU4Q=;
+ b=NKX2bM8iiDBWFaUlhPzJ8fGej3UO/v8rTS9n5gRCh6i8EGjLgsMjbAy+MliNkMlhHk
+ CHCTSL/o+jY8FT3VAzIDH+P1t4ahMkHVxHeR9cey6smH4oOKoILkS9D8Et0H1/GvcGg7
+ i2nPGHKs/6VWV33yjQOsonmdnmiyDLLf69fGy13v734VIVXiQ899j/0yFv+j2WaIAM1+
+ FF74VOQMiOJ3foVOcdcUXih8ErCXZe1cwTSojcqrmmSZbLX/59OaWmydWzExiixbanep
+ t/1qRelNIrC24L2Ir6QT4hpt4cvykePb4BlgkCZofQUDBkfbOQCf2Q9aGTFFTz7l5Lvu
+ VVPA==
+X-Gm-Message-State: AO0yUKUfqaWuRS+8arioePegqbq959WSbQMYSwUFzHx6X9ugsnN2Uinu
+ xuNWgGvEcg3cDj4oV4On0uY6rQ==
+X-Google-Smtp-Source: AK7set/UNeQB0cB8wwUGmj8FCMAhFatwvEratzKcSDsH31MTW9/8sC46l5V5GL6mF2cTEjPZVHZqhg==
+X-Received: by 2002:a7b:c446:0:b0:3df:e1e9:201d with SMTP id
+ l6-20020a7bc446000000b003dfe1e9201dmr84100wmi.40.1676885578790; 
+ Mon, 20 Feb 2023 01:32:58 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ ay14-20020a05600c1e0e00b003e20cf0408esm959843wmb.40.2023.02.20.01.32.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 01:32:58 -0800 (PST)
+Message-ID: <0499d7b2-8683-5428-d6c2-bb8005e45a88@linaro.org>
+Date: Mon, 20 Feb 2023 10:32:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 2/4] linux-user: fix sockaddr_in6 endianness
+Content-Language: en-US
+To: Mathis MARION <mamarion1@silabs.com>,
+ Mathis Marion <Mathis.Marion@silabs.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?=
+ <jerome.pouiller@silabs.com>
+References: <20230220085822.626798-1-Mathis.Marion@silabs.com>
+ <20230220085822.626798-3-Mathis.Marion@silabs.com>
+ <fc6b4e3f-378f-f415-79b9-79afbaef93ba@linaro.org>
+ <cb86de96-8f44-d92f-f19b-260da1ec5512@silabs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <cb86de96-8f44-d92f-f19b-260da1ec5512@silabs.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87zg98zqrz.fsf@pond.sub.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,115 +92,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 20, 2023 at 09:26:24AM +0100, Markus Armbruster wrote:
-> Marc-André Lureau <marcandre.lureau@gmail.com> writes:
+On 20/2/23 10:09, Mathis MARION wrote:
+> On 20/02/2023 10:06, Philippe Mathieu-Daudé wrote: >> On 20/2/23 09:58, Mathis Marion wrote:
+>>> From: Mathis Marion <mathis.marion@silabs.com>
+>>>
+>>> Fields sin6_flowinfo and sin6_scope_id use the host byte order, so there
+>>> is a conversion to be made when host and target endianness differ.
+>>>
+>>> Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
+>>> ---
+>>>   linux-user/syscall.c | 6 ++++++
+>>>   1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>> index 58549de125..1a6856abec 100644
+>>> --- a/linux-user/syscall.c
+>>> +++ b/linux-user/syscall.c
+>>> @@ -1713,6 +1713,12 @@ static inline abi_long 
+>>> target_to_host_sockaddr(int fd, struct sockaddr *addr,
+>>>       lladdr = (struct target_sockaddr_ll *)addr;
+>>>       lladdr->sll_ifindex = tswap32(lladdr->sll_ifindex);
+>>>       lladdr->sll_hatype = tswap16(lladdr->sll_hatype);
+>>> +    } else if (sa_family == AF_INET6) {
+>>> +        struct sockaddr_in6 *in6addr;
+>>> +
+>>> +        in6addr = (struct sockaddr_in6 *)addr;
+>>> +        in6addr->sin6_flowinfo = tswap32(in6addr->sin6_flowinfo);
+>>> +        in6addr->sin6_scope_id = tswap32(in6addr->sin6_scope_id);
+>>>       }
+>>>       unlock_user(target_saddr, target_addr, 0);
+>>>
+>>
+>> Same content as v1, right?
+>>
+>> If you don't change patch content, please include the reviewer tags
+>> so we don't have to review your patches again.
+>>
+>> So similarly to
+>> https://urldefense.com/v3/__https://lore.kernel.org/qemu-devel/6be6bf58-cf92-7068-008e-83f5543a1f01@linaro.org/__;!!N30Cs7Jr!X8OE0Z6gfU2FYtWrk0_Dhk_gUPlhqRPtJ60B7HxeicEaFDDFCLRsmoqhnC3MXGOw7ZfEkgLQhDwsyQv76w$
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>
 > 
-> > Hi Markus
-> >
-> > On Fri, Feb 17, 2023 at 1:49 PM Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> marcandre.lureau@redhat.com writes:
-> >>
-> >> > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> >> >
-> >> > A process with enough capabilities can duplicate a socket to QEMU.
-> >> > Modify 'getfd' to import it and add it to the monitor fd list, so it can
-> >> > be later used by other commands.
-> >> >
-> >> > Note that we actually store the SOCKET in the FD list, appropriate care
-> >> > must now be taken to use the correct socket functions (similar approach
-> >> > is taken by our io/ code and in glib, this is internal and shouldn't
-> >> > affect the QEMU/QMP users)
-> >> >
-> >> > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> >> > ---
-> >> >  qapi/misc.json     | 16 ++++++++--
-> >> >  monitor/fds.c      | 79 ++++++++++++++++++++++++++++++++++++----------
-> >> >  monitor/hmp-cmds.c |  6 +++-
-> >> >  3 files changed, 81 insertions(+), 20 deletions(-)
-> >> >
-> >> > diff --git a/qapi/misc.json b/qapi/misc.json
-> >> > index 27ef5a2b20..cd36d8befb 100644
-> >> > --- a/qapi/misc.json
-> >> > +++ b/qapi/misc.json
-> >> > @@ -249,10 +249,18 @@
-> >> >  ##
-> >> >  # @getfd:
-> >> >  #
-> >> > -# Receive a file descriptor via SCM rights and assign it a name
-> >> > +# On UNIX, receive a file descriptor via SCM rights and assign it a name.
-> >> > +#
-> >> > +# On Windows, (where ancillary socket fd-passing isn't an option yet), add a
-> >> > +# socket that was duplicated to QEMU process with WSADuplicateSocketW() via
-> >> > +# WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name. A SOCKET is
-> >> > +# considered as a kind of "file descriptor" in QMP context, for historical
-> >> > +# reasons and simplicity. QEMU takes care to use socket functions appropriately.
-> >>
-> >> The Windows part explains things in terms of the C socket API.  Less
-> >> than ideal for the QEMU QMP Reference Manual, isn't it?  I don't know
-> >> nearly enough about this stuff to suggest concrete improvements...
-> >
-> > We don't have to, after all we don't explain how to use sendmsg/cmsg
-> > stuff to pass FDs.
-> >
-> > I will drop the part about "A SOCKET is considered as a kind of "file
-> > descriptor" in QMP context", after we get "[PATCH 0/4] win32: do not
-> > mix SOCKET and fd space"
-> > (https://patchew.org/QEMU/20230212204942.1905959-1-marcandre.lureau@redhat.com/)
-> > merged.
-> 
-> Would it make sense to rebase this series on top of that one, so we
-> can have simpler documentation from the start?
-> 
-> >> What does this command do under Windows before this patch?  Fail always?
-> >
-> > Without ancillary data support on Windows, you can't make it work.
-> 
-> Yes, but how does it fail?  Hmm, you actually answer that below.
-> 
-> >> Wrap your lines a bit earlier, please.
-> >>
-> >> >  #
-> >> >  # @fdname: file descriptor name
-> >> >  #
-> >> > +# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Since 8.0.
-> >> > +#
-> >>
-> >> No way around passing a binary blob?
-> >
-> > WSAPROTOCOL_INFOW is a fairly big structure, with private/reserved fields,
-> > it contains another structure (WSAPROTOCOLCHAIN), has fixed-length arrays,
-> > GUID, and utf16 string.
-> >
-> > QAPI'fying that structure back and forth would be tedious and
-> > error-prone. Better to treat it as an opaque blob imho.
-> 
-> I worry about potential consequences of baking Windows ABI into QMP.
-> 
-> What if the memory representation of this struct changes?
-> 
-> Such ABI changes are unpleasant, but they are not impossible.
+> Yes, I am still new to this. Thank you for you consideration, I will
+> remember it for next time.
 
-IIUC, the Windows API aims to be append only. So any need to change
-this struct would instead result in creating a new struct + new
-corresponding API.
+Sorry I didn't notice you are new because your patch series already
+have a very high quality :)
 
-FWIW, there's also a WSAPROTOCOL_INFOA version of this struct which
-has an ascii string instead of utf16 string.
+You can see guidelines here:
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html#proper-use-of-reviewed-by-tags-can-aid-review
 
-I'm not especially happy about encoding a struct as a blob either,
-but in this case I'm coming around to the view that it is probably
-the least worst option.
+In particular:
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+   When reviewing a large series, a reviewer can reply to some of the
+   patches with a Reviewed-by tag, stating that they are happy with
+   that patch in isolation [...]. You should then update those commit
+   messages by hand to include the Reviewed-by tag, so that in the next
+   revision, reviewers can spot which patches were already clean from
+   the previous round.
 
+Regards,
+
+Phil.
 
