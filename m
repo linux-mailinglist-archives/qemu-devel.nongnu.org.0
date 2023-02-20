@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B6669C850
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 11:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6BC69C854
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 11:12:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU36R-0007z2-ON; Mon, 20 Feb 2023 05:08:59 -0500
+	id 1pU36S-0007zS-Bh; Mon, 20 Feb 2023 05:09:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1415163841=bin.meng@windriver.com>)
- id 1pU36P-0007yT-LK
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:08:57 -0500
-Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
+ id 1pU36Q-0007yl-BV
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:08:58 -0500
+Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1415163841=bin.meng@windriver.com>)
- id 1pU36L-0008TV-19
+ id 1pU36L-0008Vy-0y
  for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:08:57 -0500
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31K8sfVe013057; Mon, 20 Feb 2023 10:08:37 GMT
+ 31K9fSWS030356; Mon, 20 Feb 2023 02:08:40 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=AcLONJBR7YZJY6HYwvAhDEo4k4DfdL0PC/dq/i6N/SI=;
- b=YU466U1MfqIp96KuusmOvOCA4LmEQWr+h0ThCIxIDGtx0weDAMA/fRk+STai+omW0ooU
- xk4DHwlvxDXPyhjWnHfcfeENczBNSvjzXRK5lDCkp8eOuilO8Mv1TTu8/uyY+BqrZNcH
- qkN01k69nf6hp/idxHWtbwX/9mCVqMgB7K3EsBOyWYNLfJ0PpNp30f7rJcRI3K15pUYp
- U6kZgxIdyjB1/Ts5wRH2GGi64kILK3TXG6gPISB5F5eEfSwbPcOJFpqDWsuEcQUeC2cW
- wxlrXs/0ZtwZ3Vv/7WavHs+eYPxPFC5c91M/CKKItoGKCZ8DZOTc0r/ckW5q2FGsGAV2 JQ== 
+ bh=op9BZ0rOkqmdwuRMJ8UbP7oCV0yE2esAem3+VcQpVjc=;
+ b=iD4CgipeBu4/A+lnHapmNGmU53LKAzap7A/Znogy/PnkZFzoXpSN054SPhJeniWatwnL
+ 905gXqihxUeMGx8ihXLRmH6FXSEULs1NKkqMX2ORjBvV3tyzfG7KGXHs1BiT5iq/6VsJ
+ 4KYLEbaYnx7d0v2Svqg5NmeaHfSW3dvu42bxZU5cvjzmQanfQg2r8efoU9fD3cJj06jt
+ CRBgZaHJ5Di83ez7uURLPaKpvXj1MEkhmRAw/4usyWeZ3gnDXuER+5TOcHFiywnWNsHo
+ IvEfQ8TSYTNaW2PNUYOSgdjKfBUFb4zi9LAD7t1O07Sh/h8yPnbpS+DkgNascKv/DB4Q xA== 
 Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ntpem1kwk-2
+ (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nttu6sfs5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Feb 2023 10:08:37 +0000
+ Mon, 20 Feb 2023 02:08:40 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FZyLTs68ONSfjsbthbLSUFa3AWhaGGv3EZAYnzYNRGCPixNJ2bJ0SWW2KAyVCgecI4vOCOC5Ser9Bm5TJDHMrsnBQb3tTsntFcOMNznSM07YXhLnw00KT0l1gSwAaLjoz8yyTnckrbGMQgCg/tEvu3kayvz76HDhBrGw0xF5NFpMJrf0N1NacLhLNp0bFKVJxMQu3sWwfrT1jkgpwbKjiwj7KhQsXPx+YJA0DK9T4vG/hIDg/euOEu0hEEdK0q0dwAcLywpXFTYpb135AI0s4OFJrOevtji+K5iaFyumwCN7kEBe7deaBM2TEVdg+Q92jbKmhFKYN3fg4/y1ddaJwQ==
+ b=MrubD7BGAJ5BdgSjNtpAMUrtJ5WYARTBvZoTtbeFxy6mjAPKP2T8pa8Ov14ydHEJFo7Dq5Dr4+Er5ZZFsiBAst3G4bescLUYnb0d1ZBDb7Fx2w9qfBDZjkuCCiuIO4D50E4Ut6FAjNvL7xk5CblUTY8e1WNPtzPjfPm7LsKycwCFC34MVNkM7jmwf9bvFwAyZ+6UttiWwImvOEIr40oIKnvUlOuAbZ25kWdyDvSs9aSehRBxrgIW5P3AYoHD4Hhkwmx/OkUgwQLsNYrixttSV/NMYv0SvN0Ms2uxnblUmy/Ir7hUchi8mYPDo+7lPbVZVab5j2BzT3H1iLcco8pvuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AcLONJBR7YZJY6HYwvAhDEo4k4DfdL0PC/dq/i6N/SI=;
- b=aJYhGHq72Hh//I2ZwfkSxGCiWgOYXoLoh8oYwepPfX6NZY0r53C+DcnugTZd/90636fD0cCTGiPT2rhH+VNTDJyXdDxfM0xDvn/85OBvf1DiUw9QhbWu12zlluex4Bm++u4Gqx/ip+nhBhi1uAE/s49XezN71Z96/pAkDUKmYi1Enr7WJYqQ/SRLdK0fQhxUsvTRf6Jejc/bhoYbB9eTbNv1n4+fEfaU+4qqxC7p8aNEICPipOJnqtqc/8JBSN0uN884cSgrmwtA96HAzdPhi5oQ9aw2SzKQkkskbZ8Zme46R1hBffwB6D5Vdw5zEH62XOMs7eh693Px+iqX6qy4wg==
+ bh=op9BZ0rOkqmdwuRMJ8UbP7oCV0yE2esAem3+VcQpVjc=;
+ b=g5oTRfYrN6353IHJvDPg0oPMmhp/kK7ff1GvWGamEQQNSlnbmelTtw3tjmeAeMrOiY7/KAX3GflwObxK3f+/TvSy3yc4wYSCCw9i8nYmycoYqkBwT/L7DgCty76gKMBk7QZ6nr9J39N5UATkVRj6jqZy9OB8ohUDKedpiAufOlotibHYUXMautXRESTdve6a4yL1sIu24GhFuuFVDUa61ezavVxi1JK3b/rID8tTx3dHXqnJr3CfQgcOTJPUyLommk0VblAQPzY296VDyxKwXf1S6vFMJB3nT9OovWa5DbZx/iCjpS1yoBmbAc5y8Auo+JIumpG0tkji3oEAeJ3avg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,19 +52,18 @@ Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
  SA2PR11MB5066.namprd11.prod.outlook.com (2603:10b6:806:110::9) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6111.19; Mon, 20 Feb 2023 10:08:36 +0000
+ 15.20.6111.19; Mon, 20 Feb 2023 10:08:38 +0000
 Received: from DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::6c5d:5b92:1599:ce9]) by DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::6c5d:5b92:1599:ce9%4]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
- 10:08:36 +0000
+ 10:08:38 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
  qemu-devel@nongnu.org
 Cc: Guohuai Shi <guohuai.shi@windriver.com>
-Subject: [PATCH v5 03/16] hw/9pfs: Replace the direct call to xxxdir() APIs
- with a wrapper
-Date: Mon, 20 Feb 2023 18:08:02 +0800
-Message-Id: <20230220100815.1624266-4-bin.meng@windriver.com>
+Subject: [PATCH v5 04/16] hw/9pfs: Implement Windows specific xxxdir() APIs
+Date: Mon, 20 Feb 2023 18:08:03 +0800
+Message-Id: <20230220100815.1624266-5-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230220100815.1624266-1-bin.meng@windriver.com>
 References: <20230220100815.1624266-1-bin.meng@windriver.com>
@@ -76,73 +75,74 @@ X-ClientProxiedBy: SJ0PR03CA0220.namprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|SA2PR11MB5066:EE_
-X-MS-Office365-Filtering-Correlation-Id: be19cd4a-64fa-4b64-74e1-08db132a6df4
+X-MS-Office365-Filtering-Correlation-Id: be0fa702-b9ca-4878-13b7-08db132a6f15
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3YWXH3SfEvt0waTp3UIaRFGVee+hTF6HoCtZv2r8us866nfJotapURklq0bnHQHWWzhpbtIzv9GCtExN29MLG9IRPLSDhQ6pOI3YDSHKBuH3fO1kid8sHdEuzgPhn3HFMUP3TqSN2aJrB7zdXE/gu73SwyR6hxRbba7ubZhScsYV640fRc734L35OgvxGR1j3qHg3Bb1ZuJhxoDMlZnjCtu9hNMlRWUhWiudQOhCREfFJ6YIPZy5m+lgjaeRFIQi02kc2/UtAwLNAB05rNAkY5Ca8VljGjisqsEedzofQUonTy5zk+wV8T17DUVKeAAuYNiGMJP8lyJwXXugq1W9uzNcT9l2R0Snvzxbg/Db2PVVnkYrB8fObkj/VxUJqqWNd4GC2shWesJ6ulsS9Ei8Ea2F8SqyNQJChDNJKAuTXu712qV+QBZE4uQWPXU9jG/gyY64QUvBUFwaB8clvoekrL8Rh5MbzFQ0eNXuaMwDlUGkX6Uj4mEckAXcfb9T/TiPHgsBHLxU7NDZNDbkY2Ja6qaAw5e3/IJlpj/r1TL5sg5rRJfp4g/4oCz2AmW7sQ0E/FG417DS+60GZRE6t0mBNRXwOs70B33M7k7mdsdN1s+1cqBDgg5aHQDXffG17GRrOgJjf3m9wHGeqcYg3vxoj0Pc51ATAYbT8otE9SGK8MSIocg42gKfrGpoWmK181PCJsPU8BOsjlxewwO/N6+7JQ==
+X-Microsoft-Antispam-Message-Info: zvu7z+wK6iegcCYMfJKVXQMyvc1KTX60Y0I3NLNf1v0O+gSWKZldcAaH3hr/IqyowHctHjLacGD1SHDdrdbOXjWNX1U8npWxAwwqvcTSbi0AEVlqrNrvEEIRqtY3LjdDDJi/ntHf2SeJZJj2skrzzwZQGUJlHpT5omUlZMHI/7gFja5PE1PrOmcQmiB5xHR/ye7neLppY4daBHNzVKEaoLdTzXA2WGLCgNR41Kw3Z7djR+IDETr1FW9MMYUWvMCLnKHMcRgRdEkX108TAPDLOM6Yg2t+3rC3tIgMj6TE99lsJDd4npRW7ym/PzV9nIrfR85xnz+1YCmrZ+g9e6KprKd8jqLS2JXOKeQDDooQbTSETTsbkH6o9Y29kGHRXTb4cYp/EshgxR/54sUyxxJbTiJx3ZGsM50YT0P5umSIbzSomoZjZAo5Y/g6koXkZ3dHpKIO9elTwcMPxP+K+WEq/HQPZerpLV3Efzn7xhWTLGFlhVFlmjLXO5sGFw3FAKZAlsClrStXVL88yTA7skpW1wM3Jwu0l/DLeb5buqXgwyBqwYBUrW5bXYz/BZsGIb0hMDQ0rFH06d/stIi9S45XJiRn0cS4xLoBOqF6bHbxey755zPRGg5agJsBaY+NhWhJ0NEgu4rsZpqrXHaqOCPUkzK3oVauYwRTXbdlQgfUqa+YYd8GBEPCZ+EuHRrDUamg68fFNtib/pcoFvW2ocBAfQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(376002)(366004)(39840400004)(136003)(396003)(451199018)(2616005)(4326008)(66556008)(8676002)(66946007)(83380400001)(66476007)(5660300002)(8936002)(6506007)(6486002)(107886003)(6666004)(1076003)(6512007)(26005)(186003)(52116002)(36756003)(478600001)(110136005)(316002)(41300700001)(38100700002)(44832011)(38350700002)(86362001)(2906002);
+ SFS:(13230025)(4636009)(346002)(376002)(366004)(39840400004)(136003)(396003)(451199018)(2616005)(4326008)(66556008)(8676002)(66946007)(83380400001)(66476007)(5660300002)(8936002)(6506007)(6486002)(107886003)(6666004)(1076003)(6512007)(26005)(186003)(52116002)(36756003)(478600001)(110136005)(316002)(41300700001)(38100700002)(44832011)(38350700002)(86362001)(2906002)(30864003);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GXmjM0xmddb/69u8QFRmf94YSbEKd6eqi2073+1rziQIWlR8otzf2pinMCMc?=
- =?us-ascii?Q?MGB4+IlTeBcbduISslAyZqnj408jkQpGR5CiOzkMyPnKipOyosQZ3D0EUNFw?=
- =?us-ascii?Q?ds79uU74xowEBF76CXs0mGSQGlB/Sh/6JxypBg1OvdK4zIkjImoLuwMTURm7?=
- =?us-ascii?Q?d5yiHLpw1vVaeorHRKmsilbjmqskqvW7gP5sIqQfKTKtFoc5PdvfbMpXsHrz?=
- =?us-ascii?Q?nylQeKGR4pbwXlEbh8xJzOhW4ZUS1MaxEZxSkEMuKgDDdLlhqZlJ91LRRsfs?=
- =?us-ascii?Q?5r3F54gS8MLreB90KSTGLZdpsxyuDCO3Vt+vwp+TPUCJRZ/KKXjnCrud2uyR?=
- =?us-ascii?Q?Hek+ypNzsL405UkfGADVEzuOFcOEN5NYt4dTdHbHFHtTiEnHOx1JXyG/uf/z?=
- =?us-ascii?Q?OqE5iVnF3h0vtjHN9RWCJweQQVQboTBJ7D9hBIpw+S/8jvzajg0clb2EZztC?=
- =?us-ascii?Q?wLSgJk5h4/dfpVfBYJDUxICHp90Os1hMNVqkUHc840Z3moNHuWSqlxuvN0uM?=
- =?us-ascii?Q?hYPCo40GHD2duV3SOuUk2Nm4zJZsCsUnpgVQwArcCimHw9TeS48ixfGmVnnD?=
- =?us-ascii?Q?THClKq515arvmLxa+dKHkGGTraJrfZ7u0amTlya3PwRX20iQGguPlNXClwOp?=
- =?us-ascii?Q?4rM6EInsSySwTyynYbew484hRNRXQkSHlPF4C00VQIBWBaYFlLRRpC7fPyu3?=
- =?us-ascii?Q?e8TGwa2rIyX0o1xEFVnrUFk+ba9Rne7a1P2MBApUECrKCQOXYBy7SMe44zXH?=
- =?us-ascii?Q?Iep4RcRwba/ATHmpEkL49neb5tX+rKwO1jaUYbNtQVdwzX5Upa+FisWIiWgZ?=
- =?us-ascii?Q?E7il14hpW5zssoo+3fIICPuf0XYTvPMfjvzEUx6aQHXB0jXgw/Kv82EvkRnW?=
- =?us-ascii?Q?IXLdELnBKqugYWbpPb3XKL8DMLkdYn+2okVMigAnN1Xm0Zreu59KGArly7Bc?=
- =?us-ascii?Q?LYP9GoLKJ4QmXV5l1Wqdv3RWQo4RC7W282i3H6I0pxO/5p27tRhapzgsIK7X?=
- =?us-ascii?Q?nKelLXYzJ/N5oT+3rowtKK/Myqxc82RwyU9fviV7cijyw8XiTT3KRhmksSma?=
- =?us-ascii?Q?0PAkCXV8xYquCsM6Hm47UAKD4JeC4a+ji6Wtcnqmh5z6pTx0WNnLSZAwXbfk?=
- =?us-ascii?Q?oRXyOz13BJQxzD1J75IE2oKPFsfHwO7ASbZ7clXHK7JPmVOp1Bmhnpjmq/vG?=
- =?us-ascii?Q?/YW83qd3KthSRY18N1ccs/i1v3ExN0uh+U6HYn5ig+UNml7sC91f0G28cw7v?=
- =?us-ascii?Q?i5OP//9PL9vv7+InRaJP8lsX8a1B1LCflUfJiUiVXz20HBZsdwEDDK8Fvbr1?=
- =?us-ascii?Q?23t6zrWYi9mCA/mUukmqPxoARU530AsJLdt+2U83/+x9vYO6bPKNHcHZVR4I?=
- =?us-ascii?Q?8N+WRvM0PJ3wELBSP6v3z7waS0ZGsU6z+q7027v8mQGCHMJN7pawuAUpXDYB?=
- =?us-ascii?Q?hAtWgxQIf2FGEHzfXaUlHyknw6SIZRaq/ZHAfJ/0hl2nmhEH4K+rE8ayoC8R?=
- =?us-ascii?Q?1UQOtoOEwhgUTgNPkinjJ3ZcW9tqM/tf15p5WGmTA0qWc9E0EotVVb61QC56?=
- =?us-ascii?Q?8ucTtauPw9kSSod+3ZsPnvFNhUi0M5LrXYp3G3evkyn720pKhqUoCxW9O6LO?=
- =?us-ascii?Q?CQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IqBSAAIVsqHP4BV7JGxB59U+QoCGCSN8d/5ZvJePD9tLbdqSGybkXTJrtvCG?=
+ =?us-ascii?Q?cR8rZU6IvWUS//DIH3WH+iA8Z3ATXMFONX9Zx68ujZDziqrE9zPEt6C+w4nZ?=
+ =?us-ascii?Q?L5XVb21mlIL7+rCIjYHINFLL8kbIIS0x18znXLIfzAwy+34eKR2ofkUujxRz?=
+ =?us-ascii?Q?Yt5u6oKdhWs3KhcS9I0kXxxPrqlCXq0y5gPOOJakoVAjhaHYR+GpT8y/UOv0?=
+ =?us-ascii?Q?Xwe/WxVCEa1uCydi4I0HbPuGaom+b3JXwwl3kZMv8pZLylBWB8pCepw9KhKd?=
+ =?us-ascii?Q?jWgot3cH2xb+My5TvavPTLlbUquGT7s+Wy/66opFjZupU7v6TLiLJ/oHViLI?=
+ =?us-ascii?Q?DfacPT3HvBLhvpvPiyJU3nTfej4+pS5l6v1Nw85VUHCGXGAzsGQ24z8Odq5Y?=
+ =?us-ascii?Q?oxE5MUltNzAfqmQV0yb57C0q4JoxtkzgPAWexF1t+8mCFYxiK7kbxeVwpp9X?=
+ =?us-ascii?Q?plVcrIXdsoDpQriR++1w9HK6CpLxmXbfcQI3Ob/HAi1b+jFWshikuZmFfVGO?=
+ =?us-ascii?Q?rRMXHl1TzlRScg5Fh11bMwxPZMxjW49Qa2v5TPbrsAslhVywVaz32FJq/jLq?=
+ =?us-ascii?Q?UqhrfbsFQZGG9s5/RsqWmq1HL4QlqB0GrgYJVJn0zQOrhepP3LbT+sVYkmib?=
+ =?us-ascii?Q?PCRyDykO5RXks+BKS5hIH0i5EaIgpYx1vOnBReYM+BT7MrfXYS8DyWpsPbZq?=
+ =?us-ascii?Q?W6Mtj/mPxQOZLtoB9svXbO1q+Ly1mZgfwviLOhwG0KIgEwR+vuX+7hC5ujWU?=
+ =?us-ascii?Q?lh8LzBAxJtXDwDaDNpBORWHzWL97hqvL9mpdnj6lne5qIOyfMXAMcdJ6A0Cr?=
+ =?us-ascii?Q?bsijmEXSe4fCIxtBxbDjKsGtl17B8r77JEMFJGByZqYbKuCoyu6Fwik7o14s?=
+ =?us-ascii?Q?GyEMhr4yDepB5bmL4MzUK9Mcwds7aZ2EBaBd6bgGi1JkxeM9vnWBRV4svOk+?=
+ =?us-ascii?Q?LdAy8VIxwlXatGh4dpb41xdpYhPszEODudgLppaGtUSTHl8vypx7shBrKwd+?=
+ =?us-ascii?Q?ABtfD+lL6RNjWyhj6Sx3C3lEDcrFVYcwR3jmLnsddQF/Adb72PJzavktt5tT?=
+ =?us-ascii?Q?IQ557P6Ef9lLP2vsS17GATrPQqXZVd/ClMMhhSdDRfbP3cYjV1qkBuoL0ThS?=
+ =?us-ascii?Q?i60bUrobdohuwyAc6a8A5VF7aoZE2MIkySL5usR8ZYZ91UEEeYfW/ZUe+ZxZ?=
+ =?us-ascii?Q?9kfK264Q88+KcLNdTDQjihTYVMEPN6mzcfgWaS82ReHt4hwdZ9O2fdp70gk9?=
+ =?us-ascii?Q?oKV/QOSVfmD0mD5aJuH/kO+Lo8sFIIPXo9HHUgOKdm4HKi3yZWp4f23jkZ7M?=
+ =?us-ascii?Q?nNQBiXRaXCwJzzPqGeAuxyHnrvvobXMMVYX7TtVXAclikTqv4SLqayyMqGdb?=
+ =?us-ascii?Q?BeixTVslajah20eDaWxz/HU44yrZjsTlYi3ffbvATX+ZO2xknkXQussdUJZl?=
+ =?us-ascii?Q?gSTmCSpUvzek2Im3XBJYRXE8swecEnzY/7VX2MlHmwb89ONVho1Qu9Sqih7J?=
+ =?us-ascii?Q?9ivPm1a9vKSNopgpKt3nI6vAydYWb/x7oWrYWEAwHI/mR54y35lGtGzWf3sz?=
+ =?us-ascii?Q?Ai6Se59Gi2hH7rpGUjSE7AIt83HQgraUvNioDLfphp+zrdO/dOxAMT9H9mv4?=
+ =?us-ascii?Q?Ug=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be19cd4a-64fa-4b64-74e1-08db132a6df4
+X-MS-Exchange-CrossTenant-Network-Message-Id: be0fa702-b9ca-4878-13b7-08db132a6f15
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 10:08:36.0316 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 10:08:37.9231 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Gm77nKrghdkYqaLn40pUUAIcTnA9QHMyHmEF7LfPCoWht/1gEh6YpmPVDMO4Eehp8C6dEFHBtopJLpp0+xNMJA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZGNlv0/ccmmj8BIPpl9P8KFujn6xht5x9Da8BklFuCUV4hd0weCjmprvutRJeYGdU5c9hV5I6nz6K7IHAldyPg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5066
-X-Proofpoint-ORIG-GUID: ozAousc-xasex_2BQ1NLitQQm79dvm71
-X-Proofpoint-GUID: ozAousc-xasex_2BQ1NLitQQm79dvm71
+X-Proofpoint-ORIG-GUID: q9IdMR4bCORemXk5IsIUjF2rWUwjEnC6
+X-Proofpoint-GUID: q9IdMR4bCORemXk5IsIUjF2rWUwjEnC6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-20_07,2023-02-17_01,2023-02-09_01
+ definitions=2023-02-20_08,2023-02-17_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- lowpriorityscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=774
- bulkscore=0 spamscore=0 malwarescore=0 impostorscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302200089
-Received-SPF: pass client-ip=205.220.178.238;
+ suspectscore=0
+ impostorscore=0 clxscore=1015 mlxlogscore=577 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 malwarescore=0
+ adultscore=0 phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302200091
+Received-SPF: pass client-ip=205.220.166.238;
  envelope-from=prvs=1415163841=bin.meng@windriver.com;
- helo=mx0b-0064b401.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ helo=mx0a-0064b401.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -161,102 +161,499 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Guohuai Shi <guohuai.shi@windriver.com>
 
-xxxdir() APIs are not safe on Windows host. For future extension to
-Windows, let's replace the direct call to xxxdir() APIs with a wrapper.
+This commit implements Windows specific xxxdir() APIs for safety
+directory access.
 
 Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- hw/9pfs/9p-util.h  | 14 ++++++++++++++
- hw/9pfs/9p-local.c | 12 ++++++------
- 2 files changed, 20 insertions(+), 6 deletions(-)
+ hw/9pfs/9p-util.h       |   6 +
+ hw/9pfs/9p-util-win32.c | 443 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 449 insertions(+)
 
 diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 90420a7578..0f159fb4ce 100644
+index 0f159fb4ce..c1c251fbd1 100644
 --- a/hw/9pfs/9p-util.h
 +++ b/hw/9pfs/9p-util.h
-@@ -103,6 +103,13 @@ static inline int errno_to_dotl(int err) {
- #define qemu_renameat   renameat_win32
- #define qemu_utimensat  utimensat_win32
- #define qemu_unlinkat   unlinkat_win32
-+
-+#define qemu_opendir    opendir_win32
-+#define qemu_closedir   closedir_win32
-+#define qemu_readdir    readdir_win32
-+#define qeme_rewinddir  rewinddir_win32
-+#define qemu_seekdir    seekdir_win32
-+#define qemu_telldir    telldir_win32
- #else
- #define qemu_openat     openat
- #define qemu_fstatat    fstatat
-@@ -110,6 +117,13 @@ static inline int errno_to_dotl(int err) {
- #define qemu_renameat   renameat
- #define qemu_utimensat  utimensat
- #define qemu_unlinkat   unlinkat
-+
-+#define qemu_opendir    opendir
-+#define qemu_closedir   closedir
-+#define qemu_readdir    readdir
-+#define qeme_rewinddir  rewinddir
-+#define qemu_seekdir    seekdir
-+#define qemu_telldir    telldir
+@@ -141,6 +141,12 @@ int unlinkat_win32(int dirfd, const char *pathname, int flags);
+ int statfs_win32(const char *root_path, struct statfs *stbuf);
+ int openat_dir(int dirfd, const char *name);
+ int openat_file(int dirfd, const char *name, int flags, mode_t mode);
++DIR *opendir_win32(const char *full_file_name);
++int closedir_win32(DIR *pDir);
++struct dirent *readdir_win32(DIR *pDir);
++void rewinddir_win32(DIR *pDir);
++void seekdir_win32(DIR *pDir, long pos);
++long telldir_win32(DIR *pDir);
  #endif
  
- #ifdef CONFIG_WIN32
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index b6102c9e5a..4385f18da2 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -495,7 +495,7 @@ static int local_close(FsContext *ctx, V9fsFidOpenState *fs)
+ static inline void close_preserve_errno(int fd)
+diff --git a/hw/9pfs/9p-util-win32.c b/hw/9pfs/9p-util-win32.c
+index a99d579a06..e9408f3c45 100644
+--- a/hw/9pfs/9p-util-win32.c
++++ b/hw/9pfs/9p-util-win32.c
+@@ -37,6 +37,16 @@
+  *    Windows does not support opendir, the directory fd is created by
+  *    CreateFile and convert to fd by _open_osfhandle(). Keep the fd open will
+  *    lock and protect the directory (can not be modified or replaced)
++ *
++ * 5. Neither Windows native APIs, nor MinGW provide a POSIX compatible API for
++ *    acquiring directory entries in a safe way. Calling those APIs (native
++ *    _findfirst() and _findnext() or MinGW's readdir(), seekdir() and
++ *    telldir()) directly can lead to an inconsistent state if directory is
++ *    modified in between, e.g. the same directory appearing more than once
++ *    in output, or directories not appearing at all in output even though they
++ *    were neither newly created nor deleted. POSIX does not define what happens
++ *    with deleted or newly created directories in between, but it guarantees a
++ *    consistent state.
+  */
  
- static int local_closedir(FsContext *ctx, V9fsFidOpenState *fs)
- {
--    return closedir(fs->dir.stream);
-+    return qemu_closedir(fs->dir.stream);
+ #include "qemu/osdep.h"
+@@ -51,6 +61,25 @@
+ 
+ #define V9FS_MAGIC  0x53465039  /* string "9PFS" */
+ 
++/*
++ * MinGW and Windows does not provide a safe way to seek directory while other
++ * thread is modifying the same directory.
++ *
++ * This structure is used to store sorted file id and ensure directory seek
++ * consistency.
++ */
++struct dir_win32 {
++    struct dirent dd_dir;
++    uint32_t offset;
++    uint32_t total_entries;
++    HANDLE hDir;
++    uint32_t dir_name_len;
++    uint64_t dot_id;
++    uint64_t dot_dot_id;
++    uint64_t *file_id_list;
++    char dd_name[1];
++};
++
+ /*
+  * win32_error_to_posix - convert Win32 error to POSIX error number
+  *
+@@ -977,3 +1006,417 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
+     errno = ENOTSUP;
+     return -1;
  }
- 
- static int local_open(FsContext *ctx, V9fsPath *fs_path,
-@@ -533,12 +533,12 @@ static int local_opendir(FsContext *ctx,
- 
- static void local_rewinddir(FsContext *ctx, V9fsFidOpenState *fs)
- {
--    rewinddir(fs->dir.stream);
-+    qeme_rewinddir(fs->dir.stream);
- }
- 
- static off_t local_telldir(FsContext *ctx, V9fsFidOpenState *fs)
- {
--    return telldir(fs->dir.stream);
-+    return qemu_telldir(fs->dir.stream);
- }
- 
- static bool local_is_mapped_file_metadata(FsContext *fs_ctx, const char *name)
-@@ -552,13 +552,13 @@ static struct dirent *local_readdir(FsContext *ctx, V9fsFidOpenState *fs)
-     struct dirent *entry;
- 
- again:
--    entry = readdir(fs->dir.stream);
-+    entry = qemu_readdir(fs->dir.stream);
-     if (!entry) {
-         return NULL;
-     }
- #ifdef CONFIG_DARWIN
-     int off;
--    off = telldir(fs->dir.stream);
-+    off = qemu_telldir(fs->dir.stream);
-     /* If telldir fails, fail the entire readdir call */
-     if (off < 0) {
-         return NULL;
-@@ -581,7 +581,7 @@ again:
- 
- static void local_seekdir(FsContext *ctx, V9fsFidOpenState *fs, off_t off)
- {
--    seekdir(fs->dir.stream, off);
-+    qemu_seekdir(fs->dir.stream, off);
- }
- 
- static ssize_t local_preadv(FsContext *ctx, V9fsFidOpenState *fs,
++
++static int file_id_compare(const void *id_ptr1, const void *id_ptr2)
++{
++    uint64_t id[2];
++
++    id[0] = *(uint64_t *)id_ptr1;
++    id[1] = *(uint64_t *)id_ptr2;
++
++    if (id[0] > id[1]) {
++        return 1;
++    } else if (id[0] < id[1]) {
++        return -1;
++    } else {
++        return 0;
++    }
++}
++
++static int get_next_entry(struct dir_win32 *stream)
++{
++    HANDLE hDirEntry = INVALID_HANDLE_VALUE;
++    char *entry_name;
++    char *entry_start;
++    FILE_ID_DESCRIPTOR fid;
++    DWORD attribute;
++
++    if (stream->file_id_list[stream->offset] == stream->dot_id) {
++        strcpy(stream->dd_dir.d_name, ".");
++        return 0;
++    }
++
++    if (stream->file_id_list[stream->offset] == stream->dot_dot_id) {
++        strcpy(stream->dd_dir.d_name, "..");
++        return 0;
++    }
++
++    fid.dwSize = sizeof(fid);
++    fid.Type = FileIdType;
++
++    fid.FileId.QuadPart = stream->file_id_list[stream->offset];
++
++    hDirEntry = OpenFileById(stream->hDir, &fid, GENERIC_READ,
++                             FILE_SHARE_READ | FILE_SHARE_WRITE
++                             | FILE_SHARE_DELETE,
++                             NULL,
++                             FILE_FLAG_BACKUP_SEMANTICS
++                             | FILE_FLAG_OPEN_REPARSE_POINT);
++
++    if (hDirEntry == INVALID_HANDLE_VALUE) {
++        /*
++         * Not open it successfully, it may be deleted.
++         * Try next id.
++         */
++        return -1;
++    }
++
++    entry_name = get_full_path_win32(hDirEntry, NULL);
++
++    CloseHandle(hDirEntry);
++
++    if (entry_name == NULL) {
++        return -1;
++    }
++
++    attribute = GetFileAttributes(entry_name);
++
++    /* symlink is not allowed */
++    if (attribute == INVALID_FILE_ATTRIBUTES
++        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
++        return -1;
++    }
++
++    if (memcmp(entry_name, stream->dd_name, stream->dir_name_len) != 0) {
++        /*
++         * The full entry file name should be a part of parent directory name,
++         * except dot and dot_dot (is already handled).
++         * If not, this entry should not be returned.
++         */
++        return -1;
++    }
++
++    entry_start = entry_name + stream->dir_name_len;
++
++    /* skip slash */
++    while (*entry_start == '\\') {
++        entry_start++;
++    }
++
++    if (strchr(entry_start, '\\') != NULL) {
++        return -1;
++    }
++
++    if (strlen(entry_start) == 0
++        || strlen(entry_start) + 1 > sizeof(stream->dd_dir.d_name)) {
++        return -1;
++    }
++    strcpy(stream->dd_dir.d_name, entry_start);
++
++    return 0;
++}
++
++/*
++ * opendir_win32 - open a directory
++ *
++ * This function opens a directory and caches all directory entries.
++ */
++DIR *opendir_win32(const char *full_file_name)
++{
++    HANDLE hDir = INVALID_HANDLE_VALUE;
++    HANDLE hDirEntry = INVALID_HANDLE_VALUE;
++    char *full_dir_entry = NULL;
++    DWORD attribute;
++    intptr_t dd_handle = -1;
++    struct _finddata_t dd_data;
++    uint64_t file_id;
++    uint64_t *file_id_list = NULL;
++    BY_HANDLE_FILE_INFORMATION FileInfo;
++    struct dir_win32 *stream = NULL;
++    int err = 0;
++    int find_status;
++    int sort_first_two_entry = 0;
++    uint32_t list_count = 16;
++    uint32_t index = 0;
++
++    /* open directory to prevent it being removed */
++
++    hDir = CreateFile(full_file_name, GENERIC_READ,
++                      FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
++                      NULL,
++                      OPEN_EXISTING,
++                      FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT,
++                      NULL);
++
++    if (hDir == INVALID_HANDLE_VALUE) {
++        err = win32_error_to_posix(GetLastError());
++        goto out;
++    }
++
++    attribute = GetFileAttributes(full_file_name);
++
++    /* symlink is not allow */
++    if (attribute == INVALID_FILE_ATTRIBUTES
++        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
++        err = EACCES;
++        goto out;
++    }
++
++    /* check if it is a directory */
++    if ((attribute & FILE_ATTRIBUTE_DIRECTORY) == 0) {
++        err = ENOTDIR;
++        goto out;
++    }
++
++    file_id_list = g_malloc0(sizeof(uint64_t) * list_count);
++
++    /*
++     * findfirst() needs suffix format name like "\dir1\dir2\*",
++     * allocate more buffer to store suffix.
++     */
++    stream = g_malloc0(sizeof(struct dir_win32) + strlen(full_file_name) + 3);
++
++    strcpy(stream->dd_name, full_file_name);
++    strcat(stream->dd_name, "\\*");
++
++    stream->hDir = hDir;
++    stream->dir_name_len = strlen(full_file_name);
++
++    dd_handle = _findfirst(stream->dd_name, &dd_data);
++
++    if (dd_handle == -1) {
++        err = errno;
++        goto out;
++    }
++
++    /* read all entries to link list */
++    do {
++        full_dir_entry = get_full_path_win32(hDir, dd_data.name);
++
++        if (full_dir_entry == NULL) {
++            err = ENOMEM;
++            break;
++        }
++
++        /*
++         * Open every entry and get the file informations.
++         *
++         * Skip symbolic links during reading directory.
++         */
++        hDirEntry = CreateFile(full_dir_entry,
++                               GENERIC_READ,
++                               FILE_SHARE_READ | FILE_SHARE_WRITE
++                               | FILE_SHARE_DELETE,
++                               NULL,
++                               OPEN_EXISTING,
++                               FILE_FLAG_BACKUP_SEMANTICS
++                               | FILE_FLAG_OPEN_REPARSE_POINT, NULL);
++
++        if (hDirEntry != INVALID_HANDLE_VALUE) {
++            if (GetFileInformationByHandle(hDirEntry,
++                                           &FileInfo) == TRUE) {
++                attribute = FileInfo.dwFileAttributes;
++
++                /* only save validate entries */
++                if ((attribute & FILE_ATTRIBUTE_REPARSE_POINT) == 0) {
++                    if (index >= list_count) {
++                        list_count = list_count + 16;
++                        file_id_list = g_realloc(file_id_list,
++                                                 sizeof(uint64_t)
++                                                 * list_count);
++                    }
++                    file_id = (uint64_t)FileInfo.nFileIndexLow
++                              + (((uint64_t)FileInfo.nFileIndexHigh) << 32);
++
++
++                    file_id_list[index] = file_id;
++
++                    if (strcmp(dd_data.name, ".") == 0) {
++                        stream->dot_id = file_id_list[index];
++                        if (index != 0) {
++                            sort_first_two_entry = 1;
++                        }
++                    } else if (strcmp(dd_data.name, "..") == 0) {
++                        stream->dot_dot_id = file_id_list[index];
++                        if (index != 1) {
++                            sort_first_two_entry = 1;
++                        }
++                    }
++                    index++;
++                }
++            }
++            CloseHandle(hDirEntry);
++        }
++        g_free(full_dir_entry);
++        find_status = _findnext(dd_handle, &dd_data);
++    } while (find_status == 0);
++
++    if (errno == ENOENT) {
++        /* No more matching files could be found, clean errno */
++        errno = 0;
++    } else {
++        err = errno;
++        goto out;
++    }
++
++    stream->total_entries = index;
++    stream->file_id_list = file_id_list;
++
++    if (sort_first_two_entry == 0) {
++        /*
++         * If the first two entry is "." and "..", then do not sort them.
++         *
++         * If the guest OS always considers first two entries are "." and "..",
++         * sort the two entries may cause confused display in guest OS.
++         */
++        qsort(&file_id_list[2], index - 2, sizeof(file_id), file_id_compare);
++    } else {
++        qsort(&file_id_list[0], index, sizeof(file_id), file_id_compare);
++    }
++
++out:
++    if (err != 0) {
++        errno = err;
++        if (stream != NULL) {
++            if (file_id_list != NULL) {
++                g_free(file_id_list);
++            }
++            CloseHandle(hDir);
++            g_free(stream);
++            stream = NULL;
++        }
++    }
++
++    if (dd_handle != -1) {
++        _findclose(dd_handle);
++    }
++
++    return (DIR *)stream;
++}
++
++/*
++ * closedir_win32 - close a directory
++ *
++ * This function closes directory and free all cached resources.
++ */
++int closedir_win32(DIR *pDir)
++{
++    struct dir_win32 *stream = (struct dir_win32 *)pDir;
++
++    if (stream == NULL) {
++        errno = EBADF;
++        return -1;
++    }
++
++    /* free all resources */
++    CloseHandle(stream->hDir);
++
++    g_free(stream->file_id_list);
++
++    g_free(stream);
++
++    return 0;
++}
++
++/*
++ * readdir_win32 - read a directory
++ *
++ * This function reads a directory entry from cached entry list.
++ */
++struct dirent *readdir_win32(DIR *pDir)
++{
++    struct dir_win32 *stream = (struct dir_win32 *)pDir;
++
++    if (stream == NULL) {
++        errno = EBADF;
++        return NULL;
++    }
++
++retry:
++
++    if (stream->offset >= stream->total_entries) {
++        /* reach to the end, return NULL without set errno */
++        return NULL;
++    }
++
++    if (get_next_entry(stream) != 0) {
++        stream->offset++;
++        goto retry;
++    }
++
++    /* Windows does not provide inode number */
++    stream->dd_dir.d_ino = 0;
++    stream->dd_dir.d_reclen = 0;
++    stream->dd_dir.d_namlen = strlen(stream->dd_dir.d_name);
++
++    stream->offset++;
++
++    return &stream->dd_dir;
++}
++
++/*
++ * rewinddir_win32 - reset directory stream
++ *
++ * This function resets the position of the directory stream to the
++ * beginning of the directory.
++ */
++void rewinddir_win32(DIR *pDir)
++{
++    struct dir_win32 *stream = (struct dir_win32 *)pDir;
++
++    if (stream == NULL) {
++        errno = EBADF;
++        return;
++    }
++
++    stream->offset = 0;
++
++    return;
++}
++
++/*
++ * seekdir_win32 - set the position of the next readdir() call in the directory
++ *
++ * This function sets the position of the next readdir() call in the directory
++ * from which the next readdir() call will start.
++ */
++void seekdir_win32(DIR *pDir, long pos)
++{
++    struct dir_win32 *stream = (struct dir_win32 *)pDir;
++
++    if (stream == NULL) {
++        errno = EBADF;
++        return;
++    }
++
++    if (pos < -1) {
++        errno = EINVAL;
++        return;
++    }
++
++    if (pos == -1 || pos >= (long)stream->total_entries) {
++        /* seek to the end */
++        stream->offset = stream->total_entries;
++        return;
++    }
++
++    if (pos - (long)stream->offset == 0) {
++        /* no need to seek */
++        return;
++    }
++
++    stream->offset = pos;
++
++    return;
++}
++
++/*
++ * telldir_win32 - return current location in directory
++ *
++ * This function returns current location in directory.
++ */
++long telldir_win32(DIR *pDir)
++{
++    struct dir_win32 *stream = (struct dir_win32 *)pDir;
++
++    if (stream == NULL) {
++        errno = EBADF;
++        return -1;
++    }
++
++    if (stream->offset > stream->total_entries) {
++        return -1;
++    }
++
++    return (long)stream->offset;
++}
 -- 
 2.25.1
 
