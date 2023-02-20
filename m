@@ -2,96 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A586369CE5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 14:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1579169CF14
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 15:11:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU6gG-0006Qp-Bn; Mon, 20 Feb 2023 08:58:13 -0500
+	id 1pU6sO-0002p7-PX; Mon, 20 Feb 2023 09:10:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pU6gA-0006QS-9B
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:58:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <antonio.apostoliu@cestrin.ro>)
+ id 1pU6mZ-0000tE-IQ
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 09:04:45 -0500
+Received: from mail.cestrin.ro ([213.177.15.195])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pU6g8-0007a4-HQ
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:58:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676901483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A8CRaqn1YTWPlCCHXKIMK/OG7qYRODylXafWAjbZ2PM=;
- b=GAcBfxDo3eqDJAqoVy4FTJCHcYMvaHS2z49RIedx8BGPml02JDLREh70rjUICcMhgIx9Oj
- 48ENRk/3cUyZCe6Gco69rjleH1QmXabxA/ajXfw9o9g7Keh7hPumWGbCminlhgAADfD/tR
- m74FNOlF0+rpfYJsetMV3e/6F0LbNAQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-336-wcepiMhSPBeaIFf4ma4uIw-1; Mon, 20 Feb 2023 08:58:01 -0500
-X-MC-Unique: wcepiMhSPBeaIFf4ma4uIw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g24-20020a056402321800b004ace77022ebso1928612eda.8
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 05:58:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=A8CRaqn1YTWPlCCHXKIMK/OG7qYRODylXafWAjbZ2PM=;
- b=kjA/LmzEo6OY4/QlDd56hfThO3naFa3QqEIbmbL1fFMjsSEycdXfyuXfAZGXGwAMYE
- 0mGWQSzO4YqB2dkju6ETTvpgr4G2FUyb07ypj5f2qQqIIWQk8iIEzN7oC7MFupHi1QuX
- 5O+J0h8Q4OBzZcH1JXaYiivedqSMToAxVxGFJUChFKMTwYBtmgmuEkEsz1UntqWNr2La
- GSw/X/suGFi4Mb2kgLc2SttAVm0K0ijPro6cUoH5OH9i3w5Ro+LHgZd+oBKfqp+TA8Zx
- KqXfDGAnYyJFKemW2sdU3OVZFsUHwhstkCmP70z8GeGM+i4KUxNEoh7M65VZuk3gS3W4
- r8TQ==
-X-Gm-Message-State: AO0yUKWNbi4vDoVtev8yZ43cZio0vsjntLV6cs4SLvBSg3DnzKU99raL
- 1RVePxSz7s1G/QXQZJE4pG2K/W1sBddcAd2XnDKS7wCORMWLEMOdTB7R+bbn/LDsCG0Ygzy81Us
- uZB0elPoW+mmB5cY=
-X-Received: by 2002:a17:906:34da:b0:8b1:3a91:73ec with SMTP id
- h26-20020a17090634da00b008b13a9173ecmr9396088ejb.68.1676901480505; 
- Mon, 20 Feb 2023 05:58:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set9bzzQKA0qrGBF5ubG7UG/h2UKreq5m6D+OjL8TZuHQcdmVNiQ9vfVQVCakzjN5msxsT1mBfQ==
-X-Received: by 2002:a17:906:34da:b0:8b1:3a91:73ec with SMTP id
- h26-20020a17090634da00b008b13a9173ecmr9396068ejb.68.1676901480215; 
- Mon, 20 Feb 2023 05:58:00 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:4783:a68:c1ee:15c5?
- ([2001:b07:6468:f312:4783:a68:c1ee:15c5])
- by smtp.googlemail.com with ESMTPSA id
- hz21-20020a1709072cf500b008d71e08c78dsm894996ejc.81.2023.02.20.05.57.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 05:57:59 -0800 (PST)
-Message-ID: <5790f0bb-64ef-adcf-5f7b-4c11a109fcc5@redhat.com>
-Date: Mon, 20 Feb 2023 14:57:58 +0100
+ (Exim 4.90_1) (envelope-from <antonio.apostoliu@cestrin.ro>)
+ id 1pU6mW-0000k7-2R
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 09:04:43 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mail.cestrin.ro (Postfix) with ESMTP id E55A9300291
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 14:14:13 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cestrin.ro
+Received: from mail.cestrin.ro ([127.0.0.1])
+ by localhost (mail.cestrin.ro [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HkVbBunk4MtS for <qemu-devel@nongnu.org>;
+ Mon, 20 Feb 2023 16:14:12 +0200 (EET)
+Received: from C04E02P124API (unknown [192.168.104.15])
+ by mail.cestrin.ro (Postfix) with ESMTPSA id 6800D3000D6
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 14:14:12 +0000 (UTC)
+From: "Antonio Apostoliu" <antonio.apostoliu@cestrin.ro>
+To: <qemu-devel@nongnu.org>
+Subject: Power shell with some problems.
+Date: Mon, 20 Feb 2023 16:04:31 +0200
+Message-ID: <000001d94534$41461c30$c3d25490$@cestrin.ro>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH] docs: build-platforms: refine requirements on Python
- build dependencies
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <20230217124150.205012-1-pbonzini@redhat.com>
- <Y++dVjax+6GdtEr1@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Y++dVjax+6GdtEr1@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_000_0001_01D94545.04D04BC0"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdlFM+tmIWCRBL33S8iEx0ezYvxYdw==
+Content-Language: en-us
+X-Antivirus: Avast (VPS 230220-0, 20/2/2023), Outbound message
+X-Antivirus-Status: Clean
+Received-SPF: none client-ip=213.177.15.195;
+ envelope-from=antonio.apostoliu@cestrin.ro; helo=mail.cestrin.ro
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_REMOTE_IMAGE=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 20 Feb 2023 09:10:28 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,37 +66,441 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/17/23 16:29, Daniel P. Berrangé wrote:
->> * it introduces different support periods for*native*  vs.*non-native*
->>    dependencies.  Non-native dependencies are currently Python ones only,
->>    and for simplicity the policy only mentions Python; however, the concept
->>    generalizes to other languages with a well-known upstream package
->>    manager, that users of older distributions can fetch dependencies from;
->
-> I guess this would mean its applicable to perl/ruby/etc, but really
-> we should be exclusively using Python for our scripting needs, except
-> for legacy stuff we already have. So in practice non-native == python.
+This is a multipart message in MIME format.
 
-Yeah, we used to have some Perl but it was always pretty basic in terms 
-of dependencies.
+------=_NextPart_000_0001_01D94545.04D04BC0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-> Potentially if we want to use Rust, we'd want vendoring of deps needed
-> by Rust code, and that's native deps arguably, rather than non-native.
+Hello
 
-Indeed I was thinking more of Rust/Go than Perl or Ruby.  Distros 
-generally don't try to include all possible Rust and Go dependencies or 
-to build all Rust/Go packages with a single version of a dependency. 
-LWN has had plenty of articles over the years about Debian and Fedora's 
-failed attempts to do so.
+  You are so kind to look at next listing.
 
-So I considered those to be non-native dependencies in the sense of 
-dependencies that can be fetched by a "non-native" package manager, i.e. 
-one that is not rpm- or deb-based.
+Where I wrong?
 
-I'm not sure whether we would vendor the dependencies or download them 
-at configure time, but anyway they would probably be vendored in the 
-release tarball only, similar to submodules.
+ 
 
-Paolo
+Best regards.
+
+ 
+
+PS F:\step> $PSVersionTable
+
+Name                           Value
+
+----                           -----
+
+PSVersion                      7.3.2
+
+PSEdition                      Core
+
+GitCommitId                    7.3.2
+
+OS                             Microsoft Windows 10.0.19045
+
+Platform                       Win32NT
+
+PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0.}
+
+PSRemotingProtocolVersion      2.3
+
+SerializationVersion           1.1.0.1
+
+WSManStackVersion              3.0
+
+PS F:\step>dir
+
+    Directory: F:\step
+
+Mode                 LastWriteTime         Length Name
+
+----                 -------------         ------ ----
+
+d----           2/10/2023 12:00 PM                qemu
+
+-a---           2/20/2023  3:05 PM      369754112 d.qcow2
+
+-a---           2/20/2023  2:48 PM           1263 reset_vm.ps1
+
+-a---           2/20/2023  3:23 PM            552 start.bat
+
+PS F:\step> type .\start.bat
+
+@echo off
+
+set portqmp=4444
+
+set em64w=qemu-system-x86_64w.exe
+
+set "arg_c1=-accel whpx -k us -m 952 -M q35 -smp 1 -no-reboot -no-shutdown
+-nographic"
+
+set "arg_c2=-parallel none -serial none -rtc base=localtime,clock=host"
+
+set "arg_c=%arg_c1% %arg_c2%"
+
+set "arg_m=%arg_c% -nic user"
+
+set "arg_u=-qmp tcp:localhost:%portqmp%,server,wait=off"
+
+set "arg=%arg_m% %arg_u%"
+
+for %%i in ("%~dp0.") do SET "mypath=%%~fi"
+
+set "subdirector_qemu=qemu"
+
+set "locatie_qemu=%mypath%\%subdirector_qemu%"
+
+set "qm=%locatie_qemu%\%em64w%"
+
+start "" %qm%  -hda d.qcow2 %arg%
+
+PS F:\step> type .\reset_vm.ps1
+
+$LoginParameters1 = @{
+
+    Uri             = 'http://localhost:4444'
+
+    SessionVariable = 'Session'
+
+    Method          = 'POST'
+
+    ContentType     = "application/json"
+
+    Body            = @{
+
+          "execute"= "qmp_capabilities"
+
+        }
+
+}
+
+$LoginParameters2 = @{
+
+    Method          = 'POST'
+
+    ContentType     = "application/json"
+
+    Body            = @{
+
+         "execute"= "send-key"
+
+         "arguments"= @{
+
+                      "keys"= @(
+
+                                 @{
+
+                                   "type" = "qcode"
+
+                                    "data" = "ctrl"
+
+                                  }
+
+                                @{
+
+                                   "type" = "qcode"
+
+                                   "data" = "alt"
+
+                                 },
+
+                               @{
+
+                                   "type" = "qcode"
+
+                                   "data" = "delete"
+
+                                }
+
+                             )
+
+                    }
+
+        }
+
+}
+
+$LoginResponse = Invoke-WebRequest @LoginParameters1
+
+$ProfileResponse = Invoke-WebRequest 'http://localhost:4444' -WebSession
+$Session @LoginParameters2
+
+PS F:\step> .\start.bat
+
+PS F:\step> Start-Sleep -Seconds 60
+
+PS F:\step> .\reset_vm.ps1
+
+Invoke-WebRequest: F:\step\reset_vm.ps1:40
+
+Line |
+
+  40 |  $LoginResponse = Invoke-WebRequest @LoginParameters1
+
+     |                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+     | Received an invalid status line: '{"QMP": {"version": {"qemu":
+{"micro": 0, "minor": 2, "major": 7},
+
+     | "package": "v7.2.0-11948-ge6523b71fc-dirty"}, "capabilities":
+["oob"]}}'.
+
+Invoke-WebRequest: F:\step\reset_vm.ps1:41
+
+Line |
+
+  41 |  . eResponse = Invoke-WebRequest 'http://localhost:4444' -WebSession
+$Se .
+
+     |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+     | Received an invalid status line: '{"QMP": {"version": {"qemu":
+{"micro": 0, "minor": 2, "major": 7},
+
+     | "package": "v7.2.0-11948-ge6523b71fc-dirty"}, "capabilities":
+["oob"]}}'.
+
+PS F:\step>
+
+
+
+-- 
+This email has been checked for viruses by Avast antivirus software.
+www.avast.com
+------=_NextPart_000_0001_01D94545.04D04BC0
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40"><head><meta http-equiv=3DContent-Type content=
+=3D"text/html; charset=3Dus-ascii"><meta name=3DGenerator content=3D"Micros=
+oft Word 15 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+=2EMsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-GB link=3D"#0563C1=
+" vlink=3D"#954F72"><div class=3DWordSection1><p class=3DMsoNormal>Hello<o:=
+p></o:p></p><p class=3DMsoNormal>&nbsp; You are so kind to look at next lis=
+ting.<o:p></o:p></p><p class=3DMsoNormal> Where I wrong?<o:p></o:p></p><p c=
+lass=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>Best regards.<o:=
+p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>=
+PS F:\step&gt; $PSVersionTable<o:p></o:p></p><p class=3DMsoNormal>Name&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+; Value<o:p></o:p></p><p class=3DMsoNormal>----&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -----<o:p></o:p></p><=
+p class=3DMsoNormal>PSVersion&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; 7.3.2<o:p></o:p></p><p class=3DMsoNormal>PSEdition&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Core<o:p></o:p></p><p class=3DMsoNormal>Gi=
+tCommitId&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7.3.2<o:p></o:p></p><p cla=
+ss=3DMsoNormal>OS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Microsoft Windows 10.0.19045<o:p></o:p>=
+</p><p class=3DMsoNormal>Platform&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; Win32NT<o:p></o:p></p><p class=3DMsoNormal>PSCompatibleVers=
+ions&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {1.0, 2.0,=
+ 3.0, 4.0&#8230;}<o:p></o:p></p><p class=3DMsoNormal>PSRemotingProtocolVers=
+ion&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.3<o:p></o:p></p><p class=3DMsoNormal>Se=
+rializationVersion&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; 1.1.0.1<o:p></o:p></p><p class=3DMsoNormal>WSManStackVersion&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.0<o:p=
+></o:p></p><p class=3DMsoNormal>PS F:\step&gt;dir<o:p></o:p></p><p class=3D=
+MsoNormal>&nbsp;&nbsp;&nbsp; Directory: F:\step<o:p></o:p></p><p class=3DMs=
+oNormal>Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LastWriteTime&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; Length Name<o:p></o:p></p><p class=3DMsoNormal>----&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; -------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; ------ ----<o:p></o:p></p><p class=3DMsoNormal>d----&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2/10/2023 12:00 PM&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p; qemu<o:p></o:p></p><p class=3DMsoNormal>-a---&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2/20/2023&nbsp; 3:05 PM&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; 369754112 d.qcow2<o:p></o:p></p><p class=3DMsoNormal>-a---&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2/20/2023&nbsp; 2:=
+48 PM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1263 rese=
+t_vm.ps1<o:p></o:p></p><p class=3DMsoNormal>-a---&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2/20/2023&nbsp; 3:23 PM&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 552 start.bat<o:p></o:p><=
+/p><p class=3DMsoNormal>PS F:\step&gt; type .\start.bat<o:p></o:p></p><p cl=
+ass=3DMsoNormal>@echo off<o:p></o:p></p><p class=3DMsoNormal>set portqmp=3D=
+4444<o:p></o:p></p><p class=3DMsoNormal>set em64w=3Dqemu-system-x86_64w.exe=
+<o:p></o:p></p><p class=3DMsoNormal>set &quot;arg_c1=3D-accel whpx -k us -m=
+ 952 -M q35 -smp 1 -no-reboot -no-shutdown -nographic&quot;<o:p></o:p></p><=
+p class=3DMsoNormal>set &quot;arg_c2=3D-parallel none -serial none -rtc bas=
+e=3Dlocaltime,clock=3Dhost&quot;<o:p></o:p></p><p class=3DMsoNormal>set &qu=
+ot;arg_c=3D%arg_c1% %arg_c2%&quot;<o:p></o:p></p><p class=3DMsoNormal>set &=
+quot;arg_m=3D%arg_c% -nic user&quot;<o:p></o:p></p><p class=3DMsoNormal>set=
+ &quot;arg_u=3D-qmp tcp:localhost:%portqmp%,server,wait=3Doff&quot;<o:p></o=
+:p></p><p class=3DMsoNormal>set &quot;arg=3D%arg_m% %arg_u%&quot;<o:p></o:p=
+></p><p class=3DMsoNormal>for %%i in (&quot;%~dp0.&quot;) do SET &quot;mypa=
+th=3D%%~fi&quot;<o:p></o:p></p><p class=3DMsoNormal>set &quot;subdirector_q=
+emu=3Dqemu&quot;<o:p></o:p></p><p class=3DMsoNormal>set &quot;locatie_qemu=
+=3D%mypath%\%subdirector_qemu%&quot;<o:p></o:p></p><p class=3DMsoNormal>set=
+ &quot;qm=3D%locatie_qemu%\%em64w%&quot;<o:p></o:p></p><p class=3DMsoNormal=
+>start &quot;&quot; %qm%&nbsp; -hda d.qcow2 %arg%<o:p></o:p></p><p class=3D=
+MsoNormal>PS F:\step&gt; type .\reset_vm.ps1<o:p></o:p></p><p class=3DMsoNo=
+rmal>$LoginParameters1 =3D @{<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbs=
+p;&nbsp; Uri&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; =3D 'http://localhost:4444'<o:p></o:p></p><p class=3DMsoNormal>&n=
+bsp;&nbsp;&nbsp; SessionVariable =3D 'Session'<o:p></o:p></p><p class=3DMso=
+Normal>&nbsp;&nbsp;&nbsp; Method&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; =3D 'POST'<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp=
+; ContentType&nbsp;&nbsp;&nbsp;&nbsp; =3D &quot;application/json&quot;<o:p>=
+</o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp; Body&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =3D @{<o:p></o:p></p><p class=
+=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;e=
+xecute&quot;=3D &quot;qmp_capabilities&quot;<o:p></o:p></p><p class=3DMsoNo=
+rmal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></p><p class=3D=
+MsoNormal>}<o:p></o:p></p><p class=3DMsoNormal>$LoginParameters2 =3D @{<o:p=
+></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp; Method&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =3D 'POST'<o:p></o:p></p><p class=3DMs=
+oNormal>&nbsp;&nbsp;&nbsp; ContentType&nbsp;&nbsp;&nbsp;&nbsp; =3D &quot;ap=
+plication/json&quot;<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp; =
+Body&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =3D =
+@{<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp; &quot;execute&quot;=3D &quot;send-key&quot;<o:p></o:p></p><p cl=
+ass=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;argu=
+ments&quot;=3D @{<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;keys&quot;=3D @(<o:p></o:p></p><p class=
+=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@{<o:p></o:p></p><p=
+ class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &=
+quot;type&quot; =3D &quot;qcode&quot;<o:p></o:p></p><p class=3DMsoNormal>&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;data&quot;=
+ =3D &quot;ctrl&quot;<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @{<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;type&quot; =3D &quot;=
+qcode&quot;<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;data&quot; =3D &quot;alt&quot;<o:p></o:p><=
+/p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<o:p><=
+/o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @{<o:p></o:p><=
+/p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; &quot;type&quot; =3D &quot;qcode&quot;<o:p></o:p></p><p class=3DMsoNorm=
+al>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;data&quot; =
+=3D &quot;delete&quot;<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; }<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ )<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p; }<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; }<o:p></o:p></p><p class=3DMsoNormal>}<o:p></o:p></p><p class=3DMso=
+Normal>$LoginResponse =3D Invoke-WebRequest @LoginParameters1<o:p></o:p></p=
+><p class=3DMsoNormal>$ProfileResponse =3D Invoke-WebRequest 'http://localh=
+ost:4444' -WebSession $Session @LoginParameters2<o:p></o:p></p><p class=3DM=
+soNormal>PS F:\step&gt; .\start.bat<o:p></o:p></p><p class=3DMsoNormal>PS F=
+:\step&gt; Start-Sleep -Seconds 60<o:p></o:p></p><p class=3DMsoNormal>PS F:=
+\step&gt; .\reset_vm.ps1<o:p></o:p></p><p class=3DMsoNormal>Invoke-WebReque=
+st: F:\step\reset_vm.ps1:40<o:p></o:p></p><p class=3DMsoNormal>Line |<o:p><=
+/o:p></p><p class=3DMsoNormal>&nbsp; 40 |&nbsp; $LoginResponse =3D Invoke-W=
+ebRequest @LoginParameters1<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;=
+&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp; | Rece=
+ived an invalid status line: '{&quot;QMP&quot;: {&quot;version&quot;: {&quo=
+t;qemu&quot;: {&quot;micro&quot;: 0, &quot;minor&quot;: 2, &quot;major&quot=
+;: 7},<o:p></o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp; | &quot;=
+package&quot;: &quot;v7.2.0-11948-ge6523b71fc-dirty&quot;}, &quot;capabilit=
+ies&quot;: [&quot;oob&quot;]}}'.<o:p></o:p></p><p class=3DMsoNormal>Invoke-=
+WebRequest: F:\step\reset_vm.ps1:41<o:p></o:p></p><p class=3DMsoNormal>Line=
+ |<o:p></o:p></p><p class=3DMsoNormal>&nbsp; 41 |&nbsp; &#8230; eResponse =
+=3D Invoke-WebRequest 'http://localhost:4444' -WebSession $Se &#8230;<o:p><=
+/o:p></p><p class=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<o:p></o:p></p><p cla=
+ss=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp; | Received an invalid status line: =
+'{&quot;QMP&quot;: {&quot;version&quot;: {&quot;qemu&quot;: {&quot;micro&qu=
+ot;: 0, &quot;minor&quot;: 2, &quot;major&quot;: 7},<o:p></o:p></p><p class=
+=3DMsoNormal>&nbsp;&nbsp;&nbsp;&nbsp; | &quot;package&quot;: &quot;v7.2.0-1=
+1948-ge6523b71fc-dirty&quot;}, &quot;capabilities&quot;: [&quot;oob&quot;]}=
+}'.<o:p></o:p></p><p class=3DMsoNormal>PS F:\step&gt;<o:p></o:p></p></div><=
+div id=3D"DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2"><br /><table style=3D"borde=
+r-top: 1px solid #D3D4DE;"><tr><td style=3D"width: 55px; padding-top: 13px;=
+"><a href=3D"https://www.avast.com/sig-email?utm_medium=3Demail&utm_source=
+=3Dlink&utm_campaign=3Dsig-email&utm_content=3Demailclient" target=3D"_blan=
+k"><img src=3D"https://s-install.avcdn.net/ipm/preview/icons/icon-envelope-=
+tick-round-orange-animated-no-repeat-v1.gif" alt=3D"" width=3D"46" height=
+=3D"29" style=3D"width: 46px; height: 29px;"/></a></td><td style=3D"width: =
+470px; padding-top: 12px; color: #41424e; font-size: 13px; font-family: Ari=
+al, Helvetica, sans-serif; line-height: 18px;">Virus-free.<a href=3D"https:=
+//www.avast.com/sig-email?utm_medium=3Demail&utm_source=3Dlink&utm_campaign=
+=3Dsig-email&utm_content=3Demailclient" target=3D"_blank" style=3D"color: #=
+4453ea;">www.avast.com</a></td></tr></table><a href=3D"#DAB4FAD8-2DD7-40BB-=
+A1B8-4E2AA1F9FDF2" width=3D"1" height=3D"1"> </a></div></body></html>
+------=_NextPart_000_0001_01D94545.04D04BC0--
 
 
