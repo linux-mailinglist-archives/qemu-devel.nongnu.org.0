@@ -2,82 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F7C69C7B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C2269C7A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 10:25:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU2Jt-00046m-AB; Mon, 20 Feb 2023 04:18:49 -0500
+	id 1pU2JK-0002Eo-Qa; Mon, 20 Feb 2023 04:18:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2HF-0007hB-2H
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:16:05 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU2HC-0004NF-Ia
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:16:04 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- k14-20020a05600c1c8e00b003e22107b7ccso511826wms.0
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:16:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jeXuk3DN5Mx4yuY9/PXaV3cLllgNC2UqEL9auJG1ah4=;
- b=X9HI8cuKVoc6cu7Gy/gd0haTMRShy2N0X6gMidIQHR+XvCNefLGAOjD2DoeYj6tURQ
- SuH5B2BqI9h3Yncex8mygXrjRLxzVGKJK1uaxwS3C+/EOAQZntxDApkjaBy2+kFm3zuY
- 6tgr8/NeeTG8RfYV4LD+hUK/EvRctLyFUj6w2dICzyrce0LbbrF/IJ57iHPdjR+4b+gk
- SGFuFwSj6x5YmUW3yKsojCUJt3F4bwIxuvY2Sg1O7AYGqSgFEBN3oqCrM+8FCrar7Z1Z
- vJGM2kOTRw1Xmkun6xa+K3Hxdo7VqSAZJicduCAxIq9p6H8+B+jkuiuBijw50TEAIZBq
- lvjg==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pU2Gv-0007EG-C9
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:15:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pU2Gs-0004I6-NJ
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:15:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676884541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lSdD1Zk9qDQXe02xtdMd0IbCJTGRDYlrK9A/K8vlWho=;
+ b=MiY6p/B9QmA+MP4WK9+ZesQZ9qqeErSm+q4AC731Qvya32YeYSungoI9P/FnxAWL2kbsWM
+ ebPC0CTxGkf9NO3DrsGZsbe3Y/jlzf5HEpmQsnsLsbhcRxntG3glcO+paks62ZJz1gmVyO
+ bb6nTvsMy5eZ44dr/9PICkI5T9eM2ss=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-19-bFa76ss8M2G5bOsu1izKow-1; Mon, 20 Feb 2023 04:15:39 -0500
+X-MC-Unique: bFa76ss8M2G5bOsu1izKow-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ t1-20020a7bc3c1000000b003dfe223de49so377439wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 01:15:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jeXuk3DN5Mx4yuY9/PXaV3cLllgNC2UqEL9auJG1ah4=;
- b=bQvUQPikuSoy+vh+r3tbYEP6sBKYhu6PDNcKm5hId6RdWi5op0aUiCbsSisIMYuSn9
- kjDDymrOO7SX3NzXeWIdEuex8oPPtAXJ/b65V/8vg2deHES6UPmZjZCjQs6zmlSh31bV
- gAju1AdbYsOZzVv9ASG/Kyf7xNa+3F1cSyXaBjSP/tJXKZwM8SS3a/Ec7zgnwfUoc+F5
- bMb1EI7c2xXlekL+dSLv38RKXVfRT7v12SSMX5PYq+UQfw50xWTyKbHhgC7IW/UOL4Vp
- WJX0C63UVfd9A1g1fHE6L5NRKJM6ebmAzOiW0kUhOkmglCOzJhW+5RRYR58bpfKa5JH4
- Q/iQ==
-X-Gm-Message-State: AO0yUKX4E/fjCWeqqgYVsHx6tyZXEflUinwdAbWv28OzeVB2L/XTe0Za
- xiuAwn2BNUIqN2uV7uWDbH4Wy4Gp2x80eU3T
-X-Google-Smtp-Source: AK7set+EGk4RIxEK3u8rvk4rYNXk/VvC9GfsIIBZ07UHPXuFDZWcrs2zIi6feXHhDMfzIvBHlcM67Q==
-X-Received: by 2002:a05:600c:984:b0:3e1:fff7:e970 with SMTP id
- w4-20020a05600c098400b003e1fff7e970mr82721wmp.30.1676884560915; 
- Mon, 20 Feb 2023 01:16:00 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lSdD1Zk9qDQXe02xtdMd0IbCJTGRDYlrK9A/K8vlWho=;
+ b=q6isS/OfXKtZTkG1YAob63119PUqY5oMxOhCfNZC3tqA8Yx/0UekgfLEXSX2OmoZ5S
+ Gp2m1gpmJSqH37JdY8NfHZPI/T36m+rTIdrVL8XpDpK/FdsXKzP/kiek0jul9vm/pQhw
+ gppfA4LeGmXsId0IzHdYRGBbG2sVUXRTeYWWLJFbM/ErAM/ZyEr1bBOtl5Vjq2bLCWHX
+ QtT3F4jvKS0A9s/sROLJB2z4YXalHzGB02OO1ERYnD8K0PrRBuXjO18SNiXWYG6TJeCh
+ COMuw6/0L5TeM6myPipGclvZSMYNDVOihOio5KvRxXUExpvau1zsLVlF8VtRh3UlQXjP
+ nHdQ==
+X-Gm-Message-State: AO0yUKWd7fjveUYm4BMEi4r4ZEsMdYlFePUUy8werRSbYXZcaT0xI+Zl
+ qtjQZkP/DGAj5fbWkuxFMSzIN7qbDujtnryaWNhVfEG7nyGj4vxrMb6pBI6Rt07VyYgpjSHDVoh
+ TChoP93cAUDAvhh4=
+X-Received: by 2002:a05:600c:4d89:b0:3e0:1a9:b1e0 with SMTP id
+ v9-20020a05600c4d8900b003e001a9b1e0mr342308wmp.25.1676884538628; 
+ Mon, 20 Feb 2023 01:15:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/ECv61uI0/dBX9R38JtuRAVJCV4u9s8Eoz48JFATTveIQcy876MwX7JhNLrUTz9pC3ya4aHA==
+X-Received: by 2002:a05:600c:4d89:b0:3e0:1a9:b1e0 with SMTP id
+ v9-20020a05600c4d8900b003e001a9b1e0mr342288wmp.25.1676884538286; 
+ Mon, 20 Feb 2023 01:15:38 -0800 (PST)
+Received: from ?IPV6:2003:cb:c705:8300:e519:4218:a8b5:5bec?
+ (p200300cbc7058300e5194218a8b55bec.dip0.t-ipconnect.de.
+ [2003:cb:c705:8300:e519:4218:a8b5:5bec])
  by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c500900b003daffc2ecdesm9573572wmr.13.2023.02.20.01.15.59
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Feb 2023 01:16:00 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
- qemu-arm@nongnu.org, Fiona Ebner <f.ebner@proxmox.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 24/24] hw/ide/ahci: trace ncq write command as write
- instead of read
-Date: Mon, 20 Feb 2023 10:13:58 +0100
-Message-Id: <20230220091358.17038-25-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230220091358.17038-1-philmd@linaro.org>
-References: <20230220091358.17038-1-philmd@linaro.org>
+ z8-20020a1c4c08000000b003e1f319b87bsm13477799wmf.24.2023.02.20.01.15.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 01:15:37 -0800 (PST)
+Message-ID: <bbbd3382-f33c-1e8a-789b-dec1c4766730@redhat.com>
+Date: Mon, 20 Feb 2023 10:15:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Content-Language: en-US
+To: Yangming <yangming73@huawei.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "wangzhigang (O)" <wangzhigang17@huawei.com>,
+ "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
+References: <8c6d264163574d8b886afdd3e4b77a2d@huawei.com>
+ <0a0e1f05073d44a38a35e270ca735819@huawei.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: Optimization for the virtio-balloon feature on the ARM platform
+In-Reply-To: <0a0e1f05073d44a38a35e270ca735819@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,48 +106,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fiona Ebner <f.ebner@proxmox.com>
+On 20.02.23 02:33, Yangming via wrote:
+> Dear QEMU maintainers,
+> 
+> I am writing to discuss a possible optimization for the virtio-balloon 
+> feature on the ARM platform. The ‘virtio_balloon_set_config’ function is 
+> called frequently during the balloon inflation process, and its 
+> subfunction ‘get_current_ram_size’ needs to traverse the virtual 
+> machine's memory modules in order to count the current virtual machine's 
+> memory (i.e initial ram size + hotplugged memory). This can be very time 
+> consuming on the ARM platform, as the ARM virtual machine has much more 
+> complex memory modules than the x86 virtual machine.
+> 
+> Therefore, I suggest introducing a global variable, ‘total_ram_size’, 
+> that would be updated only when the balloon is initialized and hotplug 
+> memory has completed. This would increase the efficiency of balloon 
+> inflation by more than 60% on the ARM platform.
+> 
+> The following code is part of the optimization for balloon:
+> 
+> --- a/qemu/hw/virtio/virtio-balloon.c
+> 
+> +++ b/qemu/hw/virtio/virtio-balloon.c
+> 
+> static void virtio_balloon_set_config(…)
+> 
+> …
+> 
+> -    ram_addr_t vm_ram_size = get_current_ram_size();
+> 
+> +   ram_addr_t vm_ram_size = total_ram_size;
+> 
+> …
+> 
+> I hope this suggestion could be considered or discussed by QEMU 
+> developers. I would love to seeing this improvement added to QEMU in the 
+> future.
 
-Fixes: e4baa9f00b ("AHCI: Replace DPRINTF with trace-events")
-Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230217103130.42077-1-f.ebner@proxmox.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/ide/ahci.c       | 4 ++--
- hw/ide/trace-events | 1 +
- 2 files changed, 3 insertions(+), 2 deletions(-)
+I'd suggest keeping track of the plugged DIMM size inside 
+ms->device_memory->dimm_size. We can update it from 
+pc_dimm_plug/pc_dimm_unplug. We just have to make sure to exclude NVDIMMs.
 
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index d79b70d8c5..55902e1df7 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -1086,8 +1086,8 @@ static void execute_ncq_command(NCQTransferState *ncq_tfs)
-                                       ncq_cb, ncq_tfs);
-         break;
-     case WRITE_FPDMA_QUEUED:
--        trace_execute_ncq_command_read(ad->hba, port, ncq_tfs->tag,
--                                       ncq_tfs->sector_count, ncq_tfs->lba);
-+        trace_execute_ncq_command_write(ad->hba, port, ncq_tfs->tag,
-+                                        ncq_tfs->sector_count, ncq_tfs->lba);
-         dma_acct_start(ide_state->blk, &ncq_tfs->acct,
-                        &ncq_tfs->sglist, BLOCK_ACCT_WRITE);
-         ncq_tfs->aiocb = dma_blk_write(ide_state->blk, &ncq_tfs->sglist,
-diff --git a/hw/ide/trace-events b/hw/ide/trace-events
-index a394c05710..57042cafdd 100644
---- a/hw/ide/trace-events
-+++ b/hw/ide/trace-events
-@@ -91,6 +91,7 @@ ahci_populate_sglist_short_map(void *s, int port) "ahci(%p)[%d]: mapped less tha
- ahci_populate_sglist_bad_offset(void *s, int port, int off_idx, int64_t off_pos) "ahci(%p)[%d]: Incorrect offset! off_idx: %d, off_pos: %"PRId64
- ncq_finish(void *s, int port, uint8_t tag) "ahci(%p)[%d][tag:%d]: NCQ transfer finished"
- execute_ncq_command_read(void *s, int port, uint8_t tag, int count, int64_t lba) "ahci(%p)[%d][tag:%d]: NCQ reading %d sectors from LBA %"PRId64
-+execute_ncq_command_write(void *s, int port, uint8_t tag, int count, int64_t lba) "ahci(%p)[%d][tag:%d]: NCQ writing %d sectors to LBA %"PRId64
- execute_ncq_command_unsup(void *s, int port, uint8_t tag, uint8_t cmd) "ahci(%p)[%d][tag:%d]: error: unsupported NCQ command (0x%02x) received"
- process_ncq_command_mismatch(void *s, int port, uint8_t tag, uint8_t slot) "ahci(%p)[%d][tag:%d]: Warning: NCQ slot (%d) did not match the given tag"
- process_ncq_command_aux(void *s, int port, uint8_t tag) "ahci(%p)[%d][tag:%d]: Warn: Attempt to use NCQ auxiliary fields"
+We can then optimize get_current_ram_size() to return "ms->ram_size + 
+ms->device_memory->dimm_size", of course taking care of 
+ms->device_memory == NULL on some machines.
+
 -- 
-2.38.1
+Thanks,
+
+David / dhildenb
 
 
