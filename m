@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B5A69D260
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 18:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052FB69D265
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 18:54:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUAIy-0006Fc-Un; Mon, 20 Feb 2023 12:50:25 -0500
+	id 1pUAMJ-00085j-4G; Mon, 20 Feb 2023 12:53:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUAIv-00064g-1I
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 12:50:21 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUAIt-0002uU-8v
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 12:50:20 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id u10so2103154pjc.5
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 09:50:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=edILQjqYpiHJMxSihmyLntk3qhe7l4e4yCtz/mDPFz4=;
- b=Ell3HVCDc+IPwa9J2BUosi/XfeiE+7A3vuAjYoYVivYWN9bUUsMmSGXo4kpemfu3ah
- oyIXAQgX4HpStTGnczjxhi+6EPaQK4NA8Pa7YJEA2rffjZQq28cdbfYASs+jRr5KkbP8
- KTJV5l4uTXNtAdN9niNy1g9zb81hlT8MMGmrSYgpy7bVYLJBo7IZmH3m8pdWC80dsnLY
- 3Rt+usWRzRGEMZUi+lkC1YB+1JwMEuANausP4DVwi2avZ8C54iLDfRdhO00tX6VLgwG7
- Tf3F6ZNdiB8qxUNGm0kFQ06c7ept5a9Vy9tx6poYjVpSpyZERJvlbIRXH3Sk9BWDyY1n
- tacw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUAMG-00085Q-PM
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 12:53:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUAMF-0003Wr-6G
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 12:53:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676915626;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PHB36tWSKYwcUwW3/c/w5FVuq+x9lYmiQv1LAXG6FEw=;
+ b=RMyfvXtB+dLZVPHihTw7z1WW91J5A7UIOlbI+b6URcBJ01W5z8GSg2FZeYrsXLDhNx84HE
+ F2PI2lP2ZyJWRfDxAjYLmjtWuGGgG4gcvXfPLzWu1YwdMWNBk3HdlQzE3W1Se9gWazvwgz
+ C98bYII8Jp8OwbklOeKRTx/i/fINaYk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-230-90RFYrqBMtu_84d7py9KAg-1; Mon, 20 Feb 2023 12:53:44 -0500
+X-MC-Unique: 90RFYrqBMtu_84d7py9KAg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k20-20020a05600c1c9400b003e2249bd2b4so927951wms.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 09:53:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=edILQjqYpiHJMxSihmyLntk3qhe7l4e4yCtz/mDPFz4=;
- b=iyH0MHeu5aUHwA3otoBBoTxtxh5loCV96lYTaPeZP9/JseecGmKy6EBF0rjn4al8cj
- RGF01TuWSjxwsqHE2Knk22HBtXlsJh57u3d4OPp4Lf5yYnqp/ZIwjr8RrdfaoH1jeMUs
- DHhNARIJKtSj+pBFyz2NFhALD321xGKvdDKjeWj7uqtqRMfnCktND/3+1uyW/Y3fOfqP
- KpkV4j1bHuGKsmCVF/XoE6ICQEsltVwbYo7X+rbkCgQArNWDUQPMMfMCIhUGhSk+O7Xz
- JEYL8N1VE/4IyphB/jES/kDpjuZ9ow+hDWUcjVhXfpNrpBxxO4fkdL5HCXZNTP12v75c
- cbIQ==
-X-Gm-Message-State: AO0yUKXXEZC2DXVVrzIMQmaZvA/TfiIhhOAFrV4l2P4dwhtmB0EiSa4u
- /TX1Jcnfkc9gxdeT3TLsEs8ljQ==
-X-Google-Smtp-Source: AK7set+96T0SzUYYiaA0Thx2QTS+Obbt6FayJ2G2ddTTzZoDKZBho0hYfQt6nH0ugIkoaDhMIKcwPg==
-X-Received: by 2002:a17:903:192:b0:19a:924f:e509 with SMTP id
- z18-20020a170903019200b0019a924fe509mr4810723plg.57.1676915417348; 
- Mon, 20 Feb 2023 09:50:17 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- t9-20020a170902a5c900b00196896d6d04sm1937271plq.258.2023.02.20.09.50.14
+ bh=PHB36tWSKYwcUwW3/c/w5FVuq+x9lYmiQv1LAXG6FEw=;
+ b=FHDW3NZs4SboG7SLJNBXqDcqI6IflAz00UKV//DLGqWstpNQEBRVioXKzVTd/uWBmk
+ t8q5VS14xfTzh3m38NSwheKP2pnFKCLbHM1tXt+GHjbFbnBF2smiXfMvQmh9sDpQwGPr
+ mY/WCL63hO4avAI7UTZD33G1GfqS1WAATTWPnxwcemDBiq3y0yInsZyC7BAPzon9SJlc
+ oh8ldMS2ZOWmvOQl2Vn0/BZXmoLVVpplljEm1NZWBum1E+5o+y0XJEX+yIHBNntl72+r
+ x+qJ5886ABTe7wSzAYZJeoO09/i21uv7wj1nSR3ctihpWBiabaovVE32tbnHHF6LJp/i
+ E6Qw==
+X-Gm-Message-State: AO0yUKU79Yptpg4RYm5+9rfJ7cUBIPRXARngo38+F84ovBuygPGmWzJU
+ wFsetmUifErFXBgfzk5aS+6Bfo7E4ml8rqcJFtVMfLiSv4HJA5zWAcCLxz6jZaZ41dMvXJJ4wSq
+ bVFdNGkOowOH/aPg=
+X-Received: by 2002:a05:600c:a694:b0:3df:fa56:7a33 with SMTP id
+ ip20-20020a05600ca69400b003dffa567a33mr1598560wmb.26.1676915623048; 
+ Mon, 20 Feb 2023 09:53:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set/qm1tevMnEln0R+/S5q8svuker8hf8keNXyEoG/chtLFtVfpwwqWIPXKdokzcpai5J+a5AEg==
+X-Received: by 2002:a05:600c:a694:b0:3df:fa56:7a33 with SMTP id
+ ip20-20020a05600ca69400b003dffa567a33mr1598553wmb.26.1676915622797; 
+ Mon, 20 Feb 2023 09:53:42 -0800 (PST)
+Received: from [192.168.8.104] (tmo-100-40.customers.d1-online.com.
+ [80.187.100.40]) by smtp.gmail.com with ESMTPSA id
+ u10-20020a5d514a000000b002c55ed9e314sm654313wrt.64.2023.02.20.09.53.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 09:50:16 -0800 (PST)
-Message-ID: <b7a7811c-f7d1-d673-db74-4bef97b66f11@linaro.org>
-Date: Mon, 20 Feb 2023 07:50:12 -1000
+ Mon, 20 Feb 2023 09:53:42 -0800 (PST)
+Message-ID: <86be809f-277e-06bb-d969-633106a61467@redhat.com>
+Date: Mon, 20 Feb 2023 18:53:40 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 2/4] sysemu/os-win32: fix setjmp/longjmp on
- windows-arm64
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 0/7] target/s390x: mem_helper.c cleanups
 Content-Language: en-US
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- alex.bennee@linaro.org, peter.maydell@linaro.org
-References: <20230216134911.6803-1-pierrick.bouvier@linaro.org>
- <20230216134911.6803-3-pierrick.bouvier@linaro.org>
- <9effb233-1dd7-0860-96e2-4f07a41adb5a@linaro.org>
- <0b796528-9646-d4bb-2b61-3ba3a672eab8@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <0b796528-9646-d4bb-2b61-3ba3a672eab8@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: david@redhat.com
+References: <20230109201856.3916639-1-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230109201856.3916639-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,17 +99,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/19/23 23:53, Pierrick Bouvier wrote:
-> Thanks for the idea.
-> For the sake of completeness, using RtlInstallFunctionTableCallback could be a better 
-> strategy, as it allows to have a callback called only during stack unwinding [1].
+On 09/01/2023 21.18, Richard Henderson wrote:
+> I discovered this old branch sitting around from August.
+> I don't think I ever sent it out.
+> 
+> r~
+> 
+> Richard Henderson (7):
+>    target/s390x: Fix s390_probe_access for user-only
+>    target/s390x: Pass S390Access pointer into access_prepare
+>    target/s390x: Use void* for haddr in S390Access
+>    target/s390x: Tidy access_prepare_nf
+>    target/s390x: Remove TLB_NOTDIRTY workarounds
+>    target/s390x: Inline do_access_{get,set}_byte
+>    target/s390x: Hoist some computation in access_memmove
 
-Interesting idea.
+Thanks, applied to my staging branch now:
 
-I suspect that is of more use when the JIT is more complicated than ours.  In particular, 
-notice the OutOfProcessCallbackDll member (for use by the debugger). Whereas our unwind 
-info is static, and can exist in read-only memory.
+  https://gitlab.com/thuth/qemu/-/commits/staging
 
+  Thomas
 
-r~
 
