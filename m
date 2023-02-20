@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F2A69D666
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 23:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4932C69D5FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 22:52:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUEok-0004MW-GO; Mon, 20 Feb 2023 17:39:30 -0500
+	id 1pUE26-0003Ns-9V; Mon, 20 Feb 2023 16:49:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hlewin@gmx.de>) id 1pUE18-00036u-La
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:48:14 -0500
-Received: from mout.gmx.net ([212.227.15.15])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pUE22-0003NG-Dx
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:49:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hlewin@gmx.de>) id 1pUE16-0007rk-KM
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:48:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1676929685; i=hlewin@gmx.de;
- bh=ZGETkrpIQWdb9r7V9gPUESxDjjQZZZFFhPMzkDWgfhY=;
- h=X-UI-Sender-Class:Date:To:Cc:References:From:Subject:In-Reply-To;
- b=nA/6E8R0PvYvZ+LOc9ogn3oZCsr19v0fYSheL+o/raiOeNRcjDEToQwE5mn2Nw9tC
- /YiRW6WIhSUPbmHX+7XFAfuxhcjXni9SdLObFGJwMyCxkR804y9eed3/ZpM6dGVkzI
- V8ZzCmX82ZeixeRwyBq13iFIYjQ6rAsbANRNDRBuY1O9IDmkIWlUxosmCweV/muAL+
- YcusnpZrFO6oVX/ilYHsNIQWMfRI/Qsn8/Y0ljWVu/Dj7aMogxPb9Psr5P8b3xKvue
- giIxTgH0n3ABENgz6LaDf31iMhyJ5CKFE9r6DQ9DSqgw4Lv+Muu5Lw5cEEYeMkTygr
- rTW2eE7xZ9LRA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.192.118] ([84.186.50.236]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mlw7V-1olDxt3wmp-00izJM; Mon, 20
- Feb 2023 22:35:27 +0100
-Message-ID: <75f78e3d-6016-3d6b-8861-c41f514a860b@gmx.de>
-Date: Mon, 20 Feb 2023 22:35:23 +0100
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pUE20-0007v9-De
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:49:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676929746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8XBtvi3wPEbn04OfSm75RT2PhGLFcN17qJlhJD1pomg=;
+ b=XTvFSSi7vtP4yDmuJV+aNGyOz0HJkYQKkweBrkjFGiNhARMX3AMy7besPOvN35HKJtxN0U
+ yhtumkO5AsCKawlQFvW0AOp4TuRpLymwAMKogrgCqIsVQ/iynV8OtSWwKO2qjT3ZDRes1O
+ f4JTJ/6lqCkkBYKy2cne3eaGDimxEm0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-625-erBcdkLyPaignqBUXDOQ2Q-1; Mon, 20 Feb 2023 16:49:04 -0500
+X-MC-Unique: erBcdkLyPaignqBUXDOQ2Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B02B42A5956F;
+ Mon, 20 Feb 2023 21:49:03 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C87040B40D7;
+ Mon, 20 Feb 2023 21:49:02 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Joel Stanley <joel@jms.id.au>, Jason Wang <jasowang@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v2 00/15] win32: do not mix SOCKET and fd space
+Date: Tue, 21 Feb 2023 01:48:44 +0400
+Message-Id: <20230220214859.3792171-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: pixman@lists.freedesktop.org, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <4b519268-f8e8-6542-9d1b-34054879eec0@eik.bme.hu>
- <a7866129-9f7a-02d6-1e58-bf05e1bf89e4@eik.bme.hu>
- <410c3da9-9be5-a715-7b7a-48bd67355c9c@linaro.org>
- <e615e033-a3f6-083f-5f0f-eb506c3c5b4c@eik.bme.hu>
- <6af8172c-da06-848c-a9df-ebf65b41ccb6@eik.bme.hu>
-From: Heiko Lewin <hlewin@gmx.de>
-Subject: Re: [Pixman] pixman_blt on aarch64
-In-Reply-To: <6af8172c-da06-848c-a9df-ebf65b41ccb6@eik.bme.hu>
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:+6aJ02oLWIAyl5oXVqyyxyr5XAqiXTl0x7iCafVT6jOtdRtRnzA
- B+cg6F7m81d91ARFmqkOzljIJPWWH2TlfTIiL38P2ZBN6GjiKtVxarKHOut4txvqH65qTyc
- 8bIZiB2X6mhqlEPgqjWMD0/xxhK3lT73tGQ6NkW81laG92y3RVFMtE8tiZ7glu3IMwmmisn
- geBMjEEaeDm/xpQNBplLg==
-UI-OutboundReport: notjunk:1;M01:P0:1uKUmJ4ftaI=;somseoCe4mfsp3IjjrhQzP+3l8a
- JUl/iibAuVEwqE34HXkyN2qDmi5WaW3sK7sCPFoJrFYQKbCknl46iFTbvxao4lvDYmXh9h7eK
- 5pFI//k0guTuEuCNRZH5KI7lt7u9MDOVVMA6sQRrSyXX/5ae0FkYXEveds+VYdyS03fzC7C2M
- COB+T+Uk/qz7c9FVUemc4/aqYmsZNzr5Frgdf9tDrmoeF5wuUg6IQULSHhjDaS9VKViozTdny
- ZUt05tMSjmnuAxVX8hV8roJ0TxeNhWojSZvXVmKucZ1nwBa3OS1Eo+Q5Uikf+uxi/RBfC7iPc
- RPx6U8lRPjGzyjHOqhq0tF9v0HPSI7mGQ0TJrnek/cxiziB1AfZugKXrqPc/f9q/ytoIuVORv
- SmPDn1v/yPAnQ022oaZj38e0D+5NfAJOaeidH6oy03Kk/ja3miZbDvrR8vLYebbIclCfI0FLi
- o1J+emZCpmJthtqaMcc31SYEJoG4m8DPvcW4ACr7oG9t1HkniV5x3hqHWtHxzGKAz7tgHbOw9
- KPLZ70qpQA8OEO8CTfM6LDz9F2bNsP+8lFsRHFOWkQO+7ydgxgOimZtKG6YB/zfk60FfaCpAI
- fcFL+r+n6XMvCw/11FcLWLhiDZgjWT5HSRShI3S5F3doNgJIhyacda1dE383DDERutjps+2XO
- ysBRBPQZQZfIfTG3k9EcnKo7wDqufXlL4rzjDpom76mQ9IVB94NibPa+H/4mQIVBbkwQC7+yd
- jfplZ2k2LW5srkb/t+4LuTa21HnGj2Jef1zxpOzgKkk65UrrXzTWvoY4oG+wySb9WY8fiZlyA
- 28U7+Pdxi4t02J9xFgIG5l3Y7OUNaY3Jj13Ws9snU1gBeRruJqbGJJb+ALt0lzgmXs4l8mpru
- 9CpV/65OX/voQwn79QlZOhRoVKnhlG/Z6uMpjzIZqzH/60UjurSaUi3okUc41keOQ+3WaKPoU
- eqdiXQ==
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=hlewin@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, MIME_HTML_ONLY=0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 20 Feb 2023 17:39:28 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,84 +88,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    On 2/19/23 00:38, BALATON Zoltan wrote:<br>
-    <blockquote type="cite"
-      cite="mid:6af8172c-da06-848c-a9df-ebf65b41ccb6@eik.bme.hu">On Sun,
-      5 Feb 2023, BALATON Zoltan wrote:
-      <br>
-      <blockquote type="cite">On Sun, 5 Feb 2023, Richard Henderson
-        wrote:
-        <br>
-        <blockquote type="cite">On 2/4/23 06:57, BALATON Zoltan wrote:
-          <br>
-          <blockquote type="cite">This has just bounced, I hoped to
-            still be able to post after moderation but now I'm resending
-            it after subscribing to the pixman list. Meanwhile I've
-            found this ticket as well:
-            <a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71">https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71</a>
-            <br>
-            See the rest of the message below. Looks like this is being
-            worked on but I'm not sure how far is it from getting
-            resolved. Any info on that?
-            <br>
-          </blockquote>
-          <br>
-          Please try this:
-          <br>
-          <br>
-          <a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/rth7680/pixman/-/tree/general">https://gitlab.freedesktop.org/rth7680/pixman/-/tree/general</a>
-          <br>
-          <br>
-          It provides a pure C version for ultimate fallback.
-          <br>
-          Unfortunately, there are no test cases for this, nor
-          documentation.
-          <br>
-        </blockquote>
-        <br>
-        Thanks, I don't have hardware to test this but maybe Akihiko or
-        somebody else here cam try. Do you think pixman_fill won't have
-        the same problem? It seems to have at least a fast_path
-        implementation but I'm not sure how pixman selects these.
-        <br>
-      </blockquote>
-      <br>
-      We have tried the branch above and while it does make it better
-      and usable in 16bit mode, 8bit is still missing (no wonder as it
-      does not have that implemented but the AmigaOS driver only allows
-      16bit and 8bit with the sm501 device this is used in but probably
-      that's not important when 16 bit works). Even in 16bit more there
-      were some graphics problems seen but that may need some more
-      checking to make sure it's not some other change as the report was
-      not clear if that worked before. I've asked to check the changes
-      in
-      <a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71">https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71</a>
-      next to see if that would work better.
-      <br>
-      <br>
-      Regards,
-      <br>
-      BALATON Zoltan
-      <br>
-    </blockquote>
-    <br>
-    Hello!<br>
-    I just wanted to say that I have just made the last few changes to
-    <a class="moz-txt-link-freetext" href="https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71">https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/71</a><br>
-    that were obviously missing in that patch.<br>
-    However, I have no easy way to test the lib on Apple hardware -
-    neither if building the lib works with Xcode et al<br>
-    nor if the resulting binaries are good. I used clang to
-    cross-compile for Apple arm64 from a linux system which<br>
-    seemed to work. Feel free to test the PR and report problems.<br>
-    <br>
-    Regards,<br>
-    Heiko<br>
-  </body>
-</html>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Hi,
+
+A win32 SOCKET handle is often cast to an int file descriptor, as this is what
+other OS use for sockets. When necessary, QEMU eventually queries whether it's a
+socket with the help of fd_is_socket(). However, there is no guarantee of
+conflict between the fd and SOCKET space. Such conflict would have surprising
+consequences. We can fix this by using FDs only.
+
+After fixing a few missed closesocket(), this patch series makes the win32
+socket API wrappers take FDs. It finally get rid of closesocket() usage by using
+a close() wrapper instead. (note that fdopen/fclose would not be enough either
+to close the underlying socket appropriately)
+
+v2:
+- add clean up patch "util: drop qemu_fork()"
+- add a "&error_warn", to help with basic error reporting
+- fix errno handling after _get_osfhandle()
+- introduce qemu_socket_(un)select() helpers
+- add patch "aio_set_fd_handler() only supports SOCKET"
+- add meson slirp.wrap RFC
+- various misc cleanups
+- add r-b tags
+
+Marc-André Lureau (15):
+  util: drop qemu_fork()
+  tests: use closesocket()
+  io: use closesocket()
+  error: add global &error_warn destination
+  win32/socket: introduce qemu_socket_select() helper
+  win32/socket: introduce qemu_socket_unselect() helper
+  aio: make aio_set_fd_poll() static to aio-posix.c
+  aio/win32: aio_set_fd_handler() only supports SOCKET
+  RFC: build-sys: add slirp.wrap
+  main-loop: remove qemu_fd_register(), win32/slirp/socket specific
+  slirp: unregister the win32 SOCKET
+  slirp: open-code qemu_socket_(un)select()
+  win32: avoid mixing SOCKET and file descriptor space
+  os-posix: remove useless ioctlsocket() define
+  win32: replace closesocket() with close() wrapper
+
+ include/block/aio.h         |   8 --
+ include/qapi/error.h        |   6 ++
+ include/qemu/main-loop.h    |   2 -
+ include/qemu/osdep.h        |  14 ---
+ include/sysemu/os-posix.h   |   3 -
+ include/sysemu/os-win32.h   |  15 ++-
+ backends/tpm/tpm_emulator.c |   6 +-
+ crypto/afalg.c              |   6 +-
+ hw/hyperv/syndbg.c          |   4 +-
+ io/channel-socket.c         |   8 +-
+ io/channel-watch.c          |  10 +-
+ net/dgram.c                 |  14 +--
+ net/slirp.c                 |  16 ++-
+ net/socket.c                |  22 ++--
+ tests/qtest/libqtest.c      |   8 +-
+ tests/qtest/microbit-test.c |   2 +-
+ tests/qtest/netdev-socket.c |  10 +-
+ tests/unit/socket-helpers.c |   2 +-
+ util/aio-posix.c            |   6 +-
+ util/aio-win32.c            |  23 ++--
+ util/error.c                |  10 +-
+ util/main-loop.c            |  11 --
+ util/oslib-posix.c          |  70 -------------
+ util/oslib-win32.c          | 202 ++++++++++++++++++++++++++++++------
+ util/qemu-sockets.c         |  22 ++--
+ .gitignore                  |   2 +
+ subprojects/slirp.wrap      |   6 ++
+ 27 files changed, 289 insertions(+), 219 deletions(-)
+ create mode 100644 subprojects/slirp.wrap
+
+-- 
+2.39.1
+
 
