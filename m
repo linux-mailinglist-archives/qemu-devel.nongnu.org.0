@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6526C69D30E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:47:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D34469D32B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:49:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUB8F-0006Lj-M1; Mon, 20 Feb 2023 13:43:23 -0500
+	id 1pUB8e-0008AT-Aq; Mon, 20 Feb 2023 13:43:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUB6g-0004fW-Ig
+ id 1pUB6h-0004fs-Hg
  for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:41:49 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUB6c-00045M-DB
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:41:45 -0500
-Received: by mail-pl1-x632.google.com with SMTP id t14so2810258plo.2
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 10:41:41 -0800 (PST)
+ id 1pUB6f-00045g-1W
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:41:47 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ v3-20020a17090a6b0300b002341a2656e5so2185771pjj.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 10:41:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZWlppU2XNhFXTdVt0C0CpRj3rW11FE4bGKcS7c5hawE=;
- b=YkXS++rAzG+g59bE2dOEeHYSr2ib3vIn6M8PbG1sw+iGMkNNzopHMgNyoL2qMOyWip
- 4qG5XY3NaHFqMgsDx/eSKy2dZKT/bpvj0LCBoOdZ4PR+3euBOBHWH1pDJDiWZ2N48EO1
- KIDhHSNwrs1w/BeqCqcgk854qxQWX1kgPBNSVWSYH8A/f0ugcJd0FUwujwmsJOeIws8k
- dFCsnDC4CiRQzjdfCq82Kgu9PQlRbbjTls33L8UesrpVzflKy4XZw9zSVXYf7rASjZkC
- 4y36VJtTL3jTmd+NkV6F5oqna6fsQpnXpsbWTK2EGJCjOEvlW7JlvXKzKZ3IGdqFVOQI
- 5BFQ==
+ bh=zXucR7EhGSIkydzJkgAPzsrJnH+F7Rth0vxWHmdJQnQ=;
+ b=bDSr6QIzXMYj043tHO5s67GZFOqATw1crtbpC1JPqXHxNpPvvmLCKZASbvkrMcRUhW
+ P3yGLiMObTSAxTZvcyZIwQc7+cXp5BJEbmeuyhUnW6VaOj5ugP0wYzOePiZhGjDJDqTm
+ MznwTOySea9C64uDUSM9uTaBVWp4kbOyL1jqAQdA1d8zA4/6/VF97y8yMQlSiFs5zWO2
+ PINT94RWEZwwT0T2m24dbOtIPOruywBHn3dUEylNsLVemqC+1z90eNCHtlFyWMjwqWOx
+ 6t0WiStzVTztOhTiCcHqrKJiw9suDsa7NZ7cPzYKtyjpYmNuy5B+KFlUexOw/c2I53Bw
+ nOVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZWlppU2XNhFXTdVt0C0CpRj3rW11FE4bGKcS7c5hawE=;
- b=o+Ro2UZ7LVWn9rRHUUoQDG+oNx9RsNiOH4S/Vz8f79Jr49zSCoVGLhKco5tnE2ffsu
- cySdVuX6Cpqt789muRMdCYTzwKU1IAFJvFFLZOoj3fWxqXOs/t3ODM6sqiqd6WfqFtRH
- FF0x1RBTTD63XAKT9EhbP7bm5bN5bHrgOKPNDLt/uxDt6osXfFlzpsG154bbLCjSW/7Q
- HacdC0Vh0/M6FnooFuXLx9F1XJeitRc6hs37cGkuU2et3dlHEZe9tDJoS/Q4JBo1KOs1
- G7U+MCcT33opS/DVj/5vBMNoZ9E7HDmc6z/ouSSsdjrK/VKDia/v9sb8SyoMeCQmfe6q
- 5CyQ==
-X-Gm-Message-State: AO0yUKULCFoD6t9PUmFIjCnotmHyjQoHN23ZDDe6FGE2O2eT9t5nhzPb
- UHNYhwz5LK3GqWhvNEdb9vCm7hcie/2d7ud4KRs=
-X-Google-Smtp-Source: AK7set/fOJAVGy8gfW1fq3EOGvPoM+5YRWCIIA2wQ33lXhECd3k0v7WhvOcW9Ieq+l7WPSnIz3xxrQ==
-X-Received: by 2002:a17:902:fa0d:b0:199:11c3:cc4f with SMTP id
- la13-20020a170902fa0d00b0019911c3cc4fmr1542500plb.44.1676918501653; 
- Mon, 20 Feb 2023 10:41:41 -0800 (PST)
+ bh=zXucR7EhGSIkydzJkgAPzsrJnH+F7Rth0vxWHmdJQnQ=;
+ b=Q9ENZmwH14/xfq//X/cwA9CkzD/SW82VHkdTEid7rMfxKWudGMX/nQ+IWaLPoHbDY0
+ mQS3fNPqzjYsNnXjyAeBuuOPsrhNHAtB5XPVOkhqxe2+F20G0ZCwJ4OXVG2RwmQ6sGLr
+ mkGyJTn+kMVPtHJw4+jxE/8zmvCkIH3CWj/+hvXHwihyFRq3o2DLAXd3gmb0H8rSwQ5n
+ 7gURPLn3qO9Y2avQb/I9OSWqSwWjEr6fBya/J0ZcSjcgZs6Q7A5GkU8XUBYdwH22IWry
+ HkfQjW9h+aKRsJ/b7lvGzzpNkPYgFuKJB7NQjDTvuOhy4bA/qz02vI5LKMWbZgVL1awG
+ sxwA==
+X-Gm-Message-State: AO0yUKVikc2IfUUD9J+6EB4mE3OWbQzwZKGGij8BjchAsQ9OCJvf049O
+ Lzvs3S2xFUqrN1agFuMM4KLJ5Ua/79yJc7iM9CM=
+X-Google-Smtp-Source: AK7set8pmNDRep2y0jcsL6Jl22XVsFXhpHHT+yNNNcQcVQuq9s3/oCoqEwKs+WPk8x3Qwu88DADxYA==
+X-Received: by 2002:a17:902:e945:b0:19a:9a66:9030 with SMTP id
+ b5-20020a170902e94500b0019a9a669030mr970200pll.4.1676918503242; 
+ Mon, 20 Feb 2023 10:41:43 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- jk20-20020a170903331400b0019258bcf3ffsm1911676plb.56.2023.02.20.10.41.40
+ jk20-20020a170903331400b0019258bcf3ffsm1911676plb.56.2023.02.20.10.41.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 10:41:41 -0800 (PST)
+ Mon, 20 Feb 2023 10:41:42 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: thuth@redhat.com, qemu-s390x@nongnu.org,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v4 25/27] tests/tcg/s390x: Add per.S
-Date: Mon, 20 Feb 2023 08:40:50 -1000
-Message-Id: <20230220184052.163465-26-richard.henderson@linaro.org>
+Subject: [PATCH v4 26/27] target/s390x: Pass original r2 register to BCR
+Date: Mon, 20 Feb 2023 08:40:51 -1000
+Message-Id: <20230220184052.163465-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230220184052.163465-1-richard.henderson@linaro.org>
 References: <20230220184052.163465-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,89 +91,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+We do not modify any general-purpose registers in BCR,
+which means that we may be able to avoid saving the
+value across a branch.
 
-Add a small test to avoid regressions.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20221130174610.434590-2-iii@linux.ibm.com>
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/s390x/Makefile.softmmu-target |  1 +
- tests/tcg/s390x/per.S                   | 55 +++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 tests/tcg/s390x/per.S
+ target/s390x/tcg/insn-data.h.inc |  2 +-
+ target/s390x/tcg/translate.c     | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
-index 725b6c598d..c286d22a9f 100644
---- a/tests/tcg/s390x/Makefile.softmmu-target
-+++ b/tests/tcg/s390x/Makefile.softmmu-target
-@@ -9,3 +9,4 @@ QEMU_OPTS=-action panic=exit-failure -kernel
- TESTS += unaligned-lowcore
- TESTS += bal
- TESTS += sam
-+TESTS += per
-diff --git a/tests/tcg/s390x/per.S b/tests/tcg/s390x/per.S
-new file mode 100644
-index 0000000000..02f8422c44
---- /dev/null
-+++ b/tests/tcg/s390x/per.S
-@@ -0,0 +1,55 @@
-+#define N_ITERATIONS 10
+diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
+index 9d2d35f084..bdfc09db3e 100644
+--- a/target/s390x/tcg/insn-data.h.inc
++++ b/target/s390x/tcg/insn-data.h.inc
+@@ -121,7 +121,7 @@
+ /* BRANCH INDIRECT ON CONDITION */
+     C(0xe347, BIC,     RXY_b, MIE2,0, m2_64w, 0, 0, bc, 0)
+ /* BRANCH ON CONDITION */
+-    C(0x0700, BCR,     RR_b,  Z,   0, r2_nz, 0, 0, bc, 0)
++    C(0x0700, BCR,     RR_b,  Z,   0, r2_o_nz, 0, 0, bc, 0)
+     C(0x4700, BC,      RX_b,  Z,   0, a2, 0, 0, bc, 0)
+ /* BRANCH RELATIVE ON CONDITION */
+     C(0xa704, BRC,     RI_c,  Z,   0, 0, 0, 0, bc, 0)
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 24d8d84727..e4db5f1c02 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -5754,6 +5754,16 @@ static void in2_r2_nz(DisasContext *s, DisasOps *o)
+ }
+ #define SPEC_in2_r2_nz 0
+ 
++static void in2_r2_o_nz(DisasContext *s, DisasOps *o)
++{
++    int r2 = get_field(s, r2);
++    if (r2 != 0) {
++        o->in2 = regs[r2];
++        o->g_in2 = true;
++    }
++}
++#define SPEC_in2_r2_o_nz 0
 +
-+    .org 0x8d
-+ilc:
-+    .org 0x8e
-+program_interruption_code:
-+    .org 0x96
-+per_code:
-+    .org 0x150
-+program_old_psw:
-+    .org 0x1d0                         /* program new PSW */
-+    .quad 0,pgm_handler
-+    .org 0x200                         /* lowcore padding */
-+
-+    .globl _start
-+_start:
-+    lpswe per_on_psw
-+start_per:
-+    lghi %r0,N_ITERATIONS
-+    xgr %r1,%r1
-+    lctlg %c9,%c11,per_on_regs
-+loop:
-+    brct %r0,loop
-+    lctlg %c9,%c11,per_off_regs
-+    cgijne %r1,N_ITERATIONS-1,fail     /* expected number of events? */
-+    lpswe success_psw
-+fail:
-+    lpswe failure_psw
-+
-+pgm_handler:
-+    chhsi program_interruption_code,0x80         /* PER event? */
-+    jne fail
-+    cli per_code,0x80                  /* successful-branching event? */
-+    jne fail
-+    la %r1,1(%r1)                      /* increment event counter */
-+    mvc return_psw(8),program_old_psw
-+    lg %r3,program_old_psw+8
-+    llgc %r2,ilc
-+    sgr %r3,%r2                        /* rewind PSW */
-+    stg %r3,return_psw+8
-+    lpswe return_psw
-+
-+    .align 8
-+per_on_psw:
-+    .quad 0x4000000000000000,start_per
-+per_on_regs:
-+    .quad 0x80000000,0,-1              /* successful-branching everywhere */
-+per_off_regs:
-+    .quad 0,0,0
-+return_psw:
-+    .quad 0,0
-+success_psw:
-+    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
-+failure_psw:
-+    .quad 0x2000000000000,0            /* disabled wait */
+ static void in2_r2_8s(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
 -- 
 2.34.1
 
