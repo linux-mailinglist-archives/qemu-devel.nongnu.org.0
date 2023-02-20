@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90F369C866
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 11:16:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 271EB69C871
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 11:19:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU3BV-0006cO-OJ; Mon, 20 Feb 2023 05:14:14 -0500
+	id 1pU3BO-0006Pv-KA; Mon, 20 Feb 2023 05:14:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liuyujun@fingera.cn>)
- id 1pU3BH-0006It-AZ
+ id 1pU3BH-0006Io-A8
  for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:13:59 -0500
 Received: from bg4.exmail.qq.com ([43.155.65.254])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liuyujun@fingera.cn>)
- id 1pU3BE-0001Uu-KU
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:13:59 -0500
-X-QQ-mid: bizesmtp64t1676888027tqipjgki
+ id 1pU3BE-0001VI-Kk
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:13:58 -0500
+X-QQ-mid: bizesmtp64t1676888029t0vpixsx
 Received: from localhost.localdomain ( [112.95.75.167])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 20 Feb 2023 18:13:47 +0800 (CST)
+ id ; Mon, 20 Feb 2023 18:13:49 +0800 (CST)
 X-QQ-SSF: 0130000000800020D000B00A0000000
-X-QQ-FEAT: RFp2QSjOiS47z/8w1/hneI7Gzj2tWE9D4j2VUUyW27zj63uNGnePXTlpeyAEe
- rXF2z3E7oGX8RdouAAbfoDif9xLjGrVKEb1YwJQ6b22x8FqkMcRbO/As7g/OlOLo5aqpmgF
- +0za3bedTnwPqGuY/13exCXB0x2Kdn24QWcA2hr/8NsibhZuPqZc/2NbsapLhA9Gg9XaT3n
- MCMzo32Dsb4LegI5VII8pleGXbw0zSi9UFL68cji+5NNd9ho8peRgtyje72+0NuP4GOmUYa
- 0M28+17ajSjF7yT4IflZX38QI3GgydpMkYO9vVixamy/5oMa2rrG8QpZRFfFjT2iExWgLX2
- L8JImcvUSPHIZMm4Da4+N9YmpmGCverN7l8jGdT8ysi4ltXhfk=
+X-QQ-FEAT: hoArX50alxFhHVM6ViNCefzuCIpkNyHCQ3CGR6np7Ti5VI+FsqRpoStFjWsRw
+ TgnZ6I7/HXVBdzsVgpygqlrk2ddgkO/QNMbUJ1cR/mDW+I3zMwSYnLFITTxNgGRxg+HMHIj
+ 50ki50dxohmXLVlc+FSwUrz4a/xldcsOzfkf9CW+2tth/GJwDP7LwuEHjZSAllYufr6xKxJ
+ UqYWRxW18+VM5Q01i369iCvKBcgC4HlZ0K5IBP3/cVuqywi33X+BdrnBQSSs3HPiLdJImn8
+ v/QzR1v2bY7s7pBPxbwMgHXVXLODoTklf1Ns9Mjk2Wd2Q9BWHtPC4evBNCcwi8ewfdRHVGt
+ KKvu86olj9VTcnhjQC25529H9TkcuwkMOPIOj6pZJV0ZyzUs5k=
 X-QQ-GoodBg: 0
 From: liuyujun <liuyujun@fingera.cn>
 To: qemu-devel@nongnu.org
 Cc: liuyujun <liuyujun@fingera.cn>
-Subject: [PATCH 2/3] Fix issue #761: Broken scaling with gtk,
- gl=on on a hidpi display
-Date: Mon, 20 Feb 2023 18:13:41 +0800
-Message-Id: <20230220101342.129689-2-liuyujun@fingera.cn>
+Subject: [PATCH 3/3] Fix zoom scale
+Date: Mon, 20 Feb 2023 18:13:42 +0800
+Message-Id: <20230220101342.129689-3-liuyujun@fingera.cn>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20230220101342.129689-1-liuyujun@fingera.cn>
 References: <20230220101342.129689-1-liuyujun@fingera.cn>
@@ -68,55 +67,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Yujun <liuyujun@fingera.cn>
 ---
- ui/gtk-egl.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ ui/gtk.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index e84431790c..15b3d64233 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -66,13 +66,14 @@ void gd_egl_draw(VirtualConsole *vc)
- #ifdef CONFIG_GBM
-     QemuDmaBuf *dmabuf = vc->gfx.guest_fb.dmabuf;
- #endif
--    int ww, wh;
-+    int ww, wh, ws;
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 1b43ed31e3..c4c8339d91 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1482,9 +1482,10 @@ static void gd_menu_zoom_fixed(GtkMenuItem *item, void *opaque)
+ {
+     GtkDisplayState *s = opaque;
+     VirtualConsole *vc = gd_vc_find_current(s);
++    int ws = gdk_window_get_scale_factor(gtk_widget_get_window(vc->gfx.drawing_area));
  
-     if (!vc->gfx.gls) {
-         return;
+-    vc->gfx.scale_x = 1.0;
+-    vc->gfx.scale_y = 1.0;
++    vc->gfx.scale_x = 1.0 / ws;
++    vc->gfx.scale_y = 1.0 / ws;
+ 
+     gd_update_windowsize(vc);
+ }
+@@ -1493,13 +1494,15 @@ static void gd_menu_zoom_fit(GtkMenuItem *item, void *opaque)
+ {
+     GtkDisplayState *s = opaque;
+     VirtualConsole *vc = gd_vc_find_current(s);
++    int ws = gdk_window_get_scale_factor(gtk_widget_get_window(vc->gfx.drawing_area));
+ 
+     if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(s->zoom_fit_item))) {
+         s->free_scale = TRUE;
+     } else {
++        ws = gdk_window_get_scale_factor(gtk_widget_get_window(vc->gfx.drawing_area));
+         s->free_scale = FALSE;
+-        vc->gfx.scale_x = 1.0;
+-        vc->gfx.scale_y = 1.0;
++        vc->gfx.scale_x = 1.0 / ws;
++        vc->gfx.scale_y = 1.0 / ws;
      }
  
-     window = gtk_widget_get_window(vc->gfx.drawing_area);
-+    ws = gdk_window_get_scale_factor(gtk_widget_get_window(vc->gfx.drawing_area));
-     ww = gdk_window_get_width(window);
-     wh = gdk_window_get_height(window);
- 
-@@ -109,13 +110,22 @@ void gd_egl_draw(VirtualConsole *vc)
-         eglMakeCurrent(qemu_egl_display, vc->gfx.esurface,
-                        vc->gfx.esurface, vc->gfx.ectx);
- 
--        surface_gl_setup_viewport(vc->gfx.gls, vc->gfx.ds, ww, wh);
-+        surface_gl_setup_viewport(vc->gfx.gls, vc->gfx.ds, ww * ws, wh * ws);
-         surface_gl_render_texture(vc->gfx.gls, vc->gfx.ds);
- 
-         eglSwapBuffers(qemu_egl_display, vc->gfx.esurface);
- 
--        vc->gfx.scale_x = (double)ww / surface_width(vc->gfx.ds);
--        vc->gfx.scale_y = (double)wh / surface_height(vc->gfx.ds);
-+        if (vc->s->full_screen) {
-+            vc->gfx.scale_x = (double)ww / surface_width(vc->gfx.ds);
-+            vc->gfx.scale_y = (double)wh / surface_height(vc->gfx.ds);
-+        } else if (vc->s->free_scale) {
-+            double sx, sy;
-+
-+            sx = (double)ww / surface_width(vc->gfx.ds);
-+            sy = (double)wh / surface_height(vc->gfx.ds);
-+
-+            vc->gfx.scale_x = vc->gfx.scale_y = MIN(sx, sy);
-+        }
- 
-         glFlush();
-     }
+     gd_update_windowsize(vc);
 -- 
 2.20.1
 
