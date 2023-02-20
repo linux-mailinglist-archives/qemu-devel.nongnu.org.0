@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D059169D540
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:51:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F1869D552
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:52:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUD5b-00014V-SC; Mon, 20 Feb 2023 15:48:47 -0500
+	id 1pUD4h-0007U1-0T; Mon, 20 Feb 2023 15:47:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pUD59-0007ab-CV
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:25 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pUD4e-0007Sm-8K
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:47:48 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pUD50-0003Yg-6E
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:16 -0500
+ <BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pUD4a-0003Tg-90
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:47:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=k8GCQQoJy2aRlOQPrVefZT/ee28eSx+Uu4q7yzFpNOU=; b=WHkjtpQAQum6Y/IHcNA25L57X7
- iRqPu6HdnD7mICuyMuAK7b9D7NABp1iHDNYIiidrsHrtp4hcmgf2/lJ2eq8UMdQkVGRyVFxnIWPwK
- PvMCRosFbCwyt4LNSSZvpvIe+NBfQEyZjze+fpWpiE6+izJxyAPHcORoj/pKif3gqCJhYDDbEYMRG
- 4jqdd3zgyJG3yKPDMPYjrWj9rTWVC9+4CknGOgBb62OYltgI+po0avBEGWK0vV5OmdPQVIvNu8yy2
- IO9/Y7rkdQeYkhSd7ijnvQdLqMntG6aPlcvomBqP6j1waDWRIDZzTTuqHwcMmqPK7TxJozMw1slLO
- JFlnxf4Q==;
+ bh=sk6NkLHg/NyXpwaGLhpt9eKPrlQ9342qqQy1o7hZ17Y=; b=Grv8Kw1p3shxhhHtCYT7PStpR+
+ WuaakYVuZJac+tg0iQYMFjWKCNtB/zqPL/LqdTWHa0qASnyS0ZwD1tHk9PZK25AZ2zbjMurHk6cAW
+ h2MebxVJIt7B4toK5pjKRKWxT4DSQPiC++lQFjEGfxmahoHurtGibYYd+4s1Cn3RNX86oT7rHiaxx
+ Tpy4zJYR0eI/Xi5gAK6rnhx4eQpVYMT8P6+BDrBpLoQhqZNM+j7OUarLGNU+mHTRl6GeXXJvVvb8Y
+ tiA+lVryJJPBbl5IATJA9P7KR+nux+gqToWjZ4lfbFaQ5/7tWthIehccyLvJKc6qLyLjwc9PuGu5c
+ HPX8He6A==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pUD4U-00BvKR-0g; Mon, 20 Feb 2023 20:47:56 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pUD4U-00C0pi-5H; Mon, 20 Feb 2023 20:47:38 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pUD4U-00B4qk-0I; Mon, 20 Feb 2023 20:47:38 +0000
+ Linux)) id 1pUD4U-00B4qo-0U; Mon, 20 Feb 2023 20:47:38 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,19 +50,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v12 06/60] i386/hvm: Set Xen vCPU ID in KVM
-Date: Mon, 20 Feb 2023 20:46:42 +0000
-Message-Id: <20230220204736.2639601-7-dwmw2@infradead.org>
+Subject: [PATCH v12 07/60] xen-platform: exclude vfio-pci from the PCI
+ platform unplug
+Date: Mon, 20 Feb 2023 20:46:43 +0000
+Message-Id: <20230220204736.2639601-8-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230220204736.2639601-1-dwmw2@infradead.org>
 References: <20230220204736.2639601-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,100 +86,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Joao Martins <joao.m.martins@oracle.com>
 
-There are (at least) three different vCPU ID number spaces. One is the
-internal KVM vCPU index, based purely on which vCPU was chronologically
-created in the kernel first. If userspace threads are all spawned and
-create their KVM vCPUs in essentially random order, then the KVM indices
-are basically random too.
+Such that PCI passthrough devices work for Xen emulated guests.
 
-The second number space is the APIC ID space, which is consistent and
-useful for referencing vCPUs. MSIs will specify the target vCPU using
-the APIC ID, for example, and the KVM Xen APIs also take an APIC ID
-from userspace whenever a vCPU needs to be specified (as opposed to
-just using the appropriate vCPU fd).
-
-The third number space is not normally relevant to the kernel, and is
-the ACPI/MADT/Xen CPU number which corresponds to cs->cpu_index. But
-Xen timer hypercalls use it, and Xen timer hypercalls *really* want
-to be accelerated in the kernel rather than handled in userspace, so
-the kernel needs to be told.
-
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- target/i386/kvm/kvm.c     |  5 +++++
- target/i386/kvm/xen-emu.c | 28 ++++++++++++++++++++++++++++
- target/i386/kvm/xen-emu.h |  1 +
- 3 files changed, 34 insertions(+)
+ hw/i386/xen/xen_platform.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 2b3daabf7b..165fa5232d 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1869,6 +1869,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             }
-         }
+diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+index 66e6de31a6..d601a5509d 100644
+--- a/hw/i386/xen/xen_platform.c
++++ b/hw/i386/xen/xen_platform.c
+@@ -109,12 +109,25 @@ static void log_writeb(PCIXenPlatformState *s, char val)
+ #define _UNPLUG_NVME_DISKS 3
+ #define UNPLUG_NVME_DISKS (1u << _UNPLUG_NVME_DISKS)
  
-+        r = kvm_xen_init_vcpu(cs);
-+        if (r) {
-+            return r;
-+        }
-+
-         kvm_base += 0x100;
- #else /* CONFIG_XEN_EMU */
-         /* This should never happen as kvm_arch_init() would have died first. */
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 34d5bc1bc9..4883b95d9d 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -52,6 +52,34 @@ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
-     return 0;
- }
- 
-+int kvm_xen_init_vcpu(CPUState *cs)
++static bool pci_device_is_passthrough(PCIDevice *d)
 +{
-+    int err;
-+
-+    /*
-+     * The kernel needs to know the Xen/ACPI vCPU ID because that's
-+     * what the guest uses in hypercalls such as timers. It doesn't
-+     * match the APIC ID which is generally used for talking to the
-+     * kernel about vCPUs. And if vCPU threads race with creating
-+     * their KVM vCPUs out of order, it doesn't necessarily match
-+     * with the kernel's internal vCPU indices either.
-+     */
-+    if (kvm_xen_has_cap(EVTCHN_SEND)) {
-+        struct kvm_xen_vcpu_attr va = {
-+            .type = KVM_XEN_VCPU_ATTR_TYPE_VCPU_ID,
-+            .u.vcpu_id = cs->cpu_index,
-+        };
-+        err = kvm_vcpu_ioctl(cs, KVM_XEN_VCPU_SET_ATTR, &va);
-+        if (err) {
-+            error_report("kvm: Failed to set Xen vCPU ID attribute: %s",
-+                         strerror(-err));
-+            return err;
-+        }
++    if (!strcmp(d->name, "xen-pci-passthrough")) {
++        return true;
 +    }
 +
-+    return 0;
++    if (xen_mode == XEN_EMULATE && !strcmp(d->name, "vfio-pci")) {
++        return true;
++    }
++
++    return false;
 +}
 +
- uint32_t kvm_xen_get_caps(void)
+ static void unplug_nic(PCIBus *b, PCIDevice *d, void *o)
  {
-     return kvm_state->xen_caps;
-diff --git a/target/i386/kvm/xen-emu.h b/target/i386/kvm/xen-emu.h
-index 2101df0182..d62f1d8ed8 100644
---- a/target/i386/kvm/xen-emu.h
-+++ b/target/i386/kvm/xen-emu.h
-@@ -24,5 +24,6 @@
- #define XEN_VERSION(maj, min) ((maj) << 16 | (min))
+     /* We have to ignore passthrough devices */
+     if (pci_get_word(d->config + PCI_CLASS_DEVICE) ==
+             PCI_CLASS_NETWORK_ETHERNET
+-            && strcmp(d->name, "xen-pci-passthrough") != 0) {
++            && !pci_device_is_passthrough(d)) {
+         object_unparent(OBJECT(d));
+     }
+ }
+@@ -187,9 +200,8 @@ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
+         !(flags & UNPLUG_IDE_SCSI_DISKS);
  
- int kvm_xen_init(KVMState *s, uint32_t hypercall_msr);
-+int kvm_xen_init_vcpu(CPUState *cs);
+     /* We have to ignore passthrough devices */
+-    if (!strcmp(d->name, "xen-pci-passthrough")) {
++    if (pci_device_is_passthrough(d))
+         return;
+-    }
  
- #endif /* QEMU_I386_KVM_XEN_EMU_H */
+     switch (pci_get_word(d->config + PCI_CLASS_DEVICE)) {
+     case PCI_CLASS_STORAGE_IDE:
 -- 
 2.39.0
 
