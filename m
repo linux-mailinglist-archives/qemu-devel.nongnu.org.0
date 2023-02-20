@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB2869D299
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F9969D29D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:16:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUAhV-0006h1-MF; Mon, 20 Feb 2023 13:15:45 -0500
+	id 1pUAhg-0006z1-B2; Mon, 20 Feb 2023 13:15:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUAhE-0006Pr-C3
+ id 1pUAhF-0006Pt-8f
  for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:15:36 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUAh9-0007Uy-CZ
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:15:27 -0500
+ id 1pUAhC-0007XJ-JU
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:15:28 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B7A827470C9;
- Mon, 20 Feb 2023 19:15:09 +0100 (CET)
+ by localhost (Postfix) with SMTP id C23CD7470CA;
+ Mon, 20 Feb 2023 19:15:10 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 97B667470C8; Mon, 20 Feb 2023 19:15:09 +0100 (CET)
-Message-Id: <35c4d4ccf2f73e6a87cdbd28fb6a1b33de72ed74.1676916640.git.balaton@eik.bme.hu>
+ id A19FF7470C8; Mon, 20 Feb 2023 19:15:10 +0100 (CET)
+Message-Id: <03599fd4db313ac4f651cceb43340109ad6a14b8.1676916640.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1676916639.git.balaton@eik.bme.hu>
 References: <cover.1676916639.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 6/7] usb/ohci: Implement resume on connection status change
+Subject: [PATCH v2 7/7] hw/usb/hcd-ohci: Fix typo
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Peter Maydell <"peter.maydell@linaro.org>, philmd"@linaro.org>
-Date: Mon, 20 Feb 2023 19:15:09 +0100 (CET)
+Date: Mon, 20 Feb 2023 19:15:10 +0100 (CET)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,64 +61,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If certain bit is set remote wake up should change state from
-suspended to resume and generate interrupt. There was a todo comment
-for this, implement that by moving existing resume logic to a function
-and call that.
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+[balaton: rebased on clean up series]
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/usb/hcd-ohci.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ hw/usb/hcd-ohci.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index bad8db7b1d..88bd42b14a 100644
+index 88bd42b14a..98315b2301 100644
 --- a/hw/usb/hcd-ohci.c
 +++ b/hw/usb/hcd-ohci.c
-@@ -1410,6 +1410,18 @@ static void ohci_set_hub_status(OHCIState *ohci, uint32_t val)
-     }
- }
+@@ -58,7 +58,7 @@ struct ohci_hcca {
+ #define ED_WBACK_OFFSET offsetof(struct ohci_ed, head)
+ #define ED_WBACK_SIZE   4
  
-+/* This is the one state transition the controller can do by itself */
-+static int ohci_resume(OHCIState *s)
-+{
-+    if ((s->ctl & OHCI_CTL_HCFS) == OHCI_USB_SUSPEND) {
-+        trace_usb_ohci_remote_wakeup(s->name);
-+        s->ctl &= ~OHCI_CTL_HCFS;
-+        s->ctl |= OHCI_USB_RESUME;
-+        return 1;
-+    }
-+    return 0;
-+}
-+
- /*
-  * Sets a flag in a port status reg but only set it if the port is connected.
-  * If not set ConnectStatusChange flag. If flag is enabled return 1.
-@@ -1426,7 +1438,10 @@ static int ohci_port_set_if_connected(OHCIState *ohci, int i, uint32_t val)
-     if (!(ohci->rhport[i].ctrl & OHCI_PORT_CCS)) {
-         ohci->rhport[i].ctrl |= OHCI_PORT_CSC;
-         if (ohci->rhstatus & OHCI_RHS_DRWE) {
--            /* TODO: CSC is a wakeup event */
-+            /* CSC is a wakeup event */
-+            if (ohci_resume(ohci)) {
-+                ohci_set_interrupt(ohci, OHCI_INTR_RD);
-+            }
-         }
-         return 0;
-     }
-@@ -1828,11 +1843,7 @@ static void ohci_wakeup(USBPort *port1)
-         intr = OHCI_INTR_RHSC;
-     }
-     /* Note that the controller can be suspended even if this port is not */
--    if ((s->ctl & OHCI_CTL_HCFS) == OHCI_USB_SUSPEND) {
--        trace_usb_ohci_remote_wakeup(s->name);
--        /* This is the one state transition the controller can do by itself */
--        s->ctl &= ~OHCI_CTL_HCFS;
--        s->ctl |= OHCI_USB_RESUME;
-+    if (ohci_resume(s)) {
-         /*
-          * In suspend mode only ResumeDetected is possible, not RHSC:
-          * see the OHCI spec 5.1.2.3.
+-/* Bitfields for the first word of an Endpoint Desciptor. */
++/* Bitfields for the first word of an Endpoint Descriptor. */
+ #define OHCI_ED_FA_SHIFT  0
+ #define OHCI_ED_FA_MASK   (0x7f << OHCI_ED_FA_SHIFT)
+ #define OHCI_ED_EN_SHIFT  7
+@@ -71,11 +71,11 @@ struct ohci_hcca {
+ #define OHCI_ED_MPS_SHIFT 16
+ #define OHCI_ED_MPS_MASK  (0x7ff << OHCI_ED_MPS_SHIFT)
+ 
+-/* Flags in the head field of an Endpoint Desciptor. */
++/* Flags in the head field of an Endpoint Descriptor. */
+ #define OHCI_ED_H         1
+ #define OHCI_ED_C         2
+ 
+-/* Bitfields for the first word of a Transfer Desciptor. */
++/* Bitfields for the first word of a Transfer Descriptor. */
+ #define OHCI_TD_R         (1 << 18)
+ #define OHCI_TD_DP_SHIFT  19
+ #define OHCI_TD_DP_MASK   (3 << OHCI_TD_DP_SHIFT)
+@@ -88,14 +88,14 @@ struct ohci_hcca {
+ #define OHCI_TD_CC_SHIFT  28
+ #define OHCI_TD_CC_MASK   (0xf << OHCI_TD_CC_SHIFT)
+ 
+-/* Bitfields for the first word of an Isochronous Transfer Desciptor. */
+-/* CC & DI - same as in the General Transfer Desciptor */
++/* Bitfields for the first word of an Isochronous Transfer Descriptor. */
++/* CC & DI - same as in the General Transfer Descriptor */
+ #define OHCI_TD_SF_SHIFT  0
+ #define OHCI_TD_SF_MASK   (0xffff << OHCI_TD_SF_SHIFT)
+ #define OHCI_TD_FC_SHIFT  24
+ #define OHCI_TD_FC_MASK   (7 << OHCI_TD_FC_SHIFT)
+ 
+-/* Isochronous Transfer Desciptor - Offset / PacketStatusWord */
++/* Isochronous Transfer Descriptor - Offset / PacketStatusWord */
+ #define OHCI_TD_PSW_CC_SHIFT 12
+ #define OHCI_TD_PSW_CC_MASK  (0xf << OHCI_TD_PSW_CC_SHIFT)
+ #define OHCI_TD_PSW_SIZE_SHIFT 0
 -- 
 2.30.7
 
