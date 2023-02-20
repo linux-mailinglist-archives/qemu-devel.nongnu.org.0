@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1073269C473
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 04:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556A869C477
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 04:25:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTwmR-0001Ae-Ad; Sun, 19 Feb 2023 22:23:55 -0500
+	id 1pTwmU-0001BK-0t; Sun, 19 Feb 2023 22:23:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pTwmQ-0001AH-6c
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:54 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pTwmR-0001Av-SS
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:55 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pTwmO-0005qc-LZ
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:53 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- mg17-20020a17090b371100b00229ca6a4636so1934943pjb.0
- for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 19:23:52 -0800 (PST)
+ id 1pTwmQ-0005qm-9T
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:55 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id q9so2040325plh.6
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 19:23:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zxPSc8yJkvzSaYSSEPoT7SrrtEyyDZGvKalhQ2ISznU=;
- b=xQGOdQE5fjPXJrAl15obpcT+Dgg1sPFXqIEvHnJO8MkhAbUaOyIuULsufGFGNzb0We
- 3bB/wL0B824828RnIJ8jN8ITQ1lMJh/rZJ1MoyUA14UuGGZLCHDJEQ36lOmfLZAQWue5
- FhyZW/rK5irkVE8l2VXS67g++Ep+kgy3G3Jx9bVwBbUMDNncV0dVXo2XuoFqvA3Hd54/
- dBEyZVpB1xOgAo33AvgwcEmGrk4rTatX+56SQMASmtrGTrdolKlV9tYA6yZCNxmnYc/+
- m/nkPzQSQuoMzAxnR33yKPaOOchJyiju+mGO5HyGc47c/O5ZcHh1YjyTVAqQhQ26Xdl4
- MjWA==
+ bh=JKMBaWZBGONH22d4GZ6aoQ5NI2bVoqwHKZG9lz4sA9s=;
+ b=YzdR1yc1S5JYXOoNhpa9IxLl+hTme/WPpNSeOnX7jn5L+WlEW8z0cGhTh2AuSU9Lmx
+ /ZelLEGc27P7c6edAhagPR/pkuTg+BKXPdiE7nTfhHI94SBIIk4m4eeFhI7gP7i8sic4
+ h+k8Iuvq8AgaSuEUTGNHVZOr9Z30O5Vhp6FaIX3j4WqFvK+Za/PV6Y6pQanEfgS+ZKjX
+ VSx5m4X+h2KdUuDWrqzP66WT/+hhB4Dn3BArk7J/VT7gq3Z5PmSeM8k9BMo8Yv02u3f4
+ z7Qx/pljY+BH4si1CMbT7RYzXbXeNFzVV+6rE8b/OHFzj3vmrb48zTGoqpumSOosOLZ5
+ X3+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zxPSc8yJkvzSaYSSEPoT7SrrtEyyDZGvKalhQ2ISznU=;
- b=HAHXqgKDyRcaJJe4WYetchKlH9YVxeFYIg9QG+CTmkSmw9890XE7ODI4WK1ybxIOsb
- uqqg31en/EJjLWcczk6lHKreWeq1O8I2hPJV+XpeYJ6pLezRfCvIM410ES6RVQkUJxcP
- 26Sa7ol5wy+nh9LFl4OGJqgZkdFM+zVe/d73ICpueuciQBuCx/quSPgTze1kIw3wJ21P
- VsONRokk86v/sGCSllYw9UDMxkjqEGRVoAs1ABUsX+JQ8x6pSmYb1HbbpEdLd0Vdgr9G
- xg4e3SDRNiwchjVveKpLrrJHpd7SC5aLHX34gokhPumiYgYyUZ4KYX2oaFNARpMcK5Kz
- Sj+A==
-X-Gm-Message-State: AO0yUKUhgtUvDKK0HfKQZ33iBeQyS+g4R91GwvZPRUMHDqOcxP+/qash
- YeomEf6EaOad/3AlMyOPCXkLjXHf8oxcF1JkjSM=
-X-Google-Smtp-Source: AK7set9XL80Jv5Hg0PM/uWT10p1p/cRtqvxn+OYT1ymCOnG1YIU3E/xLAhtdDksJ9ub6HmMw5QRHPQ==
-X-Received: by 2002:a17:902:fa86:b0:19a:66bb:698f with SMTP id
- lc6-20020a170902fa8600b0019a66bb698fmr1637631plb.58.1676863431253; 
- Sun, 19 Feb 2023 19:23:51 -0800 (PST)
+ bh=JKMBaWZBGONH22d4GZ6aoQ5NI2bVoqwHKZG9lz4sA9s=;
+ b=f6Xp1cfb8LyE8kW67fy5VR3vEJwLqyj3RVss7Pi9ekLiNvNfCGlnAxJdYFF6LdmMx6
+ 2o9RdgSo8FFGE5enj7qE1SIdwIEX53PMj3iWs5PhmF0FodfwGhskvGD6Hd8cO6/TITEo
+ KWvS79+Jt245M/RrXvciduEFI0jugxr+1Bn4PTWPxnd8l1/dbHG+wfWLoWFIig0YJQI2
+ ZAkPZagMQNLvGM3m5Z35GLIflPmVAuZ24K6n3WDjpmYd07FESgVlfsE/OfFhRYmG5d8y
+ XuCzrVmbFWSLpoLvaYXOX7nFNGa8nvbSfTLygWCKfFJ9jRIkVxdYjFlMHBzp7j6hsmzK
+ d9aQ==
+X-Gm-Message-State: AO0yUKWQ0VJSjRDuO4kXGMrUIbJogLjlN220OsIdVKZ0B3mqwbMC7uTd
+ jN8zkk07N18bdp4AlXq4RE/57bQtk1N21UY0V28=
+X-Google-Smtp-Source: AK7set+Niry9fD+EnbLyc85zeIfBCcBQt3oPYPodUd3kzGPwSZmS7NC6R+fpNpszKAVuwg86y/HPqQ==
+X-Received: by 2002:a17:903:790:b0:196:f00:c8f9 with SMTP id
+ kn16-20020a170903079000b001960f00c8f9mr2348490plb.10.1676863432905; 
+ Sun, 19 Feb 2023 19:23:52 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- l11-20020a170902d34b00b00198e1bc9d83sm6621302plk.266.2023.02.19.19.23.49
+ l11-20020a170902d34b00b00198e1bc9d83sm6621302plk.266.2023.02.19.19.23.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Feb 2023 19:23:50 -0800 (PST)
+ Sun, 19 Feb 2023 19:23:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 4/7] cpus: Make {start,end}_exclusive() recursive
-Date: Sun, 19 Feb 2023 17:23:35 -1000
-Message-Id: <20230220032338.5619-5-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org,
+	Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PULL 5/7] linux-user/microblaze: Handle privileged exception
+Date: Sun, 19 Feb 2023 17:23:36 -1000
+Message-Id: <20230220032338.5619-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230220032338.5619-1-richard.henderson@linaro.org>
 References: <20230220032338.5619-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,84 +92,65 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Currently dying to one of the core_dump_signal()s deadlocks, because
-dump_core_and_abort() calls start_exclusive() two times: first via
-stop_all_tasks(), and then via preexit_cleanup() ->
-qemu_plugin_user_exit().
+Follow what kernel's full_exception() is doing.
 
-There are a number of ways to solve this: resume after dumping core;
-check cpu_in_exclusive_context() in qemu_plugin_user_exit(); or make
-{start,end}_exclusive() recursive. Pick the last option, since it's
-the most straightforward one.
-
-Fixes: da91c1920242 ("linux-user: Clean up when exiting due to a signal")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20230214140829.45392-3-iii@linux.ibm.com>
+Message-Id: <20230214140829.45392-4-iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h |  4 ++--
- cpus-common.c         | 12 ++++++++++--
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ linux-user/microblaze/cpu_loop.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 2417597236..671f041bec 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -349,7 +349,7 @@ struct CPUState {
-     bool unplug;
-     bool crash_occurred;
-     bool exit_request;
--    bool in_exclusive_context;
-+    int exclusive_context_count;
-     uint32_t cflags_next_tb;
-     /* updates protected by BQL */
-     uint32_t interrupt_request;
-@@ -758,7 +758,7 @@ void async_safe_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data
-  */
- static inline bool cpu_in_exclusive_context(const CPUState *cpu)
+diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
+index 5ccf9e942e..212e62d0a6 100644
+--- a/linux-user/microblaze/cpu_loop.c
++++ b/linux-user/microblaze/cpu_loop.c
+@@ -25,8 +25,8 @@
+ 
+ void cpu_loop(CPUMBState *env)
  {
--    return cpu->in_exclusive_context;
-+    return cpu->exclusive_context_count;
- }
++    int trapnr, ret, si_code, sig;
+     CPUState *cs = env_cpu(env);
+-    int trapnr, ret, si_code;
  
- /**
-diff --git a/cpus-common.c b/cpus-common.c
-index 793364dc0e..39f355de98 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -192,6 +192,11 @@ void start_exclusive(void)
-     CPUState *other_cpu;
-     int running_cpus;
+     while (1) {
+         cpu_exec_start(cs);
+@@ -76,6 +76,7 @@ void cpu_loop(CPUMBState *env)
+             env->iflags &= ~(IMM_FLAG | D_FLAG);
+             switch (env->esr & 31) {
+             case ESR_EC_DIVZERO:
++                sig = TARGET_SIGFPE;
+                 si_code = TARGET_FPE_INTDIV;
+                 break;
+             case ESR_EC_FPU:
+@@ -84,6 +85,7 @@ void cpu_loop(CPUMBState *env)
+                  * if there's no recognized bit set.  Possibly this
+                  * implies that si_code is 0, but follow the structure.
+                  */
++                sig = TARGET_SIGFPE;
+                 si_code = env->fsr;
+                 if (si_code & FSR_IO) {
+                     si_code = TARGET_FPE_FLTINV;
+@@ -97,13 +99,17 @@ void cpu_loop(CPUMBState *env)
+                     si_code = TARGET_FPE_FLTRES;
+                 }
+                 break;
++            case ESR_EC_PRIVINSN:
++                sig = SIGILL;
++                si_code = ILL_PRVOPC;
++                break;
+             default:
+                 fprintf(stderr, "Unhandled hw-exception: 0x%x\n",
+                         env->esr & ESR_EC_MASK);
+                 cpu_dump_state(cs, stderr, 0);
+                 exit(EXIT_FAILURE);
+             }
+-            force_sig_fault(TARGET_SIGFPE, si_code, env->pc);
++            force_sig_fault(sig, si_code, env->pc);
+             break;
  
-+    if (current_cpu->exclusive_context_count) {
-+        current_cpu->exclusive_context_count++;
-+        return;
-+    }
-+
-     qemu_mutex_lock(&qemu_cpu_list_lock);
-     exclusive_idle();
- 
-@@ -219,13 +224,16 @@ void start_exclusive(void)
-      */
-     qemu_mutex_unlock(&qemu_cpu_list_lock);
- 
--    current_cpu->in_exclusive_context = true;
-+    current_cpu->exclusive_context_count = 1;
- }
- 
- /* Finish an exclusive operation.  */
- void end_exclusive(void)
- {
--    current_cpu->in_exclusive_context = false;
-+    current_cpu->exclusive_context_count--;
-+    if (current_cpu->exclusive_context_count) {
-+        return;
-+    }
- 
-     qemu_mutex_lock(&qemu_cpu_list_lock);
-     qatomic_set(&pending_cpus, 0);
+         case EXCP_DEBUG:
 -- 
 2.34.1
 
