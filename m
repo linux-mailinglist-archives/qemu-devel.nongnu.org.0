@@ -2,101 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4709569D05F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A39A69D067
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 16:17:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU7rs-00022E-Bu; Mon, 20 Feb 2023 10:14:16 -0500
+	id 1pU7tx-0002xQ-GJ; Mon, 20 Feb 2023 10:16:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
- id 1pU7rl-00021R-8l; Mon, 20 Feb 2023 10:14:09 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
- id 1pU7rj-0001k8-4B; Mon, 20 Feb 2023 10:14:09 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31KEO5mM024488; Mon, 20 Feb 2023 15:14:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=content-type :
- message-id : date : mime-version : subject : to : cc : references : from :
- in-reply-to; s=pp1; bh=79hUVYpbDM3lLZw90LIujSkRErr78VoKJyXlRDJx/p0=;
- b=TgCfCbja6UXBN6drh++QoXr4/N3l1ooXTo/TIr92zFt5ZNjeIzVTnVtGw8ikPySWE/jG
- 02Dk8VYx9PBLeZI9iP97/DrdCwb+tmVAFK4oHd0nb6O3SZVMBCfXQRvDkRxDs4u4Xung
- kIAgUXqooSbKKAe+CaVEqRB9qOTuaYt5BtsySXkzZ0CI+pdK67h9hFmXIvEBSIM+YLS3
- KVauqh0CyU5UDO2PyEMtdzJifxaTpEudU3maRak1xAmiV1V7kk1dhdBq1h8KsX2UP4YT
- 8/F/1yirk61gVs4YDJBfPsJnoWSAv+xpSEOlEGB0S62fLxRC8ehql6ZnWhPL5NiedNXK 8A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nv96kbnu0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Feb 2023 15:14:04 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31KDfwbc012902;
- Mon, 20 Feb 2023 15:14:03 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nv96kbnth-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Feb 2023 15:14:03 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31KEuDIL018763;
- Mon, 20 Feb 2023 15:14:03 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([9.208.129.119])
- by ppma01wdc.us.ibm.com (PPS) with ESMTPS id 3ntpa6nsxf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Feb 2023 15:14:03 +0000
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com
- [10.241.53.101])
- by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31KFE1xl35783240
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 20 Feb 2023 15:14:01 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1426658062;
- Mon, 20 Feb 2023 15:14:01 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 817045805E;
- Mon, 20 Feb 2023 15:14:00 +0000 (GMT)
-Received: from [9.160.99.184] (unknown [9.160.99.184])
- by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTPS;
- Mon, 20 Feb 2023 15:14:00 +0000 (GMT)
-Content-Type: multipart/alternative;
- boundary="------------dCCUo7qlnoYpt2dCIfhGIBzg"
-Message-ID: <62db22bc-2787-6c2d-6fad-9b4834ac12c4@linux.ibm.com>
-Date: Mon, 20 Feb 2023 10:13:59 -0500
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pU7ts-0002wk-TU
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:16:22 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pU7tq-0002J3-LK
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 10:16:20 -0500
+Received: by mail-wm1-x334.google.com with SMTP id m23so1150042wms.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 07:16:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pZ2XVjOdnVyIndVJd4ST9KZZL5xpOni2m9pT3X4cDOY=;
+ b=o8X+aus+glD0O92aXmNRA3iZCAUHIy0OIO8rxKyFfqfs2HyToHMRJoT6fAnRP9ERfZ
+ Ai7s8b5GJ+c7dOcm+YrmIzl5x7chtvEoCpIsPtul431Z9Ym3vGG3PMXhlp2wCtzVBcoP
+ MeaxZIOk3BTrG4AZ3X6D5VUPSQ828DeU6lN++E/rz5lofGxhoeMV2T2ZObRCYk3AhD9G
+ bEaVEW9IOWgQ0J2fWahYyJH1uO8JWvO+hE5rTuoRlAgA7ITrEyHo67sWeZOs0PZSwvGs
+ eDct7UfCJxV99L/QSHIVCUlhsyCXomFps78Jbz/kD4BmetqmFWnC/yLnZyZvV3il3S8x
+ rbbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pZ2XVjOdnVyIndVJd4ST9KZZL5xpOni2m9pT3X4cDOY=;
+ b=ZIJj5XC8Htb0dmIDk5barro0GGDzq40k+eDO8fxa0nBg3GqfRpEft6/hXGPGZa+c+I
+ chDWYetC/JiVcUA9F1zP7OM9b4V9JmuQAdAl61IlrkML3BRNRK97n07vicXvzAC+sI64
+ gia+vYJvX4jQyKhlE0ME+fvhq4hM4Gfb7Ht+Qj207R58YY/zR/hIFpma/LDw0UCduXae
+ gR+X2xDELtlGoXXEu2q/z31M7hozj4RtOrE+Jg4DoHDmH2scg7KcPF19I6UAlzrTfh/5
+ x6OlscS+1ARo7LDfkFqTbjhUw+nHx35Lq8KMTcMxvI1XECJlKA4mnzoFtU/DK9BoLu3L
+ oxrw==
+X-Gm-Message-State: AO0yUKVgzE5QyU3IXgIVyPjA+9hwrlJELrD+ZBF1fM1vF5e/RS4dKCgo
+ r3r2qFQ62ZR/wlZwG6kiLeC2N04t1+BH0NJ9Wbc=
+X-Google-Smtp-Source: AK7set89ra/5R4R/oI60VdbUqBieaTYgJlAfhwBmyQW49/EVwp/MXc2VHPlaPqjgMG5WMZbkrzJjCg==
+X-Received: by 2002:a05:600c:1605:b0:3e2:1532:bb47 with SMTP id
+ m5-20020a05600c160500b003e21532bb47mr9859983wmn.27.1676906174349; 
+ Mon, 20 Feb 2023 07:16:14 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:5cc:caa0:de33:fc7:48d9:9d12?
+ ([2a01:e0a:5cc:caa0:de33:fc7:48d9:9d12])
+ by smtp.gmail.com with ESMTPSA id
+ m2-20020a05600c3b0200b003e204158ac7sm12113993wms.47.2023.02.20.07.16.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 07:16:13 -0800 (PST)
+Message-ID: <d81fee02-9d2c-d62c-b9cb-5a0691c4e1f2@linaro.org>
+Date: Mon, 20 Feb 2023 16:16:13 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 0/1] pc-bios: Support List-Directed IPL from ECKD DASD
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v3 1/4] util/cacheflush: fix cache on windows-arm64
 Content-Language: en-US
-To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Cc: thuth@redhat.com, frankja@linux.ibm.com, jjherne@linux.ibm.com
-References: <20230130212411.1167822-1-jrossi@linux.ibm.com>
-From: Jared Rossi <jrossi@linux.ibm.com>
-In-Reply-To: <20230130212411.1167822-1-jrossi@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: CXaKXAjZ6OU5gh1Qr2YDgLOXG4WHFX6x
-X-Proofpoint-ORIG-GUID: MOKzCzgQ-CwF_nVixLacNvN7FGsgS6qG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-20_12,2023-02-20_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 suspectscore=0 clxscore=1011 impostorscore=0
- spamscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302200138
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jrossi@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+To: qemu-devel@nongnu.org
+Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
+ richard.henderson@linaro.org, alex.bennee@linaro.org,
+ peter.maydell@linaro.org
+References: <20230220111215.27471-1-pierrick.bouvier@linaro.org>
+ <20230220111215.27471-2-pierrick.bouvier@linaro.org>
+From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+In-Reply-To: <20230220111215.27471-2-pierrick.bouvier@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=pierrick.bouvier@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001, NICE_REPLY_A=-0.09,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,101 +96,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------dCCUo7qlnoYpt2dCIfhGIBzg
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Hi,
-
-Pinging this patch since v2.26.0 of s390-tools adds ECKD DASD list-directed IPL.
-This patch set allows QEMU to utilize that new boot pointer format.
-Any feedback about what needs to be changed for acceptance is much appreciated.
-
-Thanks,
-Jared Rossi
-
-On 1/30/23 4:24 PM, Jared Rossi wrote:
-
-> Add support for List-Directed IPL (LD-IPL) type pointers.
->
-> We check for a boot record indicating LD-IPL and use it if it is valid,
-> otherwise we use the CCW CDL or LDL format as usual. When a block is accessed
-> during IPL the block number is first calculated based on the cylinder, head,
-> and record numbers included in the block pointer; if LD-IPL has been initiated
-> then each pointer will be interpreted using the new format.
->
-> For simplicity, there is no choice presented to forcibly use CCW-IPL if LD-IPL
-> is available.  Because both sets of pointers ultimately go to the same
-> kernel/initrd, using CCW- or LD-IPL is transparent to the user.
->
-> One aspect of the user experience that does change is the availability of the
-> interactive boot menu when a loadparm is not specified.  For the existing
-> CCW-IPL, when the user does not specify a loadparm they are presented with a
-> list of boot options; however, this list is only written in the old style
-> pointers.  Therefore, if no loadparm is specified, and LD-IPL is supported, the
-> default boot option will be used automatically.
->
-> Jared Rossi (1):
->    pc-bios: Add support for List-Directed IPL from ECKD DASD
->
->   pc-bios/s390-ccw/bootmap.c | 157 ++++++++++++++++++++++++++++---------
->   pc-bios/s390-ccw/bootmap.h |  30 ++++++-
->   2 files changed, 148 insertions(+), 39 deletions(-)
->
---------------dCCUo7qlnoYpt2dCIfhGIBzg
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre>Hi,
-
-Pinging this patch since v2.26.0 of s390-tools adds ECKD DASD list-directed IPL.
-This patch set allows QEMU to utilize that new boot pointer format.
-Any feedback about what needs to be changed for acceptance is much appreciated.
-
-Thanks,
-Jared Rossi</pre>
-    <div class="moz-cite-prefix">
-      <pre>On 1/30/23 4:24 PM, Jared Rossi wrote:</pre>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20230130212411.1167822-1-jrossi@linux.ibm.com">
-      <pre class="moz-quote-pre" wrap="">Add support for List-Directed IPL (LD-IPL) type pointers.
-
-We check for a boot record indicating LD-IPL and use it if it is valid,
-otherwise we use the CCW CDL or LDL format as usual. When a block is accessed
-during IPL the block number is first calculated based on the cylinder, head,
-and record numbers included in the block pointer; if LD-IPL has been initiated
-then each pointer will be interpreted using the new format.
-
-For simplicity, there is no choice presented to forcibly use CCW-IPL if LD-IPL
-is available.  Because both sets of pointers ultimately go to the same
-kernel/initrd, using CCW- or LD-IPL is transparent to the user.
-
-One aspect of the user experience that does change is the availability of the
-interactive boot menu when a loadparm is not specified.  For the existing
-CCW-IPL, when the user does not specify a loadparm they are presented with a
-list of boot options; however, this list is only written in the old style
-pointers.  Therefore, if no loadparm is specified, and LD-IPL is supported, the
-default boot option will be used automatically.
-
-Jared Rossi (1):
-  pc-bios: Add support for List-Directed IPL from ECKD DASD
-
- pc-bios/s390-ccw/bootmap.c | 157 ++++++++++++++++++++++++++++---------
- pc-bios/s390-ccw/bootmap.h |  30 ++++++-
- 2 files changed, 148 insertions(+), 39 deletions(-)
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------dCCUo7qlnoYpt2dCIfhGIBzg--
-
+On 2/20/23 12:12, Pierrick Bouvier wrote:
+> ctr_el0 access is privileged on this platform and fails as an illegal
+> instruction.
+> 
+> Windows does not offer a way to flush data cache from userspace, and
+> only FlushInstructionCache is available in Windows API.
+> 
+> The generic implementation of flush_idcache_range uses,
+> __builtin___clear_cache, which already use the FlushInstructionCache
+> function. So we rely on that.
+> 
+> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+> ---
+>   util/cacheflush.c | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/util/cacheflush.c b/util/cacheflush.c
+> index 2c2c73e085..06c2333a60 100644
+> --- a/util/cacheflush.c
+> +++ b/util/cacheflush.c
+> @@ -121,8 +121,12 @@ static void sys_cache_info(int *isize, int *dsize)
+>   static bool have_coherent_icache;
+>   #endif
+>   
+> -#if defined(__aarch64__) && !defined(CONFIG_DARWIN)
+> -/* Apple does not expose CTR_EL0, so we must use system interfaces. */
+> +#if defined(__aarch64__) && !defined(CONFIG_DARWIN) && !defined(CONFIG_WIN32)
+> +/*
+> + * Apple does not expose CTR_EL0, so we must use system interfaces.
+> + * Windows neither, but we use a generic implementation of flush_idcache_range
+> + * in this case.
+> + */
+>   static uint64_t save_ctr_el0;
+>   static void arch_cache_info(int *isize, int *dsize)
+>   {
+> @@ -225,7 +229,11 @@ static void __attribute__((constructor)) init_cache_info(void)
+>   
+>   /* Caches are coherent and do not require flushing; symbol inline. */
+>   
+> -#elif defined(__aarch64__)
+> +#elif defined(__aarch64__) && !defined(CONFIG_WIN32)
+> +/*
+> + * For Windows, we use generic implementation of flush_idcache_range, that
+> + * performs a call to FlushInstructionCache, through __builtin___clear_cache.
+> + */
+>   
+>   #ifdef CONFIG_DARWIN
+>   /* Apple does not expose CTR_EL0, so we must use system interfaces. */
 
