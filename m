@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44CF69D5F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 22:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E7569D600
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 22:52:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUE35-0003sc-F5; Mon, 20 Feb 2023 16:50:21 -0500
+	id 1pUE30-0003me-7j; Mon, 20 Feb 2023 16:50:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUE2u-0003bZ-3t
+ id 1pUE2u-0003bE-0p
  for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:50:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUE2k-000809-VJ
+ id 1pUE2m-00080d-4H
  for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:50:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1676929787;
@@ -24,24 +24,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JvEMO5c2JkOF6By7T+YUpSgoqGP8ZOOLt3YLiVCdBC0=;
- b=EfX5bbaO/tok1YG+6gd07sE5Q0+i39xVkt64G2NsbT8PZ6RbUCS70sFE2QZr1URO5HUPhp
- pq7RrG7TxpD+ISbyTX51JMHBVCQtAJgqMCNHcDvuUcQApUw39rsr5SOgRoVE4VrZ7ABCuA
- BuxDuTFwfVjO8Er3f1mDuf3vDrF7CvM=
+ bh=VvPQls8lh2Ir7JFuQlhgZHz/Vk17Fh1ykB4lWZuy1RE=;
+ b=Po09H/PUuvHKnoP+MXOZF8/dVrxnDkXGswiU4RGGqvfKi6/kH+jIZfxQjXM2DfJnjf+ewW
+ +wBNYsD8rY4zTW626vDmXi/Vh95xzqCoBjSG4R5uty3f3w36fo86lqds6vomKW+XXpIXOS
+ yBZ0UXdSighXj2YyD3uYqG+TvQi8kF0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-147-Pf7xcpurPHOvAJCBfd8WZQ-1; Mon, 20 Feb 2023 16:49:41 -0500
-X-MC-Unique: Pf7xcpurPHOvAJCBfd8WZQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-389-J4-AUmOIOmy42W_Ac1Dcng-1; Mon, 20 Feb 2023 16:49:45 -0500
+X-MC-Unique: J4-AUmOIOmy42W_Ac1Dcng-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5627C185A794;
- Mon, 20 Feb 2023 21:49:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55B93101A521;
+ Mon, 20 Feb 2023 21:49:44 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4C9F4140EBF6;
- Mon, 20 Feb 2023 21:49:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92AED492B04;
+ Mon, 20 Feb 2023 21:49:43 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Michael Roth <michael.roth@amd.com>,
@@ -57,15 +57,16 @@ Cc: Michael Roth <michael.roth@amd.com>,
  Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 09/15] RFC: build-sys: add slirp.wrap
-Date: Tue, 21 Feb 2023 01:48:53 +0400
-Message-Id: <20230220214859.3792171-10-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 10/15] main-loop: remove qemu_fd_register(),
+ win32/slirp/socket specific
+Date: Tue, 21 Feb 2023 01:48:54 +0400
+Message-Id: <20230220214859.3792171-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20230220214859.3792171-1-marcandre.lureau@redhat.com>
 References: <20230220214859.3792171-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -93,44 +94,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This allows to build with --enable-slirp / -D slirp=enabled, even when
-libslirp is not installed on the system. Meson will pull it from git in
-that case.
+Open-code the socket registration where it's needed, to avoid
+artificially used or unclear generic interface.
 
-RFC because this is very convenient, for a developper targetting
-different environments, but might not be considered appropriate, as it
-is "a kind of" git submodule (without git submodule integration issues
-though, afaik, experience should tell).
+Furthermore, the following patches are going to make socket handling use
+FD-only inside QEMU, but we need to handle win32 SOCKET from libslirp.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- .gitignore             | 2 ++
- subprojects/slirp.wrap | 6 ++++++
- 2 files changed, 8 insertions(+)
- create mode 100644 subprojects/slirp.wrap
+ include/qemu/main-loop.h |  2 --
+ net/slirp.c              |  8 +++++++-
+ util/main-loop.c         | 11 -----------
+ 3 files changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index 61fa39967b..1ea59f4819 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -20,3 +20,5 @@ GTAGS
- *.swp
- *.patch
- *.gcov
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index c25f390696..b3e54e00bc 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -387,8 +387,6 @@ void qemu_cond_timedwait_iothread(QemuCond *cond, int ms);
+ 
+ /* internal interfaces */
+ 
+-void qemu_fd_register(int fd);
+-
+ #define qemu_bh_new(cb, opaque) \
+     qemu_bh_new_full((cb), (opaque), (stringify(cb)))
+ QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name);
+diff --git a/net/slirp.c b/net/slirp.c
+index 2ee3f1a0d7..0730a935ba 100644
+--- a/net/slirp.c
++++ b/net/slirp.c
+@@ -248,7 +248,13 @@ static void net_slirp_timer_mod(void *timer, int64_t expire_timer,
+ 
+ static void net_slirp_register_poll_fd(int fd, void *opaque)
+ {
+-    qemu_fd_register(fd);
++#ifdef WIN32
++    AioContext *ctxt = qemu_get_aio_context();
 +
-+/subprojects/slirp
-diff --git a/subprojects/slirp.wrap b/subprojects/slirp.wrap
-new file mode 100644
-index 0000000000..87cdd8dcd8
---- /dev/null
-+++ b/subprojects/slirp.wrap
-@@ -0,0 +1,6 @@
-+[wrap-git]
-+url = https://gitlab.freedesktop.org/slirp/libslirp
-+revision = 15c52d69
-+
-+[provide]
-+slirp = libslirp_dep
++    qemu_socket_select(fd, event_notifier_get_handle(&ctxt->notifier),
++                       FD_READ | FD_ACCEPT | FD_CLOSE |
++                       FD_CONNECT | FD_WRITE | FD_OOB, NULL);
++#endif
+ }
+ 
+ static void net_slirp_unregister_poll_fd(int fd, void *opaque)
+diff --git a/util/main-loop.c b/util/main-loop.c
+index 16e837fb12..e180c85145 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -252,10 +252,6 @@ static int max_priority;
+ static int glib_pollfds_idx;
+ static int glib_n_poll_fds;
+ 
+-void qemu_fd_register(int fd)
+-{
+-}
+-
+ static void glib_pollfds_fill(int64_t *cur_timeout)
+ {
+     GMainContext *context = g_main_context_default();
+@@ -414,13 +410,6 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
+     }
+ }
+ 
+-void qemu_fd_register(int fd)
+-{
+-    qemu_socket_select(fd, event_notifier_get_handle(&qemu_aio_context->notifier),
+-                       FD_READ | FD_ACCEPT | FD_CLOSE |
+-                       FD_CONNECT | FD_WRITE | FD_OOB, NULL);
+-}
+-
+ static int pollfds_fill(GArray *pollfds, fd_set *rfds, fd_set *wfds,
+                         fd_set *xfds)
+ {
 -- 
 2.39.1
 
