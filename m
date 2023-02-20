@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4393869CC31
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 14:38:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB1B69CC47
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 14:38:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU6LY-0000af-VQ; Mon, 20 Feb 2023 08:36:48 -0500
+	id 1pU6N2-0001QX-JM; Mon, 20 Feb 2023 08:38:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pU6LU-0000aA-QR
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:36:44 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pU6Mz-0001QC-H1
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:38:17 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pU6LS-0002KB-2P
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:36:44 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- f9-20020a17090a9b0900b00236679bc70cso2033623pjp.4
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 05:36:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zsjUpnKz/M5ZM7vM3XqrtqEwCN5MIfQG/YGmt7dXc9U=;
- b=w1rs8swxhWg/y2oVsFjGJxV576Iw9adO5HlLRi069PReW3R1RNMeW0FYaJhb1koyBB
- CIJCHnSCiUOsBorDh+c8dHv07Lt2Pd5OfSqLmFEBI0kv8DADyF7itzlsOCQb4bV6edl+
- +AXKl5Lf6WewPJKYPpg7wshnZ8Iy5/uidBa6pLtqe6pYLOeTV0sDryTvZUlPD3PBc8pL
- RWNkCbUWWyNQjo4GHE38GDb9wPQb864V7EyqwtN4uGfGftHa+e/biq6CgAoCR+tOslVz
- DGp4fG2FT7zAY++x1ZImaZnpJrJkOBkriYlG7e5pfWP+Lqc+IJrypiiEKVN3ELmwREB+
- jBxw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pU6Mx-0002cb-RF
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:38:17 -0500
+Received: by mail-pf1-x429.google.com with SMTP id fb30so486751pfb.13
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 05:38:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BYAdpcMquJrPiRLAbm3+em1rpL6y7keM4hsmzkZO6/4=;
+ b=xzqpUH2qa5eLE5P/FwlxGzvMX2RU1eqtmBdSvK0KhC59vLqLZpeEzza8+CKbAYbWNv
+ QmP33pqa+vzP9cpAWnGTM/ioDOPudAoAKWHTNbe5VjoC71874h2Mie9IogXDdu4aRnf5
+ MSJS3VXgxwKxcz+NpVrQisoFle35cgbM79H19Yx4G0Kb+t6TtRBfYA7vde0iPfBDmHfu
+ tX/+VvH8jwBLwhoP54lhApedRdBDI7U1LUWT5bRdD9Kd6e+KjFIp4CXbBazb5zfo/8/a
+ AfEQOk31NiXJWBxGMfiY4NIuWgPSV5evEAD3Q/egCfWFFkcfZBtSmpaNY0pAL8Jo40lu
+ RLPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=zsjUpnKz/M5ZM7vM3XqrtqEwCN5MIfQG/YGmt7dXc9U=;
- b=UirnVcyjM+L0OQP/0m4dpMb2ehDnmr+WJI5PkW+5ENZ+HqwLnX3w7K29RsJTIVCRcU
- 2ISuxd6JHZsSP+FstZAtjcFc4Nm16ckW2+/Dku5b6wvCxC9MAH7W7Gjd+BUkuiIQQ0gG
- cjY9/33v9C+fh9sbsWonwQnz20gzN58h4rKlpOykgnq/t6vx6QpQfeBH447uHdAUpET4
- XR4Z8zyrJ7HMRc0+v6j2AJPI/KLiKedGJOZ4437SNM01Uhso2YOp2tCr0C4kZgbgZkN2
- EDTpvUHB+BPTlByutgNRFiz0PdkPLkkcRigK6nIqNs9UuO7PtNo3AeaFTyckxNF8oKDj
- cH8w==
-X-Gm-Message-State: AO0yUKX9HhY4e1ojiin+cHWncM6GCum6qLT6HK5XHcRiJfx6N8ORvJ60
- 8M9z+jpi+5e1EuHLTb4hTjf4/A==
-X-Google-Smtp-Source: AK7set/vUos5WHu2imCdmutOVDL2HQ7JaaOE3+v1om5FrGRZXRrC8+8VoZPgqrQ55VwoS8csQUf9lg==
-X-Received: by 2002:a17:902:c40d:b0:19a:8284:83a2 with SMTP id
- k13-20020a170902c40d00b0019a828483a2mr2682110plk.10.1676900196764; 
- Mon, 20 Feb 2023 05:36:36 -0800 (PST)
-Received: from [10.94.53.13] ([139.177.225.233])
- by smtp.gmail.com with ESMTPSA id
- ja4-20020a170902efc400b001948ff5cc32sm7341947plb.215.2023.02.20.05.36.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 05:36:36 -0800 (PST)
-Message-ID: <8c0fe4e9-2df0-9340-06aa-d01f9bc215d4@bytedance.com>
-Date: Mon, 20 Feb 2023 21:36:31 +0800
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BYAdpcMquJrPiRLAbm3+em1rpL6y7keM4hsmzkZO6/4=;
+ b=HhY3+nFuJ6Gi2VDr24rpAY8C9B7Laeq1w0gi9XwXq+hGh6LSRgjmQHc0v+om+Y5Gcx
+ MG6BDXI5nygx/lp5AulvEnfOOyWbuMeEaxx1nNOpbqJwFw5HxGkkxieraP5tytJ0FPlE
+ u+DABbWfDI6KC+qpuMCJ7lw0cvGqqPeV5gVUpc7QzDjNyrcJ7MI8VNSbnQxQM7yr7vdz
+ EnYDg7J7DaHWWQEOqQ16B4c3UOf1dWJ5puGqn2RlhDXFqJ9IQ3ImNE2IWMngD8NdU7H4
+ aXxEXT6jzwGIfFybCTw7geV3HGEO+jSurcewFxNQzsgbtZOA8UDbZgGdkPUIjVZeqJLV
+ giOg==
+X-Gm-Message-State: AO0yUKXRiPA3J2OI1Z2UA26gzgkuyohht0IoWPLwCXnEAhyBGEEY+cAl
+ 1euRvcsst83zETJmiB+6Pxvh9u9lQA/S91b6x9DMO8N18mCheA==
+X-Google-Smtp-Source: AK7set+GZs+l6vRPCIUtIjY/Z8/LmRy87nb7XW7L8lReDHQ6btD7711xG4FsBJ0qPHx79uWvxx1Rckjmd/EaN0FWMGc=
+X-Received: by 2002:a05:6a00:1631:b0:5a9:ce98:f621 with SMTP id
+ e17-20020a056a00163100b005a9ce98f621mr212295pfc.1.1676900293659; Mon, 20 Feb
+ 2023 05:38:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
- vmstate
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
- pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
- zhouyibo@bytedance.com
-References: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
- <877cwizqvy.fsf@secure.mitica>
- <a555b989-27be-006e-0d00-9f1688c5be4e@bytedance.com>
- <abcb08b7-460c-d88c-af48-c1d256f89c54@bytedance.com> <Y++i1NmxUxOPDM/V@x1n>
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-In-Reply-To: <Y++i1NmxUxOPDM/V@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20230216171123.2518285-1-peter.maydell@linaro.org>
+In-Reply-To: <20230216171123.2518285-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 Feb 2023 13:38:02 +0000
+Message-ID: <CAFEAcA81BG-pzsrMaKJhp54fxtRyJenfkkvXguqdykUP=JG5xg@mail.gmail.com>
+Subject: Re: [PULL 00/30] target-arm queue
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,143 +80,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Peter
-
-On 2023/2/17 下午11:52, Peter Xu wrote:
-> Hello, Chuang,
+On Thu, 16 Feb 2023 at 17:11, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Fri, Feb 17, 2023 at 04:11:19PM +0800, Chuang Xu wrote:
->> Error 1 was triggered by our sanity check. I try to add RCU_READ_LOCK_GUARD()
->> in address_space_init() and it works. But I'm not sure if this code change is
->> appropriate. If this change is not appropriate, we may need to consider other
->> sanity check.
-> I'd suggest not adding RCU locks without a good reason.
+> The following changes since commit 003ba52a8b327180e284630b289c6ece5a3e08b9:
 >
-> address_space_init() is definitely a special context because the AS is
-> exclusively owned by the caller before it returns.  It means no RCU
-> protection needed at all because no one else is touching it; neither do we
-> need qatomic_rcu_read() when read.
+>   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-02-16 11:16:39 +0000)
 >
-> So I suggest we directly reference current_map, even though that'll need a
-> rich comment:
+> are available in the Git repository at:
 >
->   static void address_space_set_flatview(AddressSpace *as)
->   {
-> -    FlatView *old_view = address_space_to_flatview(as);
-> +    /*
-> +     * NOTE: we don't use RCU flavoured of address_space_to_flatview()
-> +     * because we exclusively own as->current_map here: it's either during
-> +     * init of an address space, or during commit() with BQL held.
-> +     */
-> +    FlatView *old_view = as->current_map;
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230216
 >
-> We can have address_space_to_flatview_raw() but since we'll directly modify
-> as->current_map very soon in the same function, so may not even bother.
-
-I agree with you.
-
-But now I am facing a new problem. Our sanity check is not as reliable as we think.
-
-Although my current code can pass all the tests that Juan told me in the email.
-But if I configure with nothing and run 'make check', My patch triggers
-error in ahci migrate test:
-
-G_TEST_DBUS_DAEMON=/data00/migration/qemu-open/tests/dbus-vmstate-daemon.sh QTEST_QEMU_BINARY=./qemu-system-x86_64 QTEST_QEMU_IMG=./qemu-img MALLOC_PERTURB_=1 QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon /data00/migration/qemu-open/build/tests/qtest/ahci-test --tap -k
-―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-stderr:
-qemu-system-x86_64: AHCI: Failed to start FIS receive engine: bad FIS receive buffer address
-qemu-system-x86_64: Failed to load ich9_ahci:ahci
-qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:1f.2/ich9_ahci'
-qemu-system-x86_64: load of migration failed: Operation not permitted
-Migration did not complete, status: failed
-
-It seems that ahci_state_post_load() will call memory_access_is_direct() and access mr->ram.
-Due to mr transaction delay, this value doesn't meet expectations.
-And Here is the call chain for you to read the code:
-->ahci_state_post_load
-->ahci_cond_start_engines
-->ahci_map_fis_address
-->map_page
-->dma_memory_map
-->address_space_map
-->memory_access_is_direct
-
-I think we need a memory_region_transaction_commit_force() to force commit
-some transactions when load vmstate. This function is designed like this:
-
-|
-/* memory_region_transaction_commit_force() is desgined to * force the 
-mr transaction to be commited in the process * of loading vmstate. */ 
-void memory_region_transaction_commit_force(void) { AddressSpace *as; 
-unsigned int memory_region_transaction_depth_copy = 
-memory_region_transaction_depth; /* Temporarily replace 
-memory_region_transaction_depth with 0 to prevent * 
-memory_region_transaction_commit_force() and address_space_to_flatview() 
-* call each other recursively. */ memory_region_transaction_depth = 0; 
-assert(qemu_mutex_iothread_locked()); if (memory_region_update_pending) 
-{ flatviews_reset(); MEMORY_LISTENER_CALL_GLOBAL(begin, Forward); 
-QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) { 
-address_space_set_flatview(as); address_space_update_ioeventfds(as); } 
-memory_region_update_pending = false; ioeventfd_update_pending = false; 
-MEMORY_LISTENER_CALL_GLOBAL(commit, Forward); } else if 
-(ioeventfd_update_pending) { QTAILQ_FOREACH(as, &address_spaces, 
-address_spaces_link) { address_space_update_ioeventfds(as); } 
-ioeventfd_update_pending = false; } /* recover 
-memory_region_transaction_depth */ memory_region_transaction_depth = 
-memory_region_transaction_depth_copy; }
-Now there are two options to use this function:
-1. call it in address_space_to_flatview():
-
-|
-static inline FlatView *address_space_to_flatview(AddressSpace *as) {
-/* * Before using any flatview, check whether we're during a memory * 
-region transaction. If so, force commit the memory transaction. */
-if (memory_region_transaction_in_progress()) 
-memory_region_transaction_commit_force();
-return qatomic_rcu_read(&as->current_map); }
-2. call it before each post_load()
-I prefer to use the former one, it is more general than the latter.
-And with this function, the sanity check is not necessary any more.
-Although we may inevitably call 
-memory_region_transaction_commit_force()||||
-several times, in my actual test, the number of calls to ||
-|memory_region_transaction_commit_force|() is still insignificant compared
-with the number of calls to|memory_region_transaction_commit()| before
-optimization. As a result, This code won't affect the optimization effect,
-but it can ensure reliability. |
-
-|
-
->> Error 2 was related to postcopy. I read the official document of postcopy
->> (I hope it is the latest) and learned that two threads will call
->> qemu_loadvm_state_main() in the process of postcopy. The one called by main thread
->> will take the BQL, and the one called by ram_listen thread won't take the BQL.
->> The latter checks whether the BQL is held when calling memory_region_transaction_commit(),
->> thus triggering the assertion. Creating a new function qemu_loadvm_state_ram_listen()
->> without memory_region_transaction_commit() will solve this error.
-> Sounds right, because the whole qemu_loadvm_state_main() process shouldn't
-> load any device state or anything that requires BQL at all; in most cases
-> that should be only RAM states leftovers.
+> for you to fetch changes up to caf01d6a435d9f4a95aeae2f9fc6cb8b889b1fb8:
 >
-> I think we only want to optimize precopy but not the postcopy phase. Note!
-> it should include the phase when transferring precopy -> postcopy too, so
-> it's covering postcopy, just not covering the "post" phase of migration -
-> if you see that's a nested call to qemu_loadvm_state_main() with a whole
-> MIG_CMD_PACKAGED package which is actually got covered, which is the real
-> meat for postcopy on device transitions.
+>   tests/qtest: Restrict tpm-tis-devices-{swtpm}-test to CONFIG_TCG (2023-02-16 16:28:53 +0000)
 >
-> So in short: instead of creating qemu_loadvm_state_ram_listen(), how about
-> modifying your patch 3, instead of changing inside qemu_loadvm_state_main()
-> we can do that for qemu_loadvm_state() only (so you can wrap the begin()
-> and commit() over qemu_loadvm_state_main() there)?
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Some mostly M-profile-related code cleanups
+>  * avocado: Retire the boot_linux.py AArch64 TCG tests
+>  * hw/arm/smmuv3: Add GBPA register
+>  * arm/virt: don't try to spell out the accelerator
+>  * hw/arm: Attach PSPI module to NPCM7XX SoC
+>  * Some cleanup/refactoring patches aiming towards
+>    allowing building Arm targets without CONFIG_TCG
+>
 
-In Patch v6 I'll adopt the change you suggested, Thanks!
 
->> I don't know if you suggest using this patch in postcopy. If this patch is applicable to
->> postcopy, considering the difference between how postcopy and precheck load device state,
->> do we need to consider more details?
-> See above.  Yes I definitely hope postcopy will be covered too.
->
-> Thanks!
->
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
