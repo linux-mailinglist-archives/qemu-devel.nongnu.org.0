@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18AB69CA7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 13:08:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E9569CA82
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 13:11:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU4x4-0001BG-JI; Mon, 20 Feb 2023 07:07:26 -0500
+	id 1pU516-0002Xv-Iv; Mon, 20 Feb 2023 07:11:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pU4wr-00018K-9Q
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 07:07:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pU514-0002Wy-P7
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 07:11:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pU4wn-0000PE-6D
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 07:07:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pU513-0001JH-6j
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 07:11:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676894828;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=7hHDUHUo1DIIqOL31Pwi+JqOpARTiROAqzPnGVXKSrI=;
- b=QIa82HeFijB3/dLwQM8v2z1xUEPicCJpJWWSdZ+eJvcep+PxdhDMPN+5fTEvMchbLMNPok
- Tb9Tci1cCMTSM5H78LJd5abYyb+PP84myCSe/vohvxCCTmT07V0Phd4uH/yVvasHxUv2BG
- JJ+70C/2Z3as6KWs41aVusO6CrIJFb4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1676895092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FfPVSnkuXzq6Ck1l5Gc71e8XRaLybl60uBlNLn/yaJ4=;
+ b=E/Dj6tGzV5wnu1Ff6ZIBnRXQGpgS93uRelpk/wvdjB252X2/EXmdHrZwbkLvbTm7WB9WRv
+ eqkgpMNepDoQ76Cyh1njkEMQXEaCoej1vqPkCRWeh+it6r4gPkxeesCbgvPid3vs/k2IgT
+ 5BvtqUObh8RItZ3h0Il95oCl4b896fw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-8-p1gdy4hgOO2GmjrheZCejQ-1; Mon, 20 Feb 2023 07:07:06 -0500
-X-MC-Unique: p1gdy4hgOO2GmjrheZCejQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- i11-20020a5d584b000000b002c5400f5c76so211352wrf.14
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 04:07:06 -0800 (PST)
+ us-mta-227-qDg-9SOWPem86cSJOeBgtg-1; Mon, 20 Feb 2023 07:11:30 -0500
+X-MC-Unique: qDg-9SOWPem86cSJOeBgtg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l41-20020a05600c1d2900b003dc51c95c6aso232232wms.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 04:11:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7hHDUHUo1DIIqOL31Pwi+JqOpARTiROAqzPnGVXKSrI=;
- b=Sp+gEyEN2axUH17Wzvq045/Dbh7zQtVQUZU/7U7fNSjpyIh1do27LqRNNRKzHOQrZt
- JbaFxep8TYaO1IMgmIb5a4Dw4rYB8gvgNc9ZZJ0k4FXXXl27rU4JCk4E6imEHiDWheou
- feCiTRjHPW4iWXNWYLLa0qJguYTqKq4FgNezX5EZsFiDA70QV7G7AqLZCmBLMrc2cAAj
- J4KmgK4DRNuX1oc0FlzWexcznT5kvLm1JeC6jYbyg/BmjDhRYppW79xN9/s1eLAhlA8Y
- NYxZXvV5MwLSORLUTP5jty9FWTX5P8IPun7OEOQbIN6lDg4Mi7HUZ2wfKIyc2ORwImY1
- DArg==
-X-Gm-Message-State: AO0yUKU32uI2lu5WQt91y3D9IRzgKEYxXo9+ziimdm2uCaw2V7liHeAs
- v0iTYFToGLwTPzWNwFWZKgxIEvvQfUXs+jDX7bbZb3R1DnlqvBWaRmE7Fz9LzwMjVteFMtJA9DM
- Ho0YlmAvoYd2h9CE=
-X-Received: by 2002:a5d:58c1:0:b0:2c5:52ef:3ff8 with SMTP id
- o1-20020a5d58c1000000b002c552ef3ff8mr1579815wrf.31.1676894825509; 
- Mon, 20 Feb 2023 04:07:05 -0800 (PST)
-X-Google-Smtp-Source: AK7set9KaIus/XV1OeJ4N4g9u+kFMqh1BH8IQsnYSws2KxC9z5lft4jb31YWXUCPBInl0GA9VczMYg==
-X-Received: by 2002:a5d:58c1:0:b0:2c5:52ef:3ff8 with SMTP id
- o1-20020a5d58c1000000b002c552ef3ff8mr1579792wrf.31.1676894825233; 
- Mon, 20 Feb 2023 04:07:05 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- o27-20020a05600c511b00b003e21dcccf9fsm683226wms.16.2023.02.20.04.07.01
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FfPVSnkuXzq6Ck1l5Gc71e8XRaLybl60uBlNLn/yaJ4=;
+ b=NjvOUkfDdgcHn4NAmQQPAG/BVypgZIeUKaePq7Uk+kWlRSOAZXP/g9YB8eiSWDoTO5
+ 6JqHJygr3o1NqAb66dWelAIBmXyIjm04jVgcjBpfsTFSvK1WZJxsanx+PRUe4G4H3OE9
+ t4l+XLpwMrPBm6Sa6NacVsFJBOsJUfBWhEnPvN4TSIxkmLARvJjxDfZacZwLo4ZszzLQ
+ BGFhZQClxcSJgtbMqI1BexTeu33Q6yLPgZm6mw4Rr9nLAfgd4ux45b41LaA9Tqvt5MCr
+ 8gXw8uX8KoM5TiYHUiqXyyu0Bb9BK/CGJvQiFLFrWWTrp0aQyNm6EvuSNb82JfUfno6f
+ DPMg==
+X-Gm-Message-State: AO0yUKUBS3ZtAfbH4ltpDypSPo8A2yl470PkmKxn0R3YgQzJ3Vo1kp7h
+ kQBN/DX5AHYAzr/n4cvzuHk64K7LM6ATCA9HxVcV7Ta7vUTE7ggaHVBMUj86xEdB0LamNlQZ+K5
+ s/udc2sEYYl3WEFU=
+X-Received: by 2002:adf:f942:0:b0:2c6:e7ff:8f17 with SMTP id
+ q2-20020adff942000000b002c6e7ff8f17mr2436542wrr.25.1676895089826; 
+ Mon, 20 Feb 2023 04:11:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set/fLBei1ww50gAoaFC1oqWSqg641kMBHMXBzcJq3ghMjDkdQNMn4POALbgRWZpF+ssUpS4qVQ==
+X-Received: by 2002:adf:f942:0:b0:2c6:e7ff:8f17 with SMTP id
+ q2-20020adff942000000b002c6e7ff8f17mr2436529wrr.25.1676895089626; 
+ Mon, 20 Feb 2023 04:11:29 -0800 (PST)
+Received: from redhat.com ([2.52.5.34]) by smtp.gmail.com with ESMTPSA id
+ x15-20020adff64f000000b002c406b357cfsm2220417wrp.86.2023.02.20.04.11.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 04:07:02 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Chuang Xu <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  pbonzini@redhat.com,
- peterx@redhat.com,  david@redhat.com,  philmd@linaro.org,
- zhouyibo@bytedance.com
-Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
- vmstate
-In-Reply-To: <fe9a4f13-5bca-f386-1eb5-d1a02a487c40@bytedance.com> (Chuang Xu's
- message of "Mon, 20 Feb 2023 17:53:06 +0800")
-References: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
- <877cwizqvy.fsf@secure.mitica>
- <fe9a4f13-5bca-f386-1eb5-d1a02a487c40@bytedance.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 20 Feb 2023 13:07:01 +0100
-Message-ID: <87wn4czgka.fsf@secure.mitica>
+ Mon, 20 Feb 2023 04:11:29 -0800 (PST)
+Date: Mon, 20 Feb 2023 07:11:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Yangming <yangming73@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "wangzhigang (O)" <wangzhigang17@huawei.com>,
+ "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
+Subject: Re: Optimization for the virtio-balloon feature on the ARM platform
+Message-ID: <20230220071054-mutt-send-email-mst@kernel.org>
+References: <8c6d264163574d8b886afdd3e4b77a2d@huawei.com>
+ <0a0e1f05073d44a38a35e270ca735819@huawei.com>
+ <bbbd3382-f33c-1e8a-789b-dec1c4766730@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bbbd3382-f33c-1e8a-789b-dec1c4766730@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,19 +98,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Chuang Xu <xuchuangxclwt@bytedance.com> wrote:
-> Hi, Juan
+On Mon, Feb 20, 2023 at 10:15:37AM +0100, David Hildenbrand wrote:
+> On 20.02.23 02:33, Yangming via wrote:
+> > Dear QEMU maintainers,
+> > 
+> > I am writing to discuss a possible optimization for the virtio-balloon
+> > feature on the ARM platform. The ‘virtio_balloon_set_config’ function is
+> > called frequently during the balloon inflation process, and its
+> > subfunction ‘get_current_ram_size’ needs to traverse the virtual
+> > machine's memory modules in order to count the current virtual machine's
+> > memory (i.e initial ram size + hotplugged memory). This can be very time
+> > consuming on the ARM platform, as the ARM virtual machine has much more
+> > complex memory modules than the x86 virtual machine.
+> > 
+> > Therefore, I suggest introducing a global variable, ‘total_ram_size’,
+> > that would be updated only when the balloon is initialized and hotplug
+> > memory has completed. This would increase the efficiency of balloon
+> > inflation by more than 60% on the ARM platform.
+> > 
+> > The following code is part of the optimization for balloon:
+> > 
+> > --- a/qemu/hw/virtio/virtio-balloon.c
+> > 
+> > +++ b/qemu/hw/virtio/virtio-balloon.c
+> > 
+> > static void virtio_balloon_set_config(…)
+> > 
+> > …
+> > 
+> > -    ram_addr_t vm_ram_size = get_current_ram_size();
+> > 
+> > +   ram_addr_t vm_ram_size = total_ram_size;
+> > 
+> > …
+> > 
+> > I hope this suggestion could be considered or discussed by QEMU
+> > developers. I would love to seeing this improvement added to QEMU in the
+> > future.
+> 
+> I'd suggest keeping track of the plugged DIMM size inside
+> ms->device_memory->dimm_size. We can update it from
+> pc_dimm_plug/pc_dimm_unplug. We just have to make sure to exclude NVDIMMs.
+> 
+> We can then optimize get_current_ram_size() to return "ms->ram_size +
+> ms->device_memory->dimm_size", of course taking care of ms->device_memory ==
+> NULL on some machines.
 
->> 	--target-list=x86_64-softmmu
 
-Compile withouth this line, that will compile all system emulators.
-If you pass "make check" there, I would think that you have done your
-part.
+And as any optimization, patches are welcome accompanied by
+a measurement showing it's a net improvement.
 
-Thanks, Juan.
+> -- 
+> Thanks,
+> 
+> David / dhildenb
 
 
