@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D6D69D465
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 20:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD7569D510
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:39:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUCHo-00027z-PH; Mon, 20 Feb 2023 14:57:20 -0500
+	id 1pUCuz-0003IX-RE; Mon, 20 Feb 2023 15:37:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUCHl-00027a-8o
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:57:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUCuy-0003I9-03
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:37:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUCHi-0001si-KK
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 14:57:17 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUCuw-00018c-Ai
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:37:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676923033;
+ s=mimecast20190719; t=1676925465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=atMZAYD055baYrznEHNdSNjqtuaaafO2Rip1N1qgStY=;
- b=LeKiPv3hRLLcSsOQqFMhKgWbO1r4zwf9SEZbuuAX2V0qH7Np1bTQs0437ebo9y3ya47l5Z
- Zl7WQgU2Us+FCzduLyhBZ4ZKv9TtzZjABWJZk2iK5AQKhbG3NKShQO04psxqcQXfWUsXey
- nrgHVBTCLUb73vvTAHXK4A9RgasCM3s=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7d3gEh2+5qlRKXLvmGFb/IvmK+QhQwu6ICYMI8ioFBk=;
+ b=LApM7ZADCQ6/iBEGWm9f/rK5u05eevnW/8u2gw/PshosVHAt/J8UDSRkWslXcBA9362Gt7
+ KmCDS75UExu7S75NPMAMhPRqjh27trZd4x4dYWszr4G9aGC8sq4NFroD5dJkBNnSc87Nlp
+ 64AygA5HaAz9pGSvrdUlvGC/6hOXcTw=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-tFKSvDTFNLyJxO4sgyPRGw-1; Mon, 20 Feb 2023 14:57:12 -0500
-X-MC-Unique: tFKSvDTFNLyJxO4sgyPRGw-1
-Received: by mail-pf1-f197.google.com with SMTP id
- k24-20020aa790d8000000b005a8ad1228d4so903807pfk.10
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 11:57:12 -0800 (PST)
+ us-mta-580-mF7DFefKN6CRjADqmDjfDQ-1; Mon, 20 Feb 2023 15:37:43 -0500
+X-MC-Unique: mF7DFefKN6CRjADqmDjfDQ-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ o38-20020a635d66000000b004fbec68e875so583207pgm.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 12:37:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676923031;
+ d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=atMZAYD055baYrznEHNdSNjqtuaaafO2Rip1N1qgStY=;
- b=jM2PHH4A9rTuCn2b9qNvUsEwLBYlyIsHvm9tUc7rzJaBOWYM7csVCh7FKlRGDue49N
- 6nFhN9/qJYvaGpCSiXHzKegYVGA2Up2FmfZW/XFN40BmGerIkS3emj2Jvkf6poiwRi/9
- 0Hf3/CbRlVRrRp3no2DTdJ1K0NY3hmj2+zl7hFBEy6flG9ZC2OE1MpO/AQkmR1BA14kr
- ntqQ87WeASoaNtQksbTIyWSmMIQex6NZb61KEUvbThwkzlk0KMlRE3Smumg8hgVZXqPt
- +em5aRxdP+KtPRDO7oT81W1KJHzveb6XpwhhSOud/Kh88V4EPlomYAtOro5moiBGnYEx
- 6oOg==
-X-Gm-Message-State: AO0yUKVEyw7hqTpLjQs7E8SK2k4POTqeV4Y45JddlC/3SYXjzau+DTMl
- 4tyqJLWz3KIZRQ6Y9LeEZGPU9rcb1i+quDFvCVAVBnBy7XVe506fZ099viZTy1FSDOWRNsnJqYk
- CvJVPIebhzfngasZS7YccVG9X7JSWgXI=
-X-Received: by 2002:a62:ceca:0:b0:592:503a:8f06 with SMTP id
- y193-20020a62ceca000000b00592503a8f06mr193188pfg.52.1676923031157; 
- Mon, 20 Feb 2023 11:57:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set+Rv/N+GcurMhqOUKUAlbhvOhzufxrqfy4CkXMuDxDqCSqAc30+IyJuBdKhnmulvXEJnwMjaaikaAajiAvJl4c=
-X-Received: by 2002:a62:ceca:0:b0:592:503a:8f06 with SMTP id
- y193-20020a62ceca000000b00592503a8f06mr193174pfg.52.1676923030786; Mon, 20
- Feb 2023 11:57:10 -0800 (PST)
+ bh=7d3gEh2+5qlRKXLvmGFb/IvmK+QhQwu6ICYMI8ioFBk=;
+ b=3i8xPZy9B4d9chQNWa03BGGJgTpIWoYFVBhQVgoNzKgAQph2li/+BG9yT/NqxqocJ2
+ S8qJEmK7BHVkh0xetpLjH1UioPjjHr5HRGmF9jJfey224bIpmwJ4aZIiWlvDObf1uocU
+ yI0C0cxNE42SkqrxTh8n7CzCmIDjqywHFZdFhlr2m8735u23HwiXV6LYbrwnIDms9wMz
+ v3PKcVUxQYJM71t2TX/7eayJ8u/5k162EVww8/owe2jszaaHnoEyEJsNDfXS/lnd924i
+ Wt/yvVmz6TnJV2XhToRv4GgeQ7esSLpgfueK8/13B6JDMsdB2Cp51YVCvdx3D/zDZqt4
+ Ryrw==
+X-Gm-Message-State: AO0yUKVu6xzwvuGqUFwpd3OLUFRiFXkNpm/qhBHZPwdjR06NJ0FJfKVn
+ E1G7T2jFnZlcOy2k2oGB1gLo/sgHwGjbQXv+eN7OEJIBu3wOp2/MHKgIh7DIauixDb7SFw8JjVR
+ iV67hGSh2ztz4PS3a7kCxzJI8tvdyMuo=
+X-Received: by 2002:a17:903:2986:b0:199:6e3:187a with SMTP id
+ lm6-20020a170903298600b0019906e3187amr525679plb.6.1676925462722; 
+ Mon, 20 Feb 2023 12:37:42 -0800 (PST)
+X-Google-Smtp-Source: AK7set8xmesOIv0cEHisJ/BJlFZacmK/O3N7tz/Bex8sOXw6+UyNHw4Ey7hHUVq3igOJ2Jv1eNBCNT2JPNDe9ZOD8VI=
+X-Received: by 2002:a17:903:2986:b0:199:6e3:187a with SMTP id
+ lm6-20020a170903298600b0019906e3187amr525677plb.6.1676925462344; Mon, 20 Feb
+ 2023 12:37:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <87v8k2ycjb.fsf@pond.sub.org>
- <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com>
- <CAFn=p-YnR-hFAg=yxCi7oNKHXirMqv2vJSYmaY8VBPq+Q2UVbA@mail.gmail.com>
- <ee04b184-75e3-7c4a-856f-4543f51f8412@redhat.com>
-In-Reply-To: <ee04b184-75e3-7c4a-856f-4543f51f8412@redhat.com>
+References: <20230215132547.1620575-1-vsementsov@yandex-team.ru>
+ <20230215132547.1620575-2-vsementsov@yandex-team.ru>
+In-Reply-To: <20230215132547.1620575-2-vsementsov@yandex-team.ru>
 From: John Snow <jsnow@redhat.com>
-Date: Mon, 20 Feb 2023 14:56:59 -0500
-Message-ID: <CAFn=p-ZW6ZDhrHAdu-TOarwsea2FNwK7tmN-REaWx23u-nBTZw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
-To: Thomas Huth <thuth@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>, 
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org, 
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Kevin Wolf <kwolf@redhat.com>
+Date: Mon, 20 Feb 2023 15:37:30 -0500
+Message-ID: <CAFn=p-ZS5dis8Q2DWcFrXAEJuj0ek0K0fJ8Whdk9mh=djLAmPg@mail.gmail.com>
+Subject: Re: [PATCH v5 01/16] python: fix superfluous-parens pylint error
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, crosa@redhat.com, 
+ kwolf@redhat.com, hreitz@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,7 +75,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,114 +91,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 20, 2023 at 1:16 AM Thomas Huth <thuth@redhat.com> wrote:
+On Wed, Feb 15, 2023 at 8:26 AM Vladimir Sementsov-Ogievskiy
+<vsementsov@yandex-team.ru> wrote:
 >
-> On 17/02/2023 21.46, John Snow wrote:
-> > On Thu, Feb 16, 2023 at 5:58 AM Thomas Huth <thuth@redhat.com> wrote:
-> >>
-> >> On 15/02/2023 20.05, Markus Armbruster wrote:
-> >>> The discussion under PATCH 6 makes me think there's a bit of confusion
-> >>> about the actual impact of dropping support for Python 3.6.  Possibly
-> >>> because it's spelled out in the commit message of PATCH 7.  Let me
-> >>> summarize it in one sentence:
-> >>>
-> >>>       *** All supported host systems continue to work ***
-> >>>
-> >>> Evidence: CI remains green.
-> >>
-> >> The CI remains green since one of the patches disabled the building of the
-> >> docs on CentOS 8. That's not how I'd describe "continue to work", at least
-> >> not in the same extend as before.
-> >>
-> >>> On some supported host systems, different packages need to be installed.
-> >>> On CentOS 8, for instance, we need to install Python 3.8.13 or 3.9.16
-> >>> instead of 3.6.8.  Let me stress again: same repository, different
-> >>> package.  No downsides I can see.
-> >>>
-> >>> The *one* exception is Sphinx on CentOS 8.  CentOS 8 does not ship a
-> >>> version of Sphinx that works with Python 3.7 or newer.  This series
-> >>> proposes to simply stop building the docs there, unless the user
-> >>> provides a suitable version of Sphinx (which is easy enough with pip).
-> >>
-> >> I think we've all understood that. The thing that you obviously did not
-> >> understood: This breaks our support statement.
-> >> I'm pretty sure that you could also build the whole QEMU suite successfully
-> >> on an ancient CentOS 7 or Ubuntu 18.04 system if you manually install a
-> >> newer version of GCC and some of the required libraries first. But that's
-> >> not how we understand our support statement.
-> >>
-> >> Sure, you can argue that you can use "pip install" to get a newer version of
-> >> Sphinx on RHEL 8 / CentOS 8 to continue building the docs there - but is
-> >> that really that much different from installing a newer version of GCC and
-> >> libraries on an ancient distro that we do not officially support anymore?
-> >> I'd say no. You also have to consider that not every build host has access
-> >> to the internet, maybe some companies only have an internal mirror of the
-> >> distro packages in their intranet (I remember some discussion about such a
-> >> case in the past) - so while you were perfectly fine to build the whole of
-> >> QEMU on a CentOS 8 there before this change, you could now not build parts
-> >> of QEMU anymore there due to the missing possibility to run "pip install"
-> >> without full internet connection.
-> >
-> > There are good points elsewhere in this thread and I am taking notes,
-> > but this critique caught my eye as something I was not specifically
-> > planning around, so I wanted to get an elaboration here if I may.
-> >
-> > Do we have a support statement for this? I find this critique somewhat
-> > surprising -- If we don't have internet, how did we get the other 20
-> > to 30 dependencies needed to build QEMU? To what extent are we
-> > *required* to preserve a build that works without internet access?
+> Now make check-dev called in python/ directory fails due to this error.
+> Let's fix it.
 >
-> It's not written in stone, but I saw it this way: If I have a complete
-> mirror of a distro repository in my intrAnet, I can use that mirror to set
-> up a QEMU build host system that has no access to the internet. Or maybe
-> think of a DVD image(s) with all distro packages that you use to install a
-> host without network access (and you copy the QEMU tarball there via USB
-> stick). I think it's not that uncommon to have such scenarios out there.
->
-> For example, do you remember that SDL 1.2 discussion a some years ago? See:
->
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg631628.html
->
-> It was not exactly the same situation, since those folks were even unable to
-> install a SDL2-devel package on their pre-installed hosts, though it was
-> theoretically available as an update in their distro, but I think it gives
-> an impression of what people are using and expecting out there... (and no,
-> I'm not happy with this, I'd also rather love if we could move faster in the
-> QEMU project sometimes).
->
->   Thomas
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Well, in this case I believe our support policy generally is written
-to require a fully up-to-date version of the LTS distros, e.g. we
-don't really test against "release day" 16.04, in the same way we
-don't offer support for RHEL 8.0, just the latest point release. I
-don't want to march things forward and break things for people for no
-reason, but at a certain point, I have to ask: Why do people expect
-software written three to four years after the release of their
-operating system to not only run, but compile on that system -- with
-no updates or internet? I think it's (unfortunately) reasonable to
-expect that if you want to run a stable OS with no changes for years
-that at a certain point, brand new releases may start requiring a few
-hoops for you to jump through.
+Reviewed-by: John Snow <jsnow@redhat.com>
 
-Or, in other words: If you can get code from 2019 onto a machine from
-2016 to attempt to compile, you can also get the dependencies from the
-future, too.
+I've got a similar patch queued already in jsnow/python, I'll send the PR soon.
 
-Still; with regards to the "offline building" thing specifically, it's
-my intent to preserve the ability to build QEMU offline *provided* you
-have the necessary dependencies in place already. For the Python case
-under consideration, it would just be that you have your distro's
-python38/python39 package installed. I consider this fundamentally no
-different to other dependencies. For docs building it's a bit hairier;
-you would indeed need a pip version installed prior to going offline.
-The loss of docs doesn't fail the build, though; they aren't
-*technically* required.
+--js
 
-I think really all we need is the ability to know a priori what we
-need to build QEMU before going offline without any last second
-surprises during configure, make, or make check. Right? Or do we
-really want to say "Any preparation that might be needed from outside
-your system's repository *at all* is entirely prohibited"?
+> ---
+>  python/qemu/qmp/protocol.py                            | 2 +-
+>  python/qemu/qmp/qmp_client.py                          | 2 +-
+>  tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/python/qemu/qmp/protocol.py b/python/qemu/qmp/protocol.py
+> index 6d3d739daa..22e60298d2 100644
+> --- a/python/qemu/qmp/protocol.py
+> +++ b/python/qemu/qmp/protocol.py
+> @@ -207,7 +207,7 @@ class AsyncProtocol(Generic[T]):
+>      logger = logging.getLogger(__name__)
+>
+>      # Maximum allowable size of read buffer
+> -    _limit = (64 * 1024)
+> +    _limit = 64 * 1024
+>
+>      # -------------------------
+>      # Section: Public interface
+> diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
+> index b5772e7f32..9d73ae6e7a 100644
+> --- a/python/qemu/qmp/qmp_client.py
+> +++ b/python/qemu/qmp/qmp_client.py
+> @@ -198,7 +198,7 @@ async def run(self, address='/tmp/qemu.socket'):
+>      logger = logging.getLogger(__name__)
+>
+>      # Read buffer limit; 10MB like libvirt default
+> -    _limit = (10 * 1024 * 1024)
+> +    _limit = 10 * 1024 * 1024
+>
+>      # Type alias for pending execute() result items
+>      _PendingT = Union[Message, ExecInterruptedError]
+> diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> index fc9c4b4ef4..dda55fad28 100755
+> --- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> +++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> @@ -84,7 +84,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+>                  e['vm'] = 'SRC'
+>              for e in self.vm_b_events:
+>                  e['vm'] = 'DST'
+> -            events = (self.vm_a_events + self.vm_b_events)
+> +            events = self.vm_a_events + self.vm_b_events
+>              events = [(e['timestamp']['seconds'],
+>                         e['timestamp']['microseconds'],
+>                         e['vm'],
+> --
+> 2.34.1
+>
 
 
