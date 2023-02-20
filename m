@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5170D69C5BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 08:01:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B313169C5BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 08:02:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU09F-0008Bm-DT; Mon, 20 Feb 2023 01:59:41 -0500
+	id 1pU0Av-0000cN-V1; Mon, 20 Feb 2023 02:01:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pU09D-0008Bd-7m
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 01:59:39 -0500
-Received: from mga02.intel.com ([134.134.136.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pU09B-00058I-9O
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 01:59:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676876377; x=1708412377;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=a5q9o3pnlA3vdMXM7PYMd11JAFbI1F4Zd0KYVQwkaaI=;
- b=TiA7+e997w5hqTUP9F14Ly6fb5n0erIs32m15WJ+yICfzLZm0dqcDYgS
- 0ILNuMrJkOLMeiBZ8u2vrKeVcnbTxNoH7T7pNt2pnY0Mg9ZD3lcorHNVh
- igS6s+4itTn4pBq0HczcXmQkqX2JDA3FUGY20K9+Qen9At5ABAWfdGB/Y
- KhMnH/nnSthvE2uQjB8kcX5qw5kYPRkks+ejE1fn76jF8V/YSqftbLV9i
- 6YPAC+F7HWFtxhhZJpkUziyhPXLwmnnh557ZGkaqDWBrq4FcdldSwg9v0
- cHVYJEKAL6xB6p4WkAeKpdDZjhUJeMUkYgn5vLqycYA2kuUcnjpPcY+n3 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="320457742"
-X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; d="scan'208";a="320457742"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2023 22:59:28 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="916745150"
-X-IronPort-AV: E=Sophos;i="5.97,311,1669104000"; d="scan'208";a="916745150"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.254.208.109])
- ([10.254.208.109])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Feb 2023 22:59:24 -0800
-Message-ID: <e7d7f1a0-15ac-d863-625f-08e66667e4ec@intel.com>
-Date: Mon, 20 Feb 2023 14:59:20 +0800
+ (Exim 4.90_1) (envelope-from <kkamran.bese16seecs@seecs.edu.pk>)
+ id 1pU0As-0000c8-Lt
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:01:22 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kkamran.bese16seecs@seecs.edu.pk>)
+ id 1pU0An-0005Xs-Nm
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 02:01:22 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ m14-20020a7bce0e000000b003e00c739ce4so109449wmc.5
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 23:01:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seecs.edu.pk; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cTzCfYfnJYl7i/IBzY9g8O3EVR8IIcUBkvxWubvfHVo=;
+ b=c3JCfbRe2TAky6KZjJA0KSDA5IwZOyfmRUE3V1arujz36L70ULEWLoht50aSqQiMgr
+ 7BigjAUjIXN9Z6TZPhuZChSx79J0TGkKeLJeJ0jd076pzNDCaN+88q7LbGs6xNYm2Jou
+ xIg9uKq6gqPLRsEvZwVw65SRfo5iIJdsz+7nI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cTzCfYfnJYl7i/IBzY9g8O3EVR8IIcUBkvxWubvfHVo=;
+ b=1Y/6dlRkYg413FTt2VwYoJILD7vGRs+Pjl0nvPHuwqNF0i///PPFHpGUMRltDKLO1U
+ I9hTy14pQRtyPPki9zMLQ6piJZZgg1HJpDlWLgVFSo+INKizeykSSR/FPaHnbGSCeSSN
+ 8k7w3NwtzPzCcfYMfc8AVzGNEbsOt2P9NRXr1oUIR2wmPH6c5U8ZHQI7OdGkNIQ1ZM+V
+ 4xAUDOPNtbpZG4uPHDLVITbncYFb1CrJjWeMpHblCJl0XYvsXLV+DnR11w88XQClKHKA
+ sfI4lcpM+yOwIKFZ2Spfy1akmU4oi0lZv4f1Bq+kO+VWUtPMtyym3PXDC9A4eJB2U+fP
+ nWTw==
+X-Gm-Message-State: AO0yUKU3jCZw/OUWf/RIfPSHB7xEoTiiWvzhWyRPGmtCp6gk3PEZOW2Z
+ r1Iv16g0mkAfy6nAosLmxmPPHEQgN/b+pws8K48=
+X-Google-Smtp-Source: AK7set/m2ac4vtOT7zMfbMXisyYSBRSVU0BQhbC/l7wQkkPJf9xQVSKkP5QmFWGa9NrDL3HKFcOC2w==
+X-Received: by 2002:a05:600c:3316:b0:3dc:42e7:f626 with SMTP id
+ q22-20020a05600c331600b003dc42e7f626mr6063292wmp.26.1676876474129; 
+ Sun, 19 Feb 2023 23:01:14 -0800 (PST)
+Received: from khadija-virtual-machine.localdomain ([124.29.208.67])
+ by smtp.gmail.com with ESMTPSA id
+ q12-20020a7bce8c000000b003daf672a616sm13224021wmj.22.2023.02.19.23.01.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Feb 2023 23:01:13 -0800 (PST)
+From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
+X-Google-Original-From: Khadija Kamran <kamrankhadijadj@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com, ysato@users.sourceforge.jp, alex.bennee@linaro.org,
+ pbonzini@redhat.com, fam@euphon.net, peter.maydell@linaro.org,
+ philmd@linaro.org, kwolf@redhat.com, hreitz@redhat.com, armbru@redhat.com
+Subject: [PATCH] Updated the FSF address to <https://www.gnu.org/licenses/>
+Date: Mon, 20 Feb 2023 07:01:09 +0000
+Message-Id: <576ee9203fdac99d7251a98faa66b9ce1e7febc5.1675941486.git.kkamran.bese16seecs@seecs.edu.pk>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [PATCH RESEND 04/18] i386/cpu: Fix number of addressable IDs in
- CPUID.04H
-Content-Language: en-US
-To: Zhao Liu <zhao1.liu@linux.intel.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
- Dapeng Mi <dapeng1.mi@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>,
- Robert Hoo <robert.hu@linux.intel.com>, Like Xu <like.xu.linux@gmail.com>,
- Zhao Liu <zhao1.liu@intel.com>
-References: <20230213093625.158170-1-zhao1.liu@linux.intel.com>
- <20230213093625.158170-5-zhao1.liu@linux.intel.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20230213093625.158170-5-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=xiaoyao.li@intel.com;
- helo=mga02.intel.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=kkamran.bese16seecs@seecs.edu.pk; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,24 +88,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/13/2023 5:36 PM, Zhao Liu wrote:
-> For i-cache and d-cache, the maximum IDs for CPUs sharing cache (
-> CPUID.04H.00H:EAX[bits 25:14] and CPUID.04H.01H:EAX[bits 25:14]) are
-> both 0, and this means i-cache and d-cache are shared in the SMT level.
-> This is correct if there's single thread per core, but is wrong for the
-> hyper threading case (one core contains multiple threads) since the
-> i-cache and d-cache are shared in the core level other than SMT level.
-> 
-> Therefore, in order to be compatible with both multi-threaded and
-> single-threaded situations, we should set i-cache and d-cache be shared
-> at the core level by default.
+From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
 
-It's true for VM only when the exactly HW topology is configured to VM. 
-i.e., two virtual LPs of one virtual CORE are pinned to two physical LPs 
-that of one physical CORE. Otherwise it's incorrect for VM.
+The Free Software Foundation moved to a new address and some sources in QEMU referred to their old location.
+The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
 
-for example. given a VM of 4 threads and 2 cores. If not pinning the 4 
-threads to physical 4 LPs of 2 CORES. It's likely each vcpu running on a 
-LP of different physical cores. So no vcpu shares L1i/L1d cache at core 
-level.
+Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
+---
+ contrib/gitdm/filetypes.txt     | 3 +--
+ hw/scsi/viosrp.h                | 3 +--
+ hw/sh4/sh7750_regs.h            | 3 +--
+ include/hw/arm/raspi_platform.h | 3 +--
+ include/qemu/uri.h              | 3 +--
+ tests/qemu-iotests/022          | 4 +---
+ tests/unit/rcutorture.c         | 3 +--
+ tests/unit/test-rcu-list.c      | 3 +--
+ util/uri.c                      | 3 +--
+ 9 files changed, 9 insertions(+), 19 deletions(-)
+
+diff --git a/contrib/gitdm/filetypes.txt b/contrib/gitdm/filetypes.txt
+index d2d6f6db8d..b1d01c0992 100644
+--- a/contrib/gitdm/filetypes.txt
++++ b/contrib/gitdm/filetypes.txt
+@@ -12,8 +12,7 @@
+ # GNU Library General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++# along with this program. If not, see <https://www.gnu.org/licenses/>.
+ #
+ # Authors : Gregorio Robles <grex@gsyc.escet.urjc.es>
+ # Authors : Germán Póo-Caamaño <gpoo@gnome.org>
+diff --git a/hw/scsi/viosrp.h b/hw/scsi/viosrp.h
+index e5f9768e8f..58c29aa925 100644
+--- a/hw/scsi/viosrp.h
++++ b/hw/scsi/viosrp.h
+@@ -16,8 +16,7 @@
+ /* GNU General Public License for more details.                              */
+ /*                                                                           */
+ /* You should have received a copy of the GNU General Public License         */
+-/* along with this program; if not, write to the Free Software               */
+-/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
++/* along with this program. If not, see <https://www.gnu.org/licenses/>.     */
+ /*                                                                           */
+ /*                                                                           */
+ /* This file contains structures and definitions for IBM RPA (RS/6000        */
+diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
+index beb571d5e9..94043431e6 100644
+--- a/hw/sh4/sh7750_regs.h
++++ b/hw/sh4/sh7750_regs.h
+@@ -22,8 +22,7 @@
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  * General Public License for more details. You should have received
+  * a copy of the GNU General Public License along with RTEMS; see
+- * file COPYING. If not, write to the Free Software Foundation, 675
+- * Mass Ave, Cambridge, MA 02139, USA.
++ * file COPYING. If not, see <https://www.gnu.org/licenses/>.
+  *
+  * As a special exception, including RTEMS header files in a file,
+  * instantiating RTEMS generics or templates, or linking other files
+diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
+index e0e6c8ce94..4a56dd4b89 100644
+--- a/include/hw/arm/raspi_platform.h
++++ b/include/hw/arm/raspi_platform.h
+@@ -18,8 +18,7 @@
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+- * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+  *
+  * Various undocumented addresses and names come from Herman Hermitage's VC4
+  * documentation:
+diff --git a/include/qemu/uri.h b/include/qemu/uri.h
+index d201c61260..cf8ec70356 100644
+--- a/include/qemu/uri.h
++++ b/include/qemu/uri.h
+@@ -41,8 +41,7 @@
+  * Lesser General Public License for more details.
+  *
+  * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
++ * License along with this library. If not, see <https://www.gnu.org/licenses/>.
+  *
+  * Authors:
+  *    Richard W.M. Jones <rjones@redhat.com>
+diff --git a/tests/qemu-iotests/022 b/tests/qemu-iotests/022
+index a116cfe255..d98d1ea90f 100755
+--- a/tests/qemu-iotests/022
++++ b/tests/qemu-iotests/022
+@@ -16,9 +16,7 @@
+ # GNU General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
+-# USA
++# along with this program. If not, see <https://www.gnu.org/licenses/>.
+ #
+ 
+ # creator
+diff --git a/tests/unit/rcutorture.c b/tests/unit/rcutorture.c
+index 495a4e6f42..7662081683 100644
+--- a/tests/unit/rcutorture.c
++++ b/tests/unit/rcutorture.c
+@@ -50,8 +50,7 @@
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+- * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+  *
+  * Copyright (c) 2008 Paul E. McKenney, IBM Corporation.
+  */
+diff --git a/tests/unit/test-rcu-list.c b/tests/unit/test-rcu-list.c
+index 64b81ae058..9964171da4 100644
+--- a/tests/unit/test-rcu-list.c
++++ b/tests/unit/test-rcu-list.c
+@@ -14,8 +14,7 @@
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+- * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+  *
+  * Copyright (c) 2013 Mike D. Day, IBM Corporation.
+  */
+diff --git a/util/uri.c b/util/uri.c
+index ff72c6005f..dcb3305236 100644
+--- a/util/uri.c
++++ b/util/uri.c
+@@ -43,8 +43,7 @@
+  * Lesser General Public License for more details.
+  *
+  * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
++ * License along with this library. If not, see <https://www.gnu.org/licenses/>.
+  *
+  * Authors:
+  *    Richard W.M. Jones <rjones@redhat.com>
+-- 
+2.34.1
+
 
