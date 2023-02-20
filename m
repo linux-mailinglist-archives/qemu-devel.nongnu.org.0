@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD5369D11C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 17:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E1069D13A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 17:19:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU8i5-00061H-Vz; Mon, 20 Feb 2023 11:08:14 -0500
+	id 1pU8sO-0002it-4j; Mon, 20 Feb 2023 11:18:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pU8i4-00060z-Ga
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 11:08:12 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1pU8sL-0002i8-Gs
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 11:18:49 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pU8i2-0007aZ-VK
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 11:08:12 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id z2so2113484plf.12
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 08:08:10 -0800 (PST)
+ id 1pU8sI-0001BL-Mb
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 11:18:49 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ nw10-20020a17090b254a00b00233d7314c1cso2052316pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 08:18:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NJSaxpz4H1Ctw0NLzcKRlF9OHtzUjBzt2NscbSC5xvY=;
- b=bFazjslLR/wfW7mdFyOMAgbX8fjNfzxHPSKWIMevKOglinXUw8qM8jNvdtz3OzE5iD
- DZLG/kDpfrKD2e6ANjwtXBptrt5T/nQvAvn+4y5oETQrvJobxCOhxiZlw1y7PYr1wVRR
- ZgAQClAXS7+TPb8IQ+wrAwW2RO3zYDHLl0dtz5CQasHC6OuXuPeRggMRD4mrLtgECe2M
- 3gRER7FgWt4rSGwEMj+h5F/mHs+N7u7mCN/yjsgFWEv752yE33FRr9viGjmuDBXMr/CH
- VtKSrxPbhbzwM4Yqt8wJRaokFuFN8CJwZu6m7Ra9Q5De4hlTZ+sRQKdDN/rgFJGyQudz
- hqsw==
+ bh=ImTxngVS6KmYoQdJQ80fW021PSXRBcVh2PjUhWpEIGM=;
+ b=sl+eTtlusNMCyQ+eO+0JCyBVIWsRDcIIiPcmiuPf2ZQYnMYbKX03oYYHKr34ac0wAU
+ F4jE2KUZaECIZh5De+D3XkMv95x3fFM0Nnoy5RqY3+jNM/KcmHsb+eB8KuGrCnELmhvL
+ JXP7hrEVtFrttky0ZkAkA9aALtwFYj4I/s3PVSq8dob1rijXYjdWOsTB+aBWADJ2/XZ6
+ JXP+bh7FQzGQ9ZlpYoNH2Yh5p08Cryd9NNVJ0YvK4cbwrubLmQyY3zQJ05RGNSpTpntP
+ OaAaUJ5tYWNl0E987rgK0TFfICuy2GL8PB+VTUjnkoOdTU1BrA2mrF/Dc9g8HiAkxyVc
+ 0OsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=NJSaxpz4H1Ctw0NLzcKRlF9OHtzUjBzt2NscbSC5xvY=;
- b=inB09efUAp8oFhN00GkE/wknk1SUHMgPD8/aUmZEEgJ6+q06FWWAETp0RpXqLc5AfK
- o2LJVWI73mQr8yYOIMAsGTabKpsVRO8cnqRxQ2AsdgFs6mjue/KxT+yAtMHelnT8+GaD
- jA4POqMITqqIV62pjo4efVCCXdh0iJ5IizbrD6Kdkp5mwqhzvV6H8GtEljG+N9sEuZa7
- gNVt1+2TokKBS/SOvvQ2hnjM+qftkRTWpmcRT3HGWA+VxGoY9RIyT96nogOA1DazGcQj
- jfNzydB1ZwFxj5/HiT0/t2l4HFv93M8kpwjvcskgTXtxVAb9JLQrFud6FpIgoXGGfP3g
- wlDw==
-X-Gm-Message-State: AO0yUKUMLBOEZL7QgXMWHwbsiLBytN0abjWSE/qt3Gt1O4BlQ0Yq74KB
- ShPPjnPgBd2kuuaFKZ+soSUT3OhmPjS1JR2qycyNFA==
-X-Google-Smtp-Source: AK7set8pJ0U7hgbIajxDLmgR6DPtWTtecsA7XMEZZ052YDVES3qfGbFN+KffcfFI8/SZT6+KBk/OjPc3ad4+/zJA2cU=
-X-Received: by 2002:a17:903:2c1:b0:19b:5221:4f7 with SMTP id
- s1-20020a17090302c100b0019b522104f7mr265181plk.9.1676909289407; Mon, 20 Feb
- 2023 08:08:09 -0800 (PST)
+ bh=ImTxngVS6KmYoQdJQ80fW021PSXRBcVh2PjUhWpEIGM=;
+ b=6iCDYT0YtZsaIy4RLFr1EE0n0RUetLCx/jhEvfoEeHYY3whWAAHUlT4No2S4sAHeEu
+ K3S9BiDQI2DRGJneD+A+Y5ABjFMe9Cy9Jady8qA1I9gSWWZtdDKMH9AyoCNyWuidjwsQ
+ IXSgS8YjZ1GLnjDiXaaxWBXKc/xsLFIDLLdmjQNO3SXOpURO7eVhODCsXeesu2GTeOba
+ yTT/Hmnc8OHGtIsSiyoXjFwkuYUtnqern8ihMO53f2OGtsBIBz1/Ldc41x1XvemCOK1o
+ tqcxcQrm9QPpP3FsrySx3qDXEIbxEpTpnhqmfFVW86tYWypVXboqOSN99Y4W8m3yPNFW
+ Jq2g==
+X-Gm-Message-State: AO0yUKW2bYDeUGPML3GqWkbM8Ltp+fjLyAR3kxT3hnC2OH94VEnYzIo/
+ +B8W9iu800UobkPKKR6bt/rx9FebDl1b4SHIEC14TQ==
+X-Google-Smtp-Source: AK7set9jWPoAoP0WQcxnxSQuWwMrum9MuzX40S42MtHp/5sFPU8lBShafftoN9mre2H4odSSLbd+WbF4iRJxLkjYRjw=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr1000359pjb.92.1676909919317; Mon, 20
+ Feb 2023 08:18:39 -0800 (PST)
 MIME-Version: 1.0
 References: <20230214163048.903964-1-richard.henderson@linaro.org>
- <20230214163048.903964-5-richard.henderson@linaro.org>
-In-Reply-To: <20230214163048.903964-5-richard.henderson@linaro.org>
+ <20230214163048.903964-8-richard.henderson@linaro.org>
+In-Reply-To: <20230214163048.903964-8-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Feb 2023 16:07:58 +0000
-Message-ID: <CAFEAcA-ctD24O86wsojLpiMU5yd+i-pZ8xegf4pq-Yzh4NCg4g@mail.gmail.com>
-Subject: Re: [PATCH 04/14] target/arm: Split out output_vector_union_type
+Date: Mon, 20 Feb 2023 16:18:28 +0000
+Message-ID: <CAFEAcA_m=8fT1fKXhgMH_v6S7UoOeDwokjNO9QH6GdCO6fGT2w@mail.gmail.com>
+Subject: Re: [PATCH 07/14] target/arm: Fix svep width in
+ arm_gen_dynamic_svereg_xml
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,17 +85,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 14 Feb 2023 at 16:31, Richard Henderson
+On Tue, 14 Feb 2023 at 16:33, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Create a subroutine for creating the union of unions
-> of the various type sizes that a vector may contain.
+> Define svep based on the size of the predicates,
+> not the primary vector registers.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/gdbstub64.c | 83 +++++++++++++++++++++++-------------------
->  1 file changed, 45 insertions(+), 38 deletions(-)
->
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
