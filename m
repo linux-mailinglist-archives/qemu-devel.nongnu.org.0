@@ -2,32 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F9969D29D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:16:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1758269D2AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 19:20:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUAhg-0006z1-B2; Mon, 20 Feb 2023 13:15:56 -0500
+	id 1pUAlA-0003r5-Mm; Mon, 20 Feb 2023 13:19:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUAhF-0006Pt-8f
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:15:36 -0500
+ id 1pUAl4-0003ly-Uc
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:19:26 -0500
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUAhC-0007XJ-JU
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:15:28 -0500
+ id 1pUAks-0008Di-3c
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 13:19:26 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C23CD7470CA;
- Mon, 20 Feb 2023 19:15:10 +0100 (CET)
+ by localhost (Postfix) with SMTP id 5332D7457E7;
+ Mon, 20 Feb 2023 19:19:04 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A19FF7470C8; Mon, 20 Feb 2023 19:15:10 +0100 (CET)
-Message-Id: <03599fd4db313ac4f651cceb43340109ad6a14b8.1676916640.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1676916639.git.balaton@eik.bme.hu>
-References: <cover.1676916639.git.balaton@eik.bme.hu>
+ id 21CBC745720; Mon, 20 Feb 2023 19:19:04 +0100 (CET)
+Message-Id: <cover.1676916639.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 7/7] hw/usb/hcd-ohci: Fix typo
+Subject: [PATCH v2 RESEND 0/7] OHCI changes
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -36,8 +34,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <"peter.maydell@linaro.org>, philmd"@linaro.org>
-Date: Mon, 20 Feb 2023 19:15:10 +0100 (CET)
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org
+Date: Mon, 20 Feb 2023 19:19:04 +0100 (CET)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -61,60 +59,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+Resend after fixing email address in cc.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-[balaton: rebased on clean up series]
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/usb/hcd-ohci.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Trying to debug some MacOS versions on mac99 with OHCI I've added some
+debug logging that might be useful to get traces from this device and
+attempted to implement missing feature. To avoid checkpatch errors
+start with updating code style for th ewhole file.
 
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index 88bd42b14a..98315b2301 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
-@@ -58,7 +58,7 @@ struct ohci_hcca {
- #define ED_WBACK_OFFSET offsetof(struct ohci_ed, head)
- #define ED_WBACK_SIZE   4
- 
--/* Bitfields for the first word of an Endpoint Desciptor. */
-+/* Bitfields for the first word of an Endpoint Descriptor. */
- #define OHCI_ED_FA_SHIFT  0
- #define OHCI_ED_FA_MASK   (0x7f << OHCI_ED_FA_SHIFT)
- #define OHCI_ED_EN_SHIFT  7
-@@ -71,11 +71,11 @@ struct ohci_hcca {
- #define OHCI_ED_MPS_SHIFT 16
- #define OHCI_ED_MPS_MASK  (0x7ff << OHCI_ED_MPS_SHIFT)
- 
--/* Flags in the head field of an Endpoint Desciptor. */
-+/* Flags in the head field of an Endpoint Descriptor. */
- #define OHCI_ED_H         1
- #define OHCI_ED_C         2
- 
--/* Bitfields for the first word of a Transfer Desciptor. */
-+/* Bitfields for the first word of a Transfer Descriptor. */
- #define OHCI_TD_R         (1 << 18)
- #define OHCI_TD_DP_SHIFT  19
- #define OHCI_TD_DP_MASK   (3 << OHCI_TD_DP_SHIFT)
-@@ -88,14 +88,14 @@ struct ohci_hcca {
- #define OHCI_TD_CC_SHIFT  28
- #define OHCI_TD_CC_MASK   (0xf << OHCI_TD_CC_SHIFT)
- 
--/* Bitfields for the first word of an Isochronous Transfer Desciptor. */
--/* CC & DI - same as in the General Transfer Desciptor */
-+/* Bitfields for the first word of an Isochronous Transfer Descriptor. */
-+/* CC & DI - same as in the General Transfer Descriptor */
- #define OHCI_TD_SF_SHIFT  0
- #define OHCI_TD_SF_MASK   (0xffff << OHCI_TD_SF_SHIFT)
- #define OHCI_TD_FC_SHIFT  24
- #define OHCI_TD_FC_MASK   (7 << OHCI_TD_FC_SHIFT)
- 
--/* Isochronous Transfer Desciptor - Offset / PacketStatusWord */
-+/* Isochronous Transfer Descriptor - Offset / PacketStatusWord */
- #define OHCI_TD_PSW_CC_SHIFT 12
- #define OHCI_TD_PSW_CC_MASK  (0xf << OHCI_TD_PSW_CC_SHIFT)
- #define OHCI_TD_PSW_SIZE_SHIFT 0
+v2: Address review commnts, add R-b tags and a patch from Philippe to
+fix a typo
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (7):
+  usb/ohci: Code style fix comments
+  usb/ohci: Code style fix white space errors
+  usb/ohci: Code style fix missing braces and extra parenthesis
+  usb/ohci: Move a function next to where it is used
+  usb/ohci: Add trace points for register access
+  usb/ohci: Implement resume on connection status change
+  hw/usb/hcd-ohci: Fix typo
+
+ hw/usb/hcd-ohci.c   | 461 ++++++++++++++++++++++++--------------------
+ hw/usb/trace-events |   4 +
+ 2 files changed, 259 insertions(+), 206 deletions(-)
+
 -- 
 2.30.7
 
