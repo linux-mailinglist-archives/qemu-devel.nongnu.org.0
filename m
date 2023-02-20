@@ -2,87 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCBB69D671
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 23:45:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE2269D6FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 00:27:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUEtf-0005bg-8Y; Mon, 20 Feb 2023 17:44:35 -0500
+	id 1pUFXh-0003Wr-1j; Mon, 20 Feb 2023 18:25:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUEtc-0005bY-4K
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 17:44:32 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUEta-0001RQ-5F
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 17:44:31 -0500
-Received: by mail-wr1-x431.google.com with SMTP id p8so2743059wrt.12
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 14:44:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yEWf7W+++Z/UwWfLCI/85LHHKKlWMkLzqRHmLIbXKIc=;
- b=IaXJnM4aCTeBbTBCblBEUtKBjVLKagackvWGdyTmbJcSl8oeYpAshqyfmWlRKbWjjW
- GNua+cWbp4N7Rl3JXForFfVGmH5a3sy97Yf93u1tSR7f9cHet3CmfTILzDcPJQcg9Ilk
- Osgp742FQehxP2RsSG5OHMMsePrHbZ+xO6ICUg70eQjunSFiMa19RvluhsGlBWdANXNh
- OhEJO470iSvkG9WxTolFkv+Ch1a1k7L5gMbCgzF+9VTChCGW8r6Lpz+74Q3+CNcp0uY/
- 3pu6bZqY3hgn0sP/9kT6c55JgTs7GNuN7pWmmS0Ycg532QcYK5IRzwFJ46IuN6vfvIjf
- ljsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=yEWf7W+++Z/UwWfLCI/85LHHKKlWMkLzqRHmLIbXKIc=;
- b=ykCalpVN/yeisiqnVnEEeyMBYGkvnlhLJVUCbsEkDmcmPoNknynDfNeXwhMBi8u8+T
- OA465Wl3xt+FmauK1tvcBKEc97Pb6xLcD//gbywJPowFdGFH/YFFfKZI9da4MdYzV4R4
- wbLMjkbuvipk6RJ36MdMpIBiBevBXeBAyNghkEaxsiS/EB6Gigo0uj6wsyx+TVJC+98i
- layG1yeeiKjg2rNduvy/anmEVD3uueOVKFeIEDVKc/+chT/6HFxpJcA9CwrB0QsUPMZG
- P7SSuNajUuMLFVuXWo+3jr9FEh5dbxNLc85ewzVxzdNjE0mScL0hlq4WM4DlS+Gq5KcY
- Ae6g==
-X-Gm-Message-State: AO0yUKVVnCrhZz+IvNfBuRdJ7g+tyvOAD2JOBdMLUIOeX5k1DiXD7Sn5
- r8ihW68eDEUFyyd1bK6RrI5u2g==
-X-Google-Smtp-Source: AK7set9d9eA/PSAHZp2GFc0n3kqUpwjEkNEh72pS4QD5rcyGDi+6dNC7Uz6XDs6sg6RPywI1NOQsGA==
-X-Received: by 2002:a5d:5141:0:b0:2c5:9fc4:8844 with SMTP id
- u1-20020a5d5141000000b002c59fc48844mr1722351wrt.9.1676933068223; 
- Mon, 20 Feb 2023 14:44:28 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- a15-20020adffb8f000000b002c3f03d8851sm2374524wrr.16.2023.02.20.14.44.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 14:44:27 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6CB3D1FFB7;
- Mon, 20 Feb 2023 22:44:27 +0000 (GMT)
-References: <20230104133935.4639-1-philmd@linaro.org>
- <20230104133935.4639-6-philmd@linaro.org>
- <Y88BmxzRqtnpAsWG@dev-arch.thelio-3990X>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Bernhard
- Beschow
- <shentey@gmail.com>, Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 5/6] hw/mips/gt64xxx_pci: Endian-swap using
- PCI_HOST_BRIDGE MemoryRegionOps
-Date: Mon, 20 Feb 2023 22:43:28 +0000
-In-reply-to: <Y88BmxzRqtnpAsWG@dev-arch.thelio-3990X>
-Message-ID: <87zg98q7n8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pUFXc-0003W1-7I
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:25:52 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pUFXZ-0008Vu-Of
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:25:51 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 3EBB87470B0;
+ Tue, 21 Feb 2023 00:25:46 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 002407470AF; Tue, 21 Feb 2023 00:25:45 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id F269F7470AB;
+ Tue, 21 Feb 2023 00:25:45 +0100 (CET)
+Date: Tue, 21 Feb 2023 00:25:45 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
+ around
+In-Reply-To: <20230220172659-mutt-send-email-mst@kernel.org>
+Message-ID: <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
+References: <20211108130934.59B48748F52@zero.eik.bme.hu>
+ <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
+ <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
+ <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
+ <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
+ <20220119041842-mutt-send-email-mst@kernel.org>
+ <20220222094021-mutt-send-email-mst@kernel.org>
+ <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
+ <20230220172659-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1273359049-1676935545=:50038"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,59 +70,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Nathan Chancellor <nathan@kernel.org> writes:
+--3866299591-1273359049-1676935545=:50038
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> Hi Philippe,
+On Mon, 20 Feb 2023, Michael S. Tsirkin wrote:
+> On Mon, Feb 20, 2023 at 07:24:59PM +0100, BALATON Zoltan wrote:
+>> On Tue, 22 Feb 2022, Michael S. Tsirkin wrote:
+>>> On Wed, Jan 19, 2022 at 04:19:14AM -0500, Michael S. Tsirkin wrote:
+>>>> On Sat, Nov 13, 2021 at 07:47:20PM +0100, BALATON Zoltan wrote:
+>>>>> On Mon, 8 Nov 2021, BALATON Zoltan wrote:
+>>>>>> On Mon, 8 Nov 2021, Paolo Bonzini wrote:
+>>>>>>> On 11/8/21 15:30, Paolo Bonzini wrote:
+>>>>>>>> On 11/8/21 14:05, BALATON Zoltan wrote:
+>>>>>>>>> When using ACPI on big endian machine (such as ppc/pegasos2 which has
+>>>>>>>>> a VT8231 south bridge with ACPI) writes to ACPI registers come out
+>>>>>>>>> byte swapped. This may be caused by a bug in memory subsystem but
+>>>>>>>>> until that is fixed setting the ACPI memory regions to native endian
+>>>>>>>>> makes it usable for big endian machines. This fixes ACPI shutdown with
+>>>>>>>>> pegasos2 when using the board firmware for now.
+>>>>>>>>> This could be reverted when the memory layer is fixed.
+>>>>>>>>
+>>>>>>>> What is the path to the swapped writes?  Even just a backtrace
+>>>>>>>> might be enough to understand what's going on, and especially
+>>>>>>>> where the bug is.
+>>>>>>>
+>>>>>>> Ok, Michael pointed me at https://lore.kernel.org/all/20211011080528-mutt-send-email-mst@kernel.org/.
+>>>>>
+>>>>> Ping? I haven't seen an alternative fix yet. If you don't have time now this
+>>>>> could be postponed to next version with the native endian work around for
+>>>>> now.
+>>>>>
+>>>>> Regards,
+>>>>> BALATON Zoltan
+>>>>
+>>>> Paolo, ping?
+>>>
+>>> ping
+>>
+>> Can this be fixed please or my proposed workaround taken until it will be?
+>> Original patch I've sent is here:
+>> http://patchew.org/QEMU/20211108130934.59B48748F52@zero.eik.bme.hu/
+>>
+>> I hope to make pegasos2 more usable in next release so maybe more people
+>> will want to use it soon.
+>>
+>> Regards,
+>> BALATON Zoltan
 >
-> On Wed, Jan 04, 2023 at 02:39:34PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> GT64120's PCI endianness swapping works on little-endian hosts,
->> but doesn't on big-endian ones. Instead of complicating how
->> CFGADDR/CFGDATA registers deal with endianness, use the existing
->> MemoryRegionOps from hw/pci/pci_host.c. Doing so also reduce the
->> access to internal PCI_HOST_BRIDGE fields.
->>=20
->> Map the PCI_HOST_BRIDGE MemoryRegionOps into the corresponding
->> CFGADDR/CFGDATA regions in the ISD MMIO and remove the unused
->> code in the current ISD read/write handlers.
->>=20
->> Update the mapping when PCI0_CMD register is accessed (in case
->> the endianness is changed).
->>=20
->> This allows using the GT64120 on a big-endian host (and boot
->> the MIPS Malta machine in little-endian).
->>=20
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Any chance of fixing it in memory core? No one else seems to care.
 >
-> This change as commit 145e2198d7 ("hw/mips/gt64xxx_pci: Endian-swap
-> using PCI_HOST_BRIDGE MemoryRegionOps") in QEMU master causes a hang
-> when trying to poweroff a malta_defconfig + CONFIG_CPU_BIG_ENDIAN=3Dy
-> kernel on an x86_64 host. The kernel has been built from latest mainline
-> using the kernel.org toolchains [1], just in case it matters.
 >
-> $ timeout --foreground 30s qemu-system-mips \
-> -cpu 24Kf \
-> -machine malta \
-> -kernel vmlinux \
-> -display none \
-> -initrd rootfs.cpio \
-> -m 512m \
-> -nodefaults \
-> -no-reboot \
-> -serial mon:stdio
-> ...
-<snip>
+> I think fundamentally you need to check for the condition
+> Size < mr->ops->impl.min_access_size in memory_region_dispatch_write
+> and then make a read, combine the result with
+> the value and make a write.
 
-Ahh also this commit got fingered by the tuxrun test for the same
-combination:
+I neither know that part nor feel confident enough breaking such low level 
+stuff so I think setting the affected regions NATIVE_ENDIAN for now until 
+somebody takes care of this is safer and not likely to break anyting (or 
+if it does, much less widely and I'm more likely to be able to fix that 
+than your proposed changes). So I'd rather let you do that but I'd like 
+this fixed one way or another at last.
 
-  ./run --runtime docker --qemu-binary /home/alex.bennee/lsrc/qemu.git/buil=
-ds/bisect/qemu-system-mips64 --device qemu-mips64
-
-with my in flight patches for tuxrun's host support.
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Regards,
+BALATON Zoltan
+--3866299591-1273359049-1676935545=:50038--
 
