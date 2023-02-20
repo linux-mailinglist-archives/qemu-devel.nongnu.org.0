@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B0269D530
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B03F69D567
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:56:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUD5Y-0000e8-VI; Mon, 20 Feb 2023 15:48:45 -0500
+	id 1pUD5r-0001rX-1K; Mon, 20 Feb 2023 15:49:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pUD4z-0007Zi-QR
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:22 -0500
+ id 1pUD5P-000084-Je
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:35 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+82aa7fb0aadd3de72584+7120+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pUD4v-0003XO-DL
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:08 -0500
+ id 1pUD5M-0003dH-Pw
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:48:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=vr0cMdx3xb7N+X2a8EQW4pCI8dl9FyQ8IxCgJPGuMsc=; b=QSIXokHZfEH3HmLjR8Sh3K6Cds
- EkCIoCr/bAZfEvnYSgnBZE45LE+GFEEmXaZYKfkw5+vtMkYzdJ1WWWfJnq5l5naO+ey+UCL/XV1pS
- xHC/Gax3MBL2dAksNkvrrnHJFHxKFHv6YIvL8U4lNT5KCdOD1o48+NQbr6Aj3gMiABnrBOTL1WOoa
- XBANUfBdkbw2gET1LJ6GmcgDocqT/WcpV0BgbmO/D9FrRtEigs5Id605tumIdVmWS1EuQFkvU3LZo
- rM/5kEQRGEuuX1sq9HJA4WRmptl0JfpG3W0Utn9Z6W6AEog3mWCUa8emGIP1XpXQSeR6cIwg2kmdi
- J2IjnmTQ==;
+ bh=9ofNX6v1wq1ZZsh7u+6Jw2NqZo1suU93dVPKE3WzHXU=; b=mBS4wYpELPN1UpLnL4mKQl5uP+
+ WCEnrn1QGXf2Ae/SOb3NxYXm9jyu8wzqqZrcvnA6Crep7Gaeo3yc8HAlLZ43x90bm7aj/REhFdm4s
+ AfaKCirmch2nzZmD1PNifWn4fxdqdv/aJ3kpX9vYh3LJuAcOwLjj7q9mWt9s2rDQI/ELKnU1aYGwZ
+ pGZxIMc+iG2RXb1GyNm4ZK9bcYutvVfCNxWP7ki71ClUSDAP4ZVkXypuRrJy+NSDJ+7wPHLK6Qrlf
+ kjuP0rRAy6+G30lrIRcNBpwY+ZRxl5B8OHx3fPoLBfsmW0KA4jhen+aWiBTOB7V0JrdVjTf4G1MpD
+ f1VigpNQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pUD4U-00BvKV-2H; Mon, 20 Feb 2023 20:47:51 +0000
+ id 1pUD4U-00BvKW-2U; Mon, 20 Feb 2023 20:48:21 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pUD4U-00B4rM-1u; Mon, 20 Feb 2023 20:47:38 +0000
+ Linux)) id 1pUD4U-00B4rR-26; Mon, 20 Feb 2023 20:47:38 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,10 +50,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v12 15/60] i386/xen: add pc_machine_kvm_type to initialize
- XEN_EMULATE mode
-Date: Mon, 20 Feb 2023 20:46:51 +0000
-Message-Id: <20230220204736.2639601-16-dwmw2@infradead.org>
+Subject: [PATCH v12 16/60] i386/xen: manage and save/restore Xen guest
+ long_mode setting
+Date: Mon, 20 Feb 2023 20:46:52 +0000
+Message-Id: <20230220204736.2639601-17-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230220204736.2639601-1-dwmw2@infradead.org>
 References: <20230220204736.2639601-1-dwmw2@infradead.org>
@@ -88,67 +88,172 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The xen_overlay device (and later similar devices for event channels and
-grant tables) need to be instantiated. Do this from a kvm_type method on
-the PC machine derivatives, since KVM is only way to support Xen emulation
-for now.
+Xen will "latch" the guest's 32-bit or 64-bit ("long mode") setting when
+the guest writes the MSR to fill in the hypercall page, or when the guest
+sets the event channel callback in HVM_PARAM_CALLBACK_IRQ.
+
+KVM handles the former and sets the kernel's long_mode flag accordingly.
+The latter will be handled in userspace. Keep them in sync by noticing
+when a hypercall is made in a mode that doesn't match qemu's idea of
+the guest mode, and resyncing from the kernel. Do that same sync right
+before serialization too, in case the guest has set the hypercall page
+but hasn't yet made a system call.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/pc.c         | 11 +++++++++++
- include/hw/i386/pc.h |  3 +++
- 2 files changed, 14 insertions(+)
+ hw/i386/kvm/xen_overlay.c | 62 +++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_overlay.h |  4 +++
+ target/i386/kvm/xen-emu.c | 12 ++++++++
+ 3 files changed, 78 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 6e592bd969..9169305f4f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -89,6 +89,7 @@
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/virtio/virtio-pmem-pci.h"
- #include "hw/virtio/virtio-mem-pci.h"
-+#include "hw/i386/kvm/xen_overlay.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "target/i386/cpu.h"
-@@ -1844,6 +1845,16 @@ static void pc_machine_initfn(Object *obj)
-     cxl_machine_init(obj, &pcms->cxl_devices_state);
+diff --git a/hw/i386/kvm/xen_overlay.c b/hw/i386/kvm/xen_overlay.c
+index a2441e2b4e..8685d87959 100644
+--- a/hw/i386/kvm/xen_overlay.c
++++ b/hw/i386/kvm/xen_overlay.c
+@@ -44,6 +44,7 @@ struct XenOverlayState {
+     MemoryRegion shinfo_mem;
+     void *shinfo_ptr;
+     uint64_t shinfo_gpa;
++    bool long_mode;
+ };
+ 
+ struct XenOverlayState *xen_overlay_singleton;
+@@ -96,9 +97,21 @@ static void xen_overlay_realize(DeviceState *dev, Error **errp)
+ 
+     s->shinfo_ptr = memory_region_get_ram_ptr(&s->shinfo_mem);
+     s->shinfo_gpa = INVALID_GPA;
++    s->long_mode = false;
+     memset(s->shinfo_ptr, 0, XEN_PAGE_SIZE);
  }
  
-+int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
++static int xen_overlay_pre_save(void *opaque)
 +{
-+#ifdef CONFIG_XEN_EMU
-+    if (xen_mode == XEN_EMULATE) {
-+        xen_overlay_create();
-+    }
-+#endif
-+    return 0;
++    /*
++     * Fetch the kernel's idea of long_mode to avoid the race condition
++     * where the guest has set the hypercall page up in 64-bit mode but
++     * not yet made a hypercall by the time migration happens, so qemu
++     * hasn't yet noticed.
++     */
++    return xen_sync_long_mode();
 +}
 +
- static void pc_machine_reset(MachineState *machine, ShutdownCause reason)
+ static int xen_overlay_post_load(void *opaque, int version_id)
  {
-     CPUState *cs;
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 66e3d059ef..740497a961 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -291,12 +291,15 @@ extern const size_t pc_compat_1_5_len;
- extern GlobalProperty pc_compat_1_4[];
- extern const size_t pc_compat_1_4_len;
+     XenOverlayState *s = opaque;
+@@ -107,6 +120,9 @@ static int xen_overlay_post_load(void *opaque, int version_id)
+         xen_overlay_do_map_page(&s->shinfo_mem, s->shinfo_gpa);
+         xen_overlay_set_be_shinfo(s->shinfo_gpa >> XEN_PAGE_SHIFT);
+     }
++    if (s->long_mode) {
++        xen_set_long_mode(true);
++    }
  
-+extern int pc_machine_kvm_type(MachineState *machine, const char *vm_type);
+     return 0;
+ }
+@@ -121,9 +137,11 @@ static const VMStateDescription xen_overlay_vmstate = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .needed = xen_overlay_is_needed,
++    .pre_save = xen_overlay_pre_save,
+     .post_load = xen_overlay_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT64(shinfo_gpa, XenOverlayState),
++        VMSTATE_BOOL(long_mode, XenOverlayState),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -208,3 +226,47 @@ void *xen_overlay_get_shinfo_ptr(void)
+ 
+     return s->shinfo_ptr;
+ }
 +
- #define DEFINE_PC_MACHINE(suffix, namestr, initfn, optsfn) \
-     static void pc_machine_##suffix##_class_init(ObjectClass *oc, void *data) \
-     { \
-         MachineClass *mc = MACHINE_CLASS(oc); \
-         optsfn(mc); \
-         mc->init = initfn; \
-+        mc->kvm_type = pc_machine_kvm_type; \
-     } \
-     static const TypeInfo pc_machine_type_##suffix = { \
-         .name       = namestr TYPE_MACHINE_SUFFIX, \
++int xen_sync_long_mode(void)
++{
++    int ret;
++    struct kvm_xen_hvm_attr xa = {
++        .type = KVM_XEN_ATTR_TYPE_LONG_MODE,
++    };
++
++    if (!xen_overlay_singleton) {
++        return -ENOENT;
++    }
++
++    ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_GET_ATTR, &xa);
++    if (!ret) {
++        xen_overlay_singleton->long_mode = xa.u.long_mode;
++    }
++
++    return ret;
++}
++
++int xen_set_long_mode(bool long_mode)
++{
++    int ret;
++    struct kvm_xen_hvm_attr xa = {
++        .type = KVM_XEN_ATTR_TYPE_LONG_MODE,
++        .u.long_mode = long_mode,
++    };
++
++    if (!xen_overlay_singleton) {
++        return -ENOENT;
++    }
++
++    ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &xa);
++    if (!ret) {
++        xen_overlay_singleton->long_mode = xa.u.long_mode;
++    }
++
++    return ret;
++}
++
++bool xen_is_long_mode(void)
++{
++    return xen_overlay_singleton && xen_overlay_singleton->long_mode;
++}
+diff --git a/hw/i386/kvm/xen_overlay.h b/hw/i386/kvm/xen_overlay.h
+index 00cff05bb0..5c46a0b036 100644
+--- a/hw/i386/kvm/xen_overlay.h
++++ b/hw/i386/kvm/xen_overlay.h
+@@ -17,4 +17,8 @@ void xen_overlay_create(void);
+ int xen_overlay_map_shinfo_page(uint64_t gpa);
+ void *xen_overlay_get_shinfo_ptr(void);
+ 
++int xen_sync_long_mode(void);
++int xen_set_long_mode(bool long_mode);
++bool xen_is_long_mode(void);
++
+ #endif /* QEMU_XEN_OVERLAY_H */
+diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+index ebea27caf6..be6d85f2cb 100644
+--- a/target/i386/kvm/xen-emu.c
++++ b/target/i386/kvm/xen-emu.c
+@@ -20,6 +20,8 @@
+ #include "trace.h"
+ #include "sysemu/runstate.h"
+ 
++#include "hw/i386/kvm/xen_overlay.h"
++
+ #include "hw/xen/interface/version.h"
+ #include "hw/xen/interface/sched.h"
+ 
+@@ -282,6 +284,16 @@ int kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+         return -1;
+     }
+ 
++    /*
++     * The kernel latches the guest 32/64 mode when the MSR is used to fill
++     * the hypercall page. So if we see a hypercall in a mode that doesn't
++     * match our own idea of the guest mode, fetch the kernel's idea of the
++     * "long mode" to remain in sync.
++     */
++    if (exit->u.hcall.longmode != xen_is_long_mode()) {
++        xen_sync_long_mode();
++    }
++
+     if (!do_kvm_xen_handle_exit(cpu, exit)) {
+         /*
+          * Some hypercalls will be deliberately "implemented" by returning
 -- 
 2.39.0
 
