@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4295969D176
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 17:41:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777B869D1B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 17:52:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU9CE-0001gY-F3; Mon, 20 Feb 2023 11:39:22 -0500
+	id 1pU9Mz-0003zG-61; Mon, 20 Feb 2023 11:50:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pU9CC-0001fQ-50
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 11:39:20 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+ id 1pU9Mx-0003yx-Cb
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 11:50:27 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pU9CA-0005ap-Je
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 11:39:19 -0500
-Received: by mail-pg1-x531.google.com with SMTP id q189so821310pga.9
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 08:39:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676911157;
+ id 1pU9Mt-0007sG-TF
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 11:50:26 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id bh1so2148181plb.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 08:50:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HDXMvHASq77DJBZWd/uBnhP5N1Mutw0f3xN+JB6m6VA=;
- b=sCOszksUzOAxDyH/0d1OeQyUB5XRRUpLho7w2GqALdDpi4Eh3Wuil+/BpSZDWfZXPm
- tHB6Umby/jfE3bg5WIQV9ZL7zvwV4Zpv4OctDx+C0aoh+5t6rFwUP2lNp6ZKOXIwyDf4
- IQV+FAGC9An8ckxQ9q4lV9wOYl+Bv1J6WuBTxvBeV+g1Aiv2jTz2XlExsLOTVLPsaids
- HH09TPSJTbbFCU8d8Aeq1tqjLJnr116ii6Tf31UipLhXHT6iKLXYJYDchArYosrSezxk
- o2LuyLjmZsVnNfceCkgvbaWNitX5wnnr7E2LyBrFzRhQL5q9W9m1A9GgiuyZaxZn09YG
- 5Zpg==
+ bh=9FWFgb/x2LH+v1tyjo0ceacshOWHKgvwOgsn0eycxtM=;
+ b=p9zJs8LaJgX35JFYTtEl2HPe7ws5POARdfWlB/EOEfSxQjlnfqdlLEZ0Uap83Y/l/x
+ Q2kPJnZwEchhqUa94TmLla2rS7RhwXchdMHm7yLLTnBzVdr9lEMUZqR+mUW+SwckU0U1
+ 3Gz/ifKX87LAeyDVeNwDQflA4amM7yqoo+wPuAwrW9366vMFGc945qFDHeu1LKgbkk37
+ WX7DkzhYZpWkUr1/QVgGvl/hnBLUWoWu5r1BTJ8GqWqWf2inwj4xSIJd/2956mePgBUi
+ SsdjWmq7Gl96C0H/ojI7DoPPU7XFLmVE7xuklVbDf7fvcNZijT8aUFGSCcGnG3V/Wu1i
+ PVvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676911157;
+ d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=HDXMvHASq77DJBZWd/uBnhP5N1Mutw0f3xN+JB6m6VA=;
- b=wALEzx+KCqcclj+WPKE0YjgM7a1KfqZytB1+ZBAp9v1gjOaT6/NBDG7IP6BQA9VgX5
- uvVss7F3HC9b0kXNa3NTcAARCbyKVuLF2m4rRFrsLMCYS5JVWpdPKsmIQ2YVTWWRaBRM
- i3K4Dv0pUp0bqU9gnQHnGQv2KxXIL7Xp4VFBPeSmxp2ICivvWWVtPpjqIYtpn3OOHfRr
- 4Mpl/a6oKCVqRi4BrOePHiKW/+kuRYmWsZ/kzuRUOOTuuhnDWa7k1aTQOnJZ9GFNFSd4
- ED9PAJOrV4O3M+i1oSjL/ygIWMxH4HkNR1VBR28vTIdIHVEsyuTuBnkpa+OxIYEFVa1R
- gGMg==
-X-Gm-Message-State: AO0yUKXK3lWb01juFmaNRyGNE8tRtBr530U73NINn0pt8QWs237OqZUr
- wi1Ui1KU/X6Ou4crpsu2WhSGxREsB6CrkscjdkQgoQ==
-X-Google-Smtp-Source: AK7set+IQANr2mi1bwgda1kuOEOY/PdH8zdjdHa9Wdj3P8CESWdKQA4IzEgQT36lswKuIAncpHVPrVH02WlqmxQNMuM=
-X-Received: by 2002:a62:164f:0:b0:5a9:babe:6cb9 with SMTP id
- 76-20020a62164f000000b005a9babe6cb9mr407548pfw.48.1676911157144; Mon, 20 Feb
- 2023 08:39:17 -0800 (PST)
+ bh=9FWFgb/x2LH+v1tyjo0ceacshOWHKgvwOgsn0eycxtM=;
+ b=3OQ45RmjZkbeSFxOEi8e76FigHdhbLSrr0g/ilVeCCqGscUXzvjPdo4gb9Y+M1jfK6
+ lzj+W/pcF204s7Fc0lCHqivHkSw/JZIjM6PV71Q1QpVXYGsPTLocUoo0qBmF5Goa+iqi
+ +q12xlsVWcS3zYs/WkYzwq0AR19MlYV77tseIep9SMdeFUuSwJ/20oOrthC78zBjBbo2
+ LkGg5ByXPdSt52jImNxFny/zSz5O9x/EEn9bSCDDPqst1KfD8QBgpE24+aiYh8JnFt6i
+ 1Px7ovdGfQNbghbGr6+NGyPkNeVqGUq1Ru6KrsQbvQJqnRZPReF5cu32pijleCpwF1PT
+ cavA==
+X-Gm-Message-State: AO0yUKU1pQJPOA+i5PP6Ekm9ZiDpmcYcPuk7WO/gjDIDIoMvFnJu9r4i
+ d4nKb4Urr8Nj8+5tnwNKWfDE62noYVYBswaeyMxLfg==
+X-Google-Smtp-Source: AK7set+8IbRY3XB2w0NLFqtoPh+1keOFs5Z/oK7MWvfvoLiYP/BFw5k1MKFZtYZ2ZKy+hNizf2usrQ8Ti31p4sotpg8=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr1021912pjb.92.1676911822107; Mon, 20
+ Feb 2023 08:50:22 -0800 (PST)
 MIME-Version: 1.0
 References: <20230214163048.903964-1-richard.henderson@linaro.org>
- <20230214163048.903964-11-richard.henderson@linaro.org>
-In-Reply-To: <20230214163048.903964-11-richard.henderson@linaro.org>
+ <20230214163048.903964-13-richard.henderson@linaro.org>
+In-Reply-To: <20230214163048.903964-13-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Feb 2023 16:39:05 +0000
-Message-ID: <CAFEAcA_9uk6yiNxF6XgmC-A1E9Lr6hUK-HN_YQGMRA3-BbqbVQ@mail.gmail.com>
-Subject: Re: [PATCH 10/14] target/arm: Create pauth_ptr_mask
+Date: Mon, 20 Feb 2023 16:50:11 +0000
+Message-ID: <CAFEAcA9Ba8Zw4u68g0qr03FAgy-Oe8yQvCymmKYFrF17MyPHGg@mail.gmail.com>
+Subject: Re: [PATCH 12/14] target/arm: Export arm_v7m_mrs_control
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, David Reiss <dreiss@meta.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,10 +86,15 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Tue, 14 Feb 2023 at 16:32, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Keep the logic for pauth within pauth_helper.c, and expose
-> a helper function for use with the gdbstub pac extension.
+> From: David Reiss <dreiss@meta.com>
 >
+> Allow the function to be used outside of m_helper.c.
+> Rename with an "arm_" prefix.
+>
+> Signed-off-by: David Reiss <dreiss@meta.com>
+> [rth: Split out of a larger patch]
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
