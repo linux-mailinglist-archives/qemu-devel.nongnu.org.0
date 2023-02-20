@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641B369C859
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 11:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E7669C85C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 11:15:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU36h-0008Bd-JI; Mon, 20 Feb 2023 05:09:15 -0500
+	id 1pU36k-0008CR-59; Mon, 20 Feb 2023 05:09:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1415163841=bin.meng@windriver.com>)
- id 1pU36f-0008BH-Ek
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:09:13 -0500
+ id 1pU36h-0008Bk-FU
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:09:15 -0500
 Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=1415163841=bin.meng@windriver.com>)
- id 1pU36d-0000Az-Up
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:09:13 -0500
+ id 1pU36f-0000C6-Qf
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 05:09:15 -0500
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31K9VRAn027338; Mon, 20 Feb 2023 10:09:01 GMT
+ 31K8ieNr022312; Mon, 20 Feb 2023 10:09:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=3vCoOHxbCSjHUbC+8+fF0U3s0PhEtrD3RWGpqDkLTgw=;
- b=TPpag44Mh7aanljEecPrUi2ksRj9lGrAPRn1PvXemrKcGznutWE1QixYptsZLtzSwPQ9
- rH/2aOZjOPiVI5/jLzcH7S8H4GXuGk6wha3qoHgsMXrJ2QBx+vFqqm37XYY53SO3YOwO
- sH6l8kM6Ls66I0otvCprD90P1Cqs3ajs2/cZ9gtPQtTr4hTUaLOMLC2p/D3vymJG1Cqz
- t4+92ExDwevtBaV4emeaCI2JQRVw/u+XlEUuxoXy/vrjzeaxmkorTE0UDFLSLSnuHQNN
- xftmwuscXCC2T2JrRoaINjf6vvJe1kzu7bZdRAr6WfH/FJYaPKndRlYnbaS6/XxZijeA 9w== 
+ bh=pj6CpAiOkn0C8N0WeNVo6qDdPxsqZlnzg156xpWuFDU=;
+ b=bbQIAb4BwzsgSLgMyxZgHowgRkqFTwbeOFM0IrB8R3aJWvkFzvNOckaczT+wfdd18hBQ
+ wcGci5jXLhqiZ6fkLHdtrAri7U7o9BEdDyvIkDWl+MqU5lMZICiUoilwOt0IV4NA6s5A
+ F738r6PMQ8PhLHiHWLKCnbBhqlmVSORQxCTyoNJ/2wMw+qotnjL8LqbhH3PuqruX+MBL
+ 63tM9I4DvcKHAv/m9NIiuP2v/vLm2HoajdWq7L3qMd/+ESn1+Kawd506u5gTyOvpkDSC
+ j0OxpH/QqS5u71RXVQxr19yfeagMk3y4p+fd75Caj0Bomc+/ZPbIHy9yaf8lnmTlTXrc fQ== 
 Received: from nam02-dm3-obe.outbound.protection.outlook.com
- (mail-dm3nam02lp2044.outbound.protection.outlook.com [104.47.56.44])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ntpem1kwu-1
+ (mail-dm3nam02lp2041.outbound.protection.outlook.com [104.47.56.41])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ntpem1kww-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Feb 2023 10:09:00 +0000
+ Mon, 20 Feb 2023 10:09:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PdfCIdTVhm1sZJiNJMa2l+CG39bbA5EGL8j482eWgBnYScnIw4DS9I2s4ajGYspjQPOOyVxh3fXUeFcqJMEwKw/R4CSEGR+YB7WUmDXYB83otIis/kqkOQyagHLi+PZYFsBKcCW+t+1695EUAOgrLB27KukMO//d8n4h99TAWl7us2/WF/ofv/BWE2rHhbYC9+qjBXrpMC+eOntQvxp+uv5+v063WKQ6NQYZ5u7pxbIvvsPcHeyrXlTvAvyy+5Cwyt8gHmV7mAVaBKjC4WrzIChAYavkg8OixGUNMzZ1WSx+2vhu8Y6d6SG+D+Pe2Y2rnz27CzI5M4C+S8BrF9riYg==
+ b=m0pKnxCVg4vATcCIfISMO0L/CvXXLH2IxpDVCPSfp1OeCGZF2F/5QKV0nqyqOxCFdGdN2/hj6POBn8iBs9k97kdMOH7gut5qkGBApS5reUnlqU3+XRra2GFXgfZPr8MQBITpXVGqcKV2HrIYIuRY/nrYsEnN17mntvQ9K+HbqbGKBhunyAG1eo/1dZsuNumHm+SSUOfjkJyA3ppOKr+vneTCPMISv4/g7QKg7wGLEAAnVFKH1tdSyLjO7Vdl4fB8rpKP7Fu25CRTvyBE3tQUp46kEAD0WOf1AUQ736iQw5MKDjFZgsDFVnh0xSXeGEHYbdzoAHTSBxY6+r+/TvOX6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3vCoOHxbCSjHUbC+8+fF0U3s0PhEtrD3RWGpqDkLTgw=;
- b=dqTFLs5KezynA1tj4ynCJeRU6Dd/EsviS8yImoKfIQkD6RDR79+EJro/RfgGocAf251ThrGQM0UapyLaL0C8SZZhi5ziUtGQrIPd4drjbjNPyjGyyhBmg5LEIu6mkcSC6T40Cv01G4ebinaTa1ZavKil8CJuXAids6xR1wGfs4oRr2NKdARFefh0VNJ0qTb0WwnhONAKqr3VuaCwVjO/xrrE3HF38s6nwdQJphNIZnEquOkuXAOHYWD44JyLw7JhWhuXWjiwCS4r963a5rwUKX9ifeLfpX02Ls9X+1ChmW3x88RNoxC26hPGkSEEf//sRdKMDVJJU3zdfiksrkcq/Q==
+ bh=pj6CpAiOkn0C8N0WeNVo6qDdPxsqZlnzg156xpWuFDU=;
+ b=dvjkFP13B+OSzSxeLpNvVE1xpDQ57aVxpzTK014LU05E4piW8dmold143yLitq2VvlutWHY/ZPfxY20uHL29+LIn9jlBZv0e3L3nwVIcLe/CC7w+cTLooefk5E7wp1d3QrnNduibh51B6AvjpWPQkb6jQCQbWpe9qFzL/Z5ZgGB7V+K9yOZ0gmM0WamabTBly7pYGX5GoCNNebKymNIAV+aiATc769xGWQLt8uRKMmBgx44bLrlhYAs+cBDBIbm/mUFcvbC/ebCmit7IQCqGMJAZte+OLghdNZMaYqIS8Ccv1+7ILCpcW7WMjTsD3L3S3Rmh+G0Akyoxdg1VG7yYGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,19 +52,18 @@ Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
  IA0PR11MB7912.namprd11.prod.outlook.com (2603:10b6:208:3dd::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.20; Mon, 20 Feb
- 2023 10:08:59 +0000
+ 2023 10:09:01 +0000
 Received: from DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::6c5d:5b92:1599:ce9]) by DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::6c5d:5b92:1599:ce9%4]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
- 10:08:59 +0000
+ 10:09:01 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
  qemu-devel@nongnu.org
-Cc: Guohuai Shi <guohuai.shi@windriver.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v5 15/16] tests/qtest: virtio-9p-test: Adapt the case for win32
-Date: Mon, 20 Feb 2023 18:08:14 +0800
-Message-Id: <20230220100815.1624266-16-bin.meng@windriver.com>
+Cc: Guohuai Shi <guohuai.shi@windriver.com>
+Subject: [PATCH v5 16/16] meson.build: Turn on virtfs for Windows
+Date: Mon, 20 Feb 2023 18:08:15 +0800
+Message-Id: <20230220100815.1624266-17-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230220100815.1624266-1-bin.meng@windriver.com>
 References: <20230220100815.1624266-1-bin.meng@windriver.com>
@@ -76,62 +75,62 @@ X-ClientProxiedBy: SJ0PR03CA0220.namprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|IA0PR11MB7912:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa672b89-7bc4-43a0-b048-08db132a7bcc
+X-MS-Office365-Filtering-Correlation-Id: 2d1f00de-53bf-47ec-5a45-08db132a7ced
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: l5pF8aNvTOiQXtz1twzE4AZDOQ/lsind1K/L6VIj378nD7wE1uEozbEvRuwZx0lvvxLVgUT3NsJUy0f8iWdsHMlCXkaXB+/7q02nNZM86e1UtmMHIA3G5lv+fTnQloA2l2jau6iw5bt8PESSDlWumePl4YGtHTQ9C9e6/Z8UDeeFuFWsp0kGLITep4XIEUy7vrrLiMgY9UQFKX+aA5rvyOEgQK70dTqKvmsNo3P27FsukXRXQ8ZKdfMK6Ggru1jLB/hq0YlP81cVPl261pZiMnisjvT8/vupOzQmY4Xmr4JsmTFnNzAc/oinrbRIbiYycAi6emvCYMSs1oK632veyrKcXXY89JPAVsPvwmwAdn0c8mJ50DJ1E6LgIw7iFHBP9QvD1+9bmVKAvgHMXtGU8WL4vgQuF7yIAXbSDPs/eTqPnJQDFAompfGRHIMZnHiSzsytJRjo20kbmxBSVgutBTWHaCnjV3AmCOUEJx5iSiMjhFbJ4X/gPAqxYpRsXuBGHUJlBMv0Ah7Q/27K6Tu09j6sSbAQvci5YeFam17gYibgfW4PvP0j4HABAMVqdpdAJTyscFK7z2X5SuC9PBJS7Ppol8UX+X8ahRqospW8kyyN5CIzM7B+1fl24ooiJdM9u4v10TVa0Ge5cco84/scTt78qM9NAvLSp6XOOVBilpmEsNPgMj/mIjrAu8R4S8JnL36FUb5BrbGLqVr1v8vw4Q==
+X-Microsoft-Antispam-Message-Info: jcY0hhbY9V8Meg1oHot4WuUmrP/Zli4KVShJxMl8DAOnkxx3Pt0I7SW5aUF83KIV8QraEu4T3Ik3z0P6ucGs5RrjXeJPOgJD2Q1x1b/ezUtUsGNQlXkXeDJ86BX7GJ1U9EEDa9Ywt4fVkaHaFDQnWadA+Rd9ZFOSQGOxWspVYp6hQ0Ge/w41fgATxYRGgfSACJLaHJqcAkW4AZihYEOvy2/fMlB3vgILUTFDTdvVd5au1FVEaweP8wSbAjwOw5x/G5CPzbj8uuOw/ma0gminlWhyJJ0wMOdwXPw2aDpR3dANCpRMW4miSoS/5/ZkQu6BJNCqnbEBrppeG9qMJlzvsRbAVbXilMBwXHnzBOtFrGI4pwb87HwcDpqfx4vntR3SJHI/AIwXYEEX8mk80SKSurhO4rIj6KyhLpUDuZgDMD89guNSK3Wk+I9NEy1m1KCasCUDChDN/JOv6HGuDlpXo7z6JRbWL5j1aFt5cumFfskYSWuufaReP4BhHwy72wpccKZ6fUIrntj6zVrDy1Up03PbNZpcoSPA8iPHctH/ik+shxmcbLrQvYHeOaBBQJNwFOFJk9dW0nNuPlfgl92WI1oeuo5c0b68OAkuW09SZrmD/T2HHbmxOPu54a5jhPTWNStzlBAlaEf5TL7TmhAvHL3Pmencsx9A1+ohOHy0IZirlakOM5qF8XHFYObZgy9NDZDvL2hnKOh6qSVCYsUKLw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(376002)(396003)(39850400004)(366004)(136003)(451199018)(8936002)(4744005)(5660300002)(41300700001)(86362001)(44832011)(2906002)(4326008)(52116002)(6486002)(6666004)(186003)(26005)(6512007)(1076003)(66556008)(8676002)(66946007)(66476007)(316002)(478600001)(2616005)(54906003)(110136005)(38350700002)(36756003)(38100700002)(6506007);
+ SFS:(13230025)(4636009)(346002)(376002)(396003)(39850400004)(366004)(136003)(451199018)(8936002)(83380400001)(5660300002)(41300700001)(86362001)(44832011)(2906002)(4326008)(52116002)(6486002)(6666004)(186003)(26005)(6512007)(1076003)(107886003)(66556008)(8676002)(66946007)(66476007)(316002)(478600001)(2616005)(110136005)(38350700002)(36756003)(38100700002)(6506007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?b6aa22Gboce3tDJnb86FICarjE67bbRLlvw71e0nuQNNvDv2/ikHENhRHDVi?=
- =?us-ascii?Q?pHi0eb/l3uK4m9A3IE+P1CdluKYH9zYz0wC0TbQaqmxacw2+uZbehojmyDOV?=
- =?us-ascii?Q?SxtTvYltPSrZVaiX3qXIIv1BnAd00WNcngOU7g++liIncWiPxO0qzCA9AHyu?=
- =?us-ascii?Q?AFrRxUswI7OSOdFVRMgGlcD7s/ZwFtxy4flWWcFfIIw5Lh5tlmR+elS7XEIc?=
- =?us-ascii?Q?a2UrLMYEPr4vZiu/W0sgyuT/4KjCMLKbfXDNDQ5T2C6gq5cpz93hdgHSevht?=
- =?us-ascii?Q?JR1FFbPrjxVo+mVDc9E1Uu1R2ubWw8FZdRNDGvH3IlOuwAQYMeEKw5RIkGLE?=
- =?us-ascii?Q?Kczh45GkVHALeYvWuwgOdwjI2flKXj6NZEAygiEmQIqHPrEyh07AkGYPk+1F?=
- =?us-ascii?Q?NVBJnArHc9ScPHYSlrgn9uBXNKuuru4scS9A+TDHxOMm2nfdy0kUN+SM5Bn2?=
- =?us-ascii?Q?lUqQJtVhQdvlo4EdSc/yhsZ8t08fFg47Ds96utA0+VCKXuuNL6EvNWO7GEnr?=
- =?us-ascii?Q?jnRCCTk7pJsk9fULvQHu84o0H1Mw8eSet9UJQ4TNl5e7MnY84eeg/bKceS9K?=
- =?us-ascii?Q?TUky720YLthuG05B3Yu/mhhU0ylicGYRIG8uHhwSdsESp6nNF3yLSHLKdryy?=
- =?us-ascii?Q?0O15/Fhf54gHOBFbSuDn2SkTYy74laP1oH+LBFtAhkYBjhqOD4i3Q8hj+XQR?=
- =?us-ascii?Q?zYqNxzkut9rM6F3i7e0tsRx+d1uyIlbSbR1xe3RSdWke1g9YxawdwF57vgcw?=
- =?us-ascii?Q?u7j2QBM6TFWQ2H0ZjL1zd+Hs7rlI/4+iyK/CgTWTAn58qXzAtxcWdeBpAc2M?=
- =?us-ascii?Q?+oUTdshve9lMICg7ZIcfQfI8CJ9sNXP6/kk1d35Lh0kZPJqW/VMfCQTGvSpG?=
- =?us-ascii?Q?ToTi88kMxpPja4cZUraUJvxQhH2wFMoRfTrzrFMUUNMUgJLl42asQaguT6i7?=
- =?us-ascii?Q?QgKtyMiqn0vrVRSpAzUEu82sblGsiMrSmSEcYscqlLVmNuoFw+tt4q+nQyZv?=
- =?us-ascii?Q?MVR6S2cWfAj9o1NznH3dAL9roqzqXTXtVeMrXLwba15nVHNHTX0oTT5Sm2rD?=
- =?us-ascii?Q?2clYtf94mGXeWmZh40jTTZdiBmPbGe0IIZoQyKtpR726RknEfopWrS0FjnWl?=
- =?us-ascii?Q?gGq5aisoyBVGmPZEnS7aatx/qQUgGHXeUSc6DPrE+intGgx8/V9ZXyEjFBZG?=
- =?us-ascii?Q?CBTYuvBch6gO6j+td6f6bA36gTHJZFRDJcZVrPynLz6m1JZvpg86pcfeWVCD?=
- =?us-ascii?Q?iOxlyfgExU2ec1x4fRnLxEg03hDfcFs5XuKs5nbhCjxnmzc5o7zeGO8i0q6I?=
- =?us-ascii?Q?aJpclvw+0GOyMTrWz5wBcf9zvfbhJXvAcrkH5+Yz+4UUSViN0N/2F08ElQcT?=
- =?us-ascii?Q?PvJO3mPV/XcnTpPpn46Bq6c9GhaWXI7x4vPOi0jTZiH71EeOmLsHCuxuK1od?=
- =?us-ascii?Q?9DPok02INU43QPhjFuU0m5wCcqTur55u76b/t0U1XO147VJGTZmxeqZq3js8?=
- =?us-ascii?Q?PIbqqF2ebDfZWXM7/EfR0OIgtr+UorEJm1T7NFTtgQs5ASWuS9or7hNTl5q7?=
- =?us-ascii?Q?jYHde9S8s1XblcnRQEeL90mwOT3/wv+NyhKwECudTNEKNLhd8O01X+f3dJpa?=
- =?us-ascii?Q?sA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XTVTLAyZw54KovutCqxJY88Jtwr3l0DKGHnJtnAxpqKFfElCEQVMysD10lDg?=
+ =?us-ascii?Q?+z42Je2w602dQw3/lcZZZpc5OZBccas3r5nE6+OgDUUtyWb7i5ptjphi03V7?=
+ =?us-ascii?Q?sVFI/bUU+uVyQmsPlAZKW6aPrCrzdEqo/gc/tY43JEodntXuUa1PWAIBEmQ6?=
+ =?us-ascii?Q?u28tbWxskgfNpJqMn+FVgd7iB9caH0K8cdTWV31Pdf6pK2rE5OWRq0fzJrYh?=
+ =?us-ascii?Q?Eer1hT81KfOrCV7PPvfyNwL1WeKKNdp0f2zGdpaBv7O7bhltcMDSqVJNhI56?=
+ =?us-ascii?Q?l+cRGIs0oG+2BOHrg5vw7p7dOZbboMEJ7+YGXZ+x8dQYV6xhZ20RhqGUVVXr?=
+ =?us-ascii?Q?gYtzf8xhp39FLaGImOAtiE17j6yyPAlFgmQwvmjjy0WfObKnAzIHyXL50MEo?=
+ =?us-ascii?Q?NATYWk13yEoAvX5eFxyXogcxus44Kkdh5ICF2od/yrBkcC+sLSf+gjdl0c3y?=
+ =?us-ascii?Q?0Syuvk0wVMfW793r4o+DkK39XapkHa/Mm4h/FgnW+fFYWTm9FelADl0wINw+?=
+ =?us-ascii?Q?E3yiVs+5K6YTJ/9ej3zJ6o/AvHMBge3Mc6FxJGCCQ8ckmzQy+GuF9oIp20J6?=
+ =?us-ascii?Q?3Ecw36TO1epgE7svWKEqRiYoSprQf1MPhjCR9ifUlxjXfHyXFVe1bXBwYAtd?=
+ =?us-ascii?Q?hqCcKaAJZk3YTtpRY8bYtqDkcfLKKk0Ku1xVmFKLygTmbrS/2v1D5VmK2eMT?=
+ =?us-ascii?Q?gvN3/asv/W1XS9bGrGR9ZRcnPncWM4DHbOPzSQtkiPyBlfPZv0q7UcH/sUSd?=
+ =?us-ascii?Q?E1uXUgb3offwliRCq366e1CozAeFJ7X335Od7P7nWkzaiy1xP3jKcwM0Y7Xa?=
+ =?us-ascii?Q?+8SbE0REYLYAdIIfK/vcnGIdwIU1EwumSHSGmfpIfS3XjHBs2WTB+9WjsvGf?=
+ =?us-ascii?Q?Aa0vmdAGuQlcbCF+KyJqEOL1TOQWmFTwf4NiYC8ZTEhO06wAgRjl/nmA6czx?=
+ =?us-ascii?Q?vK1KrnJr4AZ8+AVmc46Ej/c28j+FTYmMFE+Jidf+AzUM/MRnNqHaf1tw1JHC?=
+ =?us-ascii?Q?sSNcGSAxDuj+tO06Mg39upS5LtcG7hF/sWY05ueT97naO4yDTJ63TXfLttLJ?=
+ =?us-ascii?Q?vO8DnTpLcahajQ9dc9gnrdd2FrZD44cjfqcFaJMdUPuusedfwLTEWmvQufMB?=
+ =?us-ascii?Q?0vpZ3bESmYLNhlZFpHRNmOGA9O7gclkyMKPJ53QgYmtipWDr0BIqLBnLGiot?=
+ =?us-ascii?Q?BmyY1T5uHOqThDDS3OoKv/1ctjRUR5W3uQpDiKTgEU25eY2FuCd9CUtHE91/?=
+ =?us-ascii?Q?M5Vso8taeKZVpQWrQFMKV4aj/sz94UK8rD5+g+p0okBUbXpo2dnYTn9k7kVr?=
+ =?us-ascii?Q?OZCx0jHTE8njD+Dfx0b/VTe/JYdEpsrSvUDWn1kKQv6LePnn92MMWuQ9mPI5?=
+ =?us-ascii?Q?/YCPf3C3vEAjhknKZS3dTeo8+F/l2wChlM/nJ5nZIrj9nsfALxGW7bEZcJpK?=
+ =?us-ascii?Q?6A2SN1o6dPoQdDOxVr/yLyZp4XrC6t9zhsvNAhOo8fGyMshqYmx4peYPKTGJ?=
+ =?us-ascii?Q?A2TDR2oE/okSc4VrstN0naT0SkHbzuOeYOHyYyAhP6mceHiVGA0rRe7gsxWO?=
+ =?us-ascii?Q?Gt6vVVaQ6yC9OnGBcP6hT08DsgpWhPJcp6CWq9zv7560nv+j8fb52xtdwZyz?=
+ =?us-ascii?Q?og=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa672b89-7bc4-43a0-b048-08db132a7bcc
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d1f00de-53bf-47ec-5a45-08db132a7ced
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 10:08:59.2605 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 10:09:01.1208 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d3VGu9gdaXaBp5C6Mv/DgIlhSQKgZmVKM45/bmtIWB9luevwccynFForay3IbrMRnFqN+0reT+7vkFj+L8s4Zg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: GDFeV+wkSyrH9pTIgO9x43BxOrqzxYzBz7xyhJ4G6AVuNrBGxj+lgkqYrF8zEds45pGJUbVpN+h/M6JVE7pTNA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7912
-X-Proofpoint-ORIG-GUID: LdCfv12mULttuyVHjqp4CCaZVCghvoUN
-X-Proofpoint-GUID: LdCfv12mULttuyVHjqp4CCaZVCghvoUN
+X-Proofpoint-ORIG-GUID: VkG3uUhFA3sWYviGuXm8alQeqFiUZGUj
+X-Proofpoint-GUID: VkG3uUhFA3sWYviGuXm8alQeqFiUZGUj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-20_07,2023-02-17_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 mlxscore=0
- lowpriorityscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=999
+ clxscore=1015 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=949
  bulkscore=0 spamscore=0 malwarescore=0 impostorscore=0 adultscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2302200089
@@ -161,34 +160,81 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Guohuai Shi <guohuai.shi@windriver.com>
 
-Windows does not provide the getuid() API. Let's create a local
-one and return a fixed value 0 as the uid for testing.
+Enable virtfs configuration option for Windows host.
 
-Co-developed-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
 
- tests/qtest/libqos/virtio-9p-client.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meson.build         | 10 +++++-----
+ fsdev/meson.build   |  1 +
+ hw/9pfs/meson.build |  8 +++++---
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/libqos/virtio-9p-client.h b/tests/qtest/libqos/virtio-9p-client.h
-index 78228eb97d..a5c0107580 100644
---- a/tests/qtest/libqos/virtio-9p-client.h
-+++ b/tests/qtest/libqos/virtio-9p-client.h
-@@ -491,4 +491,11 @@ void v9fs_rlink(P9Req *req);
- TunlinkatRes v9fs_tunlinkat(TunlinkatOpt);
- void v9fs_runlinkat(P9Req *req);
+diff --git a/meson.build b/meson.build
+index a76c855312..9ddf254e78 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1755,16 +1755,16 @@ dbus_display = get_option('dbus_display') \
+   .allowed()
  
-+#ifdef CONFIG_WIN32
-+static inline uint32_t getuid(void)
-+{
-+    return 0;
-+}
-+#endif
-+
- #endif
+ have_virtfs = get_option('virtfs') \
+-    .require(targetos == 'linux' or targetos == 'darwin',
+-             error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
+-    .require(targetos == 'linux' or cc.has_function('pthread_fchdir_np'),
++    .require(targetos == 'linux' or targetos == 'darwin' or targetos == 'windows',
++             error_message: 'virtio-9p (virtfs) requires Linux or macOS or Windows') \
++    .require(targetos == 'linux' or targetos == 'windows' or cc.has_function('pthread_fchdir_np'),
+              error_message: 'virtio-9p (virtfs) on macOS requires the presence of pthread_fchdir_np') \
+-    .require(targetos == 'darwin' or (libattr.found() and libcap_ng.found()),
++    .require(targetos == 'darwin' or targetos == 'windows' or (libattr.found() and libcap_ng.found()),
+              error_message: 'virtio-9p (virtfs) on Linux requires libcap-ng-devel and libattr-devel') \
+     .disable_auto_if(not have_tools and not have_system) \
+     .allowed()
+ 
+-have_virtfs_proxy_helper = targetos != 'darwin' and have_virtfs and have_tools
++have_virtfs_proxy_helper = targetos != 'darwin' and targetos != 'windows' and have_virtfs and have_tools
+ 
+ if get_option('block_drv_ro_whitelist') == ''
+   config_host_data.set('CONFIG_BDRV_RO_WHITELIST', '')
+diff --git a/fsdev/meson.build b/fsdev/meson.build
+index b632b66348..2aad081aef 100644
+--- a/fsdev/meson.build
++++ b/fsdev/meson.build
+@@ -8,6 +8,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
+ ), if_false: files('qemu-fsdev-dummy.c'))
+ softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
+ softmmu_ss.add_all(when: 'CONFIG_DARWIN', if_true: fsdev_ss)
++softmmu_ss.add_all(when: 'CONFIG_WIN32', if_true: fsdev_ss)
+ 
+ if have_virtfs_proxy_helper
+   executable('virtfs-proxy-helper',
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+index 12443b6ad5..aaa50e71f7 100644
+--- a/hw/9pfs/meson.build
++++ b/hw/9pfs/meson.build
+@@ -2,7 +2,6 @@ fs_ss = ss.source_set()
+ fs_ss.add(files(
+   '9p-local.c',
+   '9p-posix-acl.c',
+-  '9p-proxy.c',
+   '9p-synth.c',
+   '9p-xattr-user.c',
+   '9p-xattr.c',
+@@ -13,8 +12,11 @@ fs_ss.add(files(
+   'coth.c',
+   'coxattr.c',
+ ))
+-fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-util-linux.c'))
+-fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-util-darwin.c'))
++fs_ss.add(when: 'CONFIG_LINUX', if_true: files('9p-proxy.c',
++                                               '9p-util-linux.c'))
++fs_ss.add(when: 'CONFIG_DARWIN', if_true: files('9p-proxy.c',
++                                                '9p-util-darwin.c'))
++fs_ss.add(when: 'CONFIG_WIN32', if_true: files('9p-util-win32.c'))
+ fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+ softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+ 
 -- 
 2.25.1
 
