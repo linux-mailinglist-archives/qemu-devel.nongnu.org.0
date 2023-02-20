@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE2269D6FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 00:27:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1477E69D704
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 00:28:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUFXh-0003Wr-1j; Mon, 20 Feb 2023 18:25:57 -0500
+	id 1pUFYL-0003ee-Qy; Mon, 20 Feb 2023 18:26:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUFXc-0003W1-7I
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:25:52 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUFXZ-0008Vu-Of
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:25:51 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3EBB87470B0;
- Tue, 21 Feb 2023 00:25:46 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 002407470AF; Tue, 21 Feb 2023 00:25:45 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F269F7470AB;
- Tue, 21 Feb 2023 00:25:45 +0100 (CET)
-Date: Tue, 21 Feb 2023 00:25:45 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>, 
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/acpi: Set memory regions to native endian as a work
- around
-In-Reply-To: <20230220172659-mutt-send-email-mst@kernel.org>
-Message-ID: <f4e755b6-051e-103f-b8bc-2765d277633f@eik.bme.hu>
-References: <20211108130934.59B48748F52@zero.eik.bme.hu>
- <b0787bca-8321-059e-d360-1e0a0af31228@redhat.com>
- <a7992420-e2e3-7859-b2de-f9aa88c94945@redhat.com>
- <d03380e9-b6a2-5998-cc72-6443cfdc46b5@eik.bme.hu>
- <d9fcba9d-c2c6-5be3-ce5f-baf5a116bbc4@eik.bme.hu>
- <20220119041842-mutt-send-email-mst@kernel.org>
- <20220222094021-mutt-send-email-mst@kernel.org>
- <f9f183c4-b0b8-22c6-57f9-1b6b20e8e5a5@eik.bme.hu>
- <20230220172659-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUFYI-0003eE-Vg
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:26:34 -0500
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUFYH-0000H1-1V
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 18:26:34 -0500
+Received: by mail-pj1-x1043.google.com with SMTP id o16so2898092pjp.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 15:26:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=t9yw/E43hG1ECC7dOsdcRXTK3p/swP0xBKKuJw06hJ8=;
+ b=IdQgFmm1oKz7zEq2UDrLixMm+IWlU9QQknTocq1ryfG+MVS+UWWbQIMs7qGx0L/3cr
+ imnh+eUSAQ01V4wBDjZnJnzPrtchmAix2FemgbySgTRbZ79+A0ytcgb0WXjCVUwdFS6g
+ 3D0fdjPsR0V9S7yqU3+lke3NzGcmOon98LrWQ3nlL1xGf3YwOUEhLoC4fv2R4GJufzMT
+ nXgVB3MpKR/Id1EE2WXGtX3G9vv8hJM97HBuVPgJFonBS3xIOxFqaqgbQuqqjjXIVdJA
+ 5B9PxSUUBU6d4VBIaG4NM2VjPZBZPinCydEA7darEpCcw7gr01WjJ2A9VduXb6wVsdX0
+ sr4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t9yw/E43hG1ECC7dOsdcRXTK3p/swP0xBKKuJw06hJ8=;
+ b=196FlOxOrswBY+rOhpLhnA6M9avn/4ZtXLz6ajy8q7eNy8DtlrXzxcEH2K37RAtDo3
+ wlOAyKG2Vw94tjeQZEdBX4bRRqj7zyV/gCtOtYywsjuuvHXU7xT5rfZcfjpg3f9+x6Yq
+ a0LOwQ9gNvmNDtcTzb4ui3lAzOhe9GPmAulkL31seCHOdcw4AzPYGjTi2jyeGJpnUxI5
+ ptUBP1KaZzz4gcW1bDK+Gkgp6oqbHXCeWHLyOBSkym1HAoXKKpPYpq+6SxY0Do6bZnzv
+ f3RoDRQN3jr+OLc51LUXCwsFUzcPjSB+KDhkD1Q8T9eksxGfEjVQ60er84c1ocaiJMjv
+ Nb4g==
+X-Gm-Message-State: AO0yUKUNFQoprafgvZiJcAeoapT3huFnAeoADvor0cRksU9vMTH9UfSy
+ 2zePT5G6XR9rl65XDEr9pMcGMLAKEpKdDRNyOswT+A==
+X-Google-Smtp-Source: AK7set+34qc5LiwCMZkedsbbG2m//WjRSuvIk7Xl8N+R6Lt7Px/DkmagPD6/uvM5NWBAq2HE6B3Iug==
+X-Received: by 2002:a17:902:d487:b0:19a:a6c4:6403 with SMTP id
+ c7-20020a170902d48700b0019aa6c46403mr4772590plg.1.1676935591287; 
+ Mon, 20 Feb 2023 15:26:31 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ j10-20020a170902690a00b001992e74d058sm2665348plk.7.2023.02.20.15.26.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Feb 2023 15:26:30 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v2 00/21] target/arm: Implement FEAT_RME
+Date: Mon, 20 Feb 2023 13:26:05 -1000
+Message-Id: <20230220232626.429947-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1273359049-1676935545=:50038"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,73 +86,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This is based on mainline, without any extra ARMv9-A dependencies
+which are still under development.  This is good enough to pass
+all of the tests within
 
---3866299591-1273359049-1676935545=:50038
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+    https://github.com/Huawei/Huawei_CCA_QEMU
 
-On Mon, 20 Feb 2023, Michael S. Tsirkin wrote:
-> On Mon, Feb 20, 2023 at 07:24:59PM +0100, BALATON Zoltan wrote:
->> On Tue, 22 Feb 2022, Michael S. Tsirkin wrote:
->>> On Wed, Jan 19, 2022 at 04:19:14AM -0500, Michael S. Tsirkin wrote:
->>>> On Sat, Nov 13, 2021 at 07:47:20PM +0100, BALATON Zoltan wrote:
->>>>> On Mon, 8 Nov 2021, BALATON Zoltan wrote:
->>>>>> On Mon, 8 Nov 2021, Paolo Bonzini wrote:
->>>>>>> On 11/8/21 15:30, Paolo Bonzini wrote:
->>>>>>>> On 11/8/21 14:05, BALATON Zoltan wrote:
->>>>>>>>> When using ACPI on big endian machine (such as ppc/pegasos2 which has
->>>>>>>>> a VT8231 south bridge with ACPI) writes to ACPI registers come out
->>>>>>>>> byte swapped. This may be caused by a bug in memory subsystem but
->>>>>>>>> until that is fixed setting the ACPI memory regions to native endian
->>>>>>>>> makes it usable for big endian machines. This fixes ACPI shutdown with
->>>>>>>>> pegasos2 when using the board firmware for now.
->>>>>>>>> This could be reverted when the memory layer is fixed.
->>>>>>>>
->>>>>>>> What is the path to the swapped writes?  Even just a backtrace
->>>>>>>> might be enough to understand what's going on, and especially
->>>>>>>> where the bug is.
->>>>>>>
->>>>>>> Ok, Michael pointed me at https://lore.kernel.org/all/20211011080528-mutt-send-email-mst@kernel.org/.
->>>>>
->>>>> Ping? I haven't seen an alternative fix yet. If you don't have time now this
->>>>> could be postponed to next version with the native endian work around for
->>>>> now.
->>>>>
->>>>> Regards,
->>>>> BALATON Zoltan
->>>>
->>>> Paolo, ping?
->>>
->>> ping
->>
->> Can this be fixed please or my proposed workaround taken until it will be?
->> Original patch I've sent is here:
->> http://patchew.org/QEMU/20211108130934.59B48748F52@zero.eik.bme.hu/
->>
->> I hope to make pegasos2 more usable in next release so maybe more people
->> will want to use it soon.
->>
->> Regards,
->> BALATON Zoltan
->
-> Any chance of fixing it in memory core? No one else seems to care.
->
->
-> I think fundamentally you need to check for the condition
-> Size < mr->ops->impl.min_access_size in memory_region_dispatch_write
-> and then make a read, combine the result with
-> the value and make a write.
+Changes for v2:
+  * Drop "Fix pmsav8 stage2 secure parameter".
+  * Incorporate review feedback.
+  * Mark last two patches as "NOTFORMERGE".
 
-I neither know that part nor feel confident enough breaking such low level 
-stuff so I think setting the affected regions NATIVE_ENDIAN for now until 
-somebody takes care of this is safer and not likely to break anyting (or 
-if it does, much less widely and I'm more likely to be able to fix that 
-than your proposed changes). So I'd rather let you do that but I'd like 
-this fixed one way or another at last.
 
-Regards,
-BALATON Zoltan
---3866299591-1273359049-1676935545=:50038--
+r~
+
+
+Richard Henderson (21):
+  target/arm: Rewrite check_s2_mmu_setup
+  target/arm: Add isar_feature_aa64_rme
+  target/arm: Update SCR and HCR for RME
+  target/arm: SCR_EL3.NS may be RES1
+  target/arm: Add RME cpregs
+  target/arm: Introduce ARMSecuritySpace
+  include/exec/memattrs: Add two bits of space to MemTxAttrs
+  target/arm: Adjust the order of Phys and Stage2 ARMMMUIdx
+  target/arm: Introduce ARMMMUIdx_Phys_{Realm,Root}
+  target/arm: Pipe ARMSecuritySpace through ptw.c
+  target/arm: NSTable is RES0 for the RME EL3 regime
+  target/arm: Handle Block and Page bits for security space
+  target/arm: Handle no-execute for Realm and Root regimes
+  target/arm: Use get_phys_addr_with_struct in S1_ptw_translate
+  target/arm: Move s1_is_el0 into S1Translate
+  target/arm: Use get_phys_addr_with_struct for stage2
+  target/arm: Add GPC syndrome
+  target/arm: Implement GPC exceptions
+  target/arm: Implement the granule protection check
+  target/arm: Enable RME for -cpu max
+  hw/arm/virt: Add some memory for Realm Management Monitor
+
+ include/exec/memattrs.h |   9 +-
+ include/hw/arm/virt.h   |   2 +
+ target/arm/cpu-param.h  |   2 +-
+ target/arm/cpu.h        | 148 ++++++--
+ target/arm/internals.h  |  27 ++
+ target/arm/syndrome.h   |  10 +
+ hw/arm/virt.c           |  43 +++
+ target/arm/cpu.c        |   4 +
+ target/arm/cpu64.c      |  37 ++
+ target/arm/helper.c     | 155 ++++++++-
+ target/arm/ptw.c        | 748 ++++++++++++++++++++++++++++++----------
+ target/arm/tlb_helper.c |  96 +++++-
+ 12 files changed, 1058 insertions(+), 223 deletions(-)
+
+-- 
+2.34.1
+
 
