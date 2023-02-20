@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785EA69D538
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 21:50:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB72469D5C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 22:25:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUD4k-0007Vx-90; Mon, 20 Feb 2023 15:47:54 -0500
+	id 1pUDeR-00012j-4G; Mon, 20 Feb 2023 16:24:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pUD4f-0007Tb-Oh
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:47:49 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUDeP-00011v-6B
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:24:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pUD4a-0003US-9f
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 15:47:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=r299DSMyChJMVDR0v9/m0I1rsNxQNtzqpsGHQ6wkZaI=; b=Q+X7o5SiUhAo+8HenYueo/LIB3
- /ttgCVk/8N6XqnUtxL88CTNJR8jwIs+cOciSN7nvlKXMd3GA1Q/cgrYfWQlyc3JrI4dpRk3la2fGW
- dpjh0MGj0SdmNMtl5GCFDjhxQL9THKgC0spJFhEz1VL/O3r4UIIxulyl2LZnCpWTg+bOZMIBTC3v8
- A/qHKspHG1wtGSmPThwUPpF+5wIIRK1O1atT7ybXvhTOASCKA2nBH/FI1vMTbRiM4/P4fTGmNRbRH
- XHajh1G0/m8v1UgkxkDMHRcrqmMyk4Sb7bvhNZ7WDSQfhPUUAvpEsCf4jd+tjgB/+859BsFgErgL+
- 1mVuXsww==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pUD4X-00C0sN-CD; Mon, 20 Feb 2023 20:47:41 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pUD4X-00B4ug-1C; Mon, 20 Feb 2023 20:47:41 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v12 60/60] hw/xen: Subsume xen_be_register_common() into
- xen_be_init()
-Date: Mon, 20 Feb 2023 20:47:36 +0000
-Message-Id: <20230220204736.2639601-61-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230220204736.2639601-1-dwmw2@infradead.org>
-References: <20230220204736.2639601-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUDeN-0003bx-4Z
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 16:24:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676928282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5DO1mZwoAkYPQzfEzo8A1LTayfYDhjbuzjhIRR/8IX4=;
+ b=P9swPUY+hEkZBQ4zUDWe+mw/pui+PDvtppDB9E1TB8R5n0HL09sLEMaeIgY/dwPmEUiIbY
+ HGWI512mQOHsK5XcAyeozXjPaLNfm47aoxgC9PXg8wkyAY5tu3yODjqpkrMZbx4Qb2hN9D
+ DGIEhlo8iY8B4HzOW5hF0QQ+9PEfGYY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-168-nTM0JD-GPsOLNeXQ4_LWzQ-1; Mon, 20 Feb 2023 16:24:38 -0500
+X-MC-Unique: nTM0JD-GPsOLNeXQ4_LWzQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6952E85A5A3;
+ Mon, 20 Feb 2023 21:24:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 430ED492B04;
+ Mon, 20 Feb 2023 21:24:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 32C7121E6A1F; Mon, 20 Feb 2023 22:24:37 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, bwidawsk@kernel.org, Jonathan.Cameron@Huawei.com
+Subject: [PATCH] MAINTAINERS: Remove CXL maintainer Ben Widawsky
+Date: Mon, 20 Feb 2023 22:24:37 +0100
+Message-Id: <20230220212437.1462314-1-armbru@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+9a3edebed2d8f15e5ac8+7120+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,170 +75,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+Ben is no longer with intel.  He told me he expected to get back to
+CXL, but it's not happening as quickly as he'd like, and that it's
+best to remove him as maintainer.  So let's do that.
 
-Every caller of xen_be_init() checks and exits on error, then calls
-xen_be_register_common(). Just make xen_be_init() abort for itself and
-return void, and register the common devices too.
+Thank you for serving as maintainer, Ben!
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/i386/xen/xen-hvm.c               |  8 +----
- hw/xen/xen-legacy-backend.c         | 56 ++++++++++++-----------------
- hw/xenpv/xen_machine_pv.c           |  6 +---
- include/hw/xen/xen-legacy-backend.h |  3 +-
- 4 files changed, 25 insertions(+), 48 deletions(-)
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index b9a6f7f538..e5a1dd19f4 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -1502,13 +1502,7 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
-     device_listener_register(&state->device_listener);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fd54c1f140..c3e83a1a47 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2630,7 +2630,6 @@ T: git https://gitlab.com/jsnow/qemu.git jobs
+ T: git https://gitlab.com/vsementsov/qemu.git block
  
-     xen_bus_init();
--
--    /* Initialize backend core & drivers */
--    if (xen_be_init() != 0) {
--        error_report("xen backend core setup failed");
--        goto err;
--    }
--    xen_be_register_common();
-+    xen_be_init();
- 
-     QLIST_INIT(&xen_physmap);
-     xen_read_physmap(state);
-diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 085fd31ef7..afba71f6eb 100644
---- a/hw/xen/xen-legacy-backend.c
-+++ b/hw/xen/xen-legacy-backend.c
-@@ -676,21 +676,30 @@ void xenstore_update_fe(char *watch, struct XenLegacyDevice *xendev)
- }
- /* -------------------------------------------------------------------- */
- 
--int xen_be_init(void)
-+static void xen_set_dynamic_sysbus(void)
-+{
-+    Object *machine = qdev_get_machine();
-+    ObjectClass *oc = object_get_class(machine);
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_XENSYSDEV);
-+}
-+
-+void xen_be_init(void)
- {
-     xengnttab_handle *gnttabdev;
- 
-     xenstore = xs_daemon_open();
-     if (!xenstore) {
-         xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
--        return -1;
-+        exit(1);
-     }
- 
-     qemu_set_fd_handler(xs_fileno(xenstore), xenstore_update, NULL, NULL);
- 
-     if (xen_xc == NULL || xen_fmem == NULL) {
--        /* Check if xen_init() have been called */
--        goto err;
-+        xen_pv_printf(NULL, 0, "Xen operations not set up\n");
-+        exit(1);
-     }
- 
-     gnttabdev = xengnttab_open(NULL, 0);
-@@ -706,23 +715,16 @@ int xen_be_init(void)
-     xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
-     qbus_set_bus_hotplug_handler(xen_sysbus);
- 
--    return 0;
--
--err:
--    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
--    xs_daemon_close(xenstore);
--    xenstore = NULL;
--
--    return -1;
--}
--
--static void xen_set_dynamic_sysbus(void)
--{
--    Object *machine = qdev_get_machine();
--    ObjectClass *oc = object_get_class(machine);
--    MachineClass *mc = MACHINE_CLASS(oc);
-+    xen_set_dynamic_sysbus();
- 
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_XENSYSDEV);
-+    xen_be_register("console", &xen_console_ops);
-+    xen_be_register("vkbd", &xen_kbdmouse_ops);
-+#ifdef CONFIG_VIRTFS
-+    xen_be_register("9pfs", &xen_9pfs_ops);
-+#endif
-+#ifdef CONFIG_USB_LIBUSB
-+    xen_be_register("qusb", &xen_usb_ops);
-+#endif
- }
- 
- int xen_be_register(const char *type, struct XenDevOps *ops)
-@@ -744,20 +746,6 @@ int xen_be_register(const char *type, struct XenDevOps *ops)
-     return xenstore_scan(type, xen_domid, ops);
- }
- 
--void xen_be_register_common(void)
--{
--    xen_set_dynamic_sysbus();
--
--    xen_be_register("console", &xen_console_ops);
--    xen_be_register("vkbd", &xen_kbdmouse_ops);
--#ifdef CONFIG_VIRTFS
--    xen_be_register("9pfs", &xen_9pfs_ops);
--#endif
--#ifdef CONFIG_USB_LIBUSB
--    xen_be_register("qusb", &xen_usb_ops);
--#endif
--}
--
- int xen_be_bind_evtchn(struct XenLegacyDevice *xendev)
- {
-     if (xendev->local_port != -1) {
-diff --git a/hw/xenpv/xen_machine_pv.c b/hw/xenpv/xen_machine_pv.c
-index 20c9611d71..2e759d0619 100644
---- a/hw/xenpv/xen_machine_pv.c
-+++ b/hw/xenpv/xen_machine_pv.c
-@@ -36,10 +36,7 @@ static void xen_init_pv(MachineState *machine)
-     int i;
- 
-     /* Initialize backend core & drivers */
--    if (xen_be_init() != 0) {
--        error_report("%s: xen backend core setup failed", __func__);
--        exit(1);
--    }
-+    xen_be_init();
- 
-     switch (xen_mode) {
-     case XEN_ATTACH:
-@@ -55,7 +52,6 @@ static void xen_init_pv(MachineState *machine)
-         break;
-     }
- 
--    xen_be_register_common();
-     xen_be_register("vfb", &xen_framebuffer_ops);
-     xen_be_register("qnic", &xen_netdev_ops);
- 
-diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
-index be281e1f38..e31cd3a068 100644
---- a/include/hw/xen/xen-legacy-backend.h
-+++ b/include/hw/xen/xen-legacy-backend.h
-@@ -42,8 +42,7 @@ int xenstore_read_fe_uint64(struct XenLegacyDevice *xendev, const char *node,
- void xen_be_check_state(struct XenLegacyDevice *xendev);
- 
- /* xen backend driver bits */
--int xen_be_init(void);
--void xen_be_register_common(void);
-+void xen_be_init(void);
- int xen_be_register(const char *type, struct XenDevOps *ops);
- int xen_be_set_state(struct XenLegacyDevice *xendev, enum xenbus_state state);
- int xen_be_bind_evtchn(struct XenLegacyDevice *xendev);
+ Compute Express Link
+-M: Ben Widawsky <ben.widawsky@intel.com>
+ M: Jonathan Cameron <jonathan.cameron@huawei.com>
+ S: Supported
+ F: hw/cxl/
 -- 
 2.39.0
 
