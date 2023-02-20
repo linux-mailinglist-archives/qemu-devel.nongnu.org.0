@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D06869CBE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 14:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4393869CC31
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 14:38:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU64X-0002Gg-Jz; Mon, 20 Feb 2023 08:19:13 -0500
+	id 1pU6LY-0000af-VQ; Mon, 20 Feb 2023 08:36:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU64V-0002Fk-3D
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:19:11 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pU6LU-0000aA-QR
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:36:44 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU64T-000760-DG
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:19:10 -0500
-Received: by mail-wr1-x434.google.com with SMTP id p8so1315234wrt.12
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 05:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
+ id 1pU6LS-0002KB-2P
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 08:36:44 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ f9-20020a17090a9b0900b00236679bc70cso2033623pjp.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 05:36:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7QWW26zXAXrkV/pg8r+DTRtljT9tVsN1Ste5FUqYSr0=;
- b=WTXkfJK1Jj6vPQWUWO5JAdoWpxSdPRhMQof6MYlN4Dywl/X+re0BwNTf/3fQBgSlzG
- WQKiFm/AKzflq35HvzB7FIt5KHduxx/VnvwIK7XNbiPdl61q8sJslo/hVqfMlDaIUusH
- ZlpriSnlmRUSiftMmQ5KiskArMJvnOPWrgU8ShywM3jHttnUxcLlH9LyCLG9ooA36Inf
- aiNCgCtxhWuDloaqGRO4roS3NDelg9v+vxrf0zE2WE1EbR1vF/4q4VyqcGdJWKydomfI
- f7LTA/uJvikXP5XtJiiRB//lzK38ZtNOTfohItfQh06+25VMf7DnNJXOP4YZbeA32zr/
- 2dQg==
+ bh=zsjUpnKz/M5ZM7vM3XqrtqEwCN5MIfQG/YGmt7dXc9U=;
+ b=w1rs8swxhWg/y2oVsFjGJxV576Iw9adO5HlLRi069PReW3R1RNMeW0FYaJhb1koyBB
+ CIJCHnSCiUOsBorDh+c8dHv07Lt2Pd5OfSqLmFEBI0kv8DADyF7itzlsOCQb4bV6edl+
+ +AXKl5Lf6WewPJKYPpg7wshnZ8Iy5/uidBa6pLtqe6pYLOeTV0sDryTvZUlPD3PBc8pL
+ RWNkCbUWWyNQjo4GHE38GDb9wPQb864V7EyqwtN4uGfGftHa+e/biq6CgAoCR+tOslVz
+ DGp4fG2FT7zAY++x1ZImaZnpJrJkOBkriYlG7e5pfWP+Lqc+IJrypiiEKVN3ELmwREB+
+ jBxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7QWW26zXAXrkV/pg8r+DTRtljT9tVsN1Ste5FUqYSr0=;
- b=gU/oZoY6KNxhBCMksiQa2n+4USYj1MhNCG1+PB8Ql4zJIipCW3Ls0xDeSZuZWUPRKx
- q7sP4fhpiu7rh6APBujYyC/B3Cre3ddER/SkcgJYIxiUg74k8p2IX/8ghJBl0I3HePVg
- 7tfvd9QjgexNI7I7Il7EnHjPWSAAb4I3aTSPBd9Hh3VMu4wo7Nh4GAtVdbO9A6O3DtLI
- MoFdAdJD2kZn+3g+7hxLRepw9DWks1uHCwp8qzhke8MUR6zVCKwnuyZEdv8v76ogqDlw
- Ibep1ebKTsgI6ZafV9r5C4oROKna4zdGMc+3OsTruueYpXwi8ZpmAgPrIY8odD31sqTk
- bz4w==
-X-Gm-Message-State: AO0yUKXy5tbflYq/cgRRRssYafsC6IV8xpkCJARKl8jEkPqPyQWDJoik
- PzQwV4Amce8WEjlvodPOQ1ZMgzmIzkHp0ily
-X-Google-Smtp-Source: AK7set+6JN1gfJ0akOx19NleM4fvSRrAgGjY6RCrG1vN7om+ixr7LZOsdHz4UjZxpEZH72H6BlRufQ==
-X-Received: by 2002:adf:e301:0:b0:2c5:46d1:69e1 with SMTP id
- b1-20020adfe301000000b002c546d169e1mr1444651wrj.36.1676899148515; 
- Mon, 20 Feb 2023 05:19:08 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zsjUpnKz/M5ZM7vM3XqrtqEwCN5MIfQG/YGmt7dXc9U=;
+ b=UirnVcyjM+L0OQP/0m4dpMb2ehDnmr+WJI5PkW+5ENZ+HqwLnX3w7K29RsJTIVCRcU
+ 2ISuxd6JHZsSP+FstZAtjcFc4Nm16ckW2+/Dku5b6wvCxC9MAH7W7Gjd+BUkuiIQQ0gG
+ cjY9/33v9C+fh9sbsWonwQnz20gzN58h4rKlpOykgnq/t6vx6QpQfeBH447uHdAUpET4
+ XR4Z8zyrJ7HMRc0+v6j2AJPI/KLiKedGJOZ4437SNM01Uhso2YOp2tCr0C4kZgbgZkN2
+ EDTpvUHB+BPTlByutgNRFiz0PdkPLkkcRigK6nIqNs9UuO7PtNo3AeaFTyckxNF8oKDj
+ cH8w==
+X-Gm-Message-State: AO0yUKX9HhY4e1ojiin+cHWncM6GCum6qLT6HK5XHcRiJfx6N8ORvJ60
+ 8M9z+jpi+5e1EuHLTb4hTjf4/A==
+X-Google-Smtp-Source: AK7set/vUos5WHu2imCdmutOVDL2HQ7JaaOE3+v1om5FrGRZXRrC8+8VoZPgqrQ55VwoS8csQUf9lg==
+X-Received: by 2002:a17:902:c40d:b0:19a:8284:83a2 with SMTP id
+ k13-20020a170902c40d00b0019a828483a2mr2682110plk.10.1676900196764; 
+ Mon, 20 Feb 2023 05:36:36 -0800 (PST)
+Received: from [10.94.53.13] ([139.177.225.233])
  by smtp.gmail.com with ESMTPSA id
- z3-20020adff1c3000000b002c559def236sm118731wro.57.2023.02.20.05.19.07
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Feb 2023 05:19:08 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Subject: [PATCH 5/5] hw/audio/pcspk: Open-code pcspk_init()
-Date: Mon, 20 Feb 2023 14:18:37 +0100
-Message-Id: <20230220131837.26292-6-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230220131837.26292-1-philmd@linaro.org>
-References: <20230220131837.26292-1-philmd@linaro.org>
+ ja4-20020a170902efc400b001948ff5cc32sm7341947plb.215.2023.02.20.05.36.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 05:36:36 -0800 (PST)
+Message-ID: <8c0fe4e9-2df0-9340-06aa-d01f9bc215d4@bytedance.com>
+Date: Mon, 20 Feb 2023 21:36:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
+ vmstate
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
+ zhouyibo@bytedance.com
+References: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
+ <877cwizqvy.fsf@secure.mitica>
+ <a555b989-27be-006e-0d00-9f1688c5be4e@bytedance.com>
+ <abcb08b7-460c-d88c-af48-c1d256f89c54@bytedance.com> <Y++i1NmxUxOPDM/V@x1n>
+From: Chuang Xu <xuchuangxclwt@bytedance.com>
+In-Reply-To: <Y++i1NmxUxOPDM/V@x1n>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,98 +99,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-pcspk_init() is used in 3 places and is 2-lines of code.
+Hi, Peter
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- hw/i386/pc.c             |  3 ++-
- hw/isa/i82378.c          |  5 ++++-
- hw/mips/jazz.c           |  5 ++++-
- include/hw/audio/pcspk.h | 10 ----------
- 4 files changed, 10 insertions(+), 13 deletions(-)
+On 2023/2/17 下午11:52, Peter Xu wrote:
+> Hello, Chuang,
+>
+> On Fri, Feb 17, 2023 at 04:11:19PM +0800, Chuang Xu wrote:
+>> Error 1 was triggered by our sanity check. I try to add RCU_READ_LOCK_GUARD()
+>> in address_space_init() and it works. But I'm not sure if this code change is
+>> appropriate. If this change is not appropriate, we may need to consider other
+>> sanity check.
+> I'd suggest not adding RCU locks without a good reason.
+>
+> address_space_init() is definitely a special context because the AS is
+> exclusively owned by the caller before it returns.  It means no RCU
+> protection needed at all because no one else is touching it; neither do we
+> need qatomic_rcu_read() when read.
+>
+> So I suggest we directly reference current_map, even though that'll need a
+> rich comment:
+>
+>   static void address_space_set_flatview(AddressSpace *as)
+>   {
+> -    FlatView *old_view = address_space_to_flatview(as);
+> +    /*
+> +     * NOTE: we don't use RCU flavoured of address_space_to_flatview()
+> +     * because we exclusively own as->current_map here: it's either during
+> +     * init of an address space, or during commit() with BQL held.
+> +     */
+> +    FlatView *old_view = as->current_map;
+>
+> We can have address_space_to_flatview_raw() but since we'll directly modify
+> as->current_map very soon in the same function, so may not even bother.
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 6e592bd969..73bd98997f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1319,7 +1319,8 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-             /* connect PIT to output control line of the HPET */
-             qdev_connect_gpio_out(hpet, 0, qdev_get_gpio_in(DEVICE(pit), 0));
-         }
--        pcspk_init(pcms->pcspk, isa_bus, pit);
-+        object_property_set_link(OBJECT(pcms->pcspk), "pit", OBJECT(pit), NULL);
-+        isa_realize_and_unref(pcms->pcspk, isa_bus, &error_fatal);
-     }
- 
-     /* Super I/O */
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index e3322e03bf..f0964cdcd9 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -68,6 +68,7 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
-     uint8_t *pci_conf;
-     ISABus *isabus;
-     ISADevice *pit;
-+    ISADevice *snd;
- 
-     pci_conf = pci->config;
-     pci_set_word(pci_conf + PCI_COMMAND,
-@@ -102,7 +103,9 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
-     pit = i8254_pit_init(isabus, 0x40, 0, NULL);
- 
-     /* speaker */
--    pcspk_init(isa_new(TYPE_PC_SPEAKER), isabus, pit);
-+    snd = isa_new(TYPE_PC_SPEAKER);
-+    object_property_set_link(OBJECT(snd), "pit", OBJECT(pit), NULL);
-+    isa_realize_and_unref(snd, isabus, &error_fatal);
- 
-     /* 2 82C37 (dma) */
-     isa_create_simple(isabus, "i82374");
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index 6aefe9a61b..a4e035cd66 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -144,6 +144,7 @@ static void mips_jazz_init(MachineState *machine,
-     SysBusDevice *sysbus;
-     ISABus *isa_bus;
-     ISADevice *pit;
-+    ISADevice *snd;
-     DriveInfo *fds[MAX_FD];
-     MemoryRegion *bios = g_new(MemoryRegion, 1);
-     MemoryRegion *bios2 = g_new(MemoryRegion, 1);
-@@ -252,7 +253,9 @@ static void mips_jazz_init(MachineState *machine,
-     isa_bus_irqs(isa_bus, i8259);
-     i8257_dma_init(isa_bus, 0);
-     pit = i8254_pit_init(isa_bus, 0x40, 0, NULL);
--    pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
-+    snd = isa_new(TYPE_PC_SPEAKER);
-+    object_property_set_link(OBJECT(snd), "pit", OBJECT(pit), NULL);
-+    isa_realize_and_unref(snd, isa_bus, &error_fatal);
- 
-     /* Video card */
-     switch (jazz_model) {
-diff --git a/include/hw/audio/pcspk.h b/include/hw/audio/pcspk.h
-index 9506179587..6be75a6b86 100644
---- a/include/hw/audio/pcspk.h
-+++ b/include/hw/audio/pcspk.h
-@@ -25,16 +25,6 @@
- #ifndef HW_PCSPK_H
- #define HW_PCSPK_H
- 
--#include "hw/isa/isa.h"
--#include "hw/qdev-properties.h"
--#include "qapi/error.h"
--
- #define TYPE_PC_SPEAKER "isa-pcspk"
- 
--static inline void pcspk_init(ISADevice *isadev, ISABus *bus, ISADevice *pit)
--{
--    object_property_set_link(OBJECT(isadev), "pit", OBJECT(pit), NULL);
--    isa_realize_and_unref(isadev, bus, &error_fatal);
--}
--
- #endif /* HW_PCSPK_H */
--- 
-2.38.1
+I agree with you.
 
+But now I am facing a new problem. Our sanity check is not as reliable as we think.
+
+Although my current code can pass all the tests that Juan told me in the email.
+But if I configure with nothing and run 'make check', My patch triggers
+error in ahci migrate test:
+
+G_TEST_DBUS_DAEMON=/data00/migration/qemu-open/tests/dbus-vmstate-daemon.sh QTEST_QEMU_BINARY=./qemu-system-x86_64 QTEST_QEMU_IMG=./qemu-img MALLOC_PERTURB_=1 QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon /data00/migration/qemu-open/build/tests/qtest/ahci-test --tap -k
+―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+stderr:
+qemu-system-x86_64: AHCI: Failed to start FIS receive engine: bad FIS receive buffer address
+qemu-system-x86_64: Failed to load ich9_ahci:ahci
+qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:1f.2/ich9_ahci'
+qemu-system-x86_64: load of migration failed: Operation not permitted
+Migration did not complete, status: failed
+
+It seems that ahci_state_post_load() will call memory_access_is_direct() and access mr->ram.
+Due to mr transaction delay, this value doesn't meet expectations.
+And Here is the call chain for you to read the code:
+->ahci_state_post_load
+->ahci_cond_start_engines
+->ahci_map_fis_address
+->map_page
+->dma_memory_map
+->address_space_map
+->memory_access_is_direct
+
+I think we need a memory_region_transaction_commit_force() to force commit
+some transactions when load vmstate. This function is designed like this:
+
+|
+/* memory_region_transaction_commit_force() is desgined to * force the 
+mr transaction to be commited in the process * of loading vmstate. */ 
+void memory_region_transaction_commit_force(void) { AddressSpace *as; 
+unsigned int memory_region_transaction_depth_copy = 
+memory_region_transaction_depth; /* Temporarily replace 
+memory_region_transaction_depth with 0 to prevent * 
+memory_region_transaction_commit_force() and address_space_to_flatview() 
+* call each other recursively. */ memory_region_transaction_depth = 0; 
+assert(qemu_mutex_iothread_locked()); if (memory_region_update_pending) 
+{ flatviews_reset(); MEMORY_LISTENER_CALL_GLOBAL(begin, Forward); 
+QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) { 
+address_space_set_flatview(as); address_space_update_ioeventfds(as); } 
+memory_region_update_pending = false; ioeventfd_update_pending = false; 
+MEMORY_LISTENER_CALL_GLOBAL(commit, Forward); } else if 
+(ioeventfd_update_pending) { QTAILQ_FOREACH(as, &address_spaces, 
+address_spaces_link) { address_space_update_ioeventfds(as); } 
+ioeventfd_update_pending = false; } /* recover 
+memory_region_transaction_depth */ memory_region_transaction_depth = 
+memory_region_transaction_depth_copy; }
+Now there are two options to use this function:
+1. call it in address_space_to_flatview():
+
+|
+static inline FlatView *address_space_to_flatview(AddressSpace *as) {
+/* * Before using any flatview, check whether we're during a memory * 
+region transaction. If so, force commit the memory transaction. */
+if (memory_region_transaction_in_progress()) 
+memory_region_transaction_commit_force();
+return qatomic_rcu_read(&as->current_map); }
+2. call it before each post_load()
+I prefer to use the former one, it is more general than the latter.
+And with this function, the sanity check is not necessary any more.
+Although we may inevitably call 
+memory_region_transaction_commit_force()||||
+several times, in my actual test, the number of calls to ||
+|memory_region_transaction_commit_force|() is still insignificant compared
+with the number of calls to|memory_region_transaction_commit()| before
+optimization. As a result, This code won't affect the optimization effect,
+but it can ensure reliability. |
+
+|
+
+>> Error 2 was related to postcopy. I read the official document of postcopy
+>> (I hope it is the latest) and learned that two threads will call
+>> qemu_loadvm_state_main() in the process of postcopy. The one called by main thread
+>> will take the BQL, and the one called by ram_listen thread won't take the BQL.
+>> The latter checks whether the BQL is held when calling memory_region_transaction_commit(),
+>> thus triggering the assertion. Creating a new function qemu_loadvm_state_ram_listen()
+>> without memory_region_transaction_commit() will solve this error.
+> Sounds right, because the whole qemu_loadvm_state_main() process shouldn't
+> load any device state or anything that requires BQL at all; in most cases
+> that should be only RAM states leftovers.
+>
+> I think we only want to optimize precopy but not the postcopy phase. Note!
+> it should include the phase when transferring precopy -> postcopy too, so
+> it's covering postcopy, just not covering the "post" phase of migration -
+> if you see that's a nested call to qemu_loadvm_state_main() with a whole
+> MIG_CMD_PACKAGED package which is actually got covered, which is the real
+> meat for postcopy on device transitions.
+>
+> So in short: instead of creating qemu_loadvm_state_ram_listen(), how about
+> modifying your patch 3, instead of changing inside qemu_loadvm_state_main()
+> we can do that for qemu_loadvm_state() only (so you can wrap the begin()
+> and commit() over qemu_loadvm_state_main() there)?
+
+In Patch v6 I'll adopt the change you suggested, Thanks!
+
+>> I don't know if you suggest using this patch in postcopy. If this patch is applicable to
+>> postcopy, considering the difference between how postcopy and precheck load device state,
+>> do we need to consider more details?
+> See above.  Yes I definitely hope postcopy will be covered too.
+>
+> Thanks!
+>
 
