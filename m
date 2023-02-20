@@ -2,137 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1998169CF15
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C1569CF12
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 15:11:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU6sX-00032f-Eb; Mon, 20 Feb 2023 09:10:53 -0500
+	id 1pU6sD-0002ox-T5; Mon, 20 Feb 2023 09:10:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
- id 1pU1YG-0006U8-Rr
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:29:38 -0500
-Received: from mail-mw2nam04on2075.outbound.protection.outlook.com
- ([40.107.101.75] helo=NAM04-MW2-obe.outbound.protection.outlook.com)
+ id 1pU2BH-0003Uv-Lx
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:09:58 -0500
+Received: from mail-co1nam11on20626.outbound.protection.outlook.com
+ ([2a01:111:f400:7eab::626]
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Mathis.Marion@silabs.com>)
- id 1pU1YE-00045q-IJ
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 03:29:36 -0500
+ id 1pU2BF-0002tZ-7j
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 04:09:55 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V9/9vJGYimonzACQ7vJ7qclGHX82fE3qSg0uZehmZZNN5mMGiqiAGw0pShhM/9yBFSllRAYCQHJiZDiB+qG18e3Bl+wYsfl8emmguFfdnVkHs6RGr4fQ+nsLeBria+yRoyXH4qAmoorL4LEFfTGqwBstJlS4mIQIXjSD9dVlKb+oPg1vrUJIkT1gwquiOo/5THxutEo0jtGB0z6xhNAedG+MYUoWzsfGLS9HFMc51ocXJD923STWLmK0vzbav+h5Yjklug6TA1SsmWlMjmAKor+ggNlZ2Uzxb/fRIljJJOUFSl0X8UH06DSbJfqkOvdI6RnTXPmxn87daz/XSrFs0g==
+ b=IxDtUEEXmFN4Ea6VrQmOL6N1YPQBeSL9qOwqLt6lYLz7A0h/OLTZ/JPg1aGs+7OJ/7eKPppdI50doewaN2zXIL3j8qF+sm4LaKpTm26CMrFnWOchZ0cntDzhc7Vw7J26I7/zzNoQbyc2kDnWU1uy3szWRuC0qsyn/nt9Lj0GCbPGmD81y1LwOpBDDLOQGmsw4We8ribsITbL62ReDLfW6WbsXGE/MWkWhe8haILpsaYf9gTkQpzbROIXV1YCXzKSAnhnspUApxFxkFVc+hV7e/BPTzA4235t46TvRwZ8OZCGmPMVJ5GSwRsbRbBgFBNEN9YQ89lmOSFBd1SjdMAGmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AsPpM8oZLtsRFbN7NmAjjGlHf2MsvHfZHCb1e/txcR0=;
- b=MkKo+JciqW7ntgg9Q59ITj+M/oQwffY7CJpON1d5MILrrll3OLfYiBgSQ+IPxqb96OR8T5WlltsijWvNaSxl97nf6LpDCGiD3CVNuKDr2g7GRDS5f0DFqcqEycIgZWB7NJKaqSoW6PuJ8uZdfqSpfUh0dD8zF/UAsBGWT5dhawuwWCxzvDk/WaHLRCwH4ofpL5KuhfChzueeVFpX62j2nbNClcPvJeJiiQMI2kSH4NQpukcc/oJH4jrh5bx5NSH6/eauyBe3TvRLHrcvYG4qvX8Qk7D2/38i+VXzwobvFmoLCx9pIzuX+K7GvIkBjPQC/QBZg9MHJHLh2wGSJFrIUg==
+ bh=vNePF/LAjxrXkVAsFRwYM/IYPbDSymPVWDFW78M945E=;
+ b=hz/3YEmiirtCjQSl3iM+WOe9dQx6gDJGRL0rZCslWd5qJkWMfFwdQpQi9CD3Z0ydslyG3CCwcbNISiLJptSbSFg7Z2mBPqcuj6Fxt+2bt8ytweODUftGwpuBYBiz8S9Uv0vWu7r0KolSpMwDDJ1HroxfMR/3sRhOdhOS5XlQopIpaA11uxEb7AIslu2XWwKb+qf8W4BPhviqe7yQCL94bfNjWQB+kE+YqViujj8xP06Y+YYHShkgVOb5ViLQJ0C06X8qo38/4pP+IbHgUEsUXGjPMdergF2AbszfG4iX5ZMDilganxouIXmJcKoeLtha2b4GLtHQ5RBQyL+AS/YCGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
  dkim=pass header.d=silabs.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AsPpM8oZLtsRFbN7NmAjjGlHf2MsvHfZHCb1e/txcR0=;
- b=P9tr1p3QPHJ+IKVMCVJnb/3oLS8emxXTn37asxPShOJD0bZpJbx6SkMVhkmD3vM4vISauUZdGJPT5LyrWhtnS5Z5qgRNoyP92JOu8fGnc9/HsaYKms726MQ3ZfP/nycVea6bZRs3YHa2Wc1i5SejfMikH9s7oGT1uLLxuR7Cf0s=
+ bh=vNePF/LAjxrXkVAsFRwYM/IYPbDSymPVWDFW78M945E=;
+ b=U1YbFzsqZ2HRXhvShXW2eMdiljTz/Tb3wkc9HRgVNOSUilEUd04I/Xsup0lc+YG6U/P/9OaQxnAHj34wYDe19DxEu6LasDHqLPkC8RFpPfJFvA12Gx/floh7lqF1Ny6E102W3Jr7HGxD5ftTfqZcIRggIxCK5wb3SmoYavPAz+E=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=silabs.com;
 Received: from MN2PR11MB4711.namprd11.prod.outlook.com (2603:10b6:208:24e::13)
- by PH7PR11MB6353.namprd11.prod.outlook.com (2603:10b6:510:1ff::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.18; Mon, 20 Feb
- 2023 08:24:18 +0000
+ by CY8PR11MB7012.namprd11.prod.outlook.com (2603:10b6:930:54::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
+ 2023 09:09:38 +0000
 Received: from MN2PR11MB4711.namprd11.prod.outlook.com
  ([fe80::bc75:99b6:488f:fd50]) by MN2PR11MB4711.namprd11.prod.outlook.com
  ([fe80::bc75:99b6:488f:fd50%9]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
- 08:24:18 +0000
-Message-ID: <b2776059-7922-ce15-c63b-d5580f20aa5d@silabs.com>
-Date: Mon, 20 Feb 2023 09:24:12 +0100
+ 09:09:38 +0000
+Message-ID: <cb86de96-8f44-d92f-f19b-260da1ec5512@silabs.com>
+Date: Mon, 20 Feb 2023 10:09:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH v1 3/4] linux-user: add target to host netlink conversions
+Subject: Re: [PATCH v2 2/4] linux-user: fix sockaddr_in6 endianness
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Mathis Marion <Mathis.Marion@silabs.com>, Laurent Vivier <laurent@vivier.eu>
 Cc: qemu-devel@nongnu.org, =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?=
  <jerome.pouiller@silabs.com>
-References: <20230217163527.619486-1-Mathis.Marion@silabs.com>
- <20230217163527.619486-4-Mathis.Marion@silabs.com>
- <823c5357-4403-ed2b-61aa-58b99d80f20a@linaro.org>
+References: <20230220085822.626798-1-Mathis.Marion@silabs.com>
+ <20230220085822.626798-3-Mathis.Marion@silabs.com>
+ <fc6b4e3f-378f-f415-79b9-79afbaef93ba@linaro.org>
 From: Mathis MARION <mamarion1@silabs.com>
-In-Reply-To: <823c5357-4403-ed2b-61aa-58b99d80f20a@linaro.org>
+In-Reply-To: <fc6b4e3f-378f-f415-79b9-79afbaef93ba@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MR2P264CA0095.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:32::35) To MN2PR11MB4711.namprd11.prod.outlook.com
+X-ClientProxiedBy: MR2P264CA0041.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500::29)
+ To MN2PR11MB4711.namprd11.prod.outlook.com
  (2603:10b6:208:24e::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR11MB4711:EE_|PH7PR11MB6353:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6fe38be-08d1-4959-f004-08db131bdc06
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4711:EE_|CY8PR11MB7012:EE_
+X-MS-Office365-Filtering-Correlation-Id: 735ee42d-00e1-40d0-a319-08db1322315a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: D7sNdVj434QQl2ET/ovmatMxNRrZwyOknVLIQEs9tsLr2TmGfnUYN65BDiVpYMV2Vbp4vq/oanT2xqXkP6ps7vKepZbRI0gW4/fwDfGbIo3fPeQFZl+/xGNuqIYAGZhZAGuTs740Zi2klKPvk+vcHj4EYGpx4DxWqcyUXwK7rsMFT8tK4QdO5qEXAKi1KnPgcHNhmgmsCIM+o2JldSvxuxv7we0gNTtbEY0/Dke9eUCMA0WFXSipniB4pTsf5ZCmQpgkgXG6ACRBhLw4vfr5Whnk2/1DajY6S8Lhm0bXdyHIh5TXIEnZUIMka/Vps+32dpY1/LNBupIxwn4IXTddVC9H4lQnREiYhxdXQEypP4GCYSTzvzFHekRJQ7g8FdWAD9RAgpmFKvPnnwM2fww4p/f/7MPVduUWqXpmzdN6O57dgpyOt2wrtwyAAYinqA3bud6KWc4//N2FApcmIOEI71575BHb0sBLyo0dPs1JNX/607YTeJ4vNeZxAV6S8T4htOgAl+Kc5fEFYus0CCFMAVmH8ked+xn6tWbWfQc7/wJrS0yMLRrrAW9DTDIYbQKPBeX20BZwdOdJw8HlJvxKWGpAf+UEcitatCYYNcWfero7+8Gt/4waKCYjrLu/mj9cUQ7/8m2b8CTtg+v1RflS9cc6M4ZqYOHymJ8zyCqj+CVHhW3kzgr+hGGLdxDeWH0aHQzg64b+zUyyuLuULH7fNWlsT9E8d4gxdHeqLVubk9Q=
+X-Microsoft-Antispam-Message-Info: mp4axcD7+1Qe0OwPBl7xMit9NKm7PI+zofdEbzcrKnL1c/3o9yJUcSBQqMZBrrC2AKfjcIrSfy5JV4RgSDEBkWohEQlpuXEoDCvjw8pfnlEEcy/X3eCqCs02CGt/NmIyAKWvmeXJGnpYIpcQlcrbWLFUe+IqNpw2t0e8gvSVyhJy5qJYvqhvsZCIBzqcRSSZT0setdWysUY369fitUywvWHMydya/hQIuuUKBcRKZ2gwjg+E3qqMAuU/LiVZKSKUW7eedrkGwWXbi8D1sALQHGf8mLFHmJ1RngcTrDKHHNgEl3iDCZV+jB5cP1bW3/PhKhBpe0uSVc0hb8Mimr+L4Lup66mlwC/x4Mp4ObmOoH5csepOxdX50BYMfkBWFfHCWTSgLrLGZHqNldfoTHzE0wd12AVSduLvwMfvTphXJsTuAOADoegMAQ+8DRa4cXuqnbjKMKf9lZZaxuugoI9PxfF6ZxM/Q9Cb4QZcP/Qv7RpmqpT64CmHKBzYhRdNMpr3BbYcitR+19p8pt8Kr2NSosYYpjQa4jG/zzEfITjO1HsWyo2+9x+D06H0rKBmtyNuzSimbMJxnK5KBk4Zwaf6MNFtp5siz4DirX0HZPmC8zVi+vrQjBxyMMSkVJGA1402AFxHmi56SusOsbeIniEt5mdweM4j7r5G+/oGOslVTFRlVpyjCIAS3O9F8OvgvKu1nJhG1+p1UP7uRI6ZjTAr1ngQZqiW65TiDIs7UL2mVqw=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR11MB4711.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(376002)(136003)(396003)(366004)(346002)(39850400004)(451199018)(4326008)(8676002)(66946007)(66476007)(66556008)(31696002)(6486002)(110136005)(316002)(2906002)(36756003)(5660300002)(8936002)(41300700001)(38100700002)(6506007)(53546011)(107886003)(6512007)(6666004)(31686004)(186003)(2616005)(26005)(478600001)(45980500001)(43740500002);
+ SFS:(13230025)(39850400004)(346002)(376002)(136003)(396003)(366004)(451199018)(31686004)(6512007)(26005)(186003)(6486002)(53546011)(966005)(66476007)(4326008)(66556008)(8676002)(5660300002)(36756003)(8936002)(83380400001)(66946007)(2616005)(6506007)(107886003)(6666004)(478600001)(110136005)(316002)(41300700001)(38100700002)(31696002)(2906002)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cjlFZTBDU3FIdTdCWVVWRWF1b3cvZXhFenU5dHRTSlY0ZlV5K05XWXVhMzdU?=
- =?utf-8?B?SWlHV2VuUVBXRkc2NEcxSVorS0wrT2ZWOUFoK0oyTEZTeHpERUorRlhZYXh4?=
- =?utf-8?B?RmxWdWJtNGxFS3dOeDdxTFZEYWR5RTlzanYydWtUNWlUazRPaFUybEJLWThp?=
- =?utf-8?B?dzN6SjYrYXBvQ0V1bjdKQ1dQVXVJSVhtbVVCNWU1Tk5ld2ZhVXFKNURPSzQz?=
- =?utf-8?B?QW5KOTJhSUl1UTBWT2tsUnAzSjFDUjV3VEFRWmpqb1YxMFpsNTRZSjJobUpI?=
- =?utf-8?B?SG9iQklkOGRDVko1RWlmTmMxSFMyMUVKb0l3dVFTRlJOUW9BWWlIOUQ3ZTZy?=
- =?utf-8?B?QUI1QlhwRDAzZGRwSVllTlYyRDg2c1FSQjJDSDdLNkVXdDNNelRWUEdTRnU1?=
- =?utf-8?B?VkZ1aW9pMkJvU2FBSTY0dXpUYTlMNkRwNXY5RGM3cFhxQmtqSWxsVFhHM3l6?=
- =?utf-8?B?aU5YYWUwVEMwSExCSzY5bFdBS3VwTy9kWWtZNHA2dFdUbkpHb1dNTXJkaGpY?=
- =?utf-8?B?QW1INlNXVGw0dUFlWmZORzlxNExXUUc1d3lzOW5SNWNRamtNM3BoMjRWdi9O?=
- =?utf-8?B?cDJLN3pXcDhCbVBGYjMyanA0bmdnenN0b25XNzllNUlQRDBHY1VXZFpCTG1F?=
- =?utf-8?B?ZHFhS29IQUJoNk4wTFh2bGVRSHVZUVE2dUc3TlFqNkxQTmJRcndlZW5nT3FT?=
- =?utf-8?B?NmJramYrLzhwSUQ4eG9kejAxT0hXOEkwcXZkOCs2SWU4cVBRZEcvZjg0V1FG?=
- =?utf-8?B?TEFzVmFPRW5yZGEwVTlZc2xCRmpqbURTelVJWm5GemQ3UExINkJpUURUTktn?=
- =?utf-8?B?UUcra3AzZm92OEQ3K0xZQ0VaazV1N0sycDhwUDFsSTFsNEVNMmFGVzFCbDBQ?=
- =?utf-8?B?a3NqaTNyTmtSY2RocENzUUY2TVhRTWgrSks1ekR6Q2NqS0FkUFo0QXl0OXNh?=
- =?utf-8?B?a2RPczh4OFFya0FteitRNlBLM3RDWC8yTmlxWnVxcnZoSjJhSW5keExpTFlT?=
- =?utf-8?B?VldaRUZkQUF3SnNKd0JpZU0yZG1zTWJsZTlJekZtaW1mT01nZWlWUVlWY04w?=
- =?utf-8?B?M1JsYml5TU1MSWZKNHYybTRxeFN3RWZsaTQzZ21oQm4zVmFhR1JuQW5oWlZp?=
- =?utf-8?B?aVhEOWFyclBLVW83UlRlSmx2UVZYakdqb1U2Yk1sRkZEVEpyM1psTEpteHZD?=
- =?utf-8?B?dG41M1RtaUJQZDhIdk5CM0tqdFpzV0ZGc3Q2WWZsMWxSUHVKVWJ4NVd5ekZE?=
- =?utf-8?B?aDNPT2J4Y1gwUitFd01aT3hNYjk4WktFbjcwaGlXS1YrcXBrZmE2YmgrbEt0?=
- =?utf-8?B?bjYxNnFsdmJTL2NTTEg5NzVjT2pkRlRSZmsvVWRqSnliRWpSVVZETVArSVBl?=
- =?utf-8?B?b0xQRkN5TCtOUjZtejU5dVQ0T0FUUHRyRlQ2Ni80Y1JGdTZXZ0ViQTgrb1N6?=
- =?utf-8?B?UU9Gak1jcml2YXU1a2lKam5idEh0OTA5czZZenVMcmkra0d4N3hrdnhiWmtn?=
- =?utf-8?B?TGZMVThhZmcyQVpyY1hsRjVYSEE0WGZpRXg1RTVLUkVhY3ltWVcwQW84N2xU?=
- =?utf-8?B?dlA4UktJM1AvbXduWjB5ZkhZYlpNdkViRFg3WXpYeko1RXhHQkdnZ2hKWEs2?=
- =?utf-8?B?YnJ6b2F1SFZqdGxKS042VnFzQ29oSGdHbUpSdjVCQ0poeEQyN09rNktXN1pH?=
- =?utf-8?B?Zi9ES0dYRXRWUC9oZkwvdjJhSTV1dUtuUE9MZUJVaTlaSkpSSXA5SkREUDdp?=
- =?utf-8?B?Y0k3WnE3VVdvdjZHd3Bsa2dib0ZZazFTc2xtN1lZbnozOXIyQ0ZnYUdOeTZD?=
- =?utf-8?B?NEE0Y0ZzQzFKMEQvZDI5cHRvUGFwNS9GTmM0eElPRHI4NW0wVHlhcld4QjlQ?=
- =?utf-8?B?dHhIYU9yaWxTYjRuS2sxQ2hQTGxQTStLcyt5emFOb2FrRGlQYlhKZ3N0enZJ?=
- =?utf-8?B?Z0pQYjBkeUxncmEwMStjcWlMalFzamoveFhoWHZmY25CNGw2Nmc4bkVTWXIw?=
- =?utf-8?B?YUhzMDB4U2hiRnJnNzBQOFFqeXJKd3FmQUhvSEQwbG52UGtKcDlCWWJRY3cr?=
- =?utf-8?B?THIwTWJjb1drbVMwVnk4M2RsVW5Mc0RlbkVSZWlrZ2ZSWHJjUU92S2ZPZUM5?=
- =?utf-8?Q?n6UHcOT13hawfiHLF09uY1GC/?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aG1xbThScmh3Ry8zdmh1em9pL0RwV0lmZDlGZzJCOTZldDRMcVozdGg2aVow?=
+ =?utf-8?B?N1lqWW12WDdKVU9sM2RFSXk5UTN5R3hZbUQ0S3ZXL3J4aXNWd0dzNjJibUl1?=
+ =?utf-8?B?QXIwWWtJRDlkQUNTOW03R0VJb01VZzlONnBrUnlyOFVycWgyZlNWeDdiWVJT?=
+ =?utf-8?B?M3ZoNG1ZRDVhNXJEdUZBZHlZNXU5ZzNsUmY3Ym12MTNvQjZvQStQbmU3bFVR?=
+ =?utf-8?B?SjdTVTY5R1djU29pUGcxYmcwbFlOTmZZYjhURmpqeGp0ZWNTWkZNVG5mWWZF?=
+ =?utf-8?B?YzFCaGxOSmVUeVM5L0lpWUN1eW1CUGRGYk1CT2pNY3l5SEFJMTRpN0NrcCtV?=
+ =?utf-8?B?R003WDVCTXJ1YXB0dGtIUW9WRWp5ZHlLZnd6N1Bia0VNVnYxbEZ2eTk1MjRQ?=
+ =?utf-8?B?K01WYTc3b0h4TTB6clpGenNMSHZFY1FTMEhQU2R1RGxsMlRrZ3N4SEc4UW9J?=
+ =?utf-8?B?dzdoSDlQNVc1UE8vOCtpYlJtNWlUWnFyNmc4R0l4UTVjeVNPQjBmcEduRXEz?=
+ =?utf-8?B?VTVRSnRJcUdYaFI2WTYzRFZMbnFNaWdTL1ZSM0plQ1Y3QWllRlhqYzRBeTBl?=
+ =?utf-8?B?NVFmdGJnOStSUjQzZE9wdk43RU9BaU5DRVpoNmtwaU1CbjdRdW0wSzFsY1BO?=
+ =?utf-8?B?MlozcnJTODZuV3lnTk0vZDdWM2IrN3JoSENTcWgrWHRYQTVTa0tHck5FUUMv?=
+ =?utf-8?B?K0VnVHpOYTdjRGltTnJhMXN4OFI1cExGSTNGdmt0NWJFb28yVzFsMjNRdHNT?=
+ =?utf-8?B?YzI4R0pBb00ydFN1Mzd6MmJPb0hKQVNiNDlyTXYrbXBlMUNMb1BVZkhlV1VY?=
+ =?utf-8?B?VWhHQ0UxKzdFT0J4RWVIeVdFeGw2bjNiT2NIcHFNQi92eFhmQWIrUmRjd0l1?=
+ =?utf-8?B?cnZSY2xpc3BkNVZYSjh1Wnp3bmVMNUFrVEl4NHlIVUFUYmV4MDlrUmlNWG1M?=
+ =?utf-8?B?V0VzQ09hVEpWckd5UTN0dEt0cE5hQ1pJZjl4SnFTczVVa0hvVXFFSWhLdURN?=
+ =?utf-8?B?TUphVDNSa3lTcWZWaW1SbkZsTGxWRS9xSkdPZWh5NXNkcDNFK0oraDh0eFRk?=
+ =?utf-8?B?d2VzNWtHdm1LL1BKeE5SekY1eGVQNTNjSldUVS9nMkl5aHdsVW0vNGxjZitB?=
+ =?utf-8?B?aHNPRC8zamh2TVZvSEtMZWpVU1AxZXd4NFZ3Q3hBbThsUlppeTBTM3AvbTRC?=
+ =?utf-8?B?bnR3a0ZPTmdxcW9DUzNvOW5NSkxoSE50d25tVFV1STRnUGh2TllndUluK3Vl?=
+ =?utf-8?B?eU1ZWGg5am9Tb1JrdE15T1I2NTJEclFiSmFDL2dDeDJsNTBLajQ5bjBsMVVI?=
+ =?utf-8?B?Q2hDNktka01DeXRTRTlmVkdvck9FY3RVeXJaTW5Ic0Z4Q0JiczFUYWhKY1NO?=
+ =?utf-8?B?OFk4cXpKaWh4eFVjQURwNDRQY1JOTHdRZy82U2FEMGR5czEvd3grVEkramZD?=
+ =?utf-8?B?c1p1QVh3Zk5Gc3pFN29BNS9oZnlSTS92WTlxT28zSDIrRWJvU3RPSkVkbjN3?=
+ =?utf-8?B?dFhtL0w1SDhiR0RFUS9SVDljbHBPWGsrclRjN3RWbC9Mck9mU3NhZlN1Ujc4?=
+ =?utf-8?B?Ty8zS1BXWmdsck1LNUo5SlZrdU1zTjBvS1dtUlRLOWFrT0FuR0tBTTArdXJC?=
+ =?utf-8?B?em1kU3NoYjJ6MGhma09LWEE2cjBKUzVYYVo2dWU0a2RaUHlxTVIrTlNncXFn?=
+ =?utf-8?B?LzZKK2RuUTlsNDNHWTJTUG1taW5POXdGUENvaWJncFFCTm5MZUhWRDJoNTRo?=
+ =?utf-8?B?RUVvNU5velNadmN4MURiQU9acW9DMW5YR2VKVk1nNi9MbHNRTm10MFdmQUp5?=
+ =?utf-8?B?bUVpNFVtMndtTVFJTll2UXFCTzNBdjFwejRKRVBXRFdkMlk0Y3FOZDlhQ210?=
+ =?utf-8?B?SXlpa0tHL3htMHdobDVlMXBoZHpZYWp5Y2FWNXVUZTgxR2lnQUoxdXNPSFJS?=
+ =?utf-8?B?Q09MZ1p4WDVWN2M0WHFZbWwzS1JaWTJwTkU5R3lGbm1QYVFQdHRYMlJPSC9T?=
+ =?utf-8?B?MUdncDgyaElkWTZ3NlNHM2UvNGlqdTBNUm9LTjkyc1BDdEFST1hKVnF6ZWtT?=
+ =?utf-8?B?VldyWkYzZTAwN3B2R1MvemhmdE8rY2FlY1VabnFWUkRBQ2NlZ3pwZ05MWURw?=
+ =?utf-8?Q?K5niCglMgKRv4u4yrBS5jz26t?=
 X-OriginatorOrg: silabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6fe38be-08d1-4959-f004-08db131bdc06
+X-MS-Exchange-CrossTenant-Network-Message-Id: 735ee42d-00e1-40d0-a319-08db1322315a
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4711.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 08:24:18.1418 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2023 09:09:38.1833 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 54dbd822-5231-4b20-944d-6f4abcd541fb
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rrOxPUgzk77a91fbf6axHmKIqFxbPj7cklOq0X0UC7oPwLiUZ6scDvdilFZpjwMQFX+XsjsA2HI3wShTh9/fTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6353
-Received-SPF: pass client-ip=40.107.101.75;
+X-MS-Exchange-CrossTenant-UserPrincipalName: CceCHuwHLo7mFJntADGv32k+q15QT7IBnEAH5EGUy0C+Z58mBBnTOAbNVrUL25ZCz0wZe/dEs/6N0v7HTJBi3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7012
+Received-SPF: permerror client-ip=2a01:111:f400:7eab::626;
  envelope-from=Mathis.Marion@silabs.com;
- helo=NAM04-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=0.756, NICE_REPLY_A=-0.09,
+ SPF_HELO_PASS=-0.001, T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 20 Feb 2023 09:10:28 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -149,139 +149,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/02/2023 08:22, Philippe Mathieu-Daudé wrote:
-> On 17/2/23 17:35, Mathis Marion wrote:
+
+
+On 20/02/2023 10:06, Philippe Mathieu-Daudé wrote:
+> CAUTION: This email originated from outside of the organization. Do not 
+> click links or open attachments unless you recognize the sender and know 
+> the content is safe.
+> 
+> 
+> On 20/2/23 09:58, Mathis Marion wrote:
 >> From: Mathis Marion <mathis.marion@silabs.com>
 >>
->> Added conversions for:
->> - IFLA_MTU
->> - IFLA_TXQLEN
->> - IFLA_AF_SPEC AF_INET6 IFLA_INET6_ADDR_GEN_MODE
->> These relate to the libnl functions rtnl_link_set_mtu,
->> rtnl_link_set_txqlen, and rtnl_link_inet6_set_addr_gen_mode.
+>> Fields sin6_flowinfo and sin6_scope_id use the host byte order, so there
+>> is a conversion to be made when host and target endianness differ.
 >>
 >> Signed-off-by: Mathis Marion <mathis.marion@silabs.com>
 >> ---
->>   linux-user/fd-trans.c | 64 +++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 64 insertions(+)
+>>   linux-user/syscall.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
 >>
->> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
->> index 146aaaafaa..aa398098ec 100644
->> --- a/linux-user/fd-trans.c
->> +++ b/linux-user/fd-trans.c
->> @@ -1284,6 +1284,49 @@ static inline abi_long 
->> host_to_target_nlmsg_route(struct nlmsghdr *nlh,
->>       return host_to_target_for_each_nlmsg(nlh, len, 
->> host_to_target_data_route);
->>   }
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index 58549de125..1a6856abec 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -1713,6 +1713,12 @@ static inline abi_long 
+>> target_to_host_sockaddr(int fd, struct sockaddr *addr,
+>>       lladdr = (struct target_sockaddr_ll *)addr;
+>>       lladdr->sll_ifindex = tswap32(lladdr->sll_ifindex);
+>>       lladdr->sll_hatype = tswap16(lladdr->sll_hatype);
+>> +    } else if (sa_family == AF_INET6) {
+>> +        struct sockaddr_in6 *in6addr;
+>> +
+>> +        in6addr = (struct sockaddr_in6 *)addr;
+>> +        in6addr->sin6_flowinfo = tswap32(in6addr->sin6_flowinfo);
+>> +        in6addr->sin6_scope_id = tswap32(in6addr->sin6_scope_id);
+>>       }
+>>       unlock_user(target_saddr, target_addr, 0);
 >>
->> +static abi_long target_to_host_for_each_nlattr(struct nlattr *nlattr,
->> +                                               size_t len, void 
->> *context,
 > 
-> You always pass a NULL context... Do we really need it?
+> Same content as v1, right?
+> 
+> If you don't change patch content, please include the reviewer tags
+> so we don't have to review your patches again.
+> 
+> So similarly to
+> https://urldefense.com/v3/__https://lore.kernel.org/qemu-devel/6be6bf58-cf92-7068-008e-83f5543a1f01@linaro.org/__;!!N30Cs7Jr!X8OE0Z6gfU2FYtWrk0_Dhk_gUPlhqRPtJ60B7HxeicEaFDDFCLRsmoqhnC3MXGOw7ZfEkgLQhDwsyQv76w$
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > 
 
-This is a leftover, I had the context in every functions as copied from
-the host_to_target* variants but removed it. I just forgot about this
-function.
-
->> +                                               abi_long 
->> (*target_to_host_nlattr)
->> +                                                        (struct 
->> nlattr *))
->> +{
->> +    unsigned short aligned_nla_len;
->> +    abi_long ret;
->> +
->> +    while (len > sizeof(struct nlattr)) {
->> +        if (tswap16(nlattr->nla_len) < sizeof(struct rtattr) ||
->> +            tswap16(nlattr->nla_len) > len) {
->> +            break;
->> +        }
->> +        nlattr->nla_len = tswap16(nlattr->nla_len);
->> +        nlattr->nla_type = tswap16(nlattr->nla_type);
->> +        ret = target_to_host_nlattr(nlattr);
->> +        if (ret < 0) {
-> 
-> If this fail, guest's nlattr is now inconsistent. Is this OK?
-> 
-
-The same check is done in target_to_host_for_each_rtattr(), and in all
-host_to_target_for_each* functions so I think this is OK.
-
->> +            return ret;
->> +        }
->> +
->> +        aligned_nla_len = NLA_ALIGN(nlattr->nla_len);
->> +        if (aligned_nla_len >= len) {
->> +            break;
->> +        }
->> +        len -= aligned_nla_len;
->> +        nlattr = (struct nlattr *)(((char *)nlattr) + aligned_nla_len);
->> +    }
->> +    return 0;
->> +}
->> +
->> +static abi_long target_to_host_data_inet6_nlattr(struct nlattr *nlattr)
->> +{
->> +    switch (nlattr->nla_type) {
->> +    /* uint8_t */
->> +    case QEMU_IFLA_INET6_ADDR_GEN_MODE:
->> +        break;
->> +    default:
->> +        qemu_log_mask(LOG_UNIMP, "Unknown target AF_INET6 type: %d\n",
->> +                      nlattr->nla_type);
->> +    }
->> +    return 0;
->> +}
->> +
->>   static abi_long target_to_host_for_each_rtattr(struct rtattr *rtattr,
->>                                                  size_t len,
->>                                                  abi_long 
->> (*target_to_host_rtattr)
->> @@ -1314,16 +1357,37 @@ static abi_long 
->> target_to_host_for_each_rtattr(struct rtattr *rtattr,
->>       return 0;
->>   }
->>
->> +static abi_long target_to_host_data_spec_nlattr(struct nlattr *nlattr)
->> +{
->> +    switch (nlattr->nla_type) {
->> +    case AF_INET6:
->> +        return target_to_host_for_each_nlattr(NLA_DATA(nlattr), 
->> nlattr->nla_len,
->> +                                              NULL,
->> +                                              
->> target_to_host_data_inet6_nlattr);
->> +    default:
->> +        qemu_log_mask(LOG_UNIMP, "Unknown target AF_SPEC type: %d\n",
->> +                      nlattr->nla_type);
->> +        break;
->> +    }
->> +    return 0;
->> +}
->> +
->>   static abi_long target_to_host_data_link_rtattr(struct rtattr *rtattr)
->>   {
->>       uint32_t *u32;
->>
->>       switch (rtattr->rta_type) {
->>       /* uint32_t */
->> +    case QEMU_IFLA_MTU:
->> +    case QEMU_IFLA_TXQLEN:
->>       case QEMU_IFLA_EXT_MASK:
->>           u32 = RTA_DATA(rtattr);
->>           *u32 = tswap32(*u32);
->>           break;
->> +    case QEMU_IFLA_AF_SPEC:
->> +        return target_to_host_for_each_nlattr(RTA_DATA(rtattr), 
->> rtattr->rta_len,
->> +                                              NULL,
->> +                                              
->> target_to_host_data_spec_nlattr);
->>       default:
->>           qemu_log_mask(LOG_UNIMP, "Unknown target QEMU_IFLA type: %d\n",
->>                         rtattr->rta_type);
-> 
+Yes, I am still new to this. Thank you for you consideration, I will
+remember it for next time.
 
