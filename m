@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4CE69C9F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 12:33:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9148369CA29
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 12:48:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pU4Pv-0005wS-OJ; Mon, 20 Feb 2023 06:33:11 -0500
+	id 1pU4dK-0000V4-CR; Mon, 20 Feb 2023 06:47:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU4Pu-0005wB-2Z
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:33:10 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pU4Ps-00020v-58
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:33:09 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id c5so1496750wrr.5
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 03:33:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=J/dHRG5aVmE5Nj3SsUOZkeSw0LAlKAJwzZEGzQ9MKno=;
- b=EofqjCYhq2k6BbSj2rvodYBYHrtnZt/OOnoiSTdcz17jgNEMy9QE1rfqPSmSIEovUM
- 28lysfitlmQnQY1/7qU+0SG02vjE9S0VfpUkt8d3C8+tJ8mNH/fdUWBatrThSgzUCJUK
- E8XF6S4v7WWU8vzfKO80Z+z74yLLz7A64nfvwwhWoGKos1Qd0YRC/d+BatnLctwfoDl+
- iVr/L8+vVixEt3lHdAXuhoS44OGZptZaFCW2y8gK0Jogq//v3NFplwQISnqHyv5EjZv9
- jHjY5t9zozUXQloKq0S/cYSuVPRKT/++cmlBqRonFYZQ0LZJqJ+TwWThnvAqlGq5twwV
- At0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J/dHRG5aVmE5Nj3SsUOZkeSw0LAlKAJwzZEGzQ9MKno=;
- b=0MNfyLeX1A7q9gofpWnoXjjVpKcEF+urYfJVQlVvTnaepjVpu7mkC1U6omR7J1ZhVd
- b2HMt8ufABsWtp/zR2P5P4VNHrN1HNj1D6k/TKdyt8DYlW/svoptbh/XQCFj9wD7z63i
- l6XzLsU+SFU0qYoh9oiEykC78NuP+QHZFgYiI5xcDSCqM5giviys505Afwttc7bud0dc
- 3hY7Nbyy/xRhjuyQQzpWZt5s+Cn1ynxBqjJkh7Ff7GXUf+6Jtl3jIbcfK8/RRAf8GTIr
- q7vtTI7uYkJn93vV1SvTn+v6oHbaRT+Oi0CXdzFcPrE0PVSEGziqcSZdNYjjHaPyj7eX
- a4dA==
-X-Gm-Message-State: AO0yUKVj/WBNb26R9lsxmTrvu/UFiJj8bqjWucPGGpmenMXMCk4hH3LV
- vT47MTHL4SeyjvMdLsZCBKB04A==
-X-Google-Smtp-Source: AK7set+2jaoz23QjdIsu1FNt0kQynBXpqoBZAW/KngfFVBxN7puAd14g91H+d1FpodR9heU1dAilsw==
-X-Received: by 2002:a5d:660f:0:b0:2c5:d3d1:dd6a with SMTP id
- n15-20020a5d660f000000b002c5d3d1dd6amr1845639wru.53.1676892786087; 
- Mon, 20 Feb 2023 03:33:06 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d8-20020adffbc8000000b002c5d3f0f737sm666559wrs.30.2023.02.20.03.33.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 03:33:05 -0800 (PST)
-Message-ID: <bcf0b85d-edbf-335f-ac74-c27a4cecdcb8@linaro.org>
-Date: Mon, 20 Feb 2023 12:33:04 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pU4dH-0000U2-0x
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:46:59 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pU4dE-0004MO-3u
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 06:46:58 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PL0rb1t2Gz6J68P;
+ Mon, 20 Feb 2023 19:42:07 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 20 Feb
+ 2023 11:46:47 +0000
+Date: Mon, 20 Feb 2023 11:46:46 +0000
+To: Gregory Price <gregory.price@memverge.com>
+CC: Jonathan Cameron via <qemu-devel@nongnu.org>, Michael Tsirkin
+ <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Mike Maslenkin
+ <mike.maslenkin@gmail.com>
+Subject: Re: [PATCH 2/2] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
+ and Persistent)
+Message-ID: <20230220114646.000000ff@Huawei.com>
+In-Reply-To: <Y+9gSWadbRfdqJGS@memverge.com>
+References: <20230131163847.23025-1-Jonathan.Cameron@huawei.com>
+ <20230131163847.23025-3-Jonathan.Cameron@huawei.com>
+ <20230217161617.000064d1@huawei.com>
+ <Y+9gSWadbRfdqJGS@memverge.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 0/4] Adds support for running QEMU natively on
- windows-arm64
-Content-Language: en-US
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- richard.henderson@linaro.org, alex.bennee@linaro.org,
- peter.maydell@linaro.org
-References: <20230220111215.27471-1-pierrick.bouvier@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230220111215.27471-1-pierrick.bouvier@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,47 +70,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Pierrick,
+On Fri, 17 Feb 2023 06:08:57 -0500
+Gregory Price <gregory.price@memverge.com> wrote:
 
-On 20/2/23 12:12, Pierrick Bouvier wrote:
-> Since v2:
+> On Fri, Feb 17, 2023 at 04:16:17PM +0000, Jonathan Cameron via wrote:
+> > On Tue, 31 Jan 2023 16:38:47 +0000
+> > Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+> >   
+> > > From: Gregory Price <gourry.memverge@gmail.com>
+> > > 
+> > > This commit enables each CXL Type-3 device to contain one volatile
+> > > memory region and one persistent region.
+> > > 
+> > > Two new properties have been added to cxl-type3 device initialization:
+> > >     [volatile-memdev] and [persistent-memdev]
+> > > 
+> > > The existing [memdev] property has been deprecated and will default the
+> > > memory region to a persistent memory region (although a user may assign
+> > > the region to a ram or file backed region). It cannot be used in
+> > > combination with the new [persistent-memdev] property.
+> > > 
+> > > Partitioning volatile memory from persistent memory is not yet supported.
+> > > 
+> > > Volatile memory is mapped at DPA(0x0), while Persistent memory is mapped
+> > > at DPA(vmem->size), per CXL Spec 8.2.9.8.2.0 - Get Partition Info.
+> > > 
+> > > Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > >   
+> > Hi Gregory,
+> > 
+> > I've added support for multiple HDM decoders and hence can now
+> > test both volatile and non volatile on same device.
+> > It very nearly all works. With one exception which is I couldn't
+> > poke the first byte of the non volatile region.
+> > 
+> > I think we have an off by one in a single check.
+> > 
+> > Interestingly it makes no difference when creating an FS on top
+> > (which was my standard test) so I only noticed when poking memory
+> > addresses directly to sanity check the HDM decoder setup.
+> > 
+> > I'll roll a v2 if no one shouts out that I'm wrong.
+> > 
+> > Note that adding multiple HDM decoders massively increases
+> > the number of test cases over what we had before to poke all the
+> > corners so I may well be missing stuff.  Hopefully can send an RFC
+> > of that support out next week.
+> > 
+> > Jonathan
+> >   
 > 
-> - Delete superfluous comment on unreachable code
-> - Fix style for multiline comments
+> Very cool! Thanks for pushing this over the finishing line.
 > 
-> Since v1:
+> All my testing so far has been really smooth since getting the TCG issue
+> worked out.
 > 
-> - Comment why we use generic version of flush_idcache_range
-> - Ensure __mingw_setjmp/longjmp are available using meson
-> - Fix a warning by calling g_assert_not_reached() instead of initializing a
->    variable
+> > > -MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+> > > -                           unsigned size, MemTxAttrs attrs)  
+> [...]
+> > > +    if (vmr) {
+> > > +        if (*dpa_offset <= int128_get64(vmr->size)) {  
+> > 
+> > Off by one I think.  < 
+> >   
 > 
-> As before this was tested with:
-> - make check
-> - boot an x64 debian bullseye vm
-> - boot an arm64 ubuntu 22.10 vm
+> Yes that makes sense, should be <.  Derp derp.
 > 
-> Thanks
+> Though I think this may alludes to more off-by-one issues?  This says
 > 
-> Pierrick Bouvier (4):
->    util/cacheflush: fix cache on windows-arm64
->    sysemu/os-win32: fix setjmp/longjmp on windows-arm64
->    qga/vss-win32: fix warning for clang++-15
->    target/ppc: fix warning with clang-15
+> if (dpa_offset < vmr->size)
+> 
+> but dpa_offset should be (hpa - memory_region_base),
+> 
+> The HPA is used by memory access routing for the whole system to determine
+> what device it should access.
+> 
+> If that corner case is being hit, doesn't it imply the higher level code
+> is also susceptible to this, and is routing accesses to the wrong device?
 
-You forgot to include the 'Reviewed-by/Acked-by' tags from your previous
-versions. See from these guidelines:
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html#proper-use-of-reviewed-by-tags-can-aid-review
+I don't think so though I may be missing something. 
 
-   When reviewing a large series, a reviewer can reply to some of the
-   patches with a Reviewed-by tag, stating that they are happy with
-   that patch in isolation [...]. You should then update those commit
-   messages by hand to include the Reviewed-by tag, so that in the next
-   revision, reviewers can spot which patches were already clean from
-   the previous round.
+Say vmr->size = 8
 
-No need for a v4, you can reply to each patch with the missed tags.
+hpa  dpa_offset
+0       0
+1       1
+2       2
+3       3
+4       4
+5       5
+6       6
+7       7
+8       0
+
+etc
+
+Also the writes are turning up where I expect them to.
+
+Also just noticed that the code is setting Memory_base in the CXL dvsec.
+Given we are emulating a device as if it has been freshly powered up
+those should not be set - it's the OS or firmware's job to set them up.
+Harmless though, so can be a cleanup to follow the main series.
+
+We don't currently handle dvsec range based routing anyway and
+I'm not sure we ever will as it is a pain to test without some firmware
+or OS code to program them for us.
+
+Note that if you update your kernel to cxl/next it will currently fail
+as the Range register emulation is (I think) rather over enthusiastic
+and currently decides to emulate the HDM decoders for the QEMU emulated
+type 3 devices.
+
+https://lore.kernel.org/linux-cxl/167640366272.935665.1056268838301725481.stgit@dwillia2-xfh.jf.intel.com/T/#m6c025d5c9b27d8360a64079593f6c5adaa408772
+
+Jonathan
+
+
+> 
+> ~Gregory
+
 
