@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556A869C477
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 04:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0649569C47A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Feb 2023 04:25:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pTwmU-0001BK-0t; Sun, 19 Feb 2023 22:23:58 -0500
+	id 1pTwmV-0001Bb-U0; Sun, 19 Feb 2023 22:23:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pTwmR-0001Av-SS
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:55 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+ id 1pTwmT-0001BL-O4
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:57 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pTwmQ-0005qm-9T
- for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:55 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id q9so2040325plh.6
- for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 19:23:53 -0800 (PST)
+ id 1pTwmS-0005r1-3S
+ for qemu-devel@nongnu.org; Sun, 19 Feb 2023 22:23:57 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ o17-20020a17090ab89100b002349a303ca5so1791277pjr.4
+ for <qemu-devel@nongnu.org>; Sun, 19 Feb 2023 19:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JKMBaWZBGONH22d4GZ6aoQ5NI2bVoqwHKZG9lz4sA9s=;
- b=YzdR1yc1S5JYXOoNhpa9IxLl+hTme/WPpNSeOnX7jn5L+WlEW8z0cGhTh2AuSU9Lmx
- /ZelLEGc27P7c6edAhagPR/pkuTg+BKXPdiE7nTfhHI94SBIIk4m4eeFhI7gP7i8sic4
- h+k8Iuvq8AgaSuEUTGNHVZOr9Z30O5Vhp6FaIX3j4WqFvK+Za/PV6Y6pQanEfgS+ZKjX
- VSx5m4X+h2KdUuDWrqzP66WT/+hhB4Dn3BArk7J/VT7gq3Z5PmSeM8k9BMo8Yv02u3f4
- z7Qx/pljY+BH4si1CMbT7RYzXbXeNFzVV+6rE8b/OHFzj3vmrb48zTGoqpumSOosOLZ5
- X3+A==
+ bh=XxLQVkzo6u05XRu/oTQ+Gc3Lg7Bmhol2RuzS9iezzHg=;
+ b=XxN1MgoxJd+U40U4KikY3FrdJHZe589HIYBw2KbcFVTsXOSHr947bsO/hYW81ogxaM
+ 0YPWov4BhN37Ze4ehJsn+9pBNfPZZnayfudgoV5Vqxw4UwnyI0sHOrp7NXs7xD2t0bjF
+ z9AxvXyG1SA+jsR68THjoSEInFg51zg8RNVCian6a02l4lgh+wDNsxqTTTekgt00MpYB
+ Lri8SOiAlZPxbZdwYRU/CIW01+eZ4fM/4aX1ufBOo+OpszIQvyH0P0iTEw7SZRbutJUq
+ jJYZ0VYPfPxtpB3r1YfcTo1m2Gwdkbcx//1rZeufODgZe2gIz4BJjh8JOe4vPFef9uoX
+ L9zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JKMBaWZBGONH22d4GZ6aoQ5NI2bVoqwHKZG9lz4sA9s=;
- b=f6Xp1cfb8LyE8kW67fy5VR3vEJwLqyj3RVss7Pi9ekLiNvNfCGlnAxJdYFF6LdmMx6
- 2o9RdgSo8FFGE5enj7qE1SIdwIEX53PMj3iWs5PhmF0FodfwGhskvGD6Hd8cO6/TITEo
- KWvS79+Jt245M/RrXvciduEFI0jugxr+1Bn4PTWPxnd8l1/dbHG+wfWLoWFIig0YJQI2
- ZAkPZagMQNLvGM3m5Z35GLIflPmVAuZ24K6n3WDjpmYd07FESgVlfsE/OfFhRYmG5d8y
- XuCzrVmbFWSLpoLvaYXOX7nFNGa8nvbSfTLygWCKfFJ9jRIkVxdYjFlMHBzp7j6hsmzK
- d9aQ==
-X-Gm-Message-State: AO0yUKWQ0VJSjRDuO4kXGMrUIbJogLjlN220OsIdVKZ0B3mqwbMC7uTd
- jN8zkk07N18bdp4AlXq4RE/57bQtk1N21UY0V28=
-X-Google-Smtp-Source: AK7set+Niry9fD+EnbLyc85zeIfBCcBQt3oPYPodUd3kzGPwSZmS7NC6R+fpNpszKAVuwg86y/HPqQ==
-X-Received: by 2002:a17:903:790:b0:196:f00:c8f9 with SMTP id
- kn16-20020a170903079000b001960f00c8f9mr2348490plb.10.1676863432905; 
- Sun, 19 Feb 2023 19:23:52 -0800 (PST)
+ bh=XxLQVkzo6u05XRu/oTQ+Gc3Lg7Bmhol2RuzS9iezzHg=;
+ b=MofwVnMCuw4hkFbeBZ5yJ969s44fHysU+4GLpO+tlOE0E6KLG9EOa6PUiicGnIFt9E
+ OJpkQbNafnFEjSpI1BGK05xqntQM1gPxettutCsV5j5p2JmQKnbnH1ODrcmiANzPxTkX
+ WH0Cc3EJsi1zX62oiKi9YWNB0RdX4Jlb8Dc/MAr1pXiEUokSNe4GB18JuWXNzRAloNPy
+ GqfJbZH9nZafpDVDfmFAG+vslOBg69kJALu+BRBPs38OMeoq8boI6PxnB43rRhQEjkyN
+ CmtsBDH1wW2YFzye/Of5KdDbjcoRCQGhFyus4FrMS+TBUzmVEZqWgDm53yEFbMsker0k
+ 8rrA==
+X-Gm-Message-State: AO0yUKWHj89zascypSFmzuG9C1SX9WHKHbEIHSvbaNuUwzexJCay4QuL
+ 43jL9I8g7eBzX+RlJxI4X0S8lZozfRoskJpTpJw=
+X-Google-Smtp-Source: AK7set9uxK+HDTJoRdsXkkbD997dMEu5rZ7VDDAc65WLhr597mRiurSSYIHvB3w9RuUpRzEV1w+b/g==
+X-Received: by 2002:a17:902:c408:b0:19a:9984:5590 with SMTP id
+ k8-20020a170902c40800b0019a99845590mr1393472plk.5.1676863434603; 
+ Sun, 19 Feb 2023 19:23:54 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- l11-20020a170902d34b00b00198e1bc9d83sm6621302plk.266.2023.02.19.19.23.51
+ l11-20020a170902d34b00b00198e1bc9d83sm6621302plk.266.2023.02.19.19.23.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Feb 2023 19:23:52 -0800 (PST)
+ Sun, 19 Feb 2023 19:23:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
-	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL 5/7] linux-user/microblaze: Handle privileged exception
-Date: Sun, 19 Feb 2023 17:23:36 -1000
-Message-Id: <20230220032338.5619-6-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 6/7] tests/tcg/linux-test: Add linux-fork-trap test
+Date: Sun, 19 Feb 2023 17:23:37 -1000
+Message-Id: <20230220032338.5619-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230220032338.5619-1-richard.henderson@linaro.org>
 References: <20230220032338.5619-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,65 +94,75 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Follow what kernel's full_exception() is doing.
+Check that dying due to a signal does not deadlock.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20230214140829.45392-4-iii@linux.ibm.com>
+Message-Id: <20230214140829.45392-5-iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/microblaze/cpu_loop.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ tests/tcg/multiarch/linux/linux-fork-trap.c | 51 +++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+ create mode 100644 tests/tcg/multiarch/linux/linux-fork-trap.c
 
-diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
-index 5ccf9e942e..212e62d0a6 100644
---- a/linux-user/microblaze/cpu_loop.c
-+++ b/linux-user/microblaze/cpu_loop.c
-@@ -25,8 +25,8 @@
- 
- void cpu_loop(CPUMBState *env)
- {
-+    int trapnr, ret, si_code, sig;
-     CPUState *cs = env_cpu(env);
--    int trapnr, ret, si_code;
- 
-     while (1) {
-         cpu_exec_start(cs);
-@@ -76,6 +76,7 @@ void cpu_loop(CPUMBState *env)
-             env->iflags &= ~(IMM_FLAG | D_FLAG);
-             switch (env->esr & 31) {
-             case ESR_EC_DIVZERO:
-+                sig = TARGET_SIGFPE;
-                 si_code = TARGET_FPE_INTDIV;
-                 break;
-             case ESR_EC_FPU:
-@@ -84,6 +85,7 @@ void cpu_loop(CPUMBState *env)
-                  * if there's no recognized bit set.  Possibly this
-                  * implies that si_code is 0, but follow the structure.
-                  */
-+                sig = TARGET_SIGFPE;
-                 si_code = env->fsr;
-                 if (si_code & FSR_IO) {
-                     si_code = TARGET_FPE_FLTINV;
-@@ -97,13 +99,17 @@ void cpu_loop(CPUMBState *env)
-                     si_code = TARGET_FPE_FLTRES;
-                 }
-                 break;
-+            case ESR_EC_PRIVINSN:
-+                sig = SIGILL;
-+                si_code = ILL_PRVOPC;
-+                break;
-             default:
-                 fprintf(stderr, "Unhandled hw-exception: 0x%x\n",
-                         env->esr & ESR_EC_MASK);
-                 cpu_dump_state(cs, stderr, 0);
-                 exit(EXIT_FAILURE);
-             }
--            force_sig_fault(TARGET_SIGFPE, si_code, env->pc);
-+            force_sig_fault(sig, si_code, env->pc);
-             break;
- 
-         case EXCP_DEBUG:
+diff --git a/tests/tcg/multiarch/linux/linux-fork-trap.c b/tests/tcg/multiarch/linux/linux-fork-trap.c
+new file mode 100644
+index 0000000000..2bfef800c3
+--- /dev/null
++++ b/tests/tcg/multiarch/linux/linux-fork-trap.c
+@@ -0,0 +1,51 @@
++/*
++ * Test that a fork()ed process terminates after __builtin_trap().
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include <assert.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/resource.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++int main(void)
++{
++    struct rlimit nodump;
++    pid_t err, pid;
++    int wstatus;
++
++    pid = fork();
++    assert(pid != -1);
++    if (pid == 0) {
++        /* We are about to crash on purpose; disable core dumps. */
++        if (getrlimit(RLIMIT_CORE, &nodump)) {
++            return EXIT_FAILURE;
++        }
++        nodump.rlim_cur = 0;
++        if (setrlimit(RLIMIT_CORE, &nodump)) {
++            return EXIT_FAILURE;
++        }
++        /*
++         * An alternative would be to dereference a NULL pointer, but that
++         * would be an UB in C.
++         */
++        printf("about to trigger fault...\n");
++#if defined(__MICROBLAZE__)
++        /*
++         * gcc emits "bri 0", which is an endless loop.
++         * Take glibc's ABORT_INSTRUCTION.
++         */
++        asm volatile("brki r0,-1");
++#else
++        __builtin_trap();
++#endif
++    }
++    err = waitpid(pid, &wstatus, 0);
++    assert(err == pid);
++    assert(WIFSIGNALED(wstatus));
++    printf("faulting thread exited cleanly\n");
++
++    return EXIT_SUCCESS;
++}
 -- 
 2.34.1
 
