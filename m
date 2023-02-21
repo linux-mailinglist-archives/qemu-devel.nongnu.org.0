@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8605869E4BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5D369E50D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:47:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUV2c-0005vQ-3c; Tue, 21 Feb 2023 10:58:54 -0500
+	id 1pUVmX-0008Vy-8b; Tue, 21 Feb 2023 11:46:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pUV2Z-0005uz-VR
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:58:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pUV2Y-0006d7-4M
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:58:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676995128;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u21ijLjeelZIuES8MOORs4NB0OopgnuzS0DeoRzVrLQ=;
- b=KH9zT4uhLVbRMhGp8B/xAahYFNLpoRhDd1cZYyrns6BN14RwKLaWeO4cHi8PfoR4z4xgDN
- +xLcEDEEyJIAUh0/7+6sUYKRbXlwIYQxVP6xmTNy8nuTVdVkVcYUJGHCTJXEjPoSGOsZr3
- q/eqsTAATDsLlI5Ac2Qiq23uHDZZ9LA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-F0OwgQCcMza2EhtyZycmWQ-1; Tue, 21 Feb 2023 10:58:47 -0500
-X-MC-Unique: F0OwgQCcMza2EhtyZycmWQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB721802314;
- Tue, 21 Feb 2023 15:58:46 +0000 (UTC)
-Received: from redhat.com (dhcp-192-225.str.redhat.com [10.33.192.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0900E492B00;
- Tue, 21 Feb 2023 15:58:45 +0000 (UTC)
-Date: Tue, 21 Feb 2023 16:58:44 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Zhiyong Ye <yezhiyong@bytedance.com>
-Cc: mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: Questions about how block devices use snapshots
-Message-ID: <Y/TqNIz9EEXaop/Q@redhat.com>
-References: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
- <Y7wdTurqBjWXIGmo@redhat.com>
- <12bfc9a0-45e0-21f2-3d50-988ea2ad80c8@bytedance.com>
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pUV8w-0001bJ-Hi
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:05:27 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pUV8t-0007kY-OD
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:05:26 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ qi12-20020a17090b274c00b002341621377cso5294373pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 08:05:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=njL1mmILWaUaw9pHU8/DZfgyhs6GtPjUMA51LctlJKo=;
+ b=qeK6DIrxvvFjprB21XPw83dKkZSg7afc5JkWIazEmq8+JWkkYQaHoQJyovu8B7GVBT
+ 71QJDh41as9dSnjAELwjCtYDtFaIFnjuu1Y4n/jNhLarBzhR4Npq0mCy0/fzk5hN/75J
+ RwCwUD+TMC+He2Cd9GDuJbtXkXxOvWt/WUYvJlvACfZ+H0dogXqcPOZDA8zPckhJMQlG
+ Md7rEq+NRlg4ZZyCXGhShEwuCYdWTspsc5TPqtS2S8Ogz0arJurtViZceDFpAzASzqCf
+ +FrLR3owedHkloQJ2aZbdKBRyY65CigPws4K839MzbMKgZRW6uOcInPQa4yKh1lhK7YC
+ zMDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=njL1mmILWaUaw9pHU8/DZfgyhs6GtPjUMA51LctlJKo=;
+ b=cKy6wLz6ntOl4JZeuuYJ1EdfG6bDzghdkdkk2yhBcQ2JkOTRgh0HEizpK/JaKQ5+b1
+ diALRNENtatmSZUos1dgeyGQwsTwuW9YLYdkMLPRQe88U+2mMNv2TFg1VdJn+QZTg4p8
+ q8UK4pWfeoAD9oHAfH6gb/EpktLbcKs1Z1jzKIs5d2NLdNAzpWwfPBNJ1G/Y+tex+aym
+ 72Fl3TJ8IKzcqOBnOCNmFoq3H19qP7gNOz/Yvn9ptNFHcr/2x0HZeErpvM0qZ6+5zQhz
+ tAYeQ5Il0ksIsenyXNsi6nhj7YjdrCtzTXKmtOGF1S2cQCiLY+C8BW3IRB3p9IRA03Ec
+ lzfw==
+X-Gm-Message-State: AO0yUKUc847p+HEBh7Yf4ATQf8br+8O+x+wm5StQfVU1/7ATL1H43o2U
+ wu8MyMVR/LJZWNcebA5HtFHAmFPT4NtzHw==
+X-Google-Smtp-Source: AK7set9krmr02dm1mX+UlgVw333JOTduPnsIzTbAm7LZMyrSERRdlvoBx4si1zAafFjk3wzNAzSVKA==
+X-Received: by 2002:a17:902:ea07:b0:19a:887d:98ac with SMTP id
+ s7-20020a170902ea0700b0019a887d98acmr7262108plg.46.1676995520660; 
+ Tue, 21 Feb 2023 08:05:20 -0800 (PST)
+Received: from localhost.localdomain ([113.173.97.170])
+ by smtp.googlemail.com with ESMTPSA id
+ b15-20020a170902650f00b001943d58268csm10076295plk.55.2023.02.21.08.05.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 08:05:20 -0800 (PST)
+From: Bui Quang Minh <minhquangbui99@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Bui Quang Minh <minhquangbui99@gmail.com>
+Subject: [PATCH 0/4] Support x2APIC mode with TCG accelerator
+Date: Tue, 21 Feb 2023 23:04:56 +0700
+Message-Id: <20230221160500.30336-1-minhquangbui99@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12bfc9a0-45e0-21f2-3d50-988ea2ad80c8@bytedance.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 21 Feb 2023 11:46:12 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,36 +94,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 21.02.2023 um 14:27 hat Zhiyong Ye geschrieben:
-> 
-> Hi Kevin,
-> 
-> Sorry to bother you again.
-> 
-> I intend to use this approach for snapshots of block devices, which, as you
-> say, requires a lot of disk space to store snapshot data. So, to save disk
-> space, after each successful external snapshot creation, I want to shrink
-> the block device that stores the backing_file image to the size that qcow2
-> data actually occupies, since it has become read-only. But there is no way
-> to get the actual size of qcow2 when it is stored in a block device.
-> 
-> Qemu-img info can easily get the actual size of qcow2 when it is stored in a
-> file using the fstat function, but this will fail and return 0 for block
-> devices. Therefore, it is necessary to implement the method of getting data
-> occupancy inside qcow2. I think there may be two possible ways to do this:
-> 
-> - Add a cluster count field @nb_clusters in the BDRVQcow2State for each new
-> cluster allocated and the actual size occupied by qcow2 is: nb_clusters *
-> cluster_size.
-> - Iterate through the refcount block to find the value with the largest host
-> offset, and this is the actual size occupied by qcow2.
-> 
-> Since I'm not very familiar with qcow2, may I ask if you have any advice on
-> getting the actual size when using qcow2?
+This series implements x2APIC mode in userspace local APIC and the
+RDMSR/WRMSR helper to access x2APIC registers in x2APIC mode. With this
+series, we can now boot up Linux kernel in x2APIC with TCG accelerator.
 
-I think what you need is the 'image-end-offset' field from 'qemu-img
-check --output=json'.
+Bui Quang Minh (4):
+  apic: add support for x2APIC mode
+  i386/tcg: implement x2APIC registers MSR access
+  intel_iommu: allow Extended Interrupt Mode when using userspace local
+    APIC
+  test/avocado: test Linux boot up in x2APIC with userspace local APIC
 
-Kevin
+ hw/i386/intel_iommu.c                |  11 --
+ hw/intc/apic.c                       | 211 +++++++++++++++++++++------
+ hw/intc/apic_common.c                |   2 +-
+ include/hw/i386/apic.h               |   5 +-
+ include/hw/i386/apic_internal.h      |   2 +-
+ target/i386/cpu-sysemu.c             |   5 +
+ target/i386/cpu.c                    |   5 +-
+ target/i386/cpu.h                    |   4 +
+ target/i386/tcg/sysemu/misc_helper.c |  27 ++++
+ tests/avocado/tcg_x2apic.py          |  91 ++++++++++++
+ 10 files changed, 302 insertions(+), 61 deletions(-)
+ create mode 100644 tests/avocado/tcg_x2apic.py
+
+-- 
+2.25.1
 
 
