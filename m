@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2B269DC80
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E98E69DC87
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:04:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUOWb-0007k3-Iu; Tue, 21 Feb 2023 04:01:25 -0500
+	id 1pUOWU-0007eU-Vg; Tue, 21 Feb 2023 04:01:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWY-0007iA-N3
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:22 -0500
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWT-0007e8-3T
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:17 -0500
 Received: from mr85p00im-ztdg06011201.me.com ([17.58.23.181])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWX-0005VG-0K
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:22 -0500
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWR-0005Su-2z
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1676970080; bh=l/aCZe1H5Hng++TSGvfhaA4HhXrphUiVh1oiy3JASog=;
+ t=1676970071; bh=gyQnCVNzCEHVqVEoI58x5xyPhDVaVkRYebDl9/4EbWs=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=BcjHBLj3lcmFbPBaI6x/g7JORDBhprdtevGeTN/CAszUDsrOeyklEzi7IXFINTA+G
- Xld1t4eep6RXcwhKoxTHKtZjGSUyyDcMFpGSCQ6vBKGUjmM5zsthLC98vOArHQtfWF
- cqUYxY4CUkdn4d01mAfKX0mJUUvO5ttgkuclfcxnWP/x0AhyLI42lUoJp3Xyx7oiJF
- +44XjeFvYuw/jMdkpiPY1IkPCIAGEViw5+qDLGBBSeZvMkrJKJa/DjTov4eWVr8VgK
- EuXRrlZPzAHBNbLPeTgx2pmwXc80RV+wBasPikMiwfw/7lYHsDDu8Q19rqbqRYIIdg
- tLd6Nfl/uUABw==
+ b=OdXbchtSCBOhe4ClOJ7lAcK+RvXMEFv4Oiwhf/ShKLz6uQi3sDfhAjj5ZtHkom67I
+ AL5wfbmRiP4QSAOnLk0pI5BP4rgafIJF4WaEkUVp5s0y0ZHWZWqKEzkf5Jyw0JKEl1
+ 96o6opRXBdhQBge3LhronaAgfaitB0qTAWzV3wETWpP4+Odd+EThvX/GnhRRtBeo0X
+ E+/RmTV7F3oi6oDbJs9nU2gSQt/AUGTg1teP3wczVchmvIYYKUEa85Skx44FJF1Z0r
+ 8jK9V9aTc6Ymig5bv5hoO72rx2zibMSQnJvWGqyZMYlhzSzTuQ5dWHreHOVUYp/SAv
+ 6eJL3Lk6tMulQ==
 Received: from localhost.localdomain (mr38p00im-dlb-asmtp-mailmevip.me.com
  [17.57.152.18])
- by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 64613962546;
- Tue, 21 Feb 2023 09:01:17 +0000 (UTC)
+ by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 11C209629C2;
+ Tue, 21 Feb 2023 09:01:09 +0000 (UTC)
 From: Mads Ynddal <mads@ynddal.dk>
 To: qemu-devel@nongnu.org
 Cc: John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Mads Ynddal <m.ynddal@samsung.com>
-Subject: [PATCH 5/9] simpletrace: Changed Analyzer class to become
- context-manager
-Date: Tue, 21 Feb 2023 10:01:00 +0100
-Message-Id: <20230221090104.86103-6-mads@ynddal.dk>
+Subject: [PATCH 1/9] simpletrace: Improve parsing of sys.argv;
+ fix files never closed.
+Date: Tue, 21 Feb 2023 10:00:56 +0100
+Message-Id: <20230221090104.86103-2-mads@ynddal.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230221090104.86103-1-mads@ynddal.dk>
 References: <20230221090104.86103-1-mads@ynddal.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: mjmxTAzBP5vejbrDVVtE5WnMbbuHJIoB
-X-Proofpoint-GUID: mjmxTAzBP5vejbrDVVtE5WnMbbuHJIoB
+X-Proofpoint-ORIG-GUID: Vr-dEIAdOUs3DDOmtY6XERk7hsi-dRPg
+X-Proofpoint-GUID: Vr-dEIAdOUs3DDOmtY6XERk7hsi-dRPg
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
  =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.0.605.474.0000000_definitions?=
  =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2020-01-23?=
  =?UTF-8?Q?=5F02_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=984
+ mlxlogscore=643
  phishscore=0 adultscore=0 spamscore=0 clxscore=1030 bulkscore=0 mlxscore=0
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2302210078
@@ -79,93 +79,81 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Mads Ynddal <m.ynddal@samsung.com>
 
-Instead of explicitly calling `begin` and `end`, we can change the class
-to use the context-manager paradigm. This is mostly a styling choice,
-used in modern Python code. But it also allows for more advanced analyzers
-to handle exceptions gracefully in the `__exit__` method (not
-demonstrated here).
+The arguments extracted from `sys.argv` named and unpacked to make it
+clear what the arguments are and what they're used for.
+
+The two input files were opened, but never explicitly closed. File usage
+changed to use `with` statement to take care of this. At the same time,
+ownership of the file-object is moved up to `run` function. Secondary `open`
+inside `process` removed so there's only one place to handle `open`.
 
 Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
 ---
- scripts/simpletrace.py | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ scripts/simpletrace.py | 28 +++++++++++-----------------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
 diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
-index 7444a6e090..01bd47a130 100755
+index 1f6d1ae1f3..9211caaec1 100755
 --- a/scripts/simpletrace.py
 +++ b/scripts/simpletrace.py
-@@ -121,12 +121,12 @@ def read_trace_records(event_mapping, event_id_to_name, fobj):
+@@ -9,6 +9,7 @@
+ #
+ # For help see docs/devel/tracing.rst
  
-             yield rec
++import sys
+ import struct
+ import inspect
+ from tracetool import read_events, Event
+@@ -44,7 +45,6 @@ def get_record(edict, idtoname, rechdr, fobj):
+         try:
+             event = edict[name]
+         except KeyError as e:
+-            import sys
+             sys.stderr.write('%s event is logged but is not declared ' \
+                              'in the trace events file, try using ' \
+                              'trace-events-all instead.\n' % str(e))
+@@ -166,11 +166,6 @@ def end(self):
  
--class Analyzer(object):
-+class Analyzer:
-     """A trace file analyzer which processes trace records.
- 
--    An analyzer can be passed to run() or process().  The begin() method is
--    invoked, then each trace record is processed, and finally the end() method
--    is invoked.
-+    An analyzer can be passed to run() or process().  The __enter__() method is
-+    invoked when opening the analyzer using the `with` statement, then each trace
-+    record is processed, and finally the __exit__() method is invoked.
- 
-     If a method matching a trace event name exists, it is invoked to process
-     that trace record.  Otherwise the catchall() method is invoked.
-@@ -152,19 +152,19 @@ def runstate_set(self, timestamp, pid, new_state):
-           ...
-     """
- 
--    def begin(self):
-+    def __enter__(self):
-         """Called at the start of the trace."""
--        pass
-+        return self
- 
-     def catchall(self, event, rec):
-         """Called if no specific method for processing a trace event has been found."""
-         pass
- 
--    def end(self):
-+    def __exit__(self, _type, value, traceback):
-         """Called at the end of the trace."""
-         pass
- 
--def process(events, log, analyzer, read_header=True):
-+def process(events, log, analyzer_class, read_header=True):
+ def process(events, log, analyzer, read_header=True):
      """Invoke an analyzer on each event in a log."""
+-    if isinstance(events, str):
+-        events = read_events(open(events, 'r'), events)
+-    if isinstance(log, str):
+-        log = open(log, 'rb')
+-
      if read_header:
          read_trace_header(log)
-@@ -203,15 +203,15 @@ def build_fn(analyzer, event):
-             # Just arguments, no timestamp or pid
-             return lambda _, rec: fn(*rec[3:3 + event_argcount])
  
--    analyzer.begin()
--    fn_cache = {}
--    for rec in read_trace_records(event_mapping, event_id_to_name, log):
--        event_num = rec[0]
--        event = event_mapping[event_num]
--        if event_num not in fn_cache:
--            fn_cache[event_num] = build_fn(analyzer, event)
--        fn_cache[event_num](event, rec)
--    analyzer.end()
-+    with analyzer_class() as analyzer:
-+        fn_cache = {}
-+        for rec in read_trace_records(event_mapping, event_id_to_name, log):
-+            event_num = rec[0]
-+            event = event_mapping[event_num]
-+            if event_num not in fn_cache:
-+                fn_cache[event_num] = build_fn(analyzer, event)
-+            fn_cache[event_num](event, rec)
+@@ -223,19 +218,18 @@ def run(analyzer):
+ 
+     This function is useful as a driver for simple analysis scripts.  More
+     advanced scripts will want to call process() instead."""
+-    import sys
+-
+-    read_header = True
+-    if len(sys.argv) == 4 and sys.argv[1] == '--no-header':
+-        read_header = False
+-        del sys.argv[1]
+-    elif len(sys.argv) != 3:
+-        sys.stderr.write('usage: %s [--no-header] <trace-events> ' \
+-                         '<trace-file>\n' % sys.argv[0])
 +
++    try:
++        # NOTE: See built-in `argparse` module for a more robust cli interface
++        *no_header, trace_event_path, trace_file_path = sys.argv[1:]
++        assert no_header == [] or no_header == ['--no-header'], 'Invalid no-header argument'
++    except (AssertionError, ValueError):
++        sys.stderr.write(f'usage: {sys.argv[0]} [--no-header] <trace-events> <trace-file>\n')
+         sys.exit(1)
  
- def run(analyzer):
-     """Execute an analyzer on a trace file given on the command-line.
-@@ -254,4 +254,4 @@ def catchall(self, event, rec):
-                 i += 1
-             print(' '.join(fields))
+-    events = read_events(open(sys.argv[1], 'r'), sys.argv[1])
+-    process(events, sys.argv[2], analyzer, read_header=read_header)
++    with open(trace_event_path, 'r') as events_fobj, open(trace_file_path, 'rb') as log_fobj:
++        events = read_events(events_fobj, trace_event_path)
++        process(events, log_fobj, analyzer, read_header=not no_header)
  
--    run(Formatter())
-+    run(Formatter)
+ if __name__ == '__main__':
+     class Formatter(Analyzer):
 -- 
 2.38.1
 
