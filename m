@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200A169E5A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 18:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0153369E5B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 18:15:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUWAy-0002cN-9P; Tue, 21 Feb 2023 12:11:36 -0500
+	id 1pUWDq-00049D-0E; Tue, 21 Feb 2023 12:14:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUWAv-0002aZ-9T
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:11:34 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUWAs-0005pW-Ha
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:11:33 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id b20so3606195pfo.6
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 09:11:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8SPKI5k/zbVYg1kJLvV1E1dVbiZFoL0Re4U1LDMZw8g=;
- b=j7uxMeyOyMQLXsSprFw9VpLQo4FGpiHRdioG+FlZxKSLy6cRFPjk+7z1O4dRPvGPk3
- SrR1ZkWjfxq6/H2Sde/MrZwU4OWTW9Ap5eztauINX1k3holJm3d+48abhVND6ioWwq3m
- WbN9NhIuC81LlwJrFpql4Y1wc2VcJDrdCoIdPGN93FO1N20PotaE2lv+30YnPMcWyVbL
- eZBpQxkGnKSi2PkfiQGZbrP2xKhGXpfR4gaNjKQd73SRPTq+cInQRy3KOkSiHE5z91T6
- GGxN1A5RRb1WZBLaqQlrGa3UyMocyQ/7YfzQcJYkq4m1oPurwLOQe7+RViOSL/mmfBP/
- lCmw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUWDn-00048W-Er
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:14:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUWDk-00067r-Bc
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:14:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676999656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+7NOz6qU0litU3IseKpXz5gLwPRNf/z1bftHIkZ/UAM=;
+ b=go38k8nAczcFhTFyjvZzUoISt+QOEtuVgZufoo2a8jsLoy9NTyg0ovm3IHEDdsxAoBKAig
+ 0tVev1amuwftCoWMiHYrziC6tLdCEmMZkyhHdwVPWjDP4lXU3x/g+5FplXy9LbxT+Huupc
+ dMFx6NBGXh9K9JXIPplEIj1LQ6dH+80=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-637-ffeT1SY4NSGDv_tce5aGKQ-1; Tue, 21 Feb 2023 12:14:13 -0500
+X-MC-Unique: ffeT1SY4NSGDv_tce5aGKQ-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ r3-20020ac84243000000b003b9a3ab9153so2119477qtm.8
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 09:14:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8SPKI5k/zbVYg1kJLvV1E1dVbiZFoL0Re4U1LDMZw8g=;
- b=XN7Rr3f4lbwYV6VQPmyGP97GgNFc4Ph7t13vr5y551VumpqAC5BxUKMGJ7rrJc6txW
- h0LOtY8neDwVFTQtS47TfyVI9uj0BYwh1P3OyHqxgbfMaL191a1XcMvSgFCHRWu25UH1
- yllDwRVzQtoktidR8xUwIZ736z0b8iBwdcJB3CISWXFwoJgxdx/f7DkXtUGYVIWZg2FH
- jWbQdUvnuVo9NLRiNA7JwS9ujUtrKo4lnJU41oLXJM3gvayxnsJIJouUkNKwysAegjME
- K6VYtkijffJ4Bwr5O2LuA5y8bYcLhDT3H4YyLm6RL+goiqQTs3++1fpGW30HbAvTLUCK
- qT3Q==
-X-Gm-Message-State: AO0yUKV9oUOnPahWgRLaSgcV4kDD1lWlEt+kZBfLH/suwJCJUMkAwFQo
- 3FM0jofQ8CPQliUTs0X7feNd6w==
-X-Google-Smtp-Source: AK7set+LIOHuEg+ihEEwEAeVKKVNmmhr+D1PURdfgwWc16oDBb6o8jz9c4WBAfO2hTevaTov5YZB6g==
-X-Received: by 2002:a62:52d7:0:b0:5a8:4bf8:1752 with SMTP id
- g206-20020a6252d7000000b005a84bf81752mr4591400pfb.32.1676999488748; 
- Tue, 21 Feb 2023 09:11:28 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- s23-20020a62e717000000b005921c46cbadsm3691040pfh.99.2023.02.21.09.11.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 09:11:28 -0800 (PST)
-Message-ID: <2d33dd76-0518-3461-199d-a6e94616aba0@linaro.org>
-Date: Tue, 21 Feb 2023 07:11:25 -1000
+ bh=+7NOz6qU0litU3IseKpXz5gLwPRNf/z1bftHIkZ/UAM=;
+ b=CeUPYcYmAXsaxxB2iNGSpfGS1BOoOHl5E0ypHJDEJTP3BPNab/mgV0KUxStqHw8sQ7
+ /Cx4mqsl2grJtz7ix1H0/5dRBkHB5PSAQKV1F3PJKr0HomLBpLevwHo8ES8hiklSZnDd
+ t9xZ2MDYDfXUUQRI3dv8+IdAeeX78ufdi6ozEG4yPG41I2mIM4IhqINYLwhvnfrdtW5T
+ 95wt+OvRJbjWeo1dtzbGJD9r3uEWlw18uPSz2On7GBitVTRCSouwN8GZOhPM4Tn68v+i
+ W2zPwaE6fA1ikLz2evZSoSOBESeV7j+kYM0nPM4CnIymBt0e9HB/mleal/cz+c4mapHm
+ 8tzA==
+X-Gm-Message-State: AO0yUKVcP9gJtS1X7ZaKeSl7UFT/4RKJLI0M4NOeGm37aSdD4lYtwyEO
+ GkGDTjwX6Gz4HXLjMRas7INtKti2SnryW37F1Q+6Fm7KE6XYT/MtwLt+AqcvZYC+fKB8PjMDQDR
+ TsMv1S0P3qhD+tAI=
+X-Received: by 2002:a05:622a:1002:b0:3b8:5199:f841 with SMTP id
+ d2-20020a05622a100200b003b85199f841mr9648480qte.0.1676999650809; 
+ Tue, 21 Feb 2023 09:14:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set8ltRNZViRZ5q+gPopzvV5Uy5sMlg/wBxKLYeAQ3y0Bm/xuBGV8JBc78LtBAOk2LP37bi4LMQ==
+X-Received: by 2002:a05:622a:1002:b0:3b8:5199:f841 with SMTP id
+ d2-20020a05622a100200b003b85199f841mr9648444qte.0.1676999650443; 
+ Tue, 21 Feb 2023 09:14:10 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ g1-20020ac842c1000000b003bd0f0b26b0sm729065qtm.77.2023.02.21.09.14.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 09:14:09 -0800 (PST)
+Date: Tue, 21 Feb 2023 12:14:08 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] tests: Disable migration-test
+Message-ID: <Y/T74EG3REDW2DZR@x1n>
+References: <20230221132726.2892383-1-peter.maydell@linaro.org>
+ <Y/Thas4efx14JsBi@work-vm>
+ <CAFEAcA9=p0XYti45m0sW+iO9qgF9iXpeOPvHd7Xpy32yCUL3sw@mail.gmail.com>
+ <Y/TlB36EjrWwr2ne@work-vm> <Y/Tsxp2dbkcTI1WD@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/2] target/arm: Fix arm_cpu_get_phys_page_attrs_debug for
- m-profile
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20230221034122.471707-1-richard.henderson@linaro.org>
- <20230221034122.471707-3-richard.henderson@linaro.org>
- <CAFEAcA8yq_h953pLi+zJ0Ai52ErYyS28YkZP2Mq0L2ZWfEK3FQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8yq_h953pLi+zJ0Ai52ErYyS28YkZP2Mq0L2ZWfEK3FQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y/Tsxp2dbkcTI1WD@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,29 +104,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/21/23 06:56, Peter Maydell wrote:
-> On Tue, 21 Feb 2023 at 03:42, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> M-profile is not supported by arm_is_secure, so using it as
->> a replacement when bypassing get_phys_addr was incorrect.
+On Tue, Feb 21, 2023 at 04:09:42PM +0000, Daniel P. Berrangé wrote:
+> On Tue, Feb 21, 2023 at 03:36:39PM +0000, Dr. David Alan Gilbert wrote:
+> > * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > > On Tue, 21 Feb 2023 at 15:21, Dr. David Alan Gilbert
+> > > <dgilbert@redhat.com> wrote:
+> > > > Damn this is really going to impact the stability of migration if we
+> > > > don't regularly test.
+> > > > But fundamentally, I've never been able to debug much of the reports
+> > > > that come from flakyness in gitlab ci; we're not getting the most basic
+> > > > information like which subtest or where we're upto in the test which
+> > > > makes it very very hard to debug.
+> > > 
+> > > Right, but if you want more information you need to change the
+> > > tests and/or test harness to provide it.
+> > 
+> > I don't think the migration test is doing anything odd in that respect;
+> > We've just got a bunch of qtest tests; having a test framework which
+> > doesn't tell you which test failed is very difficult.
 > 
-> That's pretty non-obvious. I think we should either
-> make arm_is_secure() handle M-profile[*], or else have
-> it assert if you try to call it for an M-profile CPU.
+> Right so the problem here is the use of 'bail out'. From the POV
+> of the TAP output format that is an immediate termination, so there
+> is nothing to report about which test was being run.
 > 
-> [*] i.e.
->    if (arm_feature(env, ARM_FEATURE_M)) {
->        return env->v7m.secure;
->    }
-> at the top of the function.
+> To make the failing test visible, it needs to NOT trigger a bail
+> out, but instead report an "not ok" line, which will show the
+> test case name. AFAIK, this is a limitation of glib's test harness
+> and its adoption of TAP. You can't get the test case name printed
+> until the test case is finished. And glib tests fail by calling
+> assert, so they will inherantly trigger 'bail out' logic from a
+> TAP POV.
 > 
-> If we do the latter we wouldn't need the revert in patch 1,
-> right? Or do you think regime_is_secure() is a better
-> choice of function here anyway?
+> IIRC, the historical non-TAP output format would output the test
+> case name first, and then once done report ok/not ok.
+> 
+> The workaround would be for glib to use a TAP diagnostic line
+> to print the test case it is about to run. It already uses the
+> diagnostic lines to report test groups eg
+> 
+> $ ./build//tests/unit/test-io-channel-command
+> # random seed: R02S0718b3006d3dcf15099db36b61dff3e8
+> 1..4
+> # Start of io tests
+> # Start of channel tests
+> # Start of command tests
+> # Start of fifo tests
+> ok 1 /io/channel/command/fifo/sync
+> ok 2 /io/channel/command/fifo/async
+> # End of fifo tests
+> # Start of echo tests
+> **
+> ERROR:../tests/unit/test-io-channel-command.c:102:test_io_channel_command_echo: assertion failed: (rand() < 0.5)
+> Bail out! ERROR:../tests/unit/test-io-channel-command.c:102:test_io_channel_command_echo: assertion failed: (rand() < 0.5)
+> Aborted (core dumped)
+> 
+> 
+> would have to be changed to report
+> 
+> $ ./build//tests/unit/test-io-channel-command
+> # random seed: R02S0718b3006d3dcf15099db36b61dff3e8
+> 1..4
+> # Start of io tests
+> # Start of channel tests
+> # Start of command tests
+> # Start of fifo tests
+> # Running /io/channel/command/fifo/sync
+> ok 1 /io/channel/command/fifo/sync
+> # Running /io/channel/command/fifo/async
+> ok 2 /io/channel/command/fifo/async
+> # End of fifo tests
+> # Start of echo tests
+> # Running /io/channel/command/echo/sync
+> **
+> ERROR:../tests/unit/test-io-channel-command.c:102:test_io_channel_command_echo: assertion failed: (rand() < 0.5)
+> Bail out! ERROR:../tests/unit/test-io-channel-command.c:102:test_io_channel_command_echo: assertion failed: (rand() < 0.5)
+> Aborted (core dumped)
+> 
+> so we see exactly what was running.
+> 
+> Without this though, we can still figure out what was running. You
+> have to look back for the previous 'ok' line and see what it was.
+> Then locally run '/path/to/test -l' to list the test case names.
+> The one you want is the one immediately after the last 'ok' (not ok)
+> line.
+> 
+> Rather tedious for sure, but not impossible.
+> 
+> Worth an RFE for glib, but would be a while before we saw the benefit.
+> 
+> As a workaround, we could print out TAP diagnostic output ourselves
+> in any qtests that we see as especially unreliable. A diagnostic
+> output is any line printed on stdout that starts with a '# '
 
-You're absolutely right that it's surprising, as it surprised me.
-I'll re-spin.
+The other possible way is I'm wondering whether we can try to do a whole
+stack dump when an assertion happened.
 
-r~
+With a backtrace we can easily see the function pointer so that'll be
+another way of knowing which test we're running, slightly more awkward than
+dumping the names but probably still good enough for developers.
+
+It also contains more information so sometimes we can already spot the bug
+even before trying to reproduce.
+
+Though I'm not sure whether it's easily feasible, e.g., the tests are
+mostly using g_assert*() families and I've no idea of any good way to let
+it happen if without replacing all of them to inject a dump.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
