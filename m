@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95C769DD23
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A6569DD24
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:48:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUPE2-0006eG-DN; Tue, 21 Feb 2023 04:46:18 -0500
+	id 1pUPE6-0006hq-5q; Tue, 21 Feb 2023 04:46:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUPDo-0006XH-4v
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:46:04 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pUPDp-0006Y2-RI
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:46:08 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUPDl-0005gz-E7
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:46:03 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- l2-20020a05600c1d0200b003e1f6dff952so3005043wms.1
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 01:46:00 -0800 (PST)
+ id 1pUPDm-0005hU-BY
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:46:05 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ l2-20020a05600c1d0200b003e1f6dff952so3005086wms.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 01:46:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2E4fiXlJ7CJ9nfjz2dqu3lzDAw7M+EYkDKHTbulwIxo=;
- b=KHnk+ORnE464Egflg7HSTtBv2mD626isu0cKO+aCg1o6gnAowryzZVJATKoubrUxMe
- AQgver8oGlJJfapgqFdldbYOOeBvK5lTU7tKUNcsADcBZ7cjqyySdAYqkQpMsCLzyPXc
- U89Vl7w8Ay9jyRdP2hShQE1Geao4RtCpq6ZcKaXKYLQxXw5fet56XlJDgzOcP0Kud14e
- BMPdgTT8316WgZzeAZEi7/gfj8rR7H4ldDarx5R3Ii+nQsfL6lgBCD251u8PxQLeZa+C
- m38AmVIB0/fZG71TTWLOQwACZrZtT0iqaCrakWLSTV1Tx/PU145IAWFD9ws5SHSIbQvI
- rBiQ==
+ bh=KhqJDF19zs5rfm3N2MBvoePdiOYf5ocnGb+1ca8BnR0=;
+ b=EU3yyO+uv9X9FwaQs8hmvSvw5flyTJ/tSPQzLLda3MghNuF90YxGImHaayMYxdrf0g
+ QJEWsb0VQljiuc+Axu7MA8l3hHk83G9EoknH5TZIuf7aSAWukohGedkv/8Mv/OnnEeBt
+ J9skTViwCw79C0P87l51fpVdzCKElX5ppG5b+dVHelv/NZXw8rU+ZvVMOy+ZZmi7R+8t
+ BeednGBpdhTBgUsS5RtdnWSx98V2WAJi9lyeOUloTn+9qusl0EYM0FuZf/kzF+YfhhoR
+ pgaH8OyZ8/Hjp4yJHhb3Ac1Czwayw34K0xWngdU2qj70laSIp6de5l2vZg2NST1BCKor
+ PJBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2E4fiXlJ7CJ9nfjz2dqu3lzDAw7M+EYkDKHTbulwIxo=;
- b=rwtMlvT7Tc5dYRRHG+Wc2UwjSTejhqOTlReZQxjKFPGnHq3Ji0ExGIYVMoO4R6hD/b
- 69w038smhCzETv+u2cv6NjG+yIFVBRHeq7TqY0ZHYYm+Cul4hKWhK+d11olWvWFfKLLM
- ffE4UXok4e56LthiNuUZe/cwrJk0+N4lP9wOX8IkVsjbxsyMBYazALDMGHl+4jweNf43
- njhNTIngDfWIRUU7s2ToCvGrs+NTeRA6VOK+oGvXYurrVUf4wPuqtrY/sKSTriM+IDui
- YEnoN565aXXqlwSH/69QcSaM5ld9bzcSfOKNiUWHNiHRQU3kfSNfDsVU5QdgKjedjuPS
- wy0A==
-X-Gm-Message-State: AO0yUKXe1Ss6O3ia9yfPrCOw/Bk45QUEkPTol2M5pib9wsiZYOMcSdnU
- encxuOxPNfenGkaRgXje1tsqVg==
-X-Google-Smtp-Source: AK7set8o1TlWWW5C65jGJ6EB1xR70VbgMv+ZyCJMYq6qijLDoVWEyh9228Dx65MBvR9qbb5amMqSzw==
-X-Received: by 2002:a05:600c:994:b0:3e2:152d:894e with SMTP id
- w20-20020a05600c099400b003e2152d894emr3012017wmp.15.1676972759935; 
- Tue, 21 Feb 2023 01:45:59 -0800 (PST)
+ bh=KhqJDF19zs5rfm3N2MBvoePdiOYf5ocnGb+1ca8BnR0=;
+ b=q9wVPJIXRhhnhv6q+5q6UiIKGb691hAf6Cn77J6/gjG1ctPk/Y1jbcqSEJrWDAbJLO
+ cG7hnqPk8US3+isBqifbFG06d2LsCGqdL7c9emaTuipb4C3RHlyIqPs+4Bvs98K2afij
+ dMad25XQAcnDZSWV934iRNRRqkLgyiH7YTRonMkmXMRyJzG59brPpdkRBqLok9BDLSJL
+ Wku9p9rLim8BMUgc+Os56k+JICn4ssNDV6dhNET2FOgY8lkC2cFmqaCE0bPZhUrGz2tR
+ f25xD6jhHCwKlUezHKFxYAbqDDCUsX/YOWfpZKwICtLVhYRWpAaj1Zv1qaVVMR6Kz61A
+ hIUA==
+X-Gm-Message-State: AO0yUKWetOKth7iIQggsZMEWJWW2c6lcpYaUw3P3GNshyAMqdnuCFUaf
+ eF7TDhQlTs925mhZ+yAitGoimw==
+X-Google-Smtp-Source: AK7set94DC7q8pGCS2I01+5H9X81VxvTW/XAXwGVq1dCQdKL7p169tg6s+X4LnBC1r7aKQ+Ae+M1/Q==
+X-Received: by 2002:a05:600c:929:b0:3e2:5c3:bcfc with SMTP id
+ m41-20020a05600c092900b003e205c3bcfcmr2487532wmp.18.1676972760845; 
+ Tue, 21 Feb 2023 01:46:00 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- v9-20020a05600c444900b003e21f01c426sm3194687wmn.9.2023.02.21.01.45.59
+ a22-20020a05600c225600b003e2058a7109sm4446078wmm.14.2023.02.21.01.45.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 21 Feb 2023 01:45:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 037621FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 1BE8A1FFBA;
  Tue, 21 Feb 2023 09:45:59 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -79,26 +79,25 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  John Snow <jsnow@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Anton Johansson <anjo@rev.ng>
-Subject: [PATCH v2 01/14] block: Handle curl 7.55.0, 7.85.0 version changes
-Date: Tue, 21 Feb 2023 09:45:45 +0000
-Message-Id: <20230221094558.2864616-2-alex.bennee@linaro.org>
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH v2 02/14] tests: don't run socat tests on MacOS as well
+Date: Tue, 21 Feb 2023 09:45:46 +0000
+Message-Id: <20230221094558.2864616-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230221094558.2864616-1-alex.bennee@linaro.org>
 References: <20230221094558.2864616-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,119 +113,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Anton Johansson <anjo@rev.ng>
+In preparation for the next patch when we enable socat for our CI
+images we need to disable this part of the test for MacOS. The bug has
+been raised here:
 
-* 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of a *_T
-  version, which returns curl_off_t instead of a double.
-* 7.85.0 deprecates CURLOPT_PROTOCOLS and CURLOPT_REDIR_PROTOCOLS in
-  favour of *_STR variants, specifying the desired protocols via a
-  string.
+  https://gitlab.com/qemu-project/qemu/-/issues/1495
 
-Signed-off-by: Anton Johansson <anjo@rev.ng>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230123201431.23118-1-anjo@rev.ng>
-[AJB: fixed author]
+Once that is fixed we should re-enable the test.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- block/curl.c | 44 +++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 37 insertions(+), 7 deletions(-)
+ tests/unit/test-io-channel-command.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/curl.c b/block/curl.c
-index cbada22e9e..8efd97b349 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -38,8 +38,15 @@
+diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+index 425e2f5594..04b75ab3b4 100644
+--- a/tests/unit/test-io-channel-command.c
++++ b/tests/unit/test-io-channel-command.c
+@@ -31,7 +31,7 @@
  
- // #define DEBUG_VERBOSE
+ static char *socat = NULL;
  
-+/* CURL 7.85.0 switches to a string based API for specifying
-+ * the desired protocols.
-+ */
-+#if LIBCURL_VERSION_NUM >= 0x075500
-+#define PROTOCOLS "HTTP,HTTPS,FTP,FTPS"
-+#else
- #define PROTOCOLS (CURLPROTO_HTTP | CURLPROTO_HTTPS | \
-                    CURLPROTO_FTP | CURLPROTO_FTPS)
-+#endif
+-#ifndef _WIN32
++#if !defined(_WIN32) && !defined(CONFIG_DARWIN)
+ static void test_io_channel_command_fifo(bool async)
+ {
+     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+@@ -128,7 +128,7 @@ int main(int argc, char **argv)
  
- #define CURL_NUM_STATES 8
- #define CURL_NUM_ACB    8
-@@ -510,9 +517,18 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
-          * obscure protocols.  For example, do not allow POP3/SMTP/IMAP see
-          * CVE-2013-0249.
-          *
--         * Restricting protocols is only supported from 7.19.4 upwards.
-+         * Restricting protocols is only supported from 7.19.4 upwards. Note:
-+         * version 7.85.0 deprecates CURLOPT_*PROTOCOLS in favour of a string
-+         * based CURLOPT_*PROTOCOLS_STR API.
-          */
--#if LIBCURL_VERSION_NUM >= 0x071304
-+#if LIBCURL_VERSION_NUM >= 0x075500
-+        if (curl_easy_setopt(state->curl,
-+                             CURLOPT_PROTOCOLS_STR, PROTOCOLS) ||
-+            curl_easy_setopt(state->curl,
-+                             CURLOPT_REDIR_PROTOCOLS_STR, PROTOCOLS)) {
-+            goto err;
-+        }
-+#elif LIBCURL_VERSION_NUM >= 0x071304
-         if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
-             curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
-             goto err;
-@@ -670,7 +686,12 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     const char *file;
-     const char *cookie;
-     const char *cookie_secret;
--    double d;
-+    /* CURL >= 7.55.0 uses curl_off_t for content length instead of a double */
-+#if LIBCURL_VERSION_NUM >= 0x073700
-+    curl_off_t cl;
-+#else
-+    double cl;
-+#endif
-     const char *secretid;
-     const char *protocol_delimiter;
-     int ret;
-@@ -797,27 +818,36 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     }
-     if (curl_easy_perform(state->curl))
-         goto out;
--    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
-+    /* CURL 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of
-+     * the *_T version which returns a more sensible type for content length.
-+     */
-+#if LIBCURL_VERSION_NUM >= 0x073700
-+    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl)) {
-+        goto out;
-+    }
-+#else
-+    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &cl)) {
-         goto out;
-     }
-+#endif
-     /* Prior CURL 7.19.4 return value of 0 could mean that the file size is not
-      * know or the size is zero. From 7.19.4 CURL returns -1 if size is not
-      * known and zero if it is really zero-length file. */
- #if LIBCURL_VERSION_NUM >= 0x071304
--    if (d < 0) {
-+    if (cl < 0) {
-         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
-                 "Server didn't report file size.");
-         goto out;
-     }
- #else
--    if (d <= 0) {
-+    if (cl <= 0) {
-         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
-                 "Unknown file size or zero-length file.");
-         goto out;
-     }
- #endif
+     socat = g_find_program_in_path("socat");
  
--    s->len = d;
-+    s->len = cl;
- 
-     if ((!strncasecmp(s->url, "http://", strlen("http://"))
-         || !strncasecmp(s->url, "https://", strlen("https://")))
+-#ifndef _WIN32
++#if !defined(_WIN32) && !defined(CONFIG_DARWIN)
+     g_test_add_func("/io/channel/command/fifo/sync",
+                     test_io_channel_command_fifo_sync);
+     g_test_add_func("/io/channel/command/fifo/async",
 -- 
 2.39.1
 
