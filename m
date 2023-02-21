@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED97B69DADC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 08:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990F069DAEB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 08:07:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUMeK-0005nU-UQ; Tue, 21 Feb 2023 02:01:16 -0500
+	id 1pUMj9-0007Xl-B8; Tue, 21 Feb 2023 02:06:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUMeE-0005kq-DN
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:01:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pUMj5-0007Wh-12
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:06:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUMe7-0001Mb-Ac
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:01:08 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pUMj1-00024x-Vr
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:06:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676962862;
+ s=mimecast20190719; t=1676963163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ekMcyI0hMS1ONrI4LF9Rc5sRp9CWcAmvKxREI8QMpFs=;
- b=AwKTobVH0Vdq9SFWESER5LU1WvXCWX84VVm7BoQS9qGlMNUN7ZVaq2sHT0g6h1nP8pYTai
- aAE7ZVqv7p2dgnwTt3CiHi8P054AKTc5e/wawY+b0QhVCFB+tdhYitxSca9QWQ46Nk91qV
- bBgDiaI3v17ArxVCvYpvTusRprc9Suk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-04UDUvBOPPaakuNyR53w6Q-1; Tue, 21 Feb 2023 02:00:59 -0500
-X-MC-Unique: 04UDUvBOPPaakuNyR53w6Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A086802C16;
- Tue, 21 Feb 2023 07:00:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65DD840B4138;
- Tue, 21 Feb 2023 07:00:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 63FBE21E6A1F; Tue, 21 Feb 2023 08:00:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel@nongnu.org,  Michael Roth <michael.roth@amd.com>,  Thomas
- Huth <thuth@redhat.com>,  qemu-block@nongnu.org,  Cleber Rosa
- <crosa@redhat.com>,  Markus Armbruster <armbru@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,  Beraldo Leal
- <bleal@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Hanna Reitz
- <hreitz@redhat.com>,  Alex
- =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  Daniel Berrange
- <berrange@redhat.com>
-Subject: Re: [PATCH v3 0/6] Python: Drop support for Python 3.6
-References: <20230221012456.2607692-1-jsnow@redhat.com>
-Date: Tue, 21 Feb 2023 08:00:57 +0100
-In-Reply-To: <20230221012456.2607692-1-jsnow@redhat.com> (John Snow's message
- of "Mon, 20 Feb 2023 20:24:50 -0500")
-Message-ID: <87h6vfzemu.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=T4w2LvsvHxMbKzT0wfuzCCQAFPcaIyTK4mDSqMlqQoY=;
+ b=c2dswYi9pNyYf9vF7wZHU8i/l+rJjWYPKHNCmH5EKzw6n5AuykkYcPJDZ6x0AIYrq5r3Gl
+ lBNQzMD6IhtZI2mCQEaglhkOcmT8UPpHYD+8ONR3bt5oofof99Zo7myaXPFHiv+EHXxjfZ
+ QmTfRxx5wHvA9xmRt8OTyg5FdW/3EhA=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-138-a6MDaH_QO9-qb4IDRkxRug-1; Tue, 21 Feb 2023 02:06:01 -0500
+X-MC-Unique: a6MDaH_QO9-qb4IDRkxRug-1
+Received: by mail-yw1-f197.google.com with SMTP id
+ 00721157ae682-536a4eba107so44144127b3.19
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 23:06:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=T4w2LvsvHxMbKzT0wfuzCCQAFPcaIyTK4mDSqMlqQoY=;
+ b=Z7ibenddBe7zjUJKnfTYyV9xLwtPtrzetvgLsKpBQZ1FAxcZKziQtZjr79HGR4zRcl
+ 8Yih3YGmdnZw5b4gsnrxNIZD3gc5u08bV6NgCJBq4sFVZNTtJ9a4qAzGoOCFtHWRwOHI
+ drX/UdWAtcD6rQ6MgmklVAFjt00rifW5lDqDfNsvKkkHngq5L7r+Ux3kzZjPubihSfgz
+ K8MS4rYIJl2ylFFmmoU/AXRxQb81prX/M5NdQToE0WZpBCgRNK5xGvkO1Silp2PwPc0Q
+ PDqWcwUlM0+99MXJRY6KsOjWhgMPak1mzlhaBrXk8k5Cz4c/CbYYUjLXPj8Y1Mlfo/Q9
+ 5aRQ==
+X-Gm-Message-State: AO0yUKXmdb05UKETCKMabIMIR/ux4zy/o7faTs5QzLWXIkYiyQRR5xzs
+ 0wcg5UVL5TYyOtyfEPCKYe7xw8PNbD63ZzJ+SJML6lCPcezkjG5eMB+Arw9kYFVbzUbnjFJ7bOH
+ 3dEKP5kiuMaI84sPrlXjD5cil8jALHvc=
+X-Received: by 2002:a0d:db11:0:b0:510:b7af:7e7c with SMTP id
+ d17-20020a0ddb11000000b00510b7af7e7cmr2271042ywe.70.1676963160517; 
+ Mon, 20 Feb 2023 23:06:00 -0800 (PST)
+X-Google-Smtp-Source: AK7set+4eXBnf6NuTjLoy8awy9jmttufIuLodqq94KcHdIgg5cPCN0UxSG7ky2t//BeIZJ/Z+/UQ1lEufEu/DryTtFc=
+X-Received: by 2002:a0d:db11:0:b0:510:b7af:7e7c with SMTP id
+ d17-20020a0ddb11000000b00510b7af7e7cmr2271038ywe.70.1676963160315; Mon, 20
+ Feb 2023 23:06:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+References: <20230208094253.702672-1-eperezma@redhat.com>
+ <20230208094253.702672-4-eperezma@redhat.com>
+ <5a4749e4-4cd4-4f07-a4db-665772003058@redhat.com>
+ <3c994402-9c09-bbf2-31a1-c8e785674b6b@redhat.com>
+In-Reply-To: <3c994402-9c09-bbf2-31a1-c8e785674b6b@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 21 Feb 2023 08:05:24 +0100
+Message-ID: <CAJaqyWd5DwHBoosY8LgPRaQ65QkjJk+gS7TFxL58OThr-729Pg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/13] vdpa: add vhost_vdpa_suspend
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
+ Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,59 +105,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-John Snow <jsnow@redhat.com> writes:
+On Tue, Feb 21, 2023 at 6:33 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2023/2/21 13:27, Jason Wang =E5=86=99=E9=81=93:
+> >
+> > =E5=9C=A8 2023/2/8 17:42, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> >> The function vhost.c:vhost_dev_stop fetches the vring base so the vq
+> >> state can be migrated to other devices.  However, this is unreliable i=
+n
+> >> vdpa, since we didn't signal the device to suspend the queues, making
+> >> the value fetched useless.
+> >>
+> >> Suspend the device if possible before fetching first and subsequent
+> >> vring bases.
+> >>
+> >> Moreover, vdpa totally reset and wipes the device at the last device
+> >> before fetch its vrings base, making that operation useless in the las=
+t
+> >> device. This will be fixed in later patches of this series.
+> >
+> >
+> > It would be better not introduce a bug first and fix it in the
+> > following patch.
+> >
+> >
+> >>
+> >> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >> ---
+> >>   hw/virtio/vhost-vdpa.c | 19 +++++++++++++++++++
+> >>   hw/virtio/trace-events |  1 +
+> >>   2 files changed, 20 insertions(+)
+> >>
+> >> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> >> index 2e79fbe4b2..cbbe92ffe8 100644
+> >> --- a/hw/virtio/vhost-vdpa.c
+> >> +++ b/hw/virtio/vhost-vdpa.c
+> >> @@ -1108,6 +1108,24 @@ static void vhost_vdpa_svqs_stop(struct
+> >> vhost_dev *dev)
+> >>       }
+> >>   }
+> >>   +static void vhost_vdpa_suspend(struct vhost_dev *dev)
+> >> +{
+> >> +    struct vhost_vdpa *v =3D dev->opaque;
+> >> +    int r;
+> >> +
+> >> +    if (!vhost_vdpa_first_dev(dev) ||
+> >
+> >
+> > Any reason we need to use vhost_vdpa_first_dev() instead of replacing t=
+he
+> >
+> > if (started) {
+> > } else {
+> >     vhost_vdpa_reset_device(dev);
+> >     ....
+> > }
 
-> CI: https://gitlab.com/jsnow/qemu/-/pipelines/783612696
->     [Updated for v3, still all green.]
-> GL: https://gitlab.com/jsnow/qemu/-/commits/python-require-37
->
-> Hi, discussion about this series is ongoing. This series (v3) is not
-> meant to address all of that discussion, but rather is an updated
-> baseline for what we are capable of right now, today, without much
-> additional engineering. It's meant to serve as a reference for further
-> discussion.
+I can also move the check to vhost_vdpa_dev_start, for sure.
 
-Misses the RFC tag then :)
+>
+> Ok, I think I kind of understand, so I think we need re-order the
+> patches, at least patch 4 should come before this patch?
+>
 
-> To my knowledge, the inconveniences caused by this patchset as currently
-> written are:
->
-> (1) Users of CentOS 8 and OpenSUSE 15.4 would need to install an
->     additional python package that will exist side-by-side with their
->     base platform's Python 3.6 package.
->
->     "zypper install python39" or "dnf install python38" is enough;
->     configure will do the rest of the work.
->
->     It's my understanding that this is largely a non-issue.
->
-> (2) Due to our Sphinx plugin that imports QAPI code from the tree,
+I think it is doable, yes. I'll check and come back to you.
 
-I can read this as "Due to our Sphinx plugin (which by the way imports
-some QAPI code)" or as "Due to out Sphinx plugin importing QAPI code".
-The former is more accurate.  We need a newer Sphinx because we use a
-plugin, the plugin is written in Python, so our new Python requirement
-applies.  Fine print: the code the plugin imports from QAPI is going to
-break first.
+Thanks!
 
->     distro-provided versions of Sphinx that are installed and tied to
->     Python 3.6 will no longer be suitable. Users may forego building
->     docs or install a suitable sphinx using "pip".
+> Thanks
 >
->     It's my understanding that this one is "kind of a bummer".
 >
-> I feel that the inconvenience caused by (1) is minimized as is possible;
-> the inconvenience caused by (2) is slightly worse and I concede the
-> workaround has some complexities that I would otherwise seek to avoid.
+> >
+> >
+> > We check
+> >
+> > if (dev->vq_index + dev->nvqs !=3D dev->vq_index_end) in
+> > vhost_vdpa_dev_start() but vhost_vdpa_first_dev() inside
+> > vhost_vdpa_suspend(). This will result code that is hard to maintain.
+> >
+> > Thanks
+> >
+> >
+> >> +        !(dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_SUSPEND))) {
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    trace_vhost_vdpa_suspend(dev);
+> >> +    r =3D ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
+> >> +    if (unlikely(r)) {
+> >> +        error_report("Cannot suspend: %s(%d)", g_strerror(errno),
+> >> errno);
+> >> +        /* Not aborting since we're called from stop context */
+> >> +    }
+> >> +}
+> >> +
+> >>   static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+> >>   {
+> >>       struct vhost_vdpa *v =3D dev->opaque;
+> >> @@ -1122,6 +1140,7 @@ static int vhost_vdpa_dev_start(struct
+> >> vhost_dev *dev, bool started)
+> >>           }
+> >>           vhost_vdpa_set_vring_ready(dev);
+> >>       } else {
+> >> +        vhost_vdpa_suspend(dev);
+> >>           vhost_vdpa_svqs_stop(dev);
+> >>           vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> >>       }
+> >> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> >> index a87c5f39a2..8f8d05cf9b 100644
+> >> --- a/hw/virtio/trace-events
+> >> +++ b/hw/virtio/trace-events
+> >> @@ -50,6 +50,7 @@ vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
+> >>   vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
+> >>   vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size,
+> >> uint32_t flags) "dev: %p offset: %"PRIu32" size: %"PRIu32" flags:
+> >> 0x%"PRIx32
+> >>   vhost_vdpa_get_config(void *dev, void *config, uint32_t config_len)
+> >> "dev: %p config: %p config_len: %"PRIu32
+> >> +vhost_vdpa_suspend(void *dev) "dev: %p"
+> >>   vhost_vdpa_dev_start(void *dev, bool started) "dev: %p started: %d"
+> >>   vhost_vdpa_set_log_base(void *dev, uint64_t base, unsigned long
+> >> long size, int refcnt, int fd, void *log) "dev: %p base: 0x%"PRIx64"
+> >> size: %llu refcnt: %d fd: %d log: %p"
+> >>   vhost_vdpa_set_vring_addr(void *dev, unsigned int index, unsigned
+> >> int flags, uint64_t desc_user_addr, uint64_t used_user_addr, uint64_t
+> >> avail_user_addr, uint64_t log_guest_addr) "dev: %p index: %u flags:
+> >> 0x%x desc_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64"
+> >> avail_user_addr: 0x%"PRIx64" log_guest_addr: 0x%"PRIx64
 >
-> As far as I am aware, the way forward is to work with Paolo to implement
-> a proper venv solution for the build tree that will help mitigate the
-> fallout from (2) by automating the use of a pip-provided Sphinx in the
-> cases where the distro-provided version is insufficient.
-
-So, your current plan is to rebase this series less its DO-NOT-MERGE
-parts, on top of Paolo's.  Correct?
-
-> OK, seeya later!
 
 
