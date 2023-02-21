@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C297069E4B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2422569E520
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:51:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUUxU-0005ZQ-Dy; Tue, 21 Feb 2023 10:53:36 -0500
+	id 1pUUy5-0006dd-FE; Tue, 21 Feb 2023 10:54:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUUx7-0005EB-AY
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:53:17 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUUxp-0006KZ-Cj
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:54:00 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUUwx-00059G-Fr
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:53:06 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id n5so2942585pfv.11
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 07:53:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676994781;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pWFK5qIFgC7qCknW3ibU+4+aHlVPEt4EMZYLHyBAnGw=;
- b=yd8NmAcM3pgzEWancyifE3n9SD+zM5JhUH7gY4wBk2ZjDEnXL2nLp+7vy2hr7ecXIR
- msZwkM2p5dSwrol41t6ZsFxDeHbybU7oStJEBdXexnZ2HX+9N0QzxLaHOsvjWTq5CM88
- OW7qvt2W5gASAtU5SUwaOvmJx0IW/BQHH+YZcWhC2B4gFQZTFfMWo/ICp1+3DuOF3SSb
- 43STxh28hN19TayBhROLvW2daFR9qUHro7D4W6UkS3kTPfRdS7ULyHtexu+a83inWDYC
- yz85vfkJ6ktJAlyaJzy81l0CHSar2yToeQGS/Nmp0Q6SRh7aSokKV/fpzTtcNWtgUOJY
- IStA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUUxn-0005OT-EM
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:53:56 -0500
+Received: by mail-pl1-x644.google.com with SMTP id c1so5743149plg.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 07:53:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+JN1BOBwKN/nuIWMGdkhe4jlRrj/hpW7tALl2KAXk8o=;
+ b=QJbowUa8MFIS1fpkC9JvN8GMa+F5dGejz8IXgVcIrlr8Dflq8DB/BfxJDGs9ODmtg1
+ pz2xX8lQv13VFNP3pmmhxQiym+ykdBKHu2hPD26XCDQWAL23q6NDk8/TyHGmxyt0rCUz
+ rp6oQD7FlU5LNj+/KglkVrHhh2JfJZ818+N/Xae1IdIutxWEYW1anmpLVVAwQr+IJA70
+ r6JRRefTXGn8E7MZiJ4IL3fhWGeGIoJkpr54ikHSeB+dOFObjjH8TajhEu2ODDVVb8Gi
+ Mbw1IvLRoDqQBSE3NeuRNK4GF+kUtMz+0TQzlRHTno1/qh8a16IyXl8AEoHJ+p/A+r30
+ 6RKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676994781;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pWFK5qIFgC7qCknW3ibU+4+aHlVPEt4EMZYLHyBAnGw=;
- b=4hN3+duMHKk4jYD/INXTQpcB1Aeatug0z7dlOHKZdokKWSzXobPDNfzpjuZdCGxzHM
- xxOi6lHnBzs9KnHB/j7wqtNUOKzPB5RZ+n9lXAkH5WYOqC92+q8hEKNdw84XT1s3V24u
- mzMlod/O2aIj1FG6vXmb4ndNdRakN6sIwmzJPwGW90M6I33L11MNjaSS0JRrTqdvmsf1
- B1hLRuxz7QrTtFYs8bBg2HIxWujv5Kk3BF/0rrtCoEyrPUhiketb7gGhJF6EKrR4gq7C
- NQ6PKgbLE+kT3E/7ywthL1ykG39CAUYmUnYQclj1sN/GfP5YQfLo5dSh3Ofbc7dXGWcf
- m3BQ==
-X-Gm-Message-State: AO0yUKXexGfgCcQcWB/H3Ws44K+iGr7n9FcouDiE1XMs7JTzyAN8Xa9s
- bY9AhvJGt0ItaLj+o5PTQ1WZ3QRuNunNER4uF+cr9w==
-X-Google-Smtp-Source: AK7set/BRK4JTSohuG1eaqBEogz37gd3YBd6xR3E3n+yJT+nc8U5E4I8QeMqmPyquFSqRjZ0aORk+EUAmBTjyLia8lU=
-X-Received: by 2002:a62:164f:0:b0:5a9:babe:6cb9 with SMTP id
- 76-20020a62164f000000b005a9babe6cb9mr883096pfw.48.1676994780827; Tue, 21 Feb
- 2023 07:53:00 -0800 (PST)
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+JN1BOBwKN/nuIWMGdkhe4jlRrj/hpW7tALl2KAXk8o=;
+ b=SZ7FQb3umjMonxAhahzUeVbkylFSe6BW0CCBxuDak79A90D51c/Ib99WVpsx7oguUK
+ cr3FaYQ9dOjgLxUqiDNaa3hxmwjXo/M+lun9iGbxMeZSVwsFtCl5mUte147F0xJuRZD0
+ RmiAHDTlgGFQXtiEwKaC4z52ymyr034Cytgw0YDbr+kfgsdH4Cy4XvXFlyUCgsebKY5N
+ A2rB/nS2OU4CuGiN35ihh35tkrUHN72n3Rl8rSj0zVMlKiZGK6lSOUJITOJlFTpc1012
+ 2mLZgMqPGaSb7TOIwmRTdfyweypgYAcapCyWUV1ZKQWgPgb7xv7jxb7KGG+KahERfhgO
+ CXYw==
+X-Gm-Message-State: AO0yUKVk5jckuMBOOKXlKEv3tZEm3LD6G01GjdQ/fMCBJpyUtH8Lrw98
+ USfFqTF9ZqPkTw9VhtRnPUgikRJMvUxdv1+ZM85QuQ==
+X-Google-Smtp-Source: AK7set8QB7SUi6ac5cQJ4Uo2RKCgeAfGVn4jBRqHdxvx4mmIWLTIFl6Rw6234PQsPL51HRfvhCYm5g==
+X-Received: by 2002:a17:90b:4b12:b0:237:39b1:7c88 with SMTP id
+ lx18-20020a17090b4b1200b0023739b17c88mr16035pjb.35.1676994834046; 
+ Tue, 21 Feb 2023 07:53:54 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ ei23-20020a17090ae55700b002343e59709asm2496303pjb.46.2023.02.21.07.53.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Feb 2023 07:53:53 -0800 (PST)
+Message-ID: <11aea60d-4476-1115-a53c-1309c01dff4d@linaro.org>
+Date: Tue, 21 Feb 2023 05:53:50 -1000
 MIME-Version: 1.0
-References: <20230220032338.5619-1-richard.henderson@linaro.org>
- <CAFEAcA_89gi6r-fmPSohpho2fOMu_oh-kBG6oQO+6uC0mZR1TQ@mail.gmail.com>
- <CAFEAcA_VqoEQKN4Guo=PVm_6usvz-HDW3Lb672P16rKNOEmf2g@mail.gmail.com>
-In-Reply-To: <CAFEAcA_VqoEQKN4Guo=PVm_6usvz-HDW3Lb672P16rKNOEmf2g@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Feb 2023 15:52:49 +0000
-Message-ID: <CAFEAcA8-9EDDVz28WEbuKN7DyykiAvHY=5hY=NEp_S7POm+8SA@mail.gmail.com>
-Subject: Re: [PULL 0/7] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v4 27/27] target/s390x: Enable TARGET_TB_PCREL
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230220184052.163465-1-richard.henderson@linaro.org>
+ <20230220184052.163465-28-richard.henderson@linaro.org>
+ <0a437546-3b18-3a3a-6ffb-afa93a93c170@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <0a437546-3b18-3a3a-6ffb-afa93a93c170@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,39 +94,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Feb 2023 at 14:47, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 21 Feb 2023 at 14:04, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Mon, 20 Feb 2023 at 03:23, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> > >
-> > > The linux-user patches are on the tcg-ish side of user-only
-> > > emulation, rather than the syscall-ish side, so queuing here.
-> > > Solving the deadlock issue is quite important vs timeouts.
-> >
-> > aarch64 host, aarch64 guest, segfault on bti-3 in tcg-tests:
-> >
-> > https://gitlab.com/qemu-project/qemu/-/jobs/3806772144
-> >
-> > TEST bti-3 on aarch64
-> > Segmentation fault
-> > make[1]: *** [Makefile:170: run-bti-3] Error 139
-> >
-> > Might be a pre-existing intermittent :shrug:
->
-> It didn't happen on a rerun. But here's another one, clang-user build,
-> on the new test case:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/3806772115
->
-> TEST linux-fork-trap-with-libsyscall.so on s390x
-> qemu: uncaught target signal 4 (Illegal instruction) - core dumped
+On 2/21/23 04:35, Thomas Huth wrote:
+> 
+> FYI, this causes a build failure with --disable-tcg:
+> 
+> https://gitlab.com/thuth/qemu/-/jobs/3806828645#L1885
+> 
+> I'll add this to fix it, no need to respin:
 
-This one fails consistently, so not an intermittent. Here's
-the retry job:
-https://gitlab.com/qemu-project/qemu/-/jobs/3807471447
+Thanks.  I should have thought to test that.
 
 
--- PMM
+r~
 
