@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F5F69E60F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 18:34:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 018FB69E610
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 18:34:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUWVb-0001k8-Iz; Tue, 21 Feb 2023 12:32:55 -0500
+	id 1pUWWX-00029s-HW; Tue, 21 Feb 2023 12:33:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUWVV-0001jL-KY
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:32:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUWVT-0001d0-7P
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:32:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677000766;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mhCQhZ+sLmlg53sVu3obsY4CgidjLkgQGkEK1qlIhBU=;
- b=ESPRY+duTe/Mzaysb3SAWHMy4600fDC/0veZSF1IKsD9Qo5SNEh2EgH8+fRb+glWWrcp4P
- PVytZEG8djmGajy8OarTMPizy24d+DLKdtOGptImc0eZtLQdWEUrLMbz+O2gUnf+ib15SZ
- c2DZ/GKHWn4xRpO0U49JU8SrMfdU0C8=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-528-nNdb9iJjOCG_cDtjoDb2sA-1; Tue, 21 Feb 2023 12:32:36 -0500
-X-MC-Unique: nNdb9iJjOCG_cDtjoDb2sA-1
-Received: by mail-pg1-f197.google.com with SMTP id
- b21-20020a63cf55000000b004393806c06eso1482086pgj.4
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 09:32:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUWWR-00024E-At
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:33:47 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUWWP-0001uZ-LX
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:33:47 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ nt5-20020a17090b248500b00237161e33f4so3583510pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 09:33:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Vd7ChOI1Bgg8685Hw6NtaZOVDOqN2cdUHMRSaf+rP5U=;
+ b=aLFPhKPjceMWxWmGh4VKYrYK39uLxsx9YpPVGC0yI4gP42D86KKXtP/22ramGKBViJ
+ bnf6GBpCSAmOZrAVR5H7WlMhNLhS2aFVY5wWDrNf/Dqt4JRD0tt2y8TUi6mI6IUp2Htn
+ S3vvADTDin2669OwS52OThBaogzohl2wnwElCvj25+TX/PwXmySa13u/dbb5wJiBiEo+
+ YCr6JX5jRawt+WPKrb8uv+vFyQdpbE0+xMkHQ3DFEx73Tz+JrKcn7mQ8thzfr/zOHvI1
+ By4RW1D+EQeqolcRLOHhVDQlyzE/WNynlUkEpw9GyA2lzEWordd1CeoYszTpPr1XfGyU
+ PZpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mhCQhZ+sLmlg53sVu3obsY4CgidjLkgQGkEK1qlIhBU=;
- b=njGZ0K+RFwmUUFbwZyocKXTs+yXYiBBepxLsHj2cySPfiw421YXaU/HWbOnobY52o6
- SxMjKm6E68L4CofB5wTGnJyRxHFAGtFEJYxoCmkZaqyV30N0WEenZ1pyn3kBPEymu40u
- 98L308JGalVYFHwwEOB8QgCfMyBtJBDpfh8kRcd6No+9W4Ne8Yw6Qmy2mL+78fvTSrVU
- SzIeI0W6g3FGxpbslsRP/NzT3OA1dw8tCbfJpCjp50vCozRJ1TMhQAYatLoJwybmB8S1
- WCjWWZQsuxaRHCN0J6NSMjnKxCG9uaeiOj9jMbdewYP000p954AjpiI7jdPxg79ewZo8
- C8Mg==
-X-Gm-Message-State: AO0yUKVCczifTB11erfaO4TekJmtd/HCVkl52Eu+B8Otfpyj1xvkl3HP
- H6nP7sZKV98WJOpKQUQnpoV+vHx2z8q7WoVi5Qwp+FtZd7dfpi2nIhadgqY11DqLqh+FylXwOuX
- F8OTcTUnBNBSOEEtANRa/sFyrzoLE+GY=
-X-Received: by 2002:a17:90b:2d90:b0:234:2592:efbe with SMTP id
- sj16-20020a17090b2d9000b002342592efbemr1146873pjb.131.1677000755301; 
- Tue, 21 Feb 2023 09:32:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set8deLvNC7F2+mWReKbuX1WwxRUmKNb58FGevXoL/4eTCjPwDKG0bQavjo2QuEZtWJfw9xdiirh4LS4KcDJxrp8=
-X-Received: by 2002:a17:90b:2d90:b0:234:2592:efbe with SMTP id
- sj16-20020a17090b2d9000b002342592efbemr1146870pjb.131.1677000755015; Tue, 21
- Feb 2023 09:32:35 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vd7ChOI1Bgg8685Hw6NtaZOVDOqN2cdUHMRSaf+rP5U=;
+ b=tAQV4E7Tje8ZCxj10Lky1qVfXXHymxmnf5kqNFTEy8hxHcR6kkKSnxipm+UQEt7Ese
+ 5BDZqi1uAa3o1rwTS2MZR2V5AOwmWYR6ckWV/sTwuupgQ+z4rcvcFS8XTkeG3Wh9GOkN
+ 7VdRvgA/F1bIbcna5IpCpaDffxlN3lYq74lWsI/NeGFMbDhjMEOWnEDs72LT4VWoaGGq
+ FrNCTHraUaBKCZo/AE0rn4N5zt+pcpXl7BoM8+sb08Vrj6fx9ZXNSu9TqhP3yVwDZTgQ
+ rJIslUCxPsK/U+NPjLi1FXPNb4t2JBxCxgLVVQkvhwRu68N21mOyEZpaBBO0tleZn42b
+ 5KIw==
+X-Gm-Message-State: AO0yUKUqLaWzeN6X2oqqL9s9thWCrC2pggJNPCbIuXTHRqxW0UI6OBqf
+ AsFPDdg32JuLs+9TSgconZZDwQ==
+X-Google-Smtp-Source: AK7set9OsNBiczLhpeiJc7bznOtEG9960VANSqz3ssb8Z3poSsHx1flpcdQOrN0SJSF2ytdZJjx6VQ==
+X-Received: by 2002:a05:6a20:3d88:b0:c7:6f26:c85 with SMTP id
+ s8-20020a056a203d8800b000c76f260c85mr19490610pzi.36.1677000824026; 
+ Tue, 21 Feb 2023 09:33:44 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ z192-20020a6333c9000000b004fbe67bab14sm4486696pgz.0.2023.02.21.09.33.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Feb 2023 09:33:43 -0800 (PST)
+Message-ID: <c7234c83-3e53-6867-55f8-7e9ab97a5c2a@linaro.org>
+Date: Tue, 21 Feb 2023 07:33:40 -1000
 MIME-Version: 1.0
-References: <20230215000011.1725012-1-jsnow@redhat.com>
- <878rgz82v9.fsf@pond.sub.org>
- <CAFn=p-ZAnqRr7SYVO8n_DaFDUavFykNYwaQy4fCWubTx686kJg@mail.gmail.com>
- <87sfezzfh4.fsf@pond.sub.org>
-In-Reply-To: <87sfezzfh4.fsf@pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 21 Feb 2023 12:32:23 -0500
-Message-ID: <CAFn=p-ac9ufp8-cohrSfHc4A2OTQLbbGP6dAJ5Wy1X0Ua3Y5_Q@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] qapi: static typing conversion, pt5c
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>
-Content-Type: multipart/alternative; boundary="0000000000004a88e605f5392ade"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 14/14] target/arm: Implement gdbstub m-profile
+ systemreg and secext
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, David Reiss <dreiss@meta.com>
+References: <20230221021951.453601-1-richard.henderson@linaro.org>
+ <20230221021951.453601-15-richard.henderson@linaro.org>
+ <CAFEAcA8nexWsqRKfjR20_OhNr5d54LMHCsGwZHrZmkng2jwgOw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8nexWsqRKfjR20_OhNr5d54LMHCsGwZHrZmkng2jwgOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,148 +96,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000004a88e605f5392ade
-Content-Type: text/plain; charset="UTF-8"
+On 2/21/23 07:25, Peter Maydell wrote:
+> You also want to enforce the RES0 bits on registers like
+> PSPLIM, MSPLIM, FAULTMASK, PSP, MSP, if you're going to
+> implement writes. Effectively you really end up wanting to
+> get helper_v7m_msr to do the work for you.
 
-On Tue, Feb 21, 2023, 1:42 AM Markus Armbruster <armbru@redhat.com> wrote:
-
-> John Snow <jsnow@redhat.com> writes:
->
-> > On Wed, Feb 15, 2023 at 8:39 AM Markus Armbruster <armbru@redhat.com>
-> wrote:
-> >>
-> >> I had a few suggestions, but none of them requires a respin.  Let's
-> >> discuss them, and then I merge.
-> >
-> > Hiya, I lost track of things a little due to the other Python
-> > discussion. Who is waiting for whom?
->
-> Just two questions remain:
->
-> * PATCH 3: Dumb down check_keys() argument all the way to List[str]?
->
-
-Kinda prefer not to, but maybe I'm being too precious. (I have some more
-exploratory patches that do use tuples here instead, but admit it's not
-crucial.)
-
-From a pure typing perspective, I wish I could leave it as it is now,
-because I prefer to type input types as loosely as possible: claim only the
-minimum power we need, instead of enforcing the specificity we happen to
-have.
-
-With the bug for 3.6 that is forcing me to use a more specific type anyway,
-maybe you're right and I should just use List[] until I'm allowed to have
-my proper abstraction.
-
-OK, before I go further, lemme say that you can change it to List[] if you
-want. I won't be too precious about it. (You can rewrite the patch in
-question if you don't want to wait 24h.)
-
-But, a question about typing strategy:
-
-As a python tooling maintainer, should I push people to type as flexible as
-possible or as *specific* as possible in general?
-
-Flexible: (e.g. Sequence or Iterable)
-- More likely to get along with other code
-- More "pythonic", abstractly
-- Less useful as documentation; if a function always happens to get a list,
-is it annoying to pretend it's merely a sequence?
-
-Specific: (e.g. List)
-- Most useful as documentation
-- Can assert greater knowledge of all callers
-- More power afforded to function ("room to grow"?)
-- More likely to require non-local edits when changing functionality or
-refactoring
-- More likely to require "casts" at callsites to convert data types
-
-I think I lean towards the flexible/broad typing strategy in general, but
-lament it cannot be applied appropriately here today.
+Ho hum.  I should have known it was more complicated than all that.
+I should probably just drop the write portion of the patch again for now.
 
 
-> * PATCH 4: Suggested commit message addition okay?
->
-
-Yes, ACK.
-
-
-> We settle them, and then I'll take it from there.
->
->
-
---0000000000004a88e605f5392ade
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Tue, Feb 21, 2023, 1:42 AM Markus Armbruster &lt;<a=
- href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">John Snow &lt;<a href=3D"mailto:jsnow@redh=
-at.com" target=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt; write=
-s:<br>
-<br>
-&gt; On Wed, Feb 15, 2023 at 8:39 AM Markus Armbruster &lt;<a href=3D"mailt=
-o:armbru@redhat.com" target=3D"_blank" rel=3D"noreferrer">armbru@redhat.com=
-</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; I had a few suggestions, but none of them requires a respin.=C2=A0=
- Let&#39;s<br>
-&gt;&gt; discuss them, and then I merge.<br>
-&gt;<br>
-&gt; Hiya, I lost track of things a little due to the other Python<br>
-&gt; discussion. Who is waiting for whom?<br>
-<br>
-Just two questions remain:<br>
-<br>
-* PATCH 3: Dumb down check_keys() argument all the way to List[str]?<br></b=
-lockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Kinda p=
-refer not to, but maybe I&#39;m being too precious. (I have some more explo=
-ratory patches that do use tuples here instead, but admit it&#39;s not cruc=
-ial.)</div><div dir=3D"auto"><br></div><div dir=3D"auto">From a pure typing=
- perspective, I wish I could leave it as it is now, because I prefer to typ=
-e input types as loosely as possible: claim only the minimum power we need,=
- instead of enforcing the specificity we happen to have.</div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">With the bug for 3.6 that is forcing me to=
- use a more specific type anyway, maybe you&#39;re right and I should just =
-use List[] until I&#39;m allowed to have my proper abstraction.</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">OK, before I go further, lemme say =
-that you can change it to List[] if you want. I won&#39;t be too precious a=
-bout it. (You can rewrite the patch in question if you don&#39;t want to wa=
-it 24h.)</div><div dir=3D"auto"><br></div><div dir=3D"auto">But, a question=
- about typing strategy:</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-As a python tooling maintainer, should I push people to type as flexible as=
- possible or as *specific* as possible in general?</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">Flexible: (e.g. Sequence or Iterable)</div><div =
-dir=3D"auto">- More likely to get along with other code</div><div dir=3D"au=
-to">- More &quot;pythonic&quot;, abstractly</div><div dir=3D"auto">- Less u=
-seful as documentation; if a function always happens to get a list, is it a=
-nnoying to pretend it&#39;s merely a sequence?</div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">Specific: (e.g. List)</div><div dir=3D"auto">- Most =
-useful as documentation</div><div dir=3D"auto">- Can assert greater knowled=
-ge of all callers</div><div dir=3D"auto">- More power afforded to function =
-(&quot;room to grow&quot;?)</div><div dir=3D"auto">- More likely to require=
- non-local edits when changing functionality or refactoring</div><div dir=
-=3D"auto">- More likely to require &quot;casts&quot; at callsites to conver=
-t data types</div><div dir=3D"auto"><br></div><div dir=3D"auto">I think I l=
-ean towards the flexible/broad typing strategy in general, but lament it ca=
-nnot be applied appropriately here today.</div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->
-<br>
-* PATCH 4: Suggested commit message addition okay?<br></blockquote></div></=
-div><div dir=3D"auto"><br></div><div dir=3D"auto">Yes, ACK.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">
-<br>
-We settle them, and then I&#39;ll take it from there.<br>
-<br>
-</blockquote></div></div></div>
-
---0000000000004a88e605f5392ade--
-
+r~
 
