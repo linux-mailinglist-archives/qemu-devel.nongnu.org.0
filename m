@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5256069EA7C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:56:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 849DB69EA72
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:54:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUbV3-0007Ik-Gz; Tue, 21 Feb 2023 17:52:41 -0500
+	id 1pUbUx-0007Ex-GL; Tue, 21 Feb 2023 17:52:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUbUw-0007F5-DY
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:52:34 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1pUbUu-0007EC-Kz
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:52:32 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUbUs-000435-4S
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:52:33 -0500
-Received: by mail-wm1-x336.google.com with SMTP id j3so2436617wms.2
+ id 1pUbUs-00043C-23
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:52:31 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ l2-20020a05600c1d0200b003e1f6dff952so4771573wms.1
  for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 14:52:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UkapH1HyOnuaqetgt7KpKr6Iu4KTKCV+EwmiZ712lss=;
- b=bjMm5f014sEJQ1U4QZIQxdRoxR3uyo8a9u345fdUj1zkZN3xY9dvnSplAh+PlZzh3g
- HwwfSaDraTISNMwObympxBVyu/ENyXtAiL85B0RhZ7YkLGz3Q8HWDsYfj385Ufjlpx5j
- +jM0k2NH54SPFy6foJMO27XPMWNFqvYji+YgdQSnjrvg6zmyagEeTFcZBHXEVRa2HMUj
- NeFvt3RFy47kSu0KsE68EgcjfoGJ7Jw4g7B689At1FKt1gzaYvhqD2K2k+H/J6SXj1te
- IhDxy+4nSE/k+t+MZL+FfpNk6sauOesEtqmAyWnCxj8Id992ENevAQxvVOyIitNfgNHV
- cdJA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aLGg403RjaWovushz/70Glwd971m6FnAr6QdPSjBFnQ=;
+ b=SaS/eGa7SOZ2SrhDwCg5tCS0eUXDTh0LMjI9WnA8kbwFK/UQxlkO/NBM50GyLwo8id
+ vySatOOXan7M2V3DALOt1EQOrPadosxizfeBswapooy4x3bO18wwe1Oyxkrbg5W79SXF
+ B7ThSwIXHkZ/vcW3SjdhqnfJ9r2e9ECkNU7lw6N5D2WOpS7aS9FrHWgAq1NuCDo3At6Y
+ UVv7+FExoKs8rrES0GWpocfyKA+NDYu6N+FwXqAMg9/u2SZ+k0sS3OlCZfu1Cge7lFHg
+ uaQQxeMhnErLQPJX3nGLfhVs2lnllmVM0JmAQF8r7p5iclqNU9NPbG6nPii/Uv9NTasn
+ YKZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UkapH1HyOnuaqetgt7KpKr6Iu4KTKCV+EwmiZ712lss=;
- b=BTSbAemor6JD+Td++yz/wbfxiFFPCz4jN4t4nHFFFpwZiOO18HDSkwVLCRI9zA8mxM
- sMYudP7VNvVhFtl520iVwnz6u3HPS3Wg86zor7FJrQdr3Vhl8LXkaOvfA6bgGbOb4YgY
- 54fJwTmrN6cez3+h3Yt/M9kENoOHCSyRinA+zGCYJ3YBhf6SUhY6lp2yPfNR1iHH3KKb
- qFSt+P6qFoKYcea/WrFX4vwc67p5lclbUKmPDVGsDOOV+E84cbYB9pjxfv/6BtRzXjKR
- SogtkJLaI/+44GI+6kBDaok7yvRFGBU7nIu17PQFj9biCwKWwyDZ9xRVvBDt2iFUGYln
- 4OhQ==
-X-Gm-Message-State: AO0yUKXvO6WJRD+SNLQKg82iCn9b4Jq975zYsN3EayRsjBfP264XgGIr
- J/rFk0rEla2wpeY7GwUNY8VcSg==
-X-Google-Smtp-Source: AK7set8ccJHd+DQnO2Vdhj2QlV8IBRrWE3q1oAJrYUIIyI3N95/FRsagD9oY6xZT2GfWvEw6NSaeqQ==
-X-Received: by 2002:a05:600c:340a:b0:3e7:5142:cf17 with SMTP id
- y10-20020a05600c340a00b003e75142cf17mr3141563wmp.18.1677019948040; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aLGg403RjaWovushz/70Glwd971m6FnAr6QdPSjBFnQ=;
+ b=lE1QjL52zeW2mciqARhKO3WVh5PN+UHkrREuzArsCrJByVWWig94zYe7hQBd6s9QTK
+ R5/BoRH5LUPb4QS8mseJTP0VVHdaIqHvrPD7JaAB59jKXp6idhyBOh+0w+Hym+XaV3dF
+ Egh+an1YljePs3f4R3bfsUcgqgJg1bRkUe8IttHPFiOqYRrY66Uefm7fKPOlzM8W4Mek
+ KyB1cuc2uUd9zYJrDKuB2OrR5PmkTCNaiRUC53rx2VpM8q+HB43Kvuv8upsOds/+kmdu
+ X/GTDq8AIBrd3ij4wryfz8Zf6/PURCCbHmZHREOMFe05fq2LuHWRLnfThL+lXqs2m7XX
+ M7kw==
+X-Gm-Message-State: AO0yUKW3UxzO1v+arO27myUXmGfL8GeJi8OpoQVyDHu7WQ4itK6q+URr
+ jm8ct3WzCqvPlFImHBwP2GiTug==
+X-Google-Smtp-Source: AK7set9Wbob1K0zMF7c8LJqOpDfRs1fkdaaYG5NZcJUoN9MghVdfkIaJtu3hfRyab6Yl8ogV8UCbpA==
+X-Received: by 2002:a05:600c:46d2:b0:3dd:37a5:dc90 with SMTP id
+ q18-20020a05600c46d200b003dd37a5dc90mr10500022wmo.32.1677019948379; 
  Tue, 21 Feb 2023 14:52:28 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c4f4600b003df245cd853sm7625736wmq.44.2023.02.21.14.52.27
+ hn29-20020a05600ca39d00b003db03725e86sm5952326wmb.8.2023.02.21.14.52.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 21 Feb 2023 14:52:27 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4771E1FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 608D01FFB8;
  Tue, 21 Feb 2023 22:52:27 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -89,17 +91,19 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Greg Kurz <groug@kaod.org>,
  David Hildenbrand <david@redhat.com>, Song Gao <gaosong@loongson.cn>,
  Ilya Leoshkevich <iii@linux.ibm.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v3 00/24] gdbstub: re-organise to for better compilation
- behaviour
-Date: Tue, 21 Feb 2023 22:52:03 +0000
-Message-Id: <20230221225227.3735319-1-alex.bennee@linaro.org>
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: [PATCH v3 01/24] gdbstub/internals.h: clean up include guard
+Date: Tue, 21 Feb 2023 22:52:04 +0000
+Message-Id: <20230221225227.3735319-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230221225227.3735319-1-alex.bennee@linaro.org>
+References: <20230221225227.3735319-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -122,155 +126,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I was motivated to sort this out while working on my register API
-which is target agnostic but ran into the weeds when trying to link up
-with the gdbstub. This was due to us building gdbstub for every single
-target we support due to a few ABI sensitive bits that require CPU
-specific information. This series does a bunch of surgery to break the
-monolithic file apart into its constituent parts as well as simplify
-the headers to users can avoid bringing in more dependencies than they
-need.
+Use something more specific to avoid name clashes.
 
-I had hoped to go all the way and conditionally compile syscalls only
-for the two ABIs (32 and 64 bit) unfortunately I was unable to the
-appropriate meson-foo to make that happen.
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ gdbstub/internals.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Other than a minor re-org of the patches and addressing review
-comments (see bellow ---) the only new patches are the ones to split
-target_ulong into its own header and remove the remaining cpu-def
-requirements from syscall handling.
-
-The following patches need review:
-
-gdbstub: split out softmmu/user specifics for syscall handling
-include: split target_long definition from cpu-defs
-testing: probe gdb for supported architectures ahead of time
-gdbstub: only compile gdbstub twice for whole build
-gdbstub: rationalise signal mapping in softmmu
-
-Alex Bennée (23):
-  gdbstub/internals.h: clean up include guard
-  gdbstub: fix-up copyright and license files
-  gdbstub: define separate user/system structures
-  gdbstub: move GDBState to shared internals header
-  includes: move tb_flush into its own header
-  gdbstub: move fromhex/tohex routines to internals
-  gdbstub: make various helpers visible to the rest of the module
-  gdbstub: move chunk of softmmu functionality to own file
-  gdbstub: move chunks of user code into own files
-  gdbstub: rationalise signal mapping in softmmu
-  gdbstub: abstract target specific details from gdb_put_packet_binary
-  gdbstub: specialise handle_query_attached
-  gdbstub: specialise target_memory_rw_debug
-  gdbstub: introduce gdb_get_max_cpus
-  gdbstub: specialise stub_can_reverse
-  gdbstub: fix address type of gdb_set_cpu_pc
-  gdbstub: don't use target_ulong while handling registers
-  gdbstub: move register helpers into standalone include
-  gdbstub: move syscall handling to new file
-  gdbstub: only compile gdbstub twice for whole build
-  testing: probe gdb for supported architectures ahead of time
-  include: split target_long definition from cpu-defs
-  gdbstub: split out softmmu/user specifics for syscall handling
-
-Philippe Mathieu-Daudé (1):
-  gdbstub: Make syscall_complete/[gs]et_reg target-agnostic typedefs
-
- MAINTAINERS                                   |    1 +
- configure                                     |    8 +
- gdbstub/internals.h                           |  214 ++-
- include/exec/cpu-defs.h                       |   19 +-
- include/exec/exec-all.h                       |    1 -
- include/exec/gdbstub.h                        |  208 ---
- include/exec/target_long.h                    |   42 +
- include/exec/tb-flush.h                       |   26 +
- include/gdbstub/helpers.h                     |  103 +
- include/gdbstub/syscalls.h                    |  124 ++
- include/gdbstub/user.h                        |   43 +
- linux-user/user-internals.h                   |    1 +
- accel/stubs/tcg-stub.c                        |    1 +
- accel/tcg/tb-maint.c                          |    1 +
- accel/tcg/translate-all.c                     |    1 +
- cpu.c                                         |    1 +
- gdbstub/gdbstub.c                             | 1654 ++---------------
- gdbstub/softmmu.c                             |  605 +++++-
- gdbstub/syscalls.c                            |  217 +++
- gdbstub/user-target.c                         |  281 +++
- gdbstub/user.c                                |  427 ++++-
- hw/ppc/spapr_hcall.c                          |    1 +
- linux-user/exit.c                             |    2 +-
- linux-user/main.c                             |    1 +
- linux-user/signal.c                           |    2 +-
- plugins/core.c                                |    1 +
- plugins/loader.c                              |    2 +-
- semihosting/arm-compat-semi.c                 |    1 +
- semihosting/guestfd.c                         |    2 +-
- semihosting/syscalls.c                        |    3 +-
- softmmu/runstate.c                            |    2 +-
- target/alpha/gdbstub.c                        |    2 +-
- target/alpha/sys_helper.c                     |    1 +
- target/arm/gdbstub.c                          |    1 +
- target/arm/gdbstub64.c                        |    2 +-
- target/arm/helper-a64.c                       |    2 +-
- target/arm/m_helper.c                         |    1 +
- target/avr/gdbstub.c                          |    2 +-
- target/cris/gdbstub.c                         |    2 +-
- target/hexagon/gdbstub.c                      |    2 +-
- target/hppa/gdbstub.c                         |    2 +-
- target/i386/gdbstub.c                         |    2 +-
- target/i386/whpx/whpx-all.c                   |    2 +-
- target/loongarch/gdbstub.c                    |    1 +
- target/m68k/gdbstub.c                         |    2 +-
- target/m68k/helper.c                          |    1 +
- target/m68k/m68k-semi.c                       |    3 +-
- target/microblaze/gdbstub.c                   |    2 +-
- target/mips/gdbstub.c                         |    2 +-
- target/mips/tcg/sysemu/mips-semi.c            |    3 +-
- target/nios2/cpu.c                            |    2 +-
- target/nios2/nios2-semi.c                     |    3 +-
- target/openrisc/gdbstub.c                     |    2 +-
- target/openrisc/interrupt.c                   |    2 +-
- target/openrisc/mmu.c                         |    2 +-
- target/ppc/cpu_init.c                         |    2 +-
- target/ppc/gdbstub.c                          |    1 +
- target/riscv/csr.c                            |    1 +
- target/riscv/gdbstub.c                        |    1 +
- target/rx/gdbstub.c                           |    2 +-
- target/s390x/gdbstub.c                        |    1 +
- target/s390x/helper.c                         |    2 +-
- target/sh4/gdbstub.c                          |    2 +-
- target/sparc/gdbstub.c                        |    2 +-
- target/tricore/gdbstub.c                      |    2 +-
- target/xtensa/core-dc232b.c                   |    2 +-
- target/xtensa/core-dc233c.c                   |    2 +-
- target/xtensa/core-de212.c                    |    2 +-
- target/xtensa/core-de233_fpu.c                |    2 +-
- target/xtensa/core-dsp3400.c                  |    2 +-
- target/xtensa/core-fsf.c                      |    2 +-
- target/xtensa/core-lx106.c                    |    2 +-
- target/xtensa/core-sample_controller.c        |    2 +-
- target/xtensa/core-test_kc705_be.c            |    2 +-
- target/xtensa/core-test_mmuhifi_c3.c          |    2 +-
- target/xtensa/gdbstub.c                       |    2 +-
- target/xtensa/helper.c                        |    2 +-
- gdbstub/meson.build                           |   33 +-
- gdbstub/trace-events                          |    4 +-
- scripts/probe-gdb-support.sh                  |   36 +
- target/xtensa/import_core.sh                  |    2 +-
- tests/tcg/aarch64/Makefile.target             |    2 +-
- tests/tcg/multiarch/Makefile.target           |    5 +
- .../multiarch/system/Makefile.softmmu-target  |    6 +-
- tests/tcg/s390x/Makefile.target               |    2 +-
- 85 files changed, 2375 insertions(+), 1796 deletions(-)
- create mode 100644 include/exec/target_long.h
- create mode 100644 include/exec/tb-flush.h
- create mode 100644 include/gdbstub/helpers.h
- create mode 100644 include/gdbstub/syscalls.h
- create mode 100644 include/gdbstub/user.h
- create mode 100644 gdbstub/syscalls.c
- create mode 100644 gdbstub/user-target.c
- create mode 100755 scripts/probe-gdb-support.sh
-
+diff --git a/gdbstub/internals.h b/gdbstub/internals.h
+index eabb0341d1..b444f24ef5 100644
+--- a/gdbstub/internals.h
++++ b/gdbstub/internals.h
+@@ -6,12 +6,12 @@
+  * SPDX-License-Identifier: GPL-2.0-or-later
+  */
+ 
+-#ifndef _INTERNALS_H_
+-#define _INTERNALS_H_
++#ifndef GDBSTUB_INTERNALS_H
++#define GDBSTUB_INTERNALS_H
+ 
+ bool gdb_supports_guest_debug(void);
+ int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
+ int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
+ void gdb_breakpoint_remove_all(CPUState *cs);
+ 
+-#endif /* _INTERNALS_H_ */
++#endif /* GDBSTUB_INTERNALS_H */
 -- 
 2.39.1
 
