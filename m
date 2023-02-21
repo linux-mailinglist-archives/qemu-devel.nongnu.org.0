@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A450D69DD96
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:11:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D7169DDBE
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:19:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUPcG-0001as-9e; Tue, 21 Feb 2023 05:11:20 -0500
+	id 1pUPiQ-0004dy-Ab; Tue, 21 Feb 2023 05:17:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUPcB-0001Ya-84
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:11:16 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUPiN-0004dZ-Li
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:17:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUPc8-000243-Ay
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:11:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUPiM-0003Ll-1b
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:17:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676974271;
+ s=mimecast20190719; t=1676974657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2YdYK4E8dfImOWaZXVXYI5dpFmqmpKsIQj1oVojEGUY=;
- b=TSZDStZqakOc0Vp9xugZrCQjdezV5y2J+sV0dt05eEtYmLJwrWZee0ziFd6PIi81ZG2pDN
- Hfk8zCQ/68SsIQKm1bbYmG0rex0cTAjnnAcL45XcNlW129GYGSryD6/RsMmGRMkBgEh9bJ
- M1Cw1v7OU91+tOWsD8R2/hPbh7GCFvE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4iEFF/b/QbvZzC3DBwRXJReUoO2iqpzmbxAm+CoJOHE=;
+ b=OqRMDfHj4+QujBUPqukqNNbA8GXRTj+5iV62E4r93ljLdvQPgeFH5xY+exbGA2gUwPaVHq
+ ETO28ItuW4JDRkGvXIxRxAw7GrvOkhFo7HA4CX5tjvpRkpFGDK9FwSAP7g2Vn4cSAVdunr
+ AFNsDM61T+m7m7GvrmxfhsJ1+FHAA70=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-460-P9Sa204qNm-Q-f2zk8CduA-1; Tue, 21 Feb 2023 05:11:10 -0500
-X-MC-Unique: P9Sa204qNm-Q-f2zk8CduA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 1-20020a056000154100b002c54d9b8312so718727wry.5
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:11:10 -0800 (PST)
+ us-mta-136-b62RnZyVNJe4N1OmDugnnQ-1; Tue, 21 Feb 2023 05:17:35 -0500
+X-MC-Unique: b62RnZyVNJe4N1OmDugnnQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ j9-20020a5d4529000000b002c5588d962fso865285wra.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:17:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2YdYK4E8dfImOWaZXVXYI5dpFmqmpKsIQj1oVojEGUY=;
- b=uwHDAT9RuWAphomm24zpPWQc2EOMr9ExxZYBPiuXsgaGbn2auphQSwKiyplilGwQDt
- 0q1pgF21gMUTtJQ6LTFZsAqf/i4IiOxh6u3nJeuaRGo2DBVb6GaCOaEVg5ZgZkLR6Jwg
- cHFkEotknKdV/L6bWnWfkHDvfgTtH/eG9OM9QxpbhslsjuwZC6Z1zhPG6UMharO9YDak
- da8DzW2slMFDOH9cqoy55ruoQNrmPI3fKggxjlI3oCwN0tnVFWeN//JEB7+LGvhKTIng
- vsxaY6R4eJdkw8WLL3AApHBMiMTiHG/AneBfE5zECyhZL1ZH1GKdXSRB8s5RgfjGFqMu
- tuyQ==
-X-Gm-Message-State: AO0yUKVHNT9b3x2WGZOauvhb3C2gKowsc2dhgCnAt3TavdbAoNht0scm
- wK+Bjr/gwaGf6Kic38sISbePvre6e1m2/J8zFm/z7oQlIV1HjfW5pVy97IDGRoUw+JreYrvdKTb
- Y8ehwLsKsKxBOBDI=
-X-Received: by 2002:a5d:4d4b:0:b0:2c5:5d15:4e25 with SMTP id
- a11-20020a5d4d4b000000b002c55d154e25mr4170958wru.16.1676974269308; 
- Tue, 21 Feb 2023 02:11:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set8+zD+aBMuo4sYUOuFp1C9TqhaRpUwcztiAMih+fS3JqTTBZcSdN10yUW+kMGq3OXoAiNoxwA==
-X-Received: by 2002:a5d:4d4b:0:b0:2c5:5d15:4e25 with SMTP id
- a11-20020a5d4d4b000000b002c55d154e25mr4170922wru.16.1676974269063; 
- Tue, 21 Feb 2023 02:11:09 -0800 (PST)
+ bh=4iEFF/b/QbvZzC3DBwRXJReUoO2iqpzmbxAm+CoJOHE=;
+ b=UvV5f3cEc4xZG/BaSvtGWy/zyo58BEmcykY3nfyqDDIqv9dtUqa85chVYpJBgjPVj3
+ mlldl6Iz3JqE/nU+MkmFpSd03W5CiIy8GwtOnEEONO2ICK8oE4Rdi+qM/kFRhGBwsF67
+ XDBo2fNnZ60S4WzEEfNKSiYJNcwlvSPeK1rrrhWIH/nq2mR28HwqPXgUpLMxVmcs75Qg
+ cw14afcTmaA1yfhEucuip1C6uCmE/BbTnW4/IeoStqoBIFD5Le6OJ6YxnCmZtpzku/e4
+ mjbC9GcsfJS09diNeuHcpMg+xVTMYMUvOll8NCrP3FLbn3dn5WxtDhnHR7xFmdzMnokr
+ L1gQ==
+X-Gm-Message-State: AO0yUKUJjIVmTNDqEN+Kg2v886t6XTL2jhqlwQuiA95cEZ41i0zqOa3C
+ WRBbVHoo9BO25DqkguzRiD25+t4X/nWo3vwW/Hm5/xQuyJ7bj87KJrqjFJRACqhGiS47IMtsLDh
+ qIcERoN9ipXy0eJA=
+X-Received: by 2002:adf:e9c7:0:b0:2c5:7c26:c2cc with SMTP id
+ l7-20020adfe9c7000000b002c57c26c2ccmr3706315wrn.29.1676974654849; 
+ Tue, 21 Feb 2023 02:17:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set91qCJs2zDi3xPVKtpJL0qgHInahEIsyiPW0A4nifm/1cFEoNyx4M/3YLnKWIHfpvwhHFp9SQ==
+X-Received: by 2002:adf:e9c7:0:b0:2c5:7c26:c2cc with SMTP id
+ l7-20020adfe9c7000000b002c57c26c2ccmr3706290wrn.29.1676974654589; 
+ Tue, 21 Feb 2023 02:17:34 -0800 (PST)
 Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- y16-20020a5d4710000000b002c3e3ee7d1asm8417179wrq.79.2023.02.21.02.11.06
+ u5-20020a05600c210500b003e00c453447sm3928799wml.48.2023.02.21.02.17.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 02:11:08 -0800 (PST)
-Message-ID: <5ca3c321-1e6a-a108-7031-60be2709abda@redhat.com>
-Date: Tue, 21 Feb 2023 11:11:06 +0100
+ Tue, 21 Feb 2023 02:17:32 -0800 (PST)
+Message-ID: <a182b11b-3f65-9daf-c3fd-f98cb335917a@redhat.com>
+Date: Tue, 21 Feb 2023 11:17:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 13/14] tests: ensure we export job results for some
- cross builds
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -88,11 +86,12 @@ Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
+ <berrange@redhat.com>, Anders Roxell <anders.roxell@linaro.org>
 References: <20230221094558.2864616-1-alex.bennee@linaro.org>
- <20230221094558.2864616-14-alex.bennee@linaro.org>
+ <20230221094558.2864616-12-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230221094558.2864616-14-alex.bennee@linaro.org>
+Subject: Re: [PATCH v2 11/14] tests: add tuxrun baseline test to avocado
+In-Reply-To: <20230221094558.2864616-12-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -103,7 +102,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,14 +119,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 21/02/2023 10.45, Alex Bennée wrote:
-> We do run tests on some cross builds. Provide a template to ensure we
-> export the testlog to the build artefacts and report the test results
-> via the junit.
+> The TuxRun project (www.tuxrun.org) uses QEMU to run tests on a wide
+> variety of kernel configurations on wide range of our emulated
+> platforms. They publish a known good set of images at:
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+>    https://storage.tuxboot.com/
+> 
+> to help with bisecting regressions in either the kernel, firmware or
+> QEMU itself. The tests are pretty lightweight as they contain just a
+> kernel with a minimal rootfs which boots a lot faster than most of the
+> distros. In time they might be persuaded to version there known good
 
+"*their* known good baselines" ?
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> baselines and we can then enable proper checksums.
+> 
+> For a couple of tests we currently skip:
+> 
+>    - mips64, a regression against previous stable release
+>    - sh4, very unstable with intermittent oops
+> 
+> Total run time: 340s (default) -> 890s (debug)
+> 
+> Overall coverage rate (tested targets + disabled tests):
+>    lines......: 16.1% (126894 of 789848 lines)
+>    functions..: 20.6% (15954 of 77489 functions)
+>    branches...: 9.3% (40727 of 439365 branches)
+
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
