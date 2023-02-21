@@ -2,74 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D6E69E506
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A93069E51C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:50:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUVkK-00070t-CI; Tue, 21 Feb 2023 11:44:04 -0500
+	id 1pUVpm-0004Xe-Ao; Tue, 21 Feb 2023 11:49:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUVkI-00070O-Pc
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:44:02 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUVkG-0007j0-Pu
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:44:02 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id f11so2915820pfe.2
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 08:44:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676997839;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jjdSKPp9FxkPWOd21Y9/AorZCY0zNQLE4fvgnvwAo20=;
- b=GqIW6HyaFX0Pbuut2kStDzPM7zb7/6MdDLitbI9igHXwMlExTCa7E/HxQG08CKMI19
- Ygxcm6vfCC5qyjDmyOhVQhCreqhjDGKIKBVV3cZYNZhcHC9ryfeMW0SOT4fkVJk4017B
- T4OTOX50cdv62VuEBgMpmMH0A2QfJ6KxzGNG92iV6V2easODMB16hJpzteumUOhqXWSR
- qsr2SZj2lGCC7f/QQdE+rQ7u4wogBLNM/M1xlMKLAIXJ8Y92pj+YjmIAUYmj9R+kFE+S
- WFfYCVkcCWQsjAuQmRUq2C+GQg1GdJFcB5PJirz1UvwsAeeCJmB51cWYFTwb0DHQ94Us
- oRWw==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUVpk-0004Wn-2H
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:49:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUVpi-0000iO-Fa
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:49:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676998177;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fRbvjyRUVahEOfK2t5DfTTBGuQzzcparGaV+dHrGIDM=;
+ b=hsucqFMQJegz+rn26z1gGyqOTczWyznc+8JweWFzGS8zdd6PdoXxWwiFhPxK+5tKtHTj/c
+ SWgrem8gz7i/eBddcj3sAnhOwmBzQpareTtvFQmfWwogSaAEgKV/joP2SlzwwOw1SOPYeQ
+ fc9sNd/nrvV9geQyIRH6pMoeqkHhOg4=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-528-WxvPOQ8HO-qEILfsysLadA-1; Tue, 21 Feb 2023 11:49:34 -0500
+X-MC-Unique: WxvPOQ8HO-qEILfsysLadA-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ j10-20020a170902da8a00b00188cd4769bcso2247134plx.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 08:49:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676997839;
+ d=1e100.net; s=20210112; t=1676998173;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=jjdSKPp9FxkPWOd21Y9/AorZCY0zNQLE4fvgnvwAo20=;
- b=Cu6wjzbNDVkvnVm8iNdWTUBZXDiCbXPBxgdWXF0y/eJ5OATGXREFUq05kRQk/HL4ps
- fHGxAnJ7bXvRXeUGOvothZnb1WdCkAtyOMwvazr7esmkz98XWIQnDDVT97NzxGgpjP2Q
- BeYz6WtB3M2lo5OEKDJHPQuZ7roWa5oC5iMHzg6w5UD9wW4n9kPq04LQGOaKm1Jdashs
- PgKyWinJNiLUZhxhH/SKgWmtgp7FR6pLSJEVkN+3QDlO5yajWA7eZR1N3lsayKZfSpGF
- ZymoYYJkO8hlh142O0ZaGpd8PEx8HCQ62gKktgCG5ALso9Hb6fWipuhZ+DwQdNvpIFTL
- J4KQ==
-X-Gm-Message-State: AO0yUKVQP8IRVS6YwuudVD5P+1B29KRCvxeqzvjo4fw3qHFbB1WxBkFV
- /BO4KQF3OC86+kvQDL2S1gohMbpAO80tHRq2AJ88UQ==
-X-Google-Smtp-Source: AK7set+tzR40SWZ1x2c387tU0IZplq0ivnAhKZSQGhQE8C9oihZaRrRiHqQPCMuLC7OFQhlOcpGrQIM42G7zfsKSLgU=
-X-Received: by 2002:a62:164f:0:b0:5a9:babe:6cb9 with SMTP id
- 76-20020a62164f000000b005a9babe6cb9mr907879pfw.48.1676997839026; Tue, 21 Feb
- 2023 08:43:59 -0800 (PST)
+ bh=fRbvjyRUVahEOfK2t5DfTTBGuQzzcparGaV+dHrGIDM=;
+ b=7GKyf3LVkypMC23GaFtR2oGszTcx6YQioC6wlp81/dpXDzRuyfwgO7Q3oYd4FNymM7
+ ajX/kZSUpk4CctGU/NHGVo8lNRYa5QaUuzDSJOmyllnOAhd2ah/yS0SAiIzK2e9cEMv9
+ fDFZ1e/1ffiB8BqTtMAJIIBK0f7F7tMb+hwcfHP/BmtdKXyBzt6Fh6z7Z8Vz82NFLjzF
+ Fo9f5nQVkZjIw9Mgp4Io2bE+OXgaK6HIwoqpfbQNqDY0uPCWr7hyasuUeWMKaHvUWIyz
+ 41O/N1ZTnfWxl+O6QGyOJVwXuu7SLmoxO2orPGDhmEN9cHCIqI4i0uwmtBi3+5WGKyUO
+ 3tjQ==
+X-Gm-Message-State: AO0yUKVs4AgyEpwRpgQDvxwzwSqB1mZlQzxeUVrJy0qMuk9ZnOBXxCud
+ NGO9pQ2fFqCDmxK+Y/eeKpTE1SqUKTLnT16L/Riu4+XK0M4VyzMC0gyseGm6OUK5qFZYXBl/GDI
+ x3Nau2p9K22A22kF61UkJwlq6eQl98Vw=
+X-Received: by 2002:a62:ceca:0:b0:592:503a:8f06 with SMTP id
+ y193-20020a62ceca000000b00592503a8f06mr643642pfg.52.1676998173544; 
+ Tue, 21 Feb 2023 08:49:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set+YuJkKQed/0/L2AFx1B5WfzlXXHDVlOqCDX/D282EUbNVBlVd1hOaMY9gZiKA23v31BhCOtdReF7fCzGrEenQ=
+X-Received: by 2002:a62:ceca:0:b0:592:503a:8f06 with SMTP id
+ y193-20020a62ceca000000b00592503a8f06mr643629pfg.52.1676998173223; Tue, 21
+ Feb 2023 08:49:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20230217175203.19510-1-palmer@rivosinc.com>
-In-Reply-To: <20230217175203.19510-1-palmer@rivosinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Feb 2023 16:43:47 +0000
-Message-ID: <CAFEAcA_DvrOgKAdVcF8OxpxUv9aPB5hOWjWryOt_SpFiNzY12A@mail.gmail.com>
-Subject: Re: [PULL 0/9] Fourth RISC-V PR for QEMU 8.0
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+References: <20230221012456.2607692-1-jsnow@redhat.com>
+ <20230221012456.2607692-6-jsnow@redhat.com>
+ <87o7pnzf4d.fsf@pond.sub.org>
+In-Reply-To: <87o7pnzf4d.fsf@pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 21 Feb 2023 11:49:22 -0500
+Message-ID: <CAFn=p-aYtKwFUpHH+4TYGKKNhVreUL+KSLKjzPvDbxiMr9eN3g@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] meson: prefer 'sphinx-build' to 'sphinx-build-3'
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>, 
+ Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>, 
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Bin Meng <bmeng@tinylab.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
+ Daniel Berrange <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000678ea105f538903d"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,52 +100,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 17 Feb 2023 at 17:53, Palmer Dabbelt <palmer@rivosinc.com> wrote:
->
-> The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
->
->   tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230217
->
-> for you to fetch changes up to e8c0697d79ef05aa5aefb1121dfede59855556b4:
->
->   target/riscv: Fix vslide1up.vf and vslide1down.vf (2023-02-16 08:10:40 -0800)
->
-> ----------------------------------------------------------------
-> Fourth RISC-V PR for QEMU 8.0
->
-> * A triplet of cleanups to the kernel/initrd loader that avoids
->   duplication between the various boards.
-> * OpenSBI has been updated to version 1.2.
-> * Weiwei Li, Daniel Henrique Barboza, and Liu Zhiwei have been added as
->   reviewers.  Thanks for the help!
-> * A fix for PMP matching to avoid incorrectly appling the default
->   permissions on PMP permission violations.
-> * A cleanup to avoid an unnecessary avoid env_archcpu() in
->   cpu_get_tb_cpu_state().
-> * Fixes for the vector slide instructions to avoid truncating 64-bit
->   values (such as doubles) on 32-bit targets.
+--000000000000678ea105f538903d
+Content-Type: text/plain; charset="UTF-8"
 
-This seems to have caused CI to decide it needs to rerun the
-'docker-opensbi' job, which doesn't work:
-https://gitlab.com/qemu-project/qemu/-/jobs/3808319659
+On Tue, Feb 21, 2023, 1:50 AM Markus Armbruster <armbru@redhat.com> wrote:
 
-I don't understand what exactly is going on here -- Alex,
-Bin, any ideas?
+> John Snow <jsnow@redhat.com> writes:
+>
+> > Once upon a time, "sphinx-build" on certain RPM platforms invoked
+> > specifically a Python 2.x version, while "sphinx-build-3" was a distro
+> > shim for the Python 3.x version.
+> >
+> > These days, none of our supported platforms utilize a 2.x version, so it
+> > should be safe to search for 'sphinx-build' prior to 'sphinx-build-3',
+> > which will prefer pip/venv installed versions of sphinx if they're
+> > available.
+> >
+> > This adds an extremely convenient ability to test document building
+> > ability in QEMU across multiple versions of Sphinx for the purposes of
+> > compatibility testing.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  docs/meson.build | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/docs/meson.build b/docs/meson.build
+> > index 9136fed3b73..906034f9a87 100644
+> > --- a/docs/meson.build
+> > +++ b/docs/meson.build
+> > @@ -1,5 +1,5 @@
+> >  if get_option('sphinx_build') == ''
+> > -  sphinx_build = find_program(['sphinx-build-3', 'sphinx-build'],
+> > +  sphinx_build = find_program(['sphinx-build', 'sphinx-build-3'],
+> >                                required: get_option('docs'))
+> >  else
+> >    sphinx_build = find_program(get_option('sphinx_build'),
+>
+> Do we still need to check for sphinx-build-3?  Or asked differently, is
+> there any supported build host that provides only sphinx-build-3?
+>
 
-Why do we build the firmware in CI if we have checked in
-binaries in pc-bios?
+Yes, modern Fedora still uses "sphinx-build-3" as the name in /usr/bin for
+the rpm-packaged version of sphinx.
 
-Should .gitlab-ci.d/opensbi/Dockerfile really still be
-starting with Ubuntu 18.04 ? That is already older than our
-set of supported platforms, and falls out of support from
-Ubuntu in a couple of months.
+It's just that the only platforms where "sphinx-build" is the 2.x version
+are platforms on which we want to drop 3.6 support anyway, so it's OK to
+invert the search priority in the context of this series.
 
-(.gitlab-ci.d/edk2/Dockerfile is also using 18.04.)
+(All pip/pypi versions use "sphinx-build" as the binary name. In effect,
+this patch means we prefer pip/pypi versions if they're in your $PATH.)
 
-thanks
--- PMM
+
+>
+
+--000000000000678ea105f538903d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Tue, Feb 21, 2023, 1:50 AM Markus Armbruster &lt;<a=
+ href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">John Snow &lt;<a href=3D"mailto:jsnow@redh=
+at.com" target=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt; write=
+s:<br>
+<br>
+&gt; Once upon a time, &quot;sphinx-build&quot; on certain RPM platforms in=
+voked<br>
+&gt; specifically a Python 2.x version, while &quot;sphinx-build-3&quot; wa=
+s a distro<br>
+&gt; shim for the Python 3.x version.<br>
+&gt;<br>
+&gt; These days, none of our supported platforms utilize a 2.x version, so =
+it<br>
+&gt; should be safe to search for &#39;sphinx-build&#39; prior to &#39;sphi=
+nx-build-3&#39;,<br>
+&gt; which will prefer pip/venv installed versions of sphinx if they&#39;re=
+<br>
+&gt; available.<br>
+&gt;<br>
+&gt; This adds an extremely convenient ability to test document building<br=
+>
+&gt; ability in QEMU across multiple versions of Sphinx for the purposes of=
+<br>
+&gt; compatibility testing.<br>
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 docs/meson.build | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/docs/meson.build b/docs/meson.build<br>
+&gt; index 9136fed3b73..906034f9a87 100644<br>
+&gt; --- a/docs/meson.build<br>
+&gt; +++ b/docs/meson.build<br>
+&gt; @@ -1,5 +1,5 @@<br>
+&gt;=C2=A0 if get_option(&#39;sphinx_build&#39;) =3D=3D &#39;&#39;<br>
+&gt; -=C2=A0 sphinx_build =3D find_program([&#39;sphinx-build-3&#39;, &#39;=
+sphinx-build&#39;],<br>
+&gt; +=C2=A0 sphinx_build =3D find_program([&#39;sphinx-build&#39;, &#39;sp=
+hinx-build-3&#39;],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 required: get_option(&#39;docs&#3=
+9;))<br>
+&gt;=C2=A0 else<br>
+&gt;=C2=A0 =C2=A0 sphinx_build =3D find_program(get_option(&#39;sphinx_buil=
+d&#39;),<br>
+<br>
+Do we still need to check for sphinx-build-3?=C2=A0 Or asked differently, i=
+s<br>
+there any supported build host that provides only sphinx-build-3?<br></bloc=
+kquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Yes, moder=
+n Fedora still uses &quot;sphinx-build-3&quot; as the name in /usr/bin for =
+the rpm-packaged version of sphinx.</div><div dir=3D"auto"><br></div><div d=
+ir=3D"auto">It&#39;s just that the only platforms where &quot;sphinx-build&=
+quot; is the 2.x version are platforms on which we want to drop 3.6 support=
+ anyway, so it&#39;s OK to invert the search priority in the context of thi=
+s series.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(All pip/pypi =
+versions use &quot;sphinx-build&quot; as the binary name. In effect, this p=
+atch means we prefer pip/pypi versions if they&#39;re in your $PATH.)</div>=
+<div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex">
+<br>
+</blockquote></div></div></div>
+
+--000000000000678ea105f538903d--
+
 
