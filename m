@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9F869DE17
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:42:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEC269DE39
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:52:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUQ65-0000qM-Vj; Tue, 21 Feb 2023 05:42:10 -0500
+	id 1pUQE7-0004ON-G1; Tue, 21 Feb 2023 05:50:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUQ63-0000ok-SV
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:42:07 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUQE3-0004Ns-BH
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:50:23 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUQ61-0007pa-Bz
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:42:07 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- p3-20020a05600c358300b003e206711347so2777641wmq.0
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:42:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUQE1-0002Zo-Lg
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:50:22 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id z10so1423445ple.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:50:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=3moPHpbvuIA9ByxiAvHIOIrfTc06CDbvVqlf7VsWaAk=;
- b=NhIy7JGAcd/oRywr4WfUYzxPiYk4AUcW+hAAEJdly26vfReTHfO8bUtHRB37+b/N3x
- aDqXxS9+08upJPm4tsKQv2ftzrEz4QpcR5B357JC5Ba+2edijeS+d1lfxpqwk8Re8ilS
- g0L6huD7e3jSoKys9iAHlZvJdITpyhxN7M+0TkCph0D6tb8tXKszOnJIgMCkA9GHFJAL
- kcSMMMNRxlEaEGgCL/STNZjYWtdKdCflO2OhhKyLFZSKPodkfiwBE1WQEx6lkAGweEM/
- Bx9xvb9WlSEyZmXjw2eBCcNUX9RRLOeBat5XolT/JDen08V+FPMmoCqxbOhsIzjpmm8m
- j2Yg==
+ bh=fqT6Bdu+GaVBwMBVVOf3EnB3ZNrPZ8Lt4F67E3VKzxQ=;
+ b=NF7dAwkS9TyGIMzMAS3FlziVO0JFLoUvBoP5wBlFV/OXB0D9Htglw8PWxx+IWHiLLx
+ 1GnvGwAjYnL9fYPo4xYDymkDX7Uxl6XFqEnMQw3v8+LTlKvvbNdB8gMoxsn0ye8+YgVg
+ uFAxjyob85Xl+B1pYOIqIv1FUvnCH9rVNtZ9vRVLd8c19CxBsabr/KL6o0KARqkJBizS
+ zwgcW4UJR6LBHcBzNwAz92H69CdYIhW/pimmwxfRi/v3e7AUPSNJEeR0mwLyQc/ANy5p
+ CHknYjd/BWxrj1rJjVuXtIYEBLSmdcMLxw9Ix7FR+7583HEdZfC7Y7CqrOMTBJcdW078
+ etlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3moPHpbvuIA9ByxiAvHIOIrfTc06CDbvVqlf7VsWaAk=;
- b=z7WBImP/9JeqVGsE1bCzEtRlahN6Ds8fQ/8RSG9DhI6UWpQrDR/xYJIoOjwgNEzzyN
- Fr3ZNKA/TLYfZUUX0qmEiVeggN53NlN9sqiUflM+w9xBlAPzq0i1g+34jXxpB5oDSoRl
- 3JKUt+tLZlJHp4Rp4oACYQdASY9G9xmHksZ5D1l/+Tylx9S0fEZ0cyoWLACJG0XpM55L
- 4Yq1cS7fnHnQLRcqBW06jGUkma2RQUAMB7AyuZ86hQEREwPR5g6narYRSGQ1BuVFMQRg
- wWamjppN46t1tXZ+4yWAi2GRrCHZ265mM6Bz8P4oJyIAoC59ujb3PDnDGtYWDKnS8R2V
- 5+jw==
-X-Gm-Message-State: AO0yUKVNjWw5YVxfFIDUzwgiubs4VSK/E/g9vIgACAm9maLRnCSoTYMf
- n6buR20K8zFJVkELkhJD56+1Cg==
-X-Google-Smtp-Source: AK7set+lXnemgfuc1RKro+yoEw8nWUf1epm1OH1XuIPXZPjjcfzBqLuzThag0VHfG2qFeYcjU5/0cg==
-X-Received: by 2002:a05:600c:4918:b0:3dc:42d2:aee4 with SMTP id
- f24-20020a05600c491800b003dc42d2aee4mr8727583wmp.25.1676976123794; 
- Tue, 21 Feb 2023 02:42:03 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- p8-20020a1c7408000000b003b47b80cec3sm3369778wmc.42.2023.02.21.02.42.02
+ bh=fqT6Bdu+GaVBwMBVVOf3EnB3ZNrPZ8Lt4F67E3VKzxQ=;
+ b=O6KG65B6tMoujvnkCV6oc5Yb6FgdLDb5STJawmmx1uJlDAIKth7p7j/B/qtcDTzd+V
+ qiA/ozLgS5YC6tJEWKy/0X54TB9MqzY2J/csq/Rew8OC8DXWkHzeqPZWB64tnqS5/cAj
+ nTtYDu/6VQ86iEH0xsKRmCw4nAPqmVkjfPnLY48WGm4cfU6L55dUyAxcEfdIoG2fDz5+
+ N5se9/PQTb4dcHsi0Cvk8mrMpQ353yZmeiERGWwdL9x07zbj3rTqtzrwnZI9LdO2yhuY
+ 46WitmH5ZPnVp4os3KDnyoXvBbWaLVcJl4lPmz5pJqF8+82hqkUf6Am5ZTM2LxoWWebe
+ Qgag==
+X-Gm-Message-State: AO0yUKVMlmAQUq8bKVG5ajUBOnUZYZQYu1+or0p8rYVPGKNef7nbXilX
+ x1rUcsBYZx/bBGYtC/swBiL4bw==
+X-Google-Smtp-Source: AK7set8pS1YCTHuGeoIzeWnueq83hJhEAyIzawmpEcB+NAiH5NU/pIm2hl94UL6dnPnI/fX5ULoB8Q==
+X-Received: by 2002:a17:903:27c4:b0:19a:af11:a0c7 with SMTP id
+ km4-20020a17090327c400b0019aaf11a0c7mr4838840plb.3.1676976619966; 
+ Tue, 21 Feb 2023 02:50:19 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ v20-20020a170902e8d400b0019a87ede846sm3141353plg.285.2023.02.21.02.50.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 02:42:03 -0800 (PST)
-Message-ID: <ac13c9ce-89e2-cd83-235d-be7bc0544284@linaro.org>
-Date: Tue, 21 Feb 2023 11:42:02 +0100
+ Tue, 21 Feb 2023 02:50:19 -0800 (PST)
+Message-ID: <14c3e3e0-1b1c-5b32-1bb9-8269e9facb7a@linaro.org>
+Date: Tue, 21 Feb 2023 00:50:16 -1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
 Subject: Re: [PATCH v2 07/21] include/exec/memattrs: Add two bits of space to
  MemTxAttrs
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 References: <20230220232626.429947-1-richard.henderson@linaro.org>
  <20230220232626.429947-8-richard.henderson@linaro.org>
  <b1a5b38a-73ae-9610-676b-b27dd4c7195a@linaro.org>
  <bf06cdce-aa5f-98f3-4544-31d08d6bd55e@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <bf06cdce-aa5f-98f3-4544-31d08d6bd55e@linaro.org>
+ <ac13c9ce-89e2-cd83-235d-be7bc0544284@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <ac13c9ce-89e2-cd83-235d-be7bc0544284@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -94,14 +98,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/2/23 11:01, Richard Henderson wrote:
-> On 2/20/23 21:56, Philippe Mathieu-Daudé wrote:
->> 'secure' & 'user' seem mutually exclusive. If we get short in bits,
->> they could be shared.
+On 2/21/23 00:42, Philippe Mathieu-Daudé wrote:
+> On 21/2/23 11:01, Richard Henderson wrote:
+>> On 2/20/23 21:56, Philippe Mathieu-Daudé wrote:
+>>> 'secure' & 'user' seem mutually exclusive. If we get short in bits,
+>>> they could be shared.
+>>
+>> They are not.  ARM has Secure EL0, or secure user mode.
 > 
-> They are not.  ARM has Secure EL0, or secure user mode.
+> Oh, I misunderstood this field with user-emulation then (I tried
+> commenting it and my TCG/HVF build succeeded).
+> 
 
-Oh, I misunderstood this field with user-emulation then (I tried
-commenting it and my TCG/HVF build succeeded).
+target/arm/ptw.c:2853:    result->f.attrs.user = regime_is_user(env, mmu_idx);
 
+So... it shouldn't have built?
+
+r~
 
