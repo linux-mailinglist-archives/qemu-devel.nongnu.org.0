@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AB369EB68
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:46:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3649569EB92
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:59:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUcKd-0002Iw-SV; Tue, 21 Feb 2023 18:45:59 -0500
+	id 1pUcWj-0001L7-5x; Tue, 21 Feb 2023 18:58:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUcKS-0002Ah-AP
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:45:50 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUcKM-0006b5-9h
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:45:46 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- qi12-20020a17090b274c00b002341621377cso6605568pjb.2
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:45:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=05d66nY10nAt1ChOCukmV901f07iwdM3JluporyJIJI=;
- b=p9nbMV0HAp9HK47jn83N+eDA9rKs69qQXSYpipqiI/D/pHUSRHVLdrHlrOb4fw+AGV
- yUFFzusZARPPE4o1syDrX5jzXmVapNWiRafiIXkqw5W3DkvOmXp84tQJkLYwJSTR0NfI
- uFZ0BomXtvpVkyMhw/AunwZ+5bdNyngkRSgUqPk9BMoT3rX50iArmAE8U0LTvdHiNqYN
- M4J+jsMOFU41tF6MFpd8SShm0f9c2SaEg4naoKqpv4ChNVFRBu2TRkh/2JGooQQiksiZ
- y0xxwPkhGxc7GjZZpgbh6TQqqP4NW5EidG+QZsdzlfMD+MkumOgy0/w9kKC0/d40U4qo
- grVw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUcWe-0001KJ-5l
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:58:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUcWc-00018b-KS
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:58:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677023901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y6gizhSVpDQr8UfyjYme+jRyarI7qBKUWaghtebGrko=;
+ b=UcqBOP29c2Tg6qRAJlo/M2dR2TSYhMc2tEvTPsaIwTZO5KDBJgEk298gYwczsrDcaVRe10
+ sbK6QFzna2Gt3/VfY9I+W+432TymBFxe4V8S1W55qt9k2Wyh6lfgBfLROwmVz24xW1XjDg
+ t0F080fItCGhPb9E+O9Elx3HqByKxrc=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-183-NyiQqHsvNgCfrLJITYNQww-1; Tue, 21 Feb 2023 18:58:19 -0500
+X-MC-Unique: NyiQqHsvNgCfrLJITYNQww-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ pv11-20020ad4548b000000b0056e96f4fd64so2834194qvb.15
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:58:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=05d66nY10nAt1ChOCukmV901f07iwdM3JluporyJIJI=;
- b=53mQl7ZyaPMjv4eUOWsj01xxweyPXmvFurbcbrmQaQwyWlQ9H1qEpHQ86pKCdktPCv
- BQ507HtJ4Ye4oH2eYJAOys+6ZZXjDuUL8uUU7QmytvNQMSeI+dR5xiBpgdh55t7Q7qRZ
- nFi+oQjR0OMBP0vs8kb0eXFgSHlk1b/4oRsIybK9hX7moz5xO0n0jWKC4FAYo3q+4/WO
- 2Ubwwjor/ZPnMv9Iq3wll7m0l49KaiETmeQBaqWjSTbNDH9C1wK6NVyrs4e/SPg8nRvS
- 1sJ02adAXzGp4mPJFpNiZXzdjhaxQ5s9R0fOuvxQzvRo4Zbi6KyGhVWnY1/nPZPJQhSY
- skPQ==
-X-Gm-Message-State: AO0yUKWGLIHRkyeAWt0rpkwqxFlUKxzjQcs8i6tZG+9BHLkpyjtzKShx
- 2QBSimL9+HJ5ByLfKdul4ZO18g==
-X-Google-Smtp-Source: AK7set/ihcekmdazlfMGpBf883zifqhXjb58yUp9QQp4s78VDf+ruMHrmjEhABYyNqAFpTHLlAzGcQ==
-X-Received: by 2002:a17:902:d488:b0:196:5f75:66f9 with SMTP id
- c8-20020a170902d48800b001965f7566f9mr10253170plg.63.1677023132303; 
- Tue, 21 Feb 2023 15:45:32 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- j9-20020a170902758900b00186a2274382sm1855979pll.76.2023.02.21.15.45.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 15:45:31 -0800 (PST)
-Message-ID: <7bc4c5b2-058c-c60c-1842-09a23fa828cd@linaro.org>
-Date: Tue, 21 Feb 2023 13:45:28 -1000
+ d=1e100.net; s=20210112; t=1677023899;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y6gizhSVpDQr8UfyjYme+jRyarI7qBKUWaghtebGrko=;
+ b=p30eaeEUGLUjTUsiQ0spsQ19t/ZmZ/z/TRg+yBuicGpDA6cn4OXxpjUak2IHAns/jw
+ VIVkA6CpZ0GDQTDAcSKNZci2Y8j2lXc54SfYhe8YrkwwfXPAbQt+defghAvPOvBovy+F
+ nOKOOkUmLK5x225fsAnLeHPXD6ZIBHEKElHG7NyqyfkWXi57vUd6qunL2dkv2nX296U6
+ rObV/XekY9ZfsAXWN158gydTQ6G2fP6k4aQYpsTmOGiOqzXLlug+fpjf6gphv1noaqUf
+ bJJLEq6567V69WGrw68z3iqDfcxBeGs1Ll6HgRwYOlp4Y2feAwpguRMWtzRwJ3BXNp3U
+ jebA==
+X-Gm-Message-State: AO0yUKXUB88ETjzjtVfoUv1Tswhoaz8BZP4ZKSCHgrKNaJ35bc2WIDbW
+ Vbnw/EDCYKuFvcS98cHXtWp5C1sTXabhoNqw48Q1JXPQOKf+tjZZHLDJOSTCiuAHL+FFaxUsWAc
+ 39Pkvdct1EHtdXn4=
+X-Received: by 2002:ac8:5748:0:b0:3b8:36f8:830e with SMTP id
+ 8-20020ac85748000000b003b836f8830emr12493390qtx.6.1677023899006; 
+ Tue, 21 Feb 2023 15:58:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set/cGcmZEdynxhdKdTP+eZkmH2xZGQ/dfkziZmzecderu1kn0kvUUrxKqZbk8ByANNUpWzSJZA==
+X-Received: by 2002:ac8:5748:0:b0:3b8:36f8:830e with SMTP id
+ 8-20020ac85748000000b003b836f8830emr12493297qtx.6.1677023897716; 
+ Tue, 21 Feb 2023 15:58:17 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ t22-20020a05620a0b1600b0073917fae4f8sm11740850qkg.25.2023.02.21.15.58.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 15:58:16 -0800 (PST)
+Date: Tue, 21 Feb 2023 18:58:15 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ peter.maydell@linaro.org, david@redhat.com, philmd@linaro.org,
+ mst@redhat.com, cohuck@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com, maz@kernel.org, zhenyzha@redhat.com,
+ shan.gavin@gmail.com
+Subject: Re: [PATCH v1 3/6] kvm: Synchronize the backup bitmap in the last
+ stage
+Message-ID: <Y/Val7mrVHHE8Bsb@x1n>
+References: <20230213003925.40158-1-gshan@redhat.com>
+ <20230213003925.40158-4-gshan@redhat.com> <Y/UDbqyB2N/OWWi5@x1n>
+ <08c954d7-f4e4-4d63-28fc-50128f4bc2d7@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 2/4] sysemu/os-win32: fix setjmp/longjmp on
- windows-arm64
-Content-Language: en-US
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- alex.bennee@linaro.org, peter.maydell@linaro.org, philmd@linaro.org
-References: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
- <20230221153006.20300-3-pierrick.bouvier@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230221153006.20300-3-pierrick.bouvier@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <08c954d7-f4e4-4d63-28fc-50128f4bc2d7@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,23 +102,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/21/23 05:30, Pierrick Bouvier wrote:
-> Windows implementation of setjmp/longjmp is done in
-> C:/WINDOWS/system32/ucrtbase.dll. Alas, on arm64, it seems to *always*
-> perform stack unwinding, which crashes from generated code.
-> 
-> By using alternative implementation built in mingw, we avoid doing stack
-> unwinding and this fixes crash when calling longjmp.
-> 
-> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/sysemu/os-win32.h | 28 ++++++++++++++++++++++++----
->   meson.build               | 21 +++++++++++++++++++++
->   2 files changed, 45 insertions(+), 4 deletions(-)
+Hi, Gavin,
 
-Queueing this to tcg-next.
+On Wed, Feb 22, 2023 at 10:44:07AM +1100, Gavin Shan wrote:
+> Peter, could you please give some hints for me to understand the atomic
+> and non-atomic update here? Ok, I will drop this part of changes in next
+> revision with the assumption that we have atomic update supported for
+> ARM64.
 
+See commit f39b7d2b96.  Please don't remove the change in this patch.
 
-r~
+The comment was just something I thought about when reading, not something
+I suggested to change.
+
+If to remove it we'll need to remove the whole chunk not your changes alone
+here.  Still, please take it with a grain of salt before anyone can help to
+confirm because I can miss something else here.
+
+In short: before we know anything solidly, your current code is exactly
+correct, AFAICT.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
