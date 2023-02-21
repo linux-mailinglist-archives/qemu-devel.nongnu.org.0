@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFF769DCC5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A1069DCF7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:35:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUOpu-00070a-57; Tue, 21 Feb 2023 04:21:22 -0500
+	id 1pUP1p-0001mY-Iq; Tue, 21 Feb 2023 04:33:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUOpm-0006zm-Ej
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:21:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pUP1l-0001mJ-J5
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:33:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUOpk-00014A-Rm
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:21:14 -0500
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pUP1j-0003F5-Ja
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:33:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676971271;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1676972014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=f6tnLnjWLSdpGhFwckMoK4iFutzljn52E/+abnt2enE=;
- b=IdoOtd/0yCpHZ/VF0zTuR9ql3hf5hSO16fcyJe6JzxMcWDUzpUKrHzu8sccXvr7dBDbEGQ
- k8FKrzm3FrBwHWqZJBrGfoBjJzIbJMG4MxKIAfTEdKh81CQOJwD17a+rE0LZ0ebjlUY+Sm
- jHilqnAvPRtuGjZR6GqYsUYsKCtkYps=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-sKizKDPDP9S7hdnLvPNZtQ-1; Tue, 21 Feb 2023 04:21:08 -0500
-X-MC-Unique: sKizKDPDP9S7hdnLvPNZtQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E7EF885623;
- Tue, 21 Feb 2023 09:21:08 +0000 (UTC)
-Received: from [10.64.54.62] (vpn2-54-62.bne.redhat.com [10.64.54.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A4A3492B06;
- Tue, 21 Feb 2023 09:21:05 +0000 (UTC)
-Subject: Re: [PATCH] hw/arm/virt: Prevent CPUs in one socket to span mutiple
- NUMA nodes
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org, yihyu@redhat.com,
- shan.gavin@gmail.com
-References: <20230221085352.212938-1-gshan@redhat.com>
- <78d887c3-0241-9552-69b2-bd2e9a8fb74b@linaro.org>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <3e88a2ec-6425-f484-8483-560d511a27ca@redhat.com>
-Date: Tue, 21 Feb 2023 20:21:02 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ bh=cN207Pntn9lyNQdTAimbxDVoD2zCAb6qRNagjzFzwa8=;
+ b=TrElzWejYjGJl6gnRfyrddd3Xi3mD2AQ7a0gyLpySk8mM/yUpj05YL/zPG3Fs80X54E+p3
+ G14DKqXMn198zDvPuiKzXrKKfhtteBjNG09AXKuWXIud7fNt4Uvq2khYSHqpMjjotcbOty
+ 2UFEz7cpMJ5H0n/G4bYiVH1F1YaKq1I=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-262-eLhEWyBMMfKBReqxULFTNg-1; Tue, 21 Feb 2023 04:33:33 -0500
+X-MC-Unique: eLhEWyBMMfKBReqxULFTNg-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ d1-20020ab02101000000b0068eddc91250so1718686ual.20
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 01:33:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cN207Pntn9lyNQdTAimbxDVoD2zCAb6qRNagjzFzwa8=;
+ b=jQ+2K+sP1VXQ1Wqp8er5dSzhqqOrjjV6QEIV6NWit3tPpNkMapusj4iggglGlZeyCA
+ AUTsSiiyuoPqwEfnuxOq9+oruSguRvMqorQSZK9Ev8La+KAPPUmc/l1WNZI6tgmsStI7
+ z/Uv4OtqaKF1wSCztLybeJ5vYVBClhYo3cTp8NYEU3XLn7a74DZwTq5jRdpmt77FncLS
+ tQbXT/EbswIqPru0snlpxW197uZ7Uf16PoWOiQLFxZ1K6vdwUPmTvE9KoAlc3s4x0Hcy
+ IV+VIh1yVk24I4GCvBqELrzjBBme29NguUzJKEZ9yekl58tNmdtd7lYXSxXpjGGV9GM2
+ 6w0g==
+X-Gm-Message-State: AO0yUKX8cQQ8iI4HGS0M8mTHvj1p8Cl2AngTR9VAwxqAwc7ARxfkhZok
+ uV3IgfPUwDPgNDtzGOQei15BQPuQtNdgN+HwWNuB5KClfaDUlEvZUj+AJNpm2nMlR/p0bWZD/H/
+ Qj2sDOz1W0aZGQBgebEK2uASZhosLNuc=
+X-Received: by 2002:a1f:a251:0:b0:3e9:fd3b:692e with SMTP id
+ l78-20020a1fa251000000b003e9fd3b692emr663279vke.38.1676972012600; 
+ Tue, 21 Feb 2023 01:33:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set/pTqWD6GhTouzTatFejYY4GcpZLjITUgadxbdi4q0hX3yDapWFfEaOetQyTxn2Qe6JcvBedwctiAGtpQ0BaiE=
+X-Received: by 2002:a1f:a251:0:b0:3e9:fd3b:692e with SMTP id
+ l78-20020a1fa251000000b003e9fd3b692emr663265vke.38.1676972012419; Tue, 21 Feb
+ 2023 01:33:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <78d887c3-0241-9552-69b2-bd2e9a8fb74b@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
+References: <20230220174142.240393-1-kkostiuk@redhat.com>
+ <20230220174142.240393-2-kkostiuk@redhat.com>
+ <790be50d-9a52-6f92-f053-ee9a4eec0a31@linaro.org>
+In-Reply-To: <790be50d-9a52-6f92-f053-ee9a4eec0a31@linaro.org>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Tue, 21 Feb 2023 11:33:21 +0200
+Message-ID: <CAPMcbCpAmAxGN1jefQuBDfEVb+g06+WLUfM9ghx4z8M0pi=qUw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] qga/win32: Remove change action from MSI installer
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ Stefan Weil <sw@weilnetz.de>, Yonggang Luo <luoyonggang@gmail.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, 
+ Yan Vugenfirer <yvugenfi@redhat.com>,
+ Evgeny Iakovlev <eiakovlev@linux.microsoft.com>, 
+ Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, brian.wiltse@live.com
+Content-Type: multipart/alternative; boundary="00000000000019534c05f5327951"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,115 +103,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/21/23 8:15 PM, Philippe Mathieu-Daudé wrote:
-> On 21/2/23 09:53, Gavin Shan wrote:
->> Linux kernel guest reports warning when two CPUs in one socket have
->> been associated with different NUMA nodes, using the following command
->> lines.
->>
->>    -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
->>    -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
->>    -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
->>    -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
->>
->>    ------------[ cut here ]------------
->>    WARNING: CPU: 0 PID: 1 at kernel/sched/topology.c:2271 build_sched_domains+0x284/0x910
->>    Modules linked in:
->>    CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.14.0-268.el9.aarch64 #1
->>    pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->>    pc : build_sched_domains+0x284/0x910
->>    lr : build_sched_domains+0x184/0x910
->>    sp : ffff80000804bd50
->>    x29: ffff80000804bd50 x28: 0000000000000002 x27: 0000000000000000
->>    x26: ffff800009cf9a80 x25: 0000000000000000 x24: ffff800009cbf840
->>    x23: ffff000080325000 x22: ffff0000005df800 x21: ffff80000a4ce508
->>    x20: 0000000000000000 x19: ffff000080324440 x18: 0000000000000014
->>    x17: 00000000388925c0 x16: 000000005386a066 x15: 000000009c10cc2e
->>    x14: 00000000000001c0 x13: 0000000000000001 x12: ffff00007fffb1a0
->>    x11: ffff00007fffb180 x10: ffff80000a4ce508 x9 : 0000000000000041
->>    x8 : ffff80000a4ce500 x7 : ffff80000a4cf920 x6 : 0000000000000001
->>    x5 : 0000000000000001 x4 : 0000000000000007 x3 : 0000000000000002
->>    x2 : 0000000000001000 x1 : ffff80000a4cf928 x0 : 0000000000000001
->>    Call trace:
->>     build_sched_domains+0x284/0x910
->>     sched_init_domains+0xac/0xe0
->>     sched_init_smp+0x48/0xc8
->>     kernel_init_freeable+0x140/0x1ac
->>     kernel_init+0x28/0x140
->>     ret_from_fork+0x10/0x20
->>
->> Fix it by preventing mutiple CPUs in one socket to be associated with
->> different NUMA nodes.
->>
->> Reported-by: Yihuang Yu <yihyu@redhat.com>
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> ---
->>   hw/arm/virt.c | 37 +++++++++++++++++++++++++++++++++++++
->>   1 file changed, 37 insertions(+)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index ac626b3bef..e0af267c77 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -230,6 +230,39 @@ static bool cpu_type_valid(const char *cpu)
->>       return false;
->>   }
->> +static bool numa_state_valid(MachineState *ms)
->> +{
->> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
->> +    NumaState *state = ms->numa_state;
->> +    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
->> +    const CPUArchId *cpus = possible_cpus->cpus;
->> +    int len = possible_cpus->len, i, j;
->> +
->> +    if (!state || state->num_nodes <= 1 || len <= 1) {
->> +        return true;
->> +    }
->> +
->> +    for (i = 0; i < len; i++) {
->> +        for (j = i + 1; j < len; j++) {
->> +            if (cpus[i].props.has_socket_id &&
->> +                cpus[i].props.has_node_id &&
->> +                cpus[j].props.has_socket_id &&
->> +                cpus[j].props.has_node_id &&
->> +                cpus[i].props.socket_id == cpus[j].props.socket_id &&
->> +                cpus[i].props.node_id != cpus[j].props.node_id) {
->> +                error_report("CPU-%d and CPU-%d in socket-%ld have been "
->> +                             "associated with node-%ld and node-%ld",
->> +                             i, j, cpus[i].props.socket_id,
->> +                             cpus[i].props.node_id,
->> +                             cpus[j].props.node_id);
->> +                return false;
->> +            }
->> +        }
->> +    }
->> +
->> +    return true;
->> +}
->> +
->>   static void create_randomness(MachineState *ms, const char *node)
->>   {
->>       struct {
->> @@ -2040,6 +2073,10 @@ static void machvirt_init(MachineState *machine)
->>           exit(1);
->>       }
->> +    if (!numa_state_valid(machine)) {
->> +        exit(1);
->> +    }
-> 
-> Why restrict to the virt machine?
-> 
+--00000000000019534c05f5327951
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We tried x86 machines and virt machine, but the issue isn't reproducible on x86 machines.
-So I think it's machine or architecture specific issue. However, I believe RiscV should
-have similar issue because linux/drivers/base/arch_topology.c is shared by ARM64 and RiscV.
-x86 doesn't use the driver to populate its CPU topology.
+On Tue, Feb 21, 2023 at 10:15 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro=
+.org>
+wrote:
 
-Thanks,
-Gavin
+> On 20/2/23 18:41, Konstantin Kostiuk wrote:
+> > resolves: rhbz#2167436
+>
+> "You are not authorized to access bug #2167436."
+>
+> > fixes: CVE-2023-0664
+>
+> This commit description is rather scarce...
+>
+> I understand you are trying to fix a CVE, but we shouldn't play
+> the "security by obscurity" card. How can the community and
+> distributions know this security fix is enough with the bare
+> "Remove change action from MSI installer" justification?
+> Can't we do better?
+>
+
+This patch is part of the fix. I remove the 'change' button because
+the installer has no components to choose from and the installer
+always installs everything.
+
+The second patch removes the interactive command shell.
+
+
+>
+> > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+> > ---
+> >   qga/installer/qemu-ga.wxs | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+> > index 51340f7ecc..feb629ec47 100644
+> > --- a/qga/installer/qemu-ga.wxs
+> > +++ b/qga/installer/qemu-ga.wxs
+> > @@ -31,6 +31,7 @@
+> >         />
+> >       <Media Id=3D"1" Cabinet=3D"qemu_ga.$(var.QEMU_GA_VERSION).cab"
+> EmbedCab=3D"yes" />
+> >       <Property Id=3D"WHSLogo">1</Property>
+> > +    <Property Id=3D"ARPNOMODIFY" Value=3D"yes" Secure=3D"yes" />
+> >       <MajorUpgrade
+> >         DowngradeErrorMessage=3D"Error: A newer version of QEMU guest
+> agent is already installed."
+> >         />
+> > --
+> > 2.25.1
+> >
+> >
+>
+>
+
+--00000000000019534c05f5327951
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br clear=3D"all"><br></div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 21, 202=
+3 at 10:15 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@lina=
+ro.org">philmd@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On 20/2/23 18:41, Konstantin Kostiuk wrote:<br>
+&gt; resolves: rhbz#2167436<br>
+<br>
+&quot;You are not authorized to access bug #2167436.&quot;<br>
+<br>
+&gt; fixes: CVE-2023-0664<br>
+<br>
+This commit description is rather scarce...<br>
+<br>
+I understand you are trying to fix a CVE, but we shouldn&#39;t play<br>
+the &quot;security by obscurity&quot; card. How can the community and<br>
+distributions know this security fix is enough with the bare<br>
+&quot;Remove change action from MSI installer&quot; justification?<br>
+Can&#39;t we do better?<br></blockquote><div><br></div><div>This patch is p=
+art of the fix. I remove the &#39;change&#39; button because</div><div>the =
+installer has no components to choose from and the installer</div><div>alwa=
+ys installs everything. <br><br>The second patch removes the interactive co=
+mmand shell.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+<br>
+&gt; Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redha=
+t.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0qga/installer/qemu-ga.wxs | 1 +<br>
+&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+)<br>
+&gt; <br>
+&gt; diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs<br>
+&gt; index 51340f7ecc..feb629ec47 100644<br>
+&gt; --- a/qga/installer/qemu-ga.wxs<br>
+&gt; +++ b/qga/installer/qemu-ga.wxs<br>
+&gt; @@ -31,6 +31,7 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;Media Id=3D&quot;1&quot; Cabinet=3D&quot=
+;qemu_ga.$(var.QEMU_GA_VERSION).cab&quot; EmbedCab=3D&quot;yes&quot; /&gt;<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;Property Id=3D&quot;WHSLogo&quot;&gt;1&l=
+t;/Property&gt;<br>
+&gt; +=C2=A0 =C2=A0 &lt;Property Id=3D&quot;ARPNOMODIFY&quot; Value=3D&quot=
+;yes&quot; Secure=3D&quot;yes&quot; /&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&lt;MajorUpgrade<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DowngradeErrorMessage=3D&quot;Error: =
+A newer version of QEMU guest agent is already installed.&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/&gt;<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt; <br>
+&gt; <br>
+<br>
+</blockquote></div></div>
+
+--00000000000019534c05f5327951--
 
 
