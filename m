@@ -2,100 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AA169E636
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B6269E635
 	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 18:47:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUWiP-0001Tb-Hm; Tue, 21 Feb 2023 12:46:09 -0500
+	id 1pUWik-0001lt-T8; Tue, 21 Feb 2023 12:46:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
- id 1pUWiI-0001SM-IF; Tue, 21 Feb 2023 12:46:02 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUWij-0001l4-00
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:46:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
- id 1pUWiG-0004XY-49; Tue, 21 Feb 2023 12:46:02 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31LHUa0I027580; Tue, 21 Feb 2023 17:45:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=Ftp+12VGdglM+HQ9msNO2aGV/q90kltd8sZCM7UfJAk=;
- b=dxVx97l9k2ZXNv+S2m6KOF5fZlnd84OlBHhqr4d148u7ykjS257hdTCBnYeZ7/8KHrGG
- BRj0sc7pzfuRDTZzvM8mNCsBdZhCHt2hz9OG1F/U3zwDp9KT97ChASvpMmq3Z2Tcr2w3
- /cZap4984GHGOrVlNtA50PRfL1lwb4V2A3Uilky23tFzZPbacNu8ORcFQ7Begp+dE6Vu
- jIjqMH6OR4mQOPsZG/nO3G7CbaVK3It/kkuTGZj/l+yhMBOgZmi7bWRJiph0/EaW8HnN
- SKt4D/jA3AjPl2/1tEbyc2Twi8kQbyS+uECwMBryelDFIaJO8Cpm751Z8n0Zhj89huav Zw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nw2dwrasb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Feb 2023 17:45:57 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31LHX1Wq037737;
- Tue, 21 Feb 2023 17:45:57 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nw2dwras5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Feb 2023 17:45:57 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31LFtFJT000617;
- Tue, 21 Feb 2023 17:45:56 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
- by ppma04dal.us.ibm.com (PPS) with ESMTPS id 3ntpa78vut-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Feb 2023 17:45:56 +0000
-Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com
- [10.241.53.100])
- by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31LHjsvj52429064
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 21 Feb 2023 17:45:54 GMT
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5065358059;
- Tue, 21 Feb 2023 17:45:54 +0000 (GMT)
-Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B03E58062;
- Tue, 21 Feb 2023 17:45:53 +0000 (GMT)
-Received: from t15.endicott.ibm.com (unknown [9.60.89.108])
- by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 21 Feb 2023 17:45:53 +0000 (GMT)
-From: jrossi@linux.ibm.com
-To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Cc: thuth@redhat.com, frankja@linux.ibm.com, jjherne@linux.ibm.com,
- jrossi@linux.ibm.com
-Subject: [RESEND PATCH 1/1] pc-bios: Add support for List-Directed IPL from
- ECKD DASD
-Date: Tue, 21 Feb 2023 12:45:48 -0500
-Message-Id: <20230221174548.1866861-2-jrossi@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230221174548.1866861-1-jrossi@linux.ibm.com>
-References: <20230221174548.1866861-1-jrossi@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUWih-0004ap-D1
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:46:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677001586;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZTnVUzugBbqur6BqfZt1CtTDSK+k3vWZTQvUGOxv7wM=;
+ b=XvdRjDs3fKcrmzz5olAfUYVgzcp8vFjzww41es4QBWa8nZTUTkCJeufKnS3Awdks0NFuDG
+ fCH0Oeb8F6Oozb8rP8vwHvX7yKSultWnr5YN4aUQzUEj3l42g9pFZnJBIFQTJ6bpaYPofD
+ WHQuPje8hVkUQYC1L2GAfKErZxTHymI=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-46-duE-f1Z6O9KV38l3E4JOmQ-1; Tue, 21 Feb 2023 12:46:25 -0500
+X-MC-Unique: duE-f1Z6O9KV38l3E4JOmQ-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ f26-20020a056102151a00b004177ba1e3c6so1387678vsv.11
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 09:46:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677001584;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZTnVUzugBbqur6BqfZt1CtTDSK+k3vWZTQvUGOxv7wM=;
+ b=UhcX5Bxw7+mbcbh4Dm1ZzP0MZu0oepeaxZZBIrp+1Gj2g4J/1byLPo/U04iZJm/l2M
+ pvuH68hzg+gOj7VYW5UKdwNZG4FHpHJow3Xhflk9RnJWjwQ2HjaLtz0Zxf8V+gpZn/1n
+ G+o/MlIDUnA1QbrZxtGBRwvH22+Aiud891+943h72BtE37D5gYjXwrmAs68zuKN41mQb
+ ou+gsDA6NafIri6CGuxdrkZLQHUHShsYIYTTwHKrj9fUNDWBJ0pq8UBBoEMFM9eRwowz
+ EPMnYgaEDSdrxnIbdPxEAuPi/kkOgmTTSkNQag9ZvEXCo6R2q8GkCZyD5+Ax9zaFGQ11
+ 3CQA==
+X-Gm-Message-State: AO0yUKUaY2AYWwD/NjrsjI5Oi6MLHbuMR5aPAaWVAQt+57tJzpbYs8dN
+ GwBAB6HuWwnGRnds5usfw/kmFy8hMBlo1ChhqqxqsiyRb9kEP9uIjTlM1Ig59XROB4hRw0u62l5
+ AR1pW8t8STGB/t6Y=
+X-Received: by 2002:a67:6102:0:b0:41e:b377:e18c with SMTP id
+ v2-20020a676102000000b0041eb377e18cmr429064vsb.3.1677001584688; 
+ Tue, 21 Feb 2023 09:46:24 -0800 (PST)
+X-Google-Smtp-Source: AK7set+U1n42pNbANb0O1B5Fcelavt+ifGRolTsrAnDKV30KiK4HVQGXCPVyeWt61sQLO93xJcvK4g==
+X-Received: by 2002:a67:6102:0:b0:41e:b377:e18c with SMTP id
+ v2-20020a676102000000b0041eb377e18cmr429035vsb.3.1677001584278; 
+ Tue, 21 Feb 2023 09:46:24 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ 21-20020a370415000000b0073b732803c4sm2553557qke.5.2023.02.21.09.46.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 09:46:23 -0800 (PST)
+Date: Tue, 21 Feb 2023 12:46:22 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ peter.maydell@linaro.org, david@redhat.com, philmd@linaro.org,
+ mst@redhat.com, cohuck@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com, maz@kernel.org, zhenyzha@redhat.com,
+ shan.gavin@gmail.com
+Subject: Re: [PATCH v1 3/6] kvm: Synchronize the backup bitmap in the last
+ stage
+Message-ID: <Y/UDbqyB2N/OWWi5@x1n>
+References: <20230213003925.40158-1-gshan@redhat.com>
+ <20230213003925.40158-4-gshan@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 2Xlzpt0m5I6643Y87xTeQl4WXG3zzsxx
-X-Proofpoint-GUID: maiRgP-4YusXyX1u05ZjiBTMmM8pv0Lq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-21_10,2023-02-20_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- spamscore=0 mlxlogscore=999 suspectscore=0 adultscore=0 lowpriorityscore=0
- impostorscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302210148
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jrossi@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230213003925.40158-4-gshan@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,353 +101,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jared Rossi <jrossi@linux.ibm.com>
+On Mon, Feb 13, 2023 at 08:39:22AM +0800, Gavin Shan wrote:
+> In the last stage of live migration or memory slot removal, the
+> backup bitmap needs to be synchronized when it has been enabled.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  accel/kvm/kvm-all.c      | 11 +++++++++++
+>  include/sysemu/kvm_int.h |  1 +
+>  2 files changed, 12 insertions(+)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 01a6a026af..b5e12de522 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -1352,6 +1352,10 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+>                   */
+>                  if (kvm_state->kvm_dirty_ring_size) {
+>                      kvm_dirty_ring_reap_locked(kvm_state, NULL);
+> +                    if (kvm_state->kvm_dirty_ring_with_bitmap) {
+> +                        kvm_slot_sync_dirty_pages(mem);
+> +                        kvm_slot_get_dirty_log(kvm_state, mem);
+> +                    }
+>                  } else {
+>                      kvm_slot_get_dirty_log(kvm_state, mem);
+>                  }
 
-Check for a List Directed IPL Boot Record, which would supersede the CCW type
-entries.  If the record is valid, proceed to use the new style pointers
-and perform LD-IPL. Each block pointer is interpreted as either an LD-IPL
-pointer or a legacy CCW pointer depending on the type of IPL initiated.
+IIUC after the memory atomic update changes lands QEMU, we may not need
+this sync at all.
 
-In either case CCW- or LD-IPL is transparent to the user and will boot the same
-image regardless of which set of pointers is used. Because the interactive boot
-menu is only written with the old style pointers, the menu will be disabled for
-List Directed IPL from ECKD DASD.
+My understanding is that we sync dirty log here only because of non-atomic
+updates happening in the past and we may lose dirty bits unexpectedly.
+Maybe Paolo knows.
 
-If the LD-IPL fails, retry the IPL using the CCW type pointers.
+But that needs some more justification and history digging, so definitely
+more suitable to leave it for later and separate discussion.
 
-If no LD-IPL boot record is found, simply perform CCW type IPL as usual.
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-Signed-off-by: Jared Rossi <jrossi@linux.ibm.com>
+Thanks,
 
----
- pc-bios/s390-ccw/bootmap.c | 157 ++++++++++++++++++++++++++++---------
- pc-bios/s390-ccw/bootmap.h |  30 ++++++-
- 2 files changed, 148 insertions(+), 39 deletions(-)
+> @@ -1573,6 +1577,12 @@ static void kvm_log_sync_global(MemoryListener *l, bool last_stage)
+>          mem = &kml->slots[i];
+>          if (mem->memory_size && mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
+>              kvm_slot_sync_dirty_pages(mem);
+> +
+> +            if (s->kvm_dirty_ring_with_bitmap && last_stage &&
+> +                kvm_slot_get_dirty_log(s, mem)) {
+> +                kvm_slot_sync_dirty_pages(mem);
+> +            }
+> +
+>              /*
+>               * This is not needed by KVM_GET_DIRTY_LOG because the
+>               * ioctl will unconditionally overwrite the whole region.
+> @@ -3701,6 +3711,7 @@ static void kvm_accel_instance_init(Object *obj)
+>      s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
+>      /* KVM dirty ring is by default off */
+>      s->kvm_dirty_ring_size = 0;
+> +    s->kvm_dirty_ring_with_bitmap = false;
+>      s->notify_vmexit = NOTIFY_VMEXIT_OPTION_RUN;
+>      s->notify_window = 0;
+>  }
+> diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+> index 60b520a13e..fdd5b1bde0 100644
+> --- a/include/sysemu/kvm_int.h
+> +++ b/include/sysemu/kvm_int.h
+> @@ -115,6 +115,7 @@ struct KVMState
+>      } *as;
+>      uint64_t kvm_dirty_ring_bytes;  /* Size of the per-vcpu dirty ring */
+>      uint32_t kvm_dirty_ring_size;   /* Number of dirty GFNs per ring */
+> +    bool kvm_dirty_ring_with_bitmap;
+>      struct KVMDirtyRingReaper reaper;
+>      NotifyVmexitOption notify_vmexit;
+>      uint32_t notify_window;
+> -- 
+> 2.23.0
+> 
 
-diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-index 994e59c0b0..77229f93f3 100644
---- a/pc-bios/s390-ccw/bootmap.c
-+++ b/pc-bios/s390-ccw/bootmap.c
-@@ -72,42 +72,74 @@ static inline void verify_boot_info(BootInfo *bip)
-                "Bad block size in zIPL section of the 1st record.");
- }
- 
--static block_number_t eckd_block_num(EckdCHS *chs)
-+static void eckd_format_chs(ExtEckdBlockPtr *ptr,  bool ldipl,
-+                            uint64_t *c,
-+                            uint64_t *h,
-+                            uint64_t *s)
-+{
-+    if (ldipl) {
-+        *c = ptr->ldptr.chs.cylinder;
-+        *h = ptr->ldptr.chs.head;
-+        *s = ptr->ldptr.chs.sector;
-+    } else {
-+        *c = ptr->bptr.chs.cylinder;
-+        *h = ptr->bptr.chs.head;
-+        *s = ptr->bptr.chs.sector;
-+    }
-+}
-+
-+static block_number_t eckd_chs_to_block(uint64_t c, uint64_t h, uint64_t s)
- {
-     const uint64_t sectors = virtio_get_sectors();
-     const uint64_t heads = virtio_get_heads();
--    const uint64_t cylinder = chs->cylinder
--                            + ((chs->head & 0xfff0) << 12);
--    const uint64_t head = chs->head & 0x000f;
-+    const uint64_t cylinder = c + ((h & 0xfff0) << 12);
-+    const uint64_t head = h & 0x000f;
-     const block_number_t block = sectors * heads * cylinder
-                                + sectors * head
--                               + chs->sector
--                               - 1; /* block nr starts with zero */
-+                               + s - 1; /* block nr starts with zero */
-     return block;
- }
- 
--static bool eckd_valid_address(BootMapPointer *p)
-+static block_number_t eckd_block_num(EckdCHS *chs)
- {
--    const uint64_t head = p->eckd.chs.head & 0x000f;
-+    return eckd_chs_to_block(chs->cylinder, chs->head, chs->sector);
-+}
-+
-+static block_number_t gen_eckd_block_num(ExtEckdBlockPtr *ptr, bool ldipl)
-+{
-+    uint64_t cyl, head, sec;
-+    eckd_format_chs(ptr, ldipl, &cyl, &head, &sec);
-+    return eckd_chs_to_block(cyl, head, sec);
-+}
- 
-+static bool eckd_valid_chs(uint64_t cyl, uint64_t head, uint64_t sector)
-+{
-     if (head >= virtio_get_heads()
--        ||  p->eckd.chs.sector > virtio_get_sectors()
--        ||  p->eckd.chs.sector <= 0) {
-+        || sector > virtio_get_sectors()
-+        || sector <= 0) {
-         return false;
-     }
- 
-     if (!virtio_guessed_disk_nature() &&
--        eckd_block_num(&p->eckd.chs) >= virtio_get_blocks()) {
-+        eckd_chs_to_block(cyl, head, sector) >= virtio_get_blocks()) {
-         return false;
-     }
- 
-     return true;
- }
- 
--static block_number_t load_eckd_segments(block_number_t blk, uint64_t *address)
-+static bool eckd_valid_address(ExtEckdBlockPtr *ptr, bool ldipl)
-+{
-+    uint64_t cyl, head, sec;
-+    eckd_format_chs(ptr, ldipl, &cyl, &head, &sec);
-+    return eckd_valid_chs(cyl, head, sec);
-+}
-+
-+static block_number_t load_eckd_segments(block_number_t blk, bool ldipl,
-+                                         uint64_t *address)
- {
-     block_number_t block_nr;
--    int j, rc;
-+    int j, rc, count;
-     BootMapPointer *bprs = (void *)_bprs;
-     bool more_data;
- 
-@@ -117,7 +149,7 @@ static block_number_t load_eckd_segments(block_number_t blk, uint64_t *address)
-     do {
-         more_data = false;
-         for (j = 0;; j++) {
--            block_nr = eckd_block_num(&bprs[j].xeckd.bptr.chs);
-+            block_nr = gen_eckd_block_num(&bprs[j].xeckd, ldipl);
-             if (is_null_block_number(block_nr)) { /* end of chunk */
-                 break;
-             }
-@@ -129,11 +161,26 @@ static block_number_t load_eckd_segments(block_number_t blk, uint64_t *address)
-                 break;
-             }
- 
--            IPL_assert(block_size_ok(bprs[j].xeckd.bptr.size),
-+            /* List directed pointer does not store block size */
-+            IPL_assert(ldipl || block_size_ok(bprs[j].xeckd.bptr.size),
-                        "bad chunk block size");
--            IPL_assert(eckd_valid_address(&bprs[j]), "bad chunk ECKD addr");
- 
--            if ((bprs[j].xeckd.bptr.count == 0) && unused_space(&(bprs[j+1]),
-+            if (!eckd_valid_address(&bprs[j].xeckd, ldipl)) {
-+                /*
-+                 * If an invalid address is found during LD-IPL then break and
-+                 * retry as CCW
-+                 */
-+                IPL_assert(ldipl, "bad chunk ECKD addr");
-+                break;
-+            }
-+
-+            if (ldipl) {
-+                count = bprs[j].xeckd.ldptr.count;
-+            } else {
-+                count = bprs[j].xeckd.bptr.count;
-+            }
-+
-+            if ((count == 0) && unused_space(&(bprs[j + 1]),
-                 sizeof(EckdBlockPtr))) {
-                 /* This is a "continue" pointer.
-                  * This ptr should be the last one in the current
-@@ -149,11 +196,10 @@ static block_number_t load_eckd_segments(block_number_t blk, uint64_t *address)
-             /* Load (count+1) blocks of code at (block_nr)
-              * to memory (address).
-              */
--            rc = virtio_read_many(block_nr, (void *)(*address),
--                                  bprs[j].xeckd.bptr.count+1);
-+            rc = virtio_read_many(block_nr, (void *)(*address), count + 1);
-             IPL_assert(rc == 0, "code chunk read failed");
- 
--            *address += (bprs[j].xeckd.bptr.count+1) * virtio_get_block_size();
-+            *address += (count + 1) * virtio_get_block_size();
-         }
-     } while (more_data);
-     return block_nr;
-@@ -237,8 +283,10 @@ static void run_eckd_boot_script(block_number_t bmt_block_nr,
-     uint64_t address;
-     BootMapTable *bmt = (void *)sec;
-     BootMapScript *bms = (void *)sec;
-+    /* The S1B block number is NULL_BLOCK_NR if and only if it's an LD-IPL */
-+    bool ldipl = (s1b_block_nr == NULL_BLOCK_NR);
- 
--    if (menu_is_enabled_zipl()) {
-+    if (menu_is_enabled_zipl() && !ldipl) {
-         loadparm = eckd_get_boot_menu_index(s1b_block_nr);
-     }
- 
-@@ -249,7 +297,7 @@ static void run_eckd_boot_script(block_number_t bmt_block_nr,
-     memset(sec, FREE_SPACE_FILLER, sizeof(sec));
-     read_block(bmt_block_nr, sec, "Cannot read Boot Map Table");
- 
--    block_nr = eckd_block_num(&bmt->entry[loadparm].xeckd.bptr.chs);
-+    block_nr = gen_eckd_block_num(&bmt->entry[loadparm].xeckd, ldipl);
-     IPL_assert(block_nr != -1, "Cannot find Boot Map Table Entry");
- 
-     memset(sec, FREE_SPACE_FILLER, sizeof(sec));
-@@ -264,13 +312,18 @@ static void run_eckd_boot_script(block_number_t bmt_block_nr,
-         }
- 
-         address = bms->entry[i].address.load_address;
--        block_nr = eckd_block_num(&bms->entry[i].blkptr.xeckd.bptr.chs);
-+        block_nr = gen_eckd_block_num(&bms->entry[i].blkptr.xeckd, ldipl);
- 
-         do {
--            block_nr = load_eckd_segments(block_nr, &address);
-+            block_nr = load_eckd_segments(block_nr, ldipl, &address);
-         } while (block_nr != -1);
-     }
- 
-+    if (ldipl && bms->entry[i].type != BOOT_SCRIPT_EXEC) {
-+        /* Abort LD-IPL and retry as CCW-IPL */
-+        return;
-+    }
-+
-     IPL_assert(bms->entry[i].type == BOOT_SCRIPT_EXEC,
-                "Unknown script entry type");
-     write_reset_psw(bms->entry[i].address.load_address); /* no return */
-@@ -380,6 +433,23 @@ static void ipl_eckd_ldl(ECKD_IPL_mode_t mode)
-     /* no return */
- }
- 
-+static block_number_t eckd_find_bmt(ExtEckdBlockPtr *ptr)
-+{
-+    block_number_t blockno;
-+    uint8_t tmp_sec[MAX_SECTOR_SIZE];
-+    BootRecord *br;
-+
-+    blockno = gen_eckd_block_num(ptr, 0);
-+    read_block(blockno, tmp_sec, "Cannot read boot record");
-+    br = (BootRecord *)tmp_sec;
-+    if (!magic_match(br->magic, ZIPL_MAGIC)) {
-+        /* If the boot record is invalid, return and try CCW-IPL instead */
-+        return NULL_BLOCK_NR;
-+    }
-+
-+    return gen_eckd_block_num(&br->pgt.xeckd, 1);
-+}
-+
- static void print_eckd_msg(void)
- {
-     char msg[] = "Using ECKD scheme (block size *****), ";
-@@ -401,28 +471,43 @@ static void print_eckd_msg(void)
- 
- static void ipl_eckd(void)
- {
--    XEckdMbr *mbr = (void *)sec;
--    LDL_VTOC *vlbl = (void *)sec;
-+    IplVolumeLabel *vlbl = (void *)sec;
-+    LDL_VTOC *vtoc = (void *)sec;
-+    block_number_t ldipl_bmt; /* Boot Map Table for List-Directed IPL */
- 
-     print_eckd_msg();
- 
--    /* Grab the MBR again */
-+    /* Block 2 can contain either the CDL VOL1 label or the LDL VTOC */
-     memset(sec, FREE_SPACE_FILLER, sizeof(sec));
--    read_block(0, mbr, "Cannot read block 0 on DASD");
-+    read_block(2, vlbl, "Cannot read block 2");
- 
--    if (magic_match(mbr->magic, IPL1_MAGIC)) {
--        ipl_eckd_cdl();         /* only returns in case of error */
--        return;
-+    /*
-+     * First check for a list-directed-format pointer which would
-+     * supersede the CCW pointer.
-+     */
-+    if (eckd_valid_address((ExtEckdBlockPtr *)&vlbl->f.br, 0)) {
-+        ldipl_bmt = eckd_find_bmt((ExtEckdBlockPtr *)&vlbl->f.br);
-+        if (ldipl_bmt) {
-+            sclp_print("List-Directed\n");
-+            /* LD-IPL does not use the S1B bock, just make it NULL */
-+            run_eckd_boot_script(ldipl_bmt, NULL_BLOCK_NR);
-+            /* Only return in error, retry as CCW-IPL */
-+            sclp_print("Retrying IPL ");
-+            print_eckd_msg();
-+        }
-+        memset(sec, FREE_SPACE_FILLER, sizeof(sec));
-+        read_block(2, vtoc, "Cannot read block 2");
-     }
- 
--    /* LDL/CMS? */
--    memset(sec, FREE_SPACE_FILLER, sizeof(sec));
--    read_block(2, vlbl, "Cannot read block 2");
-+    /* Not list-directed */
-+    if (magic_match(vtoc->magic, VOL1_MAGIC)) {
-+        ipl_eckd_cdl(); /* may return in error */
-+    }
- 
--    if (magic_match(vlbl->magic, CMS1_MAGIC)) {
-+    if (magic_match(vtoc->magic, CMS1_MAGIC)) {
-         ipl_eckd_ldl(ECKD_CMS); /* no return */
-     }
--    if (magic_match(vlbl->magic, LNX1_MAGIC)) {
-+    if (magic_match(vtoc->magic, LNX1_MAGIC)) {
-         ipl_eckd_ldl(ECKD_LDL); /* no return */
-     }
- 
-diff --git a/pc-bios/s390-ccw/bootmap.h b/pc-bios/s390-ccw/bootmap.h
-index 3946aa3f8d..d4690a88c2 100644
---- a/pc-bios/s390-ccw/bootmap.h
-+++ b/pc-bios/s390-ccw/bootmap.h
-@@ -45,9 +45,23 @@ typedef struct EckdBlockPtr {
-                     * it's 0 for TablePtr, ScriptPtr, and SectionPtr */
- } __attribute__ ((packed)) EckdBlockPtr;
- 
--typedef struct ExtEckdBlockPtr {
-+typedef struct LdEckdCHS {
-+    uint32_t cylinder;
-+    uint8_t head;
-+    uint8_t sector;
-+} __attribute__ ((packed)) LdEckdCHS;
-+
-+typedef struct LdEckdBlockPtr {
-+    LdEckdCHS chs; /* cylinder/head/sector is an address of the block */
-+    uint8_t reserved[4];
-+    uint16_t count;
-+    uint32_t pad;
-+} __attribute__ ((packed)) LdEckdBlockPtr;
-+
-+/* bptr is used for CCW type IPL, while ldptr is for list-directed IPL */
-+typedef union ExtEckdBlockPtr {
-     EckdBlockPtr bptr;
--    uint8_t reserved[8];
-+    LdEckdBlockPtr ldptr;
- } __attribute__ ((packed)) ExtEckdBlockPtr;
- 
- typedef union BootMapPointer {
-@@ -57,6 +71,15 @@ typedef union BootMapPointer {
-     ExtEckdBlockPtr xeckd;
- } __attribute__ ((packed)) BootMapPointer;
- 
-+typedef struct BootRecord {
-+    uint8_t magic[4];
-+    uint32_t version;
-+    uint64_t res1;
-+    BootMapPointer pgt;
-+    uint8_t reserved[510 - 32];
-+    uint16_t os_id;
-+} __attribute__ ((packed)) BootRecord;
-+
- /* aka Program Table */
- typedef struct BootMapTable {
-     uint8_t magic[4];
-@@ -292,7 +315,8 @@ typedef struct IplVolumeLabel {
-         struct {
-             unsigned char key[4]; /* == "VOL1" */
-             unsigned char volser[6];
--            unsigned char reserved[6];
-+            unsigned char reserved[64];
-+            EckdCHS br; /* Location of Boot Record for list-directed IPL */
-         } f;
-     };
- } __attribute__((packed)) IplVolumeLabel;
 -- 
-2.36.1
+Peter Xu
 
 
