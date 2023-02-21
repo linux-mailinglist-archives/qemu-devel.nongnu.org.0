@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0775669D75E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 01:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92DC69D7F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 02:26:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUG3c-0002Th-Hg; Mon, 20 Feb 2023 18:58:56 -0500
+	id 1pUHP0-00035u-DM; Mon, 20 Feb 2023 20:25:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUG3W-0002SS-KN; Mon, 20 Feb 2023 18:58:50 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUHOy-00035c-5v
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 20:25:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUG3U-0007ZA-AK; Mon, 20 Feb 2023 18:58:50 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5FBE87470AB;
- Tue, 21 Feb 2023 00:58:42 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2BDFE746FCF; Tue, 21 Feb 2023 00:58:42 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 292D47457E7;
- Tue, 21 Feb 2023 00:58:42 +0100 (CET)
-Date: Tue, 21 Feb 2023 00:58:42 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-devel@nongnu.org, 
- Thomas Huth <thuth@redhat.com>, 
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>, 
- qemu-block@nongnu.org, John Snow <jsnow@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>, 
- qemu-ppc@nongnu.org, Hanna Reitz <hreitz@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>, 
- "reviewer:Incompatible changes" <libvir-list@redhat.com>
-Subject: Re: [PATCH v2 07/18] hw/ide/piix: Ensure IDE output IRQs are wired
- at realization
-In-Reply-To: <27575298-BEFB-48FD-BD07-DC03DBA3292A@gmail.com>
-Message-ID: <5665494c-15d8-8075-7402-c5d58d2c60f5@eik.bme.hu>
-References: <20230215161641.32663-1-philmd@linaro.org>
- <20230215161641.32663-8-philmd@linaro.org>
- <CAG4p6K6zMEMT07qDzPyEgc1F+FPp-AHyhgZWRhYAaJsfOUZD=g@mail.gmail.com>
- <0350214d-fd70-4d24-8db8-66185f5d6780@linaro.org>
- <666316cf-6f1e-8f62-dab7-8b0da698faa7@linaro.org>
- <27575298-BEFB-48FD-BD07-DC03DBA3292A@gmail.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pUHOv-0005yV-U1
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 20:25:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676942700;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=F+/SMaSSHNxiJ4byCsYzyGzIhDzM2iIF5rclO1N3oWY=;
+ b=iIRuHsMAgpqUe4mqPona9xNA36l70R/rRacLQ2SQZC3PuyCmn2Fpp3y5v+viLCUddLqtbN
+ XyLF+WPnLTtXOtlICwyn0gnk2QYv8M2F5my6aYSJyFldEeBTOtpA+8CaptEhjW+YCQFthx
+ 4C8iVD9YDF0dXVrdbOAbpQwhB2dBoP8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-Nl7fFMyNMGKmVJDakbSOBA-1; Mon, 20 Feb 2023 20:24:57 -0500
+X-MC-Unique: Nl7fFMyNMGKmVJDakbSOBA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13EF1101A52E;
+ Tue, 21 Feb 2023 01:24:57 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.32.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 654512166B26;
+ Tue, 21 Feb 2023 01:24:56 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>
+Subject: [PATCH v3 0/6] Python: Drop support for Python 3.6
+Date: Mon, 20 Feb 2023 20:24:50 -0500
+Message-Id: <20230221012456.2607692-1-jsnow@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,19 +83,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 20 Feb 2023, Bernhard Beschow wrote:
-> IIUC, QEMU guarantees a deprecation period for at least two major 
-> versions. So if we deprecated user-creatable piix-ide in 8.1, we are not 
-> allowed to remove it before 10.1. Let's stick to our rules to give our 
-> users a chance to adapt gracefully.
+CI: https://gitlab.com/jsnow/qemu/-/pipelines/783612696=0D
+    [Updated for v3, still all green.]=0D
+GL: https://gitlab.com/jsnow/qemu/-/commits/python-require-37=0D
+=0D
+Hi, discussion about this series is ongoing. This series (v3) is not=0D
+meant to address all of that discussion, but rather is an updated=0D
+baseline for what we are capable of right now, today, without much=0D
+additional engineering. It's meant to serve as a reference for further=0D
+discussion.=0D
+=0D
+To my knowledge, the inconveniences caused by this patchset as currently=0D
+written are:=0D
+=0D
+(1) Users of CentOS 8 and OpenSUSE 15.4 would need to install an=0D
+    additional python package that will exist side-by-side with their=0D
+    base platform's Python 3.6 package.=0D
+=0D
+    "zypper install python39" or "dnf install python38" is enough;=0D
+    configure will do the rest of the work.=0D
+=0D
+    It's my understanding that this is largely a non-issue.=0D
+=0D
+(2) Due to our Sphinx plugin that imports QAPI code from the tree,=0D
+    distro-provided versions of Sphinx that are installed and tied to=0D
+    Python 3.6 will no longer be suitable. Users may forego building=0D
+    docs or install a suitable sphinx using "pip".=0D
+=0D
+    It's my understanding that this one is "kind of a bummer".=0D
+=0D
+I feel that the inconvenience caused by (1) is minimized as is possible;=0D
+the inconvenience caused by (2) is slightly worse and I concede the=0D
+workaround has some complexities that I would otherwise seek to avoid.=0D
+=0D
+As far as I am aware, the way forward is to work with Paolo to implement=0D
+a proper venv solution for the build tree that will help mitigate the=0D
+fallout from (2) by automating the use of a pip-provided Sphinx in the=0D
+cases where the distro-provided version is insufficient.=0D
+=0D
+OK, seeya later!=0D
+--js=0D
+=0D
+John Snow (6):=0D
+  configure: Look for auxiliary Python installations=0D
+  configure: Add courtesy hint to Python version failure message=0D
+  DO-NOT-MERGE: testing: Add Python >=3D 3.7 to Centos, OpenSuSE=0D
+  DO-NOT-MERGE: testing: add pip-installed sphinx-build to CentOS 8=0D
+  meson: prefer 'sphinx-build' to 'sphinx-build-3'=0D
+  Python: Drop support for Python 3.6=0D
+=0D
+ docs/conf.py                                  |  4 +-=0D
+ docs/meson.build                              |  2 +-=0D
+ configure                                     | 41 ++++++++++++++-----=0D
+ python/Makefile                               | 10 ++---=0D
+ python/setup.cfg                              |  7 ++--=0D
+ python/tests/minreqs.txt                      |  2 +-=0D
+ scripts/qapi/mypy.ini                         |  2 +-=0D
+ tests/docker/dockerfiles/centos8.docker       |  5 +++=0D
+ tests/docker/dockerfiles/opensuse-leap.docker |  1 +=0D
+ 9 files changed, 50 insertions(+), 24 deletions(-)=0D
+=0D
+-- =0D
+2.39.0=0D
+=0D
 
-I think that's not 2 major releases just 2 releases so in your example 
-could be removed in 9.0. qemu/docs/about/deprecated.rst says:
-
-"The feature will remain functional for the release in which it was 
-deprecated and one further release. After these two releases, the feature 
-is liable to be removed."
-
-Regards,
-BALATON Zoltan
 
