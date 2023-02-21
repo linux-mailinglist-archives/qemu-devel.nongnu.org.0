@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF8169DEAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:23:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB3A69DED3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:27:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUQj1-00058T-Mo; Tue, 21 Feb 2023 06:22:23 -0500
+	id 1pUQoA-0000L7-2l; Tue, 21 Feb 2023 06:27:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pUQiy-00057Z-ME
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:22:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pUQix-0001tL-2K
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:22:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676978538;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bmSzv33JtM5rJ2dxmi6R47S+TSiygz5/YE0zWVQnYm0=;
- b=ee5lwDePQ67cohpq+CALlvfaH+Lw5OnHu3gcrZrS45a9snPa4U4qdN5CkyvQ1uZz2l7Tfo
- k/5UpYMORZwTNDsw3q/FS/C5Ftaipju5s5XJiDa4mIODWVO7Fw4XqjSSH7W+lPWD2eVSf4
- z11AoK4uMMCtfzFqxxrkDcp6Lam2a78=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-0Hd57ZyuPaWbFX-HjjWUBQ-1; Tue, 21 Feb 2023 06:22:15 -0500
-X-MC-Unique: 0Hd57ZyuPaWbFX-HjjWUBQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BD9ED1C068CA;
- Tue, 21 Feb 2023 11:22:14 +0000 (UTC)
-Received: from kostyanf14nb.redhat.com (unknown [10.45.224.248])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A7CA140EBF6;
- Tue, 21 Feb 2023 11:22:09 +0000 (UTC)
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- Yonggang Luo <luoyonggang@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Yan Vugenfirer <yvugenfi@redhat.com>,
- Evgeny Iakovlev <eiakovlev@linux.microsoft.com>,
- Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, brian.wiltse@live.com
-Subject: [PATCH v2 2/2] qga/win32: Use rundll for VSS installation
-Date: Tue, 21 Feb 2023 13:21:57 +0200
-Message-Id: <20230221112157.418648-3-kkostiuk@redhat.com>
-In-Reply-To: <20230221112157.418648-1-kkostiuk@redhat.com>
-References: <20230221112157.418648-1-kkostiuk@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pUQo6-0000JG-0i
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:27:38 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pUQo4-0003vC-8U
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:27:37 -0500
+Received: by mail-pg1-x532.google.com with SMTP id i31so1489825pgi.10
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 03:27:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gj+DIygL1Caao01aT9KsQMDFIv0uVYcO98f6aXSUWjc=;
+ b=MRNwWFGbDeZ9LaXFK59yJ03nl8+ZzD+7DO98hdGI+/fPsP4svDatIYDuZgfbzEOMsI
+ ZXA0nfqzRcPKjcZeC/sMO2W6Yj5B3WMlBGd1SFtRKri9og+5wp6vXP5V/GFVSOPZSnV7
+ 6lWA+3VNPzIi8Eh2Xwi2FmbJ3mTPstQYaQlCKlogKHZ6qqSRsdbBewUKlkEwqyAzkBHw
+ 9eVt1n+mLvpwgNxYE0wly/ZpCjAPO2LgX4KgUu69U+l7FhPbs95/gotw5SuAM8aGoP4+
+ AaDANoM/tQSr75HpYlhCRdRX/O+M82Q12qZmsuZj1pGXQbg31D8RGTauSMjj/eCKFpOn
+ WRjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gj+DIygL1Caao01aT9KsQMDFIv0uVYcO98f6aXSUWjc=;
+ b=5Qa6Z01DmHMvgKyIZkjxAxW2SrayZ+GTfeTlf56nbXOSbbyYExzFpHlPIUFizPMR/u
+ 24W95Fi6iR7fPdmlDZN2YYDD1diQGc9b2dcWCjV0A5smAQDheLPLMTxO3VHva1k6L1In
+ yJZU4tVn93eeAiN7tbcGb6GeZ1bAVjv7vbzP2L3VTIyrNF95RtqkKJzk0PiFYauOIbu+
+ jBANhdozRvpQN0G0UgwmSdspXmVOZUtsfJVY6fjqlKpYnyXhIDDWn4iFRHY4YVClPmxs
+ uyGBptD84ansdn6b5OjXWKr16h+nqBf2s2OHeaxIponXDnvE09J90Y5lAAu9zhsShQbw
+ 04Gw==
+X-Gm-Message-State: AO0yUKV4BeZa/RxRjMvQSTYwEjuq860mbUrJPi6ekmVaS634lnXUjeny
+ ZzA+oDahukLA9iSNyoUoWzg+r/umuVhJd5Rk9JJJMQ==
+X-Google-Smtp-Source: AK7set+HGP/dPYoVQ+BHddTOLCcYH3leoU468mhRN/4ePMEVg/bc6qyUBl0oTAIb0nmlqQWcgcKqs9MDgeVcZ2BI5Bw=
+X-Received: by 2002:a63:8c12:0:b0:4eb:1c07:e5d7 with SMTP id
+ m18-20020a638c12000000b004eb1c07e5d7mr536684pgd.6.1676978854513; Tue, 21 Feb
+ 2023 03:27:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <167658846945.932837.1420176491103357684.stgit@omen>
+In-Reply-To: <167658846945.932837.1420176491103357684.stgit@omen>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Feb 2023 11:27:23 +0000
+Message-ID: <CAFEAcA9-L_JO1NjDG8RwCaM-vuK+tHcTTYcimgNyrv2aNuwx2Q@mail.gmail.com>
+Subject: Re: [PULL 00/12] VFIO updates 2023-02-16
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: qemu-devel@nongnu.org, avihaih@nvidia.com, clg@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,97 +84,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The custom action uses cmd.exe to run VSS Service installation
-and removal which causes an interactive command shell to spawn.
-This shell can be used to execute any commands as a SYSTEM user.
-Even if call qemu-ga.exe directly the interactive command shell
-will be spawned as qemu-ga.exe is a console application and used
-by users from the console as well as a service.
+On Thu, 16 Feb 2023 at 23:03, Alex Williamson
+<alex.williamson@redhat.com> wrote:
+>
+> The following changes since commit 6dffbe36af79e26a4d23f94a9a1c1201de99c2=
+61:
+>
+>   Merge tag 'migration-20230215-pull-request' of https://gitlab.com/juan.=
+quintela/qemu into staging (2023-02-16 13:09:51 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/alex.williamson/qemu.git tags/vfio-updates-20230216.=
+0
+>
+> for you to fetch changes up to 57edb7e44489ec4d85075acba47223127ecf1521:
+>
+>   MAINTAINERS: Add myself as VFIO reviewer (2023-02-16 12:14:40 -0700)
+>
+> ----------------------------------------------------------------
+> VFIO updates 2023-02-16
+>
+>  * Initial v2 migration support for vfio (Avihai Horon)
+>
+>  * Add C=C3=A9dric as vfio reviewer (C=C3=A9dric Le Goater)
 
-As VSS Service runs from DLL which contains the installer and
-uninstaller code, it can be run directly by rundll32.exe without
-any interactive command shell.
 
-Add specific entry points for rundll which is just a wrapper
-for COMRegister/COMUnregister functions with proper arguments.
+Applied, thanks.
 
-resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2167423
-fixes: CVE-2023-0664
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-Reviewed-by: Yan Vugenfirer <yvugenfi@redhat.com>
----
- qga/installer/qemu-ga.wxs | 10 +++++-----
- qga/vss-win32/install.cpp |  9 +++++++++
- qga/vss-win32/qga-vss.def |  2 ++
- 3 files changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-index feb629ec47..46ae9e7a13 100644
---- a/qga/installer/qemu-ga.wxs
-+++ b/qga/installer/qemu-ga.wxs
-@@ -127,22 +127,22 @@
-       </Directory>
-     </Directory>
-
--    <Property Id="cmd" Value="cmd.exe"/>
-+    <Property Id="rundll" Value="rundll32.exe"/>
-     <Property Id="REINSTALLMODE" Value="amus"/>
-
-     <?ifdef var.InstallVss?>
-     <CustomAction Id="RegisterCom"
--              ExeCommand='/c "[qemu_ga_directory]qemu-ga.exe" -s vss-install'
-+              ExeCommand='"[qemu_ga_directory]qga-vss.dll",DLLCOMRegister'
-               Execute="deferred"
--              Property="cmd"
-+              Property="rundll"
-               Impersonate="no"
-               Return="check"
-               >
-     </CustomAction>
-     <CustomAction Id="UnRegisterCom"
--              ExeCommand='/c "[qemu_ga_directory]qemu-ga.exe" -s vss-uninstall'
-+              ExeCommand='"[qemu_ga_directory]qga-vss.dll",DLLCOMUnregister'
-               Execute="deferred"
--              Property="cmd"
-+              Property="rundll"
-               Impersonate="no"
-               Return="check"
-               >
-diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-index b57508fbe0..68662a6dfc 100644
---- a/qga/vss-win32/install.cpp
-+++ b/qga/vss-win32/install.cpp
-@@ -357,6 +357,15 @@ out:
-     return hr;
- }
-
-+STDAPI_(void) CALLBACK DLLCOMRegister(HWND, HINSTANCE, LPSTR, int)
-+{
-+    COMRegister();
-+}
-+
-+STDAPI_(void) CALLBACK DLLCOMUnregister(HWND, HINSTANCE, LPSTR, int)
-+{
-+    COMUnregister();
-+}
-
- static BOOL CreateRegistryKey(LPCTSTR key, LPCTSTR value, LPCTSTR data)
- {
-diff --git a/qga/vss-win32/qga-vss.def b/qga/vss-win32/qga-vss.def
-index 927782c31b..ee97a81427 100644
---- a/qga/vss-win32/qga-vss.def
-+++ b/qga/vss-win32/qga-vss.def
-@@ -1,6 +1,8 @@
- LIBRARY      "QGA-PROVIDER.DLL"
-
- EXPORTS
-+	DLLCOMRegister
-+	DLLCOMUnregister
- 	COMRegister		PRIVATE
- 	COMUnregister		PRIVATE
- 	DllCanUnloadNow		PRIVATE
---
-2.25.1
-
+-- PMM
 
