@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3847069EAFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF39E69EAF9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:04:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUbeW-0006gH-QH; Tue, 21 Feb 2023 18:02:28 -0500
+	id 1pUbed-0006tQ-5P; Tue, 21 Feb 2023 18:02:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUbe8-0006Nt-2s
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:08 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ id 1pUbeH-0006TD-Rq
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:14 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUbe2-0006DC-QR
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:03 -0500
-Received: by mail-wr1-x436.google.com with SMTP id l25so5642791wrb.3
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:01:58 -0800 (PST)
+ id 1pUbe7-0006GG-2R
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:13 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ l7-20020a05600c4f0700b003e79fa98ce1so2220963wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:02:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3AbUzmp0I2+LXLWOw3uHl6x+uQJ7u4YpaSOE0qXMtdE=;
- b=klAirB5y7Ua/1/TdxeKbL1m4q0BtIE0fKc5metXIIDWUdfG+DqwKzvxE+LKXxzPQru
- h3n/NsD0Jnac8tR1sMeowhgi2ObxJ5XmC1T58IO44PS1xvKVJJESkmsP9pa3ZKwVAGRn
- xozDx5pXF092HSFzT8Zgf0mwHK/77hUWW4rK4YRcB5dHzmIXhkJkas2iIdacDLdZt0KL
- VS1wacvuqtKx/0Hm9OO/uHzycxiudLL/aePqyLA/wVLs6KBu1PyVkLxqchW5MV3yYFnd
- Lez5HocOZIKuLuFBTmWkcfLtE0Sne+khgAwfrVL2i8FrayuJngTsBsG5oeatoB/ukcPD
- WUlw==
+ bh=xDMNOIz79tcmby+L8OATHD+W52NLofe0+su2iOTYJEQ=;
+ b=HeftGAQqSghpOttwPvyrMfQYbdGYzTnMCZ1uK/uCkUwCmOgDp5RnlIxUJGdTIc+ury
+ WDzmEmb7RCyHzTQR1aH09qepYDzyPUPsn9aYSvQAD9nU0zp9N5iurjEzSCPmAxBG9Wna
+ xiTERmCOwdvjU8OejZXMdKD3OZegrH1Hm2k0cFS8JMT5CYiYyHp6ietXdr96SlY9tceg
+ DdYkHHdQChFvOSe0esS5dFlqGGIIvXISq3msUde97qLlhcfObLMWQ0M6D1moz+K6oEc1
+ fapKgti8OMJrYrUMPcXDlI0bdslfBpIKBIIuLJPg7tUaIklxkntIyhk++Hx5MZKgD+2S
+ hZvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3AbUzmp0I2+LXLWOw3uHl6x+uQJ7u4YpaSOE0qXMtdE=;
- b=lGHd3NGuB7NJ2GenLqF3hhUWhL8+f7LGLYjbGNN73vxvlsW9x6a4vj6Ia0Ra7aLwAa
- ViviwZehWWPsYIhGr2appzQrMuDVucnBrr6RrHbWYk5KJycz/lnRJ+4hP4+YzU+mYeAU
- +Tcamtbowezu7V8C02EPfO+7wT9WGcmxXpmgredbdoRIXm21zRjFWpQ5VCJjyDyj46mA
- 6xUSyDtn40Yxz1ri6t9DWDVYvp9XhHzk+oeSgj/XC2+kv+LubN9oUdRHSiOPxRs6feiG
- MHWwnLImOlf+Q1z/rL4IEG0Zr3nzVFLgCcnQutUoUqxZwQ/tkVGGyXqbj2RkXerr2n3V
- TlOQ==
-X-Gm-Message-State: AO0yUKXMnWm3czgyQvMX0RoXJ72A6ooraHbhKjIEMhpU2xD/+V82HEY6
- yk60ZYdR0r1WtW20JzH+Ozz7uw==
-X-Google-Smtp-Source: AK7set/A8zkNa2r3T7pRh2Ji+R95RwfMXIFtTbSucLjzLM6KzvZvaDG59qP9PincEnRG/lwwnctnZw==
-X-Received: by 2002:a5d:5145:0:b0:2c3:e5fa:d5d2 with SMTP id
- u5-20020a5d5145000000b002c3e5fad5d2mr4193981wrt.50.1677020517166; 
- Tue, 21 Feb 2023 15:01:57 -0800 (PST)
+ bh=xDMNOIz79tcmby+L8OATHD+W52NLofe0+su2iOTYJEQ=;
+ b=nMoxa3A7uNzAyQ6KaLclb6W9FgXNfAfPlRPQAOHmc/YN1B980ZvppRJol4cq9IpYV2
+ 5NL1PA+fdtgODpmyLyLhRsGqb8buWGFD5k1Q1GRb9zcNLXPsyfalwQPAnVVZ6rWQiPQs
+ afZKNlYBFMiLNa1+CmGKTkmBRRhsFAyMpLvZu/kEy+6o9J2Q0/G+FbZUar4EzLAejzzM
+ G9g4l5C2zfaxGy0zGbm+1z2kBRa1ZVi1/+HLZAh2rbpRfd4vfekZRZ+uaaxtlk0XXi+A
+ lJy2s1NUbNzgtWp/qtqY8b3wrmXb1+UMmNNHVrSeMT2J9pM3p7qZyswrVsZRonQQ8LPG
+ aq4Q==
+X-Gm-Message-State: AO0yUKWt/v9h/BsECDGB1f4G5fZUpAAlL6X7RvWxuWYQzwqEmhdagDDQ
+ Ti+ZWP8cM1vq+MTmTuFJeXpfrQ==
+X-Google-Smtp-Source: AK7set9m00fBCBhDw5omQ+3dwDpKYoDqBBONDVMEX5XwolsBH+tTG+sMRSt/5m9zgoFwO4cKQYgomg==
+X-Received: by 2002:a05:600c:164a:b0:3e2:20c7:6556 with SMTP id
+ o10-20020a05600c164a00b003e220c76556mr212862wmn.35.1677020519427; 
+ Tue, 21 Feb 2023 15:01:59 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- l11-20020adff48b000000b002c592535839sm5745321wro.17.2023.02.21.15.01.56
+ c22-20020a7bc856000000b003e01493b136sm5857812wml.43.2023.02.21.15.01.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 15:01:56 -0800 (PST)
+ Tue, 21 Feb 2023 15:01:58 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 40CB41FFC4;
+ by zen.linaroharston (Postfix) with ESMTP id 862381FFC5;
  Tue, 21 Feb 2023 22:52:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -91,17 +92,17 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
  David Hildenbrand <david@redhat.com>, Song Gao <gaosong@loongson.cn>,
  Ilya Leoshkevich <iii@linux.ibm.com>, Max Filippov <jcmvbkbc@gmail.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v3 14/24] gdbstub: specialise target_memory_rw_debug
-Date: Tue, 21 Feb 2023 22:52:17 +0000
-Message-Id: <20230221225227.3735319-15-alex.bennee@linaro.org>
+Subject: [PATCH v3 16/24] gdbstub: specialise stub_can_reverse
+Date: Tue, 21 Feb 2023 22:52:19 +0000
+Message-Id: <20230221225227.3735319-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230221225227.3735319-1-alex.bennee@linaro.org>
 References: <20230221225227.3735319-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,264 +125,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The two implementations are different enough to encourage having a
-specialisation and we can move some of the softmmu only stuff out of
-gdbstub.
+Currently we only support replay for softmmu mode so it is a constant
+false for user-mode.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+
 ---
- gdbstub/internals.h | 19 ++++++++++++
- gdbstub/gdbstub.c   | 73 +++++++--------------------------------------
- gdbstub/softmmu.c   | 51 +++++++++++++++++++++++++++++++
- gdbstub/user.c      | 15 ++++++++++
- 4 files changed, 96 insertions(+), 62 deletions(-)
+v3
+  - rename gdb_stub_can_revers -> gdb_can_reverse
+---
+ gdbstub/internals.h |  1 +
+ gdbstub/gdbstub.c   | 13 ++-----------
+ gdbstub/softmmu.c   |  5 +++++
+ gdbstub/user.c      |  5 +++++
+ 4 files changed, 13 insertions(+), 11 deletions(-)
 
 diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-index 3875c6877e..9de995ce3a 100644
+index 90069a9415..5f2e24c4f3 100644
 --- a/gdbstub/internals.h
 +++ b/gdbstub/internals.h
-@@ -183,6 +183,10 @@ void gdb_handle_query_xfer_auxv(GArray *params, void *user_ctx); /*user */
+@@ -128,6 +128,7 @@ CPUState *gdb_first_attached_cpu(void);
+ void gdb_append_thread_id(CPUState *cpu, GString *buf);
+ int gdb_get_cpu_index(CPUState *cpu);
+ unsigned int gdb_get_max_cpus(void); /* both */
++bool gdb_can_reverse(void); /* softmmu, stub for user */
  
- void gdb_handle_query_attached(GArray *params, void *user_ctx); /* both */
+ void gdb_create_default_process(GDBState *s);
  
-+/* softmmu only */
-+void gdb_handle_query_qemu_phy_mem_mode(GArray *params, void *user_ctx);
-+void gdb_handle_set_qemu_phy_mem_mode(GArray *params, void *user_ctx);
-+
- /*
-  * Break/Watch point support - there is an implementation for softmmu
-  * and user mode.
-@@ -192,4 +196,19 @@ int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
- int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
- void gdb_breakpoint_remove_all(CPUState *cs);
- 
-+/**
-+ * gdb_target_memory_rw_debug() - handle debug access to memory
-+ * @cs: CPUState
-+ * @addr: nominal address, could be an entire physical address
-+ * @buf: data
-+ * @len: length of access
-+ * @is_write: is it a write operation
-+ *
-+ * This function is specialised depending on the mode we are running
-+ * in. For softmmu guests we can switch the interpretation of the
-+ * address to a physical address.
-+ */
-+int gdb_target_memory_rw_debug(CPUState *cs, hwaddr addr,
-+                               uint8_t *buf, int len, bool is_write);
-+
- #endif /* GDBSTUB_INTERNALS_H */
 diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index 0d90685c72..91021859a1 100644
+index f9950200b8..e107aa065c 100644
 --- a/gdbstub/gdbstub.c
 +++ b/gdbstub/gdbstub.c
-@@ -46,33 +46,6 @@
- 
- #include "internals.h"
- 
--#ifndef CONFIG_USER_ONLY
--static int phy_memory_mode;
--#endif
--
--static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
--                                         uint8_t *buf, int len, bool is_write)
--{
--    CPUClass *cc;
--
--#ifndef CONFIG_USER_ONLY
--    if (phy_memory_mode) {
--        if (is_write) {
--            cpu_physical_memory_write(addr, buf, len);
--        } else {
--            cpu_physical_memory_read(addr, buf, len);
--        }
--        return 0;
--    }
--#endif
--
--    cc = CPU_GET_CLASS(cpu);
--    if (cc->memory_rw_debug) {
--        return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
--    }
--    return cpu_memory_rw_debug(cpu, addr, buf, len, is_write);
--}
--
- typedef struct GDBRegisterState {
-     int base_reg;
-     int num_regs;
-@@ -1194,11 +1167,11 @@ static void handle_write_mem(GArray *params, void *user_ctx)
-     }
- 
-     gdb_hextomem(gdbserver_state.mem_buf, get_param(params, 2)->data,
--             get_param(params, 1)->val_ull);
--    if (target_memory_rw_debug(gdbserver_state.g_cpu,
--                               get_param(params, 0)->val_ull,
--                               gdbserver_state.mem_buf->data,
--                               gdbserver_state.mem_buf->len, true)) {
-+                 get_param(params, 1)->val_ull);
-+    if (gdb_target_memory_rw_debug(gdbserver_state.g_cpu,
-+                                   get_param(params, 0)->val_ull,
-+                                   gdbserver_state.mem_buf->data,
-+                                   gdbserver_state.mem_buf->len, true)) {
-         gdb_put_packet("E14");
-         return;
-     }
-@@ -1222,10 +1195,10 @@ static void handle_read_mem(GArray *params, void *user_ctx)
-     g_byte_array_set_size(gdbserver_state.mem_buf,
-                           get_param(params, 1)->val_ull);
- 
--    if (target_memory_rw_debug(gdbserver_state.g_cpu,
--                               get_param(params, 0)->val_ull,
--                               gdbserver_state.mem_buf->data,
--                               gdbserver_state.mem_buf->len, false)) {
-+    if (gdb_target_memory_rw_debug(gdbserver_state.g_cpu,
-+                                   get_param(params, 0)->val_ull,
-+                                   gdbserver_state.mem_buf->data,
-+                                   gdbserver_state.mem_buf->len, false)) {
-         gdb_put_packet("E14");
-         return;
-     }
-@@ -1675,30 +1648,6 @@ static void handle_query_qemu_supported(GArray *params, void *user_ctx)
-     gdb_put_strbuf();
+@@ -113,15 +113,6 @@ int use_gdb_syscalls(void)
+     return gdb_syscall_mode == GDB_SYS_ENABLED;
  }
  
--#ifndef CONFIG_USER_ONLY
--static void handle_query_qemu_phy_mem_mode(GArray *params,
--                                           void *user_ctx)
+-static bool stub_can_reverse(void)
 -{
--    g_string_printf(gdbserver_state.str_buf, "%d", phy_memory_mode);
--    gdb_put_strbuf();
--}
--
--static void handle_set_qemu_phy_mem_mode(GArray *params, void *user_ctx)
--{
--    if (!params->len) {
--        gdb_put_packet("E22");
--        return;
--    }
--
--    if (!get_param(params, 0)->val_ul) {
--        phy_memory_mode = 0;
--    } else {
--        phy_memory_mode = 1;
--    }
--    gdb_put_packet("OK");
--}
+-#ifdef CONFIG_USER_ONLY
+-    return false;
+-#else
+-    return replay_mode == REPLAY_MODE_PLAY;
 -#endif
+-}
 -
- static const GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
-     /* Order is important if has same prefix */
-     {
-@@ -1789,7 +1738,7 @@ static const GdbCmdParseEntry gdb_gen_query_table[] = {
-     },
- #ifndef CONFIG_USER_ONLY
-     {
--        .handler = handle_query_qemu_phy_mem_mode,
-+        .handler = gdb_handle_query_qemu_phy_mem_mode,
-         .cmd = "qemu.PhyMemMode",
-     },
- #endif
-@@ -1805,7 +1754,7 @@ static const GdbCmdParseEntry gdb_gen_set_table[] = {
-     },
- #ifndef CONFIG_USER_ONLY
-     {
--        .handler = handle_set_qemu_phy_mem_mode,
-+        .handler = gdb_handle_set_qemu_phy_mem_mode,
-         .cmd = "qemu.PhyMemMode:",
-         .cmd_startswith = 1,
-         .schema = "l0"
+ /* writes 2*len+1 bytes in buf */
+ void gdb_memtohex(GString *buf, const uint8_t *mem, int len)
+ {
+@@ -1307,7 +1298,7 @@ static void handle_step(GArray *params, void *user_ctx)
+ 
+ static void handle_backward(GArray *params, void *user_ctx)
+ {
+-    if (!stub_can_reverse()) {
++    if (!gdb_can_reverse()) {
+         gdb_put_packet("E22");
+     }
+     if (params->len == 1) {
+@@ -1558,7 +1549,7 @@ static void handle_query_supported(GArray *params, void *user_ctx)
+         g_string_append(gdbserver_state.str_buf, ";qXfer:features:read+");
+     }
+ 
+-    if (stub_can_reverse()) {
++    if (gdb_can_reverse()) {
+         g_string_append(gdbserver_state.str_buf,
+             ";ReverseStep+;ReverseContinue+");
+     }
 diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
-index ade0cc366c..d9b9ba0a32 100644
+index 65aa2018a7..5363ff066d 100644
 --- a/gdbstub/softmmu.c
 +++ b/gdbstub/softmmu.c
-@@ -406,9 +406,60 @@ void gdb_exit(int code)
-   qemu_chr_fe_deinit(&gdbserver_system_state.chr, true);
+@@ -443,6 +443,11 @@ unsigned int gdb_get_max_cpus(void)
+     return ms->smp.max_cpus;
  }
  
-+/*
-+ * Memory access
-+ */
-+static int phy_memory_mode;
-+
-+int gdb_target_memory_rw_debug(CPUState *cpu, hwaddr addr,
-+                               uint8_t *buf, int len, bool is_write)
++bool gdb_can_reverse(void)
 +{
-+    CPUClass *cc;
-+
-+    if (phy_memory_mode) {
-+        if (is_write) {
-+            cpu_physical_memory_write(addr, buf, len);
-+        } else {
-+            cpu_physical_memory_read(addr, buf, len);
-+        }
-+        return 0;
-+    }
-+
-+    cc = CPU_GET_CLASS(cpu);
-+    if (cc->memory_rw_debug) {
-+        return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-+    }
-+
-+    return cpu_memory_rw_debug(cpu, addr, buf, len, is_write);
++    return replay_mode == REPLAY_MODE_PLAY;
 +}
-+
 +
  /*
   * Softmmu specific command helpers
   */
-+
-+void gdb_handle_query_qemu_phy_mem_mode(GArray *params,
-+                                        void *user_ctx)
-+{
-+    g_string_printf(gdbserver_state.str_buf, "%d", phy_memory_mode);
-+    gdb_put_strbuf();
-+}
-+
-+void gdb_handle_set_qemu_phy_mem_mode(GArray *params, void *user_ctx)
-+{
-+    if (!params->len) {
-+        gdb_put_packet("E22");
-+        return;
-+    }
-+
-+    if (!get_param(params, 0)->val_ul) {
-+        phy_memory_mode = 0;
-+    } else {
-+        phy_memory_mode = 1;
-+    }
-+    gdb_put_packet("OK");
-+}
-+
- void gdb_handle_query_rcmd(GArray *params, void *user_ctx)
- {
-     const guint8 zero = 0;
 diff --git a/gdbstub/user.c b/gdbstub/user.c
-index 90dfe49f27..b956c0e297 100644
+index 15ff3ab08d..a716ad05b2 100644
 --- a/gdbstub/user.c
 +++ b/gdbstub/user.c
-@@ -373,6 +373,21 @@ int gdb_continue_partial(char *newstates)
-     return res;
+@@ -404,6 +404,11 @@ unsigned int gdb_get_max_cpus(void)
+     return max_cpus;
  }
  
-+/*
-+ * Memory access helpers
-+ */
-+int gdb_target_memory_rw_debug(CPUState *cpu, hwaddr addr,
-+                               uint8_t *buf, int len, bool is_write)
++/* replay not supported for user-mode */
++bool gdb_can_reverse(void)
 +{
-+    CPUClass *cc;
-+
-+    cc = CPU_GET_CLASS(cpu);
-+    if (cc->memory_rw_debug) {
-+        return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-+    }
-+    return cpu_memory_rw_debug(cpu, addr, buf, len, is_write);
++    return false;
 +}
-+
+ 
  /*
   * Break/Watch point helpers
-  */
 -- 
 2.39.1
 
