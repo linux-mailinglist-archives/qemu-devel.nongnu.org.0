@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E705769EAF3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:04:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C1D69EAF4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:04:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUbeW-0006gW-RC; Tue, 21 Feb 2023 18:02:28 -0500
+	id 1pUbeT-0006cR-Uf; Tue, 21 Feb 2023 18:02:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUbeD-0006Q2-Fi
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:10 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ id 1pUbeG-0006Rq-P3
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:14 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUbe3-0006ER-Th
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:07 -0500
-Received: by mail-wm1-x333.google.com with SMTP id l6so4356569wms.3
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:01:59 -0800 (PST)
+ id 1pUbe6-0006Fg-TT
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:12 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m25-20020a7bcb99000000b003e7842b75f2so2320015wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:02:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iMicf5MbOGOq7OlwruPZHVb+Ki+l+2GcwACskyg7sb0=;
- b=Se6r6nanSNv3SGL2ZPDLYua+qn0ydW5lxXxfvjQb4eodVOf//zwxbZsxd5B54DqJwt
- 81akZNOncSUgJgVWkfFCqjjVcF4f3t+7JHYIQnYIIVDg6KJkL9rql1nML8wfC7p+Sbl1
- jxTAdkhgfGuHdbgWW78kZgQT2GOf5Js3QZoYRQJzsioFanXCOgRn1Fog1GZ1U2aoxWse
- 5D6FLJT2RhHM4IOg5DbHWHi5PwXUdaY9tmcgePe94fAhqkkjqiI6tjKN7u6/ugTTMJz0
- gjn7I4lVJPqvVCdSft5T9N5AMEhmtOXpbHDe6iwGPSzCVf6XIT6qs9Xp/312NNtRcG6+
- emJQ==
+ bh=FfDpSMP5aWzt33/jAq10zExN9Iaj9WqvgIV129lkgug=;
+ b=aOC7ZWS43Exy9YdqxvIsOdKTahIfg3ZI1HHPFIARiDPni4VicA/3/MAqDwo7kguETw
+ aldhqJqHpNTnFc2BDrQW2/1IVJUOCLBb4NYX33GFiYmeqHoG4FRP6gQ3P2U8uOCB3nex
+ aL3qb4lCVv4VILVaZDREWf2eSHUQbvfFs03csqawCFQQSk394v1pcWr5gq01tiEq8L/I
+ wE8wXrls5rFnxRgroZ96sDsQj1/HQgEWo8lqdEaOcslHao3KivB5IQ9V4JgZLiPG074X
+ H83uV8P0iwTfq+6AMBuTD0BkmIlMsAzf+d2zlVkuW3766fNoGTG/jr9tMRRF3ZjkTZX7
+ Q+9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iMicf5MbOGOq7OlwruPZHVb+Ki+l+2GcwACskyg7sb0=;
- b=HC4M0qEyyugd91o4MwyDjwQiNWAj/bQ4sOfrrMJyHuLUGNOofNg3pAA8faX6dZ9sRl
- IfccQ4pyyOQjuGopysdGB5nmWDAG8lKqhFVKHmKz9jxfMoRRqOG1g5sq+UaTw+P7JHEN
- CwSiGoYlYrq45ZNsD+Cz5NXOZ1Ptxhe+16sv1vTRkgn9Tx1RLK1jL8iRSWOoBI7u4vVc
- ytzjbCLuoFakZkgUeDbGErkMR6omxrRWvna1jbmz2VkVyuO7JRhn+RsdOlbTxVFvWltq
- pR1LMjSObqLJAmuuwfz21jH+G+X0yPAC/kTyW0ephqBCEIp2UvOhHOCEcifc1RDfCAFx
- f5xg==
-X-Gm-Message-State: AO0yUKXcr7pf30PmXwM42qZtrRyo9FO4wS6ubWs50PhDxWNWFVONQsO1
- w11csQpf5S//SLQieaDxSthZAw==
-X-Google-Smtp-Source: AK7set/YgGh4OVZDzugNmXahxyznct77VCQmOEam1gIpSP9W7Zdt7U9QAVU3rExy1YHoQ7fz5dixlg==
-X-Received: by 2002:a05:600c:5121:b0:3dd:1bd3:4f6d with SMTP id
- o33-20020a05600c512100b003dd1bd34f6dmr4294092wms.32.1677020518044; 
- Tue, 21 Feb 2023 15:01:58 -0800 (PST)
+ bh=FfDpSMP5aWzt33/jAq10zExN9Iaj9WqvgIV129lkgug=;
+ b=sbRTt0FgX9Zi9EMv25q3jH5+rxPkmMky7z5copcst1akONl3fHK9FEUAC0dZxubQxS
+ tXayQi35URLc9uKszH0uO3S8rTUPW/l/EoqmtcIEz9iR/eER+xn3MdBdzEQZ6WJvSebQ
+ XOZzm9G8Zb9QKPrpzttVfgAxSpdoxVX1jhfvhfpR8ZxQiTzJ3nMMBLTktP6tfC1VtEC8
+ 7lXKi47kwiDJo6dyzCOjQpsAhiDeCDcjNWeQ28gzLzHUhTGBh13EjBrDSMRAkZCmBAWX
+ 3u4n0N24TbUwe1NwziwTL5sbeDgZP5JzCKPr23xOWROMYs6SjU1tCtzg1u3eZsWjJKqz
+ KaEA==
+X-Gm-Message-State: AO0yUKU/qYRvoVk+eJ8uPHtjfWvd7Ltw+KfOrzLfnf1+cMJnmrJ54Uto
+ gUYvod6Z8SV/oiWrNCvwONQXyQ==
+X-Google-Smtp-Source: AK7set/SfuibLEgondH27U74+cpwfqC5279edbQT2Ex1jBsdFCJalskW7FzPGtkIwTe1GdXdh6IvNQ==
+X-Received: by 2002:a05:600c:30d3:b0:3da:db4:6105 with SMTP id
+ h19-20020a05600c30d300b003da0db46105mr9586919wmn.37.1677020519150; 
+ Tue, 21 Feb 2023 15:01:59 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- x8-20020a1c7c08000000b003dc4480df80sm4966219wmc.34.2023.02.21.15.01.56
+ u7-20020a05600c19c700b003e21f20b646sm6996506wmq.21.2023.02.21.15.01.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 15:01:56 -0800 (PST)
+ Tue, 21 Feb 2023 15:01:58 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A4A3C1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id C04BE1FFC6;
  Tue, 21 Feb 2023 22:52:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -91,17 +92,18 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
  David Hildenbrand <david@redhat.com>, Song Gao <gaosong@loongson.cn>,
  Ilya Leoshkevich <iii@linux.ibm.com>, Max Filippov <jcmvbkbc@gmail.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v3 17/24] gdbstub: fix address type of gdb_set_cpu_pc
-Date: Tue, 21 Feb 2023 22:52:20 +0000
-Message-Id: <20230221225227.3735319-18-alex.bennee@linaro.org>
+Subject: [PATCH v3 18/24] gdbstub: don't use target_ulong while handling
+ registers
+Date: Tue, 21 Feb 2023 22:52:21 +0000
+Message-Id: <20230221225227.3735319-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230221225227.3735319-1-alex.bennee@linaro.org>
 References: <20230221225227.3735319-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,39 +126,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The underlying call uses vaddr and the comms API uses unsigned long
-long which will always fit. We don't need to deal in target_ulong
-here.
+This is a hangover from the original code. addr is misleading as it is
+only really a register id. While len will never exceed
+MAX_PACKET_LENGTH I've used size_t as that is what strlen returns.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+
 ---
- gdbstub/gdbstub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v3
+  - fix commit message
+  - use unsigned for regid
+---
+ gdbstub/gdbstub.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index e107aa065c..4814e8fbf3 100644
+index 4814e8fbf3..7ae3ff52b3 100644
 --- a/gdbstub/gdbstub.c
 +++ b/gdbstub/gdbstub.c
-@@ -535,7 +535,7 @@ static void gdb_process_breakpoint_remove_all(GDBProcess *p)
- }
+@@ -1192,7 +1192,8 @@ static void handle_read_mem(GArray *params, void *user_ctx)
  
- 
--static void gdb_set_cpu_pc(target_ulong pc)
-+static void gdb_set_cpu_pc(vaddr pc)
+ static void handle_write_all_regs(GArray *params, void *user_ctx)
  {
-     CPUState *cpu = gdbserver_state.c_cpu;
+-    target_ulong addr, len;
++    unsigned int reg_id;
++    size_t len;
+     uint8_t *registers;
+     int reg_size;
  
-@@ -1289,7 +1289,7 @@ static void handle_file_io(GArray *params, void *user_ctx)
- static void handle_step(GArray *params, void *user_ctx)
- {
-     if (params->len) {
--        gdb_set_cpu_pc((target_ulong)get_param(params, 0)->val_ull);
-+        gdb_set_cpu_pc(get_param(params, 0)->val_ull);
+@@ -1204,9 +1205,10 @@ static void handle_write_all_regs(GArray *params, void *user_ctx)
+     len = strlen(get_param(params, 0)->data) / 2;
+     gdb_hextomem(gdbserver_state.mem_buf, get_param(params, 0)->data, len);
+     registers = gdbserver_state.mem_buf->data;
+-    for (addr = 0; addr < gdbserver_state.g_cpu->gdb_num_g_regs && len > 0;
+-         addr++) {
+-        reg_size = gdb_write_register(gdbserver_state.g_cpu, registers, addr);
++    for (reg_id = 0;
++         reg_id < gdbserver_state.g_cpu->gdb_num_g_regs && len > 0;
++         reg_id++) {
++        reg_size = gdb_write_register(gdbserver_state.g_cpu, registers, reg_id);
+         len -= reg_size;
+         registers += reg_size;
      }
+@@ -1215,15 +1217,16 @@ static void handle_write_all_regs(GArray *params, void *user_ctx)
  
-     cpu_single_step(gdbserver_state.c_cpu, gdbserver_state.sstep_flags);
+ static void handle_read_all_regs(GArray *params, void *user_ctx)
+ {
+-    target_ulong addr, len;
++    int reg_id;
++    size_t len;
+ 
+     cpu_synchronize_state(gdbserver_state.g_cpu);
+     g_byte_array_set_size(gdbserver_state.mem_buf, 0);
+     len = 0;
+-    for (addr = 0; addr < gdbserver_state.g_cpu->gdb_num_g_regs; addr++) {
++    for (reg_id = 0; reg_id < gdbserver_state.g_cpu->gdb_num_g_regs; reg_id++) {
+         len += gdb_read_register(gdbserver_state.g_cpu,
+                                  gdbserver_state.mem_buf,
+-                                 addr);
++                                 reg_id);
+     }
+     g_assert(len == gdbserver_state.mem_buf->len);
+ 
 -- 
 2.39.1
 
