@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56BB69E21D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 15:17:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C4169E21E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 15:17:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUTQ0-0005kb-AN; Tue, 21 Feb 2023 09:14:56 -0500
+	id 1pUTS9-0006iQ-F9; Tue, 21 Feb 2023 09:17:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUTPu-0005je-Ry
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:14:50 -0500
+ id 1pUTRn-0006gj-Ek
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:16:47 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUTPt-0007OG-0g
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:14:50 -0500
+ id 1pUTRl-0007xI-PM
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:16:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676988888;
+ s=mimecast20190719; t=1676989005;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oyItqO9dPERKAice0ZAF14XRg7dJq3RYadE46Gmgc4g=;
- b=ac6B0b5d/unQhujgMxEWQ7ocZMXoV7zkB72daCbxU95H+hXtVQAHVgygXxMsabFeVCKoje
- 4xRjyYUOoUL36SVxFBdaKWf5cmiiEHjfOLd/W2oUZoFbkude9fM1TDUWmYq5wEZagkyKYw
- Cdx8qGrjx5PLO0qoMBV60uFWlzZ6nw0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CmliDIUuWuowENEMGaDzr3ZY1ANxPbxbcJPoZMlbKRk=;
+ b=gGpP3yZ6z9jlIAslGzKqh5aypkg2ZsM/mcWKLX1R3kmTaSDdQOkTsUIYOL1fS+SYd759BV
+ 2J+cLQCzKKCDtCUs6ss5e+/DKA8EPCDYiBmejkim+PYtuS2/5UbJ6XUIC0mNNxUFe5Fxxu
+ qFqHVCRaDDsxMdTAjClJmZyvnImBtb4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-547-CSFK5uHuM2mwTelwYPZN_g-1; Tue, 21 Feb 2023 09:14:46 -0500
-X-MC-Unique: CSFK5uHuM2mwTelwYPZN_g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- er17-20020a056402449100b004ad793116d5so4539911edb.23
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 06:14:45 -0800 (PST)
+ us-mta-663-azCy-Wz9O5SfDXq2DpsXwA-1; Tue, 21 Feb 2023 09:16:43 -0500
+X-MC-Unique: azCy-Wz9O5SfDXq2DpsXwA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ cf11-20020a0564020b8b00b0049ec3a108beso6027687edb.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 06:16:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oyItqO9dPERKAice0ZAF14XRg7dJq3RYadE46Gmgc4g=;
- b=hN6zllhWXk7dB+pesi9Wuu8VjZ8q7HyRfeiuTfT0I9CxvS/jcgORe4iroWyNMn6jmb
- rsN8KCquE4g2MxsfUUo/b7r0vzGz92G7pAEPnkwks2pAjiHh8B6t33GKFGExc//oeBn3
- x6keAWG78NlX7YbZR5K7pVUPlXDw97bXBqPdZqXEG55odnykSoCteyl0CJWAE5HFCPMd
- W0+m3kxn5ywJZJB0SDum3B5RSxi9JGyjp9znwnSgYGT/mLQLdRUXARMt+FnymaYDpS45
- 0zRcA0YnfqZAAa8dA/CEua4+49O+NfY4fv8sC5rR8wrkf6UAeRqX+MUr+QANTMmjsQBl
- vBRQ==
-X-Gm-Message-State: AO0yUKW6ishigTW0YEbgaGzb2hj+m8OgYM/Oci4Fv+Z3L8gXB+t4VC/r
- +uAPfEa//fRshIzXq4bhk5hVmbF0l1r2Sk1QmhAT9SX96umy52SmK90A6zvZD0n1svr4HAhe1Cm
- szXimxkW1BntUlew=
-X-Received: by 2002:a17:906:5e42:b0:878:4e5a:18b8 with SMTP id
- b2-20020a1709065e4200b008784e5a18b8mr11868179eju.66.1676988885065; 
- Tue, 21 Feb 2023 06:14:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set99EAhRd1FKpAA3UOHXzIkyubC+jn4g5Jrx9ug+gyaMqC06DzdHcGd5xu+A28wcL92/t4eIDg==
-X-Received: by 2002:a17:906:5e42:b0:878:4e5a:18b8 with SMTP id
- b2-20020a1709065e4200b008784e5a18b8mr11868151eju.66.1676988884775; 
- Tue, 21 Feb 2023 06:14:44 -0800 (PST)
+ bh=CmliDIUuWuowENEMGaDzr3ZY1ANxPbxbcJPoZMlbKRk=;
+ b=pht1lD3aMHRTWdleGDq0kFfEQtPzIH8h62Q0I5n7V8htAjyraFeQ35FfYs4+TVQWWv
+ dh5cwz9S3WxDpeRspTRrmfBuGxwiZAQ2++qaHxWKDnFKdIskgDVMZUVaFWRoEv96t7N3
+ Z35wDUNmAlaxmFune1AnnYPdesZtbh2wKo8CQCKU/9Ixfiva1y5MmW+H10hM4EUpXzbl
+ N0cUFnFbzLLC6BXRhuRrapbWDqMCJsNEUDT50ggPHmO7+kQ6mBVZFwv/xgwEN3B65Hv0
+ E68eTRpRqEIWyeZiGf/Bawfnn/0MjaUozEAX2IgwRjWFNFMuRhwE/xPVz2LjHvseWB15
+ /bsg==
+X-Gm-Message-State: AO0yUKUjcW3G3hChUKXbRrc17TVkZqkm1VFV/TNBcF/ivW9FQZueN9Se
+ eg9DBgmQX5qP2Ix399/t0S7K0Zt2HgmFut+33C/cXAC7lwyB6js/DMWiFRe93vmqsgNFSbMaBsV
+ on4Ny8jHOW7zFpRQ2JNwU
+X-Received: by 2002:a17:906:805a:b0:8b2:7534:265e with SMTP id
+ x26-20020a170906805a00b008b27534265emr14401095ejw.58.1676989002583; 
+ Tue, 21 Feb 2023 06:16:42 -0800 (PST)
+X-Google-Smtp-Source: AK7set+st/i8NQLkBHpm5zbU8II9jpR9ixBogUV1g+PqDvJXcOxb5afAwK9wF+VPBJOpdfXlYqvuTQ==
+X-Received: by 2002:a17:906:805a:b0:8b2:7534:265e with SMTP id
+ x26-20020a170906805a00b008b27534265emr14401068ejw.58.1676989002311; 
+ Tue, 21 Feb 2023 06:16:42 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
  ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.googlemail.com with ESMTPSA id
- ce25-20020a170906b25900b008b05b21e8aesm7294175ejb.172.2023.02.21.06.14.42
+ f21-20020a170906049500b008e36f9b2308sm240924eja.43.2023.02.21.06.16.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 06:14:44 -0800 (PST)
-Message-ID: <4975b132-691f-e2ff-ce39-4188b9de5f55@redhat.com>
-Date: Tue, 21 Feb 2023 15:14:40 +0100
+ Tue, 21 Feb 2023 06:16:41 -0800 (PST)
+Message-ID: <7cc74666-df5a-792a-4f18-657b5281a68a@redhat.com>
+Date: Tue, 21 Feb 2023 15:16:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v3 10/16] RFC: build-sys: add slirp.wrap
+Subject: Re: [PATCH v3 15/16] os-posix: remove useless ioctlsocket() define
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
@@ -84,9 +84,9 @@ Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>,
  Hanna Reitz <hreitz@redhat.com>
 References: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
- <20230221124802.4103554-11-marcandre.lureau@redhat.com>
+ <20230221124802.4103554-16-marcandre.lureau@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230221124802.4103554-11-marcandre.lureau@redhat.com>
+In-Reply-To: <20230221124802.4103554-16-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
@@ -97,7 +97,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,60 +113,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/21/23 13:47, marcandre.lureau@redhat.com wrote:
+On 2/21/23 13:48, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> This allows to build with --enable-slirp / -D slirp=enabled, even when
-> libslirp is not installed on the system. Meson will pull it from git in
-> that case.
-> 
-> RFC because this is very convenient, for a developper targetting
-> different environments, but might not be considered appropriate, as it
-> is "a kind of" git submodule (without git submodule integration issues
-> though, afaik, experience should tell).
+> The API is specific to win32.
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-I have no objections to using wraps for slirp and especially libfdt 
-(though the latter is not yet part of wrapdb).
-
-However, right now meson will do network access without respecting 
---with-git-submodule= or something like that, i.e. with no way to avoid 
-the fallback.
-
-As a start, configure could hardcode --wrap-mode=nodownload, so that 
-wraps would be used only after a conscious decision of the user to use 
-"meson subprojects download".
+The idea was to use for socket ioctls that are common to POSIX and 
+Windows, but it turns out there's no such usecase.
 
 Paolo
 
 > ---
->   .gitignore             | 2 ++
->   subprojects/slirp.wrap | 6 ++++++
->   2 files changed, 8 insertions(+)
->   create mode 100644 subprojects/slirp.wrap
+>   include/sysemu/os-posix.h | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/.gitignore b/.gitignore
-> index 61fa39967b..1ea59f4819 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -20,3 +20,5 @@ GTAGS
->   *.swp
->   *.patch
->   *.gcov
-> +
-> +/subprojects/slirp
-> diff --git a/subprojects/slirp.wrap b/subprojects/slirp.wrap
-> new file mode 100644
-> index 0000000000..87cdd8dcd8
-> --- /dev/null
-> +++ b/subprojects/slirp.wrap
-> @@ -0,0 +1,6 @@
-> +[wrap-git]
-> +url = https://gitlab.freedesktop.org/slirp/libslirp
-> +revision = 15c52d69
-> +
-> +[provide]
-> +slirp = libslirp_dep
+> diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
+> index 58de7c994d..378213fc86 100644
+> --- a/include/sysemu/os-posix.h
+> +++ b/include/sysemu/os-posix.h
+> @@ -52,7 +52,6 @@ void os_setup_post(void);
+>   int os_mlock(void);
+>   
+>   #define closesocket(s) close(s)
+> -#define ioctlsocket(s, r, v) ioctl(s, r, v)
+>   
+>   int os_set_daemonize(bool d);
+>   bool is_daemonized(void);
 
 
