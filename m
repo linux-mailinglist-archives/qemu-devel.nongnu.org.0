@@ -2,90 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBDB69DC9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B3669DCAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:16:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUOhx-0003EZ-Rv; Tue, 21 Feb 2023 04:13:09 -0500
+	id 1pUOjz-00044G-68; Tue, 21 Feb 2023 04:15:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pUOhv-0003EJ-87
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:13:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <Luis.Machado@arm.com>)
+ id 1pUOju-00043v-Uh; Tue, 21 Feb 2023 04:15:10 -0500
+Received: from mail-vi1eur05on2061c.outbound.protection.outlook.com
+ ([2a01:111:f400:7d00::61c]
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pUOht-0007iN-Ch
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:13:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676970784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NR2w0zb7f7zbVIleo3/KORSI4e6TNOfFi6Z8lbL8KS0=;
- b=VXUoA8XqOQ8gB5Fwo/tGZhXJMHxjiHmi2w1TPS5ZlYbyFeADmefJyy4GYVjBTf0h+qAjkk
- 041ciflv6l2fRi/+cTbWWg4JJxr0mxMh/iQbkGtT/vxxJSSg3XbqFkEGDR3aK5OXMiHw3F
- 2cgqTZ3vdjus+hNbqx19GPU7Ch5CaVI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-581-BR_IGDEIOiOOeUD5r6F-SQ-1; Tue, 21 Feb 2023 04:13:01 -0500
-X-MC-Unique: BR_IGDEIOiOOeUD5r6F-SQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cz22-20020a0564021cb600b004a245f58006so5484814edb.12
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 01:13:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NR2w0zb7f7zbVIleo3/KORSI4e6TNOfFi6Z8lbL8KS0=;
- b=ipd0nt3LguZR6vp8Wu7U1X09E7D6the08KyX/0BNn1hvZz0l/m4jWP1nPJebkHk5rB
- DfQDTbzaCOqL8Qu6VSf7rfqQT7++asSNDovruussXD7zN8NeLIygQsHDzRj7ERBos3XX
- 0X0T1Dpw4yf2T+YMjzReVWnkmZOODsR95soTYv2XKfZQsEATrsrSv1FgbKIQhff9hwBb
- s8UZisInPtXmNMZLi/QSxhMt2KfAHdIItDFvEltaTkv1qgRSO2y5sCKCHC6lhiWL5I6P
- QqyKu5hWPr6IEt9ge2cJJgfqIHqoX1Hp4NdYdN5+3tgSxoxOK6VQRa4q7hcnMWuFGQG5
- xuGQ==
-X-Gm-Message-State: AO0yUKVqftX8/GQDDwYBehEAkCH3GA5qzlAim39tBEPAjNTfRCOmY3dD
- PUE3YT/laaUeHgeVF+De093hOBKedu82soUj7iMnqsaDMgdoCI1ZwdSnCjGynZjKYAydoLl50A3
- XA3GOogATRyQKw225DUljWq2voUH7hKY=
-X-Received: by 2002:a17:906:b746:b0:88d:64e7:a2be with SMTP id
- fx6-20020a170906b74600b0088d64e7a2bemr5720614ejb.15.1676970780720; 
- Tue, 21 Feb 2023 01:13:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set/sHMzyx1XszWcGe46a+i1G6V08i1Ul5rxU3qx3RJAsN0OK7qZSrctkVfh4Y0XfCs2AiUoQFfxwAuU1qHmuj8c=
-X-Received: by 2002:a17:906:b746:b0:88d:64e7:a2be with SMTP id
- fx6-20020a170906b74600b0088d64e7a2bemr5720607ejb.15.1676970780484; Tue, 21
- Feb 2023 01:13:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <Luis.Machado@arm.com>)
+ id 1pUOjr-00087M-4G; Tue, 21 Feb 2023 04:15:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eM1McJv1TfhzDWoZClZ7TdI13MqsZojPD9Ug3hREnik=;
+ b=zvE2F7bdnwcDsyyt7s7wy3sbows/wPklW47MDwGa20cVCcyRcnRqPatbYl1wvEJVPNif8/mqGHElM9oNVpqo1lj2WR7UsYoj+W2/ykbQtj2vA4AWteP/VvPdfZXrZxiD9v6VyUdFryKamVkGHXtXCLXQ5Fvhz7mLI79H+0/oSbM=
+Received: from AM6PR08CA0021.eurprd08.prod.outlook.com (2603:10a6:20b:b2::33)
+ by PAWPR08MB8815.eurprd08.prod.outlook.com (2603:10a6:102:337::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.20; Tue, 21 Feb
+ 2023 09:15:01 +0000
+Received: from AM7EUR03FT003.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:20b:b2:cafe::f) by AM6PR08CA0021.outlook.office365.com
+ (2603:10a6:20b:b2::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21 via Frontend
+ Transport; Tue, 21 Feb 2023 09:15:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT003.mail.protection.outlook.com (100.127.140.227) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6134.17 via Frontend Transport; Tue, 21 Feb 2023 09:15:01 +0000
+Received: ("Tessian outbound 3ad958cd7492:v132");
+ Tue, 21 Feb 2023 09:15:01 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 4cfd577839661c63
+X-CR-MTA-TID: 64aa7808
+Received: from b5b57c6dfe02.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ EA1EE714-323D-46BC-A9E9-2939C3E2CFA1.1; 
+ Tue, 21 Feb 2023 09:14:54 +0000
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id b5b57c6dfe02.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Tue, 21 Feb 2023 09:14:54 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZO070JsuTm0O8MkTb5MBdv+qWERMNtDN2bsT8Hrun8rl+VvTQSqDwT3pqu2MVncY2mXtiTcivjWqpmA4LXMf86CiTrpyOGK0CloNCCX/js+5um4tsEzSM9vBYjc3v4u9EY7VYj8ARfr1vI5EcTV4s7o9wWp8uZgpcqt6RfPQVTnhW4uED2gM8UXGnHMIRGFrsraHBpdbo2DEBMqhIBygxCB5gi+AL2CWLfmzMO2qRpY1XtV5cCCj4j87H+JrEij71KpO4/vVreEtKrGLLRiUHciQmXBoQ1ff2GTfc0xR+seUrnf4y40E81CvGVpuwKzS5vHEwHw/HaQpt8u1j9KThw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eM1McJv1TfhzDWoZClZ7TdI13MqsZojPD9Ug3hREnik=;
+ b=CROzyDGML8DP+/KStIzXrybZ+3pDIaogycl6eaZa8VSLRG1KRjE6/t8tu3+Eus1J1wCcgbHBYiTLG32DhFgZpDPZoMG28wVxzGiJqBHuQZtKaOnTSDWIqtgO/jmXjUVYh+4oyznfmmRt1Yo9QKr/gFIVF5aH3D8wudZmOEzs4Yw490Td9ChqZTXg/4Isw9dP1GzHqZ01axnIEt1uwZCxi8Xvfoea1YPsVk8g42GPIaLigXIG7OU3QEPfxk91oe6ZiZ0TRWLsSqp+7PjdvUp74fNLEZfvewXL2lujUyp3C87K1qE4vrTPNSBoZ9ok+KQGNtY00xe8JKyg+b/+h2nG8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eM1McJv1TfhzDWoZClZ7TdI13MqsZojPD9Ug3hREnik=;
+ b=zvE2F7bdnwcDsyyt7s7wy3sbows/wPklW47MDwGa20cVCcyRcnRqPatbYl1wvEJVPNif8/mqGHElM9oNVpqo1lj2WR7UsYoj+W2/ykbQtj2vA4AWteP/VvPdfZXrZxiD9v6VyUdFryKamVkGHXtXCLXQ5Fvhz7mLI79H+0/oSbM=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from VI1PR08MB3919.eurprd08.prod.outlook.com (2603:10a6:803:c4::31)
+ by DU0PR08MB9420.eurprd08.prod.outlook.com (2603:10a6:10:423::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Tue, 21 Feb
+ 2023 09:14:52 +0000
+Received: from VI1PR08MB3919.eurprd08.prod.outlook.com
+ ([fe80::bced:32a3:b77e:90a6]) by VI1PR08MB3919.eurprd08.prod.outlook.com
+ ([fe80::bced:32a3:b77e:90a6%4]) with mapi id 15.20.6111.021; Tue, 21 Feb 2023
+ 09:14:52 +0000
+Message-ID: <af38e9f5-0d50-f755-2c86-e049f07669f2@arm.com>
+Date: Tue, 21 Feb 2023 09:14:50 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 11/14] target/arm: Implement gdbstub pauth extension
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+References: <20230221021951.453601-1-richard.henderson@linaro.org>
+ <20230221021951.453601-12-richard.henderson@linaro.org>
+From: Luis Machado <luis.machado@arm.com>
+In-Reply-To: <20230221021951.453601-12-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: LO4P123CA0560.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:33b::18) To VI1PR08MB3919.eurprd08.prod.outlook.com
+ (2603:10a6:803:c4::31)
 MIME-Version: 1.0
-References: <20230212204942.1905959-1-marcandre.lureau@redhat.com>
- <20230212204942.1905959-4-marcandre.lureau@redhat.com>
- <87r0ukbjfp.fsf@pond.sub.org>
- <CAMxuvaxiN1jYr70k2yK0CUSjo4UQF8DqjPX_COvCdtAWhf3zNw@mail.gmail.com>
- <55e488cf-0b5f-f1e9-0a15-5d3e8c155abe@redhat.com>
-In-Reply-To: <55e488cf-0b5f-f1e9-0a15-5d3e8c155abe@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 21 Feb 2023 13:12:48 +0400
-Message-ID: <CAMxuvayAMEwR29fCs3SkHd8iOiOB+36QZBvEd7qG-sMhPdf2EQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] win32: stop mixing SOCKET and file descriptor space
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Joel Stanley <joel@jms.id.au>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org, 
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-Content-Type: multipart/alternative; boundary="000000000000ab759105f5322fb5"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3919:EE_|DU0PR08MB9420:EE_|AM7EUR03FT003:EE_|PAWPR08MB8815:EE_
+X-MS-Office365-Filtering-Correlation-Id: 647a1971-ad03-40cb-8f9f-08db13ec1c90
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: Yjm8gneRLMC+hQueU+c621gPCRNRmaRYv3WeO7xPvBhbBySFtzy+XHMQVZLtA1R3EvDu4xGrM9VYvKF9YX5SeEsp2hdlXCDtBm4Ox5MARD2eEX6foKb3YbNQWwUmmdCDWH5AnD7yKzHPKu+DVs08OGSluNhg1gkztiboQrZyUD2ajW6YsVGLgcDHyRlA9AZIFVcSNSzUmDGRLP1jgI4XzOygqVQ43qThnAZ/OQuG/iiQURNMhMGoM57l5fTJ0ByOr+R2jjQQ7jAcZ7Tx5NyiQeudZ4USfvSwfFZBbUT3w2zdHk/GQ95H1Nv2lrWPmgN64t4drubq0XXNBePlKVah0xwHZ9Rh+nVqhp67TnOUh5itnJlAWK4plfrFXzjBRgLSk9OMimjh29MVMLXU7M+3YiuXUYXH6J5pmIfvWIPHG1aqEx30rqTfIvoHCM1R62ny7h6QhjfU+sftLkB5y+9pHBl/MinFCqNzT6Gh1Dk5V0nOticP0wxA5eHVBtPyrPlGOrlNtWGfYoRD8YsbhErP2qU1utDKaCC8lTI3p14RkA70DabxQ7BY2yhm9/CKZXkUjFpNY/hslu6gqGsCxK+Ztn2zb/r52CgfITVpUUd4V1CbIf5ZXJUxGWH+fsi0GZlQYtUYoXZHC5vaxGNo2+K954pTqONhG3UO1EMl7VyjGDqHW6x0iCttnPrZZayApBIYeIuaY22wefOZdNqjOU2rp1uivtnYo2NaoCYKpUzLQRenXgP0ehwgixV/ofOlTJrPi1m4mCC966JmmmSwRGlCSpBj71zeRC91cWoWJNxgs2k=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI1PR08MB3919.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(366004)(396003)(346002)(376002)(136003)(451199018)(83380400001)(41300700001)(186003)(6512007)(26005)(316002)(53546011)(86362001)(31696002)(478600001)(966005)(6486002)(6506007)(66946007)(36756003)(2616005)(66556008)(8676002)(4326008)(66476007)(2906002)(31686004)(38100700002)(44832011)(8936002)(5660300002)(2004002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9420
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT003.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 4932c200-c41a-4e3a-bb52-08db13ec173e
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: C0W4hqNIsIQy2fSptFByVJ4ldnwmVENk7Qa0YBTH0HHXu27o34w4ZyWzi/QQuFanHFM1xS0bKbKqKjSo2+21p/4j2pPuWQY1N2YNBcbyyNV51A+7/FBJFCVyn5EcC+sALwbUyQzkhRA0ds6OPqEleUSTqcDWLVul/fIHNcuFGoQwLs/WDRGswTvlbPSGpRUswGuFB7QQMTmjh+8OUG0u5ZRAVHCbDq+gGvPu66nIuTFWg2/6CSXLn/aoiH7hjZ4HSNRI6C7yAQCk0VyVRotVIq+iYpFEnWUK6LlntZpZE3P8W2poXkfK7988hwB+Bq9ZhlYrVo/nFU7bl1eyv6w0/fScM17MuB4T9wnp+XtkLz1a4SxpcRTEmRCaX1TU/Eu9cjgZjFNUbzbMLruo7erLZQ8I1hucTaqu/DF5HvuZ8qoWVx4gIOT/L0Aluyt+2QPPM81g43UXzLkbPRHXCMf97MoYhOQnj5oUOyjevBUVochk1/1nZnupFqkxqlenq4j/F/7gL840ItUG1+B+4OyBYzxaACrYQxMjm92ZsZ4szdxKYi7svOnVLDjKTXj9uoQHUzUzEdgHpIkVo2VxSlLmqwvfQHr0miA/uCfccPrSF+Ck0RU2R5qLfEnlzTdCrU6x30O5NhWgADum+zpAfPMRJglPH6Kk30+FzLm+tSp/X9fZ0BJWpjn6Ayn8aRF3bVGLq9HoLlfmU0Vf278DQXI6rI+/0JxEJbeg/toubB6n2Sp0mvTgOALbyyObbCiQOOA/rTuqLb/HYxN+iJCYF4tKeOqZGaCLfYvcFxD4PDy8Rms=
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(346002)(136003)(39860400002)(376002)(451199018)(46966006)(40470700004)(36840700001)(83380400001)(86362001)(478600001)(8936002)(6486002)(53546011)(107886003)(36756003)(5660300002)(966005)(6506007)(186003)(6512007)(26005)(40460700003)(41300700001)(40480700001)(44832011)(2906002)(31696002)(81166007)(70206006)(70586007)(450100002)(31686004)(36860700001)(47076005)(82310400005)(82740400003)(356005)(336012)(2616005)(316002)(4326008)(8676002)(2004002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2023 09:15:01.4565 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 647a1971-ad03-40cb-8f9f-08db13ec1c90
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT003.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB8815
+Received-SPF: pass client-ip=2a01:111:f400:7d00::61c;
+ envelope-from=Luis.Machado@arm.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,125 +164,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000ab759105f5322fb5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi
-
-On Tue, Feb 21, 2023 at 12:18 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> On 2/20/23 16:29, Marc-Andr=C3=A9 Lureau wrote:
-> >> 7. A Windows SOCKET is also a HANDLE.  Maybe.  I guess.  Docs are
-> >>     confusing.
-> >>
-> > Kind of, but not really. I think a HANDLE is a kind of void*. You need =
-to
-> > be careful using it appropriately with the right functions. Sometime, a
-> > HANDLE can work with generic functions, like ReadFile, but you should n=
-ot
-> > use a CloseHandle on SOCKET, or registry key..
+On 2/21/23 02:19, Richard Henderson wrote:
+> The extension is primarily defined by the Linux kernel NT_ARM_PAC_MASK
+> ptrace register set.
 >
-> A Windows SOCKET *is* a file HANDLE except it's always in overlapped
-> mode so Windows provides send()/recv() in case you don't want to deal
-> with overlapped mode.  But you can use it with ReadFile too (Windows API
-> documentation says that is only true sometimes, but Winsock API is 30
-> years old and right now you pretty much always can).
+> The original gdb feature consists of two masks, data and code, which are
+> used to mask out the authentication code within a pointer.  Following
+> discussion with Luis Machado, add two more masks in order to support
+> pointers within the high half of the address space (i.e. TTBR1 vs TTBR0).
 >
-> However, sockets also has some extra information on the side, so you
-> need to close them with closesocket() and CloseHandle() is not enough.
+> Cc: Luis Machado <luis.machado@arm.com>
+> Cc: Thiago Jung Bauermann <thiago.bauermann@linaro.org>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1105
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   configs/targets/aarch64-linux-user.mak    |  2 +-
+>   configs/targets/aarch64-softmmu.mak       |  2 +-
+>   configs/targets/aarch64_be-linux-user.mak |  2 +-
+>   target/arm/internals.h                    |  2 ++
+>   target/arm/gdbstub.c                      |  5 ++++
+>   target/arm/gdbstub64.c                    | 34 +++++++++++++++++++++++
+>   gdb-xml/aarch64-pauth.xml                 | 15 ++++++++++
+>   7 files changed, 59 insertions(+), 3 deletions(-)
+>   create mode 100644 gdb-xml/aarch64-pauth.xml
 >
-
-Yeah, the question is "is it safe to call CloseHandle() on a SOCKET, before
-closesocket()". Testing/error checking seems to say it's okay.. I wouldn't
-be surprised if internally the CloseHandle() function does something to
-check if the given handle is a SOCKET and skip it. I wish they would
-document it..
-
-
-> The problem is that close() of something opened with _open_osfhandle()
-> *does* do that CloseHandle(), so basically you are closing the handle
-> twice.  IIRC there used to be undocumented functions _alloc_osfhnd() and
-> similar, but they don't exist anymore (even Wine does not have them), so
-> we're stuck; unfortunately this is the reason why QEMU is not already
-> doing something like what you have in this patch.
+> diff --git a/configs/targets/aarch64-linux-user.mak b/configs/targets/aar=
+ch64-linux-user.mak
+> index db552f1839..ba8bc5fe3f 100644
+> --- a/configs/targets/aarch64-linux-user.mak
+> +++ b/configs/targets/aarch64-linux-user.mak
+> @@ -1,6 +1,6 @@
+>   TARGET_ARCH=3Daarch64
+>   TARGET_BASE_ARCH=3Darm
+> -TARGET_XML_FILES=3D gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml
+> +TARGET_XML_FILES=3D gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb=
+-xml/aarch64-pauth.xml
+>   TARGET_HAS_BFLT=3Dy
+>   CONFIG_SEMIHOSTING=3Dy
+>   CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
+> diff --git a/configs/targets/aarch64-softmmu.mak b/configs/targets/aarch6=
+4-softmmu.mak
+> index d489e6da83..b4338e9568 100644
+> --- a/configs/targets/aarch64-softmmu.mak
+> +++ b/configs/targets/aarch64-softmmu.mak
+> @@ -1,5 +1,5 @@
+>   TARGET_ARCH=3Daarch64
+>   TARGET_BASE_ARCH=3Darm
+>   TARGET_SUPPORTS_MTTCG=3Dy
+> -TARGET_XML_FILES=3D gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb=
+-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-=
+sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-pr=
+ofile-mve.xml
+> +TARGET_XML_FILES=3D gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb=
+-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-=
+sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-pr=
+ofile-mve.xml gdb-xml/aarch64-pauth.xml
+>   TARGET_NEED_FDT=3Dy
+> diff --git a/configs/targets/aarch64_be-linux-user.mak b/configs/targets/=
+aarch64_be-linux-user.mak
+> index dc78044fb1..acb5620cdb 100644
+> --- a/configs/targets/aarch64_be-linux-user.mak
+> +++ b/configs/targets/aarch64_be-linux-user.mak
+> @@ -1,7 +1,7 @@
+>   TARGET_ARCH=3Daarch64
+>   TARGET_BASE_ARCH=3Darm
+>   TARGET_BIG_ENDIAN=3Dy
+> -TARGET_XML_FILES=3D gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml
+> +TARGET_XML_FILES=3D gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb=
+-xml/aarch64-pauth.xml
+>   TARGET_HAS_BFLT=3Dy
+>   CONFIG_SEMIHOSTING=3Dy
+>   CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index 370655061e..fb88b16579 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -1331,6 +1331,8 @@ int aarch64_gdb_get_sve_reg(CPUARMState *env, GByte=
+Array *buf, int reg);
+>   int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_t *buf, int reg);
+>   int aarch64_gdb_get_fpu_reg(CPUARMState *env, GByteArray *buf, int reg)=
+;
+>   int aarch64_gdb_set_fpu_reg(CPUARMState *env, uint8_t *buf, int reg);
+> +int aarch64_gdb_get_pauth_reg(CPUARMState *env, GByteArray *buf, int reg=
+);
+> +int aarch64_gdb_set_pauth_reg(CPUARMState *env, uint8_t *buf, int reg);
+>   void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
+>   void arm_cpu_sme_finalize(ARMCPU *cpu, Error **errp);
+>   void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
+> diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+> index bf8aff7824..062c8d447a 100644
+> --- a/target/arm/gdbstub.c
+> +++ b/target/arm/gdbstub.c
+> @@ -355,6 +355,11 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *=
+cpu)
+>                                        aarch64_gdb_set_fpu_reg,
+>                                        34, "aarch64-fpu.xml", 0);
+>           }
+> +        if (isar_feature_aa64_pauth(&cpu->isar)) {
+> +            gdb_register_coprocessor(cs, aarch64_gdb_get_pauth_reg,
+> +                                     aarch64_gdb_set_pauth_reg,
+> +                                     4, "aarch64-pauth.xml", 0);
+> +        }
+>   #endif
+>       } else {
+>           if (arm_feature(env, ARM_FEATURE_NEON)) {
+> diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
+> index 3d9e9e97c8..3bee892fb7 100644
+> --- a/target/arm/gdbstub64.c
+> +++ b/target/arm/gdbstub64.c
+> @@ -210,6 +210,40 @@ int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_=
+t *buf, int reg)
+>       return 0;
+>   }
 >
-> Is this a real bug or is it theoretical?  Do file descriptor and socket
-> spaces overlap in practice?
->
->
-Yes it likely can, the first SOCKET value starts at 92 in a simple test. It
-looks like it may depend on the system number of opened sockets.
+> +int aarch64_gdb_get_pauth_reg(CPUARMState *env, GByteArray *buf, int reg=
+)
+> +{
+> +    switch (reg) {
+> +    case 0: /* pauth_dmask */
+> +    case 1: /* pauth_cmask */
+> +    case 2: /* pauth_dmask_high */
+> +    case 3: /* pauth_cmask_high */
+> +        /*
+> +         * Note that older versions of this feature only contained
+> +         * pauth_{d,c}mask, for use with Linux user processes, and
+> +         * thus exclusively in the low half of the address space.
+> +         *
+> +         * To support system mode, and to debug kernels, two new regs
+> +         * were added to cover the high half of the address space.
+> +         * For the purpose of pauth_ptr_mask, we can use any well-formed
+> +         * address within the address space half -- here, 0 and -1.
+> +         */
+> +        {
+> +            bool is_data =3D !(reg & 1);
+> +            bool is_high =3D reg & 2;
+> +            uint64_t mask =3D pauth_ptr_mask(env, -is_high, is_data);
+> +            return gdb_get_reg64(buf, mask);
+> +        }
+> +    default:
+> +        return 0;
+> +    }
+> +}
+> +
+> +int aarch64_gdb_set_pauth_reg(CPUARMState *env, uint8_t *buf, int reg)
+> +{
+> +    /* All pseudo registers are read-only. */
+> +    return 0;
+> +}
+> +
+>   static void output_vector_union_type(GString *s, int reg_width,
+>                                        const char *name)
+>   {
+> diff --git a/gdb-xml/aarch64-pauth.xml b/gdb-xml/aarch64-pauth.xml
+> new file mode 100644
+> index 0000000000..24af5f903c
+> --- /dev/null
+> +++ b/gdb-xml/aarch64-pauth.xml
+> @@ -0,0 +1,15 @@
+> +<?xml version=3D"1.0"?>
+> +<!-- Copyright (C) 2018-2022 Free Software Foundation, Inc.
+> +
+> +     Copying and distribution of this file, with or without modification=
+,
+> +     are permitted in any medium without royalty provided the copyright
+> +     notice and this notice are preserved.  -->
+> +
+> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+> +<feature name=3D"org.gnu.gdb.aarch64.pauth">
+> +  <reg name=3D"pauth_dmask" bitsize=3D"64"/>
+> +  <reg name=3D"pauth_cmask" bitsize=3D"64"/>
+> +  <reg name=3D"pauth_dmask_high" bitsize=3D"64"/>
+> +  <reg name=3D"pauth_cmask_high" bitsize=3D"64"/>
+> +</feature>
+> +
 
-I think the second big issue is that we have many places where we assume a
-fd is a fd, and we simply call close() (which would result in CloseHandle,
-but missing closesocket).
-
-sigh, if the CRT would allow us to steal the handle back..
-
---000000000000ab759105f5322fb5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 21, 2023 at 12:18 PM Pa=
-olo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
-n 2/20/23 16:29, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt;&gt; 7. A Windows SOCKET is also a HANDLE.=C2=A0 Maybe.=C2=A0 I guess.=
-=C2=A0 Docs are<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0confusing.<br>
-&gt;&gt;<br>
-&gt; Kind of, but not really. I think a HANDLE is a kind of void*. You need=
- to<br>
-&gt; be careful using it appropriately with the right functions. Sometime, =
-a<br>
-&gt; HANDLE can work with generic functions, like ReadFile, but you should =
-not<br>
-&gt; use a CloseHandle on SOCKET, or registry key..<br>
-<br>
-A Windows SOCKET *is* a file HANDLE except it&#39;s always in overlapped <b=
-r>
-mode so Windows provides send()/recv() in case you don&#39;t want to deal <=
-br>
-with overlapped mode.=C2=A0 But you can use it with ReadFile too (Windows A=
-PI <br>
-documentation says that is only true sometimes, but Winsock API is 30 <br>
-years old and right now you pretty much always can).<br>
-<br>
-However, sockets also has some extra information on the side, so you <br>
-need to close them with closesocket() and CloseHandle() is not enough.<br><=
-/blockquote><div><br></div><div>Yeah, the question is &quot;is it safe to c=
-all CloseHandle() on a SOCKET, before closesocket()&quot;. Testing/error ch=
-ecking seems to say it&#39;s okay.. I wouldn&#39;t be surprised if internal=
-ly the CloseHandle() function does something to check if the given handle i=
-s a SOCKET and skip it. I wish they would document it..<br></div><div><br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-The problem is that close() of something opened with _open_osfhandle() <br>
-*does* do that CloseHandle(), so basically you are closing the handle <br>
-twice.=C2=A0 IIRC there used to be undocumented functions _alloc_osfhnd() a=
-nd <br>
-similar, but they don&#39;t exist anymore (even Wine does not have them), s=
-o <br>
-we&#39;re stuck; unfortunately this is the reason why QEMU is not already <=
-br>
-doing something like what you have in this patch.<br>
-<br>
-Is this a real bug or is it theoretical?=C2=A0 Do file descriptor and socke=
-t <br>
-spaces overlap in practice?<br>
-<br></blockquote><div><br></div><div>Yes it likely can, the first SOCKET va=
-lue starts at 92 in a simple test. It looks like it may depend on the syste=
-m number of opened sockets.<br></div><div><br></div><div>I think the second=
- big issue is that we have many places where we assume a fd is a fd, and we=
- simply call close() (which would result in CloseHandle, but missing closes=
-ocket).</div><div><br></div><div>sigh, if the CRT would allow us to steal t=
-he handle back.. <br></div><div><br></div><div><br></div><div>=C2=A0</div><=
-/div></div>
-
---000000000000ab759105f5322fb5--
-
+FTR, I've pushed the gdb-side changes: https://sourceware.org/git/?p=3Dbinu=
+tils-gdb.git;a=3Dcommit;h=3D6d0020873deb2f2c4e0965dc2ebf227bc1db3140
+IMPORTANT NOTICE: The contents of this email and any attachments are confid=
+ential and may also be privileged. If you are not the intended recipient, p=
+lease notify the sender immediately and do not disclose the contents to any=
+ other person, use it for any purpose, or store or copy the information in =
+any medium. Thank you.
 
