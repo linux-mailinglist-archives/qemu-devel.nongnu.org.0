@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B6269E635
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 18:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F1969E641
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 18:48:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUWik-0001lt-T8; Tue, 21 Feb 2023 12:46:30 -0500
+	id 1pUWkA-0004KH-D2; Tue, 21 Feb 2023 12:47:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUWij-0001l4-00
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:46:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUWih-0004ap-D1
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:46:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677001586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZTnVUzugBbqur6BqfZt1CtTDSK+k3vWZTQvUGOxv7wM=;
- b=XvdRjDs3fKcrmzz5olAfUYVgzcp8vFjzww41es4QBWa8nZTUTkCJeufKnS3Awdks0NFuDG
- fCH0Oeb8F6Oozb8rP8vwHvX7yKSultWnr5YN4aUQzUEj3l42g9pFZnJBIFQTJ6bpaYPofD
- WHQuPje8hVkUQYC1L2GAfKErZxTHymI=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-46-duE-f1Z6O9KV38l3E4JOmQ-1; Tue, 21 Feb 2023 12:46:25 -0500
-X-MC-Unique: duE-f1Z6O9KV38l3E4JOmQ-1
-Received: by mail-vs1-f71.google.com with SMTP id
- f26-20020a056102151a00b004177ba1e3c6so1387678vsv.11
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 09:46:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677001584;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pUWk7-0004Ht-MU
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:47:55 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pUWk5-0004mx-9R
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 12:47:55 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ x20-20020a17090a8a9400b00233ba727724so3717240pjn.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 09:47:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZTnVUzugBbqur6BqfZt1CtTDSK+k3vWZTQvUGOxv7wM=;
- b=UhcX5Bxw7+mbcbh4Dm1ZzP0MZu0oepeaxZZBIrp+1Gj2g4J/1byLPo/U04iZJm/l2M
- pvuH68hzg+gOj7VYW5UKdwNZG4FHpHJow3Xhflk9RnJWjwQ2HjaLtz0Zxf8V+gpZn/1n
- G+o/MlIDUnA1QbrZxtGBRwvH22+Aiud891+943h72BtE37D5gYjXwrmAs68zuKN41mQb
- ou+gsDA6NafIri6CGuxdrkZLQHUHShsYIYTTwHKrj9fUNDWBJ0pq8UBBoEMFM9eRwowz
- EPMnYgaEDSdrxnIbdPxEAuPi/kkOgmTTSkNQag9ZvEXCo6R2q8GkCZyD5+Ax9zaFGQ11
- 3CQA==
-X-Gm-Message-State: AO0yUKUaY2AYWwD/NjrsjI5Oi6MLHbuMR5aPAaWVAQt+57tJzpbYs8dN
- GwBAB6HuWwnGRnds5usfw/kmFy8hMBlo1ChhqqxqsiyRb9kEP9uIjTlM1Ig59XROB4hRw0u62l5
- AR1pW8t8STGB/t6Y=
-X-Received: by 2002:a67:6102:0:b0:41e:b377:e18c with SMTP id
- v2-20020a676102000000b0041eb377e18cmr429064vsb.3.1677001584688; 
- Tue, 21 Feb 2023 09:46:24 -0800 (PST)
-X-Google-Smtp-Source: AK7set+U1n42pNbANb0O1B5Fcelavt+ifGRolTsrAnDKV30KiK4HVQGXCPVyeWt61sQLO93xJcvK4g==
-X-Received: by 2002:a67:6102:0:b0:41e:b377:e18c with SMTP id
- v2-20020a676102000000b0041eb377e18cmr429035vsb.3.1677001584278; 
- Tue, 21 Feb 2023 09:46:24 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- 21-20020a370415000000b0073b732803c4sm2553557qke.5.2023.02.21.09.46.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 09:46:23 -0800 (PST)
-Date: Tue, 21 Feb 2023 12:46:22 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
- peter.maydell@linaro.org, david@redhat.com, philmd@linaro.org,
- mst@redhat.com, cohuck@redhat.com, quintela@redhat.com,
- dgilbert@redhat.com, maz@kernel.org, zhenyzha@redhat.com,
- shan.gavin@gmail.com
-Subject: Re: [PATCH v1 3/6] kvm: Synchronize the backup bitmap in the last
- stage
-Message-ID: <Y/UDbqyB2N/OWWi5@x1n>
-References: <20230213003925.40158-1-gshan@redhat.com>
- <20230213003925.40158-4-gshan@redhat.com>
+ bh=8wa3cXOe8DQ5zdgwL8rAxctHQW3nFEC3AB3I9alARfc=;
+ b=JG6STRWdrjjK+kWHfI/B3w3d80wBSLa6WFUOBGUU3W1+8oLAOlNm9OzqZoFEGPqzG5
+ zU9Myt6W7doU8Mz23z291SQST66f7iv1m/awW1b8cfzbQn7TsRe2pgOplvVX4W2ayAi7
+ GAxO17HsntqMNBQjxwcVcmwuFv2MvyiqKnAma3dZnYOIR2x4bfxlx4gxG9fAPYJGB5Dp
+ k9eUdVn/zXgj4IgpbzolOpq8K1zYAQ6t882uYdcA35nCxeVu987oK7wjThTCjLA8rnYD
+ TH/EZWtgu8mBCJjDOANzc/CarlgrUyfA8CJysopdvc36CNMouL5o0qnPod/0mCHKZV9k
+ D0iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8wa3cXOe8DQ5zdgwL8rAxctHQW3nFEC3AB3I9alARfc=;
+ b=qrRFP93Rl/P43yFhBSsLkGskVINgoNQThOFiMsvG39oGJ6vki8apUgkfnN5/TCRZLr
+ 9DjCpbw4gc269+RlkFy2qxKCEAwrJgLHDe88ZcAzOxYiOqYmUvYSdZKoomRze5putQsW
+ rGN9StHWO0UFZDULIRzSAahticH0UxPwf8Q4xv731heQvwZYwebIHhYYNPYdDZF9mRTA
+ Sxb15tNCk/lu7Cdf2EIO6NHL7RIeVNVD/d2tDB88rKMi3AH3gB8yJBdHyK0oznrQbXuC
+ XoK6iieswizaegyYpaceuragT2ZwqA+gL4WJkNX9E+AdC37AeNnEHm5YNO+bP5QC1LO8
+ p7tA==
+X-Gm-Message-State: AO0yUKV0j9kbmjxrHdozQtdher0733HCvUmjflEtG1VrO5MO6GFjIFZ7
+ XAthmJs/oVBEGcXkhe1STyO4iyRIp62ekyH+4qnI8g==
+X-Google-Smtp-Source: AK7set8Dn9NP8sx+CyphqMBiH1844tAapgjYYaOl64zs90/5hdQHb9b2NFW4qcLzMCbkvQd1hBFc5q5Dz2xne1CTYGM=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr1940898pjb.92.1677001671261; Tue, 21
+ Feb 2023 09:47:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230213003925.40158-4-gshan@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230216142338.82982-1-philmd@linaro.org>
+ <20230216142338.82982-2-philmd@linaro.org>
+In-Reply-To: <20230216142338.82982-2-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Feb 2023 17:47:40 +0000
+Message-ID: <CAFEAcA-Ju7G02yfGEmJmP=N2Eu0z5Q2UJ+AiLqvkwmLs3wcaBQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] hw/cpu: Extend CPUState::cluster_index documentation
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
+ Dapeng Mi <dapeng1.mi@intel.com>, Sean Christopherson <seanjc@google.com>, 
+ Bin Meng <bin.meng@windriver.com>,
+ Zhuocheng Ding <zhuocheng.ding@intel.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Zhenyu Wang <zhenyu.z.wang@intel.com>, qemu-riscv@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>, Zhao Liu <zhao1.liu@intel.com>, 
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Robert Hoo <robert.hu@linux.intel.com>, 
+ Yanan Wang <wangyanan55@huawei.com>, qemu-arm@nongnu.org, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Like Xu <like.xu.linux@gmail.com>, 
+ Alistair Francis <alistair@alistair23.me>, Zhao Liu <zhao1.liu@linux.intel.com>,
+ Eduardo Habkost <eduardo@habkost.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,84 +100,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 13, 2023 at 08:39:22AM +0800, Gavin Shan wrote:
-> In the last stage of live migration or memory slot removal, the
-> backup bitmap needs to be synchronized when it has been enabled.
-> 
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
+On Thu, 16 Feb 2023 at 14:23, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> Copy part of the description of commit f7b78602fd ("accel/tcg:
+> Add cluster number to TCG TB hash") in tcg_cpu_init_cflags(),
+> improving a bit CPUState::cluster_index documentation.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
->  accel/kvm/kvm-all.c      | 11 +++++++++++
->  include/sysemu/kvm_int.h |  1 +
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 01a6a026af..b5e12de522 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -1352,6 +1352,10 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
->                   */
->                  if (kvm_state->kvm_dirty_ring_size) {
->                      kvm_dirty_ring_reap_locked(kvm_state, NULL);
-> +                    if (kvm_state->kvm_dirty_ring_with_bitmap) {
-> +                        kvm_slot_sync_dirty_pages(mem);
-> +                        kvm_slot_get_dirty_log(kvm_state, mem);
-> +                    }
->                  } else {
->                      kvm_slot_get_dirty_log(kvm_state, mem);
->                  }
 
-IIUC after the memory atomic update changes lands QEMU, we may not need
-this sync at all.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-My understanding is that we sync dirty log here only because of non-atomic
-updates happening in the past and we may lose dirty bits unexpectedly.
-Maybe Paolo knows.
-
-But that needs some more justification and history digging, so definitely
-more suitable to leave it for later and separate discussion.
-
-Reviewed-by: Peter Xu <peterx@redhat.com>
-
-Thanks,
-
-> @@ -1573,6 +1577,12 @@ static void kvm_log_sync_global(MemoryListener *l, bool last_stage)
->          mem = &kml->slots[i];
->          if (mem->memory_size && mem->flags & KVM_MEM_LOG_DIRTY_PAGES) {
->              kvm_slot_sync_dirty_pages(mem);
-> +
-> +            if (s->kvm_dirty_ring_with_bitmap && last_stage &&
-> +                kvm_slot_get_dirty_log(s, mem)) {
-> +                kvm_slot_sync_dirty_pages(mem);
-> +            }
-> +
->              /*
->               * This is not needed by KVM_GET_DIRTY_LOG because the
->               * ioctl will unconditionally overwrite the whole region.
-> @@ -3701,6 +3711,7 @@ static void kvm_accel_instance_init(Object *obj)
->      s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
->      /* KVM dirty ring is by default off */
->      s->kvm_dirty_ring_size = 0;
-> +    s->kvm_dirty_ring_with_bitmap = false;
->      s->notify_vmexit = NOTIFY_VMEXIT_OPTION_RUN;
->      s->notify_window = 0;
->  }
-> diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-> index 60b520a13e..fdd5b1bde0 100644
-> --- a/include/sysemu/kvm_int.h
-> +++ b/include/sysemu/kvm_int.h
-> @@ -115,6 +115,7 @@ struct KVMState
->      } *as;
->      uint64_t kvm_dirty_ring_bytes;  /* Size of the per-vcpu dirty ring */
->      uint32_t kvm_dirty_ring_size;   /* Number of dirty GFNs per ring */
-> +    bool kvm_dirty_ring_with_bitmap;
->      struct KVMDirtyRingReaper reaper;
->      NotifyVmexitOption notify_vmexit;
->      uint32_t notify_window;
-> -- 
-> 2.23.0
-> 
-
--- 
-Peter Xu
-
+thanks
+-- PMM
 
