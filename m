@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF2B69EB63
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:45:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AB369EB68
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:46:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUcJD-0000Ry-35; Tue, 21 Feb 2023 18:44:31 -0500
+	id 1pUcKd-0002Iw-SV; Tue, 21 Feb 2023 18:45:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUcJB-0000Qs-0H
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:44:29 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+ id 1pUcKS-0002Ah-AP
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:45:50 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUcJ9-0005sJ-F2
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:44:28 -0500
-Received: by mail-pg1-x529.google.com with SMTP id p5so3217681pgh.11
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:44:27 -0800 (PST)
+ id 1pUcKM-0006b5-9h
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:45:46 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ qi12-20020a17090b274c00b002341621377cso6605568pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:45:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=2VJ8d9vngkappQHum9+ttxus7zf1l3BdN1cKfY+Lbso=;
- b=Lb2IzZLOoXS4beFCYxx07/YTsc6EUR6aDeZFrRD58+G/KNdz/bF0+sMj0tFX+S6sny
- kC9RGkL4QnH9QltmDegxsmwPG5xVP9KkqC0dxeWRwy59RqUQJV07rQa4GyKLOb9eQUkb
- 7uwzxLeOfIgwHyhWGA+6+E7fV8Ezcf9/BpOX+CebgoWz6diESKVzTuV9WnFbKCMrgql1
- UtnylVLZ86+RbSgr+MImtzS80lAy/rl0BvR825XKTxoZy/ThRvyLGfSbZX+L5dZ+lgpE
- Bx8AT2REj/PH+6xgi/NRn+kx8nzhqWdriOIg4LyUMDwOnnju8OSB7Eb6FBZWhmm8hqBg
- 0yJA==
+ bh=05d66nY10nAt1ChOCukmV901f07iwdM3JluporyJIJI=;
+ b=p9nbMV0HAp9HK47jn83N+eDA9rKs69qQXSYpipqiI/D/pHUSRHVLdrHlrOb4fw+AGV
+ yUFFzusZARPPE4o1syDrX5jzXmVapNWiRafiIXkqw5W3DkvOmXp84tQJkLYwJSTR0NfI
+ uFZ0BomXtvpVkyMhw/AunwZ+5bdNyngkRSgUqPk9BMoT3rX50iArmAE8U0LTvdHiNqYN
+ M4J+jsMOFU41tF6MFpd8SShm0f9c2SaEg4naoKqpv4ChNVFRBu2TRkh/2JGooQQiksiZ
+ y0xxwPkhGxc7GjZZpgbh6TQqqP4NW5EidG+QZsdzlfMD+MkumOgy0/w9kKC0/d40U4qo
+ grVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2VJ8d9vngkappQHum9+ttxus7zf1l3BdN1cKfY+Lbso=;
- b=7FOaNXsaQ/EePIAdjdmz40YZXqAar1WZr9Hk30V3vaQbMHLuduDApcNDS7Ns8cjuDB
- NCmowv5us9TC7/Oj0cp1edxRoIitEUbLJZ8S8E0MQW9miQac+vmjTN9qIQs399dgLg7X
- oYm1SjxGVjq1L6X2V7xVePFmy8ppkwzLmxCVVGWAzDescNoJy6Nhde0FdPaEhgZeOYbV
- +ILZbrVMQm2S2nt0bvA0k0yYJOdFdO+DT7nXmbV138AgGfJq5N5LZSTOVaHtdYc9m+C7
- muRm5j26vWwkj/uvBKD0fNc/8KFVNY+hptGYFPn3sNzAHor901PiiePZX5pda8msXgl8
- xR4g==
-X-Gm-Message-State: AO0yUKVTQzWm9uPSpp5jYs0xT+SJ2zWJZkFyrPp+b+3fsuPU+CfjZljj
- hs1pPqCzgEQ56RiIvNpSHCBOhFAMSggeX7zLkj4=
-X-Google-Smtp-Source: AK7set8ig8nqmL5j5udPm3EBxzyf7+ntq7CdNDNQvJsF6/SuOiEVMyAtBdKsBmantne+EzYO4rMJBA==
-X-Received: by 2002:aa7:9e47:0:b0:5b9:49a5:5de7 with SMTP id
- z7-20020aa79e47000000b005b949a55de7mr6192367pfq.31.1677023065875; 
- Tue, 21 Feb 2023 15:44:25 -0800 (PST)
+ bh=05d66nY10nAt1ChOCukmV901f07iwdM3JluporyJIJI=;
+ b=53mQl7ZyaPMjv4eUOWsj01xxweyPXmvFurbcbrmQaQwyWlQ9H1qEpHQ86pKCdktPCv
+ BQ507HtJ4Ye4oH2eYJAOys+6ZZXjDuUL8uUU7QmytvNQMSeI+dR5xiBpgdh55t7Q7qRZ
+ nFi+oQjR0OMBP0vs8kb0eXFgSHlk1b/4oRsIybK9hX7moz5xO0n0jWKC4FAYo3q+4/WO
+ 2Ubwwjor/ZPnMv9Iq3wll7m0l49KaiETmeQBaqWjSTbNDH9C1wK6NVyrs4e/SPg8nRvS
+ 1sJ02adAXzGp4mPJFpNiZXzdjhaxQ5s9R0fOuvxQzvRo4Zbi6KyGhVWnY1/nPZPJQhSY
+ skPQ==
+X-Gm-Message-State: AO0yUKWGLIHRkyeAWt0rpkwqxFlUKxzjQcs8i6tZG+9BHLkpyjtzKShx
+ 2QBSimL9+HJ5ByLfKdul4ZO18g==
+X-Google-Smtp-Source: AK7set/ihcekmdazlfMGpBf883zifqhXjb58yUp9QQp4s78VDf+ruMHrmjEhABYyNqAFpTHLlAzGcQ==
+X-Received: by 2002:a17:902:d488:b0:196:5f75:66f9 with SMTP id
+ c8-20020a170902d48800b001965f7566f9mr10253170plg.63.1677023132303; 
+ Tue, 21 Feb 2023 15:45:32 -0800 (PST)
 Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- 17-20020aa79111000000b005a852875590sm1609454pfh.113.2023.02.21.15.44.24
+ j9-20020a170902758900b00186a2274382sm1855979pll.76.2023.02.21.15.45.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 15:44:25 -0800 (PST)
-Message-ID: <b43bb34b-f96e-70de-381b-330835cba161@linaro.org>
-Date: Tue, 21 Feb 2023 13:44:22 -1000
+ Tue, 21 Feb 2023 15:45:31 -0800 (PST)
+Message-ID: <7bc4c5b2-058c-c60c-1842-09a23fa828cd@linaro.org>
+Date: Tue, 21 Feb 2023 13:45:28 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v4 1/4] util/cacheflush: fix cache on windows-arm64
+Subject: Re: [PATCH v4 2/4] sysemu/os-win32: fix setjmp/longjmp on
+ windows-arm64
 Content-Language: en-US
 To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
 Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
  alex.bennee@linaro.org, peter.maydell@linaro.org, philmd@linaro.org
 References: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
- <20230221153006.20300-2-pierrick.bouvier@linaro.org>
+ <20230221153006.20300-3-pierrick.bouvier@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230221153006.20300-2-pierrick.bouvier@linaro.org>
+In-Reply-To: <20230221153006.20300-3-pierrick.bouvier@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,21 +97,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/21/23 05:30, Pierrick Bouvier wrote:
-> ctr_el0 access is privileged on this platform and fails as an illegal
-> instruction.
+> Windows implementation of setjmp/longjmp is done in
+> C:/WINDOWS/system32/ucrtbase.dll. Alas, on arm64, it seems to *always*
+> perform stack unwinding, which crashes from generated code.
 > 
-> Windows does not offer a way to flush data cache from userspace, and
-> only FlushInstructionCache is available in Windows API.
-> 
-> The generic implementation of flush_idcache_range uses,
-> __builtin___clear_cache, which already use the FlushInstructionCache
-> function. So we rely on that.
+> By using alternative implementation built in mingw, we avoid doing stack
+> unwinding and this fixes crash when calling longjmp.
 > 
 > Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   util/cacheflush.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
+>   include/sysemu/os-win32.h | 28 ++++++++++++++++++++++++----
+>   meson.build               | 21 +++++++++++++++++++++
+>   2 files changed, 45 insertions(+), 4 deletions(-)
 
 Queueing this to tcg-next.
 
