@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C5869EB3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8824569EB3F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:27:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUc1F-0005Lg-2G; Tue, 21 Feb 2023 18:25:57 -0500
+	id 1pUc1H-0005Pb-G0; Tue, 21 Feb 2023 18:25:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUc19-0005HZ-B3
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:25:51 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUc1C-0005LZ-V4
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:25:54 -0500
 Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUc16-0002hr-O7
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:25:51 -0500
-Received: by mail-wm1-x333.google.com with SMTP id j3so2476555wms.2
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:25:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUc19-0002hn-Q4
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:25:53 -0500
+Received: by mail-wm1-x333.google.com with SMTP id p16so2211318wmq.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cOPVh2gJbusm2XsmCeCaqslHPbfLfSgGJBWGPz8N7FE=;
- b=lPbMzBd3uLSLD6hbU4KVIqKOa34CIa5lGYUtsBxbhnJ/5QDmFrb2P0ue6CToAkUfjM
- HyIj2gRr/SxacC9XmxvtqfDJhCRNxw9L39Ctv3x+PU7eUQ1NqnPmj0TDhC08Vseqwl7r
- pKQtFHTcZOTDPHDboDZ6N4N0+cv4SnNFEh56NIy0wdtQmeY9juCmhH1gvd0+5PyJkk3F
- tYUbKOzVkOQFTb91wILMf4wGz5HO9ufZbiNhCXMWI85WFpaBrAUBt2efTCGDfmAAzm9Z
- wxR4uC9L//iLK4Suzi2qiDUCQgho6BLr48dKDGrsD94CWSCr0v7l+LcFy9k1KovvEjdj
- Etyw==
+ bh=kCjOFfN/JCWa/PeEus9yAgUI0eq6WXQy8QoVJLxSGDI=;
+ b=jMMKDzXX2P8N4rIHCofsi7Cr6rQJJnrEkC2mpN7TAiI6UwEri8p3Yt2JfHWTayJUjI
+ qoQ6lSksT7eR6cEkukai1JvI+BQXeSJTLkUWFiR6JqxmpZSWo7fFIMugI49JIJt1urTz
+ 3F1X27CjnzS+zw3lMk71CkzYc1HqJpbMufkBnewUlZsHe33d02QJe931E6X0LRX5V6s0
+ GoMLYAbx5DGN7/TGyEggkcn90Ieb/nEjKFbAMNaF3SKVGbkGKzKnYZukpkzLAyoz3KVq
+ Y3E5Cr5P/hOoFcqhjD6wIA+auK4W2DTtlTEOPLAl6/IeGszuRfms8b2JuOfcTjwEaulP
+ 59VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cOPVh2gJbusm2XsmCeCaqslHPbfLfSgGJBWGPz8N7FE=;
- b=TLNvGEVQaSpMkeVQ2LCFo7wkqfHFldlqTRbKRjw3y1w8LRxLRbdJymiDAkNk6A6ihI
- W1ObzOc9tLr4+WVQv556VoWScTCmCvkxwPqxXph9aI8HOBXvi7bPRApuTPtOSDqi4FrQ
- hNA+/uaYxGDQP5aiSfhIREEtQI3M5jzY6qVdhjgshZ4ioxsfgjQtNfzzDawX3pzI6DE+
- qi9dy+taPCWtsIwY+bOIX6pJc8HRJSjrMEjVDwEPZjIL0HjpvUQI1CMdARxsIbssgvma
- UQ1fnm1cmj5H9jmMJwsouVi//4/MMhe74Z/8I1gEJYDNyfIDu+5iTz9T26j07+TkhsER
- 9ZJw==
-X-Gm-Message-State: AO0yUKWaDU+ZU4EL3dqAcDrMGDX4VticHWCUd72ua1M2OYVLYJ9s9/0C
- yOrt+pcd2KDDm3qnCJfwgctxtQCiwhH9s+sq
-X-Google-Smtp-Source: AK7set8Oa0nK7D79P6HYfLhZYcSH5VvVspCejAKAYa7t8JpeC/wRlvepUz7mJVQV+cpWP1uxzutTUw==
-X-Received: by 2002:a05:600c:198e:b0:3df:9858:c037 with SMTP id
- t14-20020a05600c198e00b003df9858c037mr4903370wmq.12.1677021945596; 
- Tue, 21 Feb 2023 15:25:45 -0800 (PST)
+ bh=kCjOFfN/JCWa/PeEus9yAgUI0eq6WXQy8QoVJLxSGDI=;
+ b=KexXSLcf5l4zWUzjD7/h6+noyWJID8RpHd29LvMZbS4KIcq1ikfaZteClJ0a1Shcyd
+ Id08DxH2cDnLz7wd2AG4FI9w0PUIP7LTEZwLGthGHV5pjT7TXv/DLPu8m6rxveXVDaIO
+ BY0hOfG/2vtdSxiMSjsO6Qc3Qga2RNPNogQlbCLq80hctZTnKVZQ95QC/k0i0K5WqJ2r
+ aDS+ezFAo+fJnkXGxOsU8MLUkgAqzP/pceUUAPOu2NFcXEYHL9fiA9BWnVoGncmbNZ+p
+ jHMrNjV+1QpDRdRVK+i/ZlYoht68+fIkWRyu1T71yhIEiyokM5eO7fDCJdL56DShbKID
+ QxzA==
+X-Gm-Message-State: AO0yUKWj2NTPuCH04tqIVj8up7aW8K1fkFg+Sfex7fwEzb5HxteWjpwB
+ pYRsIF0D9wQY6Fe6EPjrNxK3PPd8hnfyZVlN
+X-Google-Smtp-Source: AK7set8hb5N4zqpLpQZaAsPu7Bg17Rq+2Fbq9vf+ucCPUcZ3h9/lLExvhr0UbFeJTdAon2CtAgnUqg==
+X-Received: by 2002:a05:600c:984:b0:3e1:fff7:e970 with SMTP id
+ w4-20020a05600c098400b003e1fff7e970mr4862034wmp.30.1677021950629; 
+ Tue, 21 Feb 2023 15:25:50 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- l37-20020a05600c1d2500b003db0ad636d1sm17942737wms.28.2023.02.21.15.25.44
+ c24-20020a7bc858000000b003e11ad0750csm3155554wml.47.2023.02.21.15.25.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 21 Feb 2023 15:25:45 -0800 (PST)
+ Tue, 21 Feb 2023 15:25:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, qemu-arm@nongnu.org, Thomas Huth <thuth@redhat.com>,
  qemu-ppc@nongnu.org, Eric Blake <eblake@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH 4/5] block/vvfat: Remove pointless check of NDEBUG
-Date: Wed, 22 Feb 2023 00:25:19 +0100
-Message-Id: <20230221232520.14480-5-philmd@linaro.org>
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH 5/5] hw: Remove mentions of NDEBUG
+Date: Wed, 22 Feb 2023 00:25:20 +0100
+Message-Id: <20230221232520.14480-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230221232520.14480-1-philmd@linaro.org>
 References: <20230221232520.14480-1-philmd@linaro.org>
@@ -92,32 +93,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Since commit 262a69f428 ("osdep.h: Prohibit disabling
-assert() in supported builds") 'NDEBUG' can not be defined,
-so '#ifndef NDEBUG' is dead code. Remove it.
+assert() in supported builds") 'NDEBUG' can not be defined.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- block/vvfat.c | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/scsi/mptsas.c   | 2 --
+ hw/virtio/virtio.c | 2 --
+ 2 files changed, 4 deletions(-)
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index d7d775bd2c..fd45e86416 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -2784,13 +2784,10 @@ static int handle_commits(BDRVVVFATState* s)
-             fail = -2;
-             break;
-         case ACTION_WRITEOUT: {
--#ifndef NDEBUG
--            /* these variables are only used by assert() below */
-             direntry_t* entry = array_get(&(s->directory),
-                     commit->param.writeout.dir_index);
-             uint32_t begin = begin_of_direntry(entry);
-             mapping_t* mapping = find_mapping_for_cluster(s, begin);
--#endif
+diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
+index c485da792c..5b373d3ed6 100644
+--- a/hw/scsi/mptsas.c
++++ b/hw/scsi/mptsas.c
+@@ -1240,8 +1240,6 @@ static void *mptsas_load_request(QEMUFile *f, SCSIRequest *sreq)
+     n = qemu_get_be32(f);
+     /* TODO: add a way for SCSIBusInfo's load_request to fail,
+      * and fail migration instead of asserting here.
+-     * This is just one thing (there are probably more) that must be
+-     * fixed before we can allow NDEBUG compilation.
+      */
+     assert(n >= 0);
  
-             assert(mapping);
-             assert(mapping->begin == begin);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index f35178f5fc..c6b3e3fb08 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -1898,8 +1898,6 @@ void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t sz)
+ 
+     /* TODO: teach all callers that this can fail, and return failure instead
+      * of asserting here.
+-     * This is just one thing (there are probably more) that must be
+-     * fixed before we can allow NDEBUG compilation.
+      */
+     assert(ARRAY_SIZE(data.in_addr) >= data.in_num);
+     assert(ARRAY_SIZE(data.out_addr) >= data.out_num);
 -- 
 2.38.1
 
