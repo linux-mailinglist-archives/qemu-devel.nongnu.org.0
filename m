@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37D769EA14
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88DB69EA0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:24:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUayf-0006S7-SF; Tue, 21 Feb 2023 17:19:13 -0500
+	id 1pUayc-0006Nd-Le; Tue, 21 Feb 2023 17:19:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayP-000604-CX
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:59 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayQ-000605-IB
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:19:00 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayN-0005pU-8X
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:56 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayO-0005pe-7j
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=nqc5BnFcrMz5tITv4O/UQF7xZqy+x/bPRwvVsDq7pLE=; b=hJ5IdJXYV0ksbobY1NOVnOWrWv
- F98MIshEIXxGmXjG1Fqfm5xc9DucDJcR4L3VhQ942ccDK7R5g/a5SgVDeWEjDtYYGjcas4ex9i0ce
- a69BqLWb+UxMJtVmpfdsVyJgREAUXI/pcCLxaDtZ+zSYFyZ8qfuNJhAC69XHnb9+6EFc=;
+ bh=ybI6a3Aw1gw25TKCjjASH774t8GAx6ct6cSsdlrsdCw=; b=ALCQe/cVP4tgmgN8yIXqYoXbsT
+ pSfSqVIiUXRPTY0f/a6Rq2rQcvNlXB0mKAkJ/ikVe0VSMFGURYYbFvwEx5SCFLfz47fRmqKa7KjdG
+ 4fRbh3PZTrXNSp0jYRVs3sHTXhnotxh6M3QIM8dDMtVPmBTDbaRLvQWHVEyeRYtLve5s=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v2 23/27] target/hppa: Replace `tb_pc()` with `tb->pc`
-Date: Tue, 21 Feb 2023 23:18:14 +0100
-Message-Id: <20230221221818.9382-24-anjo@rev.ng>
+Subject: [PATCH v2 24/27] target/hexagon: Replace `tb_pc()` with `tb->pc`
+Date: Tue, 21 Feb 2023 23:18:15 +0100
+Message-Id: <20230221221818.9382-25-anjo@rev.ng>
 In-Reply-To: <20230221221818.9382-1-anjo@rev.ng>
 References: <20230221221818.9382-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,43 +66,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/hppa/cpu.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ target/hexagon/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 55c190280e..11022f9c99 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -26,7 +26,7 @@
- #include "qemu/module.h"
- #include "exec/exec-all.h"
- #include "fpu/softfloat.h"
--
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index 807037c586..ab40cfc283 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -23,6 +23,7 @@
+ #include "qapi/error.h"
+ #include "hw/qdev-properties.h"
+ #include "fpu/softfloat-helpers.h"
 +#include "tcg/tcg.h"
  
- static void hppa_cpu_set_pc(CPUState *cs, vaddr value)
+ static void hexagon_v67_cpu_init(Object *obj)
  {
-@@ -48,8 +48,10 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
+@@ -263,7 +264,8 @@ static void hexagon_cpu_synchronize_from_tb(CPUState *cs,
  {
-     HPPACPU *cpu = HPPA_CPU(cs);
- 
+     HexagonCPU *cpu = HEXAGON_CPU(cs);
+     CPUHexagonState *env = &cpu->env;
+-    env->gpr[HEX_REG_PC] = tb_pc(tb);
 +    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
-+
- #ifdef CONFIG_USER_ONLY
--    cpu->env.iaoq_f = tb_pc(tb);
-+    cpu->env.iaoq_f = tb->pc;
-     cpu->env.iaoq_b = tb->cs_base;
- #else
-     /* Recover the IAOQ values from the GVA + PRIV.  */
-@@ -59,7 +61,7 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
-     int32_t diff = cs_base;
++    env->gpr[HEX_REG_PC] = tb->pc;
+ }
  
-     cpu->env.iasq_f = iasq_f;
--    cpu->env.iaoq_f = (tb_pc(tb) & ~iasq_f) + priv;
-+    cpu->env.iaoq_f = (tb->pc & ~iasq_f) + priv;
-     if (diff) {
-         cpu->env.iaoq_b = cpu->env.iaoq_f + diff;
-     }
+ static bool hexagon_cpu_has_work(CPUState *cs)
 -- 
 2.39.1
 
