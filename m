@@ -2,29 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CA769E3E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88EF69E3E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:47:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUUqu-0006TP-DI; Tue, 21 Feb 2023 10:46:48 -0500
+	id 1pUUqs-0006Rb-Hu; Tue, 21 Feb 2023 10:46:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUUqp-0006PD-Sm; Tue, 21 Feb 2023 10:46:43 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ id 1pUUqq-0006Pw-8H; Tue, 21 Feb 2023 10:46:44 -0500
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUUqm-0003S2-VQ; Tue, 21 Feb 2023 10:46:43 -0500
+ id 1pUUqm-0003So-Fo; Tue, 21 Feb 2023 10:46:43 -0500
 Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
  (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
  [IPv6:2a02:6b8:c0c:8923:0:640:c717:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 51DAE5FBC2;
- Tue, 21 Feb 2023 18:46:31 +0300 (MSK)
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 99EF5620A6;
+ Tue, 21 Feb 2023 18:46:32 +0300 (MSK)
 Received: from vsementsov-win.yandex-team.ru (unknown
  [2a02:6b8:b081:b584::1:19])
  by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id IksB910KfuQ0-X2NP5hRh; Tue, 21 Feb 2023 18:46:30 +0300
+ ESMTPSA id IksB910KfuQ0-gbumZYpn; Tue, 21 Feb 2023 18:46:31 +0300
 X-Yandex-Fwd: 1
 Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
  dkim=pass
@@ -34,16 +35,17 @@ Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
  alexander.ivanov@virtuozzo.com, den@openvz.org,
  Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
-Subject: [PATCH v6 3/5] blockdev: qmp_transaction: refactor loop to classic for
-Date: Tue, 21 Feb 2023 18:46:15 +0300
-Message-Id: <20230221154617.745341-4-vsementsov@yandex-team.ru>
+Subject: [PATCH v6 4/5] blockdev: transaction: refactor handling transaction
+ properties
+Date: Tue, 21 Feb 2023 18:46:16 +0300
+Message-Id: <20230221154617.745341-5-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230221154617.745341-1-vsementsov@yandex-team.ru>
 References: <20230221154617.745341-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -66,41 +68,220 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Sementsov-Ogievskiy <vladimir.sementsov-ogievskiy@openvz.org>
 
+Only backup supports GROUPED mode. Make this logic more clear. And
+avoid passing extra thing to each action.
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@openvz.org>
 ---
- blockdev.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ blockdev.c | 92 +++++++++++-------------------------------------------
+ 1 file changed, 19 insertions(+), 73 deletions(-)
 
 diff --git a/blockdev.c b/blockdev.c
-index 2174ab2694..89c573a094 100644
+index 89c573a094..edaf7c6601 100644
 --- a/blockdev.c
 +++ b/blockdev.c
-@@ -2375,7 +2375,7 @@ void qmp_transaction(TransactionActionList *actions,
-                      struct TransactionProperties *properties,
+@@ -1220,7 +1220,6 @@ struct BlkActionState {
+     TransactionAction *action;
+     const BlkActionOps *ops;
+     JobTxn *block_job_txn;
+-    TransactionProperties *txn_props;
+     QTAILQ_ENTRY(BlkActionState) entry;
+ };
+ 
+@@ -1239,19 +1238,6 @@ TransactionActionDrv internal_snapshot_drv = {
+     .clean = internal_snapshot_clean,
+ };
+ 
+-static int action_check_completion_mode(BlkActionState *s, Error **errp)
+-{
+-    if (s->txn_props->completion_mode != ACTION_COMPLETION_MODE_INDIVIDUAL) {
+-        error_setg(errp,
+-                   "Action '%s' does not support Transaction property "
+-                   "completion-mode = %s",
+-                   TransactionActionKind_str(s->action->type),
+-                   ActionCompletionMode_str(s->txn_props->completion_mode));
+-        return -1;
+-    }
+-    return 0;
+-}
+-
+ static void internal_snapshot_action(BlkActionState *common,
+                                      Transaction *tran, Error **errp)
+ {
+@@ -1274,15 +1260,9 @@ static void internal_snapshot_action(BlkActionState *common,
+ 
+     tran_add(tran, &internal_snapshot_drv, state);
+ 
+-    /* 1. parse input */
+     device = internal->device;
+     name = internal->name;
+ 
+-    /* 2. check for validation */
+-    if (action_check_completion_mode(common, errp) < 0) {
+-        return;
+-    }
+-
+     bs = qmp_get_root_bs(device, errp);
+     if (!bs) {
+         return;
+@@ -1468,9 +1448,6 @@ static void external_snapshot_action(BlkActionState *common, Transaction *tran,
+     }
+ 
+     /* start processing */
+-    if (action_check_completion_mode(common, errp) < 0) {
+-        return;
+-    }
+ 
+     state->old_bs = bdrv_lookup_bs(device, node_name, errp);
+     if (!state->old_bs) {
+@@ -2020,10 +1997,6 @@ static void block_dirty_bitmap_add_action(BlkActionState *common,
+ 
+     tran_add(tran, &block_dirty_bitmap_add_drv, state);
+ 
+-    if (action_check_completion_mode(common, errp) < 0) {
+-        return;
+-    }
+-
+     action = common->action->u.block_dirty_bitmap_add.data;
+     /* AIO context taken and released within qmp_block_dirty_bitmap_add */
+     qmp_block_dirty_bitmap_add(action->node, action->name,
+@@ -2070,10 +2043,6 @@ static void block_dirty_bitmap_clear_action(BlkActionState *common,
+ 
+     tran_add(tran, &block_dirty_bitmap_clear_drv, state);
+ 
+-    if (action_check_completion_mode(common, errp) < 0) {
+-        return;
+-    }
+-
+     action = common->action->u.block_dirty_bitmap_clear.data;
+     state->bitmap = block_dirty_bitmap_lookup(action->node,
+                                               action->name,
+@@ -2121,10 +2090,6 @@ static void block_dirty_bitmap_enable_action(BlkActionState *common,
+ 
+     tran_add(tran, &block_dirty_bitmap_enable_drv, state);
+ 
+-    if (action_check_completion_mode(common, errp) < 0) {
+-        return;
+-    }
+-
+     action = common->action->u.block_dirty_bitmap_enable.data;
+     state->bitmap = block_dirty_bitmap_lookup(action->node,
+                                               action->name,
+@@ -2166,10 +2131,6 @@ static void block_dirty_bitmap_disable_action(BlkActionState *common,
+ 
+     tran_add(tran, &block_dirty_bitmap_disable_drv, state);
+ 
+-    if (action_check_completion_mode(common, errp) < 0) {
+-        return;
+-    }
+-
+     action = common->action->u.block_dirty_bitmap_disable.data;
+     state->bitmap = block_dirty_bitmap_lookup(action->node,
+                                               action->name,
+@@ -2211,10 +2172,6 @@ static void block_dirty_bitmap_merge_action(BlkActionState *common,
+ 
+     tran_add(tran, &block_dirty_bitmap_merge_drv, state);
+ 
+-    if (action_check_completion_mode(common, errp) < 0) {
+-        return;
+-    }
+-
+     action = common->action->u.block_dirty_bitmap_merge.data;
+ 
+     state->bitmap = block_dirty_bitmap_merge(action->node, action->target,
+@@ -2239,10 +2196,6 @@ static void block_dirty_bitmap_remove_action(BlkActionState *common,
+ 
+     tran_add(tran, &block_dirty_bitmap_remove_drv, state);
+ 
+-    if (action_check_completion_mode(common, errp) < 0) {
+-        return;
+-    }
+-
+     action = common->action->u.block_dirty_bitmap_remove.data;
+ 
+     state->bitmap = block_dirty_bitmap_remove(action->node, action->name,
+@@ -2346,25 +2299,6 @@ static const BlkActionOps actions_map[] = {
+      */
+ };
+ 
+-/**
+- * Allocate a TransactionProperties structure if necessary, and fill
+- * that structure with desired defaults if they are unset.
+- */
+-static TransactionProperties *get_transaction_properties(
+-    TransactionProperties *props)
+-{
+-    if (!props) {
+-        props = g_new0(TransactionProperties, 1);
+-    }
+-
+-    if (!props->has_completion_mode) {
+-        props->has_completion_mode = true;
+-        props->completion_mode = ACTION_COMPLETION_MODE_INDIVIDUAL;
+-    }
+-
+-    return props;
+-}
+-
+ /*
+  * 'Atomic' group operations.  The operations are performed as a set, and if
+  * any fail then we roll back all operations in the group.
+@@ -2376,18 +2310,34 @@ void qmp_transaction(TransactionActionList *actions,
                       Error **errp)
  {
--    TransactionActionList *act = actions;
-+    TransactionActionList *act;
-     bool has_properties = !!properties;
+     TransactionActionList *act;
+-    bool has_properties = !!properties;
      JobTxn *block_job_txn = NULL;
      Error *local_err = NULL;
-@@ -2395,14 +2395,11 @@ void qmp_transaction(TransactionActionList *actions,
-     bdrv_drain_all();
+     Transaction *tran = tran_new();
++    ActionCompletionMode comp_mode =
++        properties ? properties->completion_mode :
++        ACTION_COMPLETION_MODE_INDIVIDUAL;
  
-     /* We don't do anything in this loop that commits us to the operations */
--    while (NULL != act) {
--        TransactionAction *dev_info = NULL;
-+    for (act = actions; act; act = act->next) {
-+        TransactionAction *dev_info = act->value;
-         const BlkActionOps *ops;
-         BlkActionState *state;
+     GLOBAL_STATE_CODE();
  
--        dev_info = act->value;
--        act = act->next;
--
-         assert(dev_info->type < ARRAY_SIZE(actions_map));
+     /* Does this transaction get canceled as a group on failure?
+      * If not, we don't really need to make a JobTxn.
+      */
+-    properties = get_transaction_properties(properties);
+-    if (properties->completion_mode != ACTION_COMPLETION_MODE_INDIVIDUAL) {
++    if (comp_mode != ACTION_COMPLETION_MODE_INDIVIDUAL) {
++        for (act = actions; act; act = act->next) {
++            TransactionActionKind type = act->value->type;
++
++            if (type != TRANSACTION_ACTION_KIND_BLOCKDEV_BACKUP &&
++                type != TRANSACTION_ACTION_KIND_DRIVE_BACKUP)
++            {
++                error_setg(errp,
++                           "Action '%s' does not support Transaction property "
++                           "completion-mode = %s",
++                           TransactionActionKind_str(type),
++                           ActionCompletionMode_str(comp_mode));
++                return;
++            }
++        }
++
+         block_job_txn = job_txn_new();
+     }
  
-         ops = &actions_map[dev_info->type];
+@@ -2409,7 +2359,6 @@ void qmp_transaction(TransactionActionList *actions,
+         state->ops = ops;
+         state->action = dev_info;
+         state->block_job_txn = block_job_txn;
+-        state->txn_props = properties;
+ 
+         state->ops->action(state, tran, &local_err);
+         if (local_err) {
+@@ -2427,9 +2376,6 @@ delete_and_fail:
+     /* failure, and it is all-or-none; roll back all operations */
+     tran_abort(tran);
+ exit:
+-    if (!has_properties) {
+-        qapi_free_TransactionProperties(properties);
+-    }
+     job_txn_unref(block_job_txn);
+ }
+ 
 -- 
 2.34.1
 
