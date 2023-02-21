@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F28F69E34B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D456B69E34E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:23:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUUU6-0003oG-RY; Tue, 21 Feb 2023 10:23:14 -0500
+	id 1pUUUZ-0004Xo-Hu; Tue, 21 Feb 2023 10:23:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pUUU2-0003m2-Fx
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:23:11 -0500
+ id 1pUUUX-0004U8-ON
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:23:41 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pUUU1-0007UA-1b
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:23:10 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PLjbf3H5lz6865q;
- Tue, 21 Feb 2023 23:18:22 +0800 (CST)
+ id 1pUUUV-0007YS-Mx
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:23:41 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PLjcD75nwz687SK;
+ Tue, 21 Feb 2023 23:18:52 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 21 Feb 2023 15:23:06 +0000
+ 15.1.2507.17; Tue, 21 Feb 2023 15:23:37 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang
  <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v5 3/8] hw/pci-bridge/cxl_root_port: Wire up AER
-Date: Tue, 21 Feb 2023 15:21:40 +0000
-Message-ID: <20230221152145.9736-4-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v5 4/8] hw/pci-bridge/cxl_root_port: Wire up MSI
+Date: Tue, 21 Feb 2023 15:21:41 +0000
+Message-ID: <20230221152145.9736-5-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
 References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
@@ -69,35 +69,122 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are missing necessary config write handling for AER emulation in
-the CXL root port. Add it based on pcie_root_port.c
+Done to avoid fixing ACPI route description of traditional PCI interrupts on q35
+and because we should probably move with the times anyway.
 
 Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 ---
- hw/pci-bridge/cxl_root_port.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/pci-bridge/cxl_root_port.c | 61 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
 diff --git a/hw/pci-bridge/cxl_root_port.c b/hw/pci-bridge/cxl_root_port.c
-index 6664783974..00195257f7 100644
+index 00195257f7..7dfd20aa67 100644
 --- a/hw/pci-bridge/cxl_root_port.c
 +++ b/hw/pci-bridge/cxl_root_port.c
-@@ -187,12 +187,15 @@ static void cxl_rp_write_config(PCIDevice *d, uint32_t address, uint32_t val,
+@@ -22,6 +22,7 @@
+ #include "qemu/range.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pcie_port.h"
++#include "hw/pci/msi.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/sysbus.h"
+ #include "qapi/error.h"
+@@ -29,6 +30,10 @@
+ 
+ #define CXL_ROOT_PORT_DID 0x7075
+ 
++#define CXL_RP_MSI_OFFSET               0x60
++#define CXL_RP_MSI_SUPPORTED_FLAGS      PCI_MSI_FLAGS_MASKBIT
++#define CXL_RP_MSI_NR_VECTOR            2
++
+ /* Copied from the gen root port which we derive */
+ #define GEN_PCIE_ROOT_PORT_AER_OFFSET 0x100
+ #define GEN_PCIE_ROOT_PORT_ACS_OFFSET \
+@@ -47,6 +52,49 @@ typedef struct CXLRootPort {
+ #define TYPE_CXL_ROOT_PORT "cxl-rp"
+ DECLARE_INSTANCE_CHECKER(CXLRootPort, CXL_ROOT_PORT, TYPE_CXL_ROOT_PORT)
+ 
++/*
++ * If two MSI vector are allocated, Advanced Error Interrupt Message Number
++ * is 1. otherwise 0.
++ * 17.12.5.10 RPERRSTS,  32:27 bit Advanced Error Interrupt Message Number.
++ */
++static uint8_t cxl_rp_aer_vector(const PCIDevice *d)
++{
++    switch (msi_nr_vectors_allocated(d)) {
++    case 1:
++        return 0;
++    case 2:
++        return 1;
++    case 4:
++    case 8:
++    case 16:
++    case 32:
++    default:
++        break;
++    }
++    abort();
++    return 0;
++}
++
++static int cxl_rp_interrupts_init(PCIDevice *d, Error **errp)
++{
++    int rc;
++
++    rc = msi_init(d, CXL_RP_MSI_OFFSET, CXL_RP_MSI_NR_VECTOR,
++                  CXL_RP_MSI_SUPPORTED_FLAGS & PCI_MSI_FLAGS_64BIT,
++                  CXL_RP_MSI_SUPPORTED_FLAGS & PCI_MSI_FLAGS_MASKBIT,
++                  errp);
++    if (rc < 0) {
++        assert(rc == -ENOTSUP);
++    }
++
++    return rc;
++}
++
++static void cxl_rp_interrupts_uninit(PCIDevice *d)
++{
++    msi_uninit(d);
++}
++
+ static void latch_registers(CXLRootPort *crp)
+ {
+     uint32_t *reg_state = crp->cxl_cstate.crb.cache_mem_registers;
+@@ -183,6 +231,15 @@ static void cxl_rp_dvsec_write_config(PCIDevice *dev, uint32_t addr,
+     }
+ }
+ 
++static void cxl_rp_aer_vector_update(PCIDevice *d)
++{
++    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(d);
++
++    if (rpc->aer_vector) {
++        pcie_aer_root_set_vector(d, rpc->aer_vector(d));
++    }
++}
++
+ static void cxl_rp_write_config(PCIDevice *d, uint32_t address, uint32_t val,
                                  int len)
  {
-     uint16_t slt_ctl, slt_sta;
-+    uint32_t root_cmd =
-+        pci_get_long(d->config + d->exp.aer_cap + PCI_ERR_ROOT_COMMAND);
+@@ -192,6 +249,7 @@ static void cxl_rp_write_config(PCIDevice *d, uint32_t address, uint32_t val,
  
      pcie_cap_slot_get(d, &slt_ctl, &slt_sta);
      pci_bridge_write_config(d, address, val, len);
++    cxl_rp_aer_vector_update(d);
      pcie_cap_flr_write_config(d, address, val, len);
      pcie_cap_slot_write_config(d, slt_ctl, slt_sta, address, val, len);
      pcie_aer_write_config(d, address, val, len);
-+    pcie_aer_root_write_config(d, address, val, len, root_cmd);
+@@ -220,6 +278,9 @@ static void cxl_root_port_class_init(ObjectClass *oc, void *data)
  
-     cxl_rp_dvsec_write_config(d, address, val, len);
+     rpc->aer_offset = GEN_PCIE_ROOT_PORT_AER_OFFSET;
+     rpc->acs_offset = GEN_PCIE_ROOT_PORT_ACS_OFFSET;
++    rpc->aer_vector = cxl_rp_aer_vector;
++    rpc->interrupts_init = cxl_rp_interrupts_init;
++    rpc->interrupts_uninit = cxl_rp_interrupts_uninit;
+ 
+     dc->hotpluggable = false;
  }
 -- 
 2.37.2
