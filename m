@@ -2,115 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADED69EAF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:04:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC8D69EB0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:14:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUbeU-0006dD-IG; Tue, 21 Feb 2023 18:02:26 -0500
+	id 1pUbot-00088v-Dc; Tue, 21 Feb 2023 18:13:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUbeB-0006OH-5u
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:10 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUbe3-0006D6-6o
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:02:05 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- m14-20020a7bce0e000000b003e00c739ce4so4075906wmc.5
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/FUKHXeuCXtBvDsk59GkfkYB8FHTK4Rxul90aEXOMFE=;
- b=c5mY9RWteBVGgF/LR9Bx0irYGWPV65PUX0nkgGhfFkQB9KiueE1F0g4qtky7Ohh9Ix
- M9fDd6r0jZzS5IWTGTEOlgKhh4br8KPjnhWvHg2DhF7j7N1vgtAMJS3Mm1VQZxsgfdZp
- /TiMSe0f9VAaM+zr2QfL292UZsJRiWcA9zkAjPfzGHyz/Zttn+JQ6SvLqDtrlRGgCcRe
- pudI9j4gup9eLFvspGX5tBOrli09aILLhM1GK2zgnmQv0tlhFtS+BkmrDGQp4flikrLF
- g9z3XFwNRfY04vCWPFSJI6Uvpn8Eek3SkV1MzMk9kwoIVIVv44gk9PT0aDn5Sq7dVKMB
- bOow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/FUKHXeuCXtBvDsk59GkfkYB8FHTK4Rxul90aEXOMFE=;
- b=phzjxk6zYRoD/J/BCcTUT4fQZrieQ9gH23x9MADbP4CTLQ3h9bso+uY4oB5OH4Z5qc
- NlmbRZbnKdj1yBBWXC5G07/QOEcuMzU4czUxlSHiZ2C/uYvrt/c30ZfpPZa02wF62+gd
- gjLBrArVAZW8+vHNmZTefkEpHHqT63/PfjpC9hiFjItR0vmOB5wLwpuUnh1zFaoHAz5u
- H4kXxe2kbNsABcHtmzBwxQnyEl3a9oLIC2vvOhWEYeW4YYXg5vxM7hKu6i6LUzuuwEIj
- 6HNujhfT0Ck4hftxxzT7pCObAQiBxnzSnbjjcVlPbtLNBqvooMuGX8jn9RN6Ixe/9lHk
- Ptig==
-X-Gm-Message-State: AO0yUKUogYK9HI2Q5Hz8MzcR5p+Ep8SWSOPpezJwEBDkvkF6hcUj6302
- H2zXkp8BTkE65g9lAlTr3y4gYQ==
-X-Google-Smtp-Source: AK7set+j0f1oBav2g+mG80BAgksRU/0xNJq8aNM0YrJJxRmlrAbS6luriu1HAtCIK588fqy18zpEsQ==
-X-Received: by 2002:a05:600c:995:b0:3d6:ecc4:6279 with SMTP id
- w21-20020a05600c099500b003d6ecc46279mr4259460wmp.27.1677020516890; 
- Tue, 21 Feb 2023 15:01:56 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- r26-20020a05600c2f1a00b003db0bb81b6asm5207691wmn.1.2023.02.21.15.01.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 15:01:56 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1E90E1FFCF;
- Tue, 21 Feb 2023 22:52:31 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- nicolas.eder@lauterbach.com, Stafford Horne <shorne@gmail.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- Taylor Simpson <tsimpson@quicinc.com>, mads@ynddal.dk,
- Marek Vasut <marex@denx.de>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-ppc@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Eduardo Habkost <eduardo@habkost.net>, Bin Meng <bin.meng@windriver.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Michael Rolnik <mrolnik@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alexandre Iooss <erdnaxe@crans.org>, Chris Wulff <crwulff@gmail.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Greg Kurz <groug@kaod.org>,
- David Hildenbrand <david@redhat.com>, Song Gao <gaosong@loongson.cn>,
- Ilya Leoshkevich <iii@linux.ibm.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH v3 22/24] testing: probe gdb for supported architectures ahead
- of time
-Date: Tue, 21 Feb 2023 22:52:25 +0000
-Message-Id: <20230221225227.3735319-23-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230221225227.3735319-1-alex.bennee@linaro.org>
-References: <20230221225227.3735319-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUboq-00088E-VL
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:13:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUbop-000854-5e
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:13:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677021186;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=epKb2cEAGEs/ZO+CT+qZUFkJb8zy5umFRE1O+tZ8JeY=;
+ b=Ws73DsbhzmirwVw8qLJRK8u3iE7F68aI/DWIU8mqI20CsOITgmggfVTkC/Kf/RfS2K6ntt
+ tqW3h9qHOYHN87KzpL3m92dBJRgFdYH60mEB2lsYvhfOQFBfGpeYnG46olGAGeVFV+fwZp
+ MEJOX3r51WCIeRKFZt/5P0nqtr5gcUY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-100-0U0PsZ3LNKu9zhBT4oAbLA-1; Tue, 21 Feb 2023 18:13:01 -0500
+X-MC-Unique: 0U0PsZ3LNKu9zhBT4oAbLA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBEC380D0F0;
+ Tue, 21 Feb 2023 23:13:00 +0000 (UTC)
+Received: from [10.72.12.31] (ovpn-12-31.pek2.redhat.com [10.72.12.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94976C15BA0;
+ Tue, 21 Feb 2023 23:12:55 +0000 (UTC)
+Subject: Re: [PATCH] hw/arm/virt: Prevent CPUs in one socket to span mutiple
+ NUMA nodes
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org, yihyu@redhat.com,
+ shan.gavin@gmail.com, Igor Mammedov <imammedo@redhat.com>
+References: <20230221085352.212938-1-gshan@redhat.com>
+ <78d887c3-0241-9552-69b2-bd2e9a8fb74b@linaro.org>
+ <3e88a2ec-6425-f484-8483-560d511a27ca@redhat.com>
+ <b76a1ffa-f9d8-192d-ef65-0fdf43dabaa6@linaro.org>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <8150f6d9-9c5b-28c5-4744-ee866cf16ca7@redhat.com>
+Date: Wed, 22 Feb 2023 10:12:46 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <b76a1ffa-f9d8-192d-ef65-0fdf43dabaa6@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,181 +83,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently when we encounter a gdb that is old or not built with
-multiarch in mind we fail rather messily. Try and improve the
-situation by probing ahead of time and setting
-HOST_GDB_SUPPORTS_ARCH=y in the relevant tcg configs. We can then skip
-and give a more meaningful message if we don't run the test.
+On 2/21/23 9:21 PM, Philippe Mathieu-Daudé wrote:
+> On 21/2/23 10:21, Gavin Shan wrote:
+>> On 2/21/23 8:15 PM, Philippe Mathieu-Daudé wrote:
+>>> On 21/2/23 09:53, Gavin Shan wrote:
+>>>> Linux kernel guest reports warning when two CPUs in one socket have
+>>>> been associated with different NUMA nodes, using the following command
+>>>> lines.
+>>>>
+>>>>    -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
+>>>>    -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
+>>>>    -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
+>>>>    -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
+>>>>
+>>>>    ------------[ cut here ]------------
+>>>>    WARNING: CPU: 0 PID: 1 at kernel/sched/topology.c:2271 build_sched_domains+0x284/0x910
+>>>>    Modules linked in:
+>>>>    CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.14.0-268.el9.aarch64 #1
+>>>>    pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>>>>    pc : build_sched_domains+0x284/0x910
+>>>>    lr : build_sched_domains+0x184/0x910
+>>>>    sp : ffff80000804bd50
+>>>>    x29: ffff80000804bd50 x28: 0000000000000002 x27: 0000000000000000
+>>>>    x26: ffff800009cf9a80 x25: 0000000000000000 x24: ffff800009cbf840
+>>>>    x23: ffff000080325000 x22: ffff0000005df800 x21: ffff80000a4ce508
+>>>>    x20: 0000000000000000 x19: ffff000080324440 x18: 0000000000000014
+>>>>    x17: 00000000388925c0 x16: 000000005386a066 x15: 000000009c10cc2e
+>>>>    x14: 00000000000001c0 x13: 0000000000000001 x12: ffff00007fffb1a0
+>>>>    x11: ffff00007fffb180 x10: ffff80000a4ce508 x9 : 0000000000000041
+>>>>    x8 : ffff80000a4ce500 x7 : ffff80000a4cf920 x6 : 0000000000000001
+>>>>    x5 : 0000000000000001 x4 : 0000000000000007 x3 : 0000000000000002
+>>>>    x2 : 0000000000001000 x1 : ffff80000a4cf928 x0 : 0000000000000001
+>>>>    Call trace:
+>>>>     build_sched_domains+0x284/0x910
+>>>>     sched_init_domains+0xac/0xe0
+>>>>     sched_init_smp+0x48/0xc8
+>>>>     kernel_init_freeable+0x140/0x1ac
+>>>>     kernel_init+0x28/0x140
+>>>>     ret_from_fork+0x10/0x20
+>>>>
+>>>> Fix it by preventing mutiple CPUs in one socket to be associated with
+>>>> different NUMA nodes.
+>>>>
+>>>> Reported-by: Yihuang Yu <yihyu@redhat.com>
+>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>>> ---
+>>>>   hw/arm/virt.c | 37 +++++++++++++++++++++++++++++++++++++
+>>>>   1 file changed, 37 insertions(+)
+>>>>
+>>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>>> index ac626b3bef..e0af267c77 100644
+>>>> --- a/hw/arm/virt.c
+>>>> +++ b/hw/arm/virt.c
+>>>> @@ -230,6 +230,39 @@ static bool cpu_type_valid(const char *cpu)
+>>>>       return false;
+>>>>   }
+>>>> +static bool numa_state_valid(MachineState *ms)
+>>>> +{
+>>>> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
+>>>> +    NumaState *state = ms->numa_state;
+>>>> +    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
+>>>> +    const CPUArchId *cpus = possible_cpus->cpus;
+>>>> +    int len = possible_cpus->len, i, j;
+>>>> +
+>>>> +    if (!state || state->num_nodes <= 1 || len <= 1) {
+>>>> +        return true;
+>>>> +    }
+>>>> +
+>>>> +    for (i = 0; i < len; i++) {
+>>>> +        for (j = i + 1; j < len; j++) {
+>>>> +            if (cpus[i].props.has_socket_id &&
+>>>> +                cpus[i].props.has_node_id &&
+>>>> +                cpus[j].props.has_socket_id &&
+>>>> +                cpus[j].props.has_node_id &&
+>>>> +                cpus[i].props.socket_id == cpus[j].props.socket_id &&
+>>>> +                cpus[i].props.node_id != cpus[j].props.node_id) {
+>>>> +                error_report("CPU-%d and CPU-%d in socket-%ld have been "
+>>>> +                             "associated with node-%ld and node-%ld",
+>>>> +                             i, j, cpus[i].props.socket_id,
+>>>> +                             cpus[i].props.node_id,
+>>>> +                             cpus[j].props.node_id);
+>>>> +                return false;
+>>>> +            }
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>> +    return true;
+>>>> +}
+>>>> +
+>>>>   static void create_randomness(MachineState *ms, const char *node)
+>>>>   {
+>>>>       struct {
+>>>> @@ -2040,6 +2073,10 @@ static void machvirt_init(MachineState *machine)
+>>>>           exit(1);
+>>>>       }
+>>>> +    if (!numa_state_valid(machine)) {
+>>>> +        exit(1);
+>>>> +    }
+>>>
+>>> Why restrict to the virt machine?
+>>>
+>>
+>> We tried x86 machines and virt machine, but the issue isn't reproducible on x86 machines.
+>> So I think it's machine or architecture specific issue. However, I believe RiscV should
+>> have similar issue because linux/drivers/base/arch_topology.c is shared by ARM64 and RiscV.
+>> x86 doesn't use the driver to populate its CPU topology.
+> 
+> Oh, I haven't thought about the other archs, I meant this seem a generic
+> issue which affects all (ARM) machines, so why restrict to the (ARM)
+> virt machine?
+> 
 
-[AJB: we still miss some arches, for example gdb uses s390 which fails
-when we look for s390x. Not sure what the best way to deal with that
-is? Maybe define a gdb_arch as we probe each target?]
+[Ccing Igor for comments]
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
----
- configure                                     |  8 +++++
- scripts/probe-gdb-support.sh                  | 36 +++++++++++++++++++
- tests/tcg/aarch64/Makefile.target             |  2 +-
- tests/tcg/multiarch/Makefile.target           |  5 +++
- .../multiarch/system/Makefile.softmmu-target  |  6 +++-
- tests/tcg/s390x/Makefile.target               |  2 +-
- 6 files changed, 56 insertions(+), 3 deletions(-)
- create mode 100755 scripts/probe-gdb-support.sh
+Well, virt machine is the only concern to us for now. You're right that all ARM64 and ARM machines
+need this check and limitation. So the check needs to be done in the generic path. The best way
+I can figure out is like something below. The idea is to introduce a switch to 'struct NumaState'
+and do the check in the generic path. The switch is turned on by individual machines. Please let me
+know if you have better ideas
 
-diff --git a/configure b/configure
-index cf6db3d551..366a1d8dd2 100755
---- a/configure
-+++ b/configure
-@@ -226,6 +226,7 @@ stack_protector=""
- safe_stack=""
- use_containers="yes"
- gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
-+gdb_arches=""
- 
- if test -e "$source_path/.git"
- then
-@@ -2344,6 +2345,7 @@ if test -n "$gdb_bin"; then
-     gdb_version=$($gdb_bin --version | head -n 1)
-     if version_ge ${gdb_version##* } 9.1; then
-         echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
-+        gdb_arches=$("$source_path/scripts/probe-gdb-support.sh" $gdb_bin)
-     else
-         gdb_bin=""
-     fi
-@@ -2467,6 +2469,12 @@ for target in $target_list; do
-       write_target_makefile "build-tcg-tests-$target" >> "$config_target_mak"
-       echo "BUILD_STATIC=$build_static" >> "$config_target_mak"
-       echo "QEMU=$PWD/$qemu" >> "$config_target_mak"
-+
-+      # will GDB work with these binaries?
-+      if test "${gdb_arches#*$arch}" != "$gdb_arches"; then
-+          echo "HOST_GDB_SUPPORTS_ARCH=y" >> "$config_target_mak"
-+      fi
-+
-       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> Makefile.prereqs
-       tcg_tests_targets="$tcg_tests_targets $target"
-   fi
-diff --git a/scripts/probe-gdb-support.sh b/scripts/probe-gdb-support.sh
-new file mode 100755
-index 0000000000..2b09a00a5b
---- /dev/null
-+++ b/scripts/probe-gdb-support.sh
-@@ -0,0 +1,36 @@
-+#!/bin/sh
-+
-+# Probe gdb for supported architectures.
-+#
-+# This is required to support testing of the gdbstub as its hard to
-+# handle errors gracefully during the test. Instead this script when
-+# passed a GDB binary will probe its architecture support and return a
-+# string of supported arches, stripped of guff.
-+#
-+# Copyright 2023 Linaro Ltd
-+#
-+# Author: Alex Bennée <alex.bennee@linaro.org>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+if test -z "$1"; then
-+  echo "Usage: $0 /path/to/gdb"
-+  exit 1
-+fi
-+
-+# Start gdb with a set-architecture and capture the set of valid
-+# options.
-+
-+valid_args=$($1 -ex "set architecture" -ex "quit" 2>&1 >/dev/null)
-+
-+# Strip off the preamble
-+raw_arches=$(echo "${valid_args}" | sed "s/.*Valid arguments are \(.*\)/\1/")
-+
-+# Split into lines, strip everything after :foo and return final
-+# "clean" list of supported arches.
-+final_arches=$(echo "${raw_arches}" | tr ', ' '\n' | sed "s/:.*//" | sort | uniq)
-+
-+echo "$final_arches"
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index db122ab4ff..9e91a20b0d 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -81,7 +81,7 @@ sha512-vector: sha512.c
- 
- TESTS += sha512-vector
- 
--ifneq ($(HAVE_GDB_BIN),)
-+ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
- run-gdbstub-sysregs: sysregs
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index ae8b3d7268..373db69648 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -64,6 +64,7 @@ run-test-mmap-%: test-mmap
- 	$(call run-test, test-mmap-$*, $(QEMU) -p $* $<, $< ($* byte pages))
- 
- ifneq ($(HAVE_GDB_BIN),)
-+ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
- run-gdbstub-sha1: sha1
-@@ -87,6 +88,10 @@ run-gdbstub-thread-breakpoint: testthread
- 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-thread-breakpoint.py, \
- 	hitting a breakpoint on non-main thread)
- 
-+else
-+run-gdbstub-%:
-+	$(call skip-test, "gdbstub test $*", "no guest arch support")
-+endif
- else
- run-gdbstub-%:
- 	$(call skip-test, "gdbstub test $*", "need working gdb")
-diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
-index 368b64d531..5f432c95f3 100644
---- a/tests/tcg/multiarch/system/Makefile.softmmu-target
-+++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
-@@ -15,6 +15,7 @@ MULTIARCH_TEST_SRCS=$(wildcard $(MULTIARCH_SYSTEM_SRC)/*.c)
- MULTIARCH_TESTS = $(patsubst $(MULTIARCH_SYSTEM_SRC)/%.c, %, $(MULTIARCH_TEST_SRCS))
- 
- ifneq ($(HAVE_GDB_BIN),)
-+ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
- run-gdbstub-memory: memory
-@@ -26,7 +27,10 @@ run-gdbstub-memory: memory
- 		"-monitor none -display none -chardev file$(COMMA)path=$<.out$(COMMA)id=output $(QEMU_OPTS)" \
- 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/memory.py, \
- 	softmmu gdbstub support)
--
-+else
-+run-gdbstub-%:
-+	$(call skip-test, "gdbstub test $*", "no guest arch support")
-+endif
- else
- run-gdbstub-%:
- 	$(call skip-test, "gdbstub test $*", "need working gdb")
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 72ad309b27..b7f576f983 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -51,7 +51,7 @@ $(Z15_TESTS): CFLAGS+=-march=z15 -O2
- TESTS+=$(Z15_TESTS)
- endif
- 
--ifneq ($(HAVE_GDB_BIN),)
-+ifeq ($(HOST_GDB_SUPPORTS_ARCH),y)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
- run-gdbstub-signals-s390x: signals-s390x
--- 
-2.39.1
+- Add 'bool struct NumaState::has_strict_socket_mapping', which is 'false' by default until
+   machine specific initialization function calls helper set_numa_strict_socket_mapping(), for
+   example in hw/arm/virt.c::virt_instance_init().
+
+- In numa_complete_configuration(), do the check to make sure the socket doesn't cross over
+   the NUMA node boundary if 'bool struct NumaState::has_strict_socket_mapping' is true.
+
+Thanks,
+Gavin
+
 
 
