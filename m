@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A425969EA19
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94CED69EA12
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:24:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUaye-0006QU-Kl; Tue, 21 Feb 2023 17:19:12 -0500
+	id 1pUayd-0006Ox-Fy; Tue, 21 Feb 2023 17:19:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayL-0005zN-Ks
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:57 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayM-0005ze-Bo
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:59 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayJ-0005ow-K5
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:53 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayK-0005p7-Hp
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=akbasktphCKf/nJF3dxy/eBcZ7+zZ4h3Byd5jES6dlo=; b=plbM7qL37fPXOf/ywoWtmOq1rS
- 2ga3JUmCr7A0/IfbjsKMPxkJuQAgRhbg+UDqmI+6oytzJeEqeLIjKTgDZGFPnOvpVcjSczemv8E/C
- sG+fh9yfZyPwrKHhPv9IQDsn+AjnYpcLs+ojz+Fif0parUh94S2uJkHo/jtWGecPSxvg=;
+ bh=qUQ6D4VyVh6tIPK0YRWEGI3eVzxeGSt0Jfwz084s9jo=; b=Ww9oExzv0wuJhr6k2bdbSymmX7
+ oIoN3CRPUEUSG2cT1N/6godzZOP9L4VHgnQxE6LmhpRudleRZJp9V+88PvkYGpMQ5+/uQ1NVLRUDx
+ PZ5VVHJEwqOlkehpA6rCa56TsbipEnQgVHdlwwxaL1nx4gVpgTjqRsYyJnLsyK7O+wQY=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v2 19/27] target/mips: Replace `tb_pc()` with `tb->pc`
-Date: Tue, 21 Feb 2023 23:18:10 +0100
-Message-Id: <20230221221818.9382-20-anjo@rev.ng>
+Subject: [PATCH v2 20/27] target/microblaze: Replace `tb_pc()` with `tb->pc`
+Date: Tue, 21 Feb 2023 23:18:11 +0100
+Message-Id: <20230221221818.9382-21-anjo@rev.ng>
 In-Reply-To: <20230221221818.9382-1-anjo@rev.ng>
 References: <20230221221818.9382-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,37 +66,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/mips/tcg/exception.c             | 3 ++-
- target/mips/tcg/sysemu/special_helper.c | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ target/microblaze/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/mips/tcg/exception.c b/target/mips/tcg/exception.c
-index 96e61170e6..da49a93912 100644
---- a/target/mips/tcg/exception.c
-+++ b/target/mips/tcg/exception.c
-@@ -82,7 +82,8 @@ void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb)
-     MIPSCPU *cpu = MIPS_CPU(cs);
-     CPUMIPSState *env = &cpu->env;
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 817681f9b2..17879f9b2b 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -29,6 +29,7 @@
+ #include "hw/qdev-properties.h"
+ #include "exec/exec-all.h"
+ #include "fpu/softfloat-helpers.h"
++#include "tcg/tcg.h"
  
--    env->active_tc.PC = tb_pc(tb);
+ static const struct {
+     const char *name;
+@@ -96,7 +97,8 @@ static void mb_cpu_synchronize_from_tb(CPUState *cs,
+ {
+     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+ 
+-    cpu->env.pc = tb_pc(tb);
 +    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
-+    env->active_tc.PC = tb->pc;
-     env->hflags &= ~MIPS_HFLAG_BMASK;
-     env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
++    cpu->env.pc = tb->pc;
+     cpu->env.iflags = tb->flags & IFLAGS_TB_MASK;
  }
-diff --git a/target/mips/tcg/sysemu/special_helper.c b/target/mips/tcg/sysemu/special_helper.c
-index 3c5f35c759..93276f789d 100644
---- a/target/mips/tcg/sysemu/special_helper.c
-+++ b/target/mips/tcg/sysemu/special_helper.c
-@@ -94,7 +94,7 @@ bool mips_io_recompile_replay_branch(CPUState *cs, const TranslationBlock *tb)
-     CPUMIPSState *env = &cpu->env;
  
-     if ((env->hflags & MIPS_HFLAG_BMASK) != 0
--        && env->active_tc.PC != tb_pc(tb)) {
-+        && !(cs->tcg_cflags & CF_PCREL) && env->active_tc.PC != tb->pc) {
-         env->active_tc.PC -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
-         env->hflags &= ~MIPS_HFLAG_BMASK;
-         return true;
 -- 
 2.39.1
 
