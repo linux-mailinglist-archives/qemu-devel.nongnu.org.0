@@ -2,86 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A6169DE58
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C1E69DE5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:02:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUQNB-0002Yj-Of; Tue, 21 Feb 2023 05:59:49 -0500
+	id 1pUQPN-00047p-I7; Tue, 21 Feb 2023 06:02:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUQN6-0002YH-3V
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:59:44 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUQN4-0004u2-E5
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:59:43 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id c5so4641104wrr.5
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:59:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gyY5ygyxKsmf7swk3BkLsHeuZym4yae/S1GrxYv1U8o=;
- b=rjJLdvzplpsKNWHEI5hz5nwciuL4VXA53Etyp27IjxayCsv+lI2ZMRtQ+RqYzxQZGH
- osyBwGWnVA1r5zb1o8TzzWvUgmL/vyI5F4Kk5ezLL+wn2tAwNWC/CTN0xlMK1ys0mQj3
- wUyoqDJQKw+GXl+pBGMpqQlySQLJZT18hNmjpIV5pwGJabiYysHNLVqhAIiLSKLB8DZR
- cT3qeENDsn/PONmXNF9WxwDk7sreI4Tln0MNYu3BM1yP/xCQ1zqvo0OCerh5pYGDFlru
- q+YUM5ZHTCoFimSWIlWTROoGN5LSP/HgmitIiH4lKV6F/r0xYvehx8pYYbHsKytG6YIx
- dVpg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pUQPF-00044R-PS
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:01:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pUQPE-0005j7-2Q
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:01:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676977315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UYtS+t3SUNNkBTEOmmsgmMqKzuunC1z40mi5cSjsLa8=;
+ b=CBhInyfy4+UYynvS7w3PoeaValtVHNe4J0nGTY1PQlREZgpQp3/HIL/lmVZgCHhqN0UjK1
+ tQcZUs0wzrLeDBDXpJSwPlGRdZD/nRaLFi783YEqSPawB77/bV9JkIRaB7XhDOS0aaNOvO
+ 63W4j9nEj3/eM7u9iU22zeZes1rMiuQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-287-boN3RJRTPjK3ZSZTY97XbA-1; Tue, 21 Feb 2023 06:01:53 -0500
+X-MC-Unique: boN3RJRTPjK3ZSZTY97XbA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c1-20020a0564021f8100b004acbe232c03so5301273edc.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 03:01:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=gyY5ygyxKsmf7swk3BkLsHeuZym4yae/S1GrxYv1U8o=;
- b=1E89Jbu8oc2aS3APFDQD3DpyjoPQa7/Lu5Ovfihf48LNFUrhmx7nyir2OY2AdFqFQw
- vN1ka6uBu+gm/UV8tpRXTMCj2qI93HVV4O7NkxBJKbPLlxzEfnITHUo491SYGxyTuh8f
- WWeP7c8hIKk2mID1TL1+dczy0A3QT4LNM6Qn4Y2h/Yt4Y5HYH2fv3OmZ52mdaXzj4OzW
- lGDahw/G59X0T4Pf3t+yJv1Epy8P0Cn8+hbbchqCrIffzL6/mPs2NTA7sd4a86u7gpNw
- O0ImrUTXdP3xwxGej50KN4nQp0/EM1OfydpHDq28n7SF/ykDT9qpri8kd5g1rCUP89PP
- V7hg==
-X-Gm-Message-State: AO0yUKXuRM/RBJWF1NhCNHO9Otx96IJLQNc4e8gS+BH2yMoQoFSkkOro
- TEI3lRJNmCC+OSlaWzVJPAEbPA==
-X-Google-Smtp-Source: AK7set/Qtnw5iqMPrTgmtvjJpew9lU9U/HxzdiCuMDUAWnM7UYtkCh5PQHf1raduxjg6SH6pnH3Z+g==
-X-Received: by 2002:a5d:58c4:0:b0:2c5:594a:a4f0 with SMTP id
- o4-20020a5d58c4000000b002c5594aa4f0mr4117045wrf.58.1676977180672; 
- Tue, 21 Feb 2023 02:59:40 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a5d4606000000b002c55306f6edsm7574678wrq.54.2023.02.21.02.59.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 02:59:40 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EF0761FFB7;
- Tue, 21 Feb 2023 10:59:39 +0000 (GMT)
-References: <20230105164320.2164095-1-alex.bennee@linaro.org>
- <20230105164320.2164095-7-alex.bennee@linaro.org>
- <0daeb57d-28ec-4595-8b2e-32e4e01348d8@linaro.org>
- <87v8jvqppn.fsf@linaro.org>
- <8e5e407e-641a-f3b3-5547-bd0f3076aaf9@linaro.org>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 06/21] gdbstub: move GDBState to shared internals header
-Date: Tue, 21 Feb 2023 10:58:33 +0000
-In-reply-to: <8e5e407e-641a-f3b3-5547-bd0f3076aaf9@linaro.org>
-Message-ID: <87r0ujqo6c.fsf@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UYtS+t3SUNNkBTEOmmsgmMqKzuunC1z40mi5cSjsLa8=;
+ b=WTgo3eUfaH8XGB7uBL/0zU0mwHkiK0i1bnsNz5+SAyXcvu8yPUMYvplY5Bt5T9AuLm
+ 69QJeO7gILmRH0XublgLogmtjjJcEoMTCq/POZBvpV/JGXAtcsW3ntPhc28DZNkZd6ps
+ 1XCZ+dYJm+VKLvfAqFeb+bn66hueqSGbVrBQSicNvNcSnH3byc9f9mfZ8nOoXXY8dTG2
+ nn0GpVdFYH4yprfwgmdhN5RNG14/fPwRGAxPvh5/+DPWYeHJVfkcmCN/b3mMIXFAVEXG
+ feX1DMXcU43siUi8uB6kKKNhgCp71Tn4mRhqMoPZk4y0XbNMsTINQYoZ+Ly+3XeIE1KP
+ rwIg==
+X-Gm-Message-State: AO0yUKWDDH+ThRGpSDoNUyE43w7SyonVUVs/PHF6UxAZS6yUEyoWAd5t
+ Sf4+ZYvgss5aPD8Ptu55umZUuDphy1OqDdoIMOUdBBhgEePgpQJ3iNJ5RVYH7ekGIUwws8Lax5o
+ z3grY3gz2kpyj/7k=
+X-Received: by 2002:a17:907:b16:b0:884:ab29:bd0b with SMTP id
+ h22-20020a1709070b1600b00884ab29bd0bmr12602034ejl.69.1676977312442; 
+ Tue, 21 Feb 2023 03:01:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set8SQRr5hd9DQGLNG9uMtg/+MbKslEj3EFuCni34WiP6cYLNtUBiyjjBxBzo4COZe09P7rakJQ==
+X-Received: by 2002:a17:907:b16:b0:884:ab29:bd0b with SMTP id
+ h22-20020a1709070b1600b00884ab29bd0bmr12602005ejl.69.1676977312113; 
+ Tue, 21 Feb 2023 03:01:52 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.googlemail.com with ESMTPSA id
+ l16-20020a1709065a9000b008d6e551e1bcsm2084752ejq.2.2023.02.21.03.01.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Feb 2023 03:01:51 -0800 (PST)
+Message-ID: <74a9832a-ba68-15e2-e2e6-aabe49f6d088@redhat.com>
+Date: Tue, 21 Feb 2023 12:01:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 2/6] configure: Add courtesy hint to Python version
+ failure message
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>
+References: <20230221012456.2607692-1-jsnow@redhat.com>
+ <20230221012456.2607692-3-jsnow@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20230221012456.2607692-3-jsnow@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,73 +112,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 2/21/23 02:24, John Snow wrote:
+> If we begin requiring Python 3.7+, a few platforms are going to need to
+> install an additional Python interpreter package.
+> 
+> As a courtesy to the user, suggest the optional package they might need
+> to install. This will hopefully minimize any downtime caused by the
+> change in Python dependency.
+> 
+> Signed-off-by: John Snow<jsnow@redhat.com>
+> ---
+>   configure | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index 6abf5a72078..0d0cca53f09 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1059,7 +1059,10 @@ fi
+>   
+>   if ! check_py_version "$python"; then
+>     error_exit "Cannot use '$python', Python >= 3.6 is required." \
+> -      "Use --python=/path/to/python to specify a supported Python."
+> +             "Use --python=/path/to/python to specify a supported Python." \
+> +             "Maybe try:" \
+> +             "  openSUSE Leap 15.3+: zypper install python39" \
+> +             "  CentOS 8: dnf install python38"
+>   fi
+>   
+>   # Suppress writing compiled files
+> -- 2.39.0
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Let's delay this past the actual patch to introduce 3.7.
 
-> On 2/21/23 00:24, Alex Benn=C3=A9e wrote:
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>=20
->>> On 1/5/23 08:43, Alex Benn=C3=A9e wrote:
->>>> We are about to split softmmu and user mode helpers into different
->>>> files. To facilitate this we will need to share access to the GDBState
->>>> between those files.
->>>> To keep building we have to temporarily define CONFIG_USER_ONLY just
->>>> before we include internals.h for the user-mode side of things. This
->>>> will get removed once the state is fully moved.
->>>
->>> You don't have to have this hack if you don't ...
->>>
->>>> +typedef struct GDBState {
->>>> +    bool init;       /* have we been initialised? */
->>>> +    CPUState *c_cpu; /* current CPU for step/continue ops */
->>>> +    CPUState *g_cpu; /* current CPU for other ops */
->>>> +    CPUState *query_cpu; /* for q{f|s}ThreadInfo */
->>>> +    enum RSState state; /* parsing state */
->>>> +    char line_buf[MAX_PACKET_LENGTH];
->>>> +    int line_buf_index;
->>>> +    int line_sum; /* running checksum */
->>>> +    int line_csum; /* checksum at the end of the packet */
->>>> +    GByteArray *last_packet;
->>>> +    int signal;
->>>> +#ifdef CONFIG_USER_ONLY
->>>> +    GDBUserState user;
->>>> +#else
->>>> +    GDBSystemState system;
->>>> +#endif
->>>
->>> ... nest these.  What's the point?
->> Well you end up having to ensure the chardev definitions are then
->> available in all files that include internals.h and I'm not sure that is
->> better:
->> --8<---------------cut here---------------start------------->8---
->> modified   gdbstub/internals.h
->> @@ -33,18 +33,16 @@ enum RSState {
->>   };
->>     /* Temporary home */
->> -#ifdef CONFIG_USER_ONLY
->>   typedef struct {
->>       int fd;
->>       char *socket_path;
->>       int running_state;
->>   } GDBUserState;
->> -#else
->> +
->>   typedef struct {
->>       CharBackend chr;
->>       Chardev *mon_chr;
->>   } GDBSystemState;
->> -#endif
->
-> No, these typedefs and their data can be completely private to the two
-> implementations.
+Paolo
 
-Ahh right, so I've split that up now in:
-
-  gdbstub: define separate user/system structures
-
-and its made the subsequent patches much cleaner
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
