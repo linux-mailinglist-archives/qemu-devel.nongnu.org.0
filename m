@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A250169DBCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 09:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E575069DBE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 09:29:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUNrR-0004DI-6t; Tue, 21 Feb 2023 03:18:53 -0500
+	id 1pUO0i-0006mP-E7; Tue, 21 Feb 2023 03:28:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUNrP-0004Ca-Df
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 03:18:51 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUO0d-0006m8-SS
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 03:28:23 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUNrN-0005qD-EX
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 03:18:51 -0500
-Received: by mail-wr1-x432.google.com with SMTP id l1so3160087wry.10
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 00:18:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUO0c-0007yA-4r
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 03:28:23 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ o4-20020a05600c4fc400b003e1f5f2a29cso2895935wmq.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 00:28:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=p74aSkHdGlsDw7t9/3+LPkqL52Fsa6q2cVgqRuU6S60=;
- b=PyfXmSYk5/CejrOHDOzIo68/hJybyn4kfCi+kpPiZ3+FE1Rc3byD5Z+JMUwkzvDFBb
- iOz++avnP1GNlXk3OJoC2ii8f/FQhN6VSj9JG9UMOVBOdEr8z76/fMyrVo1nVATJlgKm
- Sp1Q3YeUpF+E+PnoUzVeybaF3PeJuV7ayAOCU8vuHnW5q7kEV56d4b6ZBFQeBxYVk6uJ
- 6MKebV9GQuWkdDVnkvNJOeZoWlzr9fmYoCsmSxsTn9O0OptzCJPeMxJojUu9TBTkXz7U
- 6leX/uL32Q9mKoUOezbx2LBrkdzMdFhRZEhR8Qnbwl4sTe85jeQcADaL+kXkEfDdv7s8
- rTSw==
+ bh=XYk5UNRL2FIv+x0Ad9kSHyfXtWx4Oe+b56EJs7qrk+0=;
+ b=uMmntoRI2ITszWjR83Oe8sjZzcgezUCV7rchj0rlZc+TANFOm//w2M5RnE7NQF7R3/
+ XhjyTMwOgUWBJUCKOdbFl4EPvqmFC59be7cIpTNayN7tQdafJZBqiclxd7X9tyzWyYZJ
+ lCpr+SvFqpl1lM7clBByw6eqKxbLIGgL2Wo6QcevVH+uq6eCVRbc8z5J5bQENIAEEh6J
+ eHi3bEgxuSWUnqOKrgoMeVPjGKjYJwZFLRoioebp8J87cq9rYA811qQjmxI+YDhILLTP
+ 2J0Et0905eHNZIjnsMouNd5iYHajAeFNNpqUuHRFRxrELe7cVYoZl1mBnv+2AnyxxUOM
+ Db0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p74aSkHdGlsDw7t9/3+LPkqL52Fsa6q2cVgqRuU6S60=;
- b=VcjscYwWmK4BzKpM6PSQUzsVo8jLTlQUGyh+TowegW7oSPMGHc6kB1SBO6ibdmvzk/
- uC/WJF8i+DHICf+hyJD8XZ5X6gc6+gm4zXZNva8UpCGmVAxS6NFIozIY7xBYjEl8plxO
- DFKrNSHoZ2dSRyE2nP9Ie7DrXpS5Pg1lHE39YuAheaNQtRiztOS0UsE3B4p9Tbpn++Wj
- H/qTdex+oNIUp8Wj996Q2J85hIFWEtR8s2YoOvW9TNKWocgLddwuHGCAUzjZDzyrMyMv
- U/Ti5nGc4ZVbhylsZWlemxtwTi+HU6i3MbvZzXRif+0ZsXfiMrWwJJ09IyTlKbazixdn
- ltLQ==
-X-Gm-Message-State: AO0yUKVwcXYIuPgLxP7yA6REbgVaCycl6QiQEsACqAnlcu3RawbUh6tK
- uY1URwgqZ02RxPlKC6TxUs7/Lg==
-X-Google-Smtp-Source: AK7set8Cf2eALW2zztptXb1T+b9GRA7BHWuD+SSIykap4OeHHbqN3csgvTwJcmfHsMg289fHHD3CZw==
-X-Received: by 2002:a5d:6da9:0:b0:2c5:518a:f6e0 with SMTP id
- u9-20020a5d6da9000000b002c5518af6e0mr3329369wrs.6.1676967527801; 
- Tue, 21 Feb 2023 00:18:47 -0800 (PST)
+ bh=XYk5UNRL2FIv+x0Ad9kSHyfXtWx4Oe+b56EJs7qrk+0=;
+ b=Bg6FPQNS1f39G7xJTJh5Psb2HxGTVPo0QuYGK86zviw+68MFDiCu8QNUZDhB/+jRg4
+ OVJPJ1xoAGigLh87Vw7a4ztsrI9+OZeYDXgneC2HBeX3ncyXHf42CFdQmym/OnMs0PsZ
+ YuoZFHMY4Umc5yShvzXCmdfHiOPmR7BYN084sKHIqggBVTL5KiRoxXa6tDfn8c/zUdPd
+ O98XMVXJf3eSi4oKhPBw9eOEVvri67bZ4K/YyCRFhM0O/NkfB+Rd9bNHkAi4CCVEcw8u
+ 7yBKsPrcTbVjtZFy49U0+xT+ZRq5F+ttvf9/tZ3Fv/hS9/6tMEMIBWSJpEaNPoCjxpPx
+ /bzw==
+X-Gm-Message-State: AO0yUKWZprcBWyccbD8yRxV/J7cmACIPpWWvHCphZsxctDRu2TCGEtZ9
+ 5PKXz7GHF6EFgkrmfKTWf2An7w==
+X-Google-Smtp-Source: AK7set/K7wGtpP+vkpNtYGMNQKkY9Ka52dbteFxqKTXl+1PXnjm5WR3yBRfftrv5UeaIStGx7Fj3vQ==
+X-Received: by 2002:a05:600c:2ed2:b0:3df:b5ae:529f with SMTP id
+ q18-20020a05600c2ed200b003dfb5ae529fmr3124056wmn.31.1676968099642; 
+ Tue, 21 Feb 2023 00:28:19 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- q2-20020adff942000000b002c573778432sm7541052wrr.102.2023.02.21.00.18.46
+ r5-20020a1c2b05000000b003ddf2865aeasm3976051wmr.41.2023.02.21.00.28.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 00:18:47 -0800 (PST)
-Message-ID: <cb171b7d-810e-9cd9-a0cc-ca7575513f1b@linaro.org>
-Date: Tue, 21 Feb 2023 09:18:45 +0100
+ Tue, 21 Feb 2023 00:28:19 -0800 (PST)
+Message-ID: <c2fcece8-78a5-fd5c-891a-cdb26a503a78@linaro.org>
+Date: Tue, 21 Feb 2023 09:28:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v5 29/29] e1000e: Combine rx traces
+Subject: Re: [PATCH v5 06/29] e1000e: Mask registers when writing
 Content-Language: en-US
 To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -68,13 +69,13 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Alexander Bulekov <alxndr@bu.edu>
 References: <20230201033539.30049-1-akihiko.odaki@daynix.com>
- <20230201033539.30049-30-akihiko.odaki@daynix.com>
+ <20230201033539.30049-7-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230201033539.30049-30-akihiko.odaki@daynix.com>
+In-Reply-To: <20230201033539.30049-7-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -98,18 +99,58 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/2/23 04:35, Akihiko Odaki wrote:
-> Whether a packet will be written back to the guest depends on the
-> remaining space of the queue. Therefore, e1000e_rx_written_to_guest and
-> e1000e_rx_not_written_to_guest should log the index of the queue instead
-> of generated interrupts. This also removes the need of
-> e1000e_rx_rss_dispatched_to_queue, which logs the queue index.
+> When a register has effective bits fewer than their width, the old code
+> inconsistently masked when writing or reading. Make the code consistent
+> by always masking when writing, and remove some code duplication.
 > 
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->   hw/net/e1000e_core.c | 6 ++----
->   hw/net/trace-events  | 5 ++---
->   2 files changed, 4 insertions(+), 7 deletions(-)
+>   hw/net/e1000e_core.c | 94 +++++++++++++++++++-------------------------
+>   1 file changed, 40 insertions(+), 54 deletions(-)
+> 
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index 181c1e0c2a..e6fc85ea51 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -2440,17 +2440,19 @@ e1000e_set_fcrtl(E1000ECore *core, int index, uint32_t val)
+>       core->mac[FCRTL] = val & 0x8000FFF8;
+>   }
+>   
+> -static inline void
+> -e1000e_set_16bit(E1000ECore *core, int index, uint32_t val)
+> -{
+> -    core->mac[index] = val & 0xffff;
+> -}
+> +#define E1000E_LOW_BITS_SET_FUNC(num)                                \
+> +    static void                                                      \
+> +    e1000e_set_##num##bit(E1000ECore *core, int index, uint32_t val) \
+> +    {                                                                \
+> +        core->mac[index] = val & (BIT(num) - 1);                     \
+> +    }
+>   
+> -static void
+> -e1000e_set_12bit(E1000ECore *core, int index, uint32_t val)
+> -{
+> -    core->mac[index] = val & 0xfff;
+> -}
+> +E1000E_LOW_BITS_SET_FUNC(4)
+> +E1000E_LOW_BITS_SET_FUNC(6)
+> +E1000E_LOW_BITS_SET_FUNC(11)
+> +E1000E_LOW_BITS_SET_FUNC(12)
+> +E1000E_LOW_BITS_SET_FUNC(13)
+> +E1000E_LOW_BITS_SET_FUNC(16)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+This looks correct but is hard to be sure, too many changes at once
+(for my taste at least).
 
+Split suggestions:
+- move macros and 6/16-bit masks
+- move 4/11 masks
+- move 13-bit mask
+
+Or:
+- move macros and 13-bit masks
+- move the rest
+
+Except if Jason is OK to merge as is.
 
