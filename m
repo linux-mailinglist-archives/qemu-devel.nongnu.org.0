@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C1A69DC7F
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B5C69DC7E
 	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:02:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUOWU-0007eO-J1; Tue, 21 Feb 2023 04:01:18 -0500
+	id 1pUOWV-0007fa-PL; Tue, 21 Feb 2023 04:01:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWS-0007do-M0
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:16 -0500
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWT-0007eG-M8
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:17 -0500
 Received: from mr85p00im-ztdg06011201.me.com ([17.58.23.181])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWQ-0005SS-KR
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:16 -0500
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWR-0005TV-Pl
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1676970069; bh=QZoKDwoGoISnaX+hgH56Hoc2Owv81hb73bRcvefDx08=;
- h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version;
- b=UTNGsro7t+VRLHrvbh/eeOkGOURQliEJlTKPymJApTYyOAy44/Ldy8U3K1SRh+jZT
- NbRc7wgYsRYEZhFSFVhjlyQ+bNpGQmeOnTlLCItLqnyl77PbsSYic22wRi2NMYa5aq
- 75X20Eemwipor5SvO8Feza6HyW11FGj/eKdIF0p9SWetvdGfvWMq+Jf2zQNJ9VhaEm
- K2jLg68Dc5jkromnlCxSkvI0olZKwo2h7x3VrnSqHB2Em+wfJJWs4MKqYeOsjJyrcw
- wRmMJkXekS+j4sSzVtZjUywOQIgwxKlXLuZtWzsONjh7s72rFkZvCBq82GmpOG0+YM
- qwsDG1YVvS6dQ==
+ t=1676970073; bh=bQQvCx31M4vekj2rknUKPAqUmbQz4GRIzBFReFyfIzI=;
+ h=From:To:Subject:Date:Message-Id:MIME-Version;
+ b=C3Nv3AxnpGK/VQYYVWV9QUhvTPMeLYbY1WCrW9RDYG+VZYgw+tZAJcLMkJHUZG/IB
+ LzE3q1nK3Lx4ojOnyY7+mLKgboeTo4qH1DOMjQa39Iyqml4TL40oHjK1JNVdFNYAZ4
+ aqnzA+ccTSkoXcCF3rHgGeFCFpyPyHRC/69mIrUTt2TA1cjNRE/iFHunq/W0G/cKrh
+ 7jHhQJCEPUanqZ1i7eVonJTVhudf/IspcNUtDDIaQHnJew4fTPveLNnBgASgRzWztd
+ 6tGBS+rQE+MUdC8F1S8JQFmGLTA4nc9/QJ9JZGnldU28EdMJY43pdA/idA02tW78An
+ W2YagmTwhumKQ==
 Received: from localhost.localdomain (mr38p00im-dlb-asmtp-mailmevip.me.com
  [17.57.152.18])
- by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 8294596267B;
- Tue, 21 Feb 2023 09:01:07 +0000 (UTC)
+ by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 6D273962D74;
+ Tue, 21 Feb 2023 09:01:12 +0000 (UTC)
 From: Mads Ynddal <mads@ynddal.dk>
 To: qemu-devel@nongnu.org
 Cc: John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Mads Ynddal <m.ynddal@samsung.com>
-Subject: [PATCH 0/9] simpletrace: refactor and general improvements
-Date: Tue, 21 Feb 2023 10:00:55 +0100
-Message-Id: <20230221090104.86103-1-mads@ynddal.dk>
+Subject: [PATCH 2/9] simpletrace: Annotate magic constants from QEMU code
+Date: Tue, 21 Feb 2023 10:00:57 +0100
+Message-Id: <20230221090104.86103-3-mads@ynddal.dk>
 X-Mailer: git-send-email 2.38.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230221090104.86103-1-mads@ynddal.dk>
+References: <20230221090104.86103-1-mads@ynddal.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 0Aqbbbuwla09BDeHBmC8SljaRUg24nRX
-X-Proofpoint-GUID: 0Aqbbbuwla09BDeHBmC8SljaRUg24nRX
+X-Proofpoint-ORIG-GUID: YvsUpDWk8GUSHxtJ99gzUCmHliWViw5e
+X-Proofpoint-GUID: YvsUpDWk8GUSHxtJ99gzUCmHliWViw5e
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
  =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.0.605.474.0000000_definitions?=
  =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2020-01-23?=
  =?UTF-8?Q?=5F02_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=617
+ mlxlogscore=614
  phishscore=0 adultscore=0 spamscore=0 clxscore=1030 bulkscore=0 mlxscore=0
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2302210078
@@ -77,28 +78,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Mads Ynddal <m.ynddal@samsung.com>
 
-I wanted to use simpletrace.py for an internal project, so I tried to update
-and polish the code. Some of the commits resolve specific issues, while some
-are more subjective.
+It wasn't clear where the constants and structs came from, so I added
+comments to help.
 
-I've tried to divide it into commits so we can discuss the
-individual changes, and I'm ready to pull things out, if it isn't needed.
+Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
+---
+ scripts/simpletrace.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Mads Ynddal (9):
-  simpletrace: Improve parsing of sys.argv; fix files never closed.
-  simpletrace: Annotate magic constants from QEMU code
-  simpletrace: changed naming of edict and idtoname to improve
-    readability
-  simpletrace: update code for Python 3.11
-  simpletrace: Changed Analyzer class to become context-manager
-  simpletrace: Simplify construction of tracing methods
-  simpletrace: Improved error handling on struct unpack
-  simpletrace: define exception and add handling
-  simpletrace: Refactor to separate responsibilities
-
- scripts/simpletrace.py | 293 ++++++++++++++++++-----------------------
- 1 file changed, 127 insertions(+), 166 deletions(-)
-
+diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
+index 9211caaec1..7ba805443d 100755
+--- a/scripts/simpletrace.py
++++ b/scripts/simpletrace.py
+@@ -15,15 +15,15 @@
+ from tracetool import read_events, Event
+ from tracetool.backend.simple import is_string
+ 
+-header_event_id = 0xffffffffffffffff
+-header_magic    = 0xf2b177cb0aa429b4
+-dropped_event_id = 0xfffffffffffffffe
++header_event_id = 0xffffffffffffffff # trace/simple.c::HEADER_EVENT_ID
++header_magic    = 0xf2b177cb0aa429b4 # trace/simple.c::HEADER_MAGIC
++dropped_event_id = 0xfffffffffffffffe # trace/simple.c::DROPPED_EVENT_ID
+ 
+-record_type_mapping = 0
+-record_type_event = 1
++record_type_mapping = 0 # trace/simple.c::TRACE_RECORD_TYPE_MAPPING
++record_type_event = 1 # trace/simple.c::TRACE_RECORD_TYPE_EVENT
+ 
+-log_header_fmt = '=QQQ'
+-rec_header_fmt = '=QQII'
++log_header_fmt = '=QQQ' # trace/simple.c::TraceLogHeader
++rec_header_fmt = '=QQII' # trace/simple.c::TraceRecord
+ 
+ def read_header(fobj, hfmt):
+     '''Read a trace record header'''
 -- 
 2.38.1
 
