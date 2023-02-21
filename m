@@ -2,71 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4606869DA4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 06:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C3F69DA62
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 06:29:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUKyt-0005TZ-Ie; Tue, 21 Feb 2023 00:14:23 -0500
+	id 1pULC9-0001ja-7f; Tue, 21 Feb 2023 00:28:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pUKyq-0005TK-TS
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 00:14:21 -0500
-Received: from mga04.intel.com ([192.55.52.120])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pULBy-0001ic-8Y
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 00:27:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
- id 1pUKyo-0005oh-3T
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 00:14:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676956458; x=1708492458;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=r5NxBrLxlzfYrU8ZiY2I9orOukvysH0hvluokRcU4Sw=;
- b=RhEKh6vf6fZP69dMWkXuNwcB3ZZlJCrSZgErjSzcxKZISMZ2xpulBazy
- uxL2n64OME+Dms1ZsFoyHOKeSTKLVxqhwnan8nGxkC46eF4Ux6YF4Kb0f
- q9gRTO/fjyyFB6vJSG41Efmyqq0OvYTDpJ/v2hbbeobhhQtsGkQoDOXd+
- zBC66vmD9PNLkQ6DJetOlZ4q6NV7ghe9bAvfNeaJGlfejV2x5HG8tjCUl
- iZqsz2dLAmu+B9iFC+7QrgRUa/aXom8FqFFGEGXsDpAjM13K/NuFuNGkw
- 6MtD4zF8x3TBwmsosWqqY2xsXAZT8kNrBnLABVX/MmQ9oSQodzmtajfDM w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="331212087"
-X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; d="scan'208";a="331212087"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2023 21:14:15 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="780861213"
-X-IronPort-AV: E=Sophos;i="5.97,314,1669104000"; d="scan'208";a="780861213"
-Received: from leiwang7-mobl.ccr.corp.intel.com (HELO [10.238.212.107])
- ([10.238.212.107])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2023 21:14:13 -0800
-Message-ID: <219476ab-c8e6-95a8-ee0b-348421362ced@intel.com>
-Date: Tue, 21 Feb 2023 13:14:11 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pULBw-0000KC-Ho
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 00:27:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676957271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jYckSckbKHBwH8kfTD9dVCbY9JEcejpIIfa4s8CYo70=;
+ b=NNUrVMURuS0nbDHsKPZdP83DNPuA4x4tGpHrEbf231/pGSPzVMs4GgQhD99rJX5pcULdYp
+ 3l169dH+z415d0UXoCSwkoM5FxuuBNpHQnjzAXAIkmoq+JhUCFT9pS5rDjP2ji98NiaYVQ
+ ZdQKKqR8Urn48G0CjEwbKDbT0LH7ULk=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-554-BKORIR-tNTS23m9Ce7YBmw-1; Tue, 21 Feb 2023 00:27:22 -0500
+X-MC-Unique: BKORIR-tNTS23m9Ce7YBmw-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ x30-20020a056a00189e00b005a8e8833e93so1432749pfh.12
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 21:27:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jYckSckbKHBwH8kfTD9dVCbY9JEcejpIIfa4s8CYo70=;
+ b=bryOshWG4wI3QrjB/NkBt2YuyK/nTVSEyBthaTwGxTOa/JMz+wyapZ28dzOlTmAbLh
+ CAMieH20sDkbAJfAMIwDOJjEM4SIOOrJvlmgFMhz5lFfqTaQhr/NW3mJNv3O4hTdqtQW
+ BG7QoTjCQtU5eZqtnFQxX/8nitUc/2CYVIug5A+JBrSTsMnW8qBCY9suthETmZob+b/R
+ TZ28Af3fz/1QufPUdwa/uMEJ8Nlhkk+WbG69+9NK0qRoadTlwm+IU2SakTXgFzXfTbiM
+ X7Z9ccDGuGotvw4Mft8qDksEU+QPl0BOuWIoIPP1wTUhgQ5f5mzFW1HkHhI+cummaJQH
+ M+4w==
+X-Gm-Message-State: AO0yUKU4Bu0d60SXQY2TP21EZ75HZD3w6H5losrGITkpaRWSniMQ4jbr
+ FPpITf0tDJ8cOvJjKFod8zmx5UgRChNiioKV6GFnXMukC0MGvRDeuIksa1nfR5I33nXSCejQKHZ
+ QqGW8ivcroqQ8VSU=
+X-Received: by 2002:a62:52d7:0:b0:5a8:4bf8:1752 with SMTP id
+ g206-20020a6252d7000000b005a84bf81752mr3205424pfb.32.1676957236869; 
+ Mon, 20 Feb 2023 21:27:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set/B+GHiyc6TxOq5UNQpcp6YODyPrndi8qcbM+x67bp+rNuHxroo+CQTFroZlOLYTl/y7hL8tg==
+X-Received: by 2002:a62:52d7:0:b0:5a8:4bf8:1752 with SMTP id
+ g206-20020a6252d7000000b005a84bf81752mr3205390pfb.32.1676957236538; 
+ Mon, 20 Feb 2023 21:27:16 -0800 (PST)
+Received: from [10.72.12.235] ([43.228.180.230])
+ by smtp.gmail.com with ESMTPSA id
+ y25-20020a62b519000000b005a8bc11d259sm8814823pfe.141.2023.02.20.21.27.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 21:27:16 -0800 (PST)
+Message-ID: <5a4749e4-4cd4-4f07-a4db-665772003058@redhat.com>
+Date: Tue, 21 Feb 2023 13:27:09 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 6/8] target/i386/intel-pt: Enable host pass through of
- Intel PT
-To: Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20221208062513.2589476-1-xiaoyao.li@intel.com>
- <20221208062513.2589476-7-xiaoyao.li@intel.com>
-From: "Wang, Lei" <lei4.wang@intel.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 03/13] vdpa: add vhost_vdpa_suspend
 Content-Language: en-US
-In-Reply-To: <20221208062513.2589476-7-xiaoyao.li@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=lei4.wang@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org,
+ Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+References: <20230208094253.702672-1-eperezma@redhat.com>
+ <20230208094253.702672-4-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20230208094253.702672-4-eperezma@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,168 +112,99 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 12/8/2022 2:25 PM, Xiaoyao Li wrote:
-> commit e37a5c7fa459 ("i386: Add Intel Processor Trace feature support")
-> added the support of Intel PT by making CPUID[14] of PT as fixed feature
-> set (from ICX) for any CPU model on any host. This truly breaks the PT
-> exposure on Intel SPR platform because SPR has less supported bitmap of
-> CPUID(0x14,1):EBX[15:0] than ICX.
-> 
-> To fix the problem, enable pass through of host's PT capabilities for
-> the cases "-cpu host/max" that it won't use default fixed PT feature set
-> of ICX but expand automatically based on get_supported_cpuid reported by
-> host. Meanwhile, it needs to ensure named CPU model still has the fixed
-> PT feature set to not break the live migration case of
-> "-cpu named_cpu_model,+intel-pt"
-> 
-> Introduces env->use_default_intel_pt flag.
->  - True means it's old CPU model that uses fixed PT feature set of ICX.
->  - False means the named CPU model has its own PT feature set.
-> 
-> Besides, to keep the same behavior for old CPU models that validate PT
-> feature set against default fixed PT feature set of ICX in addition to
-> validate from host's capabilities (via get_supported_cpuid) in
-> x86_cpu_filter_features().
-> 
-> In the future, new named CPU model, e.g., Sapphire Rapids, can define
-> its own PT feature set by setting @has_specific_intel_pt_feature_set to
-> true and defines it's own FEAT_14_0_EBX, FEAT_14_0_ECX, FEAT_14_1_EAX
-> and FEAT_14_1_EBX.
-> 
-> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+在 2023/2/8 17:42, Eugenio Pérez 写道:
+> The function vhost.c:vhost_dev_stop fetches the vring base so the vq
+> state can be migrated to other devices.  However, this is unreliable in
+> vdpa, since we didn't signal the device to suspend the queues, making
+> the value fetched useless.
+>
+> Suspend the device if possible before fetching first and subsequent
+> vring bases.
+>
+> Moreover, vdpa totally reset and wipes the device at the last device
+> before fetch its vrings base, making that operation useless in the last
+> device. This will be fixed in later patches of this series.
+
+
+It would be better not introduce a bug first and fix it in the following 
+patch.
+
+
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
->  target/i386/cpu.c | 71 ++++++++++++++++++++++++++---------------------
->  target/i386/cpu.h |  1 +
->  2 files changed, 40 insertions(+), 32 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index e302cbbebfc5..24f3c7b06698 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5194,6 +5194,21 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
->          env->features[w] = def->features[w];
->      }
->  
-> +    /*
-> +     * All (old) named CPU models have the same default values for INTEL_PT_*
-> +     *
-> +     * Assign the default value here since we don't want to manually copy/paste
-> +     * it to all entries in builtin_x86_defs.
-> +     */
-> +    if (!env->features[FEAT_14_0_EBX] && !env->features[FEAT_14_0_ECX] &&
-> +        !env->features[FEAT_14_1_EAX] && !env->features[FEAT_14_1_EBX]) {
-> +        env->use_default_intel_pt = true;
-> +        env->features[FEAT_14_0_EBX] = INTEL_PT_DEFAULT_0_EBX;
-> +        env->features[FEAT_14_0_ECX] = INTEL_PT_DEFAULT_0_ECX;
-> +        env->features[FEAT_14_1_EAX] = INTEL_PT_DEFAULT_1_EAX;
-> +        env->features[FEAT_14_1_EBX] = INTEL_PT_DEFAULT_1_EBX;
+>   hw/virtio/vhost-vdpa.c | 19 +++++++++++++++++++
+>   hw/virtio/trace-events |  1 +
+>   2 files changed, 20 insertions(+)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 2e79fbe4b2..cbbe92ffe8 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -1108,6 +1108,24 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+>       }
+>   }
+>   
+> +static void vhost_vdpa_suspend(struct vhost_dev *dev)
+> +{
+> +    struct vhost_vdpa *v = dev->opaque;
+> +    int r;
+> +
+> +    if (!vhost_vdpa_first_dev(dev) ||
+
+
+Any reason we need to use vhost_vdpa_first_dev() instead of replacing the
+
+if (started) {
+} else {
+     vhost_vdpa_reset_device(dev);
+     ....
+}
+
+
+We check
+
+if (dev->vq_index + dev->nvqs != dev->vq_index_end) in 
+vhost_vdpa_dev_start() but vhost_vdpa_first_dev() inside 
+vhost_vdpa_suspend(). This will result code that is hard to maintain.
+
+Thanks
+
+
+> +        !(dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_SUSPEND))) {
+> +        return;
 > +    }
 > +
->      /* legacy-cache defaults to 'off' if CPU model provides cache info */
->      cpu->legacy_cache = !def->cache_info;
->  
-> @@ -5716,14 +5731,11 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->  
->          if (count == 0) {
->              *eax = INTEL_PT_MAX_SUBLEAF;
-> -            *ebx = INTEL_PT_DEFAULT_0_EBX;
-> -            *ecx = INTEL_PT_DEFAULT_0_ECX;
-> -            if (env->features[FEAT_14_0_ECX] & CPUID_14_0_ECX_LIP) {
-> -                *ecx |= CPUID_14_0_ECX_LIP;
-> -            }
-> +            *ebx = env->features[FEAT_14_0_EBX];
-> +            *ecx = env->features[FEAT_14_0_ECX];
->          } else if (count == 1) {
-> -            *eax = INTEL_PT_DEFAULT_1_EAX;
-> -            *ebx = INTEL_PT_DEFAULT_1_EBX;
-> +            *eax = env->features[FEAT_14_1_EAX];
-> +            *ebx = env->features[FEAT_14_1_EBX];
->          }
->          break;
->      }
-> @@ -6425,6 +6437,7 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->      CPUX86State *env = &cpu->env;
->      FeatureWord w;
->      const char *prefix = NULL;
-> +    uint64_t host_feat;
->  
->      if (verbose) {
->          prefix = accel_uses_host_cpuid()
-> @@ -6433,8 +6446,7 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->      }
->  
->      for (w = 0; w < FEATURE_WORDS; w++) {
-> -        uint64_t host_feat =
-> -            x86_cpu_get_supported_feature_word(w, false);
-> +        host_feat = x86_cpu_get_supported_feature_word(w, false);
->          uint64_t requested_features = env->features[w];
->          uint64_t unavailable_features;
->  
-> @@ -6458,31 +6470,26 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->          mark_unavailable_features(cpu, w, unavailable_features, prefix);
->      }
->  
-> -    if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
-> -        kvm_enabled()) {
-> -        KVMState *s = CPU(cpu)->kvm_state;
-> -        uint32_t eax_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_EAX);
-> -        uint32_t ebx_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_EBX);
-> -        uint32_t ecx_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_ECX);
-> -        uint32_t eax_1 = kvm_arch_get_supported_cpuid(s, 0x14, 1, R_EAX);
-> -        uint32_t ebx_1 = kvm_arch_get_supported_cpuid(s, 0x14, 1, R_EBX);
-> -
-> -        if (!eax_0 ||
-> -           ((ebx_0 & INTEL_PT_DEFAULT_0_EBX) != INTEL_PT_DEFAULT_0_EBX) ||
-> -           ((ecx_0 & INTEL_PT_DEFAULT_0_ECX) != INTEL_PT_DEFAULT_0_ECX) ||
-> -           ((eax_1 & INTEL_PT_DEFAULT_MTC_BITMAP) != INTEL_PT_DEFAULT_MTC_BITMAP) ||
-> -           ((eax_1 & INTEL_PT_ADDR_RANGES_NUM_MASK) <
-> -                                      INTEL_PT_DEFAULT_ADDR_RANGES_NUM) ||
-> -           ((ebx_1 & INTEL_PT_DEFAULT_1_EBX) != INTEL_PT_DEFAULT_1_EBX) ||
-> -           ((ecx_0 & CPUID_14_0_ECX_LIP) !=
-> -                (env->features[FEAT_14_0_ECX] & CPUID_14_0_ECX_LIP))) {
-> -            /*
-> -             * Processor Trace capabilities aren't configurable, so if the
-> -             * host can't emulate the capabilities we report on
-> -             * cpu_x86_cpuid(), intel-pt can't be enabled on the current host.
-> -             */
-> +    if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) {
-> +        /*
-> +         * env->use_default_intel_pt is true means the CPU model doesn't have
-> +         * INTEL_PT_* specified. In this case, we need to check it has the
-> +         * value of default INTEL_PT to not break live migration
-> +         */
-> +        if (env->use_default_intel_pt &&
-> +            ((env->features[FEAT_14_0_EBX] != INTEL_PT_DEFAULT_0_EBX) ||
-
-When will the env->use_default_intel_pt be true and env->features[FEAT_14_0_EBX]
-!= INTEL_PT_DEFAULT_0_EBX? It seems they will always be equal if
-env->use_default_intel_pt is true according to your code above.
-
-> +             ((env->features[FEAT_14_0_ECX] & ~CPUID_14_0_ECX_LIP) !=
-> +              INTEL_PT_DEFAULT_0_ECX) ||
-> +             (env->features[FEAT_14_1_EAX] != INTEL_PT_DEFAULT_1_EAX) ||
-> +             (env->features[FEAT_14_1_EBX] != INTEL_PT_DEFAULT_1_EBX))) {
->              mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, prefix);
->          }
+> +    trace_vhost_vdpa_suspend(dev);
+> +    r = ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
+> +    if (unlikely(r)) {
+> +        error_report("Cannot suspend: %s(%d)", g_strerror(errno), errno);
+> +        /* Not aborting since we're called from stop context */
+> +    }
+> +}
 > +
-> +        host_feat = x86_cpu_get_supported_feature_word(FEAT_14_0_ECX, false);
-> +        if ((env->features[FEAT_14_0_ECX] ^ host_feat) & CPUID_14_0_ECX_LIP) {
-> +            warn_report("Cannot configure different Intel PT IP payload format than hardware");
-> +            mark_unavailable_features(cpu, FEAT_7_0_EBX, CPUID_7_0_EBX_INTEL_PT, NULL);
-> +        }
->      }
->  }
->  
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 93fb5a87b40e..91a3971c1c29 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1784,6 +1784,7 @@ typedef struct CPUArchState {
->      uint32_t cpuid_vendor2;
->      uint32_t cpuid_vendor3;
->      uint32_t cpuid_version;
-> +    bool use_default_intel_pt;
->      FeatureWordArray features;
->      /* Features that were explicitly enabled/disabled */
->      FeatureWordArray user_features;
+>   static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>   {
+>       struct vhost_vdpa *v = dev->opaque;
+> @@ -1122,6 +1140,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>           }
+>           vhost_vdpa_set_vring_ready(dev);
+>       } else {
+> +        vhost_vdpa_suspend(dev);
+>           vhost_vdpa_svqs_stop(dev);
+>           vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+>       }
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index a87c5f39a2..8f8d05cf9b 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -50,6 +50,7 @@ vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
+>   vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
+>   vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, uint32_t flags) "dev: %p offset: %"PRIu32" size: %"PRIu32" flags: 0x%"PRIx32
+>   vhost_vdpa_get_config(void *dev, void *config, uint32_t config_len) "dev: %p config: %p config_len: %"PRIu32
+> +vhost_vdpa_suspend(void *dev) "dev: %p"
+>   vhost_vdpa_dev_start(void *dev, bool started) "dev: %p started: %d"
+>   vhost_vdpa_set_log_base(void *dev, uint64_t base, unsigned long long size, int refcnt, int fd, void *log) "dev: %p base: 0x%"PRIx64" size: %llu refcnt: %d fd: %d log: %p"
+>   vhost_vdpa_set_vring_addr(void *dev, unsigned int index, unsigned int flags, uint64_t desc_user_addr, uint64_t used_user_addr, uint64_t avail_user_addr, uint64_t log_guest_addr) "dev: %p index: %u flags: 0x%x desc_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" log_guest_addr: 0x%"PRIx64
+
 
