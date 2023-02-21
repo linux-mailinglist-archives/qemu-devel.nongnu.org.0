@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF51469D865
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 03:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B3DD69D862
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 03:21:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUIGA-0001ZZ-Pl; Mon, 20 Feb 2023 21:20:02 -0500
+	id 1pUIGB-0001aI-EJ; Mon, 20 Feb 2023 21:20:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUIG8-0001YO-QC
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 21:20:00 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ id 1pUIG9-0001Yb-B8
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 21:20:01 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUIG6-00080p-Df
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 21:20:00 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- nw10-20020a17090b254a00b00233d7314c1cso3357528pjb.5
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 18:19:57 -0800 (PST)
+ id 1pUIG7-000810-N8
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 21:20:01 -0500
+Received: by mail-pl1-x630.google.com with SMTP id q11so3779873plx.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 18:19:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FenKak9v2X2vdqlU4pPM5lEm81DvM/co942SULkbTsQ=;
- b=h2cmN2MAT2x9FSWOCa73jPOVTEfLnRERZv1Zri+6vw3ThDvwZaVVxli+6O5Pm2y3DQ
- XoHTnB0Qt0xH+u8kmc14mwL10lWGH3nx9MxNL7tZrB8nS9cTZ1i+SFT34bSy6J0OpGN9
- gUCca22uCYe4NIB00Xh6dbgbEHU4PtWqb1x2FJqSlbHrDCibxzryTn/kJaz0Fp1Hk6yF
- uZsPF3tBJQdJwzcZtu0JPw0Gv5jvuy/wxsRwBYfx0wJAHvXR6XQxB71j0wC4EFHKW33m
- ThaL5K6xsy/n0x6V61di5PjRU4O+dvDocSkeSHzi0PzRDUSkawyVL/e1HLBwa3WXSKTe
- NdIg==
+ bh=djjsEwG4h18wUlaauxZhuGg1KAW+4WF9EJYa6EDlD74=;
+ b=a7R1as1gcFimzMR/jTl7L58JiPdtSiinpl6AjcYYxQyeo0XPOf7KCNcyV3WbIB97os
+ vx9QaYX4lxhIvmWGlWe8jALAH2prmgrI/ekPjqtr/GwRXpTYkgwBaguY46I3rPBfvYf1
+ XQfPBOp3YnwJXA/8IAJQNGFLBZaDTHmbXeZ6S0BTye9pFuK/gEttwj+dHryNNTuLGliH
+ jWNb0cdnABHy6IKf9Fi3QdhJ3JE6pvIRBxebG2nJpz81WsQ+NArzHkN4eKFta/XvTjzy
+ 2ny0X3ycWvmJyqWQkMnRLsMmwfSt1hjyrcqB08g6HvDTDzaXXYqofs2cey2k40z+ukLG
+ 20ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FenKak9v2X2vdqlU4pPM5lEm81DvM/co942SULkbTsQ=;
- b=vXDRyeImmsixv0BOoOgE0zd4icf3T0y6n7jefRyp/UVnTlHlyxv0ba+voc6BSuU3JF
- 6mImyfteJzqjJs8QkHElVSNbm/omv7Ev67SjDyaLjnmaLLXybAH8GF7n/b8PwowRdjdX
- jRS5T1wALYT2FfQjfZMjOR7tEGjeso0Jl7iLpLwxVzY+Azr5gwzysm/Nekd/2Z43PLV1
- iYwD0LWcPSbszcPd+XwcBDHTsamdCBMtjqJwSWjWzaAwAJU8nP0GXn9dwF2qdQgeasNF
- ltSz8VWn6dL5nsTtl6G+wHPy+Wodk11aAOllZHD6glgi1GNbCpy/9nAIZHHWLYgCOKq4
- j1sA==
-X-Gm-Message-State: AO0yUKVmZ8FrKyFmamUR7A+2DmeXV7Fyh5OzIKEgV4EZ7qFehco/u+4d
- HgCPmU9MhpZ2YX8kAba+QTerq6rtvgMNRqJAOSk=
-X-Google-Smtp-Source: AK7set9wCeq0uxxnflOBFo1rslbIbCqpBlh7AMVUcJPl4kUR3RVBRY72t6QHo0iHas46t7nBBbaz0A==
-X-Received: by 2002:a17:903:1106:b0:19a:8284:83a6 with SMTP id
- n6-20020a170903110600b0019a828483a6mr2930608plh.56.1676945996863; 
- Mon, 20 Feb 2023 18:19:56 -0800 (PST)
+ bh=djjsEwG4h18wUlaauxZhuGg1KAW+4WF9EJYa6EDlD74=;
+ b=bhvcCO6R/DtLWcQ9CQrmXQqaX2+NP4C7/BJ2oHQBWcjhLzmea5GEQtzAgaV9S7Jhh/
+ NWy1aZEgQ3GXlZiF2nBh/muicHGmw5ox+mFWiM/7qOQnEC/xBOnfYGrJt+4V9VTV4k/S
+ Khj356/mr3sK+IvX0Tzdq37YgyN9AqyFW9rlk1a3VEUHwR+kdVNt/rU0DxXfqokoXp1x
+ vBvd33MsVnH63QNG2b7TUcGntdH2+3NQcTPn2ICYxVJIhlOLzuyT2/bjWwUIO3ZtIDLY
+ F5ZsaxDxv9X4RsmNRy6mqZpbLMWG4wT08etukp0HT0CbCPH837AVkGO/HcMuJtb29UzX
+ um4g==
+X-Gm-Message-State: AO0yUKWAKQoVEWEzQwsJip8qIJn2ZGmCgwKVnRwPMvvdeHXaimnIaTJl
+ Vonyiin8m2iFeu/fOzl41WMFB+Dwqy+yrScEDR0=
+X-Google-Smtp-Source: AK7set+JwuC+B/XzPXR5M1RHcrRDCVZDxL58eCA2CSAElnZnbTyvX2/14uVJt27ylzdfdEeWfZ0nxg==
+X-Received: by 2002:a17:902:ce89:b0:19a:7548:da25 with SMTP id
+ f9-20020a170902ce8900b0019a7548da25mr5526167plg.17.1676945998336; 
+ Mon, 20 Feb 2023 18:19:58 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- f3-20020a170902e98300b0019141c79b1dsm8559328plb.254.2023.02.20.18.19.55
+ f3-20020a170902e98300b0019141c79b1dsm8559328plb.254.2023.02.20.18.19.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 18:19:56 -0800 (PST)
+ Mon, 20 Feb 2023 18:19:57 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Fabiano Rosas <farosas@suse.de>
-Subject: [PATCH v2 01/14] target/arm: Normalize aarch64 gdbstub get/set
- function names
-Date: Mon, 20 Feb 2023 16:19:38 -1000
-Message-Id: <20230221021951.453601-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/14] target/arm: Unexport arm_gen_dynamic_sysreg_xml
+Date: Mon, 20 Feb 2023 16:19:39 -1000
+Message-Id: <20230221021951.453601-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230221021951.453601-1-richard.henderson@linaro.org>
 References: <20230221021951.453601-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,99 +90,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Make the form of the function names between fp and sve the same:
-  - arm_gdb_*_svereg -> aarch64_gdb_*_sve_reg.
-  - aarch64_fpu_gdb_*_reg -> aarch64_gdb_*_fpu_reg.
+This function is not used outside gdbstub.c.
 
 Reviewed-by: Fabiano Rosas <farosas@suse.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h | 8 ++++----
- target/arm/gdbstub.c   | 9 +++++----
- target/arm/gdbstub64.c | 8 ++++----
- 3 files changed, 13 insertions(+), 12 deletions(-)
+ target/arm/cpu.h     | 1 -
+ target/arm/gdbstub.c | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 759b70c646..121ecd420b 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1326,10 +1326,10 @@ static inline uint64_t pmu_counter_mask(CPUARMState *env)
- }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 12b1082537..32ca6c9a0d 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1116,7 +1116,6 @@ int arm_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+  * Helpers to dynamically generates XML descriptions of the sysregs
+  * and SVE registers. Returns the number of registers in each set.
+  */
+-int arm_gen_dynamic_sysreg_xml(CPUState *cpu, int base_reg);
+ int arm_gen_dynamic_svereg_xml(CPUState *cpu, int base_reg);
  
- #ifdef TARGET_AARCH64
--int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg);
--int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg);
--int aarch64_fpu_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg);
--int aarch64_fpu_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg);
-+int aarch64_gdb_get_sve_reg(CPUARMState *env, GByteArray *buf, int reg);
-+int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_t *buf, int reg);
-+int aarch64_gdb_get_fpu_reg(CPUARMState *env, GByteArray *buf, int reg);
-+int aarch64_gdb_set_fpu_reg(CPUARMState *env, uint8_t *buf, int reg);
- void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
- void arm_cpu_sme_finalize(ARMCPU *cpu, Error **errp);
- void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
+ /* Returns the dynamically generated XML for the gdb stub.
 diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 2f806512d0..cf1c01e3cf 100644
+index cf1c01e3cf..52581e9784 100644
 --- a/target/arm/gdbstub.c
 +++ b/target/arm/gdbstub.c
-@@ -466,12 +466,13 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-          */
- #ifdef TARGET_AARCH64
-         if (isar_feature_aa64_sve(&cpu->isar)) {
--            gdb_register_coprocessor(cs, arm_gdb_get_svereg, arm_gdb_set_svereg,
--                                     arm_gen_dynamic_svereg_xml(cs, cs->gdb_num_regs),
-+            int nreg = arm_gen_dynamic_svereg_xml(cs, cs->gdb_num_regs);
-+            gdb_register_coprocessor(cs, aarch64_gdb_get_sve_reg,
-+                                     aarch64_gdb_set_sve_reg, nreg,
-                                      "sve-registers.xml", 0);
-         } else {
--            gdb_register_coprocessor(cs, aarch64_fpu_gdb_get_reg,
--                                     aarch64_fpu_gdb_set_reg,
-+            gdb_register_coprocessor(cs, aarch64_gdb_get_fpu_reg,
-+                                     aarch64_gdb_set_fpu_reg,
-                                      34, "aarch64-fpu.xml", 0);
-         }
- #endif
-diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
-index 07a6746944..c598cb0375 100644
---- a/target/arm/gdbstub64.c
-+++ b/target/arm/gdbstub64.c
-@@ -72,7 +72,7 @@ int aarch64_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-     return 0;
- }
- 
--int aarch64_fpu_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
-+int aarch64_gdb_get_fpu_reg(CPUARMState *env, GByteArray *buf, int reg)
- {
-     switch (reg) {
-     case 0 ... 31:
-@@ -92,7 +92,7 @@ int aarch64_fpu_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
+@@ -305,7 +305,7 @@ static void arm_register_sysreg_for_xml(gpointer key, gpointer value,
      }
  }
  
--int aarch64_fpu_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg)
-+int aarch64_gdb_set_fpu_reg(CPUARMState *env, uint8_t *buf, int reg)
+-int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
++static int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
  {
-     switch (reg) {
-     case 0 ... 31:
-@@ -116,7 +116,7 @@ int aarch64_fpu_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg)
-     }
- }
- 
--int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-+int aarch64_gdb_get_sve_reg(CPUARMState *env, GByteArray *buf, int reg)
- {
-     ARMCPU *cpu = env_archcpu(env);
- 
-@@ -164,7 +164,7 @@ int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-     return 0;
- }
- 
--int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
-+int aarch64_gdb_set_sve_reg(CPUARMState *env, uint8_t *buf, int reg)
- {
-     ARMCPU *cpu = env_archcpu(env);
- 
+     ARMCPU *cpu = ARM_CPU(cs);
+     GString *s = g_string_new(NULL);
 -- 
 2.34.1
 
