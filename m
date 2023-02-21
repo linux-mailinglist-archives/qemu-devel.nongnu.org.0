@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FA769DF26
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AD969DF36
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:47:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUR2m-0003Yl-8A; Tue, 21 Feb 2023 06:42:48 -0500
+	id 1pUR62-00052e-NI; Tue, 21 Feb 2023 06:46:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUR2e-0003Uk-RR
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:42:41 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUR2c-0000Ux-Ug
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:42:40 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id p26so3013843wmc.4
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 03:42:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Zbr9KT/mHHzG0wAw+6IcgcKOpVdCy1zxhh2pEcF1ga0=;
- b=sYL6iOie2SpB5dpjnAOhDsSTZgi4smAiItyTkdGptkFophn4J98nuOsgrqnoM3mtzn
- LI6z0py7jMqBwY6faiTWsQmaayC6YKvfhmlxPXvzUH/H72vFJb+9P7zsBry6S26jzdNc
- ZL9IZkmIhqBlq8u2DRbchJbTaXkQSsf9vm400nFOdz6xoJHBOqIk/3/GDjQXnyfUm2hc
- 1I9yCNTq+A/Dlhs/5fu+7ZlvQgPR6pf4iaewDNl60COFxGyGmeTJBw30galFW4oWpPZ0
- tWjyGiOy35u8bvimLNt++HJ3C9zp7Btrekx7LhtpcUOJVru64pR8RSA7BSi6sIebjNeE
- Y0DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Zbr9KT/mHHzG0wAw+6IcgcKOpVdCy1zxhh2pEcF1ga0=;
- b=vnc1EzalOVjavpIf6QSS7BW6F+sVJl9oSWBJMW3fSM4qez6J0EuouyhlCkXDUviGBz
- yV/UwRa1u1wKtnrNKSpdZpfiTbtV+CXyaCIWn0xzN98W3RXKgIFosbf1eC/jCxxtooj3
- Vs4YtuL2KqSKvXNImQFOg4ur6XsFUq7USfQUmz/T/pkRcqYlFYf2x6P6AfkC/8pUzbO6
- vacFnWMqVcGDHUWtoZj3uQJdNXh2gvtSM0wLjexGSR/DiOUdlxZT8y2NSFPtST6iCS3I
- UQ7zw6UiFO9nxdfNxA7qSyuwcPIRs6+HtyzY8AKVXEYPuVfQQFeF1eoQa9uVuptWgSLf
- n+jA==
-X-Gm-Message-State: AO0yUKXdlYM3TfHC8DrzdYjjHcMt5oGSNyBWAYD40QIpJjmHvacRIllD
- McBSIbZcU2vLzfOxc5IIalCBTQ==
-X-Google-Smtp-Source: AK7set+eCC1+IuGk1ulmrMk/dQAq8Llfqk8Tc6RwS0vvEM8KoNFOUxoKrDfLw73+K6YU3i/OxRfp4A==
-X-Received: by 2002:a05:600c:43d3:b0:3e2:1d1e:78dc with SMTP id
- f19-20020a05600c43d300b003e21d1e78dcmr2744324wmn.36.1676979756191; 
- Tue, 21 Feb 2023 03:42:36 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- f23-20020a7bc8d7000000b003e7f1086660sm1287320wml.15.2023.02.21.03.42.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 03:42:35 -0800 (PST)
-Message-ID: <57030391-e742-2c46-7cdb-6f454cfe88f8@linaro.org>
-Date: Tue, 21 Feb 2023 12:42:34 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUR5z-00051Z-6Z
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:46:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUR5v-0001N5-Nz
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:46:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676979962;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ll50IUA6DikFcVDu7oK6Hv5H9T+vTlPWWj6lHX6sOHQ=;
+ b=ZyJ7vMz9EUHkSZKRbooY1CL2qKtn3FXw1YFqYTPY1P6DJ6YYwHum6/LN6DRtIurx+nIQHR
+ 8TumxZ4McQRTXGJgpxptjbqDoTAGRKxK4ar+zLbL2J807Ex8ln8BTEwU3a6WaPB3uCxCLT
+ a96fAZa44Y4PvlWGAelFOAVhvpedOi8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-150-W1ikLYC1MC2tAEfy6lYIMg-1; Tue, 21 Feb 2023 06:45:59 -0500
+X-MC-Unique: W1ikLYC1MC2tAEfy6lYIMg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F0E0D802314;
+ Tue, 21 Feb 2023 11:45:58 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFD47C15BA0;
+ Tue, 21 Feb 2023 11:45:55 +0000 (UTC)
+Date: Tue, 21 Feb 2023 11:45:53 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Bernhard Beschow <shentey@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-ppc@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>
+Subject: Re: [PATCH v2 07/18] hw/ide/piix: Ensure IDE output IRQs are wired
+ at realization
+Message-ID: <Y/Su8eB2nIO0INOX@redhat.com>
+References: <20230215161641.32663-1-philmd@linaro.org>
+ <20230215161641.32663-8-philmd@linaro.org>
+ <CAG4p6K6zMEMT07qDzPyEgc1F+FPp-AHyhgZWRhYAaJsfOUZD=g@mail.gmail.com>
+ <0350214d-fd70-4d24-8db8-66185f5d6780@linaro.org>
+ <666316cf-6f1e-8f62-dab7-8b0da698faa7@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4] configure: Add 'mkdir build' check
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Dinah Baum <dinahbaum123@gmail.com>,
- qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20230221110631.4142-1-dinahbaum123@gmail.com>
- <391fdaaa-4b77-b17f-0cc2-0d7bdcf065b5@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <391fdaaa-4b77-b17f-0cc2-0d7bdcf065b5@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+In-Reply-To: <666316cf-6f1e-8f62-dab7-8b0da698faa7@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,55 +94,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/2/23 12:14, Thomas Huth wrote:
-> On 21/02/2023 12.06, Dinah Baum wrote:
->> QEMU configure script goes into an infinite error printing loop
->> when in read only directory due to 'build' dir never being created.
->>
->> Checking if 'mkdir dir' succeeds prevents this error.
->>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/321
->> Signed-off-by: Dinah Baum <dinahbaum123@gmail.com>
->> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->>   configure | 7 ++++++-
->>   1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/configure b/configure
->> index cf6db3d551..1ef3e7f77d 100755
->> --- a/configure
->> +++ b/configure
->> @@ -31,7 +31,12 @@ then
->>           fi
->>       fi
->> -    mkdir build
->> +    if ! mkdir build || ! touch $MARKER
->> +    then
->> +        echo "ERROR: Could not create ./build directory. Check the 
->> permissions on"
->> +        echo "your source directory, or try doing an out-of-tree build."
->> +        exit 1
->> +    fi
->>       touch $MARKER
+On Sun, Feb 19, 2023 at 10:54:34PM +0100, Philippe Mathieu-Daudé wrote:
+> +Daniel, Igor, Marcel & libvirt
 > 
-> Nit: I think the final "touch $MARKER" could now be removed, too, since 
-> the code either exits above, or runs the "|| ! touch $MARKER" part there 
-> already.
+> On 16/2/23 16:33, Philippe Mathieu-Daudé wrote:
+> > On 16/2/23 15:43, Bernhard Beschow wrote:
+> > > 
+> > > 
+> > > On Wed, Feb 15, 2023 at 5:20 PM Philippe Mathieu-Daudé
+> > > <philmd@linaro.org <mailto:philmd@linaro.org>> wrote:
+> > > 
+> > >     Ensure both IDE output IRQ lines are wired.
+> > > 
+> > >     We can remove the last use of isa_get_irq(NULL).
+> > > 
+> > >     Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org
+> > >     <mailto:philmd@linaro.org>>
+> > >     ---
+> > >       hw/ide/piix.c | 13 ++++++++-----
+> > >       1 file changed, 8 insertions(+), 5 deletions(-)
+> > > 
+> > >     diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+> > >     index 9d876dd4a7..b75a4ddcca 100644
+> > >     --- a/hw/ide/piix.c
+> > >     +++ b/hw/ide/piix.c
+> > >     @@ -133,14 +133,17 @@ static bool pci_piix_init_bus(PCIIDEState *d,
+> > >     unsigned i, Error **errp)
+> > >           static const struct {
+> > >               int iobase;
+> > >               int iobase2;
+> > >     -        int isairq;
+> > >           } port_info[] = {
+> > >     -        {0x1f0, 0x3f6, 14},
+> > >     -        {0x170, 0x376, 15},
+> > >     +        {0x1f0, 0x3f6},
+> > >     +        {0x170, 0x376},
+> > >           };
+> > >           int ret;
+> > > 
+> > >     -    qemu_irq irq_out = d->irq[i] ? : isa_get_irq(NULL,
+> > >     port_info[i].isairq);
+> > >     +    if (!d->irq[i]) {
+> > >     +        error_setg(errp, "output IDE IRQ %u not connected", i);
+> > >     +        return false;
+> > >     +    }
+> > >     +
+> > >           ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
+> > >           ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
+> > >                                 port_info[i].iobase2);
+> > >     @@ -149,7 +152,7 @@ static bool pci_piix_init_bus(PCIIDEState *d,
+> > >     unsigned i, Error **errp)
+> > >                                object_get_typename(OBJECT(d)), i);
+> > >               return false;
+> > >           }
+> > >     -    ide_bus_init_output_irq(&d->bus[i], irq_out);
+> > >     +    ide_bus_init_output_irq(&d->bus[i], d->irq[i]);
+> > > 
+> > >           bmdma_init(&d->bus[i], &d->bmdma[i], d);
+> > >           d->bmdma[i].bus = &d->bus[i];
+> > >     --     2.38.1
+> > > 
+> > > 
+> > > This now breaks user-created  piix3-ide:
+> > > 
+> > >    qemu-system-x86_64 -M q35 -device piix3-ide
+> > > 
+> > > Results in:
+> > > 
+> > >    qemu-system-x86_64: -device piix3-ide: output IDE IRQ 0 not connected
+> > 
+> > Thank you for this real-life-impossible-but-exists-in-QEMU test-case!
 > 
-> Anyway, it's just a nit, and maybe could also be fixed while picking up 
-> the patch,
+> Do we really want to maintain this Frankenstein use case?
+> 
+> 1/ Q35 comes with a PCIe bus on which sits a ICH chipset, which already
+>    contains a AHCI function exposing multiple IDE buses.
+>    What is the point on using an older tech?
+> 
+> 2/ Why can we plug a PCI function on a PCIe bridge without using a
+>    pcie-pci-bridge?
 
-Yes please :)
+FYI, this scenario is explicitly permitted by QEMU's PCIE docs,
+as without any bus= attr, the -device piix3-ide will end up
+attached to the PCI-E root complex. It thus becomes an integrated
+endpoint and does not support hotplug.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+If you want hotpluggable PCI-only device, you need to add a
+pcie-pci-bridge and a pci-bridge, attaching the endpoint to
+the latter
 
-> thus:
+PCE-E endpoints should always be in a pcie-root-port (or
+switch downstream port)
+
+> 3/ Chipsets come as a whole. Software drivers might expect all PCI
+>    functions working (Linux considering each function individually
+>    is not the norm)
+
+
+> But the hardware really looks Frankenstein now:
 > 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> (qemu) info qom-tree
+> /machine (pc-q35-8.0-machine)
+>   /peripheral-anon (container)
+>     /device[0] (piix3-ide)
+>       /bmdma[0] (memory-region)
+>       /bmdma[1] (memory-region)
+>       /bus master container[0] (memory-region)
+>       /bus master[0] (memory-region)
+>       /ide.6 (IDE)
+>       /ide.7 (IDE)
+>       /ide[0] (memory-region)
+>       /ide[1] (memory-region)
+>       /ide[2] (memory-region)
+>       /ide[3] (memory-region)
+>       /piix-bmdma-container[0] (memory-region)
+>       /piix-bmdma[0] (memory-region)
+>       /piix-bmdma[1] (memory-region)
+>   /q35 (q35-pcihost)
+>   /unattached (container)
+>     /device[17] (ich9-ahci)
+>       /ahci-idp[0] (memory-region)
+>       /ahci[0] (memory-region)
+>       /bus master container[0] (memory-region)
+>       /bus master[0] (memory-region)
+>       /ide.0 (IDE)
+>       /ide.1 (IDE)
+>       /ide.2 (IDE)
+>       /ide.3 (IDE)
+>       /ide.4 (IDE)
+>       /ide.5 (IDE)
+>     /device[2] (ICH9-LPC)
+>       /bus master container[0] (memory-region)
+>       /bus master[0] (memory-region)
+>       /ich9-pm[0] (memory-region)
+>       /isa.0 (ISA)
 > 
+> I guess the diff [*] is acceptable as a kludge, but we might consider
+> deprecating such use.
 > 
+> Paolo, Michael & libvirt folks, what do you think?
+
+AFAICT, libvirt will never use '-device piix3-ide'. I vaguely recall
+that we discussed allowing it to enable use of > 4 IDE units, but
+decide it was too niche to care about.
+
+With q35 we'll just use ahci only
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
