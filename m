@@ -2,102 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C4169E21E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 15:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43F169E21F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 15:17:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUTS9-0006iQ-F9; Tue, 21 Feb 2023 09:17:14 -0500
+	id 1pUTSJ-0006rZ-Rr; Tue, 21 Feb 2023 09:17:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUTRn-0006gj-Ek
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:16:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUTRl-0007xI-PM
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:16:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676989005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CmliDIUuWuowENEMGaDzr3ZY1ANxPbxbcJPoZMlbKRk=;
- b=gGpP3yZ6z9jlIAslGzKqh5aypkg2ZsM/mcWKLX1R3kmTaSDdQOkTsUIYOL1fS+SYd759BV
- 2J+cLQCzKKCDtCUs6ss5e+/DKA8EPCDYiBmejkim+PYtuS2/5UbJ6XUIC0mNNxUFe5Fxxu
- qFqHVCRaDDsxMdTAjClJmZyvnImBtb4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-663-azCy-Wz9O5SfDXq2DpsXwA-1; Tue, 21 Feb 2023 09:16:43 -0500
-X-MC-Unique: azCy-Wz9O5SfDXq2DpsXwA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- cf11-20020a0564020b8b00b0049ec3a108beso6027687edb.7
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 06:16:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pUTSG-0006or-8O
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:17:16 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pUTSE-0007zx-8p
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:17:15 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ qi12-20020a17090b274c00b002341621377cso4949275pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 06:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=eZaSr6p/WigV9S3zd4nAD9I7Yy+ujBKyZXaSjM8ooak=;
+ b=W12+tKs4T0WGCfMlgFz3dSzQNe3rySgr20kK9KX2+XTSXlRn1l6uZPLS3+5nBxM0o5
+ SMiofaXsVbIi7mAYSAF6GUrYLqvSROg9daeQBc4YPZqi63L8CBBvnDYgMz4ZXVKgUwM0
+ IS34kVPgsolDmTTDRyDoDBBTl1D7Boiri6X2vrWNYi8WN5Hd7KxpWv44FITn/PyHPsHI
+ ArL6NtiBfM8p+Db67JXdo2GN5QPIg5REXiW3pyqcNHOf3u42hFKnKez5RxfCPYOqWKXK
+ fOnMNXtn53KKU6nFWQ8NeVLvpaOTrQj8BsBi4npiV16T4fvjv1EWB8S7YlMVw8QnLUh9
+ x8cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CmliDIUuWuowENEMGaDzr3ZY1ANxPbxbcJPoZMlbKRk=;
- b=pht1lD3aMHRTWdleGDq0kFfEQtPzIH8h62Q0I5n7V8htAjyraFeQ35FfYs4+TVQWWv
- dh5cwz9S3WxDpeRspTRrmfBuGxwiZAQ2++qaHxWKDnFKdIskgDVMZUVaFWRoEv96t7N3
- Z35wDUNmAlaxmFune1AnnYPdesZtbh2wKo8CQCKU/9Ixfiva1y5MmW+H10hM4EUpXzbl
- N0cUFnFbzLLC6BXRhuRrapbWDqMCJsNEUDT50ggPHmO7+kQ6mBVZFwv/xgwEN3B65Hv0
- E68eTRpRqEIWyeZiGf/Bawfnn/0MjaUozEAX2IgwRjWFNFMuRhwE/xPVz2LjHvseWB15
- /bsg==
-X-Gm-Message-State: AO0yUKUjcW3G3hChUKXbRrc17TVkZqkm1VFV/TNBcF/ivW9FQZueN9Se
- eg9DBgmQX5qP2Ix399/t0S7K0Zt2HgmFut+33C/cXAC7lwyB6js/DMWiFRe93vmqsgNFSbMaBsV
- on4Ny8jHOW7zFpRQ2JNwU
-X-Received: by 2002:a17:906:805a:b0:8b2:7534:265e with SMTP id
- x26-20020a170906805a00b008b27534265emr14401095ejw.58.1676989002583; 
- Tue, 21 Feb 2023 06:16:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set+st/i8NQLkBHpm5zbU8II9jpR9ixBogUV1g+PqDvJXcOxb5afAwK9wF+VPBJOpdfXlYqvuTQ==
-X-Received: by 2002:a17:906:805a:b0:8b2:7534:265e with SMTP id
- x26-20020a170906805a00b008b27534265emr14401068ejw.58.1676989002311; 
- Tue, 21 Feb 2023 06:16:42 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.googlemail.com with ESMTPSA id
- f21-20020a170906049500b008e36f9b2308sm240924eja.43.2023.02.21.06.16.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 06:16:41 -0800 (PST)
-Message-ID: <7cc74666-df5a-792a-4f18-657b5281a68a@redhat.com>
-Date: Tue, 21 Feb 2023 15:16:39 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eZaSr6p/WigV9S3zd4nAD9I7Yy+ujBKyZXaSjM8ooak=;
+ b=wVtLQQ4rTmoHdaovQAT2NCS3Gxmg8jBRMif/+SDi3iY+xYJzetIwShiIKVxMp8DZfP
+ H6k+Pjg2fsWk764/yC+VByXoFSHqXMFJwR9+lVkZu8CNmUN8E2YMZCefO0/gu7UGaBmR
+ GjZ6RpFbQd8QRAVJ1SackrGtXvqikESYm9N/irjCxlqEJ7SvjawDc6MHkl5MBIUcLwxB
+ CBpjoxCRHm7iphFRqDFidZHhnGX5NYtdauAE3+JtBXkvPpr7ucF78TIttRdM8drGT6aN
+ fuvMeZlFddG3LeniQwVogFSAS1ty7RCTzMiuf2QBlsD2UjRyNFGwXoXe2t6mq2MJIHcT
+ 0M7A==
+X-Gm-Message-State: AO0yUKXklik5U1cx2V33WpNZYT0A48GNizsNhaSNw3olTcan/a++cDPp
+ vDwVj81Qvd+5Bn2cKoDyvUAjZVCBMeP+nEVCJvolpg==
+X-Google-Smtp-Source: AK7set8VIGtnBrIYnrw0YIA+QaV0Lh45iuUK/mJru/tdVYAQjQY3OkGE4eJ93tzPaa1CA5AU1xhN6ASPJQqldG66nwQ=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr1776771pjb.92.1676989031048; Tue, 21
+ Feb 2023 06:17:11 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 15/16] os-posix: remove useless ioctlsocket() define
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Jason Wang <jasowang@redhat.com>, Michael Roth <michael.roth@amd.com>,
- qemu-arm@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, armbru@redhat.com,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>,
- Hanna Reitz <hreitz@redhat.com>
-References: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
- <20230221124802.4103554-16-marcandre.lureau@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230221124802.4103554-16-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230217201150.22032-1-farosas@suse.de>
+ <20230217201150.22032-20-farosas@suse.de>
+In-Reply-To: <20230217201150.22032-20-farosas@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Feb 2023 14:16:59 +0000
+Message-ID: <CAFEAcA__kyfbPv5tmSTiBJ_O15ND5-QpKpATx856s8XCoUNORw@mail.gmail.com>
+Subject: Re: [PATCH v6 19/29] target/arm: Move 64-bit TCG CPUs into tcg/
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>, 
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,34 +90,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/21/23 13:48, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> The API is specific to win32.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-The idea was to use for socket ioctls that are common to POSIX and 
-Windows, but it turns out there's no such usecase.
-
-Paolo
-
+On Fri, 17 Feb 2023 at 20:15, Fabiano Rosas <farosas@suse.de> wrote:
+>
+> Move the 64-bit CPUs that are TCG-only:
+> - cortex-a35
+> - cortex-a55
+> - cortex-a72
+> - cortex-a76
+> - a64fx
+> - neoverse-n1
+>
+> Keep the CPUs that can be used with KVM:
+> - cortex-a57
+> - cortex-a53
+> - max
+> - host
+>
+> For the special case "max" CPU, there's a nuance that while KVM/HVF
+> use the "host" model instead, we still cannot move all of the TCG code
+> into the tcg directory because the qtests might reach the !kvm && !hvf
+> branch. Keep the cortex_a57_initfn() call to cover that scenario.
+>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   include/sysemu/os-posix.h | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/include/sysemu/os-posix.h b/include/sysemu/os-posix.h
-> index 58de7c994d..378213fc86 100644
-> --- a/include/sysemu/os-posix.h
-> +++ b/include/sysemu/os-posix.h
-> @@ -52,7 +52,6 @@ void os_setup_post(void);
->   int os_mlock(void);
->   
->   #define closesocket(s) close(s)
-> -#define ioctlsocket(s, r, v) ioctl(s, r, v)
->   
->   int os_set_daemonize(bool d);
->   bool is_daemonized(void);
 
+
+> -/* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+> - * otherwise, a CPU with as many features enabled as our emulation supports.
+> - * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+> - * this only needs to handle 64 bits.
+> - */
+>  static void aarch64_max_initfn(Object *obj)
+>  {
+> -    ARMCPU *cpu = ARM_CPU(obj);
+> -    uint64_t t;
+> -    uint32_t u;
+> -
+>      if (kvm_enabled() || hvf_enabled()) {
+>          /* With KVM or HVF, '-cpu max' is identical to '-cpu host' */
+>          aarch64_host_initfn(obj);
+>          return;
+>      }
+>
+> +    if (tcg_enabled() || qtest_enabled()) {
+> +        aarch64_a57_initfn(obj);
+> +    }
+> +
+
+
+
+> +    if (tcg_enabled()) {
+> +        aarch64_max_tcg_initfn(obj);
+> +    }
+
+Why do this only for TCG, and not qtest ?
+
+>  }
+
+thanks
+-- PMM
 
