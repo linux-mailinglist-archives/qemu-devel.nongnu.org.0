@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495BB69DB41
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 08:34:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85DA69DB6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 08:49:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUN9p-0005yC-4D; Tue, 21 Feb 2023 02:33:49 -0500
+	id 1pUNN0-0000ds-Fu; Tue, 21 Feb 2023 02:47:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUN9n-0005x8-8W
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:33:47 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUN9k-0005nl-Nf
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:33:46 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- k14-20020a05600c1c8e00b003e22107b7ccso1824473wms.0
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 23:33:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=81FZ0aWrNO2WF8nFdL4BSyYZ3IkQyB2kdmgv2xRwN4k=;
- b=FjoVDMYkerfv6i2hla+sTyLdIJ0h915ZYwvRUxOd8oSjYqJoPbvPn2EHf7DePyItY/
- tNb9+vJgqxNXOAhtR7dyE2ctgGJkpFlaWa6gYogXO5iibtoGcbtaAeB5krDLyUFQz/8N
- tBkRtDaefP8VIeB55h2S1k3HoCGiEvoq1Bq1B69oj4+i6QmJxbm8cKh1STFqBGgXEuJ3
- zsYPPH/G8eDZOmbS5u9w67B9diSNBylCGkATc8BIM+lebTbXVk5EgPIVd4j3yedas8L4
- S09cy8hHST1m10xnyE2E46ViXk0HuNhdMBVX2Jqrln5EPm60SF4SdtHJ1zEj5RUIpCna
- UeJg==
+ (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
+ id 1pUNMv-0000de-ID
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:47:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
+ id 1pUNMt-0008Ns-IT
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:47:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676965636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vRSCOToTkfZNupb+YawTultCxEkodzL1oAZvcIyX0lo=;
+ b=jV0z2aE/fSqqzh/ukLi1aBk7nBa7quc3MIxEt6GibsxrLhdcsfL1uOYCZyWGHKqo3tvM1Z
+ BRuD7F7yiX2jLyEN6tmWEBg/TYtWRXVrQNiBLRNiK7aU5CC30OUodTljp2t8gqtslkmqya
+ Vwg5g8GzlRa6xuexJPfpdRODs53QV3c=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-216-9gR9LJ9jMx-_lNZ25wZmcw-1; Tue, 21 Feb 2023 02:47:14 -0500
+X-MC-Unique: 9gR9LJ9jMx-_lNZ25wZmcw-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ v3-20020a67ff83000000b004124fe134e1so419203vsq.23
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 23:47:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=81FZ0aWrNO2WF8nFdL4BSyYZ3IkQyB2kdmgv2xRwN4k=;
- b=pBnZLJkatIe4MqwWSdRzbHzYSFPOWjO0VpFapsG8nXPOtyoXwbnC5ORTtjxUAOoTHl
- 0yEokZhTnLDrnrKtxjm65AqNin4U1+lHq+Es/04g6HrVkl+vJomkjU0yZIF0sh9V5DwW
- 0EOxcY780r+ptCPPh+Sr+ZNWuL7ToRMZ1UPNvr/zFPYeZjj8jsH/IfN7OrJEe8TMTqXc
- 6etO7R6Eyb1SCmMx4rcYlTSWpEIdhJGuP5qd3qdBfY9duH4EcU2CIC9FyVSCiAIYMgM8
- 0uVoMf3Lot5rgs+l/C6fJipEmJzZ/aD/xt6t/qB1dT8of3POeeA1uF8gmY56PSsouw8v
- Vmug==
-X-Gm-Message-State: AO0yUKUB9ld2npsA3qpRqiCEQItX9geL4FZTez1K2s61jJgSaVBHyYIp
- dsjE2EXyrFnu+YkwXRxYuxpIQQ==
-X-Google-Smtp-Source: AK7set94cZj9BQ9d71esbwCiETgmxdn/8HQOpMGAIDwHpvhQ83jYVenbaRCVkqlS3XlTuihJr87s/g==
-X-Received: by 2002:a05:600c:1da5:b0:3e2:1dac:b071 with SMTP id
- p37-20020a05600c1da500b003e21dacb071mr3229392wms.13.1676964822843; 
- Mon, 20 Feb 2023 23:33:42 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o2-20020a5d4742000000b002c59c6abc10sm4216518wrs.115.2023.02.20.23.33.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 23:33:42 -0800 (PST)
-Message-ID: <3831cc5b-560d-1842-d49b-c0b16aeecfc0@linaro.org>
-Date: Tue, 21 Feb 2023 08:33:40 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vRSCOToTkfZNupb+YawTultCxEkodzL1oAZvcIyX0lo=;
+ b=TQ7NjNqZF/9ZLsNlZAElAO6ZBlV3Tc1mZwjhfiQoQQ6rgZAHEAsH4Z83pZblrwayGp
+ b5e3/zzB7pJVrtdLL2UGQgBagSI2d3XztZZ1dH0/DnJ3Kbo9jhxnMUPyycaahs75tz59
+ Cc1eZiEFUYg2oN3ZoCld0sy1NXGAZ3pqLKC/74A+AxIZgIsCxkMq5awUmtYtL6JJaKhM
+ Kt1dHf02fh0+6CbHn5pNEPjNQmwN7bMkRDl59mhwM3IYU+tkgZBt1pNIWOOOG7wvcIRr
+ fQ/XgQwFuD6TFHwnbdFAtL7wDmyL4xR/JmGsXHSeLnDYk/Mqr58e+8ZvsbqJqEVMeK6w
+ 8cew==
+X-Gm-Message-State: AO0yUKVk81UAbTaAflg7FQbmttuWZtNUzJq+e8mrYOHOe6MfxSTvM3Hx
+ 9TYl18iUgDxDwzgX/zNW46HGqq53Hn1KHl992XgTpnLniDOuFI6feufSg+j6IjI01cY1bwbMi/K
+ Zk7oMw9dXPHhwgIKq2/DvtCbFnTg6vsA=
+X-Received: by 2002:a67:f408:0:b0:416:f6b4:ff4e with SMTP id
+ p8-20020a67f408000000b00416f6b4ff4emr460280vsn.37.1676965634477; 
+ Mon, 20 Feb 2023 23:47:14 -0800 (PST)
+X-Google-Smtp-Source: AK7set/mbIZJ1YnehbncU+rA3ndEHvL8dVhdNIyg4SrNrrUM3a+wTZNjjc6TMC0lBralWwKIwda9thrEc5ogHj7CQuA=
+X-Received: by 2002:a67:f408:0:b0:416:f6b4:ff4e with SMTP id
+ p8-20020a67f408000000b00416f6b4ff4emr460274vsn.37.1676965634222; Mon, 20 Feb
+ 2023 23:47:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 2/6] configure: Add courtesy hint to Python version
- failure message
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Daniel Berrange <berrange@redhat.com>
-References: <20230221012456.2607692-1-jsnow@redhat.com>
- <20230221012456.2607692-3-jsnow@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230221012456.2607692-3-jsnow@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230220174142.240393-1-kkostiuk@redhat.com>
+ <20230220174142.240393-3-kkostiuk@redhat.com>
+In-Reply-To: <20230220174142.240393-3-kkostiuk@redhat.com>
+From: Yan Vugenfirer <yvugenfi@redhat.com>
+Date: Tue, 21 Feb 2023 09:47:02 +0200
+Message-ID: <CAGoVJZx1vHo5um8ohyNzdb2+wwmGjUh7pZOeB_KFvC6CGPCGGQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] qga/win32: Use rundll for VSS installation
+To: Konstantin Kostiuk <kkostiuk@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=yvugenfi@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,20 +95,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/2/23 02:24, John Snow wrote:
-> If we begin requiring Python 3.7+, a few platforms are going to need to
-> install an additional Python interpreter package.
-> 
-> As a courtesy to the user, suggest the optional package they might need
-> to install. This will hopefully minimize any downtime caused by the
-> change in Python dependency.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Yan Vugenfirer <yvugenfi@redhat.com>
+
+
+On Mon, Feb 20, 2023 at 7:41 PM Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
+>
+> Add specific an entry points for rundll which is
+> just a wrapper for COMRegister/COMUnregister functions.
+>
+> resolves: rhbz#2167436
+> fixes: CVE-2023-0664
+>
+> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 > ---
->   configure | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+>  qga/installer/qemu-ga.wxs | 10 +++++-----
+>  qga/vss-win32/install.cpp |  9 +++++++++
+>  qga/vss-win32/qga-vss.def |  2 ++
+>  3 files changed, 16 insertions(+), 5 deletions(-)
+>
+> diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+> index feb629ec47..46ae9e7a13 100644
+> --- a/qga/installer/qemu-ga.wxs
+> +++ b/qga/installer/qemu-ga.wxs
+> @@ -127,22 +127,22 @@
+>        </Directory>
+>      </Directory>
+>
+> -    <Property Id="cmd" Value="cmd.exe"/>
+> +    <Property Id="rundll" Value="rundll32.exe"/>
+>      <Property Id="REINSTALLMODE" Value="amus"/>
+>
+>      <?ifdef var.InstallVss?>
+>      <CustomAction Id="RegisterCom"
+> -              ExeCommand='/c "[qemu_ga_directory]qemu-ga.exe" -s vss-install'
+> +              ExeCommand='"[qemu_ga_directory]qga-vss.dll",DLLCOMRegister'
+>                Execute="deferred"
+> -              Property="cmd"
+> +              Property="rundll"
+>                Impersonate="no"
+>                Return="check"
+>                >
+>      </CustomAction>
+>      <CustomAction Id="UnRegisterCom"
+> -              ExeCommand='/c "[qemu_ga_directory]qemu-ga.exe" -s vss-uninstall'
+> +              ExeCommand='"[qemu_ga_directory]qga-vss.dll",DLLCOMUnregister'
+>                Execute="deferred"
+> -              Property="cmd"
+> +              Property="rundll"
+>                Impersonate="no"
+>                Return="check"
+>                >
+> diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
+> index b57508fbe0..68662a6dfc 100644
+> --- a/qga/vss-win32/install.cpp
+> +++ b/qga/vss-win32/install.cpp
+> @@ -357,6 +357,15 @@ out:
+>      return hr;
+>  }
+>
+> +STDAPI_(void) CALLBACK DLLCOMRegister(HWND, HINSTANCE, LPSTR, int)
+> +{
+> +    COMRegister();
+> +}
+> +
+> +STDAPI_(void) CALLBACK DLLCOMUnregister(HWND, HINSTANCE, LPSTR, int)
+> +{
+> +    COMUnregister();
+> +}
+>
+>  static BOOL CreateRegistryKey(LPCTSTR key, LPCTSTR value, LPCTSTR data)
+>  {
+> diff --git a/qga/vss-win32/qga-vss.def b/qga/vss-win32/qga-vss.def
+> index 927782c31b..ee97a81427 100644
+> --- a/qga/vss-win32/qga-vss.def
+> +++ b/qga/vss-win32/qga-vss.def
+> @@ -1,6 +1,8 @@
+>  LIBRARY      "QGA-PROVIDER.DLL"
+>
+>  EXPORTS
+> +       DLLCOMRegister
+> +       DLLCOMUnregister
+>         COMRegister             PRIVATE
+>         COMUnregister           PRIVATE
+>         DllCanUnloadNow         PRIVATE
+> --
+> 2.25.1
+>
 
 
