@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8989269DED5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C3769DEDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:32:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUQof-00016z-II; Tue, 21 Feb 2023 06:28:13 -0500
+	id 1pUQs7-0003bh-FZ; Tue, 21 Feb 2023 06:31:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pUQoa-0000xP-UO
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:28:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pUQoZ-0004Kd-F3
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:28:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676978886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BWnc2ADAYAdseJ6af8On1kY2jQfo3zHjQ1slAxJqsnQ=;
- b=JbQLwAcrtfNpbm8NMua94d35WiTnAi9llBNCeh4wc3eZB+4Lgi1CL25Z43iyCE94J4r8of
- uoVhJeKom3Bv+giUYtTqlYHNY/WOcl88c+hd3M9SPocdMUKJyzQc1B9McxDClAZTEu0Lqn
- pXnpQqTZbWu0B4yG25n/gH4WCnfVBqI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-imXMJvFyMYS4dfoIbyCaQw-1; Tue, 21 Feb 2023 06:28:00 -0500
-X-MC-Unique: imXMJvFyMYS4dfoIbyCaQw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C62A3813F23;
- Tue, 21 Feb 2023 11:28:00 +0000 (UTC)
-Received: from redhat.com (dhcp-192-225.str.redhat.com [10.33.192.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5807C15BAD;
- Tue, 21 Feb 2023 11:27:57 +0000 (UTC)
-Date: Tue, 21 Feb 2023 12:27:56 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel@nongnu.org,
- t.lamprecht@proxmox.com, jsnow@redhat.com, hreitz@redhat.com,
- eblake@redhat.com, armbru@redhat.com, qemu-block@nongnu.org,
- Alexander Ivanov <alexander.ivanov@virtuozzo.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] block/mirror: add 'write-blocking-after-ready' copy mode
-Message-ID: <Y/SqvDEg/hlb+ZEs@redhat.com>
-References: <20221207132719.131227-1-f.ebner@proxmox.com>
- <c120932d-a1a7-5904-3f17-10a7c9ac69af@yandex-team.ru>
- <926be172-1d8a-e896-c051-3c37d048771b@virtuozzo.com>
- <c3982fa3-be00-9cb2-7d71-5f784ac80864@proxmox.com>
- <Y9uf1wlXQd4EIwxO@redhat.com>
- <40969191-9a16-0550-e999-bc44584d81fb@proxmox.com>
- <182b70d7-5123-8bc3-e855-c4bf174e98a1@yandex-team.ru>
- <d03ebb21-999f-fac2-44b0-0a6a1ca3c5ca@proxmox.com>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pUQrz-0003Zx-Vc
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:31:40 -0500
+Received: from mail-oo1-xc2f.google.com ([2607:f8b0:4864:20::c2f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pUQrx-0005lp-UM
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:31:39 -0500
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ e2-20020a4ac3c2000000b005246390f576so349640ooq.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 03:31:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Lb432FcfnU0yb2NpmU1uIwX8oPKNQ4sJspikV5whGSs=;
+ b=EpTQIFWyCtIqW6c/du0a6qS/3ezacvJiwA8gBwuDPo2BI0umfr63FHzlqQw2Yal/0m
+ zx2OhbbQKEhCNCFCFM3Pa2TtEJEWGKjBK62XrxXQylAHhwNjNOthGU9/wRjh/mo4I7Lg
+ /ZMjtJ3SJme5/1VaN/xVdQM+QmF7cfl39WuKQXlo9FRtxF34ByOMEvRqe2h5cKn44t7y
+ SgZPn9JGNlNJGC/LaGWiiovJsIxvilmCUT3Udc8xqSuGPUS4O5WY8fzdENBPwmc2gDlT
+ QoGi6W3XTCYw9DLguNji3wvF/Z4y50O3MNizxa/4yUtCe8eISQAMM7M44t622rXTUOEy
+ h4Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lb432FcfnU0yb2NpmU1uIwX8oPKNQ4sJspikV5whGSs=;
+ b=ybAm1lmpaTmE58yemEVs66vdOT3cDCwbZeT4LorpgbFS2SYnOAfTEQhcGn1qMx6ywn
+ 0FCkuBylGjDNxH2AzpuTJr7OdB1AuJPQGrKNs5tYya98LHxQGnzp9e316AbV+BYI7JE7
+ wCiQUIrg8/i0f+ck+w56cxQ33SaDNQzcrNqS0NuBXZLmWAwotArjWkF31UgWw2TWxsNI
+ aAodUfEIKvu0NAemBVkpdpShoz7bvvZdkgUpotCCrICkw9S5mp+V0BQEGcBKBcqD6R/9
+ sSO29Ec/aN+1fB1SsziavOuBIR7PWhqktkrgF4P0VKeZUSHXnf/ayR1DUyzOldji+RaP
+ 8/8g==
+X-Gm-Message-State: AO0yUKVwuK82xB2iwQIL6gzYjLlPmpGlY8C7wgWsvogMu8hERF8u7hX+
+ BHC3yxJWlhUcOM/xx2KTPNSkCQ==
+X-Google-Smtp-Source: AK7set9n+pE1iCwuSl5c6R5MDW2Kl9MMvWodBoRl2hC7gtQ8cGrNG2IRNBEO1GB9GCdoeqtnmPVtVw==
+X-Received: by 2002:a4a:d485:0:b0:4f2:8f8:d2ff with SMTP id
+ o5-20020a4ad485000000b004f208f8d2ffmr1742386oos.6.1676979096219; 
+ Tue, 21 Feb 2023 03:31:36 -0800 (PST)
+Received: from [192.168.68.107] ([189.110.112.117])
+ by smtp.gmail.com with ESMTPSA id
+ w16-20020a4ae9f0000000b00516d4eac864sm487059ooc.29.2023.02.21.03.31.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Feb 2023 03:31:35 -0800 (PST)
+Message-ID: <3a5af4b2-21a1-ba64-df8f-349b91488206@ventanamicro.com>
+Date: Tue, 21 Feb 2023 08:31:31 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d03ebb21-999f-fac2-44b0-0a6a1ca3c5ca@proxmox.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH] hw/riscv: Skip re-generating DT nodes for a given DTB
+Content-Language: en-US
+To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Liu Zhiwei
+ <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org
+References: <20230221061204.1658306-1-bmeng@tinylab.org>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230221061204.1658306-1-bmeng@tinylab.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2f;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oo1-xc2f.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,69 +97,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 21.02.2023 um 11:57 hat Fiona Ebner geschrieben:
-> Am 14.02.23 um 17:19 schrieb Vladimir Sementsov-Ogievskiy:
-> > On 02.02.23 16:27, Fiona Ebner wrote:
-> >> Am 02.02.23 um 12:34 schrieb Kevin Wolf:
-> >>> But having to switch the mirror job to sync mode just to avoid doing I/O
-> >>> on an inactive device sounds wrong to me. It doesn't fix the root cause
-> >>> of that problem, but just papers over it.
-> >>
-> >> If you say the root cause is "the job not being completed before
-> >> switchover", then yes. But if the root cause is "switchover happening
-> >> while the drive is not actively synced", then a way to switch modes can
-> >> fix the root cause :)
-> >>
-> >>>
-> >>> Why does your management tool not complete the mirror job before it
-> >>> does the migration switchover that inactivates images?
-> >>
-> >> I did talk with my team leader about the possibility, but we decided to
-> >> not go for it, because it requires doing the migration in two steps with
-> >> pause-before-switchover and has the potential to increase guest downtime
-> >> quite a bit. So I went for this approach instead.
-> >>
-> > 
-> > 
-> > Interesting point. Maybe we need a way to automatically complete all the
-> > jobs before switchower?  It seems no reason to break the jobs if user
-> > didn't cancel them. (and of course no reason to allow a code path
-> > leading to assertion).
-> > 
+
+
+On 2/21/23 03:12, Bin Meng wrote:
+> Lanuch qemu-system-riscv64 with a given dtb for 'sifive_u' and 'virt'
+> machines, QEMU complains:
 > 
-> Wouldn't that be a bit unexpected? There could be jobs unrelated to
-> migration or jobs at early stages. But sure, being able to trigger the
-> assertion is not nice.
+>    qemu_fdt_add_subnode: Failed to create subnode /soc: FDT_ERR_EXISTS
 > 
-> Potential alternatives could be pausing the jobs or failing migration
-> with a clean error?
-
-I wonder if the latter is what we would get if child_job.inactivate()
-just returned an error if the job isn't completed yet?
-
-It would potentially result in a mix of active and inactive BDSes,
-though, which is a painful state to be in. If you don't 'cont'
-afterwards, you're likely to hit another assertion once you try to do
-something with an inactive BDS.
-
-Pausing the job feels a bit dangerous, because it means that you can
-resume it as a user. We'd have to add code to check that the image has
-actually been activated again before we allow to resume the job.
-
-> For us, the former is still best done in combination with a way to
-> switch to active (i.e. write-blocking) mode for drive-mirror.
-
-Switching between these modes is a useful thing to have either way.
-
-> The latter would force us to complete the drive-mirror job before
-> switchover even with active (i.e. write-blocking) mode, breaking our
-> usage of drive-mirror+migration that worked (in almost all cases, but it
-> would have been all cases if we had used active mode ;)) for many years now.
+> The whole DT generation logic should be skipped when a given DTB is
+> present.
 > 
-> Maybe adding an option for how the jobs should behave upon switchover
-> (e.g. complete/pause/cancel/cancel-migration) could help? Either as a
-> job-specific option (more flexible) or a migration option?
+> Fixes: b1f19f238cae ("hw/riscv: write bootargs 'chosen' FDT after riscv_load_kernel()")
 
-Kevin
+Thanks for cleaning my mess :)
 
+I was wondering whether we should move the ms->dtb verification/load bits outside of
+create_fdt(), and put it explicitly in sifive_u_machine_init() and virt_machine_init().
+Like this:
+
+     /* load/create device tree*/
+     if (ms->dtb) {
+         ms->fdt = load_device_tree(ms->dtb, &s->fdt_size);
+         if (!ms->fdt) {
+             error_report("load_device_tree() failed");
+             exit(1);
+         }
+     } else {
+         create_fdt(s, memmap);
+     }
+
+
+This looks clearer to me because create_fdt() will actually create a fdt, not load or create
+a fdt. create_fdt() from spike works this way.
+
+I'll leave to your discretion. The patch is already good enough as is.
+
+
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> ---
+> 
+>   hw/riscv/sifive_u.c | 1 +
+>   hw/riscv/virt.c     | 1 +
+>   2 files changed, 2 insertions(+)
+> 
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index ad3bb35b34..76db5ed3dd 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -118,6 +118,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
+>               error_report("load_device_tree() failed");
+>               exit(1);
+>           }
+> +        return;
+>       } else {
+>           fdt = ms->fdt = create_device_tree(&fdt_size);
+>           if (!fdt) {
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 86c4adc0c9..0c7b4a1e46 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1014,6 +1014,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap)
+>               error_report("load_device_tree() failed");
+>               exit(1);
+>           }
+> +        return;
+>       } else {
+>           ms->fdt = create_device_tree(&s->fdt_size);
+>           if (!ms->fdt) {
 
