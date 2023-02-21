@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5385F69DB07
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 08:15:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BE469DB09
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 08:16:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUMru-00054J-Et; Tue, 21 Feb 2023 02:15:18 -0500
+	id 1pUMtC-0006Jl-Sd; Tue, 21 Feb 2023 02:16:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pUMro-0004yh-5G; Tue, 21 Feb 2023 02:15:12 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pUMrk-00037l-T9; Tue, 21 Feb 2023 02:15:11 -0500
-Received: from [192.168.0.119] (unknown [114.95.238.225])
- by APP-05 (Coremail) with SMTP id zQCowABXXZlub_RjV92lBg--.3325S2;
- Tue, 21 Feb 2023 15:14:54 +0800 (CST)
-Message-ID: <56208597-1552-4522-8223-47297e26027a@iscas.ac.cn>
-Date: Tue, 21 Feb 2023 15:14:54 +0800
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUMt9-0006IE-By
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:16:36 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUMt5-0003YZ-FZ
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:16:32 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ iv11-20020a05600c548b00b003dc52fed235so2389349wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 23:16:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=icWWngUHMVw04oXWqJ9PeNtR5VBg0geCEkmiO3AzBos=;
+ b=aKcaGrlHpvFL1WcvneVzuICedtPX1A555OKbIgsR+74vwAgSCnWMOqCv5ZzRA4VZlq
+ EOlJ/bMmISlkuO7ZGc0ja8xTFIpKNy7ffD3/AIlPEYryexQrGVZOMADhNsPJiGQ2NBIH
+ H4Ylxvnx1Oevb2yBgLopyADmRI/hRi/UJH29mygMMcF8Qexu2aUkAm1fHEzFMMLAP+5k
+ FIAUbABdWLf7/7cJ9LlTkWzp1rLA6boMN6WKmKZ6GokHWYdT+8Q+I/l1MbuFM90/gm2Z
+ yibKzBLm61sNwt4RoGD/4yf2W4OR+QmhnNC8arcNIU+11MHIY0USHdaSmIJQfpXxA9Vh
+ 68mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=icWWngUHMVw04oXWqJ9PeNtR5VBg0geCEkmiO3AzBos=;
+ b=QcMo/wbpyZZG+3TJXPy4avIdqisnV0Bm+a2NuiQPM6GKQNmPR5oIVXBklCDn0vm90r
+ I5rWun7hlhG+PrC71CH8/r3hyzPhRONxvyYvucE+LFkwXSKFWxqngW4JkVkhK6Z2cX/E
+ NI3cG0kdtCKe32MgTFDN22NC1+5qy0mFVJGmbBUQRiiqM+kx3N4ssFUq3wHyMkdxK4aY
+ Cxe0aoF1sVMp4PBm4CAmTFbGgl4C+mCUb44tGSjQl2QxLuEf0qq+6hQD2uNc2Nc7du8r
+ 1aPSGPUH6qs4qPkrfoeraHVtMIGiaKmdKOSK1GKZF5XPyPrwmsCHKpB4L46hq/TXFhrm
+ Y+Mg==
+X-Gm-Message-State: AO0yUKVaCsfDJxQitjv5rpUFlgN/uBPGU950ugIUT/wTph6DhtatCu6Y
+ goB/jSWE+O8suluzaj5O9E9L5A==
+X-Google-Smtp-Source: AK7set+7N2WPkVcnB9HFpTpfLlcb4gvRxyDp7NJQwIfSsI00HDteEjl3/fgNbosLAIS18O7coFYbfA==
+X-Received: by 2002:a05:600c:2e88:b0:3e2:201a:5bcb with SMTP id
+ p8-20020a05600c2e8800b003e2201a5bcbmr2343481wmn.28.1676963789734; 
+ Mon, 20 Feb 2023 23:16:29 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ c18-20020a05600c0a5200b003e733a973d2sm1993902wmq.39.2023.02.20.23.16.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 23:16:29 -0800 (PST)
+Message-ID: <6862e485-66d9-9f03-ab40-5ef5f407961c@linaro.org>
+Date: Tue, 21 Feb 2023 08:16:27 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v11 0/9] support subsets of code size reduction extension
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 05/14] target/arm: Simplify register counting in
+ arm_gen_dynamic_svereg_xml
 Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, richard.henderson@linaro.org,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230209041352.53980-1-liweiwei@iscas.ac.cn>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230209041352.53980-1-liweiwei@iscas.ac.cn>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+References: <20230221021951.453601-1-richard.henderson@linaro.org>
+ <20230221021951.453601-6-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230221021951.453601-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABXXZlub_RjV92lBg--.3325S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGw1fArWDCr45Jr43Wr1fXrb_yoW5AFWfpw
- 4rCrWSkrZ8tFyxJw4Sq3WUGw15AF4rWr45Awn7Jwn5CayavrW3Jrs7K3W3Gw1UJF15Wr1q
- 9F1UCw13uw45AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
- AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
- c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
- AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
- Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfU5JPEDU
- UUU
-X-Originating-IP: [114.95.238.225]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,91 +92,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,  any  new comments for this patchset?
+On 21/2/23 03:19, Richard Henderson wrote:
+> Rather than increment base_reg and num, compute num
+> from the change to base_reg at the end.  Clean up some
+> nearby comments.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/arm/gdbstub64.c | 27 ++++++++++++++++-----------
+>   1 file changed, 16 insertions(+), 11 deletions(-)
 
-Regards,
-
-Weiwei Li
-
-On 2023/2/9 12:13, Weiwei Li wrote:
-> This patchset implements RISC-V Zc* extension v1.0.2-1 version instructions.
->
-> Specification:
-> https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
->
-> The port is available here:
-> https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v11
->
-> To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extensions support.
->
->
-> This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
->
-> v11
-> * update format and field name based on the latest spec in patch 5, 6, 7 (without other functional changes)
-> * rebase on riscv-to-apply.next
->
-> v10:
-> * rebase on Daniel's series(riscv-to-apply.next) and adjust riscv-tests to test on sifive related CPUs
->
-> v9:
-> * rebase on riscv-to-apply.next
->
-> v8:
-> * improve disas support in Patch 9
->
-> v7:
-> * Fix description for Zca
->
-> v6：
-> * fix base address for jump table in Patch 7
-> * rebase on riscv-to-apply.next
->
-> v5:
-> * fix exception unwind problem for cpu_ld*_code in helper of cm_jalt
->
-> v4:
-> * improve Zcmp suggested by Richard
-> * fix stateen related check for Zcmt
->
-> v3:
-> * update the solution for Zcf to the way of Zcd
-> * update Zcb to reuse gen_load/store
-> * use trans function instead of helper for push/pop
->
-> v2:
-> * add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
-> * separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
->
-> Weiwei Li (9):
->    target/riscv: add cfg properties for Zc* extension
->    target/riscv: add support for Zca extension
->    target/riscv: add support for Zcf extension
->    target/riscv: add support for Zcd extension
->    target/riscv: add support for Zcb extension
->    target/riscv: add support for Zcmp extension
->    target/riscv: add support for Zcmt extension
->    target/riscv: expose properties for Zc* extension
->    disas/riscv.c: add disasm support for Zc*
->
->   disas/riscv.c                             | 228 +++++++++++++++-
->   target/riscv/cpu.c                        |  56 ++++
->   target/riscv/cpu.h                        |  10 +
->   target/riscv/cpu_bits.h                   |   7 +
->   target/riscv/csr.c                        |  38 ++-
->   target/riscv/helper.h                     |   3 +
->   target/riscv/insn16.decode                |  62 ++++-
->   target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
->   target/riscv/insn_trans/trans_rvf.c.inc   |  18 ++
->   target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
->   target/riscv/insn_trans/trans_rvzce.c.inc | 313 ++++++++++++++++++++++
->   target/riscv/machine.c                    |  19 ++
->   target/riscv/meson.build                  |   3 +-
->   target/riscv/translate.c                  |  15 +-
->   target/riscv/zce_helper.c                 |  55 ++++
->   15 files changed, 833 insertions(+), 16 deletions(-)
->   create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
->   create mode 100644 target/riscv/zce_helper.c
->
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
