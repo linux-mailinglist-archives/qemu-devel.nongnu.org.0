@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2902169E346
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0890669E361
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:30:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUUSh-0001NP-HT; Tue, 21 Feb 2023 10:21:47 -0500
+	id 1pUUZc-0001BI-CJ; Tue, 21 Feb 2023 10:28:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pUUSa-0001MF-Um
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:21:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <w@uter.be>)
+ id 1pUUZY-0001A8-AG; Tue, 21 Feb 2023 10:28:52 -0500
+Received: from lounge.grep.be ([2a01:4f8:200:91e8::2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pUUSW-00077A-BJ
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:21:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676992892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cH0LQ4yCLqHvU2q1i3Wtb2F+lt25Ophu5W10jHFnviA=;
- b=DDDs/B6O0wF5hNvQkpbNu1J7lDPX/7l3vDN96JA0UoulDUCSe1417XJs3RfumfivHwtmUW
- g+BFQfi2alyIUPhUZkmBGnRnwmEfaQJUsQxya2lPz/kvWNbOaa0p8BfGHDHTmw0/WrV4Z5
- Dg5mth8C207iavhI90kDEmWK86qT4Cs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-74-eYxy6b-JONGAEPEecRDuwQ-1; Tue, 21 Feb 2023 10:21:23 -0500
-X-MC-Unique: eYxy6b-JONGAEPEecRDuwQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p22-20020a7bcc96000000b003e2036a1516so2136242wma.7
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 07:21:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cH0LQ4yCLqHvU2q1i3Wtb2F+lt25Ophu5W10jHFnviA=;
- b=ovranwGlOHzanfXnkcEWKJQPyswRE2o2MO9Rg+44Xllz35eSMnH4I74U1/q/eeQ0/q
- enDNgFII0HcZU0AgGe+Q+TD2vXMjdGP4/wZxcFgmmshwBiwSHSB2nrlccOtX/CLZ7cIE
- PrhwxFEhrPsGRQruwmk9dZwmc/VuoKhY1nEmnWj9Y9HIUHa757C/KOO5cX7jM5VyEM0y
- 9CLaR8SjRbCJjaOF+fSBj7o8n5bnVHf+Qj6xc7/lSMR+2/00Cz/ygdYzohRBzOlqLTyU
- kE0YVU0ocN3Jm0gagPy3YFXArVT9h++d1ddjhTmD5u34P5NxAN8ieKFIgl6OKBJghEd/
- na2A==
-X-Gm-Message-State: AO0yUKWCFSc19rMPwaimEa6F2GoOERxv1o948UgZYtDXqC4twlXkn9H1
- cfePMySUC6czkSv3WoGSsC5qB/Le9LbDmzUql2RA18xNwI5+H0Bfv4NjJRK+GRZ5lYTMrrUIWX1
- XzP2c2Nan1FYjyOs=
-X-Received: by 2002:a05:600c:511b:b0:3da:2ba4:b97 with SMTP id
- o27-20020a05600c511b00b003da2ba40b97mr4280072wms.19.1676992877202; 
- Tue, 21 Feb 2023 07:21:17 -0800 (PST)
-X-Google-Smtp-Source: AK7set/QrQGuFBPf5gxXQoUxMANFCFruy3AS1JElOqiXzCY86ldNaENH0IlnEaoVuNMm9hYkMah1yg==
-X-Received: by 2002:a05:600c:511b:b0:3da:2ba4:b97 with SMTP id
- o27-20020a05600c511b00b003da2ba40b97mr4280056wms.19.1676992876943; 
- Tue, 21 Feb 2023 07:21:16 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003e896d953a8sm42195wms.17.2023.02.21.07.21.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 07:21:16 -0800 (PST)
-Date: Tue, 21 Feb 2023 15:21:14 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH] tests: Disable migration-test
-Message-ID: <Y/Thas4efx14JsBi@work-vm>
-References: <20230221132726.2892383-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <w@uter.be>)
+ id 1pUUZV-00008R-Iv; Tue, 21 Feb 2023 10:28:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
+ s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=wpU4GWnGunuQpvZMVNVvPLhBK22cJPRxRC4WXwip7Y4=; b=Y5QyGPrIpSlTmr9ImPHsfiFNcJ
+ toQMcomrj05elgb2HjzzbIrDQRgJ8AY5yjaBu2zuW0vCPcaZ29SW3siDurWHVp/bM37y/Hi6Ig/xO
+ cu897KiTl5p66iG0yoWVpkzc2qRRwZ0GT7XNMfEXs7myHQJY2CoJXSEzGpgJ63O5P1Z2zEHUREEN6
+ 5eIZvzbarL3wGxTENCiT+7i8P6DI1muFa2X5pyPlrVPXvndNfxhl/GTTw5FWzcVH6R0d1b4/iBxGv
+ 7jsguIani6pv4DCTKdlzssv0RSt74cZH1lwvMhPr33asGNXAoTXAfMFRxvciKAs7zemAoSmHinpMY
+ //Mu1A7w==;
+Received: from [196.251.239.242] (helo=pc220518)
+ by lounge.grep.be with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <w@uter.be>)
+ id 1pUUSh-00H19U-Th; Tue, 21 Feb 2023 16:21:48 +0100
+Received: from wouter by pc220518 with local (Exim 4.96)
+ (envelope-from <w@uter.be>) id 1pUUSX-000L4w-1P;
+ Tue, 21 Feb 2023 17:21:37 +0200
+Date: Tue, 21 Feb 2023 17:21:37 +0200
+From: Wouter Verhelst <w@uter.be>
+To: Eric Blake <eblake@redhat.com>
+Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ libguestfs@redhat.com
+Subject: Re: [PATCH v2 2/6] spec: Tweak description of maximum block size
+Message-ID: <Y/ThgdLldvb5rpwA@pc220518.home.grep.be>
+References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
+ <20221114224655.2186173-1-eblake@redhat.com>
+ <20221114224655.2186173-3-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230221132726.2892383-1-peter.maydell@linaro.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <20221114224655.2186173-3-eblake@redhat.com>
+X-Speed: Gates' Law: Every 18 months, the speed of software halves.
+Organization: none
+Received-SPF: pass client-ip=2a01:4f8:200:91e8::2; envelope-from=w@uter.be;
+ helo=lounge.grep.be
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,106 +75,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> The migration-test is annoyingly flaky. Examples:
-> 
-> https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
-> (a FreeBSD job)
->   32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
-> 
-> on a local macos x86 box:
-> ▶  34/621 ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_
-> str_equal(status, "failed")) ERROR
->  34/621 qemu:qtest+qtest-i386 / qtest-i386/migration-test                         ERROR          168.12s   killed by signal 6 SIGABRT
-> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
-> stderr:
-> qemu-system-i386: Failed to peek at channel
-> query-migrate shows failed migration: Unable to write to socket: Broken pipe
-> **
-> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
-> 
-> (test program exited with status code -6)
-> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-> 
-> ▶  37/621 ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed")) ERROR
->  37/621 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test                     ERROR          174.37s   killed by signal 6 SIGABRT
-> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
-> stderr:
-> query-migrate shows failed migration: Unable to write to socket: Broken pipe
-> **
-> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
-> 
-> (test program exited with status code -6)
-> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-> 
-> I've seen this on other CI jobs as well, but Gitlab's UI makes it
-> pretty much impossible to re-find failed jobs, since you can't
-> search for them by failure reason at all.
-> 
-> I've also seen this fail on the OpenBSD vm build.
-> 
-> I've seen the migration-test hang on the s390 private CI runner
-> in such a way that even though the CI job has timed out, the
-> stale QEMU and migration-test processes are still lying around on
-> the host.
-> 
-> I've complained about these before, but nobody has either investigated
-> or suggested improvements to the test program that would let us gather
-> more information about what's happening when these fail.
->  https://lore.kernel.org/qemu-devel/CAFEAcA8x_iM3hN2-P9F+huXnXFXy+D6FzE+Leq4erLdg7zkVGw@mail.gmail.com/
+Hi Eric,
 
-Damn this is really going to impact the stability of migration if we
-don't regularly test.
-But fundamentally, I've never been able to debug much of the reports
-that come from flakyness in gitlab ci; we're not getting the most basic
-information like which subtest or where we're upto in the test which
-makes it very very hard to debug.
+Busy days, busy times. Sorry about the insane delays here.
 
-Dave
-
-> So this is the big hammer: disable the test entirely, so that we
-> don't keep getting CI job intermittent failures because of it.
-> When somebody has time to investigate, we can fix the underlying
-> cause and reenable the job.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Mon, Nov 14, 2022 at 04:46:51PM -0600, Eric Blake wrote:
+> Commit 9f30fedb improved the spec to allow non-payload requests that
+> exceed any advertised maximum block size.  Take this one step further
+> by permitting the server to use NBD_EOVERFLOW as a hint to the client
+> when a request is oversize (while permitting NBD_EINVAL for
+> back-compat), and by rewording the text to explicitly call out that
+> what is being advertised is the maximum payload length, not maximum
+> block size.  This becomes more important when we add 64-bit
+> extensions, where it becomes possible to extend `NBD_CMD_BLOCK_STATUS`
+> to have both an effect length (how much of the image does the client
+> want status on - may be larger than 32 bits) and an optional payload
+> length (a way to filter the response to a subset of negotiated
+> metadata contexts).  In the shorter term, it means that a server may
+> (but not must) accept a read request larger than the maximum block
+> size if it can use structured replies to keep each chunk of the
+> response under the maximum payload limits.
 > ---
-> This is an "if you don't want this, propose something else" patch :-)
-> ---
->  tests/qtest/meson.build | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  doc/proto.md | 127 +++++++++++++++++++++++++++++----------------------
+>  1 file changed, 73 insertions(+), 54 deletions(-)
 > 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 29a4efb4c24..0e362fcb1e0 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -11,6 +11,12 @@ slow_qtests = {
->    'test-hmp' : 120,
->  }
->  
-> +# Temporarily disabled tests can be listed here
-> +qtests_disabled = [
-> +  # This test is currently flaky and fails intermittently
-> +  'migration-test',
-> +]
-> +
->  qtests_generic = [
->    'cdrom-test',
->    'device-introspect-test',
-> @@ -343,6 +349,9 @@ foreach dir : target_dirs
->    endif
->  
->    foreach test : target_qtests
-> +    if test in qtests_disabled
-> +      continue
-> +    endif
->      # Executables are shared across targets, declare them only the first time we
->      # encounter them
->      if not qtest_executables.has_key(test)
-> -- 
-> 2.34.1
+> diff --git a/doc/proto.md b/doc/proto.md
+> index 8f08583..53c334a 100644
+> --- a/doc/proto.md
+> +++ b/doc/proto.md
+> @@ -745,8 +745,8 @@ text unless the client insists on TLS.
 > 
+>  During transmission phase, several operations are constrained by the
+>  export size sent by the final `NBD_OPT_EXPORT_NAME` or `NBD_OPT_GO`,
+> -as well as by three block size constraints defined here (minimum,
+> -preferred, and maximum).
+> +as well as by three block size constraints defined here (minimum
+> +block, preferred block, and maximum payload).
+> 
+>  If a client can honour server block size constraints (as set out below
+>  and under `NBD_INFO_BLOCK_SIZE`), it SHOULD announce this during the
+> @@ -772,15 +772,15 @@ learn the server's constraints without committing to them.
+> 
+>  If block size constraints have not been advertised or agreed on
+>  externally, then a server SHOULD support a default minimum block size
+> -of 1, a preferred block size of 2^12 (4,096), and a maximum block size
+> -that is effectively unlimited (0xffffffff, or the export size if that
+> -is smaller), while a client desiring maximum interoperability SHOULD
+> -constrain its requests to a minimum block size of 2^9 (512), and limit
+> -`NBD_CMD_READ` and `NBD_CMD_WRITE` commands to a maximum block size of
+> -2^25 (33,554,432).  A server that wants to enforce block sizes other
+> -than the defaults specified here MAY refuse to go into transmission
+> -phase with a client that uses `NBD_OPT_EXPORT_NAME` (via a hard
+> -disconnect) or which uses `NBD_OPT_GO` without requesting
+> +of 1, a preferred block size of 2^12 (4,096), and a maximum block
+> +payload size that is at least 2^25 (33,554,432) (even if the export
+> +size is smaller); while a client desiring maximum interoperability
+> +SHOULD constrain its requests to a minimum block size of 2^9 (512),
+> +and limit `NBD_CMD_READ` and `NBD_CMD_WRITE` commands to a maximum
+> +block size of 2^25 (33,554,432).  A server that wants to enforce block
+> +sizes other than the defaults specified here MAY refuse to go into
+> +transmission phase with a client that uses `NBD_OPT_EXPORT_NAME` (via
+> +a hard disconnect) or which uses `NBD_OPT_GO` without requesting
+
+This does more than what the commit message says: it also limits payload
+size from 0xffffffff to 2^25. We already have a "A server that desires
+maximum interoperability" clause that mentions the 2^25, so I'm not
+entirely sure why we need to restrict that for the default cause.
+
+Remember, apart from specifying how something should be implemented, the
+spec also documents current and historic behavior. I am probably
+convinced that it makes more sense to steer people towards limiting to
+2^25, but it should be done in such a way that servers which accept a
+0xffffffff block size are not suddenly noncompliant. I don't think this
+does that.
+
+[no further comments on this one]
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+     w@uter.{be,co.za}
+wouter@{grep.be,fosdem.org,debian.org}
 
+I will have a Tin-Actinium-Potassium mixture, thanks.
 
