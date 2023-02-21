@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EFA69E9FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:20:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E64C69E9F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:19:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUayA-0005wy-RF; Tue, 21 Feb 2023 17:18:42 -0500
+	id 1pUay8-0005vO-9r; Tue, 21 Feb 2023 17:18:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay4-0005v1-A0
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:36 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay3-0005uc-HC
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:35 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay1-0005lN-QQ
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:36 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay1-0005lM-QE
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date
- :Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=nTXCovjMLCur2/at9Wr2AdiLE8KmlB54L4ddbuo2boU=; b=PTx2vPacUHpHO1qdphwP19vqDy
- tNourI31huQBZ6tMCJVVZ9NGN6NWNwgimTHm5r2pC1ywM+6cIGCjGBS2sHEvpzZIfPQtVGQZWIPos
- r2WfXZpoXVJ6OxIBz/4HDybQiq22XEUSTha0kfJC+ZqyKhkkQs5kj91JdeDHDjXHSNqw=;
+ bh=n0DAaP4sVuZn7T4BCAKTXQKVP4+d7qu4MFcOstQQMlI=; b=Gy6odTjOG4z1ezbI1Fh4E64lpJ
+ XqM8Q6XoS2ZTK1PStZSINlz6PJH0wAAU3elO84RjB3VRjggA1n5YIBhN1cZUgiYswj6270SGQnspD
+ NPcTIlcrpb34GWFBGDXw5VVlzgnf4PNGMmTM0l8LGcDk/nNP0gyGQ9RkSKIvRGgtntZ8=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,11 +33,12 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v2 00/27] Replace TARGET_TB_PCREL with CF_PCREL
-Date: Tue, 21 Feb 2023 23:17:51 +0100
-Message-Id: <20230221221818.9382-1-anjo@rev.ng>
+Subject: [PATCH v2 01/27] include/exec: Introduce `CF_PCREL`
+Date: Tue, 21 Feb 2023 23:17:52 +0100
+Message-Id: <20230221221818.9382-2-anjo@rev.ng>
+In-Reply-To: <20230221221818.9382-1-anjo@rev.ng>
+References: <20230221221818.9382-1-anjo@rev.ng>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
@@ -63,103 +64,29 @@ From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patchset entirely replaces the macro TARGET_TB_PCREL with
-a field in TranslationBlock.cflags called CF_PCREL, and is a
-first step towards removing target-specific assumptions from
-non-target/ directories.
+Adds a new field to TranslationBlock.cflags denoting whether or not the
+instructions of a given translation block are pc-relative. This field
+aims to replace the macro `TARGET_TB_PCREL`.
 
-The grand goal is to allow for heterogeneous QEMU binaries
-consisting of multiple frontends.
+Signed-off-by: Anton Johansson <anjo@rev.ng>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/exec/exec-all.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-RFC: https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg04518.html
-
-Changes in v2:
-  * Setting of CF_PCREL (previously patch 3) was split in two and moved
-    up front (to patch 2 and 3);
-
-  * Replacing of TARGET_TB_PCREL (previously patch 2) was split into
-    four patches (patches [4,7]), one for each affected submodule;
-
-  * Removal of TARGET_TB_PCREL (previously patch 3) was moved into
-    separate patches, one for each submodule (patches [8,10]);
-
-  * Patch 11 was introduced in response to feedback, and removes
-    CF_PCREL checks in functions in tb-jmp-cache.h, these functions were
-    always called in a context where CF_PCREL was already being checked.
-    These tb-jmp-cache.h functions were then removed in favour of manual
-    inlining;
-
-  * Patches [12,26] replaces calls to tb_pc() with a member access
-    tb->pc, the motivation being that tb_pc() was (almost) always called
-    in a context where CF_PCREL was already being checked;
-
-  * Finally patch 27 removes tb_pc() which is no longer used.
-
-Since changes are spread across multiple submodules we ended up with a
-lot of patches. Patches [11,27] still need review.
-
-Anton Johansson (27):
-  include/exec: Introduce `CF_PCREL`
-  target/i386: set `CF_PCREL` in `x86_cpu_realizefn`
-  target/arm: set `CF_PCREL` in `arm_cpu_realizefn`
-  accel/tcg: Replace `TARGET_TB_PCREL` with `CF_PCREL`
-  include/exec: Replace `TARGET_TB_PCREL` with `CF_PCREL`
-  target/arm: Replace `TARGET_TB_PCREL` with `CF_PCREL`
-  target/i386: Replace `TARGET_TB_PCREL` with `CF_PCREL`
-  include/exec: Remove `TARGET_TB_PCREL` define
-  target/arm: Remove `TARGET_TB_PCREL` define
-  target/i386: Remove `TARGET_TB_PCREL` define
-  accel/tcg: Move jmp-cache `CF_PCREL` checks to caller
-  accel/tcg: Replace `tb_pc()` with `tb->pc`
-  target/tricore: Replace `tb_pc()` with `tb->pc`
-  target/sparc: Replace `tb_pc()` with `tb->pc`
-  target/sh4: Replace `tb_pc()` with `tb->pc`
-  target/rx: Replace `tb_pc()` with `tb->pc`
-  target/riscv: Replace `tb_pc()` with `tb->pc`
-  target/openrisc: Replace `tb_pc()` with `tb->pc`
-  target/mips: Replace `tb_pc()` with `tb->pc`
-  target/microblaze: Replace `tb_pc()` with `tb->pc`
-  target/loongarch: Replace `tb_pc()` with `tb->pc`
-  target/i386: Replace `tb_pc()` with `tb->pc`
-  target/hppa: Replace `tb_pc()` with `tb->pc`
-  target/hexagon: Replace `tb_pc()` with `tb->pc`
-  target/avr: Replace `tb_pc()` with `tb->pc`
-  target/arm: Replace `tb_pc()` with `tb->pc`
-  include/exec: Remove `tb_pc()`
-
- accel/tcg/cpu-exec.c                    | 64 +++++++++++++++++--------
- accel/tcg/internal.h                    | 10 ++--
- accel/tcg/perf.c                        |  2 +-
- accel/tcg/tb-jmp-cache.h                | 42 +---------------
- accel/tcg/tb-maint.c                    | 10 ++--
- accel/tcg/translate-all.c               | 16 +++----
- include/exec/cpu-defs.h                 |  3 --
- include/exec/exec-all.h                 | 21 ++------
- target/arm/cpu-param.h                  |  2 -
- target/arm/cpu.c                        | 17 ++++---
- target/arm/translate-a64.c              |  8 ++--
- target/arm/translate.c                  |  6 +--
- target/arm/translate.h                  |  2 +-
- target/avr/cpu.c                        |  3 +-
- target/hexagon/cpu.c                    |  4 +-
- target/hppa/cpu.c                       |  8 ++--
- target/i386/cpu-param.h                 |  4 --
- target/i386/cpu.c                       |  5 ++
- target/i386/helper.c                    |  2 +-
- target/i386/tcg/tcg-cpu.c               |  8 ++--
- target/i386/tcg/translate.c             | 26 +++++-----
- target/loongarch/cpu.c                  |  6 ++-
- target/microblaze/cpu.c                 |  4 +-
- target/mips/tcg/exception.c             |  3 +-
- target/mips/tcg/sysemu/special_helper.c |  2 +-
- target/openrisc/cpu.c                   |  4 +-
- target/riscv/cpu.c                      |  7 ++-
- target/rx/cpu.c                         |  3 +-
- target/sh4/cpu.c                        |  6 ++-
- target/sparc/cpu.c                      |  4 +-
- target/tricore/cpu.c                    |  3 +-
- 31 files changed, 152 insertions(+), 153 deletions(-)
-
---
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 0e36f4d063..9186a58554 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -545,6 +545,7 @@ struct TranslationBlock {
+ #define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
+ #define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
+ #define CF_NOIRQ         0x00100000 /* Generate an uninterruptible TB */
++#define CF_PCREL         0x00200000 /* Opcodes in TB are PC-relative */
+ #define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
+ #define CF_CLUSTER_SHIFT 24
+ 
+-- 
 2.39.1
+
 
