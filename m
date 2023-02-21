@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C3769E50F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BBA69E50E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:47:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUVma-00008G-Uw; Tue, 21 Feb 2023 11:46:24 -0500
+	id 1pUVmb-00009b-9i; Tue, 21 Feb 2023 11:46:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pUV94-0001hB-OR
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:05:35 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ id 1pUV9A-0001pQ-09
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:05:40 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pUV93-0007oa-0o
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:05:34 -0500
-Received: by mail-pl1-x630.google.com with SMTP id ky4so6719213plb.3
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 08:05:32 -0800 (PST)
+ id 1pUV98-0007us-9v
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:05:39 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id u14so1620671ple.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 08:05:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NXEXdpcAl+J+/ZoYQlh33mEmjlLRINNWkwzhQxAgy7g=;
- b=bN4IiQwcMiPwy4nTDtrVAC5cNjxkEMFEu+B9YLlmLn5KuSFngeyWk03VUPaRZI8YEw
- DTu9asmY+iMuToXMQh96sEXVgf6hhBcamtm5bfcGLxvqPJDhJtsL192Ku7bxhLyecZc4
- vHumCXcNuaSXpMpfQxYNyH0AiO4v1J1E1KuQeUBEHkaKKpmGI9WlbPGULxgjjvoTCLPJ
- bFk8zckP4KJSombT0FDv4fqpCB3ZpotiK+WHtsrZlTImGsOcfE6zdlyhZjAuzFgt2gOd
- b7MbrPPqPsotjARwfewHPsuR3vKmTuo/qmZLHteW0kVcKT1v92ncqbGAh8sM76z7Hu7+
- pttg==
+ bh=wWTW2+Ca/8ToXaJenUu+hnPBUwSEF/3VL/OdDDLKkQY=;
+ b=AzgcEAGesvcr286TzK6pR7aaG70kJVFaGt8yGdM83r9y+bPBcTkdp9jiGFCYaQkCkr
+ 6LmMm/hgToCUfhGHRoKsATWp1TMal/0HoWV1IgmZjyzgZy37j3Ze5L00HAfOuf5gX0gA
+ aT8ihlJAk8+Fn/tgQaN19qkt3Mm0d0j9DD/AuH6wz4Xat8g36svvyngFj+0aKznmOdzT
+ Xo6g0+Ot1cNVI+En6iNdB7FHQ6k4y54kLktU4IV0yqiu9UeLPER3w52h4vYIfOARC0kX
+ /y6KZp7mfq8xQ9Di9iHrzAdQm6hG+hfM+vhThfToaJXK1zh5S4ddalxD7ITQtPeODluJ
+ T1nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NXEXdpcAl+J+/ZoYQlh33mEmjlLRINNWkwzhQxAgy7g=;
- b=J139aV2Tl5DILXxuGfwTbN1RsGVnan7D6UKy64qZhtEg9arZm5Ucudjq2jonuD/xjR
- TQG6IIROZZ1F55HwQPmPOhWREquUb1mP7xJFZtBoNZs1KHeGYeguzHprcTcAynSGtZGp
- fwxis1Zi9bvsRLwqPr5ItzRkFKTG1nfZEcfYC+C9dmrTpUVUp7aBixZE9Tw9GTQgs67z
- Y76EA94tBXzpyMzB26LHTyHUppJib2E35btutBoErXfaLQGrhukYwI1DWNtUaBOhxRW2
- tpCn8ZfC7XRVTp9V6kyb1XWkKhbGr8ZKDJsgZ0cBSNQnNrD0x58taMPv7E8xgPyXGCvC
- dg1A==
-X-Gm-Message-State: AO0yUKVwsTQ/JtoKZlhmTqRiHVrNIFzWbA3ebdvXjhpJtsFtjbCS4fad
- XsUOUBPCvsv3imZmWgkVWqAuICwk3/qbzA==
-X-Google-Smtp-Source: AK7set89dHqiunkJfVOjLVyyh3uQFf9m0K7ouvyTNhOPsgjesoaSg1eu+xSGnmuNNwe2CES8wZ0Yqw==
-X-Received: by 2002:a17:902:e883:b0:19a:a810:542 with SMTP id
- w3-20020a170902e88300b0019aa8100542mr6067840plg.61.1676995531749; 
- Tue, 21 Feb 2023 08:05:31 -0800 (PST)
+ bh=wWTW2+Ca/8ToXaJenUu+hnPBUwSEF/3VL/OdDDLKkQY=;
+ b=vPSLi9jJtUvsb+G86mrAS+fDGjGsL4KMzsIAwNckkncw760ayHyxPGxXOxaZzrsF22
+ 95i/DJNKsfGJOvCoDIki9h//2vkiT9FMMqmwLbCIMI1YaUJfx8rtQ7njrgXyXl96Vf7T
+ 33wZHTb3JlnVAmYwUp4Gex4K20H7efZXsSgYgj1wjvTQJinmtL/QVSiF5vFrOBVAs4Wu
+ BXYwCxo46hD9MTxQm4lfTvLH3T/LyFCUy+TIP5IMmQhetK3dH1DYotOeLf7cb6WWnYyb
+ goVAOiogrxCZixk+8q0oWxlfmkYnqAe+8RXxHPEj7b88kDCKWdunfahJ4V3YBnpZTlLi
+ qrwQ==
+X-Gm-Message-State: AO0yUKUzLw9P9zfkK9Wz2z3Tv2f1dMap3Wg/f2Xbe8nLU/UzmE3ZCO6w
+ 94ylQsCYT6AhgYGdmVhAYrmkPq+muDA/iw==
+X-Google-Smtp-Source: AK7set9yAwU9lBee3KmH2MmjGn2/wgxwTgtr3NftUJ4JrRHTJkda/oJs03yQgMcXRFVGmC0ihyo/nA==
+X-Received: by 2002:a17:902:e84b:b0:199:1160:956c with SMTP id
+ t11-20020a170902e84b00b001991160956cmr5618795plg.31.1676995536159; 
+ Tue, 21 Feb 2023 08:05:36 -0800 (PST)
 Received: from localhost.localdomain ([113.173.97.170])
  by smtp.googlemail.com with ESMTPSA id
- b15-20020a170902650f00b001943d58268csm10076295plk.55.2023.02.21.08.05.29
+ b15-20020a170902650f00b001943d58268csm10076295plk.55.2023.02.21.08.05.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 08:05:31 -0800 (PST)
+ Tue, 21 Feb 2023 08:05:35 -0800 (PST)
 From: Bui Quang Minh <minhquangbui99@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -62,16 +62,17 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Bui Quang Minh <minhquangbui99@gmail.com>
-Subject: [PATCH 2/4] i386/tcg: implement x2APIC registers MSR access
-Date: Tue, 21 Feb 2023 23:04:58 +0700
-Message-Id: <20230221160500.30336-3-minhquangbui99@gmail.com>
+Subject: [PATCH 3/4] intel_iommu: allow Extended Interrupt Mode when using
+ userspace local APIC
+Date: Tue, 21 Feb 2023 23:04:59 +0700
+Message-Id: <20230221160500.30336-4-minhquangbui99@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230221160500.30336-1-minhquangbui99@gmail.com>
 References: <20230221160500.30336-1-minhquangbui99@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=minhquangbui99@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -96,127 +97,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-i386 TCG now supports MSR access to x2APIC registers. The MRS address
-ranges from 0x800 to 0x8ff.
+As userspace local APIC now supports x2APIC, intel interrupt remapping
+hardware can be set to EIM mode when userspace local APIC is used.
 
 Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
 ---
- target/i386/cpu-sysemu.c             |  5 +++++
- target/i386/cpu.c                    |  5 +++--
- target/i386/cpu.h                    |  4 ++++
- target/i386/tcg/sysemu/misc_helper.c | 27 +++++++++++++++++++++++++++
- 4 files changed, 39 insertions(+), 2 deletions(-)
+ hw/i386/intel_iommu.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
-index 28115edf44..73f14161e9 100644
---- a/target/i386/cpu-sysemu.c
-+++ b/target/i386/cpu-sysemu.c
-@@ -235,6 +235,11 @@ void cpu_clear_apic_feature(CPUX86State *env)
-     env->features[FEAT_1_EDX] &= ~CPUID_APIC;
- }
- 
-+bool cpu_has_x2apic_feature(CPUX86State *env)
-+{
-+    return env->features[FEAT_1_ECX] & CPUID_EXT_X2APIC;
-+}
-+
- bool cpu_is_bsp(X86CPU *cpu)
- {
-     return cpu_get_apic_base(cpu->apic_state) & MSR_IA32_APICBASE_BSP;
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 4d2b8d0444..ce9ec460f4 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -626,12 +626,13 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
-           CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
-           CPUID_EXT_RDRAND | CPUID_EXT_AVX | CPUID_EXT_F16C | \
--          CPUID_EXT_FMA)
-+          CPUID_EXT_FMA | CPUID_EXT_X2APIC)
-           /* missing:
-           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
-           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID,
-           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
--          CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER */
-+          CPUID_EXT_TSC_DEADLINE_TIMER
-+          */
- 
- #ifdef TARGET_X86_64
- #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d4bc19577a..e163d9a136 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -542,6 +542,9 @@ typedef enum X86Seg {
- #define MSR_IA32_VMX_TRUE_ENTRY_CTLS     0x00000490
- #define MSR_IA32_VMX_VMFUNC             0x00000491
- 
-+#define MSR_APIC_START                  0x00000800
-+#define MSR_APIC_END                    0x000008ff
-+
- #define XSTATE_FP_BIT                   0
- #define XSTATE_SSE_BIT                  1
- #define XSTATE_YMM_BIT                  2
-@@ -2128,6 +2131,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
- void cpu_clear_apic_feature(CPUX86State *env);
- void host_cpuid(uint32_t function, uint32_t count,
-                 uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
-+bool cpu_has_x2apic_feature(CPUX86State *env);
- 
- /* helper.c */
- void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index e1528b7f80..1fce2076a3 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -25,6 +25,7 @@
- #include "exec/address-spaces.h"
- #include "exec/exec-all.h"
- #include "tcg/helper-tcg.h"
-+#include "hw/i386/apic.h"
- 
- void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
- {
-@@ -289,6 +290,19 @@ void helper_wrmsr(CPUX86State *env)
-         env->msr_bndcfgs = val;
-         cpu_sync_bndcs_hflags(env);
-         break;
-+    case MSR_APIC_START ... MSR_APIC_END: {
-+        int index = (uint32_t)env->regs[R_ECX] - MSR_APIC_START;
-+
-+        if (!is_x2apic_mode(env_archcpu(env)->apic_state)) {
-+            goto error;
-+        }
-+
-+        qemu_mutex_lock_iothread();
-+        apic_register_write(index, val);
-+        qemu_mutex_unlock_iothread();
-+
-+        break;
-+    }
-     default:
-         if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
-             && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
-@@ -455,6 +469,19 @@ void helper_rdmsr(CPUX86State *env)
-         val = (cs->nr_threads * cs->nr_cores) | (cs->nr_cores << 16);
-         break;
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 98a5c304a7..228a944bce 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -4026,17 +4026,6 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+                       && x86_iommu_ir_supported(x86_iommu) ?
+                                               ON_OFF_AUTO_ON : ON_OFF_AUTO_OFF;
      }
-+    case MSR_APIC_START ... MSR_APIC_END: {
-+        int index = (uint32_t)env->regs[R_ECX] - MSR_APIC_START;
-+
-+        if (!is_x2apic_mode(env_archcpu(env)->apic_state)) {
-+            raise_exception_ra(env, EXCP0D_GPF, GETPC());
-+        }
-+
-+        qemu_mutex_lock_iothread();
-+        val = apic_register_read(index);
-+        qemu_mutex_unlock_iothread();
-+
-+        break;
-+    }
-     default:
-         if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
-             && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
+-    if (s->intr_eim == ON_OFF_AUTO_ON && !s->buggy_eim) {
+-        if (!kvm_irqchip_is_split()) {
+-            error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
+-            return false;
+-        }
+-        if (!kvm_enable_x2apic()) {
+-            error_setg(errp, "eim=on requires support on the KVM side"
+-                             "(X2APIC_API, first shipped in v4.7)");
+-            return false;
+-        }
+-    }
+ 
+     /* Currently only address widths supported are 39 and 48 bits */
+     if ((s->aw_bits != VTD_HOST_AW_39BIT) &&
 -- 
 2.25.1
 
