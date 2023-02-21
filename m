@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C0269E368
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:30:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4EE69E377
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:32:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUUah-00022M-7F; Tue, 21 Feb 2023 10:30:03 -0500
+	id 1pUUbR-0002Xh-Nk; Tue, 21 Feb 2023 10:30:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUUae-000216-FZ
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:30:00 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pUUb3-0002Fh-HC
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:30:26 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUUac-0000IP-S5
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:30:00 -0500
-Received: by mail-pl1-x629.google.com with SMTP id ko13so6044646plb.13
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 07:29:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
+ id 1pUUb1-0000VV-Q9
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:30:25 -0500
+Received: by mail-wr1-x436.google.com with SMTP id c5so5557283wrr.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 07:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=m50+uIYbAQBxoxKSnswN56p1FNJUVydppVeB2uGn04o=;
- b=xamiw749RCLdrrNKMcZcO+RoEv8MCnH3nLvl8Ro+2MsrvdPGcnYXouFPrkJ31f4gqY
- tpHiLt610lnhKNx8NhFx2RYV3erOODQQvPdjdsnhnROy5REA1Fv7BUKEfMus3QLGqadI
- 0t79Ma+Pr8U3lu2G3fcDssKWXfhXT7RcEgxbELQHQklyJkwxjHiY+fKaRDHo2oHj0+zL
- qaqsts5yuXdCm+c2rOLDsVw1l4iVL2S7UtFYglGUXDFEYi0bUYcej7E0QYs1o8MFIOh2
- ypdfkAR1uB/fiYU7CyAPAYzMlitBIk9NqMC3S5ZhSCeMFhWzJET60n3BfBVsCR1HYHwj
- lRkg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=aiZDv/uHG9+DVwOEhe9Bg3WCBpayODt65mdWP066kYE=;
+ b=cuEMeR9F3+9YK86vTDiVLFbbusubYluR6WIfTMPF71M3ktrGay7pYR+LZ7fYjOArgg
+ 6YKScw/dtsYF9CsOyx3r0JEw+IKcQBVaWM6M8zWFG3bUGKWm3yyEqUqCMG/hBYt1Neue
+ VZGY9KRjJPN2axP8mW+xvpCstOYGio3+1CyNmc6PmdZMSEKDf3E4p7yA48c0kYZskD40
+ Cp9iXcTyRP9efOoMeibEv3RbAVz+36vGLrfe836239Nm/Ij269pqH+wGBWhiLLML7Mz9
+ /eKu7llvqtRxxcxHLBsWI3mgBz2pJROfet/IdcbGUkENO6LQdM72SIIEXa497SOg4eXT
+ 17Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=m50+uIYbAQBxoxKSnswN56p1FNJUVydppVeB2uGn04o=;
- b=o/mSb2AObTp0nLUKf3Iq/SfXRC9xYyBQZ95sAqnbyb/Dx0H8W6GOXtyx8+Tl84Vh1l
- gGE8v6bvLq7jgaJ/0dbAFRIGiOT+Gagy4f5+nVz30JFmlnwwW4Aos/nb4vAB1v+j4c4x
- d2Qu5+Y6nVZSt+oDejtpGkdnDuQwGVuuDmVZ045OmyIyAr6NJ+ajCgZRmXWjEBcFlUCz
- W5SwabHTdL3Gl7TXzl/CnrW04pbfW/YDBDZGOXnY76vU6oiCi5LjVj0Acwh6bP992IY6
- uvp6Yzv3fKZ4O97rA1Ha7OfObdS2STagmX46AVEXwaRsv14XHNZydOxqqCy80VHO/HWj
- kVjA==
-X-Gm-Message-State: AO0yUKUykvNKTVGlCLbSI/yu+EKYpLo2D5er1ni3HwKVwiCiBvqbI6NZ
- sl69JC6hZ4X49wftl7+tJGIH2gzHj5oAOXp8KHOWcA==
-X-Google-Smtp-Source: AK7set/G9W7IccqvWmXfDUrwGnYmoFYj7qwu9pjaV1GSNl12IVHwMFpmjUIOyGLJWpXBNutl/kIh949fOPPJEXEkOTs=
-X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
- sc9-20020a17090b510900b00233dcb5ee15mr1832721pjb.92.1676993397216; Tue, 21
- Feb 2023 07:29:57 -0800 (PST)
+ bh=aiZDv/uHG9+DVwOEhe9Bg3WCBpayODt65mdWP066kYE=;
+ b=kGiJMSD1S9RLz42QqL1VmyvB0feKcNB4n7sHRh9zvSEDm/z6q4C+6/aClufpxfYZh8
+ yHoKebLWUxccPAUzuexQlWErAIbw0DRQXPm5ez6FDF1mwrQi1fpl3DxxmJb4tDOayUyo
+ RJkA9S6fMY9Xb5O9azi2uIqhd6GLPot0LYHAU3bKFoQB1PuM0z8VIYC9VXsxiEjAFoyh
+ 1+Ym+Jy3CtTeV2I8ByUCbSOzQ3NJaqGYaeyE/KYnNsX2dQet3m1ULdVHVL6zYNtdiQjn
+ ZGmLbIaeF6Q/6EQGf4IHt+mdKpsDMP8dLibFtDaE8qq5D3pcd1N/7U3q/ZS8QSOEMnEx
+ 8RZw==
+X-Gm-Message-State: AO0yUKUDWJBIMd4+xzHPDuJRta3EL/tAKlPP7cQ8PvpgwFOdqpyRzg5k
+ zoLj/Wo2OGhvQrT5dgUSiOGdVbDHnbLQ6YiVRc4=
+X-Google-Smtp-Source: AK7set/nwMhAidXXErLmDU4RuryFA1MLP6cmG5TqIQDOwCZ0fV7qxuhrQB1bijakPDNH1n+k4ZX1mQ==
+X-Received: by 2002:adf:fb06:0:b0:2c5:4c1f:3c9 with SMTP id
+ c6-20020adffb06000000b002c54c1f03c9mr4181014wrr.49.1676993421903; 
+ Tue, 21 Feb 2023 07:30:21 -0800 (PST)
+Received: from volterra.localdomain ([2a01:e0a:5cc:caa0:c49d:d14a:e6ed:555a])
+ by smtp.gmail.com with ESMTPSA id
+ r1-20020adfdc81000000b002c5503a8d21sm2803417wrj.70.2023.02.21.07.30.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 07:30:21 -0800 (PST)
+From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
+ richard.henderson@linaro.org, alex.bennee@linaro.org,
+ peter.maydell@linaro.org, philmd@linaro.org,
+ Pierrick Bouvier <pierrick.bouvier@linaro.org>
+Subject: [PATCH v4 0/4] Adds support for running QEMU natively on windows-arm64
+Date: Tue, 21 Feb 2023 16:30:02 +0100
+Message-Id: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230221132726.2892383-1-peter.maydell@linaro.org>
- <Y/Thas4efx14JsBi@work-vm>
-In-Reply-To: <Y/Thas4efx14JsBi@work-vm>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Feb 2023 15:29:45 +0000
-Message-ID: <CAFEAcA9=p0XYti45m0sW+iO9qgF9iXpeOPvHd7Xpy32yCUL3sw@mail.gmail.com>
-Subject: Re: [PATCH] tests: Disable migration-test
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x629.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=pierrick.bouvier@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,18 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Feb 2023 at 15:21, Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
-> Damn this is really going to impact the stability of migration if we
-> don't regularly test.
-> But fundamentally, I've never been able to debug much of the reports
-> that come from flakyness in gitlab ci; we're not getting the most basic
-> information like which subtest or where we're upto in the test which
-> makes it very very hard to debug.
+Since v3:
+- Remove CONFIG_MINGW64_HAS_SETJMP_LONGJMP (only check in meson)
+- Fix comment to refer to windows-x64 vs windows-arm64
 
-Right, but if you want more information you need to change the
-tests and/or test harness to provide it.
+Since v2:
 
-thanks
--- PMM
+- Delete superfluous comment on unreachable code
+- Fix style for multiline comments
+
+Since v1:
+
+- Comment why we use generic version of flush_idcache_range
+- Ensure __mingw_setjmp/longjmp are available using meson
+- Fix a warning by calling g_assert_not_reached() instead of initializing a
+  variable
+
+As before this was tested with:
+- make check
+- boot an x64 debian bullseye vm
+- boot an arm64 ubuntu 22.10 vm
+
+Thanks
+
+Pierrick Bouvier (4):
+  util/cacheflush: fix cache on windows-arm64
+  sysemu/os-win32: fix setjmp/longjmp on windows-arm64
+  qga/vss-win32: fix warning for clang++-15
+  target/ppc: fix warning with clang-15
+
+ include/sysemu/os-win32.h | 28 ++++++++++++++++++++++++----
+ meson.build               | 21 +++++++++++++++++++++
+ qga/vss-win32/install.cpp |  2 +-
+ target/ppc/dfp_helper.c   |  4 ++--
+ util/cacheflush.c         | 14 +++++++++++---
+ 5 files changed, 59 insertions(+), 10 deletions(-)
+
+--
+2.30.2
+
 
