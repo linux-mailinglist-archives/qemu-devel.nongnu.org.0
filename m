@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52ADE69EB1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354BC69EB1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:21:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUbuD-0001fg-2N; Tue, 21 Feb 2023 18:18:42 -0500
+	id 1pUbwB-0002jT-1I; Tue, 21 Feb 2023 18:20:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUbuB-0001fR-DN
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:18:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUbw2-0002hh-Nn
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:20:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUbu9-0000mw-Us
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:18:39 -0500
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUbw1-0001FL-6s
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:20:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677021517;
+ s=mimecast20190719; t=1677021632;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m99AVCmKq/73W9WrWc7DiDDbrV1dMYs1a4Goma3qdbw=;
- b=YeggdRlp1/R/ZPmY4RAJfTaLKdb4BITNiks6+zC7Gvz6WjpPcXRIP+Hkcsvh5DZbcMMuhw
- xNWLH9epwr1W7cZA864Y90I2VN8BKABcF83n5Tx1fre4IxfRM0kRxROUJZoiqy7jEcbMLK
- ljSfFZKS7DdhLNjpvAOSqOcoydj6vGw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aJnBi+G5xtHxPLpnu3pdd1PMYcXJMatoymCmVjBZB+U=;
+ b=iaxZsZX5FM+U9QBTPwkhxDgm6PblbPMfRDDIxNw67JiAeAWSNj3qsXUKIx4SmcsMBlJGc8
+ C8fj4rSLfv1NmVXvtt2mJqdpqHPebyXmDywR6X1bbOdR6ADLRuo8LUew+9zJ5qF/k4KGCE
+ XpTHU4ZL/2nmdkVJY6J1+1Wt3ZcAXoU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-670-SZGoPstDNIWmQz4A688RjQ-1; Tue, 21 Feb 2023 18:18:34 -0500
-X-MC-Unique: SZGoPstDNIWmQz4A688RjQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-201-6vZV1wxqMFyple8InTK1Iw-1; Tue, 21 Feb 2023 18:20:29 -0500
+X-MC-Unique: 6vZV1wxqMFyple8InTK1Iw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9C27811E9C;
- Tue, 21 Feb 2023 23:18:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C10D1C0434A;
+ Tue, 21 Feb 2023 23:20:28 +0000 (UTC)
 Received: from [10.72.12.31] (ovpn-12-31.pek2.redhat.com [10.72.12.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A88A91121314;
- Tue, 21 Feb 2023 23:18:23 +0000 (UTC)
-Subject: Re: [PATCH v1 1/6] linux-headers: Update for dirty ring
-To: Peter Maydell <peter.maydell@linaro.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16144492B04;
+ Tue, 21 Feb 2023 23:20:17 +0000 (UTC)
+Subject: Re: [PATCH v1 2/6] migration: Add last stage indicator to global
+ dirty log synchronization
+To: Peter Xu <peterx@redhat.com>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
- peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com,
- cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com, maz@kernel.org,
- zhenyzha@redhat.com, shan.gavin@gmail.com
+ peter.maydell@linaro.org, david@redhat.com, philmd@linaro.org,
+ mst@redhat.com, cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
+ maz@kernel.org, zhenyzha@redhat.com, shan.gavin@gmail.com
 References: <20230213003925.40158-1-gshan@redhat.com>
- <20230213003925.40158-2-gshan@redhat.com>
- <CAFEAcA9OvObRT731oaF7kOo8z32nH+egXfDcOpw1nHormHsp9A@mail.gmail.com>
+ <20230213003925.40158-3-gshan@redhat.com> <Y/UBNX7ljyTYLa6H@x1n>
 From: Gavin Shan <gshan@redhat.com>
-Message-ID: <2a13c5ba-e20a-ae96-3efd-1f7e2d224eff@redhat.com>
-Date: Wed, 22 Feb 2023 10:18:18 +1100
+Message-ID: <9022bc0c-db3d-d8f2-4071-f3752c8ee1f0@redhat.com>
+Date: Wed, 22 Feb 2023 10:20:13 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9OvObRT731oaF7kOo8z32nH+egXfDcOpw1nHormHsp9A@mail.gmail.com>
+In-Reply-To: <Y/UBNX7ljyTYLa6H@x1n>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -86,26 +86,69 @@ Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/22/23 3:30 AM, Peter Maydell wrote:
-> On Mon, 13 Feb 2023 at 00:39, Gavin Shan <gshan@redhat.com> wrote:
+On 2/22/23 4:36 AM, Peter Xu wrote:
+> On Mon, Feb 13, 2023 at 08:39:21AM +0800, Gavin Shan wrote:
+>> The global dirty log synchronization is used when KVM and dirty ring
+>> are enabled. There is a particularity for ARM64 where the backup
+>> bitmap is used to track dirty pages in non-running-vcpu situations.
+>> It means the dirty ring works with the combination of ring buffer
+>> and backup bitmap. The dirty bits in the backup bitmap needs to
+>> collected in the last stage of live migration.
+>>
+>> In order to identify the last stage of live migration and pass it
+>> down, an extra parameter is added to the relevant functions and
+>> callbacks. This last stage indicator isn't used until the dirty
+>> ring is enabled in the subsequent patches.
+>>
+>> No functional change intended.
 >>
 >> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> 
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> 
+> One trivial thing to mention below.
+> 
 >> ---
->>   linux-headers/asm-arm64/kvm.h | 1 +
->>   linux-headers/linux/kvm.h     | 2 ++
->>   2 files changed, 3 insertions(+)
+>>   accel/kvm/kvm-all.c   |  2 +-
+>>   include/exec/memory.h |  5 +++--
+>>   migration/dirtyrate.c |  4 ++--
+>>   migration/ram.c       | 20 ++++++++++----------
+>>   softmmu/memory.c      | 10 +++++-----
+>>   5 files changed, 21 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+>> index 9b26582655..01a6a026af 100644
+>> --- a/accel/kvm/kvm-all.c
+>> +++ b/accel/kvm/kvm-all.c
+>> @@ -1554,7 +1554,7 @@ static void kvm_log_sync(MemoryListener *listener,
+>>       kvm_slots_unlock();
+>>   }
+>>   
+>> -static void kvm_log_sync_global(MemoryListener *l)
+>> +static void kvm_log_sync_global(MemoryListener *l, bool last_stage)
+>>   {
+>>       KVMMemoryListener *kml = container_of(l, KVMMemoryListener, listener);
+>>       KVMState *s = kvm_state;
+>> diff --git a/include/exec/memory.h b/include/exec/memory.h
+>> index 2e602a2fad..75b2fd9f48 100644
+>> --- a/include/exec/memory.h
+>> +++ b/include/exec/memory.h
+>> @@ -929,8 +929,9 @@ struct MemoryListener {
+>>        * its @log_sync must be NULL.  Vice versa.
+>>        *
+>>        * @listener: The #MemoryListener.
+>> +     * @last_stage: The last stage to synchronize the log during migration
 > 
-> For this to be a non-RFC patch, this needs to be a proper
-> sync of the headers against an upstream kernel tree.
-> (By-hand tweaks are fine for purposes of working on
-> and getting patchsets reviewed.)
+> IMHO it may be important to mention the vcpu status here that the caller
+> guarantees to call the last_stage==true only once, only after all vcpus are
+> stopped (and vcpus will not be started again if migration succeeded).
 > 
 
-Yes, I vaguely remember there is script to synchronize linux header files,
-which is './scripts/update-linux-headers.sh'. I think I need to run the
-following command to update?
+Yes, I will update the comments in next revision accordingly.
 
-   # ./scripts/update-linux-headers.sh <LINUX_PATH> <QEMU_PATH>
+>>        */
+>> -    void (*log_sync_global)(MemoryListener *listener);
+>> +    void (*log_sync_global)(MemoryListener *listener, bool last_stage);
 
 Thanks,
 Gavin
