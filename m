@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB7669DC86
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73A969DC81
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:03:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUOWd-0007kb-Br; Tue, 21 Feb 2023 04:01:27 -0500
+	id 1pUOWf-0007lU-HC; Tue, 21 Feb 2023 04:01:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWa-0007k4-UH
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:24 -0500
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWd-0007kp-Ap
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:27 -0500
 Received: from mr85p00im-ztdg06011201.me.com ([17.58.23.181])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWZ-0005Vh-2B
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:24 -0500
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWb-0005W8-Bg
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1676970081; bh=nBHUCSVeaJc/sZEH8GcagQNr0dcQJayGmXVTFHWPvqU=;
+ t=1676970083; bh=vp5ym4NBeJNJFGZweQnKwCeUJEJUDAEMOCLifdsfR+8=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=IHQZRRxuw/LpVRzLQasfHxwIPQJ8Ppcl2Va4G6aAJWcg8Z9J7IW5KA7krLNFME+MK
- Rde5fZGlPtv9S87ISsGs/afCTtgq63t7PkyR/eDMKW/7lP/i7H5QN65nP2rkTwlPhL
- L02y+w2rf78f2ED7i9R5W1m7r/3prK2c3gXhWlWzc9+NwMiA/AGVY4zgHo6VOhPm8y
- 5EY637eCuzhuil5WQ5o5g8y2N9SklEGJSvRqM9uh1yWs+L+UZvH5jZcHwOFHWLyNpH
- iOh/U8jC+v3wT/urCM8sWzYcoAzhLsXsEpq2Yc28jl+9vMl/py/Mlpba3jspI14fol
- ttB1MUKDKSSqA==
+ b=E+j373L5sR3v15DG7QaR2pE74/Kwf1298EMaNGuMR44IOOMbh5nmEStgmjuFemnuV
+ DKmDdXP75LLdz8KXPD7gF7j83XeDCeoNXHTfFkD1iZD7DCEgDhIMGRTZSmj6w+aKxm
+ erwsarHOB8X6RhymtJ8Z+U5TzrcC70d2REMlGGDi47UUzLkb+Pk1KxY8dDH7Ua9mTp
+ 5sR8U+RcZecYEPDRmfSwMRnJYD6pLhBTSR/6j4emNfOOh4YHsZQg+gmpjMxvyricJ9
+ l8S4SwWaFt6qbjem0PKnrqDsAfcYWE4murysoOCLER1Sl+3gijhnxiXw43cECOY9G/
+ mthK7yo09LXGw==
 Received: from localhost.localdomain (mr38p00im-dlb-asmtp-mailmevip.me.com
  [17.57.152.18])
- by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 6F1B8962D11;
- Tue, 21 Feb 2023 09:01:20 +0000 (UTC)
+ by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 4232F962F6E;
+ Tue, 21 Feb 2023 09:01:22 +0000 (UTC)
 From: Mads Ynddal <mads@ynddal.dk>
 To: qemu-devel@nongnu.org
 Cc: John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Mads Ynddal <m.ynddal@samsung.com>
-Subject: [PATCH 6/9] simpletrace: Simplify construction of tracing methods
-Date: Tue, 21 Feb 2023 10:01:01 +0100
-Message-Id: <20230221090104.86103-7-mads@ynddal.dk>
+Subject: [PATCH 7/9] simpletrace: Improved error handling on struct unpack
+Date: Tue, 21 Feb 2023 10:01:02 +0100
+Message-Id: <20230221090104.86103-8-mads@ynddal.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230221090104.86103-1-mads@ynddal.dk>
 References: <20230221090104.86103-1-mads@ynddal.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: QIGr0pon3tx98urpSxXjRerrogQxGy3l
-X-Proofpoint-GUID: QIGr0pon3tx98urpSxXjRerrogQxGy3l
+X-Proofpoint-ORIG-GUID: KDvqjn--q-Rw9dGnDqRtNbl-2EV__hOQ
+X-Proofpoint-GUID: KDvqjn--q-Rw9dGnDqRtNbl-2EV__hOQ
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
  =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.0.605.474.0000000_definitions?=
  =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2020-01-23?=
  =?UTF-8?Q?=5F02_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=880
+ mlxlogscore=422
  phishscore=0 adultscore=0 spamscore=0 clxscore=1030 bulkscore=0 mlxscore=0
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2302210078
@@ -78,146 +78,96 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Mads Ynddal <m.ynddal@samsung.com>
 
-By moving the dynamic argument construction to keyword-arguments,
-we can remove all of the specialized handling, and streamline it.
-If a tracing method wants to access these, they can define the
-kwargs, or ignore it be placing `**kwargs` at the end of the
-function's arguments list.
+A failed call to `read_header` wouldn't be handled the same for the two
+different code paths (one path would try to use `None` as a list).
+Changed to raise exception to be handled centrally. This also allows for
+easier unpacking, as errors has been filtered out.
 
 Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
 ---
- scripts/simpletrace.py | 84 ++++++++++++++++--------------------------
- 1 file changed, 32 insertions(+), 52 deletions(-)
+ scripts/simpletrace.py | 41 ++++++++++++++++-------------------------
+ 1 file changed, 16 insertions(+), 25 deletions(-)
 
 diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
-index 01bd47a130..df52b09dbc 100755
+index df52b09dbc..61af68618f 100755
 --- a/scripts/simpletrace.py
 +++ b/scripts/simpletrace.py
-@@ -131,16 +131,25 @@ class Analyzer:
-     If a method matching a trace event name exists, it is invoked to process
-     that trace record.  Otherwise the catchall() method is invoked.
+@@ -30,26 +30,24 @@ def read_header(fobj, hfmt):
+     hlen = struct.calcsize(hfmt)
+     hdr = fobj.read(hlen)
+     if len(hdr) != hlen:
+-        return None
++        raise ValueError('Error reading header. Wrong filetype provided?')
+     return struct.unpack(hfmt, hdr)
  
-+    The methods are called with a set of keyword-arguments. These can be ignored
-+    using `**kwargs` or defined like any keyword-argument.
+ def get_record(event_mapping, event_id_to_name, rechdr, fobj):
+     """Deserialize a trace record from a file into a tuple
+        (name, timestamp, pid, arg1, ..., arg6)."""
+-    if rechdr is None:
+-        return None
+-    if rechdr[0] != dropped_event_id:
+-        event_id = rechdr[0]
++    event_id, timestamp_ns, length, pid = rechdr
++    if event_id != dropped_event_id:
+         name = event_id_to_name[event_id]
+-        rec = (name, rechdr[1], rechdr[3])
+         try:
+             event = event_mapping[name]
+         except KeyError as e:
+-            sys.stderr.write('%s event is logged but is not declared ' \
++            sys.stderr.write(f'{e} event is logged but is not declared ' \
+                              'in the trace events file, try using ' \
+-                             'trace-events-all instead.\n' % str(e))
++                             'trace-events-all instead.\n')
+             sys.exit(1)
+ 
++        rec = (name, timestamp_ns, pid)
+         for type, name in event.args:
+             if is_string(type):
+                 l = fobj.read(4)
+@@ -60,9 +58,8 @@ def get_record(event_mapping, event_id_to_name, rechdr, fobj):
+                 (value,) = struct.unpack('=Q', fobj.read(8))
+                 rec = rec + (value,)
+     else:
+-        rec = ("dropped", rechdr[1], rechdr[3])
+-        (value,) = struct.unpack('=Q', fobj.read(8))
+-        rec = rec + (value,)
++        (dropped_count,) = struct.unpack('=Q', fobj.read(8))
++        rec = ("dropped", timestamp_ns, pid, dropped_count)
+     return rec
+ 
+ def get_mapping(fobj):
+@@ -79,22 +76,16 @@ def read_record(event_mapping, event_id_to_name, fobj):
+ 
+ def read_trace_header(fobj):
+     """Read and verify trace file header"""
+-    header = read_header(fobj, log_header_fmt)
+-    if header is None:
+-        raise ValueError('Not a valid trace file!')
+-    if header[0] != header_event_id:
+-        raise ValueError('Not a valid trace file, header id %d != %d' %
+-                         (header[0], header_event_id))
+-    if header[1] != header_magic:
+-        raise ValueError('Not a valid trace file, header magic %d != %d' %
+-                         (header[1], header_magic))
+-
+-    log_version = header[2]
++    _header_event_id, _header_magic, log_version = read_header(fobj, log_header_fmt)
++    if _header_event_id != header_event_id:
++        raise ValueError(f'Not a valid trace file, header id {_header_event_id} != {header_event_id}')
++    if _header_magic != header_magic:
++        raise ValueError(f'Not a valid trace file, header magic {_header_magic} != {header_magic}')
 +
-+    The following keyword-arguments are available:
-+        event: Event object of current trace
-+        event_id: The id of the event in the current trace file
-+        timestamp_ns: The timestamp in nanoseconds of the trace
-+        pid: The process id recorded for the given trace
-+
-     Example:
-     The following method handles the runstate_set(int new_state) trace event::
+     if log_version not in [0, 2, 3, 4]:
+-        raise ValueError('Unknown version of tracelog format!')
++        raise ValueError(f'Unknown version {log_version} of tracelog format!')
+     if log_version != 4:
+-        raise ValueError('Log format %d not supported with this QEMU release!'
+-                         % log_version)
++        raise ValueError(f'Log format {log_version} not supported with this QEMU release!')
  
--      def runstate_set(self, new_state):
-+      def runstate_set(self, new_state, **kwargs):
-           ...
- 
--    The method can also take a timestamp argument before the trace event
--    arguments::
-+    The method can also explicitly take a timestamp keyword-argument with the
-+    trace event arguments::
- 
--      def runstate_set(self, timestamp, new_state):
-+      def runstate_set(self, new_state, *, timestamp, **kwargs):
-           ...
- 
-     Timestamps have the uint64_t type and are in nanoseconds.
-@@ -148,7 +157,7 @@ def runstate_set(self, timestamp, new_state):
-     The pid can be included in addition to the timestamp and is useful when
-     dealing with traces from multiple processes::
- 
--      def runstate_set(self, timestamp, pid, new_state):
-+      def runstate_set(self, new_state, *, timestamp, pid, **kwargs):
-           ...
-     """
- 
-@@ -156,7 +165,7 @@ def __enter__(self):
-         """Called at the start of the trace."""
-         return self
- 
--    def catchall(self, event, rec):
-+    def catchall(self, *rec_args, event, timestamp_ns, pid, event_id):
-         """Called if no specific method for processing a trace event has been found."""
-         pass
- 
-@@ -183,34 +192,11 @@ def process(events, log, analyzer_class, read_header=True):
-         for event_id, event in enumerate(events):
-             event_id_to_name[event_id] = event.name
- 
--    def build_fn(analyzer, event):
--        if isinstance(event, str):
--            return analyzer.catchall
--
--        fn = getattr(analyzer, event.name, None)
--        if fn is None:
--            return analyzer.catchall
--
--        event_argcount = len(event.args)
--        fn_argcount = len(inspect.getfullargspec(fn)[0]) - 1
--        if fn_argcount == event_argcount + 1:
--            # Include timestamp as first argument
--            return lambda _, rec: fn(*(rec[1:2] + rec[3:3 + event_argcount]))
--        elif fn_argcount == event_argcount + 2:
--            # Include timestamp and pid
--            return lambda _, rec: fn(*rec[1:3 + event_argcount])
--        else:
--            # Just arguments, no timestamp or pid
--            return lambda _, rec: fn(*rec[3:3 + event_argcount])
--
-     with analyzer_class() as analyzer:
--        fn_cache = {}
--        for rec in read_trace_records(event_mapping, event_id_to_name, log):
--            event_num = rec[0]
--            event = event_mapping[event_num]
--            if event_num not in fn_cache:
--                fn_cache[event_num] = build_fn(analyzer, event)
--            fn_cache[event_num](event, rec)
-+        for event_id, timestamp_ns, record_pid, *rec_args in read_trace_records(event_mapping, event_id_to_name, log):
-+            event = event_mapping[event_id]
-+            fn = getattr(analyzer, event.name, analyzer.catchall)
-+            fn(*rec_args, event=event, event_id=event_id, timestamp_ns=timestamp_ns, pid=record_pid)
- 
- 
- def run(analyzer):
-@@ -234,24 +220,18 @@ def run(analyzer):
- if __name__ == '__main__':
-     class Formatter(Analyzer):
-         def __init__(self):
--            self.last_timestamp = None
--
--        def catchall(self, event, rec):
--            timestamp = rec[1]
--            if self.last_timestamp is None:
--                self.last_timestamp = timestamp
--            delta_ns = timestamp - self.last_timestamp
--            self.last_timestamp = timestamp
--
--            fields = [event.name, '%0.3f' % (delta_ns / 1000.0),
--                      'pid=%d' % rec[2]]
--            i = 3
--            for type, name in event.args:
--                if is_string(type):
--                    fields.append('%s=%s' % (name, rec[i]))
--                else:
--                    fields.append('%s=0x%x' % (name, rec[i]))
--                i += 1
--            print(' '.join(fields))
-+            self.last_timestamp_ns = None
-+
-+        def catchall(self, *rec_args, event, timestamp_ns, pid, event_id):
-+            if self.last_timestamp_ns is None:
-+                self.last_timestamp_ns = timestamp_ns
-+            delta_ns = timestamp_ns - self.last_timestamp_ns
-+            self.last_timestamp_ns = timestamp_ns
-+
-+            fields = [
-+                f'{name}={r}' if is_string(type) else f'{name}=0x{r:x}'
-+                for r, (type, name) in zip(rec_args, event.args)
-+            ]
-+            print(f'{event.name} {delta_ns / 1000:0.3f} {pid=} ' + ' '.join(fields))
- 
-     run(Formatter)
+ def read_trace_records(event_mapping, event_id_to_name, fobj):
+     """Deserialize trace records from a file, yielding record tuples (event_num, timestamp, pid, arg1, ..., arg6).
 -- 
 2.38.1
 
