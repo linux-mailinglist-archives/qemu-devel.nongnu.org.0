@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC4069DDCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BABE169DDD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:27:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUPpD-0000bE-NN; Tue, 21 Feb 2023 05:24:43 -0500
+	id 1pUPr1-0001fY-Iu; Tue, 21 Feb 2023 05:26:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUPp8-0000ZV-BT
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:24:41 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pUPqy-0001fC-KM
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:26:32 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUPp5-0004vB-8k
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:24:37 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id l25so3430840wrb.3
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:24:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pUPqw-0005Tq-T7
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:26:32 -0500
+Received: by mail-wr1-x431.google.com with SMTP id l25so3437385wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:26:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=v8i8QQljQecasVKuxYPb9UacN7dAEu3AdsS3s/D4Bfk=;
- b=I4Qej5MyypF9ENzZNiMrugjV0uOgjeppetRh8ZTQEJOi1Uj5Mn00K/U38lOkFV883p
- f/t+RPxV0FJIq0LyRhwjPlTh9aYOJP6y6jepnzCxUkf8mgAKXGqKJeh5lio7rwl0+ovH
- curW7nJ56x9KZmp8nv+IV0cDi0zEOFNJvLwfUu2S4y1Ju/E7dsoMrgSmj4FezvZhRA2m
- s5FYPGLjIdeyz8xANmQblRc6xJWYHapj9YpdSTulaEZCe9IHrevkMhTuqxOtrP3Tqlbb
- 4WBcBbzKVxtsyCUdZOHKaH2X1yZDXx/JdF4MYNVbtRmN3b4iw34cO/ytg6/3B7IY+YnD
- RtaQ==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CX9a4RZh8erykIci3+PM39q9KbF4F9o4p9k5tZ3f4js=;
+ b=C1ZjXe4RQDjrsbYvFx2MJQu5k9ZXErq3oJH8bWo0WP8e5e2JB05eXwQV21ooSehbIw
+ flIQm34KtOjJtQnRJIhrPiKmjvcSTt4oBerhaFi+EEA+IrOClh3m1mBoyarfGMjMuqBb
+ Wyn5QNfvp4lb1lzj424z5AYtqL5VRpgMGOcBuH0sE9WHAzxIFndFR14OzZOCqpmakv7t
+ DTOXSGD+hRDNfRJDYBOOYBsiDx8gNhIB5QMYf+zTykzzcH3gj68ixhDxCw+3MQyTRPBQ
+ MBBzhUmE6EH/foVN3DmyzqTRWeGK91QV2kpOWQcffBGj6ZcQF74zfyGtB+wXqwLR72wb
+ dAUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v8i8QQljQecasVKuxYPb9UacN7dAEu3AdsS3s/D4Bfk=;
- b=zwZMuhUA5G56/+qKko5Lyt++WJRvpGlxHkfCRckDD62ne+mtiZgt+P9rdulZJD7R9d
- QU52IATKpGIES7l3lnIFsjGOrMRag3MItJ6x1eT3QhioO0ifaedAFTy9BdeW7iN55aDl
- VIeAQQ/CprHyeh5PJCtgZ4ZLsIla1nfeqHMN48XTDq2fU3utQdfpYCwsddFLXAxSPapC
- Tlt+vKqQe/3U+0O0SCq+/hUDHPjIWTABLnpIBDsP+Uy1NhJC2NE0zxr7U4mtdTOLnMVS
- i0Fz/I0BZpSw8zI2m9gkvZRPgoaewhDzACZOz4r0VpMubz5nHHei+y1SUfVFvb55fNIE
- S3wA==
-X-Gm-Message-State: AO0yUKUVlvPxWCMrOXs7XgFvICTzDzRhJsZ6X9s2hQjjCm2NkOUyYVXP
- FjhVBXLCgx6dYJx2xH6eK3WfkA==
-X-Google-Smtp-Source: AK7set8snQ4rlBOds5MbPYeFlidzFOZWF9+B3gac8OneZH2wHn97Lh3dGDH3KGEvyRMJXkQAeJrUYg==
-X-Received: by 2002:a5d:6888:0:b0:2c6:ee7a:ed21 with SMTP id
- h8-20020a5d6888000000b002c6ee7aed21mr3876029wru.41.1676975067403; 
- Tue, 21 Feb 2023 02:24:27 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- u9-20020a5d5149000000b002c550eb062fsm2814170wrt.14.2023.02.21.02.24.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 02:24:26 -0800 (PST)
-Message-ID: <193a285a-f0da-1118-6ab7-29cd4472eb48@linaro.org>
-Date: Tue, 21 Feb 2023 11:24:25 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=CX9a4RZh8erykIci3+PM39q9KbF4F9o4p9k5tZ3f4js=;
+ b=CVdMbl2/EEMP8Xpdyhq/95xe+qmccGEEOOvCW89cMUh8CDU9De508Hpw2T84PH9X0Q
+ 71t/PRK76REP/JV5IxmXqNDG9fJrhMGzpFsn+tea0iaq0RgegXeb328e7/1MZDV8qmZg
+ XKJc+MzTJho16a0MfgbeJwoE+g5MmUDVNAga3Kbs2oJ18oFd6C+mSxhDqjJeo7u2oCU2
+ VpsnHrYfjxVlVuDlN9RCLHvM/pEH2alLvnkq4LL12F9qg2eu5b7dV+fqesvBdzldHcK3
+ Vm6ezLukLkBI63/g2GQ3wfOQ2XpXHu7SjqUdahs+PJ6HIidDzhtdjGicdLOwvl1Iw/4B
+ WNcQ==
+X-Gm-Message-State: AO0yUKXmj/syT89Icmz9MdsGXdq7+Ca+Ox304H4xLC+y3WyjfpN3Z2yH
+ aD8KQEMXLpkin/4zZPAfpeTJOw==
+X-Google-Smtp-Source: AK7set+KNpoC5RPaWUsi94YmpCCfyD/eZBqtQc7BYKrJ1PRcCkCsgw86ag4Q0a/g/p80hHObIuQQpg==
+X-Received: by 2002:adf:f68d:0:b0:2c5:8d4a:3695 with SMTP id
+ v13-20020adff68d000000b002c58d4a3695mr2753119wrp.59.1676975189182; 
+ Tue, 21 Feb 2023 02:26:29 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ g16-20020a5d4890000000b002c56a991971sm7539413wrq.76.2023.02.21.02.26.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 02:26:28 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 65E3F1FFB7;
+ Tue, 21 Feb 2023 10:26:28 +0000 (GMT)
+References: <20230105164320.2164095-1-alex.bennee@linaro.org>
+ <20230105164320.2164095-7-alex.bennee@linaro.org>
+ <0daeb57d-28ec-4595-8b2e-32e4e01348d8@linaro.org>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 06/21] gdbstub: move GDBState to shared internals header
+Date: Tue, 21 Feb 2023 10:24:44 +0000
+In-reply-to: <0daeb57d-28ec-4595-8b2e-32e4e01348d8@linaro.org>
+Message-ID: <87v8jvqppn.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 3/4] qga/vss-win32: fix warning for clang++-15
-Content-Language: en-US
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- richard.henderson@linaro.org, alex.bennee@linaro.org,
- peter.maydell@linaro.org
-References: <20230220111215.27471-1-pierrick.bouvier@linaro.org>
- <20230220111215.27471-4-pierrick.bouvier@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230220111215.27471-4-pierrick.bouvier@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,34 +95,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/2/23 12:12, Pierrick Bouvier wrote:
-> Reported when compiling with clang-windows-arm64.
-> 
-> ../qga/vss-win32/install.cpp:537:9: error: variable 'hr' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
->      if (!(ControlService(service, SERVICE_CONTROL_STOP, NULL))) {
->          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../qga/vss-win32/install.cpp:545:12: note: uninitialized use occurs here
->      return hr;
->             ^~
-> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-> ---
->   qga/vss-win32/install.cpp | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/qga/vss-win32/install.cpp b/qga/vss-win32/install.cpp
-> index b57508fbe0..b8087e5baa 100644
-> --- a/qga/vss-win32/install.cpp
-> +++ b/qga/vss-win32/install.cpp
-> @@ -518,7 +518,7 @@ namespace _com_util
->   /* Stop QGA VSS provider service using Winsvc API  */
->   STDAPI StopService(void)
->   {
-> -    HRESULT hr;
-> +    HRESULT hr = S_OK;
->       SC_HANDLE manager = OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS);
->       SC_HANDLE service = NULL;
->   
 
-Fixes: 917ebcb170 ("qga-win: Fix QGA VSS Provider service stop failure")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 1/5/23 08:43, Alex Benn=C3=A9e wrote:
+>> We are about to split softmmu and user mode helpers into different
+>> files. To facilitate this we will need to share access to the GDBState
+>> between those files.
+>> To keep building we have to temporarily define CONFIG_USER_ONLY just
+>> before we include internals.h for the user-mode side of things. This
+>> will get removed once the state is fully moved.
+>
+> You don't have to have this hack if you don't ...
+>
+>> +typedef struct GDBState {
+>> +    bool init;       /* have we been initialised? */
+>> +    CPUState *c_cpu; /* current CPU for step/continue ops */
+>> +    CPUState *g_cpu; /* current CPU for other ops */
+>> +    CPUState *query_cpu; /* for q{f|s}ThreadInfo */
+>> +    enum RSState state; /* parsing state */
+>> +    char line_buf[MAX_PACKET_LENGTH];
+>> +    int line_buf_index;
+>> +    int line_sum; /* running checksum */
+>> +    int line_csum; /* checksum at the end of the packet */
+>> +    GByteArray *last_packet;
+>> +    int signal;
+>> +#ifdef CONFIG_USER_ONLY
+>> +    GDBUserState user;
+>> +#else
+>> +    GDBSystemState system;
+>> +#endif
+>
+> ... nest these.  What's the point?
+
+Well you end up having to ensure the chardev definitions are then
+available in all files that include internals.h and I'm not sure that is
+better:
+
+--8<---------------cut here---------------start------------->8---
+modified   gdbstub/internals.h
+@@ -33,18 +33,16 @@ enum RSState {
+ };
+=20
+ /* Temporary home */
+-#ifdef CONFIG_USER_ONLY
+ typedef struct {
+     int fd;
+     char *socket_path;
+     int running_state;
+ } GDBUserState;
+-#else
++
+ typedef struct {
+     CharBackend chr;
+     Chardev *mon_chr;
+ } GDBSystemState;
+-#endif
+=20
+ typedef struct GDBState {
+     bool init;       /* have we been initialised? */
+@@ -58,11 +56,8 @@ typedef struct GDBState {
+     int line_csum; /* checksum at the end of the packet */
+     GByteArray *last_packet;
+     int signal;
+-#ifdef CONFIG_USER_ONLY
+     GDBUserState user;
+-#else
+     GDBSystemState system;
+-#endif
+     bool multiprocess;
+     GDBProcess *processes;
+     int process_num;
+modified   gdbstub/gdbstub.c
+@@ -48,6 +48,8 @@
+ #include "exec/exec-all.h"
+ #include "exec/hwaddr.h"
+ #include "sysemu/replay.h"
++#include "chardev/char.h"
++#include "chardev/char-fe.h"
+=20
+ #include "internals.h"
+=20
+modified   gdbstub/user.c
+@@ -13,8 +13,8 @@
+ #include "exec/hwaddr.h"
+ #include "exec/gdbstub.h"
+ #include "hw/core/cpu.h"
+-/* temp hack */
+-#define CONFIG_USER_ONLY 1
++#include "chardev/char.h"
++#include "chardev/char-fe.h"
+ #include "internals.h"
+=20
+ bool gdb_supports_guest_debug(void)
+--8<---------------cut here---------------end--------------->8---
+
+
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
