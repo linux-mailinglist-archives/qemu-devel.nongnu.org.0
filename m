@@ -2,101 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBE169DFCD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 13:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E15C69E02A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 13:20:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pURKU-0000p2-Ld; Tue, 21 Feb 2023 07:01:06 -0500
+	id 1pURcP-00010D-4S; Tue, 21 Feb 2023 07:19:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pURKR-0000j9-8h
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:01:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1pURcL-0000zs-Q8
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:19:34 -0500
+Received: from mga18.intel.com ([134.134.136.126])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pURKP-0004C8-Cz
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:01:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676980860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JWFjLHZIUU5AAKesF/5JXFt0neepuAqDKpDyfy3VtCU=;
- b=emU/Hhyy51hy9qGCHYB8es+06fPW1GAXn9ybDmiaYcyCkSREgagOLnfMWdrhuIxSgpzEYi
- 024oNsAFnFyPKDMppCFSThE3ri5Zq7RiTqQsAjae54oc5raGM1upjkSSe/LKi5pHSNRAMi
- 8ieeaexKyJK8+jgTKnl4xtngWy9hTW0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-13-aVTlQZRIMKW_t1i5Pm0IKg-1; Tue, 21 Feb 2023 07:00:57 -0500
-X-MC-Unique: aVTlQZRIMKW_t1i5Pm0IKg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l23-20020a7bc457000000b003e206cbce8dso1963381wmi.7
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 04:00:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JWFjLHZIUU5AAKesF/5JXFt0neepuAqDKpDyfy3VtCU=;
- b=tMLXUXz38DPwQjL2x3DJRasKJ3chmMcjsc+LeDyam7nahFesWyZIB/uUPj1PK6JD3O
- QFEpgeOHRzeBrbIqI93Co/TCBQd7KuvObIKm6U4LY9EY6YzXSWbyFgo4tE/FG/+P61O7
- hUbG5hMd6Zw7/q7bQMJDQulaBG+xJ5rqoM/jk7i4IlZH0ax72nxj7yQgHf2Egl+u4HuO
- W5rI7TnGTXri9SGAhKbowKcEiXElZ5s9N755bRYvh/P9DFyc1ySLaQVFPAX6n/yGLkPe
- ba8QaTv+WaT5Oh12HDQpKOULCoTnzC3xuoRLy4QV3OKR3+POKjy/FHwzF58UyfwKAtB8
- qD1g==
-X-Gm-Message-State: AO0yUKWrVu01OPdr10y+O4xJePpuLMEzGG4ftLmPAw7Xn/Zx7M61UEfs
- LL6ST7+l0jLEAyEsACynZrTxL2qoqHJG0uwTPFIdZfBbfKkTJxz0MRr/l/YrhlnxyQL7KZ+PQkg
- 0BrvuGC7GLFITULA=
-X-Received: by 2002:a05:600c:16c9:b0:3e2:9b3:3cb4 with SMTP id
- l9-20020a05600c16c900b003e209b33cb4mr1836630wmn.5.1676980856116; 
- Tue, 21 Feb 2023 04:00:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set87Nx8PemWmDlTl1KewBLUTO515V+xoP5U8hoz6L87CRvZnkMY9nuZe/j7VCPVyj9jGquqZ6g==
-X-Received: by 2002:a05:600c:16c9:b0:3e2:9b3:3cb4 with SMTP id
- l9-20020a05600c16c900b003e209b33cb4mr1836606wmn.5.1676980855784; 
- Tue, 21 Feb 2023 04:00:55 -0800 (PST)
-Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- az17-20020a05600c601100b003dd1bd0b915sm14770405wmb.22.2023.02.21.04.00.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 04:00:55 -0800 (PST)
-Message-ID: <f3dca04e-13a0-045d-a649-7ea4f0e9dbd8@redhat.com>
-Date: Tue, 21 Feb 2023 13:00:51 +0100
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1pURcI-0000o7-Ju
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:19:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676981970; x=1708517970;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=rNp1uu81FPNgOnZRpB88mbF0GVkK0krzknn+hkCEz0w=;
+ b=dYD5FZHW5YjatGVvgLFEfAo6MOEfLZoG7AtcyQZuPNBLScSFs4ROjjn1
+ s1moH15HG8BkhLv3g7mpb8YN/3aXod7Sw1mdvlKtJaMYN4lFZyYQL6je3
+ 7p6rosuXuPJi6YaKN/CBiMxnk+Jbl5oZXEJ2e3IuxVGgxhD7E7lKmKbX/
+ 2JoVE/OJWuyEgnWhKcKq6La6n4abYuO6ExtA7cBcM+YJppWOQ/v/lBxgv
+ PBTA+eYx+MRJVUxBWutUwIyXQzf/zMMAuV4+EjfEsf3VON0SkB4F0PfUY
+ 60BwtpCGs4m1sOmwwscQJcg519CmWfPaRXQN0f7KEnFONYexN/RRV5eKE A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="316337817"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; d="scan'208";a="316337817"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2023 04:19:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="917165304"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; d="scan'208";a="917165304"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
+ by fmsmga006.fm.intel.com with ESMTP; 21 Feb 2023 04:19:16 -0800
+Date: Tue, 21 Feb 2023 20:11:35 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Michael Roth <michael.roth@amd.com>
+Cc: Sean Christopherson <seanjc@google.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ mhocko@suse.com, wei.w.wang@intel.com
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+Message-ID: <20230221121135.GA1595130@chaop.bj.intel.com>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y8H5Z3e4hZkFxAVS@google.com>
+ <20230119111308.GC2976263@ls.amr.corp.intel.com>
+ <Y8lg1G2lRIrI/hld@google.com>
+ <20230119223704.GD2976263@ls.amr.corp.intel.com>
+ <Y880FiYF7YCtsw/i@google.com>
+ <20230213130102.two7q3kkcf254uof@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Kevin Wolf <kwolf@redhat.com>
-References: <20230210003147.1309376-1-jsnow@redhat.com>
- <87v8k2ycjb.fsf@pond.sub.org>
- <a2783906-cad2-2d47-5bbb-66d799b2a4b8@redhat.com>
- <CAFn=p-YnR-hFAg=yxCi7oNKHXirMqv2vJSYmaY8VBPq+Q2UVbA@mail.gmail.com>
- <ee04b184-75e3-7c4a-856f-4543f51f8412@redhat.com>
- <CAFn=p-ZW6ZDhrHAdu-TOarwsea2FNwK7tmN-REaWx23u-nBTZw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 0/7] Python: Drop support for Python 3.6
-In-Reply-To: <CAFn=p-ZW6ZDhrHAdu-TOarwsea2FNwK7tmN-REaWx23u-nBTZw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230213130102.two7q3kkcf254uof@amd.com>
+Received-SPF: none client-ip=134.134.136.126;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,104 +104,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/02/2023 20.56, John Snow wrote:
-> On Mon, Feb 20, 2023 at 1:16 AM Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 17/02/2023 21.46, John Snow wrote:
->>> On Thu, Feb 16, 2023 at 5:58 AM Thomas Huth <thuth@redhat.com> wrote:
->>>>
->>>> On 15/02/2023 20.05, Markus Armbruster wrote:
->>>>> The discussion under PATCH 6 makes me think there's a bit of confusion
->>>>> about the actual impact of dropping support for Python 3.6.  Possibly
->>>>> because it's spelled out in the commit message of PATCH 7.  Let me
->>>>> summarize it in one sentence:
->>>>>
->>>>>        *** All supported host systems continue to work ***
->>>>>
->>>>> Evidence: CI remains green.
->>>>
->>>> The CI remains green since one of the patches disabled the building of the
->>>> docs on CentOS 8. That's not how I'd describe "continue to work", at least
->>>> not in the same extend as before.
->>>>
->>>>> On some supported host systems, different packages need to be installed.
->>>>> On CentOS 8, for instance, we need to install Python 3.8.13 or 3.9.16
->>>>> instead of 3.6.8.  Let me stress again: same repository, different
->>>>> package.  No downsides I can see.
->>>>>
->>>>> The *one* exception is Sphinx on CentOS 8.  CentOS 8 does not ship a
->>>>> version of Sphinx that works with Python 3.7 or newer.  This series
->>>>> proposes to simply stop building the docs there, unless the user
->>>>> provides a suitable version of Sphinx (which is easy enough with pip).
->>>>
->>>> I think we've all understood that. The thing that you obviously did not
->>>> understood: This breaks our support statement.
->>>> I'm pretty sure that you could also build the whole QEMU suite successfully
->>>> on an ancient CentOS 7 or Ubuntu 18.04 system if you manually install a
->>>> newer version of GCC and some of the required libraries first. But that's
->>>> not how we understand our support statement.
->>>>
->>>> Sure, you can argue that you can use "pip install" to get a newer version of
->>>> Sphinx on RHEL 8 / CentOS 8 to continue building the docs there - but is
->>>> that really that much different from installing a newer version of GCC and
->>>> libraries on an ancient distro that we do not officially support anymore?
->>>> I'd say no. You also have to consider that not every build host has access
->>>> to the internet, maybe some companies only have an internal mirror of the
->>>> distro packages in their intranet (I remember some discussion about such a
->>>> case in the past) - so while you were perfectly fine to build the whole of
->>>> QEMU on a CentOS 8 there before this change, you could now not build parts
->>>> of QEMU anymore there due to the missing possibility to run "pip install"
->>>> without full internet connection.
->>>
->>> There are good points elsewhere in this thread and I am taking notes,
->>> but this critique caught my eye as something I was not specifically
->>> planning around, so I wanted to get an elaboration here if I may.
->>>
->>> Do we have a support statement for this? I find this critique somewhat
->>> surprising -- If we don't have internet, how did we get the other 20
->>> to 30 dependencies needed to build QEMU? To what extent are we
->>> *required* to preserve a build that works without internet access?
->>
->> It's not written in stone, but I saw it this way: If I have a complete
->> mirror of a distro repository in my intrAnet, I can use that mirror to set
->> up a QEMU build host system that has no access to the internet. Or maybe
->> think of a DVD image(s) with all distro packages that you use to install a
->> host without network access (and you copy the QEMU tarball there via USB
->> stick). I think it's not that uncommon to have such scenarios out there.
->>
->> For example, do you remember that SDL 1.2 discussion a some years ago? See:
->>
->>    https://www.mail-archive.com/qemu-devel@nongnu.org/msg631628.html
->>
->> It was not exactly the same situation, since those folks were even unable to
->> install a SDL2-devel package on their pre-installed hosts, though it was
->> theoretically available as an update in their distro, but I think it gives
->> an impression of what people are using and expecting out there... (and no,
->> I'm not happy with this, I'd also rather love if we could move faster in the
->> QEMU project sometimes).
->>
->>    Thomas
+> Hi Sean,
 > 
-> Well, in this case I believe our support policy generally is written
-> to require a fully up-to-date version of the LTS distros, e.g. we
-> don't really test against "release day" 16.04, in the same way we
-> don't offer support for RHEL 8.0, just the latest point release.
+> We've rebased the SEV+SNP support onto your updated UPM base support
+> tree and things seem to be working okay, but we needed some fixups on
+> top of the base support get things working, along with 1 workaround
+> for an issue that hasn't been root-caused yet:
+> 
+>   https://github.com/mdroth/linux/commits/upmv10b-host-snp-v8-wip
+> 
+>   *stash (upm_base_support): mm: restrictedmem: Kirill's pinning implementation
+>   *workaround (use_base_support): mm: restrictedmem: loosen exclusivity check
 
-Yes, sure, that's what I meant with "not exactly the same situation" ... it 
-was just an example of people trying to compile QEMU offline.
+What I'm seeing is Slot#3 gets added first and then deleted. When it's
+gets added, Slot#0 already has the same range bound to restrictedmem so
+trigger the exclusive check. This check is exactly the current code for.
 
-> I think really all we need is the ability to know a priori what we
-> need to build QEMU before going offline without any last second
-> surprises during configure, make, or make check. Right?
+>   *fixup (upm_base_support): KVM: use inclusive ranges for restrictedmem binding/unbinding
+>   *fixup (upm_base_support): mm: restrictedmem: use inclusive ranges for issuing invalidations
 
-I think it should be OK with the patch that Paolo suggested for the support 
-policy and maybe a note somewhere that you have to make sure to install a 
-newer Sphinx with pip in case you still want to build the docs on older 
-enterprise distros...
+As many kernel APIs treat 'end' as exclusive, I would rather keep using
+exclusive 'end' for these APIs(restrictedmem_bind/restrictedmem_unbind
+and notifier callbacks) but fix it internally in the restrictedmem. E.g.
+all the places where xarray API needs a 'last'/'max' we use 'end - 1'.
+See below for the change.
 
-  Thomas
+>   *fixup (upm_base_support): KVM: fix restrictedmem GFN range calculations
 
+Subtracting slot->restrictedmem.index for start/end in
+restrictedmem_get_gfn_range() is the correct fix.
+
+>   *fixup (upm_base_support): KVM: selftests: CoCo compilation fixes
+> 
+> We plan to post an updated RFC for v8 soon, but also wanted to share
+> the staging tree in case you end up looking at the UPM integration aspects
+> before then.
+> 
+> -Mike
+
+This is the restrictedmem fix to solve 'end' being stored and checked in xarray:
+
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -46,12 +46,12 @@ static long restrictedmem_punch_hole(struct restrictedmem *rm, int mode,
+         */
+        down_read(&rm->lock);
+ 
+-       xa_for_each_range(&rm->bindings, index, notifier, start, end)
++       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+                notifier->ops->invalidate_start(notifier, start, end);
+ 
+        ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+ 
+-       xa_for_each_range(&rm->bindings, index, notifier, start, end)
++       xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+                notifier->ops->invalidate_end(notifier, start, end);
+ 
+        up_read(&rm->lock);
+@@ -224,7 +224,7 @@ static int restricted_error_remove_page(struct address_space *mapping,
+                }
+                spin_unlock(&inode->i_lock);
+ 
+-               xa_for_each_range(&rm->bindings, index, notifier, start, end)
++               xa_for_each_range(&rm->bindings, index, notifier, start, end - 1)
+                        notifier->ops->error(notifier, start, end);
+                break;
+        }
+@@ -301,11 +301,12 @@ int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
+                if (exclusive != rm->exclusive)
+                        goto out_unlock;
+ 
+-               if (exclusive && xa_find(&rm->bindings, &start, end, XA_PRESENT))
++               if (exclusive &&
++                   xa_find(&rm->bindings, &start, end - 1, XA_PRESENT))
+                        goto out_unlock;
+        }
+ 
+-       xa_store_range(&rm->bindings, start, end, notifier, GFP_KERNEL);
++       xa_store_range(&rm->bindings, start, end - 1, notifier, GFP_KERNEL);
+        rm->exclusive = exclusive;
+        ret = 0;
+ out_unlock:
+@@ -320,7 +321,7 @@ void restrictedmem_unbind(struct file *file, pgoff_t start, pgoff_t end,
+        struct restrictedmem *rm = file->f_mapping->private_data;
+ 
+        down_write(&rm->lock);
+-       xa_store_range(&rm->bindings, start, end, NULL, GFP_KERNEL);
++       xa_store_range(&rm->bindings, start, end - 1, NULL, GFP_KERNEL);
+        synchronize_rcu();
+        up_write(&rm->lock);
+ }
 
