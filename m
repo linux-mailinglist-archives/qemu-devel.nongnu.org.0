@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E98E69DC87
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:04:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406E769DC82
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:03:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUOWU-0007eU-Vg; Tue, 21 Feb 2023 04:01:19 -0500
+	id 1pUOWW-0007hU-JG; Tue, 21 Feb 2023 04:01:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWT-0007e8-3T
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:17 -0500
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWV-0007fZ-1q
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:19 -0500
 Received: from mr85p00im-ztdg06011201.me.com ([17.58.23.181])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWR-0005Su-2z
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:16 -0500
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pUOWS-0005Tp-RP
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:01:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1676970071; bh=gyQnCVNzCEHVqVEoI58x5xyPhDVaVkRYebDl9/4EbWs=;
+ t=1676970075; bh=Cxb1trJ8foD+APDBpLzSLwgR6zNyAF1GPfBBNu6t954=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=OdXbchtSCBOhe4ClOJ7lAcK+RvXMEFv4Oiwhf/ShKLz6uQi3sDfhAjj5ZtHkom67I
- AL5wfbmRiP4QSAOnLk0pI5BP4rgafIJF4WaEkUVp5s0y0ZHWZWqKEzkf5Jyw0JKEl1
- 96o6opRXBdhQBge3LhronaAgfaitB0qTAWzV3wETWpP4+Odd+EThvX/GnhRRtBeo0X
- E+/RmTV7F3oi6oDbJs9nU2gSQt/AUGTg1teP3wczVchmvIYYKUEa85Skx44FJF1Z0r
- 8jK9V9aTc6Ymig5bv5hoO72rx2zibMSQnJvWGqyZMYlhzSzTuQ5dWHreHOVUYp/SAv
- 6eJL3Lk6tMulQ==
+ b=ArWq4BVAeATN2zYAk0cKAvm/TT6YOxYXhBXSFEgSg0Pnl7v3U0adDTWK+IBOYwcyB
+ VgV8HMwrfA40NyFD/nQx8EkXszm+jewGgvlRlZjXl9tNNdn9FexxociTfrNd11Ai87
+ 6+eZf1H2hH0p9ElHj8UKIsgkybktiFsTNDVg1TTe3Rb3v+SONgKZzu2sRDB/cHxOpU
+ NJlUec8ZOzS4lHwoNV7ul73eCn14MIG/Z3746l5HWYi1u4lDAT1VwPAmto2iTJolk2
+ Ur9j75Dgs6SG3swx140jdiUzhsAS9eD67Rt5A1eEaVQ0cCk3ECravCTMmwuIqNYFtN
+ USuCcIQpwf62A==
 Received: from localhost.localdomain (mr38p00im-dlb-asmtp-mailmevip.me.com
  [17.57.152.18])
- by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 11C209629C2;
- Tue, 21 Feb 2023 09:01:09 +0000 (UTC)
+ by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 3441C962598;
+ Tue, 21 Feb 2023 09:01:14 +0000 (UTC)
 From: Mads Ynddal <mads@ynddal.dk>
 To: qemu-devel@nongnu.org
 Cc: John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Mads Ynddal <m.ynddal@samsung.com>
-Subject: [PATCH 1/9] simpletrace: Improve parsing of sys.argv;
- fix files never closed.
-Date: Tue, 21 Feb 2023 10:00:56 +0100
-Message-Id: <20230221090104.86103-2-mads@ynddal.dk>
+Subject: [PATCH 3/9] simpletrace: changed naming of edict and idtoname to
+ improve readability
+Date: Tue, 21 Feb 2023 10:00:58 +0100
+Message-Id: <20230221090104.86103-4-mads@ynddal.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230221090104.86103-1-mads@ynddal.dk>
 References: <20230221090104.86103-1-mads@ynddal.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Vr-dEIAdOUs3DDOmtY6XERk7hsi-dRPg
-X-Proofpoint-GUID: Vr-dEIAdOUs3DDOmtY6XERk7hsi-dRPg
+X-Proofpoint-ORIG-GUID: MOH4mnwrFonPSqSLS7xubh2TqYG1u--Y
+X-Proofpoint-GUID: MOH4mnwrFonPSqSLS7xubh2TqYG1u--Y
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
  =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.0.605.474.0000000_definitions?=
  =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2020-01-23?=
  =?UTF-8?Q?=5F02_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxlogscore=643
+ mlxlogscore=746
  phishscore=0 adultscore=0 spamscore=0 clxscore=1030 bulkscore=0 mlxscore=0
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2302210078
@@ -79,81 +79,116 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Mads Ynddal <m.ynddal@samsung.com>
 
-The arguments extracted from `sys.argv` named and unpacked to make it
-clear what the arguments are and what they're used for.
-
-The two input files were opened, but never explicitly closed. File usage
-changed to use `with` statement to take care of this. At the same time,
-ownership of the file-object is moved up to `run` function. Secondary `open`
-inside `process` removed so there's only one place to handle `open`.
+Readability is subjective, but I've expanded the naming of the variables
+and arguments, to help with understanding for new eyes on the code.
 
 Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
 ---
- scripts/simpletrace.py | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
+ scripts/simpletrace.py | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
-index 1f6d1ae1f3..9211caaec1 100755
+index 7ba805443d..9981699630 100755
 --- a/scripts/simpletrace.py
 +++ b/scripts/simpletrace.py
-@@ -9,6 +9,7 @@
- #
- # For help see docs/devel/tracing.rst
+@@ -33,17 +33,17 @@ def read_header(fobj, hfmt):
+         return None
+     return struct.unpack(hfmt, hdr)
  
-+import sys
- import struct
- import inspect
- from tracetool import read_events, Event
-@@ -44,7 +45,6 @@ def get_record(edict, idtoname, rechdr, fobj):
+-def get_record(edict, idtoname, rechdr, fobj):
++def get_record(event_mapping, event_id_to_name, rechdr, fobj):
+     """Deserialize a trace record from a file into a tuple
+        (name, timestamp, pid, arg1, ..., arg6)."""
+     if rechdr is None:
+         return None
+     if rechdr[0] != dropped_event_id:
+         event_id = rechdr[0]
+-        name = idtoname[event_id]
++        name = event_id_to_name[event_id]
+         rec = (name, rechdr[1], rechdr[3])
          try:
-             event = edict[name]
+-            event = edict[name]
++            event = event_mapping[name]
          except KeyError as e:
--            import sys
              sys.stderr.write('%s event is logged but is not declared ' \
                               'in the trace events file, try using ' \
-                              'trace-events-all instead.\n' % str(e))
-@@ -166,11 +166,6 @@ def end(self):
+@@ -72,10 +72,10 @@ def get_mapping(fobj):
  
- def process(events, log, analyzer, read_header=True):
-     """Invoke an analyzer on each event in a log."""
--    if isinstance(events, str):
--        events = read_events(open(events, 'r'), events)
--    if isinstance(log, str):
--        log = open(log, 'rb')
--
-     if read_header:
-         read_trace_header(log)
+     return (event_id, name)
  
-@@ -223,19 +218,18 @@ def run(analyzer):
+-def read_record(edict, idtoname, fobj):
++def read_record(event_mapping, event_id_to_name, fobj):
+     """Deserialize a trace record from a file into a tuple (event_num, timestamp, pid, arg1, ..., arg6)."""
+     rechdr = read_header(fobj, rec_header_fmt)
+-    return get_record(edict, idtoname, rechdr, fobj)
++    return get_record(event_mapping, event_id_to_name, rechdr, fobj)
  
-     This function is useful as a driver for simple analysis scripts.  More
-     advanced scripts will want to call process() instead."""
--    import sys
--
--    read_header = True
--    if len(sys.argv) == 4 and sys.argv[1] == '--no-header':
--        read_header = False
--        del sys.argv[1]
--    elif len(sys.argv) != 3:
--        sys.stderr.write('usage: %s [--no-header] <trace-events> ' \
--                         '<trace-file>\n' % sys.argv[0])
-+
-+    try:
-+        # NOTE: See built-in `argparse` module for a more robust cli interface
-+        *no_header, trace_event_path, trace_file_path = sys.argv[1:]
-+        assert no_header == [] or no_header == ['--no-header'], 'Invalid no-header argument'
-+    except (AssertionError, ValueError):
-+        sys.stderr.write(f'usage: {sys.argv[0]} [--no-header] <trace-events> <trace-file>\n')
-         sys.exit(1)
+ def read_trace_header(fobj):
+     """Read and verify trace file header"""
+@@ -96,14 +96,14 @@ def read_trace_header(fobj):
+         raise ValueError('Log format %d not supported with this QEMU release!'
+                          % log_version)
  
--    events = read_events(open(sys.argv[1], 'r'), sys.argv[1])
--    process(events, sys.argv[2], analyzer, read_header=read_header)
-+    with open(trace_event_path, 'r') as events_fobj, open(trace_file_path, 'rb') as log_fobj:
-+        events = read_events(events_fobj, trace_event_path)
-+        process(events, log_fobj, analyzer, read_header=not no_header)
+-def read_trace_records(edict, idtoname, fobj):
++def read_trace_records(event_mapping, event_id_to_name, fobj):
+     """Deserialize trace records from a file, yielding record tuples (event_num, timestamp, pid, arg1, ..., arg6).
  
- if __name__ == '__main__':
-     class Formatter(Analyzer):
+-    Note that `idtoname` is modified if the file contains mapping records.
++    Note that `event_id_to_name` is modified if the file contains mapping records.
+ 
+     Args:
+-        edict (str -> Event): events dict, indexed by name
+-        idtoname (int -> str): event names dict, indexed by event ID
++        event_mapping (str -> Event): events dict, indexed by name
++        event_id_to_name (int -> str): event names dict, indexed by event ID
+         fobj (file): input file
+ 
+     """
+@@ -115,9 +115,9 @@ def read_trace_records(edict, idtoname, fobj):
+         (rectype, ) = struct.unpack('=Q', t)
+         if rectype == record_type_mapping:
+             event_id, name = get_mapping(fobj)
+-            idtoname[event_id] = name
++            event_id_to_name[event_id] = name
+         else:
+-            rec = read_record(edict, idtoname, fobj)
++            rec = read_record(event_mapping, event_id_to_name, fobj)
+ 
+             yield rec
+ 
+@@ -172,16 +172,16 @@ def process(events, log, analyzer, read_header=True):
+     frameinfo = inspect.getframeinfo(inspect.currentframe())
+     dropped_event = Event.build("Dropped_Event(uint64_t num_events_dropped)",
+                                 frameinfo.lineno + 1, frameinfo.filename)
+-    edict = {"dropped": dropped_event}
+-    idtoname = {dropped_event_id: "dropped"}
++    event_mapping = {"dropped": dropped_event}
++    event_id_to_name = {dropped_event_id: "dropped"}
+ 
+     for event in events:
+-        edict[event.name] = event
++        event_mapping[event.name] = event
+ 
+     # If there is no header assume event ID mapping matches events list
+     if not read_header:
+         for event_id, event in enumerate(events):
+-            idtoname[event_id] = event.name
++            event_id_to_name[event_id] = event.name
+ 
+     def build_fn(analyzer, event):
+         if isinstance(event, str):
+@@ -205,9 +205,9 @@ def build_fn(analyzer, event):
+ 
+     analyzer.begin()
+     fn_cache = {}
+-    for rec in read_trace_records(edict, idtoname, log):
++    for rec in read_trace_records(event_mapping, event_id_to_name, log):
+         event_num = rec[0]
+-        event = edict[event_num]
++        event = event_mapping[event_num]
+         if event_num not in fn_cache:
+             fn_cache[event_num] = build_fn(analyzer, event)
+         fn_cache[event_num](event, rec)
 -- 
 2.38.1
 
