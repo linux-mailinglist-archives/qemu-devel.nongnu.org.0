@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD16C69DB70
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 08:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C6A69DB92
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 08:57:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUNNC-0000eg-A4; Tue, 21 Feb 2023 02:47:38 -0500
+	id 1pUNVf-0003mS-20; Tue, 21 Feb 2023 02:56:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
- id 1pUNN4-0000eL-01
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:47:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
- id 1pUNN2-0008Rl-L1
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:47:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676965647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fuD8/xq36ag32hDnyZCOwXOKrfRUTMciikBU2TwVq+o=;
- b=ZJE4i1paTO7QayW2D5J6t/k6WtHj9KUMrsefgP8TZbwgCDhttrvt2/6weNRKGisMBrTdv3
- Uu5xmSu8pXRE8j6wzz8tENHEcfk87HTLFZul3yk7HlP1jgWgdB/oOIp8tpNTP3jcqZzyxb
- wUP8WS/eo3jiWY2G9CaVFYP6lreeDuM=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-159-oaBffKBbO06wTAAisoC51w-1; Tue, 21 Feb 2023 02:47:26 -0500
-X-MC-Unique: oaBffKBbO06wTAAisoC51w-1
-Received: by mail-vs1-f72.google.com with SMTP id
- a14-20020a056102094e00b00411d9dbb998so490612vsi.1
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 23:47:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUNVd-0003mG-6A
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:56:21 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUNVb-0001iV-7F
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 02:56:20 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ m14-20020a7bce0e000000b003e00c739ce4so2445666wmc.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 23:56:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sw6SJyGjDiG+hDVh2L5z58E7kxqeYqR3RCNI23/fJUQ=;
+ b=JYM4wAFk+UmaG5ZrP4LlC2x+Vj7lUcuyPH+isHH0QoB3J1xAlcs3X9+Ip7AT0Vexd5
+ AnLmYDYEkHq/wAr1ihHQLwScKOpuspcbdA7AckykZBoL01Z9BFg0WEPuX5riAdWBKPs/
+ jql+pdvzyEldHYO8aJgr36YZqprG8hl29/IfCazt2nYOqMOuWCnOkbNKyqNtSqvGLhWF
+ Oe9b+RvaF4BXUtXgTms2A97CjvDBPci9Knr1wrgy9Ozm9KPeX8TzD0jJgnX7k/qeqlrA
+ Ya17zc7XfqyNM74eSsX4RTrhxwpEbwKN+I20IYbfOifScZCTwxnWtXaZ6agx0kgYtkPj
+ I1LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fuD8/xq36ag32hDnyZCOwXOKrfRUTMciikBU2TwVq+o=;
- b=4dg/0Fj4KPtoTNM/4EsGkiIUoTVz9TQaudW+5e3lZLWXU75tS5cdYwV/u/G5aoyUck
- cpojwQETyZj7hrmvGh+m3nCAOlk4wwn16T6mXM2l+q5VT+9hAPeGRec+T7Sd3TSCiETb
- TxaTwWMVWC9dslbvpId2rRtDGwJkZ7lp6zGHFX+s8Bq0x0Kqx3WZck5O2TYQr5P+ubHS
- wqFGs6x3Uu+Ogzs0QUQqm7KSKvUaZduBVP2CMQKW+3Qgi9V4Kj9B/tJeEjsM6XSHZiuk
- 8cok77FEwxYkqXD7hav7wwtiJ2SEbYOeq/RXa/uq//Yf4eO0/ojLTpdVAUC2oGbchWue
- x27A==
-X-Gm-Message-State: AO0yUKXwIlFf5nmN59HY9UdiDfsy21fJNEK/DOBS9cZ1ohkAA798pNUX
- qXowg8Fh8Hdr+f9jSJ+dd5A7gUp0wlx7tg5VRm/D9loDL427IvAzhF1hSBl2LM7dNtu9wG8xoud
- 3ddlnGYwwNm6Uw3BxuEtD6gnDA7lkROQ=
-X-Received: by 2002:a67:f408:0:b0:416:f6b4:ff4e with SMTP id
- p8-20020a67f408000000b00416f6b4ff4emr460368vsn.37.1676965646095; 
- Mon, 20 Feb 2023 23:47:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set/vdGe2GJ1VYPxqhBiQc+9LXkd6ZZcJshaTi3ey7jw3iSeGv00cfra6C+DS/dCQQFqFX2JsPabP1m84TlYMdiY=
-X-Received: by 2002:a67:f408:0:b0:416:f6b4:ff4e with SMTP id
- p8-20020a67f408000000b00416f6b4ff4emr460365vsn.37.1676965645919; Mon, 20 Feb
- 2023 23:47:25 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sw6SJyGjDiG+hDVh2L5z58E7kxqeYqR3RCNI23/fJUQ=;
+ b=GeQ7GNWWyuKFB0Xqb5uwYN5MnNjWKEcEP11GcR5vEQ5kUEjrwmTvZp7JHgiALbcsC8
+ XJkR+thtFvZe676K4Kf6k743+C4JMg0fek4HY80cFoybhY/Rm53cC17iiSBMX5RELJi9
+ kAo+1rtl4vFABe0DWKYQwdfnqeIKRyD8yPC9mI6XMOOUF6xIkwc8caqTnRYmRZPSmPEY
+ UflSJK5PFeqCZjyuGfl35wddnbYo25fPiVjkEg2atohJQDRFlRCIkv4Q+1qhMgWbj8l4
+ S5qycnZU1DYMPCfmJ7x6m+lG7evO9aOF0vkXAAkKIEuIPxP1cl1JrtmVcDcsCTxjAWdw
+ GWwg==
+X-Gm-Message-State: AO0yUKWvd5bBViyvV/toWbSt1YR0zq0eOmI+8kLDkm9iS6Yj7BeFz9yJ
+ wKcvwGFGC1echYBZ9rhCa9nhpw==
+X-Google-Smtp-Source: AK7set9WHT8afUrPnqYN/dYoecw8yZzf7ueJmnr35oFHoznsHTNIKlUEqh8oGqVLavVkMH0GpKWpVg==
+X-Received: by 2002:a05:600c:22ce:b0:3e7:6a59:d9d3 with SMTP id
+ 14-20020a05600c22ce00b003e76a59d9d3mr1145644wmg.37.1676966176415; 
+ Mon, 20 Feb 2023 23:56:16 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ t16-20020a05600c451000b003dc5b59ed7asm4219669wmo.11.2023.02.20.23.56.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 23:56:15 -0800 (PST)
+Message-ID: <b1a5b38a-73ae-9610-676b-b27dd4c7195a@linaro.org>
+Date: Tue, 21 Feb 2023 08:56:14 +0100
 MIME-Version: 1.0
-References: <20230220174142.240393-1-kkostiuk@redhat.com>
- <20230220174142.240393-2-kkostiuk@redhat.com>
-In-Reply-To: <20230220174142.240393-2-kkostiuk@redhat.com>
-From: Yan Vugenfirer <yvugenfi@redhat.com>
-Date: Tue, 21 Feb 2023 09:47:14 +0200
-Message-ID: <CAGoVJZw4BW=MceTtPD4RKJ3-FjXiNfyqfe+4NrebWuu3B+pSkQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] qga/win32: Remove change action from MSI installer
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Michael Roth <michael.roth@amd.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=yvugenfi@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 07/21] include/exec/memattrs: Add two bits of space to
+ MemTxAttrs
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+References: <20230220232626.429947-1-richard.henderson@linaro.org>
+ <20230220232626.429947-8-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230220232626.429947-8-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,32 +92,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reviewed-by: Yan Vugenfirer <yvugenfi@redhat.com>
-
-On Mon, Feb 20, 2023 at 7:41 PM Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
->
-> resolves: rhbz#2167436
-> fixes: CVE-2023-0664
->
-> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+On 21/2/23 00:26, Richard Henderson wrote:
+> We will need 2 bits to represent ARMSecurityState.
+> 
+> Do not attempt to replace or widen secure, even though it
+> logically overlaps the new field -- there are uses within
+> e.g. hw/block/pflash_cfi01.c, which don't know anything
+> specific about ARM.
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  qga/installer/qemu-ga.wxs | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-> index 51340f7ecc..feb629ec47 100644
-> --- a/qga/installer/qemu-ga.wxs
-> +++ b/qga/installer/qemu-ga.wxs
-> @@ -31,6 +31,7 @@
->        />
->      <Media Id="1" Cabinet="qemu_ga.$(var.QEMU_GA_VERSION).cab" EmbedCab="yes" />
->      <Property Id="WHSLogo">1</Property>
-> +    <Property Id="ARPNOMODIFY" Value="yes" Secure="yes" />
->      <MajorUpgrade
->        DowngradeErrorMessage="Error: A newer version of QEMU guest agent is already installed."
->        />
-> --
-> 2.25.1
->
+>   include/exec/memattrs.h | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
+> index 9fb98bc1ef..d04170aa27 100644
+> --- a/include/exec/memattrs.h
+> +++ b/include/exec/memattrs.h
+> @@ -29,10 +29,17 @@ typedef struct MemTxAttrs {
+>        * "didn't specify" if necessary.
+>        */
+>       unsigned int unspecified:1;
+> -    /* ARM/AMBA: TrustZone Secure access
+> +    /*
+> +     * ARM/AMBA: TrustZone Secure access
+>        * x86: System Management Mode access
+>        */
+>       unsigned int secure:1;
+> +    /*
+> +     * ARM: ArmSecuritySpace.  This partially overlaps secure, but it is
+> +     * easier to have both fields to assist code that does not understand
+> +     * ARMv9 RME, or no specific knowledge of ARM at all (e.g. pflash).
+> +     */
+> +    unsigned int space:2;
+>       /* Memory access is usermode (unprivileged) */
+>       unsigned int user:1;
 
+'secure' & 'user' seem mutually exclusive. If we get short in bits,
+they could be shared.
 
