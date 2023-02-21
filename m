@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128EC69DE40
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B63069DE49
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:57:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUQHz-0006su-D8; Tue, 21 Feb 2023 05:54:27 -0500
+	id 1pUQKA-0007rp-V8; Tue, 21 Feb 2023 05:56:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUQHx-0006qv-0m
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:54:25 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUQK5-0007om-Ia
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:56:38 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUQHv-0003Hj-4C
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:54:24 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUQK3-00048r-Hi
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:56:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676976862;
+ s=mimecast20190719; t=1676976994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R3YpjBhhQT4ScmvOdNKZrTwBto6NUHRu6NxozrhSlQk=;
- b=FiUz6t2Z8Pj8j/kRuaNcGhUZqNBQiWFMEgC7GqnkIH73FAERPVbRDNiWIBvHgmw+hqHmAi
- 2ISE9O7SOChVv4ZDebaT7KeT1kpU8eyie0P0f89Qs9GoDcsO+Gj/Nt3jTh8AIHuFZgl26H
- Yw3ZxBHA5yNMTmjHlcwMDS57mTmPB7Q=
+ bh=RUy2vNlZo5xe12js8pkQZQ6aHs7wr2RYdU2j7igV2aQ=;
+ b=GFNsPjiAcl9yGoJJnd0Zi7/pdOo5ZvtqXbRLXwxO/CXizz9/F+NkU3ictfkHoyWcxF4ns8
+ uged9UFH2nRr6CVa7tZ94EZAENqevyHB6CV3uGNKet8tMD4PW/lm9/XJrPF9AnnyubW3bG
+ k8Ieye96Bt1E4piWklobhZC/L0XYQz8=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-499-zWuNkztLPZSfBpIYvnhOlQ-1; Tue, 21 Feb 2023 05:54:19 -0500
-X-MC-Unique: zWuNkztLPZSfBpIYvnhOlQ-1
+ us-mta-523-NFVIIvCQMPGbOQhM8d2RMg-1; Tue, 21 Feb 2023 05:56:32 -0500
+X-MC-Unique: NFVIIvCQMPGbOQhM8d2RMg-1
 Received: by mail-wm1-f70.google.com with SMTP id
- bg26-20020a05600c3c9a00b003e21a3f4e84so1513198wmb.8
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:54:19 -0800 (PST)
+ c7-20020a7bc847000000b003e00be23a70so1845969wml.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:56:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=R3YpjBhhQT4ScmvOdNKZrTwBto6NUHRu6NxozrhSlQk=;
- b=bA5nGZgjdH8Fr3KoiwIcjKnu6iVyi7aI4ef5lYPahfSOAtK5z8XEmUQP5KgHjiiOle
- B7/Wdd7h2OI3QTiCVAWTAcfFr0/lJB1jA4fdCX3puTvVssdafPsjQx8BGmE4P1xPBLVU
- 9MSxn7m2CgNbNiuR1Zvyi1jrgdlbeile3Nl+4gGmsfvbM4S47jqZLXfWb7jRzh37FJDa
- 2pgPEb3KjXgdDNPqBc0toJl5bqvYZCGpIlU0VPqp9gfcirdoWWE4DSN56QSW72pryH+3
- d6cxej6pxJrESvG2KXkpEKxNxIDDpj6WazdOXvRNjaFKAmx8ZA2egHoeQ22x5K/J+0YE
- wC8w==
-X-Gm-Message-State: AO0yUKUcbkS0YwoAKUb9p3p1Pu2Lq+g555U5/uK0sDMZNHICSgA9KW/h
- mGdV83gI0WyDo6jTAiF/ImQPvZNcIq0fgDDNGqkBDS7+O3otkFLGIm8WBiNnWnHjsIggp2WRz68
- HQK5VIIOxZUegE58=
-X-Received: by 2002:adf:e689:0:b0:2c5:5da4:a3b1 with SMTP id
- r9-20020adfe689000000b002c55da4a3b1mr4648641wrm.69.1676976858715; 
- Tue, 21 Feb 2023 02:54:18 -0800 (PST)
-X-Google-Smtp-Source: AK7set9hzyY19swHBbgkmYSAnWQGHNgqRydVSZVqm43+Ke+4vQE9WBN7JFRCl6c47Z+NLzDaVtVfsA==
-X-Received: by 2002:adf:e689:0:b0:2c5:5da4:a3b1 with SMTP id
- r9-20020adfe689000000b002c55da4a3b1mr4648627wrm.69.1676976858454; 
- Tue, 21 Feb 2023 02:54:18 -0800 (PST)
+ bh=RUy2vNlZo5xe12js8pkQZQ6aHs7wr2RYdU2j7igV2aQ=;
+ b=OlKzFwk7SUufiPSkfNAbiykRb9zQgQACI27LvH2pU2Fnb9Nl0unfN8qwo3fDhkqw2q
+ /6j5gbj2Ldu+TFl2tDE1ciLM7j3+h8X5hXxB324GNJA8zPtoqXQcgPpEHjhhZq4FPX/7
+ G3X9nGZiF5Z1WpotCIa2VHuO7sn2JLRlMKS9MWBU4Wened2owEyN+4t7L5LvfVPMTr0s
+ qReqiGriDdjgo/D7V/Bxzn5SXwCGWmsC3UvsqFSIg+vr0ET9qw0JemN5oA0iZoz6nY4b
+ r1MoYaNTWGPeRxYfMbCt/zVYRRPdma1laZw8eXjrL2BDmxCx2KNbSIhl40kKlYtoRkiP
+ i8BA==
+X-Gm-Message-State: AO0yUKW+1oxJNUTZjLT4dMLRpWrxbt6DPRQ89odfxuzZIXriX/BE8XC4
+ yRIzXiBIVua54tPXgFLC4vPracz6tv3+lkr6dLzqddOPljXsb6+Hyoza960Ns1Evvx3OWbbRi0z
+ NTTRbJ/YVEWExUt0=
+X-Received: by 2002:adf:df0d:0:b0:2c6:b7e:e4c0 with SMTP id
+ y13-20020adfdf0d000000b002c60b7ee4c0mr2943897wrl.28.1676976991436; 
+ Tue, 21 Feb 2023 02:56:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set/FernaeY9IQRUe+TvSnqQzqKKsfFdWdrkKGAPoWXK24aG8xhnuGBXSfZr6wBTaVPr8dRzMyg==
+X-Received: by 2002:adf:df0d:0:b0:2c6:b7e:e4c0 with SMTP id
+ y13-20020adfdf0d000000b002c60b7ee4c0mr2943869wrl.28.1676976991185; 
+ Tue, 21 Feb 2023 02:56:31 -0800 (PST)
 Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- u9-20020a5d5149000000b002c550eb062fsm2901414wrt.14.2023.02.21.02.54.16
+ g17-20020a5d6991000000b002c54911f50bsm4849517wru.84.2023.02.21.02.56.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 02:54:17 -0800 (PST)
-Message-ID: <d7ab036c-9a0b-5217-32cd-292ca1e55b5d@redhat.com>
-Date: Tue, 21 Feb 2023 11:54:15 +0100
+ Tue, 21 Feb 2023 02:56:30 -0800 (PST)
+Message-ID: <6b363773-5797-ccb8-1089-0bb924705126@redhat.com>
+Date: Tue, 21 Feb 2023 11:56:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 08/14] tests: don't run benchmarks for the tsan build
+Subject: Re: [PATCH v2 09/14] testing: update ubuntu2004 to ubuntu2204
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -89,9 +89,9 @@ Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
  <berrange@redhat.com>
 References: <20230221094558.2864616-1-alex.bennee@linaro.org>
- <20230221094558.2864616-9-alex.bennee@linaro.org>
+ <20230221094558.2864616-10-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230221094558.2864616-9-alex.bennee@linaro.org>
+In-Reply-To: <20230221094558.2864616-10-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -119,34 +119,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 21/02/2023 10.45, Alex Bennée wrote:
-> All we are really doing here is checking that TSAN builds compile and are
-> therefor a tool available to developers. The benchmarks are not
-> representative of QEMU's actual threading behaviour and they burn
-> precious CI time. Indeed switching to check-unit reveals many
-> unaddressed issues which have been logged at:
+> The 22.04 LTS release has been out for almost a year now so its time
+> to update all the remaining images to the current LTS. We can also
+> drop some hacks we need for older clang TSAN support.
 > 
->    https://gitlab.com/qemu-project/qemu/-/issues/1496
-> 
-> So for now disable the make check and make this a build only
-> test.
+> We will keep the ubuntu2004 container around for those who wish to
+> test builds on the currently still supported baseline.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   .gitlab-ci.d/buildtest.yml | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 8f332fc36f..e9a67e0191 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -465,7 +465,6 @@ tsan-build:
->       CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10
->             --enable-trace-backends=ust --enable-fdt=system --disable-slirp
->       TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
-> -    MAKE_CHECK_ARGS: bench V=1
->   
->   # gcov is a GCC features
->   gcov:
+> Reviewed-by: John Snow <jsnow@redhat.com>
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
