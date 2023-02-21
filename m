@@ -2,87 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A9E369D954
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D3F69D953
 	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 04:40:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUJUE-0004FR-Lp; Mon, 20 Feb 2023 22:38:38 -0500
+	id 1pUJUm-0004Kj-Er; Mon, 20 Feb 2023 22:39:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pUJUA-0004Ed-QS
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 22:38:35 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xuchuangxclwt@bytedance.com>)
- id 1pUJU8-0005Dw-0f
- for qemu-devel@nongnu.org; Mon, 20 Feb 2023 22:38:34 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id p6so1700706pga.0
- for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 19:38:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=57EPRyhSAvwNrMatG2fZSwAoKOSs5zMEG2PQnlehsWY=;
- b=zOzijMHHcEuG2QPkQHAa/nCJErQk7XzNZsB2HZjrx4TnVOgi2r5ipmzy/BHrTaImQh
- KrN2ukzVRuVfPJVXjcuy/hKUkZ4IooQlH364WqQeJF04KGCKGjzXGNbsxd2Oue5qVxHi
- luWkAmAW9Y0DkFEXLZxUrAJK5EwUP0O+uCqdPqIM3ZUQZrYMWmzPx8Jsfg/E8a99l6lY
- bwDc2DHplKR1Tj8Wkfe6/N7ihShSYAFfzL5rRpL6ws8s3tKYJUyitzHiAQFWhYIkKbOW
- CLwX3pHMoU3DhsvT/x9iRWnAddyAt2lZwCfN5mZsNx/e2klfIDJ8k5Ccc+reVd/LAwYt
- yMYg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pUJUj-0004K5-Oj
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 22:39:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pUJUi-0005GY-3c
+ for qemu-devel@nongnu.org; Mon, 20 Feb 2023 22:39:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676950737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=83eZbEkKLDlUyn8ZKesVCMpXVlakNgvVxQSzubXQCY0=;
+ b=ipSwp1GqBCfewExrJVst656j3XEULv11xV1r57azKi1AMkAziAv7ComyvdqLjhQoe7Guwb
+ SPD9boM/2JjNaGDweAMOLGxv6UlU1+LJQQDLO8edKc5+HZ4doDx69omnDmdAd1OYlxS3jr
+ vltSrrAWzvI0izvlkBGSitS8mWyGruE=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-384-HwkfkpdbN_2HpBgeJEoddw-1; Mon, 20 Feb 2023 22:38:47 -0500
+X-MC-Unique: HwkfkpdbN_2HpBgeJEoddw-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ 1-20020a17090a0f0100b00237214c4e4aso123489pjy.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Feb 2023 19:38:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=57EPRyhSAvwNrMatG2fZSwAoKOSs5zMEG2PQnlehsWY=;
- b=dG0ceLW93T63GW4DGCRc8vom7hr5k2SU0ti99E5wtMglOMHqlIsbYN0T3J9CBfMJAj
- PfXyKkTE/0A7U4tVHAj1Q/sB5Rww1ZgTbENgrBWeXju310gac6H0VfPaan/7HV7/Ucew
- fN7xMCGfyPMI89Qz+zf9s3As0Wc+2bir9T2yZkQISgvTd7+Dz20pbO3NZmANSpMLv15X
- Jlqq8fTH4nB32g+MVwNL2F5dUEuDfMhDt51F3whSwOv4PsTBQsrcpRiXf6/0FNjTf/Xl
- 7FSIUp2xU6SHTZ18ZiDL0s6DxSFuSUyEqOkjyuA7/Iez2lxWT1tdII07dVFB6dmk4pHc
- CMNA==
-X-Gm-Message-State: AO0yUKXuZPMaoqiQvhhl5hjIcfYe1HY4AKDwIk6qwQMbNjfQbc0lI5Rf
- P2uW/8lEmDSS0nGzVBGdUpbMkQ==
-X-Google-Smtp-Source: AK7set8t9v4b9vqrdy0oCx/MAtgsOg3xO4bE+sqYpckzjlyaAQmD7tKyq7/sYtTuLU+ULy8xALaPRA==
-X-Received: by 2002:a62:1605:0:b0:5a8:ba8d:8040 with SMTP id
- 5-20020a621605000000b005a8ba8d8040mr3990203pfw.23.1676950709093; 
- Mon, 20 Feb 2023 19:38:29 -0800 (PST)
-Received: from [10.94.53.13] ([139.177.225.249])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=83eZbEkKLDlUyn8ZKesVCMpXVlakNgvVxQSzubXQCY0=;
+ b=RXEcicS38eXN9bngHFb5bEnxPFaLURUZz7NEKxMgIDR3y1BJf/zMShpwLbH2vJzge4
+ DyOLht2Z/K3dzXeoLUflyo7wB2CazIrufTmegTBQK/mVSdV5CkvGc4gqNgcQwhX/A59b
+ 4+xySrtqtc1/pnxuiydrf2jltdl3ca7zDGf7GxG4WlqIPxYE3mEFOpntEzfKkUWoyn0o
+ gNjbwgt8CEqhqbcIDc5rqOUJUc1wnHH1ei5lUG2afFsWwbgDhQiLVJYNBAHWZeDzV18j
+ 8aggijOQ2JLXv2NdTdQDAfh4Br/FcKy8971qZKjcUa9PU2u9PlRtxbCuVcMQMd2u3AbB
+ k6ZA==
+X-Gm-Message-State: AO0yUKU3r3DA5e1TVUClTpRMmLNB09796lS86ZXAYX6GtSiejp0xucce
+ Sn637omEh1LTma6UORCB+GL3hqoSHKFs5RM7BRGsg8WDzpUrU7nKHXo35+9klep1ILEtQnqG+Z8
+ AIz9HGw1dNiGATmc=
+X-Received: by 2002:a05:6a20:938a:b0:cb:27a7:9d42 with SMTP id
+ x10-20020a056a20938a00b000cb27a79d42mr5122766pzh.61.1676950726828; 
+ Mon, 20 Feb 2023 19:38:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set/vC3Wd9yJYFOYS0kthB3ThqRy5BfooFqfPx0ve00Pszx3vRFyCS5skUx6I4r6jLNM691zxdQ==
+X-Received: by 2002:a05:6a20:938a:b0:cb:27a7:9d42 with SMTP id
+ x10-20020a056a20938a00b000cb27a79d42mr5122739pzh.61.1676950726495; 
+ Mon, 20 Feb 2023 19:38:46 -0800 (PST)
+Received: from [10.72.13.11] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- a10-20020a65654a000000b005022111ab31sm1318845pgw.71.2023.02.20.19.38.25
+ io16-20020a17090312d000b0019a96f10c6fsm8671442plb.293.2023.02.20.19.38.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 19:38:28 -0800 (PST)
-Message-ID: <76a253ef-6989-f92d-cb33-6456a270a8d1@bytedance.com>
-Date: Tue, 21 Feb 2023 11:38:23 +0800
+ Mon, 20 Feb 2023 19:38:46 -0800 (PST)
+Message-ID: <dfa9d36f-f3f6-8f72-7e11-d4f4620fb1c5@redhat.com>
+Date: Tue, 21 Feb 2023 11:38:41 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
- vmstate
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
- pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
- zhouyibo@bytedance.com
-References: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
- <877cwizqvy.fsf@secure.mitica>
- <a555b989-27be-006e-0d00-9f1688c5be4e@bytedance.com>
- <abcb08b7-460c-d88c-af48-c1d256f89c54@bytedance.com> <Y++i1NmxUxOPDM/V@x1n>
-From: Chuang Xu <xuchuangxclwt@bytedance.com>
-In-Reply-To: <Y++i1NmxUxOPDM/V@x1n>
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v5 21/29] hw/net/net_tx_pkt: Automatically determine if
+ virtio-net header is used
+Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Yan Vugenfirer <yvugenfi@redhat.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Alexander Bulekov <alxndr@bu.edu>
+References: <20230201033539.30049-1-akihiko.odaki@daynix.com>
+ <20230201033539.30049-22-akihiko.odaki@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20230201033539.30049-22-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=xuchuangxclwt@bytedance.com; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FROM_LOCAL_NOVOWEL=0.5, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,187 +110,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Peter
 
-It seems that there is a problem with the code format in my last email.
-I adjusted the format and resend this to you. Hope the format of this
-email won't be wrong again..  :)
+在 2023/2/1 11:35, Akihiko Odaki 写道:
+> The new function qemu_get_using_vnet_hdr() allows to automatically
+> determine if virtio-net header is used.
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>   hw/net/e1000e_core.c |  3 +--
+>   hw/net/net_tx_pkt.c  | 19 ++++++++++---------
+>   hw/net/net_tx_pkt.h  |  3 +--
+>   hw/net/vmxnet3.c     |  6 ++----
+>   4 files changed, 14 insertions(+), 17 deletions(-)
+>
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index 38d374fba3..954a007151 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -3376,8 +3376,7 @@ e1000e_core_pci_realize(E1000ECore     *core,
+>           qemu_add_vm_change_state_handler(e1000e_vm_state_change, core);
+>   
+>       for (i = 0; i < E1000E_NUM_QUEUES; i++) {
+> -        net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner,
+> -                        E1000E_MAX_TX_FRAGS, core->has_vnet);
+> +        net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner, E1000E_MAX_TX_FRAGS);
+>       }
+>   
+>       net_rx_pkt_init(&core->rx_pkt, core->has_vnet);
+> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+> index 8a23899a4d..cf46c8457f 100644
+> --- a/hw/net/net_tx_pkt.c
+> +++ b/hw/net/net_tx_pkt.c
+> @@ -35,7 +35,6 @@ struct NetTxPkt {
+>       PCIDevice *pci_dev;
+>   
+>       struct virtio_net_hdr virt_hdr;
+> -    bool has_virt_hdr;
 
-On 2023/2/17 下午11:52, Peter Xu wrote:
-> Hello, Chuang,
->
-> On Fri, Feb 17, 2023 at 04:11:19PM +0800, Chuang Xu wrote:
->> Error 1 was triggered by our sanity check. I try to add RCU_READ_LOCK_GUARD()
->> in address_space_init() and it works. But I'm not sure if this code change is
->> appropriate. If this change is not appropriate, we may need to consider other
->> sanity check.
-> I'd suggest not adding RCU locks without a good reason.
->
-> address_space_init() is definitely a special context because the AS is
-> exclusively owned by the caller before it returns.  It means no RCU
-> protection needed at all because no one else is touching it; neither do we
-> need qatomic_rcu_read() when read.
->
-> So I suggest we directly reference current_map, even though that'll need a
-> rich comment:
->
->   static void address_space_set_flatview(AddressSpace *as)
+
+So this requires implicit coupling of NetTxPkt and a NetClientState (not 
+self contained). This may work now but probably not the future e.g when 
+two packets were queued in a list when one packet has a vnet header but 
+another doesn't?
+
+Thanks
+
+
+>   
+>       struct iovec *raw;
+>       uint32_t raw_frags;
+> @@ -59,7 +58,7 @@ struct NetTxPkt {
+>   };
+>   
+>   void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
+> -    uint32_t max_frags, bool has_virt_hdr)
+> +    uint32_t max_frags)
 >   {
-> -    FlatView *old_view = address_space_to_flatview(as);
-> +    /*
-> +     * NOTE: we don't use RCU flavoured of address_space_to_flatview()
-> +     * because we exclusively own as->current_map here: it's either during
-> +     * init of an address space, or during commit() with BQL held.
-> +     */
-> +    FlatView *old_view = as->current_map;
->
-> We can have address_space_to_flatview_raw() but since we'll directly modify
-> as->current_map very soon in the same function, so may not even bother.
-I agree with you.
+>       struct NetTxPkt *p = g_malloc0(sizeof *p);
+>   
+> @@ -71,10 +70,8 @@ void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
+>   
+>       p->max_payload_frags = max_frags;
+>       p->max_raw_frags = max_frags;
+> -    p->has_virt_hdr = has_virt_hdr;
+>       p->vec[NET_TX_PKT_VHDR_FRAG].iov_base = &p->virt_hdr;
+> -    p->vec[NET_TX_PKT_VHDR_FRAG].iov_len =
+> -        p->has_virt_hdr ? sizeof p->virt_hdr : 0;
+> +    p->vec[NET_TX_PKT_VHDR_FRAG].iov_len = sizeof p->virt_hdr;
+>       p->vec[NET_TX_PKT_L2HDR_FRAG].iov_base = &p->l2_hdr;
+>       p->vec[NET_TX_PKT_L3HDR_FRAG].iov_base = &p->l3_hdr;
+>   
+> @@ -617,9 +614,11 @@ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
+>   
+>   bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
+>   {
+> +    bool using_vnet_hdr = qemu_get_using_vnet_hdr(nc->peer);
+> +
+>       assert(pkt);
+>   
+> -    if (!pkt->has_virt_hdr &&
+> +    if (!using_vnet_hdr &&
+>           pkt->virt_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
+>           net_tx_pkt_do_sw_csum(pkt);
+>       }
+> @@ -636,11 +635,13 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
+>           }
+>       }
+>   
+> -    if (pkt->has_virt_hdr ||
+> +    if (using_vnet_hdr ||
+>           pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
+> +        int index = using_vnet_hdr ?
+> +                    NET_TX_PKT_VHDR_FRAG : NET_TX_PKT_L2HDR_FRAG;
+>           net_tx_pkt_fix_ip6_payload_len(pkt);
+> -        net_tx_pkt_sendv(pkt, nc, pkt->vec,
+> -            pkt->payload_frags + NET_TX_PKT_PL_START_FRAG);
+> +        net_tx_pkt_sendv(pkt, nc, pkt->vec + index,
+> +            pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - index);
+>           return true;
+>       }
+>   
+> diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+> index 2e38a5fa69..8d3faa42fb 100644
+> --- a/hw/net/net_tx_pkt.h
+> +++ b/hw/net/net_tx_pkt.h
+> @@ -32,10 +32,9 @@ struct NetTxPkt;
+>    * @pkt:            packet pointer
+>    * @pci_dev:        PCI device processing this packet
+>    * @max_frags:      max tx ip fragments
+> - * @has_virt_hdr:   device uses virtio header.
+>    */
+>   void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
+> -    uint32_t max_frags, bool has_virt_hdr);
+> +    uint32_t max_frags);
+>   
+>   /**
+>    * Clean all tx packet resources.
+> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+> index c63bbb59bd..8c3f5d6e14 100644
+> --- a/hw/net/vmxnet3.c
+> +++ b/hw/net/vmxnet3.c
+> @@ -1521,8 +1521,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+>   
+>       /* Preallocate TX packet wrapper */
+>       VMW_CFPRN("Max TX fragments is %u", s->max_tx_frags);
+> -    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s),
+> -                    s->max_tx_frags, s->peer_has_vhdr);
+> +    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s), s->max_tx_frags);
+>       net_rx_pkt_init(&s->rx_pkt, s->peer_has_vhdr);
+>   
+>       /* Read rings memory locations for RX queues */
+> @@ -2402,8 +2401,7 @@ static int vmxnet3_post_load(void *opaque, int version_id)
+>   {
+>       VMXNET3State *s = opaque;
+>   
+> -    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s),
+> -                    s->max_tx_frags, s->peer_has_vhdr);
+> +    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s), s->max_tx_frags);
+>       net_rx_pkt_init(&s->rx_pkt, s->peer_has_vhdr);
+>   
+>       if (s->msix_used) {
 
-But now I am facing a new problem. Our sanity check is not as reliable 
-as we think.
-
-Although my current code can pass all the tests that Juan told me in the 
-email.
-But if I configure with nothing and run 'make check', My patch triggers 
-error
-in ahci migrate test:
-
-G_TEST_DBUS_DAEMON=/data00/migration/qemu-open/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-x86_64 QTEST_QEMU_IMG=./qemu-img
-MALLOC_PERTURB_=1
-QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
-/data00/migration/qemu-open/build/tests/qtest/ahci-test --tap -k
-―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― 
-
-✀
-―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― 
-
-stderr:
-qemu-system-x86_64: AHCI: Failed to start FIS receive engine: bad FIS
-receive buffer address
-qemu-system-x86_64: Failed to load ich9_ahci:ahci
-qemu-system-x86_64: error while loading state for instance 0x0 of device
-'0000:00:1f.2/ich9_ahci'
-qemu-system-x86_64: load of migration failed: Operation not permitted
-Migration did not complete, status: failed
-
-It seems that ahci_state_post_load() will call memory_access_is_direct()
-and access mr->ram. Due to mr transaction delay, this value doesn't meet
-expectations. And Here is the call chain for you to read the code:
-->ahci_state_post_load
-->ahci_cond_start_engines
-->ahci_map_fis_address
-->map_page
-->dma_memory_map
-->address_space_map
-->memory_access_is_direct
-
-
-I think we need a memory_region_transaction_commit_force() to force commit
-some transactions when load vmstate. This function is designed like this:
-
-/*
-  * memory_region_transaction_commit_force() is desgined to
-  * force the mr transaction to be commited in the process
-  * of loading vmstate.
-  */
-void memory_region_transaction_commit_force(void)
-{
-     AddressSpace *as;
-     unsigned int memory_region_transaction_depth_copy = 
-memory_region_transaction_depth;
-
-     /*
-      * Temporarily replace memory_region_transaction_depth with 0 to 
-prevent
-      * memory_region_transaction_commit_force() and 
-address_space_to_flatview()
-      * call each other recursively.
-      */
-     memory_region_transaction_depth = 0;
-
-     assert(qemu_mutex_iothread_locked());
-
-
-     if (memory_region_update_pending) {
-         flatviews_reset();
-
-         MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
-
-         QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-             address_space_set_flatview(as);
-             address_space_update_ioeventfds(as);
-         }
-         memory_region_update_pending = false;
-         ioeventfd_update_pending = false;
-         MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
-     } else if (ioeventfd_update_pending) {
-         QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-             address_space_update_ioeventfds(as);
-         }
-         ioeventfd_update_pending = false;
-     }
-
-     /* recover memory_region_transaction_depth */
-     memory_region_transaction_depth = 
-memory_region_transaction_depth_copy;
-}
-
-Now there are two options to use this function:
-1. call it in address_space_to_flatview():
-
-static inline FlatView *address_space_to_flatview(AddressSpace *as)
-{
-     /*
-      * Before using any flatview, check whether we're during a memory
-      * region transaction. If so, force commit the memory region 
-transaction.
-      */
-     if (memory_region_transaction_in_progress())
-         memory_region_transaction_commit_force();
-     return qatomic_rcu_read(&as->current_map);
-}
-
-2. call it before each post_load()
-
-I prefer to use the former one, it is more general than the latter.
-And with this function, the sanity check is not necessary any more.
-Although we may inevitably call memory_region_transaction_commit_force()
-several times, in my actual test, the number of calls to
-memory_region_transaction_commit_force() is still insignificant compared
-with the number of calls to memory_region_transaction_commit() before
-optimization. As a result, This code won't affect the optimization effect,
-but it can ensure reliability.
->> Error 2 was related to postcopy. I read the official document of postcopy
->> (I hope it is the latest) and learned that two threads will call
->> qemu_loadvm_state_main() in the process of postcopy. The one called by main thread
->> will take the BQL, and the one called by ram_listen thread won't take the BQL.
->> The latter checks whether the BQL is held when calling memory_region_transaction_commit(),
->> thus triggering the assertion. Creating a new function qemu_loadvm_state_ram_listen()
->> without memory_region_transaction_commit() will solve this error.
-> Sounds right, because the whole qemu_loadvm_state_main() process shouldn't
-> load any device state or anything that requires BQL at all; in most cases
-> that should be only RAM states leftovers.
->
-> I think we only want to optimize precopy but not the postcopy phase. Note!
-> it should include the phase when transferring precopy -> postcopy too, so
-> it's covering postcopy, just not covering the "post" phase of migration -
-> if you see that's a nested call to qemu_loadvm_state_main() with a whole
-> MIG_CMD_PACKAGED package which is actually got covered, which is the real
-> meat for postcopy on device transitions.
->
-> So in short: instead of creating qemu_loadvm_state_ram_listen(), how about
-> modifying your patch 3, instead of changing inside qemu_loadvm_state_main()
-> we can do that for qemu_loadvm_state() only (so you can wrap the begin()
-> and commit() over qemu_loadvm_state_main() there)?
-In Patch v6 I'll adopt the change you suggested, Thanks!
->> I don't know if you suggest using this patch in postcopy. If this patch is applicable to
->> postcopy, considering the difference between how postcopy and precheck load device state,
->> do we need to consider more details?
-> See above.  Yes I definitely hope postcopy will be covered too.
->
-> Thanks!
->
 
