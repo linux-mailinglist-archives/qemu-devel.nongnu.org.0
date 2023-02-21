@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C6569E08D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 13:41:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7985369E0BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 13:49:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pURxC-0002Ce-Cl; Tue, 21 Feb 2023 07:41:06 -0500
+	id 1pUS49-0004rX-Fp; Tue, 21 Feb 2023 07:48:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pURx6-0002C7-My
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:41:01 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pURx4-0005yE-Sn
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:41:00 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id q189so2092065pga.9
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 04:40:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676983257;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Oahe6bQC9BMjcmtOs2/N7gYj4LkKt20bVM5IJeRoyJE=;
- b=c9yu283cPgFkEWCJtgCv7tPpzT5nfWcvOY+VpDrQkGXOTGNdVLkL8nVIayU68KBR8S
- OFKxYNroSwouHJ4rZTxZJT5cEpB0qf1gImUTFB/XpvLwnhB9DqxWmSF6bsHoZ3Rj1Bp4
- j6y4Ezd6igR3pB6qBQhscOgm0pqHR4vw8dSmTXKLwc88OdCDG+QzFj3XAIi9NpktTLIi
- l/vlI4gJ+QN4EJ6xuvm6uU9Vrup/Jpvef8LTuhI09JnuNG1V6WDbp2zn0ynHaPQraknp
- VW7FekFb0qMW9upp9tpIODjEyLEkkW7939AVQnbDAK86t88WGK07hF1vIzq4tmQLY8FW
- 5jBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676983257;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Oahe6bQC9BMjcmtOs2/N7gYj4LkKt20bVM5IJeRoyJE=;
- b=Hb6w05+eF3AeJjE7vasckVsVIDg61bj0+E7ue3dz0Uh/evIzEOw0Z2RlK7moxju+OS
- CUjCMASz6vwQPbvdiHPdGFsDZ9ZANLOjNi0B9oIXbxSS2UV3jUqORcTkRZ607McI9H6k
- U6WRoGEGNHxiC/xaqLrCJM9pPH+odJlqKOcVWxKb+9AqM6/dnVtfcu1gsxPBxLEI3ER3
- yoi0W2UCr4c9sr0U/D0hylOxhmkYzI1q0iMdMqvHFGyYVW3tkIISNKJ8BFdkgiqYQEqS
- eJfszCzVFxUu6XTBDmP2TLysbvNAmxKELTq7Rgxt93I+VX3TofFTSqXZ4be13HSqYqg3
- 0e0A==
-X-Gm-Message-State: AO0yUKXOp/BrroD+EZflA2PexhHXhJ+2mWdvCVe1D9S7buo0NCUFJByX
- aLMv8A84/P/HJLIfkGeGhUIzhnrN5lrW9fojpiQ9oQ==
-X-Google-Smtp-Source: AK7set8nzIG1XyMvT0/W65XixIZCPchtlRjMgiGfD/MA/Vbbxnl8mNooFvDH4atdlpUhrDq22ZCz9D/IhVs3nUke/kg=
-X-Received: by 2002:a62:164f:0:b0:5a9:babe:6cb9 with SMTP id
- 76-20020a62164f000000b005a9babe6cb9mr798362pfw.48.1676983257278; Tue, 21 Feb
- 2023 04:40:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pUS44-0004pj-RE
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1pUS42-0007nP-Md
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676983690;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TJAvStjeyfXY7Fqu+f5Kq0t0UxLLT01gyELlytjqWtc=;
+ b=fSn4rBMaERCbF1aghewmKLIFp8sqDy0MADxN68AHr1wgeEK19fwSHHnIjSuAs6fVzo4mud
+ 2O6Gu0TZyBp+Azr4ZJLnsvs6OEIPFhrrL0X6DzWNDEV5nsEtaHM1FQUZcJtVoXFCO9FU8e
+ DfOkrJ4buwi/IvuJy77/zJ9WxN6IUXI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-640-zI2oH7CjPL2ggYhvDzIxUA-1; Tue, 21 Feb 2023 07:48:07 -0500
+X-MC-Unique: zI2oH7CjPL2ggYhvDzIxUA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8A4D385CBF4;
+ Tue, 21 Feb 2023 12:48:06 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C80A5440D9;
+ Tue, 21 Feb 2023 12:48:04 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, qemu-arm@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, armbru@redhat.com,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Fam Zheng <fam@euphon.net>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>,
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v3 00/16] win32: do not mix SOCKET and fd space
+Date: Tue, 21 Feb 2023 16:47:45 +0400
+Message-Id: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20230221122440.612281-1-thuth@redhat.com>
-In-Reply-To: <20230221122440.612281-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Feb 2023 12:40:46 +0000
-Message-ID: <CAFEAcA-PJNQHR0nyyObxBLqHDM6QBWzpz35Dc6o17S5n2Jbt2w@mail.gmail.com>
-Subject: Re: [PATCH] qemu-keymap: Silence memory leak warning from Clang's
- sanitizer
-To: Thomas Huth <thuth@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Steve Sistare <steven.sistare@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,32 +87,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Feb 2023 at 12:26, Thomas Huth <thuth@redhat.com> wrote:
->
-> When compiling QEMU with "--enable-sanitizers --enable-xkbcommon --cc=clang"
-> there is a memory leak warning when running qemu-keymap:
->
->  $ ./qemu-keymap -f pc-bios/keymaps/de -l de
->
->  =================================================================
->  ==610321==ERROR: LeakSanitizer: detected memory leaks
->
->  Direct leak of 136 byte(s) in 1 object(s) allocated from:
->      #0 0x5642830d0820 in __interceptor_calloc.part.11 asan_malloc_linux.cpp.o
->      #1 0x7f31873b8d2b in xkb_state_new (/lib64/libxkbcommon.so.0+0x1dd2b) (BuildId: dd32581e2248833243f3f646324ae9b98469f025)
->
->  SUMMARY: AddressSanitizer: 136 byte(s) leaked in 1 allocation(s).
->
-> It can be silenced by properly releasing the "state" again
-> after it has been used.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The leak is a "trivial" one in that we allocate only one
-object and we're going to immediately exit anyway.
+Hi,
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+A win32 SOCKET handle is often cast to an int file descriptor, as this is what
+other OS use for sockets. When necessary, QEMU eventually queries whether it's a
+socket with the help of fd_is_socket(). However, there is no guarantee of
+conflict between the fd and SOCKET space. Such conflict would have surprising
+consequences. We can fix this by using FDs only.
 
-thanks
--- PMM
+After fixing a few missed closesocket(), this patch series makes the win32
+socket API wrappers take FDs. It finally get rid of closesocket() usage by using
+a close() wrapper instead. (note that fdopen/fclose would not be enough either
+to close the underlying socket appropriately)
+
+v3:
+- fix closesocket() to prevent CloseHandle() from close()
+- fix direct closesocket() usage (#undef closesocket before)
+- add a test for &error_warn
+- add r-b tags
+
+v2:
+- add clean up patch "util: drop qemu_fork()"
+- add a "&error_warn", to help with basic error reporting
+- fix errno handling after _get_osfhandle()
+- introduce qemu_socket_(un)select() helpers
+- add patch "aio_set_fd_handler() only supports SOCKET"
+- add meson slirp.wrap RFC
+- various misc cleanups
+- add r-b tags
+
+Marc-André Lureau (16):
+  util: drop qemu_fork()
+  tests: use closesocket()
+  io: use closesocket()
+  tests: add test-error-report
+  error: add global &error_warn destination
+  win32/socket: introduce qemu_socket_select() helper
+  win32/socket: introduce qemu_socket_unselect() helper
+  aio: make aio_set_fd_poll() static to aio-posix.c
+  aio/win32: aio_set_fd_handler() only supports SOCKET
+  RFC: build-sys: add slirp.wrap
+  main-loop: remove qemu_fd_register(), win32/slirp/socket specific
+  slirp: unregister the win32 SOCKET
+  slirp: open-code qemu_socket_(un)select()
+  win32: avoid mixing SOCKET and file descriptor space
+  os-posix: remove useless ioctlsocket() define
+  win32: replace closesocket() with close() wrapper
+
+ include/block/aio.h            |   8 --
+ include/qapi/error.h           |   6 +
+ include/qemu/main-loop.h       |   2 -
+ include/qemu/osdep.h           |  14 --
+ include/sysemu/os-posix.h      |   3 -
+ include/sysemu/os-win32.h      |  15 ++-
+ backends/tpm/tpm_emulator.c    |   6 +-
+ crypto/afalg.c                 |   6 +-
+ hw/hyperv/syndbg.c             |   4 +-
+ io/channel-socket.c            |   8 +-
+ io/channel-watch.c             |  10 +-
+ net/dgram.c                    |  14 +-
+ net/slirp.c                    |  16 ++-
+ net/socket.c                   |  22 +--
+ tests/qtest/libqtest.c         |   8 +-
+ tests/qtest/microbit-test.c    |   2 +-
+ tests/qtest/netdev-socket.c    |  10 +-
+ tests/unit/socket-helpers.c    |   2 +-
+ tests/unit/test-error-report.c | 139 +++++++++++++++++++
+ util/aio-posix.c               |   6 +-
+ util/aio-win32.c               |  23 ++--
+ util/error.c                   |  10 +-
+ util/main-loop.c               |  11 --
+ util/oslib-posix.c             |  70 ----------
+ util/oslib-win32.c             | 240 ++++++++++++++++++++++++++++-----
+ util/qemu-sockets.c            |  22 +--
+ .gitignore                     |   2 +
+ subprojects/slirp.wrap         |   6 +
+ tests/unit/meson.build         |   1 +
+ 29 files changed, 461 insertions(+), 225 deletions(-)
+ create mode 100644 tests/unit/test-error-report.c
+ create mode 100644 subprojects/slirp.wrap
+
+-- 
+2.39.2
+
 
