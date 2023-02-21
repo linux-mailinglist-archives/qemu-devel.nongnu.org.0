@@ -2,96 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC37B69DC8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:08:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46CF69DC96
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 10:11:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUOc2-00084q-I1; Tue, 21 Feb 2023 04:07:02 -0500
+	id 1pUOfX-0000kp-MB; Tue, 21 Feb 2023 04:10:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pUOc0-00084Q-7o
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:07:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pUObw-0006bl-N5
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 04:06:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676970415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wh9KY0pIsNRH6HWS63II12DcigTcu7yq4JSVnoSRPrw=;
- b=KmUPm4Klun7TK5zob2gmacodDeQFg/T3vgf5B9Pucdnru4uoDKfie7gKrLX0BCdG6S5ghE
- rW+EJQzWKvLrz88hr4Wyx1YH3B/+FzBBwhjCoFzZdpums/lTjJ6L2vPbwLl8vIcTmWoVsx
- rXESOYExqZ7T94BoIsvsZWTW4FNFHAw=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-55-p3UyIl6sP4qRFlZeKi39Uw-1; Tue, 21 Feb 2023 04:06:53 -0500
-X-MC-Unique: p3UyIl6sP4qRFlZeKi39Uw-1
-Received: by mail-vs1-f72.google.com with SMTP id
- o9-20020a0561020e0900b0041710d01919so881027vst.21
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 01:06:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676970413;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Wh9KY0pIsNRH6HWS63II12DcigTcu7yq4JSVnoSRPrw=;
- b=ET+8nVdw9/Lddxt9rrtWJoycorlzaxzggC2Fw9V1vcdm+cpB/o5aplwrMfxGiDL7cU
- 73s9ursCJ0OyswuR/DhCYKtd+rbWpsn4C16KJzVRtCn8HMnwj7hTlNPXeBV1gcu/YPpj
- Ji18Hyf8X89GsZBBW42vUQeYBf8TNvbERJxWnrnt0JazzMP7SVvmdaRXAQR85flL4D6F
- yFRza3+XUoDTc6qtpRF9pJJZhBo7WdyuOHHXZXQygUrT8lrclPaxTbmnmvHJvalGJbNA
- 2c5sby0iGUmGLscdJUIOP4dqv++ETbJbONBn4Yu5prpXPP5NFKr1NmLquwsm/xmhC5xS
- FOmw==
-X-Gm-Message-State: AO0yUKVz2U1EddtCAfqjafkD3B9YDvfpAjpiYbUqLtqz1/jQbXuyiBD/
- Wz/ftAhBA+4X/HznmkjAljmm8Hus6VtvswViz99EXILEMwJZhA1XfoERiAdxCPA9vCgx9AT7s2j
- q7oXiFJFoFFqVZaKhVI4QIc3zYmWB/gM=
-X-Received: by 2002:a67:fe14:0:b0:41e:9f03:1e41 with SMTP id
- l20-20020a67fe14000000b0041e9f031e41mr30768vsr.81.1676970413239; 
- Tue, 21 Feb 2023 01:06:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set8kA2tkt2zXp4SHjkWK/UZ+CLHVjBWjWS/kZIB2cwkJm+drdvus3/n8I3jo0rvPqH5x0Kp2EusOcxqCAYZWtso=
-X-Received: by 2002:a67:fe14:0:b0:41e:9f03:1e41 with SMTP id
- l20-20020a67fe14000000b0041e9f031e41mr30764vsr.81.1676970413036; Tue, 21 Feb
- 2023 01:06:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pUOfO-0000kD-0P; Tue, 21 Feb 2023 04:10:30 -0500
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pUOfK-00075K-8K; Tue, 21 Feb 2023 04:10:29 -0500
+Received: from localhost.localdomain (unknown [114.95.238.225])
+ by APP-01 (Coremail) with SMTP id qwCowAAHBUFyivRjvZKIBg--.64010S2;
+ Tue, 21 Feb 2023 17:10:11 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH] target/riscv: Add support for Zicond extension
+Date: Tue, 21 Feb 2023 17:10:09 +0800
+Message-Id: <20230221091009.36545-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230220174142.240393-1-kkostiuk@redhat.com>
- <20230220174142.240393-2-kkostiuk@redhat.com>
- <790be50d-9a52-6f92-f053-ee9a4eec0a31@linaro.org>
-In-Reply-To: <790be50d-9a52-6f92-f053-ee9a4eec0a31@linaro.org>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Tue, 21 Feb 2023 10:06:42 +0100
-Message-ID: <CAA8xKjUQFBVgDVJ059FvGoSjkv+kZ5jB1gfMNz+ao-twH7FDRg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] qga/win32: Remove change action from MSI installer
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org, 
- Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>, 
- Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Yan Vugenfirer <yvugenfi@redhat.com>, 
- Evgeny Iakovlev <eiakovlev@linux.microsoft.com>, 
- Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, brian.wiltse@live.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAAHBUFyivRjvZKIBg--.64010S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtw18Ar13XF4fAr1UWFyDZFb_yoW7XFWfpr
+ 4rG347Ga1DAFyfAayftF4UXr1UCrs3G3yUK39avwn5Xa13WrWxJrsrK3yagrWUJFWkZr4j
+ 9F45Cry5uws5JaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+ xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+ MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+ 0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+ JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOG
+ QDUUUUU
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,61 +73,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Philippe,
+The spec can be found in https://github.com/riscv/riscv-zicond.
+Two instructions are added:
+ - czero.eqz: Moves zero to a register rd, if the condition rs2 is
+   equal to zero, otherwise moves rs1 to rd.
+ - czero.nez: Moves zero to a register rd, if the condition rs2 is
+   nonzero, otherwise moves rs1 to rd.
 
-On Tue, Feb 21, 2023 at 9:15 AM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> On 20/2/23 18:41, Konstantin Kostiuk wrote:
-> > resolves: rhbz#2167436
->
-> "You are not authorized to access bug #2167436."
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+---
+ target/riscv/cpu.c                           |  2 +
+ target/riscv/cpu.h                           |  1 +
+ target/riscv/insn32.decode                   |  4 ++
+ target/riscv/insn_trans/trans_rvzicond.c.inc | 49 ++++++++++++++++++++
+ target/riscv/translate.c                     |  1 +
+ 5 files changed, 57 insertions(+)
+ create mode 100644 target/riscv/insn_trans/trans_rvzicond.c.inc
 
-Please refer to https://bugzilla.redhat.com/show_bug.cgi?id=3D2167423.
-It should now be accessible.
-
-> > fixes: CVE-2023-0664
->
-> This commit description is rather scarce...
->
-> I understand you are trying to fix a CVE, but we shouldn't play
-> the "security by obscurity" card. How can the community and
-> distributions know this security fix is enough with the bare
-> "Remove change action from MSI installer" justification?
-> Can't we do better?
-
-CCing Brian Wiltse, who originally found and reported this issue.
-
-Reported-by: Brian Wiltse <brian.wiltse@live.com>
-
-> > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-> > ---
-> >   qga/installer/qemu-ga.wxs | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
-> > index 51340f7ecc..feb629ec47 100644
-> > --- a/qga/installer/qemu-ga.wxs
-> > +++ b/qga/installer/qemu-ga.wxs
-> > @@ -31,6 +31,7 @@
-> >         />
-> >       <Media Id=3D"1" Cabinet=3D"qemu_ga.$(var.QEMU_GA_VERSION).cab" Em=
-bedCab=3D"yes" />
-> >       <Property Id=3D"WHSLogo">1</Property>
-> > +    <Property Id=3D"ARPNOMODIFY" Value=3D"yes" Secure=3D"yes" />
-> >       <MajorUpgrade
-> >         DowngradeErrorMessage=3D"Error: A newer version of QEMU guest a=
-gent is already installed."
-> >         />
-> > --
-> > 2.25.1
-> >
-> >
->
-
---=20
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 0dd2f0c753..80b92930ae 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -74,6 +74,7 @@ struct isa_ext_data {
+ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
+     ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
++    ISA_EXT_DATA_ENTRY(zicond, true, PRIV_VERSION_1_12_0, ext_zicond),
+     ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
+     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
+     ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
+@@ -1143,6 +1144,7 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
+ 
+     /* These are experimental so mark with 'x-' */
++    DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+     /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7128438d8e..81b7c92e7a 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -447,6 +447,7 @@ struct RISCVCPUConfig {
+     bool ext_zkt;
+     bool ext_ifencei;
+     bool ext_icsr;
++    bool ext_zicond;
+     bool ext_zihintpause;
+     bool ext_smstateen;
+     bool ext_sstc;
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index b7e7613ea2..fb537e922e 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -890,3 +890,7 @@ sm3p1       00 01000 01001 ..... 001 ..... 0010011 @r2
+ # *** RV32 Zksed Standard Extension ***
+ sm4ed       .. 11000 ..... ..... 000 ..... 0110011 @k_aes
+ sm4ks       .. 11010 ..... ..... 000 ..... 0110011 @k_aes
++
++# *** RV32 Zicond Standard Extension ***
++czero_eqz   0000111  ..... ..... 101 ..... 0110011 @r
++czero_nez   0000111  ..... ..... 111 ..... 0110011 @r
+diff --git a/target/riscv/insn_trans/trans_rvzicond.c.inc b/target/riscv/insn_trans/trans_rvzicond.c.inc
+new file mode 100644
+index 0000000000..645260164e
+--- /dev/null
++++ b/target/riscv/insn_trans/trans_rvzicond.c.inc
+@@ -0,0 +1,49 @@
++/*
++ * RISC-V translation routines for the Zicond Standard Extension.
++ *
++ * Copyright (c) 2020-2023 PLCT Lab
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#define REQUIRE_ZICOND(ctx) do {          \
++    if (!ctx->cfg_ptr->ext_zicond) {      \
++        return false;                     \
++    }                                     \
++} while (0)
++
++static bool trans_czero_eqz(DisasContext *ctx, arg_czero_eqz *a)
++{
++    REQUIRE_ZICOND(ctx);
++
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++
++    tcg_gen_movcond_tl(TCG_COND_EQ, dest, src2, ctx->zero, ctx->zero, src1);
++    gen_set_gpr(ctx, a->rd, dest);
++    return true;
++}
++
++static bool trans_czero_nez(DisasContext *ctx, arg_czero_nez *a)
++{
++    REQUIRE_ZICOND(ctx);
++
++    TCGv dest = dest_gpr(ctx, a->rd);
++    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
++    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++
++    tcg_gen_movcond_tl(TCG_COND_NE, dest, src2, ctx->zero, ctx->zero, src1);
++    gen_set_gpr(ctx, a->rd, dest);
++    return true;
++}
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 772f9d7973..6e65c6afca 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1103,6 +1103,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ #include "insn_trans/trans_rvh.c.inc"
+ #include "insn_trans/trans_rvv.c.inc"
+ #include "insn_trans/trans_rvb.c.inc"
++#include "insn_trans/trans_rvzicond.c.inc"
+ #include "insn_trans/trans_rvzawrs.c.inc"
+ #include "insn_trans/trans_rvzfh.c.inc"
+ #include "insn_trans/trans_rvk.c.inc"
+-- 
+2.25.1
 
 
