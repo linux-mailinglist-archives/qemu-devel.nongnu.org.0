@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2CD69E0CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 13:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5829C69E0C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 13:49:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUS4T-0005DO-9N; Tue, 21 Feb 2023 07:48:37 -0500
+	id 1pUS4a-0005GK-Rp; Tue, 21 Feb 2023 07:48:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUS4Q-0005By-Hv
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:34 -0500
+ id 1pUS4V-0005Ft-9o
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUS4O-0007rR-UF
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:34 -0500
+ id 1pUS4T-0007sD-C0
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676983712;
+ s=mimecast20190719; t=1676983716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S2PvE1cjZP1ZciStLs3CYU472dk0qnAXOur+kOuxm+U=;
- b=ThbZJRlZsHYYfUWv/BECSUKoeN7x5tUGclOugWD06dxJsCxuPpkyPEcs3Y2/mYzSxkmueI
- RU4G+/2AqdlU5zLvx1AZaq7KhO57CcWeWlDl/Y2MHh9KCJDNJ0LUNd3oq7QaOP4zxKEB4c
- bVhy7cXyPDiDv6iStiY+Mx0NTKs+rO4=
+ bh=1d28WD5B2VuUNOZgIqgkuR3MPEwDDxxWoGsHxpPb3I0=;
+ b=A4A0+hY5R1uDfb3ZBUNV2cmkrlKrMD7ZSXWXwhCMMjmzAJzOoB4EvBAifQw2H0L6SdgJYG
+ 6oGYHPF1gUccEB+gFt2s+wNUwPXscdLX2nz9YVUIcd4n1ZcoP/bGO5QReehsfFZcYMgcG+
+ NUnb0Kwx1sypVQ4o7FqhN5uQV4/5j+Y=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-DB-jNlbINqCWod17fAEcuw-1; Tue, 21 Feb 2023 07:48:28 -0500
-X-MC-Unique: DB-jNlbINqCWod17fAEcuw-1
+ us-mta-279-hm6GjQg8MkqaAz7NeFTiaQ-1; Tue, 21 Feb 2023 07:48:33 -0500
+X-MC-Unique: hm6GjQg8MkqaAz7NeFTiaQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3040381458C;
- Tue, 21 Feb 2023 12:48:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D684E381458C;
+ Tue, 21 Feb 2023 12:48:32 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C84D140EBF6;
- Tue, 21 Feb 2023 12:48:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7BCD2140EBF4;
+ Tue, 21 Feb 2023 12:48:30 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
@@ -56,9 +56,9 @@ Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>,
  Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v3 05/16] error: add global &error_warn destination
-Date: Tue, 21 Feb 2023 16:47:50 +0400
-Message-Id: <20230221124802.4103554-6-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 06/16] win32/socket: introduce qemu_socket_select() helper
+Date: Tue, 21 Feb 2023 16:47:51 +0400
+Message-Id: <20230221124802.4103554-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
 References: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -74,7 +74,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,119 +92,147 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This can help debugging issues or develop, when error handling is
-introduced.
+This is a wrapper for WSAEventSelect, with Error handling. By default,
+it will produce a warning, so callers don't have to be modified
+now, and yet we can spot potential mis-use.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/qapi/error.h           |  6 ++++++
- tests/unit/test-error-report.c | 18 ++++++++++++++++++
- util/error.c                   | 10 +++++++---
- 3 files changed, 31 insertions(+), 3 deletions(-)
+ include/sysemu/os-win32.h |  5 +++++
+ io/channel-socket.c       |  4 ++--
+ io/channel-watch.c        |  6 +++---
+ util/aio-win32.c          |  2 +-
+ util/main-loop.c          |  6 +++---
+ util/oslib-win32.c        | 17 ++++++++++++++++-
+ 6 files changed, 30 insertions(+), 10 deletions(-)
 
-diff --git a/include/qapi/error.h b/include/qapi/error.h
-index d798faeec3..f21a231bb1 100644
---- a/include/qapi/error.h
-+++ b/include/qapi/error.h
-@@ -519,6 +519,12 @@ static inline void error_propagator_cleanup(ErrorPropagator *prop)
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index 5b38c7bd04..0afb79cc2e 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -29,6 +29,7 @@
+ #include <winsock2.h>
+ #include <windows.h>
+ #include <ws2tcpip.h>
++#include "qemu/typedefs.h"
  
- G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(ErrorPropagator, error_propagator_cleanup);
- 
-+/*
-+ * Special error destination to warn on error.
-+ * See error_setg() and error_propagate() for details.
-+ */
-+extern Error *error_warn;
-+
- /*
-  * Special error destination to abort on error.
-  * See error_setg() and error_propagate() for details.
-diff --git a/tests/unit/test-error-report.c b/tests/unit/test-error-report.c
-index b09650687b..54319c86c9 100644
---- a/tests/unit/test-error-report.c
-+++ b/tests/unit/test-error-report.c
-@@ -12,6 +12,7 @@
- #include <locale.h>
- 
- #include "qemu/error-report.h"
-+#include "qapi/error.h"
- 
- static void
- test_error_report_simple(void)
-@@ -103,6 +104,22 @@ test_error_report_timestamp(void)
- ");
+ #ifdef HAVE_AFUNIX_H
+ #include <afunix.h>
+@@ -144,6 +145,10 @@ static inline void qemu_funlockfile(FILE *f)
+ #endif
  }
  
-+static void
-+test_error_warn(void)
++/* Helper for WSAEventSelect, to report errors */
++bool qemu_socket_select(SOCKET s, WSAEVENT hEventObject,
++                        long lNetworkEvents, Error **errp);
++
+ /* We wrap all the sockets functions so that we can
+  * set errno based on WSAGetLastError()
+  */
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index 2040297d2b..0bc29c4808 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -442,7 +442,7 @@ static void qio_channel_socket_finalize(Object *obj)
+             }
+         }
+ #ifdef WIN32
+-        WSAEventSelect(ioc->fd, NULL, 0);
++        qemu_socket_select(ioc->fd, NULL, 0, NULL);
+ #endif
+         closesocket(ioc->fd);
+         ioc->fd = -1;
+@@ -846,7 +846,7 @@ qio_channel_socket_close(QIOChannel *ioc,
+ 
+     if (sioc->fd != -1) {
+ #ifdef WIN32
+-        WSAEventSelect(sioc->fd, NULL, 0);
++        qemu_socket_select(sioc->fd, NULL, 0, NULL);
+ #endif
+         if (qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_LISTEN)) {
+             socket_listen_cleanup(sioc->fd, errp);
+diff --git a/io/channel-watch.c b/io/channel-watch.c
+index ad7c568a84..6ac41009fa 100644
+--- a/io/channel-watch.c
++++ b/io/channel-watch.c
+@@ -281,9 +281,9 @@ GSource *qio_channel_create_socket_watch(QIOChannel *ioc,
+     GSource *source;
+     QIOChannelSocketSource *ssource;
+ 
+-    WSAEventSelect(socket, ioc->event,
+-                   FD_READ | FD_ACCEPT | FD_CLOSE |
+-                   FD_CONNECT | FD_WRITE | FD_OOB);
++    qemu_socket_select(socket, ioc->event,
++                       FD_READ | FD_ACCEPT | FD_CLOSE |
++                       FD_CONNECT | FD_WRITE | FD_OOB, NULL);
+ 
+     source = g_source_new(&qio_channel_socket_source_funcs,
+                           sizeof(QIOChannelSocketSource));
+diff --git a/util/aio-win32.c b/util/aio-win32.c
+index 80cfe012ad..be5136e486 100644
+--- a/util/aio-win32.c
++++ b/util/aio-win32.c
+@@ -115,7 +115,7 @@ void aio_set_fd_handler(AioContext *ctx,
+ 
+         QLIST_INSERT_HEAD_RCU(&ctx->aio_handlers, node, node);
+         event = event_notifier_get_handle(&ctx->notifier);
+-        WSAEventSelect(node->pfd.fd, event, bitmask);
++        qemu_socket_select(node->pfd.fd, event, bitmask, NULL);
+     }
+     if (old_node) {
+         aio_remove_fd_handler(ctx, old_node);
+diff --git a/util/main-loop.c b/util/main-loop.c
+index 3c0f525192..16e837fb12 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -416,9 +416,9 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
+ 
+ void qemu_fd_register(int fd)
+ {
+-    WSAEventSelect(fd, event_notifier_get_handle(&qemu_aio_context->notifier),
+-                   FD_READ | FD_ACCEPT | FD_CLOSE |
+-                   FD_CONNECT | FD_WRITE | FD_OOB);
++    qemu_socket_select(fd, event_notifier_get_handle(&qemu_aio_context->notifier),
++                       FD_READ | FD_ACCEPT | FD_CLOSE |
++                       FD_CONNECT | FD_WRITE | FD_OOB, NULL);
+ }
+ 
+ static int pollfds_fill(GArray *pollfds, fd_set *rfds, fd_set *wfds,
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 528c9ee156..df752fc762 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -180,7 +180,7 @@ static int socket_error(void)
+ void qemu_socket_set_block(int fd)
+ {
+     unsigned long opt = 0;
+-    WSAEventSelect(fd, NULL, 0);
++    qemu_socket_select(fd, NULL, 0, NULL);
+     ioctlsocket(fd, FIONBIO, &opt);
+ }
+ 
+@@ -283,6 +283,21 @@ char *qemu_get_pid_name(pid_t pid)
+ }
+ 
+ 
++bool qemu_socket_select(SOCKET s, WSAEVENT hEventObject,
++                        long lNetworkEvents, Error **errp)
 +{
-+    if (g_test_subprocess()) {
-+        error_setg(&error_warn, "Testing &error_warn");
-+        return;
++    if (errp == NULL) {
++        errp = &error_warn;
 +    }
 +
-+    g_test_trap_subprocess(NULL, 0, 0);
-+    g_test_trap_assert_passed();
-+    g_test_trap_assert_stderr("\
-+test-error-report: warning: Testing &error_warn*\
-+");
++    if (WSAEventSelect(s, hEventObject, lNetworkEvents) != 0) {
++        error_setg_win32(errp, WSAGetLastError(), "failed to WSAEventSelect()");
++        return false;
++    }
++
++    return true;
 +}
 +
-+
- int
- main(int argc, char *argv[])
- {
-@@ -116,6 +133,7 @@ main(int argc, char *argv[])
-     g_test_add_func("/error-report/glog", test_error_report_glog);
-     g_test_add_func("/error-report/once", test_error_report_once);
-     g_test_add_func("/error-report/timestamp", test_error_report_timestamp);
-+    g_test_add_func("/error-report/warn", test_error_warn);
- 
-     return g_test_run();
- }
-diff --git a/util/error.c b/util/error.c
-index 1e7af665b8..5537245da6 100644
---- a/util/error.c
-+++ b/util/error.c
-@@ -27,8 +27,9 @@ struct Error
- 
- Error *error_abort;
- Error *error_fatal;
-+Error *error_warn;
- 
--static void error_handle_fatal(Error **errp, Error *err)
-+static void error_handle(Error **errp, Error *err)
- {
-     if (errp == &error_abort) {
-         fprintf(stderr, "Unexpected error in %s() at %s:%d:\n",
-@@ -43,6 +44,9 @@ static void error_handle_fatal(Error **errp, Error *err)
-         error_report_err(err);
-         exit(1);
-     }
-+    if (errp == &error_warn) {
-+        warn_report_err(err);
-+    }
- }
- 
- G_GNUC_PRINTF(6, 0)
-@@ -71,7 +75,7 @@ static void error_setv(Error **errp,
-     err->line = line;
-     err->func = func;
- 
--    error_handle_fatal(errp, err);
-+    error_handle(errp, err);
-     *errp = err;
- 
-     errno = saved_errno;
-@@ -284,7 +288,7 @@ void error_propagate(Error **dst_errp, Error *local_err)
-     if (!local_err) {
-         return;
-     }
--    error_handle_fatal(dst_errp, local_err);
-+    error_handle(dst_errp, local_err);
-     if (dst_errp && !*dst_errp) {
-         *dst_errp = local_err;
-     } else {
+ #undef connect
+ int qemu_connect_wrap(int sockfd, const struct sockaddr *addr,
+                       socklen_t addrlen)
 -- 
 2.39.2
 
