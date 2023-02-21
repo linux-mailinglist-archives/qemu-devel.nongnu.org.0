@@ -2,107 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D7169DDBE
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CB369DDBF
 	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 11:19:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUPiQ-0004dy-Ab; Tue, 21 Feb 2023 05:17:42 -0500
+	id 1pUPim-0004i9-DZ; Tue, 21 Feb 2023 05:18:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUPiN-0004dZ-Li
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:17:40 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUPij-0004fi-NQ
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:18:01 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUPiM-0003Ll-1b
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:17:39 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUPih-0003Q6-HT
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 05:18:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676974657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1676974678;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4iEFF/b/QbvZzC3DBwRXJReUoO2iqpzmbxAm+CoJOHE=;
- b=OqRMDfHj4+QujBUPqukqNNbA8GXRTj+5iV62E4r93ljLdvQPgeFH5xY+exbGA2gUwPaVHq
- ETO28ItuW4JDRkGvXIxRxAw7GrvOkhFo7HA4CX5tjvpRkpFGDK9FwSAP7g2Vn4cSAVdunr
- AFNsDM61T+m7m7GvrmxfhsJ1+FHAA70=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-136-b62RnZyVNJe4N1OmDugnnQ-1; Tue, 21 Feb 2023 05:17:35 -0500
-X-MC-Unique: b62RnZyVNJe4N1OmDugnnQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j9-20020a5d4529000000b002c5588d962fso865285wra.10
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 02:17:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4iEFF/b/QbvZzC3DBwRXJReUoO2iqpzmbxAm+CoJOHE=;
- b=UvV5f3cEc4xZG/BaSvtGWy/zyo58BEmcykY3nfyqDDIqv9dtUqa85chVYpJBgjPVj3
- mlldl6Iz3JqE/nU+MkmFpSd03W5CiIy8GwtOnEEONO2ICK8oE4Rdi+qM/kFRhGBwsF67
- XDBo2fNnZ60S4WzEEfNKSiYJNcwlvSPeK1rrrhWIH/nq2mR28HwqPXgUpLMxVmcs75Qg
- cw14afcTmaA1yfhEucuip1C6uCmE/BbTnW4/IeoStqoBIFD5Le6OJ6YxnCmZtpzku/e4
- mjbC9GcsfJS09diNeuHcpMg+xVTMYMUvOll8NCrP3FLbn3dn5WxtDhnHR7xFmdzMnokr
- L1gQ==
-X-Gm-Message-State: AO0yUKUJjIVmTNDqEN+Kg2v886t6XTL2jhqlwQuiA95cEZ41i0zqOa3C
- WRBbVHoo9BO25DqkguzRiD25+t4X/nWo3vwW/Hm5/xQuyJ7bj87KJrqjFJRACqhGiS47IMtsLDh
- qIcERoN9ipXy0eJA=
-X-Received: by 2002:adf:e9c7:0:b0:2c5:7c26:c2cc with SMTP id
- l7-20020adfe9c7000000b002c57c26c2ccmr3706315wrn.29.1676974654849; 
- Tue, 21 Feb 2023 02:17:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set91qCJs2zDi3xPVKtpJL0qgHInahEIsyiPW0A4nifm/1cFEoNyx4M/3YLnKWIHfpvwhHFp9SQ==
-X-Received: by 2002:adf:e9c7:0:b0:2c5:7c26:c2cc with SMTP id
- l7-20020adfe9c7000000b002c57c26c2ccmr3706290wrn.29.1676974654589; 
- Tue, 21 Feb 2023 02:17:34 -0800 (PST)
-Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- u5-20020a05600c210500b003e00c453447sm3928799wml.48.2023.02.21.02.17.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 02:17:32 -0800 (PST)
-Message-ID: <a182b11b-3f65-9daf-c3fd-f98cb335917a@redhat.com>
-Date: Tue, 21 Feb 2023 11:17:29 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ bh=96Q/cUIGExaVcjVZD0FsSVH3j9KrGtMUEl3vmXKdxTs=;
+ b=irJDdpZ6yHQZlyycNeLFGNQQPob6qX18hZ58k/8Dtd5bcmkXEA9by/yZb9DTRI3Q16JIed
+ t5UXGiQyC5eIQ3Oh25JtKLicyY6XWxY33HMBWkcCyWRMtefsh3TNxmI76s3IuIbqWAxrpz
+ DP370UY8DmH3RgE24I97XFJTSmy3eb0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-150-bvN8V9sEMwi5-WQyU6XbPQ-1; Tue, 21 Feb 2023 05:17:57 -0500
+X-MC-Unique: bvN8V9sEMwi5-WQyU6XbPQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 00B49811E9C;
+ Tue, 21 Feb 2023 10:17:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC438492C3C;
+ Tue, 21 Feb 2023 10:17:53 +0000 (UTC)
+Date: Tue, 21 Feb 2023 10:17:51 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
+ Yonggang Luo <luoyonggang@gmail.com>,
  Markus Armbruster <armbru@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Bandan Das <bsd@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-block@nongnu.org,
- Beraldo Leal <bleal@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-arm@nongnu.org, Michael Roth <michael.roth@amd.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Alexander Bulekov
- <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Anders Roxell <anders.roxell@linaro.org>
-References: <20230221094558.2864616-1-alex.bennee@linaro.org>
- <20230221094558.2864616-12-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 11/14] tests: add tuxrun baseline test to avocado
-In-Reply-To: <20230221094558.2864616-12-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Yan Vugenfirer <yvugenfi@redhat.com>,
+ Evgeny Iakovlev <eiakovlev@linux.microsoft.com>,
+ Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Subject: Re: [PATCH 1/2] qga/win32: Remove change action from MSI installer
+Message-ID: <Y/SaT59O2hhNpmHw@redhat.com>
+References: <20230220174142.240393-1-kkostiuk@redhat.com>
+ <20230220174142.240393-2-kkostiuk@redhat.com>
+ <790be50d-9a52-6f92-f053-ee9a4eec0a31@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <790be50d-9a52-6f92-f053-ee9a4eec0a31@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,37 +94,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/02/2023 10.45, Alex Bennée wrote:
-> The TuxRun project (www.tuxrun.org) uses QEMU to run tests on a wide
-> variety of kernel configurations on wide range of our emulated
-> platforms. They publish a known good set of images at:
+On Tue, Feb 21, 2023 at 09:15:15AM +0100, Philippe Mathieu-Daudé wrote:
+> On 20/2/23 18:41, Konstantin Kostiuk wrote:
+> > resolves: rhbz#2167436
 > 
->    https://storage.tuxboot.com/
+> "You are not authorized to access bug #2167436."
 > 
-> to help with bisecting regressions in either the kernel, firmware or
-> QEMU itself. The tests are pretty lightweight as they contain just a
-> kernel with a minimal rootfs which boots a lot faster than most of the
-> distros. In time they might be persuaded to version there known good
+> > fixes: CVE-2023-0664
+> 
+> This commit description is rather scarce...
+> 
+> I understand you are trying to fix a CVE, but we shouldn't play
+> the "security by obscurity" card. How can the community and
+> distributions know this security fix is enough with the bare
+> "Remove change action from MSI installer" justification?
+> Can't we do better?
 
-"*their* known good baselines" ?
+Yes, commit messages should always describe the problem being
+solved directly. Bug trackers usually make people wade through
+piles of irrelevant comments & potentially misleading blind
+alleys during the back & forth of triage. The important info
+needs to be distilled down and put in the commit message,
+concisely describing the problem faced. Bug tracker links have
+been known to bit-rot too.
 
-> baselines and we can then enable proper checksums.
-> 
-> For a couple of tests we currently skip:
-> 
->    - mips64, a regression against previous stable release
->    - sh4, very unstable with intermittent oops
-> 
-> Total run time: 340s (default) -> 890s (debug)
-> 
-> Overall coverage rate (tested targets + disabled tests):
->    lines......: 16.1% (126894 of 789848 lines)
->    functions..: 20.6% (15954 of 77489 functions)
->    branches...: 9.3% (40727 of 439365 branches)
+The commit message needs to focus on /why/ the change was made,
+much more than describing /what/ was changed.
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+> > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+> > ---
+> >   qga/installer/qemu-ga.wxs | 1 +
+> >   1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/qga/installer/qemu-ga.wxs b/qga/installer/qemu-ga.wxs
+> > index 51340f7ecc..feb629ec47 100644
+> > --- a/qga/installer/qemu-ga.wxs
+> > +++ b/qga/installer/qemu-ga.wxs
+> > @@ -31,6 +31,7 @@
+> >         />
+> >       <Media Id="1" Cabinet="qemu_ga.$(var.QEMU_GA_VERSION).cab" EmbedCab="yes" />
+> >       <Property Id="WHSLogo">1</Property>
+> > +    <Property Id="ARPNOMODIFY" Value="yes" Secure="yes" />
+> >       <MajorUpgrade
+> >         DowngradeErrorMessage="Error: A newer version of QEMU guest agent is already installed."
+> >         />
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
