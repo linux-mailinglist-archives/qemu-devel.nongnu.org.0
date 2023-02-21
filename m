@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7148469DE85
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C1169DE8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 12:14:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUQYh-0001s5-VV; Tue, 21 Feb 2023 06:11:43 -0500
+	id 1pUQbE-0002sZ-B2; Tue, 21 Feb 2023 06:14:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUQYf-0001rQ-Jn
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:11:41 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUQYe-0007yS-5A
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:11:41 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id s15so754044pfg.3
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 03:11:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=RCn9dlewBYXOYPyF98a8SDZT5t89n5Z3ir5OnS5z3o4=;
- b=aV8/tQHZyDR2Qts1lpT3OV7SX7Ov2+SpNr0og4OTzoKEwax/63vBjDrMJamPJGKhLK
- K1bzXt5FW7qeFHPYnEVMwwSyRHLt7jyqX2XzE65ZmbIqg8QrMHvNGM2EWfR66FKvi91I
- 0XO6FUPYtqsWg7NG7WlDN4h+1wdi1CTz6xjQMipzfn7+b8VRFHBRWyuoW2cwylvNZ//M
- XJM33M7VuQwONY67BWIboqjFpWRho2ch5xxUCSnHZw5A5S6Tc06uy3mIrMtMXzLZtFrE
- bHsakhSjVhdDf5+xsLytDuxpi0yBj87uRw4e3pV46orRd7c6itl+ePEA9wrK8+yPM5+j
- 9W9A==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUQbB-0002mO-Ld
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:14:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUQbA-0008KE-2x
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 06:14:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676978055;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EbcLJgbiABfuVV/q11k5fi4fHDbLsY5amFgm8NW07fk=;
+ b=KCurSJN0W01PaDauT8FBaTOfC6WPQtCkAYKckKbFyY+8NPTQiY8T75KF+oA3cU9RhJWsrJ
+ 0+Bg33dAvWA1io0w+4J45CCcKLgerIelaWRwRdXGTz6m78C7L2bvVX08s21Mm3zdTyJ4jr
+ Wj6FTxOCTmr4KwNQQUqMPUFw/93Kvh4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-185-X08Mb8MBML21mF7vde-odA-1; Tue, 21 Feb 2023 06:14:14 -0500
+X-MC-Unique: X08Mb8MBML21mF7vde-odA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g6-20020adfa486000000b002c55ef1ec94so739637wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 03:14:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RCn9dlewBYXOYPyF98a8SDZT5t89n5Z3ir5OnS5z3o4=;
- b=fEgFI7VFNZfZFRvFaSezVAM7F93nhgNmtq4Rt7JwqoloSgvUnpq5EJU3Z2hjnfHqEK
- n5qlNGfPzyaSmKCsUjtbrcn8Pnhi3K/bQJi3rXLG0Cyi+4d8laFcZQc0IBdhdqvP9P3u
- PVS4FqsqdzADt1n+ca93Rl+Cv/12zM9j3bYBowK7Yd4MJUGXl5T3xm1AeBCf9dEnGZd3
- sPzUJDuQHQ70UscTwCkOv2VrwCKMLx2Qc+lNnyIYN0gC13WCmi5lAa8Sq+wSRdborlyh
- fxY+fJajoZrgP7znT9kPO3GpjyNlQcDPjGZ2jzq1ErgSULMf/l4c0mlFzAFg46JCU3Hm
- bRSw==
-X-Gm-Message-State: AO0yUKXp20dunUfqx69H8uOBnTkAGU2tB8p1zTuIs8b2FNEyOzUvZlQC
- NhoFaX0GSB6TIJwQjwwvqy/ui2EGnn4wL1vTQZWeSg==
-X-Google-Smtp-Source: AK7set+n4WJD97r1ck6EHM2rcZaw7GQIBqsPoZXT5bXeFTp34NyIJ1G74HHgvGoDUaJtmGAnWl8VEGRUQdg+EJQsTIg=
-X-Received: by 2002:a65:6d86:0:b0:4fb:952d:5164 with SMTP id
- bc6-20020a656d86000000b004fb952d5164mr578659pgb.1.1676977898231; Tue, 21 Feb
- 2023 03:11:38 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EbcLJgbiABfuVV/q11k5fi4fHDbLsY5amFgm8NW07fk=;
+ b=rmmfSxc8wLOiQBT7J6plJLvX3afdql30bfb1qOHax4WIVzp6mW196jguCeVMAORaT1
+ CzEpvbHSb58ruBBAfN1ZZ8sw6SjZoo4NNhetRTHKOFdPVsg2V+Rk/FnahTpB2QE/2y/S
+ u23FOsUORGYyKdjsH3yc8lQEqgFBWA65FIp4ZyaOp3TEjhVGOUpZACu/WIi4zUcqx2zF
+ 4H3649qpQqxUn0toZobmzUsYX/2ursDKjZDSAlWX/ORKvS14DvXmB8TmIpByOrf/drDn
+ DW+qPHxMQi5rIaUgg2quwLaiGQIIZYlvlNbws95uj65Eh0nzsuQVXAvHuJPcw7j9HfSN
+ tBFg==
+X-Gm-Message-State: AO0yUKUmohK8NGTFnFzK+kBONx66EYo7le3P2StkCSNnvNHAW5j9pI0q
+ 0Hvnmm4NU3TEXWkGsKTk+SERdEc6EXOpgnP5p0hOwWpkG7zIAoPaT+sl0D57Y5MyjKHyj0/xtur
+ f4W2SInIfHsw1ge0=
+X-Received: by 2002:a05:600c:714:b0:3e2:1368:e3a0 with SMTP id
+ i20-20020a05600c071400b003e21368e3a0mr1083610wmn.18.1676978053107; 
+ Tue, 21 Feb 2023 03:14:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set/BZrLRMszyY8AYLNtHurrG7m64XkjTVXaHlbjLwJvb96KSLaYIdelcjsogWTdfsJrh0bjpPA==
+X-Received: by 2002:a05:600c:714:b0:3e2:1368:e3a0 with SMTP id
+ i20-20020a05600c071400b003e21368e3a0mr1083599wmn.18.1676978052863; 
+ Tue, 21 Feb 2023 03:14:12 -0800 (PST)
+Received: from [10.33.192.205] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ u8-20020a05600c00c800b003e2243cfe15sm13980763wmm.39.2023.02.21.03.14.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Feb 2023 03:14:12 -0800 (PST)
+Message-ID: <391fdaaa-4b77-b17f-0cc2-0d7bdcf065b5@redhat.com>
+Date: Tue, 21 Feb 2023 12:14:10 +0100
 MIME-Version: 1.0
-References: <20230124000027.3565716-1-richard.henderson@linaro.org>
- <20230124000027.3565716-18-richard.henderson@linaro.org>
- <CAFEAcA9-ufibbm_Fp0spGK+iQKLgGcJfED=+c__q37mQFwAWxw@mail.gmail.com>
- <38422576-703c-7955-2f55-b9c8de922902@linaro.org>
-In-Reply-To: <38422576-703c-7955-2f55-b9c8de922902@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Feb 2023 11:11:27 +0000
-Message-ID: <CAFEAcA-LG0LKNQ9BJgsb6P-5rej73bSELu2UgpwntxmqWDf5tw@mail.gmail.com>
-Subject: Re: [PATCH 17/22] target/arm: Use get_phys_addr_with_struct for stage2
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, yier.jin@huawei.com, 
- jonathan.cameron@huawei.com, leonardo.garcia@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4] configure: Add 'mkdir build' check
+Content-Language: en-US
+To: Dinah Baum <dinahbaum123@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20230221110631.4142-1-dinahbaum123@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230221110631.4142-1-dinahbaum123@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,45 +101,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 20 Feb 2023 at 22:15, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/10/23 03:28, Peter Maydell wrote:
-> > On Tue, 24 Jan 2023 at 00:01, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> This fixes a bug in which we failed to initialize
-> >> the result attributes properly after the memset.
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>   target/arm/ptw.c | 13 +------------
-> >>   1 file changed, 1 insertion(+), 12 deletions(-)
-> >>
-> >> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> >> index eaa47f6b62..3205339957 100644
-> >> --- a/target/arm/ptw.c
-> >> +++ b/target/arm/ptw.c
-> >> @@ -32,12 +32,6 @@ typedef struct S1Translate {
-> >>       void *out_host;
-> >>   } S1Translate;
-> >>
-> >> -static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-> >> -                               uint64_t address,
-> >> -                               MMUAccessType access_type,
-> >> -                               GetPhysAddrResult *result, ARMMMUFaultInfo *fi)
-> >> -    __attribute__((nonnull));
-> >
-> > The definition of the function doesn't have the __attribute__,
-> > so if we drop this forward declaration we need to move the attribute.
->
-> Eh.  It was useful as an intermediary during one of the ptw reorgs, but now that we've
-> eliminated the use case in which NULL had been passed, it can go away.  I assume you'd
-> prefer that as a separate patch?
+On 21/02/2023 12.06, Dinah Baum wrote:
+> QEMU configure script goes into an infinite error printing loop
+> when in read only directory due to 'build' dir never being created.
+> 
+> Checking if 'mkdir dir' succeeds prevents this error.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/321
+> Signed-off-by: Dinah Baum <dinahbaum123@gmail.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   configure | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index cf6db3d551..1ef3e7f77d 100755
+> --- a/configure
+> +++ b/configure
+> @@ -31,7 +31,12 @@ then
+>           fi
+>       fi
+>   
+> -    mkdir build
+> +    if ! mkdir build || ! touch $MARKER
+> +    then
+> +        echo "ERROR: Could not create ./build directory. Check the permissions on"
+> +        echo "your source directory, or try doing an out-of-tree build."
+> +        exit 1
+> +    fi
+>       touch $MARKER
 
-Yes, if we want to deliberately drop the attribute we should
-do that separately with justification for why it's not needed.
+Nit: I think the final "touch $MARKER" could now be removed, too, since the 
+code either exits above, or runs the "|| ! touch $MARKER" part there already.
 
-thanks
--- PMM
+Anyway, it's just a nit, and maybe could also be fixed while picking up the 
+patch, thus:
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
