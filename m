@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3D469EA0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:24:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B8C69EA07
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:23:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUayc-0006Lw-1h; Tue, 21 Feb 2023 17:19:10 -0500
+	id 1pUayd-0006Pa-V9; Tue, 21 Feb 2023 17:19:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayJ-0005zG-Qq
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:54 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayK-0005zK-W5
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:55 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayH-0005o7-AU
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:50 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayI-0005oQ-2g
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=sA90LNhqZWnyvLu/psPK28x9hPX3ETO9FqO4nqKD+/c=; b=L5qBYJ1TJUYJ1I6Fv+Nnd/CzH/
- PcBHMOalRZkyNjULbNbdirHy9x61Qh9t0TVs6mMW2WRMguqACtnmyXE/e3LnKAhhIV1ZGDJscCWs8
- JHqvwz021NSRgOU1B9dzvES4IXI98sa36aIyE4O7Af0wNL7a44T4EgIWujmaJZvr4dPY=;
+ bh=FDVBm9lSbEjUimL2HZZv8imYG5OyJlj+scxrd6CqICU=; b=wdSHz8dZqzsmTrQwUz6YdWDPi3
+ 8MHwN/kkwOz+5y5WCsyEyNNBLdOG7Fu1YGCPUYE5Gd1m6D0/7/VxJHor8tjDxCnrR5nZ+xUn0HQgs
+ PlgoM5qGmNpcXw1UwFATX5bfoKV/RZYS4QhTtjspm83zqE58T4W5dHc4kkdMtnenyjgw=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v2 16/27] target/rx: Replace `tb_pc()` with `tb->pc`
-Date: Tue, 21 Feb 2023 23:18:07 +0100
-Message-Id: <20230221221818.9382-17-anjo@rev.ng>
+Subject: [PATCH v2 17/27] target/riscv: Replace `tb_pc()` with `tb->pc`
+Date: Tue, 21 Feb 2023 23:18:08 +0100
+Message-Id: <20230221221818.9382-18-anjo@rev.ng>
 In-Reply-To: <20230221221818.9382-1-anjo@rev.ng>
 References: <20230221221818.9382-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,23 +66,36 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/rx/cpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 219ef28e46..67452e310c 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -44,7 +44,8 @@ static void rx_cpu_synchronize_from_tb(CPUState *cs,
- {
-     RXCPU *cpu = RX_CPU(cs);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 0dd2f0c753..ee1d4fd823 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -34,6 +34,7 @@
+ #include "fpu/softfloat-helpers.h"
+ #include "sysemu/kvm.h"
+ #include "kvm_riscv.h"
++#include "tcg/tcg.h"
  
--    cpu->env.pc = tb_pc(tb);
+ /* RISC-V CPU definitions */
+ 
+@@ -533,10 +534,12 @@ static void riscv_cpu_synchronize_from_tb(CPUState *cs,
+     CPURISCVState *env = &cpu->env;
+     RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
+ 
 +    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
-+    cpu->env.pc = tb->pc;
++
+     if (xl == MXL_RV32) {
+-        env->pc = (int32_t)tb_pc(tb);
++        env->pc = (int32_t) tb->pc;
+     } else {
+-        env->pc = tb_pc(tb);
++        env->pc = tb->pc;
+     }
  }
  
- static void rx_restore_state_to_opc(CPUState *cs,
 -- 
 2.39.1
 
