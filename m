@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C30B69E1A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 14:46:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF6869E1DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 15:02:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUSx6-0000Yn-Ph; Tue, 21 Feb 2023 08:45:04 -0500
+	id 1pUTCK-0006ts-NB; Tue, 21 Feb 2023 09:00:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUSx4-0000Y2-QF
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 08:45:02 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUSx3-0001pO-1U
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 08:45:02 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t15so4591686wrz.7
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 05:45:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+FqS8U2oKf/rqIfeWbb75D5eEHkq0RS3dmXOIQfkSWQ=;
- b=BquXHRWusqVn3DJOWnrh7GvRdDx8RTJQKnJZCO8Bd+i3KJsw2LCvhpfzos0rTgoiYa
- vFHadiEgDBQbfAIvQHIYn4Uj1hwoLhfVwUHIQIfNnMnAmQQ0taAtnQMqHm4mor6ecx5D
- JiwOr/d4fNcnJEk5hWqCVttxXqQU9hot3lIozHNbWSTTbfYUngIHizh3ZnriDzhr4JXa
- t6bbdLeC5MKLWSKu92Y3WLPiL9IpnxT1nz6V15xAdV4XAwAHRUVhkXDos1lemHZr/WWa
- eW+szHcKrRfiK59Fu5dPeDLEmv91p/ewP8FDdgJbjWouF3VR1yFp8CKQP83w3dujJB1n
- 60RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=+FqS8U2oKf/rqIfeWbb75D5eEHkq0RS3dmXOIQfkSWQ=;
- b=VBkXKiivTK+rY3OvAEFb+qLVWtkRA8ddZmb+m7rkPXzrYHhqjAMPaF1Z8P2fTNsA1O
- p6DRejZCkaw5T0qcrq4ICE63JHAlRCV+Nq7K6yF5Ctc3v/Dmpd7UGAg6fm26kpz7Uk+P
- izhDyR54e1OSdX1ZkOHX2odb7TX6AL9bYT+aDgi0szOvrCgdUCeoZ9WflJBHFU/BunT2
- CJ4C9Guj9AzxDlkDwmap/JEee7guK6NVwkh+LAuCMmKaoVFEYCNusjCUbx5UBLC5aZva
- rd8TS+2zmLCmLN83pbrszGFw+p1Dk/JpXG1zdukZlD0NtVC4XBPuH1zoWkdmXhSifv0y
- hM2Q==
-X-Gm-Message-State: AO0yUKU0g4JLrnTsJM2i9tZr7JzxDkqaRR2GyGzPYkNkXQ0Ztyb4NxPG
- /AkcIkTgRGN1FSNaRftz7SiTxg==
-X-Google-Smtp-Source: AK7set9yTJJcmmrS8RT01kWKpyS0nHsUSysA0EUWB+oO88b15mSYiOwnhGx2as0aDKRmsexx4hciAg==
-X-Received: by 2002:a5d:59a9:0:b0:2bf:95d6:4789 with SMTP id
- p9-20020a5d59a9000000b002bf95d64789mr4253209wrr.2.1676987099104; 
- Tue, 21 Feb 2023 05:44:59 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- g2-20020a5d4882000000b002c55521903bsm7705276wrq.51.2023.02.21.05.44.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 05:44:58 -0800 (PST)
-Message-ID: <a728cf1f-49b5-ef09-cd68-57179a44438e@linaro.org>
-Date: Tue, 21 Feb 2023 14:44:57 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pUTBs-0006sp-7O
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:00:20 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pUTBp-0004q9-IO
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:00:19 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PLgm03KP0z6J7Tk;
+ Tue, 21 Feb 2023 21:55:28 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Tue, 21 Feb 2023 14:00:12 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang
+ <dave.jiang@intel.com>
+Subject: [PATCH v3 0/2] hw/mem: CXL Type-3 Volatile Memory Support
+Date: Tue, 21 Feb 2023 14:00:21 +0000
+Message-ID: <20230221140023.9315-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Subject: hw/ppc/mac_newworld: Problem with Uninorth IRQ lines
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,31 +62,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Mark,
+v3: Noticed whilst chasing an unrelated kernel bug.
+ - Drop setting of DVSEC range base addresses.  Whilst harmless,
+   expectation is that this will be 0 until the OS sets it (or uses
+   HDM decoders instead)
 
-The mac99 machines use the same PIC input IRQs for the Uninorth
-output IRQs:
+Based on following series (in order)
+1. [PATCH v4 00/10] hw/cxl: CXL emulation cleanups and minor fixes for upstream
+2. [PATCH v4 0/8] hw/cxl: RAS error emulation and injection
+3. [PATCH 0/2] hw/cxl: Passthrough HDM decoder emulation
 
-379     if (PPC_INPUT(env) != PPC_FLAGS_INPUT_970) {
-380         /* Uninorth AGP bus */
-381         for (i = 0; i < 4; i++) {
-382             qdev_connect_gpio_out(uninorth_agp_dev, i,
-383                                   qdev_get_gpio_in(pic_dev, 0x1b + i));
-384         }
-385
-386         /* Uninorth internal bus */
-387         for (i = 0; i < 4; i++) {
-388             qdev_connect_gpio_out(uninorth_internal_dev, i,
-389                                   qdev_get_gpio_in(pic_dev, 0x1b + i));
-390         }
-391     }
+Based on: Message-Id: 20230206172816.8201-1-Jonathan.Cameron@huawei.com
+Based-on: Message-id: 20230217172924.25239-1-Jonathan.Cameron@huawei.com
+Based-on: Message-id: 20230125152703.9928-1-Jonathan.Cameron@huawei.com
 
-Did you mean to use an OR gate here?
+Kernel code is queued up in kernel.org cxl/next for the merge window
+that just opened.
 
-Thanks,
+Now we have some kernel code to test this against (and it looks good)
+I'd like to propose this series for upstream following 3 other series
+already proposed for inclusion:
 
-Phil.
+Original cover letter with minor updates.
+
+This patches provides 2 features to the CXL Type-3 Device:
+    1) Volatile Memory Region Support
+    2) Multi-Region support (1 Volatile, 1 Persistent)
+
+Summary of Changes per-commit:
+1) Whitespace updates to docs and tests
+2) Refactor CDAT DSMAS Initialization for multi-region initialization
+   Multi-Region and Volatile Memory support for CXL Type-3 Devices
+   Test and Documentation updates
+
+The final patch in this series makes 6 major changes to the type-3
+device in order to implement multi-region and volatile region support
+    1) The HostMemoryBackend [hostmem] has been replaced by two
+       [hostvmem] and [hostpmem] to store volatile and persistent memory
+       respectively
+    2) The single AddressSpace has been replaced by two AddressSpaces
+       [hostvmem_as] and [hostpmem_as] to map respective memdevs.
+    3) Each memory region size and total region are stored separately
+    4) The CDAT and DVSEC memory map entries have been updated:
+       a) if vmem is present, vmem is mapped at DPA(0)
+       b) if pmem is present
+          i)  and vmem is present, pmem is mapped at DPA(vmem->size)
+          ii) else, pmem is mapped at DPA(0)
+       c) partitioning of pmem is not supported in this patch set but
+          has been discussed and this design should suffice.
+    5) Read/Write functions have been updated to access AddressSpaces
+       according to the mapping described in #4.  Access to the
+       persistent address space is calculated by (dpa-vmem_len)
+    6) cxl-mailbox has been updated to report the respective size of
+       volatile and persistent memory region
+
+
+Gregory Price (2):
+  tests/qtest/cxl-test: whitespace, line ending cleanup
+  hw/cxl: Multi-Region CXL Type-3 Devices (Volatile and Persistent)
+
+ docs/system/devices/cxl.rst    |  49 ++++--
+ hw/cxl/cxl-mailbox-utils.c     |  26 +--
+ hw/mem/cxl_type3.c             | 294 +++++++++++++++++++++++++--------
+ include/hw/cxl/cxl_device.h    |  11 +-
+ tests/qtest/bios-tables-test.c |   8 +-
+ tests/qtest/cxl-test.c         | 146 +++++++++++-----
+ 6 files changed, 392 insertions(+), 142 deletions(-)
+
+-- 
+2.37.2
+
 
