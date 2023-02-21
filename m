@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2E369EA11
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8469069E9FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:21:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUayT-0005yN-Qk; Tue, 21 Feb 2023 17:19:01 -0500
+	id 1pUayI-0005x9-MJ; Tue, 21 Feb 2023 17:18:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay7-0005w6-Ho
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay8-0005wH-AZ
  for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:40 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay6-0005m8-2y
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay6-0005mK-QF
  for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,9 +22,9 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=twE+Bc5W2i97XN1qglAozciMEAwV5rvkuTbCKqTFb4g=; b=foKqGMmHFLuaFpaBYG/ENke6+y
- N/x3G0AeuF5b/4Ygsq9EabUNqFSYw5OmT9Pr7lBzV9PZOpjqTJ83nPysohwHBYV+bQotA7A4iEXcc
- p3iXoxemZdHoAKQIR0JwzI0JxTz9nqkV1wGgM/NmKhZ1RyEUwYOLTqOGKbRH1yBK1TBU=;
+ bh=tIM39efNQiTGvD+PeJE3ysaYSM6wWV+Rn7T42r6/dw8=; b=Y8EUW6+kaWPIzEuhFxwd/fTJ3p
+ VGTLDocCMjN9GOLdFuhIqdvDiX/7TQ2brUMyznsDIo7hy3+FGiK1JmmxvCUplFz4YTmOjGiIam0+X
+ 2yBrrzK4YG2FAEwiojB17/f082eLE6MejID+zRwaW67evk/D+d0ybxZoynOzXUAd+aRg=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v2 08/27] include/exec: Remove `TARGET_TB_PCREL` define
-Date: Tue, 21 Feb 2023 23:17:59 +0100
-Message-Id: <20230221221818.9382-9-anjo@rev.ng>
+Subject: [PATCH v2 09/27] target/arm: Remove `TARGET_TB_PCREL` define
+Date: Tue, 21 Feb 2023 23:18:00 +0100
+Message-Id: <20230221221818.9382-10-anjo@rev.ng>
 In-Reply-To: <20230221221818.9382-1-anjo@rev.ng>
 References: <20230221221818.9382-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -68,23 +68,22 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/exec/cpu-defs.h | 3 ---
- 1 file changed, 3 deletions(-)
+ target/arm/cpu-param.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index 21309cf567..67239b4e5e 100644
---- a/include/exec/cpu-defs.h
-+++ b/include/exec/cpu-defs.h
-@@ -54,9 +54,6 @@
- #  error TARGET_PAGE_BITS must be defined in cpu-param.h
- # endif
- #endif
--#ifndef TARGET_TB_PCREL
--# define TARGET_TB_PCREL 0
--#endif
+diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+index 53cac9c89b..b7bde18986 100644
+--- a/target/arm/cpu-param.h
++++ b/target/arm/cpu-param.h
+@@ -31,8 +31,6 @@
+ # define TARGET_PAGE_BITS_VARY
+ # define TARGET_PAGE_BITS_MIN  10
  
- #define TARGET_LONG_SIZE (TARGET_LONG_BITS / 8)
- 
+-# define TARGET_TB_PCREL 1
+-
+ /*
+  * Cache the attrs and shareability fields from the page table entry.
+  *
 -- 
 2.39.1
 
