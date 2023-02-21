@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F7369E4A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D4369E4AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 17:31:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUVUc-0000Te-St; Tue, 21 Feb 2023 11:27:50 -0500
+	id 1pUVXa-0001y6-BD; Tue, 21 Feb 2023 11:30:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUVUZ-0000TB-GN
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:27:47 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1pUVXS-0001vJ-QP
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:30:46 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUVUX-0003pP-JQ
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:27:47 -0500
-Received: by mail-pl1-x631.google.com with SMTP id c1so5866898plg.4
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 08:27:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1676996864;
+ id 1pUVXQ-0004MB-JX
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 11:30:45 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id pt11so6235577pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 08:30:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7adh5Zpsike9uLB2dGKjB3/gxohGFUl9F2wMIS5DEeI=;
- b=S6Lb9h4OjaaUk4GMngr3Dew9XWSmrTKr8hUbsbSj2ZXELR70SNqxfQKs7yKW32dWOC
- 5au9f+7f5szdfeIUsnHK2zqt7kalbzE2CjMLkedbsOqVOBBG1+5sd79medgwYjx5wbWZ
- oHQAu2k6+pWtf2ALP1ee8g+uJwnC9x7AvBYcQV3ADeq7BqSCVd7uQ0KJN6pkPO2JTjVh
- 8HwPtaMeTz3N9Bzpga4ZkjxawGf3CShvMqXVUoD8OUihuVK7E3g6IV9C2a706vSCYv7n
- qKRZLJ+rpKkzi9avsXJmzhMNfN9q04jou01xg+UHQhbo8VXvNEJXHUtoeNNrexTT1ejR
- 1JhQ==
+ bh=ou+zKNcsD0BAScBtOLJsd4lCFKkGnhO/yPO5wXiD6YI=;
+ b=EgqF/vJ2mCxMeieiQS09UgaDC4LxILaJwTTXHaU2ixm6V288JKFWPclCPpNhCAfV3Z
+ PHUkxzZsBU3zrwuYm5DkBvIjBce1mlO0Imv5xTx5byDFwlGboSCEwRmo7CdXbxyOBXl3
+ bol4p0d43fYh/gdMzvvYP6SvJeuTqcNVu7HjXCc75e0Xb3HyNw+hgWCQANdQHO6jRhQB
+ GWDf+iIDIdrGLdFWyq2qeqX+LGOlMffwOTh6bL9qloHOGaOU7z1kWH6vbX+Qh3f4z031
+ zAsXx5g/aUXlCN711pUhTy3IINoCdrEWFwT0Ndmbw2qnePTTkbk4lODfUgA85EWcl7hN
+ rwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676996864;
+ d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=7adh5Zpsike9uLB2dGKjB3/gxohGFUl9F2wMIS5DEeI=;
- b=lT66QchqneN+JoNPL9wmLH/5+ivmzygfjLKZw2SbehyyPE8MB4crMycDo5nOM41nu4
- RZHsk3HrhCLSRaIqqViYfX2Q1MwAb9yr2q4xeor6pgjjDE/lWseXw4TXbJ5e326ZddFp
- Fo3bH1dSJ6H9/4lbQMK5Eun87Ai7pU5sjFveIcu5DtZL3ii7SyuLWJUEh0Q7Tj0m9PSK
- A4jSAwNBwkinGSTRYBk0fDKhUPxtgMR7SFc+Tf9OZlHDNf+GQrRp7wOHl1MX4nvadi0X
- kz3tE1jBkioUBJ5NNnGoxxhXzyxOejpwTbDYD7qqgYqVpWUmQLEEvzOtMJI5Kjwus4Qu
- kj6g==
-X-Gm-Message-State: AO0yUKWv7VpFaA3QuQeG8a5IwAIQ3bpbw4CBk3b5Jjglt1X3Z/nft7Um
- kaHT9Hw2qBtSkdF6V9IVM7Mqnm0/+OAqipSaITk2gA==
-X-Google-Smtp-Source: AK7set888EV+xdQ4eRKDhbpEXFVlm7GlRdbQLuJz2RDaoDcFDsQgzoiFsf8RQlBcCBplSG50j5zs72t/PbS4nyYcbAk=
-X-Received: by 2002:a17:902:ab8e:b0:19a:721b:bce1 with SMTP id
- f14-20020a170902ab8e00b0019a721bbce1mr845150plr.23.1676996863917; Tue, 21 Feb
- 2023 08:27:43 -0800 (PST)
+ bh=ou+zKNcsD0BAScBtOLJsd4lCFKkGnhO/yPO5wXiD6YI=;
+ b=fKVrko3QGI+lUse80LOAohKQJRNkZGlV8ovxlcpJuxTRnbgwDrZ2j9sjqWf0+z/WcN
+ Rv8B9pCIyFX30tzpuR+X8IUF0exMxsSFwE0BGlEhGxNRvqU4AGGJP25eQgdWa7Ddd4+Q
+ GARsRWmIWKuh+aR1fknrrcC8ybeh51S3mttvk3ris688igg1iO6OJALKJZtJaTdk6yVe
+ 2/qq6/7X7+ndM6T93gM3a/PiyZZAtqKIYui0cFriXPY7czSRFF+Xu0K2kXVLsl1SQLIq
+ 1WUzGatvOKmQ5zydyTLQwpogqaSgVv0FxQhuDmtCNzOvFxQZ9XVc9fNUYTLPtgoJQMLX
+ vAiw==
+X-Gm-Message-State: AO0yUKVDIg+/2ox3zkh6rHLnrSWHKamXKUcIx7/lPh9TNadQAvFToR2+
+ 5mayirIyx8UWo6DNZMVgxSdMU16nST7kFVLiBoE0nA==
+X-Google-Smtp-Source: AK7set+WGx+TN5ifXvMigWQuWjEMtjU90SiKe3R2OLSwCrDGAo9KeAAOFnqpuwm3M0DwDZB+timvQamTMQQgi5HKItY=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr1882654pjb.92.1676997043004; Tue, 21
+ Feb 2023 08:30:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20230213003925.40158-1-gshan@redhat.com>
- <20230213003925.40158-6-gshan@redhat.com>
-In-Reply-To: <20230213003925.40158-6-gshan@redhat.com>
+ <20230213003925.40158-2-gshan@redhat.com>
+In-Reply-To: <20230213003925.40158-2-gshan@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Feb 2023 16:27:32 +0000
-Message-ID: <CAFEAcA_6pYvot1AGKfOQA89M9tdH-e6+9jkd3RtXJkGhSLdihA@mail.gmail.com>
-Subject: Re: [PATCH v1 5/6] hw/arm/virt: Enable backup bitmap for dirty ring
+Date: Tue, 21 Feb 2023 16:30:31 +0000
+Message-ID: <CAFEAcA9OvObRT731oaF7kOo8z32nH+egXfDcOpw1nHormHsp9A@mail.gmail.com>
+Subject: Re: [PATCH v1 1/6] linux-headers: Update for dirty ring
 To: Gavin Shan <gshan@redhat.com>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com, 
  peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com, 
  cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com, maz@kernel.org, 
  zhenyzha@redhat.com, shan.gavin@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,78 +86,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Feb 2023 at 00:40, Gavin Shan <gshan@redhat.com> wrote:
->
-> When KVM device "kvm-arm-gicv3" or "arm-its-kvm" is used, we have to
-> enable the backup bitmap for the dirty ring. Otherwise, the migration
-> will fail because those two devices are using the backup bitmap to track
-> dirty guest memory, corresponding to various hardware tables.
+On Mon, 13 Feb 2023 at 00:39, Gavin Shan <gshan@redhat.com> wrote:
 >
 > Signed-off-by: Gavin Shan <gshan@redhat.com>
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
 > ---
->  hw/arm/virt.c        | 26 ++++++++++++++++++++++++++
->  target/arm/kvm64.c   | 25 +++++++++++++++++++++++++
->  target/arm/kvm_arm.h | 12 ++++++++++++
->  3 files changed, 63 insertions(+)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 75f28947de..ea9bd98a65 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2024,6 +2024,8 @@ static void machvirt_init(MachineState *machine)
->      VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(machine);
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
->      const CPUArchIdList *possible_cpus;
-> +    const char *gictype = NULL;
-> +    const char *itsclass = NULL;
->      MemoryRegion *sysmem = get_system_memory();
->      MemoryRegion *secure_sysmem = NULL;
->      MemoryRegion *tag_sysmem = NULL;
-> @@ -2071,6 +2073,30 @@ static void machvirt_init(MachineState *machine)
->       */
->      finalize_gic_version(vms);
->
-> +    /*
-> +     * When "kvm-arm-gicv3" or "arm-its-kvm" is used, the backup dirty
-> +     * bitmap has to be enabled for KVM dirty ring, before any memory
-> +     * slot is added. Otherwise, the migration will fail with the dirty
-> +     * ring.
-> +     */
-> +    if (kvm_enabled()) {
-> +        if (vms->gic_version != VIRT_GIC_VERSION_2) {
-> +            gictype = gicv3_class_name();
-> +        }
-> +
-> +        if (vms->gic_version != VIRT_GIC_VERSION_2 && vms->its) {
-> +            itsclass = its_class_name();
-> +        }
-> +
-> +        if (((gictype && !strcmp(gictype, "kvm-arm-gicv3")) ||
-> +             (itsclass && !strcmp(itsclass, "arm-its-kvm"))) &&
-> +            !kvm_arm_enable_dirty_ring_with_bitmap()) {
-> +            error_report("Failed to enable the backup bitmap for "
-> +                         "KVM dirty ring");
-> +            exit(1);
-> +        }
-> +    }
+>  linux-headers/asm-arm64/kvm.h | 1 +
+>  linux-headers/linux/kvm.h     | 2 ++
+>  2 files changed, 3 insertions(+)
 
-Why does this need to be board-specific code? Is there
-some way we can just do the right thing automatically?
-Why does the GIC/ITS matter?
-
-The kernel should already know whether we have asked it
-to do something that needs this extra extension, so
-I think we ought to be able in the generic "enable the
-dirty ring" code say "if the kernel says we need this
-extra thing, also enable this extra thing". Or if that's
-too early, we can do the extra part in a generic hook a
-bit later.
-
-In the future there might be other things, presumably,
-that need the backup bitmap, so it would be more future
-proof not to need to also change QEMU to add extra
-logic checks that duplicate the logic the kernel already has.
+For this to be a non-RFC patch, this needs to be a proper
+sync of the headers against an upstream kernel tree.
+(By-hand tweaks are fine for purposes of working on
+and getting patchsets reviewed.)
 
 thanks
 -- PMM
