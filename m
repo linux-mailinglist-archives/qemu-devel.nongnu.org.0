@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8469069E9FE
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CC969E9FF
 	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:21:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUayI-0005x9-MJ; Tue, 21 Feb 2023 17:18:53 -0500
+	id 1pUayY-0006DX-FF; Tue, 21 Feb 2023 17:19:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay8-0005wH-AZ
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:40 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayD-0005xm-5m
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:46 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay6-0005mK-QF
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:39 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayB-0005mW-L4
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=tIM39efNQiTGvD+PeJE3ysaYSM6wWV+Rn7T42r6/dw8=; b=Y8EUW6+kaWPIzEuhFxwd/fTJ3p
- VGTLDocCMjN9GOLdFuhIqdvDiX/7TQ2brUMyznsDIo7hy3+FGiK1JmmxvCUplFz4YTmOjGiIam0+X
- 2yBrrzK4YG2FAEwiojB17/f082eLE6MejID+zRwaW67evk/D+d0ybxZoynOzXUAd+aRg=;
+ bh=doywirzJsUyO+xWivsb+ifEE0x9f5qOf0b+nsDb3XMY=; b=WHp/VGU7EB9/avWi4dJ7yssaP0
+ lkGmequ1+WNI57naN7eqBsXsY75GpQTijJ8ClAN7DiLXVigsYOWjYJGp7OZiLbO0kjzqrAAF2HhGu
+ bLHbfL/BraAoICoMXJ+tnpbE6TRvq2QbVlcqNZEsdtl5ca05HG1DVBd2ZdV4jxtnT0jU=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v2 09/27] target/arm: Remove `TARGET_TB_PCREL` define
-Date: Tue, 21 Feb 2023 23:18:00 +0100
-Message-Id: <20230221221818.9382-10-anjo@rev.ng>
+Subject: [PATCH v2 10/27] target/i386: Remove `TARGET_TB_PCREL` define
+Date: Tue, 21 Feb 2023 23:18:01 +0100
+Message-Id: <20230221221818.9382-11-anjo@rev.ng>
 In-Reply-To: <20230221221818.9382-1-anjo@rev.ng>
 References: <20230221221818.9382-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -68,22 +68,22 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/arm/cpu-param.h | 2 --
- 1 file changed, 2 deletions(-)
+ target/i386/cpu-param.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
-index 53cac9c89b..b7bde18986 100644
---- a/target/arm/cpu-param.h
-+++ b/target/arm/cpu-param.h
-@@ -31,8 +31,6 @@
- # define TARGET_PAGE_BITS_VARY
- # define TARGET_PAGE_BITS_MIN  10
+diff --git a/target/i386/cpu-param.h b/target/i386/cpu-param.h
+index f579b16bd2..abad52af20 100644
+--- a/target/i386/cpu-param.h
++++ b/target/i386/cpu-param.h
+@@ -25,8 +25,4 @@
+ #define TARGET_PAGE_BITS 12
+ #define NB_MMU_MODES 5
  
+-#ifndef CONFIG_USER_ONLY
 -# define TARGET_TB_PCREL 1
+-#endif
 -
- /*
-  * Cache the attrs and shareability fields from the page table entry.
-  *
+ #endif
 -- 
 2.39.1
 
