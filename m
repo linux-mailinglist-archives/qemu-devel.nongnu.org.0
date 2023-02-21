@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F2169E351
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:24:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B20269E352
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:25:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUUV4-0005NK-R1; Tue, 21 Feb 2023 10:24:14 -0500
+	id 1pUUVc-0005oa-3g; Tue, 21 Feb 2023 10:24:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pUUV1-0005EL-Q1
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:24:11 -0500
+ id 1pUUVX-0005lh-EF
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:24:43 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pUUV0-0007fM-7c
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:24:11 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PLjcq46Lqz6J6L2;
- Tue, 21 Feb 2023 23:19:23 +0800 (CST)
+ id 1pUUVV-0007lN-P3
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:24:43 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PLjhZ5CkMz6J9b9;
+ Tue, 21 Feb 2023 23:22:38 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.17; Tue, 21 Feb 2023 15:24:07 +0000
+ 15.1.2507.17; Tue, 21 Feb 2023 15:24:38 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang
  <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v5 5/8] hw/mem/cxl-type3: Add AER extended capability
-Date: Tue, 21 Feb 2023 15:21:42 +0000
-Message-ID: <20230221152145.9736-6-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v5 6/8] hw/cxl: Fix endian issues in CXL RAS capability
+ defaults / masks
+Date: Tue, 21 Feb 2023 15:21:43 +0000
+Message-ID: <20230221152145.9736-7-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
 References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
@@ -41,7 +42,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -69,57 +70,51 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This enables AER error injection to function as expected.
-It is intended as a building block in enabling CXL RAS error injection
-in the following patches.
+As these are about to be modified, fix the endian handle for
+this set of registers rather than making it worse.
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+Note that CXL is currently only supported in QEMU on
+x86 (arm64 patches out of tree) so we aren't going to yet hit
+an problems with big endian. However it is good to avoid making
+things worse for that support in the future.
+
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 ---
- hw/mem/cxl_type3.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/cxl/cxl-component-utils.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 217a5e639b..6cdd988d1d 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -250,6 +250,7 @@ static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
- 
-     pcie_doe_write_config(&ct3d->doe_cdat, addr, val, size);
-     pci_default_write_config(pci_dev, addr, val, size);
-+    pcie_aer_write_config(pci_dev, addr, val, size);
+diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
+index 3edd303a33..737b4764b9 100644
+--- a/hw/cxl/cxl-component-utils.c
++++ b/hw/cxl/cxl-component-utils.c
+@@ -141,17 +141,17 @@ static void ras_init_common(uint32_t *reg_state, uint32_t *write_msk)
+      * Error status is RW1C but given bits are not yet set, it can
+      * be handled as RO.
+      */
+-    reg_state[R_CXL_RAS_UNC_ERR_STATUS] = 0;
++    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_STATUS, 0);
+     /* Bits 12-13 and 17-31 reserved in CXL 2.0 */
+-    reg_state[R_CXL_RAS_UNC_ERR_MASK] = 0x1cfff;
+-    write_msk[R_CXL_RAS_UNC_ERR_MASK] = 0x1cfff;
+-    reg_state[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1cfff;
+-    write_msk[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1cfff;
+-    reg_state[R_CXL_RAS_COR_ERR_STATUS] = 0;
+-    reg_state[R_CXL_RAS_COR_ERR_MASK] = 0x7f;
+-    write_msk[R_CXL_RAS_COR_ERR_MASK] = 0x7f;
++    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_MASK, 0x1cfff);
++    stl_le_p(write_msk + R_CXL_RAS_UNC_ERR_MASK, 0x1cfff);
++    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_SEVERITY, 0x1cfff);
++    stl_le_p(write_msk + R_CXL_RAS_UNC_ERR_SEVERITY, 0x1cfff);
++    stl_le_p(reg_state + R_CXL_RAS_COR_ERR_STATUS, 0);
++    stl_le_p(reg_state + R_CXL_RAS_COR_ERR_MASK, 0x7f);
++    stl_le_p(write_msk + R_CXL_RAS_COR_ERR_MASK, 0x7f);
+     /* CXL switches and devices must set */
+-    reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0x00;
++    stl_le_p(reg_state + R_CXL_RAS_ERR_CAP_CTRL, 0x00);
  }
  
- /*
-@@ -452,8 +453,19 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
-     cxl_cstate->cdat.private = ct3d;
-     cxl_doe_cdat_init(cxl_cstate, errp);
-+
-+    pcie_cap_deverr_init(pci_dev);
-+    /* Leave a bit of room for expansion */
-+    rc = pcie_aer_init(pci_dev, PCI_ERR_VER, 0x200, PCI_ERR_SIZEOF, NULL);
-+    if (rc) {
-+        goto err_release_cdat;
-+    }
-+
-     return;
- 
-+err_release_cdat:
-+    cxl_doe_cdat_release(cxl_cstate);
-+    g_free(regs->special_ops);
- err_address_space_free:
-     address_space_destroy(&ct3d->hostmem_as);
-     return;
-@@ -465,6 +477,7 @@ static void ct3_exit(PCIDevice *pci_dev)
-     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-     ComponentRegisters *regs = &cxl_cstate->crb;
- 
-+    pcie_aer_exit(pci_dev);
-     cxl_doe_cdat_release(cxl_cstate);
-     g_free(regs->special_ops);
-     address_space_destroy(&ct3d->hostmem_as);
+ static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk,
 -- 
 2.37.2
 
