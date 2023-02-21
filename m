@@ -2,63 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0890669E361
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A20669E347
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 16:22:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUUZc-0001BI-CJ; Tue, 21 Feb 2023 10:28:56 -0500
+	id 1pUUSl-0001Q3-74; Tue, 21 Feb 2023 10:21:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1pUUZY-0001A8-AG; Tue, 21 Feb 2023 10:28:52 -0500
-Received: from lounge.grep.be ([2a01:4f8:200:91e8::2])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pUUSd-0001NA-1K
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:21:43 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <w@uter.be>)
- id 1pUUZV-00008R-Iv; Tue, 21 Feb 2023 10:28:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
- s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=wpU4GWnGunuQpvZMVNVvPLhBK22cJPRxRC4WXwip7Y4=; b=Y5QyGPrIpSlTmr9ImPHsfiFNcJ
- toQMcomrj05elgb2HjzzbIrDQRgJ8AY5yjaBu2zuW0vCPcaZ29SW3siDurWHVp/bM37y/Hi6Ig/xO
- cu897KiTl5p66iG0yoWVpkzc2qRRwZ0GT7XNMfEXs7myHQJY2CoJXSEzGpgJ63O5P1Z2zEHUREEN6
- 5eIZvzbarL3wGxTENCiT+7i8P6DI1muFa2X5pyPlrVPXvndNfxhl/GTTw5FWzcVH6R0d1b4/iBxGv
- 7jsguIani6pv4DCTKdlzssv0RSt74cZH1lwvMhPr33asGNXAoTXAfMFRxvciKAs7zemAoSmHinpMY
- //Mu1A7w==;
-Received: from [196.251.239.242] (helo=pc220518)
- by lounge.grep.be with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <w@uter.be>)
- id 1pUUSh-00H19U-Th; Tue, 21 Feb 2023 16:21:48 +0100
-Received: from wouter by pc220518 with local (Exim 4.96)
- (envelope-from <w@uter.be>) id 1pUUSX-000L4w-1P;
- Tue, 21 Feb 2023 17:21:37 +0200
-Date: Tue, 21 Feb 2023 17:21:37 +0200
-From: Wouter Verhelst <w@uter.be>
-To: Eric Blake <eblake@redhat.com>
-Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- libguestfs@redhat.com
-Subject: Re: [PATCH v2 2/6] spec: Tweak description of maximum block size
-Message-ID: <Y/ThgdLldvb5rpwA@pc220518.home.grep.be>
-References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
- <20221114224655.2186173-1-eblake@redhat.com>
- <20221114224655.2186173-3-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pUUSZ-00077X-ON
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 10:21:42 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PLjd25yt6z6J9fv;
+ Tue, 21 Feb 2023 23:19:34 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.17; Tue, 21 Feb 2023 15:21:34 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang
+ <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v5 0/8] hw/cxl: RAS error emulation and injection
+Date: Tue, 21 Feb 2023 15:21:37 +0000
+Message-ID: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221114224655.2186173-3-eblake@redhat.com>
-X-Speed: Gates' Law: Every 18 months, the speed of software halves.
-Organization: none
-Received-SPF: pass client-ip=2a01:4f8:200:91e8::2; envelope-from=w@uter.be;
- helo=lounge.grep.be
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,87 +62,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Eric,
+v5: thanks to Dave Jiang for review.
+- Spell out Implementation Defined.
+- Pick up Dave's tags - thanks!
+v4:
+In response to similar feedback on poison injection series (Markus Armbruster).
+ - More detailed documentation in cxl.json
+ - Based on tag in format suggested by Markus.
 
-Busy days, busy times. Sorry about the insane delays here.
+Based on series "[PATCH v4 00/10] hw/cxl: CXL emulation cleanups and minor fixes for upstream"
 
-On Mon, Nov 14, 2022 at 04:46:51PM -0600, Eric Blake wrote:
-> Commit 9f30fedb improved the spec to allow non-payload requests that
-> exceed any advertised maximum block size.  Take this one step further
-> by permitting the server to use NBD_EOVERFLOW as a hint to the client
-> when a request is oversize (while permitting NBD_EINVAL for
-> back-compat), and by rewording the text to explicitly call out that
-> what is being advertised is the maximum payload length, not maximum
-> block size.  This becomes more important when we add 64-bit
-> extensions, where it becomes possible to extend `NBD_CMD_BLOCK_STATUS`
-> to have both an effect length (how much of the image does the client
-> want status on - may be larger than 32 bits) and an optional payload
-> length (a way to filter the response to a subset of negotiated
-> metadata contexts).  In the shorter term, it means that a server may
-> (but not must) accept a read request larger than the maximum block
-> size if it can use structured replies to keep each chunk of the
-> response under the maximum payload limits.
-> ---
->  doc/proto.md | 127 +++++++++++++++++++++++++++++----------------------
->  1 file changed, 73 insertions(+), 54 deletions(-)
-> 
-> diff --git a/doc/proto.md b/doc/proto.md
-> index 8f08583..53c334a 100644
-> --- a/doc/proto.md
-> +++ b/doc/proto.md
-> @@ -745,8 +745,8 @@ text unless the client insists on TLS.
-> 
->  During transmission phase, several operations are constrained by the
->  export size sent by the final `NBD_OPT_EXPORT_NAME` or `NBD_OPT_GO`,
-> -as well as by three block size constraints defined here (minimum,
-> -preferred, and maximum).
-> +as well as by three block size constraints defined here (minimum
-> +block, preferred block, and maximum payload).
-> 
->  If a client can honour server block size constraints (as set out below
->  and under `NBD_INFO_BLOCK_SIZE`), it SHOULD announce this during the
-> @@ -772,15 +772,15 @@ learn the server's constraints without committing to them.
-> 
->  If block size constraints have not been advertised or agreed on
->  externally, then a server SHOULD support a default minimum block size
-> -of 1, a preferred block size of 2^12 (4,096), and a maximum block size
-> -that is effectively unlimited (0xffffffff, or the export size if that
-> -is smaller), while a client desiring maximum interoperability SHOULD
-> -constrain its requests to a minimum block size of 2^9 (512), and limit
-> -`NBD_CMD_READ` and `NBD_CMD_WRITE` commands to a maximum block size of
-> -2^25 (33,554,432).  A server that wants to enforce block sizes other
-> -than the defaults specified here MAY refuse to go into transmission
-> -phase with a client that uses `NBD_OPT_EXPORT_NAME` (via a hard
-> -disconnect) or which uses `NBD_OPT_GO` without requesting
-> +of 1, a preferred block size of 2^12 (4,096), and a maximum block
-> +payload size that is at least 2^25 (33,554,432) (even if the export
-> +size is smaller); while a client desiring maximum interoperability
-> +SHOULD constrain its requests to a minimum block size of 2^9 (512),
-> +and limit `NBD_CMD_READ` and `NBD_CMD_WRITE` commands to a maximum
-> +block size of 2^25 (33,554,432).  A server that wants to enforce block
-> +sizes other than the defaults specified here MAY refuse to go into
-> +transmission phase with a client that uses `NBD_OPT_EXPORT_NAME` (via
-> +a hard disconnect) or which uses `NBD_OPT_GO` without requesting
+Based on: Message-Id: 20230206172816.8201-1-Jonathan.Cameron@huawei.com
 
-This does more than what the commit message says: it also limits payload
-size from 0xffffffff to 2^25. We already have a "A server that desires
-maximum interoperability" clause that mentions the 2^25, so I'm not
-entirely sure why we need to restrict that for the default cause.
+v3 cover letter.
 
-Remember, apart from specifying how something should be implemented, the
-spec also documents current and historic behavior. I am probably
-convinced that it makes more sense to steer people towards limiting to
-2^25, but it should be done in such a way that servers which accept a
-0xffffffff block size are not suddenly noncompliant. I don't think this
-does that.
+CXL error reporting is complex. This series only covers the protocol
+related errors reported via PCIe AER - Ira Weiny has posted support for
+Event log based injection and I will post an update of Poison list injection
+shortly. My proposal is to upstream this one first, followed by Ira's Event
+Log series, then finally the Poison List handling. That is based on likely
+order of Linux kernel support (the support for this type of error reporting
+went in during the recent merge window, the others are still under review).
+Note we may propose other non error related features in between!
 
-[no further comments on this one]
+In order to test the kernel support for RAS error handling, I previously
+provided this series via gitlab, enabling David Jiang's kernel patches
+to be tested.
+
+Now that Linux kernel support is upstream, this series is proposing the
+support for upstream inclusion in QEMU. Note that support for Multiple
+Header Recording has been added to QEMU the meantime and a kernel
+patch to use that feature sent out.
+
+https://lore.kernel.org/linux-cxl/20230113154058.16227-1-Jonathan.Cameron@huawei.com/T/#t
+
+There are two generic PCI AER precursor feature additions.
+1) The PCI_ERR_UCOR_MASK register has not been implemented until now
+   and is necessary for correct emulation.
+2) The routing for AER errors, via existing AER error injection, only
+   covered one of two paths given in the PCIe base specification,
+   unfortunately not the one used by the Linux kernel CXL support.
+
+The use of MSI for the CXL root ports, both makes sense from the point
+of view of how it may well be implemented, and works around the documented
+lack of PCI interrupt routing in i386/q35. I have a hack that lets
+us correctly route those interrupts but don't currently plan to post it.
+
+The actual CXL error injection uses a new QMP interface as documented
+in the final patch description. The existing AER error injection
+internals are reused though it's HMP interface is not.
+
+Injection via QMP:
+{ "execute": "qmp_capabilities" }
+...
+{ "execute": "cxl-inject-uncorrectable-errors",
+  "arguments": {
+    "path": "/machine/peripheral/cxl-pmem0",
+    "errors": [
+        {
+            "type": "cache-address-parity",
+            "header": [ 3, 4]
+        },
+        {
+            "type": "cache-data-parity",
+            "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        },
+        {
+            "type": "internal",
+            "header": [ 1, 2, 4]
+        }
+        ]
+  }}
+...
+{ "execute": "cxl-inject-correctable-error",
+    "arguments": {
+        "path": "/machine/peripheral/cxl-pmem0",
+        "type": "physical"
+    } }
+
+Jonathan Cameron (8):
+  hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
+  hw/pci/aer: Add missing routing for AER errors
+  hw/pci-bridge/cxl_root_port: Wire up AER
+  hw/pci-bridge/cxl_root_port: Wire up MSI
+  hw/mem/cxl-type3: Add AER extended capability
+  hw/cxl: Fix endian issues in CXL RAS capability defaults / masks
+  hw/pci/aer: Make PCIE AER error injection facility available for other
+    emulation to use.
+  hw/mem/cxl_type3: Add CXL RAS Error Injection Support.
+
+ hw/cxl/cxl-component-utils.c   |  20 ++-
+ hw/mem/cxl_type3.c             | 294 +++++++++++++++++++++++++++++++++
+ hw/mem/cxl_type3_stubs.c       |  10 ++
+ hw/mem/meson.build             |   2 +
+ hw/pci-bridge/cxl_root_port.c  |  64 +++++++
+ hw/pci/pci-internal.h          |   1 -
+ hw/pci/pcie_aer.c              |  14 +-
+ include/hw/cxl/cxl_component.h |  26 +++
+ include/hw/cxl/cxl_device.h    |  11 ++
+ include/hw/pci/pcie_aer.h      |   1 +
+ include/hw/pci/pcie_regs.h     |   3 +
+ qapi/cxl.json                  | 118 +++++++++++++
+ qapi/meson.build               |   1 +
+ qapi/qapi-schema.json          |   1 +
+ 14 files changed, 555 insertions(+), 11 deletions(-)
+ create mode 100644 hw/mem/cxl_type3_stubs.c
+ create mode 100644 qapi/cxl.json
+
 -- 
-     w@uter.{be,co.za}
-wouter@{grep.be,fosdem.org,debian.org}
+2.37.2
 
-I will have a Tin-Actinium-Potassium mixture, thanks.
 
