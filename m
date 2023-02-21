@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27DA69E9FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:20:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D224269EA06
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:23:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUayV-00069f-Al; Tue, 21 Feb 2023 17:19:03 -0500
+	id 1pUayY-0006D3-66; Tue, 21 Feb 2023 17:19:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay5-0005vH-9f
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:37 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay5-0005vd-Tq
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:38 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay3-0005ls-B9
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:36 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUay4-0005lw-4K
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=aZNIf8SUhPVCHgfGtfdH0W55b3rV4YfHsWUUCtHkfLk=; b=FE7W4Bh4G6JnLgISCuhj8yG2OJ
- NUlqcTujInv45Qgxo+T+hTZdlqV+nlwneMEmmOzyr4ZwbNzl8Y5/UYONVXVcsSoMU+Vv8tgaesD+O
- kgJMwYAzsPX+JO3RNNHhhwY69xmnPRX0b4luPviF1wNonW/sJ1Q/OqUMv5II/qW/mPHU=;
+ bh=FPAnU2eoTUOHIVAPGWUVJM936af5bDpPeKc/JrTBUuo=; b=gYAD2xUjttiT85qnWq/yrGAgPm
+ PGzeevq8U+AQU0iedF4uXcZ/LRusLOqu1NWrrIgEWpqbZ60CnvLDG5izvGx+k2590BrgKxsbT0Bpn
+ yLRedYp3NHsgw/aYZnCwI90OKBTdvv/Yt5k1MMMpI6++onFdetPJ9tNfNvPJDwedhrLw=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,10 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v2 05/27] include/exec: Replace `TARGET_TB_PCREL` with
- `CF_PCREL`
-Date: Tue, 21 Feb 2023 23:17:56 +0100
-Message-Id: <20230221221818.9382-6-anjo@rev.ng>
+Subject: [PATCH v2 06/27] target/arm: Replace `TARGET_TB_PCREL` with `CF_PCREL`
+Date: Tue, 21 Feb 2023 23:17:57 +0100
+Message-Id: <20230221221818.9382-7-anjo@rev.ng>
 In-Reply-To: <20230221221818.9382-1-anjo@rev.ng>
 References: <20230221221818.9382-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -69,70 +68,129 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/exec/exec-all.h | 27 +++++++++++----------------
- 1 file changed, 11 insertions(+), 16 deletions(-)
+ target/arm/cpu.c           | 8 ++++----
+ target/arm/translate-a64.c | 8 ++++----
+ target/arm/translate.c     | 6 +++---
+ target/arm/translate.h     | 2 +-
+ 4 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 9186a58554..f1615af7cb 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -505,22 +505,20 @@ struct tb_tc {
- };
- 
- struct TranslationBlock {
--#if !TARGET_TB_PCREL
-     /*
-      * Guest PC corresponding to this block.  This must be the true
-      * virtual address.  Therefore e.g. x86 stores EIP + CS_BASE, and
-      * targets like Arm, MIPS, HP-PA, which reuse low bits for ISA or
-      * privilege, must store those bits elsewhere.
-      *
--     * If TARGET_TB_PCREL, the opcodes for the TranslationBlock are
--     * written such that the TB is associated only with the physical
--     * page and may be run in any virtual address context.  In this case,
--     * PC must always be taken from ENV in a target-specific manner.
-+     * If CF_PCREL, the opcodes for the TranslationBlock are written
-+     * such that the TB is associated only with the physical page and
-+     * may be run in any virtual address context.  In this case, PC
-+     * must always be taken from ENV in a target-specific manner.
-      * Unwind information is taken as offsets from the page, to be
-      * deposited into the "current" PC.
-      */
-     target_ulong pc;
--#endif
- 
-     /*
-      * Target-specific data associated with the TranslationBlock, e.g.:
-@@ -614,22 +612,19 @@ struct TranslationBlock {
-     uintptr_t jmp_dest[2];
- };
- 
--/* Hide the read to avoid ifdefs for TARGET_TB_PCREL. */
--static inline target_ulong tb_pc(const TranslationBlock *tb)
--{
--#if TARGET_TB_PCREL
--    qemu_build_not_reached();
--#else
--    return tb->pc;
--#endif
--}
--
- /* Hide the qatomic_read to make code a little easier on the eyes */
- static inline uint32_t tb_cflags(const TranslationBlock *tb)
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index c38420a4d1..c05cb86a47 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -78,8 +78,8 @@ static vaddr arm_cpu_get_pc(CPUState *cs)
+ void arm_cpu_synchronize_from_tb(CPUState *cs,
+                                  const TranslationBlock *tb)
  {
-     return qatomic_read(&tb->cflags);
- }
+-    /* The program counter is always up to date with TARGET_TB_PCREL. */
+-    if (!TARGET_TB_PCREL) {
++    /* The program counter is always up to date with CF_PCREL. */
++    if (!(tb_cflags(tb) & CF_PCREL)) {
+         CPUARMState *env = cs->env_ptr;
+         /*
+          * It's OK to look at env for the current mode here, because it's
+@@ -100,7 +100,7 @@ void arm_restore_state_to_opc(CPUState *cs,
+     CPUARMState *env = cs->env_ptr;
  
-+/* Hide the read to avoid ifdefs for CF_PCREL. */
-+static inline target_ulong tb_pc(const TranslationBlock *tb)
-+{
-+    assert(!(tb_cflags(tb) & CF_PCREL));
-+    return tb->pc;
-+}
-+
- static inline tb_page_addr_t tb_page_addr0(const TranslationBlock *tb)
+     if (is_a64(env)) {
+-        if (TARGET_TB_PCREL) {
++        if (tb_cflags(tb) & CF_PCREL) {
+             env->pc = (env->pc & TARGET_PAGE_MASK) | data[0];
+         } else {
+             env->pc = data[0];
+@@ -108,7 +108,7 @@ void arm_restore_state_to_opc(CPUState *cs,
+         env->condexec_bits = 0;
+         env->exception.syndrome = data[2] << ARM_INSN_START_WORD2_SHIFT;
+     } else {
+-        if (TARGET_TB_PCREL) {
++        if (tb_cflags(tb) & CF_PCREL) {
+             env->regs[15] = (env->regs[15] & TARGET_PAGE_MASK) | data[0];
+         } else {
+             env->regs[15] = data[0];
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index da9f877476..b6d00b81da 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -143,7 +143,7 @@ static void reset_btype(DisasContext *s)
+ static void gen_pc_plus_diff(DisasContext *s, TCGv_i64 dest, target_long diff)
  {
- #ifdef CONFIG_USER_ONLY
+     assert(s->pc_save != -1);
+-    if (TARGET_TB_PCREL) {
++    if (tb_cflags(s->base.tb) & CF_PCREL) {
+         tcg_gen_addi_i64(dest, cpu_pc, (s->pc_curr - s->pc_save) + diff);
+     } else {
+         tcg_gen_movi_i64(dest, s->pc_curr + diff);
+@@ -393,7 +393,7 @@ static void gen_goto_tb(DisasContext *s, int n, int64_t diff)
+          * update to pc to the unlinked path.  A long chain of links
+          * can thus avoid many updates to the PC.
+          */
+-        if (TARGET_TB_PCREL) {
++        if (tb_cflags(s->base.tb) & CF_PCREL) {
+             gen_a64_update_pc(s, diff);
+             tcg_gen_goto_tb(n);
+         } else {
+@@ -4297,7 +4297,7 @@ static void disas_pc_rel_adr(DisasContext *s, uint32_t insn)
+     if (page) {
+         /* ADRP (page based) */
+         offset <<= 12;
+-        /* The page offset is ok for TARGET_TB_PCREL. */
++        /* The page offset is ok for CF_PCREL. */
+         offset -= s->pc_curr & 0xfff;
+     }
+ 
+@@ -14809,7 +14809,7 @@ static void aarch64_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+     target_ulong pc_arg = dc->base.pc_next;
+ 
+-    if (TARGET_TB_PCREL) {
++    if (tb_cflags(dcbase->tb) & CF_PCREL) {
+         pc_arg &= ~TARGET_PAGE_MASK;
+     }
+     tcg_gen_insn_start(pc_arg, 0, 0);
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index c23a3462bf..0e7d3b8561 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -269,7 +269,7 @@ static target_long jmp_diff(DisasContext *s, target_long diff)
+ static void gen_pc_plus_diff(DisasContext *s, TCGv_i32 var, target_long diff)
+ {
+     assert(s->pc_save != -1);
+-    if (TARGET_TB_PCREL) {
++    if (tb_cflags(s->base.tb) & CF_PCREL) {
+         tcg_gen_addi_i32(var, cpu_R[15], (s->pc_curr - s->pc_save) + diff);
+     } else {
+         tcg_gen_movi_i32(var, s->pc_curr + diff);
+@@ -2620,7 +2620,7 @@ static void gen_goto_tb(DisasContext *s, int n, target_long diff)
+          * update to pc to the unlinked path.  A long chain of links
+          * can thus avoid many updates to the PC.
+          */
+-        if (TARGET_TB_PCREL) {
++        if (tb_cflags(s->base.tb) & CF_PCREL) {
+             gen_update_pc(s, diff);
+             tcg_gen_goto_tb(n);
+         } else {
+@@ -9542,7 +9542,7 @@ static void arm_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+     uint32_t condexec_bits;
+     target_ulong pc_arg = dc->base.pc_next;
+ 
+-    if (TARGET_TB_PCREL) {
++    if (tb_cflags(dcbase->tb) & CF_PCREL) {
+         pc_arg &= ~TARGET_PAGE_MASK;
+     }
+     if (dc->eci) {
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 3717824b75..4001372acd 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -23,7 +23,7 @@ typedef struct DisasContext {
+     /* The address of the current instruction being translated. */
+     target_ulong pc_curr;
+     /*
+-     * For TARGET_TB_PCREL, the full value of cpu_pc is not known
++     * For CF_PCREL, the full value of cpu_pc is not known
+      * (although the page offset is known).  For convenience, the
+      * translation loop uses the full virtual address that triggered
+      * the translation, from base.pc_start through pc_curr.
 -- 
 2.39.1
 
