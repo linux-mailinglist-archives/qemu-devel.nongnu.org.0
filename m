@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B42969E0D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 13:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092E569E0C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 13:49:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUS4H-0004yk-UN; Tue, 21 Feb 2023 07:48:26 -0500
+	id 1pUS4M-00057r-Ar; Tue, 21 Feb 2023 07:48:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUS4B-0004vY-Ik
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pUS4J-00052Z-6q
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pUS49-0007oT-OQ
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:19 -0500
+ id 1pUS4H-0007pZ-FE
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 07:48:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676983696;
+ s=mimecast20190719; t=1676983704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YjEQm1F5xM6Ei/i3uH49XnaqSU42QquOa8Xq7bTbqW4=;
- b=fUHAfn79kcVV8mpIc4wRPVPBbkdRjdRsK/vFph9++anb85G+uDSLvJM64+LFfaQIhQUYRB
- 5TfQe0MGzT0ONLxRVucM1AJEwBI1n2TkGm7fUxEQE5tHP5GX19ulNqNn2wbhSGA2AWoY7z
- FkOjL5ivcu98DkBfvjXM37QnJ9meRqc=
+ bh=NyPsBp7a1Zd/f/PnlYKoqadMjaVEQg/Z5bS9x1n8BZQ=;
+ b=OeAwMmvDQrIwoMi8xEgDhjYC475CsVYMintx58tRJu48jqmAumy6Qov7hP3/8S6tV1opQ2
+ LlI1FxTbapTVb7Jbeb1M/w+WeELUHil+PXtkom7crPVJyjMuJ/z1BF9jNdHbL7i+Ug9ZZv
+ mpqJZhuapWa5vWn6nKfj0GXRCTh3Ps0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-sNMVaeEQPXu184XsydlM0w-1; Tue, 21 Feb 2023 07:48:15 -0500
-X-MC-Unique: sNMVaeEQPXu184XsydlM0w-1
+ us-mta-191-ZlPq1Zj1Pr6YlTGZVfZigQ-1; Tue, 21 Feb 2023 07:48:21 -0500
+X-MC-Unique: ZlPq1Zj1Pr6YlTGZVfZigQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE80F3C025BD;
- Tue, 21 Feb 2023 12:48:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0BA32A59541;
+ Tue, 21 Feb 2023 12:48:18 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 059034014CF3;
- Tue, 21 Feb 2023 12:48:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 957784014CF3;
+ Tue, 21 Feb 2023 12:48:17 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
@@ -56,16 +56,16 @@ Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>,
  Hanna Reitz <hreitz@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v3 02/16] tests: use closesocket()
-Date: Tue, 21 Feb 2023 16:47:47 +0400
-Message-Id: <20230221124802.4103554-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 03/16] io: use closesocket()
+Date: Tue, 21 Feb 2023 16:47:48 +0400
+Message-Id: <20230221124802.4103554-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
 References: <20230221124802.4103554-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -97,30 +97,40 @@ Because they are actually sockets...
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/unit/socket-helpers.c | 6 +++---
+ io/channel-socket.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/unit/socket-helpers.c b/tests/unit/socket-helpers.c
-index eecadf3a3c..914b3aa0cf 100644
---- a/tests/unit/socket-helpers.c
-+++ b/tests/unit/socket-helpers.c
-@@ -117,13 +117,13 @@ static int socket_can_bind_connect(const char *hostname, int family)
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index 7aca84f61a..2040297d2b 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -159,7 +159,7 @@ int qio_channel_socket_connect_sync(QIOChannelSocket *ioc,
  
-  cleanup:
-     if (afd != -1) {
--        close(afd);
-+        closesocket(afd);
+     trace_qio_channel_socket_connect_complete(ioc, fd);
+     if (qio_channel_socket_set_fd(ioc, fd, errp) < 0) {
+-        close(fd);
++        closesocket(fd);
+         return -1;
      }
-     if (cfd != -1) {
--        close(cfd);
-+        closesocket(cfd);
+ 
+@@ -233,7 +233,7 @@ int qio_channel_socket_listen_sync(QIOChannelSocket *ioc,
+ 
+     trace_qio_channel_socket_listen_complete(ioc, fd);
+     if (qio_channel_socket_set_fd(ioc, fd, errp) < 0) {
+-        close(fd);
++        closesocket(fd);
+         return -1;
      }
-     if (lfd != -1) {
--        close(lfd);
-+        closesocket(lfd);
+     qio_channel_set_feature(QIO_CHANNEL(ioc), QIO_CHANNEL_FEATURE_LISTEN);
+@@ -310,7 +310,7 @@ int qio_channel_socket_dgram_sync(QIOChannelSocket *ioc,
+ 
+     trace_qio_channel_socket_dgram_complete(ioc, fd);
+     if (qio_channel_socket_set_fd(ioc, fd, errp) < 0) {
+-        close(fd);
++        closesocket(fd);
+         return -1;
      }
-     if (res) {
-         freeaddrinfo(res);
+ 
 -- 
 2.39.2
 
