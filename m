@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B83F69EA10
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75EA669EA17
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 23:25:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUayg-0006Sv-9Q; Tue, 21 Feb 2023 17:19:14 -0500
+	id 1pUayZ-0006Hn-Rk; Tue, 21 Feb 2023 17:19:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayG-0005yR-1H
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:48 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayH-0005ya-6B
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:50 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayE-0005n5-7z
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:47 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pUayF-0005nR-1e
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 17:18:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=EB81bmSOJmL90kWJyH3l431tqnm2AiiJrKlcgOcmXdE=; b=nWTxJ8c/bPRXL+H5yvb4j6U40+
- gV++sAH77Rhej/E7TMV3BslvJyCujYxH1UjBzuHQcOkhzYdLfGmW4fU5kSv44sdSQvQtmeQyFvrht
- r07M2FSY9GJLfBUoUlcj0H6+A23dRLrw6iPjrjyLpp11JTFxY/Ef0xbLdUOJ06Ir+kiE=;
+ bh=3nQfcbZggv250L4g3Tfg1kKXggh4/O/EBMKH0Jrx8Os=; b=IfIaXMnFooP4/blUXdmNgAyYTu
+ UrITSEBC/BMEHCtzgctQFhcFedEcx6BURE89J8ElPBKR2Ae+rnk0ZUvaE092ANnN74N6t+HuMuWy+
+ CFK18Wtsw7Jopy2s/k6m5hT7xwJYF6LS7jbFlxwuOmSNW1KzsbxvN1h316qtDM9oc5pc=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v2 13/27] target/tricore: Replace `tb_pc()` with `tb->pc`
-Date: Tue, 21 Feb 2023 23:18:04 +0100
-Message-Id: <20230221221818.9382-14-anjo@rev.ng>
+Subject: [PATCH v2 14/27] target/sparc: Replace `tb_pc()` with `tb->pc`
+Date: Tue, 21 Feb 2023 23:18:05 +0100
+Message-Id: <20230221221818.9382-15-anjo@rev.ng>
 In-Reply-To: <20230221221818.9382-1-anjo@rev.ng>
 References: <20230221221818.9382-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -66,23 +66,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- target/tricore/cpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/sparc/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index 594cd1efd5..d0a9272961 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -55,7 +55,8 @@ static void tricore_cpu_synchronize_from_tb(CPUState *cs,
-     TriCoreCPU *cpu = TRICORE_CPU(cs);
-     CPUTriCoreState *env = &cpu->env;
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index 1734ef8dc6..e329a7aece 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -25,6 +25,7 @@
+ #include "exec/exec-all.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/visitor.h"
++#include "tcg/tcg.h"
  
--    env->PC = tb_pc(tb);
+ //#define DEBUG_FEATURES
+ 
+@@ -707,7 +708,8 @@ static void sparc_cpu_synchronize_from_tb(CPUState *cs,
+ {
+     SPARCCPU *cpu = SPARC_CPU(cs);
+ 
+-    cpu->env.pc = tb_pc(tb);
 +    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
-+    env->PC = tb->pc;
++    cpu->env.pc = tb->pc;
+     cpu->env.npc = tb->cs_base;
  }
  
- static void tricore_restore_state_to_opc(CPUState *cs,
 -- 
 2.39.1
 
