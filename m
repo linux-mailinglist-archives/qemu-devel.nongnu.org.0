@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F1769E291
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 15:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F023769E2A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Feb 2023 15:48:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUTql-00016d-Vo; Tue, 21 Feb 2023 09:42:36 -0500
+	id 1pUTvr-0003Cr-5A; Tue, 21 Feb 2023 09:47:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUTqj-00016C-EW
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:42:33 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pUTve-0003BZ-SJ
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:47:38 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUTqh-0005bY-Bj
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:42:33 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id x10so17303751edd.13
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 06:42:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pUTvd-0006gt-9p
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 09:47:38 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ i1-20020a17090ad34100b00234463de251so5064942pjx.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 06:47:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mZY0kaOEgxwMx5+dj+TF1fKmgOXhba1vgpf5uEMKLqA=;
- b=Moj/JWb5/ohZNNJYy+ZP6CTGRQK4U03RltEy/WvdFNfey6L37bnT0zwcF5NnzaYV8d
- xJv57vZEmSxdp41euEMdWLYKJSh5BoiNwhaCuBxJmJVj1SmoOXe9l2i59PJgqoH+3Cvt
- MCoaFridn8yifKaghnMLLrMB8Vqu5LURbaqlDY7P6ulMHBZJlyHqb3XlZVFzzkRSKiLp
- IiUWbUxdGTpL88DH01ihYYSDqth7EnWIe5lntQafTBhzmKikHJzees9pajMpKsUh/cdW
- UNfZM7dRhHayqMNJXZk8U4DFM1Beo0FoVOuNhzKxUqmlptJW4ueVYkOr+lt0UnMIviRU
- K4pA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wH6S+y/2dEY3lRWuIwNXIrJYDqXQYWmx8QMQlR52HF4=;
+ b=clUIGi9MW1BfPAwoLVqHXZWCLTttADczLWNJ8N5zHYS6FgDEoj0bGEo+QpjG63YYl1
+ OjTJTybpcaf+Eb3qvQSy++sub0hYLFJqdp8Y3IFJt8FWl6MkpG8+9yxYQs20m097rWv/
+ p9AaNArgfEO8CQ/v22xRoFPZY9QtShl/8WUUf+m1yC9IYaA91z/9yEvCrgo647uifAe+
+ bslxSwJLezFIkEgh33J/8yBwZANPS7s4rAV2t0SznfWaCGzzsrw3ff67QdaYgKYOP5oJ
+ VOJBxoH2ZHMLFc+nGZmhYmcGo61C7c5bztLidvtC7WzvP0azfgj1oDgcYUahvRIBD6sq
+ olbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mZY0kaOEgxwMx5+dj+TF1fKmgOXhba1vgpf5uEMKLqA=;
- b=aK/zq+7qJNiTy1UfDWIrytJedYazahiQ+uXl3Z+eYDJEHqSROw/PziAJnn7CI1lGZj
- F+eK0PkxBBaAzQhZ7+A38YVh6gJRpqORMiVoVRDXG48Nt6wUc3/Rcm1Kt/OB97hCJASy
- TxMG5Gjj2EaMh+0PA3gAdenJ7YvFEnagFz+JBPueqjjY7QaVzIXGv8/7Tu/C7DhJ552S
- w+eIboHC7voEuy2IYrYYVbCiSZIvGXQDzZqYj42ZSzyFCuV25d5kA4ax95In7UZkQFUH
- BsvoGujwBqY3yCP3iSZzFEuQwlkt9MC1sYQBFzWEg3pfNk8i75xB7DJbQ16iWbQ9u8VG
- Q3YQ==
-X-Gm-Message-State: AO0yUKUNFjBlQ0+nxx3raWMXz2MJHlIdqtBOYuFex8O07oybK/HT4Io9
- 999seQVdTQZZuMj3/RvNgRdxcf188vGwpGOX
-X-Google-Smtp-Source: AK7set88MtXUOqC/XrK5Ll5qaQdBDcAOJCMUjFCUhdIgqOB525tSP/+GPMwMf8OI1deJMqENJ+mpKQ==
-X-Received: by 2002:a05:600c:1e0e:b0:3da:b40f:7a55 with SMTP id
- ay14-20020a05600c1e0e00b003dab40f7a55mr4788821wmb.6.1676990219935; 
- Tue, 21 Feb 2023 06:36:59 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- t23-20020a05600c2f9700b003dc521f336esm4274004wmn.14.2023.02.21.06.36.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 06:36:59 -0800 (PST)
-Message-ID: <601701c5-4cc7-27cd-5ad2-7ed2f81ea19d@linaro.org>
-Date: Tue, 21 Feb 2023 15:36:58 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wH6S+y/2dEY3lRWuIwNXIrJYDqXQYWmx8QMQlR52HF4=;
+ b=TVU7wYQT3HeVCFMEtjWJmuk3g55QSSee5vQAbEBBCY+Dvc6dqPh/5Z4uwroRXmm3zp
+ 8WksENBe+b5XMGsW6qD0uc8Wfiy0Mc6J/3DHihD+x67OByhLjtbJC7vu5UauTUcNMuU8
+ hxqHlXX+PKtx77DT7JeFK3GkOt1+9zhJwTwmiXtje0mxww2f4cfHqVFz+xYdJsABT1iS
+ tJYPtqIIWTABbDRBGakngf8vjsPnAmBHtyjaJyI/+5p5NKF21VRGwWgAmdO92IZcKsDl
+ PtW1ep/ysnzyScuowHkaBBdBOVbsxzRTBOz1WUoYaLVqY3fdpVWZVk6uo72geFfKAcis
+ Pfag==
+X-Gm-Message-State: AO0yUKWS+MfNVHqCGTn7jZw9LTvWwClvFaXCJvux/6ZEBy+1kFejK/Vb
+ HrEMI34BSRLLhzVj3U39LRjBpVSrWIbYr38xvNbYSQ==
+X-Google-Smtp-Source: AK7set+gR6/QkQOJdug2e01hhGnbxH7Ab00IJjny3u/EAOaeJeKazyIDAAnl7R/zt0tCvP1iAHuUZCQSe1irPU6HUsw=
+X-Received: by 2002:a17:90b:5109:b0:233:dcb5:ee15 with SMTP id
+ sc9-20020a17090b510900b00233dcb5ee15mr1800199pjb.92.1676990845782; Tue, 21
+ Feb 2023 06:47:25 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH] tests: Disable migration-test
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20230221132726.2892383-1-peter.maydell@linaro.org>
- <46f7c446-fe44-b703-ba40-0e9e0c16920f@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <46f7c446-fe44-b703-ba40-0e9e0c16920f@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=philmd@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230220032338.5619-1-richard.henderson@linaro.org>
+ <CAFEAcA_89gi6r-fmPSohpho2fOMu_oh-kBG6oQO+6uC0mZR1TQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_89gi6r-fmPSohpho2fOMu_oh-kBG6oQO+6uC0mZR1TQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Feb 2023 14:47:14 +0000
+Message-ID: <CAFEAcA_VqoEQKN4Guo=PVm_6usvz-HDW3Lb672P16rKNOEmf2g@mail.gmail.com>
+Subject: Re: [PULL 0/7] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,86 +84,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/2/23 15:27, Thomas Huth wrote:
-> On 21/02/2023 14.27, Peter Maydell wrote:
->> The migration-test is annoyingly flaky. Examples:
->>
->> https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
->> (a FreeBSD job)
->>    32/648 
->> ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
->>
->> on a local macos x86 box:
->> ▶  34/621 
->> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_
->> str_equal(status, "failed")) ERROR
->>   34/621 qemu:qtest+qtest-i386 / 
->> qtest-i386/migration-test                         ERROR          
->> 168.12s   killed by signal 6 SIGABRT
->> ――――――――――――――――――――――――――――――――――――― ✀  
->> ―――――――――――――――――――――――――――――――――――――
->> stderr:
->> qemu-system-i386: Failed to peek at channel
->> query-migrate shows failed migration: Unable to write to socket: 
->> Broken pipe
->> **
->> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
->>
->> (test program exited with status code -6)
->> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->>
->> ▶  37/621 
->> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed")) ERROR
->>   37/621 qemu:qtest+qtest-x86_64 / 
->> qtest-x86_64/migration-test                     ERROR          
->> 174.37s   killed by signal 6 SIGABRT
->> ――――――――――――――――――――――――――――――――――――― ✀  
->> ―――――――――――――――――――――――――――――――――――――
->> stderr:
->> query-migrate shows failed migration: Unable to write to socket: 
->> Broken pipe
->> **
->> ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
->>
->> (test program exited with status code -6)
->> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->>
->> I've seen this on other CI jobs as well, but Gitlab's UI makes it
->> pretty much impossible to re-find failed jobs, since you can't
->> search for them by failure reason at all.
->>
->> I've also seen this fail on the OpenBSD vm build.
->>
->> I've seen the migration-test hang on the s390 private CI runner
->> in such a way that even though the CI job has timed out, the
->> stale QEMU and migration-test processes are still lying around on
->> the host.
->>
->> I've complained about these before, but nobody has either investigated
->> or suggested improvements to the test program that would let us gather
->> more information about what's happening when these fail.
->>   
->> https://lore.kernel.org/qemu-devel/CAFEAcA8x_iM3hN2-P9F+huXnXFXy+D6FzE+Leq4erLdg7zkVGw@mail.gmail.com/
->>
->> So this is the big hammer: disable the test entirely, so that we
->> don't keep getting CI job intermittent failures because of it.
->> When somebody has time to investigate, we can fix the underlying
->> cause and reenable the job.
+On Tue, 21 Feb 2023 at 14:04, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 20 Feb 2023 at 03:23, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > The linux-user patches are on the tcg-ish side of user-only
+> > emulation, rather than the syscall-ish side, so queuing here.
+> > Solving the deadlock issue is quite important vs timeouts.
+>
+> aarch64 host, aarch64 guest, segfault on bti-3 in tcg-tests:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/3806772144
+>
+> TEST bti-3 on aarch64
+> Segmentation fault
+> make[1]: *** [Makefile:170: run-bti-3] Error 139
+>
+> Might be a pre-existing intermittent :shrug:
 
-This isn't a negative patch. Flaky tests happen, and if it is hard
-to fix them, disabling them is saner than loosing trust in the CI
-and the rest of the tests.
+It didn't happen on a rerun. But here's another one, clang-user build,
+on the new test case:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+https://gitlab.com/qemu-project/qemu/-/jobs/3806772115
 
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->> This is an "if you don't want this, propose something else" patch :-)
-> 
-> I'm also regularly running into issues with this test, so from my side:
-> 
-> Acked-by: Thomas Huth <thuth@redhat.com>
+TEST linux-fork-trap-with-libsyscall.so on s390x
+qemu: uncaught target signal 4 (Illegal instruction) - core dumped
 
-
-
+-- PMM
 
