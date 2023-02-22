@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9958269F873
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:57:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27DB169F87B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:57:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUrTh-00068c-ST; Wed, 22 Feb 2023 10:56:21 -0500
+	id 1pUrUg-0007TQ-Kd; Wed, 22 Feb 2023 10:57:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pUrTa-00066I-S9
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:56:14 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pUrTY-0008LJ-Lq
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:56:14 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- m3-20020a17090ade0300b00229eec90a7fso2075671pjv.0
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 07:56:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=xZncKXS3JLOWHAALUueHCR9aGhlXMQFbZdHD4bmhWSY=;
- b=V+YcUZDJgp4O/gqyBNv9+ieBxkl1omrOLZSKxteH05o0DVavlsqSMxDRSjs5FuTLEu
- P1bD/aLuN/axnqdNT/q5jIe6dUdUly+HmWeVM6j4i8tYvbF3hVDNOjgyGPMpfjgSHGVn
- Vfi/Biw5bCQ3BUSCkM2tjs6fOwoydY+aNILzYbNMrKu/3PNGWmWxIzG09Jz8hUE0UQy9
- qZJGJ8Ic/HvB0nGdvf3r8/7axKYz9GJrpGzdjPA0aym2rfFENEUFRtLinBkOyam2qz6S
- UJCMxdcxJzkRB7qoe3g5GkecKNi8hIElE8OYndTWV/CZ80MXoJszudz6VYrvdOcAVT50
- HLXg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUrUX-0007KO-Fp
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:57:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUrUV-0000KY-5c
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:57:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677081430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XfWl9516SbV98Q61ic/7234Bh//SxNQZaNdJjuhUTzs=;
+ b=GWibjRg9S+PY9ZY9tNvtwxEZ5TYeN7tzL7Dt+ErNHi/M1h7qrQfxyj7D99U1UBbM1pHQRF
+ lCuQvKmJFaCncfHje9WpAyMOBMiyR80Xs6FrwCRku+HYwAcB6HBi9ViOpwTdw1vT6VXRj6
+ HUaXlyfF0uJXPPew6z1h1GcfBldVOHY=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-85-RNcQ3UjyNq2-j7wGnUuUOA-1; Wed, 22 Feb 2023 10:57:06 -0500
+X-MC-Unique: RNcQ3UjyNq2-j7wGnUuUOA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ l13-20020ad44d0d000000b004c74bbb0affso3685607qvl.21
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 07:57:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xZncKXS3JLOWHAALUueHCR9aGhlXMQFbZdHD4bmhWSY=;
- b=0U6fkZfqHHtaXK2EunVxa0b/UD9qHiAKCmgUDJQqH3zNOzx0DeyqX/4h0uBIy/VFXz
- l1WYOW9+VAi6g0RN67kS9oonV4j7hNnNfANodyaMTonXoAr1SUZrQ1hQXlfafq8o0b1W
- 93JJuVhv2uGqVK8NQLprhBKknvUgPGS1z4LhefF+HMdeI958H7fKn7d238w3JQmESBfs
- +8FV3pZE99W9MpN9dOOhlh4nfuxLC760ZNEw/ltiX4jYySnLzVKE7hNZ1cxQvStdxeGc
- fB/hRaClhPW+Bl1aWwBIuj+iSebk183NiZo6K5Kj6qZW2iDqZFT7+qkVhVuT3f10Z0zR
- ROAg==
-X-Gm-Message-State: AO0yUKX+7ojmFHnCzgRuFOFkyYcCVrGT4VSLuNA/xkH6SFbISJdAk5/n
- f14s5KSHmvNsrs2zb2bCaQeVJQ==
-X-Google-Smtp-Source: AK7set8TnLBcQT0Ag3vracuLAw6hBpUU7mZu3WKgRrVEX9uLa0mkfH5FsEqcM/havnsH42CXemejSg==
-X-Received: by 2002:a17:902:d501:b0:19a:96ea:3850 with SMTP id
- b1-20020a170902d50100b0019a96ea3850mr8808227plg.17.1677081371350; 
- Wed, 22 Feb 2023 07:56:11 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- ja17-20020a170902efd100b0019acd3151d0sm6702927plb.114.2023.02.22.07.56.10
+ bh=XfWl9516SbV98Q61ic/7234Bh//SxNQZaNdJjuhUTzs=;
+ b=gGg1RI7xDzFh98TlPnfXS756Vpc0ClRjEEaJzCvfy2GhvPW+PY96PHPbB9swTsX2ll
+ vjo8nAf6I4CqcT0ftrZk1x6mR7FXbYgBGnS6FEYVXy4Rg1auvV+WMpWSbw4lxFkSYZau
+ yGKhu28V0sMu18hsn5FAHCfKUUIVGrIdaslJQKTPWlJoLIACg7cAeWtlg6mNDMV4klBf
+ 2i6WpSXwSPRJWaEaXfJ+bfyfzFLFCz8bQbDmhWxYl15wR7X3Yp1m6XeF7mYEHwnqnvDD
+ g72noJhgeWWNuON1jZudDd//9jUW71+ELYV8Lgvp/FSkU4kMUICx3+I3nKPG4/ZMpaN7
+ 6isA==
+X-Gm-Message-State: AO0yUKWXUuiPwyBXybtWb+aGwSzZShltLEEv66z1rP5Efyz2v+Zo43A3
+ IR7/o33U3LMjGAVnMXTerKax5UBPHLV+Bvx9hOfOIn6EhCXYEqdFdoXH93ZM4ygOjIWarYWuayR
+ mJd8JBqwjIFx+qJI=
+X-Received: by 2002:a05:622a:19a8:b0:3b8:6d44:ca7e with SMTP id
+ u40-20020a05622a19a800b003b86d44ca7emr17790544qtc.4.1677081426212; 
+ Wed, 22 Feb 2023 07:57:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set//dql+sXZmkAg3WdmtTni3KEwudjePOJ6jFHfg/IPGETHZUxvqdEi7XQ2PMKlk4wvxBbNLQg==
+X-Received: by 2002:a05:622a:19a8:b0:3b8:6d44:ca7e with SMTP id
+ u40-20020a05622a19a800b003b86d44ca7emr17790500qtc.4.1677081425833; 
+ Wed, 22 Feb 2023 07:57:05 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ bt11-20020ac8690b000000b003b635a5d56csm2498014qtb.30.2023.02.22.07.57.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 07:56:10 -0800 (PST)
-Date: Wed, 22 Feb 2023 07:56:10 -0800 (PST)
-X-Google-Original-Date: Wed, 22 Feb 2023 07:55:11 PST (-0800)
-Subject: Re: [PULL 0/9] Fourth RISC-V PR for QEMU 8.0
-In-Reply-To: <CAFEAcA_DvrOgKAdVcF8OxpxUv9aPB5hOWjWryOt_SpFiNzY12A@mail.gmail.com>
-CC: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, alex.bennee@linaro.org,
- bmeng@tinylab.org
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <mhng-3ef3787a-321d-4a23-aa45-8831b3093ac5@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ Wed, 22 Feb 2023 07:57:04 -0800 (PST)
+Date: Wed, 22 Feb 2023 10:57:03 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Chuang Xu <xuchuangxclwt@bytedance.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
+ zhouyibo@bytedance.com
+Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
+ vmstate
+Message-ID: <Y/Y7Txt3Utq5AfbZ@x1n>
+References: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
+ <877cwizqvy.fsf@secure.mitica>
+ <a555b989-27be-006e-0d00-9f1688c5be4e@bytedance.com>
+ <abcb08b7-460c-d88c-af48-c1d256f89c54@bytedance.com>
+ <Y++i1NmxUxOPDM/V@x1n>
+ <76a253ef-6989-f92d-cb33-6456a270a8d1@bytedance.com>
+ <51d862b2-96be-0b93-7ed2-fcd15ffaa76e@bytedance.com>
+ <Y/UrXwRK7rB2KRKO@x1n>
+ <44f02b6f-2809-5e2d-bbc4-e4a43a4a8b75@bytedance.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="mgNYCsi/5zGqWx8x"
+Content-Disposition: inline
+In-Reply-To: <44f02b6f-2809-5e2d-bbc4-e4a43a4a8b75@bytedance.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,62 +106,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Feb 2023 08:43:47 PST (-0800), Peter Maydell wrote:
-> On Fri, 17 Feb 2023 at 17:53, Palmer Dabbelt <palmer@rivosinc.com> wrote:
->>
->> The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
->>
->>   tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230217
->>
->> for you to fetch changes up to e8c0697d79ef05aa5aefb1121dfede59855556b4:
->>
->>   target/riscv: Fix vslide1up.vf and vslide1down.vf (2023-02-16 08:10:40 -0800)
->>
->> ----------------------------------------------------------------
->> Fourth RISC-V PR for QEMU 8.0
->>
->> * A triplet of cleanups to the kernel/initrd loader that avoids
->>   duplication between the various boards.
->> * OpenSBI has been updated to version 1.2.
->> * Weiwei Li, Daniel Henrique Barboza, and Liu Zhiwei have been added as
->>   reviewers.  Thanks for the help!
->> * A fix for PMP matching to avoid incorrectly appling the default
->>   permissions on PMP permission violations.
->> * A cleanup to avoid an unnecessary avoid env_archcpu() in
->>   cpu_get_tb_cpu_state().
->> * Fixes for the vector slide instructions to avoid truncating 64-bit
->>   values (such as doubles) on 32-bit targets.
->
-> This seems to have caused CI to decide it needs to rerun the
-> 'docker-opensbi' job, which doesn't work:
-> https://gitlab.com/qemu-project/qemu/-/jobs/3808319659
->
-> I don't understand what exactly is going on here -- Alex,
-> Bin, any ideas?
->
-> Why do we build the firmware in CI if we have checked in
-> binaries in pc-bios?
->
-> Should .gitlab-ci.d/opensbi/Dockerfile really still be
-> starting with Ubuntu 18.04 ? That is already older than our
-> set of supported platforms, and falls out of support from
-> Ubuntu in a couple of months.
 
-I just sent along a patch 
-<https://lore.kernel.org/r/20230222154938.9201-1-palmer@rivosinc.com/>.  
-I have no idea how to test it in the CI, though...
+--mgNYCsi/5zGqWx8x
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-> (.gitlab-ci.d/edk2/Dockerfile is also using 18.04.)
+On Wed, Feb 22, 2023 at 02:27:55PM +0800, Chuang Xu wrote:
+> Hi, Peter
 
-I guess I'd missed this in the original email, I stumbled on that one as 
-well 
-<https://lore.kernel.org/r/20230222155341.10127-1-palmer@rivosinc.com/>.
+Hi, Chuang,
 
->
-> thanks
-> -- PMM
+> Note that as I mentioned in the comment, we temporarily replace this value
+> to prevent commit() and address_space_to_flatview() call each other recursively,
+> and eventually stack overflow.
+
+Sorry to have overlooked that part.  IMHO here it's not about the depth,
+but rather that we don't even need any RCU protection when updating
+ioeventfds because we exclusively own the FlatView* too there.
+
+I wanted to describe what I had in mind but instead I figured a patch may
+be needed to be accurate (with some cleanups alongside), hence attached.
+IIUC it can work with what I suggested before without fiddling with depth.
+Please have a look.  The patch should apply cleanly to master branch so if
+it works it can be your 1st patch too.
+
+PS: Paolo - I know I asked this before, but it'll be good to have your
+review comment on anything above.
+
+Thanks,
+
+-- 
+Peter Xu
+
+--mgNYCsi/5zGqWx8x
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-memory-Reference-current_map-directly-in-ioeventfd-u.patch"
+
+From e3d7bdd81824c49746fb0359560301cb0ea5bcee Mon Sep 17 00:00:00 2001
+From: Peter Xu <peterx@redhat.com>
+Date: Wed, 22 Feb 2023 10:18:09 -0500
+Subject: [PATCH] memory: Reference current_map directly in ioeventfd updates
+
+Calling address_space_get_flatview() in ioeventfd update is not necessary,
+because we're sure we're in BQL section so we exclusively own current_map
+already.
+
+To be explicit - we don't need RCU read lock, neither do we need to hold a
+reference on the flatview because it's simply solid as stone and can never
+be gone from under us, not without releasing BQL.
+
+Replacing the address_space_get_flatview() call with direct reference to
+current_map, with proper assertions on either (1) BQL lock taken, and (2)
+no pending flatview update.
+
+This prepares for possible future work on address_space_to_flatview(), to
+be called even within a memory region transaction, so that it won't
+recursively go into a dead loop and explode the stack.
+
+To assert (2) above we need rework on memory_region_transaction_commit().
+The bad side is we'll need to walk the address_spaces twice, but then we'll
+be able to assert (2) properly, and also cleanup the function a bit, in
+which we used to mix up two different update operations, so better
+readability.  The dependency of ioeventfds and memory layout used to be
+implicit, but now it's enforced with the assertion.
+
+We also don't need address_space_to_flatview() in the internal calls to
+address_space_add_del_ioeventfds(), for that just pass the FlatView* over.
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ softmmu/memory.c | 58 ++++++++++++++++++++++++++++++------------------
+ 1 file changed, 37 insertions(+), 21 deletions(-)
+
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 9d64efca26..dcacdfbeeb 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -753,6 +753,7 @@ static FlatView *generate_memory_topology(MemoryRegion *mr)
+ }
+ 
+ static void address_space_add_del_ioeventfds(AddressSpace *as,
++                                             FlatView *view,
+                                              MemoryRegionIoeventfd *fds_new,
+                                              unsigned fds_new_nb,
+                                              MemoryRegionIoeventfd *fds_old,
+@@ -774,7 +775,7 @@ static void address_space_add_del_ioeventfds(AddressSpace *as,
+                                                   &fds_new[inew]))) {
+             fd = &fds_old[iold];
+             section = (MemoryRegionSection) {
+-                .fv = address_space_to_flatview(as),
++                .fv = view,
+                 .offset_within_address_space = int128_get64(fd->addr.start),
+                 .size = fd->addr.size,
+             };
+@@ -787,7 +788,7 @@ static void address_space_add_del_ioeventfds(AddressSpace *as,
+                                                          &fds_old[iold]))) {
+             fd = &fds_new[inew];
+             section = (MemoryRegionSection) {
+-                .fv = address_space_to_flatview(as),
++                .fv = view,
+                 .offset_within_address_space = int128_get64(fd->addr.start),
+                 .size = fd->addr.size,
+             };
+@@ -825,6 +826,13 @@ static void address_space_update_ioeventfds(AddressSpace *as)
+     AddrRange tmp;
+     unsigned i;
+ 
++    /*
++     * We should exclusively own as->current_map with BQL, and it must be
++     * the latest because we should have just finished the flatviews update.
++     */
++    assert(qemu_mutex_iothread_locked() && !memory_region_update_pending);
++    view = as->current_map;
++
+     /*
+      * It is likely that the number of ioeventfds hasn't changed much, so use
+      * the previous size as the starting value, with some headroom to avoid
+@@ -833,7 +841,6 @@ static void address_space_update_ioeventfds(AddressSpace *as)
+     ioeventfd_max = QEMU_ALIGN_UP(as->ioeventfd_nb, 4);
+     ioeventfds = g_new(MemoryRegionIoeventfd, ioeventfd_max);
+ 
+-    view = address_space_get_flatview(as);
+     FOR_EACH_FLAT_RANGE(fr, view) {
+         for (i = 0; i < fr->mr->ioeventfd_nb; ++i) {
+             tmp = addrrange_shift(fr->mr->ioeventfds[i].addr,
+@@ -852,13 +859,12 @@ static void address_space_update_ioeventfds(AddressSpace *as)
+         }
+     }
+ 
+-    address_space_add_del_ioeventfds(as, ioeventfds, ioeventfd_nb,
++    address_space_add_del_ioeventfds(as, view, ioeventfds, ioeventfd_nb,
+                                      as->ioeventfds, as->ioeventfd_nb);
+ 
+     g_free(as->ioeventfds);
+     as->ioeventfds = ioeventfds;
+     as->ioeventfd_nb = ioeventfd_nb;
+-    flatview_unref(view);
+ }
+ 
+ /*
+@@ -1086,32 +1092,42 @@ void memory_region_transaction_begin(void)
+     ++memory_region_transaction_depth;
+ }
+ 
+-void memory_region_transaction_commit(void)
++static void address_space_update_flatview_all(void)
+ {
+     AddressSpace *as;
+ 
++    flatviews_reset();
++    MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
++    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
++        address_space_set_flatview(as);
++    }
++    MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
++    memory_region_update_pending = false;
++}
++
++static void address_space_update_ioeventfds_all(void)
++{
++    AddressSpace *as;
++
++    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
++        address_space_update_ioeventfds(as);
++    }
++    ioeventfd_update_pending = false;
++}
++
++void memory_region_transaction_commit(void)
++{
+     assert(memory_region_transaction_depth);
+     assert(qemu_mutex_iothread_locked());
+ 
+     --memory_region_transaction_depth;
+     if (!memory_region_transaction_depth) {
+         if (memory_region_update_pending) {
+-            flatviews_reset();
+-
+-            MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
+-
+-            QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+-                address_space_set_flatview(as);
+-                address_space_update_ioeventfds(as);
+-            }
+-            memory_region_update_pending = false;
+-            ioeventfd_update_pending = false;
+-            MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
++            address_space_update_flatview_all();
++            /* ioeventfds depend on flatviews being uptodate */
++            address_space_update_ioeventfds_all();
+         } else if (ioeventfd_update_pending) {
+-            QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+-                address_space_update_ioeventfds(as);
+-            }
+-            ioeventfd_update_pending = false;
++            address_space_update_ioeventfds_all();
+         }
+    }
+ }
+-- 
+2.39.1
+
+
+--mgNYCsi/5zGqWx8x--
+
 
