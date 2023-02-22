@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B2369FCF5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 21:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D650C69FCF9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 21:25:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUve0-0007xi-By; Wed, 22 Feb 2023 15:23:16 -0500
+	id 1pUvfp-0000Su-Su; Wed, 22 Feb 2023 15:25:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pUvdy-0007xL-Vm
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 15:23:15 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pUvfd-0000Qi-BQ
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 15:24:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pUvdx-0002Iz-Kn
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 15:23:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pUvfZ-0002cd-Qc
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 15:24:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677097392;
+ s=mimecast20190719; t=1677097493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NomgbMGoO7zwIm1EDpRtr32URYH0a8zdhztsEcBCp44=;
- b=IjBHmmr2jBxW0RJxq0c2Y2zmpxhR2GGYVHgjPyRLXNBvATta2Ecwm3q4CFd1KNCb7eKqHK
- 4l6XDtmxbjl7/GIcLAoWHbf257zIGmSlV+X3GPX426kzZng7YRZ+KkjlxR2eXfuRzzf31u
- qFpALMy/TS4pC1K7pQdAXnGLGCNl5ws=
+ bh=+ThRR9ZvME1UJFsVA+tDom+uoEmK2FkyktvVEkOXtTk=;
+ b=UZAItqdoBnfGSaXbldoFr7qlwElvg40hbuEKL3NOJwtiHCUbMksQpSi+/ZeW+k1Ojz+T5P
+ jCmdSuChtouHrCarzmXbuDPN9FND0s2QKUqBtLIpVcPejeCK5j3eUAtqD7nouXOUpr0CeB
+ B7vVzfgwuq3GwFvH82b6eIGKS8bLcQg=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-kOtA7HX8O4ipUD0soFj6IQ-1; Wed, 22 Feb 2023 15:23:11 -0500
-X-MC-Unique: kOtA7HX8O4ipUD0soFj6IQ-1
+ us-mta-354-Xu7GH-QlNhubExWk2qX7_g-1; Wed, 22 Feb 2023 15:24:51 -0500
+X-MC-Unique: Xu7GH-QlNhubExWk2qX7_g-1
 Received: by mail-wr1-f69.google.com with SMTP id
- a7-20020a056000188700b002c53d342406so1888935wri.2
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 12:23:10 -0800 (PST)
+ c14-20020adffb0e000000b002bfda39265aso2144932wrr.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 12:24:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NomgbMGoO7zwIm1EDpRtr32URYH0a8zdhztsEcBCp44=;
- b=z7Td1Q7MTuFzRPCfHIeXbgc7sY77xMjY6WczOfQ7rSR+uoY6oCY8hIhdB47ZxiKa9G
- wdO8ry2qge35QrhIen1/54v9y6ygCw+E9EnKdqZkg8g2cYJqw6Sew6DtgGcSCHtdUkqi
- 4P78hzRj2deraN0R+P+NQ/pEJx/vkumKtEpZ/sXuC+l01Ufex0hEZo24/JqjENnEnKh5
- eK6pBsFdCSrWS3f1e8JJsakuFtlXbASRBKLV28IjzBDVIWPSQOXEAQyediicO60ipJub
- 1cTaSQjUJ5mN3YdsCOk/JKd3D98wKJEKLckPw2zeq3moTRivMtVMNIi+SDXBcdIXi6yJ
- 2MEw==
-X-Gm-Message-State: AO0yUKXJazM/haSduZCCNDbjjftx/BpssPY/KmQWaJMb0MrJZRabCKTK
- nsGrwutb4C+7fMEquUFkbofrxDxs35ZyPSAfl2FPTymQcn65uXqGj76rh6G6TQZd1wV+7WEP05X
- XLw6wZYk4eTGBNDY=
-X-Received: by 2002:a05:600c:1d15:b0:3df:e21f:d705 with SMTP id
- l21-20020a05600c1d1500b003dfe21fd705mr8210635wms.28.1677097390057; 
- Wed, 22 Feb 2023 12:23:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set+nBQ402YXJdQnQiKUKLaFyWuRLXZWggR/ucM02EDpI2UXGTZybLTCVWzegCV16PoZ38JjL/Q==
-X-Received: by 2002:a05:600c:1d15:b0:3df:e21f:d705 with SMTP id
- l21-20020a05600c1d1500b003dfe21fd705mr8210624wms.28.1677097389758; 
- Wed, 22 Feb 2023 12:23:09 -0800 (PST)
+ bh=+ThRR9ZvME1UJFsVA+tDom+uoEmK2FkyktvVEkOXtTk=;
+ b=k/ZtFc6G9PshMGlGZ0sP1cVXVWFUAdL0lIgA8H3v4SkR+8GUrA5qAu4PmwqPrr3PFA
+ gBvOLTknU9/aU8fSKkDdj24ZCgTs8WFTtQJZb+zfdn3etWkvCN4oa2I+1LtXRwkmnpMw
+ UKr30QYQ0XjA9NPxgm981TT4jRn5YOKsORvk5SnHxBnBJtSJkuCVf9jltiDu2L65Y/33
+ CPDr35eWhRZSNIHKC/adZSihi5E8Kj2qFbMUc+EkyFflVAmW1IFguZRXix65NIu6PlU1
+ Jx71F7jT22H9EH9dpI8yvhQ84CZuS0J16qP5zHPm3sOQ47TgBAkowBud/fGva4S1AVd8
+ 8qfg==
+X-Gm-Message-State: AO0yUKWV0IGFNhuNrtRaTXIyFADi8Hb7Gln8NuZgfBtLVRK8hmwkfypm
+ 8r2dIavqwfDcoY9MRGAFu3DaPyvDlW+/R8FbdRs7rWeYkJUbDUniUuMPtS9hp2JbEOZJSwKq0Q8
+ u9x5OJmUEPRvVZbKPcrAH
+X-Received: by 2002:a05:600c:16c5:b0:3dc:37d0:e9df with SMTP id
+ l5-20020a05600c16c500b003dc37d0e9dfmr1885107wmn.14.1677097489950; 
+ Wed, 22 Feb 2023 12:24:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set87/ouQZkQgYQmjpUh0hD8ezXB9tR/mdUReJu+xA7XG0mIcJ6pXah+0w57h6Tjj4QuA7nBrhw==
+X-Received: by 2002:a05:600c:16c5:b0:3dc:37d0:e9df with SMTP id
+ l5-20020a05600c16c500b003dc37d0e9dfmr1885094wmn.14.1677097489556; 
+ Wed, 22 Feb 2023 12:24:49 -0800 (PST)
 Received: from redhat.com ([2.52.2.78]) by smtp.gmail.com with ESMTPSA id
- y24-20020a1c4b18000000b003e22508a343sm9413425wma.12.2023.02.22.12.23.07
+ w18-20020a05600c475200b003e220998b6bsm10486554wmo.17.2023.02.22.12.24.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 12:23:09 -0800 (PST)
-Date: Wed, 22 Feb 2023 15:23:05 -0500
+ Wed, 22 Feb 2023 12:24:48 -0800 (PST)
+Date: Wed, 22 Feb 2023 15:24:44 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+To: Bernhard Beschow <shentey@gmail.com>
 Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 5/5] hw: Remove mentions of NDEBUG
-Message-ID: <20230222152205-mutt-send-email-mst@kernel.org>
-References: <20230221232520.14480-1-philmd@linaro.org>
- <20230221232520.14480-6-philmd@linaro.org>
- <20230222070529-mutt-send-email-mst@kernel.org>
- <3544bf56-4d5c-174d-5bfd-a67c9689ca37@linaro.org>
- <20230222112755-mutt-send-email-mst@kernel.org>
- <275ea039-aec1-8c81-6267-4a77208840f0@linaro.org>
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v4 3/9] hw/i386/pc_q35: Reuse machine parameter
+Message-ID: <20230222152331-mutt-send-email-mst@kernel.org>
+References: <20230213162004.2797-1-shentey@gmail.com>
+ <20230213162004.2797-4-shentey@gmail.com>
+ <9f80bb33-40e7-fc57-1515-c3764f57da46@linaro.org>
+ <CAG4p6K6JSkv3VqwUc3CYhfq0EbR7feKLBquduP_p4143DnaGig@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <275ea039-aec1-8c81-6267-4a77208840f0@linaro.org>
+In-Reply-To: <CAG4p6K6JSkv3VqwUc3CYhfq0EbR7feKLBquduP_p4143DnaGig@mail.gmail.com>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -105,42 +108,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 08:43:35AM -1000, Richard Henderson wrote:
-> On 2/22/23 06:28, Michael S. Tsirkin wrote:
-> > On Wed, Feb 22, 2023 at 05:11:36PM +0100, Philippe Mathieu-Daudé wrote:
-> > > On 22/2/23 13:05, Michael S. Tsirkin wrote:
-> > > > On Wed, Feb 22, 2023 at 12:25:20AM +0100, Philippe Mathieu-Daudé wrote:
-> > > > > Since commit 262a69f428 ("osdep.h: Prohibit disabling
-> > > > > assert() in supported builds") 'NDEBUG' can not be defined.
-> > > > > 
-> > > > > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> > > > 
-> > > > this exactly says NDEBUG is not allowed. why are you removing this?
-> > > 
-> > > The project can not be built with NDEBUG. There is no point in
-> > > mentioning it in each individual function.
-> > 
-> > the reason we mention it is because there are security implications
-> > if we don't.
+On Wed, Feb 22, 2023 at 06:52:02PM +0100, Bernhard Beschow wrote:
+> Am 22. Februar 2023 11:03:38 UTC schrieb "Philippe Mathieu-Daudé"
+> <philmd@linaro.org>:
+> >On 13/2/23 17:19, Bernhard Beschow wrote:
+> >> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> >> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> >> ---
+> >>   hw/i386/pc_q35.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> >> index 66cd718b70..dee2b38474 100644
+> >> --- a/hw/i386/pc_q35.c
+> >> +++ b/hw/i386/pc_q35.c
+> >> @@ -218,7 +218,7 @@ static void pc_q35_init(MachineState *machine)
+> >>       pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory,
+> >>                      pci_hole64_size);
+> >>   -    object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
+> >> +    object_property_add_child(OBJECT(machine), "q35", OBJECT(q35_host));
+> >>       object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
+> >>                                OBJECT(ram_memory), NULL);
+> >>       object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_PCI_MEM,
+> >
+> >Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> >
+> >Long term we should duplicate/extract Q35MachineState from
+> >PCMachineState and add a Q35PCIHost field, then use object_initialize_child; removing this object_property_add_child()
+> >call.
 > 
-> Yes.  However that's not what the text being removed suggests:
-> 
-> > > > > -     * This is just one thing (there are probably more) that must be
-> > > > > -     * fixed before we can allow NDEBUG compilation.
-> 
-> This suggests that we *will* allow NDEBUG, once a few things are fixed.
-> 
-> I strongly approve of this text being removed.
-> 
-> 
-> r~
+> The Q35 and PC machines duplicate a lot of code indeed. So I was
+> thinking more along the lines of consolidating with pc_piix ;)
 
+The reason is that we are trying to limit changes to pc_piix and
+focus development on Q35.
 
-OK I think it's a good idea to replace it with something like
-
-/* Note: Do not remove this assertion, doing so will break qemu security! */
-
--- 
-MST
+> The
+> idea would be to get a peek preview into a configuration-driven future
+> where the PCI host bridges (Q35 or I440FX) are dynamically
+> instantiated based on configuration data. They would also be
+> configured through their QOM interfaces only.
+> 
+> I've submitted a series where the Q35 host bridge gets a QOM cleanup
+> [1] and I've got a series locally resolving i440fx_init(). Both series
+> combined bring these two device models close together regarding their
+> QOM interface. I've not submitted the i440fx series yet since it is
+> blocked by this series.
+> 
+> One further step for pc_q35 and pc_piix consolidation would be to
+> factor ICH9 PCI devices (not functions!) into self-contained models,
+> like is underway with PIIX(3). I've started with ICH9 cleanup already
+> [2] and I'm waiting for the PIIX consolidation to land in order to be
+> able to make more progress here.
+> 
+> Note that pc_q35 and pc_piix consolidation is just an idea for now
+> which could also turn out to be a bad one. If the two machines just
+> ended up sharing more code that could IMO be considered a success as
+> well.
+> 
+> Best regards,
+> Bernhard
+> 
+> [1] https://patchew.org/QEMU/20230214131441.101760-1-shentey@gmail.com/
+> [2] https://patchew.org/QEMU/20230213173033.98762-1-shentey@gmail.com/
 
 
