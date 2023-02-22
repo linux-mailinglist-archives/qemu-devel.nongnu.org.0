@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A93A69FD5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 22:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCE369FD7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 22:07:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUwFp-00045T-4l; Wed, 22 Feb 2023 16:02:21 -0500
+	id 1pUwKh-0006Eh-Nh; Wed, 22 Feb 2023 16:07:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1pUwFm-00045J-O2
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:02:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1pUwFl-0001OZ-2C
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:02:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677099735;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=92XZzZ4BI7opGIJCoOokhBvRWfs2NwplU3CHzyYtH50=;
- b=UUor+eI/vpqXRWYaMh6e8mclgxE+xBL1ZUsCOUxnOfntNRc+tV5ruEmI0gZdPCm93iO3kQ
- zB9/aYmA8D8VOZubl5I0isRxO0BA3f7HX25oDEU3DyvHthqTP4iOLMb6I+o2Hn+s6wn4+b
- s9hufmcKWY7mC4K9tgcLLYp29tk4uCk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-MlseekfQNjaUaHfMz-QRSQ-1; Wed, 22 Feb 2023 16:01:07 -0500
-X-MC-Unique: MlseekfQNjaUaHfMz-QRSQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B81F385F365;
- Wed, 22 Feb 2023 21:01:06 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.45.242.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B698140EBF6;
- Wed, 22 Feb 2023 21:00:51 +0000 (UTC)
-From: Julia Suvorova <jusual@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Julia Suvorova <jusual@redhat.com>
-Subject: [PATCH] hw/smbios: fix field corruption in type 4 table
-Date: Wed, 22 Feb 2023 22:00:49 +0100
-Message-Id: <20230222210049.238599-1-jusual@redhat.com>
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pUwKf-0006EA-0d
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:07:21 -0500
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pUwKc-0002CP-Lb
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:07:20 -0500
+Received: by mail-lj1-x231.google.com with SMTP id h9so9119065ljq.2
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 13:07:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=MlXM6ZrIpRf8rBTizlTpeXxtFk14PmrQOHI6VbL5slc=;
+ b=hz0sK8yPvJTMeHsJ92k/r0SUecdFRgkyVPMhM+BrU+MavYaJBXLK14WFACRgfM+tRe
+ A1SUWfk9BqjOlU3scE/xiwxhUEiX/FoAYpm08xDGVgx2luzwAuJlpksJRSkT7lpTfduL
+ HSQhy3/WItZlPNKCID1vXHgaEQFzMWqFLbDCgs2+2QAtxz9nc6h2sg4T3YAEoGI8aX/d
+ A7iBK5MD7YAqKB10G9RIT2c1+5xLj/nAw6n1YlYjTkpDk52T0QHmrQ7JSuVjXsbWBOe8
+ 2VgrPoo4XyNUnItlyOPP8NNRGDEBYu7Lxgy/PktG6bXZ7OFvqY6hrdY0wLyQs/p0FUry
+ eAIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MlXM6ZrIpRf8rBTizlTpeXxtFk14PmrQOHI6VbL5slc=;
+ b=mNAeTYiZWKmNzrr9PkfDYUlj50JEwFXp+jjcIP4IJ9agtI9tQVTleoQ19Xeji6MuSx
+ UpwIUYprn/grvJryZCccBoxBDlWybSCFqV6hE7XSdruBoZuNwgO9FDWPpmX7VOS2eLa0
+ 8ps7Scnk3IArUXJF6JA3otD3AuU4EMU2qaJyVv96z/ivfuGyaxm1AVPb+0uF30FUTaB6
+ IOycyRiLgXobs9lEnGDwwyOyRjB1Yuz/yKwURFMd5seXECsS7gzN8g0b9XX1r53sc7Yi
+ YEYgLYpT6VEKW5rx4GitxkQh6Q/+a+nN16V5DPUbb2bqJvz+t2wzehpcPJhdiHYPar1v
+ X/SA==
+X-Gm-Message-State: AO0yUKWhN3jMhPrMKP6+ERxDv6WujWC7ECBHNvZEzr0DsTmQ9zmUVeYV
+ UYONFjOvWRGVAy3N0Zi4H8uwqQZC1KwqCtxgbs6Btg==
+X-Google-Smtp-Source: AK7set9jgLNhBbidR7G/1TRj3xI6FojM5sF7RWLuB0vQWJ9N7MgW0MUcfVmfqa771wWjDTUdJHPNeDUwKkFidaQjnmY=
+X-Received: by 2002:a2e:a269:0:b0:295:8c06:2501 with SMTP id
+ k9-20020a2ea269000000b002958c062501mr2043949ljm.5.1677100036683; Wed, 22 Feb
+ 2023 13:07:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jusual@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221130000320.287976-1-viktor@daynix.com>
+ <20221130000320.287976-3-viktor@daynix.com>
+ <da21c1d2-8e9f-ddf4-a03d-98bfd3d7ba1d@oracle.com>
+In-Reply-To: <da21c1d2-8e9f-ddf4-a03d-98bfd3d7ba1d@oracle.com>
+From: Viktor Prutyanov <viktor@daynix.com>
+Date: Thu, 23 Feb 2023 00:07:05 +0300
+Message-ID: <CAPv0NP7wsgR3b1VLiiiqBrqRV_3sVSkYRr37s6sj1J1g8NvtcQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] contrib/elf2dmp: move PE dir search to
+ pe_get_data_dir_entry
+To: "Annie.li" <annie.li@oracle.com>
+Cc: pbonzini@redhat.com, viktor.prutyanov@phystech.edu, 
+ yuri.benditovich@daynix.com, yan@daynix.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::231;
+ envelope-from=viktor@daynix.com; helo=mail-lj1-x231.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,43 +84,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since table type 4 of SMBIOS version 2.6 is shorter than 3.0, the
-strings which follow immediately after the struct fields have been
-overwritten by unconditional filling of later fields such as core_count2.
-Make these fields dependent on the SMBIOS version.
+Hello,
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2169904
+On Wed, Feb 22, 2023 at 10:07 PM Annie.li <annie.li@oracle.com> wrote:
+>
+> Hello Viktor,
+>
+> See my following comments inline,
+>
+> On 11/29/2022 7:03 PM, Viktor Prutyanov wrote:
+> > Move out PE directory search functionality to be reused not only
+> > for Debug Directory processing but for arbitrary PE directory.
+> >
+> > Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
+> > ---
+> >   contrib/elf2dmp/main.c | 66 +++++++++++++++++++++++-------------------
+> >   1 file changed, 37 insertions(+), 29 deletions(-)
+> >
+> > diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+> > index 9224764239..f3052b3c64 100644
+> > --- a/contrib/elf2dmp/main.c
+> > +++ b/contrib/elf2dmp/main.c
+> > @@ -333,6 +333,40 @@ static int fill_context(KDDEBUGGER_DATA64 *kdbg,
+> >       return 0;
+> >   }
+> >
+> > +static int pe_get_data_dir_entry(uint64_t base, void *start_addr, int idx,
+> > +        void *entry, size_t size, struct va_space *vs)
+> > +{
+> > +    const char e_magic[2] = "MZ";
+> > +    const char Signature[4] = "PE\0\0";
+> > +    IMAGE_DOS_HEADER *dos_hdr = start_addr;
+> > +    IMAGE_NT_HEADERS64 nt_hdrs;
+> > +    IMAGE_FILE_HEADER *file_hdr = &nt_hdrs.FileHeader;
+> > +    IMAGE_OPTIONAL_HEADER64 *opt_hdr = &nt_hdrs.OptionalHeader;
+> > +    IMAGE_DATA_DIRECTORY *data_dir = nt_hdrs.OptionalHeader.DataDirectory;
+> > +
+> > +    if (memcmp(&dos_hdr->e_magic, e_magic, sizeof(e_magic))) {
+> > +        return 1;
+> > +    }
+> > +
+> > +    if (va_space_rw(vs, base + dos_hdr->e_lfanew,
+> > +                &nt_hdrs, sizeof(nt_hdrs), 0)) {
+> > +        return 1;
+> > +    }
+> > +
+> > +    if (memcmp(&nt_hdrs.Signature, Signature, sizeof(Signature)) ||
+> > +            file_hdr->Machine != 0x8664 || opt_hdr->Magic != 0x020b) {
+> > +        return 1;
+> > +    }
+> > +
+> > +    if (va_space_rw(vs,
+> > +                base + data_dir[idx].VirtualAddress,
+> > +                entry, size, 0)) {
+> > +        return 1;
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> >   static int write_dump(struct pa_space *ps,
+> >           WinDumpHeader64 *hdr, const char *name)
+> >   {
+> > @@ -369,42 +403,16 @@ static int write_dump(struct pa_space *ps,
+> >   static int pe_get_pdb_symstore_hash(uint64_t base, void *start_addr,
+> >           char *hash, struct va_space *vs)
+> >   {
+> > -    const char e_magic[2] = "MZ";
+> > -    const char Signature[4] = "PE\0\0";
+> >       const char sign_rsds[4] = "RSDS";
+> > -    IMAGE_DOS_HEADER *dos_hdr = start_addr;
+> > -    IMAGE_NT_HEADERS64 nt_hdrs;
+> > -    IMAGE_FILE_HEADER *file_hdr = &nt_hdrs.FileHeader;
+> > -    IMAGE_OPTIONAL_HEADER64 *opt_hdr = &nt_hdrs.OptionalHeader;
+> > -    IMAGE_DATA_DIRECTORY *data_dir = nt_hdrs.OptionalHeader.DataDirectory;
+> >       IMAGE_DEBUG_DIRECTORY debug_dir;
+> >       OMFSignatureRSDS rsds;
+> >       char *pdb_name;
+> >       size_t pdb_name_sz;
+> >       size_t i;
+> >
+> > -    QEMU_BUILD_BUG_ON(sizeof(*dos_hdr) >= ELF2DMP_PAGE_SIZE);
+>
+> This BUG_ON gets removed due to encapsulating the code into function
+> pe_get_data_dir_entry.
+>
+> Any reason of not keeping this check in pe_get_data_dir_entry?
+> > -
+> > -    if (memcmp(&dos_hdr->e_magic, e_magic, sizeof(e_magic))) {
+> > -        return 1;
+> > -    }
+> > -
+> > -    if (va_space_rw(vs, base + dos_hdr->e_lfanew,
+> > -                &nt_hdrs, sizeof(nt_hdrs), 0)) {
+> > -        return 1;
+> > -    }
+> > -
+> > -    if (memcmp(&nt_hdrs.Signature, Signature, sizeof(Signature)) ||
+> > -            file_hdr->Machine != 0x8664 || opt_hdr->Magic != 0x020b) {
+> > -        return 1;
+> > -    }
+> > -
+> > -    printf("Debug Directory RVA = 0x%08"PRIx32"\n",
+> > -            (uint32_t)data_dir[IMAGE_FILE_DEBUG_DIRECTORY].VirtualAddress);
+>
+> Or add common log for both Debug and PE directory instead of removing it?
 
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
----
- hw/smbios/smbios.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Sounds reasonable, I will send a new version.
 
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index b4243de735..903fd22350 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -749,14 +749,16 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
-     t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
-     t->core_enabled = t->core_count;
- 
--    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
--
-     t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
--    t->thread_count2 = cpu_to_le16(ms->smp.threads);
- 
-     t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
-     t->processor_family2 = cpu_to_le16(0x01); /* Other */
- 
-+    if (smbios_ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
-+        t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-+        t->thread_count2 = cpu_to_le16(ms->smp.threads);
-+    }
-+
-     SMBIOS_BUILD_TABLE_POST;
-     smbios_type4_count++;
- }
--- 
-2.38.1
+Best regards,
+Viktor Prutyanov
 
+>
+> Thanks
+>
+> Annie
+>
+> > -
+> > -    if (va_space_rw(vs,
+> > -                base + data_dir[IMAGE_FILE_DEBUG_DIRECTORY].VirtualAddress,
+> > -                &debug_dir, sizeof(debug_dir), 0)) {
+> > +    if (pe_get_data_dir_entry(base, start_addr, IMAGE_FILE_DEBUG_DIRECTORY,
+> > +                &debug_dir, sizeof(debug_dir), vs)) {
+> > +        eprintf("Failed to get Debug Directory\n");
+> >           return 1;
+> >       }
+> >
 
