@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC19269FA6E
+	by mail.lfdr.de (Postfix) with ESMTPS id A273569FA6C
 	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 18:51:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUtFb-0000H1-8R; Wed, 22 Feb 2023 12:49:55 -0500
+	id 1pUtFh-0000Hb-T3; Wed, 22 Feb 2023 12:50:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pUtFY-0000GQ-VJ
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:49:52 -0500
-Received: from mail-mw2nam10on20614.outbound.protection.outlook.com
- ([2a01:111:f400:7e89::614]
- helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ id 1pUtFg-0000HH-0Z
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:50:00 -0500
+Received: from mail-bn8nam11on20600.outbound.protection.outlook.com
+ ([2a01:111:f400:7eae::600]
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pUtFW-0004EL-Iu
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:49:52 -0500
+ id 1pUtFe-0004GD-28
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:49:59 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AvaecS1ChM6rcC5HOZ1FKNZIPA3Ig4ptkf94230A1Ui4AzlZfH+lVQ73hriosO8b6+Dc1mQzHMC/1Mmb/xyWVQbw/zP+Yg5IBEWnyOqxPcxUPQbg89UptnvdM7COPb8HXnJnOaxh9WZa0VkM5WLTeLkS3PcX35SJWbxfG80kuJdqya5pj1TwlcB0LVVMgDyG4EBUfp6f66cfwtTIoWo/kZe+I0KuiONjbPE7SFAZLHEXpCMbkbKUYx4FwwGbheoCsyxt5+8C+uli6liCQ0VnfLECy6XUnXKE43eP/ZEvhVBTq8oGJF1wiO4BiI+oepshTQ/lccmNRowUT/smiZpzSQ==
+ b=W42HO2cOtMpeWuFrM7EG8DEMRRpXOQBqWIz2qFRO6BV5jvKt4m00skk8aNcQLejHFPVPdy+qBNMPvvqUMlddUcEWQIPrF7fm57csw6mzTLJp9EAS3pfYx0P5lRUUyrPq3zKrkaTIj+exCSGCVBDKZVsj1pAxL1ac7ogD3+X00wBpvB5vLJ7T32d7KRv9e3DaNrC9GPYbVanOfxWoKJ9BVWa/5F5JqDafAEeaPuovItPy90DJH4BAkqbWHhe1UZvz4kVJOwFXFoec2+I4pg9L/XUmcOVBZ86Y+hooC9hNgKtQNojIXz0DUnrNGqcmX883+PmdF9UUrJBZQaqZeIR3ZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7mDSTonaJ8I/HJslSWBy/OcPpoADj+3xSOXo5ICaF9c=;
- b=KFg893WwL+qeOR4hOB4CWvnVBtDYwiTSYUSxyqslfrpUis/Kv3zKBb+g50zpB+sTh4Rg5dimYPHvuKk1au3/h36XaX7VE/wgUYz10/jIxJBaAhGCS7FniPOi9qFNqcHR/Z/x66Nwdnu19nzIiT0uQx6C4DwhJ++L0xjLGU5JtxT1O+FFwC1gZf4jb1NROBkZqdukRlFoozel+u8V/nN8f9XIPweCI1z5RKSO9QP69vb0GeVXBO7DNWAWXtfwr3UjKd+84i0rGIS8+cg8WeUzeYDZnpViTBf4FlXwL0J8docRWwpeorN2L2z5t2BQM3zFDR7vUnhGWgPgXPmrW3eFuQ==
+ bh=kdyRRTetDwxFgF/Olcd3F36AuidHyC6CwLsxd6C+c2Q=;
+ b=RzI/EEiq09xw5g281q7LVSa50U+HwXPDy9s0a6MFm4EWaPg+m0ph+1ywyCttaoyNPpDry6CSzh0GaK/cSEBFMm6Zoci8rpiin+1pAj1rz2M6g1YmlyqKOqSWxVXHaxbdAqmQaeldn8HanZbwv5r+wW3DKbNYAhA/pqcwa7lmBXkge0Yb96rjnProbJ0Oz5yHWaglwSNIhlgap5JnBhlXUKkt3nLBXxcdiFHQNFZy0EbaVaIhsrIdTa2WlZxRNsgoQYw4H3kmfZMsr5d/WKI9hgIMHAWFpGSMDITfw2oThK+NE1aEbxN4SCOz6a/1PEMXLY7VxClDwhItaWazcu1DUg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.117.161) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -34,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7mDSTonaJ8I/HJslSWBy/OcPpoADj+3xSOXo5ICaF9c=;
- b=uhGz5es8yyHxTaqlVgHqP58Usj4viH/EnaTxSEzhlHe6kopYV+yiHvT0t4mhMAsjX8jaE+LDWdi/SGvT1E09Hkr8ylw6ManQNufFK/0DQHfzmOV2ir/UhU23q59OdXCtG+O88iT/BH0hEjXITt8KY+RrdAI7JcL6F5MYcVV2qeayk7oDttq+kajvZGKPEckiwz3MJ1bpJARbIqu2dIUCv29F74ao4VJdVV1/j4CtR8tzGtp44Uf7+VtPT8DfFcmzBUjVldU/JHYhofVOA8P71dmWUaKx1ZZt8QNEnQm7Rsq8JrdoCPdDB4mGs/TUfbisD1Pr1AAeMt+w+Uj7fEjXVA==
-Received: from BL0PR02CA0023.namprd02.prod.outlook.com (2603:10b6:207:3c::36)
- by PH0PR12MB7906.namprd12.prod.outlook.com (2603:10b6:510:26c::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Wed, 22 Feb
- 2023 17:49:46 +0000
-Received: from BL02EPF0000C406.namprd05.prod.outlook.com
- (2603:10b6:207:3c:cafe::81) by BL0PR02CA0023.outlook.office365.com
- (2603:10b6:207:3c::36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19 via Frontend
- Transport; Wed, 22 Feb 2023 17:49:46 +0000
+ bh=kdyRRTetDwxFgF/Olcd3F36AuidHyC6CwLsxd6C+c2Q=;
+ b=hxNjG27Eui/ZL01VttUVFCrFsioiw9UCDZKJz5VzbbZssjT0GJDDfLFANn1AsCyvIkxSI7SdDfNxaZjPPYE72cfbPii4jff7VXfSpb/lUI4Vwij5RSFMsnGgLLRJDrBhDp4gLTVlJIwrOvaV2NtOPkRjxv5MyjARd9D4M1mQYV/Wj8UHo9gcWVX0uZ63BuDxjVGOSH0RCQBWl4VMiyTmznM9K+xJ6P0FAiucckTubyWc53yVk/V+Nta9P+YkxArXdJHCpIbHHuvIo6KmRoDt7I/U8m1Q0LJ0pfhA7x2WmLiYgwoFrMo+0XkQsZfBrCx2eEZhPXvpfeBZ8emxp49I8A==
+Received: from BN0PR04CA0062.namprd04.prod.outlook.com (2603:10b6:408:ea::7)
+ by MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Wed, 22 Feb
+ 2023 17:49:51 +0000
+Received: from BL02EPF0000C405.namprd05.prod.outlook.com
+ (2603:10b6:408:ea:cafe::c) by BN0PR04CA0062.outlook.office365.com
+ (2603:10b6:408:ea::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21 via Frontend
+ Transport; Wed, 22 Feb 2023 17:49:50 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
@@ -54,20 +54,21 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.117.161 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.117.161) by
- BL02EPF0000C406.mail.protection.outlook.com (10.167.241.8) with Microsoft
+ BL02EPF0000C405.mail.protection.outlook.com (10.167.241.7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6134.14 via Frontend Transport; Wed, 22 Feb 2023 17:49:45 +0000
+ 15.20.6134.14 via Frontend Transport; Wed, 22 Feb 2023 17:49:50 +0000
 Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
  (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 22 Feb
- 2023 09:49:27 -0800
+ 2023 09:49:33 -0800
 Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail204.nvidia.com
  (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 22 Feb
- 2023 09:49:27 -0800
+ 2023 09:49:32 -0800
 Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.10)
  with Microsoft SMTP Server id 15.2.986.36 via Frontend Transport; Wed, 22 Feb
- 2023 09:49:22 -0800
+ 2023 09:49:27 -0800
+From: Avihai Horon <avihaih@nvidia.com>
 To: <qemu-devel@nongnu.org>
 CC: Alex Williamson <alex.williamson@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>, Juan Quintela
@@ -81,10 +82,10 @@ CC: Alex Williamson <alex.williamson@redhat.com>,
  <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Avihai Horon
  <avihaih@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
  <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v2 01/20] migration: Pass threshold_size to
- .state_pending_{estimate, exact}()
-Date: Wed, 22 Feb 2023 19:48:56 +0200
-Message-ID: <20230222174915.5647-2-avihaih@nvidia.com>
+Subject: [PATCH v2 02/20] vfio/migration: Refactor vfio_save_block() to return
+ saved data size
+Date: Wed, 22 Feb 2023 19:48:57 +0200
+Message-ID: <20230222174915.5647-3-avihaih@nvidia.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20230222174915.5647-1-avihaih@nvidia.com>
 References: <20230222174915.5647-1-avihaih@nvidia.com>
@@ -93,29 +94,29 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0000C406:EE_|PH0PR12MB7906:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8ce5149-9ab6-4550-827e-08db14fd2f89
+X-MS-TrafficTypeDiagnostic: BL02EPF0000C405:EE_|MW3PR12MB4553:EE_
+X-MS-Office365-Filtering-Correlation-Id: 327923af-0b8c-48e4-7dee-08db14fd3224
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Eru/U6qmgGCLcJRVkWvWom+2yoyKj3FbTKOBYk+kJujXWMU3sMBDxtZ+aQVbtppASOUqdl5fAjC/o8dMVR4KUtqpiLNg5vo+1CjAF5HW6CDUtfzLvOtq5RBVqvozIaxNwa4xeETBTRxO14Y4BdcK3KnbkgKMs1IfSrW8HxoLJyZrMTI+y50UEIVkettSaMrLmQfFStoDeRb4qrtkN0UaRgHM7hFtFuYS04TyHa0QxUIURJqRNxXcjHWe6YUSSFuZXerhPGagC+6OyRmq1gxVeL4RNlZ8nSWsbaUrvaW39il9cvTkOTpoR3lNx8y8fJ8J5etEgH/Jg9o1QHZK9Qe9HUjtl6oNetoNJK3OBZtLZ0Ql6ZfRTsz71DvyUn7IJ7pxnaiiExphr3yD4JvEo9MS0oDkE/GIRalduWZvenQeDffFDkSJXkBpaq2kXDQ89yi7rVtc6K/P4zVbGBXh1ukzpKZvg5xPD03OCG2IK9cSnPuwgQ39Zme1y4gKIJRYaThbMrDZYKL0VIc5E5gZD1azgUnHHBoBj+7uX69JI7Yi+uPTmG8pcXblhgWwc4CSwjadsS5xJaomayzPXDcv6xO2ctLj2eD3GUO/CaOjBvgKEOe2jyEX7x29BFA2GZW8dS5qIYNKh4kC1dsiQaUKOA50rVzaiO+WeRjibKldmKcrjwvQLk/mH5/SbtZjXlmeT9H6qz3Q/KA3NNlQzg1WEySaM/KTRaWWDE8FvdR9htT6rqY=
+X-Microsoft-Antispam-Message-Info: JDodYKwK9z/WSRLevFDTR5WYCBONJlGsu3uppR8mJV8QdAiS3i+aiwDtFqZGU8pGu3cP9agy9neANfMCQ1Di0uka0bWggZxL5F9xvmekLPYva8asCQgHL6Poti4rkW8XYnH3QvqCSJHBmAqXGRQxC+ufbbabLEwynklReaLYgsF3aEfNNDr2Sgv+lUry6WJVTvCpy431BaHFFJveDIel8VanP5p2c4QSm7A71mt0OxpkBTUNIKRSvfIBFSYOdNLCgowPTB3T5AS0oePOXBTR+bMsv/D7y4ZsQpo3VyTo+nveA1Hc7qoTrqE8SPGfHRIRWnpm8vZjNsAGAZ1+U6G79cBEk8o9COtA6Xfn8b9Q7e8NjFoS/mUbMfaWzRU6nIMDY5GKXg8+5p4wrE9XjgONcUl7y8/je66SovjRIokBfCM/p3T/WiRlkegW8Q9qCM9ddBAY/VCP8ftE2HMkElHeUIu2aY9X0ip2AQGpg6yk6AnvMJ/4Dkeny8bBWMpX/bx6dtubobH1MqvfQg0hFydEvJTBQdYZTu785aTw5vM5PM0ED6AkWElVOPjbFw0s9qXIT9wwxk67GqDWckCcQIm9eBr1m/WutMGF2WXAsJCyR/JXxTP4nn741dVUrSWbP39MTqyXdqlK+2vnH/hvkUD9QkAm5SFsqv305Fssk7Tpi0hBDUu2z27eSBIFJiRMw8qqIVoCcsNLmlNIKCdszbmqYQ==
 X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(39860400002)(346002)(136003)(376002)(451199018)(36840700001)(46966006)(40470700004)(83380400001)(82740400003)(36860700001)(7636003)(82310400005)(2906002)(86362001)(356005)(36756003)(8936002)(5660300002)(41300700001)(7416002)(40460700003)(26005)(186003)(6666004)(47076005)(426003)(1076003)(4326008)(40480700001)(336012)(316002)(2616005)(70586007)(7696005)(6916009)(8676002)(54906003)(478600001)(70206006)(142923001);
+ SFS:(13230025)(4636009)(346002)(39860400002)(396003)(376002)(136003)(451199018)(40470700004)(46966006)(36840700001)(86362001)(82310400005)(2616005)(316002)(54906003)(40460700003)(36860700001)(2906002)(70206006)(70586007)(7416002)(8676002)(4326008)(6916009)(5660300002)(41300700001)(1076003)(47076005)(6666004)(186003)(26005)(478600001)(426003)(40480700001)(36756003)(7696005)(336012)(82740400003)(7636003)(356005)(8936002)(83380400001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 17:49:45.7848 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8ce5149-9ab6-4550-827e-08db14fd2f89
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 17:49:50.1559 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 327923af-0b8c-48e4-7dee-08db14fd3224
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000C406.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000C405.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7906
-Received-SPF: softfail client-ip=2a01:111:f400:7e89::614;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4553
+Received-SPF: softfail client-ip=2a01:111:f400:7eae::600;
  envelope-from=avihaih@nvidia.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -134,233 +135,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Avihai Horon <avihaih@nvidia.com>
-From:  Avihai Horon via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Pass threshold_size to .state_pending_{estimate,exact}().
+Refactor vfio_save_block() to return the size of saved data on success
+and -errno on error.
 
-This parameter will be used in the following patch by VFIO migration to
-force the complete transmission of all VFIO pre-copy initial bytes prior
-moving to stop-copy phase, which can reduce migration downtime.
+This will be used in next patch to implement VFIO migration pre-copy
+support.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 ---
- include/migration/register.h   |  7 ++++---
- migration/savevm.h             |  6 ++++--
- hw/s390x/s390-stattrib.c       |  4 ++--
- hw/vfio/migration.c            |  3 ++-
- migration/block-dirty-bitmap.c |  2 +-
- migration/block.c              |  4 ++--
- migration/migration.c          | 12 ++++++++----
- migration/ram.c                |  6 ++++--
- migration/savevm.c             | 12 ++++++++----
- migration/trace-events         |  4 ++--
- 10 files changed, 37 insertions(+), 23 deletions(-)
+ hw/vfio/migration.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/include/migration/register.h b/include/migration/register.h
-index a8dfd8fefd..85d22931a7 100644
---- a/include/migration/register.h
-+++ b/include/migration/register.h
-@@ -61,11 +61,12 @@ typedef struct SaveVMHandlers {
-      * pending data.
-      */
-     /* This estimates the remaining data to transfer */
--    void (*state_pending_estimate)(void *opaque, uint64_t *must_precopy,
-+    void (*state_pending_estimate)(void *opaque, uint64_t threshold_size,
-+                                   uint64_t *must_precopy,
-                                    uint64_t *can_postcopy);
-     /* This calculate the exact remaining data to transfer */
--    void (*state_pending_exact)(void *opaque, uint64_t *must_precopy,
--                                uint64_t *can_postcopy);
-+    void (*state_pending_exact)(void *opaque, uint64_t threshold_size,
-+                                uint64_t *must_precopy, uint64_t *can_postcopy);
-     LoadStateHandler *load_state;
-     int (*load_setup)(QEMUFile *f, void *opaque);
-     int (*load_cleanup)(void *opaque);
-diff --git a/migration/savevm.h b/migration/savevm.h
-index fb636735f0..c94d31f051 100644
---- a/migration/savevm.h
-+++ b/migration/savevm.h
-@@ -40,9 +40,11 @@ void qemu_savevm_state_cleanup(void);
- void qemu_savevm_state_complete_postcopy(QEMUFile *f);
- int qemu_savevm_state_complete_precopy(QEMUFile *f, bool iterable_only,
-                                        bool inactivate_disks);
--void qemu_savevm_state_pending_exact(uint64_t *must_precopy,
-+void qemu_savevm_state_pending_exact(uint64_t threshold_size,
-+                                     uint64_t *must_precopy,
-                                      uint64_t *can_postcopy);
--void qemu_savevm_state_pending_estimate(uint64_t *must_precopy,
-+void qemu_savevm_state_pending_estimate(uint64_t threshold_size,
-+                                        uint64_t *must_precopy,
-                                         uint64_t *can_postcopy);
- void qemu_savevm_send_ping(QEMUFile *f, uint32_t value);
- void qemu_savevm_send_open_return_path(QEMUFile *f);
-diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
-index aed919ad7d..f1d4064c09 100644
---- a/hw/s390x/s390-stattrib.c
-+++ b/hw/s390x/s390-stattrib.c
-@@ -182,8 +182,8 @@ static int cmma_save_setup(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
--static void cmma_state_pending(void *opaque, uint64_t *must_precopy,
--                               uint64_t *can_postcopy)
-+static void cmma_state_pending(void *opaque, uint64_t threshold_size,
-+                               uint64_t *must_precopy, uint64_t *can_postcopy)
- {
-     S390StAttribState *sas = S390_STATTRIB(opaque);
-     S390StAttribClass *sac = S390_STATTRIB_GET_CLASS(sas);
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index a2c3d9bade..4fb7d01532 100644
+index 4fb7d01532..94a4df73d0 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -314,7 +314,8 @@ static void vfio_save_cleanup(void *opaque)
-  * repeatedly while pending RAM size is over the threshold, thus migration
-  * can't converge and querying the VFIO device pending data size is useless.
-  */
--static void vfio_state_pending_exact(void *opaque, uint64_t *must_precopy,
-+static void vfio_state_pending_exact(void *opaque, uint64_t threshold_size,
-+                                     uint64_t *must_precopy,
-                                      uint64_t *can_postcopy)
+@@ -240,8 +240,8 @@ static int vfio_query_stop_copy_size(VFIODevice *vbasedev,
+     return 0;
+ }
+ 
+-/* Returns 1 if end-of-stream is reached, 0 if more data and -errno if error */
+-static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
++/* Returns the size of saved data on success and -errno on error */
++static ssize_t vfio_save_block(QEMUFile *f, VFIOMigration *migration)
+ {
+     ssize_t data_size;
+ 
+@@ -251,7 +251,7 @@ static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
+         return -errno;
+     }
+     if (data_size == 0) {
+-        return 1;
++        return 0;
+     }
+ 
+     qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
+@@ -261,7 +261,7 @@ static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
+ 
+     trace_vfio_save_block(migration->vbasedev->name, data_size);
+ 
+-    return qemu_file_get_error(f);
++    return qemu_file_get_error(f) ?: data_size;
+ }
+ 
+ /* ---------------------------------------------------------------------- */
+@@ -335,6 +335,7 @@ static void vfio_state_pending_exact(void *opaque, uint64_t threshold_size,
+ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
  {
      VFIODevice *vbasedev = opaque;
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index fe73aa94b1..4fe0b83bc8 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -762,7 +762,7 @@ static int dirty_bitmap_save_complete(QEMUFile *f, void *opaque)
-     return 0;
- }
++    ssize_t data_size;
+     int ret;
  
--static void dirty_bitmap_state_pending(void *opaque,
-+static void dirty_bitmap_state_pending(void *opaque, uint64_t threshold_size,
-                                        uint64_t *must_precopy,
-                                        uint64_t *can_postcopy)
- {
-diff --git a/migration/block.c b/migration/block.c
-index 426a25bb19..70438a299c 100644
---- a/migration/block.c
-+++ b/migration/block.c
-@@ -853,8 +853,8 @@ static int block_save_complete(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
--static void block_state_pending(void *opaque, uint64_t *must_precopy,
--                                uint64_t *can_postcopy)
-+static void block_state_pending(void *opaque, uint64_t threshold_size,
-+                                uint64_t *must_precopy, uint64_t *can_postcopy)
- {
-     /* Estimate pending number of bytes to send */
-     uint64_t pending;
-diff --git a/migration/migration.c b/migration/migration.c
-index ae2025d9d8..a0777d9848 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3866,15 +3866,19 @@ static MigIterateState migration_iteration_run(MigrationState *s)
-     uint64_t must_precopy, can_postcopy;
-     bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
- 
--    qemu_savevm_state_pending_estimate(&must_precopy, &can_postcopy);
-+    qemu_savevm_state_pending_estimate(s->threshold_size, &must_precopy,
-+                                       &can_postcopy);
-     uint64_t pending_size = must_precopy + can_postcopy;
- 
--    trace_migrate_pending_estimate(pending_size, must_precopy, can_postcopy);
-+    trace_migrate_pending_estimate(pending_size, s->threshold_size,
-+                                   must_precopy, can_postcopy);
- 
-     if (must_precopy <= s->threshold_size) {
--        qemu_savevm_state_pending_exact(&must_precopy, &can_postcopy);
-+        qemu_savevm_state_pending_exact(s->threshold_size, &must_precopy,
-+                                        &can_postcopy);
-         pending_size = must_precopy + can_postcopy;
--        trace_migrate_pending_exact(pending_size, must_precopy, can_postcopy);
-+        trace_migrate_pending_exact(pending_size, s->threshold_size,
-+                                    must_precopy, can_postcopy);
+     /* We reach here with device state STOP only */
+@@ -345,11 +346,11 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
      }
  
-     if (!pending_size || pending_size < s->threshold_size) {
-diff --git a/migration/ram.c b/migration/ram.c
-index 96e8a19a58..514a18b5d7 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3489,7 +3489,8 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-     return 0;
- }
- 
--static void ram_state_pending_estimate(void *opaque, uint64_t *must_precopy,
-+static void ram_state_pending_estimate(void *opaque, uint64_t threshold_size,
-+                                       uint64_t *must_precopy,
-                                        uint64_t *can_postcopy)
- {
-     RAMState **temp = opaque;
-@@ -3505,7 +3506,8 @@ static void ram_state_pending_estimate(void *opaque, uint64_t *must_precopy,
-     }
- }
- 
--static void ram_state_pending_exact(void *opaque, uint64_t *must_precopy,
-+static void ram_state_pending_exact(void *opaque, uint64_t threshold_size,
-+                                    uint64_t *must_precopy,
-                                     uint64_t *can_postcopy)
- {
-     RAMState **temp = opaque;
-diff --git a/migration/savevm.c b/migration/savevm.c
-index aa54a67fda..a642c0dd5a 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1541,7 +1541,8 @@ flush:
-  * the result is split into the amount for units that can and
-  * for units that can't do postcopy.
-  */
--void qemu_savevm_state_pending_estimate(uint64_t *must_precopy,
-+void qemu_savevm_state_pending_estimate(uint64_t threshold_size,
-+                                        uint64_t *must_precopy,
-                                         uint64_t *can_postcopy)
- {
-     SaveStateEntry *se;
-@@ -1558,11 +1559,13 @@ void qemu_savevm_state_pending_estimate(uint64_t *must_precopy,
-                 continue;
-             }
+     do {
+-        ret = vfio_save_block(f, vbasedev->migration);
+-        if (ret < 0) {
+-            return ret;
++        data_size = vfio_save_block(f, vbasedev->migration);
++        if (data_size < 0) {
++            return data_size;
          }
--        se->ops->state_pending_estimate(se->opaque, must_precopy, can_postcopy);
-+        se->ops->state_pending_estimate(se->opaque, threshold_size,
-+                                        must_precopy, can_postcopy);
-     }
- }
+-    } while (!ret);
++    } while (data_size);
  
--void qemu_savevm_state_pending_exact(uint64_t *must_precopy,
-+void qemu_savevm_state_pending_exact(uint64_t threshold_size,
-+                                     uint64_t *must_precopy,
-                                      uint64_t *can_postcopy)
- {
-     SaveStateEntry *se;
-@@ -1579,7 +1582,8 @@ void qemu_savevm_state_pending_exact(uint64_t *must_precopy,
-                 continue;
-             }
-         }
--        se->ops->state_pending_exact(se->opaque, must_precopy, can_postcopy);
-+        se->ops->state_pending_exact(se->opaque, threshold_size, must_precopy,
-+                                     can_postcopy);
-     }
- }
- 
-diff --git a/migration/trace-events b/migration/trace-events
-index 92161eeac5..b23c044f5e 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -150,8 +150,8 @@ migrate_fd_cleanup(void) ""
- migrate_fd_error(const char *error_desc) "error=%s"
- migrate_fd_cancel(void) ""
- migrate_handle_rp_req_pages(const char *rbname, size_t start, size_t len) "in %s at 0x%zx len 0x%zx"
--migrate_pending_exact(uint64_t size, uint64_t pre, uint64_t post) "exact pending size %" PRIu64 " (pre = %" PRIu64 " post=%" PRIu64 ")"
--migrate_pending_estimate(uint64_t size, uint64_t pre, uint64_t post) "estimate pending size %" PRIu64 " (pre = %" PRIu64 " post=%" PRIu64 ")"
-+migrate_pending_exact(uint64_t size, uint64_t threshold_size, uint64_t pre, uint64_t post) "exact pending size %" PRIu64 " threshold size %" PRIu64 " (pre = %" PRIu64 " post=%" PRIu64 ")"
-+migrate_pending_estimate(uint64_t size, uint64_t threshold_size, uint64_t pre, uint64_t post) "estimate pending size %" PRIu64 " threshold size %" PRIu64 " (pre = %" PRIu64 " post=%" PRIu64 ")"
- migrate_send_rp_message(int msg_type, uint16_t len) "%d: len %d"
- migrate_send_rp_recv_bitmap(char *name, int64_t size) "block '%s' size 0x%"PRIi64
- migration_completion_file_err(void) ""
+     qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+     ret = qemu_file_get_error(f);
 -- 
 2.26.3
 
