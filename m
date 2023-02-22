@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208FB69EBB2
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD6F69EBB1
 	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 01:09:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUcgu-0003fV-F5; Tue, 21 Feb 2023 19:09:00 -0500
+	id 1pUchQ-0004FY-4j; Tue, 21 Feb 2023 19:09:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUcgs-0003ep-UD
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:08:58 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641])
+ id 1pUchK-00044W-GV
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:09:26 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUcgq-0002sR-3P
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:08:58 -0500
-Received: by mail-pl1-x641.google.com with SMTP id s5so6855955plg.0
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 16:08:55 -0800 (PST)
+ id 1pUchH-0002vB-PZ
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:09:26 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id y2so2674769pjg.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 16:09:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=SnXCBPBxBnRXnqxJY0pHFUQMrw3cIbI8vaHJ7VJ51y8=;
- b=ZdXxya3jyoa5baxNl+RmK+VEp2ac9YNocqnjRIx1jXmam7p/rUPMUiIQRtCoHrX9o+
- AfpTixOi7gyaUhIIlp3nod3K1WQ1D1VmS4Gfafdxa57/RtjORG4Jqm6ve1nXvC537ziY
- Zel3qisH5+01fIXy2mUfOZiOlq9wHKjvWjQ4ZL/XvCmVPLIbUk6FXh+To3cscprU9G7F
- D54NTwnHo/mdKHoiKQXlEtTFzFWscDS0lT0++CPBDYGaMp3uSIM3bkid3HY3/FMATABc
- QG3/dS3Tf7Rvu9indGxHewdQfrToGAdul/sEaYyETm/PygskGvepFOa8zckiB4NBvfpe
- HhDw==
+ bh=P3ANgmzBX0gQHq68hMpCCdGBs8Ma1plXZMaMTNQ14ik=;
+ b=cuaFSfYs4wGsDakJ2bGnfBCd2ccjPR9gpZgO1FwQtWLfcfmv6bI7HFMKhtO5Hj6yzH
+ AnhVKn1tX7WIEavbF6iYcXxAUt1dLF9PY8Vs5YBIksKj+9ITixQa8XA0B4SC4I8XRtAS
+ Jn9rHfYooUUUP/QgmJLjsB7DCblA2lCAZ9hDl0ICJlDdhKJwEmwZyG6yVogoMEiioiGO
+ Our1E9JynPJPoPwZDYdxNkbUy16EWfNeH72lLtIGvSl8TPEzVqu58Ia/mHXGnQ9rAHtK
+ vYNs0NqC5zj+lG9C+Mxj0kAbyvoQat8UuwVXxTclJPf48PMIvyJuItPux21ltEEKH5+n
+ Bh4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SnXCBPBxBnRXnqxJY0pHFUQMrw3cIbI8vaHJ7VJ51y8=;
- b=MbvcgLEV5/skfrvVXw8kLKKGL1bf3g7Oap/OfMRO0rnpAM+Rmzs3MCsTdf606MOM7S
- K2hQL3Oe5oP66SZPZkMS/MLanu4Fd6GHCUcknQOmZo2TTjm70KQUZy/g8c9ykkm1GhWF
- dmRPCZA8s1RumpjNiLB8pCMw+HcAXQ3rBZw/f9Ik1mwrk9at4tzwmxnWgELWI+ZF29xk
- TLGP8jmq1Iep+eqHLlHABl0YADv3N0E+qOnvK7No/8WY2o9ssWTT/IVv7sphy2dtwwgq
- 7swUJ37wS36VVod4EbcBiFSQ/taT8MONEyIwH+nAfJFZ5zGsW5OWxAxYKvnZs+4X+uzt
- RHQg==
-X-Gm-Message-State: AO0yUKVhWwaxsTTtSqNj68IzUHkbha8JOeM0NenQcZSnhYuZEQYoXAO6
- be96FOmbQL770YgHOY53C24L2A==
-X-Google-Smtp-Source: AK7set9se4cE9rLxvyLo1+JPSq5ugW0afL3lIfAbDV0V/u0whnv0Njs4jOz3mRnQTYPgI2z6642OWg==
-X-Received: by 2002:a17:90b:4c50:b0:229:2427:532f with SMTP id
- np16-20020a17090b4c5000b002292427532fmr6672053pjb.40.1677024534432; 
- Tue, 21 Feb 2023 16:08:54 -0800 (PST)
+ bh=P3ANgmzBX0gQHq68hMpCCdGBs8Ma1plXZMaMTNQ14ik=;
+ b=rcAO4UBwoInKuUFltsUNJQPksoVAkU0NKtXFh1KQuaZqqnhnH/eqqk/C9/aM3xjUsN
+ kkwuppi9Jp7CcDMOy/aKcyahLhTlBWKMqNkX/XyinC61ZCOpEJBryDCPQKtgFeKv+JFi
+ xy8yeisPGnhtTh56wGHJyzIZLteJkp4nXLD90J7Z0XH6keDmU+ZcN33Z/1RAJkRqqt5g
+ XnrYe7Nar0V+BTmR7ADhWuovzMxbOiL4tCmOH0n6xr7gjYWU0wkqFLT1XqBrIJYsOGrL
+ xjtdUa7am6P1b+klh7nGPb1ec5HBBISeTsbOg+3O8dHMIkvxQSK51xJmCagq2CJXL63S
+ sTzg==
+X-Gm-Message-State: AO0yUKVvFq4bBuPZ03sAtAZFkJhj/T7Y6ktc+jy6UArGKaDtiFrigxwZ
+ CG62wYTBAH8cZZPGp6+cn1noNA==
+X-Google-Smtp-Source: AK7set+mLMq5ilgk5MqU5Pl1a7WNC44dejq4OIQk2+RhTH6nECEQUCt+AxnrhMOnImj9E+wp7YnnBA==
+X-Received: by 2002:a17:902:c408:b0:19a:b869:f2ef with SMTP id
+ k8-20020a170902c40800b0019ab869f2efmr9413078plk.15.1677024562375; 
+ Tue, 21 Feb 2023 16:09:22 -0800 (PST)
 Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- d14-20020a17090a498e00b00233790759cesm2406084pjh.47.2023.02.21.16.08.52
+ ja17-20020a170902efd100b0019acd3151d0sm5139862plb.114.2023.02.21.16.09.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 16:08:53 -0800 (PST)
-Message-ID: <e90bda0d-3c06-c378-c496-3b14107b9c9a@linaro.org>
-Date: Tue, 21 Feb 2023 14:08:50 -1000
+ Tue, 21 Feb 2023 16:09:21 -0800 (PST)
+Message-ID: <c15e3031-66f3-12a6-d867-13b9a93a526f@linaro.org>
+Date: Tue, 21 Feb 2023 14:09:18 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 2/5] scripts/checkpatch.pl: Do not allow assert(0)
+Subject: Re: [PATCH 4/5] block/vvfat: Remove pointless check of NDEBUG
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, qemu-arm@nongnu.org, Thomas Huth
- <thuth@redhat.com>, qemu-ppc@nongnu.org, Eric Blake <eblake@redhat.com>
+ <thuth@redhat.com>, qemu-ppc@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
 References: <20230221232520.14480-1-philmd@linaro.org>
- <20230221232520.14480-3-philmd@linaro.org>
+ <20230221232520.14480-5-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230221232520.14480-3-philmd@linaro.org>
+In-Reply-To: <20230221232520.14480-5-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -96,39 +97,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/21/23 13:25, Philippe Mathieu-Daudé wrote:
-> Since commit 262a69f428 ("osdep.h: Prohibit disabling assert()
-> in supported builds") we can not build QEMU with NDEBUG (or
-> G_DISABLE_ASSERT) defined, thus 'assert(0)' always aborts QEMU.
+> Since commit 262a69f428 ("osdep.h: Prohibit disabling
+> assert() in supported builds") 'NDEBUG' can not be defined,
+> so '#ifndef NDEBUG' is dead code. Remove it.
 > 
-> However some static analyzers / compilers doesn't notice NDEBUG
-> can't be defined and emit warnings if code is used after an
-> 'assert(0)' call. See for example commit c0a6665c3c ("target/i386:
-> Remove compilation errors when -Werror=maybe-uninitialized").
-> 
-> Apparently such compiler isn't as clever with G_DISABLE_ASSERT,
-> so we can silent these warnings by using g_assert_not_reached()
-> which is easier to read anyway.
-> 
-> In order to avoid these annoying warnings, add a checkpatch rule
-> to prohibit 'assert(0)'. Suggest using g_assert_not_reached()
-> instead. For example when reverting the previous patch we get:
-> 
->    ERROR: use g_assert_not_reached() instead of assert(0)
->    #21: FILE: target/ppc/dfp_helper.c:124:
->    +            assert(0); /* cannot get here */
-> 
->    ERROR: use g_assert_not_reached() instead of assert(0)
->    #30: FILE: target/ppc/dfp_helper.c:141:
->    +            assert(0); /* cannot get here */
-> 
->    total: 2 errors, 0 warnings, 16 lines checked
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   scripts/checkpatch.pl | 3 +++
->   1 file changed, 3 insertions(+)
+>   block/vvfat.c | 3 ---
+>   1 file changed, 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
+> 
+> diff --git a/block/vvfat.c b/block/vvfat.c
+> index d7d775bd2c..fd45e86416 100644
+> --- a/block/vvfat.c
+> +++ b/block/vvfat.c
+> @@ -2784,13 +2784,10 @@ static int handle_commits(BDRVVVFATState* s)
+>               fail = -2;
+>               break;
+>           case ACTION_WRITEOUT: {
+> -#ifndef NDEBUG
+> -            /* these variables are only used by assert() below */
+>               direntry_t* entry = array_get(&(s->directory),
+>                       commit->param.writeout.dir_index);
+>               uint32_t begin = begin_of_direntry(entry);
+>               mapping_t* mapping = find_mapping_for_cluster(s, begin);
+> -#endif
+>   
+>               assert(mapping);
+>               assert(mapping->begin == begin);
+
 
