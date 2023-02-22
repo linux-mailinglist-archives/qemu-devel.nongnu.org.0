@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFDA69F2F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A10569F2F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:51:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUmhd-0006HD-QG; Wed, 22 Feb 2023 05:50:28 -0500
+	id 1pUmhl-0006Lw-Oe; Wed, 22 Feb 2023 05:50:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pUmhV-0006F5-CD
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:18 -0500
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
+ id 1pUmhY-0006Gj-3v
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:20 -0500
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pUmhS-0000aT-7N
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:15 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id bp25so9601591lfb.0
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:50:13 -0800 (PST)
+ id 1pUmhU-0000ZE-PX
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:19 -0500
+Received: by mail-lj1-x235.google.com with SMTP id b13so8290579ljf.6
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:50:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8Pgptixf6aSzOpM/xoe5LZvI7v9xrk1H8zE7XRXPhQg=;
- b=Z3r6kKPkNwWKUxvUDteM7SSw5WhJ5iILFbaG1DqzQ88mlGJFgP7/cQerRKLTsEurV8
- jL9HZOEEgBUeI1AsGJfpCi6qSgNbyjsdM8CLA/3jTS2Yezx49rdSJ62ID7Qbwqz54gVj
- S7nHKur7JxCt1YItq6DjsRwD6ah9njP4ZBvAyxvWhsUHk7nnYSbEUJvI0uby/zv6kHsH
- rR97/N+8fronzCgkXZ/pWCBYEqL8/9kFui7pmQW0q+m70SUrJJdRDJraiN/RRy60ZnbY
- kn4j1h3ksVE3dY7yrfLHSPoJr2XsLuiUyLQX7xetxkeJ6K30MqmJAkSKOhNpcVzBAL7c
- H07A==
+ bh=jVpCmAin9tJ8fSiIrlkOeLh9eNaGIkQQ1xPj3tqqbYA=;
+ b=dGJ9XKydlK6/SFwYOheU1f93sT75C162pWXaaomiifYY6irdRGja/rsysABdPlMCSh
+ VOqiHK3cWwYFthKljZ3Cr3py2oYAkzlnO9Ju8LNtSVomvLl9eQ2CPw6ECBkWkXWER3F+
+ g660YOElluqmLOK9JFczltOST9slWxDbLnZ3zo3fAqy3J+uUT5SR/JIJrDNqueerx5b/
+ WWhyay7AbQzo0xoJK6Uvrtlk2O2+CGSRDK/wMdBgZsckbnCdfS7tAtl1P3YZRywFfet8
+ W83aJbMqhnFzaN8WVd6CKcCDyt3bCQUVJDrCcvVnnkRaFCNwIGbLCUej/xbUCr+GnYBR
+ l/Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8Pgptixf6aSzOpM/xoe5LZvI7v9xrk1H8zE7XRXPhQg=;
- b=NhHSKCZLM6/FlYfW+6VwA6MJhJ/AdtDYv+ROs6pBW5ghW0g9kOWsEIS2saMJNICNR4
- k/aBemctpUTOphSgHUrWeryk4jgZegCL9DCtHE1fK/PccN9jLT8SqR5km2+iuwzY95MR
- Pl3l8f94unOuCG1FQ89z1XoqMclVkDnVno3RK0R0SOw79qY9GXRuxatYpTqh/jLy0kOU
- zy+sqo1KYTDbXb9hWjfZqmhX1/HON0ewFCtcTyEO+G4mOfSZvn7LBbaRtbTScMrccMjV
- hAP5NJse8iKX/93MjNGtZ7jKV+lfUCAIdx4TVgill+9+egs5wZxfVlDozqcIckNPzSuZ
- XO0Q==
-X-Gm-Message-State: AO0yUKXK34YfCNAzDqP5bB4Cy0v3vmicM5bWW9wjIJuHNNzZXeXAcVZ4
- 5K0WGTcsFrihzoXq+eZMY0v6BnWeFivtliqmoLKDPxI6vRI=
-X-Google-Smtp-Source: AK7set9jAaxBOvRNfeflOgE6GS8NCKycMRJ1hkKuFevbAivDgNIzRr6RaFGXLoHaqXdEmTCslqXL1pUwXtu8lyRPK+8=
-X-Received: by 2002:a05:6512:4c8:b0:4db:1ae1:318b with SMTP id
- w8-20020a05651204c800b004db1ae1318bmr2572892lfq.5.1677063012210; Wed, 22 Feb
- 2023 02:50:12 -0800 (PST)
+ bh=jVpCmAin9tJ8fSiIrlkOeLh9eNaGIkQQ1xPj3tqqbYA=;
+ b=HAKxH6+00gGpuGg9B6Sj6DwCJ5a44nwqoegufYMCazlS6ZmpwkI4gYsbKuYb37kf8D
+ Z1GwWqct0ARrgfC04jQqDYs2U4oL114r/RvsFbkmA+72oGc6VsOceGQ8ravj6He9Kh21
+ mGPdauBENNXf50jpxQ72jvTRI5/ozyz+09UdF2yggn1+BTftz1hzmb+MbPw1OHfavLtZ
+ UbgQrKVc3G/u76zapB/IuKc6A6HpefPqjwZGoY+hHwU+e1Q7cC/vVnAZ+vMxJR0TMFbQ
+ fZupJ6K5AvmBFNDMAM7hkZogBtxEuVzjdAW6Rj4umS1UddHS9DGO6+CbbjNi2e/5IRRf
+ rciQ==
+X-Gm-Message-State: AO0yUKWKzqNMC3a2Bos4L0XL399PPeOxosGYyAqclp6tO/guKsPajYM3
+ g5RRZzMcg0cjtgK6eBasO/sbg/oBoPxYuIOSNXC88eKwjfc=
+X-Google-Smtp-Source: AK7set/guWuFG51brb0MlFaY2AywgnqGBaXcF/kQ8wItaivJqRTRBHUdgVRiybLCJ+AGnOI84VU2ppPxRz18cwrizLQ=
+X-Received: by 2002:a2e:b4bb:0:b0:294:6f14:2365 with SMTP id
+ q27-20020a2eb4bb000000b002946f142365mr2617341ljm.4.1677063015464; Wed, 22 Feb
+ 2023 02:50:15 -0800 (PST)
 MIME-Version: 1.0
 References: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
- <20230206185237.8358-8-vr_qemu@t-online.de>
-In-Reply-To: <20230206185237.8358-8-vr_qemu@t-online.de>
+ <20230206185237.8358-9-vr_qemu@t-online.de>
+In-Reply-To: <20230206185237.8358-9-vr_qemu@t-online.de>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 22 Feb 2023 14:49:59 +0400
-Message-ID: <CAJ+F1CKiZM0nYMgd4O6yLyUmh3EpeVj7SFDhwJ_ncRxZzzfXLA@mail.gmail.com>
-Subject: Re: [PATCH v2 08/17] audio: remove unused noop_conv() function
+Date: Wed, 22 Feb 2023 14:50:03 +0400
+Message-ID: <CAJ+F1CJ-FYXrzXNbDEU_6yOoHJo-36Pe+Dw4H_G72LnRcqVxJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 09/17] audio/mixeng: calculate number of input frames
 To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
 Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,55 +87,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi
+
 On Mon, Feb 6, 2023 at 10:52 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> w=
 rote:
 >
-> The function audio_capture_mix_and_clear() no longer uses
-> audio_pcm_sw_write() to resample audio frames from one internal
-> buffer to another. For this reason, the noop_conv() function is
-> now unused. Remove it.
+> Calculate the exact number of audio input frames needed to get
+> a given number of audio output frames. The exact number of
+> frames depends only on the difference of opos - ipos and the
+> number of output frames. When downsampling, this function
+> returns the maximum number of input frames needed.
+>
+> This function will later replace the audio_frontend_frames_out()
+> function, which calculates the average number of input frames
+> rounded down to the nearest integer.
 >
 > Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+We usually introduce functions with their usage, but ok
+Acked-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
 
 > ---
->  audio/audio.c | 8 --------
->  1 file changed, 8 deletions(-)
+>  audio/mixeng.c | 36 ++++++++++++++++++++++++++++++++++++
+>  audio/mixeng.h |  1 +
+>  2 files changed, 37 insertions(+)
 >
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 44eb7b63b4..556696b095 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -381,13 +381,6 @@ void audio_pcm_info_clear_buf (struct audio_pcm_info=
- *info, void *buf, int len)
->  /*
->   * Capture
->   */
-> -static void noop_conv (struct st_sample *dst, const void *src, int sampl=
-es)
-> -{
-> -    (void) src;
-> -    (void) dst;
-> -    (void) samples;
-> -}
-> -
->  static CaptureVoiceOut *audio_pcm_capture_find_specific(AudioState *s,
->                                                          struct audsettin=
-gs *as)
+> diff --git a/audio/mixeng.c b/audio/mixeng.c
+> index fe454e0725..6bb3d54f77 100644
+> --- a/audio/mixeng.c
+> +++ b/audio/mixeng.c
+> @@ -440,6 +440,42 @@ void st_rate_stop (void *opaque)
+>      g_free (opaque);
+>  }
+>
+> +/**
+> + * st_rate_frames_in() - returns the number of frames needed to
+> + * get frames_out frames after resampling
+> + *
+> + * @opaque: pointer to struct rate
+> + * @frames_out: number of frames
+> + */
+> +uint32_t st_rate_frames_in(void *opaque, uint32_t frames_out)
+> +{
+> +    struct rate *rate =3D opaque;
+> +    uint64_t opos_start, opos_end;
+> +    uint32_t ipos_start, ipos_end;
+> +
+> +    if (rate->opos_inc =3D=3D 1ULL << 32) {
+> +        return frames_out;
+> +    }
+> +
+> +    if (frames_out) {
+> +        opos_start =3D rate->opos;
+> +        ipos_start =3D rate->ipos;
+> +    } else {
+> +        uint64_t offset;
+> +
+> +        /* add offset =3D ceil(opos_inc) to opos and ipos to avoid an un=
+derflow */
+> +        offset =3D (rate->opos_inc + (1ULL << 32) - 1) & ~((1ULL << 32) =
+- 1);
+> +        opos_start =3D rate->opos + offset;
+> +        ipos_start =3D rate->ipos + (offset >> 32);
+> +    }
+> +    /* last frame written was at opos_start - rate->opos_inc */
+> +    opos_end =3D opos_start - rate->opos_inc + rate->opos_inc * frames_o=
+ut;
+> +    ipos_end =3D (opos_end >> 32) + 1;
+> +
+> +    /* last frame read was at ipos_start - 1 */
+> +    return ipos_end + 1 > ipos_start ? ipos_end + 1 - ipos_start : 0;
+> +}
+> +
+>  void mixeng_clear (struct st_sample *buf, int len)
 >  {
-> @@ -485,7 +478,6 @@ static int audio_attach_capture (HWVoiceOut *hw)
->          sw->info =3D hw->info;
->          sw->empty =3D 1;
->          sw->active =3D hw->enabled;
-> -        sw->conv =3D noop_conv;
->          sw->ratio =3D ((int64_t) hw_cap->info.freq << 32) / sw->info.fre=
-q;
->          sw->vol =3D nominal_volume;
->          sw->rate =3D st_rate_start (sw->info.freq, hw_cap->info.freq);
+>      memset (buf, 0, len * sizeof (struct st_sample));
+> diff --git a/audio/mixeng.h b/audio/mixeng.h
+> index 2dcd6df245..64c1e231cc 100644
+> --- a/audio/mixeng.h
+> +++ b/audio/mixeng.h
+> @@ -52,6 +52,7 @@ void st_rate_flow(void *opaque, st_sample *ibuf, st_sam=
+ple *obuf,
+>  void st_rate_flow_mix(void *opaque, st_sample *ibuf, st_sample *obuf,
+>                        size_t *isamp, size_t *osamp);
+>  void st_rate_stop (void *opaque);
+> +uint32_t st_rate_frames_in(void *opaque, uint32_t frames_out);
+>  void mixeng_clear (struct st_sample *buf, int len);
+>  void mixeng_volume (struct st_sample *buf, int len, struct mixeng_volume=
+ *vol);
+>
 > --
 > 2.35.3
 >
