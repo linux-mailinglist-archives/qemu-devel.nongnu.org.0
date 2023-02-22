@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB6469F6B9
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A1C69F6BA
 	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:39:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqGM-0004Zg-Oo; Wed, 22 Feb 2023 09:38:30 -0500
+	id 1pUqGP-0004jg-3J; Wed, 22 Feb 2023 09:38:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqGI-0004Sm-Uz
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:26 -0500
+ id 1pUqGM-0004b6-CA
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqGH-0001I6-4A
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:26 -0500
+ id 1pUqGK-0001IM-IE
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677076704;
+ s=mimecast20190719; t=1677076707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RY0ZpVcRRQsFXNlFXYjvJpNBlhuzbkZXMUYKbkzlWvw=;
- b=hwGDZzLZkoYa9Yq6kOGJuj+llYobmmG3PRrUx17Yu1OHCESHJ8Uadk5emyc6BBlv1FX7zF
- 0X1CehIgCBQWSCxVc36Xgzj7TckikwFz+sBpZI/xCopgLpmWvh/Yvpj6IZ+eTwLhhdJRBq
- zMzDSV+/14lN0/uY3ji0q/CQazsU/mY=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ktJWINVO6a3JuNf/uK6KuVAN3NzxKGaINvKdsH7f4mw=;
+ b=E33zgjUpk4adOZJKJQnRo3zH5jJrWJMD6sILyGep4O41wnBVemOZW0aLGTDsyqhR0HUUr3
+ MB8NJC5nAnTA+R4nXV384582hJ+ku0rb81Y+6+PdiovS04E7bEOZ9xxUn+DRE234EWyE57
+ PHweuv0k5XoGFWbQJ2KZklayZdlmekg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-175-LeCBqR_YPd6AF3lum9Waww-1; Wed, 22 Feb 2023 09:38:23 -0500
-X-MC-Unique: LeCBqR_YPd6AF3lum9Waww-1
-Received: by mail-ed1-f69.google.com with SMTP id
- eg35-20020a05640228a300b004ad6e399b73so10179220edb.10
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:38:23 -0800 (PST)
+ us-mta-333-htgnhDJRM5G3qq-rzLcQ5Q-1; Wed, 22 Feb 2023 09:38:26 -0500
+X-MC-Unique: htgnhDJRM5G3qq-rzLcQ5Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ cy28-20020a0564021c9c00b004acc6cf6322so11151951edb.18
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:38:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RY0ZpVcRRQsFXNlFXYjvJpNBlhuzbkZXMUYKbkzlWvw=;
- b=MsZBXgUBAj6fhX6ag+0up9VyW1teuWJV9p0WUBF8SQVsH7/OKAIEGdGahmLWgBP6V0
- mBXHyXDJLpVMmkaKfMWrtT3pPt//uBA3diFK7/ZBsIur6jy7Z5POcKvKczue8bnLMyKV
- ioK/AnVTThuabcJ4e2RTQGm4DJgawAubtZn0MF3MzaMoWxRHZxGP+wjb1kGYWOIzHKp4
- ysekgEsbYZ62mzsPECv+M1lrXF5Q5dGHEd7OU1csJdsfYbBE+jQ0qFEdN5WUydOCnDj6
- TcqnZVe0EUX36xCx4igXVPOhA3SMIN3xx4xZ3FVw1n2yAKgHcTkCYdojs6uq9VFIQPxl
- PdGQ==
-X-Gm-Message-State: AO0yUKWbRNel6dF6cRaPF+09NC2oSg7DqIjBOoxOuAvv7mTtsvf4U0IM
- 3+JrMvtt5/E5A8Zo1OTDmN0ToCjGlKnQaCaMv3KN5zmUG8+o+wKBBzUkrdcJpYRITVfiMcJMNY2
- ADcelXnhjD12OltnDVPKIC7cqu5pkZL+rD8Cfn/fsUSrocFjQdDxOfuvh3uomio5fRtKBrWKQ
-X-Received: by 2002:a05:6402:657:b0:4ab:4641:55fb with SMTP id
- u23-20020a056402065700b004ab464155fbmr7069716edx.42.1677076701615; 
- Wed, 22 Feb 2023 06:38:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set9jZrN//lfihi+K+KdG3ZCJnUtagc75Yiq40zkVyNtvbkzikvxyeNBOjo7A2G1L+ShCVMeFkw==
-X-Received: by 2002:a05:6402:657:b0:4ab:4641:55fb with SMTP id
- u23-20020a056402065700b004ab464155fbmr7069699edx.42.1677076701386; 
- Wed, 22 Feb 2023 06:38:21 -0800 (PST)
+ bh=ktJWINVO6a3JuNf/uK6KuVAN3NzxKGaINvKdsH7f4mw=;
+ b=4eTt8IZ7TcstsN7QZBMugo5dFzxAAE04OqFVOvrA9t85ltGLiEHFF4JR46pQkqROgw
+ U0ofTf5BNYNJZIa3ZzI8FWTL1lTyXV8W8gs8artZv/nURkyJywEc1M+d7AIb6ixdLkYG
+ gzwLs3FsCEXXvvYILoi9prF8gzYX2mFK/xsCHoJM9t3s6Eln51AN1AIHgdI3atTTlWLO
+ bz7hmyEfnArghfWF/zeLFEnbgxnKn78vS+OrbQbxkCSpKmVEKZ3yRtir48qke7ZsyW0C
+ 5iJvFaekLtA4XcqlgvZe6qTXES4EMbrcRWaUInA0+huU5qrVDF4HrVhitqmsTeYutRWF
+ 9+Ww==
+X-Gm-Message-State: AO0yUKXYP/yaTfFGeiEXIuNtXleH1lgt1lLep2BQ5wSSQT0uUHh5ah9G
+ wCCoYComi12NZiuTnUY0KLq/7SuJy5zWDFs1qWV8vMNu23N/A8Dg1tleqjEVVxq+QKpz/zabZV4
+ n1TyXIIak0YCgftZn77QtX7Y9+GnTlazla5XNqSie3HYaHnL6oBHlI/qqDzZAIaKm5r9ToGn5
+X-Received: by 2002:a17:907:5c6:b0:8af:3b78:315d with SMTP id
+ wg6-20020a17090705c600b008af3b78315dmr22071653ejb.23.1677076704643; 
+ Wed, 22 Feb 2023 06:38:24 -0800 (PST)
+X-Google-Smtp-Source: AK7set/ntYQqSEx8NT6wPm978reinv3gGTKxff9UQD8VecL9hqbC2qyslLmIL0/W8mO+HUp4yEiZfQ==
+X-Received: by 2002:a17:907:5c6:b0:8af:3b78:315d with SMTP id
+ wg6-20020a17090705c600b008af3b78315dmr22071628ejb.23.1677076704380; 
+ Wed, 22 Feb 2023 06:38:24 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- c30-20020a50f61e000000b004aee4e2a56esm3990256edn.0.2023.02.22.06.38.20
+ t9-20020a1709063e4900b008e1509dde19sm1859879eji.205.2023.02.22.06.38.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 06:38:20 -0800 (PST)
+ Wed, 22 Feb 2023 06:38:23 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: jsnow@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
  alex.bennee@linaro.org, armbru@redhat.com, berrange@redhat.com
-Subject: [PATCH 08/10] ci,
- docker: update CentOS and OpenSUSE Python to non-EOL versions
-Date: Wed, 22 Feb 2023 15:37:50 +0100
-Message-Id: <20230222143752.466090-9-pbonzini@redhat.com>
+Subject: [PATCH 09/10] Python: Drop support for Python 3.6
+Date: Wed, 22 Feb 2023 15:37:51 +0100
+Message-Id: <20230222143752.466090-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230222143752.466090-1-pbonzini@redhat.com>
 References: <20230222143752.466090-1-pbonzini@redhat.com>
@@ -101,249 +100,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Python 3.6 is at end-of-life.  libvirt-ci now supports overrides for
-targets and package mappings, therefore QEMU can use newer versions
-provided by CentOS 8 (Python 3.8) and OpenSUSE 15.3 (Python 3.9).
+Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
+begun dropping support for this version and it is becoming more
+cumbersome to support. Avocado-framework and qemu.qmp each have their
+own reasons for wanting to drop Python 3.6, but won't until QEMU does.
 
-Packages that the distro does not provide are included in the image
-via PyPI; lcitool knows how to do that whenever the rpm mapping
-is empty.
+Versions of Python available in our supported build platforms as of today,
+with optional versions available in parentheses:
 
+openSUSE Leap 15.4: 3.6.15 (3.9.10, 3.10.2)
+CentOS Stream 8:    3.6.8  (3.8.13, 3.9.16)
+CentOS Stream 9:    3.9.13
+Fedora 36:          3.10
+Fedora 37:          3.11
+Debian 11:          3.9.2
+Alpine 3.14, 3.15:  3.9.16
+Alpine 3.16, 3.17:  3.10.10
+Ubuntu 20.04 LTS:   3.8.10
+Ubuntu 22.04 LTS:   3.10.4
+NetBSD 9.3:         3.9.13*
+FreeBSD 12.4:       3.9.16
+FreeBSD 13.1:       3.9.16
+OpenBSD 7.2:        3.9.16
+
+Note: Our VM tests install 3.7 specifically for freebsd and netbsd; the
+default for "python" or "python3" in FreeBSD is 3.9.16. NetBSD does not
+appear to have a default meta-package, but offers several options, the
+lowest of which is 3.7.15. "python39" appears to be a pre-requisite to
+one of the other packages we request in tests/vm/netbsd.
+
+Since it is safe to under our supported platform policy, bump our
+minimum supported version of Python to 3.7.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/testing.rst                        |  6 ++
- tests/docker/dockerfiles/centos8.docker       | 22 +++---
- tests/docker/dockerfiles/opensuse-leap.docker | 22 +++---
- tests/docker/dockerfiles/ubuntu2004.docker    |  2 +-
- tests/lcitool/mappings.yml                    | 77 +++++++++++++++++++
- tests/lcitool/targets/centos-stream-8.yml     |  3 +
- tests/lcitool/targets/opensuse-leap-153.yml   |  3 +
- 7 files changed, 113 insertions(+), 22 deletions(-)
- create mode 100644 tests/lcitool/mappings.yml
- create mode 100644 tests/lcitool/targets/centos-stream-8.yml
- create mode 100644 tests/lcitool/targets/opensuse-leap-153.yml
+ configure                |  8 ++++----
+ python/Makefile          | 10 +++++-----
+ python/setup.cfg         |  7 +++----
+ python/tests/minreqs.txt |  2 +-
+ scripts/qapi/mypy.ini    |  2 +-
+ 5 files changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 648b7aa09137..67798dc63def 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -481,6 +481,12 @@ the mapping to the ``libvirt-ci`` project as well:
-    contains the ``mappings.yml`` update.  Then add the prerequisite and
-    run ``make lcitool-refresh``.
+diff --git a/configure b/configure
+index 762b8397a7b7..476d8a38b900 100755
+--- a/configure
++++ b/configure
+@@ -594,9 +594,9 @@ esac
  
-+For enterprise distros that default to old, end-of-life versions of the
-+Python runtime, QEMU uses a separate set of mappings that work with more
-+recent versions.  These can be found in ``tests/lcitool/mappings.yml``.
-+These should not be a problem unless the dependencies you are adding
-+is a Python library.
-+
  
- Adding new OS distros
- ^^^^^^^^^^^^^^^^^^^^^
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index fbc953c6dccc..3c74be09a693 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -82,7 +82,6 @@ RUN dnf distro-sync -y && \
-         lzo-devel \
-         make \
-         mesa-libgbm-devel \
--        meson \
-         ncurses-devel \
-         nettle-devel \
-         ninja-build \
-@@ -94,13 +93,12 @@ RUN dnf distro-sync -y && \
-         pixman-devel \
-         pkgconfig \
-         pulseaudio-libs-devel \
--        python3 \
--        python3-PyYAML \
--        python3-numpy \
--        python3-pillow \
--        python3-pip \
--        python3-sphinx \
--        python3-sphinx_rtd_theme \
-+        python38 \
-+        python38-PyYAML \
-+        python38-numpy \
-+        python38-pip \
-+        python38-setuptools \
-+        python38-wheel \
-         rdma-core-devel \
-         rpm \
-         sed \
-@@ -128,8 +126,14 @@ RUN dnf distro-sync -y && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+ check_py_version() {
+-    # We require python >= 3.6.
++    # We require python >= 3.7.
+     # NB: a True python conditional creates a non-zero return code (Failure)
+-    "$1" -c 'import sys; sys.exit(sys.version_info < (3,6))'
++    "$1" -c 'import sys; sys.exit(sys.version_info < (3,7))'
+ }
  
-+RUN /usr/bin/pip3.8 install \
-+                    meson==0.63.2 \
-+                    pillow \
-+                    sphinx \
-+                    sphinx-rtd-theme
-+
- ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
- ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
- ENV NINJA "/usr/bin/ninja"
--ENV PYTHON "/usr/bin/python3"
-+ENV PYTHON "/usr/bin/python3.8"
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 4b2c02d6abfb..5b8dbf2b83dd 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -89,16 +89,9 @@ RUN zypper update -y && \
-            pam-devel \
-            pcre-devel-static \
-            pkgconfig \
--           python3-Pillow \
--           python3-PyYAML \
--           python3-Sphinx \
--           python3-base \
--           python3-numpy \
--           python3-opencv \
--           python3-pip \
--           python3-setuptools \
--           python3-sphinx_rtd_theme \
--           python3-wheel \
-+           python39-base \
-+           python39-pip \
-+           python39-setuptools \
-            rdma-core-devel \
-            rpm \
-            sed \
-@@ -129,10 +122,15 @@ RUN zypper update -y && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+ python=
+@@ -605,7 +605,7 @@ if test -z "${PYTHON}"; then
+     explicit_python=no
+     # A bare 'python' is traditionally python 2.x, but some distros
+     # have it as python 3.x, so check in both places.
+-    for binary in python3 python python3.11 python3.10 python3.9 python3.8 python3.7 python3.6; do
++    for binary in python3 python python3.11 python3.10 python3.9 python3.8 python3.7; do
+         if has "$binary"; then
+             python=$(command -v "$binary")
+             if check_py_version "$python"; then
+@@ -1069,7 +1069,7 @@ then
+ fi
  
--RUN /usr/bin/pip3 install meson==0.56.0
-+RUN /usr/bin/pip3.9 install \
-+                    PyYAML \
-+                    meson==0.63.2 \
-+                    pillow \
-+                    sphinx \
-+                    sphinx-rtd-theme
+ if ! check_py_version "$python"; then
+-  error_exit "Cannot use '$python', Python >= 3.6 is required." \
++  error_exit "Cannot use '$python', Python >= 3.7 is required." \
+       "Use --python=/path/to/python to specify a supported Python."
+ fi
  
- ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
- ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
- ENV NINJA "/usr/bin/ninja"
--ENV PYTHON "/usr/bin/python3"
-+ENV PYTHON "/usr/bin/python3.9"
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 13ab0b688726..5b27b89f1c72 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -138,7 +138,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
-     ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
+diff --git a/python/Makefile b/python/Makefile
+index c5bd6ff83ac9..f660d9991437 100644
+--- a/python/Makefile
++++ b/python/Makefile
+@@ -9,14 +9,14 @@ help:
+ 	@echo "make check-minreqs:"
+ 	@echo "    Run tests in the minreqs virtual environment."
+ 	@echo "    These tests use the oldest dependencies."
+-	@echo "    Requires: Python 3.6"
+-	@echo "    Hint (Fedora): 'sudo dnf install python3.6'"
++	@echo "    Requires: Python 3.7"
++	@echo "    Hint (Fedora): 'sudo dnf install python3.7'"
+ 	@echo ""
+ 	@echo "make check-tox:"
+ 	@echo "    Run tests against multiple python versions."
+ 	@echo "    These tests use the newest dependencies."
+-	@echo "    Requires: Python 3.6 - 3.10, and tox."
+-	@echo "    Hint (Fedora): 'sudo dnf install python3-tox python3.10'"
++	@echo "    Requires: Python 3.7 - 3.11, and tox."
++	@echo "    Hint (Fedora): 'sudo dnf install python3-tox python3.11'"
+ 	@echo "    The variable QEMU_TOX_EXTRA_ARGS can be use to pass extra"
+ 	@echo "    arguments to tox".
+ 	@echo ""
+@@ -58,7 +58,7 @@ pipenv check-pipenv:
+ min-venv: $(QEMU_MINVENV_DIR) $(QEMU_MINVENV_DIR)/bin/activate
+ $(QEMU_MINVENV_DIR) $(QEMU_MINVENV_DIR)/bin/activate: setup.cfg tests/minreqs.txt
+ 	@echo "VENV $(QEMU_MINVENV_DIR)"
+-	@python3.6 -m venv $(QEMU_MINVENV_DIR)
++	@python3.7 -m venv $(QEMU_MINVENV_DIR)
+ 	@(								\
+ 		echo "ACTIVATE $(QEMU_MINVENV_DIR)";			\
+ 		. $(QEMU_MINVENV_DIR)/bin/activate;			\
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 9e923d97628f..1e8392a045c3 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -14,7 +14,6 @@ classifiers =
+     Natural Language :: English
+     Operating System :: OS Independent
+     Programming Language :: Python :: 3 :: Only
+-    Programming Language :: Python :: 3.6
+     Programming Language :: Python :: 3.7
+     Programming Language :: Python :: 3.8
+     Programming Language :: Python :: 3.9
+@@ -23,7 +22,7 @@ classifiers =
+     Typing :: Typed
  
--RUN /usr/bin/pip3 install meson==0.56.0
-+RUN /usr/bin/pip3 install meson==0.63.2
+ [options]
+-python_requires = >= 3.6
++python_requires = >= 3.7
+ packages =
+     qemu.qmp
+     qemu.machine
+@@ -76,7 +75,7 @@ exclude = __pycache__,
  
- ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
- ENV LANG "en_US.UTF-8"
-diff --git a/tests/lcitool/mappings.yml b/tests/lcitool/mappings.yml
-new file mode 100644
-index 000000000000..e4719e45516c
---- /dev/null
-+++ b/tests/lcitool/mappings.yml
-@@ -0,0 +1,77 @@
-+mappings:
-+  flake8:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  meson:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  python3:
-+    CentOSStream8: python38
-+    OpenSUSELeap153: python39-base
-+
-+  python3-PyYAML:
-+    CentOSStream8: python38-PyYAML
-+    OpenSUSELeap153:
-+
-+  python3-devel:
-+    CentOSStream8: python38-devel
-+    OpenSUSELeap153: python39-devel
-+
-+  python3-docutils:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  python3-numpy:
-+    CentOSStream8: python38-numpy
-+    OpenSUSELeap153:
-+
-+  python3-opencv:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  python3-pillow:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  python3-pip:
-+    CentOSStream8: python38-pip
-+    OpenSUSELeap153: python39-pip
-+
-+  python3-pillow:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  python3-selinux:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  python3-setuptools:
-+    CentOSStream8: python38-setuptools
-+    OpenSUSELeap153: python39-setuptools
-+
-+  python3-sphinx:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  python3-sphinx-rtd-theme:
-+    CentOSStream8:
-+    OpenSUSELeap153:
-+
-+  python3-venv:
-+    CentOSStream8: python38
-+    OpenSUSELeap153: python39-base
-+
-+  python3-wheel:
-+    CentOSStream8: python38-wheel
-+    OpenSUSELeap153: python39-pip
-+
-+pypi_mappings:
-+  # Request more recent version
-+  meson:
-+    default: meson==0.63.2
-+
-+  # Drop packages that need devel headers
-+  python3-numpy:
-+    OpenSUSELeap153:
-diff --git a/tests/lcitool/targets/centos-stream-8.yml b/tests/lcitool/targets/centos-stream-8.yml
-new file mode 100644
-index 000000000000..6b11160fd1dc
---- /dev/null
-+++ b/tests/lcitool/targets/centos-stream-8.yml
-@@ -0,0 +1,3 @@
-+paths:
-+  pip3: /usr/bin/pip3.8
-+  python: /usr/bin/python3.8
-diff --git a/tests/lcitool/targets/opensuse-leap-153.yml b/tests/lcitool/targets/opensuse-leap-153.yml
-new file mode 100644
-index 000000000000..683016e0077a
---- /dev/null
-+++ b/tests/lcitool/targets/opensuse-leap-153.yml
-@@ -0,0 +1,3 @@
-+paths:
-+  pip3: /usr/bin/pip3.9
-+  python: /usr/bin/python3.9
+ [mypy]
+ strict = True
+-python_version = 3.6
++python_version = 3.7
+ warn_unused_configs = True
+ namespace_packages = True
+ warn_unused_ignores = False
+@@ -158,7 +157,7 @@ multi_line_output=3
+ # of python available on your system to run this test.
+ 
+ [tox:tox]
+-envlist = py36, py37, py38, py39, py310, py311
++envlist = py37, py38, py39, py310, py311
+ skip_missing_interpreters = true
+ 
+ [testenv]
+diff --git a/python/tests/minreqs.txt b/python/tests/minreqs.txt
+index dfb8abb155f4..55cc6b41d85b 100644
+--- a/python/tests/minreqs.txt
++++ b/python/tests/minreqs.txt
+@@ -1,5 +1,5 @@
+ # This file lists the ***oldest possible dependencies*** needed to run
+-# "make check" successfully under ***Python 3.6***. It is used primarily
++# "make check" successfully under ***Python 3.7***. It is used primarily
+ # by GitLab CI to ensure that our stated minimum versions in setup.cfg
+ # are truthful and regularly validated.
+ #
+diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
+index 662535642974..3463307ddc72 100644
+--- a/scripts/qapi/mypy.ini
++++ b/scripts/qapi/mypy.ini
+@@ -1,7 +1,7 @@
+ [mypy]
+ strict = True
+ disallow_untyped_calls = False
+-python_version = 3.6
++python_version = 3.7
+ 
+ [mypy-qapi.schema]
+ disallow_untyped_defs = False
 -- 
 2.39.1
 
