@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952D869F2FB
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CD569F30E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:59:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUmi4-00070Z-J0; Wed, 22 Feb 2023 05:50:52 -0500
+	id 1pUmpD-0001xc-Ra; Wed, 22 Feb 2023 05:58:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pUmhw-0006ZR-NR
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:46 -0500
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUmpC-0001xM-FT
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:58:14 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pUmht-0000m5-3q
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:43 -0500
-Received: by mail-lj1-x233.google.com with SMTP id t14so4603750ljd.5
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:50:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=phuLM9ub2oVsAoQaBWssCE1BilCa8rIcu0coBJumMiI=;
- b=W3pmqe/f9p1qOMyjUMpqCxq3Tfjl/PJTIG55I7sdEkB/I4C3NIVRKqJyb0omLZsDxo
- Oto2SmWJQk8E9FZq4L8qAnspY1u/SfKny4c6Jykxe0HiaFCOaPQUl6jqLfkeov5IyCQQ
- e3MiG9dtbE6PvyfNpoalD9XhhDuSv0z2PfmlXoQoc/hjOnqXMNiblCnD00suab2jviw2
- 0hEfe8Q/2yPjvAilRNHhgDFsFeLlQmIJN6tCj2NI8QNX8ImacL9QSfR6ZHrqdvcnGIoT
- M21Dim5AYlBAULxm9cMsEzNmjBoVK1YCgfuybRaMhuq68qNoMEg2dyBhYQjNIY/YdOoB
- yN+g==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUmpA-0004NW-Ot
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:58:14 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t15so7401111wrz.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:58:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SDFV6sjA7bpeZf1TS4HdmAQFBN9/WW+KGRG8n1XyCvA=;
+ b=iUKRFGcSIPhyUiRib7ZpEfX3BI67am7tzjisBcgiJy4iQAsA/jrD1J2B9/NcC9ss2Y
+ U9/7wQ7vS5zsgkj3mAzc3KADX1AV2AMgGHIMn67JpSBm3jXnO6jMYwsUGEylruaR1Pu/
+ YpO26mPygcH87ehd1Iogsdcd2+pWx9rV5I7KlaDc1t9Yr4YFazaVWJubPxrclEUAbe9w
+ iaEgAkOMp8ulFcfsqMU+x3jWnR6/mrlkkXXSabyuYZ4Cbe4U+CT9GA4LnmCAit8XPLUm
+ nD/vJV2mMSHeJRZIDJ5XChrO8AJykUtLZ2/VbC/5qFdbvdnxRgXFVtQjmoWjYbANH5ba
+ 6Z2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=phuLM9ub2oVsAoQaBWssCE1BilCa8rIcu0coBJumMiI=;
- b=4E6UiSQGPxmkHXDLSuhqobAgCChMXe6TcS/pOrGzge0zr1Xmy2wRjI1lDGgcFoTyHz
- UR2x+A8MuQ92trrDzjOkpv9cB9VF//FxWuYnchYysxS5bBtV0vi1Zk3ApPFY32c1arRz
- I6Bic0nfEgv/vNY/Uwga1dmaF2z5/4zBrMzWdyq5nhSYGeHrM/ypi4eSjCaylFtEvjvv
- JbviyhuZDG87UMXLW9DcC9g/hbllhyewRiPj5cw7Emrb4aC2ZFNFLq0hi6BM01yqwK66
- wM90vLWE83Zuw0RrN1enmJYcgbLkoe9CSFQHGFYlITtZ75AXcR/6ebWJ7bhViqkjGcki
- NIaQ==
-X-Gm-Message-State: AO0yUKVI1EDja57/z2fMn6q9/TQNdUhiBIRGN6KKvPoT3g9YKigRJ5nJ
- niIQ5jHOmbEcaBGSODE/nbzpCMfZwWn7lVEDk2A=
-X-Google-Smtp-Source: AK7set8yr2Jh6GFdxTmVwt13l+17brZzq6qyFnhcq1MhWTYKF9DtXjdauvUybrhY/BOFNABWu2Czn/tIlHKs+RidLDA=
-X-Received: by 2002:a05:651c:2320:b0:295:9a96:a5c7 with SMTP id
- bi32-20020a05651c232000b002959a96a5c7mr292634ljb.4.1677063039513; Wed, 22 Feb
- 2023 02:50:39 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SDFV6sjA7bpeZf1TS4HdmAQFBN9/WW+KGRG8n1XyCvA=;
+ b=pHCN+syTJmnI1JinVrugXwO/DhefqDw9XO93aDJwrWXbS/u6K1loQb/X9tMB/hcqor
+ SJGEH6WZzmTkTVUP+1aWujVX43Xn38URoY5WkZ4WgRLCbPKgCKqmA3bhjDgZIsPXrPf5
+ Lmst9Ti8dXf8/2MnJ25XMBBN+MOveFLSEJXkPhDub0KlwQHuK4omG3ksosCaD970+xnl
+ G4Lu4GbR9p3y+UO1t49EEqcwThiJQnUg4oTrCYQtfK8QUlq3MJCX1N+sMupqhbzipCds
+ zCuWb0nqlCUNZpPD6tN7ehp7tWkP30jCOsX72nKMXyVEp/uF7AJiPc+3UWW6GDEZbfh5
+ gMyg==
+X-Gm-Message-State: AO0yUKXEtNHDmNVUzRK+LtXfqelyVPtsFGtaXw3/SoykcA83U2cwKTMT
+ sEwyOlsphBtIXyz04K6FjFevaA==
+X-Google-Smtp-Source: AK7set/rBdpV4xHs/0AU3KHnrB3h+UiLRlBa6O+ysZMu185OnXZFGy0X5z122QHrLvKoU73r7D8WBQ==
+X-Received: by 2002:a5d:438c:0:b0:2c5:843e:7c4 with SMTP id
+ i12-20020a5d438c000000b002c5843e07c4mr6479604wrq.33.1677063490925; 
+ Wed, 22 Feb 2023 02:58:10 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ j27-20020a5d453b000000b002c577e2fc87sm8747418wra.15.2023.02.22.02.58.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 02:58:10 -0800 (PST)
+Message-ID: <f865212d-6a08-8f9e-5ddd-6fe037fc5fa9@linaro.org>
+Date: Wed, 22 Feb 2023 11:58:08 +0100
 MIME-Version: 1.0
-References: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
- <20230206185237.8358-17-vr_qemu@t-online.de>
-In-Reply-To: <20230206185237.8358-17-vr_qemu@t-online.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 22 Feb 2023 14:50:26 +0400
-Message-ID: <CAJ+F1CLohZf742R3vaYm5cvBDdo-GVrG2-0UVW5Od4o6Os+jrw@mail.gmail.com>
-Subject: Re: [PATCH v2 17/17] audio: remove sw->ratio
-To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v4 1/9] hw/pci-host/i440fx: Inline sysbus_add_io()
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230213162004.2797-1-shentey@gmail.com>
+ <20230213162004.2797-2-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230213162004.2797-2-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,155 +100,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 6, 2023 at 10:53 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> w=
-rote:
->
-> Simplify the resample buffer size calculation.
->
-> For audio playback we have
-> sw->ratio =3D ((int64_t)sw->hw->info.freq << 32) / sw->info.freq;
-> samples =3D ((int64_t)sw->HWBUF.size << 32) / sw->ratio;
->
-> This can be simplified to
-> samples =3D muldiv64(sw->HWBUF.size, sw->info.freq, sw->hw->info.freq);
->
-> For audio recording we have
-> sw->ratio =3D ((int64_t)sw->info.freq << 32) / sw->hw->info.freq;
-> samples =3D (int64_t)sw->HWBUF.size * sw->ratio >> 32;
->
-> This can be simplified to
-> samples =3D muldiv64(sw->HWBUF.size, sw->info.freq, sw->hw->info.freq);
->
-> With hw =3D sw->hw this becomes in both cases
-> samples =3D muldiv64(HWBUF.size, sw->info.freq, hw->info.freq);
->
-> Now that sw->ratio is no longer needed, remove sw->ratio.
->
-> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-
+On 13/2/23 17:19, Bernhard Beschow wrote:
+> sysbus_add_io() just wraps memory_region_add_subregion() while also
+> obscuring where the memory is attached. So use
+> memory_region_add_subregion() directly and attach it to the existing
+> memory region s->bus->address_space_io which is set as an alias to
+> get_system_io() by the pc machine.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
 > ---
->  audio/audio.c          |  1 -
->  audio/audio_int.h      |  2 --
->  audio/audio_template.h | 30 +++++++++---------------------
->  3 files changed, 9 insertions(+), 24 deletions(-)
->
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 4836ab8ca8..70b096713c 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -478,7 +478,6 @@ static int audio_attach_capture (HWVoiceOut *hw)
->          sw->info =3D hw->info;
->          sw->empty =3D 1;
->          sw->active =3D hw->enabled;
-> -        sw->ratio =3D ((int64_t) hw_cap->info.freq << 32) / sw->info.fre=
-q;
->          sw->vol =3D nominal_volume;
->          sw->rate =3D st_rate_start (sw->info.freq, hw_cap->info.freq);
->          QLIST_INSERT_HEAD (&hw_cap->sw_head, sw, entries);
-> diff --git a/audio/audio_int.h b/audio/audio_int.h
-> index 8b163e1759..d51d63f08d 100644
-> --- a/audio/audio_int.h
-> +++ b/audio/audio_int.h
-> @@ -108,7 +108,6 @@ struct SWVoiceOut {
->      AudioState *s;
->      struct audio_pcm_info info;
->      t_sample *conv;
-> -    int64_t ratio;
->      STSampleBuffer resample_buf;
->      void *rate;
->      size_t total_hw_samples_mixed;
-> @@ -126,7 +125,6 @@ struct SWVoiceIn {
->      AudioState *s;
->      int active;
->      struct audio_pcm_info info;
-> -    int64_t ratio;
->      void *rate;
->      size_t total_hw_samples_acquired;
->      STSampleBuffer resample_buf;
-> diff --git a/audio/audio_template.h b/audio/audio_template.h
-> index 7e116426c7..e42326c20d 100644
-> --- a/audio/audio_template.h
-> +++ b/audio/audio_template.h
-> @@ -108,32 +108,23 @@ static void glue (audio_pcm_sw_free_resources_, TYP=
-E) (SW *sw)
->  static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
->  {
->      HW *hw =3D sw->hw;
-> -    int samples;
-> +    uint64_t samples;
->
->      if (!glue(audio_get_pdo_, TYPE)(sw->s->dev)->mixing_engine) {
->          return 0;
->      }
->
-> -#ifdef DAC
-> -    samples =3D ((int64_t)sw->HWBUF.size << 32) / sw->ratio;
-> -#else
-> -    samples =3D (int64_t)sw->HWBUF.size * sw->ratio >> 32;
-> -#endif
-> -    if (audio_bug(__func__, samples < 0)) {
-> -        dolog("Can not allocate buffer for `%s' (%d samples)\n",
-> -              SW_NAME(sw), samples);
-> -        return -1;
-> -    }
-> -
-> +    samples =3D muldiv64(HWBUF.size, sw->info.freq, hw->info.freq);
->      if (samples =3D=3D 0) {
-> -        size_t f_fe_min;
-> +        uint64_t f_fe_min;
-> +        uint64_t f_be =3D (uint32_t)hw->info.freq;
->
->          /* f_fe_min =3D ceil(1 [frames] * f_be [Hz] / size_be [frames]) =
-*/
-> -        f_fe_min =3D (hw->info.freq + HWBUF.size - 1) / HWBUF.size;
-> +        f_fe_min =3D (f_be + HWBUF.size - 1) / HWBUF.size;
->          qemu_log_mask(LOG_UNIMP,
->                        AUDIO_CAP ": The guest selected a " NAME " sample =
-rate"
-> -                      " of %d Hz for %s. Only sample rates >=3D %zu Hz a=
-re"
-> -                      " supported.\n",
-> +                      " of %d Hz for %s. Only sample rates >=3D %" PRIu6=
-4 " Hz"
-> +                      " are supported.\n",
->                        sw->info.freq, sw->name, f_fe_min);
->          return -1;
->      }
-> @@ -141,9 +132,9 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE)=
- (SW *sw)
->      /*
->       * Allocate one additional audio frame that is needed for upsampling
->       * if the resample buffer size is small. For large buffer sizes take
-> -     * care of overflows.
-> +     * care of overflows and truncation.
->       */
-> -    samples =3D samples < INT_MAX ? samples + 1 : INT_MAX;
-> +    samples =3D samples < SIZE_MAX ? samples + 1 : SIZE_MAX;
->      sw->resample_buf.buffer =3D g_new0(st_sample, samples);
->      sw->resample_buf.size =3D samples;
->      sw->resample_buf.pos =3D 0;
-> @@ -170,11 +161,8 @@ static int glue (audio_pcm_sw_init_, TYPE) (
->      sw->hw =3D hw;
->      sw->active =3D 0;
->  #ifdef DAC
-> -    sw->ratio =3D ((int64_t) sw->hw->info.freq << 32) / sw->info.freq;
->      sw->total_hw_samples_mixed =3D 0;
->      sw->empty =3D 1;
-> -#else
-> -    sw->ratio =3D ((int64_t) sw->info.freq << 32) / sw->hw->info.freq;
->  #endif
->
->      if (sw->info.is_float) {
-> --
-> 2.35.3
->
+>   hw/pci-host/i440fx.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+> index 262f82c303..9c6882d3fc 100644
+> --- a/hw/pci-host/i440fx.c
+> +++ b/hw/pci-host/i440fx.c
+> @@ -27,6 +27,7 @@
+>   #include "qemu/range.h"
+>   #include "hw/i386/pc.h"
+>   #include "hw/pci/pci.h"
+> +#include "hw/pci/pci_bus.h"
+>   #include "hw/pci/pci_host.h"
+>   #include "hw/pci-host/i440fx.h"
+>   #include "hw/qdev-properties.h"
+> @@ -217,10 +218,10 @@ static void i440fx_pcihost_realize(DeviceState *dev, Error **errp)
+>       PCIHostState *s = PCI_HOST_BRIDGE(dev);
+>       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>   
+> -    sysbus_add_io(sbd, 0xcf8, &s->conf_mem);
+> +    memory_region_add_subregion(s->bus->address_space_io, 0xcf8, &s->conf_mem);
 
+To avoid accessing internal fields we should stick to the PCI API:
 
---
-Marc-Andr=C3=A9 Lureau
+     memory_region_add_subregion(pci_address_space_io(PCI_DEVICE(dev)),
+                                 0xcf8, &s->conf_mem);
+
+>       sysbus_init_ioports(sbd, 0xcf8, 4);
+>   
+> -    sysbus_add_io(sbd, 0xcfc, &s->data_mem);
+> +    memory_region_add_subregion(s->bus->address_space_io, 0xcfc, &s->data_mem);
+>       sysbus_init_ioports(sbd, 0xcfc, 4);
+
+Now all classes implementing PCI_HOST_BRIDGE register conf/data in I/O
+space, so this could be a pattern justifying reworking a bit the
+PCIHostBridgeClass or adding an helper in "hw/pci/pci_host.h" to do
+that generically.
 
