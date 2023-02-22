@@ -2,89 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520B869F6D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:41:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B3769F72E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:55:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqJE-0003jg-TC; Wed, 22 Feb 2023 09:41:28 -0500
+	id 1pUqVE-00024d-St; Wed, 22 Feb 2023 09:53:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqJB-0003iw-2W
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:41:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pUqVB-000246-W7
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:53:50 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqJ9-00024o-Fq
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:41:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677076882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PfsG5DMetFuzBEjkHodWxxuvVXtGrylwCyzdwqZVZXI=;
- b=GhpA24F5rE2X43m10ooLI1ZFuOt0U9UXAT7NAwbp9CunEAm8DrQrRm0iUHi6kYAo3Toxpi
- ey0wK/y0E+2NGdpxy6dAmRFtvtrXRbexXEEFJCkKzaaPxxVLrdiHmnak1nyKlR5f20nq6+
- 7Xs8QbNLdSfnL878naPrOj3IEPBwDUA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-299-HW2QdJN1Ns25SOV_ddWqaA-1; Wed, 22 Feb 2023 09:41:20 -0500
-X-MC-Unique: HW2QdJN1Ns25SOV_ddWqaA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- co14-20020a0564020c0e00b004aab4319cedso10475214edb.2
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:41:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PfsG5DMetFuzBEjkHodWxxuvVXtGrylwCyzdwqZVZXI=;
- b=vtmIgNtKUiiYfVFLLrbJzdI4KBf6BS20ZGWotN5vr6job4OQ+GW4v01Q9KbGu2qW3Y
- Ea8frQRkW73aPZKaAbvAERnPtiRogTU6W1cDfGSYHJ4IE+CGXlFGNwVkPV3AwDmnc9wB
- Kzsv4/ky0Riq7MBYGQ86jfl/FtqMjKDUBh0fJ/fLmmF2xreOrtM2SruUQ3uq94XI6D62
- 9ts64Z94yHsgKFiF/7fTaluvDEcCupZ08CUnEVTjLTSwC5a/6OVaSPU4aLdprmV95cuz
- 9MY0QAdIvieXZrVZlUmAQQ+Z95aAB/vzL872VoB0arVqqtxDkn5Vk9qeKLvRX4jpWLe4
- 4h+w==
-X-Gm-Message-State: AO0yUKWhUlbXHtfNUQBvLprgNawVS6b3KmEZ2mGfcd4rJo4TQl6L2JaW
- gRtOoTmNX1HZLRL65R8rSb/QhpcThDPCfpMABA5iwlHeU9Ffkfeod8fb+KDEA2ptGyr/i6XncCc
- kN7tYafLceDFMCJN8ETycNDp9oAUwp0gMaOKBVgVZf3fna7RUxg5cGL2NLnqaN/jzhdw+u6xK
-X-Received: by 2002:aa7:c692:0:b0:4ac:b614:dcfc with SMTP id
- n18-20020aa7c692000000b004acb614dcfcmr6525137edq.9.1677076879249; 
- Wed, 22 Feb 2023 06:41:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set9WytsdYP2+HacGmGo0QLjMuMCPwOfggdHeG1muBDRHvAGXCGWfjwbJ9ZmO/MfMp8RKkKqYfA==
-X-Received: by 2002:aa7:c692:0:b0:4ac:b614:dcfc with SMTP id
- n18-20020aa7c692000000b004acb614dcfcmr6525116edq.9.1677076878927; 
- Wed, 22 Feb 2023 06:41:18 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- c30-20020a50f61e000000b004aee4e2a56esm3993520edn.0.2023.02.22.06.41.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 06:41:18 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: TaiseiIto <taisei1212@outlook.jp>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 4/4] target/i386/gdbstub: Fix a bug about order of FPU stack in
- 'g' packets.
-Date: Wed, 22 Feb 2023 15:41:03 +0100
-Message-Id: <20230222144103.467002-5-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230222144103.467002-1-pbonzini@redhat.com>
-References: <20230222144103.467002-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pUqV9-0004O6-B4
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:53:49 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PMJv15pxdz6J7N8;
+ Wed, 22 Feb 2023 22:48:45 +0800 (CST)
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Wed, 22 Feb
+ 2023 14:53:31 +0000
+Date: Wed, 22 Feb 2023 14:53:30 +0000
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
+ "Ira Weiny" <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, 
+ Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang <dave.jiang@intel.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v5 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
+ Support.
+Message-ID: <20230222145330.000021ef@huawei.com>
+In-Reply-To: <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
+References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
+ <20230221152145.9736-9-Jonathan.Cameron@huawei.com>
+ <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,49 +68,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: TaiseiIto <taisei1212@outlook.jp>
+On Tue, 21 Feb 2023 23:15:49 +0100
+Philippe Mathieu-Daud=E9 <philmd@linaro.org> wrote:
 
-Before this commit, when GDB attached an OS working on QEMU, order of FPU
-stack registers printed by GDB command 'info float' was wrong. There was a
-bug causing the problem in 'g' packets sent by QEMU to GDB. The packets have
-values of registers of machine emulated by QEMU containing FPU stack
-registers. There are 2 ways to specify a x87 FPU stack register. The first
-is specifying by absolute indexed register names (R0, ..., R7). The second
-is specifying by stack top relative indexed register names (ST0, ..., ST7).
-Values of the FPU stack registers should be located in 'g' packet and be
-ordered by the relative index. But QEMU had located these registers ordered
-by the absolute index. After this commit, when QEMU reads registers to make
-a 'g' packet, QEMU specifies FPU stack registers by the relative index.
-Then, the registers are ordered correctly in the packet. As a result, GDB,
-the packet receiver, can print FPU stack registers in the correct order.
+> Hi Jonathan,
+>=20
+> On 21/2/23 16:21, Jonathan Cameron wrote:
+> > CXL uses PCI AER Internal errors to signal to the host that an error has
+> > occurred. The host can then read more detailed status from the CXL RAS
+> > capability.
+> >=20
+> > For uncorrectable errors: support multiple injection in one operation
+> > as this is needed to reliably test multiple header logging support in an
+> > OS. The equivalent feature doesn't exist for correctable errors, so only
+> > one error need be injected at a time.
+> >=20
+> > Note:
+> >   - Header content needs to be manually specified in a fashion that
+> >     matches the specification for what can be in the header for each
+> >     error type.
+> >=20
+> > Injection via QMP:
+> > { "execute": "qmp_capabilities" }
+> > ...
+> > { "execute": "cxl-inject-uncorrectable-errors",
+> >    "arguments": {
+> >      "path": "/machine/peripheral/cxl-pmem0",
+> >      "errors": [
+> >          {
+> >              "type": "cache-address-parity",
+> >              "header": [ 3, 4]
+> >          },
+> >          {
+> >              "type": "cache-data-parity",
+> >              "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,=
+19,20,21,22,23,24,25,26,27,28,29,30,31]
+> >          },
+> >          {
+> >              "type": "internal",
+> >              "header": [ 1, 2, 4]
+> >          }
+> >          ]
+> >    }}
+> > ...
+> > { "execute": "cxl-inject-correctable-error",
+> >      "arguments": {
+> >          "path": "/machine/peripheral/cxl-pmem0",
+> >          "type": "physical"
+> >      } }
+> >=20
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Signed-off-by: TaiseiIto <taisei1212@outlook.jp>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <TY0PR0101MB4285923FBE9AD97CE832D95BA4E59@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/gdbstub.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Hi Philippe,
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index c3a2cf6f2825..786971284ae7 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -121,7 +121,9 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-             return gdb_get_reg32(mem_buf, env->regs[gpr_map32[n]]);
-         }
-     } else if (n >= IDX_FP_REGS && n < IDX_FP_REGS + 8) {
--        floatx80 *fp = (floatx80 *) &env->fpregs[n - IDX_FP_REGS];
-+        int st_index = n - IDX_FP_REGS;
-+        int r_index = (st_index + env->fpstt) % 8;
-+        floatx80 *fp = &env->fpregs[r_index].d;
-         int len = gdb_get_reg64(mem_buf, cpu_to_le64(fp->low));
-         len += gdb_get_reg16(mem_buf, cpu_to_le16(fp->high));
-         return len;
--- 
-2.39.1
+Thanks for your review.  One question inline.
 
+> > +#
+> > +# Type of uncorrectable CXL error to inject. These errors are reported=
+ via
+> > +# an AER uncorrectable internal error with additional information logg=
+ed at
+> > +# the CXL device.
+> > +#
+> > +# @cache-data-parity: Data error such as data parity or data ECC error=
+ CXL.cache
+> > +# @cache-address-parity: Address parity or other errors associated wit=
+h the
+> > +#                        address field on CXL.cache
+> > +# @cache-be-parity: Byte enable parity or other byte enable errors on =
+CXL.cache
+> > +# @cache-data-ecc: ECC error on CXL.cache
+> > +# @mem-data-parity: Data error such as data parity or data ECC error o=
+n CXL.mem
+> > +# @mem-address-parity: Address parity or other errors associated with =
+the
+> > +#                      address field on CXL.mem
+> > +# @mem-be-parity: Byte enable parity or other byte enable errors on CX=
+L.mem.
+> > +# @mem-data-ecc: Data ECC error on CXL.mem.
+> > +# @reinit-threshold: REINIT threshold hit.
+> > +# @rsvd-encoding: Received unrecognized encoding.
+> > +# @poison-received: Received poison from the peer.
+> > +# @receiver-overflow: Buffer overflows (first 3 bits of header log ind=
+icate which)
+> > +# @internal: Component specific error
+> > +# @cxl-ide-tx: Integrity and data encryption tx error.
+> > +# @cxl-ide-rx: Integrity and data encryption rx error.
+> > +##
+> > +
+> > +{ 'enum': 'CxlUncorErrorType', =20
+>=20
+> Doesn't these need
+>=20
+>       'if': 'CONFIG_CXL_MEM_DEVICE',
+>=20
+> ?
+
+If I make this change I get a bunch of
+
+./qapi/qapi-types-cxl.h:18:13: error: attempt to use poisoned "CONFIG_CXL_M=
+EM_DEVICE"
+   18 | #if defined(CONFIG_CXL_MEM_DEVICE)
+
+It's a target specific define (I think) as built alongside PCI_EXPRESS
+Only CXL_ACPI is specifically included by x86 and arm64 (out of tree)
+
+To be honest though I don't fully understand the QEMU build system so the r=
+eason
+for the error might be wrong.
+
+>=20
+> > +  'data': ['cache-data-parity',
+> > +           'cache-address-parity',
+> > +           'cache-be-parity',
+> > +           'cache-data-ecc',
+> > +           'mem-data-parity',
+> > +           'mem-address-parity',
+> > +           'mem-be-parity',
+> > +           'mem-data-ecc',
+> > +           'reinit-threshold',
+> > +           'rsvd-encoding',
+> > +           'poison-received',
+> > +           'receiver-overflow',
+> > +           'internal',
+> > +           'cxl-ide-tx',
+> > +           'cxl-ide-rx'
+> > +           ]
+> > + }
 
