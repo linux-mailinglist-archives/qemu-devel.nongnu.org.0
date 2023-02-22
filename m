@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5252269FF8B
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCED69FF8A
 	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 00:31:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUyWy-00014n-DU; Wed, 22 Feb 2023 18:28:12 -0500
+	id 1pUyX0-0001Cc-4A; Wed, 22 Feb 2023 18:28:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUyWl-0000m5-Ft
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:27:59 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pUyWm-0000pF-Ci
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:28:00 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUyWj-0005Lf-B4
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:27:59 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- qi12-20020a17090b274c00b002341621377cso10542516pjb.2
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 15:27:56 -0800 (PST)
+ id 1pUyWk-0005QO-R6
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:28:00 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ d1-20020a17090a3b0100b00229ca6a4636so10903296pjc.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 15:27:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=4KRif7Wsoc/WAay8HomgguVyT4DuSPlLucVRpmBwnfo=;
- b=SQZGfDIzIbMybUoswv0MelFpw+WJfk65rvq9skLX4OuZzfqJLbG/5A4IRa4jkh6ZI5
- RZL6x514FD8UESTprENn+01+HN/xN/+bZBqbkzC+SdovNHYdS4O6KH58oceqdMgLvPoD
- 0o51DV9HFH67wtUwnzsOt/Z9X9IAW7P1VDFy4I8v7Jf6haCv2Fkg1lLriIZ4RY3uhBeB
- +eUS/gcPRwYx1Ao9VV4kyqGeh6UiwBO0R6wKqDZLd50bo+kSbcwKXWvNNVIbWraiXn1c
- 9Inuu+xJ6boA8qlcJ0Ne5iOAgIqvXMXZJ+LPoh6v6S0GC+ZolbPmEA/tYPDf2DVsrzIW
- rvIQ==
+ :reply-to; bh=6rAVEKvH88i+QH8CXFUlPcaghYPMd95m3CUWWiU3uQ0=;
+ b=W/W61AyJ+mx9ByzY0qo+9wesH9QFCG+3Yjmqh30ZWAzvdA5oOlYAP5GifXMxf3d0XD
+ Slatgo2o3StSb9TfUDnecVBBsFx602DlEIqQSagWEHzzbzg+TBAWkKXEANuot9fkiuI2
+ fCGz8biqK2Kl47pzCbauFdHEX5m8hGe3AVhoWDBrT5CRLtGnM5E1dqQSGSWqevXjGSF5
+ AUMd9ceKqGHS1Qes+eXA2twICquXQwMqBK8OG7btuTteA1margkS5rvNUrRCw2BcpoTU
+ +8lKlNV7PMwX8Jz5pG3AyLRid8RSbJ51RuBlsDvmwyTOpHYV7gbsU4JWuAnITes5gd1K
+ ZYBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4KRif7Wsoc/WAay8HomgguVyT4DuSPlLucVRpmBwnfo=;
- b=oHjWgLm0CV9ebI4cCx63De7OZrv1chJeLfZjsC+sWWUi6tCqOC7jV+Qr0gth7Ffp8C
- mRK6SI/rEalwjbMgxlVZQcBpWg4QZtcEH2YDBBFGEyfB//FOsaMHBh0U3hodioDkCdBD
- oFJY5dWuFPOj/Dluyo612Ir2ZtNENEFKMmnEFLlvybOQjOJ3a26tU7mTrj/LKqlBdWLy
- 8yzyW4jhip64R/cplXs9r4GLzkXG5XfN+/OoPq1lw9SUat9H1uyWeIRutoePY7YomNtv
- tFLNa0zYb9iwsP4dnlnWYEADq5h1NMv8Bc8P0vOAiP8UXW11qWTPsKK4hUIFOfuWj7oC
- pUJQ==
-X-Gm-Message-State: AO0yUKVpipbcGEakMk6fZytCejGrrNsTyJ0mbtt1TaknIf6YxIuFUqnt
- UjX6FxuAKK72tUReCeAZ9JaBBI2IcsPWOsFMmo0=
-X-Google-Smtp-Source: AK7set9ewMwHhwuzkLx3pkKvWhXvcmRGwMZhw47ZMYihEoqt60hGJlplErf9bM19alUTQ0fOzGm/Iw==
-X-Received: by 2002:a17:90b:4b4c:b0:233:d657:2c7e with SMTP id
- mi12-20020a17090b4b4c00b00233d6572c7emr12173839pjb.8.1677108476347; 
- Wed, 22 Feb 2023 15:27:56 -0800 (PST)
+ bh=6rAVEKvH88i+QH8CXFUlPcaghYPMd95m3CUWWiU3uQ0=;
+ b=dfwAs4sxpXI37xWYbFKtNcfc05KHoLygRtlDZ6BVPNa0Cy0peakpMlIgg9R9zHScUw
+ ZyKpnmvNEzes7FR+MRA0Q8hOSlF9AxepqZGFCZ1nm0sNt6BADC9BS/rFJ/+zRqtaKNQT
+ 7Upqw7QrGlMJRItK5fW7hVnilaKXzf9UEc/KzmDbCTHjCmcl+q65JeUqPZaMUeNPGkhY
+ D/i2tsuaWvm5WX8XIOI2NphDRTO4Ybt8a03UwNgMSnG4y9HeasVE6PE9LN/gK1Tpp8Gr
+ zr0XleQpdnABfYC91b5RB77QVzEFIr3TKao5Vyot0iworUrIHgMMYPVL72LNeNIzuvJ8
+ pBZQ==
+X-Gm-Message-State: AO0yUKVl+DfvEeueoM13lm8fmyI88yCS/DBH7GtadZeQob6KryGwv9Lp
+ 9qwNVImqn4S91Dl1FsiEi1IJq6XLdWeMdS2hjDs=
+X-Google-Smtp-Source: AK7set8NdYEe9vJx/LYAtkfrr7g7rWWd3BmflDv+Kc0cXqJa8wclgwkU/xF9HS5Jnr3CcZ3m0fbPpg==
+X-Received: by 2002:a17:90b:4c0c:b0:233:feb4:895f with SMTP id
+ na12-20020a17090b4c0c00b00233feb4895fmr10098398pjb.44.1677108477615; 
+ Wed, 22 Feb 2023 15:27:57 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- s16-20020a17090ad49000b00234e6d2de3dsm5008918pju.11.2023.02.22.15.27.55
+ s16-20020a17090ad49000b00234e6d2de3dsm5008918pju.11.2023.02.22.15.27.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 15:27:55 -0800 (PST)
+ Wed, 22 Feb 2023 15:27:57 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 27/28] tcg: Update docs/devel/tcg-ops.rst for temporary
- changes
-Date: Wed, 22 Feb 2023 13:27:14 -1000
-Message-Id: <20230222232715.15034-28-richard.henderson@linaro.org>
+Subject: [PATCH v2 28/28] tcg: Use noinline for major tcg_gen_code_subroutines
+Date: Wed, 22 Feb 2023 13:27:15 -1000
+Message-Id: <20230222232715.15034-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230222232715.15034-1-richard.henderson@linaro.org>
 References: <20230222232715.15034-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,175 +89,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rewrite the sections which talked about 'local temporaries'.
-Remove some assumptions which no longer hold.
+This makes it easier to assign blame with perf.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- docs/devel/tcg-ops.rst | 103 +++++++++++++++++++++--------------------
- 1 file changed, 54 insertions(+), 49 deletions(-)
+ tcg/tcg.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/docs/devel/tcg-ops.rst b/docs/devel/tcg-ops.rst
-index 9adc0c9b6c..53b7b6c93b 100644
---- a/docs/devel/tcg-ops.rst
-+++ b/docs/devel/tcg-ops.rst
-@@ -29,21 +29,42 @@ In this document, we use *guest* to specify what architecture we are
- emulating; *target* always means the TCG target, the machine on which
- we are running QEMU.
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 4b244eebc2..b65f2ffdbe 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -2619,7 +2619,8 @@ TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *old_op,
+ }
  
--A TCG *function* corresponds to a QEMU Translated Block (TB).
-+A TCG *basic block* is a single entry, multiple exit region which
-+corresponds to a list of instructions terminated by a label, or
-+any branch instruction.
+ /* Reachable analysis : remove unreachable code.  */
+-static void reachable_code_pass(TCGContext *s)
++static void __attribute__((noinline))
++reachable_code_pass(TCGContext *s)
+ {
+     TCGOp *op, *op_next, *op_prev;
+     bool dead = false;
+@@ -2840,7 +2841,8 @@ static void la_cross_call(TCGContext *s, int nt)
+  * Liveness analysis: Verify the lifetime of TEMP_TB, and reduce
+  * to TEMP_EBB, if possible.
+  */
+-static void liveness_pass_0(TCGContext *s)
++static void __attribute__((noinline))
++liveness_pass_0(TCGContext *s)
+ {
+     void * const multiple_ebb = (void *)(uintptr_t)-1;
+     int nb_temps = s->nb_temps;
+@@ -2907,7 +2909,8 @@ static void liveness_pass_0(TCGContext *s)
+ /* Liveness analysis : update the opc_arg_life array to tell if a
+    given input arguments is dead. Instructions updating dead
+    temporaries are removed. */
+-static void liveness_pass_1(TCGContext *s)
++static void __attribute__((noinline))
++liveness_pass_1(TCGContext *s)
+ {
+     int nb_globals = s->nb_globals;
+     int nb_temps = s->nb_temps;
+@@ -3247,7 +3250,8 @@ static void liveness_pass_1(TCGContext *s)
+ }
  
--A TCG *temporary* is a variable only live in a basic block. Temporaries are allocated explicitly in each function.
-+A TCG *extended basic block* is a single entry, multiple exit region
-+which corresponds to a list of instructions terminated by a label or
-+an unconditional branch.  Specifically, an extended basic block is
-+a sequence of basic blocks connected by the fall-through paths of
-+zero or more conditional branch instructions.
- 
--A TCG *local temporary* is a variable only live in a function. Local temporaries are allocated explicitly in each function.
-+There is one TCG *fixed global* (``TEMP_FIXED``) variable, ``cpu_env``
-+which is live in all translation blocks, and holds a pointer to ``CPUArchState``.
-+This fixed global is held in a host cpu register at all times in all
-+translation blocks.
- 
--A TCG *global* is a variable which is live in all the functions
--(equivalent of a C global variable). They are defined before the
--functions defined. A TCG global can be a memory location (e.g. a QEMU
--CPU register), a fixed host register (e.g. the QEMU CPU state pointer)
--or a memory location which is stored in a register outside QEMU TBs
--(not implemented yet).
-+A TCG *global* (``TEMP_GLOBAL``) is a variable which is live in all
-+translation blocks, and correspond to memory locations that are within
-+``CPUArchState``.  These may be specified as an offset from ``cpu_env``,
-+in which case they are called *direct globals*, or may be specified as
-+an offset from a direct global, in which case they are called
-+*indirect globals*.  Even indirect globals should still reference memory
-+within ``CPUArchState``.  All TCG globals are defined during
-+``TCGCPUOps.initialize``, before any translation blocks are generated.
- 
--A TCG *basic block* corresponds to a list of instructions terminated
--by a branch instruction.
-+A TCG *constant* (``TEMP_CONST``) is a variable which is live throughout
-+the entire translation block, and contains a constant value.
-+These temporaries are allocated explicitly during translation and are
-+hashed so that there is exactly one variable holding a given value.
-+
-+A TCG *translation block temporary* (``TEMP_TB``) is a variable which is
-+live throughout the entire translation block, but dies on any exit.
-+These temporaries are allocated explicitly during translation.
-+
-+A TCG *extended basic block temporary* (``TEMP_EBB``) is a variable which
-+is live throughout an extended basic block, but dies on any exit.
-+These temporaries are allocated explicitly during translation.
- 
- An operation with *undefined behavior* may result in a crash.
- 
-@@ -57,11 +78,11 @@ Intermediate representation
- Introduction
- ------------
- 
--TCG instructions operate on variables which are temporaries, local
--temporaries or globals. TCG instructions and variables are strongly
--typed. Two types are supported: 32 bit integers and 64 bit
--integers. Pointers are defined as an alias to 32 bit or 64 bit
--integers depending on the TCG target word size.
-+TCG instructions operate on variables which are temporaries.
-+TCG instructions and variables are strongly typed.
-+Two types are supported: 32 bit integers and 64 bit integers.
-+Pointers are defined as an alias to 32 bit or 64 bit integers
-+depending on the TCG target word size.
- 
- Each instruction has a fixed number of output variable operands, input
- variable operands and always constant operands.
-@@ -81,17 +102,19 @@ included in the instruction name. Constants are prefixed with a '$'.
- Assumptions
- -----------
- 
--Basic blocks
-+Basic Blocks
- ^^^^^^^^^^^^
- 
--* Basic blocks end after branches (e.g. brcond_i32 instruction),
--  goto_tb and exit_tb instructions.
-+* Basic blocks end after conditional branches (e.g. brcond_i32),
-+  br, goto_tb, exit_tb, goto_ptr, set_label instructions,
-+  and calls that are defined to not return (``TCG_CALL_NO_RETURN``).
- 
--* Basic blocks start after the end of a previous basic block, or at a
--  set_label instruction.
-+* Basic blocks start after the end of a previous basic block,
-+  or at a set_label instruction.
- 
--After the end of a basic block, the content of temporaries is
--destroyed, but local temporaries and globals are preserved.
-+* Extended basic blocks are a sequence of basic blocks that are
-+  connected by the fall through of conditional branches.  Thus they end
-+  at br, goto_tb, exit_tb, goto_ptr, set_label, and noreturn calls.
- 
- Floating point types
- ^^^^^^^^^^^^^^^^^^^^
-@@ -120,18 +143,15 @@ Helpers
-     either directly or via an exception. They will not be saved to their
-     canonical locations before calling the helper.
- 
--  - ``TCG_CALL_NO_WRITE_GLOBALS`` means that the helper does not modify any globals.
--    They will only be saved to their canonical location before calling helpers,
--    but they won't be reloaded afterwards.
-+  - ``TCG_CALL_NO_WRITE_GLOBALS`` means that the helper does not modify
-+    any globals, but may read them.  Globals will be saved to their canonical
-+    location before calling helpers, but won't be reloaded afterwards.
- 
--  - ``TCG_CALL_NO_SIDE_EFFECTS`` means that the call to the function is removed if
--    the return value is not used.
-+  - ``TCG_CALL_NO_SIDE_EFFECTS`` means that the call to the function is
-+    removed if the return value is not used.
- 
-   Note that ``TCG_CALL_NO_READ_GLOBALS`` implies ``TCG_CALL_NO_WRITE_GLOBALS``.
- 
--  On some TCG targets (e.g. x86), several calling conventions are
--  supported.
--
- Branches
- ^^^^^^^^
- 
-@@ -908,20 +928,9 @@ Recommended coding rules for best performance
-   often modified, e.g. the integer registers and the condition
-   codes. TCG will be able to use host registers to store them.
- 
--- Avoid globals stored in fixed registers. They must be used only to
--  store the pointer to the CPU state and possibly to store a pointer
--  to a register window.
--
--- Use temporaries. Use local temporaries only when really needed,
--  e.g. when you need to use a value after a jump. Local temporaries
--  introduce a performance hit in the current TCG implementation: their
--  content is saved to memory at end of each basic block.
--
--- Free temporaries and local temporaries when they are no longer used
--  (tcg_temp_free). Since tcg_const_x() also creates a temporary, you
--  should free it after it is used. Freeing temporaries does not yield
--  a better generated code, but it reduces the memory usage of TCG and
--  the speed of the translation.
-+- Free temporaries when they are no longer used (``tcg_temp_free``).
-+  Since ``tcg_const_x`` also creates a temporary, you should free it
-+  after it is used.
- 
- - Don't hesitate to use helpers for complicated or seldom used guest
-   instructions. There is little performance advantage in using TCG to
-@@ -932,10 +941,6 @@ Recommended coding rules for best performance
-   the instruction is mostly doing loads and stores, and in those cases
-   inline TCG may still be faster for longer sequences.
- 
--- The hard limit on the number of TCG instructions you can generate
--  per guest instruction is set by ``MAX_OP_PER_INSTR`` in ``exec-all.h`` --
--  you cannot exceed this without risking a buffer overrun.
--
- - Use the 'discard' instruction if you know that TCG won't be able to
-   prove that a given global is "dead" at a given program point. The
-   x86 guest uses it to improve the condition codes optimisation.
+ /* Liveness analysis: Convert indirect regs to direct temporaries.  */
+-static bool liveness_pass_2(TCGContext *s)
++static bool __attribute__((noinline))
++liveness_pass_2(TCGContext *s)
+ {
+     int nb_globals = s->nb_globals;
+     int nb_temps, i;
 -- 
 2.34.1
 
