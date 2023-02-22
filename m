@@ -2,94 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989A869ED94
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 04:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 499D469EDAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 04:55:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUg2U-0007cw-PJ; Tue, 21 Feb 2023 22:43:30 -0500
+	id 1pUgCA-0000q5-B9; Tue, 21 Feb 2023 22:53:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pUg2S-0007ch-IL
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 22:43:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUgC8-0000p9-6U
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 22:53:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pUg2Q-0001x4-C2
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 22:43:28 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUgC5-0006nU-OF
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 22:53:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677037405;
+ s=mimecast20190719; t=1677038004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GYy9cshmMNr8BfPaOPWLByKunyms8d6bnFFqfMFZ4B8=;
- b=Sjtztd6ynN8kPSswysQ+QuA3ji68Z/xazB/kMFeu+xb9XsnhCGBLJIyo2XBguA0Yr+FhNt
- CWA+WHarLKn3LkSjaMry+zOK5xUfaKLoV6S4Qg2UyIH0EliAvvW3zDgjVMXDrmAUd4g+rW
- EHkdCVPiZWKHP20sm1Cd6bduK86pezE=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yjUkYCUVqaMmDhb6xO88XGQ8LsJPU2Yg/Fk3P6KsjkA=;
+ b=X+z24Yf2hmAuAlAg75RYitsv091crB+tdS9M/Kbq1+A/oiPVcfRcg49py0FssAc2Rwdw4V
+ RK/PBJxdA0EIg8yzMHLky3P0zjYpBaa1G3FowIa1TPb7wzk4w1bH7w1/d8Zy5sexR9GVju
+ PqpU/2XFqN5/ZqgVYD52qfK4xAC1+EM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-517-UQkG0SOHMnmvCRErMPAKZA-1; Tue, 21 Feb 2023 22:43:23 -0500
-X-MC-Unique: UQkG0SOHMnmvCRErMPAKZA-1
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-1721fdd3383so1976775fac.13
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 19:43:23 -0800 (PST)
+ us-mta-340-TUJSf8hbNo6SCHf7Va1grQ-1; Tue, 21 Feb 2023 22:53:23 -0500
+X-MC-Unique: TUJSf8hbNo6SCHf7Va1grQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ t1-20020a7bc3c1000000b003dfe223de49so3010822wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 19:53:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GYy9cshmMNr8BfPaOPWLByKunyms8d6bnFFqfMFZ4B8=;
- b=4IhA9y6WCtLJ7omXzcfUfJBvYQbTDae/txfIj2BlDWt8nb0fs0hGy1IjVfQy5ZFy8V
- ibcMuvbIdRhngP7WBhGszawTBVpaRj9llxQQS4MmuNA6IYPRxXY6o6UUTkUMr1mXGMg/
- w3AfKhT3UJxNfhfLAkLo2ESZgvyGKbrp2N7wU0GNkJU/LVHK/VOVtb8oH7JpQoCOQQSm
- CNk+VsfrfTYxdYZBE0gHz06LLyeb9H2MjvVkQV3BZlsJg/WQUtNpEDHVHLVvLQVV27sK
- VN7DFfcofuO5RLuHY0m33XZaCTaGwvwnb8RQmcG3r5Tx5RCoNrJAXHnh6OtTjNmbQmJD
- vN3g==
-X-Gm-Message-State: AO0yUKVfN/2d8rFXNB8kJ98bnUbsQ5adzRlc6zz6t36cyhzIe86vbOJF
- pIzE9nEVs7PE4zAAyXQW0QyDkU1MqyyU/KsnafDW6ezwlPBzb9UZ8JymIKJxgKl2H7fmS/+dDNN
- TJdrNuCqMVSqSi9FdpCk1eWzXbVyT2VI=
-X-Received: by 2002:a05:6871:725:b0:16a:2c1a:e416 with SMTP id
- f37-20020a056871072500b0016a2c1ae416mr746353oap.35.1677037403034; 
- Tue, 21 Feb 2023 19:43:23 -0800 (PST)
-X-Google-Smtp-Source: AK7set9C8zghOv+GH1Gih+SpNi9utTa+DTMyMp55TkhEpeMx1+yj83hNjy2Hrvwb83uTeF/muFGuHkUN4v+XCbuXaGc=
-X-Received: by 2002:a05:6871:725:b0:16a:2c1a:e416 with SMTP id
- f37-20020a056871072500b0016a2c1ae416mr746334oap.35.1677037402798; Tue, 21 Feb
- 2023 19:43:22 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yjUkYCUVqaMmDhb6xO88XGQ8LsJPU2Yg/Fk3P6KsjkA=;
+ b=ztX8iTejiaW6TNA6LsGgW4q6NtlTJ0U7Q6I7btQVPpdmHSF7f3iHQo0eDFJur960PU
+ BJlIce0L4p/rb8kdgmbLqtEJyfB4gScY45MiHmb8xwF8CuaIjDgL6wOMUyS66NuJfSIk
+ sNa+Lu2nqUY+WWwM6eELZRM9+GUBO0vBWlE4VXhDM71LASv7NkUTwo3JVZf9alQ6vA9P
+ zmoaaX2LItPh0937co7fwMIKwMz1m55jsteoq2EBK3xWIQjZh/NHLMWm12PQZDjZU/Br
+ ulbaOC1nJybAgeoNYh8ye4uDZLNvDKBEL1ceZ3SsjF+fVAHkBKZH+4HSGyXBOoWuUHeh
+ vyDw==
+X-Gm-Message-State: AO0yUKUNd4W7m3Y6c/EQpJ1NRrqxiAQrOeS5Rkb8RGr+MtTh39FwhvjO
+ zRnC0R2Dcm5h/cnp6gYuimnQjKvkBD/Mbnr9wGnFRWLP4k0dqHx4/pKb6/MXboagIi8aHlSguxk
+ Gj5A+7dleM2t44pg=
+X-Received: by 2002:a05:600c:340a:b0:3e7:5142:cf17 with SMTP id
+ y10-20020a05600c340a00b003e75142cf17mr3654515wmp.18.1677038002476; 
+ Tue, 21 Feb 2023 19:53:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set+ZFD3D2vzzx9GCrFWXl/CzPzTl2SigNlbp6THthXi3FllROIBBVf/jCxIhlKAbAjLrfgALsA==
+X-Received: by 2002:a05:600c:340a:b0:3e7:5142:cf17 with SMTP id
+ y10-20020a05600c340a00b003e75142cf17mr3654504wmp.18.1677038002180; 
+ Tue, 21 Feb 2023 19:53:22 -0800 (PST)
+Received: from [192.168.8.104] (tmo-100-40.customers.d1-online.com.
+ [80.187.100.40]) by smtp.gmail.com with ESMTPSA id
+ p15-20020a1c544f000000b003dc4a47605fsm6492126wmi.8.2023.02.21.19.53.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Feb 2023 19:53:21 -0800 (PST)
+Message-ID: <2352caa0-ae10-1807-d055-6bd7757113e8@redhat.com>
+Date: Wed, 22 Feb 2023 04:53:19 +0100
 MIME-Version: 1.0
-References: <20230208094253.702672-1-eperezma@redhat.com>
- <20230208094253.702672-5-eperezma@redhat.com>
- <f8487b52-964f-641c-4365-e38b44ea2627@redhat.com>
- <CAJaqyWdmApbyUdUCKXV2RvfRbSPQD=G18WVtdKXR3qTD5J5hqw@mail.gmail.com>
-In-Reply-To: <CAJaqyWdmApbyUdUCKXV2RvfRbSPQD=G18WVtdKXR3qTD5J5hqw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 22 Feb 2023 11:43:11 +0800
-Message-ID: <CACGkMEtSDfyYPpbWcOydDr329936nmUyKQdPFbvfxQPZMj6HJQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/13] vdpa: move vhost reset after get vring base
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 2/5] scripts/checkpatch.pl: Do not allow assert(0)
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Eric Blake <eblake@redhat.com>
+References: <20230221232520.14480-1-philmd@linaro.org>
+ <20230221232520.14480-3-philmd@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230221232520.14480-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,140 +102,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 21, 2023 at 3:08 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Tue, Feb 21, 2023 at 6:36 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2023/2/8 17:42, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > The function vhost.c:vhost_dev_stop calls vhost operation
-> > > vhost_dev_start(false). In the case of vdpa it totally reset and wipe=
-s
-> > > the device, making the fetching of the vring base (virtqueue state) t=
-otally
-> > > useless.
-> > >
-> > > The kernel backend does not use vhost_dev_start vhost op callback, bu=
-t
-> > > vhost-user do. A patch to make vhost_user_dev_start more similar to v=
-dpa
-> > > is desirable, but it can be added on top.
-> > >
-> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > ---
-> > >   include/hw/virtio/vhost-backend.h |  4 ++++
-> > >   hw/virtio/vhost-vdpa.c            | 22 ++++++++++++++++------
-> > >   hw/virtio/vhost.c                 |  3 +++
-> > >   3 files changed, 23 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vh=
-ost-backend.h
-> > > index c5ab49051e..ec3fbae58d 100644
-> > > --- a/include/hw/virtio/vhost-backend.h
-> > > +++ b/include/hw/virtio/vhost-backend.h
-> > > @@ -130,6 +130,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost=
-_dev *dev);
-> > >
-> > >   typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-> > >                                          int fd);
-> > > +
-> > > +typedef void (*vhost_reset_status_op)(struct vhost_dev *dev);
-> > > +
-> > >   typedef struct VhostOps {
-> > >       VhostBackendType backend_type;
-> > >       vhost_backend_init vhost_backend_init;
-> > > @@ -177,6 +180,7 @@ typedef struct VhostOps {
-> > >       vhost_get_device_id_op vhost_get_device_id;
-> > >       vhost_force_iommu_op vhost_force_iommu;
-> > >       vhost_set_config_call_op vhost_set_config_call;
-> > > +    vhost_reset_status_op vhost_reset_status;
-> > >   } VhostOps;
-> > >
-> > >   int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
-> > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > > index cbbe92ffe8..26e38a6aab 100644
-> > > --- a/hw/virtio/vhost-vdpa.c
-> > > +++ b/hw/virtio/vhost-vdpa.c
-> > > @@ -1152,14 +1152,23 @@ static int vhost_vdpa_dev_start(struct vhost_=
-dev *dev, bool started)
-> > >       if (started) {
-> > >           memory_listener_register(&v->listener, &address_space_memor=
-y);
-> > >           return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK=
-);
-> > > -    } else {
-> > > -        vhost_vdpa_reset_device(dev);
-> > > -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> > > -                                   VIRTIO_CONFIG_S_DRIVER);
-> > > -        memory_listener_unregister(&v->listener);
-> > > +    }
-> > >
-> > > -        return 0;
-> > > +    return 0;
-> > > +}
-> > > +
-> > > +static void vhost_vdpa_reset_status(struct vhost_dev *dev)
-> > > +{
-> > > +    struct vhost_vdpa *v =3D dev->opaque;
-> > > +
-> > > +    if (dev->vq_index + dev->nvqs !=3D dev->vq_index_end) {
-> > > +        return;
-> > >       }
-> > > +
-> > > +    vhost_vdpa_reset_device(dev);
-> > > +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> > > +                                VIRTIO_CONFIG_S_DRIVER);
-> > > +    memory_listener_unregister(&v->listener);
-> > >   }
-> > >
-> > >   static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t =
-base,
-> > > @@ -1346,4 +1355,5 @@ const VhostOps vdpa_ops =3D {
-> > >           .vhost_vq_get_addr =3D vhost_vdpa_vq_get_addr,
-> > >           .vhost_force_iommu =3D vhost_vdpa_force_iommu,
-> > >           .vhost_set_config_call =3D vhost_vdpa_set_config_call,
-> > > +        .vhost_reset_status =3D vhost_vdpa_reset_status,
-> > >   };
-> > > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> > > index eb8c4c378c..a266396576 100644
-> > > --- a/hw/virtio/vhost.c
-> > > +++ b/hw/virtio/vhost.c
-> > > @@ -2049,6 +2049,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, Vir=
-tIODevice *vdev, bool vrings)
-> > >                                hdev->vqs + i,
-> > >                                hdev->vq_index + i);
-> > >       }
-> > > +    if (hdev->vhost_ops->vhost_reset_status) {
-> > > +        hdev->vhost_ops->vhost_reset_status(hdev);
-> > > +    }
-> >
-> >
-> > This looks racy, if we don't suspend/reset the device, device can move
-> > last_avail_idx even after get_vring_base()?
-> >
-> > Instead of doing things like this, should we fallback to
-> > virtio_queue_restore_last_avail_idx() in this case?
-> >
->
-> Right, we can track if the device is suspended / SVQ and then return
-> an error in vring_get_base if it is not. Would that work?
+On 22/02/2023 00.25, Philippe Mathieu-Daudé wrote:
+> Since commit 262a69f428 ("osdep.h: Prohibit disabling assert()
+> in supported builds") we can not build QEMU with NDEBUG (or
+> G_DISABLE_ASSERT) defined, thus 'assert(0)' always aborts QEMU.
+> 
+> However some static analyzers / compilers doesn't notice NDEBUG
+> can't be defined and emit warnings if code is used after an
+> 'assert(0)' call. See for example commit c0a6665c3c ("target/i386:
+> Remove compilation errors when -Werror=maybe-uninitialized").
 
-When we don't support suspend, yes.
+commit c0a6665c3c only uses g_assert_not_reached(), so that looks like a bad 
+example for your asset(0) case?
 
-Thanks
-
->
-> Thanks!
->
-> > Thanks
-> >
-> >
-> > >
-> > >       if (vhost_dev_has_iommu(hdev)) {
-> > >           if (hdev->vhost_ops->vhost_set_iotlb_callback) {
-> >
->
->
+  Thomas
 
 
