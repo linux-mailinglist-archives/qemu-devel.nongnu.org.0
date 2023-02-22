@@ -2,89 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C48469F7DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:32:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F13069F7E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:33:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUr6V-0004Xz-Ex; Wed, 22 Feb 2023 10:32:23 -0500
+	id 1pUr6r-0004Z5-3I; Wed, 22 Feb 2023 10:32:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUr6R-0004Wd-G2
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:32:19 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUr6d-0004YS-Bf
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:32:32 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUr6O-00070R-Ns
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:32:18 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- l2-20020a05600c1d0200b003e1f6dff952so6655524wms.1
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 07:32:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUr6b-00073L-Nw
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:32:31 -0500
+Received: by mail-wr1-x431.google.com with SMTP id p8so8283257wrt.12
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 07:32:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=SVzFrKCuFSK7eT70pkY+VcYnT3HdH9nLSo3lTsO9lgM=;
- b=hweR71vYtdH908z56CW4tkhIY5ddlEtn0eOT0q9AcpOaCD/K5g8thOD8p1nnCzK1pz
- 9bgYuWa+tf6cTL+VjgMytRs1RM5XcEWBYj4d7EKsYd306p+79ShKL0lZ9DEysfYZ6HQk
- 1NRtLrPwxm8zNAYMedJEBb1yP2H0wOr9KMwI14Cb2+3/ts5HkGwQOvzM2ACXGm/i7GUu
- YsZ9QwIoWA3nHgyeJU7k8uVWxoFw9h6ejbb5+CeBs2g4/4AmQ4gOVEPspNlCZjlArPc4
- An9FufjXOwErja0N3tDVtv5XAwiaTB3A0J90gMxBgKDG88FTZ2f2FgFt2ox/wOS4wmVx
- pMNw==
+ bh=uIbFvWNDHnPaFylbidVLmz6XVkELdfBovcJNelCol2E=;
+ b=PTs+17lauGbM125UBgXuaR7EXxcZhFpv9Kdixnreo33ckupwV/zmQn4gbUFAg0XNtH
+ aBLFAgbOYXA00MHg9TmcdFUs6XevE6vbKispkrPyOfygbAy6yWvs09b8rDkotyER4OGd
+ cJfd/soFA1Q2cgopOHK+8/y9Tgbu7lBkoEdIGJRCzrhvT+PBuL1GRR7GCZL+Wflk/pYu
+ Q0srKSopSPIhPACYY6pYZUSZh51ar4irbDOMACQI8VZfmOAJyZTiQU3RMkkvEwuPkhK2
+ SE7Q5mFjyMzmXzxz69iPcoRT5zJi8vnKBOKYeGvhrJ1C+nQLz82BFnjKgB0/SB42+XpT
+ 2sdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SVzFrKCuFSK7eT70pkY+VcYnT3HdH9nLSo3lTsO9lgM=;
- b=P2AH0zjWwH53CqaipwjWaCDtLF3iWfDKmQImK4t6l0QALqfL6GSQ7AuDson+s36lrk
- XzJU43UZrwS8BrCkiMEIqWDHobmx1+2N7n1mm9Ro25k/C6+4T4CUiPhgDEJhH1sVUkyz
- YADknX3Ga0vcl5qGOYYe88yg3St6V+QXMQE0YlVn/eYCqqeAKiGJ+Gjta82fMcsKR1OU
- H+yW5vuMXLKCEkGX53Fwbh6adj4Mlw+tHlVEhyXXPVfPz+gGgTFuaH2WngKMBI4Ff23k
- Cn7RrAqaqeN55fBKwg70oWC3fxHCsZoHJeCj87y9oojooDIjAQ+7P9gxByTO6ylgu4o8
- +ARQ==
-X-Gm-Message-State: AO0yUKUmTzoYAHcPusJZVPe74oqgCtYmyDYgvWOc9CoRsviE5YzYA7E0
- SfTnDiJ6hrPN38rLIaFlMypJOg==
-X-Google-Smtp-Source: AK7set954uotp1PNFtGH1MlAHvPfpbqbWNJG9eh9Yz8TH9O274OfW2b8bfsH5eTdBBXg9P+iFgHG+A==
-X-Received: by 2002:a05:600c:a695:b0:3e2:2f9:b8e2 with SMTP id
- ip21-20020a05600ca69500b003e202f9b8e2mr7047560wmb.35.1677079934198; 
- Wed, 22 Feb 2023 07:32:14 -0800 (PST)
+ bh=uIbFvWNDHnPaFylbidVLmz6XVkELdfBovcJNelCol2E=;
+ b=Yi63UpgV11+YB52StZzjnDfBP0Jk0I1ZGkNV4ZO12LjiJywYSlF33PVgNpbNDWiRNt
+ +oD7wJUpYJeUudBsll2+Ti2Qn97HoVaBelpKKjb6qTwx7tg4qOZYRARDVIHND+ctplTP
+ 1N84rqpGwgeddGcJBibHoyCgfCA1M/97NehI6Mm1kTV6ri8qLGgBqLnbYCT7f8wKf1e2
+ jmXU9+cIsFbn176tcCKdinsyEZruSVgDXY6Sg90wxTpljac73dOmSRq0+LUOJ1ZFJ043
+ VkBGkOa+1Lh/Ig+/0cdmAQlIpbUUFT8SDvcJbFhykVo4EfSUHUidZV0ae3zOQ5W0WcZv
+ /MEA==
+X-Gm-Message-State: AO0yUKWFQIH741tNal+8uNkjcOjoi1q6MWox/laXdwAX/KBBejkIkcht
+ 83Gr4tLIZAlI4kdMBHge4Iz4wQ==
+X-Google-Smtp-Source: AK7set9xry5pKwEERDtiDpmYh408Zdqn7AMHMW8pdDdaumUH6tXMrZl5S9wvxJBU1793FlqRJM71qQ==
+X-Received: by 2002:a5d:4dce:0:b0:2c4:503:7afc with SMTP id
+ f14-20020a5d4dce000000b002c405037afcmr8454637wru.7.1677079946521; 
+ Wed, 22 Feb 2023 07:32:26 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- e16-20020adfe390000000b002c54c8e70b1sm7841061wrm.9.2023.02.22.07.32.12
+ g4-20020a056000118400b002c5544b3a69sm4489460wrx.89.2023.02.22.07.32.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 07:32:13 -0800 (PST)
-Message-ID: <c2fb77b0-0734-3be5-1b54-7c797b3daa15@linaro.org>
-Date: Wed, 22 Feb 2023 16:32:12 +0100
+ Wed, 22 Feb 2023 07:32:26 -0800 (PST)
+Message-ID: <9d198d55-d28c-e710-edfe-ff67dd88a461@linaro.org>
+Date: Wed, 22 Feb 2023 16:32:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v5 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support.
+Subject: Re: [PATCH 11/12] cirrus.yml: Improve the windows_msys2_task
 Content-Language: en-US
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>,
- Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang
- <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>
-References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
- <20230221152145.9736-9-Jonathan.Cameron@huawei.com>
- <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
- <20230222145330.000021ef@huawei.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm@nongnu.org, John Snow <jsnow@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Yonggang Luo <luoyonggang@gmail.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Ed Maste <emaste@freebsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230215192530.299263-1-alex.bennee@linaro.org>
+ <20230215192530.299263-12-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230222145330.000021ef@huawei.com>
+In-Reply-To: <20230215192530.299263-12-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,129 +106,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/2/23 15:53, Jonathan Cameron wrote:
-> On Tue, 21 Feb 2023 23:15:49 +0100
-> Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+On 15/2/23 20:25, Alex Bennée wrote:
+> From: Thomas Huth <thuth@redhat.com>
 > 
->> Hi Jonathan,
->>
->> On 21/2/23 16:21, Jonathan Cameron wrote:
->>> CXL uses PCI AER Internal errors to signal to the host that an error has
->>> occurred. The host can then read more detailed status from the CXL RAS
->>> capability.
->>>
->>> For uncorrectable errors: support multiple injection in one operation
->>> as this is needed to reliably test multiple header logging support in an
->>> OS. The equivalent feature doesn't exist for correctable errors, so only
->>> one error need be injected at a time.
->>>
->>> Note:
->>>    - Header content needs to be manually specified in a fashion that
->>>      matches the specification for what can be in the header for each
->>>      error type.
->>>
->>> Injection via QMP:
->>> { "execute": "qmp_capabilities" }
->>> ...
->>> { "execute": "cxl-inject-uncorrectable-errors",
->>>     "arguments": {
->>>       "path": "/machine/peripheral/cxl-pmem0",
->>>       "errors": [
->>>           {
->>>               "type": "cache-address-parity",
->>>               "header": [ 3, 4]
->>>           },
->>>           {
->>>               "type": "cache-data-parity",
->>>               "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
->>>           },
->>>           {
->>>               "type": "internal",
->>>               "header": [ 1, 2, 4]
->>>           }
->>>           ]
->>>     }}
->>> ...
->>> { "execute": "cxl-inject-correctable-error",
->>>       "arguments": {
->>>           "path": "/machine/peripheral/cxl-pmem0",
->>>           "type": "physical"
->>>       } }
->>>
->>> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> There's no need to run a full-blown bash just to create a directory.
+> And we can skip the "cd build" each time by doing it once at the
+> beginning.
 > 
-> Hi Philippe,
+> Additionally, let's exclude some targets (that we already compile-test
+> with MinGW in the gitlab jobs) from the build, since the build time of
+> this task is very long already (between 80 and 90 minutes).
 > 
-> Thanks for your review.  One question inline.
-> 
->>> +#
->>> +# Type of uncorrectable CXL error to inject. These errors are reported via
->>> +# an AER uncorrectable internal error with additional information logged at
->>> +# the CXL device.
->>> +#
->>> +# @cache-data-parity: Data error such as data parity or data ECC error CXL.cache
->>> +# @cache-address-parity: Address parity or other errors associated with the
->>> +#                        address field on CXL.cache
->>> +# @cache-be-parity: Byte enable parity or other byte enable errors on CXL.cache
->>> +# @cache-data-ecc: ECC error on CXL.cache
->>> +# @mem-data-parity: Data error such as data parity or data ECC error on CXL.mem
->>> +# @mem-address-parity: Address parity or other errors associated with the
->>> +#                      address field on CXL.mem
->>> +# @mem-be-parity: Byte enable parity or other byte enable errors on CXL.mem.
->>> +# @mem-data-ecc: Data ECC error on CXL.mem.
->>> +# @reinit-threshold: REINIT threshold hit.
->>> +# @rsvd-encoding: Received unrecognized encoding.
->>> +# @poison-received: Received poison from the peer.
->>> +# @receiver-overflow: Buffer overflows (first 3 bits of header log indicate which)
->>> +# @internal: Component specific error
->>> +# @cxl-ide-tx: Integrity and data encryption tx error.
->>> +# @cxl-ide-rx: Integrity and data encryption rx error.
->>> +##
->>> +
->>> +{ 'enum': 'CxlUncorErrorType',
->>
->> Doesn't these need
->>
->>        'if': 'CONFIG_CXL_MEM_DEVICE',
->>
->> ?
-> 
-> If I make this change I get a bunch of
-> 
-> ./qapi/qapi-types-cxl.h:18:13: error: attempt to use poisoned "CONFIG_CXL_MEM_DEVICE"
->     18 | #if defined(CONFIG_CXL_MEM_DEVICE)
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Message-Id: <20230208103046.618154-1-thuth@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   .cirrus.yml | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
 
-Err, I meant the generic CONFIG_CXL, not CONFIG_CXL_MEM_DEVICE.
-
-> It's a target specific define (I think) as built alongside PCI_EXPRESS
-> Only CXL_ACPI is specifically included by x86 and arm64 (out of tree)
-> 
-> To be honest though I don't fully understand the QEMU build system so the reason
-> for the error might be wrong.
-
-You need to restrict to system emulation (the 'have_system' check):
-
--- >8 --
-diff --git a/qapi/meson.build b/qapi/meson.build
-index fbdb442fdf..643c76d61c 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -31,6 +31,7 @@ qapi_all_modules = [
-    'compat',
-    'control',
-    'crypto',
--  'cxl',
-    'dump',
-    'error',
-    'introspect',
-@@ -58,6 +59,7 @@ if have_system
-      'audio',
-      'qdev',
-      'pci',
-+    'cxl',
-      'rdma',
-      'rocker',
-      'tpm',
----
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
