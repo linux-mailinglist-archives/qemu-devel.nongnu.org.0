@@ -2,100 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FF469FE2F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 23:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0E069FE59
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 23:15:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUxK5-00073E-NT; Wed, 22 Feb 2023 17:10:49 -0500
+	id 1pUxNw-0000Y6-IC; Wed, 22 Feb 2023 17:14:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pUxK3-00072v-MW
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 17:10:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pUxK1-000277-H2
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 17:10:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677103844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0FSYaG7i1Jt2zKo92wobN738s5Crq+tGrewgUJBfQsI=;
- b=e6mWcjll5SyFjL3sQSylioqw8z1TalaNJTsF+rb+niM6E9thkbwXyAHh1fvVLPwlxoy0Ga
- HMTsDlxsQ9ffj1hmv/dzDFEHrBaHYxjImIqOKHtRyicfcuEsWAcrH8pCWacc4MnFdPL2sq
- J5wXFDj7LxbqAWyuGGiExJtoZgdKwPs=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-578-xq6yXixuMG-p-7mHjLc6Dg-1; Wed, 22 Feb 2023 17:10:42 -0500
-X-MC-Unique: xq6yXixuMG-p-7mHjLc6Dg-1
-Received: by mail-io1-f70.google.com with SMTP id
- 22-20020a05660220d600b0074c8b57746cso3190747ioz.9
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 14:10:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUxNv-0000XW-2f
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 17:14:47 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUxNr-0003E5-RT
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 17:14:46 -0500
+Received: by mail-pl1-x634.google.com with SMTP id c1so10848670plg.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 14:14:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ixxLxJ0Xfd0Bhj6NjchLM61v85VOUc/tIPHDgotylVQ=;
+ b=uuunxppQfNOcVaoG6QwxB+r7ZWZZw7AG3QIcS0wOJ+6IJkEjTqIBQHBtx4cFSJMVHI
+ 4luD4FRXLSd+zrZMdyxcKY5rKlHLJPZhdAApY+T+bmPtYvF1iYIzcJcAl5w85Xo4y6pk
+ 5GZat8ZG3BTI0z0nj2cmmdLR6FsHoK4LMMCJUjkle41JxMrYwP/QnvpspwGghvpFoWJt
+ pqWpfRL9ag0fImWdk5xbbVOctRVWbwXlpOLaKGWJZBxu31MoKjStWeWk6o/IiuVoA2gS
+ JV6yhPLc2lKWT+U/m/pcdjUbaufKKWGIxYRsj3KdoGcij86jXgO3iD0jI6aO/ThlY05O
+ tnnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0FSYaG7i1Jt2zKo92wobN738s5Crq+tGrewgUJBfQsI=;
- b=4YgBzzaFOmJOz+G8lgtWOg1BL9g+4K374ROQfHg1CbC0VRZ/0B0DlaJGZ1zZ5Q0gix
- yqPZO4ePSsVyaffjTKT38zygLCg8SHTYSRV9T7mJJsUDaSBl6Wv+tbYbW/T7pRXQcuVm
- olXFybsKzwmcc3jBaIK5Lz4TdeKCnx8uZhOhOZFCYdY1/kMyhDG2pF4ymf33TKfot7TT
- cbdjrZSg36fmCW+kFNT2tCfUVaoHLAT46ecNB+62h9XNmKclIgUM05Ym7Z0rcdwLa7O1
- M1l3lZd9OkR6NEBtVCPQjCUx22kc55djq3K8m07mQ6cWUuNVcekHtUrvngxPQz4lc9n6
- me3A==
-X-Gm-Message-State: AO0yUKWJZus02eSZdYN5JIGFRuHycB1zV5iloSQ6Hw/GC/Dv8Hgbsl1l
- 06hm3vs/5+bTaNkwe5NGJ0MHnuZ+sWgscTTOKBuYS7/p8/PNi7nnHxeXiv3gzO89fUhLNEjAVxf
- PhnM8UfMdUOakUf4=
-X-Received: by 2002:a05:6e02:12c3:b0:316:f99d:9ea2 with SMTP id
- i3-20020a056e0212c300b00316f99d9ea2mr1080197ilm.17.1677103842066; 
- Wed, 22 Feb 2023 14:10:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set+RJA4VdhSMcMF7zRjNxgmzHmRSBkR5xiBfgrqoLm5IgfGIfJDu1gxhuMbwjITwhC6lepx85Q==
-X-Received: by 2002:a05:6e02:12c3:b0:316:f99d:9ea2 with SMTP id
- i3-20020a056e0212c300b00316f99d9ea2mr1080178ilm.17.1677103841758; 
- Wed, 22 Feb 2023 14:10:41 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- r8-20020a028808000000b00363d6918540sm1385804jai.171.2023.02.22.14.10.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 14:10:41 -0800 (PST)
-Date: Wed, 22 Feb 2023 15:10:39 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater
- <clg@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Jason Wang" <jasowang@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "David Hildenbrand"
- <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
- <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v2 10/20] vfio/common: Record DMA mapped IOVA ranges
-Message-ID: <20230222151039.1de95db4.alex.williamson@redhat.com>
-In-Reply-To: <20230222174915.5647-11-avihaih@nvidia.com>
-References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-11-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ixxLxJ0Xfd0Bhj6NjchLM61v85VOUc/tIPHDgotylVQ=;
+ b=TTF9AWq+mpxlIcRmYnqbRTuZzD6c3r53hn4MlALYTknMIo65fasbeR4T80X9JS4xjP
+ 47br9WZLFfmKabq1bosLDXa9K876ncPpbAciE09Rmv7djF7NeSAa3Aj3fvGZel1i+fIq
+ Qz1MBvmHgEYEoy8DJldV3AaBWpGbS0JEum1LYNyjVF+VI0zmzQH4fRyLo8SyImV//Qwy
+ FdeW3WFz3pJ1+z3PQwSNmG/QF25d/IYLipsMrWTiG7FVnB36ly1OIIR6C2tweQnnlhaU
+ elkMAq8FdosNIQAQNNG4TY2upydVXXyYB4CI6GJxe0Ji2q6QbNlV1l8ZG/V27scECyVX
+ SLIg==
+X-Gm-Message-State: AO0yUKUtlBrnIujwuIKL7U7VFm2R6Ax3Wwtf4GI0Efsw6+JW/0G72/RU
+ XOtH6k3RngtJHnlZPUwrj6QMpw==
+X-Google-Smtp-Source: AK7set9tjLrhoACxG9nzOceNq7Wjoq9NGt/1bLOwGjJRSgfc4zU1wn+Rvz1SmlRB0zjBKM7Nv/KJKg==
+X-Received: by 2002:a17:902:ce8e:b0:19a:de35:aeaf with SMTP id
+ f14-20020a170902ce8e00b0019ade35aeafmr12373843plg.40.1677104082039; 
+ Wed, 22 Feb 2023 14:14:42 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ b2-20020a170902ed0200b0019c919bccf8sm3944866pld.86.2023.02.22.14.14.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 14:14:41 -0800 (PST)
+Message-ID: <c79aa318-0fa9-e93e-56dc-c084de47f645@linaro.org>
+Date: Wed, 22 Feb 2023 12:14:38 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 7/7] target/arm: Add CPU properties for most v8.3 PAC
+ features
+Content-Language: en-US
+To: Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Vincent Dehors <vincent.dehors@smile.fr>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230222193544.3392713-1-aaron@os.amperecomputing.com>
+ <20230222193544.3392713-8-aaron@os.amperecomputing.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230222193544.3392713-8-aaron@os.amperecomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,158 +96,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 19:49:05 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
-
-> From: Joao Martins <joao.m.martins@oracle.com>
-> 
-> According to the device DMA logging uAPI, IOVA ranges to be logged by
-> the device must be provided all at once upon DMA logging start.
-> 
-> As preparation for the following patches which will add device dirty
-> page tracking, keep a record of all DMA mapped IOVA ranges so later they
-> can be used for DMA logging start.
-> 
-> Note that when vIOMMU is enabled DMA mapped IOVA ranges are not tracked.
-> This is due to the dynamic nature of vIOMMU DMA mapping/unmapping.
-> Following patches will address the vIOMMU case specifically.
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+On 2/22/23 09:35, Aaron Lindsay wrote:
+> Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
 > ---
->  include/hw/vfio/vfio-common.h |  3 ++
->  hw/vfio/common.c              | 86 +++++++++++++++++++++++++++++++++--
->  2 files changed, 86 insertions(+), 3 deletions(-)
+>   target/arm/cpu.h   |  5 +++
+>   target/arm/cpu64.c | 81 ++++++++++++++++++++++++++++++++++++++--------
+>   2 files changed, 72 insertions(+), 14 deletions(-)
 > 
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index ee55d442b4..6f36876ce0 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -23,6 +23,7 @@
->  
->  #include "exec/memory.h"
->  #include "qemu/queue.h"
-> +#include "qemu/iova-tree.h"
->  #include "qemu/notify.h"
->  #include "ui/console.h"
->  #include "hw/display/ramfb.h"
-> @@ -92,6 +93,8 @@ typedef struct VFIOContainer {
->      uint64_t max_dirty_bitmap_size;
->      unsigned long pgsizes;
->      unsigned int dma_max_mappings;
-> +    IOVATree *mappings;
-> +    QemuMutex mappings_mutex;
->      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
->      QLIST_HEAD(, VFIOGroup) group_list;
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 84f08bdbbb..6041da6c7e 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -44,6 +44,7 @@
->  #include "migration/blocker.h"
->  #include "migration/qemu-file.h"
->  #include "sysemu/tpm.h"
-> +#include "qemu/iova-tree.h"
->  
->  VFIOGroupList vfio_group_list =
->      QLIST_HEAD_INITIALIZER(vfio_group_list);
-> @@ -426,6 +427,11 @@ void vfio_unblock_multiple_devices_migration(void)
->      multiple_devices_migration_blocker = NULL;
->  }
->  
-> +static bool vfio_have_giommu(VFIOContainer *container)
-> +{
-> +    return !QLIST_EMPTY(&container->giommu_list);
-> +}
-> +
->  static void vfio_set_migration_error(int err)
->  {
->      MigrationState *ms = migrate_get_current();
-> @@ -499,6 +505,51 @@ static bool vfio_devices_all_running_and_mig_active(VFIOContainer *container)
->      return true;
->  }
->  
-> +static int vfio_record_mapping(VFIOContainer *container, hwaddr iova,
-> +                               hwaddr size, bool readonly)
-> +{
-> +    DMAMap map = {
-> +        .iova = iova,
-> +        .size = size - 1, /* IOVATree is inclusive, so subtract 1 from size */
-> +        .perm = readonly ? IOMMU_RO : IOMMU_RW,
-> +    };
-> +    int ret;
-> +
-> +    if (vfio_have_giommu(container)) {
-> +        return 0;
-> +    }
-> +
-> +    WITH_QEMU_LOCK_GUARD(&container->mappings_mutex) {
-> +        ret = iova_tree_insert(container->mappings, &map);
-> +        if (ret) {
-> +            if (ret == IOVA_ERR_INVALID) {
-> +                ret = -EINVAL;
-> +            } else if (ret == IOVA_ERR_OVERLAP) {
-> +                ret = -EEXIST;
-> +            }
-> +        }
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +static void vfio_erase_mapping(VFIOContainer *container, hwaddr iova,
-> +                                hwaddr size)
-> +{
-> +    DMAMap map = {
-> +        .iova = iova,
-> +        .size = size - 1, /* IOVATree is inclusive, so subtract 1 from size */
-> +    };
-> +
-> +    if (vfio_have_giommu(container)) {
-> +        return;
-> +    }
-> +
-> +    WITH_QEMU_LOCK_GUARD(&container->mappings_mutex) {
-> +        iova_tree_remove(container->mappings, map);
-> +    }
-> +}
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 9c3cbc9a29..40b4631f11 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -1039,6 +1039,11 @@ struct ArchCPU {
+>        */
+>       bool prop_pauth;
+>       bool prop_pauth_impdef;
+> +    bool prop_pauth_qarma3;
+> +    bool prop_pauth_epac;
+> +    bool prop_pauth2; // also known as EnhancedPAC2/EPAC2
 
-Nit, 'insert' and 'remove' to match the IOVATree semantics?
+No c++ comments.
 
->  static int vfio_dma_unmap_bitmap(VFIOContainer *container,
->                                   hwaddr iova, ram_addr_t size,
->                                   IOMMUTLBEntry *iotlb)
-> @@ -599,6 +650,8 @@ static int vfio_dma_unmap(VFIOContainer *container,
->                                              DIRTY_CLIENTS_NOCODE);
->      }
->  
-> +    vfio_erase_mapping(container, iova, size);
-> +
->      return 0;
->  }
->  
-> @@ -612,6 +665,16 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
->          .iova = iova,
->          .size = size,
->      };
-> +    int ret;
-> +
-> +    ret = vfio_record_mapping(container, iova, size, readonly);
-> +    if (ret) {
-> +        error_report("vfio: Failed to record mapping, iova: 0x%" HWADDR_PRIx
-> +                     ", size: 0x" RAM_ADDR_FMT ", ret: %d (%s)",
-> +                     iova, size, ret, strerror(-ret));
-> +
-> +        return ret;
-> +    }
+> +    if (cpu->prop_pauth_epac &&
+> +            (cpu->prop_pauth2 ||
+> +             cpu->prop_pauth_fpac ||
+> +             cpu->prop_pauth_fpac_combine)) {
 
-Is there no way to replay the mappings when a migration is started?
-This seems like a horrible latency and bloat trade-off for the
-possibility that the VM might migrate and the device might support
-these features.  Our performance with vIOMMU is already terrible, I
-can't help but believe this makes it worse.  Thanks,
+Indentation.
 
-Alex
+> +        if (address_auth == 0)
+> +            address_auth = 0b0001;
 
+Missing braces.
+
+> +static Property arm_cpu_pauth2_property =
+> +    DEFINE_PROP_BOOL("pauth2", ARMCPU, prop_pauth2, false);
+> +static Property arm_cpu_pauth_fpac_property =
+> +    DEFINE_PROP_BOOL("pauth-fpac", ARMCPU, prop_pauth_fpac, false);
+> +static Property arm_cpu_pauth_fpac_combine_property =
+> +    DEFINE_PROP_BOOL("pauth-fpac-combine", ARMCPU, prop_pauth_fpac_combine, false);
+
+For -cpu max, I would expect these to default on.
+Or perhaps not expose these or epac as properties at all.
+
+> @@ -646,6 +694,11 @@ static void aarch64_add_pauth_properties(Object *obj)
+>           cpu->prop_pauth = cpu_isar_feature(aa64_pauth, cpu);
+>       } else {
+>           qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
+> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_qarma3_property);
+> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_epac_property);
+> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth2_property);
+> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_fpac_property);
+> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_fpac_combine_property);
+
+I think the *only* property that makes sense for KVM is pauth=on/off, which controls if 
+KVM exposes the key registers at all (and if off, APA/GPA/etc all get zeroed). There is 
+certainly no way to adjust the algorithm exposed by the hardware.
+
+The primary reason we have a property for pauth at all is speed of emulation.  When we 
+first enabled qarma5, we saw a major slowdown, with pauth_computepac consuming nearly 50% 
+of the entire runtime.  Later we added impdef, as a way of doing *some* testing of pauth 
+without the extreme overhead of qarma5.
+
+I see that qarma3 does about half the work of qarma5, so it would be interesting to 
+measure the relative speed of the 3 implementations on a boot of kernel + selftests.
+
+You may want to look a the code generated and play with flatten and noinline attributes 
+around pauth_computepac and subroutines.  E.g.
+
+static uint64_t __attribute__((flatten, noinline))
+pauth_computepac_qarma5(uint64_t data, uint64_t modifier, ARMPACKey key)
+{
+     return pauth_computepac_architected(data, modifier, key, false);
+}
+
+static uint64_t __attribute__((flatten, noinline))
+pauth_computepac_qarma3(uint64_t data, uint64_t modifier, ARMPACKey key)
+{
+     return pauth_computepac_architected(data, modifier, key, true);
+}
+
+static uint64_t __attribute__((flatten, noinline))
+pauth_computepac_impdef(uint64_t data, uint64_t modifier, ARMPACKey key)
+{
+     return qemu_xxhash64_4(data, modifier, key.lo, key.hi);
+}
+
+static uint64_t pauth_computepac(CPUARMState *env, uint64_t data,
+                                  uint64_t modifier, ARMPACKey key)
+{
+     if (cpu_isar_feature(aa64_pauth_arch_qarma5, env_archcpu(env))) {
+         return pauth_computepac_qarma5(data, modifier, key);
+     } else if (cpu_isar_feature(aa64_pauth_arch_qarma3, env_archcpu(env))) {
+         return pauth_computepac_qarma3(data, modifier, key);
+     } else {
+         return pauth_computepac_impdef(data, modifier, key);
+     }
+}
+
+
+r~
 
