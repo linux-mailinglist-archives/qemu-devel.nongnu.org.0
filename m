@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D19169F304
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:52:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E02669F300
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:51:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUmhn-0006SV-Rn; Wed, 22 Feb 2023 05:50:35 -0500
+	id 1pUmho-0006TC-EA; Wed, 22 Feb 2023 05:50:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pUmhh-0006Lm-OW
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:29 -0500
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
+ id 1pUmhk-0006NK-0O
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:32 -0500
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pUmhg-0000im-4w
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:29 -0500
-Received: by mail-lj1-x22b.google.com with SMTP id h9so7221264ljq.2
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:50:27 -0800 (PST)
+ id 1pUmhi-0000jU-7e
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:31 -0500
+Received: by mail-lf1-x12d.google.com with SMTP id m6so9529264lfq.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IUSCbDCt4cJYv612KeAqyuv8q6v6Z3tEzSlReBytZnk=;
- b=Tqy5JbLQ5ngMbFk2LCUxwVuIjlyI61/KrbRYOXIwZkAqvojfW/+wVcImzzyy66QyqZ
- JrAz3JemsXX4634zWQ+bPwxykWRzGiQdflVAxsXlVE9FaQPYoEzNy+mxjeg7Rerv401x
- CoHJuJRbNX9MDIemxmLXPZum6mi1/XEzm4gPfIVbztmhI+Nd0uT6cZTS8HoBnNxemPGD
- u0u7uDmSgwVm7pX4VxGKxqNZ30y6IvYl/6vMlxHEfSWPucNeDHyeRCpFp1OrvWri8SaR
- EVJqzHQPjh3zpom93T1Stp2JXX+GTrfJIlaFxT626uKKBbukCUmVUiuL8M4jN/FxYjtu
- /C6g==
+ bh=tMeeGk3vTuDHHiY/4UnGWE21JWe1SWpO2OKTZfDTziY=;
+ b=AbZ9Gldco0P3g5j0CkRMpsr7xlZ/KU13i2AmNw21jqq3b1tvJd7v/xh3FYkoI4IR8F
+ qlu2cG2DTSuKmUb26riGjm4noLQgKpHzt6MWLYDm8d8Nejgp3kFOWYqvvkycQJ+MLumX
+ 7wL5Pn9iS73qXcXzVba+Hfhz6/eTxC4bHNPmU8TeJXjHc7yhODWbP/78Pf9kJTKlfUFi
+ j4rabrTNk2uactf1tWdNPXO6uReMrwZ++YFg3SlAOJRdfhSbfafZRak6IUVjy122gnft
+ 7D3iYT0bZGTGoq9F2U18lf3FBNpee8I0FazndkLC0kR4dFfa5IO2SLAMPw8zKW7UgLmi
+ z2DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IUSCbDCt4cJYv612KeAqyuv8q6v6Z3tEzSlReBytZnk=;
- b=4H0rgkGZ0Zt14RwZCl77tqxk4qGDU8733+AZEqDV7cfiLil02lTyXTg2rYH/BVriog
- nf4od2X6NYOQgcLhi0yLBM4c1pl+unvQWCI4qPxGwg4JorEyEy46ExNJuVBtqHy8yIET
- +vRfgDB33hNYCJhK7MY9tZso/FeCtCBli3PX6LRs3dwkKQybyDruacf8XxUBZdPMgFWx
- OicIyCk7kyYH+KmY3FzIyfrAyBHbWfKCotDPPNJfIbbZs8B413n8TxaWVWnnCIEAYnOp
- H7HDpVfEjklkejckt9QXItgIq0PrIiG6ZAaR9Nhjfw11wiCJgL7OBMWoKwgVAr2i3wQZ
- lhkA==
-X-Gm-Message-State: AO0yUKWR/1sYKpcSB7NDQ5x0Hv3UYp1SlJqifFKc7icf6F+66R/VNEfh
- Ns2tXMO9fuDxyLDc8kPT++/x5zK2C3TTXCc3STk=
-X-Google-Smtp-Source: AK7set9Ef6AfXpyVPSBCfLk+7xfrEj9oMQxXYjJhDYdoPMrjAhpIZtDYpWXp1+CU4FNXrslJzuZR5EgngU99+CvECys=
-X-Received: by 2002:a05:651c:2005:b0:294:6de5:e638 with SMTP id
- s5-20020a05651c200500b002946de5e638mr2572664ljo.4.1677063025845; Wed, 22 Feb
- 2023 02:50:25 -0800 (PST)
+ bh=tMeeGk3vTuDHHiY/4UnGWE21JWe1SWpO2OKTZfDTziY=;
+ b=03Elnl/EN0dqfFU9hmwdb7r/0PR2vRLW6G50ryCdeCVkvNNMKrtEZm72pW8d9HbC8l
+ jt1rfrb+MQd/eeZdO/rbX77Tli4mhCLJ7mARr3nDAbWslXVL5SUG1Wwch38tybQvOn+J
+ I7gBweZwKXtKNLQw66VZc8ix0gH6ob+AE97kpWltizNPlmsF+BpgErO1FYnbHZ/m+IGa
+ jVXxZNJB8b/BloPhiOEXbTCWo8HTOq/mTewKUABWBS2y00VtFc6z9Om7NrT++WbQXmw7
+ HzwyDr1FOjOxbNhmVw85o2qZR4yqWG/kSaJQRA1phZQQ/J3IlOAMElUGJc6jFTPDB1E6
+ OgmA==
+X-Gm-Message-State: AO0yUKUezm0Jc1Vbetgb+bpUF1tn1EtgAPxDskgcKL6wocr3QXuD2nCW
+ PXf7Cg5ozYaP3KVzqPoxf0IfN5iTHjgGh39/OH8=
+X-Google-Smtp-Source: AK7set+wkpWEma5DRjXjrMHt5URdZHDW4glZ2x3GQO+EBklk+llTHWeQH7DgMgUwwWP+zPgg/TbyG0Uq0k0fq8g/l6c=
+X-Received: by 2002:ac2:560e:0:b0:4db:1999:67a4 with SMTP id
+ v14-20020ac2560e000000b004db199967a4mr2589637lfd.5.1677063028593; Wed, 22 Feb
+ 2023 02:50:28 -0800 (PST)
 MIME-Version: 1.0
 References: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
- <20230206185237.8358-12-vr_qemu@t-online.de>
-In-Reply-To: <20230206185237.8358-12-vr_qemu@t-online.de>
+ <20230206185237.8358-14-vr_qemu@t-online.de>
+In-Reply-To: <20230206185237.8358-14-vr_qemu@t-online.de>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 22 Feb 2023 14:50:13 +0400
-Message-ID: <CAJ+F1C+4EXBWxwAYdVhmuvgA6Q2fXwbg4GMyGQ5sueXdCoV5uQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/17] audio: rename variables in audio_pcm_sw_read()
+Date: Wed, 22 Feb 2023 14:50:16 +0400
+Message-ID: <CAJ+F1CKRP3JaNxiCnXVs0BbyAcayyENg_9z+rbhOfzb8hJaobA@mail.gmail.com>
+Subject: Re: [PATCH v2 14/17] audio: wire up st_rate_frames_out()
 To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
 Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,75 +87,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi
+
 On Mon, Feb 6, 2023 at 10:53 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> w=
 rote:
 >
-> The audio_pcm_sw_read() function uses a few very unspecific
-> variable names. Rename them for better readability.
->
-> ret =3D> total_out
-> total =3D> total_in
-> size =3D> buf_len
-> samples =3D> frames_out_max
+> Wire up the st_rate_frames_out() function and replace
+> audio_frontend_frames_in() to make audio packet length
+> calculation exact.
 >
 > Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+Same comments as st_rate_frames_in patches.
 
 
 > ---
->  audio/audio.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+>  audio/audio.c | 29 ++++++++---------------------
+>  1 file changed, 8 insertions(+), 21 deletions(-)
 >
 > diff --git a/audio/audio.c b/audio/audio.c
-> index 9e9c03a42e..22c36d6660 100644
+> index 22c36d6660..dad17e59b8 100644
 > --- a/audio/audio.c
 > +++ b/audio/audio.c
-> @@ -576,10 +576,10 @@ static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
->      }
->  }
->
-> -static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-> +static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t buf_len=
+> @@ -579,7 +579,7 @@ static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
+>  static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t buf_len=
 )
 >  {
 >      HWVoiceIn *hw =3D sw->hw;
-> -    size_t samples, live, ret, swlim, total;
-> +    size_t live, frames_out_max, swlim, total_in, total_out;
+> -    size_t live, frames_out_max, swlim, total_in, total_out;
+> +    size_t live, frames_out_max, total_in, total_out;
 >
 >      live =3D hw->total_samples_captured - sw->total_hw_samples_acquired;
 >      if (!live) {
-> @@ -590,20 +590,20 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void=
- *buf, size_t size)
+> @@ -590,12 +590,10 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void=
+ *buf, size_t buf_len)
 >          return 0;
 >      }
 >
-> -    samples =3D size / sw->info.bytes_per_frame;
-> +    frames_out_max =3D buf_len / sw->info.bytes_per_frame;
+> -    frames_out_max =3D buf_len / sw->info.bytes_per_frame;
+> +    frames_out_max =3D MIN(buf_len / sw->info.bytes_per_frame,
+> +                         sw->resample_buf.size);
 >
->      swlim =3D (live * sw->ratio) >> 32;
-> -    swlim =3D MIN (swlim, samples);
-> +    swlim =3D MIN(swlim, frames_out_max);
->
-> -    audio_pcm_sw_resample_in(sw, live, swlim, &total, &ret);
-> +    audio_pcm_sw_resample_in(sw, live, swlim, &total_in, &total_out);
+> -    swlim =3D (live * sw->ratio) >> 32;
+> -    swlim =3D MIN(swlim, frames_out_max);
+> -
+> -    audio_pcm_sw_resample_in(sw, live, swlim, &total_in, &total_out);
+> +    audio_pcm_sw_resample_in(sw, live, frames_out_max, &total_in, &total=
+_out);
 >
 >      if (!hw->pcm_ops->volume_in) {
-> -        mixeng_volume(sw->resample_buf.buffer, ret, &sw->vol);
-> +        mixeng_volume(sw->resample_buf.buffer, total_out, &sw->vol);
+>          mixeng_volume(sw->resample_buf.buffer, total_out, &sw->vol);
+> @@ -979,18 +977,6 @@ void AUD_set_active_in (SWVoiceIn *sw, int on)
 >      }
-> +    sw->clip(buf, sw->resample_buf.buffer, total_out);
->
-> -    sw->clip(buf, sw->resample_buf.buffer, ret);
-> -    sw->total_hw_samples_acquired +=3D total;
-> -    return ret * sw->info.bytes_per_frame;
-> +    sw->total_hw_samples_acquired +=3D total_in;
-> +    return total_out * sw->info.bytes_per_frame;
 >  }
 >
->  /*
+> -/**
+> - * audio_frontend_frames_in() - returns the number of frames the resampl=
+ing
+> - * code generates from frames_in frames
+> - *
+> - * @sw: audio recording frontend
+> - * @frames_in: number of frames
+> - */
+> -static size_t audio_frontend_frames_in(SWVoiceIn *sw, size_t frames_in)
+> -{
+> -    return (int64_t)frames_in * sw->ratio >> 32;
+> -}
+> -
+>  static size_t audio_get_avail (SWVoiceIn *sw)
+>  {
+>      size_t live;
+> @@ -1007,9 +993,9 @@ static size_t audio_get_avail (SWVoiceIn *sw)
+>      }
+>
+>      ldebug (
+> -        "%s: get_avail live %zu frontend frames %zu\n",
+> +        "%s: get_avail live %zu frontend frames %u\n",
+>          SW_NAME (sw),
+> -        live, audio_frontend_frames_in(sw, live)
+> +        live, st_rate_frames_out(sw->rate, live)
+>          );
+>
+>      return live;
+> @@ -1314,8 +1300,9 @@ static void audio_run_in (AudioState *s)
+>                  size_t sw_avail =3D audio_get_avail(sw);
+>                  size_t avail;
+>
+> -                avail =3D audio_frontend_frames_in(sw, sw_avail);
+> +                avail =3D st_rate_frames_out(sw->rate, sw_avail);
+>                  if (avail > 0) {
+> +                    avail =3D MIN(avail, sw->resample_buf.size);
+>                      sw->callback.fn(sw->callback.opaque,
+>                                      avail * sw->info.bytes_per_frame);
+>                  }
 > --
 > 2.35.3
 >
