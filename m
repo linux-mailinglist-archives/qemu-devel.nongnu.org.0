@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238D169F8A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE64069F8B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:12:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUrg2-0004xI-Ku; Wed, 22 Feb 2023 11:09:06 -0500
+	id 1pUria-0006Af-S4; Wed, 22 Feb 2023 11:11:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pUrg0-0004ws-Aa
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:09:04 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUriX-00069m-Jw
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:11:43 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pUrfy-0004fZ-HL
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:09:04 -0500
-Received: by mail-wm1-x330.google.com with SMTP id o14so6394239wms.1
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 08:09:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUriV-0006eo-Rt
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:11:41 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ l7-20020a05600c4f0700b003e79fa98ce1so3834464wmq.2
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 08:11:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WdaVanGpemZ9IW+eTnkxkxGr850Iy1eF3GWgbKUeBGA=;
- b=wPeK/frq0JAEdDZIsp5/VuIYVL/g+NSOHqP1mB/zlrN7Q8gV3enBcZiW6YUyqlWCnl
- AuQDbopVvykgIniGrHkPJyzqcA8sTfFvFqj5U5Ww7V8iG9XZWwSRwm1FW0JPP187ggjA
- gwuFS0vuYaZVm5+Y/905ABz7EOENYgdGzPTvKv/R/87ezsHJxOX7pl4TkSAZQqzff2ok
- Q7Xj6JdvJVMOij2GIJJnTN5Tw1K7VnnWtD3lXbDfjfD5yVq/3pkqU4ouQiONeS2UUn5x
- svUPMnCZs/D1D9VQZlzotqLUrlkRMJGXpffSpqaCIrs1RbR5AXPamRTuJaXT6G5od4w+
- jI/g==
+ bh=E/XA2y/70mfsuEWrV6iHpFct0yC4BbmOCAUV1cf92Ug=;
+ b=YGShkIRKsqFjkcWm4+l03lhWXkJucdZxbj63eS0GB0kY5SY29eB4riEthtkct8Vf1K
+ Ix7WpjtaO3af8ftH1pItJPOE5GmHeWF1nKr3eOiMDbCjc7diX4WW21lRw6cBiwNmNdpW
+ 66rWZ0RVdUVK3lIVUvOSratP0QYX2pmNf+wYzwZhr2hK2GJPlD/OBRUlRDPyEu+h473K
+ utOR3QT/GQPWnxLiO/jMwGHdbHmqGJwVfI55vL18iywG+vlQ6cdZJKBN8FMBu74MEI8K
+ iKVC0F+aw+kPLHVY4gzOPKrVWqfdiqxQVy8ZxxXF6REqe4B7pbtX7qFFRI7sxo0W3J1r
+ iUtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WdaVanGpemZ9IW+eTnkxkxGr850Iy1eF3GWgbKUeBGA=;
- b=ivxqHqFYJRo9gc+5IyCIXg0wS34eFYObSV5jyWya6f+uYN7OuaS6hwnL3bZcoCp+v0
- rW8RAeJdRZMDxLLwfPxe45O+Ph3fQMJClPwwDvnF19Zc+pdGJSVgYvvjOmQ3ZM3yKu1G
- w35vjSvnWrGsDdJtqfh3tfgkSWmHt7LZXwHnghzuDmuI7efGLY6g4ioLKRB7rmZ3HHqN
- G8HKnTLUWfsbaAf2XtpdYEbzJ1ZXfvggQKNQVHWTaWM7KnkM4OJNU4haCAPD1lz2YrC9
- ZxAtOZCC8flQ05ZKK7n9uKpDqkPK8OvplPG+chlb1EFnhiv4L58ydeZI4LSRyPcMjjgk
- 9n8g==
-X-Gm-Message-State: AO0yUKWLx7EN0oJsVuQt2iwtPyOVXLt1nT/gjBZm+oFlxflxTAHpMVTY
- YtqASRp6f+zP68IKcDUcAqcXLw==
-X-Google-Smtp-Source: AK7set+zAItLcRfd/WLoIQQdipxRO1kQG8w7GO3cT4Bn6TISTrDcIrR7MftN+NmlKQ96mxBxL1d5Fg==
-X-Received: by 2002:a05:600c:328a:b0:3e2:acd:ac7a with SMTP id
- t10-20020a05600c328a00b003e20acdac7amr6088194wmp.27.1677082140567; 
- Wed, 22 Feb 2023 08:09:00 -0800 (PST)
-Received: from ?IPV6:2a01:cb16:203d:61c1:1d6f:c826:249a:2f22?
- ([2a01:cb16:203d:61c1:1d6f:c826:249a:2f22])
+ bh=E/XA2y/70mfsuEWrV6iHpFct0yC4BbmOCAUV1cf92Ug=;
+ b=IUGnjYg8Pg0c8MlH/4Gyuz7AT7oljgHTluymZrPLfrWXIYzgy141MYNiRT+XvdK+p0
+ Ioom91ciOP9XSQoBOYpr/PEt+NuAGv2cvlN+kdSMoA/SoxI0dLHnSlkaT1KfuHe28YmG
+ +M7xA07qOOdQBz9wef8oJ1HqGIYwKXp07BrbfROjuIXE96YkTlExZ8Kh1OOLj6guaYj3
+ vu+XHATbvriitEsJ1J9wrZT6V7EMS1w/nTzEANigJ7Aj6J50TU8ukliFP8ZF6+mYtUFi
+ rex1yWSu6oHrW5bA1mwRQ3qgBZ43qXf+gEVrD4OAVSCLhkDtnohhCOdg8m8TzoczsSNq
+ PuCA==
+X-Gm-Message-State: AO0yUKVQ2R9yPeRd1TJ3Y63ZmmHHbN6qrMXG/67dSQWtJsR0GEfcw8Lf
+ b0HXRSTuEVpp33b9md7pVg27Ug==
+X-Google-Smtp-Source: AK7set/7R2veLrfjj7b1i3WeTVWZAVBV/aHstGZblokJkYwpHZWhT/UfKPf2MDSF38MQyrBPhukOuw==
+X-Received: by 2002:a05:600c:54ee:b0:3dc:4356:533c with SMTP id
+ jb14-20020a05600c54ee00b003dc4356533cmr6092270wmb.5.1677082298194; 
+ Wed, 22 Feb 2023 08:11:38 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u7-20020a05600c19c700b003e21f20b646sm9885371wmq.21.2023.02.22.08.08.59
+ z16-20020a1c4c10000000b003e2096da239sm7992324wmf.7.2023.02.22.08.11.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 08:09:00 -0800 (PST)
-Message-ID: <8fc239ec-b01c-019a-9c8c-b276bbf3fd02@linaro.org>
-Date: Wed, 22 Feb 2023 17:08:58 +0100
+ Wed, 22 Feb 2023 08:11:37 -0800 (PST)
+Message-ID: <3544bf56-4d5c-174d-5bfd-a67c9689ca37@linaro.org>
+Date: Wed, 22 Feb 2023 17:11:36 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4 2/4] sysemu/os-win32: fix setjmp/longjmp on
- windows-arm64
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 5/5] hw: Remove mentions of NDEBUG
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- richard.henderson@linaro.org, alex.bennee@linaro.org,
- peter.maydell@linaro.org
-References: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
- <20230221153006.20300-3-pierrick.bouvier@linaro.org>
- <5a61bdc2-1bc0-7147-8053-2ef1d2fbcb2f@linaro.org>
-From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-In-Reply-To: <5a61bdc2-1bc0-7147-8053-2ef1d2fbcb2f@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>
+References: <20230221232520.14480-1-philmd@linaro.org>
+ <20230221232520.14480-6-philmd@linaro.org>
+ <20230222070529-mutt-send-email-mst@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230222070529-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=pierrick.bouvier@linaro.org; helo=mail-wm1-x330.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -99,57 +96,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gMi8yMS8yMyAyMzoyNywgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgd3JvdGU6DQo+IE9u
-IDIxLzIvMjMgMTY6MzAsIFBpZXJyaWNrIEJvdXZpZXIgd3JvdGU6DQo+PiBXaW5kb3dzIGlt
-cGxlbWVudGF0aW9uIG9mIHNldGptcC9sb25nam1wIGlzIGRvbmUgaW4NCj4+IEM6L1dJTkRP
-V1Mvc3lzdGVtMzIvdWNydGJhc2UuZGxsLiBBbGFzLCBvbiBhcm02NCwgaXQgc2VlbXMgdG8g
-KmFsd2F5cyoNCj4+IHBlcmZvcm0gc3RhY2sgdW53aW5kaW5nLCB3aGljaCBjcmFzaGVzIGZy
-b20gZ2VuZXJhdGVkIGNvZGUuDQo+Pg0KPj4gQnkgdXNpbmcgYWx0ZXJuYXRpdmUgaW1wbGVt
-ZW50YXRpb24gYnVpbHQgaW4gbWluZ3csIHdlIGF2b2lkIGRvaW5nIHN0YWNrDQo+PiB1bndp
-bmRpbmcgYW5kIHRoaXMgZml4ZXMgY3Jhc2ggd2hlbiBjYWxsaW5nIGxvbmdqbXAuDQo+Pg0K
-Pj4gU2lnbmVkLW9mZi1ieTogUGllcnJpY2sgQm91dmllciA8cGllcnJpY2suYm91dmllckBs
-aW5hcm8ub3JnPg0KPj4gQWNrZWQtYnk6IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhl
-bmRlcnNvbkBsaW5hcm8ub3JnPg0KPj4gLS0tDQo+PiAgICBpbmNsdWRlL3N5c2VtdS9vcy13
-aW4zMi5oIHwgMjggKysrKysrKysrKysrKysrKysrKysrKysrLS0tLQ0KPj4gICAgbWVzb24u
-YnVpbGQgICAgICAgICAgICAgICB8IDIxICsrKysrKysrKysrKysrKysrKysrKw0KPj4gICAg
-MiBmaWxlcyBjaGFuZ2VkLCA0NSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiAN
-Cj4gDQo+PiAtI2lmIGRlZmluZWQoX1dJTjY0KQ0KPj4gLS8qIE9uIHc2NCwgc2V0am1wIGlz
-IGltcGxlbWVudGVkIGJ5IF9zZXRqbXAgd2hpY2ggbmVlZHMgYSBzZWNvbmQgcGFyYW1ldGVy
-Lg0KPj4gKyNpZiBkZWZpbmVkKF9fYWFyY2g2NF9fKQ0KPj4gKy8qDQo+PiArICogT24gd2lu
-ZG93cy1hcm02NCwgc2V0am1wIGlzIGF2YWlsYWJsZSBpbiBvbmx5IG9uZSB2YXJpYW50LCBh
-bmQgbG9uZ2ptcCBhbHdheXMNCj4+ICsgKiBkb2VzIHN0YWNrIHVud2luZGluZy4gVGhpcyBj
-cmFzaCB3aXRoIGdlbmVyYXRlZCBjb2RlLg0KPj4gKyAqIFRodXMsIHdlIHVzZSBhbm90aGVy
-IGltcGxlbWVudGF0aW9uIG9mIHNldGptcCAobm90IHdpbmRvd3Mgb25lKSwgY29taW5nIGZy
-b20NCj4+ICsgKiBtaW5ndywgd2hpY2ggbmV2ZXIgcGVyZm9ybXMgc3RhY2sgdW53aW5kaW5n
-Lg0KPj4gKyAqLw0KPj4gKyN1bmRlZiBzZXRqbXANCj4+ICsjdW5kZWYgbG9uZ2ptcA0KPj4g
-Ky8qDQo+PiArICogVGhlc2UgZnVuY3Rpb25zIGFyZSBub3QgZGVjbGFyZWQgaW4gc2V0am1w
-LmggYmVjYXVzZSBfX2FhcmNoNjRfXyBkZWZpbmVzDQo+PiArICogc2V0am1wIHRvIF9zZXRq
-bXBleCBpbnN0ZWFkLiBIb3dldmVyLCB0aGV5IGFyZSBzdGlsbCBkZWZpbmVkIGluIGxpYm1p
-bmd3ZXguYSwNCj4+ICsgKiB3aGljaCBnZXRzIGxpbmtlZCBhdXRvbWF0aWNhbGx5Lg0KPj4g
-KyAqLw0KPj4gK2V4dGVybiBpbnQgX19taW5nd19zZXRqbXAoam1wX2J1Zik7DQo+PiArZXh0
-ZXJuIHZvaWQgX19hdHRyaWJ1dGVfXygobm9yZXR1cm4pKSBfX21pbmd3X2xvbmdqbXAoam1w
-X2J1ZiwgaW50KTsNCj4+ICsjZGVmaW5lIHNldGptcChlbnYpIF9fbWluZ3dfc2V0am1wKGVu
-dikNCj4+ICsjZGVmaW5lIGxvbmdqbXAoZW52LCB2YWwpIF9fbWluZ3dfbG9uZ2ptcChlbnYs
-IHZhbCkNCj4+ICsjZWxpZiBkZWZpbmVkKF9XSU42NCkNCj4+ICsvKg0KPj4gKyAqIE9uIHdp
-bmRvd3MteDY0LCBzZXRqbXAgaXMgaW1wbGVtZW50ZWQgYnkgX3NldGptcCB3aGljaCBuZWVk
-cyBhIHNlY29uZCBwYXJhbWV0ZXIuDQo+PiAgICAgKiBJZiB0aGlzIHBhcmFtZXRlciBpcyBO
-VUxMLCBsb25nanVtcCBkb2VzIG5vIHN0YWNrIHVud2luZGluZy4NCj4+ICAgICAqIFRoYXQg
-aXMgd2hhdCB3ZSBuZWVkIGZvciBRRU1VLiBQYXNzaW5nIHRoZSB2YWx1ZSBvZiByZWdpc3Rl
-ciByc3AgKGRlZmF1bHQpDQo+PiAtICogbGV0cyBsb25nam1wIHRyeSBhIHN0YWNrIHVud2lu
-ZGluZyB3aGljaCB3aWxsIGNyYXNoIHdpdGggZ2VuZXJhdGVkIGNvZGUuICovDQo+PiArICog
-bGV0cyBsb25nam1wIHRyeSBhIHN0YWNrIHVud2luZGluZyB3aGljaCB3aWxsIGNyYXNoIHdp
-dGggZ2VuZXJhdGVkIGNvZGUuDQo+PiArICovDQo+PiAgICAjIHVuZGVmIHNldGptcA0KPj4g
-ICAgIyBkZWZpbmUgc2V0am1wKGVudikgX3NldGptcChlbnYsIE5VTEwpDQo+PiAtI2VuZGlm
-DQo+PiArI2VuZGlmIC8qIF9fYWFyY2g2NF9fICovDQo+IA0KPiBUaGlzIGNvbW1lbnQgaXMg
-Y29uZnVzaW5nLCB0aGUgcHJldmlvdXMgaWYgbGFkZGVyIGlzIGFib3V0IGk4Ni4gTWF5YmUN
-Cj4gYmV0dGVyIG5vdCBhZGQgYW55IGNvbW1lbnQ/DQoNCklmIEkgYW0gbm90IG1pc3Rha2Vu
-LCBiZWZvcmUgd2UgaGFkOg0KDQojaWYgeDY0DQpkZWZpbmUgc2V0am1wIGFzIF9zZXRqbXAo
-ZW52LCAwKQ0KI2VuZGlmDQovLyBub3RoaW5nIGRvbmUgZm9yIHg4Ng0KDQphbmQgbm93IHdl
-IGhhdmU6DQoNCiNpZiBhYXJjaDY0DQpkZWZpbmUgc2V0am1wIGFzIF9fbWluZ3dfc2V0am1w
-DQpkZWZpbmUgbG9uZ2ptcCBhcyBfX21pbmd3X2xvbmdqbXANCiNlbGlmIHg2NA0KZGVmaW5l
-IHNldGptcCBhcyBfc2V0am1wKGVudiwgMCkNCiNlbmRpZg0KLy8gbm90aGluZyBkb25lIGZv
-ciB4ODYNCg0KTWF5YmUgdGhlIHBhdGNoIGZvcm1hdCBpcyBjb25mdXNpbmcsIG9yIEkgbWlz
-c2VkIHdoYXQgeW91IHBvaW50ZWQuDQoNClBpZXJyaWNrDQoNCj4gDQo+IE90aGVyd2lzZSwN
-Cj4gUmV2aWV3ZWQtYnk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAbGluYXJv
-Lm9yZz4NCj4gDQo=
+On 22/2/23 13:05, Michael S. Tsirkin wrote:
+> On Wed, Feb 22, 2023 at 12:25:20AM +0100, Philippe Mathieu-Daudé wrote:
+>> Since commit 262a69f428 ("osdep.h: Prohibit disabling
+>> assert() in supported builds") 'NDEBUG' can not be defined.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
+> this exactly says NDEBUG is not allowed. why are you removing this?
+
+The project can not be built with NDEBUG. There is no point in
+mentioning it in each individual function.
+
+>> ---
+>>   hw/scsi/mptsas.c   | 2 --
+>>   hw/virtio/virtio.c | 2 --
+>>   2 files changed, 4 deletions(-)
+>>
+>> diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
+>> index c485da792c..5b373d3ed6 100644
+>> --- a/hw/scsi/mptsas.c
+>> +++ b/hw/scsi/mptsas.c
+>> @@ -1240,8 +1240,6 @@ static void *mptsas_load_request(QEMUFile *f, SCSIRequest *sreq)
+>>       n = qemu_get_be32(f);
+>>       /* TODO: add a way for SCSIBusInfo's load_request to fail,
+>>        * and fail migration instead of asserting here.
+>> -     * This is just one thing (there are probably more) that must be
+>> -     * fixed before we can allow NDEBUG compilation.
+>>        */
+>>       assert(n >= 0);
+>>
+>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>> index f35178f5fc..c6b3e3fb08 100644
+>> --- a/hw/virtio/virtio.c
+>> +++ b/hw/virtio/virtio.c
+>> @@ -1898,8 +1898,6 @@ void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t sz)
+>>   
+>>       /* TODO: teach all callers that this can fail, and return failure instead
+>>        * of asserting here.
+>> -     * This is just one thing (there are probably more) that must be
+>> -     * fixed before we can allow NDEBUG compilation.
+>>        */
+>>       assert(ARRAY_SIZE(data.in_addr) >= data.in_num);
+>>       assert(ARRAY_SIZE(data.out_addr) >= data.out_num);
+>> -- 
+>> 2.38.1
+> 
+
 
