@@ -2,76 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B724369F657
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:19:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66EFF69F66E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:22:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUpxf-0007xh-87; Wed, 22 Feb 2023 09:19:11 -0500
+	id 1pUpzu-0000oq-84; Wed, 22 Feb 2023 09:21:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pUpxc-0007xB-VG
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:19:08 -0500
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pUpxb-0008KF-Ij
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:19:08 -0500
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-536e10ae021so68744027b3.7
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:19:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xeXNeYsytf/Poa/WHVt4e0Q9fxA0xdexEIMhiC68Mv0=;
- b=LeIzqDFA/+0kCyr1aZ6xOhNCXkFhK8UrCSXG/20wyVVVKj+AnVkL9OF2tOdyO3XjtQ
- bHL2HyCYeDo1hGgh1K2L1F8iDQwaaiwr0LRbJEmgZaJNmVtNv/I2Q4MfZnwurzyGqUol
- ZSKQv7BupcpYlrkSjHbgflWYp+S/Fsc8CvJ9oTjnu5ZlqA4tODMlZs9cyPkjCO+yqrJA
- f5YBATAnH1CS6joWwGifWxjhxzYSale5P4kYACPAWYRtC1GQYXDOQaJO9DSlef20Pnu/
- W7Xze8bthD093vCZc1kLs3qC9RvM8vs4hXLUwOA69h6DCR48U0/lftu5Eh9ZRTVwsAlf
- hS2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xeXNeYsytf/Poa/WHVt4e0Q9fxA0xdexEIMhiC68Mv0=;
- b=WARjxTWiMz7oiYSmGcgHM3TJ6upaq3ebQoG/qVU1G6xK6R+SYl2Ja+yOlx8H8+Ivpw
- s/cmjicBPChY/eCqaGihhkwZcgrP8SfcCTld6Ys1g1akp/LM+4NhOfz76G09C0twbri0
- QDY2dYGevbej99veVIEklUVdjSai/6fd2Jtbkoz+fTgKyr/UKIg6N8fkf98SARJHn2bX
- rSKfcJWV0DlQVI3305y3XfcU3ohmYuiUBadt/D2ISaKDu75NuFqcfe1Koi42NXs2VKfj
- MS+alpQ58vt+74alouJy+YUDzBytL/tbz2b62CCEtuePYTZkR5kSqACE4N0ayyZUUuwb
- k8rQ==
-X-Gm-Message-State: AO0yUKXKsVsWVo76qMNPUq8OQwpqgKcVY9zP9gMVsLNGTHPT1jFuZLo0
- VMOpmccd693xK4MGWuV4nZo/v/jQyMsSZW5/Qec=
-X-Google-Smtp-Source: AK7set9lXjP32ipDm15sJO2RU2Vo3t1XhKeC+sbugekq1qfzHU8bPJCJeXdeZqtR8D5jUdClD6u4456NCvBH7yDGUdg=
-X-Received: by 2002:a0d:f803:0:b0:534:c231:cc2b with SMTP id
- i3-20020a0df803000000b00534c231cc2bmr1275714ywf.9.1677075546237; Wed, 22 Feb
- 2023 06:19:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pUpzq-0000lu-Dh; Wed, 22 Feb 2023 09:21:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pUpzn-0001Ug-6N; Wed, 22 Feb 2023 09:21:26 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31MECcaF013002; Wed, 22 Feb 2023 14:21:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=37UHd9XySw9nIkIepB7H9UlCDj1FZizCsUKOkhoRnEU=;
+ b=Q/EJhdrjwkCSHD22kO3cYJ6yP2bpj49Ec4JDkpZSv2Bcze9+GpX15MgAB3IYDmrefwtH
+ U5ZjM3LJTpm+kD0p7J8EcysrHhw4LWl0hP6FLhV2SM5z59dNnuMiuFsz+f7QyuqagXdB
+ HTMALBEOBjOtpOLUqXatk/uArFD+XWJMWw4ADrqmBC7zdzWu3GKjlzbmqP7CIWRwXAPo
+ QS170/7O06xLhBva23HT7GCh5qTX3Uo0o5I/0Y3kxUYJbKZnpeZ7aK7/KLkRtjDr0e5z
+ MRTL02rSUr+7d0fBmVjuf3DN8R/5id/v+RhQMf0ZGFwPXNYY+fdXJaG21WVlZdE1uHQs bQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nwmksr7r0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Feb 2023 14:21:12 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31MEEEIo020414;
+ Wed, 22 Feb 2023 14:21:12 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nwmksr7q2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Feb 2023 14:21:12 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31MEJoSK016665;
+ Wed, 22 Feb 2023 14:21:09 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3ntpa6dfwb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Feb 2023 14:21:09 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31MEL51543188522
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Feb 2023 14:21:05 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9C89E20043;
+ Wed, 22 Feb 2023 14:21:05 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2B92E20040;
+ Wed, 22 Feb 2023 14:21:05 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com (unknown
+ [9.152.222.242])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Feb 2023 14:21:05 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com, clg@kaod.org
+Subject: [PATCH v16 00/11] s390x: CPU Topology
+Date: Wed, 22 Feb 2023 15:20:54 +0100
+Message-Id: <20230222142105.84700-1-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20221226220351.754204-1-vsementsov@yandex-team.ru>
- <35c7e623-1433-5250-6188-29424814bccb@yandex-team.ru>
-In-Reply-To: <35c7e623-1433-5250-6188-29424814bccb@yandex-team.ru>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 22 Feb 2023 09:18:54 -0500
-Message-ID: <CAJSP0QWDcw8cYo8opfQ_+_U4p1DfQ49oo_ogOsnqJji+d1DzgA@mail.gmail.com>
-Subject: Re: [PATCH] coverity: physmem: use simple assertions instead of
- modelling
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, david@redhat.com, 
- peterx@redhat.com, armbru@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>, 
- pbonzini@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: m0FemEIW7IUp5FT34VI9v7MoFjYU_rAL
+X-Proofpoint-ORIG-GUID: hJoEG__ExaAjLomF0E1RuGUMyLxeEAl7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-22_05,2023-02-22_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 adultscore=0 impostorscore=0 phishscore=0
+ mlxlogscore=999 malwarescore=0 lowpriorityscore=0 suspectscore=0
+ bulkscore=0 spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302220122
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,14 +113,358 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 15 Feb 2023 at 15:22, Vladimir Sementsov-Ogievskiy
-<vsementsov@yandex-team.ru> wrote:
->
-> ping
->
-> [add Stefan]
+Hi,
 
-I'm not familiar with the Coverity models. Peter Maydell is the maintainer.
+No big changes here, some bug corrections and comments modifications
+following Thomas and Nina comments and Daniel and Markus reommandations.
 
-Stefan
+Implementation discussions
+==========================
+
+CPU models
+----------
+
+Since the facility 11, S390_FEAT_CONFIGURATION_TOPOLOGY is already
+in the CPU model for old QEMU we could not activate it as usual from
+KVM but needed a KVM capability: KVM_CAP_S390_CPU_TOPOLOGY.
+Checking and enabling this capability enables facility 11,
+S390_FEAT_CONFIGURATION_TOPOLOGY.
+
+It is the responsibility of the admin to ensure the same CPU
+model for source and target host in a migration.
+
+Migration
+---------
+
+When the target guest is started, the Multi-processor Topology Change
+Report (MTCR) bit is set during the creation of the vCPU by KVM.
+We do not need to migrate its state, in the worst case, the target
+guest will see the MTCR and actualize its view of the topology
+without necessity, but this will be done only one time.
+
+Reset
+-----
+
+Reseting the topology is done during subsystem reset, the
+polarization is reset to horizontal polarization.
+
+Topology attributes
+-------------------
+
+The topology attributes are carried by the CPU object and defined
+on object creation.
+In the case the new attributes, socket, book, drawer, dedicated,
+polarity are not provided QEMU provides defaults values.
+
+- Geometry defaults
+  The geometry default are based on the core-id of the core to 
+  fill the geometry in a monotone way starting with drawer 0,
+  book 0, and filling socket 0 with the number of cores per socket,
+  then filling socket 1, socket 2 ... etc until the book is complete
+  and all books until the first drawer is complete before starting with
+  the next drawer.
+
+  This allows to keep existing start scripts and Libvirt existing
+  interface until it is extended.
+
+- Modifiers defaults
+  Default polarization is horizontal
+  Default dedication is not dedicated.
+
+Dynamic topology modification
+-----------------------------
+
+QAPI interface is extended with:
+- a command: 'x-set-cpu-topology'
+- a query: extension of 'query-cpus-fast'
+- an event: 'CPU_POLARITY_CHANGE'
+
+The admin may use query-cpus-fast to verify the topology provided
+to the guest and x-set-cpu-topology to modify it.
+
+The event CPU_POLARITY_CHANGE is sent when the guest successfuly 
+uses the PTF(2) instruction to request a polarization change.
+In that case, the admin is supposed to modify the CPU provisioning
+accordingly.
+
+Testing
+=======
+
+To use the QEMU patches, you will need Linux V6-rc1 or newer,
+or use the following Linux mainline patches:
+
+f5ecfee94493 2022-07-20 KVM: s390: resetting the Topology-Change-Report    
+24fe0195bc19 2022-07-20 KVM: s390: guest support for topology function     
+0130337ec45b 2022-07-20 KVM: s390: Cleanup ipte lock access and SIIF fac.. 
+
+Currently this code is for KVM only, I have no idea if it is interesting
+to provide a TCG patch. If ever it will be done in another series.
+
+Documentation
+=============
+
+To have a better understanding of the S390x CPU Topology and its
+implementation in QEMU you can have a look at the documentation in the
+last patch of this series.
+
+The admin will want to match the host and the guest topology, taking
+into account that the guest does not recognize multithreading.
+Consequently, two vCPU assigned to threads of the same real CPU should
+preferably be assigned to the same socket of the guest machine.
+
+
+Regards,
+Pierre
+
+Pierre Morel (11):
+  s390x/cpu topology: add s390 specifics to CPU topology
+  s390x/cpu topology: add topology entries on CPU hotplug
+  target/s390x/cpu topology: handle STSI(15) and build the SYSIB
+  s390x/sclp: reporting the maximum nested topology entries
+  s390x/cpu topology: resetting the Topology-Change-Report
+  s390x/cpu topology: interception of PTF instruction
+  target/s390x/cpu topology: activating CPU topology
+  qapi/s390x/cpu topology: set-cpu-topology monitor command
+  machine: adding s390 topology to query-cpu-fast
+  qapi/s390x/cpu topology: CPU_POLARIZATION_CHANGE qapi event
+  docs/s390x/cpu topology: document s390x cpu topology
+
+ docs/system/s390x/cpu-topology.rst | 378 ++++++++++++++++++++
+ docs/system/target-s390x.rst       |   1 +
+ qapi/machine-target.json           |  81 +++++
+ qapi/machine.json                  |  37 +-
+ include/hw/boards.h                |  10 +-
+ include/hw/s390x/cpu-topology.h    |  78 +++++
+ include/hw/s390x/s390-virtio-ccw.h |   6 +
+ include/hw/s390x/sclp.h            |   4 +-
+ include/monitor/hmp.h              |   1 +
+ target/s390x/cpu.h                 |  78 +++++
+ target/s390x/kvm/kvm_s390x.h       |   1 +
+ hw/core/machine-qmp-cmds.c         |   2 +
+ hw/core/machine-smp.c              |  48 ++-
+ hw/core/machine.c                  |   4 +
+ hw/s390x/cpu-topology.c            | 534 +++++++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c         |  27 +-
+ hw/s390x/sclp.c                    |   5 +
+ softmmu/vl.c                       |   6 +
+ target/s390x/cpu-sysemu.c          |  13 +
+ target/s390x/cpu.c                 |   7 +
+ target/s390x/cpu_models.c          |   1 +
+ target/s390x/kvm/cpu_topology.c    | 312 +++++++++++++++++
+ target/s390x/kvm/kvm.c             |  42 ++-
+ hmp-commands.hx                    |  17 +
+ hw/s390x/meson.build               |   1 +
+ qemu-options.hx                    |   7 +-
+ target/s390x/kvm/meson.build       |   3 +-
+ 27 files changed, 1685 insertions(+), 19 deletions(-)
+ create mode 100644 docs/system/s390x/cpu-topology.rst
+ create mode 100644 include/hw/s390x/cpu-topology.h
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 target/s390x/kvm/cpu_topology.c
+
+-- 
+2.31.1
+
+Since v15:
+
+- Use Enum for polarity and entitlement
+  (Nina)
+
+- move kvm_vm_enable_cap(KVM_CAP_S390_CPU_TOPOLOGY) to
+  kvm_arch_init()
+  (Thomas)
+
+- Make all CPU attributes optional for set-cpu-topology monitor
+  command
+  (Thomas, Nina)
+
+- Change use of the prefix "x-" to the use of feature unstable
+  to declare set-cpu-topology as unstable.
+  (Nina)
+
+- Make CPU_POLARITY_CHANGE even as unstable
+  (Nina)
+
+- Documentation update
+  (Thomas, Nina)
+
+Since v14:
+
+- move the ordering of TLE to just before filling the SYSIB,
+  optimize TLE ordering to be done on need only.
+  (Cedric in previous series)
+
+- remove 'query-topology' and instead extend 'query-cpus-fast'
+  (Daniel)
+
+- rename POLARITY_CHANGE to CPU_POLARITY_CHANGE
+  (Thomas)
+
+- Divers bugs correction and doc changes
+  (Thomas, Nina)
+
+- Separate topology and entitlement, simplify pft handling
+  (Nina)
+
+- add the resetting of all CPU to horizontal polarity
+  once implementing PTF interpretation
+
+Since v13:
+
+- Suppress the topology device to simplify the code
+  (Cedric)
+
+- moved reset of MTCR from device reset into subsystem
+  reset and removed previous reviewed-by from Nico and
+  Janis
+
+- No need for Migration
+
+- No need for machine dependencies
+  (Christian, Thomas)
+
+- Adding all features, drawer/book and dynamic
+  (Cedric)
+
+
+- since v12
+
+- suppress new CPU flag "disable-topology" just use ctop
+
+- no use of special fields in CCW machine or in CPU
+
+- modifications in documentation
+
+- insert documentation in tree
+  (Cedric)
+
+- moved cpu-topology.c from target/s390 to target/s390/kvm
+  to compile smoothly (without topology) for TCG
+  (Cedric)
+
+- since v11
+
+- new CPU flag "disable-topology"
+  I would have take "topology" if I was able to have
+  it false on default.
+  (Christian, Thomas)
+
+- Build the topology during the interception of the
+  STSI instruction.
+  (Cedric)
+
+- return CC3 in case the calculated SYSIB length is
+  greater than 4096.
+  (Janis)
+
+- minor corections on documentation
+
+- since v10
+
+- change machine attribute "topology-disable" to "topology"
+  (Cedric)
+- Add preliminary patch for machine properties
+  (Cedric)
+- Use next machine as 7.2
+  (Cedric / Connie)
+- Remove unecessary mutex
+  (Thomas)
+- use ENOTSUP return value for kvm_s390_topology_set_mtcr()
+  (Cedric)
+- Add explanation on container and cpu TLEs
+  (Thomas)
+- use again cpu and socket count in topology structure
+  (Cedric)
+- Suppress the S390TopoTLE structure and integrate
+  the TLE masks to the socket structure.
+  (-)
+- the STSI instruction now finds the topology from the machine
+  (Cedric)
+
+- since v9
+
+- remove books and drawers
+
+- remove thread denying and replace with a merge
+  of cores * threads to specify the CPUs available
+  to the guest
+
+- add a class option to avoid topology on older
+  machines
+  (Cedric)
+
+- Allocate a SYSIB buffer of the maximal length to
+  avoid overflow.
+  (Nico, Janis)
+
+- suppress redundancy of smp parameters in topology
+  and use directly the machine smp structure
+
+- Early check for topology support
+  (Cedric)
+
+- since v8
+
+- Linux patches are now mainline
+
+- simplification of the implementation
+  (Janis)
+
+- Migration, new machine definition
+  (Thomas)
+
+- Documentation
+
+- since v7
+
+- Coherence with the Linux patch series changes for MTCR get
+  (Pierre)
+
+- check return values during new CPU creation
+  (Thomas)
+
+- Improving codding style and argument usages
+  (Thomas)
+
+- since v6
+
+- Changes on smp args in qemu-options
+  (Daniel)
+  
+- changed comments in machine.jason
+  (Daniel)
+ 
+- Added reset
+  (Janosch)
+
+- since v5
+
+- rebasing on newer QEMU version
+
+- reworked most lines above 80 characters.
+
+- since v4
+
+- Added drawer and books to topology
+
+- Added numa topology
+
+- Added documentation
+
+- since v3
+
+- Added migration
+  (Thomas)
+
+- Separated STSI instruction from KVM to prepare TCG
+  (Thomas)
+
+- Take care of endianess to prepare TCG
+  (Thomas)
+
+- Added comments on STSI CPU container and PFT instruction
+  (Thomas)
+
+- Moved enabling the instructions as the last patch
+  (Thomas)
 
