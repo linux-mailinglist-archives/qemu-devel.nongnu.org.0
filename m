@@ -2,56 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5967A69F90B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:32:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB3769F94C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:50:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUs2d-0007EL-7Q; Wed, 22 Feb 2023 11:32:27 -0500
+	id 1pUsIq-0004J3-JD; Wed, 22 Feb 2023 11:49:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUs2X-0007AX-Kv; Wed, 22 Feb 2023 11:32:21 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUs2V-0006YS-I8; Wed, 22 Feb 2023 11:32:21 -0500
-Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:2cab:0:640:424b:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id AF70D612E0;
- Wed, 22 Feb 2023 19:32:10 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:a528::1:22] (unknown
- [2a02:6b8:b081:a528::1:22])
- by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id 9WRthE0KniE0-JQH2H3HM; Wed, 22 Feb 2023 19:32:09 +0300
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
- dkim=pass
-Message-ID: <b811a158-cb97-46ea-0837-29f48c49f1fc@yandex-team.ru>
-Date: Wed, 22 Feb 2023 19:32:09 +0300
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pUsIo-0004Ig-Mq
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:49:10 -0500
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pUsIm-0006eD-DP
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:49:10 -0500
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-536cb25982eso100027057b3.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 08:49:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=K7qFRMFDev18eUmVht8ah6G40Gigjs6KimJZdUcXNrM=;
+ b=GZfoxTIRayD/lKbSqPXvBLcGki0tbI8CPZ8EqZEsflAnGeiEDBDn2WVOs1Z6no60AJ
+ 4swnQzO45boxU6wrVqFJeaW7koZ1Eas7cx55wdF9V2rI8hQMEWYTSMdOg9EK/CWR+c34
+ krNwj3e2OeNgN9NgW9w8L/cv1pUSAfWpcrCXtl5PNMRqjdCEKwRyWmKt5ndsCag/QpcM
+ 8olQ3Kdzpei165ZdHFS3aJJVJluCl0oyOJJsLqbFyxGRoRRTL8krA5bGq23KzQsDQa0M
+ xdcBl7c4Dgkcay4YOYOyfdTad8hpMHPRkYa6hJB/NU2y9s+SuiZ+UOQGpBoIazsRz/9/
+ yhdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K7qFRMFDev18eUmVht8ah6G40Gigjs6KimJZdUcXNrM=;
+ b=j1JPGApBCmyCiEbUNipR3YkTB/0wKFf49tSXalXt4hLdzz8RbikZA4aZLIOtAxccVs
+ c3SIIHrouYnfPy4ElD3Uk4mD8L8fosriyU7AfQ+XZDzkEBffUH04sV2LV74w8kNPiOzB
+ c7q7c5ectjyPoaRi11/2/LU6zgERiKZAccK2YVJ5XdsUyim4k3GDVecKoB4A9+NEdMDC
+ WVInmCLgiZdWNBYndUPbPyObxSBCq4u77lbfanB/ieYbdVgjfxzAup87/gvWNYSfaaJm
+ vwArdt4Ma+Cz5nPqxUjhIdCz1DtPjzwF7tAOsLpoamXsAG8jUaDxYt149zlwhAvH0sB5
+ hO8A==
+X-Gm-Message-State: AO0yUKUxjHj8jzbkSlgGc8Y0ov272o+l2baoxVyiu0MYDRNBkAStr1Bi
+ Z13m9n26xxN05IeUEgt3ApRmEZ2N4wBqgdGo
+X-Google-Smtp-Source: AK7set+SWrCAk58n43jxEuUxfsO18m7twgn5hzYJwzq8QwBhJwK9Lgu7djbOZflgVX3d6XNqq/n83A==
+X-Received: by 2002:a05:6830:1f47:b0:68a:443c:8c9e with SMTP id
+ u7-20020a0568301f4700b0068a443c8c9emr4525097oth.4.1677084175184; 
+ Wed, 22 Feb 2023 08:42:55 -0800 (PST)
+Received: from [192.168.68.107] ([189.110.112.117])
+ by smtp.gmail.com with ESMTPSA id
+ r28-20020a05683002fc00b00686a19ffef1sm1027511ote.80.2023.02.22.08.42.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 08:42:54 -0800 (PST)
+Message-ID: <63eb21de-6dbb-30e2-528e-49f1ce87eddf@ventanamicro.com>
+Date: Wed, 22 Feb 2023 13:42:50 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 02/23] mirror: Fix access of uninitialised fields during
- start
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v6 1/9] target/riscv: turn write_misa() into an official
+ no-op
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: pbonzini@redhat.com, stefanha@redhat.com, eesposit@redhat.com,
- qemu-devel@nongnu.org
-References: <20230203152202.49054-1-kwolf@redhat.com>
- <20230203152202.49054-3-kwolf@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230203152202.49054-3-kwolf@redhat.com>
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Andrew Jones <ajones@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ bmeng@tinylab.org, liweiwei@iscas.ac.cn, richard.henderson@linaro.org
+References: <20230216215550.1011637-1-dbarboza@ventanamicro.com>
+ <20230216215550.1011637-2-dbarboza@ventanamicro.com>
+ <d2eee59a-0611-d260-53e5-fd6349642c21@linux.alibaba.com>
+ <75c223c9-3709-0595-70f0-11e113d21323@ventanamicro.com>
+ <20230221170616.xbdedgmdotd7bryf@orel>
+ <56c1aedc-b6f8-633c-fadc-ea88c98169cd@ventanamicro.com>
+ <3396c9c5-d7f2-2d83-eb7e-7cdda905f1ed@linux.alibaba.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <3396c9c5-d7f2-2d83-eb7e-7cdda905f1ed@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.102,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,29 +103,279 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03.02.23 18:21, Kevin Wolf wrote:
-> bdrv_mirror_top_pwritev() accesses the job object when active mirroring
-> is enabled. It disables this code during early initialisation while
-> s->job isn't set yet.
+
+
+On 2/22/23 06:21, LIU Zhiwei wrote:
 > 
-> However, s->job is still set way too early when the job object isn't
-> fully initialised. For example, &s->ops_in_flight isn't initialised yet
-> and the in_flight bitmap doesn't exist yet. This causes crashes when a
-> write request comes in too early.
+> On 2023/2/22 2:22, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 2/21/23 14:06, Andrew Jones wrote:
+>>> On Tue, Feb 21, 2023 at 12:49:11PM -0300, Daniel Henrique Barboza wrote:
+>>>> Hey,
+>>>>
+>>>> On 2/16/23 22:42, LIU Zhiwei wrote:
+>>>>>
+>>>>> On 2023/2/17 5:55, Daniel Henrique Barboza wrote:
+>>>>>> At this moment, and apparently since ever, we have no way of enabling
+>>>>>> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
+>>>>>> the nuts and bolts that handles how to write this CSR, has always been a
+>>>>>> no-op as well because write_misa() will always exit earlier.
+>>>>>>
+>>>>>> This seems to be benign in the majority of cases. Booting an Ubuntu
+>>>>>> 'virt' guest and logging all the calls to 'write_misa' shows that no
+>>>>>> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
+>>>>>> RISC-V extensions after the machine is powered on, seems to be a niche
+>>>>>> use.
+>>>>>>
+>>>>>> Before proceeding, let's recap what the spec says about MISA. It is a
+>>>>>> CSR that is divided in 3 fields:
+>>>>>>
+>>>>>> - MXL, Machine XLEN, described as "may be writable";
+>>>>>>
+>>>>>> - MXLEN, the XLEN in M-mode, which is given by the setting of MXL or a
+>>>>>> fixed value if MISA is zero;
+>>>>>>
+>>>>>> - Extensions is defined as "a WARL field that can contain writable bits
+>>>>>> where the implementation allows the supported ISA to be modified"
+>>>>>>
+>>>>>> Thus what we have today (write_misa() being a no-op) is already a valid
+>>>>>> spec implementation. We're not obliged to have a particular set of MISA
+>>>>>> writable bits, and at this moment we have none.
+>>>>>
+>>>>> Hi Daniel,
+>>>>>
+>>>>> I see there has been a discussion on this topic. And as no-op has no harmfulness for current implementation.
+>>>>> However, I still think we should make misa writable as default, which is also a valid spec implementation.
+>>>>>
+>>>>> One reason is that may be we need to dynamic write  access for some cpus in the future. The other is we should
+>>>>> make QEMU a more useful implementation, not just a legal implementation. We have done in many aspects on this direction.
+>>>>>
+>>>>> I prefer your implementation before v4. It's not a complicated implementation. And I think the other extensions on QEMU currently
+>>>>> can mostly be configurable already.
+>>>>
+>>>> I don't have a strong opinion in this matter to be honest. My problems with the
+>>>> existing code are:
+>>>>
+>>>> - the code is untested. I cannot say that this was never tested, but I can say that
+>>>> this has been mostly untested ever since introduced. Which is normal for a code that
+>>>> is 'dormant'.
+>>>>
+>>>> - the code is dormant and most likely with bugs, but it's still maintained. For
+>>>> example we have e91a7227 ("target/riscv: Split misa.mxl and misa.ext") that had
+>>>> to make changes here. So we have the upkeep but no benefits.
+>>>>
+>>>> - we don't have an use case for it. Most OSes doesn't seem to care, and afaik no
+>>>> applications seems to care either.
+>>>>
+>>>>
+>>>> All this said, I think we can reach a consensus of keeping it if we can at least come
+>>>> up with a way of testing it.
+>>>>
+>>>>
+>>>>>
+>>>>> Your work is a good step towards to unify the configuration and the check.  I think two more steps we can go further.
+>>>>>
+>>>>> 1) Remove RVI/RVF and the similar macros, and add fields for them in the configuration struct.
+>>>>>
+>>>>> 2) Unify the check about configuration. write_misa and cpu_realize_fn can use the same check function.
+>>>>>
+>>>>>
+>>>>> As we have done these two steps, I think we can go more closely for the profile extension.
+>>>>
+>>>>
+>>>> Is this the extension you're taking about?
+>>>>
+>>>> https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc
+>>
+>> Zhiwei, I looked it up and at first I don't understand how writing MISA is
+>> related to this profile extension. Are you suggesting that the firmware
+>> can choose to run a specific profile and then the hardware must adapt to
+>> it on the fly? Because if not, then we can implement profiles by just
+>> passing them in the QEMU command line.
 > 
-> Move the assignment of s->job to when the mirror job is actually fully
-> initialised to make sure that the mirror_top driver doesn't access it
-> too early.
+> No, there is not a directly dependency relation between writing MISA and profile extension.
+> I think we have too many places for configuring the extensions ( ISA or Non-ISA) and we don't have a unified check function.
 > 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> For example:
+> 
+> 1) The cpu init function.
+> 
+> 2) The -cpu property
+> 
+> 3) wite_misa
+> 
+> And if supported,  the profile will be converted into the combination of extensions in cfg. It will add a new configuration point.
+> Thus I think we should unify the check function before introduce the more configuration place.
+> 
+> My initial idea is that we always use the cfg fields for configuration and misa is only a mapping of combination cfg fields. And the unified check function
+> only works on cfg field.
+> 
+> And of course,  you can omit this comment for this patch set.
 
-Probably bitmap initialization and (maybe) some other things in mirror_run() should actually be done in mirror_start_job(). Still:
+What I'm going to do then is to go back to the approach taken in v3, but gating
+the write_misa() implementation with a x-misa-w experimental attribute. The
+attribute will be default off. This will give us time to work on the cfg
+improvements you talked about while still having the write_misa() code around.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+I have some ideas about how we can have a centered configuration point like you
+suggested. The code freeze is March 7th, so no promises on having this fully
+done for this release cycle. A few cleanups here and there would be nice, so
+let's start small and see how that goes.
 
 
--- 
-Best regards,
-Vladimir
+Thanks,
 
+Daniel
+
+> 
+> Zhiwei
+> 
+>>
+>>>>
+>>>>
+>>>> This looks like a good reason to keep the code. Let's see if anyone else has an opinion
+>>>> about it. We can do the improvements you mentioned above as a follow-up (this series was
+>>>> really about removing RISC_FEATURE_*) if we decide to keep it.
+>>>
+>>> If we decide to keep it and not guard it by default, then we should test
+>>> and fix it now. Also, as we're already aware that it has insufficient
+>>> sanity checks for extension dependencies, then we should fix our general
+>>> extension dependency checking now too, in order to apply that to this.
+>>> IOW, trying to keep this, without some guard on it, opens a can of worms.
+>>> My vote is the same as it was before, merge this series and then revisit
+>>> this function when someone has a use/test case for it. Nobody said this
+>>> was never going to have a different implementation, just that the current
+>>> implementation is known-buggy and there's no reason to expose it now.
+>>
+>>
+>> It wouldn't be not guarded by default. In fact, in case we decide to go back
+>> to what we were doing a couple of versions ago, I would rename the 'misa-w'
+>> attribute to 'x-misa-w'.
+>>
+>> The 'x' would be an indication that this is really something experimental and
+>> expectations must be set accordingly if the user decides to enable it. In
+>> reality, what this 'x-misa-w' would do is to give us more time to stabilize
+>> the code inside write_misa(). Ideally we would get rid of it when the code
+>> is stable.
+>>
+>>
+>>
+>> Daniel
+>>
+>>>
+>>> My only concern with the code deletion is that git-blame doesn't blame
+>>> deleted code. I think we should add a comment describing the history
+>>> which includes a git commit reference which can be used to see the
+>>> latest implementation.
+>>>
+>>> Thanks,
+>>> drew
+>>>
+>>>>
+>>>>
+>>>>
+>>>> Thanks,
+>>>>
+>>>>
+>>>> Daniel
+>>>>
+>>>>>
+>>>>>
+>>>>> Zhiwei
+>>>>>
+>>>>>> Given that allowing the dormant code to write MISA can cause tricky bugs
+>>>>>> to solve later on, and we don't have a particularly interesting case of
+>>>>>> writing MISA to support today, and we're already not violating the
+>>>>>> specification, let's erase all the body of write_misa() and turn it into
+>>>>>> an official no-op instead of an accidental one. We'll keep consistent
+>>>>>> with what we provide users today but with 50+ less lines to maintain.
+>>>>>>
+>>>>>> RISCV_FEATURE_MISA enum is erased in the process since there's no one
+>>>>>> else using it.
+>>>>>>
+>>>>>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>>>>>> Reviewed-by: Bin Meng <bmeng@tinylab.org>
+>>>>>> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+>>>>>> ---
+>>>>>>    target/riscv/cpu.h |  1 -
+>>>>>>    target/riscv/csr.c | 55 ----------------------------------------------
+>>>>>>    2 files changed, 56 deletions(-)
+>>>>>>
+>>>>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>>>>>> index 7128438d8e..01803a020d 100644
+>>>>>> --- a/target/riscv/cpu.h
+>>>>>> +++ b/target/riscv/cpu.h
+>>>>>> @@ -89,7 +89,6 @@ enum {
+>>>>>>        RISCV_FEATURE_MMU,
+>>>>>>        RISCV_FEATURE_PMP,
+>>>>>>        RISCV_FEATURE_EPMP,
+>>>>>> -    RISCV_FEATURE_MISA,
+>>>>>>        RISCV_FEATURE_DEBUG
+>>>>>>    };
+>>>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>>>>>> index 1b0a0c1693..f7862ff4a4 100644
+>>>>>> --- a/target/riscv/csr.c
+>>>>>> +++ b/target/riscv/csr.c
+>>>>>> @@ -1329,61 +1329,6 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
+>>>>>>    static RISCVException write_misa(CPURISCVState *env, int csrno,
+>>>>>>                                     target_ulong val)
+>>>>>>    {
+>>>>>> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
+>>>>>> -        /* drop write to misa */
+>>>>>> -        return RISCV_EXCP_NONE;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    /* 'I' or 'E' must be present */
+>>>>>> -    if (!(val & (RVI | RVE))) {
+>>>>>> -        /* It is not, drop write to misa */
+>>>>>> -        return RISCV_EXCP_NONE;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    /* 'E' excludes all other extensions */
+>>>>>> -    if (val & RVE) {
+>>>>>> -        /* when we support 'E' we can do "val = RVE;" however
+>>>>>> -         * for now we just drop writes if 'E' is present.
+>>>>>> -         */
+>>>>>> -        return RISCV_EXCP_NONE;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    /*
+>>>>>> -     * misa.MXL writes are not supported by QEMU.
+>>>>>> -     * Drop writes to those bits.
+>>>>>> -     */
+>>>>>> -
+>>>>>> -    /* Mask extensions that are not supported by this hart */
+>>>>>> -    val &= env->misa_ext_mask;
+>>>>>> -
+>>>>>> -    /* Mask extensions that are not supported by QEMU */
+>>>>>> -    val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU | RVV);
+>>>>>> -
+>>>>>> -    /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
+>>>>>> -    if ((val & RVD) && !(val & RVF)) {
+>>>>>> -        val &= ~RVD;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    /* Suppress 'C' if next instruction is not aligned
+>>>>>> -     * TODO: this should check next_pc
+>>>>>> -     */
+>>>>>> -    if ((val & RVC) && (GETPC() & ~3) != 0) {
+>>>>>> -        val &= ~RVC;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    /* If nothing changed, do nothing. */
+>>>>>> -    if (val == env->misa_ext) {
+>>>>>> -        return RISCV_EXCP_NONE;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    if (!(val & RVF)) {
+>>>>>> -        env->mstatus &= ~MSTATUS_FS;
+>>>>>> -    }
+>>>>>> -
+>>>>>> -    /* flush translation cache */
+>>>>>> -    tb_flush(env_cpu(env));
+>>>>>> -    env->misa_ext = val;
+>>>>>> -    env->xl = riscv_cpu_mxl(env);
+>>>>>>        return RISCV_EXCP_NONE;
+>>>>>>    }
 
