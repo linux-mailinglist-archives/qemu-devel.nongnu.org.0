@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE64069F8B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDE969F8DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:18:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUria-0006Af-S4; Wed, 22 Feb 2023 11:11:44 -0500
+	id 1pUrnu-0000ce-OR; Wed, 22 Feb 2023 11:17:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUriX-00069m-Jw
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:11:43 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUrns-0000cN-9V
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:17:12 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUriV-0006eo-Rt
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:11:41 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- l7-20020a05600c4f0700b003e79fa98ce1so3834464wmq.2
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 08:11:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUrnq-0007mI-Kg
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:17:12 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ p3-20020a05600c358300b003e206711347so5745331wmq.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 08:17:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=E/XA2y/70mfsuEWrV6iHpFct0yC4BbmOCAUV1cf92Ug=;
- b=YGShkIRKsqFjkcWm4+l03lhWXkJucdZxbj63eS0GB0kY5SY29eB4riEthtkct8Vf1K
- Ix7WpjtaO3af8ftH1pItJPOE5GmHeWF1nKr3eOiMDbCjc7diX4WW21lRw6cBiwNmNdpW
- 66rWZ0RVdUVK3lIVUvOSratP0QYX2pmNf+wYzwZhr2hK2GJPlD/OBRUlRDPyEu+h473K
- utOR3QT/GQPWnxLiO/jMwGHdbHmqGJwVfI55vL18iywG+vlQ6cdZJKBN8FMBu74MEI8K
- iKVC0F+aw+kPLHVY4gzOPKrVWqfdiqxQVy8ZxxXF6REqe4B7pbtX7qFFRI7sxo0W3J1r
- iUtQ==
+ bh=gocHSuxyi3k08qqM9s5R4cwvr6IvnypcxzQE0QSemHs=;
+ b=wJKq44DpfAJRvrUxLvX+x+Ac/nhmYvEeXwA/YLIEzf3N3p3roI1gf1vdGW2To2OEv+
+ CA6Ih2NeOkJmUxMdh83xU0+7+9zzRDdvwDLXibensXKB5WNqjZqWWm4fGtD7jT4x0pfD
+ E/sgSMc1S3sT71zNq/4o9cRaVzR5gt0GGHuydSBo8/7bwoJaYlDEXHQgn4TRkCnOpFNs
+ NM5B06Xi8J29IX3n+adUqNRBamHIjhnzPDxCTYWduzCMI1TcACXeOz3bq5HNsCHCDN2Z
+ LxYHqisvZuo4Uz01uQZAxDOI4S8J2WDFVjNuJ4pp5jfURhmHgmGvC4F+X5EvLNqJ1WAq
+ S2Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=E/XA2y/70mfsuEWrV6iHpFct0yC4BbmOCAUV1cf92Ug=;
- b=IUGnjYg8Pg0c8MlH/4Gyuz7AT7oljgHTluymZrPLfrWXIYzgy141MYNiRT+XvdK+p0
- Ioom91ciOP9XSQoBOYpr/PEt+NuAGv2cvlN+kdSMoA/SoxI0dLHnSlkaT1KfuHe28YmG
- +M7xA07qOOdQBz9wef8oJ1HqGIYwKXp07BrbfROjuIXE96YkTlExZ8Kh1OOLj6guaYj3
- vu+XHATbvriitEsJ1J9wrZT6V7EMS1w/nTzEANigJ7Aj6J50TU8ukliFP8ZF6+mYtUFi
- rex1yWSu6oHrW5bA1mwRQ3qgBZ43qXf+gEVrD4OAVSCLhkDtnohhCOdg8m8TzoczsSNq
- PuCA==
-X-Gm-Message-State: AO0yUKVQ2R9yPeRd1TJ3Y63ZmmHHbN6qrMXG/67dSQWtJsR0GEfcw8Lf
- b0HXRSTuEVpp33b9md7pVg27Ug==
-X-Google-Smtp-Source: AK7set/7R2veLrfjj7b1i3WeTVWZAVBV/aHstGZblokJkYwpHZWhT/UfKPf2MDSF38MQyrBPhukOuw==
-X-Received: by 2002:a05:600c:54ee:b0:3dc:4356:533c with SMTP id
- jb14-20020a05600c54ee00b003dc4356533cmr6092270wmb.5.1677082298194; 
- Wed, 22 Feb 2023 08:11:38 -0800 (PST)
+ bh=gocHSuxyi3k08qqM9s5R4cwvr6IvnypcxzQE0QSemHs=;
+ b=OSyNLUEAcs8YWmhHsrKmE9BHfjZ6Fz0yErdSBN3oKXWl1v3UhX/FTEzwnK5tuo5TjU
+ rkrCOx/vdeDzNYR0STtMMBrKq8TAcihwPMx+tl6VftSfcr5qQ+GSIYdsnURoLpyIl0De
+ T09YZQygkfQ5k7vmGM6CRpLqxTcbFxvVFnuniESvjmGSvqiYk50l9sWzl3hKevrp5FDv
+ 9cOgODDHy3QJlYCCPm1GwdYs9mMgrAZe8bT2f376kZylq16QM9IJ+1zwudTHZfMXyfk/
+ jPPzwjMkWZme92v0+E6lg2G/y3jtp4fZhLKygyNFpGG7kagy/kQEM/DGyEPpk+mcRpfw
+ ooJQ==
+X-Gm-Message-State: AO0yUKUJiVLUpvM1r/3DgC3w5a1uyHEwjFX3ScxaEZR/AnSMGU2vmIk5
+ tCHUj1VZyXgi84cDTLFLCidTiQ==
+X-Google-Smtp-Source: AK7set/yk9limTQdII915Wu/tXKbv5oEpiHtTqUPIsCJhGd1OxCXs9ynIjdtAKgHuP4WKvKmKCMyfg==
+X-Received: by 2002:a05:600c:331b:b0:3df:e4b4:de69 with SMTP id
+ q27-20020a05600c331b00b003dfe4b4de69mr6093721wmp.27.1677082628635; 
+ Wed, 22 Feb 2023 08:17:08 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- z16-20020a1c4c10000000b003e2096da239sm7992324wmf.7.2023.02.22.08.11.37
+ r8-20020a05600c458800b003db01178b62sm1745083wmo.40.2023.02.22.08.17.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 08:11:37 -0800 (PST)
-Message-ID: <3544bf56-4d5c-174d-5bfd-a67c9689ca37@linaro.org>
-Date: Wed, 22 Feb 2023 17:11:36 +0100
+ Wed, 22 Feb 2023 08:17:08 -0800 (PST)
+Message-ID: <fa7ff862-32fd-edd2-1629-ee68e920c68d@linaro.org>
+Date: Wed, 22 Feb 2023 17:17:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 5/5] hw: Remove mentions of NDEBUG
+Subject: Re: [PATCH v4 2/4] sysemu/os-win32: fix setjmp/longjmp on
+ windows-arm64
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>
-References: <20230221232520.14480-1-philmd@linaro.org>
- <20230221232520.14480-6-philmd@linaro.org>
- <20230222070529-mutt-send-email-mst@kernel.org>
+To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
+Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
+ richard.henderson@linaro.org, alex.bennee@linaro.org,
+ peter.maydell@linaro.org
+References: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
+ <20230221153006.20300-3-pierrick.bouvier@linaro.org>
+ <5a61bdc2-1bc0-7147-8053-2ef1d2fbcb2f@linaro.org>
+ <8fc239ec-b01c-019a-9c8c-b276bbf3fd02@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230222070529-mutt-send-email-mst@kernel.org>
+In-Reply-To: <8fc239ec-b01c-019a-9c8c-b276bbf3fd02@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -96,51 +97,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/2/23 13:05, Michael S. Tsirkin wrote:
-> On Wed, Feb 22, 2023 at 12:25:20AM +0100, Philippe Mathieu-Daudé wrote:
->> Since commit 262a69f428 ("osdep.h: Prohibit disabling
->> assert() in supported builds") 'NDEBUG' can not be defined.
+On 22/2/23 17:08, Pierrick Bouvier wrote:
+> On 2/21/23 23:27, Philippe Mathieu-Daudé wrote:
+>> On 21/2/23 16:30, Pierrick Bouvier wrote:
+>>> Windows implementation of setjmp/longjmp is done in
+>>> C:/WINDOWS/system32/ucrtbase.dll. Alas, on arm64, it seems to *always*
+>>> perform stack unwinding, which crashes from generated code.
+>>>
+>>> By using alternative implementation built in mingw, we avoid doing stack
+>>> unwinding and this fixes crash when calling longjmp.
+>>>
+>>> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
+>>> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>    include/sysemu/os-win32.h | 28 ++++++++++++++++++++++++----
+>>>    meson.build               | 21 +++++++++++++++++++++
+>>>    2 files changed, 45 insertions(+), 4 deletions(-)
 >>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>
+>>> -#if defined(_WIN64)
+>>> -/* On w64, setjmp is implemented by _setjmp which needs a second 
+>>> parameter.
+>>> +#if defined(__aarch64__)
+>>> +/*
+>>> + * On windows-arm64, setjmp is available in only one variant, and 
+>>> longjmp always
+>>> + * does stack unwinding. This crash with generated code.
+>>> + * Thus, we use another implementation of setjmp (not windows one), 
+>>> coming from
+>>> + * mingw, which never performs stack unwinding.
+>>> + */
+>>> +#undef setjmp
+>>> +#undef longjmp
+>>> +/*
+>>> + * These functions are not declared in setjmp.h because __aarch64__ 
+>>> defines
+>>> + * setjmp to _setjmpex instead. However, they are still defined in 
+>>> libmingwex.a,
+>>> + * which gets linked automatically.
+>>> + */
+>>> +extern int __mingw_setjmp(jmp_buf);
+>>> +extern void __attribute__((noreturn)) __mingw_longjmp(jmp_buf, int);
+>>> +#define setjmp(env) __mingw_setjmp(env)
+>>> +#define longjmp(env, val) __mingw_longjmp(env, val)
+>>> +#elif defined(_WIN64)
+>>> +/*
+>>> + * On windows-x64, setjmp is implemented by _setjmp which needs a 
+>>> second parameter.
+>>>     * If this parameter is NULL, longjump does no stack unwinding.
+>>>     * That is what we need for QEMU. Passing the value of register 
+>>> rsp (default)
+>>> - * lets longjmp try a stack unwinding which will crash with 
+>>> generated code. */
+>>> + * lets longjmp try a stack unwinding which will crash with 
+>>> generated code.
+>>> + */
+>>>    # undef setjmp
+>>>    # define setjmp(env) _setjmp(env, NULL)
+>>> -#endif
+>>> +#endif /* __aarch64__ */
+>>
+>> This comment is confusing, the previous if ladder is about i86. Maybe
+>> better not add any comment?
 > 
-> this exactly says NDEBUG is not allowed. why are you removing this?
-
-The project can not be built with NDEBUG. There is no point in
-mentioning it in each individual function.
-
->> ---
->>   hw/scsi/mptsas.c   | 2 --
->>   hw/virtio/virtio.c | 2 --
->>   2 files changed, 4 deletions(-)
->>
->> diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
->> index c485da792c..5b373d3ed6 100644
->> --- a/hw/scsi/mptsas.c
->> +++ b/hw/scsi/mptsas.c
->> @@ -1240,8 +1240,6 @@ static void *mptsas_load_request(QEMUFile *f, SCSIRequest *sreq)
->>       n = qemu_get_be32(f);
->>       /* TODO: add a way for SCSIBusInfo's load_request to fail,
->>        * and fail migration instead of asserting here.
->> -     * This is just one thing (there are probably more) that must be
->> -     * fixed before we can allow NDEBUG compilation.
->>        */
->>       assert(n >= 0);
->>
->> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
->> index f35178f5fc..c6b3e3fb08 100644
->> --- a/hw/virtio/virtio.c
->> +++ b/hw/virtio/virtio.c
->> @@ -1898,8 +1898,6 @@ void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t sz)
->>   
->>       /* TODO: teach all callers that this can fail, and return failure instead
->>        * of asserting here.
->> -     * This is just one thing (there are probably more) that must be
->> -     * fixed before we can allow NDEBUG compilation.
->>        */
->>       assert(ARRAY_SIZE(data.in_addr) >= data.in_num);
->>       assert(ARRAY_SIZE(data.out_addr) >= data.out_num);
->> -- 
->> 2.38.1
+> If I am not mistaken, before we had:
 > 
+> #if x64
+> define setjmp as _setjmp(env, 0)
+> #endif
+> // nothing done for x86
+> 
+> and now we have:
+> 
+> #if aarch64
+> define setjmp as __mingw_setjmp
+> define longjmp as __mingw_longjmp
+> #elif x64
+> define setjmp as _setjmp(env, 0)
+> #endif
+> // nothing done for x86
+> 
+> Maybe the patch format is confusing, or I missed what you pointed.
 
+Oh OK, we are good then, sorry :)
 
