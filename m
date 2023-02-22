@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11E569ECA3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 03:02:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9C869ECA0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 03:01:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUeRB-0003Ck-7y; Tue, 21 Feb 2023 21:00:53 -0500
+	id 1pUeRB-0003Cl-FE; Tue, 21 Feb 2023 21:00:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUeQy-00036V-HO
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 21:00:41 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pUeR0-00037J-7X
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 21:00:43 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUeQw-00015H-Tj
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 21:00:40 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- z20-20020a17090a8b9400b002372d7f823eso3070855pjn.4
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 18:00:38 -0800 (PST)
+ id 1pUeQy-00015S-EX
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 21:00:41 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id c23so2310361pjo.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 18:00:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5QZ5Dbtl92tzklOChDMe8O5bqURzi4Z13sfncMd8SRE=;
- b=Z1+55IcG/uq/6iFXCHXoiP/xCutgmWb/8q4BiZ9mATE+IP42/ImueqxVQgNM1B8nfT
- twGCODE8Q9l631mbd6xILrHWSUi8/1pRlQMP+5YHLYrntNVDxIxMkUvcwJmJO/sSIcoJ
- cwyOb5M521KS3CoARN+CWXXtZuJwbi86cqHlugt5w/k981hkonZ9oJ7SxeGaJE8SOE1C
- 5t47H051GFSRrcZRINPsKqqTVMYGC1/NvKn3+z5EHWwBGfuXeqbi1GqSpmCjWawQ1JeN
- ZMBz3L7HY0iI+giVf2Eq9p2yvLlTHAiR7AdtQwK27hEktECe9kiU2kVDqDWQFWOb5ME6
- 02qg==
+ bh=65HRmCDkLuuur1UpqMIRZDfCJCF1ZUxrkWbM7vUK1aI=;
+ b=pjrQaHseri1q4CL5gVJIWmZ1kBqPVGiL5DWP18cRyHRB8oviGCOGoXwgypU2JP4BgH
+ sB9SgVwaC2N3hfT+CPykUjJOeTX8kxSk2IJ5q+LrKoXXB1x41iG1c3uHJwMI35VCxxKn
+ A+pHGZjSfnewj22J8YXmhDL7ANbiffzV7Fw7xSagWl5mr0Eo94qNG71v+SrO/of0RBdh
+ Wcx7H3+PV8zBCdPoaMWnwz0r1soKm1RJIJCKbXVPwYKXVVQevd9Mmo+BEze+JUcc2xD8
+ E3J++vHO0oLhbMHkELcdOb8rKTZRa3dJJzgjBLfdge4C2zOmB0T4DhSoHhwwci1RgrBV
+ gjjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5QZ5Dbtl92tzklOChDMe8O5bqURzi4Z13sfncMd8SRE=;
- b=Sl6El3xuUYk9xSjQfOvrtBcUwh2yhSD0D0UjoujvHo15WktDYC/qQi+kUhOHh/OYcM
- RKedmq4FbP4uB0wnNBczSRztIVFIts6S/dxENmp7IXcLdY5Ymve6PeyZVP3zVCDF/h18
- C5ryfLhMQwCAiISw9GcujufEuugN1CaHc3/FC4jxd9fqXwlXtNgg/esILnajJGg26CIH
- oVrpGYMB11lxZwEvvO09YQSdden3zsedp59PTqKy0/v5rnkowHCJFvYFjLB0umULv96m
- 491Iu4MDL9tK+WAiVPunbKRrHE9zQ0atstlIACiYuJB7QweR4nd/he02XKY+w1Hr9k2A
- gqug==
-X-Gm-Message-State: AO0yUKVv0Ar3N0WGt0MJ5Eu7lK4EyRDesxZ4xTaJ511dXBZijcs4067w
- PuO+CGBw7d7uC7kMWg/N/Hpgsgqv2GiabadcgBs=
-X-Google-Smtp-Source: AK7set/Z6K/j2j5LqwDWVz8KZgGS33bC+80x0UnHxVR90g6juZdlPehuaLRwsAqdZ7QCB4KX78rt9g==
-X-Received: by 2002:a17:903:22c8:b0:192:4f85:b91d with SMTP id
- y8-20020a17090322c800b001924f85b91dmr7843024plg.46.1677031237330; 
- Tue, 21 Feb 2023 18:00:37 -0800 (PST)
+ bh=65HRmCDkLuuur1UpqMIRZDfCJCF1ZUxrkWbM7vUK1aI=;
+ b=2zdlP8qmbVc16oi5V7gfF91ZW86/eF7FfSkG0O7t27exhn8elOL5TWpdkxmQhTlNu7
+ UoWrnjSc9PZa/HTs04OVYnC3B1kbw7Xs4la/mMhvFgdNBELGhNXEvHa8z6wxadAbpzmp
+ ZnsTj5G6Ta7h8Vok8dO72WA0Fg/LiYXtIx8n6tGI6lMylBRWZf/I7rY4QKG+YJBOTPn2
+ OHnNst+g0LfQo6u3aqPih5eqKuc46B4ff9z89uS5sVNnlDMmOQkpgMTAxJOzC4R59wrN
+ DJPNa84weYR2eUk/WFRyY2mK/oX6FYmbJpFEoRXvwHPvHLfSbG3peUbWV4EHgRrDT9ko
+ NRfA==
+X-Gm-Message-State: AO0yUKUeQD+r9RmNNgP0UIzLVYdVkE/NNmXmVMy4es0cztQRnvCoDYNw
+ x5O15ZQQfFAmxoisQqnYaoSwDf6TQ3MT8C+gsys=
+X-Google-Smtp-Source: AK7set+P65eQDVR10CbQYxxLvZfrmpF8OJ1rr89ONw0m/OB4R3Vz3dOIbwXcdRKUUaxwAPyi7NbPJg==
+X-Received: by 2002:a17:902:76c9:b0:19c:a6d6:7d25 with SMTP id
+ j9-20020a17090276c900b0019ca6d67d25mr1031515plt.37.1677031239018; 
+ Tue, 21 Feb 2023 18:00:39 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a170902c10200b00189743ed3b6sm91468pli.64.2023.02.21.18.00.36
+ 2-20020a170902c10200b00189743ed3b6sm91468pli.64.2023.02.21.18.00.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 18:00:36 -0800 (PST)
+ Tue, 21 Feb 2023 18:00:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
-	Pierrick Bouvier <pierrick.bouvier@linaro.org>
-Subject: [PULL v2 7/8] util/cacheflush: fix cache on windows-arm64
-Date: Tue, 21 Feb 2023 16:00:22 -1000
-Message-Id: <20230222020023.904232-8-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org, Pierrick Bouvier <pierrick.bouvier@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL v2 8/8] sysemu/os-win32: fix setjmp/longjmp on windows-arm64
+Date: Tue, 21 Feb 2023 16:00:23 -1000
+Message-Id: <20230222020023.904232-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230222020023.904232-1-richard.henderson@linaro.org>
 References: <20230222020023.904232-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,56 +93,98 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
 
-ctr_el0 access is privileged on this platform and fails as an illegal
-instruction.
+Windows implementation of setjmp/longjmp is done in
+C:/WINDOWS/system32/ucrtbase.dll. Alas, on arm64, it seems to *always*
+perform stack unwinding, which crashes from generated code.
 
-Windows does not offer a way to flush data cache from userspace, and
-only FlushInstructionCache is available in Windows API.
+By using alternative implementation built in mingw, we avoid doing stack
+unwinding and this fixes crash when calling longjmp.
 
-The generic implementation of flush_idcache_range uses,
-__builtin___clear_cache, which already use the FlushInstructionCache
-function. So we rely on that.
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230221153006.20300-2-pierrick.bouvier@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230221153006.20300-3-pierrick.bouvier@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/cacheflush.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ include/sysemu/os-win32.h | 28 ++++++++++++++++++++++++----
+ meson.build               | 21 +++++++++++++++++++++
+ 2 files changed, 45 insertions(+), 4 deletions(-)
 
-diff --git a/util/cacheflush.c b/util/cacheflush.c
-index 2c2c73e085..06c2333a60 100644
---- a/util/cacheflush.c
-+++ b/util/cacheflush.c
-@@ -121,8 +121,12 @@ static void sys_cache_info(int *isize, int *dsize)
- static bool have_coherent_icache;
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index 5b38c7bd04..97d0243aee 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -51,14 +51,34 @@ typedef struct sockaddr_un {
+ extern "C" {
  #endif
  
--#if defined(__aarch64__) && !defined(CONFIG_DARWIN)
--/* Apple does not expose CTR_EL0, so we must use system interfaces. */
-+#if defined(__aarch64__) && !defined(CONFIG_DARWIN) && !defined(CONFIG_WIN32)
+-#if defined(_WIN64)
+-/* On w64, setjmp is implemented by _setjmp which needs a second parameter.
++#if defined(__aarch64__)
 +/*
-+ * Apple does not expose CTR_EL0, so we must use system interfaces.
-+ * Windows neither, but we use a generic implementation of flush_idcache_range
-+ * in this case.
++ * On windows-arm64, setjmp is available in only one variant, and longjmp always
++ * does stack unwinding. This crash with generated code.
++ * Thus, we use another implementation of setjmp (not windows one), coming from
++ * mingw, which never performs stack unwinding.
 + */
- static uint64_t save_ctr_el0;
- static void arch_cache_info(int *isize, int *dsize)
- {
-@@ -225,7 +229,11 @@ static void __attribute__((constructor)) init_cache_info(void)
- 
- /* Caches are coherent and do not require flushing; symbol inline. */
- 
--#elif defined(__aarch64__)
-+#elif defined(__aarch64__) && !defined(CONFIG_WIN32)
++#undef setjmp
++#undef longjmp
 +/*
-+ * For Windows, we use generic implementation of flush_idcache_range, that
-+ * performs a call to FlushInstructionCache, through __builtin___clear_cache.
++ * These functions are not declared in setjmp.h because __aarch64__ defines
++ * setjmp to _setjmpex instead. However, they are still defined in libmingwex.a,
++ * which gets linked automatically.
 + */
++extern int __mingw_setjmp(jmp_buf);
++extern void __attribute__((noreturn)) __mingw_longjmp(jmp_buf, int);
++#define setjmp(env) __mingw_setjmp(env)
++#define longjmp(env, val) __mingw_longjmp(env, val)
++#elif defined(_WIN64)
++/*
++ * On windows-x64, setjmp is implemented by _setjmp which needs a second parameter.
+  * If this parameter is NULL, longjump does no stack unwinding.
+  * That is what we need for QEMU. Passing the value of register rsp (default)
+- * lets longjmp try a stack unwinding which will crash with generated code. */
++ * lets longjmp try a stack unwinding which will crash with generated code.
++ */
+ # undef setjmp
+ # define setjmp(env) _setjmp(env, NULL)
+-#endif
++#endif /* __aarch64__ */
+ /* QEMU uses sigsetjmp()/siglongjmp() as the portable way to specify
+  * "longjmp and don't touch the signal masks". Since we know that the
+  * savemask parameter will always be zero we can safely define these
+diff --git a/meson.build b/meson.build
+index bc7e5b1d15..6a139e7085 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2466,6 +2466,27 @@ if targetos == 'windows'
+     }''', name: '_lock_file and _unlock_file'))
+ endif
  
- #ifdef CONFIG_DARWIN
- /* Apple does not expose CTR_EL0, so we must use system interfaces. */
++if targetos == 'windows'
++  mingw_has_setjmp_longjmp = cc.links('''
++    #include <setjmp.h>
++    int main(void) {
++      /*
++       * These functions are not available in setjmp header, but may be
++       * available at link time, from libmingwex.a.
++       */
++      extern int __mingw_setjmp(jmp_buf);
++      extern void __attribute__((noreturn)) __mingw_longjmp(jmp_buf, int);
++      jmp_buf env;
++      __mingw_setjmp(env);
++      __mingw_longjmp(env, 0);
++    }
++  ''', name: 'mingw setjmp and longjmp')
++
++  if cpu == 'aarch64' and not mingw_has_setjmp_longjmp
++    error('mingw must provide setjmp/longjmp for windows-arm64')
++  endif
++endif
++
+ ########################
+ # Target configuration #
+ ########################
 -- 
 2.34.1
 
