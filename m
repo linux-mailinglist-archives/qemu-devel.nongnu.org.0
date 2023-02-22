@@ -2,83 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEDE69FDC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 22:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E104069FDCB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 22:40:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUwnk-00087w-F1; Wed, 22 Feb 2023 16:37:24 -0500
+	id 1pUwqa-0000hR-Jc; Wed, 22 Feb 2023 16:40:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUwni-00087T-Pp
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:37:22 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUwnh-0005dU-8M
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:37:22 -0500
-Received: by mail-pl1-x633.google.com with SMTP id z2so10633343plf.12
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 13:37:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=T6UnAIy50X4YtRBVt50hEeqQhRj0NfiDHvi3k0VYj88=;
- b=JtDufyLvRlQOJM+w2f3gTCArLVrhKbIXslrMI/uEcJekIUrvEE9fwVwYTLGxBB11yQ
- sXpmdQ9o3vvJVcMrxKfjBsOFpIT6si7eNAOjvdJvmu26yh6dDQeLNOWrVibGANBzMHnk
- TeocT4QGCLT9WedKAenfvfmIohU/KheipNOcm4fU5lUnOrXliTc5FywhlLE4X1dd4J0u
- QPqV/CHUv7b2WCU1EjmI8cBI84ykPjidEDWFxit17jHtusagZE+jFE63E7X6gyMlMwH3
- VJV9h0CznL4Rdn+g+Ly0VjsOrUnXvXbme9gc9pklIkPESVDpMfJLj2UxpeiX7sSukkCD
- mkxg==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pUwqX-0000go-IH
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:40:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pUwqV-0006UJ-Iq
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:40:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677102014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RcbMfCCUVZU65eqs0V6yVnLHYCanuRZINLjD7BqNGcU=;
+ b=arQ/k5sjpAg6oSAhiHNw315bv1QxuTJSr5E3zJ5iZQMt1zT1wWbE7AQ3CMncVLhHfE6A6g
+ ArQ6Ykw2+20cOn/16maOjI2nSBx7T7H007NF3Zdpcz4dMF1Irct4AhsLFIKFIQFqIIHF/d
+ vjjnhJQXf144MOUJdrPxBDO1ntt1U48=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-471-8DYpf6YzM1ShzGfxHrT4Yg-1; Wed, 22 Feb 2023 16:40:12 -0500
+X-MC-Unique: 8DYpf6YzM1ShzGfxHrT4Yg-1
+Received: by mail-io1-f70.google.com with SMTP id
+ p25-20020a5d9c99000000b00745dfcf1ed3so5810987iop.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 13:40:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=T6UnAIy50X4YtRBVt50hEeqQhRj0NfiDHvi3k0VYj88=;
- b=Sy1HXo/+GNostXlYgGwMoxz5hbOvCWJ9+i+VJhN9QxNRzM8/kVe+3e+JCCidaIV7i2
- eoNtX4U2pfX34z4tHTlIX0bBg/H1lTqmANuMQRwqdD3ArryFQDX5YRjdYEV72lfSMnrC
- Mq6qyGJvqjshyzryLZ+koCt/1KzdBHIDTG9lqT/wBnOZ3ra9FCWRUx5rFQvSz+ATRe6l
- eCjfRPGHLnMba32BxhYNzeWLLj99xptbWnsNMt3/98pWzz5Wd4/pVYMGib58wGTFxAmo
- 1/VFz/9DQRdVKZvWZilhlU74bjVhRJXiWVyZNgzrrOK5X4U+J9GfFJPU98Q8u+qPYWtt
- LFEg==
-X-Gm-Message-State: AO0yUKVm5Bj6WJwP5IjmpDa071FRjxpzQ/phVfBhEoHY5wEaOy4BKAYs
- XHYvXMBz29SHL5Dysg/S9q34Og==
-X-Google-Smtp-Source: AK7set+OdHz3WpoVB0Dj4yYx+VYOovnViKfAnp2sZEdafiSQO3/wGjdSJwJRnw5KuKLPw4YFrucysw==
-X-Received: by 2002:a17:903:1384:b0:19a:beec:8b56 with SMTP id
- jx4-20020a170903138400b0019abeec8b56mr8862295plb.39.1677101839711; 
- Wed, 22 Feb 2023 13:37:19 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- d8-20020a170902b70800b0019a983f0119sm5399025pls.307.2023.02.22.13.37.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 13:37:19 -0800 (PST)
-Message-ID: <989f380e-9d70-a377-9f56-6d42935459c2@linaro.org>
-Date: Wed, 22 Feb 2023 11:37:14 -1000
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RcbMfCCUVZU65eqs0V6yVnLHYCanuRZINLjD7BqNGcU=;
+ b=T2oH1tZ1wSeTP5T6d+GETsaifdyz9dd7HP7FhmyBmHTbYtwAVQHymqP61lznAVKPNL
+ XdKYVs+8E1iwQXky1oV7c51yvSE6P+OPNuhRky2fL1wpoFvCj/7fRiQbEBAJjPkdeaFq
+ MRcrG36q80L3z5CGudQecciWnQv/qPGxVXdF6mNGs9bsEqcp9A9romaOrczzOIKQpRAv
+ s3JguTH2M9JgMvqQ9YTSm3YFfAIZALS5SoKyuXuWTLAjTgrY5WGLW30zUSftC6Fv5bza
+ iMzuYuu5Y4VRqfe/e4PARH5DTrBTYtKNVIooqw27bEI7kSPLuiW4rRxi7eyJVuLALULP
+ 6N7w==
+X-Gm-Message-State: AO0yUKX34/sgwjdLNfiWpoRAX0vmNZY/6Z5iAIM+pKJlWc8DHp9gUods
+ LeGbqozgKH6UITST4CLk9BZWxII+NS8JI30H8vlpW11MvuYgS6F1Q3aw8lAXjTlSsN4LvSUHTCI
+ kuFS+UK4cr/JXsKU=
+X-Received: by 2002:a05:6e02:1d85:b0:312:5834:f6cf with SMTP id
+ h5-20020a056e021d8500b003125834f6cfmr7361594ila.1.1677102011862; 
+ Wed, 22 Feb 2023 13:40:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set88TmwihBtVwYdVdCmj2iGzc913uzo05PNStbyNb0amOYHbjWgveB1FOXM339cHaODS1Zn8xQ==
+X-Received: by 2002:a05:6e02:1d85:b0:312:5834:f6cf with SMTP id
+ h5-20020a056e021d8500b003125834f6cfmr7361571ila.1.1677102011626; 
+ Wed, 22 Feb 2023 13:40:11 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ g2-20020a056e02130200b00313f1b861b7sm2838630ilr.51.2023.02.22.13.40.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Feb 2023 13:40:10 -0800 (PST)
+Date: Wed, 22 Feb 2023 14:40:09 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: <qemu-devel@nongnu.org>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater
+ <clg@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Jason Wang" <jasowang@redhat.com>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "David Hildenbrand"
+ <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
+ <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
+ <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v2 07/20] vfio/common: Add VFIOBitmap and (de)alloc
+ functions
+Message-ID: <20230222144009.2a59f1d0.alex.williamson@redhat.com>
+In-Reply-To: <20230222174915.5647-8-avihaih@nvidia.com>
+References: <20230222174915.5647-1-avihaih@nvidia.com>
+ <20230222174915.5647-8-avihaih@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 6/7] target/arm: Implement v8.3 FPAC and FPACCOMBINE
-Content-Language: en-US
-To: Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Vincent Dehors <vincent.dehors@smile.fr>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230222193544.3392713-1-aaron@os.amperecomputing.com>
- <20230222193544.3392713-7-aaron@os.amperecomputing.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230222193544.3392713-7-aaron@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,37 +112,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/22/23 09:35, Aaron Lindsay wrote:
-> +static G_NORETURN
-> +void pauth_fail_exception(CPUARMState *env, bool data, int keynumber, uintptr_t ra)
+On Wed, 22 Feb 2023 19:49:02 +0200
+Avihai Horon <avihaih@nvidia.com> wrote:
+
+> There are already two places where dirty page bitmap allocation and
+> calculations are done in open code. With device dirty page tracking
+> being added in next patches, there are going to be even more places.
+> 
+> To avoid code duplication, introduce VFIOBitmap struct and corresponding
+> alloc and dealloc functions and use them where applicable.
+> 
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> ---
+>  hw/vfio/common.c | 89 ++++++++++++++++++++++++++++++++----------------
+>  1 file changed, 60 insertions(+), 29 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index ac93b85632..84f08bdbbb 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -320,6 +320,41 @@ const MemoryRegionOps vfio_region_ops = {
+>   * Device state interfaces
+>   */
+>  
+> +typedef struct {
+> +    unsigned long *bitmap;
+> +    hwaddr size;
+> +    hwaddr pages;
+> +} VFIOBitmap;
+> +
+> +static VFIOBitmap *vfio_bitmap_alloc(hwaddr size)
 > +{
-> +    int target_el = arm_current_el(env);
-> +    if (target_el == 0) {
-> +        uint64_t hcr = arm_hcr_el2_eff(env);
-> +        if (arm_is_el2_enabled(env) && (hcr & HCR_TGE))
-> +            target_el = 2;
-> +        else
-> +            target_el = 1;
+> +    VFIOBitmap *vbmap = g_try_new0(VFIOBitmap, 1);
+> +    if (!vbmap) {
+> +        errno = ENOMEM;
+> +
+> +        return NULL;
 > +    }
 > +
-> +    raise_exception_ra(env, EXCP_UDEF, syn_pacfail(data, keynumber), target_el, ra);
+> +    vbmap->pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
+> +    vbmap->size = ROUND_UP(vbmap->pages, sizeof(__u64) * BITS_PER_BYTE) /
+> +                                         BITS_PER_BYTE;
+> +    vbmap->bitmap = g_try_malloc0(vbmap->size);
+> +    if (!vbmap->bitmap) {
+> +        g_free(vbmap);
+> +        errno = ENOMEM;
+> +
+> +        return NULL;
+> +    }
+> +
+> +    return vbmap;
+> +}
+> +
+> +static void vfio_bitmap_dealloc(VFIOBitmap *vbmap)
+> +{
+> +    g_free(vbmap->bitmap);
+> +    g_free(vbmap);
+> +}
 
-Use exception_target_el(), no need to check TGE here.
+Nit, '_alloc' and '_free' seems like a more standard convention.
+Thanks,
 
-> @@ -406,6 +421,16 @@ static uint64_t pauth_auth(CPUARMState *env, uint64_t ptr, uint64_t modifier,
->           uint64_t xor_mask = MAKE_64BIT_MASK(bot_bit, top_bit - bot_bit + 1) &
->               ~MAKE_64BIT_MASK(55, 1);
->           result = ((ptr ^ pac) & xor_mask) | (ptr & ~xor_mask);
-> +        if (cpu_isar_feature(aa64_fpac_combine, env_archcpu(env)) ||
-> +                (cpu_isar_feature(aa64_fpac, env_archcpu(env)) &&
-> +                 !is_combined)) {
+Alex
 
-Indentation is off.
-
-> +    int error_code = ((data ? 1 : 0) << 1) | (keynumber);
-
-'? 1 : 0' is not required.
-
-
-r~
 
