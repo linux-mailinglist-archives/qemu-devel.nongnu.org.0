@@ -2,96 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6197F69F2BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:30:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6F269F2B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:30:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUmNn-0000Fe-TV; Wed, 22 Feb 2023 05:29:55 -0500
+	id 1pUmNo-0000G5-Hb; Wed, 22 Feb 2023 05:29:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pUmNl-0000AE-Tw
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pUmNm-0000Ah-1N
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:29:54 -0500
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pUmNj-0003lD-Ut
  for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:29:53 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pUmNj-0003l7-Ub
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:29:53 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id DEEA55C0162;
- Wed, 22 Feb 2023 05:29:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 22 Feb 2023 05:29:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1677061788; x=
- 1677148188; bh=szsQo1Hi/iilIGq+KwglSomiuO9TOAR8uTOMUkIrs2k=; b=r
- 2Q41XiOyTDV/4sgtgzArmSlO8x/7XYITB3os3YC5HN3uk2g7Ds+wNrbndIc2f4es
- 7XMK+Mxw+SnkL5HdbPcULjnCkN2wfW4XzcumcxVrS8phfRsp66TTEnJWyADCB/0x
- VksHXNf7HMkwM52VWV/0ErlMBwmYiR1Fr7b4wRfJMRHHGbj1AjgJu59Ayaypn6i5
- nkdCfqXYUY2IxkYr6deanfQMPQYghvJ5Y6Q0Ab00WvfbW9nExS8Pw9Otl1qQbnXG
- D9702UX5oY6b+b4nTiSp7R9Yt/HguK1W8P+UPLSxpP5WDYMtsW/cpDrfj5wWB+Ek
- m7vAspSRZGmKzUbij57pQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677061788; x=
- 1677148188; bh=szsQo1Hi/iilIGq+KwglSomiuO9TOAR8uTOMUkIrs2k=; b=D
- 3KeFDCL0SrRiHukwwQL50iwobL10RChupwdHj+bkwJGiZqqfmD+Vo5JAedeRn07K
- OJdg85shMgq+tNtKboARbBQzOe/jlUkZ/qRgV7YuNbKhTR/ovG8waNIy4efOqrEM
- Vo51UINnxI7LwIOc9MNSToTihIreYayI17Iun/dh/Z9p83IMhTviLNOgDFEQrzL6
- EO0A85uH70LklDRwvLV6XPzzHaZkKwyMy/PuJ756DLOx7Rx3waHLMZhtrt3Lh/dD
- vuepXsEyTRRP49BJYvdvrgyEM1tE4tn5gnRcIqv3+KuWTfNmoA5wlz2R+BIR8k7l
- M4MZzIsNNiEwfZZl9pT5A==
-X-ME-Sender: <xms:nO71Y7rynXUhyQW__zoaTOisKfGRzmKJc7ios-BrtDF8Kc6-6JjRCQ>
- <xme:nO71Y1qRwVN_sR3lSks79Sd7GRFK3lsTpyymrz1RrZxyVye66yxmTbK8O5_ppvF41
- cDwTrUrzBzRTMTyvyc>
-X-ME-Received: <xmr:nO71Y4MXWpSv-qQfXx35-KNUO0MoImlGYUGmnjCLC7Wm0PIwvKa6DIis9BXMKUa65YZi>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejledgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
- gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
- cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
- ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
- hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:nO71Y-4gI6cKB2EQ1BLGIlsFstnATUbUv-9lNTWve-_VTpnhuzcsVw>
- <xmx:nO71Y66dNrUdAwlDz63CKFKxChXzTvJOGABW1scrlum9DK_F6MDoWw>
- <xmx:nO71Y2gTOvtK_rGfmb1go0QZAWdnwewPi3Gm5sTr3cZ6YZdwgXYCSw>
- <xmx:nO71YwQcuAx45SHd7WiZkLFJ2gaySmkEVn3T3-jVeluZDDs1mMDnxQ>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Feb 2023 05:29:47 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH 3/3] hw/mips: Add MIPS virt board
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <BC1C4370-DD4F-4777-9F83-6D9FA719F0A1@flygoat.com>
-Date: Wed, 22 Feb 2023 10:29:36 +0000
-Cc: BALATON Zoltan via <qemu-devel@nongnu.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
+Received: by mail-lj1-x231.google.com with SMTP id e9so7227143ljn.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:29:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=p3o9MRBx2P5Mv8+nPSyvmjfcnSdEvtI0Jglr0f/wQOs=;
+ b=W45cNhOzo9dnWYYhOPuia24OWsVRmOl+PiV0NEwyChLvSMZDMFa6oZRqLTZNppAsqF
+ WOai+9vBP/BFC0hKf2nnSNt6VTR1u1KuMA/xnjSvYw30XMdmRy5R0SatvLqxP0398S/B
+ rfoGh/1l5ulRYq8t8EnHu6pdyyqPVwPZph3yfrnUnuNKwDTPq5Oa0trCUmp0IubUu/uF
+ zmbEIQJ1y3vnHCJW0QQl7XHmh8th367YoXBx97+deDe2skIo2jdvRDq8qicU5Bqc1RHb
+ BzM+v1haUWA101ZvifAkH9Fxa4/GD3dMDFqJsbd52VBsn0WvSwpeGUZw5qnYY8yr2S9x
+ X41Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p3o9MRBx2P5Mv8+nPSyvmjfcnSdEvtI0Jglr0f/wQOs=;
+ b=UfDm9KfQ+J2fC9N3xf80I+sKvm7/Ep8zwm0c7DUea5IKFv0nHHm0PDXPMHfcps4vQ+
+ a/65uBM5UVy1oUQVCv4pDfWV88/N6UZRSNH5bNomiNMv4CEGZD443jLOgCeQlf4IrB8T
+ cNpQ+rbgZ6Cbt2gdaQASE0LcK5oUoRak7OAloBdWMCFHVbhkCCmrvlzClJbyQZjvdSBq
+ GRv7zm2apCZ4YOF/+oCuCnxl2KM8CBWBEAXFQtCWcC4KMVmV4xh97ubtYAED0/qIxIyx
+ YQiHSyt0tFEENxmRWqUSNPwIqgVZza8Bgu8KMdyBATBa7FHVGMVM2jpzWXNT5U8owYBO
+ vWMQ==
+X-Gm-Message-State: AO0yUKW/VAjwqaAPI8hIiEuzXNQXwQkJSBbnhYrOVUdGGh7iJJVKMlMS
+ HnvcLW55g6X1nXU3j2q1uQCEPIcAoAol6UsxKIo=
+X-Google-Smtp-Source: AK7set+Fa1d8tQSqWYoIwuH9RQf+U+m399kvqTIXKZBJdWcZQRBQRyDyndBkalRMlgJoCIV5MvXYmf8R6n0Ho7/N7Us=
+X-Received: by 2002:a05:651c:b9b:b0:295:945d:b382 with SMTP id
+ bg27-20020a05651c0b9b00b00295945db382mr1072329ljb.4.1677061788816; Wed, 22
+ Feb 2023 02:29:48 -0800 (PST)
+MIME-Version: 1.0
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-8-marcandre.lureau@redhat.com>
+ <87fsb4k85h.fsf@pond.sub.org>
+ <CAMxuvax6qPYQCzNX7vESJM9_f5k4C1Yat0sJcJjrHkh_1WGpQA@mail.gmail.com>
+ <87a61821y3.fsf@pond.sub.org>
+ <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
+ <87356yq9rs.fsf@pond.sub.org>
+In-Reply-To: <87356yq9rs.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 22 Feb 2023 14:29:37 +0400
+Message-ID: <CAJ+F1CK-WExedoeNouJZPmaiCr9H4S_tCjVaO4WX-O7jo56C0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <377EC8F0-B773-41B1-8006-0C8B10F2BE82@flygoat.com>
-References: <20230202132138.30945-1-jiaxun.yang@flygoat.com>
- <20230202132138.30945-4-jiaxun.yang@flygoat.com>
- <02b95cdf-fe38-f147-1b9c-5078aaf35adb@linaro.org>
- <BC1C4370-DD4F-4777-9F83-6D9FA719F0A1@flygoat.com>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-X-Mailer: Apple Mail (2.3731.300.101.1.3)
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x231.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,60 +99,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping?
+Hi
 
-> 2023=E5=B9=B42=E6=9C=886=E6=97=A5 01:08=EF=BC=8CJiaxun Yang =
-<jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
->=20
->=20
->> 2023=E5=B9=B42=E6=9C=885=E6=97=A5 11:48=EF=BC=8CPhilippe =
-Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
->>=20
->> Hi Jiaxun,
->>=20
->> On 2/2/23 14:21, Jiaxun Yang wrote:
->>> MIPS virt board is design to utilize existing VirtIO infrastures
->>> but also comptitable with MIPS's existing internal simulation tools.
->>> It includes virtio-mmio, pcie gpex, flash rom, fw_cfg, goldfish-rtc,
->>> and optional goldfish_pic in case MIPS GIC is not present.
->>=20
->> Is it worth using the CPS/GIC? Can't we using the goldfish PIC
->> regardless CPS availability? Did you run performance comparison?
->=20
-> goldfish_pic don=E2=80=99t have IPI infra so we must reinvent another =
-SMP mechanism :-(
->=20
-> The interrupt performance should be close as the interrupt handling =
-flow is almost
-> the same.
->=20
-> Also it can help us prepare for I6400 vGIC support.
->=20
-> Thanks.
-> - Jiaxun
->=20
->=20
->>=20
->>> It should be able to cooperate with any MIPS CPU cores.
->>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>> ---
->>> v1:
->>> - Rename to virt board
->>> - Convert BIOS flash to ROM
->>> - Cleanups
->>> ---
->>> MAINTAINERS                             |    7 +
->>> configs/devices/mips-softmmu/common.mak |    1 +
->>> docs/system/target-mips.rst             |   24 +
->>> hw/mips/Kconfig                         |   18 +
->>> hw/mips/meson.build                     |    1 +
->>> hw/mips/virt.c                          | 1015 =
-+++++++++++++++++++++++
->>> 6 files changed, 1066 insertions(+)
->>> create mode 100644 hw/mips/virt.c
->>=20
->=20
->=20
+On Wed, Feb 22, 2023 at 2:23 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+> > Another option is to always pass a dummy last argument? :)
+> >
+> > void command(first,
+> > #ifdef A
+> >     a,
+> > #endif
+> > #ifdef B
+> >     b,
+> > #endif
+> >     dummy)
+>
+> Yet another option:
+>
+>   void command(first
+>   #ifdef A
+>       , a
+>   #endif
+>   #ifdef B
+>       , b
+>   #endif
+>       )
+>
+> [...]
+>
 
+Since I think we always have a first argument, that might be indeed
+the best solution. I'll try that. thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
