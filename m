@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C5C69F218
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 10:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3138769F22D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 10:50:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUliE-0003YY-2F; Wed, 22 Feb 2023 04:46:58 -0500
+	id 1pUlku-0004Q8-AE; Wed, 22 Feb 2023 04:49:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUlhy-0003VF-Rd
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 04:46:45 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUlhs-00039n-CM
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 04:46:42 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- bg37-20020a05600c3ca500b003e21e018039so6525844wmb.3
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 01:46:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7EwL3nzxhbctKAVyGXChwEVG4p7ltHn8u0EXdYYsclU=;
- b=W7Au8cRvabFbUJNbJ5YobDcO1z5csUOFyg0Bl0y6h1OWJf0aFa9yMXPqEkgJzkD6tz
- LImVubqA8uHCtUQwhkvvP30CK1ivkG5HFGUINFnBlqIatSZ37brx5tGrmiow84vm/jeS
- MNXzOikhqicAZTv4MN7jIHLNqUpOR4dk4YqFQ6MRkoFNfK4PJUPNemhAsDeuPFfewzQX
- J4aHO8Lax/LZdYKmo1mIYZzZ5aCYfl9L/EnIYRctLkzBqL5mg1OCwDXT4+AmF7LU0epg
- ua5/Aim3+DKFJmu9h744asiE3+WhPgmVrvhi5uRN0X5KA0Inq4oAGcgV/36N3Ep15H2M
- mZTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7EwL3nzxhbctKAVyGXChwEVG4p7ltHn8u0EXdYYsclU=;
- b=io+A1CQE7hduYS2sTgoq/IdpJBb4vMhwZ5hPANAvuj1SMb0XHJgpmC084Esjh+Za3Z
- QQTkawt3XJgfFEOp3ffKukFTHl+cXq+nLiPbt+snLlfLdsU6kYneQcJS2zefOxe6n4Yh
- HHKRTk+TTwRD58op3keYaOp5qZIu7ImdaIwmmK84kEYlwwWK6235B4sCGCBq++4LuzmN
- 9O9/jep/KktmeImo2+olHCyPp7TxlL3pmTIsxsUUJuYN7NpZ0FdfStNGD6nRAR7fQFpx
- FYoNL9SWVorc+Jf+G9f3A8C+hIdt28wXV2B5V5V5PO9yQZjo9qYh5w+0oDcp/sqReJRh
- U7YA==
-X-Gm-Message-State: AO0yUKWelMNl4vV9Bkt5Du9qetLY8USWxDlkC5vK8DrARifD5N4zX9Pp
- 2zZ19jwvwdURrB21pUFHMylfBw==
-X-Google-Smtp-Source: AK7set+ZtPFTshOtSL95E/wWV7KA6IHwPcp8eSVUoPCeW3Y/1dXK1+kONgRZjzbHOQhDDxTsW+/8Bw==
-X-Received: by 2002:a05:600c:4495:b0:3dc:5a7c:f8ad with SMTP id
- e21-20020a05600c449500b003dc5a7cf8admr592744wmo.21.1677059193300; 
- Wed, 22 Feb 2023 01:46:33 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- l38-20020a05600c1d2600b003db0ad636d1sm1309693wms.28.2023.02.22.01.46.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 01:46:32 -0800 (PST)
-Message-ID: <f4f7a1fb-4812-e3c0-186d-7abd4d6813c6@linaro.org>
-Date: Wed, 22 Feb 2023 10:46:31 +0100
+ (Exim 4.90_1) (envelope-from <w@uter.be>)
+ id 1pUlkq-0004Pr-98; Wed, 22 Feb 2023 04:49:40 -0500
+Received: from lounge.grep.be ([2a01:4f8:200:91e8::2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <w@uter.be>)
+ id 1pUlkn-0003YF-Mt; Wed, 22 Feb 2023 04:49:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
+ s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=EbBMKAnTWe+s3mdJi9bAs0O++03SbP6Btd81X8uSdgA=; b=SeAB/lHUGU9BsQBfHU1/4fh601
+ n7Q7kIV0LSz548wUYyxZvMthP7JHioW8l+uIoCUGl89dQjSknljAYEsXdbYOIPkFb6cuEHZB9VlkC
+ wFJMMDOmbUyAs5FDNISemOqnIF8BTE+pvNI7e/spfKOLJNGC/rRNJ2PdRbiFdyI4P+VsU9cO7IN3z
+ W+2EbT+wnn1+SxiDEWW8OPoStL1TP3SG1dOl2e7OLKdYtV4VLYYirOKNaoGwF18NOb8BPsMv9s0UM
+ p5efvR7ynzW7ZAxQ1jxIwD3SHPcr6LNJa63K6CmosYlnYdQOBLJvGzvEiI21S4xZwUtynwu4dTstY
+ Rs/inaYA==;
+Received: from [102.39.141.34] (helo=pc220518)
+ by lounge.grep.be with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <w@uter.be>)
+ id 1pUlke-0097vC-Hr; Wed, 22 Feb 2023 10:49:28 +0100
+Received: from wouter by pc220518 with local (Exim 4.96)
+ (envelope-from <w@uter.be>) id 1pUlkU-000VbS-37;
+ Wed, 22 Feb 2023 11:49:18 +0200
+Date: Wed, 22 Feb 2023 11:49:18 +0200
+From: Wouter Verhelst <w@uter.be>
+To: Eric Blake <eblake@redhat.com>
+Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ libguestfs@redhat.com
+Subject: Re: [PATCH v2 3/6] spec: Add NBD_OPT_EXTENDED_HEADERS
+Message-ID: <Y/XlHhLWwm2pZ4RL@pc220518.home.grep.be>
+References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
+ <20221114224655.2186173-1-eblake@redhat.com>
+ <20221114224655.2186173-4-eblake@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 19/25] target/arm: Move s1_is_el0 into S1Translate
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20230222023336.915045-1-richard.henderson@linaro.org>
- <20230222023336.915045-20-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230222023336.915045-20-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221114224655.2186173-4-eblake@redhat.com>
+X-Speed: Gates' Law: Every 18 months, the speed of software halves.
+Organization: none
+Received-SPF: pass client-ip=2a01:4f8:200:91e8::2; envelope-from=w@uter.be;
+ helo=lounge.grep.be
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,16 +75,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/2/23 03:33, Richard Henderson wrote:
-> Instead of passing this to get_phys_addr_lpae, stash it
-> in the S1Translate structure.
+On Mon, Nov 14, 2022 at 04:46:52PM -0600, Eric Blake wrote:
+[...]
+> @@ -1370,9 +1475,10 @@ of the newstyle negotiation.
+>      Return a list of `NBD_REP_META_CONTEXT` replies, one per context,
+>      followed by an `NBD_REP_ACK` or an error.
 > 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/ptw.c | 27 ++++++++++++---------------
->   1 file changed, 12 insertions(+), 15 deletions(-)
+> -    This option SHOULD NOT be requested unless structured replies have
+> -    been negotiated first. If a client attempts to do so, a server
+> -    MAY send `NBD_REP_ERR_INVALID`.
+> +    This option SHOULD NOT be requested unless structured replies or
+> +    extended headers have been negotiated first. If a client attempts
+> +    to do so, a server MAY send `NBD_REP_ERR_INVALID` or
+> +    `NBD_REP_ERR_EXT_HEADER_REQD`.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Is it the intent that NBD_REP_ERR_EXT_HEADER_REQD means structured
+replies are not supported by this server? I think that could be
+clarified here.
 
+(this occurs twice)
+
+[...]
+> +* `NBD_OPT_EXTENDED_HEADERS` (11)
+> +
+> +    The client wishes to use extended headers during the transmission
+> +    phase.  The client MUST NOT send any additional data with the
+> +    option, and the server SHOULD reject a request that includes data
+> +    with `NBD_REP_ERR_INVALID`.
+> +
+> +    When successful, this option takes precedence over structured
+> +    replies.  A client MAY request structured replies first, although
+> +    a server SHOULD support this option even if structured replies are
+> +    not negotiated.
+> +
+> +    It is envisioned that future extensions will add other new
+> +    requests that support a data payload in the request or reply.  A
+> +    server that supports such extensions SHOULD NOT advertise those
+> +    extensions until the client has negotiated extended headers; and a
+> +    client MUST NOT make use of those extensions without first
+> +    enabling support for reply payloads.
+> +
+> +    The server replies with the following, or with an error permitted
+> +    elsewhere in this document:
+> +
+> +    - `NBD_REP_ACK`: Extended headers have been negotiated; the client
+> +      MUST use the 32-byte extended request header, with proper use of
+> +      `NBD_CMD_FLAG_PAYLOAD_LEN` for all commands sending a payload;
+> +      and the server MUST use the 32-byte extended reply header.
+> +    - For backwards compatibility, clients SHOULD be prepared to also
+> +      handle `NBD_REP_ERR_UNSUP`; in this case, only the compact
+> +      transmission headers will be used.
+> +
+> +    Note that a response of `NBD_REP_ERR_BLOCK_SIZE_REQD` does not
+> +    make sense in response to this command, but a server MAY fail with
+> +    that error for a later `NBD_OPT_GO` without a client request for
+> +    `NBD_INFO_BLOCK_SIZE`, since the use of extended headers provides
+> +    more incentive for a client to promise to obey block size
+> +    constraints.
+> +
+> +    If the client requests `NBD_OPT_STARTTLS` after this option, it
+> +    MUST renegotiate extended headers.
+> +
+
+Does it make sense here to also forbid use of NBD_OPT_EXPORT_NAME? I
+think the sooner we get rid of that, the better ;-)
+
+[...]
+> @@ -1746,13 +1914,15 @@ unrecognized flags.
+> 
+>  #### Structured reply types
+> 
+> -These values are used in the "type" field of a structured reply.
+> -Some chunk types can additionally be categorized by role, such as
+> -*error chunks* or *content chunks*.  Each type determines how to
+> -interpret the "length" bytes of payload.  If the client receives
+> -an unknown or unexpected type, other than an *error chunk*, it
+> -MUST initiate a hard disconnect.  A server MUST NOT send a chunk
+> -larger than any advertised maximum block payload size.
+> +These values are used in the "type" field of a structured reply.  Some
+> +chunk types can additionally be categorized by role, such as *error
+> +chunks*, *content chunks*, or *status chunks*.  Each type determines
+> +how to interpret the "length" bytes of payload.  If the client
+> +receives an unknown or unexpected type, other than an *error chunk*,
+> +it MAY initiate a hard disconnect on the grounds that the client is
+> +uncertain whether the server handled the request as desired.  A server
+> +MUST NOT send a chunk larger than any advertised maximum block payload
+> +size.
+
+Why do we make this a MAY rather than a MUST?
+
+Also, should this section say "structured or extended reply"? We use the
+same types for both.
+
+[...]
+> +* `NBD_REPLY_TYPE_BLOCK_STATUS_EXT` (6)
+> +
+> +  This chunk type is in the status chunk category.  *length* MUST be
+> +  8 + (a positive multiple of 16).  The semantics of this chunk mirror
+> +  those of `NBD_REPLY_TYPE_BLOCK_STATUS`, other than the use of a
+> +  larger *extent length* field, added padding in each descriptor to
+> +  ease alignment, and the addition of a *descriptor count* field that
+> +  can be used for easier client processing.  This chunk type MUST NOT
+> +  be used unless extended headers were negotiated with
+> +  `NBD_OPT_EXTENDED_HEADERS`.
+> +
+> +  If the *descriptor count* field contains 0, the number of subsequent
+> +  descriptors is determined solely by the *length* field of the reply
+> +  header.  However, the server MAY populate the *descriptor count*
+> +  field with the number of descriptors that follow; when doing this,
+> +  the server MUST ensure that the header *length* is equal to
+> +  *descriptor count* * 16 + 8.
+> +
+> +  The payload starts with:
+> +
+> +  32 bits, metadata context ID  
+> +  32 bits, descriptor count  
+> +
+> +  and is followed by a list of one or more descriptors, each with this
+> +  layout:
+> +
+> +  64 bits, length of the extent to which the status below
+> +     applies (unsigned, MUST be nonzero)  
+> +  32 bits, padding (MUST be zero)  
+> +  32 bits, status flags  
+> +
+> +  Note that even when extended headers are in use, the client MUST be
+> +  prepared for the server to use either the compact or extended chunk
+> +  type, regardless of whether the client's hinted effect length was
+> +  more or less than 32 bits; but the server MUST use exactly one of
+> +  the two chunk types per negotiated metacontext ID.
+
+Is this last paragraph really a good idea? I would think it makes more
+sense to require the new format if we're already required to support it
+on both sides anyway.
+
+[...]
+> -    The list of block status descriptors within the
+> -    `NBD_REPLY_TYPE_BLOCK_STATUS` chunk represent consecutive portions
+> -    of the file starting from specified *offset*.  If the client used
+
+I know this was in the old text (hence me mentioning it here), but this
+should probably say "export" rarher than "file". NBD does not deal
+(conceptually) with files...
+
+> -    the `NBD_CMD_FLAG_REQ_ONE` flag, each chunk contains exactly one
+> -    descriptor where the *length* of the descriptor MUST NOT be
+> -    greater than the *length* of the request; otherwise, a chunk MAY
+> -    contain multiple descriptors, and the final descriptor MAY extend
+> -    beyond the original requested size if the server can determine a
+> -    larger length without additional effort.  On the other hand, the
+> -    server MAY return less data than requested.  In particular, a
+> -    server SHOULD NOT send more than 2^20 status descriptors in a
+> -    single chunk.  However the server MUST return at least one status
+> -    descriptor, and since each status descriptor has a non-zero
+> -    length, a client can always make progress on a successful return.
+> +    The list of block status descriptors within a given status chunk
+> +    represent consecutive portions of the file starting from specified
+> +    *offset*.  If the client used the `NBD_CMD_FLAG_REQ_ONE` flag,
+> +    each chunk contains exactly one descriptor where the *length* of
+> +    the descriptor MUST NOT be greater than the *length* of the
+> +    request; otherwise, a chunk MAY contain multiple descriptors, and
+> +    the final descriptor MAY extend beyond the original requested size
+> +    if the server can determine a larger length without additional
+> +    effort.  On the other hand, the server MAY return less data than
+> +    requested.  In particular, a server SHOULD NOT send more than 2^20
+> +    status descriptors in a single chunk.  However the server MUST
+> +    return at least one status descriptor, and since each status
+> +    descriptor has a non-zero length, a client can always make
+> +    progress on a successful return.
+
+Other than that, no comments on this one.
+
+-- 
+     w@uter.{be,co.za}
+wouter@{grep.be,fosdem.org,debian.org}
+
+I will have a Tin-Actinium-Potassium mixture, thanks.
 
