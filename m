@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B001369F2FC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC7369F2FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:51:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUmhl-0006Ku-NJ; Wed, 22 Feb 2023 05:50:33 -0500
+	id 1pUmhm-0006Pn-Jr; Wed, 22 Feb 2023 05:50:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pUmha-0006H6-E5
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:22 -0500
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
+ id 1pUmhf-0006La-Ph
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:28 -0500
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pUmhY-0000ZE-GB
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:22 -0500
-Received: by mail-lj1-x235.google.com with SMTP id b13so8290808ljf.6
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:50:20 -0800 (PST)
+ id 1pUmhc-0000M5-5X
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:50:26 -0500
+Received: by mail-lj1-x231.google.com with SMTP id f16so7273879ljq.10
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 02:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=p6XZl+G4MncGYD34v2pfHhpTsEgc8Dd9oCNBGY+NWdQ=;
- b=NKlz5Zcxx94nZ6ucMT0UexkqSIU0qsnc0JVhK0otBYkWjaiS63e3N9gba8XjhJ5Bzu
- WaA3rZTNdl5PkWGApm5oLhLA7C9nYgshdUI+MqctJAoSH68w9tjw3Lw1vloSsR88drou
- 4lGC7vreGTO/8BVtusHrCkFj4qz18y1qsuZlIZyfdKp5CZDWwQJJwlvX2McLl12X849K
- UKC56J5b8q6h0OJDDjy719ylDDPjK0UAk4zUac25coHMd7NenvUYVphiT/bCASaMQFZy
- baoUAWqgSz22xm4cuVbANUMFZPSREqfDm4KVxs41l/rI5elypnj2Imtu7+IAf5diumAH
- u/kQ==
+ bh=1pRJbK22rS8rbLnPEErXBo1oy28BZ/TjV63kf2UAhFY=;
+ b=nai/yAX22zyqHSg4oZpJ32oH0v4HL5PIpUXi3kQF2xZkZaf8Mc+HTfEFO/JNWDMjCh
+ vcMoJdL7q6FEVddMMmMI50ZNMskVJ7YJAfPRq12kdrTxJHMnfi3i5/lWIEhnmPP1rrYx
+ JwvpsCLWnWutxAGbyouIZVboPbCh7QnDvMlefY3+ohhSkjk+HWQZgKSHVIjW9+yc44nV
+ CcJAlwASHSDqNOVE7IZKIZ8gMGHc2xEoWuKgGIe4Vj/Wrr4EdpyDpOBQy+MLwvD0SHD8
+ Fmpkpd/dVeTlWafW6qIFth5ET8DLu1f3P5JOe5G3MftXk0dUiqMxkr5D7UMPuwDQ9mFz
+ NloQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=p6XZl+G4MncGYD34v2pfHhpTsEgc8Dd9oCNBGY+NWdQ=;
- b=viJkav0xd/0iV6ydCx3BBpUJoP+yKKnEV4brbnBDvrSFjA8EpqFb+SPPYL1ekr+NxZ
- G3PsOWGQWR99S9xt0gnAwXAhTRlY7IsqNLfnDbHFWwI1l7emvwHQYjw9wHzWoVukN5Ru
- swaywxEwJZzkBPTlv0mBoXSmuHngFHtvZrJyvvVdJVucPT7kPYQTwr6s4iLuYkvbtYtP
- saGFGRxyFf3RSKDj6nN7i+yrBMEjGwTR4jPQMSbY2Tn/XAx/CskmYDz+Tx7AZBV3s9wN
- +SSHuFr9Y79PaEte5EDGz+rL7egvTNDkTEbd7Z1Fm5kYY852uEGMDGrSXfqJqzGRbEs0
- IlhQ==
-X-Gm-Message-State: AO0yUKXq+QSC23cM4wkXDMTTAxuvLJYGElf7gJA/gD1OJIj+4VzsMj5f
- LrZWl1AFLx+vgT40Nm9mzlNwAUh63HzSS6IupDc=
-X-Google-Smtp-Source: AK7set/NoUtPhWzm8fXZz38ilT0ZjNbSdlUzpJLgp+6bLE/Ypezkp26BJ41quIYq+t6jY+w2qKHJeProNVgYFXD84Mc=
+ bh=1pRJbK22rS8rbLnPEErXBo1oy28BZ/TjV63kf2UAhFY=;
+ b=z32fJOTAYX4Uk8Y1YKD2mHpFUi/BItCLlbj1EQUWEpqa0KI+QyMlaNIm1FI98fcDBB
+ 0XgKKVq2RSCeKK3a1ZL55z3Eo5aLM8qcb0iGcNZVrwOLaeuwgLcbRRdoshWpPU+lLfMp
+ o8ihXC5xEF6ZLgSHgDFrBcJx0sw2it5NOldpZ0Whyt/j4lQqZpK8HnNu0Xz7hJh01kZD
+ UwpsxTpvnenYpsg63Snh+S1MfXaYyBk09iKlgWMm+CfIXr/1yo/LDTfXB6i987HnFxQ7
+ B3RVdbalZ6TdeN+BCnykMLux60I1oyELKyOS4dxJHZvzuaqNrPJ6pvJ4iAubb08AAF6F
+ /zSg==
+X-Gm-Message-State: AO0yUKU0rXHUVPYXXc6KclnUggE8oBk9Ye+neuSAQwhlotAbzrrZ6fFi
+ aY3wFmTqQ1NN2V0bkGtVvGyY9FpdbunDcF+aaXY=
+X-Google-Smtp-Source: AK7set8x49CME5sFMUWghj/WpMNvnSetDYz7bWpVRa/c/MgrWTQQ9z0nxtLhjJWSFiwnXzzyZkH+z0KZ6O4TTkeOKPM=
 X-Received: by 2002:a05:651c:2320:b0:295:9a96:a5c7 with SMTP id
- bi32-20020a05651c232000b002959a96a5c7mr292336ljb.4.1677063019810; Wed, 22 Feb
- 2023 02:50:19 -0800 (PST)
+ bi32-20020a05651c232000b002959a96a5c7mr292388ljb.4.1677063023150; Wed, 22 Feb
+ 2023 02:50:23 -0800 (PST)
 MIME-Version: 1.0
 References: <df6510fe-1dfd-1585-8590-db230c71d367@t-online.de>
- <20230206185237.8358-10-vr_qemu@t-online.de>
-In-Reply-To: <20230206185237.8358-10-vr_qemu@t-online.de>
+ <20230206185237.8358-11-vr_qemu@t-online.de>
+In-Reply-To: <20230206185237.8358-11-vr_qemu@t-online.de>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 22 Feb 2023 14:50:06 +0400
-Message-ID: <CAJ+F1CJkkPbJRy2JjZaBGo5SvyP+hsm_kAMc5FEMxYpKVw1YoQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/17] audio: wire up st_rate_frames_in()
+Date: Wed, 22 Feb 2023 14:50:10 +0400
+Message-ID: <CAJ+F1CLau-19vm85iyWNrn5o_j9KrJrFsxNjXM46WhS7rnE-Fw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/17] audio: replace the resampling loop in
+ audio_pcm_sw_read()
 To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
 Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
  Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,126 +88,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
-
 On Mon, Feb 6, 2023 at 10:53 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> w=
 rote:
 >
-> Wire up the st_rate_frames_in() function and replace
-> audio_frontend_frames_out() to make audio packet length
-> calculation exact. When upsampling, it's still possible that
-> the audio frontends can't write the last audio frame. This will
-> be fixed later.
+> Replace the resampling loop in audio_pcm_sw_read() with the new
+> function audio_pcm_sw_resample_in(). Unlike the old resample
+> loop the new function will try to consume input frames even if
+> the output buffer is full. This is necessary when downsampling
+> to avoid reading less audio frames than calculated in advance.
+> The loop was unrolled to avoid complicated loop control conditions
+> in this case.
 >
 > Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-I think you should squash it with the previous patch and detail the
-differences of computation (the code comment of the functions should
-reflect the change, that would help ;)
+Acked-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 
 
 > ---
->  audio/audio.c | 43 ++++++++++++++++++-------------------------
->  1 file changed, 18 insertions(+), 25 deletions(-)
+>  audio/audio.c | 59 ++++++++++++++++++++++++++++++---------------------
+>  1 file changed, 35 insertions(+), 24 deletions(-)
 >
 > diff --git a/audio/audio.c b/audio/audio.c
-> index 556696b095..e18b5e98c5 100644
+> index e18b5e98c5..9e9c03a42e 100644
 > --- a/audio/audio.c
 > +++ b/audio/audio.c
-> @@ -701,8 +701,8 @@ static void audio_pcm_sw_resample_out(SWVoiceOut *sw,
->  static size_t audio_pcm_sw_write(SWVoiceOut *sw, void *buf, size_t buf_l=
-en)
+> @@ -543,11 +543,43 @@ static size_t audio_pcm_hw_conv_in(HWVoiceIn *hw, v=
+oid *pcm_buf, size_t samples)
+>  /*
+>   * Soft voice (capture)
+>   */
+> +static void audio_pcm_sw_resample_in(SWVoiceIn *sw,
+> +    size_t frames_in_max, size_t frames_out_max,
+> +    size_t *total_in, size_t *total_out)
+> +{
+> +    HWVoiceIn *hw =3D sw->hw;
+> +    struct st_sample *src, *dst;
+> +    size_t live, rpos, frames_in, frames_out;
+> +
+> +    live =3D hw->total_samples_captured - sw->total_hw_samples_acquired;
+> +    rpos =3D audio_ring_posb(hw->conv_buf.pos, live, hw->conv_buf.size);
+> +
+> +    /* resample conv_buf from rpos to end of buffer */
+> +    src =3D hw->conv_buf.buffer + rpos;
+> +    frames_in =3D MIN(frames_in_max, hw->conv_buf.size - rpos);
+> +    dst =3D sw->resample_buf.buffer;
+> +    frames_out =3D frames_out_max;
+> +    st_rate_flow(sw->rate, src, dst, &frames_in, &frames_out);
+> +    rpos +=3D frames_in;
+> +    *total_in =3D frames_in;
+> +    *total_out =3D frames_out;
+> +
+> +    /* resample conv_buf from start of buffer if there are input frames =
+left */
+> +    if (frames_in_max - frames_in && rpos =3D=3D hw->conv_buf.size) {
+> +        src =3D hw->conv_buf.buffer;
+> +        frames_in =3D frames_in_max - frames_in;
+> +        dst +=3D frames_out;
+> +        frames_out =3D frames_out_max - frames_out;
+> +        st_rate_flow(sw->rate, src, dst, &frames_in, &frames_out);
+> +        *total_in +=3D frames_in;
+> +        *total_out +=3D frames_out;
+> +    }
+> +}
+> +
+>  static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
 >  {
->      HWVoiceOut *hw =3D sw->hw;
-> -    size_t live, dead, hw_free;
-> -    size_t frames_in_max, total_in, total_out;
-> +    size_t live, dead, hw_free, sw_max, fe_max;
-> +    size_t frames_in_max, frames_out_max, total_in, total_out;
+>      HWVoiceIn *hw =3D sw->hw;
+> -    size_t samples, live, ret =3D 0, swlim, isamp, osamp, rpos, total =
+=3D 0;
+> -    struct st_sample *src, *dst =3D sw->resample_buf.buffer;
+> +    size_t samples, live, ret, swlim, total;
 >
->      live =3D sw->total_hw_samples_mixed;
->      if (audio_bug(__func__, live > hw->mix_buf.size)) {
-> @@ -720,17 +720,21 @@ static size_t audio_pcm_sw_write(SWVoiceOut *sw, vo=
-id *buf, size_t buf_len)
->      dead =3D hw->mix_buf.size - live;
->      hw_free =3D audio_pcm_hw_get_free(hw);
->      hw_free =3D hw_free > live ? hw_free - live : 0;
-> -    frames_in_max =3D ((int64_t)MIN(dead, hw_free) << 32) / sw->ratio;
-> -    frames_in_max =3D MIN(frames_in_max, buf_len / sw->info.bytes_per_fr=
-ame);
-> -    if (frames_in_max) {
-> -        sw->conv(sw->resample_buf.buffer, buf, frames_in_max);
-> +    frames_out_max =3D MIN(dead, hw_free);
-> +    sw_max =3D st_rate_frames_in(sw->rate, frames_out_max);
-> +    fe_max =3D MIN(buf_len / sw->info.bytes_per_frame, sw->resample_buf.=
-size);
-> +    frames_in_max =3D MIN(sw_max, fe_max);
->
-> -        if (!sw->hw->pcm_ops->volume_out) {
-> -            mixeng_volume(sw->resample_buf.buffer, frames_in_max, &sw->v=
-ol);
-> -        }
-> +    if (!frames_in_max) {
-> +        return 0;
+>      live =3D hw->total_samples_captured - sw->total_hw_samples_acquired;
+>      if (!live) {
+> @@ -558,33 +590,12 @@ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void=
+ *buf, size_t size)
+>          return 0;
 >      }
 >
-> -    audio_pcm_sw_resample_out(sw, frames_in_max, MIN(dead, hw_free),
-> +    sw->conv(sw->resample_buf.buffer, buf, frames_in_max);
-> +    if (!sw->hw->pcm_ops->volume_out) {
-> +        mixeng_volume(sw->resample_buf.buffer, frames_in_max, &sw->vol);
-> +    }
-> +
-> +    audio_pcm_sw_resample_out(sw, frames_in_max, frames_out_max,
->                                &total_in, &total_out);
->
->      sw->total_hw_samples_mixed +=3D total_out;
-> @@ -1000,18 +1004,6 @@ static size_t audio_get_avail (SWVoiceIn *sw)
->      return live;
->  }
->
-> -/**
-> - * audio_frontend_frames_out() - returns the number of frames needed to
-> - * get frames_out frames after resampling
-> - *
-> - * @sw: audio playback frontend
-> - * @frames_out: number of frames
-> - */
-> -static size_t audio_frontend_frames_out(SWVoiceOut *sw, size_t frames_ou=
-t)
-> -{
-> -    return ((int64_t)frames_out << 32) / sw->ratio;
-> -}
+> -    rpos =3D audio_ring_posb(hw->conv_buf.pos, live, hw->conv_buf.size);
 > -
->  static size_t audio_get_free(SWVoiceOut *sw)
->  {
->      size_t live, dead;
-> @@ -1031,8 +1023,8 @@ static size_t audio_get_free(SWVoiceOut *sw)
->      dead =3D sw->hw->mix_buf.size - live;
+>      samples =3D size / sw->info.bytes_per_frame;
 >
->  #ifdef DEBUG_OUT
-> -    dolog("%s: get_free live %zu dead %zu frontend frames %zu\n",
-> -          SW_NAME(sw), live, dead, audio_frontend_frames_out(sw, dead));
-> +    dolog("%s: get_free live %zu dead %zu frontend frames %u\n",
-> +          SW_NAME(sw), live, dead, st_rate_frames_in(sw->rate, dead));
->  #endif
+>      swlim =3D (live * sw->ratio) >> 32;
+>      swlim =3D MIN (swlim, samples);
 >
->      return dead;
-> @@ -1161,12 +1153,13 @@ static void audio_run_out (AudioState *s)
->                  size_t free;
+> -    while (swlim) {
+> -        src =3D hw->conv_buf.buffer + rpos;
+> -        if (hw->conv_buf.pos > rpos) {
+> -            isamp =3D hw->conv_buf.pos - rpos;
+> -        } else {
+> -            isamp =3D hw->conv_buf.size - rpos;
+> -        }
+> -
+> -        if (!isamp) {
+> -            break;
+> -        }
+> -        osamp =3D swlim;
+> -
+> -        st_rate_flow (sw->rate, src, dst, &isamp, &osamp);
+> -        swlim -=3D osamp;
+> -        rpos =3D (rpos + isamp) % hw->conv_buf.size;
+> -        dst +=3D osamp;
+> -        ret +=3D osamp;
+> -        total +=3D isamp;
+> -    }
+> +    audio_pcm_sw_resample_in(sw, live, swlim, &total, &ret);
 >
->                  if (hw_free > sw->total_hw_samples_mixed) {
-> -                    free =3D audio_frontend_frames_out(sw,
-> +                    free =3D st_rate_frames_in(sw->rate,
->                          MIN(sw_free, hw_free - sw->total_hw_samples_mixe=
-d));
->                  } else {
->                      free =3D 0;
->                  }
->                  if (free > 0) {
-> +                    free =3D MIN(free, sw->resample_buf.size);
->                      sw->callback.fn(sw->callback.opaque,
->                                      free * sw->info.bytes_per_frame);
->                  }
+>      if (!hw->pcm_ops->volume_in) {
+>          mixeng_volume(sw->resample_buf.buffer, ret, &sw->vol);
 > --
 > 2.35.3
 >
