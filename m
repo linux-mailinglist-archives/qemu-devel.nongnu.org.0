@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE7669EF44
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 08:26:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5A669EF51
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 08:30:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUjUQ-0001Zc-Dt; Wed, 22 Feb 2023 02:24:34 -0500
+	id 1pUjZT-0002YS-1s; Wed, 22 Feb 2023 02:29:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pUjUO-0001ZN-8m
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 02:24:32 -0500
+ id 1pUjZJ-0002YC-3Y
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 02:29:37 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pUjUL-0007E2-Mr
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 02:24:31 -0500
+ id 1pUjZG-00082A-IF
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 02:29:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677050668;
+ s=mimecast20190719; t=1677050973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dt3JIZxwQ56FHYO/2mMt3h1+f1UXZ2MmXTurcnX2imE=;
- b=PRy+7C5wFfPUnfJm7VZ83P+y1Cgger8Rw1RlN7kxg/EZkbSdHz66OcJEH3A77I9dkYhtVk
- zvzKMx1JAr9uv0kJqlgDOWpCntpyVDbfrXvZGhKw2ylriZZYQHtOZxTbez0F0SzlSSlyMA
- HR7XsPEcxtw+SpCBhTLiD6HWCzJ9pNU=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZZg8mqev84eDMcSr29zdH/7+DvNuqK9Ob1HwjpGo1Q8=;
+ b=fmIBse6IzvulW2aAdtz76AWPCf4eT6P0fwpG/EU/GxejrgeEpw8k0g78zLW/LWc1dCKZG1
+ 1KbBKv58O3AbEM5BWLnFewrK3jLzgJ8OMkPT1NRUvxysQsT7N2CQeq2Kl7ptoYRpM6ofWI
+ iL6dZr8qMxhwAlQcHZ14fFEA5BpKN5s=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-384-W_iwZxFiMdq3sEdXCai-mQ-1; Wed, 22 Feb 2023 02:24:27 -0500
-X-MC-Unique: W_iwZxFiMdq3sEdXCai-mQ-1
-Received: by mail-yb1-f198.google.com with SMTP id
- g5-20020a25a485000000b009419f64f6afso5605325ybi.2
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 23:24:27 -0800 (PST)
+ us-mta-588-e6lBXrnxM6GP4DoHiZHUeg-1; Wed, 22 Feb 2023 02:29:32 -0500
+X-MC-Unique: e6lBXrnxM6GP4DoHiZHUeg-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-536bf635080so60258867b3.23
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 23:29:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dt3JIZxwQ56FHYO/2mMt3h1+f1UXZ2MmXTurcnX2imE=;
- b=5hh2APil51L3BXpLuOVFo7aBzzXIK0VpZ1aLys0GClYNgIXyIMIEaEMb44BjgoyAwj
- shwwkHx1NgsicuXUO7+hzW+K8MOkB620z1T7p3C0TUEA5joszYBs+UojCGGL9/ioZ3xv
- tT68vkQIzLKn0OafrwXun5N7mfm7spk7Mcmao08/GPLZq7VbUnojRVYKXIbfcAO9Tefp
- cBetuSnm+k27gCXDAd6qv4G3W+B5VBnmgddJ/syrZIDkzwDH45FX2EI99Khmvya5ITfx
- JfSnriJ4vWSkXKEJoDERu4YwLKcdcchvz7WYll7lZqfpEF2mRd3YjvuZBrl3UUmD38Zo
- /adg==
-X-Gm-Message-State: AO0yUKXmNYRLMiX+iZx7PBImVko+xQByDNH5lz+Q4fTdoRKl69UgPotL
- L3oEoGQn6atcNMDrGTHP3S+52n1fXUkxBIcGoq4os0JMOVe9cslc3za8h3r3p5mqWkadntS9r7i
- 1rEaEdC6IjXS0+fUlCpO1pHmltQFLNSU=
-X-Received: by 2002:a81:6709:0:b0:536:e148:d9e8 with SMTP id
- b9-20020a816709000000b00536e148d9e8mr444659ywc.193.1677050666576; 
- Tue, 21 Feb 2023 23:24:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set+jlo7/H0AaXq2RG62Q3XB77G6CBP2om+C9OyjyWrjVkQeQarE33cQSwfgAt3/GURlc9PCY4V8GDEvyBoXXdSY=
-X-Received: by 2002:a81:6709:0:b0:536:e148:d9e8 with SMTP id
- b9-20020a816709000000b00536e148d9e8mr444646ywc.193.1677050666304; Tue, 21 Feb
- 2023 23:24:26 -0800 (PST)
+ bh=ZZg8mqev84eDMcSr29zdH/7+DvNuqK9Ob1HwjpGo1Q8=;
+ b=VBMeUTAa6BjQ+4Hq3MOpsGBGy/ipvPOP3if3NW2UoFjWjxZDC/NyIItX1wXWHNtGF1
+ ZgHXQECKm7GssCNfisN3c8q8EbEja5c8lKkGd2N2XrtvJ85RoOImuZ2Hy+T+FYkYgCqp
+ dKraDuASfWRfpAMRoMW5Nmqm8bcQXaRvt4OR6a0GY2ljRJI7XfgqoHalWcxUToCD/xci
+ OxAdXKnH7uKYiP2FHSWNDC1CJRYJd/LAuzEhSdVtap4MKqUkqXh/35TlzW5SAEJqzhXm
+ dvxK+UkMGQCVgundfVaU5Gj4rAq9TrF5KPU73YyKEwFEptXjVJsVgjfvgykAq8Gx71St
+ +Spw==
+X-Gm-Message-State: AO0yUKXgzCzB345f6ZhPYnjNUjY7zr4qB91tY4XNRHIgzTiJ4fChL3u2
+ 6kuaT0rVPP+qrvay2tfhkW0+9CMOiRSMZtb37c6tDmLvBZEUG45HxIg+B2m+5Qu8C65qcnwHnWt
+ jdqRQPRWYEoD6mn8pHU9Q8NWvIxKmu1M=
+X-Received: by 2002:a25:9983:0:b0:802:4849:af69 with SMTP id
+ p3-20020a259983000000b008024849af69mr2849372ybo.13.1677050972043; 
+ Tue, 21 Feb 2023 23:29:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set8D7mvbMEsYhL3oAniSsfAxhm4Mbq7dPqSUH0Vs4SQElSDNn48B7ZkS6eJLRXeeTaC/+l6usZjxKHvukEqPjNU=
+X-Received: by 2002:a25:9983:0:b0:802:4849:af69 with SMTP id
+ p3-20020a259983000000b008024849af69mr2849364ybo.13.1677050971809; Tue, 21 Feb
+ 2023 23:29:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20230208094253.702672-1-eperezma@redhat.com>
- <20230208094253.702672-8-eperezma@redhat.com>
- <17716bcb-9281-c5bb-f0c8-7715378569a2@redhat.com>
-In-Reply-To: <17716bcb-9281-c5bb-f0c8-7715378569a2@redhat.com>
+ <20230208094253.702672-10-eperezma@redhat.com>
+ <de141eaa-6cc4-e942-9fff-de4dcee8625f@redhat.com>
+In-Reply-To: <de141eaa-6cc4-e942-9fff-de4dcee8625f@redhat.com>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 22 Feb 2023 08:23:50 +0100
-Message-ID: <CAJaqyWeCeHmnnAcivD4e8oeR5+3Et95PpKFKvudw4wy5xRz2Bw@mail.gmail.com>
-Subject: Re: [PATCH v2 07/13] vdpa: add vdpa net migration state notifier
+Date: Wed, 22 Feb 2023 08:28:55 +0100
+Message-ID: <CAJaqyWerBtkw1KxiAThXza0htxV=PkJZGtoAxeHKKd5p_Dq55g@mail.gmail.com>
+Subject: Re: [PATCH v2 09/13] vdpa net: block migration if the device has CVQ
 To: Jason Wang <jasowang@redhat.com>
 Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
  "Gonglei (Arei)" <arei.gonglei@huawei.com>,
@@ -104,209 +104,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 4:56 AM Jason Wang <jasowang@redhat.com> wrote:
+On Wed, Feb 22, 2023 at 5:01 AM Jason Wang <jasowang@redhat.com> wrote:
 >
 >
 > =E5=9C=A8 2023/2/8 17:42, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > This allows net to restart the device backend to configure SVQ on it.
-> >
-> > Ideally, these changes should not be net specific. However, the vdpa ne=
-t
-> > backend is the one with enough knowledge to configure everything becaus=
-e
-> > of some reasons:
-> > * Queues might need to be shadowed or not depending on its kind (contro=
-l
-> >    vs data).
-> > * Queues need to share the same map translations (iova tree).
-> >
-> > Because of that it is cleaner to restart the whole net backend and
-> > configure again as expected, similar to how vhost-kernel moves between
-> > userspace and passthrough.
-> >
-> > If more kinds of devices need dynamic switching to SVQ we can create a
-> > callback struct like VhostOps and move most of the code there.
-> > VhostOps cannot be reused since all vdpa backend share them, and to
-> > personalize just for networking would be too heavy.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> > v3:
-> > * Add TODO to use the resume operation in the future.
-> > * Use migration_in_setup and migration_has_failed instead of a
-> >    complicated switch case.
-> > ---
-> >   net/vhost-vdpa.c | 76 +++++++++++++++++++++++++++++++++++++++++++++++=
-+
-> >   1 file changed, 76 insertions(+)
-> >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index dd686b4514..bca13f97fd 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -26,12 +26,14 @@
-> >   #include <err.h>
-> >   #include "standard-headers/linux/virtio_net.h"
-> >   #include "monitor/monitor.h"
-> > +#include "migration/misc.h"
-> >   #include "hw/virtio/vhost.h"
-> >
-> >   /* Todo:need to add the multiqueue support here */
-> >   typedef struct VhostVDPAState {
-> >       NetClientState nc;
-> >       struct vhost_vdpa vhost_vdpa;
-> > +    Notifier migration_state;
-> >       VHostNetState *vhost_net;
-> >
-> >       /* Control commands shadow buffers */
-> > @@ -241,10 +243,79 @@ static VhostVDPAState *vhost_vdpa_net_first_nc_vd=
-pa(VhostVDPAState *s)
-> >       return DO_UPCAST(VhostVDPAState, nc, nc0);
-> >   }
-> >
-> > +static void vhost_vdpa_net_log_global_enable(VhostVDPAState *s, bool e=
-nable)
-> > +{
-> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
-> > +    VirtIONet *n;
-> > +    VirtIODevice *vdev;
-> > +    int data_queue_pairs, cvq, r;
-> > +    NetClientState *peer;
-> > +
-> > +    /* We are only called on the first data vqs and only if x-svq is n=
-ot set */
-> > +    if (s->vhost_vdpa.shadow_vqs_enabled =3D=3D enable) {
-> > +        return;
-> > +    }
-> > +
-> > +    vdev =3D v->dev->vdev;
-> > +    n =3D VIRTIO_NET(vdev);
+> > Devices with CVQ needs to migrate state beyond vq state.  Leaving this
+> > to future series.
 >
 >
-> Let's tweak the code to move those initialization to the beginning of
-> the function.
+> I may miss something but what is missed to support CVQ/MQ?
 >
 
-Sure.
-
->
-> > +    if (!n->vhost_started) {
-> > +        return;
-> > +    }
->
->
-> What happens if the vhost is started during the live migration?
->
-
-This is solved at v3, checking the migrate state at
-vhost_vdpa_net_data_start_first too [1]. However, this created another
-few complications / complex code as Si-Wei points out.
-
-Recent changes due to virtio reset makes it easier to move all this
-code to hw/virtio/vhost-vdpa.c, where different kinds of vDPA devices
-can share the code. I'll send a new version that way.
-
->
-> > +
-> > +    data_queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
-> > +    cvq =3D virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
-> > +                                  n->max_ncs - n->max_queue_pairs : 0;
-> > +    /*
-> > +     * TODO: vhost_net_stop does suspend, get_base and reset. We can b=
-e smarter
-> > +     * in the future and resume the device if read-only operations bet=
-ween
-> > +     * suspend and reset goes wrong.
-> > +     */
-> > +    vhost_net_stop(vdev, n->nic->ncs, data_queue_pairs, cvq);
-> > +
-> > +    peer =3D s->nc.peer;
-> > +    for (int i =3D 0; i < data_queue_pairs + cvq; i++) {
-> > +        VhostVDPAState *vdpa_state;
-> > +        NetClientState *nc;
-> > +
-> > +        if (i < data_queue_pairs) {
-> > +            nc =3D qemu_get_peer(peer, i);
-> > +        } else {
-> > +            nc =3D qemu_get_peer(peer, n->max_queue_pairs);
-> > +        }
-> > +
-> > +        vdpa_state =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > +        vdpa_state->vhost_vdpa.shadow_data =3D enable;
-> > +
-> > +        if (i < data_queue_pairs) {
-> > +            /* Do not override CVQ shadow_vqs_enabled */
-> > +            vdpa_state->vhost_vdpa.shadow_vqs_enabled =3D enable;
-> > +        }
->
->
-> I wonder what happens if the number of queue pairs is changed during
-> live migration? Should we assign all qps in this case?
->
-
-Migration is blocked if the device has CVQ feature in this series.
+To restore all the device state set by CVQ in the migration source
+(MAC, MQ, ...) before data vqs start. We don't have a reliable way to
+not start data vqs until the device [1].
 
 Thanks!
 
-[1] https://patchwork.kernel.org/project/qemu-devel/patch/20230215173850.29=
-8832-9-eperezma@redhat.com/
+[1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02652.html
 
 > Thanks
 >
 >
-> > +    }
-> > +
-> > +    r =3D vhost_net_start(vdev, n->nic->ncs, data_queue_pairs, cvq);
-> > +    if (unlikely(r < 0)) {
-> > +        error_report("unable to start vhost net: %s(%d)", g_strerror(-=
-r), -r);
-> > +    }
-> > +}
-> > +
-> > +static void vdpa_net_migration_state_notifier(Notifier *notifier, void=
- *data)
-> > +{
-> > +    MigrationState *migration =3D data;
-> > +    VhostVDPAState *s =3D container_of(notifier, VhostVDPAState,
-> > +                                     migration_state);
-> > +
-> > +    if (migration_in_setup(migration)) {
-> > +        vhost_vdpa_net_log_global_enable(s, true);
-> > +    } else if (migration_has_failed(migration)) {
-> > +        vhost_vdpa_net_log_global_enable(s, false);
-> > +    }
-> > +}
-> > +
-> >   static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
-> >   {
-> >       struct vhost_vdpa *v =3D &s->vhost_vdpa;
 > >
-> > +    add_migration_state_change_notifier(&s->migration_state);
-> >       if (v->shadow_vqs_enabled) {
-> >           v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
-> >                                              v->iova_range.last);
-> > @@ -278,6 +349,10 @@ static void vhost_vdpa_net_client_stop(NetClientSt=
-ate *nc)
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   net/vhost-vdpa.c | 6 ++++++
+> >   1 file changed, 6 insertions(+)
 > >
-> >       assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index bca13f97fd..309861e56c 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -955,11 +955,17 @@ int net_init_vhost_vdpa(const Netdev *netdev, con=
+st char *name,
+> >       }
 > >
-> > +    if (s->vhost_vdpa.index =3D=3D 0) {
-> > +        remove_migration_state_change_notifier(&s->migration_state);
-> > +    }
+> >       if (has_cvq) {
+> > +        VhostVDPAState *s;
 > > +
-> >       dev =3D s->vhost_vdpa.dev;
-> >       if (dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end) {
-> >           g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_del=
-ete);
-> > @@ -741,6 +816,7 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
-tState *peer,
-> >       s->vhost_vdpa.device_fd =3D vdpa_device_fd;
-> >       s->vhost_vdpa.index =3D queue_pair_index;
-> >       s->always_svq =3D svq;
-> > +    s->migration_state.notify =3D vdpa_net_migration_state_notifier;
-> >       s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> >       s->vhost_vdpa.iova_range =3D iova_range;
-> >       s->vhost_vdpa.shadow_data =3D svq;
+> >           nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> >                                    vdpa_device_fd, i, 1, false,
+> >                                    opts->x_svq, iova_range);
+> >           if (!nc)
+> >               goto err;
+> > +
+> > +        s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > +        error_setg(&s->vhost_vdpa.dev->migration_blocker,
+> > +                   "net vdpa cannot migrate with MQ feature");
+> >       }
+> >
+> >       return 0;
 >
 
 
