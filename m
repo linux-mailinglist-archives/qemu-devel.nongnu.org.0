@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDDA69F31E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 12:04:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A40569F320
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 12:06:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUmuX-0004u7-Qc; Wed, 22 Feb 2023 06:03:45 -0500
+	id 1pUmwI-0005fb-6A; Wed, 22 Feb 2023 06:05:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUmuW-0004tz-Nq
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 06:03:44 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUmw4-0005eq-8l
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 06:05:20 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUmuU-0006VX-Tk
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 06:03:44 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id i11so1149149wrp.5
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 03:03:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUmvz-0006qb-RY
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 06:05:17 -0500
+Received: by mail-wm1-x333.google.com with SMTP id p16so3181620wmq.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 03:05:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=zSqbD1vCGG1cLRfDz2eQbVx1XeXdaWKM9P4oNFgGsJU=;
- b=SFXvAsuNrQ9RLTqVJY2efbLfqGsbCQSU9RSXm6PcdbMGjVY3egEzAYpp9LU+cRswqW
- fgKN2koYAAq/2zbXHqFFgNptTm+wMBFIH8E9hj9b+dkLpkFBYuOBT39Fe9VwPQ69gcec
- H0HBQRdw0uzSGzQfGDRlLHKmYbOfxWe3wRcNoi/u6O+esPZ6S9GE/EjxkQBkZyiS53It
- MvVUJxNcJkHb7dQq2SvJIgEbGOH8E4HIGENZkA/UHAsaWluVmyUp3n3R5/dF00ig0qjx
- kYQY3S2aNpxm5XVMyrIaaloUeKgIhbIUA2KSlK9WcodHuUx+BIxQdGppMx82NzhAv1Xz
- usZw==
+ bh=K+kgomDHpkSnrdgmz+gghLUeXTacAChli+ikmvB1LUo=;
+ b=jeBo7V/BvZ89uii38IMjuwBd9Qqt/iNat5XiIMYjxDl9gAuVwN2LDwJiH3c/88EBvg
+ umHBALPMkLDD5O0KvLW6y9ySCXiQ8tUzmf/wQvbGJy9MSLHHvaeWZ4wjXXKyzD7c5KUc
+ WrR0CcPQW3M0isTXl22LU13nvdZrIvQIvDgUChwBUGJ7VPQXKoAr+NJpBDhydqh2GM9/
+ 0JMTqOv0X1pKCUxbSVD9+VT0Pdgpp7lY7ps+GBg26+Eoq/Kr0hejbjWX+g5f/rzky799
+ 77Dot/KfSzdqXiuyCq7/1zIFPiKuKRZxKF5eBPLz4NJnbDlwW2n3B9/rG0az0h3SwdKA
+ puCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zSqbD1vCGG1cLRfDz2eQbVx1XeXdaWKM9P4oNFgGsJU=;
- b=4X6rKQEZ3pZ3fxLwidGbyQ/meqmeK0p66xhJJpQN3v0qTDIMst7WbzRlHPzwJiipP1
- DlYs+aWWZ7XR1raN9dCVD7y6vzvHY0528HwrOzUCBGt1AOcKwH8lHNaNfuK5TN7yXNBs
- Z1uYe5OHSo4sdt96cz52JsS/nMRNWPtZwEiO7WeJx5igJ2OeWSfxDWxL6PTUTHiJke0k
- EcGKKmiKrgc1L1wVwj3ZBo8Rov5FP+aDk7vxTum51aj8a0ajIM+OY3POhUsDoDlZUGNR
- 8d9/8umFGMPUnBqtCszyukx71khDbpE1YYa+/6aAbbY5iTkJmZElAN35XGQlcbZ9/QSf
- 0Rqg==
-X-Gm-Message-State: AO0yUKVY+NlIH9G7s66l61u9rnEm/gcDEw7ujSCwpsNTT2vhDz2hUw1h
- D6KzdArIZ63AvUs3LIq5a5sC+A==
-X-Google-Smtp-Source: AK7set/eODvoeRbxba4y666mMx434dGR1Z+R7XLfgvc4yxHKlqfLG3qU5XhQRxK9I2AkiufnxYvh5g==
-X-Received: by 2002:a5d:4b81:0:b0:2c5:4de1:ba23 with SMTP id
- b1-20020a5d4b81000000b002c54de1ba23mr6763511wrt.19.1677063821162; 
- Wed, 22 Feb 2023 03:03:41 -0800 (PST)
+ bh=K+kgomDHpkSnrdgmz+gghLUeXTacAChli+ikmvB1LUo=;
+ b=AL1pX3lMwrflyIzEEGelxEYQe3weux93ZYlr00oZPN9kdbTNcTYjUx2ozKy15PpTx5
+ Gv8Dft/wuymI4WFJ7n8JFTnIFOpqEf+2yfrSHWGva82rqNLCUSwbRwyY5tnhCMLtqlgV
+ EIShLZZRYVx7PX5LLyDkRwXpvovYzfZjxrShy2uQaTPvXYikrUtSAHCgS4xYehm2pbl0
+ GGaWcCzmxAkNg6zSno2RG8MN9VsYcTBfFcGSj0dbferHmSvgiHyDRMaHIhgCEz1ippFk
+ 0E1U+tk/Rf8WFfyGtGGVBwvIcfK7q1F+h8nfUaH5OY+qJS2nmCXtP1aKASuEv29Qts9a
+ 4QVw==
+X-Gm-Message-State: AO0yUKU++cQRF/puo1gW0Gu8BnueB7piypSXC+dGF7LTP8F/zRtH14gN
+ 8tMRTf8K3HQc3zk1ws1Bg6fxCg==
+X-Google-Smtp-Source: AK7set8zPLnca2t3Z+Q5osLae87Qy8qYK5bb1j0bQx8TxdXStppbdBQR6FYgNnBKUXjTiusht1gYhQ==
+X-Received: by 2002:a05:600c:44c5:b0:3db:bc5:b2ae with SMTP id
+ f5-20020a05600c44c500b003db0bc5b2aemr5865166wmo.41.1677063913460; 
+ Wed, 22 Feb 2023 03:05:13 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j22-20020a5d4536000000b002c5a07e940csm7083448wra.33.2023.02.22.03.03.39
+ z6-20020adfe546000000b002425be3c9e2sm6710223wrm.60.2023.02.22.03.05.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 03:03:40 -0800 (PST)
-Message-ID: <9f80bb33-40e7-fc57-1515-c3764f57da46@linaro.org>
-Date: Wed, 22 Feb 2023 12:03:38 +0100
+ Wed, 22 Feb 2023 03:05:13 -0800 (PST)
+Message-ID: <85e92bb7-161e-41f8-2ea0-bb4f285d19aa@linaro.org>
+Date: Wed, 22 Feb 2023 12:05:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 3/9] hw/i386/pc_q35: Reuse machine parameter
+Subject: Re: [PATCH v4 5/9] hw/i386/pc_{q35, piix}: Minimize usage of
+ get_system_memory()
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -71,13 +72,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  BALATON Zoltan <balaton@eik.bme.hu>, Ani Sinha <ani@anisinha.ca>,
  Laurent Vivier <lvivier@redhat.com>
 References: <20230213162004.2797-1-shentey@gmail.com>
- <20230213162004.2797-4-shentey@gmail.com>
+ <20230213162004.2797-6-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213162004.2797-4-shentey@gmail.com>
+In-Reply-To: <20230213162004.2797-6-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -100,31 +101,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/2/23 17:19, Bernhard Beschow wrote:
+On 13/2/23 17:20, Bernhard Beschow wrote:
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > Reviewed-by: Thomas Huth <thuth@redhat.com>
 > ---
->   hw/i386/pc_q35.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 66cd718b70..dee2b38474 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -218,7 +218,7 @@ static void pc_q35_init(MachineState *machine)
->       pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory,
->                      pci_hole64_size);
->   
-> -    object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
-> +    object_property_add_child(OBJECT(machine), "q35", OBJECT(q35_host));
->       object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
->                                OBJECT(ram_memory), NULL);
->       object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_PCI_MEM,
+>   hw/i386/pc_piix.c | 2 +-
+>   hw/i386/pc_q35.c  | 7 ++++---
+>   2 files changed, 5 insertions(+), 4 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Long term we should duplicate/extract Q35MachineState from
-PCMachineState and add a Q35PCIHost field, then use 
-object_initialize_child; removing this object_property_add_child()
-call.
 
