@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BDA69F2B8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:30:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6197F69F2BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:30:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUmMv-00087j-1x; Wed, 22 Feb 2023 05:29:01 -0500
+	id 1pUmNn-0000Fe-TV; Wed, 22 Feb 2023 05:29:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pUmMo-000879-L3
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:28:56 -0500
+ id 1pUmNl-0000AE-Tw
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:29:53 -0500
 Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pUmMm-0003f1-NN
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:28:54 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 5DA6B5C0131;
- Wed, 22 Feb 2023 05:28:45 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 22 Feb 2023 05:28:45 -0500
+ id 1pUmNj-0003l7-Ub
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:29:53 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id DEEA55C0162;
+ Wed, 22 Feb 2023 05:29:48 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 22 Feb 2023 05:29:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  cc:cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1677061725; x=
- 1677148125; bh=eZKeWnPgCycYzzVWpyMcerij37Eh4qovBoiaYF157Pk=; b=i
- 1CHDyn70VXpYg+OGM2sQy/5VPoF70EmwKhqK5Vyqy3zckl0CGc+CwT48+0Rmzck2
- T35b0z/Yt+dJF/F8JxYo5aNPD510wZrUuX8TfyXUenXGgvT3SctJou9A/YwN+ZF+
- akvZhwmEHFRYsHheFrMD3yBVyA8ebI+m/7YQznW1TQlP4go2bfvMDaq1DCJjk0YG
- UF9DGQXKUrU1/tsSXeEXoDI5fg+DV6hzU6xAGJ+etCCgw9SfcbkL0Lnmi0hKh3iE
- MqSXV6o/euhevGaVbq02E3rX8kur2hLMJ5Q5SlXM0BTWsYRlI3O3bzVwhIjA5SgA
- p75fETj3Bh5PK4EjcI8rg==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1677061788; x=
+ 1677148188; bh=szsQo1Hi/iilIGq+KwglSomiuO9TOAR8uTOMUkIrs2k=; b=r
+ 2Q41XiOyTDV/4sgtgzArmSlO8x/7XYITB3os3YC5HN3uk2g7Ds+wNrbndIc2f4es
+ 7XMK+Mxw+SnkL5HdbPcULjnCkN2wfW4XzcumcxVrS8phfRsp66TTEnJWyADCB/0x
+ VksHXNf7HMkwM52VWV/0ErlMBwmYiR1Fr7b4wRfJMRHHGbj1AjgJu59Ayaypn6i5
+ nkdCfqXYUY2IxkYr6deanfQMPQYghvJ5Y6Q0Ab00WvfbW9nExS8Pw9Otl1qQbnXG
+ D9702UX5oY6b+b4nTiSp7R9Yt/HguK1W8P+UPLSxpP5WDYMtsW/cpDrfj5wWB+Ek
+ m7vAspSRZGmKzUbij57pQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677061725; x=
- 1677148125; bh=eZKeWnPgCycYzzVWpyMcerij37Eh4qovBoiaYF157Pk=; b=A
- Stafb2JMo6cq6v9/l1+g7d746Y5KEK/iKhWad+L4jq3H99Mggh4DaWT3cf7G0dJV
- 9IkLZnyPv6Cud2BSThAS5KbCmOVW17fmJq+s5qNv95RzYIb5PQh8KUw+S0JR+hd2
- ZJhPcPGnWPkRMqQxHA3rO90TXAazv8NjY03L+2VD4SQ0uvc6+e4fGAEfbEEbQRYj
- inBjxfLgYMP2u8mk6S5ISat2R6gu0YcGk/JFnQ+oa8wop5PgGfesh1EaDUY5oNju
- yXbQj7q0vIgrGaQk9ybylQyMnHSjeyn3LUJ62MrY/Vf2QysUnT9eTWlr1JyP/3HT
- f6dPW6AjQQ0VbG7yjg5Lg==
-X-ME-Sender: <xms:Xe71Y-nAhN6rD7b_lqeZbhiecEkhcUbmBVmHrUoMCUPqMA2xSoA10A>
- <xme:Xe71Y12VmTAnHvUbP96qEZKcqOK0DfWF2RT7D7xJfZak_DO0WiHBoV81Lleippe_r
- 6fR4WpDAVWPa404KWQ>
-X-ME-Received: <xmr:Xe71Y8p-svx9MOlbsqufHX7uG9hTshLKX6d270QS8RTvVWXdz8-AKkRqyhyOvUAiQt5Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejledgudehucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677061788; x=
+ 1677148188; bh=szsQo1Hi/iilIGq+KwglSomiuO9TOAR8uTOMUkIrs2k=; b=D
+ 3KeFDCL0SrRiHukwwQL50iwobL10RChupwdHj+bkwJGiZqqfmD+Vo5JAedeRn07K
+ OJdg85shMgq+tNtKboARbBQzOe/jlUkZ/qRgV7YuNbKhTR/ovG8waNIy4efOqrEM
+ Vo51UINnxI7LwIOc9MNSToTihIreYayI17Iun/dh/Z9p83IMhTviLNOgDFEQrzL6
+ EO0A85uH70LklDRwvLV6XPzzHaZkKwyMy/PuJ756DLOx7Rx3waHLMZhtrt3Lh/dD
+ vuepXsEyTRRP49BJYvdvrgyEM1tE4tn5gnRcIqv3+KuWTfNmoA5wlz2R+BIR8k7l
+ M4MZzIsNNiEwfZZl9pT5A==
+X-ME-Sender: <xms:nO71Y7rynXUhyQW__zoaTOisKfGRzmKJc7ios-BrtDF8Kc6-6JjRCQ>
+ <xme:nO71Y1qRwVN_sR3lSks79Sd7GRFK3lsTpyymrz1RrZxyVye66yxmTbK8O5_ppvF41
+ cDwTrUrzBzRTMTyvyc>
+X-ME-Received: <xmr:nO71Y4MXWpSv-qQfXx35-KNUO0MoImlGYUGmnjCLC7Wm0PIwvKa6DIis9BXMKUa65YZi>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejledgudeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
@@ -59,26 +59,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejledgudehucetufdoteggod
  cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
  ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
  hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:Xe71YynkBEmCZK2XdETzGLfGZ-wOGQa8jcSS8d2bN4tC_xJMOGSo_g>
- <xmx:Xe71Y82_IZzCPFaeWK1rjZyv7S_tEItLaEEw-Qa3SQBgMtdrtsCM3g>
- <xmx:Xe71Y5t0k-TWvkgJmA6dKk-dpgg5YZgIaIrJMkiOK9KdU0m9F9OpMg>
- <xmx:Xe71Y5_rmv8pPcYAnA0rpNcmHlv6-mNHDcCnucDM_FiywBbpUaXItA>
+X-ME-Proxy: <xmx:nO71Y-4gI6cKB2EQ1BLGIlsFstnATUbUv-9lNTWve-_VTpnhuzcsVw>
+ <xmx:nO71Y66dNrUdAwlDz63CKFKxChXzTvJOGABW1scrlum9DK_F6MDoWw>
+ <xmx:nO71Y2gTOvtK_rGfmb1go0QZAWdnwewPi3Gm5sTr3cZ6YZdwgXYCSw>
+ <xmx:nO71YwQcuAx45SHd7WiZkLFJ2gaySmkEVn3T3-jVeluZDDs1mMDnxQ>
 Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Feb 2023 05:28:43 -0500 (EST)
+ 22 Feb 2023 05:29:47 -0500 (EST)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH] linux-user/mips: Low down switchable NaN2008 requirement
+Subject: Re: [PATCH 3/3] hw/mips: Add MIPS virt board
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
-Date: Wed, 22 Feb 2023 10:28:31 +0000
-Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <BC1C4370-DD4F-4777-9F83-6D9FA719F0A1@flygoat.com>
+Date: Wed, 22 Feb 2023 10:29:36 +0000
+Cc: BALATON Zoltan via <qemu-devel@nongnu.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <AB7D213A-2A88-42E5-B142-BA6127103FCF@flygoat.com>
-References: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
-To: BALATON Zoltan via <qemu-devel@nongnu.org>
+Message-Id: <377EC8F0-B773-41B1-8006-0C8B10F2BE82@flygoat.com>
+References: <20230202132138.30945-1-jiaxun.yang@flygoat.com>
+ <20230202132138.30945-4-jiaxun.yang@flygoat.com>
+ <02b95cdf-fe38-f147-1b9c-5078aaf35adb@linaro.org>
+ <BC1C4370-DD4F-4777-9F83-6D9FA719F0A1@flygoat.com>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 X-Mailer: Apple Mail (2.3731.300.101.1.3)
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
  helo=out4-smtp.messagingengine.com
@@ -104,42 +107,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping=EF=BC=9F
+Ping?
 
-> 2023=E5=B9=B42=E6=9C=8811=E6=97=A5 17:34=EF=BC=8CJiaxun Yang =
+> 2023=E5=B9=B42=E6=9C=886=E6=97=A5 01:08=EF=BC=8CJiaxun Yang =
 <jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
 >=20
-> Previously switchable NaN2008 requires fcsr31.nan2008 to be writable
-> for guest. However as per MIPS arch spec this bit can never be =
-writable.
-> This cause NaN2008 ELF to be rejected by QEMU.
 >=20
-> NaN2008 can be enabled on R2~R5 processors, just make it available
-> unconditionally.
 >=20
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
-> linux-user/mips/cpu_loop.c | 3 +--
-> 1 file changed, 1 insertion(+), 2 deletions(-)
+>> 2023=E5=B9=B42=E6=9C=885=E6=97=A5 11:48=EF=BC=8CPhilippe =
+Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>>=20
+>> Hi Jiaxun,
+>>=20
+>> On 2/2/23 14:21, Jiaxun Yang wrote:
+>>> MIPS virt board is design to utilize existing VirtIO infrastures
+>>> but also comptitable with MIPS's existing internal simulation tools.
+>>> It includes virtio-mmio, pcie gpex, flash rom, fw_cfg, goldfish-rtc,
+>>> and optional goldfish_pic in case MIPS GIC is not present.
+>>=20
+>> Is it worth using the CPS/GIC? Can't we using the goldfish PIC
+>> regardless CPS availability? Did you run performance comparison?
 >=20
-> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-> index d5c1c7941d..b5c2ca4a3e 100644
-> --- a/linux-user/mips/cpu_loop.c
-> +++ b/linux-user/mips/cpu_loop.c
-> @@ -301,8 +301,7 @@ void target_cpu_copy_regs(CPUArchState *env, =
-struct target_pt_regs *regs)
->     }
->     if (((info->elf_flags & EF_MIPS_NAN2008) !=3D 0) !=3D
->         ((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) !=3D 0)) {
-> -        if ((env->active_fpu.fcr31_rw_bitmask &
-> -              (1 << FCR31_NAN2008)) =3D=3D 0) {
-> +        if (!(env->insn_flags & ISA_MIPS_R2)) {
->             fprintf(stderr, "ELF binary's NaN mode not supported by =
-CPU\n");
->             exit(1);
->         }
-> --=20
-> 2.37.1 (Apple Git-137.1)
+> goldfish_pic don=E2=80=99t have IPI infra so we must reinvent another =
+SMP mechanism :-(
+>=20
+> The interrupt performance should be close as the interrupt handling =
+flow is almost
+> the same.
+>=20
+> Also it can help us prepare for I6400 vGIC support.
+>=20
+> Thanks.
+> - Jiaxun
+>=20
+>=20
+>>=20
+>>> It should be able to cooperate with any MIPS CPU cores.
+>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>> ---
+>>> v1:
+>>> - Rename to virt board
+>>> - Convert BIOS flash to ROM
+>>> - Cleanups
+>>> ---
+>>> MAINTAINERS                             |    7 +
+>>> configs/devices/mips-softmmu/common.mak |    1 +
+>>> docs/system/target-mips.rst             |   24 +
+>>> hw/mips/Kconfig                         |   18 +
+>>> hw/mips/meson.build                     |    1 +
+>>> hw/mips/virt.c                          | 1015 =
++++++++++++++++++++++++
+>>> 6 files changed, 1066 insertions(+)
+>>> create mode 100644 hw/mips/virt.c
+>>=20
+>=20
 >=20
 
 
