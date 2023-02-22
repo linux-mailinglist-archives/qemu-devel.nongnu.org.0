@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABDB69F8FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B58469F906
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:32:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUrz3-0004pw-8Y; Wed, 22 Feb 2023 11:28:45 -0500
+	id 1pUs1m-0006ea-Le; Wed, 22 Feb 2023 11:31:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pUryz-0004p3-RA
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:28:41 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pUryx-0005mb-Ia
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:28:40 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- az11-20020a05600c600b00b003dc4fd6e61dso6878094wmb.5
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 08:28:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:content-language:from
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wU6PIsYuUcxJ2xYT9aTsNniwT+i0x2ZvxfLCqL14AgU=;
- b=NZT1YP6aJmqpQ6dZj8FHeAyZBz75nK3fEtg/7aLWmWCmHc8JrHnOte50ldCJE5vBug
- r4bPyVt/PT/sQyQa+5o9hwbZv5CU5KIpoJou2357AYyYc2/Kd16ETP2mE7uPGRxRuZIH
- rsEkaXBwzbD82y/Hk/F7oFh1DJhYA+ZmAO+hdQK/0EQ6X/gb9UYqaMqpwZqi+L+QjICl
- FnIzBrH35wrRbkP1yVNgGw1Kb5ha2MElrUHfWPdkn+Kfqb8bpM+XqGd2l5U8bPuB2bTN
- 8I5NkZUO7NCa/0Hij3aHgiIWC00saz/KslPUue4aHGfDza0mq5I6PjM/NY2iAFgJsvzA
- ydaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:content-language:from
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=wU6PIsYuUcxJ2xYT9aTsNniwT+i0x2ZvxfLCqL14AgU=;
- b=1Gl7UBuqCTWowinXqefPBThkSu36HYJWui+UYMIDJDj4IEQT/YEfJlWDNhD1eyQW3n
- ge3gNrNZTy0txP3xxfcso+wtZY5Y422iY1DfpHEoplQR9m3hS9DybAcqXCd4QAh/vOz5
- OYQDCHmALTeRkafeVGmxe0iqOvB9vMHiXdwce8WRySeoLJr5jNGy2f6jdw6dHKvMocCQ
- i10uvw2mEDOb2uuFy/nBBPr2//X9R+hm2ErWK3Ohhg3ySFwcw7bvN5xltkb6Exr4n8eL
- Zq3Gwt8kL8ZPqQdJfAKxs3ITOcq7GdTowIAuwnCqOhK/0rXHvBDXHRX89wDxY5ZcX2S5
- J1Sg==
-X-Gm-Message-State: AO0yUKUpIVGX8xg/i3VYJ8Jqpu71SieJ4orE5DQPX4b87Y/Qw2JuHTkc
- EQKTrJpEYh3bmlHy84WTROn//Fi7DzlPYCXj
-X-Google-Smtp-Source: AK7set8BDzR43iu5CoNO5VLjPRgkMQORorMPSVEV2JfVuscGtXU/m+LOHAoWpJrjYXk16a3nmWzUzg==
-X-Received: by 2002:a05:600c:180f:b0:3e9:520b:4698 with SMTP id
- n15-20020a05600c180f00b003e9520b4698mr1667474wmp.27.1677083317330; 
- Wed, 22 Feb 2023 08:28:37 -0800 (PST)
-Received: from ?IPV6:2a01:cb16:203d:61c1:1d6f:c826:249a:2f22?
- ([2a01:cb16:203d:61c1:1d6f:c826:249a:2f22])
- by smtp.gmail.com with ESMTPSA id
- 18-20020a05600c231200b003e20fa01a86sm7710142wmo.13.2023.02.22.08.28.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 08:28:36 -0800 (PST)
-Message-ID: <7d380f61-b104-0fcd-47af-8712ffa01668@linaro.org>
-Date: Wed, 22 Feb 2023 17:28:35 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUs1k-0006eN-Ow
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:31:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUs1j-0006Rp-7F
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:31:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677083490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gnnO2neFokJK8TdjPLw69u4D03bvly8h4bb261vEEtg=;
+ b=bf2WXimiJq5er+6Rg1R3xP09lsBLPj5nPjRWhFoy2LdZ1STFATMqNXyPcz+UgW0EDJbimR
+ Y7OxRbvUB5fbJx7fhn086QEbQXX7g4gcy9VczySVfNrQGLPDlA/pvWEloHSk828MUFCbl7
+ zJcGR2bsg/9G3RYHIGUyVLMOHSYdqZA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-393-ia3041qANMSrJo2NvFY-Hw-1; Wed, 22 Feb 2023 11:31:27 -0500
+X-MC-Unique: ia3041qANMSrJo2NvFY-Hw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D79163848C39;
+ Wed, 22 Feb 2023 16:31:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B084C440DD;
+ Wed, 22 Feb 2023 16:31:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8DA8021E6A1F; Wed, 22 Feb 2023 17:31:25 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org,  jsnow@redhat.com,  peter.maydell@linaro.org,
+ thuth@redhat.com,  alex.bennee@linaro.org,  berrange@redhat.com
+Subject: Re: [PATCH 09/10] Python: Drop support for Python 3.6
+References: <20230222143752.466090-1-pbonzini@redhat.com>
+ <20230222143752.466090-10-pbonzini@redhat.com>
+Date: Wed, 22 Feb 2023 17:31:25 +0100
+In-Reply-To: <20230222143752.466090-10-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Wed, 22 Feb 2023 15:37:51 +0100")
+Message-ID: <878rgpll0i.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-Content-Language: en-US
-Subject: mttcg: warning to user about memory ordering
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>, bobby.prani@gmail.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=pierrick.bouvier@linaro.org; helo=mail-wm1-x32f.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,27 +80,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-When using multi thread tcg, a warning is emitted to user if models for 
-guest and host are not compatible (like qemu-system-x86_64 running on 
-aarch64 host)
+> Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
+> begun dropping support for this version and it is becoming more
+> cumbersome to support. Avocado-framework and qemu.qmp each have their
+> own reasons for wanting to drop Python 3.6, but won't until QEMU does.
 
-accel/tcg/tcg-all.c:
-161             if (!check_tcg_memory_orders_compatible()) {
-162                 warn_report("Guest expects a stronger memory ordering "
-163                             "than the host provides");
-164                 error_printf("This may cause strange/hard to debug 
-errors\n");
-165             }
+In review of the original "[PATCH v3 6/6] Python: Drop support for
+Python 3.6", I volunteered to rework the rationale.  Second thoughts: if
+y'all think this is good enough, let's leave it there.
 
-However, in tcg/tcg-op.c, all load/stores are emitting memory barriers 
-using tcg_gen_req_mo, which lets think it's already implemented for any 
-host/guest combination (was added in b32dc3).
+> Versions of Python available in our supported build platforms as of today,
+> with optional versions available in parentheses:
+>
+> openSUSE Leap 15.4: 3.6.15 (3.9.10, 3.10.2)
+> CentOS Stream 8:    3.6.8  (3.8.13, 3.9.16)
+> CentOS Stream 9:    3.9.13
+> Fedora 36:          3.10
+> Fedora 37:          3.11
+> Debian 11:          3.9.2
+> Alpine 3.14, 3.15:  3.9.16
+> Alpine 3.16, 3.17:  3.10.10
+> Ubuntu 20.04 LTS:   3.8.10
+> Ubuntu 22.04 LTS:   3.10.4
+> NetBSD 9.3:         3.9.13*
+> FreeBSD 12.4:       3.9.16
+> FreeBSD 13.1:       3.9.16
+> OpenBSD 7.2:        3.9.16
+>
+> Note: Our VM tests install 3.7 specifically for freebsd and netbsd; the
+> default for "python" or "python3" in FreeBSD is 3.9.16. NetBSD does not
+> appear to have a default meta-package, but offers several options, the
+> lowest of which is 3.7.15. "python39" appears to be a pre-requisite to
+> one of the other packages we request in tests/vm/netbsd.
+>
+> Since it is safe to under our supported platform policy, bump our
+> minimum supported version of Python to 3.7.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-In your opinion, are there still corner cases that are not covered 
-correctly? If no, should we drop this scary warning?
-
-Regards,
-Pierrick
 
