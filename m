@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0E069FE59
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 23:15:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90CC69FE60
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 23:21:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUxNw-0000Y6-IC; Wed, 22 Feb 2023 17:14:48 -0500
+	id 1pUxTf-0001vB-R9; Wed, 22 Feb 2023 17:20:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUxNv-0000XW-2f
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 17:14:47 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pUxTa-0001u8-Q4; Wed, 22 Feb 2023 17:20:39 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUxNr-0003E5-RT
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 17:14:46 -0500
-Received: by mail-pl1-x634.google.com with SMTP id c1so10848670plg.4
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 14:14:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ixxLxJ0Xfd0Bhj6NjchLM61v85VOUc/tIPHDgotylVQ=;
- b=uuunxppQfNOcVaoG6QwxB+r7ZWZZw7AG3QIcS0wOJ+6IJkEjTqIBQHBtx4cFSJMVHI
- 4luD4FRXLSd+zrZMdyxcKY5rKlHLJPZhdAApY+T+bmPtYvF1iYIzcJcAl5w85Xo4y6pk
- 5GZat8ZG3BTI0z0nj2cmmdLR6FsHoK4LMMCJUjkle41JxMrYwP/QnvpspwGghvpFoWJt
- pqWpfRL9ag0fImWdk5xbbVOctRVWbwXlpOLaKGWJZBxu31MoKjStWeWk6o/IiuVoA2gS
- JV6yhPLc2lKWT+U/m/pcdjUbaufKKWGIxYRsj3KdoGcij86jXgO3iD0jI6aO/ThlY05O
- tnnw==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pUxTY-0004Vq-I0; Wed, 22 Feb 2023 17:20:38 -0500
+Received: by mail-ed1-x529.google.com with SMTP id cy6so30942912edb.5;
+ Wed, 22 Feb 2023 14:20:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CWl4GgMkdVjWPjQL+78n2wEOpTRIIp/yGhexlS6jD2o=;
+ b=D8kaZ5D4IgDCkkfb7izmQ7ljncL27rg0XJE4Tg+ZfGz/MViG7v6sLkM2eO5rxnbGHG
+ YHK8ETi9+KpoDT9P6LrbRG579gwQdEjzrMNP51r+yiJ43+bYEvwa6znVFNpoEzXFVtwr
+ ESIgs1hN7udM5NUS1P1hhPByc9lSc6kIfHiQs5hPk76YnUxAAJ46sGaEfw5GgZCQpX/3
+ fyo6YyQ9JBG51geFtsiRy1T0UBqycKjp/I2r9zGgomYRUiMD2wpGTPrJAKZIPXemssu0
+ zZAlnMx1sYhzXw1nZUkhH6NueCOeEoVzYfg1wvq3X+Nikis/g+sLCfQ5TFLWKMMVt3/R
+ uLTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ixxLxJ0Xfd0Bhj6NjchLM61v85VOUc/tIPHDgotylVQ=;
- b=TTF9AWq+mpxlIcRmYnqbRTuZzD6c3r53hn4MlALYTknMIo65fasbeR4T80X9JS4xjP
- 47br9WZLFfmKabq1bosLDXa9K876ncPpbAciE09Rmv7djF7NeSAa3Aj3fvGZel1i+fIq
- Qz1MBvmHgEYEoy8DJldV3AaBWpGbS0JEum1LYNyjVF+VI0zmzQH4fRyLo8SyImV//Qwy
- FdeW3WFz3pJ1+z3PQwSNmG/QF25d/IYLipsMrWTiG7FVnB36ly1OIIR6C2tweQnnlhaU
- elkMAq8FdosNIQAQNNG4TY2upydVXXyYB4CI6GJxe0Ji2q6QbNlV1l8ZG/V27scECyVX
- SLIg==
-X-Gm-Message-State: AO0yUKUtlBrnIujwuIKL7U7VFm2R6Ax3Wwtf4GI0Efsw6+JW/0G72/RU
- XOtH6k3RngtJHnlZPUwrj6QMpw==
-X-Google-Smtp-Source: AK7set9tjLrhoACxG9nzOceNq7Wjoq9NGt/1bLOwGjJRSgfc4zU1wn+Rvz1SmlRB0zjBKM7Nv/KJKg==
-X-Received: by 2002:a17:902:ce8e:b0:19a:de35:aeaf with SMTP id
- f14-20020a170902ce8e00b0019ade35aeafmr12373843plg.40.1677104082039; 
- Wed, 22 Feb 2023 14:14:42 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- b2-20020a170902ed0200b0019c919bccf8sm3944866pld.86.2023.02.22.14.14.40
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CWl4GgMkdVjWPjQL+78n2wEOpTRIIp/yGhexlS6jD2o=;
+ b=00Amh96rpwX0z4tIq0g3xyozIZf8bn/RWwejmZmgKZjs6rKh5/mEc2pth0SbEqdmpC
+ BQr0Zg7VqFFlsqmy0bCQ4MWBkoGfJi15liSouB0HxVv/GaBqYqU4mNqTmi4qWD/dJPmR
+ fpalzXxhfNmjiO+cx+Di4bffoWjyZFkWdZ3rJv7Nlxbt2yl178UzueON0+iDZbOxdm5M
+ xwV7VR65oZPMU/WE5/JmuU3G6OkPMEfdsZt/8gQ+L6VsmfPTybVF4ajCJI0coNEw5c9l
+ IPKf6UCxV4b5R2oLNz72LalIWvD79koq3QD9Cr5D614d0eJvHz5A3kd8kaQmL6FSfd8g
+ GBBg==
+X-Gm-Message-State: AO0yUKUkpIF1rAtQOeXd9qcYCXn9f1qo0Ql49KEViBjRA1p3nFVcl/jn
+ u627lJVv6Oid1FOedM7Bjxo=
+X-Google-Smtp-Source: AK7set8eplAxP4KTtDmQezNVZQYXZVEWXCGms5phFJskkQQBeazLENGS1iZiDW4GScsyYYS/1L3Xxw==
+X-Received: by 2002:a17:907:7ea9:b0:8e4:dc2b:4550 with SMTP id
+ qb41-20020a1709077ea900b008e4dc2b4550mr6171365ejc.64.1677104432643; 
+ Wed, 22 Feb 2023 14:20:32 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf06ee00dc7226af23ff2fba.dip0.t-ipconnect.de.
+ [2003:fa:af06:ee00:dc72:26af:23ff:2fba])
+ by smtp.gmail.com with ESMTPSA id
+ z11-20020a1709060acb00b008ba9e67ea4asm6575416ejf.133.2023.02.22.14.20.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 14:14:41 -0800 (PST)
-Message-ID: <c79aa318-0fa9-e93e-56dc-c084de47f645@linaro.org>
-Date: Wed, 22 Feb 2023 12:14:38 -1000
+ Wed, 22 Feb 2023 14:20:32 -0800 (PST)
+Date: Wed, 22 Feb 2023 22:20:21 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@redhat.com
+Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
+In-Reply-To: <67daf5dd-de6a-2d55-c830-8650efc59ee0@eik.bme.hu>
+References: <cover.1677004414.git.balaton@eik.bme.hu>
+ <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
+ <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
+ <adb1fe51-a17e-53c2-4dd1-0c4270a928aa@eik.bme.hu>
+ <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
+ <67daf5dd-de6a-2d55-c830-8650efc59ee0@eik.bme.hu>
+Message-ID: <8AA6E5E4-6E9F-427D-9F65-D79D4FEEC1A0@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 7/7] target/arm: Add CPU properties for most v8.3 PAC
- features
-Content-Language: en-US
-To: Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Vincent Dehors <vincent.dehors@smile.fr>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230222193544.3392713-1-aaron@os.amperecomputing.com>
- <20230222193544.3392713-8-aaron@os.amperecomputing.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230222193544.3392713-8-aaron@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,104 +97,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/22/23 09:35, Aaron Lindsay wrote:
-> Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
-> ---
->   target/arm/cpu.h   |  5 +++
->   target/arm/cpu64.c | 81 ++++++++++++++++++++++++++++++++++++++--------
->   2 files changed, 72 insertions(+), 14 deletions(-)
-> 
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 9c3cbc9a29..40b4631f11 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1039,6 +1039,11 @@ struct ArchCPU {
->        */
->       bool prop_pauth;
->       bool prop_pauth_impdef;
-> +    bool prop_pauth_qarma3;
-> +    bool prop_pauth_epac;
-> +    bool prop_pauth2; // also known as EnhancedPAC2/EPAC2
-
-No c++ comments.
-
-> +    if (cpu->prop_pauth_epac &&
-> +            (cpu->prop_pauth2 ||
-> +             cpu->prop_pauth_fpac ||
-> +             cpu->prop_pauth_fpac_combine)) {
-
-Indentation.
-
-> +        if (address_auth == 0)
-> +            address_auth = 0b0001;
-
-Missing braces.
-
-> +static Property arm_cpu_pauth2_property =
-> +    DEFINE_PROP_BOOL("pauth2", ARMCPU, prop_pauth2, false);
-> +static Property arm_cpu_pauth_fpac_property =
-> +    DEFINE_PROP_BOOL("pauth-fpac", ARMCPU, prop_pauth_fpac, false);
-> +static Property arm_cpu_pauth_fpac_combine_property =
-> +    DEFINE_PROP_BOOL("pauth-fpac-combine", ARMCPU, prop_pauth_fpac_combine, false);
-
-For -cpu max, I would expect these to default on.
-Or perhaps not expose these or epac as properties at all.
-
-> @@ -646,6 +694,11 @@ static void aarch64_add_pauth_properties(Object *obj)
->           cpu->prop_pauth = cpu_isar_feature(aa64_pauth, cpu);
->       } else {
->           qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
-> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_qarma3_property);
-> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_epac_property);
-> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth2_property);
-> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_fpac_property);
-> +        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_fpac_combine_property);
-
-I think the *only* property that makes sense for KVM is pauth=on/off, which controls if 
-KVM exposes the key registers at all (and if off, APA/GPA/etc all get zeroed). There is 
-certainly no way to adjust the algorithm exposed by the hardware.
-
-The primary reason we have a property for pauth at all is speed of emulation.  When we 
-first enabled qarma5, we saw a major slowdown, with pauth_computepac consuming nearly 50% 
-of the entire runtime.  Later we added impdef, as a way of doing *some* testing of pauth 
-without the extreme overhead of qarma5.
-
-I see that qarma3 does about half the work of qarma5, so it would be interesting to 
-measure the relative speed of the 3 implementations on a boot of kernel + selftests.
-
-You may want to look a the code generated and play with flatten and noinline attributes 
-around pauth_computepac and subroutines.  E.g.
-
-static uint64_t __attribute__((flatten, noinline))
-pauth_computepac_qarma5(uint64_t data, uint64_t modifier, ARMPACKey key)
-{
-     return pauth_computepac_architected(data, modifier, key, false);
-}
-
-static uint64_t __attribute__((flatten, noinline))
-pauth_computepac_qarma3(uint64_t data, uint64_t modifier, ARMPACKey key)
-{
-     return pauth_computepac_architected(data, modifier, key, true);
-}
-
-static uint64_t __attribute__((flatten, noinline))
-pauth_computepac_impdef(uint64_t data, uint64_t modifier, ARMPACKey key)
-{
-     return qemu_xxhash64_4(data, modifier, key.lo, key.hi);
-}
-
-static uint64_t pauth_computepac(CPUARMState *env, uint64_t data,
-                                  uint64_t modifier, ARMPACKey key)
-{
-     if (cpu_isar_feature(aa64_pauth_arch_qarma5, env_archcpu(env))) {
-         return pauth_computepac_qarma5(data, modifier, key);
-     } else if (cpu_isar_feature(aa64_pauth_arch_qarma3, env_archcpu(env))) {
-         return pauth_computepac_qarma3(data, modifier, key);
-     } else {
-         return pauth_computepac_impdef(data, modifier, key);
-     }
-}
 
 
-r~
+Am 22=2E Februar 2023 21:12:01 UTC schrieb BALATON Zoltan <balaton@eik=2Eb=
+me=2Ehu>:
+>On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>> Am 22=2E Februar 2023 19:25:16 UTC schrieb BALATON Zoltan <balaton@eik=
+=2Ebme=2Ehu>:
+>>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>>>> On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail=2Ecom=
+> wrote:
+>>>>> On Tue, Feb 21, 2023 at 7:44 PM BALATON Zoltan <balaton@eik=2Ebme=2E=
+hu> wrote:
+>>>>>> This series fixes PCI interrupts on the ppc/pegasos2 machine and ad=
+ds
+>>>>>> partial implementation of the via-ac97 sound part enough to get aud=
+io
+>>>>>> output=2E I'd like this to be merged for QEMU 8=2E0=2E
+>>>>>>=20
+>>>>>> Regards,
+>>>>>> BALATON Zoltan
+>>>>>>=20
+>>>>>> BALATON Zoltan (5):
+>>>>>>   hw/isa/vt82c686: Implement interrupt routing in via_isa_set_irq
+>>>>>>   hw/isa/vt82c686: Implement PIRQ pins
+>>>>>>   hw/ppc/pegasos2: Fix PCI interrupt routing
+>>>>>>   hw/audio/ac97: Split off some definitions to a header
+>>>>>>   hw/audio/via-ac97: Basic implementation of audio playback
+>>>>>>=20
+>>>>>>  hw/audio/ac97=2Ec            |  43 +---
+>>>>>>  hw/audio/ac97=2Eh            |  65 ++++++
+>>>>>>  hw/audio/trace-events      |   6 +
+>>>>>>  hw/audio/via-ac97=2Ec        | 436 +++++++++++++++++++++++++++++++=
++++++-
+>>>>>>  hw/ide/via=2Ec               |   2 +-
+>>>>>>  hw/isa/vt82c686=2Ec          |  61 +++++-
+>>>>>>  hw/pci-host/mv64361=2Ec      |   4 -
+>>>>>>  hw/ppc/pegasos2=2Ec          |  26 ++-
+>>>>>>  hw/usb/vt82c686-uhci-pci=2Ec |   5 +-
+>>>>>>  include/hw/isa/vt82c686=2Eh  |  39 +++-
+>>>>>>  10 files changed, 626 insertions(+), 61 deletions(-)
+>>>>>>  create mode 100644 hw/audio/ac97=2Eh
+>>>>>>=20
+>>>>>> --
+>>>>>> 2=2E30=2E7
+>>>>>>=20
+>>>>>>=20
+>>>>> Wow, the MorphOS people paid attention to sound design=2E Thanks for
+>>>>> presenting it to us, Zoltan!
+>>>>>=20
+>>>>> I've had a closer look at your series and I think it can be simplifi=
+ed:
+>>>>> Patch 2 can be implemented quite straight-forward like I proposed in=
+ a
+>>>>> private mail: https://github=2Ecom/shentok/qemu/commit/via-priq-rout=
+ing=2E
+>>>>> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt r=
+outing"
+>>>>> working, one can expose the PCI interrupts with a single line like y=
+ou do
+>>>>> in patch 2=2E With this, patch 1 "hw/isa/vt82c686: Implement interru=
+pt
+>>>>> routing in via_isa_set_irq" isn't needed any longer and can be omitt=
+ed=2E
+>>>>>=20
+>>>>> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() can =
+be
+>>>>> used instead=2E pci_set_irq() internally takes care of all the ISA i=
+nterrupt
+>>>>> level tracking patch 1 attempted to address=2E
+>>>>>=20
+>>>>=20
+>>>> Here is a proof of concept branch to demonstrate that the simplificat=
+ion
+>>>> actually works: https://github=2Ecom/shentok/qemu/commits/pegasos2 (T=
+ested
+>>>> with MorphOS with and without pegasos2=2Erom)=2E
+>>>=20
+>>> Does this only work because both the via-ac97 and the PCI interrupts a=
+re mapped to the same ISA IRQ and you've only tested sound? The guest could=
+ configure each device to use a different IRQ, also mapping them so they sh=
+are one ISA interrupt=2E What happens if multiple devices are mapped to IRQ=
+ 9 (which is the case on pegasos2 where PCI cards, ac97 and USB all share t=
+his IRQ) and more than one such device wants to raise an interrupt at the s=
+ame time? If you ack the ac97 interrupt but a PCI network card or the USB p=
+art still wants to get the CPUs attention the ISA IRQ should remain raised =
+until all devices are serviced=2E
+>>=20
+>> pci_bus_get_irq_level(), used in via_isa_set_pci_irq(), should handle
+>> exactly that case very well=2E
+>>=20
+>>> I don't see a way to track the status of all devices in a single qemu_=
+irq which can only be up or down so we need something to store the state of=
+ each source=2E
+>>=20
+>> pci_set_irq() causes pci_bus_change_irq_level() to be called=2E
+>> pci_bus_change_irq_level() tracks the sum of all irq levels of all
+>> devices attached to a particular pin in irq_count=2E Have a look at
+>> pci_bus_change_irq_level() and you will understand better=2E
+>
+>I'm aware of that, we're using that in sam460ex which connects all PCI in=
+terrupt lines to a single IRQ and Peter explored and explained it in a comm=
+ent there when that was discovered=2E First we had a patch with or-irq but =
+due to this behaviot that's not needed for PCI interrupts=2E But the VT8132=
+ could change what ISA IRQ you route the sub functions to=2E
+
+That depends on the sub function if you can do that=2E And if so, then it =
+depends on whether the function is still in PCI mode (see below)=2E
+
+>It happens that on pegasos2 by default all of those are routed to IRQ9 ex=
+cept IDE
+
+All *PCI* interrupts are routed to IRQ9 while IDE legacy interrupts are ro=
+uted to the compatible ISA IRQs=2E Note that the IDE function must only tri=
+gger the ISA IRQs if it is in legacy mode while it must only trigger the PC=
+I IRQ in non-legacy mode=2E See https://www=2Ebswd=2Ecom/pciide=2Epdf for m=
+ore details on this particular topic=2E
+
+>but what if a guest changes ac97 to use a different interrupt? Then it's =
+not a PCI interrupt any more so you can't use pci_set_irq in via=3Dac97=2E
+
+How would it do that? AFAICS there is no dedicated register to configure w=
+hich IRQ to use=2E This means that it can only trigger an interrupt via its=
+ PCI intx pin which is subject to the PCI -> ISA IRQ router=2E
+
+> There are only 4 PCI INT lines but the VIA components can be routed to 1=
+3 or 14 ISA IRQs=2E
+
+Pure PCI components are only able to trigger one of the four PCI intx pins=
+ they are *hardwired* to=2E Each component has only one pin=2E Which ISA IR=
+Q gets triggered through that pin can be selected from 13 or 14 ISA IRQs as=
+ you say by means of the three configuration registers of the PCI -> ISA IR=
+Q router=2E
+
+>How do you keep track of that with only the PCI bus interrupts?
+
+Devices that operate in ISA mode such as the IDE function shall have their=
+ own, dedicated ISA IRQs assigned by the guest=2E Otherwise this causes a c=
+lassic interrupt conflict, just like in the olden ISA days=2E If the functi=
+on operates in PCI mode, it must not trigger the ISA IRQs, regardless of wh=
+ether they are assigned or not=2E
+
+There is also the power management function whose ACPI interrupt (SCI) can=
+ be routed by means of a dedicated register=2E Again, a guest must make sur=
+e here to not configure interrupt conflicts=2E
+
+>I don't get your approach=2E
+
+I hope that I could help you get a better understanding=2E The linked =2Ep=
+df is good and comprehensive reading material=2E
+
+Best regards,
+Bernhard
+
+>
+>>> My patch adds a state register to each ISA IRQ line for all possible s=
+ources which could probably be stored once but then for each change of ISA =
+IRQ status all the mapped devices should be checked and combined so it's ea=
+sier to store them for each IRQ=2E Does your approach still work if you pla=
+y sound, and copy something from network to a USB device at the same time? =
+(I'm not sure mine does not have remaining bugs but I don't think this can =
+be simplified that way but if you can prove it would work I don't mind taki=
+ng an alternative version but I'm not convinced yet=2E)
+>>=20
+>> Well, I can't prove that my approach works but unfortunately I can
+>> prove that both our approaches cause a freeze :/ Try:
+>> 1=2E Start `qemu-system-ppc -M pegasos2 -bios pegasos2=2Erom -rtc
+>> base=3Dlocaltime -device ati-vga,guest_hwcursor=3Dtrue,romfile=3D"" -cd=
+rom
+>> morphos-3=2E17=2Eiso -device usb-mouse -device usb-kbd`
+>> 2=2E Move the mouse while sound is playing
+>> -> Observe the VM to freeze
+>>=20
+>> So there must be an issue somewhere else=2E=2E=2E
+>
+>I'll have a look later but my patch attempts to handle the USB controller=
+ interrupts=2E There may be another bug somewhere in USB emulation though, =
+we have similar problem with mac99 with older MacOS guests=2E Considering t=
+hat USB devices probably did not work at all before this patch it's at leas=
+t still an imptovement=2E :-)
+>
+>Regards,
+>BALATON Zoltan
 
