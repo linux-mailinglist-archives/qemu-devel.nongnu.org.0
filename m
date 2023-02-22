@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFAE669EBFC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 01:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4BC69EC1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 01:52:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUd3g-0006xU-GC; Tue, 21 Feb 2023 19:32:32 -0500
+	id 1pUdLp-0003Xx-Q4; Tue, 21 Feb 2023 19:51:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUd3d-0006ww-Pc
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:32:29 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1pUdLl-0003WZ-OV
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:51:13 -0500
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUd3b-0000Ty-Rd
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:32:29 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- oe18-20020a17090b395200b00236a0d55d3aso7011462pjb.3
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 16:32:27 -0800 (PST)
+ id 1pUdLj-0005sh-Lb
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:51:13 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id bm5so3334401pgb.12
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 16:51:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0tDT2bvnax0BSbh+fepFQow1XH0rsSPxoNpijHgS518=;
- b=p5bMQKP9oS3QXxPQZjMm2OziMS8RZf5yl6m1exYUojFJKVZeGGP1Uki5+/KbsG/2LS
- 9dbuyBNsnfCxSRHN47jIxXpg5ydaovDQC7iUAqEI4Gr03W6UQPjKFmmHQ+Dqevq9jfHr
- h6p9ak60niP3iipJqC2Jh++YHRCIDZACoJ+5jZD7pw8SNZSoY/D6u+4qjzy4y3fsqr6o
- ErUfXzQvty07qvU42cPfPmf/U00GButmRqd0ntWXkK9ae8Cy0ClEkIIlaWRHaT/rpm4Z
- Te31szCa7WgRBuJNBnGEH4oyIGSsyzKz5VkfUEvURNm1/t/fa9iNR4Rh7f0Kmxuj2lm+
- Us2w==
+ bh=+2o2184tTedpF1DFxmSV3KIZ4QRLrw6xufGH1xObmqA=;
+ b=MCmHr92AiLAuRwCxmo3GdpoH574h2D/mFAZyQbx7UM2Rez5pCtXwXYiX1GnnIHAS/O
+ oPVztoBuP4DMO5F4tFQo/9tCqU9FjXTEaAZ/tqehfX9zhjP9WjWqYpS8QIfcrov5xJ1y
+ JyVWmNdpi4/wGtgbngLc9W1xcL36yEktaI67goCvUzdwvI/ndsRw8LCqT1y28wMAJCuA
+ RCX/h4D0KOf1uB2bCZ6RMA68j+pFn3H40Q0sTSZCSsx8YvzGJVgn4p7RsJIE5gmBzngt
+ IzdETSWsQ0cYIACU81JURHreB1S66dDhz2+w6XQWx+b2ZocstffmaT3vd92tWdqy+Fpv
+ lJJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0tDT2bvnax0BSbh+fepFQow1XH0rsSPxoNpijHgS518=;
- b=2T+TvMAbjl4/9RLh3VO2SSHTX8o4UttIxKh7dz1GO4v5fJUdRCZvDGD38+uzVoWH7Y
- LVNljyxsd0nGCEY1CBW4ewQx22CCsgvKgT+LK5GMMejXwMQ3baTltr2V7ypOz0TB1oAQ
- SOkY1BMBWAstJ0dDOXCs6zqZveoVR88vTJw26Chz6707SRHPU8fYyJwC0yMO8Cv2Ig8F
- l49i+J+HBD2TBp6ogSu5wzU+VeMB7OHRh3JZJpWY9gFD/7WQh6r3Fg2mkBUtC/wNMs55
- GzMDYPCMgxrnVSaEyDd4ahL+Fl2HG2//qpNGJwFjV0gYYEGYbKreSOj/nIGJxXq0oJjH
- ZJsA==
-X-Gm-Message-State: AO0yUKXqUOpbh+Efxm9byin2vUIoiFbKO2NN5QGgUPcifAwIKBuHQDT+
- EotPIa044y9JV9uS8bLSk5thhQ==
-X-Google-Smtp-Source: AK7set89sL0TkKWwIMugyT9aGPOXAIfM3IU4NSG7GURr8ZnOZXd2uNaA1G1ZHbem7f4senH0qOuiAA==
-X-Received: by 2002:a17:90b:350f:b0:234:86a5:f800 with SMTP id
- ls15-20020a17090b350f00b0023486a5f800mr7326925pjb.34.1677025946354; 
- Tue, 21 Feb 2023 16:32:26 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- h191-20020a6383c8000000b004fba32949c3sm4088908pge.16.2023.02.21.16.32.24
+ bh=+2o2184tTedpF1DFxmSV3KIZ4QRLrw6xufGH1xObmqA=;
+ b=vnuKY0mCk0izFcmd4cDtqbLX0+Gz7N6ZncsgI2YQhNyd3vUS23GEFDOMq2PyfBlKsB
+ njrM1iGtzzbBiqyFFuu6PiLXgomj0ZkeEC+9LyMbCAYjnQGrHAJ2rFD83qjFXRGQXUy+
+ JalLP2c+gVrJRLi+JZ+jZe0qseB3h3LTzEfeEh2SLrf9lDCyKBz5DQszxHNks0eyIGM5
+ iR9oE46BG+AafFhaexHcpVs2qKuGu0OE8mx75T44eHlXcvgrv1udqZ37jVgDB2VP+Q4F
+ 88FqXbenOcHBfB1CFQUgv+M6jM30pnMBPgUe3pWBn0D8u/+/DyU1qYMhJXs6BjgVhJyw
+ RUJQ==
+X-Gm-Message-State: AO0yUKV7d9dPUw9LkvybqRkLtuxvRmXBdgTX10CGX5bWpJYZTBsxgdZg
+ 53w3RbbsA4UmLLJ9+lAmA4FenA==
+X-Google-Smtp-Source: AK7set/j/H+fs7BBwA/A5UUyLfrbGsRIN0arT3cUG4gC/jUXdz69meut5xCErgRaa++aSmIa/fIpIA==
+X-Received: by 2002:aa7:8437:0:b0:5a8:bfe5:3076 with SMTP id
+ q23-20020aa78437000000b005a8bfe53076mr5105570pfn.19.1677027068904; 
+ Tue, 21 Feb 2023 16:51:08 -0800 (PST)
+Received: from [192.168.6.128] ([173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ c13-20020aa78e0d000000b005a84e739d3esm2506356pfr.33.2023.02.21.16.51.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 16:32:25 -0800 (PST)
-Message-ID: <30249b03-a861-72f3-95db-f1ba0877b757@linaro.org>
-Date: Tue, 21 Feb 2023 14:32:22 -1000
+ Tue, 21 Feb 2023 16:51:08 -0800 (PST)
+Message-ID: <7f40a55f-7723-537f-ded3-96527481faaf@linaro.org>
+Date: Tue, 21 Feb 2023 14:51:02 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v3 11/24] gdbstub: rationalise signal mapping in softmmu
+Subject: Re: [PATCH v3 18/24] gdbstub: don't use target_ulong while handling
+ registers
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230221225227.3735319-1-alex.bennee@linaro.org>
- <20230221225227.3735319-12-alex.bennee@linaro.org>
+ <20230221225227.3735319-19-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230221225227.3735319-12-alex.bennee@linaro.org>
+In-Reply-To: <20230221225227.3735319-19-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,15 +95,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/21/23 12:52, Alex Bennée wrote:
-> We don't really need a table for mapping two symbols.
+> This is a hangover from the original code. addr is misleading as it is
+> only really a register id. While len will never exceed
+> MAX_PACKET_LENGTH I've used size_t as that is what strlen returns.
 > 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
 > ---
->   gdbstub/softmmu.c | 19 +++++++------------
->   1 file changed, 7 insertions(+), 12 deletions(-)
+> v3
+>    - fix commit message
+>    - use unsigned for regid
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Don't use unsigned, which you did here:
+
+>   static void handle_write_all_regs(GArray *params, void *user_ctx)
+>   {
+> -    target_ulong addr, len;
+> +    unsigned int reg_id;
+
+but not here
+
+>   static void handle_read_all_regs(GArray *params, void *user_ctx)
+>   {
+> -    target_ulong addr, len;
+> +    int reg_id;
+
+because the comparison,
+
+> +    for (reg_id = 0; reg_id < gdbserver_state.g_cpu->gdb_num_g_regs; reg_id++) {
+
+is against signed:
+
+include/hw/core/cpu.h:377:    int gdb_num_g_regs;
+
 
 r~
 
