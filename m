@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E259869FF70
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 00:28:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C457E69FF75
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 00:29:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUyWS-0000Sa-3X; Wed, 22 Feb 2023 18:27:40 -0500
+	id 1pUyWU-0000Tk-Jo; Wed, 22 Feb 2023 18:27:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUyWQ-0000S0-Te
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:27:38 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pUyWS-0000T6-Pz
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:27:40 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pUyWO-0005JQ-Vp
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:27:38 -0500
-Received: by mail-pl1-x632.google.com with SMTP id ky4so11973771plb.3
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 15:27:36 -0800 (PST)
+ id 1pUyWR-0005LL-4K
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:27:40 -0500
+Received: by mail-pl1-x635.google.com with SMTP id h14so10922382plf.10
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 15:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c/FsI5n4WgHRv66eevhE+xAIN7J7lkFbjUwPoPOuuXQ=;
- b=fmB8qqCRRkUF4ABe/CI+DfzWOhMgMpNf8R5lU32WMpOURZ9Qgj6qaxMOmhaELREI7C
- CSf+VotFbk6NpyP2WSSnwTNjVtEnP/hg7T/vmFhHy307voxZnJBhCVmsMCB6BDOF+UoL
- rp2RA59wt20Qd9xQirrV8u2uxbFutdd4Qbah9R/BE+lflnNfG4gFPp6LUHNTxo0n5MUF
- 9yal8UnVlv6+dol1y7tnysMB3q/xU9j3K8h9h3dMe7EZs1oSjD0zKIzFVuVy0lzrPwHg
- dR11mCVzh6UlWTnOHcpyNyTKid/W9vlcU0HsRAItg43nAakGU4hiSEmKVvorfX1Rw3XG
- VN4w==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=nZywVGNbdFCpTtKhrWeTFNuLpgXZYO5r09C/W3W1oBU=;
+ b=JXhBYk2RJ0D8xhYjhS74pPcrEdM0VjsxQa4VzbPbls4FUETToagiyVDs+ugnXQEVdO
+ 900NEUbtJ9N+o9fK8aLYvetyD0/odZL5q51Z6PuPzZvwRR09ADyfXfq+pLZwhgwBtnk2
+ clhJvK6BKdtdQqUVbF/yraHjyIt+oB9Fp++05y4NxEt6VdipO6kYcwLXR/xGteynObRw
+ 76fkevrZQo7UCIJfXtkNGRM5wpKO+vUvBzmIRe0r10hROlrIBAxBorz9Y9OsgQGcH2hN
+ rvRSEEzAIK4ckxg33JzH22bh1y0XGPQEh3Wfg934P1SABKI9ahbdywQkKvvRl12z3PF7
+ a13w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=c/FsI5n4WgHRv66eevhE+xAIN7J7lkFbjUwPoPOuuXQ=;
- b=IyU1xlFG+EYPg3On7Se82MYs2CzFhheYFruzXLj5UF98JxSTZ9EXp7D1FT6V6442Y9
- 0dOfRpOk7Cgx/fibIYuULPnETyXaUeIpssn8MCaUCyaUxiiDMeagErcPV4Ii8IHVP9kS
- 4nP+UEcZUJHxKMcyKqDdmMDhCzv5sPPABr+u9aKzW6mS3niX84IAW6qjpUQ7IeKt+NtY
- N06OfMZYj5UwJ6hywTa4kur5/rURny3FZ5gm+9jGxYt8Jn3biG2coGsLRrQtsyb5twdN
- pMqSDeMmT0evFryNG9Yn3Rb1CNz/TpXaXqTwroO3xQOYx5LJ425TsINehc9kx3zuOwsi
- FltA==
-X-Gm-Message-State: AO0yUKXodFc9WlCnK6ORHsOuzI2SdriB/ASSYnGFBpXwJlruk5YTJ3o2
- c3e4VpTiKlXNyZEzE18YeB4k1AMgQq56t5L4ABY=
-X-Google-Smtp-Source: AK7set/kFV1XVWqRQKsW6RjtZHzTLkrI9McDCyoJaYafTt8cmpJnwC4UTxwxiLGCPoqSkixd0JOcvQ==
-X-Received: by 2002:a17:90b:3890:b0:233:f990:d646 with SMTP id
- mu16-20020a17090b389000b00233f990d646mr9726144pjb.35.1677108456189; 
- Wed, 22 Feb 2023 15:27:36 -0800 (PST)
+ bh=nZywVGNbdFCpTtKhrWeTFNuLpgXZYO5r09C/W3W1oBU=;
+ b=7AU2UYSgxXCfLkUhLYH1OK8EDmO5LD7k18ibcJm2LbcoKweJRFHL48xPwIxw/s/BZF
+ KqWvcbLLhSg0OaC6cQnhAG03hSwkz1Uq1PSNeo1oRePgfXXO2SAYM7/aZIs33zXhPYK/
+ jjABvv7U1FqXhgPWU5AExN6RNXL/jMtDRONUvEC8UjSaq/B1wy4HJUXFB1KxukxVnGaQ
+ 8oi2J28fDvTO7dQg1AHiY8GMyqskOWK+wIps/DphZHhBD34/zpACUy5ktK9hbeKFtS/3
+ ORMLvBqNQsXPmDRgEwOjFh8IkfcqN9cNMPjQ++Qgr/z1es+draZruMcxP+DfCYbZTDCQ
+ xgrQ==
+X-Gm-Message-State: AO0yUKUAsKH9USk4t7IHEvQm1JqwfwkOI7aawDF0JMtYPrU7wSngIjmf
+ Y+DteIYCkIFBNIBhk6mxHlecMquGP/evEDjopnk=
+X-Google-Smtp-Source: AK7set87x4plZ/W7r+Lv8rGZs283CUCwt/PR8S4lYtxGQTzFzhABWdyA5nS5FAYoxkz1mOr+S1S6ug==
+X-Received: by 2002:a17:90a:1944:b0:236:a3a0:f49b with SMTP id
+ 4-20020a17090a194400b00236a3a0f49bmr11809715pjh.41.1677108457488; 
+ Wed, 22 Feb 2023 15:27:37 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- s16-20020a17090ad49000b00234e6d2de3dsm5008918pju.11.2023.02.22.15.27.35
+ s16-20020a17090ad49000b00234e6d2de3dsm5008918pju.11.2023.02.22.15.27.36
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 15:27:35 -0800 (PST)
+ Wed, 22 Feb 2023 15:27:37 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 13/28] accel/tcg/plugin: Tidy plugin_gen_disable_mem_helpers
-Date: Wed, 22 Feb 2023 13:27:00 -1000
-Message-Id: <20230222232715.15034-14-richard.henderson@linaro.org>
+Subject: [PATCH v2 14/28] tcg: Don't re-use TEMP_TB temporaries
+Date: Wed, 22 Feb 2023 13:27:01 -1000
+Message-Id: <20230222232715.15034-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230222232715.15034-1-richard.henderson@linaro.org>
 References: <20230222232715.15034-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,42 +88,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Here we are creating a temp whose value needs to be replaced,
-but always storing NULL into CPUState.plugin_mem_cbs.
-Use tcg_constant_ptr(0) explicitly.
+Reusing TEMP_TB interferes with detecting whether the
+temp can be adjusted to TEMP_EBB.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/plugin-gen.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ include/tcg/tcg.h |   2 +-
+ tcg/tcg.c         | 101 ++++++++++++++++++++++++----------------------
+ 2 files changed, 53 insertions(+), 50 deletions(-)
 
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 9b793ac62c..c42a436c0c 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -630,8 +630,6 @@ static void inject_mem_disable_helper(struct qemu_plugin_insn *plugin_insn,
- /* called before finishing a TB with exit_tb, goto_tb or goto_ptr */
- void plugin_gen_disable_mem_helpers(void)
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 0c2041bcf7..6cc6758cd6 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -612,7 +612,7 @@ struct TCGContext {
+ #endif
+ 
+     GHashTable *const_table[TCG_TYPE_COUNT];
+-    TCGTempSet free_temps[TCG_TYPE_COUNT * 2];
++    TCGTempSet free_temps[TCG_TYPE_COUNT];
+     TCGTemp temps[TCG_MAX_TEMPS]; /* globals first, temps after */
+ 
+     QTAILQ_HEAD(, TCGOp) ops, free_ops;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 06ac9d5ab8..9f1b042ecd 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1258,63 +1258,66 @@ TCGTemp *tcg_global_mem_new_internal(TCGType type, TCGv_ptr base,
+ TCGTemp *tcg_temp_new_internal(TCGType type, TCGTempKind kind)
  {
--    TCGv_ptr ptr;
--
-     /*
-      * We could emit the clearing unconditionally and be done. However, this can
-      * be wasteful if for instance plugins don't track memory accesses, or if
-@@ -644,10 +642,8 @@ void plugin_gen_disable_mem_helpers(void)
-     if (!tcg_ctx->plugin_tb->mem_helper) {
-         return;
+     TCGContext *s = tcg_ctx;
+-    bool temp_local = kind == TEMP_TB;
+     TCGTemp *ts;
+-    int idx, k;
++    int n;
+ 
+-    k = type + (temp_local ? TCG_TYPE_COUNT : 0);
+-    idx = find_first_bit(s->free_temps[k].l, TCG_MAX_TEMPS);
+-    if (idx < TCG_MAX_TEMPS) {
+-        /* There is already an available temp with the right type.  */
+-        clear_bit(idx, s->free_temps[k].l);
++    if (kind == TEMP_EBB) {
++        int idx = find_first_bit(s->free_temps[type].l, TCG_MAX_TEMPS);
+ 
+-        ts = &s->temps[idx];
+-        ts->temp_allocated = 1;
+-        tcg_debug_assert(ts->base_type == type);
+-        tcg_debug_assert(ts->kind == kind);
+-    } else {
+-        int i, n;
++        if (idx < TCG_MAX_TEMPS) {
++            /* There is already an available temp with the right type.  */
++            clear_bit(idx, s->free_temps[type].l);
+ 
+-        switch (type) {
+-        case TCG_TYPE_I32:
+-        case TCG_TYPE_V64:
+-        case TCG_TYPE_V128:
+-        case TCG_TYPE_V256:
+-            n = 1;
+-            break;
+-        case TCG_TYPE_I64:
+-            n = 64 / TCG_TARGET_REG_BITS;
+-            break;
+-        case TCG_TYPE_I128:
+-            n = 128 / TCG_TARGET_REG_BITS;
+-            break;
+-        default:
+-            g_assert_not_reached();
++            ts = &s->temps[idx];
++            ts->temp_allocated = 1;
++            tcg_debug_assert(ts->base_type == type);
++            tcg_debug_assert(ts->kind == kind);
++            goto done;
+         }
++    } else {
++        tcg_debug_assert(kind == TEMP_TB);
++    }
+ 
+-        ts = tcg_temp_alloc(s);
+-        ts->base_type = type;
+-        ts->temp_allocated = 1;
+-        ts->kind = kind;
++    switch (type) {
++    case TCG_TYPE_I32:
++    case TCG_TYPE_V64:
++    case TCG_TYPE_V128:
++    case TCG_TYPE_V256:
++        n = 1;
++        break;
++    case TCG_TYPE_I64:
++        n = 64 / TCG_TARGET_REG_BITS;
++        break;
++    case TCG_TYPE_I128:
++        n = 128 / TCG_TARGET_REG_BITS;
++        break;
++    default:
++        g_assert_not_reached();
++    }
+ 
+-        if (n == 1) {
+-            ts->type = type;
+-        } else {
+-            ts->type = TCG_TYPE_REG;
++    ts = tcg_temp_alloc(s);
++    ts->base_type = type;
++    ts->temp_allocated = 1;
++    ts->kind = kind;
+ 
+-            for (i = 1; i < n; ++i) {
+-                TCGTemp *ts2 = tcg_temp_alloc(s);
++    if (n == 1) {
++        ts->type = type;
++    } else {
++        ts->type = TCG_TYPE_REG;
+ 
+-                tcg_debug_assert(ts2 == ts + i);
+-                ts2->base_type = type;
+-                ts2->type = TCG_TYPE_REG;
+-                ts2->temp_allocated = 1;
+-                ts2->temp_subindex = i;
+-                ts2->kind = kind;
+-            }
++        for (int i = 1; i < n; ++i) {
++            TCGTemp *ts2 = tcg_temp_alloc(s);
++
++            tcg_debug_assert(ts2 == ts + i);
++            ts2->base_type = type;
++            ts2->type = TCG_TYPE_REG;
++            ts2->temp_allocated = 1;
++            ts2->temp_subindex = i;
++            ts2->kind = kind;
+         }
      }
--    ptr = tcg_const_ptr(NULL);
--    tcg_gen_st_ptr(ptr, cpu_env, offsetof(CPUState, plugin_mem_cbs) -
--                                 offsetof(ArchCPU, env));
--    tcg_temp_free_ptr(ptr);
-+    tcg_gen_st_ptr(tcg_constant_ptr(NULL), cpu_env,
-+                   offsetof(CPUState, plugin_mem_cbs) - offsetof(ArchCPU, env));
+ 
++ done:
+ #if defined(CONFIG_DEBUG_TCG)
+     s->temps_in_use++;
+ #endif
+@@ -1359,7 +1362,6 @@ TCGv_vec tcg_temp_new_vec_matching(TCGv_vec match)
+ void tcg_temp_free_internal(TCGTemp *ts)
+ {
+     TCGContext *s = tcg_ctx;
+-    int k, idx;
+ 
+     switch (ts->kind) {
+     case TEMP_CONST:
+@@ -1383,9 +1385,10 @@ void tcg_temp_free_internal(TCGTemp *ts)
+     s->temps_in_use--;
+ #endif
+ 
+-    idx = temp_idx(ts);
+-    k = ts->base_type + (ts->kind == TEMP_EBB ? 0 : TCG_TYPE_COUNT);
+-    set_bit(idx, s->free_temps[k].l);
++    if (ts->kind == TEMP_EBB) {
++        int idx = temp_idx(ts);
++        set_bit(idx, s->free_temps[ts->base_type].l);
++    }
  }
  
- static void plugin_gen_tb_udata(const struct qemu_plugin_tb *ptb,
+ TCGTemp *tcg_constant_internal(TCGType type, int64_t val)
 -- 
 2.34.1
 
