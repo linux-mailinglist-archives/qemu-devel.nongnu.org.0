@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E821569F5CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 14:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C6969F607
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:01:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUpLJ-00029d-Ic; Wed, 22 Feb 2023 08:39:33 -0500
+	id 1pUpdz-0006rc-Gh; Wed, 22 Feb 2023 08:58:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUpLE-00029H-Ii
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 08:39:28 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pUpdx-0006r9-Mr; Wed, 22 Feb 2023 08:58:49 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pUpLC-00067d-RX
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 08:39:28 -0500
-Received: by mail-wr1-x433.google.com with SMTP id p8so7882687wrt.12
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 05:39:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jEQtF3safae3+1s9H+6M1cB5EIZCXqjy+l54lB0sxUY=;
- b=jnYfTkxxUbP3LiqQmVSW4hTc0izzzhu8fGtQB+RNOZjYWs7Q9jml3fJq8R+Vj05JOP
- MwlGoPtsvHhMwBsO/OEWVWpfLuD9TiTTyOcTox4V1pqRfFF1al4u/F6PqWAgqgT6rM2l
- wHnOA9pU1uZviHbh6/paGoPoyvMO/64ZCLwmWU+q3E7YT5SeC2qbeAx+WRiaOh1QxII9
- YCHojN+21BSF4WqUtafXcUEvB+iANSo1Ho1T+0/GraR//J2hevkR1YkXphQKZ3BYVSsL
- 5pG1rxROgZQJM9nZvfjXjM3oOYe5J8HVxsVc9nI7fg5ik/CJaBFs9hyxQlCrjE4S/tp2
- iHGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=jEQtF3safae3+1s9H+6M1cB5EIZCXqjy+l54lB0sxUY=;
- b=N1+h8oH1EPUlngZV4WOS4h2QgARK3Q2KgIeWoUkOdQNc0v1BLn5nr+yadG6MsnG7r1
- OZjQ6AbR6KaM6zOsB1+b950lliM7ptBNXTe9rjMMuH6CtP/L+gdeOiMZaZAKO/jCvrqN
- +AQLiDFLiUyPaPeVZvvxGUDY63jDb6NuiV0VKfurTcRrmR1Pfv/3tlSEXSM0cFUuj7Am
- oUzSnax2/ZADc7RBEsIlcdbmDL0Iibj4vMZN0SWujSi5sPqLqZd9C4zZZMU8m8UZAJ1s
- tAv3pSb+dDqD90PBN5vwVLoXLDdj8tUnRsjPsPrIJZe1a9yca+8DUvC8P6eJGsgQlTYj
- Yz1Q==
-X-Gm-Message-State: AO0yUKVY38eHf/1JQPmC2TE/5Zx9EwmPajYLlEEoPN5d6flUMf6LPeL6
- fNHVx2vjyzyfWjt2jqXZDPvJ3g==
-X-Google-Smtp-Source: AK7set9F+vQ8iUOF/BH8H42lUReYTQ/PTCYetNexb1/Dia8I8pjo9XZl2baAKo0UhkZQJHa5U2SOFg==
-X-Received: by 2002:adf:eec6:0:b0:2c3:e5e6:f0d8 with SMTP id
- a6-20020adfeec6000000b002c3e5e6f0d8mr7335831wrp.11.1677073165020; 
- Wed, 22 Feb 2023 05:39:25 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- a8-20020adfed08000000b002c55cdb1de5sm7126146wro.116.2023.02.22.05.39.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 05:39:24 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4A6C01FFB7;
- Wed, 22 Feb 2023 13:39:24 +0000 (GMT)
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
- <Y9exrDWT2NUoinu1@redhat.com> <87h6w7694t.fsf@linaro.org>
- <45EE5F9E-B9B8-4DA4-809E-A95FC618E7BE@gmail.com>
- <Y/Xlve3HWhh4QD+u@redhat.com> <Y/YKaEgSxUa1Hsp0@dropje.13thmonkey.org>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Reinoud Zandijk <reinoud@NetBSD.org>
-Cc: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Bernhard
- Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, Peter Maydell
- <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, Stefan
- Hajnoczi <stefanha@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, libvir-list@redhat.com, Paolo Bonzini
- <pbonzini@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Ryo
- ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>, Stefan Weil
- <sw@weilnetz.de>
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
-Date: Wed, 22 Feb 2023 13:37:54 +0000
-In-reply-to: <Y/YKaEgSxUa1Hsp0@dropje.13thmonkey.org>
-Message-ID: <87wn49q0oj.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pUpdw-0001C2-4V; Wed, 22 Feb 2023 08:58:49 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B40511FF7D;
+ Wed, 22 Feb 2023 13:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677074325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MgLoWDV7twra41hKGjkyZA+PYex7B29ScxcYPwlSsb4=;
+ b=jAZ85MBHtGxbhwMilSwbczavNxu0ghSF08CT3FnVS2HGhJE1eyW4GtuEV2dHIt+Jz6/KM7
+ 4zIvDF15vOGO7QTw7V86epLclBQ++YsK1mV0e1unv6aV3Qc2XzVt9SE4WteRu5HwP4LCDO
+ HDCSyLlzTcAYr6zPswqSPjpXPjtEfEI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677074325;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MgLoWDV7twra41hKGjkyZA+PYex7B29ScxcYPwlSsb4=;
+ b=3YWl0stPRmybYFYrpde78RCdUBWGnVHtp9cWpjLoeD8Tggqxi9b75llG0/gRAHlfiqHcvS
+ V5nSgxGipV7U/vDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 428BE139DB;
+ Wed, 22 Feb 2023 13:58:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id UvJ1A5Uf9mOAdgAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 22 Feb 2023 13:58:45 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Philippe =?utf-8?Q?Mathieu?=
+ =?utf-8?Q?-Daud=C3=A9?=
+ <philmd@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v6 19/29] target/arm: Move 64-bit TCG CPUs into tcg/
+In-Reply-To: <CAFEAcA__kyfbPv5tmSTiBJ_O15ND5-QpKpATx856s8XCoUNORw@mail.gmail.com>
+References: <20230217201150.22032-1-farosas@suse.de>
+ <20230217201150.22032-20-farosas@suse.de>
+ <CAFEAcA__kyfbPv5tmSTiBJ_O15ND5-QpKpATx856s8XCoUNORw@mail.gmail.com>
+Date: Wed, 22 Feb 2023 10:58:42 -0300
+Message-ID: <87356xol7x.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,38 +89,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Reinoud Zandijk <reinoud@NetBSD.org> writes:
-
-> On Wed, Feb 22, 2023 at 09:51:57AM +0000, Daniel P. Berrang=C3=A9 wrote:
->> On Wed, Feb 22, 2023 at 09:11:13AM +0000, Bernhard Beschow wrote:
->> > Are there any plans or ideas to support 128 bit architectures
->> > such as CHERI in the future? There is already a QEMU fork
->> > implementing CHERI for RISC V [1]. Also ARM has developed an
->> > experimental hardware implementation of CHERI within the Morello
->> > project where Linaro is involved as well, although the QEMU
->> > implementation is performed by the University of Cambridge [2].
->>=20
->> If 128 bit hardware exists and has real world non-toy usage,
->> then a request to support it in QEMU is essentially inevitable.
->>=20
->> > I'm asking because once we deeply bake in the assumption that
->> > host size >=3D guest size then adding such architectures will
->> > become much harder.
->>=20
->> Yep, that is a risk.
+> On Fri, 17 Feb 2023 at 20:15, Fabiano Rosas <farosas@suse.de> wrote:
+>>
+>> Move the 64-bit CPUs that are TCG-only:
+>> - cortex-a35
+>> - cortex-a55
+>> - cortex-a72
+>> - cortex-a76
+>> - a64fx
+>> - neoverse-n1
+>>
+>> Keep the CPUs that can be used with KVM:
+>> - cortex-a57
+>> - cortex-a53
+>> - max
+>> - host
+>>
+>> For the special case "max" CPU, there's a nuance that while KVM/HVF
+>> use the "host" model instead, we still cannot move all of the TCG code
+>> into the tcg directory because the qtests might reach the !kvm && !hvf
+>> branch. Keep the cortex_a57_initfn() call to cover that scenario.
+>>
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
 >
-> I can second that. Better keep it in the code and deal with it. Maybe tho=
-se
-> specific parts can be implemented in such a way that it can easily become=
- a
-> noop on host size >=3D guest size.
+>
+>> -/* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+>> - * otherwise, a CPU with as many features enabled as our emulation supports.
+>> - * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+>> - * this only needs to handle 64 bits.
+>> - */
+>>  static void aarch64_max_initfn(Object *obj)
+>>  {
+>> -    ARMCPU *cpu = ARM_CPU(obj);
+>> -    uint64_t t;
+>> -    uint32_t u;
+>> -
+>>      if (kvm_enabled() || hvf_enabled()) {
+>>          /* With KVM or HVF, '-cpu max' is identical to '-cpu host' */
+>>          aarch64_host_initfn(obj);
+>>          return;
+>>      }
+>>
+>> +    if (tcg_enabled() || qtest_enabled()) {
+>> +        aarch64_a57_initfn(obj);
+>> +    }
+>> +
+>
+>
+>
+>> +    if (tcg_enabled()) {
+>> +        aarch64_max_tcg_initfn(obj);
+>> +    }
+>
+> Why do this only for TCG, and not qtest ?
 
-AIUI these don't expose bigger addresses or natural atomic sizes which
-is where things get tricky for the TCG. All the extra bits are used for
-authentication or permission checks.
+I was trying to give qtest a minimum set of features, since it shouldn't
+require any to begin with.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+I could probably revert to the old behavior of having this code for
+qtest as well without breaking the build. It's just a matter of moving
+some stuff back from the tcg-only land.
 
