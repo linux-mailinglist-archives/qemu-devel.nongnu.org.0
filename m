@@ -2,81 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A678D69F526
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 14:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3254669F595
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 14:33:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUou7-0008S3-0e; Wed, 22 Feb 2023 08:11:27 -0500
+	id 1pUpDi-0005vW-4X; Wed, 22 Feb 2023 08:31:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pUou4-0008Rf-F5
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 08:11:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1pUou2-00042Y-JW
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 08:11:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677071480;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EOOlbdHu4LeOaOX0e7W43cpYQxBbNDDA2HwmMuDFoJk=;
- b=fXihwwmeAuAZuue1oznHYBODKCCjlRCuf9b9WoH6Zp4wAPTCToi7XLciKuaOreaJpKzTmO
- zMDuF1ZHWEpy3eBjkH/nUXp3i8vA7gwxTn75nnBIYwuwWDkw6We46yI8unvyMmtVjJJHuH
- haOIpjIyYOr2tZdHycaSF3K9uxQXXqc=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-607-EGAdGxiWO-SACciXfVSE-Q-1; Wed, 22 Feb 2023 08:11:19 -0500
-X-MC-Unique: EGAdGxiWO-SACciXfVSE-Q-1
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-536b7eb9117so71317147b3.14
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 05:11:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pUpDf-0005vN-HZ
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 08:31:39 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pUpDc-0004QY-I4
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 08:31:38 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id bo30so7171022wrb.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 05:31:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RqB06Lwh0vJ56FAbFH2B7CgFlxs2+KZKy2fhyk0e0Qw=;
+ b=WCvcd25Ker7Z3SsHTv9lCQTZ8yLMg36EM8/MFGhwftFE68cJyBXSaoG4tRpiOMqXdF
+ 5Vf7mw5syru74EUOg4sInOsizKWGGzEx8P0+UXQthOQET0DbjKRq5OyvcvlB2uPv8uko
+ Q2jut7/f2KlG00dpxwAnJnLU+BB195nzAVNwrTVinpGI0B9aNsj7OatDDdbEXxClrkcB
+ aZtkvvdEQEgv0yxgUX1ut4Mw0cJlewdLDMfXu8Li+gW135qe5Jl12eu2bC3B0ClgwESu
+ cVi62ZHxGU3eW5SyLYFRjVLPisCAxQz2QRkGgLgRzxZRb+9fQB8NF23fYq5J9CccXpU4
+ Q7Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EOOlbdHu4LeOaOX0e7W43cpYQxBbNDDA2HwmMuDFoJk=;
- b=MnDF8pm3+ooU8Hb4Iv+CII4/LKcjm9JHVcUohwS9p0rCf73tM6F23+McZDFSnk+MaA
- ICGn80my3E620SxJ2e7wHIL2H9wI6tHP7RfaOtDVnY2HxlznBCRiZfZ9t9AMq8ycFkKQ
- n7bQ+A+0saYV9MSvGa9yk9vPGBtcpueVqPLjucAuR2r1BXQPtMcmpsZm+y3RTTDhIu7y
- gAOOjVfOG2RwxLPtqe6N40i5BvcdkdQknZiwMvGnwPbhYGc747bTpGOez3lBBpsZusMt
- UcjfBOM8l4NfBKILZDwPCz+hwsG/+y+n6TBYzghgrzurVCdG+I1Arqhgh96w15XqqaNa
- 21Kw==
-X-Gm-Message-State: AO0yUKXl6CBxvDI24lbGNjDg5/S5Shit2DzqxLbbsLxo1s2d4mjzkfPA
- R2uSkEJfSVFi8BEJu3eQSHtUT+gqn8hb6+U6XNbCl9QcTCIEHb2oODaELnycTvA/BcZHh7qCHFm
- /tvh13wmLMApAajvuY4BB2cKJZ34Z9LU=
-X-Received: by 2002:a25:f903:0:b0:8bb:dfe8:a33b with SMTP id
- q3-20020a25f903000000b008bbdfe8a33bmr674554ybe.9.1677071478798; 
- Wed, 22 Feb 2023 05:11:18 -0800 (PST)
-X-Google-Smtp-Source: AK7set+dQcnXH7PhYqPEJz1sAZJeaxhFPo6ueug3iRJv8dnNW5Pd4/yZ71aZbazmgre9oqJYHboMI/FxIl36osyU82g=
-X-Received: by 2002:a25:f903:0:b0:8bb:dfe8:a33b with SMTP id
- q3-20020a25f903000000b008bbdfe8a33bmr674548ybe.9.1677071478551; Wed, 22 Feb
- 2023 05:11:18 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RqB06Lwh0vJ56FAbFH2B7CgFlxs2+KZKy2fhyk0e0Qw=;
+ b=Eq+aeQuQ7L5q+j1yeF/WeqAux0NOqTpzhvL2gRaCUO4LC4o4eULwvS2Lvc4tGhOC27
+ voiwICn5WWJNlBTmYA0B4k+572dL0n64eWgyCH+z8p+MkKthd0FM/QzeJUrOxLj7wsbB
+ bRkizuIQ7Ea8B923z2dN4Q+hHqeyppIjyW99cEzaT25oNy8JHPDdFt3taKvsLkNiZ9xu
+ CFRMoMquttkk7VBOMQyVHvj5qmOTMmXDDytzXnbCKXCh1Nm/013QYdnaUHgx/gVKy69T
+ mFViUPBFXcd9cDbNPLvCs2AzQWuh4K+7GhzWavuq5bStn+PiUOYncJT+7VFgurj49FSy
+ 5D5g==
+X-Gm-Message-State: AO0yUKW/MvYwEmAwGbgoG4V6H9fReCRs+Kmuisvqo5zT1NqHcKdcDTlc
+ +s4q3hWr9f8gtFpxXRGWg14=
+X-Google-Smtp-Source: AK7set8f5ONcOx8kTHJsCi+zybuQYp1GVfqkBvMEBFFVU7h/HyM7Hn3kYO6tvyluOBSgx09FAcH3wg==
+X-Received: by 2002:adf:fcd2:0:b0:2c5:46f1:bdb2 with SMTP id
+ f18-20020adffcd2000000b002c546f1bdb2mr7729672wrs.14.1677072693909; 
+ Wed, 22 Feb 2023 05:31:33 -0800 (PST)
+Received: from [10.95.97.18] (54-240-197-228.amazon.com. [54.240.197.228])
+ by smtp.gmail.com with ESMTPSA id
+ h3-20020adff4c3000000b002c70a0e2cd0sm2085757wrp.101.2023.02.22.05.31.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 05:31:33 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <6d9a1874-63e8-0d85-2b4b-837c6e0cdf36@xen.org>
+Date: Wed, 22 Feb 2023 13:31:31 +0000
 MIME-Version: 1.0
-References: <20210429120445.694420-1-chouhan.shreyansh2702@gmail.com>
- <20220211221319.193404-1-chouhan.shreyansh2702@gmail.com>
-In-Reply-To: <20220211221319.193404-1-chouhan.shreyansh2702@gmail.com>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Wed, 22 Feb 2023 14:11:06 +0100
-Message-ID: <CAGxU2F5HumanqyEbQUdH1y4FeyQuT4jNj1WhXkn_wGPOJsOu5g@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 00/25] Virtio Sound card Implementation
-To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Cc: kraxel@redhat.com, mst@redhat.com, laurent@vivier.eu, 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v12 47/60] i386/xen: handle PV timer hypercalls
+Content-Language: en-US
+To: David Woodhouse <dwmw2@infradead.org>, Paul Durrant
+ <xadimgnik@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
+References: <20230220204736.2639601-1-dwmw2@infradead.org>
+ <20230220204736.2639601-48-dwmw2@infradead.org>
+ <c92e355e101669f8473a695ad4abfc555765e5be.camel@infradead.org>
+ <54ddce90-a55c-b1f6-59ad-35f7fada4999@xen.org>
+ <11a088aa-aea1-bd0a-5537-fdbab65870f8@xen.org>
+ <2AB12E9D-BEDE-4227-8360-EE953524B802@infradead.org>
+Organization: Xen Project
+In-Reply-To: <2AB12E9D-BEDE-4227-8360-EE953524B802@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.102, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,84 +109,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Shreyansh,
+On 22/02/2023 12:51, David Woodhouse wrote:
+> 
+> On 22 February 2023 12:14:00 GMT, Paul Durrant <xadimgnik@gmail.com> wrote:
+>> On 22/02/2023 12:03, Paul Durrant wrote:
+>>> On 22/02/2023 09:21, David Woodhouse wrote:
+>>>> On Mon, 2023-02-20 at 20:47 +0000, David Woodhouse wrote:
+>>>>> @@ -1246,6 +1470,16 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+>>>>>        }
+>>>>>        switch (code) {
+>>>>> +    case __HYPERVISOR_set_timer_op:
+>>>>> +        if (exit->u.hcall.longmode) {
+>>>>> +            return kvm_xen_hcall_set_timer_op(exit, cpu,
+>>>>> +                                              exit->u.hcall.params[0]);
+>>>>> +        } else {
+>>>>> +            /* In 32-bit mode, the 64-bit timer value is in two args. */
+>>>>> +            uint64_t val = ((uint64_t)exit->u.hcall.params[1]) << 32 |
+>>>>> +                (uint32_t)exit->u.hcall.params[0];
+>>>>> +            return kvm_xen_hcall_set_timer_op(exit, cpu, val);
+>>>>> +        }
+>>>>
+>>>> Argh, there I'm returning -errno from a function that ought to set it
+>>>> in exit->u.hcall.result and return 'true' for a handled syscall. Again.
+>>>>
+>>>> Still *slightly* regretting my life choices there and wishing the
+>>>> compiler caught that for me, but not enough to change it because we
+>>>> really *do* want to track which unhandled calls guests are trying to
+>>>> make. I'll fix it and then (if I make load_multiboot() tolerate 64-bit
+>>>> binaries as previously discussed) the XTF tests work:
+>>>>
+>>>>    $ ./bkvm/qemu-system-x86_64 -serial mon:stdio  -accel kvm,xen-version=0x4000a,kernel-irqchip=split -cpu host -display none -kernel$XTFDIR/tests/set_timer_op/test-hvm64-set_timer_op
+>>>> --- Xen Test Framework ---
+>>>> Environment: HVM 64bit (Long mode 4 levels)
+>>>> Test hypercall set_timer_op
+>>>> Test result: SUCCESS
+>>>> ******************************
+>>>> PANIC: xtf_exit(): hypercall_shutdown(SHUTDOWN_poweroff) returned
+>>>> ******************************
+>>>> QEMU: Terminated
+>>>> $ ./bkvm/qemu-system-x86_64 -serial mon:stdio  -accel kvm,xen-version=0x4000a,kernel-irqchip=split -cpu host -display none -kernel $XTFDIR/tests/set_timer_op/test-hvm32-set_timer_op
+>>>> --- Xen Test Framework ---
+>>>> Environment: HVM 32bit (No paging)
+>>>> Test hypercall set_timer_op
+>>>> Test result: SUCCESS
+>>>> ******************************
+>>>> PANIC: xtf_exit(): hypercall_shutdown(SHUTDOWN_poweroff) returned
+>>>> ******************************
+>>>> QEMU: Terminated
+>>>>
+>>>>
+>>>> (Dunno why it whines about poweroff; it isn't even calling the
+>>>> hypercall. And the test to explicitly test that hypercall does work.)
+>>>>
+>>>>
+>>>> --- a/target/i386/kvm/xen-emu.c
+>>>> +++ b/target/i386/kvm/xen-emu.c
+>>>> @@ -1118,14 +1118,18 @@ static int vcpuop_stop_singleshot_timer(CPUState *cs)
+>>>>        return 0;
+>>>>    }
+>>>> -static int kvm_xen_hcall_set_timer_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>>>> -                                      uint64_t timeout)
+>>>> +static bool kvm_xen_hcall_set_timer_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>>>> +                                       uint64_t timeout)
+>>>>    {
+>>>> +    int err;
+>>>> +
+>>>>        if (unlikely(timeout == 0)) {
+>>>> -        return vcpuop_stop_singleshot_timer(CPU(cpu));
+>>>> +        err = vcpuop_stop_singleshot_timer(CPU(cpu));
+>>>>        } else {
+>>>> -        return do_set_singleshot_timer(CPU(cpu), timeout, false, true);
+>>>> +        err = do_set_singleshot_timer(CPU(cpu), timeout, false, true);
+>>>>        }
+>>>> +    exit->u.hcall.result = err;
+>>>> +    return true;
+>>>>    }
+>>>>    static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+>>>>
+>>>
+>>> That looks better :-)
+>>>
+>>
+>> NB I think you still need to fix kvm_xen_hcall_vcpu_op() to not return the -ENOENT too.
+> 
+> 
+>   Didn't I already do that?
 
-On Fri, Feb 11, 2022 at 11:18 PM Shreyansh Chouhan
-<chouhan.shreyansh2702@gmail.com> wrote:
->
-> The second RFC for implementing the VirtIO Sound card as described in
-> the virtio specs. Sorry for the absence of activity on this.
+Ah, so you did. So many versions... but with the above change 
+incorporated...
 
-Thanks for starting working on virtio-sound device for QEMU!
-I'm interested in completing this work, but first I wanted to know if
-you are still working on it or have any new updates.
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-Thanks,
-Stefano
-
->
-> The output from the sound card works.
->
-> What remains to be done:
-> - Features defined in PCM features. (Eg message polling)
-> - Channel maps
-> - Jack remaps
-> - Input
->
-> I will work on the input after I have implemented the output
-> along with all the features since at that point it should just be a
-> matter of reversing a few things in the code that writes the audio.
->
-> I can work on this patchset mostly on weekends now but I will try to be
-> more regular with this.
->
-> Reviews are welcome :)
->
-> Shreyansh Chouhan (25):
->   virtio-snd: Add virtio sound header file
->   virtio-snd: Add jack control structures
->   virtio-snd: Add PCM control structures
->   virtio-snd: Add chmap control structures
->   virtio-snd: Add device implementation structures
->   virtio-snd: Add PCI wrapper code for VirtIOSound
->   virtio-snd: Add properties for class init
->   virtio-snd: Add code for get config function
->   virtio-snd: Add code for the realize function
->   virtio-snd: Add macros for logging
->   virtio-snd: Add control virtqueue handler
->   virtio-snd: Add VIRTIO_SND_R_JACK_INFO handler
->   virtio-snd: Add stub for VIRTIO_SND_R_JACK_REMAP handler
->   virtio-snd: Add VIRTIO_SND_R_PCM_INFO handler
->   virtio-snd: Add VIRITO_SND_R_PCM_SET_PARAMS handle
->   virtio-snd: Add VIRTIO_SND_R_PCM_PREPARE handler
->   virtio-snd: Add default configs to realize fn
->   virtio-snd: Add callback for SWVoiceOut
->   virtio-snd: Add start/stop handler
->   virtio-snd: Add VIRTIO_SND_R_PCM_RELEASE handler
->   virtio-snd: Replaced goto with if else
->   virtio-snd: Add code to device unrealize function
->   virtio-snd: Add xfer handler
->   virtio-snd: Add event vq and a handler stub
->   virtio-snd: Replaced AUD_log with tracepoints
->
->  hw/audio/Kconfig               |    5 +
->  hw/audio/meson.build           |    1 +
->  hw/audio/trace-events          |   14 +
->  hw/audio/virtio-snd.c          | 1241 ++++++++++++++++++++++++++++++++
->  hw/virtio/meson.build          |    1 +
->  hw/virtio/virtio-snd-pci.c     |   72 ++
->  include/hw/virtio/virtio-snd.h |  383 ++++++++++
->  7 files changed, 1717 insertions(+)
->  create mode 100644 hw/audio/virtio-snd.c
->  create mode 100644 hw/virtio/virtio-snd-pci.c
->  create mode 100644 include/hw/virtio/virtio-snd.h
->
-> --
-> 2.31.1
->
->
 
 
