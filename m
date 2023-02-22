@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B8569F782
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:15:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4862969F788
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:17:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqq9-00063v-JE; Wed, 22 Feb 2023 10:15:29 -0500
+	id 1pUqrQ-0006yg-Ej; Wed, 22 Feb 2023 10:16:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUqq7-0005x6-Lm
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:15:27 -0500
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUqrO-0006yJ-LI
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:16:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUqq5-0000EV-Qa
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:15:27 -0500
-Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:2cab:0:640:424b:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id AE358611A7;
- Wed, 22 Feb 2023 18:15:17 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:a532::1:1e] (unknown
- [2a02:6b8:b081:a532::1:1e])
- by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id EFQe3E0Kca60-Le2GBnvg; Wed, 22 Feb 2023 18:15:16 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
- dkim=pass
-Message-ID: <a830d527-c19b-da89-65d9-a6986a4b47aa@yandex-team.ru>
-Date: Wed, 22 Feb 2023 18:15:13 +0300
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUqrF-0000ZI-AN
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:16:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677078992;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A2dXGeMYgMlkF+ye79JfN2mPyXy2RA5JhzSHb9/ODXY=;
+ b=XZ2I9m6JhXWs5t8P68KltP+Ba0pTFBzjzRlLejkYR7xrx4XJqPXGQeSENbWveLwmubf2ZW
+ JXoOtd5ErV3UvqbrR3qFJcYE8ye4VNz5nIHonB4b3hDcF6xYZVk74K+4+BgkywtqarhG+b
+ 5jTop5AsW+Yl4OyJ4zkN4PeXzea+8tE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-359-4WynR-RDN5SnV8Gy72M6og-1; Wed, 22 Feb 2023 10:16:27 -0500
+X-MC-Unique: 4WynR-RDN5SnV8Gy72M6og-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CB0A100F908;
+ Wed, 22 Feb 2023 15:16:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 696DCC15BA0;
+ Wed, 22 Feb 2023 15:16:25 +0000 (UTC)
+Date: Wed, 22 Feb 2023 15:16:23 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org,
+ thuth@redhat.com, alex.bennee@linaro.org, armbru@redhat.com
+Subject: Re: [PATCH 09/10] Python: Drop support for Python 3.6
+Message-ID: <Y/Yxx3Awi9q6LRNg@redhat.com>
+References: <20230222143752.466090-1-pbonzini@redhat.com>
+ <20230222143752.466090-10-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
-Content-Language: en-US
-To: Anton Kuchin <antonkuchin@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
- <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
- Eric Blake <eblake@redhat.com>
-References: <20230217170038.1273710-1-antonkuchin@yandex-team.ru>
- <20230217170038.1273710-2-antonkuchin@yandex-team.ru>
- <59165bde-bfd4-a073-c618-205be3951e4a@yandex-team.ru>
- <110cd713-b01f-5fce-eb32-4ddb6c42685f@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <110cd713-b01f-5fce-eb32-4ddb6c42685f@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230222143752.466090-10-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.102,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,29 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22.02.23 17:21, Anton Kuchin wrote:
->>>
->>
->> 1. I see, other similar qdev_prop_* use DEFINE_PROP_SIGNED
+On Wed, Feb 22, 2023 at 03:37:51PM +0100, Paolo Bonzini wrote:
+> Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
+> begun dropping support for this version and it is becoming more
+> cumbersome to support. Avocado-framework and qemu.qmp each have their
+> own reasons for wanting to drop Python 3.6, but won't until QEMU does.
 > 
-> I don't think this should be signed. Enum values are non-negative so compilers
-> (at least gcc and clang that I checked) evaluate underlying enum type to be unsigned int.
-> I don't know why other property types use signed, may be they have reasons or just this
-> is how they were initially implemented.
+> Versions of Python available in our supported build platforms as of today,
+> with optional versions available in parentheses:
 > 
->> 2. All of them except only qdev_prop_fdc_drive_type, define also a convenient macro in include/hw/qdev-properties-system.h
+> openSUSE Leap 15.4: 3.6.15 (3.9.10, 3.10.2)
+> CentOS Stream 8:    3.6.8  (3.8.13, 3.9.16)
+> CentOS Stream 9:    3.9.13
+> Fedora 36:          3.10
+> Fedora 37:          3.11
+> Debian 11:          3.9.2
+> Alpine 3.14, 3.15:  3.9.16
+> Alpine 3.16, 3.17:  3.10.10
+> Ubuntu 20.04 LTS:   3.8.10
+> Ubuntu 22.04 LTS:   3.10.4
+> NetBSD 9.3:         3.9.13*
+> FreeBSD 12.4:       3.9.16
+> FreeBSD 13.1:       3.9.16
+> OpenBSD 7.2:        3.9.16
 > 
-> This makes sense if property is used in more than one place, in this case I don't see any
-> benefit from writing more code to handle this specific case. Maybe if property finds its
-> usage in other devices this can be done.
+> Note: Our VM tests install 3.7 specifically for freebsd and netbsd; the
+> default for "python" or "python3" in FreeBSD is 3.9.16. NetBSD does not
+> appear to have a default meta-package, but offers several options, the
+> lowest of which is 3.7.15. "python39" appears to be a pre-requisite to
+> one of the other packages we request in tests/vm/netbsd.
+> 
+> Since it is safe to under our supported platform policy, bump our
+> minimum supported version of Python to 3.7.
 
-Reasonable, thanks!
+Your updated support policy doc patch could be included in
+this series perhaps.
 
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure                |  8 ++++----
+>  python/Makefile          | 10 +++++-----
+>  python/setup.cfg         |  7 +++----
+>  python/tests/minreqs.txt |  2 +-
+>  scripts/qapi/mypy.ini    |  2 +-
+>  5 files changed, 14 insertions(+), 15 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+With regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
