@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDA569F1EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 10:38:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B995869F1FB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 10:40:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUlZ3-0006pg-7Z; Wed, 22 Feb 2023 04:37:29 -0500
+	id 1pUlbc-00081w-4Z; Wed, 22 Feb 2023 04:40:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pUlYz-0006pM-3s
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 04:37:25 -0500
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUlbX-00081O-SC
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 04:40:03 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pUlYw-000666-Jd
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 04:37:23 -0500
-Received: by mail-ot1-x336.google.com with SMTP id
- e18-20020a0568301e5200b00690e6abbf3fso1584814otj.13
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 01:37:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUlbW-0006mF-Af
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 04:40:03 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id bt28so403220wrb.8
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 01:40:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=CIkmAC1MoOAT0Eup7YMIXf7xR9rrgpsS8KntAt6SQjs=;
- b=cjmpfhFfaKGt5s1dp8ki9+0Dg9VnbhJhVHlEVLogFAf6BTJLcvibQwfdu59Y494lEz
- Euf3SkbQRPJAvNXZr1g/+qaVUOzM8vVhTkPFJhz0cL853Rp3LskequXFf8uPsuBs9j55
- IWtVPlUcNM+2y6pWxH04JnzX+bpgSuTdPn0zQC9zTipsuCVpvseCKKJs847o54Z6Ubr+
- vEq7FDoUCQT+2eaARQuUCpgfb6sexQD9v5Iugia22mtFmM4Okny9eMgefQ831CE9HOPg
- Gc1ejkXk0a6pcGDGlGgC8LS+nQjhkP0HVVRMUGFhK12E6anq23q+M/oCpaNXamIf3buq
- P6dg==
+ bh=GafCA2BVZGZyDc8jMSxRCynXmGgPbwedSbXCngEo7qM=;
+ b=sCdM19Iu7p39yTCgSTEbg1T3pHfyvo5ePS91G4hGCW72W9JUdRxQaBe13ChHRNM76I
+ PxtLzTLzJBIMQMRgeGBlFLSkgeJocF5BCHXloNtDvhwVzw2IzyUs2TlrZTIv2x/kG5NZ
+ ehH0oiCrD03vaw9LVZvS0eZTtKtqzyN7TzG8rklOzJgrJQnCwFOClKalR/ecCev54a+U
+ J66eoSspRMxRez2GpWyI0KR21i6DpYOSco9QlG6g3KifGE0tl81KphSoAZOlI2UZ5FW6
+ nZ3SVBH6NUphX/6yn38XeHztpMMau+IkHfHsAXv3+WPwLpu2y0L1OO4uLom93dxrWWY1
+ /2+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CIkmAC1MoOAT0Eup7YMIXf7xR9rrgpsS8KntAt6SQjs=;
- b=KuCjEs6a8+lk/dYmnlDn5z+Wjdweh5/fhvZENCfWhJhhGv52A2htS+UH2sbxzgDFFH
- K3YcxVdfrDbzshR4b+Hbxg580KhJSfDcLqXV1S7jzFYUDv/+mPdw/xbbvWJcyNvG+CkM
- Cp+fhQ696OJH7QB5zCiWTSStJflhwdHAGx7osyFdEwPd2nCjiZJEjZo9YI58yw2w7RF0
- ZqYxxfuDEPs4Je9xTgI9MUbQ0TaCnU0n9KM6fkhHp6/SAIQA5HKRVpB5a8myYzpTJbGu
- Iy07Uvo8bl6l2lLplLTjcC0NRCNA6ijidBFcRBIyAESZhfR0zM/ZqeVO2jAqOEmjeJ/a
- L9zw==
-X-Gm-Message-State: AO0yUKUOBhAQgw44GM7CzhFk/JJgj5sxjvBsXAReLWCjbyhTJXUUKkKM
- DxItdoIF7bpupD3ujtd5i4zR8g==
-X-Google-Smtp-Source: AK7set9MHn4+ORszbDkGLXtWd6NL7jeZxkE0GllrGwjaL4EX0Zun61ABCRDRFdjm0fNcZOlGA9pHmg==
-X-Received: by 2002:a9d:489:0:b0:68d:81ce:a8c1 with SMTP id
- 9-20020a9d0489000000b0068d81cea8c1mr2797881otm.13.1677058641468; 
- Wed, 22 Feb 2023 01:37:21 -0800 (PST)
-Received: from [192.168.68.107] ([189.110.112.117])
+ bh=GafCA2BVZGZyDc8jMSxRCynXmGgPbwedSbXCngEo7qM=;
+ b=Q+yzCrwWXH9zdClqckVJGv0G7XpSE7iY9cFXioQdAsJQvPeZJk7mxS4ch0RnCN9Hv0
+ U3TPd/gbdigZ3D4vNl45dArAEwIqF3Ijvblaob8/zBdxMyGFrSv+AmOzOZyRQQ0NwyIO
+ pdBx8soaPFfJknGCEgiPOIgbovtnzJ86S8F5Ss2GCBhVYrxQorKgheUFV5V4MB62sHnv
+ /FoLDmaatPpFdWyEO2deLoYP+YADaPkfY4ycKVfOLjTlUMICNOJ6Wh41ssTS1CbPudRg
+ vfOQ64iK/h7hR/4bS6bq0YI1mDG2Da4HRM+xr8n9nmb6m6vc3bIUrQz44OWT78zYa07I
+ CCHg==
+X-Gm-Message-State: AO0yUKX7AzyxHxMa0e9UHqNerJ8zkQgYa0ZE7L8xypbJfheDy/2lN+gy
+ tH/zfKIWmrckfvgYNC/85OSRuw==
+X-Google-Smtp-Source: AK7set8mTYsN43CRNuUp08OPUZCWTo5+XdnqN4lllEj3kLPDJb+KnuXsJ8IQ9wDMel6QwhurIk+4PA==
+X-Received: by 2002:a5d:67c8:0:b0:2c6:75be:f2d7 with SMTP id
+ n8-20020a5d67c8000000b002c675bef2d7mr5470833wrw.51.1677058800656; 
+ Wed, 22 Feb 2023 01:40:00 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 2-20020aca0f02000000b0037b6f5d6309sm1217337oip.2.2023.02.22.01.37.18
+ w2-20020a5d6802000000b002c55efa9cbesm6962912wru.39.2023.02.22.01.39.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 01:37:20 -0800 (PST)
-Message-ID: <4247ca1b-aa4c-9494-e634-c8114758bfcd@ventanamicro.com>
-Date: Wed, 22 Feb 2023 06:37:17 -0300
+ Wed, 22 Feb 2023 01:40:00 -0800 (PST)
+Message-ID: <f0fdd2ad-6a12-318e-59e5-97893668427b@linaro.org>
+Date: Wed, 22 Feb 2023 10:39:59 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v6 2/4] target/riscv: implement Zicboz extension
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 03/25] target/arm: Diagnose incorrect usage of
+ arm_is_secure subroutines
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- Christoph Muellner <cmuellner@linux.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
-References: <20230217203445.51077-1-dbarboza@ventanamicro.com>
- <20230217203445.51077-3-dbarboza@ventanamicro.com>
- <20408b85-2ad0-4cbc-4ccd-c512ba15ba06@linaro.org>
- <d468f8c6-f8ec-6d40-44ab-3e76df458680@ventanamicro.com>
- <4e3ac25e-6443-9365-66e4-ebd903aa29b9@linaro.org>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <4e3ac25e-6443-9365-66e4-ebd903aa29b9@linaro.org>
+Cc: qemu-arm@nongnu.org
+References: <20230222023336.915045-1-richard.henderson@linaro.org>
+ <20230222023336.915045-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230222023336.915045-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -101,44 +92,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/18/23 16:35, Richard Henderson wrote:
-> On 2/17/23 23:28, Daniel Henrique Barboza wrote:
->> "A cache-block zero instruction is permitted to access the specified cache block whenever
->> a store instruction is permitted to access the corresponding physical addresses and when
->> the PMAs indicate that cache-block zero instructions are a supported access type. If access
->> to the cache block is not permitted, a cache-block zero instruction raises a store page fault
->> or store guest-page fault exception if address translation does not permit write access or
->> raises a store access fault exception otherwise. During address translation, the instruction
->> also checks the accessed and dirty bits and may either raise an exception or set the bits as
->> required."
+On 22/2/23 03:33, Richard Henderson wrote:
+> In several places we use arm_is_secure_below_el3 and
+> arm_is_el3_or_mon separately from arm_is_secure.
+> These functions make no sense for m-profile, and
+> would indicate prior incorrect feature testing.
 > 
-> By the way, I think the documentation should specify what happens if the page is *not* accessible.  Is badaddr = {rN, aligned(rN), unspecified, but somewhere in the block}?
-> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/arm/cpu.h | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 
-Do you mean that the doc should tell whether the address to be returned in the store
-access fault should be aligned and whatnot?
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Yeah, this is not mentioned in the docs. I think you're wondering if we should do like
-ARM does, like you're mentioned in the previous version:
-
-=======
-While re-reading the ARM code, I remembered that the ARM dc.zva instruction is required
-to produce original unmasked address on a page fault, thus the little dance with two
-calls to probe_write.
-=======
-
-By reading target/riscv code it seems that all store acess faults are being fired via
-raise_mmu_exception(), which is only called in riscv_cpu_tlb_fill(), which in turn
-doesn't do any thing special with the address before firing the exception. So I guess
-we can assume that badddr = aligned?
-
-
-
-Daniel
-
-
-> 
-> r~
 
