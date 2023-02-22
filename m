@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB5269F780
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AD669F781
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:15:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqpS-00054r-NX; Wed, 22 Feb 2023 10:14:46 -0500
+	id 1pUqpb-00055c-3T; Wed, 22 Feb 2023 10:14:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUqpQ-00054U-Pk
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:14:44 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUqpY-00055R-Sa
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:14:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUqpN-0008LB-Q3
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:14:44 -0500
-Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c15:2905:0:640:e5fe:0])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 263505FEBA;
- Wed, 22 Feb 2023 18:14:35 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:a532::1:1e] (unknown
- [2a02:6b8:b081:a532::1:1e])
- by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id VEQGWC0KhiE0-2AzK8GgR; Wed, 22 Feb 2023 18:14:33 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net;
- dkim=pass
-Message-ID: <8372550f-def7-4336-c597-d22155abf145@yandex-team.ru>
-Date: Wed, 22 Feb 2023 18:14:31 +0300
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUqpX-0008Oa-7I
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:14:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677078890;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eWlwnzlxl2JQeoBY+EpMd9rmg+rJKRmnlqYzrOJGF50=;
+ b=UHx/HhjP6/W2vbMvcaOY5GvJuP+ZF7CI/0E7s7D+ToaQ/x/anjo6ZDqN6pJk2kLbYyZJT6
+ 0msE/F5WA7150XaLvK3JJ7sVjhK5KJmY5+Lt9GMHhLC6qpFGZeTVj9nQ0kXc1bifQtZN7K
+ mbkt+DB3vfJ0B1rMjV4arIcT9m/LIVA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-78-3D_H4wdZNc2bzWaNPSUtVQ-1; Wed, 22 Feb 2023 10:14:45 -0500
+X-MC-Unique: 3D_H4wdZNc2bzWaNPSUtVQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 851CE802D2E;
+ Wed, 22 Feb 2023 15:14:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CB70492B00;
+ Wed, 22 Feb 2023 15:14:44 +0000 (UTC)
+Date: Wed, 22 Feb 2023 15:14:42 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org,
+ thuth@redhat.com, alex.bennee@linaro.org, armbru@redhat.com
+Subject: Re: [PATCH 08/10] ci, docker: update CentOS and OpenSUSE Python to
+ non-EOL versions
+Message-ID: <Y/YxYlXQT6zxLHaU@redhat.com>
+References: <20230222143752.466090-1-pbonzini@redhat.com>
+ <20230222143752.466090-9-pbonzini@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
-Content-Language: en-US
-To: Anton Kuchin <antonkuchin@yandex-team.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
- <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- virtio-fs@redhat.com, Eric Blake <eblake@redhat.com>
-References: <20230217170038.1273710-1-antonkuchin@yandex-team.ru>
- <20230217170038.1273710-2-antonkuchin@yandex-team.ru>
- <59165bde-bfd4-a073-c618-205be3951e4a@yandex-team.ru>
- <20230222074214-mutt-send-email-mst@kernel.org>
- <22fee9b6-1dc0-792c-13cf-54c9303556ab@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <22fee9b6-1dc0-792c-13cf-54c9303556ab@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <20230222143752.466090-9-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.102,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,49 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22.02.23 17:25, Anton Kuchin wrote:
->>>> +static int vhost_user_fs_pre_save(void *opaque)
->>>> +{
->>>> +    VHostUserFS *fs = opaque;
->>>> +    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
->>>> +
->>>> +    switch (fs->migration_type) {
->>>> +    case VHOST_USER_MIGRATION_TYPE_NONE:
->>>> +        error_report("Migration is blocked by device %s", path);
->>>> +        break;
->>>> +    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
->>>> +        return 0;
->>>> +    default:
->>>> +        error_report("Migration type '%s' is not supported by device %s",
->>>> +                     VhostUserMigrationType_str(fs->migration_type), path);
->>>> +        break;
->>>> +    }
->>>> +
->>>> +    return -1;
->>>> +}
->>> Should we also add this as .pre_load, to force user select correct migration_type on target too?
->> In fact, I would claim we only want pre_load.
->> When qemu is started on destination we know where it's migrated
->> from so this flag can be set.
->> When qemu is started on source we generally do not yet know so
->> we don't know whether it's safe to set this flag.
-
-But destination is a "source" for next migration, so there shouldn't be real difference.
-The new property has ".realized_set_allowed = true", so, as I understand it may be changed at any time, so that's not a problem.
+On Wed, Feb 22, 2023 at 03:37:50PM +0100, Paolo Bonzini wrote:
+> Python 3.6 is at end-of-life.  libvirt-ci now supports overrides for
+> targets and package mappings, therefore QEMU can use newer versions
+> provided by CentOS 8 (Python 3.8) and OpenSUSE 15.3 (Python 3.9).
+> 
+> Packages that the distro does not provide are included in the image
+> via PyPI; lcitool knows how to do that whenever the rpm mapping
+> is empty.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  docs/devel/testing.rst                        |  6 ++
+>  tests/docker/dockerfiles/centos8.docker       | 22 +++---
+>  tests/docker/dockerfiles/opensuse-leap.docker | 22 +++---
+>  tests/docker/dockerfiles/ubuntu2004.docker    |  2 +-
+>  tests/lcitool/mappings.yml                    | 77 +++++++++++++++++++
+>  tests/lcitool/targets/centos-stream-8.yml     |  3 +
+>  tests/lcitool/targets/opensuse-leap-153.yml   |  3 +
+>  7 files changed, 113 insertions(+), 22 deletions(-)
+>  create mode 100644 tests/lcitool/mappings.yml
+>  create mode 100644 tests/lcitool/targets/centos-stream-8.yml
+>  create mode 100644 tests/lcitool/targets/opensuse-leap-153.yml
 
 > 
-> This property selects if VM can migrate and if it can what should qemu put
-> to the migration stream. So we select on source what type of migration is
-> allowed for this VM, destination can't check anything at load time.
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 648b7aa09137..67798dc63def 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -481,6 +481,12 @@ the mapping to the ``libvirt-ci`` project as well:
+>     contains the ``mappings.yml`` update.  Then add the prerequisite and
+>     run ``make lcitool-refresh``.
+>  
+> +For enterprise distros that default to old, end-of-life versions of the
+> +Python runtime, QEMU uses a separate set of mappings that work with more
+> +recent versions.  These can be found in ``tests/lcitool/mappings.yml``.
+> +These should not be a problem unless the dependencies you are adding
+> +is a Python library.
 
-OK, so the new field "migration" regulates only outgoing migration and do nothing for incoming. On incoming migration the migration stream itself defines the type of device migration.
-Worth mentioning in doc?
+I'd suggest changing this last sentence to
 
+ It should not be required to modify this file unless the new
+ dependency being added is a Python library.
+
+
+Either way,
+
+  Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+With regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
