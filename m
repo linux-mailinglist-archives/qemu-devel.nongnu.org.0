@@ -2,101 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E104069FDCB
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 22:40:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 922B569FE05
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 22:55:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUwqa-0000hR-Jc; Wed, 22 Feb 2023 16:40:20 -0500
+	id 1pUx3E-0002iV-MZ; Wed, 22 Feb 2023 16:53:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pUwqX-0000go-IH
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:40:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pUwqV-0006UJ-Iq
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:40:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677102014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RcbMfCCUVZU65eqs0V6yVnLHYCanuRZINLjD7BqNGcU=;
- b=arQ/k5sjpAg6oSAhiHNw315bv1QxuTJSr5E3zJ5iZQMt1zT1wWbE7AQ3CMncVLhHfE6A6g
- ArQ6Ykw2+20cOn/16maOjI2nSBx7T7H007NF3Zdpcz4dMF1Irct4AhsLFIKFIQFqIIHF/d
- vjjnhJQXf144MOUJdrPxBDO1ntt1U48=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-471-8DYpf6YzM1ShzGfxHrT4Yg-1; Wed, 22 Feb 2023 16:40:12 -0500
-X-MC-Unique: 8DYpf6YzM1ShzGfxHrT4Yg-1
-Received: by mail-io1-f70.google.com with SMTP id
- p25-20020a5d9c99000000b00745dfcf1ed3so5810987iop.1
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 13:40:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from
+ <3z472YwYKCuwgSObXQUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--seanjc.bounces.google.com>)
+ id 1pUx3D-0002iG-5V
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:53:23 -0500
+Received: from mail-yw1-x114a.google.com ([2607:f8b0:4864:20::114a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3z472YwYKCuwgSObXQUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--seanjc.bounces.google.com>)
+ id 1pUx3B-0002i0-As
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:53:22 -0500
+Received: by mail-yw1-x114a.google.com with SMTP id
+ 00721157ae682-536af109f9aso100311197b3.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 13:53:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=vw/kaBZELDn3iRLryB4mmdN5p7w2c/XEDF0NvAc29OA=;
+ b=lxoHUtiZD2a0lkFM1BjQCq6yxSLFOIYuWQzolUrNyKa2FSIrxH8LVVfQtq9f5R/afK
+ LHQpddlnFrOzOB60DXpCwlJJw63AzRfX5jLu5Id0pSE95MxYIsHOiRMLmY5+eU+D3dNu
+ ISieEqZtTt7V23yoxD/xPf7/3fga5CcMm+ewnI7GoqsPeiEDxyu5fgTeEv68la2saMCH
+ djvTvh7dGkVnNbuuTGqlzh9NJbQdVF3quszT4E0e+TCktqOo19NSlqE9gEsehIyDyrqF
+ 4K9oJAEiTWIdzJKlakhzoBeyFOaEj14vWK7iNd4k7zj5V9qLb9MFJbOpw5pQ3v+f49KY
+ Vb8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RcbMfCCUVZU65eqs0V6yVnLHYCanuRZINLjD7BqNGcU=;
- b=T2oH1tZ1wSeTP5T6d+GETsaifdyz9dd7HP7FhmyBmHTbYtwAVQHymqP61lznAVKPNL
- XdKYVs+8E1iwQXky1oV7c51yvSE6P+OPNuhRky2fL1wpoFvCj/7fRiQbEBAJjPkdeaFq
- MRcrG36q80L3z5CGudQecciWnQv/qPGxVXdF6mNGs9bsEqcp9A9romaOrczzOIKQpRAv
- s3JguTH2M9JgMvqQ9YTSm3YFfAIZALS5SoKyuXuWTLAjTgrY5WGLW30zUSftC6Fv5bza
- iMzuYuu5Y4VRqfe/e4PARH5DTrBTYtKNVIooqw27bEI7kSPLuiW4rRxi7eyJVuLALULP
- 6N7w==
-X-Gm-Message-State: AO0yUKX34/sgwjdLNfiWpoRAX0vmNZY/6Z5iAIM+pKJlWc8DHp9gUods
- LeGbqozgKH6UITST4CLk9BZWxII+NS8JI30H8vlpW11MvuYgS6F1Q3aw8lAXjTlSsN4LvSUHTCI
- kuFS+UK4cr/JXsKU=
-X-Received: by 2002:a05:6e02:1d85:b0:312:5834:f6cf with SMTP id
- h5-20020a056e021d8500b003125834f6cfmr7361594ila.1.1677102011862; 
- Wed, 22 Feb 2023 13:40:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set88TmwihBtVwYdVdCmj2iGzc913uzo05PNStbyNb0amOYHbjWgveB1FOXM339cHaODS1Zn8xQ==
-X-Received: by 2002:a05:6e02:1d85:b0:312:5834:f6cf with SMTP id
- h5-20020a056e021d8500b003125834f6cfmr7361571ila.1.1677102011626; 
- Wed, 22 Feb 2023 13:40:11 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- g2-20020a056e02130200b00313f1b861b7sm2838630ilr.51.2023.02.22.13.40.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 13:40:10 -0800 (PST)
-Date: Wed, 22 Feb 2023 14:40:09 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater
- <clg@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Jason Wang" <jasowang@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "David Hildenbrand"
- <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
- <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v2 07/20] vfio/common: Add VFIOBitmap and (de)alloc
- functions
-Message-ID: <20230222144009.2a59f1d0.alex.williamson@redhat.com>
-In-Reply-To: <20230222174915.5647-8-avihaih@nvidia.com>
-References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-8-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vw/kaBZELDn3iRLryB4mmdN5p7w2c/XEDF0NvAc29OA=;
+ b=ZTIuOSCsol6aLek/9o6ERkHlbwGuoprJBGmK8uD06jH5mm15vhIbFfAARl8OZOxuF9
+ ImXkQJtDzi9Slha7lmfwp7nu6LCZJwALCmu2+0bcBNGR9MiM1sQucILszmusC3eRmRYK
+ /25xBsQWq3hz9sfGQYAN4b7ORkIHhVXB2a6GrjvAIDYiUoknGhHGN7aEjtVHc2B+GWEX
+ ErjpZsp9zPcXZfsyeguxc/2159+lQjlOMn/DRiFZAxepYY6T0x5fMA25v5Tp6rRHxeOG
+ tgbWj9gqXh0I8scGDgQG8kp/aGczZWjRyuvfe/6mHyo8a6SU2bbrr1tWbilhNu2CDEcY
+ PuEQ==
+X-Gm-Message-State: AO0yUKWj8L7f1Tf6At72xshHZJcx70xd1ts9+DZmVI0Szxf9ArIURjnA
+ 2Hc/pYKsj8KFGC+gwbjrb/+AzZ7H6PY=
+X-Google-Smtp-Source: AK7set94YqDAGISpJ88nU9GpVOq8HahVScAJcl3isAOv812VxstdjXukBVCA+QkJjTDNRjuqp0jo+ZxoQ0w=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:1183:b0:a27:3ecc:ffe7 with SMTP id
+ m3-20020a056902118300b00a273eccffe7mr460686ybu.3.1677102799291; Wed, 22 Feb
+ 2023 13:53:19 -0800 (PST)
+Date: Wed, 22 Feb 2023 13:53:17 -0800
+In-Reply-To: <62c84fa8-d7c4-5163-fe1e-f2c7e5a2c7aa@redhat.com>
+Mime-Version: 1.0
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <Y+27kRxJoXlMcbtH@kernel.org>
+ <62c84fa8-d7c4-5163-fe1e-f2c7e5a2c7aa@redhat.com>
+Message-ID: <Y/aOzY15UmR+zDpQ@google.com>
+Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
+From: Sean Christopherson <seanjc@google.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Mike Rapoport <rppt@kernel.org>, Chao Peng <chao.p.peng@linux.intel.com>,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>, 
+ Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, aarcange@redhat.com, 
+ ddutile@redhat.com, dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ tabba@google.com, Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
+ wei.w.wang@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::114a;
+ envelope-from=3z472YwYKCuwgSObXQUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--seanjc.bounces.google.com;
+ helo=mail-yw1-x114a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,67 +113,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 19:49:02 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+On Thu, Feb 16, 2023, David Hildenbrand wrote:
+> On 16.02.23 06:13, Mike Rapoport wrote:
+> > Hi,
+> > 
+> > On Fri, Dec 02, 2022 at 02:13:38PM +0800, Chao Peng wrote:
+> > > This patch series implements KVM guest private memory for confidential
+> > > computing scenarios like Intel TDX[1]. If a TDX host accesses
+> > > TDX-protected guest memory, machine check can happen which can further
+> > > crash the running host system, this is terrible for multi-tenant
+> > > configurations. The host accesses include those from KVM userspace like
+> > > QEMU. This series addresses KVM userspace induced crash by introducing
+> > > new mm and KVM interfaces so KVM userspace can still manage guest memory
+> > > via a fd-based approach, but it can never access the guest memory
+> > > content.
+> > 
+> > Sorry for jumping late.
+> > 
+> > Unless I'm missing something, hibernation will also cause an machine check
+> > when there is TDX-protected memory in the system. When the hibernation
+> > creates memory snapshot it essentially walks all physical pages and saves
+> > their contents, so for TDX memory this will trigger machine check, right?
 
-> There are already two places where dirty page bitmap allocation and
-> calculations are done in open code. With device dirty page tracking
-> being added in next patches, there are going to be even more places.
-> 
-> To avoid code duplication, introduce VFIOBitmap struct and corresponding
-> alloc and dealloc functions and use them where applicable.
-> 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->  hw/vfio/common.c | 89 ++++++++++++++++++++++++++++++++----------------
->  1 file changed, 60 insertions(+), 29 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index ac93b85632..84f08bdbbb 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -320,6 +320,41 @@ const MemoryRegionOps vfio_region_ops = {
->   * Device state interfaces
->   */
->  
-> +typedef struct {
-> +    unsigned long *bitmap;
-> +    hwaddr size;
-> +    hwaddr pages;
-> +} VFIOBitmap;
-> +
-> +static VFIOBitmap *vfio_bitmap_alloc(hwaddr size)
-> +{
-> +    VFIOBitmap *vbmap = g_try_new0(VFIOBitmap, 1);
-> +    if (!vbmap) {
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    vbmap->pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
-> +    vbmap->size = ROUND_UP(vbmap->pages, sizeof(__u64) * BITS_PER_BYTE) /
-> +                                         BITS_PER_BYTE;
-> +    vbmap->bitmap = g_try_malloc0(vbmap->size);
-> +    if (!vbmap->bitmap) {
-> +        g_free(vbmap);
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    return vbmap;
-> +}
-> +
-> +static void vfio_bitmap_dealloc(VFIOBitmap *vbmap)
-> +{
-> +    g_free(vbmap->bitmap);
-> +    g_free(vbmap);
-> +}
+For hibernation specifically, I think that should be handled elsewhere as hibernation
+is simply incompatible with TDX, SNP, pKVM, etc. without paravirtualizing the
+guest, as none of those technologies support auto-export a la s390.  I suspect
+the right approach is to disallow hibernation if KVM is running any protected guests.
 
-Nit, '_alloc' and '_free' seems like a more standard convention.
-Thanks,
+> I recall bringing that up in the past (also memory access due to kdump,
+> /prov/kcore) and was told that the main focus for now is preventing
+> unprivileged users from crashing the system, that is, not mapping such
+> memory into user space (e.g., QEMU). In the long run, we'll want to handle
+> such pages also properly in the other events where the kernel might access
+> them.
 
-Alex
+Ya, unless someone strongly objects, the plan is to essentially treat "attacks"
+from privileged users as out of to scope for initial support, and then iterate
+as needed to fix/enable more features.
 
+FWIW, read accesses, e.g. kdump, should be ok for TDX and SNP as they both play
+nice with "bad" reads.  pKVM is a different beast though as I believe any access
+to guest private memory will fault.  But my understanding is that this series
+would be a big step forward for pKVM, which currently doesn't have any safeguards.
 
