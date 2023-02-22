@@ -2,97 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E3869FAE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 19:17:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22EF69FAF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 19:27:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUtfa-0005Lw-0L; Wed, 22 Feb 2023 13:16:46 -0500
+	id 1pUtoE-0007Q7-AX; Wed, 22 Feb 2023 13:25:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUtfX-0005Lf-9t
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 13:16:43 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUtfV-0007Nj-Gw
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 13:16:43 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- l7-20020a05600c4f0700b003e79fa98ce1so4078289wmq.2
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 10:16:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cEbEQAsJpeS1K3BFED1M3rJ0rZv5yY1Z13SXmyHqi+E=;
- b=K9YAb7OU6ketr+1JblAQwmnUEU9u3uUp8GRxJXl45Rr/k1ZhlMyNjCpHmJbDeALR6d
- HpTrZeobAza2QDtDpXpOyAs9OasYLlLhXq35Yxq0+HysvriGMIHWEjpDvcpZvbv8FvUM
- QQrlxtlfCZeS0OQESlsIQQpold16ngt3cl/tW3Gt9KUUA1nF1Mv2YBupkA88oPyANxYh
- 8WbnYgpgDPCg5g20vJkWapfyLtyhPG8PrFnhzZjx4JXNiGb3AhehZIE8n92KfqIBTMBK
- KLSTnRTeeAAnOuKrDRgdtLtMNRSL4DCpmRIiv5+8A7RJSlwDbtDlpfZ9xEj0DCWti4h7
- ZS4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cEbEQAsJpeS1K3BFED1M3rJ0rZv5yY1Z13SXmyHqi+E=;
- b=wLCxXaPbsnZLaqWlniumSS0sbdU3oo+n7gvL4ZI41uhja+QeXLFzg2C6LujmXdm/5Y
- CouHFqtAULyCbRH7F7VfdIcWrd2/VhRcXOnxvdXvo/vUXiYqCFmu7EQ91vSOK4iD5ZRJ
- Px/01KfgIXn6oI+nXQqni/XO+3N1dADWIBj3FBN8LZMnsw9grXxvNRu/Pf7+SZgNls+M
- NEITLZnZg92rYofsfo5KWIMKCrVM3MSvwCaSD+pS5fIQbkA9TCaEq08s953WRud/uUMb
- DI+tFxhbSrDE0O5v8Dhso/SiMrhbWwKaowejiA+oHea40wJ4xcUOhOHxZ8iph90aY81p
- JhrA==
-X-Gm-Message-State: AO0yUKXVoguzwGamGLYF3miQ0S8GFqfZQowg7kMpiEVCMGVWWpOFMsZ6
- xSeRkPWY0hqJJr2xz2BL1W44jA==
-X-Google-Smtp-Source: AK7set+F7RTVDbHqBYVShgsyPL/EwtVry1+BZqCxLwsSFPkeWx+8v3sMTg865mh/N/tJMCdYIafadw==
-X-Received: by 2002:a05:600c:181b:b0:3e2:2504:50e3 with SMTP id
- n27-20020a05600c181b00b003e2250450e3mr6245331wmp.25.1677089799452; 
- Wed, 22 Feb 2023 10:16:39 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- a5-20020a05600c224500b003dc1a525f22sm5932253wmm.25.2023.02.22.10.16.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 10:16:38 -0800 (PST)
-Message-ID: <b9bd5698-1f73-b912-0344-4b70c30dd02a@linaro.org>
-Date: Wed, 22 Feb 2023 19:16:37 +0100
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pUto8-0007Pv-Lk
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 13:25:36 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pUto5-00032W-Gv
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 13:25:36 -0500
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:57a5:0:640:1f49:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id CF7EE615DB;
+ Wed, 22 Feb 2023 21:25:24 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:1228::1:38] (unknown
+ [2a02:6b8:b081:1228::1:38])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id JPTVkC0Km4Y0-myPzbQIU; Wed, 22 Feb 2023 21:25:23 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass
+Message-ID: <a477ca70-8aea-6c16-122e-1ded4af11f49@yandex-team.ru>
+Date: Wed, 22 Feb 2023 20:25:19 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v5 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support.
-Content-Language: en-US
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>,
- Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang
- <dave.jiang@intel.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
- <20230221152145.9736-9-Jonathan.Cameron@huawei.com>
- <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
- <20230222145330.000021ef@huawei.com>
- <c2fb77b0-0734-3be5-1b54-7c797b3daa15@linaro.org>
- <20230222164947.0000554f@Huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230222164947.0000554f@Huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
+Content-Language: en-US, ru-RU
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ virtio-fs@redhat.com, Eric Blake <eblake@redhat.com>
+References: <20230217170038.1273710-1-antonkuchin@yandex-team.ru>
+ <20230217170038.1273710-2-antonkuchin@yandex-team.ru>
+ <59165bde-bfd4-a073-c618-205be3951e4a@yandex-team.ru>
+ <20230222074214-mutt-send-email-mst@kernel.org>
+ <22fee9b6-1dc0-792c-13cf-54c9303556ab@yandex-team.ru>
+ <8372550f-def7-4336-c597-d22155abf145@yandex-team.ru>
+ <333c4451-8eef-0603-c3f5-10e38c0eb24e@yandex-team.ru>
+ <20230222115106-mutt-send-email-mst@kernel.org>
+ <11593688-7ca4-def3-6212-7c26faa4d1c6@yandex-team.ru>
+ <20230222121133-mutt-send-email-mst@kernel.org>
+From: Anton Kuchin <antonkuchin@yandex-team.ru>
+In-Reply-To: <20230222121133-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.102,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -104,83 +83,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-+Thomas (meson) & Marc-André (conditional QAPI)
+On 22/02/2023 19:12, Michael S. Tsirkin wrote:
+> On Wed, Feb 22, 2023 at 07:05:47PM +0200, Anton Kuchin wrote:
+>> On 22/02/2023 18:51, Michael S. Tsirkin wrote:
+>>> On Wed, Feb 22, 2023 at 06:49:10PM +0200, Anton Kuchin wrote:
+>>>> On 22/02/2023 17:14, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> On 22.02.23 17:25, Anton Kuchin wrote:
+>>>>>>>>> +static int vhost_user_fs_pre_save(void *opaque)
+>>>>>>>>> +{
+>>>>>>>>> +    VHostUserFS *fs = opaque;
+>>>>>>>>> +    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
+>>>>>>>>> +
+>>>>>>>>> +    switch (fs->migration_type) {
+>>>>>>>>> +    case VHOST_USER_MIGRATION_TYPE_NONE:
+>>>>>>>>> +        error_report("Migration is blocked by device %s", path);
+>>>>>>>>> +        break;
+>>>>>>>>> +    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
+>>>>>>>>> +        return 0;
+>>>>>>>>> +    default:
+>>>>>>>>> +        error_report("Migration type '%s' is not
+>>>>>>>>> supported by device %s",
+>>>>>>>>> + VhostUserMigrationType_str(fs->migration_type), path);
+>>>>>>>>> +        break;
+>>>>>>>>> +    }
+>>>>>>>>> +
+>>>>>>>>> +    return -1;
+>>>>>>>>> +}
+>>>>>>>> Should we also add this as .pre_load, to force user select
+>>>>>>>> correct migration_type on target too?
+>>>>>>> In fact, I would claim we only want pre_load.
+>>>>>>> When qemu is started on destination we know where it's migrated
+>>>>>>> from so this flag can be set.
+>>>>>>> When qemu is started on source we generally do not yet know so
+>>>>>>> we don't know whether it's safe to set this flag.
+>>>>> But destination is a "source" for next migration, so there shouldn't be
+>>>>> real difference.
+>>>>> The new property has ".realized_set_allowed = true", so, as I understand
+>>>>> it may be changed at any time, so that's not a problem.
+>>>> Yes, exactly. So destination's property sets not how it will handle this
+>>>> incoming
+>>>> migration but the future outgoing one.
+>>> How do you know where you are going to migrate though?
+>>> I think you don't.
+>>> Setting it on source is better since we know where we
+>>> are migrating from.
+>> Yes, I don't know where I'm going to migrate to. This is why property
+>> affects only how source saves state on outgoing migration.
+> Um. I don't get the logic.
 
-On 22/2/23 17:49, Jonathan Cameron wrote:
->>>>> +# Type of uncorrectable CXL error to inject. These errors are reported via
->>>>> +# an AER uncorrectable internal error with additional information logged at
->>>>> +# the CXL device.
->>>>> +#
->>>>> +# @cache-data-parity: Data error such as data parity or data ECC error CXL.cache
->>>>> +# @cache-address-parity: Address parity or other errors associated with the
->>>>> +#                        address field on CXL.cache
->>>>> +# @cache-be-parity: Byte enable parity or other byte enable errors on CXL.cache
->>>>> +# @cache-data-ecc: ECC error on CXL.cache
->>>>> +# @mem-data-parity: Data error such as data parity or data ECC error on CXL.mem
->>>>> +# @mem-address-parity: Address parity or other errors associated with the
->>>>> +#                      address field on CXL.mem
->>>>> +# @mem-be-parity: Byte enable parity or other byte enable errors on CXL.mem.
->>>>> +# @mem-data-ecc: Data ECC error on CXL.mem.
->>>>> +# @reinit-threshold: REINIT threshold hit.
->>>>> +# @rsvd-encoding: Received unrecognized encoding.
->>>>> +# @poison-received: Received poison from the peer.
->>>>> +# @receiver-overflow: Buffer overflows (first 3 bits of header log indicate which)
->>>>> +# @internal: Component specific error
->>>>> +# @cxl-ide-tx: Integrity and data encryption tx error.
->>>>> +# @cxl-ide-rx: Integrity and data encryption rx error.
->>>>> +##
->>>>> +
->>>>> +{ 'enum': 'CxlUncorErrorType',
->>>>
->>>> Doesn't these need
->>>>
->>>>         'if': 'CONFIG_CXL_MEM_DEVICE',
->>>>
->>>> ?
->>>
->>> If I make this change I get a bunch of
->>>
->>> ./qapi/qapi-types-cxl.h:18:13: error: attempt to use poisoned "CONFIG_CXL_MEM_DEVICE"
->>>      18 | #if defined(CONFIG_CXL_MEM_DEVICE)
->>
->> Err, I meant the generic CONFIG_CXL, not CONFIG_CXL_MEM_DEVICE.
->>
->>> It's a target specific define (I think) as built alongside PCI_EXPRESS
->>> Only CXL_ACPI is specifically included by x86 and arm64 (out of tree)
->>>
->>> To be honest though I don't fully understand the QEMU build system so the reason
->>> for the error might be wrong.
->>
->> You need to restrict to system emulation (the 'have_system' check):
-> 
-> This doesn't help - still have
-> attempt to used poisoned "CONFIG_CXL"
-> 
-> 
->>
->> -- >8 --
->> diff --git a/qapi/meson.build b/qapi/meson.build
->> index fbdb442fdf..643c76d61c 100644
->> --- a/qapi/meson.build
->> +++ b/qapi/meson.build
->> @@ -31,6 +31,7 @@ qapi_all_modules = [
->>      'compat',
->>      'control',
->>      'crypto',
->> -  'cxl',
->>      'dump',
->>      'error',
->>      'introspect',
->> @@ -58,6 +59,7 @@ if have_system
->>        'audio',
->>        'qdev',
->>        'pci',
->> +    'cxl',
->>        'rdma',
->>        'rocker',
->>        'tpm',
->> ---
->>
-> 
+For this feature to work we need orchestrator to manage the migration. 
+And we
+generally assume that it is responsibility of orchestrator to ensure 
+matching
+properties on source and destination.
+As orchestrator manages both sides of migration it can set option (and 
+we can
+check it) on either source or destination. Now it's not important which 
+side we
+select, because now the option is essentially binary allow/deny (but IMHO it
+is much better to refuse source to migrate than find later that state 
+can't be
+loaded by destination, in case of file migration this becomes especially
+painful).
 
+But there are plans to add internal migration option (extract FUSE state 
+from
+backend and transfer it in QEMU migration stream), and that's where 
+setting/checking
+on source becomes important because it will rely on this property to 
+decide if
+extra state form backend needs to be put in the migration stream subsection.
+
+If you are concerned about orchestrator breaking assumption of matching 
+properties
+on source and destination this is not really supported AFAIK but I don't 
+think we
+need to punish it for this, maybe it has its reasons: I can imagine scenario
+where orchestrator could want to migrate from source with 
+'migration=external'
+to destination with 'migration=none' to ensure that destination can't be
+migrated further.
+
+>
+>
+>>>>>> This property selects if VM can migrate and if it can what should
+>>>>>> qemu put
+>>>>>> to the migration stream. So we select on source what type of
+>>>>>> migration is
+>>>>>> allowed for this VM, destination can't check anything at load time.
+>>>>> OK, so the new field "migration" regulates only outgoing migration and
+>>>>> do nothing for incoming. On incoming migration the migration stream
+>>>>> itself defines the type of device migration.
+>>>>> Worth mentioning in doc?
+>>>> Good point. I don't think this deserves a respin but if I have to send v4
+>>>> I'll include
+>>>> clarification in it.
 
