@@ -2,101 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACB669FEA3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 23:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F232D69FF21
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 00:02:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUxnB-0008I1-LS; Wed, 22 Feb 2023 17:40:53 -0500
+	id 1pUy5v-00029f-2K; Wed, 22 Feb 2023 18:00:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pUxnA-0008Hs-5y
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 17:40:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pUy5r-00029M-AA; Wed, 22 Feb 2023 18:00:11 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pUxn7-0004Yi-PN
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 17:40:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677105648;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P+N1fHGSnsfWCkB8ralmM+SfWOGisqeRO2zK7waDbQ8=;
- b=SUTbdVmEvvo/7OQHQHXMZsxvc43S2/3xJu9akAR1vfq2mKZpQR70fn7SDOBR8W3ldhe1AM
- lX3t9SEHVyvbjNyTE1pKfn4KfCeh7zn/MGEfT1VyiLZrvj7pAdKJ/kXd0COU3Zc5KXTed5
- T1OsBQVwzX6pQ2M2pm1yCgqLAl7OvAQ=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-657-4Hn1JtXmN-u1EVkVvt1oWw-1; Wed, 22 Feb 2023 17:40:46 -0500
-X-MC-Unique: 4Hn1JtXmN-u1EVkVvt1oWw-1
-Received: by mail-io1-f72.google.com with SMTP id
- a21-20020a5d9595000000b0074c9dc19e16so611177ioo.15
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 14:40:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=P+N1fHGSnsfWCkB8ralmM+SfWOGisqeRO2zK7waDbQ8=;
- b=zQ6mJe2ToCNvo/q/0RE0WV8BaeR8iYo3ITajSNEVPKsxIir3eiyUqHng/6RyGCxwe7
- rjKIPS/WRVWHfJkAy4ROnc1H1JeECrYyeLnxJ6KYsxQTLDYwX0i30kxcNVzrcEdFNbNJ
- Cu7a4K6UE0NbuhVE0TqfByawiicSKLSaNG62AYLiDvyy6Y3PUHygVrAuyYoa3hIILMuE
- mM01OxtwH6Hsoou59K/AVxKS+9qSd8ow3/3EuznNYSTmbiv8lXzDjj8Ht5Y5dhbIhPHQ
- FjQiBKFOHm6+1xw2ry6KGv3b38YZypBoFqTheRia1nX8w0/MNfXDcC/h3Fk8KKa8AtAa
- /Okw==
-X-Gm-Message-State: AO0yUKWiA1+6P7UTezy20HtuJjuDo7rq2w50SNuZTFxz2Zq+7+7xu4bC
- S7oisOhBiE4bUQQLUvyHeJKJ3zTY5Ui2MgZKRBsoNU6Vqadde75/KjOrhW5pVBpsdZM5BQYaZe4
- YlR3ozE4/7bjUHDs=
-X-Received: by 2002:a92:cda4:0:b0:313:fddb:6e6f with SMTP id
- g4-20020a92cda4000000b00313fddb6e6fmr7601958ild.9.1677105645602; 
- Wed, 22 Feb 2023 14:40:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set+xXNdXg/CVTuLLkNikylVJljjBENPU0XsdzQzB/zat8ZVfYxLibBRR6hSFrhNU8iXd5S74kw==
-X-Received: by 2002:a92:cda4:0:b0:313:fddb:6e6f with SMTP id
- g4-20020a92cda4000000b00313fddb6e6fmr7601933ild.9.1677105645307; 
- Wed, 22 Feb 2023 14:40:45 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- l15-20020a02cd8f000000b0035678e2e175sm2526127jap.50.2023.02.22.14.40.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 14:40:44 -0800 (PST)
-Date: Wed, 22 Feb 2023 15:40:43 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater
- <clg@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Jason Wang" <jasowang@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "David Hildenbrand"
- <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
- <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v2 11/20] vfio/common: Add device dirty page tracking
- start/stop
-Message-ID: <20230222154043.35644d31.alex.williamson@redhat.com>
-In-Reply-To: <20230222174915.5647-12-avihaih@nvidia.com>
-References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-12-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pUy5o-0002Tf-1D; Wed, 22 Feb 2023 18:00:11 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 25425746377;
+ Thu, 23 Feb 2023 00:00:03 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C6973746346; Thu, 23 Feb 2023 00:00:02 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C5923746361;
+ Thu, 23 Feb 2023 00:00:02 +0100 (CET)
+Date: Thu, 23 Feb 2023 00:00:02 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@linaro.org
+Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
+In-Reply-To: <8AA6E5E4-6E9F-427D-9F65-D79D4FEEC1A0@gmail.com>
+Message-ID: <7df4771f-e6ab-af3d-3e82-98cb1c4dfce0@eik.bme.hu>
+References: <cover.1677004414.git.balaton@eik.bme.hu>
+ <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
+ <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
+ <adb1fe51-a17e-53c2-4dd1-0c4270a928aa@eik.bme.hu>
+ <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
+ <67daf5dd-de6a-2d55-c830-8650efc59ee0@eik.bme.hu>
+ <8AA6E5E4-6E9F-427D-9F65-D79D4FEEC1A0@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,290 +65,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 19:49:06 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+> Am 22. Februar 2023 21:12:01 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>>> Am 22. Februar 2023 19:25:16 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
+>>>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>>>>> On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail.com> wrote:
+>>>>>> I've had a closer look at your series and I think it can be simplified:
+>>>>>> Patch 2 can be implemented quite straight-forward like I proposed in a
+>>>>>> private mail: https://github.com/shentok/qemu/commit/via-priq-routing.
+>>>>>> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt routing"
+>>>>>> working, one can expose the PCI interrupts with a single line like you do
+>>>>>> in patch 2. With this, patch 1 "hw/isa/vt82c686: Implement interrupt
+>>>>>> routing in via_isa_set_irq" isn't needed any longer and can be omitted.
+>>>>>>
+>>>>>> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() can be
+>>>>>> used instead. pci_set_irq() internally takes care of all the ISA interrupt
+>>>>>> level tracking patch 1 attempted to address.
+>>>>>>
+>>>>>
+>>>>> Here is a proof of concept branch to demonstrate that the simplification
+>>>>> actually works: https://github.com/shentok/qemu/commits/pegasos2 (Tested
+>>>>> with MorphOS with and without pegasos2.rom).
+>>>>
+>>>> Does this only work because both the via-ac97 and the PCI interrupts are mapped to the same ISA IRQ and you've only tested sound? The guest could configure each device to use a different IRQ, also mapping them so they share one ISA interrupt. What happens if multiple devices are mapped to IRQ 9 (which is the case on pegasos2 where PCI cards, ac97 and USB all share this IRQ) and more than one such device wants to raise an interrupt at the same time? If you ack the ac97 interrupt but a PCI network card or the USB part still wants to get the CPUs attention the ISA IRQ should remain raised until all devices are serviced.
+>>>
+>>> pci_bus_get_irq_level(), used in via_isa_set_pci_irq(), should handle
+>>> exactly that case very well.
+>>>
+>>>> I don't see a way to track the status of all devices in a single qemu_irq which can only be up or down so we need something to store the state of each source.
+>>>
+>>> pci_set_irq() causes pci_bus_change_irq_level() to be called.
+>>> pci_bus_change_irq_level() tracks the sum of all irq levels of all
+>>> devices attached to a particular pin in irq_count. Have a look at
+>>> pci_bus_change_irq_level() and you will understand better.
+>>
+>> I'm aware of that, we're using that in sam460ex which connects all PCI 
+>> interrupt lines to a single IRQ and Peter explored and explained it in 
+>> a comment there when that was discovered. First we had a patch with 
+>> or-irq but due to this behaviot that's not needed for PCI interrupts. 
+>> But the VT8132 could change what ISA IRQ you route the sub functions 
+>> to.
+>
+> That depends on the sub function if you can do that. And if so, then it 
+> depends on whether the function is still in PCI mode (see below).
+>
+>> It happens that on pegasos2 by default all of those are routed to IRQ9 except IDE
+>
+> All *PCI* interrupts are routed to IRQ9 while IDE legacy interrupts are 
+> routed to the compatible ISA IRQs. Note that the IDE function must only 
+> trigger the ISA IRQs if it is in legacy mode while it must only trigger 
+> the PCI IRQ in non-legacy mode. See https://www.bswd.com/pciide.pdf for 
+> more details on this particular topic.
 
-> From: Joao Martins <joao.m.martins@oracle.com>
-> 
-> Add device dirty page tracking start/stop functionality. This uses the
-> device DMA logging uAPI to start and stop dirty page tracking by device.
-> 
-> Device dirty page tracking is used only if all devices within a
-> container support device dirty page tracking.
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->  include/hw/vfio/vfio-common.h |   2 +
->  hw/vfio/common.c              | 211 +++++++++++++++++++++++++++++++++-
->  2 files changed, 211 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 6f36876ce0..1f21e1fa43 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -149,6 +149,8 @@ typedef struct VFIODevice {
->      VFIOMigration *migration;
->      Error *migration_blocker;
->      OnOffAuto pre_copy_dirty_page_tracking;
-> +    bool dirty_pages_supported;
-> +    bool dirty_tracking;
->  } VFIODevice;
->  
->  struct VFIODeviceOps {
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 6041da6c7e..740153e7d7 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -473,6 +473,22 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
->      return true;
->  }
->  
-> +static bool vfio_devices_all_device_dirty_tracking(VFIOContainer *container)
-> +{
-> +    VFIOGroup *group;
-> +    VFIODevice *vbasedev;
-> +
-> +    QLIST_FOREACH(group, &container->group_list, container_next) {
-> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> +            if (!vbasedev->dirty_pages_supported) {
-> +                return false;
-> +            }
-> +        }
-> +    }
-> +
-> +    return true;
-> +}
-> +
->  /*
->   * Check if all VFIO devices are running and migration is active, which is
->   * essentially equivalent to the migration being in pre-copy phase.
-> @@ -1404,13 +1420,192 @@ static int vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
->      return ret;
->  }
->  
-> +static int vfio_devices_dma_logging_set(VFIOContainer *container,
-> +                                        struct vfio_device_feature *feature)
-> +{
-> +    bool status = (feature->flags & VFIO_DEVICE_FEATURE_MASK) ==
-> +                  VFIO_DEVICE_FEATURE_DMA_LOGGING_START;
-> +    VFIODevice *vbasedev;
-> +    VFIOGroup *group;
-> +    int ret = 0;
-> +
-> +    QLIST_FOREACH(group, &container->group_list, container_next) {
-> +        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-> +            if (vbasedev->dirty_tracking == status) {
-> +                continue;
-> +            }
-> +
-> +            ret = ioctl(vbasedev->fd, VFIO_DEVICE_FEATURE, feature);
-> +            if (ret) {
-> +                ret = -errno;
-> +                error_report("%s: Failed to set DMA logging %s, err %d (%s)",
-> +                             vbasedev->name, status ? "start" : "stop", ret,
-> +                             strerror(errno));
-> +                goto out;
-> +            }
-> +            vbasedev->dirty_tracking = status;
-> +        }
-> +    }
-> +
-> +out:
-> +    return ret;
-> +}
-> +
-> +static int vfio_devices_dma_logging_stop(VFIOContainer *container)
-> +{
-> +    uint64_t buf[DIV_ROUND_UP(sizeof(struct vfio_device_feature),
-> +                              sizeof(uint64_t))] = {};
-> +    struct vfio_device_feature *feature = (struct vfio_device_feature *)buf;
-> +
-> +    feature->argsz = sizeof(buf);
-> +    feature->flags = VFIO_DEVICE_FEATURE_SET;
-> +    feature->flags |= VFIO_DEVICE_FEATURE_DMA_LOGGING_STOP;
-> +
-> +    return vfio_devices_dma_logging_set(container, feature);
-> +}
-> +
-> +static gboolean vfio_device_dma_logging_range_add(DMAMap *map, gpointer data)
-> +{
-> +    struct vfio_device_feature_dma_logging_range **out = data;
-> +    struct vfio_device_feature_dma_logging_range *range = *out;
-> +
-> +    range->iova = map->iova;
-> +    /* IOVATree is inclusive, DMA logging uAPI isn't, so add 1 to length */
-> +    range->length = map->size + 1;
-> +
-> +    *out = ++range;
-> +
-> +    return false;
-> +}
-> +
-> +static gboolean vfio_iova_tree_get_first(DMAMap *map, gpointer data)
-> +{
-> +    DMAMap *first = data;
-> +
-> +    first->iova = map->iova;
-> +    first->size = map->size;
-> +
-> +    return true;
-> +}
-> +
-> +static gboolean vfio_iova_tree_get_last(DMAMap *map, gpointer data)
-> +{
-> +    DMAMap *last = data;
-> +
-> +    last->iova = map->iova;
-> +    last->size = map->size;
-> +
-> +    return false;
-> +}
-> +
-> +static struct vfio_device_feature *
-> +vfio_device_feature_dma_logging_start_create(VFIOContainer *container)
-> +{
-> +    struct vfio_device_feature *feature;
-> +    size_t feature_size;
-> +    struct vfio_device_feature_dma_logging_control *control;
-> +    struct vfio_device_feature_dma_logging_range *ranges;
-> +    unsigned int max_ranges;
-> +    unsigned int cur_ranges;
-> +
-> +    feature_size = sizeof(struct vfio_device_feature) +
-> +                   sizeof(struct vfio_device_feature_dma_logging_control);
-> +    feature = g_malloc0(feature_size);
-> +    feature->argsz = feature_size;
-> +    feature->flags = VFIO_DEVICE_FEATURE_SET;
-> +    feature->flags |= VFIO_DEVICE_FEATURE_DMA_LOGGING_START;
-> +
-> +    control = (struct vfio_device_feature_dma_logging_control *)feature->data;
-> +    control->page_size = qemu_real_host_page_size();
-> +
-> +    QEMU_LOCK_GUARD(&container->mappings_mutex);
-> +
-> +    /*
-> +     * DMA logging uAPI guarantees to support at least num_ranges that fits into
-> +     * a single host kernel page. To be on the safe side, use this as a limit
-> +     * from which to merge to a single range.
-> +     */
-> +    max_ranges = qemu_real_host_page_size() / sizeof(*ranges);
-> +    cur_ranges = iova_tree_nnodes(container->mappings);
-> +    control->num_ranges = (cur_ranges <= max_ranges) ? cur_ranges : 1;
+The docs say so but based on what guests that work on real hardware do it 
+does not work that way. Look up previous discussion on this on the list 
+from around the time Mark changed via-ide about 4-5 years ago. That series 
+was a result of his review of my proposed changes and gave resuled in an 
+alternative appdroach. On pegasos2 (and probably also on fuloong2e based 
+on same later findings, see patches to that, I can try to find these later 
+if you can't find them) via-ide *always* uses IRQ 14/15 and the native 
+mode only switches register addresses from legacy io ports to PCI io space 
+so you can set it in with BAR regs but the IRQs don't change despite what 
+the docs say. There are some hacks in Linux kernel and other guests to 
+account for this but the comments for the reason are wrong in Linux, they 
+say IDE is always in legacy mode but in fact if has a half-native mode 
+which is what I called it where io addresses are set with BARs but IRQs 
+are still the legacy ISA ones. You can find some references in previous 
+discussion. Probably searching for via-ide half-native mode might find it.
 
-This makes me suspicious that we're implementing to the characteristics
-of a specific device rather than strictly to the vfio migration API.
-Are we just trying to avoid the error handling to support the try and
-fall back to a single range behavior?  If we want to make a
-simplification, then document it as such.  The "[t]o be on the safe
-side" phrasing above could later be interpreted as avoiding an issue
-and might discourage a more complete implementation.  Thanks,
+>> but what if a guest changes ac97 to use a different interrupt? Then 
+>> it's not a PCI interrupt any more so you can't use pci_set_irq in 
+>> via=ac97.
+>
+> How would it do that? AFAICS there is no dedicated register to configure 
+> which IRQ to use. This means that it can only trigger an interrupt via 
+> its PCI intx pin which is subject to the PCI -> ISA IRQ router.
 
-Alex
+The VIA functions can use their PCI_INTERRUPT_LINE (0x3c) registers to set 
+their ISA IRQ according to the docs (and unlike IDE in other functions 
+like USB and sound this probably also works) and the PIRQA-D pins can be 
+mapped to ISA IRQs by the 0x55-0x57 config registers of the isa bridge 
+(function0). This is what I implemented in via_isa_set_irq() in this 
+series.
 
-> +    ranges = g_try_new0(struct vfio_device_feature_dma_logging_range,
-> +                        control->num_ranges);
-> +    if (!ranges) {
-> +        g_free(feature);
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    control->ranges = (uint64_t)ranges;
-> +    if (cur_ranges <= max_ranges) {
-> +        iova_tree_foreach(container->mappings,
-> +                          vfio_device_dma_logging_range_add, &ranges);
-> +    } else {
-> +        DMAMap first, last;
-> +
-> +        iova_tree_foreach(container->mappings, vfio_iova_tree_get_first,
-> +                          &first);
-> +        iova_tree_foreach(container->mappings, vfio_iova_tree_get_last, &last);
-> +        ranges->iova = first.iova;
-> +        /* IOVATree is inclusive, DMA logging uAPI isn't, so add 1 to length */
-> +        ranges->length = (last.iova - first.iova) + last.size + 1;
-> +    }
-> +
-> +    return feature;
-> +}
-> +
-> +static void vfio_device_feature_dma_logging_start_destroy(
-> +    struct vfio_device_feature *feature)
-> +{
-> +    struct vfio_device_feature_dma_logging_control *control =
-> +        (struct vfio_device_feature_dma_logging_control *)feature->data;
-> +    struct vfio_device_feature_dma_logging_range *ranges =
-> +        (struct vfio_device_feature_dma_logging_range *)control->ranges;
-> +
-> +    g_free(ranges);
-> +    g_free(feature);
-> +}
-> +
-> +static int vfio_devices_dma_logging_start(VFIOContainer *container)
-> +{
-> +    struct vfio_device_feature *feature;
-> +    int ret;
-> +
-> +    feature = vfio_device_feature_dma_logging_start_create(container);
-> +    if (!feature) {
-> +        return -errno;
-> +    }
-> +
-> +    ret = vfio_devices_dma_logging_set(container, feature);
-> +    if (ret) {
-> +        vfio_devices_dma_logging_stop(container);
-> +    }
-> +
-> +    vfio_device_feature_dma_logging_start_destroy(feature);
-> +
-> +    return ret;
-> +}
-> +
->  static void vfio_listener_log_global_start(MemoryListener *listener)
->  {
->      VFIOContainer *container = container_of(listener, VFIOContainer, listener);
->      int ret;
->  
-> -    ret = vfio_set_dirty_page_tracking(container, true);
-> +    if (vfio_devices_all_device_dirty_tracking(container)) {
-> +        if (vfio_have_giommu(container)) {
-> +            /* Device dirty page tracking currently doesn't support vIOMMU */
-> +            return;
-> +        }
-> +
-> +        ret = vfio_devices_dma_logging_start(container);
-> +    } else {
-> +        ret = vfio_set_dirty_page_tracking(container, true);
-> +    }
-> +
->      if (ret) {
-> +        error_report("vfio: Could not start dirty page tracking, err: %d (%s)",
-> +                     ret, strerror(-ret));
->          vfio_set_migration_error(ret);
->      }
->  }
-> @@ -1420,8 +1615,20 @@ static void vfio_listener_log_global_stop(MemoryListener *listener)
->      VFIOContainer *container = container_of(listener, VFIOContainer, listener);
->      int ret;
->  
-> -    ret = vfio_set_dirty_page_tracking(container, false);
-> +    if (vfio_devices_all_device_dirty_tracking(container)) {
-> +        if (vfio_have_giommu(container)) {
-> +            /* Device dirty page tracking currently doesn't support vIOMMU */
-> +            return;
-> +        }
-> +
-> +        ret = vfio_devices_dma_logging_stop(container);
-> +    } else {
-> +        ret = vfio_set_dirty_page_tracking(container, false);
-> +    }
-> +
->      if (ret) {
-> +        error_report("vfio: Could not stop dirty page tracking, err: %d (%s)",
-> +                     ret, strerror(-ret));
->          vfio_set_migration_error(ret);
->      }
->  }
+>> There are only 4 PCI INT lines but the VIA components can be routed to 13 or 14 ISA IRQs.
+>
+> Pure PCI components are only able to trigger one of the four PCI intx 
+> pins they are *hardwired* to.
 
+This is true for PCI cards which can only use the 4 pins the slot they are 
+in is wired to. These come in through the PIRQA-D pins and they are routed 
+with the funstion 0 0x55-0x57 config registers. But I'm not sure about the 
+internal functions.
+
+> Each component has only one pin. Which ISA 
+> IRQ gets triggered through that pin can be selected from 13 or 14 ISA 
+> IRQs as you say by means of the three configuration registers of the PCI 
+> -> ISA IRQ router.
+
+So you say that internal functions are also wired to the same 4 lines like 
+normal PCI cards? Then how can you route them to different interrupts 
+setting their config reg 0x3c independent of function0 0x55-0x57 regs?
+
+>> How do you keep track of that with only the PCI bus interrupts?
+>
+> Devices that operate in ISA mode such as the IDE function shall have 
+> their own, dedicated ISA IRQs assigned by the guest. Otherwise this 
+> causes a classic interrupt conflict, just like in the olden ISA days. If 
+> the function operates in PCI mode, it must not trigger the ISA IRQs, 
+> regardless of whether they are assigned or not.
+
+This does not match with guests which clearly expect to get ISA IRQ9 for 
+PCI cards and USB and sound which is where these are routed within the VIA 
+bridge as the firmware programs it.
+
+> There is also the power management function whose ACPI interrupt (SCI) 
+> can be routed by means of a dedicated register. Again, a guest must make 
+> sure here to not configure interrupt conflicts.
+>
+>> I don't get your approach.
+>
+> I hope that I could help you get a better understanding. The linked .pdf 
+> is good and comprehensive reading material.
+
+I'm not sure the via-ide confirms to that doc but it's also not any more a 
+problem with via-ide now. That was discussed to death back then and 
+"fixed" to work for the cases we want it to work with. We probably never 
+agreed on how this really works but at least what we ended up with works 
+with guests that run on real hardware. I'm OK with also making these cases 
+work that we want now such as network and sound card under AmigaOS and 
+sound under MorphOS (as long as you don't use USB) on pegasos2. This 
+series does that so unless it breaks something that worked before I 
+condider this moving forward and we can always improve adn fix it later. 
+I'm not saying I'm not interested in your improvements just that let's 
+that not hold this back now as we can fix and improve it later but 
+otherwise users will have to wait until September to be able to use it. I 
+know a few who want this and getting this out as it is would allow more 
+people to test it and report problems so unless there are clearly wrong 
+parts I'm OK with less than perfect but working solution as long as it's 
+not too messy.
+
+Regards,
+BALATON Zoltan
 
