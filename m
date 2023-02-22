@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6CA69F751
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:03:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C71969F75C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:05:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqe8-0005lw-F5; Wed, 22 Feb 2023 10:03:04 -0500
+	id 1pUqg4-0006zx-Q9; Wed, 22 Feb 2023 10:05:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pUqe6-0005l5-F6
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:03:02 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUqg1-0006za-KO
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:05:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pUqe4-0000zx-LU
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:03:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=KUMqs1Nb4IuOEC+vxw2Z78zKdaOJV074r4Y4SAdXJuA=; b=sXmAkNKxQdfvBNgo1U8I/2boHQ
- MXhdWUSmErqermE+e/uYdekEYnjxSntIPan4DZ0PMJTBiiHOqkQ932SzrMeDwRJPaIA/M+3m0DSDq
- Q5bzMw7I5AiyhkNGEi7PwjBVTJIvoYHE68Wxl2DFdOxpyBV/3QoldSEpvjRSfIfu99+ynrGY5Aqwc
- MaDBueosqOr1JAePSxn2XKMIwdnbDmQzn87H9qReFk35vaG5LteSNIHnksc/jct8hXK4qB8P6EC5H
- FIunuNgMFyKz4jTg2/bpznCuxh8xjSrC9ywzvY03PRZWZytNRmuqkmtO7K3gwvOtF3wwcSXo3x23W
- x+qOkNDyxn/bZVhjFNpb8LnWDpbsQEX67QowUlOLjNc/sEVKTxsC/88QN4jsYq6rGMS8NQ+HjZElI
- rmPieW1z67SVi0/g/v5Hu7PzQUgtq8R0NOsJ/EL6PD6CWXK2AvHepZwQC/zR+CXc39a1Xrwc6Xeaq
- xekmU72yRNiEoeIxq9MRTZMzd0rmLJ06jSich0xaoZW3TN/PGy9OvwR3bK9Z1a0EwSeQN/BvGqqml
- Wt4bmy21NhFmAV4M40h8BCLwIEwVGXugTLtxkt1enGR+RhBrWTnCBVsck60kgOsVyrxnV9LRwEVy4
- UG6sdFG5LlQn+HgvjKMfebv8Hxra/CM+YatYREH0U=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com, armbru@redhat.com, pbonzini@redhat.com,
- wtaymans@redhat.com, Dorinda Bassey <dbassey@redhat.com>
-Subject: Re: [PATCH v4] audio/pwaudio.c: Add Pipewire audio backend for QEMU
-Date: Wed, 22 Feb 2023 16:02:55 +0100
-Message-ID: <22664672.G6CBm8nxMu@silver>
-In-Reply-To: <20230217170732.298264-1-dbassey@redhat.com>
-References: <20230217170732.298264-1-dbassey@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pUqfz-0003Et-H2
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:05:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677078297;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Nse5VGvNmUp6acnPDnflP8q8zS4i9gK8VQNBbeoLZK0=;
+ b=bwLZIErCcICLDRhi5S6stVrzj4aoszU0VTryX51z+yAiEdIUONMFtKsPPBwQhJGxLjBxY0
+ zHMCLNHViViCY9h7FuFKbSN0yq2oHHxFBhilM0HHybTLYPowTAda82K3X6xj9xdYqDdUO5
+ qY7zJqkeRMXqaSinumC8/+emjKUja0U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-655-5_AYwKxaNoyhllSZgA04gA-1; Wed, 22 Feb 2023 10:04:56 -0500
+X-MC-Unique: 5_AYwKxaNoyhllSZgA04gA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76EC3803D7A;
+ Wed, 22 Feb 2023 15:04:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D0851121314;
+ Wed, 22 Feb 2023 15:04:50 +0000 (UTC)
+Date: Wed, 22 Feb 2023 15:04:48 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org,
+ thuth@redhat.com, alex.bennee@linaro.org, armbru@redhat.com
+Subject: Re: [PATCH 04/10] configure: protect against escaping venv when
+ running Meson
+Message-ID: <Y/YvEClRN4wRmjAH@redhat.com>
+References: <20230222143752.466090-1-pbonzini@redhat.com>
+ <20230222143752.466090-5-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230222143752.466090-5-pbonzini@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,50 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Friday, February 17, 2023 6:07:32 PM CET Dorinda Bassey wrote:
-> This commit adds a new audiodev backend to allow QEMU to use Pipewire as
-> both an audio sink and source. This backend is available on most systems
+On Wed, Feb 22, 2023 at 03:37:46PM +0100, Paolo Bonzini wrote:
+> If neither --python nor --meson are specified, Meson's generated
+> build.ninja will invoke Python script using the interpreter *that Meson
+> itself is running under*; not the one identified by configure.
 > 
-> Add Pipewire entry points for QEMU Pipewire audio backend
-> Add wrappers for QEMU Pipewire audio backend in qpw_pcm_ops()
-> qpw_write function returns the current state of the stream to pwaudio
-> and Writes some data to the server for playback streams using pipewire
-> spa_ringbuffer implementation.
-> qpw_read function returns the current state of the stream to pwaudio and
-> reads some data from the server for capture streams using pipewire
-> spa_ringbuffer implementation. These functions qpw_write and qpw_read
-> are called during playback and capture.
-> Added some functions that convert pw audio formats to QEMU audio format
-> and vice versa which would be needed in the pipewire audio sink and
-> source functions qpw_init_in() & qpw_init_out().
-> These methods that implement playback and recording will create streams
-> for playback and capture that will start processing and will result in
-> the on_process callbacks to be called.
-> Built a connection to the Pipewire sound system server in the
-> qpw_audio_init() method.
+> This is only an issue if Meson's Python interpreter is not "the first
+> one in the path", which is the one that is used if --python is not
+> specified.  A common case where this happen is when the "python3" binary
+> comes from a virtual environment but Meson is not installed (with pip)
+> in the virtual environment.  In this case (presumably) whoever set up
+> the venv wanted to use the venv's Python interpreter to build QEMU,
+> while Meson might use a different one, for example an enterprise
+> distro's older runtime.
 > 
-> Signed-off-by: Dorinda Bassey <dbassey@redhat.com>
+> So, detect whether a virtual environment is setup, and if the virtual
+> environment does not have Meson, use the meson submodule.  Meson will
+> then run under the virtual environment's Python interpreter.
 
-Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+I fear this could be somewhat confusing to contributors. If I have
+meson in my $PATH, at a sufficient version, it would be surprising
+to find QEMU had been using a different version instead.
 
+I can understand wanting to make it "just work", but should we
+perhaps issue a warning from configure when we're intentionally
+ignoring an otherwise valid meson installation ?
+
+> 
+> Reported-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
-> fix typo
-> raise version dependency
+>  configure | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 > 
->  audio/audio.c                 |   3 +
->  audio/audio_template.h        |   4 +
->  audio/meson.build             |   1 +
->  audio/pwaudio.c               | 827 ++++++++++++++++++++++++++++++++++
->  meson.build                   |   8 +
->  meson_options.txt             |   4 +-
->  qapi/audio.json               |  45 ++
->  qemu-options.hx               |  17 +
->  scripts/meson-buildoptions.sh |   8 +-
->  9 files changed, 914 insertions(+), 3 deletions(-)
->  create mode 100644 audio/pwaudio.c
+> diff --git a/configure b/configure
+> index 00415f0b48d7..4d66a958023e 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1047,8 +1047,18 @@ fi
+>  # Suppress writing compiled files
+>  python="$python -B"
+>  
+> +has_meson() {
+> +  if test "${VIRTUAL_ENV:+set}" = set; then
+> +    # Ensure that Meson and Python come from the same virtual environment
+> +    test -x "${VIRTUAL_ENV}/bin/meson" &&
+> +      test "$(command -v meson)" -ef "${VIRTUAL_ENV}/bin/meson"
+> +  else
+> +    has meson
+> +  fi
+> +}
+> +
+>  if test -z "$meson"; then
+> -    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.61.5; then
+> +    if test "$explicit_python" = no && has_meson && version_ge "$(meson --version)" 0.61.5; then
+>          meson=meson
+>      elif test "$git_submodules_action" != 'ignore' ; then
+>          meson=git
+> -- 
+> 2.39.1
+> 
 
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
