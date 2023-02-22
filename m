@@ -2,101 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D9169EDCC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 05:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED03669EDEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 05:33:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUgQ3-0005uQ-C7; Tue, 21 Feb 2023 23:07:51 -0500
+	id 1pUgne-0001OY-JU; Tue, 21 Feb 2023 23:32:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pUgQ1-0005uD-1O
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 23:07:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pUgPy-0003ga-SI
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 23:07:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677038865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=23WaYJEuVEDnZZtD/Kv+hEaPZ1wtaeuDlWV+EiAlFYE=;
- b=W90V2f6e5SgayoVqPS3K1mQFyITkVWNLYncGgp2Sp0QoHU+YGODlm9ue+Yovr4zvuCQRDm
- by5yvtpRUujZrV7frmEJib12m0QluHz6iTwaiIM7hpVLGZWzxZcj74VKbEjSiy2SmAPulC
- dQBBCVe/5hlJkb9BpUmc/mAsPbbIOCQ=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-633-rgfy-5quNg-_RjIGblkaMw-1; Tue, 21 Feb 2023 23:07:36 -0500
-X-MC-Unique: rgfy-5quNg-_RjIGblkaMw-1
-Received: by mail-pj1-f70.google.com with SMTP id
- i6-20020a17090a974600b0023487c793d0so3257787pjw.7
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 20:07:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pUgnb-0001Nz-TB
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 23:32:12 -0500
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pUgnZ-0004Vj-HU
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 23:32:11 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id y8so6746710oiy.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 20:32:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braap-org.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8XHAw8+hd/fO/nzfmHG5Eaz1DiGEmPSSMFZV0sqLNW0=;
+ b=NZoUjMNImzBbnUDWq2zxctSkqbcyQrUN+e6JSeNAkY/Nut40+1cbE1y03+S3RBhCHj
+ 1BbpS3x4InU+R4x2jXleYiuo1AeFHEg98bXR8KNz74zjQvurnuAICbBp+kqkJcGZVOUj
+ PfB7Oh4YEOxnrPntt8nyQgT8ysPYKf1VWIJ6BihDhBaOp8RBYHahX86MaAui1MsIq/2g
+ 8U2bTt5nUSx83tqYfd6lSMehazSoJACqFbd7HRxRQ3CHQnrscUTUXXLb0OcdSFM2fp34
+ sSCKuIiRo9czIvE1GKcG0p3hk4HJTF997h26WrOf3pt61o0I/WgQ6ImrrjOXdMqBohhf
+ x6Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=23WaYJEuVEDnZZtD/Kv+hEaPZ1wtaeuDlWV+EiAlFYE=;
- b=xMSBh5b83HO6KXwgh31ruL8CznSLIvCNkrmRqvf96fSSf2HZxfIkAMl5yu8Wu2Gtvr
- 4eWDHehgh5qGIcYH41XH7hOGkbcsI2NTuv9dqK+jFcsQtAkbJa4QjWx5reIrvsAAy9KB
- iwXaAmDyjcpnOYb4KafH9bC+vSx/sbUECBubYC6LWmIUMlC1i8Cw7f3ajOgp1ENnmhG9
- ao7YWEwD14z3NxHKe3CRkS+FToOZMXhcng9ZxtPyozMw3u1zvaM9LUqgo9X0cmgCgSW6
- F/dwKJi7yfpbx7zefdY0pXtgFcYzzWnQpSQVHePa0A7+9hbrPIfu+PV//C/x7XLg7q7i
- ySLw==
-X-Gm-Message-State: AO0yUKUoaIo8ecTBqRl+SmUNhIGyydUMUlfaiKE4xSqDUTZRC6abdKEt
- W6Y1yC/BP+TsNMHs87M1yZY1z88g58get5nvXIAFuHYa6XGkM4m8sVWtr0e/EYJe6PujIlaPJzb
- 1CQy7nBXuM73FS7Q=
-X-Received: by 2002:a05:6a20:a10b:b0:bd:17a4:c339 with SMTP id
- q11-20020a056a20a10b00b000bd17a4c339mr6558892pzk.13.1677038855344; 
- Tue, 21 Feb 2023 20:07:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set952JHhGcQmblzrCG151oLNcAaBWjsK1jgb2/cKapb1E2eT4+uCH9XBPpKVAPS6NZRV1WV3Gw==
-X-Received: by 2002:a05:6a20:a10b:b0:bd:17a4:c339 with SMTP id
- q11-20020a056a20a10b00b000bd17a4c339mr6558870pzk.13.1677038855037; 
- Tue, 21 Feb 2023 20:07:35 -0800 (PST)
-Received: from [10.72.13.76] ([43.228.180.230])
- by smtp.gmail.com with ESMTPSA id
- h6-20020a170902eec600b0017a032d7ae4sm1669577plb.104.2023.02.21.20.07.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 20:07:34 -0800 (PST)
-Message-ID: <c5817a6d-097f-6cef-748f-1b1848d0192f@redhat.com>
-Date: Wed, 22 Feb 2023 12:07:27 +0800
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8XHAw8+hd/fO/nzfmHG5Eaz1DiGEmPSSMFZV0sqLNW0=;
+ b=CSqa6ydgL0HGetmZLnBbm7oF1tfKE07BF0gWDolijTgr82ISMt+7vy9a6mbzrvFCfI
+ UTd8izhKafSG0f5Ch/Kv9oWekVSHqYSEerpbBMAlNgs899ukXuuJ/W8eYGRAprD7/n2N
+ RXfEAIubxK5MDjSzb+o+78sP5BIkc55gIn36ERave85pMRO1SKCqryJGX48eTXo8DQAk
+ c8nBsLSfybCdTaTa9hCUxBgFAmPldrBr6AfGQzHMEtgcgLvbr3OViYS+meAWbEtuV7Bm
+ CIv2dfJu/U74bSwCFjXJ0I+9WOjWyvJXeN4nZdopwkJswvUTmXrEBRrFJ20aJXOs6Yyw
+ sMzg==
+X-Gm-Message-State: AO0yUKUT+z7L5af0WgXnXp25tsJdX2GbLyeRkDSWlKqUkZCkRk3VcadA
+ hqgor4/TIYUcXiKDJ2VogSiNwotDgh+DQsNd
+X-Google-Smtp-Source: AK7set+yS+/2/UMmWQpWceV2ui8kaR5Ma4NZ61xvsNKwegc1MfHA8TGIMfVnRMs59uMXDGF/4ItDEQ==
+X-Received: by 2002:a05:6808:3a98:b0:36a:8422:d962 with SMTP id
+ fb24-20020a0568083a9800b0036a8422d962mr2602623oib.2.1677040326967; 
+ Tue, 21 Feb 2023 20:32:06 -0800 (PST)
+Received: from localhost ([37.19.221.166]) by smtp.gmail.com with ESMTPSA id
+ bm38-20020a0568081aa600b0037d8148cf04sm1089301oib.46.2023.02.21.20.32.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 20:32:06 -0800 (PST)
+From: Emilio Cota <cota@braap.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>,
+ "Eli G. Boling" <eboling@draper.com>, Emilio Cota <cota@braap.org>
+Subject: [PATCH] plugin: fix clearing of plugin_mem_cbs before TB exit
+Date: Tue, 21 Feb 2023 23:32:04 -0500
+Message-Id: <20230222043204.941336-1-cota@braap.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 13/13] vdpa: return VHOST_F_LOG_ALL in vhost-vdpa
- devices
-Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>,
- Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>,
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org,
- Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
-References: <20230208094253.702672-1-eperezma@redhat.com>
- <20230208094253.702672-14-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20230208094253.702672-14-eperezma@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=cota@braap.org; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,40 +86,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Currently we are wrongly accessing plugin_tb->mem_helper at
+translation time from plugin_gen_disable_mem_helpers, which is
+called before generating a TB exit, e.g. with exit_tb.
 
-在 2023/2/8 17:42, Eugenio Pérez 写道:
-> vhost-vdpa devices can return this features now that blockers have been
-> set in case some features are not met.
->
-> Expose VHOST_F_LOG_ALL only in that case.
->
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
+Recall that it is only during TB finalisation, i.e. when we go over
+the TB post-translation to inject or remove plugin instrumentation,
+when plugin_tb->mem_helper is set. This means that we never clear
+plugin_mem_cbs when calling plugin_gen_disable_mem_helpers since
+mem_helper is always false. Therefore a guest instruction that uses
+helpers and emits an explicit TB exit results in plugin_mem_cbs being
+set upon exiting, which is caught by an assertion as reported in
+the reopening of issue #1381 and replicated below.
 
+Fix this by (1) adding an insertion point before exiting a TB
+("before_exit"), and (2) deciding whether or not to emit the
+clearing of plugin_mem_cbs at this newly-added insertion point
+during TB finalisation.
 
-Acked-by: Jason Wang <jasowang@redhat.com>
+While at it, suffix plugin_gen_disable_mem_helpers with _before_exit
+to make its intent more clear.
 
-Thanks
+- Before:
+$ ./qemu-system-riscv32 -M spike -nographic -plugin contrib/plugins/libexeclog.so -d plugin,in_asm,op
+IN:
+Priv: 3; Virt: 0
+0x00001000:  00000297          auipc                   t0,0                    # 0x1000
+0x00001004:  02828613          addi                    a2,t0,40
+0x00001008:  f1402573          csrrs                   a0,mhartid,zero
 
+OP:
+ ld_i32 tmp1,env,$0xfffffffffffffff0
+ brcond_i32 tmp1,$0x0,lt,$L0
 
->   hw/virtio/vhost-vdpa.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 13a86a2bb1..5fddc77c5c 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -1319,10 +1319,9 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
->   static int vhost_vdpa_get_features(struct vhost_dev *dev,
->                                        uint64_t *features)
->   {
-> -    struct vhost_vdpa *v = dev->opaque;
->       int ret = vhost_vdpa_get_dev_features(dev, features);
->   
-> -    if (ret == 0 && v->shadow_vqs_enabled) {
-> +    if (ret == 0) {
->           /* Add SVQ logging capabilities */
->           *features |= BIT_ULL(VHOST_F_LOG_ALL);
->       }
+ ---- 00001000 00000000
+ mov_i64 tmp2,$0x7ff9940152e0
+ ld_i32 tmp1,env,$0xffffffffffffef80
+ call plugin(0x7ff9edbcb6f0),$0x11,$0,tmp1,tmp2
+ mov_i32 x5/t0,$0x1000
+
+ ---- 00001004 00000000
+ mov_i64 tmp2,$0x7ff9940153e0
+ ld_i32 tmp1,env,$0xffffffffffffef80
+ call plugin(0x7ff9edbcb6f0),$0x11,$0,tmp1,tmp2
+ add_i32 x12/a2,x5/t0,$0x28
+
+ ---- 00001008 f1402573
+ mov_i64 tmp2,$0x7ff9940136c0
+ st_i64 tmp2,env,$0xffffffffffffef68
+ mov_i64 tmp2,$0x7ff994015530
+ ld_i32 tmp1,env,$0xffffffffffffef80
+ call plugin(0x7ff9edbcb6f0),$0x11,$0,tmp1,tmp2 <-- sets plugin_mem_cbs
+ call csrr,$0x0,$1,x10/a0,env,$0xf14  <-- helper that might access memory
+ mov_i32 pc,$0x100c
+ exit_tb $0x0  <-- exit_tb right after the helper; missing clearing of plugin_mem_cbs
+ mov_i64 tmp2,$0x0
+ st_i64 tmp2,env,$0xffffffffffffef68 <-- after_insn clearing: dead due to exit_tb above
+ set_label $L0
+ exit_tb $0x7ff9a4000043 <-- again, missing clearing (doesn't matter due to $L0 label)
+
+0, 0x1000, 0x297, "00000297          auipc                   t0,0                    # 0x1000"
+0, 0x1004, 0x2828613, "02828613          addi                    a2,t0,40"
+**
+ERROR:../accel/tcg/cpu-exec.c:983:cpu_exec_loop: assertion failed: (cpu->plugin_mem_cbs == ((void *)0))
+Bail out! ERROR:../accel/tcg/cpu-exec.c:983:cpu_exec_loop: assertion failed: (cpu->plugin_mem_cbs == ((void *)0))
+Aborted (core dumped)
+
+- After:
+$ ./qemu-system-riscv32 -M spike -nographic -plugin contrib/plugins/libexeclog.so -d plugin,in_asm,op
+(snip)
+ call plugin(0x7f19bc9e36f0),$0x11,$0,tmp1,tmp2 <-- sets plugin_mem_cbs
+ call csrr,$0x0,$1,x10/a0,env,$0xf14
+ mov_i32 pc,$0x100c
+ mov_i64 tmp2,$0x0
+ st_i64 tmp2,env,$0xffffffffffffef68 <-- before_exit clearing of plugin_mem_cbs
+ exit_tb $0x0
+ mov_i64 tmp2,$0x0
+ st_i64 tmp2,env,$0xffffffffffffef68 <-- after_insn clearing (dead)
+ set_label $L0
+ mov_i64 tmp2,$0x0
+ st_i64 tmp2,env,$0xffffffffffffef68 <-- before_exit clearing (doesn't matter due to $L0)
+ exit_tb $0x7f38c8000043
+[...]
+
+Fixes: #1381
+Signed-off-by: Emilio Cota <cota@braap.org>
+---
+ accel/tcg/plugin-gen.c    | 44 ++++++++++++++++++++-------------------
+ include/exec/plugin-gen.h |  4 ++--
+ include/qemu/plugin.h     |  3 ---
+ tcg/tcg-op.c              |  6 +++---
+ 4 files changed, 28 insertions(+), 29 deletions(-)
+
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index 17a686bd9e..b4fc171b8e 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -67,6 +67,7 @@ enum plugin_gen_from {
+     PLUGIN_GEN_FROM_INSN,
+     PLUGIN_GEN_FROM_MEM,
+     PLUGIN_GEN_AFTER_INSN,
++    PLUGIN_GEN_BEFORE_EXIT,
+     PLUGIN_GEN_N_FROMS,
+ };
+ 
+@@ -177,6 +178,7 @@ static void plugin_gen_empty_callback(enum plugin_gen_from from)
+ {
+     switch (from) {
+     case PLUGIN_GEN_AFTER_INSN:
++    case PLUGIN_GEN_BEFORE_EXIT:
+         gen_wrapped(from, PLUGIN_GEN_DISABLE_MEM_HELPER,
+                     gen_empty_mem_helper);
+         break;
+@@ -575,7 +577,7 @@ static void inject_mem_helper(TCGOp *begin_op, GArray *arr)
+  * that we can read them at run-time (i.e. when the helper executes).
+  * This run-time access is performed from qemu_plugin_vcpu_mem_cb.
+  *
+- * Note that plugin_gen_disable_mem_helpers undoes (2). Since it
++ * Note that inject_mem_disable_helper undoes (2). Since it
+  * is possible that the code we generate after the instruction is
+  * dead, we also add checks before generating tb_exit etc.
+  */
+@@ -600,7 +602,6 @@ static void inject_mem_enable_helper(struct qemu_plugin_tb *ptb,
+         rm_ops(begin_op);
+         return;
+     }
+-    ptb->mem_helper = true;
+ 
+     arr = g_array_sized_new(false, false,
+                             sizeof(struct qemu_plugin_dyn_cb), n_cbs);
+@@ -623,27 +624,25 @@ static void inject_mem_disable_helper(struct qemu_plugin_insn *plugin_insn,
+     inject_mem_helper(begin_op, NULL);
+ }
+ 
+-/* called before finishing a TB with exit_tb, goto_tb or goto_ptr */
+-void plugin_gen_disable_mem_helpers(void)
++/*
++ * Called before finishing a TB with exit_tb, goto_tb or goto_ptr.
++ *
++ * Most helpers that access memory are wrapped by before/after_insn
++ * instrumentation, which enables/disables mem callbacks. Some of these
++ * helpers, however, finish a TB early (e.g. call exit_tb), which means
++ * the after_insn instrumentation never gets called.
++ *
++ * To ensure that mem callbacks are disabled, here we add an
++ * instrumentation point ("before_exit") so that when finalising the
++ * translation we can disable mem callbacks before exiting, if needed.
++ */
++void plugin_gen_disable_mem_helpers_before_exit(void)
+ {
+-    TCGv_ptr ptr;
+-
+-    /*
+-     * We could emit the clearing unconditionally and be done. However, this can
+-     * be wasteful if for instance plugins don't track memory accesses, or if
+-     * most TBs don't use helpers. Instead, emit the clearing iff the TB calls
+-     * helpers that might access guest memory.
+-     *
+-     * Note: we do not reset plugin_tb->mem_helper here; a TB might have several
+-     * exit points, and we want to emit the clearing from all of them.
+-     */
+-    if (!tcg_ctx->plugin_tb->mem_helper) {
++    /* If no plugins are enabled, do not generate anything */
++    if (tcg_ctx->plugin_insn == NULL) {
+         return;
+     }
+-    ptr = tcg_const_ptr(NULL);
+-    tcg_gen_st_ptr(ptr, cpu_env, offsetof(CPUState, plugin_mem_cbs) -
+-                                 offsetof(ArchCPU, env));
+-    tcg_temp_free_ptr(ptr);
++    plugin_gen_empty_callback(PLUGIN_GEN_BEFORE_EXIT);
+ }
+ 
+ static void plugin_gen_tb_udata(const struct qemu_plugin_tb *ptb,
+@@ -730,6 +729,9 @@ static void pr_ops(void)
+             case PLUGIN_GEN_AFTER_INSN:
+                 name = "after insn";
+                 break;
++            case PLUGIN_GEN_BEFORE_EXIT:
++                name = "before exit";
++                break;
+             default:
+                 break;
+             }
+@@ -830,6 +832,7 @@ static void plugin_gen_inject(struct qemu_plugin_tb *plugin_tb)
+                 break;
+             }
+             case PLUGIN_GEN_AFTER_INSN:
++            case PLUGIN_GEN_BEFORE_EXIT:
+             {
+                 g_assert(insn_idx >= 0);
+ 
+@@ -879,7 +882,6 @@ bool plugin_gen_tb_start(CPUState *cpu, const DisasContextBase *db,
+         ptb->haddr1 = db->host_addr[0];
+         ptb->haddr2 = NULL;
+         ptb->mem_only = mem_only;
+-        ptb->mem_helper = false;
+ 
+         plugin_gen_empty_callback(PLUGIN_GEN_FROM_TB);
+     }
+diff --git a/include/exec/plugin-gen.h b/include/exec/plugin-gen.h
+index 5f5506f1cc..f9f10c5fac 100644
+--- a/include/exec/plugin-gen.h
++++ b/include/exec/plugin-gen.h
+@@ -26,7 +26,7 @@ void plugin_gen_tb_end(CPUState *cpu);
+ void plugin_gen_insn_start(CPUState *cpu, const struct DisasContextBase *db);
+ void plugin_gen_insn_end(void);
+ 
+-void plugin_gen_disable_mem_helpers(void);
++void plugin_gen_disable_mem_helpers_before_exit(void);
+ void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info);
+ 
+ static inline void plugin_insn_append(abi_ptr pc, const void *from, size_t size)
+@@ -66,7 +66,7 @@ static inline void plugin_gen_insn_end(void)
+ static inline void plugin_gen_tb_end(CPUState *cpu)
+ { }
+ 
+-static inline void plugin_gen_disable_mem_helpers(void)
++static inline void plugin_gen_disable_mem_helpers_before_exit(void)
+ { }
+ 
+ static inline void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info)
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index fb338ba576..f6d10aae50 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -164,9 +164,6 @@ struct qemu_plugin_tb {
+     void *haddr2;
+     bool mem_only;
+ 
+-    /* if set, the TB calls helpers that might access guest memory */
+-    bool mem_helper;
+-
+     GArray *cbs[PLUGIN_N_CB_SUBTYPES];
+ };
+ 
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index c581ae77c4..f7c0d90862 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -2797,7 +2797,7 @@ void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
+         tcg_debug_assert(idx == TB_EXIT_REQUESTED);
+     }
+ 
+-    plugin_gen_disable_mem_helpers();
++    plugin_gen_disable_mem_helpers_before_exit();
+     tcg_gen_op1i(INDEX_op_exit_tb, val);
+ }
+ 
+@@ -2812,7 +2812,7 @@ void tcg_gen_goto_tb(unsigned idx)
+     tcg_debug_assert((tcg_ctx->goto_tb_issue_mask & (1 << idx)) == 0);
+     tcg_ctx->goto_tb_issue_mask |= 1 << idx;
+ #endif
+-    plugin_gen_disable_mem_helpers();
++    plugin_gen_disable_mem_helpers_before_exit();
+     tcg_gen_op1i(INDEX_op_goto_tb, idx);
+ }
+ 
+@@ -2825,7 +2825,7 @@ void tcg_gen_lookup_and_goto_ptr(void)
+         return;
+     }
+ 
+-    plugin_gen_disable_mem_helpers();
++    plugin_gen_disable_mem_helpers_before_exit();
+     ptr = tcg_temp_new_ptr();
+     gen_helper_lookup_tb_ptr(ptr, cpu_env);
+     tcg_gen_op1i(INDEX_op_goto_ptr, tcgv_ptr_arg(ptr));
+-- 
+2.34.1
 
 
