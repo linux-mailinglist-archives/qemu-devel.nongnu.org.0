@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C49169FAFC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 19:29:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF2369FB26
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 19:45:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUtrU-0000do-B9; Wed, 22 Feb 2023 13:29:04 -0500
+	id 1pUu5m-0005Bc-33; Wed, 22 Feb 2023 13:43:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUtrR-0000bE-Oo
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 13:29:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUtrP-0003Rw-Rw
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 13:29:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677090538;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b0zMOWQrn1EHqDPtEHLXu4pS81jBjb8D5Oqw5wMkmEI=;
- b=AH/vZB2PVGXS6u5wj5ogDX2cr13S8mcwSVXaxIUcLIG+43TWTrikgvogtcYdwr0lpHiUvh
- Ag2AMwlcBXX5kCKdRDgf5yLpa9Ymbgc/enAAaPYUn4MD+pia2FUfunVRdKZqQ1H/7zI0nV
- AmezVGfmrpBB9cTwisgtIBz6G4B6Cco=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-mFmNc895P_qSF7vYvo_8lA-1; Wed, 22 Feb 2023 13:28:56 -0500
-X-MC-Unique: mFmNc895P_qSF7vYvo_8lA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D54B280AA28;
- Wed, 22 Feb 2023 18:28:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D089E492B00;
- Wed, 22 Feb 2023 18:28:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B171D21E6A1F; Wed, 22 Feb 2023 19:28:54 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- <qemu-devel@nongnu.org>,
- Michael Tsirkin <mst@redhat.com>,  Ben Widawsky <bwidawsk@kernel.org>,
- <linux-cxl@vger.kernel.org>,  <linuxarm@huawei.com>,  "Ira Weiny"
- <ira.weiny@intel.com>,  Gregory Price <gourry.memverge@gmail.com>,  Mike
- Maslenkin <mike.maslenkin@gmail.com>,  Dave Jiang <dave.jiang@intel.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v5 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support.
-References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
- <20230221152145.9736-9-Jonathan.Cameron@huawei.com>
- <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
- <20230222145330.000021ef@huawei.com>
-Date: Wed, 22 Feb 2023 19:28:54 +0100
-In-Reply-To: <20230222145330.000021ef@huawei.com> (Jonathan Cameron's message
- of "Wed, 22 Feb 2023 14:53:30 +0000")
-Message-ID: <877cw9k109.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUu5j-00055r-9E
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 13:43:47 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUu5g-0007mz-KZ
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 13:43:47 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id z2so10029602plf.12
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 10:43:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FQJWtbYOI9grQLhgUeD3DxukusUMNwfujnH0TQwA/M4=;
+ b=U5wjdpISSonGsu6d4yPC6/ASnmfB2rT2igjCk41IgnUVaKah6LYgfhtOQranD7oz2F
+ JBMTx/7H5YyWeDCEclRQP8beYmnWbjR3IgQLqYsmoYnf2CRWT4PTzsXokplBg4mp9yGa
+ KjN5xOQgI9C1hM6p9yLhJqIuzWGR1j1dIq/+zt5jscnd2el2AY7GzvNzUZ3nW7n0Rcz8
+ WoFrPNNzS0RWnlsiV4ckuwOb53tkE6BviMFu4XWgPRx4AwgX0uiWcitUFC75rgw/2U6t
+ El8hB+33n28gXhHPwf7d/IUhZi+pn/LW0ATf7NkJUkjdiT0hMrLKUl545WGEt+H7Vfd/
+ FK8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FQJWtbYOI9grQLhgUeD3DxukusUMNwfujnH0TQwA/M4=;
+ b=lHI7EGkj8gCiFc71Vpq/UPlQCQjTJdBz8Hzl9+ZMch4IxGwXjiDubs2dZ+aLZnLyw/
+ lSZhnk/ea18ZgrrNj7dqS5iQDvN09qZBXylOGN8u9o/thCaN8LUlciKtlDYxcmCJQgHy
+ bjgoxyKfpTyITqGXlAG6FXa2plxFzA/TiJoEeMmIwwgSLEr6BeDfEqbChGxIHXPtjn6p
+ 1An8hVEtyfhK1pbf7oTGILGil+rQp+WU5g4k+L/7RnAejCp+nv0FKwfE9MLB2uI0AKuT
+ vOmW2LoudXXTgwj3kGD6iVLhsxnYIE+ZOLyigxDQG6yqLe78djj4rVLdl+qHKvJ9H737
+ E47Q==
+X-Gm-Message-State: AO0yUKU4xsqoEBTzYEJATujf38nVn5w3QdQb2iMqoFeqtreNoVIdGpe3
+ CYFo31bL3XY06AVUXXA03TPyHg==
+X-Google-Smtp-Source: AK7set9yMi5fqJcLRDs8lHu+zOoJEkjdWxjCC1Trk0nzCFNA5gYCJa/7vXjiM6MxWKTrC5pd+iWJ9w==
+X-Received: by 2002:a17:902:c408:b0:19a:90ed:af6f with SMTP id
+ k8-20020a170902c40800b0019a90edaf6fmr12529469plk.60.1677091422898; 
+ Wed, 22 Feb 2023 10:43:42 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ x3-20020a1709027c0300b00186b69157ecsm1297922pll.202.2023.02.22.10.43.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 10:43:42 -0800 (PST)
+Message-ID: <275ea039-aec1-8c81-6267-4a77208840f0@linaro.org>
+Date: Wed, 22 Feb 2023 08:43:35 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 5/5] hw: Remove mentions of NDEBUG
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Fam Zheng <fam@euphon.net>
+References: <20230221232520.14480-1-philmd@linaro.org>
+ <20230221232520.14480-6-philmd@linaro.org>
+ <20230222070529-mutt-send-email-mst@kernel.org>
+ <3544bf56-4d5c-174d-5bfd-a67c9689ca37@linaro.org>
+ <20230222112755-mutt-send-email-mst@kernel.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230222112755-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,131 +100,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
+On 2/22/23 06:28, Michael S. Tsirkin wrote:
+> On Wed, Feb 22, 2023 at 05:11:36PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 22/2/23 13:05, Michael S. Tsirkin wrote:
+>>> On Wed, Feb 22, 2023 at 12:25:20AM +0100, Philippe Mathieu-Daudé wrote:
+>>>> Since commit 262a69f428 ("osdep.h: Prohibit disabling
+>>>> assert() in supported builds") 'NDEBUG' can not be defined.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>>
+>>> this exactly says NDEBUG is not allowed. why are you removing this?
+>>
+>> The project can not be built with NDEBUG. There is no point in
+>> mentioning it in each individual function.
+> 
+> the reason we mention it is because there are security implications
+> if we don't.
 
-> On Tue, 21 Feb 2023 23:15:49 +0100
-> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
->
->> Hi Jonathan,
->>=20
->> On 21/2/23 16:21, Jonathan Cameron wrote:
->> > CXL uses PCI AER Internal errors to signal to the host that an error h=
-as
->> > occurred. The host can then read more detailed status from the CXL RAS
->> > capability.
->> >=20
->> > For uncorrectable errors: support multiple injection in one operation
->> > as this is needed to reliably test multiple header logging support in =
-an
->> > OS. The equivalent feature doesn't exist for correctable errors, so on=
-ly
->> > one error need be injected at a time.
->> >=20
->> > Note:
->> >   - Header content needs to be manually specified in a fashion that
->> >     matches the specification for what can be in the header for each
->> >     error type.
->> >=20
->> > Injection via QMP:
->> > { "execute": "qmp_capabilities" }
->> > ...
->> > { "execute": "cxl-inject-uncorrectable-errors",
->> >    "arguments": {
->> >      "path": "/machine/peripheral/cxl-pmem0",
->> >      "errors": [
->> >          {
->> >              "type": "cache-address-parity",
->> >              "header": [ 3, 4]
->> >          },
->> >          {
->> >              "type": "cache-data-parity",
->> >              "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18=
-,19,20,21,22,23,24,25,26,27,28,29,30,31]
->> >          },
->> >          {
->> >              "type": "internal",
->> >              "header": [ 1, 2, 4]
->> >          }
->> >          ]
->> >    }}
->> > ...
->> > { "execute": "cxl-inject-correctable-error",
->> >      "arguments": {
->> >          "path": "/machine/peripheral/cxl-pmem0",
->> >          "type": "physical"
->> >      } }
->> >=20
->> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->
-> Hi Philippe,
->
-> Thanks for your review.  One question inline.
->
->> > +#
->> > +# Type of uncorrectable CXL error to inject. These errors are reporte=
-d via
->> > +# an AER uncorrectable internal error with additional information log=
-ged at
->> > +# the CXL device.
->> > +#
->> > +# @cache-data-parity: Data error such as data parity or data ECC erro=
-r CXL.cache
->> > +# @cache-address-parity: Address parity or other errors associated wi=
-th the
->> > +#                        address field on CXL.cache
->> > +# @cache-be-parity: Byte enable parity or other byte enable errors on=
- CXL.cache
->> > +# @cache-data-ecc: ECC error on CXL.cache
->> > +# @mem-data-parity: Data error such as data parity or data ECC error =
-on CXL.mem
->> > +# @mem-address-parity: Address parity or other errors associated with=
- the
->> > +#                      address field on CXL.mem
->> > +# @mem-be-parity: Byte enable parity or other byte enable errors on C=
-XL.mem.
->> > +# @mem-data-ecc: Data ECC error on CXL.mem.
->> > +# @reinit-threshold: REINIT threshold hit.
->> > +# @rsvd-encoding: Received unrecognized encoding.
->> > +# @poison-received: Received poison from the peer.
->> > +# @receiver-overflow: Buffer overflows (first 3 bits of header log in=
-dicate which)
->> > +# @internal: Component specific error
->> > +# @cxl-ide-tx: Integrity and data encryption tx error.
->> > +# @cxl-ide-rx: Integrity and data encryption rx error.
->> > +##
->> > +
->> > +{ 'enum': 'CxlUncorErrorType',=20=20
->>=20
->> Doesn't these need
->>=20
->>       'if': 'CONFIG_CXL_MEM_DEVICE',
->>=20
->> ?
->
-> If I make this change I get a bunch of
->
-> ./qapi/qapi-types-cxl.h:18:13: error: attempt to use poisoned "CONFIG_CXL=
-_MEM_DEVICE"
->    18 | #if defined(CONFIG_CXL_MEM_DEVICE)
+Yes.  However that's not what the text being removed suggests:
 
-This means you're trying to use target-dependent stuff in
-target-independent code.
+>>>> -     * This is just one thing (there are probably more) that must be
+>>>> -     * fixed before we can allow NDEBUG compilation.
 
-Have a look at the thread
+This suggests that we *will* allow NDEBUG, once a few things are fixed.
 
-    Subject: Can we unpoison CONFIG_FOO macros?
-    Message-ID: <87lel9o56z.fsf@pond.sub.org>
-    https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg01885.html
+I strongly approve of this text being removed.
 
-and if questions remain, ask them right here.
 
-> It's a target specific define (I think) as built alongside PCI_EXPRESS
-> Only CXL_ACPI is specifically included by x86 and arm64 (out of tree)
->
-> To be honest though I don't fully understand the QEMU build system so the=
- reason
-> for the error might be wrong.
-
-[...]
+r~
 
 
