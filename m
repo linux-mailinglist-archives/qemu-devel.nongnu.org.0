@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0986B69F6C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4EE69F6B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:39:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqG0-0004Hl-Kq; Wed, 22 Feb 2023 09:38:08 -0500
+	id 1pUqG2-0004I2-W4; Wed, 22 Feb 2023 09:38:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqFv-0004Gz-Ik
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:05 -0500
+ id 1pUqFy-0004HO-E3
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:06 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqFt-0001EK-HA
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:02 -0500
+ id 1pUqFu-0001Ee-OV
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677076680;
+ s=mimecast20190719; t=1677076681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BHCKlf3PV6CtjKHsCjL2OqPS7yzNndmmsttjN19Xrmo=;
- b=SXxbkKwGQlPgi7POPM2IR8k7BIUYETcA0kRRxIiZGRtt1vu2weZFefpoBue4oIfMcRcrij
- 5NfdjZD0qY7oaJ/WsKbsQo+IUFQYgAEvioD7xgeJeBeR8ktgC2FfQ8+YMi4cPhmu1StY6V
- pGpzIZo8DWIGHXcLsVkhfYJTezkL+X0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IyMgEgsS8ZWrwTPqI4zuFDiG6fm8Va6b4gtWiE2/ZGs=;
+ b=bJV2J+nyjygz+d5Am7+lwNet03D6iFNjzAGdJYbbZVvtRcrnXzopoms5t26d366z1PHM48
+ 8Z3LLAgytCEKsxE7af/x04WsE8h/k+fgEYYVSWAMXJiUf2iTsmnaZvNLHiTT4U1xT6f+OB
+ NrM2aQ2zp46uF/9RCuTywP+aKlmYhPg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-194-1BtluMgcPAaYMJYMQ6OccA-1; Wed, 22 Feb 2023 09:37:59 -0500
-X-MC-Unique: 1BtluMgcPAaYMJYMQ6OccA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- r6-20020aa7c146000000b004acd97105ffso11264962edp.19
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:37:57 -0800 (PST)
+ us-mta-258-HVLIBYgpPs6N-BBuMQA8-Q-1; Wed, 22 Feb 2023 09:38:00 -0500
+X-MC-Unique: HVLIBYgpPs6N-BBuMQA8-Q-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c1-20020a0564021f8100b004acbe232c03so10750649edc.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:38:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BHCKlf3PV6CtjKHsCjL2OqPS7yzNndmmsttjN19Xrmo=;
- b=JSmI/+WDWrJV7rPm6w1jQ/ONnwp2krFqYZziK+Tg2hs9MalJOGDL7oFbwUpkTjNPyn
- McrKJaYrxzHf0Quml/rjS82hEtqRbF2SXyNHv8+dgJtG0eClASQt923rmBwBA9sdZf8s
- bIlFgtuCrTl21gtLHXeQwoYPHotjY8x/dc1LJo/7XhgZgJppbYl9rMJEItd/abRj3Hu/
- M47eSHZwYp0e74rFP2AbOVMnYa0RdR55EvkQfA1O8hHWSOvtsI6LEpIXWgjXRmzWzm77
- Vsxf/54MoRxXet0FVlslk2KFZv1OxCZxYIKNa409hWj80ezuIl+4YC82YYhwnjN/BvFO
- t4Kg==
-X-Gm-Message-State: AO0yUKX1w/Ptv6BJHOCUWcBLK1xde8AJskU8F0b+HhQaz/1Gwp2dDckw
- mNjDaFkU4lMrZ3zPJqgOfbNX0/s0nrpi5VCnaGnkGfnpQAcqDBefwo7EUQmlocDmetYYarsZMD9
- 4Q0ykUbfHnygL00eXBCs5vrgwtT56l5MUpJF7Q+bwkiuGoGw7XxfYZsWEma9mvPoZDqPaIZQI
-X-Received: by 2002:a17:906:3c6:b0:878:78bc:975c with SMTP id
- c6-20020a17090603c600b0087878bc975cmr16881219eja.36.1677076676245; 
- Wed, 22 Feb 2023 06:37:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set/1089D37SEH0tYz+gh+4bNSuhv1970Dquqma8XD6thrySudhsxYNcoa/v6HS2wvU9SdJ+zAA==
-X-Received: by 2002:a17:906:3c6:b0:878:78bc:975c with SMTP id
- c6-20020a17090603c600b0087878bc975cmr16881194eja.36.1677076675883; 
- Wed, 22 Feb 2023 06:37:55 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IyMgEgsS8ZWrwTPqI4zuFDiG6fm8Va6b4gtWiE2/ZGs=;
+ b=VrOFVikLRcuyk0LUOr9e+VpQja8MkN9VdRuOK7IDie/V0sTfzTxXjry0lQaNYkZG+9
+ IhpHJI/a7eOdhKqU+OSPx0Eedq42MkZvOncsTb8PoeaWK5TP6O1LFA7TPuyWKsU3pbjf
+ 0B1GsXTQWBffu7uk55fBfV1agF/dHDX51QOko6t7SsmX/zkVtYK9dprcpuo4zyRjIf8/
+ d3B11AZuW1vX+rSUYg5FamvZSmsHHhqMH+7BLZeNiX8CSFNsyvM3Xkwbey19xHUpGRUK
+ 4rJzfN3TGDVJXn0GI+ZWP0n08lOEBxIDoOL8cSBRJOAI03FvVGGQg3+0saD5v18rzRqT
+ SqDg==
+X-Gm-Message-State: AO0yUKVnwdf8NuEE4cpTHRFoJsueRVyRlaqwxvfAk70KlHJbTN0cUS1U
+ g5XuhNlDMYyIKrjQ08Vxe94hpnUZAzsFBcg1Q114qR+sC7uHrvKPLLLfGX4/++HJoEcN3jkA6Mg
+ XXiMm+1Gp8IcMNM6m4wwJVzt1GZHm1IcF7dOlgJc8nG00QQxo9DVncSEd7RiUReST/5ABWWMa
+X-Received: by 2002:a05:6402:1348:b0:4ab:554:37e9 with SMTP id
+ y8-20020a056402134800b004ab055437e9mr8189202edw.41.1677076679185; 
+ Wed, 22 Feb 2023 06:37:59 -0800 (PST)
+X-Google-Smtp-Source: AK7set95+Rd+j1m5FwCEMKHkA0yccJb2pHZNR/KnZbsB0uk83iDRE4+inQi+F+xcN3kYrz0u8+R4OA==
+X-Received: by 2002:a05:6402:1348:b0:4ab:554:37e9 with SMTP id
+ y8-20020a056402134800b004ab055437e9mr8189178edw.41.1677076678881; 
+ Wed, 22 Feb 2023 06:37:58 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- m12-20020a1709062b8c00b008eabe71429bsm162617ejg.63.2023.02.22.06.37.54
+ x41-20020a50baac000000b004acbe8255f1sm2145757ede.86.2023.02.22.06.37.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 06:37:55 -0800 (PST)
+ Wed, 22 Feb 2023 06:37:58 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: jsnow@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
- alex.bennee@linaro.org, armbru@redhat.com, berrange@redhat.com
-Subject: [PATCH v4 0/9] improvement to Python detection,
- preparation for dropping 3.6
-Date: Wed, 22 Feb 2023 15:37:42 +0100
-Message-Id: <20230222143752.466090-1-pbonzini@redhat.com>
+ alex.bennee@linaro.org, armbru@redhat.com, berrange@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH 01/10] python: support pylint 2.16
+Date: Wed, 22 Feb 2023 15:37:43 +0100
+Message-Id: <20230222143752.466090-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230222143752.466090-1-pbonzini@redhat.com>
+References: <20230222143752.466090-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset=UTF-8
@@ -99,74 +103,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is my take on John's patches to improve Python detection and to
-prepare for dropping Python 3.6 support.
+From: John Snow <jsnow@redhat.com>
 
-The main change with respect to John's work is that lcitool is updated
-and the container images for CI can install Sphinx via pip; this
-way documentation is still built on the CentOS 8 jobs.
+Pylint 2.16 adds a few new checks that cause the optional check-tox CI
+job to fail.
 
-A smaller change is that patch "configure: Look for auxiliary Python
-installations" will only look at the $PYTHON variable if it is set,
-without falling back to a PATH search.
+1. The superfluous-parens check seems to be a bit more aggressive,
+2. broad-exception-raised is new; it discourages "raise Exception".
 
-This series includes the final patch to drop support for Python 3.6,
-but it makes sense even without it.
+Fix these minor issues and turn the lights green.
 
-Paolo
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ python/qemu/qmp/protocol.py                            | 2 +-
+ python/qemu/qmp/qmp_client.py                          | 2 +-
+ python/qemu/utils/qemu_ga_client.py                    | 6 +++---
+ tests/qemu-iotests/iotests.py                          | 4 ++--
+ tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 2 +-
+ 5 files changed, 8 insertions(+), 8 deletions(-)
 
-Supersedes: <20230221012456.2607692-1-jsnow@redhat.com>
-
-John Snow (5):
-  python: support pylint 2.16
-  python: drop pipenv
-  meson: prefer 'sphinx-build' to 'sphinx-build-3'
-  configure: Look for auxiliary Python installations
-  configure: Add courtesy hint to Python version failure message
-
-Paolo Bonzini (5):
-  configure: protect against escaping venv when running Meson
-  lcitool: update submodule
-  docs/devel: update and clarify lcitool instructions
-  ci, docker: update CentOS and OpenSUSE Python to non-EOL versions
-  Python: Drop support for Python 3.6
-
- .gitlab-ci.d/static_checks.yml                |   4 +-
- configure                                     |  82 ++++-
- docs/devel/testing.rst                        |  78 ++--
- docs/meson.build                              |   2 +-
- python/.gitignore                             |   4 +-
- python/Makefile                               |  57 ++-
- python/Pipfile                                |  13 -
- python/Pipfile.lock                           | 347 ------------------
- python/README.rst                             |   3 -
- python/qemu/qmp/protocol.py                   |   2 +-
- python/qemu/qmp/qmp_client.py                 |   2 +-
- python/qemu/utils/qemu_ga_client.py           |   6 +-
- python/setup.cfg                              |  11 +-
- python/tests/minreqs.txt                      |  45 +++
- scripts/qapi/mypy.ini                         |   2 +-
- tests/docker/dockerfiles/alpine.docker        |   2 +-
- tests/docker/dockerfiles/centos8.docker       |  22 +-
- .../dockerfiles/fedora-win32-cross.docker     |   1 +
- .../dockerfiles/fedora-win64-cross.docker     |   1 +
- tests/docker/dockerfiles/opensuse-leap.docker |  22 +-
- tests/docker/dockerfiles/python.docker        |   1 -
- tests/docker/dockerfiles/ubuntu2004.docker    |   2 +-
- tests/lcitool/libvirt-ci                      |   2 +-
- tests/lcitool/mappings.yml                    |  77 ++++
- tests/lcitool/targets/centos-stream-8.yml     |   3 +
- tests/lcitool/targets/opensuse-leap-153.yml   |   3 +
- tests/qemu-iotests/iotests.py                 |   4 +-
- .../tests/migrate-bitmaps-postcopy-test       |   2 +-
- 28 files changed, 321 insertions(+), 479 deletions(-)
- delete mode 100644 python/Pipfile
- delete mode 100644 python/Pipfile.lock
- create mode 100644 python/tests/minreqs.txt
- create mode 100644 tests/lcitool/mappings.yml
- create mode 100644 tests/lcitool/targets/centos-stream-8.yml
- create mode 100644 tests/lcitool/targets/opensuse-leap-153.yml
-
+diff --git a/python/qemu/qmp/protocol.py b/python/qemu/qmp/protocol.py
+index 6d3d739daa76..22e60298d280 100644
+--- a/python/qemu/qmp/protocol.py
++++ b/python/qemu/qmp/protocol.py
+@@ -207,7 +207,7 @@ class AsyncProtocol(Generic[T]):
+     logger = logging.getLogger(__name__)
+ 
+     # Maximum allowable size of read buffer
+-    _limit = (64 * 1024)
++    _limit = 64 * 1024
+ 
+     # -------------------------
+     # Section: Public interface
+diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
+index b5772e7f32b3..9d73ae6e7ada 100644
+--- a/python/qemu/qmp/qmp_client.py
++++ b/python/qemu/qmp/qmp_client.py
+@@ -198,7 +198,7 @@ async def run(self, address='/tmp/qemu.socket'):
+     logger = logging.getLogger(__name__)
+ 
+     # Read buffer limit; 10MB like libvirt default
+-    _limit = (10 * 1024 * 1024)
++    _limit = 10 * 1024 * 1024
+ 
+     # Type alias for pending execute() result items
+     _PendingT = Union[Message, ExecInterruptedError]
+diff --git a/python/qemu/utils/qemu_ga_client.py b/python/qemu/utils/qemu_ga_client.py
+index 8c38a7ac9c0e..d8411bb2d0b5 100644
+--- a/python/qemu/utils/qemu_ga_client.py
++++ b/python/qemu/utils/qemu_ga_client.py
+@@ -155,7 +155,7 @@ def ping(self, timeout: Optional[float]) -> bool:
+ 
+     def fsfreeze(self, cmd: str) -> object:
+         if cmd not in ['status', 'freeze', 'thaw']:
+-            raise Exception('Invalid command: ' + cmd)
++            raise ValueError('Invalid command: ' + cmd)
+         # Can be int (freeze, thaw) or GuestFsfreezeStatus (status)
+         return getattr(self.qga, 'fsfreeze' + '_' + cmd)()
+ 
+@@ -167,7 +167,7 @@ def fstrim(self, minimum: int) -> Dict[str, object]:
+ 
+     def suspend(self, mode: str) -> None:
+         if mode not in ['disk', 'ram', 'hybrid']:
+-            raise Exception('Invalid mode: ' + mode)
++            raise ValueError('Invalid mode: ' + mode)
+ 
+         try:
+             getattr(self.qga, 'suspend' + '_' + mode)()
+@@ -178,7 +178,7 @@ def suspend(self, mode: str) -> None:
+ 
+     def shutdown(self, mode: str = 'powerdown') -> None:
+         if mode not in ['powerdown', 'halt', 'reboot']:
+-            raise Exception('Invalid mode: ' + mode)
++            raise ValueError('Invalid mode: ' + mode)
+ 
+         try:
+             self.qga.shutdown(mode=mode)
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 94aeb3f3b200..3e82c634cfef 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -720,7 +720,7 @@ def __exit__(self, exc_type, value, traceback):
+         signal.setitimer(signal.ITIMER_REAL, 0)
+         return False
+     def timeout(self, signum, frame):
+-        raise Exception(self.errmsg)
++        raise TimeoutError(self.errmsg)
+ 
+ def file_pattern(name):
+     return "{0}-{1}".format(os.getpid(), name)
+@@ -804,7 +804,7 @@ def remote_filename(path):
+     elif imgproto == 'ssh':
+         return "ssh://%s@127.0.0.1:22%s" % (os.environ.get('USER'), path)
+     else:
+-        raise Exception("Protocol %s not supported" % (imgproto))
++        raise ValueError("Protocol %s not supported" % (imgproto))
+ 
+ class VM(qtest.QEMUQtestMachine):
+     '''A QEMU VM'''
+diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+index fc9c4b4ef411..dda55fad2840 100755
+--- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
++++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+@@ -84,7 +84,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+                 e['vm'] = 'SRC'
+             for e in self.vm_b_events:
+                 e['vm'] = 'DST'
+-            events = (self.vm_a_events + self.vm_b_events)
++            events = self.vm_a_events + self.vm_b_events
+             events = [(e['timestamp']['seconds'],
+                        e['timestamp']['microseconds'],
+                        e['vm'],
 -- 
 2.39.1
 
