@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38C569F772
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA0C69F771
 	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:13:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqmg-0002nB-1I; Wed, 22 Feb 2023 10:11:54 -0500
+	id 1pUqmh-0002o9-ED; Wed, 22 Feb 2023 10:11:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pUqme-0002ml-Gz
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUqmf-0002mu-4t
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:11:53 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUqmc-0007pw-Pi
  for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:11:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pUqmc-0007pp-Kd
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:11:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677078708;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=baU5T800ngffYSm7+2Y1n3fFPCc2fT33H1mumiiDzkk=;
- b=Wxi3xWqY34vUSP0bTO1p+FRR1OuwIlmVv3V+rHxKhfryiC+hJlFARoG7pUxS3J9hJVUOMw
- YM93NCiHJBjh8MvYqN+LCUW0+HYzHJj5laAwTEoFrqPbSNbAz3tWKHS0POdldfQ6lhROKc
- q/mj22wVtOYquID7mVlXNzSAd+SaWD0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-539-Vc5Ma4oyPg2h2BfbQJxUwg-1; Wed, 22 Feb 2023 10:11:47 -0500
-X-MC-Unique: Vc5Ma4oyPg2h2BfbQJxUwg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10369104D9AA;
- Wed, 22 Feb 2023 15:11:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA8A7440DD;
- Wed, 22 Feb 2023 15:11:43 +0000 (UTC)
-Date: Wed, 22 Feb 2023 15:11:41 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org,
- thuth@redhat.com, alex.bennee@linaro.org, armbru@redhat.com
-Subject: Re: [PATCH 07/10] docs/devel: update and clarify lcitool instructions
-Message-ID: <Y/YwrcEsOyfVpbpS@redhat.com>
-References: <20230222143752.466090-1-pbonzini@redhat.com>
- <20230222143752.466090-8-pbonzini@redhat.com>
+Received: by mail-wr1-x42f.google.com with SMTP id v3so8004251wrp.2
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 07:11:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aExpmLsIH+crBTBLT+vBRt1VOr2oWqSO1aMVLO7WXrs=;
+ b=Hm9DLcoFzsrhThhwbwymQZkgFKBKjAc4qyNwGD6bALVrzdyxcZ4ADgroO1uJb4z8Kq
+ OSHPk7zSTlr2bop7wjleOCqkSQ/LOI7GXNP/4qTdAA2mHaSCKmV4FoAl6YwEVTABA89Q
+ 6xLjmOeH83M9qFGt/71TlYexOYlRm+Yi0Y8/cX3QHPSlK0kDRzUH7ddnITll9L/OKhhr
+ z1VhvBO0hDn8MRw+ZBsFof5Pox53BA8wMF7bpjYCFYb665xi9msUeE7c1lHfcJNf8XGS
+ IJop5fp3QEjDVrBW+FWTrtNYFMbhb+P/r2HUyYCyyyJWRu9CJdqm8EcR81I+kIYoPsM5
+ Aewg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aExpmLsIH+crBTBLT+vBRt1VOr2oWqSO1aMVLO7WXrs=;
+ b=j09EeMxcn3Ab5C+UdWmiAYJKv5p73qIb54QVPP4Tl/Q7bSyx/P49QvzGyHpAl4hsF1
+ 54owiUG9YzUWQBFiYudXj0L4PVo/9orG0h33SS3VSQCVrY4OF3k3R1CuXb64zRp+8k1M
+ PfSGBrkzAlsbb7kZc1dV5xoosV7PooIyMs6V4ZTMu1+0wA6lyWw43AiR9bS7j2y9rNzb
+ eKN5HwuT1r+BRVksa+FTe+4byhs8oO2v2tKYi4KYlB4Q1GfOJpjW9EpRfA9/kgxEDMnd
+ ykLwmO3hN0Mqi5v5eC1Sw+gGY12NF5BvzhhXTexcRAOYKt6kPbDAGnufNi9W7W3sli1x
+ tj6g==
+X-Gm-Message-State: AO0yUKX8DpSBFRbXUifzXoMH4bOkz8NqbInVCKVQOIYGd9tRJgieaAKb
+ 7AlFyiTWNN9J6fA+l85ikFE5cA==
+X-Google-Smtp-Source: AK7set9tnLa88Q7NP73ZNHtbWKFgSmpt4iOJVPvkvlYnnHxQWZ49Q1DgMlPr9FgRCPshWyxAC6TORw==
+X-Received: by 2002:a5d:49c5:0:b0:2c5:519b:57b6 with SMTP id
+ t5-20020a5d49c5000000b002c5519b57b6mr7446517wrs.66.1677078708777; 
+ Wed, 22 Feb 2023 07:11:48 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ a16-20020adffb90000000b002c54c92e125sm6557402wrr.46.2023.02.22.07.11.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 07:11:48 -0800 (PST)
+Message-ID: <a7a76dd3-2c2f-7499-a44e-396456deee81@linaro.org>
+Date: Wed, 22 Feb 2023 16:11:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 07/12] testing: update ubuntu2004 to ubuntu2204
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Yonggang Luo <luoyonggang@gmail.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Ed Maste <emaste@freebsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230215192530.299263-1-alex.bennee@linaro.org>
+ <20230215192530.299263-8-alex.bennee@linaro.org>
+ <CAFn=p-b18P0oOhiYPkoQvVzQfqVu4XLprp4-JMbPRF4y72-svQ@mail.gmail.com>
+ <Y+6HjEUG2fpalQWv@redhat.com>
+ <CAFn=p-b8nK8pNWk3WZgVqjUMx27E4ekeypjGpyk2nrRz=UmNJg@mail.gmail.com>
+ <Y++2AK5cDgCGkpVN@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y++2AK5cDgCGkpVN@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230222143752.466090-8-pbonzini@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,64 +106,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 03:37:49PM +0100, Paolo Bonzini wrote:
-> Shorten a bit the description of what libvirt-ci does, the name of the
-> data files is not relevant at that point.  However, the procedures to add
-> new build prerequisites are lacking some information, particularly with
-> respect to regenerating the output test files for lcitool's unit tests.
-> While at it, also update the paths in the libvirt-ci repository.
+On 17/2/23 18:14, Daniel P. Berrangé wrote:
+> On Fri, Feb 17, 2023 at 11:35:44AM -0500, John Snow wrote:
+
+>> However, would it be possible to keep the older Ubuntu test as a manual
+>> execution that we could invoke at will, only during RC testing phase? If
+>> it's not a lot of work, I could even check that in myself as a follow-up if
+>> it isn't unwanted.
+>>
+>> I find that "oldest version of x" is quite useful to me for testing Python
+>> stuff in particular, as that ecosystem moves pretty fast. It'd be mighty
+>> convenient to me in particular to keep an old Ubuntu test around to run
+>> manually as needed.
+>>
+>> (Heck, even if it wasn't on CI at all but was just a container I could run
+>> locally, that would still be quite useful.)
+>>
+>> Whaddaya think?
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  docs/devel/testing.rst | 72 ++++++++++++++++++++++++------------------
->  1 file changed, 41 insertions(+), 31 deletions(-)
+> It would be pretty trivial to have tests/docker/dockerfiles contain
+> Dockerfiles for *every* supported distro version we have, and then
+> only build & test a subset in CI. It would merely suggest that we
+
+That would be great! Could be added as byte-sized issue.
+
+> change our naming convention so the dockerfiles in that dir include
+> the version. Basically adopting the standard libvirt-ci naming
+> convention for targets of $OSNAME-$OSVERSION:
 > 
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index e10c47b5a7ca..648b7aa09137 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-
->  
-> -In some cases ``libvirt-ci`` will not know about the build pre-requisite and
-> -thus some extra preparation steps will be required first
-> +In some cases ``libvirt-ci`` will not know about the build
-> +pre-requisite and thus some extra preparation steps will be required
-> +first.  Even though you can add the mappings for testing purposes to
-> +``tests/lcitool/mappings.yml`` in the QEMU repository, please contribute
-> +the mapping to the ``libvirt-ci`` project as well:
-
-I'd have a mild preference for not mentioning the qemu local
-tests/lcitool/mappings.yml here, as that's for special purpose
-use and thus not relevant the majority if the time. I worry
-this might mislead people into including changes in the
-local tests/lcitool/mappings.yml file, instead of, or in
-addition to the libvirt-ci.git submodule.
-
-None the less, its a minor concern so
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
->  
->   * Fork the ``libvirt-ci`` project on gitlab
->  
-> - * Edit the ``mappings.yml`` change to add an entry for the new build
-> -   prerequisite, listing its native package name on as many OS distros
-> -   as practical.
-> + * Add an entry for the new build prerequisite to
-> +   ``lcitool/facts/mappings.yml``, listing its native package name on as
-> +   many OS distros as practical.  Run ``python -m pytest --regenerate-output``
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> $ lcitool targets
+> almalinux-8
+> almalinux-9
+> alpine-315
+> alpine-316
+> alpine-edge
+> centos-stream-8
+> centos-stream-9
+> debian-10
+> debian-11
+> debian-sid
+> fedora-36
+> fedora-37
+> fedora-rawhide
+> freebsd-12
+> freebsd-13
+> freebsd-current
+> macos-12
+> macos-13
+> opensuse-leap-153
+> opensuse-leap-154
+> opensuse-tumbleweed
+> ubuntu-1804
+> ubuntu-2004
+> ubuntu-2204
+> 
+> Contributors can then use 'make docker-XXXX' to run build tests
+> locally on specific distros when they need to test something
+> that isn't covered by default in out gating CI
+> 
+> 
+> With regards,
+> Daniel
 
 
