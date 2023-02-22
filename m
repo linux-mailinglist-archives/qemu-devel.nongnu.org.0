@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3565F69F238
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 10:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BBF769F27A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:07:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUlnH-0005zn-No; Wed, 22 Feb 2023 04:52:11 -0500
+	id 1pUm0g-0000cK-WB; Wed, 22 Feb 2023 05:06:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pUlnG-0005zc-4t
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 04:52:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <w@uter.be>)
+ id 1pUm0e-0000bt-SM; Wed, 22 Feb 2023 05:06:00 -0500
+Received: from lounge.grep.be ([2a01:4f8:200:91e8::2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pUlnE-0004GY-2f
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 04:52:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677059527;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fl9JzPfl65mLMKbclXhOrNg4Mp332faxUErjf6Huiko=;
- b=i2cYr00UrBM8vqwW6erwl2/vLyPqstEsazFQivj8oQb0bevImf82whAuBvfzbdkhWIXdAP
- zc8w8qkhKvQf/6yQm4QBzKII6oABeqsAyWSUdy9I3tddIvPdECW9GJ59wHbJPQeOZTcWlc
- +TmVjcbFyv7Bzg017hmO+CPUREMLsbw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-gLnyaZcSMWGK-4RwPY-uGQ-1; Wed, 22 Feb 2023 04:52:03 -0500
-X-MC-Unique: gLnyaZcSMWGK-4RwPY-uGQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90356100F907;
- Wed, 22 Feb 2023 09:52:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BE60C15BA0;
- Wed, 22 Feb 2023 09:52:00 +0000 (UTC)
-Date: Wed, 22 Feb 2023 09:51:57 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
-Message-ID: <Y/Xlve3HWhh4QD+u@redhat.com>
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
- <Y9exrDWT2NUoinu1@redhat.com> <87h6w7694t.fsf@linaro.org>
- <45EE5F9E-B9B8-4DA4-809E-A95FC618E7BE@gmail.com>
+ (Exim 4.90_1) (envelope-from <w@uter.be>)
+ id 1pUm0c-0001kM-C6; Wed, 22 Feb 2023 05:06:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=uter.be;
+ s=2021.lounge; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=aua56B4RKM1vd0PJ+AuIl6KUyNHA9PXJ0x5XRVOUHfE=; b=nD+HsUWXjUb29aZO//NQTm4kIC
+ eadO/a5CCiuZ4BKZe5S7/WffIYOWSgdw0onHKL/CKYHICq0pc3E/5jzEZbiUN/K9k57TCHrmThZuU
+ uW/F/BMbOnc6Xvqlfg89xRi8o0AQDMb8+3u/pWIUWDcacig3mwbaXIaDi0AI9Uc/Qu8Y3fUOxC2o3
+ 50o4djg6g9qBMmuWV4veBrOUpc24kH1KqeAQc5wmEjQAyJfNCX9h4+vlFAMDcV5WWgx8q+W91o9QQ
+ RJdChLdcLozAYWsdg1xU4dH8fV8X0FW5CQHpPJ4dCyb1FLxMkX6ICnyZLiFaUaTM1PWUFm+j/Pc9+
+ lfjPB4zA==;
+Received: from [102.39.141.34] (helo=pc220518)
+ by lounge.grep.be with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <w@uter.be>)
+ id 1pUm0V-009Hv4-DO; Wed, 22 Feb 2023 11:05:51 +0100
+Received: from wouter by pc220518 with local (Exim 4.96)
+ (envelope-from <w@uter.be>) id 1pUm0O-000Xgg-0i;
+ Wed, 22 Feb 2023 12:05:44 +0200
+Date: Wed, 22 Feb 2023 12:05:44 +0200
+From: Wouter Verhelst <w@uter.be>
+To: Eric Blake <eblake@redhat.com>
+Cc: nbd@other.debian.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ libguestfs@redhat.com
+Subject: Re: [PATCH v2 5/6] spec: Introduce NBD_FLAG_BLOCK_STATUS_PAYLOAD
+Message-ID: <Y/Xo+DGAYSZ4bQvK@pc220518.home.grep.be>
+References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
+ <20221114224655.2186173-1-eblake@redhat.com>
+ <20221114224655.2186173-6-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <45EE5F9E-B9B8-4DA4-809E-A95FC618E7BE@gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <20221114224655.2186173-6-eblake@redhat.com>
+X-Speed: Gates' Law: Every 18 months, the speed of software halves.
+Organization: none
+Received-SPF: pass client-ip=2a01:4f8:200:91e8::2; envelope-from=w@uter.be;
+ helo=lounge.grep.be
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,63 +72,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 09:11:13AM +0000, Bernhard Beschow wrote:
+On Mon, Nov 14, 2022 at 04:46:54PM -0600, Eric Blake wrote:
+>  #### Simple reply message
 > 
+> @@ -1232,6 +1235,19 @@ The field has the following format:
+>    will be faster than a regular write). Clients MUST NOT set the
+>    `NBD_CMD_FLAG_FAST_ZERO` request flag unless this transmission flag
+>    is set.
+> +- bit 12, `NBD_FLAG_BLOCK_STATUS_PAYLOAD`: Indicates that the server
+> +  understands the use of the `NBD_CMD_FLAG_PAYLOAD_LEN` flag to
+> +  `NBD_CMD_BLOCK_STATUS` to allow the client to request that the
+> +  server filters its response to a specific subset of negotiated
+> +  metacontext ids passed in via a client payload, rather than the
+> +  default of replying to all metacontext ids. Servers MUST NOT
+> +  advertise this bit unless the client successfully negotiates
+> +  extended headers via `NBD_OPT_EXTENDED_HEADERS`, and SHOULD NOT
+> +  advertise this bit in response to `NBD_OPT_EXPORT_NAME` or
+> +  `NBD_OPT_GO` if the client does not negotiate metacontexts with
+> +  `NBD_OPT_SET_META_CONTEXT`; clients SHOULD NOT set the
+> +  `NBD_CMD_FLAG_PAYLOAD_LEN` flag for `NBD_CMD_BLOCK_STATUS` unless
+> +  this transmission flag is set.
+
+Given that we are introducing this at the same time as the extended
+headers (and given that we're running out of available flags in this
+16-bit field), isn't it better to make the ability to understand
+PAYLOAD_LEN be implied by extended headers? Or is there a use case for
+implementing extended headers but not a payload length on
+CMD_BLOCK_STATUS that I'm missing?
+
+>  Clients SHOULD ignore unknown flags.
 > 
-> Am 30. Januar 2023 20:45:47 UTC schrieb "Alex Bennée" <alex.bennee@linaro.org>:
-> >
-> >Daniel P. Berrangé <berrange@redhat.com> writes:
-> >
-> >> On Mon, Jan 30, 2023 at 11:47:02AM +0000, Peter Maydell wrote:
-> >>> On Mon, 30 Jan 2023 at 11:44, Thomas Huth <thuth@redhat.com> wrote:
-> >>> >
-> >>> > Testing 32-bit host OS support takes a lot of precious time during the QEMU
-> >>> > contiguous integration tests, and considering that many OS vendors stopped
-> >>> > shipping 32-bit variants of their OS distributions and most hardware from
-> >>> > the past >10 years is capable of 64-bit
-> >>> 
-> >>> True for x86, not necessarily true for other architectures.
-> >>> Are you proposing to deprecate x86 32-bit, or all 32-bit?
-> >>> I'm not entirely sure about whether we're yet at a point where
-> >>> I'd want to deprecate-and-drop 32-bit arm host support.
-> >>
-> >> Do we have a feeling on which aspects of 32-bit cause us the support
-> >> burden ? The boring stuff like compiler errors from mismatched integer
-> >> sizes is mostly quick & easy to detect simply through a cross compile.
-> >>
-> >> I vaguely recall someone mentioned problems with atomic ops in the past,
-> >> or was it 128-bit ints, caused implications for the codebase ?
-> >
-> >Atomic operations on > TARGET_BIT_SIZE and cputlb when
-> >TCG_OVERSIZED_GUEST is set. Also the core TCG code and a bunch of the
-> >backends have TARGET_LONG_BITS > TCG_TARGET_REG_BITS ifdefs peppered
-> >throughout.
+> @@ -1915,8 +1931,11 @@ valid may depend on negotiation during the handshake phase.
+>    header.  With extended headers, the flag MUST be set for
+>    `NBD_CMD_WRITE` (as the write command always sends a payload of the
+>    bytes to be written); for other commands, the flag will trigger an
+> -  `NBD_EINVAL` error unless the server has advertised support for an
+> -  extension payload form for the command.
+> +  `NBD_EINVAL` error unless the command documents an optional payload
+> +  form for the command and the server has implemented that form (an
+> +  example being `NBD_CMD_BLOCK_STATUS` providing a payload form for
+> +  restricting the response to a particular metacontext id, when the
+> +  server advertises `NBD_FLAG_BLOCK_STATUS_PAYLOAD`).
 > 
-> Are there any plans or ideas to support 128 bit architectures
-> such as CHERI in the future? There is already a QEMU fork
-> implementing CHERI for RISC V [1]. Also ARM has developed an
-> experimental hardware implementation of CHERI within the Morello
-> project where Linaro is involved as well, although the QEMU
-> implementation is performed by the University of Cambridge [2].
+>  ##### Structured reply flags
+> 
+> @@ -2464,6 +2483,23 @@ The following request types exist:
+>      The server MAY send chunks in a different order than the context
+>      ids were assigned in reply to `NBD_OPT_SET_META_CONTEXT`.
+> 
+> +    If extended headers were negotiated, a server MAY optionally
+> +    advertise, via the transmission flag
+> +    `NBD_FLAG_BLOCK_STATUS_PAYLOAD`, that it supports an alternative
+> +    request form where the client sets `NBD_CMD_FLAG_PAYLOAD_LEN` in
+> +    order to pass a payload that informs the server to limit its
+> +    replies to the metacontext id(s) in the client's request payload,
+> +    rather than giving an answer on all possible metacontext ids.  If
+> +    the server does not support the payload form, or detects duplicate
+> +    or unknown metacontext ids in the client's payload, the server
+> +    MUST gracefully consume the client's payload before failing with
+> +    `NBD_EINVAL`.  The payload form MUST occupy 8 + n*4 bytes, where n
+> +    is the number of metacontext ids the client is interested in (as
+> +    implied by the payload length), laid out as:
+> +
+> +    64 bits, effect length  
+> +    n * 32 bits, list of metacontext ids to use  
+> +
+>      The list of block status descriptors within a given status chunk
+>      represent consecutive portions of the file starting from specified
+>      *offset*.  If the client used the `NBD_CMD_FLAG_REQ_ONE` flag,
 
-If 128 bit hardware exists and has real world non-toy usage,
-then a request to support it in QEMU is essentially inevitable.
-
-> I'm asking because once we deeply bake in the assumption that
-> host size >= guest size then adding such architectures will
-> become much harder.
-
-Yep, that is a risk.
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+     w@uter.{be,co.za}
+wouter@{grep.be,fosdem.org,debian.org}
 
+I will have a Tin-Actinium-Potassium mixture, thanks.
 
