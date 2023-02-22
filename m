@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056AD69FB9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 19:57:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3360769FB95
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 19:57:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUuIJ-0006aw-GT; Wed, 22 Feb 2023 13:56:47 -0500
+	id 1pUuIw-0008J7-O1; Wed, 22 Feb 2023 13:57:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUuIC-0006Vo-IF; Wed, 22 Feb 2023 13:56:40 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pUuIA-0005BT-Hu; Wed, 22 Feb 2023 13:56:40 -0500
-Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c15:2905:0:640:e5fe:0])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id B71FB5FECE;
- Wed, 22 Feb 2023 21:56:29 +0300 (MSK)
-Received: from vsementsov-win.yandex-team.ru (unknown
- [2a02:6b8:b081:a528::1:22])
- by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id BuTfTE0KlSw0-gOYx85f9; Wed, 22 Feb 2023 21:56:28 +0300
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net;
- dkim=pass
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com, hreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
- vsementsov@yandex-team.ru, alexander.ivanov@virtuozzo.com
-Subject: [PATCH v6 7/7] iotests: add filter-insertion
-Date: Wed, 22 Feb 2023 21:55:52 +0300
-Message-Id: <20230222185552.913733-8-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230222185552.913733-1-vsementsov@yandex-team.ru>
-References: <20230222185552.913733-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pUuIj-0007w3-Tm; Wed, 22 Feb 2023 13:57:15 -0500
+Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pUuIZ-0005yA-93; Wed, 22 Feb 2023 13:57:13 -0500
+Received: by mail-vs1-xe29.google.com with SMTP id b20so10603612vsu.5;
+ Wed, 22 Feb 2023 10:57:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677092220;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FKciHc1fA+dcV3BGBbSCib2qsehn3gx7+vyAooq5Qd4=;
+ b=p1Nd1dpH31VXhEcncKAuTVAJdoFkCuaiPzyBYdAUIQuiY5ayYhj9haXlxar5TJq8CM
+ QFORYGaugv11Nu41RhVZs7Pwk2YeXJiQ6IXggPSTxD0H53m8OqZp63po2zhKZipTeQEa
+ 9BwSzgwut/XyMSzc6xcRi3mCL+Qa47EUlEKkcQsAFseHeK1bHSbeZVTWuhs7f3b3Flcb
+ M7U53I6y7oohq+O6rTLGu1+QDjygesvXRA5Yi+FrzOtjjTi4zNZ5sF9dat8dPkAvrA4p
+ TQg+HnILtCImkGN1tjHiM1ZFWa9b67uM3r3cJMGbnpcq89sEvRef5PiS0HK9o1bMfLP3
+ JB1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677092220;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FKciHc1fA+dcV3BGBbSCib2qsehn3gx7+vyAooq5Qd4=;
+ b=hatfkbu9BOHlo4A5xRyA0DWEqpN7UZGAqF+BOqKEDOz89JQ0f5t/n7B3BKWVbtNw/z
+ kFQ/hBcUH2o8rUWH043hQXPWGtGSDtv6UCWO+rI9TEtaPuuwbsoR55Zuwq65ppg97x75
+ 9AvuX9mJYnvDAc9ScBo9+FmYkFdXQ+ETZ7QiD+d0+tO4oBDRfIwCr3K13a5XBd757Jg+
+ y4BQHbWqG5N/WtRTkXWud46sAUdL0eMqLuOb5akjkAnTH27MY5HvowU3D2lhgdGWRXjy
+ RH+Qu8cvnWjCAuIjpOh0TcxagZP+WSXOtI4lVinenLlJs0zGv5/3sHM3cWTYA9p6zpFO
+ +v+A==
+X-Gm-Message-State: AO0yUKVUUsXLSBLETRnbkkyBNErF6a7gOniQnbDbWe6iSfLvQLdd5NQg
+ +O7knyFl5S3c8qlec6uBGhjLOgAWPsZmOqzxGVc=
+X-Google-Smtp-Source: AK7set8nC+8unvyvKcBOp+d9l8c/xRlqgMfZTbDoKmj+fUvViwt8uF4t2T6qELg2Lv6JFalQzwPIEycRn3mMc0ZXS8Y=
+X-Received: by 2002:a05:6122:84a:b0:411:b190:fe5b with SMTP id
+ 10-20020a056122084a00b00411b190fe5bmr168222vkk.39.1677092220410; Wed, 22 Feb
+ 2023 10:57:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <cover.1677004414.git.balaton@eik.bme.hu>
+ <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
+In-Reply-To: <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
+From: Bernhard Beschow <shentey@gmail.com>
+Date: Wed, 22 Feb 2023 19:56:46 +0100
+Message-ID: <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@redhat.com
+Content-Type: multipart/alternative; boundary="0000000000000da17f05f54e765f"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
+ envelope-from=shentey@gmail.com; helo=mail-vs1-xe29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,291 +84,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Demonstrate new blockdev-replace API for filter insertion and removal.
+--0000000000000da17f05f54e765f
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- tests/qemu-iotests/tests/filter-insertion     | 257 ++++++++++++++++++
- tests/qemu-iotests/tests/filter-insertion.out |   5 +
- 2 files changed, 262 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/filter-insertion
- create mode 100644 tests/qemu-iotests/tests/filter-insertion.out
+On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail.com> wrote:
 
-diff --git a/tests/qemu-iotests/tests/filter-insertion b/tests/qemu-iotests/tests/filter-insertion
-new file mode 100755
-index 0000000000..11c0ea0447
---- /dev/null
-+++ b/tests/qemu-iotests/tests/filter-insertion
-@@ -0,0 +1,257 @@
-+#!/usr/bin/env python3
-+#
-+# Tests for inserting and removing filters in a block graph.
-+#
-+# Copyright (c) 2022 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+
-+import iotests
-+from iotests import qemu_img_create, try_remove
-+
-+
-+disk = os.path.join(iotests.test_dir, 'disk')
-+sock = os.path.join(iotests.sock_dir, 'sock')
-+size = 1024 * 1024
-+
-+
-+class TestFilterInsertion(iotests.QMPTestCase):
-+    def setUp(self):
-+        qemu_img_create('-f', iotests.imgfmt, disk, str(size))
-+
-+        self.vm = iotests.VM()
-+        self.vm.launch()
-+
-+        result = self.vm.qmp('blockdev-add', {
-+            'node-name': 'disk0',
-+            'driver': 'qcow2',
-+            'file': {
-+                'node-name': 'file0',
-+                'driver': 'file',
-+                'filename': disk
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        os.remove(disk)
-+        try_remove(sock)
-+
-+    def test_simple_insertion(self):
-+        vm = self.vm
-+
-+        result = vm.qmp('blockdev-add', {
-+            'node-name': 'filter',
-+            'driver': 'preallocate',
-+            'file': 'file0'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = vm.qmp('x-blockdev-replace', {
-+            'parent-type': 'driver',
-+            'node-name': 'disk0',
-+            'child': 'file',
-+            'new-child': 'filter'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Filter inserted:
-+        # disk0 -file-> filter -file-> file0
-+        vm.assert_edges_list([
-+            ('disk0', 'file', 'filter'),
-+            ('filter', 'file', 'file0')
-+        ])
-+
-+        result = vm.qmp('x-blockdev-replace', {
-+            'parent-type': 'driver',
-+            'node-name': 'disk0',
-+            'child': 'file',
-+            'new-child': 'file0'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Filter replaced, but still exists:
-+        # dik0 -file-> file0 <-file- filter
-+        vm.assert_edges_list([
-+            ('disk0', 'file', 'file0'),
-+            ('filter', 'file', 'file0')
-+        ])
-+
-+        result = vm.qmp('blockdev-del', node_name='filter')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Filter removed
-+        # dik0 -file-> file0
-+        vm.assert_edges_list([
-+            ('disk0', 'file', 'file0')
-+        ])
-+
-+    def test_insert_under_qdev(self):
-+        vm = self.vm
-+
-+        result = vm.qmp('device_add', driver='virtio-scsi')
-+        self.assert_qmp(result, 'return', {})
-+        result = vm.qmp('device_add', id='sda', driver='scsi-hd',
-+                              drive='disk0')
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = vm.qmp('blockdev-add', {
-+            'node-name': 'filter',
-+            'driver': 'compress',
-+            'file': 'disk0'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = vm.qmp('x-blockdev-replace', {
-+            'parent-type': 'qdev',
-+            'qdev-id': 'sda',
-+            'new-child': 'filter'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Filter inserted:
-+        # sda -root-> filter -file-> disk0 -file-> file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('sda', 'root', 'filter'),
-+            ('filter', 'file', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+        ])
-+
-+        result = vm.qmp('x-blockdev-replace', {
-+            'parent-type': 'qdev',
-+            'qdev-id': 'sda',
-+            'new-child': 'disk0'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+        result = vm.qmp('blockdev-del', node_name='filter')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Filter removed:
-+        # sda -root-> disk0 -file-> file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('sda', 'root', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+        ])
-+
-+    def test_insert_under_nbd_export(self):
-+        vm = self.vm
-+
-+        result = vm.qmp('nbd-server-start',
-+                              addr={'type': 'unix', 'data': {'path': sock}})
-+        self.assert_qmp(result, 'return', {})
-+        result = vm.qmp('block-export-add', id='exp1', type='nbd',
-+                              node_name='disk0', name='exp1')
-+        self.assert_qmp(result, 'return', {})
-+        result = vm.qmp('block-export-add', id='exp2', type='nbd',
-+                              node_name='disk0', name='exp2')
-+        self.assert_qmp(result, 'return', {})
-+        result = vm.qmp('object-add', qom_type='throttle-group',
-+                              id='tg', limits={'iops-read': 1})
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = vm.qmp('blockdev-add', {
-+            'node-name': 'filter',
-+            'driver': 'throttle',
-+            'throttle-group': 'tg',
-+            'file': 'disk0'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = vm.qmp('x-blockdev-replace', {
-+            'parent-type': 'export',
-+            'export-id': 'exp1',
-+            'new-child': 'filter'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Only exp1 is throttled, exp2 is not:
-+        # exp1 -root-> filter
-+        #                |
-+        #                |file
-+        #                v
-+        # exp2 -file-> disk0 -file> file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('exp1', 'root', 'filter'),
-+            ('filter', 'file', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+            ('exp2', 'root', 'disk0')
-+        ])
-+
-+        result = vm.qmp('x-blockdev-replace', {
-+            'parent-type': 'export',
-+            'export-id': 'exp2',
-+            'new-child': 'filter'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Both throttled:
-+        # exp1 -root-> filter <-file- exp2
-+        #                |
-+        #                |file
-+        #                v
-+        #              disk0 -file> file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('exp1', 'root', 'filter'),
-+            ('filter', 'file', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+            ('exp2', 'root', 'filter')
-+        ])
-+
-+        # Check, that filter is in use and can't be removed
-+        result = vm.qmp('blockdev-del', node_name='filter')
-+        self.assert_qmp(result, 'error/desc', 'Node filter is in use')
-+
-+        result = vm.qmp('x-blockdev-replace', {
-+            'parent-type': 'export',
-+            'export-id': 'exp1',
-+            'new-child': 'disk0'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = vm.qmp('x-blockdev-replace', {
-+            'parent-type': 'export',
-+            'export-id': 'exp2',
-+            'new-child': 'disk0'
-+        })
-+        self.assert_qmp(result, 'return', {})
-+        result = vm.qmp('blockdev-del', node_name='filter')
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Filter removed:
-+        # exp1 -root-> disk0 <-file- exp2
-+        #                |
-+        #                |file
-+        #                v
-+        #              file0
-+        vm.assert_edges_list([
-+            # parent_node_name, child_name, child_node_name
-+            ('exp1', 'root', 'disk0'),
-+            ('disk0', 'file', 'file0'),
-+            ('exp2', 'root', 'disk0')
-+        ])
-+
-+
-+if __name__ == '__main__':
-+    iotests.main(
-+        supported_fmts=['qcow2'],
-+        supported_protocols=['file']
-+    )
-diff --git a/tests/qemu-iotests/tests/filter-insertion.out b/tests/qemu-iotests/tests/filter-insertion.out
-new file mode 100644
-index 0000000000..8d7e996700
---- /dev/null
-+++ b/tests/qemu-iotests/tests/filter-insertion.out
-@@ -0,0 +1,5 @@
-+...
-+----------------------------------------------------------------------
-+Ran 3 tests
-+
-+OK
--- 
-2.34.1
+>
+>
+> On Tue, Feb 21, 2023 at 7:44 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+>> This series fixes PCI interrupts on the ppc/pegasos2 machine and adds
+>> partial implementation of the via-ac97 sound part enough to get audio
+>> output. I'd like this to be merged for QEMU 8.0.
+>>
+>> Regards,
+>> BALATON Zoltan
+>>
+>> BALATON Zoltan (5):
+>>   hw/isa/vt82c686: Implement interrupt routing in via_isa_set_irq
+>>   hw/isa/vt82c686: Implement PIRQ pins
+>>   hw/ppc/pegasos2: Fix PCI interrupt routing
+>>   hw/audio/ac97: Split off some definitions to a header
+>>   hw/audio/via-ac97: Basic implementation of audio playback
+>>
+>>  hw/audio/ac97.c            |  43 +---
+>>  hw/audio/ac97.h            |  65 ++++++
+>>  hw/audio/trace-events      |   6 +
+>>  hw/audio/via-ac97.c        | 436 ++++++++++++++++++++++++++++++++++++-
+>>  hw/ide/via.c               |   2 +-
+>>  hw/isa/vt82c686.c          |  61 +++++-
+>>  hw/pci-host/mv64361.c      |   4 -
+>>  hw/ppc/pegasos2.c          |  26 ++-
+>>  hw/usb/vt82c686-uhci-pci.c |   5 +-
+>>  include/hw/isa/vt82c686.h  |  39 +++-
+>>  10 files changed, 626 insertions(+), 61 deletions(-)
+>>  create mode 100644 hw/audio/ac97.h
+>>
+>> --
+>> 2.30.7
+>>
+>>
+> Wow, the MorphOS people paid attention to sound design. Thanks for
+> presenting it to us, Zoltan!
+>
+> I've had a closer look at your series and I think it can be simplified:
+> Patch 2 can be implemented quite straight-forward like I proposed in a
+> private mail: https://github.com/shentok/qemu/commit/via-priq-routing.
+> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt routing"
+> working, one can expose the PCI interrupts with a single line like you do
+> in patch 2. With this, patch 1 "hw/isa/vt82c686: Implement interrupt
+> routing in via_isa_set_irq" isn't needed any longer and can be omitted.
+>
+> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() can be
+> used instead. pci_set_irq() internally takes care of all the ISA interrupt
+> level tracking patch 1 attempted to address.
+>
 
+Here is a proof of concept branch to demonstrate that the simplification
+actually works: https://github.com/shentok/qemu/commits/pegasos2 (Tested
+with MorphOS with and without pegasos2.rom).
+
+Best regards,
+Bernhard
+
+>
+> I might have further comments but I think it's enough for now.
+>
+> Thanks again for making via-ac97 work!
+>
+> Best regards,
+> Bernhard
+>
+
+--0000000000000da17f05f54e765f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 22, 2023 at 4:38 PM Bernh=
+ard Beschow &lt;<a href=3D"mailto:shentey@gmail.com">shentey@gmail.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
+dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 21, 2023 at 7:44 PM BALATON Zo=
+ltan &lt;<a href=3D"mailto:balaton@eik.bme.hu" target=3D"_blank">balaton@ei=
+k.bme.hu</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">This series fixes PCI interrupts on the ppc/pegasos2 machine and ad=
+ds<br>
+partial implementation of the via-ac97 sound part enough to get audio<br>
+output. I&#39;d like this to be merged for QEMU 8.0.<br>
+<br>
+Regards,<br>
+BALATON Zoltan<br>
+<br>
+BALATON Zoltan (5):<br>
+=C2=A0 hw/isa/vt82c686: Implement interrupt routing in via_isa_set_irq<br>
+=C2=A0 hw/isa/vt82c686: Implement PIRQ pins<br>
+=C2=A0 hw/ppc/pegasos2: Fix PCI interrupt routing<br>
+=C2=A0 hw/audio/ac97: Split off some definitions to a header<br>
+=C2=A0 hw/audio/via-ac97: Basic implementation of audio playback<br>
+<br>
+=C2=A0hw/audio/ac97.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 43 +=
+---<br>
+=C2=A0hw/audio/ac97.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 65 +=
++++++<br>
+=C2=A0hw/audio/trace-events=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +<br>
+=C2=A0hw/audio/via-ac97.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 436 ++++++++++++++++=
+++++++++++++++++++++-<br>
+=C2=A0hw/ide/via.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0hw/isa/vt82c686.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 61 +++++-=
+<br>
+=C2=A0hw/pci-host/mv64361.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 -<br>
+=C2=A0hw/ppc/pegasos2.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 26 ++-<br=
+>
+=C2=A0hw/usb/vt82c686-uhci-pci.c |=C2=A0 =C2=A05 +-<br>
+=C2=A0include/hw/isa/vt82c686.h=C2=A0 |=C2=A0 39 +++-<br>
+=C2=A010 files changed, 626 insertions(+), 61 deletions(-)<br>
+=C2=A0create mode 100644 hw/audio/ac97.h<br>
+<br>
+-- <br>
+2.30.7<br>
+<br></blockquote><div><br></div><div>Wow, the MorphOS people paid attention=
+ to sound design. Thanks for presenting it to us, Zoltan!</div><div><br></d=
+iv><div>I&#39;ve had a closer look at your series and I think it can be sim=
+plified: Patch 2 can be implemented quite straight-forward like I proposed =
+in a private mail: <a href=3D"https://github.com/shentok/qemu/commit/via-pr=
+iq-routing" target=3D"_blank">https://github.com/shentok/qemu/commit/via-pr=
+iq-routing</a>. Then, in order to make patch 3 &quot;hw/ppc/pegasos2: Fix P=
+CI interrupt routing&quot; working, one can expose the PCI interrupts with =
+a single line like you do in patch 2. With this, patch 1 &quot;hw/isa/vt82c=
+686: Implement interrupt routing in via_isa_set_irq&quot; isn&#39;t needed =
+any longer and can be omitted.</div></div><div class=3D"gmail_quote"><div><=
+br></div><div>In via-ac97, rather than  using via_isa_set_irq(), pci_set_ir=
+q() can be used instead. pci_set_irq() internally takes care of all the ISA=
+ interrupt level tracking patch 1 attempted to address.</div></div></div></=
+blockquote><div><br></div><div>Here is a proof of concept branch to demonst=
+rate that the simplification actually works: <a href=3D"https://github.com/=
+shentok/qemu/commits/pegasos2">https://github.com/shentok/qemu/commits/pega=
+sos2</a> (Tested with MorphOS with and without pegasos2.rom).<br></div><div=
+><br></div><div>Best regards,</div><div>Bernhard<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote=
+"><div><br></div><div>I might have further comments but I think it&#39;s en=
+ough for now.</div><div><br></div><div>Thanks again for making via-ac97 wor=
+k!</div><div><br></div><div>Best regards,</div><div>Bernhard<br></div></div=
+></div>
+</blockquote></div></div>
+
+--0000000000000da17f05f54e765f--
 
