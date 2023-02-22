@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3649569EB92
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 00:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1729B69EBB0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 01:09:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUcWj-0001L7-5x; Tue, 21 Feb 2023 18:58:29 -0500
+	id 1pUcga-0003Xq-BH; Tue, 21 Feb 2023 19:08:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUcWe-0001KJ-5l
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:58:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pUcWc-00018b-KS
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 18:58:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677023901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=y6gizhSVpDQr8UfyjYme+jRyarI7qBKUWaghtebGrko=;
- b=UcqBOP29c2Tg6qRAJlo/M2dR2TSYhMc2tEvTPsaIwTZO5KDBJgEk298gYwczsrDcaVRe10
- sbK6QFzna2Gt3/VfY9I+W+432TymBFxe4V8S1W55qt9k2Wyh6lfgBfLROwmVz24xW1XjDg
- t0F080fItCGhPb9E+O9Elx3HqByKxrc=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-183-NyiQqHsvNgCfrLJITYNQww-1; Tue, 21 Feb 2023 18:58:19 -0500
-X-MC-Unique: NyiQqHsvNgCfrLJITYNQww-1
-Received: by mail-qv1-f72.google.com with SMTP id
- pv11-20020ad4548b000000b0056e96f4fd64so2834194qvb.15
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 15:58:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUcgY-0003XU-5d
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:08:38 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUcgW-0002p9-Ci
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 19:08:37 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id u14so3006758ple.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 16:08:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bOJ0ThLM2V0+isDPQ2kfX+/6tJjjoELSw+/N+MVGKIU=;
+ b=QSyrZCqivLDCeQuBkeoaFnzqwfoOsr0e05uxy8nn7pPyW/4rNk5ndHJe6H8tpvVhx8
+ Ws+orTGzSoGisOO2u1dDG2+h0ocu5q+M3Ay2UGb4aEvtSU3BS6EbOrgPTLWKiQ95r/Cn
+ rXez31DDOC+opjU1vW07eEp2gAGilHBHYbBSZ0tcNan+sEFOAPevLztOf2AcarXghX1y
+ oj8XKr+sJykAF1GRbzxngzx+PAijCgwg1U1Y2+mhpurGaWZciroenfvQGGyroJJuXEzG
+ +ED7nMfZSizxqIyTmcVS6CWAoxgE6tEjr6g2uzFZY8xWa0gcV18LNXQV2JUt9B2TCFtC
+ U2/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677023899;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=y6gizhSVpDQr8UfyjYme+jRyarI7qBKUWaghtebGrko=;
- b=p30eaeEUGLUjTUsiQ0spsQ19t/ZmZ/z/TRg+yBuicGpDA6cn4OXxpjUak2IHAns/jw
- VIVkA6CpZ0GDQTDAcSKNZci2Y8j2lXc54SfYhe8YrkwwfXPAbQt+defghAvPOvBovy+F
- nOKOOkUmLK5x225fsAnLeHPXD6ZIBHEKElHG7NyqyfkWXi57vUd6qunL2dkv2nX296U6
- rObV/XekY9ZfsAXWN158gydTQ6G2fP6k4aQYpsTmOGiOqzXLlug+fpjf6gphv1noaqUf
- bJJLEq6567V69WGrw68z3iqDfcxBeGs1Ll6HgRwYOlp4Y2feAwpguRMWtzRwJ3BXNp3U
- jebA==
-X-Gm-Message-State: AO0yUKXUB88ETjzjtVfoUv1Tswhoaz8BZP4ZKSCHgrKNaJ35bc2WIDbW
- Vbnw/EDCYKuFvcS98cHXtWp5C1sTXabhoNqw48Q1JXPQOKf+tjZZHLDJOSTCiuAHL+FFaxUsWAc
- 39Pkvdct1EHtdXn4=
-X-Received: by 2002:ac8:5748:0:b0:3b8:36f8:830e with SMTP id
- 8-20020ac85748000000b003b836f8830emr12493390qtx.6.1677023899006; 
- Tue, 21 Feb 2023 15:58:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set/cGcmZEdynxhdKdTP+eZkmH2xZGQ/dfkziZmzecderu1kn0kvUUrxKqZbk8ByANNUpWzSJZA==
-X-Received: by 2002:ac8:5748:0:b0:3b8:36f8:830e with SMTP id
- 8-20020ac85748000000b003b836f8830emr12493297qtx.6.1677023897716; 
- Tue, 21 Feb 2023 15:58:17 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- t22-20020a05620a0b1600b0073917fae4f8sm11740850qkg.25.2023.02.21.15.58.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 15:58:16 -0800 (PST)
-Date: Tue, 21 Feb 2023 18:58:15 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
- peter.maydell@linaro.org, david@redhat.com, philmd@linaro.org,
- mst@redhat.com, cohuck@redhat.com, quintela@redhat.com,
- dgilbert@redhat.com, maz@kernel.org, zhenyzha@redhat.com,
- shan.gavin@gmail.com
-Subject: Re: [PATCH v1 3/6] kvm: Synchronize the backup bitmap in the last
- stage
-Message-ID: <Y/Val7mrVHHE8Bsb@x1n>
-References: <20230213003925.40158-1-gshan@redhat.com>
- <20230213003925.40158-4-gshan@redhat.com> <Y/UDbqyB2N/OWWi5@x1n>
- <08c954d7-f4e4-4d63-28fc-50128f4bc2d7@redhat.com>
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bOJ0ThLM2V0+isDPQ2kfX+/6tJjjoELSw+/N+MVGKIU=;
+ b=5HLD+ljH+WrAEPbIDMk1RO2DHRqu1bl0FoTtSJOy9s6dZTYSN5HMRDovN/yGYGLuVz
+ oVY21qRZUDxQvZvlx5g/MrOSXZWlxoKdE9McisAMiVzo5JjiZ4UMNcYxVK7Vr+jqmQrt
+ sfR95WaaZ1NhpaI7Yb2dl+8D0RI88f8sAumcSqCGnwcM/G+wmAlWHZsDVn/iJ5lIpbwl
+ 7bhM+DndOEGTj2uv5Vogkbs1eEOJ1xV365fwXqnancV6bitKP4AMoQeRaF0Pca538kJ1
+ aZ9AqBhiY+wRRw9bevnR9UhXRvLXY2XLYLbfGwt8cOF0YNW6EH8dqB2ZcCa3NcUUYZzq
+ lLPA==
+X-Gm-Message-State: AO0yUKUJjglu/lNl3HmqYN636R6FcOrW69zY1ytXCpxH0myQO7Icd3Og
+ ssAoSGBg9WQCYne2uDWvCB+5mA==
+X-Google-Smtp-Source: AK7set8i51asPc9IAixJzgQn2OhI1em4NAQZvzYuQUT1vrCNuREHU6RTpHVMM+1YftDYtZNdwUxJNQ==
+X-Received: by 2002:a17:902:ab59:b0:19a:a9f0:a019 with SMTP id
+ ij25-20020a170902ab5900b0019aa9f0a019mr7911007plb.21.1677024514762; 
+ Tue, 21 Feb 2023 16:08:34 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ 17-20020a170902c15100b0019a7f493151sm5671029plj.212.2023.02.21.16.08.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Feb 2023 16:08:34 -0800 (PST)
+Message-ID: <5f783b8c-a9db-876a-9955-8388bc68e4cd@linaro.org>
+Date: Tue, 21 Feb 2023 14:08:31 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <08c954d7-f4e4-4d63-28fc-50128f4bc2d7@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 3/5] bulk: Replace [g_]assert(0) -> g_assert_not_reached()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230221232520.14480-1-philmd@linaro.org>
+ <20230221232520.14480-4-philmd@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230221232520.14480-4-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,29 +93,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Gavin,
+On 2/21/23 13:25, Philippe Mathieu-Daudé wrote:
+> In order to avoid warnings such commit c0a6665c3c ("target/i386:
+> Remove compilation errors when -Werror=maybe-uninitialized"),
+> replace all assert(0) and g_assert(0) by g_assert_not_reached().
+> 
+> Remove any code following g_assert_not_reached().
+> 
+> See previous commit for rationale.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   docs/spin/aio_notify_accept.promela |   6 +-
+>   docs/spin/aio_notify_bug.promela    |   6 +-
 
-On Wed, Feb 22, 2023 at 10:44:07AM +1100, Gavin Shan wrote:
-> Peter, could you please give some hints for me to understand the atomic
-> and non-atomic update here? Ok, I will drop this part of changes in next
-> revision with the assumption that we have atomic update supported for
-> ARM64.
+C only.  Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-See commit f39b7d2b96.  Please don't remove the change in this patch.
 
-The comment was just something I thought about when reading, not something
-I suggested to change.
-
-If to remove it we'll need to remove the whole chunk not your changes alone
-here.  Still, please take it with a grain of salt before anyone can help to
-confirm because I can miss something else here.
-
-In short: before we know anything solidly, your current code is exactly
-correct, AFAICT.
-
-Thanks,
-
--- 
-Peter Xu
-
+r~
 
