@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E04A569FD90
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 22:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C288569FD93
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 22:13:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUwPK-0008FJ-I9; Wed, 22 Feb 2023 16:12:10 -0500
+	id 1pUwQC-0000U0-OO; Wed, 22 Feb 2023 16:13:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUwPH-0008EW-GC; Wed, 22 Feb 2023 16:12:07 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUwPE-00055o-Ol; Wed, 22 Feb 2023 16:12:07 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2079A746346;
- Wed, 22 Feb 2023 22:12:02 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C65C4745720; Wed, 22 Feb 2023 22:12:01 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C48557456E3;
- Wed, 22 Feb 2023 22:12:01 +0100 (CET)
-Date: Wed, 22 Feb 2023 22:12:01 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@redhat.com
-Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
-In-Reply-To: <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
-Message-ID: <67daf5dd-de6a-2d55-c830-8650efc59ee0@eik.bme.hu>
-References: <cover.1677004414.git.balaton@eik.bme.hu>
- <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
- <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
- <adb1fe51-a17e-53c2-4dd1-0c4270a928aa@eik.bme.hu>
- <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pUwQA-0000TS-E1
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:13:02 -0500
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pUwQ7-0005Bn-HK
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 16:13:00 -0500
+Received: by mail-lf1-x130.google.com with SMTP id f18so11798903lfa.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 13:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+8h4YGgnKZnL9y/e4Cj/Uj4Rec7WyQjBeNV+uwigNHw=;
+ b=uqSzsddgJO7SJUudt6JePShtTnoikzaUtVnF3X3AWC1QwBVBLeuZncryFT3pcD++23
+ lLuE1Qc3WWAq2EI9opD/0Ox2XkdJtt6iXWTKORJTvL0ec/mi4DYHFcHaD6noubQXLUY9
+ eA5RcUr3Hs2hbL+80/0atKs3kSWlC2RTLGQm117x7juk8yEj6dXDolSXr487F8vzc3pn
+ 0KgPv/te4cgMBe2/UToJ8qc9XG3LRX2j1SSBFVp9I7ttxEXP4Y7At0YKiP80cypTcXou
+ Rh/Xp2kSIkSDFAKkgYsoo6EFFepxOVGj48f+UNwDWtW7zfBU+zn9+TgJcdyv9f1ss7bx
+ DDIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+8h4YGgnKZnL9y/e4Cj/Uj4Rec7WyQjBeNV+uwigNHw=;
+ b=K4SeeUAvX1vV+SQlx3aCQ6A1Ua+2PhF52nmF9+K1443u27MOo7GiC+5Y/aa9bKGVZg
+ Hh/T9TmaZ1rGIO5KNoACEoM21Ri84gGMLSLBiq+63/kTu38iOL7YERlkHcqeVOPoI6ku
+ 6jwlETsAhEMUTGZaexuda5NtMfA8cm58dlTEpwy5/oTz6nJU/sVKIX1YnifVSGZX+L0u
+ AjEJbucvS9tvAFoIp70wAWhyEoKcHyqEhDpndFtnodBXZPBXpw0XMXxsGX+beTly5U/u
+ Z1uiZEfaKW8JeZOucMOjcGC+SIXz2PWxfZxL21GUAa9s1s6HuUGVKNwTKhegkoyG6u31
+ nmxA==
+X-Gm-Message-State: AO0yUKXYgWGZRf51ZZVwE/wo0LFT8q9yB07WBe13LjyLFXD4A15ElgMD
+ LPHi28902eCp8W9uYh6TmQgazQ==
+X-Google-Smtp-Source: AK7set+Zbcu7ebYlAmcoODl7MY27+MQbA2kzwlb4i/QcS72SVTI+EkboUbwtZuRaeOJSBkafprgh7A==
+X-Received: by 2002:ac2:4474:0:b0:4a4:68b9:66f3 with SMTP id
+ y20-20020ac24474000000b004a468b966f3mr3542337lfl.62.1677100376784; 
+ Wed, 22 Feb 2023 13:12:56 -0800 (PST)
+Received: from vp-pc.. (46-138-232-132.dynamic.spd-mgts.ru. [46.138.232.132])
+ by smtp.gmail.com with ESMTPSA id
+ v15-20020ac2558f000000b004db0d97b053sm330068lfg.137.2023.02.22.13.12.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Feb 2023 13:12:56 -0800 (PST)
+From: Viktor Prutyanov <viktor@daynix.com>
+To: annie.li@oracle.com,
+	pbonzini@redhat.com,
+	peter.maydell@linaro.org
+Cc: viktor.prutyanov@phystech.edu, yuri.benditovich@daynix.com, yan@daynix.com,
+ qemu-devel@nongnu.org, viktor@daynix.com
+Subject: [PATCH v2 0/3] contrib/elf2dmp: Windows Server 2022 support
+Date: Thu, 23 Feb 2023 00:12:43 +0300
+Message-Id: <20230222211246.883679-1-viktor@daynix.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::130;
+ envelope-from=viktor@daynix.com; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,104 +87,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023, Bernhard Beschow wrote:
-> Am 22. Februar 2023 19:25:16 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
->>> On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail.com> wrote:
->>>> On Tue, Feb 21, 2023 at 7:44 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>>>> This series fixes PCI interrupts on the ppc/pegasos2 machine and adds
->>>>> partial implementation of the via-ac97 sound part enough to get audio
->>>>> output. I'd like this to be merged for QEMU 8.0.
->>>>>
->>>>> Regards,
->>>>> BALATON Zoltan
->>>>>
->>>>> BALATON Zoltan (5):
->>>>>   hw/isa/vt82c686: Implement interrupt routing in via_isa_set_irq
->>>>>   hw/isa/vt82c686: Implement PIRQ pins
->>>>>   hw/ppc/pegasos2: Fix PCI interrupt routing
->>>>>   hw/audio/ac97: Split off some definitions to a header
->>>>>   hw/audio/via-ac97: Basic implementation of audio playback
->>>>>
->>>>>  hw/audio/ac97.c            |  43 +---
->>>>>  hw/audio/ac97.h            |  65 ++++++
->>>>>  hw/audio/trace-events      |   6 +
->>>>>  hw/audio/via-ac97.c        | 436 ++++++++++++++++++++++++++++++++++++-
->>>>>  hw/ide/via.c               |   2 +-
->>>>>  hw/isa/vt82c686.c          |  61 +++++-
->>>>>  hw/pci-host/mv64361.c      |   4 -
->>>>>  hw/ppc/pegasos2.c          |  26 ++-
->>>>>  hw/usb/vt82c686-uhci-pci.c |   5 +-
->>>>>  include/hw/isa/vt82c686.h  |  39 +++-
->>>>>  10 files changed, 626 insertions(+), 61 deletions(-)
->>>>>  create mode 100644 hw/audio/ac97.h
->>>>>
->>>>> --
->>>>> 2.30.7
->>>>>
->>>>>
->>>> Wow, the MorphOS people paid attention to sound design. Thanks for
->>>> presenting it to us, Zoltan!
->>>>
->>>> I've had a closer look at your series and I think it can be simplified:
->>>> Patch 2 can be implemented quite straight-forward like I proposed in a
->>>> private mail: https://github.com/shentok/qemu/commit/via-priq-routing.
->>>> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt routing"
->>>> working, one can expose the PCI interrupts with a single line like you do
->>>> in patch 2. With this, patch 1 "hw/isa/vt82c686: Implement interrupt
->>>> routing in via_isa_set_irq" isn't needed any longer and can be omitted.
->>>>
->>>> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() can be
->>>> used instead. pci_set_irq() internally takes care of all the ISA interrupt
->>>> level tracking patch 1 attempted to address.
->>>>
->>>
->>> Here is a proof of concept branch to demonstrate that the simplification
->>> actually works: https://github.com/shentok/qemu/commits/pegasos2 (Tested
->>> with MorphOS with and without pegasos2.rom).
->>
->> Does this only work because both the via-ac97 and the PCI interrupts are mapped to the same ISA IRQ and you've only tested sound? The guest could configure each device to use a different IRQ, also mapping them so they share one ISA interrupt. What happens if multiple devices are mapped to IRQ 9 (which is the case on pegasos2 where PCI cards, ac97 and USB all share this IRQ) and more than one such device wants to raise an interrupt at the same time? If you ack the ac97 interrupt but a PCI network card or the USB part still wants to get the CPUs attention the ISA IRQ should remain raised until all devices are serviced.
->
-> pci_bus_get_irq_level(), used in via_isa_set_pci_irq(), should handle
-> exactly that case very well.
->
->> I don't see a way to track the status of all devices in a single qemu_irq which can only be up or down so we need something to store the state of each source.
->
-> pci_set_irq() causes pci_bus_change_irq_level() to be called.
-> pci_bus_change_irq_level() tracks the sum of all irq levels of all
-> devices attached to a particular pin in irq_count. Have a look at
-> pci_bus_change_irq_level() and you will understand better.
+Hi,
 
-I'm aware of that, we're using that in sam460ex which connects all PCI 
-interrupt lines to a single IRQ and Peter explored and explained it in a 
-comment there when that was discovered. First we had a patch with or-irq 
-but due to this behaviot that's not needed for PCI interrupts. But the 
-VT8132 could change what ISA IRQ you route the sub functions to. It 
-happens that on pegasos2 by default all of those are routed to IRQ9 except 
-IDE but what if a guest changes ac97 to use a different interrupt? Then 
-it's not a PCI interrupt any more so you can't use pci_set_irq in 
-via=ac97. There are only 4 PCI INT lines but the VIA components can be 
-routed to 13 or 14 ISA IRQs. How do you keep track of that with only the 
-PCI bus interrupts? I don't get your approach.
+For now, elf2dmp is unable to convert ELF-dump to DMP-dump made of
+Windows Server 2022 guest. This patch series fixes it.
 
->> My patch adds a state register to each ISA IRQ line for all possible sources which could probably be stored once but then for each change of ISA IRQ status all the mapped devices should be checked and combined so it's easier to store them for each IRQ. Does your approach still work if you play sound, and copy something from network to a USB device at the same time? (I'm not sure mine does not have remaining bugs but I don't think this can be simplified that way but if you can prove it would work I don't mind taking an alternative version but I'm not convinced yet.)
->
-> Well, I can't prove that my approach works but unfortunately I can
-> prove that both our approaches cause a freeze :/ Try:
-> 1. Start `qemu-system-ppc -M pegasos2 -bios pegasos2.rom -rtc
-> base=localtime -device ati-vga,guest_hwcursor=true,romfile="" -cdrom
-> morphos-3.17.iso -device usb-mouse -device usb-kbd`
-> 2. Move the mouse while sound is playing
-> -> Observe the VM to freeze
->
-> So there must be an issue somewhere else...
+v1: improve code-style fix
+v2: don't remove data directory entry RVA print and DOS header size check
 
-I'll have a look later but my patch attempts to handle the USB controller 
-interrupts. There may be another bug somewhere in USB emulation though, we 
-have similar problem with mac99 with older MacOS guests. Considering that 
-USB devices probably did not work at all before this patch it's at least 
-still an imptovement. :-)
+Viktor Prutyanov (3):
+  contrib/elf2dmp: fix code style
+  contrib/elf2dmp: move PE dir search to pe_get_data_dir_entry
+  contrib/elf2dmp: add PE name check and Windows Server 2022 support
 
-Regards,
-BALATON Zoltan
+ contrib/elf2dmp/addrspace.c |   1 +
+ contrib/elf2dmp/main.c      | 108 ++++++++++++++++++++++-----------
+ contrib/elf2dmp/pe.h        | 115 ++++++++++++++++++++----------------
+ 3 files changed, 140 insertions(+), 84 deletions(-)
+
+-- 
+2.35.1
+
 
