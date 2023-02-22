@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA2B69F959
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:53:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E8669F98D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 18:05:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUsMw-0007F0-0V; Wed, 22 Feb 2023 11:53:26 -0500
+	id 1pUsWK-0002Ej-JY; Wed, 22 Feb 2023 12:03:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUsMt-0007EV-VB
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:53:23 -0500
+ id 1pUsVk-000234-Tx
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:02:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUsMs-0007PN-7b
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:53:23 -0500
+ id 1pUsVj-0003Mi-A6
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:02:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677084801;
+ s=mimecast20190719; t=1677085348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QZi34RurTHFS1H+3zfXqjfxNBNedNKj1BxNCE0WUf8M=;
- b=UXiyaVJslMef4ECzaZEjHe48X2JNqemAKT4GoEsIbRzVxJ3G/o0res3B+9ERZJXaF3nqF2
- gB/rHfASnSs7ICgSt5Iap4SVZCI6OdFBkAA9x0ofpFZ4ykCBBZ56OdNX/UnvZ0AO/VieAE
- icaf0HCDVb8EArPEEJ/ZQSxi6oBlQzk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=G1eY87ZXMp623jRUESzYNYBoMTQyXdiL9sOeHREsrBM=;
+ b=PqUrVXo3q/XxC7xr6j7lMdY772dbW8NR/rAsaCW406HqAZvBB4OxBZX/2kvlqioRzobv4V
+ Skz47NSvx09xwAtSPbq86LGNTJ8J+aPh3xmdybKpYmOx7SRCq4chcQ9qhPCVEVDWPLAkzO
+ GIO7HqLI+/YHgC+SqGRbPoWJVDmKvG8=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-264-Akh9EvfOMjWQFhQxDetHbQ-1; Wed, 22 Feb 2023 11:53:19 -0500
-X-MC-Unique: Akh9EvfOMjWQFhQxDetHbQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- cz22-20020a0564021cb600b004a245f58006so12082829edb.12
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 08:53:19 -0800 (PST)
+ us-mta-350-0OGBBdlGN9GqQoX6Ff8RRA-1; Wed, 22 Feb 2023 12:02:27 -0500
+X-MC-Unique: 0OGBBdlGN9GqQoX6Ff8RRA-1
+Received: by mail-vs1-f71.google.com with SMTP id
+ k2-20020a0561023f0200b00411c70e9579so3302209vsv.17
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 09:02:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QZi34RurTHFS1H+3zfXqjfxNBNedNKj1BxNCE0WUf8M=;
- b=bE7O3eJFU5c1Ob+R6TZcew0XoYbpyiFAjd0CM4XeFN2ZXfK+X8fDMysrxY0WjuFMDt
- PYwPJfQY5QvaiohgQwXhtg6y7YJYFj3HCRZyarPUofVALIbffmPx985QSbJmxlRbNDD9
- n5YWRJ+1Z67uiMs/d6gZTRFX/4dF4kqEaP5YdCFhyupgYtiHkoTeciOzSg97CFojjo6o
- 1Wi696SsKbPMTUP4Utli8yX+ssxDPpVsh6heL1ucpXQ8l9F69Cs91EFRP/4mbI+OmRtQ
- 0JcYsj7gXGQRLX0yhaKuKjtkBySYFNMAF3nnLYfrmqNcB0aCNkxwD67HOYlgsP0bU3rb
- SCQQ==
-X-Gm-Message-State: AO0yUKVLLkIsZ7WKAaeethvBnGMcKnZZY9hfF+kehwwNAt/4h6TS9Mq1
- Wyox120aPDgLJRjmKCbi55jdyzxH5k/kP5NZ2tOrsYzOVg88ke4fxA1b1m6tcytHtskKWCyDhZr
- 81fclKAXmIbLkEew=
-X-Received: by 2002:a17:906:10d8:b0:8b1:2dd3:cb45 with SMTP id
- v24-20020a17090610d800b008b12dd3cb45mr16620184ejv.42.1677084798415; 
- Wed, 22 Feb 2023 08:53:18 -0800 (PST)
-X-Google-Smtp-Source: AK7set8UqHnXlYVxCzdVdt37PNpApgyOCyQ2JHFapoCVgxU3y+NQlHbmEJ2llLJ21KHsNzKHPGaEOg==
-X-Received: by 2002:a17:906:10d8:b0:8b1:2dd3:cb45 with SMTP id
- v24-20020a17090610d800b008b12dd3cb45mr16620165ejv.42.1677084798142; 
- Wed, 22 Feb 2023 08:53:18 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- h7-20020a170906260700b008b8ae79a72bsm6524827ejc.135.2023.02.22.08.53.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 08:53:17 -0800 (PST)
-Message-ID: <45976b88-b7b7-f502-b7e1-998a7d413921@redhat.com>
-Date: Wed, 22 Feb 2023 17:53:15 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=G1eY87ZXMp623jRUESzYNYBoMTQyXdiL9sOeHREsrBM=;
+ b=K1So/djtX8YmpeoBl/Fv4Bd3Q9xNAn7bpPZ5tgpAUImDICbEG/wm8hHv/LFHrsI7zR
+ tVKRhb4D9ZqrKlwwDPcwReH9Z88EapyDRcC7Zxcjea8icgRhSn3WnsSt6GczDDqT6zSv
+ +itoJSd6U87o2IJGpSXlftaB9bfy+C6kTMjfXbrloSu0Gwuwn3iJiV3ck/jpp9QCW5Vc
+ eWVpE+nXm807dTQuDEoCmjd2nir2PQ5Et761cOd52cDSS28IiksOX4aEHJnzjKB3LvDn
+ W7tO2fNt82X7zegV7NnhViEcADFdMOroqGwlCaUJrcChShNnpia+Q/DRkyq3YAXo6j+K
+ LTOg==
+X-Gm-Message-State: AO0yUKVNamLISdlYBaqgSSJyDwXLDVxxpPvzlko5flxfRZZo8H/sdFV5
+ HA/1r4SeY50Bys+5+gRdzqNrA/YhXi6mLHzsP5lVr4ioByUjIUqZUH03DO6wN1cZ0nIlBca9PRl
+ YAuMT5I9zqvxc/FxvwILj6g3VIcLvzcg=
+X-Received: by 2002:a67:8c42:0:b0:41e:9107:d3e6 with SMTP id
+ o63-20020a678c42000000b0041e9107d3e6mr1367539vsd.53.1677085346896; 
+ Wed, 22 Feb 2023 09:02:26 -0800 (PST)
+X-Google-Smtp-Source: AK7set+4zU1NJMaqhYSyR+WSxK1pE6IIkd0fNafC6i3kG/km4Z6evUjTq7i2nM8/PNqAYqWveqP0v5aIt8byHHTavEo=
+X-Received: by 2002:a67:8c42:0:b0:41e:9107:d3e6 with SMTP id
+ o63-20020a678c42000000b0041e9107d3e6mr1367528vsd.53.1677085346653; Wed, 22
+ Feb 2023 09:02:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 03/10] meson: prefer 'sphinx-build' to 'sphinx-build-3'
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org,
- thuth@redhat.com, alex.bennee@linaro.org, berrange@redhat.com
 References: <20230222143752.466090-1-pbonzini@redhat.com>
- <20230222143752.466090-4-pbonzini@redhat.com> <87cz61ll9j.fsf@pond.sub.org>
+ <20230222143752.466090-10-pbonzini@redhat.com>
+ <878rgpll0i.fsf@pond.sub.org>
+In-Reply-To: <878rgpll0i.fsf@pond.sub.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87cz61ll9j.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Date: Wed, 22 Feb 2023 18:02:14 +0100
+Message-ID: <CABgObfZDJQvnm4UO8E5tdFgwmvip4dYT8qrdKU0_iTpYru8+WQ@mail.gmail.com>
+Subject: Re: [PATCH 09/10] Python: Drop support for Python 3.6
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org, 
+ thuth@redhat.com, alex.bennee@linaro.org, berrange@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.102, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,52 +94,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/22/23 17:26, Markus Armbruster wrote:
+On Wed, Feb 22, 2023 at 5:31 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
 > Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
->> From: John Snow <jsnow@redhat.com>
->>
->> Once upon a time, "sphinx-build" on certain RPM platforms invoked
->> specifically a Python 2.x version, while "sphinx-build-3" was a distro
->> shim for the Python 3.x version.
->>
->> These days, none of our supported platforms utilize a 2.x version, so it
->> should be safe to search for 'sphinx-build' prior to 'sphinx-build-3',
->> which will prefer pip/venv installed versions of sphinx if they're
->> available.
->>
->> This adds an extremely convenient ability to test document building
->> ability in QEMU across multiple versions of Sphinx for the purposes of
->> compatibility testing.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Message-Id: <20230221012456.2607692-6-jsnow@redhat.com>
-> 
-> Accident?
+>
+> > Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
+> > begun dropping support for this version and it is becoming more
+> > cumbersome to support. Avocado-framework and qemu.qmp each have their
+> > own reasons for wanting to drop Python 3.6, but won't until QEMU does.
+>
+> In review of the original "[PATCH v3 6/6] Python: Drop support for
+> Python 3.6", I volunteered to rework the rationale.  Second thoughts: if
+> y'all think this is good enough, let's leave it there.
 
-No but I can remove it.
-
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>   docs/meson.build | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/docs/meson.build b/docs/meson.build
->> index 9136fed3b730..906034f9a87f 100644
->> --- a/docs/meson.build
->> +++ b/docs/meson.build
->> @@ -1,5 +1,5 @@
->>   if get_option('sphinx_build') == ''
->> -  sphinx_build = find_program(['sphinx-build-3', 'sphinx-build'],
->> +  sphinx_build = find_program(['sphinx-build', 'sphinx-build-3'],
->>                                 required: get_option('docs'))
->>   else
->>     sphinx_build = find_program(get_option('sphinx_build'),
-> 
-> In review of the original "[PATCH v3 5/6] meson: prefer 'sphinx-build'
-> to 'sphinx-build-3'", I challenged the check for sphinx-build-3.
-
-I missed your message from this morning.  I can remove this.
+As you prefer; "docs: build-platforms: refine requirements on Python
+build dependencies" already provides a fairly lengthy rationale
+distilled from the same discussions, so I think we can leave it at
+that, but I can merge whatever change you prefer.
 
 Paolo
 
