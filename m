@@ -2,59 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B3769F72E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCDA69F74F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:02:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqVE-00024d-St; Wed, 22 Feb 2023 09:53:52 -0500
+	id 1pUqcW-0004ZO-Ge; Wed, 22 Feb 2023 10:01:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pUqVB-000246-W7
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:53:50 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pUqV9-0004O6-B4
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:53:49 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PMJv15pxdz6J7N8;
- Wed, 22 Feb 2023 22:48:45 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Wed, 22 Feb
- 2023 14:53:31 +0000
-Date: Wed, 22 Feb 2023 14:53:30 +0000
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
- "Ira Weiny" <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, 
- Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang <dave.jiang@intel.com>, 
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v5 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support.
-Message-ID: <20230222145330.000021ef@huawei.com>
-In-Reply-To: <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
-References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
- <20230221152145.9736-9-Jonathan.Cameron@huawei.com>
- <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUqcS-0004YX-9G
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:01:20 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUqcQ-0000Wx-Kt
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:01:20 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id t15so8147400wrz.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 07:01:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Cg90L6azkkL2sSN7Nlhkz3auhUk6w9D2r95dF3r8fcM=;
+ b=k5+pYuzXu6a23LHl+WtaVpFYSj4vmZINgDnYnjDiC2DB8ZIkm7gpaHSpoFMvtlxso5
+ /Cshm06+z8UIV9I2lflykxRO/QIqKJ8KWYKpw7ylYLBPV3+o3DO5GqH8qbiFFYR6IMHZ
+ tzfmX1iz6lNGb/l3Hly6QIijCl66Hb/0h7sv5kBa6q273UnjXkppKaMGzH2OBUk8fdsP
+ ETbJFJwt4zFt67xacJayCGu/McgD/MrbxXlivvLMx+6C76lu36c2ozX8d4TnC61L/tL8
+ SsSAl5MLqNw9/wAPg7NxBtgyxfOxVUvSwnAPY69wGDUwZcQ/uEjEyr3DYkRjWOuUgZoP
+ LwhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cg90L6azkkL2sSN7Nlhkz3auhUk6w9D2r95dF3r8fcM=;
+ b=XOegSKygTvE7JfmsMp/ux/W2exQIp1yvihUAw7F6S+nJw2vR4wnZkLIKwvjqC+hENn
+ L6RqUW6JbSYwuH2B4Lxou5Qq4eNU7r2baehUNd/f7i7Cup8HvhPQA84v7vRWaFZqmUoz
+ xwNp+Lm7RSkzlqgS40fkF5rhwlAXvGld83UF1JoAywyfnVO+moEg3palD5pamINrZeN1
+ 9snMLson6+7M9duzEZK2qU4VJFRIdZsD6tMOraMcsboO9wujFYZ31eCeH6w4VtCU5x+X
+ yboKfWbOj4pIwsny/aWkHGPUgcZoJj2kU2FrcttuPvXB416B9TIcb/Hqs2bai8qquQO2
+ g2LA==
+X-Gm-Message-State: AO0yUKUZ17cledKY2QiaH3wpD65ba/ynwafrDpufbB8Te797eN0+bBNx
+ qvKu63xpkYX+8bdSiyu963IT3A==
+X-Google-Smtp-Source: AK7set/C0PhTYMDdTrLHAqvIgNVZm8w2z3esr+2xSqiQhdaZ6Qc44UL+eqlMeaCz4WqGV8LIC3rjRw==
+X-Received: by 2002:adf:f082:0:b0:2c5:8736:c022 with SMTP id
+ n2-20020adff082000000b002c58736c022mr6913343wro.62.1677078076563; 
+ Wed, 22 Feb 2023 07:01:16 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ q2-20020adff502000000b002c573a6216fsm5941838wro.37.2023.02.22.07.01.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 07:01:16 -0800 (PST)
+Message-ID: <fa59c2b8-e834-8724-f4e6-e494c8526ce2@linaro.org>
+Date: Wed, 22 Feb 2023 16:01:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 08/12] tests: skip the nios2 replay_kernel test
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Cc: Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ Thomas Huth <thuth@redhat.com>
+References: <20230215192530.299263-1-alex.bennee@linaro.org>
+ <20230215192530.299263-9-alex.bennee@linaro.org>
+ <534be66c-bd70-a4e9-0e30-6892d7b0c8bd@linaro.org>
+ <cb2e92b7-40bb-4975-290d-6321c5574365@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <cb2e92b7-40bb-4975-290d-6321c5574365@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,136 +93,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Feb 2023 23:15:49 +0100
-Philippe Mathieu-Daud=E9 <philmd@linaro.org> wrote:
+On 15/2/23 21:59, Richard Henderson wrote:
+> On 2/15/23 10:47, Philippe Mathieu-Daudé wrote:
+>>> +    @skip("nios2 emulation is buggy under record/replay")
+>>
+>> It will be hard to notice the flakyness got improved. What about:
+>>
+>>         @skipUnless(os.getenv('AVOCADO_RUN_FLAKY_TESTS'), 'Flaky test')
+>>
+>>>       def test_nios2_10m50(self):
+>>>           """
+>>>           :avocado: tags=arch:nios2
+> 
+> It'll be hard for there to be any improvement without an active maintainer.
 
-> Hi Jonathan,
->=20
-> On 21/2/23 16:21, Jonathan Cameron wrote:
-> > CXL uses PCI AER Internal errors to signal to the host that an error has
-> > occurred. The host can then read more detailed status from the CXL RAS
-> > capability.
-> >=20
-> > For uncorrectable errors: support multiple injection in one operation
-> > as this is needed to reliably test multiple header logging support in an
-> > OS. The equivalent feature doesn't exist for correctable errors, so only
-> > one error need be injected at a time.
-> >=20
-> > Note:
-> >   - Header content needs to be manually specified in a fashion that
-> >     matches the specification for what can be in the header for each
-> >     error type.
-> >=20
-> > Injection via QMP:
-> > { "execute": "qmp_capabilities" }
-> > ...
-> > { "execute": "cxl-inject-uncorrectable-errors",
-> >    "arguments": {
-> >      "path": "/machine/peripheral/cxl-pmem0",
-> >      "errors": [
-> >          {
-> >              "type": "cache-address-parity",
-> >              "header": [ 3, 4]
-> >          },
-> >          {
-> >              "type": "cache-data-parity",
-> >              "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,=
-19,20,21,22,23,24,25,26,27,28,29,30,31]
-> >          },
-> >          {
-> >              "type": "internal",
-> >              "header": [ 1, 2, 4]
-> >          }
-> >          ]
-> >    }}
-> > ...
-> > { "execute": "cxl-inject-correctable-error",
-> >      "arguments": {
-> >          "path": "/machine/peripheral/cxl-pmem0",
-> >          "type": "physical"
-> >      } }
-> >=20
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+In that case no point in keeping the test...
 
-Hi Philippe,
+Anyhow,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Thanks for your review.  One question inline.
+> Last patch from any of the listed maintainers was:
+> 
+> commit ebedf0f9cd46b617df331eecc857c379d574ac62
+> Author: Marek Vasut <marex@denx.de>
+> Date:   Fri Mar 17 22:06:27 2017 +0100
+> 
+>      nios2: iic: Convert CPU prop to qom link
+> 
+> It's probably time to demote "Maintained" to "Orphan".
+> 
+> 
+> r~
 
-> > +#
-> > +# Type of uncorrectable CXL error to inject. These errors are reported=
- via
-> > +# an AER uncorrectable internal error with additional information logg=
-ed at
-> > +# the CXL device.
-> > +#
-> > +# @cache-data-parity: Data error such as data parity or data ECC error=
- CXL.cache
-> > +# @cache-address-parity: Address parity or other errors associated wit=
-h the
-> > +#                        address field on CXL.cache
-> > +# @cache-be-parity: Byte enable parity or other byte enable errors on =
-CXL.cache
-> > +# @cache-data-ecc: ECC error on CXL.cache
-> > +# @mem-data-parity: Data error such as data parity or data ECC error o=
-n CXL.mem
-> > +# @mem-address-parity: Address parity or other errors associated with =
-the
-> > +#                      address field on CXL.mem
-> > +# @mem-be-parity: Byte enable parity or other byte enable errors on CX=
-L.mem.
-> > +# @mem-data-ecc: Data ECC error on CXL.mem.
-> > +# @reinit-threshold: REINIT threshold hit.
-> > +# @rsvd-encoding: Received unrecognized encoding.
-> > +# @poison-received: Received poison from the peer.
-> > +# @receiver-overflow: Buffer overflows (first 3 bits of header log ind=
-icate which)
-> > +# @internal: Component specific error
-> > +# @cxl-ide-tx: Integrity and data encryption tx error.
-> > +# @cxl-ide-rx: Integrity and data encryption rx error.
-> > +##
-> > +
-> > +{ 'enum': 'CxlUncorErrorType', =20
->=20
-> Doesn't these need
->=20
->       'if': 'CONFIG_CXL_MEM_DEVICE',
->=20
-> ?
-
-If I make this change I get a bunch of
-
-./qapi/qapi-types-cxl.h:18:13: error: attempt to use poisoned "CONFIG_CXL_M=
-EM_DEVICE"
-   18 | #if defined(CONFIG_CXL_MEM_DEVICE)
-
-It's a target specific define (I think) as built alongside PCI_EXPRESS
-Only CXL_ACPI is specifically included by x86 and arm64 (out of tree)
-
-To be honest though I don't fully understand the QEMU build system so the r=
-eason
-for the error might be wrong.
-
->=20
-> > +  'data': ['cache-data-parity',
-> > +           'cache-address-parity',
-> > +           'cache-be-parity',
-> > +           'cache-data-ecc',
-> > +           'mem-data-parity',
-> > +           'mem-address-parity',
-> > +           'mem-be-parity',
-> > +           'mem-data-ecc',
-> > +           'reinit-threshold',
-> > +           'rsvd-encoding',
-> > +           'poison-received',
-> > +           'receiver-overflow',
-> > +           'internal',
-> > +           'cxl-ide-tx',
-> > +           'cxl-ide-rx'
-> > +           ]
-> > + }
 
