@@ -2,101 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DF869EDC9
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 05:06:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D9169EDCC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 05:08:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUgOa-0004zg-DT; Tue, 21 Feb 2023 23:06:20 -0500
+	id 1pUgQ3-0005uQ-C7; Tue, 21 Feb 2023 23:07:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUgOW-0004yQ-LU
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 23:06:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pUgQ1-0005uD-1O
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 23:07:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pUgOT-0003ZS-VG
- for qemu-devel@nongnu.org; Tue, 21 Feb 2023 23:06:16 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pUgPy-0003ga-SI
+ for qemu-devel@nongnu.org; Tue, 21 Feb 2023 23:07:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677038772;
+ s=mimecast20190719; t=1677038865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sfOru1lyx2dBtpuIzTxh2cJUllvvHTvgeoyGJ168de8=;
- b=fH4UYV54/fj1Z0+Kh+2oIXyl393Q2cMj88HG9VxpXNnmPp3ZHfRX6uAXvgTJh+aO+7xUgM
- MtlZn51UmS6QC+YSGOZWjCXVNsIS1q0ueVc4DhRj/JAXBq3Osc/97OmqsV7TQSerR88ARA
- 2w9fkBHC1kesybZ4hlmBpe5yuOM5+aM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=23WaYJEuVEDnZZtD/Kv+hEaPZ1wtaeuDlWV+EiAlFYE=;
+ b=W90V2f6e5SgayoVqPS3K1mQFyITkVWNLYncGgp2Sp0QoHU+YGODlm9ue+Yovr4zvuCQRDm
+ by5yvtpRUujZrV7frmEJib12m0QluHz6iTwaiIM7hpVLGZWzxZcj74VKbEjSiy2SmAPulC
+ dQBBCVe/5hlJkb9BpUmc/mAsPbbIOCQ=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-614-Sh2pAt3RN5GfF9kDRooPGg-1; Tue, 21 Feb 2023 23:06:10 -0500
-X-MC-Unique: Sh2pAt3RN5GfF9kDRooPGg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- q13-20020a5085cd000000b004af50de0bcfso6264657edh.15
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 20:06:10 -0800 (PST)
+ us-mta-633-rgfy-5quNg-_RjIGblkaMw-1; Tue, 21 Feb 2023 23:07:36 -0500
+X-MC-Unique: rgfy-5quNg-_RjIGblkaMw-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ i6-20020a17090a974600b0023487c793d0so3257787pjw.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 20:07:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sfOru1lyx2dBtpuIzTxh2cJUllvvHTvgeoyGJ168de8=;
- b=sCJphsjfytcrat5eMu/hMUgMD6GwWc+z+OCVcu63RcxH5++Ys3Lykqyvts6O1VAidO
- J5j+ylQQGeGdtoPRDmQhF4kBhuX4C2iRA0nKZhgPSHfsnAwrrDB61f5NBw3QsdVEgvhG
- wM2hf1Y49slB+L86gCCeYinjuxngbDM35G7krYCzyfP+cD660+Cm3FJXtZUIacewgn49
- O3l/MilSvsqNl/BEhyDUUcOiD3AJcl8xQo70f2ar66GG4RKsH315e2PV953ZvQm272xb
- IWZWyRWXdFmMs3AhTjBYJTmBHjEuWpVx2tukTNlPo47WlHfhTcbibejLHZ8yl+RbUN/a
- 5tQw==
-X-Gm-Message-State: AO0yUKVmtlhRjkEKpZFldGP8nwUBmiBQ3sLHt+aqCbu/0IG+baFh24nC
- EM1PZwfcSmBx4p6ADxw4Z7sZUJr+wSHMLZVtQ5pb3OP6t43rfzb6qCCSvFq8Ykp99Ur0ntZBTFY
- M3q8cZvmYp3rvTxo=
-X-Received: by 2002:aa7:dd51:0:b0:4ad:7af2:a2ce with SMTP id
- o17-20020aa7dd51000000b004ad7af2a2cemr5894775edw.6.1677038769285; 
- Tue, 21 Feb 2023 20:06:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set/VPsuvlzGUwE+p9JtOdz1blG87Go6osspeHl225WWMsiL6sVALalyI84zCWcRR0WNcZEoEAA==
-X-Received: by 2002:aa7:dd51:0:b0:4ad:7af2:a2ce with SMTP id
- o17-20020aa7dd51000000b004ad7af2a2cemr5894747edw.6.1677038769009; 
- Tue, 21 Feb 2023 20:06:09 -0800 (PST)
-Received: from [192.168.8.104] (tmo-100-40.customers.d1-online.com.
- [80.187.100.40]) by smtp.gmail.com with ESMTPSA id
- q21-20020a50aa95000000b004ab4db9be14sm2585046edc.81.2023.02.21.20.06.05
+ bh=23WaYJEuVEDnZZtD/Kv+hEaPZ1wtaeuDlWV+EiAlFYE=;
+ b=xMSBh5b83HO6KXwgh31ruL8CznSLIvCNkrmRqvf96fSSf2HZxfIkAMl5yu8Wu2Gtvr
+ 4eWDHehgh5qGIcYH41XH7hOGkbcsI2NTuv9dqK+jFcsQtAkbJa4QjWx5reIrvsAAy9KB
+ iwXaAmDyjcpnOYb4KafH9bC+vSx/sbUECBubYC6LWmIUMlC1i8Cw7f3ajOgp1ENnmhG9
+ ao7YWEwD14z3NxHKe3CRkS+FToOZMXhcng9ZxtPyozMw3u1zvaM9LUqgo9X0cmgCgSW6
+ F/dwKJi7yfpbx7zefdY0pXtgFcYzzWnQpSQVHePa0A7+9hbrPIfu+PV//C/x7XLg7q7i
+ ySLw==
+X-Gm-Message-State: AO0yUKUoaIo8ecTBqRl+SmUNhIGyydUMUlfaiKE4xSqDUTZRC6abdKEt
+ W6Y1yC/BP+TsNMHs87M1yZY1z88g58get5nvXIAFuHYa6XGkM4m8sVWtr0e/EYJe6PujIlaPJzb
+ 1CQy7nBXuM73FS7Q=
+X-Received: by 2002:a05:6a20:a10b:b0:bd:17a4:c339 with SMTP id
+ q11-20020a056a20a10b00b000bd17a4c339mr6558892pzk.13.1677038855344; 
+ Tue, 21 Feb 2023 20:07:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set952JHhGcQmblzrCG151oLNcAaBWjsK1jgb2/cKapb1E2eT4+uCH9XBPpKVAPS6NZRV1WV3Gw==
+X-Received: by 2002:a05:6a20:a10b:b0:bd:17a4:c339 with SMTP id
+ q11-20020a056a20a10b00b000bd17a4c339mr6558870pzk.13.1677038855037; 
+ Tue, 21 Feb 2023 20:07:35 -0800 (PST)
+Received: from [10.72.13.76] ([43.228.180.230])
+ by smtp.gmail.com with ESMTPSA id
+ h6-20020a170902eec600b0017a032d7ae4sm1669577plb.104.2023.02.21.20.07.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Feb 2023 20:06:08 -0800 (PST)
-Message-ID: <f0eb7a7c-8505-ee8d-af5f-259c2627958b@redhat.com>
-Date: Wed, 22 Feb 2023 05:06:04 +0100
+ Tue, 21 Feb 2023 20:07:34 -0800 (PST)
+Message-ID: <c5817a6d-097f-6cef-748f-1b1848d0192f@redhat.com>
+Date: Wed, 22 Feb 2023 12:07:27 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 13/13] vdpa: return VHOST_F_LOG_ALL in vhost-vdpa
+ devices
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Rob Herring <robh@kernel.org>, Peter Maydell <peter.maydell@linaro.org>,
- Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Helge Deller <deller@gmx.de>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Corey Minyard <minyard@acm.org>, Laurent Vivier <lvivier@redhat.com>
-References: <20230221232520.14480-1-philmd@linaro.org>
- <20230221232520.14480-4-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 3/5] bulk: Replace [g_]assert(0) -> g_assert_not_reached()
-In-Reply-To: <20230221232520.14480-4-philmd@linaro.org>
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org,
+ Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+References: <20230208094253.702672-1-eperezma@redhat.com>
+ <20230208094253.702672-14-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20230208094253.702672-14-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -104,7 +96,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,112 +112,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/02/2023 00.25, Philippe Mathieu-Daudé wrote:
-> In order to avoid warnings such commit c0a6665c3c ("target/i386:
-> Remove compilation errors when -Werror=maybe-uninitialized"),
-> replace all assert(0) and g_assert(0) by g_assert_not_reached().
-> 
-> Remove any code following g_assert_not_reached().
-> 
-> See previous commit for rationale.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+在 2023/2/8 17:42, Eugenio Pérez 写道:
+> vhost-vdpa devices can return this features now that blockers have been
+> set in case some features are not met.
+>
+> Expose VHOST_F_LOG_ALL only in that case.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
-> 
-> diff --git a/docs/spin/aio_notify_accept.promela b/docs/spin/aio_notify_accept.promela
-> index 9cef2c955d..f929d30328 100644
-> --- a/docs/spin/aio_notify_accept.promela
-> +++ b/docs/spin/aio_notify_accept.promela
-> @@ -118,7 +118,7 @@ accept_if_req_not_eventually_false:
->       if
->           :: req -> goto accept_if_req_not_eventually_false;
->       fi;
-> -    assert(0);
-> +    g_assert_not_reached();
->   }
 
-This does not look like C code ... is it safe to replace the statement here?
 
-> diff --git a/docs/spin/aio_notify_bug.promela b/docs/spin/aio_notify_bug.promela
-> index b3bfca1ca4..ce6f5177ed 100644
-> --- a/docs/spin/aio_notify_bug.promela
-> +++ b/docs/spin/aio_notify_bug.promela
-> @@ -106,7 +106,7 @@ accept_if_req_not_eventually_false:
->       if
->           :: req -> goto accept_if_req_not_eventually_false;
->       fi;
-> -    assert(0);
-> +    g_assert_not_reached();
->   }
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-dito
+Thanks
 
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index f54f44d899..59c8032a21 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -1347,49 +1347,42 @@ int postcopy_ram_incoming_init(MigrationIncomingState *mis)
->   
->   int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
->   {
-> -    assert(0);
-> -    return -1;
-> +    g_assert_not_reached();
->   }
->   
->   int postcopy_ram_prepare_discard(MigrationIncomingState *mis)
->   {
-> -    assert(0);
-> -    return -1;
-> +    g_assert_not_reached();
->   }
->   
->   int postcopy_request_shared_page(struct PostCopyFD *pcfd, RAMBlock *rb,
->                                    uint64_t client_addr, uint64_t rb_offset)
->   {
-> -    assert(0);
-> -    return -1;
-> +    g_assert_not_reached();
->   }
->   
->   int postcopy_ram_incoming_setup(MigrationIncomingState *mis)
->   {
-> -    assert(0);
-> -    return -1;
-> +    g_assert_not_reached();
->   }
->   
->   int postcopy_place_page(MigrationIncomingState *mis, void *host, void *from,
->                           RAMBlock *rb)
->   {
-> -    assert(0);
-> -    return -1;
-> +    g_assert_not_reached();
->   }
->   
->   int postcopy_place_page_zero(MigrationIncomingState *mis, void *host,
->                           RAMBlock *rb)
->   {
-> -    assert(0);
-> -    return -1;
-> +    g_assert_not_reached();
->   }
->   
->   int postcopy_wake_shared(struct PostCopyFD *pcfd,
->                            uint64_t client_addr,
->                            RAMBlock *rb)
->   {
-> -    assert(0);
-> -    return -1;
-> +    g_assert_not_reached();
->   }
->   #endif
 
-If we ever reconsider to allow compiling with G_DISABLE_ASSERT again, this 
-will fail to compile since the return is missing now, so this is kind of 
-ugly ... would it make sense to replace this with g_assert_true(0) instead? 
-Or use abort() directly?
-
-  Thomas
+>   hw/virtio/vhost-vdpa.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 13a86a2bb1..5fddc77c5c 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -1319,10 +1319,9 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
+>   static int vhost_vdpa_get_features(struct vhost_dev *dev,
+>                                        uint64_t *features)
+>   {
+> -    struct vhost_vdpa *v = dev->opaque;
+>       int ret = vhost_vdpa_get_dev_features(dev, features);
+>   
+> -    if (ret == 0 && v->shadow_vqs_enabled) {
+> +    if (ret == 0) {
+>           /* Add SVQ logging capabilities */
+>           *features |= BIT_ULL(VHOST_F_LOG_ALL);
+>       }
 
 
