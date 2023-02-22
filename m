@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4862969F788
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:17:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D799569F795
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:20:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqrQ-0006yg-Ej; Wed, 22 Feb 2023 10:16:48 -0500
+	id 1pUquO-0007qE-HL; Wed, 22 Feb 2023 10:19:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pUqrO-0006yJ-LI
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:16:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pUquM-0007py-JC
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:19:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pUqrF-0000ZI-AN
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:16:46 -0500
+ id 1pUquK-00017E-T3
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:19:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677078992;
+ s=mimecast20190719; t=1677079188;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A2dXGeMYgMlkF+ye79JfN2mPyXy2RA5JhzSHb9/ODXY=;
- b=XZ2I9m6JhXWs5t8P68KltP+Ba0pTFBzjzRlLejkYR7xrx4XJqPXGQeSENbWveLwmubf2ZW
- JXoOtd5ErV3UvqbrR3qFJcYE8ye4VNz5nIHonB4b3hDcF6xYZVk74K+4+BgkywtqarhG+b
- 5jTop5AsW+Yl4OyJ4zkN4PeXzea+8tE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5xgljW9zbBsxJc1oNOSn3NPc0MOv+4sthu9vn+Ejtjg=;
+ b=bJYw7nXXHBMkGNGONRkGP2EKMePTrCqWLuWOxo4G4whTknUmdZl4rkicR5sNQlOhRA2hso
+ HtUr6a3tYxw9PKcHN7PxJ7o1L5ADYvHvImg+39PKqh/1ACotbhK9kXgujuJLqJ66UzKWwy
+ 9jdwr9VflNvX9baztr/20J4UQ+IzDL4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-359-4WynR-RDN5SnV8Gy72M6og-1; Wed, 22 Feb 2023 10:16:27 -0500
-X-MC-Unique: 4WynR-RDN5SnV8Gy72M6og-1
+ us-mta-92-3eiT2bs4PraLM4_NHDsqhQ-1; Wed, 22 Feb 2023 10:19:44 -0500
+X-MC-Unique: 3eiT2bs4PraLM4_NHDsqhQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CB0A100F908;
- Wed, 22 Feb 2023 15:16:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 706023C16E88;
+ Wed, 22 Feb 2023 15:19:44 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 696DCC15BA0;
- Wed, 22 Feb 2023 15:16:25 +0000 (UTC)
-Date: Wed, 22 Feb 2023 15:16:23 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53AABC15BA0;
+ Wed, 22 Feb 2023 15:19:43 +0000 (UTC)
+Date: Wed, 22 Feb 2023 15:19:40 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org,
  thuth@redhat.com, alex.bennee@linaro.org, armbru@redhat.com
-Subject: Re: [PATCH 09/10] Python: Drop support for Python 3.6
-Message-ID: <Y/Yxx3Awi9q6LRNg@redhat.com>
+Subject: Re: [PATCH 05/10] configure: Look for auxiliary Python installations
+Message-ID: <Y/YyjEtqwF4qgAYc@redhat.com>
 References: <20230222143752.466090-1-pbonzini@redhat.com>
- <20230222143752.466090-10-pbonzini@redhat.com>
+ <20230222143752.466090-6-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230222143752.466090-10-pbonzini@redhat.com>
+In-Reply-To: <20230222143752.466090-6-pbonzini@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,52 +84,44 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 03:37:51PM +0100, Paolo Bonzini wrote:
-> Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
-> begun dropping support for this version and it is becoming more
-> cumbersome to support. Avocado-framework and qemu.qmp each have their
-> own reasons for wanting to drop Python 3.6, but won't until QEMU does.
+On Wed, Feb 22, 2023 at 03:37:47PM +0100, Paolo Bonzini wrote:
+> From: John Snow <jsnow@redhat.com>
 > 
-> Versions of Python available in our supported build platforms as of today,
-> with optional versions available in parentheses:
+> At the moment, we look for just "python3" and "python", which is good
+> enough almost all of the time. But ... if you are on a platform that
+> uses an older Python by default and only offers a newer Python as an
+> option, you'll have to specify --python=/usr/bin/foo every time.
 > 
-> openSUSE Leap 15.4: 3.6.15 (3.9.10, 3.10.2)
-> CentOS Stream 8:    3.6.8  (3.8.13, 3.9.16)
-> CentOS Stream 9:    3.9.13
-> Fedora 36:          3.10
-> Fedora 37:          3.11
-> Debian 11:          3.9.2
-> Alpine 3.14, 3.15:  3.9.16
-> Alpine 3.16, 3.17:  3.10.10
-> Ubuntu 20.04 LTS:   3.8.10
-> Ubuntu 22.04 LTS:   3.10.4
-> NetBSD 9.3:         3.9.13*
-> FreeBSD 12.4:       3.9.16
-> FreeBSD 13.1:       3.9.16
-> OpenBSD 7.2:        3.9.16
+> We can be kind and instead make a cursory attempt to locate a suitable
+> Python binary ourselves, looking for the remaining well-known binaries.
 > 
-> Note: Our VM tests install 3.7 specifically for freebsd and netbsd; the
-> default for "python" or "python3" in FreeBSD is 3.9.16. NetBSD does not
-> appear to have a default meta-package, but offers several options, the
-> lowest of which is 3.7.15. "python39" appears to be a pre-requisite to
-> one of the other packages we request in tests/vm/netbsd.
+> This configure loop will use whatever is specified in $PYTHON or, if
+> empty, will try the following in order:
 > 
-> Since it is safe to under our supported platform policy, bump our
-> minimum supported version of Python to 3.7.
-
-Your updated support policy doc patch could be included in
-this series perhaps.
-
+> 1. python3
+> 2. python
+> 3. python3.11 down through python3.6
+> 
+> Notes:
+> 
+> - Python virtual environment provides binaries for "python3", "python",
+>   and whichever version you used to create the venv,
+>   e.g. "python3.8". If configure is invoked from inside of a venv, this
+>   configure loop will not "break out" of that venv unless that venv is
+>   created using an explicitly non-suitable version of Python that we
+>   cannot use.
+> 
+> - In the event that no suitable python is found, the first python found
+>   is the version used to generate the human-readable error message.
+> 
+> - The error message isn't printed right away to allow later
+>   configuration code to pick up an explicitly configured python.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  configure                |  8 ++++----
->  python/Makefile          | 10 +++++-----
->  python/setup.cfg         |  7 +++----
->  python/tests/minreqs.txt |  2 +-
->  scripts/qapi/mypy.ini    |  2 +-
->  5 files changed, 14 insertions(+), 15 deletions(-)
+>  configure | 63 ++++++++++++++++++++++++++++++++++++++++---------------
+>  1 file changed, 46 insertions(+), 17 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
