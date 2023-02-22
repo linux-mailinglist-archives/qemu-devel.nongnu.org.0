@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668D269F2A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BDA69F2B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 11:30:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUmHN-0006gQ-7e; Wed, 22 Feb 2023 05:23:17 -0500
+	id 1pUmMv-00087j-1x; Wed, 22 Feb 2023 05:29:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUmHK-0006fz-Ku
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:23:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pUmMo-000879-L3
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:28:56 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUmHI-0000Xq-GN
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:23:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677061391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x3jNF4MuitTcHRF5kIEtaWVAEDkZgO4qkRlxxIRjxoQ=;
- b=eyidp8/EFtBxKwrA7rbFIqAok74Nf5qTRL9QBCIFfGZR+H7L5m/V4yIoK0AxVFBQjtxLVK
- KzuXCi/KNmJcUKqBJ5Y4lWBo+2PxCuDRR+cK7wYkoR5wG+gjDza298ljikyTn4ORZ/Gfn3
- RT6gPgqFFejNnZOaoq/yHHBb+nJRbyY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-96HiUi4_MNaWumJl2i6KHw-1; Wed, 22 Feb 2023 05:23:06 -0500
-X-MC-Unique: 96HiUi4_MNaWumJl2i6KHw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 387AB18A0651;
- Wed, 22 Feb 2023 10:23:06 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA1572026D4B;
- Wed, 22 Feb 2023 10:23:04 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C39C321E6A1F; Wed, 22 Feb 2023 11:23:03 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org,  Beraldo Leal <bleal@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
- Vivier <lvivier@redhat.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael Roth
- <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Thomas Huth
- <thuth@redhat.com>,  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-8-marcandre.lureau@redhat.com>
- <87fsb4k85h.fsf@pond.sub.org>
- <CAMxuvax6qPYQCzNX7vESJM9_f5k4C1Yat0sJcJjrHkh_1WGpQA@mail.gmail.com>
- <87a61821y3.fsf@pond.sub.org>
- <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
-Date: Wed, 22 Feb 2023 11:23:03 +0100
-In-Reply-To: <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
- (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Wed, 22 Feb 2023
- 12:05:26 +0400")
-Message-ID: <87356yq9rs.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pUmMm-0003f1-NN
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 05:28:54 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 5DA6B5C0131;
+ Wed, 22 Feb 2023 05:28:45 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Wed, 22 Feb 2023 05:28:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1677061725; x=
+ 1677148125; bh=eZKeWnPgCycYzzVWpyMcerij37Eh4qovBoiaYF157Pk=; b=i
+ 1CHDyn70VXpYg+OGM2sQy/5VPoF70EmwKhqK5Vyqy3zckl0CGc+CwT48+0Rmzck2
+ T35b0z/Yt+dJF/F8JxYo5aNPD510wZrUuX8TfyXUenXGgvT3SctJou9A/YwN+ZF+
+ akvZhwmEHFRYsHheFrMD3yBVyA8ebI+m/7YQznW1TQlP4go2bfvMDaq1DCJjk0YG
+ UF9DGQXKUrU1/tsSXeEXoDI5fg+DV6hzU6xAGJ+etCCgw9SfcbkL0Lnmi0hKh3iE
+ MqSXV6o/euhevGaVbq02E3rX8kur2hLMJ5Q5SlXM0BTWsYRlI3O3bzVwhIjA5SgA
+ p75fETj3Bh5PK4EjcI8rg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677061725; x=
+ 1677148125; bh=eZKeWnPgCycYzzVWpyMcerij37Eh4qovBoiaYF157Pk=; b=A
+ Stafb2JMo6cq6v9/l1+g7d746Y5KEK/iKhWad+L4jq3H99Mggh4DaWT3cf7G0dJV
+ 9IkLZnyPv6Cud2BSThAS5KbCmOVW17fmJq+s5qNv95RzYIb5PQh8KUw+S0JR+hd2
+ ZJhPcPGnWPkRMqQxHA3rO90TXAazv8NjY03L+2VD4SQ0uvc6+e4fGAEfbEEbQRYj
+ inBjxfLgYMP2u8mk6S5ISat2R6gu0YcGk/JFnQ+oa8wop5PgGfesh1EaDUY5oNju
+ yXbQj7q0vIgrGaQk9ybylQyMnHSjeyn3LUJ62MrY/Vf2QysUnT9eTWlr1JyP/3HT
+ f6dPW6AjQQ0VbG7yjg5Lg==
+X-ME-Sender: <xms:Xe71Y-nAhN6rD7b_lqeZbhiecEkhcUbmBVmHrUoMCUPqMA2xSoA10A>
+ <xme:Xe71Y12VmTAnHvUbP96qEZKcqOK0DfWF2RT7D7xJfZak_DO0WiHBoV81Lleippe_r
+ 6fR4WpDAVWPa404KWQ>
+X-ME-Received: <xmr:Xe71Y8p-svx9MOlbsqufHX7uG9hTshLKX6d270QS8RTvVWXdz8-AKkRqyhyOvUAiQt5Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejledgudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
+ gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
+ cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
+ ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+ hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:Xe71YynkBEmCZK2XdETzGLfGZ-wOGQa8jcSS8d2bN4tC_xJMOGSo_g>
+ <xmx:Xe71Y82_IZzCPFaeWK1rjZyv7S_tEItLaEEw-Qa3SQBgMtdrtsCM3g>
+ <xmx:Xe71Y5t0k-TWvkgJmA6dKk-dpgg5YZgIaIrJMkiOK9KdU0m9F9OpMg>
+ <xmx:Xe71Y5_rmv8pPcYAnA0rpNcmHlv6-mNHDcCnucDM_FiywBbpUaXItA>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Feb 2023 05:28:43 -0500 (EST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
+Subject: Re: [PATCH] linux-user/mips: Low down switchable NaN2008 requirement
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
+Date: Wed, 22 Feb 2023 10:28:31 +0000
+Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Message-Id: <AB7D213A-2A88-42E5-B142-BA6127103FCF@flygoat.com>
+References: <20230211173401.13902-1-jiaxun.yang@flygoat.com>
+To: BALATON Zoltan via <qemu-devel@nongnu.org>
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,255 +104,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+Ping=EF=BC=9F
 
-> Hi
->
-> On Mon, Feb 20, 2023 at 12:10 PM Markus Armbruster <armbru@redhat.com> wr=
-ote:
->>
->> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
->>
->> > Hi Markus
->> >
->> > On Fri, Feb 17, 2023 at 12:28 PM Markus Armbruster <armbru@redhat.com>
->> > wrote:
->> >
->> >> marcandre.lureau@redhat.com writes:
->> >>
->> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >> >
->> >> > The generated code doesn't quite handle the conditional arguments.
->> >> > For example, 'bar' in 'test-if-cmd' is not correctly surrounded by =
-#if
->> >> > conditions. See generated code in qmp_marshal_test_if_cmd().
->> >> >
->> >> > Note that if there are multiple optional arguments at the last posi=
-tion,
->> >> > there might be compilation issues due to extra comas. I left an ass=
-ert
->> >> > and FIXME for later.
->> >> >
->> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >> > ---
->> >> >  scripts/qapi/commands.py                |  4 ++++
->> >> >  scripts/qapi/gen.py                     | 19 ++++++++++++++-----
->> >> >  scripts/qapi/visit.py                   |  2 ++
->> >> >  tests/qapi-schema/qapi-schema-test.json |  3 ++-
->> >> >  4 files changed, 22 insertions(+), 6 deletions(-)
->> >> >
->> >> > diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
->> >> > index 79c5e5c3a9..07997d1586 100644
->> >> > --- a/scripts/qapi/commands.py
->> >> > +++ b/scripts/qapi/commands.py
->> >> > @@ -64,9 +64,13 @@ def gen_call(name: str,
->> >> >      elif arg_type:
->> >> >          assert not arg_type.variants
->> >> >          for memb in arg_type.members:
->> >> > +            if memb.ifcond.is_present():
->> >> > +                argstr +=3D '\n' + memb.ifcond.gen_if()
->> >> >              if memb.need_has():
->> >> >                  argstr +=3D 'arg.has_%s, ' % c_name(memb.name)
->> >> >              argstr +=3D 'arg.%s, ' % c_name(memb.name)
->> >> > +            if memb.ifcond.is_present():
->> >> > +                argstr +=3D '\n' + memb.ifcond.gen_endif()
->> >> >
->> >> >      lhs =3D ''
->> >> >      if ret_type:
->> >>
->> >> @argstr is emitted further down:
->> >>
->> >>        %(lhs)sqmp_%(name)s(%(args)s&err);
->> >>    ''',
->> >>                     name=3Dname, args=3Dargstr, lhs=3Dlhs)
->> >>
->> >>        ret +=3D mcgen('''
->> >>        if (err) {
->> >>    ''')
->> >>
->> >> Before the patch, @argstr contains no newlines.  Works.
->> >>
->> >> After the patch, it may contain newlines, and if it does, intentation=
- is
->> >> messed up.  For instance, in the code generated for
->> >> qapi-schema-test.json:
->> >>
->> >>         retval =3D qmp_test_if_cmd(arg.foo,
->> >>     #if defined(TEST_IF_CMD_BAR)
->> >>     arg.bar,
->> >>     #endif /* defined(TEST_IF_CMD_BAR) */
->> >>     &err);
->> >>
->> >> Strings interpolated into the mcgen() argument should not contain
->> >> newlines.  I'm afraid you have to rewrite the code emitting the call.
->> >>
->> >
->> > Why it should not contain newlines?
->>
->> They mess up indentation.  I think.  It's been a while...  All I really
->> know for sure is that the generated code's indentation is messed up
->> right there.
->>
->> > What are you asking exactly? that the caller be changed? (this does not
->> > work well if there are multiple optional arguments..)
->> >
->> >     #if defined(TEST_IF_CMD_BAR)
->> >         retval =3D qmp_test_if_cmd(arg.foo, arg.bar, &err);
->> >     #else
->> >         retval =3D qmp_test_if_cmd(arg.foo, &err);
->> >     #endif /* defined(TEST_IF_CMD_BAR) */
->>
->> I'm asking for better indentation.  In handwritten code, we'd do
->>
->>         retval =3D qmp_test_if_cmd(arg.foo,
->>     #if defined(TEST_IF_CMD_BAR)
->>                                  arg.bar,
->>     #endif /* defined(TEST_IF_CMD_BAR) */
->>                                  &err);
->>
->> Keeping track of how far to indent the arguments is bothersome in the
->> generator, though.  Perhaps we could create infrastructure to make it
->> not bothersome, but I'm not asking for that.  Something like this should
->> be good enough:
->>
->>         retval =3D qmp_test_if_cmd(arg.foo,
->>     #if defined(TEST_IF_CMD_BAR)
->>                     arg.bar,
->>     #endif /* defined(TEST_IF_CMD_BAR) */
->>                     &err);
->>
->> I.e. indent to the function call and then some.
->
-> ok, I improved the indentation a bit.
->
-> However, I think it would be simpler, and better, if we piped the
-> generated code to clang-format (when available). I made a simple patch
-> for that too.
-
-Piping through indent or clang-format may well give us neater results
-for less effort.
-
-We might want to dumb down generator code then.
-
->> >> > diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
->> >> > index b5a8d03e8e..ba57e72c9b 100644
->> >> > --- a/scripts/qapi/gen.py
->> >> > +++ b/scripts/qapi/gen.py
->> >> > @@ -111,22 +111,31 @@ def build_params(arg_type: Optional[QAPISchem=
-aObjectType],
->> >> >                   boxed: bool,
->> >> >                   extra: Optional[str] =3D None) -> str:
->> >> >      ret =3D ''
->> >> > -    sep =3D ''
->> >> >      if boxed:
->> >> >          assert arg_type
->> >> >          ret +=3D '%s arg' % arg_type.c_param_type()
->> >> > -        sep =3D ', '
->> >> > +        if extra:
->> >> > +            ret +=3D ', '
->> >> >      elif arg_type:
->> >> >          assert not arg_type.variants
->> >> > +        n =3D 0
->> >> >          for memb in arg_type.members:
->> >> > -            ret +=3D sep
->> >> > -            sep =3D ', '
->> >> > +            n +=3D 1
->> >> > +            if memb.ifcond.is_present():
->> >> > +                ret +=3D '\n' + memb.ifcond.gen_if()
->> >> >              if memb.need_has():
->> >> >                  ret +=3D 'bool has_%s, ' % c_name(memb.name)
->> >> >              ret +=3D '%s %s' % (memb.type.c_param_type(),
->> >> >                                c_name(memb.name))
->> >> > +            if extra or n !=3D len(arg_type.members):
->> >> > +                ret +=3D ', '
->> >> > +            else:
->> >> > +                # FIXME: optional last argument may break compilat=
-ion
->> >> > +                assert not memb.ifcond.is_present()
->> >>
->> >> Does the assertion guard against the C compilation failure?
->> >
->> > Yes
->> >
->> >>
->> >> Is it possible to write schema code that triggers it?
->> >
->> > Yes, the one we have for TEST_IF_EVENT for example:
->> >
->> > { 'event': 'TEST_IF_EVENT',
->> >   'data': { 'foo': 'TestIfStruct',
->> >             'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' }=
- },
->>
->> This is the one you put in qapi-schema-test.json less the last
->> parameter, so that the conditional parameter becomes the last one.
->>
->> > produces:
->> >
->> > void qapi_event_send_test_if_event(TestIfStruct *foo,
->> > #if defined(TEST_IF_EVT_BAR)
->> > TestIfEnumList *bar,
->> > #endif /* defined(TEST_IF_EVT_BAR) */
->> > );
->> >
->> > Which will fail to compile if TEST_IF_EVT_BAR is undefined.
->>
->> I think it'll fail to compile always, because the parameter list has a
->> trailing comma regardless of TEST_IF_EVT_BAR.
->
-> Yes, I think I hand-wrote that example, the actual generator does not
-> leave a trailing comma here.
->
->>
->> > So I would rather assert that we don't introduce such a schema, until =
-we
->> > fix the code generator. Or we acknowledge the limitation, and treat it=
- as a
->> > schema error. Other ideas?
->>
->> Yes: throw an error.  Assertions are for programming errors.  This isn't
->> a programming error, it's a limitation of the current implementation.
->>
->> How hard would it be to lift the limitation?
->
-> Taking this as a problematic example:
->
-> void function(first,
-> #ifdef A
->     a,
-> #endif
-> #ifdef B
->     b
-> #endif
-> )
->
-> I think it would mean that we would have to pass arguments as a
-> structure, as they don't have the limitation of trailing coma in
-> initializers. That would not be idiomatic C though, and we would need
-> to refactor a lot of code..
->
-> Another option is to always pass a dummy last argument? :)
->
-> void command(first,
-> #ifdef A
->     a,
-> #endif
-> #ifdef B
->     b,
-> #endif
->     dummy)
-
-Yet another option:
-
-  void command(first
-  #ifdef A
-      , a
-  #endif
-  #ifdef B
-      , b
-  #endif
-      )
-
-[...]
+> 2023=E5=B9=B42=E6=9C=8811=E6=97=A5 17:34=EF=BC=8CJiaxun Yang =
+<jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Previously switchable NaN2008 requires fcsr31.nan2008 to be writable
+> for guest. However as per MIPS arch spec this bit can never be =
+writable.
+> This cause NaN2008 ELF to be rejected by QEMU.
+>=20
+> NaN2008 can be enabled on R2~R5 processors, just make it available
+> unconditionally.
+>=20
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+> linux-user/mips/cpu_loop.c | 3 +--
+> 1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+> index d5c1c7941d..b5c2ca4a3e 100644
+> --- a/linux-user/mips/cpu_loop.c
+> +++ b/linux-user/mips/cpu_loop.c
+> @@ -301,8 +301,7 @@ void target_cpu_copy_regs(CPUArchState *env, =
+struct target_pt_regs *regs)
+>     }
+>     if (((info->elf_flags & EF_MIPS_NAN2008) !=3D 0) !=3D
+>         ((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) !=3D 0)) {
+> -        if ((env->active_fpu.fcr31_rw_bitmask &
+> -              (1 << FCR31_NAN2008)) =3D=3D 0) {
+> +        if (!(env->insn_flags & ISA_MIPS_R2)) {
+>             fprintf(stderr, "ELF binary's NaN mode not supported by =
+CPU\n");
+>             exit(1);
+>         }
+> --=20
+> 2.37.1 (Apple Git-137.1)
+>=20
 
 
