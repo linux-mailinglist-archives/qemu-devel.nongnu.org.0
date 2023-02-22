@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493F669F6D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:42:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1965169F6CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:41:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqJ6-0003iR-KE; Wed, 22 Feb 2023 09:41:20 -0500
+	id 1pUqJC-0003jC-Ox; Wed, 22 Feb 2023 09:41:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqJ4-0003gT-Df
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:41:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pUqJ9-0003ik-CN
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:41:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqJ2-00023u-Rz
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:41:18 -0500
+ id 1pUqJ6-00024S-E5
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:41:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677076876;
+ s=mimecast20190719; t=1677076879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EDwV9NVTQ9xnrAkZPIYEhW7epM/BGeF1PsDaqusl4Jc=;
- b=SQEN1blxuonTruvNFD1IsAn67HYz1bxpxhFbmSH8M30RrT6nNaY1+iyyuGXmDZnaFf0gbw
- 0/2F92FIqcyEQzsICVmFuz7gkOCkSOxkHXy00klm9XdOIDh3OqSf+UrcK2w/ctnUVzblVY
- rxuB1VerdCQDBSeEFbk0VMg/KzddnsY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NwGmVlbnTJRO4XtFjIsIWEQS/c4kjx3FDHF/wrPTbLI=;
+ b=b4wo66Nn0ooZ2B7UeL+JIYj0goM+HF+G1DICGnzLTN49ZLYT/Zwk9Wngqk6/9GJOnhsopn
+ 4AFmlXz5FC+uQ21cx0hvzpx8ktzfj7IEPDmji2XoPACLK5OziwCO32wsPYg7lAaW7AcGeb
+ auk9XPvPr/CSUydmlWseZaV7LlPR7Ns=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-655-r3O8sdX3PjmyzFN5pG0EZw-1; Wed, 22 Feb 2023 09:41:15 -0500
-X-MC-Unique: r3O8sdX3PjmyzFN5pG0EZw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- c1-20020a0564021f8100b004acbe232c03so10762909edc.9
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:41:14 -0800 (PST)
+ us-mta-182-u2WwFl_oP-2EwLS6vIHrJw-1; Wed, 22 Feb 2023 09:41:18 -0500
+X-MC-Unique: u2WwFl_oP-2EwLS6vIHrJw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ eg35-20020a05640228a300b004ad6e399b73so10190115edb.10
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:41:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EDwV9NVTQ9xnrAkZPIYEhW7epM/BGeF1PsDaqusl4Jc=;
- b=xhLNtH2lpBTXqnhAyR+w9BPPO0aaCtllASe3P0fqmEBSSGxv8qu15hBHYi+2J30xNW
- wAuBsXewYLVGEuERGo1wQMJK+rwBth0ZA0p1xBDQfXZep6tS94IVTCJlPLpdof6zPmks
- 9SzOyDULoffV8ltwW3kULfdLzh81vYTE4P6rMe413AbJ/yoNprN6phzH0XF/KhmiAHX3
- 3O+yeBBfBvBG7Wjd8OlBU9mCvHlreNUGPGV9M/OI1AdI7s9vhL0Yv+eQV2p76XZgzXcq
- mAo8TSz1avvza1jrFfE/r+xI7aV5mLkliZI+3CJwGzd5A8eieUZYRj+OId2MOJCYu+tN
- E5/g==
-X-Gm-Message-State: AO0yUKW5uP5MNlhqtAtYZ8+5+RR7MoCGFsPEDEQ0ya0VkfzrsNh0DeVM
- H7OkXB1jCVz80UgPNKnVvIpSpYA8jHre4yurNN2gVKS38329C/xpZzoochaQTqd/zQZ3bu9e8RH
- uofti2MYhYNX0rGmfyq9BzNjfeiBvEMHhoWjBTivQ5/nAF6eJ0v3n1ycYTr7q84NMzbw2kJTH
-X-Received: by 2002:a17:907:3f0d:b0:8ae:6b88:e52d with SMTP id
- hq13-20020a1709073f0d00b008ae6b88e52dmr14960914ejc.7.1677076872859; 
- Wed, 22 Feb 2023 06:41:12 -0800 (PST)
-X-Google-Smtp-Source: AK7set+qKsypQyiMrAUGQ1JQVcRQWLg8O48gWDpxTkCEowDvjbeXnb2Bs3Y8YoneM4P+FS5ohZjbnA==
-X-Received: by 2002:a17:907:3f0d:b0:8ae:6b88:e52d with SMTP id
- hq13-20020a1709073f0d00b008ae6b88e52dmr14960877ejc.7.1677076872493; 
- Wed, 22 Feb 2023 06:41:12 -0800 (PST)
+ bh=NwGmVlbnTJRO4XtFjIsIWEQS/c4kjx3FDHF/wrPTbLI=;
+ b=8SRG4m+Vlt+vzDbl1wWFgPwf/u92dkJAhdGIQoiJr5Qxj388ripR4hEiHTPYH6fdLj
+ bRpZpNtlu9x6JyfxJmf4A+w1YMZaYmExOh1EbcojWgs5ALwY7+KvefKXRsseCvjopUol
+ R1wyYqRPEVP9UbN0uHpixrsrvHgQ/rOG7rRvy4HHrX4Yofqn38kcGdeXMPyqVJ6R7uGK
+ t+tU38x9mni2jVJop7ZDrXwAA28cRIBbYmwHVr2lbsTt6yEo4C7ZTlnggaT/GiYGeNYZ
+ 63ft2j391Iy9Q6t/G9K5dbh4F4saszs0domZHkQxfCUIEV87EaZHV1wwCxRIiByU9mv1
+ to9A==
+X-Gm-Message-State: AO0yUKWU13O19h/bT+7zrP+s3hwV5UdRT0fSLJryHziy13UMv+iANFMe
+ q6XZKmcjIYZogz5FHr90w0/6pnu/PZ1CHnKZGySFEGIPUJnPhEpj/iZGiMZt451DPNB96lZUvoR
+ LULvZfN3GD0KX6ZDBN5cDZ/9QIa9spoxOj9ZUVd8oM+VJe/x2+4DktGL6xxiyVRA2Av9S6ZBW
+X-Received: by 2002:aa7:df96:0:b0:4ad:7203:9b2a with SMTP id
+ b22-20020aa7df96000000b004ad72039b2amr9489332edy.19.1677076876246; 
+ Wed, 22 Feb 2023 06:41:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set/xImzL0z0UZu+DMd36owHMttHKXcIRttal7fo0DDQE1bfw+lJcr1hW8ONoAtw49eeeMMyQFg==
+X-Received: by 2002:aa7:df96:0:b0:4ad:7203:9b2a with SMTP id
+ b22-20020aa7df96000000b004ad72039b2amr9489312edy.19.1677076875910; 
+ Wed, 22 Feb 2023 06:41:15 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- dt23-20020a170906b79700b00889db195470sm8450907ejb.82.2023.02.22.06.41.11
+ a27-20020a509b5b000000b004acc7202074sm3132759edj.16.2023.02.22.06.41.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 06:41:12 -0800 (PST)
+ Wed, 22 Feb 2023 06:41:15 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Brad Smith <brad@comstyle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 2/4] thread-posix: add support for setting threads name on
- OpenBSD
-Date: Wed, 22 Feb 2023 15:41:01 +0100
-Message-Id: <20230222144103.467002-3-pbonzini@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 3/4] docs: build-platforms: refine requirements on Python build
+ dependencies
+Date: Wed, 22 Feb 2023 15:41:02 +0100
+Message-Id: <20230222144103.467002-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230222144103.467002-1-pbonzini@redhat.com>
 References: <20230222144103.467002-1-pbonzini@redhat.com>
@@ -79,7 +81,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,78 +105,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Brad Smith <brad@comstyle.com>
+Historically, the critical dependency for both building and running
+QEMU has been the distro packages.  Because QEMU is written in C and C's
+package management has been tied to distros (at least if you do not want
+to bundle libraries with the binary, otherwise I suppose you could use
+something like conda or wrapdb), C dependencies of QEMU would target the
+version that is shipped in relatively old but still commonly used distros.
 
-Make use of pthread_set_name_np() to be able to set the threads name
-on OpenBSD.
+For non-C libraries, however, the situation is different, as these
+languages have their own package management tool (cpan, pip, gem, npm,
+and so on).  For some of these languages, the amount of dependencies
+for even a simple program can easily balloon to the point that many
+distros have given up on packaging non-C code.  For this reason, it has
+become increasingly normal for developers to download dependencies into
+a self-contained local environment, instead of relying on distro packages.
 
-Signed-off-by: Brad Smith <brad@comstyle.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <Y57NrCmPTVSXLWC4@humpty.home.comstyle.com>
+Fortunately, this affects QEMU only at build time, as qemu.git does
+not package non-C artifacts such as the qemu.qmp package; but still,
+as we make more use of Python, we experience a clash between a support
+policy that is written for the C world, and dependencies (both direct
+and indirect) that increasingly do not care for the distro versions
+and are quick at moving past Python runtime versions that are declared
+end-of-life.
+
+For example, Python 3.6 has been EOL'd since December 2021 and Meson 0.62
+(released the following March) already dropped support for it.  Yet,
+Python 3.6 is the default version of the Python runtime for RHEL/CentOS
+8 and SLE 15, respectively the penultimate and the most recent version
+of two distros that QEMU would like to support.  (It is also the version
+used by Ubuntu 18.04, but QEMU stopped supporting it in April 2022).
+
+There are good reasons to move forward with the deprecation of Python
+3.6 in QEMU as well: completing the configure->meson switch (which
+requires Meson 0.63), and making the QAPI generator fully typed (which
+requires newer versions of not just mypy but also Python, due to PEP563).
+
+Fortunately, these long-term support distros do include newer versions of
+the Python runtime.  However, these more recent runtimes only come with
+a very small subset of the Python packages that the distro includes.
+Because most dependencies are optional tests (avocado, mypy, flake8)
+and Meson is bundled with QEMU, the most noticeably missing package is
+Sphinx (and the readthedocs theme).  There are four possibilities:
+
+* we change the support policy and stop supporting CentOS 8 and SLE 15;
+  not a good idea since CentOS 8 is not an unreasonable distro for us to
+  want to continue to support
+
+* we keep supporting Python 3.6 until CentOS 8 and SLE 15 stop being
+  supported.  This is a possibility---but we may want to revise the support
+  policy anyway because SLE 16 has not even been released, so this would
+  mean delaying those desirable reasons for perhaps three years;
+
+* we support Python 3.6 just for building documentation, i.e. we are
+  careful not to use Python 3.7+ features in our Sphinx extensions but are
+  free to use them elsewhere.  Besides being more complicated to understand
+  for developers, this can be quite limiting; parts of the QAPI generator
+  run at sphinx-build time, which would exclude one of the areas which
+  would benefit from a newer version of the runtime;
+
+* we only support Python 3.7+, which means CentOS 8 CI and users
+  have to either install Sphinx from pip or disable documentation.
+
+This proposed update to the support policy chooses the last of these
+possibilities.  It does by modifying three aspects of the support
+policy:
+
+* it introduces different support periods for *native* vs. *non-native*
+  dependencies.  Non-native dependencies are currently Python ones only,
+  and for simplicity the policy only mentions Python; however, the concept
+  generalizes to other languages with a well-known upstream package
+  manager, that users of older distributions can fetch dependencies from;
+
+* it opens up the possibility of taking non-native dependencies from their
+  own package index instead of using the version in the distribution.  The
+  wording right now is specific to dependencies that are only required at
+  build time.  In the future we may have to refine it if, for example, parts
+  of QEMU will be written in Rust; in that case, crates would be handled
+  in a similar way to submodules and vendored in the release tarballs.
+
+* it mentions specifically that optional build dependencies are excluded
+  from the platform policy.  Tools such as mypy don't affect the ability
+  to build QEMU and move fast enough that distros cannot standardize on
+  a single version of them (for example RHEL9 does not package them at
+  all, nor does it run them at rpmbuild time).  In other cases, such as
+  cross compilers, we have alternatives.
+
+Right now, non-native dependencies have to be download manually by
+running "pip" before "configure".  In the future, it will be desirable
+for configure to set up a virtual environment and download them in the
+same way that it populates git submodules (but, in this case, without
+vendoring them in the release tarballs).
+
+Just like with submodules, this would make things easier for people
+that can afford accessing the network in their build environment; the
+option to populate the build environment manually would remain for
+people whose build machines lack network access.  The change to the
+support policy neither requires nor forbids this future change.
+
+[Thanks to Daniel P. Berrangé, Peter Maydell and others for discussions
+ that were copied or summarized in the above commit message]
+
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build              | 12 ++++++++++++
- util/qemu-thread-posix.c |  9 ++++++++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ docs/about/build-platforms.rst | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/meson.build b/meson.build
-index a76c85531250..86e8ff91093f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2133,6 +2133,18 @@ config_host_data.set('CONFIG_PTHREAD_SETNAME_NP_WO_TID', cc.links(gnu_source_pre
-     pthread_create(&thread, 0, f, 0);
-     return 0;
-   }''', dependencies: threads))
-+config_host_data.set('CONFIG_PTHREAD_SET_NAME_NP', cc.links(gnu_source_prefix + '''
-+  #include <pthread.h>
-+  #include <pthread_np.h>
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index 1c1e7b9e11c3..20b97c33109d 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -86,6 +86,38 @@ respective ports repository, while NetBSD will use the pkgsrc repository.
+ For macOS, `Homebrew`_ will be used, although `MacPorts`_ is expected to carry
+ similar versions.
+ 
++Some build dependencies may follow less conservative rules:
 +
-+  static void *f(void *p) { return NULL; }
-+  int main(void)
-+  {
-+    pthread_t thread;
-+    pthread_create(&thread, 0, f, 0);
-+    pthread_set_name_np(thread, "QEMU");
-+    return 0;
-+  }''', dependencies: threads))
- config_host_data.set('CONFIG_PTHREAD_CONDATTR_SETCLOCK', cc.links(gnu_source_prefix + '''
-   #include <pthread.h>
-   #include <time.h>
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index bae938c67084..412caa45efb7 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -18,6 +18,10 @@
- #include "qemu/tsan.h"
- #include "qemu/bitmap.h"
- 
-+#ifdef CONFIG_PTHREAD_SET_NAME_NP
-+#include <pthread_np.h>
-+#endif
++Python runtime
++  Distributions with long-term support often provide multiple versions
++  of the Python runtime.  While QEMU will initially aim to support the
++  distribution's default runtime, it may later increase its minimum version
++  to any newer python that is available as an option from the vendor.
++  In this case, it will be necessary to use the ``--python`` command line
++  option of the ``configure`` script to point QEMU to a supported
++  version of the Python runtime.
 +
- static bool name_threads;
++  As of QEMU |version|, the minimum supported version of Python is 3.6.
++
++Python build dependencies
++  Some of QEMU's build dependencies are written in Python.  Usually these
++  are only packaged by distributions for the default Python runtime.
++  If QEMU bumps its minimum Python version and a non-default runtime is
++  required, it may be necessary to fetch python modules from the Python
++  Package Index (PyPI) via ``pip``, in order to build QEMU.
++
++Optional build dependencies
++  Build components whose absence does not affect the ability to build
++  QEMU may not be available in distros, or may be too old for QEMU's
++  requirements.  Many of these, such as the Avocado testing framework
++  or various linters, are written in Python and therefore can also
++  be installed using ``pip``.  Cross compilers are another example
++  of optional build-time dependency; in this case it is possible to
++  download them from repositories such as EPEL, to use container-based
++  cross compilation using ``docker`` or ``podman``, or to use pre-built
++  binaries distributed with QEMU.
++
++
+ Windows
+ -------
  
- void qemu_thread_naming(bool enable)
-@@ -25,7 +29,8 @@ void qemu_thread_naming(bool enable)
-     name_threads = enable;
- 
- #if !defined CONFIG_PTHREAD_SETNAME_NP_W_TID && \
--    !defined CONFIG_PTHREAD_SETNAME_NP_WO_TID
-+    !defined CONFIG_PTHREAD_SETNAME_NP_WO_TID && \
-+    !defined CONFIG_PTHREAD_SET_NAME_NP
-     /* This is a debugging option, not fatal */
-     if (enable) {
-         fprintf(stderr, "qemu: thread naming not supported on this host\n");
-@@ -480,6 +485,8 @@ static void *qemu_thread_start(void *args)
-         pthread_setname_np(pthread_self(), qemu_thread_args->name);
- # elif defined(CONFIG_PTHREAD_SETNAME_NP_WO_TID)
-         pthread_setname_np(qemu_thread_args->name);
-+# elif defined(CONFIG_PTHREAD_SET_NAME_NP)
-+        pthread_set_name_np(pthread_self(), qemu_thread_args->name);
- # endif
-     }
-     QEMU_TSAN_ANNOTATE_THREAD_NAME(qemu_thread_args->name);
 -- 
 2.39.1
 
