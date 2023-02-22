@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E8669F98D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 18:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F8269F997
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 18:06:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUsWK-0002Ej-JY; Wed, 22 Feb 2023 12:03:08 -0500
+	id 1pUsZI-0005PH-JS; Wed, 22 Feb 2023 12:06:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUsVk-000234-Tx
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:02:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pUsZA-0005Ou-6E
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:06:04 -0500
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUsVj-0003Mi-A6
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:02:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677085348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G1eY87ZXMp623jRUESzYNYBoMTQyXdiL9sOeHREsrBM=;
- b=PqUrVXo3q/XxC7xr6j7lMdY772dbW8NR/rAsaCW406HqAZvBB4OxBZX/2kvlqioRzobv4V
- Skz47NSvx09xwAtSPbq86LGNTJ8J+aPh3xmdybKpYmOx7SRCq4chcQ9qhPCVEVDWPLAkzO
- GIO7HqLI+/YHgC+SqGRbPoWJVDmKvG8=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-350-0OGBBdlGN9GqQoX6Ff8RRA-1; Wed, 22 Feb 2023 12:02:27 -0500
-X-MC-Unique: 0OGBBdlGN9GqQoX6Ff8RRA-1
-Received: by mail-vs1-f71.google.com with SMTP id
- k2-20020a0561023f0200b00411c70e9579so3302209vsv.17
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 09:02:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=G1eY87ZXMp623jRUESzYNYBoMTQyXdiL9sOeHREsrBM=;
- b=K1So/djtX8YmpeoBl/Fv4Bd3Q9xNAn7bpPZ5tgpAUImDICbEG/wm8hHv/LFHrsI7zR
- tVKRhb4D9ZqrKlwwDPcwReH9Z88EapyDRcC7Zxcjea8icgRhSn3WnsSt6GczDDqT6zSv
- +itoJSd6U87o2IJGpSXlftaB9bfy+C6kTMjfXbrloSu0Gwuwn3iJiV3ck/jpp9QCW5Vc
- eWVpE+nXm807dTQuDEoCmjd2nir2PQ5Et761cOd52cDSS28IiksOX4aEHJnzjKB3LvDn
- W7tO2fNt82X7zegV7NnhViEcADFdMOroqGwlCaUJrcChShNnpia+Q/DRkyq3YAXo6j+K
- LTOg==
-X-Gm-Message-State: AO0yUKVNamLISdlYBaqgSSJyDwXLDVxxpPvzlko5flxfRZZo8H/sdFV5
- HA/1r4SeY50Bys+5+gRdzqNrA/YhXi6mLHzsP5lVr4ioByUjIUqZUH03DO6wN1cZ0nIlBca9PRl
- YAuMT5I9zqvxc/FxvwILj6g3VIcLvzcg=
-X-Received: by 2002:a67:8c42:0:b0:41e:9107:d3e6 with SMTP id
- o63-20020a678c42000000b0041e9107d3e6mr1367539vsd.53.1677085346896; 
- Wed, 22 Feb 2023 09:02:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set+4zU1NJMaqhYSyR+WSxK1pE6IIkd0fNafC6i3kG/km4Z6evUjTq7i2nM8/PNqAYqWveqP0v5aIt8byHHTavEo=
-X-Received: by 2002:a67:8c42:0:b0:41e:9107:d3e6 with SMTP id
- o63-20020a678c42000000b0041e9107d3e6mr1367528vsd.53.1677085346653; Wed, 22
- Feb 2023 09:02:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pUsZ7-00041K-A4
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 12:06:03 -0500
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:57a5:0:640:1f49:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id B9A6562AF0;
+ Wed, 22 Feb 2023 20:05:52 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:1228::1:38] (unknown
+ [2a02:6b8:b081:1228::1:38])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id m5S0sB0Kd0U0-ZfvqxyB4; Wed, 22 Feb 2023 20:05:51 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass
+Message-ID: <11593688-7ca4-def3-6212-7c26faa4d1c6@yandex-team.ru>
+Date: Wed, 22 Feb 2023 19:05:47 +0200
 MIME-Version: 1.0
-References: <20230222143752.466090-1-pbonzini@redhat.com>
- <20230222143752.466090-10-pbonzini@redhat.com>
- <878rgpll0i.fsf@pond.sub.org>
-In-Reply-To: <878rgpll0i.fsf@pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 22 Feb 2023 18:02:14 +0100
-Message-ID: <CABgObfZDJQvnm4UO8E5tdFgwmvip4dYT8qrdKU0_iTpYru8+WQ@mail.gmail.com>
-Subject: Re: [PATCH 09/10] Python: Drop support for Python 3.6
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, jsnow@redhat.com, peter.maydell@linaro.org, 
- thuth@redhat.com, alex.bennee@linaro.org, berrange@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
+Content-Language: en-US, ru-RU
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ virtio-fs@redhat.com, Eric Blake <eblake@redhat.com>
+References: <20230217170038.1273710-1-antonkuchin@yandex-team.ru>
+ <20230217170038.1273710-2-antonkuchin@yandex-team.ru>
+ <59165bde-bfd4-a073-c618-205be3951e4a@yandex-team.ru>
+ <20230222074214-mutt-send-email-mst@kernel.org>
+ <22fee9b6-1dc0-792c-13cf-54c9303556ab@yandex-team.ru>
+ <8372550f-def7-4336-c597-d22155abf145@yandex-team.ru>
+ <333c4451-8eef-0603-c3f5-10e38c0eb24e@yandex-team.ru>
+ <20230222115106-mutt-send-email-mst@kernel.org>
+From: Anton Kuchin <antonkuchin@yandex-team.ru>
+In-Reply-To: <20230222115106-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.102,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -94,24 +81,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 5:31 PM Markus Armbruster <armbru@redhat.com> wrote:
+On 22/02/2023 18:51, Michael S. Tsirkin wrote:
+> On Wed, Feb 22, 2023 at 06:49:10PM +0200, Anton Kuchin wrote:
+>> On 22/02/2023 17:14, Vladimir Sementsov-Ogievskiy wrote:
+>>> On 22.02.23 17:25, Anton Kuchin wrote:
+>>>>>>> +static int vhost_user_fs_pre_save(void *opaque)
+>>>>>>> +{
+>>>>>>> +    VHostUserFS *fs = opaque;
+>>>>>>> +    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
+>>>>>>> +
+>>>>>>> +    switch (fs->migration_type) {
+>>>>>>> +    case VHOST_USER_MIGRATION_TYPE_NONE:
+>>>>>>> +        error_report("Migration is blocked by device %s", path);
+>>>>>>> +        break;
+>>>>>>> +    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
+>>>>>>> +        return 0;
+>>>>>>> +    default:
+>>>>>>> +        error_report("Migration type '%s' is not
+>>>>>>> supported by device %s",
+>>>>>>> + VhostUserMigrationType_str(fs->migration_type), path);
+>>>>>>> +        break;
+>>>>>>> +    }
+>>>>>>> +
+>>>>>>> +    return -1;
+>>>>>>> +}
+>>>>>> Should we also add this as .pre_load, to force user select
+>>>>>> correct migration_type on target too?
+>>>>> In fact, I would claim we only want pre_load.
+>>>>> When qemu is started on destination we know where it's migrated
+>>>>> from so this flag can be set.
+>>>>> When qemu is started on source we generally do not yet know so
+>>>>> we don't know whether it's safe to set this flag.
+>>> But destination is a "source" for next migration, so there shouldn't be
+>>> real difference.
+>>> The new property has ".realized_set_allowed = true", so, as I understand
+>>> it may be changed at any time, so that's not a problem.
+>> Yes, exactly. So destination's property sets not how it will handle this
+>> incoming
+>> migration but the future outgoing one.
 >
-> Paolo Bonzini <pbonzini@redhat.com> writes:
+> How do you know where you are going to migrate though?
+> I think you don't.
+> Setting it on source is better since we know where we
+> are migrating from.
+
+Yes, I don't know where I'm going to migrate to. This is why property
+affects only how source saves state on outgoing migration.
+
 >
-> > Python 3.6 was EOL 2021-12-31. Newer versions of upstream libraries have
-> > begun dropping support for this version and it is becoming more
-> > cumbersome to support. Avocado-framework and qemu.qmp each have their
-> > own reasons for wanting to drop Python 3.6, but won't until QEMU does.
->
-> In review of the original "[PATCH v3 6/6] Python: Drop support for
-> Python 3.6", I volunteered to rework the rationale.  Second thoughts: if
-> y'all think this is good enough, let's leave it there.
-
-As you prefer; "docs: build-platforms: refine requirements on Python
-build dependencies" already provides a fairly lengthy rationale
-distilled from the same discussions, so I think we can leave it at
-that, but I can merge whatever change you prefer.
-
-Paolo
-
+>>>> This property selects if VM can migrate and if it can what should
+>>>> qemu put
+>>>> to the migration stream. So we select on source what type of
+>>>> migration is
+>>>> allowed for this VM, destination can't check anything at load time.
+>>> OK, so the new field "migration" regulates only outgoing migration and
+>>> do nothing for incoming. On incoming migration the migration stream
+>>> itself defines the type of device migration.
+>>> Worth mentioning in doc?
+>> Good point. I don't think this deserves a respin but if I have to send v4
+>> I'll include
+>> clarification in it.
 
