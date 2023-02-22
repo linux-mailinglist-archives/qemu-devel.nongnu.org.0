@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F232D69FF21
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 00:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FA469FF6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 00:28:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUy5v-00029f-2K; Wed, 22 Feb 2023 18:00:15 -0500
+	id 1pUyWA-0000LK-Qx; Wed, 22 Feb 2023 18:27:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUy5r-00029M-AA; Wed, 22 Feb 2023 18:00:11 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUy5o-0002Tf-1D; Wed, 22 Feb 2023 18:00:11 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 25425746377;
- Thu, 23 Feb 2023 00:00:03 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C6973746346; Thu, 23 Feb 2023 00:00:02 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C5923746361;
- Thu, 23 Feb 2023 00:00:02 +0100 (CET)
-Date: Thu, 23 Feb 2023 00:00:02 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@linaro.org
-Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
-In-Reply-To: <8AA6E5E4-6E9F-427D-9F65-D79D4FEEC1A0@gmail.com>
-Message-ID: <7df4771f-e6ab-af3d-3e82-98cb1c4dfce0@eik.bme.hu>
-References: <cover.1677004414.git.balaton@eik.bme.hu>
- <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
- <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
- <adb1fe51-a17e-53c2-4dd1-0c4270a928aa@eik.bme.hu>
- <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
- <67daf5dd-de6a-2d55-c830-8650efc59ee0@eik.bme.hu>
- <8AA6E5E4-6E9F-427D-9F65-D79D4FEEC1A0@gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUyW9-0000L2-Kr
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:27:21 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pUyW7-0005Hm-PO
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:27:21 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id c1so11031922plg.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 15:27:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ms4oVvhYyu0L6DgvXN7Buy78Hd7voCWUfTtsA0Yahfw=;
+ b=s5owAluL/pKysqX4++Hq5LBVYVzj0Uc1svKhYzS0cPbSfRB3GtI2MsBPWTzJ+b2+yX
+ /Ch5tnpfe3zqu2LsTSA2F9zTrG3TqLmnBQiUv/tEjHNdyff4XME5aqR6G8gZwXBqmKPf
+ 4VTaj2pDkQkGQ4zr6MolQRWHmEB2Ktrk/VrWVATTN2BbiWsHnJUjOIdgGwG2PVPmBM87
+ SW6Zd7oomNsp27s3SKIU6JeBeSsHntTvs2AWb9YisyuyOOm+j5f4R7xTZaF+js/C/jQs
+ K98JcGRW+el4dNysXAJjD993GEIaIP3mSLJeqZ3eJC+y0eVxx15pME7gYTRueVmp8oiQ
+ e/5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ms4oVvhYyu0L6DgvXN7Buy78Hd7voCWUfTtsA0Yahfw=;
+ b=1ZfB5z6TSpUBU8HrXMfTUWZOn9CQnGgXRZsoERSdDYFCv0onbmS5xzRebVeXwwREhC
+ c7Eqty8Hc6uCys+wyW1DAM4TschldP9J5pYdtuO54BVK86STSV3cHQ+zxFyfYCruQWAb
+ 9fzpl9bsgPclJQah7wCa+jjxLLh03Pax7U741q2P6Ve0r7YZrmCpGgy7rmzpZRoviPg9
+ LizZxV0S9+p2sIB4pI7InnkuCl4gvpJb+OvWZyq/7MgnvWDGMd8Tpzct1dS+Vh5RnXLH
+ 6wSFu9mtS/dUbii7mzSptIlwUVYRS/TvpD5ktVUtksrCly5pK+M8SNbw5uBwG72QWXip
+ 9NuQ==
+X-Gm-Message-State: AO0yUKX77oWFAFHFBZcOPrQDtY/hZTopwtuz6XMaMLetla2VbcgIpw2I
+ zceN3C2ptQmMsEQc/SAwrbwxJcUJBqOx9EUwVdk=
+X-Google-Smtp-Source: AK7set/VTBScSCHUk77DBa+K4jb9YGUYIBxSeoUtBDhaU4jD94+Wl/2lj+CPgTfNywRZNTaFkoFLzA==
+X-Received: by 2002:a17:90a:ba91:b0:236:6e16:6d5b with SMTP id
+ t17-20020a17090aba9100b002366e166d5bmr10837862pjr.20.1677108437877; 
+ Wed, 22 Feb 2023 15:27:17 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ s16-20020a17090ad49000b00234e6d2de3dsm5008918pju.11.2023.02.22.15.27.16
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Feb 2023 15:27:17 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/28] tcg: Simplify temporary usage
+Date: Wed, 22 Feb 2023 13:26:47 -1000
+Message-Id: <20230222232715.15034-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,147 +86,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023, Bernhard Beschow wrote:
-> Am 22. Februar 2023 21:12:01 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
->>> Am 22. Februar 2023 19:25:16 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->>>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
->>>>> On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail.com> wrote:
->>>>>> I've had a closer look at your series and I think it can be simplified:
->>>>>> Patch 2 can be implemented quite straight-forward like I proposed in a
->>>>>> private mail: https://github.com/shentok/qemu/commit/via-priq-routing.
->>>>>> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt routing"
->>>>>> working, one can expose the PCI interrupts with a single line like you do
->>>>>> in patch 2. With this, patch 1 "hw/isa/vt82c686: Implement interrupt
->>>>>> routing in via_isa_set_irq" isn't needed any longer and can be omitted.
->>>>>>
->>>>>> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() can be
->>>>>> used instead. pci_set_irq() internally takes care of all the ISA interrupt
->>>>>> level tracking patch 1 attempted to address.
->>>>>>
->>>>>
->>>>> Here is a proof of concept branch to demonstrate that the simplification
->>>>> actually works: https://github.com/shentok/qemu/commits/pegasos2 (Tested
->>>>> with MorphOS with and without pegasos2.rom).
->>>>
->>>> Does this only work because both the via-ac97 and the PCI interrupts are mapped to the same ISA IRQ and you've only tested sound? The guest could configure each device to use a different IRQ, also mapping them so they share one ISA interrupt. What happens if multiple devices are mapped to IRQ 9 (which is the case on pegasos2 where PCI cards, ac97 and USB all share this IRQ) and more than one such device wants to raise an interrupt at the same time? If you ack the ac97 interrupt but a PCI network card or the USB part still wants to get the CPUs attention the ISA IRQ should remain raised until all devices are serviced.
->>>
->>> pci_bus_get_irq_level(), used in via_isa_set_pci_irq(), should handle
->>> exactly that case very well.
->>>
->>>> I don't see a way to track the status of all devices in a single qemu_irq which can only be up or down so we need something to store the state of each source.
->>>
->>> pci_set_irq() causes pci_bus_change_irq_level() to be called.
->>> pci_bus_change_irq_level() tracks the sum of all irq levels of all
->>> devices attached to a particular pin in irq_count. Have a look at
->>> pci_bus_change_irq_level() and you will understand better.
->>
->> I'm aware of that, we're using that in sam460ex which connects all PCI 
->> interrupt lines to a single IRQ and Peter explored and explained it in 
->> a comment there when that was discovered. First we had a patch with 
->> or-irq but due to this behaviot that's not needed for PCI interrupts. 
->> But the VT8132 could change what ISA IRQ you route the sub functions 
->> to.
->
-> That depends on the sub function if you can do that. And if so, then it 
-> depends on whether the function is still in PCI mode (see below).
->
->> It happens that on pegasos2 by default all of those are routed to IRQ9 except IDE
->
-> All *PCI* interrupts are routed to IRQ9 while IDE legacy interrupts are 
-> routed to the compatible ISA IRQs. Note that the IDE function must only 
-> trigger the ISA IRQs if it is in legacy mode while it must only trigger 
-> the PCI IRQ in non-legacy mode. See https://www.bswd.com/pciide.pdf for 
-> more details on this particular topic.
+The biggest pitfall for new users of TCG is the fact that "normal"
+temporaries die at branches, and we must therefore use a different
+"local" temporary in that case.
 
-The docs say so but based on what guests that work on real hardware do it 
-does not work that way. Look up previous discussion on this on the list 
-from around the time Mark changed via-ide about 4-5 years ago. That series 
-was a result of his review of my proposed changes and gave resuled in an 
-alternative appdroach. On pegasos2 (and probably also on fuloong2e based 
-on same later findings, see patches to that, I can try to find these later 
-if you can't find them) via-ide *always* uses IRQ 14/15 and the native 
-mode only switches register addresses from legacy io ports to PCI io space 
-so you can set it in with BAR regs but the IRQs don't change despite what 
-the docs say. There are some hacks in Linux kernel and other guests to 
-account for this but the comments for the reason are wrong in Linux, they 
-say IDE is always in legacy mode but in fact if has a half-native mode 
-which is what I called it where io addresses are set with BARs but IRQs 
-are still the legacy ISA ones. You can find some references in previous 
-discussion. Probably searching for via-ide half-native mode might find it.
+The following patch set changes that, so that the "normal" temporary
+is the one that lives across branches, and there is a special temporary
+that dies at the end of the extended basic block, and this special
+case is reserved for tcg internals.
 
->> but what if a guest changes ac97 to use a different interrupt? Then 
->> it's not a PCI interrupt any more so you can't use pci_set_irq in 
->> via=ac97.
->
-> How would it do that? AFAICS there is no dedicated register to configure 
-> which IRQ to use. This means that it can only trigger an interrupt via 
-> its PCI intx pin which is subject to the PCI -> ISA IRQ router.
+Patches lacking review:
+  03-accel-tcg-Use-more-accurate-max_insns-for-tb_over.patch
+  04-tcg-Remove-branch-to-next-regardless-of-reference.patch
+  06-tcg-Add-liveness_pass_0.patch
+  14-tcg-Don-t-re-use-TEMP_TB-temporaries.patch
+  16-target-arm-Drop-copies-in-gen_sve_-ldr-str.patch
+  27-tcg-Update-docs-devel-tcg-ops.rst-for-temporary-c.patch
+  28-tcg-Use-noinline-for-major-tcg_gen_code_subroutin.patch
 
-The VIA functions can use their PCI_INTERRUPT_LINE (0x3c) registers to set 
-their ISA IRQ according to the docs (and unlike IDE in other functions 
-like USB and sound this probably also works) and the PIRQA-D pins can be 
-mapped to ISA IRQs by the 0x55-0x57 config registers of the isa bridge 
-(function0). This is what I implemented in via_isa_set_irq() in this 
-series.
 
->> There are only 4 PCI INT lines but the VIA components can be routed to 13 or 14 ISA IRQs.
->
-> Pure PCI components are only able to trigger one of the four PCI intx 
-> pins they are *hardwired* to.
+r~
 
-This is true for PCI cards which can only use the 4 pins the slot they are 
-in is wired to. These come in through the PIRQA-D pins and they are routed 
-with the funstion 0 0x55-0x57 config registers. But I'm not sure about the 
-internal functions.
 
-> Each component has only one pin. Which ISA 
-> IRQ gets triggered through that pin can be selected from 13 or 14 ISA 
-> IRQs as you say by means of the three configuration registers of the PCI 
-> -> ISA IRQ router.
+Richard Henderson (28):
+  tcg: Adjust TCGContext.temps_in_use check
+  accel/tcg: Pass max_insn to gen_intermediate_code by pointer
+  accel/tcg: Use more accurate max_insns for tb_overflow
+  tcg: Remove branch-to-next regardless of reference count
+  tcg: Rename TEMP_LOCAL to TEMP_TB
+  tcg: Add liveness_pass_0
+  tcg: Remove TEMP_NORMAL
+  tcg: Pass TCGTempKind to tcg_temp_new_internal
+  tcg: Add tcg_temp_ebb_new_{i32,i64,ptr}
+  tcg: Add tcg_gen_movi_ptr
+  tcg: Use tcg_temp_ebb_new_* in tcg/
+  accel/tcg/plugin: Use tcg_temp_ebb_*
+  accel/tcg/plugin: Tidy plugin_gen_disable_mem_helpers
+  tcg: Don't re-use TEMP_TB temporaries
+  tcg: Change default temp lifetime to TEMP_TB
+  target/arm: Drop copies in gen_sve_{ldr,str}
+  target/arm: Don't use tcg_temp_local_new_*
+  target/cris: Don't use tcg_temp_local_new
+  target/hexagon: Don't use tcg_temp_local_new_*
+  target/hppa: Don't use tcg_temp_local_new
+  target/i386: Don't use tcg_temp_local_new
+  target/mips: Don't use tcg_temp_local_new
+  target/ppc: Don't use tcg_temp_local_new
+  target/xtensa: Don't use tcg_temp_local_new_*
+  exec/gen-icount: Don't use tcg_temp_local_new_i32
+  tcg: Remove tcg_temp_local_new_*, tcg_const_local_*
+  tcg: Update docs/devel/tcg-ops.rst for temporary changes
+  tcg: Use noinline for major tcg_gen_code_subroutines
 
-So you say that internal functions are also wired to the same 4 lines like 
-normal PCI cards? Then how can you route them to different interrupts 
-setting their config reg 0x3c independent of function0 0x55-0x57 regs?
+ docs/devel/tcg-ops.rst                      | 103 +++----
+ target/hexagon/idef-parser/README.rst       |   4 +-
+ include/exec/gen-icount.h                   |   8 +-
+ include/exec/translator.h                   |   4 +-
+ include/tcg/tcg-op.h                        |   7 +-
+ include/tcg/tcg.h                           |  64 ++---
+ target/arm/translate-a64.h                  |   1 -
+ target/hexagon/gen_tcg.h                    |   4 +-
+ accel/tcg/plugin-gen.c                      |  32 +--
+ accel/tcg/translate-all.c                   |   2 +-
+ accel/tcg/translator.c                      |   6 +-
+ target/alpha/translate.c                    |   2 +-
+ target/arm/translate-a64.c                  |   6 -
+ target/arm/translate-sve.c                  |  38 +--
+ target/arm/translate.c                      |   8 +-
+ target/avr/translate.c                      |   2 +-
+ target/cris/translate.c                     |   8 +-
+ target/hexagon/genptr.c                     |  16 +-
+ target/hexagon/idef-parser/parser-helpers.c |   4 +-
+ target/hexagon/translate.c                  |   4 +-
+ target/hppa/translate.c                     |   5 +-
+ target/i386/tcg/translate.c                 |  29 +-
+ target/loongarch/translate.c                |   2 +-
+ target/m68k/translate.c                     |   2 +-
+ target/microblaze/translate.c               |   2 +-
+ target/mips/tcg/translate.c                 |  59 ++---
+ target/nios2/translate.c                    |   2 +-
+ target/openrisc/translate.c                 |   2 +-
+ target/ppc/translate.c                      |   8 +-
+ target/riscv/translate.c                    |   2 +-
+ target/rx/translate.c                       |   2 +-
+ target/s390x/tcg/translate.c                |   2 +-
+ target/sh4/translate.c                      |   2 +-
+ target/sparc/translate.c                    |   2 +-
+ target/tricore/translate.c                  |   2 +-
+ target/xtensa/translate.c                   |  18 +-
+ tcg/optimize.c                              |   2 +-
+ tcg/tcg-op-gvec.c                           | 270 +++++++++----------
+ tcg/tcg-op.c                                | 258 +++++++++---------
+ tcg/tcg.c                                   | 280 ++++++++++++--------
+ target/cris/translate_v10.c.inc             |  10 +-
+ target/mips/tcg/nanomips_translate.c.inc    |   4 +-
+ target/ppc/translate/spe-impl.c.inc         |   8 +-
+ target/ppc/translate/vmx-impl.c.inc         |   4 +-
+ target/hexagon/README                       |   8 +-
+ target/hexagon/gen_tcg_funcs.py             |  18 +-
+ 46 files changed, 646 insertions(+), 680 deletions(-)
 
->> How do you keep track of that with only the PCI bus interrupts?
->
-> Devices that operate in ISA mode such as the IDE function shall have 
-> their own, dedicated ISA IRQs assigned by the guest. Otherwise this 
-> causes a classic interrupt conflict, just like in the olden ISA days. If 
-> the function operates in PCI mode, it must not trigger the ISA IRQs, 
-> regardless of whether they are assigned or not.
+-- 
+2.34.1
 
-This does not match with guests which clearly expect to get ISA IRQ9 for 
-PCI cards and USB and sound which is where these are routed within the VIA 
-bridge as the firmware programs it.
-
-> There is also the power management function whose ACPI interrupt (SCI) 
-> can be routed by means of a dedicated register. Again, a guest must make 
-> sure here to not configure interrupt conflicts.
->
->> I don't get your approach.
->
-> I hope that I could help you get a better understanding. The linked .pdf 
-> is good and comprehensive reading material.
-
-I'm not sure the via-ide confirms to that doc but it's also not any more a 
-problem with via-ide now. That was discussed to death back then and 
-"fixed" to work for the cases we want it to work with. We probably never 
-agreed on how this really works but at least what we ended up with works 
-with guests that run on real hardware. I'm OK with also making these cases 
-work that we want now such as network and sound card under AmigaOS and 
-sound under MorphOS (as long as you don't use USB) on pegasos2. This 
-series does that so unless it breaks something that worked before I 
-condider this moving forward and we can always improve adn fix it later. 
-I'm not saying I'm not interested in your improvements just that let's 
-that not hold this back now as we can fix and improve it later but 
-otherwise users will have to wait until September to be able to use it. I 
-know a few who want this and getting this out as it is would allow more 
-people to test it and report problems so unless there are clearly wrong 
-parts I'm OK with less than perfect but working solution as long as it's 
-not too messy.
-
-Regards,
-BALATON Zoltan
 
