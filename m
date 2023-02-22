@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28FC69F404
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 13:06:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C854D69F40A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 13:09:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUnsx-0001JJ-4G; Wed, 22 Feb 2023 07:06:11 -0500
+	id 1pUnvJ-0003KA-4H; Wed, 22 Feb 2023 07:08:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pUnst-0001F3-QU
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 07:06:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUnuu-0003Ew-CU
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 07:08:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pUnss-0007je-4G
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 07:06:07 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pUnus-0008MS-TR
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 07:08:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677067564;
+ s=mimecast20190719; t=1677067690;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uTPz3TYJ3OzwWX2EnggyNaRaeNo6Pbdz21JfrwS8EOk=;
- b=To24J4bATo1k1ZVHerm2xE+eyonuOzRXXE1vDjKaPiiF55E9rgOF9lPoe3AFk3gTPqsqv4
- 9JctsRBMtmif2D3hUTEH90Rfrt6IbwIngN4hMucPl5OngUPRKWl2hx21DwlfvvtoDU3HxB
- tM+tzW5op4PpWyrma11iynTkI9PQ54Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-163-wq5Oif__OrOOULpoAFVJ9Q-1; Wed, 22 Feb 2023 07:06:03 -0500
-X-MC-Unique: wq5Oif__OrOOULpoAFVJ9Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c7-20020a7bc847000000b003e00be23a70so3440496wml.2
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 04:06:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uTPz3TYJ3OzwWX2EnggyNaRaeNo6Pbdz21JfrwS8EOk=;
- b=K7cz35uHTh5L/dBuUTuZVwwnsDXldI2OxJkDnvAtw+sGxSeVovG2EBHgXR9nzqZHVG
- T0DBN/K/M8TtLWk5S0d/cy9gvD6Nq90XozHHmpAr9UBUShCkYyMZm0bLkxiFIZAjlLR9
- wrqB/e26wUemh2HnviHEnump1dZMqYAzYwfpDmzf1IHad83YPA8oegd8KrwEQJa+lmgU
- unP9gIJW4wBSx+MFHby2S2X3SiU+LUbOt0OFUmNwDpmNOMs9fNW7rQjaLMvnvhN8TFSo
- cCuc36xBwekcQeODp+YFTUl2FBJ+hhSe1clHmT53sFD99G39jLhla1fXu6JkgryeM8SO
- oWLw==
-X-Gm-Message-State: AO0yUKV11PR8WP073mg393viWDi0EYblto2umVAM0HbpIU9wsMmaD3e7
- IF6xN2F3mQlXeDWxSqzYwjxt84nOR6iwMT+eZD8tVqLmTmkvW0ihuqC9w4TfVgQXupIThgaSv6D
- utNRjBCanNZ3Yewot4Onh
-X-Received: by 2002:a5d:570e:0:b0:2bf:d940:29b6 with SMTP id
- a14-20020a5d570e000000b002bfd94029b6mr7024308wrv.54.1677067561950; 
- Wed, 22 Feb 2023 04:06:01 -0800 (PST)
-X-Google-Smtp-Source: AK7set9kkHo97Zm+s9ewGEjUtantQ8uAUFumorkHRU5mc0Wpwk4GiLhiFUVQbe7ZcH80P7F7qJsuuQ==
-X-Received: by 2002:a5d:570e:0:b0:2bf:d940:29b6 with SMTP id
- a14-20020a5d570e000000b002bfd94029b6mr7024282wrv.54.1677067561673; 
- Wed, 22 Feb 2023 04:06:01 -0800 (PST)
-Received: from redhat.com ([2.52.2.78]) by smtp.gmail.com with ESMTPSA id
- g17-20020a5d6991000000b002c54911f50bsm7842832wru.84.2023.02.22.04.05.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 04:06:01 -0800 (PST)
-Date: Wed, 22 Feb 2023 07:05:57 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- Thomas Huth <thuth@redhat.com>, qemu-ppc@nongnu.org,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 5/5] hw: Remove mentions of NDEBUG
-Message-ID: <20230222070529-mutt-send-email-mst@kernel.org>
-References: <20230221232520.14480-1-philmd@linaro.org>
- <20230221232520.14480-6-philmd@linaro.org>
+ bh=kH0q2ILHpQoiRtmfNCZIM77/BARv97SCTM0zRiw4Veo=;
+ b=Y8vuW+HXcY8wk1hsZ29JbySou/4PSrJJ1n2co5Ja92wvNy4ov4VKGHuhbm+im8xeUZ6uGZ
+ dzzgW+Fifj50HCBsjBp3u8xxAFCxv2vc1BiT3MvTPt6y2nnk/Zm46DGXWsCdGuazvFpskr
+ CmFUsz5WhrnXLaB1Sq6UtbqZ5BWFktw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-138-aZ2fak24MyuVTaIeV5Qaew-1; Wed, 22 Feb 2023 07:08:07 -0500
+X-MC-Unique: aZ2fak24MyuVTaIeV5Qaew-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0E473814950;
+ Wed, 22 Feb 2023 12:08:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8938D40168B9;
+ Wed, 22 Feb 2023 12:08:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7CE2521E6A1F; Wed, 22 Feb 2023 13:08:05 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,  qemu-block@nongnu.org,
+ hreitz@redhat.com,  aesteve@redhat.com,  nsoffer@redhat.com,
+ vsementsov@yandex-team.ru
+Subject: Reference-counting and finalizers that can fail are uneasy partners
+ (was: [PATCH 0/4] qemu-img: Fix exit code for errors closing the image)
+References: <20230112191454.169353-1-kwolf@redhat.com>
+ <874jsu51sj.fsf@pond.sub.org> <Y8FAkAC3L7oF5q48@redhat.com>
+ <87cz6b9ivm.fsf@pond.sub.org>
+Date: Wed, 22 Feb 2023 13:08:05 +0100
+In-Reply-To: <87cz6b9ivm.fsf@pond.sub.org> (Markus Armbruster's message of
+ "Wed, 15 Feb 2023 14:07:57 +0100")
+Message-ID: <87ttzdoqca.fsf_-_@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230221232520.14480-6-philmd@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,46 +83,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 12:25:20AM +0100, Philippe Mathieu-Daudé wrote:
-> Since commit 262a69f428 ("osdep.h: Prohibit disabling
-> assert() in supported builds") 'NDEBUG' can not be defined.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+A half-baked thought has been sloshing around in my head.  Perhaps I can
+bake it some more by writing it up.
 
-this exactly says NDEBUG is not allowed. why are you removing this?
-  
-> ---
->  hw/scsi/mptsas.c   | 2 --
->  hw/virtio/virtio.c | 2 --
->  2 files changed, 4 deletions(-)
-> 
-> diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-> index c485da792c..5b373d3ed6 100644
-> --- a/hw/scsi/mptsas.c
-> +++ b/hw/scsi/mptsas.c
-> @@ -1240,8 +1240,6 @@ static void *mptsas_load_request(QEMUFile *f, SCSIRequest *sreq)
->      n = qemu_get_be32(f);
->      /* TODO: add a way for SCSIBusInfo's load_request to fail,
->       * and fail migration instead of asserting here.
-> -     * This is just one thing (there are probably more) that must be
-> -     * fixed before we can allow NDEBUG compilation.
->       */
->      assert(n >= 0);
->
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index f35178f5fc..c6b3e3fb08 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -1898,8 +1898,6 @@ void *qemu_get_virtqueue_element(VirtIODevice *vdev, QEMUFile *f, size_t sz)
->  
->      /* TODO: teach all callers that this can fail, and return failure instead
->       * of asserting here.
-> -     * This is just one thing (there are probably more) that must be
-> -     * fixed before we can allow NDEBUG compilation.
->       */
->      assert(ARRAY_SIZE(data.in_addr) >= data.in_num);
->      assert(ARRAY_SIZE(data.out_addr) >= data.out_num);
-> -- 
-> 2.38.1
+Reference-counting and finalizers that can fail are uneasy partners.
+
+When managing lifetimes manually, you control where finalization
+happens.  When finalization can fail, you're as empowered as you could
+be to make it fail in a place where you can handle the failure sensibly.
+
+Manual resource management is tedious and error prone, and that's a
+serious problem.  Garbage collection takes it off your hands.  Good.
+But now finalization happens at some future time, and in garbage
+collection context.  Fine when finalization's side effects are
+sufficiently harmless.  But what if finalization can fail?  We trade one
+serious problem (manual resource management) for another one (handling
+finalization failures).
+
+Reference counting is slightly different.  Here, finalization can only
+happen at unref, which means you retain more control than with garbage
+collection.  However, we do need unrefs in places where we can't
+sensibly handle failure.  For instance, when code operates on an object
+whose reference count can be dropped concurrently, we need to guard with
+a ref/unref bracket to keep the object alive while the code is messing
+with it.
+
+The only way out I can see is to systematically avoid finalizers that
+can fail, by extracting the part that can fail into a shutdown method,
+to be called in a suitable context, and before finalization.
+
+Yes, this takes us back to manual resource management, only we manage
+shutdown instead of death.
+
+Finalizing something that has not been shut down would be a programming
+error.  A recoverable one, I guess; we can have finalize attempt to shut
+down then, and if it fails, just weep into the logs and move on.
+
+We gain a "shut down" state, and new problems may well come with it.
 
 
