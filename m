@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F64D69FC97
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 20:57:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11F269FCEB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 21:14:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUvDx-0000JX-Kh; Wed, 22 Feb 2023 14:56:21 -0500
+	id 1pUvUg-0004X2-5F; Wed, 22 Feb 2023 15:13:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pUvDn-0000Iu-Q7
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 14:56:13 -0500
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1pUvUd-0004UM-FN; Wed, 22 Feb 2023 15:13:35 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pUvDi-0003lC-8n
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 14:56:09 -0500
-Received: by mail-lj1-x22b.google.com with SMTP id j17so9211872ljq.11
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 11:56:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1pUvUb-0004NX-ET; Wed, 22 Feb 2023 15:13:35 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id cy6so29795957edb.5;
+ Wed, 22 Feb 2023 12:13:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=DkUo6IgcgiDFuNcKiqZXynIGHBiV5HVMxU+752Shms4=;
- b=N5XSBYH31wQ6DYN3idlmwopRDQBqfsB7XLQLuQcHebjy7Xgdk375YHr5WDyPKFsvTH
- TbnAWcbVMBh8YYtltX0DxNZkTc/0ZoXSgx6X0Bd+gSKGT6skF224o5FAWLCtc2kCiNGQ
- JeC9MvBGVAAWckTuDdHRQR58anAEmZEJ3/JNYhcO/VteoJZaCrxea31Gzv6418E5HkXo
- GtHiMEIkZDmBoAG+dTKDemuqh2cuA0CPuRR3NwkEKdWq7Xf8zHk1hrKcBl7BYr7QQIDa
- ZssloHEXSeRd2H/Y02yW6GE6F38vt6vPvFCHh8Xt5//BuSqfLXeuCkzb643Nxh9lzsAh
- mXUw==
+ bh=jPYn1FE3BZvR/rnDkpQit9Aj81lY2omR8EqDcIFHWQk=;
+ b=W2aJSGmm7IZr5XMocbPkryobfqVuX5D3smCN6kVn2Z1iAiVJy8yg5gPQzULLvbRI9+
+ sa8QBjn1sOphsamgV3sGkFj3qEfXof0rbBs68MRb9PjsHWbw1tSlfk6wpxJ3WsCtldu+
+ FWR7B9WvUkbxetp3RAzTfQRElLLBEFcmP9zDnOY3oRKdJlyeTmdlg5MG2Qnprp2nVkV0
+ Qiko6ccHs5RabCPMdKHXp6fUF3VjdhJbr/sDzMxhoOTgElgszez/+p4hzUfyLJ3PcEXJ
+ KE4GTuuXbNyWUQItbuHqZHHz3psL52yST7xL5Prcdv7w5XZsTN9V2izs51mXIYYqTfF7
+ MyGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=DkUo6IgcgiDFuNcKiqZXynIGHBiV5HVMxU+752Shms4=;
- b=i3aYBEavnWAfb+0g7bxFJquypPj5OZnZE1mkSAZYZL2hianXtDBu99KY0VTyKeHsX3
- TWB6LU+DJGXcguriBUfTE/9Fje8F+Us2xunhxaWGd5PVavFPU9lZ3WLvXW7lxcYg3pi7
- a5cEbWAOVI1Ke87M0/9TLUTRUzfw6XWbBrmrm6u6K7Hk5ckDLT+3648fe4TbOxXBzSs/
- STvf/Jwqp9sPgivrsR0OXSHHA4m5ASJobOmosSNROE4y7kUIlZHashPEgogsUSHKsZ9O
- +j2o5A7LVTVe/JqsilYE5MjrDK8LOuNBl6koflWxjh+3a9Bd23OakvyYbN7qVXDO1hSQ
- uSVg==
-X-Gm-Message-State: AO0yUKUhfFNlPGuJQRFZCPraW7qgSrh2HkaG4tYAj33QV8rSIauDX1PY
- LPI224Gcs5OxqEH31nqPX56bnEoNT/TDHUSPN6r0rQ==
-X-Google-Smtp-Source: AK7set+qTXsF89akqWTdQGSGYcyULtB68wCDCX+zvsJGPFS4yJWz5vy8dmOUpWZ/H3Rb3fP2GYhczmh3A9pX1nY4Lho=
-X-Received: by 2002:a05:651c:1699:b0:294:6f14:235b with SMTP id
- bd25-20020a05651c169900b002946f14235bmr3045382ljb.5.1677095763892; Wed, 22
- Feb 2023 11:56:03 -0800 (PST)
+ bh=jPYn1FE3BZvR/rnDkpQit9Aj81lY2omR8EqDcIFHWQk=;
+ b=eEC3qFrVhqPk4sBX/Pqacw6qBZj2TgKLl16j4hUMaOPGsWpCnbRuFsg4fHZgv4H3ca
+ sUHdKMfGDZuJw6HL2Q/okSpGA/P3rP5uvypBkw7s4yBjNC9X5GdVpRznGlTG/FB/WlPw
+ /5+DP4Yh6DrHUfRq8zkES02he53z4FYk0IIM6Q7i6rQKjLCf706xR8H4e6jPm3XZqaXS
+ jPJEEnX+LeS/Ohde8kq7P14l3DFfmGIZXPoE/mkipkWeoaAZ+OJmQ8Ywldwg2RGmH4jo
+ EwltujKjm6SvMyIafNV6rnKwPYPsI6W215tSM0nDV+x+OFthBY2I4Ao5f7q7p7jkckGo
+ BoFQ==
+X-Gm-Message-State: AO0yUKWFBB3m99+SZUoyTH/czF4QakFKDAOR7ps2jpk70HUbnVydwF3v
+ 8QaKQ0oByKPZu0UIR0mx8ku9ntvNR3pgwGJPUOg=
+X-Google-Smtp-Source: AK7set/OGx07H8LMw2jUAqTNjkeoT0JP/Km/MQPWBFe4TB3gxCVmdnZ1Esk+682KBLRX0xlhlu0KwlTujeifAClE2sA=
+X-Received: by 2002:a17:906:b16:b0:8af:7efc:84af with SMTP id
+ u22-20020a1709060b1600b008af7efc84afmr8144882ejg.11.1677096809846; Wed, 22
+ Feb 2023 12:13:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20221130000320.287976-1-viktor@daynix.com>
- <20221130000320.287976-4-viktor@daynix.com>
- <e0498f45-3b4f-1bd1-ad53-628fbb807abc@oracle.com>
-In-Reply-To: <e0498f45-3b4f-1bd1-ad53-628fbb807abc@oracle.com>
-From: Viktor Prutyanov <viktor@daynix.com>
-Date: Wed, 22 Feb 2023 22:55:53 +0300
-Message-ID: <CAPv0NP7RJp6aazO2VPYjscc6QT4cHEEDdNjDfJxrtZCYH4J0YA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] contrib/elf2dmp: add PE name check and Windows
- Server 2022 support
-To: "Annie.li" <annie.li@oracle.com>
-Cc: pbonzini@redhat.com, viktor.prutyanov@phystech.edu, 
- yuri.benditovich@daynix.com, yan@daynix.com, qemu-devel@nongnu.org
+References: <20230129113120.722708-1-oro@oro.sl.cloud9.ibm.com>
+ <CAOi1vP_G3zYFRGwKnuRiTsvu+Y1FKjSBJTTt_Mq_JDvFV+rchw@mail.gmail.com>
+In-Reply-To: <CAOi1vP_G3zYFRGwKnuRiTsvu+Y1FKjSBJTTt_Mq_JDvFV+rchw@mail.gmail.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Wed, 22 Feb 2023 21:13:17 +0100
+Message-ID: <CAOi1vP-KrzLpb4FOBvSjC0r90W02+JJThA0voOc0iWOrbc=iXA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] block/rbd: Add support for layered encryption
+To: oro@oro.sl.cloud9.ibm.com, Kevin Wolf <kwolf@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, oro@il.ibm.com, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::22b;
- envelope-from=viktor@daynix.com; helo=mail-lj1-x22b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=idryomov@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,140 +83,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 10:07 PM Annie.li <annie.li@oracle.com> wrote:
+On Mon, Jan 30, 2023 at 2:16 PM Ilya Dryomov <idryomov@gmail.com> wrote:
 >
+> On Sun, Jan 29, 2023 at 12:31 PM ORO@il.ibm.com
+> <oro@oro.sl.cloud9.ibm.com> wrote:
+> >
+> > v6: nit fixes
+> > v5: nit fixes
+> > v4: split to multiple commits
+> >     add support for more than just luks-any in layered encryption
+> >     nit fixes
+> > v3: further nit fixes suggested by @idryomov
+> > v2: nit fixes suggested by @idryomov
+> >
+> > Or Ozeri (3):
+> >   block/rbd: Remove redundant stack variable passphrase_len
+> >   block/rbd: Add luks-any encryption opening option
+> >   block/rbd: Add support for layered encryption
+> >
+> >  block/rbd.c          | 188 ++++++++++++++++++++++++++++++++++++++++---
+> >  qapi/block-core.json |  31 ++++++-
+> >  2 files changed, 205 insertions(+), 14 deletions(-)
+> >
+> > --
+> > 2.25.1
+> >
 >
-> On 11/29/2022 7:03 PM, Viktor Prutyanov wrote:
-> > Since its inception elf2dmp has checked MZ signatures within an
-> > address space above IDT[0] interrupt vector and took first PE image
-> > found as Windows Kernel.
-> > But in Windows Server 2022 memory dump this address space range is
-> > full of invalid PE fragments and the tool must check that PE image
-> > is 'ntoskrnl.exe' actually.
-> > So, introduce additional validation by checking image name from
-> > Export Directory against 'ntoskrnl.exe'.
-> >
-> > Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
-> > Tested-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> > ---
-> >   contrib/elf2dmp/main.c | 28 ++++++++++++++++++++++++++--
-> >   contrib/elf2dmp/pe.h   | 15 +++++++++++++++
-> >   2 files changed, 41 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-> > index f3052b3c64..f7de82a03e 100644
-> > --- a/contrib/elf2dmp/main.c
-> > +++ b/contrib/elf2dmp/main.c
-> > @@ -17,6 +17,7 @@
-> >
-> >   #define SYM_URL_BASE    "https://msdl.microsoft.com/download/symbols/"
-> >   #define PDB_NAME    "ntkrnlmp.pdb"
-> > +#define PE_NAME     "ntoskrnl.exe"
->
-> As what has been clarified earlier in the meeting, this elf2dmp is only for
-> 64bits systems, so the name "ntoskrnl.exe" suffices here. Otherwise, it
-> won't work
-> for 32bits PAE systems.
->
-> A question about elf2dmp on ARM platform, has it been validated there?
->
-> Thanks
->
-> Annie
->
-> >
-> >   #define INITIAL_MXCSR   0x1f80
-> >
-> > @@ -400,6 +401,25 @@ static int write_dump(struct pa_space *ps,
-> >       return fclose(dmp_file);
-> >   }
-> >
-> > +static bool pe_check_export_name(uint64_t base, void *start_addr,
-> > +        struct va_space *vs)
-> > +{
-> > +    IMAGE_EXPORT_DIRECTORY export_dir;
-> > +    const char *pe_name;
-> > +
-> > +    if (pe_get_data_dir_entry(base, start_addr, IMAGE_FILE_EXPORT_DIRECTORY,
-> > +                &export_dir, sizeof(export_dir), vs)) {
-> > +        return false;
-> > +    }
-> > +
-> > +    pe_name = va_space_resolve(vs, base + export_dir.Name);
-> > +    if (!pe_name) {
-> > +        return false;
-> > +    }
-> > +
-> > +    return !strcmp(pe_name, PE_NAME);
-> > +}
-> > +
-> >   static int pe_get_pdb_symstore_hash(uint64_t base, void *start_addr,
-> >           char *hash, struct va_space *vs)
-> >   {
-> > @@ -484,6 +504,7 @@ int main(int argc, char *argv[])
-> >       uint64_t KdDebuggerDataBlock;
-> >       KDDEBUGGER_DATA64 *kdbg;
-> >       uint64_t KdVersionBlock;
-> > +    bool kernel_found = false;
-> >
-> >       if (argc != 3) {
-> >           eprintf("usage:\n\t%s elf_file dmp_file\n", argv[0]);
-> > @@ -531,11 +552,14 @@ int main(int argc, char *argv[])
-> >           }
-> >
-> >           if (*(uint16_t *)nt_start_addr == 0x5a4d) { /* MZ */
-> > -            break;
-> > +            if (pe_check_export_name(KernBase, nt_start_addr, &vs)) {
-> > +                kernel_found = true;
-> > +                break;
-> > +            }
-> >           }
-> >       }
-> >
-> > -    if (!nt_start_addr) {
-> > +    if (!kernel_found) {
-> >           eprintf("Failed to find NT kernel image\n");
-> >           err = 1;
-> >           goto out_ps;
-> > diff --git a/contrib/elf2dmp/pe.h b/contrib/elf2dmp/pe.h
-> > index 807d006364..71126af1ac 100644
-> > --- a/contrib/elf2dmp/pe.h
-> > +++ b/contrib/elf2dmp/pe.h
-> > @@ -88,6 +88,20 @@ typedef struct IMAGE_NT_HEADERS64 {
-> >       IMAGE_OPTIONAL_HEADER64 OptionalHeader;
-> >   } __attribute__ ((packed)) IMAGE_NT_HEADERS64;
-> >
-> > +typedef struct IMAGE_EXPORT_DIRECTORY {
-> > +    uint32_t    Characteristics;
-> > +    uint32_t    TimeDateStamp;
-> > +    uint16_t    MajorVersion;
-> > +    uint16_t    MinorVersion;
-> > +    uint32_t    Name;
-> > +    uint32_t    Base;
-> > +    uint32_t    NumberOfFunctions;
-> > +    uint32_t    NumberOfNames;
-> > +    uint32_t    AddressOfFunctions;
-> > +    uint32_t    AddressOfNames;
-> > +    uint32_t    AddressOfNameOrdinals;
-> > +} __attribute__ ((packed)) IMAGE_EXPORT_DIRECTORY;
-> > +
-> >   typedef struct IMAGE_DEBUG_DIRECTORY {
-> >       uint32_t Characteristics;
-> >       uint32_t TimeDateStamp;
-> > @@ -102,6 +116,7 @@ typedef struct IMAGE_DEBUG_DIRECTORY {
-> >   #define IMAGE_DEBUG_TYPE_CODEVIEW   2
-> >   #endif
-> >
-> > +#define IMAGE_FILE_EXPORT_DIRECTORY 0
-> >   #define IMAGE_FILE_DEBUG_DIRECTORY  6
-> >
-> >   typedef struct guid_t {
+> Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 
-Hi Annie,
+Hi Kevin, Hanna,
 
-Thank you for the review!
-At the moment, elf2dmp only addresses the x86_64 platform.
+What is the status of this set?  I see it on patchw and also see that
+my review got picked up but it's not clear whether there is something
+else to do here:
 
-Best regards,
-Viktor Prutyanov
+https://patchew.org/QEMU/20230129113120.722708-1-oro@oro.sl.cloud9.ibm.com/
+
+I'm CCing Daniel who commented on previous postings of this set in case
+an additional review is needed.
+
+Thanks,
+
+                Ilya
 
