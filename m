@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E6569FC55
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 20:37:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E6C69FC52
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 20:37:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUuuc-0007Oy-7u; Wed, 22 Feb 2023 14:36:22 -0500
+	id 1pUuud-0007PY-G0; Wed, 22 Feb 2023 14:36:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1pUuuZ-0007LN-29; Wed, 22 Feb 2023 14:36:19 -0500
+ id 1pUuub-0007Oq-G3; Wed, 22 Feb 2023 14:36:21 -0500
 Received: from mail-bn8nam04on20721.outbound.protection.outlook.com
  ([2a01:111:f400:7e8d::721]
  helo=NAM04-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1pUuuX-0005XO-EG; Wed, 22 Feb 2023 14:36:18 -0500
+ id 1pUuuZ-0005XO-LO; Wed, 22 Feb 2023 14:36:21 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BYQTCVUxacn+TBiN0zOqojmIhf5MQ+bcOLaTRWulxt1iPW5Eht+vttEwdLCogjqz5NTDBG/5OCuxhsuaiePiZwsvA3c4kF5ggMGUXWpISmE6KMvfo3ziJIfBmUHi2htRo4PsR7viBu01akMjibf2Lr3fgfhPiUN70q2/gk4bdpETdTEbjGTu1K1xbH28LAa6u3V10Vh2KcnhPqioDKPalC4WWthQWLyQLERW2v99IZi+XWQ5stlCQNIHnWO4JcL2VU+sHNI0l9BTdX2QvsqOC94gwbUvcoutzJrXZ50Spz49FtGQza+OJkV3Uks2G80BNE9WM4SAtN8D9omr8i8dUg==
+ b=IDA+ZRiZbPfSAH5zsFoMhUqKQccapVIu1DXdszCn0Xs01Eixn9w7/Kj84K60lQtZRnUiZM23wmAOAWV2DZtddVjELPfguYxBrq4zrfpvOKB+KmqXtwmoEeQ65VkC8mzfl5v9aZLZPkxVa85sG18Fr1CNoUAJMWC6s3pUi9+8nv8wNabpCFV7WTm0W6TojxIg59ejMyjt10Nqn86D7abXoEsK7c82MjkMBB3qPKDkwcOzhqe5ZdpLMGd/o6W8MQbezZTwvz3xCAk74ANX5pfC6IQi0HEFD/RYntJYawfYYeqls3VsInv7kzlJofgauam/kOA1eMvqtbYy/qNvd4/Qsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BNl2m2yxSmcW/NtX5w1OuBKkkjtYq5GNQWvhXBddzNs=;
- b=GOykHSng6TbBC0XrH25iZov29LzhSu1mejVJ4PTNqCGVWmBdcDUl0vlSPn8QPQIKffM2ZtUYGbY9IswyTStYpcVYv0sdN6VWfTi62NMMRvgxERry6P8OhlgBA7dBq4WRVMxbF7cuHNd5yRgasYDl1Fgq93sRcpGxS0Fu5GijTRgzEHlnrf/tjiSx6Racz6nIMJbMCN3ynoBInEILrkIRhs+DiTHZjW5yG42IDVJ+kwRdmx7DeyoTtcCvJBHC0UgwafSclBU99RnX6Gruo+VuuJ4l6oIkrOFkIBPxh8+1M7jsjBeBqZTsWGDgmjmvmi6RP8+1S3fFy4TkUPf6iTToDg==
+ bh=rwDe/e0V4VQ7659mZIwBnxZ/MuFgJYvSiJkZ8YgWnNk=;
+ b=T4H6Cjy3krcGqOqwD7Jv8cGjuHSLLj3L1nFPhfhBaiDxvCiVnJS6ivNyAPxqHRgsg05zzmRb56cwpqFWEwfPWjPyl/FQA/ZMMn9tUi4+H0imlTjRJ7ND9nXZezW+5Nfzv3cHPAORuSbqzYgBeaksi8jrkONEZTpvpasXK2VBJ2a61vScepfvxEH9bwu/Xp+rhk7/B1k42uG8DSZIhj/i0gfK0LicOGPRvRHsosBytHbTi9UHPxaQuPZzFPH80g2h0+VrXM76TAxLC7l1r+o2ZnCF/yd8L4K2zMCFTlE1E6y5lEhI+Sh/BtinjgSRoF6N082UG6TlkoK/0kTccLUEZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
  header.from=os.amperecomputing.com; dkim=pass
@@ -32,8 +32,8 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNl2m2yxSmcW/NtX5w1OuBKkkjtYq5GNQWvhXBddzNs=;
- b=P55z7f44o7ho57pG0LVwiL/H2sXTIMZfiiFi8vsoNSHg4S1tsM6gG308+1dUn9e/FlLHVSBc7AUqG2ZIUbZypN60upibxZG9r+8XEAtpe6bArIIYF07ZMzK6BMTr8b/0+TtJx1w1YmDrrQdEjWql5ueMWfhwDkWMPVEiN0ah25U=
+ bh=rwDe/e0V4VQ7659mZIwBnxZ/MuFgJYvSiJkZ8YgWnNk=;
+ b=mR7AduYiLKpzkPmlm2l+24KDCj51o7/wQx7mYVIOOqPsSa5/powBZ/GYy0+pxwEMBI3NHPk6FiZFkEFKvZ+KkII/tC4YNiW7LVKB8GynYmU8RgrFbZR5hbEei+IoxkFZguxwvO0xc7MtxGaqyyZq/WIcnfEY5AnLFqGF5oLtn60=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
 Received: from CH0PR01MB7124.prod.exchangelabs.com (2603:10b6:610:f3::20) by
@@ -51,9 +51,9 @@ To: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>
 Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: [PATCH v2 1/7] target/arm: v8.3 PAC ID_AA64ISAR[12] feature-detection
-Date: Wed, 22 Feb 2023 14:35:38 -0500
-Message-Id: <20230222193544.3392713-2-aaron@os.amperecomputing.com>
+Subject: [PATCH v2 2/7] target/arm: Implement v8.3 QARMA3 PAC cipher
+Date: Wed, 22 Feb 2023 14:35:39 -0500
+Message-Id: <20230222193544.3392713-3-aaron@os.amperecomputing.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230222193544.3392713-1-aaron@os.amperecomputing.com>
 References: <20230222193544.3392713-1-aaron@os.amperecomputing.com>
@@ -65,53 +65,53 @@ X-ClientProxiedBy: CH2PR08CA0016.namprd08.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH0PR01MB7124:EE_|SJ0PR01MB6448:EE_
-X-MS-Office365-Filtering-Correlation-Id: da977e2f-915f-4925-a6bf-08db150c0a55
+X-MS-Office365-Filtering-Correlation-Id: e0fd3f94-6466-4e1d-0012-08db150c0ab5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +56BWbiyODXBG4a08ogYBQK0AGBP3v2UyTooa96Ayrud8Ol7rv3GqC8IRYt3u4dytyUOzD/c5UKSn80xHMV81FiW2pVepG2qS0yyfx8Ag4mPS4uGbhNJBUlkkEh7Nk358eNknt0Rb/UV3ddHckf6HuAEvpCjFpWlFURbV8qhsOAUvsHI+679m7eDT5GgsNph/GphbIOyNR/ASXoo3TNAFaJ4w+HVDbKNckWy1qmWX/OB+BWtY4HVtFmctG+3rcTP3pJ50EPWdoIRM2vBC/P3bocrb8jX4z5vNylIWWyJxtuiFbP7VZwcPQQwuVrxddjlB2ydChM36YVSNTeDNNp6tGHkl7Ogh0su2FarlFEOcuZD9WX4b8sRiLJJaLub8EnSRbInS0Xk5P9N4cFM6udpFlxLCZsbFbgpaK+U26MYOKuXlw0VguAh10K/3t6lvPyxHOROkIbwDrd1V0I8MgOg1HEx7EjDY5KILNOxQpECzjEXAlMcQEeGJF6hHbGES6iA9RIPW2drhGsru+HOy8NdKDPb42SP9o++Hhuifc7D1WoF2ZYRUpuyyPQp9Of6Nf8KPuIdoQWKSccW/jZ33axAu6Q0JFHxXsSqMzoKz6m7YxChc/2CWypofeezGa5Wq45bu5NUvZTVYuTFXU6CHh8Lz5QPONaCOfsxteSaV/4YF+Q13pQzgg4Txv6+gb6qQlGHma7O28ZwieUfnju7BVwkPw==
+X-Microsoft-Antispam-Message-Info: msIe3WvS1ZuzDW2Aqw1bOkm5PKDKZusRvey5NrIhC9Z/Tn6cHSwjrn+RwnZ8gmkWM6eCteaRlmUIdFwNtvmhed8aFtFBb1GZcRX+DKJCvNejs/0WMMAJUcYw3wOg7bFU/+gxjbhU0BP5TohwpAX4hX3+hTlTC05alclmRu/0z14JVHT7CzgGkCxg0/+t0SYkJv1e1HNp5eu5mQzYgNnVr3FB7otilo43yx0viSAI3Eq09GZANOQG5Usn10/dnGrZBanLS1degoOOev6w3UFkif8Wmc17m+5HJ8TjRouAJ/GNqBhV9uQFceJM1UQtUigl1dbuNo3OUlnTYbMVF8ow4NvRiOrvVMHtFyhgRhUZomuQ/o7oAb4kwe5hk7ewQgHNMXQhIa/a4JMXL0IyKYQkr2BmjE3AA5knle2QpSuJRA71VC9Z/BSW1nQ41iCm3sRHQER1snokmZeT2t9B1X7Z5dC78h4GcacWfVIzA8AXdlU6PvVr+6tU2vC08JLOjX6hrFmHhZs0CFsmtJ6VCtChHP8c+UZxCg5hrOPzyQ5AxY29f1rTKtrZVnEDwFSastQ9sMPZVGpQ/uk1ra/A7oFb3W/2YbdB7/mbx+33iMnTZ8R+bhZKcnjs54N1q/9YIqPuuKeqX+RQX7ONzOxvPuT7qATflcpJE0QJnXiZuB/QAWAj4uRsCUwJXm+h/NGTwEvhCbZiZqsFGZWswbY4NJ2BOQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH0PR01MB7124.prod.exchangelabs.com; PTR:; CAT:NONE;
  SFS:(13230025)(4636009)(376002)(136003)(39850400004)(396003)(366004)(346002)(451199018)(8676002)(66556008)(66946007)(66476007)(5660300002)(316002)(4326008)(41300700001)(86362001)(107886003)(2616005)(83380400001)(26005)(38350700002)(6506007)(6486002)(186003)(6512007)(1076003)(6666004)(52116002)(110136005)(2906002)(38100700002)(478600001)(8936002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7zG3Bvt+g1ESr5iRma8/LwBUuHSro5nPyRyIX3Fzy63GrFbOUPBZMFBK7r0y?=
- =?us-ascii?Q?dT+z/gOefPIeEJMfvAN/HJAiq78s8dYG4L4pJw6ZJHmlpF5Lb+c0bvtBAT+H?=
- =?us-ascii?Q?RAX2J7SBC+lTTytHq5DI9jQA90XutVxANOEq97wy5uhCrk44IlOQVC3ILIWz?=
- =?us-ascii?Q?bTGx0a63EN3dRkJnw+7pCZLyrBiVAZYMFmcGB7iDto6YN9utqsunny0TncGD?=
- =?us-ascii?Q?DtN+ODuydKsDbNaBNVO2ztmyQ8Jb8T4H57XAm0eLvtjLDRh/Nqv49vEg6QVQ?=
- =?us-ascii?Q?cn9nzQ8nLNxJyADv/zkxc99bII4rhMHmAsDOG4tpPFuqvuusu5qXYAkuaIzZ?=
- =?us-ascii?Q?Xg8TP2dTEIG6I5l9otKONK3GdVINJP5ZeWfFx5z3Z43HurCpyisWbGTu7rNP?=
- =?us-ascii?Q?2VvEEJEXtvZGykXldNCNCbl4CohKMxYAM00SXfcFzXwK1rPTQbCqsAEcEc21?=
- =?us-ascii?Q?dUixWuwCHiwQfYVd2HcrT+99NmmxJmbxxs4GzVjg5sXNQ/L6WiORiCIaEh5f?=
- =?us-ascii?Q?ScATyjtCmPdCXVN8vl3FrPEnhfc9MUP4TFozBLIiOSzFtkYcej4/K5rH4AD4?=
- =?us-ascii?Q?1KuS8JI9V+3z1VflNdZtTG2880avp0ad4Cearlr0w5EeVocT8jDnGNoECTk2?=
- =?us-ascii?Q?JswOEDMfhcPLQtZTO80V1fykAxZscmicls0PjyXjptjNSOLZmOl+QlmxACfi?=
- =?us-ascii?Q?a+1VUNjePLGArAXdyo6U0iMjEMy68bcAvzxgAvWdO3gOqTd2jkAZUudA7YC/?=
- =?us-ascii?Q?Oa3h2G5A37cA+mzywDO8MMcz3ueRNvVlAdOh8GdPd9P3gyA9htDRC+BMuvZn?=
- =?us-ascii?Q?ZW6/N+od3jyEND79c464iiWIS3Wd2WCa7V83GAHFA7a49GjxYjwM5iC6BIOj?=
- =?us-ascii?Q?Cod/+aDc8/uGrkzX9epB6nBLOUrzrGgAMO1ZJKyywl9gd5EFXEqSDIX4V2Xc?=
- =?us-ascii?Q?HLnEQahhELgt3ahDSRPHVnhoVZZGSM2NXW5iSrbg9JlSHwJfyxJKzDaJJLjG?=
- =?us-ascii?Q?hHkjv7Bkiw7TxlyofLag6dydfn6ziOCFJO8XW5tTjYoiukj5cAdK+/bzfwtq?=
- =?us-ascii?Q?3QgP7k20nrY9JCLSN7ny398o52Cbxtv6Sia4SI97WGDmPrLQaET4riRTC+Y8?=
- =?us-ascii?Q?ndWzDu6de42twmyBxINqPmuxCXUCUk0RmEBP7Z+Os3OW0laLWhiG1HFwze44?=
- =?us-ascii?Q?7/PTzKuvHYjzjOypUl6jgJf6v/thzEOjxWhRgERqKtkSPY8xsg2EyUHkYeDd?=
- =?us-ascii?Q?ZhWFoy/AdHtVFSA2V+7XSl4QkOi62/B15Pvx2zAL2j1/CPV4vX2dadzEMFUh?=
- =?us-ascii?Q?cXe4x/YglaIRVfYZqr18GtqL2Ed+Q1Lsb9gnvUi6b8XqOO6s6QMSBgJAE94v?=
- =?us-ascii?Q?5leX8kpl5NFq8EjZr4OmO0ooTxuq3qNAcPdqi9QICDtwPZqDSBveyZiaTOlm?=
- =?us-ascii?Q?hPI7llaIRvgMTnhRH9qiLvnK6+wa8aHIO7M7/3/BhXwAngKQwoln+6rbSb6v?=
- =?us-ascii?Q?ibP4550tSxLF5wvvM3pVRu5CWLituxU1r6StTdif3km2Bex3xnXo9k/KRUss?=
- =?us-ascii?Q?aqbKBr5ufH66xGhvDO/i/BykF+1t+7Xr3mdfaJ4TngcTSawjIGG8NEVp5wPv?=
- =?us-ascii?Q?dGcDotQmoIsl+88NpUdX/Hw=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QV7GKT/aBNSS4ha9PcxLHBSmSNts6PvmLMxZOSzd/beZVmk+5Je6/vssCGvF?=
+ =?us-ascii?Q?OtY+VayS4x3IpVNCsLfC9oSvogKL5lS7imwcQG1XoNBqhlqj87QG5S0Hy49R?=
+ =?us-ascii?Q?HiyJgm2XYtuEEXDOnLvWcXIJNng6vtg83FP32+kUJLo0juHsmZ7YOV6lNZow?=
+ =?us-ascii?Q?ZIM+mo9ZffbfJ2W/lE233ovnOwS3Px4luaDTplPGWTh3yf6HRxwby2WlnwmZ?=
+ =?us-ascii?Q?308xIJzMKHIJaO2Z3vUUjeDZwWw+ESeOUcyoidlwjGfg6EOPRfSa3LfqP0qb?=
+ =?us-ascii?Q?Ew+ph6PY/yh6hoGuQx8/iR7maMEhjsoslu2iVjSasXi1kCNx2xxuJoIrDJmb?=
+ =?us-ascii?Q?nk9fZA4kE16RsiEpAuEVzJGtuJxIJ+gpbmmg4WD3jDNtNMhtyK7nvs3ZNdp8?=
+ =?us-ascii?Q?wcCQ0La1V5W3QjmerzPWS1b0M/kIAqFIKJ7eNidGubwdpD9eMIBhSRWZFzvP?=
+ =?us-ascii?Q?magLFNv01KzOQdtGtsSNuYYt6YOsBUsebadEWbMDCCJ+CfQ9TvnGbh0gekdi?=
+ =?us-ascii?Q?k5QpZNDLEySNR1KroddMmSZcQ/1+RP9xcW1KLdGDFYYE6qfM18+f5VMUPXRz?=
+ =?us-ascii?Q?wbUJW6RQoHt76FGVscvwTPi5Ixqillbv9ugSiblGKCNdaRaZdWrpXAk1CJAS?=
+ =?us-ascii?Q?shJDKfzE41ByhA+uwtVl3VvwH2o6pKbe1vwZ4PnolADWXUskjg3cm8copaoF?=
+ =?us-ascii?Q?LgLH4hIz5duxGwCe4rdEGWD1R6tnj8xw5obo7Cm21LBvJRn7h1Y6W2cn/0kE?=
+ =?us-ascii?Q?pi/zu/6NJ0q/Ro3RzuXpT7oeQzXwiDSPnyM8rPadxSlvSpFs/6pfe5DuKdmo?=
+ =?us-ascii?Q?CArUa90CW+SlqjZbnxCiJmkyWuNZNqBZxepu0OLw7SZMzmWkSep8o4+gkZW0?=
+ =?us-ascii?Q?hxXNHn8Ny1mdwA3AAqD34irMQ3tLf2bmgouQgOzGKFd+pBlzzEAVMEL6N9/2?=
+ =?us-ascii?Q?32GeiFYYdk2r45lq+lezptUU01RNwZ9CW3LFFQBb9HB2qkzJwog7+7MHxjTQ?=
+ =?us-ascii?Q?ESq9b3EpDqViflsu1Po8ewj+aavOoi1FBuJvX1C94BgfGI2TkszF7Ub1dGOL?=
+ =?us-ascii?Q?eUc77KDGpg/0gYW+cTrqiH4SjBqndetS2+tVxHmmKNgrwAd2D+1xudeboi72?=
+ =?us-ascii?Q?MiCPurvqiJZoqv2/M+iz5KZrvnvSZzfI6Qx1zrE2UGoh45sjBScY1456aiGv?=
+ =?us-ascii?Q?JF7T88L67pVwxw2vceBKhhY6I0Ncni7H6wrpwSMMhoqlU2xfvYPwY9+QvYof?=
+ =?us-ascii?Q?uCjtV/8rLrPzK7arz7zt7s0ezDAoeJilU90Zv770iyxGNHaiG3oK7/A3GeNI?=
+ =?us-ascii?Q?5y/RU2+bHh6wEFph1ItAuRtd0fP471k+F9dKtd1ZE2SrNgB3MCB5fHRYi2Rp?=
+ =?us-ascii?Q?W+4jGSTI61fkLVffhl/YVllJGo0/tIlXK7LTY9glG2qUglREhCdvPIvW9xgc?=
+ =?us-ascii?Q?Cg0JYGB/JxrK3GqSFga4Aam5MK5oIawCvqDIaZ5HFnw/cBf6UavNXgDYBtqM?=
+ =?us-ascii?Q?90azNVfN1Ze2QoPtPLqU/swO4OsMpzgB+S225b9yj1tHVkU0QXCsH/bdOXt/?=
+ =?us-ascii?Q?AZMaH9mAWOgbaa+Pp6pf7saD2gfx33nSE/wY2Af/XBU1Ssil9/XCikeCcgmi?=
+ =?us-ascii?Q?5oegcSS9UnXAKqMCqUGHYVU=3D?=
 X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da977e2f-915f-4925-a6bf-08db150c0a55
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0fd3f94-6466-4e1d-0012-08db150c0ab5
 X-MS-Exchange-CrossTenant-AuthSource: CH0PR01MB7124.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 19:36:06.1795 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 19:36:06.8200 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3XV4oCv4QbHiGuq3oARCQVHRfrkED+r63Y8PHeDpPBMgSPjjaVo+g3SOwoPsk69dpGjqeiwMTj+FFN8RlR0c3/BXx7nHF8C57r7Xp+lJ/pkl6WR5clNl4pcxfeBu+emE
+X-MS-Exchange-CrossTenant-UserPrincipalName: wLHujsw85GoYGwZcApt8Fr+7Nb1Gr/PeGczH3pvU4b2qwsbImfMatoExytekpCCIGCBB6hRHvLp2UTwk341T0f8hORfxt9xHYv/arlrMJ8ykoOAaiatKHpt9J0qlA41C
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR01MB6448
 Received-SPF: pass client-ip=2a01:111:f400:7e8d::721;
  envelope-from=aaron@os.amperecomputing.com;
@@ -138,131 +138,126 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h          | 61 +++++++++++++++++++++++++++++++++++++--
- target/arm/helper.c       |  4 +--
- target/arm/pauth_helper.c |  2 +-
- 3 files changed, 61 insertions(+), 6 deletions(-)
+ target/arm/pauth_helper.c | 50 +++++++++++++++++++++++++++++++--------
+ 1 file changed, 40 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 8cf70693be..9c3cbc9a29 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1001,6 +1001,7 @@ struct ArchCPU {
-         uint32_t dbgdevid1;
-         uint64_t id_aa64isar0;
-         uint64_t id_aa64isar1;
-+        uint64_t id_aa64isar2;
-         uint64_t id_aa64pfr0;
-         uint64_t id_aa64pfr1;
-         uint64_t id_aa64mmfr0;
-@@ -3902,18 +3903,72 @@ static inline bool isar_feature_aa64_pauth(const ARMISARegisters *id)
-             (FIELD_DP64(0, ID_AA64ISAR1, APA, 0xf) |
-              FIELD_DP64(0, ID_AA64ISAR1, API, 0xf) |
-              FIELD_DP64(0, ID_AA64ISAR1, GPA, 0xf) |
--             FIELD_DP64(0, ID_AA64ISAR1, GPI, 0xf))) != 0;
-+             FIELD_DP64(0, ID_AA64ISAR1, GPI, 0xf))) != 0 ||
-+           (id->id_aa64isar2 &
-+            (FIELD_DP64(0, ID_AA64ISAR2, APA3, 0xf) |
-+             FIELD_DP64(0, ID_AA64ISAR2, GPA3, 0xf))) != 0;
- }
- 
--static inline bool isar_feature_aa64_pauth_arch(const ARMISARegisters *id)
-+static inline bool isar_feature_aa64_pauth_arch_qarma5(const ARMISARegisters *id)
- {
-     /*
--     * Return true if pauth is enabled with the architected QARMA algorithm.
-+     * Return true if pauth is enabled with the architected QARMA5 algorithm.
-      * QEMU will always set APA+GPA to the same value.
-      */
-     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, APA) != 0;
- }
- 
-+static inline bool isar_feature_aa64_pauth_arch_qarma3(const ARMISARegisters *id)
-+{
-+    /*
-+     * Return true if pauth is enabled with the architected QARMA3 algorithm.
-+     * QEMU will always set APA3+GPA3 to the same value.
-+     */
-+    return FIELD_EX64(id->id_aa64isar2, ID_AA64ISAR2, APA3) != 0;
-+}
-+
-+static inline bool isar_feature_aa64_pauth_arch(const ARMISARegisters *id)
-+{
-+    return isar_feature_aa64_pauth_arch_qarma5(id) ||
-+        isar_feature_aa64_pauth_arch_qarma3(id);
-+}
-+
-+static inline uint8_t isar_feature_pauth_get_features(const ARMISARegisters *id)
-+{
-+    if (isar_feature_aa64_pauth_arch_qarma5(id))
-+        return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, APA);
-+    else if (isar_feature_aa64_pauth_arch_qarma3(id))
-+        return FIELD_EX64(id->id_aa64isar2, ID_AA64ISAR2, APA3);
-+    else
-+        return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, API);
-+}
-+
-+static inline bool isar_feature_aa64_pauth_epac(const ARMISARegisters *id)
-+{
-+    /*
-+     * Note that unlike most AArch64 features, EPAC is treated (in the ARM
-+     * psedocode, at least) as not being implemented by larger values of this
-+     * field. Our usage of '>=' rather than '==' here causes our implementation
-+     * of PAC logic to diverge slightly from ARM pseudocode.
-+     */
-+    return isar_feature_pauth_get_features(id) >= 0b0010;
-+}
-+
-+static inline bool isar_feature_aa64_pauth2(const ARMISARegisters *id)
-+{
-+    return isar_feature_pauth_get_features(id) >= 0b0011;
-+}
-+
-+static inline bool isar_feature_aa64_fpac(const ARMISARegisters *id)
-+{
-+    return isar_feature_pauth_get_features(id) >= 0b0100;
-+}
-+
-+static inline bool isar_feature_aa64_fpac_combine(const ARMISARegisters *id)
-+{
-+    return isar_feature_pauth_get_features(id) >= 0b0101;
-+}
-+
- static inline bool isar_feature_aa64_tlbirange(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64isar0, ID_AA64ISAR0, TLB) == 2;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 72b37b7cf1..448ebf8301 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8028,11 +8028,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-               .access = PL1_R, .type = ARM_CP_CONST,
-               .accessfn = access_aa64_tid3,
-               .resetvalue = cpu->isar.id_aa64isar1 },
--            { .name = "ID_AA64ISAR2_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
-+            { .name = "ID_AA64ISAR2_EL1", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 2,
-               .access = PL1_R, .type = ARM_CP_CONST,
-               .accessfn = access_aa64_tid3,
--              .resetvalue = 0 },
-+              .resetvalue = cpu->isar.id_aa64isar2 },
-             { .name = "ID_AA64ISAR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
-               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 3,
-               .access = PL1_R, .type = ARM_CP_CONST,
 diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
-index d0483bf051..e5206453f6 100644
+index e5206453f6..f525ef7fad 100644
 --- a/target/arm/pauth_helper.c
 +++ b/target/arm/pauth_helper.c
-@@ -282,7 +282,7 @@ static uint64_t pauth_computepac_impdef(uint64_t data, uint64_t modifier,
- static uint64_t pauth_computepac(CPUARMState *env, uint64_t data,
+@@ -96,6 +96,21 @@ static uint64_t pac_sub(uint64_t i)
+     return o;
+ }
+ 
++static uint64_t pac_sub1(uint64_t i)
++{
++    static const uint8_t sub1[16] = {
++        0xa, 0xd, 0xe, 0x6, 0xf, 0x7, 0x3, 0x5,
++        0x9, 0x8, 0x0, 0xc, 0xb, 0x1, 0x2, 0x4,
++    };
++    uint64_t o = 0;
++    int b;
++
++    for (b = 0; b < 64; b += 4) {
++        o |= (uint64_t)sub1[(i >> b) & 0xf] << b;
++    }
++    return o;
++}
++
+ static uint64_t pac_inv_sub(uint64_t i)
+ {
+     static const uint8_t inv_sub[16] = {
+@@ -209,7 +224,7 @@ static uint64_t tweak_inv_shuffle(uint64_t i)
+ }
+ 
+ static uint64_t pauth_computepac_architected(uint64_t data, uint64_t modifier,
+-                                             ARMPACKey key)
++                                             ARMPACKey key, bool isqarma3)
+ {
+     static const uint64_t RC[5] = {
+         0x0000000000000000ull,
+@@ -219,6 +234,7 @@ static uint64_t pauth_computepac_architected(uint64_t data, uint64_t modifier,
+         0x452821E638D01377ull,
+     };
+     const uint64_t alpha = 0xC0AC29B7C97C50DDull;
++    int iterations = isqarma3 ? 2 : 4;
+     /*
+      * Note that in the ARM pseudocode, key0 contains bits <127:64>
+      * and key1 contains bits <63:0> of the 128-bit key.
+@@ -231,7 +247,7 @@ static uint64_t pauth_computepac_architected(uint64_t data, uint64_t modifier,
+     runningmod = modifier;
+     workingval = data ^ key0;
+ 
+-    for (i = 0; i <= 4; ++i) {
++    for (i = 0; i <= iterations; ++i) {
+         roundkey = key1 ^ runningmod;
+         workingval ^= roundkey;
+         workingval ^= RC[i];
+@@ -239,32 +255,44 @@ static uint64_t pauth_computepac_architected(uint64_t data, uint64_t modifier,
+             workingval = pac_cell_shuffle(workingval);
+             workingval = pac_mult(workingval);
+         }
+-        workingval = pac_sub(workingval);
++        if (isqarma3)
++            workingval = pac_sub1(workingval);
++        else
++            workingval = pac_sub(workingval);
+         runningmod = tweak_shuffle(runningmod);
+     }
+     roundkey = modk0 ^ runningmod;
+     workingval ^= roundkey;
+     workingval = pac_cell_shuffle(workingval);
+     workingval = pac_mult(workingval);
+-    workingval = pac_sub(workingval);
++    if (isqarma3)
++        workingval = pac_sub1(workingval);
++    else
++        workingval = pac_sub(workingval);
+     workingval = pac_cell_shuffle(workingval);
+     workingval = pac_mult(workingval);
+     workingval ^= key1;
+     workingval = pac_cell_inv_shuffle(workingval);
+-    workingval = pac_inv_sub(workingval);
++    if (isqarma3)
++        workingval = pac_sub1(workingval);
++    else
++        workingval = pac_inv_sub(workingval);
+     workingval = pac_mult(workingval);
+     workingval = pac_cell_inv_shuffle(workingval);
+     workingval ^= key0;
+     workingval ^= runningmod;
+-    for (i = 0; i <= 4; ++i) {
+-        workingval = pac_inv_sub(workingval);
+-        if (i < 4) {
++    for (i = 0; i <= iterations; ++i) {
++        if (isqarma3)
++            workingval = pac_sub1(workingval);
++        else
++            workingval = pac_inv_sub(workingval);
++        if (i < iterations) {
+             workingval = pac_mult(workingval);
+             workingval = pac_cell_inv_shuffle(workingval);
+         }
+         runningmod = tweak_inv_shuffle(runningmod);
+         roundkey = key1 ^ runningmod;
+-        workingval ^= RC[4 - i];
++        workingval ^= RC[iterations - i];
+         workingval ^= roundkey;
+         workingval ^= alpha;
+     }
+@@ -283,7 +311,9 @@ static uint64_t pauth_computepac(CPUARMState *env, uint64_t data,
                                   uint64_t modifier, ARMPACKey key)
  {
--    if (cpu_isar_feature(aa64_pauth_arch, env_archcpu(env))) {
-+    if (cpu_isar_feature(aa64_pauth_arch_qarma5, env_archcpu(env))) {
-         return pauth_computepac_architected(data, modifier, key);
+     if (cpu_isar_feature(aa64_pauth_arch_qarma5, env_archcpu(env))) {
+-        return pauth_computepac_architected(data, modifier, key);
++        return pauth_computepac_architected(data, modifier, key, false);
++    } else if (cpu_isar_feature(aa64_pauth_arch_qarma3, env_archcpu(env))) {
++        return pauth_computepac_architected(data, modifier, key, true);
      } else {
          return pauth_computepac_impdef(data, modifier, key);
+     }
 -- 
 2.25.1
 
