@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDE969F8DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:18:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A4E69F8DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 17:19:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUrnu-0000ce-OR; Wed, 22 Feb 2023 11:17:14 -0500
+	id 1pUrpJ-0001Hl-4C; Wed, 22 Feb 2023 11:18:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUrns-0000cN-9V
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:17:12 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pUrnq-0007mI-Kg
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:17:12 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- p3-20020a05600c358300b003e206711347so5745331wmq.0
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 08:17:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gocHSuxyi3k08qqM9s5R4cwvr6IvnypcxzQE0QSemHs=;
- b=wJKq44DpfAJRvrUxLvX+x+Ac/nhmYvEeXwA/YLIEzf3N3p3roI1gf1vdGW2To2OEv+
- CA6Ih2NeOkJmUxMdh83xU0+7+9zzRDdvwDLXibensXKB5WNqjZqWWm4fGtD7jT4x0pfD
- E/sgSMc1S3sT71zNq/4o9cRaVzR5gt0GGHuydSBo8/7bwoJaYlDEXHQgn4TRkCnOpFNs
- NM5B06Xi8J29IX3n+adUqNRBamHIjhnzPDxCTYWduzCMI1TcACXeOz3bq5HNsCHCDN2Z
- LxYHqisvZuo4Uz01uQZAxDOI4S8J2WDFVjNuJ4pp5jfURhmHgmGvC4F+X5EvLNqJ1WAq
- S2Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gocHSuxyi3k08qqM9s5R4cwvr6IvnypcxzQE0QSemHs=;
- b=OSyNLUEAcs8YWmhHsrKmE9BHfjZ6Fz0yErdSBN3oKXWl1v3UhX/FTEzwnK5tuo5TjU
- rkrCOx/vdeDzNYR0STtMMBrKq8TAcihwPMx+tl6VftSfcr5qQ+GSIYdsnURoLpyIl0De
- T09YZQygkfQ5k7vmGM6CRpLqxTcbFxvVFnuniESvjmGSvqiYk50l9sWzl3hKevrp5FDv
- 9cOgODDHy3QJlYCCPm1GwdYs9mMgrAZe8bT2f376kZylq16QM9IJ+1zwudTHZfMXyfk/
- jPPzwjMkWZme92v0+E6lg2G/y3jtp4fZhLKygyNFpGG7kagy/kQEM/DGyEPpk+mcRpfw
- ooJQ==
-X-Gm-Message-State: AO0yUKUJiVLUpvM1r/3DgC3w5a1uyHEwjFX3ScxaEZR/AnSMGU2vmIk5
- tCHUj1VZyXgi84cDTLFLCidTiQ==
-X-Google-Smtp-Source: AK7set/yk9limTQdII915Wu/tXKbv5oEpiHtTqUPIsCJhGd1OxCXs9ynIjdtAKgHuP4WKvKmKCMyfg==
-X-Received: by 2002:a05:600c:331b:b0:3df:e4b4:de69 with SMTP id
- q27-20020a05600c331b00b003dfe4b4de69mr6093721wmp.27.1677082628635; 
- Wed, 22 Feb 2023 08:17:08 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- r8-20020a05600c458800b003db01178b62sm1745083wmo.40.2023.02.22.08.17.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 08:17:08 -0800 (PST)
-Message-ID: <fa7ff862-32fd-edd2-1629-ee68e920c68d@linaro.org>
-Date: Wed, 22 Feb 2023 17:17:06 +0100
+ (Exim 4.90_1) (envelope-from
+ <BATV+d08044c82682f1dc09d1+7122+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pUrp8-0001HK-8g
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:18:31 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+d08044c82682f1dc09d1+7122+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pUrp4-0008FO-Q9
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 11:18:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=121exVqUn1oUL4DEb/vuir6pc5u3lrt12iNyzj7TMKs=; b=DQnHmrd4nkSfaoate2JPJnwIlv
+ YXt0mDWeTD9POx/em5uV1wpIy32DzSfm62mSJzoFR5gHbe0ZmgAdpsIRn+u1KG0ZSrbjDftg8nbnI
+ D9/reALYQFS27RxnJ2ih8nTpbXgMiAbvs2wG6jT6m8HnoHrXVBawU+hBYRsL/ZQMe8UZN/YLHmg0q
+ C1OpGy3eJpNwr3CzfbKWuWRGma41pwETWsm3QiVgS4JBWhb1d1OBfy1rbONUIkXBsV5sCvEZFiYq7
+ z/9hDD0kRFZ/B+y9yG+6FuHC+c//W4UmR/TJlg+92dRB/+ZYFRrJATQpfbFlfnqPXF6kdJ7WDFy86
+ BXDCv6OQ==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pUrot-00Da0w-Nu; Wed, 22 Feb 2023 16:18:16 +0000
+Message-ID: <8795531010a96cd5306c06813e5612eaff96b923.camel@infradead.org>
+Subject: Re: [PATCH v12 47/60] i386/xen: handle PV timer hypercalls
+From: David Woodhouse <dwmw2@infradead.org>
+To: paul@xen.org, Paul Durrant <xadimgnik@gmail.com>, Peter Maydell
+ <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Joao Martins
+ <joao.m.martins@oracle.com>, Ankur Arora <ankur.a.arora@oracle.com>, 
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Julien Grall <julien@xen.org>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  armbru@redhat.com, Stefano
+ Stabellini <sstabellini@kernel.org>,  vikram.garhwal@amd.com
+Date: Wed, 22 Feb 2023 16:18:14 +0000
+In-Reply-To: <aa6273d7-5abe-f134-5339-c5cf81f14c44@xen.org>
+References: <20230220204736.2639601-1-dwmw2@infradead.org>
+ <20230220204736.2639601-48-dwmw2@infradead.org>
+ <c92e355e101669f8473a695ad4abfc555765e5be.camel@infradead.org>
+ <54ddce90-a55c-b1f6-59ad-35f7fada4999@xen.org>
+ <11a088aa-aea1-bd0a-5537-fdbab65870f8@xen.org>
+ <2AB12E9D-BEDE-4227-8360-EE953524B802@infradead.org>
+ <aa6273d7-5abe-f134-5339-c5cf81f14c44@xen.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-vslkElaerxnN5XKFishw"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 2/4] sysemu/os-win32: fix setjmp/longjmp on
- windows-arm64
-Content-Language: en-US
-To: Pierrick Bouvier <pierrick.bouvier@linaro.org>, qemu-devel@nongnu.org
-Cc: sw@weilnetz.de, kkostiuk@redhat.com, clg@kaod.org,
- richard.henderson@linaro.org, alex.bennee@linaro.org,
- peter.maydell@linaro.org
-References: <20230221153006.20300-1-pierrick.bouvier@linaro.org>
- <20230221153006.20300-3-pierrick.bouvier@linaro.org>
- <5a61bdc2-1bc0-7147-8053-2ef1d2fbcb2f@linaro.org>
- <8fc239ec-b01c-019a-9c8c-b276bbf3fd02@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <8fc239ec-b01c-019a-9c8c-b276bbf3fd02@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+d08044c82682f1dc09d1+7122+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,87 +88,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/2/23 17:08, Pierrick Bouvier wrote:
-> On 2/21/23 23:27, Philippe Mathieu-Daudé wrote:
->> On 21/2/23 16:30, Pierrick Bouvier wrote:
->>> Windows implementation of setjmp/longjmp is done in
->>> C:/WINDOWS/system32/ucrtbase.dll. Alas, on arm64, it seems to *always*
->>> perform stack unwinding, which crashes from generated code.
->>>
->>> By using alternative implementation built in mingw, we avoid doing stack
->>> unwinding and this fixes crash when calling longjmp.
->>>
->>> Signed-off-by: Pierrick Bouvier <pierrick.bouvier@linaro.org>
->>> Acked-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>    include/sysemu/os-win32.h | 28 ++++++++++++++++++++++++----
->>>    meson.build               | 21 +++++++++++++++++++++
->>>    2 files changed, 45 insertions(+), 4 deletions(-)
->>
->>
->>> -#if defined(_WIN64)
->>> -/* On w64, setjmp is implemented by _setjmp which needs a second 
->>> parameter.
->>> +#if defined(__aarch64__)
->>> +/*
->>> + * On windows-arm64, setjmp is available in only one variant, and 
->>> longjmp always
->>> + * does stack unwinding. This crash with generated code.
->>> + * Thus, we use another implementation of setjmp (not windows one), 
->>> coming from
->>> + * mingw, which never performs stack unwinding.
->>> + */
->>> +#undef setjmp
->>> +#undef longjmp
->>> +/*
->>> + * These functions are not declared in setjmp.h because __aarch64__ 
->>> defines
->>> + * setjmp to _setjmpex instead. However, they are still defined in 
->>> libmingwex.a,
->>> + * which gets linked automatically.
->>> + */
->>> +extern int __mingw_setjmp(jmp_buf);
->>> +extern void __attribute__((noreturn)) __mingw_longjmp(jmp_buf, int);
->>> +#define setjmp(env) __mingw_setjmp(env)
->>> +#define longjmp(env, val) __mingw_longjmp(env, val)
->>> +#elif defined(_WIN64)
->>> +/*
->>> + * On windows-x64, setjmp is implemented by _setjmp which needs a 
->>> second parameter.
->>>     * If this parameter is NULL, longjump does no stack unwinding.
->>>     * That is what we need for QEMU. Passing the value of register 
->>> rsp (default)
->>> - * lets longjmp try a stack unwinding which will crash with 
->>> generated code. */
->>> + * lets longjmp try a stack unwinding which will crash with 
->>> generated code.
->>> + */
->>>    # undef setjmp
->>>    # define setjmp(env) _setjmp(env, NULL)
->>> -#endif
->>> +#endif /* __aarch64__ */
->>
->> This comment is confusing, the previous if ladder is about i86. Maybe
->> better not add any comment?
-> 
-> If I am not mistaken, before we had:
-> 
-> #if x64
-> define setjmp as _setjmp(env, 0)
-> #endif
-> // nothing done for x86
-> 
-> and now we have:
-> 
-> #if aarch64
-> define setjmp as __mingw_setjmp
-> define longjmp as __mingw_longjmp
-> #elif x64
-> define setjmp as _setjmp(env, 0)
-> #endif
-> // nothing done for x86
-> 
-> Maybe the patch format is confusing, or I missed what you pointed.
 
-Oh OK, we are good then, sorry :)
+--=-vslkElaerxnN5XKFishw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 2023-02-22 at 13:32 +0000, Paul Durrant wrote:
+> > >=20
+> > > NB I think you still need to fix kvm_xen_hcall_vcpu_op() to not
+> > > return the -ENOENT too.
+> >=20
+> >=20
+> > =C2=A0 Didn't I already do that?
+>=20
+> Ah, so you did. So many versions... but with the above change=20
+> incorporated...
+
+Indeed, but once I post version 13 I think we might actually be ready
+to merge this series of "only" 60 patches, and we can work on refining
+the next batch to add the XenStore and the PV back end support :)
+
+> Reviewed-by: Paul Durrant <paul@xen.org>
+
+I think that's the last one I needed to complete the set. Thanks!
+
+--=-vslkElaerxnN5XKFishw
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjIyMTYxODE0WjAvBgkqhkiG9w0BCQQxIgQgaPW2CLYv
+aOAF9khdQTS9KdIImbY6GEn16MeBqhee08Mwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCGwkTIu/E94QbalnFE3DuncubjiOl8zuBb
+2OVOCpUI+cGYHKb/nYN4a0bSN/1A1bzsUKM34s+2gRyRxkIp9wajOnteQgtqeZc72/qrO56bQCfn
+LtcWmrpAnL4WYaV/t6kLt4B2lJycxXR0j4Wj2EjtqVLhwzhkaNXFqr/Ngcu10Uu3pcVAk3LNIekI
+ZaxR0RcNGPuR3IxAtTrxYGSA0aHRIji85//MtPOMkt0OG93kMprGxLjr+EZlyvu+OjRTy5pauoWn
+Q9Oy2AOfFkZHoklPR3IA/vzgnKWaueQElIZpZOfO5l4VwHlH8q22+ZH3JfJ8Zmofhlmo6vbrvjJq
+wql2iWKpQNTigjCTKWkAOni/w1W/Wbp933S8wUD0wD0cs4mTaND8TIYaxhVsRGCD40Yh9P0DxxKo
+pS0LGX0xR3RtmaSng6XBJAYrXHQwIben4+NCoUEMnOiWvl8n0VJt3Yk6W9XrFXSCOidTbeI/Jw8r
+//89irKPJOuaoUMOZwJ1HxeOlobAonrK4GlDCVKEXerVl4p3sbiCqkrI/E9GcxXQKDBdC9pQngu5
+XHBxzsm5Vn8Cvv8XhdGrm4yuE7KcxHIhJXXNFy+aPYrL3KqHVrANFCi5JYpX4dZltHRUa63Gd5nS
+5BLSFcC+D9xs1tcFG6ecGqHFSpK/0HhOvp26v/0ZawAAAAAAAA==
+
+
+--=-vslkElaerxnN5XKFishw--
 
