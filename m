@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6513B69F6C8
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D4B69F6C7
 	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:40:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUqGO-0004i6-KI; Wed, 22 Feb 2023 09:38:32 -0500
+	id 1pUqGO-0004hj-El; Wed, 22 Feb 2023 09:38:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqGC-0004Mf-1p
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pUqGF-0004NN-PT
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pUqGA-0001Gs-Gh
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:19 -0500
+ id 1pUqGD-0001Ha-TT
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:38:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677076697;
+ s=mimecast20190719; t=1677076701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fquq5rmYRc2Q+vS1uFL1UeL36Rp+zoQi5qdIIdc5UMA=;
- b=SeLNnAlH3Wc+07VEf55tlY+bXhbAHntP9D+iXPq4n2fmsQSMq3GLmNcv7s+PQ0gFyqlWKq
- P0QN0ENQXqNBjquyG9MAI18gDp5Zv7HxeREqZMvwDwmjpLpcvHDMHQ5o0bGQjX/8v2fZz/
- sHlTmA2fgbJ2MK9kYudCGt+9Y73bK88=
+ bh=GdgRe/0ubTalQGk7MlsIYFdtsI9zXNirHCIKNY7pxIo=;
+ b=Kncx7m/n62Ze7WLnxWG/tj09AHyruU/vR3sWBiFSx+VzBLjtqw3MO4E5rT/3Hgqb7dt94d
+ dGFc46a7fUC8KHT5xuO1WhLbRiQqXgvYOcoc1Q3KOKhqCQKub+mo7InVR4yRdEAuH5P9uk
+ HTaWsv6rRoDf1grz3hLM/az56VehKRw=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-28-9izwojO-O7Ox-82H4c5emQ-1; Wed, 22 Feb 2023 09:38:16 -0500
-X-MC-Unique: 9izwojO-O7Ox-82H4c5emQ-1
+ us-mta-261-79FjzuyoOwmVIhBiI9a1qA-1; Wed, 22 Feb 2023 09:38:20 -0500
+X-MC-Unique: 79FjzuyoOwmVIhBiI9a1qA-1
 Received: by mail-ed1-f70.google.com with SMTP id
- t9-20020a056402524900b004af59c073abso5641762edd.6
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:38:16 -0800 (PST)
+ dm14-20020a05640222ce00b0046790cd9082so11477856edb.21
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 06:38:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Fquq5rmYRc2Q+vS1uFL1UeL36Rp+zoQi5qdIIdc5UMA=;
- b=MvDa++CxxK0VRZUOpsjJuZiFAp8GFuiMbF6ouGeygijxpmtjKGvQWuC1dm6MT5J4cQ
- zHurTbUaX6RRrqJ7joV0YMFzyBevH3QNKnEjCoOYIxN9QwaaXhlp9uOimE+nqoudNmPm
- 5AmQ40QBzjnsv+ohGVWkZlc7I71p4iRB47D1scYftteK7AhKg5aZyQqCG9/IwxfTE08S
- KhnRbLQg0el0mSgSpbfZDU0UgB8iXqhROM6DCQPfC0ofZeaq6B8HLs7s9gELOg9IJ64p
- KvCPGUMGkyWMZHRQRH/G1Ph4efj2i1w5RNIBx5kRX7H4/8YC46eIg3RdMHdPM5SZIJBB
- GANA==
-X-Gm-Message-State: AO0yUKW7tWHFskYjBeFM6Bktm1Mf0D9HEfWIscAGgWyRB/sOxqmTDgD0
- WVWT7LxGkjo/tuMCez9+93jNdxztP9gFAjskEsqOtfHIepcmFgLLOu8VdLZA6OXLUt+RPgKDCYe
- aT8XbP0VHF3j17ay8lUfOK+1tzHF169mQXtdnRkfA+rgi+Znn/p+y2v+25jesV+78HRRyCUHd
-X-Received: by 2002:a17:907:6e8f:b0:878:4d11:f868 with SMTP id
- sh15-20020a1709076e8f00b008784d11f868mr24413185ejc.2.1677076694962; 
- Wed, 22 Feb 2023 06:38:14 -0800 (PST)
-X-Google-Smtp-Source: AK7set8xCJBDEpXQmOpykS8/UJnyxboI1xK4SJGxKkm2YdDLQjpBZMTGL5X6wqZsUxZEbd1bes5TiA==
-X-Received: by 2002:a17:907:6e8f:b0:878:4d11:f868 with SMTP id
- sh15-20020a1709076e8f00b008784d11f868mr24413159ejc.2.1677076694717; 
- Wed, 22 Feb 2023 06:38:14 -0800 (PST)
+ bh=GdgRe/0ubTalQGk7MlsIYFdtsI9zXNirHCIKNY7pxIo=;
+ b=EPhasTbJ7dx2lXho1ogORtqAvxU4iG3bm4M/Ek9WXNqPJbT0i2jp+CXev+4ogRO3bX
+ 55v4feBCEqtKxtQcPK4I07AreuO4CWlB7kEDsa2uebYpY0s3Egpe8opgRS6RgV1/OwPy
+ Yoa1aZEUMOY9bTm6w8V3RjLdiC3s/wcc5ElPmYFsowDdOxIT6twMxMEoozZzFx6DQe+k
+ tgaBmXW1DFjrpoziD2HJK+O2V4BfopjXTQr0vWMo+NlB7mgpt6VxJX3x2kG4xYWknVkl
+ p/1xheYoDg4IBaKssaTQYm9AIYY1mZAHYAGQK2Dqu6FZV8ISA7ugfDdkTr1V13aNuPWR
+ dSwQ==
+X-Gm-Message-State: AO0yUKXkvr+LtALiOmJdlYPvSFodq8nRbXDyp/InweyKfci/ah22lBWp
+ XNl1DroNwsX4a4OK+/qGpEN9I6SEPzTUkCuhY0N++2e9XjuNwnhAJQztjwOIX9xron6kB/jlyDG
+ TrftwBj2aC+YcToP8ucq4WV1BFnm6ilAwD8Ab4qyVEwH9kibY/SQqhBOYqmGFa9P4+IrBEKwc
+X-Received: by 2002:a05:6402:4d4:b0:4ac:c9ea:17b4 with SMTP id
+ n20-20020a05640204d400b004acc9ea17b4mr7474533edw.41.1677076698195; 
+ Wed, 22 Feb 2023 06:38:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set83bX57S86nMWAAAYGQ9+sw3mHEUPAxqdOx/VjFdxPt5xqLM/YdIgsb8yqSTcTMd2B+818GNA==
+X-Received: by 2002:a05:6402:4d4:b0:4ac:c9ea:17b4 with SMTP id
+ n20-20020a05640204d400b004acc9ea17b4mr7474509edw.41.1677076697895; 
+ Wed, 22 Feb 2023 06:38:17 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- kd21-20020a17090798d500b008b980c3e013sm6427540ejc.179.2023.02.22.06.38.13
+ c23-20020a50f617000000b004acde0a1ae5sm3592407edn.89.2023.02.22.06.38.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 06:38:14 -0800 (PST)
+ Wed, 22 Feb 2023 06:38:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: jsnow@redhat.com, peter.maydell@linaro.org, thuth@redhat.com,
  alex.bennee@linaro.org, armbru@redhat.com, berrange@redhat.com
-Subject: [PATCH 06/10] lcitool: update submodule
-Date: Wed, 22 Feb 2023 15:37:48 +0100
-Message-Id: <20230222143752.466090-7-pbonzini@redhat.com>
+Subject: [PATCH 07/10] docs/devel: update and clarify lcitool instructions
+Date: Wed, 22 Feb 2023 15:37:49 +0100
+Message-Id: <20230222143752.466090-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230222143752.466090-1-pbonzini@redhat.com>
 References: <20230222143752.466090-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,58 +100,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Shorten a bit the description of what libvirt-ci does, the name of the
+data files is not relevant at that point.  However, the procedures to add
+new build prerequisites are lacking some information, particularly with
+respect to regenerating the output test files for lcitool's unit tests.
+While at it, also update the paths in the libvirt-ci repository.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/docker/dockerfiles/alpine.docker             | 2 +-
- tests/docker/dockerfiles/fedora-win32-cross.docker | 1 +
- tests/docker/dockerfiles/fedora-win64-cross.docker | 1 +
- tests/lcitool/libvirt-ci                           | 2 +-
- 4 files changed, 4 insertions(+), 2 deletions(-)
+ docs/devel/testing.rst | 72 ++++++++++++++++++++++++------------------
+ 1 file changed, 41 insertions(+), 31 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 4a569d82f64f..66c499c097ab 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -61,7 +61,7 @@ RUN apk update && \
-         liburing-dev \
-         libusb-dev \
-         linux-pam-dev \
--        llvm11 \
-+        llvm \
-         lttng-ust-dev \
-         lzo-dev \
-         make \
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index b659c0b8a89d..41769fc94a8e 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -79,6 +79,7 @@ RUN nosync dnf install -y \
-                mingw32-glib2 \
-                mingw32-gnutls \
-                mingw32-gtk3 \
-+               mingw32-libepoxy \
-                mingw32-libgcrypt \
-                mingw32-libjpeg-turbo \
-                mingw32-libpng \
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index 0a404c15bfe4..46d5d05763a6 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -80,6 +80,7 @@ RUN nosync dnf install -y \
-                mingw64-glib2 \
-                mingw64-gnutls \
-                mingw64-gtk3 \
-+               mingw64-libepoxy \
-                mingw64-libgcrypt \
-                mingw64-libjpeg-turbo \
-                mingw64-libpng \
-diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
-index 319a534c220f..1c3e16cae384 160000
---- a/tests/lcitool/libvirt-ci
-+++ b/tests/lcitool/libvirt-ci
-@@ -1 +1 @@
--Subproject commit 319a534c220f53fc8670254cac25d6f662c82112
-+Subproject commit 1c3e16cae38407d0782dc94080d1104106456fa4
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index e10c47b5a7ca..648b7aa09137 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -429,49 +429,57 @@ using the ``lcitool`` program provided by the ``libvirt-ci`` project:
+ 
+   https://gitlab.com/libvirt/libvirt-ci
+ 
+-In that project, there is a ``mappings.yml`` file defining the distro native
+-package names for a wide variety of third party projects. This is processed
+-in combination with a project defined list of build pre-requisites to determine
+-the list of native packages to install on each distribution. This can be used
+-to generate dockerfiles, VM package lists and Cirrus CI variables needed to
+-setup build environments across OS distributions with a consistent set of
+-packages present.
+-
+-When preparing a patch series that adds a new build pre-requisite to QEMU,
+-updates to various lcitool data files may be required.
++``libvirt-ci`` contains an ``lcitool`` program as well as a list of
++mappings to distribution package names for a wide variety of third
++party projects.  ``lcitool`` applies the mappings to a list of build
++pre-requisites in ``tests/lcitool/projects/qemu.yml``, determines the
++list of native packages to install on each distribution, and uses them
++to generate build environments (dockerfiles and Cirrus CI variable files)
++that are consistent across OS distribution.
+ 
+ 
+ Adding new build pre-requisites
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
++When preparing a patch series that adds a new build
++pre-requisite to QEMU, the prerequisites should to be added to
++``tests/lcitool/projects/qemu.yml`` in order to make the dependency
++available in the CI build environments.
++
+ In the simple case where the pre-requisite is already known to ``libvirt-ci``
+-the following steps are needed
++the following steps are needed:
+ 
+  * Edit ``tests/lcitool/projects/qemu.yml`` and add the pre-requisite
+ 
+  * Run ``make lcitool-refresh`` to re-generate all relevant build environment
+    manifests
+ 
+-In some cases ``libvirt-ci`` will not know about the build pre-requisite and
+-thus some extra preparation steps will be required first
++In some cases ``libvirt-ci`` will not know about the build
++pre-requisite and thus some extra preparation steps will be required
++first.  Even though you can add the mappings for testing purposes to
++``tests/lcitool/mappings.yml`` in the QEMU repository, please contribute
++the mapping to the ``libvirt-ci`` project as well:
+ 
+  * Fork the ``libvirt-ci`` project on gitlab
+ 
+- * Edit the ``mappings.yml`` change to add an entry for the new build
+-   prerequisite, listing its native package name on as many OS distros
+-   as practical.
++ * Add an entry for the new build prerequisite to
++   ``lcitool/facts/mappings.yml``, listing its native package name on as
++   many OS distros as practical.  Run ``python -m pytest --regenerate-output``
++   and check that the changes are correct.
+ 
+- * Commit the ``mappings.yml`` change and submit a merge request to
+-   the ``libvirt-ci`` project, noting in the description that this
+-   is a new build pre-requisite desired for use with QEMU
++ * Commit the ``mappings.yml`` change together with the regenerated test
++   files, and submit a merge request to the ``libvirt-ci`` project.
++   Please note in the description that this is a new build pre-requisite
++   desired for use with QEMU
+ 
+  * CI pipeline will run to validate that the changes to ``mappings.yml``
+    are correct, by attempting to install the newly listed package on
+    all OS distributions supported by ``libvirt-ci``.
+ 
+  * Once the merge request is accepted, go back to QEMU and update
+-   the ``libvirt-ci`` submodule to point to a commit that contains
+-   the ``mappings.yml`` update.
++   the ``tests/lcitool/libvirt-ci`` submodule to point to a commit that
++   contains the ``mappings.yml`` update.  Then add the prerequisite and
++   run ``make lcitool-refresh``.
+ 
+ 
+ Adding new OS distros
+@@ -498,18 +506,20 @@ Assuming there is agreement to add a new OS distro then
+ 
+  * Fork the ``libvirt-ci`` project on gitlab
+ 
+- * Add metadata under ``guests/lcitool/lcitool/ansible/group_vars/``
+-   for the new OS distro. There might be code changes required if
+-   the OS distro uses a package format not currently known. The
+-   ``libvirt-ci`` maintainers can advise on this when the issue
+-   is file.
++ * Add metadata under ``lcitool/facts/targets/`` for the new OS
++   distro. There might be code changes required if the OS distro
++   uses a package format not currently known. The ``libvirt-ci``
++   maintainers can advise on this when the issue is filed.
+ 
+- * Edit the ``mappings.yml`` change to update all the existing package
+-   entries, providing details of the new OS distro
++ * Edit the ``lcitool/facts/mappings.yml`` change to add entries for
++   the new OS, listing the native package names for as many packages
++   as practical.  Run ``python -m pytest --regenerate-output`` and
++   check that the changes are correct.
+ 
+- * Commit the ``mappings.yml`` change and submit a merge request to
+-   the ``libvirt-ci`` project, noting in the description that this
+-   is a new build pre-requisite desired for use with QEMU
++ * Commit the changes to ``lcitool/facts`` and the regenerated test
++   files, and submit a merge request to the ``libvirt-ci`` project.
++   Please note in the description that this is a new build pre-requisite
++   desired for use with QEMU
+ 
+  * CI pipeline will run to validate that the changes to ``mappings.yml``
+    are correct, by attempting to install the newly listed package on
 -- 
 2.39.1
 
