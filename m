@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5A669EF51
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 08:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782F869EFE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 09:07:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUjZT-0002YS-1s; Wed, 22 Feb 2023 02:29:47 -0500
+	id 1pUk8d-0001l8-6y; Wed, 22 Feb 2023 03:06:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pUjZJ-0002YC-3Y
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 02:29:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pUjZG-00082A-IF
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 02:29:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677050973;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZZg8mqev84eDMcSr29zdH/7+DvNuqK9Ob1HwjpGo1Q8=;
- b=fmIBse6IzvulW2aAdtz76AWPCf4eT6P0fwpG/EU/GxejrgeEpw8k0g78zLW/LWc1dCKZG1
- 1KbBKv58O3AbEM5BWLnFewrK3jLzgJ8OMkPT1NRUvxysQsT7N2CQeq2Kl7ptoYRpM6ofWI
- iL6dZr8qMxhwAlQcHZ14fFEA5BpKN5s=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-588-e6lBXrnxM6GP4DoHiZHUeg-1; Wed, 22 Feb 2023 02:29:32 -0500
-X-MC-Unique: e6lBXrnxM6GP4DoHiZHUeg-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-536bf635080so60258867b3.23
- for <qemu-devel@nongnu.org>; Tue, 21 Feb 2023 23:29:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pUk8F-0001eU-F6
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 03:05:50 -0500
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pUk8C-0007iK-W0
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 03:05:42 -0500
+Received: by mail-lj1-x22c.google.com with SMTP id h9so6790551ljq.2
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 00:05:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uQLeHE27poLoyke9lDuvYa6h+KN9AXLtP8deo/vIEgI=;
+ b=S85i/6K5Ahs/xovihLeK0MhPfXqXcBevNNzWQcJCXKgM+67EPKVu3kyump5/xTc6qX
+ 9sxZmPW+tH5yIsyRCixzwIM8EAUCCBhTbu2mPrPfh/JZIJWnW1OC1j1sQwMM1m41wjvS
+ /CmfG6t/m4lmMPIKnhyZwFCxdbiu/WR7Fzsjp1WTMCiW2nF/5TBoghMZRbxQYBrEeolR
+ 5XIthXj6ZrrcaCgqQXwfMSRuL2nGKrS23vgZXJXH3tMLWX7YFmsdxRLnH9zcRmjhtNhV
+ N5mdSvzDlFis8C3SidPW4qjo8IbTn0FXzAShTQKPXiZFXNe3p2QbJOtNqemmws8lyrxh
+ Wn/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZZg8mqev84eDMcSr29zdH/7+DvNuqK9Ob1HwjpGo1Q8=;
- b=VBMeUTAa6BjQ+4Hq3MOpsGBGy/ipvPOP3if3NW2UoFjWjxZDC/NyIItX1wXWHNtGF1
- ZgHXQECKm7GssCNfisN3c8q8EbEja5c8lKkGd2N2XrtvJ85RoOImuZ2Hy+T+FYkYgCqp
- dKraDuASfWRfpAMRoMW5Nmqm8bcQXaRvt4OR6a0GY2ljRJI7XfgqoHalWcxUToCD/xci
- OxAdXKnH7uKYiP2FHSWNDC1CJRYJd/LAuzEhSdVtap4MKqUkqXh/35TlzW5SAEJqzhXm
- dvxK+UkMGQCVgundfVaU5Gj4rAq9TrF5KPU73YyKEwFEptXjVJsVgjfvgykAq8Gx71St
- +Spw==
-X-Gm-Message-State: AO0yUKXgzCzB345f6ZhPYnjNUjY7zr4qB91tY4XNRHIgzTiJ4fChL3u2
- 6kuaT0rVPP+qrvay2tfhkW0+9CMOiRSMZtb37c6tDmLvBZEUG45HxIg+B2m+5Qu8C65qcnwHnWt
- jdqRQPRWYEoD6mn8pHU9Q8NWvIxKmu1M=
-X-Received: by 2002:a25:9983:0:b0:802:4849:af69 with SMTP id
- p3-20020a259983000000b008024849af69mr2849372ybo.13.1677050972043; 
- Tue, 21 Feb 2023 23:29:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set8D7mvbMEsYhL3oAniSsfAxhm4Mbq7dPqSUH0Vs4SQElSDNn48B7ZkS6eJLRXeeTaC/+l6usZjxKHvukEqPjNU=
-X-Received: by 2002:a25:9983:0:b0:802:4849:af69 with SMTP id
- p3-20020a259983000000b008024849af69mr2849364ybo.13.1677050971809; Tue, 21 Feb
- 2023 23:29:31 -0800 (PST)
+ bh=uQLeHE27poLoyke9lDuvYa6h+KN9AXLtP8deo/vIEgI=;
+ b=576RDrsuVl+FkrGbNvI606VO0UG/LGYxYVoJPprF4WABxRiVTM/liS4s3zFTX8OxBE
+ wyGyaG9cpwEeFvyoRgU7Jt5k0tQ41/AndHgYx2H6xBSY/JeOMEkaxpkz8pa40GHN6DP2
+ aOgKPk/DZzV3kwhtwNPjpZKr3wa8F5Eh9B3LWjLcTXIEe9u3iIwDIo3vsvOyErt7y9wu
+ 0yrGstT5TGeFye5HwD6gS2oV0qOrZyhemPAsxwYLbbDUG+Mlo0KqNopyu4UBUWqR010e
+ rmgYjUIBkTe4GTyMfJM3QzuqbXwUHimqqLPM09U9UZHC5cTPj7XVYreIX7GtvdPmP1zG
+ C5Iw==
+X-Gm-Message-State: AO0yUKUQEjVQ9SBTtTFZAYI/4FNYlq2a3IHIGIcMRDPR95/Lr+f2HqMp
+ 6oLHcgmuAfIaLrDQjl2plUy7hYbNdxycqhRfrlw=
+X-Google-Smtp-Source: AK7set/8K2XxYOAXWEEvemO+/qMCCBQyqOTxyhq/6yUGHyvIxc9GzK3q1Ph9qITy80UTau6hlJq7VztsfwDxZjwpZ/4=
+X-Received: by 2002:a05:651c:b9b:b0:295:945d:b382 with SMTP id
+ bg27-20020a05651c0b9b00b00295945db382mr961977ljb.4.1677053138376; Wed, 22 Feb
+ 2023 00:05:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20230208094253.702672-1-eperezma@redhat.com>
- <20230208094253.702672-10-eperezma@redhat.com>
- <de141eaa-6cc4-e942-9fff-de4dcee8625f@redhat.com>
-In-Reply-To: <de141eaa-6cc4-e942-9fff-de4dcee8625f@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 22 Feb 2023 08:28:55 +0100
-Message-ID: <CAJaqyWerBtkw1KxiAThXza0htxV=PkJZGtoAxeHKKd5p_Dq55g@mail.gmail.com>
-Subject: Re: [PATCH v2 09/13] vdpa net: block migration if the device has CVQ
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-8-marcandre.lureau@redhat.com>
+ <87fsb4k85h.fsf@pond.sub.org>
+ <CAMxuvax6qPYQCzNX7vESJM9_f5k4C1Yat0sJcJjrHkh_1WGpQA@mail.gmail.com>
+ <87a61821y3.fsf@pond.sub.org>
+In-Reply-To: <87a61821y3.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 22 Feb 2023 12:05:26 +0400
+Message-ID: <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
+Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,57 +97,324 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 5:01 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2023/2/8 17:42, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > Devices with CVQ needs to migrate state beyond vq state.  Leaving this
-> > to future series.
->
->
-> I may miss something but what is missed to support CVQ/MQ?
->
+Hi
 
-To restore all the device state set by CVQ in the migration source
-(MAC, MQ, ...) before data vqs start. We don't have a reliable way to
-not start data vqs until the device [1].
-
-Thanks!
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02652.html
-
-> Thanks
+On Mon, Feb 20, 2023 at 12:10 PM Markus Armbruster <armbru@redhat.com> wrot=
+e:
 >
+> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
 >
+> > Hi Markus
 > >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   net/vhost-vdpa.c | 6 ++++++
-> >   1 file changed, 6 insertions(+)
+> > On Fri, Feb 17, 2023 at 12:28 PM Markus Armbruster <armbru@redhat.com>
+> > wrote:
 > >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index bca13f97fd..309861e56c 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -955,11 +955,17 @@ int net_init_vhost_vdpa(const Netdev *netdev, con=
-st char *name,
-> >       }
+> >> marcandre.lureau@redhat.com writes:
+> >>
+> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >> >
+> >> > The generated code doesn't quite handle the conditional arguments.
+> >> > For example, 'bar' in 'test-if-cmd' is not correctly surrounded by #=
+if
+> >> > conditions. See generated code in qmp_marshal_test_if_cmd().
+> >> >
+> >> > Note that if there are multiple optional arguments at the last posit=
+ion,
+> >> > there might be compilation issues due to extra comas. I left an asse=
+rt
+> >> > and FIXME for later.
+> >> >
+> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >> > ---
+> >> >  scripts/qapi/commands.py                |  4 ++++
+> >> >  scripts/qapi/gen.py                     | 19 ++++++++++++++-----
+> >> >  scripts/qapi/visit.py                   |  2 ++
+> >> >  tests/qapi-schema/qapi-schema-test.json |  3 ++-
+> >> >  4 files changed, 22 insertions(+), 6 deletions(-)
+> >> >
+> >> > diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+> >> > index 79c5e5c3a9..07997d1586 100644
+> >> > --- a/scripts/qapi/commands.py
+> >> > +++ b/scripts/qapi/commands.py
+> >> > @@ -64,9 +64,13 @@ def gen_call(name: str,
+> >> >      elif arg_type:
+> >> >          assert not arg_type.variants
+> >> >          for memb in arg_type.members:
+> >> > +            if memb.ifcond.is_present():
+> >> > +                argstr +=3D '\n' + memb.ifcond.gen_if()
+> >> >              if memb.need_has():
+> >> >                  argstr +=3D 'arg.has_%s, ' % c_name(memb.name)
+> >> >              argstr +=3D 'arg.%s, ' % c_name(memb.name)
+> >> > +            if memb.ifcond.is_present():
+> >> > +                argstr +=3D '\n' + memb.ifcond.gen_endif()
+> >> >
+> >> >      lhs =3D ''
+> >> >      if ret_type:
+> >>
+> >> @argstr is emitted further down:
+> >>
+> >>        %(lhs)sqmp_%(name)s(%(args)s&err);
+> >>    ''',
+> >>                     name=3Dname, args=3Dargstr, lhs=3Dlhs)
+> >>
+> >>        ret +=3D mcgen('''
+> >>        if (err) {
+> >>    ''')
+> >>
+> >> Before the patch, @argstr contains no newlines.  Works.
+> >>
+> >> After the patch, it may contain newlines, and if it does, intentation =
+is
+> >> messed up.  For instance, in the code generated for
+> >> qapi-schema-test.json:
+> >>
+> >>         retval =3D qmp_test_if_cmd(arg.foo,
+> >>     #if defined(TEST_IF_CMD_BAR)
+> >>     arg.bar,
+> >>     #endif /* defined(TEST_IF_CMD_BAR) */
+> >>     &err);
+> >>
+> >> Strings interpolated into the mcgen() argument should not contain
+> >> newlines.  I'm afraid you have to rewrite the code emitting the call.
+> >>
 > >
-> >       if (has_cvq) {
-> > +        VhostVDPAState *s;
-> > +
-> >           nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> >                                    vdpa_device_fd, i, 1, false,
-> >                                    opts->x_svq, iova_range);
-> >           if (!nc)
-> >               goto err;
-> > +
-> > +        s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > +        error_setg(&s->vhost_vdpa.dev->migration_blocker,
-> > +                   "net vdpa cannot migrate with MQ feature");
-> >       }
+> > Why it should not contain newlines?
+>
+> They mess up indentation.  I think.  It's been a while...  All I really
+> know for sure is that the generated code's indentation is messed up
+> right there.
+>
+> > What are you asking exactly? that the caller be changed? (this does not
+> > work well if there are multiple optional arguments..)
 > >
-> >       return 0;
+> >     #if defined(TEST_IF_CMD_BAR)
+> >         retval =3D qmp_test_if_cmd(arg.foo, arg.bar, &err);
+> >     #else
+> >         retval =3D qmp_test_if_cmd(arg.foo, &err);
+> >     #endif /* defined(TEST_IF_CMD_BAR) */
+>
+> I'm asking for better indentation.  In handwritten code, we'd do
+>
+>         retval =3D qmp_test_if_cmd(arg.foo,
+>     #if defined(TEST_IF_CMD_BAR)
+>                                  arg.bar,
+>     #endif /* defined(TEST_IF_CMD_BAR) */
+>                                  &err);
+>
+> Keeping track of how far to indent the arguments is bothersome in the
+> generator, though.  Perhaps we could create infrastructure to make it
+> not bothersome, but I'm not asking for that.  Something like this should
+> be good enough:
+>
+>         retval =3D qmp_test_if_cmd(arg.foo,
+>     #if defined(TEST_IF_CMD_BAR)
+>                     arg.bar,
+>     #endif /* defined(TEST_IF_CMD_BAR) */
+>                     &err);
+>
+> I.e. indent to the function call and then some.
+
+ok, I improved the indentation a bit.
+
+However, I think it would be simpler, and better, if we piped the
+generated code to clang-format (when available). I made a simple patch
+for that too.
+
+>
+> >> > diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> >> > index b5a8d03e8e..ba57e72c9b 100644
+> >> > --- a/scripts/qapi/gen.py
+> >> > +++ b/scripts/qapi/gen.py
+> >> > @@ -111,22 +111,31 @@ def build_params(arg_type: Optional[QAPISchema=
+ObjectType],
+> >> >                   boxed: bool,
+> >> >                   extra: Optional[str] =3D None) -> str:
+> >> >      ret =3D ''
+> >> > -    sep =3D ''
+> >> >      if boxed:
+> >> >          assert arg_type
+> >> >          ret +=3D '%s arg' % arg_type.c_param_type()
+> >> > -        sep =3D ', '
+> >> > +        if extra:
+> >> > +            ret +=3D ', '
+> >> >      elif arg_type:
+> >> >          assert not arg_type.variants
+> >> > +        n =3D 0
+> >> >          for memb in arg_type.members:
+> >> > -            ret +=3D sep
+> >> > -            sep =3D ', '
+> >> > +            n +=3D 1
+> >> > +            if memb.ifcond.is_present():
+> >> > +                ret +=3D '\n' + memb.ifcond.gen_if()
+> >> >              if memb.need_has():
+> >> >                  ret +=3D 'bool has_%s, ' % c_name(memb.name)
+> >> >              ret +=3D '%s %s' % (memb.type.c_param_type(),
+> >> >                                c_name(memb.name))
+> >> > +            if extra or n !=3D len(arg_type.members):
+> >> > +                ret +=3D ', '
+> >> > +            else:
+> >> > +                # FIXME: optional last argument may break compilati=
+on
+> >> > +                assert not memb.ifcond.is_present()
+> >>
+> >> Does the assertion guard against the C compilation failure?
+> >
+> > Yes
+> >
+> >>
+> >> Is it possible to write schema code that triggers it?
+> >
+> > Yes, the one we have for TEST_IF_EVENT for example:
+> >
+> > { 'event': 'TEST_IF_EVENT',
+> >   'data': { 'foo': 'TestIfStruct',
+> >             'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' } =
+},
+>
+> This is the one you put in qapi-schema-test.json less the last
+> parameter, so that the conditional parameter becomes the last one.
+>
+> > produces:
+> >
+> > void qapi_event_send_test_if_event(TestIfStruct *foo,
+> > #if defined(TEST_IF_EVT_BAR)
+> > TestIfEnumList *bar,
+> > #endif /* defined(TEST_IF_EVT_BAR) */
+> > );
+> >
+> > Which will fail to compile if TEST_IF_EVT_BAR is undefined.
+>
+> I think it'll fail to compile always, because the parameter list has a
+> trailing comma regardless of TEST_IF_EVT_BAR.
+
+Yes, I think I hand-wrote that example, the actual generator does not
+leave a trailing comma here.
+
+>
+> > So I would rather assert that we don't introduce such a schema, until w=
+e
+> > fix the code generator. Or we acknowledge the limitation, and treat it =
+as a
+> > schema error. Other ideas?
+>
+> Yes: throw an error.  Assertions are for programming errors.  This isn't
+> a programming error, it's a limitation of the current implementation.
+>
+> How hard would it be to lift the limitation?
+
+Taking this as a problematic example:
+
+void function(first,
+#ifdef A
+    a,
+#endif
+#ifdef B
+    b
+#endif
+)
+
+I think it would mean that we would have to pass arguments as a
+structure, as they don't have the limitation of trailing coma in
+initializers. That would not be idiomatic C though, and we would need
+to refactor a lot of code..
+
+Another option is to always pass a dummy last argument? :)
+
+void command(first,
+#ifdef A
+    a,
+#endif
+#ifdef B
+    b,
+#endif
+    dummy)
+
+
+>
+> >> > +            if memb.ifcond.is_present():
+> >> > +                ret +=3D '\n' + memb.ifcond.gen_endif()
+> >> >      if extra:
+> >> > -        ret +=3D sep + extra
+> >> > +        ret +=3D extra
+> >> >      return ret if ret else 'void'
+> >> >
+> >> >
+> >>
+> >> Same newline issue as in gen_call().  Generated code:
+> >>
+> >>     UserDefThree *qmp_test_if_cmd(TestIfStruct *foo,
+> >>     #if defined(TEST_IF_CMD_BAR)
+> >>     TestIfEnum bar,
+> >>     #endif /* defined(TEST_IF_CMD_BAR) */
+> >>     Error **errp);
+> >>
+> >> > diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+> >> > index 26a584ee4c..c56ea4d724 100644
+> >> > --- a/scripts/qapi/visit.py
+> >> > +++ b/scripts/qapi/visit.py
+> >> > @@ -74,11 +74,13 @@ def gen_visit_object_members(name: str,
+> >> >      sep =3D ''
+> >> >      for memb in members:
+> >> >          if memb.optional and not memb.need_has():
+> >> > +            ret +=3D memb.ifcond.gen_if()
+> >> >              ret +=3D mcgen('''
+> >> >      bool has_%(c_name)s =3D !!obj->%(c_name)s;
+> >> >  ''',
+> >> >                           c_name=3Dc_name(memb.name))
+> >> >              sep =3D '\n'
+> >> > +            ret +=3D memb.ifcond.gen_endif()
+> >> >      ret +=3D sep
+> >> >
+> >> >      if base:
+> >>
+> >> This hunk has no effect on the code generated for our schemas as far a=
+s
+> >> I can tell.  Is it superfluous?  Incorrect?  Gap in test coverage?  Or
+> >> am I confused?
+> >>
+> >>
+> > Right, we could change the test this way to exercise it:
+> >
+> > --- a/tests/qapi-schema/qapi-schema-test.json
+> > +++ b/tests/qapi-schema/qapi-schema-test.json
+> > @@ -250,7 +250,7 @@
+> >  { 'command': 'test-if-cmd',
+> >    'data': {
+> >      'foo': 'TestIfStruct',
+> > -    'bar': { 'type': 'TestIfEnum', 'if': 'TEST_IF_CMD_BAR' } },
+> > +    '*bar': { 'type': 'TestIfStruct', 'if': 'TEST_IF_STRUCT' } },
+> >    'returns': 'UserDefThree',
+>
+> Please exercise it :)
+
+ok
+
+>
+> >> > diff --git a/tests/qapi-schema/qapi-schema-test.json
+> >> b/tests/qapi-schema/qapi-schema-test.json
+> >> > index ba7302f42b..baa4e69f63 100644
+> >> > --- a/tests/qapi-schema/qapi-schema-test.json
+> >> > +++ b/tests/qapi-schema/qapi-schema-test.json
+> >> > @@ -258,7 +258,8 @@
+> >> >
+> >> >  { 'event': 'TEST_IF_EVENT',
+> >> >    'data': { 'foo': 'TestIfStruct',
+> >> > -            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR=
+' }
+> >> },
+> >> > +            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR=
+' },
+> >> > +            'baz': 'int' },
+> >> >    'if': { 'all': ['TEST_IF_EVT', 'TEST_IF_STRUCT'] } }
+> >> >
+> >> >  { 'event': 'TEST_IF_EVENT2', 'data': {},
+> >>
+> >>
+>
 >
 
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
