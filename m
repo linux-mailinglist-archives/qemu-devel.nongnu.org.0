@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CAAC69F86B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9958269F873
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 16:57:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUrRq-0005FO-MY; Wed, 22 Feb 2023 10:54:26 -0500
+	id 1pUrTh-00068c-ST; Wed, 22 Feb 2023 10:56:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUrRo-0005Er-GQ
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:54:24 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pUrTa-00066I-S9
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:56:14 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pUrRn-0007zS-04
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:54:24 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id bh1so9231630plb.11
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 07:54:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fNw59v5D97ShWX01chUaQiZTxCzNg+317r/ICoKXqv8=;
- b=gdn4VJyq/yX7iBxe0EZfXMWPRqkGLhDfSMzY1fkpNrCwNcDyiVMlr+bVXtznuWGJc9
- tLzTjN3S7DKVrwnTyGkzlYXniXCTjPyqiIw/BeTBOnATTIvmQfPQnNFzJ4tz83H8/3Xc
- JMJ7PufP3rud8VCR7X1QmUjhFKUxTmWf+48SNqssCGq/7PwUkpyVr++U8Uf7KJy8HZJ+
- D2C7HD/evBqj5v38oPZTpP5HctUVmrMnaLwSTQTcO5MC+UNr8BFlF5UeWgw9/EYnUvIe
- g+w/DCM5ReHxk2Y2HSNqA99nYQ55V9voSBkSrXOZXEjfb+ntrlP1SrGLZvaVOWUPgSnX
- +0tQ==
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pUrTY-0008LJ-Lq
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 10:56:14 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ m3-20020a17090ade0300b00229eec90a7fso2075671pjv.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 07:56:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=xZncKXS3JLOWHAALUueHCR9aGhlXMQFbZdHD4bmhWSY=;
+ b=V+YcUZDJgp4O/gqyBNv9+ieBxkl1omrOLZSKxteH05o0DVavlsqSMxDRSjs5FuTLEu
+ P1bD/aLuN/axnqdNT/q5jIe6dUdUly+HmWeVM6j4i8tYvbF3hVDNOjgyGPMpfjgSHGVn
+ Vfi/Biw5bCQ3BUSCkM2tjs6fOwoydY+aNILzYbNMrKu/3PNGWmWxIzG09Jz8hUE0UQy9
+ qZJGJ8Ic/HvB0nGdvf3r8/7axKYz9GJrpGzdjPA0aym2rfFENEUFRtLinBkOyam2qz6S
+ UJCMxdcxJzkRB7qoe3g5GkecKNi8hIElE8OYndTWV/CZ80MXoJszudz6VYrvdOcAVT50
+ HLXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fNw59v5D97ShWX01chUaQiZTxCzNg+317r/ICoKXqv8=;
- b=KM+bC+yoMlwtwdEbBHiMsd2zzDtFbT/quF0el3ocTCmpsn4kngdK5Rt4eNNsLsBmQm
- 1IljsO4QKLQHI5vEuslaYlG25EkuDV1f78CdbBKLpvMzTbx8MQtQIyb+Qt8iR8m67Xve
- RCpB3vi3nt7swZexbuPrnbTGX6yciApWigMHcMtpdG2DE5dGo4D4wnOT3QtiHlLin8/n
- hNG4KmOFpzyKiZxGwWy8tyH0oaEvsKre6tFjVaPOAYPz9GXDcuj4zj3XW9zM8F7RGX9n
- FDhqpucZJ3ceV52ugFAyimvsDBDKCWYA8B6Exq+DkqkuQKnuz7uK7u0RpEY04PZt6fJj
- KX1g==
-X-Gm-Message-State: AO0yUKXRdpmoh2NV0xgGpJMPjObdpo8qyeJV1sLz8donkL5ykWcOeWuW
- 05QDprhTj4p905axa3hzZeVzA3fe15oXaaAF2Xa3rA==
-X-Google-Smtp-Source: AK7set+LfOyum+BIB+taa/9pV9SebyybcgNGTXJHYG0btT9+gnMkHcnihmY/oz7tz/uv3ab/q+2s1OjZYc7TGBzP3t4=
-X-Received: by 2002:a17:903:2684:b0:19a:9580:7130 with SMTP id
- jf4-20020a170903268400b0019a95807130mr1133679plb.13.1677081261054; Wed, 22
- Feb 2023 07:54:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20230213003925.40158-1-gshan@redhat.com>
- <20230213003925.40158-6-gshan@redhat.com>
- <CAFEAcA_6pYvot1AGKfOQA89M9tdH-e6+9jkd3RtXJkGhSLdihA@mail.gmail.com>
- <0db2764b-7d27-ee6a-c7e4-7d7821986c16@redhat.com>
-In-Reply-To: <0db2764b-7d27-ee6a-c7e4-7d7821986c16@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 22 Feb 2023 15:54:09 +0000
-Message-ID: <CAFEAcA_WjugivvOWxH-bVSNakPWyhX=j5pWydQQpweDVDYd2jw@mail.gmail.com>
-Subject: Re: [PATCH v1 5/6] hw/arm/virt: Enable backup bitmap for dirty ring
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com, 
- peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com, 
- cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com, maz@kernel.org, 
- zhenyzha@redhat.com, shan.gavin@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xZncKXS3JLOWHAALUueHCR9aGhlXMQFbZdHD4bmhWSY=;
+ b=0U6fkZfqHHtaXK2EunVxa0b/UD9qHiAKCmgUDJQqH3zNOzx0DeyqX/4h0uBIy/VFXz
+ l1WYOW9+VAi6g0RN67kS9oonV4j7hNnNfANodyaMTonXoAr1SUZrQ1hQXlfafq8o0b1W
+ 93JJuVhv2uGqVK8NQLprhBKknvUgPGS1z4LhefF+HMdeI958H7fKn7d238w3JQmESBfs
+ +8FV3pZE99W9MpN9dOOhlh4nfuxLC760ZNEw/ltiX4jYySnLzVKE7hNZ1cxQvStdxeGc
+ fB/hRaClhPW+Bl1aWwBIuj+iSebk183NiZo6K5Kj6qZW2iDqZFT7+qkVhVuT3f10Z0zR
+ ROAg==
+X-Gm-Message-State: AO0yUKX+7ojmFHnCzgRuFOFkyYcCVrGT4VSLuNA/xkH6SFbISJdAk5/n
+ f14s5KSHmvNsrs2zb2bCaQeVJQ==
+X-Google-Smtp-Source: AK7set8TnLBcQT0Ag3vracuLAw6hBpUU7mZu3WKgRrVEX9uLa0mkfH5FsEqcM/havnsH42CXemejSg==
+X-Received: by 2002:a17:902:d501:b0:19a:96ea:3850 with SMTP id
+ b1-20020a170902d50100b0019a96ea3850mr8808227plg.17.1677081371350; 
+ Wed, 22 Feb 2023 07:56:11 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ ja17-20020a170902efd100b0019acd3151d0sm6702927plb.114.2023.02.22.07.56.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Feb 2023 07:56:10 -0800 (PST)
+Date: Wed, 22 Feb 2023 07:56:10 -0800 (PST)
+X-Google-Original-Date: Wed, 22 Feb 2023 07:55:11 PST (-0800)
+Subject: Re: [PULL 0/9] Fourth RISC-V PR for QEMU 8.0
+In-Reply-To: <CAFEAcA_DvrOgKAdVcF8OxpxUv9aPB5hOWjWryOt_SpFiNzY12A@mail.gmail.com>
+CC: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, alex.bennee@linaro.org,
+ bmeng@tinylab.org
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <mhng-3ef3787a-321d-4a23-aa45-8831b3093ac5@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,47 +89,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 at 04:36, Gavin Shan <gshan@redhat.com> wrote:
+On Tue, 21 Feb 2023 08:43:47 PST (-0800), Peter Maydell wrote:
+> On Fri, 17 Feb 2023 at 17:53, Palmer Dabbelt <palmer@rivosinc.com> wrote:
+>>
+>> The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
+>>
+>>   tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230217
+>>
+>> for you to fetch changes up to e8c0697d79ef05aa5aefb1121dfede59855556b4:
+>>
+>>   target/riscv: Fix vslide1up.vf and vslide1down.vf (2023-02-16 08:10:40 -0800)
+>>
+>> ----------------------------------------------------------------
+>> Fourth RISC-V PR for QEMU 8.0
+>>
+>> * A triplet of cleanups to the kernel/initrd loader that avoids
+>>   duplication between the various boards.
+>> * OpenSBI has been updated to version 1.2.
+>> * Weiwei Li, Daniel Henrique Barboza, and Liu Zhiwei have been added as
+>>   reviewers.  Thanks for the help!
+>> * A fix for PMP matching to avoid incorrectly appling the default
+>>   permissions on PMP permission violations.
+>> * A cleanup to avoid an unnecessary avoid env_archcpu() in
+>>   cpu_get_tb_cpu_state().
+>> * Fixes for the vector slide instructions to avoid truncating 64-bit
+>>   values (such as doubles) on 32-bit targets.
 >
-> On 2/22/23 3:27 AM, Peter Maydell wrote:
-> > Why does this need to be board-specific code? Is there
-> > some way we can just do the right thing automatically?
-> > Why does the GIC/ITS matter?
-> >
-> > The kernel should already know whether we have asked it
-> > to do something that needs this extra extension, so
-> > I think we ought to be able in the generic "enable the
-> > dirty ring" code say "if the kernel says we need this
-> > extra thing, also enable this extra thing". Or if that's
-> > too early, we can do the extra part in a generic hook a
-> > bit later.
-> >
-> > In the future there might be other things, presumably,
-> > that need the backup bitmap, so it would be more future
-> > proof not to need to also change QEMU to add extra
-> > logic checks that duplicate the logic the kernel already has.
-> >
+> This seems to have caused CI to decide it needs to rerun the
+> 'docker-opensbi' job, which doesn't work:
+> https://gitlab.com/qemu-project/qemu/-/jobs/3808319659
 >
-> When the dirty ring is enabled, a per-vcpu buffer is used to track the dirty pages.
-> The prerequisite to use the per-vcpu buffer is existing running VCPU context. There
-> are two cases where no running VCPU context exists and the backup bitmap extension
-> is needed, as we know until now: (a) save/restore GICv3 tables; (b) save/restore ITS
-> tables; These two cases are related to KVM device "kvm-arm-gicv3" and "arm-its-kvm",
-> which are only needed by virt machine at present. So we needn't the backup bitmap
-> extension for other boards.
+> I don't understand what exactly is going on here -- Alex,
+> Bin, any ideas?
+>
+> Why do we build the firmware in CI if we have checked in
+> binaries in pc-bios?
+>
+> Should .gitlab-ci.d/opensbi/Dockerfile really still be
+> starting with Ubuntu 18.04 ? That is already older than our
+> set of supported platforms, and falls out of support from
+> Ubuntu in a couple of months.
 
-But we might have to for other boards we add later. We shouldn't
-put code in per-board if it's not really board specific.
+I just sent along a patch 
+<https://lore.kernel.org/r/20230222154938.9201-1-palmer@rivosinc.com/>.  
+I have no idea how to test it in the CI, though...
 
-Moreover, I think "we need the backup bitmap if the kernel is
-using its GICv3 or ITS implementation" is a kernel implementation
-detail. It seems to me that it would be cleaner if QEMU didn't
-have to hardcode "we happen to know that these are the situations
-when we need to do that". A better API would be "ask the kernel
-'do we need this?' and enable it if it says 'yes'". The kernel
-knows what its implementations of ITS and GICv3 (and perhaps
-future in-kernel memory-using devices) require, after all.
+> (.gitlab-ci.d/edk2/Dockerfile is also using 18.04.)
 
-thanks
--- PMM
+I guess I'd missed this in the original email, I stumbled on that one as 
+well 
+<https://lore.kernel.org/r/20230222155341.10127-1-palmer@rivosinc.com/>.
+
+>
+> thanks
+> -- PMM
 
