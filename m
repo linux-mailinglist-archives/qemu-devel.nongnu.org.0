@@ -2,68 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0486A69F66C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:22:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2562C69F677
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Feb 2023 15:23:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUq0J-0000zs-Kl; Wed, 22 Feb 2023 09:21:55 -0500
+	id 1pUpzt-0000ok-De; Wed, 22 Feb 2023 09:21:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pUq06-0000zU-JG
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:21:42 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pUpzq-0000lD-6v; Wed, 22 Feb 2023 09:21:26 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
- id 1pUq03-00029K-Ed
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 09:21:42 -0500
-Received: from mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c0d:3786:0:640:7c97:0])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id C419C5FEB7;
- Wed, 22 Feb 2023 17:21:24 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:1228::1:38] (unknown
- [2a02:6b8:b081:1228::1:38])
- by mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id 1LP9f90KeOs0-FZbzTrrT; Wed, 22 Feb 2023 17:21:23 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.vla.yp-c.yandex.net;
- dkim=pass
-Message-ID: <110cd713-b01f-5fce-eb32-4ddb6c42685f@yandex-team.ru>
-Date: Wed, 22 Feb 2023 16:21:01 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pUpzn-0001WE-IL; Wed, 22 Feb 2023 09:21:25 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31MEDW1R028246; Wed, 22 Feb 2023 14:21:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=6QkTPU+0w3AeO3GOqv7SGya2oKq1DBLE1yawv6B9muA=;
+ b=OJWhd5w18UKnFEyCrB6MDzdz5PX2YpKc/1NbMmBCqEe8DDxDxk6BSp4PT4kJeX4zydif
+ ji1tKVngYdzgoLNHQk/EaS+yLxw5j3ogtW5zcf9h34JzpSP+gh3Qv2ha8fP+HnP5hEcY
+ Qy5lTQtZUfvxacboQHqvMKV7JvoubQB0IfhfacbHXlpvfnvtSlL61pEVMBzLUGRoCYms
+ iVnZEYEHGFHL2bo9YuAcytJbx/sXEoe22uXDZ8sxq3DcSyjooUEb2XSzJYPe41i8Ge1f
+ RWYHv70lbqlsp/UNpymSUXl6uNR5PDZzt/KRMDxynTxfeP7+BRDWaAOupJNppzhSTZ0J GA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nwmmd871y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Feb 2023 14:21:15 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31MEEpxx031822;
+ Wed, 22 Feb 2023 14:21:14 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nwmmd870r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Feb 2023 14:21:14 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31LNuOwh007299;
+ Wed, 22 Feb 2023 14:21:13 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3ntpa6dfe0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Feb 2023 14:21:12 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31MEL9lc22610180
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Feb 2023 14:21:09 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 524DF20040;
+ Wed, 22 Feb 2023 14:21:09 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D86C520043;
+ Wed, 22 Feb 2023 14:21:08 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com (unknown
+ [9.152.222.242])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Feb 2023 14:21:08 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com, clg@kaod.org
+Subject: [PATCH v16 07/11] target/s390x/cpu topology: activating CPU topology
+Date: Wed, 22 Feb 2023 15:21:01 +0100
+Message-Id: <20230222142105.84700-8-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20230222142105.84700-1-pmorel@linux.ibm.com>
+References: <20230222142105.84700-1-pmorel@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
-Content-Language: en-US, ru-RU
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
- <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
- Eric Blake <eblake@redhat.com>
-References: <20230217170038.1273710-1-antonkuchin@yandex-team.ru>
- <20230217170038.1273710-2-antonkuchin@yandex-team.ru>
- <59165bde-bfd4-a073-c618-205be3951e4a@yandex-team.ru>
-From: Anton Kuchin <antonkuchin@yandex-team.ru>
-In-Reply-To: <59165bde-bfd4-a073-c618-205be3951e4a@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: fC1CP2xOTG8VSdaROWcHExx47_HPxl1m
+X-Proofpoint-ORIG-GUID: M3czbI-grCb23pLrMM6puzzskOOB0veT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-22_05,2023-02-22_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ adultscore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302220122
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.102,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,126 +117,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/02/2023 14:20, Vladimir Sementsov-Ogievskiy wrote:
-> On 17.02.23 20:00, Anton Kuchin wrote:
->> Migration of vhost-user-fs device requires transfer of FUSE internal 
->> state
->> from backend. There is no standard way to do it now so by default 
->> migration
->> must be blocked. But if this state can be externally transferred by
->> orchestrator give it an option to explicitly allow migration.
->>
->> Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
->> ---
->>   hw/core/qdev-properties-system.c    | 10 +++++++++
->>   hw/virtio/vhost-user-fs.c           | 32 ++++++++++++++++++++++++++++-
->>   include/hw/qdev-properties-system.h |  1 +
->>   include/hw/virtio/vhost-user-fs.h   |  2 ++
->>   qapi/migration.json                 | 16 +++++++++++++++
->>   5 files changed, 60 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/core/qdev-properties-system.c 
->> b/hw/core/qdev-properties-system.c
->> index d42493f630..d9b1aa2a5d 100644
->> --- a/hw/core/qdev-properties-system.c
->> +++ b/hw/core/qdev-properties-system.c
->> @@ -1143,3 +1143,13 @@ const PropertyInfo qdev_prop_uuid = {
->>       .set   = set_uuid,
->>       .set_default_value = set_default_uuid_auto,
->>   };
->> +
->> +const PropertyInfo qdev_prop_vhost_user_migration_type = {
->> +    .name = "VhostUserMigrationType",
->> +    .description = "none/external",
->> +    .enum_table = &VhostUserMigrationType_lookup,
->> +    .get = qdev_propinfo_get_enum,
->> +    .set = qdev_propinfo_set_enum,
->> +    .set_default_value = qdev_propinfo_set_default_value_enum,
->> +    .realized_set_allowed = true,
->> +};
->> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
->> index 83fc20e49e..7deb9df5ec 100644
->> --- a/hw/virtio/vhost-user-fs.c
->> +++ b/hw/virtio/vhost-user-fs.c
->> @@ -298,9 +298,35 @@ static struct vhost_dev 
->> *vuf_get_vhost(VirtIODevice *vdev)
->>       return &fs->vhost_dev;
->>   }
->>   +static int vhost_user_fs_pre_save(void *opaque)
->> +{
->> +    VHostUserFS *fs = opaque;
->> +    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
->> +
->> +    switch (fs->migration_type) {
->> +    case VHOST_USER_MIGRATION_TYPE_NONE:
->> +        error_report("Migration is blocked by device %s", path);
->> +        break;
->> +    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
->> +        return 0;
->> +    default:
->> +        error_report("Migration type '%s' is not supported by device 
->> %s",
->> + VhostUserMigrationType_str(fs->migration_type), path);
->> +        break;
->> +    }
->> +
->> +    return -1;
->> +}
->
-> Should we also add this as .pre_load, to force user select correct 
-> migration_type on target too?
+The KVM capability KVM_CAP_S390_CPU_TOPOLOGY is used to
+activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
+the topology facility in the host CPU model for the guest
+in the case the topology is available in QEMU and in KVM.
 
-Why do we need it? Enum forces user to select at least one of the sane 
-option
-and I believe this is enough. As this property affects only save and 
-don't know
-what we can do at load.
+The feature is disabled by default and fenced for SE
+(secure execution).
 
->
->> +
->>   static const VMStateDescription vuf_vmstate = {
->>       .name = "vhost-user-fs",
->> -    .unmigratable = 1,
->> +    .minimum_version_id = 0,
->> +    .version_id = 0,
->> +    .fields = (VMStateField[]) {
->> +        VMSTATE_VIRTIO_DEVICE,
->> +        VMSTATE_END_OF_LIST()
->> +    },
->> +   .pre_save = vhost_user_fs_pre_save,
->>   };
->>     static Property vuf_properties[] = {
->> @@ -309,6 +335,10 @@ static Property vuf_properties[] = {
->>       DEFINE_PROP_UINT16("num-request-queues", VHostUserFS,
->>                          conf.num_request_queues, 1),
->>       DEFINE_PROP_UINT16("queue-size", VHostUserFS, conf.queue_size, 
->> 128),
->> +    DEFINE_PROP_UNSIGNED("migration", VHostUserFS, migration_type,
->> +                         VHOST_USER_MIGRATION_TYPE_NONE,
->> +                         qdev_prop_vhost_user_migration_type,
->> +                         VhostUserMigrationType),
->
-> 1. I see, other similar qdev_prop_* use DEFINE_PROP_SIGNED
+Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+---
+ hw/s390x/cpu-topology.c   | 2 +-
+ target/s390x/cpu_models.c | 1 +
+ target/s390x/kvm/kvm.c    | 9 +++++++++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-I don't think this should be signed. Enum values are non-negative so 
-compilers
-(at least gcc and clang that I checked) evaluate underlying enum type to 
-be unsigned int.
-I don't know why other property types use signed, may be they have 
-reasons or just this
-is how they were initially implemented.
+diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+index 40253a2444..ed5fc75381 100644
+--- a/hw/s390x/cpu-topology.c
++++ b/hw/s390x/cpu-topology.c
+@@ -57,7 +57,7 @@ int s390_socket_nb(S390CPU *cpu)
+  */
+ bool s390_has_topology(void)
+ {
+-    return false;
++    return s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY);
+ }
+ 
+ /**
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 065ec6d66c..aca2c5c96b 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -254,6 +254,7 @@ bool s390_has_feat(S390Feat feat)
+         case S390_FEAT_SIE_CMMA:
+         case S390_FEAT_SIE_PFMFI:
+         case S390_FEAT_SIE_IBS:
++        case S390_FEAT_CONFIGURATION_TOPOLOGY:
+             return false;
+             break;
+         default:
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index fb63be41b7..e6f5b65dbe 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -371,6 +371,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
+     kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
+     kvm_vm_enable_cap(s, KVM_CAP_S390_USER_STSI, 0);
++    kvm_vm_enable_cap(s, KVM_CAP_S390_CPU_TOPOLOGY, 0);
+     if (ri_allowed()) {
+         if (kvm_vm_enable_cap(s, KVM_CAP_S390_RI, 0) == 0) {
+             cap_ri = 1;
+@@ -2470,6 +2471,14 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+         set_bit(S390_FEAT_UNPACK, model->features);
+     }
+ 
++    /*
++     * If we have kernel support for CPU Topology indicate the
++     * configuration-topology facility.
++     */
++    if (kvm_check_extension(kvm_state, KVM_CAP_S390_CPU_TOPOLOGY)) {
++        set_bit(S390_FEAT_CONFIGURATION_TOPOLOGY, model->features);
++    }
++
+     /* We emulate a zPCI bus and AEN, therefore we don't need HW support */
+     set_bit(S390_FEAT_ZPCI, model->features);
+     set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
+-- 
+2.31.1
 
-> 2. All of them except only qdev_prop_fdc_drive_type, define also a 
-> convenient macro in include/hw/qdev-properties-system.h
-
-This makes sense if property is used in more than one place, in this 
-case I don't see any
-benefit from writing more code to handle this specific case. Maybe if 
-property finds its
-usage in other devices this can be done.
-
->
-> should we follow these patterns?
->
->
 
