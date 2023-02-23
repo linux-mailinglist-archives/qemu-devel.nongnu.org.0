@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DEC6A0E1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 17:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30EEA6A0E1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 17:39:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVEbH-0003JE-S4; Thu, 23 Feb 2023 11:37:43 -0500
+	id 1pVEcN-0004we-KM; Thu, 23 Feb 2023 11:38:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVEbF-0003F9-TN
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 11:37:41 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVEcL-0004wB-Dw
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 11:38:49 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVEbE-0000j7-E3
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 11:37:41 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id q189so5793150pga.9
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 08:37:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVEcI-00015S-7S
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 11:38:49 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id p6so5954188pga.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 08:38:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bgNup2kZZsnzFwgCpi/xBc7Y68kv0vqYeEF/Akq9nVI=;
- b=XseukFfb2nezka3xVfoOiDblvkBFXmX73Kx74t56tISh9LbE79NqhACFs4FPBJK0o5
- 2spXYxceW6Kx4YzzajTlKDHchEIc6zyQIYU4pb6mWNVWW6F/RIa3U2/QHDzM+SHc8vxW
- z7nLe7pYXHIYj8I5CU2bBpehDQ0tDk58dwZzJDpY9A64LnVnqCucx14k7GON9AfOmiuU
- Eqaa++mefgvCDtTXll77MgjBC0c/F3Qbz6uPhPjR7FOVaB5Y7ApR2L+SeE+ocB844ALE
- EwSWFqyqSmoPfKZ607X3Wn3zuU7+ejgqsq8L+nRvKWhUQbnSm1BEsym9G1SRU1QtFWAK
- JPvw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NY9G8rxE6IQUjO489qCLtpUNI2Ga7PjqJ7IJfhnTtjg=;
+ b=geq/A24Md7YZxO0gXYpg8pDU0eBKvvcb3rT4dHgNQm6zc2iJPnwPVjZT1UVvw9lix8
+ ghVQKEKVYaLNRWVBKFoVJNYaRyTHKYjS03lRHRYkZ4wSOz+Tg8HK7qslelLYOlA5mb0f
+ 6B7Q3ZG62LlYBLmJ46h5NmTU08JoWStdbTASxWCaRWkF4nZbhZPpz2NtS2JEYO1VY/uU
+ sk1nkemsM4GM69gDmgPUGgVhRyWcNMGFls5ZCb6gClGwIHiVh684VnkXQlvS/qvTzsqD
+ WVY//0J1Q8LeHl3WGRrGG5j0NTfhDt2O18XCTtpamhR2r6Pv4DZi9+/DIyvEaUIGNkXm
+ lulA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bgNup2kZZsnzFwgCpi/xBc7Y68kv0vqYeEF/Akq9nVI=;
- b=l1jLnFSplD0JkkuHeImVuMpTS90Pr6TWsiWCecYf1aXOKkTSUBRqfrUZ9k7pHZlDws
- 08N4LHlByCVkZGAeaj2ZTq3h6wGUDjJrEY2s6THDmg32GBAyj+aQKOYliF0t1jAx1ddB
- Dl9f7YtQ60vOJzXasM39N36O4TsLJgKFS4S8ZMqnlwGK7hQHzMh8NbtekypAvu5SYBMZ
- IT8IVRRF16xbohhWaPu76wizHZG8oIcBK6Th0In6hV1T0D+ngLt9aW5f6u/EqXsW6W9r
- MZDYZcdJ89lsoYOzRo2efFDlnmbzZyIGURE/cVRGVL880y4La50+w8Gtt24MQWwubgwf
- tIsg==
-X-Gm-Message-State: AO0yUKVRzayXnFfrEMaEPp7DtWhBzau7NKZ3ZYrQvO/pFByCJtsiJnQa
- x9Eqx4RiFD6OEpT5O7jTjxPk7GMOVDf2ezQPpBXMgw==
-X-Google-Smtp-Source: AK7set9XdC/SIyiCfiH/QR9KUAUGiPSj6ssaScX6yUu4IlYZcEq+IosrwFdjKSF0vCz3sgKlGcqKlRG+veJ2i+crFiY=
-X-Received: by 2002:a63:364a:0:b0:502:f4c6:305c with SMTP id
- d71-20020a63364a000000b00502f4c6305cmr495025pga.9.1677170258849; Thu, 23 Feb
- 2023 08:37:38 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NY9G8rxE6IQUjO489qCLtpUNI2Ga7PjqJ7IJfhnTtjg=;
+ b=ftGE2i7HdsknQe78v0i/l2lHFDalG90zkpq12Q4ookjx7E+neRDL6n0n3TadHFiWrT
+ FZ+LqQSgWgrmGCXTmTb6CNy+t/giTxuccyoRDKhVJ/vecZZZ02HMjGZZWOKk2+JlbEoS
+ 9rX8lJ+01PaIvq98so0n6jILHphba3YKidhmMdBXSJlB7dXoqxu4ZMQSGEwm/7SrGD4L
+ 6eeyXVUUGZ4U+nQY771ORjaGyfwmg5GHxW7/JLiSHlfj6EosThQKPobsJTCcKzKqkplN
+ s3iSYsmVjfjP5/BQFJPF+SIQ0OJW/Jzl0qQwtNF5UuYUJRZQB6FkiBe0ZTd+tuaitEiB
+ XRlA==
+X-Gm-Message-State: AO0yUKWhfuIKsTbliCWloF0GP7gbxcDtOGnRwJfR4+/ELiEMHaoLj9qp
+ m209S8faSU34qwTP3VF8wbjFyqpRxC+eT9QDxT8=
+X-Google-Smtp-Source: AK7set9XcZMfCbFJ4jff+v0nLi4XLEne5G2ncNY4W+6k9BPDhg4cx6D1f5pZ9PIu0FkK/eewaaUUqw==
+X-Received: by 2002:aa7:9e87:0:b0:5cb:ee71:5069 with SMTP id
+ p7-20020aa79e87000000b005cbee715069mr10517376pfq.16.1677170323183; 
+ Thu, 23 Feb 2023 08:38:43 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ e21-20020a62aa15000000b005a8b4dcd21asm5341229pff.15.2023.02.23.08.38.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 08:38:42 -0800 (PST)
+Message-ID: <6496736b-2518-e715-3555-6db017df6d15@linaro.org>
+Date: Thu, 23 Feb 2023 06:38:39 -1000
 MIME-Version: 1.0
-References: <20230216030854.1212208-1-richard.henderson@linaro.org>
- <20230216030854.1212208-20-richard.henderson@linaro.org>
-In-Reply-To: <20230216030854.1212208-20-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Feb 2023 16:37:27 +0000
-Message-ID: <CAFEAcA-=HWRJXmjAvk7VnA5JCCJS7+MOSGFNu4kfMrATF9kDRw@mail.gmail.com>
-Subject: Re: [PATCH v1 19/19] target/arm: Enable FEAT_LSE2 for -cpu max
-To: Richard Henderson <richard.henderson@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v1 14/19] target/arm: Check alignment in helper_mte_check
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20230216030854.1212208-1-richard.henderson@linaro.org>
+ <20230216030854.1212208-15-richard.henderson@linaro.org>
+ <CAFEAcA_N1zcgg44v7AmKgHJiuE=Od0cCV8q1OW1YS9_hJFAYhw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_N1zcgg44v7AmKgHJiuE=Od0cCV8q1OW1YS9_hJFAYhw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,17 +94,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Feb 2023 at 03:10, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  docs/system/arm/emulation.rst | 1 +
->  target/arm/cpu64.c            | 1 +
->  2 files changed, 2 insertions(+)
+On 2/23/23 06:28, Peter Maydell wrote:
+> Also described in the text: the I_ZFGJP priority table lists
+> MTE faults at priority 33, basically lower than anything else
+> except an external abort.
+> 
+> Looking at the code, is this really the only case here where
+> we were mis-prioritizing tag check faults? Have we already
+> checked things like "no page table entry" and all the other
+> cases that can cause data aborts at this point?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Well, yes, we do the page table lookup in allocation_tag_mem(), while fetching the tag 
+memory against which the check is performed.
 
-thanks
--- PMM
+If there's another mis-prioritization, I don't know about it.
+
+
+r~
+
 
