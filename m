@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30A56A13A9
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E63B6A13A8
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:19:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKqn-0008VJ-Nf; Thu, 23 Feb 2023 18:18:09 -0500
+	id 1pVKqs-0008Vy-Hc; Thu, 23 Feb 2023 18:18:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKqk-0008V9-EP
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:06 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKqp-0008Vj-IA
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:11 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKqi-0000Ry-TV
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:06 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id az36so671649wmb.1
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:18:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKqn-0000T0-Vy
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:11 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so857493wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:18:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wWu2Li0HdtRyVbKb/qvrvVuTsZ+F9Z5D4ZsK6YGQoVI=;
- b=lj9M2Mafl9UAuQ3IL09b432c7nvJHA2y5nfxlSA1rbHRGirABBZ0l7XMN6OKxjZ6bs
- HZKk+DnUDoVp6z2q6TM/0inCFB5awJAtiVLkaO60R58+o29kVYDrxPW4fFMJKFQ9am6w
- 69hXBDMLhQKj3zG6SYCOhCXchNcdLAUzFMGsXc1JZEB0ddBatQUJ+C6ocCQWh73Ad1BF
- QfwXLVUx2tA4ZDvwxbhqjW4D7uAugp+uZUy8SfKSf2MDzkhQVUKxAaWxfFa+Gtt0C2hc
- 6pQ9I8acWpW7E5hHQ6fVW9gEqcXKRgjP88geZeAmM1AdZsyuWM281xMQeK1cCoaSdVEu
- ox1g==
+ bh=A3Lx/mtOBWkhA4XGJqZifqoY0L2i4FrcNzgDZGb4hiw=;
+ b=kMTb0RUtsQU4GqDDSpGtidlgHuVx8RX/IY30nkhnHgrJ0lJjVBEhlJyXuAvGZU134K
+ rtnhiHo4jIJqTlE3HL/6as8Uaq4kEhA6B6bNNLPN8I/vqIIC9sBvfL9Md/2lRZdZN8qI
+ JqiD/pLhp1UTHP7elxg5o+JQ/Jqg1w07WFH1AA+uXcu4BqHR1c2VIjqLRGOJBZAOMaYC
+ vBzZDvRFD6mY4ztsxGpMh4LbN22LZ3GFkV1U6fim2KlWa19l6HNsPyHb5g5jyf9D/zYf
+ rLaU+S8tJtapqCYFQaaI7xaIs50JTrsyHP0mpLjQKZbOGMNqSFCuBufSeh5yIVzICpGx
+ Q5Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wWu2Li0HdtRyVbKb/qvrvVuTsZ+F9Z5D4ZsK6YGQoVI=;
- b=C1v/L2OrqbJnyTVAOqlC61Yuln6cGe6oOidKeWY0wE1zModNud+WMdV5xhaEH4ZHoV
- zvsaLHQ0Avx061ig8Ce4qU1IU15G4iI8GrsStGeRAl3vd9SRQhgUqWNkTkdiuCKZwRB4
- Ff2KyyO62f18y860nxuLimPJljrTNePZp1d/m+Ruc1mOfzTlI2AzbEPERXYrNysSr//a
- XrzClewJV3W4YCZOz+JSEFs3IUcudbjzvG2JXq/G/g8368WBVoyt/3zFb8IfseW9acvz
- 2zvM0Qn6aU79rcxMcDjIUHUNo9yIhdXZDQ216T5dXyhanspU9xId+pPyP76VhEvu2B+d
- 49bw==
-X-Gm-Message-State: AO0yUKWaXq74pHSbqv4bqAGMkJrLRKNkM+8vl2T/tF3zq5tYiLU3WIyx
- TztWpo7bKZvhPcox+QRjzYJ/VBEqZmc2Vzn5
-X-Google-Smtp-Source: AK7set9xGP6wlkpIE/BCD0V0qLLTGQaYqfSFBZSK13N3kTCSIPsh1qtKZxFKoT3x5lf9YeloeaZ+Wg==
-X-Received: by 2002:a05:600c:30d3:b0:3d5:365b:773e with SMTP id
- h19-20020a05600c30d300b003d5365b773emr5351712wmn.39.1677194283002; 
- Thu, 23 Feb 2023 15:18:03 -0800 (PST)
+ bh=A3Lx/mtOBWkhA4XGJqZifqoY0L2i4FrcNzgDZGb4hiw=;
+ b=qbUeBaC1OND49vyhXKlWAdTOiuAN/yu0kPLzwrCMPGKF5+aMJrzWWwBlnbtFmnR6nq
+ 3d/iC9ab9DYAMlDabkN3zGhEkrHTghOzzSskaNdtZN0Kgbr+P1CkNTK/TeVaIkNqHHfx
+ XwxqRfn/EqSPLlNuNoFztQ+WTgjHHJqx66YXKwp+cvD73noUOrtf3CymfNTwGNT2obCp
+ m3cI1auKIykxauVqi9ePyYOc9dnZsHnBu7G0aWODtUYPPu61V3oJPZck2UHt5z9rkIkA
+ bYLnUuX0JPtaQO0AeO5s/DWL1O4AuX53sUF5eSLd+J8bbASQkPKlHD2sGRHzLMcuFY92
+ U8hw==
+X-Gm-Message-State: AO0yUKWEaS1U7+n17wJrpDJgtKjR7J4p9ylxFp7myd15Bld3+Tccq1qV
+ 7YJuzQwYhoK8E6ASa1TH6sYuMpO7apA/ufVf
+X-Google-Smtp-Source: AK7set95dWP/ESeVzWvSUIhTXhBFq0DurpKCiN/y8Sdz2xMEAa2YBcj7FTLs2o17UX3JJs0MqriJuA==
+X-Received: by 2002:a05:600c:810:b0:3db:2e06:4091 with SMTP id
+ k16-20020a05600c081000b003db2e064091mr10609938wmp.37.1677194288110; 
+ Thu, 23 Feb 2023 15:18:08 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u16-20020a05600c441000b003eafc47eb09sm571786wmn.43.2023.02.23.15.18.01
+ v22-20020a1cf716000000b003e1fee8baacsm758351wmh.25.2023.02.23.15.18.07
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 15:18:02 -0800 (PST)
+ Thu, 23 Feb 2023 15:18:07 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v4 1/7] dump: Replace tswapN() -> cpu_to_dumpN()
-Date: Fri, 24 Feb 2023 00:17:49 +0100
-Message-Id: <20230223231755.81633-2-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v4 2/7] dump: Replace TARGET_PAGE_SIZE ->
+ qemu_target_page_size()
+Date: Fri, 24 Feb 2023 00:17:50 +0100
+Message-Id: <20230223231755.81633-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230223231755.81633-1-philmd@linaro.org>
 References: <20230223231755.81633-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,37 +93,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All uses of tswap in that file are wrong, and should be using
-cpu_to_dumpN, which correctly tests the endianness of the output.
+TARGET_PAGE_SIZE is target specific. In preparation of
+making dump.c target-agnostic, replace the compile-time
+TARGET_PAGE_SIZE definition by runtime qemu_target_page_size().
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- dump/dump.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ dump/dump.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/dump/dump.c b/dump/dump.c
-index 279b07f09b..7101169ecb 100644
+index 7101169ecb..3784a9054d 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -907,13 +907,13 @@ static void get_note_sizes(DumpState *s, const void *note,
-     if (dump_is_64bit(s)) {
-         const Elf64_Nhdr *hdr = note;
-         note_head_sz = sizeof(Elf64_Nhdr);
--        name_sz = tswap64(hdr->n_namesz);
--        desc_sz = tswap64(hdr->n_descsz);
-+        name_sz = cpu_to_dump64(s, hdr->n_namesz);
-+        desc_sz = cpu_to_dump64(s, hdr->n_descsz);
-     } else {
-         const Elf32_Nhdr *hdr = note;
-         note_head_sz = sizeof(Elf32_Nhdr);
--        name_sz = tswap32(hdr->n_namesz);
--        desc_sz = tswap32(hdr->n_descsz);
-+        name_sz = cpu_to_dump32(s, hdr->n_namesz);
-+        desc_sz = cpu_to_dump32(s, hdr->n_descsz);
+@@ -15,6 +15,7 @@
+ #include "qemu/cutils.h"
+ #include "elf.h"
+ #include "exec/hwaddr.h"
++#include "exec/target_page.h"
+ #include "monitor/monitor.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/dump.h"
+@@ -1859,7 +1860,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
      }
  
-     if (note_head_size) {
+     if (!s->dump_info.page_size) {
+-        s->dump_info.page_size = TARGET_PAGE_SIZE;
++        s->dump_info.page_size = qemu_target_page_size();
+     }
+ 
+     s->note_size = cpu_get_note_size(s->dump_info.d_class,
 -- 
 2.38.1
 
