@@ -2,82 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A01C6A1377
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2346A138F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:13:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKae-00033h-Ve; Thu, 23 Feb 2023 18:01:28 -0500
+	id 1pVKki-0002T9-8v; Thu, 23 Feb 2023 18:11:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVKaY-00032a-Nq
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:01:22 -0500
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVKaW-0002su-Up
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:01:22 -0500
-Received: by mail-pf1-x442.google.com with SMTP id d7so6911671pfu.4
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:01:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OoEe3LAQIxkXdoYinbdEbIJsOrkhLH+r19qzP5aOP2Q=;
- b=iiCVzOZeuQ1MFJy3ci2et1wK9IJK+Y4aPgLThZ+4z9s/hEw9AxGtXDe0zy8JT5UUXc
- K5tBqqnns4L56gOkmT9AmP5lt7w7ymRth6o8OIQecA3lzHZYfpqZEAhbeEfEaGA83C3A
- ptchJchZDXWF8DA3w3XIF/X81Ku4p+YQfI7GQ3PNgXpcRWFtzBVCQeFb48mDS9rpTJHQ
- Vjix9PBYK8CJ4bP2spqF+9XdlBuQGenKb8nUe6YxFu0QsN1bbEfrjnCK5eO9MyK/pAh3
- bpmdSwWv6YR5Blhrez8AlCCeDxlj527zygX/JxmrqE6SZg/quY24u4AqPvdb2KKbzray
- HQ1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OoEe3LAQIxkXdoYinbdEbIJsOrkhLH+r19qzP5aOP2Q=;
- b=t1LqJgPyUyZ9rHXsNT5IMX15Cdf9yrUwzJ/p8ORggVmi1f9QhxFY06QLthEg6yWtC8
- BrXvNPaIbuFI6uSaF5++p/5wjbH+Qzih/InKRvbgUA6mUOz+KpbxO2CYH5LcUJ8QoAEw
- StZdKCVR6NFvf4q04dsQVLSwu6WLvAlyOm8fBCxoJRqtT2d8p2tAqGpwlOIL8ytbOLZr
- tkCAr8Is8vGg6wZnO/bGoeVmM345KtAA9sgBTjqSMHDo/rFLWPgpi+CpVkSjGU0AH0AR
- uz03rQZq4xAXyWxnWmvzhbTgNhy7ry4usDVtExlAspCWeBcQkY3kcJBWD9BSQtjIqzod
- 9qcA==
-X-Gm-Message-State: AO0yUKV6mMU7ve+tVMu5yZ34F0A7e0fJT5VdBlGIUSiS1n6OmeZuJ/gG
- YVGIGP45WIjySiMBGTMlnlli3A==
-X-Google-Smtp-Source: AK7set/SgF9SDI9so6u+NTVcuutjfihPn9dak2Nuzlm9WCPOSwG0sSDGk9ZblcUlEsHW3tvofr8M7g==
-X-Received: by 2002:a62:7bce:0:b0:5ce:ef1b:a80 with SMTP id
- w197-20020a627bce000000b005ceef1b0a80mr7842434pfc.32.1677193279034; 
- Thu, 23 Feb 2023 15:01:19 -0800 (PST)
-Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- v10-20020a62ac0a000000b005dea362ed18sm1435839pfe.27.2023.02.23.15.01.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 15:01:18 -0800 (PST)
-Message-ID: <dddae7d3-4c18-04d3-198b-803b4c128de1@linaro.org>
-Date: Thu, 23 Feb 2023 13:01:15 -1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH] target/arm: properly document FEAT_CRC32
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20230222110104.3996971-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230222110104.3996971-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVKkf-0002RO-SM
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:11:49 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVKkd-0007XJ-Ot
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:11:49 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31NKL6UK026081; Thu, 23 Feb 2023 23:11:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=cozK3ta6t/+qnbp5DEdwTbiq9SdTLEMxndnyyVMvq9I=;
+ b=hRTxKVpMwMFBEJY8jw3iIrzjM/6RCJqnVw0fFw7NwCnqbLGgYKQfzKJLAt5xFtb9I9eu
+ wEAkG003bmkK37kD0txh2EfULvqf9V3Un7HPFemWGScxwim7tGNu2Am4Ri1WAhRTVE+E
+ OWlKJAol7RZ9ULHvGCDaTJVwjaD8kw3MjuopFof4oo4AzqWxk4aFPInJ9VPgt+iESMN+
+ 4phZI32xIFWmQvDHDp1hgVTpQd53M0Mxpmh9kpPB70iXRfjMKV3f1PPA82eIq1dcTMxi
+ xB8atsAMgm+w/vwUU75I0UTW/fdWnQbi7RhqIYA5qBW8FsOmBWzniTduBAK6WxMHuzP9 0Q== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nxf3m3vb5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Feb 2023 23:11:45 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31NN1KZV016569;
+ Thu, 23 Feb 2023 23:11:44 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3ntpa6f93a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Feb 2023 23:11:43 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31NNBeOp38797740
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Feb 2023 23:11:40 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4BA352004B;
+ Thu, 23 Feb 2023 23:11:40 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C2E7520040;
+ Thu, 23 Feb 2023 23:11:39 +0000 (GMT)
+Received: from heavy.boeblingen.de.ibm.com (unknown [9.179.17.238])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Feb 2023 23:11:39 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2 0/2] linux-user: Fix unaligned memory access in prlimit64
+ syscall
+Date: Fri, 24 Feb 2023 00:11:35 +0100
+Message-Id: <20230223231137.186344-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.39.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: TYwDzRCY-FutoRznoGwMvBGPH2gChlO4
+X-Proofpoint-ORIG-GUID: TYwDzRCY-FutoRznoGwMvBGPH2gChlO4
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-23_13,2023-02-23_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 mlxlogscore=999 suspectscore=0
+ clxscore=1015 impostorscore=0 bulkscore=0 spamscore=0 priorityscore=1501
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302230192
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,64 +105,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/22/23 01:01, Alex Bennée wrote:
-> This is a mandatory feature for Armv8.1 architectures but we don't
-> state the feature clearly in our emulation list. While checking verify
-> our cortex-a76 model matches up with the current TRM by breaking out
-> the long form isar into a more modern readable FIELD_DP code.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   docs/system/arm/emulation.rst |  1 +
->   target/arm/cpu64.c            | 29 ++++++++++++++++++++++++++---
->   target/arm/cpu_tcg.c          |  2 +-
->   3 files changed, 28 insertions(+), 4 deletions(-)
-> 
-> diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-> index 2062d71261..2c4fde5eef 100644
-> --- a/docs/system/arm/emulation.rst
-> +++ b/docs/system/arm/emulation.rst
-> @@ -14,6 +14,7 @@ the following architecture extensions:
->   - FEAT_BBM at level 2 (Translation table break-before-make levels)
->   - FEAT_BF16 (AArch64 BFloat16 instructions)
->   - FEAT_BTI (Branch Target Identification)
-> +- FEAT_CRC32 (CRC32 instruction)
->   - FEAT_CSV2 (Cache speculation variant 2)
->   - FEAT_CSV2_1p1 (Cache speculation variant 2, version 1.1)
->   - FEAT_CSV2_1p2 (Cache speculation variant 2, version 1.2)
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index 4066950da1..12e1a532ab 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -912,6 +912,8 @@ static void aarch64_a72_initfn(Object *obj)
->   static void aarch64_a76_initfn(Object *obj)
->   {
->       ARMCPU *cpu = ARM_CPU(obj);
-> +    uint64_t t;
-> +    uint32_t u;
->   
->       cpu->dtb_compatible = "arm,cortex-a76";
->       set_feature(&cpu->env, ARM_FEATURE_V8);
-> @@ -928,7 +930,18 @@ static void aarch64_a76_initfn(Object *obj)
->       cpu->ctr = 0x8444C004;
->       cpu->dcz_blocksize = 4;
->       cpu->isar.id_aa64dfr0  = 0x0000000010305408ull;
-> -    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
-> +
-> +    /* per r4p1 of the Cryptographic Extension TRM */
-> +    t = cpu->isar.id_aa64isar0;
-> +    t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2);      /* FEAT_PMULL */
-> +    t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);     /* FEAT_SHA1 */
-> +    t = FIELD_DP64(t, ID_AA64ISAR0, SHA2, 1);     /* FEAT_SHA512 */
-> +    t = FIELD_DP64(t, ID_AA64ISAR0, CRC32, 1);    /* FEAT_CRC32 */
-> +    t = FIELD_DP64(t, ID_AA64ISAR0, ATOMIC, 2);   /* FEAT_LSE */
-> +    t = FIELD_DP64(t, ID_AA64ISAR0, RDM, 1);      /* FEAT_RDM */
-> +    t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);       /* FEAT_DotProd */
-> +    cpu->isar.id_aa64isar0 = t;
+v1: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg06999.html
+v1 -> v2: Fix by using proper target_rlimit64 alignment (Richard).
+          Use __get_user() and __put_user() (Philippe - if I understood
+          the suggestion correctly).
 
-Ok, so, this might be helpful for grepping, but it's not helpful for reading the 
-documentation, which on page B2-137 uses hex.
+Hi,
 
+Richard reported [1] that the new linux-fork-trap test was failing
+under UBSan [2], so it was excluded from the PR.
 
-r~
+This is a resend of the test plus the fix for the additional issue that
+it uncovered.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg06130.html
+[2] https://gitlab.com/qemu-project/qemu/-/jobs/3807471447#L5064
+
+Best regards,
+Ilya
+
+Ilya Leoshkevich (2):
+  linux-user: Fix unaligned memory access in prlimit64 syscall
+  tests/tcg/linux-test: Add linux-fork-trap test
+
+ linux-user/generic/target_resource.h        |  4 +-
+ linux-user/syscall.c                        |  8 ++--
+ tests/tcg/multiarch/linux/linux-fork-trap.c | 51 +++++++++++++++++++++
+ 3 files changed, 57 insertions(+), 6 deletions(-)
+ create mode 100644 tests/tcg/multiarch/linux/linux-fork-trap.c
+
+-- 
+2.39.1
+
 
