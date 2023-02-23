@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6A26A0CB2
+	by mail.lfdr.de (Postfix) with ESMTPS id BE66B6A0CB3
 	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:17:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVDL6-0005F0-BQ; Thu, 23 Feb 2023 10:16:56 -0500
+	id 1pVDLQ-0005KM-2a; Thu, 23 Feb 2023 10:17:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVDL4-0005Es-NV
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:16:54 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVDLF-0005HV-3s
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:17:14 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVDL2-000793-Ud
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:16:54 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id bo30so10390891wrb.0
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 07:16:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVDLB-0007Ar-Eh
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:17:04 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ m14-20020a7bce0e000000b003e00c739ce4so8461881wmc.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 07:17:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=VVInaEXUtmmROxLEArOG32Zf+m1+cS5kc5aziVbXZDM=;
- b=WYqyh6rJ/KTQGy3oQAAzLEpLvhDaVmUt09IGJsssRBgZgDbQOeuBqabT8RyaCNOKeT
- f0QTtrouBTNpygFguL4dFO5LMDbzpXRNJfxRPdyIJyDV4sLfmfklOMGnjRpKJ4KTLOZh
- Ue1pSleIWDtdaiMpQHExMgs2GgKlfx3kSLGJVT/9wU87ZL4vP7OvTGmZzXObkjGsb5fp
- KtTmDmwP3eT9tCoDrmK/UiwjY3/hteADitaIpMJ2++3qzm6khm2f8BlYmSxZuT9Oph9d
- bghxs+gXgBurt9wGTQDgtchdmh5HSE9o8GbwXAoHH1EGOAaGLsTMsE/LYiDEBhoN55D/
- R6Pw==
+ bh=NDoVbaEdDwZxADo1xOV1/b4oQaQbqK+u93KXakOvZXs=;
+ b=dDWk4m6trrncZjI6JEyu7YsBqQOSkmA6408+aqx2CvtaOna4G1K9IfK9CkYhHsGlaA
+ 820rK53O53NvZ8NsrGdc5AWHY/F/hwkDTgUTXdxTyXh12WsfcnXFcc9Zbt/KwxvblAjM
+ d1vfAmWT6ghYRkRXwwRXgGyHGqtE5vuvs6bANIEMUQLql22WnQWdb1wIE5iLmT/wNzv5
+ GzMUG8j5q9I+cbwmQp+vcK4tka56ltWqiYD2nBYiSOrFwohq7pqHkp2XnG+X6XT44yvl
+ DTJSWNO42o1ouPshBtdRof/pGOoIarmLcCd/94vIlJMEV278xIUA5zlNnIxF5B/dJ+Xl
+ 3Kzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VVInaEXUtmmROxLEArOG32Zf+m1+cS5kc5aziVbXZDM=;
- b=zS10vk6mAK7nCMzReJubYml/80zf2EdA57XsCijttwUhbetV8Mpil/xkN2SoRQtI/t
- FBMN1xu3rsNXRRn5cIVEKziGQFH6kYdpkqQCwNJ4Ym1tfJO7o03vD0QOzqomyNjQ5JZ/
- sQwRXpmLdB5DoqUjbq8yOo8LOgwK7JhT41wqsR/PDNzfKdLNU/PPuiKJfPFQRRtP44bS
- YS40SLWhP5Y8Sia0AhSiGl5au1NzwIH3hoNX14O1iR38wdtgz0DVrtqLOqSKu++s2LPg
- NziwZQstWGrZT+1fs21dYyklSUfH8NO6g4BxDkaO84K6ezB4/k+B6LzGqxUWDRDXXu1N
- P7HQ==
-X-Gm-Message-State: AO0yUKVTN3fL/kvjY1xZx08KVXeNSchP5ely9RjjRHEIELWf7rt6mi8Q
- RvHWFZjEpNf66ExyMNIrzCKrCqJCI0BWhVz6
-X-Google-Smtp-Source: AK7set+QUpJuHge31PGN4UwmIfYnlYa6W09kQN4dFAfMCPT3kTDS8fdHjCUirGZjxU60MI4Wbg8mpw==
-X-Received: by 2002:a5d:408e:0:b0:2c7:deb:c61 with SMTP id
- o14-20020a5d408e000000b002c70deb0c61mr3863539wrp.39.1677165410107; 
- Thu, 23 Feb 2023 07:16:50 -0800 (PST)
+ bh=NDoVbaEdDwZxADo1xOV1/b4oQaQbqK+u93KXakOvZXs=;
+ b=oRRxWa6Bb2dnO1MechA0jMWEeIUF698FYF/X7NKZLpy+ZkKCvEDNSI48KN4y3Ho2FE
+ lpFKhWrEsNQ8NJtLP9dekRC3TMMahm5zO5XB7yzzUNApliaBoDqtariju/jtwzw60iaU
+ wqXHEepUjDAr4UaOz3rRHXrfohLPn+DQp88WwRXK+G37jS82C6NQLh+jKlJAm9tXjRbp
+ BFNK0Pw97w8VzeBxuKMDrmC/wlJ5y5v4/cxK8viLpdTGFelGYOb7JhspAlJ+ztcb7NAa
+ bIWp7ZG5IG3Rybnyg7JSAjDghzN+GmCS164SFRc9a61VKaxhOKp9KxGHivjPXIdY9oZn
+ D1CQ==
+X-Gm-Message-State: AO0yUKXdJBy0CEJqRmneLimaHn7ZK8zDiA3GW0NVBYF6rBeWRQHtGyvn
+ iz2lPlSab4mFY+iDsqTat7Eu1OMN+5Orl3vI
+X-Google-Smtp-Source: AK7set98W5xOljBJGR444X1+QhypPEdqZwj8EyV7oFriTzNxYzUXSeTv/7FAUpYqAuYHoCb9T3lKpQ==
+X-Received: by 2002:a05:600c:3093:b0:3dc:5c86:12f3 with SMTP id
+ g19-20020a05600c309300b003dc5c8612f3mr3595238wmn.1.1677165419659; 
+ Thu, 23 Feb 2023 07:16:59 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- z8-20020a5d4c88000000b002c5598c14acsm11578413wrs.6.2023.02.23.07.16.48
+ q31-20020a05600c331f00b003e2243cfe15sm5335113wmp.39.2023.02.23.07.16.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 07:16:49 -0800 (PST)
-Message-ID: <e432c04d-6682-596f-c5bc-5266a38bbe0d@linaro.org>
-Date: Thu, 23 Feb 2023 16:16:47 +0100
+ Thu, 23 Feb 2023 07:16:59 -0800 (PST)
+Message-ID: <e1ef056b-b033-91f1-df48-c8cd7530ac6d@linaro.org>
+Date: Thu, 23 Feb 2023 16:16:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 0/7] hw/net/eepro100: Finish QDev conversion
+Subject: Re: [PATCH] target/i386: Remove pointless env_archcpu() in
+ helper_rdmsr()
 Content-Language: en-US
-To: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
-Cc: Jason Wang <jasowang@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Stefan Weil <sw@weilnetz.de>
-References: <20230213101048.94519-1-philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+References: <20230210125700.13474-1-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213101048.94519-1-philmd@linaro.org>
+In-Reply-To: <20230210125700.13474-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -93,27 +96,27 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 ping
 
-On 13/2/23 11:10, Philippe Mathieu-Daudé wrote:
-> Convert EEPRO100 to use the latest QDev conventions / style.
+On 10/2/23 13:57, Philippe Mathieu-Daudé wrote:
+> We have a X86CPU *cpu pointer available at the start of the function.
 > 
-> v1:
-> https://lore.kernel.org/qemu-devel/20230213070820.76881-9-philmd@linaro.org/
+> Inspired-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   target/i386/tcg/sysemu/misc_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Based-on: <20230213070423.76428-1-philmd@linaro.org>
->            hw/qdev: Housekeeping around qdev_get_parent_bus()
-> 
-> Philippe Mathieu-Daudé (7):
->    hw/net/eepro100: Abort if pci_add_capability() ever fail
->    hw/net/eepro100: Introduce TYPE_EEPRO100 QOM abstract parent
->    hw/net/eepro100: Convert reset handler to DeviceReset
->    hw/net/eepro100: Pass E100PCIDeviceInfo as class init data
->    hw/net/eepro100: Remove instance
->      EEPRO100State::has_extended_tcb_support
->    hw/net/eepro100: Remove instance's EEPRO100State::device
->    hw/net/eepro100: Replace DO_UPCAST(EEPRO100State) by EEPRO100()
-> 
->   hw/net/eepro100.c | 147 ++++++++++++++++++++++------------------------
->   1 file changed, 69 insertions(+), 78 deletions(-)
-> 
+> diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
+> index e1528b7f80..e47db9376e 100644
+> --- a/target/i386/tcg/sysemu/misc_helper.c
+> +++ b/target/i386/tcg/sysemu/misc_helper.c
+> @@ -326,7 +326,7 @@ void helper_rdmsr(CPUX86State *env)
+>           val = env->sysenter_eip;
+>           break;
+>       case MSR_IA32_APICBASE:
+> -        val = cpu_get_apic_base(env_archcpu(env)->apic_state);
+> +        val = cpu_get_apic_base(x86_cpu->apic_state);
+>           break;
+>       case MSR_EFER:
+>           val = env->efer;
 
 
