@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4536A0FD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 19:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949276A0FCF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 19:54:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVGhV-0006s9-QL; Thu, 23 Feb 2023 13:52:17 -0500
+	id 1pVGhV-0006s8-Q5; Thu, 23 Feb 2023 13:52:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVGhN-0006pb-D3
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:52:09 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVGhQ-0006rK-Df
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:52:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVGhL-00038z-0y
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:52:09 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVGhO-0003AQ-SM
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:52:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677178326;
+ s=mimecast20190719; t=1677178330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9Mgac+mvWOZl/8gjSxUCtrPRlYH1SMNILRMsDZSgyFY=;
- b=NjaJfgxQqmLPdwNIvTTkFsvgMUQKivCXjqK4si/sFYMcbArjgCjlwmZpl2QoUvsm4Am0+6
- Lu17zRGqgO91b05sDqp41WrgXPh/oZnq2xFslGD33nidHcADtkeY9B7IHmdGRiDhRqSVv1
- MCFBwrNBvV4ljzCCGt03yJ2RHEa4BAg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oa+DThSt3b/h3Y/YTVqy3GFKLTnRjraQAw4VOgHLIS0=;
+ b=J2+SPV6j6QB8TsQMBkMvZ/RAXHanqU6NQOlu1TPfjOxkUDIiCuLOGxiZsVfMl7XLfYcJF7
+ 0vFz6pj0GKfc7k6P4oiO1VK0uFS3dzAxjhI5CpL3nAjpxyuviwkKoKUQzixpY/oasNO8AW
+ u0b06sYv6oXMsIRJV2KIlwUfsfk9bUk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-Q1anvWjUO_S8soF0NuE0WQ-1; Thu, 23 Feb 2023 13:52:03 -0500
-X-MC-Unique: Q1anvWjUO_S8soF0NuE0WQ-1
+ us-mta-156-IKyJto0VOCKxwJPYJdF_xw-1; Thu, 23 Feb 2023 13:52:04 -0500
+X-MC-Unique: IKyJto0VOCKxwJPYJdF_xw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFCE586C176;
- Thu, 23 Feb 2023 18:52:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7EC8280048D;
+ Thu, 23 Feb 2023 18:52:03 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.192.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28E4D1121314;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1113D1121314;
  Thu, 23 Feb 2023 18:52:02 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 12/29] block: Mark bdrv_co_pwrite_sync() and callers
- GRAPH_RDLOCK
-Date: Thu, 23 Feb 2023 19:51:29 +0100
-Message-Id: <20230223185146.306454-13-kwolf@redhat.com>
+Subject: [PULL 13/29] block: Mark bdrv_co_do_pwrite_zeroes() GRAPH_RDLOCK
+Date: Thu, 23 Feb 2023 19:51:30 +0100
+Message-Id: <20230223185146.306454-14-kwolf@redhat.com>
 In-Reply-To: <20230223185146.306454-1-kwolf@redhat.com>
 References: <20230223185146.306454-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -78,69 +77,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This adds GRAPH_RDLOCK annotations to declare that callers of
-bdrv_co_pwrite_sync() need to hold a reader lock for the graph.
-
-For some places, we know that they will hold the lock, but we don't have
-the GRAPH_RDLOCK annotations yet. In this case, add assume_graph_lock()
-with a FIXME comment. These places will be removed once everything is
-properly annotated.
+All callers are already GRAPH_RDLOCK, so just add the annotation and
+remove assume_graph_lock().
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20230203152202.49054-13-kwolf@redhat.com>
+Message-Id: <20230203152202.49054-14-kwolf@redhat.com>
 Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qcow2.h            | 2 +-
- include/block/block-io.h | 7 ++++---
- block/io.c               | 3 +--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ block/io.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 7487bcfcf9..c59e33c01c 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -893,7 +893,7 @@ int qcow2_inc_refcounts_imrt(BlockDriverState *bs, BdrvCheckResult *res,
- int qcow2_change_refcount_order(BlockDriverState *bs, int refcount_order,
-                                 BlockDriverAmendStatusCB *status_cb,
-                                 void *cb_opaque, Error **errp);
--int coroutine_fn qcow2_shrink_reftable(BlockDriverState *bs);
-+int coroutine_fn GRAPH_RDLOCK qcow2_shrink_reftable(BlockDriverState *bs);
- int64_t qcow2_get_last_cluster(BlockDriverState *bs, int64_t size);
- int coroutine_fn qcow2_detect_metadata_preallocation(BlockDriverState *bs);
- 
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index ec26f07d60..bbe8a5659a 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -60,9 +60,10 @@ int co_wrapper_mixed_bdrv_rdlock
- bdrv_pwrite_sync(BdrvChild *child, int64_t offset, int64_t bytes,
-                  const void *buf, BdrvRequestFlags flags);
- 
--int coroutine_fn bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset,
--                                     int64_t bytes, const void *buf,
--                                     BdrvRequestFlags flags);
-+int coroutine_fn GRAPH_RDLOCK
-+bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset, int64_t bytes,
-+                    const void *buf, BdrvRequestFlags flags);
-+
- /*
-  * Efficiently zero a region of the disk image.  Note that this is a regular
-  * I/O request like read or write and should have a reasonable size.  This
 diff --git a/block/io.c b/block/io.c
-index ec8b317818..2593823f62 100644
+index 2593823f62..628b350002 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -933,8 +933,7 @@ int coroutine_fn bdrv_co_pwrite_sync(BdrvChild *child, int64_t offset,
- {
-     int ret;
-     IO_CODE();
--
--    assume_graph_lock(); /* FIXME */
-+    assert_bdrv_graph_readable();
+@@ -1672,8 +1672,9 @@ fail:
+     return ret;
+ }
  
-     ret = bdrv_co_pwrite(child, offset, bytes, buf, flags);
-     if (ret < 0) {
+-static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+-    int64_t offset, int64_t bytes, BdrvRequestFlags flags)
++static int coroutine_fn GRAPH_RDLOCK
++bdrv_co_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                         BdrvRequestFlags flags)
+ {
+     BlockDriver *drv = bs->drv;
+     QEMUIOVector qiov;
+@@ -1683,8 +1684,6 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
+     int head = 0;
+     int tail = 0;
+ 
+-    assume_graph_lock(); /* FIXME */
+-
+     int64_t max_write_zeroes = MIN_NON_ZERO(bs->bl.max_pwrite_zeroes,
+                                             INT64_MAX);
+     int alignment = MAX(bs->bl.pwrite_zeroes_alignment,
 -- 
 2.39.2
 
