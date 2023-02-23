@@ -2,88 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0026A0B8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09DC6A0B9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:14:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVCH5-00014B-6V; Thu, 23 Feb 2023 09:08:43 -0500
+	id 1pVCLe-000682-LM; Thu, 23 Feb 2023 09:13:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pVCH1-00010W-De
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:08:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pVCLb-00067Q-8g; Thu, 23 Feb 2023 09:13:23 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pVCGz-00079T-Qh
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:08:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677161316;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+qGPuFi69msBQ8sB3Ep2aqTzNmCa34dN778e5MupFN0=;
- b=CB0BPf0ekUvphviszOBQsnEAlTXZkppqzxkYAcuiaMOkEgYIofxZfAt12oa8lvOdqLSiyk
- LGKlqT1qY0JMp9BAE8nJPt0+glmtHJddVwnoRRly9eHiScrcOSQUF1KU5dCf1vOdqhxeFi
- 8SHfozyqxJX+3g1qxoZTRV2Es8paAe0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-8-MpzVhrPbMGq_T31j14XvAg-1; Thu, 23 Feb 2023 09:08:35 -0500
-X-MC-Unique: MpzVhrPbMGq_T31j14XvAg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m22-20020a05600c4f5600b003dffc7343c3so4992250wmq.0
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 06:08:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+qGPuFi69msBQ8sB3Ep2aqTzNmCa34dN778e5MupFN0=;
- b=JANLU9iY3pKw+aWjCbHfVnDEL3nsQm4K7pSAi5JviBeVQB71yBCYKjxKQj0GDqJ13J
- l96iL+I0oI+KY30FWruvXWu4hgaOAiZLutExl9WYu2tPSkW8c/w6eInqJbh3mlXQib/I
- VgJhSFWYszZ4ZLFH6gSzqVkmBeDOX8R0mW+qyiEC7H4kwb4/XfUUvXeSzYNo3niYyoA8
- Em2gb6RQd/BASR1uQV9nH6CznXTOf0aDqPn4fiy4i+ryjzphZnFJmMYofvS+DS/+6dHa
- 4+Zx6Zuo1UhsAbB06uy5u7TgM6RBcWVaOKna3jqtodyygHAfYI/Qwm6s153KPlUjWewf
- 0CnA==
-X-Gm-Message-State: AO0yUKU9j0uaqeO/k4wZ6mZ3a+a6KDrsm4kPzHV9T4eyb+YRAQ0k4ImD
- wLjVAVvpvcyxr1zu0BRmnFfGvnuP5vQF4ylzkxchJIX0pnKqGN9bgruX4Ov3IzM6mFfdHv3iWpg
- Vkzoy3ogmB/HdGC0=
-X-Received: by 2002:a5d:6781:0:b0:2c3:f880:bb1f with SMTP id
- v1-20020a5d6781000000b002c3f880bb1fmr9292743wru.14.1677161312990; 
- Thu, 23 Feb 2023 06:08:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set+uTZsxOaD3hkhSmeIcTMhLk0uVOnJk9SPpBx+7whuZ2F7/a8AVZ3i/pgnVegrrNXJdTQJRJQ==
-X-Received: by 2002:a5d:6781:0:b0:2c3:f880:bb1f with SMTP id
- v1-20020a5d6781000000b002c3f880bb1fmr9292725wru.14.1677161312727; 
- Thu, 23 Feb 2023 06:08:32 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- i16-20020adfefd0000000b002c552c6c8c2sm8017206wrp.87.2023.02.23.06.08.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 06:08:31 -0800 (PST)
-Date: Thu, 23 Feb 2023 15:08:31 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
- <ani@anisinha.ca>
-Subject: Re: [PATCH v2] hw/smbios: fix field corruption in type 4 table
-Message-ID: <20230223150831.15f6d1d0@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230223125747.254914-1-jusual@redhat.com>
-References: <20230223125747.254914-1-jusual@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pVCLZ-0001li-H0; Thu, 23 Feb 2023 09:13:23 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31NECLJU002916; Thu, 23 Feb 2023 14:13:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=G8Y1tG5cyVju22NcyeTVHx7S4BXX+hfZbpp8x+4dwJQ=;
+ b=Lwgwjz49qgYqKw8BxNlG3oWeA583nmqaubYTz9DdHpKXC1Soiri7qTClSs7a64jZsBls
+ HA4Oj3PPNcqa69PhpWgrgz3elNiMvM5y6Tm/3XdtxoOqTJjbHpvurGnu/tS9pN+B6j9F
+ SoOCAMtyW1CK98ZnYfLffEYPGW1rK/tL05dJOar7vYa5Z2dvygKdGj9HoUqiZwvEFJ9B
+ jGgIwjmxe2/VkRASQePb0MwJ5Uqwu1RRWlRdZ8Erjg8ocbHqU5cIhlOo+gBah4XcMy5S
+ BFL+nxbLWBbltKDnLVi9j+XGRmjjRruryYJenMXWWAc14dFjNDgaZLHaPJbRvwIndQyl 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nx9pug0hm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Feb 2023 14:13:08 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31NECvtL008162;
+ Thu, 23 Feb 2023 14:13:08 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nx9pug0h1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Feb 2023 14:13:08 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31N8uRXY007338;
+ Thu, 23 Feb 2023 14:13:05 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3ntpa6ern7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Feb 2023 14:13:05 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31NED1nx23134578
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Feb 2023 14:13:01 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C54522004B;
+ Thu, 23 Feb 2023 14:13:01 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5AD2220040;
+ Thu, 23 Feb 2023 14:13:01 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.164.163])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Feb 2023 14:13:01 +0000 (GMT)
+Message-ID: <969c9ec842174876d514d082afe1c383baf58b99.camel@linux.ibm.com>
+Subject: Re: [PATCH v16 02/11] s390x/cpu topology: add topology entries on
+ CPU hotplug
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: pierre <pierre@imap.linux.ibm.com>, Thomas Huth <thuth@redhat.com>
+Cc: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Thu, 23 Feb 2023 15:13:01 +0100
+In-Reply-To: <a19eb89ab4841e389e72b50ec017ae01@imap.linux.ibm.com>
+References: <20230222142105.84700-1-pmorel@linux.ibm.com>
+ <20230222142105.84700-3-pmorel@linux.ibm.com>
+ <4bd16293-62e8-d7ea-dab4-9e5cb0208812@redhat.com>
+ <a19eb89ab4841e389e72b50ec017ae01@imap.linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: OPgKtQsmFgLHN4CDS9qiQuTH-NcForNk
+X-Proofpoint-GUID: SOEf9730xJfzujg0SkO-1kLWvCLDfCY1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-23_08,2023-02-23_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 mlxscore=0 bulkscore=0
+ mlxlogscore=999 priorityscore=1501 suspectscore=0 adultscore=0
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302230115
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,52 +121,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 23 Feb 2023 13:57:47 +0100
-Julia Suvorova <jusual@redhat.com> wrote:
+On Thu, 2023-02-23 at 15:06 +0100, pierre wrote:
+> On 2023-02-23 13:53, Thomas Huth wrote:
+> > On 22/02/2023 15.20, Pierre Morel wrote:
+> > > The topology information are attributes of the CPU and are
+> > > specified during the CPU device creation.
+> > ...
+> > > diff --git a/include/hw/s390x/cpu-topology.h=20
+> > > b/include/hw/s390x/cpu-topology.h
+> > > index 83f31604cc..fa7f885a9f 100644
+> > > --- a/include/hw/s390x/cpu-topology.h
+> > > +++ b/include/hw/s390x/cpu-topology.h
+> > > @@ -10,6 +10,47 @@
+> > >   #ifndef HW_S390X_CPU_TOPOLOGY_H
+> > >   #define HW_S390X_CPU_TOPOLOGY_H
+> > >   +#include "qemu/queue.h"
+> > > +#include "hw/boards.h"
+> > > +#include "qapi/qapi-types-machine-target.h"
+> > > +
+> > >   #define S390_TOPOLOGY_CPU_IFL   0x03
+> > >   +typedef struct S390Topology {
+> > > +    uint8_t *cores_per_socket;
+> > > +    CpuTopology *smp;
+> > > +    CpuS390Polarization polarization;
+> > > +} S390Topology;
+> > > +
+> > > +#ifdef CONFIG_KVM
+> > > +bool s390_has_topology(void);
+> > > +void s390_topology_setup_cpu(MachineState *ms, S390CPU *cpu, Error=
+=20
+> > > **errp);
+> > > +#else
+> > > +static inline bool s390_has_topology(void)
+> > > +{
+> > > +       return false;
+> > > +}
+> > > +static inline void s390_topology_setup_cpu(MachineState *ms,
+> > > +                                           S390CPU *cpu,
+> > > +                                           Error **errp) {}
+> > > +#endif
+> > > +
+> > > +extern S390Topology s390_topology;
+> > > +int s390_socket_nb(S390CPU *cpu);
+> > > +
+> > > +static inline int s390_std_socket(int n, CpuTopology *smp)
+> > > +{
+> > > +    return (n / smp->cores) % smp->sockets;
+> > > +}
+> > > +
+> > > +static inline int s390_std_book(int n, CpuTopology *smp)
+> > > +{
+> > > +    return (n / (smp->cores * smp->sockets)) % smp->books;
+> > > +}
+> > > +
+> > > +static inline int s390_std_drawer(int n, CpuTopology *smp)
+> > > +{
+> > > +    return (n / (smp->cores * smp->sockets * smp->books)) %=20
+> > > smp->books;
+> >=20
+> > Shouldn't that be " % smp->drawers" instead?
+>=20
+> /o\  Yes it is of course.
+> thanks.
 
-> Since table type 4 of SMBIOS version 2.6 is shorter than 3.0, the
-> strings which follow immediately after the struct fields have been
-> overwritten by unconditional filling of later fields such as core_count2.
-> Make these fields dependent on the SMBIOS version.
-> 
-> Fixes: 05e27d74c7 ("hw/smbios: add core_count2 to smbios table type 4")
-> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2169904
-> 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
-> v2:
->     * add fixes tag
->     * check tbl_len instead of ep_type
-> 
->  hw/smbios/smbios.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index 4869566cf5..d2007e70fb 100644
-> --- a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ -750,14 +750,16 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
->      t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
->      t->core_enabled = t->core_count;
->  
-> -    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-> -
->      t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
-> -    t->thread_count2 = cpu_to_le16(ms->smp.threads);
->  
->      t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
->      t->processor_family2 = cpu_to_le16(0x01); /* Other */
->  
-> +    if (tbl_len == SMBIOS_TYPE_4_LEN_V30) {
-> +        t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-> +        t->thread_count2 = cpu_to_le16(ms->smp.threads);
-> +    }
-> +
->      SMBIOS_BUILD_TABLE_POST;
->      smbios_type4_count++;
->  }
+You can also just drop the modulo, since
+n < core * sockets * books * drawers. Not that % drawers does any harm ofc.
+>=20
+[...]
 
 
