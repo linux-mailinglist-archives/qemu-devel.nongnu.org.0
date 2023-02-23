@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F456A0BAA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF50E6A0BED
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:34:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVCOH-00022S-20; Thu, 23 Feb 2023 09:16:09 -0500
+	id 1pVCf9-00089w-UX; Thu, 23 Feb 2023 09:33:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pVCOE-00021K-9R
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:16:06 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVCf7-00089G-TO
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:33:33 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pVCO9-0002SV-Q3
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:16:05 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id d30so1371710eda.4
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 06:16:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cYpOEKlOTi57RDzpmH/9j0f9Gk6yzLH8G2W/0dl9fV4=;
- b=0eGny9F3U0FqI/TymAhgHfgy22/iz5Xzryn3rg8emYfA8Ww6mz1wOaWINHRjx9c7Q+
- /ZPXgVDAtWzV58Gkpy53+gSm8Vqx+AfrfN5JuQ0tdNWHmP9SblU5KcOjISJzV+Dhg+Wz
- 1cGxq14YbOXPFwyAUCdZl4wquiGTuoVSkPKVbRkTMM8IXQpp7n0JwkuVQdDwiLXv7pSZ
- A8Ezk/Ue38IOuUdxJT/bfOiCKLqvpICKdYoR76r3Hapu2KN7+N+m1D8cc0+YksMcAN/A
- CDbfLE55R2lnF5ZDtJ6G8Jp8/IKhWhV4syQZ+eq9h9Ub03RZbRgnLilSb6lVWU36+oDn
- 5eIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cYpOEKlOTi57RDzpmH/9j0f9Gk6yzLH8G2W/0dl9fV4=;
- b=Ri/Hz5eU9jkd1020kTXw56JDZq0tE10YUiKalIm+eJXqhmK8rwNNEcK4nKB3fwmfI6
- Tszm0WUUUwL8yG87sCiJCAF7X5aMEfa9DAH2RgItxxcwpYHGUnHS8XsFsssCD5e9p4aV
- GPhN04PfLjhNNdkgs25aDXwrGCnMpaVlqSAIqmRYpal1LV2wyd+aa4gjfNa8ZNAajf17
- IrpnqJ1Bdxo2MV7wRoFxtSSqbg4onPOuvKjVKt4wXMGDjM/MRh62+GlG9cczD8HBykAb
- dVJsiqmC/6gWUFngeHpb6eXtUKY7+7sVNPFE8Imec9KP6ow8VQaDVGHN/BdAec21iaoJ
- hQLQ==
-X-Gm-Message-State: AO0yUKV1YPQRKFS87SYbkqAccuilIc2d1HoelpCFU9CK3X1aC4QBhZ5U
- NLjihCTfZMCHjCwjlq9pCuVKBCk/XeIEn/C7NcLPjQ==
-X-Google-Smtp-Source: AK7set8AXDG9wXxDcIMO8u1muqzw08fXGOtJ+5xje+qRQvKY3WSRq4EiB0xfWC+drDnLkArN5NXUuwtLaKtZONMCG34=
-X-Received: by 2002:a50:aa9e:0:b0:4ac:bb4e:c38c with SMTP id
- q30-20020a50aa9e000000b004acbb4ec38cmr5660231edc.0.1677161759253; Thu, 23 Feb
- 2023 06:15:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVCf6-0006YD-7o
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:33:33 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BF44134586;
+ Thu, 23 Feb 2023 14:23:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677162238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ub1cl8vY0g6D/gSkeKIGCA3CTkS90WynQsvwvYJMCDI=;
+ b=bTPlTjMurWUFVgI8L36+w/y2VplBthV0Pblee1GNkcKTxTnenp6WF5Ka/1sI/tJjK55Fj0
+ lzorw0S8ys9q/CEb+zeModJ19kG0fbqsJFP2orKo5OKUF8kkoNRPBS8bgIBauGkNihdaQS
+ EtxHXZiKTzz9+pbjpVqll4ugfmWiWok=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677162238;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ub1cl8vY0g6D/gSkeKIGCA3CTkS90WynQsvwvYJMCDI=;
+ b=BW29vR0fAgf/vzhqbOXGwyuyR8i56n2430WC1RH1quaDCOS9ESkBGQ0Rm3NXpJ/C5S/cyQ
+ pxMpYmgvR3Nq6KAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C60A713928;
+ Thu, 23 Feb 2023 14:23:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Ii94I/x292M+GAAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 23 Feb 2023 14:23:56 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [RFC PATCH 0/1] ci: Speed up container stage
+Date: Thu, 23 Feb 2023 11:21:53 -0300
+Message-Id: <20230223142154.31975-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <CAFEAcA83u_ENxDj3GJKa-xv6eLJGJPr_9FRDKAqm3qACyhrTgg@mail.gmail.com>
- <3e1f9f5f-c4ec-d13d-7f88-df741a63f747@redhat.com>
-In-Reply-To: <3e1f9f5f-c4ec-d13d-7f88-df741a63f747@redhat.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 23 Feb 2023 07:15:47 -0700
-Message-ID: <CANCZdfr8Cm4d-Z64tqO92-ThZzq4YyLhhfbqC4tn5qkGc5sA7w@mail.gmail.com>
-Subject: Re: out of CI pipeline minutes again
-To: Thomas Huth <thuth@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000e4394105f55ea648"
-Received-SPF: none client-ip=2a00:1450:4864:20::52c;
- envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,73 +83,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000e4394105f55ea648
-Content-Type: text/plain; charset="UTF-8"
+I'm not sure if this was discussed previously, but I noticed we're not
+pulling the images we push to the registry at every pipeline run.
 
-On Thu, Feb 23, 2023, 6:48 AM Thomas Huth <thuth@redhat.com> wrote:
+I would expect we don't actually need to rebuild container images at
+_every_ pipeline run, so I propose we add a "docker pull" to the
+container templates. We already have that for the docker-edk2|opensbi
+images.
 
-> On 23/02/2023 13.56, Peter Maydell wrote:
-> > Hi; the project is out of gitlab CI pipeline minutes again.
-> > In the absence of any other proposals, no more pull request
-> > merges will happen til 1st March...
->
-> I'd like to propose again to send a link along with the pull request that
-> shows that the shared runners are all green in the fork of the requester.
-> You'd only need to check the custom runners in that case, which hopefully
-> still work fine without CI minutes?
->
-> It's definitely more cumbersome, but maybe better than queuing dozens of
-> pull requests right in front of the soft freeze?
->
+Some containers can take a long time to build (14 mins) and pulling
+the image first without building can cut the time to about 3
+mins. With this we can save almost 2h of cumulative CI time per
+pipeline run:
 
-Yea. I'm just getting done with my pull request and it's really
-demotivating to be done early and miss the boat...
+| master   | pull-only |  diff    | container
+| 0:02:34  | 0:02:09   | 00:00:25 |  alpha-debian-cross-container
+| 0:04:45  | 0:02:40   | 00:02:05 |  amd64-alpine-container
+| 0:09:51  | 0:02:56   | 00:06:55 |  amd64-centos8-container
+| 0:07:21  | 0:02:49   | 00:04:32 |  amd64-debian-container
+| 0:06:00  | 0:02:37   | 00:03:23 |  amd64-debian-cross-container
+| 0:14:22  | 0:03:41   | 00:10:41 |  amd64-debian-user-cross-container
+| 0:10:14  | 0:03:24   | 00:06:50 |  amd64-fedora-container
+| 0:12:09  | 0:02:49   | 00:09:20 |  amd64-opensuse-leap-container
+| 0:07:33  | 0:02:45   | 00:04:48 |  amd64-ubuntu2004-container
+| 0:08:28  | 0:03:07   | 00:05:21 |  arm64-debian-cross-container
+| 0:04:27  | 0:02:58   | 00:01:29 |  armel-debian-cross-container
+| 0:08:01  | 0:02:55   | 00:05:06 |  armhf-debian-cross-container
+| 0:03:33  | 0:02:18   | 00:01:15 |  cris-fedora-cross-container
+| 0:00:28  | 0:00:28   | 00:00:00 |  docker-edk2
+| 0:00:25  | 0:00:28   |-00:00:03 |  docker-opensbi
+| 0:08:34  | 0:03:10   | 00:05:24 |  hexagon-cross-container
+| 0:02:34  | 0:02:08   | 00:00:26 |  hppa-debian-cross-container
+| 0:04:50  | 0:02:28   | 00:02:22 |  i386-fedora-cross-container
+| 0:02:36  | 0:02:12   | 00:00:24 |  m68k-debian-cross-container
+| 0:02:40  | 0:02:09   | 00:00:31 |  mips-debian-cross-container
+| 0:02:38  | 0:02:09   | 00:00:29 |  mips64-debian-cross-container
+| 0:04:28  | 0:02:48   | 00:01:40 |  mips64el-debian-cross-container
+| 0:07:07  | 0:02:46   | 00:04:21 |  mipsel-debian-cross-container
+| 0:03:51  | 0:02:21   | 00:01:30 |  powerpc-test-cross-container
+| 0:08:52  | 0:03:00   | 00:05:52 |  ppc64el-debian-cross-container
+| 0:06:07  | 0:02:49   | 00:03:18 |  python-container
+| 0:04:37  | 0:02:26   | 00:02:11 |  riscv64-debian-cross-container
+| 0:02:39  | 0:02:08   | 00:00:31 |  riscv64-debian-test-cross-container
+| 0:08:03  | 0:03:00   | 00:05:03 |  s390x-debian-cross-container
+| 0:02:34  | 0:02:08   | 00:00:26 |  sh4-debian-cross-container
+| 0:02:37  | 0:02:09   | 00:00:28 |  sparc64-debian-cross-container
+| 0:04:25  | 0:02:17   | 00:02:08 |  tricore-debian-cross-container
+| 0:12:51  | 0:03:27   | 00:09:24 |  win32-fedora-cross-container
+| 0:11:16  | 0:03:29   | 00:07:47 |  win64-fedora-cross-container
+| 0:03:28  | 0:02:20   | 00:01:08 |  xtensa-debian-cross-container
+                       | 01:57:30 |
 
-I'm happy to do this because it's what I do anyway before sending a pull...
+We would need to devise a mechanism (not included here) to force the
+re-build of the container images when needed, perhaps an environment
+variable or even a whole new "container build" stage before the
+"container" stage.
 
-Warner
+What do you think?
 
-  Thomas
->
->
->
+Fabiano Rosas (1):
+  ci: Attempt to pull container images before building
 
---000000000000e4394105f55ea648
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ .gitlab-ci.d/container-template.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Feb 23, 2023, 6:48 AM Thomas Huth &lt;<a href=
-=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">On 23/02/2023 13.56, Peter Maydell wrote:<br>
-&gt; Hi; the project is out of gitlab CI pipeline minutes again.<br>
-&gt; In the absence of any other proposals, no more pull request<br>
-&gt; merges will happen til 1st March...<br>
-<br>
-I&#39;d like to propose again to send a link along with the pull request th=
-at <br>
-shows that the shared runners are all green in the fork of the requester. <=
-br>
-You&#39;d only need to check the custom runners in that case, which hopeful=
-ly <br>
-still work fine without CI minutes?<br>
-<br>
-It&#39;s definitely more cumbersome, but maybe better than queuing dozens o=
-f <br>
-pull requests right in front of the soft freeze?<br></blockquote></div></di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Yea. I&#39;m just getting d=
-one with my pull request and it&#39;s really demotivating to be done early =
-and miss the boat...</div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#=
-39;m happy to do this because it&#39;s what I do anyway before sending a pu=
-ll...</div><div dir=3D"auto"><br></div><div dir=3D"auto">Warner</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">
-=C2=A0 Thomas<br>
-<br>
-<br>
-</blockquote></div></div></div>
+-- 
+2.35.3
 
---000000000000e4394105f55ea648--
 
