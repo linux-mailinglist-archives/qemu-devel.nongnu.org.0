@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5DC6A08DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:49:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323AA6A08FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:53:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVB2I-0001cT-DK; Thu, 23 Feb 2023 07:49:22 -0500
+	id 1pVB6B-0007RQ-7D; Thu, 23 Feb 2023 07:53:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pVB0D-0005qx-EA
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:47:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVB67-0007PI-BL
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:53:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pVAzv-0005Af-Jj
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:47:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVB65-0006z5-Hn
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:53:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677156414;
+ s=mimecast20190719; t=1677156796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M0Z3cmpE0ylLAmYkTYxDwLozuFbUp5t4n17CybMDh4o=;
- b=gx+G8Jzj2cvUdgJUTBAh0qygEYi8m4K0ZA3MxP5S6kTZm9lnWVljAvKtVe38SeUqsuzc2j
- n0sWhKm7H8UP7TScVraOjSJEux/NWE6m4s6GtxJzrwmbFeQYgH81xI5UGOxNtVFPzKILuT
- mykJ+vbsoSM0p5num+g6LwIqTxzlP6w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-alGVWHBsM72W3u6Dr3PBpA-1; Thu, 23 Feb 2023 07:46:52 -0500
-X-MC-Unique: alGVWHBsM72W3u6Dr3PBpA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13E5A85A588;
- Thu, 23 Feb 2023 12:46:52 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DED72166B29;
- Thu, 23 Feb 2023 12:46:51 +0000 (UTC)
-Date: Thu, 23 Feb 2023 07:46:48 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 00/23] block: Lock the graph, part 2 (BlockDriver
- callbacks)
-Message-ID: <Y/dgOHl4tRgyKXzK@fedora>
-References: <20230203152202.49054-1-kwolf@redhat.com> <Y/VCFcYsqMmEF0zc@fedora>
- <Y/dSgm564nCLaAjx@redhat.com>
+ bh=gxRHoavd4MDmnqbIu/ZiSEYwI9vrqzu7Su5XsON/qAY=;
+ b=Sbo+IF3mdjZpAs8zE/qcLvnIz0RltK5cas/arTfQOVTSEH7YCz8UhrSqwWkNNZHTxoXAcN
+ 56jcK3jsGqlJq2uwmZs/Jb22fT4J953AZ3zb5Ar34m1RhhkWJafGX3LrR05gjX3zYFbpQV
+ B2eDlj/wSnbyTbu4FLs68PzUZ6Ldtu4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-441-HZks_ctvMPuc-1PHSrh1jA-1; Thu, 23 Feb 2023 07:53:15 -0500
+X-MC-Unique: HZks_ctvMPuc-1PHSrh1jA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ t1-20020a7bc3c1000000b003dfe223de49so5170884wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 04:53:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gxRHoavd4MDmnqbIu/ZiSEYwI9vrqzu7Su5XsON/qAY=;
+ b=ll5vMR0UtDaeKjWXNUxachIMp9CO9bGd98HQw8beowmJyYThb5/2C/OkW3AePbJIiZ
+ aj7HiszoX3Qgc6enxsY7xvScgzLrd23CiYgT//5Fo7qhx6qWbBMH6JoKOfw9XXicoQ+W
+ 3Ct72Bvx1Av/eR0ZYCBzl9IXbvvRSWphYjyDFFAs9og9o6M9e3eTdldCPMAwfwBs3SKN
+ eWF4vqB8klFP2BQV1ToYuF5xRU8VfpCM/vRZsjqePpAwibTXgWnUIivNQ3Zvv5CE/qU9
+ 8VH6EWRXS26tJ1xjmU5trvsFg5o3IuRLlbPIVtgWqYjSz+VYcOGAAjqKtmGYyyKMK652
+ QDzw==
+X-Gm-Message-State: AO0yUKUuak6eSgDE+Rw2KQ67QMRayc2W3R/JW6CQxC6Kh55KjXVNsXCj
+ EYuaXol9fsnSdisHf90Kp6MjcIN7Vi35uFG3BMcOjMUFwszTo8/1DrZds/ByRWfOcUIajek6Yuy
+ oqXsBgLnVTvB4AbA=
+X-Received: by 2002:a5d:6950:0:b0:2bf:cfb4:2e1 with SMTP id
+ r16-20020a5d6950000000b002bfcfb402e1mr10823693wrw.45.1677156794181; 
+ Thu, 23 Feb 2023 04:53:14 -0800 (PST)
+X-Google-Smtp-Source: AK7set/L9zPBxv9S/OC02opzujXuGfsuJlgG4MIe0xcMDd7fYDFMq1nf+trYQ1oVjS/UdxtdoNUF0A==
+X-Received: by 2002:a5d:6950:0:b0:2bf:cfb4:2e1 with SMTP id
+ r16-20020a5d6950000000b002bfcfb402e1mr10823662wrw.45.1677156793883; 
+ Thu, 23 Feb 2023 04:53:13 -0800 (PST)
+Received: from [192.168.8.104] (tmo-100-40.customers.d1-online.com.
+ [80.187.100.40]) by smtp.gmail.com with ESMTPSA id
+ v26-20020a5d591a000000b002c573cff730sm7162515wrd.68.2023.02.23.04.53.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 04:53:12 -0800 (PST)
+Message-ID: <4bd16293-62e8-d7ea-dab4-9e5cb0208812@redhat.com>
+Date: Thu, 23 Feb 2023 13:53:10 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AZ1NnsILUZGI3SEX"
-Content-Disposition: inline
-In-Reply-To: <Y/dSgm564nCLaAjx@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230222142105.84700-1-pmorel@linux.ibm.com>
+ <20230222142105.84700-3-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v16 02/11] s390x/cpu topology: add topology entries on CPU
+ hotplug
+In-Reply-To: <20230222142105.84700-3-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,98 +106,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 22/02/2023 15.20, Pierre Morel wrote:
+> The topology information are attributes of the CPU and are
+> specified during the CPU device creation.
+...
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+> index 83f31604cc..fa7f885a9f 100644
+> --- a/include/hw/s390x/cpu-topology.h
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -10,6 +10,47 @@
+>   #ifndef HW_S390X_CPU_TOPOLOGY_H
+>   #define HW_S390X_CPU_TOPOLOGY_H
+>   
+> +#include "qemu/queue.h"
+> +#include "hw/boards.h"
+> +#include "qapi/qapi-types-machine-target.h"
+> +
+>   #define S390_TOPOLOGY_CPU_IFL   0x03
+>   
+> +typedef struct S390Topology {
+> +    uint8_t *cores_per_socket;
+> +    CpuTopology *smp;
+> +    CpuS390Polarization polarization;
+> +} S390Topology;
+> +
+> +#ifdef CONFIG_KVM
+> +bool s390_has_topology(void);
+> +void s390_topology_setup_cpu(MachineState *ms, S390CPU *cpu, Error **errp);
+> +#else
+> +static inline bool s390_has_topology(void)
+> +{
+> +       return false;
+> +}
+> +static inline void s390_topology_setup_cpu(MachineState *ms,
+> +                                           S390CPU *cpu,
+> +                                           Error **errp) {}
+> +#endif
+> +
+> +extern S390Topology s390_topology;
+> +int s390_socket_nb(S390CPU *cpu);
+> +
+> +static inline int s390_std_socket(int n, CpuTopology *smp)
+> +{
+> +    return (n / smp->cores) % smp->sockets;
+> +}
+> +
+> +static inline int s390_std_book(int n, CpuTopology *smp)
+> +{
+> +    return (n / (smp->cores * smp->sockets)) % smp->books;
+> +}
+> +
+> +static inline int s390_std_drawer(int n, CpuTopology *smp)
+> +{
+> +    return (n / (smp->cores * smp->sockets * smp->books)) % smp->books;
 
---AZ1NnsILUZGI3SEX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Shouldn't that be " % smp->drawers" instead?
 
-On Thu, Feb 23, 2023 at 12:48:18PM +0100, Kevin Wolf wrote:
-> Am 21.02.2023 um 23:13 hat Stefan Hajnoczi geschrieben:
-> > On Fri, Feb 03, 2023 at 04:21:39PM +0100, Kevin Wolf wrote:
-> > > After introducing the graph lock in a previous series, this series
-> > > actually starts making widespread use of it.
-> > >=20
-> > > Most of the BlockDriver callbacks access the children list in some wa=
-y,
-> > > so you need to hold the graph lock to call them. The patches in this
-> > > series add the corresponding GRAPH_RDLOCK annotations and take the lo=
-ck
-> > > in places where it doesn't happen yet - all of the bdrv_*() co_wrappe=
-rs
-> > > are already covered, but in particular BlockBackend coroutine_fns sti=
-ll
-> > > need it.
-> > >=20
-> > > There is no particularly good reason why exactly these patches and not
-> > > others are included in the series. I couldn't find a self-contained p=
-art
-> > > that could reasonable be addressed in a single series. So these just
-> > > happen to be patches that are somewhat related (centered around the
-> > > BlockDriver callback theme), are ready and their number looks
-> > > manageable. You will still see some FIXMEs at the end of the series
-> > > that will only be addressed in future patches.
-> >=20
-> > Two things occurred to me:
-> >=20
-> > 1. The graph lock is becoming the new AioContext lock in the sense that
-> > code using the block layer APIs needs to carefully acquire and release
-> > the lock around operations. Why is it necessary to explicitly take the
-> > rdlock in mirror_iteration()?
-> >=20
-> >   + WITH_GRAPH_RDLOCK_GUARD() {
-> >         ret =3D bdrv_block_status_above(source, NULL, offset,
-> >=20
-> > I guess because bdrv_*() APIs are unlocked? The equivalent blk_*() API
-> > would have taken the graph lock internally. Do we want to continue using
-> > bdrv APIs even though it spreads graph locking concerns into block jobs?
->=20
-> The thing that makes it a bit ugly is that block jobs mix bdrv_*() and
-> blk_*() calls. If they only used blk_*() we wouldn't have to take care
-> of locking (but that means that the job code itself must not have a
-> problem with a changing graph!). If they only used bdrv_*(), the
-> function could just take a lock at the start and only temporarily
-> release it around pause points. Both ways would look nicer than what we
-> have now.
->=20
-> > 2. This series touches block drivers like qcow2. Luckily block drivers
-> > just need to annotate their BlockDriver functions to indicate they run
-> > under the rdlock, a lock that the block driver itself doesn't mess with.
-> > It makes me wonder whether there is any point in annotating the
-> > BlockDriver function pointers? It would be simpler if the block drivers
-> > were unaware of the graph lock.
->=20
-> If you're unaware of the graph lock, how do you tell if you can call
-> certain block layer functions that require the lock?
->=20
-> Especially since different BlockDriver callbacks have different rules
-> (some have a reader lock, some have a writer lock, and some may stay
-> unlocked even in the future), it would seem really hard to keep track of
-> this when you don't make it explicit.
+> +}
+> +
+>   #endif
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> new file mode 100644
+> index 0000000000..59f2cc15c7
+> --- /dev/null
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -0,0 +1,270 @@
+> +/*
+> + * CPU Topology
+> + *
+> + * Copyright IBM Corp. 2022
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> +
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/boards.h"
+> +#include "qemu/typedefs.h"
+> +#include "target/s390x/cpu.h"
+> +#include "hw/s390x/s390-virtio-ccw.h"
+> +#include "hw/s390x/cpu-topology.h"
+> +
+> +/*
+> + * s390_topology is used to keep the topology information.
+> + * .cores_per_socket: tracks information on the count of cores
+> + *                    per socket.
+> + * .smp: keeps track of the machine topology.
+> + *
+> + */
+> +S390Topology s390_topology = {
+> +    /* will be initialized after the cpu model is realized */
+> +    .cores_per_socket = NULL,
+> +    .smp = NULL,
+> +    .polarization = S390_CPU_POLARIZATION_HORIZONTAL,
+> +};
+> +
+> +/**
+> + * s390_socket_nb:
+> + * @cpu: s390x CPU
+> + *
+> + * Returns the socket number used inside the cores_per_socket array
+> + * for a cpu.
+> + */
+> +int s390_socket_nb(S390CPU *cpu)
+> +{
+> +    return (cpu->env.drawer_id * s390_topology.smp->books + cpu->env.book_id) *
+> +           s390_topology.smp->sockets + cpu->env.socket_id;
+> +}
+> +
+> +/**
+> + * s390_has_topology:
+> + *
+> + * Return value: if the topology is supported by the machine.
+> + */
+> +bool s390_has_topology(void)
+> +{
+> +    return false;
+> +}
+> +
+> +/**
+> + * s390_topology_init:
+> + * @ms: the machine state where the machine topology is defined
+> + *
+> + * Keep track of the machine topology.
+> + *
+> + * Allocate an array to keep the count of cores per socket.
+> + * The index of the array starts at socket 0 from book 0 and
+> + * drawer 0 up to the maximum allowed by the machine topology.
+> + */
+> +static void s390_topology_init(MachineState *ms)
+> +{
+> +    CpuTopology *smp = &ms->smp;
+> +
+> +    s390_topology.smp = smp;
+> +    s390_topology.cores_per_socket = g_new0(uint8_t, smp->sockets *
+> +                                            smp->books * smp->drawers);
+> +}
+> +
+> +/**
+> + * s390_topology_cpu_default:
+> + * @cpu: pointer to a S390CPU
+> + * @errp: Error pointer
+> + *
+> + * Setup the default topology if no attributes are already set.
+> + * Passing a CPU with some, but not all, attributes set is considered
+> + * an error.
+> + *
+> + * The function calculates the (drawer_id, book_id, socket_id)
+> + * topology by filling the cores starting from the first socket
+> + * (0, 0, 0) up to the last (smp->drawers, smp->books, smp->sockets).
+> + *
+> + * CPU type, entitlement and dedication have defaults values set in the
+> + * s390x_cpu_properties, however entitlement is forced to 0 'none' when
+> + * the polarization is horizontale.
+> + */
+> +static void s390_topology_cpu_default(S390CPU *cpu, Error **errp)
+> +{
+> +    CpuTopology *smp = s390_topology.smp;
+> +    CPUS390XState *env = &cpu->env;
+> +
+> +    /* All geometry topology attributes must be set or all unset */
+> +    if ((env->socket_id < 0 || env->book_id < 0 || env->drawer_id < 0) &&
+> +        (env->socket_id >= 0 || env->book_id >= 0 || env->drawer_id >= 0)) {
+> +        error_setg(errp,
+> +                   "Please define all or none of the topology geometry attributes");
+> +        return;
+> +    }
+> +
+> +    /* Check if one of the geometry topology is unset */
+> +    if (env->socket_id < 0) {
+> +        /* Calculate default geometry topology attributes */
+> +        env->socket_id = s390_std_socket(env->core_id, smp);
+> +        env->book_id = s390_std_book(env->core_id, smp);
+> +        env->drawer_id = s390_std_drawer(env->core_id, smp);
+> +    }
+> +
+> +    if (s390_topology.polarization == S390_CPU_POLARIZATION_HORIZONTAL) {
+> +        env->entitlement = 0;
 
-Hi Kevin,
-Can you give an example of where it is necessary (not accidental
-complexity) to expose an unlocked API and put the responsibility of
-locking on the caller?
+Should this be S390_CPU_ENTITLEMENT_HORIZONTAL instead of 0 ?
 
-Thanks,
-Stefan
+> +    }
+> +}
 
---AZ1NnsILUZGI3SEX
-Content-Type: application/pgp-signature; name="signature.asc"
+  Thomas
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP3YDgACgkQnKSrs4Gr
-c8jJywf+Mg8as3t0cDfWuUq2/HzlpyhO2ky6Ft3Vvg78duk/bDHkAM2RCpixOpXZ
-sMl99VIaq0HGqd289XP3FuvEkTI+oPkyQi6SFoUKh9Kzfu29AYos1DSPXVSA43VM
-0xyizZK+547aZzxpPSxxxYo1rjwzq4Z3+E/U/vePQdz/XeSRxaCZwvdF3ScjEQcy
-mq7olC3o4u+uHpmkJJqwdmis52c5tIEOzZsNd61kSD2IdxpKCWVD3YN0GEzBggjj
-MgUEe73h9YublGFkMZ/G2u+F8gor3WT4IWe7T/9Da+kvd4ewf2S9jDwPdZtiM2+g
-WnjUl8oqZypftWtQ0FkBwNg0UnAGpA==
-=prAh
------END PGP SIGNATURE-----
-
---AZ1NnsILUZGI3SEX--
 
 
