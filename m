@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6986A1144
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CF86A1147
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:34:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVIFG-0003Zm-S6; Thu, 23 Feb 2023 15:31:14 -0500
+	id 1pVII6-0006Cq-MW; Thu, 23 Feb 2023 15:34:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVIFB-0003Z6-4k
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:31:12 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVIF6-0004FJ-HF
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:31:08 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5EC2C37D62;
- Thu, 23 Feb 2023 20:31:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677184261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pVII4-0006CO-Mj
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:34:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pVII2-0004g0-5O
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:34:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677184445;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kxlfS5ALPZ0zAWgnRCoPfFxfIrPOEN6tARBkRjy7Ta4=;
- b=vCkyM6mVng09hPgX28Sq1IRKcDfH1U1bU37qBytWaPzvPLZcpC+b1pYupQDpAVTyxl3S2v
- sHZaYS080x58LXirDt/71VnQUFlVzmuSCHJdmADo3+18wcWIrdacHI3fPL8Ln6XyYHNoy5
- qWff/zDomulKqz9jWtkMHMghhx12SyY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677184261;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kxlfS5ALPZ0zAWgnRCoPfFxfIrPOEN6tARBkRjy7Ta4=;
- b=bqhMOJes0gyOMRls7g2QwNzRiPqmxsRHANsJnHT6EJZBgx+ywfwlN/m8HNpkXZ4ZBoZzbX
- +Pa/ZyGxhhm8MNCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=H9hpod/1tfpc6vD/xYecAJueTj1VANzOMlqA/p1KrNo=;
+ b=e4FL67DDN5hvw2aOUKQHarA4EcgvnmbvfJddACCZdlIxGjKin/m4nMK0IQMwIH0JBjK5qG
+ ukpKxckvLnDS3Qg2giLq3IqIGzSbet1dgMVsLh9PiXcUN5uDIe5Md0scxwv+mOMKCCpabz
+ GkoWuVm5cvSfPvk57ySsQkMVfMQ1Orc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-339-JRdQ-nMUMQq2GHjyxR9q8Q-1; Thu, 23 Feb 2023 15:33:54 -0500
+X-MC-Unique: JRdQ-nMUMQq2GHjyxR9q8Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E273E13928;
- Thu, 23 Feb 2023 20:31:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id fm+LKgTN92NEXQAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 23 Feb 2023 20:31:00 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, =?utf-8?Q?Danie?=
- =?utf-8?Q?l_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Wainer dos
- Santos Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH 0/1] ci: Speed up container stage
-In-Reply-To: <877cw8pep0.fsf@linaro.org>
-References: <20230223142154.31975-1-farosas@suse.de>
- <Y/d+9jsvwF5tySlv@redhat.com> <877cw8pep0.fsf@linaro.org>
-Date: Thu, 23 Feb 2023 17:30:58 -0300
-Message-ID: <87wn48jf99.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FFE01C05140;
+ Thu, 23 Feb 2023 20:33:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8901B1121314;
+ Thu, 23 Feb 2023 20:33:53 +0000 (UTC)
+Date: Thu, 23 Feb 2023 15:33:51 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/23] block: Lock the graph, part 2 (BlockDriver
+ callbacks)
+Message-ID: <Y/fNr5gQOuLw4W4a@fedora>
+References: <20230203152202.49054-1-kwolf@redhat.com> <Y/VCFcYsqMmEF0zc@fedora>
+ <Y/dSgm564nCLaAjx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TlnRbxhxKD7hpIO8"
+Content-Disposition: inline
+In-Reply-To: <Y/dSgm564nCLaAjx@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,86 +82,96 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Hi Alex,
+--TlnRbxhxKD7hpIO8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->
->> On Thu, Feb 23, 2023 at 11:21:53AM -0300, Fabiano Rosas wrote:
->>> I'm not sure if this was discussed previously, but I noticed we're not
->>> pulling the images we push to the registry at every pipeline run.
->>>=20
->>> I would expect we don't actually need to rebuild container images at
->>> _every_ pipeline run, so I propose we add a "docker pull" to the
->>> container templates. We already have that for the docker-edk2|opensbi
->>> images.
->>>=20
->>> Some containers can take a long time to build (14 mins) and pulling
->>> the image first without building can cut the time to about 3
->>> mins. With this we can save almost 2h of cumulative CI time per
->>> pipeline run:
->>
->> The docker.py script that we're invoking is already pulling the
->> image itself eg to pick a random recent job:
->>
->>   https://gitlab.com/qemu-project/qemu/-/jobs/3806090058
->>
->> We can see
->>
->>   $ ./tests/docker/docker.py --engine docker build -t "qemu/$NAME" -f
->> "tests/docker/dockerfiles/$NAME.docker" -r
->> $CI_REGISTRY/qemu-project/qemu 03:54
->>   Using default tag: latest
->>   latest: Pulling from qemu-project/qemu/qemu/debian-arm64-cross
->>   bb263680fed1: Pulling fs layer
->>   ...snip...
->>
->> none the less it still went ahead and rebuilt the image from scratch
->> so something is going wrong here. I don't know why your change adding
->> an extra 'docker pull' would have any effect, given we're already
->> pulling, so I wonder if that's just coincidental apparent change
->> due to the initial state of your fork's container registery.
->>
->> Whenever I look at this I end up wishing out docker.py didn't exist
->> and that we could just directly do
->>
->>   - docker pull "$TAG"
->>   - docker build --cache-from "$TAG" --tag "$TAG" -f "tests/docker/$NAME=
-.docker"
->>
->> as that sould be sufficient to build the image with caching.
->
-> I think we should be ready to do that now as we have flattened all our
-> dockerfiles. The only other thing that docker.py does is nicely add a
-> final step for the current user so you can ensure all files generated in
-> docker cross compile images are still readable on the host.
->
+On Thu, Feb 23, 2023 at 12:48:18PM +0100, Kevin Wolf wrote:
+> Am 21.02.2023 um 23:13 hat Stefan Hajnoczi geschrieben:
+> > On Fri, Feb 03, 2023 at 04:21:39PM +0100, Kevin Wolf wrote:
+> > > After introducing the graph lock in a previous series, this series
+> > > actually starts making widespread use of it.
+> > >=20
+> > > Most of the BlockDriver callbacks access the children list in some wa=
+y,
+> > > so you need to hold the graph lock to call them. The patches in this
+> > > series add the corresponding GRAPH_RDLOCK annotations and take the lo=
+ck
+> > > in places where it doesn't happen yet - all of the bdrv_*() co_wrappe=
+rs
+> > > are already covered, but in particular BlockBackend coroutine_fns sti=
+ll
+> > > need it.
+> > >=20
+> > > There is no particularly good reason why exactly these patches and not
+> > > others are included in the series. I couldn't find a self-contained p=
+art
+> > > that could reasonable be addressed in a single series. So these just
+> > > happen to be patches that are somewhat related (centered around the
+> > > BlockDriver callback theme), are ready and their number looks
+> > > manageable. You will still see some FIXMEs at the end of the series
+> > > that will only be addressed in future patches.
+> >=20
+> > Two things occurred to me:
+> >=20
+> > 1. The graph lock is becoming the new AioContext lock in the sense that
+> > code using the block layer APIs needs to carefully acquire and release
+> > the lock around operations. Why is it necessary to explicitly take the
+> > rdlock in mirror_iteration()?
+> >=20
+> >   + WITH_GRAPH_RDLOCK_GUARD() {
+> >         ret =3D bdrv_block_status_above(source, NULL, offset,
+> >=20
+> > I guess because bdrv_*() APIs are unlocked? The equivalent blk_*() API
+> > would have taken the graph lock internally. Do we want to continue using
+> > bdrv APIs even though it spreads graph locking concerns into block jobs?
+>=20
+> The thing that makes it a bit ugly is that block jobs mix bdrv_*() and
+> blk_*() calls. If they only used blk_*() we wouldn't have to take care
+> of locking (but that means that the job code itself must not have a
+> problem with a changing graph!). If they only used bdrv_*(), the
+> function could just take a lock at the start and only temporarily
+> release it around pause points. Both ways would look nicer than what we
+> have now.
+>=20
+> > 2. This series touches block drivers like qcow2. Luckily block drivers
+> > just need to annotate their BlockDriver functions to indicate they run
+> > under the rdlock, a lock that the block driver itself doesn't mess with.
+> > It makes me wonder whether there is any point in annotating the
+> > BlockDriver function pointers? It would be simpler if the block drivers
+> > were unaware of the graph lock.
+>=20
+> If you're unaware of the graph lock, how do you tell if you can call
+> certain block layer functions that require the lock?
+>=20
+> Especially since different BlockDriver callbacks have different rules
+> (some have a reader lock, some have a writer lock, and some may stay
+> unlocked even in the future), it would seem really hard to keep track of
+> this when you don't make it explicit.
 
-Just so you know this command line worked:
+I discussed this offline with Kevin some more today. While there might
+be opportunities to hide the lock (thereby making it easier), it's not
+easy to do because we don't want to give up TSA static checking. Let's
+put the graph lock in place first and worry about that later.
 
-docker build --cache-from $TAG --tag $TAG --build-arg BUILDKIT_INLINE_CACHE=
-=3D1 \
-  -f "tests/docker/dockerfiles/$NAME.docker" "."
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-building the cache: https://gitlab.com/farosas/qemu/-/jobs/3825838177
-using the cache:    https://gitlab.com/farosas/qemu/-/jobs/3825926944
+--TlnRbxhxKD7hpIO8
+Content-Type: application/pgp-signature; name="signature.asc"
 
-But we might still have this issue:
+-----BEGIN PGP SIGNATURE-----
 
-commit 6ddc3dc7a882f2e7200fa7fecf505a8d0d8bbea9
-Author: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Date:   Fri Jul 9 15:29:35 2021 +0100
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP3za8ACgkQnKSrs4Gr
+c8iYdQgAoMOdODzlELEFK8mZmMrspLqGssTXKIJYer/JZZeATSbez9/fsobpki3e
+qOrrkoOZFWeBdw+KP4nkdKxA2ZCBUNLtPEx2sZoC/wC8SMfP/sbwq0hn6qwrfH89
+4IAv+FvJGRtHbMWzEwQYectfhsXkYiRez8bngzhzoDRr5SM5iAz77GrR8fFZ64y4
+BCGEaU12Nn7u3J2N90MFpDMTxS16DXwUHvsCCox4uTeiwoKQXo3zdnXInBs5EzQM
+aMPn8qDPsonKhG3S0rVdFpbLQDgYYO4F/5024uKaHNqqp4xIpdgQZ/27bCvUO3pk
+x11Ow49koaFZ+s5BX7bhjpkPHN65gg==
+=qbEQ
+-----END PGP SIGNATURE-----
 
-    tests/docker: don't use BUILDKIT in GitLab either
-=20=20=20=20
-    Using BUILDKIT breaks with certain container registries such as CentOS,
-    with docker build reporting an error such as
-=20=20=20=20
-      failed to solve with frontend dockerfile.v0:
-      failed to build LLB: failed to load cache key:
-      unexpected status code
-      https://registry.centos.org/v2/centos/manifests/7:
-      403 Forbidden
+--TlnRbxhxKD7hpIO8--
 
-We might need to go the route of skipping the docker build when the
-docker pull succeeds.
 
