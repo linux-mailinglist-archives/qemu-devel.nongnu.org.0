@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B44D6A1103
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30956A1119
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:18:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVHra-0005kh-DZ; Thu, 23 Feb 2023 15:06:46 -0500
+	id 1pVI1S-00039V-1d; Thu, 23 Feb 2023 15:16:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pVHrV-0005kN-LV
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:06:42 -0500
+ id 1pVI1I-000388-Uc
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:16:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pVHrS-0006gz-V8
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:06:40 -0500
+ id 1pVI1F-0008VW-8K
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:16:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677182797;
+ s=mimecast20190719; t=1677183404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5MeGOzKN9lLZ+b8851teOax+vfcwHvJzkRRRHr7Fc1Y=;
- b=ceS0VGFunPBX2bYiffgvp+gdvajTeXitv4p7rMxKZqrJGJeCFm226uloIyKL6Zl887JSxh
- sHvdwYYq6xA9h5lMWOWGkFrBY6G2pDBXOMEDNa/iC8STBeAi6q6iDd/MtfYbGvmARy4jxl
- 9CzkOzyn5FD7WeT+iHSHSEJOCyXNxFw=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZhEAhg+gVumsM/eyaB8hov+QmlvtrVjqSST+g/tyyjM=;
+ b=OJTWANHKzPOux6HcaboMWZYKchJqbf90tl6PJrPFfcXosdP4ih6h1HNYU0E6aE8+JVj60N
+ yieU4RyL8P/bVLCPPTXjsIs5vbX+YkRXrt85uBpj9ygV6nPkYHqIBjedF/tJwQbA57a4Y/
+ RxAmwwPA9/vWJ2QGIsoqtRdcMyB3++U=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-665-mvZTbxL5OyWjccG9wltvIw-1; Thu, 23 Feb 2023 15:06:36 -0500
-X-MC-Unique: mvZTbxL5OyWjccG9wltvIw-1
-Received: by mail-il1-f198.google.com with SMTP id
- k10-20020a92b70a000000b00316fed8644fso1468221ili.21
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 12:06:36 -0800 (PST)
+ us-mta-29-ul3fvUjhPd2WRzlaz2xW2g-1; Thu, 23 Feb 2023 15:16:42 -0500
+X-MC-Unique: ul3fvUjhPd2WRzlaz2xW2g-1
+Received: by mail-il1-f199.google.com with SMTP id
+ l5-20020a92d8c5000000b00316f26477d6so2996875ilo.10
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 12:16:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5MeGOzKN9lLZ+b8851teOax+vfcwHvJzkRRRHr7Fc1Y=;
- b=VM66NM9K2Eaoz/eic6Z7v2IWFOMvoXad/Jt7AIxkae6GZ5k+2SWZHZdFe6IKxpFvqo
- jKAH2S1uSVLGe13AqY6qfHCUCC1siwtcQwekQDHkdkD0CPdFobRksT1Gop3BOC4xlkDE
- cdBstWUcWub5jvWJTsJcd3OguSDLRprCMR9tsA8uZL2ni+8gGdjV8/X5ExIebiv7dta+
- TSVJ0QpL7UHWgbA2aCqn2t/jbTa7uamR2IlZEK8xvEr++5NAbepEcc07uKzrLil0git8
- 9mpUsQLTGH9M0xj7fC/QPCQC0Gpxx1AK2uDj1gue8AWByJo4rOB6Po0f++4sNoSUPjyc
- jYvQ==
-X-Gm-Message-State: AO0yUKWDjB6G0bgxRMmQNSIH3lhK8aPekb956DW6nfszUHavs9LMjGzv
- R+eINsQP3E9uwttS5pXq5YKS/HEE1Pi6VAa6kv7DjvTlT77tthSL/FE87ZNKKbtLqywMpF+6Cm9
- SMMMTsnBT67Zs1CY=
-X-Received: by 2002:a05:6e02:1d0f:b0:315:7004:3e49 with SMTP id
- i15-20020a056e021d0f00b0031570043e49mr11413324ila.26.1677182795745; 
- Thu, 23 Feb 2023 12:06:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set82kb+ytxUhiwgBL/ll/wN+RJcHFXbqXvx2MFtdgZjYGCj3K4RT+1Taef4BkNfGC77x0A5kXw==
-X-Received: by 2002:a05:6e02:1d0f:b0:315:7004:3e49 with SMTP id
- i15-20020a056e021d0f00b0031570043e49mr11413302ila.26.1677182795489; 
- Thu, 23 Feb 2023 12:06:35 -0800 (PST)
+ bh=ZhEAhg+gVumsM/eyaB8hov+QmlvtrVjqSST+g/tyyjM=;
+ b=YALBi3vggbx40FlryFIn3nZsP+FK7ThWdnpBF1JbKTuAKbd18Aj5zzuMoJm5wsV7By
+ 6bySzpBsFbd69bFCHu6OAVP06khZqDZKTP5lV9pM4uWyaMA64aU9jmJPYp4/9KIIkzxS
+ BZFEP+fqPFan0HdgzI44370M8+o6nl5FHF0QLou9ZKsGbXLf7BE4REDp5r7PtX9sz+/w
+ Okj+1eEaT5w20qZ/Tae7DPd5yoFdnHUfNfqYUuk6Q30ZnMJs31zV3O9QnFNIoNWFEMzP
+ i8p2Hfa7J0v93Sw4hV553WC38HISj6QWrs1f/0Qi8FtOFm1ESBfWP3OIoMFvF/2qpWAw
+ Hl+A==
+X-Gm-Message-State: AO0yUKVKP0uS2M4nmf/FhEztL5FvzBp6nVGhVia9eqWFcUahxkqWWybf
+ QxHo3FnGxaZRbRHjcSF5o+w/iKmn/l8Rb3imzDcldia2O8NS1kiI1Jga87WX4FFA4XzxbYxti2f
+ zZ2V7lJ7AJgI1B94=
+X-Received: by 2002:a05:6e02:216a:b0:313:cd79:adcb with SMTP id
+ s10-20020a056e02216a00b00313cd79adcbmr14401682ilv.18.1677183401790; 
+ Thu, 23 Feb 2023 12:16:41 -0800 (PST)
+X-Google-Smtp-Source: AK7set8LM0GXCGB+vHEwG0UE6L+PYjBCcyjg9MxIZztYGooaAyTiVrMmK2OZMIVpC9R+wmgfmykWIQ==
+X-Received: by 2002:a05:6e02:216a:b0:313:cd79:adcb with SMTP id
+ s10-20020a056e02216a00b00313cd79adcbmr14401665ilv.18.1677183401563; 
+ Thu, 23 Feb 2023 12:16:41 -0800 (PST)
 Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- j7-20020a056e02014700b00313d32f8345sm3807621ilr.66.2023.02.23.12.06.34
+ g14-20020a056638060e00b003c502198ffbsm2525339jar.22.2023.02.23.12.16.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 12:06:35 -0800 (PST)
-Date: Thu, 23 Feb 2023 13:06:33 -0700
+ Thu, 23 Feb 2023 12:16:41 -0800 (PST)
+Date: Thu, 23 Feb 2023 13:16:40 -0700
 From: Alex Williamson <alex.williamson@redhat.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
@@ -76,14 +76,16 @@ Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
  =?UTF-8?B?w6k=?= <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>,
  Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v2 17/20] vfio/common: Support device dirty page
- tracking with vIOMMU
-Message-ID: <20230223130633.4bd07948.alex.williamson@redhat.com>
-In-Reply-To: <Y/bKoUBe17YNhGEA@nvidia.com>
+Subject: Re: [PATCH v2 11/20] vfio/common: Add device dirty page tracking
+ start/stop
+Message-ID: <20230223131640.515451b2.alex.williamson@redhat.com>
+In-Reply-To: <Y/e+1GmGBtKKhWK/@nvidia.com>
 References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-18-avihaih@nvidia.com>
- <20230222163439.68ad5e63.alex.williamson@redhat.com>
- <Y/bKoUBe17YNhGEA@nvidia.com>
+ <20230222174915.5647-12-avihaih@nvidia.com>
+ <20230222154043.35644d31.alex.williamson@redhat.com>
+ <Y/bJMIR8stBcJpW7@nvidia.com>
+ <20230223122723.6a204e1b.alex.williamson@redhat.com>
+ <Y/e+1GmGBtKKhWK/@nvidia.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -113,64 +115,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 22:08:33 -0400
+On Thu, 23 Feb 2023 15:30:28 -0400
 Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> On Wed, Feb 22, 2023 at 04:34:39PM -0700, Alex Williamson wrote:
-> > > +    /*
-> > > +     * With vIOMMU we try to track the entire IOVA space. As the IOVA space can
-> > > +     * be rather big, devices might not be able to track it due to HW
-> > > +     * limitations. In that case:
-> > > +     * (1) Retry tracking a smaller part of the IOVA space.
-> > > +     * (2) Retry tracking a range in the size of the physical memory.  
-> > 
-> > This looks really sketchy, why do we think there's a "good enough"
-> > value here?  If we get it wrong, the device potentially has access to
-> > IOVA space that we're not tracking, right?  
+> On Thu, Feb 23, 2023 at 12:27:23PM -0700, Alex Williamson wrote:
+> > So again, I think I'm just looking for a better comment that doesn't
+> > add FUD to the reasoning behind switching to a single range,   
 > 
-> The idea was the untracked range becomes permanently dirty, so at
-> worst this means the migration never converges.
+> It isn't a single range, it is a single page of ranges, right?
 
-I didn't spot the mechanics where that's implemented, I'll look again.
+Exceeding a single page of ranges is the inflection point at which we
+switch to a single range.
  
-> #2 is the presumption that the guest is using an identity map.
-
-This is a dangerous assumption.
-
-> > I'd think the only viable fallback if the vIOMMU doesn't report its max
-> > IOVA is the full 64-bit address space, otherwise it seems like we need
-> > to add a migration blocker.  
+> The comment should say
 > 
-> This is basically saying vIOMMU doesn't work with migration, and we've
-> heard that this isn't OK. There are cases where vIOMMU is on but the
-> guest always uses identity maps. eg for virtual interrupt remapping.
+> "Keep the implementation simple and use at most a PAGE_SIZE of ranges
+> because the kernel is guaranteed to be able to parse that"
 
-Yes, the vIOMMU can be automatically added to a VM when we exceed 255
-vCPUs, but I don't see how we can therefore deduce anything about the
-usage mode of the vIOMMU.  Users also make use of vfio with vIOMMU for
-nested assignment, ie. userspace drivers running within the guest,
-where making assumptions about the IOVA extents of the userspace driver
-seems dangerous.
-
-Let's backup though, if a device doesn't support the full address width
-of the platform, it's the responsibility of the device driver to
-implement a DMA mask such that the device is never asked to DMA outside
-of its address space support.  Therefore how could a device ever dirty
-pages outside of its own limitations?
-
-Isn't it reasonable to require that a device support dirty tracking for
-the entire extent if its DMA address width in order to support this
-feature?
-
-If we can make those assumptions, then the vfio driver should happily
-accept a range exceeding the device's DMA address width capabilities,
-knowing that the device cannot dirty anything beyond its addressable
-range.
-
-> We also have future problems that nested translation is incompatible
-> with device dirty tracking..
-
-:-\  Thanks,
+Something along those lines, yeah.  And bonus points for noting that
+the kernel implementation is currently hard coded at this limit, so
+there's no point in trying larger arrays as implied in the uAPI.
+Thanks,
 
 Alex
 
