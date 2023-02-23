@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931C26A1286
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:04:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A2A6A128B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:05:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVJhE-0003YX-BN; Thu, 23 Feb 2023 17:04:12 -0500
+	id 1pVJht-0004cR-NK; Thu, 23 Feb 2023 17:04:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVJhC-0003YA-3B
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:04:10 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from
+ <3-eL3YwYKCsQ2okxtmqyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--seanjc.bounces.google.com>)
+ id 1pVJhm-0004bz-6S
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:04:47 -0500
+Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVJhA-0003Gx-Bg
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:04:09 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id p16so7903604wmq.5
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 14:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=A+/Zrv73fk9zwP5dPTfpPsyKAPTq/JZVT85L0gd3xDE=;
- b=pj/T/AwsLSJPnHrxYFjP1pbd7ruWk4QhJPhfnAgaPdKiMw0U/V5kjAAc1XCeyOZEcn
- PX4pJ7PBsXepFlkxTGRCQCRfDSvKe08v88409l+EXbKg4yOnOj/XkqOuCveG6SAoHAh0
- nzgsY6NQWfVKcKMiwH4dAMNDsuCLsIc061S4LnXYD1jetR+YLzWMtRN66BPKd9IOKi+c
- WmSdATh6C6sC0yTwGdvM1C1/pyWJSv9U96JAlS1chh3yjxH3tq69DnU7qoLAGtI8bXOV
- 6iLm1PR0iSAbz05kLx5L7fPEQC6kfuhemL/xO4IGOlOh2ZEZzM3uYn4rEmlOa1kGvVDb
- iLjA==
+ (Exim 4.90_1) (envelope-from
+ <3-eL3YwYKCsQ2okxtmqyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--seanjc.bounces.google.com>)
+ id 1pVJhk-0003J1-9W
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:04:45 -0500
+Received: by mail-pj1-x1049.google.com with SMTP id
+ gf1-20020a17090ac7c100b002369bf87b7aso240636pjb.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 14:04:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=op+oy1YDQ7KvdZybV8OQUjUsRVDUyPKIIdxPtDryYlQ=;
+ b=loBUhV2zLEQLuXPAW0C42cV8HChQm+pD/ZksSVAMsDKYrQdAR3kp9e9EJq4/oYonCT
+ bkTf7yAdDIo6UGCpl9Qrmya6clGcxszcv4f25JRukUVThLzanXyrYQJ9vIjFMDF2LpvR
+ hDgLQqCguoqdP6p43Mjdij9EHG/hnrHRMrt/QvC5L35IHXK5AjHSqu0tDk/4XkBRNHn3
+ x5gKkgDmQ+cxcN2X6vAf6lJyVYtfYS/H81gwvSRPAWl4rTcZvf3W2Gjdo8hWTH30njae
+ /mZZd4VR+cDnHLfmh/nxOMWOzWA8lyKh0OrsOW0Ztc3+LKv77rHYp1iodZo8My1zLiJM
+ HDPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=A+/Zrv73fk9zwP5dPTfpPsyKAPTq/JZVT85L0gd3xDE=;
- b=YyB7R019uKOMoxNzNvlXDPQb54ePwwrEM8d1w7I1kq+SQM8lEAL62bsm8XAvwwqbcR
- pUkMJqoqYFfX9wKuQ/g7M9VWA2Xx1RLW9+R/CK5F5Y38tuv8I61oX2fmhc5/C73WVOpj
- EMHhzhUiPboVJoHQURNdQrIlnx4ETUdeq6xSbwMFZLZHAC6S3BuzbAvhJkz4sLX2jUUr
- xCuX6MmIZL8c0Tu4lHvSnopdooCVrtRnLv4QIvl4WiuIYtu/3fzFGyB6/rRXrvqxOomw
- PdBJdLtBdiHcmmgOFUM3kM+hoXR7bCL4LtugRf+LQl5RYRuAq/4JgmRaotoY1622A9Uk
- IDBg==
-X-Gm-Message-State: AO0yUKWl+XeNNtD5rqwa1cRoNvYJRA19FFyomksa3qgmK7UwwXPo5tUa
- H2LCqsgJGYoloMuD/GcKU20DuPmdHKbMAp9t
-X-Google-Smtp-Source: AK7set+4V6gKMlRKKxMRGRInNye4/GcmnaYPEVkUINur91X1pstV6UPVI8URucUzKHjTFtOiNDdUCg==
-X-Received: by 2002:a05:600c:328f:b0:3ea:e4bb:4e93 with SMTP id
- t15-20020a05600c328f00b003eae4bb4e93mr1086871wmp.10.1677189846443; 
- Thu, 23 Feb 2023 14:04:06 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- c11-20020a7bc00b000000b003e91b9a92c9sm598475wmb.24.2023.02.23.14.04.05
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 14:04:06 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Huth <thuth@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH] tests/avocado: Enable TuxRun/mips64 (big-endian) test
-Date: Thu, 23 Feb 2023 23:04:04 +0100
-Message-Id: <20230223220404.63630-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=op+oy1YDQ7KvdZybV8OQUjUsRVDUyPKIIdxPtDryYlQ=;
+ b=t4tpl5tPgqpEFfLJcIrz9RpT2GuNlNK/Ry5aMWuqee9CorZaBp4m0OXTrq4QwNIl4r
+ FeL5NGY/9QfIpxEn6fmg4Z+TOehQcExbUxU9umUD0syvI7/OUdGJWDy++Av/zraME2zM
+ 8rdNC/1afz7yN5sBOVJ/kXio+DC6VBAjl7cu34ITbxMhGDdPUQiZCPhUYCOoBhbMsPKB
+ VMfjg0mj5dGDWo03JBpaT2wrCgaiMrWKDjPaArhnxi83ZrlRtuno96khi4QR3hsJgtiA
+ DhNeW6s3KEwWVFOioQfn5YzHkGlHAQfkq1/KYYcB/UocZr+e6Tg6U7HHiiOu2NPodngA
+ QSxg==
+X-Gm-Message-State: AO0yUKUxAYGXtcIQvtlRTed1kWcvuB9tQU6J2AFZ4G/11NPORhJcs26C
+ VagExL8sHJ0spcRfR/7oRfK7Rs2HWEk=
+X-Google-Smtp-Source: AK7set+y2SobsE7Atxlq3uiiFWoOB6fnx5tYBQ74THwpR6KRCJyGX9C9kHG0Txo1l5oIjPYqGARtUtw1MR0=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:7e41:b0:196:433e:2378 with SMTP id
+ a1-20020a1709027e4100b00196433e2378mr2165787pln.4.1677189881819; Thu, 23 Feb
+ 2023 14:04:41 -0800 (PST)
+Date: Thu, 23 Feb 2023 14:04:39 -0800
+In-Reply-To: <87o7qof00m.fsf@secure.mitica>
+Mime-Version: 1.0
+References: <87o7qof00m.fsf@secure.mitica>
+Message-ID: <Y/fi95ksLZSVc9/T@google.com>
+Subject: Re: Fortnightly KVM call for 2023-02-07
+From: Sean Christopherson <seanjc@google.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org, 
+ Markus Armbruster <armbru@redhat.com>, Paul Moore <pmoore@redhat.com>,
+ peter.maydell@linaro.org
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
+ envelope-from=3-eL3YwYKCsQ2okxtmqyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--seanjc.bounces.google.com;
+ helo=mail-pj1-x1049.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,32 +89,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that the previous commit ("hw/mips/gt64xxx_pci: Don't
-endian-swap GT_PCI0_CFGADDR") fixed the issue accessing
-the GT64120 PCI config-address register on big-endian
-targets, we can enable this TuxRun test.
+On Tue, Jan 24, 2023, Juan Quintela wrote:
+> Please, send any topic that you are interested in covering in the next
+> call in 2 weeks.
+> 
+> We have already topics:
+> - single qemu binary
+>   People on previous call (today) asked if Markus, Paolo and Peter could
+>   be there on next one to further discuss the topic.
+> 
+> - Huge Memory guests
+> 
+>   Will send a separate email with the questions that we want to discuss
+>   later during the week.
+> 
+> After discussions on the QEMU Summit, we are going to have always open a
+> KVM call where you can add topics.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
-Based-on: <20230223161958.48696-1-jiaxun.yang@flygoat.com>
-https://lore.kernel.org/qemu-devel/20230223161958.48696-1-jiaxun.yang@flygoat.com/
----
- tests/avocado/tuxrun_baselines.py | 1 -
- 1 file changed, 1 deletion(-)
+Hi Juan!
 
-diff --git a/tests/avocado/tuxrun_baselines.py b/tests/avocado/tuxrun_baselines.py
-index 30aaefc1d3..c06e90986f 100644
---- a/tests/avocado/tuxrun_baselines.py
-+++ b/tests/avocado/tuxrun_baselines.py
-@@ -276,7 +276,6 @@ def test_mips32el(self):
-         """
-         self.common_tuxrun()
- 
--    @skip("QEMU currently broken") # regression against stable QEMU
-     def test_mips64(self):
-         """
-         :avocado: tags=arch:mips64
--- 
-2.38.1
+I have a somewhat odd request: can I convince you to rename "KVM call" to something
+like "QEMU+KVM call"?
 
+I would like to kickstart a recurring public meeting/forum that (almost) exclusively
+targets internal KVM development, but I don't to cause confusion and definitely don't
+want to usurp your meeting.  The goal/purpose of the KVM-specific meeting would be to
+do design reviews, syncs, etc. on KVM internals and things like KVM selftests, while,
+IIUC, the current "KVM call" is aimed at at the entire KVM+QEMU+VFIO ecosystem.
+
+Thanks!
 
