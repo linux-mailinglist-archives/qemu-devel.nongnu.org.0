@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BE46A07A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 12:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62436A07AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 12:48:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVA4o-0001WK-4v; Thu, 23 Feb 2023 06:47:54 -0500
+	id 1pVA5O-0002bu-Lv; Thu, 23 Feb 2023 06:48:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1pVA4l-0001NK-Oy
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:47:51 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1pVA4j-0000c4-5F
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:47:51 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- cp7-20020a17090afb8700b0023756229427so3699294pjb.1
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 03:47:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fbhByCHoHkXbBXvkduKPz5Tj3umxiCtxl72gWzW9RQY=;
- b=MBTqHYwDLPEZC5SCAdTTYuR1dX7mnGnYKQk3qpHTlDJNMd7uvMUU1X3XKszBh+Zf/r
- Uizk6QossuIbWehT2BHc24x74tqdJrvYqM+kDEYfI9ky6gYZhA0oFvNWilYcsK/UKinB
- LDsHuB44qYIdUBDIdB2OIu/3zLt83HhYfA6rXx5IPB6Z3l8Y6Rj4utn5tvBZCfnl5GCh
- ajPQ3VD1fybWIqGsUb4J66YzfpIU5xqq0lXl8aSjc7yJ9XRM8R6ov2B8+wo1oUHtxwFO
- qIGryWBo2AFaeslYw8ArucgWjTfqUh7MU7kPNy6fCj39asitmdx+TJN+psUnjdd+Usgf
- EOqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fbhByCHoHkXbBXvkduKPz5Tj3umxiCtxl72gWzW9RQY=;
- b=lNYJdGSWxWimhxe/8bXLfqO906QiF/LjTL6zBhhTcBajm8nke/phuFD19L0jTRRhUk
- LxJ/kGvRHb5+x2u2ocS6205KSWRfs1Uh1pC9XROz5sZLWQ+rLZtfHnJrjt9+kjNcatXO
- 6sS5R/sDwsrTPGP655BIWaltxKW0WFrZbDdMiNFrIOvIIDtqi+r2dgX+DrZ48m8NGxjU
- 5LMKRZIIU6Swxe8z2X8sAUe6mZ4NmDlz5TYbGj1XCRp6FflioMdZYD8kmyJI8mtHOgfZ
- Dn46mO60K1X5xlAjBkZTAx9MqueiE6yLbKDmkCMimgy39WOpjkKKVNFo+SkBwCq69Bo4
- BoWA==
-X-Gm-Message-State: AO0yUKVfl6a55q9JfAy2bSu4ivN4brTs1iVTqUeUsB5R3wunlu+yepmM
- zw3XAa+gqw8LPoiwpbVYjqBMJA==
-X-Google-Smtp-Source: AK7set/O2n22s82cGVITEaT+2DfgSJLkC39YXs+OKYMS9SRfBnJtLtEkGwQmZh3CdCeokGNu7cW3TQ==
-X-Received: by 2002:a17:90b:350f:b0:234:e5c2:b92c with SMTP id
- ls15-20020a17090b350f00b00234e5c2b92cmr13729411pjb.15.1677152867298; 
- Thu, 23 Feb 2023 03:47:47 -0800 (PST)
-Received: from [10.4.116.91] ([139.177.225.228])
- by smtp.gmail.com with ESMTPSA id
- f20-20020a633814000000b00502e918fee3sm2738976pga.60.2023.02.23.03.47.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 03:47:47 -0800 (PST)
-Message-ID: <b10cb43d-f5c3-be35-cb53-e1aca84836b3@bytedance.com>
-Date: Thu, 23 Feb 2023 19:47:41 +0800
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVA5L-0002W7-Uo
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:48:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVA5K-0000qx-7V
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:48:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677152905;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sqtwwUGoQmHGy1bMQ/wwb10V9kgkYbkqlDYI2174xQg=;
+ b=C25tvvqu1cHkftn7gb1pskkaIynkcCdtqpJojMvBrTHQJwtciscBr06JOjanQmFvA0faPe
+ UoH5P/5j7wMl+49awJX/kQPmdiw9qNraUATgSwSgyJgSd1hA90Z2GzvuFXcQNREacMIKze
+ NeHAIRqnfSfD9dnAw2LKomQ0VWqxzEU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-52-HiJhsVdcNGi4WU5He13aTg-1; Thu, 23 Feb 2023 06:48:21 -0500
+X-MC-Unique: HiJhsVdcNGi4WU5He13aTg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99ED33C0E458;
+ Thu, 23 Feb 2023 11:48:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 595622026D4B;
+ Thu, 23 Feb 2023 11:48:20 +0000 (UTC)
+Date: Thu, 23 Feb 2023 12:48:18 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/23] block: Lock the graph, part 2 (BlockDriver
+ callbacks)
+Message-ID: <Y/dSgm564nCLaAjx@redhat.com>
+References: <20230203152202.49054-1-kwolf@redhat.com> <Y/VCFcYsqMmEF0zc@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: Questions about how block devices use snapshots
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
- <Y7wdTurqBjWXIGmo@redhat.com>
- <12bfc9a0-45e0-21f2-3d50-988ea2ad80c8@bytedance.com>
- <Y/TqNIz9EEXaop/Q@redhat.com>
- <2a5594e9-11b4-2ce8-c09c-3d75a0c87732@bytedance.com>
- <Y/dQfG9380DPjQ6j@redhat.com>
-From: Zhiyong Ye <yezhiyong@bytedance.com>
-In-Reply-To: <Y/dQfG9380DPjQ6j@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=yezhiyong@bytedance.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7wNJEcDXCALcuGgt"
+Content-Disposition: inline
+In-Reply-To: <Y/VCFcYsqMmEF0zc@fedora>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,64 +78,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Kevin,
 
-Thank you for your patience and explanations.
+--7wNJEcDXCALcuGgt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks again!
+Am 21.02.2023 um 23:13 hat Stefan Hajnoczi geschrieben:
+> On Fri, Feb 03, 2023 at 04:21:39PM +0100, Kevin Wolf wrote:
+> > After introducing the graph lock in a previous series, this series
+> > actually starts making widespread use of it.
+> >=20
+> > Most of the BlockDriver callbacks access the children list in some way,
+> > so you need to hold the graph lock to call them. The patches in this
+> > series add the corresponding GRAPH_RDLOCK annotations and take the lock
+> > in places where it doesn't happen yet - all of the bdrv_*() co_wrappers
+> > are already covered, but in particular BlockBackend coroutine_fns still
+> > need it.
+> >=20
+> > There is no particularly good reason why exactly these patches and not
+> > others are included in the series. I couldn't find a self-contained part
+> > that could reasonable be addressed in a single series. So these just
+> > happen to be patches that are somewhat related (centered around the
+> > BlockDriver callback theme), are ready and their number looks
+> > manageable. You will still see some FIXMEs at the end of the series
+> > that will only be addressed in future patches.
+>=20
+> Two things occurred to me:
+>=20
+> 1. The graph lock is becoming the new AioContext lock in the sense that
+> code using the block layer APIs needs to carefully acquire and release
+> the lock around operations. Why is it necessary to explicitly take the
+> rdlock in mirror_iteration()?
+>=20
+>   + WITH_GRAPH_RDLOCK_GUARD() {
+>         ret =3D bdrv_block_status_above(source, NULL, offset,
+>=20
+> I guess because bdrv_*() APIs are unlocked? The equivalent blk_*() API
+> would have taken the graph lock internally. Do we want to continue using
+> bdrv APIs even though it spreads graph locking concerns into block jobs?
 
-Zhiyong
+The thing that makes it a bit ugly is that block jobs mix bdrv_*() and
+blk_*() calls. If they only used blk_*() we wouldn't have to take care
+of locking (but that means that the job code itself must not have a
+problem with a changing graph!). If they only used bdrv_*(), the
+function could just take a lock at the start and only temporarily
+release it around pause points. Both ways would look nicer than what we
+have now.
 
-On 2/23/23 7:39 PM, Kevin Wolf wrote:
-> Am 23.02.2023 um 08:35 hat Zhiyong Ye geschrieben:
->> Hi Kevin,
->>
->> Thank you for your reply and this method works.
->>
->> May I ask if this 'image-end-offset' field can be shown in the qemu-img info
->> too? Because it is also a very useful information whether qcow2 is placed on
->> a file or a block device.
-> 
-> The only way to know the largest offset is by looking at all the
-> metadata in qcow2. 'qemu-img info' is supposed to be very fast, so we
-> don't do that there. 'qemu-img check' already looks at all metadata, so
-> we have the number readily available there.
-> 
-> Kevin
-> 
->> On 2/21/23 11:58 PM, Kevin Wolf wrote:
->>> Am 21.02.2023 um 14:27 hat Zhiyong Ye geschrieben:
->>>>
->>>> Hi Kevin,
->>>>
->>>> Sorry to bother you again.
->>>>
->>>> I intend to use this approach for snapshots of block devices, which, as you
->>>> say, requires a lot of disk space to store snapshot data. So, to save disk
->>>> space, after each successful external snapshot creation, I want to shrink
->>>> the block device that stores the backing_file image to the size that qcow2
->>>> data actually occupies, since it has become read-only. But there is no way
->>>> to get the actual size of qcow2 when it is stored in a block device.
->>>>
->>>> Qemu-img info can easily get the actual size of qcow2 when it is stored in a
->>>> file using the fstat function, but this will fail and return 0 for block
->>>> devices. Therefore, it is necessary to implement the method of getting data
->>>> occupancy inside qcow2. I think there may be two possible ways to do this:
->>>>
->>>> - Add a cluster count field @nb_clusters in the BDRVQcow2State for each new
->>>> cluster allocated and the actual size occupied by qcow2 is: nb_clusters *
->>>> cluster_size.
->>>> - Iterate through the refcount block to find the value with the largest host
->>>> offset, and this is the actual size occupied by qcow2.
->>>>
->>>> Since I'm not very familiar with qcow2, may I ask if you have any advice on
->>>> getting the actual size when using qcow2?
->>>
->>> I think what you need is the 'image-end-offset' field from 'qemu-img
->>> check --output=json'.
->>>
->>> Kevin
->>>
->>
-> 
+> 2. This series touches block drivers like qcow2. Luckily block drivers
+> just need to annotate their BlockDriver functions to indicate they run
+> under the rdlock, a lock that the block driver itself doesn't mess with.
+> It makes me wonder whether there is any point in annotating the
+> BlockDriver function pointers? It would be simpler if the block drivers
+> were unaware of the graph lock.
+
+If you're unaware of the graph lock, how do you tell if you can call
+certain block layer functions that require the lock?
+
+Especially since different BlockDriver callbacks have different rules
+(some have a reader lock, some have a writer lock, and some may stay
+unlocked even in the future), it would seem really hard to keep track of
+this when you don't make it explicit.
+
+Kevin
+
+--7wNJEcDXCALcuGgt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmP3UoIACgkQfwmycsiP
+L9Yc9RAAujJkk9yNZnSsatnnu3FduEyK+4sB5ibW3p2DJurAldzL8xsB2tKgzI86
+C2GugGn9udU5TsVSwyOehEHptXZBVIJrrMs/gBk5gkjIFdd70D73Xir0heiI6ZvD
+vH6Lm4dMMeB24RtrkDMvqJoX5TwtcHllav2OWiOOJI5FzBH37xwBGbpiZgaUBfoO
+X5hj9ILuNJN41u7KpBHwfXqaHTg0KxDXxOYo55WKYwEtGXx68gJ0FKydoBp4egfD
+j7oTTFIGzugIIhVWBa3B3+f1XCtjhdx0dOhQ17TnJJwohPhFyOs/BI0q3x1O6hfj
+KhP1SWDWE8pwlGB/r3I2ZR3ERA8Z2Xz2OsCPT+VUU11zQp3uZDjA7YARUHcFHHf9
+xCfz3SeBqwFjX87njWrlAAh9Gn+hBck/Yhl1iEylVsXBaAwZBUO/l8C7m2IAbZ5T
+zuVd/mVNtgg/A+6pM+4Y3n30qo9e9vZHF/Voia7K0RPYtP7zuhHfB951kDzIpy9a
+55c6EEU71DYw4p8Co6kIc0OUtxRSYzR5f+24ypSd5iS+BOnwkn75G95zhjy9r/G/
+9A08t89WSYcBri7l45hzn1WT8dcdhWnvonSJYEV2oI5IF4nRKX6NQYh995+6URWJ
++CjALkGdM5m0HQfkzdICqzJdko9GMVgyV3du8yx4DzE6wftWsZw=
+=zf5q
+-----END PGP SIGNATURE-----
+
+--7wNJEcDXCALcuGgt--
+
 
