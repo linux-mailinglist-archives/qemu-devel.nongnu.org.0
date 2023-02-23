@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A046A1214
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 22:32:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4896A6A1215
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 22:32:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVJCP-0002GI-Q5; Thu, 23 Feb 2023 16:32:21 -0500
+	id 1pVJCh-0002f3-1S; Thu, 23 Feb 2023 16:32:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVJCD-00029t-PP
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:32:12 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVJCd-0002Wu-1g
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:32:37 -0500
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVJCB-0002oN-SZ
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:32:09 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- fm20-20020a05600c0c1400b003ead37e6588so573546wmb.5
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 13:32:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVJCb-0002rD-AO
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:32:34 -0500
+Received: by mail-pl1-x642.google.com with SMTP id s5so14565097plg.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 13:32:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Oo/G3OAvGL5czVH/dZx/1p1bi09xf4OSuuCzt2q+1+E=;
- b=kq5eHJJvIDHejzm5jZOp7zUFgbLNsvBWGpawqo8BTY27aa6c3FxXSJnjvcUKQmU0fk
- TN+Sht48HUr+Q4DDT8ZhATqsWgjeFqDdbbdPD9iHQXZeVboC69v194iUNpsSiGC87MRp
- /SnZjxxfVhyTX1fQkB1Er91WsbZ0f3aFoOgRVc0rgWg5M7r3jc3IJHB4f2QzhkoxINJ4
- 8fMiSp3OGj5QAzaMse8n5EXyzM1RZ+KY5NhxwWzJK07Tegsan0Bj9nroc4xHup6EiZTa
- MBdTWPyHneiefLYisnnIo/qX2jMCALA2ssSR0VHkSxdRqTx5kzvSJe3HOeSwcuvhvEGF
- BmgQ==
+ bh=jLiM6BgnMyNKgPFHwQeyvRMgqpVZmkZwEF6a07MBfzo=;
+ b=LlLZ/zBmf8eAidupjR/KzhFW4T7M0+EHljCvC/ddzRcEHftTE+aJ6TSDExrMJI3EVN
+ gTFtLEQuOjdbqgLFYLpkBNxtRy3FAUUFQUodPxq46t5YI8WDmNBxyaVMtk2wj3xSPSWt
+ YOsvyU1v6LAJlbpAoFhYWYwFyTtrS9JxQDhPb+UxezwvHrOhHWAADJKsprUytrPHBrGr
+ gbzrf4AEYUtDy3tui6gjT3Nu+MVtwe/j0i/U/NiOCByz2YuOVsfSHEXJyrBxPE1XmnoW
+ DY1seVc2j/duaIx47RJGuAwGaI4AK8cZEBUenGUr2okqX1UZlsl8oPbSDIAMaTRrwJxZ
+ A6rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Oo/G3OAvGL5czVH/dZx/1p1bi09xf4OSuuCzt2q+1+E=;
- b=jwn8Rm2hl9IOjXcC+r19PdoLseuhkChzGHIjLJlMzOqCLMkx5GQbByvRsk018llI/E
- 0/vVUpHY+8CWbrQ/USNs4nCXX3BrLwHAtonG+24SsfqbWOCs6f7JOyvVgjiZ4ksoaiAz
- YpmL5WR4N7sU3HE+FCal/6c8fkDDI8+MXforJVYstROyCLyRKJrhWvZ52DbqvOd2LhLh
- 8pEJv95AFm63B7v0dDQb1qquvzTNNWks1SWclZSh5XsHylSLdaMHBwRCnqBG/Avd6d4p
- lg9He7aLKXmBrkPJN6Yf4WnPot+Q7xLvUoIiuTnI7CpVvKvt9/CTcFuRohXUO2zGUotO
- Virw==
-X-Gm-Message-State: AO0yUKVpt1rBLPWUa6a5AoWqrIEMKqlu4LjnpcHImdh8LzdqLW2UtWVa
- TJaOnGiebn3imHM/JaH1vaBe/ZAwiphQOL5d
-X-Google-Smtp-Source: AK7set98OEZeHCBuOl/DaqBL+TwqbTGQolnb47g+0o2GH9YqSL/7SXq06qItgwa4ZA2D+c/klHztXw==
-X-Received: by 2002:a7b:c384:0:b0:3ea:d620:570a with SMTP id
- s4-20020a7bc384000000b003ead620570amr1447636wmj.38.1677187925963; 
- Thu, 23 Feb 2023 13:32:05 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- c11-20020a7bc00b000000b003e91b9a92c9sm526394wmb.24.2023.02.23.13.32.04
+ bh=jLiM6BgnMyNKgPFHwQeyvRMgqpVZmkZwEF6a07MBfzo=;
+ b=K8HJK/U86muq7cUZoN3GEjM2Y/o5VmuOAO5ksh4qWMQA1BQHLcHLByOPE2RoXUDl6v
+ JCFa9waabpZ0eN3EUvZ/YlK01H1glUti9GBBsEqS5mb7Jbjl1oJxmE6AuSlvHm+JGOPs
+ UwdZJl/S24WglUtkkyLdr+cwsN9tmLS3fQuVJTM4PShmdzutsvwVef1TjbJN3aeUHRGO
+ BpY+xe9lJb3pQkV7qfqKZa8UuDeTVOaAguWjD6HBmUFJQ5FL+Be9GFsDU/Gue4Ur82bv
+ m4gWd0Lx/eBz3C0AiBdm5W+e5kHS2Rg4pI5hNXIUxbVy990J5L1Efr2zGypsqJXl0eKv
+ mOKw==
+X-Gm-Message-State: AO0yUKVoFWCIrt3IlUegg6Kw3kVdbZ1uB5XL7q5nv88s5T8p3oKyOr5w
+ OtH7WKpjb9lGE8AlmWJp/lQAgw==
+X-Google-Smtp-Source: AK7set9RnEZzfrSBWBVxHGMht5/bE3dhNgWmGc+dRR2UPSxZiIJ/wX646yvxNFEPKzZO/LEwkL7Maw==
+X-Received: by 2002:a17:902:d50b:b0:19a:97e0:60e8 with SMTP id
+ b11-20020a170902d50b00b0019a97e060e8mr15700523plg.29.1677187951701; 
+ Thu, 23 Feb 2023 13:32:31 -0800 (PST)
+Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ a3-20020a1709027d8300b0019a837be977sm3258729plm.271.2023.02.23.13.32.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 13:32:05 -0800 (PST)
-Message-ID: <672b980b-e86d-df20-6589-6dc626a9e5b6@linaro.org>
-Date: Thu, 23 Feb 2023 22:32:04 +0100
+ Thu, 23 Feb 2023 13:32:31 -0800 (PST)
+Message-ID: <d35d052f-758b-5149-8408-791a3d68aa99@linaro.org>
+Date: Thu, 23 Feb 2023 11:32:27 -1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 10/13] accel/tcg: Add tlb_fill_flags to CPUTLBEntryFull
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2] softmmu: Use memmove in flatview_write_continue
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-References: <20230223204342.1093632-1-richard.henderson@linaro.org>
- <20230223204342.1093632-11-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230223204342.1093632-11-richard.henderson@linaro.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
+References: <20230131030155.18932-1-akihiko.odaki@daynix.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230131030155.18932-1-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -92,20 +95,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/2/23 21:43, Richard Henderson wrote:
-> Allow the target to set tlb flags to apply to all of the
-> comparators.  Remove MemTxAttrs.byte_swap, as the bit is
-> not relevant to memory transactions, only the page mapping.
-> Adjust target/sparc to set TLB_BSWAP directly.
+On 1/30/23 17:01, Akihiko Odaki wrote:
+> We found a case where the source passed to flatview_write_continue() may
+> overlap with the destination when fuzzing igb, a new proposed network
+> device with sanitizers.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> igb uses pci_dma_map() to get Tx packet, and pci_dma_write() to write Rx
+> buffer. While pci_dma_write() is usually used to write data from
+> memory not mapped to the guest, if igb is configured to perform
+> loopback, the data will be sourced from the guest memory. The source and
+> destination can overlap and the usage of memcpy() will be invalid in
+> such a case.
+> 
+> While we do not really have to deal with such an invalid request for
+> igb, detecting the overlap in igb code beforehand requires complex code,
+> and only covers this specific case. Instead, just replace memcpy() with
+> memmove() to tolerate overlaps. Using memmove() will slightly damage the
+> performance as it will need to check overlaps before using SIMD
+> instructions for copying, but the cost should be negligible, considering
+> the inherent complexity of flatview_write_continue().
+> 
+> The test cases generated by the fuzzer is available at:
+> https://patchew.org/QEMU/20230129053316.1071513-1-alxndr@bu.edu/
+> 
+> The fixed test case is:
+> fuzz/crash_47dfe62d9f911bf523ff48cd441b61c0013ed805
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> Acked-by: Alexander Bulekov <alxndr@bu.edu>
 > ---
->   include/exec/cpu-defs.h   | 3 +++
->   include/exec/memattrs.h   | 2 --
->   accel/tcg/cputlb.c        | 5 +----
->   target/sparc/mmu_helper.c | 2 +-
->   4 files changed, 5 insertions(+), 7 deletions(-)
+> V1 -> V2: Correct spellings in the message
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Queued to tcg-next.
+
+
+r~
+
+> 
+>   softmmu/physmem.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index cb998cdf23..3cd27b1c9d 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -2828,7 +2828,7 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
+>           } else {
+>               /* RAM case */
+>               ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
+> -            memcpy(ram_ptr, buf, l);
+> +            memmove(ram_ptr, buf, l);
+>               invalidate_and_set_dirty(mr, addr1, l);
+>           }
+>   
 
 
