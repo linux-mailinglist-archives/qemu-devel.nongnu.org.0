@@ -2,96 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E0B6A12F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA21A6A1309
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:51:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKLL-0006K2-45; Thu, 23 Feb 2023 17:45:39 -0500
+	id 1pVKPM-0008J2-Ad; Thu, 23 Feb 2023 17:49:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVKLI-0006J3-9t
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:45:36 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVKLG-000666-29
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:45:36 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31NKYJP3032160; Thu, 23 Feb 2023 22:45:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Is2VR/hpznL6aw54eQF4blOBS2Wr0rbO4cTjqpOZn0g=;
- b=euWutCoQYYxxN8tsWCZe3kdwtRd9cDvnwWHTWHZR2bDA3/m4wpa5hwbDWOUC9K8XuGTM
- S0HzENAoe1GXL61dPgjc8Cue5GTMEGA9kr4qMREPJDXnuF2TOsGvfPUGf9fFpW27KUsX
- obV0ozsFI8SXPr0CAu1ctaolCRPXnMPjeOED5p5q2Nx5Y4X5txmDSyR2CKv97tFOBN8U
- vdr76oN/8YEkskZp30uVpiWiIGIW/9q63cgpVcldC93p/Hxya9HgoR6uuWK211qA8/9o
- WUJv9d1giHLDLazUAyZWI4lB5g89kR5rdQURVepssV5OHW6NkN7v+T5oK+GhlWae+ZGz hQ== 
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nxenmbx3r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 22:45:29 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31N75I9r001634;
- Thu, 23 Feb 2023 22:45:27 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3ntpa65fnp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 22:45:27 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31NMjPZX29491470
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Feb 2023 22:45:25 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1011D2005A;
- Thu, 23 Feb 2023 22:45:25 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9726F20063;
- Thu, 23 Feb 2023 22:45:24 +0000 (GMT)
-Received: from [9.179.17.238] (unknown [9.179.17.238])
- by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 23 Feb 2023 22:45:24 +0000 (GMT)
-Message-ID: <c372cbd88605a19f4d5840cf5d7719f7a8165adb.camel@linux.ibm.com>
-Subject: Re: [PATCH 1/2] linux-user: Fix unaligned memory access in
- prlimit64 syscall
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Alex
- =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
-Date: Thu, 23 Feb 2023 23:45:24 +0100
-In-Reply-To: <f4d837ce-1a2a-9e7d-4499-76820d6fdc36@linaro.org>
-References: <20230223215834.166055-1-iii@linux.ibm.com>
- <20230223215834.166055-2-iii@linux.ibm.com>
- <f4d837ce-1a2a-9e7d-4499-76820d6fdc36@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: TVKhd0QsAwTbFXv1ajtMry45N6xp4Jpp
-X-Proofpoint-GUID: TVKhd0QsAwTbFXv1ajtMry45N6xp4Jpp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-23_13,2023-02-23_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- clxscore=1015 adultscore=0 mlxlogscore=999 lowpriorityscore=0
- malwarescore=0 priorityscore=1501 spamscore=0 phishscore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302230187
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1pVKPJ-0008Gj-RN
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:49:45 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1pVKPH-0007q3-Kq
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:49:45 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ m3-20020a17090ade0300b00229eec90a7fso5208336pjv.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 14:49:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=QQBU9k/QxVKceMOy3CGKDHpENVCP8QZpPc+ABlkMDzA=;
+ b=5WBnfriRWHPDJuP6XgGT82ZZCVbos5E1GF7FtE00fuAuJ0xXNTh3mcEFxdF3UovWZ3
+ lBEhzm8Ccjt0CNz/Wz8FuO8CABxyi8FzDgE6V+UtJ6w8w6BT0a9Mh4W5zD8g5Lu0X7fH
+ 2SELcACpma6F81bW9U6xrH2cq60D2l13DGkux6Fu23AIw9uL8UIuPQw0lpZHnGaM52dV
+ iwbIMSXGCXpia/BXvymgPFd6+zXjCljHT3i9Pdj/o9S6ms2rG7lcPpedlyAv2S6u+4tW
+ bQGDG+UG4ee1Mdr8S44n5I+qxJdd6wxhefhB7OdpzOehbqbdrHThtzIfHjacrcbuWcJO
+ 99yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QQBU9k/QxVKceMOy3CGKDHpENVCP8QZpPc+ABlkMDzA=;
+ b=W97ALzlqSHLbsh+2MIZtWMNGDGoE4x4p31d3AA8iRBbTVP4KcVCB4ctQnZKZ/t4Owa
+ XOEWDWC84ZctOboxcpNwMxvFzrLS7J/UjEjgudCVv/Y8adkx3BqDaxaQqejNqFzvc7zY
+ 1mm0p9dMcrrS+OoFhP0MEwKkR+4LzLp2QmI1aPQ1sxECbwRpqPwXWmNQehRQUHRxjI/V
+ nZYGQkxeIozlKVN55gu8XckaxbncAZsJN5brh6PrKQwrKQK9BaTH+apWwifdCo4HOfZo
+ 3zGBrlo0usAf7YvZV+f9uG/QmZk+gaVdiztF65lBghmcC5i5vblqHPzngCxhwiD0iaYJ
+ oZfQ==
+X-Gm-Message-State: AO0yUKWjl7RNEnmKPpBOisIyaEXnw6DNJmaALl7EPhZLw2wkPrR93DUo
+ Mp7z+j4NvIBKRQvla+D2SpGUHw==
+X-Google-Smtp-Source: AK7set+v3gtgI+BcGYy94Bgh3a4MCJVhxOibOgZ4GNRv+u85CuMnQkb2rYLAk+YLjKnRo9c6beIh9g==
+X-Received: by 2002:a17:903:707:b0:19c:b7a9:d4a4 with SMTP id
+ kk7-20020a170903070700b0019cb7a9d4a4mr4171947plb.37.1677192581308; 
+ Thu, 23 Feb 2023 14:49:41 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ ja17-20020a170902efd100b00196025a34b9sm9153184plb.159.2023.02.23.14.49.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Feb 2023 14:49:40 -0800 (PST)
+Date: Thu, 23 Feb 2023 14:49:40 -0800 (PST)
+X-Google-Original-Date: Thu, 23 Feb 2023 14:48:55 PST (-0800)
+Subject: Re: [PULL 0/9] Fourth RISC-V PR for QEMU 8.0
+In-Reply-To: <mhng-3ef3787a-321d-4a23-aa45-8831b3093ac5@palmer-ri-x1c9a>
+CC: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Peter Maydell <peter.maydell@linaro.org>, alex.bennee@linaro.org,
+ bmeng@tinylab.org
+Message-ID: <mhng-61abd1f7-4d76-42de-85b2-42466ec0673f@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=palmer@dabbelt.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,77 +89,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2023-02-23 at 12:31 -1000, Richard Henderson wrote:
-> On 2/23/23 11:58, Ilya Leoshkevich wrote:
-> > 32-bit guests may enforce only 4-byte alignment for
-> > target_rlimit64,
-> > whereas 64-bit hosts normally require the 8-byte one. Therefore
-> > accessing this struct directly is UB.
-> >=20
-> > Fix by adding a local copy.
-> >=20
-> > Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
-> > Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> > ---
-> > =C2=A0 linux-user/syscall.c | 12 +++++++-----
-> > =C2=A0 1 file changed, 7 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> > index a6c426d73cf..8ae7696d8f1 100644
-> > --- a/linux-user/syscall.c
-> > +++ b/linux-user/syscall.c
-> > @@ -12876,7 +12876,7 @@ static abi_long do_syscall1(CPUArchState
-> > *cpu_env, int num, abi_long arg1,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case TARGET_NR_prlimit64:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* args: pid, re=
-source number, ptr to new rlimit, ptr to
-> > old rlimit */
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct target_rlimit64 *tar=
-get_rnew, *target_rold;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct target_rlimit64 *tar=
-get_rnew, *target_rold, tmp;
->=20
-> The bug is that target_rlimit64 uses uint64_t (64-bit host
-> alignment), when it should be=20
-> using abi_ullong (64-bit target alignment).=C2=A0 There are quite a numbe=
-r
-> of these sorts of=20
-> bugs in linux-user.
->=20
->=20
-> r~
+On Wed, 22 Feb 2023 07:56:10 PST (-0800), Palmer Dabbelt wrote:
+> On Tue, 21 Feb 2023 08:43:47 PST (-0800), Peter Maydell wrote:
+>> On Fri, 17 Feb 2023 at 17:53, Palmer Dabbelt <palmer@rivosinc.com> wrote:
+>>>
+>>> The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
+>>>
+>>>   tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   https://github.com/palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230217
+>>>
+>>> for you to fetch changes up to e8c0697d79ef05aa5aefb1121dfede59855556b4:
+>>>
+>>>   target/riscv: Fix vslide1up.vf and vslide1down.vf (2023-02-16 08:10:40 -0800)
+>>>
+>>> ----------------------------------------------------------------
+>>> Fourth RISC-V PR for QEMU 8.0
+>>>
+>>> * A triplet of cleanups to the kernel/initrd loader that avoids
+>>>   duplication between the various boards.
+>>> * OpenSBI has been updated to version 1.2.
+>>> * Weiwei Li, Daniel Henrique Barboza, and Liu Zhiwei have been added as
+>>>   reviewers.  Thanks for the help!
+>>> * A fix for PMP matching to avoid incorrectly appling the default
+>>>   permissions on PMP permission violations.
+>>> * A cleanup to avoid an unnecessary avoid env_archcpu() in
+>>>   cpu_get_tb_cpu_state().
+>>> * Fixes for the vector slide instructions to avoid truncating 64-bit
+>>>   values (such as doubles) on 32-bit targets.
+>>
+>> This seems to have caused CI to decide it needs to rerun the
+>> 'docker-opensbi' job, which doesn't work:
+>> https://gitlab.com/qemu-project/qemu/-/jobs/3808319659
+>>
+>> I don't understand what exactly is going on here -- Alex,
+>> Bin, any ideas?
+>>
+>> Why do we build the firmware in CI if we have checked in
+>> binaries in pc-bios?
+>>
+>> Should .gitlab-ci.d/opensbi/Dockerfile really still be
+>> starting with Ubuntu 18.04 ? That is already older than our
+>> set of supported platforms, and falls out of support from
+>> Ubuntu in a couple of months.
+>
+> I just sent along a patch
+> <https://lore.kernel.org/r/20230222154938.9201-1-palmer@rivosinc.com/>.
+> I have no idea how to test it in the CI, though...
 
-Thanks, this helps.
+Nobody's replied, so I'm inclined to just drop the OpenSBI bump and 
+re-send the PR.  At least that way we can avoid getting blocked on the 
+CI issues.  There's some more in flight so there'll probably be a 5th 
+round before the freeze either way, at least this way the stuff that 
+works can avoid getting blocked.
 
-I thought that unaligned accesses were illegal no matter what, e.g., on
-sparc64, but turns out the compiler is actually smart enough to handle
-them:
-
-#include <stdint.h>
-typedef uint64_t abi_ullong __attribute__((aligned(4)));
-abi_ullong load(abi_ullong *x) { return *x; }
-
-produces
-
-load:
-	save	%sp, -176, %sp
-	lduw	[%i0], %g1
-	lduw	[%i0+4], %i0
-	sllx	%g1, 32, %g1
-	return	%i7+8
-	 or	%o0, %g1, %o0
-
-instead of just
-
-load:
-	save	%sp, -176, %sp
-	return	%i7+8
-	 ldx	[%o0], %o0
-
-I'll send a v2.
-
-Best regards,
-Ilya
+>> (.gitlab-ci.d/edk2/Dockerfile is also using 18.04.)
+>
+> I guess I'd missed this in the original email, I stumbled on that one as
+> well
+> <https://lore.kernel.org/r/20230222155341.10127-1-palmer@rivosinc.com/>.
+>
+>>
+>> thanks
+>> -- PMM
 
