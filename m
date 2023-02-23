@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEB26A0D68
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5176A0D6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:59:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVDyg-00017d-HX; Thu, 23 Feb 2023 10:57:50 -0500
+	id 1pVDzG-0002Nn-W5; Thu, 23 Feb 2023 10:58:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVDyc-0000uC-RP
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:57:48 -0500
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVDzC-00024x-0v
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:58:22 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVDyb-0004qn-FH
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:57:46 -0500
-Received: by mail-pg1-x536.google.com with SMTP id h31so5935996pgl.6
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 07:57:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVDz9-0004uN-Mm
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:58:21 -0500
+Received: by mail-wr1-x431.google.com with SMTP id l25so10655585wrb.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 07:58:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Oh5p9J3BuZ1/9RppLhkTsllNcPKrX3GbfinbJi8Me1k=;
- b=fJ+WS/Nn1Enef24s4guueD1gsn/MreWymZ1DcACdQTRziUc1ltgHhWKURpDmq0Rl0X
- JYEU9ZMcLCfHI/3rkLQ2AjucT+hkCzNoChVOKZisetTAzC2OY38pCzWI4CaeaWYKK5JS
- fkCOkzWlLgQgDofzTbm9PSyDe/6Owpynxx0SF45eb3b4Aw6jPqtNez9RXIrgab6K2igh
- H8/X7Kot41+91HTKvnshoxg4PctbLJA9p8CamkDlwPUNgqqMitIjxRh2+Zaap0gl6xPb
- /+jCO4ddtu6bTO9G9OJZVeJ6Zoix5AWX+fTVU28dmHHuvGs2RYHgfYS+DPBkRPQ0FRwZ
- 4xJw==
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NoRHcpyiXe+kbrXabwWuRS9PHJj6baurxV0xwVa4s8I=;
+ b=zuI9TpSSw8Zp0YQlKPuhtXrjwc0xIjEbsMXoVwh7LqnLM6NKZIqUZGqLmr+dftWdzP
+ CaqVLE0KTklTl6EHQQQHNax5sOZuN533xnpKwXFBckHRIpbfcHRE4qAH3SwiBpWGSomX
+ kWbKS2ENgevdM82KkoUPjsQyg5etqD13aH9fZrl2ep+cf+QVRU4nILAuTlIWe8yC5Oyk
+ fcLJ1xagYOAymunBAoR2Qcxyxp2/VeMR/pWJKzPAH88bhEm9MErOyIAXCPPGts2sbR+9
+ 8xo7mGX4hoeXCERads0iphgyCQu80OvTziZjabsr9xcw+XlnBVIv+QOqjUBUkABd12wm
+ eyCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Oh5p9J3BuZ1/9RppLhkTsllNcPKrX3GbfinbJi8Me1k=;
- b=7Z7AtzjLA13K/qX1DGXL5jzA4+65gAz+c7Xd+jRAGij0gTht83bu0beViigKvzRY7W
- H3tE2FdhUZHRX3BEQIHy9Hjmb+6T7puya9eCAkOjDVRIYDuA8N5Ayucy0gRRbz3wGFbY
- W0g2FxtMms/e49Pg/1RFNYXZRDoC0tYDilM6QvtOVSQav673Igj+FBCtJ83IrC1WDsqY
- iEYiqvTxgF0jsn2O8K1CN+x17C4iAQWxO5K5Klq27a6HUjUTm0wAe7K2VHktze3mP7BS
- 2VWXqNEuMEARIeZbyHbiZ8vIxWS10cSZ97GvJlSxTRZGiqzNGYoDxIw7iD27bOjmjr50
- z6oQ==
-X-Gm-Message-State: AO0yUKXINCRZMBSeQVh+ErLkpOQvaPGpPxQkKPZIBdfL2rJVnbHfHojc
- d2gs2niTxTSdoHWKlB6RhMxX8uuEQ3nNV94RqcMIfw==
-X-Google-Smtp-Source: AK7set+YesuMxudQoj12Qq3xMDaBHj8Od4ll1PJzgb0eSOS+E+H/WWTM+cuhHXpuQHONXq8LKxun6fuKgYBlOh+i8wc=
-X-Received: by 2002:a62:e401:0:b0:592:453c:320a with SMTP id
- r1-20020a62e401000000b00592453c320amr1812827pfh.5.1677167863519; Thu, 23 Feb
- 2023 07:57:43 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NoRHcpyiXe+kbrXabwWuRS9PHJj6baurxV0xwVa4s8I=;
+ b=o75JrkBtzuLeJ4ek0KG9pvPjhvnt/vLMDsyrGD5x0uKl7cHQfF/mCD//GwmXrcpmc+
+ eW7jmjN8iIJLg4IF9FRPgGWlDL9T6vPz/bWbKzNaN5v7xdg5tW8Oslihy1+LTahMFHWD
+ 8/hRvusdtZqzvePlaVv3WK1MsM0SzEa8OSug6PDAfkScDoDeP8VRH2HdnvcJV8WGCKgM
+ +dzdHyO/bOxvPTlIHCHJ0yrJurG1UaipY4/DFnmXGFTydDws4q0wpjZHEQmS5hxBdgBq
+ zJ9tuoqEvUlkP4uXjLJglVGh769Pgy8g6iXzcH4ywRY1fDOWHDiy5Fft/Iss1SZKb1eh
+ kSEw==
+X-Gm-Message-State: AO0yUKUYUQkVjbbIRyNmrLJkf8IIbXE3I6o0FRXYeponBYnpQ5WW0vFt
+ e8Fl/mr8cMqlBnEtXdyf9BL5uQ==
+X-Google-Smtp-Source: AK7set8CAEarwpXKFAliK4d4LQYIlxb3dD5mpR6QQltGqcIOUePyG2zoOElED8nP7AUAwgYEqPxAiQ==
+X-Received: by 2002:a5d:504f:0:b0:2bf:942b:ddc with SMTP id
+ h15-20020a5d504f000000b002bf942b0ddcmr10099298wrt.55.1677167898357; 
+ Thu, 23 Feb 2023 07:58:18 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ o17-20020a05600c379100b003e70a7c1b73sm9910507wmr.16.2023.02.23.07.58.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 07:58:17 -0800 (PST)
+Message-ID: <eececf08-0ae6-a46e-ae2d-f7f19653651b@linaro.org>
+Date: Thu, 23 Feb 2023 16:58:16 +0100
 MIME-Version: 1.0
-References: <20230216030854.1212208-1-richard.henderson@linaro.org>
- <20230216030854.1212208-10-richard.henderson@linaro.org>
-In-Reply-To: <20230216030854.1212208-10-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Feb 2023 15:57:32 +0000
-Message-ID: <CAFEAcA_aQbPH_Siho35_R7EKDe1BJvfM=qRyzsPf5-Gdx+e21w@mail.gmail.com>
-Subject: Re: [PATCH v1 09/19] target/arm: Load/store integer pair with one tcg
- operation
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 0/4] target: Restrict 'qapi-commands-machine.h' to
+ system emulation
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-arm@nongnu.org, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Song Gao <gaosong@loongson.cn>
+References: <20230223124340.95367-1-philmd@linaro.org>
+ <87sfew331b.fsf@pond.sub.org>
+ <d3dae20b-81f7-5727-882a-3593ab2996f8@linaro.org>
+In-Reply-To: <d3dae20b-81f7-5727-882a-3593ab2996f8@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,19 +99,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Feb 2023 at 03:10, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This is required for LSE2, where the pair must be treated
-> atomically if it does not cross a 16-byte boundary.  But
-> it simplifies the code to do this always, just use the
-> unpaired atomicity without LSE2.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+On 23/2/23 16:56, Philippe Mathieu-Daudé wrote:
+> On 23/2/23 14:49, Markus Armbruster wrote:
+>> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+>>
+>>> All series reviewed, can patches be picked by corresponding
+>>> maintainers, or should I include them in on of my PRs?
+>>
+>> I'm sitting on a lonely patch for the monitor subsystem.  Want me to
+>> throw in your series, so my PR is a less complete waste of CI minutes?
+> 
+> That would be lovely! v4:
+> https://lore.kernel.org/qemu-devel/20230223155540.30370-1-philmd@linaro.org/
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+btw I didn't add these files in your MAINTAINERS Monitor section because
+I expect them to be taken care by each $target maintainer.
 
