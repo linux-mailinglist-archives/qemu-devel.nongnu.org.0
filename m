@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B706A0FDE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 19:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E666A0FEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 19:57:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVGha-0006zS-Da; Thu, 23 Feb 2023 13:52:22 -0500
+	id 1pVGhX-0006vq-PI; Thu, 23 Feb 2023 13:52:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVGhR-0006rY-HM
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:52:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVGhU-0006sZ-1M
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:52:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVGhP-0003B4-QI
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:52:13 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVGhS-0003CA-Jb
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:52:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677178331;
+ s=mimecast20190719; t=1677178334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0aX19loUnvz4eVtXt5ZbOL2UKg0Uz6K3mCszEj/MO8k=;
- b=WL51JMnIKj4oUiS6oZp6Wy+ZGaer5idZLg3WV1Q0A+FM3bzjRkHnLeGm8OKCn+HWbCmXOU
- I22c39vUchVNo96kp+eABDWP1C657/bkvbMK3a/oDqPorjWsbZ9U2Zp5s5mfmsxLPTThGH
- zJwJ4qTte9ZppJIhcQPmIC7w+8u85mo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lB4vXXS10jcq4HSHMF1ZG7MJWiFjNP2BuY1AKEKBvyw=;
+ b=bGSR1h3FmpCCjwzhK8pXswOAAsODSE4vbWMeNgQ5LdwMGqGlJY7/Bb/rRdnQfExK+6dAiM
+ VNNmzqU+OGLlmvL3MD6En4vLvsupP09q7wiecLURfHIXGsBfoe+EY6PXDqjYFU9lWUOgc9
+ BYZ+INREa3mQg3o92KvwEhIx7cTXApo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-400-h0dq3DL0MtOg64P1GkZ3Jw-1; Thu, 23 Feb 2023 13:52:09 -0500
-X-MC-Unique: h0dq3DL0MtOg64P1GkZ3Jw-1
+ us-mta-669-zFSs1KrbNCONzszzxjtfCA-1; Thu, 23 Feb 2023 13:52:10 -0500
+X-MC-Unique: zFSs1KrbNCONzszzxjtfCA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F5641C05140;
- Thu, 23 Feb 2023 18:52:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 19B5E1816EC2;
+ Thu, 23 Feb 2023 18:52:10 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.192.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C6791121314;
- Thu, 23 Feb 2023 18:52:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6615B1121314;
+ Thu, 23 Feb 2023 18:52:09 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 19/29] block: Mark bdrv_co_eject/lock_medium() and callers
- GRAPH_RDLOCK
-Date: Thu, 23 Feb 2023 19:51:36 +0100
-Message-Id: <20230223185146.306454-20-kwolf@redhat.com>
+Subject: [PULL 20/29] block: Mark bdrv_(un)register_buf() GRAPH_RDLOCK
+Date: Thu, 23 Feb 2023 19:51:37 +0100
+Message-Id: <20230223185146.306454-21-kwolf@redhat.com>
 In-Reply-To: <20230223185146.306454-1-kwolf@redhat.com>
 References: <20230223185146.306454-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,163 +78,78 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This adds GRAPH_RDLOCK annotations to declare that callers of
-bdrv_co_eject() and bdrv_co_lock_medium() need to hold a reader lock for
-the graph.
+bdrv_register_buf() and bdrv_unregister_buf() need to hold a reader lock
+for the graph.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20230203152202.49054-20-kwolf@redhat.com>
+Message-Id: <20230203152202.49054-21-kwolf@redhat.com>
 Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block-io.h         | 7 +++++--
- include/block/block_int-common.h | 6 ++++--
- block.c                          | 2 ++
- block/block-backend.c            | 2 ++
- block/copy-on-read.c             | 6 ++++--
- block/filter-compress.c          | 4 ++--
- block/raw-format.c               | 6 ++++--
- 7 files changed, 23 insertions(+), 10 deletions(-)
+ include/block/block_int-common.h |  7 ++++---
+ block/io.c                       | 14 ++++++++++----
+ 2 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 88db63492a..bf2748011e 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -148,8 +148,11 @@ int bdrv_get_flags(BlockDriverState *bs);
- bool coroutine_fn GRAPH_RDLOCK bdrv_co_is_inserted(BlockDriverState *bs);
- bool co_wrapper_bdrv_rdlock bdrv_is_inserted(BlockDriverState *bs);
- 
--void coroutine_fn bdrv_co_lock_medium(BlockDriverState *bs, bool locked);
--void coroutine_fn bdrv_co_eject(BlockDriverState *bs, bool eject_flag);
-+void coroutine_fn GRAPH_RDLOCK
-+bdrv_co_lock_medium(BlockDriverState *bs, bool locked);
-+
-+void coroutine_fn GRAPH_RDLOCK
-+bdrv_co_eject(BlockDriverState *bs, bool eject_flag);
- 
- const char *bdrv_get_format_name(BlockDriverState *bs);
- 
 diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index b4a82269e5..30e6bd4909 100644
+index 30e6bd4909..88d9897c97 100644
 --- a/include/block/block_int-common.h
 +++ b/include/block/block_int-common.h
-@@ -714,8 +714,10 @@ struct BlockDriver {
-     /* removable device specific */
-     bool coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_is_inserted)(
-         BlockDriverState *bs);
--    void coroutine_fn (*bdrv_co_eject)(BlockDriverState *bs, bool eject_flag);
--    void coroutine_fn (*bdrv_co_lock_medium)(BlockDriverState *bs, bool locked);
-+    void coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_eject)(
-+        BlockDriverState *bs, bool eject_flag);
-+    void coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_lock_medium)(
-+        BlockDriverState *bs, bool locked);
+@@ -445,9 +445,10 @@ struct BlockDriver {
+      *
+      * Returns: true on success, false on failure
+      */
+-    bool (*bdrv_register_buf)(BlockDriverState *bs, void *host, size_t size,
+-                              Error **errp);
+-    void (*bdrv_unregister_buf)(BlockDriverState *bs, void *host, size_t size);
++    bool GRAPH_RDLOCK_PTR (*bdrv_register_buf)(
++        BlockDriverState *bs, void *host, size_t size, Error **errp);
++    void GRAPH_RDLOCK_PTR (*bdrv_unregister_buf)(
++        BlockDriverState *bs, void *host, size_t size);
  
-     /* to control generic scsi devices */
-     BlockAIOCB *coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_aio_ioctl)(
-diff --git a/block.c b/block.c
-index 738b42046c..1060194e8f 100644
---- a/block.c
-+++ b/block.c
-@@ -6849,6 +6849,7 @@ void coroutine_fn bdrv_co_eject(BlockDriverState *bs, bool eject_flag)
+     /*
+      * This field is modified only under the BQL, and is part of
+diff --git a/block/io.c b/block/io.c
+index b5459c2f41..8974d46941 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3187,13 +3187,15 @@ void coroutine_fn bdrv_co_io_unplug(BlockDriverState *bs)
+ }
+ 
+ /* Helper that undoes bdrv_register_buf() when it fails partway through */
+-static void bdrv_register_buf_rollback(BlockDriverState *bs,
+-                                       void *host,
+-                                       size_t size,
+-                                       BdrvChild *final_child)
++static void GRAPH_RDLOCK
++bdrv_register_buf_rollback(BlockDriverState *bs, void *host, size_t size,
++                           BdrvChild *final_child)
  {
-     BlockDriver *drv = bs->drv;
-     IO_CODE();
+     BdrvChild *child;
+ 
++    GLOBAL_STATE_CODE();
 +    assert_bdrv_graph_readable();
++
+     QLIST_FOREACH(child, &bs->children, next) {
+         if (child == final_child) {
+             break;
+@@ -3213,6 +3215,8 @@ bool bdrv_register_buf(BlockDriverState *bs, void *host, size_t size,
+     BdrvChild *child;
  
-     if (drv && drv->bdrv_co_eject) {
-         drv->bdrv_co_eject(bs, eject_flag);
-@@ -6863,6 +6864,7 @@ void coroutine_fn bdrv_co_lock_medium(BlockDriverState *bs, bool locked)
- {
-     BlockDriver *drv = bs->drv;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
-     trace_bdrv_lock_medium(bs, locked);
+     GLOBAL_STATE_CODE();
++    GRAPH_RDLOCK_GUARD_MAINLOOP();
++
+     if (bs->drv && bs->drv->bdrv_register_buf) {
+         if (!bs->drv->bdrv_register_buf(bs, host, size, errp)) {
+             return false;
+@@ -3232,6 +3236,8 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size)
+     BdrvChild *child;
  
-     if (drv && drv->bdrv_co_lock_medium) {
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 20af699f00..278b04ce69 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2013,6 +2013,7 @@ void coroutine_fn blk_co_lock_medium(BlockBackend *blk, bool locked)
- {
-     BlockDriverState *bs = blk_bs(blk);
-     IO_CODE();
-+    GRAPH_RDLOCK_GUARD();
- 
-     if (bs) {
-         bdrv_co_lock_medium(bs, locked);
-@@ -2024,6 +2025,7 @@ void coroutine_fn blk_co_eject(BlockBackend *blk, bool eject_flag)
-     BlockDriverState *bs = blk_bs(blk);
-     char *id;
-     IO_CODE();
-+    GRAPH_RDLOCK_GUARD();
- 
-     if (bs) {
-         bdrv_co_eject(bs, eject_flag);
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 78da353f88..20215cff93 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -213,13 +213,15 @@ cor_co_pwritev_compressed(BlockDriverState *bs, int64_t offset, int64_t bytes,
- }
- 
- 
--static void coroutine_fn cor_co_eject(BlockDriverState *bs, bool eject_flag)
-+static void coroutine_fn GRAPH_RDLOCK
-+cor_co_eject(BlockDriverState *bs, bool eject_flag)
- {
-     bdrv_co_eject(bs->file->bs, eject_flag);
- }
- 
- 
--static void coroutine_fn cor_co_lock_medium(BlockDriverState *bs, bool locked)
-+static void coroutine_fn GRAPH_RDLOCK
-+cor_co_lock_medium(BlockDriverState *bs, bool locked)
- {
-     bdrv_co_lock_medium(bs->file->bs, locked);
- }
-diff --git a/block/filter-compress.c b/block/filter-compress.c
-index 0dd5606410..c7d50a67a7 100644
---- a/block/filter-compress.c
-+++ b/block/filter-compress.c
-@@ -114,14 +114,14 @@ static void compress_refresh_limits(BlockDriverState *bs, Error **errp)
- }
- 
- 
--static void coroutine_fn
-+static void coroutine_fn GRAPH_RDLOCK
- compress_co_eject(BlockDriverState *bs, bool eject_flag)
- {
-     bdrv_co_eject(bs->file->bs, eject_flag);
- }
- 
- 
--static void coroutine_fn
-+static void coroutine_fn GRAPH_RDLOCK
- compress_co_lock_medium(BlockDriverState *bs, bool locked)
- {
-     bdrv_co_lock_medium(bs->file->bs, locked);
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 646606e223..f4203d4806 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -405,12 +405,14 @@ raw_co_truncate(BlockDriverState *bs, int64_t offset, bool exact,
-     return bdrv_co_truncate(bs->file, offset, exact, prealloc, flags, errp);
- }
- 
--static void coroutine_fn raw_co_eject(BlockDriverState *bs, bool eject_flag)
-+static void coroutine_fn GRAPH_RDLOCK
-+raw_co_eject(BlockDriverState *bs, bool eject_flag)
- {
-     bdrv_co_eject(bs->file->bs, eject_flag);
- }
- 
--static void coroutine_fn raw_co_lock_medium(BlockDriverState *bs, bool locked)
-+static void coroutine_fn GRAPH_RDLOCK
-+raw_co_lock_medium(BlockDriverState *bs, bool locked)
- {
-     bdrv_co_lock_medium(bs->file->bs, locked);
- }
+     GLOBAL_STATE_CODE();
++    GRAPH_RDLOCK_GUARD_MAINLOOP();
++
+     if (bs->drv && bs->drv->bdrv_unregister_buf) {
+         bs->drv->bdrv_unregister_buf(bs, host, size);
+     }
 -- 
 2.39.2
 
