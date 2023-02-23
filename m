@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B142C6A1391
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93786A1397
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:14:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKkl-0002mg-S7; Thu, 23 Feb 2023 18:11:55 -0500
+	id 1pVKn4-0005Xw-9b; Thu, 23 Feb 2023 18:14:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVKkk-0002lQ-Iw
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:11:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVKki-0007aQ-Qj
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:11:54 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31NLPePY017334; Thu, 23 Feb 2023 23:11:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=cljWyfQzlHde0c2E4jBmfno1X7SMP5F4ZQpJIy8WO+o=;
- b=bZJO4Y11cnaREoAVmXI5EWvc/kciMUS425QeYvEpW1dxQWBc4VR9VK9SJ1H+NK7FCVON
- v3X9stwBtBVa1fylb92NdKbqwHbB1l0eHQiAIfCwEWMWSBAcyL//tLI2IgQvL6VPlvG6
- KMkELzDWp55VppErfUGFnIRgXq6JvN0tNIgPykn9CIWjs3eSRXNyfYGfg19nIBfl3baz
- zUfyHMA1mtizGTDmSU/kad86o68y0SbQiZio5tMvk4iUHkU0+N1/Ecs3kE9ciUWk5ulr
- e67JBnBdSQrLlh0FoaSWoIdrC2WJh/Qg6WcCz0ev1bzzZMAskFLfKISiosTFE1Znyrer AA== 
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nxg23a9ak-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 23:11:50 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31N76OHN021018;
- Thu, 23 Feb 2023 23:11:47 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3ntpa6dgjv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 23:11:47 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31NNBilY29950258
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Feb 2023 23:11:44 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3CC3C20043;
- Thu, 23 Feb 2023 23:11:44 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B455120040;
- Thu, 23 Feb 2023 23:11:43 +0000 (GMT)
-Received: from heavy.boeblingen.de.ibm.com (unknown [9.179.17.238])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 23 Feb 2023 23:11:43 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 2/2] tests/tcg/linux-test: Add linux-fork-trap test
-Date: Fri, 24 Feb 2023 00:11:37 +0100
-Message-Id: <20230223231137.186344-3-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230223231137.186344-1-iii@linux.ibm.com>
-References: <20230223231137.186344-1-iii@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVKn1-0005XT-La
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:14:15 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVKn0-0007t3-3s
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:14:15 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ h17-20020a17090aea9100b0023739b10792so921563pjz.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:14:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LFCLNvct9XtZxZg9aAQmIHkdV9yBhNjVvzHzNSYHkAc=;
+ b=H1tt0CF4KeoqNbGXmRXScGa/wvXn/9c9Cg/0e/S6JRekzGZfQ0SICLz0INhGXt3FDQ
+ KdLwEs60FKEj+aP6R3r+8QSMPY6UcJyCDSI1ZAP6KRI7szfP9RbuCz1CO9nEJ9Lrr3PJ
+ SUzwdkl3ITaBXUIgoAj4zVGArnz14iBSQHLiO57v+M7dEBtoUyOfWs9TzVpeVtlExeCD
+ 0G5hy0j8w0pALEekUM2R+L1qZBOH3lcAbkN0T1/YxYL5qraaT94tia5zScpww9Jr0hCX
+ IUpE+EiWPgnn1NL6/D7CdVYGZE/kaC+GYzPn7j3TP4uuzW84Nq9+nAZth6etVT/fdRbJ
+ L3Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LFCLNvct9XtZxZg9aAQmIHkdV9yBhNjVvzHzNSYHkAc=;
+ b=KTat+h56DIsJiV7+syDBdiuWUyN7EmhtgLom9K6rm3v5zSFJCbL1r4+/o9pD0sfIsI
+ l2lRw8RwrgCgM0Mx0iRYMQC7jA7gSNy93HHqb4tk+x4MMzJIgfRNVW3/UVFxt3wxehP+
+ v54SfAmvF44nZ5JUPn+LF7PBDXRUbnZ5N/lcPieVABZJgJYIIOREHNWtRXLyGPxtzeW9
+ rfu2QVzR5iSDmXy4IJXVRPj6ALo57Oj5g188TdtFLPsfrFgsF66Bi5SgQnJ3wNhChZhS
+ VW9A4YiXOumyhwb4qrrjAK9b9mocXjrEjA75Vs4qIGgsoyYpMvuOdO68G1aqS1K6JHoj
+ d6Ag==
+X-Gm-Message-State: AO0yUKUCfGLwS5F8ba9fAN7dRSk6Bp6K0DKl+BgZ/SgKkgAD07ZGprTQ
+ GdtLX8GQWDxwgvrr9FmybUVV+Q==
+X-Google-Smtp-Source: AK7set8CRNrJiEfpjh+Msy0TebJHQPm+l6dM6oe8/0jbnGxuQgrhZLTh0SKBMeUO2Nd8VV3VvvVn/Q==
+X-Received: by 2002:a05:6a20:144f:b0:cb:ef77:3f1d with SMTP id
+ a15-20020a056a20144f00b000cbef773f1dmr6876207pzi.21.1677194052365; 
+ Thu, 23 Feb 2023 15:14:12 -0800 (PST)
+Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ b21-20020a637155000000b00502e7115cbdsm3569769pgn.51.2023.02.23.15.14.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 15:14:11 -0800 (PST)
+Message-ID: <f6e2725d-ab04-ef77-f959-67c2e69dd17f@linaro.org>
+Date: Thu, 23 Feb 2023 13:14:08 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: UcR6C393HJU8stDhVAxmMAzKgRvzKFMR
-X-Proofpoint-GUID: UcR6C393HJU8stDhVAxmMAzKgRvzKFMR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-23_13,2023-02-23_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1015 phishscore=0 bulkscore=0 spamscore=0 malwarescore=0
- impostorscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=978 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302230192
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 1/2] linux-user: Fix unaligned memory access in
+ prlimit64 syscall
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20230223231137.186344-1-iii@linux.ibm.com>
+ <20230223231137.186344-2-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230223231137.186344-2-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,74 +96,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Check that dying due to a signal does not deadlock.
+On 2/23/23 13:11, Ilya Leoshkevich wrote:
+> target_rlimit64 contains uint64_t fields, so it's 8-byte aligned on
+> some hosts, while some guests may align their respective type on a
+> 4-byte boundary. This may lead to an unaligned access, which is an UB.
+> 
+> Fix by defining the fields as abi_ullong. This makes the host alignment
+> match that of the guest, and lets the compiler know that it should emit
+> code that can deal with the guest alignment.
+> 
+> While at it, also use __get_user() and __put_user() instead of
+> tswap64().
+> 
+> Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
+> Reported-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
+> ---
+>   linux-user/generic/target_resource.h | 4 ++--
+>   linux-user/syscall.c                 | 8 ++++----
+>   2 files changed, 6 insertions(+), 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/multiarch/linux/linux-fork-trap.c | 51 +++++++++++++++++++++
- 1 file changed, 51 insertions(+)
- create mode 100644 tests/tcg/multiarch/linux/linux-fork-trap.c
 
-diff --git a/tests/tcg/multiarch/linux/linux-fork-trap.c b/tests/tcg/multiarch/linux/linux-fork-trap.c
-new file mode 100644
-index 00000000000..2bfef800c3e
---- /dev/null
-+++ b/tests/tcg/multiarch/linux/linux-fork-trap.c
-@@ -0,0 +1,51 @@
-+/*
-+ * Test that a fork()ed process terminates after __builtin_trap().
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include <assert.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/resource.h>
-+#include <sys/wait.h>
-+#include <unistd.h>
-+
-+int main(void)
-+{
-+    struct rlimit nodump;
-+    pid_t err, pid;
-+    int wstatus;
-+
-+    pid = fork();
-+    assert(pid != -1);
-+    if (pid == 0) {
-+        /* We are about to crash on purpose; disable core dumps. */
-+        if (getrlimit(RLIMIT_CORE, &nodump)) {
-+            return EXIT_FAILURE;
-+        }
-+        nodump.rlim_cur = 0;
-+        if (setrlimit(RLIMIT_CORE, &nodump)) {
-+            return EXIT_FAILURE;
-+        }
-+        /*
-+         * An alternative would be to dereference a NULL pointer, but that
-+         * would be an UB in C.
-+         */
-+        printf("about to trigger fault...\n");
-+#if defined(__MICROBLAZE__)
-+        /*
-+         * gcc emits "bri 0", which is an endless loop.
-+         * Take glibc's ABORT_INSTRUCTION.
-+         */
-+        asm volatile("brki r0,-1");
-+#else
-+        __builtin_trap();
-+#endif
-+    }
-+    err = waitpid(pid, &wstatus, 0);
-+    assert(err == pid);
-+    assert(WIFSIGNALED(wstatus));
-+    printf("faulting thread exited cleanly\n");
-+
-+    return EXIT_SUCCESS;
-+}
--- 
-2.39.1
-
+r~
 
