@@ -2,69 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C7F6A0BDF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:28:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5086A0C50
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:55:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVCZk-0005nc-9m; Thu, 23 Feb 2023 09:28:00 -0500
+	id 1pVCza-0004hL-Mi; Thu, 23 Feb 2023 09:54:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pVCZi-0005nS-6p
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:27:58 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <pierre@imap.linux.ibm.com>)
+ id 1pVCqB-0005Xj-BL; Thu, 23 Feb 2023 09:44:59 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pVCZf-00052e-5I
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:27:57 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PMwGr1VVXz6J6xs;
- Thu, 23 Feb 2023 22:23:00 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Thu, 23 Feb
- 2023 14:27:49 +0000
-Date: Thu, 23 Feb 2023 14:27:48 +0000
-To: Markus Armbruster <armbru@redhat.com>
-CC: Thomas Huth <thuth@redhat.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud?=
- =?ISO-8859-1?Q?=E9?= <philmd@linaro.org>, <qemu-devel@nongnu.org>, "Michael
- Tsirkin" <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, "Mike
- Maslenkin" <mike.maslenkin@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
- =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v5 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support.
-Message-ID: <20230223142748.0000662f@huawei.com>
-In-Reply-To: <875ybsg7cl.fsf@pond.sub.org>
-References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
- <20230221152145.9736-9-Jonathan.Cameron@huawei.com>
- <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
- <20230222145330.000021ef@huawei.com>
- <c2fb77b0-0734-3be5-1b54-7c797b3daa15@linaro.org>
- <20230222164947.0000554f@Huawei.com>
- <b9bd5698-1f73-b912-0344-4b70c30dd02a@linaro.org>
- <586d040f-d712-905e-fd68-bcde3713478b@redhat.com>
- <875ybsg7cl.fsf@pond.sub.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <pierre@imap.linux.ibm.com>)
+ id 1pVCq8-0000I5-UO; Thu, 23 Feb 2023 09:44:59 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31NENEJv003698; Thu, 23 Feb 2023 14:27:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=mime-version : date :
+ from : to : cc : subject : in-reply-to : references : message-id :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=fSwa+P3WR7rBgXwo9oKl0oW5WOoDWTZhenfNcyA/rRI=;
+ b=asD0YaxOl+wTb2eQpq6vR+7fgH0EsDx/Dp50WHE0VyBGZX4qChnle4S9gaPD3yFiNuRS
+ dPXcrqNp0CBmp8nDYFWZNOxhg3uob3R/uXuKW5LKva7EO9/jnZVaQwZz9IgqG/DnkZHg
+ 2hnfiI8pM2J6eGWvrM2r/BQS0f/wg7sw/uW72AiIc9+mkJ7O+mO/uP6grm98HKooRoms
+ tob30V3ff+RomiLfXVLN3dnlE9nCIcpuAImcwM5DpcYfeRcEZq99GMhAwEeYhNqtM6LV
+ F5poe8sZ6VI2jVQxaXKT0rQufN/a/1dS2DibaD50QgomzPZ+HfGjXoo8rSVYw60IwaCM tg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nx9v3g3x8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Feb 2023 14:27:55 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31NEND9D003668;
+ Thu, 23 Feb 2023 14:27:55 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nx9v3g3wu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Feb 2023 14:27:55 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31NEB0bm015801;
+ Thu, 23 Feb 2023 14:27:53 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([9.208.129.116])
+ by ppma01wdc.us.ibm.com (PPS) with ESMTPS id 3ntpa76jxr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Feb 2023 14:27:53 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
+ [10.241.53.105])
+ by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31NERqEb7733940
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Feb 2023 14:27:53 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A022858043;
+ Thu, 23 Feb 2023 14:27:52 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C47C958059;
+ Thu, 23 Feb 2023 14:27:50 +0000 (GMT)
+Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
+ by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Feb 2023 14:27:50 +0000 (GMT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Thu, 23 Feb 2023 15:27:50 +0100
+From: pierre <pierre@imap.linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Subject: Re: [PATCH v16 03/11] target/s390x/cpu topology: handle STSI(15) and
+ build the SYSIB
+In-Reply-To: <74aa9221-debc-84a6-d5bf-0a549018c7c9@redhat.com>
+References: <20230222142105.84700-1-pmorel@linux.ibm.com>
+ <20230222142105.84700-4-pmorel@linux.ibm.com>
+ <74aa9221-debc-84a6-d5bf-0a549018c7c9@redhat.com>
+Message-ID: <8a3ef00a46b8ef8cb935dde69010a942@imap.linux.ibm.com>
+X-Sender: pierre@imap.linux.ibm.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: u8GrYuPDlgwKew-afizBfzGakmocGTO5
+X-Proofpoint-GUID: 6kfrIXKo5INihzZMPfk0tEmx0bhGFhyq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-23_08,2023-02-23_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ spamscore=0 adultscore=0 impostorscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ clxscore=1034 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302230115
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=pierre@imap.linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_NXDOMAIN=0.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NO_DNS_FOR_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 23 Feb 2023 09:54:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,397 +118,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 23 Feb 2023 08:37:46 +0100
-Markus Armbruster <armbru@redhat.com> wrote:
+On 2023-02-23 14:30, Thomas Huth wrote:
+> On 22/02/2023 15.20, Pierre Morel wrote:
+>> On interception of STSI(15.1.x) the System Information Block
+>> (SYSIB) is built from the list of pre-ordered topology entries.
+>> 
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+> ...
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index d654267a71..c899f4e04b 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -560,6 +560,25 @@ typedef struct SysIB_322 {
+>>   } SysIB_322;
+>>   QEMU_BUILD_BUG_ON(sizeof(SysIB_322) != 4096);
+>>   +#define S390_TOPOLOGY_MAG  6
+>> +#define S390_TOPOLOGY_MAG6 0
+>> +#define S390_TOPOLOGY_MAG5 1
+>> +#define S390_TOPOLOGY_MAG4 2
+>> +#define S390_TOPOLOGY_MAG3 3
+>> +#define S390_TOPOLOGY_MAG2 4
+>> +#define S390_TOPOLOGY_MAG1 5
+>> +/* Configuration topology */
+>> +typedef struct SysIB_151x {
+>> +    uint8_t  reserved0[2];
+>> +    uint16_t length;
+>> +    uint8_t  mag[S390_TOPOLOGY_MAG];
+>> +    uint8_t  reserved1;
+>> +    uint8_t  mnest;
+>> +    uint32_t reserved2;
+>> +    char tle[];
+>> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+> 
+> I think one of the two is enough, either QEMU_PACKED or
+> QEMU_BUILD_BUG_ON. Since QEMU_PACKED caused us some troubles in the
+> past already, I'd prefer QEMU_BUILD_BUG_ON only here.
+> 
+> Also, do we really need the QEMU_ALIGNED() here? ... I don't think so,
+> and we also hardly use that anywhere else in the s390x code, so please
+> drop that, too (unless there is a real reason for this?).
 
-> Thomas Huth <thuth@redhat.com> writes:
->=20
-> > On 22/02/2023 19.16, Philippe Mathieu-Daud=E9 wrote: =20
-> >> +Thomas (meson) & Marc-Andr=E9 (conditional QAPI) =20
-> >
-> > + Markus
-> > =20
-> >> On 22/2/23 17:49, Jonathan Cameron wrote: =20
->=20
-> [...]
->=20
-> >>>>>> Doesn't these need
-> >>>>>>
-> >>>>>> =A0=A0=A0=A0=A0=A0=A0 'if': 'CONFIG_CXL_MEM_DEVICE',
-> >>>>>>
-> >>>>>> ? =20
-> >>>>>
-> >>>>> If I make this change I get a bunch of
-> >>>>>
-> >>>>> ./qapi/qapi-types-cxl.h:18:13: error: attempt to use poisoned "CONF=
-IG_CXL_MEM_DEVICE"
-> >>>>> =A0=A0=A0=A0 18 | #if defined(CONFIG_CXL_MEM_DEVICE) =20
-> >>>>
-> >>>> Err, I meant the generic CONFIG_CXL, not CONFIG_CXL_MEM_DEVICE.
-> >>>> =20
-> >>>>> It's a target specific define (I think) as built alongside PCI_EXPR=
-ESS
-> >>>>> Only CXL_ACPI is specifically included by x86 and arm64 (out of tre=
-e)
-> >>>>>
-> >>>>> To be honest though I don't fully understand the QEMU build system =
-so the reason
-> >>>>> for the error might be wrong. =20
-> >>>>
-> >>>> You need to restrict to system emulation (the 'have_system' check): =
-=20
-> >>>
-> >>> This doesn't help - still have
-> >>> attempt to used poisoned "CONFIG_CXL" =20
-> >
-> > Not sure how the QAPI generator works, but target specific config switc=
-hes can only be used in target specific json files there, so that's machine=
--target.json and misc-target.json currently, as far as I know. Not sure how=
- the QAPI generator distinguishes between common and target specific code, =
-though ... just by the "-target" suffix? Maybe Markus or Marc-Andr=E9 can c=
-omment on that. =20
->=20
-> Whenever you use a poisoned macro in a conditional, all the code
-> generated for this .json file (we call it a "QAPI schema module")
-> becomes target-dependent.  The QAPI code generator itself is blissfully
-> unaware of this.
->=20
-> Since target-dependent code needs to be compiled differently, the build
-> process needs to be know which modules are target-dependent.  We do this
-> in one of the stupidest ways that could possibly work: a module is
-> target-dependent if its name ends with "-target".  There are just two
-> right now: qapi/machine-target.json and qapi/misc-target.json.
->=20
-> The logic resides in qapi/meson.build.  Look for
->=20
->     if module.endswith('-target')
+No, I think we do not really need this.
 
-Thanks for all the pointers.
->=20
-> Questions?
+> 
+>> @@ -567,9 +586,62 @@ typedef union SysIB {
+>>       SysIB_221 sysib_221;
+>>       SysIB_222 sysib_222;
+>>       SysIB_322 sysib_322;
+>> +    SysIB_151x sysib_151x;
+>>   } SysIB;
+>>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+>>   +/*
+>> + * CPU Topology List provided by STSI with fc=15 provides a list
+>> + * of two different Topology List Entries (TLE) types to specify
+>> + * the topology hierarchy.
+>> + *
+>> + * - Container Topology List Entry
+>> + *   Defines a container to contain other Topology List Entries
+>> + *   of any type, nested containers or CPU.
+>> + * - CPU Topology List Entry
+>> + *   Specifies the CPUs position, type, entitlement and polarization
+>> + *   of the CPUs contained in the last Container TLE.
+>> + *
+>> + * There can be theoretically up to five levels of containers, QEMU
+>> + * uses only three levels, the drawer's, book's and socket's level.
+>> + *
+>> + * A container of with a nesting level (NL) greater than 1 can only
+>> + * contain another container of nesting level NL-1.
+>> + *
+>> + * A container of nesting level 1 (socket), contains as many CPU TLE
+>> + * as needed to describe the position and qualities of all CPUs 
+>> inside
+>> + * the container.
+>> + * The qualities of a CPU are polarization, entitlement and type.
+>> + *
+>> + * The CPU TLE defines the position of the CPUs of identical 
+>> qualities
+>> + * using a 64bits mask which first bit has its offset defined by
+>> + * the CPU address orgin field of the CPU TLE like in:
+>> + * CPU address = origin * 64 + bit position within the mask
+>> + *
+>> + */
+>> +/* Container type Topology List Entry */
+>> +typedef struct SysIBTl_container {
+>> +        uint8_t nl;
+>> +        uint8_t reserved[6];
+>> +        uint8_t id;
+>> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
+> 
+> dito, please drop QEMU_PACKED and QEMU_ALIGNED() if possible.
 
-Is it sensible to make the cxl stuff all target dependent and do the follow=
-ing?
-I like that we can get rid of the stubs if we do this but I'm sure there are
-disadvantages. Only alternative I can currently see is continue to have
-stubs and not make the qmp commands conditional on them doing anything usef=
-ul.
+OK
 
-Note this is on top of my tree so involves more changes - I'll push it down
-into the relevant series.
+> 
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+>> +
+>> +/* CPU type Topology List Entry */
+>> +typedef struct SysIBTl_cpu {
+>> +        uint8_t nl;
+>> +        uint8_t reserved0[3];
+>> +#define SYSIB_TLE_POLARITY_MASK 0x03
+>> +#define SYSIB_TLE_DEDICATED     0x04
+>> +        uint8_t flags;
+>> +        uint8_t type;
+>> +        uint16_t origin;
+>> +        uint64_t mask;
+>> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
+> 
+> dito
+OK
 
-=46rom 551122103cf1f5bb4de8ee005482c72532181439 Mon Sep 17 00:00:00 2001
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Date: Thu, 23 Feb 2023 14:22:53 +0000
-Subject: [PATCH] hw/cxl: Make CXL compilation target specific
+> 
+>  Thomas
 
----
- hw/cxl/cxl-host-stubs.c            | 15 --------
- hw/cxl/meson.build                 |  6 +---
- hw/mem/cxl_type3.c                 |  3 +-
- hw/mem/cxl_type3_stubs.c           | 58 ------------------------------
- hw/mem/meson.build                 |  8 ++---
- qapi/{cxl.json =3D> cxl-target.json} | 37 +++++++++++++------
- qapi/meson.build                   |  2 +-
- qapi/qapi-schema.json              |  2 +-
- 8 files changed, 35 insertions(+), 96 deletions(-)
-
-diff --git a/hw/cxl/cxl-host-stubs.c b/hw/cxl/cxl-host-stubs.c
-deleted file mode 100644
-index cae4afcdde..0000000000
---- a/hw/cxl/cxl-host-stubs.c
-+++ /dev/null
-@@ -1,15 +0,0 @@
--/*
-- * CXL host parameter parsing routine stubs
-- *
-- * Copyright (c) 2022 Huawei
-- */
--#include "qemu/osdep.h"
--#include "qapi/error.h"
--#include "hw/cxl/cxl.h"
--#include "hw/cxl/cxl_host.h"
--
--void cxl_fmws_link_targets(CXLState *stat, Error **errp) {};
--void cxl_machine_init(Object *obj, CXLState *state) {};
--void cxl_hook_up_pxb_registers(PCIBus *bus, CXLState *state, Error **errp)=
- {};
--
--const MemoryRegionOps cfmws_ops;
-diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-index 99ee564ce8..99eeb84268 100644
---- a/hw/cxl/meson.build
-+++ b/hw/cxl/meson.build
-@@ -1,4 +1,4 @@
--softmmu_ss.add(when: 'CONFIG_CXL',
-+specific_ss.add(when: 'CONFIG_CXL',
-                if_true: files(
-                    'cxl-component-utils.c',
-                    'cxl-device-utils.c',
-@@ -8,9 +8,5 @@ softmmu_ss.add(when: 'CONFIG_CXL',
-                    'cxl-events.c',
-                    'cxl-cpmu.c',
-                    'switch-mailbox-cci.c',
--               ),
--               if_false: files(
--                   'cxl-host-stubs.c',
-                ))
-=20
--softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('cxl-host-stubs.c'))
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 334ce92f5e..cf20fb81ff 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -1,7 +1,8 @@
- #include "qemu/osdep.h"
-+#include CONFIG_DEVICES
- #include "qemu/units.h"
- #include "qemu/error-report.h"
--#include "qapi/qapi-commands-cxl.h"
-+#include "qapi/qapi-commands-cxl-target.h"
- #include "hw/mem/memory-device.h"
- #include "hw/mem/pc-dimm.h"
- #include "hw/pci/pci.h"
-diff --git a/hw/mem/cxl_type3_stubs.c b/hw/mem/cxl_type3_stubs.c
-deleted file mode 100644
-index 2196bd841c..0000000000
---- a/hw/mem/cxl_type3_stubs.c
-+++ /dev/null
-@@ -1,58 +0,0 @@
--
--#include "qemu/osdep.h"
--#include "qapi/error.h"
--#include "qapi/qapi-commands-cxl.h"
--
--void qmp_cxl_inject_gen_media_event(const char *path, CxlEventLog log,
--                                    uint8_t flags, uint64_t physaddr,
--                                    uint8_t descriptor, uint8_t type,
--                                    uint8_t transaction_type,
--                                    bool has_channel, uint8_t channel,
--                                    bool has_rank, uint8_t rank,
--                                    bool has_device, uint32_t device,
--                                    const char *component_id,
--                                    Error **errp) {}
--
--void qmp_cxl_inject_dram_event(const char *path, CxlEventLog log, uint8_t =
-flags,
--                               uint64_t physaddr, uint8_t descriptor,
--                               uint8_t type, uint8_t transaction_type,
--                               bool has_channel, uint8_t channel,
--                               bool has_rank, uint8_t rank,
--                               bool has_nibble_mask, uint32_t nibble_mask,
--                               bool has_bank_group, uint8_t bank_group,
--                               bool has_bank, uint8_t bank,
--                               bool has_row, uint32_t row,
--                               bool has_column, uint16_t column,
--                               bool has_correction_mask, uint64List *corre=
-ction_mask,
--                               Error **errp) {}
--
--void qmp_cxl_inject_memory_module_event(const char *path, CxlEventLog log,
--                                        uint8_t flags, uint8_t type,
--                                        uint8_t health_status,
--                                        uint8_t media_status,
--                                        uint8_t additional_status,
--                                        uint8_t life_used,
--                                        int16_t temperature,
--                                        uint32_t dirty_shutdown_count,
--                                        uint32_t corrected_volatile_error_=
-count,
--                                        uint32_t corrected_persistent_erro=
-r_count,
--                                        Error **errp) {}
--
--void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t leng=
-th,
--                           Error **errp)
--{
--    error_setg(errp, "CXL Type 3 support is not compiled in");
--}
--
--void qmp_cxl_inject_uncorrectable_errors(const char *path,
--                                         CXLUncorErrorRecordList *errors,
--                                         Error **errp)
--{
--    error_setg(errp, "CXL Type 3 support is not compiled in");
--}
--
--void qmp_cxl_inject_correctable_error(const char *path, CxlCorErrorType ty=
-pe,
--                                      Error **errp)
--{
--    error_setg(errp, "CXL Type 3 support is not compiled in");
--}
-diff --git a/hw/mem/meson.build b/hw/mem/meson.build
-index 56c2618b84..2bdd24512e 100644
---- a/hw/mem/meson.build
-+++ b/hw/mem/meson.build
-@@ -3,10 +3,10 @@ mem_ss.add(files('memory-device.c'))
- mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
- mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
- mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
--mem_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_true: files('cxl_type3.c'))
--softmmu_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_false: files('cxl_type3_s=
-tubs.c'))
--softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('cxl_type3_stubs.c'))
-+specific_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_true: files('cxl_type3.c=
-'))
-+#specific_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_false: files('cxl_type3=
-_stubs.c'))
-+#specific_ss.add(when: 'CONFIG_ALL', if_true: files('cxl_type3_stubs.c'))
-=20
--softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
-+specific_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
-=20
- softmmu_ss.add(when: 'CONFIG_SPARSE_MEM', if_true: files('sparse-mem.c'))
-diff --git a/qapi/cxl.json b/qapi/cxl-target.json
-similarity index 94%
-rename from qapi/cxl.json
-rename to qapi/cxl-target.json
-index 4c029f2807..b3aecea4f0 100644
---- a/qapi/cxl.json
-+++ b/qapi/cxl-target.json
-@@ -21,7 +21,8 @@
-            'warning',
-            'failure',
-            'fatal'
--           ]
-+           ],
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
-  }
-=20
- ##
-@@ -49,7 +50,9 @@
-             'type': 'uint8', 'transaction-type': 'uint8',
-             '*channel': 'uint8', '*rank': 'uint8',
-             '*device': 'uint32', '*component-id': 'str'
--            }}
-+            },
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
-+ }
-=20
- ##
- # @cxl-inject-dram-event:
-@@ -82,7 +85,9 @@
-             '*channel': 'uint8', '*rank': 'uint8', '*nibble-mask': 'uint32=
-',
-             '*bank-group': 'uint8', '*bank': 'uint8', '*row': 'uint32',
-             '*column': 'uint16', '*correction-mask': [ 'uint64' ]
--           }}
-+           },
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
-+}
-=20
- ##
- # @cxl-inject-memory-module-event:
-@@ -115,7 +120,9 @@
-             'dirty-shutdown-count': 'uint32',
-             'corrected-volatile-error-count': 'uint32',
-             'corrected-persistent-error-count': 'uint32'
--            }}
-+            },
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
-+}
-=20
- ##
- # @cxl-inject-poison:
-@@ -133,7 +140,9 @@
- # Since: 8.0
- ##
- { 'command': 'cxl-inject-poison',
--  'data': { 'path': 'str', 'start': 'uint64', 'length': 'uint64' }}
-+  'data': { 'path': 'str', 'start': 'uint64', 'length': 'uint64' },
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
-+}
-=20
- ##
- # @CxlUncorErrorType:
-@@ -179,8 +188,9 @@
-            'internal',
-            'cxl-ide-tx',
-            'cxl-ide-rx'
--           ]
-- }
-+           ],
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
-+}
-=20
- ##
- # @CXLUncorErrorRecord:
-@@ -196,7 +206,8 @@
-   'data': {
-       'type': 'CxlUncorErrorType',
-       'header': [ 'uint32' ]
--  }
-+  },
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
- }
-=20
- ##
-@@ -212,7 +223,9 @@
- ##
- { 'command': 'cxl-inject-uncorrectable-errors',
-   'data': { 'path': 'str',
--             'errors': [ 'CXLUncorErrorRecord' ] }}
-+             'errors': [ 'CXLUncorErrorRecord' ] },
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
-+}
-=20
- ##
- # @CxlCorErrorType:
-@@ -235,7 +248,8 @@
-            'retry-threshold',
-            'cache-poison-received',
-            'mem-poison-received',
--           'physical']
-+           'physical'],
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
- }
-=20
- ##
-@@ -254,5 +268,6 @@
- { 'command': 'cxl-inject-correctable-error',
-   'data': { 'path': 'str',
-             'type': 'CxlCorErrorType'
--  }
-+           },
-+  'if': 'CONFIG_CXL_MEM_DEVICE'
- }
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 73c3c8c31a..f5b3f36979 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -31,7 +31,7 @@ qapi_all_modules =3D [
-   'compat',
-   'control',
-   'crypto',
--  'cxl',
-+  'cxl-target',
-   'dump',
-   'error',
-   'introspect',
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 079f2a402a..a79d84577f 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -95,4 +95,4 @@
- { 'include': 'pci.json' }
- { 'include': 'stats.json' }
- { 'include': 'virtio.json' }
--{ 'include': 'cxl.json' }
-+{ 'include': 'cxl-target.json' }
---=20
-2.37.2
-
-
-
->=20
-> [...]
->=20
-
+Thanks
+Pierre
 
