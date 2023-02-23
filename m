@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AA06A02B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 07:15:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5ECC6A02BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 07:18:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV4rI-0004fx-2U; Thu, 23 Feb 2023 01:13:36 -0500
+	id 1pV4vR-0005jw-9a; Thu, 23 Feb 2023 01:17:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pV4rF-0004fU-OL
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:13:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pV4rD-0000Qy-No
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:13:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677132807;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YwMw0P+9zYEm9mDOHaCaUjAbBbGGrFcM44VzXkSQULI=;
- b=VBTASUFGyL35WymN6EyjpAaQvLJ5vlV9+eZNYw/epZ0jbW+k3X459dA8q7iURRgPFXXzhI
- xhIUHSVmzusEAxVN6gAFp033nMoeQ0BgFhPhvEx0tMfYZgGdydeeBmvjRfbVlwdTyqbsBe
- 3c9hvay6n0y9W5y5S2bvvDyh/UmZzjM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-dD-CiE-FM_-NzT8PzwLUUw-1; Thu, 23 Feb 2023 01:13:26 -0500
-X-MC-Unique: dD-CiE-FM_-NzT8PzwLUUw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C44643801F54;
- Thu, 23 Feb 2023 06:13:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 986EA404BEC0;
- Thu, 23 Feb 2023 06:13:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 919B721E6A1F; Thu, 23 Feb 2023 07:13:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Michael Roth
- <michael.roth@amd.com>,  Thomas Huth <thuth@redhat.com>,  Qemu-block
- <qemu-block@nongnu.org>,  Cleber Rosa <crosa@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,  Beraldo Leal
- <bleal@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Hanna Reitz
- <hreitz@redhat.com>,  Alex
- =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  Daniel Berrange
- <berrange@redhat.com>
-Subject: Re: [PATCH v3 5/6] meson: prefer 'sphinx-build' to 'sphinx-build-3'
-References: <20230221012456.2607692-1-jsnow@redhat.com>
- <20230221012456.2607692-6-jsnow@redhat.com>
- <87o7pnzf4d.fsf@pond.sub.org>
- <CAFn=p-aYtKwFUpHH+4TYGKKNhVreUL+KSLKjzPvDbxiMr9eN3g@mail.gmail.com>
- <87bklmrx1y.fsf@pond.sub.org>
- <CAFn=p-aiM+8280+xUrJNqh7+uzK6JLmiwEjKBdob_fLR_Mss_Q@mail.gmail.com>
-Date: Thu, 23 Feb 2023 07:13:24 +0100
-In-Reply-To: <CAFn=p-aiM+8280+xUrJNqh7+uzK6JLmiwEjKBdob_fLR_Mss_Q@mail.gmail.com>
- (John Snow's message of "Wed, 22 Feb 2023 23:40:20 -0500")
-Message-ID: <87ilfshptn.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pV4vB-0005jQ-13
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:17:37 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pV4v8-00015W-0u
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:17:35 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h14so1098008wru.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 22:17:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZjF/kJNnJ49q3LOGdfsbF1MHAMDW+WZ1zoYMshTAD2Y=;
+ b=a6K1PDfvfBoPMNQG4EZKsSnObnLDDGF/W+k7xWbC2BaYNk/WtVV4lsLfF7Wa9LuJZj
+ 9maWuclbM3SPVEAt6eIR4N0x0vkQbvf8t1jgcKUJPDaVLPaA/OIOOm9dbfPt2D7VgaMc
+ IMIE+Lg0Xn6kqL32fY4a7i0e2jFIrVsq8awHcVWvVbW0thimEXsbIg381fqY3hUx9v4W
+ s6erGSwHRbiVBF+Wmx64wN1E5ISF/nzRp0fgDXnrxykFLOLFO2b6T632bur48aTQH7cK
+ BxGXbJ/wFQsYD5pbiemUZRr0arvE/IkmwaGC8hqD3iqPJC0tW4kWSnnz0vJIpzNdb49F
+ 72LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZjF/kJNnJ49q3LOGdfsbF1MHAMDW+WZ1zoYMshTAD2Y=;
+ b=Kb6P1iQ4a5WezEmuDrzTEGs7+r0ddICeeOLBfSt3q2fOgb8I0mvhSid4a1ILvuxNC1
+ EwKIdtsVVy87os6Y5iiZDwTw5+zvxlbWI1sWOXYh5orMbRCYpimYkpL5XJ0f3hqFZgwF
+ Usm53VZR/nHRLGLRtSOWmu2BYwjLSLcxvLdYrcjjzc1qixtbEm6k33E6cjVr3QLo5VXA
+ 799IUoe81uteUzOumig0mYxj4OQ6PBGiQs1kW78udKELaXQ3j/mhjVMR7cYUXRc80d6H
+ jQFm5yJ0Ry938YMAYrYx+S1CR9HnNYVHfv9Ace4PdhSPDFSbk+KmSGKn1leixhJqGCw0
+ 9LYA==
+X-Gm-Message-State: AO0yUKVBGcRvRyNtHxeVi//jrjRL94eRE181I+vYKCmHBUPqEDRIaXZJ
+ G4Hr8lPVzHhzclHotzeUI7ZL+w==
+X-Google-Smtp-Source: AK7set9JFigw46P8ckZ8Z7cW4hf6fZT2HkM3E0GfGP/uPFsxy2Us1/Wl/jKZufUWPAfZ3Gl/rQTKug==
+X-Received: by 2002:a05:6000:1007:b0:2c3:da8a:192 with SMTP id
+ a7-20020a056000100700b002c3da8a0192mr8726616wrx.15.1677133050222; 
+ Wed, 22 Feb 2023 22:17:30 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
+ [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+ by smtp.gmail.com with ESMTPSA id
+ 3-20020a05600c024300b003daf7721bb3sm10009152wmj.12.2023.02.22.22.17.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Feb 2023 22:17:29 -0800 (PST)
+Date: Thu, 23 Feb 2023 07:17:28 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ bmeng@tinylab.org, liweiwei@iscas.ac.cn,
+ zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
+Subject: Re: [PATCH v7 03/10] target/riscv: allow MISA writes as experimental
+Message-ID: <20230223061728.j6uunjkdaqdvage4@orel>
+References: <20230222185205.355361-1-dbarboza@ventanamicro.com>
+ <20230222185205.355361-4-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230222185205.355361-4-dbarboza@ventanamicro.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,76 +93,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-John Snow <jsnow@redhat.com> writes:
-
-> On Wed, Feb 22, 2023 at 2:15 AM Markus Armbruster <armbru@redhat.com> wrote:
->>
->> John Snow <jsnow@redhat.com> writes:
->>
->> > On Tue, Feb 21, 2023, 1:50 AM Markus Armbruster <armbru@redhat.com> wrote:
->> >
->> >> John Snow <jsnow@redhat.com> writes:
->> >>
->> >> > Once upon a time, "sphinx-build" on certain RPM platforms invoked
->> >> > specifically a Python 2.x version, while "sphinx-build-3" was a distro
->> >> > shim for the Python 3.x version.
->> >> >
->> >> > These days, none of our supported platforms utilize a 2.x version, so it
->> >> > should be safe to search for 'sphinx-build' prior to 'sphinx-build-3',
->> >> > which will prefer pip/venv installed versions of sphinx if they're
->> >> > available.
->> >> >
->> >> > This adds an extremely convenient ability to test document building
->> >> > ability in QEMU across multiple versions of Sphinx for the purposes of
->> >> > compatibility testing.
->> >> >
->> >> > Signed-off-by: John Snow <jsnow@redhat.com>
->> >> > ---
->> >> >  docs/meson.build | 2 +-
->> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >> >
->> >> > diff --git a/docs/meson.build b/docs/meson.build
->> >> > index 9136fed3b73..906034f9a87 100644
->> >> > --- a/docs/meson.build
->> >> > +++ b/docs/meson.build
->> >> > @@ -1,5 +1,5 @@
->> >> >  if get_option('sphinx_build') == ''
->> >> > -  sphinx_build = find_program(['sphinx-build-3', 'sphinx-build'],
->> >> > +  sphinx_build = find_program(['sphinx-build', 'sphinx-build-3'],
->> >> >                                required: get_option('docs'))
->> >> >  else
->> >> >    sphinx_build = find_program(get_option('sphinx_build'),
->> >>
->> >> Do we still need to check for sphinx-build-3?  Or asked differently, is
->> >> there any supported build host that provides only sphinx-build-3?
->> >>
->> >
->> > Yes, modern Fedora still uses "sphinx-build-3" as the name in /usr/bin for
->> > the rpm-packaged version of sphinx.
->>
->> For what it's worth, python3-sphinx-5.0.2-2.fc37.noarch provides
->>
->>     /usr/bin/sphinx-build
->>     /usr/bin/sphinx-build-3
->>     /usr/bin/sphinx-build-3.11
->>
->> where the latter two are symbolic links to the first.  No need to check
->> for sphinx-build-3 here.
+On Wed, Feb 22, 2023 at 03:51:58PM -0300, Daniel Henrique Barboza wrote:
+> At this moment, and apparently since ever, we have no way of enabling
+> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
+> the nuts and bolts that handles how to properly write this CSR, has
+> always been a no-op as well because write_misa() will always exit
+> earlier.
+> 
+> This seems to be benign in the majority of cases. Booting an Ubuntu
+> 'virt' guest and logging all the calls to 'write_misa' shows that no
+> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
+> RISC-V extensions after the machine is powered on, seems to be a niche
+> use.
+> 
+> After discussions in the mailing list, most notably in [1], we reached
+> the consensus that this code is not suited to be exposed to users
+> because it's not well tested, but at the same time removing it is a bit
+> extreme because we would like to fix it, and it's easier to do so with
+> the code available to use instead of fetching it from git log.
+> 
+> The approach taken here is to get rid of RISCV_FEATURE_MISA altogether
+> and use a new experimental flag called x-misa-w. The default value is
+> false, meaning that we're keeping the existing behavior of doing nothing
+> if a write_misa() is attempted. As with any existing experimental flag,
+> x-misa-w is also a temporary flag that we need to remove once we fix
+> write_misa().
+> 
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05092.html
+> 
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  target/riscv/cpu.c | 6 ++++++
+>  target/riscv/cpu.h | 2 +-
+>  target/riscv/csr.c | 2 +-
+>  3 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 93b52b826c..1d637b1acd 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1210,6 +1210,12 @@ static Property riscv_cpu_properties[] = {
+>  
+>      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
+>      DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
+> +
+> +    /*
+> +     * write_misa() is marked as experimental for now so mark
+> +     * it with -x and default to 'false'.
+> +     */
+> +    DEFINE_PROP_BOOL("x-misa-w", RISCVCPU, cfg.misa_w, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 215423499e..9d3304bcda 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -89,7 +89,6 @@ enum {
+>      RISCV_FEATURE_MMU,
+>      RISCV_FEATURE_PMP,
+>      RISCV_FEATURE_EPMP,
+> -    RISCV_FEATURE_MISA,
+>      RISCV_FEATURE_DEBUG
+>  };
+>  
+> @@ -498,6 +497,7 @@ struct RISCVCPUConfig {
+>      bool pmp;
+>      bool epmp;
+>      bool debug;
+> +    bool misa_w;
+>  
+>      bool short_isa_string;
+>  };
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index e149b453da..3cb8d2ffad 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1329,7 +1329,7 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
+>  static RISCVException write_misa(CPURISCVState *env, int csrno,
+>                                   target_ulong val)
+>  {
+> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
+> +    if (!riscv_cpu_cfg(env)->misa_w) {
+>          /* drop write to misa */
+>          return RISCV_EXCP_NONE;
+>      }
+> -- 
+> 2.39.2
+> 
 >
-> Oh, I see. I guess it should be fine, but only if we explicitly drop
-> support for the 3.6 version that comes with CentOS. I'm not entirely
-> sure if "sphinx-build-3" is used anywhere else, I *think* it's just an
-> rpm-ism.
 
-I can see just two reasons for trying sphinx-build-3:
-
-1. sphinx-build does not exist.
-
-2. sphinx-build exists, but uses Python 2, which doesn't work with our
-   Sphinx extension.
-
-The commit message seems to claim it's not 2.
-
-So, what is it?
-
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
