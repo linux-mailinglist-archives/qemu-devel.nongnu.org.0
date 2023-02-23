@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4296A088F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A406A088C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:24:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVAdO-0002yt-I9; Thu, 23 Feb 2023 07:23:38 -0500
+	id 1pVAdK-0002wW-My; Thu, 23 Feb 2023 07:23:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdK-0002wl-G7
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdI-0002w3-QD
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdJ-0003y6-1J
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:34 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdH-0003xn-95
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677155012;
+ s=mimecast20190719; t=1677155010;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EuqbNzloE8p5VJVGICYz1ePjTwoKZYwYA8XMCXL9IOw=;
- b=D7yR1qSBrEjZmCD7HL7N82NRiTVa/pa7C6OdhkZhFARx3jvDjWPixuditmfJkqoK9oIz47
- zs+gPXwjTw2XwayiBfjjh47tWg4wZ2JEwxJwpAh57az9IkRLNv0hnOE2/wRw/Aj5nW4fm/
- FDLaBQnMKKX68OJKkUIkA1rct497oM4=
+ bh=yOFlZsty6p8TgvR1vUxvTDz/q6RTEIA7aKDoRnWfEUM=;
+ b=iRGkNutooIJWkEtctbz3dD24+HXPG1kKgKs8JKgnfN+zsdbJYDCQEgVCI8nXdIwIxPaifl
+ qsqJe7X46oMc5kXtyBLnRv8wLnoMbc8QtLvWbhu+2HJXKdB0nml0ilObW2lCu2iKHKubXd
+ 1kM+/k982KgN4oqwmuyQVH0jhNa5MdM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-UQ0mgSUiPhamu2fMxlTtqg-1; Thu, 23 Feb 2023 07:23:29 -0500
-X-MC-Unique: UQ0mgSUiPhamu2fMxlTtqg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-110-_eXceLRaP9axfRyasTLotg-1; Thu, 23 Feb 2023 07:23:29 -0500
+X-MC-Unique: _eXceLRaP9axfRyasTLotg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C70763813F3B;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C70D73813F3C;
  Thu, 23 Feb 2023 12:23:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FC452026D4B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F420492C3E;
  Thu, 23 Feb 2023 12:23:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8A34721E6A22; Thu, 23 Feb 2023 13:23:27 +0100 (CET)
+ id 8CCDE21E6A23; Thu, 23 Feb 2023 13:23:27 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	John Snow <jsnow@redhat.com>
-Subject: [PULL 3/8] qapi: Update flake8 config
-Date: Thu, 23 Feb 2023 13:23:22 +0100
-Message-Id: <20230223122327.1920247-4-armbru@redhat.com>
+Subject: [PULL 4/8] qapi: update pylint configuration
+Date: Thu, 23 Feb 2023 13:23:23 +0100
+Message-Id: <20230223122327.1920247-5-armbru@redhat.com>
 In-Reply-To: <20230223122327.1920247-1-armbru@redhat.com>
 References: <20230223122327.1920247-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,26 +81,29 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: John Snow <jsnow@redhat.com>
 
-New versions of flake8 don't like same-line comments. (It's a version
-newer than what fc37 ships, but it still makes my life easier to fix it
-now.)
+Newer versions of pylint disable the "no-self-use" message by
+default. Older versions don't, though. If we leave the suppressions in,
+pylint yelps about useless options. Just tell pylint to shush.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230215000011.1725012-2-jsnow@redhat.com>
+Message-Id: <20230215000011.1725012-3-jsnow@redhat.com>
 ---
- scripts/qapi/.flake8 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/qapi/pylintrc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/qapi/.flake8 b/scripts/qapi/.flake8
-index 6b158c68b8..a873ff6730 100644
---- a/scripts/qapi/.flake8
-+++ b/scripts/qapi/.flake8
-@@ -1,2 +1,3 @@
- [flake8]
--extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
-+# Prefer pylint's bare-except checks to flake8's
-+extend-ignore = E722
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index a724628203..90546df534 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -23,6 +23,7 @@ disable=fixme,
+         too-many-statements,
+         too-many-instance-attributes,
+         consider-using-f-string,
++        useless-option-value,
+ 
+ [REPORTS]
+ 
 -- 
 2.39.0
 
