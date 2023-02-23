@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F396A08D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DDA6A08D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:47:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVAzf-0003Wf-AE; Thu, 23 Feb 2023 07:46:39 -0500
+	id 1pVAzp-0004W8-Ti; Thu, 23 Feb 2023 07:46:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVAzW-00033n-17
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:30 -0500
+ id 1pVAzX-0003Bv-NV
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:31 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVAzT-0004hr-DO
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:29 -0500
+ id 1pVAzT-0004hs-Bq
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=TMm3ECg/KebkYqlYu5sKhzF+Gn/ECcgVAI5suV+Kpkk=; b=ZklZHArMZm4X2HtLbuAI0r1ssQ
- az3nYL5wghdZK9cmBOQCT5PZgJxbVtA2A2gthWDi5VUKw8siKBOxs5qs7lI297sEriWMRWQwi6LVc
- Tza+SC+fk/11O9vzfTnyGoPaRABgfGMYorpF0rS6g6C0eugbQRnPAMVM9oFl9YVw/So5p8PFKmP1K
- TUg0tA1iDvN3739KSKluB7Wqzv7im31nS02sROIAyMxdJWJUYfbbnwy/kaPKFrqhr3Af2WgIfd2Je
- HHfDjWBUHv5bTx2EF8xtjkyu3HnXo9CFued8MxEYUZ4M1a3R8xQDdcC5W4EMirQIYw6RranYDcLcj
- 6eQfUT7g==;
+ bh=k8GCQQoJy2aRlOQPrVefZT/ee28eSx+Uu4q7yzFpNOU=; b=VZPwtSMUn0n2e5FmS4B8DL+4Eu
+ lcQB3yxcjcnp8h8fqgtvZW7pu7fwbmbIrsxSuLNfF9uTw3SAJsUWfnag09Wi3uqevGzSHzE7gHOj3
+ JDtbbK8Y/zCSz0C5w/LqZJIAZ+PeLKOEUsACF9tHozASRbUDtPXRak5WCEnlxQd5X9T7vgnke+pU4
+ 7pwGttWl1kuNgm4EgZw/ClicgC2ocm4khwQ8A4DU/mE+lLpaTxd2jZjXlldNc81MqnmMgvra6dLYP
+ /cv8jhu1L/KzUsnOcHhnbAFPVS3+yD3yoEy8B76nL8eNkiB2c2SbxcsxvXDEbfvYBAb4jmozGlB3m
+ 0si+DI9w==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pVAzH-00EMiS-I8; Thu, 23 Feb 2023 12:46:16 +0000
+ id 1pVAzH-00EMiT-Ju; Thu, 23 Feb 2023 12:46:16 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pVAzH-00DYou-1h; Thu, 23 Feb 2023 12:46:15 +0000
+ Linux)) id 1pVAzH-00DYoz-1t; Thu, 23 Feb 2023 12:46:15 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,9 +50,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v13 05/60] i386/kvm: handle Xen HVM cpuid leaves
-Date: Thu, 23 Feb 2023 12:45:18 +0000
-Message-Id: <20230223124613.3231331-6-dwmw2@infradead.org>
+Subject: [PATCH v13 06/60] i386/kvm: Set Xen vCPU ID in KVM
+Date: Thu, 23 Feb 2023 12:45:19 +0000
+Message-Id: <20230223124613.3231331-7-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230223124613.3231331-1-dwmw2@infradead.org>
 References: <20230223124613.3231331-1-dwmw2@infradead.org>
@@ -85,192 +85,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joao Martins <joao.m.martins@oracle.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Introduce support for emulating CPUID for Xen HVM guests. It doesn't make
-sense to advertise the KVM leaves to a Xen guest, so do Xen unconditionally
-when the xen-version machine property is set.
+There are (at least) three different vCPU ID number spaces. One is the
+internal KVM vCPU index, based purely on which vCPU was chronologically
+created in the kernel first. If userspace threads are all spawned and
+create their KVM vCPUs in essentially random order, then the KVM indices
+are basically random too.
 
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-[dwmw2: Obtain xen_version from KVM property, make it automatic]
+The second number space is the APIC ID space, which is consistent and
+useful for referencing vCPUs. MSIs will specify the target vCPU using
+the APIC ID, for example, and the KVM Xen APIs also take an APIC ID
+from userspace whenever a vCPU needs to be specified (as opposed to
+just using the appropriate vCPU fd).
+
+The third number space is not normally relevant to the kernel, and is
+the ACPI/MADT/Xen CPU number which corresponds to cs->cpu_index. But
+Xen timer hypercalls use it, and Xen timer hypercalls *really* want
+to be accelerated in the kernel rather than handled in userspace, so
+the kernel needs to be told.
+
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- target/i386/cpu.c         |  1 +
- target/i386/cpu.h         |  2 +
- target/i386/kvm/kvm.c     | 77 ++++++++++++++++++++++++++++++++++++++-
- target/i386/kvm/xen-emu.c |  4 +-
- target/i386/kvm/xen-emu.h | 13 ++++++-
- 5 files changed, 91 insertions(+), 6 deletions(-)
+ target/i386/kvm/kvm.c     |  5 +++++
+ target/i386/kvm/xen-emu.c | 28 ++++++++++++++++++++++++++++
+ target/i386/kvm/xen-emu.h |  1 +
+ 3 files changed, 34 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 4d2b8d0444..eb5a466d4e 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -7070,6 +7070,7 @@ static Property x86_cpu_properties[] = {
-      * own cache information (see x86_cpu_load_def()).
-      */
-     DEFINE_PROP_BOOL("legacy-cache", X86CPU, legacy_cache, true),
-+    DEFINE_PROP_BOOL("xen-vapic", X86CPU, xen_vapic, false),
- 
-     /*
-      * From "Requirements for Implementing the Microsoft
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d4bc19577a..c6c57baed5 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1964,6 +1964,8 @@ struct ArchCPU {
-     int32_t thread_id;
- 
-     int32_t hv_max_vps;
-+
-+    bool xen_vapic;
- };
- 
- 
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index aa6eac7cad..2b3daabf7b 100644
+index 2b3daabf7b..165fa5232d 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -22,6 +22,7 @@
+@@ -1869,6 +1869,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
+             }
+         }
  
- #include <linux/kvm.h>
- #include "standard-headers/asm-x86/kvm_para.h"
-+#include "hw/xen/interface/arch-x86/cpuid.h"
- 
- #include "cpu.h"
- #include "host-cpu.h"
-@@ -1804,7 +1805,77 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         has_msr_hv_hypercall = true;
-     }
- 
--    if (cpu->expose_kvm) {
-+    if (cs->kvm_state->xen_version) {
-+#ifdef CONFIG_XEN_EMU
-+        struct kvm_cpuid_entry2 *xen_max_leaf;
-+
-+        memcpy(signature, "XenVMMXenVMM", 12);
-+
-+        xen_max_leaf = c = &cpuid_data.entries[cpuid_i++];
-+        c->function = kvm_base + XEN_CPUID_SIGNATURE;
-+        c->eax = kvm_base + XEN_CPUID_TIME;
-+        c->ebx = signature[0];
-+        c->ecx = signature[1];
-+        c->edx = signature[2];
-+
-+        c = &cpuid_data.entries[cpuid_i++];
-+        c->function = kvm_base + XEN_CPUID_VENDOR;
-+        c->eax = cs->kvm_state->xen_version;
-+        c->ebx = 0;
-+        c->ecx = 0;
-+        c->edx = 0;
-+
-+        c = &cpuid_data.entries[cpuid_i++];
-+        c->function = kvm_base + XEN_CPUID_HVM_MSR;
-+        /* Number of hypercall-transfer pages */
-+        c->eax = 1;
-+        /* Hypercall MSR base address */
-+        if (hyperv_enabled(cpu)) {
-+            c->ebx = XEN_HYPERCALL_MSR_HYPERV;
-+            kvm_xen_init(cs->kvm_state, c->ebx);
-+        } else {
-+            c->ebx = XEN_HYPERCALL_MSR;
-+        }
-+        c->ecx = 0;
-+        c->edx = 0;
-+
-+        c = &cpuid_data.entries[cpuid_i++];
-+        c->function = kvm_base + XEN_CPUID_TIME;
-+        c->eax = ((!!tsc_is_stable_and_known(env) << 1) |
-+            (!!(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_RDTSCP) << 2));
-+        /* default=0 (emulate if necessary) */
-+        c->ebx = 0;
-+        /* guest tsc frequency */
-+        c->ecx = env->user_tsc_khz;
-+        /* guest tsc incarnation (migration count) */
-+        c->edx = 0;
-+
-+        c = &cpuid_data.entries[cpuid_i++];
-+        c->function = kvm_base + XEN_CPUID_HVM;
-+        xen_max_leaf->eax = kvm_base + XEN_CPUID_HVM;
-+        if (cs->kvm_state->xen_version >= XEN_VERSION(4, 5)) {
-+            c->function = kvm_base + XEN_CPUID_HVM;
-+
-+            if (cpu->xen_vapic) {
-+                c->eax |= XEN_HVM_CPUID_APIC_ACCESS_VIRT;
-+                c->eax |= XEN_HVM_CPUID_X2APIC_VIRT;
-+            }
-+
-+            c->eax |= XEN_HVM_CPUID_IOMMU_MAPPINGS;
-+
-+            if (cs->kvm_state->xen_version >= XEN_VERSION(4, 6)) {
-+                c->eax |= XEN_HVM_CPUID_VCPU_ID_PRESENT;
-+                c->ebx = cs->cpu_index;
-+            }
++        r = kvm_xen_init_vcpu(cs);
++        if (r) {
++            return r;
 +        }
 +
-+        kvm_base += 0x100;
-+#else /* CONFIG_XEN_EMU */
-+        /* This should never happen as kvm_arch_init() would have died first. */
-+        fprintf(stderr, "Cannot enable Xen CPUID without Xen support\n");
-+        abort();
-+#endif
-+    } else if (cpu->expose_kvm) {
-         memcpy(signature, "KVMKVMKVM\0\0\0", 12);
-         c = &cpuid_data.entries[cpuid_i++];
-         c->function = KVM_CPUID_SIGNATURE | kvm_base;
-@@ -2524,7 +2595,9 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-             error_report("kvm: Xen support only available in PC machine");
-             return -ENOTSUP;
-         }
--        ret = kvm_xen_init(s);
-+        /* hyperv_enabled() doesn't work yet. */
-+        uint32_t msr = XEN_HYPERCALL_MSR;
-+        ret = kvm_xen_init(s, msr);
-         if (ret < 0) {
-             return ret;
-         }
+         kvm_base += 0x100;
+ #else /* CONFIG_XEN_EMU */
+         /* This should never happen as kvm_arch_init() would have died first. */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index b556d903aa..34d5bc1bc9 100644
+index 34d5bc1bc9..4883b95d9d 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -15,12 +15,12 @@
- #include "kvm/kvm_i386.h"
- #include "xen-emu.h"
+@@ -52,6 +52,34 @@ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
+     return 0;
+ }
  
--int kvm_xen_init(KVMState *s)
-+int kvm_xen_init(KVMState *s, uint32_t hypercall_msr)
++int kvm_xen_init_vcpu(CPUState *cs)
++{
++    int err;
++
++    /*
++     * The kernel needs to know the Xen/ACPI vCPU ID because that's
++     * what the guest uses in hypercalls such as timers. It doesn't
++     * match the APIC ID which is generally used for talking to the
++     * kernel about vCPUs. And if vCPU threads race with creating
++     * their KVM vCPUs out of order, it doesn't necessarily match
++     * with the kernel's internal vCPU indices either.
++     */
++    if (kvm_xen_has_cap(EVTCHN_SEND)) {
++        struct kvm_xen_vcpu_attr va = {
++            .type = KVM_XEN_VCPU_ATTR_TYPE_VCPU_ID,
++            .u.vcpu_id = cs->cpu_index,
++        };
++        err = kvm_vcpu_ioctl(cs, KVM_XEN_VCPU_SET_ATTR, &va);
++        if (err) {
++            error_report("kvm: Failed to set Xen vCPU ID attribute: %s",
++                         strerror(-err));
++            return err;
++        }
++    }
++
++    return 0;
++}
++
+ uint32_t kvm_xen_get_caps(void)
  {
-     const int required_caps = KVM_XEN_HVM_CONFIG_HYPERCALL_MSR |
-         KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL | KVM_XEN_HVM_CONFIG_SHARED_INFO;
-     struct kvm_xen_hvm_config cfg = {
--        .msr = XEN_HYPERCALL_MSR,
-+        .msr = hypercall_msr,
-         .flags = KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL,
-     };
-     int xen_caps, ret;
+     return kvm_state->xen_caps;
 diff --git a/target/i386/kvm/xen-emu.h b/target/i386/kvm/xen-emu.h
-index 4f31bd96cb..2101df0182 100644
+index 2101df0182..d62f1d8ed8 100644
 --- a/target/i386/kvm/xen-emu.h
 +++ b/target/i386/kvm/xen-emu.h
-@@ -12,8 +12,17 @@
- #ifndef QEMU_I386_KVM_XEN_EMU_H
- #define QEMU_I386_KVM_XEN_EMU_H
+@@ -24,5 +24,6 @@
+ #define XEN_VERSION(maj, min) ((maj) << 16 | (min))
  
--#define XEN_HYPERCALL_MSR 0x40000000
-+#define XEN_HYPERCALL_MSR               0x40000000
-+#define XEN_HYPERCALL_MSR_HYPERV        0x40000200
- 
--int kvm_xen_init(KVMState *s);
-+#define XEN_CPUID_SIGNATURE        0
-+#define XEN_CPUID_VENDOR           1
-+#define XEN_CPUID_HVM_MSR          2
-+#define XEN_CPUID_TIME             3
-+#define XEN_CPUID_HVM              4
-+
-+#define XEN_VERSION(maj, min) ((maj) << 16 | (min))
-+
-+int kvm_xen_init(KVMState *s, uint32_t hypercall_msr);
+ int kvm_xen_init(KVMState *s, uint32_t hypercall_msr);
++int kvm_xen_init_vcpu(CPUState *cs);
  
  #endif /* QEMU_I386_KVM_XEN_EMU_H */
 -- 
