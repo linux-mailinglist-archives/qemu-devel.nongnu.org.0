@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9946A1127
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:24:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DDA6A1122
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:24:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVI7e-0005eW-Kn; Thu, 23 Feb 2023 15:23:22 -0500
+	id 1pVI7e-0005fA-Ux; Thu, 23 Feb 2023 15:23:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pVI7a-0005d1-RB; Thu, 23 Feb 2023 15:23:20 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ id 1pVI7c-0005dc-Ie; Thu, 23 Feb 2023 15:23:20 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pVI7Y-0002GS-Tk; Thu, 23 Feb 2023 15:23:18 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id f13so46187482edz.6;
- Thu, 23 Feb 2023 12:23:14 -0800 (PST)
+ id 1pVI7Z-0002KP-2w; Thu, 23 Feb 2023 15:23:19 -0500
+Received: by mail-ed1-x532.google.com with SMTP id x10so45921363edd.13;
+ Thu, 23 Feb 2023 12:23:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3TAEuDUMr90/4Bb3lbWVsGYMv+Kyi6kiTYvisAPc2jY=;
- b=ciV0ijTQ93PRRaEvKORGXqw0CyZ+S0ZS+9WQdt56kVWSlw3YK5HtddKOAaDzLsoovC
- +twSv8wR+/wVuv2JRrfQ+YJiOHjIKpVI3h3jUXt+33vJUq9yf96jvv34c0SoQcxMk+PD
- CWjHaKcooA5+fP8o5n5Mman6cPMXL9WgSw4cMiSgwWxgiTcavYpl7nvNdlPs7+r32Lfl
- 5G5xYVmQxDADiopygg4V51JuKS6LPDT/XTPhEBhSyvYaeoeSCgblkby99n7YUwmynW07
- O6l9w2WX+xykmeqM+w5XaAH43Us5VpcW514cG0b02ncpLIzLfHLODvULzXGowvrZcdAU
- /qTg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7DZ4IC21cN4EEqkYPJ+LbANCivKRiX+Zc8yuBjmuGaQ=;
+ b=DKG9YAuMLc1XScc+0Qw1duvBG4NGDR0w6oljM7W3U0+iaO4wRsLz9mxC5qqX2u7LT/
+ SlVOJWcpTcDmVZ0A3bpLEkUaWrQAjtenx3sOllfeyqkRZbeN20ZyNXnkhs3CKWVoEm9T
+ FgZbo5dEhtjozBsdIejP3hYVSvkgF+0E1bSmI/9nyiylSBlhRh+aqhw/yroVXLadcWcr
+ MEcXIhb3t+GDI2/DVW0ZNbWWBkas5QwjtRAEL/c5VUUz2HMxo4fflYcYBspyWNH3lLTR
+ YS0SbyqEO8quco/42eO3jTFIw//v6aSN/tcziUA8ENmQzTcABe095adCSVySoJwLut0Q
+ uWpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3TAEuDUMr90/4Bb3lbWVsGYMv+Kyi6kiTYvisAPc2jY=;
- b=jn7KDNVyX7nL6ZYdLXBKy92suwaMZERcZvRsATGI91N6xmBT+JDJy8Bk9c1QnyaXqc
- TummhXR62j3kiA2SmPjeVzy3l3wOtPncJY3EcpMOw0ZGIJWOoiX4VJX4/lHsluI+v/XL
- BrBFNKw2UdDQQY4Fq4aRWDZc0WkYjRTjL5azNVhkMclST9jIOYUpPnVKTpKg5PHxu1UU
- chf9UFlfhsDex8jTQOcE0HvnUKSQYU8iQPEKsCxSZHX2edvA59Wx+nROsX8rRX0e5WVa
- BNk9q/w3BEgEjUqtWU1yVYsxPvfyTafA1Me1XFT7Rw+av9mKLW50AcBqVbburNBXhGps
- VfAQ==
-X-Gm-Message-State: AO0yUKWYeux1EjQS31lNrPOp+U28S595orDNT1BqIKy4Mqsji5uyDqMx
- 2bCwg/yHxILPdn/BUeV+V88WCZMRn18=
-X-Google-Smtp-Source: AK7set8i+gGtK2eNU8W06x3l7s84AIPmkYNh9qirr+S9/z2mfjkkrh+boDKsN9+WBrbvqPVTB8OOmA==
-X-Received: by 2002:a17:907:8b86:b0:8ea:5f7d:8fec with SMTP id
- tb6-20020a1709078b8600b008ea5f7d8fecmr6716918ejc.36.1677183792819; 
- Thu, 23 Feb 2023 12:23:12 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7DZ4IC21cN4EEqkYPJ+LbANCivKRiX+Zc8yuBjmuGaQ=;
+ b=VfUOiPwF2aGP1z+kPsjdLf34Id95m7CsuZK1UG2Mj7VdjqkvF/k9dPhmiWLx6TBk9D
+ PkVkVKLoTkVuBbzd214NbqbvZoCKN67a9j63nj0Py1aVhffjf6OvPBoPJhXr2HcHvnJp
+ jKqkD+gmWTZxgX/QRZ4J9hrg12QHp6P0MUxEuX9Segriw/cVGEMgzU2fhOXVnC1wMWUH
+ JBDCIeQFIpqexjHh6e1yl1CJ7LA0Ypr8IDnO/nKUVBMoxfFlZhPrkyZykL3BjRKfelrG
+ +YhkAFP+ZDO5sEwo5uKfdqAX7sg/P1yn9KaRkW4RAOF77EmDbNq5EuVdoPiQCPz5xgjM
+ SN/g==
+X-Gm-Message-State: AO0yUKUBvnn5ZqBjxi1I/Frp8OeCkBFCOc9fxyIgZTyLJQ8GOBIa23O0
+ ddTCwezdZLj5lhA5f2fVgwZtTK8oziQ=
+X-Google-Smtp-Source: AK7set+o7CGyG3Aky511aZFZiHnticak1STivdnrr2djB5eJRiUru5zH4Z0u2gUWzIQja0yTs3ZDJw==
+X-Received: by 2002:a17:906:230b:b0:878:625c:c8ff with SMTP id
+ l11-20020a170906230b00b00878625cc8ffmr20681699eja.54.1677183793673; 
+ Thu, 23 Feb 2023 12:23:13 -0800 (PST)
 Received: from osoxes.fritz.box (pd9ed7433.dip0.t-ipconnect.de.
  [217.237.116.51]) by smtp.gmail.com with ESMTPSA id
  jj1-20020a170907984100b008d606b1bbb1sm5200917ejc.9.2023.02.23.12.23.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 12:23:12 -0800 (PST)
+ Thu, 23 Feb 2023 12:23:13 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org,
  Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 0/5] VT82xx PCI fixes and audio output support
-Date: Thu, 23 Feb 2023 21:20:48 +0100
-Message-Id: <20230223202053.117050-1-shentey@gmail.com>
+Subject: [PATCH 1/5] hw/ppc/pegasos2: Initialize VT8231 PCI IRQ router
+Date: Thu, 23 Feb 2023 21:20:49 +0100
+Message-Id: <20230223202053.117050-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230223202053.117050-1-shentey@gmail.com>
+References: <20230223202053.117050-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,65 +90,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series is v2 of [1] ("[PATCH 0/5] Pegasos2 fixes and audio output=0D
-support"). It makes PCI interrupt routing on the VIA south bridges more=0D
-compliant to the PCI specification and adds partial implementation of the=0D
-via-ac97 sound part enough to get audio output working on the ppc/pegasos2=
-=0D
-machine.=0D
-=0D
-All credits for implementing AC'97 support go to Zoltan who would like this=
-=0D
-series to be merged for QEMU 8.0.=0D
-=0D
-v2:=0D
-* Rework PCI IRQ routing in the VIA south bridges=0D
-* Use pci_set_irq() rather than via_isa_set_irq() in via-ac97=0D
-=0D
-Testing done:=0D
-* `make check`=0D
-* `qemu-system-ppc -M pegasos2 -rtc base=3Dlocaltime -device=0D
-  ati-vga,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3.17.iso -kerne=
-l=0D
-  morphos-3.17/boot.img`=0D
-  -> There is a nice sound when the Desktop becomes visible.=0D
-* `qemu-system-ppc -M pegasos2 -bios pegasos2.rom -rtc base=3Dlocaltime -de=
-vice=0D
-  ati-vga,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3.17.iso`=0D
-  -> There is a nice sound when the Desktop becomes visible.=0D
-* `qemu-system-ppc -M pegasos2 -bios pegasos2.rom -rtc base=3Dlocaltime -de=
-vice=0D
-  ati-vga,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3.17.iso -devic=
-e=0D
-  usb-mouse -device usb-kbd`=0D
-  -> The machine hangs when audio is supposed to play while the mouse is mo=
-ved.=0D
-     This behavior can also be reproduced in v1.=0D
-=0D
-[1] https://lore.kernel.org/qemu-devel/cover.1677004414.git.balaton@eik.bme=
-.hu/=0D
-=0D
-BALATON Zoltan (2):=0D
-  hw/audio/ac97: Split off some definitions to a header=0D
-  hw/audio/via-ac97: Basic implementation of audio playback=0D
-=0D
-Bernhard Beschow (3):=0D
-  hw/ppc/pegasos2: Initialize VT8231 PCI IRQ router=0D
-  hw/isa/vt82c686: Implement PCI IRQ routing=0D
-  hw/usb/vt82c686-uhci-pci: Use PCI IRQ routing=0D
-=0D
- hw/audio/ac97.h            |  65 ++++++=0D
- include/hw/isa/vt82c686.h  |  25 +++=0D
- hw/audio/ac97.c            |  43 +---=0D
- hw/audio/via-ac97.c        | 436 ++++++++++++++++++++++++++++++++++++-=0D
- hw/isa/vt82c686.c          |  46 +++-=0D
- hw/ppc/pegasos2.c          |   6 +=0D
- hw/usb/vt82c686-uhci-pci.c |  12 -=0D
- hw/audio/trace-events      |   6 +=0D
- 8 files changed, 580 insertions(+), 59 deletions(-)=0D
- create mode 100644 hw/audio/ac97.h=0D
-=0D
--- =0D
-2.39.2=0D
-=0D
+The firmware of the real PegasosII board routes all PIRQx to IRQ9, so do
+the same in QEMU. The PCI_INTERRUPT_LINE registers of the respective
+internal PCI functions are already initialized with IRQ9 which are
+currently used for routing.
+
+Note that the PCI interrupt router isn't implemented yet in the VIA
+south bridges. This change has therefore no effect until this happens.
+
+Inspired-by:
+<c046d77c20875c8cd8bfdc79b4619a98ffd0bf33.1677004415.git.balaton@eik.bme.hu>
+("hw/ppc/pegasos2: Fix PCI interrupt routing")
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+---
+ hw/ppc/pegasos2.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index a9563f4fb2..41688699eb 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -268,6 +268,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
+                               PCI_INTERRUPT_LINE, 2, 0x9);
+     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
+                               0x50, 1, 0x2);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x55, 1, 0x90);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x56, 1, 0x99);
++    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
++                              0x57, 1, 0x90);
+ 
+     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
+                               PCI_INTERRUPT_LINE, 2, 0x109);
+-- 
+2.39.2
+
 
