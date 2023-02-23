@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616606A0B20
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:48:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F17E6A0B1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:48:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVBvf-0001zf-OQ; Thu, 23 Feb 2023 08:46:35 -0500
+	id 1pVBvh-00020o-FM; Thu, 23 Feb 2023 08:46:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvd-0001yJ-SE
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvc-0001wO-Rz
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvb-0001Lu-Ao
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:33 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvb-0001Lq-7G
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1677159990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kfJ0CUF+hd4V2TZHuoU9TMc+u0nzgLF22q4HOavaYaE=;
- b=D1NbExF6gIIZFaKdxeFGED0lj+akOMfLXTdZjv6eZTBNl7JQWCdGZ0bvg4EqOWFUHTUnhJ
- knsrSMVWSg4iJMs9i9dK46mvQZqqDIf6ua2Igd8l/Guxk0dIsSnM+rzqbVoq+noUbjwfD8
- Vm9TOUePjSVdZr+KrwWlbP843kyhUw0=
+ bh=HZkRRES6VX9fUsJrjO1e3Z80R6OzP3FBSPHoy8Bujyo=;
+ b=X0RnYq/HrQVOD69eQkFQsmAtv7xRglrt5XrC4dCLF1Kt+yC/GtNEv2x/6JdqBYbmxFrHzE
+ 3MHcmlxmshChduQsVMcOv0QBzXzm2iEHdorPW138f8XFXT3Y2dgOY93Tkbduxn3ec4foOa
+ dtYl7fgHkt9O4EJ+K/vODyZDOcQ+Qlc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-380-E656rAbPP0espFXL7c3KVA-1; Thu, 23 Feb 2023 08:46:29 -0500
-X-MC-Unique: E656rAbPP0espFXL7c3KVA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-517-lInWLAsKPZSoFW2wqn582Q-1; Thu, 23 Feb 2023 08:46:29 -0500
+X-MC-Unique: lInWLAsKPZSoFW2wqn582Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB7CE8828C1;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2D1F101A521;
  Thu, 23 Feb 2023 13:46:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F3E340C945A;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A2FE52166B29;
  Thu, 23 Feb 2023 13:46:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A5CAD21E6A36; Thu, 23 Feb 2023 14:46:26 +0100 (CET)
+ id A81C521E6900; Thu, 23 Feb 2023 14:46:26 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 09/12] replay: Simplify setting replay blockers
-Date: Thu, 23 Feb 2023 14:46:23 +0100
-Message-Id: <20230223134626.2107382-10-armbru@redhat.com>
+Subject: [PULL 10/12] hw/core: Improve the query-hotpluggable-cpus error
+ message
+Date: Thu, 23 Feb 2023 14:46:24 +0100
+Message-Id: <20230223134626.2107382-11-armbru@redhat.com>
 In-Reply-To: <20230223134626.2107382-1-armbru@redhat.com>
 References: <20230223134626.2107382-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,135 +80,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-replay_add_blocker() takes an Error *.  All callers pass one created
-like this:
+The QERR_ macros are leftovers from the days of "rich" error objects.
+We've been trying to reduce their remaining use.
 
-    error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "some feature");
+Get rid of a use of QERR_FEATURE_DISABLED, and improve the slightly
+awkward error message
 
-Folding this into replay_add_blocker() simplifies the callers, losing
-a bit of generality we haven't needed in more than six years.
+    (qemu) info hotpluggable-cpus
+    Error: The feature 'query-hotpluggable-cpus' is not enabled
 
-Since there are no other uses of macro QERR_REPLAY_NOT_SUPPORTED,
-replace the remaining one by its expansion, and drop the macro.
+to
+
+    Error: machine does not support hot-plugging CPUs
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230207075115.1525-10-armbru@redhat.com>
+Message-Id: <20230207075115.1525-11-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/qapi/qmp/qerror.h |  3 ---
- include/sysemu/replay.h   |  2 +-
- replay/replay.c           |  6 +++++-
- replay/stubs-system.c     |  2 +-
- softmmu/rtc.c             |  5 +----
- softmmu/vl.c              | 13 +++----------
- 6 files changed, 11 insertions(+), 20 deletions(-)
+ hw/core/machine-qmp-cmds.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/qapi/qmp/qerror.h b/include/qapi/qmp/qerror.h
-index 87ca83b155..09006e69f7 100644
---- a/include/qapi/qmp/qerror.h
-+++ b/include/qapi/qmp/qerror.h
-@@ -59,9 +59,6 @@
- #define QERR_QGA_COMMAND_FAILED \
-     "Guest agent command failed, error was '%s'"
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index a6ed3a63c3..2d904747c0 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -16,7 +16,6 @@
+ #include "qapi/error.h"
+ #include "qapi/qapi-builtin-visit.h"
+ #include "qapi/qapi-commands-machine.h"
+-#include "qapi/qmp/qerror.h"
+ #include "qapi/qmp/qobject.h"
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/type-helpers.h"
+@@ -141,7 +140,7 @@ HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
  
--#define QERR_REPLAY_NOT_SUPPORTED \
--    "Record/replay feature is not supported for '%s'"
--
- #define QERR_UNSUPPORTED \
-     "this feature or command is not currently supported"
- 
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index 7ec0882b50..6e5ab09f71 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -72,7 +72,7 @@ void replay_start(void);
- /*! Closes replay log file and frees other resources. */
- void replay_finish(void);
- /*! Adds replay blocker with the specified error description */
--void replay_add_blocker(Error *reason);
-+void replay_add_blocker(const char *feature);
- /* Returns name of the replay log file */
- const char *replay_get_filename(void);
- /*
-diff --git a/replay/replay.c b/replay/replay.c
-index 9a0dc1cf44..c39156c522 100644
---- a/replay/replay.c
-+++ b/replay/replay.c
-@@ -376,8 +376,12 @@ void replay_finish(void)
-     replay_mode = REPLAY_MODE_NONE;
- }
- 
--void replay_add_blocker(Error *reason)
-+void replay_add_blocker(const char *feature)
- {
-+    Error *reason = NULL;
-+
-+    error_setg(&reason, "Record/replay feature is not supported for '%s'",
-+               feature);
-     replay_blockers = g_slist_prepend(replay_blockers, reason);
- }
- 
-diff --git a/replay/stubs-system.c b/replay/stubs-system.c
-index 5c262b08f1..50cefdb2d6 100644
---- a/replay/stubs-system.c
-+++ b/replay/stubs-system.c
-@@ -12,7 +12,7 @@ void replay_input_sync_event(void)
-     qemu_input_event_sync_impl();
- }
- 
--void replay_add_blocker(Error *reason)
-+void replay_add_blocker(const char *feature)
- {
- }
- void replay_audio_in(size_t *recorded, void *samples, size_t *wpos, size_t size)
-diff --git a/softmmu/rtc.c b/softmmu/rtc.c
-index f7114bed7d..4b2bf75dd6 100644
---- a/softmmu/rtc.c
-+++ b/softmmu/rtc.c
-@@ -152,11 +152,8 @@ void configure_rtc(QemuOpts *opts)
-         if (!strcmp(value, "utc")) {
-             rtc_base_type = RTC_BASE_UTC;
-         } else if (!strcmp(value, "localtime")) {
--            Error *blocker = NULL;
-             rtc_base_type = RTC_BASE_LOCALTIME;
--            error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
--                      "-rtc base=localtime");
--            replay_add_blocker(blocker);
-+            replay_add_blocker("-rtc base=localtime");
-         } else {
-             rtc_base_type = RTC_BASE_DATETIME;
-             configure_rtc_base_datetime(value);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 459588aa7d..6e526d95bb 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1852,9 +1852,7 @@ static void qemu_apply_machine_options(QDict *qdict)
+     if (!mc->has_hotpluggable_cpus) {
+-        error_setg(errp, QERR_FEATURE_DISABLED, "query-hotpluggable-cpus");
++        error_setg(errp, "machine does not support hot-plugging CPUs");
+         return NULL;
      }
  
-     if (current_machine->smp.cpus > 1) {
--        Error *blocker = NULL;
--        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
--        replay_add_blocker(blocker);
-+        replay_add_blocker("smp");
-     }
- }
- 
-@@ -2774,13 +2772,8 @@ void qemu_init(int argc, char **argv)
-                 drive_add(IF_PFLASH, -1, optarg, PFLASH_OPTS);
-                 break;
-             case QEMU_OPTION_snapshot:
--                {
--                    Error *blocker = NULL;
--                    snapshot = 1;
--                    error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
--                               "-snapshot");
--                    replay_add_blocker(blocker);
--                }
-+                snapshot = 1;
-+                replay_add_blocker("-snapshot");
-                 break;
-             case QEMU_OPTION_numa:
-                 opts = qemu_opts_parse_noisily(qemu_find_opts("numa"),
 -- 
 2.39.0
 
