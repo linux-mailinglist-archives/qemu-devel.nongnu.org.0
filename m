@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F61D6A08CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:45:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C34556A08CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:45:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVAx1-0007ZD-W7; Thu, 23 Feb 2023 07:43:56 -0500
+	id 1pVAx4-0007aj-Q1; Thu, 23 Feb 2023 07:43:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVAwz-0007Ym-Gk
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:43:53 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVAx3-0007aO-Cf
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:43:57 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVAwv-00031o-Ua
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:43:53 -0500
-Received: by mail-wr1-x431.google.com with SMTP id q16so234165wrw.2
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 04:43:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVAx1-00032v-Ly
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:43:57 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ m25-20020a7bcb99000000b003e7842b75f2so6309209wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 04:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kk8+WybWrT+4XbLQ/Ff9Tr3FqtmYJrKEElH7cekw4R0=;
- b=a2qMwwkoCD5+cQfHxOYFVbIYvYsjXNsQEhoN1F/q7QPnU9kK2nycXp+NxlCAHhAQxL
- t9it53jvpJrdaPk8+azlsvTXGn9cvLfQPqOLeOCPaQrH2656p1VnGLcGxKTft0nAKELp
- EsNQb88k71slbvwGKck5p9rsAS+U0mdLn4EOIdHUMdKn8i5LtJpyp+WW5303MvD7D85n
- nYqTzX5Cew03VdMvW7M6eST136jy8PK5SGel8JtKErWOsaD1HJXizSoUrmeqpburzuwD
- NMT52TdM5UdAlNhnuMHcr6TAxzinV2RWWhsH6PZErtwtRrpo8oGRVz0jrlcwCxMvx9Bx
- B4bg==
+ bh=UieqvLMYtzXamcR/EnTubGkk6CG/pA9dzjTw8XpqXso=;
+ b=JJnuX4dTA2N3L180fA0KX5m9j1rbgos4BmjcPIetUoy2apXAg3vVhrkQbsCgYmCr9w
+ ciIMPCKSO1vtAuNqpHkxTttzI7Pap3aIV2gE6MeuZ5uIurX9F2bIxCCAkeJn5LtEqCT1
+ vhx41Hzx2JEYGcP7E8zSZRKr2YKeLYWTkl9eKqMzUSb6cxz3p3jSaYZoi/3fN9bNQz5W
+ amHDqzIL3dbI7/TOSPyT6X5rM5IMxjaxYXQLPaz1bfuaN1xPSY+g5kTUg3qJdrGN5x/o
+ 2TFOhXXCcVGSXlYMaYd+vwzPO6z5hbas+rSAeLwRk3BBwCCJsE9JpOLC3eDKRYMJ45yq
+ +7Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kk8+WybWrT+4XbLQ/Ff9Tr3FqtmYJrKEElH7cekw4R0=;
- b=JBZosXhwm3EZ6IfbO/b5qtEHIj7gOeBQST9lncqkUP9uMTe0PRirmBXv0B0/cwrMY+
- +mPTkfDy/jJds7a6fcsdtNQMu/+EsQkGA0Pr+HZSuDYYT5NnauQm2H3QRrG1iBl/Af+W
- cMm5N1+/D1TTJCqlAn8xMDwg7ufzLCzu7ZZgvvajAZD77GWkw32IbK5o9TARk2e6RL1l
- 2D8Y5Cr0oZMOvBIS5wGK8HoXU9m62opzeLvGy+t9EzdYjSTCgrBuMT5CVZfTEFhaBCF0
- xszHMzqffdqY7/Kb/OJV7oAS7mtuXcTjgHON5kt7k8J0LtFv5Vp1dnOblnqUjaS9Mt/b
- osQQ==
-X-Gm-Message-State: AO0yUKXFoQUP9rwYhAtLVWdW629QqJUioIHTyfoHq1kAzzJ5GDbrE+2O
- MUa/fc3jL97d4VazQ6pJTWF74Q==
-X-Google-Smtp-Source: AK7set9ALSoDj3EQFUetL/JIlrjCGn+oKg/79uWTNix/3vG/Th9iYlPzbuE/TK/4Ag6blwJsGMtwgQ==
-X-Received: by 2002:adf:e941:0:b0:2c7:be8:4873 with SMTP id
- m1-20020adfe941000000b002c70be84873mr4810717wrn.58.1677156228444; 
- Thu, 23 Feb 2023 04:43:48 -0800 (PST)
+ bh=UieqvLMYtzXamcR/EnTubGkk6CG/pA9dzjTw8XpqXso=;
+ b=shaWSAKB7n8440Znipy/tUP+oj3/W6zhkxgTr8k6AHXjWEQRGaUc4rwPg1SnETg+rr
+ IYwKDgA8UBBA8x6yrnurIPI0jxJtXjsgu01e4ZHmgAfzwOukmocNorkkvXBjNSD/iLlo
+ 5hkN3FjcBV8xewBg6VHtnXubxt54G7/BOyd4teSz4Y6ahKtFNRCg5ni1Jivc6oE6HJX1
+ 2avGROm07lq9rx1+IgJWFuYFPmwtOb2qYIoPQUmuidMc/+HnLyruv1h1ivRj9uCQlws8
+ +2PmHHB7kM9o1CQfa3DuNK+arA3HJ0dCkoB+2tu2KvTc1EqwIWXtyzAAVf5HIQsu3d04
+ 1tkQ==
+X-Gm-Message-State: AO0yUKUY9zcTOdTxlidSLH7GRIFJExbxqQFVkndHJbmYFjI+nmEPPY1C
+ KWp9fpXwdgDNOFklTiLnhNrHAA==
+X-Google-Smtp-Source: AK7set/icR7aIbA1M4q9ppRc2zh3mYQlqNqpPfK4m9efL9x/uHREPpQK4N+Ny+cLxcu3UNbaZmgJAg==
+X-Received: by 2002:a05:600c:1da5:b0:3e2:1dac:b071 with SMTP id
+ p37-20020a05600c1da500b003e21dacb071mr10813211wms.13.1677156234252; 
+ Thu, 23 Feb 2023 04:43:54 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- bl1-20020adfe241000000b002c54d8b89efsm10883913wrb.26.2023.02.23.04.43.46
+ d9-20020a056000114900b002c5584d0e3dsm9976086wrx.24.2023.02.23.04.43.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 04:43:47 -0800 (PST)
+ Thu, 23 Feb 2023 04:43:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
@@ -64,18 +65,18 @@ Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
  Song Gao <gaosong@loongson.cn>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 1/4] target/arm: Restrict 'qapi-commands-machine.h' to
+Subject: [PATCH v3 2/4] target/i386: Restrict 'qapi-commands-machine.h' to
  system emulation
-Date: Thu, 23 Feb 2023 13:43:37 +0100
-Message-Id: <20230223124340.95367-2-philmd@linaro.org>
+Date: Thu, 23 Feb 2023 13:43:38 +0100
+Message-Id: <20230223124340.95367-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230223124340.95367-1-philmd@linaro.org>
 References: <20230223124340.95367-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,119 +103,126 @@ Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
 user-mode builds") we don't generate the "qapi-commands-machine.h"
 header in a user-emulation-only build.
 
-Move the QMP functions from helper.c (which is always compiled)
-to arm-qmp-cmds.c (which is only compiled when system-emulation
-is selected).
+Guard qmp_query_cpu_definitions() within CONFIG_USER_ONLY; move
+x86_cpu_class_check_missing_features() closer since it is only used
+by this QMP command handler.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/{monitor.c => arm-qmp-cmds.c} | 28 +++++++++++++++++++++++
- target/arm/helper.c                      | 29 ------------------------
- target/arm/meson.build                   |  2 +-
- 3 files changed, 29 insertions(+), 30 deletions(-)
- rename target/arm/{monitor.c => arm-qmp-cmds.c} (90%)
+ target/i386/cpu.c | 74 +++++++++++++++++++++++++----------------------
+ 1 file changed, 39 insertions(+), 35 deletions(-)
 
-diff --git a/target/arm/monitor.c b/target/arm/arm-qmp-cmds.c
-similarity index 90%
-rename from target/arm/monitor.c
-rename to target/arm/arm-qmp-cmds.c
-index ecdd5ee817..c8fa524002 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/arm-qmp-cmds.c
-@@ -227,3 +227,31 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
- 
-     return expansion_info;
- }
-+
-+static void arm_cpu_add_definition(gpointer data, gpointer user_data)
-+{
-+    ObjectClass *oc = data;
-+    CpuDefinitionInfoList **cpu_list = user_data;
-+    CpuDefinitionInfo *info;
-+    const char *typename;
-+
-+    typename = object_class_get_name(oc);
-+    info = g_malloc0(sizeof(*info));
-+    info->name = g_strndup(typename,
-+                           strlen(typename) - strlen("-" TYPE_ARM_CPU));
-+    info->q_typename = g_strdup(typename);
-+
-+    QAPI_LIST_PREPEND(*cpu_list, info);
-+}
-+
-+CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-+{
-+    CpuDefinitionInfoList *cpu_list = NULL;
-+    GSList *list;
-+
-+    list = object_class_get_list(TYPE_ARM_CPU, false);
-+    g_slist_foreach(list, arm_cpu_add_definition, &cpu_list);
-+    g_slist_free(list);
-+
-+    return cpu_list;
-+}
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 07d4100365..77eed96761 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -23,7 +23,6 @@
- #include "sysemu/cpu-timers.h"
- #include "sysemu/kvm.h"
- #include "sysemu/tcg.h"
--#include "qapi/qapi-commands-machine-target.h"
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 4d2b8d0444..c8da082b4f 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -31,11 +31,11 @@
  #include "qapi/error.h"
- #include "qemu/guest-random.h"
- #ifdef CONFIG_TCG
-@@ -9212,34 +9211,6 @@ void arm_cpu_list(void)
-     g_slist_free(list);
+ #include "qapi/qapi-visit-machine.h"
+ #include "qapi/qmp/qerror.h"
+-#include "qapi/qapi-commands-machine-target.h"
+ #include "standard-headers/asm-x86/kvm_para.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/i386/topology.h"
+ #ifndef CONFIG_USER_ONLY
++#include "qapi/qapi-commands-machine-target.h"
+ #include "exec/address-spaces.h"
+ #include "hw/boards.h"
+ #include "hw/i386/sgx-epc.h"
+@@ -4713,40 +4713,6 @@ static void x86_cpu_get_unavailable_features(Object *obj, Visitor *v,
+     visit_type_strList(v, "unavailable-features", &result, errp);
  }
  
--static void arm_cpu_add_definition(gpointer data, gpointer user_data)
+-/* Check for missing features that may prevent the CPU class from
+- * running using the current machine and accelerator.
+- */
+-static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
+-                                                 strList **list)
 -{
--    ObjectClass *oc = data;
--    CpuDefinitionInfoList **cpu_list = user_data;
--    CpuDefinitionInfo *info;
--    const char *typename;
+-    strList **tail = list;
+-    X86CPU *xc;
+-    Error *err = NULL;
 -
--    typename = object_class_get_name(oc);
--    info = g_malloc0(sizeof(*info));
--    info->name = g_strndup(typename,
--                           strlen(typename) - strlen("-" TYPE_ARM_CPU));
--    info->q_typename = g_strdup(typename);
+-    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
+-        QAPI_LIST_APPEND(tail, g_strdup("kvm"));
+-        return;
+-    }
 -
--    QAPI_LIST_PREPEND(*cpu_list, info);
+-    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
+-
+-    x86_cpu_expand_features(xc, &err);
+-    if (err) {
+-        /* Errors at x86_cpu_expand_features should never happen,
+-         * but in case it does, just report the model as not
+-         * runnable at all using the "type" property.
+-         */
+-        QAPI_LIST_APPEND(tail, g_strdup("type"));
+-        error_free(err);
+-    }
+-
+-    x86_cpu_filter_features(xc, false);
+-
+-    x86_cpu_list_feature_names(xc->filtered_features, tail);
+-
+-    object_unref(OBJECT(xc));
 -}
 -
--CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
--{
--    CpuDefinitionInfoList *cpu_list = NULL;
--    GSList *list;
--
--    list = object_class_get_list(TYPE_ARM_CPU, false);
--    g_slist_foreach(list, arm_cpu_add_definition, &cpu_list);
--    g_slist_free(list);
--
--    return cpu_list;
--}
--
- /*
-  * Private utility function for define_one_arm_cp_reg_with_opaque():
-  * add a single reginfo struct to the hash table.
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 87e911b27f..6d1ac4c471 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -59,8 +59,8 @@ arm_softmmu_ss = ss.source_set()
- arm_softmmu_ss.add(files(
-   'arch_dump.c',
-   'arm-powerctl.c',
-+  'arm-qmp-cmds.c',
-   'machine.c',
--  'monitor.c',
-   'psci.c',
-   'ptw.c',
- ))
+ /* Print all cpuid feature names in featureset
+  */
+ static void listflags(GList *features)
+@@ -4875,6 +4841,42 @@ void x86_cpu_list(void)
+     g_list_free(names);
+ }
+ 
++#ifndef CONFIG_USER_ONLY
++
++/* Check for missing features that may prevent the CPU class from
++ * running using the current machine and accelerator.
++ */
++static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
++                                                 strList **list)
++{
++    strList **tail = list;
++    X86CPU *xc;
++    Error *err = NULL;
++
++    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
++        QAPI_LIST_APPEND(tail, g_strdup("kvm"));
++        return;
++    }
++
++    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
++
++    x86_cpu_expand_features(xc, &err);
++    if (err) {
++        /* Errors at x86_cpu_expand_features should never happen,
++         * but in case it does, just report the model as not
++         * runnable at all using the "type" property.
++         */
++        QAPI_LIST_APPEND(tail, g_strdup("type"));
++        error_free(err);
++    }
++
++    x86_cpu_filter_features(xc, false);
++
++    x86_cpu_list_feature_names(xc->filtered_features, tail);
++
++    object_unref(OBJECT(xc));
++}
++
+ static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
+ {
+     ObjectClass *oc = data;
+@@ -4915,6 +4917,8 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+     return cpu_list;
+ }
+ 
++#endif /* !CONFIG_USER_ONLY */
++
+ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+                                             bool migratable_only)
+ {
 -- 
 2.38.1
 
