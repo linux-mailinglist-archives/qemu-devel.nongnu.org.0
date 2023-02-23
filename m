@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C876A1099
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAEC6A1098
 	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 20:33:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVHKt-0008Sj-5H; Thu, 23 Feb 2023 14:32:59 -0500
+	id 1pVHL5-00005d-Td; Thu, 23 Feb 2023 14:33:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pVHKn-0008RU-Ai
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 14:32:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVHL2-000055-JD
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 14:33:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pVHKl-0005VX-G1
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 14:32:53 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVHL1-0005jn-99
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 14:33:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677180769;
+ s=mimecast20190719; t=1677180786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I+RWWaPoklZyflzke74PfhnmXPubLzSkKmx/U88pOXc=;
- b=GVS6jQLKUynliBnFzv2Cg1hRSYiFcDajI4yU9kA+MAbVuGdT9Uasa4506SHazL5bpX80oD
- c2aNQXqNEnR9S88UqY0cjlIkYelxq0dFzAfuoQcB5UCkvclRc6d7qYj5E3W0avulDTr/ZV
- RCQSUtqG68IZ9SP5fqoB5OeziBv7XSs=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-439-ps6MiTEZNtmUuXXoSsU4yg-1; Thu, 23 Feb 2023 14:32:48 -0500
-X-MC-Unique: ps6MiTEZNtmUuXXoSsU4yg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- cr14-20020a05622a428e00b003b82d873b38so5715734qtb.13
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 11:32:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I+RWWaPoklZyflzke74PfhnmXPubLzSkKmx/U88pOXc=;
- b=kbCbaOh41aXd9tlpRthP6e5rEm9U/wqL4b35FM9iNzry59F38kN6qPXqUdqaGWbV0t
- +9rYUZXN2U4Wt/w5QbqFOv4D9hWcJjsSUhHEBShFybmlDDLrxXhIjRs6SUeoGanXIMvo
- 7wt0wK33pDYLghwLPqLm8F4O5vnnMGLTfRQ7UqxKYd8LxnzduYX5yV42iNiq7FENBYJW
- AYGjbQKwrSMaABoVB3FvvZ0T38f/mDlhQ4Vr8EJa0pFMVqYw7bvcI7drMJPKSUW1mKAG
- u8Mzm44MkV855pOT/cxJ5PtrOHENOE9p6Ra3YztwtF/rFV9PdPFRGQmcwPMlDYdBVtZa
- b4jg==
-X-Gm-Message-State: AO0yUKXKx552gShN9asZMDOuIIIGPXy2XN+YMx2BA3oMqtFD6QyLMAzY
- gzSfxGiwwgMMJpUM0SmxYF6/FWREVelJ74GuJ1+P6W4kRFu+8hGKTp/I7ivx6KoGnQfg2X+2NN8
- OmIAJcJV+iWcuSODsdONpMpGi5KmhKIwG1fUVWw00c4c0VTxQGgetW0p9AkiPkrPhuejNFkdv
-X-Received: by 2002:ac8:5910:0:b0:3ba:26a0:d0ee with SMTP id
- 16-20020ac85910000000b003ba26a0d0eemr26230144qty.52.1677180766199; 
- Thu, 23 Feb 2023 11:32:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set/4nCIPEJslZE7dtVqF3lF/Z5glTXaWBuFpMdYG67rT27S0efRY3wAVqdqqof5SzQ89OGRKXw==
-X-Received: by 2002:ac8:5910:0:b0:3ba:26a0:d0ee with SMTP id
- 16-20020ac85910000000b003ba26a0d0eemr26230110qty.52.1677180765887; 
- Thu, 23 Feb 2023 11:32:45 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- hf18-20020a05622a609200b003bfaff2a6b9sm2000830qtb.10.2023.02.23.11.32.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 11:32:45 -0800 (PST)
-Date: Thu, 23 Feb 2023 20:32:41 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Yangming via <qemu-devel@nongnu.org>
-Cc: Yangming <yangming73@huawei.com>, "mst@redhat.com" <mst@redhat.com>,
- "ani@anisinha.ca" <ani@anisinha.ca>, "wangzhigang (O)"
- <wangzhigang17@huawei.com>, "zhangliang (AG)" <zhangliang5@huawei.com>,
- David Hildenbrand <david@redhat.com>
-Subject: Re: VM crashed while hot-plugging memory
-Message-ID: <20230223203241.28d38c29@imammedo.users.ipa.redhat.com>
-In-Reply-To: <d9e62d4914a24b63af9f94a0e99b32c9@huawei.com>
-References: <d9e62d4914a24b63af9f94a0e99b32c9@huawei.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PR7t63qLhAUt36wLTNxtq94mHFVcXgOOO/wVnznFcg0=;
+ b=a4HLbCb2EBtx8zMFzDV2ON+5XMU+WpqqPBAt/JCrDUe/A/+RA13bsG/8VymgpJcYNNrx0l
+ 6mpZjzsPnaUHmhDJEiJNq+KOtxXHfS74iL98BZ6C4B9rPSL/XSHw2gq79FGU7P/Lhq10lW
+ DjNKd6Um5VDK2la2xHT9udlesSvCPk0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-210-ZW6geXnPNfOn4i24-M9hAg-1; Thu, 23 Feb 2023 14:33:01 -0500
+X-MC-Unique: ZW6geXnPNfOn4i24-M9hAg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66443857A94;
+ Thu, 23 Feb 2023 19:33:01 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C0F2C15BA0;
+ Thu, 23 Feb 2023 19:32:59 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>
+Cc: Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v2] docs/about/build-platforms: Refine the distro support
+ policy
+Date: Thu, 23 Feb 2023 20:32:57 +0100
+Message-Id: <20230223193257.1068205-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,35 +76,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 10 Feb 2023 09:30:18 +0000
-Yangming via <qemu-devel@nongnu.org> wrote:
+For long-term distributions that release a new version only very
+seldom, we limit the support to five years after the initial release.
+Otherwise, we might need to support distros like openSUSE 15 for
+up to 7 or even more years in total due to our "two more years
+after the next major release" rule, which is just way too much to
+handle in a project like QEMU that only has limited human resources.
 
-> Hello all:
-> 
-> I found VM crashed while hot-plugging memory.
-> 
-> Base infomation:
-> qemu version: qemu-master
-> requirements: hugepages, virtio-gpu
-> 
-> It happens by the following steps:
-> 1. Booting a VM with hugepages and a virtio-gpu device.
-> 2. Connecting VNC of the VM.
-> 3. After the VM booted, hot-plugging 512G memory.
-> 4. Then you can find that the image in vnc is blocked and the worse thing is that the VM crashed.
-> 
-> Actually the vcpu is blocked because of dead lock.
-> 
-> Analysis:
-> As when hot-pluging the BQL is held, at the meanwhile, virtio-gpu is trying to hold the BQL for writing date. Then a vcpu is blocked waiting for hugepages hot-plugging, specifically, waiting for touching pages. If the blocked vcpu stops for several seconds, the soft lockup will happen, if it stops for a long time, e.g. 30s, the VM will crash.
-> 
-> I am wandering if there are some ideas to avoid VM soft lockup and even VM crash ?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v2: Only limit the maximum amount of time to five years (instead of
+     four years + decreasing the amount of time after the next major
+     has been released)
 
-Maybe David can suggest something
-(CCed)
+ docs/about/build-platforms.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> 
-> Thank you!
-> kind regards!
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index 1c1e7b9e11..7ad95ae9ae 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -67,7 +67,8 @@ Non-supported architectures may be removed in the future following the
+ Linux OS, macOS, FreeBSD, NetBSD, OpenBSD
+ -----------------------------------------
+ 
+-The project aims to support the most recent major version at all times. Support
++The project aims to support the most recent major version at all times for
++up to five years after its initial release. Support
+ for the previous major version will be dropped 2 years after the new major
+ version is released or when the vendor itself drops support, whichever comes
+ first. In this context, third-party efforts to extend the lifetime of a distro
+-- 
+2.31.1
 
 
