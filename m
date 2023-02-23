@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A7D6A13CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:31:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281856A13D4
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:33:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVL3D-0003HI-Vq; Thu, 23 Feb 2023 18:31:01 -0500
+	id 1pVL5K-0005YN-T1; Thu, 23 Feb 2023 18:33:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVL3B-0003GT-Vx
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:30:58 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1pVL5G-0005X4-Pf
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:33:07 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVL37-0004z9-If
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:30:55 -0500
-Received: by mail-pl1-x634.google.com with SMTP id e9so9879237plh.2
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:30:53 -0800 (PST)
+ id 1pVL5F-0005pT-8t
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:33:06 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ q31-20020a17090a17a200b0023750b69614so929951pja.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:33:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=LQjkpERFp1H2IIeFpMAxUZFI52xdsRjB6cK3A2FHJHM=;
- b=prbwWCCNIzhCrWwBnYIHyG3yhjsI/s2/kxhGaX41Zjv6hehEx6VeoWpWPkbVDckF6w
- kEHNJzTEECgJpnlLS2C/KDMxlTBi8fPjxLGz6XLaKyEr7hbssieRtBrM+Lw6FbeAdqYX
- AXWFAwDMR5nrE5ugVGSPMpcneXkNsQY8eSrf8CcNDnp8bezVeLBuPbzMKtGzz9DNpwo+
- CpbIG6NjfK/ibbJI4x/4ps0HHChIN2HsW5WqCj0ZJy43hqn7Ob0ec74OJftuEFuI6Gvv
- 0QRIyv2V65n9EMp+Y/eVu0HIKuA1VTA4S/P8mMLUKdMQOIeDvp8Cw56BNSRzPjTxMdow
- zCXg==
+ bh=jhmy/q+NCbwqWJVh+mczv3ut7HLQRb4b25fEZ5jA0V0=;
+ b=f2r598WKAx4H53bdh1cWmoQvZSgZuIYJ0PLKS3oJRDrAmRG68eG0RsHszpNRW/Ws1A
+ EAsdC0KqQ9izxiSgP9UWwz+a8MqUXGn/PrARx0VSrqfh4u3a0cCHIU1cJgcAJCW1T/n3
+ lrCIWjOVZrcq6vSTMz4VTzy6+HsW1c6MqGXXZnwT76SITv1r2bdJO6roqxuoJcYqJJ7P
+ z0xyozO9nkKJX+TntBJeDPojQCk2O3v8n70VMuxBfSJsQHgGrTWNcCau82H9obPlqpaJ
+ ktLHqv5A6IwWO9kvmBW0Ya0yIelpOLxvVmowqxCylUnMuVzm8e3ZYL+wDJrPog6LUcSs
+ LomA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LQjkpERFp1H2IIeFpMAxUZFI52xdsRjB6cK3A2FHJHM=;
- b=ztwmxpPFZngBlqhMijVb1qpdA/6UKZqeSHFlqkFiQkAOUbz79jmLMOOycQn/FMKO3g
- FTdb7Qm7pja9V26bva3qnJFVB8UEoBwiUsnbI36tj0Hy4219xraWataOmREDotMZxqYu
- iuaKFxcvR4Zd7IDLnGV8PoVI4aYo3dAIERepiOGuFi7TFgILKfxyXrInEq9mv/8YeMY4
- ITbakRKOtpbHM7cTdzyWKW25ae28zOp19BCsXfh9torVooAOvnPviq6oJKVA+/kWcXjA
- TUJsgD02+OMlJFRqQmaGywSslfZ4b+EMi3N7dwl6BistSkUzLex2sr3vB/ZgsVcfAxon
- tD0g==
-X-Gm-Message-State: AO0yUKVQ4zcOJTrYuLdxr0cnst3YbYa7WwIKfw2VgSghv4Keka/JUv5k
- bWxrv7VRD+oru0d4o5Ws/1gLxg==
-X-Google-Smtp-Source: AK7set+sKlOD/z3qjrThmpiUs5Pr/UouMrJZE6EqQJrwWV14+Ni7pkr36U7hZ5JnshqAP8Wtp1nxeA==
-X-Received: by 2002:a17:902:d486:b0:19a:8b3a:fad with SMTP id
- c6-20020a170902d48600b0019a8b3a0fadmr18689331plg.20.1677195052149; 
- Thu, 23 Feb 2023 15:30:52 -0800 (PST)
+ bh=jhmy/q+NCbwqWJVh+mczv3ut7HLQRb4b25fEZ5jA0V0=;
+ b=NABjd5kpEROzPOaa5ij1hPVMg4l9LojN4prtJtgQ81dlWP9ol8cNDmS5fpjCGvZxlC
+ jdMv3X4uL9G0vpKq2ttz5UW8cO37tnOkjXjhdNa6yRIYWx06RuegfWVoBZ5VH1W3SrrM
+ pEwnCJq+EKW5hpN6IEb/yaLFCEYZVO+cJZNlV2VrU3kGjyEtWnDQ4qjwnQ+MTfl2iI5W
+ +c1hvZFLWW34pXLQCNua9mjdSH7mpQb4STGNoyFgG2GUQ8DwD18tS3KAelOolPIfSHKA
+ AyfTCeE4+XjtGZgzclb17gdzvkZGfHidfjoJ452c6pXvAi8MNXxFJqpmoD8hs3J08c/B
+ 3sGw==
+X-Gm-Message-State: AO0yUKWE1Q7w3tIaNo/v/8RRpb03A/TtQygBJL/5Z1u+GUEo3MEf1yiB
+ Eeq7I9jz+BXLUKuHmmTTGujuug==
+X-Google-Smtp-Source: AK7set+WzBagLuvpDwqjNL/xhjg6O0huO8gtQOJPTf/qUQ8elBGiLLrGJ2UmSR5zAcsTqBTY4pS7QQ==
+X-Received: by 2002:a17:90b:3b87:b0:233:fdfd:7122 with SMTP id
+ pc7-20020a17090b3b8700b00233fdfd7122mr13639788pjb.37.1677195183631; 
+ Thu, 23 Feb 2023 15:33:03 -0800 (PST)
 Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- 6-20020a170902c24600b001946a3f4d9csm8107587plg.38.2023.02.23.15.30.50
+ t2-20020a17090a3e4200b00230befd3b2csm250907pjm.6.2023.02.23.15.33.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 15:30:51 -0800 (PST)
-Message-ID: <cc1281d8-f333-4752-6f27-e1ae456fdb2e@linaro.org>
-Date: Thu, 23 Feb 2023 13:30:47 -1000
+ Thu, 23 Feb 2023 15:33:03 -0800 (PST)
+Message-ID: <a9fd3a94-aff3-1f8f-40f4-5cf39fac9d23@linaro.org>
+Date: Thu, 23 Feb 2023 13:32:59 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v4 2/7] dump: Replace TARGET_PAGE_SIZE ->
- qemu_target_page_size()
+Subject: Re: [PATCH v4 3/7] dump: Correct headers included
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -68,13 +68,13 @@ Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 References: <20230223231755.81633-1-philmd@linaro.org>
- <20230223231755.81633-3-philmd@linaro.org>
+ <20230223231755.81633-4-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230223231755.81633-3-philmd@linaro.org>
+In-Reply-To: <20230223231755.81633-4-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -98,14 +98,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/23/23 13:17, Philippe Mathieu-Daudé wrote:
-> TARGET_PAGE_SIZE is target specific. In preparation of
-> making dump.c target-agnostic, replace the compile-time
-> TARGET_PAGE_SIZE definition by runtime qemu_target_page_size().
+> "qemu/win_dump_defs.h" is only required by win_dump.c,
+> but win_dump.h requires "sysemu/dump.h" which declares
+> the DumpState type.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   dump/dump.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   dump/win_dump.c | 1 +
+>   dump/win_dump.h | 2 +-
+>   2 files changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
