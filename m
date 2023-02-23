@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3C46A003E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 01:56:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70BC6A00A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 02:33:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUztc-00045n-VY; Wed, 22 Feb 2023 19:55:41 -0500
+	id 1pV0Sp-0001VR-2j; Wed, 22 Feb 2023 20:32:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3dbn2YwsKCugKMUObVOidXQQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--ackerleytng.bounces.google.com>)
- id 1pUztJ-000459-S8
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 19:55:23 -0500
-Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149])
+ <3C8L2YwsKCpAuw4yB5yID7008805y.w86Ay6E-xyFy578707E.8B0@flex--ackerleytng.bounces.google.com>)
+ id 1pV0Sm-0001V7-P0
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 20:32:00 -0500
+Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3dbn2YwsKCugKMUObVOidXQQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--ackerleytng.bounces.google.com>)
- id 1pUztH-0006Pv-DE
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 19:55:21 -0500
-Received: by mail-yw1-x1149.google.com with SMTP id
- 00721157ae682-538116920c3so48655347b3.15
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 16:55:18 -0800 (PST)
+ <3C8L2YwsKCpAuw4yB5yID7008805y.w86Ay6E-xyFy578707E.8B0@flex--ackerleytng.bounces.google.com>)
+ id 1pV0Sk-000453-9r
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 20:32:00 -0500
+Received: by mail-pf1-x44a.google.com with SMTP id
+ ds2-20020a056a004ac200b0058d9b9fecb6so4434178pfb.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 17:31:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=3azLqXR2vSKV5L2PaJh+3T6s1vBztgHEFOD2woEyPYw=;
- b=ll/kgw4EhN1QBjkzhFZB0Ail1ORJy+AyUBj3Zon2zA6YZR6bvv6MRVw4xL88tq8Az8
- UNfJYuIlxPRqkMZxma4EfhQVLDz+WB3n7N3GgnS6/N71B9VGL9L1wJxicWIzPEsnhNbY
- jwqQtYqGUwQCJ7O/Ie7nc1bEP4GmGEJpB8DCFusadZrYSFRLnQZARIT1I0plRhGyCTgj
- klqga5wY1X/qhy0ohB1y16mctfilFHsYR3l8CX6UQd0Ok2HUyZRCt5JjEmEyFz3N4ySp
- AUxoMU/xS8Z5QEE7WS4WTYYb6USgkUVSpxiH8hOE9if2xvRinxF+p0VrjEGBhDPd5C7e
- 03hg==
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=Say+6a1ZyYr+UuCKdaAjxZI4dgG3bJdQNiusmWUgqvk=;
+ b=ZftMo2Jr/MYc+TnSUI/NqHqeLeV4TeeVWH0yMAlI85IeiLcuVkcU0Xi9yTYAL4Ti4N
+ Pcptnd77UOE+Ubfxn8QRWMdZmWSY4akFCQf6v1PFTzO870zP5UiH0CvKAUAI60rjhMim
+ A2kOh6/xUtroxJBIX+ZIQDEuJ2pVebSSpDtdCRhVuxII0dGn+QairZ/42WYH8onaX3sW
+ VTadd7UYWVbVvmpPJT8zKlqq4fO8PhGLg1iNudHVb3yTAkso/TczAQYjur3wkh3ATGMq
+ V9iE2XTX1+ukTikznIFKOxl8ReNuuDE+7TSPpoSVLKtc3hqyAmK9WjjTQq/mdtnRLNoK
+ xRbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3azLqXR2vSKV5L2PaJh+3T6s1vBztgHEFOD2woEyPYw=;
- b=MINJfnzqaIGWjes5RT574cPjhjPL82V58oBxvmdiyDyo1WzTxhpJD49iWVOWi6Dcb5
- ypbq/dYxs1Xb9i5IuvQnAocsVQd8q5Y2FUjuFCCfrr46ubeBnwcT7v6k9MUUB4ib5ymb
- TU45nbntvVh4YzWc/p9rs7LAtmjpByI36ozKubNhNhPm73NJ2VkkDW0o8H6toH/xyCUH
- GXFlZlgKop8IfjwVO6AauMDoIjREjoCqlZeymJ6COoGjgnWIz33/J/gBN7cOCMnSm2xh
- bHI7U2DQbQ9t4EyR+ajPIU1sit6WMkDogG9eoV3oWAKTBCkb4T+HtVMidsazwhYuwDaI
- YXaw==
-X-Gm-Message-State: AO0yUKXnEg+OyhEjy79Bh49HHYfgQbmz4Zt9jxE12N5VpTHivkWo5U8B
- l8/nhXVTiRZC4qOOWJLQNPO7oLK6qRlY78AciA==
-X-Google-Smtp-Source: AK7set/bRW8kyMySNfR/6zy0z0kR68DNc8Wiwl2R9ueq8c35MSB8zjbIqdtnOK6awXZtxDJCM5SBJnFOM9ODRuSA8Q==
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Say+6a1ZyYr+UuCKdaAjxZI4dgG3bJdQNiusmWUgqvk=;
+ b=Wy4XPUEXNMaRWwweModlMTTQ3unX2Y/3zi86KU0NzYH3gzZITkzP5zl3S0k8tept9p
+ P/eX/ZSd/pkdObVVovGyFOT9qaFRWEpVAqlV7ffnrGpxLSp9T2/Pj1y0qd7B3WKVvRfo
+ IayPX9gbi4VZdlhlQ/pC9NHux0t5Q0rCVawFkta56o7h0SgYjRfrN0omY/8JbUcYk/zP
+ GQ0V8GMR8vu82cpTXUOUrXCcZ6ebs/bceObWxp4hFemHC0xdiUWatqKKkv87A2PL326c
+ KEmPFUpMkbGzGDo3tDJBlkG/aJ7/tX1Xvz3OGJ5Zbe4TyWshT9WKAWdFTKYAvL+mMAIo
+ to0Q==
+X-Gm-Message-State: AO0yUKWlHcGjAWX9uR8hpEgCY6LivbeqTBTyzaqjJdFtfprmBZl//G6p
+ j7eKQla7JxliFffocKw5irv7GgivmhmZQy9GGQ==
+X-Google-Smtp-Source: AK7set8In7pASIkwc5RmcKGC5gPhzEpeOqmjGbH5z8/aZP8m2bTicadsvcxB91Z6rAsHkHh1dfvaP8X5FauAcxQlUQ==
 X-Received: from ackerleytng-cloudtop.c.googlers.com
  ([fda3:e722:ac3:cc00:7f:e700:c0a8:1f5f])
- (user=ackerleytng job=sendgmr) by 2002:a05:6902:1028:b0:a27:3ecd:6 with SMTP
- id x8-20020a056902102800b00a273ecd0006mr761629ybt.1.1677113717462; Wed, 22
- Feb 2023 16:55:17 -0800 (PST)
-Date: Thu, 23 Feb 2023 00:55:16 +0000
-In-Reply-To: <20230216100150.yv2ehwrdcfzbdhcq@box.shutemov.name>
- (kirill@shutemov.name)
+ (user=ackerleytng job=sendgmr) by 2002:a17:90a:49ca:b0:231:1d90:7b1b with
+ SMTP id l10-20020a17090a49ca00b002311d907b1bmr79634pjm.2.1677115915638; Wed,
+ 22 Feb 2023 17:31:55 -0800 (PST)
+Date: Thu, 23 Feb 2023 01:31:54 +0000
+In-Reply-To: <20230220030412.fgh3f5qzgihz4f4x@yy-desk-7060> (message from Yuan
+ Yao on Mon, 20 Feb 2023 11:04:12 +0800)
 Mime-Version: 1.0
-Message-ID: <diqzsfex5hfv.fsf@ackerleytng-cloudtop.c.googlers.com>
-Subject: Re: [RFC PATCH 1/2] mm: restrictedmem: Allow userspace to specify
- mount_path for memfd_restricted
+Message-ID: <diqzk0099ng5.fsf@ackerleytng-cloudtop.c.googlers.com>
+Subject: Re: [RFC PATCH 0/2] Add flag as THP allocation hint for
+ memfd_restricted() syscall
 From: Ackerley Tng <ackerleytng@google.com>
-To: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Yuan Yao <yuan.yao@linux.intel.com>
 Cc: kvm@vger.kernel.org, linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-mm@kvack.org, qemu-devel@nongnu.org, 
- chao.p.peng@linux.intel.com, aarcange@redhat.com, ak@linux.intel.com, 
- akpm@linux-foundation.org, arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, 
- corbet@lwn.net, dave.hansen@intel.com, david@redhat.com, ddutile@redhat.com, 
- dhildenb@redhat.com, hpa@zytor.com, hughd@google.com, jlayton@kernel.org, 
- jmattson@google.com, joro@8bytes.org, jun.nakajima@intel.com, 
- kirill.shutemov@linux.intel.com, linmiaohe@huawei.com, luto@kernel.org, 
- mail@maciej.szmigiero.name, mhocko@suse.com, michael.roth@amd.com, 
- mingo@redhat.com, naoya.horiguchi@nec.com, pbonzini@redhat.com, 
- qperret@google.com, rppt@kernel.org, seanjc@google.com, shuah@kernel.org, 
- steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
+ aarcange@redhat.com, ak@linux.intel.com, akpm@linux-foundation.org, 
+ arnd@arndb.de, bfields@fieldses.org, bp@alien8.de, 
+ chao.p.peng@linux.intel.com, corbet@lwn.net, dave.hansen@intel.com, 
+ david@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, hpa@zytor.com, 
+ hughd@google.com, jlayton@kernel.org, jmattson@google.com, joro@8bytes.org, 
+ jun.nakajima@intel.com, kirill.shutemov@linux.intel.com, linmiaohe@huawei.com, 
+ luto@kernel.org, mail@maciej.szmigiero.name, mhocko@suse.com, 
+ michael.roth@amd.com, mingo@redhat.com, naoya.horiguchi@nec.com, 
+ pbonzini@redhat.com, qperret@google.com, rppt@kernel.org, seanjc@google.com, 
+ shuah@kernel.org, steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
  vannapurve@google.com, vbabka@suse.cz, vkuznets@redhat.com, 
  wanpengli@tencent.com, wei.w.wang@intel.com, x86@kernel.org, 
  yu.c.zhang@linux.intel.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1149;
- envelope-from=3dbn2YwsKCugKMUObVOidXQQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--ackerleytng.bounces.google.com;
- helo=mail-yw1-x1149.google.com
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
+ envelope-from=3C8L2YwsKCpAuw4yB5yID7008805y.w86Ay6E-xyFy578707E.8B0@flex--ackerleytng.bounces.google.com;
+ helo=mail-pf1-x44a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -103,65 +105,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-"Kirill A. Shutemov" <kirill@shutemov.name> writes:
-
-> On Thu, Feb 16, 2023 at 12:41:16AM +0000, Ackerley Tng wrote:
->> By default, the backing shmem file for a restrictedmem fd is created
->> on shmem's kernel space mount.
-
->> With this patch, an optional tmpfs mount can be specified, which will
->> be used as the mountpoint for backing the shmem file associated with a
->> restrictedmem fd.
-
->> This change is modeled after how sys_open() can create an unnamed
->> temporary file in a given directory with O_TMPFILE.
-
->> This will help restrictedmem fds inherit the properties of the
->> provided tmpfs mounts, for example, hugepage allocation hints, NUMA
->> binding hints, etc.
-
->> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
->> ---
->>   include/linux/syscalls.h           |  2 +-
->>   include/uapi/linux/restrictedmem.h |  8 ++++
->>   mm/restrictedmem.c                 | 63 +++++++++++++++++++++++++++---
->>   3 files changed, 66 insertions(+), 7 deletions(-)
->>   create mode 100644 include/uapi/linux/restrictedmem.h
-
->> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
->> index f9e9e0c820c5..4b8efe9a8680 100644
->> --- a/include/linux/syscalls.h
->> +++ b/include/linux/syscalls.h
->> @@ -1056,7 +1056,7 @@ asmlinkage long sys_memfd_secret(unsigned int  
->> flags);
->>   asmlinkage long sys_set_mempolicy_home_node(unsigned long start,  
->> unsigned long len,
->>   					    unsigned long home_node,
->>   					    unsigned long flags);
->> -asmlinkage long sys_memfd_restricted(unsigned int flags);
->> +asmlinkage long sys_memfd_restricted(unsigned int flags, const char  
->> __user *mount_path);
-
->>   /*
->>    * Architecture-specific system calls
-
-> I'm not sure what the right practice now: do we provide string that
-> contains mount path or fd that represents the filesystem (returned from
-> fsmount(2) or open_tree(2)).
-
-> fd seems more flexible: it allows to specify unbind mounts.
-
-I tried out the suggestion of passing fds to memfd_restricted() instead
-of strings.
-
-One benefit I see of using fds is interface uniformity: it feels more
-aligned with other syscalls like fsopen(), fsconfig(), and fsmount() in
-terms of using and passing around fds.
-
-Other than being able to use a mount without a path attached to the
-mount, are there any other benefits of using fds over using the path string?
-
-Should I post the patches that allows specifying a mount using fds?
-Should I post them as a separate RFC, or as a new revision to this RFC?
+WXVhbiBZYW8gPHl1YW4ueWFvQGxpbnV4LmludGVsLmNvbT4gd3JpdGVzOg0KDQo+IE9uIFNhdCwg
+RmViIDE4LCAyMDIzIGF0IDEyOjQzOjAwQU0gKzAwMDAsIEFja2VybGV5IFRuZyB3cm90ZToNCj4+
+IEhlbGxvLA0KDQo+PiBUaGlzIHBhdGNoc2V0IGJ1aWxkcyB1cG9uIHRoZSBtZW1mZF9yZXN0cmlj
+dGVkKCkgc3lzdGVtIGNhbGwgdGhhdCBoYXMNCj4+IGJlZW4gZGlzY3Vzc2VkIGluIHRoZSDigJhL
+Vk06IG1tOiBmZC1iYXNlZCBhcHByb2FjaCBmb3Igc3VwcG9ydGluZyBLVk3igJkNCj4+IHBhdGNo
+IHNlcmllcywgYXQNCj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAyMjEyMDIwNjEz
+NDcuMTA3MDI0Ni0xLWNoYW8ucC5wZW5nQGxpbnV4LmludGVsLmNvbS9ULyNtN2U5NDRkNzg5MmFm
+ZGQxZDYyYTAzYTI4N2JkNDg4YzU2ZTM3N2IwYw0KDQo+PiBUaGUgdHJlZSBjYW4gYmUgZm91bmQg
+YXQ6DQo+PiBodHRwczovL2dpdGh1Yi5jb20vZ29vZ2xlcHJvZGtlcm5lbC9saW51eC1jYy90cmVl
+L3Jlc3RyaWN0ZWRtZW0tcm1mZC1odWdlcGFnZQ0KDQo+PiBGb2xsb3dpbmcgdGhlIFJGQyB0byBw
+cm92aWRlIG1vdW50IGZvciBtZW1mZF9yZXN0cmljdGVkKCkgc3lzY2FsbCBhdA0KPj4gaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC9jb3Zlci4xNjc2NTA3NjYzLmdpdC5hY2tlcmxleXRuZ0Bn
+b29nbGUuY29tL1QvI3UsDQo+PiB0aGlzIHBhdGNoc2V0IGFkZHMgdGhlIFJNRkRfSFVHRVBBR0Ug
+ZmxhZyB0byB0aGUgbWVtZmRfcmVzdHJpY3RlZCgpDQo+PiBzeXNjYWxsLCB3aGljaCB3aWxsIGhp
+bnQgdGhlIGtlcm5lbCB0byB1c2UgVHJhbnNwYXJlbnQgSHVnZVBhZ2VzIHRvDQo+PiBiYWNrIHJl
+c3RyaWN0ZWRtZW0gcGFnZXMuDQoNCj4+IFRoaXMgc3VwcGxlbWVudHMgdGhlIGludGVyZmFjZSBw
+cm9wb3NlZCBlYXJsaWVyLCB3aGljaCByZXF1aXJlcyB0aGUNCj4+IGNyZWF0aW9uIG9mIGEgdG1w
+ZnMgbW91bnQgdG8gYmUgcGFzc2VkIHRvIG1lbWZkX3Jlc3RyaWN0ZWQoKSwgd2l0aCBhDQo+PiBt
+b3JlIGRpcmVjdCBwZXItZmlsZSBoaW50Lg0KDQo+PiBEZXBlbmRlbmNpZXM6DQoNCj4+ICsgU2Vh
+buKAmXMgaXRlcmF0aW9uIG9mIHRoZSDigJhLVk06IG1tOiBmZC1iYXNlZCBhcHByb2FjaCBmb3Ig
+c3VwcG9ydGluZw0KPj4gICAgS1ZN4oCZIHBhdGNoIHNlcmllcyBhdA0KPj4gICAgaHR0cHM6Ly9n
+aXRodWIuY29tL3NlYW4tamMvbGludXgvdHJlZS94ODYvdXBtX2Jhc2Vfc3VwcG9ydA0KPj4gKyBQ
+cm9wb3NlZCBmaXggZm9yIHJlc3RyaWN0ZWRtZW1fZ2V0YXR0cigpIGFzIG1lbnRpb25lZCBvbiB0
+aGUgbWFpbGluZw0KPj4gICAgbGlzdCBhdA0KPj4gICAgIA0KPj4gaHR0cHM6Ly9sb3JlLmtlcm5l
+bC5vcmcvbGttbC9kaXF6emdhMGZ2OTYuZnNmQGFja2VybGV5dG5nLWNsb3VkdG9wLXNnLmMuZ29v
+Z2xlcnMuY29tLw0KPj4gKyBIdWdo4oCZcyBwYXRjaDoNCj4+ICAgICANCj4+IGh0dHBzOi8vbG9y
+ZS5rZXJuZWwub3JnL2xrbWwvYzE0MGY1NmEtMWFhMy1mN2FlLWI3ZDEtOTNkYTdkNWEzNTcyQGdv
+b2dsZS5jb20vLA0KPj4gICAgd2hpY2ggcHJvdmlkZXMgZnVuY3Rpb25hbGl0eSBpbiBzaG1lbSB0
+aGF0IHJlYWRzIHRoZSBWTV9IVUdFUEFHRQ0KPj4gICAgZmxhZyBpbiBrZXkgZnVuY3Rpb25zIHNo
+bWVtX2lzX2h1Z2UoKSBhbmQgc2htZW1fZ2V0X2lub2RlKCkNCg0KPiBXaWxsIEh1Z2gncyBwYXRj
+aCBiZSBtZXJnZWQgaW50byA2LjMgPyBJIGRpZG4ndCBmaW5kIGl0IGluIDYuMi1yYzguDQo+IElN
+SE8gdGhpcyBwYXRjaCB3b24ndCB3b3JrIHdpdGhvdXQgSHVnaCdzIHBhdGNoLCBvciBhdCBsZWFz
+dCBuZWVkDQo+IGFub3RoZXIgd2F5LCBlLmcuIEhNRU1fU0IoaW5vZGUtPmlfc2IpLT5odWdlLg0K
+DQoNCkh1Z2gncyBwYXRjaCBpcyBzdGlsbCBwZW5kaW5nIGRpc2N1c3Npb24gYW5kIG1heSBub3Qg
+YmUgbWVyZ2VkIHNvDQpzb29uLiBUaGVzZSBwYXRjaGVzIHdpbGwgbm90IHdvcmsgd2l0aG91dCBI
+dWdoJ3MgcGF0Y2guDQoNCkkgd291bGQgbGlrZSB0byB1bmRlcnN0YW5kIHdoYXQgdGhlIGNvbW11
+bml0eSB0aGlua3Mgb2YgdGhlIHByb3Bvc2VkDQppbnRlcmZhY2UgKFJNRkRfSFVHRVBBR0UgZmxh
+ZywgcGFzc2VkIHRvIHRoZSBtZW1mZF9yZXN0cmljdGVkKCkNCnN5c2NhbGwpLiBJZiB0aGlzIGlu
+dGVyZmFjZSBpcyBmYXZvcmFibHkgcmVjZWl2ZWQsIHdlIGNhbiBkZWZpbml0ZWx5DQpmaW5kIGFu
+b3RoZXIgd2F5IGZvciBzaG1lbSB0byBzdXBwb3J0IHRoaXMgaW50ZXJmYWNlLg0KDQpJZiBJIHVu
+ZGVyc3RhbmQgY29ycmVjdGx5LCBTSE1FTV9TQihpbm9kZS0+aV9zYiktPmh1Z2UgY2hlY2tzIHRo
+ZSBzdGF0ZQ0Kb2YgaHVnZXBhZ2UtbmVzcyBmb3IgdGhlIHN1cGVyYmxvY2suIFNpbmNlIHRoZSBw
+cm9wb3NlZCBpbnRlcmZhY2Ugd2lsbA0Kb25seSBhZmZlY3QgYSBzaW5nbGUgZmlsZSwgd2Ugd2ls
+bCBuZWVkIHNvbWV0aGluZyBjbG9zZXIgdG8NCg0KICAgICBib29sIHNobWVtX2lzX2h1Z2Uoc3Ry
+dWN0IHZtX2FyZWFfc3RydWN0ICp2bWEsIHN0cnVjdCBpbm9kZSAqaW5vZGUsDQogICAgICAgICAg
+ICAgICAgICAgICAgICBwZ29mZl90IGluZGV4LCBib29sIHNobWVtX2h1Z2VfZm9yY2UpDQogICAg
+IHsNCiAgICAgICAgICAgICAuLi4NCg0KICAgICAgICAgICAgIGlmIChTSE1FTV9JKGlub2RlKS0+
+ZmxhZ3MgJiBWTV9IVUdFUEFHRSkNCiAgICAgICAgICAgICAgICAgICAgIHJldHVybiB0cnVlOw0K
+DQogICAgICAgICAgICAgLi4uDQogICAgIH0NCg0KZnJvbSBIdWdoJ3MgcGF0Y2guDQo=
 
