@@ -2,89 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF63A6A03E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 09:33:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845B06A043C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 09:53:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV71f-00024s-23; Thu, 23 Feb 2023 03:32:27 -0500
+	id 1pV7KQ-0005LN-Oh; Thu, 23 Feb 2023 03:51:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pV71c-00024Y-0J
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 03:32:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pV7KN-0005KX-SU
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 03:51:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pV71a-0006NA-6z
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 03:32:23 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pV7KL-0005Eg-DF
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 03:51:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677141140;
+ s=mimecast20190719; t=1677142304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UnvQSAaMZA7DFun3pbrQfm8gmn7wuhBHB+yplO8AlGs=;
- b=J624mKqKjihar/8FwovY+xc1Je5vss1/gcz1znsBci0UX8hjy3ZRHmaQf5gHx5wyscSGXP
- 8ZAm3YZV/95irqxuXWHXiWf2j1HrcBtdL6SLlxLtQbKbpOxdlgdBLPSUlSZRnkcq5j0F5m
- aAse3PFwuoitjz2eTSjTz3rfJ4WQlDw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=u6Tz7EHl3jJKKaKShFHnK135BgsEQUJAKVI4MLg0Xw8=;
+ b=eVKEIbnLIP8V6n3rbwt1AgnxwHY88nXjnITmOftE/KXGD9Zf46/+K/6M/6ObNznaW7VKjS
+ JJsZ7vyHEa/rv48A91yFquotJOZGO9dYypdqxO8m7cg6i08NyEoM6zcQaepuHVv9eyRGLD
+ n+yKgYNOJdjLHJ2oWHC2UFR206QDlio=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-176-XY5QbjYPP-Ch6ysaOJ5vbQ-1; Thu, 23 Feb 2023 03:32:19 -0500
-X-MC-Unique: XY5QbjYPP-Ch6ysaOJ5vbQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m31-20020a05600c3b1f00b003e9de8c95easo1209662wms.2
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 00:32:18 -0800 (PST)
+ us-mta-475-j7ccr5qXMuylHVHktT6PPQ-1; Thu, 23 Feb 2023 03:51:42 -0500
+X-MC-Unique: j7ccr5qXMuylHVHktT6PPQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ pm17-20020ad446d1000000b0057256b237b9so107944qvb.16
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 00:51:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UnvQSAaMZA7DFun3pbrQfm8gmn7wuhBHB+yplO8AlGs=;
- b=bQAiK/WVORe/sTtekv0gINloxd2E62nl3Bsu/jp7vG2XXARQvyWM6sm9uEqxqSo/mH
- G2nYw5r+VmL7ZyZmOtS0P7MVw6EfftS2gA/IR1fb23831NJy06rzCL6OXbQQBxTqkEfQ
- 1QwmcSFDV9OzxDkCJ0U5M+Fa8oq0cqzP8gspiQAn0c2mp/afw815ep0vJfYcQRlpa3Er
- xFcf3s9ueW1kVG9hVuMgC0k+qjwcU3ONOSoramIhwJQt2RjXSRE1ve97+80Y/xhVi05R
- wGEEsIuFXjoynE+eQrmlZvyDfShdRDIMJGMhlqOKfL0m/sd4vvRirG7qHJ4szA2Ra33d
- M8ow==
-X-Gm-Message-State: AO0yUKVFPjdFYNtP2Higy/pRDSx1vQXahr3pTk2ve3kKP7ImYEQLEvfq
- 4EL7RwL0oCKWTFZh80rUlaFsH6LyaHOPbhUSt51tBhVpoA9fd1Xu9+68G58QCD52Q8dNU9876VL
- r16r0Q+qtfQd8jJ8=
-X-Received: by 2002:a05:600c:4fc5:b0:3dd:1982:4d14 with SMTP id
- o5-20020a05600c4fc500b003dd19824d14mr8841400wmq.1.1677141137928; 
- Thu, 23 Feb 2023 00:32:17 -0800 (PST)
-X-Google-Smtp-Source: AK7set8U7VnjtsyNd+DsRIvQ6k/F7yMn1w3NfQk1nUEkfJp0hBycrGU0SLThuPC7CxxIT84UyJKhEQ==
-X-Received: by 2002:a05:600c:4fc5:b0:3dd:1982:4d14 with SMTP id
- o5-20020a05600c4fc500b003dd19824d14mr8841389wmq.1.1677141137673; 
- Thu, 23 Feb 2023 00:32:17 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u6Tz7EHl3jJKKaKShFHnK135BgsEQUJAKVI4MLg0Xw8=;
+ b=DrBp8Wjxp58B1+usCOvBa2eyYty4BAELy2vKKKN50nzoucLj4L1LJr753RGAK74l2n
+ aXTi32T+z9Smp91Fcq4lcnmJ/DqE3Y+VPx69M9SvCiTuoUbjjtdSRryWJEleygusSQGf
+ RwDlt9N3PRLIJEMRbqMf+Dh6a/hMPfLUNBHgLKzx7MJkhogTdkXuM3j2qtXjL/yubKPF
+ Cyz4Mk7CKN0Of+UCCc+nQfbO4GtWUq+LqCrpkaNx2fU9Qno6kUA/oTBYBi2CXbtR65jP
+ r/X+e4SNDvKVZunxQkW/8kYLnMbTINwvv+L8Ccw0rPYeha2eughz9w98skZu7FYdFLDP
+ Ingw==
+X-Gm-Message-State: AO0yUKVUWpMDmVcIG9tFgTLIX0Mk7itHx+NzCLBhqPg0lOFWntkXQBqJ
+ s5hiDVF/asgreT3Q4zTZWBgvsnGE6NpqwqhGpXzOtXjeiX+RcYR/hRJIEbpTgZk9/tO+7pXJArR
+ kT46hdWGZbbtkUaY=
+X-Received: by 2002:a05:622a:11ca:b0:3b5:5234:e895 with SMTP id
+ n10-20020a05622a11ca00b003b55234e895mr19771725qtk.15.1677142302330; 
+ Thu, 23 Feb 2023 00:51:42 -0800 (PST)
+X-Google-Smtp-Source: AK7set/lOKU3e7PCfa7Prjcb7oNen8WFuS35nrdvQW4fUgOQYPDy8jVMsWAPWDsaw7kVzNQOlmTNlw==
+X-Received: by 2002:a05:622a:11ca:b0:3b5:5234:e895 with SMTP id
+ n10-20020a05622a11ca00b003b55234e895mr19771705qtk.15.1677142301989; 
+ Thu, 23 Feb 2023 00:51:41 -0800 (PST)
+Received: from [192.168.100.30] ([82.142.8.70])
  by smtp.gmail.com with ESMTPSA id
- m26-20020a7bca5a000000b003e20a6fd604sm9748449wml.4.2023.02.23.00.32.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 00:32:17 -0800 (PST)
-Date: Thu, 23 Feb 2023 09:32:16 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
- <ani@anisinha.ca>
-Subject: Re: [PATCH] hw/smbios: fix field corruption in type 4 table
-Message-ID: <20230223093216.2fa6a6ab@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230222210049.238599-1-jusual@redhat.com>
-References: <20230222210049.238599-1-jusual@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ ey17-20020a05622a4c1100b003b86b088755sm5758575qtb.15.2023.02.23.00.51.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 00:51:41 -0800 (PST)
+Message-ID: <21d698e6-e7de-a07d-624d-c2fa88152e71@redhat.com>
+Date: Thu, 23 Feb 2023 09:51:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] vdpa: stop all svq on device deletion
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-stable@nongnu.org, Lei Yang <leiyang@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Eugenio_P=c3=a9rez?=
+ <eperezma@redhat.com>, qemu-devel@nongnu.org
+References: <20230209170004.899472-1-eperezma@redhat.com>
+Content-Language: en-US
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <20230209170004.899472-1-eperezma@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.102, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,46 +103,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 22:00:49 +0100
-Julia Suvorova <jusual@redhat.com> wrote:
+Hi,
 
-> Since table type 4 of SMBIOS version 2.6 is shorter than 3.0, the
-> strings which follow immediately after the struct fields have been
-> overwritten by unconditional filling of later fields such as core_count2.
-> Make these fields dependent on the SMBIOS version.
+this patch fixes a QEMU crash, could it be merged?
+
+Thanks,
+Laurent
+
+On 2/9/23 18:00, Eugenio Pérez wrote:
+> Not stopping them leave the device in a bad state when virtio-net
+> fronted device is unplugged with device_del monitor command.
 > 
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2169904
+> This is not triggable in regular poweroff or qemu forces shutdown
+> because cleanup is called right after vhost_vdpa_dev_start(false).  But
+> devices hot unplug does not call vdpa device cleanups.  This lead to all
+> the vhost_vdpa devices without stop the SVQ but the last.
 > 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> Fix it and clean the code, making it symmetric with
+> vhost_vdpa_svqs_start.
+> 
+> Fixes: dff4426fa656 ("vhost: Add Shadow VirtQueue kick forwarding capabilities")
+> Reported-by: Lei Yang <leiyang@redhat.com>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
->  hw/smbios/smbios.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>   hw/virtio/vhost-vdpa.c | 17 ++---------------
+>   1 file changed, 2 insertions(+), 15 deletions(-)
 > 
-> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index b4243de735..903fd22350 100644
-> --- a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ -749,14 +749,16 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
->      t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
->      t->core_enabled = t->core_count;
->  
-> -    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 542e003101..df3a1e92ac 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -689,26 +689,11 @@ static int vhost_vdpa_get_device_id(struct vhost_dev *dev,
+>       return ret;
+>   }
+>   
+> -static void vhost_vdpa_reset_svq(struct vhost_vdpa *v)
+> -{
+> -    if (!v->shadow_vqs_enabled) {
+> -        return;
+> -    }
 > -
->      t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
-> -    t->thread_count2 = cpu_to_le16(ms->smp.threads);
->  
->      t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
->      t->processor_family2 = cpu_to_le16(0x01); /* Other */
->  
-> +    if (smbios_ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
-it would be better to use table length as the condition here.
-
-> +        t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-> +        t->thread_count2 = cpu_to_le16(ms->smp.threads);
-> +    }
+> -    for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+> -        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
+> -        vhost_svq_stop(svq);
+> -    }
+> -}
+> -
+>   static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+>   {
+> -    struct vhost_vdpa *v = dev->opaque;
+>       int ret;
+>       uint8_t status = 0;
+>   
+> -    vhost_vdpa_reset_svq(v);
+> -
+>       ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+>       trace_vhost_vdpa_reset_device(dev, status);
+>       return ret;
+> @@ -1100,6 +1085,8 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+>   
+>       for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+>           VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
 > +
->      SMBIOS_BUILD_TABLE_POST;
->      smbios_type4_count++;
->  }
+> +        vhost_svq_stop(svq);
+>           vhost_vdpa_svq_unmap_rings(dev, svq);
+>   
+>           event_notifier_cleanup(&svq->hdev_kick);
 
 
