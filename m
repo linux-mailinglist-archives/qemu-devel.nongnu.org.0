@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5ECC6A02BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 07:18:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2E96A02DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 07:41:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV4vR-0005jw-9a; Thu, 23 Feb 2023 01:17:53 -0500
+	id 1pV5GQ-0002SC-Cc; Thu, 23 Feb 2023 01:39:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pV4vB-0005jQ-13
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:17:37 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <dhoff749@gmail.com>)
+ id 1pV5GN-0002Rx-Ih
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:39:31 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pV4v8-00015W-0u
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:17:35 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id h14so1098008wru.4
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 22:17:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZjF/kJNnJ49q3LOGdfsbF1MHAMDW+WZ1zoYMshTAD2Y=;
- b=a6K1PDfvfBoPMNQG4EZKsSnObnLDDGF/W+k7xWbC2BaYNk/WtVV4lsLfF7Wa9LuJZj
- 9maWuclbM3SPVEAt6eIR4N0x0vkQbvf8t1jgcKUJPDaVLPaA/OIOOm9dbfPt2D7VgaMc
- IMIE+Lg0Xn6kqL32fY4a7i0e2jFIrVsq8awHcVWvVbW0thimEXsbIg381fqY3hUx9v4W
- s6erGSwHRbiVBF+Wmx64wN1E5ISF/nzRp0fgDXnrxykFLOLFO2b6T632bur48aTQH7cK
- BxGXbJ/wFQsYD5pbiemUZRr0arvE/IkmwaGC8hqD3iqPJC0tW4kWSnnz0vJIpzNdb49F
- 72LQ==
+ (Exim 4.90_1) (envelope-from <dhoff749@gmail.com>)
+ id 1pV5GL-0000u2-AN
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:39:30 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id y2so7427269pjg.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 22:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=PhpGuNAiSEGx5bI9hJmn5jD3R2AVSV/In4S9uEdr3ks=;
+ b=LrC1IURIL0vpfT2asd+xOEs/P9cNddEp719N0BSdOCEEGoQ2cz5iNTZJgSWRo9Hd6i
+ e90sHOW0tdENsFDnym8bZPUmxREymN1reIe1aQbw3mv4ojgwgjgAtmai8FzRFL+mIEkX
+ wHiieDRX1qqW66FlcZrrfc6HZEo9lcY1IPAglxZNcVMEuAMCtSIdoR+btDzb28UgPpOr
+ 1KHJpNgyNopwxI+M5Cr+S4ep5vkywmKtagSPQ4+Abu53ziW9Jt8LbW/oqEdwuvUhKT01
+ IUpsAggtDKDTqOCVTwCYGnbwyZRhzaOGUhmqL+YnI/vYcopUJIgE6xAEeJLEqos+0dRp
+ l++A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZjF/kJNnJ49q3LOGdfsbF1MHAMDW+WZ1zoYMshTAD2Y=;
- b=Kb6P1iQ4a5WezEmuDrzTEGs7+r0ddICeeOLBfSt3q2fOgb8I0mvhSid4a1ILvuxNC1
- EwKIdtsVVy87os6Y5iiZDwTw5+zvxlbWI1sWOXYh5orMbRCYpimYkpL5XJ0f3hqFZgwF
- Usm53VZR/nHRLGLRtSOWmu2BYwjLSLcxvLdYrcjjzc1qixtbEm6k33E6cjVr3QLo5VXA
- 799IUoe81uteUzOumig0mYxj4OQ6PBGiQs1kW78udKELaXQ3j/mhjVMR7cYUXRc80d6H
- jQFm5yJ0Ry938YMAYrYx+S1CR9HnNYVHfv9Ace4PdhSPDFSbk+KmSGKn1leixhJqGCw0
- 9LYA==
-X-Gm-Message-State: AO0yUKVBGcRvRyNtHxeVi//jrjRL94eRE181I+vYKCmHBUPqEDRIaXZJ
- G4Hr8lPVzHhzclHotzeUI7ZL+w==
-X-Google-Smtp-Source: AK7set9JFigw46P8ckZ8Z7cW4hf6fZT2HkM3E0GfGP/uPFsxy2Us1/Wl/jKZufUWPAfZ3Gl/rQTKug==
-X-Received: by 2002:a05:6000:1007:b0:2c3:da8a:192 with SMTP id
- a7-20020a056000100700b002c3da8a0192mr8726616wrx.15.1677133050222; 
- Wed, 22 Feb 2023 22:17:30 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
- [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
- by smtp.gmail.com with ESMTPSA id
- 3-20020a05600c024300b003daf7721bb3sm10009152wmj.12.2023.02.22.22.17.29
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PhpGuNAiSEGx5bI9hJmn5jD3R2AVSV/In4S9uEdr3ks=;
+ b=NUbGACwRP2Y5zqGsZihDZgMCOUGUhzgvGZIr2iTGFPti5rHuR6nsmH+C3EWcZ9rBKf
+ xZvhp1bQt3ps/UEW/QaCyjQe4ZNwKUBAzIISkLYcgBkpl7FC//Bxebf+qa04U/C6/ozj
+ hJ9bNJJJIBoBLgSu7frdVw2KZxDw3Qxa9y/BHclJgANSbuWURjBAvAS6c4Lde5vQZa4p
+ 8ulafr6LQkHS0bZFzQxxiVduFDl6NNCGaUbDpDpT1YASVxYR0BZ3nrBRzwGQVyNhjiMm
+ CurkygnnveH7dDJWUjSt/fiSHx5GBJ/4vqQbOIvXmnKhjqk7gdSK2HhX+/GYfmnLoJJ/
+ gCjg==
+X-Gm-Message-State: AO0yUKWcoLl8I2G1bdxRNpjFl5Vq3JnMERtTBSZTr3GKRjM6q4gQW9Dy
+ jwPhSXyrrMxx8IGvEenOQsfoqoxw5XM=
+X-Google-Smtp-Source: AK7set9kF4i1iKbe7d1648tc5OxuaqvY5bFe+8fRp+b+vZLUUDOyid8F60ujLvJIwsrBaHNB1uOU4w==
+X-Received: by 2002:a17:903:2888:b0:194:a6e0:3ba with SMTP id
+ ku8-20020a170903288800b00194a6e003bamr9129888plb.54.1677134367079; 
+ Wed, 22 Feb 2023 22:39:27 -0800 (PST)
+Received: from dhoffman-NUC13RNGi9.. (c-73-25-30-39.hsd1.or.comcast.net.
+ [73.25.30.39]) by smtp.gmail.com with ESMTPSA id
+ o19-20020a170902779300b0019a7c890c61sm570035pll.252.2023.02.22.22.39.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 22:17:29 -0800 (PST)
-Date: Thu, 23 Feb 2023 07:17:28 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- bmeng@tinylab.org, liweiwei@iscas.ac.cn,
- zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-Subject: Re: [PATCH v7 03/10] target/riscv: allow MISA writes as experimental
-Message-ID: <20230223061728.j6uunjkdaqdvage4@orel>
-References: <20230222185205.355361-1-dbarboza@ventanamicro.com>
- <20230222185205.355361-4-dbarboza@ventanamicro.com>
+ Wed, 22 Feb 2023 22:39:26 -0800 (PST)
+From: Daniel Hoffman <dhoff749@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Daniel Hoffman <dhoff749@gmail.com>, Sergio Lopez <slp@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PATCH] hw/i386: fix microvm segfault with virtio cmdline
+Date: Wed, 22 Feb 2023 22:39:10 -0800
+Message-Id: <20230223063910.69081-1-dhoff749@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230222185205.355361-4-dbarboza@ventanamicro.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=dhoff749@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,95 +91,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 03:51:58PM -0300, Daniel Henrique Barboza wrote:
-> At this moment, and apparently since ever, we have no way of enabling
-> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
-> the nuts and bolts that handles how to properly write this CSR, has
-> always been a no-op as well because write_misa() will always exit
-> earlier.
-> 
-> This seems to be benign in the majority of cases. Booting an Ubuntu
-> 'virt' guest and logging all the calls to 'write_misa' shows that no
-> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
-> RISC-V extensions after the machine is powered on, seems to be a niche
-> use.
-> 
-> After discussions in the mailing list, most notably in [1], we reached
-> the consensus that this code is not suited to be exposed to users
-> because it's not well tested, but at the same time removing it is a bit
-> extreme because we would like to fix it, and it's easier to do so with
-> the code available to use instead of fetching it from git log.
-> 
-> The approach taken here is to get rid of RISCV_FEATURE_MISA altogether
-> and use a new experimental flag called x-misa-w. The default value is
-> false, meaning that we're keeping the existing behavior of doing nothing
-> if a write_misa() is attempted. As with any existing experimental flag,
-> x-misa-w is also a temporary flag that we need to remove once we fix
-> write_misa().
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05092.html
-> 
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->  target/riscv/cpu.c | 6 ++++++
->  target/riscv/cpu.h | 2 +-
->  target/riscv/csr.c | 2 +-
->  3 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 93b52b826c..1d637b1acd 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1210,6 +1210,12 @@ static Property riscv_cpu_properties[] = {
->  
->      DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
->      DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-> +
-> +    /*
-> +     * write_misa() is marked as experimental for now so mark
-> +     * it with -x and default to 'false'.
-> +     */
-> +    DEFINE_PROP_BOOL("x-misa-w", RISCVCPU, cfg.misa_w, false),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 215423499e..9d3304bcda 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -89,7 +89,6 @@ enum {
->      RISCV_FEATURE_MMU,
->      RISCV_FEATURE_PMP,
->      RISCV_FEATURE_EPMP,
-> -    RISCV_FEATURE_MISA,
->      RISCV_FEATURE_DEBUG
->  };
->  
-> @@ -498,6 +497,7 @@ struct RISCVCPUConfig {
->      bool pmp;
->      bool epmp;
->      bool debug;
-> +    bool misa_w;
->  
->      bool short_isa_string;
->  };
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e149b453da..3cb8d2ffad 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1329,7 +1329,7 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
->  static RISCVException write_misa(CPURISCVState *env, int csrno,
->                                   target_ulong val)
->  {
-> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
-> +    if (!riscv_cpu_cfg(env)->misa_w) {
->          /* drop write to misa */
->          return RISCV_EXCP_NONE;
->      }
-> -- 
-> 2.39.2
-> 
->
+The 'microvm' machine type allows for disabling ACPI, in which case
+the VirtIO device configuration is passed via appending it to the
+kernel cmdline.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+If no cmdline parameter was passed, then a null pointer is dereferenced when
+the new cmdline is copied back. A solution is to always define the cmdline
+in the fw_cfg so the read to append happens before the first write in the
+multiboot case, and to explcitly re-write the value to update the length.
+
+Fixes: eac7a7791b
+
+Signed-off-by: Daniel Hoffman <dhoff749@gmail.com>
+---
+ hw/i386/microvm.c | 3 ++-
+ hw/i386/x86.c     | 4 ++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 29f30dd6d3..be64280530 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -417,7 +417,8 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
+     if (len > VIRTIO_CMDLINE_TOTAL_MAX_LEN + strlen(existing_cmdline)) {
+         fprintf(stderr, "qemu: virtio mmio cmdline too large, skipping\n");
+     } else {
+-        memcpy(existing_cmdline, cmdline, len + 1);
++	fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, len + 1);
++	fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
+     }
+     g_free(cmdline);
+ }
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index eaff4227bd..7dd02b7409 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -827,6 +827,10 @@ void x86_load_linux(X86MachineState *x86ms,
+     /* Make a copy, since we might append arbitrary bytes to it later. */
+     kernel_cmdline = g_strndup(machine->kernel_cmdline, cmdline_size);
+ 
++    /* If the cmdline is undefined, set it as an empty allocated value */
++    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, cmdline_size);
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline, cmdline_size);
++
+     /* load the kernel header */
+     f = fopen(kernel_filename, "rb");
+     if (!f) {
+-- 
+2.37.2
+
 
