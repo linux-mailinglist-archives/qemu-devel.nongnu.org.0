@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34226A0930
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:59:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C19826A0939
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:00:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVBAJ-0001WD-5M; Thu, 23 Feb 2023 07:57:39 -0500
+	id 1pVBAh-0003e6-Ck; Thu, 23 Feb 2023 07:58:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pVBAG-0001F8-Ht
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:57:36 -0500
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1pVBAY-0003KU-QR
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:57:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pVBAE-0000vu-BP
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:57:35 -0500
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1pVBAW-0001J8-9e
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:57:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677157053;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=AnL0fZO3IgEYdXjPIllGPxgyMFIATdQdlXCyFht6XPA=;
- b=IIdJZ+AXjm9CtVxB0qc4hkeu4jImapz7urfdUzPRmOTRxZPvrhUcESGVc8VRlfwDpzuH3t
- 9fSdXZHDBgC3uqQ+50lGd7bhYKMHbAzRgdoqqCx7lCOYNDCy+Bj66MsJMcmaR+J+3VrFvM
- 3NdEKAYk0r8RVLjRdTavwmULYOE6u/U=
+ s=mimecast20190719; t=1677157071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c/I/4dmZhw1+ZIY6//e2TSrGG8joxnCPE5ppp9w+aAU=;
+ b=L3OuEYbM3gaGP8oKCv0ltZxo75NpCH4+2Wm4Tqw6re+zXNadNZY298eh1hhbW1pGVQf+C1
+ Go1TfHdhzNYr4c0403hcq5hvFdtQGGXq6QzjZjHdmF+A5qTMyC17swyBrlNQczgsWrT20/
+ XIyRKCPlhOSeBFHG03mY0yABq36hBBU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-6cVXNoeQNVK6LpRd8OjtSw-1; Thu, 23 Feb 2023 07:57:29 -0500
-X-MC-Unique: 6cVXNoeQNVK6LpRd8OjtSw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-628-YG_sLIvKOb6QNtEwNDjPpA-1; Thu, 23 Feb 2023 07:57:50 -0500
+X-MC-Unique: YG_sLIvKOb6QNtEwNDjPpA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23C77800B23;
- Thu, 23 Feb 2023 12:57:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55D5C40C1423;
- Thu, 23 Feb 2023 12:57:25 +0000 (UTC)
-Date: Thu, 23 Feb 2023 12:57:22 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- rad@semihalf.com, peter.maydell@linaro.org,
- quic_llindhol@quicinc.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, philmd@linaro.org,
- wangyanan55@huawei.com, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, thuth@redhat.com,
- lvivier@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- yihyu@redhat.com, shan.gavin@gmail.com
-Subject: Re: [PATCH v2 0/4] NUMA: Apply socket-NUMA-node boundary for aarch64
- and RiscV machines
-Message-ID: <Y/disinKmr6gLby1@redhat.com>
-References: <20230223081401.248835-1-gshan@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31CC8811E6E;
+ Thu, 23 Feb 2023 12:57:50 +0000 (UTC)
+Received: from fedora.. (unknown [10.43.2.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 443CA2026D4B;
+ Thu, 23 Feb 2023 12:57:49 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Julia Suvorova <jusual@redhat.com>
+Subject: [PATCH v2] hw/smbios: fix field corruption in type 4 table
+Date: Thu, 23 Feb 2023 13:57:47 +0100
+Message-Id: <20230223125747.254914-1-jusual@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230223081401.248835-1-gshan@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jusual@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,70 +70,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 23, 2023 at 04:13:57PM +0800, Gavin Shan wrote:
-> For arm64 and RiscV architecture, the driver (/base/arch_topology.c) is
-> used to populate the CPU topology in the Linux guest. It's required that
-> the CPUs in one socket can't span mutiple NUMA nodes. Otherwise, the Linux
-> scheduling domain can't be sorted out, as the following warning message
-> indicates. To avoid the unexpected confusion, this series attempts to
-> rejects such kind of insane configurations.
-> 
->    -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
->    -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
->    -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
->    -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
+Since table type 4 of SMBIOS version 2.6 is shorter than 3.0, the
+strings which follow immediately after the struct fields have been
+overwritten by unconditional filling of later fields such as core_count2.
+Make these fields dependent on the SMBIOS version.
 
-This is somewhat odd as a config, because core 2 is in socket 0
-and core 3 is in socket 1, so it wouldn't make much conceptual
-sense to have them in the same NUMA node, while other cores within
-the same socket are in different NUMA nodes. Basically the split
-of NUMA nodes is not aligned with any level in the topology.
+Fixes: 05e27d74c7 ("hw/smbios: add core_count2 to smbios table type 4")
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=2169904
 
-This series, however, also rejects configurations that I would
-normally consider to be reasonable. I've not tested linux kernel
-behaviour though, but as a user I would expect to be able to
-ask for:
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+---
+v2:
+    * add fixes tag
+    * check tbl_len instead of ep_type
 
-    -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
-    -numa node,nodeid=0,cpus=0,memdev=ram0                \
-    -numa node,nodeid=1,cpus=1,memdev=ram1                \
-    -numa node,nodeid=2,cpus=2,memdev=ram2                \
-    -numa node,nodeid=3,cpus=3,memdev=ram3                \
-    -numa node,nodeid=4,cpus=4,memdev=ram4                \
-    -numa node,nodeid=5,cpus=5,memdev=ram5                \
+ hw/smbios/smbios.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-ie, every core gets its own NUMA node
-
-Or to aask for every cluster as a numa node:
-
-    -smp 6,maxcpus=6,sockets=2,clusters=3,cores=1,threads=1 \
-    -numa node,nodeid=0,cpus=0,memdev=ram0                \
-    -numa node,nodeid=1,cpus=1,memdev=ram1                \
-    -numa node,nodeid=2,cpus=2,memdev=ram2                \
-    -numa node,nodeid=3,cpus=3,memdev=ram3                \
-    -numa node,nodeid=4,cpus=4,memdev=ram4                \
-    -numa node,nodeid=5,cpus=5,memdev=ram5                \
-
-In both cases the NUMA split is aligned with a given level
-in the topology, which was not the case with your example.
-
-Rejecting these feels overly strict to me, and may risk breaking
-existing valid deployments, unless we can demonstrate those
-scenarios were unambiguously already broken ?
-
-If there was something in the hardware specs that requires
-this, then it is more valid to do, than if it is merely an
-specific guest kernel limitation that might be fixed any day.
-
-With regards,
-Daniel
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 4869566cf5..d2007e70fb 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -750,14 +750,16 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+     t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
+     t->core_enabled = t->core_count;
+ 
+-    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
+-
+     t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
+-    t->thread_count2 = cpu_to_le16(ms->smp.threads);
+ 
+     t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
+     t->processor_family2 = cpu_to_le16(0x01); /* Other */
+ 
++    if (tbl_len == SMBIOS_TYPE_4_LEN_V30) {
++        t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
++        t->thread_count2 = cpu_to_le16(ms->smp.threads);
++    }
++
+     SMBIOS_BUILD_TABLE_POST;
+     smbios_type4_count++;
+ }
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.38.1
 
 
