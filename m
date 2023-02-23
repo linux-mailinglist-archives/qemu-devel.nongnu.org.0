@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F706A0ABA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3A06A0ABE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:37:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVBkz-00078W-Cb; Thu, 23 Feb 2023 08:35:33 -0500
+	id 1pVBlr-0007s6-9r; Thu, 23 Feb 2023 08:36:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pVBkw-00077Q-Rh
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:35:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pVBkv-0006x2-2u
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:35:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677159328;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=OF2fg1z+Iy1uzthL6GG/bDB4s+7GS3d8xh+7L1YZh1bEfH/fywikDlQVzum5bCpC5AIPOQ
- M5IiSvAYHCVJyo7M91fGJDeBAwlvmQLLDEcmtU5GwzoISaxxH4eqUbLoq6Bl7QBJdpPacS
- Uo1XjLyDPZxpBjv78CBoChWfs/nrzz8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-354-BkEeBkbLMvqT1aEeu4xFrA-1; Thu, 23 Feb 2023 08:35:26 -0500
-X-MC-Unique: BkEeBkbLMvqT1aEeu4xFrA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- ec13-20020a0564020d4d00b004a621e993a8so14736084edb.13
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 05:35:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pVBll-0007pl-Qf
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:36:21 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pVBli-000765-77
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:36:20 -0500
+Received: by mail-pf1-x431.google.com with SMTP id a26so6040471pfo.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 05:36:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ziMLKydJTay/BmNLV1+TS3AzWc2BBP9B0nqwN7+xrP4=;
+ b=BtTRyxb7+dy2VMgw01VMpL1Hj91WrdUv/6B6g9evbk6SILXPsC8eFz0fB8OrhCdI5t
+ RLDZOu5CZa+Esyp20IdmUDx+vj5xIpzcLbusF2E2rv3xJZMRAVsWdAv1DHZrJueI0SsZ
+ 8tJuaMsr/YIDQ2FzKTu+e7bBKsdxfRVezbwrOy9zLndZuY6V7XCAb+DXLSh5MGuBXrlo
+ fXg51bQ7L6zc4JYMV51nvwD7hINgqPyMLW54ekjJoPHPCtkYlHzLC+p7MnITo05wkxGy
+ tdroeb1sFaGqf5Lfz/l3siJtM2mccO2XxUrG5BxXKHg63Jvnc0r2HMoVH5dghDORy+dw
+ xDMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=QBbUvlLZQgiyaqqGMJQbuZQV/aJP9oyqUJkV9z3uqf00e/z4BqdbmvFfUAOC6NTOfs
- IUtiE5ALjA1PNLycPRTVsvm9XQMTV14kCngMfZmZBKwwsC9/jFLv8vLxJU8rsggRau3h
- v9brYM3B4JxUA/piN2VWDPfZdJvIJeyhRfvOtsFdsJWtOWHzzr3j7vjAz/+ZbOEAsqlV
- tFyYogNgGSDlc1J7VQhW7ZO6Ex3xw+31+otI9E/o0Tn3ojAmUGq+IOd2BwJQcNa30dun
- +2Dgx6tSjE4VpYECaWIVtz+X94GnJqBHlx4L4aOmu+Yk2OJJpWMOvaOEoHo9yiPpFO4k
- 9Eeg==
-X-Gm-Message-State: AO0yUKUeAcBcuuvgGrMF8AQrIvmb7Qm0Gj+T6oWIwrAa1fC5mWk/tdNp
- 0vSMQISeABzA19u4+Xge7c8lDGnOjioWhn7wlmH4GL4RuYrzF6Hv2/hZOZobwh+Zhh2nquxzvN2
- mSL7fnaOu9vQ522w=
-X-Received: by 2002:a17:907:7898:b0:8df:e176:483b with SMTP id
- ku24-20020a170907789800b008dfe176483bmr8202890ejc.3.1677159325388; 
- Thu, 23 Feb 2023 05:35:25 -0800 (PST)
-X-Google-Smtp-Source: AK7set/BaAfP3o5LFYww9ayS3u/am89EMDx/N7mGPSwlGDybuRU+qWmSprt4qLP78PYc5MLZ4C8bFA==
-X-Received: by 2002:a17:907:7898:b0:8df:e176:483b with SMTP id
- ku24-20020a170907789800b008dfe176483bmr8202879ejc.3.1677159325043; 
- Thu, 23 Feb 2023 05:35:25 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- a17-20020a17090680d100b008dea022f5e6sm3443575ejx.24.2023.02.23.05.35.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 05:35:24 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org,
-	pbonzini@redhat.com
-Subject: Re: [PATCH] target/i386: Fix BZHI instruction
-Date: Thu, 23 Feb 2023 14:35:21 +0100
-Message-Id: <20230223133521.555620-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230114233206.3118472-1-richard.henderson@linaro.org>
-References: 
+ bh=ziMLKydJTay/BmNLV1+TS3AzWc2BBP9B0nqwN7+xrP4=;
+ b=5g58u6po1ZmIM/TmAMT1xWzQq8gUwxtLj1rYu1bomF1sYHvgpUVRz0UyLKxaxOUfH+
+ EO5KG05veywwT5ldWy20QSrEf9SHQzP3zT2QSzahz3Wjd7YaRMV4PhmAnNSp13NewmI5
+ Bwpz+A5cSOlvkpJn/b/h3jZmIAhMjGhTaNPMKdiLYS8YbDn/zg4MB1898SI1pzb++we9
+ d8dlEqZePXijfNP1wctz9dnF9up3vboTXLHPmneqkutq3OYDHtAkCrxJakBV//mjHJJV
+ mxZ/axVqi8G9xEsULr29Pl6GE2HlCh5ig1LCdgWtcJnLM890HRqlbr3bGPcsV6mNjob2
+ xAVQ==
+X-Gm-Message-State: AO0yUKV8/CThL0Gw39I0z700aFsGY/FCQkcXtfABE6kG0kjyEmIDLMfs
+ BXL+WHcj/7xIB0UDVYLUN94ZdQ7MxNgz+/ucU9dQxg==
+X-Google-Smtp-Source: AK7set968R8ACxGV76QfmgC3Q1J6wAcT//jUUbrQA6Sbw+lr4pqpfoJcvdlxk5JiI2S3GaZOTJWK2B1aiEbDsTtqI2A=
+X-Received: by 2002:a63:7555:0:b0:4fd:4602:1b9a with SMTP id
+ f21-20020a637555000000b004fd46021b9amr1833686pgn.9.1677159376680; Thu, 23 Feb
+ 2023 05:36:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230113200138.52869-1-philmd@linaro.org>
+ <f8a83363-ce88-e424-4db5-2fead70e4ec4@linaro.org>
+In-Reply-To: <f8a83363-ce88-e424-4db5-2fead70e4ec4@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Feb 2023 13:36:05 +0000
+Message-ID: <CAFEAcA_xqTmYHqv+4QZqouAYtFYRz=PrZNAk6y4arRPHjNrsug@mail.gmail.com>
+Subject: Re: [PATCH 0/4] hw: QOM housekeeping around IOTHREAD / IRQ types
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-arm@nongnu.org, 
+ qemu-ppc@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ qemu-trivial@nongnu.org, Alistair Francis <alistair@alistair23.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,8 +88,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Queued, thanks.
+On Tue, 7 Feb 2023 at 09:17, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
+> wrote:
+>
+> Hi Peter,
+>
+> On 13/1/23 21:01, Philippe Mathieu-Daud=C3=A9 wrote:
+> > - remove unused code
+> > - use recent QOM macros
+> > - use CamelCase typedef
+> >
+> > Philippe Mathieu-Daud=C3=A9 (4):
+> >    iothread: Remove unused IOThreadClass / IOTHREAD_CLASS
+> >    hw/irq: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
+> >    hw/or-irq: Declare QOM macros using OBJECT_DECLARE_SIMPLE_TYPE()
+> >    hw: Replace qemu_or_irq typedef by OrIRQState
+> >
+> >   hw/arm/exynos4210.c                  |  4 ++--
+> >   hw/arm/mps2-tz.c                     |  2 +-
+> >   hw/core/irq.c                        |  9 ++++-----
+> >   hw/core/or-irq.c                     | 18 +++++++++---------
+> >   hw/pci-host/raven.c                  |  2 +-
+> >   include/hw/arm/armsse.h              |  6 +++---
+> >   include/hw/arm/bcm2835_peripherals.h |  2 +-
+> >   include/hw/arm/exynos4210.h          |  4 ++--
+> >   include/hw/arm/stm32f205_soc.h       |  2 +-
+> >   include/hw/arm/stm32f405_soc.h       |  2 +-
+> >   include/hw/arm/xlnx-versal.h         |  6 +++---
+> >   include/hw/arm/xlnx-zynqmp.h         |  2 +-
+> >   include/hw/or-irq.h                  |  5 +----
+> >   iothread.c                           |  4 ----
+> >   14 files changed, 30 insertions(+), 38 deletions(-)
+>
+> Since most changes concern ARM machines, can this (reviewed)
+> series go via your tree?
 
-Paolo
+Sure; applied to target-arm.next, thanks.
 
+-- PMM
 
