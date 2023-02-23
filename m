@@ -2,84 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1046A11AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 22:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4D26A11BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 22:12:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVIqC-0002pr-KA; Thu, 23 Feb 2023 16:09:24 -0500
+	id 1pVIsK-0004nM-1T; Thu, 23 Feb 2023 16:11:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVIqA-0002p9-SF
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:09:22 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVIq9-0006JX-C6
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:09:22 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- il18-20020a17090b165200b0023127b2d602so635292pjb.2
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 13:09:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Qzu0zx2wHo11qYxivzlLHMkFuxrVMWkxNLfTT0X5FtQ=;
- b=rKveNuCTF1IWo6/cHZdqPB98wqdJR2raiREjz+Qcy8WHxeB1/i8rv9+mk0u1S0vtkD
- qI9X90UjVDh5q+OKnmdkN66SkRVdbEvCAygrvmFzlhYZzN7wUDhoWeLn2odDp8gFy4I0
- RQmHbMz1n4NfAP5+aKldmOS9S6w2NhythqSjtnGiVQfBN2qeykUafUX5j8QsrzvTXa7Q
- VzaoLZNI0zGNNTBSDoc+O2MVLKfA8SstjYqk11mJKavxKXF1JD7ta1EbIV3oNl2XjVqK
- aleEX3Db8jEt82wBijXy/BpgcauY4wsygQq4ICCAc19DCG6vs1ejwlmCgSzHKuUU0ZrZ
- PjSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Qzu0zx2wHo11qYxivzlLHMkFuxrVMWkxNLfTT0X5FtQ=;
- b=Mp3zlrinj+i4vqt/gRsNjXYqrbSwxnilV7L9nXRHU9xEBaG9zLrAo1MJcF1tAq09G/
- FND8nZ1MjX9bx7rdvXCWlkJ9ARnYDE61ydHeSSaC0vKRMIG11O3dEkC9ly+H49ocboU1
- LpjoA0bmH8i54QbnH/Cv9Fjzu9O4FDebfbs+MaR1pU/94mSBI52/0GeKLGHagCamvE7/
- crajDIMmEPTsbXTH0ysMI9q8v0A9gvKzrrHmUmqkUofFFktSfpbJrmgf2jqi/1mS7MIp
- RfKwDgAIfhyvKTLECYTlgdpO4T3UxfjNKv4uINpRVUvpIjFu7sSnUrr1WdBANzx1VQpF
- LVtw==
-X-Gm-Message-State: AO0yUKWp8t+YcG3D/fjGC3O04WnJVL8X8i9QGu1Poj/YDMtG3mlvCTCf
- 84IlXGUQd1ezOOdHvHWbbxbj4g==
-X-Google-Smtp-Source: AK7set8ep4qWsP94fCck6rbic0WhB9uPfNg/fnrBzTVMgwig1u/1UFUyhhbl3LvOWhD0cYJsd/Lj2g==
-X-Received: by 2002:a17:902:d481:b0:19a:b427:230a with SMTP id
- c1-20020a170902d48100b0019ab427230amr15809053plg.63.1677186559639; 
- Thu, 23 Feb 2023 13:09:19 -0800 (PST)
-Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- z20-20020a170902ee1400b00198ef93d556sm120412plb.147.2023.02.23.13.09.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 13:09:19 -0800 (PST)
-Message-ID: <9c049a8f-9178-c04b-58df-445029b67a18@linaro.org>
-Date: Thu, 23 Feb 2023 11:09:15 -1000
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pVIsG-0004n2-GA; Thu, 23 Feb 2023 16:11:32 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pVIsD-0006z9-Ix; Thu, 23 Feb 2023 16:11:31 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 08C5C746377;
+ Thu, 23 Feb 2023 22:11:24 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 93CC7746324; Thu, 23 Feb 2023 22:11:23 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 9277474635C;
+ Thu, 23 Feb 2023 22:11:23 +0100 (CET)
+Date: Thu, 23 Feb 2023 22:11:23 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH 2/5] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <20230223202053.117050-3-shentey@gmail.com>
+Message-ID: <a9efb349-e2b9-1ece-cded-ee500457f1cf@eik.bme.hu>
+References: <20230223202053.117050-1-shentey@gmail.com>
+ <20230223202053.117050-3-shentey@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] exec/helper-head: Include missing "fpu/softfloat-types.h"
- header
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-References: <20221216225202.25664-1-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221216225202.25664-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,41 +61,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/16/22 12:52, Philippe Mathieu-Daudé wrote:
-> 'dh_ctype_f32' is defined as 'float32', itself declared
-> in "fpu/softfloat-types.h". Include this header to avoid
-> when refactoring other headers:
-> 
->    In file included from include/exec/helper-proto.h:7,
->                     from include/tcg/tcg-op.h:29,
->                     from ../../tcg/tcg-op-vec.c:22:
->    include/exec/helper-head.h:44:22: error: unknown type name ‘float32’; did you mean ‘_Float32’?
->       44 | #define dh_ctype_f32 float32
->          |                      ^~~~~~~
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-Queued to tcg-next.
-
-
-r~
-
+On Thu, 23 Feb 2023, Bernhard Beschow wrote:
+> The real VIA south bridges implement a PCI IRQ router which is configured
+> by the BIOS or the OS. In order to respect these configurations, QEMU
+> needs to implement it as well.
+>
+> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   include/exec/helper-head.h | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/exec/helper-head.h b/include/exec/helper-head.h
-> index 584b120312..325a42b14e 100644
-> --- a/include/exec/helper-head.h
-> +++ b/include/exec/helper-head.h
-> @@ -18,6 +18,8 @@
->   #ifndef EXEC_HELPER_HEAD_H
->   #define EXEC_HELPER_HEAD_H
->   
-> +#include "fpu/softfloat-types.h"
+> hw/isa/vt82c686.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+> 1 file changed, 44 insertions(+)
+>
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index 3f9bd0c04d..f24e387d63 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -604,6 +604,48 @@ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+>     qemu_set_irq(s->cpu_intr, level);
+> }
+>
+> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+> +{
+> +    switch (irq_num) {
+> +    case 0:
+> +        return s->dev.config[0x55] >> 4;
 > +
->   #define HELPER(name) glue(helper_, name)
->   
->   /* Some types that make sense in C, but not for TCG.  */
+> +    case 1:
+> +        return s->dev.config[0x56] & 0xf;
+> +
+> +    case 2:
+> +        return s->dev.config[0x56] >> 4;
+> +
+> +    case 3:
+> +        return s->dev.config[0x57] >> 4;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
+> +{
+> +    ViaISAState *s = opaque;
+> +    PCIBus *bus = pci_get_bus(&s->dev);
+> +    int pic_irq;
+> +
+> +    /* now we change the pic irq level according to the via irq mappings */
+> +    /* XXX: optimize */
+> +    pic_irq = via_isa_get_pci_irq(s, irq_num);
+> +    if (pic_irq < ISA_NUM_IRQS) {
+> +        int i, pic_level;
+> +
+> +        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
+> +        pic_level = 0;
+> +        for (i = 0; i < PCI_NUM_PINS; i++) {
+> +            if (pic_irq == via_isa_get_pci_irq(s, i)) {
+> +                pic_level |= pci_bus_get_irq_level(bus, i);
+> +            }
+> +        }
+> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
+> +    }
+> +}
+> +
+> static void via_isa_realize(PCIDevice *d, Error **errp)
+> {
+>     ViaISAState *s = VIA_ISA(d);
+> @@ -676,6 +718,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>     if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
+>         return;
+>     }
+> +
+> +    pci_bus_irqs(pci_bus, via_isa_set_pci_irq, s, PCI_NUM_PINS);
 
+Please no oversimplification. This replaces the connections to mv64361 gpp 
+pins made in mv64361_realize() and breaks the interrupts that can be 
+enabled in mv64361. I've implemented that for something but can't remember 
+now which guest exactly, but this would be needed so please restore my 
+pegasos2 patch and move this there connecting both mv64361 and via-isa to 
+PCI interrupts as shown in the schematics. That means you also need the 
+PIRQ pins here. Can you do a new version with that? I'll try this one in 
+the meantime but I'm quite sure this is wrong as it is. You can drop the 
+via-ac97 patches from this series, I can submit them separately rebased on 
+the final IRQ series we come up with.
+
+Regards,
+BALATON Zoltan
+
+> }
+>
+> /* TYPE_VT82C686B_ISA */
+>
 
