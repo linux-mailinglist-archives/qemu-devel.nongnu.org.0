@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F17E6A0B1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721B26A0B16
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:47:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVBvh-00020o-FM; Thu, 23 Feb 2023 08:46:37 -0500
+	id 1pVBvh-00020V-80; Thu, 23 Feb 2023 08:46:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvc-0001wO-Rz
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvd-0001yH-Ol
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvb-0001Lq-7G
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:32 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvb-0001M1-NM
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677159990;
+ s=mimecast20190719; t=1677159991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HZkRRES6VX9fUsJrjO1e3Z80R6OzP3FBSPHoy8Bujyo=;
- b=X0RnYq/HrQVOD69eQkFQsmAtv7xRglrt5XrC4dCLF1Kt+yC/GtNEv2x/6JdqBYbmxFrHzE
- 3MHcmlxmshChduQsVMcOv0QBzXzm2iEHdorPW138f8XFXT3Y2dgOY93Tkbduxn3ec4foOa
- dtYl7fgHkt9O4EJ+K/vODyZDOcQ+Qlc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3pdCPADBzlpA82/42VSh5gq+wKSQ+ZhFCYEqxjgt3VA=;
+ b=Ud/87jFJWQFJczUllDPQzQp+2f1+D4F9Tn1lWCkm5WnxaR5DDYNGCrp/tXXF9rCtmVdIvR
+ WO8tCojG3yzdEp3OlX72A1V1zKRWIT11NekMGakP8J8o7PO1V83b7fBjo781ayoYgCyrZb
+ IB9D262DYdTeZEo7EcyhnB+OGDcBf1E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-lInWLAsKPZSoFW2wqn582Q-1; Thu, 23 Feb 2023 08:46:29 -0500
-X-MC-Unique: lInWLAsKPZSoFW2wqn582Q-1
+ us-mta-260--vB5kvwWNb2bQ-ag7YZHQg-1; Thu, 23 Feb 2023 08:46:30 -0500
+X-MC-Unique: -vB5kvwWNb2bQ-ag7YZHQg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2D1F101A521;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C33A628237C3;
  Thu, 23 Feb 2023 13:46:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2FE52166B29;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3A012166B2B;
  Thu, 23 Feb 2023 13:46:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A81C521E6900; Thu, 23 Feb 2023 14:46:26 +0100 (CET)
+ id AA96421E6901; Thu, 23 Feb 2023 14:46:26 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 10/12] hw/core: Improve the query-hotpluggable-cpus error
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PULL 11/12] migration/colo: Improve an x-colo-lost-heartbeat error
  message
-Date: Thu, 23 Feb 2023 14:46:24 +0100
-Message-Id: <20230223134626.2107382-11-armbru@redhat.com>
+Date: Thu, 23 Feb 2023 14:46:25 +0100
+Message-Id: <20230223134626.2107382-12-armbru@redhat.com>
 In-Reply-To: <20230223134626.2107382-1-armbru@redhat.com>
 References: <20230223134626.2107382-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,42 +84,43 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 The QERR_ macros are leftovers from the days of "rich" error objects.
 We've been trying to reduce their remaining use.
 
-Get rid of a use of QERR_FEATURE_DISABLED, and improve the slightly
-awkward error message
+Get rid of a use of QERR_FEATURE_DISABLED, and improve the somewhat
+imprecise error message
 
-    (qemu) info hotpluggable-cpus
-    Error: The feature 'query-hotpluggable-cpus' is not enabled
+    (qemu) x_colo_lost_heartbeat
+    Error: The feature 'colo' is not enabled
 
 to
 
-    Error: machine does not support hot-plugging CPUs
+    Error: VM is not in COLO mode
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230207075115.1525-11-armbru@redhat.com>
+Message-Id: <20230207075115.1525-12-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- hw/core/machine-qmp-cmds.c | 3 +--
+ migration/colo-failover.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index a6ed3a63c3..2d904747c0 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -16,7 +16,6 @@
+diff --git a/migration/colo-failover.c b/migration/colo-failover.c
+index 42453481c4..6cb6f90357 100644
+--- a/migration/colo-failover.c
++++ b/migration/colo-failover.c
+@@ -17,7 +17,6 @@
+ #include "migration.h"
  #include "qapi/error.h"
- #include "qapi/qapi-builtin-visit.h"
- #include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-commands-migration.h"
 -#include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qobject.h"
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/type-helpers.h"
-@@ -141,7 +140,7 @@ HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
+ #include "qemu/error-report.h"
+ #include "trace.h"
  
-     if (!mc->has_hotpluggable_cpus) {
--        error_setg(errp, QERR_FEATURE_DISABLED, "query-hotpluggable-cpus");
-+        error_setg(errp, "machine does not support hot-plugging CPUs");
-         return NULL;
+@@ -78,7 +77,7 @@ FailoverStatus failover_get_state(void)
+ void qmp_x_colo_lost_heartbeat(Error **errp)
+ {
+     if (get_colo_mode() == COLO_MODE_NONE) {
+-        error_setg(errp, QERR_FEATURE_DISABLED, "colo");
++        error_setg(errp, "VM is not in COLO mode");
+         return;
      }
  
 -- 
