@@ -2,113 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B056A0C51
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:55:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8C46A0B84
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:07:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVCza-0004hA-FX; Thu, 23 Feb 2023 09:54:42 -0500
+	id 1pVCF6-0005eu-Qs; Thu, 23 Feb 2023 09:06:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierre@imap.linux.ibm.com>)
- id 1pVCLV-00066l-Iv; Thu, 23 Feb 2023 09:13:17 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from
+ <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pVCF4-0005eX-NB
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:06:38 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierre@imap.linux.ibm.com>)
- id 1pVCLS-0001l2-2J; Thu, 23 Feb 2023 09:13:16 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31NE5npV029852; Thu, 23 Feb 2023 14:06:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=mime-version : date :
- from : to : cc : subject : in-reply-to : references : message-id :
- content-type : content-transfer-encoding; s=pp1;
- bh=Jw0udZeGiM5XNwlNUlCl+RQrq26nNuRgcPB0l3mQFx4=;
- b=G0/HWV7OHI7lbY2E7laYAf9Oc/vaYk8Hg9ZDHVV/KCTRU1uvC/V3EnTi+/7YkXiSUxbq
- 9embhZFQ609U5rjHrAHo/yen+E2TTt6wedFl6huYso2LF4gmSxhUM65I+EYhP0g2HJYc
- jOMlX/YZMaJU4Q1fWBvE+8b+IkWYBF5V39AA0+J5vrDXHRt5IvM3OEvpO++Sbi4VuELk
- UmXgDUTJpst7KnoW1yLAtcUA+1Y7BHKBmQI6qzVv8HxKO2ZpOTphDU3JpX6MxPStqZ1w
- VxDLuJpQ14ppMx+2UtBOz0eTcMu6drUMurYg8DNw1njY6zWaONXG0eq71TifFKdnj9hA rQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nx7k9khxj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 14:06:34 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31NCVcHJ007267;
- Thu, 23 Feb 2023 14:06:33 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nx7k9khx0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 14:06:33 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31NCntop005324;
- Thu, 23 Feb 2023 14:06:32 GMT
-Received: from smtprelay06.dal12v.mail.ibm.com ([9.208.130.100])
- by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3ntpa7e2fm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 14:06:32 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
- [10.39.53.229])
- by smtprelay06.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31NE6VPL1049200
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Feb 2023 14:06:31 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1CAD258070;
- Thu, 23 Feb 2023 14:06:31 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 945015805C;
- Thu, 23 Feb 2023 14:06:29 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
- by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 23 Feb 2023 14:06:29 +0000 (GMT)
+ (Exim 4.90_1) (envelope-from
+ <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pVCF2-00065t-Gc
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:06:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=UjNC1nVYSOs8zjQrdSK0bwGxOGLCgS+LqecMP/btEU4=; b=su19SUZA8M8otN74j8HxTKSiSR
+ M6yu7GL0TsNhHbk6gcMudErQUjh07vgfbvV3LGczfN8V2rj0A6ebe5I+avq7TzHyXf+P8sHw5p82v
+ +J4r9zR8HsjWVpXa5mIr6TjiP1Rpfz5Zt0fJ2CyC6A6ezz2ipQIz7i4crjc5v6U8jaHn5fe4ybIJp
+ Bu9sJXOHXAxaINn0jCv9Aj85bbtInOvxL0JWSxUTSbjIZQzt/H8UwKmD461XZFuhHca2Fqfkrkrn+
+ FFvn8wJ7VgBV04+jIvOI5oODZBcojrnmISWvGPtc7p0Mp/4yf4dYIGjmPW7u4PT3dxDFUYbPHZJzq
+ 3t/3l0gg==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pVCEy-00EPwu-NN; Thu, 23 Feb 2023 14:06:33 +0000
+Message-ID: <4ce48608f771b40898160bf4bdeb77f495e46e44.camel@infradead.org>
+Subject: Re: [PATCH v2 3/5] gitlab-ci.d/buildtest: Disintegrate the
+ build-coroutine-sigaltstack job
+From: David Woodhouse <dwmw2@infradead.org>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, Alex
+ =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Stefan
+ Hajnoczi <stefanha@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Fabiano Rosas <farosas@suse.de>, "Daniel P
+ ." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Date: Thu, 23 Feb 2023 14:06:32 +0000
+In-Reply-To: <20230207201447.566661-4-thuth@redhat.com>
+References: <20230207201447.566661-1-thuth@redhat.com>
+ <20230207201447.566661-4-thuth@redhat.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-Zf0COsRdkLgwkI+mSRdX"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Date: Thu, 23 Feb 2023 15:06:29 +0100
-From: pierre <pierre@imap.linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Subject: Re: [PATCH v16 02/11] s390x/cpu topology: add topology entries on CPU
- hotplug
-In-Reply-To: <4bd16293-62e8-d7ea-dab4-9e5cb0208812@redhat.com>
-References: <20230222142105.84700-1-pmorel@linux.ibm.com>
- <20230222142105.84700-3-pmorel@linux.ibm.com>
- <4bd16293-62e8-d7ea-dab4-9e5cb0208812@redhat.com>
-Message-ID: <a19eb89ab4841e389e72b50ec017ae01@imap.linux.ibm.com>
-X-Sender: pierre@imap.linux.ibm.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: BBBRFoJx4c_y6a0_xBcNg7xRuouGI4El
-X-Proofpoint-GUID: iAr-ykhNVNl4sEansmqLqNjItgcUVEWI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-23_08,2023-02-23_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- malwarescore=0 bulkscore=0 mlxscore=0 priorityscore=1501 phishscore=0
- impostorscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1034
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302230115
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=pierre@imap.linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_NXDOMAIN=0.9,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NO_DNS_FOR_FROM=0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 23 Feb 2023 09:54:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,210 +80,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023-02-23 13:53, Thomas Huth wrote:
-> On 22/02/2023 15.20, Pierre Morel wrote:
->> The topology information are attributes of the CPU and are
->> specified during the CPU device creation.
-> ...
->> diff --git a/include/hw/s390x/cpu-topology.h 
->> b/include/hw/s390x/cpu-topology.h
->> index 83f31604cc..fa7f885a9f 100644
->> --- a/include/hw/s390x/cpu-topology.h
->> +++ b/include/hw/s390x/cpu-topology.h
->> @@ -10,6 +10,47 @@
->>   #ifndef HW_S390X_CPU_TOPOLOGY_H
->>   #define HW_S390X_CPU_TOPOLOGY_H
->>   +#include "qemu/queue.h"
->> +#include "hw/boards.h"
->> +#include "qapi/qapi-types-machine-target.h"
->> +
->>   #define S390_TOPOLOGY_CPU_IFL   0x03
->>   +typedef struct S390Topology {
->> +    uint8_t *cores_per_socket;
->> +    CpuTopology *smp;
->> +    CpuS390Polarization polarization;
->> +} S390Topology;
->> +
->> +#ifdef CONFIG_KVM
->> +bool s390_has_topology(void);
->> +void s390_topology_setup_cpu(MachineState *ms, S390CPU *cpu, Error 
->> **errp);
->> +#else
->> +static inline bool s390_has_topology(void)
->> +{
->> +       return false;
->> +}
->> +static inline void s390_topology_setup_cpu(MachineState *ms,
->> +                                           S390CPU *cpu,
->> +                                           Error **errp) {}
->> +#endif
->> +
->> +extern S390Topology s390_topology;
->> +int s390_socket_nb(S390CPU *cpu);
->> +
->> +static inline int s390_std_socket(int n, CpuTopology *smp)
->> +{
->> +    return (n / smp->cores) % smp->sockets;
->> +}
->> +
->> +static inline int s390_std_book(int n, CpuTopology *smp)
->> +{
->> +    return (n / (smp->cores * smp->sockets)) % smp->books;
->> +}
->> +
->> +static inline int s390_std_drawer(int n, CpuTopology *smp)
->> +{
->> +    return (n / (smp->cores * smp->sockets * smp->books)) % 
->> smp->books;
-> 
-> Shouldn't that be " % smp->drawers" instead?
 
-/o\  Yes it is of course.
-thanks.
+--=-Zf0COsRdkLgwkI+mSRdX
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> +}
->> +
->>   #endif
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> new file mode 100644
->> index 0000000000..59f2cc15c7
->> --- /dev/null
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -0,0 +1,270 @@
->> +/*
->> + * CPU Topology
->> + *
->> + * Copyright IBM Corp. 2022
->> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
->> +
->> + * This work is licensed under the terms of the GNU GPL, version 2 or 
->> (at
->> + * your option) any later version. See the COPYING file in the 
->> top-level
->> + * directory.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qapi/error.h"
->> +#include "qemu/error-report.h"
->> +#include "hw/qdev-properties.h"
->> +#include "hw/boards.h"
->> +#include "qemu/typedefs.h"
->> +#include "target/s390x/cpu.h"
->> +#include "hw/s390x/s390-virtio-ccw.h"
->> +#include "hw/s390x/cpu-topology.h"
->> +
->> +/*
->> + * s390_topology is used to keep the topology information.
->> + * .cores_per_socket: tracks information on the count of cores
->> + *                    per socket.
->> + * .smp: keeps track of the machine topology.
->> + *
->> + */
->> +S390Topology s390_topology = {
->> +    /* will be initialized after the cpu model is realized */
->> +    .cores_per_socket = NULL,
->> +    .smp = NULL,
->> +    .polarization = S390_CPU_POLARIZATION_HORIZONTAL,
->> +};
->> +
->> +/**
->> + * s390_socket_nb:
->> + * @cpu: s390x CPU
->> + *
->> + * Returns the socket number used inside the cores_per_socket array
->> + * for a cpu.
->> + */
->> +int s390_socket_nb(S390CPU *cpu)
->> +{
->> +    return (cpu->env.drawer_id * s390_topology.smp->books + 
->> cpu->env.book_id) *
->> +           s390_topology.smp->sockets + cpu->env.socket_id;
->> +}
->> +
->> +/**
->> + * s390_has_topology:
->> + *
->> + * Return value: if the topology is supported by the machine.
->> + */
->> +bool s390_has_topology(void)
->> +{
->> +    return false;
->> +}
->> +
->> +/**
->> + * s390_topology_init:
->> + * @ms: the machine state where the machine topology is defined
->> + *
->> + * Keep track of the machine topology.
->> + *
->> + * Allocate an array to keep the count of cores per socket.
->> + * The index of the array starts at socket 0 from book 0 and
->> + * drawer 0 up to the maximum allowed by the machine topology.
->> + */
->> +static void s390_topology_init(MachineState *ms)
->> +{
->> +    CpuTopology *smp = &ms->smp;
->> +
->> +    s390_topology.smp = smp;
->> +    s390_topology.cores_per_socket = g_new0(uint8_t, smp->sockets *
->> +                                            smp->books * 
->> smp->drawers);
->> +}
->> +
->> +/**
->> + * s390_topology_cpu_default:
->> + * @cpu: pointer to a S390CPU
->> + * @errp: Error pointer
->> + *
->> + * Setup the default topology if no attributes are already set.
->> + * Passing a CPU with some, but not all, attributes set is considered
->> + * an error.
->> + *
->> + * The function calculates the (drawer_id, book_id, socket_id)
->> + * topology by filling the cores starting from the first socket
->> + * (0, 0, 0) up to the last (smp->drawers, smp->books, smp->sockets).
->> + *
->> + * CPU type, entitlement and dedication have defaults values set in 
->> the
->> + * s390x_cpu_properties, however entitlement is forced to 0 'none' 
->> when
->> + * the polarization is horizontale.
->> + */
->> +static void s390_topology_cpu_default(S390CPU *cpu, Error **errp)
->> +{
->> +    CpuTopology *smp = s390_topology.smp;
->> +    CPUS390XState *env = &cpu->env;
->> +
->> +    /* All geometry topology attributes must be set or all unset */
->> +    if ((env->socket_id < 0 || env->book_id < 0 || env->drawer_id < 
->> 0) &&
->> +        (env->socket_id >= 0 || env->book_id >= 0 || env->drawer_id 
->> >= 0)) {
->> +        error_setg(errp,
->> +                   "Please define all or none of the topology 
->> geometry attributes");
->> +        return;
->> +    }
->> +
->> +    /* Check if one of the geometry topology is unset */
->> +    if (env->socket_id < 0) {
->> +        /* Calculate default geometry topology attributes */
->> +        env->socket_id = s390_std_socket(env->core_id, smp);
->> +        env->book_id = s390_std_book(env->core_id, smp);
->> +        env->drawer_id = s390_std_drawer(env->core_id, smp);
->> +    }
->> +
->> +    if (s390_topology.polarization == 
->> S390_CPU_POLARIZATION_HORIZONTAL) {
->> +        env->entitlement = 0;
-> 
-> Should this be S390_CPU_ENTITLEMENT_HORIZONTAL instead of 0 ?
+On Tue, 2023-02-07 at 21:14 +0100, Thomas Huth wrote:
+> We can get rid of the build-coroutine-sigaltstack job by moving
+> the configure flags that should be tested here to other jobs:
+> Move --with-coroutine=3Dsigaltstack to the build-system-debian job
+> (where the coroutines should get some more test coverage with
+> "make check-block", too) and --enable-trace-backends=3Dftrace to
+> the cross-s390x-kvm-only job.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Yes it is better thanks.
+Reviewed-by: David Woodhouse <dwmw2@infradead.org>
 
-Regards,
-Pierre
+--=-Zf0COsRdkLgwkI+mSRdX
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjIzMTQwNjMyWjAvBgkqhkiG9w0BCQQxIgQgQz+CtEXw
+GUrROKy1vgD4lpL9JepEXKVV7BabPipkOZUwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBKee+wJvRVg8KlCPGJLRC4YU0VYBTWXvaI
+Q7Hu4tr3J/Zz6L15qK1jkfExGVknDkVMBbKUxbyJa4ofC3wfcx+jrd0wYLQAv9wwQiAYJLyi3/kK
+cXbe9t27VDl7FhjCguyNzdxvaFB/C6ZXe0MuQ4v8x2mErDT8D6NospusP8RFdjlewIlH4r4rM9VR
+EY2FguxmJRYXEVl/JgMJVyEFkBAhDUI21SK0kbXacxMs8tLBMF04Z2sjlV6Df2P7WD2tgoZKRyVL
+x7bJM6P6T2JAQecaz395PZt+RX6RMWMt1cRJSbU5F/f2ipIy3MBV9Ifad06JaxRrvPCQL9W+DUNe
+Gw0DdnSlOYF62Tki4IpV37nfwbHCdgDzFk4me8N+zdbp7iw9mKSgbhol2SYxopJaanMIC8eOfBwx
+URCpGacJugYw9f59ZhzOOFHo/Hy7K2WzXemOXmQoUJXy+tMZiXYfjXprK/m4xQpiEdFvQr15uhLx
+vx7OLZQ4h1SrgnXTvhm2QahlYRBZ1nnzZyjfaO5Q+AiMhaATmojYVXkbVxRJKEg4YHp8hHWVlPyR
+OmiShdbIuivBQcnloNn2SVnc17z9eMDnYpaVY5Oo7QZK57K/ocyETtJIUpI//KPEsQkWp0TyHJlb
+/jtM8K9coYGiRQpDwnQNbI+E3RGT9Sdb9LTFxUc2ZgAAAAAAAA==
+
+
+--=-Zf0COsRdkLgwkI+mSRdX--
 
