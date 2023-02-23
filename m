@@ -2,88 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4F36A070F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 12:08:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3BF6A0792
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 12:41:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV9Rb-0004Xi-CC; Thu, 23 Feb 2023 06:07:23 -0500
+	id 1pV9x4-0006Pi-A5; Thu, 23 Feb 2023 06:39:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pV9RU-0004We-EZ
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:07:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pV9x2-0006PB-B4
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:39:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pV9RS-0000V7-8E
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:07:16 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pV9wy-0002gU-Op
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:39:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677150431;
+ s=mimecast20190719; t=1677152385;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KC04nhWtIT8crFWPhMBFueFtNhBYWB3k62G6VGImlkU=;
- b=ijdsMBzqzgA7zkxjX8tDWxarUOQtRI6Sm0vAjD9ooe9BOX6M9FY0uPaRH2DxIZpCE7biHn
- mHsFo5v0Z8rw4G6H/9rWhkg5IM9tdRsp0rfVOr/mn+gL6cTPgybSOPIMwAE9brEarhXemN
- JrdKzBEq0tdHp1XhH7Eiwv9TFVGSEB0=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-464-TFME9aaZPmu2cSrg1tNFrA-1; Thu, 23 Feb 2023 06:07:10 -0500
-X-MC-Unique: TFME9aaZPmu2cSrg1tNFrA-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-536af109f9aso125747907b3.13
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 03:07:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KC04nhWtIT8crFWPhMBFueFtNhBYWB3k62G6VGImlkU=;
- b=L6efP+5/dwackFWGsE6RqgCsFqy0zVK9uJz+7tv/JAy2yBDyjqqUzq4GuniPIcZ4/y
- ZRToGxJbaJsb1LeBVfsmP29hanBOgxAY7o2fB8jl3TAmDxEwsJHH79nvY/tOiFQMNUox
- m5l6hz4Re7K6VvyMA+S3Aam8FcO8yECmSmYx6echmGms3z15KqYDJbcbFh/EsrLwdau0
- zvlngeHYyQiSdBSaMVg2SLRlllILjw5YMlDYTcQibOqD2aqKq9cBuEOrvylzeSB4jDt6
- 3JdIOHEfZoyS9kZyANktlIVIK3StSCXlHp5LRWesjZXBHaOQ8VvBVIRidD6ChXEjDhlr
- QfxA==
-X-Gm-Message-State: AO0yUKUeR3moaWTqvvOIgn52uWh+q0vJFZUOKhCQmPX+xMgPj5p/hN6x
- u/SieO9mwOH4Ls04kmvmMtahl+G1QxYBavv2lwQCTmC5jU3kF2XPlKA1IAk/3GG2ACDZA2HDio9
- G927gBUKWT/hwFtDjncnkejSB8YFgY1s=
-X-Received: by 2002:a05:6902:188a:b0:8ed:3426:8a69 with SMTP id
- cj10-20020a056902188a00b008ed34268a69mr2618701ybb.1.1677150430143; 
- Thu, 23 Feb 2023 03:07:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set/ZCB/p3uGsBbspffbxf3i5ON7BvRwNDh9DVcuwfUvAv3mNEW82DOdZecTVbxncV22hRtG4dDmSUnzOdSJN8Qk=
-X-Received: by 2002:a05:6902:188a:b0:8ed:3426:8a69 with SMTP id
- cj10-20020a056902188a00b008ed34268a69mr2618687ybb.1.1677150429892; Thu, 23
- Feb 2023 03:07:09 -0800 (PST)
+ bh=UaNqUWCJDmsNc6HTzGkZyIsaxiu0nPNja3S2aIZCI8o=;
+ b=ejA+myNCHqIuswtK1WDlhLOGshcFoTwIUqyGwE00qlJq/YoyEmQ1TiWt4z7BJt8BBg/GAV
+ 631cc2aigtVnQ/5ocDaiKb3+1vlaxdMNrAcRxrCXC4Gt9e6PBk+3SHsuhcUbXHGLHAynJy
+ /N/228h7q8Me9gvzQQ5vxdcfGrc/AQY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-619-hBJjgLsHPY2r3oKOrfy4uA-1; Thu, 23 Feb 2023 06:39:42 -0500
+X-MC-Unique: hBJjgLsHPY2r3oKOrfy4uA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B736800B23;
+ Thu, 23 Feb 2023 11:39:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 744EEC15BA0;
+ Thu, 23 Feb 2023 11:39:41 +0000 (UTC)
+Date: Thu, 23 Feb 2023 12:39:40 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Zhiyong Ye <yezhiyong@bytedance.com>
+Cc: mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: Questions about how block devices use snapshots
+Message-ID: <Y/dQfG9380DPjQ6j@redhat.com>
+References: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
+ <Y7wdTurqBjWXIGmo@redhat.com>
+ <12bfc9a0-45e0-21f2-3d50-988ea2ad80c8@bytedance.com>
+ <Y/TqNIz9EEXaop/Q@redhat.com>
+ <2a5594e9-11b4-2ce8-c09c-3d75a0c87732@bytedance.com>
 MIME-Version: 1.0
-References: <20230208094253.702672-1-eperezma@redhat.com>
- <20230208094253.702672-12-eperezma@redhat.com>
- <c8d6ecc3-87f6-986e-e78d-003000e8a51e@redhat.com>
- <CAJaqyWdhK7QEHECP7qJP9tPA69e8uTuJtqLPNq_mUUhRDG_2Aw@mail.gmail.com>
- <81762a3b-b01f-2c3a-be63-531ac5b6976c@redhat.com>
-In-Reply-To: <81762a3b-b01f-2c3a-be63-531ac5b6976c@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 23 Feb 2023 12:06:33 +0100
-Message-ID: <CAJaqyWcScVMnkf+gXHZTAXrE2dbdzJXQM39BUv7Mm19kzRagqA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/13] vdpa: block migration if dev does not have
- _F_SUSPEND
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2a5594e9-11b4-2ce8-c09c-3d75a0c87732@bytedance.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -107,119 +79,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 23, 2023 at 3:38 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2023/2/22 22:25, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > On Wed, Feb 22, 2023 at 5:05 AM Jason Wang <jasowang@redhat.com> wrote:
-> >>
-> >> =E5=9C=A8 2023/2/8 17:42, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> >>> Next patches enable devices to be migrated even if vdpa netdev has no=
-t
-> >>> been started with x-svq. However, not all devices are migratable, so =
-we
-> >>> need to block migration if we detect that.
-> >>>
-> >>> Block vhost-vdpa device migration if it does not offer _F_SUSPEND and=
- it
-> >>> has not been started with x-svq.
-> >>>
-> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>> ---
-> >>>    hw/virtio/vhost-vdpa.c | 21 +++++++++++++++++++++
-> >>>    1 file changed, 21 insertions(+)
-> >>>
-> >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >>> index 84a6b9690b..9d30cf9b3c 100644
-> >>> --- a/hw/virtio/vhost-vdpa.c
-> >>> +++ b/hw/virtio/vhost-vdpa.c
-> >>> @@ -442,6 +442,27 @@ static int vhost_vdpa_init(struct vhost_dev *dev=
-, void *opaque, Error **errp)
-> >>>            return 0;
-> >>>        }
-> >>>
-> >>> +    /*
-> >>> +     * If dev->shadow_vqs_enabled at initialization that means the d=
-evice has
-> >>> +     * been started with x-svq=3Don, so don't block migration
-> >>> +     */
-> >>> +    if (dev->migration_blocker =3D=3D NULL && !v->shadow_vqs_enabled=
-) {
-> >>> +        uint64_t backend_features;
-> >>> +
-> >>> +        /* We don't have dev->backend_features yet */
-> >>> +        ret =3D vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES,
-> >>> +                              &backend_features);
-> >>> +        if (unlikely(ret)) {
-> >>> +            error_setg_errno(errp, -ret, "Could not get backend feat=
-ures");
-> >>> +            return ret;
-> >>> +        }
-> >>> +
-> >>> +        if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_SUSPEND))) =
-{
-> >>> +            error_setg(&dev->migration_blocker,
-> >>> +                "vhost-vdpa backend lacks VHOST_BACKEND_F_SUSPEND fe=
-ature.");
-> >>> +        }
-> >>
-> >> I wonder why not let the device to decide? For networking device, we c=
-an
-> >> live without suspend probably.
-> >>
-> > Right, but how can we know if this is a net device in init? I don't
-> > think a switch (vhost_vdpa_get_device_id(dev)) is elegant.
->
->
-> I meant the caller of vhost_vdpa_init() which is net_init_vhost_vdpa().
->
+Am 23.02.2023 um 08:35 hat Zhiyong Ye geschrieben:
+> Hi Kevin,
+> 
+> Thank you for your reply and this method works.
+> 
+> May I ask if this 'image-end-offset' field can be shown in the qemu-img info
+> too? Because it is also a very useful information whether qcow2 is placed on
+> a file or a block device.
 
-That's doable but I'm not sure if it is convenient.
+The only way to know the largest offset is by looking at all the
+metadata in qcow2. 'qemu-img info' is supposed to be very fast, so we
+don't do that there. 'qemu-img check' already looks at all metadata, so
+we have the number readily available there.
 
-Since we're always offering _F_LOG I thought of the lack of _F_SUSPEND
-as the default migration blocker for other kinds of devices like blk.
-If we move this code to net_init_vhost_vdpa, all other devices are in
-charge of block migration by themselves.
+Kevin
 
-I guess the right action is to use a variable similar to
-vhost_vdpa->f_log_all. It defaults to false, and the device can choose
-if it should export it or not. This way, the device does not migrate
-by default, and the equivalent of net_init_vhost_vdpa could choose
-whether to offer _F_LOG with SVQ or not.
-
-OTOH I guess other kinds of devices already must place blockers beyond
-_F_LOG, so maybe it makes sense to always offer _F_LOG even if
-_F_SUSPEND is not offered? Stefano G., would that break vhost-vdpa-blk
-support?
-
-Thanks!
-
-> Thanks
->
->
-> >
-> > If the parent device does not need to be suspended i'd go with
-> > exposing a suspend ioctl but do nothing in the parent device. After
-> > that, it could even choose to return an error for GET_VRING_BASE.
-> >
-> > If we want to implement it as a fallback in qemu, I'd go for
-> > implementing it on top of this series. There are a few operations we
-> > could move to a device-kind specific ops.
-> >
-> > Would it make sense to you?
-> >
-> > Thanks!
-> >
-> >
-> >> Thanks
-> >>
-> >>
-> >>> +    }
-> >>> +
-> >>>        /*
-> >>>         * Similar to VFIO, we end up pinning all guest memory and hav=
-e to
-> >>>         * disable discarding of RAM.
->
+> On 2/21/23 11:58 PM, Kevin Wolf wrote:
+> > Am 21.02.2023 um 14:27 hat Zhiyong Ye geschrieben:
+> > > 
+> > > Hi Kevin,
+> > > 
+> > > Sorry to bother you again.
+> > > 
+> > > I intend to use this approach for snapshots of block devices, which, as you
+> > > say, requires a lot of disk space to store snapshot data. So, to save disk
+> > > space, after each successful external snapshot creation, I want to shrink
+> > > the block device that stores the backing_file image to the size that qcow2
+> > > data actually occupies, since it has become read-only. But there is no way
+> > > to get the actual size of qcow2 when it is stored in a block device.
+> > > 
+> > > Qemu-img info can easily get the actual size of qcow2 when it is stored in a
+> > > file using the fstat function, but this will fail and return 0 for block
+> > > devices. Therefore, it is necessary to implement the method of getting data
+> > > occupancy inside qcow2. I think there may be two possible ways to do this:
+> > > 
+> > > - Add a cluster count field @nb_clusters in the BDRVQcow2State for each new
+> > > cluster allocated and the actual size occupied by qcow2 is: nb_clusters *
+> > > cluster_size.
+> > > - Iterate through the refcount block to find the value with the largest host
+> > > offset, and this is the actual size occupied by qcow2.
+> > > 
+> > > Since I'm not very familiar with qcow2, may I ask if you have any advice on
+> > > getting the actual size when using qcow2?
+> > 
+> > I think what you need is the 'image-end-offset' field from 'qemu-img
+> > check --output=json'.
+> > 
+> > Kevin
+> > 
+> 
 
 
