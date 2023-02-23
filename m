@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BC16A11F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 22:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 920DE6A11F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 22:25:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVJ5F-0004pX-3H; Thu, 23 Feb 2023 16:24:57 -0500
+	id 1pVJ5z-0005Pl-15; Thu, 23 Feb 2023 16:25:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pVJ5C-0004pL-If
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:24:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pVJ5A-0000mt-Kr
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:24:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677187490;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V3g4SPfDbT66AB2rlr5sunBG+AB35bvG6lE2sFHnLAQ=;
- b=eRhF9DEbIpJJbxnD+WKNwnI1bkfhLBKOyitGwWf7OLqqpMOI7bKrnDGYEwh5bn2FTa1e/q
- ZY7nlOAGU8pGr8JpScoMP5NkaXtgMWDWHRWwkkLzTjaBVpMXjbQPrXuMXYlOk14s+CMJ6s
- NCeRiHj3EtG4aXGHnaC+vmpeble7n4g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-RmTaP7GXMJC7Wreg_6j_Cg-1; Thu, 23 Feb 2023 16:24:47 -0500
-X-MC-Unique: RmTaP7GXMJC7Wreg_6j_Cg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B88E73C21C2B;
- Thu, 23 Feb 2023 21:24:46 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE78A440D9;
- Thu, 23 Feb 2023 21:24:45 +0000 (UTC)
-Date: Thu, 23 Feb 2023 16:24:43 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Anton Kuchin <antonkuchin@yandex-team.ru>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
- Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
-Message-ID: <Y/fZm12yGIPnwaDX@fedora>
-References: <20230222074214-mutt-send-email-mst@kernel.org>
- <22fee9b6-1dc0-792c-13cf-54c9303556ab@yandex-team.ru>
- <8372550f-def7-4336-c597-d22155abf145@yandex-team.ru>
- <333c4451-8eef-0603-c3f5-10e38c0eb24e@yandex-team.ru>
- <20230222115106-mutt-send-email-mst@kernel.org>
- <11593688-7ca4-def3-6212-7c26faa4d1c6@yandex-team.ru>
- <20230222121133-mutt-send-email-mst@kernel.org>
- <a477ca70-8aea-6c16-122e-1ded4af11f49@yandex-team.ru>
- <20230222151814-mutt-send-email-mst@kernel.org>
- <20230223023604-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVJ5v-0005Ny-O9
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:25:40 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVJ5s-0000yh-Go
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 16:25:39 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id p26so10004606wmc.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 13:25:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JP/Oh76mN6Cg+YU8sgO0Pw9l1PSXNnWsm3AkK8yVEB4=;
+ b=lGkcbmQK+7sSZps5vrtnFwaVOJGkSXXkwHma+q0/AX7HIebpNft47g0W8YBLavdMjJ
+ Af9dJIWYSLSzc+xsmjZvKN5rURPHVKX8mb1nzpZmWLPe5KtgU4/DatwalIKUR45vQ8vU
+ i20Sd82nmiDFcssTagOQMbaWtQBt8cRB3CeQ2jfA1XGUpoUET48MJ4o20cjpbbvA8D/r
+ BS0uqZAnppxqZauYJ/iPMDNyABdCQJf52KOkOj6k8hp0aVpIwXwVDaJvWGC/4UpLhnNL
+ XKbcJZ0AkD0W9ve40PCvpory666Vml4pfRLbW3sY4eA2HhtztD9jA0jaa2pSaC64dx5k
+ /7zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JP/Oh76mN6Cg+YU8sgO0Pw9l1PSXNnWsm3AkK8yVEB4=;
+ b=YH0MmvG5aOm5DObOINlpRVLmKczUCtqpsqKS9PC3Hsjg8lQ2Sj46+mZpLOW7Wu7Qr0
+ cgCImq+Vq889Wf5+C5kUsChWwrA0G7/P1AYh7vmzu4mSpvIit105iHdLadUYJO1VtQef
+ fg7D21bjVawRyo0xCr+ZKIltDpsx6HoPPP/TGe/c9On5Ux1hKgEn900/OCIxL8BnLMLt
+ mecRmlG/vJY/M4iaKuEC381cEy2RcE+uLt+wEEhwLzzvcwDhWscfHy0XZkp+En5hXnBN
+ G0UCzoA51v7H2Bz+XQKHGA5fX6ISFHiePXM9GQ9+BQheblYI/JVNrZ/81eaf4exQKwPt
+ u/4Q==
+X-Gm-Message-State: AO0yUKUTrsO2jBbIQKG9EOtPoDjLysEunkeGbArQLEaUPCri/m7N+yvw
+ Ly+ejJIpBAezFWpJLwNgw2O78w==
+X-Google-Smtp-Source: AK7set9zroF1bOT+f++56W3hqtxvZuLJvm/EpzTt2C84DPU/QeUeSwDCEGo/RMa8Ta/InzSpgUF1lA==
+X-Received: by 2002:a05:600c:706:b0:3dc:438a:c381 with SMTP id
+ i6-20020a05600c070600b003dc438ac381mr3965152wmn.28.1677187506312; 
+ Thu, 23 Feb 2023 13:25:06 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ z20-20020a1cf414000000b003e71a6be279sm475080wma.37.2023.02.23.13.25.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 13:25:05 -0800 (PST)
+Message-ID: <d65c998b-a061-85c8-8719-7fa0ec1aff8f@linaro.org>
+Date: Thu, 23 Feb 2023 22:25:04 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bsCgJ8yyfwQXpwOk"
-Content-Disposition: inline
-In-Reply-To: <20230223023604-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 01/13] target/sparc: Use tlb_set_page_full
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
+References: <20230223204342.1093632-1-richard.henderson@linaro.org>
+ <20230223204342.1093632-2-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230223204342.1093632-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,188 +92,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 23/2/23 21:43, Richard Henderson wrote:
+> Pass CPUTLBEntryFull to get_physical_address instead
+> of a collection of pointers.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+> ---
+>   target/sparc/mmu_helper.c | 121 +++++++++++++++++---------------------
+>   1 file changed, 54 insertions(+), 67 deletions(-)
 
---bsCgJ8yyfwQXpwOk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Nice.
 
-On Thu, Feb 23, 2023 at 02:36:33AM -0500, Michael S. Tsirkin wrote:
-> On Wed, Feb 22, 2023 at 03:21:42PM -0500, Michael S. Tsirkin wrote:
-> > On Wed, Feb 22, 2023 at 08:25:19PM +0200, Anton Kuchin wrote:
-> > > On 22/02/2023 19:12, Michael S. Tsirkin wrote:
-> > > > On Wed, Feb 22, 2023 at 07:05:47PM +0200, Anton Kuchin wrote:
-> > > > > On 22/02/2023 18:51, Michael S. Tsirkin wrote:
-> > > > > > On Wed, Feb 22, 2023 at 06:49:10PM +0200, Anton Kuchin wrote:
-> > > > > > > On 22/02/2023 17:14, Vladimir Sementsov-Ogievskiy wrote:
-> > > > > > > > On 22.02.23 17:25, Anton Kuchin wrote:
-> > > > > > > > > > > > +static int vhost_user_fs_pre_save(void *opaque)
-> > > > > > > > > > > > +{
-> > > > > > > > > > > > +=A0=A0=A0 VHostUserFS *fs =3D opaque;
-> > > > > > > > > > > > +=A0=A0=A0 g_autofree char *path =3D object_get_can=
-onical_path(OBJECT(fs));
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +=A0=A0=A0 switch (fs->migration_type) {
-> > > > > > > > > > > > +=A0=A0=A0 case VHOST_USER_MIGRATION_TYPE_NONE:
-> > > > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0 error_report("Migration is b=
-locked by device %s", path);
-> > > > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0 break;
-> > > > > > > > > > > > +=A0=A0=A0 case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
-> > > > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0 return 0;
-> > > > > > > > > > > > +=A0=A0=A0 default:
-> > > > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0 error_report("Migration type=
- '%s' is not
-> > > > > > > > > > > > supported by device %s",
-> > > > > > > > > > > > + VhostUserMigrationType_str(fs->migration_type), p=
-ath);
-> > > > > > > > > > > > +=A0=A0=A0=A0=A0=A0=A0 break;
-> > > > > > > > > > > > +=A0=A0=A0 }
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +=A0=A0=A0 return -1;
-> > > > > > > > > > > > +}
-> > > > > > > > > > > Should we also add this as .pre_load, to force user s=
-elect
-> > > > > > > > > > > correct migration_type on target too?
-> > > > > > > > > > In fact, I would claim we only want pre_load.
-> > > > > > > > > > When qemu is started on destination we know where it's =
-migrated
-> > > > > > > > > > from so this flag can be set.
-> > > > > > > > > > When qemu is started on source we generally do not yet =
-know so
-> > > > > > > > > > we don't know whether it's safe to set this flag.
-> > > > > > > > But destination is a "source" for next migration, so there =
-shouldn't be
-> > > > > > > > real difference.
-> > > > > > > > The new property has ".realized_set_allowed =3D true", so, =
-as I understand
-> > > > > > > > it may be changed at any time, so that's not a problem.
-> > > > > > > Yes, exactly. So destination's property sets not how it will =
-handle this
-> > > > > > > incoming
-> > > > > > > migration but the future outgoing one.
-> > > > > > How do you know where you are going to migrate though?
-> > > > > > I think you don't.
-> > > > > > Setting it on source is better since we know where we
-> > > > > > are migrating from.
-> > > > > Yes, I don't know where I'm going to migrate to. This is why prop=
-erty
-> > > > > affects only how source saves state on outgoing migration.
-> > > > Um. I don't get the logic.
-> > >=20
-> > > For this feature to work we need orchestrator to manage the migration=
-=2E And
-> > > we
-> > > generally assume that it is responsibility of orchestrator to ensure
-> > > matching
-> > > properties on source and destination.
-> > > As orchestrator manages both sides of migration it can set option (an=
-d we
-> > > can
-> > > check it) on either source or destination. Now it's not important whi=
-ch side
-> > > we
-> > > select, because now the option is essentially binary allow/deny (but =
-IMHO it
-> > > is much better to refuse source to migrate than find later that state=
- can't
-> > > be
-> > > loaded by destination, in case of file migration this becomes especia=
-lly
-> > > painful).
-> > >=20
-> > > But there are plans to add internal migration option (extract FUSE st=
-ate
-> > > from
-> > > backend and transfer it in QEMU migration stream), and that's where
-> > > setting/checking
-> > > on source becomes important because it will rely on this property to =
-decide
-> > > if
-> > > extra state form backend needs to be put in the migration stream subs=
-ection.
-> >=20
-> >=20
-> > If we do internal migration that will be a different property
-> > which has to match on source *and* destination.
-> >=20
-> >=20
-> > > If you are concerned about orchestrator breaking assumption of matchi=
-ng
-> > > properties
-> > > on source and destination this is not really supported AFAIK but I do=
-n't
-> > > think we
-> > > need to punish it for this, maybe it has its reasons: I can imagine s=
-cenario
-> > > where orchestrator could want to migrate from source with
-> > > 'migration=3Dexternal'
-> > > to destination with 'migration=3Dnone' to ensure that destination can=
-'t be
-> > > migrated further.
-> >=20
-> > No. I am concerned about a simple practical matter:
-> > - I decide to restart qemu on the same host - so I need to enable
-> >   migration
-> > - Later I decide to migrate qemu to another host - this should be
-> >   blocked
-> >=20
-> >=20
-> > Property on source does not satisfy both at the same time.
-> > Property on destination does.
->=20
->=20
-> Stefan what's your take on this? Should we move this from
-> save to load hook?
-
-This property can be changed on the source at runtime via qom-set, so
-you don't need to predict the future. The device can be started from an
-incoming migration with "external" and then set to "stateful" migration
-to migrate to another host later on.
-
-Anton, can you share the virtiofsd patches so we have a full picture of
-how "external" migration works? I'd like to understand the workflow and
-also how it can be extended when "stateful" migration is added.
-
->=20
-> >=20
-> >=20
-> > > >=20
-> > > >=20
-> > > > > > > > > This property selects if VM can migrate and if it can wha=
-t should
-> > > > > > > > > qemu put
-> > > > > > > > > to the migration stream. So we select on source what type=
- of
-> > > > > > > > > migration is
-> > > > > > > > > allowed for this VM, destination can't check anything at =
-load time.
-> > > > > > > > OK, so the new field "migration" regulates only outgoing mi=
-gration and
-> > > > > > > > do nothing for incoming. On incoming migration the migratio=
-n stream
-> > > > > > > > itself defines the type of device migration.
-> > > > > > > > Worth mentioning in doc?
-> > > > > > > Good point. I don't think this deserves a respin but if I hav=
-e to send v4
-> > > > > > > I'll include
-> > > > > > > clarification in it.
->=20
-
---bsCgJ8yyfwQXpwOk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP32ZsACgkQnKSrs4Gr
-c8in6wgAxDVBxIkXV0Cq6wNN1wIs59q6JYF+IaNRU3d674eshKPYJeSXrRlYpwDs
-48sO39zfdd2RdLPK03p8TUrx5VFpZt/r6ZWI6kI7fNViHu1EXkQ0OwNRgXhB0Ufk
-g7+BIyt/4GFLFIRP3X87eI0HkTVL0ZmyGNAlOQGcBvoRUHYdHN3L9k9dmiUrshM2
-zD+AwFGkmW0Qjv3lfbUc1vQqpYrmVmkqWDSlBKaGzGg7BkOXgzA9rjIgW8BiSz6/
-NNt79gQqY/HOk8schQvwLi2+LUNh/ToXCtqX1Gw9Z1w9ZECTEIyzDxttWzjOEeB9
-r4CKtYruaxyuXCKCMT40XTZh+RMYgA==
-=A0Jf
------END PGP SIGNATURE-----
-
---bsCgJ8yyfwQXpwOk--
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
