@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC48B6A13B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:22:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C24606A13B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:22:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKuu-0005l6-IC; Thu, 23 Feb 2023 18:22:24 -0500
+	id 1pVKvF-0005su-5Q; Thu, 23 Feb 2023 18:22:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKus-0005kY-Hp
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:22:22 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKvC-0005pz-Oi
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:22:42 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKuq-0001eU-M3
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:22:22 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id bw19so1616168wrb.13
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:22:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKvB-0001in-68
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:22:42 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id t15so12357631wrz.7
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:22:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=TnfgXFouRjSyBUE1Cgw64cctFYm369u2rVGcZHiFkzE=;
- b=Elt7j5civmiaEAEm1MnJe7hZ3PWH5dlzbB6zru7ZzFz3eBAbkZa8zNqYOPs3Q7y8vS
- TVTiBGQM0Np/3sQic3BqwJQipHwDfJ0Dy+CGxgDkmVqjqMLE2HtvRdUZ5NabNJuXLU66
- mMIDQ0bxvDX4co1viGwcEeu2nKPlaKkZjhToDX0POWdKjygXjJCR3U8D9mL6Npcjz3kl
- GTnDtoAcJdvysYusDSJoCRw0NO8vVRU4w5J/uefjoefHKIUR3Lju9kuU3CXBOiXkDfA8
- 5olEbfCQBoFpq3j/FCxINSjNcJkOJJYap+HOIlG/zsqmMDv5A9shqYkd7dx0nQt2/c8B
- OSyA==
+ bh=E/xJrRnoUXx1uzQ46ynkvbQeUirojLWTA6seQ9JkCg4=;
+ b=PaBLqkKVG86p975EP43vin6S1HvoH8Qi+3JOknaEEvOHHm7Noe1vv61rB7qxgjox9j
+ WhgpHGov4XHh34TKN/hUlI/mUgegksFoA+rDE10Z1c872VBJChjA8dqtptH3Pyd67Ks8
+ PrXGoRpEp4Kh3/eITd8xAquDb+JFTWnh+zkGPlVFv0vm1+f5VAksCXjWpapVhrNcrbxK
+ p013uF0/N0O9hP6Oxssk+hkIx9jip5TgYOpphU9P/o0o41I6Tug4tD5L+zRtdVBuwXQr
+ snCuYdNqZdT0Wg+gVSF3PlZYR0BmL8mZtZ+f8EgQVv3HxhNPXA/QJhee83tIcyM3f/tg
+ N/mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TnfgXFouRjSyBUE1Cgw64cctFYm369u2rVGcZHiFkzE=;
- b=QG4q8/tzCtrc/coXsiQo2inbFckCsybl0w5Swe57qT58omU8LlVh28Tg4biQTpB2tp
- 2dnm5Wn8F3Owfr99zhWFHRvWkrE/Bnf2GQM3Opg7kPqWvLxKZ8950aQehJ0g6ElzQN5f
- nMfhzcG7CWs4LthjIz/NKp64BBhhR/MErG7RBhZiGh5bFetLvqhof/OvESXVToNdogHm
- Ea1S/ZJ98nWdFNIeBhyNFL8Y7AgQHM7VUAolgE+DkM8zAcqU7xoaInPwpYe1Wa12fonM
- sckQWcN4GQlrbUcJnqGY5oEfR5LFqaAsH94Vet/5n8eUVoVS4Y9lFdZTep3e1cBNx7yn
- 1j6A==
-X-Gm-Message-State: AO0yUKVz+ACps2odSWwiX/LztULiaci6Wdp2oIP2NGSI8Tz5KHF2hMxC
- UVSZmh9AIRwH9ELBoSej6UXjWg==
-X-Google-Smtp-Source: AK7set+GMjFYZPnUBEkiuUABMwVp9fX1gayCwprrDFUll86ghhBShlth37yDH4I7aWCUUIw0aFVakw==
-X-Received: by 2002:adf:cd12:0:b0:2c6:5972:cd0d with SMTP id
- w18-20020adfcd12000000b002c65972cd0dmr11846823wrm.3.1677194523519; 
- Thu, 23 Feb 2023 15:22:03 -0800 (PST)
+ bh=E/xJrRnoUXx1uzQ46ynkvbQeUirojLWTA6seQ9JkCg4=;
+ b=gM/b/heOfnDi/RHcZMbJjqC1OX6SHMg3whfkn7+dhZ8VJ36MLK/YP5nh3sDSHttFKn
+ z+NK18tOQr49pLDpEMFU8zrtj3nQXHVVIIud+5LRF1pT1CEZsAIZ7aYjggQZOL5GTf1L
+ lotQrTxnUNKA3XM5l2b3I3At7EHyXwXF7dejqmc23S5muI59ng+S4hNIRWwtPHFTzWyU
+ GcwEMyx38WlyKvDHAOhN30dV0F+Hkj1erJBqwkGkTF6uA4YW6j0Mky/z82TsB77/Q6vj
+ CkovxPzuKVkSmGb3lMXhXXnxjFHFYX2vtZXJMj9WzZeQg06ogOWqGqPAl9RNBoCcqmbC
+ bBlg==
+X-Gm-Message-State: AO0yUKUNh+X01eeu8YPQK3mywa7klIdbAMKLbmq5by9nbAnSU/3oYttk
+ WEkK3kD1f9g8afOFISMr1lUpEQiE9gpEKOi5
+X-Google-Smtp-Source: AK7set+BrNXWO/0dDy3xW88EIUt14ILGulppjfObJXlEfQNRIM5qnjJu1TDnhtArFfc5/z+GSHPFwA==
+X-Received: by 2002:a05:6000:1b08:b0:2c6:e682:e55c with SMTP id
+ f8-20020a0560001b0800b002c6e682e55cmr11567387wrz.63.1677194559558; 
+ Thu, 23 Feb 2023 15:22:39 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- w23-20020a1cf617000000b003dc5b59ed7asm754563wmc.11.2023.02.23.15.22.02
+ x17-20020adff651000000b002c563b124basm11605955wrp.103.2023.02.23.15.22.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 15:22:03 -0800 (PST)
-Message-ID: <79c0ce60-5a98-b456-d045-7dd09a91a431@linaro.org>
-Date: Fri, 24 Feb 2023 00:22:01 +0100
+ Thu, 23 Feb 2023 15:22:39 -0800 (PST)
+Message-ID: <d4a51f52-d207-4c71-aa39-1a795b50a9a9@linaro.org>
+Date: Fri, 24 Feb 2023 00:22:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [RFC PATCH] target/arm: properly document FEAT_CRC32
+Subject: Re: [PATCH v4 7/7] dump: Rename x86-specific file as win_dump_x86.c
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20230222110104.3996971-1-alex.bennee@linaro.org>
- <dddae7d3-4c18-04d3-198b-803b4c128de1@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20230223231755.81633-1-philmd@linaro.org>
+ <20230223231755.81633-8-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <dddae7d3-4c18-04d3-198b-803b4c128de1@linaro.org>
+In-Reply-To: <20230223231755.81633-8-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -92,72 +93,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/2/23 00:01, Richard Henderson wrote:
-> On 2/22/23 01:01, Alex Bennée wrote:
->> This is a mandatory feature for Armv8.1 architectures but we don't
->> state the feature clearly in our emulation list. While checking verify
->> our cortex-a76 model matches up with the current TRM by breaking out
->> the long form isar into a more modern readable FIELD_DP code.
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>   docs/system/arm/emulation.rst |  1 +
->>   target/arm/cpu64.c            | 29 ++++++++++++++++++++++++++---
->>   target/arm/cpu_tcg.c          |  2 +-
->>   3 files changed, 28 insertions(+), 4 deletions(-)
->>
->> diff --git a/docs/system/arm/emulation.rst 
->> b/docs/system/arm/emulation.rst
->> index 2062d71261..2c4fde5eef 100644
->> --- a/docs/system/arm/emulation.rst
->> +++ b/docs/system/arm/emulation.rst
->> @@ -14,6 +14,7 @@ the following architecture extensions:
->>   - FEAT_BBM at level 2 (Translation table break-before-make levels)
->>   - FEAT_BF16 (AArch64 BFloat16 instructions)
->>   - FEAT_BTI (Branch Target Identification)
->> +- FEAT_CRC32 (CRC32 instruction)
->>   - FEAT_CSV2 (Cache speculation variant 2)
->>   - FEAT_CSV2_1p1 (Cache speculation variant 2, version 1.1)
->>   - FEAT_CSV2_1p2 (Cache speculation variant 2, version 1.2)
->> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
->> index 4066950da1..12e1a532ab 100644
->> --- a/target/arm/cpu64.c
->> +++ b/target/arm/cpu64.c
->> @@ -912,6 +912,8 @@ static void aarch64_a72_initfn(Object *obj)
->>   static void aarch64_a76_initfn(Object *obj)
->>   {
->>       ARMCPU *cpu = ARM_CPU(obj);
->> +    uint64_t t;
->> +    uint32_t u;
->>       cpu->dtb_compatible = "arm,cortex-a76";
->>       set_feature(&cpu->env, ARM_FEATURE_V8);
->> @@ -928,7 +930,18 @@ static void aarch64_a76_initfn(Object *obj)
->>       cpu->ctr = 0x8444C004;
->>       cpu->dcz_blocksize = 4;
->>       cpu->isar.id_aa64dfr0  = 0x0000000010305408ull;
->> -    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
->> +
->> +    /* per r4p1 of the Cryptographic Extension TRM */
->> +    t = cpu->isar.id_aa64isar0;
->> +    t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2);      /* FEAT_PMULL */
->> +    t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);     /* FEAT_SHA1 */
->> +    t = FIELD_DP64(t, ID_AA64ISAR0, SHA2, 1);     /* FEAT_SHA512 */
->> +    t = FIELD_DP64(t, ID_AA64ISAR0, CRC32, 1);    /* FEAT_CRC32 */
->> +    t = FIELD_DP64(t, ID_AA64ISAR0, ATOMIC, 2);   /* FEAT_LSE */
->> +    t = FIELD_DP64(t, ID_AA64ISAR0, RDM, 1);      /* FEAT_RDM */
->> +    t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);       /* FEAT_DotProd */
+Oops, "win_dump-x86.c" in subject...
 
-Maybe:
-
-         assert(t == 0x0000100010211120ull);
-
->> +    cpu->isar.id_aa64isar0 = t;
+On 24/2/23 00:17, Philippe Mathieu-Daudé wrote:
+> win_dump.c is x86 specific. Rename it as such in case
+> someone is willing to add win_dump-aarch64 :)
 > 
-> Ok, so, this might be helpful for grepping, but it's not helpful for 
-> reading the documentation, which on page B2-137 uses hex.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   dump/meson.build                    | 2 +-
+>   dump/{win_dump.c => win_dump-x86.c} | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>   rename dump/{win_dump.c => win_dump-x86.c} (99%)
 > 
-> 
-> r~
-> 
+> diff --git a/dump/meson.build b/dump/meson.build
+> index 6ae07e6fed..d899949a73 100644
+> --- a/dump/meson.build
+> +++ b/dump/meson.build
+> @@ -2,5 +2,5 @@ softmmu_ss.add(files('dump-hmp-cmds.c'))
+>   
+>   softmmu_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
+>   specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'],
+> -                if_true: files('win_dump.c'),
+> +                if_true: files('win_dump-x86.c'),
+>                   if_false: files('win_dump-stub.c'))
+> diff --git a/dump/win_dump.c b/dump/win_dump-x86.c
+> similarity index 99%
+> rename from dump/win_dump.c
+> rename to dump/win_dump-x86.c
+> index ffeef4b738..5ee9a1d764 100644
+> --- a/dump/win_dump.c
+> +++ b/dump/win_dump-x86.c
+> @@ -1,5 +1,5 @@
+>   /*
+> - * Windows crashdump
+> + * Windows crashdump for x86 targets
+>    *
+>    * Copyright (c) 2018 Virtuozzo International GmbH
+>    *
 
 
