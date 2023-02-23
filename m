@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D486A002B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 01:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD60F6A0036
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 01:54:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUzhd-0001Sb-TF; Wed, 22 Feb 2023 19:43:18 -0500
+	id 1pUzr6-0003Fq-Le; Wed, 22 Feb 2023 19:53:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUzhb-0001Rz-91; Wed, 22 Feb 2023 19:43:15 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUzr4-0003F9-5H
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 19:53:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pUzhW-0001Tw-D0; Wed, 22 Feb 2023 19:43:15 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 838E674634B;
- Thu, 23 Feb 2023 01:43:04 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 283B0746346; Thu, 23 Feb 2023 01:43:04 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 25D357456E3;
- Thu, 23 Feb 2023 01:43:04 +0100 (CET)
-Date: Thu, 23 Feb 2023 01:43:04 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@linaro.org
-Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
-In-Reply-To: <752b4e6b-43ef-655f-4203-f9c85aa4298f@eik.bme.hu>
-Message-ID: <5685f895-b6f0-b165-6301-8208415b3181@eik.bme.hu>
-References: <cover.1677004414.git.balaton@eik.bme.hu>
- <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
- <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
- <adb1fe51-a17e-53c2-4dd1-0c4270a928aa@eik.bme.hu>
- <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
- <752b4e6b-43ef-655f-4203-f9c85aa4298f@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pUzr1-0005vK-Ug
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 19:53:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677113578;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rTwYTEGCR3XNlJQ+6gvcIOS6c6BQiCmTIACypV3HzLQ=;
+ b=jAbPtE07/R4bxC10UhG7lWAM0TCmpSVvYUcyLuIVmph8NCD752BDd2s8GnhmU5a9ukHnRc
+ HLWyikoCsnIPX2Ge7N3zj4Po8TsuvL6bEbmquH3W5oxIK/JRawtokjhYbciEc6Vbt168OI
+ cgcF6PYI+RjheJ4edXOjd5WQD0TjJBY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-490-Y4EMODT7Pt2su6KShazl5Q-1; Wed, 22 Feb 2023 19:52:53 -0500
+X-MC-Unique: Y4EMODT7Pt2su6KShazl5Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8E003806712;
+ Thu, 23 Feb 2023 00:52:52 +0000 (UTC)
+Received: from [10.64.54.168] (vpn2-54-168.bne.redhat.com [10.64.54.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF35D1121314;
+ Thu, 23 Feb 2023 00:52:47 +0000 (UTC)
+Subject: Re: [PATCH v1 5/6] hw/arm/virt: Enable backup bitmap for dirty ring
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
+ peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com,
+ cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com, maz@kernel.org,
+ zhenyzha@redhat.com, shan.gavin@gmail.com
+References: <20230213003925.40158-1-gshan@redhat.com>
+ <20230213003925.40158-6-gshan@redhat.com>
+ <CAFEAcA_6pYvot1AGKfOQA89M9tdH-e6+9jkd3RtXJkGhSLdihA@mail.gmail.com>
+ <0db2764b-7d27-ee6a-c7e4-7d7821986c16@redhat.com>
+ <CAFEAcA_WjugivvOWxH-bVSNakPWyhX=j5pWydQQpweDVDYd2jw@mail.gmail.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <e0044c64-02f2-32d2-b096-50f9c1f1fe19@redhat.com>
+Date: Thu, 23 Feb 2023 11:52:43 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA_WjugivvOWxH-bVSNakPWyhX=j5pWydQQpweDVDYd2jw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.102, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,268 +84,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023, BALATON Zoltan wrote:
-> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
->> Am 22. Februar 2023 19:25:16 UTC schrieb BALATON Zoltan 
->> <balaton@eik.bme.hu>:
->>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
->>>> On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail.com> 
->>>> wrote:
->>>>> On Tue, Feb 21, 2023 at 7:44 PM BALATON Zoltan <balaton@eik.bme.hu> 
->>>>> wrote:
->>>>>> This series fixes PCI interrupts on the ppc/pegasos2 machine and adds
->>>>>> partial implementation of the via-ac97 sound part enough to get audio
->>>>>> output. I'd like this to be merged for QEMU 8.0.
->>>>>> 
->>>>>> Regards,
->>>>>> BALATON Zoltan
->>>>>> 
->>>>>> BALATON Zoltan (5):
->>>>>>   hw/isa/vt82c686: Implement interrupt routing in via_isa_set_irq
->>>>>>   hw/isa/vt82c686: Implement PIRQ pins
->>>>>>   hw/ppc/pegasos2: Fix PCI interrupt routing
->>>>>>   hw/audio/ac97: Split off some definitions to a header
->>>>>>   hw/audio/via-ac97: Basic implementation of audio playback
->>>>>>
->>>>>>  hw/audio/ac97.c            |  43 +---
->>>>>>  hw/audio/ac97.h            |  65 ++++++
->>>>>>  hw/audio/trace-events      |   6 +
->>>>>>  hw/audio/via-ac97.c        | 436 ++++++++++++++++++++++++++++++++++++-
->>>>>>  hw/ide/via.c               |   2 +-
->>>>>>  hw/isa/vt82c686.c          |  61 +++++-
->>>>>>  hw/pci-host/mv64361.c      |   4 -
->>>>>>  hw/ppc/pegasos2.c          |  26 ++-
->>>>>>  hw/usb/vt82c686-uhci-pci.c |   5 +-
->>>>>>  include/hw/isa/vt82c686.h  |  39 +++-
->>>>>>  10 files changed, 626 insertions(+), 61 deletions(-)
->>>>>>  create mode 100644 hw/audio/ac97.h
->>>>>> 
->>>>>> --
->>>>>> 2.30.7
->>>>>> 
->>>>>> 
->>>>> Wow, the MorphOS people paid attention to sound design. Thanks for
->>>>> presenting it to us, Zoltan!
->>>>> 
->>>>> I've had a closer look at your series and I think it can be simplified:
->>>>> Patch 2 can be implemented quite straight-forward like I proposed in a
->>>>> private mail: https://github.com/shentok/qemu/commit/via-priq-routing.
->>>>> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt 
->>>>> routing"
->>>>> working, one can expose the PCI interrupts with a single line like you 
->>>>> do
->>>>> in patch 2. With this, patch 1 "hw/isa/vt82c686: Implement interrupt
->>>>> routing in via_isa_set_irq" isn't needed any longer and can be omitted.
->>>>> 
->>>>> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() can be
->>>>> used instead. pci_set_irq() internally takes care of all the ISA 
->>>>> interrupt
->>>>> level tracking patch 1 attempted to address.
->>>>> 
->>>> 
->>>> Here is a proof of concept branch to demonstrate that the simplification
->>>> actually works: https://github.com/shentok/qemu/commits/pegasos2 (Tested
->>>> with MorphOS with and without pegasos2.rom).
->>> 
->>> Does this only work because both the via-ac97 and the PCI interrupts are 
->>> mapped to the same ISA IRQ and you've only tested sound? The guest could 
->>> configure each device to use a different IRQ, also mapping them so they 
->>> share one ISA interrupt. What happens if multiple devices are mapped to 
->>> IRQ 9 (which is the case on pegasos2 where PCI cards, ac97 and USB all 
->>> share this IRQ) and more than one such device wants to raise an interrupt 
->>> at the same time? If you ack the ac97 interrupt but a PCI network card or 
->>> the USB part still wants to get the CPUs attention the ISA IRQ should 
->>> remain raised until all devices are serviced.
->> 
->> pci_bus_get_irq_level(), used in via_isa_set_pci_irq(), should handle
->> exactly that case very well.
->> 
->>> I don't see a way to track the status of all devices in a single qemu_irq 
->>> which can only be up or down so we need something to store the state of 
->>> each source.
->> 
->> pci_set_irq() causes pci_bus_change_irq_level() to be called.
->> pci_bus_change_irq_level() tracks the sum of all irq levels of all
->> devices attached to a particular pin in irq_count. Have a look at
->> pci_bus_change_irq_level() and you will understand better.
->> 
->>> My patch adds a state register to each ISA IRQ line for all possible 
->>> sources which could probably be stored once but then for each change of 
->>> ISA IRQ status all the mapped devices should be checked and combined so 
->>> it's easier to store them for each IRQ. Does your approach still work if 
->>> you play sound, and copy something from network to a USB device at the 
->>> same time? (I'm not sure mine does not have remaining bugs but I don't 
->>> think this can be simplified that way but if you can prove it would work I 
->>> don't mind taking an alternative version but I'm not convinced yet.)
->> 
->> Well, I can't prove that my approach works but unfortunately I can
->> prove that both our approaches cause a freeze :/ Try:
->> 1. Start `qemu-system-ppc -M pegasos2 -bios pegasos2.rom -rtc
->> base=localtime -device ati-vga,guest_hwcursor=true,romfile="" -cdrom
->> morphos-3.17.iso -device usb-mouse -device usb-kbd`
->> 2. Move the mouse while sound is playing
->> -> Observe the VM to freeze
->
-> Not quite sure why but it seems to happen when both the ac97 and USB raise 
-> the interrupt and the guest driver seems to get confused. Adding some debug 
-> logging:
->
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index b16620daf8..f840e5a8d0 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -636,12 +636,13 @@ void via_isa_set_irq(PCIDevice *d, ViaISAIRQSourceBit 
-> n, int level)
->     if (!isa_irq) {
->         return;
->     }
-> -
-> +if (n > 1) fprintf(stderr, "%s: %d %d %d %x -> ", __func__, n, level, 
-> isa_irq, s->isa_irq_state[isa_irq]);
->     if (level) {
->         s->isa_irq_state[isa_irq] |= BIT(n);
->     } else {
->         s->isa_irq_state[isa_irq] &= ~BIT(n);
->     }
-> +if (n > 1) fprintf(stderr, "%x\n", s->isa_irq_state[isa_irq]);
->     qemu_set_irq(s->isa_irqs[isa_irq], !!s->isa_irq_state[isa_irq]);
-> }
->
-> I see in the normal case when there's only one interrupt for USB only:
->
-> via_isa_set_irq: 2 1 9 0 -> 4
-> usb_uhci_mmio_readw addr 0x0002, ret 0x0001
-> usb_uhci_mmio_writew addr 0x0002, val 0x0001
-> via_isa_set_irq: 2 0 9 4 -> 0
->
-> For sound only:
->
-> via_ac97_sgd_fetch addr=0x43b70bc --F len=3528
-> via_isa_set_irq: 8 1 9 0 -> 100
-> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
-> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
-> via_ac97_sgd_read 0x0 1 -> 0xc9
-> via_ac97_sgd_write 0x0 1 <- 0x1
-> via_isa_set_irq: 8 0 9 100 -> 0
-> via_ac97_sgd_read 0x4 4 -> 0x439cbe8
-> via_ac97_sgd_fetch addr=0x43c70bc -E- len=3528
-> via_isa_set_irq: 8 1 9 0 -> 100
-> via_ac97_sgd_read 0x4 4 -> 0x439cbe0
-> via_ac97_sgd_read 0x4 4 -> 0x439cbe0
-> via_ac97_sgd_read 0x10 1 -> 0x0
-> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
-> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
-> via_ac97_sgd_read 0x0 1 -> 0xca
-> via_ac97_sgd_write 0x0 1 <- 0x2
-> via_isa_set_irq: 8 0 9 100 -> 0
-> via_ac97_sgd_read 0x4 4 -> 0x439cbe0
->
-> but it stops acking irqs when both are raised or it seems USB IRQ is raised 
-> while it's in the guest IRQ handler:
->
-> via_ac97_sgd_fetch addr=0x43c70bc -E- len=3528
-> via_isa_set_irq: 8 1 9 0 -> 100
-> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
-> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
-> via_isa_set_irq: 2 1 9 100 -> 104
-> via_ac97_sgd_read 0x0 1 -> 0xca
-> via_ac97_sgd_write 0x0 1 <- 0x2
-> via_isa_set_irq: 8 0 9 104 -> 4
-> via_ac97_sgd_read 0x4 4 -> 0x439cbe0
-> via_ac97_sgd_fetch addr=0x43b70bc --F len=3528
-> via_isa_set_irq: 8 1 9 4 -> 104
-> via_ac97_sgd_read 0x4 4 -> 0x439cbe8
-> via_ac97_sgd_read 0x4 4 -> 0x439cbe8
-> via_ac97_sgd_read 0x10 1 -> 0x0
-> usb_uhci_mmio_readw addr 0x0006, ret 0x06bf
-> usb_uhci_mmio_readw addr 0x0010, ret 0x0085
-> usb_uhci_mmio_writew addr 0x0010, val 0x0085
-> usb_uhci_mmio_readw addr 0x0012, ret 0x0085
-> usb_uhci_mmio_writew addr 0x0012, val 0x0085
-> usb_uhci_mmio_readw addr 0x0006, ret 0x06b7
-> usb_uhci_mmio_readw addr 0x0010, ret 0x0080
-> usb_uhci_mmio_writew addr 0x0010, val 0x0080
-> usb_uhci_mmio_readw addr 0x0012, ret 0x0080
-> usb_uhci_mmio_writew addr 0x0012, val 0x0080
-> usb_uhci_mmio_readw addr 0x0006, ret 0x0759
-> usb_uhci_mmio_readw addr 0x0010, ret 0x0085
-> usb_uhci_mmio_writew addr 0x0010, val 0x0085
-> usb_uhci_mmio_readw addr 0x0012, ret 0x0085
-> usb_uhci_mmio_writew addr 0x0012, val 0x0085
-> usb_uhci_mmio_readw addr 0x0006, ret 0x0752
-> usb_uhci_mmio_readw addr 0x0010, ret 0x0080
-> usb_uhci_mmio_writew addr 0x0010, val 0x0080
-> usb_uhci_mmio_readw addr 0x0012, ret 0x0080
-> usb_uhci_mmio_writew addr 0x0012, val 0x0080
-> via_isa_set_irq: 2 1 9 104 -> 104
-> usb_uhci_mmio_readw addr 0x0006, ret 0x07f1
-> usb_uhci_mmio_readw addr 0x0010, ret 0x0085
-> usb_uhci_mmio_writew addr 0x0010, val 0x0085
-> usb_uhci_mmio_readw addr 0x0012, ret 0x0085
-> usb_uhci_mmio_writew addr 0x0012, val 0x0085
-> usb_uhci_mmio_readw addr 0x0006, ret 0x07e9
->
-> It seems to not notice the USB interrupt any more after that although sound 
-> playback stops but mouse still moves but otherwise does not work. I'm not 
-> sure this is not a guest bug as it seems an interrupt handler should disable 
-> interrupts to not get interrupted. Could this be reproduced with Linux? I'd 
-> still go wit this patch series for 8.0 because the default case works and 
-> this was also tested with two PCI cards on AmigaOS4 which works not while it 
-> did not work at all before so this could be debugged and fixed later but 
-> adding this series makes the machine generally usable at least without USB 
-> devices. With -d unimp I also get these logs when booting MorphOS:
->
-> ok boot cd boot.img
-> ISO-9660 filesystem:  System-ID: "MORPHOS"  Volume-ID: "MorphOSBoot"
-> Root dir: "" flags=0x2 extent=0x20 size=0x1800
-> 31.127| Memory used before SYS_Init: 9MB
-> i8259: level sensitive irq not supported
-> i8259: level sensitive irq not supported
->
-> Could it be the PIC emulation should be fixed for this?
+On 2/23/23 2:54 AM, Peter Maydell wrote:
+> On Wed, 22 Feb 2023 at 04:36, Gavin Shan <gshan@redhat.com> wrote:
+>>
+>> On 2/22/23 3:27 AM, Peter Maydell wrote:
+>>> Why does this need to be board-specific code? Is there
+>>> some way we can just do the right thing automatically?
+>>> Why does the GIC/ITS matter?
+>>>
+>>> The kernel should already know whether we have asked it
+>>> to do something that needs this extra extension, so
+>>> I think we ought to be able in the generic "enable the
+>>> dirty ring" code say "if the kernel says we need this
+>>> extra thing, also enable this extra thing". Or if that's
+>>> too early, we can do the extra part in a generic hook a
+>>> bit later.
+>>>
+>>> In the future there might be other things, presumably,
+>>> that need the backup bitmap, so it would be more future
+>>> proof not to need to also change QEMU to add extra
+>>> logic checks that duplicate the logic the kernel already has.
+>>>
+>>
+>> When the dirty ring is enabled, a per-vcpu buffer is used to track the dirty pages.
+>> The prerequisite to use the per-vcpu buffer is existing running VCPU context. There
+>> are two cases where no running VCPU context exists and the backup bitmap extension
+>> is needed, as we know until now: (a) save/restore GICv3 tables; (b) save/restore ITS
+>> tables; These two cases are related to KVM device "kvm-arm-gicv3" and "arm-its-kvm",
+>> which are only needed by virt machine at present. So we needn't the backup bitmap
+>> extension for other boards.
+> 
+> But we might have to for other boards we add later. We shouldn't
+> put code in per-board if it's not really board specific.
+> 
+> Moreover, I think "we need the backup bitmap if the kernel is
+> using its GICv3 or ITS implementation" is a kernel implementation
+> detail. It seems to me that it would be cleaner if QEMU didn't
+> have to hardcode "we happen to know that these are the situations
+> when we need to do that". A better API would be "ask the kernel
+> 'do we need this?' and enable it if it says 'yes'". The kernel
+> knows what its implementations of ITS and GICv3 (and perhaps
+> future in-kernel memory-using devices) require, after all.
+> 
 
-After thinking about that more I think this is the reason and this patch 
-just uncovered a defficiency in the PIC model. I would not care much it 
-this was only sound vs. USB but it's also sound vs. PCI cards e.g. network 
-so until that's fixed in i8259 I can hack around that here like this:
+Well, As we know so far, the backup bitmap extension is only required by 'kvm-arm-gicv3'
+and 'arm-its-kvm' device. Those two devices are only used by virt machine at present.
+So it's a board specific requirement. I'm not sure about the future. We may need to
+enable the extension for other devices and other boards. That time, the requirement
+isn't board specific any more. However, we're uncertain for the future.
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index b16620daf8..a6cf55a632 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -597,6 +597,7 @@ void via_isa_set_irq(PCIDevice *d, ViaISAIRQSourceBit n, int level)
- {
-     ViaISAState *s = VIA_ISA(pci_get_function_0(d));
-     uint8_t isa_irq = 0, max_irq = 15;
-+    int old_level;
+In order to cover the future requirement, the extension is needed by other boards,
+the best way I can figure out is to enable the extension in generic path in kvm_init()
+if the extension is supported by the host kernel. In this way, the unnecessary overhead
+is introduced for those boards where 'kvm-arm-vgic3' and 'arm-its-kvm' aren't used.
+The overhead should be very small and acceptable. Note that the host kernel don't know
+if 'kvm-arm-vgic3' or 'arm-its-kvm' device is needed by the board in kvm_init(), which
+is the generic path.
 
-     if (n == VIA_IRQ_USB0 && d == PCI_DEVICE(&s->uhci[1])) {
-         n++;
-@@ -637,11 +638,16 @@ void via_isa_set_irq(PCIDevice *d, ViaISAIRQSourceBit n, int level)
-         return;
-     }
+The 'kvm-arm-vgic3' and 'arm-its-kvm' devices are created in machvirt_init(), where
+the memory slots are also added. Prior to the function, host kernel doesn't know if
+the extension is needed by QEMU. It means we have to enable the extension in machvirt_init(),
+which is exactly what we're doing. The difference is QEMU decides to enable the extension
+instead of being told to enable it by host kernel. Host kernel doesn't have the answer to
+"Hey host kernel, do we need to enable the extension" until machvirt_init() where the devices
+are created. Besides, machvirt_init() isn't the generic path if we want to enable the extension
+for all possible boards. Further more, the extension can't be enabled if memory slots have been
+added.
 
-+    old_level = !!s->isa_irq_state[isa_irq];
-     if (level) {
-         s->isa_irq_state[isa_irq] |= BIT(n);
-     } else {
-         s->isa_irq_state[isa_irq] &= ~BIT(n);
-     }
-+    if (old_level && !!s->isa_irq_state[isa_irq]) {
-+        /* Only needed because i8259 model does not support level sensitive */
-+        qemu_set_irq(s->isa_irqs[isa_irq], 0);
-+    }
-     qemu_set_irq(s->isa_irqs[isa_irq], !!s->isa_irq_state[isa_irq]);
- }
+In summary, the best way I can figure out is to enable the extension in kvm_init() if it
+has been supported by host kernel, to cover all possible boards for future cases. Otherwise,
+we keep what we're doing to enable the extension in machvirt_init(). Please let me know your
+thoughts, Peter :)
 
-Unless somebody has a better idea I'll go with this for a v2 and let this 
-be cleaned up sometimes in the future when sombody gets around to improve 
-the PIC model.
-
-Regards,
-BALATON Zoltan
+Thanks,
+Gavin
 
 
