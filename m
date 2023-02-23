@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B986A0D9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 17:11:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368EA6A0DA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 17:13:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVEBN-0002AC-Ng; Thu, 23 Feb 2023 11:10:57 -0500
+	id 1pVEDP-0004Im-Mi; Thu, 23 Feb 2023 11:13:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVEBJ-00029j-Qy
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 11:10:53 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVEDN-0004IP-Jp
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 11:13:01 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVEBI-0007yR-By
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 11:10:53 -0500
-Received: by mail-pg1-x531.google.com with SMTP id q189so5761194pga.9
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 08:10:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVEDM-00018c-42
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 11:13:01 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ cp7-20020a17090afb8700b0023756229427so4731989pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 08:12:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=azSLsfVfdpT+Jqtw1PJLsdYyVCFwMN5mJcqBgw1Wuho=;
- b=dkyidW4oMnJINyh0UZKatu3lcDKsLqnBszbwB70q8hI9+v94n2cR7cGoA9BN5Hi1+2
- wdkTPbOLmiI1f97stN9domG3Hu9/JMvlE+/+c6PevcQVpnDU2j7iRsS9P8ygZYDwCDKl
- lDTJ5FHuluHcD/fddK9bdTiaXw1BIGEl1Mz1xkfOrfrsLtprucgPiXyhaRvnubBGseyq
- drQ8fGmXBYG5IRZX8F0Tge9uI9ZYS926gQd9D+9Gc+7y+nFmNESHv49z5FVVIyeQOhit
- FEbR9/UMHQPlDbaXRFqSun9Dj1zg+Bm9jJRi4W4aOWhKPi7amyJaVharEwVBW1fD4uBM
- VEcA==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5HSZCPVGjOTae7UAkHFgyz6AX7pEyOjj0X+ZRHMUqJ8=;
+ b=wI4AtmCGtE9Y4w0SzAOe93rjlZomI98tC7O4bjJIRIHLlMn4eNRJaRqHi2YqUpWuza
+ UywHestLsG5mkh/D+nPcZnP/6nSHw1l7aBy++323iax0hDmJSZXFyAK2/eN2Q9BoTyqp
+ 6SI1V9yjA0hu6dKzxebA8WWPFmN8sE7HlrEzx769g68y9gNED96rUsUu0aVkYzHwYPUX
+ GiWP0X/IrOhAjSbG7J3Q4+b7UpZ1/gVzrh7pTlQrdQD/29tyCRb8JGQbPPs9YIc2u/a3
+ qfGico076UbptIdKo/qXGPK8QD3FkFuBlkrh79Z3jkESXLLjCQSxwG2L9FWDnJzbcfWO
+ Ze0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=azSLsfVfdpT+Jqtw1PJLsdYyVCFwMN5mJcqBgw1Wuho=;
- b=Ix8zEqe+3XRYJUM9S2tL6J8UgugyFE3d+aeHxoDPqJWmlug5pvULsL0KDa4tSXCHm+
- BN7jNsHVIKAx2ktfiP6hffS+3zwYfkQ1cEu+UWL2nKew9DZtOJC5UIxHazDwQByqQa/O
- hpqnP2xpIvM03avNyqUdJOOciPjV4S24J13uwMVmh8AZRclroqbqsUS8SO96XC7m4p4x
- 41nihlO2iHRbSA4Ixo8TphJ3942xdzlTpufKfwqpGvafGW3nFQ3LbutVLqqsvteG8Yxq
- aKH0afJdPOEoQ92Ysjv2kr86u5kXD9CEa4P7yElF7bBlC3ILX8F5fne0S9Ydqysl4Usr
- xKKg==
-X-Gm-Message-State: AO0yUKU+NJfHBVVCUrmO54oeQSGoKn1hZmEsznvs99mm6UZMduDFXun5
- 4K6tjgZrTYjVtEIeqWZoLFsIt+5dn8jc/0ov0C8igg==
-X-Google-Smtp-Source: AK7set9vuYeF0Xe7f7EShB2V2tsPZgz9wVdBwlJzwI7oVjr6m4a63f3HAnR3wfhBdSmksvcO2SQPMAmlrZBhhP+yehE=
-X-Received: by 2002:a63:7985:0:b0:502:f5c8:f5c8 with SMTP id
- u127-20020a637985000000b00502f5c8f5c8mr443763pgc.9.1677168650653; Thu, 23 Feb
- 2023 08:10:50 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5HSZCPVGjOTae7UAkHFgyz6AX7pEyOjj0X+ZRHMUqJ8=;
+ b=e6A0lH9/s7qY826xTCQGwy4nX7ee5fWeIIVBOuwq1hv4mSWsVo8FnxOY+g7nELZ7KT
+ JPLeqrVVhiTHCjvBIUdgODgGe+zrJGsqDYb0VS4pBawRYY2zoErMPz/O4tWq3C86EZnI
+ GbYrNxm8dmeu/nHftZ3YHCRUybIOcVA4Jl/t3cvBhFiL1R7XmlJ8Y6lABHKTUAY1BCJy
+ y1O7P59CUFEbQPTUH81m8J9swR4+o+iel58gbLWXgbW7eIqRIWofjnvpC5b6twZgbp/d
+ PA/1FLVKMpbhM5L3cjQ6EJ4Hwa3xpLCAmbsXDK49hgZqY6bKfjiuAdmd8BuNHMPspAWW
+ ChOQ==
+X-Gm-Message-State: AO0yUKWiage5rk7LLIPR/VJCcv9eJ/r5nKyuPnIMGjysRgUjsPxMZmJq
+ ls32LfxAO5EZYkaW12wja47GTw==
+X-Google-Smtp-Source: AK7set/eYBL3lviriNFm6Ly7xgnp2syJEBmy6RlLfYRqOb0cCQ8SKHS+J4d2oqHtO6gtLMObkymSfg==
+X-Received: by 2002:a17:903:283:b0:19a:96f0:a8de with SMTP id
+ j3-20020a170903028300b0019a96f0a8demr12255418plr.5.1677168778258; 
+ Thu, 23 Feb 2023 08:12:58 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ ja17-20020a170902efd100b0019acd3151d0sm8675345plb.114.2023.02.23.08.12.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 08:12:57 -0800 (PST)
+Message-ID: <8e759fa2-674f-184c-1ddc-35638a18bda5@linaro.org>
+Date: Thu, 23 Feb 2023 06:12:53 -1000
 MIME-Version: 1.0
-References: <20230216030854.1212208-1-richard.henderson@linaro.org>
- <20230216030854.1212208-14-richard.henderson@linaro.org>
-In-Reply-To: <20230216030854.1212208-14-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Feb 2023 16:10:39 +0000
-Message-ID: <CAFEAcA_imbURUjmtHsKsRy5WarwLv4pBq_PSLgOdfFQ8E8dE2w@mail.gmail.com>
-Subject: Re: [PATCH v1 13/19] target/arm: Pass single_memop to gen_mte_checkN
-To: Richard Henderson <richard.henderson@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v1 01/19] target/arm: Make cpu_exclusive_high hold the
+ high bits
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20230216030854.1212208-1-richard.henderson@linaro.org>
+ <20230216030854.1212208-2-richard.henderson@linaro.org>
+ <CAFEAcA8LQPEAQ34otcgNeqOFbi1PVVs-d3M41ar2jycjJYQF1w@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8LQPEAQ34otcgNeqOFbi1PVVs-d3M41ar2jycjJYQF1w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,49 +96,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Feb 2023 at 03:10, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Pass the individual memop to gen_mte_checkN.
-> For the moment, do nothing with it.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate-a64.h |  2 +-
->  target/arm/translate-a64.c | 26 +++++++++++++++-----------
->  target/arm/translate-sve.c |  4 ++--
->  3 files changed, 18 insertions(+), 14 deletions(-)
->
-> diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-> index 3fc39763d0..b7518f9d34 100644
-> --- a/target/arm/translate-a64.h
-> +++ b/target/arm/translate-a64.h
-> @@ -54,7 +54,7 @@ TCGv_i64 clean_data_tbi(DisasContext *s, TCGv_i64 addr);
->  TCGv_i64 gen_mte_check1(DisasContext *s, TCGv_i64 addr, bool is_write,
->                          bool tag_checked, MemOp memop);
->  TCGv_i64 gen_mte_checkN(DisasContext *s, TCGv_i64 addr, bool is_write,
-> -                        bool tag_checked, int size);
-> +                        bool tag_checked, int size, MemOp memop);
->
->  /* We should have at some point before trying to access an FP register
->   * done the necessary access check, so assert that
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index e02bdd3e7c..1117a1cc41 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -288,7 +288,7 @@ TCGv_i64 gen_mte_check1(DisasContext *s, TCGv_i64 addr, bool is_write,
->   * For MTE, check multiple logical sequential accesses.
->   */
->  TCGv_i64 gen_mte_checkN(DisasContext *s, TCGv_i64 addr, bool is_write,
-> -                        bool tag_checked, int size)
-> +                        bool tag_checked, int total_size, MemOp single_mop)
+On 2/23/23 05:14, Peter Maydell wrote:
+> On Thu, 16 Feb 2023 at 03:09, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> We currently treat cpu_exclusive_high as containing the
+>> second word of LDXP, even though that word is not "high"
+>> in big-endian mode.  Swap things around so that it is.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/arm/translate-a64.c | 54 ++++++++++++++++++++------------------
+>>   1 file changed, 29 insertions(+), 25 deletions(-)
+> 
+> This code change looks OK as far as it goes, but the bad
+> news is that we migrate the env.exclusive_val and
+> env.exclusive_high values in the machine state. So a
+> migration from a QEMU before this change to a QEMU with
+> this change on a BE host will get confused...
 
-Argument name in function definition should match the one in the
-prototype.
+Oof.  Ok, I didn't *really* need this, it just seemed to make sense.  I'll add some 
+commentary about "high" only meaning "high" for little-endian...
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+r~
+
 
