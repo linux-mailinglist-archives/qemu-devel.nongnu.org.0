@@ -2,94 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD716A0355
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 08:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B256A0356
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 08:38:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV69z-0005D1-2C; Thu, 23 Feb 2023 02:36:59 -0500
+	id 1pV6Av-0006JD-Qd; Thu, 23 Feb 2023 02:37:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pV69p-0005AM-Ka
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:36:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pV6Ar-0006E4-QT
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:37:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pV69n-0003m0-F3
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:36:48 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pV6Aq-0003vC-AX
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:37:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677137805;
+ s=mimecast20190719; t=1677137871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ASyfhE5gHS/9/ZnsuDYV4l/1sUH0rVd17M9urE4cC9I=;
- b=YxT4E8YHiJ+v7A1GCtDMlOMt+bzQDMxFFU9y+24aMQxdbyd2bo+ZxmunIre7ZFF1y0+iuE
- UuuHQs7FI10mBOXz0VJqznfsvPAR0tG7rsJora2D2tEEhSKtF/g39NGUYaWvo3uvtlACnD
- 046VF34dGDMJZ7XrQmnKRc0pKsUhqY4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-332-l6cJH_OcOCKynrgtZAxgoQ-1; Thu, 23 Feb 2023 02:36:42 -0500
-X-MC-Unique: l6cJH_OcOCKynrgtZAxgoQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- t1-20020a7bc3c1000000b003dfe223de49so4811237wmj.5
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 23:36:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ASyfhE5gHS/9/ZnsuDYV4l/1sUH0rVd17M9urE4cC9I=;
- b=hf0ZwCl2N/7cJX2jwO9E3q6Ek7ZWGk9xKXn6BtfmT3p8o9g3UvPfVstkzbcNGxVXSO
- rzdHxjxLFMLC19eWoUHVbqZ+Z8hdGRqWASDMTPrIyDe3QPhQyhdJ+4CbeccWfyn0KHoz
- +SbubDhkHT0x5i9eP7pfYF+h4UQTHqSgMM69xAlLSjGf5p8zvouDWzSp5+H+9lQYfryn
- HG4PUtIiUe0vWcTh9FA80zSiM7aKgMvCTu7Wv74IeCIFA8plebNCFaeS7d0YrQSBDkDk
- LMVw8xhnm69Wjl3fJcKNXoTsBl7uxrJPMs61pJpNb2usgV8bd50ZMKTsElSRGliMMnAs
- 7jaQ==
-X-Gm-Message-State: AO0yUKXoORwoONdaoYbMUHE/p6XBNC9pmvv2x2HjzdAayNAAMrAPZrJ0
- Uy32mq3zMF4nDjmkbyQVJIYF/UCSXysXFnvmSJra47HnuBK55tkzH61ZQwne55G2kW6WQo0hFkD
- UEjLZ6p1GwzMnE00=
-X-Received: by 2002:a05:600c:1713:b0:3de:3381:24f2 with SMTP id
- c19-20020a05600c171300b003de338124f2mr8928956wmn.30.1677137799128; 
- Wed, 22 Feb 2023 23:36:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set93z9CKxLDCw0HA+9mIs3EbE4+VIterCg2CMgxWzNL9A+Mc0797R0dZXklEODfuThR5ljc0ew==
-X-Received: by 2002:a05:600c:1713:b0:3de:3381:24f2 with SMTP id
- c19-20020a05600c171300b003de338124f2mr8928936wmn.30.1677137798737; 
- Wed, 22 Feb 2023 23:36:38 -0800 (PST)
-Received: from redhat.com ([2.52.2.78]) by smtp.gmail.com with ESMTPSA id
- e8-20020a05600c218800b003c6bbe910fdsm10882914wme.9.2023.02.22.23.36.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 23:36:37 -0800 (PST)
-Date: Thu, 23 Feb 2023 02:36:33 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Anton Kuchin <antonkuchin@yandex-team.ru>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
- Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
-Message-ID: <20230223023604-mutt-send-email-mst@kernel.org>
-References: <59165bde-bfd4-a073-c618-205be3951e4a@yandex-team.ru>
- <20230222074214-mutt-send-email-mst@kernel.org>
- <22fee9b6-1dc0-792c-13cf-54c9303556ab@yandex-team.ru>
- <8372550f-def7-4336-c597-d22155abf145@yandex-team.ru>
- <333c4451-8eef-0603-c3f5-10e38c0eb24e@yandex-team.ru>
- <20230222115106-mutt-send-email-mst@kernel.org>
- <11593688-7ca4-def3-6212-7c26faa4d1c6@yandex-team.ru>
- <20230222121133-mutt-send-email-mst@kernel.org>
- <a477ca70-8aea-6c16-122e-1ded4af11f49@yandex-team.ru>
- <20230222151814-mutt-send-email-mst@kernel.org>
+ bh=uH+1Sqo4hVXnBusAKLLJtA0XYKW3rMDEl8RZR2Cxk1w=;
+ b=WnOQ+5USFayruslvhdvUkJK64Oy51SdPlebq1IDZANm3fo3EfiBsTt63OqW9Zs+AVXmWO6
+ W3Hoy1y0zqcEOmSngrDDjkSefqhJi0IUScIDrIx6TYD3F0ZQblMROAngQnESPu28XbdSDC
+ ohD4lwg7LYAem3798wYLeIGs3Sw+K9E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-645-8Kl7AwByOp2hbB9YKbSgww-1; Thu, 23 Feb 2023 02:37:48 -0500
+X-MC-Unique: 8Kl7AwByOp2hbB9YKbSgww-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6358E80351F;
+ Thu, 23 Feb 2023 07:37:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EE812026D38;
+ Thu, 23 Feb 2023 07:37:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3804621E6A1F; Thu, 23 Feb 2023 08:37:46 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Jonathan
+ Cameron
+ <Jonathan.Cameron@Huawei.com>,  qemu-devel@nongnu.org,  Michael Tsirkin
+ <mst@redhat.com>,  Ben Widawsky <bwidawsk@kernel.org>,
+ linux-cxl@vger.kernel.org,  linuxarm@huawei.com,  Ira Weiny
+ <ira.weiny@intel.com>,  Gregory Price <gourry.memverge@gmail.com>,  Mike
+ Maslenkin <mike.maslenkin@gmail.com>,  Dave Jiang <dave.jiang@intel.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v5 8/8] hw/mem/cxl_type3: Add CXL RAS Error Injection
+ Support.
+References: <20230221152145.9736-1-Jonathan.Cameron@huawei.com>
+ <20230221152145.9736-9-Jonathan.Cameron@huawei.com>
+ <e432cebc-8faa-7b41-71c8-ea88c7bcbb04@linaro.org>
+ <20230222145330.000021ef@huawei.com>
+ <c2fb77b0-0734-3be5-1b54-7c797b3daa15@linaro.org>
+ <20230222164947.0000554f@Huawei.com>
+ <b9bd5698-1f73-b912-0344-4b70c30dd02a@linaro.org>
+ <586d040f-d712-905e-fd68-bcde3713478b@redhat.com>
+Date: Thu, 23 Feb 2023 08:37:46 +0100
+In-Reply-To: <586d040f-d712-905e-fd68-bcde3713478b@redhat.com> (Thomas Huth's
+ message of "Thu, 23 Feb 2023 07:58:18 +0100")
+Message-ID: <875ybsg7cl.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230222151814-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -113,123 +95,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 03:21:42PM -0500, Michael S. Tsirkin wrote:
-> On Wed, Feb 22, 2023 at 08:25:19PM +0200, Anton Kuchin wrote:
-> > On 22/02/2023 19:12, Michael S. Tsirkin wrote:
-> > > On Wed, Feb 22, 2023 at 07:05:47PM +0200, Anton Kuchin wrote:
-> > > > On 22/02/2023 18:51, Michael S. Tsirkin wrote:
-> > > > > On Wed, Feb 22, 2023 at 06:49:10PM +0200, Anton Kuchin wrote:
-> > > > > > On 22/02/2023 17:14, Vladimir Sementsov-Ogievskiy wrote:
-> > > > > > > On 22.02.23 17:25, Anton Kuchin wrote:
-> > > > > > > > > > > +static int vhost_user_fs_pre_save(void *opaque)
-> > > > > > > > > > > +{
-> > > > > > > > > > > +    VHostUserFS *fs = opaque;
-> > > > > > > > > > > +    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
-> > > > > > > > > > > +
-> > > > > > > > > > > +    switch (fs->migration_type) {
-> > > > > > > > > > > +    case VHOST_USER_MIGRATION_TYPE_NONE:
-> > > > > > > > > > > +        error_report("Migration is blocked by device %s", path);
-> > > > > > > > > > > +        break;
-> > > > > > > > > > > +    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
-> > > > > > > > > > > +        return 0;
-> > > > > > > > > > > +    default:
-> > > > > > > > > > > +        error_report("Migration type '%s' is not
-> > > > > > > > > > > supported by device %s",
-> > > > > > > > > > > + VhostUserMigrationType_str(fs->migration_type), path);
-> > > > > > > > > > > +        break;
-> > > > > > > > > > > +    }
-> > > > > > > > > > > +
-> > > > > > > > > > > +    return -1;
-> > > > > > > > > > > +}
-> > > > > > > > > > Should we also add this as .pre_load, to force user select
-> > > > > > > > > > correct migration_type on target too?
-> > > > > > > > > In fact, I would claim we only want pre_load.
-> > > > > > > > > When qemu is started on destination we know where it's migrated
-> > > > > > > > > from so this flag can be set.
-> > > > > > > > > When qemu is started on source we generally do not yet know so
-> > > > > > > > > we don't know whether it's safe to set this flag.
-> > > > > > > But destination is a "source" for next migration, so there shouldn't be
-> > > > > > > real difference.
-> > > > > > > The new property has ".realized_set_allowed = true", so, as I understand
-> > > > > > > it may be changed at any time, so that's not a problem.
-> > > > > > Yes, exactly. So destination's property sets not how it will handle this
-> > > > > > incoming
-> > > > > > migration but the future outgoing one.
-> > > > > How do you know where you are going to migrate though?
-> > > > > I think you don't.
-> > > > > Setting it on source is better since we know where we
-> > > > > are migrating from.
-> > > > Yes, I don't know where I'm going to migrate to. This is why property
-> > > > affects only how source saves state on outgoing migration.
-> > > Um. I don't get the logic.
-> > 
-> > For this feature to work we need orchestrator to manage the migration. And
-> > we
-> > generally assume that it is responsibility of orchestrator to ensure
-> > matching
-> > properties on source and destination.
-> > As orchestrator manages both sides of migration it can set option (and we
-> > can
-> > check it) on either source or destination. Now it's not important which side
-> > we
-> > select, because now the option is essentially binary allow/deny (but IMHO it
-> > is much better to refuse source to migrate than find later that state can't
-> > be
-> > loaded by destination, in case of file migration this becomes especially
-> > painful).
-> > 
-> > But there are plans to add internal migration option (extract FUSE state
-> > from
-> > backend and transfer it in QEMU migration stream), and that's where
-> > setting/checking
-> > on source becomes important because it will rely on this property to decide
-> > if
-> > extra state form backend needs to be put in the migration stream subsection.
-> 
-> 
-> If we do internal migration that will be a different property
-> which has to match on source *and* destination.
-> 
-> 
-> > If you are concerned about orchestrator breaking assumption of matching
-> > properties
-> > on source and destination this is not really supported AFAIK but I don't
-> > think we
-> > need to punish it for this, maybe it has its reasons: I can imagine scenario
-> > where orchestrator could want to migrate from source with
-> > 'migration=external'
-> > to destination with 'migration=none' to ensure that destination can't be
-> > migrated further.
-> 
-> No. I am concerned about a simple practical matter:
-> - I decide to restart qemu on the same host - so I need to enable
->   migration
-> - Later I decide to migrate qemu to another host - this should be
->   blocked
-> 
-> 
-> Property on source does not satisfy both at the same time.
-> Property on destination does.
+Thomas Huth <thuth@redhat.com> writes:
 
+> On 22/02/2023 19.16, Philippe Mathieu-Daud=C3=A9 wrote:
+>> +Thomas (meson) & Marc-Andr=C3=A9 (conditional QAPI)
+>
+> + Markus
+>
+>> On 22/2/23 17:49, Jonathan Cameron wrote:
 
-Stefan what's your take on this? Should we move this from
-save to load hook?
+[...]
 
-> 
-> 
-> > > 
-> > > 
-> > > > > > > > This property selects if VM can migrate and if it can what should
-> > > > > > > > qemu put
-> > > > > > > > to the migration stream. So we select on source what type of
-> > > > > > > > migration is
-> > > > > > > > allowed for this VM, destination can't check anything at load time.
-> > > > > > > OK, so the new field "migration" regulates only outgoing migration and
-> > > > > > > do nothing for incoming. On incoming migration the migration stream
-> > > > > > > itself defines the type of device migration.
-> > > > > > > Worth mentioning in doc?
-> > > > > > Good point. I don't think this deserves a respin but if I have to send v4
-> > > > > > I'll include
-> > > > > > clarification in it.
+>>>>>> Doesn't these need
+>>>>>>
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'if': 'CONFIG_CXL_MEM_DEV=
+ICE',
+>>>>>>
+>>>>>> ?
+>>>>>
+>>>>> If I make this change I get a bunch of
+>>>>>
+>>>>> ./qapi/qapi-types-cxl.h:18:13: error: attempt to use poisoned "CONFIG=
+_CXL_MEM_DEVICE"
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 18 | #if defined(CONFIG_CXL_MEM_DEVICE)
+>>>>
+>>>> Err, I meant the generic CONFIG_CXL, not CONFIG_CXL_MEM_DEVICE.
+>>>>
+>>>>> It's a target specific define (I think) as built alongside PCI_EXPRESS
+>>>>> Only CXL_ACPI is specifically included by x86 and arm64 (out of tree)
+>>>>>
+>>>>> To be honest though I don't fully understand the QEMU build system so=
+ the reason
+>>>>> for the error might be wrong.
+>>>>
+>>>> You need to restrict to system emulation (the 'have_system' check):
+>>>
+>>> This doesn't help - still have
+>>> attempt to used poisoned "CONFIG_CXL"
+>
+> Not sure how the QAPI generator works, but target specific config switche=
+s can only be used in target specific json files there, so that's machine-t=
+arget.json and misc-target.json currently, as far as I know. Not sure how t=
+he QAPI generator distinguishes between common and target specific code, th=
+ough ... just by the "-target" suffix? Maybe Markus or Marc-Andr=C3=A9 can =
+comment on that.
+
+Whenever you use a poisoned macro in a conditional, all the code
+generated for this .json file (we call it a "QAPI schema module")
+becomes target-dependent.  The QAPI code generator itself is blissfully
+unaware of this.
+
+Since target-dependent code needs to be compiled differently, the build
+process needs to be know which modules are target-dependent.  We do this
+in one of the stupidest ways that could possibly work: a module is
+target-dependent if its name ends with "-target".  There are just two
+right now: qapi/machine-target.json and qapi/misc-target.json.
+
+The logic resides in qapi/meson.build.  Look for
+
+    if module.endswith('-target')
+
+Questions?
+
+[...]
 
 
