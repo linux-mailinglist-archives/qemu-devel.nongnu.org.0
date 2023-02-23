@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCE56A047A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 10:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9413B6A048E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 10:13:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV7YC-0000Wh-Sd; Thu, 23 Feb 2023 04:06:04 -0500
+	id 1pV7fA-0002nj-I1; Thu, 23 Feb 2023 04:13:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pV7YA-0000WB-PN
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 04:06:02 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pV7f9-0002nY-5U; Thu, 23 Feb 2023 04:13:15 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pV7Y8-0001UC-TG
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 04:06:02 -0500
-Received: by mail-wr1-x430.google.com with SMTP id i11so3873143wrp.5
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 01:05:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XHU07NFC76FnPEy31HMMnE6DgiOJ7zJNC5+01Fwgdks=;
- b=TJRfSwWlMqYHMdr8ebFGJvLDSvTKGkfEpWznI3p/yImnJk0lJxLgtFBGzJUN+aHViu
- B1O/FDCEk88hLsbI6h0kcqnhP+hYPjImIWqJnE07PXFweOmY+7x5LOomexRcQ0IdE9Ak
- aA/ARYgTAs6iTM/uD20JLoMbOd7ew3tb0AXP8xkd/gJNgHmbEddS5w32KtckeCEoJ5qa
- I+rw5ufB6SNheqZ4qtXenyZjbppmrbOGCURg3A9giKkHiH2X+LuePBMV+PBacK/ksrU/
- mh307lDClscw+E3udM14taDQeQ8m6WXy0L6YRLA3eN5HvW1ET5ednPQvv3rcL767ZvW5
- KBRw==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pV7f6-0004RU-OF; Thu, 23 Feb 2023 04:13:14 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id s26so39679271edw.11;
+ Thu, 23 Feb 2023 01:13:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BNeDMYq58bqUithg3Zbl4EWHDPhlFdvmwWnAVcjoVYU=;
+ b=YjVu8iuealPs92xxPgKEj/s8Br3hxO2WLCDq7zmIj+UnOkdems7/obbV0APwGHMgok
+ Mef1qUTAgDpDsnzrGho9dTg1rpJOmh5uUTI5YhHaKBb2rBv8CM10AXoaLwaY51xpvN3O
+ LRBPfN74nHmc28fVhzhWdfQ6BVBbgKLmx8Hp7+4pP+u6bj2HRD+jBL7A9eTN9SqmsKUI
+ bmOZlH08CZ/KYdbN1MRUoRw4YFc++H9UgSGQza9zGUJ2iaRWZEkpsdoS9GZE3Crfq9Do
+ Kh5OYBFO8kNwbNclZcSYgQrD2tRZwZUpY/IRJ3ujFwKyFFJ8dx7eKoCvrnEMF+pRgv9i
+ p3bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XHU07NFC76FnPEy31HMMnE6DgiOJ7zJNC5+01Fwgdks=;
- b=yDX8B5q8flauixaw/GDbmj6dhK5WwpYSudiHYGY/7q6SGgclJRbOirk6H1zw7Cyo/s
- 7COigBjFbH4OdcbnJ9FrxlED7PG3xICNvTPRhGB+eHzLo4NkNwsCBjIY504Gg2TRigZd
- lNNmfhGWloNUAYHz5LjWcN9sPUvysaop6l3ZlwSQgpRtYWP356nWwu2qGjmR9JgTg2vL
- jHf6Muh8scdwxbBtOetaxhWZfSLOnhI9Kefzpbuae0dcbgYBlrNpF+DFQ9AZQ9U/Bzyf
- JxgOKkqHI6pGXffRST5/9/Yvf9/X7tsK1h4EtbUdZFvMStbwNm8dFdbL2A0DkmmqTRYC
- dvKQ==
-X-Gm-Message-State: AO0yUKUBwYx5eixDf41jYWjqB0o+4vL/1+IZKFt19+jRNBaO/Vroqc8r
- OJLhkq5Zch/UtylGe7VJE2qAhw==
-X-Google-Smtp-Source: AK7set/Dc6KaklwA11OJXXVCThEKIyAP+HUZrXVQee88qTLt/xJl6ZnAhsMuJiW+lXZsRiv0523HNQ==
-X-Received: by 2002:adf:f147:0:b0:2c5:c4c9:515a with SMTP id
- y7-20020adff147000000b002c5c4c9515amr10401654wro.51.1677143158160; 
- Thu, 23 Feb 2023 01:05:58 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BNeDMYq58bqUithg3Zbl4EWHDPhlFdvmwWnAVcjoVYU=;
+ b=RQNSqccYXGlOGS3EN/wZ3LzRL05Zm9c2nqO5tHYOPF7QyPjI+LgGTejbjzI2Ni7ec+
+ NHAZD75LrRFIX8c5Rnx/BdxzPQq4DAYgsY6ZdRNKJ7xbxaKVJtlr9XMDuiCyATrw06MI
+ M5h8IeMauk+8jTAsfW1TVVZBbwvi0Cny6E3V0LlDOsLt5Ucday/EMx9tT854ODdgsMX6
+ Fijcpx53Sfmovd4PI2ifk2P7xA29YWnoDKt57+KaNgGCgbUiKfYZpPcdbjCprEEwg+V1
+ eUX4xsW2cJ3nEbiX1KzdGbvCiLWN9AZehBFNtXzrwzyaWCb/faEStLYNxMM+YHDdWn07
+ evPw==
+X-Gm-Message-State: AO0yUKWI69hhdd/SSLspQukQAdRH4twEEY/P9V0CHw495cjmRcvmxn6F
+ /R/kvsswPlhNmT6YKEbT9Jk=
+X-Google-Smtp-Source: AK7set+pnAw22g+DNLmweG45gd0GT2qk/F7lgPJeZ2cCkp4bkcacROboq+9S1/hP2B143KLfU+dY5g==
+X-Received: by 2002:a17:907:1686:b0:8af:2f5e:93e3 with SMTP id
+ hc6-20020a170907168600b008af2f5e93e3mr18218575ejc.29.1677143590037; 
+ Thu, 23 Feb 2023 01:13:10 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf06ee0069bc6d590f31a9b0.dip0.t-ipconnect.de.
+ [2003:fa:af06:ee00:69bc:6d59:f31:a9b0])
  by smtp.gmail.com with ESMTPSA id
- w18-20020a05600c475200b003e220998b6bsm12185152wmo.17.2023.02.23.01.05.56
+ um8-20020a170907cb0800b008cca31606a8sm5563272ejc.51.2023.02.23.01.13.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 01:05:57 -0800 (PST)
-Message-ID: <1fd1606c-3dde-b780-14f7-d8a9ae4dedf5@linaro.org>
-Date: Thu, 23 Feb 2023 10:05:55 +0100
+ Thu, 23 Feb 2023 01:13:09 -0800 (PST)
+Date: Thu, 23 Feb 2023 09:13:05 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@linaro.org
+Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
+In-Reply-To: <7df4771f-e6ab-af3d-3e82-98cb1c4dfce0@eik.bme.hu>
+References: <cover.1677004414.git.balaton@eik.bme.hu>
+ <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
+ <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
+ <adb1fe51-a17e-53c2-4dd1-0c4270a928aa@eik.bme.hu>
+ <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
+ <67daf5dd-de6a-2d55-c830-8650efc59ee0@eik.bme.hu>
+ <8AA6E5E4-6E9F-427D-9F65-D79D4FEEC1A0@gmail.com>
+ <7df4771f-e6ab-af3d-3e82-98cb1c4dfce0@eik.bme.hu>
+Message-ID: <14710BE7-AD6F-452E-A3F5-3E9B08F95FD3@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/4] numa: Validate socket and NUMA node boundary if
- required
-Content-Language: en-US
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, rad@semihalf.com,
- peter.maydell@linaro.org, quic_llindhol@quicinc.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, wangyanan55@huawei.com, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, thuth@redhat.com,
- lvivier@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
- yihyu@redhat.com, shan.gavin@gmail.com
-References: <20230223081401.248835-1-gshan@redhat.com>
- <20230223081401.248835-3-gshan@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230223081401.248835-3-gshan@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,88 +99,220 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/2/23 09:13, Gavin Shan wrote:
-> For some architectures like ARM64, multiple CPUs in one socket can't be
-> associated with different NUMA nodes. Otherwise, the guest kernel is confused
-> about the CPU topology. For example, the following warning message is observed
-> from linux guest with the below command lines.
-> 
->    -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
->    -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
->    -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
->    -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
-> 
->    ------------[ cut here ]------------
->    WARNING: CPU: 0 PID: 1 at kernel/sched/topology.c:2271 build_sched_domains+0x284/0x910
->    Modules linked in:
->    CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.14.0-268.el9.aarch64 #1
->    pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->    pc : build_sched_domains+0x284/0x910
->    lr : build_sched_domains+0x184/0x910
->    sp : ffff80000804bd50
->    x29: ffff80000804bd50 x28: 0000000000000002 x27: 0000000000000000
->    x26: ffff800009cf9a80 x25: 0000000000000000 x24: ffff800009cbf840
->    x23: ffff000080325000 x22: ffff0000005df800 x21: ffff80000a4ce508
->    x20: 0000000000000000 x19: ffff000080324440 x18: 0000000000000014
->    x17: 00000000388925c0 x16: 000000005386a066 x15: 000000009c10cc2e
->    x14: 00000000000001c0 x13: 0000000000000001 x12: ffff00007fffb1a0
->    x11: ffff00007fffb180 x10: ffff80000a4ce508 x9 : 0000000000000041
->    x8 : ffff80000a4ce500 x7 : ffff80000a4cf920 x6 : 0000000000000001
->    x5 : 0000000000000001 x4 : 0000000000000007 x3 : 0000000000000002
->    x2 : 0000000000001000 x1 : ffff80000a4cf928 x0 : 0000000000000001
->    Call trace:
->     build_sched_domains+0x284/0x910
->     sched_init_domains+0xac/0xe0
->     sched_init_smp+0x48/0xc8
->     kernel_init_freeable+0x140/0x1ac
->     kernel_init+0x28/0x140
->     ret_from_fork+0x10/0x20
-> 
-> Improve the sitation to reject the configuration where multiple CPUs
-
-Typo "situation".
-
-> in one socket have been associated with different NUMA nodes. The
-> newly introduced helper set_numa_socket_boundary() is expected to
-> called by specific machines (boards) where the boundary is required.
-> 
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
->   hw/core/machine.c     | 34 ++++++++++++++++++++++++++++++++++
->   hw/core/numa.c        |  7 +++++++
->   include/sysemu/numa.h |  4 ++++
->   3 files changed, 45 insertions(+)
 
 
-> diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-> index 4173ef2afa..160008fff4 100644
-> --- a/include/sysemu/numa.h
-> +++ b/include/sysemu/numa.h
-> @@ -86,6 +86,9 @@ struct NumaState {
->       /* Detect if HMAT support is enabled. */
->       bool hmat_enabled;
->   
-> +    /* CPUs in one socket can't break socket boundary */
-> +    bool have_socket_boundary;
+Am 22=2E Februar 2023 23:00:02 UTC schrieb BALATON Zoltan <balaton@eik=2Eb=
+me=2Ehu>:
+>On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>> Am 22=2E Februar 2023 21:12:01 UTC schrieb BALATON Zoltan <balaton@eik=
+=2Ebme=2Ehu>:
+>>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>>>> Am 22=2E Februar 2023 19:25:16 UTC schrieb BALATON Zoltan <balaton@ei=
+k=2Ebme=2Ehu>:
+>>>>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>>>>>> On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail=2Ec=
+om> wrote:
+>>>>>>> I've had a closer look at your series and I think it can be simpli=
+fied:
+>>>>>>> Patch 2 can be implemented quite straight-forward like I proposed =
+in a
+>>>>>>> private mail: https://github=2Ecom/shentok/qemu/commit/via-priq-ro=
+uting=2E
+>>>>>>> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt=
+ routing"
+>>>>>>> working, one can expose the PCI interrupts with a single line like=
+ you do
+>>>>>>> in patch 2=2E With this, patch 1 "hw/isa/vt82c686: Implement inter=
+rupt
+>>>>>>> routing in via_isa_set_irq" isn't needed any longer and can be omi=
+tted=2E
+>>>>>>>=20
+>>>>>>> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() ca=
+n be
+>>>>>>> used instead=2E pci_set_irq() internally takes care of all the ISA=
+ interrupt
+>>>>>>> level tracking patch 1 attempted to address=2E
+>>>>>>>=20
+>>>>>>=20
+>>>>>> Here is a proof of concept branch to demonstrate that the simplific=
+ation
+>>>>>> actually works: https://github=2Ecom/shentok/qemu/commits/pegasos2 =
+(Tested
+>>>>>> with MorphOS with and without pegasos2=2Erom)=2E
+>>>>>=20
+>>>>> Does this only work because both the via-ac97 and the PCI interrupts=
+ are mapped to the same ISA IRQ and you've only tested sound? The guest cou=
+ld configure each device to use a different IRQ, also mapping them so they =
+share one ISA interrupt=2E What happens if multiple devices are mapped to I=
+RQ 9 (which is the case on pegasos2 where PCI cards, ac97 and USB all share=
+ this IRQ) and more than one such device wants to raise an interrupt at the=
+ same time? If you ack the ac97 interrupt but a PCI network card or the USB=
+ part still wants to get the CPUs attention the ISA IRQ should remain raise=
+d until all devices are serviced=2E
+>>>>=20
+>>>> pci_bus_get_irq_level(), used in via_isa_set_pci_irq(), should handle
+>>>> exactly that case very well=2E
+>>>>=20
+>>>>> I don't see a way to track the status of all devices in a single qem=
+u_irq which can only be up or down so we need something to store the state =
+of each source=2E
+>>>>=20
+>>>> pci_set_irq() causes pci_bus_change_irq_level() to be called=2E
+>>>> pci_bus_change_irq_level() tracks the sum of all irq levels of all
+>>>> devices attached to a particular pin in irq_count=2E Have a look at
+>>>> pci_bus_change_irq_level() and you will understand better=2E
+>>>=20
+>>> I'm aware of that, we're using that in sam460ex which connects all PCI=
+ interrupt lines to a single IRQ and Peter explored and explained it in a c=
+omment there when that was discovered=2E First we had a patch with or-irq b=
+ut due to this behaviot that's not needed for PCI interrupts=2E But the VT8=
+132 could change what ISA IRQ you route the sub functions to=2E
+>>=20
+>> That depends on the sub function if you can do that=2E And if so, then =
+it depends on whether the function is still in PCI mode (see below)=2E
+>>=20
+>>> It happens that on pegasos2 by default all of those are routed to IRQ9=
+ except IDE
+>>=20
+>> All *PCI* interrupts are routed to IRQ9 while IDE legacy interrupts are=
+ routed to the compatible ISA IRQs=2E Note that the IDE function must only =
+trigger the ISA IRQs if it is in legacy mode while it must only trigger the=
+ PCI IRQ in non-legacy mode=2E See https://www=2Ebswd=2Ecom/pciide=2Epdf fo=
+r more details on this particular topic=2E
+>
+>The docs say so but based on what guests that work on real hardware do it=
+ does not work that way=2E Look up previous discussion on this on the list =
+from around the time Mark changed via-ide about 4-5 years ago=2E That serie=
+s was a result of his review of my proposed changes and gave resuled in an =
+alternative appdroach=2E On pegasos2 (and probably also on fuloong2e based =
+on same later findings, see patches to that, I can try to find these later =
+if you can't find them) via-ide *always* uses IRQ 14/15 and the native mode=
+ only switches register addresses from legacy io ports to PCI io space so y=
+ou can set it in with BAR regs but the IRQs don't change despite what the d=
+ocs say=2E There are some hacks in Linux kernel and other guests to account=
+ for this but the comments for the reason are wrong in Linux, they say IDE =
+is always in legacy mode but in fact if has a half-native mode which is wha=
+t I called it where io addresses are set with BARs but IRQs are still the l=
+egacy ISA ones=2E You can find some references in previous discussion=2E Pr=
+obably searching for via-ide half-native mode might find it=2E
+>
+>>> but what if a guest changes ac97 to use a different interrupt? Then it=
+'s not a PCI interrupt any more so you can't use pci_set_irq in via=3Dac97=
+=2E
+>>=20
+>> How would it do that? AFAICS there is no dedicated register to configur=
+e which IRQ to use=2E This means that it can only trigger an interrupt via =
+its PCI intx pin which is subject to the PCI -> ISA IRQ router=2E
+>
+>The VIA functions can use their PCI_INTERRUPT_LINE (0x3c) registers to se=
+t their ISA IRQ according to the docs (and unlike IDE in other functions li=
+ke USB and sound this probably also works) and the PIRQA-D pins can be mapp=
+ed to ISA IRQs by the 0x55-0x57 config registers of the isa bridge (functio=
+n0)=2E This is what I implemented in via_isa_set_irq() in this series=2E
+>
+>>> There are only 4 PCI INT lines but the VIA components can be routed to=
+ 13 or 14 ISA IRQs=2E
+>>=20
+>> Pure PCI components are only able to trigger one of the four PCI intx p=
+ins they are *hardwired* to=2E
+>
+>This is true for PCI cards which can only use the 4 pins the slot they ar=
+e in is wired to=2E These come in through the PIRQA-D pins and they are rou=
+ted with the funstion 0 0x55-0x57 config registers=2E But I'm not sure abou=
+t the internal functions=2E
+>
+>> Each component has only one pin=2E Which ISA IRQ gets triggered through=
+ that pin can be selected from 13 or 14 ISA IRQs as you say by means of the=
+ three configuration registers of the PCI -> ISA IRQ router=2E
+>
+>So you say that internal functions are also wired to the same 4 lines lik=
+e normal PCI cards?
 
-This field belong to MachineClass, please add it as
-numa_have_socket_boundary just after to numa_mem_supported.
+Yes=2E
 
-Next patches become:
+> Then how can you route them to different interrupts setting their config=
+ reg 0x3c independent of function0 0x55-0x57 regs?
 
----
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index f778cb6d09..a48f1b2329 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -864,6 +864,7 @@ static void sbsa_ref_class_init(ObjectClass *oc, 
-void *data)
-      mc->possible_cpu_arch_ids = sbsa_ref_possible_cpu_arch_ids;
-      mc->cpu_index_to_instance_props = sbsa_ref_cpu_index_to_props;
-      mc->get_default_cpu_node_id = sbsa_ref_get_default_cpu_node_id;
-+    mc->numa_have_socket_boundary = true;
-  }
----
+0x3c isn't supposed to be interpretet by hardware, and in general hardware=
+ can't: 0x3c is standardized for every PCI function which includes standalo=
+ne PCI devices in particular=2E Standalone PCI devices don't have access to=
+ an IRQ router=2E So if they don't, how could they possibly configure the I=
+RQ they are triggering?
 
-Otherwise LGTM :)
+0x3c is only information to the OS (populated by the BIOS)=2E It merily in=
+dicates that the PCI device needs attention when the IRQ configured in 0x3c=
+ is raised=2E See comment 4 in https://community=2Eosr=2Ecom/discussion/303=
+99/read-only-pci-interrupt-line-register for another explanation=2E
+
+Even though the south bridge contains an interrupt router doesn't mean tha=
+t its PCI functions can configure their IRQ through their 0x3c registers=2E=
+ That would change the semantics of standardized PCI registers which is sur=
+ely not permitted by the standard=2E Instead, the PCI IRQs are configured t=
+hrough the device-specific 0x55-0x57 regs=2E
+
+I see that 0x3c is also used for the USB functions=2E They used to trigger=
+ the raw ISA IRQs before your series which seems wrong=2E I think 0x3c usag=
+e needs to be cleaned up in the VIA model=2E Otherwise this will likely cau=
+se problems elsewhere=2E
+
+>
+>>> How do you keep track of that with only the PCI bus interrupts?
+>>=20
+>> Devices that operate in ISA mode such as the IDE function shall have th=
+eir own, dedicated ISA IRQs assigned by the guest=2E Otherwise this causes =
+a classic interrupt conflict, just like in the olden ISA days=2E If the fun=
+ction operates in PCI mode, it must not trigger the ISA IRQs, regardless of=
+ whether they are assigned or not=2E
+>
+>This does not match with guests which clearly expect to get ISA IRQ9 for =
+PCI cards and USB and sound which is where these are routed within the VIA =
+bridge as the firmware programs it=2E
+
+What I meant was that a component able to operate in native/legacy/mixed m=
+ode such as IDE must not use both PCI and legacy ISA interrupts at the same=
+ time=2E Multiple PCI functions may of course share interrupts=2E
+
+>
+>> There is also the power management function whose ACPI interrupt (SCI) =
+can be routed by means of a dedicated register=2E Again, a guest must make =
+sure here to not configure interrupt conflicts=2E
+>>=20
+>>> I don't get your approach=2E
+>>=20
+>> I hope that I could help you get a better understanding=2E The linked =
+=2Epdf is good and comprehensive reading material=2E
+>
+>I'm not sure the via-ide confirms to that doc but it's also not any more =
+a problem with via-ide now=2E That was discussed to death back then and "fi=
+xed" to work for the cases we want it to work with=2E We probably never agr=
+eed on how this really works but at least what we ended up with works with =
+guests that run on real hardware=2E I'm OK with also making these cases wor=
+k that we want now such as network and sound card under AmigaOS and sound u=
+nder MorphOS (as long as you don't use USB) on pegasos2=2E This series does=
+ that so unless it breaks something that worked before I condider this movi=
+ng forward and we can always improve adn fix it later=2E I'm not saying I'm=
+ not interested in your improvements just that let's that not hold this bac=
+k now as we can fix and improve it later but otherwise users will have to w=
+ait until September to be able to use it=2E I know a few who want this and =
+getting this out as it is would allow more people to test it and report pro=
+blems so unless there are clearly wrong parts I'm OK with less than perfect=
+ but working solution as long as it's not too messy=2E
+
+Patch 1 really seems like duplicating PCI code that already exists in QEMU=
+=2E This is not needed and we should avoid that=2E
+
+Moreover, usage of the IRQ line register (0x3c) for interrupt routing shou=
+ld be switched to using the 0x55-0x57 regs to be PCI compliant=2E
+
+Thanks to your great work to make via-ac97 work we can confirm that both I=
+RQ routing implementations basically work for now=2E Let's work out a solut=
+ion that relies on existing code, sticks to the standard and hopefully work=
+s for i386 and MIPS, too=2E
+
+Best regards,
+Bernhard
+
+>
+>Regards,
+>BALATON Zoltan
 
