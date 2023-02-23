@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93AE6A0305
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 08:00:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182A56A0319
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 08:02:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV5a7-0007Vc-DG; Thu, 23 Feb 2023 01:59:55 -0500
+	id 1pV5cc-0003XD-Cv; Thu, 23 Feb 2023 02:02:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pV5a5-0007Tw-Gk
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:59:53 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pV5cW-0003We-5R
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:02:24 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pV5a3-0007zT-RE
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 01:59:53 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pV5cU-0000oA-GL
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:02:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677135591;
+ s=mimecast20190719; t=1677135741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qCuTi4UphobknUO5bPPv7X7Xkm80hrUItoZQ0qd+gdE=;
- b=MFL9pdNKo9W8oMG3dkBDGiVls4gBniU03tqFraLsQgyiLYkF4SRZu4CdJs6bPYUZI//Sfr
- LWF/oKyquvZQzOqWjHvCoiByPklpxjmSFhqX12ZzQ4Ibkq7PTyqWlHSPOEh1aT04v8an7C
- 50gp8TZ8Yo72ILd/oIrrYrpjSs9QaUo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-Nvah_j4zPCeqwltrJpxQaw-1; Thu, 23 Feb 2023 01:59:48 -0500
-X-MC-Unique: Nvah_j4zPCeqwltrJpxQaw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2745D85CCE0;
- Thu, 23 Feb 2023 06:59:48 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-177.pek2.redhat.com
- [10.72.13.177])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A54E492C14;
- Thu, 23 Feb 2023 06:59:44 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: mst@redhat.com,
-	peterx@redhat.com
-Cc: qemu-devel@nongnu.org, eric.auger@redhat.com, viktor@daynix.com,
- lvivier@redhat.com, Jason Wang <jasowang@redhat.com>
-Subject: [PATCH V2 5/5] intel-iommu: send UNMAP notifications for domain or
- global inv desc
-Date: Thu, 23 Feb 2023 14:59:24 +0800
-Message-Id: <20230223065924.42503-6-jasowang@redhat.com>
-In-Reply-To: <20230223065924.42503-1-jasowang@redhat.com>
-References: <20230223065924.42503-1-jasowang@redhat.com>
+ bh=kUVgaydzIm9scvVmYFQdC6frhhj6HvHeUSM8b4oRyKA=;
+ b=PgAZ+cVQQMtUYBb4Ec+FswUHNfTEmUCxKg4vtJdcamzMU2Ae4w5ReY+DPtQkD+IS1Um1GG
+ bbS04RnnODsA6baGxfr+NzPfW45+veFfOmkkovfL43cedVcL4dyWfdU6Nim5fgqACjFeRK
+ 0SwZTQYHKU/5YhLtbY5JPxmNkkNYoac=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-345-I4YC6RfhMWS6W2qi8NhtMA-1; Thu, 23 Feb 2023 02:02:20 -0500
+X-MC-Unique: I4YC6RfhMWS6W2qi8NhtMA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 4-20020a5d47a4000000b002c5699ff08aso1990304wrb.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 23:02:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kUVgaydzIm9scvVmYFQdC6frhhj6HvHeUSM8b4oRyKA=;
+ b=P4ktQabw+9Zi+aO+cZZ9ehVzQwFVA/MqA/t9u/C6pnWQYNcrqgTWLNUEFkuWj7p9CK
+ zNhKSVegJCtm25QF5unZnuEPlkdZ0ekCzfbyBDE8sGmTMlpM8fvunvkpUQZD+BPoz7kt
+ EBn0E+vQOY0pltmOTlFcqAat02WTgQnIbN3aFeaNsob0PT9RcivYOoBsvgn9bEkFq97A
+ +ckVw8zvYawRjMK94ceylm6nS+gpmkqYgEkbal0A+4M83ZwW6hcs6VRYsZad3KP/U2S8
+ e/FdRs6Fv4qcMS7BYNyvnuLwy+R9aOA+fATWmh27st7BzjaV1zfi0q5DQkUpF0BDy2Gw
+ PPXg==
+X-Gm-Message-State: AO0yUKUiwFcJVgPCbnizqaKqqdGOFahGY8NGBD8ARb6JdwgfdB5b4FTJ
+ 2rMY9oadz/Bp/2MFSFUIZs0ki+4sEYVCglOcuWC+ibotsfvRREbmpYzJBx+XoHLw7U1h6jHY8oi
+ cRK30inXeiMKG4WQFYjSW
+X-Received: by 2002:adf:fb49:0:b0:2c6:6e35:4414 with SMTP id
+ c9-20020adffb49000000b002c66e354414mr10303184wrs.6.1677135738010; 
+ Wed, 22 Feb 2023 23:02:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set/8ZFj2CVOEpeESe/WwOfAtS9xCw/qNAZqUDydLUnmwrBOZ7zVi4j45YKKUvebLAtbrzYwrHQ==
+X-Received: by 2002:adf:fb49:0:b0:2c6:6e35:4414 with SMTP id
+ c9-20020adffb49000000b002c66e354414mr10303160wrs.6.1677135737683; 
+ Wed, 22 Feb 2023 23:02:17 -0800 (PST)
+Received: from redhat.com ([2.52.2.78]) by smtp.gmail.com with ESMTPSA id
+ e9-20020adff349000000b002c704271b05sm6805858wrp.66.2023.02.22.23.02.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Feb 2023 23:02:17 -0800 (PST)
+Date: Thu, 23 Feb 2023 02:02:13 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel Hoffman <dhoff749@gmail.com>
+Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PATCH] hw/i386: fix microvm segfault with virtio cmdline
+Message-ID: <20230223015942-mutt-send-email-mst@kernel.org>
+References: <20230223063910.69081-1-dhoff749@gmail.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230223063910.69081-1-dhoff749@gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,72 +98,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Xu <peterx@redhat.com>
+didn't read the patch yet but just formatting comments:
 
-We don't send UNMAP notification upon domain or global invalidation
-which will lead the notifier can't work correctly. One example is to
-use vhost remote IOTLB without enabling device IOTLB.
+On Wed, Feb 22, 2023 at 10:39:10PM -0800, Daniel Hoffman wrote:
+> The 'microvm' machine type allows for disabling ACPI, in which case
+> the VirtIO device configuration is passed via appending it to the
+> kernel cmdline.
+> 
+> If no cmdline parameter was passed, then a null pointer is dereferenced when
+> the new cmdline is copied back. A solution is to always define the cmdline
+> in the fw_cfg so the read to append happens before the first write in the
+> multiboot case, and to explcitly re-write the value to update the length.
 
-Fixing this by sending UNMAP notification.
+explicitly
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/i386/intel_iommu.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> Fixes: eac7a7791b
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index f006fa6031..a62896759c 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1530,13 +1530,17 @@ static int vtd_sync_shadow_page_table_range(VTDAddressSpace *vtd_as,
-     return vtd_page_walk(s, ce, addr, addr + size, &info, vtd_as->pasid);
- }
- 
--static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
-+static int vtd_address_space_sync(VTDAddressSpace *vtd_as)
- {
-     int ret;
-     VTDContextEntry ce;
-     IOMMUNotifier *n;
- 
--    if (!(vtd_as->iommu.iommu_notify_flags & IOMMU_NOTIFIER_IOTLB_EVENTS)) {
-+    /* If no MAP notifier registered, we simply invalidate all the cache */
-+    if (!vtd_as_has_map_notifier(vtd_as)) {
-+        IOMMU_NOTIFIER_FOREACH(n, &vtd_as->iommu) {
-+            memory_region_unmap_iommu_notifier_range(n);
-+        }
-         return 0;
-     }
- 
-@@ -2000,7 +2004,7 @@ static void vtd_iommu_replay_all(IntelIOMMUState *s)
-     VTDAddressSpace *vtd_as;
- 
-     QLIST_FOREACH(vtd_as, &s->vtd_as_with_notifiers, next) {
--        vtd_sync_shadow_page_table(vtd_as);
-+        vtd_address_space_sync(vtd_as);
-     }
- }
- 
-@@ -2082,7 +2086,7 @@ static void vtd_context_device_invalidate(IntelIOMMUState *s,
-              * framework will skip MAP notifications if that
-              * happened.
-              */
--            vtd_sync_shadow_page_table(vtd_as);
-+            vtd_address_space_sync(vtd_as);
-         }
-     }
- }
-@@ -2140,7 +2144,7 @@ static void vtd_iotlb_domain_invalidate(IntelIOMMUState *s, uint16_t domain_id)
-         if (!vtd_dev_to_context_entry(s, pci_bus_num(vtd_as->bus),
-                                       vtd_as->devfn, &ce) &&
-             domain_id == vtd_get_domain_id(s, &ce, vtd_as->pasid)) {
--            vtd_sync_shadow_page_table(vtd_as);
-+            vtd_address_space_sync(vtd_as);
-         }
-     }
- }
--- 
-2.25.1
+format is:
+
+Fixes: hash ("subject")
+
+> 
+> Signed-off-by: Daniel Hoffman <dhoff749@gmail.com>
+> ---
+>  hw/i386/microvm.c | 3 ++-
+>  hw/i386/x86.c     | 4 ++++
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index 29f30dd6d3..be64280530 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -417,7 +417,8 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
+>      if (len > VIRTIO_CMDLINE_TOTAL_MAX_LEN + strlen(existing_cmdline)) {
+>          fprintf(stderr, "qemu: virtio mmio cmdline too large, skipping\n");
+>      } else {
+> -        memcpy(existing_cmdline, cmdline, len + 1);
+> +	fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, len + 1);
+> +	fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
+
+Pls use spaces not tabs same as surrounding code.
+
+>      }
+>      g_free(cmdline);
+>  }
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index eaff4227bd..7dd02b7409 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -827,6 +827,10 @@ void x86_load_linux(X86MachineState *x86ms,
+>      /* Make a copy, since we might append arbitrary bytes to it later. */
+>      kernel_cmdline = g_strndup(machine->kernel_cmdline, cmdline_size);
+>  
+> +    /* If the cmdline is undefined, set it as an empty allocated value */
+> +    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, cmdline_size);
+> +    fw_cfg_add_bytes(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline, cmdline_size);
+> +
+>      /* load the kernel header */
+>      f = fopen(kernel_filename, "rb");
+>      if (!f) {
+> -- 
+> 2.37.2
 
 
