@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907716A07B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 12:52:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 866326A088B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:24:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVA89-0003wv-I7; Thu, 23 Feb 2023 06:51:21 -0500
+	id 1pVAdM-0002xT-1X; Thu, 23 Feb 2023 07:23:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVA88-0003wd-2n
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:51:20 -0500
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVA86-0002KI-7i
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 06:51:19 -0500
-Received: by mail-pg1-x534.google.com with SMTP id d6so2299474pgu.2
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 03:51:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LvUUTSF5sJs4oiIpimDYPEXNLD30booVu0SkpuReh7g=;
- b=DZb8G6ZzoiqwfxoAtdC4QpCbb2mc4c+H8Ds7Oh2g+06rlSNFd8Ek0C6HOsWmuWB9H1
- 5mQCRDL2Xt/VxvzPOblHzx9ZPXnwbAtbtO8/8CxWWRPj6OuoZ8YdfZs8XXxcdChq7qJS
- h0PHrQGcpZtbhjamIc5OFyjGKA5Arw0Ra+vfjsD7nHhUUondPUZz0T8XyjJ7kBjcdvJN
- DVyIcw4VKKtlhEhQLDyUm4Ec89isRXyzQe1t2VPOFHr0/+EOr/byRZeQw02lP41txofo
- Bb5J/tO4LWeLHdm+zsd0F6HtjYJXKX3Hnhj4MuKV/mpttG56bJQWTSNELsW9KbGKWdDb
- vJ+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LvUUTSF5sJs4oiIpimDYPEXNLD30booVu0SkpuReh7g=;
- b=fBvnZf2pS5yIa9Y55LL7xlsd+dXftFP+DDVRfixQ0KrDjG+Z88YhFF9ck0qGNJ89K8
- pvrEs9QY5n91g3/C4/UJEwyg1mbjhkv2NQg+Er/TPrWMSqJZOH2+66s9ZzHWucSBoLRN
- ekJSy11rNaBWjMb8CIiZgnxmbLuusnwqoeGHEa0Vx2xIoAKjyIjJUFRC8h9CX42Fm4+a
- iO82eMSxriEOokTD36zzwd3GKepHhNV1gxYVbmpjv9mf8akkYOBnb0dsdOrg9FQym1TO
- 157Mia7p3cVEE0TudNiVN6aE6VMsPaRt0z9ttYOEhvtWHDeR5uU4ZLWOpySdSlrt9hH9
- Lm7A==
-X-Gm-Message-State: AO0yUKXoe8NJNPXi5Tw96ORmUIMcWJ4xJvXG7sFA+u28pghm5tRZdB7S
- xMgWHuLPU4YpshV8H43qGtDKY1s5k8p9sD+fEVSA5g==
-X-Google-Smtp-Source: AK7set/sIYWUiFrRPPuGN/VM3CaSHluqEBVOc0wdMC5hMI6RAKLsUbEJ9Cxspro3oClEWYIsS0mXSZ4x5BgzybDH+n0=
-X-Received: by 2002:a63:7985:0:b0:502:f5c8:f5c8 with SMTP id
- u127-20020a637985000000b00502f5c8f5c8mr294618pgc.9.1677153076322; Thu, 23 Feb
- 2023 03:51:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdK-0002wz-MH
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdJ-0003yB-4f
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677155012;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Fwj8NJ5I5aiZ3NQuLuMSavTvGrynIuY1XCRhEbfSOxs=;
+ b=KOgKi3pDhZKjJHvTr8CuBmy3c3wGGc98hYVt1yPqolnM5c35ko7s88z8jLarypzwokIWyF
+ Stb3eAEAKEW1z24Crc53/kV8PClXFVL9ai4nXUjZ+8h3hKiZYiLQePdV23zv3GTT9dhXuZ
+ ZMV2yXclmedwDsH9ZBiCd9xhtaNrJGw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-175-Ab9VCXtDPs6rGYp49_uo4A-1; Thu, 23 Feb 2023 07:23:29 -0500
+X-MC-Unique: Ab9VCXtDPs6rGYp49_uo4A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6662857F40;
+ Thu, 23 Feb 2023 12:23:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F9ABC15BA0;
+ Thu, 23 Feb 2023 12:23:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 83FD321E6A1F; Thu, 23 Feb 2023 13:23:27 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PULL 0/8] QAPI patches patches for 2023-02-23
+Date: Thu, 23 Feb 2023 13:23:19 +0100
+Message-Id: <20230223122327.1920247-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20230213003925.40158-1-gshan@redhat.com>
- <20230213003925.40158-6-gshan@redhat.com>
- <CAFEAcA_6pYvot1AGKfOQA89M9tdH-e6+9jkd3RtXJkGhSLdihA@mail.gmail.com>
- <0db2764b-7d27-ee6a-c7e4-7d7821986c16@redhat.com>
- <CAFEAcA_WjugivvOWxH-bVSNakPWyhX=j5pWydQQpweDVDYd2jw@mail.gmail.com>
- <e0044c64-02f2-32d2-b096-50f9c1f1fe19@redhat.com>
-In-Reply-To: <e0044c64-02f2-32d2-b096-50f9c1f1fe19@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Feb 2023 11:51:05 +0000
-Message-ID: <CAFEAcA9P0MiuRtTDTVCx_1cPxv4yNH=pJSPqO_n=OzDWjx_gOw@mail.gmail.com>
-Subject: Re: [PATCH v1 5/6] hw/arm/virt: Enable backup bitmap for dirty ring
-To: Gavin Shan <gshan@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com, 
- peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com, 
- cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com, maz@kernel.org, 
- zhenyzha@redhat.com, shan.gavin@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,46 +75,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 23 Feb 2023 at 00:52, Gavin Shan <gshan@redhat.com> wrote:
->
-> On 2/23/23 2:54 AM, Peter Maydell wrote:
-> > But we might have to for other boards we add later. We shouldn't
-> > put code in per-board if it's not really board specific.
-> >
-> > Moreover, I think "we need the backup bitmap if the kernel is
-> > using its GICv3 or ITS implementation" is a kernel implementation
-> > detail. It seems to me that it would be cleaner if QEMU didn't
-> > have to hardcode "we happen to know that these are the situations
-> > when we need to do that". A better API would be "ask the kernel
-> > 'do we need this?' and enable it if it says 'yes'". The kernel
-> > knows what its implementations of ITS and GICv3 (and perhaps
-> > future in-kernel memory-using devices) require, after all.
-> >
->
-> Well, As we know so far, the backup bitmap extension is only required by 'kvm-arm-gicv3'
-> and 'arm-its-kvm' device. Those two devices are only used by virt machine at present.
-> So it's a board specific requirement. I'm not sure about the future. We may need to
-> enable the extension for other devices and other boards. That time, the requirement
-> isn't board specific any more. However, we're uncertain for the future.
+The following changes since commit 79b677d658d3d35e1e776826ac4abb28cdce69b8:
 
-Most boards using KVM are likely to want a GICv3, and
-probably an ITS too. A board with no interrupt controller
-is useless, and the GICv2 is obsolete.
+  Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2023-02-21 11:28:31 +0000)
 
-> In order to cover the future requirement, the extension is needed by other boards,
-> the best way I can figure out is to enable the extension in generic path in kvm_init()
-> if the extension is supported by the host kernel. In this way, the unnecessary overhead
-> is introduced for those boards where 'kvm-arm-vgic3' and 'arm-its-kvm' aren't used.
-> The overhead should be very small and acceptable. Note that the host kernel don't know
-> if 'kvm-arm-vgic3' or 'arm-its-kvm' device is needed by the board in kvm_init(), which
-> is the generic path.
+are available in the Git repository at:
 
-We can have a generic hook that happens after board init is
-done, if we want to do non-board-specific stuff that happens
-later. However I suspect that anybody who cares about migration
-performance is likely using a GICv3 at least anyway,
-so "enable always" should be fine.
+  https://repo.or.cz/qemu/armbru.git tags/pull-qapi-2023-02-23
 
-thanks
--- PMM
+for you to fetch changes up to c7b7a7ded9376ad936cfedd843752789ca61bc3b:
+
+  qapi: remove JSON value FIXME (2023-02-23 13:01:45 +0100)
+
+----------------------------------------------------------------
+QAPI patches patches for 2023-02-23
+
+----------------------------------------------------------------
+John Snow (6):
+      qapi: Update flake8 config
+      qapi: update pylint configuration
+      qapi: Add minor typing workaround for 3.6
+      qapi/parser: add QAPIExpression type
+      qapi: remove _JSONObject
+      qapi: remove JSON value FIXME
+
+Markus Armbruster (2):
+      docs/devel/qapi-code-gen: Belatedly update features documentation
+      docs/devel/qapi-code-gen: Fix a missing 'may', clarify SchemaInfo
+
+ docs/devel/qapi-code-gen.rst |  16 +++----
+ scripts/qapi/.flake8         |   3 +-
+ scripts/qapi/expr.py         | 100 ++++++++++++++++---------------------------
+ scripts/qapi/parser.py       |  41 ++++++++++--------
+ scripts/qapi/pylintrc        |   1 +
+ scripts/qapi/schema.py       |  72 +++++++++++++++++--------------
+ 6 files changed, 111 insertions(+), 122 deletions(-)
+
+-- 
+2.39.0
+
 
