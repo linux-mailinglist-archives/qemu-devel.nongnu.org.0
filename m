@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83676A13AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:19:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0524B6A13AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:20:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKrI-00009a-5z; Thu, 23 Feb 2023 18:18:40 -0500
+	id 1pVKsk-0004ux-NH; Thu, 23 Feb 2023 18:20:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKrF-00008L-Su
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:37 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKsi-0004uo-PP
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:20:08 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKrE-0000Vt-CR
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:37 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id t15so12351386wrz.7
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:18:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKsg-0000yA-Jd
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:20:08 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id c18so5621180wmr.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:20:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MU+ruNFcMxjYNRIZZwSLh+qUkPoKgiT+z5IyxNl3xk0=;
- b=pkpnpdSaNx/9vRw7tB+m1weBupRcTLPhaBTE8t5BLaNAqRnJYH5YBmcTzyxMTxtbpi
- opyHGmasbSASO03fqOHPiCQJPTOcFYcnYld/FG3H5I8MSKZzXL7jZDqhjgls8797hyrn
- EPhPyjkaEgo4Tp1ICkFwK5VYfllSEybQ7H4KKq57YnpSmsZdE5Fq4SFHauAgL7DF2Z+Y
- ooLRWlNFk0o7yPfgHuSTogofdGXEqJfIXNSZoPsXUiZd/yanEVTzd94OjooAFQj5ULqL
- xOjZqHv/1jM5z63w0ELnt4WkvWZzquVzBwpnlhgBOkpUf5vsoQHbmeW+2mRDp0zqTlbk
- BY6w==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WqGF690u0B0WCRnxY2IFW+J1axMl5roCM+DMsV+/9ws=;
+ b=Pp+HE3YikA2l4CtqskAlEX5w1YF8T8axpq/UEqbCPENc9LvjIhl2MQtbHVkZzscq+5
+ Gb72MkkXV0p3nH9CdBsTqOAoOCyflDch7ac6dwQdPWyhpaURBKyEoiI0R5j8dYZOpIB/
+ dvK1GFS/GxUllEeHNx0LHiB0GdXs3HiuRSwU3O5FP6SqZ/DrT+dO1joxdj71Zw+Rj6OW
+ JNfUQPEAF5bmmzU4l45AlZLaAQ997dl3uj3UL1lrYR+XS9Loo2D8R+5kliDzMQSOVlQJ
+ 0K05b0NuSS9xrvr8JfFR2t2o3y8dyOSbttDZa/XHNVqT1zDQydJRE11swlj4RFMEBiNW
+ hTyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MU+ruNFcMxjYNRIZZwSLh+qUkPoKgiT+z5IyxNl3xk0=;
- b=k4Dh8oIkvCRHyhUS0XE4iV+J50zEHdkx94OcORM+pMHaxjnktuidtzG+4XkALjt13s
- 0RFpGNeWYF000gqyBsVrYAMQohubmbTdjmRT6DZ1SfLyEmKiXP2JFSaYp9HfosjbiTFJ
- VKqBS3VuEbeuGCcmqevvQU3S4Z/PdmD1VLCJc9RMme28/jh/XsHQfINwDf0VEca90F3Z
- +EgSFe/68UwqlSUcP7bSPpzsP2sehUez9hfb0XDAPbxMBkAASOZ8sJfnlYeVflLVw/kG
- FDnJCtOYFCWy4c/8Z4OSm/v6vy2aq5uYXd71h36QLit+78h5F8fSlerRhCIAyKY3bycM
- bJQg==
-X-Gm-Message-State: AO0yUKXuJUkGdaPMYdTELai5N34kdGUM/VPhmI+S0O2WuBiVohjjc/tm
- PAEsjLuFuXZzinkb4pK2Q+N1bLYKfhknNp/n
-X-Google-Smtp-Source: AK7set+qMAzSVqNbxdDgg96+aO0d+LuSzOLTYjKlgsVIRPNauwIr0PdT2VfcDpe0gIkfX1GOyFvlpg==
-X-Received: by 2002:adf:f292:0:b0:2c7:1b4b:d729 with SMTP id
- k18-20020adff292000000b002c71b4bd729mr553600wro.65.1677194315410; 
- Thu, 23 Feb 2023 15:18:35 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WqGF690u0B0WCRnxY2IFW+J1axMl5roCM+DMsV+/9ws=;
+ b=Gsmyo0dSVhBFPpP1q//TRupkaDbcYdhqRTj42nXr5HSRPKcYiAVAPfXgUImhEmzpRN
+ 9OKsU6ZlSs3sMJpTwne2EqPOvnJ19hS+3Y/huOq0ZJiUq/vqBXWsUIbDaWSfbDtm7asu
+ bmgLyUy7rBGcYLBslEWM5UIfVCoWQqKFLm+pgzcmeLGGFUGlUcm41tPZpumWygc0vhb0
+ 4goy9/gGWvHnkzyNMldGIrOQYW0LIfKXGuwf9DZtDSMPv/b91gD7vstQS9cctWUa05R1
+ Lg35E5LU7UqmeRg2Niss/SurQkKjY98eKVRpsB7Y68l6Ty7LlZ/Jnq+FOaA+waPHEtkT
+ qB4w==
+X-Gm-Message-State: AO0yUKW2cGq1/ROA8xyM1UuFWrLHj8CGXX/97J2F3T6yekmYaEBMc6RG
+ P6X3NRB7g0IRuJSZwvzFvVAKbdkgw+e69IHV
+X-Google-Smtp-Source: AK7set/3wewiEYiMnyuRSDj+fpz2aqiUsDD+sc0d2igJnItZue4a7ONb3A2xNk3lz7yzYPXaKGEsgw==
+X-Received: by 2002:a05:600c:13ca:b0:3e2:9b5:c2c3 with SMTP id
+ e10-20020a05600c13ca00b003e209b5c2c3mr10191370wmg.22.1677194404961; 
+ Thu, 23 Feb 2023 15:20:04 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f5-20020a1c6a05000000b003dfe5190376sm715100wmc.35.2023.02.23.15.18.34
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 15:18:35 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 7/7] dump: Rename x86-specific file as win_dump_x86.c
-Date: Fri, 24 Feb 2023 00:17:55 +0100
-Message-Id: <20230223231755.81633-8-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230223231755.81633-1-philmd@linaro.org>
-References: <20230223231755.81633-1-philmd@linaro.org>
+ n17-20020a05600c4f9100b003e876122dc1sm760732wmq.47.2023.02.23.15.20.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 15:20:04 -0800 (PST)
+Message-ID: <d9c11ba1-a6b2-ad93-7485-4b0953895b90@linaro.org>
+Date: Fri, 24 Feb 2023 00:20:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 1/2] linux-user: Fix unaligned memory access in
+ prlimit64 syscall
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230223231137.186344-1-iii@linux.ibm.com>
+ <20230223231137.186344-2-iii@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230223231137.186344-2-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,42 +94,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-win_dump.c is x86 specific. Rename it as such in case
-someone is willing to add win_dump-aarch64 :)
+On 24/2/23 00:11, Ilya Leoshkevich wrote:
+> target_rlimit64 contains uint64_t fields, so it's 8-byte aligned on
+> some hosts, while some guests may align their respective type on a
+> 4-byte boundary. This may lead to an unaligned access, which is an UB.
+> 
+> Fix by defining the fields as abi_ullong. This makes the host alignment
+> match that of the guest, and lets the compiler know that it should emit
+> code that can deal with the guest alignment.
+> 
+> While at it, also use __get_user() and __put_user() instead of
+> tswap64().
+> 
+> Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>   linux-user/generic/target_resource.h | 4 ++--
+>   linux-user/syscall.c                 | 8 ++++----
+>   2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/linux-user/generic/target_resource.h b/linux-user/generic/target_resource.h
+> index 539d8c46772..37d3eb09b3b 100644
+> --- a/linux-user/generic/target_resource.h
+> +++ b/linux-user/generic/target_resource.h
+> @@ -12,8 +12,8 @@ struct target_rlimit {
+>   };
+>   
+>   struct target_rlimit64 {
+> -    uint64_t rlim_cur;
+> -    uint64_t rlim_max;
+> +    abi_ullong rlim_cur;
+> +    abi_ullong rlim_max;
+>   };
+>   
+>   #define TARGET_RLIM_INFINITY    ((abi_ulong)-1)
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index a6c426d73cf..1f7a272799b 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -12886,8 +12886,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>               if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
+>                   return -TARGET_EFAULT;
+>               }
+> -            rnew.rlim_cur = tswap64(target_rnew->rlim_cur);
+> -            rnew.rlim_max = tswap64(target_rnew->rlim_max);
+> +            __get_user(rnew.rlim_cur, &target_rnew->rlim_cur);
+> +            __get_user(rnew.rlim_max, &target_rnew->rlim_max);
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- dump/meson.build                    | 2 +-
- dump/{win_dump.c => win_dump-x86.c} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename dump/{win_dump.c => win_dump-x86.c} (99%)
-
-diff --git a/dump/meson.build b/dump/meson.build
-index 6ae07e6fed..d899949a73 100644
---- a/dump/meson.build
-+++ b/dump/meson.build
-@@ -2,5 +2,5 @@ softmmu_ss.add(files('dump-hmp-cmds.c'))
- 
- softmmu_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'],
--                if_true: files('win_dump.c'),
-+                if_true: files('win_dump-x86.c'),
-                 if_false: files('win_dump-stub.c'))
-diff --git a/dump/win_dump.c b/dump/win_dump-x86.c
-similarity index 99%
-rename from dump/win_dump.c
-rename to dump/win_dump-x86.c
-index ffeef4b738..5ee9a1d764 100644
---- a/dump/win_dump.c
-+++ b/dump/win_dump-x86.c
-@@ -1,5 +1,5 @@
- /*
-- * Windows crashdump
-+ * Windows crashdump for x86 targets
-  *
-  * Copyright (c) 2018 Virtuozzo International GmbH
-  *
--- 
-2.38.1
+Thanks,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
