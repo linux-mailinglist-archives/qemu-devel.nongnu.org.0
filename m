@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CF86A1147
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B4F6A1162
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:45:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVII6-0006Cq-MW; Thu, 23 Feb 2023 15:34:10 -0500
+	id 1pVIRV-0002ij-25; Thu, 23 Feb 2023 15:43:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pVII4-0006CO-Mj
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:34:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pVII2-0004g0-5O
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:34:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677184445;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=H9hpod/1tfpc6vD/xYecAJueTj1VANzOMlqA/p1KrNo=;
- b=e4FL67DDN5hvw2aOUKQHarA4EcgvnmbvfJddACCZdlIxGjKin/m4nMK0IQMwIH0JBjK5qG
- ukpKxckvLnDS3Qg2giLq3IqIGzSbet1dgMVsLh9PiXcUN5uDIe5Md0scxwv+mOMKCCpabz
- GkoWuVm5cvSfPvk57ySsQkMVfMQ1Orc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-JRdQ-nMUMQq2GHjyxR9q8Q-1; Thu, 23 Feb 2023 15:33:54 -0500
-X-MC-Unique: JRdQ-nMUMQq2GHjyxR9q8Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FFE01C05140;
- Thu, 23 Feb 2023 20:33:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8901B1121314;
- Thu, 23 Feb 2023 20:33:53 +0000 (UTC)
-Date: Thu, 23 Feb 2023 15:33:51 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 00/23] block: Lock the graph, part 2 (BlockDriver
- callbacks)
-Message-ID: <Y/fNr5gQOuLw4W4a@fedora>
-References: <20230203152202.49054-1-kwolf@redhat.com> <Y/VCFcYsqMmEF0zc@fedora>
- <Y/dSgm564nCLaAjx@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVIRS-0002iA-VU
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:43:50 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVIRR-0007PS-Cn
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:43:50 -0500
+Received: by mail-pl1-x635.google.com with SMTP id u14so10581736ple.7
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 12:43:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UMQxhGiSikBJGk1Ku16kdAK/QFcdPMwc//e5bEez4Ag=;
+ b=T9AcEYeYPZRP6BbqRvISij1i+/3BZHZWUL4RNJntUxZn2CyzPrnmlpa/em2aobl6ms
+ k9Jwf0whoexGp2PJ1Lzj8LJxTj9bL/SvoHztY3F4ndwSUwthcJMHzoSJqWwFnDH5BcLo
+ rtf0S4RCmbK2aArg62velP+P/3NW4bOlCd6NNWUdLal6TqQMRAbbcX88O8quD1RTkbVG
+ IkAscCsD9+2COaJVVra+ylx0Vbri+lTRPXOT4a7L/B30oCuFBZ0Pobrt5YEvX7IP07om
+ heMbz49Kg/UDA8jTCQYDIxUUfkn85A/Q23TzhzjhYMYtbIKVTa0/wJ03gqNQh19B9+sB
+ L6ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UMQxhGiSikBJGk1Ku16kdAK/QFcdPMwc//e5bEez4Ag=;
+ b=EOm91SJRCiA7YKV6MM2K0bATU6tVGPTD66cHhQj7gA9U5xim5qMGZP1RgYkdtUZLV6
+ +DSwgWSKceEWfGvny/FmFj63XsxS8Kj1ApFB3AMWuP81pVQLEOHZpdUdjVWSXwRPCliv
+ 3byu4vw3ogXDIV+ZFY+i9PtuOGY19ipZqVVRNQaLIcvjN4K06x3ws/Od74RFQhOhtE6+
+ ZBjQY7jpcS9XAqPQZn0vXTyewCtQN0Y911bmbsR9RROEXRy8CXVCpH7mt5XQ5aUW6hU9
+ hCD8bMmF0gFdB0Cj2HZqcgjA+WJYBGIYcS/kKhok4T7zfVEtr6kgKXhHgOI4QtvkMZ0n
+ Qr/Q==
+X-Gm-Message-State: AO0yUKV7wt1N7o3BcU3DTfD5gTXL/vSPCBjnFj1b0CGZqDuXu7SjEXRK
+ l5ICTWliA6F0qg9x+643lfw6NCk82rb3ZVG8mq8=
+X-Google-Smtp-Source: AK7set97E4V4MX+DGP+36jMp7SJPNANLWEDNI4BdY0+eBkvo5EweHd8trqMyEBtsjK6fElfJFuNybQ==
+X-Received: by 2002:a17:90b:3b83:b0:233:f54a:c21d with SMTP id
+ pc3-20020a17090b3b8300b00233f54ac21dmr13084535pjb.4.1677185027539; 
+ Thu, 23 Feb 2023 12:43:47 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ e187-20020a6369c4000000b004b1fef0bf16sm5992850pgc.73.2023.02.23.12.43.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Feb 2023 12:43:46 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH 00/13] {tcg,aarch64}: Add TLB_CHECK_ALIGNED
+Date: Thu, 23 Feb 2023 10:43:29 -1000
+Message-Id: <20230223204342.1093632-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TlnRbxhxKD7hpIO8"
-Content-Disposition: inline
-In-Reply-To: <Y/dSgm564nCLaAjx@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,97 +86,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Based-on: 20230216025739.1211680-1-richard.henderson@linaro.org
+("[PATCH v2 00/30] tcg: Improve atomicity support")
 
---TlnRbxhxKD7hpIO8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This adds some plumbing to handle an ARM page table corner case.
 
-On Thu, Feb 23, 2023 at 12:48:18PM +0100, Kevin Wolf wrote:
-> Am 21.02.2023 um 23:13 hat Stefan Hajnoczi geschrieben:
-> > On Fri, Feb 03, 2023 at 04:21:39PM +0100, Kevin Wolf wrote:
-> > > After introducing the graph lock in a previous series, this series
-> > > actually starts making widespread use of it.
-> > >=20
-> > > Most of the BlockDriver callbacks access the children list in some wa=
-y,
-> > > so you need to hold the graph lock to call them. The patches in this
-> > > series add the corresponding GRAPH_RDLOCK annotations and take the lo=
-ck
-> > > in places where it doesn't happen yet - all of the bdrv_*() co_wrappe=
-rs
-> > > are already covered, but in particular BlockBackend coroutine_fns sti=
-ll
-> > > need it.
-> > >=20
-> > > There is no particularly good reason why exactly these patches and not
-> > > others are included in the series. I couldn't find a self-contained p=
-art
-> > > that could reasonable be addressed in a single series. So these just
-> > > happen to be patches that are somewhat related (centered around the
-> > > BlockDriver callback theme), are ready and their number looks
-> > > manageable. You will still see some FIXMEs at the end of the series
-> > > that will only be addressed in future patches.
-> >=20
-> > Two things occurred to me:
-> >=20
-> > 1. The graph lock is becoming the new AioContext lock in the sense that
-> > code using the block layer APIs needs to carefully acquire and release
-> > the lock around operations. Why is it necessary to explicitly take the
-> > rdlock in mirror_iteration()?
-> >=20
-> >   + WITH_GRAPH_RDLOCK_GUARD() {
-> >         ret =3D bdrv_block_status_above(source, NULL, offset,
-> >=20
-> > I guess because bdrv_*() APIs are unlocked? The equivalent blk_*() API
-> > would have taken the graph lock internally. Do we want to continue using
-> > bdrv APIs even though it spreads graph locking concerns into block jobs?
->=20
-> The thing that makes it a bit ugly is that block jobs mix bdrv_*() and
-> blk_*() calls. If they only used blk_*() we wouldn't have to take care
-> of locking (but that means that the job code itself must not have a
-> problem with a changing graph!). If they only used bdrv_*(), the
-> function could just take a lock at the start and only temporarily
-> release it around pause points. Both ways would look nicer than what we
-> have now.
->=20
-> > 2. This series touches block drivers like qcow2. Luckily block drivers
-> > just need to annotate their BlockDriver functions to indicate they run
-> > under the rdlock, a lock that the block driver itself doesn't mess with.
-> > It makes me wonder whether there is any point in annotating the
-> > BlockDriver function pointers? It would be simpler if the block drivers
-> > were unaware of the graph lock.
->=20
-> If you're unaware of the graph lock, how do you tell if you can call
-> certain block layer functions that require the lock?
->=20
-> Especially since different BlockDriver callbacks have different rules
-> (some have a reader lock, some have a writer lock, and some may stay
-> unlocked even in the future), it would seem really hard to keep track of
-> this when you don't make it explicit.
+But first, we need to reorg the page table bits to make room,
+and in the process resolve a long-standing FIXME for AdvSIMD.
 
-I discussed this offline with Kevin some more today. While there might
-be opportunities to hide the lock (thereby making it easier), it's not
-easy to do because we don't want to give up TSA static checking. Let's
-put the graph lock in place first and worry about that later.
 
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+r~
 
---TlnRbxhxKD7hpIO8
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Richard Henderson (13):
+  target/sparc: Use tlb_set_page_full
+  accel/tcg: Retain prot flags from tlb_fill
+  accel/tcg: Store some tlb flags in CPUTLBEntryFull
+  accel/tcg: Honor TLB_DISCARD_WRITE in atomic_mmu_lookup
+  softmmu/physmem: Check watchpoints for read+write at once
+  accel/tcg: Trigger watchpoints from atomic_mmu_lookup
+  accel/tcg: Move TLB_WATCHPOINT to TLB_SLOW_FLAGS_MASK
+  target/arm: Support 32-byte alignment in pow2_align
+  exec/memattrs: Remove target_tlb_bit*
+  accel/tcg: Add tlb_fill_flags to CPUTLBEntryFull
+  accel/tcg: Add TLB_CHECK_ALIGNED
+  target/arm: Do memory type alignment check when translation disabled
+  target/arm: Do memory type alignment check when translation enabled
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP3za8ACgkQnKSrs4Gr
-c8iYdQgAoMOdODzlELEFK8mZmMrspLqGssTXKIJYer/JZZeATSbez9/fsobpki3e
-qOrrkoOZFWeBdw+KP4nkdKxA2ZCBUNLtPEx2sZoC/wC8SMfP/sbwq0hn6qwrfH89
-4IAv+FvJGRtHbMWzEwQYectfhsXkYiRez8bngzhzoDRr5SM5iAz77GrR8fFZ64y4
-BCGEaU12Nn7u3J2N90MFpDMTxS16DXwUHvsCCox4uTeiwoKQXo3zdnXInBs5EzQM
-aMPn8qDPsonKhG3S0rVdFpbLQDgYYO4F/5024uKaHNqqp4xIpdgQZ/27bCvUO3pk
-x11Ow49koaFZ+s5BX7bhjpkPHN65gg==
-=qbEQ
------END PGP SIGNATURE-----
+ include/exec/cpu-all.h    |  29 +++++--
+ include/exec/cpu-defs.h   |   9 ++
+ include/exec/memattrs.h   |  12 ---
+ include/hw/core/cpu.h     |   7 +-
+ accel/tcg/cputlb.c        | 171 ++++++++++++++++++++++++++------------
+ softmmu/physmem.c         |  19 +++--
+ target/arm/helper.c       |  36 +++++++-
+ target/arm/ptw.c          |  28 +++++++
+ target/arm/translate.c    |   8 +-
+ target/sparc/mmu_helper.c | 121 ++++++++++++---------------
+ 10 files changed, 278 insertions(+), 162 deletions(-)
 
---TlnRbxhxKD7hpIO8--
+-- 
+2.34.1
 
 
