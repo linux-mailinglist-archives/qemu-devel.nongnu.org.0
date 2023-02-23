@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34556A08CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:45:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0786A08CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:45:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVAx4-0007aj-Q1; Thu, 23 Feb 2023 07:43:58 -0500
+	id 1pVAxB-0007cz-At; Thu, 23 Feb 2023 07:44:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVAx3-0007aO-Cf
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:43:57 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVAx8-0007cJ-Rt
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:44:02 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVAx1-00032v-Ly
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:43:57 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- m25-20020a7bcb99000000b003e7842b75f2so6309209wmi.3
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 04:43:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVAx7-00033d-5i
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:44:02 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id j3so6794312wms.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 04:44:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UieqvLMYtzXamcR/EnTubGkk6CG/pA9dzjTw8XpqXso=;
- b=JJnuX4dTA2N3L180fA0KX5m9j1rbgos4BmjcPIetUoy2apXAg3vVhrkQbsCgYmCr9w
- ciIMPCKSO1vtAuNqpHkxTttzI7Pap3aIV2gE6MeuZ5uIurX9F2bIxCCAkeJn5LtEqCT1
- vhx41Hzx2JEYGcP7E8zSZRKr2YKeLYWTkl9eKqMzUSb6cxz3p3jSaYZoi/3fN9bNQz5W
- amHDqzIL3dbI7/TOSPyT6X5rM5IMxjaxYXQLPaz1bfuaN1xPSY+g5kTUg3qJdrGN5x/o
- 2TFOhXXCcVGSXlYMaYd+vwzPO6z5hbas+rSAeLwRk3BBwCCJsE9JpOLC3eDKRYMJ45yq
- +7Bw==
+ bh=k0k3YaD196s7IoVbwQsB4O8AuR6esyLbrwlewHL7j90=;
+ b=sRoy4p+fHrQvJXNyKOSy93/cUpgZ/obx9agK+QvDmloGvU6kBNDM98yuJDk3+A0cq2
+ J3ctaK6Leg5E4dWPNUxSwU9Ibxp9sZHJcxw/i171wZxGNg1xxvQpt9KInSiJgtVecjQJ
+ dZv75yIBH35s1YYI9bvKI1RXOfApVZp2oWUAHigN+aLYUm72dxesjyfSv0GxPir2HC+2
+ +JPT4GdH0eJ2vSGV03geqhZ1MYi3oAUhMCzVTEKNYtVPvHd26xjy+2rWGv4jmowG0BfB
+ zXZeex51uiQFaZ+qBkQn6Op1nqPtDffswmqLB+GsuPbRNiHnm8XY8hKTavDVZpJIyI7v
+ iqAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UieqvLMYtzXamcR/EnTubGkk6CG/pA9dzjTw8XpqXso=;
- b=shaWSAKB7n8440Znipy/tUP+oj3/W6zhkxgTr8k6AHXjWEQRGaUc4rwPg1SnETg+rr
- IYwKDgA8UBBA8x6yrnurIPI0jxJtXjsgu01e4ZHmgAfzwOukmocNorkkvXBjNSD/iLlo
- 5hkN3FjcBV8xewBg6VHtnXubxt54G7/BOyd4teSz4Y6ahKtFNRCg5ni1Jivc6oE6HJX1
- 2avGROm07lq9rx1+IgJWFuYFPmwtOb2qYIoPQUmuidMc/+HnLyruv1h1ivRj9uCQlws8
- +2PmHHB7kM9o1CQfa3DuNK+arA3HJ0dCkoB+2tu2KvTc1EqwIWXtyzAAVf5HIQsu3d04
- 1tkQ==
-X-Gm-Message-State: AO0yUKUY9zcTOdTxlidSLH7GRIFJExbxqQFVkndHJbmYFjI+nmEPPY1C
- KWp9fpXwdgDNOFklTiLnhNrHAA==
-X-Google-Smtp-Source: AK7set/icR7aIbA1M4q9ppRc2zh3mYQlqNqpPfK4m9efL9x/uHREPpQK4N+Ny+cLxcu3UNbaZmgJAg==
-X-Received: by 2002:a05:600c:1da5:b0:3e2:1dac:b071 with SMTP id
- p37-20020a05600c1da500b003e21dacb071mr10813211wms.13.1677156234252; 
- Thu, 23 Feb 2023 04:43:54 -0800 (PST)
+ bh=k0k3YaD196s7IoVbwQsB4O8AuR6esyLbrwlewHL7j90=;
+ b=rj7zwGknSUIZ+Qq8pqoriNFj3R9c5outTl3c+xUCdTzd6zYHfS9ZZC6hNVbMoN5a0M
+ x/AarXefM0uxpYfZMTtcGQCweXxAI0qLm82Rfe1Rr96nhpqsdPb0QUWluJBQN7iogxBN
+ veySfoCDtwo9N0TwXz7Jd4HZHqs6/rswdbanSd5lBTZUBzA9euOO2SxwL6E6UHYaVFRd
+ 2WdoCdSl3pUBoeBA5+RUOUn0jXdKQIJNRL183HV/XLBhwSfJNR/gJihTS4lG6jqt4zXK
+ eMyiv4wW6K/vpEs+fqp86NR8M+j3eyXDCloCH7oi/tpTvtaG2662xjcEnqk0U5XT/GrR
+ JsrA==
+X-Gm-Message-State: AO0yUKUyqP9ViLVUuCaj/yV9wEmmBX5v38YVYgJqLwG0TxFTXhsfPN2D
+ LrEAI7Q11rp/uZ0Lmjj8Xnbvkw==
+X-Google-Smtp-Source: AK7set+3a1n+y3oRE/0Iyw4dlcpeARVPKgsiqSYXA8b4Yzz8bPhlwv3OMdJU1ZPtvFpF7gDjMT9Fmw==
+X-Received: by 2002:a05:600c:1818:b0:3e8:96d9:579f with SMTP id
+ n24-20020a05600c181800b003e896d9579fmr5312579wmp.40.1677156239870; 
+ Thu, 23 Feb 2023 04:43:59 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- d9-20020a056000114900b002c5584d0e3dsm9976086wrx.24.2023.02.23.04.43.52
+ r1-20020adfdc81000000b002c5503a8d21sm7954749wrj.70.2023.02.23.04.43.58
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 04:43:53 -0800 (PST)
+ Thu, 23 Feb 2023 04:43:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
@@ -65,25 +64,25 @@ Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
  Song Gao <gaosong@loongson.cn>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 2/4] target/i386: Restrict 'qapi-commands-machine.h' to
- system emulation
-Date: Thu, 23 Feb 2023 13:43:38 +0100
-Message-Id: <20230223124340.95367-3-philmd@linaro.org>
+Subject: [PATCH v3 3/4] target/loongarch: Restrict 'qapi-commands-machine.h'
+ to system emulation
+Date: Thu, 23 Feb 2023 13:43:39 +0100
+Message-Id: <20230223124340.95367-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230223124340.95367-1-philmd@linaro.org>
 References: <20230223124340.95367-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,126 +102,116 @@ Since commit a0e61807a3 ("qapi: Remove QMP events and commands from
 user-mode builds") we don't generate the "qapi-commands-machine.h"
 header in a user-emulation-only build.
 
-Guard qmp_query_cpu_definitions() within CONFIG_USER_ONLY; move
-x86_cpu_class_check_missing_features() closer since it is only used
-by this QMP command handler.
+Extract the QMP functions from cpu.c (which is always compiled)
+to the new 'monitor.c' unit (which is only compiled when system
+emulation is selected).
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/i386/cpu.c | 74 +++++++++++++++++++++++++----------------------
- 1 file changed, 39 insertions(+), 35 deletions(-)
+ target/loongarch/cpu.c                | 27 -------------------
+ target/loongarch/loongarch-qmp-cmds.c | 37 +++++++++++++++++++++++++++
+ target/loongarch/meson.build          |  1 +
+ 3 files changed, 38 insertions(+), 27 deletions(-)
+ create mode 100644 target/loongarch/loongarch-qmp-cmds.c
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 4d2b8d0444..c8da082b4f 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -31,11 +31,11 @@
- #include "qapi/error.h"
- #include "qapi/qapi-visit-machine.h"
- #include "qapi/qmp/qerror.h"
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 290ab4d526..4e845ba29b 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -12,7 +12,6 @@
+ #include "qemu/module.h"
+ #include "sysemu/qtest.h"
+ #include "exec/exec-all.h"
 -#include "qapi/qapi-commands-machine-target.h"
- #include "standard-headers/asm-x86/kvm_para.h"
- #include "hw/qdev-properties.h"
- #include "hw/i386/topology.h"
- #ifndef CONFIG_USER_ONLY
-+#include "qapi/qapi-commands-machine-target.h"
- #include "exec/address-spaces.h"
- #include "hw/boards.h"
- #include "hw/i386/sgx-epc.h"
-@@ -4713,40 +4713,6 @@ static void x86_cpu_get_unavailable_features(Object *obj, Visitor *v,
-     visit_type_strList(v, "unavailable-features", &result, errp);
- }
+ #include "cpu.h"
+ #include "internals.h"
+ #include "fpu/softfloat-helpers.h"
+@@ -748,29 +747,3 @@ static const TypeInfo loongarch_cpu_type_infos[] = {
+ };
  
--/* Check for missing features that may prevent the CPU class from
-- * running using the current machine and accelerator.
-- */
--static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
--                                                 strList **list)
+ DEFINE_TYPES(loongarch_cpu_type_infos)
+-
+-static void loongarch_cpu_add_definition(gpointer data, gpointer user_data)
 -{
--    strList **tail = list;
--    X86CPU *xc;
--    Error *err = NULL;
+-    ObjectClass *oc = data;
+-    CpuDefinitionInfoList **cpu_list = user_data;
+-    CpuDefinitionInfo *info = g_new0(CpuDefinitionInfo, 1);
+-    const char *typename = object_class_get_name(oc);
 -
--    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
--        QAPI_LIST_APPEND(tail, g_strdup("kvm"));
--        return;
--    }
+-    info->name = g_strndup(typename,
+-                           strlen(typename) - strlen("-" TYPE_LOONGARCH_CPU));
+-    info->q_typename = g_strdup(typename);
 -
--    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
--
--    x86_cpu_expand_features(xc, &err);
--    if (err) {
--        /* Errors at x86_cpu_expand_features should never happen,
--         * but in case it does, just report the model as not
--         * runnable at all using the "type" property.
--         */
--        QAPI_LIST_APPEND(tail, g_strdup("type"));
--        error_free(err);
--    }
--
--    x86_cpu_filter_features(xc, false);
--
--    x86_cpu_list_feature_names(xc->filtered_features, tail);
--
--    object_unref(OBJECT(xc));
+-    QAPI_LIST_PREPEND(*cpu_list, info);
 -}
 -
- /* Print all cpuid feature names in featureset
-  */
- static void listflags(GList *features)
-@@ -4875,6 +4841,42 @@ void x86_cpu_list(void)
-     g_list_free(names);
- }
- 
-+#ifndef CONFIG_USER_ONLY
-+
-+/* Check for missing features that may prevent the CPU class from
-+ * running using the current machine and accelerator.
+-CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+-{
+-    CpuDefinitionInfoList *cpu_list = NULL;
+-    GSList *list;
+-
+-    list = object_class_get_list(TYPE_LOONGARCH_CPU, false);
+-    g_slist_foreach(list, loongarch_cpu_add_definition, &cpu_list);
+-    g_slist_free(list);
+-
+-    return cpu_list;
+-}
+diff --git a/target/loongarch/loongarch-qmp-cmds.c b/target/loongarch/loongarch-qmp-cmds.c
+new file mode 100644
+index 0000000000..6c25957881
+--- /dev/null
++++ b/target/loongarch/loongarch-qmp-cmds.c
+@@ -0,0 +1,37 @@
++/*
++ * QEMU LoongArch CPU (monitor definitions)
++ *
++ * SPDX-FileCopyrightText: 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + */
-+static void x86_cpu_class_check_missing_features(X86CPUClass *xcc,
-+                                                 strList **list)
++
++#include "qemu/osdep.h"
++#include "qapi/qapi-commands-machine-target.h"
++#include "cpu.h"
++
++static void loongarch_cpu_add_definition(gpointer data, gpointer user_data)
 +{
-+    strList **tail = list;
-+    X86CPU *xc;
-+    Error *err = NULL;
++    ObjectClass *oc = data;
++    CpuDefinitionInfoList **cpu_list = user_data;
++    CpuDefinitionInfo *info = g_new0(CpuDefinitionInfo, 1);
++    const char *typename = object_class_get_name(oc);
 +
-+    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
-+        QAPI_LIST_APPEND(tail, g_strdup("kvm"));
-+        return;
-+    }
++    info->name = g_strndup(typename,
++                           strlen(typename) - strlen("-" TYPE_LOONGARCH_CPU));
++    info->q_typename = g_strdup(typename);
 +
-+    xc = X86_CPU(object_new_with_class(OBJECT_CLASS(xcc)));
-+
-+    x86_cpu_expand_features(xc, &err);
-+    if (err) {
-+        /* Errors at x86_cpu_expand_features should never happen,
-+         * but in case it does, just report the model as not
-+         * runnable at all using the "type" property.
-+         */
-+        QAPI_LIST_APPEND(tail, g_strdup("type"));
-+        error_free(err);
-+    }
-+
-+    x86_cpu_filter_features(xc, false);
-+
-+    x86_cpu_list_feature_names(xc->filtered_features, tail);
-+
-+    object_unref(OBJECT(xc));
++    QAPI_LIST_PREPEND(*cpu_list, info);
 +}
 +
- static void x86_cpu_definition_entry(gpointer data, gpointer user_data)
- {
-     ObjectClass *oc = data;
-@@ -4915,6 +4917,8 @@ CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
-     return cpu_list;
- }
- 
-+#endif /* !CONFIG_USER_ONLY */
++CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
++{
++    CpuDefinitionInfoList *cpu_list = NULL;
++    GSList *list;
 +
- uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-                                             bool migratable_only)
- {
++    list = object_class_get_list(TYPE_LOONGARCH_CPU, false);
++    g_slist_foreach(list, loongarch_cpu_add_definition, &cpu_list);
++    g_slist_free(list);
++
++    return cpu_list;
++}
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 690633969f..9293a8ab78 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -16,6 +16,7 @@ loongarch_tcg_ss.add(zlib)
+ 
+ loongarch_softmmu_ss = ss.source_set()
+ loongarch_softmmu_ss.add(files(
++  'loongarch-qmp-cmds.c',
+   'machine.c',
+   'tlb_helper.c',
+   'constant_timer.c',
 -- 
 2.38.1
 
