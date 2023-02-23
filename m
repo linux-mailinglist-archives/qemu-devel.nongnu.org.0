@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0524B6A13AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:20:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC48B6A13B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:22:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKsk-0004ux-NH; Thu, 23 Feb 2023 18:20:10 -0500
+	id 1pVKuu-0005l6-IC; Thu, 23 Feb 2023 18:22:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKsi-0004uo-PP
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:20:08 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKus-0005kY-Hp
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:22:22 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKsg-0000yA-Jd
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:20:08 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id c18so5621180wmr.3
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:20:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKuq-0001eU-M3
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:22:22 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id bw19so1616168wrb.13
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:22:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WqGF690u0B0WCRnxY2IFW+J1axMl5roCM+DMsV+/9ws=;
- b=Pp+HE3YikA2l4CtqskAlEX5w1YF8T8axpq/UEqbCPENc9LvjIhl2MQtbHVkZzscq+5
- Gb72MkkXV0p3nH9CdBsTqOAoOCyflDch7ac6dwQdPWyhpaURBKyEoiI0R5j8dYZOpIB/
- dvK1GFS/GxUllEeHNx0LHiB0GdXs3HiuRSwU3O5FP6SqZ/DrT+dO1joxdj71Zw+Rj6OW
- JNfUQPEAF5bmmzU4l45AlZLaAQ997dl3uj3UL1lrYR+XS9Loo2D8R+5kliDzMQSOVlQJ
- 0K05b0NuSS9xrvr8JfFR2t2o3y8dyOSbttDZa/XHNVqT1zDQydJRE11swlj4RFMEBiNW
- hTyA==
+ bh=TnfgXFouRjSyBUE1Cgw64cctFYm369u2rVGcZHiFkzE=;
+ b=Elt7j5civmiaEAEm1MnJe7hZ3PWH5dlzbB6zru7ZzFz3eBAbkZa8zNqYOPs3Q7y8vS
+ TVTiBGQM0Np/3sQic3BqwJQipHwDfJ0Dy+CGxgDkmVqjqMLE2HtvRdUZ5NabNJuXLU66
+ mMIDQ0bxvDX4co1viGwcEeu2nKPlaKkZjhToDX0POWdKjygXjJCR3U8D9mL6Npcjz3kl
+ GTnDtoAcJdvysYusDSJoCRw0NO8vVRU4w5J/uefjoefHKIUR3Lju9kuU3CXBOiXkDfA8
+ 5olEbfCQBoFpq3j/FCxINSjNcJkOJJYap+HOIlG/zsqmMDv5A9shqYkd7dx0nQt2/c8B
+ OSyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WqGF690u0B0WCRnxY2IFW+J1axMl5roCM+DMsV+/9ws=;
- b=Gsmyo0dSVhBFPpP1q//TRupkaDbcYdhqRTj42nXr5HSRPKcYiAVAPfXgUImhEmzpRN
- 9OKsU6ZlSs3sMJpTwne2EqPOvnJ19hS+3Y/huOq0ZJiUq/vqBXWsUIbDaWSfbDtm7asu
- bmgLyUy7rBGcYLBslEWM5UIfVCoWQqKFLm+pgzcmeLGGFUGlUcm41tPZpumWygc0vhb0
- 4goy9/gGWvHnkzyNMldGIrOQYW0LIfKXGuwf9DZtDSMPv/b91gD7vstQS9cctWUa05R1
- Lg35E5LU7UqmeRg2Niss/SurQkKjY98eKVRpsB7Y68l6Ty7LlZ/Jnq+FOaA+waPHEtkT
- qB4w==
-X-Gm-Message-State: AO0yUKW2cGq1/ROA8xyM1UuFWrLHj8CGXX/97J2F3T6yekmYaEBMc6RG
- P6X3NRB7g0IRuJSZwvzFvVAKbdkgw+e69IHV
-X-Google-Smtp-Source: AK7set/3wewiEYiMnyuRSDj+fpz2aqiUsDD+sc0d2igJnItZue4a7ONb3A2xNk3lz7yzYPXaKGEsgw==
-X-Received: by 2002:a05:600c:13ca:b0:3e2:9b5:c2c3 with SMTP id
- e10-20020a05600c13ca00b003e209b5c2c3mr10191370wmg.22.1677194404961; 
- Thu, 23 Feb 2023 15:20:04 -0800 (PST)
+ bh=TnfgXFouRjSyBUE1Cgw64cctFYm369u2rVGcZHiFkzE=;
+ b=QG4q8/tzCtrc/coXsiQo2inbFckCsybl0w5Swe57qT58omU8LlVh28Tg4biQTpB2tp
+ 2dnm5Wn8F3Owfr99zhWFHRvWkrE/Bnf2GQM3Opg7kPqWvLxKZ8950aQehJ0g6ElzQN5f
+ nMfhzcG7CWs4LthjIz/NKp64BBhhR/MErG7RBhZiGh5bFetLvqhof/OvESXVToNdogHm
+ Ea1S/ZJ98nWdFNIeBhyNFL8Y7AgQHM7VUAolgE+DkM8zAcqU7xoaInPwpYe1Wa12fonM
+ sckQWcN4GQlrbUcJnqGY5oEfR5LFqaAsH94Vet/5n8eUVoVS4Y9lFdZTep3e1cBNx7yn
+ 1j6A==
+X-Gm-Message-State: AO0yUKVz+ACps2odSWwiX/LztULiaci6Wdp2oIP2NGSI8Tz5KHF2hMxC
+ UVSZmh9AIRwH9ELBoSej6UXjWg==
+X-Google-Smtp-Source: AK7set+GMjFYZPnUBEkiuUABMwVp9fX1gayCwprrDFUll86ghhBShlth37yDH4I7aWCUUIw0aFVakw==
+X-Received: by 2002:adf:cd12:0:b0:2c6:5972:cd0d with SMTP id
+ w18-20020adfcd12000000b002c65972cd0dmr11846823wrm.3.1677194523519; 
+ Thu, 23 Feb 2023 15:22:03 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n17-20020a05600c4f9100b003e876122dc1sm760732wmq.47.2023.02.23.15.20.03
+ w23-20020a1cf617000000b003dc5b59ed7asm754563wmc.11.2023.02.23.15.22.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 15:20:04 -0800 (PST)
-Message-ID: <d9c11ba1-a6b2-ad93-7485-4b0953895b90@linaro.org>
-Date: Fri, 24 Feb 2023 00:20:02 +0100
+ Thu, 23 Feb 2023 15:22:03 -0800 (PST)
+Message-ID: <79c0ce60-5a98-b456-d045-7dd09a91a431@linaro.org>
+Date: Fri, 24 Feb 2023 00:22:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/2] linux-user: Fix unaligned memory access in
- prlimit64 syscall
+Subject: Re: [RFC PATCH] target/arm: properly document FEAT_CRC32
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230223231137.186344-1-iii@linux.ibm.com>
- <20230223231137.186344-2-iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+References: <20230222110104.3996971-1-alex.bennee@linaro.org>
+ <dddae7d3-4c18-04d3-198b-803b4c128de1@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230223231137.186344-2-iii@linux.ibm.com>
+In-Reply-To: <dddae7d3-4c18-04d3-198b-803b4c128de1@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -94,55 +92,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/2/23 00:11, Ilya Leoshkevich wrote:
-> target_rlimit64 contains uint64_t fields, so it's 8-byte aligned on
-> some hosts, while some guests may align their respective type on a
-> 4-byte boundary. This may lead to an unaligned access, which is an UB.
-> 
-> Fix by defining the fields as abi_ullong. This makes the host alignment
-> match that of the guest, and lets the compiler know that it should emit
-> code that can deal with the guest alignment.
-> 
-> While at it, also use __get_user() and __put_user() instead of
-> tswap64().
-> 
-> Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   linux-user/generic/target_resource.h | 4 ++--
->   linux-user/syscall.c                 | 8 ++++----
->   2 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/linux-user/generic/target_resource.h b/linux-user/generic/target_resource.h
-> index 539d8c46772..37d3eb09b3b 100644
-> --- a/linux-user/generic/target_resource.h
-> +++ b/linux-user/generic/target_resource.h
-> @@ -12,8 +12,8 @@ struct target_rlimit {
->   };
->   
->   struct target_rlimit64 {
-> -    uint64_t rlim_cur;
-> -    uint64_t rlim_max;
-> +    abi_ullong rlim_cur;
-> +    abi_ullong rlim_max;
->   };
->   
->   #define TARGET_RLIM_INFINITY    ((abi_ulong)-1)
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index a6c426d73cf..1f7a272799b 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -12886,8 +12886,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->               if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
->                   return -TARGET_EFAULT;
->               }
-> -            rnew.rlim_cur = tswap64(target_rnew->rlim_cur);
-> -            rnew.rlim_max = tswap64(target_rnew->rlim_max);
-> +            __get_user(rnew.rlim_cur, &target_rnew->rlim_cur);
-> +            __get_user(rnew.rlim_max, &target_rnew->rlim_max);
+On 24/2/23 00:01, Richard Henderson wrote:
+> On 2/22/23 01:01, Alex Bennée wrote:
+>> This is a mandatory feature for Armv8.1 architectures but we don't
+>> state the feature clearly in our emulation list. While checking verify
+>> our cortex-a76 model matches up with the current TRM by breaking out
+>> the long form isar into a more modern readable FIELD_DP code.
+>>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> ---
+>>   docs/system/arm/emulation.rst |  1 +
+>>   target/arm/cpu64.c            | 29 ++++++++++++++++++++++++++---
+>>   target/arm/cpu_tcg.c          |  2 +-
+>>   3 files changed, 28 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/docs/system/arm/emulation.rst 
+>> b/docs/system/arm/emulation.rst
+>> index 2062d71261..2c4fde5eef 100644
+>> --- a/docs/system/arm/emulation.rst
+>> +++ b/docs/system/arm/emulation.rst
+>> @@ -14,6 +14,7 @@ the following architecture extensions:
+>>   - FEAT_BBM at level 2 (Translation table break-before-make levels)
+>>   - FEAT_BF16 (AArch64 BFloat16 instructions)
+>>   - FEAT_BTI (Branch Target Identification)
+>> +- FEAT_CRC32 (CRC32 instruction)
+>>   - FEAT_CSV2 (Cache speculation variant 2)
+>>   - FEAT_CSV2_1p1 (Cache speculation variant 2, version 1.1)
+>>   - FEAT_CSV2_1p2 (Cache speculation variant 2, version 1.2)
+>> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+>> index 4066950da1..12e1a532ab 100644
+>> --- a/target/arm/cpu64.c
+>> +++ b/target/arm/cpu64.c
+>> @@ -912,6 +912,8 @@ static void aarch64_a72_initfn(Object *obj)
+>>   static void aarch64_a76_initfn(Object *obj)
+>>   {
+>>       ARMCPU *cpu = ARM_CPU(obj);
+>> +    uint64_t t;
+>> +    uint32_t u;
+>>       cpu->dtb_compatible = "arm,cortex-a76";
+>>       set_feature(&cpu->env, ARM_FEATURE_V8);
+>> @@ -928,7 +930,18 @@ static void aarch64_a76_initfn(Object *obj)
+>>       cpu->ctr = 0x8444C004;
+>>       cpu->dcz_blocksize = 4;
+>>       cpu->isar.id_aa64dfr0  = 0x0000000010305408ull;
+>> -    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
+>> +
+>> +    /* per r4p1 of the Cryptographic Extension TRM */
+>> +    t = cpu->isar.id_aa64isar0;
+>> +    t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2);      /* FEAT_PMULL */
+>> +    t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);     /* FEAT_SHA1 */
+>> +    t = FIELD_DP64(t, ID_AA64ISAR0, SHA2, 1);     /* FEAT_SHA512 */
+>> +    t = FIELD_DP64(t, ID_AA64ISAR0, CRC32, 1);    /* FEAT_CRC32 */
+>> +    t = FIELD_DP64(t, ID_AA64ISAR0, ATOMIC, 2);   /* FEAT_LSE */
+>> +    t = FIELD_DP64(t, ID_AA64ISAR0, RDM, 1);      /* FEAT_RDM */
+>> +    t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);       /* FEAT_DotProd */
 
-Thanks,
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Maybe:
+
+         assert(t == 0x0000100010211120ull);
+
+>> +    cpu->isar.id_aa64isar0 = t;
+> 
+> Ok, so, this might be helpful for grepping, but it's not helpful for 
+> reading the documentation, which on page B2-137 uses hex.
+> 
+> 
+> r~
+> 
 
 
