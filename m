@@ -2,97 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4D06A06C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 11:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0738E6A06C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 11:53:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV9Cn-0007pj-1B; Thu, 23 Feb 2023 05:52:05 -0500
+	id 1pV9EL-0005Ps-4E; Thu, 23 Feb 2023 05:53:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pV9Cj-0007nj-Kx
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 05:52:02 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pV9Ch-0003hp-OE
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 05:52:01 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id pt11so13060310pjb.1
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 02:51:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Hv5tCUB+3kZD3O4QWG+iy3RZzIk2yVfL+olNKinEG8g=;
- b=gkvLfi4p+tXdJsIef8oDZ/TagcQPqm8obPnteMb+14Pjkxqr5M98U3ATKdYbTLbjR3
- VJxtUBuWnax+KJ2s9t9Jcymombuk3zcT3EhXzP5v8jB2SeLWQV4u8mYUUzxF4T8Lal/J
- ZXdWjd3TsmttBI8jdjMPrjGIC46pZOiRMZnk0yU8b2SU92s32mafj5hTIXgHSAAv6/YW
- VQJQjegCA3GC9dpZci29YVWbU3AuuepUp6bMhiiNFQyZ1N+KVY8jDUXsALWt8q7UIPTN
- AWXY9OuGziVEpEXcsigGJEwOTvw8ATr9DS2srgKbWzZYb3NdzZ0Hauxelz/RAKB8ShIo
- rUsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Hv5tCUB+3kZD3O4QWG+iy3RZzIk2yVfL+olNKinEG8g=;
- b=BE1llZXvTtF6mdO2bzzwobIo9iVHfmawrsWSbAmth7f1YODWEmr0igvX5XNpgxy84H
- L4hc2lY+tSzQr05NV/Ok4UhvOxwoWXgC0JtYYSq9yF/Uwj60zzNiD9rkqZNQ3knsX3M6
- go+vBWytXQziMLjtw2XW+RbDKQilm5y904qndUHqHqJWnqAmVohlsGZnb1ob5j3mypjm
- YLxCV3dDosYs6Dym+btD8T7KUkaoIq9G6N8yEiJqTs/knQ/yPF/mDPx675A7nRUOSKi2
- zaSFNKonQshdV17U+z5pnTrL0iC63f9ixZdjRGHLz1B2wajTQAOKhjuSDR+VxXyK+43E
- OxKQ==
-X-Gm-Message-State: AO0yUKXQnrnkt3bFkl+xXsNXBxJwt/yNVLhfuclHk2UTU6McALaCr9J1
- 45aVYb2CZjT2HF00t2O3VQyafA==
-X-Google-Smtp-Source: AK7set8FFrm18nldU8e4RafVo8+fojtjrUSlxugLLB0Xdnzf1ONDTk0kIZtmnPN7P3CrlK+6XrSMsg==
-X-Received: by 2002:a17:902:c405:b0:19a:703d:c1cb with SMTP id
- k5-20020a170902c40500b0019a703dc1cbmr12905612plk.11.1677149519114; 
- Thu, 23 Feb 2023 02:51:59 -0800 (PST)
-Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- k184-20020a6384c1000000b004fb26a80875sm4477692pgd.22.2023.02.23.02.51.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 02:51:58 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1pV9EH-00050Z-47; Thu, 23 Feb 2023 05:53:37 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1pV9EE-00044n-Tm; Thu, 23 Feb 2023 05:53:36 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E7B7F616BD;
+ Thu, 23 Feb 2023 10:53:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0D7BC433D2;
+ Thu, 23 Feb 2023 10:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1677149604;
+ bh=4ElqaZOtVO/Q4aOwdIjJ/5dEgXMMGUtQbm9GfpQMHYk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=M+zMr+3r6Z8IDZr9mrkyxyKk4I05FAbL/sOD1lnwoU+fLWNAby9Pwc7Yt0UftgSen
+ RR6SM4jpHScpalPN6qOtZltPRZS2V6LFXWMYcCAgV2nyXQ1UaWr3AktnsNhXojtuUl
+ NEu948OQWa/scIUlwZNVKBlkFTv3Rufclwgf2GBAhu/yoUHkEHz1SOuHGGw7YXfvDA
+ tGwaDjWJCd7LFZxYA8yaAKY97gJK/symBCQ5X8yg4wQ2YdOq25Cc1feDtIOI5wjusH
+ lQhirjTXIy+Yw8bRqABOvtIl6PRP4qvDi+Xiagfw7+gFaa0DeW+ivgGUiqiikltV9m
+ uJFVv1JfD8Q+Q==
+From: Ard Biesheuvel <ardb@kernel.org>
+To: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, Ard Biesheuvel <ardb@kernel.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
- Yan Vugenfirer <yvugenfi@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Gal Hammer <gal.hammer@sap.com>, Akihiko Odaki <akihiko.odaki@daynix.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PATCH v9 9/9] docs/system/devices/igb: Add igb documentation
-Date: Thu, 23 Feb 2023 19:50:57 +0900
-Message-Id: <20230223105057.144309-10-akihiko.odaki@daynix.com>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [RFC PATCH] hw: arm: Support direct boot for Linux/arm64 EFI zboot
+ images
+Date: Thu, 23 Feb 2023 11:53:08 +0100
+Message-Id: <20230223105308.559632-1-ardb@kernel.org>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230223105057.144309-1-akihiko.odaki@daynix.com>
-References: <20230223105057.144309-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=ardb@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,113 +72,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
----
- MAINTAINERS                      |  1 +
- docs/system/device-emulation.rst |  1 +
- docs/system/devices/igb.rst      | 71 ++++++++++++++++++++++++++++++++
- 3 files changed, 73 insertions(+)
- create mode 100644 docs/system/devices/igb.rst
+Fedora 39 will ship its arm64 kernels in the new generic EFI zboot
+format, using gzip compression for the payload.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 410c871cf1..ebac5fe18c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2228,6 +2228,7 @@ F: tests/qtest/libqos/e1000e.*
- igb
- M: Akihiko Odaki <akihiko.odaki@daynix.com>
- S: Maintained
-+F: docs/system/devices/igb.rst
- F: hw/net/igb*
- F: tests/avocado/igb.py
- F: tests/qtest/igb-test.c
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 0506006056..c1b1934e3d 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -93,3 +93,4 @@ Emulated Devices
-    devices/virtio-pmem.rst
-    devices/vhost-user-rng.rst
-    devices/canokey.rst
-+   devices/igb.rst
-diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
-new file mode 100644
-index 0000000000..70edadd574
---- /dev/null
-+++ b/docs/system/devices/igb.rst
-@@ -0,0 +1,71 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+.. _igb:
+For doing EFI boot in QEMU, this is completely transparent, as the
+firmware or bootloader will take care of this. However, for direct
+kernel boot without firmware, we will lose the ability to boot such
+distro kernels unless we deal with the new format directly.
+
+EFI zboot images contain metadata in the header regarding the placement
+of the compressed payload inside the image, and the type of compression
+used. This means we can wire up the existing gzip support without too
+much hassle, by parsing the header and grabbing the payload from inside
+the loaded zboot image.
+
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+---
+ hw/arm/boot.c       |  4 ++
+ hw/core/loader.c    | 64 ++++++++++++++++++++
+ include/hw/loader.h |  2 +
+ 3 files changed, 70 insertions(+)
+
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 3d7d11f782feb5da..dc10a0788227443e 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -924,6 +924,10 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
+         size = len;
+     }
+ 
++    if (unpack_efi_zboot_image(&buffer, &size)) {
++        return -1;
++    }
 +
-+igb
-+---
+     /* check the arm64 magic header value -- very old kernels may not have it */
+     if (size > ARM64_MAGIC_OFFSET + 4 &&
+         memcmp(buffer + ARM64_MAGIC_OFFSET, "ARM\x64", 4) == 0) {
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index 173f8f67f6e3e79c..7e7f49261a309012 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -857,6 +857,70 @@ ssize_t load_image_gzipped(const char *filename, hwaddr addr, uint64_t max_sz)
+     return bytes;
+ }
+ 
++// The Linux header magic number for a EFI PE/COFF
++// image targetting an unspecified architecture.
++#define LINUX_EFI_PE_MAGIC        "\xcd\x23\x82\x81"
 +
-+igb is a family of Intel's gigabit ethernet controllers. In QEMU, 82576
-+emulation is implemented in particular. Its datasheet is available at [1]_.
++struct linux_efi_zboot_header {
++    uint8_t     msdos_magic[4];         // PE/COFF 'MZ' magic number
++    uint8_t     zimg[4];                // "zimg" for Linux EFI zboot images
++    uint32_t    payload_offset;         // LE offset to the compressed payload
++    uint32_t    payload_size;           // LE size of the compressed payload
++    uint8_t     reserved[8];
++    char        compression_type[32];   // Compression type, e.g., "gzip"
++    uint8_t     linux_magic[4];         // Linux header magic
++    uint32_t    pe_header_offset;       // LE offset to the PE header
++};
 +
-+This implementation is expected to be useful to test SR-IOV networking without
-+requiring physical hardware.
++/*
++ * Check whether *buffer points to a Linux EFI zboot image in memory.
++ *
++ * If it does, attempt to decompress it to a new buffer, and free the old one.
++ * If any of this fails, return an error to the caller.
++ *
++ * If the image is not a Linux EFI zboot image, do nothing and return success.
++ */
++int unpack_efi_zboot_image(uint8_t **buffer, int *size)
++{
++    const struct linux_efi_zboot_header *header;
++    uint8_t *data = NULL;
++    ssize_t bytes;
 +
-+Limitations
-+===========
++    /* ignore if this is too small to be a EFI zboot image */
++    if (*size < sizeof(*header)) {
++        return 0;
++    }
 +
-+This igb implementation was tested with Linux Test Project [2]_ and Windows HLK
-+[3]_ during the initial development. The command used when testing with LTP is:
++    header = (struct linux_efi_zboot_header *)*buffer;
 +
-+.. code-block:: shell
++    /* ignore if this is not a Linux EFI zboot image */
++    if (memcmp(&header->zimg, "zimg", 4) != 0 ||
++        memcmp(&header->linux_magic, LINUX_EFI_PE_MAGIC, 4) != 0) {
++        return 0;
++    }
 +
-+  network.sh -6mta
++    if (strncmp(header->compression_type, "gzip", 4) != 0) {
++        fprintf(stderr, "unable to handle EFI zboot image with \"%s\" compression\n",
++                header->compression_type);
++        return -1;
++    }
 +
-+Be aware that this implementation lacks many functionalities available with the
-+actual hardware, and you may experience various failures if you try to use it
-+with a different operating system other than Linux and Windows or if you try
-+functionalities not covered by the tests.
++    data = g_malloc(LOAD_IMAGE_MAX_GUNZIP_BYTES);
++    bytes = gunzip(data, LOAD_IMAGE_MAX_GUNZIP_BYTES,
++                   *buffer + le32_to_cpu(header->payload_offset),
++                   le32_to_cpu(header->payload_size));
++    if (bytes < 0) {
++        fprintf(stderr, "failed to decompress EFI zboot image\n");
++        g_free(data);
++        return -1;
++    }
 +
-+Using igb
-+=========
++    g_free(*buffer);
++    *buffer = g_realloc(data, bytes);
++    *size = bytes;
++    return 0;
++}
 +
-+Using igb should be nothing different from using another network device. See
-+:ref:`pcsys_005fnetwork` in general.
+ /*
+  * Functions for reboot-persistent memory regions.
+  *  - used for vga bios and option roms.
+diff --git a/include/hw/loader.h b/include/hw/loader.h
+index 70248e0da77908c1..d1092c8bfbd903c7 100644
+--- a/include/hw/loader.h
++++ b/include/hw/loader.h
+@@ -86,6 +86,8 @@ ssize_t load_image_gzipped_buffer(const char *filename, uint64_t max_sz,
+                                   uint8_t **buffer);
+ ssize_t load_image_gzipped(const char *filename, hwaddr addr, uint64_t max_sz);
+ 
++int unpack_efi_zboot_image(uint8_t **buffer, int *size);
 +
-+However, you may also need to perform additional steps to activate SR-IOV
-+feature on your guest. For Linux, refer to [4]_.
-+
-+Developing igb
-+==============
-+
-+igb is the successor of e1000e, and e1000e is the successor of e1000 in turn.
-+As these devices are very similar, if you make a change for igb and the same
-+change can be applied to e1000e and e1000, please do so.
-+
-+Please do not forget to run tests before submitting a change. As tests included
-+in QEMU is very minimal, run some application which is likely to be affected by
-+the change to confirm it works in an integrated system.
-+
-+Testing igb
-+===========
-+
-+A qtest of the basic functionality is available. Run the below at the build
-+directory:
-+
-+.. code-block:: shell
-+
-+  meson test qtest-x86_64/qos-test
-+
-+ethtool can test register accesses, interrupts, etc. It is automated as an
-+Avocado test and can be ran with the following command:
-+
-+.. code:: shell
-+
-+  make check-avocado AVOCADO_TESTS=tests/avocado/igb.py
-+
-+References
-+==========
-+
-+.. [1] https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eb-gigabit-ethernet-controller-datasheet.pdf
-+.. [2] https://github.com/linux-test-project/ltp
-+.. [3] https://learn.microsoft.com/en-us/windows-hardware/test/hlk/
-+.. [4] https://docs.kernel.org/PCI/pci-iov-howto.html
+ #define ELF_LOAD_FAILED       -1
+ #define ELF_LOAD_NOT_ELF      -2
+ #define ELF_LOAD_WRONG_ARCH   -3
 -- 
 2.39.1
 
