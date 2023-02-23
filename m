@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FFA6A06BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 11:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD276A06B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 11:52:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV9CG-0007AC-AN; Thu, 23 Feb 2023 05:51:32 -0500
+	id 1pV9CS-0007CT-Ku; Thu, 23 Feb 2023 05:51:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pV9CE-00079a-CJ
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 05:51:30 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1pV9CK-0007BS-Ck
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 05:51:36 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pV9C9-0003fK-AR
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 05:51:30 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id s5so12237333plg.0
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 02:51:24 -0800 (PST)
+ id 1pV9CF-0003hp-Jk
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 05:51:36 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id pt11so13058913pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 02:51:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZRXfmlss9KsC0+asg+KeDZ3lNKCVcYJFW+Q6g2jUwK4=;
- b=WsB38YvpzdruBE4Mzi+71kN9I6knh7mfmY4+turpHEAT4p3xBgGP88N2YdtJ4j0N9s
- a0JDCHtVdrsKC9i4PvEsN9kM/0gIOVL02KbikINwG1bTcTQ5mHcQoQHO6Fm4U/bsTBZT
- 6yOm2NyCqqFiSk/2nps9rFfhqoRlisMPRiIjsBDby5mc2LCprCc3IIdVN0Lz1pxr9PqE
- akBvy/+0p44YF1GB87yT4SS781GjOO0rlhEmE2RC+4+aFr5Vjz4Bmq5vV90EntcLH2/F
- tzvhNVUHhHT4L9HpUZWuvH9km9jKlFCq4N1qPDWwPhApSovDR7QJ4rTBVEkzYMgc9B5b
- xm6Q==
+ bh=LEzO3G12hLTynlnoC+ATVDTqs1gCTHegcxvLsCmApto=;
+ b=Ok5uHqt95VF46LK8oL4Sx4QCI56Q5/yRW74gQ6XQtAAykMZmcf29STJT0YRo2PhE27
+ paVg7d2I0sBeSEqJxahM3pPxHXgJ7xm+v73yvmyJCX6iE/1NtTi2aOh5g/W3kmA4PXYq
+ RlO697FtN01TqxCXiwS+CfdRMlPPLNfmlxCYuas/UPuGGK00PUmA9SMZ0rNt7FsmnWc/
+ kdrtYjgki80tdXrBfBi7vqBoTlqUXod8+JjvObuf7ZeNmnBEUXIuAHuisx1SrgQTzWKs
+ yUrmh1OKBdst6yrpUiCfI6rIDNPBFj2nlWiWDqBb99ofZHX0rJfu0lARiAONFZoMfDBV
+ s5kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZRXfmlss9KsC0+asg+KeDZ3lNKCVcYJFW+Q6g2jUwK4=;
- b=dtF+ud7CKXys6vLQ9waU4RIGq5vDcaVdoljBAlOe9m6iWFId3WkPR3PaG+9J9wIClH
- 0UPdcdRlfzfIzpZFJVbuosGmPp+Na8cB1wn8DBDgMTHu9V2XQ//yH0oF9xBjTqfcAKH2
- RAWQ3WgT4nLcZyUh8At35/scPAUsyPQSYPyCa8Wx+WjACOnZ9ryC88R4AoPU+5NhCTma
- br1IYk6wjXpaY4M70vhEWNIsTavn9avqH9UAFeCmulUs3K3FXuwVSF1donPUdW+tvOG5
- uhPuplZ1ucXcJRMTxCamQw8qy8oOjGZAH9P9ZiZc4mWaoeARiomI/DdozDYKdJq/ADyv
- /fzg==
-X-Gm-Message-State: AO0yUKUBgcvWA6o6fTm18O0MIIwXzDDpIzj9o/34+468HNRoZ6hxNG9L
- hK+PaIiCmLqQ4ghdF+2b83RSfQ==
-X-Google-Smtp-Source: AK7set9lYeKLtJlOCuiS/mEsEK7xc/sFeahbPRuIZPkmbV4rWTOjP4zIu1Dlb4k+ItCzTZHiemkh2Q==
-X-Received: by 2002:a05:6a20:6988:b0:b8:42b0:1215 with SMTP id
- t8-20020a056a20698800b000b842b01215mr5068322pzk.5.1677149483535; 
- Thu, 23 Feb 2023 02:51:23 -0800 (PST)
+ bh=LEzO3G12hLTynlnoC+ATVDTqs1gCTHegcxvLsCmApto=;
+ b=dQk5u2rXLVH0aRObuLhWkNgIYx47l2OM8W/zSmIDR0W3vgVhcSc4Lqj1FpLEgBKWMe
+ n7yll9T8XF4dH/4FMjlzwAWwI9dEKa9ZDQEVMHibDDMnz/wfXslwBc52i9Ni0PgAPkDJ
+ JK6bNYASbwFBXPscMMxR7KlbDGmbfrriptgXMlAHD4KYBmknzVP7d63NHzqiiokgDM83
+ rcm2UWEXbIJOtjoInNEkfRPQMABvr5nuFezSNe+49kkar8aJLEUTKxhCUBtEP3RkZBgz
+ Z/L3/IO8nxP/1hSC4aVUMxPkUsYPKSi0FJTIa0v3euUApsVWWf6AV6LehsMqnkMparpu
+ EqGw==
+X-Gm-Message-State: AO0yUKUXlo9L6x0otMbspy5FhgodRjAZgSE9gqO9WTbbEVRwEziCuGI/
+ f2Vhg9t+ogqaOSMSvh4vX/QlfA==
+X-Google-Smtp-Source: AK7set8+PTDGt2TxG4xi+r2N9TTVZbUIKNOi5QCnhh7JZ0EwPW7n32m9ep25qIv4H1g3u1n8agg49A==
+X-Received: by 2002:a17:902:fb4e:b0:19b:c3e:6e5d with SMTP id
+ lf14-20020a170902fb4e00b0019b0c3e6e5dmr9551394plb.59.1677149489711; 
+ Thu, 23 Feb 2023 02:51:29 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- k184-20020a6384c1000000b004fb26a80875sm4477692pgd.22.2023.02.23.02.51.18
+ k184-20020a6384c1000000b004fb26a80875sm4477692pgd.22.2023.02.23.02.51.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 02:51:23 -0800 (PST)
+ Thu, 23 Feb 2023 02:51:29 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -75,23 +75,23 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Gal Hammer <gal.hammer@sap.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v9 3/9] e1000: Split header files
-Date: Thu, 23 Feb 2023 19:50:51 +0900
-Message-Id: <20230223105057.144309-4-akihiko.odaki@daynix.com>
+Subject: [PATCH v9 4/9] Intrdocue igb device emulation
+Date: Thu, 23 Feb 2023 19:50:52 +0900
+Message-Id: <20230223105057.144309-5-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230223105057.144309-1-akihiko.odaki@daynix.com>
 References: <20230223105057.144309-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62f;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,47 +107,738 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some definitions in the header files are invalid for igb so extract
-them to new header files to keep igb from referring to them.
+This change introduces emulation for the Intel 82576 adapter, AKA igb.
+The details of the device will be provided by the documentation that
+will follow this change.
+
+This initial implementation of igb does not cover the full feature set,
+but it selectively implements changes necessary to pass tests of Linut
+Test Project, and Windows HLK. The below is the list of the implemented
+changes; anything not listed here is not implemented:
+
+New features:
+- igb advanced descriptor handling
+- Support of 16 queues
+- SRRCTL.BSIZEPACKET register field
+- SRRCTL.RDMTS register field
+- Tx descriptor completion writeback
+- Extended RA registers
+- VMDq feature
+    - MRQC "Multiple Receive Queues Enable" register field
+    - DTXSWC.Loopback_en register field
+    - VMOLR.ROMPE register field
+    - VMOLR.AUPE register field
+    - VLVF.VLAN_id register field
+    - VLVF.VI_En register field
+- VF
+    - Mailbox
+    - Reset
+- Extended interrupt registers
+- Default values for IGP01E1000 PHY registers
+
+Removed features:
+- e1000e extended descriptor
+- e1000e packet split descriptor
+- Legacy descriptor
+- PHY register paging
+- MAC Registers
+    - Legacy interrupt timer registers
+    - Legacy EEPROM registers
+    - PBA/POEM registers
+    - RSRPD register
+    - RFCTL.ACKDIS
+    - RCTL.DTYPE
+- Copper PHY registers
+
+Misc:
+- VET register format
+- ICR register format
 
 Signed-off-by: Gal Hammer <gal.hammer@sap.com>
 Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/net/e1000.c         |   1 +
- hw/net/e1000_common.h  | 102 +++++
- hw/net/e1000_regs.h    | 954 +---------------------------------------
- hw/net/e1000e.c        |   3 +-
- hw/net/e1000e_core.c   |   1 +
- hw/net/e1000x_common.c |   1 +
- hw/net/e1000x_common.h |  74 ----
- hw/net/e1000x_regs.h   | 967 +++++++++++++++++++++++++++++++++++++++++
- 8 files changed, 1076 insertions(+), 1027 deletions(-)
- create mode 100644 hw/net/e1000_common.h
- create mode 100644 hw/net/e1000x_regs.h
+ MAINTAINERS         |    5 +
+ hw/net/Kconfig      |    5 +
+ hw/net/igb.c        |  615 +++++++
+ hw/net/igb_common.h |  146 ++
+ hw/net/igb_core.c   | 4076 +++++++++++++++++++++++++++++++++++++++++++
+ hw/net/igb_core.h   |  146 ++
+ hw/net/igb_regs.h   |  648 +++++++
+ hw/net/igbvf.c      |  327 ++++
+ hw/net/meson.build  |    2 +
+ hw/net/trace-events |   32 +
+ 10 files changed, 6002 insertions(+)
+ create mode 100644 hw/net/igb.c
+ create mode 100644 hw/net/igb_common.h
+ create mode 100644 hw/net/igb_core.c
+ create mode 100644 hw/net/igb_core.h
+ create mode 100644 hw/net/igb_regs.h
+ create mode 100644 hw/net/igbvf.c
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index c8307984fc..23d660619f 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -39,6 +39,7 @@
- #include "qemu/module.h"
- #include "qemu/range.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc99e38db8..11af257e04 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2225,6 +2225,11 @@ F: tests/qtest/fuzz-e1000e-test.c
+ F: tests/qtest/e1000e-test.c
+ F: tests/qtest/libqos/e1000e.*
  
-+#include "e1000_common.h"
- #include "e1000x_common.h"
- #include "trace.h"
- #include "qom/object.h"
-diff --git a/hw/net/e1000_common.h b/hw/net/e1000_common.h
++igb
++M: Akihiko Odaki <akihiko.odaki@daynix.com>
++S: Maintained
++F: hw/net/igb*
++
+ eepro100
+ M: Stefan Weil <sw@weilnetz.de>
+ S: Maintained
+diff --git a/hw/net/Kconfig b/hw/net/Kconfig
+index 1cc1c5775e..18c7851efe 100644
+--- a/hw/net/Kconfig
++++ b/hw/net/Kconfig
+@@ -44,6 +44,11 @@ config E1000E_PCI_EXPRESS
+     default y if PCI_DEVICES
+     depends on PCI_EXPRESS && MSI_NONBROKEN
+ 
++config IGB_PCI_EXPRESS
++    bool
++    default y if PCI_DEVICES
++    depends on PCI_EXPRESS && MSI_NONBROKEN
++
+ config RTL8139_PCI
+     bool
+     default y if PCI_DEVICES
+diff --git a/hw/net/igb.c b/hw/net/igb.c
 new file mode 100644
-index 0000000000..48feda7404
+index 0000000000..0792626322
 --- /dev/null
-+++ b/hw/net/e1000_common.h
-@@ -0,0 +1,102 @@
++++ b/hw/net/igb.c
+@@ -0,0 +1,615 @@
 +/*
-+ * QEMU e1000(e) emulation - shared definitions
++ * QEMU Intel 82576 SR/IOV Ethernet Controller Emulation
 + *
++ * Datasheet:
++ * https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eg-gbe-datasheet.pdf
++ *
++ * Copyright (c) 2020-2023 Red Hat, Inc.
++ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ * Akihiko Odaki <akihiko.odaki@daynix.com>
++ * Gal Hammmer <gal.hammer@sap.com>
++ * Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
++ * Dmitry Fleytman <dmitry@daynix.com>
++ * Leonid Bloch <leonid@daynix.com>
++ * Yan Vugenfirer <yan@daynix.com>
++ *
++ * Based on work done by:
++ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
++ * Copyright (c) 2008 Qumranet
++ * Based on work done by:
++ * Copyright (c) 2007 Dan Aloni
++ * Copyright (c) 2004 Antony T Curtis
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "net/eth.h"
++#include "net/net.h"
++#include "net/tap.h"
++#include "qemu/module.h"
++#include "qemu/range.h"
++#include "sysemu/sysemu.h"
++#include "hw/hw.h"
++#include "hw/net/mii.h"
++#include "hw/pci/pci.h"
++#include "hw/pci/pcie.h"
++#include "hw/pci/pcie_sriov.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
++#include "hw/qdev-properties.h"
++#include "migration/vmstate.h"
++
++#include "igb_common.h"
++#include "igb_core.h"
++
++#include "trace.h"
++#include "qapi/error.h"
++#include "qom/object.h"
++
++#define TYPE_IGB "igb"
++OBJECT_DECLARE_SIMPLE_TYPE(IGBState, IGB)
++
++struct IGBState {
++    PCIDevice parent_obj;
++    NICState *nic;
++    NICConf conf;
++
++    MemoryRegion mmio;
++    MemoryRegion flash;
++    MemoryRegion io;
++    MemoryRegion msix;
++
++    uint32_t ioaddr;
++
++    IGBCore core;
++};
++
++#define IGB_CAP_SRIOV_OFFSET    (0x160)
++#define IGB_VF_OFFSET           (0x80)
++#define IGB_VF_STRIDE           (2)
++
++#define E1000E_MMIO_IDX     0
++#define E1000E_FLASH_IDX    1
++#define E1000E_IO_IDX       2
++#define E1000E_MSIX_IDX     3
++
++#define E1000E_MMIO_SIZE    (128 * KiB)
++#define E1000E_FLASH_SIZE   (128 * KiB)
++#define E1000E_IO_SIZE      (32)
++#define E1000E_MSIX_SIZE    (16 * KiB)
++
++static void igb_write_config(PCIDevice *dev, uint32_t addr,
++    uint32_t val, int len)
++{
++    IGBState *s = IGB(dev);
++
++    trace_igb_write_config(addr, val, len);
++    pci_default_write_config(dev, addr, val, len);
++
++    if (range_covers_byte(addr, len, PCI_COMMAND) &&
++        (dev->config[PCI_COMMAND] & PCI_COMMAND_MASTER)) {
++        igb_start_recv(&s->core);
++    }
++}
++
++uint64_t
++igb_mmio_read(void *opaque, hwaddr addr, unsigned size)
++{
++    IGBState *s = opaque;
++    return igb_core_read(&s->core, addr, size);
++}
++
++void
++igb_mmio_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
++{
++    IGBState *s = opaque;
++    igb_core_write(&s->core, addr, val, size);
++}
++
++static bool
++igb_io_get_reg_index(IGBState *s, uint32_t *idx)
++{
++    if (s->ioaddr < 0x1FFFF) {
++        *idx = s->ioaddr;
++        return true;
++    }
++
++    if (s->ioaddr < 0x7FFFF) {
++        trace_e1000e_wrn_io_addr_undefined(s->ioaddr);
++        return false;
++    }
++
++    if (s->ioaddr < 0xFFFFF) {
++        trace_e1000e_wrn_io_addr_flash(s->ioaddr);
++        return false;
++    }
++
++    trace_e1000e_wrn_io_addr_unknown(s->ioaddr);
++    return false;
++}
++
++static uint64_t
++igb_io_read(void *opaque, hwaddr addr, unsigned size)
++{
++    IGBState *s = opaque;
++    uint32_t idx = 0;
++    uint64_t val;
++
++    switch (addr) {
++    case E1000_IOADDR:
++        trace_e1000e_io_read_addr(s->ioaddr);
++        return s->ioaddr;
++    case E1000_IODATA:
++        if (igb_io_get_reg_index(s, &idx)) {
++            val = igb_core_read(&s->core, idx, sizeof(val));
++            trace_e1000e_io_read_data(idx, val);
++            return val;
++        }
++        return 0;
++    default:
++        trace_e1000e_wrn_io_read_unknown(addr);
++        return 0;
++    }
++}
++
++static void
++igb_io_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
++{
++    IGBState *s = opaque;
++    uint32_t idx = 0;
++
++    switch (addr) {
++    case E1000_IOADDR:
++        trace_e1000e_io_write_addr(val);
++        s->ioaddr = (uint32_t) val;
++        return;
++    case E1000_IODATA:
++        if (igb_io_get_reg_index(s, &idx)) {
++            trace_e1000e_io_write_data(idx, val);
++            igb_core_write(&s->core, idx, val, sizeof(val));
++        }
++        return;
++    default:
++        trace_e1000e_wrn_io_write_unknown(addr);
++        return;
++    }
++}
++
++static const MemoryRegionOps mmio_ops = {
++    .read = igb_mmio_read,
++    .write = igb_mmio_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
++};
++
++static const MemoryRegionOps io_ops = {
++    .read = igb_io_read,
++    .write = igb_io_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
++};
++
++static bool
++igb_nc_can_receive(NetClientState *nc)
++{
++    IGBState *s = qemu_get_nic_opaque(nc);
++    return igb_can_receive(&s->core);
++}
++
++static ssize_t
++igb_nc_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
++{
++    IGBState *s = qemu_get_nic_opaque(nc);
++    return igb_receive_iov(&s->core, iov, iovcnt);
++}
++
++static ssize_t
++igb_nc_receive(NetClientState *nc, const uint8_t *buf, size_t size)
++{
++    IGBState *s = qemu_get_nic_opaque(nc);
++    return igb_receive(&s->core, buf, size);
++}
++
++static void
++igb_set_link_status(NetClientState *nc)
++{
++    IGBState *s = qemu_get_nic_opaque(nc);
++    igb_core_set_link_status(&s->core);
++}
++
++static NetClientInfo net_igb_info = {
++    .type = NET_CLIENT_DRIVER_NIC,
++    .size = sizeof(NICState),
++    .can_receive = igb_nc_can_receive,
++    .receive = igb_nc_receive,
++    .receive_iov = igb_nc_receive_iov,
++    .link_status_changed = igb_set_link_status,
++};
++
++/*
++ * EEPROM (NVM) contents documented in section 6.1, table 6-1:
++ * and in 6.10 Software accessed words.
++ */
++static const uint16_t igb_eeprom_template[] = {
++  /*        Address        |Compat.|OEM sp.| ImRev |    OEM sp.    */
++    0x0000, 0x0000, 0x0000, 0x0d34, 0xffff, 0x2010, 0xffff, 0xffff,
++  /*      PBA      |ICtrl1 | SSID  | SVID  | DevID |-------|ICtrl2 */
++    0x1040, 0xffff, 0x002b, 0x0000, 0x8086, 0x10c9, 0x0000, 0x70c3,
++  /* SwPin0| DevID | EESZ  |-------|ICtrl3 |PCI-tc | MSIX  | APtr  */
++    0x0004, 0x10c9, 0x5c00, 0x0000, 0x2880, 0x0014, 0x4a40, 0x0060,
++  /* PCIe Init. Conf 1,2,3 |PCICtrl| LD1,3 |DDevID |DevRev | LD0,2 */
++    0x6cfb, 0xc7b0, 0x0abe, 0x0403, 0x0783, 0x10a6, 0x0001, 0x0602,
++  /* SwPin1| FunC  |LAN-PWR|ManHwC |ICtrl3 | IOVct |VDevID |-------*/
++    0x0004, 0x0020, 0x0000, 0x004a, 0x2080, 0x00f5, 0x10ca, 0x0000,
++  /*---------------| LD1,3 | LD0,2 | ROEnd | ROSta | Wdog  | VPD   */
++    0x0000, 0x0000, 0x4784, 0x4602, 0x0000, 0x0000, 0x1000, 0xffff,
++  /* PCSet0| Ccfg0 |PXEver |IBAcap |PCSet1 | Ccfg1 |iSCVer | ??    */
++    0x0100, 0x4000, 0x131f, 0x4013, 0x0100, 0x4000, 0xffff, 0xffff,
++  /* PCSet2| Ccfg2 |PCSet3 | Ccfg3 | ??    |AltMacP| ??    |CHKSUM */
++    0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0x00e0, 0xffff, 0x0000,
++  /* NC-SIC */
++    0x0003,
++};
++
++static void igb_core_realize(IGBState *s)
++{
++    s->core.owner = &s->parent_obj;
++    s->core.owner_nic = s->nic;
++}
++
++static void
++igb_init_msix(IGBState *s)
++{
++    int i;
++
++    msix_init(PCI_DEVICE(s), IGB_MSIX_VEC_NUM,
++              &s->msix,
++              E1000E_MSIX_IDX, 0,
++              &s->msix,
++              E1000E_MSIX_IDX, 0x2000,
++              0x70, &error_abort);
++
++    for (i = 0; i < IGB_MSIX_VEC_NUM; i++) {
++        msix_vector_use(PCI_DEVICE(s), i);
++    }
++}
++
++static void
++igb_cleanup_msix(IGBState *s)
++{
++    msix_unuse_all_vectors(PCI_DEVICE(s));
++    msix_uninit(PCI_DEVICE(s), &s->msix, &s->msix);
++}
++
++static void
++igb_init_net_peer(IGBState *s, PCIDevice *pci_dev, uint8_t *macaddr)
++{
++    DeviceState *dev = DEVICE(pci_dev);
++    NetClientState *nc;
++    int i;
++
++    s->nic = qemu_new_nic(&net_igb_info, &s->conf,
++        object_get_typename(OBJECT(s)), dev->id, s);
++
++    s->core.max_queue_num = s->conf.peers.queues ? s->conf.peers.queues - 1 : 0;
++
++    trace_e1000e_mac_set_permanent(MAC_ARG(macaddr));
++    memcpy(s->core.permanent_mac, macaddr, sizeof(s->core.permanent_mac));
++
++    qemu_format_nic_info_str(qemu_get_queue(s->nic), macaddr);
++
++    /* Setup virtio headers */
++    for (i = 0; i < s->conf.peers.queues; i++) {
++        nc = qemu_get_subqueue(s->nic, i);
++        if (!nc->peer || !qemu_has_vnet_hdr(nc->peer)) {
++            trace_e1000e_cfg_support_virtio(false);
++            return;
++        }
++    }
++
++    trace_e1000e_cfg_support_virtio(true);
++    s->core.has_vnet = true;
++
++    for (i = 0; i < s->conf.peers.queues; i++) {
++        nc = qemu_get_subqueue(s->nic, i);
++        qemu_set_vnet_hdr_len(nc->peer, sizeof(struct virtio_net_hdr));
++        qemu_using_vnet_hdr(nc->peer, true);
++    }
++}
++
++static int
++igb_add_pm_capability(PCIDevice *pdev, uint8_t offset, uint16_t pmc)
++{
++    Error *local_err = NULL;
++    int ret = pci_add_capability(pdev, PCI_CAP_ID_PM, offset,
++                                 PCI_PM_SIZEOF, &local_err);
++
++    if (local_err) {
++        error_report_err(local_err);
++        return ret;
++    }
++
++    pci_set_word(pdev->config + offset + PCI_PM_PMC,
++                 PCI_PM_CAP_VER_1_1 |
++                 pmc);
++
++    pci_set_word(pdev->wmask + offset + PCI_PM_CTRL,
++                 PCI_PM_CTRL_STATE_MASK |
++                 PCI_PM_CTRL_PME_ENABLE |
++                 PCI_PM_CTRL_DATA_SEL_MASK);
++
++    pci_set_word(pdev->w1cmask + offset + PCI_PM_CTRL,
++                 PCI_PM_CTRL_PME_STATUS);
++
++    return ret;
++}
++
++static void igb_pci_realize(PCIDevice *pci_dev, Error **errp)
++{
++    IGBState *s = IGB(pci_dev);
++    uint8_t *macaddr;
++
++    trace_e1000e_cb_pci_realize();
++
++    pci_dev->config_write = igb_write_config;
++
++    pci_dev->config[PCI_CACHE_LINE_SIZE] = 0x10;
++    pci_dev->config[PCI_INTERRUPT_PIN] = 1;
++
++    /* Define IO/MMIO regions */
++    memory_region_init_io(&s->mmio, OBJECT(s), &mmio_ops, s,
++                          "igb-mmio", E1000E_MMIO_SIZE);
++    pci_register_bar(pci_dev, E1000E_MMIO_IDX,
++                     PCI_BASE_ADDRESS_SPACE_MEMORY, &s->mmio);
++
++    /*
++     * We provide a dummy implementation for the flash BAR
++     * for drivers that may theoretically probe for its presence.
++     */
++    memory_region_init(&s->flash, OBJECT(s),
++                       "igb-flash", E1000E_FLASH_SIZE);
++    pci_register_bar(pci_dev, E1000E_FLASH_IDX,
++                     PCI_BASE_ADDRESS_SPACE_MEMORY, &s->flash);
++
++    memory_region_init_io(&s->io, OBJECT(s), &io_ops, s,
++                          "igb-io", E1000E_IO_SIZE);
++    pci_register_bar(pci_dev, E1000E_IO_IDX,
++                     PCI_BASE_ADDRESS_SPACE_IO, &s->io);
++
++    memory_region_init(&s->msix, OBJECT(s), "igb-msix",
++                       E1000E_MSIX_SIZE);
++    pci_register_bar(pci_dev, E1000E_MSIX_IDX,
++                     PCI_BASE_ADDRESS_MEM_TYPE_64, &s->msix);
++
++    /* Create networking backend */
++    qemu_macaddr_default_if_unset(&s->conf.macaddr);
++    macaddr = s->conf.macaddr.a;
++
++    /* Add PCI capabilities in reverse order */
++    assert(pcie_endpoint_cap_init(pci_dev, 0xa0) > 0);
++
++    igb_init_msix(s);
++
++    msi_init(pci_dev, 0x50, 1, true, true, &error_abort);
++
++    if (igb_add_pm_capability(pci_dev, 0x40, PCI_PM_CAP_DSI) < 0) {
++        hw_error("Failed to initialize PM capability");
++    }
++
++    /* PCIe extended capabilities (in order) */
++    if (pcie_aer_init(pci_dev, 1, 0x100, 0x40, errp) < 0) {
++        hw_error("Failed to initialize AER capability");
++    }
++
++    pcie_ari_init(pci_dev, 0x150, 1);
++
++    pcie_sriov_pf_init(pci_dev, IGB_CAP_SRIOV_OFFSET, "igbvf",
++        IGB_82576_VF_DEV_ID, IGB_MAX_VF_FUNCTIONS, IGB_MAX_VF_FUNCTIONS,
++        IGB_VF_OFFSET, IGB_VF_STRIDE);
++
++    pcie_sriov_pf_init_vf_bar(pci_dev, 0,
++        PCI_BASE_ADDRESS_MEM_TYPE_64 | PCI_BASE_ADDRESS_MEM_PREFETCH,
++        16 * KiB);
++    pcie_sriov_pf_init_vf_bar(pci_dev, 3,
++        PCI_BASE_ADDRESS_MEM_TYPE_64 | PCI_BASE_ADDRESS_MEM_PREFETCH,
++        16 * KiB);
++
++    igb_init_net_peer(s, pci_dev, macaddr);
++
++    /* Initialize core */
++    igb_core_realize(s);
++
++    igb_core_pci_realize(&s->core,
++                         igb_eeprom_template,
++                         sizeof(igb_eeprom_template),
++                         macaddr);
++}
++
++static void igb_pci_uninit(PCIDevice *pci_dev)
++{
++    IGBState *s = IGB(pci_dev);
++
++    trace_e1000e_cb_pci_uninit();
++
++    igb_core_pci_uninit(&s->core);
++
++    pcie_sriov_pf_exit(pci_dev);
++    pcie_cap_exit(pci_dev);
++
++    qemu_del_nic(s->nic);
++
++    igb_cleanup_msix(s);
++    msi_uninit(pci_dev);
++}
++
++static void igb_qdev_reset_hold(Object *obj)
++{
++    PCIDevice *d = PCI_DEVICE(obj);
++    IGBState *s = IGB(obj);
++
++    trace_e1000e_cb_qdev_reset_hold();
++
++    pcie_sriov_pf_disable_vfs(d);
++    igb_core_reset(&s->core);
++}
++
++static int igb_pre_save(void *opaque)
++{
++    IGBState *s = opaque;
++
++    trace_e1000e_cb_pre_save();
++
++    igb_core_pre_save(&s->core);
++
++    return 0;
++}
++
++static int igb_post_load(void *opaque, int version_id)
++{
++    IGBState *s = opaque;
++
++    trace_e1000e_cb_post_load();
++    return igb_core_post_load(&s->core);
++}
++
++static const VMStateDescription igb_vmstate_tx = {
++    .name = "igb-tx",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT16(vlan, struct igb_tx),
++        VMSTATE_UINT16(mss, struct igb_tx),
++        VMSTATE_BOOL(tse, struct igb_tx),
++        VMSTATE_BOOL(ixsm, struct igb_tx),
++        VMSTATE_BOOL(txsm, struct igb_tx),
++        VMSTATE_BOOL(first, struct igb_tx),
++        VMSTATE_BOOL(skip_cp, struct igb_tx),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription igb_vmstate_intr_timer = {
++    .name = "igb-intr-timer",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_TIMER_PTR(timer, IGBIntrDelayTimer),
++        VMSTATE_BOOL(running, IGBIntrDelayTimer),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++#define VMSTATE_IGB_INTR_DELAY_TIMER(_f, _s)                        \
++    VMSTATE_STRUCT(_f, _s, 0,                                       \
++                   igb_vmstate_intr_timer, IGBIntrDelayTimer)
++
++#define VMSTATE_IGB_INTR_DELAY_TIMER_ARRAY(_f, _s, _num)            \
++    VMSTATE_STRUCT_ARRAY(_f, _s, _num, 0,                           \
++                         igb_vmstate_intr_timer, IGBIntrDelayTimer)
++
++static const VMStateDescription igb_vmstate = {
++    .name = "igb",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .pre_save = igb_pre_save,
++    .post_load = igb_post_load,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(parent_obj, IGBState),
++        VMSTATE_MSIX(parent_obj, IGBState),
++
++        VMSTATE_UINT32(ioaddr, IGBState),
++        VMSTATE_UINT8(core.rx_desc_len, IGBState),
++        VMSTATE_UINT16_ARRAY(core.eeprom, IGBState, IGB_EEPROM_SIZE),
++        VMSTATE_UINT16_ARRAY(core.phy, IGBState, MAX_PHY_REG_ADDRESS + 1),
++        VMSTATE_UINT32_ARRAY(core.mac, IGBState, E1000E_MAC_SIZE),
++        VMSTATE_UINT8_ARRAY(core.permanent_mac, IGBState, ETH_ALEN),
++
++        VMSTATE_IGB_INTR_DELAY_TIMER_ARRAY(core.eitr, IGBState,
++                                           IGB_INTR_NUM),
++
++        VMSTATE_UINT32_ARRAY(core.eitr_guest_value, IGBState, IGB_INTR_NUM),
++
++        VMSTATE_STRUCT_ARRAY(core.tx, IGBState, IGB_NUM_QUEUES, 0,
++                             igb_vmstate_tx, struct igb_tx),
++
++        VMSTATE_INT64(core.timadj, IGBState),
++
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static Property igb_properties[] = {
++    DEFINE_NIC_PROPERTIES(IGBState, conf),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void igb_class_init(ObjectClass *class, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(class);
++    ResettableClass *rc = RESETTABLE_CLASS(class);
++    PCIDeviceClass *c = PCI_DEVICE_CLASS(class);
++
++    c->realize = igb_pci_realize;
++    c->exit = igb_pci_uninit;
++    c->vendor_id = PCI_VENDOR_ID_INTEL;
++    c->device_id = E1000_DEV_ID_82576;
++    c->revision = 1;
++    c->class_id = PCI_CLASS_NETWORK_ETHERNET;
++
++    rc->phases.hold = igb_qdev_reset_hold;
++
++    dc->desc = "Intel 82576 Gigabit Ethernet Controller";
++    dc->vmsd = &igb_vmstate;
++
++    device_class_set_props(dc, igb_properties);
++    set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
++}
++
++static void igb_instance_init(Object *obj)
++{
++    IGBState *s = IGB(obj);
++    device_add_bootindex_property(obj, &s->conf.bootindex,
++                                  "bootindex", "/ethernet-phy@0",
++                                  DEVICE(obj));
++}
++
++static const TypeInfo igb_info = {
++    .name = TYPE_IGB,
++    .parent = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(IGBState),
++    .class_init = igb_class_init,
++    .instance_init = igb_instance_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_PCIE_DEVICE },
++        { }
++    },
++};
++
++static void igb_register_types(void)
++{
++    type_register_static(&igb_info);
++}
++
++type_init(igb_register_types)
+diff --git a/hw/net/igb_common.h b/hw/net/igb_common.h
+new file mode 100644
+index 0000000000..69ac490f75
+--- /dev/null
++++ b/hw/net/igb_common.h
+@@ -0,0 +1,146 @@
++/*
++ * QEMU igb emulation - shared definitions
++ *
++ * Copyright (c) 2020-2023 Red Hat, Inc.
 + * Copyright (c) 2008 Qumranet
 + *
 + * Based on work done by:
@@ -169,38 +860,54 @@ index 0000000000..48feda7404
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HW_NET_E1000_COMMON_H
-+#define HW_NET_E1000_COMMON_H
++#ifndef HW_NET_IGB_COMMON_H
++#define HW_NET_IGB_COMMON_H
 +
-+#include "e1000_regs.h"
++#include "igb_regs.h"
 +
-+#define defreg(x)   x = (E1000_##x >> 2)
++#define defreg(x) x = (E1000_##x >> 2)
++#define defreg_indexed(x, i) x##i = (E1000_##x(i) >> 2)
++#define defreg_indexeda(x, i) x##i##_A = (E1000_##x##_A(i) >> 2)
++
++#define defregd(x) defreg_indexed(x, 0),  defreg_indexed(x, 1),  \
++                   defreg_indexed(x, 2),  defreg_indexed(x, 3),  \
++                   defreg_indexed(x, 4),  defreg_indexed(x, 5),  \
++                   defreg_indexed(x, 6),  defreg_indexed(x, 7),  \
++                   defreg_indexed(x, 8),  defreg_indexed(x, 9),  \
++                   defreg_indexed(x, 10), defreg_indexed(x, 11), \
++                   defreg_indexed(x, 12), defreg_indexed(x, 13), \
++                   defreg_indexed(x, 14), defreg_indexed(x, 15), \
++                   defreg_indexeda(x, 0), defreg_indexeda(x, 1), \
++                   defreg_indexeda(x, 2), defreg_indexeda(x, 3)
++
++#define defregv(x) defreg_indexed(x, 0), defreg_indexed(x, 1),   \
++                   defreg_indexed(x, 2), defreg_indexed(x, 3),   \
++                   defreg_indexed(x, 4), defreg_indexed(x, 5),   \
++                   defreg_indexed(x, 6), defreg_indexed(x, 7)
++
 +enum {
 +    defreg(CTRL),    defreg(EECD),    defreg(EERD),    defreg(GPRC),
 +    defreg(GPTC),    defreg(ICR),     defreg(ICS),     defreg(IMC),
 +    defreg(IMS),     defreg(LEDCTL),  defreg(MANC),    defreg(MDIC),
-+    defreg(MPC),     defreg(PBA),     defreg(RCTL),    defreg(RDBAH0),
-+    defreg(RDBAL0),  defreg(RDH0),    defreg(RDLEN0),  defreg(RDT0),
-+    defreg(STATUS),  defreg(SWSM),    defreg(TCTL),    defreg(TDBAH),
-+    defreg(TDBAL),   defreg(TDH),     defreg(TDLEN),   defreg(TDT),
-+    defreg(TDLEN1),  defreg(TDBAL1),  defreg(TDBAH1),  defreg(TDH1),
-+    defreg(TDT1),    defreg(TORH),    defreg(TORL),    defreg(TOTH),
-+    defreg(TOTL),    defreg(TPR),     defreg(TPT),     defreg(TXDCTL),
++    defreg(MPC),     defreg(RCTL),
++    defreg(STATUS),  defreg(SWSM),    defreg(TCTL),
++    defreg(TORH),    defreg(TORL),    defreg(TOTH),
++    defreg(TOTL),    defreg(TPR),     defreg(TPT),
 +    defreg(WUFC),    defreg(RA),      defreg(MTA),     defreg(CRCERRS),
-+    defreg(VFTA),    defreg(VET),     defreg(RDTR),    defreg(RADV),
-+    defreg(TADV),    defreg(ITR),     defreg(SCC),     defreg(ECOL),
++    defreg(VFTA),    defreg(VET),
++    defreg(SCC),     defreg(ECOL),
 +    defreg(MCC),     defreg(LATECOL), defreg(COLC),    defreg(DC),
-+    defreg(TNCRS),   defreg(SEQEC),   defreg(CEXTERR), defreg(RLEC),
++    defreg(TNCRS),   defreg(RLEC),
 +    defreg(XONRXC),  defreg(XONTXC),  defreg(XOFFRXC), defreg(XOFFTXC),
-+    defreg(FCRUC),   defreg(AIT),     defreg(TDFH),    defreg(TDFT),
++    defreg(FCRUC),   defreg(TDFH),    defreg(TDFT),
 +    defreg(TDFHS),   defreg(TDFTS),   defreg(TDFPC),   defreg(WUC),
-+    defreg(WUS),     defreg(POEMB),   defreg(PBS),     defreg(RDFH),
++    defreg(WUS),     defreg(RDFH),
 +    defreg(RDFT),    defreg(RDFHS),   defreg(RDFTS),   defreg(RDFPC),
-+    defreg(PBM),     defreg(IPAV),    defreg(IP4AT),   defreg(IP6AT),
-+    defreg(WUPM),    defreg(FFLT),    defreg(FFMT),    defreg(FFVT),
-+    defreg(TARC0),   defreg(TARC1),   defreg(IAM),     defreg(EXTCNF_CTRL),
++    defreg(IPAV),    defreg(IP4AT),   defreg(IP6AT),
++    defreg(WUPM),    defreg(FFMT),
++    defreg(IAM),
 +    defreg(GCR),     defreg(TIMINCA), defreg(EIAC),    defreg(CTRL_EXT),
-+    defreg(IVAR),    defreg(MFUTP01), defreg(MFUTP23), defreg(MANC2H),
++    defreg(IVAR0),   defreg(MANC2H),
 +    defreg(MFVAL),   defreg(MDEF),    defreg(FACTPS),  defreg(FTFT),
 +    defreg(RUC),     defreg(ROC),     defreg(RFC),     defreg(RJC),
 +    defreg(PRC64),   defreg(PRC127),  defreg(PRC255),  defreg(PRC511),
@@ -208,28 +915,22 @@ index 0000000000..48feda7404
 +    defreg(PTC255),  defreg(PTC511),  defreg(PTC1023), defreg(PTC1522),
 +    defreg(GORCL),   defreg(GORCH),   defreg(GOTCL),   defreg(GOTCH),
 +    defreg(RNBC),    defreg(BPRC),    defreg(MPRC),    defreg(RFCTL),
-+    defreg(PSRCTL),  defreg(MPTC),    defreg(BPTC),    defreg(TSCTFC),
++    defreg(MPTC),    defreg(BPTC),
 +    defreg(IAC),     defreg(MGTPRC),  defreg(MGTPDC),  defreg(MGTPTC),
 +    defreg(TSCTC),   defreg(RXCSUM),  defreg(FUNCTAG), defreg(GSCL_1),
 +    defreg(GSCL_2),  defreg(GSCL_3),  defreg(GSCL_4),  defreg(GSCN_0),
-+    defreg(GSCN_1),  defreg(GSCN_2),  defreg(GSCN_3),  defreg(GCR2),
-+    defreg(RAID),    defreg(RSRPD),   defreg(TIDV),    defreg(EITR),
-+    defreg(MRQC),    defreg(RETA),    defreg(RSSRK),   defreg(RDBAH1),
-+    defreg(RDBAL1),  defreg(RDLEN1),  defreg(RDH1),    defreg(RDT1),
++    defreg(GSCN_1),  defreg(GSCN_2),  defreg(GSCN_3),
++    defreg_indexed(EITR, 0),
++    defreg(MRQC),    defreg(RETA),    defreg(RSSRK),
 +    defreg(PBACLR),  defreg(FCAL),    defreg(FCAH),    defreg(FCT),
 +    defreg(FCRTH),   defreg(FCRTL),   defreg(FCTTV),   defreg(FCRTV),
-+    defreg(FLA),     defreg(EEWR),    defreg(FLOP),    defreg(FLOL),
-+    defreg(FLSWCTL), defreg(FLSWCNT), defreg(RXDCTL),  defreg(RXDCTL1),
++    defreg(FLA),     defreg(FLOP),
 +    defreg(MAVTV0),  defreg(MAVTV1),  defreg(MAVTV2),  defreg(MAVTV3),
 +    defreg(TXSTMPL), defreg(TXSTMPH), defreg(SYSTIML), defreg(SYSTIMH),
-+    defreg(RXCFGL),  defreg(RXUDP),   defreg(TIMADJL), defreg(TIMADJH),
++    defreg(TIMADJL), defreg(TIMADJH),
 +    defreg(RXSTMPH), defreg(RXSTMPL), defreg(RXSATRL), defreg(RXSATRH),
-+    defreg(FLASHT),  defreg(TIPG),    defreg(RDH),     defreg(RDT),
-+    defreg(RDLEN),   defreg(RDBAH),   defreg(RDBAL),
-+    defreg(TXDCTL1),
-+    defreg(FLSWDATA),
++    defreg(TIPG),
 +    defreg(CTRL_DUP),
-+    defreg(EXTCNF_SIZE),
 +    defreg(EEMNGCTL),
 +    defreg(EEMNGDATA),
 +    defreg(FLMNGCTL),
@@ -237,2205 +938,5326 @@ index 0000000000..48feda7404
 +    defreg(FLMNGCNT),
 +    defreg(TSYNCRXCTL),
 +    defreg(TSYNCTXCTL),
++    defreg(RLPML),
++    defreg(UTA),
 +
 +    /* Aliases */
-+    defreg(RDH0_A),  defreg(RDT0_A),  defreg(RDTR_A),  defreg(RDFH_A),
-+    defreg(RDFT_A),  defreg(TDH_A),   defreg(TDT_A),   defreg(TIDV_A),
-+    defreg(TDFH_A),  defreg(TDFT_A),  defreg(RA_A),    defreg(RDBAL0_A),
-+    defreg(TDBAL_A), defreg(TDLEN_A), defreg(VFTA_A),  defreg(RDLEN0_A),
-+    defreg(FCRTL_A), defreg(FCRTH_A)
++    defreg(RDFH_A),      defreg(RDFT_A),     defreg(TDFH_A),     defreg(TDFT_A),
++    defreg(RA_A),        defreg(VFTA_A),     defreg(FCRTL_A),
++
++    /* Additional regs used by IGB */
++    defreg(FWSM),        defreg(SW_FW_SYNC),
++
++    defreg(EICS),        defreg(EIMS),        defreg(EIMC),       defreg(EIAM),
++    defreg(EICR),        defreg(IVAR_MISC),   defreg(GPIE),
++
++    defreg(RXPBS),      defregd(RDBAL),       defregd(RDBAH),     defregd(RDLEN),
++    defregd(SRRCTL),    defregd(RDH),         defregd(RDT),
++    defregd(RXDCTL),    defregd(RXCTL),       defregd(RQDPC),     defreg(RA2),
++
++    defreg(TXPBS),       defreg(TCTL_EXT),    defreg(DTXCTL),     defreg(HTCBDPC),
++    defregd(TDBAL),      defregd(TDBAH),      defregd(TDLEN),     defregd(TDH),
++    defregd(TDT),        defregd(TXDCTL),     defregd(TXCTL),
++    defregd(TDWBAL),     defregd(TDWBAH),
++
++    defreg(VT_CTL),
++
++    defregv(P2VMAILBOX), defregv(V2PMAILBOX), defreg(MBVFICR),    defreg(MBVFIMR),
++    defreg(VFLRE),       defreg(VFRE),        defreg(VFTE),       defreg(WVBR),
++    defreg(QDE),         defreg(DTXSWC),      defreg_indexed(VLVF, 0),
++    defregv(VMOLR),      defreg(RPLOLR),      defregv(VMBMEM),    defregv(VMVIR),
++
++    defregv(PVTCTRL),    defregv(PVTEICS),    defregv(PVTEIMS),   defregv(PVTEIMC),
++    defregv(PVTEIAC),    defregv(PVTEIAM),    defregv(PVTEICR),   defregv(PVFGPRC),
++    defregv(PVFGPTC),    defregv(PVFGORC),    defregv(PVFGOTC),   defregv(PVFMPRC),
++    defregv(PVFGPRLBC),  defregv(PVFGPTLBC),  defregv(PVFGORLBC), defregv(PVFGOTLBC),
++
++    defreg(MTA_A),
++
++    defreg(VTIVAR), defreg(VTIVAR_MISC),
 +};
 +
-+#endif
-diff --git a/hw/net/e1000_regs.h b/hw/net/e1000_regs.h
-index 77144cb617..8a4ce82034 100644
---- a/hw/net/e1000_regs.h
-+++ b/hw/net/e1000_regs.h
-@@ -32,157 +32,35 @@
- #ifndef HW_E1000_REGS_H
- #define HW_E1000_REGS_H
- 
--/* PCI Device IDs */
--#define E1000_DEV_ID_82542               0x1000
--#define E1000_DEV_ID_82543GC_FIBER       0x1001
--#define E1000_DEV_ID_82543GC_COPPER      0x1004
--#define E1000_DEV_ID_82544EI_COPPER      0x1008
--#define E1000_DEV_ID_82544EI_FIBER       0x1009
--#define E1000_DEV_ID_82544GC_COPPER      0x100C
--#define E1000_DEV_ID_82544GC_LOM         0x100D
--#define E1000_DEV_ID_82540EM             0x100E
--#define E1000_DEV_ID_82540EM_LOM         0x1015
--#define E1000_DEV_ID_82540EP_LOM         0x1016
--#define E1000_DEV_ID_82540EP             0x1017
--#define E1000_DEV_ID_82540EP_LP          0x101E
--#define E1000_DEV_ID_82545EM_COPPER      0x100F
--#define E1000_DEV_ID_82545EM_FIBER       0x1011
--#define E1000_DEV_ID_82545GM_COPPER      0x1026
--#define E1000_DEV_ID_82545GM_FIBER       0x1027
--#define E1000_DEV_ID_82545GM_SERDES      0x1028
--#define E1000_DEV_ID_82546EB_COPPER      0x1010
--#define E1000_DEV_ID_82546EB_FIBER       0x1012
--#define E1000_DEV_ID_82546EB_QUAD_COPPER 0x101D
--#define E1000_DEV_ID_82541EI             0x1013
--#define E1000_DEV_ID_82541EI_MOBILE      0x1018
--#define E1000_DEV_ID_82541ER_LOM         0x1014
--#define E1000_DEV_ID_82541ER             0x1078
--#define E1000_DEV_ID_82547GI             0x1075
--#define E1000_DEV_ID_82541GI             0x1076
--#define E1000_DEV_ID_82541GI_MOBILE      0x1077
--#define E1000_DEV_ID_82541GI_LF          0x107C
--#define E1000_DEV_ID_82546GB_COPPER      0x1079
--#define E1000_DEV_ID_82546GB_FIBER       0x107A
--#define E1000_DEV_ID_82546GB_SERDES      0x107B
--#define E1000_DEV_ID_82546GB_PCIE        0x108A
--#define E1000_DEV_ID_82546GB_QUAD_COPPER 0x1099
--#define E1000_DEV_ID_82547EI             0x1019
--#define E1000_DEV_ID_82547EI_MOBILE      0x101A
--#define E1000_DEV_ID_82571EB_COPPER      0x105E
--#define E1000_DEV_ID_82571EB_FIBER       0x105F
--#define E1000_DEV_ID_82571EB_SERDES      0x1060
--#define E1000_DEV_ID_82571EB_QUAD_COPPER 0x10A4
--#define E1000_DEV_ID_82571PT_QUAD_COPPER 0x10D5
--#define E1000_DEV_ID_82571EB_QUAD_FIBER  0x10A5
--#define E1000_DEV_ID_82571EB_QUAD_COPPER_LOWPROFILE  0x10BC
--#define E1000_DEV_ID_82571EB_SERDES_DUAL 0x10D9
--#define E1000_DEV_ID_82571EB_SERDES_QUAD 0x10DA
--#define E1000_DEV_ID_82572EI_COPPER      0x107D
--#define E1000_DEV_ID_82572EI_FIBER       0x107E
--#define E1000_DEV_ID_82572EI_SERDES      0x107F
--#define E1000_DEV_ID_82572EI             0x10B9
--#define E1000_DEV_ID_82573E              0x108B
--#define E1000_DEV_ID_82573E_IAMT         0x108C
--#define E1000_DEV_ID_82573L              0x109A
--#define E1000_DEV_ID_82574L              0x10D3
--#define E1000_DEV_ID_82546GB_QUAD_COPPER_KSP3 0x10B5
--#define E1000_DEV_ID_80003ES2LAN_COPPER_DPT     0x1096
--#define E1000_DEV_ID_80003ES2LAN_SERDES_DPT     0x1098
--#define E1000_DEV_ID_80003ES2LAN_COPPER_SPT     0x10BA
--#define E1000_DEV_ID_80003ES2LAN_SERDES_SPT     0x10BB
-+#include "e1000x_regs.h"
- 
--#define E1000_DEV_ID_ICH8_IGP_M_AMT      0x1049
--#define E1000_DEV_ID_ICH8_IGP_AMT        0x104A
--#define E1000_DEV_ID_ICH8_IGP_C          0x104B
--#define E1000_DEV_ID_ICH8_IFE            0x104C
--#define E1000_DEV_ID_ICH8_IFE_GT         0x10C4
--#define E1000_DEV_ID_ICH8_IFE_G          0x10C5
--#define E1000_DEV_ID_ICH8_IGP_M          0x104D
--
--/* Device Specific Register Defaults */
--#define E1000_PHY_ID2_82541x 0x380
--#define E1000_PHY_ID2_82544x 0xC30
--#define E1000_PHY_ID2_8254xx_DEFAULT 0xC20 /* 82540x, 82545x, and 82546x */
--#define E1000_PHY_ID2_82573x 0xCC0
--#define E1000_PHY_ID2_82574x 0xCB1
--
--/* Register Set. (82543, 82544)
-- *
-- * Registers are defined to be 32 bits and  should be accessed as 32 bit values.
-- * These registers are physically located on the NIC, but are mapped into the
-- * host memory address space.
-- *
-- * RW - register is both readable and writable
-- * RO - register is read only
-- * WO - register is write only
-- * R/clr - register is read only and is cleared when read
-- * A - register array
-- */
--#define E1000_CTRL     0x00000  /* Device Control - RW */
--#define E1000_CTRL_DUP 0x00004  /* Device Control Duplicate (Shadow) - RW */
--#define E1000_STATUS   0x00008  /* Device Status - RO */
--#define E1000_EECD     0x00010  /* EEPROM/Flash Control - RW */
--#define E1000_EERD     0x00014  /* EEPROM Read - RW */
--#define E1000_CTRL_EXT 0x00018  /* Extended Device Control - RW */
--#define E1000_FLA      0x0001C  /* Flash Access - RW */
--#define E1000_MDIC     0x00020  /* MDI Control - RW */
--#define E1000_SCTL     0x00024  /* SerDes Control - RW */
--#define E1000_FEXTNVM  0x00028  /* Future Extended NVM register */
--#define E1000_FCAL     0x00028  /* Flow Control Address Low - RW */
--#define E1000_FCAH     0x0002C  /* Flow Control Address High -RW */
--#define E1000_FCT      0x00030  /* Flow Control Type - RW */
--#define E1000_VET      0x00038  /* VLAN Ether Type - RW */
--#define E1000_ICR      0x000C0  /* Interrupt Cause Read - R/clr */
- #define E1000_ITR      0x000C4  /* Interrupt Throttling Rate - RW */
--#define E1000_ICS      0x000C8  /* Interrupt Cause Set - WO */
--#define E1000_IMS      0x000D0  /* Interrupt Mask Set - RW */
- #define E1000_EIAC     0x000DC  /* Ext. Interrupt Auto Clear - RW */
--#define E1000_IMC      0x000D8  /* Interrupt Mask Clear - WO */
--#define E1000_IAM      0x000E0  /* Interrupt Acknowledge Auto Mask */
- #define E1000_IVAR     0x000E4  /* Interrupt Vector Allocation Register - RW */
- #define E1000_EITR     0x000E8  /* Extended Interrupt Throttling Rate - RW */
--#define E1000_RCTL     0x00100  /* RX Control - RW */
--#define E1000_RDTR1    0x02820  /* RX Delay Timer (1) - RW */
- #define E1000_RDBAL1   0x02900  /* RX Descriptor Base Address Low (1) - RW */
- #define E1000_RDBAH1   0x02904  /* RX Descriptor Base Address High (1) - RW */
- #define E1000_RDLEN1   0x02908  /* RX Descriptor Length (1) - RW */
- #define E1000_RDH1     0x02910  /* RX Descriptor Head (1) - RW */
- #define E1000_RDT1     0x02918  /* RX Descriptor Tail (1) - RW */
--#define E1000_FCTTV    0x00170  /* Flow Control Transmit Timer Value - RW */
- #define E1000_FCRTV    0x05F40  /* Flow Control Refresh Timer Value - RW */
- #define E1000_TXCW     0x00178  /* TX Configuration Word - RW */
- #define E1000_RXCW     0x00180  /* RX Configuration Word - RO */
--#define E1000_TCTL     0x00400  /* TX Control - RW */
--#define E1000_TCTL_EXT 0x00404  /* Extended TX Control - RW */
--#define E1000_TIPG     0x00410  /* TX Inter-packet gap -RW */
- #define E1000_TBT      0x00448  /* TX Burst Timer - RW */
- #define E1000_AIT      0x00458  /* Adaptive Interframe Spacing Throttle - RW */
--#define E1000_LEDCTL   0x00E00  /* LED Control - RW */
- #define E1000_EXTCNF_CTRL  0x00F00  /* Extended Configuration Control */
- #define E1000_EXTCNF_SIZE  0x00F08  /* Extended Configuration Size */
- #define E1000_PHY_CTRL     0x00F10  /* PHY Control Register in CSR */
--#define FEXTNVM_SW_CONFIG  0x0001
- #define E1000_PBA      0x01000  /* Packet Buffer Allocation - RW */
- #define E1000_PBM      0x10000  /* Packet Buffer Memory - RW */
- #define E1000_PBS      0x01008  /* Packet Buffer Size - RW */
--#define E1000_EEMNGCTL 0x01010  /* MNG EEprom Control */
--#define E1000_EEMNGDATA    0x01014 /* MNG EEPROM Read/Write data */
--#define E1000_FLMNGCTL     0x01018 /* MNG Flash Control */
--#define E1000_FLMNGDATA    0x0101C /* MNG FLASH Read data */
--#define E1000_FLMNGCNT     0x01020 /* MNG FLASH Read Counter */
--#define E1000_FLASH_UPDATES 1000
--#define E1000_EEARBC   0x01024  /* EEPROM Auto Read Bus Control */
- #define E1000_FLASHT   0x01028  /* FLASH Timer Register */
- #define E1000_EEWR     0x0102C  /* EEPROM Write Register - RW */
- #define E1000_FLSWCTL  0x01030  /* FLASH control register */
- #define E1000_FLSWDATA 0x01034  /* FLASH data register */
- #define E1000_FLSWCNT  0x01038  /* FLASH Access Counter */
--#define E1000_FLOP     0x0103C  /* FLASH Opcode Register */
- #define E1000_FLOL     0x01050  /* FEEP Auto Load */
- #define E1000_ERT      0x02008  /* Early Rx Threshold - RW */
--#define E1000_FCRTL    0x02160  /* Flow Control Receive Threshold Low - RW */
--#define E1000_FCRTL_A  0x00168  /* Alias to FCRTL */
--#define E1000_FCRTH    0x02168  /* Flow Control Receive Threshold High - RW */
- #define E1000_FCRTH_A  0x00160  /* Alias to FCRTH */
- #define E1000_PSRCTL   0x02170  /* Packet Split Receive Control - RW */
- #define E1000_RDBAL    0x02800  /* RX Descriptor Base Address Low - RW */
-@@ -208,23 +86,7 @@
- #define E1000_RADV     0x0282C  /* RX Interrupt Absolute Delay Timer - RW */
- #define E1000_RSRPD    0x02C00  /* RX Small Packet Detect - RW */
- #define E1000_RAID     0x02C08  /* Receive Ack Interrupt Delay - RW */
--#define E1000_TXDMAC   0x03000  /* TX DMA Control - RW */
--#define E1000_KABGTXD  0x03004  /* AFE Band Gap Transmit Ref Data */
- #define E1000_POEMB    0x00F10  /* PHY OEM Bits Register - RW */
--#define E1000_RDFH     0x02410  /* Receive Data FIFO Head Register - RW */
--#define E1000_RDFH_A   0x08000  /* Alias to RDFH */
--#define E1000_RDFT     0x02418  /* Receive Data FIFO Tail Register - RW */
--#define E1000_RDFT_A   0x08008  /* Alias to RDFT */
--#define E1000_RDFHS    0x02420  /* Receive Data FIFO Head Saved Register - RW */
--#define E1000_RDFTS    0x02428  /* Receive Data FIFO Tail Saved Register - RW */
--#define E1000_RDFPC    0x02430  /* Receive Data FIFO Packet Count - RW */
--#define E1000_TDFH     0x03410  /* TX Data FIFO Head - RW */
--#define E1000_TDFH_A   0x08010  /* Alias to TDFH */
--#define E1000_TDFT     0x03418  /* TX Data FIFO Tail - RW */
--#define E1000_TDFT_A   0x08018  /* Alias to TDFT */
--#define E1000_TDFHS    0x03420  /* TX Data FIFO Head Saved - RW */
--#define E1000_TDFTS    0x03428  /* TX Data FIFO Tail Saved - RW */
--#define E1000_TDFPC    0x03430  /* TX Data FIFO Packet Count - RW */
- #define E1000_TDBAL    0x03800  /* TX Descriptor Base Address Low - RW */
- #define E1000_TDBAL_A  0x00420  /* Alias to TDBAL */
- #define E1000_TDBAH    0x03804  /* TX Descriptor Base Address High - RW */
-@@ -248,174 +110,40 @@
- #define E1000_TDT1     0x03918  /* TX Desc Tail (1) - RW */
- #define E1000_TXDCTL1  0x03928  /* TX Descriptor Control (1) - RW */
- #define E1000_TARC1    0x03940  /* TX Arbitration Count (1) */
--#define E1000_CRCERRS  0x04000  /* CRC Error Count - R/clr */
--#define E1000_ALGNERRC 0x04004  /* Alignment Error Count - R/clr */
--#define E1000_SYMERRS  0x04008  /* Symbol Error Count - R/clr */
--#define E1000_RXERRC   0x0400C  /* Receive Error Count - R/clr */
--#define E1000_MPC      0x04010  /* Missed Packet Count - R/clr */
--#define E1000_SCC      0x04014  /* Single Collision Count - R/clr */
--#define E1000_ECOL     0x04018  /* Excessive Collision Count - R/clr */
--#define E1000_MCC      0x0401C  /* Multiple Collision Count - R/clr */
--#define E1000_LATECOL  0x04020  /* Late Collision Count - R/clr */
--#define E1000_COLC     0x04028  /* Collision Count - R/clr */
--#define E1000_DC       0x04030  /* Defer Count - R/clr */
--#define E1000_TNCRS    0x04034  /* TX-No CRS - R/clr */
- #define E1000_SEQEC    0x04038  /* Sequence Error Count - R/clr */
- #define E1000_CEXTERR  0x0403C  /* Carrier Extension Error Count - R/clr */
--#define E1000_RLEC     0x04040  /* Receive Length Error Count - R/clr */
--#define E1000_XONRXC   0x04048  /* XON RX Count - R/clr */
--#define E1000_XONTXC   0x0404C  /* XON TX Count - R/clr */
--#define E1000_XOFFRXC  0x04050  /* XOFF RX Count - R/clr */
--#define E1000_XOFFTXC  0x04054  /* XOFF TX Count - R/clr */
--#define E1000_FCRUC    0x04058  /* Flow Control RX Unsupported Count- R/clr */
--#define E1000_PRC64    0x0405C  /* Packets RX (64 bytes) - R/clr */
--#define E1000_PRC127   0x04060  /* Packets RX (65-127 bytes) - R/clr */
--#define E1000_PRC255   0x04064  /* Packets RX (128-255 bytes) - R/clr */
--#define E1000_PRC511   0x04068  /* Packets RX (255-511 bytes) - R/clr */
--#define E1000_PRC1023  0x0406C  /* Packets RX (512-1023 bytes) - R/clr */
--#define E1000_PRC1522  0x04070  /* Packets RX (1024-1522 bytes) - R/clr */
--#define E1000_GPRC     0x04074  /* Good Packets RX Count - R/clr */
--#define E1000_BPRC     0x04078  /* Broadcast Packets RX Count - R/clr */
--#define E1000_MPRC     0x0407C  /* Multicast Packets RX Count - R/clr */
--#define E1000_GPTC     0x04080  /* Good Packets TX Count - R/clr */
--#define E1000_GORCL    0x04088  /* Good Octets RX Count Low - R/clr */
--#define E1000_GORCH    0x0408C  /* Good Octets RX Count High - R/clr */
--#define E1000_GOTCL    0x04090  /* Good Octets TX Count Low - R/clr */
--#define E1000_GOTCH    0x04094  /* Good Octets TX Count High - R/clr */
--#define E1000_RNBC     0x040A0  /* RX No Buffers Count - R/clr */
--#define E1000_RUC      0x040A4  /* RX Undersize Count - R/clr */
--#define E1000_RFC      0x040A8  /* RX Fragment Count - R/clr */
--#define E1000_ROC      0x040AC  /* RX Oversize Count - R/clr */
--#define E1000_RJC      0x040B0  /* RX Jabber Count - R/clr */
--#define E1000_MGTPRC   0x040B4  /* Management Packets RX Count - R/clr */
--#define E1000_MGTPDC   0x040B8  /* Management Packets Dropped Count - R/clr */
--#define E1000_MGTPTC   0x040BC  /* Management Packets TX Count - R/clr */
--#define E1000_TORL     0x040C0  /* Total Octets RX Low - R/clr */
--#define E1000_TORH     0x040C4  /* Total Octets RX High - R/clr */
--#define E1000_TOTL     0x040C8  /* Total Octets TX Low - R/clr */
--#define E1000_TOTH     0x040CC  /* Total Octets TX High - R/clr */
--#define E1000_TPR      0x040D0  /* Total Packets RX - R/clr */
--#define E1000_TPT      0x040D4  /* Total Packets TX - R/clr */
--#define E1000_PTC64    0x040D8  /* Packets TX (64 bytes) - R/clr */
--#define E1000_PTC127   0x040DC  /* Packets TX (65-127 bytes) - R/clr */
--#define E1000_PTC255   0x040E0  /* Packets TX (128-255 bytes) - R/clr */
--#define E1000_PTC511   0x040E4  /* Packets TX (256-511 bytes) - R/clr */
--#define E1000_PTC1023  0x040E8  /* Packets TX (512-1023 bytes) - R/clr */
--#define E1000_PTC1522  0x040EC  /* Packets TX (1024-1522 Bytes) - R/clr */
--#define E1000_MPTC     0x040F0  /* Multicast Packets TX Count - R/clr */
--#define E1000_BPTC     0x040F4  /* Broadcast Packets TX Count - R/clr */
--#define E1000_TSCTC    0x040F8  /* TCP Segmentation Context TX - R/clr */
- #define E1000_TSCTFC   0x040FC  /* TCP Segmentation Context TX Fail - R/clr */
--#define E1000_IAC      0x04100  /* Interrupt Assertion Count */
--#define E1000_ICRXPTC  0x04104  /* Interrupt Cause Rx Packet Timer Expire Count */
- #define E1000_ICRXATC  0x04108  /* Interrupt Cause Rx Absolute Timer Expire Count */
- #define E1000_ICTXPTC  0x0410C  /* Interrupt Cause Tx Packet Timer Expire Count */
- #define E1000_ICTXATC  0x04110  /* Interrupt Cause Tx Absolute Timer Expire Count */
- #define E1000_ICTXQEC  0x04118  /* Interrupt Cause Tx Queue Empty Count */
- #define E1000_ICTXQMTC 0x0411C  /* Interrupt Cause Tx Queue Minimum Threshold Count */
--#define E1000_ICRXDMTC 0x04120  /* Interrupt Cause Rx Descriptor Minimum Threshold Count */
- #define E1000_ICRXOC   0x04124  /* Interrupt Cause Receiver Overrun Count */
--#define E1000_RXCSUM   0x05000  /* RX Checksum Control - RW */
--#define E1000_RFCTL    0x05008  /* Receive Filter Control*/
--#define E1000_MAVTV0   0x05010  /* Management VLAN TAG Value 0 */
--#define E1000_MAVTV1   0x05014  /* Management VLAN TAG Value 1 */
--#define E1000_MAVTV2   0x05018  /* Management VLAN TAG Value 2 */
--#define E1000_MAVTV3   0x0501c  /* Management VLAN TAG Value 3 */
--#define E1000_MTA      0x05200  /* Multicast Table Array - RW Array */
--#define E1000_RA       0x05400  /* Receive Address - RW Array */
--#define E1000_RA_A     0x00040  /* Alias to RA */
--#define E1000_VFTA     0x05600  /* VLAN Filter Table Array - RW Array */
--#define E1000_VFTA_A   0x00600  /* Alias to VFTA */
--#define E1000_WUC      0x05800  /* Wakeup Control - RW */
--#define E1000_WUFC     0x05808  /* Wakeup Filter Control - RW */
--#define E1000_WUS      0x05810  /* Wakeup Status - RO */
--#define E1000_MANC     0x05820  /* Management Control - RW */
--#define E1000_IPAV     0x05838  /* IP Address Valid - RW */
--#define E1000_IP4AT    0x05840  /* IPv4 Address Table - RW Array */
--#define E1000_IP6AT    0x05880  /* IPv6 Address Table - RW Array */
--#define E1000_WUPL     0x05900  /* Wakeup Packet Length - RW */
--#define E1000_WUPM     0x05A00  /* Wakeup Packet Memory - RO A */
- #define E1000_MFUTP01  0x05828  /* Management Flex UDP/TCP Ports 0/1 - RW */
- #define E1000_MFUTP23  0x05830  /* Management Flex UDP/TCP Ports 2/3 - RW */
--#define E1000_MFVAL    0x05824  /* Manageability Filters Valid - RW */
--#define E1000_MDEF     0x05890  /* Manageability Decision Filters - RW Array */
- #define E1000_FFLT     0x05F00  /* Flexible Filter Length Table - RW Array */
- #define E1000_HOST_IF  0x08800  /* Host Interface */
--#define E1000_FFMT     0x09000  /* Flexible Filter Mask Table - RW Array */
--#define E1000_FTFT     0x09400  /* Flexible TCO Filter Table - RW Array */
- #define E1000_FFVT     0x09800  /* Flexible Filter Value Table - RW Array */
- 
- #define E1000_KUMCTRLSTA 0x00034 /* MAC-PHY interface - RW */
- #define E1000_MDPHYA     0x0003C /* PHY address - RW */
--#define E1000_MANC2H     0x05860 /* Management Control To Host - RW */
--#define E1000_SW_FW_SYNC 0x05B5C /* Software-Firmware Synchronization - RW */
- 
--#define E1000_GCR       0x05B00 /* PCI-Ex Control */
--#define E1000_FUNCTAG   0x05B08 /* Function-Tag Register */
--#define E1000_GSCL_1    0x05B10 /* PCI-Ex Statistic Control #1 */
--#define E1000_GSCL_2    0x05B14 /* PCI-Ex Statistic Control #2 */
--#define E1000_GSCL_3    0x05B18 /* PCI-Ex Statistic Control #3 */
--#define E1000_GSCL_4    0x05B1C /* PCI-Ex Statistic Control #4 */
--#define E1000_GSCN_0    0x05B20 /* 3GIO Statistic Counter Register #0 */
--#define E1000_GSCN_1    0x05B24 /* 3GIO Statistic Counter Register #1 */
--#define E1000_GSCN_2    0x05B28 /* 3GIO Statistic Counter Register #2 */
--#define E1000_GSCN_3    0x05B2C /* 3GIO Statistic Counter Register #3 */
--#define E1000_FACTPS    0x05B30 /* Function Active and Power State to MNG */
--#define E1000_SWSM      0x05B50 /* SW Semaphore */
- #define E1000_GCR2      0x05B64 /* 3GIO Control Register 2 */
--#define E1000_FWSM      0x05B54 /* FW Semaphore */
--#define E1000_PBACLR    0x05B68 /* MSI-X PBA Clear */
- #define E1000_FFLT_DBG  0x05F04 /* Debug Register */
- #define E1000_HICR      0x08F00 /* Host Inteface Control */
- 
--#define E1000_TSYNCRXCTL 0x0B620 /* Rx Time Sync Control register - RW */
--#define E1000_TSYNCTXCTL 0x0B614 /* Tx Time Sync Control register - RW */
--#define E1000_TIMINCA    0x0B608 /* Increment attributes register - RW */
--#define E1000_RXSTMPL    0x0B624 /* Rx timestamp Low - RO */
--#define E1000_RXSTMPH    0x0B628 /* Rx timestamp High - RO */
--#define E1000_TXSTMPL    0x0B618 /* Tx timestamp value Low - RO */
--#define E1000_TXSTMPH    0x0B61C /* Tx timestamp value High - RO */
--#define E1000_SYSTIML    0x0B600 /* System time register Low - RO */
--#define E1000_SYSTIMH    0x0B604 /* System time register High - RO */
--#define E1000_TIMINCA    0x0B608 /* Increment attributes register - RW */
- #define E1000_RXMTRL     0x0B634 /* Time sync Rx EtherType and Msg Type - RW */
- #define E1000_RXUDP      0x0B638 /* Time Sync Rx UDP Port - RW */
--#define E1000_RXSATRL    0x0B62C /* Rx timestamp attribute low - RO */
--#define E1000_RXSATRH    0x0B630 /* Rx timestamp attribute high - RO */
--#define E1000_TIMADJL    0x0B60C /* Time Adjustment Offset register Low - RW */
--#define E1000_TIMADJH    0x0B610 /* Time Adjustment Offset register High - RW */
- #define E1000_RXCFGL     0x0B634 /* RX Ethertype and Message Type - RW*/
- 
--/* RSS registers */
-+#define E1000_MRQC_ENABLED(mrqc) (((mrqc) & (BIT(0) | BIT(1))) == BIT(0))
++uint64_t igb_mmio_read(void *opaque, hwaddr addr, unsigned size);
++void igb_mmio_write(void *opaque, hwaddr addr, uint64_t val, unsigned size);
 +
- #define E1000_CPUVEC    0x02C10 /* CPU Vector Register - RW */
--#define E1000_MRQC      0x05818 /* Multiple Receive Control - RW */
--#define E1000_RETA      0x05C00 /* Redirection Table - RW Array */
--#define E1000_RSSRK     0x05C80 /* RSS Random Key - RW Array */
- #define E1000_RSSIM     0x05864 /* RSS Interrupt Mask */
- #define E1000_RSSIR     0x05868 /* RSS Interrupt Request */
- 
--#define E1000_MRQC_ENABLED(mrqc) (((mrqc) & (BIT(0) | BIT(1))) == BIT(0))
--
--#define E1000_RETA_IDX(hash)        ((hash) & (BIT(7) - 1))
--#define E1000_RETA_VAL(reta, hash)  (((uint8_t *)(reta))[E1000_RETA_IDX(hash)])
- #define E1000_RSS_QUEUE(reta, hash) ((E1000_RETA_VAL(reta, hash) & BIT(7)) >> 7)
- 
--#define E1000_MRQC_EN_TCPIPV4(mrqc) ((mrqc) & BIT(16))
--#define E1000_MRQC_EN_IPV4(mrqc)    ((mrqc) & BIT(17))
--#define E1000_MRQC_EN_TCPIPV6(mrqc) ((mrqc) & BIT(18))
--#define E1000_MRQC_EN_IPV6EX(mrqc)  ((mrqc) & BIT(19))
--#define E1000_MRQC_EN_IPV6(mrqc)    ((mrqc) & BIT(20))
--
--#define E1000_MRQ_RSS_TYPE_NONE     (0)
--#define E1000_MRQ_RSS_TYPE_IPV4TCP  (1)
--#define E1000_MRQ_RSS_TYPE_IPV4     (2)
--#define E1000_MRQ_RSS_TYPE_IPV6TCP  (3)
--#define E1000_MRQ_RSS_TYPE_IPV6EX   (4)
--#define E1000_MRQ_RSS_TYPE_IPV6     (5)
--
--#define E1000_ICR_ASSERTED BIT(31)
--#define E1000_EIAC_MASK    0x01F00000
--
- /* [TR]DBAL and [TR]DLEN masks */
- #define E1000_XDBAL_MASK            (~(BIT(4) - 1))
- #define E1000_XDLEN_MASK            ((BIT(20) - 1) & (~(BIT(7) - 1)))
-@@ -444,18 +172,8 @@
- 
- #define E1000_IVAR_TX_INT_EVERY_WB  BIT(31)
- 
--/* RFCTL register bits */
--#define E1000_RFCTL_ISCSI_DIS           0x00000001
--#define E1000_RFCTL_NFSW_DIS            0x00000040
--#define E1000_RFCTL_NFSR_DIS            0x00000080
--#define E1000_RFCTL_IPV6_DIS            0x00000400
--#define E1000_RFCTL_IPV6_XSUM_DIS       0x00000800
- #define E1000_RFCTL_ACK_DIS             0x00001000
- #define E1000_RFCTL_ACK_DATA_DIS        0x00002000
--#define E1000_RFCTL_IPFRSP_DIS          0x00004000
--#define E1000_RFCTL_EXTEN               0x00008000
--#define E1000_RFCTL_IPV6_EX_DIS         0x00010000
--#define E1000_RFCTL_NEW_IPV6_EXT_DIS    0x00020000
- 
- /* PSRCTL parsing */
- #define E1000_PSRCTL_BSIZE0_MASK   0x0000007F
-@@ -470,9 +188,6 @@
- 
- #define E1000_PSRCTL_BUFFS_PER_DESC 4
- 
--/* TARC* parsing */
--#define E1000_TARC_ENABLE BIT(10)
--
- /* PHY 1000 MII Register/Bit Definitions */
- /* 82574-specific registers */
- #define PHY_COPPER_CTRL1      0x10 /* Copper Specific Control Register 1 */
-@@ -525,262 +240,6 @@
- #define M88E1000_PHY_VCO_REG_BIT8  0x100 /* Bits 8 & 11 are adjusted for */
- #define M88E1000_PHY_VCO_REG_BIT11 0x800    /* improved BER performance */
- 
--/* SW Semaphore Register */
--#define E1000_SWSM_SMBI         0x00000001 /* Driver Semaphore bit */
--#define E1000_SWSM_SWESMBI      0x00000002 /* FW Semaphore bit */
--#define E1000_SWSM_DRV_LOAD     0x00000008 /* Driver Loaded Bit */
--
--#define E1000_SWSM2_LOCK        0x00000002 /* Secondary driver semaphore bit */
--
--/* Interrupt Cause Read */
--#define E1000_ICR_TXDW          0x00000001 /* Transmit desc written back */
--#define E1000_ICR_TXQE          0x00000002 /* Transmit Queue empty */
--#define E1000_ICR_LSC           0x00000004 /* Link Status Change */
--#define E1000_ICR_RXSEQ         0x00000008 /* rx sequence error */
--#define E1000_ICR_RXDMT0        0x00000010 /* rx desc min. threshold (0) */
--#define E1000_ICR_RXO           0x00000040 /* rx overrun */
--#define E1000_ICR_RXT0          0x00000080 /* rx timer intr (ring 0) */
--#define E1000_ICR_MDAC          0x00000200 /* MDIO access complete */
--#define E1000_ICR_RXCFG         0x00000400 /* RX /c/ ordered set */
--#define E1000_ICR_GPI_EN0       0x00000800 /* GP Int 0 */
--#define E1000_ICR_GPI_EN1       0x00001000 /* GP Int 1 */
--#define E1000_ICR_GPI_EN2       0x00002000 /* GP Int 2 */
--#define E1000_ICR_GPI_EN3       0x00004000 /* GP Int 3 */
--#define E1000_ICR_TXD_LOW       0x00008000
--#define E1000_ICR_SRPD          0x00010000
--#define E1000_ICR_ACK           0x00020000 /* Receive Ack frame */
--#define E1000_ICR_MNG           0x00040000 /* Manageability event */
--#define E1000_ICR_DOCK          0x00080000 /* Dock/Undock */
--#define E1000_ICR_INT_ASSERTED  0x80000000 /* If this bit asserted, the driver should claim the interrupt */
--#define E1000_ICR_RXD_FIFO_PAR0 0x00100000 /* queue 0 Rx descriptor FIFO parity error */
--#define E1000_ICR_TXD_FIFO_PAR0 0x00200000 /* queue 0 Tx descriptor FIFO parity error */
--#define E1000_ICR_HOST_ARB_PAR  0x00400000 /* host arb read buffer parity error */
--#define E1000_ICR_PB_PAR        0x00800000 /* packet buffer parity error */
--#define E1000_ICR_RXD_FIFO_PAR1 0x01000000 /* queue 1 Rx descriptor FIFO parity error */
--#define E1000_ICR_TXD_FIFO_PAR1 0x02000000 /* queue 1 Tx descriptor FIFO parity error */
--#define E1000_ICR_ALL_PARITY    0x03F00000 /* all parity error bits */
--#define E1000_ICR_DSW           0x00000020 /* FW changed the status of DISSW bit in the FWSM */
--#define E1000_ICR_PHYINT        0x00001000 /* LAN connected device generates an interrupt */
--#define E1000_ICR_EPRST         0x00100000 /* ME handware reset occurs */
--#define E1000_ICR_RXQ0          0x00100000 /* Rx Queue 0 Interrupt */
--#define E1000_ICR_RXQ1          0x00200000 /* Rx Queue 1 Interrupt */
--#define E1000_ICR_TXQ0          0x00400000 /* Tx Queue 0 Interrupt */
--#define E1000_ICR_TXQ1          0x00800000 /* Tx Queue 1 Interrupt */
--#define E1000_ICR_OTHER         0x01000000 /* Other Interrupts */
--
--#define E1000_ICR_OTHER_CAUSES (E1000_ICR_LSC  | \
--                                E1000_ICR_RXO  | \
--                                E1000_ICR_MDAC | \
--                                E1000_ICR_SRPD | \
--                                E1000_ICR_ACK  | \
--                                E1000_ICR_MNG)
--
--/* Interrupt Cause Set */
--#define E1000_ICS_TXDW      E1000_ICR_TXDW      /* Transmit desc written back */
--#define E1000_ICS_TXQE      E1000_ICR_TXQE      /* Transmit Queue empty */
--#define E1000_ICS_LSC       E1000_ICR_LSC       /* Link Status Change */
--#define E1000_ICS_RXSEQ     E1000_ICR_RXSEQ     /* rx sequence error */
--#define E1000_ICS_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
--#define E1000_ICS_RXO       E1000_ICR_RXO       /* rx overrun */
--#define E1000_ICS_RXT0      E1000_ICR_RXT0      /* rx timer intr */
--#define E1000_ICS_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
--#define E1000_ICS_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
--#define E1000_ICS_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
--#define E1000_ICS_GPI_EN1   E1000_ICR_GPI_EN1   /* GP Int 1 */
--#define E1000_ICS_GPI_EN2   E1000_ICR_GPI_EN2   /* GP Int 2 */
--#define E1000_ICS_GPI_EN3   E1000_ICR_GPI_EN3   /* GP Int 3 */
--#define E1000_ICS_TXD_LOW   E1000_ICR_TXD_LOW
--#define E1000_ICS_SRPD      E1000_ICR_SRPD
--#define E1000_ICS_ACK       E1000_ICR_ACK       /* Receive Ack frame */
--#define E1000_ICS_MNG       E1000_ICR_MNG       /* Manageability event */
--#define E1000_ICS_DOCK      E1000_ICR_DOCK      /* Dock/Undock */
--#define E1000_ICS_RXD_FIFO_PAR0 E1000_ICR_RXD_FIFO_PAR0 /* queue 0 Rx descriptor FIFO parity error */
--#define E1000_ICS_TXD_FIFO_PAR0 E1000_ICR_TXD_FIFO_PAR0 /* queue 0 Tx descriptor FIFO parity error */
--#define E1000_ICS_HOST_ARB_PAR  E1000_ICR_HOST_ARB_PAR  /* host arb read buffer parity error */
--#define E1000_ICS_PB_PAR        E1000_ICR_PB_PAR        /* packet buffer parity error */
--#define E1000_ICS_RXD_FIFO_PAR1 E1000_ICR_RXD_FIFO_PAR1 /* queue 1 Rx descriptor FIFO parity error */
--#define E1000_ICS_TXD_FIFO_PAR1 E1000_ICR_TXD_FIFO_PAR1 /* queue 1 Tx descriptor FIFO parity error */
--#define E1000_ICS_DSW       E1000_ICR_DSW
--#define E1000_ICS_PHYINT    E1000_ICR_PHYINT
--#define E1000_ICS_EPRST     E1000_ICR_EPRST
--
--/* Interrupt Mask Set */
--#define E1000_IMS_TXDW      E1000_ICR_TXDW      /* Transmit desc written back */
--#define E1000_IMS_TXQE      E1000_ICR_TXQE      /* Transmit Queue empty */
--#define E1000_IMS_LSC       E1000_ICR_LSC       /* Link Status Change */
--#define E1000_IMS_RXSEQ     E1000_ICR_RXSEQ     /* rx sequence error */
--#define E1000_IMS_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
--#define E1000_IMS_RXO       E1000_ICR_RXO       /* rx overrun */
--#define E1000_IMS_RXT0      E1000_ICR_RXT0      /* rx timer intr */
--#define E1000_IMS_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
--#define E1000_IMS_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
--#define E1000_IMS_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
--#define E1000_IMS_GPI_EN1   E1000_ICR_GPI_EN1   /* GP Int 1 */
--#define E1000_IMS_GPI_EN2   E1000_ICR_GPI_EN2   /* GP Int 2 */
--#define E1000_IMS_GPI_EN3   E1000_ICR_GPI_EN3   /* GP Int 3 */
--#define E1000_IMS_TXD_LOW   E1000_ICR_TXD_LOW
--#define E1000_IMS_SRPD      E1000_ICR_SRPD
--#define E1000_IMS_ACK       E1000_ICR_ACK       /* Receive Ack frame */
--#define E1000_IMS_MNG       E1000_ICR_MNG       /* Manageability event */
--#define E1000_IMS_RXQ0      E1000_ICR_RXQ0
--#define E1000_IMS_RXQ1      E1000_ICR_RXQ1
--#define E1000_IMS_TXQ0      E1000_ICR_TXQ0
--#define E1000_IMS_TXQ1      E1000_ICR_TXQ1
--#define E1000_IMS_OTHER     E1000_ICR_OTHER
--#define E1000_IMS_DOCK      E1000_ICR_DOCK      /* Dock/Undock */
--#define E1000_IMS_RXD_FIFO_PAR0 E1000_ICR_RXD_FIFO_PAR0 /* queue 0 Rx descriptor FIFO parity error */
--#define E1000_IMS_TXD_FIFO_PAR0 E1000_ICR_TXD_FIFO_PAR0 /* queue 0 Tx descriptor FIFO parity error */
--#define E1000_IMS_HOST_ARB_PAR  E1000_ICR_HOST_ARB_PAR  /* host arb read buffer parity error */
--#define E1000_IMS_PB_PAR        E1000_ICR_PB_PAR        /* packet buffer parity error */
--#define E1000_IMS_RXD_FIFO_PAR1 E1000_ICR_RXD_FIFO_PAR1 /* queue 1 Rx descriptor FIFO parity error */
--#define E1000_IMS_TXD_FIFO_PAR1 E1000_ICR_TXD_FIFO_PAR1 /* queue 1 Tx descriptor FIFO parity error */
--#define E1000_IMS_DSW       E1000_ICR_DSW
--#define E1000_IMS_PHYINT    E1000_ICR_PHYINT
--#define E1000_IMS_EPRST     E1000_ICR_EPRST
--
--/* Interrupt Mask Clear */
--#define E1000_IMC_TXDW      E1000_ICR_TXDW      /* Transmit desc written back */
--#define E1000_IMC_TXQE      E1000_ICR_TXQE      /* Transmit Queue empty */
--#define E1000_IMC_LSC       E1000_ICR_LSC       /* Link Status Change */
--#define E1000_IMC_RXSEQ     E1000_ICR_RXSEQ     /* rx sequence error */
--#define E1000_IMC_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
--#define E1000_IMC_RXO       E1000_ICR_RXO       /* rx overrun */
--#define E1000_IMC_RXT0      E1000_ICR_RXT0      /* rx timer intr */
--#define E1000_IMC_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
--#define E1000_IMC_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
--#define E1000_IMC_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
--#define E1000_IMC_GPI_EN1   E1000_ICR_GPI_EN1   /* GP Int 1 */
--#define E1000_IMC_GPI_EN2   E1000_ICR_GPI_EN2   /* GP Int 2 */
--#define E1000_IMC_GPI_EN3   E1000_ICR_GPI_EN3   /* GP Int 3 */
--#define E1000_IMC_TXD_LOW   E1000_ICR_TXD_LOW
--#define E1000_IMC_SRPD      E1000_ICR_SRPD
--#define E1000_IMC_ACK       E1000_ICR_ACK       /* Receive Ack frame */
--#define E1000_IMC_MNG       E1000_ICR_MNG       /* Manageability event */
--#define E1000_IMC_DOCK      E1000_ICR_DOCK      /* Dock/Undock */
--#define E1000_IMC_RXD_FIFO_PAR0 E1000_ICR_RXD_FIFO_PAR0 /* queue 0 Rx descriptor FIFO parity error */
--#define E1000_IMC_TXD_FIFO_PAR0 E1000_ICR_TXD_FIFO_PAR0 /* queue 0 Tx descriptor FIFO parity error */
--#define E1000_IMC_HOST_ARB_PAR  E1000_ICR_HOST_ARB_PAR  /* host arb read buffer parity error */
--#define E1000_IMC_PB_PAR        E1000_ICR_PB_PAR        /* packet buffer parity error */
--#define E1000_IMC_RXD_FIFO_PAR1 E1000_ICR_RXD_FIFO_PAR1 /* queue 1 Rx descriptor FIFO parity error */
--#define E1000_IMC_TXD_FIFO_PAR1 E1000_ICR_TXD_FIFO_PAR1 /* queue 1 Tx descriptor FIFO parity error */
--#define E1000_IMC_DSW       E1000_ICR_DSW
--#define E1000_IMC_PHYINT    E1000_ICR_PHYINT
--#define E1000_IMC_EPRST     E1000_ICR_EPRST
--
--/* Receive Control */
--#define E1000_RCTL_RST            0x00000001    /* Software reset */
--#define E1000_RCTL_EN             0x00000002    /* enable */
--#define E1000_RCTL_SBP            0x00000004    /* store bad packet */
--#define E1000_RCTL_UPE            0x00000008    /* unicast promiscuous enable */
--#define E1000_RCTL_MPE            0x00000010    /* multicast promiscuous enab */
--#define E1000_RCTL_LPE            0x00000020    /* long packet enable */
--#define E1000_RCTL_LBM_NO         0x00000000    /* no loopback mode */
--#define E1000_RCTL_LBM_MAC        0x00000040    /* MAC loopback mode */
--#define E1000_RCTL_LBM_SLP        0x00000080    /* serial link loopback mode */
--#define E1000_RCTL_LBM_TCVR       0x000000C0    /* tcvr loopback mode */
--#define E1000_RCTL_DTYP_MASK      0x00000C00    /* Descriptor type mask */
--#define E1000_RCTL_DTYP_PS        0x00000400    /* Packet Split descriptor */
--#define E1000_RCTL_RDMTS_HALF     0x00000000    /* rx desc min threshold size */
--#define E1000_RCTL_RDMTS_QUAT     0x00000100    /* rx desc min threshold size */
--#define E1000_RCTL_RDMTS_EIGTH    0x00000200    /* rx desc min threshold size */
--#define E1000_RCTL_MO_SHIFT       12            /* multicast offset shift */
--#define E1000_RCTL_MO_0           0x00000000    /* multicast offset 11:0 */
--#define E1000_RCTL_MO_1           0x00001000    /* multicast offset 12:1 */
--#define E1000_RCTL_MO_2           0x00002000    /* multicast offset 13:2 */
--#define E1000_RCTL_MO_3           0x00003000    /* multicast offset 15:4 */
--#define E1000_RCTL_MDR            0x00004000    /* multicast desc ring 0 */
--#define E1000_RCTL_BAM            0x00008000    /* broadcast enable */
--/* these buffer sizes are valid if E1000_RCTL_BSEX is 0 */
--#define E1000_RCTL_SZ_2048        0x00000000    /* rx buffer size 2048 */
--#define E1000_RCTL_SZ_1024        0x00010000    /* rx buffer size 1024 */
--#define E1000_RCTL_SZ_512         0x00020000    /* rx buffer size 512 */
--#define E1000_RCTL_SZ_256         0x00030000    /* rx buffer size 256 */
--/* these buffer sizes are valid if E1000_RCTL_BSEX is 1 */
--#define E1000_RCTL_SZ_16384       0x00010000    /* rx buffer size 16384 */
--#define E1000_RCTL_SZ_8192        0x00020000    /* rx buffer size 8192 */
--#define E1000_RCTL_SZ_4096        0x00030000    /* rx buffer size 4096 */
--#define E1000_RCTL_VFE            0x00040000    /* vlan filter enable */
--#define E1000_RCTL_CFIEN          0x00080000    /* canonical form enable */
--#define E1000_RCTL_CFI            0x00100000    /* canonical form indicator */
--#define E1000_RCTL_DPF            0x00400000    /* discard pause frames */
--#define E1000_RCTL_PMCF           0x00800000    /* pass MAC control frames */
--#define E1000_RCTL_BSEX           0x02000000    /* Buffer size extension */
--#define E1000_RCTL_SECRC          0x04000000    /* Strip Ethernet CRC */
--#define E1000_RCTL_FLXBUF_MASK    0x78000000    /* Flexible buffer size */
--#define E1000_RCTL_FLXBUF_SHIFT   27            /* Flexible buffer shift */
--
--
--#define E1000_EEPROM_SWDPIN0   0x0001   /* SWDPIN 0 EEPROM Value */
--#define E1000_EEPROM_LED_LOGIC 0x0020   /* Led Logic Word */
--#define E1000_EEPROM_RW_REG_DATA   16   /* Offset to data in EEPROM read/write registers */
--#define E1000_EEPROM_RW_REG_DONE   0x10 /* Offset to READ/WRITE done bit */
--#define E1000_EEPROM_RW_REG_START  1    /* First bit for telling part to start operation */
--#define E1000_EEPROM_RW_ADDR_SHIFT 8    /* Shift to the address bits */
--#define E1000_EEPROM_POLL_WRITE    1    /* Flag for polling for write complete */
--#define E1000_EEPROM_POLL_READ     0    /* Flag for polling for read complete */
--
--/* 82574 EERD/EEWR registers layout */
--#define E1000_EERW_START        BIT(0)
--#define E1000_EERW_DONE         BIT(1)
--#define E1000_EERW_ADDR_SHIFT   2
--#define E1000_EERW_ADDR_MASK    ((1L << 14) - 1)
--#define E1000_EERW_DATA_SHIFT   16
--#define E1000_EERW_DATA_MASK   ((1L << 16) - 1)
--
--/* Register Bit Masks */
--/* Device Control */
--#define E1000_CTRL_FD       0x00000001  /* Full duplex.0=half; 1=full */
--#define E1000_CTRL_BEM      0x00000002  /* Endian Mode.0=little,1=big */
--#define E1000_CTRL_PRIOR    0x00000004  /* Priority on PCI. 0=rx,1=fair */
--#define E1000_CTRL_GIO_MASTER_DISABLE 0x00000004 /*Blocks new Master requests */
--#define E1000_CTRL_LRST     0x00000008  /* Link reset. 0=normal,1=reset */
--#define E1000_CTRL_TME      0x00000010  /* Test mode. 0=normal,1=test */
--#define E1000_CTRL_SLE      0x00000020  /* Serial Link on 0=dis,1=en */
--#define E1000_CTRL_ASDE     0x00000020  /* Auto-speed detect enable */
--#define E1000_CTRL_SLU      0x00000040  /* Set link up (Force Link) */
--#define E1000_CTRL_ILOS     0x00000080  /* Invert Loss-Of Signal */
--#define E1000_CTRL_SPD_SEL  0x00000300  /* Speed Select Mask */
--#define E1000_CTRL_SPD_10   0x00000000  /* Force 10Mb */
--#define E1000_CTRL_SPD_100  0x00000100  /* Force 100Mb */
--#define E1000_CTRL_SPD_1000 0x00000200  /* Force 1Gb */
--#define E1000_CTRL_BEM32    0x00000400  /* Big Endian 32 mode */
--#define E1000_CTRL_FRCSPD   0x00000800  /* Force Speed */
--#define E1000_CTRL_FRCDPX   0x00001000  /* Force Duplex */
--#define E1000_CTRL_D_UD_EN  0x00002000  /* Dock/Undock enable */
--#define E1000_CTRL_D_UD_POLARITY 0x00004000 /* Defined polarity of Dock/Undock indication in SDP[0] */
--#define E1000_CTRL_FORCE_PHY_RESET 0x00008000 /* Reset both PHY ports, through PHYRST_N pin */
--#define E1000_CTRL_SPD_SHIFT 8          /* Speed Select Shift */
--
--#define E1000_CTRL_EXT_ASDCHK  0x00001000 /* auto speed detection check */
--#define E1000_CTRL_EXT_EE_RST  0x00002000 /* EEPROM reset */
--#define E1000_CTRL_EXT_LINK_EN 0x00010000 /* enable link status from external LINK_0 and LINK_1 pins */
--#define E1000_CTRL_EXT_DRV_LOAD 0x10000000 /* Driver loaded bit for FW */
--#define E1000_CTRL_EXT_EIAME   0x01000000
--#define E1000_CTRL_EXT_IAME    0x08000000 /* Int ACK Auto-mask */
--#define E1000_CTRL_EXT_PBA_CLR 0x80000000 /* PBA Clear */
--#define E1000_CTRL_EXT_INT_TIMERS_CLEAR_ENA 0x20000000
--#define E1000_CTRL_EXT_SPD_BYPS  0x00008000 /* Speed Select Bypass */
--
--#define E1000_CTRL_SWDPIN0  0x00040000  /* SWDPIN 0 value */
--#define E1000_CTRL_SWDPIN1  0x00080000  /* SWDPIN 1 value */
--#define E1000_CTRL_SWDPIN2  0x00100000  /* SWDPIN 2 value */
--#define E1000_CTRL_SWDPIN3  0x00200000  /* SWDPIN 3 value */
--#define E1000_CTRL_SWDPIO0  0x00400000  /* SWDPIN 0 Input or output */
--#define E1000_CTRL_SWDPIO1  0x00800000  /* SWDPIN 1 input or output */
--#define E1000_CTRL_SWDPIO2  0x01000000  /* SWDPIN 2 input or output */
--#define E1000_CTRL_SWDPIO3  0x02000000  /* SWDPIN 3 input or output */
--#define E1000_CTRL_ADVD3WUC 0x00100000  /* D3 WUC */
--#define E1000_CTRL_RST      0x04000000  /* Global reset */
--#define E1000_CTRL_RFCE     0x08000000  /* Receive Flow Control enable */
--#define E1000_CTRL_TFCE     0x10000000  /* Transmit flow control enable */
--#define E1000_CTRL_RTE      0x20000000  /* Routing tag enable */
--#define E1000_CTRL_VME      0x40000000  /* IEEE VLAN mode enable */
--#define E1000_CTRL_PHY_RST  0x80000000  /* PHY Reset */
--#define E1000_CTRL_SW2FW_INT 0x02000000  /* Initiate an interrupt to manageability engine */
--
--/* Device Status */
--#define E1000_STATUS_FD         0x00000001      /* Full duplex.0=half,1=full */
--#define E1000_STATUS_LU         0x00000002      /* Link up.0=no,1=link */
- #define E1000_STATUS_FUNC_MASK  0x0000000C      /* PCI Function Mask */
- #define E1000_STATUS_FUNC_SHIFT 2
- #define E1000_STATUS_FUNC_0     0x00000000      /* Function 0 */
-@@ -788,9 +247,6 @@
- #define E1000_STATUS_TXOFF      0x00000010      /* transmission paused */
- #define E1000_STATUS_TBIMODE    0x00000020      /* TBI mode */
- #define E1000_STATUS_SPEED_MASK 0x000000C0
--#define E1000_STATUS_SPEED_10   0x00000000      /* Speed 10Mb/s */
--#define E1000_STATUS_SPEED_100  0x00000040      /* Speed 100Mb/s */
--#define E1000_STATUS_SPEED_1000 0x00000080      /* Speed 1000Mb/s */
- #define E1000_STATUS_LAN_INIT_DONE 0x00000200   /* Lan Init Completion
-                                                    by EEPROM/Flash */
- #define E1000_STATUS_ASDV       0x00000300      /* Auto speed detect value */
-@@ -798,9 +254,7 @@
- #define E1000_STATUS_ASDV_100   0x00000100      /* ASDV 100Mb */
- #define E1000_STATUS_ASDV_1000  0x00000200      /* ASDV 1Gb */
- #define E1000_STATUS_DOCK_CI    0x00000800      /* Change in Dock/Undock state. Clear on write '0'. */
--#define E1000_STATUS_GIO_MASTER_ENABLE 0x00080000 /* Status of Master requests. */
- #define E1000_STATUS_MTXCKOK    0x00000400      /* MTX clock running OK */
--#define E1000_STATUS_PHYRA      0x00000400      /* PHY Reset Asserted */
- #define E1000_STATUS_PCI66      0x00000800      /* In 66Mhz slot */
- #define E1000_STATUS_BUS64      0x00001000      /* In 64 bit slot */
- #define E1000_STATUS_PCIX_MODE  0x00002000      /* PCI-X mode */
-@@ -818,138 +272,6 @@
- #define E1000_STATUS_SPEED_SHIFT  6
- #define E1000_STATUS_ASDV_SHIFT   8
- 
--/* EEPROM/Flash Control */
--#define E1000_EECD_SK        0x00000001 /* EEPROM Clock */
--#define E1000_EECD_CS        0x00000002 /* EEPROM Chip Select */
--#define E1000_EECD_DI        0x00000004 /* EEPROM Data In */
--#define E1000_EECD_DO        0x00000008 /* EEPROM Data Out */
--#define E1000_EECD_FWE_MASK  0x00000030
--#define E1000_EECD_FWE_DIS   0x00000010 /* Disable FLASH writes */
--#define E1000_EECD_FWE_EN    0x00000020 /* Enable FLASH writes */
--#define E1000_EECD_FWE_SHIFT 4
--#define E1000_EECD_REQ       0x00000040 /* EEPROM Access Request */
--#define E1000_EECD_GNT       0x00000080 /* EEPROM Access Grant */
--#define E1000_EECD_PRES      0x00000100 /* EEPROM Present */
--#define E1000_EECD_SIZE      0x00000200 /* EEPROM Size (0=64 word 1=256 word) */
--#define E1000_EECD_ADDR_BITS 0x00000400 /* EEPROM Addressing bits based on type
--                                         * (0-small, 1-large) */
--#define E1000_EECD_TYPE      0x00002000 /* EEPROM Type (1-SPI, 0-Microwire) */
--#ifndef E1000_EEPROM_GRANT_ATTEMPTS
--#define E1000_EEPROM_GRANT_ATTEMPTS 1000 /* EEPROM # attempts to gain grant */
--#endif
--#define E1000_EECD_AUTO_RD          0x00000200  /* EEPROM Auto Read done */
--#define E1000_EECD_SIZE_EX_MASK     0x00007800  /* EEprom Size */
--#define E1000_EECD_SIZE_EX_SHIFT    11
--#define E1000_EECD_NVADDS    0x00018000 /* NVM Address Size */
--#define E1000_EECD_SELSHAD   0x00020000 /* Select Shadow RAM */
--#define E1000_EECD_INITSRAM  0x00040000 /* Initialize Shadow RAM */
--#define E1000_EECD_FLUPD     0x00080000 /* Update FLASH */
--#define E1000_EECD_AUPDEN    0x00100000 /* Enable Autonomous FLASH update */
--#define E1000_EECD_SHADV     0x00200000 /* Shadow RAM Data Valid */
--#define E1000_EECD_SEC1VAL   0x00400000 /* Sector One Valid */
--
--
--#define E1000_EECD_SECVAL_SHIFT      22
--#define E1000_STM_OPCODE     0xDB00
--#define E1000_HICR_FW_RESET  0xC0
--
--#define E1000_SHADOW_RAM_WORDS     2048
--#define E1000_ICH_NVM_SIG_WORD     0x13
--#define E1000_ICH_NVM_SIG_MASK     0xC0
--
--/* MDI Control */
--#define E1000_MDIC_DATA_MASK 0x0000FFFF
--#define E1000_MDIC_REG_MASK  0x001F0000
--#define E1000_MDIC_REG_SHIFT 16
--#define E1000_MDIC_PHY_MASK  0x03E00000
--#define E1000_MDIC_PHY_SHIFT 21
--#define E1000_MDIC_OP_WRITE  0x04000000
--#define E1000_MDIC_OP_READ   0x08000000
--#define E1000_MDIC_READY     0x10000000
--#define E1000_MDIC_INT_EN    0x20000000
--#define E1000_MDIC_ERROR     0x40000000
--
--/* Rx Interrupt Delay Timer */
--#define E1000_RDTR_FPD       BIT(31)
--
--/* Tx Interrupt Delay Timer */
--#define E1000_TIDV_FPD       BIT(31)
--
--/* Delay increments in nanoseconds for delayed interrupts registers */
--#define E1000_INTR_DELAY_NS_RES (1024)
--
--/* Delay increments in nanoseconds for interrupt throttling registers */
--#define E1000_INTR_THROTTLING_NS_RES (256)
--
--/* EEPROM Commands - Microwire */
--#define EEPROM_READ_OPCODE_MICROWIRE  0x6  /* EEPROM read opcode */
--#define EEPROM_WRITE_OPCODE_MICROWIRE 0x5  /* EEPROM write opcode */
--#define EEPROM_ERASE_OPCODE_MICROWIRE 0x7  /* EEPROM erase opcode */
--#define EEPROM_EWEN_OPCODE_MICROWIRE  0x13 /* EEPROM erase/write enable */
--#define EEPROM_EWDS_OPCODE_MICROWIRE  0x10 /* EEPROM erast/write disable */
--
--/* EEPROM Word Offsets */
--#define EEPROM_COMPAT                 0x0003
--#define EEPROM_ID_LED_SETTINGS        0x0004
--#define EEPROM_VERSION                0x0005
--#define EEPROM_SERDES_AMPLITUDE       0x0006 /* For SERDES output amplitude adjustment. */
--#define EEPROM_PHY_CLASS_WORD         0x0007
--#define EEPROM_INIT_CONTROL1_REG      0x000A
--#define EEPROM_INIT_CONTROL2_REG      0x000F
--#define EEPROM_SWDEF_PINS_CTRL_PORT_1 0x0010
--#define EEPROM_INIT_CONTROL3_PORT_B   0x0014
--#define EEPROM_INIT_3GIO_3            0x001A
--#define EEPROM_SWDEF_PINS_CTRL_PORT_0 0x0020
--#define EEPROM_INIT_CONTROL3_PORT_A   0x0024
--#define EEPROM_CFG                    0x0012
--#define EEPROM_FLASH_VERSION          0x0032
--#define EEPROM_CHECKSUM_REG           0x003F
--
--#define E1000_EEPROM_CFG_DONE         0x00040000   /* MNG config cycle done */
--#define E1000_EEPROM_CFG_DONE_PORT_1  0x00080000   /* ...for second port */
--
--/* HH Time Sync */
--#define E1000_TSYNCTXCTL_MAX_ALLOWED_DLY_MASK 0x0000F000 /* max delay */
--#define E1000_TSYNCTXCTL_SYNC_COMP            0x40000000 /* sync complete */
--#define E1000_TSYNCTXCTL_START_SYNC           0x80000000 /* initiate sync */
--
--#define E1000_TSYNCTXCTL_VALID                0x00000001 /* Tx timestamp valid */
--#define E1000_TSYNCTXCTL_ENABLED              0x00000010 /* enable Tx timestamping */
--
--#define E1000_TSYNCRXCTL_VALID                0x00000001 /* Rx timestamp valid */
--#define E1000_TSYNCRXCTL_TYPE_MASK            0x0000000E /* Rx type mask */
--#define E1000_TSYNCRXCTL_TYPE_L2_V2           0x00
--#define E1000_TSYNCRXCTL_TYPE_L4_V1           0x02
--#define E1000_TSYNCRXCTL_TYPE_L2_L4_V2        0x04
--#define E1000_TSYNCRXCTL_TYPE_ALL             0x08
--#define E1000_TSYNCRXCTL_TYPE_EVENT_V2        0x0A
--#define E1000_TSYNCRXCTL_ENABLED              0x00000010 /* enable Rx timestamping */
--#define E1000_TSYNCRXCTL_SYSCFI               0x00000020 /* Sys clock frequency */
--
--#define E1000_RXMTRL_PTP_V1_SYNC_MESSAGE      0x00000000
--#define E1000_RXMTRL_PTP_V1_DELAY_REQ_MESSAGE 0x00010000
--
--#define E1000_RXMTRL_PTP_V2_SYNC_MESSAGE      0x00000000
--#define E1000_RXMTRL_PTP_V2_DELAY_REQ_MESSAGE 0x01000000
--
--#define E1000_TIMINCA_INCPERIOD_SHIFT         24
--#define E1000_TIMINCA_INCVALUE_MASK           0x00FFFFFF
--
--/* PCI Express Control */
--/* 3GIO Control Register - GCR (0x05B00; RW) */
--#define E1000_L0S_ADJUST              (1 << 9)
--#define E1000_L1_ENTRY_LATENCY_MSB    (1 << 23)
--#define E1000_L1_ENTRY_LATENCY_LSB    (1 << 25 | 1 << 26)
--
--#define E1000_L0S_ADJUST              (1 << 9)
--#define E1000_L1_ENTRY_LATENCY_MSB    (1 << 23)
--#define E1000_L1_ENTRY_LATENCY_LSB    (1 << 25 | 1 << 26)
--
--#define E1000_GCR_RO_BITS             (1 << 23 | 1 << 25 | 1 << 26)
--
--/* MSI-X PBA Clear register */
--#define E1000_PBACLR_VALID_MASK       (BIT(5) - 1)
--
- /* Transmit Descriptor */
- struct e1000_tx_desc {
-     uint64_t buffer_addr;       /* Address of the descriptor's data buffer */
-@@ -971,277 +293,7 @@ struct e1000_tx_desc {
-     } upper;
- };
- 
--/* Transmit Descriptor bit definitions */
--#define E1000_TXD_DTYP_D     0x00100000 /* Data Descriptor */
--#define E1000_TXD_DTYP_C     0x00000000 /* Context Descriptor */
- #define E1000_TXD_POPTS_IXSM 0x01       /* Insert IP checksum */
- #define E1000_TXD_POPTS_TXSM 0x02       /* Insert TCP/UDP checksum */
--#define E1000_TXD_CMD_EOP    0x01000000 /* End of Packet */
--#define E1000_TXD_CMD_IFCS   0x02000000 /* Insert FCS (Ethernet CRC) */
--#define E1000_TXD_CMD_IC     0x04000000 /* Insert Checksum */
--#define E1000_TXD_CMD_RS     0x08000000 /* Report Status */
--#define E1000_TXD_CMD_RPS    0x10000000 /* Report Packet Sent */
--#define E1000_TXD_CMD_DEXT   0x20000000 /* Descriptor extension (0 = legacy) */
--#define E1000_TXD_CMD_VLE    0x40000000 /* Add VLAN tag */
--#define E1000_TXD_CMD_IDE    0x80000000 /* Enable Tidv register */
--#define E1000_TXD_STAT_DD    0x00000001 /* Descriptor Done */
--#define E1000_TXD_STAT_EC    0x00000002 /* Excess Collisions */
--#define E1000_TXD_STAT_LC    0x00000004 /* Late Collisions */
--#define E1000_TXD_STAT_TU    0x00000008 /* Transmit underrun */
--#define E1000_TXD_CMD_TCP    0x01000000 /* TCP packet */
--#define E1000_TXD_CMD_IP     0x02000000 /* IP packet */
--#define E1000_TXD_CMD_TSE    0x04000000 /* TCP Seg enable */
--#define E1000_TXD_CMD_SNAP   0x40000000 /* Update SNAP header */
--#define E1000_TXD_STAT_TC    0x00000004 /* Tx Underrun */
--#define E1000_TXD_EXTCMD_TSTAMP 0x00000010 /* IEEE1588 Timestamp packet */
--
--/* Transmit Control */
--#define E1000_TCTL_RST    0x00000001    /* software reset */
--#define E1000_TCTL_EN     0x00000002    /* enable tx */
--#define E1000_TCTL_BCE    0x00000004    /* busy check enable */
--#define E1000_TCTL_PSP    0x00000008    /* pad short packets */
--#define E1000_TCTL_CT     0x00000ff0    /* collision threshold */
--#define E1000_TCTL_COLD   0x003ff000    /* collision distance */
--#define E1000_TCTL_SWXOFF 0x00400000    /* SW Xoff transmission */
--#define E1000_TCTL_PBE    0x00800000    /* Packet Burst Enable */
--#define E1000_TCTL_RTLC   0x01000000    /* Re-transmit on late collision */
--#define E1000_TCTL_NRTU   0x02000000    /* No Re-transmit on underrun */
--#define E1000_TCTL_MULR   0x10000000    /* Multiple request support */
--
--/* Legacy Receive Descriptor */
--struct e1000_rx_desc {
--    uint64_t buffer_addr; /* Address of the descriptor's data buffer */
--    uint16_t length;     /* Length of data DMAed into data buffer */
--    uint16_t csum;       /* Packet checksum */
--    uint8_t status;      /* Descriptor status */
--    uint8_t errors;      /* Descriptor Errors */
--    uint16_t special;
--};
--
--/* Extended Receive Descriptor */
--union e1000_rx_desc_extended {
--    struct {
--        uint64_t buffer_addr;
--        uint64_t reserved;
--    } read;
--    struct {
--        struct {
--            uint32_t mrq;           /* Multiple Rx Queues */
--            union {
--                uint32_t rss;       /* RSS Hash */
--                struct {
--                    uint16_t ip_id; /* IP id */
--                    uint16_t csum;  /* Packet Checksum */
--                } csum_ip;
--            } hi_dword;
--        } lower;
--        struct {
--            uint32_t status_error;  /* ext status/error */
--            uint16_t length;
--            uint16_t vlan;          /* VLAN tag */
--        } upper;
--    } wb;                           /* writeback */
--};
--
--#define MAX_PS_BUFFERS 4
--
--/* Number of packet split data buffers (not including the header buffer) */
--#define PS_PAGE_BUFFERS    (MAX_PS_BUFFERS - 1)
--
--/* Receive Descriptor - Packet Split */
--union e1000_rx_desc_packet_split {
--    struct {
--        /* one buffer for protocol header(s), three data buffers */
--        uint64_t buffer_addr[MAX_PS_BUFFERS];
--    } read;
--    struct {
--        struct {
--            uint32_t mrq;          /* Multiple Rx Queues */
--            union {
--                uint32_t rss;          /* RSS Hash */
--                struct {
--                    uint16_t ip_id;    /* IP id */
--                    uint16_t csum;     /* Packet Checksum */
--                } csum_ip;
--            } hi_dword;
--        } lower;
--        struct {
--            uint32_t status_error;     /* ext status/error */
--            uint16_t length0;      /* length of buffer 0 */
--            uint16_t vlan;         /* VLAN tag */
--        } middle;
--        struct {
--            uint16_t header_status;
--            /* length of buffers 1-3 */
--            uint16_t length[PS_PAGE_BUFFERS];
--        } upper;
--        uint64_t reserved;
--    } wb; /* writeback */
--};
--
--/* Receive Checksum Control bits */
--#define E1000_RXCSUM_IPOFLD     0x100   /* IP Checksum Offload Enable */
--#define E1000_RXCSUM_TUOFLD     0x200   /* TCP/UDP Checksum Offload Enable */
--#define E1000_RXCSUM_PCSD       0x2000  /* Packet Checksum Disable */
--
--#define E1000_RING_DESC_LEN       (16)
--#define E1000_RING_DESC_LEN_SHIFT (4)
--
--#define E1000_MIN_RX_DESC_LEN   E1000_RING_DESC_LEN
--
--/* Receive Descriptor bit definitions */
--#define E1000_RXD_STAT_DD       0x01    /* Descriptor Done */
--#define E1000_RXD_STAT_EOP      0x02    /* End of Packet */
--#define E1000_RXD_STAT_IXSM     0x04    /* Ignore checksum */
--#define E1000_RXD_STAT_VP       0x08    /* IEEE VLAN Packet */
--#define E1000_RXD_STAT_UDPCS    0x10    /* UDP xsum caculated */
--#define E1000_RXD_STAT_TCPCS    0x20    /* TCP xsum calculated */
--#define E1000_RXD_STAT_IPCS     0x40    /* IP xsum calculated */
--#define E1000_RXD_STAT_PIF      0x80    /* passed in-exact filter */
--#define E1000_RXD_STAT_IPIDV    0x200   /* IP identification valid */
--#define E1000_RXD_STAT_UDPV     0x400   /* Valid UDP checksum */
--#define E1000_RXD_STAT_ACK      0x8000  /* ACK Packet indication */
--#define E1000_RXD_ERR_CE        0x01    /* CRC Error */
--#define E1000_RXD_ERR_SE        0x02    /* Symbol Error */
--#define E1000_RXD_ERR_SEQ       0x04    /* Sequence Error */
--#define E1000_RXD_ERR_CXE       0x10    /* Carrier Extension Error */
--#define E1000_RXD_ERR_TCPE      0x20    /* TCP/UDP Checksum Error */
--#define E1000_RXD_ERR_IPE       0x40    /* IP Checksum Error */
--#define E1000_RXD_ERR_RXE       0x80    /* Rx Data Error */
--#define E1000_RXD_SPC_VLAN_MASK 0x0FFF  /* VLAN ID is in lower 12 bits */
--#define E1000_RXD_SPC_PRI_MASK  0xE000  /* Priority is in upper 3 bits */
--#define E1000_RXD_SPC_PRI_SHIFT 13
--#define E1000_RXD_SPC_CFI_MASK  0x1000  /* CFI is bit 12 */
--#define E1000_RXD_SPC_CFI_SHIFT 12
--
--/* RX packet types */
--#define E1000_RXD_PKT_MAC       (0)
--#define E1000_RXD_PKT_IP4       (1)
--#define E1000_RXD_PKT_IP4_XDP   (2)
--#define E1000_RXD_PKT_IP6       (5)
--#define E1000_RXD_PKT_IP6_XDP   (6)
--
--#define E1000_RXD_PKT_TYPE(t) ((t) << 16)
--
--#define E1000_RXDEXT_STATERR_CE    0x01000000
--#define E1000_RXDEXT_STATERR_SE    0x02000000
--#define E1000_RXDEXT_STATERR_SEQ   0x04000000
--#define E1000_RXDEXT_STATERR_CXE   0x10000000
--#define E1000_RXDEXT_STATERR_TCPE  0x20000000
--#define E1000_RXDEXT_STATERR_IPE   0x40000000
--#define E1000_RXDEXT_STATERR_RXE   0x80000000
--
--#define E1000_RXDPS_HDRSTAT_HDRSP        0x00008000
--#define E1000_RXDPS_HDRSTAT_HDRLEN_MASK  0x000003FF
--
--/* Receive Address */
--#define E1000_RAH_AV  0x80000000        /* Receive descriptor valid */
--
--/* Offload Context Descriptor */
--struct e1000_context_desc {
--    union {
--        uint32_t ip_config;
--        struct {
--            uint8_t ipcss;      /* IP checksum start */
--            uint8_t ipcso;      /* IP checksum offset */
--            uint16_t ipcse;     /* IP checksum end */
--        } ip_fields;
--    } lower_setup;
--    union {
--        uint32_t tcp_config;
--        struct {
--            uint8_t tucss;      /* TCP checksum start */
--            uint8_t tucso;      /* TCP checksum offset */
--            uint16_t tucse;     /* TCP checksum end */
--        } tcp_fields;
--    } upper_setup;
--    uint32_t cmd_and_length;    /* */
--    union {
--        uint32_t data;
--        struct {
--            uint8_t status;     /* Descriptor status */
--            uint8_t hdr_len;    /* Header length */
--            uint16_t mss;       /* Maximum segment size */
--        } fields;
--    } tcp_seg_setup;
--};
--
--/* Offload data descriptor */
--struct e1000_data_desc {
--    uint64_t buffer_addr;       /* Address of the descriptor's buffer address */
--    union {
--        uint32_t data;
--        struct {
--            uint16_t length;    /* Data buffer length */
--            uint8_t typ_len_ext;        /* */
--            uint8_t cmd;        /* */
--        } flags;
--    } lower;
--    union {
--        uint32_t data;
--        struct {
--            uint8_t status;     /* Descriptor status */
--            uint8_t popts;      /* Packet Options */
--            uint16_t special;   /* */
--        } fields;
--    } upper;
--};
--
--/* Filters */
--#define E1000_NUM_UNICAST          16  /* Unicast filter entries */
--#define E1000_MC_TBL_SIZE          128 /* Multicast Filter Table (4096 bits) */
--#define E1000_VLAN_FILTER_TBL_SIZE 128 /* VLAN Filter Table (4096 bits) */
--
--/* Management Control */
--#define E1000_MANC_SMBUS_EN      0x00000001 /* SMBus Enabled - RO */
--#define E1000_MANC_ASF_EN        0x00000002 /* ASF Enabled - RO */
--#define E1000_MANC_R_ON_FORCE    0x00000004 /* Reset on Force TCO - RO */
--#define E1000_MANC_RMCP_EN       0x00000100 /* Enable RCMP 026Fh Filtering */
--#define E1000_MANC_0298_EN       0x00000200 /* Enable RCMP 0298h Filtering */
--#define E1000_MANC_IPV4_EN       0x00000400 /* Enable IPv4 */
--#define E1000_MANC_IPV6_EN       0x00000800 /* Enable IPv6 */
--#define E1000_MANC_SNAP_EN       0x00001000 /* Accept LLC/SNAP */
--#define E1000_MANC_ARP_EN        0x00002000 /* Enable ARP Request Filtering */
--#define E1000_MANC_NEIGHBOR_EN   0x00004000 /* Enable Neighbor Discovery
--                                             * Filtering */
--#define E1000_MANC_ARP_RES_EN    0x00008000 /* Enable ARP response Filtering */
--#define E1000_MANC_DIS_IP_CHK_ARP  0x10000000 /* Disable IP address chacking */
--                                              /*for ARP packets - in 82574 */
--#define E1000_MANC_TCO_RESET     0x00010000 /* TCO Reset Occurred */
--#define E1000_MANC_RCV_TCO_EN    0x00020000 /* Receive TCO Packets Enabled */
--#define E1000_MANC_REPORT_STATUS 0x00040000 /* Status Reporting Enabled */
--#define E1000_MANC_RCV_ALL       0x00080000 /* Receive All Enabled */
--#define E1000_MANC_BLK_PHY_RST_ON_IDE   0x00040000 /* Block phy resets */
--#define E1000_MANC_EN_MAC_ADDR_FILTER   0x00100000 /* Enable MAC address
--                                                    * filtering */
--#define E1000_MANC_EN_MNG2HOST   0x00200000 /* Enable MNG packets to host
--                                             * memory */
--#define E1000_MANC_EN_IP_ADDR_FILTER    0x00400000 /* Enable IP address
--                                                    * filtering */
--#define E1000_MANC_EN_XSUM_FILTER   0x00800000 /* Enable checksum filtering */
--#define E1000_MANC_BR_EN         0x01000000 /* Enable broadcast filtering */
--#define E1000_MANC_SMB_REQ       0x01000000 /* SMBus Request */
--#define E1000_MANC_SMB_GNT       0x02000000 /* SMBus Grant */
--#define E1000_MANC_SMB_CLK_IN    0x04000000 /* SMBus Clock In */
--#define E1000_MANC_SMB_DATA_IN   0x08000000 /* SMBus Data In */
--#define E1000_MANC_SMB_DATA_OUT  0x10000000 /* SMBus Data Out */
--#define E1000_MANC_SMB_CLK_OUT   0x20000000 /* SMBus Clock Out */
--
--#define E1000_MANC_SMB_DATA_OUT_SHIFT  28 /* SMBus Data Out Shift */
--#define E1000_MANC_SMB_CLK_OUT_SHIFT   29 /* SMBus Clock Out Shift */
--
--/* FACTPS Control */
--#define E1000_FACTPS_LAN0_ON     0x00000004 /* Lan 0 enable */
--
--/* For checksumming, the sum of all words in the EEPROM should equal 0xBABA. */
--#define EEPROM_SUM 0xBABA
--
--/* I/O-Mapped Access to Internal Registers, Memories, and Flash */
--#define E1000_IOADDR 0x00
--#define E1000_IODATA 0x04
--
--#define E1000_VFTA_ENTRY_SHIFT          5
--#define E1000_VFTA_ENTRY_MASK           0x7F
--#define E1000_VFTA_ENTRY_BIT_SHIFT_MASK 0x1F
- 
- #endif /* HW_E1000_REGS_H */
-diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-index 78c07a8f8e..c3848797b8 100644
---- a/hw/net/e1000e.c
-+++ b/hw/net/e1000e.c
-@@ -48,8 +48,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- 
--#include "e1000_regs.h"
--
-+#include "e1000_common.h"
- #include "e1000x_common.h"
- #include "e1000e_core.h"
- 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 03c67bc589..239875dd89 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -45,6 +45,7 @@
- #include "net_tx_pkt.h"
- #include "net_rx_pkt.h"
- 
-+#include "e1000_common.h"
- #include "e1000x_common.h"
- #include "e1000e_core.h"
- 
-diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
-index c497923806..b844af590a 100644
---- a/hw/net/e1000x_common.c
-+++ b/hw/net/e1000x_common.c
-@@ -29,6 +29,7 @@
- #include "net/eth.h"
- #include "net/net.h"
- 
-+#include "e1000_common.h"
- #include "e1000x_common.h"
- 
- #include "trace.h"
-diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
-index 72b744b782..911abd8a90 100644
---- a/hw/net/e1000x_common.h
-+++ b/hw/net/e1000x_common.h
-@@ -25,80 +25,6 @@
- #ifndef HW_NET_E1000X_COMMON_H
- #define HW_NET_E1000X_COMMON_H
- 
--#include "e1000_regs.h"
--
--#define defreg(x)   x = (E1000_##x >> 2)
--enum {
--    defreg(CTRL),    defreg(EECD),    defreg(EERD),    defreg(GPRC),
--    defreg(GPTC),    defreg(ICR),     defreg(ICS),     defreg(IMC),
--    defreg(IMS),     defreg(LEDCTL),  defreg(MANC),    defreg(MDIC),
--    defreg(MPC),     defreg(PBA),     defreg(RCTL),    defreg(RDBAH0),
--    defreg(RDBAL0),  defreg(RDH0),    defreg(RDLEN0),  defreg(RDT0),
--    defreg(STATUS),  defreg(SWSM),    defreg(TCTL),    defreg(TDBAH),
--    defreg(TDBAL),   defreg(TDH),     defreg(TDLEN),   defreg(TDT),
--    defreg(TDLEN1),  defreg(TDBAL1),  defreg(TDBAH1),  defreg(TDH1),
--    defreg(TDT1),    defreg(TORH),    defreg(TORL),    defreg(TOTH),
--    defreg(TOTL),    defreg(TPR),     defreg(TPT),     defreg(TXDCTL),
--    defreg(WUFC),    defreg(RA),      defreg(MTA),     defreg(CRCERRS),
--    defreg(VFTA),    defreg(VET),     defreg(RDTR),    defreg(RADV),
--    defreg(TADV),    defreg(ITR),     defreg(SCC),     defreg(ECOL),
--    defreg(MCC),     defreg(LATECOL), defreg(COLC),    defreg(DC),
--    defreg(TNCRS),   defreg(SEQEC),   defreg(CEXTERR), defreg(RLEC),
--    defreg(XONRXC),  defreg(XONTXC),  defreg(XOFFRXC), defreg(XOFFTXC),
--    defreg(FCRUC),   defreg(AIT),     defreg(TDFH),    defreg(TDFT),
--    defreg(TDFHS),   defreg(TDFTS),   defreg(TDFPC),   defreg(WUC),
--    defreg(WUS),     defreg(POEMB),   defreg(PBS),     defreg(RDFH),
--    defreg(RDFT),    defreg(RDFHS),   defreg(RDFTS),   defreg(RDFPC),
--    defreg(PBM),     defreg(IPAV),    defreg(IP4AT),   defreg(IP6AT),
--    defreg(WUPM),    defreg(FFLT),    defreg(FFMT),    defreg(FFVT),
--    defreg(TARC0),   defreg(TARC1),   defreg(IAM),     defreg(EXTCNF_CTRL),
--    defreg(GCR),     defreg(TIMINCA), defreg(EIAC),    defreg(CTRL_EXT),
--    defreg(IVAR),    defreg(MFUTP01), defreg(MFUTP23), defreg(MANC2H),
--    defreg(MFVAL),   defreg(MDEF),    defreg(FACTPS),  defreg(FTFT),
--    defreg(RUC),     defreg(ROC),     defreg(RFC),     defreg(RJC),
--    defreg(PRC64),   defreg(PRC127),  defreg(PRC255),  defreg(PRC511),
--    defreg(PRC1023), defreg(PRC1522), defreg(PTC64),   defreg(PTC127),
--    defreg(PTC255),  defreg(PTC511),  defreg(PTC1023), defreg(PTC1522),
--    defreg(GORCL),   defreg(GORCH),   defreg(GOTCL),   defreg(GOTCH),
--    defreg(RNBC),    defreg(BPRC),    defreg(MPRC),    defreg(RFCTL),
--    defreg(PSRCTL),  defreg(MPTC),    defreg(BPTC),    defreg(TSCTFC),
--    defreg(IAC),     defreg(MGTPRC),  defreg(MGTPDC),  defreg(MGTPTC),
--    defreg(TSCTC),   defreg(RXCSUM),  defreg(FUNCTAG), defreg(GSCL_1),
--    defreg(GSCL_2),  defreg(GSCL_3),  defreg(GSCL_4),  defreg(GSCN_0),
--    defreg(GSCN_1),  defreg(GSCN_2),  defreg(GSCN_3),  defreg(GCR2),
--    defreg(RAID),    defreg(RSRPD),   defreg(TIDV),    defreg(EITR),
--    defreg(MRQC),    defreg(RETA),    defreg(RSSRK),   defreg(RDBAH1),
--    defreg(RDBAL1),  defreg(RDLEN1),  defreg(RDH1),    defreg(RDT1),
--    defreg(PBACLR),  defreg(FCAL),    defreg(FCAH),    defreg(FCT),
--    defreg(FCRTH),   defreg(FCRTL),   defreg(FCTTV),   defreg(FCRTV),
--    defreg(FLA),     defreg(EEWR),    defreg(FLOP),    defreg(FLOL),
--    defreg(FLSWCTL), defreg(FLSWCNT), defreg(RXDCTL),  defreg(RXDCTL1),
--    defreg(MAVTV0),  defreg(MAVTV1),  defreg(MAVTV2),  defreg(MAVTV3),
--    defreg(TXSTMPL), defreg(TXSTMPH), defreg(SYSTIML), defreg(SYSTIMH),
--    defreg(RXCFGL),  defreg(RXUDP),   defreg(TIMADJL), defreg(TIMADJH),
--    defreg(RXSTMPH), defreg(RXSTMPL), defreg(RXSATRL), defreg(RXSATRH),
--    defreg(FLASHT),  defreg(TIPG),    defreg(RDH),     defreg(RDT),
--    defreg(RDLEN),   defreg(RDBAH),   defreg(RDBAL),
--    defreg(TXDCTL1),
--    defreg(FLSWDATA),
--    defreg(CTRL_DUP),
--    defreg(EXTCNF_SIZE),
--    defreg(EEMNGCTL),
--    defreg(EEMNGDATA),
--    defreg(FLMNGCTL),
--    defreg(FLMNGDATA),
--    defreg(FLMNGCNT),
--    defreg(TSYNCRXCTL),
--    defreg(TSYNCTXCTL),
--
--    /* Aliases */
--    defreg(RDH0_A),  defreg(RDT0_A),  defreg(RDTR_A),  defreg(RDFH_A),
--    defreg(RDFT_A),  defreg(TDH_A),   defreg(TDT_A),   defreg(TIDV_A),
--    defreg(TDFH_A),  defreg(TDFT_A),  defreg(RA_A),    defreg(RDBAL0_A),
--    defreg(TDBAL_A), defreg(TDLEN_A), defreg(VFTA_A),  defreg(RDLEN0_A),
--    defreg(FCRTL_A), defreg(FCRTH_A)
--};
--
- static inline void
- e1000x_inc_reg_if_not_full(uint32_t *mac, int index)
- {
-diff --git a/hw/net/e1000x_regs.h b/hw/net/e1000x_regs.h
++#endif
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
 new file mode 100644
-index 0000000000..c0832fa23d
+index 0000000000..d779c3dc14
 --- /dev/null
-+++ b/hw/net/e1000x_regs.h
-@@ -0,0 +1,967 @@
-+/*******************************************************************************
-+
-+  Intel PRO/1000 Linux driver
-+  Copyright(c) 1999 - 2006 Intel Corporation.
-+
-+  This program is free software; you can redistribute it and/or modify it
-+  under the terms and conditions of the GNU General Public License,
-+  version 2, as published by the Free Software Foundation.
-+
-+  This program is distributed in the hope it will be useful, but WITHOUT
-+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+  more details.
-+
-+  You should have received a copy of the GNU General Public License along with
-+  this program; if not, see <http://www.gnu.org/licenses/>.
-+
-+  The full GNU General Public License is included in this distribution in
-+  the file called "COPYING".
-+
-+  Contact Information:
-+  Linux NICS <linux.nics@intel.com>
-+  e1000-devel Mailing List <e1000-devel@lists.sourceforge.net>
-+  Intel Corporation, 5200 N.E. Elam Young Parkway, Hillsboro, OR 97124-6497
-+
-+*******************************************************************************/
-+
-+/* e1000_hw.h
-+ * Structures, enums, and macros for the MAC
++++ b/hw/net/igb_core.c
+@@ -0,0 +1,4076 @@
++/*
++ * Core code for QEMU igb emulation
++ *
++ * Datasheet:
++ * https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eg-gbe-datasheet.pdf
++ *
++ * Copyright (c) 2020-2023 Red Hat, Inc.
++ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ * Akihiko Odaki <akihiko.odaki@daynix.com>
++ * Gal Hammmer <gal.hammer@sap.com>
++ * Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
++ * Dmitry Fleytman <dmitry@daynix.com>
++ * Leonid Bloch <leonid@daynix.com>
++ * Yan Vugenfirer <yan@daynix.com>
++ *
++ * Based on work done by:
++ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
++ * Copyright (c) 2008 Qumranet
++ * Based on work done by:
++ * Copyright (c) 2007 Dan Aloni
++ * Copyright (c) 2004 Antony T Curtis
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HW_E1000X_REGS_H
-+#define HW_E1000X_REGS_H
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "net/net.h"
++#include "net/tap.h"
++#include "hw/net/mii.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
++#include "sysemu/runstate.h"
 +
-+/* PCI Device IDs */
-+#define E1000_DEV_ID_82542               0x1000
-+#define E1000_DEV_ID_82543GC_FIBER       0x1001
-+#define E1000_DEV_ID_82543GC_COPPER      0x1004
-+#define E1000_DEV_ID_82544EI_COPPER      0x1008
-+#define E1000_DEV_ID_82544EI_FIBER       0x1009
-+#define E1000_DEV_ID_82544GC_COPPER      0x100C
-+#define E1000_DEV_ID_82544GC_LOM         0x100D
-+#define E1000_DEV_ID_82540EM             0x100E
-+#define E1000_DEV_ID_82540EM_LOM         0x1015
-+#define E1000_DEV_ID_82540EP_LOM         0x1016
-+#define E1000_DEV_ID_82540EP             0x1017
-+#define E1000_DEV_ID_82540EP_LP          0x101E
-+#define E1000_DEV_ID_82545EM_COPPER      0x100F
-+#define E1000_DEV_ID_82545EM_FIBER       0x1011
-+#define E1000_DEV_ID_82545GM_COPPER      0x1026
-+#define E1000_DEV_ID_82545GM_FIBER       0x1027
-+#define E1000_DEV_ID_82545GM_SERDES      0x1028
-+#define E1000_DEV_ID_82546EB_COPPER      0x1010
-+#define E1000_DEV_ID_82546EB_FIBER       0x1012
-+#define E1000_DEV_ID_82546EB_QUAD_COPPER 0x101D
-+#define E1000_DEV_ID_82541EI             0x1013
-+#define E1000_DEV_ID_82541EI_MOBILE      0x1018
-+#define E1000_DEV_ID_82541ER_LOM         0x1014
-+#define E1000_DEV_ID_82541ER             0x1078
-+#define E1000_DEV_ID_82547GI             0x1075
-+#define E1000_DEV_ID_82541GI             0x1076
-+#define E1000_DEV_ID_82541GI_MOBILE      0x1077
-+#define E1000_DEV_ID_82541GI_LF          0x107C
-+#define E1000_DEV_ID_82546GB_COPPER      0x1079
-+#define E1000_DEV_ID_82546GB_FIBER       0x107A
-+#define E1000_DEV_ID_82546GB_SERDES      0x107B
-+#define E1000_DEV_ID_82546GB_PCIE        0x108A
-+#define E1000_DEV_ID_82546GB_QUAD_COPPER 0x1099
-+#define E1000_DEV_ID_82547EI             0x1019
-+#define E1000_DEV_ID_82547EI_MOBILE      0x101A
-+#define E1000_DEV_ID_82571EB_COPPER      0x105E
-+#define E1000_DEV_ID_82571EB_FIBER       0x105F
-+#define E1000_DEV_ID_82571EB_SERDES      0x1060
-+#define E1000_DEV_ID_82571EB_QUAD_COPPER 0x10A4
-+#define E1000_DEV_ID_82571PT_QUAD_COPPER 0x10D5
-+#define E1000_DEV_ID_82571EB_QUAD_FIBER  0x10A5
-+#define E1000_DEV_ID_82571EB_QUAD_COPPER_LOWPROFILE  0x10BC
-+#define E1000_DEV_ID_82571EB_SERDES_DUAL 0x10D9
-+#define E1000_DEV_ID_82571EB_SERDES_QUAD 0x10DA
-+#define E1000_DEV_ID_82572EI_COPPER      0x107D
-+#define E1000_DEV_ID_82572EI_FIBER       0x107E
-+#define E1000_DEV_ID_82572EI_SERDES      0x107F
-+#define E1000_DEV_ID_82572EI             0x10B9
-+#define E1000_DEV_ID_82573E              0x108B
-+#define E1000_DEV_ID_82573E_IAMT         0x108C
-+#define E1000_DEV_ID_82573L              0x109A
-+#define E1000_DEV_ID_82574L              0x10D3
-+#define E1000_DEV_ID_82546GB_QUAD_COPPER_KSP3 0x10B5
-+#define E1000_DEV_ID_80003ES2LAN_COPPER_DPT     0x1096
-+#define E1000_DEV_ID_80003ES2LAN_SERDES_DPT     0x1098
-+#define E1000_DEV_ID_80003ES2LAN_COPPER_SPT     0x10BA
-+#define E1000_DEV_ID_80003ES2LAN_SERDES_SPT     0x10BB
++#include "net_tx_pkt.h"
++#include "net_rx_pkt.h"
 +
-+#define E1000_DEV_ID_ICH8_IGP_M_AMT      0x1049
-+#define E1000_DEV_ID_ICH8_IGP_AMT        0x104A
-+#define E1000_DEV_ID_ICH8_IGP_C          0x104B
-+#define E1000_DEV_ID_ICH8_IFE            0x104C
-+#define E1000_DEV_ID_ICH8_IFE_GT         0x10C4
-+#define E1000_DEV_ID_ICH8_IFE_G          0x10C5
-+#define E1000_DEV_ID_ICH8_IGP_M          0x104D
++#include "igb_common.h"
++#include "e1000x_common.h"
++#include "igb_core.h"
 +
-+/* Device Specific Register Defaults */
-+#define E1000_PHY_ID2_82541x 0x380
-+#define E1000_PHY_ID2_82544x 0xC30
-+#define E1000_PHY_ID2_8254xx_DEFAULT 0xC20 /* 82540x, 82545x, and 82546x */
-+#define E1000_PHY_ID2_82573x 0xCC0
-+#define E1000_PHY_ID2_82574x 0xCB1
++#include "trace.h"
 +
-+/* Register Set. (82543, 82544)
-+ *
-+ * Registers are defined to be 32 bits and  should be accessed as 32 bit values.
-+ * These registers are physically located on the NIC, but are mapped into the
-+ * host memory address space.
-+ *
-+ * RW - register is both readable and writable
-+ * RO - register is read only
-+ * WO - register is write only
-+ * R/clr - register is read only and is cleared when read
-+ * A - register array
++#define E1000E_MAX_TX_FRAGS (64)
++
++union e1000_rx_desc_union {
++    struct e1000_rx_desc legacy;
++    union e1000_adv_rx_desc adv;
++};
++
++typedef struct IGBTxPktVmdqCallbackContext {
++    IGBCore *core;
++    NetClientState *nc;
++} IGBTxPktVmdqCallbackContext;
++
++static ssize_t
++igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
++                     bool has_vnet, bool *external_tx);
++
++static inline void
++igb_set_interrupt_cause(IGBCore *core, uint32_t val);
++
++static void igb_update_interrupt_state(IGBCore *core);
++static void igb_reset(IGBCore *core, bool sw);
++
++static inline void
++igb_raise_legacy_irq(IGBCore *core)
++{
++    trace_e1000e_irq_legacy_notify(true);
++    e1000x_inc_reg_if_not_full(core->mac, IAC);
++    pci_set_irq(core->owner, 1);
++}
++
++static inline void
++igb_lower_legacy_irq(IGBCore *core)
++{
++    trace_e1000e_irq_legacy_notify(false);
++    pci_set_irq(core->owner, 0);
++}
++
++static void igb_msix_notify(IGBCore *core, unsigned int vector)
++{
++    PCIDevice *dev = core->owner;
++    uint16_t vfn;
++
++    vfn = 8 - (vector + 2) / IGBVF_MSIX_VEC_NUM;
++    if (vfn < pcie_sriov_num_vfs(core->owner)) {
++        dev = pcie_sriov_get_vf_at_index(core->owner, vfn);
++        assert(dev);
++        vector = (vector + 2) % IGBVF_MSIX_VEC_NUM;
++    } else if (vector >= IGB_MSIX_VEC_NUM) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "igb: Tried to use vector unavailable for PF");
++        return;
++    }
++
++    msix_notify(dev, vector);
++}
++
++static inline void
++igb_intrmgr_rearm_timer(IGBIntrDelayTimer *timer)
++{
++    int64_t delay_ns = (int64_t) timer->core->mac[timer->delay_reg] *
++                                 timer->delay_resolution_ns;
++
++    trace_e1000e_irq_rearm_timer(timer->delay_reg << 2, delay_ns);
++
++    timer_mod(timer->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + delay_ns);
++
++    timer->running = true;
++}
++
++static void
++igb_intmgr_timer_resume(IGBIntrDelayTimer *timer)
++{
++    if (timer->running) {
++        igb_intrmgr_rearm_timer(timer);
++    }
++}
++
++static void
++igb_intmgr_timer_pause(IGBIntrDelayTimer *timer)
++{
++    if (timer->running) {
++        timer_del(timer->timer);
++    }
++}
++
++static void
++igb_intrmgr_on_msix_throttling_timer(void *opaque)
++{
++    IGBIntrDelayTimer *timer = opaque;
++    int idx = timer - &timer->core->eitr[0];
++
++    timer->running = false;
++
++    trace_e1000e_irq_msix_notify_postponed_vec(idx);
++    igb_msix_notify(timer->core, idx);
++}
++
++static void
++igb_intrmgr_initialize_all_timers(IGBCore *core, bool create)
++{
++    int i;
++
++    for (i = 0; i < IGB_INTR_NUM; i++) {
++        core->eitr[i].core = core;
++        core->eitr[i].delay_reg = EITR0 + i;
++        core->eitr[i].delay_resolution_ns = E1000_INTR_DELAY_NS_RES;
++    }
++
++    if (!create) {
++        return;
++    }
++
++    for (i = 0; i < IGB_INTR_NUM; i++) {
++        core->eitr[i].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                           igb_intrmgr_on_msix_throttling_timer,
++                                           &core->eitr[i]);
++    }
++}
++
++static void
++igb_intrmgr_resume(IGBCore *core)
++{
++    int i;
++
++    for (i = 0; i < IGB_INTR_NUM; i++) {
++        igb_intmgr_timer_resume(&core->eitr[i]);
++    }
++}
++
++static void
++igb_intrmgr_pause(IGBCore *core)
++{
++    int i;
++
++    for (i = 0; i < IGB_INTR_NUM; i++) {
++        igb_intmgr_timer_pause(&core->eitr[i]);
++    }
++}
++
++static void
++igb_intrmgr_reset(IGBCore *core)
++{
++    int i;
++
++    for (i = 0; i < IGB_INTR_NUM; i++) {
++        if (core->eitr[i].running) {
++            timer_del(core->eitr[i].timer);
++            igb_intrmgr_on_msix_throttling_timer(&core->eitr[i]);
++        }
++    }
++}
++
++static void
++igb_intrmgr_pci_unint(IGBCore *core)
++{
++    int i;
++
++    for (i = 0; i < IGB_INTR_NUM; i++) {
++        timer_free(core->eitr[i].timer);
++    }
++}
++
++static void
++igb_intrmgr_pci_realize(IGBCore *core)
++{
++    igb_intrmgr_initialize_all_timers(core, true);
++}
++
++static inline bool
++igb_rx_csum_enabled(IGBCore *core)
++{
++    return (core->mac[RXCSUM] & E1000_RXCSUM_PCSD) ? false : true;
++}
++
++static inline bool
++igb_rx_use_legacy_descriptor(IGBCore *core)
++{
++    /*
++     * TODO: If SRRCTL[n],DESCTYPE = 000b, the 82576 uses the legacy Rx
++     * descriptor.
++     */
++    return false;
++}
++
++static inline bool
++igb_rss_enabled(IGBCore *core)
++{
++    return (core->mac[MRQC] & 3) == E1000_MRQC_ENABLE_RSS_MQ &&
++           !igb_rx_csum_enabled(core) &&
++           !igb_rx_use_legacy_descriptor(core);
++}
++
++typedef struct E1000E_RSSInfo_st {
++    bool enabled;
++    uint32_t hash;
++    uint32_t queue;
++    uint32_t type;
++} E1000E_RSSInfo;
++
++static uint32_t
++igb_rss_get_hash_type(IGBCore *core, struct NetRxPkt *pkt)
++{
++    bool hasip4, hasip6;
++    EthL4HdrProto l4hdr_proto;
++
++    assert(igb_rss_enabled(core));
++
++    net_rx_pkt_get_protocols(pkt, &hasip4, &hasip6, &l4hdr_proto);
++
++    if (hasip4) {
++        trace_e1000e_rx_rss_ip4(l4hdr_proto, core->mac[MRQC],
++                                E1000_MRQC_EN_TCPIPV4(core->mac[MRQC]),
++                                E1000_MRQC_EN_IPV4(core->mac[MRQC]));
++
++        if (l4hdr_proto == ETH_L4_HDR_PROTO_TCP &&
++            E1000_MRQC_EN_TCPIPV4(core->mac[MRQC])) {
++            return E1000_MRQ_RSS_TYPE_IPV4TCP;
++        }
++
++        if (E1000_MRQC_EN_IPV4(core->mac[MRQC])) {
++            return E1000_MRQ_RSS_TYPE_IPV4;
++        }
++    } else if (hasip6) {
++        eth_ip6_hdr_info *ip6info = net_rx_pkt_get_ip6_info(pkt);
++
++        bool ex_dis = core->mac[RFCTL] & E1000_RFCTL_IPV6_EX_DIS;
++        bool new_ex_dis = core->mac[RFCTL] & E1000_RFCTL_NEW_IPV6_EXT_DIS;
++
++        /*
++         * Following two traces must not be combined because resulting
++         * event will have 11 arguments totally and some trace backends
++         * (at least "ust") have limitation of maximum 10 arguments per
++         * event. Events with more arguments fail to compile for
++         * backends like these.
++         */
++        trace_e1000e_rx_rss_ip6_rfctl(core->mac[RFCTL]);
++        trace_e1000e_rx_rss_ip6(ex_dis, new_ex_dis, l4hdr_proto,
++                                ip6info->has_ext_hdrs,
++                                ip6info->rss_ex_dst_valid,
++                                ip6info->rss_ex_src_valid,
++                                core->mac[MRQC],
++                                E1000_MRQC_EN_TCPIPV6(core->mac[MRQC]),
++                                E1000_MRQC_EN_IPV6EX(core->mac[MRQC]),
++                                E1000_MRQC_EN_IPV6(core->mac[MRQC]));
++
++        if ((!ex_dis || !ip6info->has_ext_hdrs) &&
++            (!new_ex_dis || !(ip6info->rss_ex_dst_valid ||
++                              ip6info->rss_ex_src_valid))) {
++
++            if (l4hdr_proto == ETH_L4_HDR_PROTO_TCP &&
++                E1000_MRQC_EN_TCPIPV6(core->mac[MRQC])) {
++                return E1000_MRQ_RSS_TYPE_IPV6TCP;
++            }
++
++            if (E1000_MRQC_EN_IPV6EX(core->mac[MRQC])) {
++                return E1000_MRQ_RSS_TYPE_IPV6EX;
++            }
++
++        }
++
++        if (E1000_MRQC_EN_IPV6(core->mac[MRQC])) {
++            return E1000_MRQ_RSS_TYPE_IPV6;
++        }
++
++    }
++
++    return E1000_MRQ_RSS_TYPE_NONE;
++}
++
++static uint32_t
++igb_rss_calc_hash(IGBCore *core, struct NetRxPkt *pkt, E1000E_RSSInfo *info)
++{
++    NetRxPktRssType type;
++
++    assert(igb_rss_enabled(core));
++
++    switch (info->type) {
++    case E1000_MRQ_RSS_TYPE_IPV4:
++        type = NetPktRssIpV4;
++        break;
++    case E1000_MRQ_RSS_TYPE_IPV4TCP:
++        type = NetPktRssIpV4Tcp;
++        break;
++    case E1000_MRQ_RSS_TYPE_IPV6TCP:
++        type = NetPktRssIpV6TcpEx;
++        break;
++    case E1000_MRQ_RSS_TYPE_IPV6:
++        type = NetPktRssIpV6;
++        break;
++    case E1000_MRQ_RSS_TYPE_IPV6EX:
++        type = NetPktRssIpV6Ex;
++        break;
++    default:
++        assert(false);
++        return 0;
++    }
++
++    return net_rx_pkt_calc_rss_hash(pkt, type, (uint8_t *) &core->mac[RSSRK]);
++}
++
++static void
++igb_rss_parse_packet(IGBCore *core, struct NetRxPkt *pkt, bool tx,
++                     E1000E_RSSInfo *info)
++{
++    trace_e1000e_rx_rss_started();
++
++    if (tx || !igb_rss_enabled(core)) {
++        info->enabled = false;
++        info->hash = 0;
++        info->queue = 0;
++        info->type = 0;
++        trace_e1000e_rx_rss_disabled();
++        return;
++    }
++
++    info->enabled = true;
++
++    info->type = igb_rss_get_hash_type(core, pkt);
++
++    trace_e1000e_rx_rss_type(info->type);
++
++    if (info->type == E1000_MRQ_RSS_TYPE_NONE) {
++        info->hash = 0;
++        info->queue = 0;
++        return;
++    }
++
++    info->hash = igb_rss_calc_hash(core, pkt, info);
++    info->queue = E1000_RSS_QUEUE(&core->mac[RETA], info->hash);
++}
++
++static bool
++igb_setup_tx_offloads(IGBCore *core, struct igb_tx *tx)
++{
++    if (tx->tse) {
++        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->mss)) {
++            return false;
++        }
++
++        net_tx_pkt_update_ip_checksums(tx->tx_pkt);
++        e1000x_inc_reg_if_not_full(core->mac, TSCTC);
++        return true;
++    }
++
++    if (tx->txsm) {
++        if (!net_tx_pkt_build_vheader(tx->tx_pkt, false, true, 0)) {
++            return false;
++        }
++    }
++
++    if (tx->ixsm) {
++        net_tx_pkt_update_ip_hdr_checksum(tx->tx_pkt);
++    }
++
++    return true;
++}
++
++static void igb_tx_pkt_mac_callback(void *core,
++                                    const struct iovec *iov,
++                                    int iovcnt,
++                                    const struct iovec *virt_iov,
++                                    int virt_iovcnt)
++{
++    igb_receive_internal(core, virt_iov, virt_iovcnt, true, NULL);
++}
++
++static void igb_tx_pkt_vmdq_callback(void *opaque,
++                                     const struct iovec *iov,
++                                     int iovcnt,
++                                     const struct iovec *virt_iov,
++                                     int virt_iovcnt)
++{
++    IGBTxPktVmdqCallbackContext *context = opaque;
++    bool external_tx;
++
++    igb_receive_internal(context->core, virt_iov, virt_iovcnt, true,
++                         &external_tx);
++
++    if (external_tx) {
++        if (context->core->has_vnet) {
++            qemu_sendv_packet(context->nc, virt_iov, virt_iovcnt);
++        } else {
++            qemu_sendv_packet(context->nc, iov, iovcnt);
++        }
++    }
++}
++
++/* TX Packets Switching (7.10.3.6) */
++static bool igb_tx_pkt_switch(IGBCore *core, struct igb_tx *tx,
++                              NetClientState *nc)
++{
++    IGBTxPktVmdqCallbackContext context;
++
++    /* TX switching is only used to serve VM to VM traffic. */
++    if (!(core->mac[MRQC] & 1)) {
++        goto send_out;
++    }
++
++    /* TX switching requires DTXSWC.Loopback_en bit enabled. */
++    if (!(core->mac[DTXSWC] & E1000_DTXSWC_VMDQ_LOOPBACK_EN)) {
++        goto send_out;
++    }
++
++    context.core = core;
++    context.nc = nc;
++
++    return net_tx_pkt_send_custom(tx->tx_pkt, false,
++                                  igb_tx_pkt_vmdq_callback, &context);
++
++send_out:
++    return net_tx_pkt_send(tx->tx_pkt, nc);
++}
++
++static bool
++igb_tx_pkt_send(IGBCore *core, struct igb_tx *tx, int queue_index)
++{
++    int target_queue = MIN(core->max_queue_num, queue_index);
++    NetClientState *queue = qemu_get_subqueue(core->owner_nic, target_queue);
++
++    if (!igb_setup_tx_offloads(core, tx)) {
++        return false;
++    }
++
++    net_tx_pkt_dump(tx->tx_pkt);
++
++    if ((core->phy[MII_BMCR] & MII_BMCR_LOOPBACK) ||
++        ((core->mac[RCTL] & E1000_RCTL_LBM_MAC) == E1000_RCTL_LBM_MAC)) {
++        return net_tx_pkt_send_custom(tx->tx_pkt, false,
++                                      igb_tx_pkt_mac_callback, core);
++    } else {
++        return igb_tx_pkt_switch(core, tx, queue);
++    }
++}
++
++static void
++igb_on_tx_done_update_stats(IGBCore *core, struct NetTxPkt *tx_pkt)
++{
++    static const int PTCregs[6] = { PTC64, PTC127, PTC255, PTC511,
++                                    PTC1023, PTC1522 };
++
++    size_t tot_len = net_tx_pkt_get_total_len(tx_pkt) + 4;
++
++    e1000x_increase_size_stats(core->mac, PTCregs, tot_len);
++    e1000x_inc_reg_if_not_full(core->mac, TPT);
++    e1000x_grow_8reg_if_not_full(core->mac, TOTL, tot_len);
++
++    switch (net_tx_pkt_get_packet_type(tx_pkt)) {
++    case ETH_PKT_BCAST:
++        e1000x_inc_reg_if_not_full(core->mac, BPTC);
++        break;
++    case ETH_PKT_MCAST:
++        e1000x_inc_reg_if_not_full(core->mac, MPTC);
++        break;
++    case ETH_PKT_UCAST:
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    core->mac[GPTC] = core->mac[TPT];
++    core->mac[GOTCL] = core->mac[TOTL];
++    core->mac[GOTCH] = core->mac[TOTH];
++}
++
++static void
++igb_process_tx_desc(IGBCore *core,
++                    struct igb_tx *tx,
++                    union e1000_adv_tx_desc *tx_desc,
++                    int queue_index)
++{
++    struct e1000_adv_tx_context_desc *tx_ctx_desc;
++    uint32_t cmd_type_len;
++    uint32_t olinfo_status;
++    uint64_t buffer_addr;
++    uint16_t length;
++
++    cmd_type_len = le32_to_cpu(tx_desc->read.cmd_type_len);
++
++    if (cmd_type_len & E1000_ADVTXD_DCMD_DEXT) {
++        if ((cmd_type_len & E1000_ADVTXD_DTYP_DATA) ==
++            E1000_ADVTXD_DTYP_DATA) {
++            /* advanced transmit data descriptor */
++            if (tx->first) {
++                olinfo_status = le32_to_cpu(tx_desc->read.olinfo_status);
++
++                tx->tse = !!(cmd_type_len & E1000_ADVTXD_DCMD_TSE);
++                tx->ixsm = !!(olinfo_status & E1000_ADVTXD_POTS_IXSM);
++                tx->txsm = !!(olinfo_status & E1000_ADVTXD_POTS_TXSM);
++
++                tx->first = false;
++            }
++        } else if ((cmd_type_len & E1000_ADVTXD_DTYP_CTXT) ==
++                   E1000_ADVTXD_DTYP_CTXT) {
++            /* advanced transmit context descriptor */
++            tx_ctx_desc = (struct e1000_adv_tx_context_desc *)tx_desc;
++            tx->vlan = le32_to_cpu(tx_ctx_desc->vlan_macip_lens) >> 16;
++            tx->mss = le32_to_cpu(tx_ctx_desc->mss_l4len_idx) >> 16;
++            return;
++        } else {
++            /* unknown descriptor type */
++            return;
++        }
++    } else {
++        /* legacy descriptor */
++
++        /* TODO: Implement a support for legacy descriptors (7.2.2.1). */
++    }
++
++    buffer_addr = le64_to_cpu(tx_desc->read.buffer_addr);
++    length = cmd_type_len & 0xFFFF;
++
++    if (!tx->skip_cp) {
++        if (!net_tx_pkt_add_raw_fragment(tx->tx_pkt, buffer_addr, length)) {
++            tx->skip_cp = true;
++        }
++    }
++
++    if (cmd_type_len & E1000_TXD_CMD_EOP) {
++        if (!tx->skip_cp && net_tx_pkt_parse(tx->tx_pkt)) {
++            if (cmd_type_len & E1000_TXD_CMD_VLE) {
++                net_tx_pkt_setup_vlan_header_ex(tx->tx_pkt, tx->vlan,
++                    core->mac[VET] & 0xffff);
++            }
++            if (igb_tx_pkt_send(core, tx, queue_index)) {
++                igb_on_tx_done_update_stats(core, tx->tx_pkt);
++            }
++        }
++
++        tx->first = true;
++        tx->skip_cp = false;
++        net_tx_pkt_reset(tx->tx_pkt);
++    }
++}
++
++static uint32_t igb_tx_wb_eic(IGBCore *core, int queue_idx)
++{
++    uint32_t n, ent = 0;
++
++    n = igb_ivar_entry_tx(queue_idx);
++    ent = (core->mac[IVAR0 + n / 4] >> (8 * (n % 4))) & 0xff;
++
++    return (ent & E1000_IVAR_VALID) ? BIT(ent & 0x1f) : 0;
++}
++
++static uint32_t igb_rx_wb_eic(IGBCore *core, int queue_idx)
++{
++    uint32_t n, ent = 0;
++
++    n = igb_ivar_entry_rx(queue_idx);
++    ent = (core->mac[IVAR0 + n / 4] >> (8 * (n % 4))) & 0xff;
++
++    return (ent & E1000_IVAR_VALID) ? BIT(ent & 0x1f) : 0;
++}
++
++typedef struct E1000E_RingInfo_st {
++    int dbah;
++    int dbal;
++    int dlen;
++    int dh;
++    int dt;
++    int idx;
++} E1000E_RingInfo;
++
++static inline bool
++igb_ring_empty(IGBCore *core, const E1000E_RingInfo *r)
++{
++    return core->mac[r->dh] == core->mac[r->dt] ||
++                core->mac[r->dt] >= core->mac[r->dlen] / E1000_RING_DESC_LEN;
++}
++
++static inline uint64_t
++igb_ring_base(IGBCore *core, const E1000E_RingInfo *r)
++{
++    uint64_t bah = core->mac[r->dbah];
++    uint64_t bal = core->mac[r->dbal];
++
++    return (bah << 32) + bal;
++}
++
++static inline uint64_t
++igb_ring_head_descr(IGBCore *core, const E1000E_RingInfo *r)
++{
++    return igb_ring_base(core, r) + E1000_RING_DESC_LEN * core->mac[r->dh];
++}
++
++static inline void
++igb_ring_advance(IGBCore *core, const E1000E_RingInfo *r, uint32_t count)
++{
++    core->mac[r->dh] += count;
++
++    if (core->mac[r->dh] * E1000_RING_DESC_LEN >= core->mac[r->dlen]) {
++        core->mac[r->dh] = 0;
++    }
++}
++
++static inline uint32_t
++igb_ring_free_descr_num(IGBCore *core, const E1000E_RingInfo *r)
++{
++    trace_e1000e_ring_free_space(r->idx, core->mac[r->dlen],
++                                 core->mac[r->dh],  core->mac[r->dt]);
++
++    if (core->mac[r->dh] <= core->mac[r->dt]) {
++        return core->mac[r->dt] - core->mac[r->dh];
++    }
++
++    if (core->mac[r->dh] > core->mac[r->dt]) {
++        return core->mac[r->dlen] / E1000_RING_DESC_LEN +
++               core->mac[r->dt] - core->mac[r->dh];
++    }
++
++    g_assert_not_reached();
++    return 0;
++}
++
++static inline bool
++igb_ring_enabled(IGBCore *core, const E1000E_RingInfo *r)
++{
++    return core->mac[r->dlen] > 0;
++}
++
++typedef struct IGB_TxRing_st {
++    const E1000E_RingInfo *i;
++    struct igb_tx *tx;
++} IGB_TxRing;
++
++static inline int
++igb_mq_queue_idx(int base_reg_idx, int reg_idx)
++{
++    return (reg_idx - base_reg_idx) / 16;
++}
++
++static inline void
++igb_tx_ring_init(IGBCore *core, IGB_TxRing *txr, int idx)
++{
++    static const E1000E_RingInfo i[IGB_NUM_QUEUES] = {
++        { TDBAH0, TDBAL0, TDLEN0, TDH0, TDT0, 0 },
++        { TDBAH1, TDBAL1, TDLEN1, TDH1, TDT1, 1 },
++        { TDBAH2, TDBAL2, TDLEN2, TDH2, TDT2, 2 },
++        { TDBAH3, TDBAL3, TDLEN3, TDH3, TDT3, 3 },
++        { TDBAH4, TDBAL4, TDLEN4, TDH4, TDT4, 4 },
++        { TDBAH5, TDBAL5, TDLEN5, TDH5, TDT5, 5 },
++        { TDBAH6, TDBAL6, TDLEN6, TDH6, TDT6, 6 },
++        { TDBAH7, TDBAL7, TDLEN7, TDH7, TDT7, 7 },
++        { TDBAH8, TDBAL8, TDLEN8, TDH8, TDT8, 8 },
++        { TDBAH9, TDBAL9, TDLEN9, TDH9, TDT9, 9 },
++        { TDBAH10, TDBAL10, TDLEN10, TDH10, TDT10, 10 },
++        { TDBAH11, TDBAL11, TDLEN11, TDH11, TDT11, 11 },
++        { TDBAH12, TDBAL12, TDLEN12, TDH12, TDT12, 12 },
++        { TDBAH13, TDBAL13, TDLEN13, TDH13, TDT13, 13 },
++        { TDBAH14, TDBAL14, TDLEN14, TDH14, TDT14, 14 },
++        { TDBAH15, TDBAL15, TDLEN15, TDH15, TDT15, 15 }
++    };
++
++    assert(idx < ARRAY_SIZE(i));
++
++    txr->i     = &i[idx];
++    txr->tx    = &core->tx[idx];
++}
++
++typedef struct E1000E_RxRing_st {
++    const E1000E_RingInfo *i;
++} E1000E_RxRing;
++
++static inline void
++igb_rx_ring_init(IGBCore *core, E1000E_RxRing *rxr, int idx)
++{
++    static const E1000E_RingInfo i[IGB_NUM_QUEUES] = {
++        { RDBAH0, RDBAL0, RDLEN0, RDH0, RDT0, 0 },
++        { RDBAH1, RDBAL1, RDLEN1, RDH1, RDT1, 1 },
++        { RDBAH2, RDBAL2, RDLEN2, RDH2, RDT2, 2 },
++        { RDBAH3, RDBAL3, RDLEN3, RDH3, RDT3, 3 },
++        { RDBAH4, RDBAL4, RDLEN4, RDH4, RDT4, 4 },
++        { RDBAH5, RDBAL5, RDLEN5, RDH5, RDT5, 5 },
++        { RDBAH6, RDBAL6, RDLEN6, RDH6, RDT6, 6 },
++        { RDBAH7, RDBAL7, RDLEN7, RDH7, RDT7, 7 },
++        { RDBAH8, RDBAL8, RDLEN8, RDH8, RDT8, 8 },
++        { RDBAH9, RDBAL9, RDLEN9, RDH9, RDT9, 9 },
++        { RDBAH10, RDBAL10, RDLEN10, RDH10, RDT10, 10 },
++        { RDBAH11, RDBAL11, RDLEN11, RDH11, RDT11, 11 },
++        { RDBAH12, RDBAL12, RDLEN12, RDH12, RDT12, 12 },
++        { RDBAH13, RDBAL13, RDLEN13, RDH13, RDT13, 13 },
++        { RDBAH14, RDBAL14, RDLEN14, RDH14, RDT14, 14 },
++        { RDBAH15, RDBAL15, RDLEN15, RDH15, RDT15, 15 }
++    };
++
++    assert(idx < ARRAY_SIZE(i));
++
++    rxr->i      = &i[idx];
++}
++
++static uint32_t
++igb_txdesc_writeback(IGBCore *core, dma_addr_t base,
++                     union e1000_adv_tx_desc *tx_desc,
++                     const E1000E_RingInfo *txi)
++{
++    PCIDevice *d;
++    uint32_t cmd_type_len = le32_to_cpu(tx_desc->read.cmd_type_len);
++    uint64_t tdwba;
++
++    tdwba = core->mac[E1000_TDWBAL(txi->idx) >> 2];
++    tdwba |= (uint64_t)core->mac[E1000_TDWBAH(txi->idx) >> 2] << 32;
++
++    if (!(cmd_type_len & E1000_TXD_CMD_RS)) {
++        return 0;
++    }
++
++    d = pcie_sriov_get_vf_at_index(core->owner, txi->idx % 8);
++    if (!d) {
++        d = core->owner;
++    }
++
++    if (tdwba & 1) {
++        uint32_t buffer = cpu_to_le32(core->mac[txi->dh]);
++        pci_dma_write(d, tdwba & ~3, &buffer, sizeof(buffer));
++    } else {
++        uint32_t status = le32_to_cpu(tx_desc->wb.status) | E1000_TXD_STAT_DD;
++
++        tx_desc->wb.status = cpu_to_le32(status);
++        pci_dma_write(d, base + offsetof(union e1000_adv_tx_desc, wb),
++            &tx_desc->wb, sizeof(tx_desc->wb));
++    }
++
++    return igb_tx_wb_eic(core, txi->idx);
++}
++
++static void
++igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
++{
++    PCIDevice *d;
++    dma_addr_t base;
++    union e1000_adv_tx_desc desc;
++    const E1000E_RingInfo *txi = txr->i;
++    uint32_t eic = 0;
++
++    /* TODO: check if the queue itself is enabled too. */
++    if (!(core->mac[TCTL] & E1000_TCTL_EN)) {
++        trace_e1000e_tx_disabled();
++        return;
++    }
++
++    d = pcie_sriov_get_vf_at_index(core->owner, txi->idx % 8);
++    if (!d) {
++        d = core->owner;
++    }
++
++    while (!igb_ring_empty(core, txi)) {
++        base = igb_ring_head_descr(core, txi);
++
++        pci_dma_read(d, base, &desc, sizeof(desc));
++
++        trace_e1000e_tx_descr((void *)(intptr_t)desc.read.buffer_addr,
++                              desc.read.cmd_type_len, desc.wb.status);
++
++        igb_process_tx_desc(core, txr->tx, &desc, txi->idx);
++        igb_ring_advance(core, txi, 1);
++        eic |= igb_txdesc_writeback(core, base, &desc, txi);
++    }
++
++    if (eic) {
++        core->mac[EICR] |= eic;
++        igb_set_interrupt_cause(core, E1000_ICR_TXDW);
++    }
++}
++
++static uint32_t
++igb_rxbufsize(IGBCore *core, const E1000E_RingInfo *r)
++{
++    uint32_t srrctl = core->mac[E1000_SRRCTL(r->idx) >> 2];
++    uint32_t bsizepkt = srrctl & E1000_SRRCTL_BSIZEPKT_MASK;
++    if (bsizepkt) {
++        return bsizepkt << E1000_SRRCTL_BSIZEPKT_SHIFT;
++    }
++
++    return e1000x_rxbufsize(core->mac[RCTL]);
++}
++
++static bool
++igb_has_rxbufs(IGBCore *core, const E1000E_RingInfo *r, size_t total_size)
++{
++    uint32_t bufs = igb_ring_free_descr_num(core, r);
++    uint32_t bufsize = igb_rxbufsize(core, r);
++
++    trace_e1000e_rx_has_buffers(r->idx, bufs, total_size, bufsize);
++
++    return total_size <= bufs / (core->rx_desc_len / E1000_MIN_RX_DESC_LEN) *
++                         bufsize;
++}
++
++void
++igb_start_recv(IGBCore *core)
++{
++    int i;
++
++    trace_e1000e_rx_start_recv();
++
++    for (i = 0; i <= core->max_queue_num; i++) {
++        qemu_flush_queued_packets(qemu_get_subqueue(core->owner_nic, i));
++    }
++}
++
++bool
++igb_can_receive(IGBCore *core)
++{
++    int i;
++
++    if (!e1000x_rx_ready(core->owner, core->mac)) {
++        return false;
++    }
++
++    for (i = 0; i < IGB_NUM_QUEUES; i++) {
++        E1000E_RxRing rxr;
++
++        igb_rx_ring_init(core, &rxr, i);
++        if (igb_ring_enabled(core, rxr.i) && igb_has_rxbufs(core, rxr.i, 1)) {
++            trace_e1000e_rx_can_recv();
++            return true;
++        }
++    }
++
++    trace_e1000e_rx_can_recv_rings_full();
++    return false;
++}
++
++ssize_t
++igb_receive(IGBCore *core, const uint8_t *buf, size_t size)
++{
++    const struct iovec iov = {
++        .iov_base = (uint8_t *)buf,
++        .iov_len = size
++    };
++
++    return igb_receive_iov(core, &iov, 1);
++}
++
++static inline bool
++igb_rx_l3_cso_enabled(IGBCore *core)
++{
++    return !!(core->mac[RXCSUM] & E1000_RXCSUM_IPOFLD);
++}
++
++static inline bool
++igb_rx_l4_cso_enabled(IGBCore *core)
++{
++    return !!(core->mac[RXCSUM] & E1000_RXCSUM_TUOFLD);
++}
++
++static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
++                                   E1000E_RSSInfo *rss_info, bool *external_tx)
++{
++    static const int ta_shift[] = { 4, 3, 2, 0 };
++    uint32_t f, ra[2], *macp, rctl = core->mac[RCTL];
++    uint16_t queues = 0;
++    uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(ehdr)->h_tci) & VLAN_VID_MASK;
++    bool accepted = false;
++    int i;
++
++    memset(rss_info, 0, sizeof(E1000E_RSSInfo));
++
++    if (external_tx) {
++        *external_tx = true;
++    }
++
++    if (e1000x_is_vlan_packet(ehdr, core->mac[VET] & 0xffff) &&
++        e1000x_vlan_rx_filter_enabled(core->mac)) {
++        uint32_t vfta =
++            ldl_le_p((uint32_t *)(core->mac + VFTA) +
++                     ((vid >> E1000_VFTA_ENTRY_SHIFT) & E1000_VFTA_ENTRY_MASK));
++        if ((vfta & (1 << (vid & E1000_VFTA_ENTRY_BIT_SHIFT_MASK))) == 0) {
++            trace_e1000e_rx_flt_vlan_mismatch(vid);
++            return queues;
++        } else {
++            trace_e1000e_rx_flt_vlan_match(vid);
++        }
++    }
++
++    if (core->mac[MRQC] & 1) {
++        if (is_broadcast_ether_addr(ehdr->h_dest)) {
++            for (i = 0; i < 8; i++) {
++                if (core->mac[VMOLR0 + i] & E1000_VMOLR_BAM) {
++                    queues |= BIT(i);
++                }
++            }
++        } else {
++            for (macp = core->mac + RA; macp < core->mac + RA + 32; macp += 2) {
++                if (!(macp[1] & E1000_RAH_AV)) {
++                    continue;
++                }
++                ra[0] = cpu_to_le32(macp[0]);
++                ra[1] = cpu_to_le32(macp[1]);
++                if (!memcmp(ehdr->h_dest, (uint8_t *)ra, ETH_ALEN)) {
++                    queues |= (macp[1] & E1000_RAH_POOL_MASK) / E1000_RAH_POOL_1;
++                }
++            }
++
++            for (macp = core->mac + RA2; macp < core->mac + RA2 + 16; macp += 2) {
++                if (!(macp[1] & E1000_RAH_AV)) {
++                    continue;
++                }
++                ra[0] = cpu_to_le32(macp[0]);
++                ra[1] = cpu_to_le32(macp[1]);
++                if (!memcmp(ehdr->h_dest, (uint8_t *)ra, ETH_ALEN)) {
++                    queues |= (macp[1] & E1000_RAH_POOL_MASK) / E1000_RAH_POOL_1;
++                }
++            }
++
++            if (!queues) {
++                macp = core->mac + (is_multicast_ether_addr(ehdr->h_dest) ? MTA : UTA);
++
++                f = ta_shift[(rctl >> E1000_RCTL_MO_SHIFT) & 3];
++                f = (((ehdr->h_dest[5] << 8) | ehdr->h_dest[4]) >> f) & 0xfff;
++                if (macp[f >> 5] & (1 << (f & 0x1f))) {
++                    for (i = 0; i < 8; i++) {
++                        if (core->mac[VMOLR0 + i] & E1000_VMOLR_ROMPE) {
++                            queues |= BIT(i);
++                        }
++                    }
++                }
++            } else if (is_unicast_ether_addr(ehdr->h_dest) && external_tx) {
++                *external_tx = false;
++            }
++        }
++
++        if (e1000x_vlan_rx_filter_enabled(core->mac)) {
++            uint16_t mask = 0;
++
++            if (e1000x_is_vlan_packet(ehdr, core->mac[VET] & 0xffff)) {
++                for (i = 0; i < E1000_VLVF_ARRAY_SIZE; i++) {
++                    if ((core->mac[VLVF0 + i] & E1000_VLVF_VLANID_MASK) == vid &&
++                        (core->mac[VLVF0 + i] & E1000_VLVF_VLANID_ENABLE)) {
++                        uint32_t poolsel = core->mac[VLVF0 + i] & E1000_VLVF_POOLSEL_MASK;
++                        mask |= poolsel >> E1000_VLVF_POOLSEL_SHIFT;
++                    }
++                }
++            } else {
++                for (i = 0; i < 8; i++) {
++                    if (core->mac[VMOLR0 + i] & E1000_VMOLR_AUPE) {
++                        mask |= BIT(i);
++                    }
++                }
++            }
++
++            queues &= mask;
++        }
++
++        if (is_unicast_ether_addr(ehdr->h_dest) && !queues && !external_tx &&
++            !(core->mac[VT_CTL] & E1000_VT_CTL_DISABLE_DEF_POOL)) {
++            uint32_t def_pl = core->mac[VT_CTL] & E1000_VT_CTL_DEFAULT_POOL_MASK;
++            queues = BIT(def_pl >> E1000_VT_CTL_DEFAULT_POOL_SHIFT);
++        }
++
++        igb_rss_parse_packet(core, core->rx_pkt, external_tx != NULL, rss_info);
++        if (rss_info->queue & 1) {
++            queues <<= 8;
++        }
++    } else {
++        switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
++        case ETH_PKT_UCAST:
++            if (rctl & E1000_RCTL_UPE) {
++                accepted = true; /* promiscuous ucast */
++            }
++            break;
++
++        case ETH_PKT_BCAST:
++            if (rctl & E1000_RCTL_BAM) {
++                accepted = true; /* broadcast enabled */
++            }
++            break;
++
++        case ETH_PKT_MCAST:
++            if (rctl & E1000_RCTL_MPE) {
++                accepted = true; /* promiscuous mcast */
++            }
++            break;
++
++        default:
++            g_assert_not_reached();
++        }
++
++        if (!accepted) {
++            accepted = e1000x_rx_group_filter(core->mac, ehdr->h_dest);
++        }
++
++        if (!accepted) {
++            for (macp = core->mac + RA2; macp < core->mac + RA2 + 16; macp += 2) {
++                if (!(macp[1] & E1000_RAH_AV)) {
++                    continue;
++                }
++                ra[0] = cpu_to_le32(macp[0]);
++                ra[1] = cpu_to_le32(macp[1]);
++                if (!memcmp(ehdr->h_dest, (uint8_t *)ra, ETH_ALEN)) {
++                    trace_e1000x_rx_flt_ucast_match((int)(macp - core->mac - RA2) / 2,
++                                                    MAC_ARG(ehdr->h_dest));
++
++                    accepted = true;
++                    break;
++                }
++            }
++        }
++
++        if (accepted) {
++            igb_rss_parse_packet(core, core->rx_pkt, false, rss_info);
++            queues = BIT(rss_info->queue);
++        }
++    }
++
++    return queues;
++}
++
++static inline void
++igb_read_lgcy_rx_descr(IGBCore *core, struct e1000_rx_desc *desc,
++                       hwaddr *buff_addr)
++{
++    *buff_addr = le64_to_cpu(desc->buffer_addr);
++}
++
++static inline void
++igb_read_adv_rx_descr(IGBCore *core, union e1000_adv_rx_desc *desc,
++                      hwaddr *buff_addr)
++{
++    *buff_addr = le64_to_cpu(desc->read.pkt_addr);
++}
++
++static inline void
++igb_read_rx_descr(IGBCore *core, union e1000_rx_desc_union *desc,
++                  hwaddr *buff_addr)
++{
++    if (igb_rx_use_legacy_descriptor(core)) {
++        igb_read_lgcy_rx_descr(core, &desc->legacy, buff_addr);
++    } else {
++        igb_read_adv_rx_descr(core, &desc->adv, buff_addr);
++    }
++}
++
++static void
++igb_verify_csum_in_sw(IGBCore *core,
++                      struct NetRxPkt *pkt,
++                      uint32_t *status_flags,
++                      EthL4HdrProto l4hdr_proto)
++{
++    bool csum_valid;
++    uint32_t csum_error;
++
++    if (igb_rx_l3_cso_enabled(core)) {
++        if (!net_rx_pkt_validate_l3_csum(pkt, &csum_valid)) {
++            trace_e1000e_rx_metadata_l3_csum_validation_failed();
++        } else {
++            csum_error = csum_valid ? 0 : E1000_RXDEXT_STATERR_IPE;
++            *status_flags |= E1000_RXD_STAT_IPCS | csum_error;
++        }
++    } else {
++        trace_e1000e_rx_metadata_l3_cso_disabled();
++    }
++
++    if (!igb_rx_l4_cso_enabled(core)) {
++        trace_e1000e_rx_metadata_l4_cso_disabled();
++        return;
++    }
++
++    if (!net_rx_pkt_validate_l4_csum(pkt, &csum_valid)) {
++        trace_e1000e_rx_metadata_l4_csum_validation_failed();
++        return;
++    }
++
++    csum_error = csum_valid ? 0 : E1000_RXDEXT_STATERR_TCPE;
++    *status_flags |= E1000_RXD_STAT_TCPCS | csum_error;
++
++    if (l4hdr_proto == ETH_L4_HDR_PROTO_UDP) {
++        *status_flags |= E1000_RXD_STAT_UDPCS;
++    }
++}
++
++static void
++igb_build_rx_metadata(IGBCore *core,
++                      struct NetRxPkt *pkt,
++                      bool is_eop,
++                      const E1000E_RSSInfo *rss_info,
++                      uint16_t *pkt_info, uint16_t *hdr_info,
++                      uint32_t *rss,
++                      uint32_t *status_flags,
++                      uint16_t *ip_id,
++                      uint16_t *vlan_tag)
++{
++    struct virtio_net_hdr *vhdr;
++    bool hasip4, hasip6;
++    EthL4HdrProto l4hdr_proto;
++    uint32_t pkt_type;
++
++    *status_flags = E1000_RXD_STAT_DD;
++
++    /* No additional metadata needed for non-EOP descriptors */
++    /* TODO: EOP apply only to status so don't skip whole function. */
++    if (!is_eop) {
++        goto func_exit;
++    }
++
++    *status_flags |= E1000_RXD_STAT_EOP;
++
++    net_rx_pkt_get_protocols(pkt, &hasip4, &hasip6, &l4hdr_proto);
++    trace_e1000e_rx_metadata_protocols(hasip4, hasip6, l4hdr_proto);
++
++    /* VLAN state */
++    if (net_rx_pkt_is_vlan_stripped(pkt)) {
++        *status_flags |= E1000_RXD_STAT_VP;
++        *vlan_tag = cpu_to_le16(net_rx_pkt_get_vlan_tag(pkt));
++        trace_e1000e_rx_metadata_vlan(*vlan_tag);
++    }
++
++    /* Packet parsing results */
++    if ((core->mac[RXCSUM] & E1000_RXCSUM_PCSD) != 0) {
++        if (rss_info->enabled) {
++            *rss = cpu_to_le32(rss_info->hash);
++            trace_igb_rx_metadata_rss(*rss);
++        }
++    } else if (hasip4) {
++            *status_flags |= E1000_RXD_STAT_IPIDV;
++            *ip_id = cpu_to_le16(net_rx_pkt_get_ip_id(pkt));
++            trace_e1000e_rx_metadata_ip_id(*ip_id);
++    }
++
++    if (l4hdr_proto == ETH_L4_HDR_PROTO_TCP && net_rx_pkt_is_tcp_ack(pkt)) {
++        *status_flags |= E1000_RXD_STAT_ACK;
++        trace_e1000e_rx_metadata_ack();
++    }
++
++    if (hasip6 && (core->mac[RFCTL] & E1000_RFCTL_IPV6_DIS)) {
++        trace_e1000e_rx_metadata_ipv6_filtering_disabled();
++        pkt_type = E1000_RXD_PKT_MAC;
++    } else if (l4hdr_proto == ETH_L4_HDR_PROTO_TCP ||
++               l4hdr_proto == ETH_L4_HDR_PROTO_UDP) {
++        pkt_type = hasip4 ? E1000_RXD_PKT_IP4_XDP : E1000_RXD_PKT_IP6_XDP;
++    } else if (hasip4 || hasip6) {
++        pkt_type = hasip4 ? E1000_RXD_PKT_IP4 : E1000_RXD_PKT_IP6;
++    } else {
++        pkt_type = E1000_RXD_PKT_MAC;
++    }
++
++    trace_e1000e_rx_metadata_pkt_type(pkt_type);
++
++    if (pkt_info) {
++        if (rss_info->enabled) {
++            *pkt_info = rss_info->type;
++        }
++
++        *pkt_info |= (pkt_type << 4);
++    } else {
++        *status_flags |= E1000_RXD_PKT_TYPE(pkt_type);
++    }
++
++    if (hdr_info) {
++        *hdr_info = 0;
++    }
++
++    /* RX CSO information */
++    if (hasip6 && (core->mac[RFCTL] & E1000_RFCTL_IPV6_XSUM_DIS)) {
++        trace_e1000e_rx_metadata_ipv6_sum_disabled();
++        goto func_exit;
++    }
++
++    vhdr = net_rx_pkt_get_vhdr(pkt);
++
++    if (!(vhdr->flags & VIRTIO_NET_HDR_F_DATA_VALID) &&
++        !(vhdr->flags & VIRTIO_NET_HDR_F_NEEDS_CSUM)) {
++        trace_e1000e_rx_metadata_virthdr_no_csum_info();
++        igb_verify_csum_in_sw(core, pkt, status_flags, l4hdr_proto);
++        goto func_exit;
++    }
++
++    if (igb_rx_l3_cso_enabled(core)) {
++        *status_flags |= hasip4 ? E1000_RXD_STAT_IPCS : 0;
++    } else {
++        trace_e1000e_rx_metadata_l3_cso_disabled();
++    }
++
++    if (igb_rx_l4_cso_enabled(core)) {
++        switch (l4hdr_proto) {
++        case ETH_L4_HDR_PROTO_TCP:
++            *status_flags |= E1000_RXD_STAT_TCPCS;
++            break;
++
++        case ETH_L4_HDR_PROTO_UDP:
++            *status_flags |= E1000_RXD_STAT_TCPCS | E1000_RXD_STAT_UDPCS;
++            break;
++
++        default:
++        }
++    } else {
++        trace_e1000e_rx_metadata_l4_cso_disabled();
++    }
++
++    trace_e1000e_rx_metadata_status_flags(*status_flags);
++
++func_exit:
++    *status_flags = cpu_to_le32(*status_flags);
++}
++
++static inline void
++igb_write_lgcy_rx_descr(IGBCore *core, struct e1000_rx_desc *desc,
++                        struct NetRxPkt *pkt,
++                        const E1000E_RSSInfo *rss_info,
++                        uint16_t length)
++{
++    uint32_t status_flags, rss;
++    uint16_t ip_id;
++
++    assert(!rss_info->enabled);
++    desc->length = cpu_to_le16(length);
++    desc->csum = 0;
++
++    igb_build_rx_metadata(core, pkt, pkt != NULL,
++                          rss_info,
++                          NULL, NULL, &rss,
++                          &status_flags, &ip_id,
++                          &desc->special);
++    desc->errors = (uint8_t) (le32_to_cpu(status_flags) >> 24);
++    desc->status = (uint8_t) le32_to_cpu(status_flags);
++}
++
++static inline void
++igb_write_adv_rx_descr(IGBCore *core, union e1000_adv_rx_desc *desc,
++                       struct NetRxPkt *pkt,
++                       const E1000E_RSSInfo *rss_info,
++                       uint16_t length)
++{
++    memset(&desc->wb, 0, sizeof(desc->wb));
++
++    desc->wb.upper.length = cpu_to_le16(length);
++
++    igb_build_rx_metadata(core, pkt, pkt != NULL,
++                          rss_info,
++                          &desc->wb.lower.lo_dword.pkt_info,
++                          &desc->wb.lower.lo_dword.hdr_info,
++                          &desc->wb.lower.hi_dword.rss,
++                          &desc->wb.upper.status_error,
++                          &desc->wb.lower.hi_dword.csum_ip.ip_id,
++                          &desc->wb.upper.vlan);
++}
++
++static inline void
++igb_write_rx_descr(IGBCore *core, union e1000_rx_desc_union *desc,
++struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info, uint16_t length)
++{
++    if (igb_rx_use_legacy_descriptor(core)) {
++        igb_write_lgcy_rx_descr(core, &desc->legacy, pkt, rss_info, length);
++    } else {
++        igb_write_adv_rx_descr(core, &desc->adv, pkt, rss_info, length);
++    }
++}
++
++static inline void
++igb_pci_dma_write_rx_desc(IGBCore *core, PCIDevice *dev, dma_addr_t addr,
++                          union e1000_rx_desc_union *desc, dma_addr_t len)
++{
++    if (igb_rx_use_legacy_descriptor(core)) {
++        struct e1000_rx_desc *d = &desc->legacy;
++        size_t offset = offsetof(struct e1000_rx_desc, status);
++        uint8_t status = d->status;
++
++        d->status &= ~E1000_RXD_STAT_DD;
++        pci_dma_write(dev, addr, desc, len);
++
++        if (status & E1000_RXD_STAT_DD) {
++            d->status = status;
++            pci_dma_write(dev, addr + offset, &status, sizeof(status));
++        }
++    } else {
++        union e1000_adv_rx_desc *d = &desc->adv;
++        size_t offset =
++            offsetof(union e1000_adv_rx_desc, wb.upper.status_error);
++        uint32_t status = d->wb.upper.status_error;
++
++        d->wb.upper.status_error &= ~E1000_RXD_STAT_DD;
++        pci_dma_write(dev, addr, desc, len);
++
++        if (status & E1000_RXD_STAT_DD) {
++            d->wb.upper.status_error = status;
++            pci_dma_write(dev, addr + offset, &status, sizeof(status));
++        }
++    }
++}
++
++static void
++igb_write_to_rx_buffers(IGBCore *core,
++                        PCIDevice *d,
++                        hwaddr ba,
++                        uint16_t *written,
++                        const char *data,
++                        dma_addr_t data_len)
++{
++    trace_igb_rx_desc_buff_write(ba, *written, data, data_len);
++    pci_dma_write(d, ba + *written, data, data_len);
++    *written += data_len;
++}
++
++static void
++igb_update_rx_stats(IGBCore *core, size_t data_size, size_t data_fcs_size)
++{
++    e1000x_update_rx_total_stats(core->mac, data_size, data_fcs_size);
++
++    switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
++    case ETH_PKT_BCAST:
++        e1000x_inc_reg_if_not_full(core->mac, BPRC);
++        break;
++
++    case ETH_PKT_MCAST:
++        e1000x_inc_reg_if_not_full(core->mac, MPRC);
++        break;
++
++    default:
++        break;
++    }
++}
++
++static inline bool
++igb_rx_descr_threshold_hit(IGBCore *core, const E1000E_RingInfo *rxi)
++{
++    return igb_ring_free_descr_num(core, rxi) ==
++           ((core->mac[E1000_SRRCTL(rxi->idx) >> 2] >> 20) & 31) * 16;
++}
++
++static void
++igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
++                          const E1000E_RxRing *rxr,
++                          const E1000E_RSSInfo *rss_info)
++{
++    PCIDevice *d;
++    dma_addr_t base;
++    union e1000_rx_desc_union desc;
++    size_t desc_size;
++    size_t desc_offset = 0;
++    size_t iov_ofs = 0;
++
++    struct iovec *iov = net_rx_pkt_get_iovec(pkt);
++    size_t size = net_rx_pkt_get_total_len(pkt);
++    size_t total_size = size + e1000x_fcs_len(core->mac);
++    const E1000E_RingInfo *rxi = rxr->i;
++    size_t bufsize = igb_rxbufsize(core, rxi);
++
++    d = pcie_sriov_get_vf_at_index(core->owner, rxi->idx % 8);
++    if (!d) {
++        d = core->owner;
++    }
++
++    do {
++        hwaddr ba;
++        uint16_t written = 0;
++        bool is_last = false;
++
++        desc_size = total_size - desc_offset;
++
++        if (desc_size > bufsize) {
++            desc_size = bufsize;
++        }
++
++        if (igb_ring_empty(core, rxi)) {
++            return;
++        }
++
++        base = igb_ring_head_descr(core, rxi);
++
++        pci_dma_read(d, base, &desc, core->rx_desc_len);
++
++        trace_e1000e_rx_descr(rxi->idx, base, core->rx_desc_len);
++
++        igb_read_rx_descr(core, &desc, &ba);
++
++        if (ba) {
++            if (desc_offset < size) {
++                static const uint32_t fcs_pad;
++                size_t iov_copy;
++                size_t copy_size = size - desc_offset;
++                if (copy_size > bufsize) {
++                    copy_size = bufsize;
++                }
++
++                /* Copy packet payload */
++                while (copy_size) {
++                    iov_copy = MIN(copy_size, iov->iov_len - iov_ofs);
++
++                    igb_write_to_rx_buffers(core, d, ba, &written,
++                                            iov->iov_base + iov_ofs, iov_copy);
++
++                    copy_size -= iov_copy;
++                    iov_ofs += iov_copy;
++                    if (iov_ofs == iov->iov_len) {
++                        iov++;
++                        iov_ofs = 0;
++                    }
++                }
++
++                if (desc_offset + desc_size >= total_size) {
++                    /* Simulate FCS checksum presence in the last descriptor */
++                    igb_write_to_rx_buffers(core, d, ba, &written,
++                          (const char *) &fcs_pad, e1000x_fcs_len(core->mac));
++                }
++            }
++        } else { /* as per intel docs; skip descriptors with null buf addr */
++            trace_e1000e_rx_null_descriptor();
++        }
++        desc_offset += desc_size;
++        if (desc_offset >= total_size) {
++            is_last = true;
++        }
++
++        igb_write_rx_descr(core, &desc, is_last ? core->rx_pkt : NULL,
++                           rss_info, written);
++        igb_pci_dma_write_rx_desc(core, d, base, &desc, core->rx_desc_len);
++
++        igb_ring_advance(core, rxi, core->rx_desc_len / E1000_MIN_RX_DESC_LEN);
++
++    } while (desc_offset < total_size);
++
++    igb_update_rx_stats(core, size, total_size);
++}
++
++static inline void
++igb_rx_fix_l4_csum(IGBCore *core, struct NetRxPkt *pkt)
++{
++    struct virtio_net_hdr *vhdr = net_rx_pkt_get_vhdr(pkt);
++
++    if (vhdr->flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
++        net_rx_pkt_fix_l4_csum(pkt);
++    }
++}
++
++ssize_t
++igb_receive_iov(IGBCore *core, const struct iovec *iov, int iovcnt)
++{
++    return igb_receive_internal(core, iov, iovcnt, core->has_vnet, NULL);
++}
++
++static ssize_t
++igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
++                     bool has_vnet, bool *external_tx)
++{
++    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 4);
++
++    uint16_t queues = 0;
++    uint32_t n = 0;
++    uint8_t min_buf[ETH_ZLEN];
++    struct iovec min_iov;
++    struct eth_header *ehdr;
++    uint8_t *filter_buf;
++    size_t size, orig_size;
++    size_t iov_ofs = 0;
++    E1000E_RxRing rxr;
++    E1000E_RSSInfo rss_info;
++    size_t total_size;
++    int i;
++
++    trace_e1000e_rx_receive_iov(iovcnt);
++
++    if (external_tx) {
++        *external_tx = true;
++    }
++
++    if (!e1000x_hw_rx_enabled(core->mac)) {
++        return -1;
++    }
++
++    /* Pull virtio header in */
++    if (has_vnet) {
++        net_rx_pkt_set_vhdr_iovec(core->rx_pkt, iov, iovcnt);
++        iov_ofs = sizeof(struct virtio_net_hdr);
++    } else {
++        net_rx_pkt_unset_vhdr(core->rx_pkt);
++    }
++
++    filter_buf = iov->iov_base + iov_ofs;
++    orig_size = iov_size(iov, iovcnt);
++    size = orig_size - iov_ofs;
++
++    /* Pad to minimum Ethernet frame length */
++    if (size < sizeof(min_buf)) {
++        iov_to_buf(iov, iovcnt, iov_ofs, min_buf, size);
++        memset(&min_buf[size], 0, sizeof(min_buf) - size);
++        e1000x_inc_reg_if_not_full(core->mac, RUC);
++        min_iov.iov_base = filter_buf = min_buf;
++        min_iov.iov_len = size = sizeof(min_buf);
++        iovcnt = 1;
++        iov = &min_iov;
++        iov_ofs = 0;
++    } else if (iov->iov_len < maximum_ethernet_hdr_len) {
++        /* This is very unlikely, but may happen. */
++        iov_to_buf(iov, iovcnt, iov_ofs, min_buf, maximum_ethernet_hdr_len);
++        filter_buf = min_buf;
++    }
++
++    /* Discard oversized packets if !LPE and !SBP. */
++    if (e1000x_is_oversized(core->mac, size)) {
++        return orig_size;
++    }
++
++    ehdr = PKT_GET_ETH_HDR(filter_buf);
++    net_rx_pkt_set_packet_type(core->rx_pkt, get_eth_packet_type(ehdr));
++
++    net_rx_pkt_attach_iovec_ex(core->rx_pkt, iov, iovcnt, iov_ofs,
++                               e1000x_vlan_enabled(core->mac),
++                               core->mac[VET] & 0xffff);
++
++    queues = igb_receive_assign(core, ehdr, &rss_info, external_tx);
++    if (!queues) {
++        trace_e1000e_rx_flt_dropped();
++        return orig_size;
++    }
++
++    total_size = net_rx_pkt_get_total_len(core->rx_pkt) +
++        e1000x_fcs_len(core->mac);
++
++    for (i = 0; i < IGB_NUM_QUEUES; i++) {
++        if (!(queues & BIT(i))) {
++            continue;
++        }
++
++        igb_rx_ring_init(core, &rxr, i);
++
++        if (!igb_has_rxbufs(core, rxr.i, total_size)) {
++            n |= E1000_ICS_RXO;
++            trace_e1000e_rx_not_written_to_guest(rxr.i->idx);
++            continue;
++        }
++
++        n |= E1000_ICR_RXT0;
++
++        igb_rx_fix_l4_csum(core, core->rx_pkt);
++        igb_write_packet_to_guest(core, core->rx_pkt, &rxr, &rss_info);
++
++        /* Check if receive descriptor minimum threshold hit */
++        if (igb_rx_descr_threshold_hit(core, rxr.i)) {
++            n |= E1000_ICS_RXDMT0;
++        }
++
++        core->mac[EICR] |= igb_rx_wb_eic(core, rxr.i->idx);
++
++        trace_e1000e_rx_written_to_guest(rxr.i->idx);
++    }
++
++    trace_e1000e_rx_interrupt_set(n);
++    igb_set_interrupt_cause(core, n);
++
++    return orig_size;
++}
++
++static inline bool
++igb_have_autoneg(IGBCore *core)
++{
++    return core->phy[MII_BMCR] & MII_BMCR_AUTOEN;
++}
++
++static void igb_update_flowctl_status(IGBCore *core)
++{
++    if (igb_have_autoneg(core) && core->phy[MII_BMSR] & MII_BMSR_AN_COMP) {
++        trace_e1000e_link_autoneg_flowctl(true);
++        core->mac[CTRL] |= E1000_CTRL_TFCE | E1000_CTRL_RFCE;
++    } else {
++        trace_e1000e_link_autoneg_flowctl(false);
++    }
++}
++
++static inline void
++igb_link_down(IGBCore *core)
++{
++    e1000x_update_regs_on_link_down(core->mac, core->phy);
++    igb_update_flowctl_status(core);
++}
++
++static inline void
++igb_set_phy_ctrl(IGBCore *core, uint16_t val)
++{
++    /* bits 0-5 reserved; MII_BMCR_[ANRESTART,RESET] are self clearing */
++    core->phy[MII_BMCR] = val & ~(0x3f | MII_BMCR_RESET | MII_BMCR_ANRESTART);
++
++    if ((val & MII_BMCR_ANRESTART) && igb_have_autoneg(core)) {
++        e1000x_restart_autoneg(core->mac, core->phy, core->autoneg_timer);
++    }
++}
++
++void igb_core_set_link_status(IGBCore *core)
++{
++    NetClientState *nc = qemu_get_queue(core->owner_nic);
++    uint32_t old_status = core->mac[STATUS];
++
++    trace_e1000e_link_status_changed(nc->link_down ? false : true);
++
++    if (nc->link_down) {
++        e1000x_update_regs_on_link_down(core->mac, core->phy);
++    } else {
++        if (igb_have_autoneg(core) &&
++            !(core->phy[MII_BMSR] & MII_BMSR_AN_COMP)) {
++            e1000x_restart_autoneg(core->mac, core->phy,
++                                   core->autoneg_timer);
++        } else {
++            e1000x_update_regs_on_link_up(core->mac, core->phy);
++            igb_start_recv(core);
++        }
++    }
++
++    if (core->mac[STATUS] != old_status) {
++        igb_set_interrupt_cause(core, E1000_ICR_LSC);
++    }
++}
++
++static void
++igb_set_ctrl(IGBCore *core, int index, uint32_t val)
++{
++    trace_e1000e_core_ctrl_write(index, val);
++
++    /* RST is self clearing */
++    core->mac[CTRL] = val & ~E1000_CTRL_RST;
++    core->mac[CTRL_DUP] = core->mac[CTRL];
++
++    trace_e1000e_link_set_params(
++        !!(val & E1000_CTRL_ASDE),
++        (val & E1000_CTRL_SPD_SEL) >> E1000_CTRL_SPD_SHIFT,
++        !!(val & E1000_CTRL_FRCSPD),
++        !!(val & E1000_CTRL_FRCDPX),
++        !!(val & E1000_CTRL_RFCE),
++        !!(val & E1000_CTRL_TFCE));
++
++    if (val & E1000_CTRL_RST) {
++        trace_e1000e_core_ctrl_sw_reset();
++        igb_reset(core, true);
++    }
++
++    if (val & E1000_CTRL_PHY_RST) {
++        trace_e1000e_core_ctrl_phy_reset();
++        core->mac[STATUS] |= E1000_STATUS_PHYRA;
++    }
++}
++
++static void
++igb_set_rfctl(IGBCore *core, int index, uint32_t val)
++{
++    trace_e1000e_rx_set_rfctl(val);
++
++    if (!(val & E1000_RFCTL_ISCSI_DIS)) {
++        trace_e1000e_wrn_iscsi_filtering_not_supported();
++    }
++
++    if (!(val & E1000_RFCTL_NFSW_DIS)) {
++        trace_e1000e_wrn_nfsw_filtering_not_supported();
++    }
++
++    if (!(val & E1000_RFCTL_NFSR_DIS)) {
++        trace_e1000e_wrn_nfsr_filtering_not_supported();
++    }
++
++    core->mac[RFCTL] = val;
++}
++
++static void
++igb_calc_rxdesclen(IGBCore *core)
++{
++    if (igb_rx_use_legacy_descriptor(core)) {
++        core->rx_desc_len = sizeof(struct e1000_rx_desc);
++    } else {
++        core->rx_desc_len = sizeof(union e1000_adv_rx_desc);
++    }
++    trace_e1000e_rx_desc_len(core->rx_desc_len);
++}
++
++static void
++igb_set_rx_control(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[RCTL] = val;
++    trace_e1000e_rx_set_rctl(core->mac[RCTL]);
++
++    if (val & E1000_RCTL_DTYP_MASK) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "igb: RCTL.DTYP must be zero for compatibility");
++    }
++
++    if (val & E1000_RCTL_EN) {
++        igb_calc_rxdesclen(core);
++        igb_start_recv(core);
++    }
++}
++
++static inline void
++igb_clear_ims_bits(IGBCore *core, uint32_t bits)
++{
++    trace_e1000e_irq_clear_ims(bits, core->mac[IMS], core->mac[IMS] & ~bits);
++    core->mac[IMS] &= ~bits;
++}
++
++static inline bool
++igb_postpone_interrupt(IGBIntrDelayTimer *timer)
++{
++    if (timer->running) {
++        trace_e1000e_irq_postponed_by_xitr(timer->delay_reg << 2);
++
++        return true;
++    }
++
++    if (timer->core->mac[timer->delay_reg] != 0) {
++        igb_intrmgr_rearm_timer(timer);
++    }
++
++    return false;
++}
++
++static inline bool
++igb_eitr_should_postpone(IGBCore *core, int idx)
++{
++    return igb_postpone_interrupt(&core->eitr[idx]);
++}
++
++static void igb_send_msix(IGBCore *core)
++{
++    uint32_t causes = core->mac[EICR] & core->mac[EIMS];
++    uint32_t effective_eiac;
++    int vector;
++
++    for (vector = 0; vector < IGB_INTR_NUM; ++vector) {
++        if ((causes & BIT(vector)) && !igb_eitr_should_postpone(core, vector)) {
++
++            trace_e1000e_irq_msix_notify_vec(vector);
++            igb_msix_notify(core, vector);
++
++            trace_e1000e_irq_icr_clear_eiac(core->mac[EICR], core->mac[EIAC]);
++            effective_eiac = core->mac[EIAC] & BIT(vector);
++            core->mac[EICR] &= ~effective_eiac;
++        }
++    }
++}
++
++static inline void
++igb_fix_icr_asserted(IGBCore *core)
++{
++    core->mac[ICR] &= ~E1000_ICR_ASSERTED;
++    if (core->mac[ICR]) {
++        core->mac[ICR] |= E1000_ICR_ASSERTED;
++    }
++
++    trace_e1000e_irq_fix_icr_asserted(core->mac[ICR]);
++}
++
++static void
++igb_update_interrupt_state(IGBCore *core)
++{
++    uint32_t icr;
++    uint32_t causes;
++    uint32_t int_alloc;
++
++    icr = core->mac[ICR] & core->mac[IMS];
++
++    if (msix_enabled(core->owner)) {
++        if (icr) {
++            causes = 0;
++            if (icr & E1000_ICR_DRSTA) {
++                int_alloc = core->mac[IVAR_MISC] & 0xff;
++                if (int_alloc & E1000_IVAR_VALID) {
++                    causes |= BIT(int_alloc & 0x1f);
++                }
++            }
++            /* Check if other bits (excluding the TCP Timer) are enabled. */
++            if (icr & ~E1000_ICR_DRSTA) {
++                int_alloc = (core->mac[IVAR_MISC] >> 8) & 0xff;
++                if (int_alloc & E1000_IVAR_VALID) {
++                    causes |= BIT(int_alloc & 0x1f);
++                }
++                trace_e1000e_irq_add_msi_other(core->mac[EICR]);
++            }
++            core->mac[EICR] |= causes;
++        }
++
++        if ((core->mac[EICR] & core->mac[EIMS])) {
++            igb_send_msix(core);
++        }
++    } else {
++        igb_fix_icr_asserted(core);
++
++        if (icr) {
++            core->mac[EICR] |= (icr & E1000_ICR_DRSTA) | E1000_EICR_OTHER;
++        } else {
++            core->mac[EICR] &= ~E1000_EICR_OTHER;
++        }
++
++        trace_e1000e_irq_pending_interrupts(core->mac[ICR] & core->mac[IMS],
++                                            core->mac[ICR], core->mac[IMS]);
++
++        if (msi_enabled(core->owner)) {
++            if (icr) {
++                msi_notify(core->owner, 0);
++            }
++        } else {
++            if (icr) {
++                igb_raise_legacy_irq(core);
++            } else {
++                igb_lower_legacy_irq(core);
++            }
++        }
++    }
++}
++
++static void
++igb_set_interrupt_cause(IGBCore *core, uint32_t val)
++{
++    trace_e1000e_irq_set_cause_entry(val, core->mac[ICR]);
++
++    core->mac[ICR] |= val;
++
++    trace_e1000e_irq_set_cause_exit(val, core->mac[ICR]);
++
++    igb_update_interrupt_state(core);
++}
++
++static void igb_set_eics(IGBCore *core, int index, uint32_t val)
++{
++    bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
++
++    trace_igb_irq_write_eics(val, msix);
++
++    core->mac[EICS] |=
++        val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK);
++
++    /*
++     * TODO: Move to igb_update_interrupt_state if EICS is modified in other
++     * places.
++     */
++    core->mac[EICR] = core->mac[EICS];
++
++    igb_update_interrupt_state(core);
++}
++
++static void igb_set_eims(IGBCore *core, int index, uint32_t val)
++{
++    bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
++
++    trace_igb_irq_write_eims(val, msix);
++
++    core->mac[EIMS] |=
++        val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK);
++
++    igb_update_interrupt_state(core);
++}
++
++static void igb_vf_reset(IGBCore *core, uint16_t vfn)
++{
++    /* TODO: Reset of the queue enable and the interrupt registers of the VF. */
++
++    core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
++    core->mac[V2PMAILBOX0 + vfn] = E1000_V2PMAILBOX_RSTD;
++}
++
++static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)
++{
++    uint32_t ent = core->mac[VTIVAR_MISC + vfn];
++
++    if ((ent & E1000_IVAR_VALID)) {
++        core->mac[EICR] |= (ent & 0x3) << (22 - vfn * IGBVF_MSIX_VEC_NUM);
++        igb_update_interrupt_state(core);
++    }
++}
++
++static void mailbox_interrupt_to_pf(IGBCore *core)
++{
++    igb_set_interrupt_cause(core, E1000_ICR_VMMB);
++}
++
++static void igb_set_pfmailbox(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = index - P2VMAILBOX0;
++
++    trace_igb_set_pfmailbox(vfn, val);
++
++    if (val & E1000_P2VMAILBOX_STS) {
++        core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_PFSTS;
++        mailbox_interrupt_to_vf(core, vfn);
++    }
++
++    if (val & E1000_P2VMAILBOX_ACK) {
++        core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_PFACK;
++        mailbox_interrupt_to_vf(core, vfn);
++    }
++
++    /* Buffer Taken by PF (can be set only if the VFU is cleared). */
++    if (val & E1000_P2VMAILBOX_PFU) {
++        if (!(core->mac[index] & E1000_P2VMAILBOX_VFU)) {
++            core->mac[index] |= E1000_P2VMAILBOX_PFU;
++            core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_PFU;
++        }
++    } else {
++        core->mac[index] &= ~E1000_P2VMAILBOX_PFU;
++        core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_PFU;
++    }
++
++    if (val & E1000_P2VMAILBOX_RVFU) {
++        core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_VFU;
++        core->mac[MBVFICR] &= ~((E1000_MBVFICR_VFACK_VF1 << vfn) |
++                                (E1000_MBVFICR_VFREQ_VF1 << vfn));
++    }
++}
++
++static void igb_set_vfmailbox(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = index - V2PMAILBOX0;
++
++    trace_igb_set_vfmailbox(vfn, val);
++
++    if (val & E1000_V2PMAILBOX_REQ) {
++        core->mac[MBVFICR] |= E1000_MBVFICR_VFREQ_VF1 << vfn;
++        mailbox_interrupt_to_pf(core);
++    }
++
++    if (val & E1000_V2PMAILBOX_ACK) {
++        core->mac[MBVFICR] |= E1000_MBVFICR_VFACK_VF1 << vfn;
++        mailbox_interrupt_to_pf(core);
++    }
++
++    /* Buffer Taken by VF (can be set only if the PFU is cleared). */
++    if (val & E1000_V2PMAILBOX_VFU) {
++        if (!(core->mac[index] & E1000_V2PMAILBOX_PFU)) {
++            core->mac[index] |= E1000_V2PMAILBOX_VFU;
++            core->mac[P2VMAILBOX0 + vfn] |= E1000_P2VMAILBOX_VFU;
++        }
++    } else {
++        core->mac[index] &= ~E1000_V2PMAILBOX_VFU;
++        core->mac[P2VMAILBOX0 + vfn] &= ~E1000_P2VMAILBOX_VFU;
++    }
++}
++
++static void igb_w1c(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[index] &= ~val;
++}
++
++static void igb_set_eimc(IGBCore *core, int index, uint32_t val)
++{
++    bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
++
++    /* Interrupts are disabled via a write to EIMC and reflected in EIMS. */
++    core->mac[EIMS] &=
++        ~(val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK));
++
++    trace_igb_irq_write_eimc(val, core->mac[EIMS], msix);
++    igb_update_interrupt_state(core);
++}
++
++static void igb_set_eiac(IGBCore *core, int index, uint32_t val)
++{
++    bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
++
++    if (msix) {
++        trace_igb_irq_write_eiac(val);
++
++        /*
++         * TODO: When using IOV, the bits that correspond to MSI-X vectors
++         * that are assigned to a VF are read-only.
++         */
++        core->mac[EIAC] |= (val & E1000_EICR_MSIX_MASK);
++    }
++}
++
++static void igb_set_eiam(IGBCore *core, int index, uint32_t val)
++{
++    bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
++
++    /*
++     * TODO: When using IOV, the bits that correspond to MSI-X vectors that
++     * are assigned to a VF are read-only.
++     */
++    core->mac[EIAM] |=
++        ~(val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK));
++
++    trace_igb_irq_write_eiam(val, msix);
++}
++
++static void igb_set_eicr(IGBCore *core, int index, uint32_t val)
++{
++    bool msix = !!(core->mac[GPIE] & E1000_GPIE_MSIX_MODE);
++
++    /*
++     * TODO: In IOV mode, only bit zero of this vector is available for the PF
++     * function.
++     */
++    core->mac[EICR] &=
++        ~(val & (msix ? E1000_EICR_MSIX_MASK : E1000_EICR_LEGACY_MASK));
++
++    trace_igb_irq_write_eicr(val, msix);
++    igb_update_interrupt_state(core);
++}
++
++static void igb_set_vtctrl(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn;
++
++    if (val & E1000_CTRL_RST) {
++        vfn = (index - PVTCTRL0) / 0x40;
++        igb_vf_reset(core, vfn);
++    }
++}
++
++static void igb_set_vteics(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = (index - PVTEICS0) / 0x40;
++
++    core->mac[index] = val;
++    igb_set_eics(core, EICS, (val & 0x7) << (22 - vfn * IGBVF_MSIX_VEC_NUM));
++}
++
++static void igb_set_vteims(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = (index - PVTEIMS0) / 0x40;
++
++    core->mac[index] = val;
++    igb_set_eims(core, EIMS, (val & 0x7) << (22 - vfn * IGBVF_MSIX_VEC_NUM));
++}
++
++static void igb_set_vteimc(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = (index - PVTEIMC0) / 0x40;
++
++    core->mac[index] = val;
++    igb_set_eimc(core, EIMC, (val & 0x7) << (22 - vfn * IGBVF_MSIX_VEC_NUM));
++}
++
++static void igb_set_vteiac(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = (index - PVTEIAC0) / 0x40;
++
++    core->mac[index] = val;
++    igb_set_eiac(core, EIAC, (val & 0x7) << (22 - vfn * IGBVF_MSIX_VEC_NUM));
++}
++
++static void igb_set_vteiam(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = (index - PVTEIAM0) / 0x40;
++
++    core->mac[index] = val;
++    igb_set_eiam(core, EIAM, (val & 0x7) << (22 - vfn * IGBVF_MSIX_VEC_NUM));
++}
++
++static void igb_set_vteicr(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = (index - PVTEICR0) / 0x40;
++
++    core->mac[index] = val;
++    igb_set_eicr(core, EICR, (val & 0x7) << (22 - vfn * IGBVF_MSIX_VEC_NUM));
++}
++
++static void igb_set_vtivar(IGBCore *core, int index, uint32_t val)
++{
++    uint16_t vfn = (index - VTIVAR);
++    uint16_t qn = vfn;
++    uint8_t ent;
++    int n;
++
++    core->mac[index] = val;
++
++    /* Get assigned vector associated with queue Rx#0. */
++    if ((val & E1000_IVAR_VALID)) {
++        n = igb_ivar_entry_rx(qn);
++        ent = E1000_IVAR_VALID | (24 - vfn * IGBVF_MSIX_VEC_NUM - (2 - (val & 0x7)));
++        core->mac[IVAR0 + n / 4] |= ent << 8 * (n % 4);
++    }
++
++    /* Get assigned vector associated with queue Tx#0 */
++    ent = val >> 8;
++    if ((ent & E1000_IVAR_VALID)) {
++        n = igb_ivar_entry_tx(qn);
++        ent = E1000_IVAR_VALID | (24 - vfn * IGBVF_MSIX_VEC_NUM - (2 - (ent & 0x7)));
++        core->mac[IVAR0 + n / 4] |= ent << 8 * (n % 4);
++    }
++
++    /*
++     * Ignoring assigned vectors associated with queues Rx#1 and Tx#1 for now.
++     */
++}
++
++static inline void
++igb_autoneg_timer(void *opaque)
++{
++    IGBCore *core = opaque;
++    if (!qemu_get_queue(core->owner_nic)->link_down) {
++        e1000x_update_regs_on_autoneg_done(core->mac, core->phy);
++        igb_start_recv(core);
++
++        igb_update_flowctl_status(core);
++        /* signal link status change to the guest */
++        igb_set_interrupt_cause(core, E1000_ICR_LSC);
++    }
++}
++
++static inline uint16_t
++igb_get_reg_index_with_offset(const uint16_t *mac_reg_access, hwaddr addr)
++{
++    uint16_t index = (addr & 0x1ffff) >> 2;
++    return index + (mac_reg_access[index] & 0xfffe);
++}
++
++static const char igb_phy_regcap[MAX_PHY_REG_ADDRESS + 1] = {
++    [MII_BMCR]                   = PHY_RW,
++    [MII_BMSR]                   = PHY_R,
++    [MII_PHYID1]                 = PHY_R,
++    [MII_PHYID2]                 = PHY_R,
++    [MII_ANAR]                   = PHY_RW,
++    [MII_ANLPAR]                 = PHY_R,
++    [MII_ANER]                   = PHY_R,
++    [MII_ANNP]                   = PHY_RW,
++    [MII_ANLPRNP]                = PHY_R,
++    [MII_CTRL1000]               = PHY_RW,
++    [MII_STAT1000]               = PHY_R,
++    [MII_EXTSTAT]                = PHY_R,
++
++    [IGP01E1000_PHY_PORT_CONFIG] = PHY_RW,
++    [IGP01E1000_PHY_PORT_STATUS] = PHY_R,
++    [IGP01E1000_PHY_PORT_CTRL]   = PHY_RW,
++    [IGP01E1000_PHY_LINK_HEALTH] = PHY_R,
++    [IGP02E1000_PHY_POWER_MGMT]  = PHY_RW,
++    [IGP01E1000_PHY_PAGE_SELECT] = PHY_W
++};
++
++static void
++igb_phy_reg_write(IGBCore *core, uint32_t addr, uint16_t data)
++{
++    assert(addr <= MAX_PHY_REG_ADDRESS);
++
++    if (addr == MII_BMCR) {
++        igb_set_phy_ctrl(core, data);
++    } else {
++        core->phy[addr] = data;
++    }
++}
++
++static void
++igb_set_mdic(IGBCore *core, int index, uint32_t val)
++{
++    uint32_t data = val & E1000_MDIC_DATA_MASK;
++    uint32_t addr = ((val & E1000_MDIC_REG_MASK) >> E1000_MDIC_REG_SHIFT);
++
++    if ((val & E1000_MDIC_PHY_MASK) >> E1000_MDIC_PHY_SHIFT != 1) { /* phy # */
++        val = core->mac[MDIC] | E1000_MDIC_ERROR;
++    } else if (val & E1000_MDIC_OP_READ) {
++        if (!(igb_phy_regcap[addr] & PHY_R)) {
++            trace_igb_core_mdic_read_unhandled(addr);
++            val |= E1000_MDIC_ERROR;
++        } else {
++            val = (val ^ data) | core->phy[addr];
++            trace_igb_core_mdic_read(addr, val);
++        }
++    } else if (val & E1000_MDIC_OP_WRITE) {
++        if (!(igb_phy_regcap[addr] & PHY_W)) {
++            trace_igb_core_mdic_write_unhandled(addr);
++            val |= E1000_MDIC_ERROR;
++        } else {
++            trace_igb_core_mdic_write(addr, data);
++            igb_phy_reg_write(core, addr, data);
++        }
++    }
++    core->mac[MDIC] = val | E1000_MDIC_READY;
++
++    if (val & E1000_MDIC_INT_EN) {
++        igb_set_interrupt_cause(core, E1000_ICR_MDAC);
++    }
++}
++
++static void
++igb_set_rdt(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[index] = val & 0xffff;
++    trace_e1000e_rx_set_rdt(igb_mq_queue_idx(RDT0, index), val);
++    igb_start_recv(core);
++}
++
++static void
++igb_set_status(IGBCore *core, int index, uint32_t val)
++{
++    if ((val & E1000_STATUS_PHYRA) == 0) {
++        core->mac[index] &= ~E1000_STATUS_PHYRA;
++    }
++}
++
++static void
++igb_set_ctrlext(IGBCore *core, int index, uint32_t val)
++{
++    trace_e1000e_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
++                                     !!(val & E1000_CTRL_EXT_SPD_BYPS));
++
++    /* TODO: PFRSTD */
++
++    /* Zero self-clearing bits */
++    val &= ~(E1000_CTRL_EXT_ASDCHK | E1000_CTRL_EXT_EE_RST);
++    core->mac[CTRL_EXT] = val;
++}
++
++static void
++igb_set_pbaclr(IGBCore *core, int index, uint32_t val)
++{
++    int i;
++
++    core->mac[PBACLR] = val & E1000_PBACLR_VALID_MASK;
++
++    if (!msix_enabled(core->owner)) {
++        return;
++    }
++
++    for (i = 0; i < IGB_INTR_NUM; i++) {
++        if (core->mac[PBACLR] & BIT(i)) {
++            msix_clr_pending(core->owner, i);
++        }
++    }
++}
++
++static void
++igb_set_fcrth(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[FCRTH] = val & 0xFFF8;
++}
++
++static void
++igb_set_fcrtl(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[FCRTL] = val & 0x8000FFF8;
++}
++
++#define IGB_LOW_BITS_SET_FUNC(num)                             \
++    static void                                                \
++    igb_set_##num##bit(IGBCore *core, int index, uint32_t val) \
++    {                                                          \
++        core->mac[index] = val & (BIT(num) - 1);               \
++    }
++
++IGB_LOW_BITS_SET_FUNC(4)
++IGB_LOW_BITS_SET_FUNC(13)
++IGB_LOW_BITS_SET_FUNC(16)
++
++static void
++igb_set_dlen(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[index] = val & 0xffff0;
++}
++
++static void
++igb_set_dbal(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[index] = val & E1000_XDBAL_MASK;
++}
++
++static void
++igb_set_tdt(IGBCore *core, int index, uint32_t val)
++{
++    IGB_TxRing txr;
++    int qn = igb_mq_queue_idx(TDT0, index);
++
++    core->mac[index] = val & 0xffff;
++
++    igb_tx_ring_init(core, &txr, qn);
++    igb_start_xmit(core, &txr);
++}
++
++static void
++igb_set_ics(IGBCore *core, int index, uint32_t val)
++{
++    trace_e1000e_irq_write_ics(val);
++    igb_set_interrupt_cause(core, val);
++}
++
++static void
++igb_set_imc(IGBCore *core, int index, uint32_t val)
++{
++    trace_e1000e_irq_ims_clear_set_imc(val);
++    igb_clear_ims_bits(core, val);
++    igb_update_interrupt_state(core);
++}
++
++static void
++igb_set_ims(IGBCore *core, int index, uint32_t val)
++{
++    uint32_t valid_val = val & 0x77D4FBFD;
++
++    trace_e1000e_irq_set_ims(val, core->mac[IMS], core->mac[IMS] | valid_val);
++    core->mac[IMS] |= valid_val;
++    igb_update_interrupt_state(core);
++}
++
++static void igb_commit_icr(IGBCore *core)
++{
++    /*
++     * If GPIE.NSICR = 0, then the copy of IAM to IMS will occur only if at
++     * least one bit is set in the IMS and there is a true interrupt as
++     * reflected in ICR.INTA.
++     */
++    if ((core->mac[GPIE] & E1000_GPIE_NSICR) ||
++        (core->mac[IMS] && (core->mac[ICR] & E1000_ICR_INT_ASSERTED))) {
++        igb_set_ims(core, IMS, core->mac[IAM]);
++    } else {
++        igb_update_interrupt_state(core);
++    }
++}
++
++static void igb_set_icr(IGBCore *core, int index, uint32_t val)
++{
++    uint32_t icr = core->mac[ICR] & ~val;
++
++    trace_igb_irq_icr_write(val, core->mac[ICR], icr);
++    core->mac[ICR] = icr;
++    igb_commit_icr(core);
++}
++
++static uint32_t
++igb_mac_readreg(IGBCore *core, int index)
++{
++    return core->mac[index];
++}
++
++static uint32_t
++igb_mac_ics_read(IGBCore *core, int index)
++{
++    trace_e1000e_irq_read_ics(core->mac[ICS]);
++    return core->mac[ICS];
++}
++
++static uint32_t
++igb_mac_ims_read(IGBCore *core, int index)
++{
++    trace_e1000e_irq_read_ims(core->mac[IMS]);
++    return core->mac[IMS];
++}
++
++static uint32_t
++igb_mac_swsm_read(IGBCore *core, int index)
++{
++    uint32_t val = core->mac[SWSM];
++    core->mac[SWSM] = val | E1000_SWSM_SMBI;
++    return val;
++}
++
++static uint32_t
++igb_mac_eitr_read(IGBCore *core, int index)
++{
++    return core->eitr_guest_value[index - EITR0];
++}
++
++static uint32_t igb_mac_vfmailbox_read(IGBCore *core, int index)
++{
++    uint32_t val = core->mac[index];
++
++    core->mac[index] &= ~(E1000_V2PMAILBOX_PFSTS | E1000_V2PMAILBOX_PFACK |
++                          E1000_V2PMAILBOX_RSTD);
++
++    return val;
++}
++
++static uint32_t
++igb_mac_icr_read(IGBCore *core, int index)
++{
++    uint32_t ret = core->mac[ICR];
++    trace_e1000e_irq_icr_read_entry(ret);
++
++    if (core->mac[GPIE] & E1000_GPIE_NSICR) {
++        trace_igb_irq_icr_clear_gpie_nsicr();
++        core->mac[ICR] = 0;
++    } else if (core->mac[IMS] == 0) {
++        trace_e1000e_irq_icr_clear_zero_ims();
++        core->mac[ICR] = 0;
++    } else if (!msix_enabled(core->owner)) {
++        trace_e1000e_irq_icr_clear_nonmsix_icr_read();
++        core->mac[ICR] = 0;
++    }
++
++    trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
++    igb_commit_icr(core);
++    return ret;
++}
++
++static uint32_t
++igb_mac_read_clr4(IGBCore *core, int index)
++{
++    uint32_t ret = core->mac[index];
++
++    core->mac[index] = 0;
++    return ret;
++}
++
++static uint32_t
++igb_mac_read_clr8(IGBCore *core, int index)
++{
++    uint32_t ret = core->mac[index];
++
++    core->mac[index] = 0;
++    core->mac[index - 1] = 0;
++    return ret;
++}
++
++static uint32_t
++igb_get_ctrl(IGBCore *core, int index)
++{
++    uint32_t val = core->mac[CTRL];
++
++    trace_e1000e_link_read_params(
++        !!(val & E1000_CTRL_ASDE),
++        (val & E1000_CTRL_SPD_SEL) >> E1000_CTRL_SPD_SHIFT,
++        !!(val & E1000_CTRL_FRCSPD),
++        !!(val & E1000_CTRL_FRCDPX),
++        !!(val & E1000_CTRL_RFCE),
++        !!(val & E1000_CTRL_TFCE));
++
++    return val;
++}
++
++static uint32_t igb_get_status(IGBCore *core, int index)
++{
++    uint32_t res = core->mac[STATUS];
++    uint16_t num_vfs = pcie_sriov_num_vfs(core->owner);
++
++    if (core->mac[CTRL] & E1000_CTRL_FRCDPX) {
++        res |= (core->mac[CTRL] & E1000_CTRL_FD) ? E1000_STATUS_FD : 0;
++    } else {
++        res |= E1000_STATUS_FD;
++    }
++
++    if ((core->mac[CTRL] & E1000_CTRL_FRCSPD) ||
++        (core->mac[CTRL_EXT] & E1000_CTRL_EXT_SPD_BYPS)) {
++        switch (core->mac[CTRL] & E1000_CTRL_SPD_SEL) {
++        case E1000_CTRL_SPD_10:
++            res |= E1000_STATUS_SPEED_10;
++            break;
++        case E1000_CTRL_SPD_100:
++            res |= E1000_STATUS_SPEED_100;
++            break;
++        case E1000_CTRL_SPD_1000:
++        default:
++            res |= E1000_STATUS_SPEED_1000;
++            break;
++        }
++    } else {
++        res |= E1000_STATUS_SPEED_1000;
++    }
++
++    if (num_vfs) {
++        res |= num_vfs << E1000_STATUS_NUM_VFS_SHIFT;
++        res |= E1000_STATUS_IOV_MODE;
++    }
++
++    /*
++     * Windows driver 12.18.9.23 resets if E1000_STATUS_GIO_MASTER_ENABLE is
++     * left set after E1000_CTRL_LRST is set.
++     */
++    if (!(core->mac[CTRL] & E1000_CTRL_GIO_MASTER_DISABLE) &&
++        !(core->mac[CTRL] & E1000_CTRL_LRST)) {
++        res |= E1000_STATUS_GIO_MASTER_ENABLE;
++    }
++
++    return res;
++}
++
++static void
++igb_mac_writereg(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[index] = val;
++}
++
++static void
++igb_mac_setmacaddr(IGBCore *core, int index, uint32_t val)
++{
++    uint32_t macaddr[2];
++
++    core->mac[index] = val;
++
++    macaddr[0] = cpu_to_le32(core->mac[RA]);
++    macaddr[1] = cpu_to_le32(core->mac[RA + 1]);
++    qemu_format_nic_info_str(qemu_get_queue(core->owner_nic),
++        (uint8_t *) macaddr);
++
++    trace_e1000e_mac_set_sw(MAC_ARG(macaddr));
++}
++
++static void
++igb_set_eecd(IGBCore *core, int index, uint32_t val)
++{
++    static const uint32_t ro_bits = E1000_EECD_PRES          |
++                                    E1000_EECD_AUTO_RD       |
++                                    E1000_EECD_SIZE_EX_MASK;
++
++    core->mac[EECD] = (core->mac[EECD] & ro_bits) | (val & ~ro_bits);
++}
++
++static void
++igb_set_eerd(IGBCore *core, int index, uint32_t val)
++{
++    uint32_t addr = (val >> E1000_EERW_ADDR_SHIFT) & E1000_EERW_ADDR_MASK;
++    uint32_t flags = 0;
++    uint32_t data = 0;
++
++    if ((addr < IGB_EEPROM_SIZE) && (val & E1000_EERW_START)) {
++        data = core->eeprom[addr];
++        flags = E1000_EERW_DONE;
++    }
++
++    core->mac[EERD] = flags                           |
++                      (addr << E1000_EERW_ADDR_SHIFT) |
++                      (data << E1000_EERW_DATA_SHIFT);
++}
++
++static void
++igb_set_eitr(IGBCore *core, int index, uint32_t val)
++{
++    uint32_t eitr_num = index - EITR0;
++
++    trace_igb_irq_eitr_set(eitr_num, val);
++
++    core->eitr_guest_value[eitr_num] = val & ~E1000_EITR_CNT_IGNR;
++    core->mac[index] = val & 0x7FFE;
++}
++
++static void
++igb_update_rx_offloads(IGBCore *core)
++{
++    int cso_state = igb_rx_l4_cso_enabled(core);
++
++    trace_e1000e_rx_set_cso(cso_state);
++
++    if (core->has_vnet) {
++        qemu_set_offload(qemu_get_queue(core->owner_nic)->peer,
++                         cso_state, 0, 0, 0, 0);
++    }
++}
++
++static void
++igb_set_rxcsum(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[RXCSUM] = val;
++    igb_update_rx_offloads(core);
++}
++
++static void
++igb_set_gcr(IGBCore *core, int index, uint32_t val)
++{
++    uint32_t ro_bits = core->mac[GCR] & E1000_GCR_RO_BITS;
++    core->mac[GCR] = (val & ~E1000_GCR_RO_BITS) | ro_bits;
++}
++
++static uint32_t igb_get_systiml(IGBCore *core, int index)
++{
++    e1000x_timestamp(core->mac, core->timadj, SYSTIML, SYSTIMH);
++    return core->mac[SYSTIML];
++}
++
++static uint32_t igb_get_rxsatrh(IGBCore *core, int index)
++{
++    core->mac[TSYNCRXCTL] &= ~E1000_TSYNCRXCTL_VALID;
++    return core->mac[RXSATRH];
++}
++
++static uint32_t igb_get_txstmph(IGBCore *core, int index)
++{
++    core->mac[TSYNCTXCTL] &= ~E1000_TSYNCTXCTL_VALID;
++    return core->mac[TXSTMPH];
++}
++
++static void igb_set_timinca(IGBCore *core, int index, uint32_t val)
++{
++    e1000x_set_timinca(core->mac, &core->timadj, val);
++}
++
++static void igb_set_timadjh(IGBCore *core, int index, uint32_t val)
++{
++    core->mac[TIMADJH] = val;
++    core->timadj += core->mac[TIMADJL] | ((int64_t)core->mac[TIMADJH] << 32);
++}
++
++#define igb_getreg(x)    [x] = igb_mac_readreg
++typedef uint32_t (*readops)(IGBCore *, int);
++static const readops igb_macreg_readops[] = {
++    igb_getreg(WUFC),
++    igb_getreg(MANC),
++    igb_getreg(TOTL),
++    igb_getreg(RDT0),
++    igb_getreg(RDT1),
++    igb_getreg(RDT2),
++    igb_getreg(RDT3),
++    igb_getreg(RDT4),
++    igb_getreg(RDT5),
++    igb_getreg(RDT6),
++    igb_getreg(RDT7),
++    igb_getreg(RDT8),
++    igb_getreg(RDT9),
++    igb_getreg(RDT10),
++    igb_getreg(RDT11),
++    igb_getreg(RDT12),
++    igb_getreg(RDT13),
++    igb_getreg(RDT14),
++    igb_getreg(RDT15),
++    igb_getreg(RDBAH0),
++    igb_getreg(RDBAH1),
++    igb_getreg(RDBAH2),
++    igb_getreg(RDBAH3),
++    igb_getreg(RDBAH4),
++    igb_getreg(RDBAH5),
++    igb_getreg(RDBAH6),
++    igb_getreg(RDBAH7),
++    igb_getreg(RDBAH8),
++    igb_getreg(RDBAH9),
++    igb_getreg(RDBAH10),
++    igb_getreg(RDBAH11),
++    igb_getreg(RDBAH12),
++    igb_getreg(RDBAH13),
++    igb_getreg(RDBAH14),
++    igb_getreg(RDBAH15),
++    igb_getreg(TDBAL0),
++    igb_getreg(TDBAL1),
++    igb_getreg(TDBAL2),
++    igb_getreg(TDBAL3),
++    igb_getreg(TDBAL4),
++    igb_getreg(TDBAL5),
++    igb_getreg(TDBAL6),
++    igb_getreg(TDBAL7),
++    igb_getreg(TDBAL8),
++    igb_getreg(TDBAL9),
++    igb_getreg(TDBAL10),
++    igb_getreg(TDBAL11),
++    igb_getreg(TDBAL12),
++    igb_getreg(TDBAL13),
++    igb_getreg(TDBAL14),
++    igb_getreg(TDBAL15),
++    igb_getreg(RDLEN0),
++    igb_getreg(RDLEN1),
++    igb_getreg(RDLEN2),
++    igb_getreg(RDLEN3),
++    igb_getreg(RDLEN4),
++    igb_getreg(RDLEN5),
++    igb_getreg(RDLEN6),
++    igb_getreg(RDLEN7),
++    igb_getreg(RDLEN8),
++    igb_getreg(RDLEN9),
++    igb_getreg(RDLEN10),
++    igb_getreg(RDLEN11),
++    igb_getreg(RDLEN12),
++    igb_getreg(RDLEN13),
++    igb_getreg(RDLEN14),
++    igb_getreg(RDLEN15),
++    igb_getreg(SRRCTL0),
++    igb_getreg(SRRCTL1),
++    igb_getreg(SRRCTL2),
++    igb_getreg(SRRCTL3),
++    igb_getreg(SRRCTL4),
++    igb_getreg(SRRCTL5),
++    igb_getreg(SRRCTL6),
++    igb_getreg(SRRCTL7),
++    igb_getreg(SRRCTL8),
++    igb_getreg(SRRCTL9),
++    igb_getreg(SRRCTL10),
++    igb_getreg(SRRCTL11),
++    igb_getreg(SRRCTL12),
++    igb_getreg(SRRCTL13),
++    igb_getreg(SRRCTL14),
++    igb_getreg(SRRCTL15),
++    igb_getreg(LATECOL),
++    igb_getreg(XONTXC),
++    igb_getreg(TDFH),
++    igb_getreg(TDFT),
++    igb_getreg(TDFHS),
++    igb_getreg(TDFTS),
++    igb_getreg(TDFPC),
++    igb_getreg(WUS),
++    igb_getreg(RDFH),
++    igb_getreg(RDFT),
++    igb_getreg(RDFHS),
++    igb_getreg(RDFTS),
++    igb_getreg(RDFPC),
++    igb_getreg(GORCL),
++    igb_getreg(MGTPRC),
++    igb_getreg(EERD),
++    igb_getreg(EIAC),
++    igb_getreg(MANC2H),
++    igb_getreg(RXCSUM),
++    igb_getreg(GSCL_3),
++    igb_getreg(GSCN_2),
++    igb_getreg(FCAH),
++    igb_getreg(FCRTH),
++    igb_getreg(FLOP),
++    igb_getreg(RXSTMPH),
++    igb_getreg(TXSTMPL),
++    igb_getreg(TIMADJL),
++    igb_getreg(RDH0),
++    igb_getreg(RDH1),
++    igb_getreg(RDH2),
++    igb_getreg(RDH3),
++    igb_getreg(RDH4),
++    igb_getreg(RDH5),
++    igb_getreg(RDH6),
++    igb_getreg(RDH7),
++    igb_getreg(RDH8),
++    igb_getreg(RDH9),
++    igb_getreg(RDH10),
++    igb_getreg(RDH11),
++    igb_getreg(RDH12),
++    igb_getreg(RDH13),
++    igb_getreg(RDH14),
++    igb_getreg(RDH15),
++    igb_getreg(TDT0),
++    igb_getreg(TDT1),
++    igb_getreg(TDT2),
++    igb_getreg(TDT3),
++    igb_getreg(TDT4),
++    igb_getreg(TDT5),
++    igb_getreg(TDT6),
++    igb_getreg(TDT7),
++    igb_getreg(TDT8),
++    igb_getreg(TDT9),
++    igb_getreg(TDT10),
++    igb_getreg(TDT11),
++    igb_getreg(TDT12),
++    igb_getreg(TDT13),
++    igb_getreg(TDT14),
++    igb_getreg(TDT15),
++    igb_getreg(TNCRS),
++    igb_getreg(RJC),
++    igb_getreg(IAM),
++    igb_getreg(GSCL_2),
++    igb_getreg(TIPG),
++    igb_getreg(FLMNGCTL),
++    igb_getreg(FLMNGCNT),
++    igb_getreg(TSYNCTXCTL),
++    igb_getreg(EEMNGDATA),
++    igb_getreg(CTRL_EXT),
++    igb_getreg(SYSTIMH),
++    igb_getreg(EEMNGCTL),
++    igb_getreg(FLMNGDATA),
++    igb_getreg(TSYNCRXCTL),
++    igb_getreg(LEDCTL),
++    igb_getreg(TCTL),
++    igb_getreg(TCTL_EXT),
++    igb_getreg(DTXCTL),
++    igb_getreg(RXPBS),
++    igb_getreg(TDH0),
++    igb_getreg(TDH1),
++    igb_getreg(TDH2),
++    igb_getreg(TDH3),
++    igb_getreg(TDH4),
++    igb_getreg(TDH5),
++    igb_getreg(TDH6),
++    igb_getreg(TDH7),
++    igb_getreg(TDH8),
++    igb_getreg(TDH9),
++    igb_getreg(TDH10),
++    igb_getreg(TDH11),
++    igb_getreg(TDH12),
++    igb_getreg(TDH13),
++    igb_getreg(TDH14),
++    igb_getreg(TDH15),
++    igb_getreg(ECOL),
++    igb_getreg(DC),
++    igb_getreg(RLEC),
++    igb_getreg(XOFFTXC),
++    igb_getreg(RFC),
++    igb_getreg(RNBC),
++    igb_getreg(MGTPTC),
++    igb_getreg(TIMINCA),
++    igb_getreg(FACTPS),
++    igb_getreg(GSCL_1),
++    igb_getreg(GSCN_0),
++    igb_getreg(PBACLR),
++    igb_getreg(FCTTV),
++    igb_getreg(RXSATRL),
++    igb_getreg(TORL),
++    igb_getreg(TDLEN0),
++    igb_getreg(TDLEN1),
++    igb_getreg(TDLEN2),
++    igb_getreg(TDLEN3),
++    igb_getreg(TDLEN4),
++    igb_getreg(TDLEN5),
++    igb_getreg(TDLEN6),
++    igb_getreg(TDLEN7),
++    igb_getreg(TDLEN8),
++    igb_getreg(TDLEN9),
++    igb_getreg(TDLEN10),
++    igb_getreg(TDLEN11),
++    igb_getreg(TDLEN12),
++    igb_getreg(TDLEN13),
++    igb_getreg(TDLEN14),
++    igb_getreg(TDLEN15),
++    igb_getreg(MCC),
++    igb_getreg(WUC),
++    igb_getreg(EECD),
++    igb_getreg(FCRTV),
++    igb_getreg(TXDCTL0),
++    igb_getreg(TXDCTL1),
++    igb_getreg(TXDCTL2),
++    igb_getreg(TXDCTL3),
++    igb_getreg(TXDCTL4),
++    igb_getreg(TXDCTL5),
++    igb_getreg(TXDCTL6),
++    igb_getreg(TXDCTL7),
++    igb_getreg(TXDCTL8),
++    igb_getreg(TXDCTL9),
++    igb_getreg(TXDCTL10),
++    igb_getreg(TXDCTL11),
++    igb_getreg(TXDCTL12),
++    igb_getreg(TXDCTL13),
++    igb_getreg(TXDCTL14),
++    igb_getreg(TXDCTL15),
++    igb_getreg(TXCTL0),
++    igb_getreg(TXCTL1),
++    igb_getreg(TXCTL2),
++    igb_getreg(TXCTL3),
++    igb_getreg(TXCTL4),
++    igb_getreg(TXCTL5),
++    igb_getreg(TXCTL6),
++    igb_getreg(TXCTL7),
++    igb_getreg(TXCTL8),
++    igb_getreg(TXCTL9),
++    igb_getreg(TXCTL10),
++    igb_getreg(TXCTL11),
++    igb_getreg(TXCTL12),
++    igb_getreg(TXCTL13),
++    igb_getreg(TXCTL14),
++    igb_getreg(TXCTL15),
++    igb_getreg(TDWBAL0),
++    igb_getreg(TDWBAL1),
++    igb_getreg(TDWBAL2),
++    igb_getreg(TDWBAL3),
++    igb_getreg(TDWBAL4),
++    igb_getreg(TDWBAL5),
++    igb_getreg(TDWBAL6),
++    igb_getreg(TDWBAL7),
++    igb_getreg(TDWBAL8),
++    igb_getreg(TDWBAL9),
++    igb_getreg(TDWBAL10),
++    igb_getreg(TDWBAL11),
++    igb_getreg(TDWBAL12),
++    igb_getreg(TDWBAL13),
++    igb_getreg(TDWBAL14),
++    igb_getreg(TDWBAL15),
++    igb_getreg(TDWBAH0),
++    igb_getreg(TDWBAH1),
++    igb_getreg(TDWBAH2),
++    igb_getreg(TDWBAH3),
++    igb_getreg(TDWBAH4),
++    igb_getreg(TDWBAH5),
++    igb_getreg(TDWBAH6),
++    igb_getreg(TDWBAH7),
++    igb_getreg(TDWBAH8),
++    igb_getreg(TDWBAH9),
++    igb_getreg(TDWBAH10),
++    igb_getreg(TDWBAH11),
++    igb_getreg(TDWBAH12),
++    igb_getreg(TDWBAH13),
++    igb_getreg(TDWBAH14),
++    igb_getreg(TDWBAH15),
++    igb_getreg(PVTCTRL0),
++    igb_getreg(PVTCTRL1),
++    igb_getreg(PVTCTRL2),
++    igb_getreg(PVTCTRL3),
++    igb_getreg(PVTCTRL4),
++    igb_getreg(PVTCTRL5),
++    igb_getreg(PVTCTRL6),
++    igb_getreg(PVTCTRL7),
++    igb_getreg(PVTEIMS0),
++    igb_getreg(PVTEIMS1),
++    igb_getreg(PVTEIMS2),
++    igb_getreg(PVTEIMS3),
++    igb_getreg(PVTEIMS4),
++    igb_getreg(PVTEIMS5),
++    igb_getreg(PVTEIMS6),
++    igb_getreg(PVTEIMS7),
++    igb_getreg(PVTEIAC0),
++    igb_getreg(PVTEIAC1),
++    igb_getreg(PVTEIAC2),
++    igb_getreg(PVTEIAC3),
++    igb_getreg(PVTEIAC4),
++    igb_getreg(PVTEIAC5),
++    igb_getreg(PVTEIAC6),
++    igb_getreg(PVTEIAC7),
++    igb_getreg(PVTEIAM0),
++    igb_getreg(PVTEIAM1),
++    igb_getreg(PVTEIAM2),
++    igb_getreg(PVTEIAM3),
++    igb_getreg(PVTEIAM4),
++    igb_getreg(PVTEIAM5),
++    igb_getreg(PVTEIAM6),
++    igb_getreg(PVTEIAM7),
++    igb_getreg(PVFGPRC0),
++    igb_getreg(PVFGPRC1),
++    igb_getreg(PVFGPRC2),
++    igb_getreg(PVFGPRC3),
++    igb_getreg(PVFGPRC4),
++    igb_getreg(PVFGPRC5),
++    igb_getreg(PVFGPRC6),
++    igb_getreg(PVFGPRC7),
++    igb_getreg(PVFGPTC0),
++    igb_getreg(PVFGPTC1),
++    igb_getreg(PVFGPTC2),
++    igb_getreg(PVFGPTC3),
++    igb_getreg(PVFGPTC4),
++    igb_getreg(PVFGPTC5),
++    igb_getreg(PVFGPTC6),
++    igb_getreg(PVFGPTC7),
++    igb_getreg(PVFGORC0),
++    igb_getreg(PVFGORC1),
++    igb_getreg(PVFGORC2),
++    igb_getreg(PVFGORC3),
++    igb_getreg(PVFGORC4),
++    igb_getreg(PVFGORC5),
++    igb_getreg(PVFGORC6),
++    igb_getreg(PVFGORC7),
++    igb_getreg(PVFGOTC0),
++    igb_getreg(PVFGOTC1),
++    igb_getreg(PVFGOTC2),
++    igb_getreg(PVFGOTC3),
++    igb_getreg(PVFGOTC4),
++    igb_getreg(PVFGOTC5),
++    igb_getreg(PVFGOTC6),
++    igb_getreg(PVFGOTC7),
++    igb_getreg(PVFMPRC0),
++    igb_getreg(PVFMPRC1),
++    igb_getreg(PVFMPRC2),
++    igb_getreg(PVFMPRC3),
++    igb_getreg(PVFMPRC4),
++    igb_getreg(PVFMPRC5),
++    igb_getreg(PVFMPRC6),
++    igb_getreg(PVFMPRC7),
++    igb_getreg(PVFGPRLBC0),
++    igb_getreg(PVFGPRLBC1),
++    igb_getreg(PVFGPRLBC2),
++    igb_getreg(PVFGPRLBC3),
++    igb_getreg(PVFGPRLBC4),
++    igb_getreg(PVFGPRLBC5),
++    igb_getreg(PVFGPRLBC6),
++    igb_getreg(PVFGPRLBC7),
++    igb_getreg(PVFGPTLBC0),
++    igb_getreg(PVFGPTLBC1),
++    igb_getreg(PVFGPTLBC2),
++    igb_getreg(PVFGPTLBC3),
++    igb_getreg(PVFGPTLBC4),
++    igb_getreg(PVFGPTLBC5),
++    igb_getreg(PVFGPTLBC6),
++    igb_getreg(PVFGPTLBC7),
++    igb_getreg(PVFGORLBC0),
++    igb_getreg(PVFGORLBC1),
++    igb_getreg(PVFGORLBC2),
++    igb_getreg(PVFGORLBC3),
++    igb_getreg(PVFGORLBC4),
++    igb_getreg(PVFGORLBC5),
++    igb_getreg(PVFGORLBC6),
++    igb_getreg(PVFGORLBC7),
++    igb_getreg(PVFGOTLBC0),
++    igb_getreg(PVFGOTLBC1),
++    igb_getreg(PVFGOTLBC2),
++    igb_getreg(PVFGOTLBC3),
++    igb_getreg(PVFGOTLBC4),
++    igb_getreg(PVFGOTLBC5),
++    igb_getreg(PVFGOTLBC6),
++    igb_getreg(PVFGOTLBC7),
++    igb_getreg(RCTL),
++    igb_getreg(MDIC),
++    igb_getreg(FCRUC),
++    igb_getreg(VET),
++    igb_getreg(RDBAL0),
++    igb_getreg(RDBAL1),
++    igb_getreg(RDBAL2),
++    igb_getreg(RDBAL3),
++    igb_getreg(RDBAL4),
++    igb_getreg(RDBAL5),
++    igb_getreg(RDBAL6),
++    igb_getreg(RDBAL7),
++    igb_getreg(RDBAL8),
++    igb_getreg(RDBAL9),
++    igb_getreg(RDBAL10),
++    igb_getreg(RDBAL11),
++    igb_getreg(RDBAL12),
++    igb_getreg(RDBAL13),
++    igb_getreg(RDBAL14),
++    igb_getreg(RDBAL15),
++    igb_getreg(TDBAH0),
++    igb_getreg(TDBAH1),
++    igb_getreg(TDBAH2),
++    igb_getreg(TDBAH3),
++    igb_getreg(TDBAH4),
++    igb_getreg(TDBAH5),
++    igb_getreg(TDBAH6),
++    igb_getreg(TDBAH7),
++    igb_getreg(TDBAH8),
++    igb_getreg(TDBAH9),
++    igb_getreg(TDBAH10),
++    igb_getreg(TDBAH11),
++    igb_getreg(TDBAH12),
++    igb_getreg(TDBAH13),
++    igb_getreg(TDBAH14),
++    igb_getreg(TDBAH15),
++    igb_getreg(SCC),
++    igb_getreg(COLC),
++    igb_getreg(XOFFRXC),
++    igb_getreg(IPAV),
++    igb_getreg(GOTCL),
++    igb_getreg(MGTPDC),
++    igb_getreg(GCR),
++    igb_getreg(MFVAL),
++    igb_getreg(FUNCTAG),
++    igb_getreg(GSCL_4),
++    igb_getreg(GSCN_3),
++    igb_getreg(MRQC),
++    igb_getreg(FCT),
++    igb_getreg(FLA),
++    igb_getreg(RXDCTL0),
++    igb_getreg(RXDCTL1),
++    igb_getreg(RXDCTL2),
++    igb_getreg(RXDCTL3),
++    igb_getreg(RXDCTL4),
++    igb_getreg(RXDCTL5),
++    igb_getreg(RXDCTL6),
++    igb_getreg(RXDCTL7),
++    igb_getreg(RXDCTL8),
++    igb_getreg(RXDCTL9),
++    igb_getreg(RXDCTL10),
++    igb_getreg(RXDCTL11),
++    igb_getreg(RXDCTL12),
++    igb_getreg(RXDCTL13),
++    igb_getreg(RXDCTL14),
++    igb_getreg(RXDCTL15),
++    igb_getreg(RXSTMPL),
++    igb_getreg(TIMADJH),
++    igb_getreg(FCRTL),
++    igb_getreg(XONRXC),
++    igb_getreg(RFCTL),
++    igb_getreg(GSCN_1),
++    igb_getreg(FCAL),
++    igb_getreg(GPIE),
++    igb_getreg(TXPBS),
++    igb_getreg(RLPML),
++
++    [TOTH]    = igb_mac_read_clr8,
++    [GOTCH]   = igb_mac_read_clr8,
++    [PRC64]   = igb_mac_read_clr4,
++    [PRC255]  = igb_mac_read_clr4,
++    [PRC1023] = igb_mac_read_clr4,
++    [PTC64]   = igb_mac_read_clr4,
++    [PTC255]  = igb_mac_read_clr4,
++    [PTC1023] = igb_mac_read_clr4,
++    [GPRC]    = igb_mac_read_clr4,
++    [TPT]     = igb_mac_read_clr4,
++    [RUC]     = igb_mac_read_clr4,
++    [BPRC]    = igb_mac_read_clr4,
++    [MPTC]    = igb_mac_read_clr4,
++    [IAC]     = igb_mac_read_clr4,
++    [ICR]     = igb_mac_icr_read,
++    [STATUS]  = igb_get_status,
++    [ICS]     = igb_mac_ics_read,
++    /*
++     * 8.8.10: Reading the IMC register returns the value of the IMS register.
++     */
++    [IMC]     = igb_mac_ims_read,
++    [TORH]    = igb_mac_read_clr8,
++    [GORCH]   = igb_mac_read_clr8,
++    [PRC127]  = igb_mac_read_clr4,
++    [PRC511]  = igb_mac_read_clr4,
++    [PRC1522] = igb_mac_read_clr4,
++    [PTC127]  = igb_mac_read_clr4,
++    [PTC511]  = igb_mac_read_clr4,
++    [PTC1522] = igb_mac_read_clr4,
++    [GPTC]    = igb_mac_read_clr4,
++    [TPR]     = igb_mac_read_clr4,
++    [ROC]     = igb_mac_read_clr4,
++    [MPRC]    = igb_mac_read_clr4,
++    [BPTC]    = igb_mac_read_clr4,
++    [TSCTC]   = igb_mac_read_clr4,
++    [CTRL]    = igb_get_ctrl,
++    [SWSM]    = igb_mac_swsm_read,
++    [IMS]     = igb_mac_ims_read,
++    [SYSTIML] = igb_get_systiml,
++    [RXSATRH] = igb_get_rxsatrh,
++    [TXSTMPH] = igb_get_txstmph,
++
++    [CRCERRS ... MPC]      = igb_mac_readreg,
++    [IP6AT ... IP6AT + 3]  = igb_mac_readreg,
++    [IP4AT ... IP4AT + 6]  = igb_mac_readreg,
++    [RA ... RA + 31]       = igb_mac_readreg,
++    [RA2 ... RA2 + 31]     = igb_mac_readreg,
++    [WUPM ... WUPM + 31]   = igb_mac_readreg,
++    [MTA ... MTA + E1000_MC_TBL_SIZE - 1]    = igb_mac_readreg,
++    [VFTA ... VFTA + E1000_VLAN_FILTER_TBL_SIZE - 1]  = igb_mac_readreg,
++    [FFMT ... FFMT + 254]  = igb_mac_readreg,
++    [MDEF ... MDEF + 7]    = igb_mac_readreg,
++    [FTFT ... FTFT + 254]  = igb_mac_readreg,
++    [RETA ... RETA + 31]   = igb_mac_readreg,
++    [RSSRK ... RSSRK + 9]  = igb_mac_readreg,
++    [MAVTV0 ... MAVTV3]    = igb_mac_readreg,
++    [EITR0 ... EITR0 + IGB_INTR_NUM - 1] = igb_mac_eitr_read,
++    [PVTEICR0] = igb_mac_read_clr4,
++    [PVTEICR1] = igb_mac_read_clr4,
++    [PVTEICR2] = igb_mac_read_clr4,
++    [PVTEICR3] = igb_mac_read_clr4,
++    [PVTEICR4] = igb_mac_read_clr4,
++    [PVTEICR5] = igb_mac_read_clr4,
++    [PVTEICR6] = igb_mac_read_clr4,
++    [PVTEICR7] = igb_mac_read_clr4,
++
++    /* IGB specific: */
++    [FWSM]       = igb_mac_readreg,
++    [SW_FW_SYNC] = igb_mac_readreg,
++    [HTCBDPC]    = igb_mac_read_clr4,
++    [EICR]       = igb_mac_read_clr4,
++    [EIMS]       = igb_mac_readreg,
++    [EIAM]       = igb_mac_readreg,
++    [IVAR0 ... IVAR0 + 7] = igb_mac_readreg,
++    igb_getreg(IVAR_MISC),
++    igb_getreg(VT_CTL),
++    [P2VMAILBOX0 ... P2VMAILBOX7] = igb_mac_readreg,
++    [V2PMAILBOX0 ... V2PMAILBOX7] = igb_mac_vfmailbox_read,
++    igb_getreg(MBVFICR),
++    [VMBMEM0 ... VMBMEM0 + 127] = igb_mac_readreg,
++    igb_getreg(MBVFIMR),
++    igb_getreg(VFLRE),
++    igb_getreg(VFRE),
++    igb_getreg(VFTE),
++    igb_getreg(QDE),
++    igb_getreg(DTXSWC),
++    igb_getreg(RPLOLR),
++    [VLVF0 ... VLVF0 + E1000_VLVF_ARRAY_SIZE - 1] = igb_mac_readreg,
++    [VMVIR0 ... VMVIR7] = igb_mac_readreg,
++    [VMOLR0 ... VMOLR7] = igb_mac_readreg,
++    [WVBR] = igb_mac_read_clr4,
++    [RQDPC0] = igb_mac_read_clr4,
++    [RQDPC1] = igb_mac_read_clr4,
++    [RQDPC2] = igb_mac_read_clr4,
++    [RQDPC3] = igb_mac_read_clr4,
++    [RQDPC4] = igb_mac_read_clr4,
++    [RQDPC5] = igb_mac_read_clr4,
++    [RQDPC6] = igb_mac_read_clr4,
++    [RQDPC7] = igb_mac_read_clr4,
++    [RQDPC8] = igb_mac_read_clr4,
++    [RQDPC9] = igb_mac_read_clr4,
++    [RQDPC10] = igb_mac_read_clr4,
++    [RQDPC11] = igb_mac_read_clr4,
++    [RQDPC12] = igb_mac_read_clr4,
++    [RQDPC13] = igb_mac_read_clr4,
++    [RQDPC14] = igb_mac_read_clr4,
++    [RQDPC15] = igb_mac_read_clr4,
++    [VTIVAR ... VTIVAR + 7] = igb_mac_readreg,
++    [VTIVAR_MISC ... VTIVAR_MISC + 7] = igb_mac_readreg,
++};
++enum { IGB_NREADOPS = ARRAY_SIZE(igb_macreg_readops) };
++
++#define igb_putreg(x)    [x] = igb_mac_writereg
++typedef void (*writeops)(IGBCore *, int, uint32_t);
++static const writeops igb_macreg_writeops[] = {
++    igb_putreg(SWSM),
++    igb_putreg(WUFC),
++    igb_putreg(RDBAH0),
++    igb_putreg(RDBAH1),
++    igb_putreg(RDBAH2),
++    igb_putreg(RDBAH3),
++    igb_putreg(RDBAH4),
++    igb_putreg(RDBAH5),
++    igb_putreg(RDBAH6),
++    igb_putreg(RDBAH7),
++    igb_putreg(RDBAH8),
++    igb_putreg(RDBAH9),
++    igb_putreg(RDBAH10),
++    igb_putreg(RDBAH11),
++    igb_putreg(RDBAH12),
++    igb_putreg(RDBAH13),
++    igb_putreg(RDBAH14),
++    igb_putreg(RDBAH15),
++    igb_putreg(SRRCTL0),
++    igb_putreg(SRRCTL1),
++    igb_putreg(SRRCTL2),
++    igb_putreg(SRRCTL3),
++    igb_putreg(SRRCTL4),
++    igb_putreg(SRRCTL5),
++    igb_putreg(SRRCTL6),
++    igb_putreg(SRRCTL7),
++    igb_putreg(SRRCTL8),
++    igb_putreg(SRRCTL9),
++    igb_putreg(SRRCTL10),
++    igb_putreg(SRRCTL11),
++    igb_putreg(SRRCTL12),
++    igb_putreg(SRRCTL13),
++    igb_putreg(SRRCTL14),
++    igb_putreg(SRRCTL15),
++    igb_putreg(RXDCTL0),
++    igb_putreg(RXDCTL1),
++    igb_putreg(RXDCTL2),
++    igb_putreg(RXDCTL3),
++    igb_putreg(RXDCTL4),
++    igb_putreg(RXDCTL5),
++    igb_putreg(RXDCTL6),
++    igb_putreg(RXDCTL7),
++    igb_putreg(RXDCTL8),
++    igb_putreg(RXDCTL9),
++    igb_putreg(RXDCTL10),
++    igb_putreg(RXDCTL11),
++    igb_putreg(RXDCTL12),
++    igb_putreg(RXDCTL13),
++    igb_putreg(RXDCTL14),
++    igb_putreg(RXDCTL15),
++    igb_putreg(LEDCTL),
++    igb_putreg(TCTL),
++    igb_putreg(TCTL_EXT),
++    igb_putreg(DTXCTL),
++    igb_putreg(RXPBS),
++    igb_putreg(RQDPC0),
++    igb_putreg(FCAL),
++    igb_putreg(FCRUC),
++    igb_putreg(WUC),
++    igb_putreg(WUS),
++    igb_putreg(IPAV),
++    igb_putreg(TDBAH0),
++    igb_putreg(TDBAH1),
++    igb_putreg(TDBAH2),
++    igb_putreg(TDBAH3),
++    igb_putreg(TDBAH4),
++    igb_putreg(TDBAH5),
++    igb_putreg(TDBAH6),
++    igb_putreg(TDBAH7),
++    igb_putreg(TDBAH8),
++    igb_putreg(TDBAH9),
++    igb_putreg(TDBAH10),
++    igb_putreg(TDBAH11),
++    igb_putreg(TDBAH12),
++    igb_putreg(TDBAH13),
++    igb_putreg(TDBAH14),
++    igb_putreg(TDBAH15),
++    igb_putreg(IAM),
++    igb_putreg(MANC),
++    igb_putreg(MANC2H),
++    igb_putreg(MFVAL),
++    igb_putreg(FACTPS),
++    igb_putreg(FUNCTAG),
++    igb_putreg(GSCL_1),
++    igb_putreg(GSCL_2),
++    igb_putreg(GSCL_3),
++    igb_putreg(GSCL_4),
++    igb_putreg(GSCN_0),
++    igb_putreg(GSCN_1),
++    igb_putreg(GSCN_2),
++    igb_putreg(GSCN_3),
++    igb_putreg(MRQC),
++    igb_putreg(FLOP),
++    igb_putreg(FLA),
++    igb_putreg(TXDCTL0),
++    igb_putreg(TXDCTL1),
++    igb_putreg(TXDCTL2),
++    igb_putreg(TXDCTL3),
++    igb_putreg(TXDCTL4),
++    igb_putreg(TXDCTL5),
++    igb_putreg(TXDCTL6),
++    igb_putreg(TXDCTL7),
++    igb_putreg(TXDCTL8),
++    igb_putreg(TXDCTL9),
++    igb_putreg(TXDCTL10),
++    igb_putreg(TXDCTL11),
++    igb_putreg(TXDCTL12),
++    igb_putreg(TXDCTL13),
++    igb_putreg(TXDCTL14),
++    igb_putreg(TXDCTL15),
++    igb_putreg(TXCTL0),
++    igb_putreg(TXCTL1),
++    igb_putreg(TXCTL2),
++    igb_putreg(TXCTL3),
++    igb_putreg(TXCTL4),
++    igb_putreg(TXCTL5),
++    igb_putreg(TXCTL6),
++    igb_putreg(TXCTL7),
++    igb_putreg(TXCTL8),
++    igb_putreg(TXCTL9),
++    igb_putreg(TXCTL10),
++    igb_putreg(TXCTL11),
++    igb_putreg(TXCTL12),
++    igb_putreg(TXCTL13),
++    igb_putreg(TXCTL14),
++    igb_putreg(TXCTL15),
++    igb_putreg(TDWBAL0),
++    igb_putreg(TDWBAL1),
++    igb_putreg(TDWBAL2),
++    igb_putreg(TDWBAL3),
++    igb_putreg(TDWBAL4),
++    igb_putreg(TDWBAL5),
++    igb_putreg(TDWBAL6),
++    igb_putreg(TDWBAL7),
++    igb_putreg(TDWBAL8),
++    igb_putreg(TDWBAL9),
++    igb_putreg(TDWBAL10),
++    igb_putreg(TDWBAL11),
++    igb_putreg(TDWBAL12),
++    igb_putreg(TDWBAL13),
++    igb_putreg(TDWBAL14),
++    igb_putreg(TDWBAL15),
++    igb_putreg(TDWBAH0),
++    igb_putreg(TDWBAH1),
++    igb_putreg(TDWBAH2),
++    igb_putreg(TDWBAH3),
++    igb_putreg(TDWBAH4),
++    igb_putreg(TDWBAH5),
++    igb_putreg(TDWBAH6),
++    igb_putreg(TDWBAH7),
++    igb_putreg(TDWBAH8),
++    igb_putreg(TDWBAH9),
++    igb_putreg(TDWBAH10),
++    igb_putreg(TDWBAH11),
++    igb_putreg(TDWBAH12),
++    igb_putreg(TDWBAH13),
++    igb_putreg(TDWBAH14),
++    igb_putreg(TDWBAH15),
++    igb_putreg(TIPG),
++    igb_putreg(RXSTMPH),
++    igb_putreg(RXSTMPL),
++    igb_putreg(RXSATRL),
++    igb_putreg(RXSATRH),
++    igb_putreg(TXSTMPL),
++    igb_putreg(TXSTMPH),
++    igb_putreg(SYSTIML),
++    igb_putreg(SYSTIMH),
++    igb_putreg(TIMADJL),
++    igb_putreg(TSYNCRXCTL),
++    igb_putreg(TSYNCTXCTL),
++    igb_putreg(EEMNGCTL),
++    igb_putreg(GPIE),
++    igb_putreg(TXPBS),
++    igb_putreg(RLPML),
++    igb_putreg(VET),
++
++    [TDH0]     = igb_set_16bit,
++    [TDH1]     = igb_set_16bit,
++    [TDH2]     = igb_set_16bit,
++    [TDH3]     = igb_set_16bit,
++    [TDH4]     = igb_set_16bit,
++    [TDH5]     = igb_set_16bit,
++    [TDH6]     = igb_set_16bit,
++    [TDH7]     = igb_set_16bit,
++    [TDH8]     = igb_set_16bit,
++    [TDH9]     = igb_set_16bit,
++    [TDH10]    = igb_set_16bit,
++    [TDH11]    = igb_set_16bit,
++    [TDH12]    = igb_set_16bit,
++    [TDH13]    = igb_set_16bit,
++    [TDH14]    = igb_set_16bit,
++    [TDH15]    = igb_set_16bit,
++    [TDT0]     = igb_set_tdt,
++    [TDT1]     = igb_set_tdt,
++    [TDT2]     = igb_set_tdt,
++    [TDT3]     = igb_set_tdt,
++    [TDT4]     = igb_set_tdt,
++    [TDT5]     = igb_set_tdt,
++    [TDT6]     = igb_set_tdt,
++    [TDT7]     = igb_set_tdt,
++    [TDT8]     = igb_set_tdt,
++    [TDT9]     = igb_set_tdt,
++    [TDT10]    = igb_set_tdt,
++    [TDT11]    = igb_set_tdt,
++    [TDT12]    = igb_set_tdt,
++    [TDT13]    = igb_set_tdt,
++    [TDT14]    = igb_set_tdt,
++    [TDT15]    = igb_set_tdt,
++    [MDIC]     = igb_set_mdic,
++    [ICS]      = igb_set_ics,
++    [RDH0]     = igb_set_16bit,
++    [RDH1]     = igb_set_16bit,
++    [RDH2]     = igb_set_16bit,
++    [RDH3]     = igb_set_16bit,
++    [RDH4]     = igb_set_16bit,
++    [RDH5]     = igb_set_16bit,
++    [RDH6]     = igb_set_16bit,
++    [RDH7]     = igb_set_16bit,
++    [RDH8]     = igb_set_16bit,
++    [RDH9]     = igb_set_16bit,
++    [RDH10]    = igb_set_16bit,
++    [RDH11]    = igb_set_16bit,
++    [RDH12]    = igb_set_16bit,
++    [RDH13]    = igb_set_16bit,
++    [RDH14]    = igb_set_16bit,
++    [RDH15]    = igb_set_16bit,
++    [RDT0]     = igb_set_rdt,
++    [RDT1]     = igb_set_rdt,
++    [RDT2]     = igb_set_rdt,
++    [RDT3]     = igb_set_rdt,
++    [RDT4]     = igb_set_rdt,
++    [RDT5]     = igb_set_rdt,
++    [RDT6]     = igb_set_rdt,
++    [RDT7]     = igb_set_rdt,
++    [RDT8]     = igb_set_rdt,
++    [RDT9]     = igb_set_rdt,
++    [RDT10]    = igb_set_rdt,
++    [RDT11]    = igb_set_rdt,
++    [RDT12]    = igb_set_rdt,
++    [RDT13]    = igb_set_rdt,
++    [RDT14]    = igb_set_rdt,
++    [RDT15]    = igb_set_rdt,
++    [IMC]      = igb_set_imc,
++    [IMS]      = igb_set_ims,
++    [ICR]      = igb_set_icr,
++    [EECD]     = igb_set_eecd,
++    [RCTL]     = igb_set_rx_control,
++    [CTRL]     = igb_set_ctrl,
++    [EERD]     = igb_set_eerd,
++    [TDFH]     = igb_set_13bit,
++    [TDFT]     = igb_set_13bit,
++    [TDFHS]    = igb_set_13bit,
++    [TDFTS]    = igb_set_13bit,
++    [TDFPC]    = igb_set_13bit,
++    [RDFH]     = igb_set_13bit,
++    [RDFT]     = igb_set_13bit,
++    [RDFHS]    = igb_set_13bit,
++    [RDFTS]    = igb_set_13bit,
++    [RDFPC]    = igb_set_13bit,
++    [GCR]      = igb_set_gcr,
++    [RXCSUM]   = igb_set_rxcsum,
++    [TDLEN0]   = igb_set_dlen,
++    [TDLEN1]   = igb_set_dlen,
++    [TDLEN2]   = igb_set_dlen,
++    [TDLEN3]   = igb_set_dlen,
++    [TDLEN4]   = igb_set_dlen,
++    [TDLEN5]   = igb_set_dlen,
++    [TDLEN6]   = igb_set_dlen,
++    [TDLEN7]   = igb_set_dlen,
++    [TDLEN8]   = igb_set_dlen,
++    [TDLEN9]   = igb_set_dlen,
++    [TDLEN10]  = igb_set_dlen,
++    [TDLEN11]  = igb_set_dlen,
++    [TDLEN12]  = igb_set_dlen,
++    [TDLEN13]  = igb_set_dlen,
++    [TDLEN14]  = igb_set_dlen,
++    [TDLEN15]  = igb_set_dlen,
++    [RDLEN0]   = igb_set_dlen,
++    [RDLEN1]   = igb_set_dlen,
++    [RDLEN2]   = igb_set_dlen,
++    [RDLEN3]   = igb_set_dlen,
++    [RDLEN4]   = igb_set_dlen,
++    [RDLEN5]   = igb_set_dlen,
++    [RDLEN6]   = igb_set_dlen,
++    [RDLEN7]   = igb_set_dlen,
++    [RDLEN8]   = igb_set_dlen,
++    [RDLEN9]   = igb_set_dlen,
++    [RDLEN10]  = igb_set_dlen,
++    [RDLEN11]  = igb_set_dlen,
++    [RDLEN12]  = igb_set_dlen,
++    [RDLEN13]  = igb_set_dlen,
++    [RDLEN14]  = igb_set_dlen,
++    [RDLEN15]  = igb_set_dlen,
++    [TDBAL0]   = igb_set_dbal,
++    [TDBAL1]   = igb_set_dbal,
++    [TDBAL2]   = igb_set_dbal,
++    [TDBAL3]   = igb_set_dbal,
++    [TDBAL4]   = igb_set_dbal,
++    [TDBAL5]   = igb_set_dbal,
++    [TDBAL6]   = igb_set_dbal,
++    [TDBAL7]   = igb_set_dbal,
++    [TDBAL8]   = igb_set_dbal,
++    [TDBAL9]   = igb_set_dbal,
++    [TDBAL10]  = igb_set_dbal,
++    [TDBAL11]  = igb_set_dbal,
++    [TDBAL12]  = igb_set_dbal,
++    [TDBAL13]  = igb_set_dbal,
++    [TDBAL14]  = igb_set_dbal,
++    [TDBAL15]  = igb_set_dbal,
++    [RDBAL0]   = igb_set_dbal,
++    [RDBAL1]   = igb_set_dbal,
++    [RDBAL2]   = igb_set_dbal,
++    [RDBAL3]   = igb_set_dbal,
++    [RDBAL4]   = igb_set_dbal,
++    [RDBAL5]   = igb_set_dbal,
++    [RDBAL6]   = igb_set_dbal,
++    [RDBAL7]   = igb_set_dbal,
++    [RDBAL8]   = igb_set_dbal,
++    [RDBAL9]   = igb_set_dbal,
++    [RDBAL10]  = igb_set_dbal,
++    [RDBAL11]  = igb_set_dbal,
++    [RDBAL12]  = igb_set_dbal,
++    [RDBAL13]  = igb_set_dbal,
++    [RDBAL14]  = igb_set_dbal,
++    [RDBAL15]  = igb_set_dbal,
++    [STATUS]   = igb_set_status,
++    [PBACLR]   = igb_set_pbaclr,
++    [CTRL_EXT] = igb_set_ctrlext,
++    [FCAH]     = igb_set_16bit,
++    [FCT]      = igb_set_16bit,
++    [FCTTV]    = igb_set_16bit,
++    [FCRTV]    = igb_set_16bit,
++    [FCRTH]    = igb_set_fcrth,
++    [FCRTL]    = igb_set_fcrtl,
++    [CTRL_DUP] = igb_set_ctrl,
++    [RFCTL]    = igb_set_rfctl,
++    [TIMINCA]  = igb_set_timinca,
++    [TIMADJH]  = igb_set_timadjh,
++
++    [IP6AT ... IP6AT + 3]    = igb_mac_writereg,
++    [IP4AT ... IP4AT + 6]    = igb_mac_writereg,
++    [RA]                     = igb_mac_writereg,
++    [RA + 1]                 = igb_mac_setmacaddr,
++    [RA + 2 ... RA + 31]     = igb_mac_writereg,
++    [RA2 ... RA2 + 31]       = igb_mac_writereg,
++    [WUPM ... WUPM + 31]     = igb_mac_writereg,
++    [MTA ... MTA + E1000_MC_TBL_SIZE - 1] = igb_mac_writereg,
++    [VFTA ... VFTA + E1000_VLAN_FILTER_TBL_SIZE - 1] = igb_mac_writereg,
++    [FFMT ... FFMT + 254]    = igb_set_4bit,
++    [MDEF ... MDEF + 7]      = igb_mac_writereg,
++    [FTFT ... FTFT + 254]    = igb_mac_writereg,
++    [RETA ... RETA + 31]     = igb_mac_writereg,
++    [RSSRK ... RSSRK + 9]    = igb_mac_writereg,
++    [MAVTV0 ... MAVTV3]      = igb_mac_writereg,
++    [EITR0 ... EITR0 + IGB_INTR_NUM - 1] = igb_set_eitr,
++
++    /* IGB specific: */
++    [FWSM]     = igb_mac_writereg,
++    [SW_FW_SYNC] = igb_mac_writereg,
++    [EICR] = igb_set_eicr,
++    [EICS] = igb_set_eics,
++    [EIAC] = igb_set_eiac,
++    [EIAM] = igb_set_eiam,
++    [EIMC] = igb_set_eimc,
++    [EIMS] = igb_set_eims,
++    [IVAR0 ... IVAR0 + 7] = igb_mac_writereg,
++    igb_putreg(IVAR_MISC),
++    igb_putreg(VT_CTL),
++    [P2VMAILBOX0 ... P2VMAILBOX7] = igb_set_pfmailbox,
++    [V2PMAILBOX0 ... V2PMAILBOX7] = igb_set_vfmailbox,
++    [MBVFICR] = igb_w1c,
++    [VMBMEM0 ... VMBMEM0 + 127] = igb_mac_writereg,
++    igb_putreg(MBVFIMR),
++    [VFLRE] = igb_w1c,
++    igb_putreg(VFRE),
++    igb_putreg(VFTE),
++    igb_putreg(QDE),
++    igb_putreg(DTXSWC),
++    igb_putreg(RPLOLR),
++    [VLVF0 ... VLVF0 + E1000_VLVF_ARRAY_SIZE - 1] = igb_mac_writereg,
++    [VMVIR0 ... VMVIR7] = igb_mac_writereg,
++    [VMOLR0 ... VMOLR7] = igb_mac_writereg,
++    [UTA ... UTA + E1000_MC_TBL_SIZE - 1] = igb_mac_writereg,
++    [PVTCTRL0] = igb_set_vtctrl,
++    [PVTCTRL1] = igb_set_vtctrl,
++    [PVTCTRL2] = igb_set_vtctrl,
++    [PVTCTRL3] = igb_set_vtctrl,
++    [PVTCTRL4] = igb_set_vtctrl,
++    [PVTCTRL5] = igb_set_vtctrl,
++    [PVTCTRL6] = igb_set_vtctrl,
++    [PVTCTRL7] = igb_set_vtctrl,
++    [PVTEICS0] = igb_set_vteics,
++    [PVTEICS1] = igb_set_vteics,
++    [PVTEICS2] = igb_set_vteics,
++    [PVTEICS3] = igb_set_vteics,
++    [PVTEICS4] = igb_set_vteics,
++    [PVTEICS5] = igb_set_vteics,
++    [PVTEICS6] = igb_set_vteics,
++    [PVTEICS7] = igb_set_vteics,
++    [PVTEIMS0] = igb_set_vteims,
++    [PVTEIMS1] = igb_set_vteims,
++    [PVTEIMS2] = igb_set_vteims,
++    [PVTEIMS3] = igb_set_vteims,
++    [PVTEIMS4] = igb_set_vteims,
++    [PVTEIMS5] = igb_set_vteims,
++    [PVTEIMS6] = igb_set_vteims,
++    [PVTEIMS7] = igb_set_vteims,
++    [PVTEIMC0] = igb_set_vteimc,
++    [PVTEIMC1] = igb_set_vteimc,
++    [PVTEIMC2] = igb_set_vteimc,
++    [PVTEIMC3] = igb_set_vteimc,
++    [PVTEIMC4] = igb_set_vteimc,
++    [PVTEIMC5] = igb_set_vteimc,
++    [PVTEIMC6] = igb_set_vteimc,
++    [PVTEIMC7] = igb_set_vteimc,
++    [PVTEIAC0] = igb_set_vteiac,
++    [PVTEIAC1] = igb_set_vteiac,
++    [PVTEIAC2] = igb_set_vteiac,
++    [PVTEIAC3] = igb_set_vteiac,
++    [PVTEIAC4] = igb_set_vteiac,
++    [PVTEIAC5] = igb_set_vteiac,
++    [PVTEIAC6] = igb_set_vteiac,
++    [PVTEIAC7] = igb_set_vteiac,
++    [PVTEIAM0] = igb_set_vteiam,
++    [PVTEIAM1] = igb_set_vteiam,
++    [PVTEIAM2] = igb_set_vteiam,
++    [PVTEIAM3] = igb_set_vteiam,
++    [PVTEIAM4] = igb_set_vteiam,
++    [PVTEIAM5] = igb_set_vteiam,
++    [PVTEIAM6] = igb_set_vteiam,
++    [PVTEIAM7] = igb_set_vteiam,
++    [PVTEICR0] = igb_set_vteicr,
++    [PVTEICR1] = igb_set_vteicr,
++    [PVTEICR2] = igb_set_vteicr,
++    [PVTEICR3] = igb_set_vteicr,
++    [PVTEICR4] = igb_set_vteicr,
++    [PVTEICR5] = igb_set_vteicr,
++    [PVTEICR6] = igb_set_vteicr,
++    [PVTEICR7] = igb_set_vteicr,
++    [VTIVAR ... VTIVAR + 7] = igb_set_vtivar,
++    [VTIVAR_MISC ... VTIVAR_MISC + 7] = igb_mac_writereg
++};
++enum { IGB_NWRITEOPS = ARRAY_SIZE(igb_macreg_writeops) };
++
++enum { MAC_ACCESS_PARTIAL = 1 };
++
++/*
++ * The array below combines alias offsets of the index values for the
++ * MAC registers that have aliases, with the indication of not fully
++ * implemented registers (lowest bit). This combination is possible
++ * because all of the offsets are even.
 + */
-+#define E1000_CTRL     0x00000  /* Device Control - RW */
-+#define E1000_CTRL_DUP 0x00004  /* Device Control Duplicate (Shadow) - RW */
-+#define E1000_STATUS   0x00008  /* Device Status - RO */
-+#define E1000_EECD     0x00010  /* EEPROM/Flash Control - RW */
-+#define E1000_EERD     0x00014  /* EEPROM Read - RW */
-+#define E1000_CTRL_EXT 0x00018  /* Extended Device Control - RW */
-+#define E1000_FLA      0x0001C  /* Flash Access - RW */
-+#define E1000_MDIC     0x00020  /* MDI Control - RW */
-+#define E1000_SCTL     0x00024  /* SerDes Control - RW */
-+#define E1000_FCAL     0x00028  /* Flow Control Address Low - RW */
-+#define E1000_FCAH     0x0002C  /* Flow Control Address High -RW */
-+#define E1000_FCT      0x00030  /* Flow Control Type - RW */
-+#define E1000_VET      0x00038  /* VLAN Ether Type - RW */
-+#define E1000_ICR      0x000C0  /* Interrupt Cause Read - R/clr */
-+#define E1000_ICS      0x000C8  /* Interrupt Cause Set - WO */
-+#define E1000_IMS      0x000D0  /* Interrupt Mask Set - RW */
-+#define E1000_IMC      0x000D8  /* Interrupt Mask Clear - WO */
-+#define E1000_IAM      0x000E0  /* Interrupt Acknowledge Auto Mask */
-+#define E1000_RCTL     0x00100  /* RX Control - RW */
-+#define E1000_FCTTV    0x00170  /* Flow Control Transmit Timer Value - RW */
-+#define E1000_TCTL     0x00400  /* TX Control - RW */
-+#define E1000_TCTL_EXT 0x00404  /* Extended TX Control - RW */
-+#define E1000_TIPG     0x00410  /* TX Inter-packet gap -RW */
-+#define E1000_LEDCTL   0x00E00  /* LED Control - RW */
-+#define E1000_EEMNGCTL 0x01010  /* MNG EEprom Control */
-+#define E1000_EEMNGDATA    0x01014 /* MNG EEPROM Read/Write data */
-+#define E1000_FLMNGCTL     0x01018 /* MNG Flash Control */
-+#define E1000_FLMNGDATA    0x0101C /* MNG FLASH Read data */
-+#define E1000_FLMNGCNT     0x01020 /* MNG FLASH Read Counter */
-+#define E1000_EEARBC   0x01024  /* EEPROM Auto Read Bus Control */
-+#define E1000_FLOP     0x0103C  /* FLASH Opcode Register */
-+#define E1000_FCRTL    0x02160  /* Flow Control Receive Threshold Low - RW */
-+#define E1000_FCRTL_A  0x00168  /* Alias to FCRTL */
-+#define E1000_FCRTH    0x02168  /* Flow Control Receive Threshold High - RW */
-+#define E1000_RDFH     0x02410  /* Receive Data FIFO Head Register - RW */
-+#define E1000_RDFH_A   0x08000  /* Alias to RDFH */
-+#define E1000_RDFT     0x02418  /* Receive Data FIFO Tail Register - RW */
-+#define E1000_RDFT_A   0x08008  /* Alias to RDFT */
-+#define E1000_RDFHS    0x02420  /* Receive Data FIFO Head Saved Register - RW */
-+#define E1000_RDFTS    0x02428  /* Receive Data FIFO Tail Saved Register - RW */
-+#define E1000_RDFPC    0x02430  /* Receive Data FIFO Packet Count - RW */
-+#define E1000_TDFH     0x03410  /* TX Data FIFO Head - RW */
-+#define E1000_TDFH_A   0x08010  /* Alias to TDFH */
-+#define E1000_TDFT     0x03418  /* TX Data FIFO Tail - RW */
-+#define E1000_TDFT_A   0x08018  /* Alias to TDFT */
-+#define E1000_TDFHS    0x03420  /* TX Data FIFO Head Saved - RW */
-+#define E1000_TDFTS    0x03428  /* TX Data FIFO Tail Saved - RW */
-+#define E1000_TDFPC    0x03430  /* TX Data FIFO Packet Count - RW */
-+#define E1000_CRCERRS  0x04000  /* CRC Error Count - R/clr */
-+#define E1000_ALGNERRC 0x04004  /* Alignment Error Count - R/clr */
-+#define E1000_SYMERRS  0x04008  /* Symbol Error Count - R/clr */
-+#define E1000_RXERRC   0x0400C  /* Receive Error Count - R/clr */
-+#define E1000_MPC      0x04010  /* Missed Packet Count - R/clr */
-+#define E1000_SCC      0x04014  /* Single Collision Count - R/clr */
-+#define E1000_ECOL     0x04018  /* Excessive Collision Count - R/clr */
-+#define E1000_MCC      0x0401C  /* Multiple Collision Count - R/clr */
-+#define E1000_LATECOL  0x04020  /* Late Collision Count - R/clr */
-+#define E1000_COLC     0x04028  /* Collision Count - R/clr */
-+#define E1000_DC       0x04030  /* Defer Count - R/clr */
-+#define E1000_TNCRS    0x04034  /* TX-No CRS - R/clr */
-+#define E1000_RLEC     0x04040  /* Receive Length Error Count - R/clr */
-+#define E1000_XONRXC   0x04048  /* XON RX Count - R/clr */
-+#define E1000_XONTXC   0x0404C  /* XON TX Count - R/clr */
-+#define E1000_XOFFRXC  0x04050  /* XOFF RX Count - R/clr */
-+#define E1000_XOFFTXC  0x04054  /* XOFF TX Count - R/clr */
-+#define E1000_FCRUC    0x04058  /* Flow Control RX Unsupported Count- R/clr */
-+#define E1000_PRC64    0x0405C  /* Packets RX (64 bytes) - R/clr */
-+#define E1000_PRC127   0x04060  /* Packets RX (65-127 bytes) - R/clr */
-+#define E1000_PRC255   0x04064  /* Packets RX (128-255 bytes) - R/clr */
-+#define E1000_PRC511   0x04068  /* Packets RX (255-511 bytes) - R/clr */
-+#define E1000_PRC1023  0x0406C  /* Packets RX (512-1023 bytes) - R/clr */
-+#define E1000_PRC1522  0x04070  /* Packets RX (1024-1522 bytes) - R/clr */
-+#define E1000_GPRC     0x04074  /* Good Packets RX Count - R/clr */
-+#define E1000_BPRC     0x04078  /* Broadcast Packets RX Count - R/clr */
-+#define E1000_MPRC     0x0407C  /* Multicast Packets RX Count - R/clr */
-+#define E1000_GPTC     0x04080  /* Good Packets TX Count - R/clr */
-+#define E1000_GORCL    0x04088  /* Good Octets RX Count Low - R/clr */
-+#define E1000_GORCH    0x0408C  /* Good Octets RX Count High - R/clr */
-+#define E1000_GOTCL    0x04090  /* Good Octets TX Count Low - R/clr */
-+#define E1000_GOTCH    0x04094  /* Good Octets TX Count High - R/clr */
-+#define E1000_RNBC     0x040A0  /* RX No Buffers Count - R/clr */
-+#define E1000_RUC      0x040A4  /* RX Undersize Count - R/clr */
-+#define E1000_RFC      0x040A8  /* RX Fragment Count - R/clr */
-+#define E1000_ROC      0x040AC  /* RX Oversize Count - R/clr */
-+#define E1000_RJC      0x040B0  /* RX Jabber Count - R/clr */
-+#define E1000_MGTPRC   0x040B4  /* Management Packets RX Count - R/clr */
-+#define E1000_MGTPDC   0x040B8  /* Management Packets Dropped Count - R/clr */
-+#define E1000_MGTPTC   0x040BC  /* Management Packets TX Count - R/clr */
-+#define E1000_TORL     0x040C0  /* Total Octets RX Low - R/clr */
-+#define E1000_TORH     0x040C4  /* Total Octets RX High - R/clr */
-+#define E1000_TOTL     0x040C8  /* Total Octets TX Low - R/clr */
-+#define E1000_TOTH     0x040CC  /* Total Octets TX High - R/clr */
-+#define E1000_TPR      0x040D0  /* Total Packets RX - R/clr */
-+#define E1000_TPT      0x040D4  /* Total Packets TX - R/clr */
-+#define E1000_PTC64    0x040D8  /* Packets TX (64 bytes) - R/clr */
-+#define E1000_PTC127   0x040DC  /* Packets TX (65-127 bytes) - R/clr */
-+#define E1000_PTC255   0x040E0  /* Packets TX (128-255 bytes) - R/clr */
-+#define E1000_PTC511   0x040E4  /* Packets TX (256-511 bytes) - R/clr */
-+#define E1000_PTC1023  0x040E8  /* Packets TX (512-1023 bytes) - R/clr */
-+#define E1000_PTC1522  0x040EC  /* Packets TX (1024-1522 Bytes) - R/clr */
-+#define E1000_MPTC     0x040F0  /* Multicast Packets TX Count - R/clr */
-+#define E1000_BPTC     0x040F4  /* Broadcast Packets TX Count - R/clr */
-+#define E1000_TSCTC    0x040F8  /* TCP Segmentation Context TX - R/clr */
-+#define E1000_IAC      0x04100  /* Interrupt Assertion Count */
-+#define E1000_ICRXPTC  0x04104  /* Interrupt Cause Rx Packet Timer Expire Count */
-+#define E1000_ICRXDMTC 0x04120  /* Interrupt Cause Rx Descriptor Minimum Threshold Count */
-+#define E1000_RXCSUM   0x05000  /* RX Checksum Control - RW */
-+#define E1000_RFCTL    0x05008  /* Receive Filter Control*/
-+#define E1000_MAVTV0   0x05010  /* Management VLAN TAG Value 0 */
-+#define E1000_MAVTV1   0x05014  /* Management VLAN TAG Value 1 */
-+#define E1000_MAVTV2   0x05018  /* Management VLAN TAG Value 2 */
-+#define E1000_MAVTV3   0x0501c  /* Management VLAN TAG Value 3 */
-+#define E1000_MTA      0x05200  /* Multicast Table Array - RW Array */
-+#define E1000_RA       0x05400  /* Receive Address - RW Array */
-+#define E1000_RA_A     0x00040  /* Alias to RA */
-+#define E1000_VFTA     0x05600  /* VLAN Filter Table Array - RW Array */
-+#define E1000_VFTA_A   0x00600  /* Alias to VFTA */
-+#define E1000_WUC      0x05800  /* Wakeup Control - RW */
-+#define E1000_WUFC     0x05808  /* Wakeup Filter Control - RW */
-+#define E1000_WUS      0x05810  /* Wakeup Status - RO */
-+#define E1000_MANC     0x05820  /* Management Control - RW */
-+#define E1000_IPAV     0x05838  /* IP Address Valid - RW */
-+#define E1000_IP4AT    0x05840  /* IPv4 Address Table - RW Array */
-+#define E1000_IP6AT    0x05880  /* IPv6 Address Table - RW Array */
-+#define E1000_WUPL     0x05900  /* Wakeup Packet Length - RW */
-+#define E1000_WUPM     0x05A00  /* Wakeup Packet Memory - RO A */
-+#define E1000_MFVAL    0x05824  /* Manageability Filters Valid - RW */
-+#define E1000_MDEF     0x05890  /* Manageability Decision Filters - RW Array */
-+#define E1000_FFMT     0x09000  /* Flexible Filter Mask Table - RW Array */
-+#define E1000_FTFT     0x09400  /* Flexible TCO Filter Table - RW Array */
++static const uint16_t mac_reg_access[E1000E_MAC_SIZE] = {
++    /* Alias index offsets */
++    [FCRTL_A] = 0x07fe,
++    [RDFH_A]  = 0xe904, [RDFT_A]  = 0xe904,
++    [TDFH_A]  = 0xed00, [TDFT_A]  = 0xed00,
++    [RA_A ... RA_A + 31]      = 0x14f0,
++    [VFTA_A ... VFTA_A + E1000_VLAN_FILTER_TBL_SIZE - 1] = 0x1400,
 +
-+#define E1000_MANC2H     0x05860 /* Management Control To Host - RW */
-+#define E1000_SW_FW_SYNC 0x05B5C /* Software-Firmware Synchronization - RW */
++    [RDBAL0_A] = 0x2600,
++    [RDBAH0_A] = 0x2600,
++    [RDLEN0_A] = 0x2600,
++    [SRRCTL0_A] = 0x2600,
++    [RDH0_A] = 0x2600,
++    [RDT0_A] = 0x2600,
++    [RXDCTL0_A] = 0x2600,
++    [RXCTL0_A] = 0x2600,
++    [RQDPC0_A] = 0x2600,
++    [RDBAL1_A] = 0x25D0,
++    [RDBAL2_A] = 0x25A0,
++    [RDBAL3_A] = 0x2570,
++    [RDBAH1_A] = 0x25D0,
++    [RDBAH2_A] = 0x25A0,
++    [RDBAH3_A] = 0x2570,
++    [RDLEN1_A] = 0x25D0,
++    [RDLEN2_A] = 0x25A0,
++    [RDLEN3_A] = 0x2570,
++    [SRRCTL1_A] = 0x25D0,
++    [SRRCTL2_A] = 0x25A0,
++    [SRRCTL3_A] = 0x2570,
++    [RDH1_A] = 0x25D0,
++    [RDH2_A] = 0x25A0,
++    [RDH3_A] = 0x2570,
++    [RDT1_A] = 0x25D0,
++    [RDT2_A] = 0x25A0,
++    [RDT3_A] = 0x2570,
++    [RXDCTL1_A] = 0x25D0,
++    [RXDCTL2_A] = 0x25A0,
++    [RXDCTL3_A] = 0x2570,
++    [RXCTL1_A] = 0x25D0,
++    [RXCTL2_A] = 0x25A0,
++    [RXCTL3_A] = 0x2570,
++    [RQDPC1_A] = 0x25D0,
++    [RQDPC2_A] = 0x25A0,
++    [RQDPC3_A] = 0x2570,
++    [TDBAL0_A] = 0x2A00,
++    [TDBAH0_A] = 0x2A00,
++    [TDLEN0_A] = 0x2A00,
++    [TDH0_A] = 0x2A00,
++    [TDT0_A] = 0x2A00,
++    [TXCTL0_A] = 0x2A00,
++    [TDWBAL0_A] = 0x2A00,
++    [TDWBAH0_A] = 0x2A00,
++    [TDBAL1_A] = 0x29D0,
++    [TDBAL2_A] = 0x29A0,
++    [TDBAL3_A] = 0x2970,
++    [TDBAH1_A] = 0x29D0,
++    [TDBAH2_A] = 0x29A0,
++    [TDBAH3_A] = 0x2970,
++    [TDLEN1_A] = 0x29D0,
++    [TDLEN2_A] = 0x29A0,
++    [TDLEN3_A] = 0x2970,
++    [TDH1_A] = 0x29D0,
++    [TDH2_A] = 0x29A0,
++    [TDH3_A] = 0x2970,
++    [TDT1_A] = 0x29D0,
++    [TDT2_A] = 0x29A0,
++    [TDT3_A] = 0x2970,
++    [TXDCTL0_A] = 0x2A00,
++    [TXDCTL1_A] = 0x29D0,
++    [TXDCTL2_A] = 0x29A0,
++    [TXDCTL3_A] = 0x2970,
++    [TXCTL1_A] = 0x29D0,
++    [TXCTL2_A] = 0x29A0,
++    [TXCTL3_A] = 0x29D0,
++    [TDWBAL1_A] = 0x29D0,
++    [TDWBAL2_A] = 0x29A0,
++    [TDWBAL3_A] = 0x2970,
++    [TDWBAH1_A] = 0x29D0,
++    [TDWBAH2_A] = 0x29A0,
++    [TDWBAH3_A] = 0x2970,
 +
-+#define E1000_GCR       0x05B00 /* PCI-Ex Control */
-+#define E1000_FUNCTAG   0x05B08 /* Function-Tag Register */
-+#define E1000_GSCL_1    0x05B10 /* PCI-Ex Statistic Control #1 */
-+#define E1000_GSCL_2    0x05B14 /* PCI-Ex Statistic Control #2 */
-+#define E1000_GSCL_3    0x05B18 /* PCI-Ex Statistic Control #3 */
-+#define E1000_GSCL_4    0x05B1C /* PCI-Ex Statistic Control #4 */
-+#define E1000_GSCN_0    0x05B20 /* 3GIO Statistic Counter Register #0 */
-+#define E1000_GSCN_1    0x05B24 /* 3GIO Statistic Counter Register #1 */
-+#define E1000_GSCN_2    0x05B28 /* 3GIO Statistic Counter Register #2 */
-+#define E1000_GSCN_3    0x05B2C /* 3GIO Statistic Counter Register #3 */
-+#define E1000_FACTPS    0x05B30 /* Function Active and Power State to MNG */
-+#define E1000_SWSM      0x05B50 /* SW Semaphore */
-+#define E1000_FWSM      0x05B54 /* FW Semaphore */
-+#define E1000_PBACLR    0x05B68 /* MSI-X PBA Clear */
++    /* Access options */
++    [RDFH]  = MAC_ACCESS_PARTIAL,    [RDFT]  = MAC_ACCESS_PARTIAL,
++    [RDFHS] = MAC_ACCESS_PARTIAL,    [RDFTS] = MAC_ACCESS_PARTIAL,
++    [RDFPC] = MAC_ACCESS_PARTIAL,
++    [TDFH]  = MAC_ACCESS_PARTIAL,    [TDFT]  = MAC_ACCESS_PARTIAL,
++    [TDFHS] = MAC_ACCESS_PARTIAL,    [TDFTS] = MAC_ACCESS_PARTIAL,
++    [TDFPC] = MAC_ACCESS_PARTIAL,    [EECD]  = MAC_ACCESS_PARTIAL,
++    [FLA]   = MAC_ACCESS_PARTIAL,
++    [FCAL]  = MAC_ACCESS_PARTIAL,    [FCAH]  = MAC_ACCESS_PARTIAL,
++    [FCT]   = MAC_ACCESS_PARTIAL,    [FCTTV] = MAC_ACCESS_PARTIAL,
++    [FCRTV] = MAC_ACCESS_PARTIAL,    [FCRTL] = MAC_ACCESS_PARTIAL,
++    [FCRTH] = MAC_ACCESS_PARTIAL,
++    [MAVTV0 ... MAVTV3] = MAC_ACCESS_PARTIAL
++};
 +
-+#define E1000_TSYNCRXCTL 0x0B620 /* Rx Time Sync Control register - RW */
-+#define E1000_TSYNCTXCTL 0x0B614 /* Tx Time Sync Control register - RW */
-+#define E1000_TIMINCA    0x0B608 /* Increment attributes register - RW */
-+#define E1000_RXSTMPL    0x0B624 /* Rx timestamp Low - RO */
-+#define E1000_RXSTMPH    0x0B628 /* Rx timestamp High - RO */
-+#define E1000_TXSTMPL    0x0B618 /* Tx timestamp value Low - RO */
-+#define E1000_TXSTMPH    0x0B61C /* Tx timestamp value High - RO */
-+#define E1000_SYSTIML    0x0B600 /* System time register Low - RO */
-+#define E1000_SYSTIMH    0x0B604 /* System time register High - RO */
-+#define E1000_TIMINCA    0x0B608 /* Increment attributes register - RW */
-+#define E1000_RXSATRL    0x0B62C /* Rx timestamp attribute low - RO */
-+#define E1000_RXSATRH    0x0B630 /* Rx timestamp attribute high - RO */
-+#define E1000_TIMADJL    0x0B60C /* Time Adjustment Offset register Low - RW */
-+#define E1000_TIMADJH    0x0B610 /* Time Adjustment Offset register High - RW */
++void
++igb_core_write(IGBCore *core, hwaddr addr, uint64_t val, unsigned size)
++{
++    uint16_t index = igb_get_reg_index_with_offset(mac_reg_access, addr);
 +
-+/* RSS registers */
-+#define E1000_MRQC      0x05818 /* Multiple Receive Control - RW */
-+#define E1000_RETA      0x05C00 /* Redirection Table - RW Array */
-+#define E1000_RSSRK     0x05C80 /* RSS Random Key - RW Array */
++    if (index < IGB_NWRITEOPS && igb_macreg_writeops[index]) {
++        if (mac_reg_access[index] & MAC_ACCESS_PARTIAL) {
++            trace_e1000e_wrn_regs_write_trivial(index << 2);
++        }
++        trace_e1000e_core_write(index << 2, size, val);
++        igb_macreg_writeops[index](core, index, val);
++    } else if (index < IGB_NREADOPS && igb_macreg_readops[index]) {
++        trace_e1000e_wrn_regs_write_ro(index << 2, size, val);
++    } else {
++        trace_e1000e_wrn_regs_write_unknown(index << 2, size, val);
++    }
++}
 +
-+#define E1000_RETA_IDX(hash)        ((hash) & (BIT(7) - 1))
-+#define E1000_RETA_VAL(reta, hash)  (((uint8_t *)(reta))[E1000_RETA_IDX(hash)])
++uint64_t
++igb_core_read(IGBCore *core, hwaddr addr, unsigned size)
++{
++    uint64_t val;
++    uint16_t index = igb_get_reg_index_with_offset(mac_reg_access, addr);
 +
-+#define E1000_MRQC_EN_TCPIPV4(mrqc) ((mrqc) & BIT(16))
-+#define E1000_MRQC_EN_IPV4(mrqc)    ((mrqc) & BIT(17))
-+#define E1000_MRQC_EN_TCPIPV6(mrqc) ((mrqc) & BIT(18))
-+#define E1000_MRQC_EN_IPV6EX(mrqc)  ((mrqc) & BIT(19))
-+#define E1000_MRQC_EN_IPV6(mrqc)    ((mrqc) & BIT(20))
++    if (index < IGB_NREADOPS && igb_macreg_readops[index]) {
++        if (mac_reg_access[index] & MAC_ACCESS_PARTIAL) {
++            trace_e1000e_wrn_regs_read_trivial(index << 2);
++        }
++        val = igb_macreg_readops[index](core, index);
++        trace_e1000e_core_read(index << 2, size, val);
++        return val;
++    } else {
++        trace_e1000e_wrn_regs_read_unknown(index << 2, size);
++    }
++    return 0;
++}
 +
-+#define E1000_MRQ_RSS_TYPE_NONE     (0)
-+#define E1000_MRQ_RSS_TYPE_IPV4TCP  (1)
-+#define E1000_MRQ_RSS_TYPE_IPV4     (2)
-+#define E1000_MRQ_RSS_TYPE_IPV6TCP  (3)
-+#define E1000_MRQ_RSS_TYPE_IPV6EX   (4)
-+#define E1000_MRQ_RSS_TYPE_IPV6     (5)
++static inline void
++igb_autoneg_pause(IGBCore *core)
++{
++    timer_del(core->autoneg_timer);
++}
 +
-+#define E1000_ICR_ASSERTED BIT(31)
-+#define E1000_EIAC_MASK    0x01F00000
++static void
++igb_autoneg_resume(IGBCore *core)
++{
++    if (igb_have_autoneg(core) &&
++        !(core->phy[MII_BMSR] & MII_BMSR_AN_COMP)) {
++        qemu_get_queue(core->owner_nic)->link_down = false;
++        timer_mod(core->autoneg_timer,
++                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 500);
++    }
++}
 +
-+/* RFCTL register bits */
-+#define E1000_RFCTL_ISCSI_DIS           0x00000001
-+#define E1000_RFCTL_NFSW_DIS            0x00000040
-+#define E1000_RFCTL_NFSR_DIS            0x00000080
-+#define E1000_RFCTL_IPV6_DIS            0x00000400
-+#define E1000_RFCTL_IPV6_XSUM_DIS       0x00000800
-+#define E1000_RFCTL_IPFRSP_DIS          0x00004000
-+#define E1000_RFCTL_EXTEN               0x00008000
-+#define E1000_RFCTL_IPV6_EX_DIS         0x00010000
-+#define E1000_RFCTL_NEW_IPV6_EXT_DIS    0x00020000
++static void
++igb_vm_state_change(void *opaque, bool running, RunState state)
++{
++    IGBCore *core = opaque;
 +
-+/* TARC* parsing */
-+#define E1000_TARC_ENABLE BIT(10)
++    if (running) {
++        trace_e1000e_vm_state_running();
++        igb_intrmgr_resume(core);
++        igb_autoneg_resume(core);
++    } else {
++        trace_e1000e_vm_state_stopped();
++        igb_autoneg_pause(core);
++        igb_intrmgr_pause(core);
++    }
++}
 +
-+/* SW Semaphore Register */
-+#define E1000_SWSM_SMBI         0x00000001 /* Driver Semaphore bit */
-+#define E1000_SWSM_SWESMBI      0x00000002 /* FW Semaphore bit */
-+#define E1000_SWSM_DRV_LOAD     0x00000008 /* Driver Loaded Bit */
++void
++igb_core_pci_realize(IGBCore        *core,
++                     const uint16_t *eeprom_templ,
++                     uint32_t        eeprom_size,
++                     const uint8_t  *macaddr)
++{
++    int i;
 +
-+#define E1000_SWSM2_LOCK        0x00000002 /* Secondary driver semaphore bit */
++    core->autoneg_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
++                                       igb_autoneg_timer, core);
++    igb_intrmgr_pci_realize(core);
 +
-+/* Interrupt Cause Read */
-+#define E1000_ICR_TXDW          0x00000001 /* Transmit desc written back */
-+#define E1000_ICR_TXQE          0x00000002 /* Transmit Queue empty */
-+#define E1000_ICR_LSC           0x00000004 /* Link Status Change */
-+#define E1000_ICR_RXSEQ         0x00000008 /* rx sequence error */
-+#define E1000_ICR_RXDMT0        0x00000010 /* rx desc min. threshold (0) */
-+#define E1000_ICR_RXO           0x00000040 /* rx overrun */
-+#define E1000_ICR_RXT0          0x00000080 /* rx timer intr (ring 0) */
-+#define E1000_ICR_MDAC          0x00000200 /* MDIO access complete */
-+#define E1000_ICR_RXCFG         0x00000400 /* RX /c/ ordered set */
-+#define E1000_ICR_GPI_EN0       0x00000800 /* GP Int 0 */
-+#define E1000_ICR_GPI_EN1       0x00001000 /* GP Int 1 */
-+#define E1000_ICR_GPI_EN2       0x00002000 /* GP Int 2 */
-+#define E1000_ICR_GPI_EN3       0x00004000 /* GP Int 3 */
-+#define E1000_ICR_TXD_LOW       0x00008000
-+#define E1000_ICR_SRPD          0x00010000
-+#define E1000_ICR_ACK           0x00020000 /* Receive Ack frame */
-+#define E1000_ICR_MNG           0x00040000 /* Manageability event */
-+#define E1000_ICR_DOCK          0x00080000 /* Dock/Undock */
-+#define E1000_ICR_INT_ASSERTED  0x80000000 /* If this bit asserted, the driver should claim the interrupt */
-+#define E1000_ICR_RXD_FIFO_PAR0 0x00100000 /* queue 0 Rx descriptor FIFO parity error */
-+#define E1000_ICR_TXD_FIFO_PAR0 0x00200000 /* queue 0 Tx descriptor FIFO parity error */
-+#define E1000_ICR_HOST_ARB_PAR  0x00400000 /* host arb read buffer parity error */
-+#define E1000_ICR_PB_PAR        0x00800000 /* packet buffer parity error */
-+#define E1000_ICR_RXD_FIFO_PAR1 0x01000000 /* queue 1 Rx descriptor FIFO parity error */
-+#define E1000_ICR_TXD_FIFO_PAR1 0x02000000 /* queue 1 Tx descriptor FIFO parity error */
-+#define E1000_ICR_ALL_PARITY    0x03F00000 /* all parity error bits */
-+#define E1000_ICR_DSW           0x00000020 /* FW changed the status of DISSW bit in the FWSM */
-+#define E1000_ICR_PHYINT        0x00001000 /* LAN connected device generates an interrupt */
-+#define E1000_ICR_EPRST         0x00100000 /* ME handware reset occurs */
-+#define E1000_ICR_RXQ0          0x00100000 /* Rx Queue 0 Interrupt */
-+#define E1000_ICR_RXQ1          0x00200000 /* Rx Queue 1 Interrupt */
-+#define E1000_ICR_TXQ0          0x00400000 /* Tx Queue 0 Interrupt */
-+#define E1000_ICR_TXQ1          0x00800000 /* Tx Queue 1 Interrupt */
-+#define E1000_ICR_OTHER         0x01000000 /* Other Interrupts */
++    core->vmstate = qemu_add_vm_change_state_handler(igb_vm_state_change, core);
 +
-+#define E1000_ICR_OTHER_CAUSES (E1000_ICR_LSC  | \
-+                                E1000_ICR_RXO  | \
-+                                E1000_ICR_MDAC | \
-+                                E1000_ICR_SRPD | \
-+                                E1000_ICR_ACK  | \
-+                                E1000_ICR_MNG)
++    for (i = 0; i < IGB_NUM_QUEUES; i++) {
++        net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner, E1000E_MAX_TX_FRAGS);
++    }
 +
-+/* Interrupt Cause Set */
-+#define E1000_ICS_TXDW      E1000_ICR_TXDW      /* Transmit desc written back */
-+#define E1000_ICS_TXQE      E1000_ICR_TXQE      /* Transmit Queue empty */
-+#define E1000_ICS_LSC       E1000_ICR_LSC       /* Link Status Change */
-+#define E1000_ICS_RXSEQ     E1000_ICR_RXSEQ     /* rx sequence error */
-+#define E1000_ICS_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
-+#define E1000_ICS_RXO       E1000_ICR_RXO       /* rx overrun */
-+#define E1000_ICS_RXT0      E1000_ICR_RXT0      /* rx timer intr */
-+#define E1000_ICS_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
-+#define E1000_ICS_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
-+#define E1000_ICS_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
-+#define E1000_ICS_GPI_EN1   E1000_ICR_GPI_EN1   /* GP Int 1 */
-+#define E1000_ICS_GPI_EN2   E1000_ICR_GPI_EN2   /* GP Int 2 */
-+#define E1000_ICS_GPI_EN3   E1000_ICR_GPI_EN3   /* GP Int 3 */
-+#define E1000_ICS_TXD_LOW   E1000_ICR_TXD_LOW
-+#define E1000_ICS_SRPD      E1000_ICR_SRPD
-+#define E1000_ICS_ACK       E1000_ICR_ACK       /* Receive Ack frame */
-+#define E1000_ICS_MNG       E1000_ICR_MNG       /* Manageability event */
-+#define E1000_ICS_DOCK      E1000_ICR_DOCK      /* Dock/Undock */
-+#define E1000_ICS_RXD_FIFO_PAR0 E1000_ICR_RXD_FIFO_PAR0 /* queue 0 Rx descriptor FIFO parity error */
-+#define E1000_ICS_TXD_FIFO_PAR0 E1000_ICR_TXD_FIFO_PAR0 /* queue 0 Tx descriptor FIFO parity error */
-+#define E1000_ICS_HOST_ARB_PAR  E1000_ICR_HOST_ARB_PAR  /* host arb read buffer parity error */
-+#define E1000_ICS_PB_PAR        E1000_ICR_PB_PAR        /* packet buffer parity error */
-+#define E1000_ICS_RXD_FIFO_PAR1 E1000_ICR_RXD_FIFO_PAR1 /* queue 1 Rx descriptor FIFO parity error */
-+#define E1000_ICS_TXD_FIFO_PAR1 E1000_ICR_TXD_FIFO_PAR1 /* queue 1 Tx descriptor FIFO parity error */
-+#define E1000_ICS_DSW       E1000_ICR_DSW
-+#define E1000_ICS_PHYINT    E1000_ICR_PHYINT
-+#define E1000_ICS_EPRST     E1000_ICR_EPRST
++    net_rx_pkt_init(&core->rx_pkt);
 +
-+/* Interrupt Mask Set */
-+#define E1000_IMS_TXDW      E1000_ICR_TXDW      /* Transmit desc written back */
-+#define E1000_IMS_TXQE      E1000_ICR_TXQE      /* Transmit Queue empty */
-+#define E1000_IMS_LSC       E1000_ICR_LSC       /* Link Status Change */
-+#define E1000_IMS_RXSEQ     E1000_ICR_RXSEQ     /* rx sequence error */
-+#define E1000_IMS_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
-+#define E1000_IMS_RXO       E1000_ICR_RXO       /* rx overrun */
-+#define E1000_IMS_RXT0      E1000_ICR_RXT0      /* rx timer intr */
-+#define E1000_IMS_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
-+#define E1000_IMS_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
-+#define E1000_IMS_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
-+#define E1000_IMS_GPI_EN1   E1000_ICR_GPI_EN1   /* GP Int 1 */
-+#define E1000_IMS_GPI_EN2   E1000_ICR_GPI_EN2   /* GP Int 2 */
-+#define E1000_IMS_GPI_EN3   E1000_ICR_GPI_EN3   /* GP Int 3 */
-+#define E1000_IMS_TXD_LOW   E1000_ICR_TXD_LOW
-+#define E1000_IMS_SRPD      E1000_ICR_SRPD
-+#define E1000_IMS_ACK       E1000_ICR_ACK       /* Receive Ack frame */
-+#define E1000_IMS_MNG       E1000_ICR_MNG       /* Manageability event */
-+#define E1000_IMS_RXQ0      E1000_ICR_RXQ0
-+#define E1000_IMS_RXQ1      E1000_ICR_RXQ1
-+#define E1000_IMS_TXQ0      E1000_ICR_TXQ0
-+#define E1000_IMS_TXQ1      E1000_ICR_TXQ1
-+#define E1000_IMS_OTHER     E1000_ICR_OTHER
-+#define E1000_IMS_DOCK      E1000_ICR_DOCK      /* Dock/Undock */
-+#define E1000_IMS_RXD_FIFO_PAR0 E1000_ICR_RXD_FIFO_PAR0 /* queue 0 Rx descriptor FIFO parity error */
-+#define E1000_IMS_TXD_FIFO_PAR0 E1000_ICR_TXD_FIFO_PAR0 /* queue 0 Tx descriptor FIFO parity error */
-+#define E1000_IMS_HOST_ARB_PAR  E1000_ICR_HOST_ARB_PAR  /* host arb read buffer parity error */
-+#define E1000_IMS_PB_PAR        E1000_ICR_PB_PAR        /* packet buffer parity error */
-+#define E1000_IMS_RXD_FIFO_PAR1 E1000_ICR_RXD_FIFO_PAR1 /* queue 1 Rx descriptor FIFO parity error */
-+#define E1000_IMS_TXD_FIFO_PAR1 E1000_ICR_TXD_FIFO_PAR1 /* queue 1 Tx descriptor FIFO parity error */
-+#define E1000_IMS_DSW       E1000_ICR_DSW
-+#define E1000_IMS_PHYINT    E1000_ICR_PHYINT
-+#define E1000_IMS_EPRST     E1000_ICR_EPRST
++    e1000x_core_prepare_eeprom(core->eeprom,
++                               eeprom_templ,
++                               eeprom_size,
++                               PCI_DEVICE_GET_CLASS(core->owner)->device_id,
++                               macaddr);
++    igb_update_rx_offloads(core);
++}
 +
-+/* Interrupt Mask Clear */
-+#define E1000_IMC_TXDW      E1000_ICR_TXDW      /* Transmit desc written back */
-+#define E1000_IMC_TXQE      E1000_ICR_TXQE      /* Transmit Queue empty */
-+#define E1000_IMC_LSC       E1000_ICR_LSC       /* Link Status Change */
-+#define E1000_IMC_RXSEQ     E1000_ICR_RXSEQ     /* rx sequence error */
-+#define E1000_IMC_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
-+#define E1000_IMC_RXO       E1000_ICR_RXO       /* rx overrun */
-+#define E1000_IMC_RXT0      E1000_ICR_RXT0      /* rx timer intr */
-+#define E1000_IMC_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
-+#define E1000_IMC_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
-+#define E1000_IMC_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
-+#define E1000_IMC_GPI_EN1   E1000_ICR_GPI_EN1   /* GP Int 1 */
-+#define E1000_IMC_GPI_EN2   E1000_ICR_GPI_EN2   /* GP Int 2 */
-+#define E1000_IMC_GPI_EN3   E1000_ICR_GPI_EN3   /* GP Int 3 */
-+#define E1000_IMC_TXD_LOW   E1000_ICR_TXD_LOW
-+#define E1000_IMC_SRPD      E1000_ICR_SRPD
-+#define E1000_IMC_ACK       E1000_ICR_ACK       /* Receive Ack frame */
-+#define E1000_IMC_MNG       E1000_ICR_MNG       /* Manageability event */
-+#define E1000_IMC_DOCK      E1000_ICR_DOCK      /* Dock/Undock */
-+#define E1000_IMC_RXD_FIFO_PAR0 E1000_ICR_RXD_FIFO_PAR0 /* queue 0 Rx descriptor FIFO parity error */
-+#define E1000_IMC_TXD_FIFO_PAR0 E1000_ICR_TXD_FIFO_PAR0 /* queue 0 Tx descriptor FIFO parity error */
-+#define E1000_IMC_HOST_ARB_PAR  E1000_ICR_HOST_ARB_PAR  /* host arb read buffer parity error */
-+#define E1000_IMC_PB_PAR        E1000_ICR_PB_PAR        /* packet buffer parity error */
-+#define E1000_IMC_RXD_FIFO_PAR1 E1000_ICR_RXD_FIFO_PAR1 /* queue 1 Rx descriptor FIFO parity error */
-+#define E1000_IMC_TXD_FIFO_PAR1 E1000_ICR_TXD_FIFO_PAR1 /* queue 1 Tx descriptor FIFO parity error */
-+#define E1000_IMC_DSW       E1000_ICR_DSW
-+#define E1000_IMC_PHYINT    E1000_ICR_PHYINT
-+#define E1000_IMC_EPRST     E1000_ICR_EPRST
++void
++igb_core_pci_uninit(IGBCore *core)
++{
++    int i;
 +
-+/* Receive Control */
-+#define E1000_RCTL_RST            0x00000001    /* Software reset */
-+#define E1000_RCTL_EN             0x00000002    /* enable */
-+#define E1000_RCTL_SBP            0x00000004    /* store bad packet */
-+#define E1000_RCTL_UPE            0x00000008    /* unicast promiscuous enable */
-+#define E1000_RCTL_MPE            0x00000010    /* multicast promiscuous enab */
-+#define E1000_RCTL_LPE            0x00000020    /* long packet enable */
-+#define E1000_RCTL_LBM_NO         0x00000000    /* no loopback mode */
-+#define E1000_RCTL_LBM_MAC        0x00000040    /* MAC loopback mode */
-+#define E1000_RCTL_LBM_SLP        0x00000080    /* serial link loopback mode */
-+#define E1000_RCTL_LBM_TCVR       0x000000C0    /* tcvr loopback mode */
-+#define E1000_RCTL_DTYP_MASK      0x00000C00    /* Descriptor type mask */
-+#define E1000_RCTL_DTYP_PS        0x00000400    /* Packet Split descriptor */
-+#define E1000_RCTL_RDMTS_HALF     0x00000000    /* rx desc min threshold size */
-+#define E1000_RCTL_RDMTS_QUAT     0x00000100    /* rx desc min threshold size */
-+#define E1000_RCTL_RDMTS_EIGTH    0x00000200    /* rx desc min threshold size */
-+#define E1000_RCTL_MO_SHIFT       12            /* multicast offset shift */
-+#define E1000_RCTL_MO_0           0x00000000    /* multicast offset 11:0 */
-+#define E1000_RCTL_MO_1           0x00001000    /* multicast offset 12:1 */
-+#define E1000_RCTL_MO_2           0x00002000    /* multicast offset 13:2 */
-+#define E1000_RCTL_MO_3           0x00003000    /* multicast offset 15:4 */
-+#define E1000_RCTL_MDR            0x00004000    /* multicast desc ring 0 */
-+#define E1000_RCTL_BAM            0x00008000    /* broadcast enable */
-+/* these buffer sizes are valid if E1000_RCTL_BSEX is 0 */
-+#define E1000_RCTL_SZ_2048        0x00000000    /* rx buffer size 2048 */
-+#define E1000_RCTL_SZ_1024        0x00010000    /* rx buffer size 1024 */
-+#define E1000_RCTL_SZ_512         0x00020000    /* rx buffer size 512 */
-+#define E1000_RCTL_SZ_256         0x00030000    /* rx buffer size 256 */
-+/* these buffer sizes are valid if E1000_RCTL_BSEX is 1 */
-+#define E1000_RCTL_SZ_16384       0x00010000    /* rx buffer size 16384 */
-+#define E1000_RCTL_SZ_8192        0x00020000    /* rx buffer size 8192 */
-+#define E1000_RCTL_SZ_4096        0x00030000    /* rx buffer size 4096 */
-+#define E1000_RCTL_VFE            0x00040000    /* vlan filter enable */
-+#define E1000_RCTL_CFIEN          0x00080000    /* canonical form enable */
-+#define E1000_RCTL_CFI            0x00100000    /* canonical form indicator */
-+#define E1000_RCTL_DPF            0x00400000    /* discard pause frames */
-+#define E1000_RCTL_PMCF           0x00800000    /* pass MAC control frames */
-+#define E1000_RCTL_BSEX           0x02000000    /* Buffer size extension */
-+#define E1000_RCTL_SECRC          0x04000000    /* Strip Ethernet CRC */
-+#define E1000_RCTL_FLXBUF_MASK    0x78000000    /* Flexible buffer size */
-+#define E1000_RCTL_FLXBUF_SHIFT   27            /* Flexible buffer shift */
++    timer_free(core->autoneg_timer);
 +
++    igb_intrmgr_pci_unint(core);
 +
-+#define E1000_EEPROM_SWDPIN0   0x0001   /* SWDPIN 0 EEPROM Value */
-+#define E1000_EEPROM_LED_LOGIC 0x0020   /* Led Logic Word */
-+#define E1000_EEPROM_RW_REG_DATA   16   /* Offset to data in EEPROM read/write registers */
-+#define E1000_EEPROM_RW_REG_DONE   0x10 /* Offset to READ/WRITE done bit */
-+#define E1000_EEPROM_RW_REG_START  1    /* First bit for telling part to start operation */
-+#define E1000_EEPROM_RW_ADDR_SHIFT 8    /* Shift to the address bits */
-+#define E1000_EEPROM_POLL_WRITE    1    /* Flag for polling for write complete */
-+#define E1000_EEPROM_POLL_READ     0    /* Flag for polling for read complete */
++    qemu_del_vm_change_state_handler(core->vmstate);
 +
-+/* 82574 EERD/EEWR registers layout */
-+#define E1000_EERW_START        BIT(0)
-+#define E1000_EERW_DONE         BIT(1)
-+#define E1000_EERW_ADDR_SHIFT   2
-+#define E1000_EERW_ADDR_MASK    ((1L << 14) - 1)
-+#define E1000_EERW_DATA_SHIFT   16
-+#define E1000_EERW_DATA_MASK   ((1L << 16) - 1)
++    for (i = 0; i < IGB_NUM_QUEUES; i++) {
++        net_tx_pkt_reset(core->tx[i].tx_pkt);
++        net_tx_pkt_uninit(core->tx[i].tx_pkt);
++    }
 +
-+/* Register Bit Masks */
-+/* Device Control */
-+#define E1000_CTRL_FD       0x00000001  /* Full duplex.0=half; 1=full */
-+#define E1000_CTRL_BEM      0x00000002  /* Endian Mode.0=little,1=big */
-+#define E1000_CTRL_PRIOR    0x00000004  /* Priority on PCI. 0=rx,1=fair */
-+#define E1000_CTRL_GIO_MASTER_DISABLE 0x00000004 /*Blocks new Master requests */
-+#define E1000_CTRL_LRST     0x00000008  /* Link reset. 0=normal,1=reset */
-+#define E1000_CTRL_TME      0x00000010  /* Test mode. 0=normal,1=test */
-+#define E1000_CTRL_SLE      0x00000020  /* Serial Link on 0=dis,1=en */
-+#define E1000_CTRL_ASDE     0x00000020  /* Auto-speed detect enable */
-+#define E1000_CTRL_SLU      0x00000040  /* Set link up (Force Link) */
-+#define E1000_CTRL_ILOS     0x00000080  /* Invert Loss-Of Signal */
-+#define E1000_CTRL_SPD_SEL  0x00000300  /* Speed Select Mask */
-+#define E1000_CTRL_SPD_10   0x00000000  /* Force 10Mb */
-+#define E1000_CTRL_SPD_100  0x00000100  /* Force 100Mb */
-+#define E1000_CTRL_SPD_1000 0x00000200  /* Force 1Gb */
-+#define E1000_CTRL_BEM32    0x00000400  /* Big Endian 32 mode */
-+#define E1000_CTRL_FRCSPD   0x00000800  /* Force Speed */
-+#define E1000_CTRL_FRCDPX   0x00001000  /* Force Duplex */
-+#define E1000_CTRL_D_UD_EN  0x00002000  /* Dock/Undock enable */
-+#define E1000_CTRL_D_UD_POLARITY 0x00004000 /* Defined polarity of Dock/Undock indication in SDP[0] */
-+#define E1000_CTRL_FORCE_PHY_RESET 0x00008000 /* Reset both PHY ports, through PHYRST_N pin */
-+#define E1000_CTRL_SPD_SHIFT 8          /* Speed Select Shift */
++    net_rx_pkt_uninit(core->rx_pkt);
++}
 +
-+#define E1000_CTRL_EXT_ASDCHK  0x00001000 /* auto speed detection check */
-+#define E1000_CTRL_EXT_EE_RST  0x00002000 /* EEPROM reset */
-+#define E1000_CTRL_EXT_LINK_EN 0x00010000 /* enable link status from external LINK_0 and LINK_1 pins */
-+#define E1000_CTRL_EXT_DRV_LOAD 0x10000000 /* Driver loaded bit for FW */
-+#define E1000_CTRL_EXT_EIAME   0x01000000
-+#define E1000_CTRL_EXT_IAME    0x08000000 /* Int ACK Auto-mask */
-+#define E1000_CTRL_EXT_PBA_CLR 0x80000000 /* PBA Clear */
-+#define E1000_CTRL_EXT_INT_TIMERS_CLEAR_ENA 0x20000000
-+#define E1000_CTRL_EXT_SPD_BYPS  0x00008000 /* Speed Select Bypass */
++static const uint16_t
++igb_phy_reg_init[] = {
++    [MII_BMCR] = MII_BMCR_SPEED1000 |
++                 MII_BMCR_FD        |
++                 MII_BMCR_AUTOEN,
 +
-+#define E1000_CTRL_SWDPIN0  0x00040000  /* SWDPIN 0 value */
-+#define E1000_CTRL_SWDPIN1  0x00080000  /* SWDPIN 1 value */
-+#define E1000_CTRL_SWDPIN2  0x00100000  /* SWDPIN 2 value */
-+#define E1000_CTRL_SWDPIN3  0x00200000  /* SWDPIN 3 value */
-+#define E1000_CTRL_SWDPIO0  0x00400000  /* SWDPIN 0 Input or output */
-+#define E1000_CTRL_SWDPIO1  0x00800000  /* SWDPIN 1 input or output */
-+#define E1000_CTRL_SWDPIO2  0x01000000  /* SWDPIN 2 input or output */
-+#define E1000_CTRL_SWDPIO3  0x02000000  /* SWDPIN 3 input or output */
-+#define E1000_CTRL_ADVD3WUC 0x00100000  /* D3 WUC */
-+#define E1000_CTRL_RST      0x04000000  /* Global reset */
-+#define E1000_CTRL_RFCE     0x08000000  /* Receive Flow Control enable */
-+#define E1000_CTRL_TFCE     0x10000000  /* Transmit flow control enable */
-+#define E1000_CTRL_RTE      0x20000000  /* Routing tag enable */
-+#define E1000_CTRL_VME      0x40000000  /* IEEE VLAN mode enable */
-+#define E1000_CTRL_PHY_RST  0x80000000  /* PHY Reset */
-+#define E1000_CTRL_SW2FW_INT 0x02000000  /* Initiate an interrupt to manageability engine */
++    [MII_BMSR] = MII_BMSR_EXTCAP    |
++                 MII_BMSR_LINK_ST   |
++                 MII_BMSR_AUTONEG   |
++                 MII_BMSR_MFPS      |
++                 MII_BMSR_EXTSTAT   |
++                 MII_BMSR_10T_HD    |
++                 MII_BMSR_10T_FD    |
++                 MII_BMSR_100TX_HD  |
++                 MII_BMSR_100TX_FD,
 +
-+/* Device Status */
-+#define E1000_STATUS_FD                 0x00000001 /* Full duplex.0=half,1=full */
-+#define E1000_STATUS_LU                 0x00000002 /* Link up.0=no,1=link */
-+#define E1000_STATUS_SPEED_10           0x00000000 /* Speed 10Mb/s */
-+#define E1000_STATUS_SPEED_100          0x00000040 /* Speed 100Mb/s */
-+#define E1000_STATUS_SPEED_1000         0x00000080 /* Speed 1000Mb/s */
-+#define E1000_STATUS_PHYRA              0x00000400 /* PHY Reset Asserted */
-+#define E1000_STATUS_GIO_MASTER_ENABLE  0x00080000
++    [MII_PHYID1]            = IGP03E1000_E_PHY_ID >> 16,
++    [MII_PHYID2]            = (IGP03E1000_E_PHY_ID & 0xfff0) | 1,
++    [MII_ANAR]              = MII_ANAR_CSMACD | MII_ANAR_10 |
++                              MII_ANAR_10FD | MII_ANAR_TX |
++                              MII_ANAR_TXFD | MII_ANAR_PAUSE |
++                              MII_ANAR_PAUSE_ASYM,
++    [MII_ANLPAR]            = MII_ANLPAR_10 | MII_ANLPAR_10FD |
++                              MII_ANLPAR_TX | MII_ANLPAR_TXFD |
++                              MII_ANLPAR_T4 | MII_ANLPAR_PAUSE,
++    [MII_ANER]              = MII_ANER_NP | MII_ANER_NWAY,
++    [MII_ANNP]              = 0x1 | MII_ANNP_MP,
++    [MII_CTRL1000]          = MII_CTRL1000_HALF | MII_CTRL1000_FULL |
++                              MII_CTRL1000_PORT | MII_CTRL1000_MASTER,
++    [MII_STAT1000]          = MII_STAT1000_HALF | MII_STAT1000_FULL |
++                              MII_STAT1000_ROK | MII_STAT1000_LOK,
++    [MII_EXTSTAT]           = MII_EXTSTAT_1000T_HD | MII_EXTSTAT_1000T_FD,
 +
-+/* EEPROM/Flash Control */
-+#define E1000_EECD_SK        0x00000001 /* EEPROM Clock */
-+#define E1000_EECD_CS        0x00000002 /* EEPROM Chip Select */
-+#define E1000_EECD_DI        0x00000004 /* EEPROM Data In */
-+#define E1000_EECD_DO        0x00000008 /* EEPROM Data Out */
-+#define E1000_EECD_FWE_MASK  0x00000030
-+#define E1000_EECD_FWE_DIS   0x00000010 /* Disable FLASH writes */
-+#define E1000_EECD_FWE_EN    0x00000020 /* Enable FLASH writes */
-+#define E1000_EECD_FWE_SHIFT 4
-+#define E1000_EECD_REQ       0x00000040 /* EEPROM Access Request */
-+#define E1000_EECD_GNT       0x00000080 /* EEPROM Access Grant */
-+#define E1000_EECD_PRES      0x00000100 /* EEPROM Present */
-+#define E1000_EECD_SIZE      0x00000200 /* EEPROM Size (0=64 word 1=256 word) */
-+#define E1000_EECD_ADDR_BITS 0x00000400 /* EEPROM Addressing bits based on type
-+                                         * (0-small, 1-large) */
-+#define E1000_EECD_TYPE      0x00002000 /* EEPROM Type (1-SPI, 0-Microwire) */
-+#ifndef E1000_EEPROM_GRANT_ATTEMPTS
-+#define E1000_EEPROM_GRANT_ATTEMPTS 1000 /* EEPROM # attempts to gain grant */
++    [IGP01E1000_PHY_PORT_CONFIG] = BIT(5) | BIT(8),
++    [IGP01E1000_PHY_PORT_STATUS] = IGP01E1000_PSSR_SPEED_1000MBPS,
++    [IGP02E1000_PHY_POWER_MGMT]  = BIT(0) | BIT(3) | IGP02E1000_PM_D3_LPLU |
++                                   IGP01E1000_PSCFR_SMART_SPEED
++};
++
++static const uint32_t igb_mac_reg_init[] = {
++    [LEDCTL]        = 2 | (3 << 8) | BIT(15) | (6 << 16) | (7 << 24),
++    [EEMNGCTL]      = BIT(31),
++    [RXDCTL0]       = E1000_RXDCTL_QUEUE_ENABLE | (1 << 16),
++    [RXDCTL1]       = 1 << 16,
++    [RXDCTL2]       = 1 << 16,
++    [RXDCTL3]       = 1 << 16,
++    [RXDCTL4]       = 1 << 16,
++    [RXDCTL5]       = 1 << 16,
++    [RXDCTL6]       = 1 << 16,
++    [RXDCTL7]       = 1 << 16,
++    [RXDCTL8]       = 1 << 16,
++    [RXDCTL9]       = 1 << 16,
++    [RXDCTL10]      = 1 << 16,
++    [RXDCTL11]      = 1 << 16,
++    [RXDCTL12]      = 1 << 16,
++    [RXDCTL13]      = 1 << 16,
++    [RXDCTL14]      = 1 << 16,
++    [RXDCTL15]      = 1 << 16,
++    [TIPG]          = 0x08 | (0x04 << 10) | (0x06 << 20),
++    [CTRL]          = E1000_CTRL_FD | E1000_CTRL_LRST | E1000_CTRL_SPD_1000 |
++                      E1000_CTRL_ADVD3WUC,
++    [STATUS]        = E1000_STATUS_PHYRA | BIT(31),
++    [EECD]          = E1000_EECD_FWE_DIS | E1000_EECD_PRES |
++                      (2 << E1000_EECD_SIZE_EX_SHIFT),
++    [GCR]           = E1000_L0S_ADJUST |
++                      E1000_GCR_CMPL_TMOUT_RESEND |
++                      E1000_GCR_CAP_VER2 |
++                      E1000_L1_ENTRY_LATENCY_MSB |
++                      E1000_L1_ENTRY_LATENCY_LSB,
++    [RXCSUM]        = E1000_RXCSUM_IPOFLD | E1000_RXCSUM_TUOFLD,
++    [TXPBS]         = 0x28,
++    [RXPBS]         = 0x40,
++    [TCTL]          = E1000_TCTL_PSP | (0xF << E1000_CT_SHIFT) |
++                      (0x40 << E1000_COLD_SHIFT) | (0x1 << 26) | (0xA << 28),
++    [TCTL_EXT]      = 0x40 | (0x42 << 10),
++    [DTXCTL]        = E1000_DTXCTL_8023LL | E1000_DTXCTL_SPOOF_INT,
++    [VET]           = ETH_P_VLAN | (ETH_P_VLAN << 16),
++
++    [V2PMAILBOX0 ... V2PMAILBOX0 + IGB_MAX_VF_FUNCTIONS - 1] = E1000_V2PMAILBOX_RSTI,
++    [MBVFIMR]       = 0xFF,
++    [VFRE]          = 0xFF,
++    [VFTE]          = 0xFF,
++    [VMOLR0 ... VMOLR0 + 7] = 0x2600 | E1000_VMOLR_STRCRC,
++    [RPLOLR]        = E1000_RPLOLR_STRCRC,
++    [RLPML]         = 0x2600,
++    [TXCTL0]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL1]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL2]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL3]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL4]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL5]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL6]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL7]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL8]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL9]       = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL10]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL11]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL12]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL13]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL14]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++    [TXCTL15]      = E1000_DCA_TXCTRL_DATA_RRO_EN |
++                     E1000_DCA_TXCTRL_TX_WB_RO_EN |
++                     E1000_DCA_TXCTRL_DESC_RRO_EN,
++};
++
++static void igb_reset(IGBCore *core, bool sw)
++{
++    struct igb_tx *tx;
++    int i;
++
++    timer_del(core->autoneg_timer);
++
++    igb_intrmgr_reset(core);
++
++    memset(core->phy, 0, sizeof core->phy);
++    memcpy(core->phy, igb_phy_reg_init, sizeof igb_phy_reg_init);
++
++    for (i = 0; i < E1000E_MAC_SIZE; i++) {
++        if (sw &&
++            (i == RXPBS || i == TXPBS ||
++             (i >= EITR0 && i < EITR0 + IGB_INTR_NUM))) {
++            continue;
++        }
++
++        core->mac[i] = i < ARRAY_SIZE(igb_mac_reg_init) ?
++                       igb_mac_reg_init[i] : 0;
++    }
++
++    if (qemu_get_queue(core->owner_nic)->link_down) {
++        igb_link_down(core);
++    }
++
++    e1000x_reset_mac_addr(core->owner_nic, core->mac, core->permanent_mac);
++
++    for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
++        tx = &core->tx[i];
++        net_tx_pkt_reset(tx->tx_pkt);
++        tx->vlan = 0;
++        tx->mss = 0;
++        tx->tse = false;
++        tx->ixsm = false;
++        tx->txsm = false;
++        tx->first = true;
++        tx->skip_cp = false;
++    }
++}
++
++void
++igb_core_reset(IGBCore *core)
++{
++    igb_reset(core, false);
++}
++
++void igb_core_pre_save(IGBCore *core)
++{
++    int i;
++    NetClientState *nc = qemu_get_queue(core->owner_nic);
++
++    /*
++     * If link is down and auto-negotiation is supported and ongoing,
++     * complete auto-negotiation immediately. This allows us to look
++     * at MII_BMSR_AN_COMP to infer link status on load.
++     */
++    if (nc->link_down && igb_have_autoneg(core)) {
++        core->phy[MII_BMSR] |= MII_BMSR_AN_COMP;
++        igb_update_flowctl_status(core);
++    }
++
++    for (i = 0; i < ARRAY_SIZE(core->tx); i++) {
++        if (net_tx_pkt_has_fragments(core->tx[i].tx_pkt)) {
++            core->tx[i].skip_cp = true;
++        }
++    }
++}
++
++int
++igb_core_post_load(IGBCore *core)
++{
++    NetClientState *nc = qemu_get_queue(core->owner_nic);
++
++    /*
++     * nc.link_down can't be migrated, so infer link_down according
++     * to link status bit in core.mac[STATUS].
++     */
++    nc->link_down = (core->mac[STATUS] & E1000_STATUS_LU) == 0;
++
++    return 0;
++}
+diff --git a/hw/net/igb_core.h b/hw/net/igb_core.h
+new file mode 100644
+index 0000000000..814c1e264b
+--- /dev/null
++++ b/hw/net/igb_core.h
+@@ -0,0 +1,146 @@
++/*
++ * Core code for QEMU igb emulation
++ *
++ * Datasheet:
++ * https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eg-gbe-datasheet.pdf
++ *
++ * Copyright (c) 2020-2023 Red Hat, Inc.
++ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ * Akihiko Odaki <akihiko.odaki@daynix.com>
++ * Gal Hammmer <gal.hammer@sap.com>
++ * Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
++ * Dmitry Fleytman <dmitry@daynix.com>
++ * Leonid Bloch <leonid@daynix.com>
++ * Yan Vugenfirer <yan@daynix.com>
++ *
++ * Based on work done by:
++ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
++ * Copyright (c) 2008 Qumranet
++ * Based on work done by:
++ * Copyright (c) 2007 Dan Aloni
++ * Copyright (c) 2004 Antony T Curtis
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HW_NET_IGB_CORE_H
++#define HW_NET_IGB_CORE_H
++
++#define E1000E_MAC_SIZE         (0x8000)
++#define IGB_EEPROM_SIZE         (1024)
++
++#define IGB_INTR_NUM            (25)
++#define IGB_MSIX_VEC_NUM        (10)
++#define IGBVF_MSIX_VEC_NUM      (3)
++#define IGB_NUM_QUEUES          (16)
++
++typedef struct IGBCore IGBCore;
++
++enum { PHY_R = BIT(0),
++       PHY_W = BIT(1),
++       PHY_RW = PHY_R | PHY_W };
++
++typedef struct IGBIntrDelayTimer_st {
++    QEMUTimer *timer;
++    bool running;
++    uint32_t delay_reg;
++    uint32_t delay_resolution_ns;
++    IGBCore *core;
++} IGBIntrDelayTimer;
++
++struct IGBCore {
++    uint32_t mac[E1000E_MAC_SIZE];
++    uint16_t phy[MAX_PHY_REG_ADDRESS + 1];
++    uint16_t eeprom[IGB_EEPROM_SIZE];
++
++    uint8_t rx_desc_len;
++
++    QEMUTimer *autoneg_timer;
++
++    struct igb_tx {
++        uint16_t vlan;  /* VLAN Tag */
++        uint16_t mss;   /* Maximum Segment Size */
++        bool tse;       /* TCP/UDP Segmentation Enable */
++        bool ixsm;      /* Insert IP Checksum */
++        bool txsm;      /* Insert TCP/UDP Checksum */
++
++        bool first;
++        bool skip_cp;
++
++        struct NetTxPkt *tx_pkt;
++    } tx[IGB_NUM_QUEUES];
++
++    struct NetRxPkt *rx_pkt;
++
++    bool has_vnet;
++    int max_queue_num;
++
++    IGBIntrDelayTimer eitr[IGB_INTR_NUM];
++
++    VMChangeStateEntry *vmstate;
++
++    uint32_t eitr_guest_value[IGB_INTR_NUM];
++
++    uint8_t permanent_mac[ETH_ALEN];
++
++    NICState *owner_nic;
++    PCIDevice *owner;
++    void (*owner_start_recv)(PCIDevice *d);
++
++    int64_t timadj;
++};
++
++void
++igb_core_write(IGBCore *core, hwaddr addr, uint64_t val, unsigned size);
++
++uint64_t
++igb_core_read(IGBCore *core, hwaddr addr, unsigned size);
++
++void
++igb_core_pci_realize(IGBCore        *regs,
++                     const uint16_t *eeprom_templ,
++                     uint32_t        eeprom_size,
++                     const uint8_t  *macaddr);
++
++void
++igb_core_reset(IGBCore *core);
++
++void
++igb_core_pre_save(IGBCore *core);
++
++int
++igb_core_post_load(IGBCore *core);
++
++void
++igb_core_set_link_status(IGBCore *core);
++
++void
++igb_core_pci_uninit(IGBCore *core);
++
++bool
++igb_can_receive(IGBCore *core);
++
++ssize_t
++igb_receive(IGBCore *core, const uint8_t *buf, size_t size);
++
++ssize_t
++igb_receive_iov(IGBCore *core, const struct iovec *iov, int iovcnt);
++
++void
++igb_start_recv(IGBCore *core);
++
 +#endif
-+#define E1000_EECD_AUTO_RD          0x00000200  /* EEPROM Auto Read done */
-+#define E1000_EECD_SIZE_EX_MASK     0x00007800  /* EEprom Size */
-+#define E1000_EECD_SIZE_EX_SHIFT    11
-+#define E1000_EECD_NVADDS    0x00018000 /* NVM Address Size */
-+#define E1000_EECD_SELSHAD   0x00020000 /* Select Shadow RAM */
-+#define E1000_EECD_INITSRAM  0x00040000 /* Initialize Shadow RAM */
-+#define E1000_EECD_FLUPD     0x00080000 /* Update FLASH */
-+#define E1000_EECD_AUPDEN    0x00100000 /* Enable Autonomous FLASH update */
-+#define E1000_EECD_SHADV     0x00200000 /* Shadow RAM Data Valid */
-+#define E1000_EECD_SEC1VAL   0x00400000 /* Sector One Valid */
+diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
+new file mode 100644
+index 0000000000..00934d4f20
+--- /dev/null
++++ b/hw/net/igb_regs.h
+@@ -0,0 +1,648 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * This is copied + edited from kernel header files in
++ * drivers/net/ethernet/intel/igb
++ */
 +
++#ifndef HW_IGB_REGS_H_
++#define HW_IGB_REGS_H_
 +
-+#define E1000_EECD_SECVAL_SHIFT      22
-+#define E1000_STM_OPCODE     0xDB00
-+#define E1000_HICR_FW_RESET  0xC0
++#include "e1000x_regs.h"
 +
-+#define E1000_SHADOW_RAM_WORDS     2048
-+#define E1000_ICH_NVM_SIG_WORD     0x13
-+#define E1000_ICH_NVM_SIG_MASK     0xC0
++/* from igb/e1000_hw.h */
 +
-+/* MDI Control */
-+#define E1000_MDIC_DATA_MASK 0x0000FFFF
-+#define E1000_MDIC_REG_MASK  0x001F0000
-+#define E1000_MDIC_REG_SHIFT 16
-+#define E1000_MDIC_PHY_MASK  0x03E00000
-+#define E1000_MDIC_PHY_SHIFT 21
-+#define E1000_MDIC_OP_WRITE  0x04000000
-+#define E1000_MDIC_OP_READ   0x08000000
-+#define E1000_MDIC_READY     0x10000000
-+#define E1000_MDIC_INT_EN    0x20000000
-+#define E1000_MDIC_ERROR     0x40000000
++#define E1000_DEV_ID_82576                 0x10C9
++#define E1000_DEV_ID_82576_FIBER           0x10E6
++#define E1000_DEV_ID_82576_SERDES          0x10E7
++#define E1000_DEV_ID_82576_QUAD_COPPER             0x10E8
++#define E1000_DEV_ID_82576_QUAD_COPPER_ET2 0x1526
++#define E1000_DEV_ID_82576_NS                      0x150A
++#define E1000_DEV_ID_82576_NS_SERDES               0x1518
++#define E1000_DEV_ID_82576_SERDES_QUAD             0x150D
 +
-+/* Rx Interrupt Delay Timer */
-+#define E1000_RDTR_FPD       BIT(31)
++/* Context Descriptor */
++struct e1000_adv_tx_context_desc {
++    uint32_t vlan_macip_lens;
++    uint32_t seqnum_seed;
++    uint32_t type_tucmd_mlhl;
++    uint32_t mss_l4len_idx;
++};
 +
-+/* Tx Interrupt Delay Timer */
-+#define E1000_TIDV_FPD       BIT(31)
++/* Advanced Transmit Descriptor */
++union e1000_adv_tx_desc {
++    struct {
++        uint64_t buffer_addr;     /* Address of descriptor's data buffer */
++        uint32_t cmd_type_len;
++        uint32_t olinfo_status;
++    } read;
++    struct {
++        uint64_t rsvd;            /* Reserved */
++        uint32_t nxtseq_seed;
++        uint32_t status;
++    } wb;
++};
 +
-+/* Delay increments in nanoseconds for delayed interrupts registers */
-+#define E1000_INTR_DELAY_NS_RES (1024)
++#define E1000_ADVTXD_DTYP_CTXT  0x00200000 /* Advanced Context Descriptor */
++#define E1000_ADVTXD_DTYP_DATA  0x00300000 /* Advanced Data Descriptor */
++#define E1000_ADVTXD_DCMD_DEXT  0x20000000 /* Descriptor Extension (1=Adv) */
++#define E1000_ADVTXD_DCMD_TSE   0x80000000 /* TCP/UDP Segmentation Enable */
 +
-+/* Delay increments in nanoseconds for interrupt throttling registers */
-+#define E1000_INTR_THROTTLING_NS_RES (256)
++#define E1000_ADVTXD_POTS_IXSM  0x00000100 /* Insert TCP/UDP Checksum */
++#define E1000_ADVTXD_POTS_TXSM  0x00000200 /* Insert TCP/UDP Checksum */
 +
-+/* EEPROM Commands - Microwire */
-+#define EEPROM_READ_OPCODE_MICROWIRE  0x6  /* EEPROM read opcode */
-+#define EEPROM_WRITE_OPCODE_MICROWIRE 0x5  /* EEPROM write opcode */
-+#define EEPROM_ERASE_OPCODE_MICROWIRE 0x7  /* EEPROM erase opcode */
-+#define EEPROM_EWEN_OPCODE_MICROWIRE  0x13 /* EEPROM erase/write enable */
-+#define EEPROM_EWDS_OPCODE_MICROWIRE  0x10 /* EEPROM erast/write disable */
++#define E1000_TXD_POPTS_IXSM 0x00000001 /* Insert IP checksum */
++#define E1000_TXD_POPTS_TXSM 0x00000002 /* Insert TCP/UDP checksum */
 +
-+/* EEPROM Word Offsets */
-+#define EEPROM_COMPAT                 0x0003
-+#define EEPROM_ID_LED_SETTINGS        0x0004
-+#define EEPROM_VERSION                0x0005
-+#define EEPROM_SERDES_AMPLITUDE       0x0006 /* For SERDES output amplitude adjustment. */
-+#define EEPROM_PHY_CLASS_WORD         0x0007
-+#define EEPROM_INIT_CONTROL1_REG      0x000A
-+#define EEPROM_INIT_CONTROL2_REG      0x000F
-+#define EEPROM_SWDEF_PINS_CTRL_PORT_1 0x0010
-+#define EEPROM_INIT_CONTROL3_PORT_B   0x0014
-+#define EEPROM_INIT_3GIO_3            0x001A
-+#define EEPROM_SWDEF_PINS_CTRL_PORT_0 0x0020
-+#define EEPROM_INIT_CONTROL3_PORT_A   0x0024
-+#define EEPROM_CFG                    0x0012
-+#define EEPROM_FLASH_VERSION          0x0032
-+#define EEPROM_CHECKSUM_REG           0x003F
++/* Receive Descriptor - Advanced */
++union e1000_adv_rx_desc {
++    struct {
++        uint64_t pkt_addr;                /* Packet Buffer Address */
++        uint64_t hdr_addr;                /* Header Buffer Address */
++    } read;
++    struct {
++        struct {
++            struct {
++                uint16_t pkt_info;        /* RSS Type, Packet Type */
++                uint16_t hdr_info;        /* Split Head, Buffer Length */
++            } lo_dword;
++            union {
++                uint32_t rss;             /* RSS Hash */
++                struct {
++                        uint16_t ip_id;   /* IP Id */
++                        uint16_t csum;    /* Packet Checksum */
++                } csum_ip;
++            } hi_dword;
++        } lower;
++        struct {
++            uint32_t status_error;        /* Ext Status/Error */
++            uint16_t length;              /* Packet Length */
++            uint16_t vlan;                /* VLAN tag */
++        } upper;
++    } wb;  /* writeback */
++};
 +
-+#define E1000_EEPROM_CFG_DONE         0x00040000   /* MNG config cycle done */
-+#define E1000_EEPROM_CFG_DONE_PORT_1  0x00080000   /* ...for second port */
++/* from igb/e1000_phy.h */
 +
-+/* HH Time Sync */
-+#define E1000_TSYNCTXCTL_MAX_ALLOWED_DLY_MASK 0x0000F000 /* max delay */
-+#define E1000_TSYNCTXCTL_SYNC_COMP            0x40000000 /* sync complete */
-+#define E1000_TSYNCTXCTL_START_SYNC           0x80000000 /* initiate sync */
++/* IGP01E1000 Specific Registers */
++#define IGP01E1000_PHY_PORT_CONFIG        0x10 /* Port Config */
++#define IGP01E1000_PHY_PORT_STATUS        0x11 /* Status */
++#define IGP01E1000_PHY_PORT_CTRL          0x12 /* Control */
++#define IGP01E1000_PHY_LINK_HEALTH        0x13 /* PHY Link Health */
++#define IGP02E1000_PHY_POWER_MGMT         0x19 /* Power Management */
++#define IGP01E1000_PHY_PAGE_SELECT        0x1F /* Page Select */
++#define IGP01E1000_PHY_PCS_INIT_REG       0x00B4
++#define IGP01E1000_PHY_POLARITY_MASK      0x0078
++#define IGP01E1000_PSCR_AUTO_MDIX         0x1000
++#define IGP01E1000_PSCR_FORCE_MDI_MDIX    0x2000 /* 0=MDI, 1=MDIX */
++#define IGP01E1000_PSCFR_SMART_SPEED      0x0080
 +
-+#define E1000_TSYNCTXCTL_VALID                0x00000001 /* Tx timestamp valid */
-+#define E1000_TSYNCTXCTL_ENABLED              0x00000010 /* enable Tx timestamping */
++/* Enable flexible speed on link-up */
++#define IGP02E1000_PM_D0_LPLU             0x0002 /* For D0a states */
++#define IGP02E1000_PM_D3_LPLU             0x0004 /* For all other states */
++#define IGP01E1000_PLHR_SS_DOWNGRADE      0x8000
++#define IGP01E1000_PSSR_POLARITY_REVERSED 0x0002
++#define IGP01E1000_PSSR_MDIX              0x0800
++#define IGP01E1000_PSSR_SPEED_MASK        0xC000
++#define IGP01E1000_PSSR_SPEED_1000MBPS    0xC000
++#define IGP02E1000_PHY_CHANNEL_NUM        4
++#define IGP02E1000_PHY_AGC_A              0x11B1
++#define IGP02E1000_PHY_AGC_B              0x12B1
++#define IGP02E1000_PHY_AGC_C              0x14B1
++#define IGP02E1000_PHY_AGC_D              0x18B1
++#define IGP02E1000_AGC_LENGTH_SHIFT       9   /* Course - 15:13, Fine - 12:9 */
++#define IGP02E1000_AGC_LENGTH_MASK        0x7F
++#define IGP02E1000_AGC_RANGE              15
 +
-+#define E1000_TSYNCRXCTL_VALID                0x00000001 /* Rx timestamp valid */
-+#define E1000_TSYNCRXCTL_TYPE_MASK            0x0000000E /* Rx type mask */
-+#define E1000_TSYNCRXCTL_TYPE_L2_V2           0x00
-+#define E1000_TSYNCRXCTL_TYPE_L4_V1           0x02
-+#define E1000_TSYNCRXCTL_TYPE_L2_L4_V2        0x04
-+#define E1000_TSYNCRXCTL_TYPE_ALL             0x08
-+#define E1000_TSYNCRXCTL_TYPE_EVENT_V2        0x0A
-+#define E1000_TSYNCRXCTL_ENABLED              0x00000010 /* enable Rx timestamping */
-+#define E1000_TSYNCRXCTL_SYSCFI               0x00000020 /* Sys clock frequency */
++/* from igb/igb.h */
 +
-+#define E1000_RXMTRL_PTP_V1_SYNC_MESSAGE      0x00000000
-+#define E1000_RXMTRL_PTP_V1_DELAY_REQ_MESSAGE 0x00010000
++#define E1000_PCS_CFG_IGN_SD     1
 +
-+#define E1000_RXMTRL_PTP_V2_SYNC_MESSAGE      0x00000000
-+#define E1000_RXMTRL_PTP_V2_DELAY_REQ_MESSAGE 0x01000000
++/* Interrupt defines */
++#define IGB_START_ITR            648 /* ~6000 ints/sec */
++#define IGB_4K_ITR               980
++#define IGB_20K_ITR              196
++#define IGB_70K_ITR              56
 +
-+#define E1000_TIMINCA_INCPERIOD_SHIFT         24
-+#define E1000_TIMINCA_INCVALUE_MASK           0x00FFFFFF
++/* TX/RX descriptor defines */
++#define IGB_DEFAULT_TXD          256
++#define IGB_DEFAULT_TX_WORK      128
++#define IGB_MIN_TXD              80
++#define IGB_MAX_TXD              4096
 +
-+/* PCI Express Control */
-+/* 3GIO Control Register - GCR (0x05B00; RW) */
-+#define E1000_L0S_ADJUST              (1 << 9)
-+#define E1000_L1_ENTRY_LATENCY_MSB    (1 << 23)
-+#define E1000_L1_ENTRY_LATENCY_LSB    (1 << 25 | 1 << 26)
++#define IGB_DEFAULT_RXD          256
++#define IGB_MIN_RXD              80
++#define IGB_MAX_RXD              4096
 +
-+#define E1000_L0S_ADJUST              (1 << 9)
-+#define E1000_L1_ENTRY_LATENCY_MSB    (1 << 23)
-+#define E1000_L1_ENTRY_LATENCY_LSB    (1 << 25 | 1 << 26)
++#define IGB_DEFAULT_ITR           3 /* dynamic */
++#define IGB_MAX_ITR_USECS         10000
++#define IGB_MIN_ITR_USECS         10
++#define NON_Q_VECTORS             1
++#define MAX_Q_VECTORS             8
++#define MAX_MSIX_ENTRIES          10
 +
-+#define E1000_GCR_RO_BITS             (1 << 23 | 1 << 25 | 1 << 26)
++/* Transmit and receive queues */
++#define IGB_MAX_RX_QUEUES          8
++#define IGB_MAX_RX_QUEUES_82575    4
++#define IGB_MAX_RX_QUEUES_I211     2
++#define IGB_MAX_TX_QUEUES          8
++#define IGB_MAX_VF_MC_ENTRIES      30
++#define IGB_MAX_VF_FUNCTIONS       8
++#define IGB_MAX_VFTA_ENTRIES       128
++#define IGB_82576_VF_DEV_ID        0x10CA
++#define IGB_I350_VF_DEV_ID         0x1520
 +
-+/* MSI-X PBA Clear register */
-+#define E1000_PBACLR_VALID_MASK       (BIT(5) - 1)
++/* from igb/e1000_82575.h */
 +
-+/* Transmit Descriptor bit definitions */
-+#define E1000_TXD_DTYP_D     0x00100000 /* Data Descriptor */
-+#define E1000_TXD_DTYP_C     0x00000000 /* Context Descriptor */
-+#define E1000_TXD_CMD_EOP    0x01000000 /* End of Packet */
-+#define E1000_TXD_CMD_IFCS   0x02000000 /* Insert FCS (Ethernet CRC) */
-+#define E1000_TXD_CMD_IC     0x04000000 /* Insert Checksum */
-+#define E1000_TXD_CMD_RS     0x08000000 /* Report Status */
-+#define E1000_TXD_CMD_RPS    0x10000000 /* Report Packet Sent */
-+#define E1000_TXD_CMD_DEXT   0x20000000 /* Descriptor extension (0 = legacy) */
-+#define E1000_TXD_CMD_VLE    0x40000000 /* Add VLAN tag */
-+#define E1000_TXD_CMD_IDE    0x80000000 /* Enable Tidv register */
-+#define E1000_TXD_STAT_DD    0x00000001 /* Descriptor Done */
-+#define E1000_TXD_STAT_EC    0x00000002 /* Excess Collisions */
-+#define E1000_TXD_STAT_LC    0x00000004 /* Late Collisions */
-+#define E1000_TXD_STAT_TU    0x00000008 /* Transmit underrun */
-+#define E1000_TXD_CMD_TCP    0x01000000 /* TCP packet */
-+#define E1000_TXD_CMD_IP     0x02000000 /* IP packet */
-+#define E1000_TXD_CMD_TSE    0x04000000 /* TCP Seg enable */
-+#define E1000_TXD_CMD_SNAP   0x40000000 /* Update SNAP header */
-+#define E1000_TXD_STAT_TC    0x00000004 /* Tx Underrun */
-+#define E1000_TXD_EXTCMD_TSTAMP 0x00000010 /* IEEE1588 Timestamp packet */
++#define E1000_MRQC_ENABLE_RSS_MQ            0x00000002
++#define E1000_MRQC_ENABLE_VMDQ              0x00000003
++#define E1000_MRQC_RSS_FIELD_IPV4_UDP       0x00400000
++#define E1000_MRQC_ENABLE_VMDQ_RSS_MQ       0x00000005
++#define E1000_MRQC_RSS_FIELD_IPV6_UDP       0x00800000
++#define E1000_MRQC_RSS_FIELD_IPV6_UDP_EX    0x01000000
++
++/* Additional Receive Descriptor Control definitions */
++#define E1000_RXDCTL_QUEUE_ENABLE  0x02000000 /* Enable specific Rx Queue */
++
++/* Direct Cache Access (DCA) definitions */
++#define E1000_DCA_CTRL_DCA_MODE_DISABLE 0x01 /* DCA Disable */
++#define E1000_DCA_CTRL_DCA_MODE_CB2     0x02 /* DCA Mode CB2 */
++
++#define E1000_DCA_RXCTRL_CPUID_MASK 0x0000001F /* Rx CPUID Mask */
++#define E1000_DCA_RXCTRL_DESC_DCA_EN BIT(5) /* DCA Rx Desc enable */
++#define E1000_DCA_RXCTRL_HEAD_DCA_EN BIT(6) /* DCA Rx Desc header enable */
++#define E1000_DCA_RXCTRL_DATA_DCA_EN BIT(7) /* DCA Rx Desc payload enable */
++#define E1000_DCA_RXCTRL_DESC_RRO_EN BIT(9) /* DCA Rx rd Desc Relax Order */
++
++#define E1000_DCA_TXCTRL_CPUID_MASK 0x0000001F /* Tx CPUID Mask */
++#define E1000_DCA_TXCTRL_DESC_DCA_EN BIT(5) /* DCA Tx Desc enable */
++#define E1000_DCA_TXCTRL_DESC_RRO_EN BIT(9) /* Tx rd Desc Relax Order */
++#define E1000_DCA_TXCTRL_TX_WB_RO_EN BIT(11) /* Tx Desc writeback RO bit */
++#define E1000_DCA_TXCTRL_DATA_RRO_EN BIT(13) /* Tx rd data Relax Order */
++
++/* Additional DCA related definitions, note change in position of CPUID */
++#define E1000_DCA_TXCTRL_CPUID_MASK_82576 0xFF000000 /* Tx CPUID Mask */
++#define E1000_DCA_RXCTRL_CPUID_MASK_82576 0xFF000000 /* Rx CPUID Mask */
++#define E1000_DCA_TXCTRL_CPUID_SHIFT 24 /* Tx CPUID now in the last byte */
++#define E1000_DCA_RXCTRL_CPUID_SHIFT 24 /* Rx CPUID now in the last byte */
++
++#define E1000_DTXSWC_MAC_SPOOF_MASK   0x000000FF /* Per VF MAC spoof control */
++#define E1000_DTXSWC_VLAN_SPOOF_MASK  0x0000FF00 /* Per VF VLAN spoof control */
++#define E1000_DTXSWC_LLE_MASK         0x00FF0000 /* Per VF Local LB enables */
++#define E1000_DTXSWC_VLAN_SPOOF_SHIFT 8
++#define E1000_DTXSWC_VMDQ_LOOPBACK_EN BIT(31)  /* global VF LB enable */
++
++/* Easy defines for setting default pool, would normally be left a zero */
++#define E1000_VT_CTL_DEFAULT_POOL_SHIFT 7
++#define E1000_VT_CTL_DEFAULT_POOL_MASK  (0x7 << E1000_VT_CTL_DEFAULT_POOL_SHIFT)
++
++/* Other useful VMD_CTL register defines */
++#define E1000_VT_CTL_IGNORE_MAC         BIT(28)
++#define E1000_VT_CTL_DISABLE_DEF_POOL   BIT(29)
++#define E1000_VT_CTL_VM_REPL_EN         BIT(30)
++
++/* Per VM Offload register setup */
++#define E1000_VMOLR_RLPML_MASK 0x00003FFF /* Long Packet Maximum Length mask */
++#define E1000_VMOLR_LPE        0x00010000 /* Accept Long packet */
++#define E1000_VMOLR_RSSE       0x00020000 /* Enable RSS */
++#define E1000_VMOLR_AUPE       0x01000000 /* Accept untagged packets */
++#define E1000_VMOLR_ROMPE      0x02000000 /* Accept overflow multicast */
++#define E1000_VMOLR_ROPE       0x04000000 /* Accept overflow unicast */
++#define E1000_VMOLR_BAM        0x08000000 /* Accept Broadcast packets */
++#define E1000_VMOLR_MPME       0x10000000 /* Multicast promiscuous mode */
++#define E1000_VMOLR_STRVLAN    0x40000000 /* Vlan stripping enable */
++#define E1000_VMOLR_STRCRC     0x80000000 /* CRC stripping enable */
++
++#define E1000_DVMOLR_HIDEVLAN  0x20000000 /* Hide vlan enable */
++#define E1000_DVMOLR_STRVLAN   0x40000000 /* Vlan stripping enable */
++#define E1000_DVMOLR_STRCRC    0x80000000 /* CRC stripping enable */
++
++#define E1000_VLVF_ARRAY_SIZE     32
++#define E1000_VLVF_VLANID_MASK    0x00000FFF
++#define E1000_VLVF_POOLSEL_SHIFT  12
++#define E1000_VLVF_POOLSEL_MASK   (0xFF << E1000_VLVF_POOLSEL_SHIFT)
++#define E1000_VLVF_LVLAN          0x00100000
++#define E1000_VLVF_VLANID_ENABLE  0x80000000
++
++#define E1000_VMVIR_VLANA_DEFAULT      0x40000000 /* Always use default VLAN */
++#define E1000_VMVIR_VLANA_NEVER        0x80000000 /* Never insert VLAN tag */
++
++#define E1000_IOVCTL 0x05BBC
++#define E1000_IOVCTL_REUSE_VFQ 0x00000001
++
++#define E1000_RPLOLR_STRVLAN   0x40000000
++#define E1000_RPLOLR_STRCRC    0x80000000
++
++#define E1000_DTXCTL_8023LL     0x0004
++#define E1000_DTXCTL_VLAN_ADDED 0x0008
++#define E1000_DTXCTL_OOS_ENABLE 0x0010
++#define E1000_DTXCTL_MDP_EN     0x0020
++#define E1000_DTXCTL_SPOOF_INT  0x0040
++
++/* from igb/e1000_defines.h */
++
++#define E1000_IVAR_VALID     0x80
++#define E1000_GPIE_NSICR     0x00000001
++#define E1000_GPIE_MSIX_MODE 0x00000010
++#define E1000_GPIE_EIAME     0x40000000
++#define E1000_GPIE_PBA       0x80000000
 +
 +/* Transmit Control */
-+#define E1000_TCTL_RST    0x00000001    /* software reset */
 +#define E1000_TCTL_EN     0x00000002    /* enable tx */
-+#define E1000_TCTL_BCE    0x00000004    /* busy check enable */
 +#define E1000_TCTL_PSP    0x00000008    /* pad short packets */
 +#define E1000_TCTL_CT     0x00000ff0    /* collision threshold */
 +#define E1000_TCTL_COLD   0x003ff000    /* collision distance */
-+#define E1000_TCTL_SWXOFF 0x00400000    /* SW Xoff transmission */
-+#define E1000_TCTL_PBE    0x00800000    /* Packet Burst Enable */
 +#define E1000_TCTL_RTLC   0x01000000    /* Re-transmit on late collision */
-+#define E1000_TCTL_NRTU   0x02000000    /* No Re-transmit on underrun */
-+#define E1000_TCTL_MULR   0x10000000    /* Multiple request support */
 +
-+/* Legacy Receive Descriptor */
-+struct e1000_rx_desc {
-+    uint64_t buffer_addr; /* Address of the descriptor's data buffer */
-+    uint16_t length;     /* Length of data DMAed into data buffer */
-+    uint16_t csum;       /* Packet checksum */
-+    uint8_t status;      /* Descriptor status */
-+    uint8_t errors;      /* Descriptor Errors */
-+    uint16_t special;
++/* Collision related configuration parameters */
++#define E1000_COLLISION_THRESHOLD       15
++#define E1000_CT_SHIFT                  4
++#define E1000_COLLISION_DISTANCE        63
++#define E1000_COLD_SHIFT                12
++
++#define E1000_RAH_POOL_MASK 0x03FC0000
++#define E1000_RAH_POOL_1 0x00040000
++
++#define E1000_ICR_VMMB         0x00000100 /* VM MB event */
++#define E1000_ICR_TS           0x00080000 /* Time Sync Interrupt */
++#define E1000_ICR_DRSTA        0x40000000 /* Device Reset Asserted */
++/* If this bit asserted, the driver should claim the interrupt */
++#define E1000_ICR_INT_ASSERTED 0x80000000
++/* LAN connected device generates an interrupt */
++#define E1000_ICR_DOUTSYNC     0x10000000 /* NIC DMA out of sync */
++
++/* Extended Interrupt Cause Read */
++#define E1000_EICR_RX_QUEUE0    0x00000001 /* Rx Queue 0 Interrupt */
++#define E1000_EICR_RX_QUEUE1    0x00000002 /* Rx Queue 1 Interrupt */
++#define E1000_EICR_RX_QUEUE2    0x00000004 /* Rx Queue 2 Interrupt */
++#define E1000_EICR_RX_QUEUE3    0x00000008 /* Rx Queue 3 Interrupt */
++#define E1000_EICR_TX_QUEUE0    0x00000100 /* Tx Queue 0 Interrupt */
++#define E1000_EICR_TX_QUEUE1    0x00000200 /* Tx Queue 1 Interrupt */
++#define E1000_EICR_TX_QUEUE2    0x00000400 /* Tx Queue 2 Interrupt */
++#define E1000_EICR_TX_QUEUE3    0x00000800 /* Tx Queue 3 Interrupt */
++#define E1000_EICR_OTHER        0x80000000 /* Interrupt Cause Active */
++
++/* Extended Interrupt Cause Set */
++/* E1000_EITR_CNT_IGNR is only for 82576 and newer */
++#define E1000_EITR_CNT_IGNR     0x80000000 /* Don't reset counters on write */
++
++/* PCI Express Control */
++#define E1000_GCR_CMPL_TMOUT_MASK       0x0000F000
++#define E1000_GCR_CMPL_TMOUT_10ms       0x00001000
++#define E1000_GCR_CMPL_TMOUT_RESEND     0x00010000
++#define E1000_GCR_CAP_VER2              0x00040000
++
++#define PHY_REVISION_MASK      0xFFFFFFF0
++#define MAX_PHY_REG_ADDRESS    0x1F  /* 5 bit address bus (0-0x1F) */
++#define MAX_PHY_MULTI_PAGE_REG 0xF
++
++#define IGP03E1000_E_PHY_ID 0x02A80390
++
++/* from igb/e1000_mbox.h */
++
++#define E1000_P2VMAILBOX_STS  0x00000001 /* Initiate message send to VF */
++#define E1000_P2VMAILBOX_ACK  0x00000002 /* Ack message recv'd from VF */
++#define E1000_P2VMAILBOX_VFU  0x00000004 /* VF owns the mailbox buffer */
++#define E1000_P2VMAILBOX_PFU  0x00000008 /* PF owns the mailbox buffer */
++#define E1000_P2VMAILBOX_RVFU 0x00000010 /* Reset VFU - used when VF stuck */
++
++#define E1000_MBVFICR_VFREQ_MASK 0x000000FF /* bits for VF messages */
++#define E1000_MBVFICR_VFREQ_VF1  0x00000001 /* bit for VF 1 message */
++#define E1000_MBVFICR_VFACK_MASK 0x00FF0000 /* bits for VF acks */
++#define E1000_MBVFICR_VFACK_VF1  0x00010000 /* bit for VF 1 ack */
++
++#define E1000_V2PMAILBOX_SIZE 16 /* 16 32 bit words - 64 bytes */
++
++/*
++ * If it's a E1000_VF_* msg then it originates in the VF and is sent to the
++ * PF.  The reverse is true if it is E1000_PF_*.
++ * Message ACK's are the value or'd with 0xF0000000
++ */
++/* Messages below or'd with this are the ACK */
++#define E1000_VT_MSGTYPE_ACK 0x80000000
++/* Messages below or'd with this are the NACK */
++#define E1000_VT_MSGTYPE_NACK 0x40000000
++/* Indicates that VF is still clear to send requests */
++#define E1000_VT_MSGTYPE_CTS 0x20000000
++#define E1000_VT_MSGINFO_SHIFT 16
++/* bits 23:16 are used for exra info for certain messages */
++#define E1000_VT_MSGINFO_MASK (0xFF << E1000_VT_MSGINFO_SHIFT)
++
++#define E1000_VF_RESET                 0x01 /* VF requests reset */
++#define E1000_VF_SET_MAC_ADDR          0x02 /* VF requests to set MAC addr */
++/* VF requests to clear all unicast MAC filters */
++#define E1000_VF_MAC_FILTER_CLR        (0x01 << E1000_VT_MSGINFO_SHIFT)
++/* VF requests to add unicast MAC filter */
++#define E1000_VF_MAC_FILTER_ADD        (0x02 << E1000_VT_MSGINFO_SHIFT)
++#define E1000_VF_SET_MULTICAST         0x03 /* VF requests to set MC addr */
++#define E1000_VF_SET_VLAN              0x04 /* VF requests to set VLAN */
++#define E1000_VF_SET_LPE               0x05 /* VF requests to set VMOLR.LPE */
++#define E1000_VF_SET_PROMISC           0x06 /*VF requests to clear VMOLR.ROPE/MPME*/
++#define E1000_VF_SET_PROMISC_MULTICAST (0x02 << E1000_VT_MSGINFO_SHIFT)
++
++#define E1000_PF_CONTROL_MSG 0x0100 /* PF control message */
++
++/* from igb/e1000_regs.h */
++
++#define E1000_EICR      0x01580  /* Ext. Interrupt Cause Read - R/clr */
++#define E1000_EITR(_n)  (0x01680 + (0x4 * (_n)))
++#define E1000_EICS      0x01520  /* Ext. Interrupt Cause Set - W0 */
++#define E1000_EIMS      0x01524  /* Ext. Interrupt Mask Set/Read - RW */
++#define E1000_EIMC      0x01528  /* Ext. Interrupt Mask Clear - WO */
++#define E1000_EIAC      0x0152C  /* Ext. Interrupt Auto Clear - RW */
++#define E1000_EIAM      0x01530  /* Ext. Interrupt Ack Auto Clear Mask - RW */
++#define E1000_GPIE      0x01514  /* General Purpose Interrupt Enable; RW */
++#define E1000_IVAR0     0x01700  /* Interrupt Vector Allocation Register - RW */
++#define E1000_IVAR_MISC 0x01740  /* Interrupt Vector Allocation Register (last) - RW */
++#define E1000_FRTIMER   0x01048  /* Free Running Timer - RW */
++#define E1000_FCRTV     0x02460  /* Flow Control Refresh Timer Value - RW */
++
++#define E1000_RQDPC(_n) (0x0C030 + ((_n) * 0x40))
++
++#define E1000_RXPBS 0x02404  /* Rx Packet Buffer Size - RW */
++#define E1000_TXPBS 0x03404  /* Tx Packet Buffer Size - RW */
++
++#define E1000_DTXCTL 0x03590  /* DMA TX Control - RW */
++
++#define E1000_HTCBDPC     0x04124  /* Host TX Circuit Breaker Dropped Count */
++#define E1000_RLPML       0x05004  /* RX Long Packet Max Length */
++#define E1000_RA2         0x054E0  /* 2nd half of Rx address array - RW Array */
++#define E1000_PSRTYPE(_i) (0x05480 + ((_i) * 4))
++#define E1000_VT_CTL   0x0581C  /* VMDq Control - RW */
++
++/* VT Registers */
++#define E1000_MBVFICR   0x00C80 /* Mailbox VF Cause - RWC */
++#define E1000_MBVFIMR   0x00C84 /* Mailbox VF int Mask - RW */
++#define E1000_VFLRE     0x00C88 /* VF Register Events - RWC */
++#define E1000_VFRE      0x00C8C /* VF Receive Enables */
++#define E1000_VFTE      0x00C90 /* VF Transmit Enables */
++#define E1000_QDE       0x02408 /* Queue Drop Enable - RW */
++#define E1000_DTXSWC    0x03500 /* DMA Tx Switch Control - RW */
++#define E1000_WVBR      0x03554 /* VM Wrong Behavior - RWS */
++#define E1000_RPLOLR    0x05AF0 /* Replication Offload - RW */
++#define E1000_UTA       0x0A000 /* Unicast Table Array - RW */
++#define E1000_IOVTCL    0x05BBC /* IOV Control Register */
++#define E1000_TXSWC     0x05ACC /* Tx Switch Control */
++#define E1000_LVMMC     0x03548 /* Last VM Misbehavior cause */
++/* These act per VF so an array friendly macro is used */
++#define E1000_P2VMAILBOX(_n)   (0x00C00 + (4 * (_n)))
++#define E1000_VMBMEM(_n)       (0x00800 + (64 * (_n)))
++#define E1000_VMOLR(_n)        (0x05AD0 + (4 * (_n)))
++#define E1000_DVMOLR(_n)       (0x0C038 + (64 * (_n)))
++#define E1000_VLVF(_n)         (0x05D00 + (4 * (_n))) /* VLAN VM Filter */
++#define E1000_VMVIR(_n)        (0x03700 + (4 * (_n)))
++
++/* from igbvf/defines.h */
++
++/* SRRCTL bit definitions */
++#define E1000_SRRCTL_BSIZEPKT_SHIFT            10 /* Shift _right_ */
++#define E1000_SRRCTL_BSIZEHDRSIZE_MASK         0x00000F00
++#define E1000_SRRCTL_BSIZEHDRSIZE_SHIFT        2  /* Shift _left_ */
++#define E1000_SRRCTL_DESCTYPE_ADV_ONEBUF       0x02000000
++#define E1000_SRRCTL_DESCTYPE_HDR_SPLIT_ALWAYS 0x0A000000
++#define E1000_SRRCTL_DESCTYPE_MASK             0x0E000000
++#define E1000_SRRCTL_DROP_EN                   0x80000000
++
++#define E1000_SRRCTL_BSIZEPKT_MASK             0x0000007F
++#define E1000_SRRCTL_BSIZEHDR_MASK             0x00003F00
++
++/* from igbvf/mbox.h */
++
++#define E1000_V2PMAILBOX_REQ      0x00000001 /* Request for PF Ready bit */
++#define E1000_V2PMAILBOX_ACK      0x00000002 /* Ack PF message received */
++#define E1000_V2PMAILBOX_VFU      0x00000004 /* VF owns the mailbox buffer */
++#define E1000_V2PMAILBOX_PFU      0x00000008 /* PF owns the mailbox buffer */
++#define E1000_V2PMAILBOX_PFSTS    0x00000010 /* PF wrote a message in the MB */
++#define E1000_V2PMAILBOX_PFACK    0x00000020 /* PF ack the previous VF msg */
++#define E1000_V2PMAILBOX_RSTI     0x00000040 /* PF has reset indication */
++#define E1000_V2PMAILBOX_RSTD     0x00000080 /* PF has indicated reset done */
++#define E1000_V2PMAILBOX_R2C_BITS 0x000000B0 /* All read to clear bits */
++
++#define E1000_VFMAILBOX_SIZE      16 /* 16 32 bit words - 64 bytes */
++
++/*
++ * If it's a E1000_VF_* msg then it originates in the VF and is sent to the
++ * PF.  The reverse is true if it is E1000_PF_*.
++ * Message ACK's are the value or'd with 0xF0000000
++ */
++/* Messages below or'd with this are the ACK */
++#define E1000_VT_MSGTYPE_ACK      0x80000000
++/* Messages below or'd with this are the NACK */
++#define E1000_VT_MSGTYPE_NACK     0x40000000
++/* Indicates that VF is still clear to send requests */
++#define E1000_VT_MSGTYPE_CTS      0x20000000
++
++/* We have a total wait time of 1s for vf mailbox posted messages */
++#define E1000_VF_MBX_INIT_TIMEOUT 2000 /* retry count for mbx timeout */
++#define E1000_VF_MBX_INIT_DELAY   500  /* usec delay between retries */
++
++#define E1000_VT_MSGINFO_SHIFT    16
++/* bits 23:16 are used for exra info for certain messages */
++#define E1000_VT_MSGINFO_MASK     (0xFF << E1000_VT_MSGINFO_SHIFT)
++
++#define E1000_VF_RESET            0x01 /* VF requests reset */
++#define E1000_VF_SET_MAC_ADDR     0x02 /* VF requests PF to set MAC addr */
++/* VF requests PF to clear all unicast MAC filters */
++#define E1000_VF_MAC_FILTER_CLR   (0x01 << E1000_VT_MSGINFO_SHIFT)
++/* VF requests PF to add unicast MAC filter */
++#define E1000_VF_MAC_FILTER_ADD   (0x02 << E1000_VT_MSGINFO_SHIFT)
++#define E1000_VF_SET_MULTICAST    0x03 /* VF requests PF to set MC addr */
++#define E1000_VF_SET_VLAN         0x04 /* VF requests PF to set VLAN */
++#define E1000_VF_SET_LPE          0x05 /* VF requests PF to set VMOLR.LPE */
++
++#define E1000_PF_CONTROL_MSG      0x0100 /* PF control message */
++
++/* from igbvf/regs.h */
++
++/* Statistics registers */
++#define E1000_VFGPRC   0x00F10
++#define E1000_VFGORC   0x00F18
++#define E1000_VFMPRC   0x00F3C
++#define E1000_VFGPTC   0x00F14
++#define E1000_VFGOTC   0x00F34
++#define E1000_VFGOTLBC 0x00F50
++#define E1000_VFGPTLBC 0x00F44
++#define E1000_VFGORLBC 0x00F48
++#define E1000_VFGPRLBC 0x00F40
++
++/* These act per VF so an array friendly macro is used */
++#define E1000_V2PMAILBOX(_n) (0x00C40 + (4 * (_n)))
++#define E1000_VMBMEM(_n)     (0x00800 + (64 * (_n)))
++
++/* from igbvf/vf.h */
++
++#define E1000_DEV_ID_82576_VF 0x10CA
++
++/* new */
++
++/* Receive Registers */
++
++/* RX Descriptor Base Low; RW */
++#define E1000_RDBAL(_n)    (0x0C000 + (0x40  * (_n)))
++#define E1000_RDBAL_A(_n)  (0x02800 + (0x100 * (_n)))
++
++/* RX Descriptor Base High; RW */
++#define E1000_RDBAH(_n)    (0x0C004 + (0x40  * (_n)))
++#define E1000_RDBAH_A(_n)  (0x02804 + (0x100 * (_n)))
++
++/* RX Descriptor Ring Length; RW */
++#define E1000_RDLEN(_n)    (0x0C008 + (0x40  * (_n)))
++#define E1000_RDLEN_A(_n)  (0x02808 + (0x100 * (_n)))
++
++/* Split and Replication Receive Control; RW */
++#define E1000_SRRCTL(_n)   (0x0C00C + (0x40  * (_n)))
++#define E1000_SRRCTL_A(_n) (0x0280C + (0x100 * (_n)))
++
++/* RX Descriptor Head; RW */
++#define E1000_RDH(_n)      (0x0C010 + (0x40  * (_n)))
++#define E1000_RDH_A(_n)    (0x02810 + (0x100 * (_n)))
++
++/* RX DCA Control; RW */
++#define E1000_RXCTL(_n)    (0x0C014 + (0x40  * (_n)))
++#define E1000_RXCTL_A(_n)  (0x02814 + (0x100 * (_n)))
++
++/* RX Descriptor Tail; RW */
++#define E1000_RDT(_n)      (0x0C018 + (0x40  * (_n)))
++#define E1000_RDT_A(_n)    (0x02818 + (0x100 * (_n)))
++
++/* RX Descriptor Control; RW */
++#define E1000_RXDCTL(_n)   (0x0C028 + (0x40  * (_n)))
++#define E1000_RXDCTL_A(_n) (0x02828 + (0x100 * (_n)))
++
++/* RX Queue Drop Packet Count; RC */
++#define E1000_RQDPC_A(_n)  (0x02830 + (0x100 * (_n)))
++
++/* Transmit Registers */
++
++/* TX Descriptor Base Low; RW */
++#define E1000_TDBAL(_n)    (0x0E000 + (0x40  * (_n)))
++#define E1000_TDBAL_A(_n)  (0x03800 + (0x100 * (_n)))
++
++/* TX Descriptor Base High; RW */
++#define E1000_TDBAH(_n)    (0x0E004 + (0x40  * (_n)))
++#define E1000_TDBAH_A(_n)  (0x03804 + (0x100 * (_n)))
++
++/* TX Descriptor Ring Length; RW */
++#define E1000_TDLEN(_n)    (0x0E008 + (0x40  * (_n)))
++#define E1000_TDLEN_A(_n)  (0x03808 + (0x100 * (_n)))
++
++/* TX Descriptor Head; RW */
++#define E1000_TDH(_n)      (0x0E010 + (0x40  * (_n)))
++#define E1000_TDH_A(_n)    (0x03810 + (0x100 * (_n)))
++
++/* TX DCA Control; RW */
++#define E1000_TXCTL(_n)    (0x0E014 + (0x40  * (_n)))
++#define E1000_TXCTL_A(_n)  (0x03814 + (0x100 * (_n)))
++
++/* TX Descriptor Tail; RW */
++#define E1000_TDT(_n)      (0x0E018 + (0x40  * (_n)))
++#define E1000_TDT_A(_n)    (0x03818 + (0x100 * (_n)))
++
++/* TX Descriptor Control; RW */
++#define E1000_TXDCTL(_n)   (0x0E028 + (0x40  * (_n)))
++#define E1000_TXDCTL_A(_n) (0x03828 + (0x100 * (_n)))
++
++/* TX Descriptor Completion Write–Back Address Low; RW */
++#define E1000_TDWBAL(_n)   (0x0E038 + (0x40  * (_n)))
++#define E1000_TDWBAL_A(_n) (0x03838 + (0x100 * (_n)))
++
++/* TX Descriptor Completion Write–Back Address High; RW */
++#define E1000_TDWBAH(_n)   (0x0E03C + (0x40  * (_n)))
++#define E1000_TDWBAH_A(_n) (0x0383C + (0x100 * (_n)))
++
++#define E1000_MTA_A        0x0200
++
++#define E1000_XDBAL_MASK (~(BIT(5) - 1)) /* TDBAL and RDBAL Registers Mask */
++
++#define E1000_ICR_MACSEC   0x00000020 /* MACSec */
++#define E1000_ICR_RX0      0x00000040 /* Receiver Overrun */
++#define E1000_ICR_GPI_SDP0 0x00000800 /* General Purpose, SDP0 pin */
++#define E1000_ICR_GPI_SDP1 0x00001000 /* General Purpose, SDP1 pin */
++#define E1000_ICR_GPI_SDP2 0x00002000 /* General Purpose, SDP2 pin */
++#define E1000_ICR_GPI_SDP3 0x00004000 /* General Purpose, SDP3 pin */
++#define E1000_ICR_PTRAP    0x00008000 /* Probe Trap */
++#define E1000_ICR_MNG      0x00040000 /* Management Event */
++#define E1000_ICR_OMED     0x00100000 /* Other Media Energy Detected */
++#define E1000_ICR_FER      0x00400000 /* Fatal Error */
++#define E1000_ICR_NFER     0x00800000 /* Non Fatal Error */
++#define E1000_ICR_CSRTO    0x01000000 /* CSR access Time Out Indication */
++#define E1000_ICR_SCE      0x02000000 /* Storm Control Event */
++#define E1000_ICR_SW_WD    0x04000000 /* Software Watchdog */
++
++/* Extended Interrupts */
++
++#define E1000_EICR_MSIX_MASK   0x01FFFFFF /* Bits used in MSI-X mode */
++#define E1000_EICR_LEGACY_MASK 0x4000FFFF /* Bits used in non MSI-X mode */
++
++/* Mirror VF Control (only RST bit); RW */
++#define E1000_PVTCTRL(_n) (0x10000 + (_n) * 0x100)
++
++/* Mirror Good Packets Received Count; RO */
++#define E1000_PVFGPRC(_n) (0x10010 + (_n) * 0x100)
++
++/* Mirror Good Packets Transmitted Count; RO */
++#define E1000_PVFGPTC(_n) (0x10014 + (_n) * 0x100)
++
++/* Mirror Good Octets Received Count; RO */
++#define E1000_PVFGORC(_n) (0x10018 + (_n) * 0x100)
++
++/* Mirror Extended Interrupt Cause Set; WO */
++#define E1000_PVTEICS(_n) (0x10020 + (_n) * 0x100)
++
++/* Mirror Extended Interrupt Mask Set/Read; RW */
++#define E1000_PVTEIMS(_n) (0x10024 + (_n) * 0x100)
++
++/* Mirror Extended Interrupt Mask Clear; WO */
++#define E1000_PVTEIMC(_n) (0x10028 + (_n) * 0x100)
++
++/* Mirror Extended Interrupt Auto Clear; RW */
++#define E1000_PVTEIAC(_n) (0x1002C + (_n) * 0x100)
++
++/* Mirror Extended Interrupt Auto Mask Enable; RW */
++#define E1000_PVTEIAM(_n) (0x10030 + (_n) * 0x100)
++
++/* Mirror Good Octets Transmitted Count; RO */
++#define E1000_PVFGOTC(_n) (0x10034 + (_n) * 0x100)
++
++/* Mirror Multicast Packets Received Count; RO */
++#define E1000_PVFMPRC(_n) (0x1003C + (_n) * 0x100)
++
++/* Mirror Good RX Packets loopback Count; RO */
++#define E1000_PVFGPRLBC(_n) (0x10040 + (_n) * 0x100)
++
++/* Mirror Good TX packets loopback Count; RO */
++#define E1000_PVFGPTLBC(_n) (0x10044 + (_n) * 0x100)
++
++/* Mirror Good RX Octets loopback Count; RO */
++#define E1000_PVFGORLBC(_n) (0x10048 + (_n) * 0x100)
++
++/* Mirror Good TX Octets loopback Count; RO */
++#define E1000_PVFGOTLBC(_n) (0x10050 + (_n) * 0x100)
++
++/* Mirror Extended Interrupt Cause Set; RC/W1C */
++#define E1000_PVTEICR(_n) (0x10080 + (_n) * 0x100)
++
++/*
++ * These are fake addresses that, according to the specification, the device
++ * is not using. They are used to distinguish between the PF and the VFs
++ * accessing their VTIVAR register (which is the same address, 0x1700)
++ */
++#define E1000_VTIVAR      0x11700
++#define E1000_VTIVAR_MISC 0x11720
++
++#define E1000_RSS_QUEUE(reta, hash) (E1000_RETA_VAL(reta, hash) & 0x0F)
++
++#define E1000_STATUS_IOV_MODE 0x00040000
++
++#define E1000_STATUS_NUM_VFS_SHIFT 14
++
++static inline uint8_t igb_ivar_entry_rx(uint8_t i)
++{
++    return i < 8 ? i * 4 : (i - 8) * 4 + 2;
++}
++
++static inline uint8_t igb_ivar_entry_tx(uint8_t i)
++{
++    return i < 8 ? i * 4 + 1 : (i - 8) * 4 + 3;
++}
++
++#endif
+diff --git a/hw/net/igbvf.c b/hw/net/igbvf.c
+new file mode 100644
+index 0000000000..70beb7af50
+--- /dev/null
++++ b/hw/net/igbvf.c
+@@ -0,0 +1,327 @@
++/*
++ * QEMU Intel 82576 SR/IOV Ethernet Controller Emulation
++ *
++ * Datasheet:
++ * https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eg-gbe-datasheet.pdf
++ *
++ * Copyright (c) 2020-2023 Red Hat, Inc.
++ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
++ * Developed by Daynix Computing LTD (http://www.daynix.com)
++ *
++ * Authors:
++ * Akihiko Odaki <akihiko.odaki@daynix.com>
++ * Gal Hammmer <gal.hammer@sap.com>
++ * Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
++ * Dmitry Fleytman <dmitry@daynix.com>
++ * Leonid Bloch <leonid@daynix.com>
++ * Yan Vugenfirer <yan@daynix.com>
++ *
++ * Based on work done by:
++ * Nir Peleg, Tutis Systems Ltd. for Qumranet Inc.
++ * Copyright (c) 2008 Qumranet
++ * Based on work done by:
++ * Copyright (c) 2007 Dan Aloni
++ * Copyright (c) 2004 Antony T Curtis
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/hw.h"
++#include "hw/net/mii.h"
++#include "hw/pci/pci_device.h"
++#include "hw/pci/pcie.h"
++#include "hw/pci/msix.h"
++#include "net/eth.h"
++#include "net/net.h"
++#include "igb_common.h"
++#include "igb_core.h"
++#include "trace.h"
++#include "qapi/error.h"
++
++#define TYPE_IGBVF "igbvf"
++OBJECT_DECLARE_SIMPLE_TYPE(IgbVfState, IGBVF)
++
++#define IGBVF_MMIO_BAR_IDX  (0)
++#define IGBVF_MSIX_BAR_IDX  (3)
++
++#define IGBVF_MMIO_SIZE     (16 * 1024)
++#define IGBVF_MSIX_SIZE     (16 * 1024)
++
++struct IgbVfState {
++    PCIDevice parent_obj;
++
++    MemoryRegion mmio;
++    MemoryRegion msix;
 +};
 +
-+/* Extended Receive Descriptor */
-+union e1000_rx_desc_extended {
-+    struct {
-+        uint64_t buffer_addr;
-+        uint64_t reserved;
-+    } read;
-+    struct {
-+        struct {
-+            uint32_t mrq;           /* Multiple Rx Queues */
-+            union {
-+                uint32_t rss;       /* RSS Hash */
-+                struct {
-+                    uint16_t ip_id; /* IP id */
-+                    uint16_t csum;  /* Packet Checksum */
-+                } csum_ip;
-+            } hi_dword;
-+        } lower;
-+        struct {
-+            uint32_t status_error;  /* ext status/error */
-+            uint16_t length;
-+            uint16_t vlan;          /* VLAN tag */
-+        } upper;
-+    } wb;                           /* writeback */
++static hwaddr vf_to_pf_addr(hwaddr addr, uint16_t vfn, bool write)
++{
++    switch (addr) {
++    case E1000_CTRL:
++    case E1000_CTRL_DUP:
++        return E1000_PVTCTRL(vfn);
++    case E1000_EICS:
++        return E1000_PVTEICS(vfn);
++    case E1000_EIMS:
++        return E1000_PVTEIMS(vfn);
++    case E1000_EIMC:
++        return E1000_PVTEIMC(vfn);
++    case E1000_EIAC:
++        return E1000_PVTEIAC(vfn);
++    case E1000_EIAM:
++        return E1000_PVTEIAM(vfn);
++    case E1000_EICR:
++        return E1000_PVTEICR(vfn);
++    case E1000_EITR(0):
++    case E1000_EITR(1):
++    case E1000_EITR(2):
++        return E1000_EITR(22) + (addr - E1000_EITR(0)) - vfn * 0xC;
++    case E1000_IVAR0:
++        return E1000_VTIVAR + vfn * 4;
++    case E1000_IVAR_MISC:
++        return E1000_VTIVAR_MISC + vfn * 4;
++    case 0x0F04: /* PBACL */
++        return E1000_PBACLR;
++    case 0x0F0C: /* PSRTYPE */
++        return E1000_PSRTYPE(vfn);
++    case E1000_V2PMAILBOX(0):
++        return E1000_V2PMAILBOX(vfn);
++    case E1000_VMBMEM(0) ... E1000_VMBMEM(0) + 0x3F:
++        return addr + vfn * 0x40;
++    case E1000_RDBAL_A(0):
++        return E1000_RDBAL(vfn);
++    case E1000_RDBAL_A(1):
++        return E1000_RDBAL(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_RDBAH_A(0):
++        return E1000_RDBAH(vfn);
++    case E1000_RDBAH_A(1):
++        return E1000_RDBAH(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_RDLEN_A(0):
++        return E1000_RDLEN(vfn);
++    case E1000_RDLEN_A(1):
++        return E1000_RDLEN(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_SRRCTL_A(0):
++        return E1000_SRRCTL(vfn);
++    case E1000_SRRCTL_A(1):
++        return E1000_SRRCTL(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_RDH_A(0):
++        return E1000_RDH(vfn);
++    case E1000_RDH_A(1):
++        return E1000_RDH(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_RXCTL_A(0):
++        return E1000_RXCTL(vfn);
++    case E1000_RXCTL_A(1):
++        return E1000_RXCTL(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_RDT_A(0):
++        return E1000_RDT(vfn);
++    case E1000_RDT_A(1):
++        return E1000_RDT(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_RXDCTL_A(0):
++        return E1000_RXDCTL(vfn);
++    case E1000_RXDCTL_A(1):
++        return E1000_RXDCTL(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_RQDPC_A(0):
++        return E1000_RQDPC(vfn);
++    case E1000_RQDPC_A(1):
++        return E1000_RQDPC(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TDBAL_A(0):
++        return E1000_TDBAL(vfn);
++    case E1000_TDBAL_A(1):
++        return E1000_TDBAL(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TDBAH_A(0):
++        return E1000_TDBAH(vfn);
++    case E1000_TDBAH_A(1):
++        return E1000_TDBAH(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TDLEN_A(0):
++        return E1000_TDLEN(vfn);
++    case E1000_TDLEN_A(1):
++        return E1000_TDLEN(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TDH_A(0):
++        return E1000_TDH(vfn);
++    case E1000_TDH_A(1):
++        return E1000_TDH(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TXCTL_A(0):
++        return E1000_TXCTL(vfn);
++    case E1000_TXCTL_A(1):
++        return E1000_TXCTL(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TDT_A(0):
++        return E1000_TDT(vfn);
++    case E1000_TDT_A(1):
++        return E1000_TDT(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TXDCTL_A(0):
++        return E1000_TXDCTL(vfn);
++    case E1000_TXDCTL_A(1):
++        return E1000_TXDCTL(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TDWBAL_A(0):
++        return E1000_TDWBAL(vfn);
++    case E1000_TDWBAL_A(1):
++        return E1000_TDWBAL(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_TDWBAH_A(0):
++        return E1000_TDWBAH(vfn);
++    case E1000_TDWBAH_A(1):
++        return E1000_TDWBAH(vfn + IGB_MAX_VF_FUNCTIONS);
++    case E1000_VFGPRC:
++        return E1000_PVFGPRC(vfn);
++    case E1000_VFGPTC:
++        return E1000_PVFGPTC(vfn);
++    case E1000_VFGORC:
++        return E1000_PVFGORC(vfn);
++    case E1000_VFGOTC:
++        return E1000_PVFGOTC(vfn);
++    case E1000_VFMPRC:
++        return E1000_PVFMPRC(vfn);
++    case E1000_VFGPRLBC:
++        return E1000_PVFGPRLBC(vfn);
++    case E1000_VFGPTLBC:
++        return E1000_PVFGPTLBC(vfn);
++    case E1000_VFGORLBC:
++        return E1000_PVFGORLBC(vfn);
++    case E1000_VFGOTLBC:
++        return E1000_PVFGOTLBC(vfn);
++    case E1000_STATUS:
++    case E1000_FRTIMER:
++        if (write) {
++            return HWADDR_MAX;
++        }
++        /* fallthrough */
++    case 0x34E8: /* PBTWAC */
++    case 0x24E8: /* PBRWAC */
++        return addr;
++    }
++
++    trace_igbvf_wrn_io_addr_unknown(addr);
++
++    return HWADDR_MAX;
++}
++
++static void igbvf_write_config(PCIDevice *dev, uint32_t addr, uint32_t val,
++    int len)
++{
++    trace_igbvf_write_config(addr, val, len);
++    pci_default_write_config(dev, addr, val, len);
++}
++
++static uint64_t igbvf_mmio_read(void *opaque, hwaddr addr, unsigned size)
++{
++    PCIDevice *vf = PCI_DEVICE(opaque);
++    PCIDevice *pf = pcie_sriov_get_pf(vf);
++
++    addr = vf_to_pf_addr(addr, pcie_sriov_vf_number(vf), false);
++    return addr == HWADDR_MAX ? 0 : igb_mmio_read(pf, addr, size);
++}
++
++static void igbvf_mmio_write(void *opaque, hwaddr addr, uint64_t val,
++    unsigned size)
++{
++    PCIDevice *vf = PCI_DEVICE(opaque);
++    PCIDevice *pf = pcie_sriov_get_pf(vf);
++
++    addr = vf_to_pf_addr(addr, pcie_sriov_vf_number(vf), true);
++    if (addr != HWADDR_MAX) {
++        igb_mmio_write(pf, addr, val, size);
++    }
++}
++
++static const MemoryRegionOps mmio_ops = {
++    .read = igbvf_mmio_read,
++    .write = igbvf_mmio_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .impl = {
++        .min_access_size = 4,
++        .max_access_size = 4,
++    },
 +};
 +
-+#define MAX_PS_BUFFERS 4
++static void igbvf_pci_realize(PCIDevice *dev, Error **errp)
++{
++    IgbVfState *s = IGBVF(dev);
++    int ret;
++    int i;
 +
-+/* Number of packet split data buffers (not including the header buffer) */
-+#define PS_PAGE_BUFFERS    (MAX_PS_BUFFERS - 1)
++    dev->config_write = igbvf_write_config;
 +
-+/* Receive Descriptor - Packet Split */
-+union e1000_rx_desc_packet_split {
-+    struct {
-+        /* one buffer for protocol header(s), three data buffers */
-+        uint64_t buffer_addr[MAX_PS_BUFFERS];
-+    } read;
-+    struct {
-+        struct {
-+            uint32_t mrq;          /* Multiple Rx Queues */
-+            union {
-+                uint32_t rss;          /* RSS Hash */
-+                struct {
-+                    uint16_t ip_id;    /* IP id */
-+                    uint16_t csum;     /* Packet Checksum */
-+                } csum_ip;
-+            } hi_dword;
-+        } lower;
-+        struct {
-+            uint32_t status_error;     /* ext status/error */
-+            uint16_t length0;      /* length of buffer 0 */
-+            uint16_t vlan;         /* VLAN tag */
-+        } middle;
-+        struct {
-+            uint16_t header_status;
-+            /* length of buffers 1-3 */
-+            uint16_t length[PS_PAGE_BUFFERS];
-+        } upper;
-+        uint64_t reserved;
-+    } wb; /* writeback */
++    memory_region_init_io(&s->mmio, OBJECT(dev), &mmio_ops, s, "igbvf-mmio",
++        IGBVF_MMIO_SIZE);
++    pcie_sriov_vf_register_bar(dev, IGBVF_MMIO_BAR_IDX, &s->mmio);
++
++    memory_region_init(&s->msix, OBJECT(dev), "igbvf-msix", IGBVF_MSIX_SIZE);
++    pcie_sriov_vf_register_bar(dev, IGBVF_MSIX_BAR_IDX, &s->msix);
++
++    ret = msix_init(dev, IGBVF_MSIX_VEC_NUM, &s->msix, IGBVF_MSIX_BAR_IDX, 0,
++        &s->msix, IGBVF_MSIX_BAR_IDX, 0x2000, 0x70, errp);
++    if (ret) {
++        return;
++    }
++
++    for (i = 0; i < IGBVF_MSIX_VEC_NUM; i++) {
++        msix_vector_use(dev, i);
++    }
++
++    if (pcie_endpoint_cap_init(dev, 0xa0) < 0) {
++        hw_error("Failed to initialize PCIe capability");
++    }
++
++    if (pcie_aer_init(dev, 1, 0x100, 0x40, errp) < 0) {
++        hw_error("Failed to initialize AER capability");
++    }
++
++    pcie_ari_init(dev, 0x150, 1);
++}
++
++static void igbvf_pci_uninit(PCIDevice *dev)
++{
++    IgbVfState *s = IGBVF(dev);
++
++    pcie_aer_exit(dev);
++    pcie_cap_exit(dev);
++    msix_unuse_all_vectors(dev);
++    msix_uninit(dev, &s->msix, &s->msix);
++}
++
++static void igbvf_class_init(ObjectClass *class, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(class);
++    PCIDeviceClass *c = PCI_DEVICE_CLASS(class);
++
++    c->realize = igbvf_pci_realize;
++    c->exit = igbvf_pci_uninit;
++    c->vendor_id = PCI_VENDOR_ID_INTEL;
++    c->device_id = E1000_DEV_ID_82576_VF;
++    c->revision = 1;
++    c->class_id = PCI_CLASS_NETWORK_ETHERNET;
++
++    dc->desc = "Intel 82576 Virtual Function";
++    dc->user_creatable = false;
++
++    set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
++}
++
++static const TypeInfo igbvf_info = {
++    .name = TYPE_IGBVF,
++    .parent = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(IgbVfState),
++    .class_init = igbvf_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_PCIE_DEVICE },
++        { }
++    },
 +};
 +
-+/* Receive Checksum Control bits */
-+#define E1000_RXCSUM_IPOFLD     0x100   /* IP Checksum Offload Enable */
-+#define E1000_RXCSUM_TUOFLD     0x200   /* TCP/UDP Checksum Offload Enable */
-+#define E1000_RXCSUM_PCSD       0x2000  /* Packet Checksum Disable */
++static void igb_register_types(void)
++{
++    type_register_static(&igbvf_info);
++}
 +
-+#define E1000_RING_DESC_LEN       (16)
-+#define E1000_RING_DESC_LEN_SHIFT (4)
++type_init(igb_register_types)
+diff --git a/hw/net/meson.build b/hw/net/meson.build
+index 4285145715..e2be0654a1 100644
+--- a/hw/net/meson.build
++++ b/hw/net/meson.build
+@@ -10,6 +10,8 @@ softmmu_ss.add(when: 'CONFIG_PCNET_COMMON', if_true: files('pcnet.c'))
+ softmmu_ss.add(when: 'CONFIG_E1000_PCI', if_true: files('e1000.c', 'e1000x_common.c'))
+ softmmu_ss.add(when: 'CONFIG_E1000E_PCI_EXPRESS', if_true: files('net_tx_pkt.c', 'net_rx_pkt.c'))
+ softmmu_ss.add(when: 'CONFIG_E1000E_PCI_EXPRESS', if_true: files('e1000e.c', 'e1000e_core.c', 'e1000x_common.c'))
++softmmu_ss.add(when: 'CONFIG_IGB_PCI_EXPRESS', if_true: files('net_tx_pkt.c', 'net_rx_pkt.c'))
++softmmu_ss.add(when: 'CONFIG_IGB_PCI_EXPRESS', if_true: files('igb.c', 'igbvf.c', 'igb_core.c'))
+ softmmu_ss.add(when: 'CONFIG_RTL8139_PCI', if_true: files('rtl8139.c'))
+ softmmu_ss.add(when: 'CONFIG_TULIP', if_true: files('tulip.c'))
+ softmmu_ss.add(when: 'CONFIG_VMXNET3_PCI', if_true: files('net_tx_pkt.c', 'net_rx_pkt.c'))
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index 2647cdc60f..65753411fc 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -270,6 +270,38 @@ e1000e_msix_use_vector_fail(uint32_t vec, int32_t res) "Failed to use MSI-X vect
+ e1000e_mac_set_permanent(uint8_t b0, uint8_t b1, uint8_t b2, uint8_t b3, uint8_t b4, uint8_t b5) "Set permanent MAC: %02x:%02x:%02x:%02x:%02x:%02x"
+ e1000e_cfg_support_virtio(bool support) "Virtio header supported: %d"
+ 
++# igb.c
++igb_write_config(uint32_t address, uint32_t val, int len) "CONFIG write 0x%"PRIx32", value: 0x%"PRIx32", len: %"PRId32
++igbvf_write_config(uint32_t address, uint32_t val, int len) "CONFIG write 0x%"PRIx32", value: 0x%"PRIx32", len: %"PRId32
 +
-+#define E1000_MIN_RX_DESC_LEN   E1000_RING_DESC_LEN
++# igb_core.c
++igb_core_mdic_read(uint32_t addr, uint32_t data) "MDIC READ: PHY[%u] = 0x%x"
++igb_core_mdic_read_unhandled(uint32_t addr) "MDIC READ: PHY[%u] UNHANDLED"
++igb_core_mdic_write(uint32_t addr, uint32_t data) "MDIC WRITE: PHY[%u] = 0x%x"
++igb_core_mdic_write_unhandled(uint32_t addr) "MDIC WRITE: PHY[%u] UNHANDLED"
 +
-+/* Receive Descriptor bit definitions */
-+#define E1000_RXD_STAT_DD       0x01    /* Descriptor Done */
-+#define E1000_RXD_STAT_EOP      0x02    /* End of Packet */
-+#define E1000_RXD_STAT_IXSM     0x04    /* Ignore checksum */
-+#define E1000_RXD_STAT_VP       0x08    /* IEEE VLAN Packet */
-+#define E1000_RXD_STAT_UDPCS    0x10    /* UDP xsum caculated */
-+#define E1000_RXD_STAT_TCPCS    0x20    /* TCP xsum calculated */
-+#define E1000_RXD_STAT_IPCS     0x40    /* IP xsum calculated */
-+#define E1000_RXD_STAT_PIF      0x80    /* passed in-exact filter */
-+#define E1000_RXD_STAT_IPIDV    0x200   /* IP identification valid */
-+#define E1000_RXD_STAT_UDPV     0x400   /* Valid UDP checksum */
-+#define E1000_RXD_STAT_ACK      0x8000  /* ACK Packet indication */
-+#define E1000_RXD_ERR_CE        0x01    /* CRC Error */
-+#define E1000_RXD_ERR_SE        0x02    /* Symbol Error */
-+#define E1000_RXD_ERR_SEQ       0x04    /* Sequence Error */
-+#define E1000_RXD_ERR_CXE       0x10    /* Carrier Extension Error */
-+#define E1000_RXD_ERR_TCPE      0x20    /* TCP/UDP Checksum Error */
-+#define E1000_RXD_ERR_IPE       0x40    /* IP Checksum Error */
-+#define E1000_RXD_ERR_RXE       0x80    /* Rx Data Error */
-+#define E1000_RXD_SPC_VLAN_MASK 0x0FFF  /* VLAN ID is in lower 12 bits */
-+#define E1000_RXD_SPC_PRI_MASK  0xE000  /* Priority is in upper 3 bits */
-+#define E1000_RXD_SPC_PRI_SHIFT 13
-+#define E1000_RXD_SPC_CFI_MASK  0x1000  /* CFI is bit 12 */
-+#define E1000_RXD_SPC_CFI_SHIFT 12
++igb_rx_desc_buff_size(uint32_t b) "buffer size: %u"
++igb_rx_desc_buff_write(uint64_t addr, uint16_t offset, const void* source, uint32_t len) "addr: 0x%"PRIx64", offset: %u, from: %p, length: %u"
 +
-+/* RX packet types */
-+#define E1000_RXD_PKT_MAC       (0)
-+#define E1000_RXD_PKT_IP4       (1)
-+#define E1000_RXD_PKT_IP4_XDP   (2)
-+#define E1000_RXD_PKT_IP6       (5)
-+#define E1000_RXD_PKT_IP6_XDP   (6)
++igb_rx_metadata_rss(uint32_t rss) "RSS data: 0x%X"
 +
-+#define E1000_RXD_PKT_TYPE(t) ((t) << 16)
++igb_irq_icr_clear_gpie_nsicr(void) "Clearing ICR on read due to GPIE.NSICR enabled"
++igb_irq_icr_write(uint32_t bits, uint32_t old_icr, uint32_t new_icr) "Clearing ICR bits 0x%x: 0x%x --> 0x%x"
++igb_irq_set_iam(uint32_t icr) "Update IAM: 0x%x"
++igb_irq_read_iam(uint32_t icr) "Current IAM: 0x%x"
++igb_irq_write_eics(uint32_t val, bool msix) "Update EICS: 0x%x MSI-X: %d"
++igb_irq_write_eims(uint32_t val, bool msix) "Update EIMS: 0x%x MSI-X: %d"
++igb_irq_write_eimc(uint32_t val, uint32_t eims, bool msix) "Update EIMC: 0x%x EIMS: 0x%x MSI-X: %d"
++igb_irq_write_eiac(uint32_t val) "Update EIAC: 0x%x"
++igb_irq_write_eiam(uint32_t val, bool msix) "Update EIAM: 0x%x MSI-X: %d"
++igb_irq_write_eicr(uint32_t val, bool msix) "Update EICR: 0x%x MSI-X: %d"
++igb_irq_eitr_set(uint32_t eitr_num, uint32_t val) "EITR[%u] = 0x%x"
++igb_set_pfmailbox(uint32_t vf_num, uint32_t val) "PFMailbox[%d]: 0x%x"
++igb_set_vfmailbox(uint32_t vf_num, uint32_t val) "VFMailbox[%d]: 0x%x"
 +
-+#define E1000_RXDEXT_STATERR_CE    0x01000000
-+#define E1000_RXDEXT_STATERR_SE    0x02000000
-+#define E1000_RXDEXT_STATERR_SEQ   0x04000000
-+#define E1000_RXDEXT_STATERR_CXE   0x10000000
-+#define E1000_RXDEXT_STATERR_TCPE  0x20000000
-+#define E1000_RXDEXT_STATERR_IPE   0x40000000
-+#define E1000_RXDEXT_STATERR_RXE   0x80000000
++# igbvf.c
++igbvf_wrn_io_addr_unknown(uint64_t addr) "IO unknown register 0x%"PRIx64
 +
-+#define E1000_RXDPS_HDRSTAT_HDRSP        0x00008000
-+#define E1000_RXDPS_HDRSTAT_HDRLEN_MASK  0x000003FF
-+
-+/* Receive Address */
-+#define E1000_RAH_AV  0x80000000        /* Receive descriptor valid */
-+
-+/* Offload Context Descriptor */
-+struct e1000_context_desc {
-+    union {
-+        uint32_t ip_config;
-+        struct {
-+            uint8_t ipcss;      /* IP checksum start */
-+            uint8_t ipcso;      /* IP checksum offset */
-+            uint16_t ipcse;     /* IP checksum end */
-+        } ip_fields;
-+    } lower_setup;
-+    union {
-+        uint32_t tcp_config;
-+        struct {
-+            uint8_t tucss;      /* TCP checksum start */
-+            uint8_t tucso;      /* TCP checksum offset */
-+            uint16_t tucse;     /* TCP checksum end */
-+        } tcp_fields;
-+    } upper_setup;
-+    uint32_t cmd_and_length;    /* */
-+    union {
-+        uint32_t data;
-+        struct {
-+            uint8_t status;     /* Descriptor status */
-+            uint8_t hdr_len;    /* Header length */
-+            uint16_t mss;       /* Maximum segment size */
-+        } fields;
-+    } tcp_seg_setup;
-+};
-+
-+/* Filters */
-+#define E1000_NUM_UNICAST          16  /* Unicast filter entries */
-+#define E1000_MC_TBL_SIZE          128 /* Multicast Filter Table (4096 bits) */
-+#define E1000_VLAN_FILTER_TBL_SIZE 128 /* VLAN Filter Table (4096 bits) */
-+
-+/* Management Control */
-+#define E1000_MANC_SMBUS_EN      0x00000001 /* SMBus Enabled - RO */
-+#define E1000_MANC_ASF_EN        0x00000002 /* ASF Enabled - RO */
-+#define E1000_MANC_R_ON_FORCE    0x00000004 /* Reset on Force TCO - RO */
-+#define E1000_MANC_RMCP_EN       0x00000100 /* Enable RCMP 026Fh Filtering */
-+#define E1000_MANC_0298_EN       0x00000200 /* Enable RCMP 0298h Filtering */
-+#define E1000_MANC_IPV4_EN       0x00000400 /* Enable IPv4 */
-+#define E1000_MANC_IPV6_EN       0x00000800 /* Enable IPv6 */
-+#define E1000_MANC_SNAP_EN       0x00001000 /* Accept LLC/SNAP */
-+#define E1000_MANC_ARP_EN        0x00002000 /* Enable ARP Request Filtering */
-+#define E1000_MANC_NEIGHBOR_EN   0x00004000 /* Enable Neighbor Discovery
-+                                             * Filtering */
-+#define E1000_MANC_ARP_RES_EN    0x00008000 /* Enable ARP response Filtering */
-+#define E1000_MANC_DIS_IP_CHK_ARP  0x10000000 /* Disable IP address chacking */
-+                                              /*for ARP packets - in 82574 */
-+#define E1000_MANC_TCO_RESET     0x00010000 /* TCO Reset Occurred */
-+#define E1000_MANC_RCV_TCO_EN    0x00020000 /* Receive TCO Packets Enabled */
-+#define E1000_MANC_REPORT_STATUS 0x00040000 /* Status Reporting Enabled */
-+#define E1000_MANC_RCV_ALL       0x00080000 /* Receive All Enabled */
-+#define E1000_MANC_BLK_PHY_RST_ON_IDE   0x00040000 /* Block phy resets */
-+#define E1000_MANC_EN_MAC_ADDR_FILTER   0x00100000 /* Enable MAC address
-+                                                    * filtering */
-+#define E1000_MANC_EN_MNG2HOST   0x00200000 /* Enable MNG packets to host
-+                                             * memory */
-+#define E1000_MANC_EN_IP_ADDR_FILTER    0x00400000 /* Enable IP address
-+                                                    * filtering */
-+#define E1000_MANC_EN_XSUM_FILTER   0x00800000 /* Enable checksum filtering */
-+#define E1000_MANC_BR_EN         0x01000000 /* Enable broadcast filtering */
-+#define E1000_MANC_SMB_REQ       0x01000000 /* SMBus Request */
-+#define E1000_MANC_SMB_GNT       0x02000000 /* SMBus Grant */
-+#define E1000_MANC_SMB_CLK_IN    0x04000000 /* SMBus Clock In */
-+#define E1000_MANC_SMB_DATA_IN   0x08000000 /* SMBus Data In */
-+#define E1000_MANC_SMB_DATA_OUT  0x10000000 /* SMBus Data Out */
-+#define E1000_MANC_SMB_CLK_OUT   0x20000000 /* SMBus Clock Out */
-+
-+#define E1000_MANC_SMB_DATA_OUT_SHIFT  28 /* SMBus Data Out Shift */
-+#define E1000_MANC_SMB_CLK_OUT_SHIFT   29 /* SMBus Clock Out Shift */
-+
-+/* FACTPS Control */
-+#define E1000_FACTPS_LAN0_ON     0x00000004 /* Lan 0 enable */
-+
-+/* For checksumming, the sum of all words in the EEPROM should equal 0xBABA. */
-+#define EEPROM_SUM 0xBABA
-+
-+/* I/O-Mapped Access to Internal Registers, Memories, and Flash */
-+#define E1000_IOADDR 0x00
-+#define E1000_IODATA 0x04
-+
-+#define E1000_VFTA_ENTRY_SHIFT          5
-+#define E1000_VFTA_ENTRY_MASK           0x7F
-+#define E1000_VFTA_ENTRY_BIT_SHIFT_MASK 0x1F
-+
-+#endif /* HW_E1000_REGS_H */
+ # spapr_llan.c
+ spapr_vlan_get_rx_bd_from_pool_found(int pool, int32_t count, uint32_t rx_bufs) "pool=%d count=%"PRId32" rxbufs=%"PRIu32
+ spapr_vlan_get_rx_bd_from_page(int buf_ptr, uint64_t bd) "use_buf_ptr=%d bd=0x%016"PRIx64
 -- 
 2.39.1
 
