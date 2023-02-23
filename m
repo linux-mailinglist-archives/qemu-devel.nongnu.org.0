@@ -2,84 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DC26A0354
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 08:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD716A0355
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 08:37:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV68f-0004AA-1r; Thu, 23 Feb 2023 02:35:39 -0500
+	id 1pV69z-0005D1-2C; Thu, 23 Feb 2023 02:36:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1pV68V-00048H-A3
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:35:27 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1pV68S-0003Vj-Me
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:35:27 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- k21-20020a17090aaa1500b002376652e160so620943pjq.0
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 23:35:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B6xtKmdESYgNFz3bWpMLwm4JS7exfxiWGZJa7AcnoYg=;
- b=lWWiXnzBbb67cb1cmLC3rck33Jp89T0nZfYS2tWg90iQd2uGjM/NNfMZESjL+C7wGg
- o7S8V+YPaA5cC8ctZW5Lb3/oQsgVKn/O3N0bmwYb3OYdjv4FEeEaTC8dffuWXEeI3FpI
- KeMzOO77Hb8BjTICQOzwIlfXZo9Y58vuQiYBLchQcuSD+xMytENSHWfLYLRmArMgR27e
- Blgx9ytkNFZHEaaxIsGfvo2brbnQvqiSQDhXlR2VTqi62r41G8At2GWp2ZIS/+5Gidnm
- XZuIHLkTnkN4BRFIgRXnSo1Hy67/Je7/evhzxdtLNYY9hn9A/F6wsGPpPEKK7Jy3kgHI
- NPGw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pV69p-0005AM-Ka
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:36:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pV69n-0003m0-F3
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 02:36:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677137805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ASyfhE5gHS/9/ZnsuDYV4l/1sUH0rVd17M9urE4cC9I=;
+ b=YxT4E8YHiJ+v7A1GCtDMlOMt+bzQDMxFFU9y+24aMQxdbyd2bo+ZxmunIre7ZFF1y0+iuE
+ UuuHQs7FI10mBOXz0VJqznfsvPAR0tG7rsJora2D2tEEhSKtF/g39NGUYaWvo3uvtlACnD
+ 046VF34dGDMJZ7XrQmnKRc0pKsUhqY4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-332-l6cJH_OcOCKynrgtZAxgoQ-1; Thu, 23 Feb 2023 02:36:42 -0500
+X-MC-Unique: l6cJH_OcOCKynrgtZAxgoQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ t1-20020a7bc3c1000000b003dfe223de49so4811237wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 23:36:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=B6xtKmdESYgNFz3bWpMLwm4JS7exfxiWGZJa7AcnoYg=;
- b=4q35pzjJ2Kyp22HrXf2nuxtm5xHvTZBZ1nM5pdjpZVO8ZP5vKeShTzvLRYbLoH89zq
- s/E+4LD2UJTqYuC3ARw+xC3quJtjEmYWj7Bdmvwg1Qgf+8h1kuhgNNWiu67PSo0avfq4
- 6/qo7T2qNgOf04B8jJCwz6mVNNFxy2YoVtNTRbBxVJgbPee8iZMh3i6F6KQFP/iyI4ox
- /kuqyoz628LEzsFhhYr1jQuJGZL/weKuXUx15sbEQA9Ygh29TdJJqChrrBrpYaq5YfLY
- KcUkAocIFe3FnKVC25r1VhIrp6jVEZy0ikM/Fwe8y74XuIlT9wzk4ROfy50ZaitX6M0y
- rIrg==
-X-Gm-Message-State: AO0yUKVGcQ26ZCJrnMmUB4NlG4y1OHxMRM+hyAv4qgnnWf8BV+Kubh4V
- +85M4C/cGUHBK5ABUIrVVMEuOA==
-X-Google-Smtp-Source: AK7set+S77lWad8ckuMzggiUlQihO9b/5+Q03wOv5Nece8UaAWHAfXIQBCrVJmc6qP1ctjdNCSsZVg==
-X-Received: by 2002:a17:902:e80f:b0:19a:972a:7cb3 with SMTP id
- u15-20020a170902e80f00b0019a972a7cb3mr14356514plg.60.1677137716777; 
- Wed, 22 Feb 2023 23:35:16 -0800 (PST)
-Received: from [10.4.116.91] ([139.177.225.228])
- by smtp.gmail.com with ESMTPSA id
- jf19-20020a170903269300b0019b0937003esm3414629plb.150.2023.02.22.23.35.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 23:35:16 -0800 (PST)
-Message-ID: <2a5594e9-11b4-2ce8-c09c-3d75a0c87732@bytedance.com>
-Date: Thu, 23 Feb 2023 15:35:12 +0800
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ASyfhE5gHS/9/ZnsuDYV4l/1sUH0rVd17M9urE4cC9I=;
+ b=hf0ZwCl2N/7cJX2jwO9E3q6Ek7ZWGk9xKXn6BtfmT3p8o9g3UvPfVstkzbcNGxVXSO
+ rzdHxjxLFMLC19eWoUHVbqZ+Z8hdGRqWASDMTPrIyDe3QPhQyhdJ+4CbeccWfyn0KHoz
+ +SbubDhkHT0x5i9eP7pfYF+h4UQTHqSgMM69xAlLSjGf5p8zvouDWzSp5+H+9lQYfryn
+ HG4PUtIiUe0vWcTh9FA80zSiM7aKgMvCTu7Wv74IeCIFA8plebNCFaeS7d0YrQSBDkDk
+ LMVw8xhnm69Wjl3fJcKNXoTsBl7uxrJPMs61pJpNb2usgV8bd50ZMKTsElSRGliMMnAs
+ 7jaQ==
+X-Gm-Message-State: AO0yUKXoORwoONdaoYbMUHE/p6XBNC9pmvv2x2HjzdAayNAAMrAPZrJ0
+ Uy32mq3zMF4nDjmkbyQVJIYF/UCSXysXFnvmSJra47HnuBK55tkzH61ZQwne55G2kW6WQo0hFkD
+ UEjLZ6p1GwzMnE00=
+X-Received: by 2002:a05:600c:1713:b0:3de:3381:24f2 with SMTP id
+ c19-20020a05600c171300b003de338124f2mr8928956wmn.30.1677137799128; 
+ Wed, 22 Feb 2023 23:36:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set93z9CKxLDCw0HA+9mIs3EbE4+VIterCg2CMgxWzNL9A+Mc0797R0dZXklEODfuThR5ljc0ew==
+X-Received: by 2002:a05:600c:1713:b0:3de:3381:24f2 with SMTP id
+ c19-20020a05600c171300b003de338124f2mr8928936wmn.30.1677137798737; 
+ Wed, 22 Feb 2023 23:36:38 -0800 (PST)
+Received: from redhat.com ([2.52.2.78]) by smtp.gmail.com with ESMTPSA id
+ e8-20020a05600c218800b003c6bbe910fdsm10882914wme.9.2023.02.22.23.36.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Feb 2023 23:36:37 -0800 (PST)
+Date: Thu, 23 Feb 2023 02:36:33 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Anton Kuchin <antonkuchin@yandex-team.ru>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
+ Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
+Message-ID: <20230223023604-mutt-send-email-mst@kernel.org>
+References: <59165bde-bfd4-a073-c618-205be3951e4a@yandex-team.ru>
+ <20230222074214-mutt-send-email-mst@kernel.org>
+ <22fee9b6-1dc0-792c-13cf-54c9303556ab@yandex-team.ru>
+ <8372550f-def7-4336-c597-d22155abf145@yandex-team.ru>
+ <333c4451-8eef-0603-c3f5-10e38c0eb24e@yandex-team.ru>
+ <20230222115106-mutt-send-email-mst@kernel.org>
+ <11593688-7ca4-def3-6212-7c26faa4d1c6@yandex-team.ru>
+ <20230222121133-mutt-send-email-mst@kernel.org>
+ <a477ca70-8aea-6c16-122e-1ded4af11f49@yandex-team.ru>
+ <20230222151814-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: Questions about how block devices use snapshots
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: mreitz@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <90855f8f-76ce-0a5f-3156-e69b157342c9@bytedance.com>
- <Y7wdTurqBjWXIGmo@redhat.com>
- <12bfc9a0-45e0-21f2-3d50-988ea2ad80c8@bytedance.com>
- <Y/TqNIz9EEXaop/Q@redhat.com>
-From: Zhiyong Ye <yezhiyong@bytedance.com>
-In-Reply-To: <Y/TqNIz9EEXaop/Q@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=yezhiyong@bytedance.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230222151814-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.102, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,49 +113,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Kevin,
-
-Thank you for your reply and this method works.
-
-May I ask if this 'image-end-offset' field can be shown in the qemu-img 
-info too? Because it is also a very useful information whether qcow2 is 
-placed on a file or a block device.
-
-Regards
-
-Zhiyong
-
-On 2/21/23 11:58 PM, Kevin Wolf wrote:
-> Am 21.02.2023 um 14:27 hat Zhiyong Ye geschrieben:
->>
->> Hi Kevin,
->>
->> Sorry to bother you again.
->>
->> I intend to use this approach for snapshots of block devices, which, as you
->> say, requires a lot of disk space to store snapshot data. So, to save disk
->> space, after each successful external snapshot creation, I want to shrink
->> the block device that stores the backing_file image to the size that qcow2
->> data actually occupies, since it has become read-only. But there is no way
->> to get the actual size of qcow2 when it is stored in a block device.
->>
->> Qemu-img info can easily get the actual size of qcow2 when it is stored in a
->> file using the fstat function, but this will fail and return 0 for block
->> devices. Therefore, it is necessary to implement the method of getting data
->> occupancy inside qcow2. I think there may be two possible ways to do this:
->>
->> - Add a cluster count field @nb_clusters in the BDRVQcow2State for each new
->> cluster allocated and the actual size occupied by qcow2 is: nb_clusters *
->> cluster_size.
->> - Iterate through the refcount block to find the value with the largest host
->> offset, and this is the actual size occupied by qcow2.
->>
->> Since I'm not very familiar with qcow2, may I ask if you have any advice on
->> getting the actual size when using qcow2?
+On Wed, Feb 22, 2023 at 03:21:42PM -0500, Michael S. Tsirkin wrote:
+> On Wed, Feb 22, 2023 at 08:25:19PM +0200, Anton Kuchin wrote:
+> > On 22/02/2023 19:12, Michael S. Tsirkin wrote:
+> > > On Wed, Feb 22, 2023 at 07:05:47PM +0200, Anton Kuchin wrote:
+> > > > On 22/02/2023 18:51, Michael S. Tsirkin wrote:
+> > > > > On Wed, Feb 22, 2023 at 06:49:10PM +0200, Anton Kuchin wrote:
+> > > > > > On 22/02/2023 17:14, Vladimir Sementsov-Ogievskiy wrote:
+> > > > > > > On 22.02.23 17:25, Anton Kuchin wrote:
+> > > > > > > > > > > +static int vhost_user_fs_pre_save(void *opaque)
+> > > > > > > > > > > +{
+> > > > > > > > > > > +    VHostUserFS *fs = opaque;
+> > > > > > > > > > > +    g_autofree char *path = object_get_canonical_path(OBJECT(fs));
+> > > > > > > > > > > +
+> > > > > > > > > > > +    switch (fs->migration_type) {
+> > > > > > > > > > > +    case VHOST_USER_MIGRATION_TYPE_NONE:
+> > > > > > > > > > > +        error_report("Migration is blocked by device %s", path);
+> > > > > > > > > > > +        break;
+> > > > > > > > > > > +    case VHOST_USER_MIGRATION_TYPE_EXTERNAL:
+> > > > > > > > > > > +        return 0;
+> > > > > > > > > > > +    default:
+> > > > > > > > > > > +        error_report("Migration type '%s' is not
+> > > > > > > > > > > supported by device %s",
+> > > > > > > > > > > + VhostUserMigrationType_str(fs->migration_type), path);
+> > > > > > > > > > > +        break;
+> > > > > > > > > > > +    }
+> > > > > > > > > > > +
+> > > > > > > > > > > +    return -1;
+> > > > > > > > > > > +}
+> > > > > > > > > > Should we also add this as .pre_load, to force user select
+> > > > > > > > > > correct migration_type on target too?
+> > > > > > > > > In fact, I would claim we only want pre_load.
+> > > > > > > > > When qemu is started on destination we know where it's migrated
+> > > > > > > > > from so this flag can be set.
+> > > > > > > > > When qemu is started on source we generally do not yet know so
+> > > > > > > > > we don't know whether it's safe to set this flag.
+> > > > > > > But destination is a "source" for next migration, so there shouldn't be
+> > > > > > > real difference.
+> > > > > > > The new property has ".realized_set_allowed = true", so, as I understand
+> > > > > > > it may be changed at any time, so that's not a problem.
+> > > > > > Yes, exactly. So destination's property sets not how it will handle this
+> > > > > > incoming
+> > > > > > migration but the future outgoing one.
+> > > > > How do you know where you are going to migrate though?
+> > > > > I think you don't.
+> > > > > Setting it on source is better since we know where we
+> > > > > are migrating from.
+> > > > Yes, I don't know where I'm going to migrate to. This is why property
+> > > > affects only how source saves state on outgoing migration.
+> > > Um. I don't get the logic.
+> > 
+> > For this feature to work we need orchestrator to manage the migration. And
+> > we
+> > generally assume that it is responsibility of orchestrator to ensure
+> > matching
+> > properties on source and destination.
+> > As orchestrator manages both sides of migration it can set option (and we
+> > can
+> > check it) on either source or destination. Now it's not important which side
+> > we
+> > select, because now the option is essentially binary allow/deny (but IMHO it
+> > is much better to refuse source to migrate than find later that state can't
+> > be
+> > loaded by destination, in case of file migration this becomes especially
+> > painful).
+> > 
+> > But there are plans to add internal migration option (extract FUSE state
+> > from
+> > backend and transfer it in QEMU migration stream), and that's where
+> > setting/checking
+> > on source becomes important because it will rely on this property to decide
+> > if
+> > extra state form backend needs to be put in the migration stream subsection.
 > 
-> I think what you need is the 'image-end-offset' field from 'qemu-img
-> check --output=json'.
 > 
-> Kevin
+> If we do internal migration that will be a different property
+> which has to match on source *and* destination.
 > 
+> 
+> > If you are concerned about orchestrator breaking assumption of matching
+> > properties
+> > on source and destination this is not really supported AFAIK but I don't
+> > think we
+> > need to punish it for this, maybe it has its reasons: I can imagine scenario
+> > where orchestrator could want to migrate from source with
+> > 'migration=external'
+> > to destination with 'migration=none' to ensure that destination can't be
+> > migrated further.
+> 
+> No. I am concerned about a simple practical matter:
+> - I decide to restart qemu on the same host - so I need to enable
+>   migration
+> - Later I decide to migrate qemu to another host - this should be
+>   blocked
+> 
+> 
+> Property on source does not satisfy both at the same time.
+> Property on destination does.
+
+
+Stefan what's your take on this? Should we move this from
+save to load hook?
+
+> 
+> 
+> > > 
+> > > 
+> > > > > > > > This property selects if VM can migrate and if it can what should
+> > > > > > > > qemu put
+> > > > > > > > to the migration stream. So we select on source what type of
+> > > > > > > > migration is
+> > > > > > > > allowed for this VM, destination can't check anything at load time.
+> > > > > > > OK, so the new field "migration" regulates only outgoing migration and
+> > > > > > > do nothing for incoming. On incoming migration the migration stream
+> > > > > > > itself defines the type of device migration.
+> > > > > > > Worth mentioning in doc?
+> > > > > > Good point. I don't think this deserves a respin but if I have to send v4
+> > > > > > I'll include
+> > > > > > clarification in it.
+
 
