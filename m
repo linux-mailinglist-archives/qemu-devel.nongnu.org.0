@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C006A0922
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5DC6A08DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:49:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVB0b-0007MB-OU; Thu, 23 Feb 2023 07:47:37 -0500
+	id 1pVB2I-0001cT-DK; Thu, 23 Feb 2023 07:49:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVAzj-00040z-Br
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:43 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pVB0D-0005qx-EA
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:47:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVAzY-0004i3-W2
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=i4OsAetjSULZcljsIq8Trhu2StI+THADJDoctT3GjoQ=; b=TcvCpUcntc/kjCuuZechkNQEVe
- 7RL5kSiX/FxE2kKiPYMy4BAtIGJNmz5y9p+aQNL+1J6REZP906yrjm/dnDHqykTqeU28S2INxpWvs
- 79Pxnl3P/Hlt8NPu451AoZb7IGrfkntFaeNLXmDxCwhZJq9eKVn4gImXmAAVST6qFgp7NEYpFXQog
- WN0KCy2YWvZecu2c7OzFOTVrP/ZyJQtN4W1FFVwPOvF3kDKa8cUQRR7ukCSPjxFrHxB53xKruDK5d
- RfXOB1k+1M0GPV8u3/dDYesqYGZMdPHyMhpXjzBJCfk1OFZrClUOIt0waTGFc3I6AcaLnh4GCDdyB
- wN3bLbiA==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pVAzK-00EMjY-Nr; Thu, 23 Feb 2023 12:46:19 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pVAzK-00DYt1-2L; Thu, 23 Feb 2023 12:46:18 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v13 60/60] hw/xen: Subsume xen_be_register_common() into
- xen_be_init()
-Date: Thu, 23 Feb 2023 12:46:13 +0000
-Message-Id: <20230223124613.3231331-61-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230223124613.3231331-1-dwmw2@infradead.org>
-References: <20230223124613.3231331-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pVAzv-0005Af-Jj
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:47:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677156414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M0Z3cmpE0ylLAmYkTYxDwLozuFbUp5t4n17CybMDh4o=;
+ b=gx+G8Jzj2cvUdgJUTBAh0qygEYi8m4K0ZA3MxP5S6kTZm9lnWVljAvKtVe38SeUqsuzc2j
+ n0sWhKm7H8UP7TScVraOjSJEux/NWE6m4s6GtxJzrwmbFeQYgH81xI5UGOxNtVFPzKILuT
+ mykJ+vbsoSM0p5num+g6LwIqTxzlP6w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-58-alGVWHBsM72W3u6Dr3PBpA-1; Thu, 23 Feb 2023 07:46:52 -0500
+X-MC-Unique: alGVWHBsM72W3u6Dr3PBpA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13E5A85A588;
+ Thu, 23 Feb 2023 12:46:52 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DED72166B29;
+ Thu, 23 Feb 2023 12:46:51 +0000 (UTC)
+Date: Thu, 23 Feb 2023 07:46:48 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, pbonzini@redhat.com, eesposit@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/23] block: Lock the graph, part 2 (BlockDriver
+ callbacks)
+Message-ID: <Y/dgOHl4tRgyKXzK@fedora>
+References: <20230203152202.49054-1-kwolf@redhat.com> <Y/VCFcYsqMmEF0zc@fedora>
+ <Y/dSgm564nCLaAjx@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="AZ1NnsILUZGI3SEX"
+Content-Disposition: inline
+In-Reply-To: <Y/dSgm564nCLaAjx@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,172 +81,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
 
-Every caller of xen_be_init() checks and exits on error, then calls
-xen_be_register_common(). Just make xen_be_init() abort for itself and
-return void, and register the common devices too.
+--AZ1NnsILUZGI3SEX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
----
- hw/i386/xen/xen-hvm.c               |  8 +----
- hw/xen/xen-legacy-backend.c         | 56 ++++++++++++-----------------
- hw/xenpv/xen_machine_pv.c           |  6 +---
- include/hw/xen/xen-legacy-backend.h |  3 +-
- 4 files changed, 25 insertions(+), 48 deletions(-)
+On Thu, Feb 23, 2023 at 12:48:18PM +0100, Kevin Wolf wrote:
+> Am 21.02.2023 um 23:13 hat Stefan Hajnoczi geschrieben:
+> > On Fri, Feb 03, 2023 at 04:21:39PM +0100, Kevin Wolf wrote:
+> > > After introducing the graph lock in a previous series, this series
+> > > actually starts making widespread use of it.
+> > >=20
+> > > Most of the BlockDriver callbacks access the children list in some wa=
+y,
+> > > so you need to hold the graph lock to call them. The patches in this
+> > > series add the corresponding GRAPH_RDLOCK annotations and take the lo=
+ck
+> > > in places where it doesn't happen yet - all of the bdrv_*() co_wrappe=
+rs
+> > > are already covered, but in particular BlockBackend coroutine_fns sti=
+ll
+> > > need it.
+> > >=20
+> > > There is no particularly good reason why exactly these patches and not
+> > > others are included in the series. I couldn't find a self-contained p=
+art
+> > > that could reasonable be addressed in a single series. So these just
+> > > happen to be patches that are somewhat related (centered around the
+> > > BlockDriver callback theme), are ready and their number looks
+> > > manageable. You will still see some FIXMEs at the end of the series
+> > > that will only be addressed in future patches.
+> >=20
+> > Two things occurred to me:
+> >=20
+> > 1. The graph lock is becoming the new AioContext lock in the sense that
+> > code using the block layer APIs needs to carefully acquire and release
+> > the lock around operations. Why is it necessary to explicitly take the
+> > rdlock in mirror_iteration()?
+> >=20
+> >   + WITH_GRAPH_RDLOCK_GUARD() {
+> >         ret =3D bdrv_block_status_above(source, NULL, offset,
+> >=20
+> > I guess because bdrv_*() APIs are unlocked? The equivalent blk_*() API
+> > would have taken the graph lock internally. Do we want to continue using
+> > bdrv APIs even though it spreads graph locking concerns into block jobs?
+>=20
+> The thing that makes it a bit ugly is that block jobs mix bdrv_*() and
+> blk_*() calls. If they only used blk_*() we wouldn't have to take care
+> of locking (but that means that the job code itself must not have a
+> problem with a changing graph!). If they only used bdrv_*(), the
+> function could just take a lock at the start and only temporarily
+> release it around pause points. Both ways would look nicer than what we
+> have now.
+>=20
+> > 2. This series touches block drivers like qcow2. Luckily block drivers
+> > just need to annotate their BlockDriver functions to indicate they run
+> > under the rdlock, a lock that the block driver itself doesn't mess with.
+> > It makes me wonder whether there is any point in annotating the
+> > BlockDriver function pointers? It would be simpler if the block drivers
+> > were unaware of the graph lock.
+>=20
+> If you're unaware of the graph lock, how do you tell if you can call
+> certain block layer functions that require the lock?
+>=20
+> Especially since different BlockDriver callbacks have different rules
+> (some have a reader lock, some have a writer lock, and some may stay
+> unlocked even in the future), it would seem really hard to keep track of
+> this when you don't make it explicit.
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index b9a6f7f538..e5a1dd19f4 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -1502,13 +1502,7 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
-     device_listener_register(&state->device_listener);
- 
-     xen_bus_init();
--
--    /* Initialize backend core & drivers */
--    if (xen_be_init() != 0) {
--        error_report("xen backend core setup failed");
--        goto err;
--    }
--    xen_be_register_common();
-+    xen_be_init();
- 
-     QLIST_INIT(&xen_physmap);
-     xen_read_physmap(state);
-diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
-index 085fd31ef7..afba71f6eb 100644
---- a/hw/xen/xen-legacy-backend.c
-+++ b/hw/xen/xen-legacy-backend.c
-@@ -676,21 +676,30 @@ void xenstore_update_fe(char *watch, struct XenLegacyDevice *xendev)
- }
- /* -------------------------------------------------------------------- */
- 
--int xen_be_init(void)
-+static void xen_set_dynamic_sysbus(void)
-+{
-+    Object *machine = qdev_get_machine();
-+    ObjectClass *oc = object_get_class(machine);
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_XENSYSDEV);
-+}
-+
-+void xen_be_init(void)
- {
-     xengnttab_handle *gnttabdev;
- 
-     xenstore = xs_daemon_open();
-     if (!xenstore) {
-         xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
--        return -1;
-+        exit(1);
-     }
- 
-     qemu_set_fd_handler(xs_fileno(xenstore), xenstore_update, NULL, NULL);
- 
-     if (xen_xc == NULL || xen_fmem == NULL) {
--        /* Check if xen_init() have been called */
--        goto err;
-+        xen_pv_printf(NULL, 0, "Xen operations not set up\n");
-+        exit(1);
-     }
- 
-     gnttabdev = xengnttab_open(NULL, 0);
-@@ -706,23 +715,16 @@ int xen_be_init(void)
-     xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
-     qbus_set_bus_hotplug_handler(xen_sysbus);
- 
--    return 0;
--
--err:
--    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
--    xs_daemon_close(xenstore);
--    xenstore = NULL;
--
--    return -1;
--}
--
--static void xen_set_dynamic_sysbus(void)
--{
--    Object *machine = qdev_get_machine();
--    ObjectClass *oc = object_get_class(machine);
--    MachineClass *mc = MACHINE_CLASS(oc);
-+    xen_set_dynamic_sysbus();
- 
--    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_XENSYSDEV);
-+    xen_be_register("console", &xen_console_ops);
-+    xen_be_register("vkbd", &xen_kbdmouse_ops);
-+#ifdef CONFIG_VIRTFS
-+    xen_be_register("9pfs", &xen_9pfs_ops);
-+#endif
-+#ifdef CONFIG_USB_LIBUSB
-+    xen_be_register("qusb", &xen_usb_ops);
-+#endif
- }
- 
- int xen_be_register(const char *type, struct XenDevOps *ops)
-@@ -744,20 +746,6 @@ int xen_be_register(const char *type, struct XenDevOps *ops)
-     return xenstore_scan(type, xen_domid, ops);
- }
- 
--void xen_be_register_common(void)
--{
--    xen_set_dynamic_sysbus();
--
--    xen_be_register("console", &xen_console_ops);
--    xen_be_register("vkbd", &xen_kbdmouse_ops);
--#ifdef CONFIG_VIRTFS
--    xen_be_register("9pfs", &xen_9pfs_ops);
--#endif
--#ifdef CONFIG_USB_LIBUSB
--    xen_be_register("qusb", &xen_usb_ops);
--#endif
--}
--
- int xen_be_bind_evtchn(struct XenLegacyDevice *xendev)
- {
-     if (xendev->local_port != -1) {
-diff --git a/hw/xenpv/xen_machine_pv.c b/hw/xenpv/xen_machine_pv.c
-index 20c9611d71..2e759d0619 100644
---- a/hw/xenpv/xen_machine_pv.c
-+++ b/hw/xenpv/xen_machine_pv.c
-@@ -36,10 +36,7 @@ static void xen_init_pv(MachineState *machine)
-     int i;
- 
-     /* Initialize backend core & drivers */
--    if (xen_be_init() != 0) {
--        error_report("%s: xen backend core setup failed", __func__);
--        exit(1);
--    }
-+    xen_be_init();
- 
-     switch (xen_mode) {
-     case XEN_ATTACH:
-@@ -55,7 +52,6 @@ static void xen_init_pv(MachineState *machine)
-         break;
-     }
- 
--    xen_be_register_common();
-     xen_be_register("vfb", &xen_framebuffer_ops);
-     xen_be_register("qnic", &xen_netdev_ops);
- 
-diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
-index be281e1f38..e31cd3a068 100644
---- a/include/hw/xen/xen-legacy-backend.h
-+++ b/include/hw/xen/xen-legacy-backend.h
-@@ -42,8 +42,7 @@ int xenstore_read_fe_uint64(struct XenLegacyDevice *xendev, const char *node,
- void xen_be_check_state(struct XenLegacyDevice *xendev);
- 
- /* xen backend driver bits */
--int xen_be_init(void);
--void xen_be_register_common(void);
-+void xen_be_init(void);
- int xen_be_register(const char *type, struct XenDevOps *ops);
- int xen_be_set_state(struct XenLegacyDevice *xendev, enum xenbus_state state);
- int xen_be_bind_evtchn(struct XenLegacyDevice *xendev);
--- 
-2.39.0
+Hi Kevin,
+Can you give an example of where it is necessary (not accidental
+complexity) to expose an unlocked API and put the responsibility of
+locking on the caller?
+
+Thanks,
+Stefan
+
+--AZ1NnsILUZGI3SEX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP3YDgACgkQnKSrs4Gr
+c8jJywf+Mg8as3t0cDfWuUq2/HzlpyhO2ky6Ft3Vvg78duk/bDHkAM2RCpixOpXZ
+sMl99VIaq0HGqd289XP3FuvEkTI+oPkyQi6SFoUKh9Kzfu29AYos1DSPXVSA43VM
+0xyizZK+547aZzxpPSxxxYo1rjwzq4Z3+E/U/vePQdz/XeSRxaCZwvdF3ScjEQcy
+mq7olC3o4u+uHpmkJJqwdmis52c5tIEOzZsNd61kSD2IdxpKCWVD3YN0GEzBggjj
+MgUEe73h9YublGFkMZ/G2u+F8gor3WT4IWe7T/9Da+kvd4ewf2S9jDwPdZtiM2+g
+WnjUl8oqZypftWtQ0FkBwNg0UnAGpA==
+=prAh
+-----END PGP SIGNATURE-----
+
+--AZ1NnsILUZGI3SEX--
 
 
