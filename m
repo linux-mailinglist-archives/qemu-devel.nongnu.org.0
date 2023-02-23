@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6E16A0921
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C006A0922
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:58:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVB1G-0008M1-Er; Thu, 23 Feb 2023 07:48:18 -0500
+	id 1pVB0b-0007MB-OU; Thu, 23 Feb 2023 07:47:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVAzi-0003xM-Ix
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:42 -0500
+ id 1pVAzj-00040z-Br
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:43 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVAzY-0004i6-Vd
+ id 1pVAzY-0004i3-W2
  for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=ejCxozW2KDZscOQD34pHUDLwOlSsEPfmXxQc/b+wYQc=; b=imiD27EA0fj2wP0VAkaogWdIWm
- XS6OlHOh3JxPTsJQ9q1p64qeM5uAqJH6FvlW5B+N+sQUsI9KLhVl5QVmz4gxSVDjcngsXwAZIdhhW
- o02zi1V19sElDqmfUrRE/qC98j3NZvOyvY+YyWcjXYD4TGVJ8VIOAvZUWpSqaYU2y4vvo9xXPPJkb
- 0JbA2WaBpnQJWRjqczqQby0zJVpXJbuYzUpumi7sZSWYSEsvRlFAtT9ft4xJpap+nfyOc1T9wVc3r
- 9QrwmlfIXHpsu9uYmVQkqrQvcA9q+yZLePKipDbo+R47suCnEgkRa3jzukRm93YOwNAn04K0U4FQq
- wJvFmeJQ==;
+ bh=i4OsAetjSULZcljsIq8Trhu2StI+THADJDoctT3GjoQ=; b=TcvCpUcntc/kjCuuZechkNQEVe
+ 7RL5kSiX/FxE2kKiPYMy4BAtIGJNmz5y9p+aQNL+1J6REZP906yrjm/dnDHqykTqeU28S2INxpWvs
+ 79Pxnl3P/Hlt8NPu451AoZb7IGrfkntFaeNLXmDxCwhZJq9eKVn4gImXmAAVST6qFgp7NEYpFXQog
+ WN0KCy2YWvZecu2c7OzFOTVrP/ZyJQtN4W1FFVwPOvF3kDKa8cUQRR7ukCSPjxFrHxB53xKruDK5d
+ RfXOB1k+1M0GPV8u3/dDYesqYGZMdPHyMhpXjzBJCfk1OFZrClUOIt0waTGFc3I6AcaLnh4GCDdyB
+ wN3bLbiA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pVAzK-00EMjT-Lt; Thu, 23 Feb 2023 12:46:19 +0000
+ id 1pVAzK-00EMjY-Nr; Thu, 23 Feb 2023 12:46:19 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pVAzK-00DYsx-29; Thu, 23 Feb 2023 12:46:18 +0000
+ Linux)) id 1pVAzK-00DYt1-2L; Thu, 23 Feb 2023 12:46:18 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,9 +50,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v13 59/60] i386/xen: Document Xen HVM emulation
-Date: Thu, 23 Feb 2023 12:46:12 +0000
-Message-Id: <20230223124613.3231331-60-dwmw2@infradead.org>
+Subject: [PATCH v13 60/60] hw/xen: Subsume xen_be_register_common() into
+ xen_be_init()
+Date: Thu, 23 Feb 2023 12:46:13 +0000
+Message-Id: <20230223124613.3231331-61-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230223124613.3231331-1-dwmw2@infradead.org>
 References: <20230223124613.3231331-1-dwmw2@infradead.org>
@@ -87,108 +88,169 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Signed-off-by: David Woodhouse <dwmw2@amazon.co.uk>
+Every caller of xen_be_init() checks and exits on error, then calls
+xen_be_register_common(). Just make xen_be_init() abort for itself and
+return void, and register the common devices too.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- docs/system/i386/xen.rst    | 76 +++++++++++++++++++++++++++++++++++++
- docs/system/target-i386.rst |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 docs/system/i386/xen.rst
+ hw/i386/xen/xen-hvm.c               |  8 +----
+ hw/xen/xen-legacy-backend.c         | 56 ++++++++++++-----------------
+ hw/xenpv/xen_machine_pv.c           |  6 +---
+ include/hw/xen/xen-legacy-backend.h |  3 +-
+ 4 files changed, 25 insertions(+), 48 deletions(-)
 
-diff --git a/docs/system/i386/xen.rst b/docs/system/i386/xen.rst
-new file mode 100644
-index 0000000000..a00523b492
---- /dev/null
-+++ b/docs/system/i386/xen.rst
-@@ -0,0 +1,76 @@
-+Xen HVM guest support
-+=====================
-+
-+
-+Description
-+-----------
-+
-+KVM has support for hosting Xen guests, intercepting Xen hypercalls and event
-+channel (Xen PV interrupt) delivery. This allows guests which expect to be
-+run under Xen to be hosted in QEMU under Linux/KVM instead.
-+
-+Setup
-+-----
-+
-+Xen mode is enabled by setting the ``xen-version`` property of the KVM
-+accelerator, for example for Xen 4.10:
-+
-+.. parsed-literal::
-+
-+  |qemu_system| --accel kvm,xen-version=0x4000a
-+
-+Additionally, virtual APIC support can be advertised to the guest through the
-+``xen-vapic`` CPU flag:
-+
-+.. parsed-literal::
-+
-+  |qemu_system| --accel kvm,xen-version=0x4000a --cpu host,+xen_vapic
-+
-+When Xen support is enabled, QEMU changes hypervisor identification (CPUID
-+0x40000000..0x4000000A) to Xen. The KVM identification and features are not
-+advertised to a Xen guest. If Hyper-V is also enabled, the Xen identification
-+moves to leaves 0x40000100..0x4000010A.
-+
-+The Xen platform device is enabled automatically for a Xen guest. This allows
-+a guest to unplug all emulated devices, in order to use Xen PV block and network
-+drivers instead. Note that until the Xen PV device back ends are enabled to work
-+with Xen mode in QEMU, that is unlikely to cause significant joy. Linux guests
-+can be dissuaded from this by adding 'xen_emul_unplug=never' on their command
-+line, and it can also be noted that AHCI disk controllers are exempt from being
-+unplugged, as are passthrough VFIO PCI devices.
-+
-+Properties
-+----------
-+
-+The following properties exist on the KVM accelerator object:
-+
-+``xen-version``
-+  This property contains the Xen version in ``XENVER_version`` form, with the
-+  major version in the top 16 bits and the minor version in the low 16 bits.
-+  Setting this property enables the Xen guest support.
-+
-+``xen-evtchn-max-pirq``
-+  Xen PIRQs represent an emulated physical interrupt, either GSI or MSI, which
-+  can be routed to an event channel instead of to the emulated I/O or local
-+  APIC. By default, QEMU permits only 256 PIRQs because this allows maximum
-+  compatibility with 32-bit MSI where the higher bits of the PIRQ# would need
-+  to be in the upper 64 bits of the MSI message. For guests with large numbers
-+  of PCI devices (and none which are limited to 32-bit addressing) it may be
-+  desirable to increase this value.
-+
-+``xen-gnttab-max-frames``
-+  Xen grant tables are the means by which a Xen guest grants access to its
-+  memory for PV back ends (disk, network, etc.). Since QEMU only supports v1
-+  grant tables which are 8 bytes in size, each page (each frame) of the grant
-+  table can reference 512 pages of guest memory. The default number of frames
-+  is 64, allowing for 32768 pages of guest memory to be accessed by PV backends
-+  through simultaneous grants. For guests with large numbers of PV devices and
-+  high throughput, it may be desirable to increase this value.
-+
-+OS requirements
-+---------------
-+
-+The minimal Xen support in the KVM accelerator requires the host to be running
-+Linux v5.12 or newer. Later versions add optimisations: Linux v5.17 added
-+acceleration of interrupt delivery via the Xen PIRQ mechanism, and Linux v5.19
-+accelerated Xen PV timers and inter-processor interrupts (IPIs).
-diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index e64c013077..77c2f3b979 100644
---- a/docs/system/target-i386.rst
-+++ b/docs/system/target-i386.rst
-@@ -27,6 +27,7 @@ Architectural features
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index b9a6f7f538..e5a1dd19f4 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -1502,13 +1502,7 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+     device_listener_register(&state->device_listener);
  
-    i386/cpu
-    i386/hyperv
-+   i386/xen
-    i386/kvm-pv
-    i386/sgx
-    i386/amd-memory-encryption
+     xen_bus_init();
+-
+-    /* Initialize backend core & drivers */
+-    if (xen_be_init() != 0) {
+-        error_report("xen backend core setup failed");
+-        goto err;
+-    }
+-    xen_be_register_common();
++    xen_be_init();
+ 
+     QLIST_INIT(&xen_physmap);
+     xen_read_physmap(state);
+diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+index 085fd31ef7..afba71f6eb 100644
+--- a/hw/xen/xen-legacy-backend.c
++++ b/hw/xen/xen-legacy-backend.c
+@@ -676,21 +676,30 @@ void xenstore_update_fe(char *watch, struct XenLegacyDevice *xendev)
+ }
+ /* -------------------------------------------------------------------- */
+ 
+-int xen_be_init(void)
++static void xen_set_dynamic_sysbus(void)
++{
++    Object *machine = qdev_get_machine();
++    ObjectClass *oc = object_get_class(machine);
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_XENSYSDEV);
++}
++
++void xen_be_init(void)
+ {
+     xengnttab_handle *gnttabdev;
+ 
+     xenstore = xs_daemon_open();
+     if (!xenstore) {
+         xen_pv_printf(NULL, 0, "can't connect to xenstored\n");
+-        return -1;
++        exit(1);
+     }
+ 
+     qemu_set_fd_handler(xs_fileno(xenstore), xenstore_update, NULL, NULL);
+ 
+     if (xen_xc == NULL || xen_fmem == NULL) {
+-        /* Check if xen_init() have been called */
+-        goto err;
++        xen_pv_printf(NULL, 0, "Xen operations not set up\n");
++        exit(1);
+     }
+ 
+     gnttabdev = xengnttab_open(NULL, 0);
+@@ -706,23 +715,16 @@ int xen_be_init(void)
+     xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
+     qbus_set_bus_hotplug_handler(xen_sysbus);
+ 
+-    return 0;
+-
+-err:
+-    qemu_set_fd_handler(xs_fileno(xenstore), NULL, NULL, NULL);
+-    xs_daemon_close(xenstore);
+-    xenstore = NULL;
+-
+-    return -1;
+-}
+-
+-static void xen_set_dynamic_sysbus(void)
+-{
+-    Object *machine = qdev_get_machine();
+-    ObjectClass *oc = object_get_class(machine);
+-    MachineClass *mc = MACHINE_CLASS(oc);
++    xen_set_dynamic_sysbus();
+ 
+-    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_XENSYSDEV);
++    xen_be_register("console", &xen_console_ops);
++    xen_be_register("vkbd", &xen_kbdmouse_ops);
++#ifdef CONFIG_VIRTFS
++    xen_be_register("9pfs", &xen_9pfs_ops);
++#endif
++#ifdef CONFIG_USB_LIBUSB
++    xen_be_register("qusb", &xen_usb_ops);
++#endif
+ }
+ 
+ int xen_be_register(const char *type, struct XenDevOps *ops)
+@@ -744,20 +746,6 @@ int xen_be_register(const char *type, struct XenDevOps *ops)
+     return xenstore_scan(type, xen_domid, ops);
+ }
+ 
+-void xen_be_register_common(void)
+-{
+-    xen_set_dynamic_sysbus();
+-
+-    xen_be_register("console", &xen_console_ops);
+-    xen_be_register("vkbd", &xen_kbdmouse_ops);
+-#ifdef CONFIG_VIRTFS
+-    xen_be_register("9pfs", &xen_9pfs_ops);
+-#endif
+-#ifdef CONFIG_USB_LIBUSB
+-    xen_be_register("qusb", &xen_usb_ops);
+-#endif
+-}
+-
+ int xen_be_bind_evtchn(struct XenLegacyDevice *xendev)
+ {
+     if (xendev->local_port != -1) {
+diff --git a/hw/xenpv/xen_machine_pv.c b/hw/xenpv/xen_machine_pv.c
+index 20c9611d71..2e759d0619 100644
+--- a/hw/xenpv/xen_machine_pv.c
++++ b/hw/xenpv/xen_machine_pv.c
+@@ -36,10 +36,7 @@ static void xen_init_pv(MachineState *machine)
+     int i;
+ 
+     /* Initialize backend core & drivers */
+-    if (xen_be_init() != 0) {
+-        error_report("%s: xen backend core setup failed", __func__);
+-        exit(1);
+-    }
++    xen_be_init();
+ 
+     switch (xen_mode) {
+     case XEN_ATTACH:
+@@ -55,7 +52,6 @@ static void xen_init_pv(MachineState *machine)
+         break;
+     }
+ 
+-    xen_be_register_common();
+     xen_be_register("vfb", &xen_framebuffer_ops);
+     xen_be_register("qnic", &xen_netdev_ops);
+ 
+diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
+index be281e1f38..e31cd3a068 100644
+--- a/include/hw/xen/xen-legacy-backend.h
++++ b/include/hw/xen/xen-legacy-backend.h
+@@ -42,8 +42,7 @@ int xenstore_read_fe_uint64(struct XenLegacyDevice *xendev, const char *node,
+ void xen_be_check_state(struct XenLegacyDevice *xendev);
+ 
+ /* xen backend driver bits */
+-int xen_be_init(void);
+-void xen_be_register_common(void);
++void xen_be_init(void);
+ int xen_be_register(const char *type, struct XenDevOps *ops);
+ int xen_be_set_state(struct XenLegacyDevice *xendev, enum xenbus_state state);
+ int xen_be_bind_evtchn(struct XenLegacyDevice *xendev);
 -- 
 2.39.0
 
