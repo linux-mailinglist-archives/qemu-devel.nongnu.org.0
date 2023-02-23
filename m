@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2816A013A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 03:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2AE6A013F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 03:43:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV1VM-0007Fi-Kp; Wed, 22 Feb 2023 21:38:44 -0500
+	id 1pV1YN-0000Fy-79; Wed, 22 Feb 2023 21:41:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pV1VK-0007FU-E0
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 21:38:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pV1YI-0000Fg-Op
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 21:41:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pV1VI-0002Fk-Kk
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 21:38:42 -0500
+ id 1pV1YF-0002tT-N6
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 21:41:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677119919;
+ s=mimecast20190719; t=1677120102;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ma7/z8WNX1RDXHaIHyV4UxtdHg2TDktAwvW+oBEdYG0=;
- b=eBBYJpWF6H3PmkOiG0f0JpccmwMDDAz8Og9IfJ+kzJcs4e6c4R/xn7wPdZ+O37HHsVWgHo
- 1D8wDtqm3u4VipC5abin+0GGNFWXgedJLGaHp8bhIpJeVUHfjDfATscKBYhQRb7wtH5u+X
- 5tLslwDSkbCUpGt4BvxSxwyAmRdjxoE=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ziz5MxFU0ZrUNvw6PLY1Gqtxr/ofFXWOuihWXRLcoBI=;
+ b=Mp65G9O7SDMXbg0KxlYMG3Q77yGZWqdDuX1yZUBLbSXNsr+KEk+Yj1pL3iLEcJk8fQSEnX
+ 9O/f0rj98IlffRQDHJB6iq64NcGaO/Sypcd2sU8mKL870TivtEVzTFeq2BekaAuN7SI2mz
+ ZRQLkvDl3RQqMYcHb9jXb0HTnUf8d9Y=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-271-vKwL790-NDOtKou6j6k2GA-1; Wed, 22 Feb 2023 21:38:37 -0500
-X-MC-Unique: vKwL790-NDOtKou6j6k2GA-1
-Received: by mail-pg1-f199.google.com with SMTP id
- d18-20020a63f252000000b00502f11fb2fcso693870pgk.6
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 18:38:37 -0800 (PST)
+ us-mta-504-nJ-I1E80MfeKTgH2xptEXw-1; Wed, 22 Feb 2023 21:41:40 -0500
+X-MC-Unique: nJ-I1E80MfeKTgH2xptEXw-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ g13-20020a63f40d000000b005015be7b9faso4175188pgi.15
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 18:41:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ma7/z8WNX1RDXHaIHyV4UxtdHg2TDktAwvW+oBEdYG0=;
- b=QN/GldNfHi7I8DdBqRvlsvTVr0C8OSPEkzjBM+T1zY/rVL5S1YYXypXf+yLOdHXbPe
- MYOD4otyDoXf/OSaxw38xkjMzQ26a50yV73id+BmQ0fQph62KnKcXO1jkzfp3zthbQa7
- 88Dl/jX2U4neCD8ec79in56XW0CEgAMsaJ+FNIEvfaMN7hA5zyCaG0Y0gir4kDYJTD1h
- If9NeFUHIJtRU61X6NDlnMxseEjh6Hiw6F8vudYMZgUZlvt889/DkVLht5MUeMwKqsjR
- WZdw4o0DwUp8HY9XlCckntwHRENIUn/yGaz0VIA9Lq9a8jk73YKYnDt3/Md/xLoWF1aZ
- zvAg==
-X-Gm-Message-State: AO0yUKV5PhPZjv5do4BxZhte4IdxxSW8yIscqsmKkVaKGlZumTxrsJCW
- yM+kX8NRdpLBk/F5QtIIaPBt4ItCr4qm2RHMaCFFS3DFJnacX25fP/UJauC+Dpi0fMAcQ7kF1dF
- agaStfUxoLn0dotI=
-X-Received: by 2002:a17:90b:4d0d:b0:237:39b1:7cb1 with SMTP id
- mw13-20020a17090b4d0d00b0023739b17cb1mr5553332pjb.19.1677119916638; 
- Wed, 22 Feb 2023 18:38:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set8A3Ap4rPUmFf9SKVabNxcAIPB0FfhoQXmkuFsFqQA/M31SHHFeOwKXaPxz01ezpX7ik2VoBg==
-X-Received: by 2002:a17:90b:4d0d:b0:237:39b1:7cb1 with SMTP id
- mw13-20020a17090b4d0d00b0023739b17cb1mr5553293pjb.19.1677119916297; 
- Wed, 22 Feb 2023 18:38:36 -0800 (PST)
+ bh=Ziz5MxFU0ZrUNvw6PLY1Gqtxr/ofFXWOuihWXRLcoBI=;
+ b=UOQZtBC7BbuSx/fi348kB0Vdirmt8l1zoC9kkxgWF6WV8SRzb2lcPxTmiMlNQVQOhA
+ UwgpuNpoxwNIAKH0sScAGow8FjgDgZWy109QIwG6T8JnYEjdxghZ37M3avzp7xDuPW/x
+ xbnN/gPim76uo+nlP1GeoIb3ViuMC3JbwkE6z0he718pELyqTXIf48koPWBjmyP3bDSh
+ SQK76cWKON8xkNpxBouX5A86nCDUJy1Xf272qZhty6gErmjLHWF/2EotapNDDfjua/vj
+ i47u5cbx+m23eKX6qmalaUMutMJEMlZpsCadyQWfLFly37K6tG0b8270o3hbzEndVSIH
+ zjug==
+X-Gm-Message-State: AO0yUKV09ma8EEKdXuFWpQ7JQ7kMryDa4Zkb5w2/LOsv5FGxmsROXISG
+ htZvGnoPGnv1l8Wk/QZbObGSUGXYcjWVuQLj2f1H0w1nDAvqfvAB79ME/BMh7kZHUMZvahKap5Q
+ oTfVHgGq9Sp95vys=
+X-Received: by 2002:a17:903:1205:b0:19a:b151:bf68 with SMTP id
+ l5-20020a170903120500b0019ab151bf68mr11723315plh.38.1677120099773; 
+ Wed, 22 Feb 2023 18:41:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set91CxZzolnqQ10iVScbBV52Sq6CkIbngY8R4svNhYX2VR5X3w7K4p6fC8Ue2grKjZB35HdVmw==
+X-Received: by 2002:a17:903:1205:b0:19a:b151:bf68 with SMTP id
+ l5-20020a170903120500b0019ab151bf68mr11723289plh.38.1677120099501; 
+ Wed, 22 Feb 2023 18:41:39 -0800 (PST)
 Received: from [10.72.13.176] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- z10-20020a17090abd8a00b0022bb3ee9b68sm4776210pjr.13.2023.02.22.18.38.30
+ p22-20020a170902a41600b001966d94cb2esm7911505plq.288.2023.02.22.18.41.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 18:38:35 -0800 (PST)
-Message-ID: <81762a3b-b01f-2c3a-be63-531ac5b6976c@redhat.com>
-Date: Thu, 23 Feb 2023 10:38:28 +0800
+ Wed, 22 Feb 2023 18:41:39 -0800 (PST)
+Message-ID: <c0505c7c-c3d1-372f-c8df-2a4b84ec7fce@redhat.com>
+Date: Thu, 23 Feb 2023 10:41:32 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 11/13] vdpa: block migration if dev does not have
- _F_SUSPEND
+Subject: Re: [PATCH v2 09/13] vdpa net: block migration if the device has CVQ
 Content-Language: en-US
 To: Eugenio Perez Martin <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>,
@@ -83,14 +82,14 @@ Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>,
  longpeng2@huawei.com, virtualization@lists.linux-foundation.org,
  Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
 References: <20230208094253.702672-1-eperezma@redhat.com>
- <20230208094253.702672-12-eperezma@redhat.com>
- <c8d6ecc3-87f6-986e-e78d-003000e8a51e@redhat.com>
- <CAJaqyWdhK7QEHECP7qJP9tPA69e8uTuJtqLPNq_mUUhRDG_2Aw@mail.gmail.com>
+ <20230208094253.702672-10-eperezma@redhat.com>
+ <de141eaa-6cc4-e942-9fff-de4dcee8625f@redhat.com>
+ <CAJaqyWerBtkw1KxiAThXza0htxV=PkJZGtoAxeHKKd5p_Dq55g@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWdhK7QEHECP7qJP9tPA69e8uTuJtqLPNq_mUUhRDG_2Aw@mail.gmail.com>
+In-Reply-To: <CAJaqyWerBtkw1KxiAThXza0htxV=PkJZGtoAxeHKKd5p_Dq55g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -115,83 +114,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/2/22 22:25, Eugenio Perez Martin 写道:
-> On Wed, Feb 22, 2023 at 5:05 AM Jason Wang <jasowang@redhat.com> wrote:
+在 2023/2/22 15:28, Eugenio Perez Martin 写道:
+> On Wed, Feb 22, 2023 at 5:01 AM Jason Wang <jasowang@redhat.com> wrote:
 >>
 >> 在 2023/2/8 17:42, Eugenio Pérez 写道:
->>> Next patches enable devices to be migrated even if vdpa netdev has not
->>> been started with x-svq. However, not all devices are migratable, so we
->>> need to block migration if we detect that.
->>>
->>> Block vhost-vdpa device migration if it does not offer _F_SUSPEND and it
->>> has not been started with x-svq.
->>>
->>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>> ---
->>>    hw/virtio/vhost-vdpa.c | 21 +++++++++++++++++++++
->>>    1 file changed, 21 insertions(+)
->>>
->>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>> index 84a6b9690b..9d30cf9b3c 100644
->>> --- a/hw/virtio/vhost-vdpa.c
->>> +++ b/hw/virtio/vhost-vdpa.c
->>> @@ -442,6 +442,27 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
->>>            return 0;
->>>        }
->>>
->>> +    /*
->>> +     * If dev->shadow_vqs_enabled at initialization that means the device has
->>> +     * been started with x-svq=on, so don't block migration
->>> +     */
->>> +    if (dev->migration_blocker == NULL && !v->shadow_vqs_enabled) {
->>> +        uint64_t backend_features;
->>> +
->>> +        /* We don't have dev->backend_features yet */
->>> +        ret = vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES,
->>> +                              &backend_features);
->>> +        if (unlikely(ret)) {
->>> +            error_setg_errno(errp, -ret, "Could not get backend features");
->>> +            return ret;
->>> +        }
->>> +
->>> +        if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_SUSPEND))) {
->>> +            error_setg(&dev->migration_blocker,
->>> +                "vhost-vdpa backend lacks VHOST_BACKEND_F_SUSPEND feature.");
->>> +        }
+>>> Devices with CVQ needs to migrate state beyond vq state.  Leaving this
+>>> to future series.
 >>
->> I wonder why not let the device to decide? For networking device, we can
->> live without suspend probably.
+>> I may miss something but what is missed to support CVQ/MQ?
 >>
-> Right, but how can we know if this is a net device in init? I don't
-> think a switch (vhost_vdpa_get_device_id(dev)) is elegant.
+> To restore all the device state set by CVQ in the migration source
+> (MAC, MQ, ...) before data vqs start. We don't have a reliable way to
+> not start data vqs until the device [1].
+>
+> Thanks!
+>
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02652.html
 
 
-I meant the caller of vhost_vdpa_init() which is net_init_vhost_vdpa().
+Right. It might be mention this defect in either the change log or 
+somewhere in the code as a comment.
+
+(Btw, I think we should fix those vDPA drivers).
 
 Thanks
 
 
 >
-> If the parent device does not need to be suspended i'd go with
-> exposing a suspend ioctl but do nothing in the parent device. After
-> that, it could even choose to return an error for GET_VRING_BASE.
->
-> If we want to implement it as a fallback in qemu, I'd go for
-> implementing it on top of this series. There are a few operations we
-> could move to a device-kind specific ops.
->
-> Would it make sense to you?
->
-> Thanks!
->
->
 >> Thanks
 >>
 >>
->>> +    }
+>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>> ---
+>>>    net/vhost-vdpa.c | 6 ++++++
+>>>    1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>>> index bca13f97fd..309861e56c 100644
+>>> --- a/net/vhost-vdpa.c
+>>> +++ b/net/vhost-vdpa.c
+>>> @@ -955,11 +955,17 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>>>        }
+>>>
+>>>        if (has_cvq) {
+>>> +        VhostVDPAState *s;
 >>> +
->>>        /*
->>>         * Similar to VFIO, we end up pinning all guest memory and have to
->>>         * disable discarding of RAM.
+>>>            nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+>>>                                     vdpa_device_fd, i, 1, false,
+>>>                                     opts->x_svq, iova_range);
+>>>            if (!nc)
+>>>                goto err;
+>>> +
+>>> +        s = DO_UPCAST(VhostVDPAState, nc, nc);
+>>> +        error_setg(&s->vhost_vdpa.dev->migration_blocker,
+>>> +                   "net vdpa cannot migrate with MQ feature");
+>>>        }
+>>>
+>>>        return 0;
 
 
