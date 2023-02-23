@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9326A0EA4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 18:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AA66A0EA9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 18:26:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVFIr-0005su-JP; Thu, 23 Feb 2023 12:22:45 -0500
+	id 1pVFLe-0008Fj-C3; Thu, 23 Feb 2023 12:25:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVFIo-0005oz-FE
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 12:22:42 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pVFLb-0008EZ-HP; Thu, 23 Feb 2023 12:25:35 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVFIm-0007Gh-C6
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 12:22:42 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id c1so14067981plg.4
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 09:22:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=H8MKTFApAT/Q1sRn9j5XRsAqf09x/WAziGPKsVxwhFs=;
- b=uV3oG5BdBS+QfHdGZ+0rw+gtx7r1y31q+C3YFMbx3x2nAnjovo+2vQuMLEFWZ/83s8
- etGNe4I2RN3+Ff6ZDBRu+WOXr0qUSKQTboBwGKox+/XaK7odbjhw/LfOa0lgRNSiZ7/Y
- qFPYC/sBlWvNHsAob2+Uvm+Ul2Fa++YUxBBvMu6w55epG4OAZhrYfavhegIsX8r07qJq
- k5UIoj8JLf9AuLgK999A/SPASVEQLkhdaf+qvcpPsb8K5JuxZipYMKZtueuhCAM7STJn
- iJstuwilu18FMsurt39KkP90T5kKzx34DCp0m7YPnhQTShUPagLn+/xjC6SebngndIWb
- rBMw==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pVFLY-0008TO-09; Thu, 23 Feb 2023 12:25:35 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id da10so46081506edb.3;
+ Thu, 23 Feb 2023 09:25:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Y8nOxmkOn9LpaXmc+IYryCDP6AaEqOVoB3ulj8P2HMs=;
+ b=ZEvzTa06PH8HTOzJ9Xdbb18NvrhaRbI56eQrqrZOP4dP1F1PFwnTsdPZGjipxZbu5S
+ QVRb13nHKi2tluHQxzaSizampnBBRX1yzPG4oTXps0aJNqJTYKA1VwTFIZrCDjOnYX65
+ YZmzK1JKfeyGHktW4A/QbSvE/NA69aOVIPqAjRD9Hl5E9pdwFNKVIN09UMlJFsVAhxVr
+ Y1KKxigd5Sh13En0oK4pTimLTIUWvxSKmLReawtghXy0Z+a0Og5TAw0QZgSXjVdzkGSM
+ St4+ZTlw+4CQ1KtNPlryZTVRQNXqZHIRuJYkkovDn0xRJsmAIjryF5QTf3OQ2ZioBn5E
+ /Ahw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H8MKTFApAT/Q1sRn9j5XRsAqf09x/WAziGPKsVxwhFs=;
- b=1VYbDclT7h7mZzNQixzV/URvoqtaoOAycu6U3q/ojkLI9NwCckI00di68YUi9A1s5c
- Dw30RSBkhfCbWAEe5mR9XC4+IoLenPYZ2g+fhbqj+gVc6qfONemQ+9T8jc7s9Y16gzj7
- lGMYAr3xrGJWbzokHXwI76NfrGK1Kzl5SYJ++/Y3dOFHNEFGNyANk9LHPPovZWAsUP/p
- hK4XyY04A+XX+CofZasXY1OnUkX4t09sajf7hGWAPSP2TYQE2YEOfQSgIWEqsNdHYb6j
- YbcTQkFz4is0xdfy3weyITXqGjC4GVTeL7l4mNxvgUGAcViOIjsYNla7Ggq07Cyd11E1
- ofcw==
-X-Gm-Message-State: AO0yUKWTcNemYVvNb5x8kB0orZ70F2h/5tY8k2IuYvENSKU9NSBhXHWS
- fdF0/+nJ6OWQZtwK9BMwzj4Ug5Pm5JNyVf+RrUgalw==
-X-Google-Smtp-Source: AK7set9gSuMpzcecUlau/9dxkBV4E3Qv69Zp7tRKY6XWmNOiYW0EfXOKklYknWeKOMaby1Ik71tbYBpr/m59dE+RWYg=
-X-Received: by 2002:a17:90b:4d04:b0:237:50b6:984c with SMTP id
- mw4-20020a17090b4d0400b0023750b6984cmr1316094pjb.137.1677172958729; Thu, 23
- Feb 2023 09:22:38 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Y8nOxmkOn9LpaXmc+IYryCDP6AaEqOVoB3ulj8P2HMs=;
+ b=5fWd3tzS3Pe7I5JZWvfcchQV1pcJxNElzRlrj8RFqMHswkLyD7vflzutL/KhazOXm+
+ cM/zi+wu29+khhZdl40Wg9o5CkimwRPaTZnus0okqqOWcbuOz7A3xCDR0fT3hiI9bhiR
+ ijtnHbldhFxiq2MCFlF7R6YTBZzC6R6T4QqQ4K1V2eaoB9Bth+bx6xRF81UcYiuajugG
+ KwrjyBv1I4PNZ5/A2pfPXK1mrH/zy5RgxAEamc9bWpFApAlyhy/bX6OLfDz3dh03qmhd
+ O7udWwK3HNn94pC2qxaq6e7JzuorSDIee+wy4JqGVXa6DAZ5iO6s07Sio4IsxHhcp5Pe
+ QzXg==
+X-Gm-Message-State: AO0yUKWTPFB2IVIHnXEeMqENKRg7jp6H/3ARKN0+3EgSm9RnJ6UJUcGR
+ RM8Qrz4ZNqjuS8FIQkZ8IRHZS1U5PKwQ8w==
+X-Google-Smtp-Source: AK7set+5RMYPksTjohWrIg2hdTLKJHgTeE9+3ShkbmOyI52uOj/IlIS0J/Yt9fswHnbCp78fNXScfg==
+X-Received: by 2002:a17:906:20d1:b0:8b0:ad0b:7ab8 with SMTP id
+ c17-20020a17090620d100b008b0ad0b7ab8mr22527736ejc.14.1677173128949; 
+ Thu, 23 Feb 2023 09:25:28 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf06ee0069bc6d590f31a9b0.dip0.t-ipconnect.de.
+ [2003:fa:af06:ee00:69bc:6d59:f31:a9b0])
+ by smtp.gmail.com with ESMTPSA id
+ f13-20020a170906738d00b008e6bd130b14sm2304394ejl.64.2023.02.23.09.25.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 09:25:28 -0800 (PST)
+Date: Thu, 23 Feb 2023 17:25:23 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+CC: =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-arm@nongnu.org, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, John Snow <jsnow@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-ppc@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>
+Subject: Re: [PATCH v7 00/23] Consolidate PIIX south bridges
+In-Reply-To: <20230212123805.30799-1-shentey@gmail.com>
+References: <20230212123805.30799-1-shentey@gmail.com>
+Message-ID: <A5067C75-87DB-4D58-B49E-97BEDF303831@gmail.com>
 MIME-Version: 1.0
-References: <20230216030854.1212208-1-richard.henderson@linaro.org>
- <20230216030854.1212208-17-richard.henderson@linaro.org>
- <CAFEAcA_6_Om4hGBB5=pFVRzOiE-PndYU9TAFGRj1s7=s9-C0qQ@mail.gmail.com>
- <835a509d-caa4-9cf7-88f5-d7f3705dd646@linaro.org>
-In-Reply-To: <835a509d-caa4-9cf7-88f5-d7f3705dd646@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Feb 2023 17:22:27 +0000
-Message-ID: <CAFEAcA-nAdnugbDPgwAknALzSzjN5nhrvVYjuBKuShEqJrZxKw@mail.gmail.com>
-Subject: Re: [PATCH v1 16/19] target/arm: Relax ordered/atomic alignment
- checks for LSE2
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62f.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,60 +104,393 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 23 Feb 2023 at 17:16, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+
+
+Am 12=2E Februar 2023 12:37:42 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>This series consolidates the implementations of the PIIX3 and PIIX4 south=
+
 >
-> On 2/23/23 06:49, Peter Maydell wrote:
-> > On Thu, 16 Feb 2023 at 03:09, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> FEAT_LSE2 only requires that atomic operations not cross a
-> >> 16-byte boundary.  Ordered operations may be completely
-> >> unaligned if SCTLR.nAA is set.
-> >>
-> >> Because this alignment check is so special, do it by hand.
-> >> Make sure not to keep TCG temps live across the branch.
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >
-> >
-> >> +static void check_lse2_align(DisasContext *s, int rn, int imm,
-> >> +                             bool is_write, MemOp mop)
-> >> +{
-> >> +    TCGv_i32 tmp;
-> >> +    TCGv_i64 addr;
-> >> +    TCGLabel *over_label;
-> >> +    MMUAccessType type;
-> >> +    int mmu_idx;
-> >> +
-> >> +    tmp = tcg_temp_new_i32();
-> >> +    tcg_gen_extrl_i64_i32(tmp, cpu_reg_sp(s, rn));
-> >> +    tcg_gen_addi_i32(tmp, tmp, imm & 15);
-> >> +    tcg_gen_andi_i32(tmp, tmp, 15);
-> >> +    tcg_gen_addi_i32(tmp, tmp, memop_size(mop));
-> >> +
-> >> +    over_label = gen_new_label();
-> >> +    tcg_gen_brcond_i32(TCG_COND_LEU, tmp, tcg_constant_i32(16), over_label);
-> >
-> > This brcond ends the basic block and destroys the content
-> > of TCG temporaries, which is bad because some of the
-> > callsites have set some of those up before calling this
-> > function (eg gen_compare_and_swap() has called cpu_reg()
-> > which might have created and initialized a temporary
-> > for xZR).
+>bridges and is an extended version of [1]=2E The motivation is to share a=
+s much
 >
-> xzr uses tcg_constant_i64(), which has no lifetime issues.
-
-Hmm? cpu_reg() calls new_tmp_a64_zero() calls new_tmp_a64()
-calls tcg_temp_new_i64(). What am I missing ?
-
-> I've cc'd you on a patch set that fixes all the temporary lifetime stuff.
+>code as possible and to bring both device models to feature parity such t=
+hat
 >
-> v1: https://patchew.org/QEMU/20230130205935.1157347-1-richard.henderson@linaro.org/
-> v2: https://patchew.org/QEMU/20230222232715.15034-1-richard.henderson@linaro.org/
+>perhaps PIIX4 can become a drop-in-replacement for PIIX3 in the pc machin=
+e=2E This
+>
+>could resolve the "Frankenstein" PIIX4-PM problem in PIIX3 discussed on t=
+his
+>
+>list before=2E
+>
+>
+>
+>The series is structured as follows:
+>
+>
+>
+>Move sub devices into the PIIX3 south bridge, like PIIX4 does already:
+>
+>* hw/i386/pc: Create RTC controllers in south bridges
+>
+>* hw/i386/pc: No need for rtc_state to be an out-parameter
+>
+>* hw/i386/pc_piix: Allow for setting properties before realizing PIIX3 so=
+uth bridge
+>
+>* hw/isa/piix3: Create USB controller in host device
+>
+>* hw/isa/piix3: Create power management controller in host device
+>
+>* hw/isa/piix3: Move ISA bus IRQ assignments into host device
+>
+>* hw/isa/piix3: Create IDE controller in host device
+>
+>* hw/isa/piix3: Wire up ACPI interrupt internally
+>
+>
+>
+>Make PIIX3 and PIIX4 south bridges more similar:
+>
+>* hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
+>
+>* hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
+>
+>* hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
+>
+>* hw/isa/piix3: Drop the "3" from PIIX base class
+>
+>* hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
+>
+>* hw/isa/piix4: Remove unused inbound ISA interrupt lines
+>
+>* hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>
+>* hw/isa/piix4: Create the "intr" property during init() already
+>
+>* hw/isa/piix4: Rename reset control operations to match PIIX3
+>
+>
+>
+>This patch achieves the main goal of the series:
+>
+>* hw/isa/piix3: Merge hw/isa/piix4=2Ec
+>
+>
+>
+>Perform some further consolidations which were easier to do after the mer=
+ge:
+>
+>* hw/isa/piix: Harmonize names of reset control memory regions
+>
+>* hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
+>
+>* hw/isa/piix: Rename functions to be shared for interrupt triggering
+>
+>* hw/isa/piix: Consolidate IRQ triggering
+>
+>* hw/isa/piix: Share PIIX3's base class with PIIX4
+>
+>
+>
+>One challenge was dealing with optional devices where Peter already gave =
+advice
+>
+>in [1] which this series implements=2E
+>
+>
+>
+>There are still some differences in the device models:
+>
+>- PIIX4 instantiates its own PIC and PIT while PIIX3 doesn't
+>
+>- PIIX4 wires up the RTC IRQ itself while PIIX3 doesn't
+>
+>- Different binary layout in VM state
+>
+>
+>
+>v7:
+>
+>- Rebase onto master
+>
+>- Avoid the PIC proxy (Phil)
+>
+>  The motivation for the PIC proxy was to allow for wiring up ISA interru=
+pts in
+>
+>  the south bridges=2E ISA interrupt wiring requires the GPIO lines to be=
 
-Cool!
+>
+>  populated already but pc_piix assigned the interrupts only after realiz=
+ing
+>
+>  PIIX3=2E By shifting interrupt assignment before realizing, the ISA int=
+errupts
+>
+>  are already populated during PIIX3's realize phase where the ISA interr=
+upts
+>
+>  are wired up=2E
+>
+>- New patches:
+>
+>  * hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>
+>  * hw/isa/piix4: Create the "intr" property during init() already
+>
+>- Patches with substantial changes (Reviewed-by dropped):
+>
+>  * hw/isa/piix3: Move ISA bus IRQ assignments into host device
+>
 
-thanks
--- PMM
+Ping
+
+Can we queue the piix3 part already? Now that the series doesn't introduce=
+ a PIC proxy any more the piix3 part is essentially QOM cleanup=2E
+
+Note that I cautiously dropped some Reviewed-by tags in the piix3 part as =
+well=2E
+
+Best regards,
+Bernhard
+
+>
+>
+>Testing done:
+>
+>* `make check`
+>
+>* Boot live CD:
+>
+>  * `qemu-system-x86_64 -M pc -m 2G -accel kvm -cpu host -cdrom manjaro-k=
+de-21=2E3=2E2-220704-linux515=2Eiso`
+>
+>  * `qemu-system-x86_64 -M q35 -m 2G -accel kvm -cpu host -cdrom manjaro-=
+kde-21=2E3=2E2-220704-linux515=2Eiso`
+>
+>* 'qemu-system-mips64el -M malta -kernel vmlinux-3=2E2=2E0-4-5kc-malta -h=
+da debian_wheezy_mipsel_standard=2Eqcow2 -append "root=3D/dev/sda1 console=
+=3DttyS0"`
+>
+>* Run HVM domU guest under Xen with manjaro-kde-21=2E3=2E2-220704-linux51=
+5=2Eiso image
+>
+>
+>
+>v6:
+>
+>- Fix some comments about TYPE_ISA_PIC (Mark) =2E=2E=2E and use it consis=
+tently
+>
+>  within the patch series=2E
+>
+>- Incorporate series "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from s=
+outh
+>
+>  bridges" [2] for maintainer convenience=2E
+>
+>- Merge v5's 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI bu=
+s is
+>
+>  created' into
+>
+>  https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2022-11/msg03312=
+=2Ehtml =2E Do
+>
+>  similar for Malta=2E
+>
+>- Rebase onto latest master (d6271b657286 "Merge tag 'for_upstream' of
+>
+>  https://git=2Ekernel=2Eorg/pub/scm/virt/kvm/mst/qemu into staging")
+>
+>
+>
+>v5:
+>
+>- Pick up Reviewed-by tags from https://lists=2Enongnu=2Eorg/archive/html=
+/qemu-devel/2023-01/msg00116=2Ehtml
+>
+>- Add patch to make usage of the isa_pic global more type-safe
+>
+>- Re-introduce isa-pic as PIC specific proxy (Mark)
+>
+>
+>
+>v4:
+>
+>- Rebase onto "[PATCH v2 0/3] Decouple INTx-to-LNKx routing from south br=
+idges"
+>
+>  since it is already queued via mips-next=2E This eliminates patches
+>
+>  'hw/isa/piix3: Prefix pci_slot_get_pirq() with "piix3_"' and 'hw/isa/pi=
+ix4:
+>
+>  Prefix pci_slot_get_pirq() with "piix4_"'=2E
+>
+>- Squash 'hw/isa/piix: Drop the "3" from the PIIX base class' into
+>
+>  'hw/isa/piix3: Rename typedef PIIX3State to PIIXState'=2E I originally =
+only
+>
+>  split these patches since I wasn't sure whether renaming a type was all=
+owed=2E
+>
+>- Add new patch 'hw/i386/pc_piix: Associate pci_map_irq_fn as soon as PCI=
+ bus is
+>
+>  created' for forther cleanup of INTx-to-LNKx route decoupling=2E
+>
+>
+>
+>v3:
+>
+>- Introduce one TYPE_ICH9_USB_UHCI(fn) rather than several TYPE_ICH9_USB_=
+UHCIx
+>
+>  (Philippe)
+>
+>- Make proxy PIC generic (Philippe)
+>
+>- Track Malta's PIIX dependencies through KConfig
+>
+>- Rebase onto Philippe's 'hw/isa/piix4: Remove MIPS Malta specific bits' =
+series [3]
+>
+>- Also rebase onto latest master to resolve merge conflicts=2E This requi=
+red
+>
+>  copying Philippe's series as first three patches - please ignore=2E
+>
+>
+>
+>v2:
+>
+>- Introduce TYPE_ defines for IDE and USB device models (Mark)
+>
+>- Omit unexporting of PIIXState (Mark)
+>
+>- Improve commit message of patch 5 to mention reset triggering through P=
+CI
+>
+>  configuration space (Mark)
+>
+>- Move reviewed patches w/o dependencies to the bottom of the series for =
+early
+>
+>  upstreaming
+>
+>
+>
+>[1] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2022-07/msg02348=
+=2Ehtml
+>
+>[2] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2022-11/msg03310=
+=2Ehtml
+>
+>[3] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2022-10/msg05367=
+=2Ehtml
+>
+>
+>
+>Bernhard Beschow (23):
+>
+>  hw/i386/pc: Create RTC controllers in south bridges
+>
+>  hw/i386/pc: No need for rtc_state to be an out-parameter
+>
+>  hw/i386/pc_piix: Allow for setting properties before realizing PIIX3
+>
+>    south bridge
+>
+>  hw/isa/piix3: Create USB controller in host device
+>
+>  hw/isa/piix3: Create power management controller in host device
+>
+>  hw/isa/piix3: Move ISA bus IRQ assignments into host device
+>
+>  hw/isa/piix3: Create IDE controller in host device
+>
+>  hw/isa/piix3: Wire up ACPI interrupt internally
+>
+>  hw/isa/piix3: Resolve redundant PIIX_NUM_PIC_IRQS
+>
+>  hw/isa/piix3: Rename pci_piix3_props for sharing with PIIX4
+>
+>  hw/isa/piix3: Rename piix3_reset() for sharing with PIIX4
+>
+>  hw/isa/piix3: Drop the "3" from PIIX base class
+>
+>  hw/isa/piix4: Make PIIX4's ACPI and USB functions optional
+>
+>  hw/isa/piix4: Remove unused inbound ISA interrupt lines
+>
+>  hw/isa/piix4: Reuse struct PIIXState from PIIX3
+>
+>  hw/isa/piix4: Create the "intr" property during init() already
+>
+>  hw/isa/piix4: Rename reset control operations to match PIIX3
+>
+>  hw/isa/piix3: Merge hw/isa/piix4=2Ec
+>
+>  hw/isa/piix: Harmonize names of reset control memory regions
+>
+>  hw/isa/piix: Reuse PIIX3 base class' realize method in PIIX4
+>
+>  hw/isa/piix: Rename functions to be shared for interrupt triggering
+>
+>  hw/isa/piix: Consolidate IRQ triggering
+>
+>  hw/isa/piix: Share PIIX3's base class with PIIX4
+>
+>
+>
+> MAINTAINERS                   |   6 +-
+>
+> include/hw/i386/ich9=2Eh        |   2 +
+>
+> include/hw/i386/pc=2Eh          |   2 +-
+>
+> include/hw/southbridge/piix=2Eh |  28 +++-
+>
+> hw/i386/pc=2Ec                  |  16 +-
+>
+> hw/i386/pc_piix=2Ec             |  67 ++++----
+>
+> hw/i386/pc_q35=2Ec              |   3 +-
+>
+> hw/isa/lpc_ich9=2Ec             |   8 +
+>
+> hw/isa/{piix3=2Ec =3D> piix=2Ec}    | 306 ++++++++++++++++++++++++++----=
+----
+>
+> hw/isa/piix4=2Ec                | 302 ---------------------------------
+=
+>
+> hw/mips/malta=2Ec               |   6 +-
+>
+> hw/i386/Kconfig               |   3 +-
+>
+> hw/isa/Kconfig                |   8 +-
+>
+> hw/isa/meson=2Ebuild            |   3 +-
+>
+> hw/mips/Kconfig               |   2 +-
+>
+> 15 files changed, 333 insertions(+), 429 deletions(-)
+>
+> rename hw/isa/{piix3=2Ec =3D> piix=2Ec} (55%)
+>
+> delete mode 100644 hw/isa/piix4=2Ec
+>
+>
+>
+>-- >
+>2=2E39=2E1
+>
+>
+>
 
