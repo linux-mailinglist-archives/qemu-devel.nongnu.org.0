@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721B26A0B16
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF4F6A0B17
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:47:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVBvh-00020V-80; Thu, 23 Feb 2023 08:46:37 -0500
+	id 1pVBvj-000229-5S; Thu, 23 Feb 2023 08:46:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvd-0001yH-Ol
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:33 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvf-0001zg-7n
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvb-0001M1-NM
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:33 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVBvd-0001Mb-4H
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 08:46:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677159991;
+ s=mimecast20190719; t=1677159992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3pdCPADBzlpA82/42VSh5gq+wKSQ+ZhFCYEqxjgt3VA=;
- b=Ud/87jFJWQFJczUllDPQzQp+2f1+D4F9Tn1lWCkm5WnxaR5DDYNGCrp/tXXF9rCtmVdIvR
- WO8tCojG3yzdEp3OlX72A1V1zKRWIT11NekMGakP8J8o7PO1V83b7fBjo781ayoYgCyrZb
- IB9D262DYdTeZEo7EcyhnB+OGDcBf1E=
+ bh=fOG2Y34FHrg9v8OV+YU5WBLbTgi4DJhYPYOKebiEnCA=;
+ b=b6RzEwABwV1iGL3bOfPwsQAQjrXirCRlZIbfuGSLZh6G0fg5hidJQz1BnuAjGlUHzovyAp
+ pr2wio+CWDlcG3i4XgnSykb5YADtpPDiGFqUXn4COzY6U7LLC2ITILhsKdVd/b9MET9222
+ FcBOablx86TpWbaHTqq3AmIUDydckA8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260--vB5kvwWNb2bQ-ag7YZHQg-1; Thu, 23 Feb 2023 08:46:30 -0500
-X-MC-Unique: -vB5kvwWNb2bQ-ag7YZHQg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-608-wkWPW_hiMfexIrCMjCPI2g-1; Thu, 23 Feb 2023 08:46:29 -0500
+X-MC-Unique: wkWPW_hiMfexIrCMjCPI2g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C33A628237C3;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE8343810B1C;
  Thu, 23 Feb 2023 13:46:28 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3A012166B2B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD9F6C15BAE;
  Thu, 23 Feb 2023 13:46:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AA96421E6901; Thu, 23 Feb 2023 14:46:26 +0100 (CET)
+ id ACF9521E690F; Thu, 23 Feb 2023 14:46:26 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Juan Quintela <quintela@redhat.com>
-Subject: [PULL 11/12] migration/colo: Improve an x-colo-lost-heartbeat error
- message
-Date: Thu, 23 Feb 2023 14:46:25 +0100
-Message-Id: <20230223134626.2107382-12-armbru@redhat.com>
+Subject: [PULL 12/12] rocker: Tweak stubbed out monitor commands' error
+ messages
+Date: Thu, 23 Feb 2023 14:46:26 +0100
+Message-Id: <20230223134626.2107382-13-armbru@redhat.com>
 In-Reply-To: <20230223134626.2107382-1-armbru@redhat.com>
 References: <20230223134626.2107382-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -84,45 +84,93 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 The QERR_ macros are leftovers from the days of "rich" error objects.
 We've been trying to reduce their remaining use.
 
-Get rid of a use of QERR_FEATURE_DISABLED, and improve the somewhat
-imprecise error message
+The stubbed out Rocker monitor commands are the last remaining users
+of QERR_FEATURE_DISABLED.  They fail like this:
 
-    (qemu) x_colo_lost_heartbeat
-    Error: The feature 'colo' is not enabled
+    (qemu) info rocker mumble
+    Error: The feature 'rocker' is not enabled
 
-to
+The real rocker commands fail like this when the named object doesn't
+exist:
 
-    Error: VM is not in COLO mode
+    Error: rocker mumble not found
+
+If that's good enough when Rocker is enabled, then it's good enough
+when it's disabled, so replace QERR_FEATURE_DISABLED with that, and
+drop the macro.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230207075115.1525-12-armbru@redhat.com>
+Message-Id: <20230207075115.1525-13-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/colo-failover.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/qapi/qmp/qerror.h    |  3 ---
+ hw/net/rocker/qmp-norocker.c | 12 +++++-------
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/migration/colo-failover.c b/migration/colo-failover.c
-index 42453481c4..6cb6f90357 100644
---- a/migration/colo-failover.c
-+++ b/migration/colo-failover.c
-@@ -17,7 +17,6 @@
- #include "migration.h"
+diff --git a/include/qapi/qmp/qerror.h b/include/qapi/qmp/qerror.h
+index 09006e69f7..8dd9fcb071 100644
+--- a/include/qapi/qmp/qerror.h
++++ b/include/qapi/qmp/qerror.h
+@@ -29,9 +29,6 @@
+ #define QERR_DEVICE_NO_HOTPLUG \
+     "Device '%s' does not support hotplugging"
+ 
+-#define QERR_FEATURE_DISABLED \
+-    "The feature '%s' is not enabled"
+-
+ #define QERR_INVALID_PARAMETER \
+     "Invalid parameter '%s'"
+ 
+diff --git a/hw/net/rocker/qmp-norocker.c b/hw/net/rocker/qmp-norocker.c
+index 5ef4f9324c..f6c1196a24 100644
+--- a/hw/net/rocker/qmp-norocker.c
++++ b/hw/net/rocker/qmp-norocker.c
+@@ -1,6 +1,5 @@
+ /*
+- * QMP Target options - Commands handled based on a target config
+- *                      versus a host config
++ * QMP command stubs
+  *
+  * Copyright (c) 2015 David Ahern <dsahern@gmail.com>
+  *
+@@ -18,17 +17,16 @@
+ #include "qemu/osdep.h"
  #include "qapi/error.h"
- #include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-commands-rocker.h"
 -#include "qapi/qmp/qerror.h"
- #include "qemu/error-report.h"
- #include "trace.h"
  
-@@ -78,7 +77,7 @@ FailoverStatus failover_get_state(void)
- void qmp_x_colo_lost_heartbeat(Error **errp)
+ RockerSwitch *qmp_query_rocker(const char *name, Error **errp)
  {
-     if (get_colo_mode() == COLO_MODE_NONE) {
--        error_setg(errp, QERR_FEATURE_DISABLED, "colo");
-+        error_setg(errp, "VM is not in COLO mode");
-         return;
-     }
+-    error_setg(errp, QERR_FEATURE_DISABLED, "rocker");
++    error_setg(errp, "rocker %s not found", name);
+     return NULL;
+ };
  
+ RockerPortList *qmp_query_rocker_ports(const char *name, Error **errp)
+ {
+-    error_setg(errp, QERR_FEATURE_DISABLED, "rocker");
++    error_setg(errp, "rocker %s not found", name);
+     return NULL;
+ };
+ 
+@@ -37,7 +35,7 @@ RockerOfDpaFlowList *qmp_query_rocker_of_dpa_flows(const char *name,
+                                                    uint32_t tbl_id,
+                                                    Error **errp)
+ {
+-    error_setg(errp, QERR_FEATURE_DISABLED, "rocker");
++    error_setg(errp, "rocker %s not found", name);
+     return NULL;
+ };
+ 
+@@ -46,6 +44,6 @@ RockerOfDpaGroupList *qmp_query_rocker_of_dpa_groups(const char *name,
+                                                      uint8_t type,
+                                                      Error **errp)
+ {
+-    error_setg(errp, QERR_FEATURE_DISABLED, "rocker");
++    error_setg(errp, "rocker %s not found", name);
+     return NULL;
+ };
 -- 
 2.39.0
 
