@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CFBD6A0A36
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FB66A0A2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 14:13:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVBNv-0008NY-Iq; Thu, 23 Feb 2023 08:11:43 -0500
+	id 1pVBNw-0008Ok-Cb; Thu, 23 Feb 2023 08:11:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pVBNp-0008GV-JK; Thu, 23 Feb 2023 08:11:37 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ id 1pVBNt-0008NA-JO; Thu, 23 Feb 2023 08:11:41 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pVBNn-0005gz-Rv; Thu, 23 Feb 2023 08:11:37 -0500
+ id 1pVBNr-0005iS-S3; Thu, 23 Feb 2023 08:11:41 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 708C8218A9;
- Thu, 23 Feb 2023 13:11:34 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 69DE3204AC;
+ Thu, 23 Feb 2023 13:11:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677157894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1677157898; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rvSgfXOifkyTRtNHxhA8pz3MRazpsyr3UTQvCI1tVRw=;
- b=rEYWcScpUnmjcNdTt3RYnizFqjX5EZVBDsfWyePwjeytTWBPPKVLFpHLmrBOI5GryQLT9K
- uAVsjLTN6eiT0mBCtwyHhkM28W0/27ZTCzYF0HD+O6kjy7LSvo4j8DE0o/fw5yGv/09mFk
- H2QCYOd1c1Ee6W0YC3Fb3ddpULBWlyI=
+ bh=p5YrNMxmCSXKAAgShoRgMvoDqaxZU1WpdCJ0XHKi6qI=;
+ b=XmTVHxU9Ll2zu62kwUwXVQ4QeqjA6NlcifSxLjOFQVhRp3S+uQc1/j/n6J4j+nSEi6+FVJ
+ NgcdASj6OpMwKkC9U2AdcRncssbfBo0Pw94NPQafLMM99JJ7GUAur7qeqUJddRIKfTLi4s
+ Z6zAl3XP28QSHXmw8A9DOeImgEtUFuU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677157894;
+ s=susede2_ed25519; t=1677157898;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rvSgfXOifkyTRtNHxhA8pz3MRazpsyr3UTQvCI1tVRw=;
- b=hhBC/GnrvIq8eaOxtYtMlS/FHu3PHAR6yQIxGBzdBoQ8etdmwrjQyo4Yn2ClDWhYA7InD6
- OEe3m/FIPuOJcMBA==
+ bh=p5YrNMxmCSXKAAgShoRgMvoDqaxZU1WpdCJ0XHKi6qI=;
+ b=q401h5BDNm9iKKSoQaMzWkStIdk+wEgJBf05UpFCIivTSWhTQbccaR8BnkI9nsys0Attam
+ UxicN9ycA8//BvBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 276CE139B5;
- Thu, 23 Feb 2023 13:11:30 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DB78E139B5;
+ Thu, 23 Feb 2023 13:11:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QKE7OAJm92MLawAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 23 Feb 2023 13:11:30 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id CIynKAZm92MLawAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 23 Feb 2023 13:11:34 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,18 +57,19 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v7 14/20] target/arm: move cpu_tcg to tcg/cpu32.c
-Date: Thu, 23 Feb 2023 10:08:35 -0300
-Message-Id: <20230223130841.25916-15-farosas@suse.de>
+ Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v7 15/20] tests/avocado: Pass parameters to migration test
+Date: Thu, 23 Feb 2023 10:08:36 -0300
+Message-Id: <20230223130841.25916-16-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230223130841.25916-1-farosas@suse.de>
 References: <20230223130841.25916-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,154 +92,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Fontana <cfontana@suse.de>
+The migration tests are currently broken for an aarch64 host because
+the tests pass no 'machine' and 'cpu' options on the QEMU command
+line.
 
-move the module containing cpu models definitions
-for 32bit TCG-only CPUs to tcg/ and rename it for clarity.
+Add a separate class to each architecture so that we can specify
+'machine' and 'cpu' options instead of relying on defaults.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Add a skip decorator to keep the current behavior of only running
+migration tests when the qemu target matches the host architecture.
+
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/arm/virt.c                         |  2 +-
- target/arm/meson.build                |  1 -
- target/arm/{cpu_tcg.c => tcg/cpu32.c} | 13 +++----------
- target/arm/tcg/meson.build            |  1 +
- tests/qtest/arm-cpu-features.c        | 12 +++++++++---
- 5 files changed, 14 insertions(+), 15 deletions(-)
- rename target/arm/{cpu_tcg.c => tcg/cpu32.c} (99%)
+ tests/avocado/migration.py | 83 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 78 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 999c1ada79..b661b8d91b 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -204,9 +204,9 @@ static const int a15irqmap[] = {
- };
+diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
+index 4b25680c50..8b2ec0e3c4 100644
+--- a/tests/avocado/migration.py
++++ b/tests/avocado/migration.py
+@@ -11,6 +11,8 @@
  
- static const char *valid_cpus[] = {
-+#ifdef CONFIG_TCG
-     ARM_CPU_TYPE_NAME("cortex-a7"),
-     ARM_CPU_TYPE_NAME("cortex-a15"),
--#ifdef CONFIG_TCG
-     ARM_CPU_TYPE_NAME("cortex-a35"),
-     ARM_CPU_TYPE_NAME("cortex-a55"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index d236112684..85a884808e 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -5,7 +5,6 @@ arm_ss.add(files(
-   'gdbstub.c',
-   'helper.c',
-   'vfp_helper.c',
--  'cpu_tcg.c',
- ))
- arm_ss.add(zlib)
  
-diff --git a/target/arm/cpu_tcg.c b/target/arm/tcg/cpu32.c
-similarity index 99%
-rename from target/arm/cpu_tcg.c
-rename to target/arm/tcg/cpu32.c
-index 5a2690f56e..4cbd7d68fb 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/tcg/cpu32.c
-@@ -1,5 +1,5 @@
- /*
-- * QEMU ARM TCG CPUs.
-+ * QEMU ARM TCG-only CPUs.
-  *
-  * Copyright (c) 2012 SUSE LINUX Products GmbH
-  *
-@@ -10,9 +10,7 @@
+ import tempfile
++import os
++
+ from avocado_qemu import QemuSystemTest
+ from avocado import skipUnless
  
- #include "qemu/osdep.h"
- #include "cpu.h"
--#ifdef CONFIG_TCG
- #include "hw/core/tcg-cpu-ops.h"
--#endif /* CONFIG_TCG */
- #include "internals.h"
- #include "target/arm/idau.h"
- #if !defined(CONFIG_USER_ONLY)
-@@ -27,7 +25,7 @@
- /* CPU models. These are not needed for the AArch64 linux-user build. */
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+@@ -19,7 +21,7 @@
+ from avocado.utils.path import find_command
  
--#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
-+#if !defined(CONFIG_USER_ONLY)
- static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
-     CPUClass *cc = CPU_GET_CLASS(cs);
-@@ -51,7 +49,7 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     }
-     return ret;
- }
--#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
-+#endif /* !CONFIG_USER_ONLY */
  
- static void arm926_initfn(Object *obj)
- {
-@@ -947,7 +945,6 @@ static void pxa270c5_initfn(Object *obj)
-     cpu->reset_sctlr = 0x00000078;
- }
+-class Migration(QemuSystemTest):
++class MigrationTest(QemuSystemTest):
+     """
+     :avocado: tags=migration
+     """
+@@ -62,20 +64,91 @@ def _get_free_port(self):
+             self.cancel('Failed to find a free port')
+         return port
  
--#ifdef CONFIG_TCG
- static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .initialize = arm_translate_init,
-     .synchronize_from_tb = arm_cpu_synchronize_from_tb,
-@@ -968,7 +965,6 @@ static const struct TCGCPUOps arm_v7m_tcg_ops = {
-     .debug_check_breakpoint = arm_debug_check_breakpoint,
- #endif /* !CONFIG_USER_ONLY */
- };
--#endif /* CONFIG_TCG */
- 
- static void arm_v7m_class_init(ObjectClass *oc, void *data)
- {
-@@ -976,10 +972,7 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
-     CPUClass *cc = CPU_CLASS(oc);
- 
-     acc->info = data;
--#ifdef CONFIG_TCG
-     cc->tcg_ops = &arm_v7m_tcg_ops;
--#endif /* CONFIG_TCG */
 -
-     cc->gdb_core_xml_file = "arm-m-profile.xml";
- }
+-    def test_migration_with_tcp_localhost(self):
++    def migration_with_tcp_localhost(self):
+         dest_uri = 'tcp:localhost:%u' % self._get_free_port()
+         self.do_migrate(dest_uri)
  
-diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index 128f782816..4d99f6dacb 100644
---- a/target/arm/tcg/meson.build
-+++ b/target/arm/tcg/meson.build
-@@ -18,6 +18,7 @@ gen = [
- arm_ss.add(gen)
+-    def test_migration_with_unix(self):
++    def migration_with_unix(self):
+         with tempfile.TemporaryDirectory(prefix='socket_') as socket_path:
+             dest_uri = 'unix:%s/qemu-test.sock' % socket_path
+             self.do_migrate(dest_uri)
  
- arm_ss.add(files(
-+  'cpu32.c',
-   'translate.c',
-   'translate-m-nocp.c',
-   'translate-mve.c',
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 1cb08138ad..1555b0bab8 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -506,9 +506,15 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-         QDict *resp;
-         char *error;
- 
--        assert_error(qts, "cortex-a15",
--            "We cannot guarantee the CPU type 'cortex-a15' works "
--            "with KVM on this host", NULL);
-+        if (qtest_has_accel("tcg")) {
-+            assert_error(qts, "cortex-a15",
-+                         "We cannot guarantee the CPU type 'cortex-a15' works "
-+                         "with KVM on this host", NULL);
-+        } else {
-+            assert_error(qts, "cortex-a15",
-+                         "The CPU type 'cortex-a15' is not a "
-+                         "recognized ARM CPU type", NULL);
-+        }
- 
-         assert_has_feature_enabled(qts, "host", "aarch64");
- 
+     @skipUnless(find_command('nc', default=False), "'nc' command not found")
+-    def test_migration_with_exec(self):
++    def migration_with_exec(self):
+         """The test works for both netcat-traditional and netcat-openbsd packages."""
+         free_port = self._get_free_port()
+         dest_uri = 'exec:nc -l localhost %u' % free_port
+         src_uri = 'exec:nc localhost %u' % free_port
+         self.do_migrate(dest_uri, src_uri)
++
++
++@skipUnless('aarch64' in os.uname()[4], "host != target")
++class Aarch64(MigrationTest):
++    """
++    :avocado: tags=arch:aarch64
++    :avocado: tags=machine:virt
++    :avocado: tags=cpu:max
++    """
++
++    def test_migration_with_tcp_localhost(self):
++        self.migration_with_tcp_localhost()
++
++    def test_migration_with_unix(self):
++        self.migration_with_unix()
++
++    def test_migration_with_exec(self):
++        self.migration_with_exec()
++
++
++@skipUnless('x86_64' in os.uname()[4], "host != target")
++class X86_64(MigrationTest):
++    """
++    :avocado: tags=arch:x86_64
++    :avocado: tags=machine:pc
++    :avocado: tags=cpu:qemu64
++    """
++
++    def test_migration_with_tcp_localhost(self):
++        self.migration_with_tcp_localhost()
++
++    def test_migration_with_unix(self):
++        self.migration_with_unix()
++
++    def test_migration_with_exec(self):
++        self.migration_with_exec()
++
++
++@skipUnless('ppc64le' in os.uname()[4], "host != target")
++class PPC64(MigrationTest):
++    """
++    :avocado: tags=arch:ppc64
++    :avocado: tags=machine:pseries
++    :avocado: tags=cpu:power9_v2.0
++    """
++
++    def test_migration_with_tcp_localhost(self):
++        self.migration_with_tcp_localhost()
++
++    def test_migration_with_unix(self):
++        self.migration_with_unix()
++
++    def test_migration_with_exec(self):
++        self.migration_with_exec()
++
++
++@skipUnless('s390x' in os.uname()[4], "host != target")
++class S390X(MigrationTest):
++    """
++    :avocado: tags=arch:s390x
++    :avocado: tags=machine:s390-ccw-virtio
++    :avocado: tags=cpu:qemu
++    """
++
++    def test_migration_with_tcp_localhost(self):
++        self.migration_with_tcp_localhost()
++
++    def test_migration_with_unix(self):
++        self.migration_with_unix()
++
++    def test_migration_with_exec(self):
++        self.migration_with_exec()
 -- 
 2.35.3
 
