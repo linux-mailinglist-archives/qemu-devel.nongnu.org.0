@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF50E6A0BED
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1C06A0BEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:34:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVCf9-00089w-UX; Thu, 23 Feb 2023 09:33:35 -0500
+	id 1pVCf9-00089Z-1e; Thu, 23 Feb 2023 09:33:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVCf7-00089G-TO
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVCf7-00089F-Pp
  for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:33:33 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVCf6-0006YD-7o
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVCf6-0006YC-7Y
  for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:33:33 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BF44134586;
- Thu, 23 Feb 2023 14:23:58 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2E6BE34381;
+ Thu, 23 Feb 2023 14:24:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677162238; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Ub1cl8vY0g6D/gSkeKIGCA3CTkS90WynQsvwvYJMCDI=;
- b=bTPlTjMurWUFVgI8L36+w/y2VplBthV0Pblee1GNkcKTxTnenp6WF5Ka/1sI/tJjK55Fj0
- lzorw0S8ys9q/CEb+zeModJ19kG0fbqsJFP2orKo5OKUF8kkoNRPBS8bgIBauGkNihdaQS
- EtxHXZiKTzz9+pbjpVqll4ugfmWiWok=
+ t=1677162241; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tVWcObd8BoLIURFn7whFJYNSHIA/FCiM0TftHJr6TJs=;
+ b=U3Al9bXR5Z20S6+JbBtKN7ANy8VKhN+4lydxB6CcrrnVp3NkdVjXB5/RL4ZKueBqe0sSe6
+ +YMhYOJ08J5cyQMg4zA+O2c2Cifz0GGsZrheyW6J0YyJLQkAxK8gFLrSlgSY9YSSsuFBup
+ aGduUTV/aIPR+QCP7il5sWIe8vtYlYk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677162238;
+ s=susede2_ed25519; t=1677162241;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Ub1cl8vY0g6D/gSkeKIGCA3CTkS90WynQsvwvYJMCDI=;
- b=BW29vR0fAgf/vzhqbOXGwyuyR8i56n2430WC1RH1quaDCOS9ESkBGQ0Rm3NXpJ/C5S/cyQ
- pxMpYmgvR3Nq6KAg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tVWcObd8BoLIURFn7whFJYNSHIA/FCiM0TftHJr6TJs=;
+ b=rYcokt7Nq40zZZm9hRoO76RXvAPDjwZktr/DC8Z6iymXl8e05+/RyRxkdF/5uO0U3pfkBw
+ DzVMri3NU+vCFuCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C60A713928;
- Thu, 23 Feb 2023 14:23:56 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 370EB13928;
+ Thu, 23 Feb 2023 14:23:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Ii94I/x292M+GAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 23 Feb 2023 14:23:56 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id +JqUAP9292M+GAAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 23 Feb 2023 14:23:59 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
@@ -53,13 +57,15 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [RFC PATCH 0/1] ci: Speed up container stage
-Date: Thu, 23 Feb 2023 11:21:53 -0300
-Message-Id: <20230223142154.31975-1-farosas@suse.de>
+Subject: [RFC PATCH 1/1] ci: Attempt to pull container images before building
+Date: Thu, 23 Feb 2023 11:21:54 -0300
+Message-Id: <20230223142154.31975-2-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230223142154.31975-1-farosas@suse.de>
+References: <20230223142154.31975-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
  helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -83,70 +89,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I'm not sure if this was discussed previously, but I noticed we're not
-pulling the images we push to the registry at every pipeline run.
+We currently build and push container images at every pipeline
+run. Since the main objective of the CI is testing QEMU, we don't need
+to build the containers at every single run, we could pull the images
+that were built in previous runs.
 
-I would expect we don't actually need to rebuild container images at
-_every_ pipeline run, so I propose we add a "docker pull" to the
-container templates. We already have that for the docker-edk2|opensbi
-images.
-
-Some containers can take a long time to build (14 mins) and pulling
-the image first without building can cut the time to about 3
-mins. With this we can save almost 2h of cumulative CI time per
-pipeline run:
-
-| master   | pull-only |  diff    | container
-| 0:02:34  | 0:02:09   | 00:00:25 |  alpha-debian-cross-container
-| 0:04:45  | 0:02:40   | 00:02:05 |  amd64-alpine-container
-| 0:09:51  | 0:02:56   | 00:06:55 |  amd64-centos8-container
-| 0:07:21  | 0:02:49   | 00:04:32 |  amd64-debian-container
-| 0:06:00  | 0:02:37   | 00:03:23 |  amd64-debian-cross-container
-| 0:14:22  | 0:03:41   | 00:10:41 |  amd64-debian-user-cross-container
-| 0:10:14  | 0:03:24   | 00:06:50 |  amd64-fedora-container
-| 0:12:09  | 0:02:49   | 00:09:20 |  amd64-opensuse-leap-container
-| 0:07:33  | 0:02:45   | 00:04:48 |  amd64-ubuntu2004-container
-| 0:08:28  | 0:03:07   | 00:05:21 |  arm64-debian-cross-container
-| 0:04:27  | 0:02:58   | 00:01:29 |  armel-debian-cross-container
-| 0:08:01  | 0:02:55   | 00:05:06 |  armhf-debian-cross-container
-| 0:03:33  | 0:02:18   | 00:01:15 |  cris-fedora-cross-container
-| 0:00:28  | 0:00:28   | 00:00:00 |  docker-edk2
-| 0:00:25  | 0:00:28   |-00:00:03 |  docker-opensbi
-| 0:08:34  | 0:03:10   | 00:05:24 |  hexagon-cross-container
-| 0:02:34  | 0:02:08   | 00:00:26 |  hppa-debian-cross-container
-| 0:04:50  | 0:02:28   | 00:02:22 |  i386-fedora-cross-container
-| 0:02:36  | 0:02:12   | 00:00:24 |  m68k-debian-cross-container
-| 0:02:40  | 0:02:09   | 00:00:31 |  mips-debian-cross-container
-| 0:02:38  | 0:02:09   | 00:00:29 |  mips64-debian-cross-container
-| 0:04:28  | 0:02:48   | 00:01:40 |  mips64el-debian-cross-container
-| 0:07:07  | 0:02:46   | 00:04:21 |  mipsel-debian-cross-container
-| 0:03:51  | 0:02:21   | 00:01:30 |  powerpc-test-cross-container
-| 0:08:52  | 0:03:00   | 00:05:52 |  ppc64el-debian-cross-container
-| 0:06:07  | 0:02:49   | 00:03:18 |  python-container
-| 0:04:37  | 0:02:26   | 00:02:11 |  riscv64-debian-cross-container
-| 0:02:39  | 0:02:08   | 00:00:31 |  riscv64-debian-test-cross-container
-| 0:08:03  | 0:03:00   | 00:05:03 |  s390x-debian-cross-container
-| 0:02:34  | 0:02:08   | 00:00:26 |  sh4-debian-cross-container
-| 0:02:37  | 0:02:09   | 00:00:28 |  sparc64-debian-cross-container
-| 0:04:25  | 0:02:17   | 00:02:08 |  tricore-debian-cross-container
-| 0:12:51  | 0:03:27   | 00:09:24 |  win32-fedora-cross-container
-| 0:11:16  | 0:03:29   | 00:07:47 |  win64-fedora-cross-container
-| 0:03:28  | 0:02:20   | 00:01:08 |  xtensa-debian-cross-container
-                       | 01:57:30 |
-
-We would need to devise a mechanism (not included here) to force the
-re-build of the container images when needed, perhaps an environment
-variable or even a whole new "container build" stage before the
-"container" stage.
-
-What do you think?
-
-Fabiano Rosas (1):
-  ci: Attempt to pull container images before building
-
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
+---
  .gitlab-ci.d/container-template.yml | 1 +
  1 file changed, 1 insertion(+)
 
+diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
+index c434b9c8f3..0c7f744384 100644
+--- a/.gitlab-ci.d/container-template.yml
++++ b/.gitlab-ci.d/container-template.yml
+@@ -13,6 +13,7 @@
+   script:
+     - echo "TAG:$TAG"
+     - echo "COMMON_TAG:$COMMON_TAG"
++    - docker pull "$TAG" && exit || true
+     - ./tests/docker/docker.py --engine docker build
+           -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
+           -r $CI_REGISTRY/qemu-project/qemu
 -- 
 2.35.3
 
