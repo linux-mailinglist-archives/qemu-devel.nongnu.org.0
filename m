@@ -2,84 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED036A0CD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:26:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3376A0CE4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:28:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVDUG-0007iz-Vc; Thu, 23 Feb 2023 10:26:25 -0500
+	id 1pVDW6-0000Ry-E0; Thu, 23 Feb 2023 10:28:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVDUE-0007iZ-QJ
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:26:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pVDW5-0000Ra-0s
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:28:17 -0500
+Received: from mail-mw2nam12on2060b.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::60b]
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVDUC-0002Qr-Sb
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:26:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677165979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fSfquKNTBKcHa/7F9yDnw6DG4zUDcjKkWKA+FmxIBzs=;
- b=Bf/UK5myDg8ei2B5WLganCuUeU8FmKv7RSZcXuRGTUV492Crsw6TouVLDtdIuuoDY16yra
- so30juoUczHZSiOzLBK64BgII+aVYmFgIuAuM04fkpga/MC3dpWIoWmSzHoKtmp/0cuQf9
- O2Yyhy/Pb41s/N5JjImAa/ZI1LIsMn0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-36-aoFly8FnMV62LOY73HtHHA-1; Thu, 23 Feb 2023 10:26:17 -0500
-X-MC-Unique: aoFly8FnMV62LOY73HtHHA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA2F5101AA5F;
- Thu, 23 Feb 2023 15:26:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 722A8492C14;
- Thu, 23 Feb 2023 15:26:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3FE7B21E6A1F; Thu, 23 Feb 2023 16:26:14 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org,  qemu-arm@nongnu.org,  qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org,  qemu-block@nongnu.org,  Richard Henderson
- <richard.henderson@linaro.org>,  Helge Deller <deller@gmx.de>,  Paolo
- Bonzini <pbonzini@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,  Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>,  Laurent Vivier <laurent@vivier.eu>,  Mark
- Cave-Ayland <mark.cave-ayland@ilande.co.uk>,  =?utf-8?Q?C=C3=A9dric?= Le
- Goater
- <clg@kaod.org>,  Daniel Henrique Barboza <danielhb413@gmail.com>,  David
- Gibson <david@gibson.dropbear.id.au>,  Greg Kurz <groug@kaod.org>,  Thomas
- Huth <thuth@redhat.com>,  David Hildenbrand <david@redhat.com>,  Ilya
- Leoshkevich <iii@linux.ibm.com>,  Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,  Eric Farman
- <farman@linux.ibm.com>
-Subject: Re: [PATCH 1/5] hw/nmi: Have nmi_monitor_handler() return a boolean
- indicating error
-References: <20230216122524.67212-1-philmd@linaro.org>
- <20230216122524.67212-2-philmd@linaro.org>
-Date: Thu, 23 Feb 2023 16:26:14 +0100
-In-Reply-To: <20230216122524.67212-2-philmd@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 16 Feb 2023 13:25:20
- +0100")
-Message-ID: <87a614s8rt.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1pVDW3-0002pm-C1
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:28:16 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hdcrrSGhz8SMckwFSOQj7TuKi69u3ZNCUQ64BWSik7SwQIF6KuIseu117Tv5bP2d4ULIyZIY1eads2QhzjD6c+SgZLJwzfLuTesjyoXzCa9cEOOsbaNzFnsKoK06y0/kVtK5x1i6nH/A89KXSwIOlFc5Tt+nslwc8626iG/NzxA23gz8ksjXE3UlXwq8nEjP9hs3lmMkLyMstHso0OoSmDRHRaUQrQTYTomh8xm05wmWjvs1atkqNsYhDtM0UOHU57l2iQaNqwF1kzwt4YNVMoDGIq1y4e0XVb7Ns0Hrw1mE+/RlIM77NSu+6Jn/4Z37evwKhcXanyKnRhOtPHfcfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7c9R6rpFNvCCooZYYrBQIYMKtgUIU1PkaO4kVNivphk=;
+ b=iqjitpQ7FfMOeEaPT+Q+fKX4W5RyIKgg3mXs6ygFBO6U/l2UV0BrgVFi4FYfsuq5LJsJuFrBHoV08bLQBdXxj9gowTh4FTdPyUwon3RuYcvFLrWCV78u0FNJFMDVnNRrwnrHAwdzv/oQs51MpZ0A4rMQRL1SYkMevsvqYILbiCSI/wUX+w9K8efFmAIMqiGiZiCExiI+PVl0olBwAnoyUSKGEllKPVzJmMydUnNnjGakOQS+SLsTYmOPlOUAmrOG7j0iseqdVWZhosivjILE0Xgajae4O4SqMkcjwDE0tWHAQh1YHEQ0HgAJcCb8Fns9aodbB0wa1l6RdLhU0h5jrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7c9R6rpFNvCCooZYYrBQIYMKtgUIU1PkaO4kVNivphk=;
+ b=J0bsjLxyYETVg8gf1HVRc6xAf/YYgc54Mlfedw44wNRZvj/++zLDGf/zFVNmknxVCaZmxCCnVubD4hYm+BVyCDbY/EGErwfnhXNk34cL+aGEs9xlP7Jc3PPGEVLZguSB6RvLsDwzFpeV+Ls4egMU7ubPgOE0u+Ed2bK28KU7x5oFiWMgui0PcVu3i93HFYPYFfUsAPXjmAZjxY5A98YVilRQIRi40FHUq44q2ODxa1CmhcuDdr08zeIVLMmvmKgwKGTr6xpa/tNOBLdcbgF4vmbD0lOTXzR89lX2At5bfq1enseGSR7oA0pB+V6YqlyetX2/W5AYxMFQsv5DDRlngw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
+ by MW3PR12MB4364.namprd12.prod.outlook.com (2603:10b6:303:5c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Thu, 23 Feb
+ 2023 15:28:08 +0000
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::b980:cd87:77f2:3fbb]) by DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::b980:cd87:77f2:3fbb%3]) with mapi id 15.20.6134.021; Thu, 23 Feb 2023
+ 15:28:08 +0000
+Message-ID: <94aafabf-5b5b-be8f-4634-567533119e3a@nvidia.com>
+Date: Thu, 23 Feb 2023 17:27:58 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 07/20] vfio/common: Add VFIOBitmap and (de)alloc
+ functions
+Content-Language: en-US
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+References: <20230222174915.5647-1-avihaih@nvidia.com>
+ <20230222174915.5647-8-avihaih@nvidia.com>
+ <20230222144009.2a59f1d0.alex.williamson@redhat.com>
+From: Avihai Horon <avihaih@nvidia.com>
+In-Reply-To: <20230222144009.2a59f1d0.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0137.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:95::11) To DM6PR12MB5549.namprd12.prod.outlook.com
+ (2603:10b6:5:209::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|MW3PR12MB4364:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7491134-e821-4f81-c5d5-08db15b29075
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cGvrftF5pBdgW9XpTTSZLiAHig4/+Kcv0V9sKvpTs2mvGHeqOrpYdufG1elnWE/iqD9bZdpj7pPp76fZDUDpF0/CEzN0gxk2qYdWJhm5Go9Rs7ttw31nB1tnz0mVYztHiA7hH+2u1k3oiShqBcZqIVk/7fZ5YN3CF/L1s40Y33Lc4eZCdY8xZHvakgrKHdpU4AIDmdajvAd3wrCoK57LT7OWmYqPTJwNf/pm78OQAfdiJt/5CSRThUvCePIoQatNsGaqFpRr5N6N66Op809DWboLNw5I5IKCJBDvq9Xe7q6NAlIdw3XhWc7tn2nHdcU1aHyjyI1GhSorNFWYVEfWp5gTdnzmfbh6FR0QBYO5h2+cw8kVL8/lX4dpZmfqKZzjIKT8RGyRRyEV5vjP+mL3qDIYR0wSEgk0AiLI4zX08CJROLPZHqcv6XnepunwyjDX0p6IhQzjKvUqDeWHKDk3ru9cv9O+cAPUwiMHURmhPny9JhS059xcpdpD1Tl62/46lNoe3zHNJnanngKwozz8QEn7z3RoAgJANmmjK02G+qWEwioe77dEOkj/9YwWR48lBOC/leCs4Bvj1kQ5O8hSRwdWP+MUZVaA6eOleyDdrrfcjtpx5xcT+ekbhEck4J5ogjpqPppboSxvEEgR47kyNr25Q1IjbtfrA6VrkwErn6V5G4XRIWv8NwkHCPRWzmYSCbKvx0J0pYh84T4/h2v/037YCAiTfuDuI9sPvteQXd4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(376002)(346002)(136003)(396003)(366004)(451199018)(31696002)(86362001)(36756003)(54906003)(316002)(83380400001)(6512007)(6666004)(26005)(186003)(6506007)(31686004)(2616005)(6486002)(53546011)(8936002)(5660300002)(7416002)(478600001)(66899018)(2906002)(66476007)(4326008)(66946007)(8676002)(6916009)(38100700002)(66556008)(41300700001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YlloQUtJZU9nRWdsaXEvOHk5emJ3Y1hzdGFwNmRkZklkMVJtWHg0ZGVLT3Va?=
+ =?utf-8?B?empCY3dHckMralBDSTJmT2lzZ294ckMraUlFVmxpam5uMWVuOUl2YmVLcjl2?=
+ =?utf-8?B?eTRWMC9aamI3WUpIK2RuUXJLSXhaZG1UMmRaTGxxVXlYaUFQZmNnQmtuRkxG?=
+ =?utf-8?B?aVRYNmlNZU9kWHhPcENReTA1TmdJMS95aWNyRVlZaUFmTk1VNFdMZEJNZXlZ?=
+ =?utf-8?B?NzdESUZjM1hsTC80b0ovNG1ReXNLdzBuVG1SUnNIcXE4TGRTeTM2b2tGYnJ3?=
+ =?utf-8?B?dldNZUlhbEZGcURhanRxQkZWOHQyN0NlRzZjeGFtaHI2bGRrNVY2amtEOXo2?=
+ =?utf-8?B?NzU0bzZDZjUzaHFuY3Q4RlVFV09MMFRIaHU5WHY1eHptYi9jcnVCMGJDYTI3?=
+ =?utf-8?B?K3VzdWVkMEdwcTNOZ28rMjF2d3VhYzIyUnliUVY2UDl4KzNXblZXN2FGeG5D?=
+ =?utf-8?B?MnBuUTY1NFl4SUhSSmpGY0pENWZnd21ydmRINGQrbHl2dFUyQVJsRTE3aVlw?=
+ =?utf-8?B?RHVzL3ZKYUtEME9peU9OZ0JLZW91WUtFZ3JvTDRnczJKMUZCZ2M0WFREOWVl?=
+ =?utf-8?B?UEZMNHk0d1JuTFBsWURZVVNKd1FkOStILzVKcXBVSDFQVElrdXYva2RvdXZS?=
+ =?utf-8?B?djk1R1JpSnlCajFBSFdvWEJIZTNSRGJJTDlIQjREOEIrMG1Kcm1CSFJsSUxa?=
+ =?utf-8?B?Z0lrRHJVWnc1V25VZzhHZDhnUmt0MG1LQUV3d1JrbWJaVXdZZ1RNL0lhWExq?=
+ =?utf-8?B?NjRzWHkwMHUrcFpZSm9xeGFBaU1uSXgwM1RRL2tqazRoWW1VTDZ4RGQ4OHdw?=
+ =?utf-8?B?aFI2NDZIdVp2OTlLQ04ydnB1NzlCNVNUWG90akxjVDBJaUdzcEpiS095Tit3?=
+ =?utf-8?B?VStWMXVmS2FFK0xjUXZFUktjNjZvd045VTFEZitUOVczLzNEaXRGbDBPeDEr?=
+ =?utf-8?B?T3YvV1FyTGwwY0VJV1JJeTRwOEJaN0tkeCtHTU1ySFVkd0xOVmN5QnNlVk9i?=
+ =?utf-8?B?NFpwbUM0dlpETGQ1UkRZQmRkV1RQU0h1Vy95QVA1K1M1NUVvUzFxV0IvNjdk?=
+ =?utf-8?B?NVdIcUVCOStKamVHQXR5OXFOVmk0TlY4WTNaaE9vNU9qZGkwNXIveFltOEZq?=
+ =?utf-8?B?ZWNHeURZOEhqKzJPSEVWaVpPUlZTYUZjTlkwTVNENjBsTXoreGtJejBISk9C?=
+ =?utf-8?B?YXZQQVQvYTZNSG9NMjdTOTZ2N240aERUcHQ3R21JLzZTcysxWEVMNXJtOFJI?=
+ =?utf-8?B?b2dMYkJ1WUZpdmZZK3c1MUswRUxXRUhSMHFNeHphZE43YUoxdG5Nb0VDSllp?=
+ =?utf-8?B?cjhOTVFtdTRXSFlGZ2s2WVBuUHZ3U2YvdG1yWGlpQURxL2dMQk9yWjhIQjN4?=
+ =?utf-8?B?bERVcTQvQzQ1anQwYXJsZzdSeFhab082L1ZBMjJyWXZiZzFLYVRDWjYrbjd5?=
+ =?utf-8?B?MVZQeTNLT1J1bnJaRlZDMTlEeGpEQXhlUUxCVXp0WHNvMWpsTk9xMVBhWTlP?=
+ =?utf-8?B?dUFQaU9RWGVnV282eldoUFhCWHE0RnhDS3B5RDF0ZndGS0lTcVY5KytEN0Fv?=
+ =?utf-8?B?UWd3SnZ4OElDa2kyV3dMd1pqZW9sd3c0MHVUVFpSV0RUTjdoeS90bm5Hc1hG?=
+ =?utf-8?B?cjh3ejFDL2RWYXhaRnVINDdLUWN6U2thZUhoQ1cveTJGNkNjeDlvRDNGc2w4?=
+ =?utf-8?B?Vk9wN2RvVTl6R1BTUm11bm5KV2RpRzRkYTh3ekpSZ3JrelpuWnRGam4zdVFU?=
+ =?utf-8?B?endqMjVYK1VzS1RmNktmY0Z4K21kUmNwNzV3K0lrUHRtQjRFRXluL3Z0Z2lV?=
+ =?utf-8?B?RG8vU0hreG1JMVVoVUV6RXlrOFlEUGtFTFpub3pYc056RDU3TUkrSGhnMHd3?=
+ =?utf-8?B?cFZzV2VJdmo3eWNZaEYzRTRubHBqeGlKM1F0UWZOYVFjd0kzNmhsSDdHYWp2?=
+ =?utf-8?B?aGNMdHhYNnlTZ0wvZ0FKMkx2RVpQUjdzWkttUkxZWlFRcGtxZ1hReS9WQ1Y2?=
+ =?utf-8?B?MWkzREZpa0l3WHh4MXFGajgwL01xRzQvTSt0ZldZZVIrOFFrYlBSYllJNTRq?=
+ =?utf-8?B?Z3M1MFhIQTN1NVpsTjN4QktEYWU2Tm5rOVZKTzNPVEN3OU1zWEY1OUhiMm1k?=
+ =?utf-8?Q?H+23CCE/Xg/n8DD4WyeIwQzS4?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7491134-e821-4f81-c5d5-08db15b29075
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 15:28:08.0034 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5zK9Tn54Om54lOaQC1gnL6MQK2GGd0e5tign/XEq6h3YqYbV7VXfZwVAbymbly0KztH4jQWwUR76XpxavzfQiQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4364
+Received-SPF: softfail client-ip=2a01:111:f400:fe5a::60b;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.09, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,231 +161,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> Following the example documented since commit e3fe3988d7 ("error:
-> Document Error API usage rules"), have the nmi_monitor_handler
-> return a boolean indicating whether an error is set or not and
-> convert its implementations.
+On 22/02/2023 23:40, Alex Williamson wrote:
+> External email: Use caution opening links or attachments
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
->  hw/core/nmi.c              | 3 +--
->  hw/hppa/machine.c          | 3 ++-
->  hw/i386/x86.c              | 3 ++-
->  hw/intc/m68k_irqc.c        | 4 +++-
->  hw/m68k/q800.c             | 4 +++-
->  hw/misc/macio/gpio.c       | 4 +++-
->  hw/ppc/pnv.c               | 3 ++-
->  hw/ppc/spapr.c             | 3 ++-
->  hw/s390x/s390-virtio-ccw.c | 4 +++-
->  include/hw/nmi.h           | 3 ++-
->  10 files changed, 23 insertions(+), 11 deletions(-)
 >
-> diff --git a/hw/core/nmi.c b/hw/core/nmi.c
-> index 481c4b3c7e..76cb3ba3b0 100644
-> --- a/hw/core/nmi.c
-> +++ b/hw/core/nmi.c
-> @@ -43,8 +43,7 @@ static int do_nmi(Object *o, void *opaque)
->          NMIClass *nc =3D NMI_GET_CLASS(n);
->=20=20
->          ns->handled =3D true;
-> -        nc->nmi_monitor_handler(n, ns->cpu_index, &ns->err);
-> -        if (ns->err) {
-> +        if (!nc->nmi_monitor_handler(n, ns->cpu_index, &ns->err)) {
->              return -1;
->          }
->      }
-> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-> index 7ac68c943f..da7c36c554 100644
-> --- a/hw/hppa/machine.c
-> +++ b/hw/hppa/machine.c
-> @@ -437,13 +437,14 @@ static void hppa_machine_reset(MachineState *ms, Sh=
-utdownCause reason)
->      cpu[0]->env.gr[19] =3D FW_CFG_IO_BASE;
->  }
->=20=20
-> -static void hppa_nmi(NMIState *n, int cpu_index, Error **errp)
-> +static bool hppa_nmi(NMIState *n, int cpu_index, Error **errp)
->  {
->      CPUState *cs;
->=20=20
->      CPU_FOREACH(cs) {
->          cpu_interrupt(cs, CPU_INTERRUPT_NMI);
->      }
-> +    return true;
->  }
->=20=20
->  static void hppa_machine_init_class_init(ObjectClass *oc, void *data)
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index eaff4227bd..8bd0691705 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -501,7 +501,7 @@ const CPUArchIdList *x86_possible_cpu_arch_ids(Machin=
-eState *ms)
->      return ms->possible_cpus;
->  }
->=20=20
-> -static void x86_nmi(NMIState *n, int cpu_index, Error **errp)
-> +static bool x86_nmi(NMIState *n, int cpu_index, Error **errp)
->  {
->      /* cpu index isn't used */
->      CPUState *cs;
-> @@ -515,6 +515,7 @@ static void x86_nmi(NMIState *n, int cpu_index, Error=
- **errp)
->              apic_deliver_nmi(cpu->apic_state);
->          }
->      }
-> +    return true;
->  }
->=20=20
->  static long get_file_size(FILE *f)
-> diff --git a/hw/intc/m68k_irqc.c b/hw/intc/m68k_irqc.c
-> index 0c515e4ecb..e05083e756 100644
-> --- a/hw/intc/m68k_irqc.c
-> +++ b/hw/intc/m68k_irqc.c
-> @@ -70,9 +70,11 @@ static void m68k_irqc_instance_init(Object *obj)
->      qdev_init_gpio_in(DEVICE(obj), m68k_set_irq, M68K_IRQC_LEVEL_NUM);
->  }
->=20=20
-> -static void m68k_nmi(NMIState *n, int cpu_index, Error **errp)
-> +static bool m68k_nmi(NMIState *n, int cpu_index, Error **errp)
->  {
->      m68k_set_irq(n, M68K_IRQC_LEVEL_7, 1);
-> +
-> +    return true;
->  }
->=20=20
->  static const VMStateDescription vmstate_m68k_irqc =3D {
-> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index 9d52ca6613..8631a226cd 100644
-> --- a/hw/m68k/q800.c
-> +++ b/hw/m68k/q800.c
-> @@ -227,13 +227,15 @@ static void glue_auxmode_set_irq(void *opaque, int =
-irq, int level)
->      s->auxmode =3D level;
->  }
->=20=20
-> -static void glue_nmi(NMIState *n, int cpu_index, Error **errp)
-> +static bool glue_nmi(NMIState *n, int cpu_index, Error **errp)
->  {
->      GLUEState *s =3D GLUE(n);
->=20=20
->      /* Hold NMI active for 100ms */
->      GLUE_set_irq(s, GLUE_IRQ_IN_NMI, 1);
->      timer_mod(s->nmi_release, qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 10=
-0);
-> +
-> +    return true;
->  }
->=20=20
->  static void glue_nmi_release(void *opaque)
-> diff --git a/hw/misc/macio/gpio.c b/hw/misc/macio/gpio.c
-> index c8ac5633b2..0a7214421c 100644
-> --- a/hw/misc/macio/gpio.c
-> +++ b/hw/misc/macio/gpio.c
-> @@ -182,10 +182,12 @@ static void macio_gpio_reset(DeviceState *dev)
->      macio_set_gpio(s, 1, true);
->  }
->=20=20
-> -static void macio_gpio_nmi(NMIState *n, int cpu_index, Error **errp)
-> +static bool macio_gpio_nmi(NMIState *n, int cpu_index, Error **errp)
->  {
->      macio_set_gpio(MACIO_GPIO(n), 9, true);
->      macio_set_gpio(MACIO_GPIO(n), 9, false);
-> +
-> +    return true;
->  }
->=20=20
->  static void macio_gpio_class_init(ObjectClass *oc, void *data)
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 44b1fbbc93..38e69f3b39 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -2309,13 +2309,14 @@ static void pnv_cpu_do_nmi_on_cpu(CPUState *cs, r=
-un_on_cpu_data arg)
->      }
->  }
->=20=20
-> -static void pnv_nmi(NMIState *n, int cpu_index, Error **errp)
-> +static bool pnv_nmi(NMIState *n, int cpu_index, Error **errp)
->  {
->      CPUState *cs;
->=20=20
->      CPU_FOREACH(cs) {
->          async_run_on_cpu(cs, pnv_cpu_do_nmi_on_cpu, RUN_ON_CPU_NULL);
->      }
-> +    return true;
->  }
->=20=20
->  static void pnv_machine_class_init(ObjectClass *oc, void *data)
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 4921198b9d..d298068169 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3464,13 +3464,14 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, r=
-un_on_cpu_data arg)
->      }
->  }
->=20=20
-> -static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
-> +static bool spapr_nmi(NMIState *n, int cpu_index, Error **errp)
->  {
->      CPUState *cs;
->=20=20
->      CPU_FOREACH(cs) {
->          async_run_on_cpu(cs, spapr_do_system_reset_on_cpu, RUN_ON_CPU_NU=
-LL);
->      }
-> +    return true;
->  }
->=20=20
->  int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index f22f61b8b6..af7e6c632a 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -570,11 +570,13 @@ static HotplugHandler *s390_get_hotplug_handler(Mac=
-hineState *machine,
->      return NULL;
->  }
->=20=20
-> -static void s390_nmi(NMIState *n, int cpu_index, Error **errp)
-> +static bool s390_nmi(NMIState *n, int cpu_index, Error **errp)
->  {
->      CPUState *cs =3D qemu_get_cpu(cpu_index);
->=20=20
->      s390_cpu_restart(S390_CPU(cs));
-> +
-> +    return true;
->  }
->=20=20
->  static ram_addr_t s390_fixup_ram_size(ram_addr_t sz)
-> diff --git a/include/hw/nmi.h b/include/hw/nmi.h
-> index fff41bebc6..3e827a254a 100644
-> --- a/include/hw/nmi.h
-> +++ b/include/hw/nmi.h
-> @@ -37,7 +37,8 @@ typedef struct NMIState NMIState;
->  struct NMIClass {
->      InterfaceClass parent_class;
->=20=20
-> -    void (*nmi_monitor_handler)(NMIState *n, int cpu_index, Error **errp=
-);
-> +    /** Returns: %true on success, %false on error. */
-> +    bool (*nmi_monitor_handler)(NMIState *n, int cpu_index, Error **errp=
-);
->  };
->=20=20
->  void nmi_monitor_handle(int cpu_index, Error **errp);
+> On Wed, 22 Feb 2023 19:49:02 +0200
+> Avihai Horon <avihaih@nvidia.com> wrote:
+>
+>> There are already two places where dirty page bitmap allocation and
+>> calculations are done in open code. With device dirty page tracking
+>> being added in next patches, there are going to be even more places.
+>>
+>> To avoid code duplication, introduce VFIOBitmap struct and corresponding
+>> alloc and dealloc functions and use them where applicable.
+>>
+>> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+>> ---
+>>   hw/vfio/common.c | 89 ++++++++++++++++++++++++++++++++----------------
+>>   1 file changed, 60 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index ac93b85632..84f08bdbbb 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -320,6 +320,41 @@ const MemoryRegionOps vfio_region_ops = {
+>>    * Device state interfaces
+>>    */
+>>
+>> +typedef struct {
+>> +    unsigned long *bitmap;
+>> +    hwaddr size;
+>> +    hwaddr pages;
+>> +} VFIOBitmap;
+>> +
+>> +static VFIOBitmap *vfio_bitmap_alloc(hwaddr size)
+>> +{
+>> +    VFIOBitmap *vbmap = g_try_new0(VFIOBitmap, 1);
+>> +    if (!vbmap) {
+>> +        errno = ENOMEM;
+>> +
+>> +        return NULL;
+>> +    }
+>> +
+>> +    vbmap->pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
+>> +    vbmap->size = ROUND_UP(vbmap->pages, sizeof(__u64) * BITS_PER_BYTE) /
+>> +                                         BITS_PER_BYTE;
+>> +    vbmap->bitmap = g_try_malloc0(vbmap->size);
+>> +    if (!vbmap->bitmap) {
+>> +        g_free(vbmap);
+>> +        errno = ENOMEM;
+>> +
+>> +        return NULL;
+>> +    }
+>> +
+>> +    return vbmap;
+>> +}
+>> +
+>> +static void vfio_bitmap_dealloc(VFIOBitmap *vbmap)
+>> +{
+>> +    g_free(vbmap->bitmap);
+>> +    g_free(vbmap);
+>> +}
+> Nit, '_alloc' and '_free' seems like a more standard convention.
 
-None of the handlers can actually fail.  Evidence: you add only return
-true, never return false.  Correct (I checked).
+Sure, will change.
 
-I think I'd make it official and drop the handler's Error ** parameter
-instead of changing its return type.
-
-You decide.
-
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Thanks.
 
 
