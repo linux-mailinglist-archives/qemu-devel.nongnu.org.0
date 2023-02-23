@@ -2,100 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC1069FF98
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 00:35:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4D486A002B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 01:45:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pUydX-0002iX-Pv; Wed, 22 Feb 2023 18:34:59 -0500
+	id 1pUzhd-0001Sb-TF; Wed, 22 Feb 2023 19:43:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pUydL-0002gC-Bl
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:34:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pUzhb-0001Rz-91; Wed, 22 Feb 2023 19:43:15 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pUydI-0007cp-U2
- for qemu-devel@nongnu.org; Wed, 22 Feb 2023 18:34:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677108884;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=10n1TDihFjS4Jf5hMkMyMPxmX5DpTkrt1dMZQm5Hvq8=;
- b=OhoL+QmNRsgtWacEYWcYbX84M2tKvAJxB+upGUlDbFM/SVGRfWO6wgQXH5Rk5GigwGkCix
- +I46VXQhMDQoeM81afxZcMlPU1D9XDZecH+jlNb2y8N1pdAO+yO2M7Jz+o/5WPxu9EfQwK
- QXcFdnMQszZHoqau9iLt98N9FDkoarA=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-7WtlPFyQPASu9ueVwZdZLA-1; Wed, 22 Feb 2023 18:34:42 -0500
-X-MC-Unique: 7WtlPFyQPASu9ueVwZdZLA-1
-Received: by mail-il1-f199.google.com with SMTP id
- v3-20020a92c6c3000000b003159a0109ceso5553851ilm.12
- for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 15:34:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=10n1TDihFjS4Jf5hMkMyMPxmX5DpTkrt1dMZQm5Hvq8=;
- b=pPJkP3a6SaAnBk8B+bAbePsWSR3nHPmjz8Kb0Y4sZGLq1SBCFx/5as57buQ3lvtWws
- h9H3GVy+LQTyw2jdAtxhLYMRUaFAAaO4k44t/EFkbuDyvXaW9D2vaCoYrgELJ+tystqi
- 0W35lCDa9xLHSKlEN8oKbI5y+934rEGMe1Ya6F8+Bx1eq1rMXCaPdCcUFvI0W1aQmKBk
- fUhVnIPzfFI8le/Oj7lU7yXf4MwC3IIOBXapIZFdIRJ1H3bWhxrFARFxFlMhtrdOjoq9
- NVL6T4DyM9cC5d3xpwHVcJqhq02UKYdxJoC36kS7UiynjiJ9uPi5EtFUowfrrSdvjtIi
- 46SQ==
-X-Gm-Message-State: AO0yUKXw8CRvYpE9cb0IxShdLyS0HO2qtTU7fLRF9vvt9Lbit5W/tYDm
- sO5LYiaKpRInxOo37gwCwBKYyQ7x0YZIo9Jf6XsGpB3VyZ+8Lm7MJyws9l0T9sjF/g/smKVwkIj
- GZ22wqiVhF3APrRc=
-X-Received: by 2002:a6b:da07:0:b0:745:a99c:af1 with SMTP id
- x7-20020a6bda07000000b00745a99c0af1mr6815297iob.6.1677108882041; 
- Wed, 22 Feb 2023 15:34:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set9cM1u5cZLldMWZCYVeMXaxJe787W19FWAPWldmsmp+A+ww5YcoPDtC34ct/ckWJNd0HMc0mw==
-X-Received: by 2002:a6b:da07:0:b0:745:a99c:af1 with SMTP id
- x7-20020a6bda07000000b00745a99c0af1mr6815275iob.6.1677108881718; 
- Wed, 22 Feb 2023 15:34:41 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- k14-20020a6b3c0e000000b0074c7e84d0c8sm2122244iob.55.2023.02.22.15.34.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 15:34:41 -0800 (PST)
-Date: Wed, 22 Feb 2023 16:34:39 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater
- <clg@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Xu <peterx@redhat.com>, "Jason Wang" <jasowang@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "David Hildenbrand"
- <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>, Joao Martins
- <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v2 17/20] vfio/common: Support device dirty page
- tracking with vIOMMU
-Message-ID: <20230222163439.68ad5e63.alex.williamson@redhat.com>
-In-Reply-To: <20230222174915.5647-18-avihaih@nvidia.com>
-References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-18-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pUzhW-0001Tw-D0; Wed, 22 Feb 2023 19:43:15 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 838E674634B;
+ Thu, 23 Feb 2023 01:43:04 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 283B0746346; Thu, 23 Feb 2023 01:43:04 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 25D357456E3;
+ Thu, 23 Feb 2023 01:43:04 +0100 (CET)
+Date: Thu, 23 Feb 2023 01:43:04 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@linaro.org
+Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
+In-Reply-To: <752b4e6b-43ef-655f-4203-f9c85aa4298f@eik.bme.hu>
+Message-ID: <5685f895-b6f0-b165-6301-8208415b3181@eik.bme.hu>
+References: <cover.1677004414.git.balaton@eik.bme.hu>
+ <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
+ <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
+ <adb1fe51-a17e-53c2-4dd1-0c4270a928aa@eik.bme.hu>
+ <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
+ <752b4e6b-43ef-655f-4203-f9c85aa4298f@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,331 +64,265 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 19:49:12 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
-
-> Currently, device dirty page tracking with vIOMMU is not supported - RAM
-> pages are perpetually marked dirty in this case.
-> 
-> When vIOMMU is used, IOVA ranges are DMA mapped/unmapped on the fly as
-> the vIOMMU maps/unmaps them. These IOVA ranges can potentially be mapped
-> anywhere in the vIOMMU IOVA space.
-> 
-> Due to this dynamic nature of vIOMMU mapping/unmapping, tracking only
-> the currently mapped IOVA ranges, as done in the non-vIOMMU case,
-> doesn't work very well.
-> 
-> Instead, to support device dirty tracking when vIOMMU is enabled, track
-> the entire vIOMMU IOVA space. If that fails (IOVA space can be rather
-> big and we might hit HW limitation), try tracking smaller range while
-> marking untracked ranges dirty.
-> 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->  include/hw/vfio/vfio-common.h |   2 +
->  hw/vfio/common.c              | 196 +++++++++++++++++++++++++++++++---
->  2 files changed, 181 insertions(+), 17 deletions(-)
-> 
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 1f21e1fa43..1dc00cabcd 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -95,6 +95,8 @@ typedef struct VFIOContainer {
->      unsigned int dma_max_mappings;
->      IOVATree *mappings;
->      QemuMutex mappings_mutex;
-> +    /* Represents the range [0, giommu_tracked_range) not inclusive */
-> +    hwaddr giommu_tracked_range;
->      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
->      QLIST_HEAD(, VFIOGroup) group_list;
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 4a7fff6eeb..1024788bcc 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -45,6 +45,8 @@
->  #include "migration/qemu-file.h"
->  #include "sysemu/tpm.h"
->  #include "qemu/iova-tree.h"
-> +#include "hw/boards.h"
-> +#include "hw/mem/memory-device.h"
->  
->  VFIOGroupList vfio_group_list =
->      QLIST_HEAD_INITIALIZER(vfio_group_list);
-> @@ -430,6 +432,38 @@ void vfio_unblock_multiple_devices_migration(void)
->      multiple_devices_migration_blocker = NULL;
->  }
->  
-> +static uint64_t vfio_get_ram_size(void)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    uint64_t plugged_size;
-> +
-> +    plugged_size = get_plugged_memory_size();
-> +    if (plugged_size == (uint64_t)-1) {
-> +        plugged_size = 0;
-> +    }
-> +
-> +    return ms->ram_size + plugged_size;
-> +}
-> +
-> +static int vfio_iommu_get_max_iova(VFIOContainer *container, hwaddr *max_iova)
-> +{
-> +    VFIOGuestIOMMU *giommu;
-> +    int ret;
-> +
-> +    giommu = QLIST_FIRST(&container->giommu_list);
-> +    if (!giommu) {
-> +        return -ENOENT;
-> +    }
-> +
-> +    ret = memory_region_iommu_get_attr(giommu->iommu_mr, IOMMU_ATTR_MAX_IOVA,
-> +                                       max_iova);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->  static bool vfio_have_giommu(VFIOContainer *container)
->  {
->      return !QLIST_EMPTY(&container->giommu_list);
-> @@ -1510,7 +1544,8 @@ static gboolean vfio_iova_tree_get_last(DMAMap *map, gpointer data)
->  }
->  
->  static struct vfio_device_feature *
-> -vfio_device_feature_dma_logging_start_create(VFIOContainer *container)
-> +vfio_device_feature_dma_logging_start_create(VFIOContainer *container,
-> +                                             bool giommu)
->  {
->      struct vfio_device_feature *feature;
->      size_t feature_size;
-> @@ -1529,6 +1564,16 @@ vfio_device_feature_dma_logging_start_create(VFIOContainer *container)
->      control = (struct vfio_device_feature_dma_logging_control *)feature->data;
->      control->page_size = qemu_real_host_page_size();
->  
-> +    if (giommu) {
-> +        ranges = g_malloc0(sizeof(*ranges));
-> +        ranges->iova = 0;
-> +        ranges->length = container->giommu_tracked_range;
-> +        control->num_ranges = 1;
-> +        control->ranges = (uint64_t)ranges;
-> +
-> +        return feature;
-> +    }
-> +
->      QEMU_LOCK_GUARD(&container->mappings_mutex);
->  
->      /*
-> @@ -1578,12 +1623,12 @@ static void vfio_device_feature_dma_logging_start_destroy(
->      g_free(feature);
->  }
->  
-> -static int vfio_devices_dma_logging_start(VFIOContainer *container)
-> +static int vfio_devices_dma_logging_start(VFIOContainer *container, bool giommu)
->  {
->      struct vfio_device_feature *feature;
->      int ret;
->  
-> -    feature = vfio_device_feature_dma_logging_start_create(container);
-> +    feature = vfio_device_feature_dma_logging_start_create(container, giommu);
->      if (!feature) {
->          return -errno;
->      }
-> @@ -1598,18 +1643,128 @@ static int vfio_devices_dma_logging_start(VFIOContainer *container)
->      return ret;
->  }
->  
-> +typedef struct {
-> +    hwaddr *ranges;
-> +    unsigned int ranges_num;
-> +} VFIOGIOMMUDeviceDTRanges;
-> +
-> +/*
-> + * This value is used in the second attempt to start device dirty tracking with
-> + * vIOMMU, or if the giommu fails to report its max iova.
-> + * It should be in the middle, not too big and not too small, allowing devices
-> + * with HW limitations to do device dirty tracking while covering a fair amount
-> + * of the IOVA space.
-> + *
-> + * This arbitrary value was chosen becasue it is the minimum value of Intel
-> + * IOMMU max IOVA and mlx5 devices support tracking a range of this size.
-> + */
-> +#define VFIO_IOMMU_DEFAULT_MAX_IOVA ((1ULL << 39) - 1)
-> +
-> +#define VFIO_IOMMU_RANGES_NUM 3
-> +static VFIOGIOMMUDeviceDTRanges *
-> +vfio_iommu_device_dirty_tracking_ranges_create(VFIOContainer *container)
-> +{
-> +    hwaddr iommu_max_iova = VFIO_IOMMU_DEFAULT_MAX_IOVA;
-> +    hwaddr retry_iova;
-> +    hwaddr ram_size = vfio_get_ram_size();
-> +    VFIOGIOMMUDeviceDTRanges *dt_ranges;
-> +    int ret;
-> +
-> +    dt_ranges = g_try_new0(VFIOGIOMMUDeviceDTRanges, 1);
-> +    if (!dt_ranges) {
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    dt_ranges->ranges_num = VFIO_IOMMU_RANGES_NUM;
-> +
-> +    dt_ranges->ranges = g_try_new0(hwaddr, dt_ranges->ranges_num);
-> +    if (!dt_ranges->ranges) {
-> +        g_free(dt_ranges);
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    /*
-> +     * With vIOMMU we try to track the entire IOVA space. As the IOVA space can
-> +     * be rather big, devices might not be able to track it due to HW
-> +     * limitations. In that case:
-> +     * (1) Retry tracking a smaller part of the IOVA space.
-> +     * (2) Retry tracking a range in the size of the physical memory.
-
-This looks really sketchy, why do we think there's a "good enough"
-value here?  If we get it wrong, the device potentially has access to
-IOVA space that we're not tracking, right?
-
-I'd think the only viable fallback if the vIOMMU doesn't report its max
-IOVA is the full 64-bit address space, otherwise it seems like we need
-to add a migration blocker.
-
-BTW, virtio-iommu is actively working to support vfio devices, we
-should include support for it as well as VT-d.  Thanks,
-
-Alex
-
-> +     */
-> +    ret = vfio_iommu_get_max_iova(container, &iommu_max_iova);
-> +    if (!ret) {
-> +        /* Check 2^64 wrap around */
-> +        if (!REAL_HOST_PAGE_ALIGN(iommu_max_iova)) {
-> +            iommu_max_iova -= qemu_real_host_page_size();
-> +        }
-> +    }
-> +
-> +    retry_iova = MIN(iommu_max_iova / 2, VFIO_IOMMU_DEFAULT_MAX_IOVA);
-> +
-> +    dt_ranges->ranges[0] = REAL_HOST_PAGE_ALIGN(iommu_max_iova);
-> +    dt_ranges->ranges[1] = REAL_HOST_PAGE_ALIGN(retry_iova);
-> +    dt_ranges->ranges[2] = REAL_HOST_PAGE_ALIGN(MIN(ram_size, retry_iova / 2));
-> +
-> +    return dt_ranges;
-> +}
-> +
-> +static void vfio_iommu_device_dirty_tracking_ranges_destroy(
-> +    VFIOGIOMMUDeviceDTRanges *dt_ranges)
-> +{
-> +    g_free(dt_ranges->ranges);
-> +    g_free(dt_ranges);
-> +}
-> +
-> +static int vfio_devices_start_dirty_page_tracking(VFIOContainer *container)
-> +{
-> +    VFIOGIOMMUDeviceDTRanges *dt_ranges;
-> +    int ret;
-> +    int i;
-> +
-> +    if (!vfio_have_giommu(container)) {
-> +        return vfio_devices_dma_logging_start(container, false);
-> +    }
-> +
-> +    dt_ranges = vfio_iommu_device_dirty_tracking_ranges_create(container);
-> +    if (!dt_ranges) {
-> +        return -errno;
-> +    }
-> +
-> +    for (i = 0; i < dt_ranges->ranges_num; i++) {
-> +        container->giommu_tracked_range = dt_ranges->ranges[i];
-> +        ret = vfio_devices_dma_logging_start(container, true);
-> +        if (!ret) {
-> +            break;
-> +        }
-> +
-> +        if (i < dt_ranges->ranges_num - 1) {
-> +            warn_report("Failed to start device dirty tracking with vIOMMU "
-> +                        "with range of size 0x%" HWADDR_PRIx
-> +                        ", err: %d. Retrying with range "
-> +                        "of size 0x%" HWADDR_PRIx,
-> +                        dt_ranges->ranges[i], ret, dt_ranges->ranges[i + 1]);
-> +        } else {
-> +            error_report("Failed to start device dirty tracking with vIOMMU "
-> +                         "with range of size 0x%" HWADDR_PRIx ", err: %d",
-> +                         dt_ranges->ranges[i], ret);
-> +        }
-> +    }
-> +
-> +    vfio_iommu_device_dirty_tracking_ranges_destroy(dt_ranges);
-> +
-> +    return ret;
-> +}
-> +
->  static void vfio_listener_log_global_start(MemoryListener *listener)
->  {
->      VFIOContainer *container = container_of(listener, VFIOContainer, listener);
->      int ret;
->  
->      if (vfio_devices_all_device_dirty_tracking(container)) {
-> -        if (vfio_have_giommu(container)) {
-> -            /* Device dirty page tracking currently doesn't support vIOMMU */
-> -            return;
-> -        }
+On Wed, 22 Feb 2023, BALATON Zoltan wrote:
+> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>> Am 22. Februar 2023 19:25:16 UTC schrieb BALATON Zoltan 
+>> <balaton@eik.bme.hu>:
+>>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
+>>>> On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail.com> 
+>>>> wrote:
+>>>>> On Tue, Feb 21, 2023 at 7:44 PM BALATON Zoltan <balaton@eik.bme.hu> 
+>>>>> wrote:
+>>>>>> This series fixes PCI interrupts on the ppc/pegasos2 machine and adds
+>>>>>> partial implementation of the via-ac97 sound part enough to get audio
+>>>>>> output. I'd like this to be merged for QEMU 8.0.
+>>>>>> 
+>>>>>> Regards,
+>>>>>> BALATON Zoltan
+>>>>>> 
+>>>>>> BALATON Zoltan (5):
+>>>>>>   hw/isa/vt82c686: Implement interrupt routing in via_isa_set_irq
+>>>>>>   hw/isa/vt82c686: Implement PIRQ pins
+>>>>>>   hw/ppc/pegasos2: Fix PCI interrupt routing
+>>>>>>   hw/audio/ac97: Split off some definitions to a header
+>>>>>>   hw/audio/via-ac97: Basic implementation of audio playback
+>>>>>>
+>>>>>>  hw/audio/ac97.c            |  43 +---
+>>>>>>  hw/audio/ac97.h            |  65 ++++++
+>>>>>>  hw/audio/trace-events      |   6 +
+>>>>>>  hw/audio/via-ac97.c        | 436 ++++++++++++++++++++++++++++++++++++-
+>>>>>>  hw/ide/via.c               |   2 +-
+>>>>>>  hw/isa/vt82c686.c          |  61 +++++-
+>>>>>>  hw/pci-host/mv64361.c      |   4 -
+>>>>>>  hw/ppc/pegasos2.c          |  26 ++-
+>>>>>>  hw/usb/vt82c686-uhci-pci.c |   5 +-
+>>>>>>  include/hw/isa/vt82c686.h  |  39 +++-
+>>>>>>  10 files changed, 626 insertions(+), 61 deletions(-)
+>>>>>>  create mode 100644 hw/audio/ac97.h
+>>>>>> 
+>>>>>> --
+>>>>>> 2.30.7
+>>>>>> 
+>>>>>> 
+>>>>> Wow, the MorphOS people paid attention to sound design. Thanks for
+>>>>> presenting it to us, Zoltan!
+>>>>> 
+>>>>> I've had a closer look at your series and I think it can be simplified:
+>>>>> Patch 2 can be implemented quite straight-forward like I proposed in a
+>>>>> private mail: https://github.com/shentok/qemu/commit/via-priq-routing.
+>>>>> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt 
+>>>>> routing"
+>>>>> working, one can expose the PCI interrupts with a single line like you 
+>>>>> do
+>>>>> in patch 2. With this, patch 1 "hw/isa/vt82c686: Implement interrupt
+>>>>> routing in via_isa_set_irq" isn't needed any longer and can be omitted.
+>>>>> 
+>>>>> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() can be
+>>>>> used instead. pci_set_irq() internally takes care of all the ISA 
+>>>>> interrupt
+>>>>> level tracking patch 1 attempted to address.
+>>>>> 
+>>>> 
+>>>> Here is a proof of concept branch to demonstrate that the simplification
+>>>> actually works: https://github.com/shentok/qemu/commits/pegasos2 (Tested
+>>>> with MorphOS with and without pegasos2.rom).
+>>> 
+>>> Does this only work because both the via-ac97 and the PCI interrupts are 
+>>> mapped to the same ISA IRQ and you've only tested sound? The guest could 
+>>> configure each device to use a different IRQ, also mapping them so they 
+>>> share one ISA interrupt. What happens if multiple devices are mapped to 
+>>> IRQ 9 (which is the case on pegasos2 where PCI cards, ac97 and USB all 
+>>> share this IRQ) and more than one such device wants to raise an interrupt 
+>>> at the same time? If you ack the ac97 interrupt but a PCI network card or 
+>>> the USB part still wants to get the CPUs attention the ISA IRQ should 
+>>> remain raised until all devices are serviced.
+>> 
+>> pci_bus_get_irq_level(), used in via_isa_set_pci_irq(), should handle
+>> exactly that case very well.
+>> 
+>>> I don't see a way to track the status of all devices in a single qemu_irq 
+>>> which can only be up or down so we need something to store the state of 
+>>> each source.
+>> 
+>> pci_set_irq() causes pci_bus_change_irq_level() to be called.
+>> pci_bus_change_irq_level() tracks the sum of all irq levels of all
+>> devices attached to a particular pin in irq_count. Have a look at
+>> pci_bus_change_irq_level() and you will understand better.
+>> 
+>>> My patch adds a state register to each ISA IRQ line for all possible 
+>>> sources which could probably be stored once but then for each change of 
+>>> ISA IRQ status all the mapped devices should be checked and combined so 
+>>> it's easier to store them for each IRQ. Does your approach still work if 
+>>> you play sound, and copy something from network to a USB device at the 
+>>> same time? (I'm not sure mine does not have remaining bugs but I don't 
+>>> think this can be simplified that way but if you can prove it would work I 
+>>> don't mind taking an alternative version but I'm not convinced yet.)
+>> 
+>> Well, I can't prove that my approach works but unfortunately I can
+>> prove that both our approaches cause a freeze :/ Try:
+>> 1. Start `qemu-system-ppc -M pegasos2 -bios pegasos2.rom -rtc
+>> base=localtime -device ati-vga,guest_hwcursor=true,romfile="" -cdrom
+>> morphos-3.17.iso -device usb-mouse -device usb-kbd`
+>> 2. Move the mouse while sound is playing
+>> -> Observe the VM to freeze
+>
+> Not quite sure why but it seems to happen when both the ac97 and USB raise 
+> the interrupt and the guest driver seems to get confused. Adding some debug 
+> logging:
+>
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index b16620daf8..f840e5a8d0 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -636,12 +636,13 @@ void via_isa_set_irq(PCIDevice *d, ViaISAIRQSourceBit 
+> n, int level)
+>     if (!isa_irq) {
+>         return;
+>     }
 > -
-> -        ret = vfio_devices_dma_logging_start(container);
-> +        ret = vfio_devices_start_dirty_page_tracking(container);
->      } else {
->          ret = vfio_set_dirty_page_tracking(container, true);
->      }
-> @@ -1627,11 +1782,6 @@ static void vfio_listener_log_global_stop(MemoryListener *listener)
->      int ret;
->  
->      if (vfio_devices_all_device_dirty_tracking(container)) {
-> -        if (vfio_have_giommu(container)) {
-> -            /* Device dirty page tracking currently doesn't support vIOMMU */
-> -            return;
-> -        }
-> -
->          ret = vfio_devices_dma_logging_stop(container);
->      } else {
->          ret = vfio_set_dirty_page_tracking(container, false);
-> @@ -1670,6 +1820,17 @@ static int vfio_device_dma_logging_report(VFIODevice *vbasedev, hwaddr iova,
->      return 0;
->  }
->  
-> +static bool vfio_iommu_range_is_device_tracked(VFIOContainer *container,
-> +                                               hwaddr iova, hwaddr size)
-> +{
-> +    /* Check for 2^64 wrap around */
-> +    if (!(iova + size)) {
-> +        return false;
-> +    }
-> +
-> +    return iova + size <= container->giommu_tracked_range;
-> +}
-> +
->  static int vfio_devices_query_dirty_bitmap(VFIOContainer *container,
->                                             VFIOBitmap *vbmap, hwaddr iova,
->                                             hwaddr size)
-> @@ -1679,10 +1840,11 @@ static int vfio_devices_query_dirty_bitmap(VFIOContainer *container,
->      int ret;
->  
->      if (vfio_have_giommu(container)) {
-> -        /* Device dirty page tracking currently doesn't support vIOMMU */
-> -        bitmap_set(vbmap->bitmap, 0, vbmap->pages);
-> +        if (!vfio_iommu_range_is_device_tracked(container, iova, size)) {
-> +            bitmap_set(vbmap->bitmap, 0, vbmap->pages);
->  
-> -        return 0;
-> +            return 0;
-> +        }
->      }
->  
->      QLIST_FOREACH(group, &container->group_list, container_next) {
+> +if (n > 1) fprintf(stderr, "%s: %d %d %d %x -> ", __func__, n, level, 
+> isa_irq, s->isa_irq_state[isa_irq]);
+>     if (level) {
+>         s->isa_irq_state[isa_irq] |= BIT(n);
+>     } else {
+>         s->isa_irq_state[isa_irq] &= ~BIT(n);
+>     }
+> +if (n > 1) fprintf(stderr, "%x\n", s->isa_irq_state[isa_irq]);
+>     qemu_set_irq(s->isa_irqs[isa_irq], !!s->isa_irq_state[isa_irq]);
+> }
+>
+> I see in the normal case when there's only one interrupt for USB only:
+>
+> via_isa_set_irq: 2 1 9 0 -> 4
+> usb_uhci_mmio_readw addr 0x0002, ret 0x0001
+> usb_uhci_mmio_writew addr 0x0002, val 0x0001
+> via_isa_set_irq: 2 0 9 4 -> 0
+>
+> For sound only:
+>
+> via_ac97_sgd_fetch addr=0x43b70bc --F len=3528
+> via_isa_set_irq: 8 1 9 0 -> 100
+> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
+> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
+> via_ac97_sgd_read 0x0 1 -> 0xc9
+> via_ac97_sgd_write 0x0 1 <- 0x1
+> via_isa_set_irq: 8 0 9 100 -> 0
+> via_ac97_sgd_read 0x4 4 -> 0x439cbe8
+> via_ac97_sgd_fetch addr=0x43c70bc -E- len=3528
+> via_isa_set_irq: 8 1 9 0 -> 100
+> via_ac97_sgd_read 0x4 4 -> 0x439cbe0
+> via_ac97_sgd_read 0x4 4 -> 0x439cbe0
+> via_ac97_sgd_read 0x10 1 -> 0x0
+> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
+> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
+> via_ac97_sgd_read 0x0 1 -> 0xca
+> via_ac97_sgd_write 0x0 1 <- 0x2
+> via_isa_set_irq: 8 0 9 100 -> 0
+> via_ac97_sgd_read 0x4 4 -> 0x439cbe0
+>
+> but it stops acking irqs when both are raised or it seems USB IRQ is raised 
+> while it's in the guest IRQ handler:
+>
+> via_ac97_sgd_fetch addr=0x43c70bc -E- len=3528
+> via_isa_set_irq: 8 1 9 0 -> 100
+> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
+> usb_uhci_mmio_readw addr 0x0002, ret 0x0000
+> via_isa_set_irq: 2 1 9 100 -> 104
+> via_ac97_sgd_read 0x0 1 -> 0xca
+> via_ac97_sgd_write 0x0 1 <- 0x2
+> via_isa_set_irq: 8 0 9 104 -> 4
+> via_ac97_sgd_read 0x4 4 -> 0x439cbe0
+> via_ac97_sgd_fetch addr=0x43b70bc --F len=3528
+> via_isa_set_irq: 8 1 9 4 -> 104
+> via_ac97_sgd_read 0x4 4 -> 0x439cbe8
+> via_ac97_sgd_read 0x4 4 -> 0x439cbe8
+> via_ac97_sgd_read 0x10 1 -> 0x0
+> usb_uhci_mmio_readw addr 0x0006, ret 0x06bf
+> usb_uhci_mmio_readw addr 0x0010, ret 0x0085
+> usb_uhci_mmio_writew addr 0x0010, val 0x0085
+> usb_uhci_mmio_readw addr 0x0012, ret 0x0085
+> usb_uhci_mmio_writew addr 0x0012, val 0x0085
+> usb_uhci_mmio_readw addr 0x0006, ret 0x06b7
+> usb_uhci_mmio_readw addr 0x0010, ret 0x0080
+> usb_uhci_mmio_writew addr 0x0010, val 0x0080
+> usb_uhci_mmio_readw addr 0x0012, ret 0x0080
+> usb_uhci_mmio_writew addr 0x0012, val 0x0080
+> usb_uhci_mmio_readw addr 0x0006, ret 0x0759
+> usb_uhci_mmio_readw addr 0x0010, ret 0x0085
+> usb_uhci_mmio_writew addr 0x0010, val 0x0085
+> usb_uhci_mmio_readw addr 0x0012, ret 0x0085
+> usb_uhci_mmio_writew addr 0x0012, val 0x0085
+> usb_uhci_mmio_readw addr 0x0006, ret 0x0752
+> usb_uhci_mmio_readw addr 0x0010, ret 0x0080
+> usb_uhci_mmio_writew addr 0x0010, val 0x0080
+> usb_uhci_mmio_readw addr 0x0012, ret 0x0080
+> usb_uhci_mmio_writew addr 0x0012, val 0x0080
+> via_isa_set_irq: 2 1 9 104 -> 104
+> usb_uhci_mmio_readw addr 0x0006, ret 0x07f1
+> usb_uhci_mmio_readw addr 0x0010, ret 0x0085
+> usb_uhci_mmio_writew addr 0x0010, val 0x0085
+> usb_uhci_mmio_readw addr 0x0012, ret 0x0085
+> usb_uhci_mmio_writew addr 0x0012, val 0x0085
+> usb_uhci_mmio_readw addr 0x0006, ret 0x07e9
+>
+> It seems to not notice the USB interrupt any more after that although sound 
+> playback stops but mouse still moves but otherwise does not work. I'm not 
+> sure this is not a guest bug as it seems an interrupt handler should disable 
+> interrupts to not get interrupted. Could this be reproduced with Linux? I'd 
+> still go wit this patch series for 8.0 because the default case works and 
+> this was also tested with two PCI cards on AmigaOS4 which works not while it 
+> did not work at all before so this could be debugged and fixed later but 
+> adding this series makes the machine generally usable at least without USB 
+> devices. With -d unimp I also get these logs when booting MorphOS:
+>
+> ok boot cd boot.img
+> ISO-9660 filesystem:  System-ID: "MORPHOS"  Volume-ID: "MorphOSBoot"
+> Root dir: "" flags=0x2 extent=0x20 size=0x1800
+> 31.127| Memory used before SYS_Init: 9MB
+> i8259: level sensitive irq not supported
+> i8259: level sensitive irq not supported
+>
+> Could it be the PIC emulation should be fixed for this?
+
+After thinking about that more I think this is the reason and this patch 
+just uncovered a defficiency in the PIC model. I would not care much it 
+this was only sound vs. USB but it's also sound vs. PCI cards e.g. network 
+so until that's fixed in i8259 I can hack around that here like this:
+
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index b16620daf8..a6cf55a632 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -597,6 +597,7 @@ void via_isa_set_irq(PCIDevice *d, ViaISAIRQSourceBit n, int level)
+ {
+     ViaISAState *s = VIA_ISA(pci_get_function_0(d));
+     uint8_t isa_irq = 0, max_irq = 15;
++    int old_level;
+
+     if (n == VIA_IRQ_USB0 && d == PCI_DEVICE(&s->uhci[1])) {
+         n++;
+@@ -637,11 +638,16 @@ void via_isa_set_irq(PCIDevice *d, ViaISAIRQSourceBit n, int level)
+         return;
+     }
+
++    old_level = !!s->isa_irq_state[isa_irq];
+     if (level) {
+         s->isa_irq_state[isa_irq] |= BIT(n);
+     } else {
+         s->isa_irq_state[isa_irq] &= ~BIT(n);
+     }
++    if (old_level && !!s->isa_irq_state[isa_irq]) {
++        /* Only needed because i8259 model does not support level sensitive */
++        qemu_set_irq(s->isa_irqs[isa_irq], 0);
++    }
+     qemu_set_irq(s->isa_irqs[isa_irq], !!s->isa_irq_state[isa_irq]);
+ }
+
+Unless somebody has a better idea I'll go with this for a v2 and let this 
+be cleaned up sometimes in the future when sombody gets around to improve 
+the PIC model.
+
+Regards,
+BALATON Zoltan
 
 
