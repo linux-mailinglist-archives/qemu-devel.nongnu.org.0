@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF526A0D47
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:47:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC376A0D42
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:44:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVDnv-0007iI-2z; Thu, 23 Feb 2023 10:46:43 -0500
+	id 1pVDlH-0006LS-IZ; Thu, 23 Feb 2023 10:43:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVDns-0007fT-LY
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:46:40 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pVDlF-0006Kk-3C
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:43:57 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVDnq-0001Xh-PT
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:46:40 -0500
-Received: by mail-wr1-x436.google.com with SMTP id bw19so393943wrb.13
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 07:46:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pVDlD-0007yN-Nf
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:43:56 -0500
+Received: by mail-pl1-x630.google.com with SMTP id i3so2937479plg.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 07:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9CS+pAxjox9jdwdeXzmizD5qfRVpGY8b4Ckkn2t751Q=;
- b=hYUwzTlTe69pOrANRWd53bdEltGkPNWYsQO4n9qJdyu5UIY0kqzfnNa1BYY37Ab6VL
- 1HD6cOz5++Sha1PVfFTIVtrTuzue/g6kyQGsCwirw6/gVCQD30eIEUJjeLe+oWMnKKMt
- J6YkpRFptxMfLIyVq+gvcl3vrNX83fOyK63FldzSoct3RCK6mSeMh5BOnpSdQTUy9yJp
- ISUDVB1dbyo1ntBP0tzyhGOflUzk8CPNOUwm5bwq0hyKEgnCwQLTcWse3N/KaEoHLM+8
- Kk/u0R0nv1tIyOwHQQli31J9bY5GEZSwtJnAwJcajxRmeOZ9yUhF2HX1I6sNYkfAAx5v
- v9Cw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vN9wbXaS5AKRfx7O49+9tm8CSWhH7WZBdTXsOBDoOLA=;
+ b=MfuOR1THyLa7p+KtzCci5uYxkVrmJCkXhYY9OI7GchxhxTtw7Y42+686NiYh6EzqBW
+ 1uTlJ2KM7/EE1CHVBgsvLFKKf2JkerH3J20L+5LqWeSPmFUlQFQS91PCYKHw0V/fBRmn
+ l/dbrhFupNiCaxzHaBWIVcEYx40ogmVihAN3yXYepUyN/itkbGy2Fc+WKFWIprLU0y4a
+ RNriV6Qe+9kABM8I4CBhO3pTJHEsohfcO1jogCrfh7BJFf/Lt02j/3qJ8zuaFQiwMOpo
+ AEfi1Q4JpNBkfVpCTGeFJsCmAHLRwzWA7bH5+AeGji78zlgClZv0PZPfYtFep3eyykUy
+ QiKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9CS+pAxjox9jdwdeXzmizD5qfRVpGY8b4Ckkn2t751Q=;
- b=0lPU3x6jGpne3+HMpswCUOQumpBaP7y/PWjGPxmgapQKoFNZ7B3ZgBtwxODjmBJN5x
- q42C58EVCKtgp8DiIltNwKpRonSV7c4sqQ88aO8nTFAGv19dbyV0pVj6qoOreGdFYoWS
- EjJj42naHeFZwk/dyl1rWgvTAlcYlj78PWG7D4POiYgscNIDopq8AYm6zejCEFYob9eV
- ASIwzZC9J0FjM6Fl97VBjyLDzKTmMq+JKLu6Cg8dVqqbinAXB2aKEYNn0itKy4wGE+V4
- reihS/W0wnnC39CBDmXLBq/5Hmj36a/yNEZiDS7hvwt8q21JSk0tTM5gyoHj6gT6UleS
- 409g==
-X-Gm-Message-State: AO0yUKWuKRWiqVq0w4Y0LVwThGIC+zKUbUsiWxs3uZFepgb/DaqCc/U/
- njhs5+vC1liGF5hNGawwB+HTzA==
-X-Google-Smtp-Source: AK7set8lubcIow/Y72yOwioM6YwggWNpBAHJoSHkkZlPljkCLKXXEe1g7INrxDs/trdjKMP8TQDD0A==
-X-Received: by 2002:adf:f082:0:b0:2c5:8736:c022 with SMTP id
- n2-20020adff082000000b002c58736c022mr9741842wro.62.1677167196189; 
- Thu, 23 Feb 2023 07:46:36 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- o24-20020a5d58d8000000b002c7066a6f77sm7505935wrf.31.2023.02.23.07.46.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 07:46:35 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6D90F1FFB7;
- Thu, 23 Feb 2023 15:46:35 +0000 (GMT)
-References: <20230223142154.31975-1-farosas@suse.de>
- <Y/d+9jsvwF5tySlv@redhat.com>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org, Thomas Huth
- <thuth@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Wainer dos
- Santos Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH 0/1] ci: Speed up container stage
-Date: Thu, 23 Feb 2023 15:43:37 +0000
-In-reply-to: <Y/d+9jsvwF5tySlv@redhat.com>
-Message-ID: <877cw8pep0.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vN9wbXaS5AKRfx7O49+9tm8CSWhH7WZBdTXsOBDoOLA=;
+ b=v/V2otXMObL+pjRa2tSkFnMIxtn1oigWO5noVc9JUVtP5ZXRvlZ1sKMKFWTa0UUZEQ
+ e/PM7rcoYRxx6pBoIPigfQmNLhcDuvo7WyBSk2qdkRnICFWMyThmCBmwJ/OeY9RUOfG1
+ f2isaasgGtKwoissGN67lOdfP6sRwLW4n0NzJZvi5s4DaNdS0/G/I6W9clpOeZYsc3az
+ VaCdaq0gNw5m6h12eAREEIxn4DJ51FGn0cs6p0jzrINZkBQ2ZJaaxnGzV2vgSs1q1Tiv
+ CSww2BT2xOHqtN7rtIIzLNIEcks3sumRMYZR51dLrquDBZKam4hb9+CwbpJ61lH8VUcP
+ 18sA==
+X-Gm-Message-State: AO0yUKVNOaeWflBcX+JpLoLK9TWHXwiUhzVB9DbeQc2qE/7zacsGTInh
+ mZxFGDWqiXu5CpdN7ybFGSyLCqsM0Txu2IZlaFmSuw==
+X-Google-Smtp-Source: AK7set9w3LlbT8v/ulc3qH6SV20vxy+e4KtP13mG1OnYuJBuWVZBpTfi6Pu/lnhl0cRJ4GV8cgIENvqKlOKDOiTkqBE=
+X-Received: by 2002:a17:90b:4d04:b0:237:50b6:984c with SMTP id
+ mw4-20020a17090b4d0400b0023750b6984cmr1222650pjb.137.1677167034220; Thu, 23
+ Feb 2023 07:43:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+References: <20230216030854.1212208-1-richard.henderson@linaro.org>
+ <20230216030854.1212208-8-richard.henderson@linaro.org>
+In-Reply-To: <20230216030854.1212208-8-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Feb 2023 15:43:43 +0000
+Message-ID: <CAFEAcA8LWyeGB7FyKEXO=Ww7VZOxvEUbQtGCF=dFz4_iAkjp=A@mail.gmail.com>
+Subject: Re: [PATCH v1 07/19] target/arm: Add feature test for FEAT_LSE2
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,91 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 16 Feb 2023 at 03:10, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 7bc97fece9..2108caf753 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -4049,6 +4049,11 @@ static inline bool isar_feature_aa64_st(const ARMISARegisters *id)
+>      return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, ST) != 0;
+>  }
+>
+> +static inline bool isar_feature_aa64_lse2(const ARMISARegisters *id)
+> +{
+> +    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, AT) != 0;
+> +}
+> +
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> On Thu, Feb 23, 2023 at 11:21:53AM -0300, Fabiano Rosas wrote:
->> I'm not sure if this was discussed previously, but I noticed we're not
->> pulling the images we push to the registry at every pipeline run.
->>=20
->> I would expect we don't actually need to rebuild container images at
->> _every_ pipeline run, so I propose we add a "docker pull" to the
->> container templates. We already have that for the docker-edk2|opensbi
->> images.
->>=20
->> Some containers can take a long time to build (14 mins) and pulling
->> the image first without building can cut the time to about 3
->> mins. With this we can save almost 2h of cumulative CI time per
->> pipeline run:
->
-> The docker.py script that we're invoking is already pulling the
-> image itself eg to pick a random recent job:
->
->   https://gitlab.com/qemu-project/qemu/-/jobs/3806090058
->
-> We can see
->
->   $ ./tests/docker/docker.py --engine docker build -t "qemu/$NAME" -f
-> "tests/docker/dockerfiles/$NAME.docker" -r
-> $CI_REGISTRY/qemu-project/qemu 03:54
->   Using default tag: latest
->   latest: Pulling from qemu-project/qemu/qemu/debian-arm64-cross
->   bb263680fed1: Pulling fs layer
->   ...snip...
->
-> none the less it still went ahead and rebuilt the image from scratch
-> so something is going wrong here. I don't know why your change adding
-> an extra 'docker pull' would have any effect, given we're already
-> pulling, so I wonder if that's just coincidental apparent change
-> due to the initial state of your fork's container registery.
->
-> Whenever I look at this I end up wishing out docker.py didn't exist
-> and that we could just directly do
->
->   - docker pull "$TAG"
->   - docker build --cache-from "$TAG" --tag "$TAG" -f "tests/docker/$NAME.=
-docker"
->
-> as that sould be sufficient to build the image with caching.
-
-I think we should be ready to do that now as we have flattened all our
-dockerfiles. The only other thing that docker.py does is nicely add a
-final step for the current user so you can ensure all files generated in
-docker cross compile images are still readable on the host.
-
->> We would need to devise a mechanism (not included here) to force the
->> re-build of the container images when needed, perhaps an environment
->> variable or even a whole new "container build" stage before the
->> "container" stage.
->>=20
->> What do you think?
->
-> We definitely want the rebuild to be cached. So whatever is
-> broken in that regard needs fixing, as this used to work AFAIK.
->
->
-> Ideally we would skip the container stage entirely for any
-> pull request that did NOT include changes to the dockerfile.
-
-That would be ideal.
-
-> The problem is that the way we're using gitlab doesn't let
-> that work well. We need to setup rules based on filepath.
-> Such rules are totally unreliable for push events in
-> practice, because they only evaluate the delta between what
-> you just pushed and what was already available on the server.
-> This does not match the content of the pull request, it might
-> be just a subset.
->
-> If we had subsystem maintainers opening a merge request for
-> their submission, then we could reliably write rules based
-> on what files are changed by the pull request, and entirely
-> skip the containers stage most of the time, which would be
-> an even bigger saving.
-
-Our first tentative steps away from an email process?
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+thanks
+-- PMM
 
