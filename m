@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F166A0554
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 10:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025306A0581
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 11:00:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV8He-0004H8-DM; Thu, 23 Feb 2023 04:53:02 -0500
+	id 1pV8Ne-0005px-6r; Thu, 23 Feb 2023 04:59:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pV8Hd-0004H0-BN
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 04:53:01 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1pV8Nc-0005p0-0q
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 04:59:12 -0500
+Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pierrick.bouvier@linaro.org>)
- id 1pV8Hb-00080k-JE
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 04:53:01 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- l2-20020a05600c1d0200b003e1f6dff952so9550520wms.1
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 01:52:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=l/STTILjJPst6RaxLAz+p6bqSEHmpOJa6kwCnJJ8vZo=;
- b=A9GyooGz13n/llFovO7JtwTsUPyWSiuTL6VQvoX9W3pGNbGIzTdhDs1osO4E+tBfsG
- 4PxoU/MG5KooKoMzyk1zuS+L2FNeO3e6urb/KO4zbSvQ1D3TqdBW3VkOw3yDjwm6GbQf
- G4fxCW07icK1hI77c6nUD/E9svZ9kNEpiYNa+C+z6Pjxb7cJQYwXx46ZMG1zF+vUoudp
- DbzehmsKy+uefjPn1ztIxs9dC2pRQGQpS6uLAbEhBvzuLCav7uXg0INoonvRH3mfHi4f
- rQTeCo/pruC2ZlVCyxe1QdqSbwo6P+hUINJ4XzLrlyhG2ntsnZ8kx9yBr6dccF7xgxaZ
- WoKQ==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1pV8NZ-0000wP-H2
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 04:59:11 -0500
+Received: by mail-lf1-x12b.google.com with SMTP id s22so13022991lfi.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 01:59:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=S6hkfktMN3YJ4JwzsOfKiZhjOI0Us65ewusf5lHD5+8=;
+ b=K5fmr62zCs9t3Nt2Y9CwF8Iu4vPp+oDfj/tg/CUpJycZrrrfYJfx3URjY1xEgU5FKv
+ UEthnnTQJJ9Ajh4T+g8xkk/rA6ztTR7mJqqO9qjBWPu2nFUc/3KpAieimS19MGedq7s9
+ WLZX/t+D8h56lk+Nh479+pspRo+UbUKQekhumUy7MBCtXAT6jb+qUiN1Z62u5/fYSD2A
+ 0SY/yZQ7VWd5rq6yzlYf8e0UNQf/yOJwNCvp8BUrLrmJH01Atznbw/MyoaxK0Sc+/Mz+
+ 4R7l0mKqKvomMqB45rjygdsBlrYbnq3xDE+ukPu0Jsa/eD2lkaIhORinj9fao5GLkOZk
+ oYwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l/STTILjJPst6RaxLAz+p6bqSEHmpOJa6kwCnJJ8vZo=;
- b=nJT//z4fYdrwWQPpKcRh/VBDa+hq8+BnsFhCU0yDU3+UUtkHzFLAZ95iwTr/GWM7KU
- 60UZseKHf4tLZ8Khpbrmg8Amq1n/LpFdp5A2XL4/70oc26fxLWod2xjH01SgTHzUS/5p
- dcXmellpq9a02wQKiBaX0G2df2UQWEWDWgqROIDN/gqhV4eLe2fnaY6WXgBthBQHPvG6
- Us6DoA5keeuSNl7P06adDDdWuT3E8Dzfv/4Rs16D9EOJDn6ZQBzb9y/iN5e75W/Maow2
- zc63avCljQDQgj/Ix3JwfA05TTUNnPN0iZRxhrAlqk0UnmlFLJfVh+VCHHywju1yyofm
- 3SeA==
-X-Gm-Message-State: AO0yUKW/cmqNehV+e6Fz5KK/g/sdCwHticEOSH1/ApVKimAWpPnLlvoT
- +poei9vOVP2UeesVQGh+IAZbsw==
-X-Google-Smtp-Source: AK7set/5ayZttB6zojKTXXIWESutDIVY5N/HNuyyvQWaYOfuWtZr94oTgcmmqCGp/2S/P2mZ0WSX7g==
-X-Received: by 2002:a05:600c:328a:b0:3dc:50bc:da70 with SMTP id
- t10-20020a05600c328a00b003dc50bcda70mr8051022wmp.10.1677145977474; 
- Thu, 23 Feb 2023 01:52:57 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:5cc:caa0:d3bf:25f2:e2d9:935c?
- ([2a01:e0a:5cc:caa0:d3bf:25f2:e2d9:935c])
- by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c4f4600b003df245cd853sm13208620wmq.44.2023.02.23.01.52.56
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S6hkfktMN3YJ4JwzsOfKiZhjOI0Us65ewusf5lHD5+8=;
+ b=VlnAKuZUBLFRfEOgS2C69yBAj9gOnz40A1dGi1B2ZXe7XSfBToqD1cXht7Lhfda240
+ vEII0RboV8cAoNikvZdwTFXTk8noy1jR/lu+eA2AfHFs/UYPj1ICWv55ZAeSzN1tjN0Y
+ 3swXB4Na4fBti9H+fvPhehNVtvO1X05TymhE+qCnUH+/BSG80zIolCGurBzlhZi6Gapx
+ A5rH6ZhSTFJNDsYAeR92a2jywrRUhJ/cHUxq65fKycUp2DtGGA/pKsI4iZEh1EykGZNn
+ 52rYf/HxRLe2FtehJmJUpxRenR2JaVKg9pgeIg+JlleK0UjFDKrPYhc/4ZbKQ3g9lWRR
+ dxRg==
+X-Gm-Message-State: AO0yUKX3zTy1f+TnDNgc5lLqu9n25e+kq2uP1UGR+1iRrmjl3L+KhECa
+ wKdsO26nWMwvPJib1MsWrOA5J9giwmC0RUjVvHn7Gt2/Y2BJVmRFyFLRsQrPMDAMtlTy7wmJRia
+ 69xSmg4dl2MbcqYeQr30ynwELwtWG8F17a6S48cTAbY78Pqs6OTo7hM9ahxeujAFxUj5jYqXqrE
+ s=
+X-Google-Smtp-Source: AK7set+6iCfJNfiuaPg+ydYiGgY/VOlBrU5pDZCjRWJUmTrOyNEa4uF3ltl/5xNlWMIo73/2WKnflQ==
+X-Received: by 2002:a05:6512:102c:b0:4dd:9ddc:4465 with SMTP id
+ r12-20020a056512102c00b004dd9ddc4465mr1879492lfr.55.1677146347135; 
+ Thu, 23 Feb 2023 01:59:07 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
+ [209.85.167.54]) by smtp.gmail.com with ESMTPSA id
+ m6-20020ac24ac6000000b004db0a7ce483sm283907lfp.162.2023.02.23.01.59.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 01:52:57 -0800 (PST)
-Message-ID: <b6c9041f-d54d-af07-0966-810d2cfbe975@linaro.org>
-Date: Thu, 23 Feb 2023 10:52:56 +0100
+ Thu, 23 Feb 2023 01:59:06 -0800 (PST)
+Received: by mail-lf1-f54.google.com with SMTP id g17so388761lfv.4;
+ Thu, 23 Feb 2023 01:59:06 -0800 (PST)
+X-Received: by 2002:ac2:46fb:0:b0:4dd:a4c5:2b43 with SMTP id
+ q27-20020ac246fb000000b004dda4c52b43mr217355lfo.9.1677146346055; Thu, 23 Feb
+ 2023 01:59:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: mttcg: warning to user about memory ordering
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: bobby.prani@gmail.com
-References: <7d380f61-b104-0fcd-47af-8712ffa01668@linaro.org>
- <f5b820d8-68ce-d280-4025-3473fa2a5a13@linaro.org>
-From: Pierrick Bouvier <pierrick.bouvier@linaro.org>
-In-Reply-To: <f5b820d8-68ce-d280-4025-3473fa2a5a13@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=pierrick.bouvier@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230221184525.140704-1-dbarboza@ventanamicro.com>
+In-Reply-To: <20230221184525.140704-1-dbarboza@ventanamicro.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Thu, 23 Feb 2023 17:58:54 +0800
+X-Gmail-Original-Message-ID: <CANzO1D1yDBETrKf_9ap-r7=fEgVLs+dB9asnxtUhToxBY6Wf1Q@mail.gmail.com>
+Message-ID: <CANzO1D1yDBETrKf_9ap-r7=fEgVLs+dB9asnxtUhToxBY6Wf1Q@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv/vector_helper.c: create
+ vext_set_tail_elems_1s()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
+Content-Type: multipart/alternative; boundary="000000000000316d6d05f55b10c3"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
+ envelope-from=frank.chang@sifive.com; helo=mail-lf1-x12b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.102,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,30 +97,442 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gMi8yMi8yMyAyMDoxNCwgUmljaGFyZCBIZW5kZXJzb24gd3JvdGU6DQo+IE9uIDIvMjIv
-MjMgMDY6MjgsIFBpZXJyaWNrIEJvdXZpZXIgd3JvdGU6DQo+PiBIZWxsbywNCj4+DQo+PiBX
-aGVuIHVzaW5nIG11bHRpIHRocmVhZCB0Y2csIGEgd2FybmluZyBpcyBlbWl0dGVkIHRvIHVz
-ZXIgaWYgbW9kZWxzIGZvciBndWVzdCBhbmQgaG9zdCBhcmUNCj4+IG5vdCBjb21wYXRpYmxl
-IChsaWtlIHFlbXUtc3lzdGVtLXg4Nl82NCBydW5uaW5nIG9uIGFhcmNoNjQgaG9zdCkNCj4+
-DQo+PiBhY2NlbC90Y2cvdGNnLWFsbC5jOg0KPj4gMTYxwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGlmICghY2hlY2tfdGNnX21lbW9yeV9vcmRlcnNfY29tcGF0aWJsZSgpKSB7DQo+PiAx
-NjLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB3YXJuX3JlcG9ydCgiR3Vlc3Qg
-ZXhwZWN0cyBhIHN0cm9uZ2VyIG1lbW9yeSBvcmRlcmluZyAiDQo+PiAxNjPCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAidGhhbiB0
-aGUgaG9zdCBwcm92aWRlcyIpOw0KPj4gMTY0wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgZXJyb3JfcHJpbnRmKCJUaGlzIG1heSBjYXVzZSBzdHJhbmdlL2hhcmQgdG8gZGVi
-dWcgZXJyb3JzXG4iKTsNCj4+IDE2NcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9DQo+Pg0K
-Pj4gSG93ZXZlciwgaW4gdGNnL3RjZy1vcC5jLCBhbGwgbG9hZC9zdG9yZXMgYXJlIGVtaXR0
-aW5nIG1lbW9yeSBiYXJyaWVycyB1c2luZw0KPj4gdGNnX2dlbl9yZXFfbW8sIHdoaWNoIGxl
-dHMgdGhpbmsgaXQncyBhbHJlYWR5IGltcGxlbWVudGVkIGZvciBhbnkgaG9zdC9ndWVzdCBj
-b21iaW5hdGlvbg0KPj4gKHdhcyBhZGRlZCBpbiBiMzJkYzMpLg0KPj4NCj4+IEluIHlvdXIg
-b3BpbmlvbiwgYXJlIHRoZXJlIHN0aWxsIGNvcm5lciBjYXNlcyB0aGF0IGFyZSBub3QgY292
-ZXJlZCBjb3JyZWN0bHk/IElmIG5vLA0KPj4gc2hvdWxkIHdlIGRyb3AgdGhpcyBzY2FyeSB3
-YXJuaW5nPw0KPiANCj4gU2VlDQo+IA0KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9xZW11
-LWRldmVsLzIwMjEwMzE2MjIwNzM1LjIwNDgxMzctMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5h
-cm8ub3JnLw0KPiBodHRwczovL2dpdGxhYi5jb20vcnRoNzY4MC9xZW11Ly0vY29tbWl0cy90
-Y2ctbWItc21hbGwvDQo+IA0KPiBJdCBuZXZlciBnb3QgbWVyZ2VkIGJlY2F1c2UgaXQgZGlk
-bid0IGFjdHVhbGx5IHNvbHZlIHRoZSBzMzkweCBvbiBhYXJjaDY0IHByb2JsZW0uICBJDQo+
-IGFzc3VtZSB0aGVyZSdzIHNvbWV0aGluZyBJJ3ZlIG1pc3NlZC4NCj4gDQoNClRoYW5rcyBm
-b3IgdGhlIHBvaW50ZXJzLg0KDQo+IA0KPiByfg0K
+--000000000000316d6d05f55b10c3
+Content-Type: text/plain; charset="UTF-8"
+
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+
+On Wed, Feb 22, 2023 at 2:46 AM Daniel Henrique Barboza <
+dbarboza@ventanamicro.com> wrote:
+
+> Commit 752614cab8e6 ("target/riscv: rvv: Add tail agnostic for vector
+> load / store instructions") added code to set the tail elements to 1 in
+> the end of vext_ldst_stride(), vext_ldst_us(), vext_ldst_index() and
+> vext_ldff(). Aside from a env->vl versus an evl value being used in the
+> first loop, the code is being repeated 4 times.
+>
+> Create a helper to avoid code repetition in all those functions.
+> Arguments that are used in the callers (nf, esz and max_elems) are
+> passed as arguments. All other values are being derived inside the
+> helper.
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  target/riscv/vector_helper.c | 86 +++++++++++++-----------------------
+>  1 file changed, 30 insertions(+), 56 deletions(-)
+>
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 00de879787..7d2e3978f1 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -267,6 +267,28 @@ GEN_VEXT_ST_ELEM(ste_h, int16_t, H2, stw)
+>  GEN_VEXT_ST_ELEM(ste_w, int32_t, H4, stl)
+>  GEN_VEXT_ST_ELEM(ste_d, int64_t, H8, stq)
+>
+> +static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,
+> +                                   void *vd, uint32_t desc, uint32_t nf,
+> +                                   uint32_t esz, uint32_t max_elems)
+> +{
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> +    uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> +    uint32_t vta = vext_vta(desc);
+> +    uint32_t registers_used;
+> +    int k;
+> +
+> +    for (k = 0; k < nf; ++k) {
+> +        vext_set_elems_1s(vd, vta, (k * max_elems + vl) * esz,
+> +                          (k * max_elems + max_elems) * esz);
+> +    }
+> +
+> +    if (nf * max_elems % total_elems != 0) {
+> +        registers_used = ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> +                          registers_used * vlenb);
+> +    }
+> +}
+> +
+>  /*
+>   *** stride: access vector element from strided memory
+>   */
+> @@ -281,8 +303,6 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>      uint32_t nf = vext_nf(desc);
+>      uint32_t max_elems = vext_max_elems(desc, log2_esz);
+>      uint32_t esz = 1 << log2_esz;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+>      uint32_t vma = vext_vma(desc);
+>
+>      for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+> @@ -301,18 +321,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong
+> base,
+>          }
+>      }
+>      env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    for (k = 0; k < nf; ++k) {
+> -        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> -                          (k * max_elems + max_elems) * esz);
+> -    }
+> -    if (nf * max_elems % total_elems != 0) {
+> -        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> -        uint32_t registers_used =
+> -            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> -        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> -                          registers_used * vlenb);
+> -    }
+> +
+> +    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+>  }
+>
+>  #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)                        \
+> @@ -359,8 +369,6 @@ vext_ldst_us(void *vd, target_ulong base,
+> CPURISCVState *env, uint32_t desc,
+>      uint32_t nf = vext_nf(desc);
+>      uint32_t max_elems = vext_max_elems(desc, log2_esz);
+>      uint32_t esz = 1 << log2_esz;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+>
+>      /* load bytes from guest memory */
+>      for (i = env->vstart; i < evl; i++, env->vstart++) {
+> @@ -372,18 +380,8 @@ vext_ldst_us(void *vd, target_ulong base,
+> CPURISCVState *env, uint32_t desc,
+>          }
+>      }
+>      env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    for (k = 0; k < nf; ++k) {
+> -        vext_set_elems_1s(vd, vta, (k * max_elems + evl) * esz,
+> -                          (k * max_elems + max_elems) * esz);
+> -    }
+> -    if (nf * max_elems % total_elems != 0) {
+> -        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> -        uint32_t registers_used =
+> -            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> -        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> -                          registers_used * vlenb);
+> -    }
+> +
+> +    vext_set_tail_elems_1s(env, evl, vd, desc, nf, esz, max_elems);
+>  }
+>
+>  /*
+> @@ -484,8 +482,6 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+>      uint32_t vm = vext_vm(desc);
+>      uint32_t max_elems = vext_max_elems(desc, log2_esz);
+>      uint32_t esz = 1 << log2_esz;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+>      uint32_t vma = vext_vma(desc);
+>
+>      /* load bytes from guest memory */
+> @@ -505,18 +501,8 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+>          }
+>      }
+>      env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    for (k = 0; k < nf; ++k) {
+> -        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> -                          (k * max_elems + max_elems) * esz);
+> -    }
+> -    if (nf * max_elems % total_elems != 0) {
+> -        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> -        uint32_t registers_used =
+> -            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> -        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> -                          registers_used * vlenb);
+> -    }
+> +
+> +    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+>  }
+>
+>  #define GEN_VEXT_LD_INDEX(NAME, ETYPE, INDEX_FN, LOAD_FN)
+>   \
+> @@ -585,8 +571,6 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+>      uint32_t vm = vext_vm(desc);
+>      uint32_t max_elems = vext_max_elems(desc, log2_esz);
+>      uint32_t esz = 1 << log2_esz;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+>      uint32_t vma = vext_vma(desc);
+>      target_ulong addr, offset, remain;
+>
+> @@ -647,18 +631,8 @@ ProbeSuccess:
+>          }
+>      }
+>      env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    for (k = 0; k < nf; ++k) {
+> -        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> -                          (k * max_elems + max_elems) * esz);
+> -    }
+> -    if (nf * max_elems % total_elems != 0) {
+> -        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> -        uint32_t registers_used =
+> -            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> -        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> -                          registers_used * vlenb);
+> -    }
+> +
+> +    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+>  }
+>
+>  #define GEN_VEXT_LDFF(NAME, ETYPE, LOAD_FN)               \
+> --
+> 2.39.2
+>
+>
+>
+
+--000000000000316d6d05f55b10c3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang=
+@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 22, 2023 at 2:46 AM =
+Daniel Henrique Barboza &lt;<a href=3D"mailto:dbarboza@ventanamicro.com">db=
+arboza@ventanamicro.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">Commit 752614cab8e6 (&quot;target/riscv: rvv: Add ta=
+il agnostic for vector<br>
+load / store instructions&quot;) added code to set the tail elements to 1 i=
+n<br>
+the end of vext_ldst_stride(), vext_ldst_us(), vext_ldst_index() and<br>
+vext_ldff(). Aside from a env-&gt;vl versus an evl value being used in the<=
+br>
+first loop, the code is being repeated 4 times.<br>
+<br>
+Create a helper to avoid code repetition in all those functions.<br>
+Arguments that are used in the callers (nf, esz and max_elems) are<br>
+passed as arguments. All other values are being derived inside the<br>
+helper.<br>
+<br>
+Signed-off-by: Daniel Henrique Barboza &lt;<a href=3D"mailto:dbarboza@venta=
+namicro.com" target=3D"_blank">dbarboza@ventanamicro.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/vector_helper.c | 86 +++++++++++++----------------------=
+-<br>
+=C2=A01 file changed, 30 insertions(+), 56 deletions(-)<br>
+<br>
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c<br=
+>
+index 00de879787..7d2e3978f1 100644<br>
+--- a/target/riscv/vector_helper.c<br>
++++ b/target/riscv/vector_helper.c<br>
+@@ -267,6 +267,28 @@ GEN_VEXT_ST_ELEM(ste_h, int16_t, H2, stw)<br>
+=C2=A0GEN_VEXT_ST_ELEM(ste_w, int32_t, H4, stl)<br>
+=C2=A0GEN_VEXT_ST_ELEM(ste_d, int64_t, H8, stq)<br>
+<br>
++static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *vd, uint32_t desc=
+, uint32_t nf,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t esz, uint32_t =
+max_elems)<br>
++{<br>
++=C2=A0 =C2=A0 uint32_t total_elems =3D vext_get_total_elems(env, desc, esz=
+);<br>
++=C2=A0 =C2=A0 uint32_t vlenb =3D env_archcpu(env)-&gt;cfg.vlen &gt;&gt; 3;=
+<br>
++=C2=A0 =C2=A0 uint32_t vta =3D vext_vta(desc);<br>
++=C2=A0 =C2=A0 uint32_t registers_used;<br>
++=C2=A0 =C2=A0 int k;<br>
++<br>
++=C2=A0 =C2=A0 for (k =3D 0; k &lt; nf; ++k) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (k * max_elems + vl=
+) * esz,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 (k * max_elems + max_elems) * esz);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (nf * max_elems % total_elems !=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 registers_used =3D ((nf * max_elems) * esz + (=
+vlenb - 1)) / vlenb;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (nf * max_elems) * =
+esz,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 registers_used * vlenb);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
+=C2=A0/*<br>
+=C2=A0 *** stride: access vector element from strided memory<br>
+=C2=A0 */<br>
+@@ -281,8 +303,6 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,=
+<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t nf =3D vext_nf(desc);<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t max_elems =3D vext_max_elems(desc, log2_esz);<=
+br>
+=C2=A0 =C2=A0 =C2=A0uint32_t esz =3D 1 &lt;&lt; log2_esz;<br>
+-=C2=A0 =C2=A0 uint32_t total_elems =3D vext_get_total_elems(env, desc, esz=
+);<br>
+-=C2=A0 =C2=A0 uint32_t vta =3D vext_vta(desc);<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t vma =3D vext_vma(desc);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D env-&gt;vstart; i &lt; env-&gt;vl; i++, env-=
+&gt;vstart++) {<br>
+@@ -301,18 +321,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base=
+,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0env-&gt;vstart =3D 0;<br>
+-=C2=A0 =C2=A0 /* set tail elements to 1s */<br>
+-=C2=A0 =C2=A0 for (k =3D 0; k &lt; nf; ++k) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (k * max_elems + en=
+v-&gt;vl) * esz,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 (k * max_elems + max_elems) * esz);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (nf * max_elems % total_elems !=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t vlenb =3D env_archcpu(env)-&gt;cfg.vl=
+en &gt;&gt; 3;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t registers_used =3D<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((nf * max_elems) * esz + (vlenb=
+ - 1)) / vlenb;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (nf * max_elems) * =
+esz,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 registers_used * vlenb);<br>
+-=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 vext_set_tail_elems_1s(env, env-&gt;vl, vd, desc, nf, esz, m=
+ax_elems);<br>
+=C2=A0}<br>
+<br>
+=C2=A0#define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+@@ -359,8 +369,6 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState=
+ *env, uint32_t desc,<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t nf =3D vext_nf(desc);<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t max_elems =3D vext_max_elems(desc, log2_esz);<=
+br>
+=C2=A0 =C2=A0 =C2=A0uint32_t esz =3D 1 &lt;&lt; log2_esz;<br>
+-=C2=A0 =C2=A0 uint32_t total_elems =3D vext_get_total_elems(env, desc, esz=
+);<br>
+-=C2=A0 =C2=A0 uint32_t vta =3D vext_vta(desc);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* load bytes from guest memory */<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D env-&gt;vstart; i &lt; evl; i++, env-&gt;vst=
+art++) {<br>
+@@ -372,18 +380,8 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVStat=
+e *env, uint32_t desc,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0env-&gt;vstart =3D 0;<br>
+-=C2=A0 =C2=A0 /* set tail elements to 1s */<br>
+-=C2=A0 =C2=A0 for (k =3D 0; k &lt; nf; ++k) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (k * max_elems + ev=
+l) * esz,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 (k * max_elems + max_elems) * esz);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (nf * max_elems % total_elems !=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t vlenb =3D env_archcpu(env)-&gt;cfg.vl=
+en &gt;&gt; 3;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t registers_used =3D<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((nf * max_elems) * esz + (vlenb=
+ - 1)) / vlenb;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (nf * max_elems) * =
+esz,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 registers_used * vlenb);<br>
+-=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 vext_set_tail_elems_1s(env, evl, vd, desc, nf, esz, max_elem=
+s);<br>
+=C2=A0}<br>
+<br>
+=C2=A0/*<br>
+@@ -484,8 +482,6 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,<=
+br>
+=C2=A0 =C2=A0 =C2=A0uint32_t vm =3D vext_vm(desc);<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t max_elems =3D vext_max_elems(desc, log2_esz);<=
+br>
+=C2=A0 =C2=A0 =C2=A0uint32_t esz =3D 1 &lt;&lt; log2_esz;<br>
+-=C2=A0 =C2=A0 uint32_t total_elems =3D vext_get_total_elems(env, desc, esz=
+);<br>
+-=C2=A0 =C2=A0 uint32_t vta =3D vext_vta(desc);<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t vma =3D vext_vma(desc);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* load bytes from guest memory */<br>
+@@ -505,18 +501,8 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0env-&gt;vstart =3D 0;<br>
+-=C2=A0 =C2=A0 /* set tail elements to 1s */<br>
+-=C2=A0 =C2=A0 for (k =3D 0; k &lt; nf; ++k) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (k * max_elems + en=
+v-&gt;vl) * esz,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 (k * max_elems + max_elems) * esz);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (nf * max_elems % total_elems !=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t vlenb =3D env_archcpu(env)-&gt;cfg.vl=
+en &gt;&gt; 3;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t registers_used =3D<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((nf * max_elems) * esz + (vlenb=
+ - 1)) / vlenb;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (nf * max_elems) * =
+esz,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 registers_used * vlenb);<br>
+-=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 vext_set_tail_elems_1s(env, env-&gt;vl, vd, desc, nf, esz, m=
+ax_elems);<br>
+=C2=A0}<br>
+<br>
+=C2=A0#define GEN_VEXT_LD_INDEX(NAME, ETYPE, INDEX_FN, LOAD_FN)=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
+@@ -585,8 +571,6 @@ vext_ldff(void *vd, void *v0, target_ulong base,<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t vm =3D vext_vm(desc);<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t max_elems =3D vext_max_elems(desc, log2_esz);<=
+br>
+=C2=A0 =C2=A0 =C2=A0uint32_t esz =3D 1 &lt;&lt; log2_esz;<br>
+-=C2=A0 =C2=A0 uint32_t total_elems =3D vext_get_total_elems(env, desc, esz=
+);<br>
+-=C2=A0 =C2=A0 uint32_t vta =3D vext_vta(desc);<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t vma =3D vext_vma(desc);<br>
+=C2=A0 =C2=A0 =C2=A0target_ulong addr, offset, remain;<br>
+<br>
+@@ -647,18 +631,8 @@ ProbeSuccess:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0env-&gt;vstart =3D 0;<br>
+-=C2=A0 =C2=A0 /* set tail elements to 1s */<br>
+-=C2=A0 =C2=A0 for (k =3D 0; k &lt; nf; ++k) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (k * max_elems + en=
+v-&gt;vl) * esz,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 (k * max_elems + max_elems) * esz);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (nf * max_elems % total_elems !=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t vlenb =3D env_archcpu(env)-&gt;cfg.vl=
+en &gt;&gt; 3;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t registers_used =3D<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((nf * max_elems) * esz + (vlenb=
+ - 1)) / vlenb;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 vext_set_elems_1s(vd, vta, (nf * max_elems) * =
+esz,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 registers_used * vlenb);<br>
+-=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 vext_set_tail_elems_1s(env, env-&gt;vl, vd, desc, nf, esz, m=
+ax_elems);<br>
+=C2=A0}<br>
+<br>
+=C2=A0#define GEN_VEXT_LDFF(NAME, ETYPE, LOAD_FN)=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
+-- <br>
+2.39.2<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000316d6d05f55b10c3--
 
