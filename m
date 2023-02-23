@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D350C6A0EDE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 18:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9196A0EFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 19:04:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVFeR-00069Z-P1; Thu, 23 Feb 2023 12:45:04 -0500
+	id 1pVFv5-0002M9-Uy; Thu, 23 Feb 2023 13:02:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVFeP-00068u-0J
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 12:45:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVFeN-0005YQ-0M
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 12:45:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677174297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KrEGNsqUgyFuDQ5NC4zmF9Ki3sMEWC5byIjTTYe6Pm8=;
- b=Ugl1rBkjgF9EB6nDrRG/Z2WPeIzAq3v488Od7E8LPsSGqd8wROEbBzNApkeVk3bO9JK/wp
- X/ZLizgg3l5x7vqwKTZVh+wt6IfV48RC3f7zyKQGSbvlw3ar1Zdx1w6LRhbTY59pPEKElK
- yoKBfm8dei4+x/Jls4biI4miskvbYYQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-_n6TKRARONyhWsHughppLA-1; Thu, 23 Feb 2023 12:44:56 -0500
-X-MC-Unique: _n6TKRARONyhWsHughppLA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5A552808E69;
- Thu, 23 Feb 2023 17:44:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D4AE492C3E;
- Thu, 23 Feb 2023 17:44:54 +0000 (UTC)
-Date: Thu, 23 Feb 2023 18:44:53 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: oro@il.ibm.com
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, oro@il.ibm.com,
- idryomov@gmail.com
-Subject: Re: [PATCH v6 2/3] block/rbd: Add luks-any encryption opening option
-Message-ID: <Y/el9QZDUtDNQfT3@redhat.com>
-References: <20230129113120.722708-1-oro@oro.sl.cloud9.ibm.com>
- <20230129113120.722708-3-oro@oro.sl.cloud9.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVFuw-0002Ki-ND
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:02:10 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVFuu-0003FR-VK
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 13:02:06 -0500
+Received: by mail-pl1-x629.google.com with SMTP id i3so3540147plg.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 10:02:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Zmg/v50actb5hR2Umzn3O61shGMBhzUsrOivH5Kzx7U=;
+ b=ihVZ2rL00fgYK6Z5yEaeMjFExH9yMWlp92yTk33CQP8lbqbzRPW1XBgkFAnwRfKlyO
+ pOtFqnghSG6ToKxe0y4iPfnkdaScxFJjCtwtqj3UDU18ja+oME9+Coen5CEJ8ay2VUr/
+ g7Alpwh+G2wXcgo+44Biu9q7dDEnyakKfUKRhWqffU4dyoYiZX0N0T+bwTBHkgcdh0RQ
+ TebhafAm5HPlAZw92dYdt3/OLv7Vgz40NYZK4ZmXSb+YFhJtNhCKXHEzRuTBH9lhg6bN
+ jFnGOYWNiSGOSYUcZBUJhtPJ+5fmZpql1DqkoyEOqnyc8cjtyYM7tYBira7xdjCFBu4c
+ Thbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Zmg/v50actb5hR2Umzn3O61shGMBhzUsrOivH5Kzx7U=;
+ b=qMqLRAu2FGqBaAml5mHOsU7sJKSaTglC0Fr8cYSKrQlIFXeczsz1NiSbrCSNvouFqT
+ wp83C6LqQ+j+9mJ3nN7jBm6U5IErTb/chdHaiQo+C9ohxrkBqhb5sNLkiIqG6shcnmA5
+ 6mOlTkFrVuxB10MJn6ABjVf/3f/zQm4gDlU23/znyrq8cdG5K5pa0o5Ubd9a2xYHZyJj
+ mSdLJNTaizMaRE0eGMTD/qJVTrVAIuzHXp6yjkDWSiNDAZy5O5aLYtWjIh6pOGrTsrpl
+ jE7YvuOYZkEsaVjdUmyHz9DbRZcRRJ4w3oNcLOf3xc9TjppYNK3SrwrkDmFB7PGLyVVj
+ pc4A==
+X-Gm-Message-State: AO0yUKUE1qYiMIcpyQkfbwMShqKs0HqIZmBAnOKRk/6uv42BJDuwJtDT
+ BGHbcxnvU3WvClyKJLkJ8b9CJw==
+X-Google-Smtp-Source: AK7set+hg93kJ6HkW+73w//PxlPKyJc/mq1mrDtx60tCEsP4FX4bsiPCKlzmnHHlsCCT2cyIrwjZoA==
+X-Received: by 2002:a17:90b:4b86:b0:234:68d:b8ea with SMTP id
+ lr6-20020a17090b4b8600b00234068db8eamr12906504pjb.39.1677175322937; 
+ Thu, 23 Feb 2023 10:02:02 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ f19-20020a170902ab9300b0019a91895cdfsm2243221plr.50.2023.02.23.10.02.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 10:02:02 -0800 (PST)
+Message-ID: <4727f0a2-680b-cff4-16ad-f7904f1cd086@linaro.org>
+Date: Thu, 23 Feb 2023 08:01:59 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230129113120.722708-3-oro@oro.sl.cloud9.ibm.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 1/5] dump: Include missing "cpu.h" header for
+ tswap32/tswap64() declarations
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@suse.de>,
+ Anton Johansson <anjo@rev.ng>
+References: <20221216215519.5522-1-philmd@linaro.org>
+ <20221216215519.5522-2-philmd@linaro.org>
+ <039803d2-24aa-e22f-a154-7ca07e781852@linaro.org>
+ <1562d9eb-abfd-ed25-e169-404a619df47c@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <1562d9eb-abfd-ed25-e169-404a619df47c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,48 +98,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 29.01.2023 um 12:31 hat ORO@il.ibm.com geschrieben:
-> From: Or Ozeri <oro@il.ibm.com>
+On 2/23/23 00:09, Philippe Mathieu-Daudé wrote:
+>>> +#include "cpu.h"
+>>
+>> Does it work to include "exec/cpu-all.h" instead?
 > 
-> Ceph RBD encryption API required specifying the encryption format
-> for loading encryption. The supported formats were LUKS (v1) and LUKS2.
+> We get:
 > 
-> Starting from Reef release, RBD also supports loading with "luks-any" format,
-> which works for both versions of LUKS.
+> include/exec/cpu-all.h:110:5: warning: 'TARGET_LONG_SIZE' is not defined, evaluates to 0 
+> [-Wundef]
+> #if TARGET_LONG_SIZE == 4
+>      ^
 > 
-> This commit extends the qemu rbd driver API to enable qemu users to use
-> this luks-any wildcard format.
+> TARGET_LONG_SIZE is defined in "exec/cpu-defs.h" which is
+> target specific. If I add "exec/cpu-defs.h" to "exec/cpu-all.h"
+> I get:
 > 
-> Signed-off-by: Or Ozeri <oro@il.ibm.com>
+> In file included from ../../dump/dump.c:18:
+> include/exec/cpu-all.h:439:8: error: incomplete definition of type 'struct ArchCPU'
+>      cpu->parent_obj.env_ptr = &cpu->env;
+>      ~~~^
+> 
+> Is it worth extracting the few tswapX() declarations to "exec/tswap.h"?
 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 95ac4fa634..e59fb5d453 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -3827,10 +3827,16 @@
->  ##
->  # @RbdImageEncryptionFormat:
->  #
-> +# luks
-> +#
-> +# luks2
+That's probably worthwhile, using cpu-param.h directly, perhaps, rather than pulling in 
+the rest of cpu stuff?
 
-If we don't want to document these values, there's no reason to have
-them listed at all. After all, the undocumented list is already in the
-definition.
 
-> +# luks-any: Used for opening either luks or luks2. (Since 8.0)
-
-And here it should be '@luks-any' with @.
-
->  # Since: 6.1
->  ##
->  { 'enum': 'RbdImageEncryptionFormat',
-> -  'data': [ 'luks', 'luks2' ] }
-> +  'data': [ 'luks', 'luks2', 'luks-any' ] }
-
-I've fixed this up and applied the series to my block branch. Thanks!
-
-Kevin
-
+r~
 
