@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156A76A0889
+	by mail.lfdr.de (Postfix) with ESMTPS id 352696A088A
 	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:24:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVAdM-0002xR-3i; Thu, 23 Feb 2023 07:23:36 -0500
+	id 1pVAdW-00030K-QL; Thu, 23 Feb 2023 07:23:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdK-0002wV-3D
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdT-00030C-KD
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdI-0003xv-9v
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:33 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVAdS-0003zd-5n
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:23:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677155011;
+ s=mimecast20190719; t=1677155021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BUvYrs36Fw2EcK13M+SuNGSsi5rpmvOpq0anLP27ceg=;
- b=Cgr5+Fh9fdMSQ2DtEpWwaRQZ7GQ2S+kvFvcnzcI1ncZBtfNKBbS9E82muxMk/8nYG5YGct
- lfWPboXY+eq/LuxnwWuU8fKc8cE0uu4x//oZbOX3YngUEVoUPmOX3K7ZxQ9UkUKCnvCrNP
- bEUEQjXr758oGSzh43ZxpFar0vXojXI=
+ bh=rSqE7IZwMPjeZ8A1bxMdfnSECyu7I43VbnKR+si8cwY=;
+ b=NdNa0XJL2vp6s1tGF086easY+JmelzCc4XQqXsaMr8XkQyhXqbOLXUtpCSEOsNb+R819gJ
+ PZNvmVjcTraxI+0oZqO2JrTAYCHHsRFJfkHRUTf6BobdctdglOcg4P5E5SZs7B9Etkmu0k
+ dCwhk8q5AxUeA0iFIRWIjQcjShWvOVM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-Tlq0aod9N8C0LCdta9P63Q-1; Thu, 23 Feb 2023 07:23:30 -0500
-X-MC-Unique: Tlq0aod9N8C0LCdta9P63Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-636-tTKwuelpN2GC1c5BDZ0EqQ-1; Thu, 23 Feb 2023 07:23:30 -0500
+X-MC-Unique: tTKwuelpN2GC1c5BDZ0EqQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0EF3518A6464;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 11929857A89;
  Thu, 23 Feb 2023 12:23:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2F78400D79D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E3956440D9;
  Thu, 23 Feb 2023 12:23:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 953C021E6A26; Thu, 23 Feb 2023 13:23:27 +0100 (CET)
+ id 97B6A21E6A28; Thu, 23 Feb 2023 13:23:27 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	John Snow <jsnow@redhat.com>
-Subject: [PULL 7/8] qapi: remove _JSONObject
-Date: Thu, 23 Feb 2023 13:23:26 +0100
-Message-Id: <20230223122327.1920247-8-armbru@redhat.com>
+Subject: [PULL 8/8] qapi: remove JSON value FIXME
+Date: Thu, 23 Feb 2023 13:23:27 +0100
+Message-Id: <20230223122327.1920247-9-armbru@redhat.com>
 In-Reply-To: <20230223122327.1920247-1-armbru@redhat.com>
 References: <20230223122327.1920247-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,71 +81,53 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: John Snow <jsnow@redhat.com>
 
-We can remove this alias as it only has two usages now, and no longer
-pays for the confusion of "yet another type".
+With the two major JSON-ish type hierarchies clarified for distinct
+purposes; QAPIExpression for parsed expressions and JSONValue for
+introspection data, remove this FIXME as no longer an action item.
+
+A third JSON-y data type, _ExprValue, is not meant to represent JSON in
+the abstract but rather only the possible legal return values from a
+single function, get_expr(). It isn't appropriate to attempt to merge it
+with either of the above two types.
+
+In theory, it may be possible to define a completely agnostic
+one-size-fits-all JSON type hierarchy that any other user could borrow -
+in practice, it's tough to wrangle the differences between invariant,
+covariant and contravariant types: input and output parameters demand
+different properties of such a structure.
+
+However, QAPIExpression serves to authoritatively type user input to the
+QAPI parser, while JSONValue serves to authoritatively type qapi
+generator *output* to be served back to client users at runtime via
+QMP. The AST for these two types are different and cannot be wholly
+merged into a unified syntax.
+
+They could, in theory, share some JSON primitive definitions. In
+practice, this is currently more trouble than it's worth with mypy's
+current expressive power. As such, declare this "done enough for now".
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20230215000011.1725012-6-jsnow@redhat.com>
+Message-Id: <20230215000011.1725012-7-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/expr.py   | 13 +++----------
- scripts/qapi/parser.py |  5 ++---
- 2 files changed, 5 insertions(+), 13 deletions(-)
+ scripts/qapi/parser.py | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index b8f905543e..ca01ea6f4a 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -47,14 +47,6 @@
- from .source import QAPISourceInfo
- 
- 
--# Deserialized JSON objects as returned by the parser.
--# The values of this mapping are not necessary to exhaustively type
--# here (and also not practical as long as mypy lacks recursive
--# types), because the purpose of this module is to interrogate that
--# type.
--_JSONObject = Dict[str, object]
--
--
- # See check_name_str(), below.
- valid_name = re.compile(r'(__[a-z0-9.-]+_)?'
-                         r'(x-)?'
-@@ -191,7 +183,7 @@ def check_defn_name_str(name: str, info: QAPISourceInfo, meta: str) -> None:
-                 info, "%s name should not end in 'List'" % meta)
- 
- 
--def check_keys(value: _JSONObject,
-+def check_keys(value: Dict[str, object],
-                info: QAPISourceInfo,
-                source: str,
-                required: List[str],
-@@ -255,7 +247,8 @@ def check_flags(expr: QAPIExpression) -> None:
-             expr.info, "flags 'allow-oob' and 'coroutine' are incompatible")
- 
- 
--def check_if(expr: _JSONObject, info: QAPISourceInfo, source: str) -> None:
-+def check_if(expr: Dict[str, object],
-+             info: QAPISourceInfo, source: str) -> None:
-     """
-     Validate the ``if`` member of an object.
- 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 50906e27d4..d570086e1a 100644
+index d570086e1a..878f90b458 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -42,9 +42,8 @@
+@@ -42,10 +42,6 @@
  _ExprValue = Union[List[object], Dict[str, object], str, bool]
  
  
--# FIXME: Consolidate and centralize definitions for _ExprValue,
--# JSONValue, and _JSONObject; currently scattered across several
--# modules.
-+# FIXME: Consolidate and centralize definitions for _ExprValue and
-+# JSONValue; currently scattered across several modules.
- 
- 
+-# FIXME: Consolidate and centralize definitions for _ExprValue and
+-# JSONValue; currently scattered across several modules.
+-
+-
  class QAPIExpression(Dict[str, object]):
+     # pylint: disable=too-few-public-methods
+     def __init__(self,
 -- 
 2.39.0
 
