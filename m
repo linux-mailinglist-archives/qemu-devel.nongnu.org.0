@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E1A6A12D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:29:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C376A12D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:32:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVK5T-0008Ob-PN; Thu, 23 Feb 2023 17:29:15 -0500
+	id 1pVK7u-0000sr-UG; Thu, 23 Feb 2023 17:31:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVK5P-0008OP-8W
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:29:12 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVK7j-0000pl-M4
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:31:42 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVK5N-0001Nr-Md
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:29:11 -0500
-Received: by mail-wm1-x335.google.com with SMTP id p26so10168827wmc.4
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 14:29:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVK7i-000221-2K
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:31:35 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id pt11so15223480pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 14:31:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xGYxwGO7s+vHrsaQAmO/0RQDkx9a/YtmqhHcN+6xj8Y=;
- b=dtxrwXioOxCATJTwhQh064Mmeu3MkDw4cnKUbMYacOg2USKbzLM7cl/IsTPi4OSDrf
- r32KrpZUMltKtZCrQ4yhirCzdcCXcyWzzBdzJnc5sjW4mAknEoDYBJpQBBZj53wX9oSQ
- d3f2dWgtER9tVEZbiS/MV15jW2/a7KguJB4UdCg9WzI7btUeiAyV1o5mGXh+GHIbuBOT
- /8zyuv6DDEEpdwKTdRY18/FpZq8P7tUuu2ZqeKKJDaAN2oNaaO19PBWBiHqZfifceCob
- oIN6j+hzZdUmuEWVWS0diYWxYLn3AjILtV4Ue6OdxzmSiEoiIo4hCDszpYMGbzd5fWtA
- 3AOA==
+ bh=aW/USVJ9xOjJM7rhPp+OfMvACF2Y+Y/CYxe2D7uHVcA=;
+ b=Vz6kxcxQqA4OrHJM5x98iuy1ywnbXp0mAWDaWTKU4UMEX4Xr1KhzjQMoKL7qF1Vasu
+ ExDYdPLatIfAG2cZ74uiKYGb1Kd1IK1FNq3kK+01VNTzwp5PQOxw4hGecyOaDd1ZGo6r
+ KJMDqHeHEc7zCvZwRbfAFxnz5SyM6/zVWOipJSwbKQeoQFnPP/ZRcA3fHDm/uGi4+ZFY
+ IRpqS2u8rf8QttA6N74A4+GaGkssGZPgpQWLY/Y+ZNnbLTYWQU00KqNGwZqi6b9cMGH5
+ xhsaikxmEjfKa0gIhWIns5obEWxYSQg6Y6zXNApKle6zdZPantFYYHMqhPrf7QZic/rG
+ H0JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xGYxwGO7s+vHrsaQAmO/0RQDkx9a/YtmqhHcN+6xj8Y=;
- b=IdIXwTxpCRt3K5bE/yG17vGMoWAViKnKtC6d/SEmAPUkedCzLOtRQ8PwOQYIITSmz6
- BhdAMl5zqgAwXcFvrMUr/hQytukRziysrlr4IJNA5jLxKau06F1Wp6MvM62IHHy+bkDr
- hXMqaqOyzWe2bdBWgpzI9GDvIPbbOHu+GVgRGYAgddoP41CN/pp6EbGCv0vCMe0BBNMJ
- VtskL0yCUi5IObDut8CQiKa2ocYpi0KDI96iv8COdTCiz+wBknGtffRZ+n0dm0r7g6EL
- YyjPtg0jXXyEx1aEh3LDkAiZYJJTnVtgNG+ym3rzHnDCwdXRsSvOfy1H2UsbA0lTrs9J
- epGQ==
-X-Gm-Message-State: AO0yUKXJsZqGrLs8VezHYcITq08MQlWGroXRSZHU9Iiucajlsupv84BS
- QInhutw6PYByluR6d3V7pVKcYQ==
-X-Google-Smtp-Source: AK7set9IRhFIyiFsIPpep+YLGNyQlDFhSwzi+WJt9q/W14RW0sXDtKeX46oISohg+wYQJo137rOWIg==
-X-Received: by 2002:a05:600c:6015:b0:3ea:f883:4f5 with SMTP id
- az21-20020a05600c601500b003eaf88304f5mr457152wmb.17.1677191347753; 
- Thu, 23 Feb 2023 14:29:07 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- u9-20020a05600c210900b003e2243cfe15sm613564wml.39.2023.02.23.14.29.06
+ bh=aW/USVJ9xOjJM7rhPp+OfMvACF2Y+Y/CYxe2D7uHVcA=;
+ b=TeKorpugTSDiymaFjMOhX8Lt50/RVyiY1IdChITtj4MyuVgb7hIqf4Su7JW2MHgRCm
+ OfZ0C+VzuXV7Vjz7S5OhjgeyaOYRvUM8tiornHjdQHopfQz5awmT/HudatLHxw+RIb26
+ Aub20CuyslbLr2epUpbbNwtYGtMZjOryU1vEl9YEt2wJTNwww8WvpTlX6wmDo0UY6Lyz
+ Vhpyt614/MTIzWedyGjmPlGytNG3N/b6f8jVDGt3i90QMAc7Crt7J5XNwGNrok47PR0M
+ vIFvbGSap+eWUWX/Vjd6AjKYDKCkWgp1fLaU69Xk7CeKawASe1xJQhTyAXvY7giFXSli
+ A2Vg==
+X-Gm-Message-State: AO0yUKUSri/zsj7W5olacVtsIh63430uX+0qB3GLcei0O1fjamyXSq0Y
+ sjo2jQtPVYHI0E12/iw+YOyeNA==
+X-Google-Smtp-Source: AK7set8md6tCwUbCf/dekq0Bdtzkp34MWlffG8dV38eKp8aOPwBUmfP1eHgyicIPr8SeVOD6lr4v4g==
+X-Received: by 2002:a17:90b:38c7:b0:234:a88e:d67e with SMTP id
+ nn7-20020a17090b38c700b00234a88ed67emr15055706pjb.34.1677191492417; 
+ Thu, 23 Feb 2023 14:31:32 -0800 (PST)
+Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ gc17-20020a17090b311100b00235419fc2d1sm184238pjb.40.2023.02.23.14.31.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 14:29:07 -0800 (PST)
-Message-ID: <08510beb-e6a7-30af-e8c5-1fe23500ed81@linaro.org>
-Date: Thu, 23 Feb 2023 23:29:05 +0100
+ Thu, 23 Feb 2023 14:31:31 -0800 (PST)
+Message-ID: <f4d837ce-1a2a-9e7d-4499-76820d6fdc36@linaro.org>
+Date: Thu, 23 Feb 2023 12:31:28 -1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 1/5] dump: Include missing "cpu.h" header for
- tswap32/tswap64() declarations
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] linux-user: Fix unaligned memory access in prlimit64
+ syscall
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@suse.de>,
- Anton Johansson <anjo@rev.ng>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, Steffen Eiden <seiden@linux.ibm.com>
-References: <20221216215519.5522-1-philmd@linaro.org>
- <20221216215519.5522-2-philmd@linaro.org>
- <039803d2-24aa-e22f-a154-7ca07e781852@linaro.org>
- <1562d9eb-abfd-ed25-e169-404a619df47c@linaro.org>
- <4727f0a2-680b-cff4-16ad-f7904f1cd086@linaro.org>
- <c6cb2c08-65c1-5cde-f67e-9e073e01e222@linaro.org>
- <38e32f1f-b268-6dba-a684-1987962fc136@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <38e32f1f-b268-6dba-a684-1987962fc136@linaro.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20230223215834.166055-1-iii@linux.ibm.com>
+ <20230223215834.166055-2-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230223215834.166055-2-iii@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -100,15 +95,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/2/23 22:43, Richard Henderson wrote:
-> On 2/23/23 11:19, Philippe Mathieu-Daudé wrote:
->> This file uses tswap() 4 times in the same function: get_note_sizes(),
->> so I could extract it to a dump-target.c unit.
->> I have no clue what that file is for, but this particularity is odd.
+On 2/23/23 11:58, Ilya Leoshkevich wrote:
+> 32-bit guests may enforce only 4-byte alignment for target_rlimit64,
+> whereas 64-bit hosts normally require the 8-byte one. Therefore
+> accessing this struct directly is UB.
 > 
-> All uses of tswap in that file are wrong, and should be using 
-> cpu_to_dumpN, which correctly tests the endianness of the output.
+> Fix by adding a local copy.
+> 
+> Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>   linux-user/syscall.c | 12 +++++++-----
+>   1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index a6c426d73cf..8ae7696d8f1 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -12876,7 +12876,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>       case TARGET_NR_prlimit64:
+>       {
+>           /* args: pid, resource number, ptr to new rlimit, ptr to old rlimit */
+> -        struct target_rlimit64 *target_rnew, *target_rold;
+> +        struct target_rlimit64 *target_rnew, *target_rold, tmp;
 
-Yes! Thank you :)
+The bug is that target_rlimit64 uses uint64_t (64-bit host alignment), when it should be 
+using abi_ullong (64-bit target alignment).  There are quite a number of these sorts of 
+bugs in linux-user.
 
+
+r~
 
