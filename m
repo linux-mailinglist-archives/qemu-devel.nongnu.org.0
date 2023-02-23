@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6196A1169
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3909F6A1166
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:45:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVIRk-0002tv-KV; Thu, 23 Feb 2023 15:44:08 -0500
+	id 1pVIRl-0002wa-9M; Thu, 23 Feb 2023 15:44:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVIRi-0002tB-8t
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:44:06 -0500
+ id 1pVIRj-0002ti-GP
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:44:07 -0500
 Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVIRg-0007To-Hi
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:44:05 -0500
-Received: by mail-pl1-x632.google.com with SMTP id l15so15653875pls.1
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 12:44:04 -0800 (PST)
+ id 1pVIRh-0007PT-Rc
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:44:07 -0500
+Received: by mail-pl1-x632.google.com with SMTP id e5so15563839plg.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 12:44:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1qnhwX4yflIrdAFP6huqsV3m6ZntpB/Nux3MPFDNhmI=;
- b=e2+Z/XP3GFTAF/aOVg0WIAh+mexIOmxR6DFmL8nqNwpeOGXlbSdc7YSTz8r4M7ToI8
- ZWDtc1zQJExswHP5rn0tEKWJBLfpVX0st6uTYnqRiurhfkRgtU++7BVbpEpG5w+3kR88
- d99YdhT7AyYfTCdO6XlS1vSV91l/1HUa9jGThgEFxudiIL8FHk59+hxMqJya3DSFuuv6
- 98JBCWpnq/ZAxFb5UQtEhI8tieMs+jJBh5RgzQYyqFEox4KwYXP+IcZF+M4VDwH0eZ7E
- 6oBHiVKRuGVo/n8x526VnCe6Jqx1C/WDWOsjx4C9PW11P9c2mI9sK1XDHMME22Y4O6tL
- GPUg==
+ bh=yTc8B4JFMt2BP2s8OFGRKyLxOfXJWkbz6vP1/iv9tl8=;
+ b=KtMMPbbnac41HdsjB0iPOxFkQMHlwQmJNk4nxVGxYUcUd0k5e0ViKo4Y6DNICfbS3H
+ sQsmSgF8Lawd5ijlnks0Vuut6+4xtZa1cdW2yqkGu9HJRVN/uXy07qrbZVyA+GEHG9og
+ 5TSc7K6JLFVR/OnTWetN8b+xCqbFwd2QHYhPKTzFSXVh+398ARvZLlDJVNq5QCMTJjOA
+ cn7Yh8ayd62xc57krVEXwgjxXR3SuFRgPE+/bAZrZerMPtruWI8iYNvr/0SbGnTFhH+x
+ frvjzSfyTlk2A9ZelIu5jfC5sMzyJ9P+9Ky9DhnLcj2GCvrG3xLNsu1ohIfe2CX1VuXH
+ 0GKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1qnhwX4yflIrdAFP6huqsV3m6ZntpB/Nux3MPFDNhmI=;
- b=hRZoomptDmLGdVviNHt9PaW60lKcmGz5GZBEYiR62l9wlnqTGNjSOp+YnKsr9oxFF1
- uFaWS2w7eAWjHfDQpCNEVq2jtpiTHz/6V6HN9V9t/onKjOtyW1/TxMdFKhNWGpxlkLgW
- LAwOmD97277Yck1wtx0gWGb4FeFuR3Y0NJaqeeoB2ENDfcKJ7aAD285P0KurCehZ1GdG
- EcaC4pKdxHz6o5sgax5AQBNmPAW799Z2ebMd/hczoG6bPO3K93fcFP8Ibu41d+c5dX/v
- HFeSx7suiLsuxkQ3dccDusFNrdt5QK9mS2gUPbmXkbAP1Ux/Zf7zxbCfU1Bg8848aq1m
- ATuA==
-X-Gm-Message-State: AO0yUKUA4M4JIwxta5LL6KKKN0Wziq7RdTNcztMUWA84mGm1LReXa6HU
- hppLHFjiVZVRQKUIo7zKwaydq54EuwgQhyZtx7g=
-X-Google-Smtp-Source: AK7set97fO0Md7B1toCfjuw+PuUJjCvPvodGYTK+qxmdzfdT925is5PVoKwHT6b+tXZJ/TCMl3/Xyg==
-X-Received: by 2002:a05:6a20:ba9e:b0:c0:c9b8:56 with SMTP id
- fb30-20020a056a20ba9e00b000c0c9b80056mr4821871pzb.29.1677185043203; 
- Thu, 23 Feb 2023 12:44:03 -0800 (PST)
+ bh=yTc8B4JFMt2BP2s8OFGRKyLxOfXJWkbz6vP1/iv9tl8=;
+ b=10owN3+nyKau4jS42EKzJsVWXDykoSsRxmMRtL/cBRNqzsYhFmJV4FYRVl84dvnW98
+ 7LbpfFMtAPqASB0wW2WYY1I5Qt6HeW3D3TxjOHHi3GRcb3O6eJXigk/OT8FoqSEZVwyp
+ ll/3se5CuovpM9G3haxA5rwkMeTCv6X+Ff6u3igOQNkVnTNalcEU61bzR8Yv/rDsjfPP
+ 1VlS0EIDwXu7GxC3yyNukL/k2Yvwr4MFPCmLVPmojYxu87fQMCFc9F/2DqVyysKfF6Uy
+ ZzwE1FsVSg3CvK85BW99p3m9lAjM71T3hKsC/YGRmx+g5z8QzYqe8NwSgnLevYG8zwNK
+ +ZbQ==
+X-Gm-Message-State: AO0yUKU5J2SEtHs7euG3aBontdCZhOQRmeftXgZ1+BlPUksmrG575XYZ
+ VbEoqH+Gij1I1l1/HTQ5oe8ueNbrsE9I5U+FQts=
+X-Google-Smtp-Source: AK7set+Ber1ERYP1MO2u5xrsxVUVQYJLd2mkg9V8Msue4RxE+cSLMCAfIQnEBEsgbvNmq6Tc+qbSpg==
+X-Received: by 2002:a17:90b:3847:b0:233:e426:6501 with SMTP id
+ nl7-20020a17090b384700b00233e4266501mr13056943pjb.19.1677185045020; 
+ Thu, 23 Feb 2023 12:44:05 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- e187-20020a6369c4000000b004b1fef0bf16sm5992850pgc.73.2023.02.23.12.44.02
+ e187-20020a6369c4000000b004b1fef0bf16sm5992850pgc.73.2023.02.23.12.44.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 12:44:02 -0800 (PST)
+ Thu, 23 Feb 2023 12:44:04 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: [PATCH 10/13] accel/tcg: Add tlb_fill_flags to CPUTLBEntryFull
-Date: Thu, 23 Feb 2023 10:43:39 -1000
-Message-Id: <20230223204342.1093632-11-richard.henderson@linaro.org>
+Subject: [PATCH 11/13] accel/tcg: Add TLB_CHECK_ALIGNED
+Date: Thu, 23 Feb 2023 10:43:40 -1000
+Message-Id: <20230223204342.1093632-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230223204342.1093632-1-richard.henderson@linaro.org>
 References: <20230223204342.1093632-1-richard.henderson@linaro.org>
@@ -89,79 +89,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Allow the target to set tlb flags to apply to all of the
-comparators.  Remove MemTxAttrs.byte_swap, as the bit is
-not relevant to memory transactions, only the page mapping.
-Adjust target/sparc to set TLB_BSWAP directly.
+This creates a per-page method for checking of alignment.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-defs.h   | 3 +++
- include/exec/memattrs.h   | 2 --
- accel/tcg/cputlb.c        | 5 +----
- target/sparc/mmu_helper.c | 2 +-
- 4 files changed, 5 insertions(+), 7 deletions(-)
+ include/exec/cpu-all.h |  4 +++-
+ accel/tcg/cputlb.c     | 25 ++++++++++++++++++++++++-
+ 2 files changed, 27 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index ef10c625d4..53743ff3f2 100644
---- a/include/exec/cpu-defs.h
-+++ b/include/exec/cpu-defs.h
-@@ -170,6 +170,9 @@ typedef struct CPUTLBEntryFull {
-     /* @lg_page_size contains the log2 of the page size. */
-     uint8_t lg_page_size;
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index f3b2f4229c..5bb04782ba 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -399,8 +399,10 @@ CPUArchState *cpu_copy(CPUArchState *env);
+ #define TLB_BSWAP            (1 << 0)
+ /* Set if TLB entry contains a watchpoint.  */
+ #define TLB_WATCHPOINT       (1 << 1)
++/* Set if TLB entry requires aligned accesses.  */
++#define TLB_CHECK_ALIGNED    (1 << 2)
  
-+    /* Additional tlb flags requested by tlb_fill. */
-+    uint8_t tlb_fill_flags;
-+
-     /*
-      * Additional tlb flags for use by the slow path. If non-zero,
-      * the corresponding CPUTLBEntry comparator must have TLB_FORCE_SLOW.
-diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-index 1bd7b6c5ca..5300649c8c 100644
---- a/include/exec/memattrs.h
-+++ b/include/exec/memattrs.h
-@@ -45,8 +45,6 @@ typedef struct MemTxAttrs {
-     unsigned int memory:1;
-     /* Requester ID (for MSI for example) */
-     unsigned int requester_id:16;
--    /* Invert endianness for this page */
--    unsigned int byte_swap:1;
- } MemTxAttrs;
+-#define TLB_SLOW_FLAGS_MASK  (TLB_BSWAP | TLB_WATCHPOINT)
++#define TLB_SLOW_FLAGS_MASK  (TLB_BSWAP | TLB_WATCHPOINT | TLB_CHECK_ALIGNED)
  
- /* Bus masters which don't specify any attributes will get this,
+ /* The two sets of flags must not overlap. */
+ QEMU_BUILD_BUG_ON(TLB_FLAGS_MASK & TLB_SLOW_FLAGS_MASK);
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index cc98df9517..a90688ac30 100644
+index a90688ac30..c692e71766 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -1168,14 +1168,11 @@ void tlb_set_page_full(CPUState *cpu, int mmu_idx,
-               " prot=%x idx=%d\n",
-               vaddr, full->phys_addr, prot, mmu_idx);
+@@ -1546,7 +1546,7 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     flags |= full->slow_flags[access_type];
  
--    read_flags = 0;
-+    read_flags = full->tlb_fill_flags;
-     if (full->lg_page_size < TARGET_PAGE_BITS) {
-         /* Repeat the MMU check and TLB fill on every access.  */
-         read_flags |= TLB_INVALID_MASK;
+     /* Fold all "mmio-like" bits into TLB_MMIO.  This is not RAM.  */
+-    if (unlikely(flags & ~(TLB_WATCHPOINT | TLB_NOTDIRTY))) {
++    if (flags & ~(TLB_WATCHPOINT | TLB_NOTDIRTY | TLB_CHECK_ALIGNED)) {
+         *phost = NULL;
+         return TLB_MMIO;
      }
--    if (full->attrs.byte_swap) {
--        read_flags |= TLB_BSWAP;
--    }
+@@ -1885,6 +1885,29 @@ static bool mmu_lookup(CPUArchState *env, target_ulong addr, MemOpIdx oi,
+         tcg_debug_assert((flags & TLB_BSWAP) == 0);
+     }
  
-     is_ram = memory_region_is_ram(section->mr);
-     is_romd = memory_region_is_romd(section->mr);
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index a98dd0abd4..fa58b4dc03 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -580,7 +580,7 @@ static int get_physical_address_data(CPUSPARCState *env, CPUTLBEntryFull *full,
-             int do_fault = 0;
++    /*
++     * This alignment check differs from the one above, in that this is
++     * based on the atomicity of the operation. The intended use case is
++     * the ARM memory type field of each PTE, where access to pages with
++     * Device memory type require alignment.
++     */
++    if (unlikely(flags & TLB_CHECK_ALIGNED)) {
++        MemOp atmax = l->memop & MO_ATMAX_MASK;
++        MemOp atom = l->memop & MO_ATOM_MASK;
++        MemOp size = l->memop & MO_SIZE;
++
++        if (size != MO_8 && atom != MO_ATOM_NONE) {
++            if (atmax == MO_ATMAX_SIZE) {
++                a_bits = size;
++            } else {
++                a_bits = atmax >> MO_ATMAX_SHIFT;
++            }
++            if (addr & ((1 << a_bits) - 1)) {
++                cpu_unaligned_access(env_cpu(env), addr, type, l->mmu_idx, ra);
++            }
++        }
++    }
++
+     return crosspage;
+ }
  
-             if (TTE_IS_IE(env->dtlb[i].tte)) {
--                full->attrs.byte_swap = true;
-+                full->tlb_fill_flags |= TLB_BSWAP;
-             }
- 
-             /* access ok? */
 -- 
 2.34.1
 
