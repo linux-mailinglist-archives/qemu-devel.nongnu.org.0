@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC376A0D42
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6E06A0D48
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 16:47:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVDlH-0006LS-IZ; Thu, 23 Feb 2023 10:43:59 -0500
+	id 1pVDoU-0008AR-Sy; Thu, 23 Feb 2023 10:47:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVDlF-0006Kk-3C
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:43:57 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVDlD-0007yN-Nf
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:43:56 -0500
-Received: by mail-pl1-x630.google.com with SMTP id i3so2937479plg.6
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 07:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vN9wbXaS5AKRfx7O49+9tm8CSWhH7WZBdTXsOBDoOLA=;
- b=MfuOR1THyLa7p+KtzCci5uYxkVrmJCkXhYY9OI7GchxhxTtw7Y42+686NiYh6EzqBW
- 1uTlJ2KM7/EE1CHVBgsvLFKKf2JkerH3J20L+5LqWeSPmFUlQFQS91PCYKHw0V/fBRmn
- l/dbrhFupNiCaxzHaBWIVcEYx40ogmVihAN3yXYepUyN/itkbGy2Fc+WKFWIprLU0y4a
- RNriV6Qe+9kABM8I4CBhO3pTJHEsohfcO1jogCrfh7BJFf/Lt02j/3qJ8zuaFQiwMOpo
- AEfi1Q4JpNBkfVpCTGeFJsCmAHLRwzWA7bH5+AeGji78zlgClZv0PZPfYtFep3eyykUy
- QiKQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pVDoO-00085C-Ix
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:47:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pVDoN-0001ku-8T
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 10:47:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677167229;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tYLCYYtsIhdZX432tdnc+tDaO6zGMKvCjdCtF2+h8mY=;
+ b=id7aM0XvDNLyd1lSl7HWEceoR6wGPo0xLFzLeDjKe+Ct6N5MUEo3Z8p2O66Ie77FUZJDEX
+ h9UnVTpLW7FQkXRGD5jI5UGYyFWryYKxx4Qhd2ADW8Orrt5L3LacKfQd6BHenpGGEXBQQT
+ Re5D2K9W89jquZLDVjXv/lm0vYU2UBQ=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-649-wP5FI6yTNxq8k18z9tOYlA-1; Thu, 23 Feb 2023 10:47:08 -0500
+X-MC-Unique: wP5FI6yTNxq8k18z9tOYlA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ z23-20020a376517000000b00731b7a45b7fso5873283qkb.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 07:47:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vN9wbXaS5AKRfx7O49+9tm8CSWhH7WZBdTXsOBDoOLA=;
- b=v/V2otXMObL+pjRa2tSkFnMIxtn1oigWO5noVc9JUVtP5ZXRvlZ1sKMKFWTa0UUZEQ
- e/PM7rcoYRxx6pBoIPigfQmNLhcDuvo7WyBSk2qdkRnICFWMyThmCBmwJ/OeY9RUOfG1
- f2isaasgGtKwoissGN67lOdfP6sRwLW4n0NzJZvi5s4DaNdS0/G/I6W9clpOeZYsc3az
- VaCdaq0gNw5m6h12eAREEIxn4DJ51FGn0cs6p0jzrINZkBQ2ZJaaxnGzV2vgSs1q1Tiv
- CSww2BT2xOHqtN7rtIIzLNIEcks3sumRMYZR51dLrquDBZKam4hb9+CwbpJ61lH8VUcP
- 18sA==
-X-Gm-Message-State: AO0yUKVNOaeWflBcX+JpLoLK9TWHXwiUhzVB9DbeQc2qE/7zacsGTInh
- mZxFGDWqiXu5CpdN7ybFGSyLCqsM0Txu2IZlaFmSuw==
-X-Google-Smtp-Source: AK7set9w3LlbT8v/ulc3qH6SV20vxy+e4KtP13mG1OnYuJBuWVZBpTfi6Pu/lnhl0cRJ4GV8cgIENvqKlOKDOiTkqBE=
-X-Received: by 2002:a17:90b:4d04:b0:237:50b6:984c with SMTP id
- mw4-20020a17090b4d0400b0023750b6984cmr1222650pjb.137.1677167034220; Thu, 23
- Feb 2023 07:43:54 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677167228;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tYLCYYtsIhdZX432tdnc+tDaO6zGMKvCjdCtF2+h8mY=;
+ b=akBGrckXBo9yPBhkHDPzEHwV8/fE9l1Nxbd7B9DEryWfYibPeWiilj5mnZRIxGkPOx
+ beT6MP/E9J9jBBBRodK51dKjXhuGGc6KuchWpVkEvgECKHaS7gvLdyGZICy3tD2RHXQ5
+ JHwr9u3CyMb8l8VgB8CT5o0kIw/3LDRA2Wz6HyOVlZAVYBDv+PmxTtRKasKOQDGCXh1Z
+ XwssGXN7awnZ8MWvqgJg44WVzJpZ7Ke7qBp1VCjyVz9d0NnPKeNunoZ1S98wZ8A6QPGr
+ r6JSYphHMEzbemgGTGABHKVq3eGxg/EcgANwB8LwUL0g+pWrDLDWPwvzQa56rLtZeXNs
+ DD/A==
+X-Gm-Message-State: AO0yUKVdVjbFpM6/MnGVP8eNMIlF9hWjXVofc03J+gSuBxudrYfSMDkp
+ EXscUIed4pdJbxoz6Kni+db0+A1DDqYYPwMY+NMLmmvdddOsh0jGZanIdtzeluYmwRaoV14bYE9
+ YqRcJLpKdS5M/qLw=
+X-Received: by 2002:ac8:5cd4:0:b0:3bb:75c7:9326 with SMTP id
+ s20-20020ac85cd4000000b003bb75c79326mr24523242qta.0.1677167227823; 
+ Thu, 23 Feb 2023 07:47:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set8KfrK/ADYXplFqtJKdnVJYctD1A/Zju8/9UXIX2/FxZ6GSP80kYJRFkA6knHj39JmO4rnf8g==
+X-Received: by 2002:ac8:5cd4:0:b0:3bb:75c7:9326 with SMTP id
+ s20-20020ac85cd4000000b003bb75c79326mr24523210qta.0.1677167227533; 
+ Thu, 23 Feb 2023 07:47:07 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ o13-20020ac8024d000000b003b8238114d9sm3896647qtg.12.2023.02.23.07.47.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Feb 2023 07:47:06 -0800 (PST)
+Date: Thu, 23 Feb 2023 10:47:05 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ viktor@daynix.com, lvivier@redhat.com
+Subject: Re: [PATCH V2 0/5] Fix UNMAP notifier for intel-iommu
+Message-ID: <Y/eKecGZp2H3jmIK@x1n>
+References: <20230223065924.42503-1-jasowang@redhat.com>
 MIME-Version: 1.0
-References: <20230216030854.1212208-1-richard.henderson@linaro.org>
- <20230216030854.1212208-8-richard.henderson@linaro.org>
-In-Reply-To: <20230216030854.1212208-8-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Feb 2023 15:43:43 +0000
-Message-ID: <CAFEAcA8LWyeGB7FyKEXO=Ww7VZOxvEUbQtGCF=dFz4_iAkjp=A@mail.gmail.com>
-Subject: Re: [PATCH v1 07/19] target/arm: Add feature test for FEAT_LSE2
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x630.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230223065924.42503-1-jasowang@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,30 +96,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 16 Feb 2023 at 03:10, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 7bc97fece9..2108caf753 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -4049,6 +4049,11 @@ static inline bool isar_feature_aa64_st(const ARMISARegisters *id)
->      return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, ST) != 0;
->  }
->
-> +static inline bool isar_feature_aa64_lse2(const ARMISARegisters *id)
-> +{
-> +    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, AT) != 0;
-> +}
-> +
+On Thu, Feb 23, 2023 at 02:59:19PM +0800, Jason Wang wrote:
+> Hi All:
+> 
+> According to ATS, device should work if ATS is disabled. This is not
+> correctly implemented in the current intel-iommu since it doesn't
+> handle the UNMAP notifier correctly. This breaks the vhost-net +
+> vIOMMU without dt.
+> 
+> The root casue is that the when there's a device IOTLB miss (note that
+> it's not specific to PCI so it can work without ATS), Qemu doesn't
+> build the IOVA tree, so when guest start an IOTLB invalidation, Qemu
+> won't trigger the UNMAP notifier.
+> 
+> Fixing this by triggering UNMAP notifier in those cases.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Maybe someday we should start merging different places where we used the
+same IOMMU_NOTIFIER_UNMAP event and also taking care of truncation of
+notifier ranges within memory.c, but that can definitely be done later.
 
-thanks
--- PMM
+Reviewed-by: Peter Xu <peterx@redhat.com>
+
+Thanks, Jason!
+
+-- 
+Peter Xu
+
 
