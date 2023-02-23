@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73E16A13A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:19:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83676A13AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:19:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKrD-00007s-Mi; Thu, 23 Feb 2023 18:18:35 -0500
+	id 1pVKrI-00009a-5z; Thu, 23 Feb 2023 18:18:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKrC-00007k-2i
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:34 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKrF-00008L-Su
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:37 -0500
 Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKrA-0000Vt-5J
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:33 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id t15so12351254wrz.7
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:18:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKrE-0000Vt-CR
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:37 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id t15so12351386wrz.7
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:18:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pc+uWjRhNl81loTW604SLsJvgt5iDIM0pzxWzAFHTyw=;
- b=VwF7F5J/WHO8Q6TQav31X0j0wxgfd5PbHwMQGiA8AzDKhhQS0MD6q2py3+7ORPaRR8
- 8phHUh7mTi3k4qhnOj5Z4cUKIuhyOFBSBCRJlXETmKZsyr1mUPDur9KB6TYGMYCKwpJP
- DVUD4wa0dr8fwEhJWZjGvVpJzarJu4SZxWLdY77F86lwnBoKrGXcjPNAsPoFtXiaMhAK
- 4d66TUopJOWBa96fzCNFJik1ti4Kj8FwOFvFAxSzrkLDG6vMyiAHkQNcxwjhMkSQFBb6
- RrzZ9KbQvPhatVttYA891GGbwG/A2kbPn+tHgYfuqD2aJ+d65DjL+H2ryDFYwj+1e+Ax
- oLbA==
+ bh=MU+ruNFcMxjYNRIZZwSLh+qUkPoKgiT+z5IyxNl3xk0=;
+ b=pkpnpdSaNx/9vRw7tB+m1weBupRcTLPhaBTE8t5BLaNAqRnJYH5YBmcTzyxMTxtbpi
+ opyHGmasbSASO03fqOHPiCQJPTOcFYcnYld/FG3H5I8MSKZzXL7jZDqhjgls8797hyrn
+ EPhPyjkaEgo4Tp1ICkFwK5VYfllSEybQ7H4KKq57YnpSmsZdE5Fq4SFHauAgL7DF2Z+Y
+ ooLRWlNFk0o7yPfgHuSTogofdGXEqJfIXNSZoPsXUiZd/yanEVTzd94OjooAFQj5ULqL
+ xOjZqHv/1jM5z63w0ELnt4WkvWZzquVzBwpnlhgBOkpUf5vsoQHbmeW+2mRDp0zqTlbk
+ BY6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pc+uWjRhNl81loTW604SLsJvgt5iDIM0pzxWzAFHTyw=;
- b=qm8Yu6yPW0yihcaI6OZHkP+F97m2SiiYpuOG+7uKXJpNhP+hH8eiAFacdu41rZ6re5
- 9hz41+RmaLmk4zg4Wy7gApjpsENmrpZK8wFYSaGoW1FtnzXnpEyCNuLnO5FSb5T6fWA0
- DYtHx3pTo7PcALLMmuzAvbL34YwwgRUTVgKMjNv942HRQvhBONfnNTdVGs0b+zZ0L09F
- H4oUGHzZxY3jUdNDNqaxrfEU/ojIoXeygeMVYOgrk3fYQqdA+gW6Zgegg9r6niB+LvvR
- GMBFRyWbtuSftmuAkfQt4iSMHoklKPHygRBSKyeznc5Rt4xXHnNBn6W0SgnDNAPfG126
- +XCg==
-X-Gm-Message-State: AO0yUKXNjCs2CJwNjlRXnwQcYYeua7e3r12Hk4XnZ3M/CCNaAgXk25jN
- YjqKlev567SYcupig/9w2kjFSecOomK046OZ
-X-Google-Smtp-Source: AK7set8Z/mlds5imz4sj60SQatj0wKqVqyzUqSa2tkezIBTT7+J0kw+c/XMQd/fPKImTZcespOZ/Iw==
-X-Received: by 2002:adf:dcc5:0:b0:2c7:ce2:6479 with SMTP id
- x5-20020adfdcc5000000b002c70ce26479mr6427257wrm.40.1677194310431; 
- Thu, 23 Feb 2023 15:18:30 -0800 (PST)
+ bh=MU+ruNFcMxjYNRIZZwSLh+qUkPoKgiT+z5IyxNl3xk0=;
+ b=k4Dh8oIkvCRHyhUS0XE4iV+J50zEHdkx94OcORM+pMHaxjnktuidtzG+4XkALjt13s
+ 0RFpGNeWYF000gqyBsVrYAMQohubmbTdjmRT6DZ1SfLyEmKiXP2JFSaYp9HfosjbiTFJ
+ VKqBS3VuEbeuGCcmqevvQU3S4Z/PdmD1VLCJc9RMme28/jh/XsHQfINwDf0VEca90F3Z
+ +EgSFe/68UwqlSUcP7bSPpzsP2sehUez9hfb0XDAPbxMBkAASOZ8sJfnlYeVflLVw/kG
+ FDnJCtOYFCWy4c/8Z4OSm/v6vy2aq5uYXd71h36QLit+78h5F8fSlerRhCIAyKY3bycM
+ bJQg==
+X-Gm-Message-State: AO0yUKXuJUkGdaPMYdTELai5N34kdGUM/VPhmI+S0O2WuBiVohjjc/tm
+ PAEsjLuFuXZzinkb4pK2Q+N1bLYKfhknNp/n
+X-Google-Smtp-Source: AK7set+qMAzSVqNbxdDgg96+aO0d+LuSzOLTYjKlgsVIRPNauwIr0PdT2VfcDpe0gIkfX1GOyFvlpg==
+X-Received: by 2002:adf:f292:0:b0:2c7:1b4b:d729 with SMTP id
+ k18-20020adff292000000b002c71b4bd729mr553600wro.65.1677194315410; 
+ Thu, 23 Feb 2023 15:18:35 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- e16-20020adfe390000000b002c54c8e70b1sm11449411wrm.9.2023.02.23.15.18.29
+ f5-20020a1c6a05000000b003dfe5190376sm715100wmc.35.2023.02.23.15.18.34
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 15:18:30 -0800 (PST)
+ Thu, 23 Feb 2023 15:18:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 6/7] dump: Build once by adding stubs for non-x86 targets
-Date: Fri, 24 Feb 2023 00:17:54 +0100
-Message-Id: <20230223231755.81633-7-philmd@linaro.org>
+Subject: [PATCH v4 7/7] dump: Rename x86-specific file as win_dump_x86.c
+Date: Fri, 24 Feb 2023 00:17:55 +0100
+Message-Id: <20230223231755.81633-8-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230223231755.81633-1-philmd@linaro.org>
 References: <20230223231755.81633-1-philmd@linaro.org>
@@ -91,84 +91,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Extract non-x86 stubs to win_dump-stub.c. We can now
-build dump.o once for system emulation. Update meson.
+win_dump.c is x86 specific. Rename it as such in case
+someone is willing to add win_dump-aarch64 :)
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- dump/dump.c          | 14 --------------
- dump/meson.build     |  6 ++++--
- dump/win_dump-stub.c | 23 +++++++++++++++++++++++
- 3 files changed, 27 insertions(+), 16 deletions(-)
- create mode 100644 dump/win_dump-stub.c
+ dump/meson.build                    | 2 +-
+ dump/{win_dump.c => win_dump-x86.c} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename dump/{win_dump.c => win_dump-x86.c} (99%)
 
-diff --git a/dump/dump.c b/dump/dump.c
-index b33a613d45..7cde3e326e 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -32,20 +32,6 @@
- #include "migration/blocker.h"
- #include "win_dump.h"
- 
--#ifndef TARGET_X86_64
--bool win_dump_available(Error **errp)
--{
--    error_setg(errp, "Windows dump is only available for x86-64");
--
--    return false;
--}
--
--void create_win_dump(DumpState *s, Error **errp)
--{
--    win_dump_available(errp);
--}
--#endif
--
- #include <zlib.h>
- #ifdef CONFIG_LZO
- #include <lzo/lzo1x.h>
 diff --git a/dump/meson.build b/dump/meson.build
-index 2eff29c3ea..6ae07e6fed 100644
+index 6ae07e6fed..d899949a73 100644
 --- a/dump/meson.build
 +++ b/dump/meson.build
-@@ -1,4 +1,6 @@
- softmmu_ss.add(files('dump-hmp-cmds.c'))
+@@ -2,5 +2,5 @@ softmmu_ss.add(files('dump-hmp-cmds.c'))
  
--specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
--specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'], if_true: files('win_dump.c'))
-+softmmu_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
-+specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'],
-+                if_true: files('win_dump.c'),
-+                if_false: files('win_dump-stub.c'))
-diff --git a/dump/win_dump-stub.c b/dump/win_dump-stub.c
-new file mode 100644
-index 0000000000..87cb699e3d
---- /dev/null
-+++ b/dump/win_dump-stub.c
-@@ -0,0 +1,23 @@
-+/*
-+ * Windows crashdump stubs for non-x86 targets
-+ *
-+ * Copyright (c) 2023 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "win_dump.h"
-+
-+bool win_dump_available(Error **errp)
-+{
-+    error_setg(errp, "Windows dump is only available for x86-64");
-+
-+    return false;
-+}
-+
-+void create_win_dump(DumpState *s, Error **errp)
-+{
-+    win_dump_available(errp);
-+}
+ softmmu_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'],
+-                if_true: files('win_dump.c'),
++                if_true: files('win_dump-x86.c'),
+                 if_false: files('win_dump-stub.c'))
+diff --git a/dump/win_dump.c b/dump/win_dump-x86.c
+similarity index 99%
+rename from dump/win_dump.c
+rename to dump/win_dump-x86.c
+index ffeef4b738..5ee9a1d764 100644
+--- a/dump/win_dump.c
++++ b/dump/win_dump-x86.c
+@@ -1,5 +1,5 @@
+ /*
+- * Windows crashdump
++ * Windows crashdump for x86 targets
+  *
+  * Copyright (c) 2018 Virtuozzo International GmbH
+  *
 -- 
 2.38.1
 
