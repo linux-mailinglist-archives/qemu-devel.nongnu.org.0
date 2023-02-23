@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2A16A03A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 09:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECFC6A03C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 09:24:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV6kq-0003lC-Te; Thu, 23 Feb 2023 03:15:05 -0500
+	id 1pV6tO-00088v-CE; Thu, 23 Feb 2023 03:23:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pV6ko-0003iG-2y
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 03:15:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pV6km-0001LJ-8Q
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 03:15:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677140099;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oNyUfcVHvjIdcGuv0SDWxC/qdUhNx/+4Mut0H2LduDQ=;
- b=gOX5Zz5AXTA2uyHGidF3/MiJKQ9+xvOXFZHVoHXOGcI99sHYL0BJAqzSDj/rv2XNF7mo/G
- 4qsT1W2D0XE/Oz8J7mxCP+lLrZXwcTApprUSYej9qPkqspo+J3tTnloacInP9FK/1zo0UY
- BYVoyP/vdaoxF+6LkNoBfTXJcQ6rimI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-209-qCV7yt1kP0qz9Kpqr53kjQ-1; Thu, 23 Feb 2023 03:14:53 -0500
-X-MC-Unique: qCV7yt1kP0qz9Kpqr53kjQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 636CA857A88;
- Thu, 23 Feb 2023 08:14:52 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-168.bne.redhat.com [10.64.54.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFDBC440DE;
- Thu, 23 Feb 2023 08:14:44 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, rad@semihalf.com,
- peter.maydell@linaro.org, quic_llindhol@quicinc.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, philmd@linaro.org, wangyanan55@huawei.com,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
- imammedo@redhat.com, yihyu@redhat.com, shan.gavin@gmail.com
-Subject: [PATCH v2 4/4] hw/riscv: Validate socket and NUMA node boundary
-Date: Thu, 23 Feb 2023 16:14:01 +0800
-Message-Id: <20230223081401.248835-5-gshan@redhat.com>
-In-Reply-To: <20230223081401.248835-1-gshan@redhat.com>
-References: <20230223081401.248835-1-gshan@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pV6tJ-00088X-H3
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 03:23:50 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pV6tG-0004T0-U0
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 03:23:49 -0500
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8CxQMyIIvdjFAwEAA--.2540S3;
+ Thu, 23 Feb 2023 16:23:36 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxIL+GIvdjaoI5AA--.3458S3; 
+ Thu, 23 Feb 2023 16:23:34 +0800 (CST)
+Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-11-gaosong@loongson.cn>
+ <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
+ <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
+ <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
+Date: Thu, 23 Feb 2023 16:23:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8AxIL+GIvdjaoI5AA--.3458S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Kw43Zry7KFW5tF47Xw15XFb_yoW8JF4xpF
+ s5Ka47Ka4DJ34xZws7Aa9xJr1IgryftwsxJrs5G3s7Ar98C3Z2gr1vywn09FyUuws3urnF
+ qw4aqry5Zan8uaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.102,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,41 +81,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There are two RISCV machines where NUMA is aware: 'virt' and 'spike'.
-Both of them are required to follow socket-NUMA-node boundary. To
-enable the validation to reject incorrect configuration.
+Hi, Richard
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- hw/riscv/spike.c | 1 +
- hw/riscv/virt.c  | 1 +
- 2 files changed, 2 insertions(+)
+在 2023/2/21 上午1:21, Richard Henderson 写道:
+> On 2/19/23 21:47, gaosong wrote:
+>> I have some questions:
+>> 1 Should we need implement  GVecGen*  for simple gvec instructiosn?
+>>      such as add, sub , or , xor..
+>
+> No, these are done generically.
+>
+>> 2 Should we need implement all fni8/fni4, fniv,  fno?
+>
+> You need not implement them all.  Generally you will only implement 
+> fni4 for 32-bit arithmetic operations, and only fni8 for logical 
+> operations; there is rarely a cause for both with the same operation.
+>
+> You can rely on the generic cutoff of 4 integer inline operations -- 
+> easy for your maximum vector length of 128-bits -- to avoid 
+> implementing fno.
+>
+> But in extreme, you can implement only fno.  You can choose this over 
+> directly calling a helper function, minimizing differences in the 
+> translator code paths and letting generic code build all of the pointers.
+>
+Sorry for the late reply,  and Thanks for you answers.
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index cc3f6dac17..fba0cbec29 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -342,6 +342,7 @@ static void spike_board_init(MachineState *machine)
- 
- static void spike_machine_instance_init(Object *obj)
- {
-+    set_numa_socket_boundary(MACHINE(obj));
- }
- 
- static void spike_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index b81081c70b..ed79becb96 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1521,6 +1521,7 @@ static void virt_machine_init(MachineState *machine)
- 
- static void virt_machine_instance_init(Object *obj)
- {
-+    set_numa_socket_boundary(MACHINE(obj));
- }
- 
- static char *virt_get_aia_guests(Object *obj, Error **errp)
--- 
-2.23.0
+But I still need more help.
+
+How gvec singed or unsigned extensions of vector elements?
+I found no gvec function that implements signed and unsigned extensions 
+of vector elements.
+However, the result of some instructions requires the elements to be 
+signed or unsigned extensions.
+
+Thanks.
+Song Gao
 
 
