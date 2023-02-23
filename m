@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E0B6A0925
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F48B6A08DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 13:47:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVB0H-0006C5-TK; Thu, 23 Feb 2023 07:47:18 -0500
+	id 1pVAzh-0003lb-Jy; Thu, 23 Feb 2023 07:46:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVAzg-0003oI-OP
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:40 -0500
+ id 1pVAzW-00033v-4P
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:30 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVAzY-0004hx-Ku
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:40 -0500
+ id 1pVAzT-0004hj-Ct
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 07:46:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=IcaEWVTz0/hs3T6B+hW0k0DjUCSE2BniAT2dyp9UsEs=; b=cP8lLstg8TwSVvG1upgwv+xODh
- kGo1WWDbT2g90xftjO3rd5IY4GGg7Z5z6aIrAxuS8Ie32VBulrc4Bvs1kWOarRLSRY0r8xFQHoGP7
- AF0eXKrnjsm6axdfOzQqLZIttSXDDDNA8HyCjuL+STnfwkzeNQnxd3teTUd+3tGNm7f+Lv2h1ZumP
- 7Xc3V872l8i8BSr9E5JohrS0kIGRGwOiXKqDaiazEE29ZcF7vmT6k7b5bBJbGK168v4LYYBtL7r9H
- enIWzzGs04BQAi+1swz6Kt6yayWlNOCzborUewDs0NSJquC4dP9QjqJYOpCrXmrK6A1ae4b7xpPXn
- GBqmCUSw==;
+ bh=XhoV85/5S6n2uwptZVydUrXggYrio3Pcw9JF7uRx8L4=; b=v29ucDRePsUwN4Grj1Al9be0ji
+ Y6kXcKMG+2P9cmtcQZBrqifQqdPkiQ/0k6xY/ZIJmiQEAHar08enm2A5RtliNgtqhSIFMLhejbkhg
+ lEIIORQgtZbDoUGb46Oz72wKvHsGDl53bLx+bKKQi06YBdOk4PLtmjhq6+bTsCznGblF+rm1UZA03
+ FjTIjOZ7h6aimCiM+FCm8eyjZRyLHSDRGIXcLwCgXeRhoDvUWZP8bj3CtZCoMd+9+jTqOz56I5QbS
+ x80aXTnkwIr0SwWIwV0Z5JMJZx6xD5Oas/fg2f1XrNdZ2tABnSJrEQ66BHRhDLr00qCrG9rcxHSm7
+ CaC+Z3Aw==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pVAzK-00EMjN-7G; Thu, 23 Feb 2023 12:46:18 +0000
+ id 1pVAzK-00EMjP-9K; Thu, 23 Feb 2023 12:46:18 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pVAzK-00DYsT-0k; Thu, 23 Feb 2023 12:46:18 +0000
+ Linux)) id 1pVAzK-00DYsX-0w; Thu, 23 Feb 2023 12:46:18 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,9 +50,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v13 52/60] hw/xen: Add basic ring handling to xenstore
-Date: Thu, 23 Feb 2023 12:46:05 +0000
-Message-Id: <20230223124613.3231331-53-dwmw2@infradead.org>
+Subject: [PATCH v13 53/60] hw/xen: Automatically add xen-platform PCI device
+ for emulated Xen guests
+Date: Thu, 23 Feb 2023 12:46:06 +0000
+Message-Id: <20230223124613.3231331-54-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230223124613.3231331-1-dwmw2@infradead.org>
 References: <20230223124613.3231331-1-dwmw2@infradead.org>
@@ -87,264 +88,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-Extract requests, return ENOSYS to all of them. This is enough to allow
-older Linux guests to boot, as they need *something* back but it doesn't
-matter much what.
+It isn't strictly mandatory but Linux guests at least will only map
+their grant tables over the dummy BAR that it provides, and don't have
+sufficient wit to map them in any other unused part of their guest
+address space. So include it by default for minimal surprise factor.
 
-A full implementation of a single-tentant internal XenStore copy-on-write
-tree with transactions and watches is waiting in the wings to be sent in
-a subsequent round of patches along with hooking up the actual PV disk
-back end in qemu, but this is enough to get guests booting for now.
+As I come to document "how to run a Xen guest in QEMU", this means one
+fewer thing to tell the user about, according to the mantra of "if it
+needs documenting, fix it first, then document what remains".
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/xen_xenstore.c | 223 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 220 insertions(+), 3 deletions(-)
+ hw/i386/pc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
-index 702f417633..2388842d15 100644
---- a/hw/i386/kvm/xen_xenstore.c
-+++ b/hw/i386/kvm/xen_xenstore.c
-@@ -188,18 +188,235 @@ uint16_t xen_xenstore_get_port(void)
-     return s->guest_port;
- }
- 
-+static bool req_pending(XenXenstoreState *s)
-+{
-+    struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
-+
-+    return s->req_offset == XENSTORE_HEADER_SIZE + req->len;
-+}
-+
-+static void reset_req(XenXenstoreState *s)
-+{
-+    memset(s->req_data, 0, sizeof(s->req_data));
-+    s->req_offset = 0;
-+}
-+
-+static void reset_rsp(XenXenstoreState *s)
-+{
-+    s->rsp_pending = false;
-+
-+    memset(s->rsp_data, 0, sizeof(s->rsp_data));
-+    s->rsp_offset = 0;
-+}
-+
-+static void process_req(XenXenstoreState *s)
-+{
-+    struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
-+    struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-+    const char enosys[] = "ENOSYS";
-+
-+    assert(req_pending(s));
-+	assert(!s->rsp_pending);
-+
-+    rsp->type = XS_ERROR;
-+    rsp->req_id = req->req_id;
-+    rsp->tx_id = req->tx_id;
-+    rsp->len = sizeof(enosys);
-+    memcpy((void *)&rsp[1], enosys, sizeof(enosys));
-+
-+    s->rsp_pending = true;
-+    reset_req(s);
-+}
-+
-+static unsigned int copy_from_ring(XenXenstoreState *s, uint8_t *ptr, unsigned int len)
-+{
-+    if (!len)
-+        return 0;
-+
-+    XENSTORE_RING_IDX prod = qatomic_read(&s->xs->req_prod);
-+    XENSTORE_RING_IDX cons = qatomic_read(&s->xs->req_cons);
-+    unsigned int copied = 0;
-+
-+    smp_mb();
-+
-+    while (len) {
-+        unsigned int avail = prod - cons;
-+        unsigned int offset = MASK_XENSTORE_IDX(cons);
-+        unsigned int copylen = avail;
-+
-+        if (avail > XENSTORE_RING_SIZE) {
-+            error_report("XenStore ring handling error");
-+            s->fatal_error = true;
-+            break;
-+        } else if (avail == 0)
-+            break;
-+
-+        if (copylen > len) {
-+            copylen = len;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index a12a7a67e9..5ec3518b9e 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1313,6 +1313,9 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+ #ifdef CONFIG_XEN_EMU
+     if (xen_mode == XEN_EMULATE) {
+         xen_evtchn_connect_gsis(gsi);
++        if (pcms->bus) {
++            pci_create_simple(pcms->bus, -1, "xen-platform");
 +        }
-+        if (copylen > XENSTORE_RING_SIZE - offset) {
-+            copylen = XENSTORE_RING_SIZE - offset;
-+        }
-+
-+        memcpy(ptr, &s->xs->req[offset], copylen);
-+        copied += copylen;
-+
-+        ptr += copylen;
-+        len -= copylen;
-+
-+        cons += copylen;
-+    }
-+
-+    smp_mb();
-+
-+    qatomic_set(&s->xs->req_cons, cons);
-+
-+    return copied;
-+}
-+
-+static unsigned int copy_to_ring(XenXenstoreState *s, uint8_t *ptr, unsigned int len)
-+{
-+    if (!len)
-+        return 0;
-+
-+    XENSTORE_RING_IDX cons = qatomic_read(&s->xs->rsp_cons);
-+    XENSTORE_RING_IDX prod = qatomic_read(&s->xs->rsp_prod);
-+    unsigned int copied = 0;
-+
-+    smp_mb();
-+
-+    while (len) {
-+        unsigned int avail = cons + XENSTORE_RING_SIZE - prod;
-+        unsigned int offset = MASK_XENSTORE_IDX(prod);
-+        unsigned int copylen = len;
-+
-+        if (avail > XENSTORE_RING_SIZE) {
-+            error_report("XenStore ring handling error");
-+            s->fatal_error = true;
-+            break;
-+        } else if (avail == 0)
-+            break;
-+
-+        if (copylen > avail) {
-+            copylen = avail;
-+        }
-+        if (copylen > XENSTORE_RING_SIZE - offset) {
-+            copylen = XENSTORE_RING_SIZE - offset;
-+        }
-+
-+
-+        memcpy(&s->xs->rsp[offset], ptr, copylen);
-+        copied += copylen;
-+
-+        ptr += copylen;
-+        len -= copylen;
-+
-+        prod += copylen;
-+    }
-+
-+    smp_mb();
-+
-+    qatomic_set(&s->xs->rsp_prod, prod);
-+
-+    return copied;
-+}
-+
-+static unsigned int get_req(XenXenstoreState *s)
-+{
-+    unsigned int copied = 0;
-+
-+    if (s->fatal_error)
-+        return 0;
-+
-+    assert(!req_pending(s));
-+
-+    if (s->req_offset < XENSTORE_HEADER_SIZE) {
-+        void *ptr = s->req_data + s->req_offset;
-+        unsigned int len = XENSTORE_HEADER_SIZE;
-+        unsigned int copylen = copy_from_ring(s, ptr, len);
-+
-+        copied += copylen;
-+        s->req_offset += copylen;
-+    }
-+
-+    if (s->req_offset >= XENSTORE_HEADER_SIZE) {
-+        struct xsd_sockmsg *req = (struct xsd_sockmsg *)s->req_data;
-+
-+        if (req->len > (uint32_t)XENSTORE_PAYLOAD_MAX) {
-+            error_report("Illegal XenStore request");
-+            s->fatal_error = true;
-+            return 0;
-+        }
-+
-+        void *ptr = s->req_data + s->req_offset;
-+        unsigned int len = XENSTORE_HEADER_SIZE + req->len - s->req_offset;
-+        unsigned int copylen = copy_from_ring(s, ptr, len);
-+
-+        copied += copylen;
-+        s->req_offset += copylen;
-+    }
-+
-+    return copied;
-+}
-+
-+static unsigned int put_rsp(XenXenstoreState *s)
-+{
-+    if (s->fatal_error)
-+        return 0;
-+
-+    assert(s->rsp_pending);
-+
-+    struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-+    assert(s->rsp_offset < XENSTORE_HEADER_SIZE + rsp->len);
-+
-+    void *ptr = s->rsp_data + s->rsp_offset;
-+    unsigned int len = XENSTORE_HEADER_SIZE + rsp->len - s->rsp_offset;
-+    unsigned int copylen = copy_to_ring(s, ptr, len);
-+
-+    s->rsp_offset += copylen;
-+
-+    /* Have we produced a complete response? */
-+    if (s->rsp_offset == XENSTORE_HEADER_SIZE + rsp->len)
-+        reset_rsp(s);
-+
-+    return copylen;
-+}
-+
- static void xen_xenstore_event(void *opaque)
- {
-     XenXenstoreState *s = opaque;
-     evtchn_port_t port = xen_be_evtchn_pending(s->eh);
-+    unsigned int copied_to, copied_from;
-+    bool processed, notify = false;
-+
-     if (port != s->be_port) {
-         return;
      }
--    printf("xenstore event\n");
-+
-     /* We know this is a no-op. */
-     xen_be_evtchn_unmask(s->eh, port);
--    qemu_hexdump(stdout, "", s->xs, sizeof(*s->xs));
--    xen_be_evtchn_notify(s->eh, s->be_port);
-+
-+    do {
-+        copied_to = copied_from = 0;
-+        processed = false;
-+
-+        if (s->rsp_pending)
-+            copied_to = put_rsp(s);
-+
-+        if (!req_pending(s))
-+            copied_from = get_req(s);
-+
-+        if (req_pending(s) && !s->rsp_pending) {
-+            process_req(s);
-+            processed = true;
-+        }
-+
-+        notify |= copied_to || copied_from;
-+    } while (copied_to || copied_from || processed);
-+
-+    if (notify) {
-+        xen_be_evtchn_notify(s->eh, s->be_port);
-+    }
- }
+ #endif
  
- static void alloc_guest_port(XenXenstoreState *s)
 -- 
 2.39.0
 
