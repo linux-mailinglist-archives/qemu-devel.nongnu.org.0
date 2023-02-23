@@ -2,86 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13106A1400
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EAF96A1402
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:53:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVLO1-000105-3g; Thu, 23 Feb 2023 18:52:29 -0500
+	id 1pVLOe-0001eR-OX; Thu, 23 Feb 2023 18:53:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVLNy-0000zM-GH
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:52:26 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVLNx-0003RF-05
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:52:26 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- q31-20020a17090a17a200b0023750b69614so968919pja.5
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:52:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qQHEwStqPQKlhu5rmZuSBYwXrJbncweW3S1WGTrQIiw=;
- b=IAlc3++xrNLGeUGekX7pinFdbMUZZSr5tosU2dMRGLHDbSe53/GfxeEjBziOIfnwx9
- 8W3hR+UukPkJmoL66L7U4oqpa4FB3fU4xAVUWWdsoZGGSpKKaGuRckRYeCQJrMG5CkBr
- 1hitdqA62VqIfPzfwfNzPGLaUYYqCIbkN2/tZSL84KbGxizsz35jGJl7SSsQZr+nTimM
- SPxqI+qzZNyib8c+hQ2Puq4D92gthZ5PK9F3VNxpy6wPCDAwrCgSYh2yRG8tGtK4IdLQ
- 5yO5/5BFtUTdxeY8891qIHWsvuvZgqG5yuYB+aqyYfW+XA8d/mtj69BvYQjTLLe3hD4L
- D98w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qQHEwStqPQKlhu5rmZuSBYwXrJbncweW3S1WGTrQIiw=;
- b=SBDmr9DHqPUzGi8sX5tGPGskOt9IV790ED4Lpwoe0LXRRQXMWReH21moHw56TVfjRq
- nZJG1+PDwvKIsEXkUrayEU505ERgeK6ToS61L13RVXk4PFjNEpgnEA+mS6H7exz/Y0Fc
- vAv6/aC9x0ZpcadprsN8rrycnjWpzKgO4gvhh5uFk6SqGlvjOzcoq+Uxddmre1fALw0k
- OU5sQCoNsGSkvFJ2Erxiq8HA/hvlldy9NvS7asyXqClW39GuGqW/+bTZxTBKt+vGSRXb
- 1tZb4Rnex69sm5MUIjRCGA/7Wck7mSHwKMHxXzTOew8ysM4HJ2oDQT/yJfAVbwG+IPAt
- uB9w==
-X-Gm-Message-State: AO0yUKUL8OKF1Jd6o58YNmdJXSIlBqThQJ5HUBlU0QVdDg3vddtoq8DE
- tY+wOBTgWe8NevZqtcO2NTvESA==
-X-Google-Smtp-Source: AK7set95B+SweL4UhidCtDrKt468v9nT1dljeCnIxsvCz5Qh1q8ogYp2yCN1ROz5Q7hRaTh73yTlIA==
-X-Received: by 2002:a17:90a:804c:b0:234:3e54:35c2 with SMTP id
- e12-20020a17090a804c00b002343e5435c2mr16571472pjw.25.1677196343431; 
- Thu, 23 Feb 2023 15:52:23 -0800 (PST)
-Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- h3-20020a17090a648300b00230ffcb2e24sm246244pjj.13.2023.02.23.15.52.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 15:52:22 -0800 (PST)
-Message-ID: <34898a39-701c-215f-1727-2cf97a8216cd@linaro.org>
-Date: Thu, 23 Feb 2023 13:52:17 -1000
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pVLOa-0001eA-Sr; Thu, 23 Feb 2023 18:53:04 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pVLOY-0003YP-Ts; Thu, 23 Feb 2023 18:53:04 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BCA1D746377;
+ Fri, 24 Feb 2023 00:53:00 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 6797674635C; Fri, 24 Feb 2023 00:53:00 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 66B60746346;
+ Fri, 24 Feb 2023 00:53:00 +0100 (CET)
+Date: Fri, 24 Feb 2023 00:53:00 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH 2/5] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <b8d457d1-40b1-adb5-a2ac-98070f62ac1e@eik.bme.hu>
+Message-ID: <d8852ddd-d6e2-39f8-d746-c781f542c4ab@eik.bme.hu>
+References: <20230223202053.117050-1-shentey@gmail.com>
+ <20230223202053.117050-3-shentey@gmail.com>
+ <a9efb349-e2b9-1ece-cded-ee500457f1cf@eik.bme.hu>
+ <83759E2D-1871-4D26-906A-F9112990BDFF@gmail.com>
+ <b8d457d1-40b1-adb5-a2ac-98070f62ac1e@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4 7/7] dump: Rename x86-specific file as win_dump_x86.c
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20230223231755.81633-1-philmd@linaro.org>
- <20230223231755.81633-8-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230223231755.81633-8-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,12 +64,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/23/23 13:17, Philippe Mathieu-Daudé wrote:
-> win_dump.c is x86 specific. Rename it as such in case
-> someone is willing to add win_dump-aarch64 :)
+On Fri, 24 Feb 2023, BALATON Zoltan wrote:
+> On Thu, 23 Feb 2023, Bernhard Beschow wrote:
+>> Am 23. Februar 2023 21:11:23 UTC schrieb BALATON Zoltan 
+>> <balaton@eik.bme.hu>:
+>>> On Thu, 23 Feb 2023, Bernhard Beschow wrote:
+>>>> The real VIA south bridges implement a PCI IRQ router which is configured
+>>>> by the BIOS or the OS. In order to respect these configurations, QEMU
+>>>> needs to implement it as well.
+>>>> 
+>>>> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+>>>> 
+>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>>> ---
+>>>> hw/isa/vt82c686.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>>>> 1 file changed, 44 insertions(+)
+>>>> 
+>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>> index 3f9bd0c04d..f24e387d63 100644
+>>>> --- a/hw/isa/vt82c686.c
+>>>> +++ b/hw/isa/vt82c686.c
+>>>> @@ -604,6 +604,48 @@ static void via_isa_request_i8259_irq(void *opaque, 
+>>>> int irq, int level)
+>>>>     qemu_set_irq(s->cpu_intr, level);
+>>>> }
+>>>> 
+>>>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+>>>> +{
+>>>> +    switch (irq_num) {
+>>>> +    case 0:
+>>>> +        return s->dev.config[0x55] >> 4;
+>>>> +
+>>>> +    case 1:
+>>>> +        return s->dev.config[0x56] & 0xf;
+>>>> +
+>>>> +    case 2:
+>>>> +        return s->dev.config[0x56] >> 4;
+>>>> +
+>>>> +    case 3:
+>>>> +        return s->dev.config[0x57] >> 4;
+>>>> +    }
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
+>>>> +{
+>>>> +    ViaISAState *s = opaque;
+>>>> +    PCIBus *bus = pci_get_bus(&s->dev);
+>>>> +    int pic_irq;
+>>>> +
+>>>> +    /* now we change the pic irq level according to the via irq mappings 
+>>>> */
+>>>> +    /* XXX: optimize */
+>>>> +    pic_irq = via_isa_get_pci_irq(s, irq_num);
+>>>> +    if (pic_irq < ISA_NUM_IRQS) {
+>>>> +        int i, pic_level;
+>>>> +
+>>>> +        /* The pic level is the logical OR of all the PCI irqs mapped to 
+>>>> it. */
+>>>> +        pic_level = 0;
+>>>> +        for (i = 0; i < PCI_NUM_PINS; i++) {
+>>>> +            if (pic_irq == via_isa_get_pci_irq(s, i)) {
+>>>> +                pic_level |= pci_bus_get_irq_level(bus, i);
+>>>> +            }
+>>>> +        }
+>>>> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
+>>>> +    }
+>>>> +}
+>>>> +
+>>>> static void via_isa_realize(PCIDevice *d, Error **errp)
+>>>> {
+>>>>     ViaISAState *s = VIA_ISA(d);
+>>>> @@ -676,6 +718,8 @@ static void via_isa_realize(PCIDevice *d, Error 
+>>>> **errp)
+>>>>     if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
+>>>>         return;
+>>>>     }
+>>>> +
+>>>> +    pci_bus_irqs(pci_bus, via_isa_set_pci_irq, s, PCI_NUM_PINS);
+>>> 
+>>> Please no oversimplification. This replaces the connections to mv64361 gpp 
+>>> pins made in mv64361_realize() and breaks the interrupts that can be 
+>>> enabled in mv64361.
+>> 
+>> Let's split our work as follows: You'll do the audio and pegasos2 changes 
+>> including exporting the pirq properties, I'll do the first three routing 
+>> patches of this series as the base.
+>
+> I'm OK with doing audio as said and already did the PIRQ and pegaosos2 
+> changes (patch 2 and 3 in my series), just take those without deleting half 
+> of them. So drop the last two via-ac97 patches and do the IRQ fixes in your 
+> way but keep working what now works.
+>
+>>> I've implemented that for something but can't remember now which guest 
+>>> exactly,
+>> 
+>> Could you please put this information into the commit message or into the 
+>> code? That would ease maintainance a lot.
+>
+> I did, see patch 3 in my series.
+>
+>>> but this would be needed so please restore my pegasos2 patch and move this 
+>>> there connecting both mv64361 and via-isa to PCI interrupts as shown in 
+>>> the schematics. That means you also need the PIRQ pins here. Can you do a 
+>>> new version with that?
+>> 
+>> As proposed above I'd fold the first three patches into a separate series 
+>> which you can build upon. I have no way to test the pegasos2 IRQ changes 
+>> since the test cases I'm aware of either work or we agreed that they can be 
+>> fixed later (-> USB).
+>
+> I did fix the USB just haven't sent a v2 yet due to this thread but it's just 
+> the change I've sent yesterday, just add this before qemu_set_irq at the end 
+> of via_isa_set_irq() in my series. This is what I have now:
+>
+> +    uint16_t old_state;
+> +    if (old_state && s->isa_irq_state[isa_irq]) {
+> +        /* FIXME: i8259 model does not support level sensitive mode */
+> +        qemu_set_irq(s->isa_irqs[isa_irq], 0);
+> +    }
 
-I think this is premature.  I would *hope* there's a lot in here that would be shared.
+Actually that should be:
 
++    old_state = s->isa_irq_state[isa_irq];
++    if (level) {
++        s->isa_irq_state[isa_irq] |= BIT(n);
++    } else {
++        s->isa_irq_state[isa_irq] &= ~BIT(n);
++    }
++    if (old_state && s->isa_irq_state[isa_irq]) {
++        /* FIXME: i8259 model does not support level sensitive mode */
++        qemu_set_irq(s->isa_irqs[isa_irq], 0);
++    }
++    qemu_set_irq(s->isa_irqs[isa_irq], !!s->isa_irq_state[isa_irq]);
 
-r~
+with the old_state variable definition at the top of the func of course.
+
+> How to do that with your version I have no idea but this fixed the problem 
+> with my series. I can send a v2 of this patch with this change if it's not 
+> clear from this and the other message what I did.
+>
+>>> I'll try this one in the meantime
+>> 
+>> Sounds good to me -- that's what I wanted to achieve ;) Thanks!
+>
+> I've answered about that in the other message, I've tried with AmigaOS, 
+> Debian Linux 8.11.0 netboot iso and MorphOS and they still boot but couldn't 
+> test them much yet. MorphOS works on my series with sound and USB and does 
+> not hang with the above workaround but found now it still hangs if I send 
+> something to it over serial (e.g. press space or enter where you've typed 
+> boot cd boot.img after it starts playing sound). This happens on both of our 
+> series but only with the via-ac97 patch so probably related to that. This 
+> could easily be a guest bug too so I don't care that much, the pegasos2 
+> changes are more interesting to get AmigaOS run well so that's my main focus 
+> now, MorphOS already runs on other QEMU machines well. I'll still try to find 
+> this out but AmigaOS can use other sound card so as long as the IRQ problems 
+> are fixed it would work but we need more than one PCI cards working as we'd 
+> need sound card and network card for it to be usable. This was tested to work 
+> with my series, if you give alternative series I can ask to have those tested 
+> too.
+>
+> Regards,
+> BALATON Zoltan
+>
+>
 
