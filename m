@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582836A0E87
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 18:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA686A0EA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 18:23:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVFDE-0002eF-6E; Thu, 23 Feb 2023 12:16:56 -0500
+	id 1pVFI2-0005Vb-Gi; Thu, 23 Feb 2023 12:21:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVFD5-0002cq-EJ
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 12:16:50 -0500
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVFD2-0005Sf-3d
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 12:16:47 -0500
-Received: by mail-pj1-x1043.google.com with SMTP id l1so3430320pjt.2
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 09:16:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9jWepWClN2pB5vLhmk0LUozfTP5zr1HxOc4XPDzxlnM=;
- b=zqL4U9q2wzx41MLDXGcFUXl3UVQYNhxF7urYIvW1Ix7vSPkCILVPdImz8IEfKyHCHB
- OMbGWJa+TuK6M2oG+Af3vhiMv8Egi2nHn69ESQ5MJYxgFAodlP9cqRrhqbY4QFBZX644
- CYxuRtoJZYzNqkYpJt6AtEAbF3q9wJtBwR0WMGGNhVfwFjqKdZrPHQf4DojXyWS/VGVn
- yPXOgl/iMlUlJRwVMCjcnZIszYanXI4K5wQsQ/RSnJlyjJje8SxvvOJzBBAv1a0IiEFy
- XUiNVYiwmSPkT7jiP7pjKFaSSaDsF6nAM8A8KBRUl6fOA911CflPBebukiSmlYC3u0SK
- mJnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9jWepWClN2pB5vLhmk0LUozfTP5zr1HxOc4XPDzxlnM=;
- b=tlhjBqLd33RFAov8VML5avMuQ1xq4QcMeH/suvb+1HMoJz9IHph6UXOHxCW1zGw47z
- TKW1y24rlSdmyhUntZxkBzehvyLVvOYUD9cb3T7tUdwaI3tj7pkFhKXiCMu6uaMKbyNx
- ycTWGwcp41ruLFm3gfKbU0y01MB49YMn1+92fiAuq5FrhvFotsg8hVHyZvP9y0898Nlq
- 8sf2OvGeiFOCzbwK8KJwiAYZmn3/qp5wbFTuEEkMm9qjIt7+l+QgC6qHebbzueWuza6D
- MMaRCEuGCsGLptd3G0ybbqRoHA9fNZBfvtQFWAuWvc1/4l518IXqVSggxhBTCgoJ8Z4b
- 9IeA==
-X-Gm-Message-State: AO0yUKWbY7RXe6pCc/eZapFDqR8cBo2j4jabvWea2EY2z9R+TsCXhzuG
- ron9/F5KeAlRMZ+qqN6gIcG+cg==
-X-Google-Smtp-Source: AK7set++p4bxVj604I07nN6J2D6sVzHVWbOHhFyNgM+XVg780OFKXi50onBoInxN7NZ7kJtaaMhS+w==
-X-Received: by 2002:a17:902:c94c:b0:198:94cb:82a5 with SMTP id
- i12-20020a170902c94c00b0019894cb82a5mr18471917pla.4.1677172602359; 
- Thu, 23 Feb 2023 09:16:42 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- d4-20020a170902c18400b00198f9fa23a3sm9140298pld.287.2023.02.23.09.16.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 09:16:41 -0800 (PST)
-Message-ID: <835a509d-caa4-9cf7-88f5-d7f3705dd646@linaro.org>
-Date: Thu, 23 Feb 2023 07:16:38 -1000
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVFI0-0005Tm-7e
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 12:21:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pVFHn-00075b-3k
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 12:21:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677172893;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HhdNhyG1GZQKNA+2sXcZln6xHVZURhgWJVfXtqkJH5s=;
+ b=EEL3zC4jjx6BoNndFBhMLQlbRy6YJ8AweeuXHrq2TILzVKqjkHMwqQVkKU9c3PkUKquRSp
+ wvIxBzsukdANteDpbMgIkkjHqe+S7nThlW699ZJZ70OMuI/Q+jeQCE4Pa748nOGK6GUcNW
+ iylJk89ZnUocsmRwsNMlUTC4jcGVFWY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-74-BidSgokuMjS7xzaPjDIicQ-1; Thu, 23 Feb 2023 12:21:26 -0500
+X-MC-Unique: BidSgokuMjS7xzaPjDIicQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5500B1C02D31;
+ Thu, 23 Feb 2023 17:21:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B67EC15BA0;
+ Thu, 23 Feb 2023 17:21:22 +0000 (UTC)
+Date: Thu, 23 Feb 2023 18:21:21 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v3 0/3] virtio-scsi: fix SCSIDevice hot unplug with
+ IOThread
+Message-ID: <Y/egkTfE3Own4AHJ@redhat.com>
+References: <20230221212218.1378734-1-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v1 16/19] target/arm: Relax ordered/atomic alignment
- checks for LSE2
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20230216030854.1212208-1-richard.henderson@linaro.org>
- <20230216030854.1212208-17-richard.henderson@linaro.org>
- <CAFEAcA_6_Om4hGBB5=pFVRzOiE-PndYU9TAFGRj1s7=s9-C0qQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_6_Om4hGBB5=pFVRzOiE-PndYU9TAFGRj1s7=s9-C0qQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230221212218.1378734-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,61 +80,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/23/23 06:49, Peter Maydell wrote:
-> On Thu, 16 Feb 2023 at 03:09, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> FEAT_LSE2 only requires that atomic operations not cross a
->> 16-byte boundary.  Ordered operations may be completely
->> unaligned if SCTLR.nAA is set.
->>
->> Because this alignment check is so special, do it by hand.
->> Make sure not to keep TCG temps live across the branch.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Am 21.02.2023 um 22:22 hat Stefan Hajnoczi geschrieben:
+> v3:
+> - Fix s/see/sees/ typo in Patch 2 commit description [Eric]
+> - Add call stack to Patch 3 commit description to make it clear how blk_drain()
+>   is invoked [Kevin]
 > 
+> Unplugging SCSIDevices when virtio-scsi is using an IOThread suffers from race
+> conditions:
+> - scsi_device_purge_requests() is called from the IOThread in TMF emulation.
+>   This is unsafe, it should only be called from the BQL.
+> - SCSIRequest->aiocb is not protected by a lock, so there are races between the
+>   main loop thread and the IOThread when scsi_device_purge_requests() runs in
+>   the main loop thread.
+> - DMAAIOCB->acb is not protected by a lock, so there are races in the DMA
+>   helpers code when cancelling a request from the main loop thread.
 > 
->> +static void check_lse2_align(DisasContext *s, int rn, int imm,
->> +                             bool is_write, MemOp mop)
->> +{
->> +    TCGv_i32 tmp;
->> +    TCGv_i64 addr;
->> +    TCGLabel *over_label;
->> +    MMUAccessType type;
->> +    int mmu_idx;
->> +
->> +    tmp = tcg_temp_new_i32();
->> +    tcg_gen_extrl_i64_i32(tmp, cpu_reg_sp(s, rn));
->> +    tcg_gen_addi_i32(tmp, tmp, imm & 15);
->> +    tcg_gen_andi_i32(tmp, tmp, 15);
->> +    tcg_gen_addi_i32(tmp, tmp, memop_size(mop));
->> +
->> +    over_label = gen_new_label();
->> +    tcg_gen_brcond_i32(TCG_COND_LEU, tmp, tcg_constant_i32(16), over_label);
+> These fixes solve assertion failures during SCSIDevice hot unplug in
+> virtio-scsi with IOThread. Expanding the use of the AioContext lock isn't great
+> since we're in the midst of trying to remove it. However, I think this solution
+> is appropriate so that stable trees or distros can backport the fix without
+> depending on QEMU multi-queue block layer refactoring.
 > 
-> This brcond ends the basic block and destroys the content
-> of TCG temporaries, which is bad because some of the
-> callsites have set some of those up before calling this
-> function (eg gen_compare_and_swap() has called cpu_reg()
-> which might have created and initialized a temporary
-> for xZR).
+> Special thanks to Qing Wang, who helped me iterate these patches because I
+> couldn't reproduce the assertion failures myself.
 
-xzr uses tcg_constant_i64(), which has no lifetime issues.
+Thanks, applied to the block branch.
 
-> 
-> Using a brcond anywhere other than directly in a top level
-> function where you can see it and work around this awkward
-> property seems rather fragile.
-> 
-> (Ideally there would be a variant of brcond that didn't
-> trash temporaries, because almost all the time that is
-> an annoying hazard rather than a useful property.)
+Kevin
 
-I've cc'd you on a patch set that fixes all the temporary lifetime stuff.
-
-v1: https://patchew.org/QEMU/20230130205935.1157347-1-richard.henderson@linaro.org/
-v2: https://patchew.org/QEMU/20230222232715.15034-1-richard.henderson@linaro.org/
-
-
-r~
 
