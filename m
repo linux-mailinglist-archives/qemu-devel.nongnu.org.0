@@ -2,83 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C376A12D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:32:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD556A12D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:33:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVK7u-0000sr-UG; Thu, 23 Feb 2023 17:31:46 -0500
+	id 1pVK9Y-0003Cf-5k; Thu, 23 Feb 2023 17:33:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVK7j-0000pl-M4
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:31:42 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVK7i-000221-2K
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:31:35 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id pt11so15223480pjb.1
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 14:31:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aW/USVJ9xOjJM7rhPp+OfMvACF2Y+Y/CYxe2D7uHVcA=;
- b=Vz6kxcxQqA4OrHJM5x98iuy1ywnbXp0mAWDaWTKU4UMEX4Xr1KhzjQMoKL7qF1Vasu
- ExDYdPLatIfAG2cZ74uiKYGb1Kd1IK1FNq3kK+01VNTzwp5PQOxw4hGecyOaDd1ZGo6r
- KJMDqHeHEc7zCvZwRbfAFxnz5SyM6/zVWOipJSwbKQeoQFnPP/ZRcA3fHDm/uGi4+ZFY
- IRpqS2u8rf8QttA6N74A4+GaGkssGZPgpQWLY/Y+ZNnbLTYWQU00KqNGwZqi6b9cMGH5
- xhsaikxmEjfKa0gIhWIns5obEWxYSQg6Y6zXNApKle6zdZPantFYYHMqhPrf7QZic/rG
- H0JA==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pVK9W-0003CM-7c
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:33:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pVK9U-0002dM-EZ
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:33:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677191602;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sPR4YB1kCUqK6pep585qFaM90MYgbOw5GdVtJJT/V5A=;
+ b=cxqA8Snb/Kc/hPJlf52w7KPt9D1kdtbKzuXLtOETNkT3pteNHBm1rxK491PZyMNUeRa+qh
+ QX4rVrKtKFCIm7CVIb0dnNy1zkCT1IiMyEiolDN+aHSQzcnInoRJTj8ZAsGBiyfhUxeLVb
+ EBY51dYzgT+B6VYk3wd7QQwFXf88U6c=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-151-mSt-LRGMOXuNraOV6dKuCQ-1; Thu, 23 Feb 2023 17:33:14 -0500
+X-MC-Unique: mSt-LRGMOXuNraOV6dKuCQ-1
+Received: by mail-il1-f198.google.com with SMTP id
+ k10-20020a92b70a000000b00316fed8644fso1679389ili.21
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 14:33:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aW/USVJ9xOjJM7rhPp+OfMvACF2Y+Y/CYxe2D7uHVcA=;
- b=TeKorpugTSDiymaFjMOhX8Lt50/RVyiY1IdChITtj4MyuVgb7hIqf4Su7JW2MHgRCm
- OfZ0C+VzuXV7Vjz7S5OhjgeyaOYRvUM8tiornHjdQHopfQz5awmT/HudatLHxw+RIb26
- Aub20CuyslbLr2epUpbbNwtYGtMZjOryU1vEl9YEt2wJTNwww8WvpTlX6wmDo0UY6Lyz
- Vhpyt614/MTIzWedyGjmPlGytNG3N/b6f8jVDGt3i90QMAc7Crt7J5XNwGNrok47PR0M
- vIFvbGSap+eWUWX/Vjd6AjKYDKCkWgp1fLaU69Xk7CeKawASe1xJQhTyAXvY7giFXSli
- A2Vg==
-X-Gm-Message-State: AO0yUKUSri/zsj7W5olacVtsIh63430uX+0qB3GLcei0O1fjamyXSq0Y
- sjo2jQtPVYHI0E12/iw+YOyeNA==
-X-Google-Smtp-Source: AK7set8md6tCwUbCf/dekq0Bdtzkp34MWlffG8dV38eKp8aOPwBUmfP1eHgyicIPr8SeVOD6lr4v4g==
-X-Received: by 2002:a17:90b:38c7:b0:234:a88e:d67e with SMTP id
- nn7-20020a17090b38c700b00234a88ed67emr15055706pjb.34.1677191492417; 
- Thu, 23 Feb 2023 14:31:32 -0800 (PST)
-Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- gc17-20020a17090b311100b00235419fc2d1sm184238pjb.40.2023.02.23.14.31.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 14:31:31 -0800 (PST)
-Message-ID: <f4d837ce-1a2a-9e7d-4499-76820d6fdc36@linaro.org>
-Date: Thu, 23 Feb 2023 12:31:28 -1000
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sPR4YB1kCUqK6pep585qFaM90MYgbOw5GdVtJJT/V5A=;
+ b=5KCjiKIQOLWMB5ZZcognS0eCDf/aMA2RSPQXJ6mzhQGygEu2KE55ryH9UAzq3tmJkj
+ 8Lh4x2GsI2t2adhS8obo0JC9FUHxpmEh0zfkz/R13w3Wf4uGEYgNywiX73mN6lREUpnG
+ CyvnAG6ebYwHLsuNI7okWdfqxUM8gWEzoLcz2z3pwpWgYTknUvQs4CYEGW6aAFsIBzVA
+ 2LMlFO6RE85hRMocH5iJoImmZMQpna/2K33MYA/QSuEwBy48HKbYPYgMQLp2tiV1sNxU
+ OcyX1FwUjmZe2w8hIIE/zfcQgmtCrUqf5WMR0lDx9iqkOg/Mid+9FAbNhMqDnocW152h
+ x3FA==
+X-Gm-Message-State: AO0yUKUE76cQBIitkcGOwF4DKTXdyiCsWv1EQTBRHf5jk8SZpLqZ46/O
+ s+sH3jL+wTyZrkvqxwcLjulujZ0CumJ6kNu744BovXKHq8D9JVPYzf3N+fqkDTGZ5pwalTJ/DSa
+ trc2Iwc5x567YFwM=
+X-Received: by 2002:a92:cd83:0:b0:316:f99d:93cb with SMTP id
+ r3-20020a92cd83000000b00316f99d93cbmr4375173ilb.11.1677191593322; 
+ Thu, 23 Feb 2023 14:33:13 -0800 (PST)
+X-Google-Smtp-Source: AK7set+lqUdogdC8QlTu3wUrT4j/q7mwGC8dxEv5AI/GjE7pyK3sHh/rudy8thFV4p+5uHCNGF9qSA==
+X-Received: by 2002:a92:cd83:0:b0:316:f99d:93cb with SMTP id
+ r3-20020a92cd83000000b00316f99d93cbmr4375144ilb.11.1677191593019; 
+ Thu, 23 Feb 2023 14:33:13 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ v25-20020a02b919000000b0039e98b2fe5dsm1895432jan.179.2023.02.23.14.33.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Feb 2023 14:33:12 -0800 (PST)
+Date: Thu, 23 Feb 2023 15:33:09 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>, Jason
+ Wang <jasowang@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
+ David Hildenbrand <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?=
+ =?UTF-8?B?w6k=?= <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v2 17/20] vfio/common: Support device dirty page
+ tracking with vIOMMU
+Message-ID: <20230223153309.298af6e1.alex.williamson@redhat.com>
+In-Reply-To: <Y/fS2rX+JvYVC9jR@nvidia.com>
+References: <20230222174915.5647-1-avihaih@nvidia.com>
+ <20230222174915.5647-18-avihaih@nvidia.com>
+ <20230222163439.68ad5e63.alex.williamson@redhat.com>
+ <Y/bKoUBe17YNhGEA@nvidia.com>
+ <20230223130633.4bd07948.alex.williamson@redhat.com>
+ <Y/fS2rX+JvYVC9jR@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] linux-user: Fix unaligned memory access in prlimit64
- syscall
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20230223215834.166055-1-iii@linux.ibm.com>
- <20230223215834.166055-2-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230223215834.166055-2-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,35 +115,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/23/23 11:58, Ilya Leoshkevich wrote:
-> 32-bit guests may enforce only 4-byte alignment for target_rlimit64,
-> whereas 64-bit hosts normally require the 8-byte one. Therefore
-> accessing this struct directly is UB.
-> 
-> Fix by adding a local copy.
-> 
-> Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   linux-user/syscall.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index a6c426d73cf..8ae7696d8f1 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -12876,7 +12876,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->       case TARGET_NR_prlimit64:
->       {
->           /* args: pid, resource number, ptr to new rlimit, ptr to old rlimit */
-> -        struct target_rlimit64 *target_rnew, *target_rold;
-> +        struct target_rlimit64 *target_rnew, *target_rold, tmp;
+On Thu, 23 Feb 2023 16:55:54 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-The bug is that target_rlimit64 uses uint64_t (64-bit host alignment), when it should be 
-using abi_ullong (64-bit target alignment).  There are quite a number of these sorts of 
-bugs in linux-user.
+> On Thu, Feb 23, 2023 at 01:06:33PM -0700, Alex Williamson wrote:
+> > > #2 is the presumption that the guest is using an identity map.  
+> > 
+> > This is a dangerous assumption.
+> >   
+> > > > I'd think the only viable fallback if the vIOMMU doesn't report its max
+> > > > IOVA is the full 64-bit address space, otherwise it seems like we need
+> > > > to add a migration blocker.    
+> > > 
+> > > This is basically saying vIOMMU doesn't work with migration, and we've
+> > > heard that this isn't OK. There are cases where vIOMMU is on but the
+> > > guest always uses identity maps. eg for virtual interrupt remapping.  
+> > 
+> > Yes, the vIOMMU can be automatically added to a VM when we exceed 255
+> > vCPUs, but I don't see how we can therefore deduce anything about the
+> > usage mode of the vIOMMU.    
+> 
+> We just loose optimizations. Any mappings that are established outside
+> the dirty tracking range are permanently dirty. So at worst the guest
+> can block migration by establishing bad mappings. It is not exactly
+> production quality but it is still useful for a closed environment
+> with known guest configurations.
 
+That doesn't seem to be what happens in this series, nor does it really
+make sense to me that userspace would simply decide to truncate the
+dirty tracking ranges array.
 
-r~
+> > nested assignment, ie. userspace drivers running within the guest,
+> > where making assumptions about the IOVA extents of the userspace driver
+> > seems dangerous.
+> >
+> > Let's backup though, if a device doesn't support the full address width
+> > of the platform, it's the responsibility of the device driver to
+> > implement a DMA mask such that the device is never asked to DMA outside
+> > of its address space support.  Therefore how could a device ever dirty
+> > pages outside of its own limitations?  
+> 
+> The device always supports the full address space. We can't enforce
+> any kind of limit on the VM
+> 
+> It just can't dirty track it all.
+> 
+> > Isn't it reasonable to require that a device support dirty tracking for
+> > the entire extent if its DMA address width in order to support this
+> > feature?  
+> 
+> No, 2**64 is too big a number to be reasonable.
+
+So what are the actual restrictions were dealing with here?  I think it
+would help us collaborate on a solution if we didn't have these device
+specific restrictions sprinkled through the base implementation.
+
+> Ideally we'd work it the other way and tell the vIOMMU that the vHW
+> only supports a limited number of address bits for the translation, eg
+> through the ACPI tables. Then the dirty tracking could safely cover
+> the larger of all system memory or the limited IOVA address space.
+
+Why can't we do that?  Hotplug is an obvious issue, but maybe it's not
+vHW telling the vIOMMU a restriction, maybe it's a QEMU machine or
+vIOMMU option and if it's not set to something the device can support,
+migration is blocked.
+ 
+> Or even better figure out how to get interrupt remapping without IOMMU
+> support :\
+
+-machine q35,default_bus_bypass_iommu=on,kernel-irqchip=split \
+-device intel-iommu,caching-mode=on,intremap=on
+
+Thanks,
+Alex
+
 
