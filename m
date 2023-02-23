@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3856A1186
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:55:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7C46A1189
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 21:56:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVIcD-0006yO-4e; Thu, 23 Feb 2023 15:54:57 -0500
+	id 1pVIdK-0007im-3E; Thu, 23 Feb 2023 15:56:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pVIcA-0006y7-Vi
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:54:54 -0500
-Received: from mail-mw2nam12on20610.outbound.protection.outlook.com
- ([2a01:111:f400:fe5a::610]
- helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pVIdI-0007ic-3V
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:56:04 -0500
+Received: from mail-sn1nam02on2060b.outbound.protection.outlook.com
+ ([2a01:111:f400:7ea9::60b]
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pVIc8-0001nd-Pl
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:54:54 -0500
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pVIdE-0002BW-5Z
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 15:56:03 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K5S3kH93B2Yg3BvkSzj2WJzzsHinIagbr/Kzx8pgWn3b2HkLwnlRJfRYQ6l61/UtPTJOD+jxQGzPi04quju9d8pZc78o5fPzSXqDJK65PyTmrKFyeKEGF8DIp3p6WAfsG7/R1V4xDdVTLWeM7dHyMweCq913oyzBmszec8JAbF+73sHgh+N1FdP8d4iGSFdGOTFw06GDGa54UDGraMx55vWh/6lXR5L22P4CKpW8H9u2P41IVzkh6tDz6kgrmH45afwBMk4kNlGcKw7jG+8hh7Vtjm2bi1A/Ef5AmFUH0S1xbWH1mRtyJmwkLY7yJj+jBBzUM6TzDrp/PLElfHTO3w==
+ b=JNj8eYhEowsDpCVWwCx1RP/TzTxBirUSMVgBc6GI8i13rsBmI76VFRf1MwJ6TsqZ5X5VvYcpqypNS/ZSswbkUK7l/hOXl4xlUdbrR1xgp2v5Ze9THmS5axqbivrvkdarfol4zQTFoV30c3nISaswATJ/fc3bOrIaZBh5dkZXtuGtKFWwqzsV1XJ6NnkhkqANd0Ks99eUe812LSx7e2KdH3ppep6HV5fs2XlT/4LuzZhAD65WXKdk0VNTLdzetCK2z/DQehA8/7ag+2JTrfWljFzZzZlChhUPpnCl4Nbabi/6oqDmbA5Dm99Yv2dG6U7c88EF3NaeX4AQGjFkTu/PlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WnrKERzaRSVycHvcVg0pLa+iGg0zswE7Utrq+gV0lFE=;
- b=E7Nni8CvfF0CF9hBkQ9gOcZRBsdRTo0iDqzbDPu1/Mlei+Q3vV1BmFHHrWWI3NCUsDHUzWeki8VsjNjZmcAeynuzKKZLmqDnGQxGI5WM2ZuhLHK8GjlzW7pesseR0FLoo474wk2joj7OZYZN4Tw8PreW1VxNSWUomU4LAAz6kx6CZG7LYUXipkBi2BqTlgmbgpBh+Piy4V+QNYEE0dCdOyYJiWNeJm7D6HGompebvsr5xc32+ce3AdSCRhJo0Kbmp0R7uL0r4UAXmbhWPeLWCv6QVznBaqOtz2cBaZTtrJwL4yLiU+YCNlUcUhEtfj7KTCIoHgGeQlT0tGFgZZY2Yg==
+ bh=3t7j9VMXQKiSUsxD76BiEmOGUmRbDNptQ+7GjgExpXo=;
+ b=jVB0JDa1/AsJRCWSQDdQtiuvvCOGp2iFCfiBDbLwa3UQOrb7EhHPdAw1xXyRzq/xIwNcJrnRO2/4G+PH0VyYCmxWGbfIySfjwa/UXIuhRz7i1KxbZrQ2IWjWGWVH/lEmK3ff4R8zCMBagfXumna85lOzNeH5wV5Rpvay+v0BZ36pjcxxJshmuXEsljwlinuaUqYECXxDS8B2AI5Ieyk7uejf3fQYqykdcsrVd84iEtEThTHocjj3LpHamPoC9BfzE0BomvUstJ+1jC6ozd/hSeAtFROqSZGK2h4PFYVOjKJ1yh25iKb9H2Bd5XEpxiX9c8OATBubwr3lVTzbtBaykw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WnrKERzaRSVycHvcVg0pLa+iGg0zswE7Utrq+gV0lFE=;
- b=WNHlEG2HRMEKrBKCVOWKU/2ZCgS9cFZTu4L62t9PEUGQvassgD0ezChpnRPmBq84sr7EGRiZ0WbWEy7II967FX+wF4gikQdv/5fA36gtsz8Jp8Khvt7pJfzv5gwAYPs48rjLExOzTOelg5GTUIjXVvS8tDSgPh3OKf0ITjKk8Ave8NtaRDkjaG3Kfv6d4SaweLcFl7PN9C07Z5r/wXtfYxeS5Jky2cKWSE+uQejfLxj2B1XkfUImZQpQaJrfMsRDmr/4isAelD67ZvCnQwLeYw2jzYYrm7TgXBIKiQ0SMIl5Gx6/oIn2iwKXaYjNl6iwUqFX9bGUkb6UeAmC/ln/XA==
+ bh=3t7j9VMXQKiSUsxD76BiEmOGUmRbDNptQ+7GjgExpXo=;
+ b=nnE7RaHYt1iT8VAv61MzvC9upzgqJQ0JoAxnkCUQ58+DpYQmlA/zq+oIKsVIcIp6MQ/l3GXwEb0pKvKgxMQYLZpBpcmCk03uRWuAEHV9nXaOV72mdK7BvLPMtlXYfacaLARkxLWms2WMLtBCrSORYQwTwDyRq+4JPSx4o7u3S3+y7jNLTV7MRbRm8VOtdw8CVqoNSdOk27LmwGF95Cerz7d9Ya9gzjnp+HED4Wwg+YStBdxvIbRqU28gk3Pj1KYyukJy7htqpW2ZKesrmOyaCO8jW3DTFXSJAxRh8iRq7KRt6KkU4rLj4J0cO6WoFq2id5vsA/R6MJGhxAuWzwRMZQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by CH3PR12MB8710.namprd12.prod.outlook.com (2603:10b6:610:173::15)
+ by SN7PR12MB6791.namprd12.prod.outlook.com (2603:10b6:806:268::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.21; Thu, 23 Feb
- 2023 20:54:46 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Thu, 23 Feb
+ 2023 20:55:55 +0000
 Received: from LV2PR12MB5869.namprd12.prod.outlook.com
  ([fe80::3cb3:2fce:5c8f:82ee]) by LV2PR12MB5869.namprd12.prod.outlook.com
  ([fe80::3cb3:2fce:5c8f:82ee%4]) with mapi id 15.20.6134.021; Thu, 23 Feb 2023
- 20:54:45 +0000
-Date: Thu, 23 Feb 2023 16:54:44 -0400
+ 20:55:55 +0000
+Date: Thu, 23 Feb 2023 16:55:54 -0400
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: Alex Williamson <alex.williamson@redhat.com>
 Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
@@ -62,75 +62,73 @@ Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
  Yishai Hadas <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
  Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
  Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH v2 11/20] vfio/common: Add device dirty page tracking
- start/stop
-Message-ID: <Y/fSlIUcsODBp8Ck@nvidia.com>
+Subject: Re: [PATCH v2 17/20] vfio/common: Support device dirty page tracking
+ with vIOMMU
+Message-ID: <Y/fS2rX+JvYVC9jR@nvidia.com>
 References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-12-avihaih@nvidia.com>
- <20230222154043.35644d31.alex.williamson@redhat.com>
- <Y/bJMIR8stBcJpW7@nvidia.com>
- <20230223122723.6a204e1b.alex.williamson@redhat.com>
- <Y/e+1GmGBtKKhWK/@nvidia.com>
- <20230223131640.515451b2.alex.williamson@redhat.com>
+ <20230222174915.5647-18-avihaih@nvidia.com>
+ <20230222163439.68ad5e63.alex.williamson@redhat.com>
+ <Y/bKoUBe17YNhGEA@nvidia.com>
+ <20230223130633.4bd07948.alex.williamson@redhat.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230223131640.515451b2.alex.williamson@redhat.com>
-X-ClientProxiedBy: MN2PR18CA0002.namprd18.prod.outlook.com
- (2603:10b6:208:23c::7) To LV2PR12MB5869.namprd12.prod.outlook.com
+In-Reply-To: <20230223130633.4bd07948.alex.williamson@redhat.com>
+X-ClientProxiedBy: MN2PR15CA0054.namprd15.prod.outlook.com
+ (2603:10b6:208:237::23) To LV2PR12MB5869.namprd12.prod.outlook.com
  (2603:10b6:408:176::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH3PR12MB8710:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8c4f415-1b70-4ccc-9151-08db15e031db
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SN7PR12MB6791:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a65e387-5cdd-47a5-3bda-08db15e05b3b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UtKvpQFj0MXoN66CJvgrq1pYUS7WzVLoOlNrq7F9+3DNlFT/M/btinmSyI0NNXPlqF7xIdRlN3FzclTSegMoBHuO2kaFyzSPkMjOVFArehkcEN2kVgOCpUxIM9Ie0jbXioQdU1t3avv/xamQjp9qyyC4MvUF51VbCYh935mG2Qabdx2jgKvMmu9yRrUxqGtMgLiQ6lipDr6H0wRXtEYc6euVIvwULKQSP4IV//1JpnByxCMaGZH/HcAfvXYoooDNmbMz7oocD8Nt8ol+BcWfBDnb3ZBLXxvoUJlf+kesdhfr4N/qKol7yt5+r0Pots/ViKAsiQowm2SaAHxUXRzLxLr04a968PUfugd0hBug2L0+cCVaM1MH09NR6YemvWC27nW/cV/7cipHPZKjJLXFJW0wVKvGq4klR5MNzhrhl925IaowfbqNYCzpMR1HkkC8AwfDiR2bm0rAM5YMTHoAk1MlodVm1RGrBKgcnn8b1ApV8IX9Tml5vpMatefa3wyXQ1ieEhVrIarnbSAYX1t24tBiQGB4tkRbZ9izEeyXIxewIXItxRotzCLpx3nSwFAc+WlFWNaBkXiEF3qTvsfPRKl+nH+vFaNlFSiWPiTWZnP6VoSpkgs+2s+BO0W9jBTeFAwLH9KIChAzLv0lpNTWP/5pKL6d1uxREHRB4XYwl1p2bsPKGckzIpPuMQ8o1xwI
+X-Microsoft-Antispam-Message-Info: artoX6xu7tcbnwntsknEQT5griCVP4zXP2qEkVqnwU5zLg/8fTVOfgOeSZ2YCkqpjeJMiY1k4234Spxowu9EgDm4ZaoDN7y7mCWmN364/iX0Kd/SH1r1mdTEGowqaMFp0BhpBNgPtEqPJmXgFqpyBqixpIAtSwkIgqGr4yPgoKj6iOjQHwdLbRFt4wqVFIUCqugGBVbpInhhYTPyrjpYZTp/FG/9G3qpVR6WBolsdBQZ7BC8PGKBYwLBp1n/kFvmfxclA0OGpK63GNxAeYbFzPCAe+Bm+xqhw6pyGsdRs3pFT9McfxW2gb9+z7DPW2l2jGrD5Mb6p8QRz2k3kHIRjsIquMGRw2q7EZ1QMRx+wp5/29YiHFNEoi7oYj5KuFBriemsXTEOwMpQUZkUEkw0xuezfEYrSLv4s8VRXUvAX2HJMP/t/YheTyw8Vk7Kfmzqj9THSFJAKX5Fr5op7uDJARcAG6KyieBAHl44Dd8tAYiABSWUPpJexLHjSQ35rIBupq5/vk0ieP4jbMBfBMDZNPx3u1d+nVZ7gfuJw+Q5daRNHihlrDtdVRwFm+l0XPm/nip0CJzoMpqB3aYJ1pTIvfVm2LFYmZvvBjBWcRAxthFesbFpoxtwrPEpNJJJytUbrjYguMBfnGVZ6N4WHzM4ODsvoKvGqeMRtJja9DT8Ct4QgZ51OyZS8vPF1YSwQshT
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(376002)(136003)(346002)(396003)(39860400002)(451199018)(6486002)(41300700001)(4326008)(6916009)(66476007)(66556008)(8676002)(86362001)(66946007)(5660300002)(7416002)(4744005)(83380400001)(8936002)(26005)(186003)(2906002)(38100700002)(2616005)(478600001)(36756003)(54906003)(316002)(6512007)(6506007)(14143004);
+ SFS:(13230025)(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(451199018)(66899018)(38100700002)(86362001)(5660300002)(2906002)(7416002)(6916009)(6486002)(26005)(478600001)(66946007)(6512007)(36756003)(186003)(83380400001)(316002)(66556008)(54906003)(6506007)(2616005)(41300700001)(8676002)(4326008)(66476007)(8936002)(14143004);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pbWXvH6R6W+w/Oup/TzK/7rUZ40/ZhZkeCy0s+ppv7RNWRAfrxmMmB7faLFx?=
- =?us-ascii?Q?ZkqXKB4LKBefFESg2mRGWRXRws7GEVzz4uTDvnE792lgicJ/xH6c4f4NvW2p?=
- =?us-ascii?Q?5cZO08QZ1app2I0cPNt4nICFnA0hKtLBW2bOz6svYKIbpxR/E2HsIxgA/iWX?=
- =?us-ascii?Q?IS1lxtHIhw84uIK51jsaQt5GomuYqOI564FpxhtkeHphxsEP7lhY9Hfh0dJw?=
- =?us-ascii?Q?7Q6h77lDn2CG0xpRuINGzvwW/9BCKZtkC77YoooBSj0sqjfeAd4kzA4ufCB8?=
- =?us-ascii?Q?9FfjcImAo1kF5xLJlfjZC8PZ4CzIEd+yOCU3R6ZlL0R1vnIBqiwUpQWwYrLl?=
- =?us-ascii?Q?fR4c1CBRdfLxF8hONPhfwCukSF2lmSTxgRnbc86r6xOOaYSoCxakECCIFiqa?=
- =?us-ascii?Q?IZt+G+RMzWAOJKLCWWZxXqxn+AdB/g6rXFNWom5qXeA2r1a0BB2MuDCHV11p?=
- =?us-ascii?Q?dm27+INjgchwjjzAQaCsrGPTgYTGf1uUP/TyrOZaZv496Jya4X/KoymNlrF0?=
- =?us-ascii?Q?zJokeiOxsK5KPIEg/DlrIl9HYSxR5Isc/5F5JN2/T7fjRme9+6Ufg9gxD/Ty?=
- =?us-ascii?Q?qnccSsYUdkRzxceA0geBj+gJH0xFLkVCpfzT4vZCFv+DfN54PMh8lzLQNFzY?=
- =?us-ascii?Q?bi0ZBPWxIbjuWwYMox5F3FBE+2fs4xVhewKJJXYMWLIp5Ag3yTYlZCmmOmWa?=
- =?us-ascii?Q?9/BMgvhTul+8n1JD1qzFSk1aeR8L8vYm06Xtxc1TERKgo6vKlwK0Ie2c587g?=
- =?us-ascii?Q?f26c0uMoE31B3RNOAiWtmDBYGx6ZqHTU4J6tu9ZEj+ZuwDUXVqPNjuuwrsji?=
- =?us-ascii?Q?ScU4VuldAY0Ya0HI8Ex//z/Z9lZd18CJBe2TMUsoNfoF0jnD3QVbSDOu8545?=
- =?us-ascii?Q?/4rsR24G2f/9qUPss5OpZiVZ/rXZy+l59TcWJvQfHGFT2YqtkYx+J4NGdHFX?=
- =?us-ascii?Q?fXWQujYACBKWzLhYXM3y41l+jOFGhfGlGnOXgkYP9V67yz/fo46v1GaGnsiy?=
- =?us-ascii?Q?umRbYdECef63KPgmIrDzzvJeqRZKTdX27WxqXD8U/8N31pYF2H7r7igLXhci?=
- =?us-ascii?Q?1d6jBaqMoV6AoLRv2UFM1UZx+rOttYvXm4G7FlIgaR6OV1QvhmFFb26xHWL4?=
- =?us-ascii?Q?NLtQX2daT3r3dbmI/1l1O3FEAsX2Q4kGxLHub2Q4hUTGuiQEbnp7PVQDD20e?=
- =?us-ascii?Q?RMOGJTjTQInsHE1U3DSzjvnbIEa5H8zOUp2IqBPgNsJb8oXW/TKi0ukYYypj?=
- =?us-ascii?Q?P4VGueiglboT+wn7mKcQGjdFx7VeLHVVjn5NZ1Onqf0pASeAbEk0RBHf/Q8T?=
- =?us-ascii?Q?VxlG2yI5JdyxOHwL/B95+GK2/GtOMDbVa5QNp9Sj7KZ/jPJDV1RVCgqsxkFE?=
- =?us-ascii?Q?buFzq0mlDtgNNAStWOiNDE2Vgz2vu3T9RDmGplv65iXBheV42SmU3KKbdYgc?=
- =?us-ascii?Q?lCNJQVOFSqYX+jcEbpZudX+8Zgmc2lNR+erIS68Gyo5rYSY1d+35mEmcGxc7?=
- =?us-ascii?Q?f3xLlGkFY2us4muSt9YAPOaJ5WWgwPKaUeGj/EdELmMQobBLZXb+8gWRufSb?=
- =?us-ascii?Q?4hfIPn1gQj62btnFyIDHwdO4sIgXCw/luQk+RFFr?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fwVJ4jTv+TXu8U1EqMVBj0y2uWB/yxWsbAGlWtl/CBsZysqmijLFL0u7gBrP?=
+ =?us-ascii?Q?z0KkrYiRiLiJCPjQldbA6/DRDnB2uJnDPFQn5V86cjqgPX4MINPeC/TrG0m+?=
+ =?us-ascii?Q?jQJgfdhKiIbj34jKAWwK5Bc3tUADMwPShbRhq+Y86g2QTHLvoDBbxRjL/ygq?=
+ =?us-ascii?Q?XlNyFUSUpHJ0Gjq+aT1YqS5TS1sES1rmJhwvgpjwxtUmIDWDND/87tijEbCw?=
+ =?us-ascii?Q?VQQkBjl6IZjzNg/EfTm661kQjpwQAYDEjGkBbh+vA+swU6bGm3XcczWPlBHf?=
+ =?us-ascii?Q?fbSfYB0dfmCDpJ6si+WX3LDvWGQSr3oQ2QvcO4zai6LHiimGIonx3bMlPyi0?=
+ =?us-ascii?Q?j1gHr+PFLZJRhTuc7pJe/izR1AValIcVUw5bMCoLgOFCYTSrtXbnkrrpwEs/?=
+ =?us-ascii?Q?lIBsNtTAe4GDNOs/K2r2d6CS68AaEcQmdYImlQky+SRy/hVEuUfXk8uPxPsJ?=
+ =?us-ascii?Q?FttII3DGXyvgqX9/ht6uixVLKxAiz9aHHKLvegfKiDhC1U0n+17ZQUKz9TSW?=
+ =?us-ascii?Q?O/GIfWAL/GhBhn+A6/y6aX8bmdsw3VqHGwbrExcHATrKvY3JrrADL5HWxxxj?=
+ =?us-ascii?Q?5/l6zvd9LdwKnKKTlJ8A9OJfYpi/vttkWAwEo0xqyydzX29sByM04pouScAc?=
+ =?us-ascii?Q?o68eOjqRYLvwrAhPjJbq02Taglo0CeUanvxeaJzW6vP5n32GyqtVQGBZu3Oc?=
+ =?us-ascii?Q?vxpnx31k5NOth/HNmZ+cke2RprcXSmgytgoztu96QoKUUewsslMB3lBWn8JA?=
+ =?us-ascii?Q?A5HgLD3gWa5HvhmQW98k4hN1ktddVQIsQonUI3ZT8auM0bxkNb6BDm80eP3O?=
+ =?us-ascii?Q?XKFmlNaOI65duFhgBrOBYm5w3myjh9/xhbtnLyv+AdVdSgX8sAwHvtsmDhCq?=
+ =?us-ascii?Q?fPLTbaVCqu+mozgJ8DD1FmoQLkogpZAc+r6eclXwT6a1uSvgX2m7BRb0P2V4?=
+ =?us-ascii?Q?6CqOJrnurSdM36wLu3Ezgf4DzJ+y9ERQgCQtgqEQRj1Ct3SJEDcsCu/KnDVA?=
+ =?us-ascii?Q?AqGKziA0AUHWarO/ZmhDS8vJf+lJxgBG/Mlp8Tyrvfxhx6EvXHPdpNo7aKQ3?=
+ =?us-ascii?Q?e9TVZ67YsYXyO12JMHmi5vk+V5joA5YMJFvudYFdVwwYPuQqDochORUfxDZe?=
+ =?us-ascii?Q?jMBiVOcZfBoU/xLKjbqtp5k0JwB7TLlDa3P8sHrJ/IaqlbrFWtUv5zaWUUT/?=
+ =?us-ascii?Q?CUvRKWMs882vLmqDEiiKVEVAQCB1R6IGVINLG9Hbzhj33d7cpAHSKclIVSvy?=
+ =?us-ascii?Q?0P9frYDbaz7g2SjunN+3sxm31Z4H2S0wLf/f/rjnZkHCM4RinbfQcKvJ/0B9?=
+ =?us-ascii?Q?FQtCwFCdEw+fmqwjCWpCQeGpONMLSwOQP8WCF70fPncsERs5dISUzT2AWqfb?=
+ =?us-ascii?Q?a35RseURkW7aqn+WCQJSL2skUl7nvXBN8sE8itrJhVpTs8iBEfUnABxgJ3lj?=
+ =?us-ascii?Q?RjBixJdFVc1YYKVK6spacyMyb+UyXaDDX53n41J3ckScRMkjus9y6hHlNr/C?=
+ =?us-ascii?Q?jcRcLUoQfdbzH+2u7hhQMgFLE91HIRo1ZurrjwMUVWt5dQ5kbTvpM+wroxiW?=
+ =?us-ascii?Q?3gfRRl0y20kGMgoX0XQU1LwmzhsegrxLwuZSfj+L?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8c4f415-1b70-4ccc-9151-08db15e031db
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a65e387-5cdd-47a5-3bda-08db15e05b3b
 X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 20:54:45.7794 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 20:55:55.1773 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gcu5ttRvUhfB/qzHpIXq5WAR0cdVdWT1LVfFcCIe7EgSyuSL0R458Deg9lXRst3S
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8710
-Received-SPF: softfail client-ip=2a01:111:f400:fe5a::610;
+X-MS-Exchange-CrossTenant-UserPrincipalName: g4isALDqtWzdqQP34gtCUidl8vh/3agbpqmecS2GZjmhdWhNgdZYKwj4jHuQRfms
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6791
+Received-SPF: softfail client-ip=2a01:111:f400:7ea9::60b;
  envelope-from=jgg@nvidia.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -152,21 +150,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 23, 2023 at 01:16:40PM -0700, Alex Williamson wrote:
-> On Thu, 23 Feb 2023 15:30:28 -0400
-> Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Thu, Feb 23, 2023 at 01:06:33PM -0700, Alex Williamson wrote:
+> > #2 is the presumption that the guest is using an identity map.
 > 
-> > On Thu, Feb 23, 2023 at 12:27:23PM -0700, Alex Williamson wrote:
-> > > So again, I think I'm just looking for a better comment that doesn't
-> > > add FUD to the reasoning behind switching to a single range,   
+> This is a dangerous assumption.
+> 
+> > > I'd think the only viable fallback if the vIOMMU doesn't report its max
+> > > IOVA is the full 64-bit address space, otherwise it seems like we need
+> > > to add a migration blocker.  
 > > 
-> > It isn't a single range, it is a single page of ranges, right?
+> > This is basically saying vIOMMU doesn't work with migration, and we've
+> > heard that this isn't OK. There are cases where vIOMMU is on but the
+> > guest always uses identity maps. eg for virtual interrupt remapping.
 > 
-> Exceeding a single page of ranges is the inflection point at which we
-> switch to a single range.
+> Yes, the vIOMMU can be automatically added to a VM when we exceed 255
+> vCPUs, but I don't see how we can therefore deduce anything about the
+> usage mode of the vIOMMU.  
 
-Oh, that isn't what it should do - it should cut it back to fit in a
-page..
+We just loose optimizations. Any mappings that are established outside
+the dirty tracking range are permanently dirty. So at worst the guest
+can block migration by establishing bad mappings. It is not exactly
+production quality but it is still useful for a closed environment
+with known guest configurations.
+
+> nested assignment, ie. userspace drivers running within the guest,
+> where making assumptions about the IOVA extents of the userspace driver
+> seems dangerous.
+>
+> Let's backup though, if a device doesn't support the full address width
+> of the platform, it's the responsibility of the device driver to
+> implement a DMA mask such that the device is never asked to DMA outside
+> of its address space support.  Therefore how could a device ever dirty
+> pages outside of its own limitations?
+
+The device always supports the full address space. We can't enforce
+any kind of limit on the VM
+
+It just can't dirty track it all.
+
+> Isn't it reasonable to require that a device support dirty tracking for
+> the entire extent if its DMA address width in order to support this
+> feature?
+
+No, 2**64 is too big a number to be reasonable.
+
+Ideally we'd work it the other way and tell the vIOMMU that the vHW
+only supports a limited number of address bits for the translation, eg
+through the ACPI tables. Then the dirty tracking could safely cover
+the larger of all system memory or the limited IOVA address space.
+
+Or even better figure out how to get interrupt remapping without IOMMU
+support :\
 
 Jason
 
