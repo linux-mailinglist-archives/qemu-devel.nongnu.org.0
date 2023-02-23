@@ -2,66 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC03F6A0138
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 03:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2816A013A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 03:39:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pV1T8-0005yS-9G; Wed, 22 Feb 2023 21:36:26 -0500
+	id 1pV1VM-0007Fi-Kp; Wed, 22 Feb 2023 21:38:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pV1T1-0005wD-MT; Wed, 22 Feb 2023 21:36:19 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pV1Sx-00020v-S5; Wed, 22 Feb 2023 21:36:19 -0500
-Received: from [192.168.0.119] (unknown [114.95.238.225])
- by APP-05 (Coremail) with SMTP id zQCowABHT+sQ0fZjL5uEBw--.31816S2;
- Thu, 23 Feb 2023 10:36:01 +0800 (CST)
-Message-ID: <44f6773c-5fe5-4640-b9ac-5a15a7dc6302@iscas.ac.cn>
-Date: Thu, 23 Feb 2023 10:36:00 +0800
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pV1VK-0007FU-E0
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 21:38:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pV1VI-0002Fk-Kk
+ for qemu-devel@nongnu.org; Wed, 22 Feb 2023 21:38:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677119919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ma7/z8WNX1RDXHaIHyV4UxtdHg2TDktAwvW+oBEdYG0=;
+ b=eBBYJpWF6H3PmkOiG0f0JpccmwMDDAz8Og9IfJ+kzJcs4e6c4R/xn7wPdZ+O37HHsVWgHo
+ 1D8wDtqm3u4VipC5abin+0GGNFWXgedJLGaHp8bhIpJeVUHfjDfATscKBYhQRb7wtH5u+X
+ 5tLslwDSkbCUpGt4BvxSxwyAmRdjxoE=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-271-vKwL790-NDOtKou6j6k2GA-1; Wed, 22 Feb 2023 21:38:37 -0500
+X-MC-Unique: vKwL790-NDOtKou6j6k2GA-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ d18-20020a63f252000000b00502f11fb2fcso693870pgk.6
+ for <qemu-devel@nongnu.org>; Wed, 22 Feb 2023 18:38:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ma7/z8WNX1RDXHaIHyV4UxtdHg2TDktAwvW+oBEdYG0=;
+ b=QN/GldNfHi7I8DdBqRvlsvTVr0C8OSPEkzjBM+T1zY/rVL5S1YYXypXf+yLOdHXbPe
+ MYOD4otyDoXf/OSaxw38xkjMzQ26a50yV73id+BmQ0fQph62KnKcXO1jkzfp3zthbQa7
+ 88Dl/jX2U4neCD8ec79in56XW0CEgAMsaJ+FNIEvfaMN7hA5zyCaG0Y0gir4kDYJTD1h
+ If9NeFUHIJtRU61X6NDlnMxseEjh6Hiw6F8vudYMZgUZlvt889/DkVLht5MUeMwKqsjR
+ WZdw4o0DwUp8HY9XlCckntwHRENIUn/yGaz0VIA9Lq9a8jk73YKYnDt3/Md/xLoWF1aZ
+ zvAg==
+X-Gm-Message-State: AO0yUKV5PhPZjv5do4BxZhte4IdxxSW8yIscqsmKkVaKGlZumTxrsJCW
+ yM+kX8NRdpLBk/F5QtIIaPBt4ItCr4qm2RHMaCFFS3DFJnacX25fP/UJauC+Dpi0fMAcQ7kF1dF
+ agaStfUxoLn0dotI=
+X-Received: by 2002:a17:90b:4d0d:b0:237:39b1:7cb1 with SMTP id
+ mw13-20020a17090b4d0d00b0023739b17cb1mr5553332pjb.19.1677119916638; 
+ Wed, 22 Feb 2023 18:38:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set8A3Ap4rPUmFf9SKVabNxcAIPB0FfhoQXmkuFsFqQA/M31SHHFeOwKXaPxz01ezpX7ik2VoBg==
+X-Received: by 2002:a17:90b:4d0d:b0:237:39b1:7cb1 with SMTP id
+ mw13-20020a17090b4d0d00b0023739b17cb1mr5553293pjb.19.1677119916297; 
+ Wed, 22 Feb 2023 18:38:36 -0800 (PST)
+Received: from [10.72.13.176] ([43.228.180.230])
+ by smtp.gmail.com with ESMTPSA id
+ z10-20020a17090abd8a00b0022bb3ee9b68sm4776210pjr.13.2023.02.22.18.38.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 18:38:35 -0800 (PST)
+Message-ID: <81762a3b-b01f-2c3a-be63-531ac5b6976c@redhat.com>
+Date: Thu, 23 Feb 2023 10:38:28 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v7 03/10] target/riscv: allow MISA writes as experimental
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 11/13] vdpa: block migration if dev does not have
+ _F_SUSPEND
 Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, palmer@rivosinc.com
-References: <20230222185205.355361-1-dbarboza@ventanamicro.com>
- <20230222185205.355361-4-dbarboza@ventanamicro.com>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230222185205.355361-4-dbarboza@ventanamicro.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org,
+ Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+References: <20230208094253.702672-1-eperezma@redhat.com>
+ <20230208094253.702672-12-eperezma@redhat.com>
+ <c8d6ecc3-87f6-986e-e78d-003000e8a51e@redhat.com>
+ <CAJaqyWdhK7QEHECP7qJP9tPA69e8uTuJtqLPNq_mUUhRDG_2Aw@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAJaqyWdhK7QEHECP7qJP9tPA69e8uTuJtqLPNq_mUUhRDG_2Aw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowABHT+sQ0fZjL5uEBw--.31816S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJF48tr18Kry8Aw45KFWkXrb_yoW5uryxpF
- 48Ka93GrZrJFy7Aa1xKF1DXr4kCw15W39Ikws7u348Zr45JrW0gFnrKa1qkFyUXa1v9F12
- 9F45Ary3Ar40va7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
- 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
- zVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFyl
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
- 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbU
- UUUUU==
-X-Originating-IP: [114.95.238.225]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.102,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.102, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,97 +115,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 2023/2/23 02:51, Daniel Henrique Barboza wrote:
-> At this moment, and apparently since ever, we have no way of enabling
-> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
-> the nuts and bolts that handles how to properly write this CSR, has
-> always been a no-op as well because write_misa() will always exit
-> earlier.
->
-> This seems to be benign in the majority of cases. Booting an Ubuntu
-> 'virt' guest and logging all the calls to 'write_misa' shows that no
-> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
-> RISC-V extensions after the machine is powered on, seems to be a niche
-> use.
->
-> After discussions in the mailing list, most notably in [1], we reached
-> the consensus that this code is not suited to be exposed to users
-> because it's not well tested, but at the same time removing it is a bit
-> extreme because we would like to fix it, and it's easier to do so with
-> the code available to use instead of fetching it from git log.
->
-> The approach taken here is to get rid of RISCV_FEATURE_MISA altogether
-> and use a new experimental flag called x-misa-w. The default value is
-> false, meaning that we're keeping the existing behavior of doing nothing
-> if a write_misa() is attempted. As with any existing experimental flag,
-> x-misa-w is also a temporary flag that we need to remove once we fix
-> write_misa().
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05092.html
->
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+在 2023/2/22 22:25, Eugenio Perez Martin 写道:
+> On Wed, Feb 22, 2023 at 5:05 AM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> 在 2023/2/8 17:42, Eugenio Pérez 写道:
+>>> Next patches enable devices to be migrated even if vdpa netdev has not
+>>> been started with x-svq. However, not all devices are migratable, so we
+>>> need to block migration if we detect that.
+>>>
+>>> Block vhost-vdpa device migration if it does not offer _F_SUSPEND and it
+>>> has not been started with x-svq.
+>>>
+>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>> ---
+>>>    hw/virtio/vhost-vdpa.c | 21 +++++++++++++++++++++
+>>>    1 file changed, 21 insertions(+)
+>>>
+>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>> index 84a6b9690b..9d30cf9b3c 100644
+>>> --- a/hw/virtio/vhost-vdpa.c
+>>> +++ b/hw/virtio/vhost-vdpa.c
+>>> @@ -442,6 +442,27 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+>>>            return 0;
+>>>        }
+>>>
+>>> +    /*
+>>> +     * If dev->shadow_vqs_enabled at initialization that means the device has
+>>> +     * been started with x-svq=on, so don't block migration
+>>> +     */
+>>> +    if (dev->migration_blocker == NULL && !v->shadow_vqs_enabled) {
+>>> +        uint64_t backend_features;
+>>> +
+>>> +        /* We don't have dev->backend_features yet */
+>>> +        ret = vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES,
+>>> +                              &backend_features);
+>>> +        if (unlikely(ret)) {
+>>> +            error_setg_errno(errp, -ret, "Could not get backend features");
+>>> +            return ret;
+>>> +        }
+>>> +
+>>> +        if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_SUSPEND))) {
+>>> +            error_setg(&dev->migration_blocker,
+>>> +                "vhost-vdpa backend lacks VHOST_BACKEND_F_SUSPEND feature.");
+>>> +        }
+>>
+>> I wonder why not let the device to decide? For networking device, we can
+>> live without suspend probably.
+>>
+> Right, but how can we know if this is a net device in init? I don't
+> think a switch (vhost_vdpa_get_device_id(dev)) is elegant.
 
-Acceptable to me.
 
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+I meant the caller of vhost_vdpa_init() which is net_init_vhost_vdpa().
 
-Weiwei Li
+Thanks
 
-> ---
->   target/riscv/cpu.c | 6 ++++++
->   target/riscv/cpu.h | 2 +-
->   target/riscv/csr.c | 2 +-
->   3 files changed, 8 insertions(+), 2 deletions(-)
+
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 93b52b826c..1d637b1acd 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1210,6 +1210,12 @@ static Property riscv_cpu_properties[] = {
->   
->       DEFINE_PROP_BOOL("rvv_ta_all_1s", RISCVCPU, cfg.rvv_ta_all_1s, false),
->       DEFINE_PROP_BOOL("rvv_ma_all_1s", RISCVCPU, cfg.rvv_ma_all_1s, false),
-> +
-> +    /*
-> +     * write_misa() is marked as experimental for now so mark
-> +     * it with -x and default to 'false'.
-> +     */
-> +    DEFINE_PROP_BOOL("x-misa-w", RISCVCPU, cfg.misa_w, false),
->       DEFINE_PROP_END_OF_LIST(),
->   };
->   
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 215423499e..9d3304bcda 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -89,7 +89,6 @@ enum {
->       RISCV_FEATURE_MMU,
->       RISCV_FEATURE_PMP,
->       RISCV_FEATURE_EPMP,
-> -    RISCV_FEATURE_MISA,
->       RISCV_FEATURE_DEBUG
->   };
->   
-> @@ -498,6 +497,7 @@ struct RISCVCPUConfig {
->       bool pmp;
->       bool epmp;
->       bool debug;
-> +    bool misa_w;
->   
->       bool short_isa_string;
->   };
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e149b453da..3cb8d2ffad 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1329,7 +1329,7 @@ static RISCVException read_misa(CPURISCVState *env, int csrno,
->   static RISCVException write_misa(CPURISCVState *env, int csrno,
->                                    target_ulong val)
->   {
-> -    if (!riscv_feature(env, RISCV_FEATURE_MISA)) {
-> +    if (!riscv_cpu_cfg(env)->misa_w) {
->           /* drop write to misa */
->           return RISCV_EXCP_NONE;
->       }
+> If the parent device does not need to be suspended i'd go with
+> exposing a suspend ioctl but do nothing in the parent device. After
+> that, it could even choose to return an error for GET_VRING_BASE.
+>
+> If we want to implement it as a fallback in qemu, I'd go for
+> implementing it on top of this series. There are a few operations we
+> could move to a device-kind specific ops.
+>
+> Would it make sense to you?
+>
+> Thanks!
+>
+>
+>> Thanks
+>>
+>>
+>>> +    }
+>>> +
+>>>        /*
+>>>         * Similar to VFIO, we end up pinning all guest memory and have to
+>>>         * disable discarding of RAM.
 
 
