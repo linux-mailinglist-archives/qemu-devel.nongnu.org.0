@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD2E6A0B75
+	by mail.lfdr.de (Postfix) with ESMTPS id 601456A0B74
 	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 15:03:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVCAm-0000yn-1z; Thu, 23 Feb 2023 09:02:12 -0500
+	id 1pVCB4-0001FI-AU; Thu, 23 Feb 2023 09:02:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVCAI-0000sn-Lc
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:01:46 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pVCAG-0004h8-J5
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:01:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=KSRagUzEBaiX/088/D2VwRoKtZ4jBwVXEZ8wZwyWiDY=; b=TgnGrdvbDilrRexOOqdOPxyS0U
- 6ZeTAjKZgi4PhFz1+SNP8jO682QU6l1IhOp84ud8z7r9/JE1oW4VonUAutfEcvYbDUbHou5GFlCDr
- Uszt6NXJLCJnngrqfteX5MToEOoa+KpRjRl52K2mpcf+HvDWUYcIK6D4RSMJz6nciZkI2vIPxTnat
- 7peqKNSseyj8IG7jajlmPkJDqV/pNtOTVGuVZgOUokrJB4pgjijPPsTU0My1dFXhEs4UfrXAisDrn
- ygjMConF2toE3cemqWIEx4qvEQ0FNHAgC1Qxf/tKSZ9uE/tMHNKFQAeAaRYcLBqTkMF8vhL2/tQjG
- WoLJtOSw==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pVCAD-00EPjO-I8; Thu, 23 Feb 2023 14:01:38 +0000
-Message-ID: <b5ee94e2fcbb8c1ef990aa168ddfe1f4d5ec383e.camel@infradead.org>
-Subject: Re: [PATCH v2 2/5] gitlab-ci.d/buildtest: Remove aarch64-softmmu
- from the build-system-ubuntu job
-From: David Woodhouse <dwmw2@infradead.org>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, Alex
- =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Stefan
- Hajnoczi <stefanha@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Fabiano Rosas <farosas@suse.de>, "Daniel P
- ." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-Date: Thu, 23 Feb 2023 14:01:36 +0000
-In-Reply-To: <20230207201447.566661-3-thuth@redhat.com>
-References: <20230207201447.566661-1-thuth@redhat.com>
- <20230207201447.566661-3-thuth@redhat.com>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-BEiQnBnVO8I6LXwWicyv"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pVCAy-0001B1-Fs
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:02:28 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pVCAw-0004ni-Q8
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 09:02:24 -0500
+Received: by mail-pl1-x630.google.com with SMTP id ky4so14154580plb.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 06:02:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4rLBpaBId70U1KNxGgyttP7w8pr2e6fzXdrSWAqUoas=;
+ b=aTzuvWwysxT3PqnoUP2CJMXTzHSYNJgBcmzG0JzeweTXHR/nXC7+fTy63vrLzRymUd
+ IX9NmF8dY7yipHomWfcH8zAss/K8x2uyqtmiZahk6NVgwuzWaw0EyFXwDYEh7gHMXIAk
+ E6gAJu7Nhex3zRnEpGTqLUi2OF7NvMI5lXweUdjfJm91U1lOFnGqHzgb3EMw288+ZxPa
+ W8OVfHxy8EiDDYbP3wwBxrxqddfC0Vq7B/n4hEDi3pZhgXiNe0B3nMU9shzxdfH9gmEx
+ dmzmU1lkIbvJbm/+pBpRCKur217OIyAlyaWRS0ezXj1T70rCAaXQko27bn040Mt8f/Dx
+ H0pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4rLBpaBId70U1KNxGgyttP7w8pr2e6fzXdrSWAqUoas=;
+ b=fqRMLkQai0lTA48B0nYp4XqgQUOTqOGBvzyzEWLTFQXNSIxM6wst06yh+P/QtTHUK+
+ t2L6dn42k1eJ8TFviF0rd6vkLF7fIJzv6r49q9jckKyCyEj0P888rlQ+ipwONOZPlwp5
+ 6kjleVmg9XUV793QpQffa+bHqay22GOmX57ffXG7Hr/ibVrQsDAxLzm89Yj51mZ5aA7L
+ fnOGYcY/KwypMB1X5fk/VIPCT1Cph41yekua8cn/fmS2QSvBx8FdXVKAz0RZ1ocCDmsZ
+ +GTZdfxvJ45o8rmy9aUoCP6hia+WYcs2ZD0novY2+X3mVRiS6X0k4uRR0Ed5WpToWGye
+ wMXQ==
+X-Gm-Message-State: AO0yUKXvzfx5KLW9bCJU1EtwUtFuLbkE/kn4+nah3qJHDxCtKa7TUpbn
+ +C4UbJ0Rx/koGQ4g18FTumUCWVsgFWXvkSYNimSvRQ==
+X-Google-Smtp-Source: AK7set9riwq1WEWdxD8If0BjBYSxehbAV6VKwD8PSWbiRW59GK277M/pXpi7iBlTC7OnJbcNK+qPgagJIz0bOekQi14=
+X-Received: by 2002:a17:90b:4d04:b0:237:50b6:984c with SMTP id
+ mw4-20020a17090b4d0400b0023750b6984cmr1127182pjb.137.1677160940968; Thu, 23
+ Feb 2023 06:02:20 -0800 (PST)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+add43774a78fc16fb9e5+7123+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230222193544.3392713-1-aaron@os.amperecomputing.com>
+ <20230222193544.3392713-2-aaron@os.amperecomputing.com>
+ <82e90bc7-8883-62f2-a6a1-9b90e032c667@linaro.org>
+In-Reply-To: <82e90bc7-8883-62f2-a6a1-9b90e032c667@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Feb 2023 14:02:09 +0000
+Message-ID: <CAFEAcA_aX_rebT5jwiOUAQLTz9u9Ps607twYeeWT13voQswV7Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] target/arm: v8.3 PAC ID_AA64ISAR[12]
+ feature-detection
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>, qemu-devel@nongnu.org, 
+ qemu-arm@nongnu.org, Vincent Dehors <vincent.dehors@smile.fr>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,131 +87,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 22 Feb 2023 at 20:27, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 2/22/23 09:35, Aaron Lindsay wrote:
+> > +static inline bool isar_feature_aa64_pauth_epac(const ARMISARegisters *id)
+> > +{
+> > +    /*
+> > +     * Note that unlike most AArch64 features, EPAC is treated (in the ARM
+> > +     * psedocode, at least) as not being implemented by larger values of this
+> > +     * field. Our usage of '>=' rather than '==' here causes our implementation
+> > +     * of PAC logic to diverge slightly from ARM pseudocode.
+> > +     */
+>
+> I find this comment scary -- "diverge slightly"?
+>
+> All I need is once sentence to indicate how this is mitigated (by testing pauth2 first
+> where required?), or "See function_foo" (where there is more commentary), or something.
 
---=-BEiQnBnVO8I6LXwWicyv
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Yeah, we structure the one place the check is used (patch 4) so that
+we only check the pauth_epac feature if we already tested pauth2:
 
-On Tue, 2023-02-07 at 21:14 +0100, Thomas Huth wrote:
-> aarch64-softmmu is also checked on the same version of Ubuntu in the
-> gcov job, so it is redundant to check again in the normal ubuntu job.
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
++        if (cpu_isar_feature(aa64_pauth2, env_archcpu(env))) {
++            /* No action required */
++        } else if (cpu_isar_feature(aa64_pauth_epac, env_archcpu(env))) {
+             pac = 0;
+         } else {
 
-Reviewed-by: David Woodhouse <dwmw2@infradead.org>
+where the pseudocode currently has:
+         if HaveEnhancedPAC() then
+             pac = 0;
+         elsif !HaveEnhancedPAC2() then
+             old stuff;
+and is relying on anything with PAuth2 not returning true for HaveEnhancedPAC().
 
+It is of course possible that the pseudocode might be rephrased in future;
+I think the way they've done it at the moment is kind of confusing.
 
---=-BEiQnBnVO8I6LXwWicyv
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjIzMTQwMTM2WjAvBgkqhkiG9w0BCQQxIgQgQlajm/J7
-M6os5eawyP4Bf4TyA1KhaKndi2gnoKvN9Hcwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAKqpB2leyJ27kcUhdZ6AbCwSCThAK7zyrW
-TSHZV5kEnuKBRwIDAOpKsQIQ4hcvONUC9BvEr6rWorUh/qQATIe/kYw53K9E+ew+uFR/Tfz+CkaQ
-qTYUXhMrMtFk/lhEswmS5tRJZmRyNt+6Lz6R5Q28BoSNk4o+nILxd6/VKynlB0pdOoJz+PeLCCUT
-Ap5WCOZWPFaQLoGp1UNiWY0BjjEVRqwqvnoJr0Y5Z1/TqDl8r7yHNgrudixv+G52AX62MFLGpRIC
-1q7MrnhlVe88MKmdf0qkxp34DyElBMcEQOlq7TTXhIhE/WSIKWq/e+tw6v96KEwFsqyewJh1dBPJ
-M1VlPeoYDWEPNEqy7cWPxfqk0ga/EfUxMFyZisAzf/z46DTcJzDOX/ALeK1MLDJhYhGvGLdQDKvp
-rviNPQRVPdoxF8acua6DNQ9onC3FvzM/1IAajhfORY+0fITtdOQ6FRtZB6nwmxd4Ltf5+thnHJLT
-zO3DH4ziAZstLEojyp1o6m/+TLPrMOFzxFONV7NzDTXdH9aYzMhCqPG0cfv66v/zjUWl3J1bIWkc
-2VfTOJ54CSIgeKlLQNFZwwZHFOKLH5fRuxIxrUSf/3hURAUX7UC5uRAAGywcyBVDrSHL3edRFxxv
-P+qUwrAYBavJPOf9p9bMcmKDfnKy0ApctFFH9Fu2pgAAAAAAAA==
-
-
---=-BEiQnBnVO8I6LXwWicyv--
+thanks
+-- PMM
 
