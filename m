@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBF06A13A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30A56A13A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:19:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKqg-0008UM-Ol; Thu, 23 Feb 2023 18:18:02 -0500
+	id 1pVKqn-0008VJ-Nf; Thu, 23 Feb 2023 18:18:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKqf-0008UD-7f
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:01 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKqk-0008V9-EP
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:06 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKqd-0000Qe-Nb
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:00 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id l1so11957270wry.10
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:17:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVKqi-0000Ry-TV
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:18:06 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id az36so671649wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:18:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=bnHmSs5R8qi8IMdSDP2od753LXXC9F2nCL6gtxjYJ4s=;
- b=Al/7SJeTy31AIC8qXGKeBXhFT1WG0KDiVPNYwxD9a0tIZZPeDd7gtZEtm64Hs0tShG
- LD/vBQQpBsEIHHvvxHg3kw78LtPGsza1iFcZr4h18hMfuC1Tzmt4HuEwFfP7GPWvqzvH
- eyerFOAhpocbWWjFzC+lWHHOY9nObfqYHId5Z730Q/0GGO+ATQdAYJBW3ErxEl/SjtJM
- CV/u3MwRBGRg7Z8DOwS0OrVT8y5HScn5m7mL5eRZEbVwP/IajmYUz43TnKVVL4WNLGxs
- s1aPQguxwPiG6nB4VY83nilQ1IvzUAhmDA+ZsEM0K0X7WZp/m9/fxmKFUZttDAtyDCMK
- IfEQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wWu2Li0HdtRyVbKb/qvrvVuTsZ+F9Z5D4ZsK6YGQoVI=;
+ b=lj9M2Mafl9UAuQ3IL09b432c7nvJHA2y5nfxlSA1rbHRGirABBZ0l7XMN6OKxjZ6bs
+ HZKk+DnUDoVp6z2q6TM/0inCFB5awJAtiVLkaO60R58+o29kVYDrxPW4fFMJKFQ9am6w
+ 69hXBDMLhQKj3zG6SYCOhCXchNcdLAUzFMGsXc1JZEB0ddBatQUJ+C6ocCQWh73Ad1BF
+ QfwXLVUx2tA4ZDvwxbhqjW4D7uAugp+uZUy8SfKSf2MDzkhQVUKxAaWxfFa+Gtt0C2hc
+ 6pQ9I8acWpW7E5hHQ6fVW9gEqcXKRgjP88geZeAmM1AdZsyuWM281xMQeK1cCoaSdVEu
+ ox1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bnHmSs5R8qi8IMdSDP2od753LXXC9F2nCL6gtxjYJ4s=;
- b=OhqwoDiy8tfXLrWAXC0m4mXGe6uINoxyIQrYZFmMyhX4LoHFmdHYCxCK7ydxQMj3J/
- XNK0et1KgFraRBjTkQqylW45tVyeX5S4RcXB62dvx6heKrMDGz29i9dcutxIKWNkvs9O
- Dnv1R+6qQdKSc1EJ84kT9eW7G+0G9BkOls2dvMmdVqaqo0ArIBNU/9b3NiY0SvaxJkeM
- uuz2FQVn1ApSjk/vQrb1MUMWYcyOHpSWNB5jTaevna2M6u/5/tAGeea2ihboBBSsYrRU
- ndomXUXHpz/3lwEJnomFAPsHqaYsPGCS9zes83luHFjafHht9gbE2D+OLxlGjvrrshzV
- QMjw==
-X-Gm-Message-State: AO0yUKXIH0TBBZAHkb0Cd29GtjDHif9ywCSyJc88BS1O9mTD+Mo1E8YS
- 0qUSnq08JUFAqARFBj8FAZijTF3wuC39nlkK
-X-Google-Smtp-Source: AK7set9xnpIFyomGHqiB6qbpQCy2Fqaen/gpSqvfuvLiCaDMF3TiFik2gzGop2inPEGD69pa492GTQ==
-X-Received: by 2002:a5d:6112:0:b0:2c5:7c7a:78f5 with SMTP id
- v18-20020a5d6112000000b002c57c7a78f5mr11764281wrt.52.1677194277659; 
- Thu, 23 Feb 2023 15:17:57 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wWu2Li0HdtRyVbKb/qvrvVuTsZ+F9Z5D4ZsK6YGQoVI=;
+ b=C1v/L2OrqbJnyTVAOqlC61Yuln6cGe6oOidKeWY0wE1zModNud+WMdV5xhaEH4ZHoV
+ zvsaLHQ0Avx061ig8Ce4qU1IU15G4iI8GrsStGeRAl3vd9SRQhgUqWNkTkdiuCKZwRB4
+ Ff2KyyO62f18y860nxuLimPJljrTNePZp1d/m+Ruc1mOfzTlI2AzbEPERXYrNysSr//a
+ XrzClewJV3W4YCZOz+JSEFs3IUcudbjzvG2JXq/G/g8368WBVoyt/3zFb8IfseW9acvz
+ 2zvM0Qn6aU79rcxMcDjIUHUNo9yIhdXZDQ216T5dXyhanspU9xId+pPyP76VhEvu2B+d
+ 49bw==
+X-Gm-Message-State: AO0yUKWaXq74pHSbqv4bqAGMkJrLRKNkM+8vl2T/tF3zq5tYiLU3WIyx
+ TztWpo7bKZvhPcox+QRjzYJ/VBEqZmc2Vzn5
+X-Google-Smtp-Source: AK7set9xGP6wlkpIE/BCD0V0qLLTGQaYqfSFBZSK13N3kTCSIPsh1qtKZxFKoT3x5lf9YeloeaZ+Wg==
+X-Received: by 2002:a05:600c:30d3:b0:3d5:365b:773e with SMTP id
+ h19-20020a05600c30d300b003d5365b773emr5351712wmn.39.1677194283002; 
+ Thu, 23 Feb 2023 15:18:03 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u11-20020adfdb8b000000b002c54fb024b2sm15213564wri.61.2023.02.23.15.17.56
+ u16-20020a05600c441000b003eafc47eb09sm571786wmn.43.2023.02.23.15.18.01
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 15:17:57 -0800 (PST)
+ Thu, 23 Feb 2023 15:18:02 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 0/7] dump: Make most of it target agnostic (build once)
-Date: Fri, 24 Feb 2023 00:17:48 +0100
-Message-Id: <20230223231755.81633-1-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v4 1/7] dump: Replace tswapN() -> cpu_to_dumpN()
+Date: Fri, 24 Feb 2023 00:17:49 +0100
+Message-Id: <20230223231755.81633-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230223231755.81633-1-philmd@linaro.org>
+References: <20230223231755.81633-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,27 +92,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thanks to Richard help, we can now build dump.o once
-for all targets, keeping win_dump.o for x86* targets.
+All uses of tswap in that file are wrong, and should be using
+cpu_to_dumpN, which correctly tests the endianness of the output.
 
-Philippe Mathieu-Daudé (7):
-  dump: Replace tswapN() -> cpu_to_dumpN()
-  dump: Replace TARGET_PAGE_SIZE -> qemu_target_page_size()
-  dump: Correct headers included
-  dump: Introduce win_dump_available()
-  dump: Introduce create_win_dump()
-  dump: Build once by adding stubs for non-x86 targets
-  dump: Rename x86-specific file as win_dump_x86.c
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ dump/dump.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- dump/dump.c                         | 29 +++++++++++------------------
- dump/meson.build                    |  6 ++++--
- dump/win_dump-stub.c                | 23 +++++++++++++++++++++++
- dump/{win_dump.c => win_dump-x86.c} |  8 +++++++-
- dump/win_dump.h                     |  5 ++++-
- 5 files changed, 49 insertions(+), 22 deletions(-)
- create mode 100644 dump/win_dump-stub.c
- rename dump/{win_dump.c => win_dump-x86.c} (99%)
-
+diff --git a/dump/dump.c b/dump/dump.c
+index 279b07f09b..7101169ecb 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -907,13 +907,13 @@ static void get_note_sizes(DumpState *s, const void *note,
+     if (dump_is_64bit(s)) {
+         const Elf64_Nhdr *hdr = note;
+         note_head_sz = sizeof(Elf64_Nhdr);
+-        name_sz = tswap64(hdr->n_namesz);
+-        desc_sz = tswap64(hdr->n_descsz);
++        name_sz = cpu_to_dump64(s, hdr->n_namesz);
++        desc_sz = cpu_to_dump64(s, hdr->n_descsz);
+     } else {
+         const Elf32_Nhdr *hdr = note;
+         note_head_sz = sizeof(Elf32_Nhdr);
+-        name_sz = tswap32(hdr->n_namesz);
+-        desc_sz = tswap32(hdr->n_descsz);
++        name_sz = cpu_to_dump32(s, hdr->n_namesz);
++        desc_sz = cpu_to_dump32(s, hdr->n_descsz);
+     }
+ 
+     if (note_head_size) {
 -- 
 2.38.1
 
