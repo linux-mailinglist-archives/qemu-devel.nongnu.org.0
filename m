@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA21A6A1309
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Feb 2023 23:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A01C6A1377
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 00:03:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVKPM-0008J2-Ad; Thu, 23 Feb 2023 17:49:48 -0500
+	id 1pVKae-00033h-Ve; Thu, 23 Feb 2023 18:01:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pVKPJ-0008Gj-RN
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:49:45 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVKaY-00032a-Nq
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:01:22 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1pVKPH-0007q3-Kq
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 17:49:45 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- m3-20020a17090ade0300b00229eec90a7fso5208336pjv.0
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 14:49:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=QQBU9k/QxVKceMOy3CGKDHpENVCP8QZpPc+ABlkMDzA=;
- b=5WBnfriRWHPDJuP6XgGT82ZZCVbos5E1GF7FtE00fuAuJ0xXNTh3mcEFxdF3UovWZ3
- lBEhzm8Ccjt0CNz/Wz8FuO8CABxyi8FzDgE6V+UtJ6w8w6BT0a9Mh4W5zD8g5Lu0X7fH
- 2SELcACpma6F81bW9U6xrH2cq60D2l13DGkux6Fu23AIw9uL8UIuPQw0lpZHnGaM52dV
- iwbIMSXGCXpia/BXvymgPFd6+zXjCljHT3i9Pdj/o9S6ms2rG7lcPpedlyAv2S6u+4tW
- bQGDG+UG4ee1Mdr8S44n5I+qxJdd6wxhefhB7OdpzOehbqbdrHThtzIfHjacrcbuWcJO
- 99yQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pVKaW-0002su-Up
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 18:01:22 -0500
+Received: by mail-pf1-x442.google.com with SMTP id d7so6911671pfu.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 15:01:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OoEe3LAQIxkXdoYinbdEbIJsOrkhLH+r19qzP5aOP2Q=;
+ b=iiCVzOZeuQ1MFJy3ci2et1wK9IJK+Y4aPgLThZ+4z9s/hEw9AxGtXDe0zy8JT5UUXc
+ K5tBqqnns4L56gOkmT9AmP5lt7w7ymRth6o8OIQecA3lzHZYfpqZEAhbeEfEaGA83C3A
+ ptchJchZDXWF8DA3w3XIF/X81Ku4p+YQfI7GQ3PNgXpcRWFtzBVCQeFb48mDS9rpTJHQ
+ Vjix9PBYK8CJ4bP2spqF+9XdlBuQGenKb8nUe6YxFu0QsN1bbEfrjnCK5eO9MyK/pAh3
+ bpmdSwWv6YR5Blhrez8AlCCeDxlj527zygX/JxmrqE6SZg/quY24u4AqPvdb2KKbzray
+ HQ1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QQBU9k/QxVKceMOy3CGKDHpENVCP8QZpPc+ABlkMDzA=;
- b=W97ALzlqSHLbsh+2MIZtWMNGDGoE4x4p31d3AA8iRBbTVP4KcVCB4ctQnZKZ/t4Owa
- XOEWDWC84ZctOboxcpNwMxvFzrLS7J/UjEjgudCVv/Y8adkx3BqDaxaQqejNqFzvc7zY
- 1mm0p9dMcrrS+OoFhP0MEwKkR+4LzLp2QmI1aPQ1sxECbwRpqPwXWmNQehRQUHRxjI/V
- nZYGQkxeIozlKVN55gu8XckaxbncAZsJN5brh6PrKQwrKQK9BaTH+apWwifdCo4HOfZo
- 3zGBrlo0usAf7YvZV+f9uG/QmZk+gaVdiztF65lBghmcC5i5vblqHPzngCxhwiD0iaYJ
- oZfQ==
-X-Gm-Message-State: AO0yUKWjl7RNEnmKPpBOisIyaEXnw6DNJmaALl7EPhZLw2wkPrR93DUo
- Mp7z+j4NvIBKRQvla+D2SpGUHw==
-X-Google-Smtp-Source: AK7set+v3gtgI+BcGYy94Bgh3a4MCJVhxOibOgZ4GNRv+u85CuMnQkb2rYLAk+YLjKnRo9c6beIh9g==
-X-Received: by 2002:a17:903:707:b0:19c:b7a9:d4a4 with SMTP id
- kk7-20020a170903070700b0019cb7a9d4a4mr4171947plb.37.1677192581308; 
- Thu, 23 Feb 2023 14:49:41 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- ja17-20020a170902efd100b00196025a34b9sm9153184plb.159.2023.02.23.14.49.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 14:49:40 -0800 (PST)
-Date: Thu, 23 Feb 2023 14:49:40 -0800 (PST)
-X-Google-Original-Date: Thu, 23 Feb 2023 14:48:55 PST (-0800)
-Subject: Re: [PULL 0/9] Fourth RISC-V PR for QEMU 8.0
-In-Reply-To: <mhng-3ef3787a-321d-4a23-aa45-8831b3093ac5@palmer-ri-x1c9a>
-CC: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: Peter Maydell <peter.maydell@linaro.org>, alex.bennee@linaro.org,
- bmeng@tinylab.org
-Message-ID: <mhng-61abd1f7-4d76-42de-85b2-42466ec0673f@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OoEe3LAQIxkXdoYinbdEbIJsOrkhLH+r19qzP5aOP2Q=;
+ b=t1LqJgPyUyZ9rHXsNT5IMX15Cdf9yrUwzJ/p8ORggVmi1f9QhxFY06QLthEg6yWtC8
+ BrXvNPaIbuFI6uSaF5++p/5wjbH+Qzih/InKRvbgUA6mUOz+KpbxO2CYH5LcUJ8QoAEw
+ StZdKCVR6NFvf4q04dsQVLSwu6WLvAlyOm8fBCxoJRqtT2d8p2tAqGpwlOIL8ytbOLZr
+ tkCAr8Is8vGg6wZnO/bGoeVmM345KtAA9sgBTjqSMHDo/rFLWPgpi+CpVkSjGU0AH0AR
+ uz03rQZq4xAXyWxnWmvzhbTgNhy7ry4usDVtExlAspCWeBcQkY3kcJBWD9BSQtjIqzod
+ 9qcA==
+X-Gm-Message-State: AO0yUKV6mMU7ve+tVMu5yZ34F0A7e0fJT5VdBlGIUSiS1n6OmeZuJ/gG
+ YVGIGP45WIjySiMBGTMlnlli3A==
+X-Google-Smtp-Source: AK7set/SgF9SDI9so6u+NTVcuutjfihPn9dak2Nuzlm9WCPOSwG0sSDGk9ZblcUlEsHW3tvofr8M7g==
+X-Received: by 2002:a62:7bce:0:b0:5ce:ef1b:a80 with SMTP id
+ w197-20020a627bce000000b005ceef1b0a80mr7842434pfc.32.1677193279034; 
+ Thu, 23 Feb 2023 15:01:19 -0800 (PST)
+Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ v10-20020a62ac0a000000b005dea362ed18sm1435839pfe.27.2023.02.23.15.01.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 15:01:18 -0800 (PST)
+Message-ID: <dddae7d3-4c18-04d3-198b-803b4c128de1@linaro.org>
+Date: Thu, 23 Feb 2023 13:01:15 -1000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH] target/arm: properly document FEAT_CRC32
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+References: <20230222110104.3996971-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230222110104.3996971-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=palmer@dabbelt.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,69 +93,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 07:56:10 PST (-0800), Palmer Dabbelt wrote:
-> On Tue, 21 Feb 2023 08:43:47 PST (-0800), Peter Maydell wrote:
->> On Fri, 17 Feb 2023 at 17:53, Palmer Dabbelt <palmer@rivosinc.com> wrote:
->>>
->>> The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
->>>
->>>   tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
->>>
->>> are available in the Git repository at:
->>>
->>>   https://github.com/palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230217
->>>
->>> for you to fetch changes up to e8c0697d79ef05aa5aefb1121dfede59855556b4:
->>>
->>>   target/riscv: Fix vslide1up.vf and vslide1down.vf (2023-02-16 08:10:40 -0800)
->>>
->>> ----------------------------------------------------------------
->>> Fourth RISC-V PR for QEMU 8.0
->>>
->>> * A triplet of cleanups to the kernel/initrd loader that avoids
->>>   duplication between the various boards.
->>> * OpenSBI has been updated to version 1.2.
->>> * Weiwei Li, Daniel Henrique Barboza, and Liu Zhiwei have been added as
->>>   reviewers.  Thanks for the help!
->>> * A fix for PMP matching to avoid incorrectly appling the default
->>>   permissions on PMP permission violations.
->>> * A cleanup to avoid an unnecessary avoid env_archcpu() in
->>>   cpu_get_tb_cpu_state().
->>> * Fixes for the vector slide instructions to avoid truncating 64-bit
->>>   values (such as doubles) on 32-bit targets.
->>
->> This seems to have caused CI to decide it needs to rerun the
->> 'docker-opensbi' job, which doesn't work:
->> https://gitlab.com/qemu-project/qemu/-/jobs/3808319659
->>
->> I don't understand what exactly is going on here -- Alex,
->> Bin, any ideas?
->>
->> Why do we build the firmware in CI if we have checked in
->> binaries in pc-bios?
->>
->> Should .gitlab-ci.d/opensbi/Dockerfile really still be
->> starting with Ubuntu 18.04 ? That is already older than our
->> set of supported platforms, and falls out of support from
->> Ubuntu in a couple of months.
->
-> I just sent along a patch
-> <https://lore.kernel.org/r/20230222154938.9201-1-palmer@rivosinc.com/>.
-> I have no idea how to test it in the CI, though...
+On 2/22/23 01:01, Alex Bennée wrote:
+> This is a mandatory feature for Armv8.1 architectures but we don't
+> state the feature clearly in our emulation list. While checking verify
+> our cortex-a76 model matches up with the current TRM by breaking out
+> the long form isar into a more modern readable FIELD_DP code.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   docs/system/arm/emulation.rst |  1 +
+>   target/arm/cpu64.c            | 29 ++++++++++++++++++++++++++---
+>   target/arm/cpu_tcg.c          |  2 +-
+>   3 files changed, 28 insertions(+), 4 deletions(-)
+> 
+> diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+> index 2062d71261..2c4fde5eef 100644
+> --- a/docs/system/arm/emulation.rst
+> +++ b/docs/system/arm/emulation.rst
+> @@ -14,6 +14,7 @@ the following architecture extensions:
+>   - FEAT_BBM at level 2 (Translation table break-before-make levels)
+>   - FEAT_BF16 (AArch64 BFloat16 instructions)
+>   - FEAT_BTI (Branch Target Identification)
+> +- FEAT_CRC32 (CRC32 instruction)
+>   - FEAT_CSV2 (Cache speculation variant 2)
+>   - FEAT_CSV2_1p1 (Cache speculation variant 2, version 1.1)
+>   - FEAT_CSV2_1p2 (Cache speculation variant 2, version 1.2)
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index 4066950da1..12e1a532ab 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -912,6 +912,8 @@ static void aarch64_a72_initfn(Object *obj)
+>   static void aarch64_a76_initfn(Object *obj)
+>   {
+>       ARMCPU *cpu = ARM_CPU(obj);
+> +    uint64_t t;
+> +    uint32_t u;
+>   
+>       cpu->dtb_compatible = "arm,cortex-a76";
+>       set_feature(&cpu->env, ARM_FEATURE_V8);
+> @@ -928,7 +930,18 @@ static void aarch64_a76_initfn(Object *obj)
+>       cpu->ctr = 0x8444C004;
+>       cpu->dcz_blocksize = 4;
+>       cpu->isar.id_aa64dfr0  = 0x0000000010305408ull;
+> -    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
+> +
+> +    /* per r4p1 of the Cryptographic Extension TRM */
+> +    t = cpu->isar.id_aa64isar0;
+> +    t = FIELD_DP64(t, ID_AA64ISAR0, AES, 2);      /* FEAT_PMULL */
+> +    t = FIELD_DP64(t, ID_AA64ISAR0, SHA1, 1);     /* FEAT_SHA1 */
+> +    t = FIELD_DP64(t, ID_AA64ISAR0, SHA2, 1);     /* FEAT_SHA512 */
+> +    t = FIELD_DP64(t, ID_AA64ISAR0, CRC32, 1);    /* FEAT_CRC32 */
+> +    t = FIELD_DP64(t, ID_AA64ISAR0, ATOMIC, 2);   /* FEAT_LSE */
+> +    t = FIELD_DP64(t, ID_AA64ISAR0, RDM, 1);      /* FEAT_RDM */
+> +    t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);       /* FEAT_DotProd */
+> +    cpu->isar.id_aa64isar0 = t;
 
-Nobody's replied, so I'm inclined to just drop the OpenSBI bump and 
-re-send the PR.  At least that way we can avoid getting blocked on the 
-CI issues.  There's some more in flight so there'll probably be a 5th 
-round before the freeze either way, at least this way the stuff that 
-works can avoid getting blocked.
+Ok, so, this might be helpful for grepping, but it's not helpful for reading the 
+documentation, which on page B2-137 uses hex.
 
->> (.gitlab-ci.d/edk2/Dockerfile is also using 18.04.)
->
-> I guess I'd missed this in the original email, I stumbled on that one as
-> well
-> <https://lore.kernel.org/r/20230222155341.10127-1-palmer@rivosinc.com/>.
->
->>
->> thanks
->> -- PMM
+
+r~
 
