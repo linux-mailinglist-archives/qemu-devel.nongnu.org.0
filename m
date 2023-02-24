@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211B86A2134
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 19:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640236A2131
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 19:10:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVcVF-00055M-MZ; Fri, 24 Feb 2023 13:09:05 -0500
+	id 1pVcVF-00055C-Kx; Fri, 24 Feb 2023 13:09:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVcVD-00053x-Pj
+ id 1pVcVD-00053u-Lt
  for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:09:03 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVcVA-0004nh-Du
+ id 1pVcVA-0004ns-Nf
  for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:09:03 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id l25so46957wrb.3
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 10:08:59 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id 6so4675wrb.11
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 10:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qIIsq0Xrg0m3fO3Ehu1wN9TU58SKwM0UZQDW7mIlMRU=;
- b=A1MLAb+IE5d9WkK74jNJ6DwjNv5a1PMBxtCFzY5GGhs6ustvVw/gl8ek1OsUTgREWS
- 6XZ/i+0/PTcWLPup77xNbmQNWcDx0CPMOyLWmcyTlFZ3vjkhPTiPpGhjfjJ1FdpJOyTd
- 5TXW8vOI+tNa9D88UV51gXqYKYH6XJbQeNeHlIUbYj8HRiWaHlaka8YkE0hjKsbPE6wP
- lLN3XNjLB2s5tNlQvFGhv6WYdZp/z8gFvZYEMh07cte2uJBqITyHRIjvOZWpwOLlV/D/
- +RsCgF7+hU8FQdEwG+n5DNGP/p9zsSJC7vQLzCAx/2N+ScAzDl8Wh8FBv1B4VT5C714/
- AdFw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sWlMo82fjyi0DYAw1U4gGmbZ7Vz62HpgPG/tbr6QTr0=;
+ b=nozBLWQXs6DSnx1BjgtmCkYxH5eCBy644EmdEqZ/sh9vdqK0Ft2g8dzFtVSB9zt7Gz
+ 8dhp9u9ZnskKeQ3PpSl3UXTZO77QF3lQdPPI0IiuO1+7+LYhPOsnXcj8SdmW2w+do/KH
+ bOqgJs0+BoSmMAgXu4uk8lwRDLPRbG5yiTJjs5MMXuM8Snp1lyH02f67H0wmCgZ1awFR
+ +l6wnC3qsBDvrVBtOiAFig9rTGcrMg4dU38O+9IuDK+j7CZKqyeEYGwbdlW1Yhglh0II
+ GPdKf9GX51XmW4OFdCqyWBhJx2cf9533fPn6lCEL2nGsmnkzRAJap5uDDFIkXuMi/gAD
+ J3Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qIIsq0Xrg0m3fO3Ehu1wN9TU58SKwM0UZQDW7mIlMRU=;
- b=SggvpppP2p4PYV0luGHojLLj8FbKkaIZUdpLpj8zBR6WrRII3OVmYGZaHjMfCo7V7K
- wCLQOM9jRqX3XmkOa3IcBtSfo1c63UxX5Mdi8kZUkZ2wpIjadmLBYhVp/6fmbSIvhF5I
- ZaNnYSJyzua4Y6m07IVV47jHpyIIrekZcrWWSWg0nvm9iTJN+DtWXZ+fAWwVdiXFfM9z
- wwQq4PzdQV5FPL9Qe3cm4j7p0vEDYT1B5FGUtbZS38Cgj9euJ0xKKBPrDKEK3aGkjMTK
- bo9jv975AQYTzO7+Gva7O3firxJr86ssfCkXRQSyBkWVLiUjnIerFMgrgoKuG7ms+Ug3
- aCpA==
-X-Gm-Message-State: AO0yUKUJMyBNA0BIonaecyRVCP0QrI0z9nUVY5UzlqNbskahozsUr5LO
- c/Xdl4EVvtN5cmngcLRLfpee4A==
-X-Google-Smtp-Source: AK7set/VYHQd3dikFPYbS9RI01pHDa8oOcPcRgB9bmvOVRTq+v/lpy7YqiCRNCTG2onmsJE8bCbJfA==
-X-Received: by 2002:a05:6000:1cd:b0:2c5:8575:c37 with SMTP id
- t13-20020a05600001cd00b002c585750c37mr14832663wrx.66.1677262138378; 
- Fri, 24 Feb 2023 10:08:58 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sWlMo82fjyi0DYAw1U4gGmbZ7Vz62HpgPG/tbr6QTr0=;
+ b=sj4PeCD3UjE0AZn5kLgeTIVM+4zaPiuUSSw1wEweczWh77F6VRRxHfkrgsciqr2yJo
+ jKj6m2jYYNKp+oqf4L0lGjDrCughLya0C4D1OtjpVzgtSt1KlPeB3UwVKmo9gXRLZELY
+ ucFZf6AU1WKamQuKpg4jslUKF/1ez64SIFdxoMobJ4ufb/OI/oGizeqpU/ky8gATXnrG
+ sqVV8+0eWkgMmTQHYMiFtkplTP9JSny8S2j4PenSnjBw4qzefqwXDmIU2XFQ2zpzA48o
+ s2nwzeNPiUBymtO0gX2k0vSDUq/h3QmTjKxTohFcpujE5NL4uQw4E+c+B65bgFcsUBqm
+ 5pCA==
+X-Gm-Message-State: AO0yUKWs104r5mSCspni0WL1Au5J7fBfP0KXQ9iCAHRZ2bT0p73aV2da
+ t8KxftesxTHivCD7wZAmF/ew8A==
+X-Google-Smtp-Source: AK7set+Ip5eqF7XgLLdBFt+w4OBPLbazdnUO/8KkLjb7OsWqa5aMFPOmNp5JnLivc+Vf1+VG4Cn37Q==
+X-Received: by 2002:a05:6000:1151:b0:2c7:d7e:4c6c with SMTP id
+ d17-20020a056000115100b002c70d7e4c6cmr7647408wrx.44.1677262139311; 
+ Fri, 24 Feb 2023 10:08:59 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a1c544d000000b003e208cec49bsm8971006wmi.3.2023.02.24.10.08.57
+ i16-20020adfefd0000000b002c552c6c8c2sm11391333wrp.87.2023.02.24.10.08.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 24 Feb 2023 10:08:58 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 98F121FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id B05E51FFB8;
  Fri, 24 Feb 2023 18:08:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -77,22 +78,24 @@ Cc: Li-Wen Hsu <lwhsu@freebsd.org>,
  Darren Kenny <darren.kenny@oracle.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Subject: [PATCH 0/7] testing/next: docker.py removal and kaniko updates
-Date: Fri, 24 Feb 2023 18:08:50 +0000
-Message-Id: <20230224180857.1050220-1-alex.bennee@linaro.org>
+Subject: [PATCH 1/7] configure: expose the direct container command
+Date: Fri, 24 Feb 2023 18:08:51 +0000
+Message-Id: <20230224180857.1050220-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230224180857.1050220-1-alex.bennee@linaro.org>
+References: <20230224180857.1050220-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,70 +111,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series attempts to remove our dependence on the docker.py script
-and build things directly with the appropriate tool. I've been
-noodling around with how we build images on gitlab to see if they can
-cache better because the normal case should be we don't need to
-rebuild everything if the upstream distro hasn't updated its package
-list.
+In the process of migrating away from using docker.py to build our
+containers we need to expose the command to the build environment. The
+script is still a useful way to probe which command works though.
 
-Anyway what do people think?
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ configure | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Alex Bennée (7):
-  configure: expose the direct container command
-  tests/dockerfiles: unify debian-toolchain references
-  tests/lcitool: append user setting stanza to dockerfiles
-  tests/docker: add USER stanzas to non-lci images
-  tests/docker: use direct RUNC call to build containers
-  tests/docker: use direct RUNC call to run test jobs
-  tests/gitlab: use kaniko to build images
-
- configure                                     |  3 +++
- .gitlab-ci.d/cirrus/freebsd-12.vars           |  5 ++++
- .gitlab-ci.d/cirrus/freebsd-13.vars           |  5 ++++
- .gitlab-ci.d/cirrus/macos-12.vars             |  5 ++++
- .gitlab-ci.d/container-template.yml           | 23 +++++++---------
- tests/docker/Makefile.include                 | 27 +++++++++++--------
- tests/docker/dockerfiles/alpine.docker        |  5 ++++
- tests/docker/dockerfiles/centos8.docker       |  5 ++++
- .../dockerfiles/debian-all-test-cross.docker  |  5 ++++
- .../dockerfiles/debian-alpha-cross.docker     |  5 ++++
- .../dockerfiles/debian-amd64-cross.docker     |  5 ++++
- tests/docker/dockerfiles/debian-amd64.docker  |  5 ++++
- .../dockerfiles/debian-arm64-cross.docker     |  5 ++++
- .../dockerfiles/debian-armel-cross.docker     |  5 ++++
- .../dockerfiles/debian-armhf-cross.docker     |  5 ++++
- .../dockerfiles/debian-hexagon-cross.docker   |  5 ++++
- .../dockerfiles/debian-hppa-cross.docker      |  5 ++++
- .../dockerfiles/debian-loongarch-cross.docker |  5 ++++
- .../dockerfiles/debian-m68k-cross.docker      |  5 ++++
- .../dockerfiles/debian-mips-cross.docker      |  5 ++++
- .../dockerfiles/debian-mips64-cross.docker    |  5 ++++
- .../dockerfiles/debian-mips64el-cross.docker  |  5 ++++
- .../dockerfiles/debian-mipsel-cross.docker    |  5 ++++
- tests/docker/dockerfiles/debian-native.docker |  5 ++++
- .../debian-powerpc-test-cross.docker          |  6 ++++-
- .../dockerfiles/debian-ppc64el-cross.docker   |  5 ++++
- .../dockerfiles/debian-riscv64-cross.docker   |  5 ++++
- .../debian-riscv64-test-cross.docker          |  5 ++++
- .../dockerfiles/debian-s390x-cross.docker     |  5 ++++
- .../dockerfiles/debian-sh4-cross.docker       |  5 ++++
- .../dockerfiles/debian-sparc64-cross.docker   |  5 ++++
- .../dockerfiles/debian-toolchain.docker       |  9 +++++--
- .../dockerfiles/debian-tricore-cross.docker   |  5 ++++
- .../dockerfiles/debian-xtensa-cross.docker    |  5 ++++
- .../dockerfiles/fedora-cris-cross.docker      |  5 ++++
- .../dockerfiles/fedora-i386-cross.docker      |  5 ++++
- .../dockerfiles/fedora-win32-cross.docker     |  5 ++++
- .../dockerfiles/fedora-win64-cross.docker     |  5 ++++
- tests/docker/dockerfiles/fedora.docker        |  5 ++++
- tests/docker/dockerfiles/opensuse-leap.docker |  5 ++++
- tests/docker/dockerfiles/python.docker        |  5 ++++
- tests/docker/dockerfiles/ubuntu2004.docker    |  5 ++++
- tests/docker/dockerfiles/ubuntu2204.docker    |  5 ++++
- tests/lcitool/refresh                         | 11 +++++++-
- 44 files changed, 240 insertions(+), 29 deletions(-)
-
+diff --git a/configure b/configure
+index cf6db3d551..b6a1cebad9 100755
+--- a/configure
++++ b/configure
+@@ -1744,6 +1744,7 @@ fi
+ # functions to probe cross compilers
+ 
+ container="no"
++runc=""
+ if test $use_containers = "yes" && (has "docker" || has "podman"); then
+     case $($python "$source_path"/tests/docker/docker.py probe) in
+         *docker) container=docker ;;
+@@ -1752,6 +1753,7 @@ if test $use_containers = "yes" && (has "docker" || has "podman"); then
+     esac
+     if test "$container" != "no"; then
+         docker_py="$python $source_path/tests/docker/docker.py --engine $container"
++        runc=$($python "$source_path"/tests/docker/docker.py probe)
+     fi
+ fi
+ 
+@@ -2351,6 +2353,7 @@ fi
+ 
+ if test "$container" != no; then
+     echo "ENGINE=$container" >> $config_host_mak
++    echo "RUNC=$runc" >> $config_host_mak
+ fi
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
 -- 
 2.39.1
 
