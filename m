@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE396A1F0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:57:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A246B6A1F20
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:59:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVaPT-0005MC-Pz; Fri, 24 Feb 2023 10:54:59 -0500
+	id 1pVaPd-0005P3-8J; Fri, 24 Feb 2023 10:55:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pVaPR-0005Kq-Au
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:54:57 -0500
+ id 1pVaPX-0005N9-Qe
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pVaPP-0005LS-Kp
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:54:56 -0500
+ id 1pVaPW-0005Wa-3b
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677254095;
+ s=mimecast20190719; t=1677254101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X3d9BwbOucUxVtqeuEr+XHyMgQkL0UWAtdL7LMA7Nko=;
- b=V5st54cPMR0Lp34oIjdveYy4kleKpLVjtW+zL4wQ9/rM5gL8sZfwhIs88FSJqG4K24gQF6
- FcLWWocol/fexLfSb9lZBvu5xXM+TO8vzJAJzssyP7ubtOPZ1f80Yw8XKv+2JYuY6JoZpj
- lYiQYxAdC5zDyKKvjQ+eXEN2i02onu8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eEeRfwwIN44/Adg4INU1tbOT+msU8OVisKYfCUJYZrI=;
+ b=SJwdJFZDwhsNxjDh3oJ4kZfbQU/1CymqAzzoQnzCnUgvp+OovF3roeatT/e9KLPEaJ6a3R
+ ft66eizvnByeuGa9VyhQxwUD69SRqut4v+Xo2al5DvzxoSP0+NNiloX1bIaawHI0rYkwUq
+ nbw/l1WUQUbpEBV+OLFORlZWIjNOTg4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-laz-r6r2MZO45d8sZ3wUkg-1; Fri, 24 Feb 2023 10:54:51 -0500
-X-MC-Unique: laz-r6r2MZO45d8sZ3wUkg-1
+ us-mta-364--KdNxvwhNM6j9Dufd5G8tg-1; Fri, 24 Feb 2023 10:54:55 -0500
+X-MC-Unique: -KdNxvwhNM6j9Dufd5G8tg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD40E882822;
- Fri, 24 Feb 2023 15:54:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CA0523804530;
+ Fri, 24 Feb 2023 15:54:53 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC5D5C15BA0;
- Fri, 24 Feb 2023 15:54:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA0D7C15BA0;
+ Fri, 24 Feb 2023 15:54:50 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Garzarella <sgarzare@redhat.com>,
@@ -55,9 +55,9 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>,
  Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
  Harpreet Singh Anand <hanand@xilinx.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Subject: [PATCH v4 02/15] vdpa: Remember last call fd set
-Date: Fri, 24 Feb 2023 16:54:25 +0100
-Message-Id: <20230224155438.112797-3-eperezma@redhat.com>
+Subject: [PATCH v4 03/15] vdpa: stop svq at vhost_vdpa_dev_start(false)
+Date: Fri, 24 Feb 2023 16:54:26 +0100
+Message-Id: <20230224155438.112797-4-eperezma@redhat.com>
 In-Reply-To: <20230224155438.112797-1-eperezma@redhat.com>
 References: <20230224155438.112797-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,41 +88,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As SVQ can be enabled dynamically at any time, it needs to store call fd
-always.
+It used to be done at vhost_vdpa_svq_cleanup, since a device couldn't
+switch to SVQ mode dynamically.  Now that we need to fetch the state and
+trust SVQ will not modify guest's used_idx at migration, stop
+effectively SVQ at suspend time, as a real device would do.
+
+Leaving old vhost_svq_stop call at vhost_vdpa_svq_cleanup, as its
+supported to call it many times and it follows other operations that are
+called redundantly there too:
+* vhost_vdpa_host_notifiers_uninit
+* memory_listener_unregister
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+v3: New in v3
+---
+ hw/virtio/vhost-vdpa.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 542e003101..4f72a52a43 100644
+index 4f72a52a43..d9260191cc 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -1240,16 +1240,16 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
-                                        struct vhost_vring_file *file)
- {
-     struct vhost_vdpa *v = dev->opaque;
-+    int vdpa_idx = file->index - dev->vq_index;
-+    VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, vdpa_idx);
+@@ -1100,10 +1100,11 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
  
-+    /* Remember last call fd because we can switch to SVQ anytime. */
-+    vhost_svq_set_svq_call_fd(svq, file->fd);
-     if (v->shadow_vqs_enabled) {
--        int vdpa_idx = file->index - dev->vq_index;
--        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, vdpa_idx);
--
--        vhost_svq_set_svq_call_fd(svq, file->fd);
-         return 0;
--    } else {
--        return vhost_vdpa_set_vring_dev_call(dev, file);
-     }
+     for (unsigned i = 0; i < v->shadow_vqs->len; ++i) {
+         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
 +
-+    return vhost_vdpa_set_vring_dev_call(dev, file);
++        vhost_svq_stop(svq);
+         vhost_vdpa_svq_unmap_rings(dev, svq);
+ 
+         event_notifier_cleanup(&svq->hdev_kick);
+-        event_notifier_cleanup(&svq->hdev_call);
+     }
  }
  
- static int vhost_vdpa_get_features(struct vhost_dev *dev,
 -- 
 2.31.1
 
