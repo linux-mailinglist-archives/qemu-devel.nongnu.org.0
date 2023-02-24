@@ -2,56 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23DF6A1FFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 17:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979F16A201E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 17:57:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVbGM-00023I-Fm; Fri, 24 Feb 2023 11:49:38 -0500
+	id 1pVbMZ-00057o-R1; Fri, 24 Feb 2023 11:56:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1pVbGK-000231-Sz
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 11:49:36 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1pVbGI-0000a7-Ub
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 11:49:36 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6F460614DD;
- Fri, 24 Feb 2023 16:49:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91990C433EF;
- Fri, 24 Feb 2023 16:49:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677257362;
- bh=HFJzZXsAawpQPTHlSu7kb4Np6Ai6hH3VPH4al9o5Hnw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iqzby6Rw9U4dfrweFt3MHKSorOsSs9c3tgAxVUKh5E4CeL2+uiH3qG5nQBMHiCVKg
- 4iMLEqL3XKY6kbJOQPEO/2iZoVzeJaILwFnTgK/VOdVKFxgLtuDGlRC2igaMW9r+as
- qTGIqiAF/woNBL8MAUOJBf4414cELNlrOF5ZEmTIGPnY6S29M6wmwaEu0hBx/4gTsu
- t/9ibP5ukedq66nO22eIH+Dr7SAm7sGI7nRqFwd4T0Eg5noMBGEv1qxkKQC0cK5gwW
- HfWAKI1NS76iTtVjYdbHggLgx2wH67aMmFKM/AQoa/JqqZXy7aKwux5ABg8V747JV8
- RT4b9KL0YcGjQ==
-Date: Fri, 24 Feb 2023 09:49:20 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, balaton@eik.bme.hu
-Subject: Re: [PATCH] hw/mips/gt64xxx_pci: Don't endian-swap GT_PCI0_CFGADDR
-Message-ID: <Y/jqkCQjm6nKlMCs@dev-arch.thelio-3990X>
-References: <20230223161958.48696-1-jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pVbMU-00057I-9a; Fri, 24 Feb 2023 11:55:58 -0500
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1pVbMS-00025p-I2; Fri, 24 Feb 2023 11:55:57 -0500
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-1723ab0375eso155192fac.1; 
+ Fri, 24 Feb 2023 08:55:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9R2c8XXiOKv6nhVCWSA5hXlgxFdKthi4ysDSYkhaRDk=;
+ b=ia8rfxHLsE3vL0O5bDbQuc6buDE74Lr1mebg0FYMOZZ95UhCxaI5GT5rj4GVFihtMI
+ +gzvs/IOQAo0AC2t4hR4a1DS+QjGUQ+8PN5CjhIQNjRlmv+/BnwF7RgqqXJ+ck99dgre
+ vsQerJTXdvfa1O/3XQ15KuI3EGdz0tbdn676+QVL83syjGbRQtfoSsVhA4BJJX4S2zI+
+ MxQaeU1UZuB+bFDo/r7d3HIFVd6CUbhX5VJDHYmjCaMkOj/i2UE9Il+TGCLXOxZdG3h1
+ gaxA4wU1sgBD3gq8Ie1C6MDsHk0Ul4IeWG6m0uq1gvRS/FBh45ZZGEldsIebj0vsmaOE
+ +Srw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9R2c8XXiOKv6nhVCWSA5hXlgxFdKthi4ysDSYkhaRDk=;
+ b=bGflpomlLcie6mbP9WxQguWeWH6GorAY6G34FzKyp2WfmLrWKdFwABdAnojpqKudUi
+ NElolf5s3dYXJ7KqVtY4b7EfIDzLLYf54tyFMSLbLkieDTxYetIcOhgDKwVDLyEQZ0rZ
+ aih7FwpuiQVZ+Ec4ym3EWMVYIi5BmrHsevT04MSAuQ/9hm2m4cewmOhJMlJquPV8rqyv
+ /bdoLSQxgiVYeD5AJBa0zhNwdN1SxU8t8y0W7eKUq3kh2VLvavuKDmTdIlObPOhRfgUP
+ W+2re/4A97Ge8ClKlYDwEGaTzW3XRYoPj05UP9DmJiJIh6KfQnlOocMNx+jDX0x2DQVU
+ 6NlA==
+X-Gm-Message-State: AO0yUKWlxERfZUVAkJ6mv8IHHKI/gxSeGSSXu9qAGu8xoLXoMsh1+hLE
+ aUFchRiftdR90Eu76Fo+O/U=
+X-Google-Smtp-Source: AK7set+Hu92nBj++VCP33SJOuImjRWugD/vJjJGJwVJgXdu0LGgfJ+IifWWzrs2H6JQnqOvjQjYr6g==
+X-Received: by 2002:a05:6870:40c9:b0:15f:d9a0:a1b3 with SMTP id
+ l9-20020a05687040c900b0015fd9a0a1b3mr15657315oal.1.1677257753145; 
+ Fri, 24 Feb 2023 08:55:53 -0800 (PST)
+Received: from [192.168.68.107] ([189.110.112.117])
+ by smtp.gmail.com with ESMTPSA id
+ ef5-20020a0568701a8500b00152c52608dbsm7388664oab.34.2023.02.24.08.55.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Feb 2023 08:55:52 -0800 (PST)
+Message-ID: <39f2089d-c102-4ecc-47f7-811e1dbb9d2b@gmail.com>
+Date: Fri, 24 Feb 2023 13:55:48 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230223161958.48696-1-jiaxun.yang@flygoat.com>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=nathan@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] hw/display/sm501: Implement more 2D raster operations
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sebastian Bauer <mail@sebastianbauer.info>
+References: <20230216144043.D632874634B@zero.eik.bme.hu>
+Content-Language: en-US
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20230216144043.D632874634B@zero.eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,76 +94,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 23, 2023 at 04:19:58PM +0000, Jiaxun Yang wrote:
-> 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE
-> MemoryRegionOps") converted CFGADDR/CFGDATA registers to use PCI_HOST_BRIDGE's
-> accessor facility and enabled byte swap for both CFGADDR/CFGDATA register.
-> 
-> However CFGADDR as a ISD internal register is not controled by MByteSwap
-> bit, it follows endian of all other ISD register, which means it ties to
-> little endian.
-> 
-> Move mapping of CFGADDR out of gt64120_update_pci_cfgdata_mapping to disable
-> endian-swapping.
-> 
-> This should fix some recent reports about poweroff hang.
-> 
-> Fixes: 145e2198d749 ("hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps")
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-Thanks for the fix!
 
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
+On 2/16/23 11:40, BALATON Zoltan wrote:
+> Add simple implementation for two raster operations that are used by
+> AmigaOS which fixes graphics problems in some progtams using these.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/pci-host/gt64120.c | 18 ++++++------------
->  1 file changed, 6 insertions(+), 12 deletions(-)
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+And queued in ppc-next. Thanks,
+
+
+Daniel
+
+> For definitions of these see:
+> https://learn.microsoft.com/en-us/windows/win32/gdi/ternary-raster-operations
 > 
-> diff --git a/hw/pci-host/gt64120.c b/hw/pci-host/gt64120.c
-> index f226d0342039..82c15edb4698 100644
-> --- a/hw/pci-host/gt64120.c
-> +++ b/hw/pci-host/gt64120.c
-> @@ -321,9 +321,6 @@ static void gt64120_isd_mapping(GT64120State *s)
->  static void gt64120_update_pci_cfgdata_mapping(GT64120State *s)
->  {
->      /* Indexed on MByteSwap bit, see Table 158: PCI_0 Command, Offset: 0xc00 */
-> -    static const MemoryRegionOps *pci_host_conf_ops[] = {
-> -        &pci_host_conf_be_ops, &pci_host_conf_le_ops
-> -    };
->      static const MemoryRegionOps *pci_host_data_ops[] = {
->          &pci_host_data_be_ops, &pci_host_data_le_ops
->      };
-> @@ -339,15 +336,6 @@ static void gt64120_update_pci_cfgdata_mapping(GT64120State *s)
->       * - Table 16: 32-bit PCI Transaction Endianess
->       * - Table 158: PCI_0 Command, Offset: 0xc00
->       */
-> -    if (memory_region_is_mapped(&phb->conf_mem)) {
-> -        memory_region_del_subregion(&s->ISD_mem, &phb->conf_mem);
-> -        object_unparent(OBJECT(&phb->conf_mem));
-> -    }
-> -    memory_region_init_io(&phb->conf_mem, OBJECT(phb),
-> -                          pci_host_conf_ops[s->regs[GT_PCI0_CMD] & 1],
-> -                          s, "pci-conf-idx", 4);
-> -    memory_region_add_subregion_overlap(&s->ISD_mem, GT_PCI0_CFGADDR << 2,
-> -                                        &phb->conf_mem, 1);
->  
->      if (memory_region_is_mapped(&phb->data_mem)) {
->          memory_region_del_subregion(&s->ISD_mem, &phb->data_mem);
-> @@ -1208,6 +1196,12 @@ static void gt64120_realize(DeviceState *dev, Error **errp)
->                                  PCI_DEVFN(18, 0), TYPE_PCI_BUS);
->  
->      pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
-> +    memory_region_init_io(&phb->conf_mem, OBJECT(phb),
-> +                          &pci_host_conf_le_ops,
-> +                          s, "pci-conf-idx", 4);
-> +    memory_region_add_subregion_overlap(&s->ISD_mem, GT_PCI0_CFGADDR << 2,
-> +                                        &phb->conf_mem, 1);
+>   hw/display/sm501.c | 30 +++++++++++++++++++++++++++++-
+>   1 file changed, 29 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+> index e1d0591d36..58bc9701ee 100644
+> --- a/hw/display/sm501.c
+> +++ b/hw/display/sm501.c
+> @@ -753,7 +753,7 @@ static void sm501_2d_operation(SM501State *s)
+>           }
+>   
+>           if ((rop_mode && rop == 0x5) || (!rop_mode && rop == 0x55)) {
+> -            /* Invert dest, is there a way to do this with pixman? */
+> +            /* DSTINVERT, is there a way to do this with pixman? */
+>               unsigned int x, y, i;
+>               uint8_t *d = s->local_mem + dst_base;
+>   
+> @@ -763,6 +763,34 @@ static void sm501_2d_operation(SM501State *s)
+>                       stn_he_p(&d[i], bypp, ~ldn_he_p(&d[i], bypp));
+>                   }
+>               }
+> +        } else if (!rop_mode && rop == 0x99) {
+> +            /* DSxn, is there a way to do this with pixman? */
+> +            unsigned int x, y, i, j;
+> +            uint8_t *sp = s->local_mem + src_base;
+> +            uint8_t *d = s->local_mem + dst_base;
 > +
->  
->      /*
->       * The whole address space decoded by the GT-64120A doesn't generate
-> -- 
-> 2.37.1 (Apple Git-137.1)
-> 
-> 
+> +            for (y = 0; y < height; y++) {
+> +                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
+> +                j = (src_x + (src_y + y) * src_pitch) * bypp;
+> +                for (x = 0; x < width; x++, i += bypp, j += bypp) {
+> +                    stn_he_p(&d[i], bypp,
+> +                             ~(ldn_he_p(&sp[j], bypp) ^ ldn_he_p(&d[i], bypp)));
+> +                }
+> +            }
+> +        } else if (!rop_mode && rop == 0xee) {
+> +            /* SRCPAINT, is there a way to do this with pixman? */
+> +            unsigned int x, y, i, j;
+> +            uint8_t *sp = s->local_mem + src_base;
+> +            uint8_t *d = s->local_mem + dst_base;
+> +
+> +            for (y = 0; y < height; y++) {
+> +                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
+> +                j = (src_x + (src_y + y) * src_pitch) * bypp;
+> +                for (x = 0; x < width; x++, i += bypp, j += bypp) {
+> +                    stn_he_p(&d[i], bypp,
+> +                             ldn_he_p(&sp[j], bypp) | ldn_he_p(&d[i], bypp));
+> +                }
+> +            }
+>           } else {
+>               /* Do copy src for unimplemented ops, better than unpainted area */
+>               if ((rop_mode && (rop != 0xc || rop2_source_is_pattern)) ||
 
