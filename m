@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5166A2200
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 20:03:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2237A6A21FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 20:03:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVdJn-0001iW-Re; Fri, 24 Feb 2023 14:01:19 -0500
+	id 1pVdJs-0001jr-Lh; Fri, 24 Feb 2023 14:01:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pVdJk-0001gI-N9
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:16 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pVdJl-0001gh-Jo
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:17 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pVdJd-0002eH-NW
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:16 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id c23so24877pjo.4
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 11:01:05 -0800 (PST)
+ id 1pVdJe-0002ee-ON
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:17 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ gi3-20020a17090b110300b0023762f642dcso173400pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 11:01:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677265265;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677265268;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DDWoUrS3gNFU9IU+ndidQqS1Eb6eRflzx7e/dFgHmuQ=;
- b=IAaDUpJhI0v5JUSkQW4z8WzozeBheiRWzFaJ0QqmwvGt2zr0R6sB4BmJ+cu+ur6cGq
- ZUOO2xL7Stru3W8DTDpQxYTjrjMXFmPMhYTN8Wv9S+XX8/rixGQFEj39eWV9QwUaH/Q5
- sFBVkDlTbqUGWVGWDEJnAJIPzmBS3sk3pODkk2upcFVxkv2QjkGauxy+YwX6JwwGu0I1
- 9uYULWpDxkYMvlOBNjaK0EZlv6C9IgAJ+CkneHaDTUbCqYFiXaL2nuIlodiv9kz2Q2MK
- 0gYz0cWbqZfSLeA8OsmD90YR9ZWGPo8WG6FddbOXVZKDT4nyNze68WnOIqn46VlSV1DA
- dTHA==
+ bh=HiDf99ONuWgEdr4jvynmYG1DeBAM0qjC8eL111ML/t4=;
+ b=6IfXpJ7/+BvuG81H1t3laFBqdvrznylWrdGezdtoUydbHJV0f9qMCR1zTzvc8JfhmL
+ hj6WaL9wRbTR+kjD+Ef6Q27f+3BtiebDiU/snp/7eeBW8VbNthIWoQobFCvv7XAEpZHL
+ SI8eOMWNaVnj3SgpMYbupovpZUkeXAb72w9ZY8edHx8hotUcXTbRMxzAWSDr15vznwkw
+ yTXWCm63sUaaIql8OChF6FnGcuNi6D4oIuEy+rnZwXYqNs90jrFsPbUgAFPyM8H1dSgV
+ zNmH6LOcCpDvRraWvKfLYVyYQF4OFCKwmDnABdab4mTZVmV+DP7xAhvx+/DTGThPIIDG
+ IunA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677265265;
+ d=1e100.net; s=20210112; t=1677265268;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DDWoUrS3gNFU9IU+ndidQqS1Eb6eRflzx7e/dFgHmuQ=;
- b=MnIwhMdSwwLM7CeIRVdItoxldKWBCZkAzEJMfnmxL8Dp/I4HdX+D1TX9nvVMWJyAA7
- sqFfsDvKyjVSn+/K7TUoMCSCojyf2UIGmFyopRgnBCA/EyTRyBdLXVFVQNRECXBimeHZ
- n6gM43sS+CMELYe2CtKKH6l4eFr3RraJJYrmvbz0CMh00d75+4VfMTPwUN8+H1drv1b+
- Z+wSxKvc2EPB+pkcCDi7UHMU9eorn9UfAAm2oMqUGjpYpwPaym26Zpji0zlpLFE88/HH
- Lpwm4TgTpio+ttJWiTgNrf+m8Na1PVLoqHKGd2NcPzjilcUn/NJ0xTL3BNJlTG3/wUzT
- NFpQ==
-X-Gm-Message-State: AO0yUKX+nWBB8WTWdBx9sHWGD4jYpZIMhud2zfRK0pePOZCZfw84DMxK
- NFSuYc7yCrtH5DYv6B2pfPYc7w==
-X-Google-Smtp-Source: AK7set+WZgU+3zTTjYykNv3PGxEC8vR7LqK29oW2oCpdeTYLLRkbsX8n0RfYO94RsoPS1UUCKoxG7Q==
-X-Received: by 2002:a17:902:e74f:b0:199:2e77:fe56 with SMTP id
- p15-20020a170902e74f00b001992e77fe56mr21524320plf.52.1677265264643; 
- Fri, 24 Feb 2023 11:01:04 -0800 (PST)
+ bh=HiDf99ONuWgEdr4jvynmYG1DeBAM0qjC8eL111ML/t4=;
+ b=vsJjWMlcZu05FX+f3xFwXMg1+ge/tOzkO59NkrHSviqIk+1ylValH4ZS9tA40XGcHE
+ Na0tdz97l+lwqRp7qZ1eDbjQGtcUfTLY7GQDsFrlXtEdJLuIsnoIoGiGZHF3e4SfyKpl
+ vd+AlU+3Af8k8kA+ge7Bfb7y8xxL+TiLnLYa+IkUP7NwGwwhzMCkOBGKxH1zSN18bXZ1
+ KQh5SDP8eWhKNbaRQNhO1Ox91h+J6aZh78TSiWPXd6SL8ONbr7NqYOUlWvQUWgdY7NZD
+ w7nKBB7GEDOftmSdGrg3PLc3xvwNatl4GHmgbDeevhbhzm2WOsLez9ELZQx4iPg/XhCv
+ erHQ==
+X-Gm-Message-State: AO0yUKVfoD3fZy/4pHn6IazV69IrzKlEF3of3cjrt8LgG3Vf5OKTgzUL
+ cLQRM7+f9bkvaRJ+d53S/IBXjA==
+X-Google-Smtp-Source: AK7set+5OithdA7RhJynaPKnbmvKHLNLtUIHWzcbuGZ2Z9uzPR+CgITfWnv/N+uSJ39m/ykQI/ukzg==
+X-Received: by 2002:a05:6a20:3d81:b0:cc:32aa:8570 with SMTP id
+ s1-20020a056a203d8100b000cc32aa8570mr6886326pzi.14.1677265267930; 
+ Fri, 24 Feb 2023 11:01:07 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- g5-20020a170902c38500b0019c92f56983sm7512159plg.120.2023.02.24.11.01.04
+ k11-20020aa790cb000000b005e093020cabsm2172654pfk.45.2023.02.24.11.01.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 11:01:04 -0800 (PST)
-Subject: [PULL 4/8] target/riscv: Remove privileged spec version restriction
- for RVV
-Date: Fri, 24 Feb 2023 10:59:05 -0800
-Message-Id: <20230224185908.32706-5-palmer@rivosinc.com>
+ Fri, 24 Feb 2023 11:01:07 -0800 (PST)
+Subject: [PULL 6/8] target/riscv: Smepmp: Skip applying default rules when
+ address matches
+Date: Fri, 24 Feb 2023 10:59:07 -0800
+Message-Id: <20230224185908.32706-7-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230224185908.32706-1-palmer@rivosinc.com>
 References: <20230224185908.32706-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Frank Chang <frank.chang@sifive.com>, Bin Meng <bmeng@tinylab.org>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+ Himanshu Chauhan <hchauhan@ventanamicro.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
  Alistair Francis <alistair.francis@wdc.com>,
  Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,72 +94,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Himanshu Chauhan <hchauhan@ventanamicro.com>
 
-The RVV specification does not require that the core needs to support
-the privileged specification v1.12.0 to support RVV, and there is no
-dependency from ISA level.
+When MSECCFG.MML is set, after checking the address range in PMP if the
+asked permissions are not same as programmed in PMP, the default
+permissions are applied. This should only be the case when there
+is no matching address is found.
 
-This commit removes the restriction from both RVV CSRs and extension CPU
-ISA string.
+This patch skips applying default rules when matching address range
+is found. It returns the index of the match PMP entry.
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230208063209.27279-1-frank.chang@sifive.com>
+Fixes: 824cac681c3 (target/riscv: Fix PMP propagation for tlb)
+Signed-off-by: Himanshu Chauhan <hchauhan@ventanamicro.com>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20230209055206.229392-1-hchauhan@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/cpu.c |  2 +-
- target/riscv/csr.c | 21 +++++++--------------
- 2 files changed, 8 insertions(+), 15 deletions(-)
+ target/riscv/pmp.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0dd2f0c753..93b52b826c 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -73,7 +73,7 @@ struct isa_ext_data {
-  */
- static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
--    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
-+    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
-     ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
-     ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index fa17d7770c..1b0a0c1693 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3980,20 +3980,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_FRM]      = { "frm",      fs,     read_frm,     write_frm    },
-     [CSR_FCSR]     = { "fcsr",     fs,     read_fcsr,    write_fcsr   },
-     /* Vector CSRs */
--    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart,
--                       .min_priv_ver = PRIV_VERSION_1_12_0            },
--    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat,
--                       .min_priv_ver = PRIV_VERSION_1_12_0            },
--    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm,
--                       .min_priv_ver = PRIV_VERSION_1_12_0            },
--    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr,
--                       .min_priv_ver = PRIV_VERSION_1_12_0            },
--    [CSR_VL]       = { "vl",       vs,     read_vl,
--                       .min_priv_ver = PRIV_VERSION_1_12_0            },
--    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype,
--                       .min_priv_ver = PRIV_VERSION_1_12_0            },
--    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb,
--                       .min_priv_ver = PRIV_VERSION_1_12_0            },
-+    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart },
-+    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat  },
-+    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm   },
-+    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr   },
-+    [CSR_VL]       = { "vl",       vs,     read_vl                    },
-+    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype                 },
-+    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb                 },
-     /* User Timers and Counters */
-     [CSR_CYCLE]    = { "cycle",    ctr,    read_hpmcounter  },
-     [CSR_INSTRET]  = { "instret",  ctr,    read_hpmcounter  },
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index d1126a6066..4bc4113531 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -441,9 +441,12 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+                 }
+             }
+ 
+-            if ((privs & *allowed_privs) == privs) {
+-                ret = i;
+-            }
++            /*
++             * If matching address range was found, the protection bits
++             * defined with PMP must be used. We shouldn't fallback on
++             * finding default privileges.
++             */
++            ret = i;
+             break;
+         }
+     }
 -- 
 2.39.0
 
