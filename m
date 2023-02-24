@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FC56A17F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05CB6A1810
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:37:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVTSb-0002uN-Du; Fri, 24 Feb 2023 03:29:47 -0500
+	id 1pVTZp-0006kd-UH; Fri, 24 Feb 2023 03:37:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pVTSV-0002tM-Ia
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:29:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pVTST-0006hJ-PD
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:29:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677227376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GNiQdeXMBEYDa9tfcobl1aT4IunAoU96cvwoIILkAUA=;
- b=Er2R6guVqjVk0Oi8DpYAlKAGyfnWbTr+ZdGbQwHUZ8jixR4r37Yr6X/eMXUruCykpG+ZK7
- UxASU6/rWmVcuXlXulVtqG+ccb5Uvdk9yleti56iko5PW+gPVkC4W/QA7pmWP/dTB/e+Jp
- bJGXaBcqt5LeG/sNLhcfpkFnXtExF58=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-489-9K5_KsxiN2uVG_BlA8IgDg-1; Fri, 24 Feb 2023 03:29:35 -0500
-X-MC-Unique: 9K5_KsxiN2uVG_BlA8IgDg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- co14-20020a0564020c0e00b004aab4319cedso17871555edb.2
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:29:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pVTZm-0006k9-SN
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:37:10 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pVTZl-000194-3D
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:37:10 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id n2so1745922pfo.12
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wHh60naRfd/Nqp5u7EjO9AbkXjhoET7UR+xrIio9oyc=;
+ b=gAfaxBmD5mR+I+e4yPX+r94KDmtBg8tfQPxTSxOOnz1eo7Y7vOqrrigDudCLWdk9P0
+ Cen16ViHOWP2uwfwW22IlsSArZN/eKnD3tB9bwZcQz32DmDeRTLGWpOHlm2UvyVFzF4V
+ s3bnAWBVQBep+T5LNFoUNZQq7UAjGog+ffEanuGzbEYOfOANKM6SoiKkXYLQz284tVmQ
+ 4VR/a3bhCr/7Gjf2eIdk+S8IgCkoiblb4vPJXuy+qnNUX1b1myDoGnM+/X6pvgm7mSPx
+ pq8xbWTu/LOsxmWCXYFZoi8E2A4oniL45JYKQITMTO8yIIBR8oEl6D7+t5iK8Uj5uSc6
+ WObA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GNiQdeXMBEYDa9tfcobl1aT4IunAoU96cvwoIILkAUA=;
- b=UOigv7n4Od4yTYuTEbwEsk1oGue64c4Csx7O2vBxZTfmUjcJlPnK1QR7em+Jx82702
- TonPyrIGFladnBVXmdELe3u43T7WqbGWRnkiviAlTkYwHfOwn8DWCGpZj/V9RHoB1+2B
- COZjBf6Vk9ODaDeRqzk5CKeo5PLjTsGAhNavgh3aEREuxZDpeNnwCrkx2l18TLTajBid
- aifiLO+TIoF089N3Icyb3LpyTQyGmzq4R0dqs4escp/CcOI1MldesB2WJqNmy7LjcJ0q
- cDp5YskL9cRTqug+N+mdKiG35xE3pU63Q4bZ+p61gGj82LOigNUlld+9Q7GXM5kBjX9E
- IHmQ==
-X-Gm-Message-State: AO0yUKWhvPH4twUfNzXauD4n0HNjlmfhbuqDKFALNKg4pEtjewQkGFNm
- Sc03F2u4V7cgMmJNa/J1WDYHfcOBSMLdYjKCuBLP5ClY1v5wsMyILIgoUx53xq7pUGQvj1fc1RS
- MVKvfYatvhpfvUas=
-X-Received: by 2002:a17:906:11ce:b0:88a:a27c:c282 with SMTP id
- o14-20020a17090611ce00b0088aa27cc282mr22722002eja.47.1677227374043; 
- Fri, 24 Feb 2023 00:29:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set+C+Nd2cSeitDLI5uE//FNNHHHmJ1Sx/KzPKHG/DGN9S6awyCxahrODfoszebYuZ6c/+Xe46w==
-X-Received: by 2002:a17:906:11ce:b0:88a:a27c:c282 with SMTP id
- o14-20020a17090611ce00b0088aa27cc282mr22721994eja.47.1677227373696; 
- Fri, 24 Feb 2023 00:29:33 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.googlemail.com with ESMTPSA id
- f29-20020a50a6dd000000b004ad6e3e4a26sm6614445edc.84.2023.02.24.00.29.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 00:29:33 -0800 (PST)
-Message-ID: <005ace5a-a767-c850-4667-423deea2435b@redhat.com>
-Date: Fri, 24 Feb 2023 09:29:31 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wHh60naRfd/Nqp5u7EjO9AbkXjhoET7UR+xrIio9oyc=;
+ b=PodDj2VJ4l41G4RZhby+1Owzj4ocfIP4atFl1f+6wn/qd+vjBhI8g8JwwuoNAYZ0BR
+ 5zi1FFDSshnlH4hYtGRgsj4t2DFArV68Zbux3dMhjLQoE2fQ+OmeEcGv1j4EJ4PctD1t
+ vuEPi85q+gXujm0RdRRCW+bdNj8D4u1T5wBb5GIdU5Ng8dU+aLoHIULPmR4vOyM+YRJ0
+ 3RkhSQlRXPtwPpRWNjYZUhW1NAbGCaBqb3t5mETZOufZwcgfG0l96wyv+cAN3brmktaE
+ S7taSNZiWEZ9yxAsuuVX8KwdBo7Mqsc8zl4kV4J9zvxr9DAgx6ZE5ARyh2mkujM4ilzz
+ YIrg==
+X-Gm-Message-State: AO0yUKUccMGV1twyulPw3xV3KCoawHEXhsGjRbmJuNMD8qO9oQWVUuMk
+ 6hTK0Ir4BRbS5nWHjEFUeEVCRc0DqjjHqLq3
+X-Google-Smtp-Source: AK7set9kclb7nFSL3SO9QTh4pfEFrU/iTtkR8EbImPRY7fAwGukRM83IW9Q8zFbmFQvSg4iSG8/NZg==
+X-Received: by 2002:aa7:9599:0:b0:593:ebc7:a6d2 with SMTP id
+ z25-20020aa79599000000b00593ebc7a6d2mr13704382pfj.21.1677227827452; 
+ Fri, 24 Feb 2023 00:37:07 -0800 (PST)
+Received: from kerodi.Dlink ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
+ e3-20020aa78243000000b005dd98927cc5sm2507945pfn.76.2023.02.24.00.37.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Feb 2023 00:37:07 -0800 (PST)
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Andrew Jones <ajones@ventanamicro.com>,
+ Anup Patel <apatel@ventanamicro.com>,
+ Atish Kumar Patra <atishp@rivosinc.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Sunil V L <sunilvl@ventanamicro.com>
+Subject: [PATCH V4 0/8] Add basic ACPI support for risc-v virt
+Date: Fri, 24 Feb 2023 14:06:53 +0530
+Message-Id: <20230224083701.2657063-1-sunilvl@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] cpu/i386: update xsave components after CPUID filtering
-Content-Language: en-US
-To: Huanyu ZHAI <huanyu.zhai@outlook.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-References: <AS4P190MB202188766937CF16EC4F1DAFF60C9@AS4P190MB2021.EURP190.PROD.OUTLOOK.COM>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <AS4P190MB202188766937CF16EC4F1DAFF60C9@AS4P190MB2021.EURP190.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,89 +93,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/23/22 19:17, Huanyu ZHAI wrote:
-> Subject: [PATCH] cpu/i386: update xsave components after CPUID filtering
-> 
-> On i386 platform, CPUID data are setup through three consecutive steps: 
-> CPU model definition, expansion and filtering.
-> 
-> XSAVE components are enabled during the expansion stage, by checking if 
-> they are enabled in CPUID. However, it is still
-> 
-> probable that some XSAVE features will be enabled/disabled during the 
-> filtering stage and the XSAVE components left unchanged.
-> 
-> Inconsistency between XSAVE features and enabled XSAVE components can 
-> lead to problems on some Linux guests in the absence of
+This series adds the basic ACPI support for the RISC-V virt machine. 
+Currently only RINTC interrupt controller specification is approved by the
+UEFI forum. External interrupt controller support in ACPI is in progress.
 
-The patch is correct, but I think you can also remove the existing call 
-to x86_cpu_enable_xsave_components().  Can you test that?
+The basic infrastructure changes are mostly leveraged from ARM.
 
-Thanks,
+This adds support for RINTC and RHCT tables as specified in below ECR links
+which are approved by UEFI forum.
+RINTC - https://drive.google.com/file/d/1R6k4MshhN3WTT-hwqAquu5nX6xSEqK2l/view
+RHCT - https://drive.google.com/file/d/1nP3nFiH4jkPMp6COOxP6123DCZKR-tia/view
 
-Paolo
+These changes are also available @
+https://github.com/vlsunil/qemu/tree/acpi_b1_us_review_V4
 
-> the following patch in the kernel:
-> 
-> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1452368.html <https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1452368.html>
-> 
-> A simple case to reproduce this problem is to start a SUSE 12 SP3 guest 
-> with cpu model set to Skylake-Server:
-> 
-> $ qemu-system-x86_64 -cpu Skylake-Server ...
-> 
-> In the SUSE 12 SP3 guest, one can observe that PKRU will be enabled 
-> without Intel PKU's presence.
-> 
-> That's because on platform with Skylake-Server cpus, Intel PKU is 
-> disabled during x86_cpu_filter_features(),
-> 
-> but the XSAVE PKRU bit was enabled by x86_cpu_expand_features().
-> 
-> Signed-off-by: Huanyu ZHAI zhaihuanyu@huawei.com 
-> <mailto:zhaihuanyu@huawei.com>
-> 
-> Signed-off-by: Xin Wang wangxinxin.wang@huawei.com 
-> <mailto:wangxinxin.wang@huawei.com>
-> 
-> ---
-> 
-> target/i386/cpu.c | 3 +++
-> 
-> 1 file changed, 3 insertions(+)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> 
-> index 22b681ca37..2ee574cf05 100644
-> 
-> --- a/target/i386/cpu.c
-> 
-> +++ b/target/i386/cpu.c
-> 
-> @@ -6362,6 +6362,9 @@ static void x86_cpu_filter_features(X86CPU *cpu, 
-> bool verbose)
-> 
->               mark_unavailable_features(cpu, FEAT_7_0_EBX, 
-> CPUID_7_0_EBX_INTEL_PT, prefix);
-> 
->           }
-> 
->       }
-> 
-> +
-> 
-> +    /* Update XSAVE components again based on the filtered CPU feature 
-> flags */
-> 
-> +    x86_cpu_enable_xsave_components(cpu);
-> 
-> }
-> 
-> static void x86_cpu_hyperv_realize(X86CPU *cpu)
-> 
-> -- 
-> 
-> 2.27.0
-> 
+Changes since V3:
+	1) Added back acpi_align_size() wrapper as per Drew's feedback
+	2) Updated RB tags
+
+Changes since V2:
+	1) Squashed commits and updated commit message as per feedback from Daniel.
+	2) Addressed comments from Drew.
+	3) Updated tags.
+
+Changes since V1:
+	1) Addressed comments from Bin Meng.
+	2) Made acpi switch default AUTO similar to other architectures.
+	3) Re-based and added RB and ACKs.
+
+The series is tested using SBI HVC console and initrd.
+
+Test instructions:
+1) Build Qemu with ACPI support (this series)
+
+2) Build EDK2 as per instructions in
+https://github.com/vlsunil/riscv-uefi-edk2-docs/wiki/RISC-V-Qemu-Virt-support
+
+3) Build Linux with ACPI support using below branch
+https://github.com/vlsunil/linux/commits/acpi_b1_us_review_ipi17_V2
+after enabling SBI HVC and SBI earlycon options.
+
+CONFIG_RISCV_SBI_V01=y
+CONFIG_SERIAL_EARLYCON_RISCV_SBI=y
+CONFIG_HVC_RISCV_SBI=y
+
+4) Build buildroot.
+
+Run with below command.
+qemu-system-riscv64   -nographic \
+-drive file=Build/RiscVVirtQemu/RELEASE_GCC5/FV/RISCV_VIRT.fd,if=pflash,format=raw,unit=1 \
+-machine virt -smp 16 -m 2G \
+-kernel arch/riscv/boot/Image \
+-initrd buildroot/output/images/rootfs.cpio \
+-append "root=/dev/ram ro console=hvc0 earlycon=sbi"
+
+
+Sunil V L (8):
+  hw/riscv/virt: Add OEM_ID and OEM_TABLE_ID fields
+  hw/riscv/virt: Add a switch to disable ACPI
+  hw/riscv/virt: Add memmap pointer to RiscVVirtState
+  hw/riscv/virt: Enable basic ACPI infrastructure
+  hw/riscv/virt: virt-acpi-build.c: Add RINTC in MADT
+  hw/riscv/virt: virt-acpi-build.c: Add RHCT Table
+  hw/riscv/virt.c: Initialize the ACPI tables
+  MAINTAINERS: Add entry for RISC-V ACPI
+
+ MAINTAINERS                |  18 +-
+ hw/riscv/Kconfig           |   1 +
+ hw/riscv/meson.build       |   1 +
+ hw/riscv/virt-acpi-build.c | 396 +++++++++++++++++++++++++++++++++++++
+ hw/riscv/virt.c            |  40 ++++
+ include/hw/riscv/virt.h    |   6 +
+ 6 files changed, 456 insertions(+), 6 deletions(-)
+ create mode 100644 hw/riscv/virt-acpi-build.c
+
+-- 
+2.34.1
 
 
