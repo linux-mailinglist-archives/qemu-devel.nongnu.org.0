@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4D36A1C1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 13:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961B86A1C48
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 13:37:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVX9l-00051z-Hp; Fri, 24 Feb 2023 07:26:33 -0500
+	id 1pVXJN-00027e-60; Fri, 24 Feb 2023 07:36:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pVX9j-00051Z-KU; Fri, 24 Feb 2023 07:26:31 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ id 1pVXJG-000272-0i; Fri, 24 Feb 2023 07:36:22 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pVX9h-0002RT-MX; Fri, 24 Feb 2023 07:26:31 -0500
+ id 1pVXJD-0007IL-IF; Fri, 24 Feb 2023 07:36:21 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 76677746377;
- Fri, 24 Feb 2023 13:26:25 +0100 (CET)
+ by localhost (Postfix) with SMTP id E44FF74635C;
+ Fri, 24 Feb 2023 13:36:14 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 36A08746346; Fri, 24 Feb 2023 13:26:25 +0100 (CET)
+ id A25BC746346; Fri, 24 Feb 2023 13:36:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 34B4B745720;
- Fri, 24 Feb 2023 13:26:25 +0100 (CET)
-Date: Fri, 24 Feb 2023 13:26:25 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id A0A4B745720;
+ Fri, 24 Feb 2023 13:36:14 +0100 (CET)
+Date: Fri, 24 Feb 2023 13:36:14 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: =?ISO-8859-15?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>, 
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+To: Peter Maydell <peter.maydell@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
  Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@redhat.com
-Subject: Re: [PATCH 5/5] hw/audio/via-ac97: Basic implementation of audio
- playback
-In-Reply-To: <DF35DA6B-ED6A-43E3-A28E-7936560B6452@gmail.com>
-Message-ID: <1fb9a354-edff-cc60-2f53-bafd955daa6b@eik.bme.hu>
-References: <cover.1677004414.git.balaton@eik.bme.hu>
- <f84b42b8e811c6a0ddb23139fdfd654c8cc4f09c.1677004415.git.balaton@eik.bme.hu>
- <89f85024-6057-f0a8-3d4a-20eeaeec8878@t-online.de>
- <DF35DA6B-ED6A-43E3-A28E-7936560B6452@gmail.com>
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Sebastian Bauer <mail@sebastianbauer.info>
+Subject: Re: [PATCH] hw/display/sm501: Add alternatives to pixman routines
+In-Reply-To: <CAFEAcA9w68d9ChqMq6zwfiJwMjkbHXbDefCk4Dm7Z8aya-7CPg@mail.gmail.com>
+Message-ID: <a6f8c603-a231-40ea-0898-f97800a33517@eik.bme.hu>
+References: <20230224001852.4B813746324@zero.eik.bme.hu>
+ <CAFEAcA9w68d9ChqMq6zwfiJwMjkbHXbDefCk4Dm7Z8aya-7CPg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1832779222-1677241585=:16812"
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,85 +61,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1832779222-1677241585=:16812
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 24 Feb 2023, Bernhard Beschow wrote:
-> Am 23. Februar 2023 19:40:03 UTC schrieb "Volker Rümelin" <vr_qemu@t-online.de>:
->> Am 21.02.23 um 19:44 schrieb BALATON Zoltan:
->>> This adds basic implementation of the AC'97 sound part used in VIA
->>> south bridge chips. Not all features of the device is emulated, only
->>> one playback channel is supported but this is enough to get sound
->>> output from some guests running on machines using this device such as
->>> pegasos2.
->>>
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> ---
->>>   hw/audio/trace-events     |   6 +
->>>   hw/audio/via-ac97.c       | 436 +++++++++++++++++++++++++++++++++++++-
->>>   hw/isa/vt82c686.c         |   3 +-
->>>   include/hw/isa/vt82c686.h |  26 +++
->>>   4 files changed, 466 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/hw/audio/trace-events b/hw/audio/trace-events
->>> index e0e71cd9b1..6eccdaa4b5 100644
->>> --- a/hw/audio/trace-events
->>> +++ b/hw/audio/trace-events
->>> @@ -11,3 +11,9 @@ hda_audio_running(const char *stream, int nr, bool running) "st %s, nr %d, run %
->>>   hda_audio_format(const char *stream, int chan, const char *fmt, int freq) "st %s, %d x %s @ %d Hz"
->>>   hda_audio_adjust(const char *stream, int pos) "st %s, pos %d"
->>>   hda_audio_overrun(const char *stream) "st %s"
->>> +
->>> +#via-ac97.c
->>> +via_ac97_codec_write(uint8_t addr, uint16_t val) "0x%x <- 0x%x"
->>> +via_ac97_sgd_fetch(uint32_t addr, char stop, char eol, char flag, uint32_t len) "addr=0x%x %c%c%c len=%d"
->>> +via_ac97_sgd_read(uint64_t addr, unsigned size, uint64_t val) "0x%"PRIx64" %d -> 0x%"PRIx64
->>> +via_ac97_sgd_write(uint64_t addr, unsigned size, uint64_t val) "0x%"PRIx64" %d <- 0x%"PRIx64
->>> diff --git a/hw/audio/via-ac97.c b/hw/audio/via-ac97.c
->>> index d1a856f63d..cdac5bc14b 100644
->>> --- a/hw/audio/via-ac97.c
->>> +++ b/hw/audio/via-ac97.c
->>> @@ -1,39 +1,467 @@
->>>   /*
->>>    * VIA south bridges sound support
->>>    *
->>> + * Copyright (c) 2022-2023 BALATON Zoltan
->>> + *
->>>    * This work is licensed under the GNU GPL license version 2 or later.
->>>    */
->>>     /*
->>> - * TODO: This is entirely boiler plate just registering empty PCI devices
->>> - * with the right ID guests expect, functionality should be added here.
->>> + * TODO: This is only a basic implementation of one audio playback channel
->>> + *       more functionality should be added here.
->>>    */
->>>     #include "qemu/osdep.h"
->>> +#include "qemu/log.h"
->>>   #include "hw/isa/vt82c686.h"
->>> -#include "hw/pci/pci_device.h"
->>> +#include "ac97.h"
->>> +#include "trace.h"
->>> +
->>> +#define CLEN_IS_EOL(x)  ((x)->clen & BIT(31))
->>> +#define CLEN_IS_FLAG(x) ((x)->clen & BIT(30))
->>> +#define CLEN_IS_STOP(x) ((x)->clen & BIT(29))
->>> +#define CLEN_LEN(x)     ((x)->clen & 0xfff)
+On Fri, 24 Feb 2023, Peter Maydell wrote:
+> On Fri, 24 Feb 2023 at 00:18, BALATON Zoltan <balaton@eik.bme.hu> wrote:
 >>
->> Hi,
+>> Pixman can sometimes return false so add fallbacks for such cases and
+>> also add a property to disable pixman and always use the fallbacks
+>> which can be useful on platforms where pixman is broken or for testing
+>> different drawing methods.
 >>
->> the CLEN_LEN mask is 0xffffff instead of 0xfff. The SGD Table Base Count has 24 bits.
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>> Also ping for the other sm501 patch I've sent a week ago:
+>> https://patchew.org/QEMU/20230216144043.D632874634B@zero.eik.bme.hu/
+>> These two patches are needed to fix graphics issues with AmigaOS so
+>> I'd like them to be merged for 8.0
+>>
+>> @@ -2010,6 +2035,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
+>>  static Property sm501_sysbus_properties[] = {
+>>      DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
+>>      DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
+>> +    DEFINE_PROP_BOOL("x-pixman", SM501SysBusState, state.use_pixman, true),
+>>      DEFINE_PROP_END_OF_LIST(),
+>>  };
+>>
+>> @@ -2093,6 +2119,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
+>>
+>>  static Property sm501_pci_properties[] = {
+>>      DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
+>> +    DEFINE_PROP_BOOL("x-pixman", SM501PCIState, state.use_pixman, true),
+>>      DEFINE_PROP_END_OF_LIST(),
+>>  };
 >
-> This fixes sound for a x86 Linux guest on my pc-via branch.
+> I don't think this should be a user-facing property on a single
+> graphics device. Either pixman works, or it doesn't (in which
+> case we might need to do configure time checks and have a
+> fallback), but we shouldn't make the user have to set an
+> undocumented property on the device to get it to work.
 
-Thanks, will be in next version. Not sure where have I lost that, maybe 
-accidenatlly deleted part of the constant on a rebase and did not notice.
-Bernhard does that mean you give a Tested-by for this patch?
+This is mostly for testing now, that's why I've also called it with an x- 
+prefix and not intended as a final solution or something that users would 
+need to use. I'd decide later if we want to keep pixman or replace it with 
+something else (as the problems we found with recently makes me think it 
+might not be such a good idea after all) but for now I need a way to 
+control it and do testing with or without pixman to get some data to help 
+to decide what to do with it. This patch should handle tha cases where 
+pixman returns false (like missing implementation on macOS aarch64) so no 
+need to set this option normally. It's only when I want to easily test if 
+a problem is pixman related, so I can easily set it to fallback or ask 
+users who report a problem to try that. If you think this should be 
+clarified in the commit message can you please suggest a consise sentence 
+to describe this in a way that makes sense in English?
 
 Regards,
 BALATON Zoltan
---3866299591-1832779222-1677241585=:16812--
 
