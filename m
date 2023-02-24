@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28E16A15EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 05:32:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC536A15E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 05:31:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVPjC-00075m-6z; Thu, 23 Feb 2023 23:30:38 -0500
+	id 1pVPjC-000765-Pu; Thu, 23 Feb 2023 23:30:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pVM3C-00067Q-Nq
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pVM3C-00067P-LC
  for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:35:02 -0500
 Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pVM3B-0003mD-7c
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pVM3A-0003mP-OS
  for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:35:02 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 709995C00E3;
- Thu, 23 Feb 2023 19:34:59 -0500 (EST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1D9175C01B5;
+ Thu, 23 Feb 2023 19:35:00 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 23 Feb 2023 19:34:59 -0500
+ by compute2.internal (MEProxy); Thu, 23 Feb 2023 19:35:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm3; t=1677198899; x=1677285299; bh=/mtwo2KYCh2HRjIqcqyTptRxF
- iwqStgL0AnmN1J/q5w=; b=ST9JvWTh4SC0IhRiKiEhAlKkHftaYNXjSgpeeBt/E
- 2rXFj1RvIU0OUOJL06ABMojSwGyz6MWuzoxv2Tj7W3yBjTHVk5Yd6AfgaSb5sg+c
- GTHE62qdoIYJ9A6dvj753mD+PhuV5Yr5tqBTZDK+Bf5pthEfYCrBCSXO48TWiGYd
- ShkSm6U2aDh1tQht73/WwlnuQvxYw8y5iZh9EKFZkJvacbuDk3wBOWUJlQddHT/k
- xPiW5F/BcQYOZckSVFXw0rxbdNUR98xsVfLHPq/BlseqgIIF0TNg5kDdf6tUWEzs
- 6I/biUqEvaUlyBg/YNGbdKxKFvET6T1fr5x1IxiG82u/w==
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1677198900; x=1677285300; bh=mh
+ PfI2B83HcaOVUPGacb7vOqA72CJmYkLPX8XYkeom4=; b=ZMLweERl4UwvNHxyP3
+ kBSCzJZDP1kkCJIexh8DM+3mqcy0puLtQ1k3bJFKKHViYi2Fxuw8nqSmrHYC2gfr
+ zA52o9DU7QoMz3cndW5+LgkGVhoABz79SqXg/xYhse2PhUo1JPmUiS1ZvIS2t3K+
+ OLBzZtwXGJ42LY4IOvYVOM/FBe3o9QSLgOCuT9ztToizAMHUUyurHH01hBsrTE8+
+ BB4O1YI3Wcn+bPvcugNbCqRBV2Cvta/XUhmRM5ddLaLm41WI8gDA7k0OS2g/ga1A
+ c8vf2YejWqbNg02WtE/UPCWt/SQYudiIowOV0uKBS38F1pVMIXbTvzZedkDnOYI0
+ kU1w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1677198899; x=1677285299; bh=/mtwo2KYCh2HRjIqcqyTptRxFiwqStgL0An
- mN1J/q5w=; b=ocOBqOiXCoB/0e7Mz2a+dpVhAwyVubI3BSGT5nQfHcZaslL2SuH
- s9mBE8BFmneGrLoPrA0dL6iRWeODT83BEJLV4wLWzaaII2IN8todqZEIDzuTURDk
- rVBGCmOLo6NlG8ZnoghfGSmnHA0gHMiFEd9ZxiI6J97dvbdDLv1EMBjQb9gOxUo1
- BTV06C536cRlrR69VKciOQ8qN5Zdq2VPnwrAp8DXuLtBI2MBYcZsbWMpKpT810+x
- KKEGJoFkX5LSz9jkzP6m+6bBkmJF7GZfTkl6pdF7ZEp0U7j9DoKXf0ocEdNad1fC
- dIgby9kDrhOJvB0nmsfuCmuoqihhhhF0evg==
-X-ME-Sender: <xms:Mwb4Y9Vn3cKqup0WMA9iXi26HCgKSMhOxkG9Erkyhy8M5_jqady93w>
- <xme:Mwb4Y9mv4JmGXf_OPsOw0jp0VTqTeIJD0JdoDWaHAe69z6t62v6Z6ctyuEUD6a4h6
- KtOTjjUQ9wWhBu4nw>
-X-ME-Received: <xmr:Mwb4Y5YtFKSYDB3PKrBchT-NhO5OdqfvAjgS306JfwIbjZT1ZOYPzQZv-c9vcCCiy6vgNB0j6MB8gQOBp7ws-9BSC8nw0EDoGEhCXLh-Gss>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekvddgvdduucetufdoteggodetrfdotf
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1677198900; x=1677285300; bh=mhPfI2B83HcaO
+ VUPGacb7vOqA72CJmYkLPX8XYkeom4=; b=d72HPIIdKBc6djtXICyFz0ZSVPCHP
+ MVrzn/FBn2KwllMcyRdlV5e11Zax43xvsXieepJiM6WDW9JweTR1ksmyta1ZIB5X
+ Wu14yUM0uSvT0l1iepgJnmzsUQvXcymO4C23g4CpoxgvVy2wpuQTFUZkT3ZMgGgk
+ DqVBWSnSsFw/ID3nDdlHdZqXEmCaG2dTLKtBEenYG/sROWZI9BmrvQXzPNL+DFgs
+ 2/SqHsuy27H/pbkQpyixgEEohxnImbg8UziAQHnRi31LRR0pGsCufX7DnPmkl+/5
+ NwltQJIgbKPv7d4uqJKuHMEErQo+GblKSS2nDAsM8iG3WLgrz3yiLuBPw==
+X-ME-Sender: <xms:Mwb4Y4RYx7qQFHyLw9GvWtMvbkAafj02RUvD6GrGxgn9qGftPNexoQ>
+ <xme:Mwb4Y1xkDfoQ6yaCD9IwUZgtQNl82gGVqVQHuoskoV1QDUR4CoBFvmUUqLXOjHQQR
+ usQnTUfn9lzgzno4Q>
+X-ME-Received: <xmr:Mwb4Y127DsSjwX86o1obYfJNgufCYoPlHHJxtLxZeJ48WOZoPRk5dXfluaXNYaiPxkGZWUSQunNF5EBdV5hLFyaxtrxEqFkjoroaIcRpeUs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekvddgvddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdljedtmdenucfjughrpefhvf
- evufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceougig
- uhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepvdeggfetgfelhefhueefke
- duvdfguedvhfegleejudduffffgfetueduieeikeejnecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:Mwb4YwWZt1yz3nJVK42ib1TcUg_aHnJhtx0D5blPNYwimZOypqhE6Q>
- <xmx:Mwb4Y3lphhBaN0UyAWWY_s06Nxwk3Yyl8eJl8K_jyWMxjvdbbHuxpg>
- <xmx:Mwb4Y9c6cHb5q8gvYHLxBguvOXuMwHj7UNeX7O10ZZQHd7P6uGEx8A>
- <xmx:Mwb4Y_vfxE-xXPMNse_8Un6pKE3I5F6N_ZNreou87VpLtd4_mtIG4w>
+ evufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceo
+ ugiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepgfefgfegjefhudeike
+ dvueetffelieefuedvhfehjeeljeejkefgffeghfdttdetnecuvehluhhsthgvrhfuihii
+ vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
+X-ME-Proxy: <xmx:NAb4Y8DAOltdWLcdmG8dxCbtU2tQb1HYUN7dZ4pR-qSHPiiRecylTA>
+ <xmx:NAb4YxhWdA4w2MKHGs2bftKmkhE83qE-fs3NzgR52RqczT_cLvjvCg>
+ <xmx:NAb4Y4rU6FsFTmFfu6cFnem1xR1XsteuxW10lM982eXLhr52yUoCxg>
+ <xmx:NAb4YxYkYXcjuQGM-uzGjQZQFQ5FQFTsEQmhWWw1uTl1ePqDLh2tXw>
 Feedback-ID: i6a694271:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Feb 2023 19:34:58 -0500 (EST)
+ 23 Feb 2023 19:34:59 -0500 (EST)
 From: Daniel Xu <dxu@dxuuu.xyz>
 To: michael.roth@amd.com,
 	kkostiuk@redhat.com
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] qga: Add optional `merge-output` flag to guest-exec QAPI
-Date: Thu, 23 Feb 2023 17:34:32 -0700
-Message-Id: <cover.1677197937.git.dxu@dxuuu.xyz>
+Subject: [PATCH 1/3] qga: test: Use absolute path to test data
+Date: Thu, 23 Feb 2023 17:34:33 -0700
+Message-Id: <d4b8f60e02ae9f6fd12f2d05feae3c903cfe9e82.1677197937.git.dxu@dxuuu.xyz>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <cover.1677197937.git.dxu@dxuuu.xyz>
+References: <cover.1677197937.git.dxu@dxuuu.xyz>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=dxu@dxuuu.xyz;
@@ -81,7 +84,7 @@ X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 23 Feb 2023 23:30:32 -0500
+X-Mailman-Approved-At: Thu, 23 Feb 2023 23:30:30 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,29 +99,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, the captured output (via `capture-output`) is segregated into
-separate GuestExecStatus fields (`out-data` and `err-data`). This means
-that downstream consumers have no way to reassemble the captured data
-back into the original stream.
+It looks like qga's working directory is in a tempdir. So the relative
+path that the test case gives qga through the QGA_OS_RELEASE=
+env variable does not resolve correctly.
 
-This is relevant for chatty and semi-interactive (ie. read only) CLI
-tools.  Such tools may deliberately interleave stdout and stderr for
-visual effect. If segregated, the output becomes harder to visually
-understand.
+Fix by doing a poor man's path canonicalization of the test data file.
 
-This patchset adds support for merging stderr and stdout output streams
-via a new QAPI flag.
+Note we cannot use g_canonicalize_filename() b/c that helper was only
+introduced in glib 2.58 and the current GLIB_VERSION_MAX_ALLOWED is
+pinned to 2.56.
 
-Daniel Xu (3):
-  qga: test: Use absolute path to test data
-  qga: Add optional `merge-output` flag to guest-exec qapi
-  qga: test: Add tests for `merge-output` flag
+Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+---
+ tests/unit/test-qga.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
- qga/commands.c        |  13 +++-
- qga/qapi-schema.json  |   6 +-
- tests/unit/test-qga.c | 135 ++++++++++++++++++++++++++++++++++++------
- 3 files changed, 133 insertions(+), 21 deletions(-)
-
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+index b4e0a14573..9d8e1d1cd3 100644
+--- a/tests/unit/test-qga.c
++++ b/tests/unit/test-qga.c
+@@ -881,13 +881,16 @@ static void test_qga_guest_get_osinfo(gconstpointer data)
+ {
+     TestFixture fixture;
+     const gchar *str;
++    g_autofree const gchar *cwd;
+     g_autoptr(QDict) ret = NULL;
+     char *env[2];
+     QDict *val;
+ 
++    cwd = g_get_current_dir();
+     env[0] = g_strdup_printf(
+-        "QGA_OS_RELEASE=%s%c..%cdata%ctest-qga-os-release",
+-        g_test_get_dir(G_TEST_DIST), G_DIR_SEPARATOR, G_DIR_SEPARATOR, G_DIR_SEPARATOR);
++        "QGA_OS_RELEASE=%s%c%s%c..%cdata%ctest-qga-os-release",
++        cwd, G_DIR_SEPARATOR, g_test_get_dir(G_TEST_DIST), G_DIR_SEPARATOR,
++        G_DIR_SEPARATOR, G_DIR_SEPARATOR);
+     env[1] = NULL;
+     fixture_setup(&fixture, NULL, env);
+ 
 -- 
 2.39.1
 
