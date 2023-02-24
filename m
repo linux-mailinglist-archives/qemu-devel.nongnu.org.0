@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2237A6A21FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 20:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BBB06A21FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 20:03:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVdJs-0001jr-Lh; Fri, 24 Feb 2023 14:01:24 -0500
+	id 1pVdJm-0001go-Ug; Fri, 24 Feb 2023 14:01:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pVdJl-0001gh-Jo
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:17 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1pVdJi-0001eU-Vg
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:14 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pVdJe-0002ee-ON
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:17 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- gi3-20020a17090b110300b0023762f642dcso173400pjb.4
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 11:01:08 -0800 (PST)
+ id 1pVdJe-0002er-Ef
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:14 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id l1so51765pjt.2
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 11:01:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677265268;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677265269;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HiDf99ONuWgEdr4jvynmYG1DeBAM0qjC8eL111ML/t4=;
- b=6IfXpJ7/+BvuG81H1t3laFBqdvrznylWrdGezdtoUydbHJV0f9qMCR1zTzvc8JfhmL
- hj6WaL9wRbTR+kjD+Ef6Q27f+3BtiebDiU/snp/7eeBW8VbNthIWoQobFCvv7XAEpZHL
- SI8eOMWNaVnj3SgpMYbupovpZUkeXAb72w9ZY8edHx8hotUcXTbRMxzAWSDr15vznwkw
- yTXWCm63sUaaIql8OChF6FnGcuNi6D4oIuEy+rnZwXYqNs90jrFsPbUgAFPyM8H1dSgV
- zNmH6LOcCpDvRraWvKfLYVyYQF4OFCKwmDnABdab4mTZVmV+DP7xAhvx+/DTGThPIIDG
- IunA==
+ bh=LNYI9dmX50T6dGo7VdQuyO6akiZafXJYK1pmz8lKKOc=;
+ b=azLaETNcBSd/1qj/mncSqkf9N7m7dRnnstusmkRrT/PadgC9NtPLcsoWKRMw+La+fD
+ QQhzUBM+yudHJLhXOUeq580MPnR3tTQE6CYKSN6uhd27/TftUn0Y0sWXrYNXpoioP32a
+ ZM2HOtIOXQsEyMxE5RnCvxdTafa56VYzLVjce2/Bkp7MO2eFgneapOAo5bS/UnIrXH+s
+ kLjJE0uTBMDa/RKzK0WdayL0FN8hOSw29I9bYYQ7pEpPzPjdR81e206aC6gyE8qUjPJ3
+ eyXbKJ1OEqsMtq2lf+vsfjWTYBmK0lePDgbeNme6yCjoYsOq+fhwMXxiwQHAEoEF7sVK
+ UOgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677265268;
+ d=1e100.net; s=20210112; t=1677265269;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HiDf99ONuWgEdr4jvynmYG1DeBAM0qjC8eL111ML/t4=;
- b=vsJjWMlcZu05FX+f3xFwXMg1+ge/tOzkO59NkrHSviqIk+1ylValH4ZS9tA40XGcHE
- Na0tdz97l+lwqRp7qZ1eDbjQGtcUfTLY7GQDsFrlXtEdJLuIsnoIoGiGZHF3e4SfyKpl
- vd+AlU+3Af8k8kA+ge7Bfb7y8xxL+TiLnLYa+IkUP7NwGwwhzMCkOBGKxH1zSN18bXZ1
- KQh5SDP8eWhKNbaRQNhO1Ox91h+J6aZh78TSiWPXd6SL8ONbr7NqYOUlWvQUWgdY7NZD
- w7nKBB7GEDOftmSdGrg3PLc3xvwNatl4GHmgbDeevhbhzm2WOsLez9ELZQx4iPg/XhCv
- erHQ==
-X-Gm-Message-State: AO0yUKVfoD3fZy/4pHn6IazV69IrzKlEF3of3cjrt8LgG3Vf5OKTgzUL
- cLQRM7+f9bkvaRJ+d53S/IBXjA==
-X-Google-Smtp-Source: AK7set+5OithdA7RhJynaPKnbmvKHLNLtUIHWzcbuGZ2Z9uzPR+CgITfWnv/N+uSJ39m/ykQI/ukzg==
-X-Received: by 2002:a05:6a20:3d81:b0:cc:32aa:8570 with SMTP id
- s1-20020a056a203d8100b000cc32aa8570mr6886326pzi.14.1677265267930; 
- Fri, 24 Feb 2023 11:01:07 -0800 (PST)
+ bh=LNYI9dmX50T6dGo7VdQuyO6akiZafXJYK1pmz8lKKOc=;
+ b=NKnEi3ZTZY6spBJVXW3Na0G3LU4X3IEsi+uQVRXUoduLsfqOrxP2S2RR8Ib3clJqmo
+ 9dy8mxxBw6HQB0sxRY3WMX5NNv1w24hkMdEKY2du5YRGGX8Upnj23cOND5/bx/9COkR1
+ t3DqORKsuiIlbk6ttbz2yTenCsjDnPcLWHv/L+zRN4enZb7wcjscrYoyu1smKfWWbTXB
+ dv+1D+UujaIFFrW9fJuvG9BjxNSHIaqdaPraXKBg2b33V5udP3AG4DYmjZgBXfkGl2OD
+ gC52LrKqqO3RldJapDBRWwQp6POCzW014HhXZ8UNDhzbhgNa9gig75F8fI2k22YGiGL/
+ bxSA==
+X-Gm-Message-State: AO0yUKWrIOU85HgzfVWzGD/mMeOZmeza7FH+tLN+cLaAfNHl9qcDTsrD
+ XrpCXFHpwZCCx91lWXiBT+pN0Q==
+X-Google-Smtp-Source: AK7set/xfHOGTxTDaE0g2Bi9OyC2+byN/Gl0V+6hFt2A9V/VY6avfYrbf/DuBunpU4IpKai707a65w==
+X-Received: by 2002:a17:902:dad1:b0:198:9683:9f0a with SMTP id
+ q17-20020a170902dad100b0019896839f0amr18581562plx.30.1677265269171; 
+ Fri, 24 Feb 2023 11:01:09 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- k11-20020aa790cb000000b005e093020cabsm2172654pfk.45.2023.02.24.11.01.07
+ c14-20020a170902b68e00b0019c912c19d3sm7678485pls.62.2023.02.24.11.01.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 11:01:07 -0800 (PST)
-Subject: [PULL 6/8] target/riscv: Smepmp: Skip applying default rules when
- address matches
-Date: Fri, 24 Feb 2023 10:59:07 -0800
-Message-Id: <20230224185908.32706-7-palmer@rivosinc.com>
+ Fri, 24 Feb 2023 11:01:08 -0800 (PST)
+Subject: [PULL 7/8] target/riscv: avoid env_archcpu() in cpu_get_tb_cpu_state()
+Date: Fri, 24 Feb 2023 10:59:08 -0800
+Message-Id: <20230224185908.32706-8-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230224185908.32706-1-palmer@rivosinc.com>
 References: <20230224185908.32706-1-palmer@rivosinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Himanshu Chauhan <hchauhan@ventanamicro.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@rivosinc.com>
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ ilippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>, 
+ Weiwei Li <liweiwei@iscas.ac.cn>, Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,47 +92,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Himanshu Chauhan <hchauhan@ventanamicro.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-When MSECCFG.MML is set, after checking the address range in PMP if the
-asked permissions are not same as programmed in PMP, the default
-permissions are applied. This should only be the case when there
-is no matching address is found.
+We have a RISCVCPU *cpu pointer available at the start of the function.
 
-This patch skips applying default rules when matching address range
-is found. It returns the index of the match PMP entry.
-
-Fixes: 824cac681c3 (target/riscv: Fix PMP propagation for tlb)
-Signed-off-by: Himanshu Chauhan <hchauhan@ventanamicro.com>
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230209055206.229392-1-hchauhan@ventanamicro.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <20230210123836.506286-1-dbarboza@ventanamicro.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- target/riscv/pmp.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/riscv/cpu_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index d1126a6066..4bc4113531 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -441,9 +441,12 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-                 }
-             }
- 
--            if ((privs & *allowed_privs) == privs) {
--                ret = i;
--            }
-+            /*
-+             * If matching address range was found, the protection bits
-+             * defined with PMP must be used. We shouldn't fallback on
-+             * finding default privileges.
-+             */
-+            ret = i;
-             break;
-         }
-     }
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index ad8d82662c..3a9472a2ff 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -60,7 +60,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+          * which is not supported by GVEC. So we set vl_eq_vlmax flag to true
+          * only when maxsz >= 8 bytes.
+          */
+-        uint32_t vlmax = vext_get_vlmax(env_archcpu(env), env->vtype);
++        uint32_t vlmax = vext_get_vlmax(cpu, env->vtype);
+         uint32_t sew = FIELD_EX64(env->vtype, VTYPE, VSEW);
+         uint32_t maxsz = vlmax << sew;
+         bool vl_eq_vlmax = (env->vstart == 0) && (vlmax == env->vl) &&
 -- 
 2.39.0
 
