@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7E96A1F01
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125306A1F02
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:55:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVaPV-0005MF-BY; Fri, 24 Feb 2023 10:55:01 -0500
+	id 1pVaPd-0005Po-WB; Fri, 24 Feb 2023 10:55:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVaPS-0005LO-9N
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:54:58 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVaPY-0005NO-Qb
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:05 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVaPQ-0005LW-Nu
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:54:58 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- l2-20020a05600c1d0200b003e1f6dff952so2509864wms.1
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:54:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVaPW-0005WU-71
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:03 -0500
+Received: by mail-wr1-x435.google.com with SMTP id bv17so1561079wrb.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:55:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=aJFW+LMmK18fOMto9AtXzx1qQDMuR71IdpmNF0+iYWQ=;
- b=QqwOJC2obQg/ZtjW3sQEgwJ+lzG7VlrsWAZqltOTR77k44u9nbPKBP6AotqGvc+4PC
- KQqqJReeKVeVhmr41P1DsySHFyHImc5/oAMHzg4bks8VBFtKETaCOyKZUK5wglp0B45c
- DwUKKl5E+IhImEBaBHDfOnS29c/ZjK0OpxPqk6rTLzyzkflvqkKZKwYlwejrjsMvC3Oa
- 1CMB2Kxf9AXuesPRRs1AXLMctSH+idim5KS+IBTyFM31BYZDnsCfPRjZwzZfhZ1+vT24
- AlYK2G4rXFggoi6u3M8RIOPuqgkuPl734mj6WlKubXQBiop3fwYBmtxmp8eyDyEQ+YAC
- StVA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=O//GpvBz7gKXETi64NiaR4BbJLf2F5pJYT7aPFCvzaU=;
+ b=R+YQwUfjzIv6aWPRunE0EuSBj+gLsp/cXyROo320hMrYEqz6qpDXIuA6CzPRzfluLb
+ NKASouN/pYEc7ujiytck+QpEjAKNbFhcbv/oEk4LvuZO5rQncXisbQLJU44WKaCAiujV
+ 1eUV4kGcDWwJKBJSDicWIK/5dAlOlPxH1/hiUiA6LHP/NC+Mqh1h3o1hLOCgvBSj5wXt
+ yPRhljLcfeFZYWnRTgTONgex2ZYEb9XLVs9Lkf2NoRaw117oKapwduSnv5uiigH/91nT
+ fdMpvrwpvfpndI5Pf138akeiVdeZByEY1Vn985Y65SCzHDPcd8sH1BfycCRsf56k7W4F
+ 2T0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aJFW+LMmK18fOMto9AtXzx1qQDMuR71IdpmNF0+iYWQ=;
- b=GjvaEulM7+OiXnbZrTwXUg2udKFevA/mwTsAyZLsfrgSVnPs4yBeuZ8u9NkbZhQCip
- w1gBeIF/vckk8q2Ojzkxbz3fd4/WHrUnsEbYWOYdlxrfWJD/084esnjqPrQZw1w6lzEz
- o7AjTSDfKGMpV9JSouy3YySDwMAtrYoD7gA1ksLfyOxpLFHu7dvYX/NE1ngMdBEj2XGg
- QcwU0T32PKP10y+Ic4HONFO5mKaqRoh4YsTrObQJPLos1biDr6i1kCzm8VIpw04y/6Ku
- ZPNngT7ftHDA7/FtM4pkGOngTg7Baz25cOcuiE7jCzYvowo+WvN3kjWw5nEUKYsgczUx
- cADg==
-X-Gm-Message-State: AO0yUKWS2pvLuhq6mnUBngU83hxCxEcdNwaq+gF5Yy4nkwPdT0jQGNi2
- hHlmPiWH0wYjjRY1zDIneJ2GTbwgrzrdcLqu
-X-Google-Smtp-Source: AK7set9p9AWARufIHRoIqDC95j/dnk2p2IBSBz+f55VQHNAVUA/DSSTKLJ7TDHZwJWEY5FIjETiPuQ==
-X-Received: by 2002:a05:600c:3088:b0:3d3:49db:9b25 with SMTP id
- g8-20020a05600c308800b003d349db9b25mr13159274wmn.26.1677254094632; 
- Fri, 24 Feb 2023 07:54:54 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=O//GpvBz7gKXETi64NiaR4BbJLf2F5pJYT7aPFCvzaU=;
+ b=DJ4JCwyKIinzbhR1Va2Amt5Hg7NHf9x0yj9Nr9cnQfM0SPk2Ce9GVA8f6vpDl7QH3V
+ 0m5RcZcf5phXAcMHnqvDIG7R6Qo2YDvSNmg2s0VGU31VoA+x8bZpQgq3+YMfEW3m2Anr
+ 3/HOszoAIYJENuzBAg09I7rtYarV6bAehSrNINmQ/MDkKkNjFFMfQTS15D3Wj9MMgPei
+ WaW5xGq+A8W5F34bXZoCz9Ho6t/IMc88TM/4VCDsJx/ja5GD8QKxjodbOOBhSmvXfCk5
+ cth3JxlhIcGLdO1t5JSQG2QkutEtEtpP+pG5aQCkhnwnR25yLtE8sQf65sX6aqazQEj8
+ UN/Q==
+X-Gm-Message-State: AO0yUKUQGKCxEdSRi3cct0hToRz6ZXuudia0Iy9wLixO3DHh7x/+VKdM
+ 0IWEsfhCsf3hORrAaiih7jY64HO5FkaD0Vpv
+X-Google-Smtp-Source: AK7set9rLr+9KJH2PXQT0EezvYdIFAJvV7wMy5dianUbJGP2kEM6i7zspeHE+H8MrQAM5E1yL8Wghw==
+X-Received: by 2002:a5d:49d2:0:b0:2c8:37a:59b8 with SMTP id
+ t18-20020a5d49d2000000b002c8037a59b8mr970982wrs.49.1677254100127; 
+ Fri, 24 Feb 2023 07:55:00 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- e17-20020a05600c219100b003e7f1086660sm3285602wme.15.2023.02.24.07.54.53
+ g11-20020a5d698b000000b002c5a1bd5280sm14302642wru.95.2023.02.24.07.54.58
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 24 Feb 2023 07:54:53 -0800 (PST)
+ Fri, 24 Feb 2023 07:54:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
@@ -61,15 +61,18 @@ Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
  Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 0/2] qapi: Simplify enum generation
-Date: Fri, 24 Feb 2023 16:54:49 +0100
-Message-Id: <20230224155451.20211-1-philmd@linaro.org>
+Subject: [PATCH 1/2] qapi: Do not generate default switch case in
+ gen_visit_object_members()
+Date: Fri, 24 Feb 2023 16:54:50 +0100
+Message-Id: <20230224155451.20211-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230224155451.20211-1-philmd@linaro.org>
+References: <20230224155451.20211-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,28 +95,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QAPI generating enum count as part of the enum forces handling
-impossible switch cases. Modify qapi/types.py to generate the
-enum count as a definition.
-Do not try to cover the unreachable 'default' case.
-Clean files covering unreachable foo__MAX case.
+When iterating over a QAPISchemaEnumType, all possible
+values are covered. The 'default' switch case is unreachable,
+remove it.
 
-Philippe Mathieu-Daudé (2):
-  qapi: Do not generate default switch case in
-    gen_visit_object_members()
-  qapi: Generate enum count as definition in gen_enum_lookup()
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ scripts/qapi/visit.py | 2 --
+ 1 file changed, 2 deletions(-)
 
- audio/audio.c          |  6 ------
- audio/audio_template.h |  3 ---
- migration/migration.c  |  2 --
- replay/replay-input.c  | 12 ------------
- scripts/qapi/types.py  | 11 +++++++----
- scripts/qapi/visit.py  |  2 --
- softmmu/tpm-hmp-cmds.c |  2 --
- ui/input-linux.c       |  4 ----
- ui/input.c             |  6 ------
- 9 files changed, 7 insertions(+), 41 deletions(-)
-
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 26a584ee4c..f66a31a963 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -159,8 +159,6 @@ def gen_visit_object_members(name: str,
+ 
+             ret += var.ifcond.gen_endif()
+         ret += mcgen('''
+-    default:
+-        abort();
+     }
+ ''')
+ 
 -- 
 2.38.1
 
