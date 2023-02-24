@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5A16A21FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 20:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5166A2200
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 20:03:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVdJn-0001gw-3Y; Fri, 24 Feb 2023 14:01:19 -0500
+	id 1pVdJn-0001iW-Re; Fri, 24 Feb 2023 14:01:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pVdJk-0001g4-Ao
+ id 1pVdJk-0001gI-N9
  for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:16 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pVdJd-0002dY-Ms
+ id 1pVdJd-0002eH-NW
  for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:16 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- y15-20020a17090aa40f00b00237ad8ee3a0so204069pjp.2
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 11:01:00 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id c23so24877pjo.4
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 11:01:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677265260;
- h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
- :subject:from:to:cc:subject:date:message-id:reply-to;
- bh=sCdi+SHJPKJBVJowJgdPg6sU9XDCvdZSkBN94dRLpm4=;
- b=nfEz/hSP6m4jFRYIrzYlR3RJU7liqAGu+fx4+JezkPEo0Ib3ZKnNA3k4sEONzJ8vp7
- U/fyodgqRpXJfrYzV+iRHuJpyGbMO2zcBSMcTqzj+vwDEHuVEIoqrXAbPNWye9ubEJyX
- MrThCKSAQQjy1qkcUdZtmW4fgLYohIb+csP5QurGovFYd6BMjBrSDyOosvdNQjpS+STi
- Pc+o+bhR2ApEseriqGKkLCr9ooUjevi9TesezS+l3e2y0+CJ7voOZpi/yxOVzJUTqsjF
- m6LLfd+xfno2znUQeyeM9qP6Fy+3PD28yc9UAi6P7W3BX+8InKPeI3z3k6sL41XTj5GY
- bwbw==
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677265265;
+ h=to:from:cc:content-transfer-encoding:mime-version:references
+ :in-reply-to:message-id:date:subject:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DDWoUrS3gNFU9IU+ndidQqS1Eb6eRflzx7e/dFgHmuQ=;
+ b=IAaDUpJhI0v5JUSkQW4z8WzozeBheiRWzFaJ0QqmwvGt2zr0R6sB4BmJ+cu+ur6cGq
+ ZUOO2xL7Stru3W8DTDpQxYTjrjMXFmPMhYTN8Wv9S+XX8/rixGQFEj39eWV9QwUaH/Q5
+ sFBVkDlTbqUGWVGWDEJnAJIPzmBS3sk3pODkk2upcFVxkv2QjkGauxy+YwX6JwwGu0I1
+ 9uYULWpDxkYMvlOBNjaK0EZlv6C9IgAJ+CkneHaDTUbCqYFiXaL2nuIlodiv9kz2Q2MK
+ 0gYz0cWbqZfSLeA8OsmD90YR9ZWGPo8WG6FddbOXVZKDT4nyNze68WnOIqn46VlSV1DA
+ dTHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677265260;
- h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
- :subject:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sCdi+SHJPKJBVJowJgdPg6sU9XDCvdZSkBN94dRLpm4=;
- b=k6kL/O/fnKuHi3ExSWcpj8TLpB+xQIvB3Oll3uMhTYwab7hSDaZiFaOQsee6369Zni
- o3Gtj+U33IP6PTOL2Sds04wlzvf3SEq5rbJUxlZ20MDWOEIzgj/MScf476Oh29bKXy8x
- nDjsXN0jYvoiqXm3mbsmB8tcfEkV00dPGsv4N5Yvl1UDw0CKDCIzgjfHtUnPRSY+liRN
- 8iJJfMlgS6Ygx3TN83QOSJHBGLwDaH/K7+WgStSz3HWlxTuP/VQ7HlTQWKnsH1g50BxG
- osOjiSkmOwUtXgTXwLSMpQ09OP5EDocjIvtgw544lu7TmRR1n4fM0CICjtxCeTQifcY3
- X/EA==
-X-Gm-Message-State: AO0yUKXv8jtC9Fkv1D01o0C0GWmRtO2q2vDHRzKK0+cXbh/gZ7W7GhVQ
- s8127+6HPLM1fYfCB1WdWW6g2A==
-X-Google-Smtp-Source: AK7set8hSh3b12BoORoi+GEEv0WBJDpy990luePhG9FUCkiylZsOgBWjZPHnueukS0dOWbxguyd68g==
-X-Received: by 2002:a05:6a20:244d:b0:cc:aedf:9a1e with SMTP id
- t13-20020a056a20244d00b000ccaedf9a1emr611937pzc.61.1677265259477; 
- Fri, 24 Feb 2023 11:00:59 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677265265;
+ h=to:from:cc:content-transfer-encoding:mime-version:references
+ :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DDWoUrS3gNFU9IU+ndidQqS1Eb6eRflzx7e/dFgHmuQ=;
+ b=MnIwhMdSwwLM7CeIRVdItoxldKWBCZkAzEJMfnmxL8Dp/I4HdX+D1TX9nvVMWJyAA7
+ sqFfsDvKyjVSn+/K7TUoMCSCojyf2UIGmFyopRgnBCA/EyTRyBdLXVFVQNRECXBimeHZ
+ n6gM43sS+CMELYe2CtKKH6l4eFr3RraJJYrmvbz0CMh00d75+4VfMTPwUN8+H1drv1b+
+ Z+wSxKvc2EPB+pkcCDi7UHMU9eorn9UfAAm2oMqUGjpYpwPaym26Zpji0zlpLFE88/HH
+ Lpwm4TgTpio+ttJWiTgNrf+m8Na1PVLoqHKGd2NcPzjilcUn/NJ0xTL3BNJlTG3/wUzT
+ NFpQ==
+X-Gm-Message-State: AO0yUKX+nWBB8WTWdBx9sHWGD4jYpZIMhud2zfRK0pePOZCZfw84DMxK
+ NFSuYc7yCrtH5DYv6B2pfPYc7w==
+X-Google-Smtp-Source: AK7set+WZgU+3zTTjYykNv3PGxEC8vR7LqK29oW2oCpdeTYLLRkbsX8n0RfYO94RsoPS1UUCKoxG7Q==
+X-Received: by 2002:a17:902:e74f:b0:199:2e77:fe56 with SMTP id
+ p15-20020a170902e74f00b001992e77fe56mr21524320plf.52.1677265264643; 
+ Fri, 24 Feb 2023 11:01:04 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- q22-20020a62ae16000000b005d6fcd8f9desm5325757pff.94.2023.02.24.11.00.58
+ g5-20020a170902c38500b0019c92f56983sm7512159plg.120.2023.02.24.11.01.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 11:00:58 -0800 (PST)
-Subject: [PULL] Fourth RISC-V PR for QEMU 8.0, Attempt 2
-Date: Fri, 24 Feb 2023 10:59:01 -0800
-Message-Id: <20230224185908.32706-1-palmer@rivosinc.com>
+ Fri, 24 Feb 2023 11:01:04 -0800 (PST)
+Subject: [PULL 4/8] target/riscv: Remove privileged spec version restriction
+ for RVV
+Date: Fri, 24 Feb 2023 10:59:05 -0800
+Message-Id: <20230224185908.32706-5-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230224185908.32706-1-palmer@rivosinc.com>
+References: <20230224185908.32706-1-palmer@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
+ Frank Chang <frank.chang@sifive.com>, Bin Meng <bmeng@tinylab.org>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,138 +93,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
+From: Frank Chang <frank.chang@sifive.com>
 
-  tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
+The RVV specification does not require that the core needs to support
+the privileged specification v1.12.0 to support RVV, and there is no
+dependency from ISA level.
 
-are available in the Git repository at:
+This commit removes the restriction from both RVV CSRs and extension CPU
+ISA string.
 
-  git@github.com:palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230224
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20230208063209.27279-1-frank.chang@sifive.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+---
+ target/riscv/cpu.c |  2 +-
+ target/riscv/csr.c | 21 +++++++--------------
+ 2 files changed, 8 insertions(+), 15 deletions(-)
 
-for you to fetch changes up to 8c89d50c10afdd98da82642ca5e9d7af4f1c18bd:
-
-  target/riscv: Fix vslide1up.vf and vslide1down.vf (2023-02-23 14:21:34 -0800)
-
-----------------------------------------------------------------
-Fourth RISC-V PR for QEMU 8.0, Attempt 2
-
-* A triplet of cleanups to the kernel/initrd loader that avoids
-  duplication between the various boards.
-* Weiwei Li, Daniel Henrique Barboza, and Liu Zhiwei have been added as
-  reviewers.  Thanks for the help!
-* A fix for PMP matching to avoid incorrectly appling the default
-  permissions on PMP permission violations.
-* A cleanup to avoid an unnecessary avoid env_archcpu() in
-  cpu_get_tb_cpu_state().
-* Fixes for the vector slide instructions to avoid truncating 64-bit
-  values (such as doubles) on 32-bit targets.
-
-----------------------------------------------------------------
-Alistair Francis (1):
-      MAINTAINERS: Add some RISC-V reviewers
-
-Daniel Henrique Barboza (4):
-      hw/riscv: handle 32 bit CPUs kernel_entry in riscv_load_kernel()
-      hw/riscv/boot.c: consolidate all kernel init in riscv_load_kernel()
-      hw/riscv/boot.c: make riscv_load_initrd() static
-      target/riscv: avoid env_archcpu() in cpu_get_tb_cpu_state()
-
-Frank Chang (1):
-      target/riscv: Remove privileged spec version restriction for RVV
-
-Himanshu Chauhan (1):
-      target/riscv: Smepmp: Skip applying default rules when address matches
-
-LIU Zhiwei (1):
-      target/riscv: Fix vslide1up.vf and vslide1down.vf
-
- MAINTAINERS                  |  3 ++
- hw/riscv/boot.c              | 97 ++++++++++++++++++++++++++++----------------
- hw/riscv/microchip_pfsoc.c   | 12 +-----
- hw/riscv/opentitan.c         |  4 +-
- hw/riscv/sifive_e.c          |  4 +-
- hw/riscv/sifive_u.c          | 12 +-----
- hw/riscv/spike.c             | 14 ++-----
- hw/riscv/virt.c              | 12 +-----
- include/hw/riscv/boot.h      |  3 +-
- target/riscv/cpu.c           |  2 +-
- target/riscv/cpu_helper.c    |  2 +-
- target/riscv/csr.c           | 21 ++++------
- target/riscv/pmp.c           |  9 ++--
- target/riscv/vector_helper.c |  4 +-
- 14 files changed, 98 insertions(+), 101 deletions(-)
-Subject: [PULL] Fourth RISC-V PR for QEMU 8.0, Attempt 2
-
-The following changes since commit 417296c8d8588f782018d01a317f88957e9786d6:
-
-  tests/qtest/netdev-socket: Raise connection timeout to 60 seconds (2023-02-09 11:23:53 +0000)
-
-are available in the Git repository at:
-
-  git@github.com:palmer-dabbelt/qemu.git tags/pull-riscv-to-apply-20230224
-
-for you to fetch changes up to 8c89d50c10afdd98da82642ca5e9d7af4f1c18bd:
-
-  target/riscv: Fix vslide1up.vf and vslide1down.vf (2023-02-23 14:21:34 -0800)
-
-----------------------------------------------------------------
-Fourth RISC-V PR for QEMU 8.0, Attempt 2
-
-* A triplet of cleanups to the kernel/initrd loader that avoids
-  duplication between the various boards.
-* Weiwei Li, Daniel Henrique Barboza, and Liu Zhiwei have been added as
-  reviewers.  Thanks for the help!
-* A fix for PMP matching to avoid incorrectly appling the default
-  permissions on PMP permission violations.
-* A cleanup to avoid an unnecessary avoid env_archcpu() in
-  cpu_get_tb_cpu_state().
-* Fixes for the vector slide instructions to avoid truncating 64-bit
-  values (such as doubles) on 32-bit targets.
-
-----------------------------------------------------------------
-I've dropped the OpenSBI update from the first attempt.  I'll take a
-shot at fixing it given Thomas' instructions, but since Peter said some
-PRs may be processed locally I figured it'd be easier to get this out
-now -- we'd probably want to pull whatever CI fixes are necessary for
-OpenSBI before the bump either way, just to avoid a history breakage, so
-I figure this doesn't hurt anything.
-
-If this doesn't process then no big deal on my end, there's some more
-stuff floating around.
-
-----------------------------------------------------------------
-Alistair Francis (1):
-      MAINTAINERS: Add some RISC-V reviewers
-
-Daniel Henrique Barboza (4):
-      hw/riscv: handle 32 bit CPUs kernel_entry in riscv_load_kernel()
-      hw/riscv/boot.c: consolidate all kernel init in riscv_load_kernel()
-      hw/riscv/boot.c: make riscv_load_initrd() static
-      target/riscv: avoid env_archcpu() in cpu_get_tb_cpu_state()
-
-Frank Chang (1):
-      target/riscv: Remove privileged spec version restriction for RVV
-
-Himanshu Chauhan (1):
-      target/riscv: Smepmp: Skip applying default rules when address matches
-
-LIU Zhiwei (1):
-      target/riscv: Fix vslide1up.vf and vslide1down.vf
-
- MAINTAINERS                  |  3 ++
- hw/riscv/boot.c              | 97 ++++++++++++++++++++++++++++----------------
- hw/riscv/microchip_pfsoc.c   | 12 +-----
- hw/riscv/opentitan.c         |  4 +-
- hw/riscv/sifive_e.c          |  4 +-
- hw/riscv/sifive_u.c          | 12 +-----
- hw/riscv/spike.c             | 14 ++-----
- hw/riscv/virt.c              | 12 +-----
- include/hw/riscv/boot.h      |  3 +-
- target/riscv/cpu.c           |  2 +-
- target/riscv/cpu_helper.c    |  2 +-
- target/riscv/csr.c           | 21 ++++------
- target/riscv/pmp.c           |  9 ++--
- target/riscv/vector_helper.c |  4 +-
- 14 files changed, 98 insertions(+), 101 deletions(-)
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 0dd2f0c753..93b52b826c 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -73,7 +73,7 @@ struct isa_ext_data {
+  */
+ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
+-    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
++    ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_10_0, ext_v),
+     ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
+     ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei),
+     ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihintpause),
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index fa17d7770c..1b0a0c1693 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -3980,20 +3980,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     [CSR_FRM]      = { "frm",      fs,     read_frm,     write_frm    },
+     [CSR_FCSR]     = { "fcsr",     fs,     read_fcsr,    write_fcsr   },
+     /* Vector CSRs */
+-    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VL]       = { "vl",       vs,     read_vl,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
+-    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb,
+-                       .min_priv_ver = PRIV_VERSION_1_12_0            },
++    [CSR_VSTART]   = { "vstart",   vs,     read_vstart,  write_vstart },
++    [CSR_VXSAT]    = { "vxsat",    vs,     read_vxsat,   write_vxsat  },
++    [CSR_VXRM]     = { "vxrm",     vs,     read_vxrm,    write_vxrm   },
++    [CSR_VCSR]     = { "vcsr",     vs,     read_vcsr,    write_vcsr   },
++    [CSR_VL]       = { "vl",       vs,     read_vl                    },
++    [CSR_VTYPE]    = { "vtype",    vs,     read_vtype                 },
++    [CSR_VLENB]    = { "vlenb",    vs,     read_vlenb                 },
+     /* User Timers and Counters */
+     [CSR_CYCLE]    = { "cycle",    ctr,    read_hpmcounter  },
+     [CSR_INSTRET]  = { "instret",  ctr,    read_hpmcounter  },
+-- 
+2.39.0
 
 
