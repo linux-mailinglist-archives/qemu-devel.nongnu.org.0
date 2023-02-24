@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640236A2131
+	by mail.lfdr.de (Postfix) with ESMTPS id 626756A2130
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 19:10:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVcVF-00055C-Kx; Fri, 24 Feb 2023 13:09:05 -0500
+	id 1pVcVK-00056J-8h; Fri, 24 Feb 2023 13:09:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVcVD-00053u-Lt
+ id 1pVcVD-000543-TE
  for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:09:03 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVcVA-0004ns-Nf
+ id 1pVcVB-0004p1-3Q
  for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:09:03 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id 6so4675wrb.11
+Received: by mail-wm1-x32d.google.com with SMTP id
+ m25-20020a7bcb99000000b003e7842b75f2so8752wmi.3
  for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 10:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sWlMo82fjyi0DYAw1U4gGmbZ7Vz62HpgPG/tbr6QTr0=;
- b=nozBLWQXs6DSnx1BjgtmCkYxH5eCBy644EmdEqZ/sh9vdqK0Ft2g8dzFtVSB9zt7Gz
- 8dhp9u9ZnskKeQ3PpSl3UXTZO77QF3lQdPPI0IiuO1+7+LYhPOsnXcj8SdmW2w+do/KH
- bOqgJs0+BoSmMAgXu4uk8lwRDLPRbG5yiTJjs5MMXuM8Snp1lyH02f67H0wmCgZ1awFR
- +l6wnC3qsBDvrVBtOiAFig9rTGcrMg4dU38O+9IuDK+j7CZKqyeEYGwbdlW1Yhglh0II
- GPdKf9GX51XmW4OFdCqyWBhJx2cf9533fPn6lCEL2nGsmnkzRAJap5uDDFIkXuMi/gAD
- J3Bw==
+ bh=AFFga98mTvSLpaYsI5+GZ2pTSutF+AdzB9RPsTcdBPA=;
+ b=wMoORnegUQjEk2IjUZqiUrD7tyYazQa+DKsPXxSdgn9jU8FsdP4hEOHCgTKttfRVdZ
+ 3iq7Y9IB57jaGXAP2fTV4sHA04OagDhhik9wMIoNeVd/q9tNb9Px0Ho/J9eCFF3POq62
+ 8k4h+31PMOGW0S+B/3/QHXLJaq/Nqbo84Xg3bpyYDYBfXgvM94A16jH5kH9+io3lBaae
+ PAlUzrtyjgkH74jh9NojkrFyD9wdF50FjAUgHkJlJDo6WKCyyQJERFNSfWazWuoSP8gt
+ XuApMmJGc9ZUWaa8Wi8r4tYwj/S38omRJ/Ia35E6qO5q8TQZIxlf98YqAaKjPZiaUViG
+ /l6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sWlMo82fjyi0DYAw1U4gGmbZ7Vz62HpgPG/tbr6QTr0=;
- b=sj4PeCD3UjE0AZn5kLgeTIVM+4zaPiuUSSw1wEweczWh77F6VRRxHfkrgsciqr2yJo
- jKj6m2jYYNKp+oqf4L0lGjDrCughLya0C4D1OtjpVzgtSt1KlPeB3UwVKmo9gXRLZELY
- ucFZf6AU1WKamQuKpg4jslUKF/1ez64SIFdxoMobJ4ufb/OI/oGizeqpU/ky8gATXnrG
- sqVV8+0eWkgMmTQHYMiFtkplTP9JSny8S2j4PenSnjBw4qzefqwXDmIU2XFQ2zpzA48o
- s2nwzeNPiUBymtO0gX2k0vSDUq/h3QmTjKxTohFcpujE5NL4uQw4E+c+B65bgFcsUBqm
- 5pCA==
-X-Gm-Message-State: AO0yUKWs104r5mSCspni0WL1Au5J7fBfP0KXQ9iCAHRZ2bT0p73aV2da
- t8KxftesxTHivCD7wZAmF/ew8A==
-X-Google-Smtp-Source: AK7set+Ip5eqF7XgLLdBFt+w4OBPLbazdnUO/8KkLjb7OsWqa5aMFPOmNp5JnLivc+Vf1+VG4Cn37Q==
-X-Received: by 2002:a05:6000:1151:b0:2c7:d7e:4c6c with SMTP id
- d17-20020a056000115100b002c70d7e4c6cmr7647408wrx.44.1677262139311; 
+ bh=AFFga98mTvSLpaYsI5+GZ2pTSutF+AdzB9RPsTcdBPA=;
+ b=7zkdKFqPg9d5zlVzvRA0yfjc59hwHzvGl93SJmqEItyxvgriw+fekUzBAZN5FHBTMO
+ kTngPBOSgKjeYHh/lG2500W2C1eHsLPByInIG/zkOEhtqmJrw9lFFGLGC8cfWheC3TwB
+ Hg9f98rOoLviS6zfgl62G+R6a04m7CoqMOvCpLRuTVF2TtEB4TdCft52Dkm8Jr+Zcg4o
+ 9DdMevAEeCSVNnV3FY5IuGPALmxbHOgUzsH6U5Ty78AXbsGamM7KtJA1egg0EUjEVRo1
+ 1aprqmFJG2Ao1fGAQC+a1a2Q2gMuj/IaFfIW3m8J7ac7ysgQmdOhdeQfGCnFpf57ctDv
+ 5H4Q==
+X-Gm-Message-State: AO0yUKWUVRa1R/NnpnVPp/6hvKgilYgLb+JhumTtNTGdwakOWW9ayb4b
+ Yqy5pyepQfOIriN30EqMK1OXQw==
+X-Google-Smtp-Source: AK7set+iYRwTBB2jUk7rZVLv3GktAh5KqJrIOMrkoTQ0jSvWlf5DqgJTVSRExt/SKsl+2kmPt5PMPw==
+X-Received: by 2002:a05:600c:1895:b0:3df:1673:90b6 with SMTP id
+ x21-20020a05600c189500b003df167390b6mr12652229wmp.39.1677262139675; 
  Fri, 24 Feb 2023 10:08:59 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- i16-20020adfefd0000000b002c552c6c8c2sm11391333wrp.87.2023.02.24.10.08.58
+ c11-20020a7bc00b000000b003e91b9a92c9sm3864655wmb.24.2023.02.24.10.08.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 10:08:58 -0800 (PST)
+ Fri, 24 Feb 2023 10:08:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B05E51FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id C71B01FFBA;
  Fri, 24 Feb 2023 18:08:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -78,17 +79,17 @@ Cc: Li-Wen Hsu <lwhsu@freebsd.org>,
  Darren Kenny <darren.kenny@oracle.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Subject: [PATCH 1/7] configure: expose the direct container command
-Date: Fri, 24 Feb 2023 18:08:51 +0000
-Message-Id: <20230224180857.1050220-2-alex.bennee@linaro.org>
+Subject: [PATCH 2/7] tests/dockerfiles: unify debian-toolchain references
+Date: Fri, 24 Feb 2023 18:08:52 +0000
+Message-Id: <20230224180857.1050220-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230224180857.1050220-1-alex.bennee@linaro.org>
 References: <20230224180857.1050220-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -111,43 +112,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In the process of migrating away from using docker.py to build our
-containers we need to expose the command to the build environment. The
-script is still a useful way to probe which command works though.
+We use the debian release number elsewhere so fix it for consistency
+along with the broken comment.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/docker/dockerfiles/debian-toolchain.docker | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index cf6db3d551..b6a1cebad9 100755
---- a/configure
-+++ b/configure
-@@ -1744,6 +1744,7 @@ fi
- # functions to probe cross compilers
+diff --git a/tests/docker/dockerfiles/debian-toolchain.docker b/tests/docker/dockerfiles/debian-toolchain.docker
+index 6c73408b34..dc9545857f 100644
+--- a/tests/docker/dockerfiles/debian-toolchain.docker
++++ b/tests/docker/dockerfiles/debian-toolchain.docker
+@@ -30,7 +30,7 @@ ADD build-toolchain.sh /root/build-toolchain.sh
+ RUN cd /root && ./build-toolchain.sh
  
- container="no"
-+runc=""
- if test $use_containers = "yes" && (has "docker" || has "podman"); then
-     case $($python "$source_path"/tests/docker/docker.py probe) in
-         *docker) container=docker ;;
-@@ -1752,6 +1753,7 @@ if test $use_containers = "yes" && (has "docker" || has "podman"); then
-     esac
-     if test "$container" != "no"; then
-         docker_py="$python $source_path/tests/docker/docker.py --engine $container"
-+        runc=$($python "$source_path"/tests/docker/docker.py probe)
-     fi
- fi
- 
-@@ -2351,6 +2353,7 @@ fi
- 
- if test "$container" != no; then
-     echo "ENGINE=$container" >> $config_host_mak
-+    echo "RUNC=$runc" >> $config_host_mak
- fi
- echo "ROMS=$roms" >> $config_host_mak
- echo "MAKE=$make" >> $config_host_mak
+ # Throw away the extra toolchain build deps, the downloaded source,
+-# and the build trees by restoring the original debian10 image,
++# and the build trees by restoring the original image,
+ # then copying the built toolchain from stage 0.
+-FROM docker.io/library/debian:bullseye-slim
++FROM docker.io/library/debian:11-slim
+ COPY --from=0 /usr/local /usr/local
 -- 
 2.39.1
 
