@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4476A1768
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3E56A1767
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 08:40:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVSfc-0006US-M5; Fri, 24 Feb 2023 02:39:08 -0500
+	id 1pVSfg-0006Uw-C8; Fri, 24 Feb 2023 02:39:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVSfZ-0006Tw-PJ
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:39:05 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVSfe-0006Ub-Lx
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:39:10 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVSfY-0006o3-6q
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:39:05 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- p18-20020a05600c359200b003dc57ea0dfeso1530471wmq.0
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 23:39:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVSfd-0006op-1w
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:39:10 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ m14-20020a7bce0e000000b003e00c739ce4so1145775wmc.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 23:39:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=navyt3q4SPPjZARlijLLytRWCegL0Xe7XVQDuE6V1ZA=;
- b=I3ZjtrmiPLLgr8s6oROp3VpXvsEYc+YE+kYlcYhgwTdXS1XTfrAKC82Q13uh5SGumI
- GDeL6f0PNZo4z+JqhviWNtIlzDodQJ9xSz/YDJcXAH4Tc9YBldU8zQa5FDUzac5E2zqr
- RIVjO3Yzxqg8l/R7CDhG8soRdRLc3iCdpCW9S+iQtfJfNdAui2VLi2QjK6zDZkeC+0od
- d8FJVZV4Xf08O7nINszLm06oqKDFREhJoRF0qnyPT+4Cp3zKxz6ghO1/XR5Pm1RKTWuG
- LjuTbcm94d9WXbvT+qLF7OuPk9Wbz3JMMU+rh2msqg8Q1MWimkuF5GtdFt1B3iF+vjH2
- i6Ow==
+ bh=yAwFBuxW+pqDLBjdDqPuG5n5VeTuwKH7wxgCavcpmd0=;
+ b=tiQvA86HtU6ZDAyxcS1mPZux7f+HELZ/1CuOIo4ovlwRMLHC3HwwlSRXoTImuzG2Xh
+ SniCrqsR8albKQOamS3s+GlBhKoHGz7xDeiRshjE4uf9iZQLnJh71JE62u18/5jHLUnk
+ QcfoD13zELx7Girtk7pvwjVLA4uf1VLa1CXzPumzCxfi3kkCI9iPk+jv93JsHMJbXNA7
+ fnj6T4e08AXwV9HcthicYzrYTnodKfddbqhSi0mMW3dopgA/utkndTQDPotwMuZTR3WD
+ 0c6A/d+Hd8QeI9p3/mm+0tv5dTW2Z9Ri6CRY8ftkQDkBBYavJWjLUE2nyea3K8LQCy3N
+ 8o/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=navyt3q4SPPjZARlijLLytRWCegL0Xe7XVQDuE6V1ZA=;
- b=PKCZL6S7dmEoZdtxqqOkrTkq1xwGKmieNdhHEQIHVUZvu8O++UFArPJzY+ngqsdTeR
- Q7RTxoUZG+bZQw2E/RK1rCadRMaxwzz0tWWkcrHg+I/ZdgCC6EUOv+kjV4twE6ipTxzQ
- t82Q4SCh+wRFwkO9OEmVRVteArDCcfnE3Lak5rfMKT7do06sSzFjlwTbIauIcg+/JnkE
- iEnTkyWAYs8DzCjpF+3dTvj8Y/EBdHXA2YkT8PPC35hE5CEXV7CmT8UTHa7P+hW5SgOk
- VsdcO88/4BzCV/0cJLKvWNTxMZ1nlsztdXtWwE6EAwBiTD5SvxD6NyJ423TS4H1n1jAY
- Z/IA==
-X-Gm-Message-State: AO0yUKXCLghUz54WZbb8mKAkgEgPXrtfwhYHVmNLJO4RnZw6eer8o0i1
- q1hfMnpyUmfls/VGpO8+oO594UTTMvi0psoX
-X-Google-Smtp-Source: AK7set8WFo6N1SqQGWqNkHl6f4l8MFcFc4e7i+p80y3djOMlRUM7pAJCZkv5EQRlXdVnbDgD+1ljfQ==
-X-Received: by 2002:a05:600c:1652:b0:3eb:248f:a133 with SMTP id
- o18-20020a05600c165200b003eb248fa133mr295564wmn.38.1677224342299; 
- Thu, 23 Feb 2023 23:39:02 -0800 (PST)
+ bh=yAwFBuxW+pqDLBjdDqPuG5n5VeTuwKH7wxgCavcpmd0=;
+ b=DXyS1jW0ifAkBZVhnmNYoA+DK/ZJe1jHRrnrTNN89w4nQgRnPBqVtQfyU4NhgLavk5
+ Km4My3CxPb5S995yaLKinVe/3qyNW6FYo8qmc3BJvs3xqlfDpuLVM8z5CMU9NnAsMbVr
+ PBFtsishWa56x4qdmgccr6/rDjXSNLc150awfsFb0oRo88rDadQHKnI/ePEBfHrYlytv
+ E/xVCezClCesZzc4AcpTTFyrjkos2MqGdSMYKJ0A4K/o8AFre08xne6NVBQ8nsapIRyB
+ n8D9keZfBT25KgEfN14DMfjsv7Fwxvnxmqo8wqen3ZhFihMfXHAs7lYqIONG+Yjs8/zW
+ gmdA==
+X-Gm-Message-State: AO0yUKWJ7NUCRCqsoXmMeTMOkZMMVmosCrn/SsgJEswwNDAC0MkGG+CX
+ 57JzjBFqaTS4mG3oN0LJvniNRe6A3wBgxM7q
+X-Google-Smtp-Source: AK7set+8Fm7kbJOJ8uNPFlqlgFSNPStDA3nn3lM3YoyFzygJPeacPTZqSScIfyUjAmJxwX3iCNnU2w==
+X-Received: by 2002:a05:600c:34cb:b0:3eb:a4e:a2b2 with SMTP id
+ d11-20020a05600c34cb00b003eb0a4ea2b2mr1154737wmq.4.1677224347217; 
+ Thu, 23 Feb 2023 23:39:07 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- e8-20020a7bc2e8000000b003e6efc0f91csm1806573wmk.42.2023.02.23.23.39.01
+ y7-20020a1c4b07000000b003daf672a616sm1844499wma.22.2023.02.23.23.39.06
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 23:39:01 -0800 (PST)
+ Thu, 23 Feb 2023 23:39:06 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Janosch Frank <frankja@linux.ibm.com>,
@@ -61,18 +61,17 @@ Cc: Janosch Frank <frankja@linux.ibm.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v5 2/5] dump: Replace TARGET_PAGE_SIZE ->
- qemu_target_page_size()
-Date: Fri, 24 Feb 2023 08:38:47 +0100
-Message-Id: <20230224073850.84913-3-philmd@linaro.org>
+Subject: [PATCH v5 3/5] dump: Clean included headers
+Date: Fri, 24 Feb 2023 08:38:48 +0100
+Message-Id: <20230224073850.84913-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230224073850.84913-1-philmd@linaro.org>
 References: <20230224073850.84913-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,38 +94,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-TARGET_PAGE_SIZE is target specific. In preparation of
-making dump.c target-agnostic, replace the compile-time
-TARGET_PAGE_SIZE definition by runtime qemu_target_page_size().
+"qemu/win_dump_defs.h" is only required by win_dump.c,
+but win_dump.h requires "sysemu/dump.h" which declares
+the DumpState type. Remove various unused headers.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- dump/dump.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ dump/dump-hmp-cmds.c |  2 +-
+ dump/dump.c          |  6 ++----
+ dump/win_dump.c      | 15 +++++----------
+ dump/win_dump.h      |  2 +-
+ 4 files changed, 9 insertions(+), 16 deletions(-)
 
+diff --git a/dump/dump-hmp-cmds.c b/dump/dump-hmp-cmds.c
+index e5053b04cd..b038785fee 100644
+--- a/dump/dump-hmp-cmds.c
++++ b/dump/dump-hmp-cmds.c
+@@ -1,5 +1,5 @@
+ /*
+- * Human Monitor Interface commands
++ * Windows crashdump (Human Monitor Interface commands)
+  *
+  * This work is licensed under the terms of the GNU GPL, version 2 or later.
+  * See the COPYING file in the top-level directory.
 diff --git a/dump/dump.c b/dump/dump.c
-index 7101169ecb..3784a9054d 100644
+index 3784a9054d..a84f78738a 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -15,6 +15,7 @@
+@@ -14,22 +14,20 @@
+ #include "qemu/osdep.h"
  #include "qemu/cutils.h"
  #include "elf.h"
- #include "exec/hwaddr.h"
-+#include "exec/target_page.h"
+-#include "exec/hwaddr.h"
++#include "qemu/bswap.h"
+ #include "exec/target_page.h"
  #include "monitor/monitor.h"
- #include "sysemu/kvm.h"
+-#include "sysemu/kvm.h"
  #include "sysemu/dump.h"
-@@ -1859,7 +1860,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
-     }
+-#include "sysemu/memory_mapping.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/cpus.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-dump.h"
+ #include "qapi/qapi-events-dump.h"
+ #include "qapi/qmp/qerror.h"
+-#include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "hw/misc/vmcoreinfo.h"
+ #include "migration/blocker.h"
++#include "hw/core/cpu.h"
  
-     if (!s->dump_info.page_size) {
--        s->dump_info.page_size = TARGET_PAGE_SIZE;
-+        s->dump_info.page_size = qemu_target_page_size();
-     }
+ #ifdef TARGET_X86_64
+ #include "win_dump.h"
+diff --git a/dump/win_dump.c b/dump/win_dump.c
+index f20b6051b6..ba7fa404fe 100644
+--- a/dump/win_dump.c
++++ b/dump/win_dump.c
+@@ -1,5 +1,5 @@
+ /*
+- * Windows crashdump
++ * Windows crashdump (target specific implementations)
+  *
+  * Copyright (c) 2018 Virtuozzo International GmbH
+  *
+@@ -9,19 +9,14 @@
+  */
  
-     s->note_size = cpu_get_note_size(s->dump_info.d_class,
+ #include "qemu/osdep.h"
+-#include "qemu/cutils.h"
+-#include "elf.h"
+-#include "exec/hwaddr.h"
+-#include "monitor/monitor.h"
+-#include "sysemu/kvm.h"
+ #include "sysemu/dump.h"
+-#include "sysemu/memory_mapping.h"
+-#include "sysemu/cpus.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+-#include "qemu/error-report.h"
+-#include "hw/misc/vmcoreinfo.h"
++#include "exec/cpu-defs.h"
++#include "hw/core/cpu.h"
++#include "qemu/win_dump_defs.h"
+ #include "win_dump.h"
++#include "cpu.h"
+ 
+ static size_t win_dump_ptr_size(bool x64)
+ {
+diff --git a/dump/win_dump.h b/dump/win_dump.h
+index b8c25348f4..56f63683c3 100644
+--- a/dump/win_dump.h
++++ b/dump/win_dump.h
+@@ -11,7 +11,7 @@
+ #ifndef WIN_DUMP_H
+ #define WIN_DUMP_H
+ 
+-#include "qemu/win_dump_defs.h"
++#include "sysemu/dump.h"
+ 
+ void create_win_dump(DumpState *s, Error **errp);
+ 
 -- 
 2.38.1
 
