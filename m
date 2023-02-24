@@ -2,89 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6180C6A17F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FC56A17F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:30:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVTRg-00027U-5b; Fri, 24 Feb 2023 03:28:48 -0500
+	id 1pVTSb-0002uN-Du; Fri, 24 Feb 2023 03:29:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pVTRe-00026t-Qp
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:28:46 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pVTSV-0002tM-Ia
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:29:40 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pVTRc-0006a6-Tq
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:28:46 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pVTST-0006hJ-PD
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:29:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677227323;
+ s=mimecast20190719; t=1677227376;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DzlqwAXImR7Vp/RjGZcZdI/paLgPTSvU9qzzvW9aNsU=;
- b=G1lJkwALoj0Hv0lxwyICmAkdsQ0L+ULegqAxEKf5kH7kAGaYqO0MHrck1QmHASkvdED+j4
- u5WYKvR+sGqmPbCnhHBWoER5EWe5P0T0SsWdims3xGievUbhnrxjQZxuMmryg/8pSaTDZr
- 0yqUfFhX1QRldolxHCQC+zZvKqCDxpg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GNiQdeXMBEYDa9tfcobl1aT4IunAoU96cvwoIILkAUA=;
+ b=Er2R6guVqjVk0Oi8DpYAlKAGyfnWbTr+ZdGbQwHUZ8jixR4r37Yr6X/eMXUruCykpG+ZK7
+ UxASU6/rWmVcuXlXulVtqG+ccb5Uvdk9yleti56iko5PW+gPVkC4W/QA7pmWP/dTB/e+Jp
+ bJGXaBcqt5LeG/sNLhcfpkFnXtExF58=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-571-oW0dj8vRNtKJ8UcF41Ftiw-1; Fri, 24 Feb 2023 03:28:41 -0500
-X-MC-Unique: oW0dj8vRNtKJ8UcF41Ftiw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- c14-20020adffb0e000000b002bfda39265aso3075524wrr.13
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:28:40 -0800 (PST)
+ us-mta-489-9K5_KsxiN2uVG_BlA8IgDg-1; Fri, 24 Feb 2023 03:29:35 -0500
+X-MC-Unique: 9K5_KsxiN2uVG_BlA8IgDg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ co14-20020a0564020c0e00b004aab4319cedso17871555edb.2
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:29:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DzlqwAXImR7Vp/RjGZcZdI/paLgPTSvU9qzzvW9aNsU=;
- b=a1CkqPGhEfqSqgijlvfnpHVVB59nks/Xxpby7zE4CeSvBM1YRritC41tsELSJR45py
- 6e1DQEYgsSS9fACi6p6h9f3FkLBU++nl6DmqtAbePIif0xM2fAL0lotborNuesVPm2Iv
- vhSZgoyBSb6maUCamBMvBo8xoCCUO8Gn2BkMa8hTwYpVTlOY6A9zqCksSnlqQCXzF+Bc
- nDs0/GwCen5lg6JnqocI7TKEdXISURSM2YSuKQJWI76TQbAkXME6DGpStY+hiFg3RcFd
- L570QzwXhItX0uWkgaq1tOBWKZVSTEnsa00kMD5f7m+PsEi9JBvj+vaOEo1CBg9eLVgN
- 6UZw==
-X-Gm-Message-State: AO0yUKUAOUaHALWVK0Z92KnsNMUT7Y36U9WfV4zJhbL8BIZKcBeW8Q5W
- Ecu1/14Hy9884v+js8gz7xu3m8GXui7rgakgpwYBBoatUKEYOv7HgDZJJ+qXWAAS38yvyVEj2O6
- fIGjMKmtN/tErf/0=
-X-Received: by 2002:adf:fb8d:0:b0:2c5:5391:8ab1 with SMTP id
- a13-20020adffb8d000000b002c553918ab1mr12731440wrr.53.1677227319981; 
- Fri, 24 Feb 2023 00:28:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set99LweaKUsSqsoD7tEyZnfjlJxdI7LkPBR8hmNrD9Rj1SojOGa8ovGjXJdmrTFCAVz2uTNdCw==
-X-Received: by 2002:adf:fb8d:0:b0:2c5:5391:8ab1 with SMTP id
- a13-20020adffb8d000000b002c553918ab1mr12731428wrr.53.1677227319685; 
- Fri, 24 Feb 2023 00:28:39 -0800 (PST)
-Received: from redhat.com ([2a02:14f:1f0:a3e9:76f3:3a96:2a:eb18])
- by smtp.gmail.com with ESMTPSA id
- i8-20020a5d5228000000b002c70851bfcasm7738680wra.28.2023.02.24.00.28.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 00:28:39 -0800 (PST)
-Date: Fri, 24 Feb 2023 03:28:35 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yangming <yangming73@huawei.com>
-Cc: "david@redhat.com" <david@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "wangzhigang (O)" <wangzhigang17@huawei.com>,
- "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
-Subject: Re: [PATCH] virtio-balloon: optimize the virtio-balloon on the ARM
- platform.
-Message-ID: <20230224032535-mutt-send-email-mst@kernel.org>
-References: <20230224074624.1531-1-xiqi2@huawei.com>
- <574cdaae1fd64fd7891f87a5899b5827@huawei.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GNiQdeXMBEYDa9tfcobl1aT4IunAoU96cvwoIILkAUA=;
+ b=UOigv7n4Od4yTYuTEbwEsk1oGue64c4Csx7O2vBxZTfmUjcJlPnK1QR7em+Jx82702
+ TonPyrIGFladnBVXmdELe3u43T7WqbGWRnkiviAlTkYwHfOwn8DWCGpZj/V9RHoB1+2B
+ COZjBf6Vk9ODaDeRqzk5CKeo5PLjTsGAhNavgh3aEREuxZDpeNnwCrkx2l18TLTajBid
+ aifiLO+TIoF089N3Icyb3LpyTQyGmzq4R0dqs4escp/CcOI1MldesB2WJqNmy7LjcJ0q
+ cDp5YskL9cRTqug+N+mdKiG35xE3pU63Q4bZ+p61gGj82LOigNUlld+9Q7GXM5kBjX9E
+ IHmQ==
+X-Gm-Message-State: AO0yUKWhvPH4twUfNzXauD4n0HNjlmfhbuqDKFALNKg4pEtjewQkGFNm
+ Sc03F2u4V7cgMmJNa/J1WDYHfcOBSMLdYjKCuBLP5ClY1v5wsMyILIgoUx53xq7pUGQvj1fc1RS
+ MVKvfYatvhpfvUas=
+X-Received: by 2002:a17:906:11ce:b0:88a:a27c:c282 with SMTP id
+ o14-20020a17090611ce00b0088aa27cc282mr22722002eja.47.1677227374043; 
+ Fri, 24 Feb 2023 00:29:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set+C+Nd2cSeitDLI5uE//FNNHHHmJ1Sx/KzPKHG/DGN9S6awyCxahrODfoszebYuZ6c/+Xe46w==
+X-Received: by 2002:a17:906:11ce:b0:88a:a27c:c282 with SMTP id
+ o14-20020a17090611ce00b0088aa27cc282mr22721994eja.47.1677227373696; 
+ Fri, 24 Feb 2023 00:29:33 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.googlemail.com with ESMTPSA id
+ f29-20020a50a6dd000000b004ad6e3e4a26sm6614445edc.84.2023.02.24.00.29.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Feb 2023 00:29:33 -0800 (PST)
+Message-ID: <005ace5a-a767-c850-4667-423deea2435b@redhat.com>
+Date: Fri, 24 Feb 2023 09:29:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <574cdaae1fd64fd7891f87a5899b5827@huawei.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] cpu/i386: update xsave components after CPUID filtering
+Content-Language: en-US
+To: Huanyu ZHAI <huanyu.zhai@outlook.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+References: <AS4P190MB202188766937CF16EC4F1DAFF60C9@AS4P190MB2021.EURP190.PROD.OUTLOOK.COM>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <AS4P190MB202188766937CF16EC4F1DAFF60C9@AS4P190MB2021.EURP190.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,121 +103,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 24, 2023 at 08:23:40AM +0000, Yangming wrote:
+On 11/23/22 19:17, Huanyu ZHAI wrote:
+> Subject: [PATCH] cpu/i386: update xsave components after CPUID filtering
 > 
-> Optimize the virtio-balloon feature on the ARM platform by adding a variable to keep track of the current hot-plugged pc-dimm size, instead of traversing the virtual machine's memory modules to count the current RAM size during the balloon inflation or deflation process. This variable can be updated only when plugging or unplugging the device, which will result in an increase of more than 60% efficiency of balloon process on the ARM platform.
+> On i386 platform, CPUID data are setup through three consecutive steps: 
+> CPU model definition, expansion and filtering.
 > 
-> Signed-off-by: Qi Xi <xiqi2@huawei.com>
-> Signed-off-by: Ming Yang yangming73@huawei.com
+> XSAVE components are enabled during the expansion stage, by checking if 
+> they are enabled in CPUID. However, it is still
+> 
+> probable that some XSAVE features will be enabled/disabled during the 
+> filtering stage and the XSAVE components left unchanged.
+> 
+> Inconsistency between XSAVE features and enabled XSAVE components can 
+> lead to problems on some Linux guests in the absence of
 
-What kind of performance gains are achieved by this patch?
-Pls include some measurements: before and after.
+The patch is correct, but I think you can also remove the existing call 
+to x86_cpu_enable_xsave_components().  Can you test that?
 
+Thanks,
 
+Paolo
+
+> the following patch in the kernel:
+> 
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1452368.html <https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1452368.html>
+> 
+> A simple case to reproduce this problem is to start a SUSE 12 SP3 guest 
+> with cpu model set to Skylake-Server:
+> 
+> $ qemu-system-x86_64 -cpu Skylake-Server ...
+> 
+> In the SUSE 12 SP3 guest, one can observe that PKRU will be enabled 
+> without Intel PKU's presence.
+> 
+> That's because on platform with Skylake-Server cpus, Intel PKU is 
+> disabled during x86_cpu_filter_features(),
+> 
+> but the XSAVE PKRU bit was enabled by x86_cpu_expand_features().
+> 
+> Signed-off-by: Huanyu ZHAI zhaihuanyu@huawei.com 
+> <mailto:zhaihuanyu@huawei.com>
+> 
+> Signed-off-by: Xin Wang wangxinxin.wang@huawei.com 
+> <mailto:wangxinxin.wang@huawei.com>
+> 
 > ---
->  hw/mem/pc-dimm.c           |  2 ++
->  hw/virtio/virtio-balloon.c | 44 +++++++++++++-------------------------
->  include/hw/boards.h        |  1 +
->  3 files changed, 18 insertions(+), 29 deletions(-)
 > 
-> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c index 50ef83215c..192fc7922c 100644
-> --- a/hw/mem/pc-dimm.c
-> +++ b/hw/mem/pc-dimm.c
-> @@ -81,6 +81,7 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
->  
->      memory_device_plug(MEMORY_DEVICE(dimm), machine);
->      vmstate_register_ram(vmstate_mr, DEVICE(dimm));
-> +    machine->device_memory->dimm_size += vmstate_mr->size;
->  }
->  
->  void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine) @@ -90,6 +91,7 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
->  
->      memory_device_unplug(MEMORY_DEVICE(dimm), machine);
->      vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
-> +    machine->device_memory->dimm_size -= vmstate_mr->size;
->  }
->  
->  static int pc_dimm_slot2bitmap(Object *obj, void *opaque) diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c index 746f07c4d2..40fa40109d 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -729,37 +729,14 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
->      memcpy(config_data, &config, virtio_balloon_config_size(dev));  }
->  
-> -static int build_dimm_list(Object *obj, void *opaque) -{
-> -    GSList **list = opaque;
-> -
-> -    if (object_dynamic_cast(obj, TYPE_PC_DIMM)) {
-> -        DeviceState *dev = DEVICE(obj);
-> -        if (dev->realized) { /* only realized DIMMs matter */
-> -            *list = g_slist_prepend(*list, dev);
-> -        }
-> -    }
-> -
-> -    object_child_foreach(obj, build_dimm_list, opaque);
-> -    return 0;
-> -}
-> -
->  static ram_addr_t get_current_ram_size(void)  {
-> -    GSList *list = NULL, *item;
-> -    ram_addr_t size = current_machine->ram_size;
-> -
-> -    build_dimm_list(qdev_get_machine(), &list);
-> -    for (item = list; item; item = g_slist_next(item)) {
-> -        Object *obj = OBJECT(item->data);
-> -        if (!strcmp(object_get_typename(obj), TYPE_PC_DIMM)) {
-> -            size += object_property_get_int(obj, PC_DIMM_SIZE_PROP,
-> -                                            &error_abort);
-> -        }
-> +    MachineState *machine = MACHINE(qdev_get_machine());
-> +    if (machine->device_memory != NULL) {
-> +        return machine->ram_size + machine->device_memory->dimm_size;
-> +    } else {
-> +        return machine->ram_size;
->      }
-> -    g_slist_free(list);
-> -
-> -    return size;
->  }
->  
->  static bool virtio_balloon_page_poison_support(void *opaque) @@ -776,7 +753,11 @@ static void virtio_balloon_set_config(VirtIODevice *vdev,
->      VirtIOBalloon *dev = VIRTIO_BALLOON(vdev);
->      struct virtio_balloon_config config;
->      uint32_t oldactual = dev->actual;
-> -    ram_addr_t vm_ram_size = get_current_ram_size();
-> +    ram_addr_t vm_ram_size;
-> +    ram_addr_t vm_ram_size_new;
+> target/i386/cpu.c | 3 +++
+> 
+> 1 file changed, 3 insertions(+)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> 
+> index 22b681ca37..2ee574cf05 100644
+> 
+> --- a/target/i386/cpu.c
+> 
+> +++ b/target/i386/cpu.c
+> 
+> @@ -6362,6 +6362,9 @@ static void x86_cpu_filter_features(X86CPU *cpu, 
+> bool verbose)
+> 
+>               mark_unavailable_features(cpu, FEAT_7_0_EBX, 
+> CPUID_7_0_EBX_INTEL_PT, prefix);
+> 
+>           }
+> 
+>       }
+> 
 > +
-> +retry:
-> +    vm_ram_size = get_current_ram_size();
->  
->      memcpy(&config, config_data, virtio_balloon_config_size(dev));
->      dev->actual = le32_to_cpu(config.actual); @@ -784,6 +765,11 @@ static void virtio_balloon_set_config(VirtIODevice *vdev,
->          qapi_event_send_balloon_change(vm_ram_size -
->                          ((ram_addr_t) dev->actual << VIRTIO_BALLOON_PFN_SHIFT));
->      }
-> +    vm_ram_size_new = get_current_ram_size();
-> +    if (vm_ram_size_new != vm_ram_size) {
-> +        goto retry;
-> +    }
-> +
-
-What is this doing? needs and comment.
-And please don't implement loops using goto.
-
-
->      dev->poison_val = 0;
->      if (virtio_balloon_page_poison_support(dev)) {
->          dev->poison_val = le32_to_cpu(config.poison_val); diff --git a/include/hw/boards.h b/include/hw/boards.h index 6fbbfd56c8..551b4b419e 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -296,6 +296,7 @@ struct MachineClass {  typedef struct DeviceMemoryState {
->      hwaddr base;
->      MemoryRegion mr;
-> +    ram_addr_t dimm_size;
->  } DeviceMemoryState;
->  
->  /**
-> --
-> 2.33.0
+> 
+> +    /* Update XSAVE components again based on the filtered CPU feature 
+> flags */
+> 
+> +    x86_cpu_enable_xsave_components(cpu);
+> 
+> }
+> 
+> static void x86_cpu_hyperv_realize(X86CPU *cpu)
+> 
+> -- 
+> 
+> 2.27.0
+> 
 
 
