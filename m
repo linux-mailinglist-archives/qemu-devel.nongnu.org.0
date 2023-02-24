@@ -2,142 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DB56A1EFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:53:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900556A1F05
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:56:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVaNH-0003qn-G6; Fri, 24 Feb 2023 10:52:43 -0500
+	id 1pVaPO-0005Ia-1d; Fri, 24 Feb 2023 10:54:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pVaNE-0003q5-5g
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:52:40 -0500
-Received: from mail-dm6nam11on2081.outbound.protection.outlook.com
- ([40.107.223.81] helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pVaPL-0005HE-LG
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:54:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pVaNA-000540-Mf
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:52:39 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AGT2YB/09ORYTxg0+mJdTk5/8mM7rwcBfXRyNSP/mCSl/YE62QNQRUWVlrmwGOUrJeZHTJ6mLSzfVAKhACTsEw51K9YgGoj46Ft5ThsSdA3VH8EGvc3b0LW+UCWMH30wh21XFTSnBkgdphYy16nCreWo7l0eOC24s0suBghNlvjYuS0DR7MTpwC8HEsM4dnUu5KLeCMWuG7O+q/MWca2ob1w+0lyrsO84bZgh5rr1lzoz8EN871vUSiT/PY0sWqCaY0HuS0Wf+S8lAa8ZxHiuwXZaeFX6Eej1XZdH/4BGlSocygal0J+UMu1qh/JOV/KtZZnkja1oI6vr3UD/VVaOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6foR1TfPDOrW8IOfKWrhtOD+q92wzfjQCXzXgs4kj9E=;
- b=l5vtVSFMHIg/qPPkeL+W8WVHH65i1zqDfsGjIlMgdQ0P91paJJyHJztDGV5jqYvK8IDHWqYqZGj2k0SnYr77vDBn8PeWveVOxF2xj0L6DXd9sITgmWamlcuJzcwKFWvPb/k+1iU0RRAwQCyhM/LBPG7mOKRL7YgaQ2hNRR+Fb6Mh0mGIHTu9A0s5nzbJQx7djUSHRkPRYp8ITl/dN7jJ20DXjR2y/9TLNADafWHPnobt11Oal6O0jmOhbZV2b/3gc5hpl0BwNFhrPoy+0zpg++FUVbHFadlpSaYtZTqdR2U8okSURQb2Iooa36QdTQLsCI2zX+yt+uHn0Kbe8IkIDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6foR1TfPDOrW8IOfKWrhtOD+q92wzfjQCXzXgs4kj9E=;
- b=iDYO6m6XiFV0YMpTgrrDyZ22rvZHj5Ilk55yI+5MFzIkQ6OUOpLudwJgUxNGBmwABJ3u7fQ/309HsM+dsJfTsGaGjGq+IXycK0L7Y5kw5iRzD8VNsmIeY8GtVyvGCyMPc23nrGVLYqv5S4V4amQRimKTr7dYXXgy6lwrwjl+LZ2ZXlSq6Cq7fqFZHbJGO5lGta4ea2B1m4iShif0Ev/nF79CBTeXfKH/z3oB8C+VVpp+k1lOdYbOrs40Z2BnLhLvth25qY0qasd2T5XMo2Wxwl0T4vFg8TETu3aunzV4qzv6irqt1tSbBHFjoldU8xHmNJsKPJszeLM6epqJ6MLAbA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by SJ1PR12MB6073.namprd12.prod.outlook.com (2603:10b6:a03:488::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Fri, 24 Feb
- 2023 15:47:30 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::3cb3:2fce:5c8f:82ee]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::3cb3:2fce:5c8f:82ee%4]) with mapi id 15.20.6134.021; Fri, 24 Feb 2023
- 15:47:29 +0000
-Date: Fri, 24 Feb 2023 11:47:28 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- David Hildenbrand <david@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yishai Hadas <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v2 17/20] vfio/common: Support device dirty page tracking
- with vIOMMU
-Message-ID: <Y/jcEB1aQLS6/wd5@nvidia.com>
-References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-18-avihaih@nvidia.com>
- <20230222163439.68ad5e63.alex.williamson@redhat.com>
- <Y/bKoUBe17YNhGEA@nvidia.com>
- <20230223130633.4bd07948.alex.williamson@redhat.com>
- <Y/fS2rX+JvYVC9jR@nvidia.com>
- <20230223153309.298af6e1.alex.williamson@redhat.com>
- <Y/f2CJXGLLAtFezU@nvidia.com>
- <3419a4d1-041f-f4f3-1d7d-ab3608bb54ac@oracle.com>
- <c66d2d8e-f042-964a-a797-a3d07c260a3b@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c66d2d8e-f042-964a-a797-a3d07c260a3b@oracle.com>
-X-ClientProxiedBy: BL0PR02CA0125.namprd02.prod.outlook.com
- (2603:10b6:208:35::30) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pVaPJ-0005KG-Rc
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:54:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677254088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=U01NNdTYmB88L6bCuvIVo4stNcHELnJIE5QJOrddB34=;
+ b=Zm6CVWSG/ZVsqBMctaaLB3LcdRu8TurYi8zrMqRzVd1lez/EExw/Y2g4z4jnaXHvu3wE9y
+ t5HppZF7AwQ4zjxXMUIaGj+3YoenPMK5bIK8xt/wD/weuwIDfs2hDGZ8DDcd71LcXbPcI7
+ 8W+UiU1yR9vqHxU1lDXR8KN4CzWCGS0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-275-haghR7GjMiCVtlNvnI5eIQ-1; Fri, 24 Feb 2023 10:54:45 -0500
+X-MC-Unique: haghR7GjMiCVtlNvnI5eIQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 647A6299E75E;
+ Fri, 24 Feb 2023 15:54:44 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B79CC15BA0;
+ Fri, 24 Feb 2023 15:54:40 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Stefano Garzarella <sgarzare@redhat.com>,
+ Shannon Nelson <snelson@pensando.io>, Jason Wang <jasowang@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Laurent Vivier <lvivier@redhat.com>,
+ alvaro.karsz@solid-run.com, longpeng2@huawei.com,
+ virtualization@lists.linux-foundation.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
+ Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
+Subject: [PATCH v4 00/15] Dynamically switch to vhost shadow virtqueues at
+ vdpa net migration
+Date: Fri, 24 Feb 2023 16:54:23 +0100
+Message-Id: <20230224155438.112797-1-eperezma@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ1PR12MB6073:EE_
-X-MS-Office365-Filtering-Correlation-Id: ea1787aa-aab1-4ea0-8eee-08db167e6f59
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XjH6/xk0nLx9L68YL9f7vWRacxgV075yn4TTjw9VJtyEUPOOJVqod0TNkwPLmxPbr+EP3i/UmDh0yCzQAc+W8XAtZBQOjIX8lxYq3UphvdPf8ZNJOyhobwcw4l/veXvB0Iv3AUs/Ogu9NycbD4ZqI/yUf6LYFnG8aHtpwiGWjjtwMjF02FyaQZx2Zw3DOufEJlZ4/KKded8ffNBcreeLqcPP0Ss7uLpUym5BakqsyqJooBk6aIuepvTU1EQ5U2fNNRY93zAmv6APl9SOvFaSZd09xQihK5x6ktsSG5hR+E3fVDOTsIpLRixJa9MOJGG6GwPcoXKTelSIj4gF0xSQ96JyJ+Yu2ywYy3SJSlvjOjlnsVmfUviLgtyjN/bw7LU9/dqYKZxTB/KinJYMK8At7CesSFHLB3J/T+73/lMxVIDz5mF+cURN1incQcFL3KVoXiVpgWXkUkiy7IXu0thje2OzmP207OLnN+7WeDBsACzZq6K+LMDLSGXL3wXM6ouvQV0WXNdcRZKdJphHqnSVDL+IsTFXKyDa8zg3PGwFKoAW15ZV3heAq0+JqZTA42WP32GtF48A2AhmO2bfxbK6yhRxDETLOesPvaQskQklxxG1KAf5086YzgI+iMRdiLoFzsKP8RF8SVLpPbIEzex84cYvSH8/CogLEg0DVyq6KMZuontN4iKqrr/eZTO6kiEE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(376002)(366004)(39860400002)(396003)(136003)(451199018)(6506007)(83380400001)(36756003)(316002)(38100700002)(54906003)(7416002)(478600001)(26005)(186003)(6486002)(107886003)(6512007)(2906002)(5660300002)(8936002)(4326008)(41300700001)(86362001)(66556008)(66946007)(6916009)(66476007)(2616005)(8676002)(14143004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rJDDKNRgR3REc4foAJySRG0Pvyfov4brpOntaCrWbGQl/RAgQoyV2pGZD+AX?=
- =?us-ascii?Q?VFPKV/OOFHQIT3fpzvNDHjwrK5Cu4odAQ8jLN3hf60PMY/FqJkPy74XPRfGQ?=
- =?us-ascii?Q?OGxM47jbRZgn3Eie8IEOj4ehKElfNKiUh2cmD/zPDWKCNUag7YfnnlhMvwr1?=
- =?us-ascii?Q?RoR/IU929MIonxFgdwWowRjK1sbsqxa8mAvqBbiK8/5bDJGsFRT/obuV4L9l?=
- =?us-ascii?Q?Bz/UdgD88lnfVhGVz9epR14dB8JMWauGTdCNYijhc9vhhQMzUXm96qInN15Z?=
- =?us-ascii?Q?fyqLYZvZCObkM1g5Tlmk0kxdsJMIjeaHjHH0ALeiQuNXyK8TejS1SLfmAdKX?=
- =?us-ascii?Q?LVpvj5gRe77ebftBkBWnLMc/nJJwULa77aCON/NMY3WVfqh+BOgB0BwmX2UF?=
- =?us-ascii?Q?0a9ss5a18ibqPtPAoKXieQDgWyWgBrJBzQ152yYVf5dlA3bFc80D3/cWW2h8?=
- =?us-ascii?Q?qRqbLUNYwikgY/Z+P76hXzBAWXWvt0DS24fNnFHooMf5CVYt57l9bQabGREH?=
- =?us-ascii?Q?eH8f8LQ1DOprPenX4hK7bUUIbXSzCzLixIMYT5oo+f2FGlTX23G6i0XOPRn3?=
- =?us-ascii?Q?mIK7kTXwh1ihl8cfmG6ZcoBUgkCFlZdE4yQ8597h93Qk337zbqDNfoEpQTqx?=
- =?us-ascii?Q?Um2nlLCIUJZtrz1h33b5mep11ep1bttnYss3yi2j95kBRusaob4tPHxR0r9J?=
- =?us-ascii?Q?CW8lCamYCFuvQnNHUvMgmbT66Bf6lL7btoKWOc0AGd8fs3TmHvbZfrVG7nbF?=
- =?us-ascii?Q?s+8Gpfp2sL6POs8O2oyvaQ5HistWtsDd9+nzmBoFXd/W+JjoIZy8JptybuRw?=
- =?us-ascii?Q?rBtgQkdhdLR3mNoet2kbziKGFPZ4zM+haWkymNXCtQs31SwIltgxSZRSk2Z/?=
- =?us-ascii?Q?6R3iC+fgLIZEMkvrvU5qRs6Ss0UnNPOy4wFk2nmUjl952//ogeW6H5O3Y6n6?=
- =?us-ascii?Q?Ewjx0PHA/7Qea9XqYVWNFTNAKeTCvc+ulJyV6PFIqR8vVSGR5F1cepeajV8V?=
- =?us-ascii?Q?WvkO+YTJTHiie/FHBEfyemko5ADyUhqBT6Y2L9jLk5ArFWb+ojE7LO/1kO4M?=
- =?us-ascii?Q?GawMM4XUZvFYEzbGOSns6wTFpoS2jX7QAsOVFLe93i/eKQi2wovqnRJ2FyYs?=
- =?us-ascii?Q?eh2/gY85Ek6oQz31CZDfbEVzlJPmUGfxs9HlKszLHjWUCLLlcKRLTRAwUYRv?=
- =?us-ascii?Q?A6+TnN18iBGOG4DcmMaD86c8PQDDj0g5n5+/qnCbOVaQjx8Z9oZdbTFdv6Yz?=
- =?us-ascii?Q?BnkbNct+OIbCo+HdTtmCseo4L724kjQkTQrS8zcy9MGb8CbLKNXyymOCwWGE?=
- =?us-ascii?Q?EktwljWn5EnQzq/WdxoLw0biqnoEj773YKW4+QSSJgaTFFxURP6/UTI9KTRR?=
- =?us-ascii?Q?5XwBrhd+G7zHPqPSLBo70kG2tSmBrE8RroMcw5vvtPov9x6VVrG952Dy4qCQ?=
- =?us-ascii?Q?1AuL//3bkAxHcyNog0fhjHUyrisOAVMkI0YBDC711KZ3ZTc4xvCLLpUD1iSo?=
- =?us-ascii?Q?Gf6ihJA/uhRU+hC63dpSB+O218WE8MRtK+naZEFyK63sDlB4Dr4+piCPYuMg?=
- =?us-ascii?Q?BK6IyXEdsOlWiy2GphRaHsbzPC2w9RHJ6Q9V5KzD?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea1787aa-aab1-4ea0-8eee-08db167e6f59
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2023 15:47:29.5074 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qp2mYkCkzQR6OlXd3Lgd3fG125SvnLB4h7qcdQmd1mbTpKx0ohTCKGaoP5tdPiYa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6073
-Received-SPF: softfail client-ip=40.107.223.81; envelope-from=jgg@nvidia.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -154,34 +86,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 24, 2023 at 12:53:26PM +0000, Joao Martins wrote:
-> > But reading the code this ::bypass_iommu (new to me) apparently tells that
-> > vIOMMU is bypassed or not for the PCI devices all the way to avoiding
-> > enumerating in the IVRS/DMAR ACPI tables. And I see VFIO double-checks whether
-> > PCI device is within the IOMMU address space (or bypassed) prior to DMA maps and
-> > such.
-> > 
-> > You can see from the other email that all of the other options in my head were
-> > either bit inconvenient or risky. I wasn't aware of this option for what is
-> > worth -- much simpler, should work!
-> >
-> 
-> I say *should*, but on a second thought interrupt remapping may still be
-> required to one of these devices that are IOMMU-bypassed. Say to put affinities
-> to vcpus above 255? I was trying this out with more than 255 vcpus with a couple
-> VFs and at a first glance these VFs fail to probe (these are CX6
-> VFs).
+It's possible to migrate vdpa net devices if they are shadowed from the=0D
+start.  But to always shadow the dataplane is to effectively break its host=
+=0D
+passthrough, so its not efficient in vDPA scenarios.=0D
+=0D
+This series enables dynamically switching to shadow mode only at=0D
+migration time.  This allows full data virtqueues passthrough all the=0D
+time qemu is not migrating.=0D
+=0D
+In this series only net devices with no CVQ are migratable.  CVQ adds=0D
+additional state that would make the series bigger and still had some=0D
+controversy on previous RFC, so let's split it.=0D
+=0D
+Successfully tested with vdpa_sim_net with patch [1] applied and with the q=
+emu=0D
+emulated device with vp_vdpa with some restrictions:=0D
+* No CVQ. No feature that didn't work with SVQ previously (packed, ...)=0D
+* VIRTIO_RING_F_STATE patches implementing [2].=0D
+* Expose _F_SUSPEND, but ignore it and suspend on ring state fetch like=0D
+  DPDK.=0D
+=0D
+Previous versions were tested by many vendors. Not carrying Tested-by becau=
+se=0D
+of code changes, so re-testing would be appreciated.=0D
+=0D
+Comments are welcome.=0D
+=0D
+v4:=0D
+- Recover used_idx from guest's vring if device cannot suspend.=0D
+- Fix starting device in the middle of a migration.  Removed some=0D
+  duplication in setting / clearing enable_shadow_vqs and shadow_data=0D
+  members of vhost_vdpa.=0D
+- Fix (again) "Check for SUSPEND in vhost_dev.backend_cap, as=0D
+  .backend_features is empty at the check moment.". It was reverted by=0D
+  mistake in v3.=0D
+- Fix memory leak of iova tree.=0D
+- Properly rewind SVQ as in flight descriptors were still being accounted=0D
+  in vq base.=0D
+- Expand documentation.=0D
+=0D
+v3:=0D
+- Start datapatch in SVQ in device started while migrating.=0D
+- Properly register migration blockers if device present unsupported featur=
+es.=0D
+- Fix race condition because of not stopping the SVQ until device cleanup.=
+=0D
+- Explain purpose of iova tree in the first patch message.=0D
+- s/dynamycally/dynamically/ in cover letter.=0D
+- at lore.kernel.org/qemu-devel/20230215173850.298832-14-eperezma@redhat.co=
+m=0D
+=0D
+v2:=0D
+- Check for SUSPEND in vhost_dev.backend_cap, as .backend_features is empty=
+ at=0D
+  the check moment.=0D
+- at https://lore.kernel.org/all/20230208094253.702672-12-eperezma@redhat.c=
+om/T/=0D
+=0D
+v1:=0D
+- Omit all code working with CVQ and block migration if the device supports=
+=0D
+  CVQ.=0D
+- Remove spurious kick.=0D
+- Move all possible checks for migration to vhost-vdpa instead of the net=0D
+  backend. Move them to init code from start code.=0D
+- Suspend on vhost_vdpa_dev_start(false) instead of in vhost-vdpa net backe=
+nd.=0D
+- Properly split suspend after geting base and adding of status_reset patch=
+es.=0D
+- Add possible TODOs to points where this series can improve in the future.=
+=0D
+- Check the state of migration using migration_in_setup and=0D
+  migration_has_failed instead of checking all the possible migration statu=
+s in=0D
+  a switch.=0D
+- Add TODO with possible low hand fruit using RESUME ops.=0D
+- Always offer _F_LOG from virtio/vhost-vdpa and let migration blockers do=
+=0D
+  their thing instead of adding a variable.=0D
+- RFC v2 at https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02574.=
+html=0D
+=0D
+RFC v2:=0D
+- Use a migration listener instead of a memory listener to know when=0D
+  the migration starts.=0D
+- Add stuff not picked with ASID patches, like enable rings after=0D
+  driver_ok=0D
+- Add rewinding on the migration src, not in dst=0D
+- RFC v1 at https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01664.=
+html=0D
+=0D
+[1] https://lore.kernel.org/lkml/20230203142501.300125-1-eperezma@redhat.co=
+m/T/=0D
+[2] https://lists.oasis-open.org/archives/virtio-comment/202103/msg00036.ht=
+ml=0D
+=0D
+Eugenio P=C3=A9rez (15):=0D
+  vdpa net: move iova tree creation from init to start=0D
+  vdpa: Remember last call fd set=0D
+  vdpa: stop svq at vhost_vdpa_dev_start(false)=0D
+  vdpa: Negotiate _F_SUSPEND feature=0D
+  vdpa: move vhost reset after get vring base=0D
+  vdpa: add vhost_vdpa->suspended parameter=0D
+  vdpa: add vhost_vdpa_suspend=0D
+  vdpa: rewind at get_base, not set_base=0D
+  vdpa: add vdpa net migration state notifier=0D
+  vdpa: disable RAM block discard only for the first device=0D
+  vdpa net: block migration if the device has CVQ=0D
+  vdpa: block migration if device has unsupported features=0D
+  vdpa: block migration if SVQ does not admit a feature=0D
+  vdpa net: allow VHOST_F_LOG_ALL=0D
+  vdpa: return VHOST_F_LOG_ALL in vhost-vdpa devices=0D
+=0D
+ include/hw/virtio/vhost-backend.h  |   4 +=0D
+ include/hw/virtio/vhost-vdpa.h     |   3 +=0D
+ hw/virtio/vhost-shadow-virtqueue.c |   8 +-=0D
+ hw/virtio/vhost-vdpa.c             | 128 +++++++++++++------=0D
+ hw/virtio/vhost.c                  |   3 +=0D
+ net/vhost-vdpa.c                   | 198 ++++++++++++++++++++++++-----=0D
+ hw/virtio/trace-events             |   1 +=0D
+ 7 files changed, 273 insertions(+), 72 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
-It is pretty bizarre, but the Intel iommu driver is responsible for
-installing the interrupt remapping irq driver on the devices.
-
-So if there is no iommu driver bound then there won't be any interrupt
-remapping capability for the device even if the interrupt remapping HW
-is otherwise setup.
-
-The only reason Avihai is touching this is to try and keep the
-interrupt remapping emulation usable, we could certainly punt on that
-for now if it looks too ugly.
-
-Jason
 
