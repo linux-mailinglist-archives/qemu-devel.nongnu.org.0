@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83206A1F22
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:59:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7E96A1F01
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:55:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVaQI-0006Zy-3j; Fri, 24 Feb 2023 10:55:50 -0500
+	id 1pVaPV-0005MF-BY; Fri, 24 Feb 2023 10:55:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pVaQB-00067B-FC
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pVaQ9-0005vr-Fu
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677254140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pS6Z/sVXz2QPRzFhXYU2YnsrDLbW6mC8TdAMsQ9cUGY=;
- b=ZlLxEL+fTEEVix1mwaCB2bS9lSSzrJlmDM4tMncrbEJErUds9i+b2TI72vURLN1esqJ6Wb
- aSC0iSlgO5RGHeR8j4TfiunU7tzIIF4W0TsJGj7yJSYIuW6uqFUk8k611dRVJr9TK481AK
- opnb9UYcsu1XhQdt5IVk+uIoMcpi2xI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-CaW9JJfxP0WN4eqga-830w-1; Fri, 24 Feb 2023 10:55:32 -0500
-X-MC-Unique: CaW9JJfxP0WN4eqga-830w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 218501C05B02;
- Fri, 24 Feb 2023 15:55:32 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43F0CC15BA0;
- Fri, 24 Feb 2023 15:55:29 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVaPS-0005LO-9N
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:54:58 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVaPQ-0005LW-Nu
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:54:58 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ l2-20020a05600c1d0200b003e1f6dff952so2509864wms.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=aJFW+LMmK18fOMto9AtXzx1qQDMuR71IdpmNF0+iYWQ=;
+ b=QqwOJC2obQg/ZtjW3sQEgwJ+lzG7VlrsWAZqltOTR77k44u9nbPKBP6AotqGvc+4PC
+ KQqqJReeKVeVhmr41P1DsySHFyHImc5/oAMHzg4bks8VBFtKETaCOyKZUK5wglp0B45c
+ DwUKKl5E+IhImEBaBHDfOnS29c/ZjK0OpxPqk6rTLzyzkflvqkKZKwYlwejrjsMvC3Oa
+ 1CMB2Kxf9AXuesPRRs1AXLMctSH+idim5KS+IBTyFM31BYZDnsCfPRjZwzZfhZ1+vT24
+ AlYK2G4rXFggoi6u3M8RIOPuqgkuPl734mj6WlKubXQBiop3fwYBmtxmp8eyDyEQ+YAC
+ StVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aJFW+LMmK18fOMto9AtXzx1qQDMuR71IdpmNF0+iYWQ=;
+ b=GjvaEulM7+OiXnbZrTwXUg2udKFevA/mwTsAyZLsfrgSVnPs4yBeuZ8u9NkbZhQCip
+ w1gBeIF/vckk8q2Ojzkxbz3fd4/WHrUnsEbYWOYdlxrfWJD/084esnjqPrQZw1w6lzEz
+ o7AjTSDfKGMpV9JSouy3YySDwMAtrYoD7gA1ksLfyOxpLFHu7dvYX/NE1ngMdBEj2XGg
+ QcwU0T32PKP10y+Ic4HONFO5mKaqRoh4YsTrObQJPLos1biDr6i1kCzm8VIpw04y/6Ku
+ ZPNngT7ftHDA7/FtM4pkGOngTg7Baz25cOcuiE7jCzYvowo+WvN3kjWw5nEUKYsgczUx
+ cADg==
+X-Gm-Message-State: AO0yUKWS2pvLuhq6mnUBngU83hxCxEcdNwaq+gF5Yy4nkwPdT0jQGNi2
+ hHlmPiWH0wYjjRY1zDIneJ2GTbwgrzrdcLqu
+X-Google-Smtp-Source: AK7set9p9AWARufIHRoIqDC95j/dnk2p2IBSBz+f55VQHNAVUA/DSSTKLJ7TDHZwJWEY5FIjETiPuQ==
+X-Received: by 2002:a05:600c:3088:b0:3d3:49db:9b25 with SMTP id
+ g8-20020a05600c308800b003d349db9b25mr13159274wmn.26.1677254094632; 
+ Fri, 24 Feb 2023 07:54:54 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
+ by smtp.gmail.com with ESMTPSA id
+ e17-20020a05600c219100b003e7f1086660sm3285602wme.15.2023.02.24.07.54.53
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 24 Feb 2023 07:54:53 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Stefano Garzarella <sgarzare@redhat.com>,
- Shannon Nelson <snelson@pensando.io>, Jason Wang <jasowang@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, Laurent Vivier <lvivier@redhat.com>,
- alvaro.karsz@solid-run.com, longpeng2@huawei.com,
- virtualization@lists.linux-foundation.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com,
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
- Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Subject: [PATCH v4 15/15] vdpa: return VHOST_F_LOG_ALL in vhost-vdpa devices
-Date: Fri, 24 Feb 2023 16:54:38 +0100
-Message-Id: <20230224155438.112797-16-eperezma@redhat.com>
-In-Reply-To: <20230224155438.112797-1-eperezma@redhat.com>
-References: <20230224155438.112797-1-eperezma@redhat.com>
+Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/2] qapi: Simplify enum generation
+Date: Fri, 24 Feb 2023 16:54:49 +0100
+Message-Id: <20230224155451.20211-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,34 +92,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-vhost-vdpa devices can return this features now that blockers have been
-set in case some features are not met.
+QAPI generating enum count as part of the enum forces handling
+impossible switch cases. Modify qapi/types.py to generate the
+enum count as a definition.
+Do not try to cover the unreachable 'default' case.
+Clean files covering unreachable foo__MAX case.
 
-Expose VHOST_F_LOG_ALL only in that case.
+Philippe Mathieu-Daudé (2):
+  qapi: Do not generate default switch case in
+    gen_visit_object_members()
+  qapi: Generate enum count as definition in gen_enum_lookup()
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
----
- hw/virtio/vhost-vdpa.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ audio/audio.c          |  6 ------
+ audio/audio_template.h |  3 ---
+ migration/migration.c  |  2 --
+ replay/replay-input.c  | 12 ------------
+ scripts/qapi/types.py  | 11 +++++++----
+ scripts/qapi/visit.py  |  2 --
+ softmmu/tpm-hmp-cmds.c |  2 --
+ ui/input-linux.c       |  4 ----
+ ui/input.c             |  6 ------
+ 9 files changed, 7 insertions(+), 41 deletions(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 8702780ad6..2a66cb51fc 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -1307,10 +1307,9 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
- static int vhost_vdpa_get_features(struct vhost_dev *dev,
-                                      uint64_t *features)
- {
--    struct vhost_vdpa *v = dev->opaque;
-     int ret = vhost_vdpa_get_dev_features(dev, features);
- 
--    if (ret == 0 && v->shadow_vqs_enabled) {
-+    if (ret == 0) {
-         /* Add SVQ logging capabilities */
-         *features |= BIT_ULL(VHOST_F_LOG_ALL);
-     }
 -- 
-2.31.1
+2.38.1
 
 
