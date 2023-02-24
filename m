@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689C86A1ED5
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:46:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949706A1ED6
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:46:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVa9c-0003us-65; Fri, 24 Feb 2023 10:38:36 -0500
+	id 1pVa9Z-0003sq-Oz; Fri, 24 Feb 2023 10:38:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pVa9Z-0003sl-1H
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:38:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pVa9X-0003rm-Hb
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:38:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pVa9W-0007GS-2r
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:38:32 -0500
+ id 1pVa9W-0007GZ-0F
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:38:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1677253106;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I/iHFVoo2AbCn5b07zNtKbVrpFG1xlU788qejXAOH+k=;
- b=TPZfa7hmdW307FHXxFaOdXgPrxfRcQlFx4DqeMfbiJ2cMZA84Vr7nDTpID03dkt6sfjGnp
- n9PDS4Dxi0VkUV4HQQYIWlo3/BFM8F7MgC/+pwdb6t8CcbYRisxtk3VTRVcjh02r19KoOR
- uUHGHORHkPoHWEC9uRf+X+/nXjGbIkc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wuA9TTNquDVlhszUJ4WlEAwwZGB+q+OFKsO+sSf+MNY=;
+ b=F0gMxJtxfwEJPmuEEdc6DqYfIIhS03foA6YBagtDoT2PrhqePM+QQ/IHLRWKU2eI+rexvs
+ VoYmXxkwXH1olFTmbL62EjxIczqO2SQEd2AGunqZk1nBcdLoIB0hdyKCy2Mmi/QXXG1UET
+ +ZiDxcg9Hx/nrkyRKmcG4D3Am+XS7+M=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457-jZ9Rxqt-Nqavda9NTnsVXA-1; Fri, 24 Feb 2023 10:38:24 -0500
-X-MC-Unique: jZ9Rxqt-Nqavda9NTnsVXA-1
+ us-mta-628-a5n_kO6DODmGaupOmJh6Vw-1; Fri, 24 Feb 2023 10:38:25 -0500
+X-MC-Unique: a5n_kO6DODmGaupOmJh6Vw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B99485A588;
- Fri, 24 Feb 2023 15:38:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16BF43806109;
+ Fri, 24 Feb 2023 15:38:25 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 90DE3492B12;
- Fri, 24 Feb 2023 15:38:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B6F8492B12;
+ Fri, 24 Feb 2023 15:38:24 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	ani@anisinha.ca,
 	berrange@redhat.com
-Subject: [PATCH 11/33] pci: fix 'hotplugglable' property behavior
-Date: Fri, 24 Feb 2023 16:37:50 +0100
-Message-Id: <20230224153812.4176226-12-imammedo@redhat.com>
+Subject: [PATCH 12/33] tests: acpi: whitelist DSDT blobs before isolating PCI
+ _DSM func 0 prolog
+Date: Fri, 24 Feb 2023 16:37:51 +0100
+Message-Id: <20230224153812.4176226-13-imammedo@redhat.com>
 In-Reply-To: <20230224153812.4176226-1-imammedo@redhat.com>
 References: <20230224153812.4176226-1-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,124 +82,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently the property may flip its state
-during VM bring up or just doesn't work as
-the name implies.
-
-In particular with PCIE root port that has
-'hotplug={on|off}' property, and when it's
-turned off, one would expect
-  'hotpluggable' == false
-for any devices attached to it.
-Which is not the case since qbus_is_hotpluggable()
-used by the property just checks for presence
-of any hotplug_handler set on bus.
-
-The problem is that name BusState::hotplug_handler
-from its inception is misnomer, as it handles
-not only hotplug but also in many cases coldplug
-as well (i.e. generic wiring interface), and
-it's fine to have hotplug_handler set on bus
-while it doesn't support hotplug (ex. pcie-slot
-with hotplug=off).
-
-Another case of root port flipping 'hotpluggable'
-state when ACPI PCI hotplug is enabled in this
-case root port with 'hotplug=off' starts as
-hotpluggable and then later on, pcihp
-hotplug_handler clears hotplug_handler
-explicitly after checking root port's 'hotplug'
-property.
-
-So root-port hotpluggablity check sort of works
-if pcihp is enabled but is broken if pcihp is
-disabled.
-
-One way to deal with the issue is to ask
-hotplug_handler if bus it controls is hotpluggable
-or not. To do that add is_hotpluggable_bus()
-hook to HotplugHandler interface and use it in
-'hotpluggable' property + teach pcie-slot to
-actually look into 'hotplug' property state
-before deciding if bus is hotpluggable.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/hw/hotplug.h   |  2 ++
- include/hw/qdev-core.h | 13 ++++++++++++-
- hw/pci/pcie_port.c     |  8 ++++++++
- 3 files changed, 22 insertions(+), 1 deletion(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 35 +++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/include/hw/hotplug.h b/include/hw/hotplug.h
-index e15f59c8b3..a9840ed485 100644
---- a/include/hw/hotplug.h
-+++ b/include/hw/hotplug.h
-@@ -48,6 +48,7 @@ typedef void (*hotplug_fn)(HotplugHandler *plug_handler,
-  * @unplug: unplug callback.
-  *          Used for device removal with devices that implement
-  *          asynchronous and synchronous (surprise) removal.
-+ * @is_hotpluggable_bus: called to check if bus/its parent allow hotplug on bus
-  */
- struct HotplugHandlerClass {
-     /* <private> */
-@@ -58,6 +59,7 @@ struct HotplugHandlerClass {
-     hotplug_fn plug;
-     hotplug_fn unplug_request;
-     hotplug_fn unplug;
-+    bool (*is_hotpluggable_bus)(HotplugHandler *plug_handler, BusState *bus);
- };
- 
- /**
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 35fddb19a6..3b3518146b 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -812,7 +812,18 @@ void qbus_set_bus_hotplug_handler(BusState *bus);
- 
- static inline bool qbus_is_hotpluggable(BusState *bus)
- {
--   return bus->hotplug_handler;
-+    HotplugHandler *plug_handler = bus->hotplug_handler;
-+    bool ret = !!plug_handler;
-+
-+    if (plug_handler) {
-+        HotplugHandlerClass *hdc;
-+
-+        hdc = HOTPLUG_HANDLER_GET_CLASS(plug_handler);
-+        if (hdc->is_hotpluggable_bus) {
-+            ret = hdc->is_hotpluggable_bus(plug_handler, bus);
-+        }
-+    }
-+    return ret;
- }
- 
- /**
-diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-index 65a397ad23..000633fec1 100644
---- a/hw/pci/pcie_port.c
-+++ b/hw/pci/pcie_port.c
-@@ -161,6 +161,13 @@ PCIDevice *pcie_find_port_by_pn(PCIBus *bus, uint8_t pn)
-     return NULL;
- }
- 
-+static bool pcie_slot_is_hotpluggbale_bus(HotplugHandler *plug_handler,
-+                                          BusState *bus)
-+{
-+    PCIESlot *s = PCIE_SLOT(bus->parent);
-+    return s->hotplug;
-+}
-+
- static const TypeInfo pcie_port_type_info = {
-     .name = TYPE_PCIE_PORT,
-     .parent = TYPE_PCI_BRIDGE,
-@@ -188,6 +195,7 @@ static void pcie_slot_class_init(ObjectClass *oc, void *data)
-     hc->plug = pcie_cap_slot_plug_cb;
-     hc->unplug = pcie_cap_slot_unplug_cb;
-     hc->unplug_request = pcie_cap_slot_unplug_request_cb;
-+    hc->is_hotpluggable_bus = pcie_slot_is_hotpluggbale_bus;
- }
- 
- static const TypeInfo pcie_slot_type_info = {
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..7e7745db39 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,36 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.acpierst",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.hpbridge",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.nohpet",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.roothp",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.acpierst",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
++"tests/data/acpi/q35/DSDT.applesmc",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.core-count2",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.cxl",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.ipmismbus",
++"tests/data/acpi/q35/DSDT.ivrs",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.multi-bridge",
++"tests/data/acpi/q35/DSDT.nohpet",
++"tests/data/acpi/q35/DSDT.numamem",
++"tests/data/acpi/q35/DSDT.pvpanic-isa",
++"tests/data/acpi/q35/DSDT.tis.tpm12",
++"tests/data/acpi/q35/DSDT.tis.tpm2",
++"tests/data/acpi/q35/DSDT.viot",
++"tests/data/acpi/q35/DSDT.xapic",
 -- 
 2.39.1
 
