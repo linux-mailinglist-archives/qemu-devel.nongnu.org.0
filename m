@@ -2,74 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E8A6A1DDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 15:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D666A1E57
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:17:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVZWd-0000Dq-UR; Fri, 24 Feb 2023 09:58:20 -0500
+	id 1pVZoE-0002A1-9M; Fri, 24 Feb 2023 10:16:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVZWb-0000DK-J4
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 09:58:17 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVZWa-0003fC-6z
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 09:58:17 -0500
-Received: by mail-pf1-x432.google.com with SMTP id bd34so979508pfb.3
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 06:58:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=DJ6YMcMqqVkO2Yq1pRbRxg35LAovBsz1IvyaBn6/Y80=;
- b=Q85q8pCledpCv12KcwJ3IvG0ZDweD8+aCre2jcbtR3+iuQQYNvwAHro11a2UqoM7Rg
- QqKMBgK9czJVJNGL5yGtoiDAoSclqmyo3FL68waQXjKfQoeRxXd+31w969ROl96M/7kr
- D7X/C7SSlOrAhutQMX6K53Rc8CJq+6wEHAzZVy6ngdlEUKmzyEVn9Td1rLJE+rh8xvL5
- eH9Zf7/fUOpYW9Brr83thyH3BsEEDbcbkJzs2DMbOWY9JDGrDR+m6pMuMAn1KfOUbLMk
- 9hq0iMjo9swnnCXG1duguSyGXtiJfgGj2nPuG32d6UC+3gwVp77rqf8jkbZsjZ2nLt+j
- IqBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DJ6YMcMqqVkO2Yq1pRbRxg35LAovBsz1IvyaBn6/Y80=;
- b=IskMOyoE85hgxy5+cUGTmnKaMrWMhQXpXVyR/lgE2fZx61MGcB/av5d8A+Yzu1E7i3
- MuQuSi6dfH3X7DyYTnb3Hcz7Drh0L04cT1vnz6FMUj70ImhLkAtJjqXvAvG12d6pfbp8
- aBLM8QrKKjOrka7gB6eUf7zQoEj5zOZWhOK4bWa3sNSZWGS88Kx3a8JID/0MSZjyLu8O
- sNmeDmbb3TYbCxCRejypemxi9xhxE7rgwQJY5JZ5kx7xu8mJzyGBzz734s24AeyvnkYt
- uzm82S+bJpwruF3QKmasrLE5t6ZPs2tbiClkYQzO7c+SwwAxfuwef5gPVu1NFGod6HE4
- RlSw==
-X-Gm-Message-State: AO0yUKWu54zvxInIOEiKVSNTGA9EKM3vqsJBpSEM+IEHFpK8C/aN7b6I
- KK41FzLmmyGtQVQP8Csm+Qz6zDypUcCCykUwK/wKOQ==
-X-Google-Smtp-Source: AK7set8dc5jhIzWk64whm6t8w6MLoJpB28p4LJRexILrEBJRrMgPVt2ML7fV1VO32sCpt/STc/fh+DE7CW2ALDohLZk=
-X-Received: by 2002:a63:6dc8:0:b0:4fb:b556:c9fc with SMTP id
- i191-20020a636dc8000000b004fbb556c9fcmr2978023pgc.9.1677250694556; Fri, 24
- Feb 2023 06:58:14 -0800 (PST)
-MIME-Version: 1.0
-References: <20230222023336.915045-1-richard.henderson@linaro.org>
- <20230222023336.915045-18-richard.henderson@linaro.org>
-In-Reply-To: <20230222023336.915045-18-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Feb 2023 14:58:03 +0000
-Message-ID: <CAFEAcA8_rbuXgj9BbJitDTZcW-Mho8CxpJmouG_JahzMHmTQdQ@mail.gmail.com>
-Subject: Re: [PATCH v3 17/25] target/arm: Handle no-execute for Realm and Root
- regimes
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pVQ2d-0003DA-VX
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 23:50:44 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pVQ2c-0001X1-2O
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 23:50:43 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7D0F25C01BA;
+ Thu, 23 Feb 2023 23:50:40 -0500 (EST)
+Received: from imap42 ([10.202.2.92])
+ by compute1.internal (MEProxy); Thu, 23 Feb 2023 23:50:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1677214240; x=1677300640; bh=2JfeHpe8ux
+ fwwYBtUfaNLkfoW9j/SvYIp8XGXIfS7Bc=; b=YVVC+8KFRxEpYi2dicOuCYMttr
+ EDN1CD+trbUEa/9P7lq/CH945YIVPITPJhBQyF2/FnynSju+PMNpnoN/UEVg5DTH
+ r7xKCWF44CSxY6i0lXjWekC3utBFgA5+rLQXGa/ZI+39WFGFRPRPdgUEj4Jz+3+s
+ 5sr0RRnDBnQSoJghyTOqKQrdT9b4WZ89OzFnkGhnMFZDqBRqMilIrdYfWhpMEG8X
+ C6LC94DeiPgYPBwODUeICFhINM7aJRcHYWMHsoWHdnxSEN+Woub7tMsedmzTmWwr
+ OfujNgHGm+dxHwZ8G7p9/d1xMYL6YtO+tPtwi4c6IiqcPl/WXI6whcxjgmlg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1677214240; x=1677300640; bh=2JfeHpe8uxfwwYBtUfaNLkfoW9j/
+ SvYIp8XGXIfS7Bc=; b=f/f0pIdoaV3R464gtG0uHJ9gszyeN8S8KAfjrzb7pGx3
+ XY8ESPtZqWIVkwHekqi4xve94WkaSILAG//ZYRTHshWm5CIUiCJagYVCytvI2bhq
+ FoykO3G81JsEsGqW9X3dmDrN3Ps7rUWIsrwZF1dq8GlHemsyt8YfdmweLEqcyb5m
+ o+6c82ko26MwCh/jeLJifh5NiabEa2VV5AfrcULtO/DGVMxzI9PM49U7RDOdOyIT
+ J1pG1T4Bu69PhsikNOtcNvCfIGaTMFjQ+5Tc1cavdEUaGcx4oPsFc/NrAppPmUeK
+ Oi44f9gmOsUJlrq5ypGDtt/+k6VcXJ9dcoh7G8ZWUQ==
+X-ME-Sender: <xms:IEL4YzI-RVDRfN8b2RlquA2GOXwA0JzgLJBvRfC-k538Qe5J_tLLrg>
+ <xme:IEL4Y3KDal03nu0WkywZuRHIj5b6J4gk4I2K1dmQoVgXyAaSE1uWjdtR4sAe8wEC9
+ MPkqZAJE4nJInhpDQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekvddgjeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlfeehmdenucfjughrpefofg
+ ggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdffrghnihgvlhcuighu
+ fdcuoegugihusegugihuuhhurdighiiiqeenucggtffrrghtthgvrhhnpedtudehudfhve
+ duieeikeejudeljeffuddtieffieeljedtudehhfekheehuedvkeenucevlhhushhtvghr
+ ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegugihusegugihuuhhurdighi
+ ii
+X-ME-Proxy: <xmx:IEL4Y7u76njj4evNCZtVoKNt1kvSIa14-OhubAxo808wuk7mSb-_pA>
+ <xmx:IEL4Y8Zc49_zUNN4tlRIr8Hfka_xf-ekcwMBW8Dy-UzczDXKbXpzJQ>
+ <xmx:IEL4Y6Yo9A-1eutO47_rmPOPWKzpEWLB84QcMdaFdn2GRcEJPMcpDw>
+ <xmx:IEL4YzB1L9BQbWuAs6P7-MFFAGsiiP-Q6f9tTt16axlODnfPHlvxrQ>
+Feedback-ID: i6a694271:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 282B1BC0078; Thu, 23 Feb 2023 23:50:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-172-g9a2dae1853-fm-20230213.001-g9a2dae18
+Mime-Version: 1.0
+Message-Id: <5855a5c0-1359-49e7-944c-579eb5f59402@app.fastmail.com>
+In-Reply-To: <cover.1677197937.git.dxu@dxuuu.xyz>
+References: <cover.1677197937.git.dxu@dxuuu.xyz>
+Date: Thu, 23 Feb 2023 21:50:19 -0700
+From: "Daniel Xu" <dxu@dxuuu.xyz>
+To: michael.roth@amd.com, kkostiuk@redhat.com
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/3] qga: Add optional `merge-output` flag to guest-exec
+ QAPI
+Content-Type: text/plain
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=dxu@dxuuu.xyz;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 24 Feb 2023 10:16:11 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,19 +99,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 at 02:37, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, Feb 23, 2023, at 7:05 PM, Daniel Xu wrote:
+> Currently, the captured output (via `capture-output`) is segregated into
+> separate GuestExecStatus fields (`out-data` and `err-data`). This means
+> that downstream consumers have no way to reassemble the captured data
+> back into the original stream.
 >
-> While Root and Realm may read and write data from other spaces,
-> neither may execute from other pa spaces.
+> This is relevant for chatty and semi-interactive (ie. read only) CLI
+> tools.  Such tools may deliberately interleave stdout and stderr for
+> visual effect. If segregated, the output becomes harder to visually
+> understand.
 >
-> This happens for Stage1 EL3, EL2, EL2&0, but stage2 EL1&0.
+> This patchset adds support for merging stderr and stdout output streams
+> via a new QAPI flag.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+> Daniel Xu (3):
+>   qga: test: Use absolute path to test data
+>   qga: Add optional `merge-output` flag to guest-exec qapi
+>   qga: test: Add tests for `merge-output` flag
+>
+>  qga/commands.c        |  13 +++-
+>  qga/qapi-schema.json  |   6 +-
+>  tests/unit/test-qga.c | 135 ++++++++++++++++++++++++++++++++++++------
+>  3 files changed, 133 insertions(+), 21 deletions(-)
+>
+> -- 
+> 2.39.1
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Apologies for spamming the list. I thought my mail provider
+was swallowing my sends but it looks like the list was a bit
+slow.
 
-thanks
--- PMM
+Thanks,
+Daniel
 
