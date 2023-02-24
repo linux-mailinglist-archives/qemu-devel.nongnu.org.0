@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5686A23C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 22:27:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09566A23DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 22:35:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVfaF-0003ll-2h; Fri, 24 Feb 2023 16:26:27 -0500
+	id 1pVfi6-0001Bu-6l; Fri, 24 Feb 2023 16:34:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVfaC-0003jW-Ri
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 16:26:24 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1pVfi0-0001BA-Ai
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 16:34:28 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVfaB-00052o-Ey
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 16:26:24 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id e5so831366plg.8
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 13:26:23 -0800 (PST)
+ id 1pVfhy-0001A7-Eo
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 16:34:27 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ h17-20020a17090aea9100b0023739b10792so632421pjz.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 13:34:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=KYAq7tNHpZyirtJDO03/Lfisei/KfYLIGWvzP7Vg00Q=;
- b=a+Ye3NBYh0c3TvGXcJriuv2G5vxjroNNxj3/aXm39T8jSfplAF4dIVwhlQWawzl5se
- B78js/RmD/TcjccaL6lJQLFgaY2JFlXZ0Kr53aFPr0QLtBF6PvUWFbgyV+QbeFcaBSLD
- 1P29be0/3nLIiur0qvUq+kqLJJ4MTJ5ugbW1Mg19RytfpOwo5jiwbePEXuJNmqWOd7tE
- SB5276LWvifZCSV45M5ro0GiT6K0HS9C2KZ4NSroZnIjaPYnUKZSbwJaZWpoNCP19isI
- hteEbXejt+YPhkha/x08N0aj1yCIbuizGHYnKGfE/s8j4H3fHmduh89fZHcq8W9TGHWU
- 1djg==
+ bh=yQPF4QRg+Y6u3cCwj84l/KgLy9yLpA+J7Spud4VsUrQ=;
+ b=YHMSE3e9xp5wPKRx9i3EMA5h3x/cd+Nf5Nmxm2yeIwsZROigSAHWvyTf4BqBhmDU2B
+ TN28TEvqjbBHbo9aOMkBvCHgDkUcMZFPa7lioujm6j+RtKPlm9YHol9l7L/GexXoHruL
+ 3o2WiVktBLGqEb+GN45u8LP4D6D11WymSrRfrJkqafCRr4ll4d4QC/rb7wY5s6vIM/0F
+ VkuMK8e3D9MX2RTGaa22hdrKx95igD/Q0enOPbiZ4yDssDx9pZixVerZw+TdSA8CmEb2
+ asnryUKwrqJ294MHVfBVp0ERbHSLWo9s8RGE1IvSkRO75Cl2RGA8EwFxSksxbHS5LbPU
+ /WtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KYAq7tNHpZyirtJDO03/Lfisei/KfYLIGWvzP7Vg00Q=;
- b=2F4dJvXUwG8noe8+qon4ahu8Sm2DYqhFAdOD5iYFzV6t6uTMZ6en39ehh/YzY2Jvkm
- odoqtADzkwTs82Wrr24xABKYvhzvd9Sk4GGpCvZsrlcQ/iTz/Lvjt11iOX15Mrf2HYgW
- 0uZTTaVuUA8d88HM+XA0X1OGSaxw7h+cKBtwTDHxWo4kN19oGi5Rb+ardYEnxx4s9XB2
- OvBWgrdWXe6QQ2v6XTlnRARsKO0Eac/BAcyF9XUEWfT0+GZf/DlWgPY27nPvUtq88UeK
- uLLCE9xl1n1DwNoodkTBlqP/wK5yCIXdnSzUJdQvi9eI/iE5plrUm3Cs2p4JTcE4DouH
- ftDA==
-X-Gm-Message-State: AO0yUKXEfirxm7r/EJ4kN4nGOm54PNWzfgr6GOfBmCwzY0fSyJzrfgrk
- Pps+iw68CyLug08LsOM09tM9Eg==
-X-Google-Smtp-Source: AK7set8sA0ZrBE0MOyr23FYpDEIwh9fF3+deMRQzty/mWDv1NcBDRvPetGgeBq29Hgl4rQ89pJYL4A==
-X-Received: by 2002:a17:90a:e7cc:b0:230:86de:f390 with SMTP id
- kb12-20020a17090ae7cc00b0023086def390mr16724428pjb.42.1677273981840; 
- Fri, 24 Feb 2023 13:26:21 -0800 (PST)
+ bh=yQPF4QRg+Y6u3cCwj84l/KgLy9yLpA+J7Spud4VsUrQ=;
+ b=ozjv6waDXHhYE/8Y3Kmh6D2JsxDGMYmaPX9pQW3Si0cdYkS2y0Gob8tRSDnuoCQjHF
+ T9OMqCMq3TyHZJClIBinPVlOWzxQB3mDZmEuGl/tQKRAApdthteW4dY/xXOt0V0xvRgn
+ ibgFZj/1tsXumvGfnbw/eE8oc0wexVOs5hDCZuomSlw2sQjkQYqInkqseG1PbnBKe8RZ
+ f3g7EQ3ks/L0W8ibRs/KmhlkYY9YtVaLCrs5hmYqBzOQabzd4IIAymKD7tTQz8AwiGPC
+ ydAqTszweqhXugfNdC9jTSP9Ae8N1mzcABnXhuHqzhGrZ72wZXUgHiVggF/uGEPbuegq
+ ICgA==
+X-Gm-Message-State: AO0yUKXBQqaSUvoH5hposPIFKO7GV5mfX7LFh8wSB7Hx1qB558ZVnpGt
+ NX2s31Irz/cf1Akubm+c3p75Cw==
+X-Google-Smtp-Source: AK7set/SpVI4KtiKqz33mkBiC/eRf3dGgL3olwBlpEHtX0rn0mgxD7y7Je6wdlCKY8fXHVqf3spqpQ==
+X-Received: by 2002:a17:90b:4a4d:b0:231:284:ea4d with SMTP id
+ lb13-20020a17090b4a4d00b002310284ea4dmr19629268pjb.22.1677274447041; 
+ Fri, 24 Feb 2023 13:34:07 -0800 (PST)
 Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- d16-20020a17090abf9000b0023440af7aafsm113129pjs.9.2023.02.24.13.26.19
+ p6-20020a17090ac00600b002366c766ef4sm1943498pjt.33.2023.02.24.13.34.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 13:26:21 -0800 (PST)
-Message-ID: <7085e0f2-5ff9-671a-42ba-efd61398e946@linaro.org>
-Date: Fri, 24 Feb 2023 11:26:17 -1000
+ Fri, 24 Feb 2023 13:34:06 -0800 (PST)
+Message-ID: <d2b57ebe-791a-74bc-1ba0-5909d36e6910@linaro.org>
+Date: Fri, 24 Feb 2023 11:34:00 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 0/2] block/qcow2: QAPI'fy Qcow2DiscardType
+Subject: Re: [PATCH 0/4] RISCVCPUConfig related cleanups
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>
-References: <20230224152019.19278-1-philmd@linaro.org>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
+References: <20230224174520.92490-1-dbarboza@ventanamicro.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230224152019.19278-1-philmd@linaro.org>
+In-Reply-To: <20230224174520.92490-1-dbarboza@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -96,16 +94,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/24/23 05:20, Philippe Mathieu-Daudé wrote:
-> QAPI seems designed to maintain such enums,
-> so convert Qcow2DiscardType to be QAPI generated.
-> Besides, this is how Qcow2CompressionType is maintained.
+On 2/24/23 07:45, Daniel Henrique Barboza wrote:
+> Hi,
 > 
-> Philippe Mathieu-Daudé (2):
->    block/qcow2: Rename QCOW2_DISCARD_TYPE enum definitions
->    block/qcow2: QAPI'fy Qcow2DiscardType
+> These cleanups were suggested by LIU Zhiwei during the review of the
+> RISCV_FEATURE_* cleanups, currently on version 7 [1].
+> 
+> These are dependent on the patch "[PATCH v7 01/10] target/riscv: introduce
+> riscv_cpu_cfg()" from [1] because we use the riscv_cpu_cfg() API.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+If you add
+
+Based-on: <message-id>
+
+to the cover letter, then patchew can stitch the two patch sets together in its git 
+repository.
+
 
 r~
 
