@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395976A21F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 20:02:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A176A21FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 20:02:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVdJk-0001f4-KX; Fri, 24 Feb 2023 14:01:16 -0500
+	id 1pVdJp-0001jZ-D7; Fri, 24 Feb 2023 14:01:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pVdJh-0001dd-9L
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:13 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ id 1pVdJn-0001ih-AT
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:19 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1pVdJd-0002eU-Hn
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:13 -0500
-Received: by mail-pl1-x629.google.com with SMTP id z2so432392plf.12
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 11:01:07 -0800 (PST)
+ id 1pVdJg-0002f1-1E
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 14:01:19 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ nw10-20020a17090b254a00b00233d7314c1cso3789775pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 11:01:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677265266;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677265270;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lx0M+hYFCHNKkG1Lj780I7YKmL/EVcbXsrThtaMCRAY=;
- b=CTkX6u+66vSsrejTgB0cicEuQVAsuTaOSQDrQCxzr6CFtGHbScaDN/cPlt4hq+7ygW
- HXjydaCh8C7wNiA2tovT7n9obuTnSQJZoLj8L3kYYVLD6CUdisin+CSoUkZElVvjRCCt
- fK2dc9IKcKu8fHP+n/U2jQvsnSXJEe1IR7QugZXqokOfE6xhI1IoRs+erCHTpcAA62LV
- 2IeuS1VmaBVm7dLC2FjEAZdw+UAaiiDn2at+cvN8Em2rPN7qwfRVJ+Egk9+vPJki3Ad8
- 7+AWsT070LwUqTOXTld33GXXQXrnXtUals3SMH/0xikl/Zi3puRzjaMJbiV74BPgemGY
- xrtA==
+ bh=Dvwt/N5z68Lhd9kFSQNr2cRX2YRLFZu4dbfdxwq/zxM=;
+ b=Pc5zY4DGfxBefuLPCH5QTDhvobZNPSI/J9G9gI5PwSiOidc3nTkwS6g6aeBsrl6QXp
+ s3QXX/dt4prDziRNJvfzeN3dtAEftPy9JBGy2s8L04t0qdxysBuoKKafyaqD2Yr1EZH0
+ ib5fr1+lrS9g1s2xWtOlMWxFpyD0GK+6SDYEPpKT6J0b1/Xe4f5PGbvjrVMTTSWljYrh
+ ttF5hN9pFeHCB25JNj6pjaMdP7v0KG2Zu6fjxoLIZxb+VIRc+Tfp8T7kCa1G4vOnttKL
+ ZA8uISdPdyW/ut51qTHD6OmOYk6qSLziDGbNKXWWIjylwZX/9Iav1Mon1Tax6RNztDs6
+ tdgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677265266;
+ d=1e100.net; s=20210112; t=1677265270;
  h=to:from:cc:content-transfer-encoding:mime-version:references
  :in-reply-to:message-id:date:subject:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lx0M+hYFCHNKkG1Lj780I7YKmL/EVcbXsrThtaMCRAY=;
- b=VQK22ad17ydnFdjvxmFppT7tkwRaJPQuyZHLPvVejiCZQJVqrYzRr02fA379yCj3Yc
- BQVIzH3ypY0G1NsRO5DOmhFhfIgkSW8yGFmVbpBGwu0G9p5/xiGKIIVHVexetL8Kvmyw
- 1N0JQxZ+Blk+ID9L/SEv8v7PjZywXK0dbbB+9316RTyxBNhhGGUDVN6Vqms/Yrw4WJgq
- ue6ai1O0x3pLwbx4yQdNaXQBUXCGspnZiWU+ogTcYUFslcAotmELwgnIb5fhLyIk4h5M
- XiOY7+IrDgo6MVU+WwnqokbGBFmBqjCNA4KHzuCcmuiUL57JIGTsD2wz632WFpvVZh4q
- mFiQ==
-X-Gm-Message-State: AO0yUKXdhoUziRQXFRMeodrf6GiMw3ZJzqUhcVDs96rOA8QX00I2UF8f
- ZLAOScIiImhgsUYbXPmQeJmxPQ==
-X-Google-Smtp-Source: AK7set9//u48MVdDMl1TVHV+C2astQb6qrt4vaDQDsazPTClPqzkr98MctVZHZkdn2joTxqPx1cQRA==
-X-Received: by 2002:a17:90a:192:b0:237:b121:6711 with SMTP id
- 18-20020a17090a019200b00237b1216711mr1125210pjc.3.1677265266012; 
- Fri, 24 Feb 2023 11:01:06 -0800 (PST)
+ bh=Dvwt/N5z68Lhd9kFSQNr2cRX2YRLFZu4dbfdxwq/zxM=;
+ b=PMDtttI7Qw8wcB6GcywoHshyOJC7k/772hteSxz0TIe1Q7nUaxSpySTW5NXbz7/GBs
+ mlo0zBdJvYQZ+cMLgMFkmgNlk8pUns91tVAWthNeV0vj9dPIz0JAFpf673x8jUw7r6BG
+ 569nj7hSK0M9Nz0Et4Qf8f34260MH6M2CKrxkvHIJ0ukkUmwUQs4NUdvZdtph8yBj1LW
+ P+VfRuHFm+JA3rFdWosICll+49RH/Vy4oL9C6kt6k5+Rz3LWC42WorMU4eXbU1OpPvDj
+ CWrCaJev9Lu1STNkj1RVAog7wHrWpaeDjv6Lls3XeKC54CoFuPbFEDcZodowA9A/7nfO
+ YlSw==
+X-Gm-Message-State: AO0yUKU7LecQTQH2u/yYQa/fqirlRbptpHDY8Ab+IozJFbrMp4QK4xDl
+ ltDitow8/WZ1u9xGQVZs0XZnMA==
+X-Google-Smtp-Source: AK7set9oOIaEqwct5qwkndL4nNoCqpiaF9IedHxY+8p5MvoLREC7BwAmGIjjFDKtEFZPjtpCOMFilw==
+X-Received: by 2002:a17:902:ce90:b0:19a:df76:ddd2 with SMTP id
+ f16-20020a170902ce9000b0019adf76ddd2mr20974518plg.36.1677265270463; 
+ Fri, 24 Feb 2023 11:01:10 -0800 (PST)
 Received: from localhost ([135.180.224.71]) by smtp.gmail.com with ESMTPSA id
- h1-20020a17090adb8100b002348bfd3799sm1851344pjv.39.2023.02.24.11.01.05
+ w19-20020a170902d3d300b0019b4ee071ddsm5726980plb.209.2023.02.24.11.01.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 11:01:05 -0800 (PST)
-Subject: [PULL 5/8] MAINTAINERS: Add some RISC-V reviewers
-Date: Fri, 24 Feb 2023 10:59:06 -0800
-Message-Id: <20230224185908.32706-6-palmer@rivosinc.com>
+ Fri, 24 Feb 2023 11:01:09 -0800 (PST)
+Subject: [PULL 8/8] target/riscv: Fix vslide1up.vf and vslide1down.vf
+Date: Fri, 24 Feb 2023 10:59:09 -0800
+Message-Id: <20230224185908.32706-9-palmer@rivosinc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230224185908.32706-1-palmer@rivosinc.com>
 References: <20230224185908.32706-1-palmer@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Cc: qemu-riscv@nongnu.org,          qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
- ilippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bmeng.cn@gmail.com>, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
  Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@rivosinc.com>
 From: Palmer Dabbelt <palmer@rivosinc.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,38 +91,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-This patch adds some active RISC-V members as reviewers to the
-MAINTAINERS file.
+vslide1up_##BITWIDTH is used by the vslide1up.vx and vslide1up.vf. So its
+scalar input should be uint64_t to hold the 64 bits float register.And the
+same for vslide1down_##BITWIDTH.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Acked-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Acked-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+This bug is caught when run these instructions on qemu-riscv32.
+
+Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-Id: <20230209003308.738237-1-alistair.francis@opensource.wdc.com>
+Message-ID: <20230213094550.29621-1-zhiwei_liu@linux.alibaba.com>
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- MAINTAINERS | 3 +++
- 1 file changed, 3 insertions(+)
+ target/riscv/vector_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 96e25f62ac..847bc7f131 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -287,6 +287,9 @@ RISC-V TCG CPUs
- M: Palmer Dabbelt <palmer@dabbelt.com>
- M: Alistair Francis <alistair.francis@wdc.com>
- M: Bin Meng <bin.meng@windriver.com>
-+R: Weiwei Li <liweiwei@iscas.ac.cn>
-+R: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-+R: Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
- L: qemu-riscv@nongnu.org
- S: Supported
- F: target/riscv/
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 00de879787..3073c54871 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -5038,7 +5038,7 @@ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_w, uint32_t, H4)
+ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_d, uint64_t, H8)
+ 
+ #define GEN_VEXT_VSLIE1UP(BITWIDTH, H)                                      \
+-static void vslide1up_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
++static void vslide1up_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
+                      void *vs2, CPURISCVState *env, uint32_t desc)          \
+ {                                                                           \
+     typedef uint##BITWIDTH##_t ETYPE;                                       \
+@@ -5086,7 +5086,7 @@ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_w, 32)
+ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_d, 64)
+ 
+ #define GEN_VEXT_VSLIDE1DOWN(BITWIDTH, H)                                     \
+-static void vslide1down_##BITWIDTH(void *vd, void *v0, target_ulong s1,       \
++static void vslide1down_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
+                        void *vs2, CPURISCVState *env, uint32_t desc)          \
+ {                                                                             \
+     typedef uint##BITWIDTH##_t ETYPE;                                         \
 -- 
 2.39.0
 
