@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D881C6A2135
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 19:10:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138B16A2137
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 19:11:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVcVM-0005BK-TA; Fri, 24 Feb 2023 13:09:12 -0500
+	id 1pVcVN-0005Cb-Ko; Fri, 24 Feb 2023 13:09:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVcVG-00056e-5f
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:09:06 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ id 1pVcVI-00058p-8t
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:09:10 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVcVB-0004sb-RY
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:09:05 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id bw19so4167072wrb.13
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 10:09:01 -0800 (PST)
+ id 1pVcVC-0004wl-KS
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:09:08 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ ay29-20020a05600c1e1d00b003e9f4c2b623so2770063wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 10:09:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2ANHfuSMn4snK43mAsAsIh/k1hw6kSe61QbX5WHSgis=;
- b=FaJ3WWv90mQ+PzJ+W4qTz7MiT28uf7SDrtIfJ8stMQP+cyRCSzM/daB4f+Ot30mfwi
- lASU38cZ5Se2etOk5kIftWCLs3jBgakAx4jxCxnh8vLFo6VtHmBa1U/fbVBXtZWHaO11
- kRUQjxKbdmAUqkgG/VTs3ir6Uhrr67mR1SyKH/vnIuD64j7+tSDF9FeRKw9JvMK8h1o3
- LJZsuXGQgAdBa4mxPl8JkWMPXnHmy8gQGzGL1Xj1i54H71EBAhUHwHExclwWqX7rQWJx
- dIubq3tbWg3t8MHfP7Lx74h2yCAKXK5lYOELAhzuKoXgietKBKj9qpLxD1uLP4x2JYqU
- lZNg==
+ bh=gidcl3/4SFlggIKxiWLtt6WSOzuIYVu2Aj2ohhG4Ekk=;
+ b=MOYCYCnYn2RIpptry41w2jdUoXEg8TZEDF5JKdCksLs5vPJTgcMTogqLfiFF33753B
+ 82u97ImICwKBiZg7d0hI6U97O4kNziv3tXNCs03pTgkTYJw9PhQ1U/SBAeggWPhND7B+
+ 79s5nP5etqe+h/f7AR9SRQRD38OPfkK1UbQ3xb3hUrfAgpGlVngRj6QvuJCu+pxVAmNz
+ BPD7Fpz5lQRNcDuON440apBQ52voEKMVbTIRYdabGohnwwIR/LqhIwhoTDSWvqQwibZS
+ LqPka99V4bKU7mnKOHQ+wDiPkZ58Iwkzcbm0kMeNf4IHeahaPsg62f3AfnOudvpOWeBA
+ edGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2ANHfuSMn4snK43mAsAsIh/k1hw6kSe61QbX5WHSgis=;
- b=Uwom2Ot3H//e6LrFaHT/A3nHFyFcAC9Nyg4kZcYuJHIHZw5uaV7OxNu7N+Kztf+m0w
- xKqpND7lPFYtJxU2lOcW1cy3qsCLwlBbtR92XdvD1oVg0BSdb0UOXze3Z4W4/9F6qsvf
- tZJcWffzBt1he30MHTGO2zuNTDPvXQg2XVQcwCBP5Ld0fufpTTXCKfHBOxfHIKraRhNc
- X5ksOBR6IhPT/xbafG+D7c9fbTKIRPuNOWfTm4BYz6zUxMn1/biN42Azmws27AYtqlkG
- xR1Y1LEVIEPqGm4PfYxv4GSxwooIvPFBcBStEV2YTWIi5HKm47IHA9jIvMAk6ymkczfL
- 6pww==
-X-Gm-Message-State: AO0yUKVB09ea8uzUCg9e6UR1Ra0p/iVdw//mi8DUmIfBN9d6ZI61aGMn
- esv8wLwMAkIHiiru44CX7PPAYA==
-X-Google-Smtp-Source: AK7set/HZVWKUS8IUG8WrnMNjJviXPyiT2nyhYwqSSUX/qf5NPKx0gYe50k3tK9d2uBDjOonV12W1Q==
-X-Received: by 2002:adf:f6c5:0:b0:2c7:17b8:575b with SMTP id
- y5-20020adff6c5000000b002c717b8575bmr4070386wrp.46.1677262140147; 
- Fri, 24 Feb 2023 10:09:00 -0800 (PST)
+ bh=gidcl3/4SFlggIKxiWLtt6WSOzuIYVu2Aj2ohhG4Ekk=;
+ b=YVvQAZAqRsL9WYZOxpk3+haGPv01sGHpmyGwneYOkBaHIYL3QMgYzP3vxkU1P6AUG+
+ gNVP6BU32tmOiB9thTYdNlXfVQO9vfmcWO3TU4hwZl6KNkIqeS1PZmNMDn9WHJcyje/g
+ RmIkShBgE+ASW7YHU40xagD4/ilZRqscssJhk48f8uuA7DzYz3HB9Lb9knKNdyyHV2LK
+ 3pam4XX4Ol0bnNCGf4s6LhDBhU1ZK1uNCSg1JV2CBz7/+IVIUmdsW7jvtfkzblfmtmEZ
+ sEONeaDCmz6Fm923KtsbR8Dwz/bl6jLpXpWkJtCV/77ljn8G9hCklLbgZr1m/Clp2bqb
+ 58CQ==
+X-Gm-Message-State: AO0yUKXO/aWWLILYLWyaygB+n/Spq3AVW5fn3Zb9KZzaMirnHiK+kRGz
+ eImvC9gWGKebX5jwgg2OfdmyXw==
+X-Google-Smtp-Source: AK7set8D8H2axQggA89EO4WFQZoR2lbu680OoHRY9KkwKBw+kV6qx8p8JUml4Ylwvz2NFn43KeE6wA==
+X-Received: by 2002:a05:600c:4929:b0:3dc:d5c:76d9 with SMTP id
+ f41-20020a05600c492900b003dc0d5c76d9mr12700243wmp.0.1677262141071; 
+ Fri, 24 Feb 2023 10:09:01 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- p14-20020a5d4e0e000000b002c5a790e959sm16196146wrt.19.2023.02.24.10.08.58
+ n31-20020a05600c3b9f00b003e8dcc67bdesm4176926wms.30.2023.02.24.10.08.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 24 Feb 2023 10:08:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1D6591FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 61E0D1FFBC;
  Fri, 24 Feb 2023 18:08:58 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -78,17 +79,17 @@ Cc: Li-Wen Hsu <lwhsu@freebsd.org>,
  Darren Kenny <darren.kenny@oracle.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Subject: [PATCH 3/7] tests/lcitool: append user setting stanza to dockerfiles
-Date: Fri, 24 Feb 2023 18:08:53 +0000
-Message-Id: <20230224180857.1050220-4-alex.bennee@linaro.org>
+Subject: [PATCH 4/7] tests/docker: add USER stanzas to non-lci images
+Date: Fri, 24 Feb 2023 18:08:54 +0000
+Message-Id: <20230224180857.1050220-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230224180857.1050220-1-alex.bennee@linaro.org>
 References: <20230224180857.1050220-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -111,346 +112,294 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For the cross-compilation use-case it is important to add the host
-user to the dockerfile so we can map them to the docker environment
-when cross-building files.
+These are flat but not generated by lcitool so we need to manually
+update them with the `useradd` stanza.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/cirrus/freebsd-12.vars                   |  5 +++++
- .gitlab-ci.d/cirrus/freebsd-13.vars                   |  5 +++++
- .gitlab-ci.d/cirrus/macos-12.vars                     |  5 +++++
- tests/docker/dockerfiles/alpine.docker                |  5 +++++
- tests/docker/dockerfiles/centos8.docker               |  5 +++++
- tests/docker/dockerfiles/debian-amd64-cross.docker    |  5 +++++
- tests/docker/dockerfiles/debian-amd64.docker          |  5 +++++
- tests/docker/dockerfiles/debian-arm64-cross.docker    |  5 +++++
- tests/docker/dockerfiles/debian-armel-cross.docker    |  5 +++++
- tests/docker/dockerfiles/debian-armhf-cross.docker    |  5 +++++
- tests/docker/dockerfiles/debian-mips64el-cross.docker |  5 +++++
- tests/docker/dockerfiles/debian-mipsel-cross.docker   |  5 +++++
- tests/docker/dockerfiles/debian-ppc64el-cross.docker  |  5 +++++
- tests/docker/dockerfiles/debian-s390x-cross.docker    |  5 +++++
- tests/docker/dockerfiles/fedora-win32-cross.docker    |  5 +++++
- tests/docker/dockerfiles/fedora-win64-cross.docker    |  5 +++++
- tests/docker/dockerfiles/fedora.docker                |  5 +++++
- tests/docker/dockerfiles/opensuse-leap.docker         |  5 +++++
- tests/docker/dockerfiles/ubuntu2004.docker            |  5 +++++
- tests/docker/dockerfiles/ubuntu2204.docker            |  5 +++++
- tests/lcitool/refresh                                 | 11 ++++++++++-
- 21 files changed, 110 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/debian-all-test-cross.docker     | 5 +++++
+ tests/docker/dockerfiles/debian-alpha-cross.docker        | 5 +++++
+ tests/docker/dockerfiles/debian-hexagon-cross.docker      | 5 +++++
+ tests/docker/dockerfiles/debian-hppa-cross.docker         | 5 +++++
+ tests/docker/dockerfiles/debian-loongarch-cross.docker    | 5 +++++
+ tests/docker/dockerfiles/debian-m68k-cross.docker         | 5 +++++
+ tests/docker/dockerfiles/debian-mips-cross.docker         | 5 +++++
+ tests/docker/dockerfiles/debian-mips64-cross.docker       | 5 +++++
+ tests/docker/dockerfiles/debian-native.docker             | 5 +++++
+ tests/docker/dockerfiles/debian-powerpc-test-cross.docker | 6 +++++-
+ tests/docker/dockerfiles/debian-riscv64-cross.docker      | 5 +++++
+ tests/docker/dockerfiles/debian-riscv64-test-cross.docker | 5 +++++
+ tests/docker/dockerfiles/debian-sh4-cross.docker          | 5 +++++
+ tests/docker/dockerfiles/debian-sparc64-cross.docker      | 5 +++++
+ tests/docker/dockerfiles/debian-toolchain.docker          | 5 +++++
+ tests/docker/dockerfiles/debian-tricore-cross.docker      | 5 +++++
+ tests/docker/dockerfiles/debian-xtensa-cross.docker       | 5 +++++
+ tests/docker/dockerfiles/fedora-cris-cross.docker         | 5 +++++
+ tests/docker/dockerfiles/fedora-i386-cross.docker         | 5 +++++
+ tests/docker/dockerfiles/python.docker                    | 5 +++++
+ 20 files changed, 100 insertions(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
-index 44d8a2a511..0bff53be44 100644
---- a/.gitlab-ci.d/cirrus/freebsd-12.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
-@@ -14,3 +14,8 @@ PIP3='/usr/local/bin/pip-3.8'
- PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio socat spice-protocol tesseract usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
-index 7622c849b2..235d08a5ee 100644
---- a/.gitlab-ci.d/cirrus/freebsd-13.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
-@@ -14,3 +14,8 @@ PIP3='/usr/local/bin/pip-3.8'
- PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio socat spice-protocol tesseract usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
-index da6aa6469b..599e210707 100644
---- a/.gitlab-ci.d/cirrus/macos-12.vars
-+++ b/.gitlab-ci.d/cirrus/macos-12.vars
-@@ -14,3 +14,8 @@ PIP3='/opt/homebrew/bin/pip3'
- PKGS='bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy socat sparse spice-protocol tesseract usbredir vde vte3 zlib zstd'
- PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme'
- PYTHON='/opt/homebrew/bin/python3'
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 56cf14e553..7b82dec8e5 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -124,3 +124,8 @@ ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
- ENV NINJA "/usr/bin/ninja"
- ENV PYTHON "/usr/bin/python3"
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 1291ae1b04..2cca33e730 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -134,3 +134,8 @@ ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
- ENV NINJA "/usr/bin/ninja"
- ENV PYTHON "/usr/bin/python3"
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker b/tests/docker/dockerfiles/debian-amd64-cross.docker
-index 856db95100..50a2b34c62 100644
---- a/tests/docker/dockerfiles/debian-amd64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
-@@ -169,3 +169,8 @@ ENV ABI "x86_64-linux-gnu"
- ENV MESON_OPTS "--cross-file=x86_64-linux-gnu"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-linux-gnu-
- ENV DEF_TARGET_LIST x86_64-softmmu,x86_64-linux-user,i386-softmmu,i386-linux-user
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index e3dba71ad5..d77e3d169a 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -155,3 +155,8 @@ RUN git clone https://github.com/luigirizzo/netmap.git /usr/src/netmap
- RUN cd /usr/src/netmap && git checkout v11.3
- RUN cd /usr/src/netmap/LINUX && ./configure --no-drivers --no-apps --kernel-dir=$(ls -d /usr/src/linux-headers-*-amd64) && make install
- ENV QEMU_CONFIGURE_OPTS --enable-netmap
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
-index b00e9e9bcf..5288435da1 100644
---- a/tests/docker/dockerfiles/debian-arm64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
-@@ -168,3 +168,8 @@ ENV ABI "aarch64-linux-gnu"
- ENV MESON_OPTS "--cross-file=aarch64-linux-gnu"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=aarch64-linux-gnu-
- ENV DEF_TARGET_LIST aarch64-softmmu,aarch64-linux-user
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
-index fb1129f256..95ce5bbfd0 100644
---- a/tests/docker/dockerfiles/debian-armel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armel-cross.docker
-@@ -167,3 +167,8 @@ ENV ABI "arm-linux-gnueabi"
- ENV MESON_OPTS "--cross-file=arm-linux-gnueabi"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabi-
- ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user,armeb-linux-user
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
-index 7a2b864a38..20f6074d5e 100644
---- a/tests/docker/dockerfiles/debian-armhf-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
-@@ -168,3 +168,8 @@ ENV ABI "arm-linux-gnueabihf"
- ENV MESON_OPTS "--cross-file=arm-linux-gnueabihf"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=arm-linux-gnueabihf-
- ENV DEF_TARGET_LIST arm-softmmu,arm-linux-user
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-index 5a3340e964..15f8568cb1 100644
---- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-@@ -165,3 +165,8 @@ ENV ABI "mips64el-linux-gnuabi64"
- ENV MESON_OPTS "--cross-file=mips64el-linux-gnuabi64"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=mips64el-linux-gnuabi64-
- ENV DEF_TARGET_LIST mips64el-softmmu,mips64el-linux-user
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-index 422fdebe8f..cc6a44dbe7 100644
---- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-@@ -165,3 +165,8 @@ ENV ABI "mipsel-linux-gnu"
- ENV MESON_OPTS "--cross-file=mipsel-linux-gnu"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=mipsel-linux-gnu-
- ENV DEF_TARGET_LIST mipsel-softmmu,mipsel-linux-user
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-index 78d7ae6211..7ff1e44b88 100644
---- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-@@ -167,3 +167,8 @@ ENV ABI "powerpc64le-linux-gnu"
- ENV MESON_OPTS "--cross-file=powerpc64le-linux-gnu"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=powerpc64le-linux-gnu-
- ENV DEF_TARGET_LIST ppc64-softmmu,ppc64-linux-user
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
-index d06ea3605a..d084f34cb1 100644
---- a/tests/docker/dockerfiles/debian-s390x-cross.docker
-+++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
-@@ -166,3 +166,8 @@ ENV ABI "s390x-linux-gnu"
- ENV MESON_OPTS "--cross-file=s390x-linux-gnu"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=s390x-linux-gnu-
- ENV DEF_TARGET_LIST s390x-softmmu,s390x-linux-user
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index 21ed1c6081..87d91a6759 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -100,3 +100,8 @@ ENV ABI "i686-w64-mingw32"
- ENV MESON_OPTS "--cross-file=/usr/share/mingw/toolchain-mingw32.meson"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=i686-w64-mingw32-
- ENV DEF_TARGET_LIST i386-softmmu
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index 95d30e7936..877766ec6b 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -100,3 +100,8 @@ ENV ABI "x86_64-w64-mingw32"
- ENV MESON_OPTS "--cross-file=/usr/share/mingw/toolchain-mingw64.meson"
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32-
- ENV DEF_TARGET_LIST x86_64-softmmu
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 8e06d080b8..4a7a986dfd 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -146,3 +146,8 @@ ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
- ENV NINJA "/usr/bin/ninja"
- ENV PYTHON "/usr/bin/python3"
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 568c1c979f..f5f8d4714d 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -137,3 +137,8 @@ ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
- ENV NINJA "/usr/bin/ninja"
- ENV PYTHON "/usr/bin/python3"
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 75233064de..4d257b922b 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -146,3 +146,8 @@ ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
- ENV NINJA "/usr/bin/ninja"
- ENV PYTHON "/usr/bin/python3"
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles/ubuntu2204.docker b/tests/docker/dockerfiles/ubuntu2204.docker
-index 30b9e56793..41c2d2878e 100644
---- a/tests/docker/dockerfiles/ubuntu2204.docker
-+++ b/tests/docker/dockerfiles/ubuntu2204.docker
-@@ -145,3 +145,8 @@ ENV LANG "en_US.UTF-8"
- ENV MAKE "/usr/bin/make"
- ENV NINJA "/usr/bin/ninja"
- ENV PYTHON "/usr/bin/python3"
-+# As a final step configure the user (if env is defined)
-+ARG USER
-+ARG UID
-+RUN if [ "${USER}" ]; then \
-+  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-\ No newline at end of file
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index cc9e34ac87..88bf33fb74 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -40,6 +40,15 @@ def atomic_write(filename, content):
-         tmp.unlink()
-         raise
+diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
+index 8dc5e1b5de..981e9bdc7b 100644
+--- a/tests/docker/dockerfiles/debian-all-test-cross.docker
++++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
+@@ -61,3 +61,8 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
  
-+# Optional user setting, this will always be the last thing added
-+# so maximise the number of layers that are cached
-+add_user_mapping = [
-+    "# As a final step configure the user (if env is defined)",
-+    "ARG USER",
-+    "ARG UID",
-+    "RUN if [ \"${USER}\" ]; then \\",
-+    "  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi"
-+]
+ ENV QEMU_CONFIGURE_OPTS --disable-system --disable-docs --disable-tools
+ ENV DEF_TARGET_LIST aarch64-linux-user,alpha-linux-user,arm-linux-user,hppa-linux-user,i386-linux-user,m68k-linux-user,mips-linux-user,mips64-linux-user,mips64el-linux-user,mipsel-linux-user,ppc-linux-user,ppc64-linux-user,ppc64le-linux-user,riscv64-linux-user,s390x-linux-user,sh4-linux-user,sparc64-linux-user
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-alpha-cross.docker b/tests/docker/dockerfiles/debian-alpha-cross.docker
+index 4eeb43c78a..7fa7bf1bde 100644
+--- a/tests/docker/dockerfiles/debian-alpha-cross.docker
++++ b/tests/docker/dockerfiles/debian-alpha-cross.docker
+@@ -12,3 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+         gcc-alpha-linux-gnu \
+         libc6.1-dev-alpha-cross
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-hexagon-cross.docker b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+index 8a0d748343..5308ccb8fe 100644
+--- a/tests/docker/dockerfiles/debian-hexagon-cross.docker
++++ b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+@@ -33,3 +33,8 @@ ENV TOOLCHAIN_URL https://codelinaro.jfrog.io/artifactory/codelinaro-toolchain-f
  
- def generate(filename, cmd, trailer):
-     print("Generate %s" % filename)
-@@ -51,9 +60,9 @@ def generate(filename, cmd, trailer):
-     content = lcitool.stdout.decode("utf8")
-     if trailer is not None:
-         content += trailer
-+    content += "\n".join(add_user_mapping)
-     atomic_write(filename, content)
+ RUN curl -#SL "$TOOLCHAIN_URL" | tar -xJC "$TOOLCHAIN_INSTALL"
+ ENV PATH $PATH:${TOOLCHAIN_INSTALL}/${TOOLCHAIN_BASENAME}/x86_64-linux-gnu/bin
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-hppa-cross.docker b/tests/docker/dockerfiles/debian-hppa-cross.docker
+index af1c8403d8..dd47ffdfa4 100644
+--- a/tests/docker/dockerfiles/debian-hppa-cross.docker
++++ b/tests/docker/dockerfiles/debian-hppa-cross.docker
+@@ -12,3 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+         gcc-hppa-linux-gnu \
+         libc6-dev-hppa-cross
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-loongarch-cross.docker b/tests/docker/dockerfiles/debian-loongarch-cross.docker
+index a8e8e98909..9d957547b5 100644
+--- a/tests/docker/dockerfiles/debian-loongarch-cross.docker
++++ b/tests/docker/dockerfiles/debian-loongarch-cross.docker
+@@ -25,3 +25,8 @@ RUN curl -#SL https://github.com/loongson/build-tools/releases/download/2022.05.
  
+ ENV PATH $PATH:/opt/cross-tools/bin
+ ENV LD_LIBRARY_PATH /opt/cross-tools/lib:/opt/cross-tools/loongarch64-unknown-linux-gnu/lib:$LD_LIBRARY_PATH
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-m68k-cross.docker b/tests/docker/dockerfiles/debian-m68k-cross.docker
+index dded71c5d2..25dd1c1e68 100644
+--- a/tests/docker/dockerfiles/debian-m68k-cross.docker
++++ b/tests/docker/dockerfiles/debian-m68k-cross.docker
+@@ -12,3 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+         gcc-m68k-linux-gnu \
+         libc6-dev-m68k-cross
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-mips-cross.docker b/tests/docker/dockerfiles/debian-mips-cross.docker
+index 7b55f0f3b2..2cbc568ed1 100644
+--- a/tests/docker/dockerfiles/debian-mips-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips-cross.docker
+@@ -12,3 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+             gcc-mips-linux-gnu \
+             libc6-dev-mips-cross
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-mips64-cross.docker b/tests/docker/dockerfiles/debian-mips64-cross.docker
+index afcff9726f..ba965cf564 100644
+--- a/tests/docker/dockerfiles/debian-mips64-cross.docker
++++ b/tests/docker/dockerfiles/debian-mips64-cross.docker
+@@ -12,3 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+         gcc-mips64-linux-gnuabi64 \
+         libc6-dev-mips64-cross
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker/dockerfiles/debian-native.docker
+index 8dd033097c..abac7d7cd7 100644
+--- a/tests/docker/dockerfiles/debian-native.docker
++++ b/tests/docker/dockerfiles/debian-native.docker
+@@ -47,3 +47,8 @@ RUN apt update && \
+ 
+ ENV QEMU_CONFIGURE_OPTS $QEMU_CONFIGURE_OPTS
+ ENV DEF_TARGET_LIST "none"
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+index d6b2909cc4..23779413d3 100644
+--- a/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
++++ b/tests/docker/dockerfiles/debian-powerpc-test-cross.docker
+@@ -16,4 +16,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+         libc6-dev-ppc64-cross \
+         gcc-10-powerpc64le-linux-gnu \
+         libc6-dev-ppc64el-cross
 -
- def generate_dockerfile(host, target, cross=None, trailer=None):
-     filename = Path(src_dir, "tests", "docker", "dockerfiles", host + ".docker")
-     cmd = lcitool_cmd + ["dockerfile"]
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/docker/dockerfiles/debian-riscv64-cross.docker
+index 3daf93968a..803afb9573 100644
+--- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
++++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
+@@ -50,3 +50,8 @@ RUN apt update && \
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=riscv64-linux-gnu-
+ ENV DEF_TARGET_LIST riscv64-softmmu,riscv64-linux-user
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-riscv64-test-cross.docker b/tests/docker/dockerfiles/debian-riscv64-test-cross.docker
+index e5f83a5aeb..6e631295bc 100644
+--- a/tests/docker/dockerfiles/debian-riscv64-test-cross.docker
++++ b/tests/docker/dockerfiles/debian-riscv64-test-cross.docker
+@@ -12,3 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+         gcc-riscv64-linux-gnu \
+         libc6-dev-riscv64-cross
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-sh4-cross.docker b/tests/docker/dockerfiles/debian-sh4-cross.docker
+index d48ed9065f..6bd8171d33 100644
+--- a/tests/docker/dockerfiles/debian-sh4-cross.docker
++++ b/tests/docker/dockerfiles/debian-sh4-cross.docker
+@@ -12,3 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+         gcc-sh4-linux-gnu \
+         libc6-dev-sh4-cross
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-sparc64-cross.docker b/tests/docker/dockerfiles/debian-sparc64-cross.docker
+index 8d3d306bc1..1ef735f223 100644
+--- a/tests/docker/dockerfiles/debian-sparc64-cross.docker
++++ b/tests/docker/dockerfiles/debian-sparc64-cross.docker
+@@ -12,3 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+     eatmydata apt-get install --no-install-recommends -y \
+         gcc-sparc64-linux-gnu \
+         libc6-dev-sparc64-cross
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-toolchain.docker b/tests/docker/dockerfiles/debian-toolchain.docker
+index dc9545857f..687a97fec4 100644
+--- a/tests/docker/dockerfiles/debian-toolchain.docker
++++ b/tests/docker/dockerfiles/debian-toolchain.docker
+@@ -34,3 +34,8 @@ RUN cd /root && ./build-toolchain.sh
+ # then copying the built toolchain from stage 0.
+ FROM docker.io/library/debian:11-slim
+ COPY --from=0 /usr/local /usr/local
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index 82e4576485..cfd2faf9a8 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -41,3 +41,8 @@ RUN curl -#SL https://github.com/bkoppelmann/package_940/releases/download/trico
+ # This image can only build a very minimal QEMU as well as the tests
+ ENV DEF_TARGET_LIST tricore-softmmu
+ ENV QEMU_CONFIGURE_OPTS --disable-user --disable-tools --disable-fdt
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+index 2f11b3b7bc..082b50da19 100644
+--- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
++++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
+@@ -27,3 +27,8 @@ RUN for cpu in $CPU_LIST; do \
+     done
+ 
+ ENV PATH $PATH:/opt/$TOOLCHAIN_RELEASE/xtensa-dc232b-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-dc233c-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-de233_fpu-elf/bin:/opt/$TOOLCHAIN_RELEASE/xtensa-dsp3400-elf/bin
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
+index 91c373fdd3..f2899af410 100644
+--- a/tests/docker/dockerfiles/fedora-cris-cross.docker
++++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
+@@ -6,3 +6,8 @@ FROM registry.fedoraproject.org/fedora:33
+ ENV PACKAGES gcc-cris-linux-gnu
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index f58b64dc3e..14c1fb2c93 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -32,3 +32,8 @@ ENV PKG_CONFIG_LIBDIR /usr/lib/pkgconfig
+ 
+ RUN dnf update -y && dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+diff --git a/tests/docker/dockerfiles/python.docker b/tests/docker/dockerfiles/python.docker
+index 56d88417df..708ebbed75 100644
+--- a/tests/docker/dockerfiles/python.docker
++++ b/tests/docker/dockerfiles/python.docker
+@@ -16,3 +16,8 @@ ENV PACKAGES \
+ 
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
++# As a final step configure the user (if env is defined)
++ARG USER
++ARG UID
++RUN if [ "${USER}" ]; then \
++  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
 -- 
 2.39.1
 
