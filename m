@@ -2,85 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E506A1812
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:38:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D19156A1814
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:38:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVTaD-0006zy-5D; Fri, 24 Feb 2023 03:37:37 -0500
+	id 1pVTa4-0006rg-1I; Fri, 24 Feb 2023 03:37:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pVTaB-0006z0-EN
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:37:35 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pVTa9-0001BZ-Ue
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:37:35 -0500
-Received: by mail-pg1-x530.google.com with SMTP id p6so7140997pga.0
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:37:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1Ml2rM4dqXo0hSiYRMEpZG/lv3Bie4vk07D+iu+suuo=;
- b=A6MyS6sUIVztOCtk1OssjeyMAEAQgaYOecOIeILg7q4k9J5B5n0J1F7n9v3TQRoXLi
- iK/z5mTXJ5S0xNCf+l4orJRkQMXPSZvwWZedpXG2xIA5lywDgXpLu2dOc1suavIOZzd0
- XK2vxSnLglDLU2TaOICH3UNuKXoboz6bIiByo+sWujHA/fjpBVPpK6bsHDl2hyYYHWpM
- +qhMLpqgnBknRVc1cPgtHMw/wJLYAgrbCHKME7HuOLPh7mV0Tu9uwEmzEBsYzEsKN9tW
- iEC7oSXoY7HgWg2jeFB2P1XFBXaM1EyBRs7+iRGNbbCqWcZ5KvmmnLC9gVEkAWR5JtYY
- y4og==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVTa0-0006q2-VT
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:37:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVTZz-0001BG-FI
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:37:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677227842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R17HTWLlr8UdPqK101wd+KUXfWHuww0E5VCf6qbhzgE=;
+ b=iwxmeAVz4VcCBujTZ+C6Pqz0BCE0yfWHPQMi9DFrjwMlhPxz8HhpG/mnmrXABoyahhrAvr
+ DrmKypjAhlh53d7j8Mnabzw8vPxnEH0wL8GzOwLvBZA2QIaB/GbhM1JjapcmyIP77WEXGS
+ c1vY1eWapJ5oh0Apx9danQ073/iBozY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-402-1JlsQPJwMkqdA0ekDYou6A-1; Fri, 24 Feb 2023 03:37:20 -0500
+X-MC-Unique: 1JlsQPJwMkqdA0ekDYou6A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v18-20020adfedd2000000b002c3f0a93825so3071700wro.15
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:37:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1Ml2rM4dqXo0hSiYRMEpZG/lv3Bie4vk07D+iu+suuo=;
- b=VYQeCGzq8RE4e9Bwop2Zp2plXmFMw9a2y+r6LF8RCQvYj0rPyZvP1eP1P4sGg04Vve
- aUEF1/gruVo0Of10CLFjBquAnG86JZfAyEkGtuP6MqRmvuoXv/mKc8fOjk7E7Kc/c0Fc
- nraXen4gB8eMlOc3KNMmM0d6TBu+F0NXTaiekUfVBU7FH3whvoy3YGwQIYGqHmM+M7/R
- XsWH1M/Rr4u2Vc4g9yIEkqH1FUqscHDX5amFUfABTnEipSWMoCDkXY/osU3L021Avmmv
- 1/G/jigw0wy4YA6gvcoEyMoHEmOuh8FAY+u0nFHGcjeEAVbw3eQcEPPJaipoq5yz7RIe
- 69uA==
-X-Gm-Message-State: AO0yUKV5UUSPsfYOdN8ISijBV3V57+ztJxwISQfdLMgo8rj11dpqCXIK
- sm5b7LuhgzRSknzSwTJ1FYhIow==
-X-Google-Smtp-Source: AK7set+FdO/v4nuomgvGEXlnLsWmgixmGRUt+lHujVhGr3EzhR4J6g19O7g55LMLg1qHcY1q25Yn4A==
-X-Received: by 2002:aa7:98da:0:b0:5de:a3dd:bc78 with SMTP id
- e26-20020aa798da000000b005dea3ddbc78mr3538500pfm.12.1677227853242; 
- Fri, 24 Feb 2023 00:37:33 -0800 (PST)
-Received: from kerodi.Dlink ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
- e3-20020aa78243000000b005dd98927cc5sm2507945pfn.76.2023.02.24.00.37.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 00:37:33 -0800 (PST)
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Sunil V L <sunilvl@ventanamicro.com>, Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH V4 8/8] MAINTAINERS: Add entry for RISC-V ACPI
-Date: Fri, 24 Feb 2023 14:07:01 +0530
-Message-Id: <20230224083701.2657063-9-sunilvl@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230224083701.2657063-1-sunilvl@ventanamicro.com>
-References: <20230224083701.2657063-1-sunilvl@ventanamicro.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=R17HTWLlr8UdPqK101wd+KUXfWHuww0E5VCf6qbhzgE=;
+ b=gTUz8dDfHTeTkx5UxuLvw1R2zp9TW8gMNC/4XbkPUggGZOXuLA7VeJZdnziE0IETuK
+ KGRbnLoY773LASlUA8iROGQbvIYkcc2Ip6qY6uldG05S5dCVcVlHMAECeYZDGmeIQw8v
+ tLeZDBCjIaVCU2Eb/6fXHwBRbCRepNRNzcWnMSXmutkixpBxRjvlrTQ38UXydMHSLtyu
+ sJL6PYd9MWJJtzc0PXK1cPGWjLs8W33CzPxUwMKgGFjepJtcHe9BD2UFpeuhirqZP8CF
+ /iT7QPz780CcmjHCQrNUbvqOlkzQ855lIQVwB7pxKVaWWxxEhAlr+XnwSvr+xgctWu6O
+ uXig==
+X-Gm-Message-State: AO0yUKUlxTxG10HuxOlZ0KKsDaXS7fowdxqwKkpDIAc5I5W7NaGkn3AW
+ KzzV0BwvEQiZM029NhQR2y6b2zxvVIsorZBK65svaTXg5tDmnXoGNRk5yER5jPLRZD+wuqoklSu
+ S/n9+R7/nLGrwDQU=
+X-Received: by 2002:a5d:6808:0:b0:2c5:53e1:7417 with SMTP id
+ w8-20020a5d6808000000b002c553e17417mr13227765wru.23.1677227839691; 
+ Fri, 24 Feb 2023 00:37:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set8m0qx2WT7FzQMS0kIqNtsHqULitIBYB/Z0qcFYqCm5KZt2h6fQ2GNZ3aIe5yZDBvCstT8qxQ==
+X-Received: by 2002:a5d:6808:0:b0:2c5:53e1:7417 with SMTP id
+ w8-20020a5d6808000000b002c553e17417mr13227748wru.23.1677227839410; 
+ Fri, 24 Feb 2023 00:37:19 -0800 (PST)
+Received: from [192.168.8.100] (tmo-115-119.customers.d1-online.com.
+ [80.187.115.119]) by smtp.gmail.com with ESMTPSA id
+ q2-20020adff502000000b002c573a6216fsm10700349wro.37.2023.02.24.00.37.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Feb 2023 00:37:18 -0800 (PST)
+Message-ID: <f7673953-c84c-eac9-8a91-a1d8fe9be96c@redhat.com>
+Date: Fri, 24 Feb 2023 09:37:16 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] Deprecate the "-no-acpi" command line switch
+Content-Language: en-US
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ libvir-list@redhat.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Jean-Philippe Brucker
+ <jean-philippe@linaro.org>, Dongjiu Geng <gengdongjiu1@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
+References: <20230224073441.1105921-1-thuth@redhat.com>
+ <Y/htv0jY8CjMJ2Rw@sunil-laptop>
+ <42d15527-8b0e-9f0d-4c0d-24ca50b13bb6@redhat.com>
+ <Y/hzVUB8Zwt99Q/K@sunil-laptop>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <Y/hzVUB8Zwt99Q/K@sunil-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,55 +108,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RISC-V ACPI related functionality for virt machine is added in
-virt-acpi-build.c. Add the maintainer entry after moving the
-ARM ACPI entry under the main ACPI entry.
+On 24/02/2023 09.20, Sunil V L wrote:
+> On Fri, Feb 24, 2023 at 08:59:41AM +0100, Thomas Huth wrote:
+>> On 24/02/2023 08.56, Sunil V L wrote:
+>>> On Fri, Feb 24, 2023 at 08:34:41AM +0100, Thomas Huth wrote:
+>>>> Similar to "-no-hpet", the "-no-acpi" switch is a legacy command
+>>>> line option that should be replaced with the "acpi" machine parameter
+>>>> nowadays.
+>>>>
+>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>> ---
+>>>>    docs/about/deprecated.rst | 6 ++++++
+>>>>    softmmu/vl.c              | 1 +
+>>>>    2 files changed, 7 insertions(+)
+>>>>
+>>>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+>>>> index ee95bcb1a6..15084f7bea 100644
+>>>> --- a/docs/about/deprecated.rst
+>>>> +++ b/docs/about/deprecated.rst
+>>>> @@ -99,6 +99,12 @@ form is preferred.
+>>>>    The HPET setting has been turned into a machine property.
+>>>>    Use ``-machine hpet=off`` instead.
+>>>> +``-no-acpi`` (since 8.0)
+>>>> +''''''''''''''''''''''''
+>>>> +
+>>>> +The ``-no-acpi`` setting has been turned into a machine property.
+>>>> +Use ``-machine acpi=off`` instead.
+>>>> +
+>>>>    ``-accel hax`` (since 8.0)
+>>>>    ''''''''''''''''''''''''''
+>>>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>>>> index 459588aa7d..07d5215325 100644
+>>>> --- a/softmmu/vl.c
+>>>> +++ b/softmmu/vl.c
+>>>> @@ -3271,6 +3271,7 @@ void qemu_init(int argc, char **argv)
+>>>>                    vnc_parse(optarg);
+>>>>                    break;
+>>>>                case QEMU_OPTION_no_acpi:
+>>>> +                warn_report("-no-hpet is deprecated, use '-machine acpi=off' instead");
+>>>
+>>> "no-acpi" is deprecated?
+>>
+>> That's at least my plan. The patch is under discussion, but at least in my
+>> opinion, this option should go away in the long run, yes.
+>>
+> Sorry for not being clear. It is mentioned as -no-hpet is deprecated. It
+> should be -no-acpi.
 
-Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
----
- MAINTAINERS | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+D'oh, stupid copy-n-paste bug! Thanks, I'll send a v2 :-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9adb628627..7a47c2c724 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -994,12 +994,6 @@ S: Maintained
- F: hw/ssi/xlnx-versal-ospi.c
- F: include/hw/ssi/xlnx-versal-ospi.h
- 
--ARM ACPI Subsystem
--M: Shannon Zhao <shannon.zhaosl@gmail.com>
--L: qemu-arm@nongnu.org
--S: Maintained
--F: hw/arm/virt-acpi-build.c
--
- STM32F100
- M: Alexandre Iooss <erdnaxe@crans.org>
- L: qemu-arm@nongnu.org
-@@ -1907,6 +1901,18 @@ F: hw/acpi/ghes.c
- F: include/hw/acpi/ghes.h
- F: docs/specs/acpi_hest_ghes.rst
- 
-+ARM ACPI Subsystem
-+M: Shannon Zhao <shannon.zhaosl@gmail.com>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/arm/virt-acpi-build.c
-+
-+RISC-V ACPI Subsystem
-+M: Sunil V L <sunilvl@ventanamicro.com>
-+L: qemu-riscv@nongnu.org
-+S: Maintained
-+F: hw/riscv/virt-acpi-build.c
-+
- ppc4xx
- L: qemu-ppc@nongnu.org
- S: Orphan
--- 
-2.34.1
+  Thomas
 
 
