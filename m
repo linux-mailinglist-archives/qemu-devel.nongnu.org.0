@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973D76A184E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92C76A187A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 10:07:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVTpt-0004Jr-1j; Fri, 24 Feb 2023 03:53:49 -0500
+	id 1pVU1i-0000O7-Bp; Fri, 24 Feb 2023 04:06:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pVTpr-0004JP-IK
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:53:47 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVU1f-0000Ne-AT
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 04:05:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pVTpp-0002BD-Lb
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:53:47 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVU1d-0008Tx-O8
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 04:05:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677228825;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0F/lWvc5ZACgiXEYcXQPEApvOhmYnCyrJmR2YKAXrsM=;
- b=LVPqUIZKUMVhpE2UCxqsJyutNW0cDfpcePRAbMf4R3iFf9r3Hqp5dNWLJe3Vkso7Y+GF7F
- nH+jyvSVl/r0h+tT921t1+eh6Y78rupVrLCX7TG/lX/4OnS15LgLGrIJbRHL5PujVC6qQz
- D4Yr8TOxtZHfFSNbvOrF8M20kfwoFP0=
+ s=mimecast20190719; t=1677229556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OwQ0ZZTCPrHLJnjUsYvb2HZMJ+eJ4DShIjMu+T1PKCk=;
+ b=FmX8mFBX4ORqXf/oI1QDFcthqH75WpLrGsI4U5KDZo83rFJ8qIiB+yI3A00VgrIQezOwVp
+ UTfLKp00mMjbi9/4lYgncqzqHYGi6pXMOO8P5rbrC9vijpO3M9MydH8xWMWhXTDB74EXUn
+ dfFVA96weD0MZ7oMNye6+timg9qioD0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-8j-X33F8OR6lbjICGJR56g-1; Fri, 24 Feb 2023 03:53:41 -0500
-X-MC-Unique: 8j-X33F8OR6lbjICGJR56g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-176-cw9GLF8ANsG2oe2Sfmr90w-1; Fri, 24 Feb 2023 04:05:49 -0500
+X-MC-Unique: cw9GLF8ANsG2oe2Sfmr90w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A69985CCE0;
- Fri, 24 Feb 2023 08:53:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF164492B07;
- Fri, 24 Feb 2023 08:53:39 +0000 (UTC)
-Date: Fri, 24 Feb 2023 08:53:37 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH 0/1] ci: Speed up container stage
-Message-ID: <Y/h7EcuCLXOg7eXF@redhat.com>
-References: <20230223142154.31975-1-farosas@suse.de>
- <Y/d+9jsvwF5tySlv@redhat.com> <877cw8pep0.fsf@linaro.org>
- <87wn48jf99.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 476BA95D603;
+ Fri, 24 Feb 2023 09:05:49 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C4E22166B29;
+ Fri, 24 Feb 2023 09:05:46 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: libvir-list@redhat.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Dongjiu Geng <gengdongjiu1@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Sunil V L <sunilvl@ventanamicro.com>
+Subject: [PATCH v2] Deprecate the "-no-acpi" command line switch
+Date: Fri, 24 Feb 2023 10:05:43 +0100
+Message-Id: <20230224090543.1129677-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87wn48jf99.fsf@suse.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,103 +76,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 23, 2023 at 05:30:58PM -0300, Fabiano Rosas wrote:
-> 
-> Hi Alex,
-> 
-> > Daniel P. Berrangé <berrange@redhat.com> writes:
-> >
-> >> On Thu, Feb 23, 2023 at 11:21:53AM -0300, Fabiano Rosas wrote:
-> >>> I'm not sure if this was discussed previously, but I noticed we're not
-> >>> pulling the images we push to the registry at every pipeline run.
-> >>> 
-> >>> I would expect we don't actually need to rebuild container images at
-> >>> _every_ pipeline run, so I propose we add a "docker pull" to the
-> >>> container templates. We already have that for the docker-edk2|opensbi
-> >>> images.
-> >>> 
-> >>> Some containers can take a long time to build (14 mins) and pulling
-> >>> the image first without building can cut the time to about 3
-> >>> mins. With this we can save almost 2h of cumulative CI time per
-> >>> pipeline run:
-> >>
-> >> The docker.py script that we're invoking is already pulling the
-> >> image itself eg to pick a random recent job:
-> >>
-> >>   https://gitlab.com/qemu-project/qemu/-/jobs/3806090058
-> >>
-> >> We can see
-> >>
-> >>   $ ./tests/docker/docker.py --engine docker build -t "qemu/$NAME" -f
-> >> "tests/docker/dockerfiles/$NAME.docker" -r
-> >> $CI_REGISTRY/qemu-project/qemu 03:54
-> >>   Using default tag: latest
-> >>   latest: Pulling from qemu-project/qemu/qemu/debian-arm64-cross
-> >>   bb263680fed1: Pulling fs layer
-> >>   ...snip...
-> >>
-> >> none the less it still went ahead and rebuilt the image from scratch
-> >> so something is going wrong here. I don't know why your change adding
-> >> an extra 'docker pull' would have any effect, given we're already
-> >> pulling, so I wonder if that's just coincidental apparent change
-> >> due to the initial state of your fork's container registery.
-> >>
-> >> Whenever I look at this I end up wishing out docker.py didn't exist
-> >> and that we could just directly do
-> >>
-> >>   - docker pull "$TAG"
-> >>   - docker build --cache-from "$TAG" --tag "$TAG" -f "tests/docker/$NAME.docker"
-> >>
-> >> as that sould be sufficient to build the image with caching.
-> >
-> > I think we should be ready to do that now as we have flattened all our
-> > dockerfiles. The only other thing that docker.py does is nicely add a
-> > final step for the current user so you can ensure all files generated in
-> > docker cross compile images are still readable on the host.
-> >
-> 
-> Just so you know this command line worked:
-> 
-> docker build --cache-from $TAG --tag $TAG --build-arg BUILDKIT_INLINE_CACHE=1 \
->   -f "tests/docker/dockerfiles/$NAME.docker" "."
-> 
-> building the cache: https://gitlab.com/farosas/qemu/-/jobs/3825838177
-> using the cache:    https://gitlab.com/farosas/qemu/-/jobs/3825926944
-> 
-> But we might still have this issue:
-> 
-> commit 6ddc3dc7a882f2e7200fa7fecf505a8d0d8bbea9
-> Author: Daniel P. Berrangé <berrange@redhat.com>
-> Date:   Fri Jul 9 15:29:35 2021 +0100
-> 
->     tests/docker: don't use BUILDKIT in GitLab either
->     
->     Using BUILDKIT breaks with certain container registries such as CentOS,
->     with docker build reporting an error such as
->     
->       failed to solve with frontend dockerfile.v0:
->       failed to build LLB: failed to load cache key:
->       unexpected status code
->       https://registry.centos.org/v2/centos/manifests/7:
->       403 Forbidden
-> 
-> We might need to go the route of skipping the docker build when the
-> docker pull succeeds.
+Similar to "-no-hpet", the "-no-acpi" switch is a legacy command
+line option that should be replaced with the "acpi" machine parameter
+nowadays.
 
-I don't recall what made QEMU special in that respect, but we never
-set this variable in any libvirt project and didn't see any obvious
-problems. So I'm inclined to say it was something the docker.py
-does that's caused the problem
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v2: Fixed stypid copy-n-paste bug (Thanks to Sunil for spotting it!)
 
-With regards,
-Daniel
+ docs/about/deprecated.rst | 6 ++++++
+ softmmu/vl.c              | 1 +
+ 2 files changed, 7 insertions(+)
+
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index ee95bcb1a6..15084f7bea 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -99,6 +99,12 @@ form is preferred.
+ The HPET setting has been turned into a machine property.
+ Use ``-machine hpet=off`` instead.
+ 
++``-no-acpi`` (since 8.0)
++''''''''''''''''''''''''
++
++The ``-no-acpi`` setting has been turned into a machine property.
++Use ``-machine acpi=off`` instead.
++
+ ``-accel hax`` (since 8.0)
+ ''''''''''''''''''''''''''
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 459588aa7d..a3c59b5462 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3271,6 +3271,7 @@ void qemu_init(int argc, char **argv)
+                 vnc_parse(optarg);
+                 break;
+             case QEMU_OPTION_no_acpi:
++                warn_report("-no-acpi is deprecated, use '-machine acpi=off' instead");
+                 qdict_put_str(machine_opts_dict, "acpi", "off");
+                 break;
+             case QEMU_OPTION_no_hpet:
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
