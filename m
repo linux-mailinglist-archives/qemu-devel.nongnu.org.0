@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19EE36A1E68
+	by mail.lfdr.de (Postfix) with ESMTPS id 4789B6A1E69
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:22:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVZsd-00055y-9L; Fri, 24 Feb 2023 10:21:03 -0500
+	id 1pVZsV-00054A-OL; Fri, 24 Feb 2023 10:20:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVZsS-00052W-0V
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVZsS-00052X-1S
  for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:20:52 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVZsI-0003v6-Sy
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:20:45 -0500
-Received: by mail-wr1-x435.google.com with SMTP id j2so14098151wrh.9
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:20:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVZsI-0003yW-Ug
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:20:44 -0500
+Received: by mail-wr1-x430.google.com with SMTP id bt28so7614539wrb.8
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:20:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/8d0SFcNhtxl/ExpbpwL3RiAZ9N41Raeh4dHdzqhW0Y=;
- b=gHrp2EQJeYScsceCE2PMWaG7JIPNMhVHRR+kj8pizBcPJg/oyhGm2m1Wf/jmNBb3g+
- jHD5R5o6F4ZJZPoV4vTIcchqy+aq8ChYJC0pKJr84X9IVjnt8e5YeiaoIHWqXqchPxSF
- gFg/hg38aLJJWKwMeVxUjHJ1iShM32EmmAvpEoK28QMMLILN+QrLggWdPj02ooH8ThEi
- HSEMM/mgkImYodLDb3Ubafvn+eFEIP+62tqUY7nkT/PoPzGJhT4XOZDENep0rqHG6Bl+
- nOa59iDLJTvLNxXyumkN0j2Xm26Y+0Ie1x5i3Pp3vyy1j2qGCTRzXbgThTJidrZRDQu4
- CiJw==
+ bh=i4p/OO7m8PEwCQexXoELK2yEsmpqGT0HT9etJY9dehs=;
+ b=LzYbcm92LTkYcM6R+3UEahG8ym9H86dWlrhUe6HEkSyqo6C2BeYloBIP+mPensGFks
+ /J9FmCmEOKZA1YZQdX6HvUKsi4A7VKuKFemAxHnPvLleXBzPbCa4senMqihRvDWaQQDE
+ vyhHawjHATVvluwTLY+efs6svuSzfsZl8KOWOv392KNW9kkha7zP6TRlCmcKpEis6cI7
+ 9IaNMcef0N5xJ6WFhkjFl+wI9V38JBEkP7OdCrvkA4AVKPnCsOnqpjvO2h2zQzBya18u
+ Udau5+eBngq95FmjP6YWDkgATmTDFQpxV1coDigWI6zOMx16UN+Tpdp49Uhph/JCdFQq
+ h55Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/8d0SFcNhtxl/ExpbpwL3RiAZ9N41Raeh4dHdzqhW0Y=;
- b=HnRTQmSRG3XQnW0R0EznfYx9GTgsdzeO/QYaBYIqIBKSrY3Rzsk/8JP2FKcNjRHYzU
- a8vLdxcd8+yeANAHgIKFUEAUfXX+NGu8A0SkE0JDjnlKfr6YB7JkA1FutSbvejdsNgtT
- 95DHC1IL8KnTuqK2/7Rr3VMififjha70MHqiKRGcI1srXW4Sw7Y9CdFsR+DE/1hrA2B5
- 1xa6RjL3xTrGu3qmW+iGKQl4CYxWXNSbrKY68+fee4FzC+mCpEe8vyM2uzs4wgMsmcYR
- pvUj8jTStvUYfHj7Nx/H8rIIuvlwb0HHFP/su3HbbV3snvwRy8uLMfydC/TAPxg+b5TV
- ZWig==
-X-Gm-Message-State: AO0yUKUvpW1U5cy27rygWyV2i8NuVt8WNgMB5rTRCTuHGv/sWRY9sCGw
- /AXgphmJ5yjQz9nMbcIUBjH+h2y+419GF+Iw
-X-Google-Smtp-Source: AK7set/9F/20SQiv9L1RW+KKwuQP0a3Po9n47OgTOxiHTDIU3Z90AHbZLj76CaYlM9Mn7yvsp0XfsQ==
-X-Received: by 2002:a5d:56cf:0:b0:2c7:107d:d2ee with SMTP id
- m15-20020a5d56cf000000b002c7107dd2eemr5681702wrw.56.1677252027100; 
- Fri, 24 Feb 2023 07:20:27 -0800 (PST)
+ bh=i4p/OO7m8PEwCQexXoELK2yEsmpqGT0HT9etJY9dehs=;
+ b=gqUy/sH/AksJOhnSMG5LuCpK5a8KcYmD7O2Az34PR7dCGBqK2H1J5o3VwSJpzMoLu6
+ Set7Cj/hR4m5XGG7WnMNjLQ/XlJCg1hgGuUPKu52fdIs4qzkQYoVUhDmPYu2SlNca5nO
+ kOMdI3GqVqfiXdPU07XRLWPpiLQsd2BDb6P1BpluxBDshqTpyHmQnOL3pC7FN3w27qdj
+ gb5VNX6hJp8Pf8YHvp0xcY5UVZkV1zufOLaVBEgcNfcCdwi+nSiWq0ZfEecorZ+NrmFA
+ zRZotQzI1ihygHvlD9Yz1LDra6B+WhAPcR34Ku7AP/r6qFBCHPDwMq8CMHSLN91e+2ig
+ ujzA==
+X-Gm-Message-State: AO0yUKX90H4KFG/UgD5q6GkBdQo7qm5L0T+ZDXORVzgO/8PCQ2BK9Hi+
+ 8emnx9J/A4hJC8U0JGgOTriQPbj2XZ33B+/Y
+X-Google-Smtp-Source: AK7set+sQcuwg3jBQbWW04o4pAQPK8tKus3CsTJxDidK+rS/aKZ/6bkKK74Tdum8be/DjkBoh2bs9A==
+X-Received: by 2002:adf:e9c7:0:b0:2c5:7c26:c2cc with SMTP id
+ l7-20020adfe9c7000000b002c57c26c2ccmr13828952wrn.29.1677252032159; 
+ Fri, 24 Feb 2023 07:20:32 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- z5-20020a5d6405000000b002c5534db60bsm12738984wru.71.2023.02.24.07.20.25
+ a9-20020a5d5709000000b002be099f78c0sm13755254wrv.69.2023.02.24.07.20.31
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 24 Feb 2023 07:20:26 -0800 (PST)
+ Fri, 24 Feb 2023 07:20:31 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
@@ -59,24 +59,24 @@ Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 1/2] block/qcow2: Rename QCOW2_DISCARD_TYPE enum definitions
-Date: Fri, 24 Feb 2023 16:20:18 +0100
-Message-Id: <20230224152019.19278-2-philmd@linaro.org>
+Subject: [PATCH 2/2] block/qcow2: QAPI'fy Qcow2DiscardType
+Date: Fri, 24 Feb 2023 16:20:19 +0100
+Message-Id: <20230224152019.19278-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230224152019.19278-1-philmd@linaro.org>
 References: <20230224152019.19278-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,491 +92,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In order to QAPI'fy Qcow2DiscardType in the next commit,
-rename its definitions to a QAPI-ready format.
+Let QAPI maintain the Qcow2DiscardType enum values.
 
-Mechanical change doing:
+Mechanical renaming to Qcow2DiscardType doing:
 
-  $ sed -i -e 's/QCOW2_DISCARD_/QCOW2_DISCARD_TYPE_/g' \
-        $(git grep -l QCOW2_DISCARD_)
-  $ sed -i -e 's/QCOW2_DISCARD_TYPE_MAX/QCOW2_DISCARD_TYPE__MAX/g' \
-        $(git grep -l QCOW2_DISCARD_TYPE_MAX)
+  $ sed -i -e 's/enum qcow2_discard_type/Qcow2DiscardType/g' \
+        $(git grep -l qcow2_discard_type)
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- block/qcow2-bitmap.c   | 12 ++++++------
- block/qcow2-cluster.c  | 28 ++++++++++++++--------------
- block/qcow2-refcount.c | 26 +++++++++++++-------------
- block/qcow2-snapshot.c |  8 ++++----
- block/qcow2.c          | 26 +++++++++++++-------------
- block/qcow2.h          | 14 +++++++-------
- 6 files changed, 57 insertions(+), 57 deletions(-)
+ block/qcow2-cluster.c  |  4 ++--
+ block/qcow2-refcount.c | 10 +++++-----
+ block/qcow2.h          | 17 ++++-------------
+ qapi/block-core.json   | 10 ++++++++++
+ 4 files changed, 21 insertions(+), 20 deletions(-)
 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index 5f456a2785..67be9a0b0f 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -216,7 +216,7 @@ static void clear_bitmap_table(BlockDriverState *bs, uint64_t *bitmap_table,
-             continue;
-         }
- 
--        qcow2_free_clusters(bs, addr, s->cluster_size, QCOW2_DISCARD_ALWAYS);
-+        qcow2_free_clusters(bs, addr, s->cluster_size, QCOW2_DISCARD_TYPE_ALWAYS);
-         bitmap_table[i] = 0;
-     }
- }
-@@ -271,7 +271,7 @@ static int free_bitmap_clusters(BlockDriverState *bs, Qcow2BitmapTable *tb)
- 
-     clear_bitmap_table(bs, bitmap_table, tb->size);
-     qcow2_free_clusters(bs, tb->offset, tb->size * BME_TABLE_ENTRY_SIZE,
--                        QCOW2_DISCARD_OTHER);
-+                        QCOW2_DISCARD_TYPE_OTHER);
-     g_free(bitmap_table);
- 
-     tb->offset = 0;
-@@ -818,7 +818,7 @@ fail:
-     g_free(dir);
- 
-     if (!in_place && dir_offset > 0) {
--        qcow2_free_clusters(bs, dir_offset, dir_size, QCOW2_DISCARD_OTHER);
-+        qcow2_free_clusters(bs, dir_offset, dir_size, QCOW2_DISCARD_TYPE_OTHER);
-     }
- 
-     return ret;
-@@ -921,14 +921,14 @@ static int update_ext_header_and_dir(BlockDriverState *bs,
-     }
- 
-     if (old_size > 0) {
--        qcow2_free_clusters(bs, old_offset, old_size, QCOW2_DISCARD_OTHER);
-+        qcow2_free_clusters(bs, old_offset, old_size, QCOW2_DISCARD_TYPE_OTHER);
-     }
- 
-     return 0;
- 
- fail:
-     if (new_offset > 0) {
--        qcow2_free_clusters(bs, new_offset, new_size, QCOW2_DISCARD_OTHER);
-+        qcow2_free_clusters(bs, new_offset, new_size, QCOW2_DISCARD_TYPE_OTHER);
-     }
- 
-     s->bitmap_directory_offset = old_offset;
-@@ -1424,7 +1424,7 @@ fail:
- 
-     if (tb_offset > 0) {
-         qcow2_free_clusters(bs, tb_offset, tb_size * sizeof(tb[0]),
--                            QCOW2_DISCARD_OTHER);
-+                            QCOW2_DISCARD_TYPE_OTHER);
-     }
- 
-     g_free(tb);
 diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 870be106b6..a525afc7c3 100644
+index a525afc7c3..8e25eec98a 100644
 --- a/block/qcow2-cluster.c
 +++ b/block/qcow2-cluster.c
-@@ -67,7 +67,7 @@ int coroutine_fn qcow2_shrink_l1_table(BlockDriverState *bs,
-             continue;
-         }
-         qcow2_free_clusters(bs, s->l1_table[i] & L1E_OFFSET_MASK,
--                            s->cluster_size, QCOW2_DISCARD_ALWAYS);
-+                            s->cluster_size, QCOW2_DISCARD_TYPE_ALWAYS);
-         s->l1_table[i] = 0;
-     }
-     return 0;
-@@ -184,12 +184,12 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
-     old_l1_size = s->l1_size;
-     s->l1_size = new_l1_size;
-     qcow2_free_clusters(bs, old_l1_table_offset, old_l1_size * L1E_SIZE,
--                        QCOW2_DISCARD_OTHER);
-+                        QCOW2_DISCARD_TYPE_OTHER);
-     return 0;
-  fail:
-     qemu_vfree(new_l1_table);
-     qcow2_free_clusters(bs, new_l1_table_offset, new_l1_size2,
--                        QCOW2_DISCARD_OTHER);
-+                        QCOW2_DISCARD_TYPE_OTHER);
-     return ret;
+@@ -1898,7 +1898,7 @@ again:
+  */
+ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
+                                uint64_t nb_clusters,
+-                               enum qcow2_discard_type type, bool full_discard)
++                               Qcow2DiscardType type, bool full_discard)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     uint64_t *l2_slice;
+@@ -1967,7 +1967,7 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
  }
  
-@@ -373,7 +373,7 @@ fail:
-     s->l1_table[l1_index] = old_l2_offset;
-     if (l2_offset > 0) {
-         qcow2_free_clusters(bs, l2_offset, s->l2_size * l2_entry_size(s),
--                            QCOW2_DISCARD_ALWAYS);
-+                            QCOW2_DISCARD_TYPE_ALWAYS);
-     }
-     return ret;
- }
-@@ -792,7 +792,7 @@ static int get_cluster_table(BlockDriverState *bs, uint64_t offset,
-         /* Then decrease the refcount of the old table */
-         if (l2_offset) {
-             qcow2_free_clusters(bs, l2_offset, s->l2_size * l2_entry_size(s),
--                                QCOW2_DISCARD_OTHER);
-+                                QCOW2_DISCARD_TYPE_OTHER);
-         }
- 
-         /* Get the offset of the newly-allocated l2 table */
-@@ -1113,7 +1113,7 @@ int coroutine_fn qcow2_alloc_cluster_link_l2(BlockDriverState *bs,
-      */
-     if (!m->keep_old_clusters && j != 0) {
-         for (i = 0; i < j; i++) {
--            qcow2_free_any_cluster(bs, old_cluster[i], QCOW2_DISCARD_NEVER);
-+            qcow2_free_any_cluster(bs, old_cluster[i], QCOW2_DISCARD_TYPE_NEVER);
-         }
-     }
- 
-@@ -1133,7 +1133,7 @@ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m)
-     if (!has_data_file(bs) && !m->keep_old_clusters) {
-         qcow2_free_clusters(bs, m->alloc_offset,
-                             m->nb_clusters << s->cluster_bits,
--                            QCOW2_DISCARD_NEVER);
-+                            QCOW2_DISCARD_TYPE_NEVER);
-     }
- }
- 
-@@ -2057,7 +2057,7 @@ static int zero_in_l2_slice(BlockDriverState *bs, uint64_t offset,
- 
-         /* Then decrease the refcount */
-         if (unmap) {
--            qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
-+            qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_TYPE_REQUEST);
-         }
-     }
- 
-@@ -2144,7 +2144,7 @@ int coroutine_fn qcow2_subcluster_zeroize(BlockDriverState *bs, uint64_t offset,
-     if (s->qcow_version < 3) {
-         if (!bs->backing) {
-             return qcow2_cluster_discard(bs, offset, bytes,
--                                         QCOW2_DISCARD_REQUEST, false);
-+                                         QCOW2_DISCARD_TYPE_REQUEST, false);
-         }
-         return -ENOTSUP;
-     }
-@@ -2312,10 +2312,10 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-                         ret = qcow2_update_cluster_refcount(
-                             bs, offset >> s->cluster_bits,
-                             refcount_diff(1, l2_refcount), false,
--                            QCOW2_DISCARD_OTHER);
-+                            QCOW2_DISCARD_TYPE_OTHER);
-                         if (ret < 0) {
-                             qcow2_free_clusters(bs, offset, s->cluster_size,
--                                                QCOW2_DISCARD_OTHER);
-+                                                QCOW2_DISCARD_TYPE_OTHER);
-                             goto fail;
-                         }
-                     }
-@@ -2331,7 +2331,7 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-                         l2_offset, l2_index);
-                     if (cluster_type == QCOW2_CLUSTER_ZERO_PLAIN) {
-                         qcow2_free_clusters(bs, offset, s->cluster_size,
--                                            QCOW2_DISCARD_ALWAYS);
-+                                            QCOW2_DISCARD_TYPE_ALWAYS);
-                     }
-                     ret = -EIO;
-                     goto fail;
-@@ -2342,7 +2342,7 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-                 if (ret < 0) {
-                     if (cluster_type == QCOW2_CLUSTER_ZERO_PLAIN) {
-                         qcow2_free_clusters(bs, offset, s->cluster_size,
--                                            QCOW2_DISCARD_ALWAYS);
-+                                            QCOW2_DISCARD_TYPE_ALWAYS);
-                     }
-                     goto fail;
-                 }
-@@ -2352,7 +2352,7 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-                 if (ret < 0) {
-                     if (cluster_type == QCOW2_CLUSTER_ZERO_PLAIN) {
-                         qcow2_free_clusters(bs, offset, s->cluster_size,
--                                            QCOW2_DISCARD_ALWAYS);
-+                                            QCOW2_DISCARD_TYPE_ALWAYS);
-                     }
-                     goto fail;
-                 }
+ int qcow2_cluster_discard(BlockDriverState *bs, uint64_t offset,
+-                          uint64_t bytes, enum qcow2_discard_type type,
++                          uint64_t bytes, Qcow2DiscardType type,
+                           bool full_discard)
+ {
+     BDRVQcow2State *s = bs->opaque;
 diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index b092f89da9..94f7bf9a57 100644
+index 94f7bf9a57..cb72c7e213 100644
 --- a/block/qcow2-refcount.c
 +++ b/block/qcow2-refcount.c
-@@ -405,7 +405,7 @@ static int alloc_refcount_block(BlockDriverState *bs,
-         /* Described somewhere else. This can recurse at most twice before we
-          * arrive at a block that describes itself. */
-         ret = update_refcount(bs, new_block, s->cluster_size, 1, false,
--                              QCOW2_DISCARD_NEVER);
-+                              QCOW2_DISCARD_TYPE_NEVER);
-         if (ret < 0) {
-             goto fail;
-         }
-@@ -723,7 +723,7 @@ int64_t qcow2_refcount_area(BlockDriverState *bs, uint64_t start_offset,
-     /* Free old table. */
-     qcow2_free_clusters(bs, old_table_offset,
-                         old_table_size * REFTABLE_ENTRY_SIZE,
--                        QCOW2_DISCARD_OTHER);
-+                        QCOW2_DISCARD_TYPE_OTHER);
+@@ -38,7 +38,7 @@ static int64_t alloc_clusters_noref(BlockDriverState *bs, uint64_t size,
+ G_GNUC_WARN_UNUSED_RESULT
+ static int update_refcount(BlockDriverState *bs,
+                            int64_t offset, int64_t length, uint64_t addend,
+-                           bool decrease, enum qcow2_discard_type type);
++                           bool decrease, Qcow2DiscardType type);
  
-     return end_offset;
+ static uint64_t get_refcount_ro0(const void *refcount_array, uint64_t index);
+ static uint64_t get_refcount_ro1(const void *refcount_array, uint64_t index);
+@@ -811,7 +811,7 @@ static int update_refcount(BlockDriverState *bs,
+                            int64_t length,
+                            uint64_t addend,
+                            bool decrease,
+-                           enum qcow2_discard_type type)
++                           Qcow2DiscardType type)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     int64_t start, last, cluster_offset;
+@@ -945,7 +945,7 @@ fail:
+ int qcow2_update_cluster_refcount(BlockDriverState *bs,
+                                   int64_t cluster_index,
+                                   uint64_t addend, bool decrease,
+-                                  enum qcow2_discard_type type)
++                                  Qcow2DiscardType type)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     int ret;
+@@ -1145,7 +1145,7 @@ int64_t qcow2_alloc_bytes(BlockDriverState *bs, int size)
  
-@@ -927,7 +927,7 @@ fail:
-     if (ret < 0) {
-         int dummy;
-         dummy = update_refcount(bs, offset, cluster_offset - offset, addend,
--                                !decrease, QCOW2_DISCARD_NEVER);
-+                                !decrease, QCOW2_DISCARD_TYPE_NEVER);
-         (void)dummy;
-     }
+ void qcow2_free_clusters(BlockDriverState *bs,
+                           int64_t offset, int64_t size,
+-                          enum qcow2_discard_type type)
++                          Qcow2DiscardType type)
+ {
+     int ret;
  
-@@ -1020,7 +1020,7 @@ int64_t qcow2_alloc_clusters(BlockDriverState *bs, uint64_t size)
-             return offset;
-         }
- 
--        ret = update_refcount(bs, offset, size, 1, false, QCOW2_DISCARD_NEVER);
-+        ret = update_refcount(bs, offset, size, 1, false, QCOW2_DISCARD_TYPE_NEVER);
-     } while (ret == -EAGAIN);
- 
-     if (ret < 0) {
-@@ -1057,7 +1057,7 @@ int64_t qcow2_alloc_clusters_at(BlockDriverState *bs, uint64_t offset,
- 
-         /* And then allocate them */
-         ret = update_refcount(bs, offset, i << s->cluster_bits, 1, false,
--                              QCOW2_DISCARD_NEVER);
-+                              QCOW2_DISCARD_TYPE_NEVER);
-     } while (ret == -EAGAIN);
- 
-     if (ret < 0) {
-@@ -1122,7 +1122,7 @@ int64_t qcow2_alloc_bytes(BlockDriverState *bs, int size)
-         }
- 
-         assert(offset);
--        ret = update_refcount(bs, offset, size, 1, false, QCOW2_DISCARD_NEVER);
-+        ret = update_refcount(bs, offset, size, 1, false, QCOW2_DISCARD_TYPE_NEVER);
-         if (ret < 0) {
-             offset = 0;
-         }
-@@ -1331,7 +1331,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
-                             ret = update_refcount(
-                                 bs, coffset, csize,
-                                 abs(addend), addend < 0,
--                                QCOW2_DISCARD_SNAPSHOT);
-+                                QCOW2_DISCARD_TYPE_SNAPSHOT);
-                             if (ret < 0) {
-                                 goto fail;
-                             }
-@@ -1360,7 +1360,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
-                         if (addend != 0) {
-                             ret = qcow2_update_cluster_refcount(
-                                 bs, cluster_index, abs(addend), addend < 0,
--                                QCOW2_DISCARD_SNAPSHOT);
-+                                QCOW2_DISCARD_TYPE_SNAPSHOT);
-                             if (ret < 0) {
-                                 goto fail;
-                             }
-@@ -1402,7 +1402,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
-                 ret = qcow2_update_cluster_refcount(bs, l2_offset >>
-                                                         s->cluster_bits,
-                                                     abs(addend), addend < 0,
--                                                    QCOW2_DISCARD_SNAPSHOT);
-+                                                    QCOW2_DISCARD_TYPE_SNAPSHOT);
-                 if (ret < 0) {
-                     goto fail;
-                 }
-@@ -2346,7 +2346,7 @@ static void compare_refcounts(BlockDriverState *bs, BdrvCheckResult *res,
-                 ret = update_refcount(bs, i << s->cluster_bits, 1,
-                                       refcount_diff(refcount1, refcount2),
-                                       refcount1 > refcount2,
--                                      QCOW2_DISCARD_ALWAYS);
-+                                      QCOW2_DISCARD_TYPE_ALWAYS);
-                 if (ret >= 0) {
-                     (*num_fixed)++;
-                     continue;
-@@ -3412,7 +3412,7 @@ int qcow2_change_refcount_order(BlockDriverState *bs, int refcount_order,
-                 qcow2_free_clusters(
-                     bs, new_reftable_offset,
-                     allocated_reftable_size * REFTABLE_ENTRY_SIZE,
--                    QCOW2_DISCARD_NEVER);
-+                    QCOW2_DISCARD_TYPE_NEVER);
-             }
- 
-             new_reftable_offset = qcow2_alloc_clusters(bs, new_reftable_size *
-@@ -3525,7 +3525,7 @@ done:
-             uint64_t offset = new_reftable[i] & REFT_OFFSET_MASK;
-             if (offset) {
-                 qcow2_free_clusters(bs, offset, s->cluster_size,
--                                    QCOW2_DISCARD_OTHER);
-+                                    QCOW2_DISCARD_TYPE_OTHER);
-             }
-         }
-         g_free(new_reftable);
-@@ -3533,7 +3533,7 @@ done:
-         if (new_reftable_offset > 0) {
-             qcow2_free_clusters(bs, new_reftable_offset,
-                                 new_reftable_size * REFTABLE_ENTRY_SIZE,
--                                QCOW2_DISCARD_OTHER);
-+                                QCOW2_DISCARD_TYPE_OTHER);
-         }
-     }
- 
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 62e8a0335d..2fe43ac7bc 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -413,7 +413,7 @@ int qcow2_write_snapshots(BlockDriverState *bs)
- 
-     /* free the old snapshot table */
-     qcow2_free_clusters(bs, s->snapshots_offset, s->snapshots_size,
--                        QCOW2_DISCARD_SNAPSHOT);
-+                        QCOW2_DISCARD_TYPE_SNAPSHOT);
-     s->snapshots_offset = snapshots_offset;
-     s->snapshots_size = snapshots_size;
-     return 0;
-@@ -421,7 +421,7 @@ int qcow2_write_snapshots(BlockDriverState *bs)
- fail:
-     if (snapshots_offset > 0) {
-         qcow2_free_clusters(bs, snapshots_offset, snapshots_size,
--                            QCOW2_DISCARD_ALWAYS);
-+                            QCOW2_DISCARD_TYPE_ALWAYS);
-     }
-     return ret;
- }
-@@ -737,7 +737,7 @@ int qcow2_snapshot_create(BlockDriverState *bs, QEMUSnapshotInfo *sn_info)
-      * hurts by causing expensive COW for the next snapshot. */
-     qcow2_cluster_discard(bs, qcow2_vm_state_offset(s),
-                           ROUND_UP(sn->vm_state_size, s->cluster_size),
--                          QCOW2_DISCARD_NEVER, false);
-+                          QCOW2_DISCARD_TYPE_NEVER, false);
- 
- #ifdef DEBUG_ALLOC
-     {
-@@ -964,7 +964,7 @@ int qcow2_snapshot_delete(BlockDriverState *bs,
-         return ret;
-     }
-     qcow2_free_clusters(bs, sn.l1_table_offset, sn.l1_size * L1E_SIZE,
--                        QCOW2_DISCARD_SNAPSHOT);
-+                        QCOW2_DISCARD_TYPE_SNAPSHOT);
- 
-     /* must update the copied flag on the current cluster offsets */
-     ret = qcow2_update_snapshot_refcount(bs, s->l1_table_offset, s->l1_size, 0);
-diff --git a/block/qcow2.c b/block/qcow2.c
-index ee0e5b45cc..6ffe1ba803 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -967,7 +967,7 @@ typedef struct Qcow2ReopenState {
-     int l2_slice_size; /* Number of entries in a slice of the L2 table */
-     bool use_lazy_refcounts;
-     int overlap_check;
--    bool discard_passthrough[QCOW2_DISCARD_MAX];
-+    bool discard_passthrough[QCOW2_DISCARD_TYPE__MAX];
-     uint64_t cache_clean_interval;
-     QCryptoBlockOpenOptions *crypto_opts; /* Disk encryption runtime options */
- } Qcow2ReopenState;
-@@ -1129,14 +1129,14 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-                               overlap_check_template & (1 << i)) << i;
-     }
- 
--    r->discard_passthrough[QCOW2_DISCARD_NEVER] = false;
--    r->discard_passthrough[QCOW2_DISCARD_ALWAYS] = true;
--    r->discard_passthrough[QCOW2_DISCARD_REQUEST] =
-+    r->discard_passthrough[QCOW2_DISCARD_TYPE_NEVER] = false;
-+    r->discard_passthrough[QCOW2_DISCARD_TYPE_ALWAYS] = true;
-+    r->discard_passthrough[QCOW2_DISCARD_TYPE_REQUEST] =
-         qemu_opt_get_bool(opts, QCOW2_OPT_DISCARD_REQUEST,
-                           flags & BDRV_O_UNMAP);
--    r->discard_passthrough[QCOW2_DISCARD_SNAPSHOT] =
-+    r->discard_passthrough[QCOW2_DISCARD_TYPE_SNAPSHOT] =
-         qemu_opt_get_bool(opts, QCOW2_OPT_DISCARD_SNAPSHOT, true);
--    r->discard_passthrough[QCOW2_DISCARD_OTHER] =
-+    r->discard_passthrough[QCOW2_DISCARD_TYPE_OTHER] =
-         qemu_opt_get_bool(opts, QCOW2_OPT_DISCARD_OTHER, false);
- 
-     switch (s->crypt_method_header) {
-@@ -1215,7 +1215,7 @@ static void qcow2_update_options_commit(BlockDriverState *bs,
-     s->overlap_check = r->overlap_check;
-     s->use_lazy_refcounts = r->use_lazy_refcounts;
- 
--    for (i = 0; i < QCOW2_DISCARD_MAX; i++) {
-+    for (i = 0; i < QCOW2_DISCARD_TYPE__MAX; i++) {
-         s->discard_passthrough[i] = r->discard_passthrough[i];
-     }
- 
-@@ -4052,7 +4052,7 @@ static coroutine_fn int qcow2_co_pdiscard(BlockDriverState *bs,
-     }
- 
-     qemu_co_mutex_lock(&s->lock);
--    ret = qcow2_cluster_discard(bs, offset, bytes, QCOW2_DISCARD_REQUEST,
-+    ret = qcow2_cluster_discard(bs, offset, bytes, QCOW2_DISCARD_TYPE_REQUEST,
-                                 false);
-     qemu_co_mutex_unlock(&s->lock);
-     return ret;
-@@ -4266,7 +4266,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-         ret = qcow2_cluster_discard(bs, ROUND_UP(offset, s->cluster_size),
-                                     old_length - ROUND_UP(offset,
-                                                           s->cluster_size),
--                                    QCOW2_DISCARD_ALWAYS, true);
-+                                    QCOW2_DISCARD_TYPE_ALWAYS, true);
-         if (ret < 0) {
-             error_setg_errno(errp, -ret, "Failed to discard cropped clusters");
-             goto fail;
-@@ -4463,7 +4463,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-             error_prepend(errp, "Failed to resize underlying file: ");
-             qcow2_free_clusters(bs, allocation_start,
-                                 nb_new_data_clusters * s->cluster_size,
--                                QCOW2_DISCARD_OTHER);
-+                                QCOW2_DISCARD_TYPE_OTHER);
-             goto fail;
-         }
- 
-@@ -4498,7 +4498,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-                 error_setg_errno(errp, -ret, "Failed to update L2 tables");
-                 qcow2_free_clusters(bs, host_offset,
-                                     nb_new_data_clusters * s->cluster_size,
--                                    QCOW2_DISCARD_OTHER);
-+                                    QCOW2_DISCARD_TYPE_OTHER);
-                 goto fail;
-             }
- 
-@@ -4950,12 +4950,12 @@ static int qcow2_make_empty(BlockDriverState *bs)
-     end_offset = bs->total_sectors * BDRV_SECTOR_SIZE;
-     for (offset = 0; offset < end_offset; offset += step) {
-         /* As this function is generally used after committing an external
--         * snapshot, QCOW2_DISCARD_SNAPSHOT seems appropriate. Also, the
-+         * snapshot, QCOW2_DISCARD_TYPE_SNAPSHOT seems appropriate. Also, the
-          * default action for this kind of discard is to pass the discard,
-          * which will ideally result in an actually smaller image file, as
-          * is probably desired. */
-         ret = qcow2_cluster_discard(bs, offset, MIN(step, end_offset - offset),
--                                    QCOW2_DISCARD_SNAPSHOT, true);
-+                                    QCOW2_DISCARD_TYPE_SNAPSHOT, true);
-         if (ret < 0) {
-             break;
-         }
+@@ -1162,7 +1162,7 @@ void qcow2_free_clusters(BlockDriverState *bs,
+  * normal cluster, compressed cluster, etc.)
+  */
+ void qcow2_free_any_cluster(BlockDriverState *bs, uint64_t l2_entry,
+-                            enum qcow2_discard_type type)
++                            Qcow2DiscardType type)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     QCow2ClusterType ctype = qcow2_get_cluster_type(bs, l2_entry);
 diff --git a/block/qcow2.h b/block/qcow2.h
-index 2285f18a73..d6ce7fce32 100644
+index d6ce7fce32..280485ed12 100644
 --- a/block/qcow2.h
 +++ b/block/qcow2.h
-@@ -288,12 +288,12 @@ enum {
+@@ -287,15 +287,6 @@ enum {
+                                         | QCOW2_AUTOCLEAR_DATA_FILE_RAW,
  };
  
- enum qcow2_discard_type {
--    QCOW2_DISCARD_NEVER = 0,
--    QCOW2_DISCARD_ALWAYS,
--    QCOW2_DISCARD_REQUEST,
--    QCOW2_DISCARD_SNAPSHOT,
--    QCOW2_DISCARD_OTHER,
--    QCOW2_DISCARD_MAX
-+    QCOW2_DISCARD_TYPE_NEVER = 0,
-+    QCOW2_DISCARD_TYPE_ALWAYS,
-+    QCOW2_DISCARD_TYPE_REQUEST,
-+    QCOW2_DISCARD_TYPE_SNAPSHOT,
-+    QCOW2_DISCARD_TYPE_OTHER,
-+    QCOW2_DISCARD_TYPE__MAX
- };
- 
+-enum qcow2_discard_type {
+-    QCOW2_DISCARD_TYPE_NEVER = 0,
+-    QCOW2_DISCARD_TYPE_ALWAYS,
+-    QCOW2_DISCARD_TYPE_REQUEST,
+-    QCOW2_DISCARD_TYPE_SNAPSHOT,
+-    QCOW2_DISCARD_TYPE_OTHER,
+-    QCOW2_DISCARD_TYPE__MAX
+-};
+-
  typedef struct Qcow2Feature {
-@@ -383,7 +383,7 @@ typedef struct BDRVQcow2State {
-     Qcow2GetRefcountFunc *get_refcount;
-     Qcow2SetRefcountFunc *set_refcount;
+     uint8_t type;
+     uint8_t bit;
+@@ -854,7 +845,7 @@ int qcow2_get_refcount(BlockDriverState *bs, int64_t cluster_index,
  
--    bool discard_passthrough[QCOW2_DISCARD_MAX];
-+    bool discard_passthrough[QCOW2_DISCARD_TYPE__MAX];
+ int qcow2_update_cluster_refcount(BlockDriverState *bs, int64_t cluster_index,
+                                   uint64_t addend, bool decrease,
+-                                  enum qcow2_discard_type type);
++                                  Qcow2DiscardType type);
  
-     int overlap_check; /* bitmask of Qcow2MetadataOverlap values */
-     bool signaled_corruption;
+ int64_t qcow2_refcount_area(BlockDriverState *bs, uint64_t offset,
+                             uint64_t additional_clusters, bool exact_size,
+@@ -867,9 +858,9 @@ int64_t qcow2_alloc_clusters_at(BlockDriverState *bs, uint64_t offset,
+ int64_t qcow2_alloc_bytes(BlockDriverState *bs, int size);
+ void qcow2_free_clusters(BlockDriverState *bs,
+                           int64_t offset, int64_t size,
+-                          enum qcow2_discard_type type);
++                          Qcow2DiscardType type);
+ void qcow2_free_any_cluster(BlockDriverState *bs, uint64_t l2_entry,
+-                            enum qcow2_discard_type type);
++                            Qcow2DiscardType type);
+ 
+ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
+     int64_t l1_table_offset, int l1_size, int addend);
+@@ -922,7 +913,7 @@ int coroutine_fn qcow2_alloc_cluster_link_l2(BlockDriverState *bs,
+                                              QCowL2Meta *m);
+ void qcow2_alloc_cluster_abort(BlockDriverState *bs, QCowL2Meta *m);
+ int qcow2_cluster_discard(BlockDriverState *bs, uint64_t offset,
+-                          uint64_t bytes, enum qcow2_discard_type type,
++                          uint64_t bytes, Qcow2DiscardType type,
+                           bool full_discard);
+ int coroutine_fn qcow2_subcluster_zeroize(BlockDriverState *bs, uint64_t offset,
+                                           uint64_t bytes, int flags);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 7f331eb8ea..8d80e989b5 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4811,6 +4811,16 @@
+ { 'enum': 'Qcow2CompressionType',
+   'data': [ 'zlib', { 'name': 'zstd', 'if': 'CONFIG_ZSTD' } ] }
+ 
++##
++# @Qcow2DiscardType:
++#
++# Determines type of discard request
++#
++# Since: 8.0
++##
++{ 'enum': 'Qcow2DiscardType',
++  'data': [ 'never', 'always', 'request', 'snapshot', 'other' ] }
++
+ ##
+ # @BlockdevCreateOptionsQcow2:
+ #
 -- 
 2.38.1
 
