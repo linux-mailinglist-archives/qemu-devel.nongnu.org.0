@@ -2,83 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBC16A1F06
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:56:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64526A1F0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:57:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVaQ9-0005hF-Nz; Fri, 24 Feb 2023 10:55:41 -0500
+	id 1pVaRJ-00011a-B0; Fri, 24 Feb 2023 10:56:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVaPe-0005RJ-AT
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:10 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVaPb-0005lk-QW
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:10 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id r7so14230678wrz.6
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:55:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XzLi43pwUgsoKlJm/jrmkdpLzl4ZHpl4LUKJmAlPEbU=;
- b=XCOKpgxVeVSIyuG53LbdU4jljNNhWZuvk4OX0cuWSo0aqn8jWKHJZxaTjO2KDJ9d2i
- IWdo2scmKxd2iIdU30lWALd5N1Bm0555DPxulX/Z8p3zAxuOnRAOtIPFWuxYSwXA/+QG
- cJBi+5nHaVstNw3q/zYyZQb9ijueh50yrt8/3TKCvMDmDLr8fQrVx7ffns3+/PQqUydg
- D+U34oFhaFHQQEa25DinSPqzNizl4pl+4gxSzrrOxmaQmC9MqvYblZkTZoDEOzibw6jJ
- Pi1m1PWMebt8XtFSRxIMWvd6Ski97+bk77UHPFpP3XJHGLpa2pS85Ky7ny3U6Kg/r6BA
- jUGA==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pVaR9-0000vu-63
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:56:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pVaR6-000658-QQ
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:56:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677254200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LBPQFHNc52m7spZH1NqsUvG+UGFSfDXTDBJQXvNndas=;
+ b=eytPdPOySOttmw9J1DPCivDYGbsKn4bVHhhhX9Xi6y0+dkBK3CPpQcwq9G8QBjxGq7gQhj
+ OxqnNq1wfmZL61FHVPRC0RDTHSLUgRxAxvOBgKZ5Sb41dIBKNWTgevZwT8wnXQcQJ+xw0n
+ HdlLl5o++3ib4HfFfizWunzQm6roy6k=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-489-GW91DQrFOVyLB_wHCcR1DA-1; Fri, 24 Feb 2023 10:56:38 -0500
+X-MC-Unique: GW91DQrFOVyLB_wHCcR1DA-1
+Received: by mail-io1-f69.google.com with SMTP id
+ 207-20020a6b14d8000000b0074ca9a558feso2149803iou.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:56:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XzLi43pwUgsoKlJm/jrmkdpLzl4ZHpl4LUKJmAlPEbU=;
- b=ehKri3JS9DgtWab68VjQIMPI2aDLq1biLUoVA6ByVsLk1KJTy6LVqhKYFTtv5qnHm3
- ry01650lk3coFMO+mOEvO/nNaW+kp25ITGLUyUSuBgQIfeXIbMpkTveMjgAlxJpHgFJE
- oLPSoyf69Scqe/pABDfG5dca9UipaG/ov/nUeW8kMQBeIstWIX6oCiL/3XAQX1FcDDjF
- +I9R3t26QAfWgw7BKPUmuQyq6PX/V0rokc7+q3esbKIKQUMAOD8SktwtU0iMuRCL1xbS
- QNb9R97CQu3l7kVk/CIenecJpDam7UOuoPTpe5w+YkH2oqfxQjMiCIoCCSUP0dA+saFZ
- LsnA==
-X-Gm-Message-State: AO0yUKUx6G8be6co8aZyiiu0WhWvAmCw7STQoWkLVWGmVf0XJH5zvQ9/
- OuYstZ6TC6oOu7bw7qxy8szuOL1jGyjppzbl
-X-Google-Smtp-Source: AK7set/EWBEUzHUlocWTmiX3gOndFlGxmCQzQdGmGasIGadpIEzKa35Rrr1SYpiBW0fXnakOVdYmzw==
-X-Received: by 2002:a05:6000:10c:b0:2c7:1d8b:bb69 with SMTP id
- o12-20020a056000010c00b002c71d8bbb69mr2079057wrx.17.1677254105708; 
- Fri, 24 Feb 2023 07:55:05 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- g4-20020a056000118400b002c5544b3a69sm10097959wrx.89.2023.02.24.07.55.04
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 24 Feb 2023 07:55:04 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Michael Roth <michael.roth@amd.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 2/2] qapi: Generate enum count as definition in
- gen_enum_lookup()
-Date: Fri, 24 Feb 2023 16:54:51 +0100
-Message-Id: <20230224155451.20211-3-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230224155451.20211-1-philmd@linaro.org>
-References: <20230224155451.20211-1-philmd@linaro.org>
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LBPQFHNc52m7spZH1NqsUvG+UGFSfDXTDBJQXvNndas=;
+ b=fwPSdnol04yPvS7qq8+i1X6Qfe1BOVFo4DP9d56kxTvbSXguHkNWDnKLzbA58jxSEo
+ 2V4EWRAt6gO4TRRhRHhfild6Um6jITXS5ddw8zfS3y/MN7hwrjczxEcOR58qMYaLnLmi
+ 0g8AfAVHGctd69W1WgWIDqAaUNTs/hgdRBaVW+zS137YLnWdmHn3bzH9URnLcKaynAWg
+ dFLFJ2U3xfUi9+pY5/vXCiuwA983ytZxisAld9M7MOM2w7pBT8I0uy+GDnL4u12GgjtX
+ g4wp+bJt/Y4y7HYY/MQKvHVEqreQeZ68yOKf4kGWZ+JYE3fDAWskvtezMuIry6jDNH9A
+ px+A==
+X-Gm-Message-State: AO0yUKXhlrQ/jyz1oPInm+pu7mrQ+3O71rTm7t/zyT4ikJnahVyUd8Uv
+ VfveUA3Gz74tYysE66FAjK48/m0SVFFe6KCR9Mrhnf1VuG8SPye8DBIgaEbyzKxokqRBVghv7xB
+ OjOoYnr338Z7BQoI=
+X-Received: by 2002:a92:5204:0:b0:315:4633:c40b with SMTP id
+ g4-20020a925204000000b003154633c40bmr14153884ilb.8.1677254197760; 
+ Fri, 24 Feb 2023 07:56:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Edx/BLcxwccvhrLLic0J2aZJ0wEDJSUAIbtwdCuh7NRqjg8Uh1PtegoezGF1vQ5cEpcnh4Q==
+X-Received: by 2002:a92:5204:0:b0:315:4633:c40b with SMTP id
+ g4-20020a925204000000b003154633c40bmr14153849ilb.8.1677254197417; 
+ Fri, 24 Feb 2023 07:56:37 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ f30-20020a02cade000000b00375147442f3sm4200748jap.16.2023.02.24.07.56.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Feb 2023 07:56:36 -0800 (PST)
+Date: Fri, 24 Feb 2023 08:56:34 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Avihai Horon <avihaih@nvidia.com>,
+ qemu-devel@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
+ <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>, Philippe
+ =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Yishai Hadas
+ <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH v2 17/20] vfio/common: Support device dirty page
+ tracking with vIOMMU
+Message-ID: <20230224085634.149e3ad2.alex.williamson@redhat.com>
+In-Reply-To: <c66d2d8e-f042-964a-a797-a3d07c260a3b@oracle.com>
+References: <20230222174915.5647-1-avihaih@nvidia.com>
+ <20230222174915.5647-18-avihaih@nvidia.com>
+ <20230222163439.68ad5e63.alex.williamson@redhat.com>
+ <Y/bKoUBe17YNhGEA@nvidia.com>
+ <20230223130633.4bd07948.alex.williamson@redhat.com>
+ <Y/fS2rX+JvYVC9jR@nvidia.com>
+ <20230223153309.298af6e1.alex.williamson@redhat.com>
+ <Y/f2CJXGLLAtFezU@nvidia.com>
+ <3419a4d1-041f-f4f3-1d7d-ab3608bb54ac@oracle.com>
+ <c66d2d8e-f042-964a-a797-a3d07c260a3b@oracle.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,237 +119,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QAPI's gen_enum() generates QAPI enum values and the number
-of this values (as foo__MAX).
-The number of entries in an enum type is not part of the
-enumerated values, but we generate it as such. See for
-example:
+On Fri, 24 Feb 2023 12:53:26 +0000
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-  typedef enum OnOffAuto {
-      ON_OFF_AUTO_AUTO,
-      ON_OFF_AUTO_ON,
-      ON_OFF_AUTO_OFF,
-      ON_OFF_AUTO__MAX,        <---------
-  } OnOffAuto;
+> On 24/02/2023 11:25, Joao Martins wrote:
+> > On 23/02/2023 23:26, Jason Gunthorpe wrote:  
+> >> On Thu, Feb 23, 2023 at 03:33:09PM -0700, Alex Williamson wrote:  
+> >>> On Thu, 23 Feb 2023 16:55:54 -0400
+> >>> Jason Gunthorpe <jgg@nvidia.com> wrote:  
+> >>>> On Thu, Feb 23, 2023 at 01:06:33PM -0700, Alex Williamson wrote:
+> >>>> Or even better figure out how to get interrupt remapping without IOMMU
+> >>>> support :\  
+> >>>
+> >>> -machine q35,default_bus_bypass_iommu=on,kernel-irqchip=split \
+> >>> -device intel-iommu,caching-mode=on,intremap=on  
+> >>
+> >> Joao?
+> >>
+> >> If this works lets just block migration if the vIOMMU is turned on..  
+> > 
+> > At a first glance, this looked like my regular iommu incantation.
+> > 
+> > But reading the code this ::bypass_iommu (new to me) apparently tells that
+> > vIOMMU is bypassed or not for the PCI devices all the way to avoiding
+> > enumerating in the IVRS/DMAR ACPI tables. And I see VFIO double-checks whether
+> > PCI device is within the IOMMU address space (or bypassed) prior to DMA maps and
+> > such.
+> > 
+> > You can see from the other email that all of the other options in my head were
+> > either bit inconvenient or risky. I wasn't aware of this option for what is
+> > worth -- much simpler, should work!
+> >  
+> 
+> I say *should*, but on a second thought interrupt remapping may still be
+> required to one of these devices that are IOMMU-bypassed. Say to put affinities
+> to vcpus above 255? I was trying this out with more than 255 vcpus with a couple
+> VFs and at a first glance these VFs fail to probe (these are CX6 VFs).
+> 
+> It is a working setup without the parameter, but now adding a
+> default_bus_bypass_iommu=on fails to init VFs:
+> 
+> [   32.412733] mlx5_core 0000:00:02.0: Rate limit: 127 rates are supported,
+> range: 0Mbps to 97656Mbps
+> [   32.416242] mlx5_core 0000:00:02.0: mlx5_load:1204:(pid 3361): Failed to
+> alloc IRQs
+> [   33.227852] mlx5_core 0000:00:02.0: probe_one:1684:(pid 3361): mlx5_init_one
+> failed with error code -19
+> [   33.242182] mlx5_core 0000:00:03.0: firmware version: 22.31.1660
+> [   33.415876] mlx5_core 0000:00:03.0: Rate limit: 127 rates are supported,
+> range: 0Mbps to 97656Mbps
+> [   33.448016] mlx5_core 0000:00:03.0: mlx5_load:1204:(pid 3361): Failed to
+> alloc IRQs
+> [   34.207532] mlx5_core 0000:00:03.0: probe_one:1684:(pid 3361): mlx5_init_one
+> failed with error code -19
+> 
+> I haven't dived yet into why it fails.
 
-Instead of declaring the enum count as the last enumerated
-value, #define it, so it is not part of the enum. The previous
-example becomes:
+Hmm, I was thinking this would only affect DMA, but on second thought
+I think the DRHD also describes the interrupt remapping hardware and
+while interrupt remapping is an optional feature of the DRHD, DMA
+remapping is always supported afaict.  I saw IR vectors in
+/proc/interrupts and thought it worked, but indeed an assigned device
+is having trouble getting vectors.
 
-  typedef enum OnOffAuto {
-      ON_OFF_AUTO_AUTO,
-      ON_OFF_AUTO_ON,
-      ON_OFF_AUTO_OFF,
-  #define ON_OFF_AUTO__MAX 3   <---------
-  } OnOffAuto;
+> 
+> > And avoiding vIOMMU simplifies the whole patchset too, if it's OK to add a live
+> > migration blocker if `bypass_iommu` is off for any PCI device.
+> >   
+> 
+> Still we could have for starters a live migration blocker until we revisit the
+> vIOMMU case ... should we deem that the default_bus_bypass_iommu=on or the
+> others I suggested as non-options?
 
-Since Clang enables the -Wswitch warning by default [*], remove all
-pointless foo__MAX cases in switch statement, in order to avoid:
+I'm very uncomfortable presuming a vIOMMU usage model, especially when
+it leads to potentially untracked DMA if our assumptions are violated.
+We could use a MemoryListener on the IOVA space to record a high level
+mark, but we'd need to continue to monitor that mark while we're in
+pre-copy and I don't think anyone would agree that a migratable VM can
+suddenly become unmigratable due to a random IOVA allocation would be
+supportable.  That leads me to think that a machine option to limit the
+vIOMMU address space, and testing that against the device prior to
+declaring migration support of the device is possibly our best option.
 
- audio/audio.c:2231:10: error: case value not in enumerated type 'AudioFormat' (aka 'enum AudioFormat') [-Wswitch]
-    case AUDIO_FORMAT__MAX:
-         ^
- ui/input.c:233:14: error: case value not in enumerated type 'KeyValueKind' (aka 'enum KeyValueKind') [-Wswitch]
-        case KEY_VALUE_KIND__MAX:
-             ^
- ...
+Is that feasible?  Do all the vIOMMU models have a means to limit the
+IOVA space?  How does QEMU learn a limit for a given device?  We
+probably need to think about whether there are devices that can even
+support the guest physical memory ranges when we start relocating RAM
+to arbitrary addresses (ex. hypertransport).  Can we infer anything
+from the vCPU virtual address space or is that still an unreasonable
+range to track for devices?  Thanks,
 
-[*] https://clang.llvm.org/docs/DiagnosticsReference.html#wswitch
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- audio/audio.c          |  6 ------
- audio/audio_template.h |  3 ---
- migration/migration.c  |  2 --
- replay/replay-input.c  | 12 ------------
- scripts/qapi/types.py  | 11 +++++++----
- softmmu/tpm-hmp-cmds.c |  2 --
- ui/input-linux.c       |  4 ----
- ui/input.c             |  6 ------
- 8 files changed, 7 insertions(+), 39 deletions(-)
-
-diff --git a/audio/audio.c b/audio/audio.c
-index 4290309d18..57130c44f6 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -2079,9 +2079,6 @@ void audio_create_pdos(Audiodev *dev)
-         CASE(SPICE, spice, );
- #endif
-         CASE(WAV, wav, );
--
--    case AUDIODEV_DRIVER__MAX:
--        abort();
-     };
- }
- 
-@@ -2227,9 +2224,6 @@ int audioformat_bytes_per_sample(AudioFormat fmt)
-     case AUDIO_FORMAT_S32:
-     case AUDIO_FORMAT_F32:
-         return 4;
--
--    case AUDIO_FORMAT__MAX:
--        ;
-     }
-     abort();
- }
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index 42b4712acb..58e1255d7a 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -369,9 +369,6 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
- #endif
-     case AUDIODEV_DRIVER_WAV:
-         return dev->u.wav.TYPE;
--
--    case AUDIODEV_DRIVER__MAX:
--        break;
-     }
-     abort();
- }
-diff --git a/migration/migration.c b/migration/migration.c
-index ae2025d9d8..bdadab3b5e 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2220,8 +2220,6 @@ bool migration_is_idle(void)
-     case MIGRATION_STATUS_DEVICE:
-     case MIGRATION_STATUS_WAIT_UNPLUG:
-         return false;
--    case MIGRATION_STATUS__MAX:
--        g_assert_not_reached();
-     }
- 
-     return false;
-diff --git a/replay/replay-input.c b/replay/replay-input.c
-index 1147e3d34e..c6de8e33ac 100644
---- a/replay/replay-input.c
-+++ b/replay/replay-input.c
-@@ -38,9 +38,6 @@ void replay_save_input_event(InputEvent *evt)
-             replay_put_dword(key->key->u.qcode.data);
-             replay_put_byte(key->down);
-             break;
--        case KEY_VALUE_KIND__MAX:
--            /* keep gcc happy */
--            break;
-         }
-         break;
-     case INPUT_EVENT_KIND_BTN:
-@@ -58,9 +55,6 @@ void replay_save_input_event(InputEvent *evt)
-         replay_put_dword(move->axis);
-         replay_put_qword(move->value);
-         break;
--    case INPUT_EVENT_KIND__MAX:
--        /* keep gcc happy */
--        break;
-     }
- }
- 
-@@ -89,9 +83,6 @@ InputEvent *replay_read_input_event(void)
-             evt.u.key.data->key->u.qcode.data = (QKeyCode)replay_get_dword();
-             evt.u.key.data->down = replay_get_byte();
-             break;
--        case KEY_VALUE_KIND__MAX:
--            /* keep gcc happy */
--            break;
-         }
-         break;
-     case INPUT_EVENT_KIND_BTN:
-@@ -109,9 +100,6 @@ InputEvent *replay_read_input_event(void)
-         evt.u.abs.data->axis = (InputAxis)replay_get_dword();
-         evt.u.abs.data->value = replay_get_qword();
-         break;
--    case INPUT_EVENT_KIND__MAX:
--        /* keep gcc happy */
--        break;
-     }
- 
-     return QAPI_CLONE(InputEvent, &evt);
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index c39d054d2c..b24bcb40ad 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -86,16 +86,13 @@ def gen_enum_lookup(name: str,
- def gen_enum(name: str,
-              members: List[QAPISchemaEnumMember],
-              prefix: Optional[str] = None) -> str:
--    # append automatically generated _MAX value
--    enum_members = members + [QAPISchemaEnumMember('_MAX', None)]
--
-     ret = mcgen('''
- 
- typedef enum %(c_name)s {
- ''',
-                 c_name=c_name(name))
- 
--    for memb in enum_members:
-+    for memb in members:
-         ret += memb.ifcond.gen_if()
-         ret += mcgen('''
-     %(c_enum)s,
-@@ -103,6 +100,12 @@ def gen_enum(name: str,
-                      c_enum=c_enum_const(name, memb.name, prefix))
-         ret += memb.ifcond.gen_endif()
- 
-+    ret += mcgen('''
-+#define %(c_name)s %(c_length)s
-+''',
-+                 c_name=c_enum_const(name, '_MAX', prefix),
-+                 c_length=len(members))
-+
-     ret += mcgen('''
- } %(c_name)s;
- ''',
-diff --git a/softmmu/tpm-hmp-cmds.c b/softmmu/tpm-hmp-cmds.c
-index 9ed6ad6c4d..5a354cf6ac 100644
---- a/softmmu/tpm-hmp-cmds.c
-+++ b/softmmu/tpm-hmp-cmds.c
-@@ -52,8 +52,6 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
-             teo = ti->options->u.emulator.data;
-             monitor_printf(mon, ",chardev=%s", teo->chardev);
-             break;
--        case TPM_TYPE__MAX:
--            break;
-         }
-         monitor_printf(mon, "\n");
-         c++;
-diff --git a/ui/input-linux.c b/ui/input-linux.c
-index e572a2e905..a6e7574422 100644
---- a/ui/input-linux.c
-+++ b/ui/input-linux.c
-@@ -120,10 +120,6 @@ static bool input_linux_check_toggle(InputLinux *il)
-         return (il->keydown[KEY_LEFTCTRL] ||
-                 il->keydown[KEY_RIGHTCTRL]) &&
-             il->keydown[KEY_SCROLLLOCK];
--
--    case GRAB_TOGGLE_KEYS__MAX:
--        /* avoid gcc error */
--        break;
-     }
-     return false;
- }
-diff --git a/ui/input.c b/ui/input.c
-index f2d1e7a3a7..ca8f49a403 100644
---- a/ui/input.c
-+++ b/ui/input.c
-@@ -230,9 +230,6 @@ static void qemu_input_event_trace(QemuConsole *src, InputEvent *evt)
-             name = QKeyCode_str(key->key->u.qcode.data);
-             trace_input_event_key_qcode(idx, name, key->down);
-             break;
--        case KEY_VALUE_KIND__MAX:
--            /* keep gcc happy */
--            break;
-         }
-         break;
-     case INPUT_EVENT_KIND_BTN:
-@@ -250,9 +247,6 @@ static void qemu_input_event_trace(QemuConsole *src, InputEvent *evt)
-         name = InputAxis_str(move->axis);
-         trace_input_event_abs(idx, name, move->value);
-         break;
--    case INPUT_EVENT_KIND__MAX:
--        /* keep gcc happy */
--        break;
-     }
- }
- 
--- 
-2.38.1
+Alex
 
 
