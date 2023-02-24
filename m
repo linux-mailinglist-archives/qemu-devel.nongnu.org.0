@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01746A16D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 08:01:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC64E6A16D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 08:01:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVS4T-0004lX-HK; Fri, 24 Feb 2023 02:00:45 -0500
+	id 1pVS4s-00056s-IV; Fri, 24 Feb 2023 02:01:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVS4R-0004l5-Lu
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:00:43 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVS4p-0004zS-CJ
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:01:07 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVS4Q-0001aw-6b
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:00:43 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVS4n-00028Z-Ty
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:01:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677222041;
+ s=mimecast20190719; t=1677222065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Dzc6aqRerhAGgR/qOZDZvideDub/28q0m9kswVVsVM=;
- b=QF1sCl49k90DTIC2IcePPiQMEF6YpGNjhnprW5uyQDL+KLr9otvh4DSPDOukVe2rAEljml
- KFSuW3FkYF1jQJwEOqIF9HIEhPop5DL3p57GghY6JEwWOhlf+qtB1ZGEmkf8IeIIlzjiVu
- aNNeDixNJRpzg9hfmeWp6Pwm31lktak=
+ bh=eBF7zlEyAdmMOjAIAp6YTm4gPMTShFRuaN2qoKGPy58=;
+ b=iAgv7O137SYaXr6yA30vrlrxX5ZyhEXv391kyRTB4w/TKWdXmtnArC/IG+zcxqHXzYO9Bn
+ 2Bbt+An00iMMcvDRtOhu4PwNjS5ScsPzM06XP+n0gNnjnjWomnfrbHngqdsoOTBDLRZAxk
+ yRN75Huf/D9igWqGsGbOMXiFtBJ3DxM=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-495--cPIXH8AMiOoPEh_FdSvRw-1; Fri, 24 Feb 2023 02:00:39 -0500
-X-MC-Unique: -cPIXH8AMiOoPEh_FdSvRw-1
+ us-mta-657-WSpjsktEOqe810QryJmXHg-1; Fri, 24 Feb 2023 02:01:03 -0500
+X-MC-Unique: WSpjsktEOqe810QryJmXHg-1
 Received: by mail-wm1-f69.google.com with SMTP id
- l20-20020a05600c1d1400b003e10d3e1c23so837170wms.1
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 23:00:39 -0800 (PST)
+ bi27-20020a05600c3d9b00b003e9d0925341so2657870wmb.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 23:01:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6Dzc6aqRerhAGgR/qOZDZvideDub/28q0m9kswVVsVM=;
- b=C1rDd0tyWADcHXEm7ga56135G0pEQrVWn7dkeCDSQmrkbvs+BqpCXrexIUikFtYtOq
- 5njIeRGqlkPL+OAefZ+vNDLFPR28a4rN/gujfFAJcjgTl/HGGy2SBNlN0AvjLqTI69lz
- b9WbdKbBQyTTJDzUCH5eEJe1x8WDNM1ApnId9m/OThn+fDkGD0mTCZalH8TJnjHcTSvU
- 47RNSkmqncO7g/sTv1vyJa6/SOtgsGGn6kHcYpPyc/7OqUSRyZxeCG/RkmtjiFZoASXo
- C9g6ftTaADktq3FelqpmTg1zkfX0J4BE+SZo9/l29P29eet5dPK0qs1rtRcMHzqDF61m
- 4v0A==
-X-Gm-Message-State: AO0yUKXn7R2FXlqVZVl0Q6Om3gB4PaGaADQslWHTMMassoIIfx+Y/OMS
- iLRNJyBeQ77/ygSOf6LL18E1cEb+EoZFIRgQGvPI12PLQfnsHyTaf4eEkPf1yH8V5YRHfE/K2VR
- r2QkCw3rjtz/knKtHxDmWWoE=
-X-Received: by 2002:a05:600c:713:b0:3dc:4b87:a570 with SMTP id
- i19-20020a05600c071300b003dc4b87a570mr5136899wmn.35.1677222038710; 
- Thu, 23 Feb 2023 23:00:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set+1niUG+8gVYiOIo2ICgs7Acre2pO0wqk/qy64cvq9KDojvwj6ethaZHyJK7kE7rMYNq6vrlQ==
-X-Received: by 2002:a05:600c:713:b0:3dc:4b87:a570 with SMTP id
- i19-20020a05600c071300b003dc4b87a570mr5136886wmn.35.1677222038444; 
- Thu, 23 Feb 2023 23:00:38 -0800 (PST)
+ bh=eBF7zlEyAdmMOjAIAp6YTm4gPMTShFRuaN2qoKGPy58=;
+ b=s2Y9aG2TmzLkAtvJWUFznILPbLe7so8YOKaKhKEmxA3ZRBcRUWEf4ghXsiSqBsYVmW
+ fRnMCUhXIbocyGpFO+T1guyjxGx6brZxn4pjUEl6qgGAFDXjSsP4sLqdViLcjbQyOvjj
+ yYNk9hMkt/kfdNtFS6U5K8h3PhVD7qVHCHLpEWgpghVncd5LAO5uIaQjx2KHHTxS7tBX
+ vac3NZidjBJP6LKeRtCY2nZNybRfzDQkqOXb6Iqnlob1e4bvU8MqFi2rhC0FFuzURrtA
+ ySDkutfq01UKUftnVlAwDpBn3KH2DPxkvvsbhUyyVEblZ7McYQsUiQqTKLlg02omA9fS
+ FX0Q==
+X-Gm-Message-State: AO0yUKWjr9KehWX6puOxoDQZunuDyYoTSpJrIp5GnXQksMrSNQ9AObRq
+ ImnXONxsSkEFnCj34fzd1ilr4RNbEsk1mPSBnVyeNcwkmPcynJVs84xnspZleoBorWXwuiXSR0Q
+ rs8hCGuxQ3/85Rgc=
+X-Received: by 2002:a05:600c:160a:b0:3ea:8cac:3edd with SMTP id
+ m10-20020a05600c160a00b003ea8cac3eddmr3389109wmn.11.1677222062675; 
+ Thu, 23 Feb 2023 23:01:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set8RoCukjfTSNSoOaQWgWp4/czqjn2ANgpMuMftijrLIY4kBKMzTym1l2EICkNxWZXckHd5cQw==
+X-Received: by 2002:a05:600c:160a:b0:3ea:8cac:3edd with SMTP id
+ m10-20020a05600c160a00b003ea8cac3eddmr3389094wmn.11.1677222062405; 
+ Thu, 23 Feb 2023 23:01:02 -0800 (PST)
 Received: from [192.168.8.100] (tmo-115-119.customers.d1-online.com.
  [80.187.115.119]) by smtp.gmail.com with ESMTPSA id
- o18-20020a5d4752000000b002c3f9404c45sm11091279wrs.7.2023.02.23.23.00.37
+ q1-20020a1cf301000000b003e2232d0960sm1741581wmq.23.2023.02.23.23.01.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 23:00:37 -0800 (PST)
-Message-ID: <52fa1fab-845c-0a2d-bf4d-4ce1a752e3e7@redhat.com>
-Date: Fri, 24 Feb 2023 08:00:36 +0100
+ Thu, 23 Feb 2023 23:01:01 -0800 (PST)
+Message-ID: <25deaa40-fe58-f7c5-6098-20c938b85e8e@redhat.com>
+Date: Fri, 24 Feb 2023 08:01:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v4 1/7] dump: Replace tswapN() -> cpu_to_dumpN()
+Subject: Re: [PATCH v4 2/7] dump: Replace TARGET_PAGE_SIZE ->
+ qemu_target_page_size()
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Janosch Frank <frankja@linux.ibm.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 References: <20230223231755.81633-1-philmd@linaro.org>
- <20230223231755.81633-2-philmd@linaro.org>
+ <20230223231755.81633-3-philmd@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230223231755.81633-2-philmd@linaro.org>
+In-Reply-To: <20230223231755.81633-3-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -105,39 +105,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 24/02/2023 00.17, Philippe Mathieu-Daudé wrote:
-> All uses of tswap in that file are wrong, and should be using
-> cpu_to_dumpN, which correctly tests the endianness of the output.
+> TARGET_PAGE_SIZE is target specific. In preparation of
+> making dump.c target-agnostic, replace the compile-time
+> TARGET_PAGE_SIZE definition by runtime qemu_target_page_size().
 > 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   dump/dump.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>   dump/dump.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/dump/dump.c b/dump/dump.c
-> index 279b07f09b..7101169ecb 100644
+> index 7101169ecb..3784a9054d 100644
 > --- a/dump/dump.c
 > +++ b/dump/dump.c
-> @@ -907,13 +907,13 @@ static void get_note_sizes(DumpState *s, const void *note,
->       if (dump_is_64bit(s)) {
->           const Elf64_Nhdr *hdr = note;
->           note_head_sz = sizeof(Elf64_Nhdr);
-> -        name_sz = tswap64(hdr->n_namesz);
-> -        desc_sz = tswap64(hdr->n_descsz);
-> +        name_sz = cpu_to_dump64(s, hdr->n_namesz);
-> +        desc_sz = cpu_to_dump64(s, hdr->n_descsz);
->       } else {
->           const Elf32_Nhdr *hdr = note;
->           note_head_sz = sizeof(Elf32_Nhdr);
-> -        name_sz = tswap32(hdr->n_namesz);
-> -        desc_sz = tswap32(hdr->n_descsz);
-> +        name_sz = cpu_to_dump32(s, hdr->n_namesz);
-> +        desc_sz = cpu_to_dump32(s, hdr->n_descsz);
+> @@ -15,6 +15,7 @@
+>   #include "qemu/cutils.h"
+>   #include "elf.h"
+>   #include "exec/hwaddr.h"
+> +#include "exec/target_page.h"
+>   #include "monitor/monitor.h"
+>   #include "sysemu/kvm.h"
+>   #include "sysemu/dump.h"
+> @@ -1859,7 +1860,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
 >       }
-
-Those tswaps looked suspiciuous indeed.
+>   
+>       if (!s->dump_info.page_size) {
+> -        s->dump_info.page_size = TARGET_PAGE_SIZE;
+> +        s->dump_info.page_size = qemu_target_page_size();
+>       }
+>   
+>       s->note_size = cpu_get_note_size(s->dump_info.d_class,
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-
 
 
