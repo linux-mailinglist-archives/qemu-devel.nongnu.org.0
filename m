@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39E76A20B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 18:47:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BA46A211F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 19:05:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVc8d-0001pg-2Z; Fri, 24 Feb 2023 12:45:43 -0500
+	id 1pVcR2-0003Qf-2F; Fri, 24 Feb 2023 13:04:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pVc8a-0001og-KI
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 12:45:40 -0500
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pVc8Z-0003vN-1l
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 12:45:40 -0500
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-172094e10e3so267272fac.10
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 09:45:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6d8NvIbXd3OTFEBOjLeLjQoPN4gqAkbvmVXDYpiY2cE=;
- b=pG6VmqyPGDCCaKGj87nHCI89mJWMEUQAcu1Ag0urlnCNVAf+gFzK7ZnCzVuObbS67K
- kreRQkVHfhW6lZTlH3Gd4w8hBrzY0C1pXpOgm0YNFEG6LIhGCK50elSAhyGxYMmHJMzl
- VmGE7FFwH8dP0zvvIISd0HHO3RqkU16OV2ND6KPN4i0qr6v5tyvYWwsm2SkISAqaEYWe
- ZMkAzUX3eTnhAJmP3ZMECr4LrOM8A9eWj+rvs76Un+VB4YnIy+GfYqP6yhmeVnaZ7gqq
- ScCj8mxQvcq/im4Q+qndN1ZqvcK2zHZWt42n7m/wsEQ6cr6f0j6wmo7a0m65rhjAjrZf
- mYsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6d8NvIbXd3OTFEBOjLeLjQoPN4gqAkbvmVXDYpiY2cE=;
- b=o8jbYtXbD22W6khsUJy/6xBYYEAlkZ2BW52NXLKQI0m+LB0OYskNTAYCDcduCgGvHl
- QCV7Uh7jyNc0b2Cx//PuC297SBPnMBpXta4/EL6ZdeclKau/v05ZmzX+3KcsrW8kTIQ1
- gD+lgHWz/4DujqLptVnsgnEXwGUbJwqlsn1AC1W1zcXh8exBZmg2Gvf4e2Ehwn/yWj4K
- mIpk+OrMxPaawDRY+Sc5yA+OpiXMwFBa56y8804C3G/efLlksNJJ3nTdRipaP2I6fuv4
- W4/vO+IAm8PY52CR2IHN9O3or8UbQciwLfLLYbnUCpA7DvrTGAedmlpxH9qkfhOPeKOk
- UO7A==
-X-Gm-Message-State: AO0yUKVZAGoEUKeyQHIkDlXhjPjIGvwriyFyvwc2HcihoAmeegF9+JjT
- 0hf/4GAUx0zd7aGDkGTcPh7dW+l702Y+smBE
-X-Google-Smtp-Source: AK7set/fmLzRsuAY8Tl++MGTnNZrgMfxNDS4jVZXy4WQwNL3dlP9VILSUTzyQd+6j/j6fVGFj/MhSA==
-X-Received: by 2002:a05:6870:469f:b0:16d:f3c8:cf8d with SMTP id
- a31-20020a056870469f00b0016df3c8cf8dmr14000949oap.29.1677260738080; 
- Fri, 24 Feb 2023 09:45:38 -0800 (PST)
-Received: from grind.. ([189.110.112.117]) by smtp.gmail.com with ESMTPSA id
- zf48-20020a0568716ab000b001722c5625e2sm3604123oab.7.2023.02.24.09.45.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 09:45:37 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH 4/4] target/riscv/csr.c: avoid env_archcpu() usages when
- reading RISCVCPUConfig
-Date: Fri, 24 Feb 2023 14:45:20 -0300
-Message-Id: <20230224174520.92490-5-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230224174520.92490-1-dbarboza@ventanamicro.com>
-References: <20230224174520.92490-1-dbarboza@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pVcQz-0003Py-VD
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:04:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pVcQy-0001Ve-BE
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 13:04:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677261878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ueJjLyPlMQge/5deGy3+795NM8CeEZ8fcGdBMpnMvx0=;
+ b=BRaBBlQmNbtqjuEBFLPDeD59/oSkoVeEPHotpcq4Zi5IEx7F67oqrGOFQ1RemJRo51j08d
+ M2S6AQIK6J6WzOxNwhwtt6kmekM/rDOWqHBT89zFI/3dS82jA9SkvBzPaWSuxip6SUUTEV
+ XtC6cDRbGQVUA4E6xmchwY1wSP7/70M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-632-GWf-MDC2OVu9-86VRZRE_Q-1; Fri, 24 Feb 2023 13:04:35 -0500
+X-MC-Unique: GWf-MDC2OVu9-86VRZRE_Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1236A85A588;
+ Fri, 24 Feb 2023 18:04:35 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB4C94014CF3;
+ Fri, 24 Feb 2023 18:04:33 +0000 (UTC)
+Date: Fri, 24 Feb 2023 12:04:32 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <michael.roth@amd.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>
+Subject: Re: [PATCH v3 1/6] configure: Look for auxiliary Python installations
+Message-ID: <20230224180432.xy6ponxtondgxrjt@redhat.com>
+References: <20230221012456.2607692-1-jsnow@redhat.com>
+ <20230221012456.2607692-2-jsnow@redhat.com>
+ <db3a7e62-2eac-1b9f-1c3e-69e58d614359@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2a.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <db3a7e62-2eac-1b9f-1c3e-69e58d614359@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,115 +88,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Retrieving the CPU pointer using env_archcpu() just to access cpu->cfg
-can be avoided by using riscv_cpu_cfg().
+On Tue, Feb 21, 2023 at 12:03:44PM +0100, Paolo Bonzini wrote:
+> > 
+> > This configure loop will prefer, in order:
+> > 
+> > 1. Whatever is specified in $PYTHON
+> > 2. python3
+> > 3. python (Which is usually 2.x, but might be 3.x on some platforms.)
+> > 4. python3.11 down through python3.6
+> > 
+> > +
+> >   python=
+> > +first_python=
+> >   explicit_python=no
+> > -for binary in "${PYTHON-python3}" python
+> > +# Check for $PYTHON, python3, python, then explicitly-versioned interpreters.
+> > +for binary in "${PYTHON-python3}" ${PYTHON:+python3} python \
+> > +                                  python3.11 python3.10 python3.9 \
+> > +                                  python3.8 python3.7 python3.6
+> 
+> I think if PYTHON is set we shouldn't look at anything else.
 
-Suggested-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- target/riscv/csr.c | 32 +++++++++-----------------------
- 1 file changed, 9 insertions(+), 23 deletions(-)
+Now that you mention that, it does sound more like what autoconf does
+(if the user specified something, honor it; otherwise, find the best
+match in a list of candidates).
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 53f1a331f9..ffa2d7b606 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -213,9 +213,7 @@ static RISCVException any32(CPURISCVState *env, int csrno)
- 
- static int aia_any(CPURISCVState *env, int csrno)
- {
--    RISCVCPU *cpu = env_archcpu(env);
--
--    if (!cpu->cfg.ext_smaia) {
-+    if (!riscv_cpu_cfg(env)->ext_smaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -224,9 +222,7 @@ static int aia_any(CPURISCVState *env, int csrno)
- 
- static int aia_any32(CPURISCVState *env, int csrno)
- {
--    RISCVCPU *cpu = env_archcpu(env);
--
--    if (!cpu->cfg.ext_smaia) {
-+    if (!riscv_cpu_cfg(env)->ext_smaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -253,9 +249,7 @@ static int smode32(CPURISCVState *env, int csrno)
- 
- static int aia_smode(CPURISCVState *env, int csrno)
- {
--    RISCVCPU *cpu = env_archcpu(env);
--
--    if (!cpu->cfg.ext_ssaia) {
-+    if (!riscv_cpu_cfg(env)->ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -264,9 +258,7 @@ static int aia_smode(CPURISCVState *env, int csrno)
- 
- static int aia_smode32(CPURISCVState *env, int csrno)
- {
--    RISCVCPU *cpu = env_archcpu(env);
--
--    if (!cpu->cfg.ext_ssaia) {
-+    if (!riscv_cpu_cfg(env)->ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -380,9 +372,7 @@ static RISCVException pointer_masking(CPURISCVState *env, int csrno)
- 
- static int aia_hmode(CPURISCVState *env, int csrno)
- {
--    RISCVCPU *cpu = env_archcpu(env);
--
--    if (!cpu->cfg.ext_ssaia) {
-+    if (!riscv_cpu_cfg(env)->ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-      }
- 
-@@ -391,9 +381,7 @@ static int aia_hmode(CPURISCVState *env, int csrno)
- 
- static int aia_hmode32(CPURISCVState *env, int csrno)
- {
--    RISCVCPU *cpu = env_archcpu(env);
--
--    if (!cpu->cfg.ext_ssaia) {
-+    if (!riscv_cpu_cfg(env)->ext_ssaia) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -430,9 +418,7 @@ static RISCVException debug(CPURISCVState *env, int csrno)
- 
- static RISCVException seed(CPURISCVState *env, int csrno)
- {
--    RISCVCPU *cpu = env_archcpu(env);
--
--    if (!cpu->cfg.ext_zkr) {
-+    if (!riscv_cpu_cfg(env)->ext_zkr) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
- 
-@@ -555,7 +541,7 @@ static RISCVException read_vl(CPURISCVState *env, int csrno,
- 
- static int read_vlenb(CPURISCVState *env, int csrno, target_ulong *val)
- {
--    *val = env_archcpu(env)->cfg.vlen >> 3;
-+    *val = riscv_cpu_cfg(env)->vlen >> 3;
-     return RISCV_EXCP_NONE;
- }
- 
-@@ -610,7 +596,7 @@ static RISCVException write_vstart(CPURISCVState *env, int csrno,
-      * The vstart CSR is defined to have only enough writable bits
-      * to hold the largest element index, i.e. lg2(VLEN) bits.
-      */
--    env->vstart = val & ~(~0ULL << ctzl(env_archcpu(env)->cfg.vlen));
-+    env->vstart = val & ~(~0ULL << ctzl(riscv_cpu_cfg(env)->vlen));
-     return RISCV_EXCP_NONE;
- }
- 
+> 
+> Paolo
+> 
+> >   do
+> >       if has "$binary"
+> >       then
+> >           python=$(command -v "$binary")
+> > -        break
+> > +        if test -z "$first_python"; then
+> > +           first_python=$python
+> > +        fi
+> > +        if check_py_version "$python"; then
+> > +            # This one is good.
+> > +            first_python=
+> > +            break
+> > +        fi
+
+One easy way to do that is add this here:
+
+             if test -n "$PYTHON"; then break; fi
+
+> >       fi
+> >   done
+> > +# If first_python is set, we didn't find a suitable binary.
+> > +# Use this one for possible future error messages.
+> > +if test -n "$first_python"; then
+> > +    python="$first_python"
+> > +fi
+
 -- 
-2.39.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
