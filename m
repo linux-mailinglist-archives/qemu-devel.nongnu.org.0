@@ -2,85 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054376A1446
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 01:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1804C6A1451
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 01:31:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVLsJ-0005bT-It; Thu, 23 Feb 2023 19:23:47 -0500
+	id 1pVLyO-0000ZS-0O; Thu, 23 Feb 2023 19:30:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVLsH-0005b5-Gg
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:23:45 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVLsE-0000QH-QM
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:23:45 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- z20-20020a17090a8b9400b002372d7f823eso1072945pjn.4
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 16:23:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kfKaE4zgkzHPvaVz7ODj7i+YDgaWj7UxLNCOcc9yQ5Y=;
- b=r60otlMEIYbQ6v9sFu+PDkwHwbpq/KJjphZ/ydWS5aaCTPm6ZE5gTkXcDNwmyfAuL0
- 3M8YIYPB+HMfuVY5o+6KBh9kXcF+cWnOa6UH0ux0fhiSX/M4VPiLiCqrih5gaZ4cM5sO
- cqzaCAtBpcsuXz2aWiXwqn7JnWm/wMXrd58EHTANPivqe3PU5pqhIa6eiSaYHsUhPRe8
- P5o5oOafKKuEolsfuNQ4SqNVttuw1YvzhiNHc7KuYTY61OTubxxHFosbmVUFjMyITqrH
- lIL8eDNchXL9lyU+T54Z8VuW0uLTXsDkwPbTmfwOMB2tzD5Nj8mcWkzQvbgqMiiZIcDg
- SxBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kfKaE4zgkzHPvaVz7ODj7i+YDgaWj7UxLNCOcc9yQ5Y=;
- b=L8WHiCDZLMQ5b7Kv34HXraFTTfGUQ802OhcH/X16N0PtlCQJFxzbvLQwB3MTsCgXEY
- oreOt+Muqz+QLtm1sc9wj0Bn/d92S2TJJDJNyY8U1Rv4ylGdqiBbKXDLR7HuJO2jgB7Y
- 12w5R5XcOToTOoFMmQrPxI7mCOz3FoTcQ4R2K3MvzTPE/hMpp61liofor7DRi7bb2P5P
- CfCPijzdvDNPmDWqn85rewnUrGrABDT9xXBxEJHWJUvXfJ7JJftvx9GYfz3ulC4/qQ1i
- dmgW9Qumzq0DeqLl4QbFfRV8WDfTOgWpajU3hEgAUeaZzQe4zsp/2GN56ajucP4MxDhB
- HM0w==
-X-Gm-Message-State: AO0yUKVFY8xnwEQKYZ7j4BeihvC5/FsVrhCvXMuFTdBzAbjDeEB53cwn
- NLrmyfV5EHjFMS5cE+hx0wtD5g==
-X-Google-Smtp-Source: AK7set9+n/4emFTMm110a34dvRcSs53nGjqTBTMD9iP4DIYV9D0RnLLu8hdwlvwuU6Pqov9AhEl6ww==
-X-Received: by 2002:a05:6a20:1585:b0:c7:13bf:695e with SMTP id
- h5-20020a056a20158500b000c713bf695emr15791938pzj.18.1677198219228; 
- Thu, 23 Feb 2023 16:23:39 -0800 (PST)
-Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- r24-20020a62e418000000b00587fda4a260sm5538746pfh.9.2023.02.23.16.23.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 16:23:38 -0800 (PST)
-Message-ID: <d27b10d7-a98e-0f81-6e63-ee13cdcbaff5@linaro.org>
-Date: Thu, 23 Feb 2023 14:23:35 -1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v7 1/4] tcg: add 'size' param to probe_access_flags()
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pVLyL-0000ZA-NQ
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:30:01 -0500
+Received: from mailout1.w2.samsung.com ([211.189.100.11])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pVLyI-0002IP-IJ
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:30:01 -0500
+Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
+ by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20230224002949usoutp01af754898b75e2b5b3ec59c80ee708f61~GmzsO8Ylw3151831518usoutp01W;
+ Fri, 24 Feb 2023 00:29:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
+ 20230224002949usoutp01af754898b75e2b5b3ec59c80ee708f61~GmzsO8Ylw3151831518usoutp01W
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1677198589;
+ bh=psARQxrFQ9u3ZCSnmIKS2dxGF9XHTMrU0qHOF3hJQzA=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=QuPeTqlSJ4wlL2YtZyFzhY3iIiuH3fofNF/h1ZwA773FK/YU7Mxq+dezgLOPcmma+
+ 4jOXdlxdWJx0G30SKfVaxRqC2VnlxBY+sYuRN8KBiH8JtaywkNWdxs6UbqBSuRWDkq
+ yk8TBN80tstyBlj5d+IYLeVV2+nfsCNcN36h040c=
+Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
+ [203.254.195.109]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230224002949uscas1p2c9b3d0495cd7428781ec47a69aeb013f~GmzsGJD7b0553205532uscas1p2l;
+ Fri, 24 Feb 2023 00:29:49 +0000 (GMT)
+Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
+ ussmges1new.samsung.com (USCPEMTA) with SMTP id 6B.1A.06976.CF408F36; Thu,
+ 23 Feb 2023 19:29:48 -0500 (EST)
+Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
+ [203.254.195.91]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230224002948uscas1p220ab1ec9fbe16138e0fd314b7412f833~GmzrwEwed0553105531uscas1p2m;
+ Fri, 24 Feb 2023 00:29:48 +0000 (GMT)
+X-AuditID: cbfec36d-d99ff70000011b40-b7-63f804fcf069
+Received: from SSI-EX2.ssi.samsung.com ( [105.128.2.146]) by
+ ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id 4A.39.17110.CF408F36; Thu,
+ 23 Feb 2023 19:29:48 -0500 (EST)
+Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
+ SSI-EX2.ssi.samsung.com (105.128.2.227) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.24; Thu, 23 Feb 2023 16:29:47 -0800
+Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
+ SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Thu,
+ 23 Feb 2023 16:29:47 -0800
+From: Fan Ni <fan.ni@samsung.com>
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+CC: Gregory Price <gregory.price@memverge.com>, Jonathan Cameron via
+ <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, "linux-cxl@vger.kernel.org"
+ <linux-cxl@vger.kernel.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>,
+ "Ira Weiny" <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>, =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?=
+ <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>
+Subject: Re: [PATCH 2/2] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
+ and Persistent)
+Thread-Topic: [PATCH 2/2] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
+ and Persistent)
+Thread-Index: AQHZR+cZWt0anxAoHU61497Cp1Ks6w==
+Date: Fri, 24 Feb 2023 00:29:47 +0000
+Message-ID: <20230224002940.GA1282789@bgt-140510-bm03>
+In-Reply-To: <20230220114646.000000ff@Huawei.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
-References: <20230223234427.521114-1-dbarboza@ventanamicro.com>
- <20230223234427.521114-2-dbarboza@ventanamicro.com>
- <78a0f5a5-c2da-c016-1f15-981cf80bf676@linaro.org>
-In-Reply-To: <78a0f5a5-c2da-c016-1f15-981cf80bf676@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <6EC59CC48AB86F42AA9D173222C05044@ssi.samsung.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrEKsWRmVeSWpSXmKPExsWy7djXc7p/WH4kG8xaY2XRPHkxo8WLP8+Z
+ LBqaHrFY7H/6nMVi1cJrbBbnZ51isTi88QyTxe+1j5ks/v96xWqxZoWwxfHeHSwO3B47Z91l
+ 92g58pbVY/Gel0wem1Z1snncubaHzWPjx//sHk+ubWbyeL/vKpvH501yAZxRXDYpqTmZZalF
+ +nYJXBnTjs5jK2hXr3gy4x5jA+NF2S5GTg4JAROJrknX2LoYuTiEBFYySrze1MIO4bQySdxc
+ NJ0VpmrTrblQVWsZJV7N/ccM4XxilNjQNAcqs4xRYlPLNbAWNgFFiX1d29lAbBEBI4kryw6y
+ g9jMAmeYJTZP8AKxhQViJHb+3c0IURMrsXdvO1A9B5CtJ3GluwYkzCKgKrF32UawkbwCZhJP
+ 5lwAszkFDCW+7WgDG8koICbx/dQaJojx4hK3nsxngrhaUGLR7D3MELaYxL9dD9kgbEWJ+99f
+ Qp2jJ3Fj6hQ2CNtO4ufuMywQtrbEsoWvmSH2CkqcnPmEBaJXUuLgihssIP9KCEznlNhy9zU0
+ iFwkNkycC7VMWuLv3WVMIL9ICCRLrPrIBRHOkZi/ZAvUHGuJhX/WM01gVJmF5OxZSE6aheSk
+ WUhOmoXkpAWMrKsYxUuLi3PTU4sN81LL9YoTc4tL89L1kvNzNzECk93pf4dzdzDuuPVR7xAj
+ EwfjIUYJDmYlEd6pTN+ThXhTEiurUovy44tKc1KLDzFKc7AoifMa2p5MFhJITyxJzU5NLUgt
+ gskycXBKNTDV3Di35fP6K/f4umQ6N9R8iAvjcFsW1Xm24cTeSKXtD7hWdkZ5Lre+nvRYcmmv
+ 3MGGlq9xX06/UdV9ZpJdvyWa5V64iEaNmG9zqv2dbzyJDw/9UA3be/fy28SpkWZVQidtZuRn
+ 6RRlvsgX/LZke0Su5TehI88Ejv71f7xJ72O/7l2BpQ+YUl91POyXZQzhrU0Oir356MWS9ZKr
+ 0y7/ljF6NdvQQlz7aeiK9ojEJafW/tw01fnHv9RdJ20V5z3gCckTfvlP16fV8Oi9Xr/mC2ZT
+ 9xuFvvwQwvUpdvrC5gesE5ydFn7ecYbfT37KpflF51ZPde3Tan3zKkL982VXqcj47h+95/n/
+ CYvNN0yfxS6sxFKckWioxVxUnAgA3bcpguUDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrIIsWRmVeSWpSXmKPExsWS2cA0SfcPy49kgzVTlS2aJy9mtHjx5zmT
+ RUPTIxaL/U+fs1isWniNzeL8rFMsFoc3nmGy+L32MZPF/1+vWC3WrBC2ON67g8WB22PnrLvs
+ Hi1H3rJ6LN7zkslj06pONo871/aweWz8+J/d48m1zUwe7/ddZfP4vEkugDOKyyYlNSezLLVI
+ 3y6BK2Pa0XlsBe3qFU9m3GNsYLwo28XIySEhYCKx6dZcti5GLg4hgdWMEsebJrFCOJ8YJTqm
+ bWeBcJYxSqxb8ZgNpIVNQFFiX9d2MFtEwEjiyrKD7CBFzAJnmCWa151nAkkIC8RI/Oh+DGRz
+ ABXFSrw+pgZh6klc6a4BqWARUJXYu2wjK4jNK2Am8WTOBajFTxklWp5OYAdJcAoYSnzb0QZm
+ MwqISXw/tQZsPLOAuMStJ/OZIF4QkFiy5zwzhC0q8fLxP1YIW1Hi/veX7BD1ehI3pk5hg7Dt
+ JH7uPsMCYWtLLFv4mhniCEGJkzOfsED0SkocXHGDZQKjxCwk62YhGTULyahZSEbNQjJqASPr
+ Kkbx0uLi3PSKYqO81HK94sTc4tK8dL3k/NxNjMBUcfrf4egdjLdvfdQ7xMjEwXiIUYKDWUmE
+ dyrT92Qh3pTEyqrUovz4otKc1OJDjNIcLErivC+jJsYLCaQnlqRmp6YWpBbBZJk4OKUamAqv
+ PpX+/847LfiKOaOn79KQia92MC5LkP7YY7R21aLbmw9+Om9id7I8zUN9zhmJeuZbi+ImHbyt
+ Ir1AZMuz0w1WNRnuMmzX/rR4iZrvlv/4neEY89ZZUrf3X/nz+efMtZ1l11a1TcthEI/XcSz1
+ WVpXLrycxcd02c/Lb0y5nzk25R5z23dysuYHkY0Tc16yZa+tnRvIqLRxisDyoqXRxi7lz+xk
+ 84I2+W5h/ntm7leGM0srJ91iuJHGMoX1dYrpniWG8/pCnjLtndhg6Biq0G9hEP+34J1Irby7
+ 5pqdPa/83L+UVXzb/Icl+Jb87CUpnktK57k+fDGbxWfTnjv9BTeCbOYUlmufZwuwMtrMKq/E
+ UpyRaKjFXFScCACK5A4MhAMAAA==
+X-CMS-MailID: 20230224002948uscas1p220ab1ec9fbe16138e0fd314b7412f833
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20230224002948uscas1p220ab1ec9fbe16138e0fd314b7412f833
+References: <20230131163847.23025-1-Jonathan.Cameron@huawei.com>
+ <20230131163847.23025-3-Jonathan.Cameron@huawei.com>
+ <20230217161617.000064d1@huawei.com> <Y+9gSWadbRfdqJGS@memverge.com>
+ <20230220114646.000000ff@Huawei.com>
+ <CGME20230224002948uscas1p220ab1ec9fbe16138e0fd314b7412f833@uscas1p2.samsung.com>
+Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
+ helo=mailout1.w2.samsung.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,18 +145,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/23/23 14:19, Richard Henderson wrote:
-> On 2/23/23 13:44, Daniel Henrique Barboza wrote:
->> +    if (unlikely(flags & TLB_NOTDIRTY)) {
->> +        notdirty_write(env_cpu(env), addr, 1, full, retaddr);
-> 
-> That '1' should be 'size'.  Fixed locally.
+On Mon, Feb 20, 2023 at 11:46:46AM +0000, Jonathan Cameron wrote:
 
-Hmph, well, that matches the interface, but it's only used to figure out how many pages to 
-process, so any len that doesn't cross a page boundary (which we have checked) is equal 
-bar the tracepoint.
+> On Fri, 17 Feb 2023 06:08:57 -0500
+> Gregory Price <gregory.price@memverge.com> wrote:
+>=20
+> > On Fri, Feb 17, 2023 at 04:16:17PM +0000, Jonathan Cameron via wrote:
+> > > On Tue, 31 Jan 2023 16:38:47 +0000
+> > > Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+> > >  =20
+> > > > From: Gregory Price <gourry.memverge@gmail.com>
+> > > >=20
+> > > > This commit enables each CXL Type-3 device to contain one volatile
+> > > > memory region and one persistent region.
+> > > >=20
+> > > > Two new properties have been added to cxl-type3 device initializati=
+on:
+> > > >     [volatile-memdev] and [persistent-memdev]
+> > > >=20
+> > > > The existing [memdev] property has been deprecated and will default=
+ the
+> > > > memory region to a persistent memory region (although a user may as=
+sign
+> > > > the region to a ram or file backed region). It cannot be used in
+> > > > combination with the new [persistent-memdev] property.
+> > > >=20
+> > > > Partitioning volatile memory from persistent memory is not yet supp=
+orted.
+> > > >=20
+> > > > Volatile memory is mapped at DPA(0x0), while Persistent memory is m=
+apped
+> > > > at DPA(vmem->size), per CXL Spec 8.2.9.8.2.0 - Get Partition Info.
+> > > >=20
+> > > > Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> > > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > >  =20
+> > > Hi Gregory,
+> > >=20
+> > > I've added support for multiple HDM decoders and hence can now
+> > > test both volatile and non volatile on same device.
+> > > It very nearly all works. With one exception which is I couldn't
+> > > poke the first byte of the non volatile region.
+> > >=20
+> > > I think we have an off by one in a single check.
+> > >=20
+> > > Interestingly it makes no difference when creating an FS on top
+> > > (which was my standard test) so I only noticed when poking memory
+> > > addresses directly to sanity check the HDM decoder setup.
+> > >=20
+> > > I'll roll a v2 if no one shouts out that I'm wrong.
+> > >=20
+> > > Note that adding multiple HDM decoders massively increases
+> > > the number of test cases over what we had before to poke all the
+> > > corners so I may well be missing stuff.  Hopefully can send an RFC
+> > > of that support out next week.
+> > >=20
+> > > Jonathan
+> > >  =20
+> >=20
+> > Very cool! Thanks for pushing this over the finishing line.
+> >=20
+> > All my testing so far has been really smooth since getting the TCG issu=
+e
+> > worked out.
+> >=20
+> > > > -MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_=
+t *data,
+> > > > -                           unsigned size, MemTxAttrs attrs) =20
+> > [...]
+> > > > +    if (vmr) {
+> > > > +        if (*dpa_offset <=3D int128_get64(vmr->size)) { =20
+> > >=20
+> > > Off by one I think.  <=20
+> > >  =20
+> >=20
+> > Yes that makes sense, should be <.  Derp derp.
+> >=20
+> > Though I think this may alludes to more off-by-one issues?  This says
+> >=20
+> > if (dpa_offset < vmr->size)
+> >=20
+> > but dpa_offset should be (hpa - memory_region_base),
+> >=20
+> > The HPA is used by memory access routing for the whole system to determ=
+ine
+> > what device it should access.
+> >=20
+> > If that corner case is being hit, doesn't it imply the higher level cod=
+e
+> > is also susceptible to this, and is routing accesses to the wrong devic=
+e?
+>=20
+> I don't think so though I may be missing something.=20
+>=20
+> Say vmr->size =3D 8
+>=20
+> hpa  dpa_offset
+> 0       0
+> 1       1
+> 2       2
+> 3       3
+> 4       4
+> 5       5
+> 6       6
+> 7       7
+> 8       0
+>=20
+> etc
 
+If vmr->size=3D8, we should expect that at most 8 offsets (e.g., hpa [0,7])=
+ will
+access vmem and hpa=3D8 will access offset=3D0 at pmem, right?
+If with hpa=3D8, dpa_offset round to 0, does it mean we never get a
+dpa_offset larger than 7? If so, when pmem will be accessed?
 
-r~
-
+>=20
+> Also the writes are turning up where I expect them to.
+>=20
+> Also just noticed that the code is setting Memory_base in the CXL dvsec.
+> Given we are emulating a device as if it has been freshly powered up
+> those should not be set - it's the OS or firmware's job to set them up.
+> Harmless though, so can be a cleanup to follow the main series.
+>=20
+> We don't currently handle dvsec range based routing anyway and
+> I'm not sure we ever will as it is a pain to test without some firmware
+> or OS code to program them for us.
+>=20
+> Note that if you update your kernel to cxl/next it will currently fail
+> as the Range register emulation is (I think) rather over enthusiastic
+> and currently decides to emulate the HDM decoders for the QEMU emulated
+> type 3 devices.
+>=20
+> https://lore.kernel.org/linux-cxl/167640366272.935665.1056268838301725481=
+.stgit@dwillia2-xfh.jf.intel.com/T/#m6c025d5c9b27d8360a64079593f6c5adaa4087=
+72
+>=20
+> Jonathan
+>=20
+>=20
+> >=20
+> > ~Gregory
+>=20
+> =
 
