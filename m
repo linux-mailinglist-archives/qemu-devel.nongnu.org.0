@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25D26A17BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:10:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53D16A17C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:14:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVT9g-0000O8-R6; Fri, 24 Feb 2023 03:10:12 -0500
+	id 1pVTCP-00035E-7M; Fri, 24 Feb 2023 03:13:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVT9e-0000Na-Pp
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:10:10 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVTCJ-00034f-MF
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:12:55 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVT9b-0005Tz-Pd
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:10:10 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r7so12858842wrz.6
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:10:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVTC6-000779-5n
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:12:46 -0500
+Received: by mail-wr1-x430.google.com with SMTP id l25so12622826wrb.3
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:12:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=p2q64GqGv093taHNS42iTUsShqPQIBpegQhJbe3yYmE=;
- b=esG5KOs2xM6lr40UYGzmP7bGRdDeGiuuQTyWLYsAM8ZdYStz3MItsRPtocUuqjSk0q
- Oc4qzW937XnzFSANjKypwNDFNPBh/I/ld5OZ9YNgDsFQYM8UtKvUYwtaTlzicJhBBPDv
- /ShF+Kg7wjGFA4qgFVIqbw/MZ28MYD9fgnJJT/fV29Hm8ijusH5v7/7HrxYrCxVGuTyB
- VA/8Qtq4j6qYyYfHxqboEeX7eEBLpQGE76CDq3OnmnsKINdQ8JEsV/SeT3cCQsKXq4kW
- nDd9PXVrJ0pxaQPz2K/oRQAx6EQPtp/IELQqveBJ1zZrMox57AXDOgU2A2jU2Q0ZNMTu
- igGA==
+ bh=98RH0s1g9e4ICwAaNqrmAxVvh74L/YkLAgLWTidN8bo=;
+ b=jyCmIqSwvot2nugk6FQF/LIh02eB+ss1o+pGXU6if39eY/oK8LPxMqtyIbowN9Tw4T
+ C7FWZGnaCKfMhwJ2KXuhWtYQrLcAGE16rbKmUnJdBYabX5R6fG3NgBuEFZrwJz9/Bnp7
+ jsAEP6bCaaZM+Bc7dQsWXiZ3Zh6Qu/wBS+uUHvYG3IhWoWzpsf2Kn6PgMAXWcV2K9UAq
+ WZQrHhBs28ZqvXQwERj8lQIHiC8JwGUUnLXwbF8+YXCGgJjQIm0N+R1SKxoz+04keDTy
+ mqTcJzM7vO1lpS6S2EjhtGenSPp37Cq96Yhv9tzDoCoNvfNtbOSCAuNqwZ84VpMNk3M5
+ Bjag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p2q64GqGv093taHNS42iTUsShqPQIBpegQhJbe3yYmE=;
- b=GNn7TG2jJGbmTVTs3+3a+i0eALTtCTuY77Hc8+u5JrOLy0Lm08brYviuYYoSwkNvUw
- CubL0PBEqPLpAbESiHuzeTDY+7PWwMeSPdiXrK4Ohhej3nDojgachlJMPSxOwF4OpCbj
- T01Iw+IgC5l9eR5LH8QLz4ppv0odFnQlBjjMGtuKKS/Me0F0nr/CO9a9wJku8QR4sUXw
- NwLebnAuV/sfJ8/T5ez/1F8BaasGhGqi+uYRWr8+/GVOxpGdg/utdfX1HTQb3lyBxCMG
- NU+v9rjw0hP+OVZwJiD/paudWZpuqHR1kRUw89o+Z+7BMTGlBJrgsJ9B9Go2HTVozwY+
- v1Fw==
-X-Gm-Message-State: AO0yUKXGGBpCervS0IuXpZKoXbiPaM2hwQh5rcnNghZfZnyJytmp1x7V
- pocvDQ2h4xy0ML2V8BqkMW4NCw==
-X-Google-Smtp-Source: AK7set9F0pxw3nZViVD9tRMpncruzMtaYzs7PWAigiXbEbOdpQJMM+aACjEq3cJE5JIv9XNwogXWJQ==
-X-Received: by 2002:adf:ef8e:0:b0:2c7:fc3:5f36 with SMTP id
- d14-20020adfef8e000000b002c70fc35f36mr4461041wro.45.1677226205665; 
- Fri, 24 Feb 2023 00:10:05 -0800 (PST)
+ bh=98RH0s1g9e4ICwAaNqrmAxVvh74L/YkLAgLWTidN8bo=;
+ b=mbGN/9SuSLUUsB8FAl5Q0pf2EnMorssY09rQPaPAfUxJvnTiMqYQFo6q+odv/RPiYR
+ gyNVTKYH6qvtbkH/TM63HwwREDjuANgh4zEHvsIjRmX6DT/RTszi8Nh9QIMruaF4IemT
+ 4A/KqFA/pTvcEft8qpBPvi6epspQ62aveE8qz9XFDoahT9Wjbn9EgLVvEa8jiiS03Ale
+ wb6xOhPug8x2dO3skZIuEYORtTjbIW2ErVDaq5MEDcFvJZcUnM46cOx1B1XvRbvADyos
+ ZF2uYRoiiafuE5ak0A6I1OeB1IW2q80EtX0UJTc6Gn2Ox6L9FWZ5fgqittOYf1G8Ktu5
+ 7d4g==
+X-Gm-Message-State: AO0yUKXBzx5WR1yN5f89mfNjUMn0HkOjX3gx1nUJWTO0945TeNSpcu8G
+ BTIH+hJd7QooVigUpPwL8s+xlw==
+X-Google-Smtp-Source: AK7set976FskLdt1zfZLaQJey+B9FnKOtd73BL7a+3bRFmmNb1MlSD9zXdFIRGsLlAxCYMKIaAybaQ==
+X-Received: by 2002:adf:f208:0:b0:2c5:9ab9:60f6 with SMTP id
+ p8-20020adff208000000b002c59ab960f6mr14740428wro.62.1677226360263; 
+ Fri, 24 Feb 2023 00:12:40 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h11-20020adff18b000000b002c567b58e9asm14369089wro.56.2023.02.24.00.10.05
+ t6-20020a5d4606000000b002c55306f6edsm15667413wrq.54.2023.02.24.00.12.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 00:10:05 -0800 (PST)
-Message-ID: <a47f1b0b-c583-b76f-a141-d84593a4a0a5@linaro.org>
-Date: Fri, 24 Feb 2023 09:10:04 +0100
+ Fri, 24 Feb 2023 00:12:39 -0800 (PST)
+Message-ID: <b7ece12c-f30d-820a-d4e7-7d09b1635689@linaro.org>
+Date: Fri, 24 Feb 2023 09:12:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 04/28] tcg: Remove branch-to-next regardless of
- reference count
+Subject: Re: [PATCH] .gitlab-ci.d/base: Mark jobs as interruptible by default
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230222232715.15034-1-richard.henderson@linaro.org>
- <20230222232715.15034-5-richard.henderson@linaro.org>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Daniel P Berrange <berrange@redhat.com>
+References: <20230223191343.1064274-1-thuth@redhat.com>
+ <584c71cb-02e1-9386-44d7-ca2ce1c3253e@linaro.org>
+ <56bf3f6b-92bd-0c89-b17b-1056ba02c4df@redhat.com>
+ <9233b676-cc06-cc79-cd39-394d078d3109@linaro.org>
+ <dfbe74ab-9241-bef4-81d0-13b0550ad01e@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230222232715.15034-5-richard.henderson@linaro.org>
+In-Reply-To: <dfbe74ab-9241-bef4-81d0-13b0550ad01e@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -90,17 +97,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/2/23 00:26, Richard Henderson wrote:
-> Just because the label reference count is more than 1 does
-> not mean we cannot remove a branch-to-next.  By doing this
-> first, the label reference count may drop to 0, and then
-> the label itself gets removed as before.
+On 24/2/23 09:03, Thomas Huth wrote:
+> On 24/02/2023 09.01, Philippe Mathieu-Daudé wrote:
+>> On 24/2/23 07:22, Thomas Huth wrote:
+>>> On 23/02/2023 21.23, Philippe Mathieu-Daudé wrote:
+>>>> On 23/2/23 20:13, Thomas Huth wrote:
+>>>>> When handling pull requests in the staging branch, it often happens
+>>>>> that one of the job fails due to a problem, so that the pull request
+>>>>> can't be merged. Peter/Richard/Stefan then informs the sender of the
+>>>>> pull request and continues by pushing the next pending pull request
+>>>>> from another subsystem maintainer. Now the problem is that there might
+>>>>> still be lots of other running jobs in the pipeline of the first pull
+>>>>> request, eating up precious CI minutes though the pipeline is not
+>>>>> needed anymore. We can avoid this by marking the jobs as 
+>>>>> "interruptible".
+>>>>> With this setting, the jobs from previous pipelines are automatically
+>>>>> terminated when pushing a new one. If someone does not like this auto-
+>>>>> matic termination, it can still be disabled in the settings of the
+>>>>> repository. See this URL for details:
+>>>>>
+>>>>>   https://docs.gitlab.com/ee/ci/yaml/index.html#interruptible
+>>>>>
+>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>> ---
+>>>>>   .gitlab-ci.d/base.yml | 2 ++
+>>>>>   1 file changed, 2 insertions(+)
+>>>>>
+>>>>> diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
+>>>>> index 50fb59e147..0274228de8 100644
+>>>>> --- a/.gitlab-ci.d/base.yml
+>>>>> +++ b/.gitlab-ci.d/base.yml
+>>>>> @@ -11,6 +11,8 @@
+>>>>>       # and show the duration of each line.
+>>>>>       FF_SCRIPT_SECTIONS: 1
+>>>>> +  interruptible: true
+>>>>
+>>>> It makes sense for mainstream, but seems counter-productive in forks.
+>>>> At least in my maintainer use case.
+>>>>
+>>>> Is it possible to add a 'default' in .gitlab-ci.d/qemu-project.yml,
+>>>> so we can overwrite with a different namespace? 'interruptible' is
+>>>> listed in https://docs.gitlab.com/ee/ci/yaml/index.html#default.
+>>>
+>>> As I wrote in the commit description: "If someone does not like this 
+>>> automatic termination, it can still be disabled in the settings of 
+>>> the repository."
+>>>
+>>> See here for how to change the setting:
+>>>
+>>>
+>>> https://docs.gitlab.com/ee/ci/pipelines/settings.html#auto-cancel-redundant-pipelines
+>>
+>> Oh I couldn't find this. Do you mind listing this URL in the commit
+>> description?
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/tcg.c | 33 +++++++++++++++++----------------
->   1 file changed, 17 insertions(+), 16 deletions(-)
+> It's linked from 
+> https://docs.gitlab.com/ee/ci/yaml/index.html#interruptible (which I 
+> mentioned already in the commit description) ... isn't that enough?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Ah right. I guess it was too late when I looked at that yesterday :\
 
 
