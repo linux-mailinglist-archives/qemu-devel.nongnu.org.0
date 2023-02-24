@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8956A1460
+	by mail.lfdr.de (Postfix) with ESMTPS id 0560F6A145F
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 01:40:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVM7d-0006qf-GI; Thu, 23 Feb 2023 19:39:37 -0500
+	id 1pVM7Z-0006pH-GR; Thu, 23 Feb 2023 19:39:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVM7Q-0006pB-RV
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:39:24 -0500
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVM7P-0006om-Gb
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:39:23 -0500
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVM7N-0006TY-CF
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:39:24 -0500
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pVM7N-0006Tc-Oq
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:39:23 -0500
 Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31NLPdS4017238; Fri, 24 Feb 2023 00:39:18 GMT
+ 31NLPdJa017249; Fri, 24 Feb 2023 00:39:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=zhdyrF8t0TDiC03rvu+Ca3olfZIffU9z/pN1mYIll8g=;
- b=Yd7NkS3RiDUiZXjgX2alfo19AAmJHHlmqGNm6nnBoIgOfQM7PYytjGgpIkQjtZPXatms
- RcfX4gOIkgK7urG5CD0vazy/NlX/OmtuuWhtIAYbSzX8Xx8wJeNFIAvNE+O5+ez/newx
- zS2w5LNvqm1STGntkGDtH2PiBvHjBYiB97OmmHmy+ol59ECt8S8vBL5lDDiFqbBYoPeP
- pSVr4pyxepoaE2IbmTBHMM0tTwJjeD+WcsceAEMz6ZZNQLyYbtCa3oQ3JL73dEVLK8nk
- yGBTlnoIWDs/L5LQ6fO/WbvgVv3rIszRnWjbeWssPRKtjY5q5fEJwTJfuJ/z0h4F4jkJ hQ== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nxg23c0ew-1
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=92cZeT0FTkL4A2j2MIC0Ig/JcJc5obb+AuZzdTaUFok=;
+ b=gHE7y60BzUaz1XJNfH2XyIvZJt/BBaXxEk2SwrBr32crcKFxA67dCzqsGjQ1iBGlHOHq
+ EKRea/2pjDAWNwK++FrMm15U2e46F/8HzaTL4UyEeKWOxw1nmn0fApPx88nyXBJkcMUn
+ 15EiyDmENv0KSDvFDnydRbzXSD2XYUlRa/zKEGUJ2JuHAsMJVOlBRpxiB5FPPX1OV3th
+ /2iyFBqQhleK1Fu4YBSGb+h8rvcDrF96FhxyQj495BDhbOzpzoYyteoNpeUDHUEkCKGf
+ lzgA9kPXK7NKJ3pXVEhUkyFjHQrsMQDjH4L5D/s/JkC4HnmENwJW3vdcFp86oNfm848H Gw== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nxg23c0f3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 24 Feb 2023 00:39:18 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31NNsZ45007421;
- Fri, 24 Feb 2023 00:39:15 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3ntpa6fap1-1
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31N7rmQT031150;
+ Fri, 24 Feb 2023 00:39:16 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3ntpa6dhy8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Feb 2023 00:39:15 +0000
+ Fri, 24 Feb 2023 00:39:16 +0000
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
  [10.20.54.105])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31O0dBI529164118
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31O0dCHs57016694
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Feb 2023 00:39:11 GMT
+ Fri, 24 Feb 2023 00:39:13 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B832F20049;
- Fri, 24 Feb 2023 00:39:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C3AD720049;
+ Fri, 24 Feb 2023 00:39:12 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5C71520043;
- Fri, 24 Feb 2023 00:39:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 5EACF20043;
+ Fri, 24 Feb 2023 00:39:12 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.179.17.238])
  by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 24 Feb 2023 00:39:11 +0000 (GMT)
+ Fri, 24 Feb 2023 00:39:12 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
 Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v3 0/2] linux-user: Fix unaligned memory access in prlimit64
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v3 1/2] linux-user: Fix unaligned memory access in prlimit64
  syscall
-Date: Fri, 24 Feb 2023 01:39:05 +0100
-Message-Id: <20230224003907.263914-1-iii@linux.ibm.com>
+Date: Fri, 24 Feb 2023 01:39:06 +0100
+Message-Id: <20230224003907.263914-2-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.39.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: aC8ejQpioccvA-oqAeSWHYJvnEXTLO6u
-X-Proofpoint-GUID: aC8ejQpioccvA-oqAeSWHYJvnEXTLO6u
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20230224003907.263914-1-iii@linux.ibm.com>
+References: <20230224003907.263914-1-iii@linux.ibm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: KFy-W1R5tLK2RWbSq8dZ-6dOd-Yzsnvu
+X-Proofpoint-GUID: KFy-W1R5tLK2RWbSq8dZ-6dOd-Yzsnvu
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
  definitions=2023-02-23_14,2023-02-23_01,2023-02-09_01
@@ -104,40 +106,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v2: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg07017.html
-v2 -> v3: Fix __put_user() argument order mixup.
-          I tested v2 only against sh4, where the original problem was
-          discovered, but it regresses aarch64.
+target_rlimit64 contains uint64_t fields, so it's 8-byte aligned on
+some hosts, while some guests may align their respective type on a
+4-byte boundary. This may lead to an unaligned access, which is an UB.
 
-v1: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg06999.html
-v1 -> v2: Fix by using proper target_rlimit64 alignment (Richard).
-          Use __get_user() and __put_user() (Philippe - if I understood
-          the suggestion correctly).
+Fix by defining the fields as abi_ullong. This makes the host alignment
+match that of the guest, and lets the compiler know that it should emit
+code that can deal with the guest alignment.
 
-Hi,
+While at it, also use __get_user() and __put_user() instead of
+tswap64().
 
-Richard reported [1] that the new linux-fork-trap test was failing
-under UBSan [2], so it was excluded from the PR.
+Fixes: 163a05a8398b ("linux-user: Implement prlimit64 syscall")
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/generic/target_resource.h | 4 ++--
+ linux-user/syscall.c                 | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-This is a resend of the test plus the fix for the additional issue that
-it uncovered.
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg06130.html
-[2] https://gitlab.com/qemu-project/qemu/-/jobs/3807471447#L5064
-
-Best regards,
-Ilya
-
-Ilya Leoshkevich (2):
-  linux-user: Fix unaligned memory access in prlimit64 syscall
-  tests/tcg/linux-test: Add linux-fork-trap test
-
- linux-user/generic/target_resource.h        |  4 +-
- linux-user/syscall.c                        |  8 ++--
- tests/tcg/multiarch/linux/linux-fork-trap.c | 51 +++++++++++++++++++++
- 3 files changed, 57 insertions(+), 6 deletions(-)
- create mode 100644 tests/tcg/multiarch/linux/linux-fork-trap.c
-
+diff --git a/linux-user/generic/target_resource.h b/linux-user/generic/target_resource.h
+index 539d8c46772..37d3eb09b3b 100644
+--- a/linux-user/generic/target_resource.h
++++ b/linux-user/generic/target_resource.h
+@@ -12,8 +12,8 @@ struct target_rlimit {
+ };
+ 
+ struct target_rlimit64 {
+-    uint64_t rlim_cur;
+-    uint64_t rlim_max;
++    abi_ullong rlim_cur;
++    abi_ullong rlim_max;
+ };
+ 
+ #define TARGET_RLIM_INFINITY    ((abi_ulong)-1)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index a6c426d73cf..73082531ffc 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -12886,8 +12886,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             if (!lock_user_struct(VERIFY_READ, target_rnew, arg3, 1)) {
+                 return -TARGET_EFAULT;
+             }
+-            rnew.rlim_cur = tswap64(target_rnew->rlim_cur);
+-            rnew.rlim_max = tswap64(target_rnew->rlim_max);
++            __get_user(rnew.rlim_cur, &target_rnew->rlim_cur);
++            __get_user(rnew.rlim_max, &target_rnew->rlim_max);
+             unlock_user_struct(target_rnew, arg3, 0);
+             rnewp = &rnew;
+         }
+@@ -12897,8 +12897,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             if (!lock_user_struct(VERIFY_WRITE, target_rold, arg4, 1)) {
+                 return -TARGET_EFAULT;
+             }
+-            target_rold->rlim_cur = tswap64(rold.rlim_cur);
+-            target_rold->rlim_max = tswap64(rold.rlim_max);
++            __put_user(rold.rlim_cur, &target_rold->rlim_cur);
++            __put_user(rold.rlim_max, &target_rold->rlim_max);
+             unlock_user_struct(target_rold, arg4, 1);
+         }
+         return ret;
 -- 
 2.39.1
 
