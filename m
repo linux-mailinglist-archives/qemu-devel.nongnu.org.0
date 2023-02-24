@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA256A16A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 07:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC0B6A16B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 07:43:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVRbz-0000l2-AZ; Fri, 24 Feb 2023 01:31:19 -0500
+	id 1pVRm3-0007am-2n; Fri, 24 Feb 2023 01:41:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVRbv-0000iU-EO
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 01:31:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVRlz-0007a4-Ez
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 01:41:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVRbt-0000MH-BU
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 01:31:14 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVRly-0007DB-6I
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 01:41:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677220271;
+ s=mimecast20190719; t=1677220897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rv/Q6xprvEjZqWKQXpaq8c9oK0tUARsAWgr/yl7LSfg=;
- b=UdffgW7gDv2FrgZNPWg8nA+E340dH2sQlWc+C1RgiSZVO4n7vRAN+GKo9jI2NGbhp3wWOa
- rKd+ZRfoFX+/JJfLzi5EZcqq07pEer9r1GSFzuM3AIgA3p9XsEXfhn0HWODGM1VYBgwsiT
- NaX8AG6kC9GKVEAw/H4QDb1TrqMU0Ag=
+ bh=uzm6Do3ErZ/WacF3LFPYiRGUjjAyteHUQNphpwmEonk=;
+ b=WT23BKua9OnlsGfWbrlfhdVAuRaKXhePOZ7ICLgfDKNv2BD9GHvct55eyX8N35eL65z6/S
+ N24X4NAPhCOrLrX2d+VBn7g2P9Mki0AmRqVeieNx7kUf1JY+2B7h9B9Vw/olm721OZ6Z06
+ +wwC7/UZskSfaDjkM3ILrQklppmwMIY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-360-O2oDaAyqNp-mj5W-shOUKQ-1; Fri, 24 Feb 2023 01:31:08 -0500
-X-MC-Unique: O2oDaAyqNp-mj5W-shOUKQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-155-70qU7jh1OSqLY1mkkAZ9qQ-1; Fri, 24 Feb 2023 01:41:29 -0500
+X-MC-Unique: 70qU7jh1OSqLY1mkkAZ9qQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B127A85A588;
- Fri, 24 Feb 2023 06:31:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16654183B3C6;
+ Fri, 24 Feb 2023 06:41:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9096E140EBF4;
- Fri, 24 Feb 2023 06:31:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFAE451FF;
+ Fri, 24 Feb 2023 06:41:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 72BF321E6A1F; Fri, 24 Feb 2023 07:31:06 +0100 (CET)
+ id AA9D821E6A1F; Fri, 24 Feb 2023 07:41:27 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  qemu-block@nongnu.org,  Emanuele Giuseppe Esposito
- <eesposit@redhat.com>,  qemu-trivial@nongnu.org,  Markus Armbruster
- <armbru@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: Cover RCU documentation
-References: <20230119102620.5669-1-philmd@linaro.org>
- <120f942f-a460-cc69-545e-f99fd033501e@linaro.org>
- <fe9297e2-3f0e-2f25-1185-2b2f50d963d1@linaro.org>
-Date: Fri, 24 Feb 2023 07:31:06 +0100
-In-Reply-To: <fe9297e2-3f0e-2f25-1185-2b2f50d963d1@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 23 Feb 2023 22:41:13
+Cc: qemu-devel@nongnu.org,  Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-arm@nongnu.org,  qemu-ppc@nongnu.org,  Song Gao
+ <gaosong@loongson.cn>,  Xiaojuan Yang <yangxiaojuan@loongson.cn>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Greg Kurz <groug@kaod.org>,  David
+ Gibson <david@gibson.dropbear.id.au>,  =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@kaod.org>
+Subject: Re: [PATCH v4 0/4] target: Restrict 'qapi-commands-machine.h' to
+ system emulation
+References: <20230223155540.30370-1-philmd@linaro.org>
+Date: Fri, 24 Feb 2023 07:41:27 +0100
+In-Reply-To: <20230223155540.30370-1-philmd@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 23 Feb 2023 16:55:36
  +0100")
-Message-ID: <87v8jr3785.fsf@pond.sub.org>
+Message-ID: <87a61336qw.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -70,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,8 +89,13 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> ping^2
+> All series reviewed, can patches be picked by corresponding
+> maintainers, or should I include them in on of my PRs?
+>
+> The "qapi-commands-machine.h" header is not generated in user-only
+> emulation. This series removes its use in user-emu code by moving
+> the QMP code depending on this header into a separate sysemu unit.
 
-You misspelled "Paolo?"  You're welcome!  ;-P
+Queued.  Thanks!
 
 
