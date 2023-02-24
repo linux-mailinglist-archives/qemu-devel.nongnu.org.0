@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8776A195C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 11:02:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF326A19CF
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 11:18:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVUtJ-00076W-Nb; Fri, 24 Feb 2023 05:01:25 -0500
+	id 1pVV8P-0004eY-AU; Fri, 24 Feb 2023 05:17:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVUtF-00075q-RC
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 05:01:21 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVUtB-0003Am-OW
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 05:01:21 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- cp7-20020a17090afb8700b0023756229427so2281218pjb.1
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 02:01:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fIpW5o/lwx5wHe1JSVFqSdCGwYSvhStqSq2nhloYdUo=;
- b=Pic5DRlUoUwE3IEiaWYzSpFdS2Xr042ErnHHr2Tsy5lsWi5C9z67K1Hjwqm6QzWFcs
- 7IzKH45UTprpGwCh5771evS0RW0s0uRqcbOK3QthRktjxg01MH68G0vNYhkLjwgbx7NC
- 22GkkklRqUJnrQHhi3BBpSOzRtmUr73sOdnv+je1NnqCnsA3D9LjaUIwMdfimYPxwCTl
- Q0NnbT0gHMsmNGUDh9Qlowlq6HhGHkgEe1EnBB7DJF1JvhMwVYk3bFTBETIkKr0TX/bY
- 6g4zF4IvoWHZ0I+MfYG8AV0mQWDMUOp5PGQYnwg4sBY6dOtpIjf7UlDp3F8i0JE6QbQ8
- KHiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fIpW5o/lwx5wHe1JSVFqSdCGwYSvhStqSq2nhloYdUo=;
- b=h9x1wSu3lIphhPCQY9L/LGCW6Md5rCVBqXyFlEXb8zrGFneHv60gVm/wOfu+/aEcXa
- aOQ79yKsK8G08XkzK3ooAbkMLEks91AYL9OBgRc37OR+MHfWlKrohO9JdAdCESfzqrO2
- klsZPEH0+e+cIl0d8ggl6YVUboCCF0FFQha2sLac+ca6p6mQOB+Pyg9YtNn6ffp9/yVc
- NBQ9r7mvWZd+lx3z0qHwPvjBztQsVcswtBRcvYpqEOKokyG8SeeK+S6yf65Px6+06ft1
- JeAubxaooSpjYrCB7oBLC/BRsO21KVClFXIfMGCXQ4moCaYLLr6xDK3g1o53hMikuS+q
- FmOg==
-X-Gm-Message-State: AO0yUKWTP+V79D9wlyHchdD0vqJQFvlxo3ZVlYdpw/kFe5x6NVwjWzpK
- xe5Xpt4KATQUY74YVDInhKeDXLSqgQlNDI1BA6bxbw==
-X-Google-Smtp-Source: AK7set91/trvxWolpQHxZsESrw/lDLmv5EBYlgSs60j56i02wMvtFKqWeDbzh7o8xVM2gFy1Tx9PWplYGz+sooYjtZ0=
-X-Received: by 2002:a17:90b:118:b0:237:50b6:9a09 with SMTP id
- p24-20020a17090b011800b0023750b69a09mr1531357pjz.0.1677232876256; Fri, 24 Feb
- 2023 02:01:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pVV8M-0004dB-ES
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 05:16:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.145.221.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pVV8K-0002iI-1O
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 05:16:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677233814;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oh+P3BbSycHrwvAihhjQcz1YlWZbVn7xiqsHQ8Ir2Ks=;
+ b=IUjPO/XbbtAVDO21dVDN9f3FRy32hGIPp+wVUESKaoN5wRR19rGVjwF7UIw24tgY7z4Qc5
+ lrTKtUR23kQbqwtUGyTUy4Z+Em/98s1oVOD250T/hBKHcxvTBodQUIeYuRZVCeT08MFOT6
+ g/cswk8/3rJeb6yhNNHZkC4iRRAMOro=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-2-78_1lABvMhycruR9VFVVWw-1; Fri, 24 Feb 2023 05:16:50 -0500
+X-MC-Unique: 78_1lABvMhycruR9VFVVWw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10E6A183B3C0;
+ Fri, 24 Feb 2023 10:16:50 +0000 (UTC)
+Received: from [10.64.54.42] (vpn2-54-42.bne.redhat.com [10.64.54.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C849492B07;
+ Fri, 24 Feb 2023 10:16:41 +0000 (UTC)
+Subject: Re: [PATCH v2 0/4] NUMA: Apply socket-NUMA-node boundary for aarch64
+ and RiscV machines
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, rad@semihalf.com,
+ peter.maydell@linaro.org, quic_llindhol@quicinc.com, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, philmd@linaro.org, wangyanan55@huawei.com,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
+ imammedo@redhat.com, yihyu@redhat.com, shan.gavin@gmail.com
+References: <20230223081401.248835-1-gshan@redhat.com>
+ <2d37d157-12a1-07aa-4c70-974ac1503283@ventanamicro.com>
+ <fc0d2c66-5600-c33a-62d7-c72f1d16518b@redhat.com>
+ <11e958b1-4763-f710-fe02-832cfd559e7b@ventanamicro.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <9e8523a9-9059-e3a0-e32e-414f83e06a6f@redhat.com>
+Date: Fri, 24 Feb 2023 21:16:39 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <20230224001852.4B813746324@zero.eik.bme.hu>
-In-Reply-To: <20230224001852.4B813746324@zero.eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Feb 2023 10:01:05 +0000
-Message-ID: <CAFEAcA9w68d9ChqMq6zwfiJwMjkbHXbDefCk4Dm7Z8aya-7CPg@mail.gmail.com>
-Subject: Re: [PATCH] hw/display/sm501: Add alternatives to pixman routines
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Sebastian Bauer <mail@sebastianbauer.info>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <11e958b1-4763-f710-fe02-832cfd559e7b@ventanamicro.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: permerror client-ip=216.145.221.124;
+ envelope-from=gshan@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,45 +86,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 24 Feb 2023 at 00:18, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
-> Pixman can sometimes return false so add fallbacks for such cases and
-> also add a property to disable pixman and always use the fallbacks
-> which can be useful on platforms where pixman is broken or for testing
-> different drawing methods.
->
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-> Also ping for the other sm501 patch I've sent a week ago:
-> https://patchew.org/QEMU/20230216144043.D632874634B@zero.eik.bme.hu/
-> These two patches are needed to fix graphics issues with AmigaOS so
-> I'd like them to be merged for 8.0
->
-> @@ -2010,6 +2035,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
->  static Property sm501_sysbus_properties[] = {
->      DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
->      DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
-> +    DEFINE_PROP_BOOL("x-pixman", SM501SysBusState, state.use_pixman, true),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> @@ -2093,6 +2119,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
->
->  static Property sm501_pci_properties[] = {
->      DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
-> +    DEFINE_PROP_BOOL("x-pixman", SM501PCIState, state.use_pixman, true),
->      DEFINE_PROP_END_OF_LIST(),
->  };
+On 2/24/23 8:26 PM, Daniel Henrique Barboza wrote:
+> On 2/24/23 04:09, Gavin Shan wrote:
+>> On 2/24/23 12:18 AM, Daniel Henrique Barboza wrote:
+>>> On 2/23/23 05:13, Gavin Shan wrote:
+>>>> For arm64 and RiscV architecture, the driver (/base/arch_topology.c) is
+>>>> used to populate the CPU topology in the Linux guest. It's required that
+>>>> the CPUs in one socket can't span mutiple NUMA nodes. Otherwise, the Linux
+>>>> scheduling domain can't be sorted out, as the following warning message
+>>>> indicates. To avoid the unexpected confusion, this series attempts to
+>>>> rejects such kind of insane configurations.
+>>>>
+>>>>     -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
+>>>>     -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
+>>>>     -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
+>>>>     -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
+>>>
+>>>
+>>> And why is this a QEMU problem? This doesn't hurt ACPI.
+>>>
+>>> Also, this restriction impacts breaks ARM guests in the wild that are running
+>>> non-Linux OSes. I don't see why we should impact use cases that has nothing to
+>>> do with Linux Kernel feelings about sockets - NUMA nodes exclusivity.
+>>>
+>>
+>> With above configuration, CPU-0/1/2 are put into socket-0-cluster-0 while CPU-3/4/5
+>> are put into socket-1-cluster-0, meaning CPU-2/3 belong to different socket and
+>> cluster. However, CPU-2/3 are associated with NUMA node-1. In summary, multiple
+>> CPUs in different clusters and sockets have been associated with one NUMA node.
+>>
+>> If I'm correct, the configuration isn't sensible in a baremetal environment and
+>> same Linux kernel is supposed to work well for baremetal and virtualized machine.
+>> So I think QEMU needs to emulate the topology as much as we can to match with the
+>> baremetal environment. It's the reason why I think it's a QEMU problem even it
+>> doesn't hurt ACPI. As I said in the reply to Daniel P. Berrangé <berrange@redhat.com>
+>> in another thread, we may need to gurantee that the CPUs in one cluster can't be
+>> split to multiple NUMA nodes, which matches with the baremetal environment, as I
+>> can understand.
+>>
+>> Right, the restriction to have socket-NUMA-node or cluster-NUMA-node boundary will
+>> definitely break the configurations running in the wild.
+> 
+> 
+> What about a warning? If the user attempts to use an exotic NUMA configuration
+> like the one you mentioned we can print something like:
+> 
+> "Warning: NUMA topologies where a socket belongs to multiple NUMA nodes can cause OSes like Linux to misbehave"
+> 
+> This would inform the user what might be going wrong in case Linux is crashing/error
+> out on them and then the user is free to fix their topology (or the kernel). And
+> at the same time we wouldn't break existing stuff that happens to be working.
+> 
+> 
 
-I don't think this should be a user-facing property on a single
-graphics device. Either pixman works, or it doesn't (in which
-case we might need to do configure time checks and have a
-fallback), but we shouldn't make the user have to set an
-undocumented property on the device to get it to work.
+Yes, I think a warning message is more appropriate, so that users can fix their
+irregular configurations and the existing configurations aren't disconnected.
+It would be nice to get the agreements from Daniel P. Berrangé and Drew, before
+I'm going to change the code and post next revision.
 
-thanks
--- PMM
+Thanks,
+Gavin
+
+
 
