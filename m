@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544906A1CE2
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 14:19:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5D76A1CF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 14:27:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVXz1-0001c0-7j; Fri, 24 Feb 2023 08:19:31 -0500
+	id 1pVY5N-0003kA-OJ; Fri, 24 Feb 2023 08:26:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVXyy-0001bM-C6
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 08:19:29 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pVY58-0003ie-9N
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 08:25:55 -0500
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pVXyw-0002pD-S8
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 08:19:28 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- j19-20020a05600c1c1300b003e9b564fae9so2142319wms.2
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 05:19:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nmSjBPzVrNlzXhaPK7WUWLQUBmZdVtXsvqDUpZj2szw=;
- b=lyiPWxK3FZOW/5mDeDihenSxiFTKeUuVEaFYDUTYsz4Z6Xy44j/hmk9sgpLfewsYJ3
- Lx1wghQoP3+k+T6sdXxHkM0ci9/xQtDjVjMbd/3e+OKL/jGKM+K674Eve326psRi0+Z7
- wLeDS9wr4JAB/bbcpggOwTpKeftEpm2js7SKNX6piWnOKakkS5GWZb6VDVRYNR4/D3JY
- tlo4si71ym4HrgHm1eMnR02GEpf27/AGBs74qVaoZpxzs1HNomQFnDKfmA/wrfAqpHAN
- HegpS+fHf4fUmYMvM5p+FB6UwDWMiaZmS4gpO5xoj9fkFpHKqZa1pZr4YNkbsq7B7/cx
- DwWg==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pVY55-0005S1-I8
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 08:25:50 -0500
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-172334d5c8aso15805580fac.8
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 05:25:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=x438lhnqLWnsij7LFZqkqujUA0LyPmecv6xNdpATafo=;
+ b=XXDrAFKPf4wK/CftAoLaOuQjUBitVNcsog7KnQCky0ydPbWGRBT7J+3ayPWjQlndMh
+ GSz6Mxgnf50OSDLDyNM9JhYp6KA0V75DATz7o6dGk1q4nG7vLz8xvnCppOXM33KwD7Pe
+ Wa0K4pj+scxR6Lyde3iNASCGGfYAUMi2wEocMlp5vzPEjEZQoFqWlZ+jZ8Dlx1m5We4k
+ XST0CWofTftvwpc8bc1aguLe7yRq4oS4IVCkk3eyu1YfPGsvx9obf6eSkV85U/Q4WUls
+ 0oBLQcjT9n87hvhc92GYMiBCKxTnixDawiJPdHp7jtz9JAxkMA84bkuRFIJru2SLOPte
+ ROUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=nmSjBPzVrNlzXhaPK7WUWLQUBmZdVtXsvqDUpZj2szw=;
- b=S1BHmJeE8tyTFEW7EeVqWsWmjY1G2j7ZlNOXnHHd2wXlPYKkm2JrUKPVESft+Ys46N
- Zp7/S6gOqc+q4r2YxNohzJAPSiqE2NC3hqRTEtPuliupjad0LvmpN8fowdlCowef+FBR
- IFz0XdBLncHx80vPT6uV6PFCsD4W+kIgJwpKPD2amjZ/7zwLEhVSwvEFep3WCArENuY5
- t8XByvvhDi0fJpcU3NrRXQtnE0LK6R7D7M7uqVjxjdyJfAuL9PKe8yHAykukgpVtiBiW
- ymaArdvkSOJfBT7s5EC00B7PLEcYSOG7Yg3INLLp2AT5OFde+Av8FbMfWTjnoaRvLVzE
- MSWQ==
-X-Gm-Message-State: AO0yUKW2/rayMC0WbCi3FffIVlMbDQ4jmBYoLNecmFFrLDmlf0fLOjSg
- 8e5Gx65wBLGPhyyrjxzvD1HZYg==
-X-Google-Smtp-Source: AK7set8XWoYA6ZAZJs4ztX/KV+39V/cXs/IjeXk/2E5mg6dXcLe9sAeF1VSkYdY97CyluBSw/n+FdQ==
-X-Received: by 2002:a05:600c:1546:b0:3eb:246d:7efa with SMTP id
- f6-20020a05600c154600b003eb246d7efamr1105908wmg.2.1677244765231; 
- Fri, 24 Feb 2023 05:19:25 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=x438lhnqLWnsij7LFZqkqujUA0LyPmecv6xNdpATafo=;
+ b=QerPu4CKPbAn9S0/bqWTsETWJuh7ECeuxCeWVD3XDUXBQgfhZVssyzCq4uOu1zMxw2
+ NRlIq7zArXVy0N/Y0lwlPY4zdE838fU3UrP+HyNYNhKGWJ97gncghXcoj3lVU+CX5Csl
+ h1FHRgyedyABsJ/LW2T3hh8ukKo+4TO2naw4WTHtpD88nOLPfdJTE7UUPk7c66Jogkmk
+ O9Iej9EaVJNqr+8oAraQUgDzz5bvL5oJi9qehOJ9sDbqJ6Or/EJ8Ipvp0rMii+S7bIWi
+ V8hwFIJl1oBFBzC2aWVBf8I20GeJ4suWlJdAH57DCEgAlehgzLihMiNH+/rIv2jRq1v1
+ pFfA==
+X-Gm-Message-State: AO0yUKUAts6+uCE06WRBFn7fpCDQ9Kvvc05W/1E+ewRcJyCOgD9Z9vW6
+ FmbkJfOSASN+NqEvTHA8z8X+GooNOaUtbEv8
+X-Google-Smtp-Source: AK7set/wt9LJOOm7z/7XTQIP9e4UqZ/+31vJCRIHo3+TCx/8v8Lp0CZ6yBkS/sLkakJiZqk7dBWqAg==
+X-Received: by 2002:a05:6870:b312:b0:172:1457:64d7 with SMTP id
+ a18-20020a056870b31200b00172145764d7mr8693737oao.0.1677245145282; 
+ Fri, 24 Feb 2023 05:25:45 -0800 (PST)
+Received: from grind.. ([2804:18:18bc:fbbd:3c90:eebc:7544:73fd])
  by smtp.gmail.com with ESMTPSA id
- o25-20020a05600c511900b003dfe549da4fsm3254182wms.18.2023.02.24.05.19.24
+ b5-20020a05687061c500b001435fe636f2sm3383763oah.53.2023.02.24.05.25.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 05:19:24 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 779C61FFB7;
- Fri, 24 Feb 2023 13:19:24 +0000 (GMT)
-References: <20230223220404.63630-1-philmd@linaro.org>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Huth
- <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>, Beraldo Leal
- <bleal@redhat.com>
-Subject: Re: [PATCH] tests/avocado: Enable TuxRun/mips64 (big-endian) test
-Date: Fri, 24 Feb 2023 13:18:48 +0000
-In-reply-to: <20230223220404.63630-1-philmd@linaro.org>
-Message-ID: <87ttzbnqub.fsf@linaro.org>
+ Fri, 24 Feb 2023 05:25:44 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com,
+ richard.henderson@linaro.org,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v8 0/4] riscv: Add support for Zicbo[m,z,p] instructions
+Date: Fri, 24 Feb 2023 10:25:32 -0300
+Message-Id: <20230224132536.552293-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,21 +91,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+This version has a change in patch 2, proposed by Weiwei Li, where we're
+now triggering virt_instruction_fault before triggering illegal_insn
+fault from S mode. 
 
-> Now that the previous commit ("hw/mips/gt64xxx_pci: Don't
-> endian-swap GT_PCI0_CFGADDR") fixed the issue accessing
-> the GT64120 PCI config-address register on big-endian
-> targets, we can enable this TuxRun test.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+Richard already queued patch 1 is queued in tcg-next already. I'm still
+including it here to allow for easier testing of the remaining patches.
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Changes from v7:
+- patch 1: queued in tcg-next, included here to facilitate testing the
+  other patches
+- patch 2:
+  - changed check_zicbo_envcfg() to trigger the virtual faults
+    before triggering the illegal exception from S mode.
+- v7 link: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg07041.html
 
-I guess it will go through your tree.
+Christoph Muellner (3):
+  target/riscv: implement Zicboz extension
+  target/riscv: implement Zicbom extension
+  target/riscv: add Zicbop cbo.prefetch{i,r,m} placeholder
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Daniel Henrique Barboza (1):
+  tcg: add 'size' param to probe_access_flags()
+
+ accel/stubs/tcg-stub.c                      |   2 +-
+ accel/tcg/cputlb.c                          |  17 ++-
+ accel/tcg/user-exec.c                       |   5 +-
+ include/exec/exec-all.h                     |   3 +-
+ semihosting/uaccess.c                       |   2 +-
+ target/arm/ptw.c                            |   2 +-
+ target/arm/sve_helper.c                     |   2 +-
+ target/riscv/cpu.c                          |   7 +
+ target/riscv/cpu.h                          |   4 +
+ target/riscv/helper.h                       |   5 +
+ target/riscv/insn32.decode                  |  16 ++-
+ target/riscv/insn_trans/trans_rvzicbo.c.inc |  57 +++++++++
+ target/riscv/op_helper.c                    | 135 ++++++++++++++++++++
+ target/riscv/translate.c                    |   1 +
+ target/s390x/tcg/mem_helper.c               |   6 +-
+ 15 files changed, 250 insertions(+), 14 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
+
+-- 
+2.39.2
+
 
