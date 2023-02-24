@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A9C6A1F0F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178256A1F0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:57:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVaQH-0006VP-7Z; Fri, 24 Feb 2023 10:55:49 -0500
+	id 1pVaQE-0006Hg-0f; Fri, 24 Feb 2023 10:55:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pVaQ1-0005ha-W9
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pVaQ7-0005oJ-Qr
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pVaQ0-0005uo-Ca
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:33 -0500
+ id 1pVaQ5-0005vD-8R
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677254130;
+ s=mimecast20190719; t=1677254134;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ojO/eaemwdQdQXtGu0Anh3zWgg58HTq1RDYErsUN+MI=;
- b=Lr78fQDJkbNKX2IaDX6rROUcxXNZaNmYDHTE9XOxr+R69mOfnr3ysGi8ZcxVaZezK6Y/3V
- a0GFC4CqVI26fL41aM4XAAkuJD6oVMVqzXR//hJEQtfcHBvhpdVUwnOkaQMVJoroT2KyEV
- XFLqLCJnLTf5+pnbRTEg/cqsaePHKDs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gY3WmHvLrnlgMMrQ7XZGGlUeCPnkDMedRKO6qTIuFJE=;
+ b=BxOajgBJlsC4XrY977cvoy+LUFjaZ/ETTTh+bjGbLuzqFMKcMw8/vVgzAk7KLRF35J8x7/
+ 33Maon3vOXBkYqRsc0VIRvUAH16zF0x/Wk+us3WZvvVAmlb0Ksv/RNcC0NQyEOu1Q+myIb
+ zXDF88Vn4138BQwLzlFqqFks6TG7Fyg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-qC_ettOoNcWvcfRIw85LLw-1; Fri, 24 Feb 2023 10:55:26 -0500
-X-MC-Unique: qC_ettOoNcWvcfRIw85LLw-1
+ us-mta-185-AGTBGzDqOCqSo8opBD2sxg-1; Fri, 24 Feb 2023 10:55:29 -0500
+X-MC-Unique: AGTBGzDqOCqSo8opBD2sxg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E22DC95D603;
- Fri, 24 Feb 2023 15:55:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07B30299E75E;
+ Fri, 24 Feb 2023 15:55:29 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F135C15BA0;
- Fri, 24 Feb 2023 15:55:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2AB19C15BA0;
+ Fri, 24 Feb 2023 15:55:26 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Garzarella <sgarzare@redhat.com>,
@@ -55,16 +55,16 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>,
  Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
  Harpreet Singh Anand <hanand@xilinx.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Subject: [PATCH v4 13/15] vdpa: block migration if SVQ does not admit a feature
-Date: Fri, 24 Feb 2023 16:54:36 +0100
-Message-Id: <20230224155438.112797-14-eperezma@redhat.com>
+Subject: [PATCH v4 14/15] vdpa net: allow VHOST_F_LOG_ALL
+Date: Fri, 24 Feb 2023 16:54:37 +0100
+Message-Id: <20230224155438.112797-15-eperezma@redhat.com>
 In-Reply-To: <20230224155438.112797-1-eperezma@redhat.com>
 References: <20230224155438.112797-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -88,44 +88,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Next patches enable devices to be migrated even if vdpa netdev has not
-been started with x-svq. However, not all devices are migratable, so we
-need to block migration if we detect that.
+Since some actions move to the start function instead of init, the
+device features may not be the parent vdpa device's, but the one
+returned by vhost backend.  If transition to SVQ is supported, the vhost
+backend will return _F_LOG_ALL to signal the device is migratable.
 
-Block migration if we detect the device expose a feature SVQ does not
-know how to work with.
+Add VHOST_F_LOG_ALL.  HW dirty page tracking can be added on top of this
+change if the device supports it in the future.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ net/vhost-vdpa.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 25b64ae854..8702780ad6 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -443,6 +443,21 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
-         return 0;
-     }
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 094dc1c2d0..f55bb31400 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -101,6 +101,8 @@ static const uint64_t vdpa_svq_device_features =
+     BIT_ULL(VIRTIO_NET_F_MQ) |
+     BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
+     BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
++    /* VHOST_F_LOG_ALL is exposed by SVQ */
++    BIT_ULL(VHOST_F_LOG_ALL) |
+     BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+     BIT_ULL(VIRTIO_NET_F_STANDBY);
  
-+    /*
-+     * If dev->shadow_vqs_enabled at initialization that means the device has
-+     * been started with x-svq=on, so don't block migration
-+     */
-+    if (dev->migration_blocker == NULL && !v->shadow_vqs_enabled) {
-+        /* We don't have dev->features yet */
-+        uint64_t features;
-+        ret = vhost_vdpa_get_dev_features(dev, &features);
-+        if (unlikely(ret)) {
-+            error_setg_errno(errp, -ret, "Could not get device features");
-+            return ret;
-+        }
-+        vhost_svq_valid_features(features, &dev->migration_blocker);
-+    }
-+
-     /*
-      * Similar to VFIO, we end up pinning all guest memory and have to
-      * disable discarding of RAM.
 -- 
 2.31.1
 
