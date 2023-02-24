@@ -2,90 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B646A15E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 05:31:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF21E6A1542
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 04:18:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVPjK-00078F-4Q; Thu, 23 Feb 2023 23:30:46 -0500
+	id 1pVOa0-00014X-VL; Thu, 23 Feb 2023 22:17:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pVNSr-0001qi-Lr
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 21:05:38 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pVOZv-00014E-AN
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 22:16:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pVNSo-0007QA-Sh
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 21:05:37 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 4D39C5C019F;
- Thu, 23 Feb 2023 21:05:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 23 Feb 2023 21:05:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1677204334; x=1677290734; bh=ep
- ENDiq/A2ouFrRvdVIfHeqR+yIzIpI+H0pVokqpzuc=; b=bk8bzpnwq9zqKv6wwI
- H7j7M4ITpn35+pcIwFIKZhEMavfMoQySepGG1chBWbaFOsJ0S3vL9U+pfs/SSB8N
- Ddz3Ic9JP2FC6l8PlIHt6FkJTaODSKXu7unkOaOGRkXMgc4nO6cu2IbAfWRbhfMN
- zViDye51qph1xiT0lMAlPWSQbNpglLg9ESwYH2iZ1gOeDIjPGSZR8iY/CqFMR+kd
- XO86pxqV0DBg7YmsAuupuAyoz1gq6k4ptKN6hKkWiiBZkbhjGiAbF0d8fee+zOOX
- u2yIhyfu7d5s+rxjSsie2yLaozFPdWeLSIj/m+pThWTO6l6qEUEsGXAhSH/G7/An
- TrTQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1677204334; x=1677290734; bh=epENDiq/A2ouF
- rRvdVIfHeqR+yIzIpI+H0pVokqpzuc=; b=SIjeNoSy6AxRZ5HTFsnPBq1j2y/Vk
- +Os0YXHEHalIFkGBXWDPF8UCHIkqqUvFPWfSWC2H7TK2yqOX2YgLw5KXgZyElEy/
- jrgf4BA8leEcakrXRPtqJNbAy/4Z3o8MjD3HOavim++0WTum1gcJpZwCtVoTwsV8
- /ES0qXe2Umqiq/NnQ06mWd3uU1RiH3TKtHoniGbrCPRqsqMh+MEK62Yxz9BQyRUn
- N3R/yIdJHirFhKkNeU1H1sZ65pY9nOINL5/c0sM7I2WRTJPelfUEF8v5hOnpnNy6
- fx09vUDUDSk+rKBKpfnXWZSV19Y+NgpAtOZiB0pvfjlXp6steyi1hP7sQ==
-X-ME-Sender: <xms:bhv4Y30lukXdKz-BftJkvJIxLhzcfXURvRIEXfbCGgmVAI51Wip2hw>
- <xme:bhv4Y2FgIiulPUc0I8JkwQUmyFVBneH0wGfx1VOMoZvVDlR0N4TRO6qiTT7q0XqC_
- KkhyZGSiqE9P-kVFA>
-X-ME-Received: <xmr:bhv4Y36HBi_SLkmP5HuP8PF1Brcu9pmnnc1Lt93yAkFUtqU6rbNgsgnu0fi3EPjbol80pWVPBzB2qPy3531Lf_Fie3g50K0IeyFV9jChxvA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekvddgfeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdljedtmdenucfjughrpefhvf
- evufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceo
- ugiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepgfefgfegjefhudeike
- dvueetffelieefuedvhfehjeeljeejkefgffeghfdttdetnecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:bhv4Y81QjlSFQdpFBaINkPAkIUzhl6AFXM3Kc5VuIeNgFvYAlT2Yrg>
- <xmx:bhv4Y6FZcFyi6s1ZbQqfpFA5XqQtYDGAFb2FXZefrEjw-EHsWQD5Nw>
- <xmx:bhv4Y99rrwsEUYCbnMAFVc9jM53TPLrVykwA923uKBgfPKBkAW3_mg>
- <xmx:bhv4Y_SZNmLfKxz0D_4xHgDMbyLiGvAX25y3BOcZOOUmFCUF7XdgIA>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Feb 2023 21:05:33 -0500 (EST)
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: michael.roth@amd.com,
-	kkostiuk@redhat.com
-Cc: qemu-devel@nongnu.org,
-	dxu@dxuuu.xyz
-Subject: [PATCH 3/3] qga: test: Add tests for `merge-output` flag
-Date: Thu, 23 Feb 2023 19:05:15 -0700
-Message-Id: <2d68032724822784750df4edc4df0c578c878871.1677197937.git.dxu@dxuuu.xyz>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1677197937.git.dxu@dxuuu.xyz>
-References: <cover.1677197937.git.dxu@dxuuu.xyz>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pVOZt-0004hl-BL
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 22:16:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677208616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S9Uwq5X3ng+CNozrNFpwjxJg2YpeqwTpzc4faJ5/49o=;
+ b=L6+yiAyn1ZxhhXGYswjRQcIOCSxxd8qHlwD7xSDheXa9KfsBMLW1qnEFhk9vTRoWlsp8lv
+ CilP/zWgMcuWylz7ak5gkhPSME3wlO8ADdDCRl8byVWO5b6lmeqB0Gg1TvRSmrlV8PpWVc
+ XxV/qpZ6nj198DrXCPXAGfCSc+BlQHk=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-232-eUDBeExkPTiwLoplIDUiZg-1; Thu, 23 Feb 2023 22:16:54 -0500
+X-MC-Unique: eUDBeExkPTiwLoplIDUiZg-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ w5-20020a056830110500b00693d47693e2so1519341otq.10
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 19:16:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=S9Uwq5X3ng+CNozrNFpwjxJg2YpeqwTpzc4faJ5/49o=;
+ b=UuX4SUQzMsLxUPK0ckBUxOhckw14n5PIZntB+dzgyqVe+mgDcB7k1yuNLthilJyave
+ X5T5V3M1O1PzSXZQWXtlXRiXU/fvZjrFN/gMiYqKJ/1pJHy22jz02QlVsDPD1SFa/Yab
+ N91a3f+0e/hcH3ou/u6wVvGCsVQIW7yRVycuFovokPob1hEI0ZFfCKnUk/X8PzTBXmGX
+ Qyeko0WNiYMLuJhasoaoVUF1BuconMixN1VLfalbZXJUzqLJ7EZ4GuWuNa4W9njMsGPE
+ JtMbiv1cI4pGpLVFXUcgLUMV3oSh4LCBu+tNtAihMCliLckymdAOcDLDahRpU1Ra+H4H
+ 3nrw==
+X-Gm-Message-State: AO0yUKV6CCMsM5rHf97JYeZnPhsDoPSfimpcYr1C/WhlFAcnYwIbkSSp
+ M74XcgKF+6RGJLP401s5GZPq9o5hMpVM3vqPGQ01ZDz8CB8j4o6k1FrNdZegz3HB6GCc9O7OkSB
+ MaZrMkemm5X3CztzwTcIQb0F9o6FjJmo=
+X-Received: by 2002:a05:6870:1aa8:b0:16e:3585:dbf2 with SMTP id
+ ef40-20020a0568701aa800b0016e3585dbf2mr562905oab.9.1677208613629; 
+ Thu, 23 Feb 2023 19:16:53 -0800 (PST)
+X-Google-Smtp-Source: AK7set/rJdL9L8qM2lGjrttiHBU2qF/0MU0BysFZIWmyQ4BGE4Kp8M/J/Rf52OyEtK3h+KIfPHpe3kwb7QvpeXGr/30=
+X-Received: by 2002:a05:6870:1aa8:b0:16e:3585:dbf2 with SMTP id
+ ef40-20020a0568701aa800b0016e3585dbf2mr562885oab.9.1677208613403; Thu, 23 Feb
+ 2023 19:16:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=dxu@dxuuu.xyz;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20230208094253.702672-1-eperezma@redhat.com>
+ <20230208094253.702672-12-eperezma@redhat.com>
+ <c8d6ecc3-87f6-986e-e78d-003000e8a51e@redhat.com>
+ <CAJaqyWdhK7QEHECP7qJP9tPA69e8uTuJtqLPNq_mUUhRDG_2Aw@mail.gmail.com>
+ <81762a3b-b01f-2c3a-be63-531ac5b6976c@redhat.com>
+ <CAJaqyWcScVMnkf+gXHZTAXrE2dbdzJXQM39BUv7Mm19kzRagqA@mail.gmail.com>
+In-Reply-To: <CAJaqyWcScVMnkf+gXHZTAXrE2dbdzJXQM39BUv7Mm19kzRagqA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 24 Feb 2023 11:16:42 +0800
+Message-ID: <CACGkMEvk8AjscednP8FQqgk+GZn-kz4WJZycG9b6yv1=U-c+TQ@mail.gmail.com>
+Subject: Re: [PATCH v2 11/13] vdpa: block migration if dev does not have
+ _F_SUSPEND
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
+ Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 23 Feb 2023 23:30:43 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,184 +108,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This commit adds a test to ensure `merge-output` functions as expected.
-We also add a negative test to ensure we haven't regressed previous
-functionality.
+On Thu, Feb 23, 2023 at 7:07 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Thu, Feb 23, 2023 at 3:38 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2023/2/22 22:25, Eugenio Perez Martin =E5=86=99=E9=81=93:
+> > > On Wed, Feb 22, 2023 at 5:05 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > >>
+> > >> =E5=9C=A8 2023/2/8 17:42, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > >>> Next patches enable devices to be migrated even if vdpa netdev has =
+not
+> > >>> been started with x-svq. However, not all devices are migratable, s=
+o we
+> > >>> need to block migration if we detect that.
+> > >>>
+> > >>> Block vhost-vdpa device migration if it does not offer _F_SUSPEND a=
+nd it
+> > >>> has not been started with x-svq.
+> > >>>
+> > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >>> ---
+> > >>>    hw/virtio/vhost-vdpa.c | 21 +++++++++++++++++++++
+> > >>>    1 file changed, 21 insertions(+)
+> > >>>
+> > >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > >>> index 84a6b9690b..9d30cf9b3c 100644
+> > >>> --- a/hw/virtio/vhost-vdpa.c
+> > >>> +++ b/hw/virtio/vhost-vdpa.c
+> > >>> @@ -442,6 +442,27 @@ static int vhost_vdpa_init(struct vhost_dev *d=
+ev, void *opaque, Error **errp)
+> > >>>            return 0;
+> > >>>        }
+> > >>>
+> > >>> +    /*
+> > >>> +     * If dev->shadow_vqs_enabled at initialization that means the=
+ device has
+> > >>> +     * been started with x-svq=3Don, so don't block migration
+> > >>> +     */
+> > >>> +    if (dev->migration_blocker =3D=3D NULL && !v->shadow_vqs_enabl=
+ed) {
+> > >>> +        uint64_t backend_features;
+> > >>> +
+> > >>> +        /* We don't have dev->backend_features yet */
+> > >>> +        ret =3D vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES,
+> > >>> +                              &backend_features);
+> > >>> +        if (unlikely(ret)) {
+> > >>> +            error_setg_errno(errp, -ret, "Could not get backend fe=
+atures");
+> > >>> +            return ret;
+> > >>> +        }
+> > >>> +
+> > >>> +        if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_SUSPEND))=
+) {
+> > >>> +            error_setg(&dev->migration_blocker,
+> > >>> +                "vhost-vdpa backend lacks VHOST_BACKEND_F_SUSPEND =
+feature.");
+> > >>> +        }
+> > >>
+> > >> I wonder why not let the device to decide? For networking device, we=
+ can
+> > >> live without suspend probably.
+> > >>
+> > > Right, but how can we know if this is a net device in init? I don't
+> > > think a switch (vhost_vdpa_get_device_id(dev)) is elegant.
+> >
+> >
+> > I meant the caller of vhost_vdpa_init() which is net_init_vhost_vdpa().
+> >
+>
+> That's doable but I'm not sure if it is convenient.
 
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
----
- tests/unit/test-qga.c | 128 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 111 insertions(+), 17 deletions(-)
+So it's a question whether or not we try to let migration work without
+suspending. If we don't, there's no need to bother. Looking at the
+current vhost-net implementation, it tries to make migration work upon
+the error of get_vring_base() so maybe it's worth a try if it doesn't
+bother too much. But I'm fine to go either way.
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index 9d8e1d1cd3..0b3966024c 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -755,6 +755,31 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
-     g_assert_cmpstr(status, ==, "thawed");
- }
- 
-+static QDict *wait_for_guest_exec_completion(int fd, int64_t pid)
-+{
-+    QDict *ret = NULL;
-+    int64_t now;
-+    bool exited;
-+    QDict *val;
-+
-+    now = g_get_monotonic_time();
-+    do {
-+        ret = qmp_fd(fd,
-+                     "{'execute': 'guest-exec-status',"
-+                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
-+        g_assert_nonnull(ret);
-+        val = qdict_get_qdict(ret, "return");
-+        exited = qdict_get_bool(val, "exited");
-+        if (!exited) {
-+            qobject_unref(ret);
-+        }
-+    } while (!exited &&
-+             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
-+    g_assert(exited);
-+
-+    return ret;
-+}
-+
- static void test_qga_guest_exec(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -762,9 +787,8 @@ static void test_qga_guest_exec(gconstpointer fix)
-     QDict *val;
-     const gchar *out;
-     g_autofree guchar *decoded = NULL;
--    int64_t pid, now, exitcode;
-+    int64_t pid, exitcode;
-     gsize len;
--    bool exited;
- 
-     /* exec 'echo foo bar' */
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-@@ -777,21 +801,7 @@ static void test_qga_guest_exec(gconstpointer fix)
-     g_assert_cmpint(pid, >, 0);
-     qobject_unref(ret);
- 
--    /* wait for completion */
--    now = g_get_monotonic_time();
--    do {
--        ret = qmp_fd(fixture->fd,
--                     "{'execute': 'guest-exec-status',"
--                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
--        g_assert_nonnull(ret);
--        val = qdict_get_qdict(ret, "return");
--        exited = qdict_get_bool(val, "exited");
--        if (!exited) {
--            qobject_unref(ret);
--        }
--    } while (!exited &&
--             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
--    g_assert(exited);
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
- 
-     /* check stdout */
-     exitcode = qdict_get_int(val, "exitcode");
-@@ -802,6 +812,86 @@ static void test_qga_guest_exec(gconstpointer fix)
-     g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
- }
- 
-+static void test_qga_guest_exec_output_no_merge(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *out, *err;
-+    g_autofree guchar *out_decoded = NULL;
-+    g_autofree guchar *err_decoded = NULL;
-+    int64_t pid, exitcode;
-+    gsize len;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': true } }");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+    val = qdict_get_qdict(ret, "return");
-+    pid = qdict_get_int(val, "pid");
-+    g_assert_cmpint(pid, >, 0);
-+    qobject_unref(ret);
-+
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
-+
-+    exitcode = qdict_get_int(val, "exitcode");
-+    g_assert_cmpint(exitcode, ==, 0);
-+
-+    /* check stdout */
-+    out = qdict_get_str(val, "out-data");
-+    out_decoded = g_base64_decode(out, &len);
-+    g_assert_cmpint(len, ==, 14);
-+    g_assert_cmpstr((char *)out_decoded, ==, "stdout\nstdout\n");
-+
-+    /* check stderr */
-+    err = qdict_get_try_str(val, "err-data");
-+    err_decoded = g_base64_decode(err, &len);
-+    g_assert_cmpint(len, ==, 14);
-+    g_assert_cmpstr((char *)err_decoded, ==, "stderr\nstderr\n");
-+}
-+
-+static void test_qga_guest_exec_output_merge(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *out, *err;
-+    g_autofree guchar *decoded = NULL;
-+    int64_t pid, exitcode;
-+    gsize len;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': true,"
-+                 " 'merge-output': true } }");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+    val = qdict_get_qdict(ret, "return");
-+    pid = qdict_get_int(val, "pid");
-+    g_assert_cmpint(pid, >, 0);
-+    qobject_unref(ret);
-+
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
-+
-+    exitcode = qdict_get_int(val, "exitcode");
-+    g_assert_cmpint(exitcode, ==, 0);
-+
-+    /* check stdout */
-+    out = qdict_get_str(val, "out-data");
-+    decoded = g_base64_decode(out, &len);
-+    g_assert_cmpint(len, ==, 28);
-+    g_assert_cmpstr((char *)decoded, ==, "stdout\nstderr\nstdout\nstderr\n");
-+
-+    /* check stderr */
-+    err = qdict_get_try_str(val, "err-data");
-+    g_assert_null(err);
-+}
-+
- static void test_qga_guest_exec_invalid(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -975,6 +1065,10 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
-     g_test_add_data_func("/qga/config", NULL, test_qga_config);
-     g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
-+    g_test_add_data_func("/qga/guest-exec-output-no-merge", &fix,
-+                         test_qga_guest_exec_output_no_merge);
-+    g_test_add_data_func("/qga/guest-exec-output-merge", &fix,
-+                         test_qga_guest_exec_output_merge);
-     g_test_add_data_func("/qga/guest-exec-invalid", &fix,
-                          test_qga_guest_exec_invalid);
-     g_test_add_data_func("/qga/guest-get-osinfo", &fix,
--- 
-2.39.1
+>
+> Since we're always offering _F_LOG I thought of the lack of _F_SUSPEND
+> as the default migration blocker for other kinds of devices like blk.
+
+Or we can have this by default and allow a specific type of device to clear=
+?
+
+> If we move this code to net_init_vhost_vdpa, all other devices are in
+> charge of block migration by themselves.
+>
+> I guess the right action is to use a variable similar to
+> vhost_vdpa->f_log_all. It defaults to false, and the device can choose
+> if it should export it or not. This way, the device does not migrate
+> by default, and the equivalent of net_init_vhost_vdpa could choose
+> whether to offer _F_LOG with SVQ or not.
+
+Looks similar to what I think above.
+
+>
+> OTOH I guess other kinds of devices already must place blockers beyond
+> _F_LOG, so maybe it makes sense to always offer _F_LOG even if
+> _F_SUSPEND is not offered?
+
+I don't see any dependency between the two features. Technically,
+there could be devices that have neither _F_LOG nor _F_SUSPEND.
+
+Thanks
+
+> Stefano G., would that break vhost-vdpa-blk
+> support?
+>
+> Thanks!
+>
+> > Thanks
+> >
+> >
+> > >
+> > > If the parent device does not need to be suspended i'd go with
+> > > exposing a suspend ioctl but do nothing in the parent device. After
+> > > that, it could even choose to return an error for GET_VRING_BASE.
+> > >
+> > > If we want to implement it as a fallback in qemu, I'd go for
+> > > implementing it on top of this series. There are a few operations we
+> > > could move to a device-kind specific ops.
+> > >
+> > > Would it make sense to you?
+> > >
+> > > Thanks!
+> > >
+> > >
+> > >> Thanks
+> > >>
+> > >>
+> > >>> +    }
+> > >>> +
+> > >>>        /*
+> > >>>         * Similar to VFIO, we end up pinning all guest memory and h=
+ave to
+> > >>>         * disable discarding of RAM.
+> >
+>
 
 
