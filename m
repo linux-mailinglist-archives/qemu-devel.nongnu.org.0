@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7626A1FF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 17:47:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66D96A1E6A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:22:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVbD8-0008NF-Po; Fri, 24 Feb 2023 11:46:18 -0500
+	id 1pVZsP-0004vM-6U; Fri, 24 Feb 2023 10:20:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <primalgamer@gmail.com>)
- id 1pVZq9-0004I3-Cl
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:18:29 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVZsJ-0004v3-7O
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:20:43 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <primalgamer@gmail.com>)
- id 1pVZpx-0003GX-TL
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:18:28 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id h14so5599214wru.4
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:18:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVZrz-0003sw-NP
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:20:26 -0500
+Received: by mail-wr1-x429.google.com with SMTP id h14so5606765wru.4
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 07:20:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NW2hSLPKQjHfo4qS9sp+ojGRK3AOhAw5hNSXEkYXyn8=;
+ b=oZG+IjZgSkQY9wZ08Mw+PuFjkYzGcb96B/mZGyhBal81HqtMqH9ty1rjSqeIxbO3s0
+ YV9xLr2lCkE+ywl8CrLz9m1Q5Y/WdHlRKLkacLGIQUAtZ2RILQS1+AtK4iuONa+h9YlE
+ PYHgIqbPNGp3vY3TwnO7nFdxEhD6b+nySYB1vU9jiQvm72mh3xvbQDLv+wECEToHweyM
+ YXUdXLclc0NPswog2kKqp7x70NzAN0ofB1dFMgNO7YqlPqL8c7Bm8pOdyNZw/LMvAeVo
+ Lq/4A3rJA4M6KdK91gdP8Zx+0fVrfliQ0HMjkSzNsY0Cz4Bj0+baje5GpfruthZvARdl
+ wK7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
- :subject:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ib7M1p12eQ0CkizoBpWJs0u8FAx3DESfG0CRhXaw1O4=;
- b=VZQVOZdjKoDdHJtwTctGvzVN4Z+CsmuCDwWCFv41jhvgdcy2Pp6Wpi3aQXjJWY08QW
- MDiKmflY3TP1dfka3gPORhs45kuNQYaagj+s/57WAKXhoRjEYZodK5JF8kAEWB/2aqhi
- vgIFkrIzUCYvJTFlxWsFERErCU3zr4ueT89gZoGoYTC6gHywzmXYEYrE89ct0RZikMxc
- g2t1HB1AiDebQGa0SN9xQFW3+fydQOYNuoQKx8I/cWzxthT307dXXqGb9WMhJ+f48lGr
- aUxAtWSyQ/xUWf/HJpUvcRardK710Jc5kmL4KkMdnfthpIjDF1wP5DbC4nD07kMzTfJd
- aqwg==
-X-Gm-Message-State: AO0yUKW05oT7LcpatJDZW6dMl/sNh4fkZZkzmpZKimGyCNCwjKT2YlEJ
- jAnCRPxoqZVzeTrbNbCqxzA=
-X-Google-Smtp-Source: AK7set+w/5Q+WwcreLptg80h6qfL26G9hdP21WmZqXt1oF9VecwCXYoTA0lU+41L90WBkw9PoypzWw==
-X-Received: by 2002:a5d:408e:0:b0:2c7:deb:c61 with SMTP id
- o14-20020a5d408e000000b002c70deb0c61mr7058325wrp.39.1677251877525; 
- Fri, 24 Feb 2023 07:17:57 -0800 (PST)
-Received: from [10.148.80.132] ([195.228.69.10])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NW2hSLPKQjHfo4qS9sp+ojGRK3AOhAw5hNSXEkYXyn8=;
+ b=eo6wGN60TT455U0XJCQlG6/oqNA4e0GbCkLNftZqEx/xkS/aCDKFEyB2GW1ibglRyH
+ QMEwB76srK7ThqoX9FMsoRS2GH+Sm7SkcciW7jnNZwd0gVG4xKJs5NNVk5CXZ9D2TukI
+ Xrc0bOrL8mHe1W/iItURabvIE8e0y4FldsyqZkXLqSbCcMaVbpGMGzCo+XAq2fLs/lVY
+ Zf5dInwt48L8GvTJFa6QfejvMyGj2SBnRMd5pIz/1LORzfebPID5wTpOMu4lPLhIYRt6
+ lwkcnwu1IrQBYEV4WAu/P2A/Rgvd7ChlV1eYmkFRh65st3m6BqL6YRWaiPZsV4MpJZHF
+ 7ykw==
+X-Gm-Message-State: AO0yUKVdER3rhxKvdJNa09jWbSOzAswUjz+XQVk6S85AFUoCaWeCYma3
+ WEQeZNFQnzKRa7ZkSfvHJ0pwBWUUSYRjOImE
+X-Google-Smtp-Source: AK7set/1al3aoQd0EE/SZFdqdQFdeHEbv0yygv9ry6NAF0kuRnjp+JIYi1KmyeYu53rv3qF9OvYLDQ==
+X-Received: by 2002:a5d:59c2:0:b0:2c5:4c5e:412b with SMTP id
+ v2-20020a5d59c2000000b002c54c5e412bmr24925wry.23.1677252021835; 
+ Fri, 24 Feb 2023 07:20:21 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- e16-20020adfe390000000b002c54c8e70b1sm13461814wrm.9.2023.02.24.07.17.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 07:17:56 -0800 (PST)
-Message-ID: <b155ad6fe6bb026377a8f75882e26078da10ab70.camel@inf.elte.hu>
-Subject: question: QEMU guest with Virtiofs but without virtiofsd
-From: Ferenc Fejes <fejes@inf.elte.hu>
-To: virtio-fs-list <virtio-fs@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, =?ISO-8859-1?Q?P=E9ter?=
- Antal <peti.antal99@gmail.com>
-Date: Fri, 24 Feb 2023 16:17:56 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-1 
+ d9-20020a056000114900b002c5584d0e3dsm13319916wrx.24.2023.02.24.07.20.20
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 24 Feb 2023 07:20:21 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/2] block/qcow2: QAPI'fy Qcow2DiscardType
+Date: Fri, 24 Feb 2023 16:20:17 +0100
+Message-Id: <20230224152019.19278-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=primalgamer@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 24 Feb 2023 11:46:14 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,21 +89,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi!
+QAPI seems designed to maintain such enums,
+so convert Qcow2DiscardType to be QAPI generated.
+Besides, this is how Qcow2CompressionType is maintained.
 
-I'm using a QEMU VM with a debootstrap rootfs, shared over virtiofs for
-the guest. My best understanding is that virtiofsd must required even
-if just using one guest.
+Philippe Mathieu-Daudé (2):
+  block/qcow2: Rename QCOW2_DISCARD_TYPE enum definitions
+  block/qcow2: QAPI'fy Qcow2DiscardType
 
-Looking around in the QEMU manpages I got a little bit confused by
-virtfs parameter. Is it something entirely connected with 9P or it is
-possible to pass folders to the guest through virtiofs without
-virtiofsd? Unfortunately none of my trial with the parameters
-succeeded.
+ block/qcow2-bitmap.c   | 12 ++++++------
+ block/qcow2-cluster.c  | 32 ++++++++++++++++----------------
+ block/qcow2-refcount.c | 36 ++++++++++++++++++------------------
+ block/qcow2-snapshot.c |  8 ++++----
+ block/qcow2.c          | 26 +++++++++++++-------------
+ block/qcow2.h          | 19 +++++--------------
+ qapi/block-core.json   | 10 ++++++++++
+ 7 files changed, 72 insertions(+), 71 deletions(-)
 
-Could someone can give me a confirmation if virtiofsd is must or its
-optional. Thanks in advance!
+-- 
+2.38.1
 
-Best,
-Ferenc
 
