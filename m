@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6503F6A169B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 07:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA256A16A3
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 07:31:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVRZa-0008Pp-QW; Fri, 24 Feb 2023 01:28:50 -0500
+	id 1pVRbz-0000l2-AZ; Fri, 24 Feb 2023 01:31:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVRZY-0008Pc-Rz
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 01:28:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVRbv-0000iU-EO
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 01:31:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVRZX-0007rT-GQ
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 01:28:48 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pVRbt-0000MH-BU
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 01:31:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677220126;
+ s=mimecast20190719; t=1677220271;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7pl2BtrC5PUOzOs2PHa1qtj9M7IuWelH2zXaYyObUOI=;
- b=f5McJGU2f/wVuP12/eaoOGzf9vBoY+Jbb0YDDJrzZsUbMRj4IbWWrQpmPHaQ7KLNjEjto/
- QuJtFyLzGNrXIOePZze5OqJ6l4RmD/RemFd0PKF6eMU8uQLUHBoRsqtnJn0LnrST7Pj5nr
- Y/cbspqUEIqpY29APKDtb+NuKRTsPaU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Rv/Q6xprvEjZqWKQXpaq8c9oK0tUARsAWgr/yl7LSfg=;
+ b=UdffgW7gDv2FrgZNPWg8nA+E340dH2sQlWc+C1RgiSZVO4n7vRAN+GKo9jI2NGbhp3wWOa
+ rKd+ZRfoFX+/JJfLzi5EZcqq07pEer9r1GSFzuM3AIgA3p9XsEXfhn0HWODGM1VYBgwsiT
+ NaX8AG6kC9GKVEAw/H4QDb1TrqMU0Ag=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-137-k6Vc5K7tMYyovIf0AqUU7w-1; Fri, 24 Feb 2023 01:28:42 -0500
-X-MC-Unique: k6Vc5K7tMYyovIf0AqUU7w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-360-O2oDaAyqNp-mj5W-shOUKQ-1; Fri, 24 Feb 2023 01:31:08 -0500
+X-MC-Unique: O2oDaAyqNp-mj5W-shOUKQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 64D2C1C04B7B;
- Fri, 24 Feb 2023 06:28:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B127A85A588;
+ Fri, 24 Feb 2023 06:31:07 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 44C7A1121314;
- Fri, 24 Feb 2023 06:28:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9096E140EBF4;
+ Fri, 24 Feb 2023 06:31:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2393E21E6A1F; Fri, 24 Feb 2023 07:28:41 +0100 (CET)
+ id 72BF321E6A1F; Fri, 24 Feb 2023 07:31:06 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Juan Quintela <quintela@redhat.com>,  kvm-devel <kvm@vger.kernel.org>,
- qemu-devel@nongnu.org,  Paul Moore <pmoore@redhat.com>,
- peter.maydell@linaro.org
-Subject: Re: Fortnightly KVM call for 2023-02-07
-References: <87o7qof00m.fsf@secure.mitica> <Y/fi95ksLZSVc9/T@google.com>
-Date: Fri, 24 Feb 2023 07:28:41 +0100
-In-Reply-To: <Y/fi95ksLZSVc9/T@google.com> (Sean Christopherson's message of
- "Thu, 23 Feb 2023 14:04:39 -0800")
-Message-ID: <87356v4lwm.fsf@pond.sub.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  Thomas Huth <thuth@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  qemu-block@nongnu.org,  Emanuele Giuseppe Esposito
+ <eesposit@redhat.com>,  qemu-trivial@nongnu.org,  Markus Armbruster
+ <armbru@redhat.com>
+Subject: Re: [PATCH] MAINTAINERS: Cover RCU documentation
+References: <20230119102620.5669-1-philmd@linaro.org>
+ <120f942f-a460-cc69-545e-f99fd033501e@linaro.org>
+ <fe9297e2-3f0e-2f25-1185-2b2f50d963d1@linaro.org>
+Date: Fri, 24 Feb 2023 07:31:06 +0100
+In-Reply-To: <fe9297e2-3f0e-2f25-1185-2b2f50d963d1@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 23 Feb 2023 22:41:13
+ +0100")
+Message-ID: <87v8jr3785.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,38 +86,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Sean Christopherson <seanjc@google.com> writes:
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> On Tue, Jan 24, 2023, Juan Quintela wrote:
->> Please, send any topic that you are interested in covering in the next
->> call in 2 weeks.
->> 
->> We have already topics:
->> - single qemu binary
->>   People on previous call (today) asked if Markus, Paolo and Peter could
->>   be there on next one to further discuss the topic.
->> 
->> - Huge Memory guests
->> 
->>   Will send a separate email with the questions that we want to discuss
->>   later during the week.
->> 
->> After discussions on the QEMU Summit, we are going to have always open a
->> KVM call where you can add topics.
->
-> Hi Juan!
->
-> I have a somewhat odd request: can I convince you to rename "KVM call" to something
-> like "QEMU+KVM call"?
->
-> I would like to kickstart a recurring public meeting/forum that (almost) exclusively
-> targets internal KVM development, but I don't to cause confusion and definitely don't
-> want to usurp your meeting.  The goal/purpose of the KVM-specific meeting would be to
-> do design reviews, syncs, etc. on KVM internals and things like KVM selftests, while,
-> IIUC, the current "KVM call" is aimed at at the entire KVM+QEMU+VFIO ecosystem.
->
-> Thanks!
+> ping^2
 
-Sounds fair to me.
+You misspelled "Paolo?"  You're welcome!  ;-P
 
 
