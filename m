@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961B86A1C48
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD986A1C47
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 13:37:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVXJN-00027e-60; Fri, 24 Feb 2023 07:36:29 -0500
+	id 1pVXJs-0002KT-SY; Fri, 24 Feb 2023 07:37:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pVXJG-000272-0i; Fri, 24 Feb 2023 07:36:22 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pVXJD-0007IL-IF; Fri, 24 Feb 2023 07:36:21 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E44FF74635C;
- Fri, 24 Feb 2023 13:36:14 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A25BC746346; Fri, 24 Feb 2023 13:36:14 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A0A4B745720;
- Fri, 24 Feb 2023 13:36:14 +0100 (CET)
-Date: Fri, 24 Feb 2023 13:36:14 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Peter Maydell <peter.maydell@linaro.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Sebastian Bauer <mail@sebastianbauer.info>
-Subject: Re: [PATCH] hw/display/sm501: Add alternatives to pixman routines
-In-Reply-To: <CAFEAcA9w68d9ChqMq6zwfiJwMjkbHXbDefCk4Dm7Z8aya-7CPg@mail.gmail.com>
-Message-ID: <a6f8c603-a231-40ea-0898-f97800a33517@eik.bme.hu>
-References: <20230224001852.4B813746324@zero.eik.bme.hu>
- <CAFEAcA9w68d9ChqMq6zwfiJwMjkbHXbDefCk4Dm7Z8aya-7CPg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pVXJp-0002Hr-Mq; Fri, 24 Feb 2023 07:36:57 -0500
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pVXJm-0007Ne-SV; Fri, 24 Feb 2023 07:36:57 -0500
+Received: from [192.168.0.120] (unknown [114.95.238.225])
+ by APP-01 (Coremail) with SMTP id qwCowAAHD89br_hjbegECA--.55355S2;
+ Fri, 24 Feb 2023 20:36:44 +0800 (CST)
+Message-ID: <9cf44206-76c3-0163-77b3-68fed20f886d@iscas.ac.cn>
+Date: Fri, 24 Feb 2023 20:36:43 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 2/6] target/riscv: Fix the relationship of PBMTE/STCE
+ fields between menvcfg and henvcfg
+Content-Language: en-US
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, dbarboza@ventanamicro.com,
+ zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230224040852.37109-1-liweiwei@iscas.ac.cn>
+ <20230224040852.37109-3-liweiwei@iscas.ac.cn>
+ <20230224121905.mciqkge4qji6xczb@orel>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230224121905.mciqkge4qji6xczb@orel>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowAAHD89br_hjbegECA--.55355S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF4DJF4kXr1UZr43KFg_yoW8tr13pF
+ 18XFW5G395tr929as7trn0gF1Yy3WDCws8Zw429anYvFy3ArWrAF9rKas8u348W34kCr1v
+ v3yUJFy3uF4DZ3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvGb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+ 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+ Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l
+ c7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+ W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+ 1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+ IIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+ x4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa
+ 73UjIFyTuYvjxU2rcTDUUUU
+X-Originating-IP: [114.95.238.225]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.094,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,57 +80,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 24 Feb 2023, Peter Maydell wrote:
-> On Fri, 24 Feb 2023 at 00:18, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>
->> Pixman can sometimes return false so add fallbacks for such cases and
->> also add a property to disable pixman and always use the fallbacks
->> which can be useful on platforms where pixman is broken or for testing
->> different drawing methods.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->> Also ping for the other sm501 patch I've sent a week ago:
->> https://patchew.org/QEMU/20230216144043.D632874634B@zero.eik.bme.hu/
->> These two patches are needed to fix graphics issues with AmigaOS so
->> I'd like them to be merged for 8.0
->>
->> @@ -2010,6 +2035,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
->>  static Property sm501_sysbus_properties[] = {
->>      DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
->>      DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
->> +    DEFINE_PROP_BOOL("x-pixman", SM501SysBusState, state.use_pixman, true),
->>      DEFINE_PROP_END_OF_LIST(),
->>  };
->>
->> @@ -2093,6 +2119,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
->>
->>  static Property sm501_pci_properties[] = {
->>      DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
->> +    DEFINE_PROP_BOOL("x-pixman", SM501PCIState, state.use_pixman, true),
->>      DEFINE_PROP_END_OF_LIST(),
->>  };
->
-> I don't think this should be a user-facing property on a single
-> graphics device. Either pixman works, or it doesn't (in which
-> case we might need to do configure time checks and have a
-> fallback), but we shouldn't make the user have to set an
-> undocumented property on the device to get it to work.
 
-This is mostly for testing now, that's why I've also called it with an x- 
-prefix and not intended as a final solution or something that users would 
-need to use. I'd decide later if we want to keep pixman or replace it with 
-something else (as the problems we found with recently makes me think it 
-might not be such a good idea after all) but for now I need a way to 
-control it and do testing with or without pixman to get some data to help 
-to decide what to do with it. This patch should handle tha cases where 
-pixman returns false (like missing implementation on macOS aarch64) so no 
-need to set this option normally. It's only when I want to easily test if 
-a problem is pixman related, so I can easily set it to fallback or ask 
-users who report a problem to try that. If you think this should be 
-clarified in the commit message can you please suggest a consise sentence 
-to describe this in a way that makes sense in English?
+On 2023/2/24 20:19, Andrew Jones wrote:
+> On Fri, Feb 24, 2023 at 12:08:48PM +0800, Weiwei Li wrote:
+>> henvcfg.PBMTE/STCE are read-only zero if menvcfg.PBMTE/STCE are zero.
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/csr.c | 13 +++++++++----
+>>   1 file changed, 9 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index feae23cab0..02cb2c2bb7 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -1956,7 +1956,11 @@ static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
+>>           return ret;
+>>       }
+>>   
+>> -    *val = env->henvcfg;
+>> +    /*
+>> +     * henvcfg.pbmte is read_only 0 when menvcfg.pbmte = 0
+>> +     * henvcfg.stce is read_only 0 when menvcfg.stce = 0
+>> +     */
+>> +    *val = env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE) | env->menvcfg);
+>>       return RISCV_EXCP_NONE;
+>>   }
+>>   
+>> @@ -1972,7 +1976,7 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
+>>       }
+>>   
+>>       if (riscv_cpu_mxl(env) == MXL_RV64) {
+>> -        mask |= HENVCFG_PBMTE | HENVCFG_STCE;
+>> +        mask |= env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE);
+> nit:
+>
+>    While HENVCFG_PBMTE == MENVCFG_PBMTE, I'd prefer we use
+>    MENVCFG_* with menvcfg and HENVCFG_* with henvcfg.
+
+Yeah. I agree. However, I think this mask is finally used for henvcfg. 
+We just use menvcfg to mask the  bits
+
+when the same bits are zero. So I didn't modify HENVCFG_* here.
 
 Regards,
-BALATON Zoltan
+
+Weiwei Li
+
+>
+>>       }
+>>   
+>>       env->henvcfg = (env->henvcfg & ~mask) | (val & mask);
+>> @@ -1990,14 +1994,15 @@ static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
+>>           return ret;
+>>       }
+>>   
+>> -    *val = env->henvcfg >> 32;
+>> +    *val = (env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE) |
+>> +                            env->menvcfg)) >> 32;
+>>       return RISCV_EXCP_NONE;
+>>   }
+>>   
+>>   static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
+>>                                     target_ulong val)
+>>   {
+>> -    uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
+>> +    uint64_t mask = env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE);
+>>       uint64_t valh = (uint64_t)val << 32;
+>>       RISCVException ret;
+>>   
+>> -- 
+>> 2.25.1
+>>
+>>
+> Thanks,
+> drew
+
 
