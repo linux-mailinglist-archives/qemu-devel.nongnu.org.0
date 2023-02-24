@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8204D6A1F0E
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A9C6A1F0F
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 16:57:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVaQF-0006Nk-Sk; Fri, 24 Feb 2023 10:55:48 -0500
+	id 1pVaQH-0006VP-7Z; Fri, 24 Feb 2023 10:55:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pVaPy-0005hC-M8
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pVaQ1-0005ha-W9
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pVaPw-0005ua-Ju
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:29 -0500
+ id 1pVaQ0-0005uo-Ca
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 10:55:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677254127;
+ s=mimecast20190719; t=1677254130;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T4kHAJy6vW9/XOWabzAlBzZlC8VzGMVIaQSUJZtePAA=;
- b=KHZpTNwUyKZW3oUASfE3o7UTUV9X7MfOqeV7u/L4cTxkpOX33Sc9bjCiFGnEsh6yQXthzp
- v9MH6vyO/XGXIh9cHX577xv+H+Utek4oo/XQ8lPm2Z0HuwM8fpOPc/83Whd7rnROmlG5oF
- R7nWojwWOKNqf+nFQa5gzQCIkg5bM3E=
+ bh=ojO/eaemwdQdQXtGu0Anh3zWgg58HTq1RDYErsUN+MI=;
+ b=Lr78fQDJkbNKX2IaDX6rROUcxXNZaNmYDHTE9XOxr+R69mOfnr3ysGi8ZcxVaZezK6Y/3V
+ a0GFC4CqVI26fL41aM4XAAkuJD6oVMVqzXR//hJEQtfcHBvhpdVUwnOkaQMVJoroT2KyEV
+ XFLqLCJnLTf5+pnbRTEg/cqsaePHKDs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-YkRyiEKmO_CZOqHgyvT1sg-1; Fri, 24 Feb 2023 10:55:23 -0500
-X-MC-Unique: YkRyiEKmO_CZOqHgyvT1sg-1
+ us-mta-588-qC_ettOoNcWvcfRIw85LLw-1; Fri, 24 Feb 2023 10:55:26 -0500
+X-MC-Unique: qC_ettOoNcWvcfRIw85LLw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C673395D601;
- Fri, 24 Feb 2023 15:55:22 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E22DC95D603;
+ Fri, 24 Feb 2023 15:55:25 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E890BC15BA0;
- Fri, 24 Feb 2023 15:55:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F135C15BA0;
+ Fri, 24 Feb 2023 15:55:22 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Garzarella <sgarzare@redhat.com>,
@@ -55,17 +55,16 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>,
  Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
  Harpreet Singh Anand <hanand@xilinx.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Subject: [PATCH v4 12/15] vdpa: block migration if device has unsupported
- features
-Date: Fri, 24 Feb 2023 16:54:35 +0100
-Message-Id: <20230224155438.112797-13-eperezma@redhat.com>
+Subject: [PATCH v4 13/15] vdpa: block migration if SVQ does not admit a feature
+Date: Fri, 24 Feb 2023 16:54:36 +0100
+Message-Id: <20230224155438.112797-14-eperezma@redhat.com>
 In-Reply-To: <20230224155438.112797-1-eperezma@redhat.com>
 References: <20230224155438.112797-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,70 +88,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-A vdpa net device must initialize with SVQ in order to be migratable at
-this moment, and initialization code verifies some conditions.  If the
-device is not initialized with the x-svq parameter, it will not expose
-_F_LOG so the vhost subsystem will block VM migration from its
-initialization.
+Next patches enable devices to be migrated even if vdpa netdev has not
+been started with x-svq. However, not all devices are migratable, so we
+need to block migration if we detect that.
 
-Next patches change this, so we need to verify migration conditions
-differently.
-
-QEMU only supports a subset of net features in SVQ, and it cannot
-migrate state that cannot track or restore in the destination.  Add a
-migration blocker if the device offer an unsupported feature.
+Block migration if we detect the device expose a feature SVQ does not
+know how to work with.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
-v3: add mirgation blocker properly so vhost_dev can handle it.
----
- net/vhost-vdpa.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ hw/virtio/vhost-vdpa.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 4f983df000..094dc1c2d0 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -795,7 +795,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-                                        int nvqs,
-                                        bool is_datapath,
-                                        bool svq,
--                                       struct vhost_vdpa_iova_range iova_range)
-+                                       struct vhost_vdpa_iova_range iova_range,
-+                                       uint64_t features)
- {
-     NetClientState *nc = NULL;
-     VhostVDPAState *s;
-@@ -818,7 +819,10 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     s->vhost_vdpa.shadow_vqs_enabled = svq;
-     s->vhost_vdpa.iova_range = iova_range;
-     s->vhost_vdpa.shadow_data = svq;
--    if (!is_datapath) {
-+    if (queue_pair_index == 0) {
-+        vhost_vdpa_net_valid_svq_features(features,
-+                                          &s->vhost_vdpa.migration_blocker);
-+    } else if (!is_datapath) {
-         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
-                                             vhost_vdpa_net_cvq_cmd_page_len());
-         memset(s->cvq_cmd_out_buffer, 0, vhost_vdpa_net_cvq_cmd_page_len());
-@@ -956,7 +960,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     for (i = 0; i < queue_pairs; i++) {
-         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-                                      vdpa_device_fd, i, 2, true, opts->x_svq,
--                                     iova_range);
-+                                     iova_range, features);
-         if (!ncs[i])
-             goto err;
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 25b64ae854..8702780ad6 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -443,6 +443,21 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+         return 0;
      }
-@@ -964,7 +968,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     if (has_cvq) {
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-                                  vdpa_device_fd, i, 1, false,
--                                 opts->x_svq, iova_range);
-+                                 opts->x_svq, iova_range, features);
-         if (!nc)
-             goto err;
-     }
+ 
++    /*
++     * If dev->shadow_vqs_enabled at initialization that means the device has
++     * been started with x-svq=on, so don't block migration
++     */
++    if (dev->migration_blocker == NULL && !v->shadow_vqs_enabled) {
++        /* We don't have dev->features yet */
++        uint64_t features;
++        ret = vhost_vdpa_get_dev_features(dev, &features);
++        if (unlikely(ret)) {
++            error_setg_errno(errp, -ret, "Could not get device features");
++            return ret;
++        }
++        vhost_svq_valid_features(features, &dev->migration_blocker);
++    }
++
+     /*
+      * Similar to VFIO, we end up pinning all guest memory and have to
+      * disable discarding of RAM.
 -- 
 2.31.1
 
