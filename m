@@ -2,46 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BD46A1CAF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 14:07:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6208E6A1CC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 14:09:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVXlq-0000LB-2T; Fri, 24 Feb 2023 08:05:54 -0500
+	id 1pVXog-0003QV-Le; Fri, 24 Feb 2023 08:08:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pVXln-0000Iy-Aq; Fri, 24 Feb 2023 08:05:51 -0500
+ id 1pVXoe-0003Pz-0P; Fri, 24 Feb 2023 08:08:48 -0500
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pVXll-00056u-Ax; Fri, 24 Feb 2023 08:05:51 -0500
+ id 1pVXoU-0005Zr-5t; Fri, 24 Feb 2023 08:08:39 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 36C46746705;
- Fri, 24 Feb 2023 14:05:44 +0100 (CET)
+ by localhost (Postfix) with SMTP id 37847746377;
+ Fri, 24 Feb 2023 14:08:36 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F2FCF7466FF; Fri, 24 Feb 2023 14:05:43 +0100 (CET)
+ id 0058774635C; Fri, 24 Feb 2023 14:08:35 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F17D074645F;
- Fri, 24 Feb 2023 14:05:43 +0100 (CET)
-Date: Fri, 24 Feb 2023 14:05:43 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id F36EA745720;
+ Fri, 24 Feb 2023 14:08:35 +0100 (CET)
+Date: Fri, 24 Feb 2023 14:08:35 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: =?ISO-8859-15?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>, 
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+To: Peter Maydell <peter.maydell@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
  Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@linaro.org, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 5/5] hw/audio/via-ac97: Basic implementation of audio
- playback
-In-Reply-To: <DF35DA6B-ED6A-43E3-A28E-7936560B6452@gmail.com>
-Message-ID: <62f3e9a1-f360-b525-7d1e-f57ccc8dca9e@eik.bme.hu>
-References: <cover.1677004414.git.balaton@eik.bme.hu>
- <f84b42b8e811c6a0ddb23139fdfd654c8cc4f09c.1677004415.git.balaton@eik.bme.hu>
- <89f85024-6057-f0a8-3d4a-20eeaeec8878@t-online.de>
- <DF35DA6B-ED6A-43E3-A28E-7936560B6452@gmail.com>
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Sebastian Bauer <mail@sebastianbauer.info>
+Subject: Re: [PATCH] hw/display/sm501: Add alternatives to pixman routines
+In-Reply-To: <CAFEAcA9w68d9ChqMq6zwfiJwMjkbHXbDefCk4Dm7Z8aya-7CPg@mail.gmail.com>
+Message-ID: <2e6481aa-300e-74ce-d50b-c945d88625da@eik.bme.hu>
+References: <20230224001852.4B813746324@zero.eik.bme.hu>
+ <CAFEAcA9w68d9ChqMq6zwfiJwMjkbHXbDefCk4Dm7Z8aya-7CPg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 9%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -65,25 +61,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Just for some motivation, this is what we want to make possible for more 
-people with QEMU 8.0: https://youtu.be/YY9RExl4VDI
+On Fri, 24 Feb 2023, Peter Maydell wrote:
+> On Fri, 24 Feb 2023 at 00:18, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> Pixman can sometimes return false so add fallbacks for such cases and
+>> also add a property to disable pixman and always use the fallbacks
+>> which can be useful on platforms where pixman is broken or for testing
+>> different drawing methods.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>> Also ping for the other sm501 patch I've sent a week ago:
+>> https://patchew.org/QEMU/20230216144043.D632874634B@zero.eik.bme.hu/
+>> These two patches are needed to fix graphics issues with AmigaOS so
+>> I'd like them to be merged for 8.0
+>>
+>> @@ -2010,6 +2035,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
+>>  static Property sm501_sysbus_properties[] = {
+>>      DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
+>>      DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
+>> +    DEFINE_PROP_BOOL("x-pixman", SM501SysBusState, state.use_pixman, true),
+>>      DEFINE_PROP_END_OF_LIST(),
+>>  };
+>>
+>> @@ -2093,6 +2119,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
+>>
+>>  static Property sm501_pci_properties[] = {
+>>      DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
+>> +    DEFINE_PROP_BOOL("x-pixman", SM501PCIState, state.use_pixman, true),
+>>      DEFINE_PROP_END_OF_LIST(),
+>>  };
+>
+> I don't think this should be a user-facing property on a single
+> graphics device. Either pixman works, or it doesn't (in which
+> case we might need to do configure time checks and have a
+> fallback), but we shouldn't make the user have to set an
+> undocumented property on the device to get it to work.
 
-This would need at least my SM502 patches and fixing the IRQ routing in 
-the VT8231 (this test was with my series for that, I'll ask testing 
-Bernhard's version the same way once I get it and rebase my patches on 
-it). AmigaOS can use ES1370 so the via-ac97 patches are not that important 
-now but the other patches would be needed. I hope users won't have to wait 
-until September to try this.
-
-While AmigaOS runs on sam460ex now, that versiion is much slower due to 
-the limited PPC440 that doesn't have AltiVec and also due to some issues 
-on the real platform it has to do more synchronisation which slows it 
-down. The pegasos2 version runs much better and has a better chance to get 
-it to work with KVM on PPC host so this would be a big improvement even if 
-there would be more bugs to fix in upcoming releases but we'll never find 
-those unless people can start using it and report them. More people are 
-interested but less are able to compile and test from git repos and depend 
-on binary distros instead.
+Also got some reports now that pixman may have problems with 8 bit depths 
+where it fails without reporting error (so couldn't even be tested by 
+configure) so I'll do a v2 with activating fallback also for 8 bit depths 
+and updated commit message if you can tell me how or any other comments I 
+get today.
 
 Regards,
 BALATON Zoltan
