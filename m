@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19156A1814
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:38:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA6E6A1828
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:42:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVTa4-0006rg-1I; Fri, 24 Feb 2023 03:37:28 -0500
+	id 1pVTf3-0007mE-71; Fri, 24 Feb 2023 03:42:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVTa0-0006q2-VT
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:37:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVTf0-0007lZ-SC
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:42:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVTZz-0001BG-FI
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:37:24 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pVTey-0004wv-Ja
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:42:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677227842;
+ s=mimecast20190719; t=1677228152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R17HTWLlr8UdPqK101wd+KUXfWHuww0E5VCf6qbhzgE=;
- b=iwxmeAVz4VcCBujTZ+C6Pqz0BCE0yfWHPQMi9DFrjwMlhPxz8HhpG/mnmrXABoyahhrAvr
- DrmKypjAhlh53d7j8Mnabzw8vPxnEH0wL8GzOwLvBZA2QIaB/GbhM1JjapcmyIP77WEXGS
- c1vY1eWapJ5oh0Apx9danQ073/iBozY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SV9TbB7emtmbCwpcPA8oXUMRDRuKcrpUYmAVUnQXMe8=;
+ b=fjUjpBHLhI4aIZ7yC3VWUZBY0PRnoXcukd4bLOekQyiw1yXxRElGwP7PVeiO8Bs56niF+W
+ DIucN6KJU8U0R8Rj+IbA2mUpdw5763hIW3KFQiN+NqSyNFiYG7g1awsdcWV7FdoE2htpR3
+ 9kBHsR/ojQC98jMtLe4u/P0na1oHH3g=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-402-1JlsQPJwMkqdA0ekDYou6A-1; Fri, 24 Feb 2023 03:37:20 -0500
-X-MC-Unique: 1JlsQPJwMkqdA0ekDYou6A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v18-20020adfedd2000000b002c3f0a93825so3071700wro.15
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:37:20 -0800 (PST)
+ us-mta-351-udhMf4WUNcK_WOTNlXDZVQ-1; Fri, 24 Feb 2023 03:42:30 -0500
+X-MC-Unique: udhMf4WUNcK_WOTNlXDZVQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j32-20020a05600c1c2000b003e9bdf02c9fso930442wms.6
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:42:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=R17HTWLlr8UdPqK101wd+KUXfWHuww0E5VCf6qbhzgE=;
- b=gTUz8dDfHTeTkx5UxuLvw1R2zp9TW8gMNC/4XbkPUggGZOXuLA7VeJZdnziE0IETuK
- KGRbnLoY773LASlUA8iROGQbvIYkcc2Ip6qY6uldG05S5dCVcVlHMAECeYZDGmeIQw8v
- tLeZDBCjIaVCU2Eb/6fXHwBRbCRepNRNzcWnMSXmutkixpBxRjvlrTQ38UXydMHSLtyu
- sJL6PYd9MWJJtzc0PXK1cPGWjLs8W33CzPxUwMKgGFjepJtcHe9BD2UFpeuhirqZP8CF
- /iT7QPz780CcmjHCQrNUbvqOlkzQ855lIQVwB7pxKVaWWxxEhAlr+XnwSvr+xgctWu6O
- uXig==
-X-Gm-Message-State: AO0yUKUlxTxG10HuxOlZ0KKsDaXS7fowdxqwKkpDIAc5I5W7NaGkn3AW
- KzzV0BwvEQiZM029NhQR2y6b2zxvVIsorZBK65svaTXg5tDmnXoGNRk5yER5jPLRZD+wuqoklSu
- S/n9+R7/nLGrwDQU=
-X-Received: by 2002:a5d:6808:0:b0:2c5:53e1:7417 with SMTP id
- w8-20020a5d6808000000b002c553e17417mr13227765wru.23.1677227839691; 
- Fri, 24 Feb 2023 00:37:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set8m0qx2WT7FzQMS0kIqNtsHqULitIBYB/Z0qcFYqCm5KZt2h6fQ2GNZ3aIe5yZDBvCstT8qxQ==
-X-Received: by 2002:a5d:6808:0:b0:2c5:53e1:7417 with SMTP id
- w8-20020a5d6808000000b002c553e17417mr13227748wru.23.1677227839410; 
- Fri, 24 Feb 2023 00:37:19 -0800 (PST)
+ bh=SV9TbB7emtmbCwpcPA8oXUMRDRuKcrpUYmAVUnQXMe8=;
+ b=NhZhkJY0+atMzIF3OYL3OlSA54u3J5I4oKM9zNnJtNTlfcAzlZJOkvD6A2cYR8ZTi9
+ N6467O5jRc25YPaP4fNIHjNMgwE+4D4UN08OiXKw34dr8C2aHOzjwOTZNs0riYR0+UOO
+ FojH1qc9X8bJxIjhnxSbszwh0RRdD7uZqd3Arln7pKB8hM/38niNsvVJ/qhL24L1xBjd
+ mV7g9c436PjIFGvNWtXhV0g7rFs1yR9FWEl0WsVHjchxuM2YHIXCAF9wxUKWlI4ZEAL5
+ uLRsgHVbAkPgdjkHTYlZfpLhk3f0RX7gbmNT7Z1kAx/z6XtqBUiv3RTMNHXeEnre8E9o
+ zKJg==
+X-Gm-Message-State: AO0yUKVRKTpMBwLDvrYYRG/Up0WuVnyO5VtdtOSWqRPtAk53qNx7vn+I
+ fV3Fr4gitMsKg1daWNxyy/db57HMSXrJelj0305KIXe6JfkDTUPcT4K8xjXxn96OC2QqiebvDRw
+ oncEfVRwgJi3K7lM=
+X-Received: by 2002:a5d:574b:0:b0:2c7:17e0:54f5 with SMTP id
+ q11-20020a5d574b000000b002c717e054f5mr2077791wrw.13.1677228149182; 
+ Fri, 24 Feb 2023 00:42:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set9EDB+zIuWhTpf+AtBJsl6FlZC5HGolRs/+QIG9I2zIzOjPd4ksMzOf6h2ozKEDegcyQDzI4Q==
+X-Received: by 2002:a5d:574b:0:b0:2c7:17e0:54f5 with SMTP id
+ q11-20020a5d574b000000b002c717e054f5mr2077778wrw.13.1677228148938; 
+ Fri, 24 Feb 2023 00:42:28 -0800 (PST)
 Received: from [192.168.8.100] (tmo-115-119.customers.d1-online.com.
  [80.187.115.119]) by smtp.gmail.com with ESMTPSA id
- q2-20020adff502000000b002c573a6216fsm10700349wro.37.2023.02.24.00.37.18
+ o24-20020a5d58d8000000b002c7066a6f77sm9366251wrf.31.2023.02.24.00.42.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 00:37:18 -0800 (PST)
-Message-ID: <f7673953-c84c-eac9-8a91-a1d8fe9be96c@redhat.com>
-Date: Fri, 24 Feb 2023 09:37:16 +0100
+ Fri, 24 Feb 2023 00:42:28 -0800 (PST)
+Message-ID: <1403abc1-63d7-dc24-b5b6-b6a63a5679f6@redhat.com>
+Date: Fri, 24 Feb 2023 09:42:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH] Deprecate the "-no-acpi" command line switch
+Subject: Re: [PATCH v2 01/18] hw/isa: Rename isa_get_dma() -> isa_bus_get_dma()
 Content-Language: en-US
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- libvir-list@redhat.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Jean-Philippe Brucker
- <jean-philippe@linaro.org>, Dongjiu Geng <gengdongjiu1@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
-References: <20230224073441.1105921-1-thuth@redhat.com>
- <Y/htv0jY8CjMJ2Rw@sunil-laptop>
- <42d15527-8b0e-9f0d-4c0d-24ca50b13bb6@redhat.com>
- <Y/hzVUB8Zwt99Q/K@sunil-laptop>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-ppc@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20230215161641.32663-1-philmd@linaro.org>
+ <20230215161641.32663-2-philmd@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <Y/hzVUB8Zwt99Q/K@sunil-laptop>
+In-Reply-To: <20230215161641.32663-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -92,7 +91,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,55 +107,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/02/2023 09.20, Sunil V L wrote:
-> On Fri, Feb 24, 2023 at 08:59:41AM +0100, Thomas Huth wrote:
->> On 24/02/2023 08.56, Sunil V L wrote:
->>> On Fri, Feb 24, 2023 at 08:34:41AM +0100, Thomas Huth wrote:
->>>> Similar to "-no-hpet", the "-no-acpi" switch is a legacy command
->>>> line option that should be replaced with the "acpi" machine parameter
->>>> nowadays.
->>>>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>    docs/about/deprecated.rst | 6 ++++++
->>>>    softmmu/vl.c              | 1 +
->>>>    2 files changed, 7 insertions(+)
->>>>
->>>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
->>>> index ee95bcb1a6..15084f7bea 100644
->>>> --- a/docs/about/deprecated.rst
->>>> +++ b/docs/about/deprecated.rst
->>>> @@ -99,6 +99,12 @@ form is preferred.
->>>>    The HPET setting has been turned into a machine property.
->>>>    Use ``-machine hpet=off`` instead.
->>>> +``-no-acpi`` (since 8.0)
->>>> +''''''''''''''''''''''''
->>>> +
->>>> +The ``-no-acpi`` setting has been turned into a machine property.
->>>> +Use ``-machine acpi=off`` instead.
->>>> +
->>>>    ``-accel hax`` (since 8.0)
->>>>    ''''''''''''''''''''''''''
->>>> diff --git a/softmmu/vl.c b/softmmu/vl.c
->>>> index 459588aa7d..07d5215325 100644
->>>> --- a/softmmu/vl.c
->>>> +++ b/softmmu/vl.c
->>>> @@ -3271,6 +3271,7 @@ void qemu_init(int argc, char **argv)
->>>>                    vnc_parse(optarg);
->>>>                    break;
->>>>                case QEMU_OPTION_no_acpi:
->>>> +                warn_report("-no-hpet is deprecated, use '-machine acpi=off' instead");
->>>
->>> "no-acpi" is deprecated?
->>
->> That's at least my plan. The patch is under discussion, but at least in my
->> opinion, this option should go away in the long run, yes.
->>
-> Sorry for not being clear. It is mentioned as -no-hpet is deprecated. It
-> should be -no-acpi.
+On 15/02/2023 17.16, Philippe Mathieu-Daudé wrote:
+> isa_get_dma() returns a DMA channel handler from an ISABus.
+> To emphasize this, rename it as isa_bus_get_dma().
+> 
+> Mechanical change using:
+> 
+>    $ sed -i -e 's/isa_get_dma/isa_bus_get_dma/g' \
+>          $(git grep -l isa_get_dma)
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   hw/audio/cs4231a.c   | 2 +-
+>   hw/audio/gus.c       | 2 +-
+>   hw/audio/sb16.c      | 4 ++--
+>   hw/block/fdc-isa.c   | 2 +-
+>   hw/dma/i82374.c      | 2 +-
+>   hw/isa/isa-bus.c     | 2 +-
+>   include/hw/isa/isa.h | 2 +-
+>   7 files changed, 8 insertions(+), 8 deletions(-)
 
-D'oh, stupid copy-n-paste bug! Thanks, I'll send a v2 :-)
-
-  Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
