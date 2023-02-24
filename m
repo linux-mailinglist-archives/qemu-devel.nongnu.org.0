@@ -2,76 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414096A16F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 08:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677BE6A16FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 08:17:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVSDB-0002iT-2F; Fri, 24 Feb 2023 02:09:45 -0500
+	id 1pVSJ1-0007h9-JH; Fri, 24 Feb 2023 02:15:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pVSD8-0002Y5-M0
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:09:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pVSD7-0006Ct-3U
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:09:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677222580;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K4ZvmC9FbcEEulfeWUM/vzyyQcGof9qH0iQevbTe1ko=;
- b=da8SbOOEFQnx5T4NLhXXQ+NIUM7gV/m0WwThEJMXLxAs2CX8uovU2LJOfbqcUEpxfpTSPX
- I2Wl5Ny5OIPVepPBOul7Ij1BEaiXJFsYYE34uFnlnAAUMdfbSzUjTbN1ZTJEKtC+xhzobW
- q8jnCT7vstar6GqrhmY2vZrqKaUOj98=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-197-lVfD_nH0PpWY81IJBXPjqw-1; Fri, 24 Feb 2023 02:09:36 -0500
-X-MC-Unique: lVfD_nH0PpWY81IJBXPjqw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5BB9D380452A;
- Fri, 24 Feb 2023 07:09:35 +0000 (UTC)
-Received: from [10.64.54.42] (vpn2-54-42.bne.redhat.com [10.64.54.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 88E2D492B13;
- Fri, 24 Feb 2023 07:09:26 +0000 (UTC)
-Subject: Re: [PATCH v2 0/4] NUMA: Apply socket-NUMA-node boundary for aarch64
- and RiscV machines
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, rad@semihalf.com,
- peter.maydell@linaro.org, quic_llindhol@quicinc.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, philmd@linaro.org, wangyanan55@huawei.com,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
- imammedo@redhat.com, yihyu@redhat.com, shan.gavin@gmail.com
-References: <20230223081401.248835-1-gshan@redhat.com>
- <2d37d157-12a1-07aa-4c70-974ac1503283@ventanamicro.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <fc0d2c66-5600-c33a-62d7-c72f1d16518b@redhat.com>
-Date: Fri, 24 Feb 2023 18:09:23 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pVSIt-0007f6-1y; Fri, 24 Feb 2023 02:15:42 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pVSIq-0002an-JW; Fri, 24 Feb 2023 02:15:38 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id da10so52468140edb.3;
+ Thu, 23 Feb 2023 23:15:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=E2vXVNhEcoCC+NJjIF4RJTbfUgQScLtSf4BL9qLvkgI=;
+ b=Nj+Xg2X9sdk32a/LM3S8vwEgctSbMtkVXA29BbLryCPC3IFsR5i4cIjyP4qMiO+bHm
+ WoZOVrlEdvrIgw0/ocL/LDdnmFZq4xRQCQr+pnGj8icsUpvgh2M65Ede1fyzQOaXy27M
+ 82/VJ1JljWYYy3qpurWR2TFTp10SKnwPScVOo1uumYPN0S76/mI8wvLYBYgDTlqR8V02
+ C7H8Wgmu1heQtHOS1udc9xyp5tbM7QEwx03wxD+UcJWPnYgjen8ndEeLPKZMXrOPqWAf
+ +IUanmz//iu4H1urC/ZE0EHwe8s5oVEM5L1eQJFc56hszAj8F/1Ie0Se97bOuBXSm93c
+ 4Zew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=E2vXVNhEcoCC+NJjIF4RJTbfUgQScLtSf4BL9qLvkgI=;
+ b=abnUrnmQk2cP1gxzkI6AUU9gRyw9n3LFfyphNVpjc+SyJzrHGik+N7Nw7tOkI3RMdc
+ k8vOKxwxEtKytnrln/07Ok8MAekuB1mq5k7rr/JPhygxrSVFPOa3Js2i0vKFSREj7iqT
+ 97BnDoFqx/TwcEQm1uVN13QvLuC8Xb9mkqB/5rL0QTCmZjB+9HeWi4gZs/wP6O4Dgc7+
+ 9BlGWsqMdNn7KHmZek4lEVnMLQuhay/3s/ID++Zj8UbV5Rydo+DOPByy/IuRCu0ZPvbj
+ py+GZ+adOrEeTsCTkM9lOAbqezLo10hRzZbu3CSagUIAjGXjVQ2Ur0jn+Vq1hnXKENzA
+ KcNQ==
+X-Gm-Message-State: AO0yUKVd6kACur+ydUEkZlIE8B/gK65gfHco2+NiToPrVgIgpH1ADYQY
+ bZtRmMbscCAOrDYCmYZl9Cs=
+X-Google-Smtp-Source: AK7set84yBSgXTJ4FfIbUxSbXNt6Axw5TWSdacGPtUCmDkUijdk/wkSS8U+HCbSoK8TdvuYXvc3GyQ==
+X-Received: by 2002:a17:906:881:b0:878:605b:ffef with SMTP id
+ n1-20020a170906088100b00878605bffefmr23690187eje.55.1677222933682; 
+ Thu, 23 Feb 2023 23:15:33 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf06ee00e8d7373f8159d5bb.dip0.t-ipconnect.de.
+ [2003:fa:af06:ee00:e8d7:373f:8159:d5bb])
+ by smtp.gmail.com with ESMTPSA id
+ w5-20020a1709064a0500b008bbc4f3bceesm8093679eju.118.2023.02.23.23.15.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Feb 2023 23:15:33 -0800 (PST)
+Date: Fri, 24 Feb 2023 07:15:28 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: qemu-devel@nongnu.org,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH 2/5] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <b8d457d1-40b1-adb5-a2ac-98070f62ac1e@eik.bme.hu>
+References: <20230223202053.117050-1-shentey@gmail.com>
+ <20230223202053.117050-3-shentey@gmail.com>
+ <a9efb349-e2b9-1ece-cded-ee500457f1cf@eik.bme.hu>
+ <83759E2D-1871-4D26-906A-F9112990BDFF@gmail.com>
+ <b8d457d1-40b1-adb5-a2ac-98070f62ac1e@eik.bme.hu>
+Message-ID: <D6825370-F3B7-4FF0-9C91-3A7B1755D989@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2d37d157-12a1-07aa-4c70-974ac1503283@ventanamicro.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,52 +94,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/24/23 12:18 AM, Daniel Henrique Barboza wrote:
-> On 2/23/23 05:13, Gavin Shan wrote:
->> For arm64 and RiscV architecture, the driver (/base/arch_topology.c) is
->> used to populate the CPU topology in the Linux guest. It's required that
->> the CPUs in one socket can't span mutiple NUMA nodes. Otherwise, the Linux
->> scheduling domain can't be sorted out, as the following warning message
->> indicates. To avoid the unexpected confusion, this series attempts to
->> rejects such kind of insane configurations.
->>
->>     -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
->>     -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
->>     -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
->>     -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
-> 
-> 
-> And why is this a QEMU problem? This doesn't hurt ACPI.
-> 
-> Also, this restriction impacts breaks ARM guests in the wild that are running
-> non-Linux OSes. I don't see why we should impact use cases that has nothing to
-> do with Linux Kernel feelings about sockets - NUMA nodes exclusivity.
-> 
 
-With above configuration, CPU-0/1/2 are put into socket-0-cluster-0 while CPU-3/4/5
-are put into socket-1-cluster-0, meaning CPU-2/3 belong to different socket and
-cluster. However, CPU-2/3 are associated with NUMA node-1. In summary, multiple
-CPUs in different clusters and sockets have been associated with one NUMA node.
 
-If I'm correct, the configuration isn't sensible in a baremetal environment and
-same Linux kernel is supposed to work well for baremetal and virtualized machine.
-So I think QEMU needs to emulate the topology as much as we can to match with the
-baremetal environment. It's the reason why I think it's a QEMU problem even it
-doesn't hurt ACPI. As I said in the reply to Daniel P. Berrangé <berrange@redhat.com>
-in another thread, we may need to gurantee that the CPUs in one cluster can't be
-split to multiple NUMA nodes, which matches with the baremetal environment, as I
-can understand.
+Am 23=2E Februar 2023 23:47:58 UTC schrieb BALATON Zoltan <balaton@eik=2Eb=
+me=2Ehu>:
+>On Thu, 23 Feb 2023, Bernhard Beschow wrote:
+>> Am 23=2E Februar 2023 21:11:23 UTC schrieb BALATON Zoltan <balaton@eik=
+=2Ebme=2Ehu>:
+>>> On Thu, 23 Feb 2023, Bernhard Beschow wrote:
+>>>> The real VIA south bridges implement a PCI IRQ router which is config=
+ured
+>>>> by the BIOS or the OS=2E In order to respect these configurations, QE=
+MU
+>>>> needs to implement it as well=2E
+>>>>=20
+>>>> Note: The implementation was taken from piix4_set_irq() in hw/isa/pii=
+x4=2E
+>>>>=20
+>>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>>>> ---
+>>>> hw/isa/vt82c686=2Ec | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>>>> 1 file changed, 44 insertions(+)
+>>>>=20
+>>>> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
+>>>> index 3f9bd0c04d=2E=2Ef24e387d63 100644
+>>>> --- a/hw/isa/vt82c686=2Ec
+>>>> +++ b/hw/isa/vt82c686=2Ec
+>>>> @@ -604,6 +604,48 @@ static void via_isa_request_i8259_irq(void *opaq=
+ue, int irq, int level)
+>>>>     qemu_set_irq(s->cpu_intr, level);
+>>>> }
+>>>>=20
+>>>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+>>>> +{
+>>>> +    switch (irq_num) {
+>>>> +    case 0:
+>>>> +        return s->dev=2Econfig[0x55] >> 4;
+>>>> +
+>>>> +    case 1:
+>>>> +        return s->dev=2Econfig[0x56] & 0xf;
+>>>> +
+>>>> +    case 2:
+>>>> +        return s->dev=2Econfig[0x56] >> 4;
+>>>> +
+>>>> +    case 3:
+>>>> +        return s->dev=2Econfig[0x57] >> 4;
+>>>> +    }
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level=
+)
+>>>> +{
+>>>> +    ViaISAState *s =3D opaque;
+>>>> +    PCIBus *bus =3D pci_get_bus(&s->dev);
+>>>> +    int pic_irq;
+>>>> +
+>>>> +    /* now we change the pic irq level according to the via irq mapp=
+ings */
+>>>> +    /* XXX: optimize */
+>>>> +    pic_irq =3D via_isa_get_pci_irq(s, irq_num);
+>>>> +    if (pic_irq < ISA_NUM_IRQS) {
+>>>> +        int i, pic_level;
+>>>> +
+>>>> +        /* The pic level is the logical OR of all the PCI irqs mappe=
+d to it=2E */
+>>>> +        pic_level =3D 0;
+>>>> +        for (i =3D 0; i < PCI_NUM_PINS; i++) {
+>>>> +            if (pic_irq =3D=3D via_isa_get_pci_irq(s, i)) {
+>>>> +                pic_level |=3D pci_bus_get_irq_level(bus, i);
+>>>> +            }
+>>>> +        }
+>>>> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
+>>>> +    }
+>>>> +}
+>>>> +
+>>>> static void via_isa_realize(PCIDevice *d, Error **errp)
+>>>> {
+>>>>     ViaISAState *s =3D VIA_ISA(d);
+>>>> @@ -676,6 +718,8 @@ static void via_isa_realize(PCIDevice *d, Error *=
+*errp)
+>>>>     if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
+>>>>         return;
+>>>>     }
+>>>> +
+>>>> +    pci_bus_irqs(pci_bus, via_isa_set_pci_irq, s, PCI_NUM_PINS);
+>>>=20
+>>> Please no oversimplification=2E This replaces the connections to mv643=
+61 gpp pins made in mv64361_realize() and breaks the interrupts that can be=
+ enabled in mv64361=2E
+>>=20
+>> Let's split our work as follows: You'll do the audio and pegasos2 chang=
+es including exporting the pirq properties, I'll do the first three routing=
+ patches of this series as the base=2E
+>
+>I'm OK with doing audio as said and already did the PIRQ and pegaosos2 ch=
+anges (patch 2 and 3 in my series), just take those without deleting half o=
+f them=2E
 
-Right, the restriction to have socket-NUMA-node or cluster-NUMA-node boundary will
-definitely break the configurations running in the wild.
+I can only take the three VT82xx patches as I proposed since I don't know =
+the Pegasos2 board as well as you do and I don't want to iterate on any rev=
+iew comments for the other patches=2E I'll send my series soonish=2E
 
-Thanks,
-Gavin
+Best regards,
+Bernhard
 
-[...]
-
+>So drop the last two via-ac97 patches and do the IRQ fixes in your way bu=
+t keep working what now works=2E
+>
+>>> I've implemented that for something but can't remember now which guest=
+ exactly,
+>>=20
+>> Could you please put this information into the commit message or into t=
+he code? That would ease maintainance a lot=2E
+>
+>I did, see patch 3 in my series=2E
+>
+>>> but this would be needed so please restore my pegasos2 patch and move =
+this there connecting both mv64361 and via-isa to PCI interrupts as shown i=
+n the schematics=2E That means you also need the PIRQ pins here=2E Can you =
+do a new version with that?
+>>=20
+>> As proposed above I'd fold the first three patches into a separate seri=
+es which you can build upon=2E I have no way to test the pegasos2 IRQ chang=
+es since the test cases I'm aware of either work or we agreed that they can=
+ be fixed later (-> USB)=2E
+>
+>I did fix the USB just haven't sent a v2 yet due to this thread but it's =
+just the change I've sent yesterday, just add this before qemu_set_irq at t=
+he end of via_isa_set_irq() in my series=2E This is what I have now:
+>
+>+    uint16_t old_state;
+>+    if (old_state && s->isa_irq_state[isa_irq]) {
+>+        /* FIXME: i8259 model does not support level sensitive mode */
+>+        qemu_set_irq(s->isa_irqs[isa_irq], 0);
+>+    }
+>
+>How to do that with your version I have no idea but this fixed the proble=
+m with my series=2E I can send a v2 of this patch with this change if it's =
+not clear from this and the other message what I did=2E
+>
+>>> I'll try this one in the meantime
+>>=20
+>> Sounds good to me -- that's what I wanted to achieve ;) Thanks!
+>
+>I've answered about that in the other message, I've tried with AmigaOS, D=
+ebian Linux 8=2E11=2E0 netboot iso and MorphOS and they still boot but coul=
+dn't test them much yet=2E MorphOS works on my series with sound and USB an=
+d does not hang with the above workaround but found now it still hangs if I=
+ send something to it over serial (e=2Eg=2E press space or enter where you'=
+ve typed boot cd boot=2Eimg after it starts playing sound)=2E This happens =
+on both of our series but only with the via-ac97 patch so probably related =
+to that=2E This could easily be a guest bug too so I don't care that much, =
+the pegasos2 changes are more interesting to get AmigaOS run well so that's=
+ my main focus now, MorphOS already runs on other QEMU machines well=2E I'l=
+l still try to find this out but AmigaOS can use other sound card so as lon=
+g as the IRQ problems are fixed it would work but we need more than one PCI=
+ cards working as we'd need sound card and network card for it to be usable=
+=2E This was tested to work with my series, if you give alternative series =
+I can ask to have those tested too=2E
+>
+>Regards,
+>BALATON Zoltan
 
