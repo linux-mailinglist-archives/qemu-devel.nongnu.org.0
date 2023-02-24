@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1456A166B
+	by mail.lfdr.de (Postfix) with ESMTPS id 8795D6A166A
 	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 06:52:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVQzL-0008Ud-9b; Fri, 24 Feb 2023 00:51:23 -0500
+	id 1pVQyi-0008PX-Is; Fri, 24 Feb 2023 00:50:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1pVQz5-0008SN-9O
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 00:51:08 -0500
-Received: from mga05.intel.com ([192.55.52.43])
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pVQyY-0008P0-Q7
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 00:50:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1pVQyz-0001AR-FS
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 00:51:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677217861; x=1708753861;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=V5pIfvtAVZdi4oFKptzL072SqpQseaciK4VwcTkzV+I=;
- b=XzD/MuEbCDnwR4XV0NKCyZfM5UcqXQPp4WUdafI9Dqc9gqj2HQRyHEmq
- 4hDxUrkhfM0UAW4JjOLzxXUpth1WIEYjJhCTCHO5uQNc7UHXhQy2Sruj+
- OFOLErwJKjbQx4PPZaSvgh7WrqjOMXxvTZYhGJ7Cfbh1VuDAjSnWe05hQ
- jfL9/q2o7FMn/vFkLZeUZ39wrJuGam6jJnycgRctsOQdX1gSRJnrUAbvf
- VOTHyXI8VOA3okeLw/XHQH6xjAze2Zq3nVAln5jXmsKAB90djA0ffDM6/
- JqkfQM01BTh/+V6+acltoe6StzKPtKtr2wccGIPUiVR35BeebrdkK0nqt g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="419636448"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; d="scan'208";a="419636448"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2023 21:50:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="741550783"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; d="scan'208";a="741550783"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
- by fmsmga004.fm.intel.com with ESMTP; 23 Feb 2023 21:50:36 -0800
-Date: Fri, 24 Feb 2023 13:42:56 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20230224054256.GA1701111@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <Y8HTITl1+Oe0H7Gd@google.com>
- <7555a235-76be-abf5-075a-80dbe6f1ea8e@amd.com>
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pVQyW-0000cq-6b
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 00:50:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677217831;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6P5sflq0TEcENm+Di4Cne4S/YI5NcsuLzh33aC4bYNo=;
+ b=aq486o7x+KneGZyrJz3BPibmJ53Q1VsqenWRd0Ows9EM9tWc56D+kNphNr1iaeEk8liVWr
+ kGOkWMXH6m4W7QXfefwHFSGXOe/6u2KB8zNax5FvA3TgwBJpNa+WzYKcgQ7n/xn2ZAX6SK
+ /l4OaxNw6V4KvQm7wPPwD0G1wiFSdR4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-636-4_Gv5r2_PCKHodPI6nSKQw-1; Fri, 24 Feb 2023 00:47:27 -0500
+X-MC-Unique: 4_Gv5r2_PCKHodPI6nSKQw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1DBD1871D97;
+ Fri, 24 Feb 2023 05:47:26 +0000 (UTC)
+Received: from [10.64.54.79] (vpn2-54-79.bne.redhat.com [10.64.54.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E8041121314;
+ Fri, 24 Feb 2023 05:47:18 +0000 (UTC)
+Subject: Re: [PATCH v2 0/4] NUMA: Apply socket-NUMA-node boundary for aarch64
+ and RiscV machines
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ rad@semihalf.com, peter.maydell@linaro.org, quic_llindhol@quicinc.com,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ wangyanan55@huawei.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, thuth@redhat.com, lvivier@redhat.com,
+ pbonzini@redhat.com, imammedo@redhat.com, yihyu@redhat.com,
+ shan.gavin@gmail.com
+References: <20230223081401.248835-1-gshan@redhat.com>
+ <Y/disinKmr6gLby1@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <2a541e96-fe04-0cd5-3f28-6eb69aff3b91@redhat.com>
+Date: Fri, 24 Feb 2023 16:47:15 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7555a235-76be-abf5-075a-80dbe6f1ea8e@amd.com>
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga05.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <Y/disinKmr6gLby1@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,77 +85,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> > int restrictedmem_bind(struct file *file, pgoff_t start, pgoff_t end,
-> > 		       struct restrictedmem_notifier *notifier, bool exclusive)
-> > {
-> > 	struct restrictedmem *rm = file->f_mapping->private_data;
-> > 	int ret = -EINVAL;
-> > 
-> > 	down_write(&rm->lock);
-> > 
-> > 	/* Non-exclusive mappings are not yet implemented. */
-> > 	if (!exclusive)
-> > 		goto out_unlock;
-> > 
-> > 	if (!xa_empty(&rm->bindings)) {
-> > 		if (exclusive != rm->exclusive)
-> > 			goto out_unlock;
-> > 
-> > 		if (exclusive && xa_find(&rm->bindings, &start, end, XA_PRESENT))
-> > 			goto out_unlock;
-> > 	}
-> > 
-> > 	xa_store_range(&rm->bindings, start, end, notifier, GFP_KERNEL);
+On 2/23/23 11:57 PM, Daniel P. Berrangé wrote:
+> On Thu, Feb 23, 2023 at 04:13:57PM +0800, Gavin Shan wrote:
+>> For arm64 and RiscV architecture, the driver (/base/arch_topology.c) is
+>> used to populate the CPU topology in the Linux guest. It's required that
+>> the CPUs in one socket can't span mutiple NUMA nodes. Otherwise, the Linux
+>> scheduling domain can't be sorted out, as the following warning message
+>> indicates. To avoid the unexpected confusion, this series attempts to
+>> rejects such kind of insane configurations.
+>>
+>>     -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
+>>     -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
+>>     -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
+>>     -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
 > 
+> This is somewhat odd as a config, because core 2 is in socket 0
+> and core 3 is in socket 1, so it wouldn't make much conceptual
+> sense to have them in the same NUMA node, while other cores within
+> the same socket are in different NUMA nodes. Basically the split
+> of NUMA nodes is not aligned with any level in the topology.
 > 
-> || ld: mm/restrictedmem.o: in function `restrictedmem_bind':
-> mm/restrictedmem.c|295| undefined reference to `xa_store_range'
+> This series, however, also rejects configurations that I would
+> normally consider to be reasonable. I've not tested linux kernel
+> behaviour though, but as a user I would expect to be able to
+> ask for:
+> 
+>      -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
+>      -numa node,nodeid=0,cpus=0,memdev=ram0                \
+>      -numa node,nodeid=1,cpus=1,memdev=ram1                \
+>      -numa node,nodeid=2,cpus=2,memdev=ram2                \
+>      -numa node,nodeid=3,cpus=3,memdev=ram3                \
+>      -numa node,nodeid=4,cpus=4,memdev=ram4                \
+>      -numa node,nodeid=5,cpus=5,memdev=ram5                \
+> 
+> ie, every core gets its own NUMA node
+> 
 
-Right, xa_store_range() is only available for XARRAY_MULTI.
+It doesn't work to Linux guest either. As the following warning message
+indicates, the Multicore domain isn't a subset of DIE (CLUSTER or socket)
+domain. For example, Multicore domain is 0-2 while DIE domain is 0 for
+CPU-0.
 
+[    0.023486] CPU-0: 36,56,0,-1 thread=0  core=0-2  cluster=0-2 llc=0    // parsed from ACPI PPTT
+[    0.023490] CPU-1: 36,56,1,-1 thread=1  core=0-2  cluster=0-2 llc=1
+[    0.023492] CPU-2: 36,56,2,-1 thread=2  core=0-2  cluster=0-2 llc=2
+[    0.023494] CPU-3: 136,156,3,-1 thread=3  core=3-5  cluster=3-5 llc=3
+[    0.023495] CPU-4: 136,156,4,-1 thread=4  core=3-5  cluster=3-5 llc=4
+[    0.023497] CPU-5: 136,156,5,-1 thread=5  core=3-5  cluster=3-5 llc=5
+[    0.023499] CPU-0: SMT=0  CLUSTER=0  MULTICORE=0-2  DIE=0  CPU-OF-NODE=0      // Seen by scheduling domain
+[    0.023501] CPU-1: SMT=1  CLUSTER=1  MULTICORE=0-2  DIE=1  CPU-OF-NODE=1
+[    0.023503] CPU-2: SMT=2  CLUSTER=2  MULTICORE=0-2  DIE=2  CPU-OF-NODE=2
+[    0.023504] CPU-3: SMT=3  CLUSTER=3  MULTICORE=3-5  DIE=3  CPU-OF-NODE=3
+[    0.023506] CPU-4: SMT=4  CLUSTER=4  MULTICORE=3-5  DIE=4  CPU-OF-NODE=4
+[    0.023508] CPU-5: SMT=5  CLUSTER=5  MULTICORE=3-5  DIE=5  CPU-OF_NODE=5
+         :
+[    0.023555] BUG: arch topology borken
+[    0.023556]      the MC domain not a subset of the DIE domain
+
+NOTE that both DIE and CPU-OF-NODE are same since they're all returned by
+'cpumask_of_node(cpu_to_node(cpu))'.
+
+
+> Or to aask for every cluster as a numa node:
 > 
+>      -smp 6,maxcpus=6,sockets=2,clusters=3,cores=1,threads=1 \
+>      -numa node,nodeid=0,cpus=0,memdev=ram0                \
+>      -numa node,nodeid=1,cpus=1,memdev=ram1                \
+>      -numa node,nodeid=2,cpus=2,memdev=ram2                \
+>      -numa node,nodeid=3,cpus=3,memdev=ram3                \
+>      -numa node,nodeid=4,cpus=4,memdev=ram4                \
+>      -numa node,nodeid=5,cpus=5,memdev=ram5                \
 > 
-> This is missing:
-> ===
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index f952d0172080..03aca542c0da 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1087,6 +1087,7 @@ config SECRETMEM
->  config RESTRICTEDMEM
->         bool
->         depends on TMPFS
-> +       select XARRAY_MULTI
-> ===
+
+This case works fine to Linux guest.
+
+[    0.024505] CPU-0: 36,56,0,-1 thread=0  core=0-2  cluster=0 llc=0            // parsed from ACPI PPTT
+[    0.024509] CPU-1: 36,96,1,-1 thread=1  core=0-2  cluster=1 llc=1
+[    0.024511] CPU-2: 36,136,2,-1 thread=2  core=0-2  cluster=2 llc=2
+[    0.024512] CPU-3: 176,196,3,-1 thread=3  core=3-5  cluster=3 llc=3
+[    0.024514] CPU-4: 176,236,4,-1 thread=4  core=3-5  cluster=4 llc=4
+[    0.024515] CPU-5: 176,276,5,-1 thread=5  core=3-5  cluster=5 llc=5
+[    0.024518] CPU-0: SMT=0  CLUSTER=0  MULTICORE=0  DIE=0  CPU-OF-NODE=0      // Seen by scheduling domain
+[    0.024519] CPU-1: SMT=1  CLUSTER=1  MULTICORE=1  DIE=1  CPU-OF-NODE=1
+[    0.024521] CPU-2: SMT=2  CLUSTER=2  MULTICORE=2  DIE=2  CPU-OF-NODE=2
+[    0.024522] CPU-3: SMT=3  CLUSTER=3  MULTICORE=3  DIE=3  CPU-OF-NODE=3
+[    0.024524] CPU-4: SMT=4  CLUSTER=4  MULTICORE=4  DIE=4  CPU-OF-NODE=4
+[    0.024525] CPU-5: SMT=5  CLUSTER=5  MULTICORE=5  DIE=5  CPU-OF-NODE=5
+
+
+> In both cases the NUMA split is aligned with a given level
+> in the topology, which was not the case with your example.
 > 
-> Thanks,
+> Rejecting these feels overly strict to me, and may risk breaking
+> existing valid deployments, unless we can demonstrate those
+> scenarios were unambiguously already broken ?
 > 
+> If there was something in the hardware specs that requires
+> this, then it is more valid to do, than if it is merely an
+> specific guest kernel limitation that might be fixed any day.
 > 
-> 
-> > 	rm->exclusive = exclusive;
-> > 	ret = 0;
-> > out_unlock:
-> > 	up_write(&rm->lock);
-> > 	return ret;
-> > }
-> > EXPORT_SYMBOL_GPL(restrictedmem_bind);
-> > 
-> > void restrictedmem_unbind(struct file *file, pgoff_t start, pgoff_t end,
-> > 			  struct restrictedmem_notifier *notifier)
-> > {
-> > 	struct restrictedmem *rm = file->f_mapping->private_data;
-> > 
-> > 	down_write(&rm->lock);
-> > 	xa_store_range(&rm->bindings, start, end, NULL, GFP_KERNEL);
-> > 	synchronize_rcu();
-> > 	up_write(&rm->lock);
-> > }
-> > EXPORT_SYMBOL_GPL(restrictedmem_unbind);
-> 
-> -- 
-> Alexey
+
+Yes, I agree that it's strict to have socket-to-NUMA boundary. However,
+it sounds not sensible to split CPUs in one cluster to differnet NUMA
+nodes, or to split CPUs in one core to different NUMA nodes in the baremetal
+environment. I think we probably need to prevent these two cases, meaning two
+clusters in one socket is still allowed to be associated with different NUMA
+nodes.
+
+I fail to get accurate information about the relation among socket/cluster/core
+from specs. As I can understand, the CPUs in one core are sharing L2 cache and
+cores in one cluster are sharing L3 cache. thread would have its own L1 cache.
+L3 cache is usually corresponding to NUMA node. I may be totally wrong here.
+
+Thanks,
+Gavin
+
+
+
+
 
