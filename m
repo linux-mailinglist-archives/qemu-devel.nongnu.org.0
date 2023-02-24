@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4EA6A1BAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 12:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D82C6A1BC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 13:04:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVWgp-0003WD-EM; Fri, 24 Feb 2023 06:56:39 -0500
+	id 1pVWmt-0005Ka-R3; Fri, 24 Feb 2023 07:02:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pVWgn-0003Vj-N2
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 06:56:37 -0500
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pVWgm-0001UM-8D
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 06:56:37 -0500
-Received: by mail-oi1-x231.google.com with SMTP id o12so8583844oik.6
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 03:56:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oK5jgkXfLOlZGh9Op3hLnDB+Q1/yLZm4tZKdAyxMuPw=;
- b=kj90ttjbQa1qgvn0WTzf+Q3MGkyOSWuvKIHsC5sS0jaBrb8DSQ8e64BVdWa1L0ZELM
- nveZv58pO0hkmQ/UJJV9rQds+P0hGzV5xA99nsG57Ic2uWKhoyjqRIhgetj/d1o/vDxR
- 8+yBDvmFbC5UCPYfSGMexN0lBUpBMA36W7q3lm4TZTvyeH2si7Rk1KOlH9CTLyxyrPHH
- mvR6NWCXgZYu3V/6oehCbguSCDnVWMsBO2KdAtWOUGNg0YqR6iHTv035zAU5WwoD/jzl
- qbo83UQR2EtEUzz6nItiN9nu6erg8uf3ZRgAFUsixR//XupgzcHffMqIIqRrkx/mY3Zr
- LEkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oK5jgkXfLOlZGh9Op3hLnDB+Q1/yLZm4tZKdAyxMuPw=;
- b=V+1Ndcaec5br/huLCyZE7BuShOUH42CvDw0tHcUOg+M6eoTgShD4Mc6w7ceFbSH1P4
- lQBgcU5uAcXpGsnrb04zVah+wT3SgrDS1MocAsgSMw16zyLdWoFgiykNYWLsA7kDIZDO
- Q5bS2p/8QBvmg41W3oCMTuAgMZcJaPDLXT+TcANOtKvhzNAgHpcn4TzKm9f8F4pc5U61
- qYFa8tAu2WA8jQKSF7AuGDtSRgXDqZvd1pO/aIZ6itIPedZZPA9rbog0nsaPTT+9GYCG
- kHQxIGV8OVW5VjNE3yZjC3CZtBJKCMf1Tyas+rIb5YCIsYNVtMRtWBVupj9YT0tRloyt
- Dq/A==
-X-Gm-Message-State: AO0yUKUWWpVtpJs3B0Iq6tU+rCNWyc8eaoNzrY/1yKV5QefRqv88Iiar
- 03uBlxgCXtShdMx7RN60/2dKxg==
-X-Google-Smtp-Source: AK7set/qeN6a7NpndLA+ya5X6DARVsVSX4l/GrvYSsByQhUlRyxKx6Q4VSn9Ih5VNw1779NR/N7YvQ==
-X-Received: by 2002:aca:f19:0:b0:368:a6f6:bfdf with SMTP id
- 25-20020aca0f19000000b00368a6f6bfdfmr3014521oip.20.1677239795066; 
- Fri, 24 Feb 2023 03:56:35 -0800 (PST)
-Received: from ?IPV6:2804:7f0:bcc0:a2b4:12ba:56fa:c61d:cd8f?
- ([2804:7f0:bcc0:a2b4:12ba:56fa:c61d:cd8f])
- by smtp.gmail.com with ESMTPSA id
- s66-20020acac245000000b003785996ef36sm3510890oif.19.2023.02.24.03.56.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 03:56:34 -0800 (PST)
-Message-ID: <e6a4d870-4491-e748-27e2-53b3dfe43574@ventanamicro.com>
-Date: Fri, 24 Feb 2023 08:56:30 -0300
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pVWmW-0005HD-2r
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 07:02:42 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pVWmJ-0004dH-4I
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 07:02:28 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PNSzz42pWz6J7Ys;
+ Fri, 24 Feb 2023 19:57:03 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Fri, 24 Feb
+ 2023 12:01:52 +0000
+Date: Fri, 24 Feb 2023 12:01:51 +0000
+To: Fan Ni <fan.ni@samsung.com>
+CC: Gregory Price <gregory.price@memverge.com>, Jonathan Cameron via
+ <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, "linux-cxl@vger.kernel.org"
+ <linux-cxl@vger.kernel.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira
+ Weiny <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Mike Maslenkin
+ <mike.maslenkin@gmail.com>
+Subject: Re: [PATCH 2/2] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
+ and Persistent)
+Message-ID: <20230224120151.00007b79@Huawei.com>
+In-Reply-To: <20230224002940.GA1282789@bgt-140510-bm03>
+References: <20230131163847.23025-1-Jonathan.Cameron@huawei.com>
+ <20230131163847.23025-3-Jonathan.Cameron@huawei.com>
+ <20230217161617.000064d1@huawei.com>
+ <Y+9gSWadbRfdqJGS@memverge.com>
+ <20230220114646.000000ff@Huawei.com>
+ <CGME20230224002948uscas1p220ab1ec9fbe16138e0fd314b7412f833@uscas1p2.samsung.com>
+ <20230224002940.GA1282789@bgt-140510-bm03>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH 6/6] target/riscv: Export Svadu property
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- zhiwei_liu@linux.alibaba.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230224040852.37109-1-liweiwei@iscas.ac.cn>
- <20230224040852.37109-7-liweiwei@iscas.ac.cn>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230224040852.37109-7-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x231.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,42 +74,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, 24 Feb 2023 00:29:47 +0000
+Fan Ni <fan.ni@samsung.com> wrote:
 
-
-On 2/24/23 01:08, Weiwei Li wrote:
-> Set it default true for backward compatibility
+> On Mon, Feb 20, 2023 at 11:46:46AM +0000, Jonathan Cameron wrote:
 > 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-
->   target/riscv/cpu.c | 3 +++
->   1 file changed, 3 insertions(+)
+> > On Fri, 17 Feb 2023 06:08:57 -0500
+> > Gregory Price <gregory.price@memverge.com> wrote:
+> >   
+> > > On Fri, Feb 17, 2023 at 04:16:17PM +0000, Jonathan Cameron via wrote:  
+> > > > On Tue, 31 Jan 2023 16:38:47 +0000
+> > > > Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
+> > > >     
+> > > > > From: Gregory Price <gourry.memverge@gmail.com>
+> > > > > 
+> > > > > This commit enables each CXL Type-3 device to contain one volatile
+> > > > > memory region and one persistent region.
+> > > > > 
+> > > > > Two new properties have been added to cxl-type3 device initialization:
+> > > > >     [volatile-memdev] and [persistent-memdev]
+> > > > > 
+> > > > > The existing [memdev] property has been deprecated and will default the
+> > > > > memory region to a persistent memory region (although a user may assign
+> > > > > the region to a ram or file backed region). It cannot be used in
+> > > > > combination with the new [persistent-memdev] property.
+> > > > > 
+> > > > > Partitioning volatile memory from persistent memory is not yet supported.
+> > > > > 
+> > > > > Volatile memory is mapped at DPA(0x0), while Persistent memory is mapped
+> > > > > at DPA(vmem->size), per CXL Spec 8.2.9.8.2.0 - Get Partition Info.
+> > > > > 
+> > > > > Signed-off-by: Gregory Price <gregory.price@memverge.com>
+> > > > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > > > >     
+> > > > Hi Gregory,
+> > > > 
+> > > > I've added support for multiple HDM decoders and hence can now
+> > > > test both volatile and non volatile on same device.
+> > > > It very nearly all works. With one exception which is I couldn't
+> > > > poke the first byte of the non volatile region.
+> > > > 
+> > > > I think we have an off by one in a single check.
+> > > > 
+> > > > Interestingly it makes no difference when creating an FS on top
+> > > > (which was my standard test) so I only noticed when poking memory
+> > > > addresses directly to sanity check the HDM decoder setup.
+> > > > 
+> > > > I'll roll a v2 if no one shouts out that I'm wrong.
+> > > > 
+> > > > Note that adding multiple HDM decoders massively increases
+> > > > the number of test cases over what we had before to poke all the
+> > > > corners so I may well be missing stuff.  Hopefully can send an RFC
+> > > > of that support out next week.
+> > > > 
+> > > > Jonathan
+> > > >     
+> > > 
+> > > Very cool! Thanks for pushing this over the finishing line.
+> > > 
+> > > All my testing so far has been really smooth since getting the TCG issue
+> > > worked out.
+> > >   
+> > > > > -MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
+> > > > > -                           unsigned size, MemTxAttrs attrs)    
+> > > [...]  
+> > > > > +    if (vmr) {
+> > > > > +        if (*dpa_offset <= int128_get64(vmr->size)) {    
+> > > > 
+> > > > Off by one I think.  < 
+> > > >     
+> > > 
+> > > Yes that makes sense, should be <.  Derp derp.
+> > > 
+> > > Though I think this may alludes to more off-by-one issues?  This says
+> > > 
+> > > if (dpa_offset < vmr->size)
+> > > 
+> > > but dpa_offset should be (hpa - memory_region_base),
+> > > 
+> > > The HPA is used by memory access routing for the whole system to determine
+> > > what device it should access.
+> > > 
+> > > If that corner case is being hit, doesn't it imply the higher level code
+> > > is also susceptible to this, and is routing accesses to the wrong device?  
+> > 
+> > I don't think so though I may be missing something. 
+> > 
+> > Say vmr->size = 8
+> > 
+> > hpa  dpa_offset
+> > 0       0
+> > 1       1
+> > 2       2
+> > 3       3
+> > 4       4
+> > 5       5
+> > 6       6
+> > 7       7
+> > 8       0
+> > 
+> > etc  
 > 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b81ab65de5..d7c4c747dc 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -107,6 +107,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
->       ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
->       ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
->       ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
-> +    ISA_EXT_DATA_ENTRY(svadu, true, PRIV_VERSION_1_12_0, ext_svadu),
->       ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
->       ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
->       ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
-> @@ -1104,6 +1105,8 @@ static Property riscv_cpu_extensions[] = {
->       DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->       DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->   
-> +    DEFINE_PROP_BOOL("svadu", RISCVCPU, cfg.ext_svadu, true),
-> +
->       DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
->       DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
->       DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+> If vmr->size=8, we should expect that at most 8 offsets (e.g., hpa [0,7]) will
+> access vmem and hpa=8 will access offset=0 at pmem, right?
+> If with hpa=8, dpa_offset round to 0, does it mean we never get a
+> dpa_offset larger than 7? If so, when pmem will be accessed?
+
+Ah. I didn't mention that when HPA == 8 in this example the dpa_offset is
+now used to access pmem until we reach vmr->size + persistent_mr->size at
+which point it is off the end and it's routed no where at all.
+
+Table is too simplisitic!
+
+> 
+> > 
+> > Also the writes are turning up where I expect them to.
+> > 
+> > Also just noticed that the code is setting Memory_base in the CXL dvsec.
+> > Given we are emulating a device as if it has been freshly powered up
+> > those should not be set - it's the OS or firmware's job to set them up.
+> > Harmless though, so can be a cleanup to follow the main series.
+> > 
+> > We don't currently handle dvsec range based routing anyway and
+> > I'm not sure we ever will as it is a pain to test without some firmware
+> > or OS code to program them for us.
+> > 
+> > Note that if you update your kernel to cxl/next it will currently fail
+> > as the Range register emulation is (I think) rather over enthusiastic
+> > and currently decides to emulate the HDM decoders for the QEMU emulated
+> > type 3 devices.
+> > 
+> > https://lore.kernel.org/linux-cxl/167640366272.935665.1056268838301725481.stgit@dwillia2-xfh.jf.intel.com/T/#m6c025d5c9b27d8360a64079593f6c5adaa408772
+> > 
+> > Jonathan
+> > 
+> >   
+> > > 
+> > > ~Gregory  
+> > 
+> >  
+
 
