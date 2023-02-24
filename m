@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF21E6A1542
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 04:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB916A1543
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 04:20:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVOa0-00014X-VL; Thu, 23 Feb 2023 22:17:05 -0500
+	id 1pVOce-00021F-Cc; Thu, 23 Feb 2023 22:19:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pVOZv-00014E-AN
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 22:16:59 -0500
+ id 1pVOcc-00020l-EW
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 22:19:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pVOZt-0004hl-BL
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 22:16:59 -0500
+ id 1pVOca-0004z1-AR
+ for qemu-devel@nongnu.org; Thu, 23 Feb 2023 22:19:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677208616;
+ s=mimecast20190719; t=1677208783;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S9Uwq5X3ng+CNozrNFpwjxJg2YpeqwTpzc4faJ5/49o=;
- b=L6+yiAyn1ZxhhXGYswjRQcIOCSxxd8qHlwD7xSDheXa9KfsBMLW1qnEFhk9vTRoWlsp8lv
- CilP/zWgMcuWylz7ak5gkhPSME3wlO8ADdDCRl8byVWO5b6lmeqB0Gg1TvRSmrlV8PpWVc
- XxV/qpZ6nj198DrXCPXAGfCSc+BlQHk=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QmpwBpkcZu2N0HGI0fcmtwxgu0ad0AlbN3BYuN4clcw=;
+ b=DFGonAmiE1gW3g+OjnhUdm3ZvaRYAiPE5/gWMOrtjh4irMr8by/Nud9M3geVtvkr/zhWmX
+ grGHujz3gltwQq5y+XZyaMtRgmuGMu29fDkT2EYTPgfzrWDn433+HWGCTlPfeRJBmJ9/0F
+ 9E33+IYgu5PAc6P3aixcv2ZTU2ys+HQ=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-232-eUDBeExkPTiwLoplIDUiZg-1; Thu, 23 Feb 2023 22:16:54 -0500
-X-MC-Unique: eUDBeExkPTiwLoplIDUiZg-1
-Received: by mail-ot1-f72.google.com with SMTP id
- w5-20020a056830110500b00693d47693e2so1519341otq.10
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 19:16:54 -0800 (PST)
+ us-mta-620-bdRZitJaNXyQbiGIPOJRzg-1; Thu, 23 Feb 2023 22:19:41 -0500
+X-MC-Unique: bdRZitJaNXyQbiGIPOJRzg-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-17215789117so5669671fac.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 19:19:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=S9Uwq5X3ng+CNozrNFpwjxJg2YpeqwTpzc4faJ5/49o=;
- b=UuX4SUQzMsLxUPK0ckBUxOhckw14n5PIZntB+dzgyqVe+mgDcB7k1yuNLthilJyave
- X5T5V3M1O1PzSXZQWXtlXRiXU/fvZjrFN/gMiYqKJ/1pJHy22jz02QlVsDPD1SFa/Yab
- N91a3f+0e/hcH3ou/u6wVvGCsVQIW7yRVycuFovokPob1hEI0ZFfCKnUk/X8PzTBXmGX
- Qyeko0WNiYMLuJhasoaoVUF1BuconMixN1VLfalbZXJUzqLJ7EZ4GuWuNa4W9njMsGPE
- JtMbiv1cI4pGpLVFXUcgLUMV3oSh4LCBu+tNtAihMCliLckymdAOcDLDahRpU1Ra+H4H
- 3nrw==
-X-Gm-Message-State: AO0yUKV6CCMsM5rHf97JYeZnPhsDoPSfimpcYr1C/WhlFAcnYwIbkSSp
- M74XcgKF+6RGJLP401s5GZPq9o5hMpVM3vqPGQ01ZDz8CB8j4o6k1FrNdZegz3HB6GCc9O7OkSB
- MaZrMkemm5X3CztzwTcIQb0F9o6FjJmo=
-X-Received: by 2002:a05:6870:1aa8:b0:16e:3585:dbf2 with SMTP id
- ef40-20020a0568701aa800b0016e3585dbf2mr562905oab.9.1677208613629; 
- Thu, 23 Feb 2023 19:16:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set/rJdL9L8qM2lGjrttiHBU2qF/0MU0BysFZIWmyQ4BGE4Kp8M/J/Rf52OyEtK3h+KIfPHpe3kwb7QvpeXGr/30=
-X-Received: by 2002:a05:6870:1aa8:b0:16e:3585:dbf2 with SMTP id
- ef40-20020a0568701aa800b0016e3585dbf2mr562885oab.9.1677208613403; Thu, 23 Feb
- 2023 19:16:53 -0800 (PST)
+ bh=QmpwBpkcZu2N0HGI0fcmtwxgu0ad0AlbN3BYuN4clcw=;
+ b=rFtI1Fl2TLcjkAWvAy/wwrydCruyc0FWTG1TrjoVSbwrr3NoVke4ylopZqU7mt5gKC
+ Y0p6p+IryAwh1Epx9bR3RQ5FJCFU+VRWwMMuFP9/C2P+1wu6+1IaeCxR17eAgkPCoRuX
+ C8y6LQ3GisGBrM/Dr4muRhK+I7FlD6XDAiCky3v9VnfVeDG+G4Jj4oZiVaAPWrsfEaYm
+ e0yHbUWbEb+vNVKPgmdZSnU88bUnwPF/7LlHUSrkrDJh7KYE2T08BMPG3z/tCcIUleDH
+ 3sS1lYZSKAtvs9R2vl5i6R+uKSJ+jJ2SOaqaOYiCoCZ563e/4ZtQyd6D4CRi3Pl7/nAM
+ NO1w==
+X-Gm-Message-State: AO0yUKXbQdNjSQ86MFltbiU/89g65NdRfHvOBY+aH7QLPF34qWhIOvTl
+ rBQfOouqcj7sf18LByvWACn+G+cIV+dlvv43GR6Hydt183n2W8twK3Se/Q1yunfp3hL1NQzJjZM
+ 6uoH4a+6Wi9U8PCJYVDYbX/6UqgdQxIU=
+X-Received: by 2002:a05:6870:a891:b0:172:7c3d:cd0f with SMTP id
+ eb17-20020a056870a89100b001727c3dcd0fmr639875oab.9.1677208780682; 
+ Thu, 23 Feb 2023 19:19:40 -0800 (PST)
+X-Google-Smtp-Source: AK7set9c1wwIgdgosGYDDKgTAvP64VGcxAQxwoTWNyCRmQvcOqF85HUOYtp+Hx4tZkgaNmWNQbPC6PNvmZHylNhCzWo=
+X-Received: by 2002:a05:6870:a891:b0:172:7c3d:cd0f with SMTP id
+ eb17-20020a056870a89100b001727c3dcd0fmr639871oab.9.1677208780491; Thu, 23 Feb
+ 2023 19:19:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20230208094253.702672-1-eperezma@redhat.com>
- <20230208094253.702672-12-eperezma@redhat.com>
- <c8d6ecc3-87f6-986e-e78d-003000e8a51e@redhat.com>
- <CAJaqyWdhK7QEHECP7qJP9tPA69e8uTuJtqLPNq_mUUhRDG_2Aw@mail.gmail.com>
- <81762a3b-b01f-2c3a-be63-531ac5b6976c@redhat.com>
- <CAJaqyWcScVMnkf+gXHZTAXrE2dbdzJXQM39BUv7Mm19kzRagqA@mail.gmail.com>
-In-Reply-To: <CAJaqyWcScVMnkf+gXHZTAXrE2dbdzJXQM39BUv7Mm19kzRagqA@mail.gmail.com>
+References: <20230209170004.899472-1-eperezma@redhat.com>
+ <21d698e6-e7de-a07d-624d-c2fa88152e71@redhat.com>
+In-Reply-To: <21d698e6-e7de-a07d-624d-c2fa88152e71@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 24 Feb 2023 11:16:42 +0800
-Message-ID: <CACGkMEvk8AjscednP8FQqgk+GZn-kz4WJZycG9b6yv1=U-c+TQ@mail.gmail.com>
-Subject: Re: [PATCH v2 11/13] vdpa: block migration if dev does not have
- _F_SUSPEND
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Harpreet Singh Anand <hanand@xilinx.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- alvaro.karsz@solid-run.com, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Lei Yang <leiyang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Shannon Nelson <snelson@pensando.io>, Parav Pandit <parav@mellanox.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefano Garzarella <sgarzare@redhat.com>, si-wei.liu@oracle.com
+Date: Fri, 24 Feb 2023 11:19:29 +0800
+Message-ID: <CACGkMEtgNjY8NDniw6RRB2=aYjeFVROteMr6ABaxyp08CqLV-w@mail.gmail.com>
+Subject: Re: [PATCH] vdpa: stop all svq on device deletion
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-stable@nongnu.org,
+ Lei Yang <leiyang@redhat.com>, 
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
@@ -92,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,145 +96,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 23, 2023 at 7:07 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Thu, Feb 23, 2023 at 4:51 PM Laurent Vivier <lvivier@redhat.com> wrote:
 >
-> On Thu, Feb 23, 2023 at 3:38 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2023/2/22 22:25, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > > On Wed, Feb 22, 2023 at 5:05 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > >>
-> > >> =E5=9C=A8 2023/2/8 17:42, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > >>> Next patches enable devices to be migrated even if vdpa netdev has =
-not
-> > >>> been started with x-svq. However, not all devices are migratable, s=
-o we
-> > >>> need to block migration if we detect that.
-> > >>>
-> > >>> Block vhost-vdpa device migration if it does not offer _F_SUSPEND a=
-nd it
-> > >>> has not been started with x-svq.
-> > >>>
-> > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > >>> ---
-> > >>>    hw/virtio/vhost-vdpa.c | 21 +++++++++++++++++++++
-> > >>>    1 file changed, 21 insertions(+)
-> > >>>
-> > >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > >>> index 84a6b9690b..9d30cf9b3c 100644
-> > >>> --- a/hw/virtio/vhost-vdpa.c
-> > >>> +++ b/hw/virtio/vhost-vdpa.c
-> > >>> @@ -442,6 +442,27 @@ static int vhost_vdpa_init(struct vhost_dev *d=
-ev, void *opaque, Error **errp)
-> > >>>            return 0;
-> > >>>        }
-> > >>>
-> > >>> +    /*
-> > >>> +     * If dev->shadow_vqs_enabled at initialization that means the=
- device has
-> > >>> +     * been started with x-svq=3Don, so don't block migration
-> > >>> +     */
-> > >>> +    if (dev->migration_blocker =3D=3D NULL && !v->shadow_vqs_enabl=
-ed) {
-> > >>> +        uint64_t backend_features;
-> > >>> +
-> > >>> +        /* We don't have dev->backend_features yet */
-> > >>> +        ret =3D vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES,
-> > >>> +                              &backend_features);
-> > >>> +        if (unlikely(ret)) {
-> > >>> +            error_setg_errno(errp, -ret, "Could not get backend fe=
-atures");
-> > >>> +            return ret;
-> > >>> +        }
-> > >>> +
-> > >>> +        if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_SUSPEND))=
-) {
-> > >>> +            error_setg(&dev->migration_blocker,
-> > >>> +                "vhost-vdpa backend lacks VHOST_BACKEND_F_SUSPEND =
-feature.");
-> > >>> +        }
-> > >>
-> > >> I wonder why not let the device to decide? For networking device, we=
- can
-> > >> live without suspend probably.
-> > >>
-> > > Right, but how can we know if this is a net device in init? I don't
-> > > think a switch (vhost_vdpa_get_device_id(dev)) is elegant.
-> >
-> >
-> > I meant the caller of vhost_vdpa_init() which is net_init_vhost_vdpa().
-> >
+> Hi,
 >
-> That's doable but I'm not sure if it is convenient.
+> this patch fixes a QEMU crash, could it be merged?
 
-So it's a question whether or not we try to let migration work without
-suspending. If we don't, there's no need to bother. Looking at the
-current vhost-net implementation, it tries to make migration work upon
-the error of get_vring_base() so maybe it's worth a try if it doesn't
-bother too much. But I'm fine to go either way.
+Acked-by: Jason Wang <jasowang@redhat.com>
 
->
-> Since we're always offering _F_LOG I thought of the lack of _F_SUSPEND
-> as the default migration blocker for other kinds of devices like blk.
-
-Or we can have this by default and allow a specific type of device to clear=
-?
-
-> If we move this code to net_init_vhost_vdpa, all other devices are in
-> charge of block migration by themselves.
->
-> I guess the right action is to use a variable similar to
-> vhost_vdpa->f_log_all. It defaults to false, and the device can choose
-> if it should export it or not. This way, the device does not migrate
-> by default, and the equivalent of net_init_vhost_vdpa could choose
-> whether to offer _F_LOG with SVQ or not.
-
-Looks similar to what I think above.
-
->
-> OTOH I guess other kinds of devices already must place blockers beyond
-> _F_LOG, so maybe it makes sense to always offer _F_LOG even if
-> _F_SUSPEND is not offered?
-
-I don't see any dependency between the two features. Technically,
-there could be devices that have neither _F_LOG nor _F_SUSPEND.
+I think it should go with Michael's tree.
 
 Thanks
 
-> Stefano G., would that break vhost-vdpa-blk
-> support?
 >
-> Thanks!
+> Thanks,
+> Laurent
 >
-> > Thanks
+> On 2/9/23 18:00, Eugenio P=C3=A9rez wrote:
+> > Not stopping them leave the device in a bad state when virtio-net
+> > fronted device is unplugged with device_del monitor command.
 > >
+> > This is not triggable in regular poweroff or qemu forces shutdown
+> > because cleanup is called right after vhost_vdpa_dev_start(false).  But
+> > devices hot unplug does not call vdpa device cleanups.  This lead to al=
+l
+> > the vhost_vdpa devices without stop the SVQ but the last.
 > >
-> > >
-> > > If the parent device does not need to be suspended i'd go with
-> > > exposing a suspend ioctl but do nothing in the parent device. After
-> > > that, it could even choose to return an error for GET_VRING_BASE.
-> > >
-> > > If we want to implement it as a fallback in qemu, I'd go for
-> > > implementing it on top of this series. There are a few operations we
-> > > could move to a device-kind specific ops.
-> > >
-> > > Would it make sense to you?
-> > >
-> > > Thanks!
-> > >
-> > >
-> > >> Thanks
-> > >>
-> > >>
-> > >>> +    }
-> > >>> +
-> > >>>        /*
-> > >>>         * Similar to VFIO, we end up pinning all guest memory and h=
-ave to
-> > >>>         * disable discarding of RAM.
+> > Fix it and clean the code, making it symmetric with
+> > vhost_vdpa_svqs_start.
 > >
+> > Fixes: dff4426fa656 ("vhost: Add Shadow VirtQueue kick forwarding capab=
+ilities")
+> > Reported-by: Lei Yang <leiyang@redhat.com>
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-vdpa.c | 17 ++---------------
+> >   1 file changed, 2 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 542e003101..df3a1e92ac 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -689,26 +689,11 @@ static int vhost_vdpa_get_device_id(struct vhost_=
+dev *dev,
+> >       return ret;
+> >   }
+> >
+> > -static void vhost_vdpa_reset_svq(struct vhost_vdpa *v)
+> > -{
+> > -    if (!v->shadow_vqs_enabled) {
+> > -        return;
+> > -    }
+> > -
+> > -    for (unsigned i =3D 0; i < v->shadow_vqs->len; ++i) {
+> > -        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs,=
+ i);
+> > -        vhost_svq_stop(svq);
+> > -    }
+> > -}
+> > -
+> >   static int vhost_vdpa_reset_device(struct vhost_dev *dev)
+> >   {
+> > -    struct vhost_vdpa *v =3D dev->opaque;
+> >       int ret;
+> >       uint8_t status =3D 0;
+> >
+> > -    vhost_vdpa_reset_svq(v);
+> > -
+> >       ret =3D vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
+> >       trace_vhost_vdpa_reset_device(dev, status);
+> >       return ret;
+> > @@ -1100,6 +1085,8 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev=
+ *dev)
+> >
+> >       for (unsigned i =3D 0; i < v->shadow_vqs->len; ++i) {
+> >           VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs=
+, i);
+> > +
+> > +        vhost_svq_stop(svq);
+> >           vhost_vdpa_svq_unmap_rings(dev, svq);
+> >
+> >           event_notifier_cleanup(&svq->hdev_kick);
 >
 
 
