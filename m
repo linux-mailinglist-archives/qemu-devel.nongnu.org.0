@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DADEA6A1C6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 13:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F97A6A1C82
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 13:54:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVXTi-0004cj-N1; Fri, 24 Feb 2023 07:47:10 -0500
+	id 1pVXad-0007h1-2u; Fri, 24 Feb 2023 07:54:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVXTN-0004at-BO
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 07:46:52 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVXaZ-0007gR-RK
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 07:54:15 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVXTL-0001wf-7T
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 07:46:48 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- m3-20020a17090ade0300b00229eec90a7fso6462246pjv.0
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 04:46:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7yh+U/034B/+WtGP3hZkyzu4rqPqAYgmG6oY046oCX8=;
- b=XZY20N4VonsClcTuo23JkNNQrJ/b1ligS/CP5fUY4+Oj0+KEPCblSJYurKfimQp6Ua
- Uzif1NMYDf7NugUkIm1DurYJcF9Skg6IqaQBNKNKvcKN+wuoLhTVyXFQgA0ITRX0i8NX
- FafklVaTGKbV65V8ulmFcz0fo7URlJ0oekukSj2aFJ0yeo5hh3qK6rbkTAdsAIFW5wah
- ajiYJqdhSIYeb9VnUHYHC8GB0ndj6fGKp2ktR68/FVuGB3L+E/dSZ/NZ7s1WrUyJECBp
- 6cwTuCQKV+2H1QnuD1dICSrtK8yzQC/Xt8a4zMETsA2RFlA+c5HRXs0wQx5/cKhN1cZy
- r2mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7yh+U/034B/+WtGP3hZkyzu4rqPqAYgmG6oY046oCX8=;
- b=CynmbZRkEHvPwFWpddno0lV7Rz5VJJ8x9l3X0XbYqxmQUjrr7oYivrlYibmCucn8u0
- n/lrfbMdwRxW3TsPQMegRANzcr7ape8OpIutd8p+Briy/n58WTPig2bKhDqy5EMJElO3
- neAaeoJqFsODr29gw+vghk7GPJvAB2f6BFawmu0RDbFJfEAXgD1K8vfMx2raKnCZDSdE
- y6oFll7CL1di+itFEc6kDSNSKKz2pDB6bIGAHcyf1w0pwyZ3L4IK8g/TzS1YDoJn7i1Y
- 44o0yMrF8fmMBbmqxZdVYTjzxwY9zApAbgyNOfJ/bgBuOAWyrB7w1wmn674iuL1ENVjx
- MkHA==
-X-Gm-Message-State: AO0yUKXNgB9Dt7PwnERreEAGjly0+p4ZrN+0dDkIe7RikHocKiPFyvAu
- a/SBamWmCpKlEO2dlIiGfA7LUJ/Y1xCNiY3iBgbqgQ==
-X-Google-Smtp-Source: AK7set+giBSVM6fCkiCLc0jzBc/LrP32qe3eodIvPAzuk2icFWSKLAmhizg2CiCcw0ckbdtJhXyL1Vkk7RAnFWf2Gbs=
-X-Received: by 2002:a17:903:2591:b0:19a:8bc7:d814 with SMTP id
- jb17-20020a170903259100b0019a8bc7d814mr2842633plb.13.1677242805262; Fri, 24
- Feb 2023 04:46:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pVXaY-0004Lm-1H
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 07:54:15 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 67A9837F07;
+ Fri, 24 Feb 2023 12:54:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677243252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=06cq7xsNfPmEoYCtjZKOY30IrYbVTudNEfRYRmQdSeY=;
+ b=AEqcd0BwG5Lrfwg99DGzb+4k7/dqzq101mUO9/f6nWthpFdt1dEq5Nm3t5DuTCTHGk1OsC
+ BS5EKlUoQNXBUcqGmhrY0f98Dfm0h02jFplfXxBTrpRq7qV9MQQRY8CY79K5mY39v/ZGXh
+ eMIhfwfgUNWixLTT832lnbMWaw9jg2I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677243252;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=06cq7xsNfPmEoYCtjZKOY30IrYbVTudNEfRYRmQdSeY=;
+ b=Z9CL44fSJxpxW+Jyzt5MshFq/mhfZ4EhzXAHZBTtP7rFERgvjsQqKx7Rb+8YmTkiCfqBse
+ 3IfFKoQxUaPtczDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6095313A3A;
+ Fri, 24 Feb 2023 12:54:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 7sWOCnKz+GMHMwAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 24 Feb 2023 12:54:10 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [RFC PATCH v2 0/3] ci: Speed up container stage
+Date: Fri, 24 Feb 2023 09:52:04 -0300
+Message-Id: <20230224125207.19616-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20230222020023.904232-1-richard.henderson@linaro.org>
-In-Reply-To: <20230222020023.904232-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Feb 2023 12:46:34 +0000
-Message-ID: <CAFEAcA_=fpkexhW9F9PyMNcVbg5nM_ecOCwH=FvJVq68n7Zm7g@mail.gmail.com>
-Subject: Re: [PULL v2 0/8] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,34 +83,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 at 02:00, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit 79b677d658d3d35e1e776826ac4abb28cdce69b8:
->
->   Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2023-02-21 11:28:31 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230221
->
-> for you to fetch changes up to dbd672c87f19949bb62bfb1fb3a97b9729fd7560:
->
->   sysemu/os-win32: fix setjmp/longjmp on windows-arm64 (2023-02-21 13:45:48 -1000)
->
-> ----------------------------------------------------------------
-> tcg: Allow first half of insn in ram, and second half in mmio
-> linux-user/sparc: SIGILL for unknown trap vectors
-> linux-user/microblaze: SIGILL for privileged insns
-> linux-user: Fix deadlock while exiting due to signal
-> target/microblaze: Add gdbstub xml
-> util: Adjust cacheflush for windows-arm64
-> include/sysemu/os-win32: Adjust setjmp/longjmp for windows-arm64
->
+Turns out we were already pulling the image, but for forks we were
+pulling from a different registry and for the main project we had
+caching disabled due to a bug with docker/gitlab.
 
+I've now replaced the usage of docker.py with a plain docker command
+and reintroduced the caching.
 
+I also removed the COMMON_TAG which was unused.
 
-Applied to target-arm.next, thanks.
+v1:
+https://lore.kernel.org/r/20230223142154.31975-1-farosas@suse.de
 
--- PMM
+I'm not sure if this was discussed previously, but I noticed we're not
+pulling the images we push to the registry at every pipeline run.
+
+I would expect we don't actually need to rebuild container images at
+_every_ pipeline run, so I propose we add a "docker pull" to the
+container templates. We already have that for the docker-edk2|opensbi
+images.
+
+Some containers can take a long time to build (14 mins) and pulling
+the image first without building can cut the time to about 3
+mins. With this we can save almost 2h of cumulative CI time per
+pipeline run:
+
+| master   | pull-only |  diff    | container
+| 0:02:34  | 0:02:09   | 00:00:25 |  alpha-debian-cross-container
+| 0:04:45  | 0:02:40   | 00:02:05 |  amd64-alpine-container
+| 0:09:51  | 0:02:56   | 00:06:55 |  amd64-centos8-container
+| 0:07:21  | 0:02:49   | 00:04:32 |  amd64-debian-container
+| 0:06:00  | 0:02:37   | 00:03:23 |  amd64-debian-cross-container
+| 0:14:22  | 0:03:41   | 00:10:41 |  amd64-debian-user-cross-container
+| 0:10:14  | 0:03:24   | 00:06:50 |  amd64-fedora-container
+| 0:12:09  | 0:02:49   | 00:09:20 |  amd64-opensuse-leap-container
+| 0:07:33  | 0:02:45   | 00:04:48 |  amd64-ubuntu2004-container
+| 0:08:28  | 0:03:07   | 00:05:21 |  arm64-debian-cross-container
+| 0:04:27  | 0:02:58   | 00:01:29 |  armel-debian-cross-container
+| 0:08:01  | 0:02:55   | 00:05:06 |  armhf-debian-cross-container
+| 0:03:33  | 0:02:18   | 00:01:15 |  cris-fedora-cross-container
+| 0:00:28  | 0:00:28   | 00:00:00 |  docker-edk2
+| 0:00:25  | 0:00:28   |-00:00:03 |  docker-opensbi
+| 0:08:34  | 0:03:10   | 00:05:24 |  hexagon-cross-container
+| 0:02:34  | 0:02:08   | 00:00:26 |  hppa-debian-cross-container
+| 0:04:50  | 0:02:28   | 00:02:22 |  i386-fedora-cross-container
+| 0:02:36  | 0:02:12   | 00:00:24 |  m68k-debian-cross-container
+| 0:02:40  | 0:02:09   | 00:00:31 |  mips-debian-cross-container
+| 0:02:38  | 0:02:09   | 00:00:29 |  mips64-debian-cross-container
+| 0:04:28  | 0:02:48   | 00:01:40 |  mips64el-debian-cross-container
+| 0:07:07  | 0:02:46   | 00:04:21 |  mipsel-debian-cross-container
+| 0:03:51  | 0:02:21   | 00:01:30 |  powerpc-test-cross-container
+| 0:08:52  | 0:03:00   | 00:05:52 |  ppc64el-debian-cross-container
+| 0:06:07  | 0:02:49   | 00:03:18 |  python-container
+| 0:04:37  | 0:02:26   | 00:02:11 |  riscv64-debian-cross-container
+| 0:02:39  | 0:02:08   | 00:00:31 |  riscv64-debian-test-cross-container
+| 0:08:03  | 0:03:00   | 00:05:03 |  s390x-debian-cross-container
+| 0:02:34  | 0:02:08   | 00:00:26 |  sh4-debian-cross-container
+| 0:02:37  | 0:02:09   | 00:00:28 |  sparc64-debian-cross-container
+| 0:04:25  | 0:02:17   | 00:02:08 |  tricore-debian-cross-container
+| 0:12:51  | 0:03:27   | 00:09:24 |  win32-fedora-cross-container
+| 0:11:16  | 0:03:29   | 00:07:47 |  win64-fedora-cross-container
+| 0:03:28  | 0:02:20   | 00:01:08 |  xtensa-debian-cross-container
+                       | 01:57:30 |
+
+We would need to devise a mechanism (not included here) to force the
+re-build of the container images when needed, perhaps an environment
+variable or even a whole new "container build" stage before the
+"container" stage.
+
+What do you think?
+
+Fabiano Rosas (3):
+  gitlab: Use plain docker in container-template.yml
+  gitlab: Cache container images
+  gitlab: Remove COMMON_TAG from container-template.yml
+
+ .gitlab-ci.d/container-template.yml | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+-- 
+2.35.3
+
 
