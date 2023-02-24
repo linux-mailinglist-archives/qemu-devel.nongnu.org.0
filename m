@@ -2,83 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC556A1C11
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 13:20:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4D36A1C1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 13:28:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVX2d-0002oC-F4; Fri, 24 Feb 2023 07:19:11 -0500
+	id 1pVX9l-00051z-Hp; Fri, 24 Feb 2023 07:26:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pVX2b-0002m6-HX
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 07:19:09 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pVX2Z-0005i8-Sy
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 07:19:09 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id c12so13719830wrw.1
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 04:19:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=EmLIkt0pmvZLBb5MswRldm9Wu2tsPjcnQv05JqaQ4/M=;
- b=FOZtzqWvmb/ChQoTqtrAXd4Hz8F1zv7wKqr4iJYucMYBgVqZYnDHieKCF/8WyMfdOJ
- +TLuPrGQGVexU4kP+fVtral15o5qAoqpl6SxKvkGen+dQP+s1bE0bc1I+zpxzqMvTpRO
- 1BgIBXAYShE27oh99UepNZT3JHtJkDzFy9nC0eOb8THNeG37P/2cQr/VhRMICxtllCg7
- oHUXpje+bLelk05k8hOALVDIb8R7eTUF8IfmJ3pnH+epty/3qRNS6dgkjTEstF7kbokR
- xK46/xfADfVyxO4XYE/QiEtmbXHbaKWytSuGr8hikUttuDnKR+/aD308Ny5mazDb5IGf
- 1oXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EmLIkt0pmvZLBb5MswRldm9Wu2tsPjcnQv05JqaQ4/M=;
- b=MvQbZpR1NqiBM+rez/c+AZ/bNG33trEuw8CMKqQoqvBfNnkTDX8wiBzzb2tHhJypLd
- /IAsdQtaZbtFh8eyi8tsNZswzX8vuG2FoXEfVUyEP9RMyWJfEXEK8vfs5/zObxO8ByBB
- /GzuD1DZNprX0bcHhy0GX1nfaA4Oodd8uq77rGVFSsURJlX9zz76jw/acrIiWEwTQ+4r
- RpjKrKqK3K+tMo55NIVrXR2SCGCDFXV4Qn2xRQuEWr20s9E6FNc3fBUkccWS9zlkxhFq
- 84FsVPzN34iVn3iRIdJi0txvwhlG+kQKWT+kIePF6n+V/QEeSaUN/SdIAvRdWd7I3bRU
- bIYA==
-X-Gm-Message-State: AO0yUKXxeCMikC39PPS+dxsY7euxLKYPXayjGNHJhe6muBndOjUGgH+z
- yxHJyyay+iaOYPep/KTRBuqE1A==
-X-Google-Smtp-Source: AK7set+yisxlwi0RsL75WgvEv2pWnSYetqjbW2G4BR9J3EKJq6limBJB9RhRxT15L8f4zIfJjwOpPA==
-X-Received: by 2002:adf:ea83:0:b0:2c5:6180:516e with SMTP id
- s3-20020adfea83000000b002c56180516emr11695244wrm.39.1677241146369; 
- Fri, 24 Feb 2023 04:19:06 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
- [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
- by smtp.gmail.com with ESMTPSA id
- f18-20020adffcd2000000b002c59e001631sm12668772wrs.77.2023.02.24.04.19.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 04:19:05 -0800 (PST)
-Date: Fri, 24 Feb 2023 13:19:05 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH 2/6] target/riscv: Fix the relationship of PBMTE/STCE
- fields between menvcfg and henvcfg
-Message-ID: <20230224121905.mciqkge4qji6xczb@orel>
-References: <20230224040852.37109-1-liweiwei@iscas.ac.cn>
- <20230224040852.37109-3-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pVX9j-00051Z-KU; Fri, 24 Feb 2023 07:26:31 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pVX9h-0002RT-MX; Fri, 24 Feb 2023 07:26:31 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 76677746377;
+ Fri, 24 Feb 2023 13:26:25 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 36A08746346; Fri, 24 Feb 2023 13:26:25 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 34B4B745720;
+ Fri, 24 Feb 2023 13:26:25 +0100 (CET)
+Date: Fri, 24 Feb 2023 13:26:25 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: =?ISO-8859-15?Q?Volker_R=FCmelin?= <vr_qemu@t-online.de>, 
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@redhat.com
+Subject: Re: [PATCH 5/5] hw/audio/via-ac97: Basic implementation of audio
+ playback
+In-Reply-To: <DF35DA6B-ED6A-43E3-A28E-7936560B6452@gmail.com>
+Message-ID: <1fb9a354-edff-cc60-2f53-bafd955daa6b@eik.bme.hu>
+References: <cover.1677004414.git.balaton@eik.bme.hu>
+ <f84b42b8e811c6a0ddb23139fdfd654c8cc4f09c.1677004415.git.balaton@eik.bme.hu>
+ <89f85024-6057-f0a8-3d4a-20eeaeec8878@t-online.de>
+ <DF35DA6B-ED6A-43E3-A28E-7936560B6452@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230224040852.37109-3-liweiwei@iscas.ac.cn>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=ajones@ventanamicro.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1832779222-1677241585=:16812"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,70 +65,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 24, 2023 at 12:08:48PM +0800, Weiwei Li wrote:
-> henvcfg.PBMTE/STCE are read-only zero if menvcfg.PBMTE/STCE are zero.
-> 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
->  target/riscv/csr.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index feae23cab0..02cb2c2bb7 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1956,7 +1956,11 @@ static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
->          return ret;
->      }
->  
-> -    *val = env->henvcfg;
-> +    /*
-> +     * henvcfg.pbmte is read_only 0 when menvcfg.pbmte = 0
-> +     * henvcfg.stce is read_only 0 when menvcfg.stce = 0
-> +     */
-> +    *val = env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE) | env->menvcfg);
->      return RISCV_EXCP_NONE;
->  }
->  
-> @@ -1972,7 +1976,7 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
->      }
->  
->      if (riscv_cpu_mxl(env) == MXL_RV64) {
-> -        mask |= HENVCFG_PBMTE | HENVCFG_STCE;
-> +        mask |= env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE);
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-nit:
+--3866299591-1832779222-1677241585=:16812
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-  While HENVCFG_PBMTE == MENVCFG_PBMTE, I'd prefer we use
-  MENVCFG_* with menvcfg and HENVCFG_* with henvcfg.
+On Fri, 24 Feb 2023, Bernhard Beschow wrote:
+> Am 23. Februar 2023 19:40:03 UTC schrieb "Volker Rümelin" <vr_qemu@t-online.de>:
+>> Am 21.02.23 um 19:44 schrieb BALATON Zoltan:
+>>> This adds basic implementation of the AC'97 sound part used in VIA
+>>> south bridge chips. Not all features of the device is emulated, only
+>>> one playback channel is supported but this is enough to get sound
+>>> output from some guests running on machines using this device such as
+>>> pegasos2.
+>>>
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>   hw/audio/trace-events     |   6 +
+>>>   hw/audio/via-ac97.c       | 436 +++++++++++++++++++++++++++++++++++++-
+>>>   hw/isa/vt82c686.c         |   3 +-
+>>>   include/hw/isa/vt82c686.h |  26 +++
+>>>   4 files changed, 466 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/hw/audio/trace-events b/hw/audio/trace-events
+>>> index e0e71cd9b1..6eccdaa4b5 100644
+>>> --- a/hw/audio/trace-events
+>>> +++ b/hw/audio/trace-events
+>>> @@ -11,3 +11,9 @@ hda_audio_running(const char *stream, int nr, bool running) "st %s, nr %d, run %
+>>>   hda_audio_format(const char *stream, int chan, const char *fmt, int freq) "st %s, %d x %s @ %d Hz"
+>>>   hda_audio_adjust(const char *stream, int pos) "st %s, pos %d"
+>>>   hda_audio_overrun(const char *stream) "st %s"
+>>> +
+>>> +#via-ac97.c
+>>> +via_ac97_codec_write(uint8_t addr, uint16_t val) "0x%x <- 0x%x"
+>>> +via_ac97_sgd_fetch(uint32_t addr, char stop, char eol, char flag, uint32_t len) "addr=0x%x %c%c%c len=%d"
+>>> +via_ac97_sgd_read(uint64_t addr, unsigned size, uint64_t val) "0x%"PRIx64" %d -> 0x%"PRIx64
+>>> +via_ac97_sgd_write(uint64_t addr, unsigned size, uint64_t val) "0x%"PRIx64" %d <- 0x%"PRIx64
+>>> diff --git a/hw/audio/via-ac97.c b/hw/audio/via-ac97.c
+>>> index d1a856f63d..cdac5bc14b 100644
+>>> --- a/hw/audio/via-ac97.c
+>>> +++ b/hw/audio/via-ac97.c
+>>> @@ -1,39 +1,467 @@
+>>>   /*
+>>>    * VIA south bridges sound support
+>>>    *
+>>> + * Copyright (c) 2022-2023 BALATON Zoltan
+>>> + *
+>>>    * This work is licensed under the GNU GPL license version 2 or later.
+>>>    */
+>>>     /*
+>>> - * TODO: This is entirely boiler plate just registering empty PCI devices
+>>> - * with the right ID guests expect, functionality should be added here.
+>>> + * TODO: This is only a basic implementation of one audio playback channel
+>>> + *       more functionality should be added here.
+>>>    */
+>>>     #include "qemu/osdep.h"
+>>> +#include "qemu/log.h"
+>>>   #include "hw/isa/vt82c686.h"
+>>> -#include "hw/pci/pci_device.h"
+>>> +#include "ac97.h"
+>>> +#include "trace.h"
+>>> +
+>>> +#define CLEN_IS_EOL(x)  ((x)->clen & BIT(31))
+>>> +#define CLEN_IS_FLAG(x) ((x)->clen & BIT(30))
+>>> +#define CLEN_IS_STOP(x) ((x)->clen & BIT(29))
+>>> +#define CLEN_LEN(x)     ((x)->clen & 0xfff)
+>>
+>> Hi,
+>>
+>> the CLEN_LEN mask is 0xffffff instead of 0xfff. The SGD Table Base Count has 24 bits.
+>
+> This fixes sound for a x86 Linux guest on my pc-via branch.
 
->      }
->  
->      env->henvcfg = (env->henvcfg & ~mask) | (val & mask);
-> @@ -1990,14 +1994,15 @@ static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
->          return ret;
->      }
->  
-> -    *val = env->henvcfg >> 32;
-> +    *val = (env->henvcfg & (~(HENVCFG_PBMTE | HENVCFG_STCE) |
-> +                            env->menvcfg)) >> 32;
->      return RISCV_EXCP_NONE;
->  }
->  
->  static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
->                                    target_ulong val)
->  {
-> -    uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
-> +    uint64_t mask = env->menvcfg & (HENVCFG_PBMTE | HENVCFG_STCE);
->      uint64_t valh = (uint64_t)val << 32;
->      RISCVException ret;
->  
-> -- 
-> 2.25.1
-> 
-> 
+Thanks, will be in next version. Not sure where have I lost that, maybe 
+accidenatlly deleted part of the constant on a rebase and did not notice.
+Bernhard does that mean you give a Tested-by for this patch?
 
-Thanks,
-drew
+Regards,
+BALATON Zoltan
+--3866299591-1832779222-1677241585=:16812--
 
