@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D878A6A17BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25D26A17BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 09:10:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVT9C-0008CX-8F; Fri, 24 Feb 2023 03:09:42 -0500
+	id 1pVT9g-0000O8-R6; Fri, 24 Feb 2023 03:10:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVT8v-00086f-4T
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:09:25 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVT9e-0000Na-Pp
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:10:10 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVT8s-00050q-Ty
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:09:24 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id a7so7583696pfx.10
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:09:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVT9b-0005Tz-Pd
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 03:10:10 -0500
+Received: by mail-wr1-x432.google.com with SMTP id r7so12858842wrz.6
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 00:10:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=cmDvXOrVH6Soh/WgBp9eT1D+C92w7+ZalDrdbloEXwE=;
- b=eYHFjVD8omfvzzWstSJp/KtQNyfl47yWTpmvP+Gh2Nwsbd1y3+sbMRNCl7K8o0bY8s
- rEUwD3VW96D9Qp6P8YikA8GudT1DZwpatY/h47krr01/2rOX7MIC+vOLD+lR7wTIJ/1O
- v0J9J79HMmX8fFu66PQaUhQJPYUFLmFrmp4xgtZlEKyQkmZ4k8Oze26QBPvdD6bkrb+v
- PTNkXdUGfMAIiME2TO8RYkNYogpAY8boDsjx3dmFYxmhB1qNprJJFkLQnL8Ot8MPYjSR
- MvQCoTPlsrSfJ993rzeXNJMz/gOMSXJ49SROnM4ce98D8CBgG4mFIg2uE37XuNG06IVD
- /Jgg==
+ bh=p2q64GqGv093taHNS42iTUsShqPQIBpegQhJbe3yYmE=;
+ b=esG5KOs2xM6lr40UYGzmP7bGRdDeGiuuQTyWLYsAM8ZdYStz3MItsRPtocUuqjSk0q
+ Oc4qzW937XnzFSANjKypwNDFNPBh/I/ld5OZ9YNgDsFQYM8UtKvUYwtaTlzicJhBBPDv
+ /ShF+Kg7wjGFA4qgFVIqbw/MZ28MYD9fgnJJT/fV29Hm8ijusH5v7/7HrxYrCxVGuTyB
+ VA/8Qtq4j6qYyYfHxqboEeX7eEBLpQGE76CDq3OnmnsKINdQ8JEsV/SeT3cCQsKXq4kW
+ nDd9PXVrJ0pxaQPz2K/oRQAx6EQPtp/IELQqveBJ1zZrMox57AXDOgU2A2jU2Q0ZNMTu
+ igGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cmDvXOrVH6Soh/WgBp9eT1D+C92w7+ZalDrdbloEXwE=;
- b=Um9zyVK47Drju9/oO5/ASiyuc8e70hMR/dTv39aJkTOGu+sPFRSzfu9uff9MjVKU2F
- wNQj4wHEnngkcvMtLH0qXqXj3AD6aYSraRsClKQ7QVtQ4hPE9i5JEtqM6r1r88x7KT2X
- vEcUss3d5KhHyB3vV6+vX87/z5tcbkAKkVM8jaARmBoakK/lPQc3xX//4+T5EzgeQ50L
- Jx4CxP2FYShC51WIcD6bqIK+sTVi6VcfMRZSjONLp4b4MMkCX9/Ss5jDFGhheOY7xK8a
- GRrAFFwYaRQGLOoOnvy4sBCvQU0s4rWXTqyGgJQGCd3brbRcPNM403PSn/Xndb/82W/+
- KoTg==
-X-Gm-Message-State: AO0yUKU2CXV7nkt5KfhNiEkauIy2H4zmOkiAEHV50jVj1goYBrkCLymE
- ZWaEJwXY7wYHdfI98G9wjFo9hg==
-X-Google-Smtp-Source: AK7set83LcTtSM9zSxLKNB53XSTwTvjKn6jM1rFimaoxF1cVyF6eWpvmTkQQfr2WIF6Z+5JW/IN2WQ==
-X-Received: by 2002:a62:6456:0:b0:5a8:b2bf:26ac with SMTP id
- y83-20020a626456000000b005a8b2bf26acmr14716591pfb.20.1677226160749; 
- Fri, 24 Feb 2023 00:09:20 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- x47-20020a056a000bef00b005ae02dc6285sm8018178pfu.203.2023.02.24.00.09.19
+ bh=p2q64GqGv093taHNS42iTUsShqPQIBpegQhJbe3yYmE=;
+ b=GNn7TG2jJGbmTVTs3+3a+i0eALTtCTuY77Hc8+u5JrOLy0Lm08brYviuYYoSwkNvUw
+ CubL0PBEqPLpAbESiHuzeTDY+7PWwMeSPdiXrK4Ohhej3nDojgachlJMPSxOwF4OpCbj
+ T01Iw+IgC5l9eR5LH8QLz4ppv0odFnQlBjjMGtuKKS/Me0F0nr/CO9a9wJku8QR4sUXw
+ NwLebnAuV/sfJ8/T5ez/1F8BaasGhGqi+uYRWr8+/GVOxpGdg/utdfX1HTQb3lyBxCMG
+ NU+v9rjw0hP+OVZwJiD/paudWZpuqHR1kRUw89o+Z+7BMTGlBJrgsJ9B9Go2HTVozwY+
+ v1Fw==
+X-Gm-Message-State: AO0yUKXGGBpCervS0IuXpZKoXbiPaM2hwQh5rcnNghZfZnyJytmp1x7V
+ pocvDQ2h4xy0ML2V8BqkMW4NCw==
+X-Google-Smtp-Source: AK7set9F0pxw3nZViVD9tRMpncruzMtaYzs7PWAigiXbEbOdpQJMM+aACjEq3cJE5JIv9XNwogXWJQ==
+X-Received: by 2002:adf:ef8e:0:b0:2c7:fc3:5f36 with SMTP id
+ d14-20020adfef8e000000b002c70fc35f36mr4461041wro.45.1677226205665; 
+ Fri, 24 Feb 2023 00:10:05 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h11-20020adff18b000000b002c567b58e9asm14369089wro.56.2023.02.24.00.10.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 00:09:20 -0800 (PST)
-Message-ID: <fbc63971-34fd-633e-d9e0-0e906328f47e@linaro.org>
-Date: Thu, 23 Feb 2023 22:09:17 -1000
+ Fri, 24 Feb 2023 00:10:05 -0800 (PST)
+Message-ID: <a47f1b0b-c583-b76f-a141-d84593a4a0a5@linaro.org>
+Date: Fri, 24 Feb 2023 09:10:04 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] accel/tcg: Add 'size' param to probe_access_full
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v2 04/28] tcg: Remove branch-to-next regardless of
+ reference count
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: dbarboza@ventanamicro.com
-References: <20230224004558.1313614-1-richard.henderson@linaro.org>
- <6517a169-07b0-6ee2-1492-95d6d5c82ecc@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <6517a169-07b0-6ee2-1492-95d6d5c82ecc@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230222232715.15034-1-richard.henderson@linaro.org>
+ <20230222232715.15034-5-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230222232715.15034-5-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -94,41 +90,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/23/23 20:57, Philippe Mathieu-Daudé wrote:
-> On 24/2/23 01:45, Richard Henderson wrote:
->> Change to match the recent change to probe_access_flags.
->> All existing callers updated to supply 0, so no change in behaviour.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   include/exec/exec-all.h              | 2 +-
->>   accel/tcg/cputlb.c                   | 4 ++--
->>   target/arm/mte_helper.c              | 4 ++--
->>   target/arm/ptw.c                     | 2 +-
->>   target/arm/sve_helper.c              | 2 +-
->>   target/arm/translate-a64.c           | 2 +-
->>   target/i386/tcg/sysemu/excp_helper.c | 4 ++--
->>   7 files changed, 10 insertions(+), 10 deletions(-)
->>
->> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
->> index 165b050872..b631832e17 100644
->> --- a/include/exec/exec-all.h
->> +++ b/include/exec/exec-all.h
->> @@ -475,7 +475,7 @@ int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
->>    * and must be consumed or copied immediately, before any further
->>    * access or changes to TLB @mmu_idx.
->>    */
->> -int probe_access_full(CPUArchState *env, target_ulong addr,
->> +int probe_access_full(CPUArchState *env, target_ulong addr, int size,
->>                         MMUAccessType access_type, int mmu_idx,
->>                         bool nonfault, void **phost,
->>                         CPUTLBEntryFull **pfull, uintptr_t retaddr);
+On 23/2/23 00:26, Richard Henderson wrote:
+> Just because the label reference count is more than 1 does
+> not mean we cannot remove a branch-to-next.  By doing this
+> first, the label reference count may drop to 0, and then
+> the label itself gets removed as before.
 > 
-> Why is 'size' signed? (similar in probe_access_flags).
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/tcg.c | 33 +++++++++++++++++----------------
+>   1 file changed, 17 insertions(+), 16 deletions(-)
 
-Not sure.  But all of the other interfaces exposed are signed too.
-
-
-r~
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
