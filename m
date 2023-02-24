@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C726A176A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 08:40:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35EE76A176D
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 08:41:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVSfr-0006Wy-RC; Fri, 24 Feb 2023 02:39:23 -0500
+	id 1pVSft-0006YC-W8; Fri, 24 Feb 2023 02:39:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVSfj-0006Wl-FS
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:39:15 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVSfp-0006XI-94
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:39:21 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVSfh-0006pH-SV
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:39:15 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id az36so1204252wmb.1
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 23:39:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVSfn-0006pl-DX
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 02:39:21 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id p8so13084542wrt.12
+ for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 23:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9ZaRLGS+UsXq7QOBPAlysCOmaXDe7m6nmzn2gCUNK2s=;
- b=mDK+unA+UobpE/At4UULbnHHpurnAPbgvCEyDpO2RIEqeYhB0dXwabJBrirswzTFj1
- nqSVcVghFkAnhth+zuIRlpoUCJFjK2luK4ripGCKRvIToQlKIpldPFwnDzR3sDDTLVfH
- XqzyeICvgys6W8eM3jzjMr1uh4UwgpPbCsVid1aWzOurVMJM2qNemnzwxNjYigb96POp
- cGjEp/3KSPsGe6PIiW3zI8Ezf79+PJ1n4xmbyt5LffZXRz5cpMoHWp6mSdTyYIRcmwjZ
- blS7YgAt1TyBdAYdq8Fm5DJempbVd0H+VFqF1TihWKsFf7s9l3yk+XISjBzoBNi+21ON
- JmPg==
+ bh=AEhfImWzx09NEJBcXw8tReL+2FfS3ZaQ631ZC4GD570=;
+ b=Pk6PXgSa+iqoLCQxj/X8jZme2ana5q2pCuqROPaeb5SsBsgu6ozC4lLKf4idqRHFx8
+ JRxZE6OIWruNQ6d4Kfij8pzC7V9t9r8gE1et1KDEWGjsE+0EDBzvDJBMCubDJMBCojsL
+ YDXVUI05GwlQPakP86qM18KpKjQXnobOgOlyCRzXcC05wbUMXUfZSX7IKJoFwmoldheY
+ 8+sYc2oWQMDUZNK6bDAM2bhjvHaw9XO6IspJLjqv3L1FLpxx2Hcwks9xgw/zO4rzekiT
+ 1FeRZBy3XxmVon++jM+L1Dr9QW68W1UmWVOTvAcMBy0TsXEXeLsZ0IfqxKsbdyt0M0+a
+ dNIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9ZaRLGS+UsXq7QOBPAlysCOmaXDe7m6nmzn2gCUNK2s=;
- b=jFQwEA+LEIs+9M4mc9GxbYFuRpuPpyunGOr4awmTHlFy02wU0PeilcKjzaAUzHMPvw
- 2K6gsL2RgkTntccVYUp8HLn3lNGk20FHVb/LznrOm2sfP75Ymcj6kxAOCrm9Kp2ucB0H
- IhtKWUEMCc+pADwtDO/38knztJOxVjXxu1YEWhR1i1yLKjTEnlM/4WcQIf8c1hfIyOMk
- c+GiRXAbuiIvtROQ4/omBx4417ahUjmEzyVubHrvvUFfUtAR6QMSMFgI711CKHTEuBTr
- VSL0Cn59yQfSnbfbE5+jKeGBAC+iU1qKkkKmV0ylPM9tmJH9z0E8wVpCGQRwoJ78xWQX
- fxrw==
-X-Gm-Message-State: AO0yUKUyZor9MKkhdsaL/cRq83UGa/agaJYyZCB32TZ+TIOiB9XiqMxU
- RQXJsj/8iISFhlSElEWZVV9raXOf2Ic9/Azf
-X-Google-Smtp-Source: AK7set9SMatH50aihtv/Iob9HykCeKSEOY5FAPIByCODkBg/9LK0g3qzD2iSkVdsB4SFOxZOaJdw/A==
-X-Received: by 2002:a05:600c:3b8b:b0:3ea:ea6b:f9ad with SMTP id
- n11-20020a05600c3b8b00b003eaea6bf9admr2162638wms.31.1677224352066; 
- Thu, 23 Feb 2023 23:39:12 -0800 (PST)
+ bh=AEhfImWzx09NEJBcXw8tReL+2FfS3ZaQ631ZC4GD570=;
+ b=u2Lc0gfMhwonyOaHx4o/VK2nuVapaOhwj1qZSaAgNsdw5n6J04S4xBdom5znW+9fBs
+ mMDfVgB5047FtUh/frk/q9cm9O0heKOYV/KTMlprxb0AtLdFhn96dDh+8QkUSnMEqviv
+ jmbasyexzoBGsOUqaORKmsRWytK6o+sRufP8+40k26tcHs0J79Ya9i+yGW0LsLqNfOtD
+ 3MuTIQeE0bAQubOKmRvNCII3ln0oolYwk5hoM7L5fX6HLy5ry5hLiJzyiPCd4lwjkhNq
+ Gnhd3o9WKgWG9YDT6+9QKDk/eeLudBMPpVzRC85/5hZ1CtS+wgoeU6FFA+Beq/Af1Xxv
+ tCAQ==
+X-Gm-Message-State: AO0yUKV/SiDtFfcb8bRsUQFkr/8Ncv0ElpLs6734ITQb26V6wwKq4PTz
+ qY6GvTQNJNLbqh8TrvZ0XlOuhyR6pm1xfvNY
+X-Google-Smtp-Source: AK7set8pLVxGWxS0y7k6GZtBEzCO+2oR0QhXYz+NDAbtJO53L1F9rXOrUwDR8V9Ii/ING6xCWNsntA==
+X-Received: by 2002:a5d:62c9:0:b0:2c7:1dd5:7918 with SMTP id
+ o9-20020a5d62c9000000b002c71dd57918mr1039772wrv.28.1677224356991; 
+ Thu, 23 Feb 2023 23:39:16 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a1c7c0f000000b003e20a6fd604sm1854794wmc.4.2023.02.23.23.39.11
+ d1-20020a5d4f81000000b002c5526234d2sm11800632wru.8.2023.02.23.23.39.16
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Feb 2023 23:39:11 -0800 (PST)
+ Thu, 23 Feb 2023 23:39:16 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Janosch Frank <frankja@linux.ibm.com>,
@@ -60,17 +60,17 @@ Cc: Janosch Frank <frankja@linux.ibm.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v5 4/5] dump: Introduce win_dump_available()
-Date: Fri, 24 Feb 2023 08:38:49 +0100
-Message-Id: <20230224073850.84913-5-philmd@linaro.org>
+Subject: [PATCH v5 5/5] dump: Add create_win_dump() stub for non-x86 targets
+Date: Fri, 24 Feb 2023 08:38:50 +0100
+Message-Id: <20230224073850.84913-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230224073850.84913-1-philmd@linaro.org>
 References: <20230224073850.84913-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,121 +93,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Remove a pair of TARGET_X86_64 #ifdef'ry by introducing
-the win_dump_available() method. Doing so we can build
-win_dump.c on any target, and simplify the meson rule.
+Implement the non-x86 create_win_dump(). We can remove
+the last TARGET_X86_64 #ifdef'ry in dump.c, which thus
+becomes target-independent. Update meson accordingly.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- dump/dump.c      | 16 +++++-----------
- dump/meson.build |  2 +-
- dump/win_dump.c  | 18 ++++++++++++++++++
- dump/win_dump.h  |  3 +++
- 4 files changed, 27 insertions(+), 12 deletions(-)
+ dump/dump.c      | 2 --
+ dump/meson.build | 2 +-
+ dump/win_dump.c  | 5 +++++
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/dump/dump.c b/dump/dump.c
-index a84f78738a..0c96c6e735 100644
+index 0c96c6e735..7260558852 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -28,10 +28,7 @@
- #include "hw/misc/vmcoreinfo.h"
- #include "migration/blocker.h"
- #include "hw/core/cpu.h"
--
+@@ -2020,9 +2020,7 @@ static void dump_process(DumpState *s, Error **errp)
+     DumpQueryResult *result = NULL;
+ 
+     if (s->has_format && s->format == DUMP_GUEST_MEMORY_FORMAT_WIN_DMP) {
 -#ifdef TARGET_X86_64
- #include "win_dump.h"
+         create_win_dump(s, errp);
 -#endif
- 
- #include <zlib.h>
- #ifdef CONFIG_LZO
-@@ -2128,12 +2125,10 @@ void qmp_dump_guest_memory(bool paging, const char *file,
-     }
- #endif
- 
--#ifndef TARGET_X86_64
--    if (has_format && format == DUMP_GUEST_MEMORY_FORMAT_WIN_DMP) {
--        error_setg(errp, "Windows dump is only available for x86-64");
-+    if (has_format && format == DUMP_GUEST_MEMORY_FORMAT_WIN_DMP
-+        && !win_dump_available(errp)) {
-         return;
-     }
--#endif
- 
- #if !defined(WIN32)
-     if (strstart(file, "fd:", &p)) {
-@@ -2215,10 +2210,9 @@ DumpGuestMemoryCapability *qmp_query_dump_guest_memory_capability(Error **errp)
-     QAPI_LIST_APPEND(tail, DUMP_GUEST_MEMORY_FORMAT_KDUMP_SNAPPY);
- #endif
- 
--    /* Windows dump is available only if target is x86_64 */
--#ifdef TARGET_X86_64
--    QAPI_LIST_APPEND(tail, DUMP_GUEST_MEMORY_FORMAT_WIN_DMP);
--#endif
-+    if (win_dump_available(NULL)) {
-+        QAPI_LIST_APPEND(tail, DUMP_GUEST_MEMORY_FORMAT_WIN_DMP);
-+    }
- 
-     return cap;
- }
+     } else if (s->has_format && s->format != DUMP_GUEST_MEMORY_FORMAT_ELF) {
+         create_kdump_vmcore(s, errp);
+     } else {
 diff --git a/dump/meson.build b/dump/meson.build
-index 2eff29c3ea..f13b29a849 100644
+index f13b29a849..7b116f1bd7 100644
 --- a/dump/meson.build
 +++ b/dump/meson.build
 @@ -1,4 +1,4 @@
  softmmu_ss.add(files('dump-hmp-cmds.c'))
  
- specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
--specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'], if_true: files('win_dump.c'))
-+specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('win_dump.c'))
+-specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
++softmmu_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
+ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('win_dump.c'))
 diff --git a/dump/win_dump.c b/dump/win_dump.c
-index ba7fa404fe..ff9c5bd339 100644
+index ff9c5bd339..0152f7330a 100644
 --- a/dump/win_dump.c
 +++ b/dump/win_dump.c
-@@ -18,6 +18,13 @@
- #include "win_dump.h"
- #include "cpu.h"
- 
-+#if defined(TARGET_X86_64)
-+
-+bool win_dump_available(Error **errp)
-+{
-+    return true;
-+}
-+
- static size_t win_dump_ptr_size(bool x64)
- {
-     return x64 ? sizeof(uint64_t) : sizeof(uint32_t);
-@@ -470,3 +477,14 @@ out_cr3:
- 
-     return;
+@@ -487,4 +487,9 @@ bool win_dump_available(Error **errp)
+     return false;
  }
-+
-+#else /* !TARGET_X86_64 */
-+
-+bool win_dump_available(Error **errp)
+ 
++void create_win_dump(DumpState *s, Error **errp)
 +{
-+    error_setg(errp, "Windows dump is only available for x86-64");
-+
-+    return false;
++    win_dump_available(errp);
 +}
 +
-+#endif
-diff --git a/dump/win_dump.h b/dump/win_dump.h
-index 56f63683c3..c9b49f87dc 100644
---- a/dump/win_dump.h
-+++ b/dump/win_dump.h
-@@ -13,6 +13,9 @@
- 
- #include "sysemu/dump.h"
- 
-+/* Check Windows dump availability for the current target */
-+bool win_dump_available(Error **errp);
-+
- void create_win_dump(DumpState *s, Error **errp);
- 
- #endif /* WIN_DUMP_H */
+ #endif
 -- 
 2.38.1
 
