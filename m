@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64696A18BD
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 10:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA5D6A18C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 10:28:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVUM8-0000YV-Qu; Fri, 24 Feb 2023 04:27:08 -0500
+	id 1pVUMr-0000nU-Gx; Fri, 24 Feb 2023 04:27:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pVULx-0000XG-EU
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 04:27:03 -0500
-Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
+ id 1pVUMa-0000kg-Lw
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 04:27:37 -0500
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pVULv-0003wL-OD
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 04:26:57 -0500
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-1722c48a773so15733014fac.2
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 01:26:55 -0800 (PST)
+ id 1pVUMY-000429-Q8
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 04:27:36 -0500
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-17235c8dab9so14985354fac.7
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 01:27:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=C0G4BCoPKh/ASK1qNKBGmxnNKbQEwENvpR+6RXwZBsk=;
- b=VGWJEgLFRLX4N+RHj9zCm4i9Xg1G9Patuq+0wiVvttieviJ/tfaNSHFCHvQm7tyJ+6
- XIAjJoLjPYG37tECpQHecEwqEkRV+7X/jNhVaS+060GBkoSDECzqX1HdcilU+k2nEJJ3
- jwReUaiYixa7bLKv3eCU7bLR1VQKZvNT2YeAJ/0mlGL69/jiy/tYXYY6wpTtATeOWtVJ
- w7z0QOybzwtCQH7/JfulTQuQEdvD8p6pgI/wVCWl+qtOZDdwu5JGnNadIX/BakxIExcO
- l89Yj1eDCA7lSqs5WjU9ZLsIqvMD1MfiuuHaYT0BHbCLoeiDla/NeiEsu9JFcSIvpYN9
- 3R5A==
+ bh=uPEENlQOtL8mO+Xc/6XKS+UtRwsD+eWVH6qGqLTNjr0=;
+ b=iyknjZqyZxVdoN4w0dRV4T8dpLKvOA/OuAXDYkYi8E6mC4N8J+H5hrAZsNsICFzl+b
+ lqDKGCX8gIikZ3X3/RLS2AGE36ZGmEZVDlFiolxC+97BlAG0CUCCT8C6V6GoW3FhNsRs
+ /j0BJSfw08I1XgaH8TW4TR+5R7ileCjGPlLXV7+zLaiPX6aeNZiQMlgA2pgjfQa1RBxZ
+ G/xMv4nO3EvCugin/JoPRmA+ZwwpVb9UxjrjgJ6aHKvgnEIC7iWVCjFabe1YhzJrgUg9
+ bOYl+lJh+hKLZjAwuZ8l6lUzJjclDRBJXns6q8UR4B94ZK+lHEWNCqke2Ri5B2IbxLUu
+ Q/CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C0G4BCoPKh/ASK1qNKBGmxnNKbQEwENvpR+6RXwZBsk=;
- b=nanY2k6Xn4yA3nO6aupI5oyw6hFlaVxR+elNr/ZERiH34WPoqnqQvvdXVJ1LvDEmFZ
- CUGlx+ZYRUxA2by2OHWv4aNCl6p/7o7LVUcAv+ttSHzKoGydUSltLW7+Pm0N9OI6FXFJ
- ebmimYB7FZjxG91Of2Md6+hn3mq5spDGzv7tq4mDlIGBcyJfv/Cfgj92SsxlnSfmAtlJ
- 8V4xKwRfj9REQjAeAMLyTi/rXBBHuv3pjF5HsApvW/f/BssEOshR0zwEtUYXCWOh7q/j
- t5suyK5JLZssM2VRkj4HlIlTv6QR2hpuYr7hmSkAbPEDBCq0iGo3vvnsWI4SURx+TUGG
- ZBsQ==
-X-Gm-Message-State: AO0yUKWkSaiZn0LX2zoWjlY4KtwLN5C6XbgmsY0yxGSlfAMt35GlYSq5
- yCLvDe5kCr/PvRnlYa3x4eDXEA==
-X-Google-Smtp-Source: AK7set/ClVWO3aIhaA1H2zKvj6x/Ya7z8CShTLyoHDaqFneKGqZRD0FJNIy0orLFjvhGCzznqScQBQ==
-X-Received: by 2002:a05:6870:2389:b0:16d:c23a:a11b with SMTP id
- e9-20020a056870238900b0016dc23aa11bmr11943377oap.3.1677230814388; 
- Fri, 24 Feb 2023 01:26:54 -0800 (PST)
+ bh=uPEENlQOtL8mO+Xc/6XKS+UtRwsD+eWVH6qGqLTNjr0=;
+ b=7Md+R9OgcOjeydfTF00MUj1nX9SMpM8qzNH5js1XR5SQtDFEUbFGuPF8/+rXFdCOUX
+ AwYN9Uzk63JZcRsiiDHPs3U2RcP3McCekVM6napq03wOQcIvKzU881hmgp9k9DZvKB0h
+ 2r+6bi13xdhQRRk5vKjTXr+OL6z6TpX6qN/gRrTtjBp14BASwlsNlGbyQhTG0/gVUyLd
+ VYlytt+gwYkpTqxroe5fQ9MNq67sFbmZx6gr46491IP6Tovh1cywS5Gf4qD+eDYC6sbJ
+ SZyOHS3urU15XvYacQUQW5i8fJR2x3nsxuHcpbpu/tDjO+26O3PXvvGvpNkkmZDlydQV
+ sk2Q==
+X-Gm-Message-State: AO0yUKU29RDDShMAwotLWZ2wFJ0BACdvSdsBKhMhQwgHam7ADTl5hNoA
+ tGmxsbJ7nqVK0h+oA5iZxSBKRvxTX7nO9cRs
+X-Google-Smtp-Source: AK7set/hB7gGx1hifJCHMz0CSVBXHTPKqLOt/v3r8e0nIj9gZh2btCQ4FDqRPE77j3Ioq5uhpZJ8ng==
+X-Received: by 2002:a05:6871:29c:b0:172:6cfc:6ff4 with SMTP id
+ i28-20020a056871029c00b001726cfc6ff4mr4228196oae.41.1677230853505; 
+ Fri, 24 Feb 2023 01:27:33 -0800 (PST)
 Received: from [192.168.68.107] ([189.110.112.117])
  by smtp.gmail.com with ESMTPSA id
- dv23-20020a056870d89700b0016dbf59175bsm2313832oab.47.2023.02.24.01.26.49
+ v1-20020a056870e28100b0015f4d1b195bsm8002275oad.36.2023.02.24.01.27.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 01:26:53 -0800 (PST)
-Message-ID: <11e958b1-4763-f710-fe02-832cfd559e7b@ventanamicro.com>
-Date: Fri, 24 Feb 2023 06:26:48 -0300
+ Fri, 24 Feb 2023 01:27:33 -0800 (PST)
+Message-ID: <11bc1eaa-4065-4d08-adcc-2018a94bd490@ventanamicro.com>
+Date: Fri, 24 Feb 2023 06:27:30 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH v2 0/4] NUMA: Apply socket-NUMA-node boundary for aarch64
- and RiscV machines
+Subject: Re: [PATCH] accel/tcg: Add 'size' param to probe_access_full
 Content-Language: en-US
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, rad@semihalf.com,
- peter.maydell@linaro.org, quic_llindhol@quicinc.com, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, philmd@linaro.org, wangyanan55@huawei.com,
- palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
- imammedo@redhat.com, yihyu@redhat.com, shan.gavin@gmail.com
-References: <20230223081401.248835-1-gshan@redhat.com>
- <2d37d157-12a1-07aa-4c70-974ac1503283@ventanamicro.com>
- <fc0d2c66-5600-c33a-62d7-c72f1d16518b@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230224004558.1313614-1-richard.henderson@linaro.org>
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <fc0d2c66-5600-c33a-62d7-c72f1d16518b@redhat.com>
+In-Reply-To: <20230224004558.1313614-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x32.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -104,67 +95,137 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 2/24/23 04:09, Gavin Shan wrote:
-> On 2/24/23 12:18 AM, Daniel Henrique Barboza wrote:
->> On 2/23/23 05:13, Gavin Shan wrote:
->>> For arm64 and RiscV architecture, the driver (/base/arch_topology.c) is
->>> used to populate the CPU topology in the Linux guest. It's required that
->>> the CPUs in one socket can't span mutiple NUMA nodes. Otherwise, the Linux
->>> scheduling domain can't be sorted out, as the following warning message
->>> indicates. To avoid the unexpected confusion, this series attempts to
->>> rejects such kind of insane configurations.
->>>
->>>     -smp 6,maxcpus=6,sockets=2,clusters=1,cores=3,threads=1 \
->>>     -numa node,nodeid=0,cpus=0-1,memdev=ram0                \
->>>     -numa node,nodeid=1,cpus=2-3,memdev=ram1                \
->>>     -numa node,nodeid=2,cpus=4-5,memdev=ram2                \
->>
->>
->> And why is this a QEMU problem? This doesn't hurt ACPI.
->>
->> Also, this restriction impacts breaks ARM guests in the wild that are running
->> non-Linux OSes. I don't see why we should impact use cases that has nothing to
->> do with Linux Kernel feelings about sockets - NUMA nodes exclusivity.
->>
+On 2/23/23 21:45, Richard Henderson wrote:
+> Change to match the recent change to probe_access_flags.
+> All existing callers updated to supply 0, so no change in behaviour.
 > 
-> With above configuration, CPU-0/1/2 are put into socket-0-cluster-0 while CPU-3/4/5
-> are put into socket-1-cluster-0, meaning CPU-2/3 belong to different socket and
-> cluster. However, CPU-2/3 are associated with NUMA node-1. In summary, multiple
-> CPUs in different clusters and sockets have been associated with one NUMA node.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+>   include/exec/exec-all.h              | 2 +-
+>   accel/tcg/cputlb.c                   | 4 ++--
+>   target/arm/mte_helper.c              | 4 ++--
+>   target/arm/ptw.c                     | 2 +-
+>   target/arm/sve_helper.c              | 2 +-
+>   target/arm/translate-a64.c           | 2 +-
+>   target/i386/tcg/sysemu/excp_helper.c | 4 ++--
+>   7 files changed, 10 insertions(+), 10 deletions(-)
 > 
-> If I'm correct, the configuration isn't sensible in a baremetal environment and
-> same Linux kernel is supposed to work well for baremetal and virtualized machine.
-> So I think QEMU needs to emulate the topology as much as we can to match with the
-> baremetal environment. It's the reason why I think it's a QEMU problem even it
-> doesn't hurt ACPI. As I said in the reply to Daniel P. Berrangé <berrange@redhat.com>
-> in another thread, we may need to gurantee that the CPUs in one cluster can't be
-> split to multiple NUMA nodes, which matches with the baremetal environment, as I
-> can understand.
-> 
-> Right, the restriction to have socket-NUMA-node or cluster-NUMA-node boundary will
-> definitely break the configurations running in the wild.
-
-
-What about a warning? If the user attempts to use an exotic NUMA configuration
-like the one you mentioned we can print something like:
-
-"Warning: NUMA topologies where a socket belongs to multiple NUMA nodes can cause OSes like Linux to misbehave"
-
-This would inform the user what might be going wrong in case Linux is crashing/error
-out on them and then the user is free to fix their topology (or the kernel). And
-at the same time we wouldn't break existing stuff that happens to be working.
-
-
-Thanks,
-
-
-Daniel
-
-
-> 
-> Thanks,
-> Gavin
-> 
-> [...]
-> 
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index 165b050872..b631832e17 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -475,7 +475,7 @@ int probe_access_flags(CPUArchState *env, target_ulong addr, int size,
+>    * and must be consumed or copied immediately, before any further
+>    * access or changes to TLB @mmu_idx.
+>    */
+> -int probe_access_full(CPUArchState *env, target_ulong addr,
+> +int probe_access_full(CPUArchState *env, target_ulong addr, int size,
+>                         MMUAccessType access_type, int mmu_idx,
+>                         bool nonfault, void **phost,
+>                         CPUTLBEntryFull **pfull, uintptr_t retaddr);
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index fc27e34457..008ae7a66d 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1589,12 +1589,12 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>       return flags;
+>   }
+>   
+> -int probe_access_full(CPUArchState *env, target_ulong addr,
+> +int probe_access_full(CPUArchState *env, target_ulong addr, int size,
+>                         MMUAccessType access_type, int mmu_idx,
+>                         bool nonfault, void **phost, CPUTLBEntryFull **pfull,
+>                         uintptr_t retaddr)
+>   {
+> -    int flags = probe_access_internal(env, addr, 0, access_type, mmu_idx,
+> +    int flags = probe_access_internal(env, addr, size, access_type, mmu_idx,
+>                                         nonfault, phost, pfull, retaddr);
+>   
+>       /* Handle clean RAM pages.  */
+> diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+> index 98bcf59c22..fee3c7eb96 100644
+> --- a/target/arm/mte_helper.c
+> +++ b/target/arm/mte_helper.c
+> @@ -118,7 +118,7 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+>        * valid.  Indicate to probe_access_flags no-fault, then assert that
+>        * we received a valid page.
+>        */
+> -    flags = probe_access_full(env, ptr, ptr_access, ptr_mmu_idx,
+> +    flags = probe_access_full(env, ptr, 0, ptr_access, ptr_mmu_idx,
+>                                 ra == 0, &host, &full, ra);
+>       assert(!(flags & TLB_INVALID_MASK));
+>   
+> @@ -154,7 +154,7 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+>        */
+>       in_page = -(ptr | TARGET_PAGE_MASK);
+>       if (unlikely(ptr_size > in_page)) {
+> -        flags |= probe_access_full(env, ptr + in_page, ptr_access,
+> +        flags |= probe_access_full(env, ptr + in_page, 0, ptr_access,
+>                                      ptr_mmu_idx, ra == 0, &host, &full, ra);
+>           assert(!(flags & TLB_INVALID_MASK));
+>       }
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index 1ecefb2027..d92cdc9733 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -258,7 +258,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
+>           int flags;
+>   
+>           env->tlb_fi = fi;
+> -        flags = probe_access_full(env, addr, MMU_DATA_LOAD,
+> +        flags = probe_access_full(env, addr, 0, MMU_DATA_LOAD,
+>                                     arm_to_core_mmu_idx(s2_mmu_idx),
+>                                     true, &ptw->out_host, &full, 0);
+>           env->tlb_fi = NULL;
+> diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+> index 51909c44ac..9a8951afa4 100644
+> --- a/target/arm/sve_helper.c
+> +++ b/target/arm/sve_helper.c
+> @@ -5356,7 +5356,7 @@ bool sve_probe_page(SVEHostPage *info, bool nofault, CPUARMState *env,
+>                                  &info->host, retaddr);
+>   #else
+>       CPUTLBEntryFull *full;
+> -    flags = probe_access_full(env, addr, access_type, mmu_idx, nofault,
+> +    flags = probe_access_full(env, addr, 0, access_type, mmu_idx, nofault,
+>                                 &info->host, &full, retaddr);
+>   #endif
+>       info->flags = flags;
+> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> index da9f877476..67e9c4ee79 100644
+> --- a/target/arm/translate-a64.c
+> +++ b/target/arm/translate-a64.c
+> @@ -14651,7 +14651,7 @@ static bool is_guarded_page(CPUARMState *env, DisasContext *s)
+>        * that the TLB entry must be present and valid, and thus this
+>        * access will never raise an exception.
+>        */
+> -    flags = probe_access_full(env, addr, MMU_INST_FETCH, mmu_idx,
+> +    flags = probe_access_full(env, addr, 0, MMU_INST_FETCH, mmu_idx,
+>                                 false, &host, &full, 0);
+>       assert(!(flags & TLB_INVALID_MASK));
+>   
+> diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
+> index 55bd1194d3..e87f90dbe3 100644
+> --- a/target/i386/tcg/sysemu/excp_helper.c
+> +++ b/target/i386/tcg/sysemu/excp_helper.c
+> @@ -64,7 +64,7 @@ static bool ptw_translate(PTETranslate *inout, hwaddr addr)
+>       int flags;
+>   
+>       inout->gaddr = addr;
+> -    flags = probe_access_full(inout->env, addr, MMU_DATA_STORE,
+> +    flags = probe_access_full(inout->env, addr, 0, MMU_DATA_STORE,
+>                                 inout->ptw_idx, true, &inout->haddr, &full, 0);
+>   
+>       if (unlikely(flags & TLB_INVALID_MASK)) {
+> @@ -428,7 +428,7 @@ do_check_protect_pse36:
+>           CPUTLBEntryFull *full;
+>           int flags, nested_page_size;
+>   
+> -        flags = probe_access_full(env, paddr, access_type,
+> +        flags = probe_access_full(env, paddr, 0, access_type,
+>                                     MMU_NESTED_IDX, true,
+>                                     &pte_trans.haddr, &full, 0);
+>           if (unlikely(flags & TLB_INVALID_MASK)) {
 
