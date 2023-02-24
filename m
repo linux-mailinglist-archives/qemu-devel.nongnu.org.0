@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8B06A203F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 18:05:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D68B6A2057
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 18:15:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVbUW-00049h-9M; Fri, 24 Feb 2023 12:04:16 -0500
+	id 1pVbeL-0001pY-1w; Fri, 24 Feb 2023 12:14:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pVbUT-00048h-Lu; Fri, 24 Feb 2023 12:04:13 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
+ id 1pVbeK-0001oP-2l; Fri, 24 Feb 2023 12:14:24 -0500
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pVbUS-0007kI-0S; Fri, 24 Feb 2023 12:04:13 -0500
-Received: by mail-ot1-x330.google.com with SMTP id
- cc12-20020a05683061cc00b00693daa9016fso4064otb.2; 
- Fri, 24 Feb 2023 09:04:11 -0800 (PST)
+ id 1pVbeI-0004b7-Ab; Fri, 24 Feb 2023 12:14:23 -0500
+Received: by mail-oi1-x233.google.com with SMTP id q15so8453373oiw.11;
+ Fri, 24 Feb 2023 09:14:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=CD7zK1FBhKQKh6T1C+LUvBIjFfVtWfijPTxQZhCfqAU=;
- b=Y5QoAR++RGhsWY6+9EkWh+79IG+hIFRmWTyEfWG+bQzm8Dah5XLwvohLDmGAzRFIni
- aEaGkvz6ncVYb8IfiEtRMVB1IG5wgSEI+Su7Ks1LE6E63emiGc68FKUaPkzKyU/LRwpW
- nkhH8yesQgus5zOB+aXWJi9J4EY8awrA1DMtpeh6H0gjar+XBjR1MBtg3SMKK2efbOKh
- 2g8u1ppmJytpq+zgTsMVDWDd8U/iV8D8NgizUqPzNIS/ew9IH00+wcE0auH3HaLseOCp
- KR7yHw3iSST3783xZUteGNqtxm90KzTDrHpBaqhIzQr/EtIgByCTuhJinFq256Bmi2Q0
- 60XQ==
+ bh=AGKDTKon04X838CnWPQ7YSFGwIlOP5AurkWy5lPZ0Yw=;
+ b=KJWTUxsixzYKGhd5/aV6xDuiZXT9tERrXy1/CU3zYELA+x9eAT/+TJS/p61soiVBBR
+ gA3/3qoEiCX/8kWvX6O52mkQIs+rsFJVXqjp1iZBlTgUjmcJlGYkhM7GxyGl0VNZ4Nsx
+ 0FBhkmmSZRzlpEakj6IzOcg5sIy9YNxvO/nZNM6qOU75PGkOgj0SS/6Xbl0C4cEjDmv/
+ rBcAEM3/beJI7BOS7bMFrUREa4ge8zGLjh0yMuY2DGN+gSSmjcrQi+yCStjZ2oB8W1Kh
+ 2HWLKarZScbV1U7hjEvjJj35uH74oVYmKAMTizRylO8cfqmnLVUvg5wB+KpMjG/tEYEP
+ jpXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CD7zK1FBhKQKh6T1C+LUvBIjFfVtWfijPTxQZhCfqAU=;
- b=Di/RPdTjX3OvnciXZMR8AmmIfflDBBq9YskV6I8HZg4w/ynTDuwajbtCECFIVWQRlU
- 5pE7nYi4T6Kusv3lQLjQAZbqKwbpRqVw0T4FRgYdZ4ROsgJ2iDveOMTFhqMbgInlKYIy
- 2jV9rtvYZk+VbgM0sKQxvwb3TGVLOr1KNx+BR0uu1Lx0yEJcYMGQveq3kXN3y5rs33jn
- K1nF8sCudQkinS/nG2fyPRpYsKQ+QFhuwQZhmrQ4swANEv4MGKSzsGIi9wFGnrHsSNNP
- UBZKajqiGo0emsESZJwi1RoAPXVz67TqzQB92B7+kJzRNljrZlA018iUpywJk6otrZ5T
- CaGA==
-X-Gm-Message-State: AO0yUKUPQSus2CciTJXp0FcazK2GNgOzJ0vcgtDt6bwJioZia4uKmgN6
- vXjBsQV85OGxU5HL5zewrNM=
-X-Google-Smtp-Source: AK7set8Mo5YZG1RcJ4YKzIqvZnxTIZSrwIU0DEfxIdSmShLStJb0zPj6CI1+4AnoQPIqPYUPub64jQ==
-X-Received: by 2002:a05:6830:3498:b0:693:ce9d:5111 with SMTP id
- c24-20020a056830349800b00693ce9d5111mr5201183otu.9.1677258250438; 
- Fri, 24 Feb 2023 09:04:10 -0800 (PST)
+ bh=AGKDTKon04X838CnWPQ7YSFGwIlOP5AurkWy5lPZ0Yw=;
+ b=4GpDIjgQuanRaWcvwuVEnDNcqoaEwgpi+rGV/HKPeTY4OWIY5+G5KplrJ+flvXMe9J
+ EuVr9/Vi4Yrqzn/OZJ6OqUohdmE2Gjc76de/wGQMnDf+8k/XK/CUNkhaE9NLJGQtgMN0
+ GFPRwp1y0Qf2+An+llaxA4XpCp5Jwz+/pBpTm3WjtyzGKxZBuBsom7fDudjhQC1V+aEW
+ zqFFGzBts6HxRcHGWGED1bHkHsQVyQC4rW2VjgAEryRIdLdha4bZtRGIflkaMsIwuFm1
+ +n3BCJBsCZQKOlfEd8r7DwabzTrotZAdX+XMGu8zpaQps09ou+Qazii1s/hMotey/uAo
+ CnQw==
+X-Gm-Message-State: AO0yUKX+sIHhOgOOseKJ7iAyLuNFca+NSmGovYc23ZV3vekxwgyhKNYO
+ x8a9WJ3sMJdafEIU7ST1bA0=
+X-Google-Smtp-Source: AK7set8Nd9rRIccDHjnFa5fxjSxCmetNNGAN4qKMC8hyG5XJkn79ktqEWx3gpOLEMfx71D7Q+aaEjw==
+X-Received: by 2002:aca:2218:0:b0:384:87c:7579 with SMTP id
+ b24-20020aca2218000000b00384087c7579mr667599oic.42.1677258860519; 
+ Fri, 24 Feb 2023 09:14:20 -0800 (PST)
 Received: from [192.168.68.107] ([189.110.112.117])
  by smtp.gmail.com with ESMTPSA id
- d2-20020a9d51c2000000b006864816ecd9sm4859135oth.59.2023.02.24.09.04.08
+ y1-20020a056808060100b00383b4f8a15dsm4196002oih.33.2023.02.24.09.14.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 09:04:09 -0800 (PST)
-Message-ID: <9b070e09-6479-62b7-6cd6-8acbae164047@gmail.com>
-Date: Fri, 24 Feb 2023 14:04:06 -0300
+ Fri, 24 Feb 2023 09:14:20 -0800 (PST)
+Message-ID: <23a7106f-bc25-20c4-d446-b0fff84cc2fb@gmail.com>
+Date: Fri, 24 Feb 2023 14:14:16 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 3/5] hw/ppc/pegasos2: Fix PCI interrupt routing
+Subject: Re: [PATCH 5/5] hw/audio/via-ac97: Basic implementation of audio
+ playback
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
- philmd@redhat.com
+To: BALATON Zoltan <balaton@eik.bme.hu>, Bernhard Beschow <shentey@gmail.com>
+Cc: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Gerd Hoffmann
+ <kraxel@redhat.com>, philmd@linaro.org,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <cover.1677004414.git.balaton@eik.bme.hu>
- <c046d77c20875c8cd8bfdc79b4619a98ffd0bf33.1677004415.git.balaton@eik.bme.hu>
+ <f84b42b8e811c6a0ddb23139fdfd654c8cc4f09c.1677004415.git.balaton@eik.bme.hu>
+ <89f85024-6057-f0a8-3d4a-20eeaeec8878@t-online.de>
+ <DF35DA6B-ED6A-43E3-A28E-7936560B6452@gmail.com>
+ <62f3e9a1-f360-b525-7d1e-f57ccc8dca9e@eik.bme.hu>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <c046d77c20875c8cd8bfdc79b4619a98ffd0bf33.1677004415.git.balaton@eik.bme.hu>
+In-Reply-To: <62f3e9a1-f360-b525-7d1e-f57ccc8dca9e@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x330.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x233.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,113 +101,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 2/21/23 15:44, BALATON Zoltan wrote:
-> According to the PegasosII schematics the PCI interrupt lines are
-> connected to both the gpp pins of the Mv64361 north bridge and the
-> PINT pins of the VT8231 south bridge so guests can get interrupts from
-> either of these. So far we only had the MV64361 connections which
-> worked for on board devices but for additional PCI devices (such as
-> network or sound card added with -device) guest OSes expect interrupt
-> from the ISA IRQ 9 where the firmware routes these PCI interrupts in
-> VT8231 ISA bridge. After the previous patches we can now model this
-> and also remove the board specific connection from mv64361. Also
-> configure routing of these lines when using Virtual Open Firmware to
-> match board firmware for guests that expect this.
-> 
-> This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
+On 2/24/23 10:05, BALATON Zoltan wrote:
+> Just for some motivation, this is what we want to make possible for more people with QEMU 8.0: https://youtu.be/YY9RExl4VDI
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+That's neat!
 
->   hw/pci-host/mv64361.c |  4 ----
->   hw/ppc/pegasos2.c     | 26 +++++++++++++++++++++++++-
->   2 files changed, 25 insertions(+), 5 deletions(-)
 > 
-> diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
-> index f43f33fbd9..3d9132f989 100644
-> --- a/hw/pci-host/mv64361.c
-> +++ b/hw/pci-host/mv64361.c
-> @@ -874,10 +874,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
->       }
->       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
->       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
-> -    /* FIXME: PCI IRQ connections may be board specific */
-> -    for (i = 0; i < PCI_NUM_PINS; i++) {
-> -        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
-> -    }
->   }
->   
->   static void mv64361_reset(DeviceState *dev)
-> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-> index a9563f4fb2..4e1476673b 100644
-> --- a/hw/ppc/pegasos2.c
-> +++ b/hw/ppc/pegasos2.c
-> @@ -74,6 +74,8 @@ struct Pegasos2MachineState {
->       MachineState parent_obj;
->       PowerPCCPU *cpu;
->       DeviceState *mv;
-> +    qemu_irq mv_pirq[PCI_NUM_PINS];
-> +    qemu_irq via_pirq[PCI_NUM_PINS];
->       Vof *vof;
->       void *fdt_blob;
->       uint64_t kernel_addr;
-> @@ -96,6 +98,15 @@ static void pegasos2_cpu_reset(void *opaque)
->       }
->   }
->   
-> +static void pegasos2_pci_irq(void *opaque, int n, int level)
-> +{
-> +    Pegasos2MachineState *pm = opaque;
-> +
-> +    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
-> +    qemu_set_irq(pm->mv_pirq[n], level);
-> +    qemu_set_irq(pm->via_pirq[n], level);
-> +}
-> +
->   static void pegasos2_init(MachineState *machine)
->   {
->       Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
-> @@ -107,7 +118,7 @@ static void pegasos2_init(MachineState *machine)
->       I2CBus *i2c_bus;
->       const char *fwname = machine->firmware ?: PROM_FILENAME;
->       char *filename;
-> -    int sz;
-> +    int i, sz;
->       uint8_t *spd_data;
->   
->       /* init CPU */
-> @@ -157,11 +168,18 @@ static void pegasos2_init(MachineState *machine)
->       /* Marvell Discovery II system controller */
->       pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
->                             qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
-> +    for (i = 0; i < PCI_NUM_PINS; i++) {
-> +        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
-> +    }
->       pci_bus = mv64361_get_pci_bus(pm->mv, 1);
-> +    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
->   
->       /* VIA VT8231 South Bridge (multifunction PCI device) */
->       via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
->                                                    true, TYPE_VT8231_ISA));
-> +    for (i = 0; i < PCI_NUM_PINS; i++) {
-> +        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
-> +    }
->       object_property_add_alias(OBJECT(machine), "rtc-time",
->                                 object_resolve_path_component(via, "rtc"),
->                                 "date");
-> @@ -268,6 +286,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
->                                 PCI_INTERRUPT_LINE, 2, 0x9);
->       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
->                                 0x50, 1, 0x2);
-> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-> +                              0x55, 1, 0x90);
-> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-> +                              0x56, 1, 0x99);
-> +    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-> +                              0x57, 1, 0x90);
->   
->       pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
->                                 PCI_INTERRUPT_LINE, 2, 0x109);
+> This would need at least my SM502 patches and fixing the IRQ routing in the VT8231 (this test was with my series for that, I'll ask testing Bernhard's version the same way once I get it and rebase my patches on it). AmigaOS can use ES1370 so the via-ac97 patches are not that important now but the other patches would be needed. I hope users won't have to wait until September to try this.
+
+If you're referring to "hw/display/sm501: Implement more 2D raster operations" then it's already
+queued in ppc-next. In fact I believe you can re-send it with this series, with my r-b, and whoever
+gets to send the PR can send everything at once.
+
+If either Gerd of Phil wants to pick these up I have already acked the pegasos2 changes.
+
+If you want me to get this via qemu-ppc bear in mind that I need to send the PR March 7th
+at the latest.
+
+
+Thanks,
+
+
+Daniel
+
+> 
+> While AmigaOS runs on sam460ex now, that versiion is much slower due to the limited PPC440 that doesn't have AltiVec and also due to some issues on the real platform it has to do more synchronisation which slows it down. The pegasos2 version runs much better and has a better chance to get it to work with KVM on PPC host so this would be a big improvement even if there would be more bugs to fix in upcoming releases but we'll never find those unless people can start using it and report them. More people are interested but less are able to compile and test from git repos and depend on binary distros instead.
+> 
+> Regards,
+> BALATON Zoltan
 
