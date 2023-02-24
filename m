@@ -2,84 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3796A142E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 01:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166C26A1441
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 01:20:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVLg8-0000Lj-6G; Thu, 23 Feb 2023 19:11:12 -0500
+	id 1pVLnh-0002TS-2f; Thu, 23 Feb 2023 19:19:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVLg6-0000LQ-AT
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:11:10 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVLg4-00030O-0Q
- for qemu-devel@nongnu.org; Thu, 23 Feb 2023 19:11:10 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- qi12-20020a17090b274c00b002341621377cso1084178pjb.2
- for <qemu-devel@nongnu.org>; Thu, 23 Feb 2023 16:11:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kARi8cr10PRySmO5jl/2kueZ/rjsOX+ae874q8R+7DI=;
- b=ueEQolmRz6xMeGnb/pMfROILworxOPnHODMwjuhaQcJWHC56ZiWtmxEAX1+IfM4xp6
- 8Nt8UmfGf3/XmEYNIJ9KJ8UidHMUU5d50d4YaM8vbLBvDocmUKu2rHWA6yNyuSnetusc
- 3xWfJGPyF5c5NxK728/sgFkj0Zt1G31nJZMpkeAGSSL8DPR2DgrFRBMv2OP3H0GDLRls
- uKUfgw2RJIf5/oehnxfAs7RlIOyzFN18YC5gPiuSFXZ4FErvSIbX+l7pX4eQ1UNhZwaz
- UDTNiMOJKMbMOeAYmxw1r6W8AG97SORf439eMg8gIdZKYxQ/T+9bfpwmA3cUJqk3OZrd
- e40g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kARi8cr10PRySmO5jl/2kueZ/rjsOX+ae874q8R+7DI=;
- b=V3X4QsTWYGp8HooOY7HrtJFVEB/G3CxZJ+vGzktH4DMm3J01vODrlirdRUlnW5jddN
- wIDeYZFxDzX47cEcPFpcQKsPYIfYA4xLyGprqHfxOGEee0eL9tuZlGc5pHk6jMziRzLU
- jFUgY4HWtzk2vq2efQgQ06Y229DADOTClfKE1pEMxgTOgt6iE5WUMQq3vf0kr5F7O0eT
- GAJCydc+GwwG7JFgi6PxAQa65ddDj7Z9tx6PrIeS1HnRBPxHvBSR7HLcRziGe5SI8N1e
- +OIEsqYPOiWkFlYFBqVnmtaavWc8JbwuGOks9uuSI5TvWETkpNjm+cDy2yUiYaseVnuI
- Drlw==
-X-Gm-Message-State: AO0yUKV3NOFlcy9riMKilia8GomrDXZ9Xb9x4M7E6R8gfEbxFYTMnt5n
- BkI9EYB3RlPexHz67u25FYykgQ==
-X-Google-Smtp-Source: AK7set9UVDjpeIgHfxIKCvuQZ3zHjElg2QuFIGPJpuoQQ+0bDPtobb0DbDCtIUq5lHGRQ78/AsHllA==
-X-Received: by 2002:a17:902:dac6:b0:19b:c491:21be with SMTP id
- q6-20020a170902dac600b0019bc49121bemr16297129plx.64.1677197463358; 
- Thu, 23 Feb 2023 16:11:03 -0800 (PST)
-Received: from [192.168.54.227] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- q7-20020a656a87000000b00503006d9b50sm760197pgu.92.2023.02.23.16.11.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 16:11:02 -0800 (PST)
-Message-ID: <ab0f0f50-f8c4-05a2-5f37-bb7e5c4ace82@linaro.org>
-Date: Thu, 23 Feb 2023 14:10:59 -1000
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pVLne-0002Rt-IM; Thu, 23 Feb 2023 19:18:58 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pVLnc-0006PW-37; Thu, 23 Feb 2023 19:18:58 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BD86E746346;
+ Fri, 24 Feb 2023 01:18:52 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 4B813746324; Fri, 24 Feb 2023 01:18:52 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH] hw/display/sm501: Add alternatives to pixman routines
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v7 1/4] tcg: add 'size' param to probe_access_flags()
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
-References: <20230223234427.521114-1-dbarboza@ventanamicro.com>
- <20230223234427.521114-2-dbarboza@ventanamicro.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230223234427.521114-2-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Sebastian Bauer <mail@sebastianbauer.info>
+Message-Id: <20230224001852.4B813746324@zero.eik.bme.hu>
+Date: Fri, 24 Feb 2023 01:18:52 +0100 (CET)
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,47 +57,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/23/23 13:44, Daniel Henrique Barboza wrote:
-> probe_access_flags() as it is today uses probe_access_full(), which in
-> turn uses probe_access_internal() with size = 0. probe_access_internal()
-> then uses the size to call the tlb_fill() callback for the given CPU.
-> This size param ('fault_size' as probe_access_internal() calls it) is
-> ignored by most existing .tlb_fill callback implementations, e.g.
-> arm_cpu_tlb_fill(), ppc_cpu_tlb_fill(), x86_cpu_tlb_fill() and
-> mips_cpu_tlb_fill() to name a few.
-> 
-> But RISC-V riscv_cpu_tlb_fill() actually uses it. The 'size' parameter
-> is used to check for PMP (Physical Memory Protection) access. This is
-> necessary because PMP does not make any guarantees about all the bytes
-> of the same page having the same permissions, i.e. the same page can
-> have different PMP properties, so we're forced to make sub-page range
-> checks. To allow RISC-V emulation to do a probe_acess_flags() that
-> covers PMP, we need to either add a 'size' param to the existing
-> probe_acess_flags() or create a new interface (e.g.
-> probe_access_range_flags).
-> 
-> There are quite a few probe_* APIs already, so let's add a 'size' param
-> to probe_access_flags() and re-use this API. This is done by open coding
-> what probe_access_full() does inside probe_acess_flags() and passing the
-> 'size' param to probe_acess_internal(). Existing probe_access_flags()
-> callers use size = 0 to not change their current API usage. 'size' is
-> asserted to enforce single page access like probe_access() already does.
-> 
-> No behavioral changes intended.
-> 
-> Signed-off-by: Daniel Henrique Barboza<dbarboza@ventanamicro.com>
-> ---
->   accel/stubs/tcg-stub.c        |  2 +-
->   accel/tcg/cputlb.c            | 17 ++++++++++++++---
->   accel/tcg/user-exec.c         |  5 +++--
->   include/exec/exec-all.h       |  3 ++-
->   semihosting/uaccess.c         |  2 +-
->   target/arm/ptw.c              |  2 +-
->   target/arm/sve_helper.c       |  2 +-
->   target/s390x/tcg/mem_helper.c |  6 +++---
->   8 files changed, 26 insertions(+), 13 deletions(-)
+Pixman can sometimes return false so add fallbacks for such cases and
+also add a property to disable pixman and always use the fallbacks
+which can be useful on platforms where pixman is broken or for testing
+different drawing methods.
 
-Queueing to tcg-next.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+Also ping for the other sm501 patch I've sent a week ago:
+https://patchew.org/QEMU/20230216144043.D632874634B@zero.eik.bme.hu/
+These two patches are needed to fix graphics issues with AmigaOS so
+I'd like them to be merged for 8.0
 
-r~
+ hw/display/sm501.c | 77 +++++++++++++++++++++++++++++++---------------
+ 1 file changed, 52 insertions(+), 25 deletions(-)
+
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index 58bc9701ee..2a0a9a37f8 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -464,6 +464,7 @@ typedef struct SM501State {
+     uint32_t last_width;
+     uint32_t last_height;
+     bool do_full_update; /* perform a full update next time */
++    bool use_pixman;
+     I2CBus *i2c_bus;
+ 
+     /* mmio registers */
+@@ -691,7 +692,7 @@ static void sm501_2d_operation(SM501State *s)
+     unsigned int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
+     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
+     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
+-    bool overlap = false;
++    bool overlap = false, fallback = false;
+ 
+     if ((s->twoD_stretch >> 16) & 0xF) {
+         qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
+@@ -826,7 +827,7 @@ static void sm501_2d_operation(SM501State *s)
+                 de = db + (width + (height - 1) * dst_pitch) * bypp;
+                 overlap = (db < se && sb < de);
+             }
+-            if (overlap) {
++            if (s->use_pixman && overlap) {
+                 /* pixman can't do reverse blit: copy via temporary */
+                 int tmp_stride = DIV_ROUND_UP(width * bypp, sizeof(uint32_t));
+                 uint32_t *tmp = tmp_buf;
+@@ -834,25 +835,43 @@ static void sm501_2d_operation(SM501State *s)
+                 if (tmp_stride * sizeof(uint32_t) * height > sizeof(tmp_buf)) {
+                     tmp = g_malloc(tmp_stride * sizeof(uint32_t) * height);
+                 }
+-                pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
+-                           src_pitch * bypp / sizeof(uint32_t),
+-                           tmp_stride, 8 * bypp, 8 * bypp,
+-                           src_x, src_y, 0, 0, width, height);
+-                pixman_blt(tmp, (uint32_t *)&s->local_mem[dst_base],
+-                           tmp_stride,
+-                           dst_pitch * bypp / sizeof(uint32_t),
+-                           8 * bypp, 8 * bypp,
+-                           0, 0, dst_x, dst_y, width, height);
++                fallback = pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
++                                      src_pitch * bypp / sizeof(uint32_t),
++                                      tmp_stride, 8 * bypp, 8 * bypp,
++                                      src_x, src_y, 0, 0, width, height);
++                fallback |= pixman_blt(tmp, (uint32_t *)&s->local_mem[dst_base],
++                                       tmp_stride,
++                                       dst_pitch * bypp / sizeof(uint32_t),
++                                       8 * bypp, 8 * bypp, 0, 0, dst_x, dst_y,
++                                       width, height);
+                 if (tmp != tmp_buf) {
+                     g_free(tmp);
+                 }
+-            } else {
+-                pixman_blt((uint32_t *)&s->local_mem[src_base],
+-                           (uint32_t *)&s->local_mem[dst_base],
+-                           src_pitch * bypp / sizeof(uint32_t),
+-                           dst_pitch * bypp / sizeof(uint32_t),
+-                           8 * bypp, 8 * bypp,
+-                           src_x, src_y, dst_x, dst_y, width, height);
++            } else if (s->use_pixman) {
++                fallback = pixman_blt((uint32_t *)&s->local_mem[src_base],
++                                      (uint32_t *)&s->local_mem[dst_base],
++                                      src_pitch * bypp / sizeof(uint32_t),
++                                      dst_pitch * bypp / sizeof(uint32_t),
++                                      8 * bypp, 8 * bypp, src_x, src_y,
++                                      dst_x, dst_y, width, height);
++            }
++            if (!s->use_pixman || fallback) {
++                uint8_t *sp = s->local_mem + src_base;
++                uint8_t *d = s->local_mem + dst_base;
++                unsigned int y, i, j;
++                for (y = 0; y < height; y++) {
++                    if (overlap) { /* overlap also means rtl */
++                        i = (dst_y + height - 1 - y) * dst_pitch;
++                        i = (dst_x + i) * bypp;
++                        j = (src_y + height - 1 - y) * src_pitch;
++                        j = (src_x + j) * bypp;
++                        memmove(&d[i], &sp[j], width * bypp);
++                    } else {
++                        i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
++                        j = (src_x + (src_y + y) * src_pitch) * bypp;
++                        memcpy(&d[i], &sp[j], width * bypp);
++                    }
++                }
+             }
+         }
+         break;
+@@ -867,13 +886,19 @@ static void sm501_2d_operation(SM501State *s)
+             color = cpu_to_le16(color);
+         }
+ 
+-        if (width == 1 && height == 1) {
+-            unsigned int i = (dst_x + dst_y * dst_pitch) * bypp;
+-            stn_he_p(&s->local_mem[dst_base + i], bypp, color);
+-        } else {
+-            pixman_fill((uint32_t *)&s->local_mem[dst_base],
+-                        dst_pitch * bypp / sizeof(uint32_t),
+-                        8 * bypp, dst_x, dst_y, width, height, color);
++        if (!s->use_pixman || (width == 1 && height == 1) ||
++            !pixman_fill((uint32_t *)&s->local_mem[dst_base],
++                         dst_pitch * bypp / sizeof(uint32_t), 8 * bypp,
++                         dst_x, dst_y, width, height, color)) {
++            /* fallback when pixman failed or we don't want to call it */
++            uint8_t *d = s->local_mem + dst_base;
++            unsigned int x, y, i;
++            for (y = 0; y < height; y++, i += dst_pitch * bypp) {
++                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
++                for (x = 0; x < width; x++, i += bypp) {
++                    stn_he_p(&d[i], bypp, color);
++                }
++            }
+         }
+         break;
+     }
+@@ -2010,6 +2035,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
+ static Property sm501_sysbus_properties[] = {
+     DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
+     DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
++    DEFINE_PROP_BOOL("x-pixman", SM501SysBusState, state.use_pixman, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -2093,6 +2119,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
+ 
+ static Property sm501_pci_properties[] = {
+     DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
++    DEFINE_PROP_BOOL("x-pixman", SM501PCIState, state.use_pixman, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-- 
+2.30.7
+
 
