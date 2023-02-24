@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A766A1CE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 14:19:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 544906A1CE2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 14:19:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVXyH-0000uU-JB; Fri, 24 Feb 2023 08:18:45 -0500
+	id 1pVXz1-0001c0-7j; Fri, 24 Feb 2023 08:19:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVXyF-0000uA-Nc
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 08:18:43 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pVXyy-0001bM-C6
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 08:19:29 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pVXyE-0002k9-3L
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 08:18:43 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id a7so8046892pfx.10
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 05:18:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pVXyw-0002pD-S8
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 08:19:28 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so2142319wms.2
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 05:19:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=a7mOScT118HWLdKvbSEDKSYtPbUv8rfQOUTAQbxJi3g=;
- b=SStqIpitRnQ+LlJV2COnPCHd9Igd/K3gDJX11eF92WMq2j6iS8XwsvMPwuuwlaYQ7h
- F110dNuQJHDwQXwAifnnxV7IotFOoBBhrdcPpRUJD2BqQkIxSKn2moS9S5+rybczyKnW
- XzuJuMT1zNDSNXz3jCuFCIV1m0Qp1e1gC1rawjL/m4C0fl0f3TRnY0RlboImNjb4Q4DO
- 3sl6ZVjCsjtO/fWrxxihE/S1xl1QKPEiM6QvvBz6bOaUyquPcClmqT4+G9t5DEJnDwvJ
- ABhbsPbz1V/beYNrCJMlINd5RiJKLts+4gRHV0a6PqDu8UZwOeJLb5iZmmYXsNpaNa2M
- uCSA==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nmSjBPzVrNlzXhaPK7WUWLQUBmZdVtXsvqDUpZj2szw=;
+ b=lyiPWxK3FZOW/5mDeDihenSxiFTKeUuVEaFYDUTYsz4Z6Xy44j/hmk9sgpLfewsYJ3
+ Lx1wghQoP3+k+T6sdXxHkM0ci9/xQtDjVjMbd/3e+OKL/jGKM+K674Eve326psRi0+Z7
+ wLeDS9wr4JAB/bbcpggOwTpKeftEpm2js7SKNX6piWnOKakkS5GWZb6VDVRYNR4/D3JY
+ tlo4si71ym4HrgHm1eMnR02GEpf27/AGBs74qVaoZpxzs1HNomQFnDKfmA/wrfAqpHAN
+ HegpS+fHf4fUmYMvM5p+FB6UwDWMiaZmS4gpO5xoj9fkFpHKqZa1pZr4YNkbsq7B7/cx
+ DwWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=a7mOScT118HWLdKvbSEDKSYtPbUv8rfQOUTAQbxJi3g=;
- b=1VMQAmf2HKtcSZrTJmS2BMm4zpXScoPtaHILmqcihvY4eR6XxBE4lPxWK2kL2t3+um
- WCZaYk+xtd1cnxnwUj0Roi3chLpLAauYE20dd75H4XN0fsmrAE6AygCeVg1979Pn2krZ
- 1ySDRxX8EU/tRXPNjqV3JSTiZ5fZFsbfP6mYKESDmQW1DuKQfRdxnZuaBcy2EibyQ5lM
- oWiFJSjRqlQdSPiG0gW/YNhoJlrzWnTh1lyOUnbYZt3nzY/i+QFf8eFdZ8rjkx0YOdux
- obuqOBn0fI9ESyLU+T/8DMuQf3fO7/aEs7gNzf4pcvhyWcfIth91lMgTJTJV5RRRfHaN
- 4WNw==
-X-Gm-Message-State: AO0yUKV5X1Jw7pvN2ucISwaPWKzgDrIVnVnnM3lkwJU7LU8VJID0fBRi
- lUj3FgOYHDUSW4y16IKiT18AEcRYmusaagX0Yd9+sg==
-X-Google-Smtp-Source: AK7set/D+CjOiiidRf7nJrBdmWRDeF6e7duKMC70sfO0OByAWDUlA9d7pl5nJxmdypbG61FISbeOtW4ESaJVeFJ+WUk=
-X-Received: by 2002:a63:7555:0:b0:4fd:4602:1b9a with SMTP id
- f21-20020a637555000000b004fd46021b9amr3048315pgn.9.1677244720616; Fri, 24 Feb
- 2023 05:18:40 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=nmSjBPzVrNlzXhaPK7WUWLQUBmZdVtXsvqDUpZj2szw=;
+ b=S1BHmJeE8tyTFEW7EeVqWsWmjY1G2j7ZlNOXnHHd2wXlPYKkm2JrUKPVESft+Ys46N
+ Zp7/S6gOqc+q4r2YxNohzJAPSiqE2NC3hqRTEtPuliupjad0LvmpN8fowdlCowef+FBR
+ IFz0XdBLncHx80vPT6uV6PFCsD4W+kIgJwpKPD2amjZ/7zwLEhVSwvEFep3WCArENuY5
+ t8XByvvhDi0fJpcU3NrRXQtnE0LK6R7D7M7uqVjxjdyJfAuL9PKe8yHAykukgpVtiBiW
+ ymaArdvkSOJfBT7s5EC00B7PLEcYSOG7Yg3INLLp2AT5OFde+Av8FbMfWTjnoaRvLVzE
+ MSWQ==
+X-Gm-Message-State: AO0yUKW2/rayMC0WbCi3FffIVlMbDQ4jmBYoLNecmFFrLDmlf0fLOjSg
+ 8e5Gx65wBLGPhyyrjxzvD1HZYg==
+X-Google-Smtp-Source: AK7set8XWoYA6ZAZJs4ztX/KV+39V/cXs/IjeXk/2E5mg6dXcLe9sAeF1VSkYdY97CyluBSw/n+FdQ==
+X-Received: by 2002:a05:600c:1546:b0:3eb:246d:7efa with SMTP id
+ f6-20020a05600c154600b003eb246d7efamr1105908wmg.2.1677244765231; 
+ Fri, 24 Feb 2023 05:19:25 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ o25-20020a05600c511900b003dfe549da4fsm3254182wms.18.2023.02.24.05.19.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Feb 2023 05:19:24 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 779C61FFB7;
+ Fri, 24 Feb 2023 13:19:24 +0000 (GMT)
+References: <20230223220404.63630-1-philmd@linaro.org>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Huth
+ <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>, Beraldo Leal
+ <bleal@redhat.com>
+Subject: Re: [PATCH] tests/avocado: Enable TuxRun/mips64 (big-endian) test
+Date: Fri, 24 Feb 2023 13:18:48 +0000
+In-reply-to: <20230223220404.63630-1-philmd@linaro.org>
+Message-ID: <87ttzbnqub.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20230222023336.915045-1-richard.henderson@linaro.org>
- <20230222023336.915045-14-richard.henderson@linaro.org>
-In-Reply-To: <20230222023336.915045-14-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Feb 2023 13:18:29 +0000
-Message-ID: <CAFEAcA8FrgfPm4K7es0TxZ_294D17ZO2FiKukfAqS8Sa+2f5OQ@mail.gmail.com>
-Subject: Re: [PATCH v3 13/25] target/arm: Remove __attribute__((nonnull)) from
- ptw.c
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42f.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,19 +97,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 22 Feb 2023 at 02:36, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+
+> Now that the previous commit ("hw/mips/gt64xxx_pci: Don't
+> endian-swap GT_PCI0_CFGADDR") fixed the issue accessing
+> the GT64120 PCI config-address register on big-endian
+> targets, we can enable this TuxRun test.
 >
-> This was added in 7e98e21c098 as part of a reorg in which
-> one of the argument had been legally NULL, and this caught
-> actual instances.  Now that the reorg is complete, this
-> serves little purpose.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I guess it will go through your tree.
 
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
