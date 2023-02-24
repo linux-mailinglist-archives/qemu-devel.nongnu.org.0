@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0006A1D68
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 15:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E666B6A1D69
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Feb 2023 15:29:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVZ2Y-000084-NF; Fri, 24 Feb 2023 09:27:14 -0500
+	id 1pVZ42-00014K-Gp; Fri, 24 Feb 2023 09:28:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pVZ2T-00006d-5U
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 09:27:09 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pVZ40-00013i-6M
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 09:28:44 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pVZ2Q-00035i-Gy
- for qemu-devel@nongnu.org; Fri, 24 Feb 2023 09:27:07 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- x20-20020a17090a8a9400b00233ba727724so6335795pjn.1
- for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 06:27:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=AhWaX788+0H9tEp0eRrfsFK8MfuQRTG2oycKFtkQrBQ=;
- b=P81Vb2wY9cQv7Lx6JB2IXBs/vApzmBtBTTMGS6wj03yH0HkFf9FBqKh5OagsQL4uRN
- 67Xyg/yhGPT+Deol8SshNWqbWr9Vpt2AqPC/q5fZgVrtChjL43c3r69UNEdzMd29m2HT
- 5Kzxq74KYrBfJMTq18EdydGk/8mDRNDtpvDNxgNnztY/SF/MHoDXVgDXuH+BDebCM9uS
- wDM9dRClCx7taft4thhIZvd6q1l2gHEJtG6ER54ocX8kfJR/8HzZBagv9i43A3kMpGnZ
- gUwW6zquKDPk2YuO/owce58k+nzZzTBdrXHwgkRr4SdimnqqoDSD4tHQargh267zE6fZ
- gDnA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pVZ3y-0003Jy-M9
+ for qemu-devel@nongnu.org; Fri, 24 Feb 2023 09:28:43 -0500
+Received: by mail-pl1-x634.google.com with SMTP id z2so17048055plf.12
+ for <qemu-devel@nongnu.org>; Fri, 24 Feb 2023 06:28:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=cQ54g35bCuD1w3uyzUPmiOttzPBZuwsyHex1RfuqZ5U=;
+ b=M8IunscV6G0Bbf0cYdvshy5ve8T8VU9Y9glTslJXBLCWl0ALDn/sjQqQ3hgXa4m1Le
+ DmhPhNclHU67ZPeLJoGE2jFtcTnxRlSS4OZqN7zf+dsngiv+tV7uWWmIJc0euprkfkGP
+ hNXs8smYaEmaQj4x7EEN3Z5LalrY/ETSfoZ14QXwsfIguuITV/Zlq5zd5WbYLYDLdypU
+ z/QLGKmStgn+Ds6M5jmjk3i+HnZx8XHqxVcCCtigPaAzppsIKT8j/9g78LpIsTisPdhf
+ 9V15IWpDrDTPgeTtYSbDvCxbuM6VSC37/AYYAb9z/2GZ3bX+fmeLDMu91pyTk58lskhg
+ MTEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AhWaX788+0H9tEp0eRrfsFK8MfuQRTG2oycKFtkQrBQ=;
- b=BD5kY6XHeCu4hvzVO8zlAFDtutqnnM0nBQL0RZgL8ryXzbjKP2nN6snAd5m7axVlzE
- guDD26HHewAmdUxR1jS1rQE3db94E3C68uQtXxp4thD8lJVgXo4gioFKFP4o43DZaRm/
- UZQchyve7ZBL2bQVJggmEIQsSyb8RPfvh+UFQK3aTHRFdijQtMsUMdC9w5cNg9iejNJv
- MxYVIpWGJFh1w8t0frupTS5ShuINBZ+KtWh6XfCcKRTzGs0a9gp8K+HCFeMEr5CUM4Eb
- fHoAuGVHoSUiNFTE7wAXdUo/hCpy8Vyi+/pg3tA/WAfFzp/jZeWLDcsBdhEZLA3y16A3
- Dq4w==
-X-Gm-Message-State: AO0yUKU7YV6Av/2ytRJoWcDs+XCN8He3YCTGkLE57OxDMsuOAyM9OO+e
- d5TrNDMBnUJcHswKPs7A/S99SY64U6bUim81
-X-Google-Smtp-Source: AK7set/HNhTSF60iCNoOf4yxb/I6QYOgCcEcWhBb5NJUJhoD6opsmXNvAfwnDp2gi/uOS0JViPiA9Q==
-X-Received: by 2002:a17:902:f552:b0:19a:a822:f670 with SMTP id
- h18-20020a170902f55200b0019aa822f670mr17302610plf.6.1677248825047; 
- Fri, 24 Feb 2023 06:27:05 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
- m1-20020a1709026bc100b00192aa53a7d5sm4686701plt.8.2023.02.24.06.27.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 06:27:04 -0800 (PST)
-Date: Fri, 24 Feb 2023 19:56:58 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: Re: [PATCH V4 5/8] hw/riscv/virt: virt-acpi-build.c: Add RINTC in MADT
-Message-ID: <Y/jJMnHaspaic2M3@sunil-laptop>
-References: <20230224083701.2657063-1-sunilvl@ventanamicro.com>
- <20230224083701.2657063-6-sunilvl@ventanamicro.com>
- <20230224135343.24a5a95b@imammedo.users.ipa.redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cQ54g35bCuD1w3uyzUPmiOttzPBZuwsyHex1RfuqZ5U=;
+ b=vLOE7La8wq1iZWf4NuSVmdBn6oSabcbWNUp9lEywg4UZv5PQUrJFujuXS1E6pWM02i
+ DeIGtvhXNzOGC8dJQ8U9k+o1ZQAnpP/NEAnni+xt/F40pGPHLKxIQ0MVmto6R1RSg32k
+ i/fLLmsyAe2HQxsv+OeSu9GV5rHJHwpSEAcYmXF9Pw/hpuWtYxGuunaz6sUhC56SONe2
+ JvCTd5MvHGskFUnYf4sKNaRvbcwyiK4Y6EGi5+UMKkh8EXipxchK49Hkd/D+3KFKVgpC
+ IkWCMvbDCBtG1ezl3WC6JY9OGGAS2x2K8vf40nXGKG9QiNclELsozh8TYJwWX7TwiwLx
+ UrRg==
+X-Gm-Message-State: AO0yUKXPdHYPlm7d/3aJGgcgbJvHAyrlTypT26WPeTkkw/d1AMcebIcZ
+ bNaWhMQHoFJM5huQzf2EeQEv1kpfYlhuacVc/z1mGw==
+X-Google-Smtp-Source: AK7set8CwngLteQi8/fUmKHQ/zjaTMDheqksM1b0ctsqfFu94yLYW7cKal+HDiucxE+rDWtbSvVR+i26qKirLXkr2to=
+X-Received: by 2002:a17:903:3307:b0:199:4a4f:9d2a with SMTP id
+ jk7-20020a170903330700b001994a4f9d2amr3163056plb.13.1677248921173; Fri, 24
+ Feb 2023 06:28:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230224135343.24a5a95b@imammedo.users.ipa.redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x102a.google.com
+References: <20230222023336.915045-1-richard.henderson@linaro.org>
+ <20230222023336.915045-16-richard.henderson@linaro.org>
+In-Reply-To: <20230222023336.915045-16-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 24 Feb 2023 14:28:29 +0000
+Message-ID: <CAFEAcA9AEtb52QHthki4CV7ocBqQvR1j-88PLgxBUrVkysjqiw@mail.gmail.com>
+Subject: Re: [PATCH v3 15/25] target/arm: NSTable is RES0 for the RME EL3
+ regime
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,88 +84,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Igor,
-
-On Fri, Feb 24, 2023 at 01:53:43PM +0100, Igor Mammedov wrote:
-> On Fri, 24 Feb 2023 14:06:58 +0530
-> Sunil V L <sunilvl@ventanamicro.com> wrote:
-> 
-> > Add Multiple APIC Description Table (MADT) with the
-> > RINTC structure for each cpu.
-> > 
-> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > ---
-> >  hw/riscv/virt-acpi-build.c | 44 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 44 insertions(+)
-> > 
-> > diff --git a/hw/riscv/virt-acpi-build.c b/hw/riscv/virt-acpi-build.c
-> > index 3a5e2e6d53..8b85b34c55 100644
-> > --- a/hw/riscv/virt-acpi-build.c
-> > +++ b/hw/riscv/virt-acpi-build.c
-> > @@ -32,6 +32,7 @@
-> >  #include "sysemu/reset.h"
-> >  #include "migration/vmstate.h"
-> >  #include "hw/riscv/virt.h"
-> > +#include "hw/riscv/numa.h"
-> >  
-> >  #define ACPI_BUILD_TABLE_SIZE             0x20000
-> >  
-> > @@ -132,6 +133,46 @@ static void build_dsdt(GArray *table_data,
-> >      free_aml_allocator();
-> >  }
-> >  
-> > +/* MADT */
-> 
-> see build_srat() how this comment must look like
+On Wed, 22 Feb 2023 at 02:36, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-Currently, even though ECRs are approved, the ACPI spec is not released
-for these MADT structures. I can add the spec version for the generic
-MADT but not for the RINTC. Same issue with a new table RHCT.
-What is the recommendation in such case?
+> Test in_space instead of in_secure so that we don't switch
+> out of Root space.  Handle the output space change immediately,
+> rather than try and combine the NSTable and NS bits later.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/ptw.c | 27 ++++++++++++++-------------
+>  1 file changed, 14 insertions(+), 13 deletions(-)
 
-> > +static void build_madt(GArray *table_data,
-> > +                       BIOSLinker *linker,
-> > +                       RISCVVirtState *s)
-> > +{
-> > +    MachineState *ms = MACHINE(s);
-> > +    int socket;
-> > +    uint16_t base_hartid = 0;
-> > +    uint32_t cpu_id = 0;
-> > +
-> > +    AcpiTable table = { .sig = "APIC", .rev = 6, .oem_id = s->oem_id,
-> > +                        .oem_table_id = s->oem_table_id };
-> > +
-> > +    acpi_table_begin(&table, table_data);
-> > +    /* Local Interrupt Controller Address */
-> > +    build_append_int_noprefix(table_data, 0, 4);
-> > +    build_append_int_noprefix(table_data, 0, 4);   /* MADT Flags */
-> > +
-> > +    /* RISC-V Local INTC structures per HART */
-> > +    for (socket = 0; socket < riscv_socket_count(ms); socket++) {
-> > +        base_hartid = riscv_socket_first_hartid(ms, socket);
-> > +
-> > +        for (int i = 0; i < s->soc[socket].num_harts; i++) {
-> > +            build_append_int_noprefix(table_data, 0x18, 1);    /* Type     */
-> > +            build_append_int_noprefix(table_data, 20, 1);      /* Length   */
-> > +            build_append_int_noprefix(table_data, 1, 1);       /* Version  */
-> > +            build_append_int_noprefix(table_data, 0, 1);       /* Reserved */
-> > +            build_append_int_noprefix(table_data, 1, 4);       /* Flags    */
-> > +            build_append_int_noprefix(table_data,
-> > +                                      (base_hartid + i), 8);   /* Hart ID  */
-> > +
-> > +            /* ACPI Processor UID  */
-> > +            build_append_int_noprefix(table_data, cpu_id, 4);
-> 
-> cpu_id here seems to be unrelated to one in DSDT.
-> Could you explain how socket/hartid and cpu_id are related to each other?
-> 
-cpu_id should match the _UID. I needed two loops here to get the
-base_hartid of the socket. hart_id is the unique ID for each hart
-similar to MPIDR / APIC ID. I understand your point. Let me make DSDT
-also created using two loops so that both match.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Thank you very much for your review!
-Sunil
+thanks
+-- PMM
 
