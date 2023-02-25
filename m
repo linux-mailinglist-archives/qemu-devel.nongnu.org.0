@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F176A2AFF
+	by mail.lfdr.de (Postfix) with ESMTPS id D80B86A2B01
 	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 18:10:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVy30-0001c3-0s; Sat, 25 Feb 2023 12:09:22 -0500
+	id 1pVy30-0001c6-8c; Sat, 25 Feb 2023 12:09:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pVy2x-0001ab-Tf; Sat, 25 Feb 2023 12:09:19 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ id 1pVy2y-0001ak-4d; Sat, 25 Feb 2023 12:09:20 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pVy2v-0005co-HO; Sat, 25 Feb 2023 12:09:19 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id cq23so9535368edb.1;
- Sat, 25 Feb 2023 09:09:16 -0800 (PST)
+ id 1pVy2w-0005dD-Ix; Sat, 25 Feb 2023 12:09:19 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id ec43so9370277edb.8;
+ Sat, 25 Feb 2023 09:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=URC4QULn1s6Vm1JS2+nnjxOu3AuTbC5LZ+8A63obzbk=;
- b=dieEEyiDTvB7t7aoMeXFfM18WiGE9+IoqB7nDW1gfo85+2R/tvrv4BBuzU8dOeR1Pe
- Y1rN3PX/D2raoI7eEqPpNgg/6RJScEGgbVH6gHjs6TB+iny/6elfKGIj4rpnwXloGeWA
- Ud/3NH+5IgCbb0bbo+cSX9Ck9afioJHwserHD+vTsCxjEya6NiZ1QSugA6G8WbkjbMds
- iAkJS21S45uX31p57WP1CON80FnY8fgJXMQ37OxRBoo5N8M/k0moo4G3UNkhtReQzqPe
- 9GV8fOaeXaEca0Wl3H++VHaUNocHjmOEBAoRCVzJVi7LiVnYOlUI3hHVhM/76GEChKGr
- 3kkQ==
+ bh=Xl/DOZlATxgugred1fzKweHRfgNnXhLpLoX6XzlsSKs=;
+ b=JMdqwGFtPgxlI94YDuKnYNYtGjysm6MU9owjSn3zHvqf6NibPSvwW2AgNRZ1SSBXTj
+ i6Z2yHwGlHQRvMYes7EgCY6xOcykEPw3+nP8EUZfN3HULT6nAMvQU9xU5i92iYh4k8kX
+ isjr4PlPXGWPHZFvzq+pWppzPhFngNE4LzoP5lQ2WnWAuaDvuQTFCc9HGXl6LrNu2n95
+ c6YFCSiXdH2axEgUhuTNioCeE/C6BoAYGQ2YjQD1XmEk0zbHNhbGysY6XrJP4hEZu1Bk
+ VVFk426TshC2D73ab6C5SlOPmcmCs6DIaUz2nAKHej9ZYrKXoWGAVopcpyZrmPuhRfYA
+ UFWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=URC4QULn1s6Vm1JS2+nnjxOu3AuTbC5LZ+8A63obzbk=;
- b=QkRVzyTDAcZ2YoZvTMCKzvJwOqC4OORvOiQ32J28biRGfNI9Zjb9Jyfrc0YwkWTrLR
- eWT7xSbTAwSHmoD4GoyiNCbn+g7fewYdewtkPCanNuWx/lzEQWCxAggYXkMItqSBK9BC
- vnx9ghYlQJc80y1bv+WoDYdRtGCDL2GLa1TqyX028CgCYQrTWdJ8+wDIkq/ECduPcNRq
- l+o5o4tLfg4+P+rARKyP1m7AkcYUxPxao76hHTRD+Dd1JkJyikz9hVkbPMENAWARPaDG
- 3XweYVd8vdAAhTvnOlxclkMWtuNdSM6+nrt/1Q+jXO9a8OdxdI0Uo84BoNtyDdYj5bYX
- SXsA==
-X-Gm-Message-State: AO0yUKVMPV/lnwZnk/uSPPKpzMt2exDCbJYswH9fU5M67nqf3p949iC9
- 66gAbqRihNbxD13dFOQ16WgzgAz0l5dVAg==
-X-Google-Smtp-Source: AK7set8RudUZM7uL76kAOH5izV1ijB9Vkgt50kyP/gJH4t04XiPzpJtw5WK4HdAZ561wlNVeGHT6Xg==
-X-Received: by 2002:a17:906:2610:b0:8b1:2e7c:df49 with SMTP id
- h16-20020a170906261000b008b12e7cdf49mr26114898ejc.7.1677344955454; 
- Sat, 25 Feb 2023 09:09:15 -0800 (PST)
+ bh=Xl/DOZlATxgugred1fzKweHRfgNnXhLpLoX6XzlsSKs=;
+ b=Xv/FHIqJT64S3zWzPf0tE57LFXO5Z7VmQAByjhfcU5D/oT/4ZXtE3h76ESefue5zD/
+ oMZ8S6nPFPQMmLNO4IQ0Bq5b/cAt7M2mzsUnI0OzYZM41f8YAEk3JdXlJSzsukiFJ9ym
+ Qk+aXgrHO1AR0zIi3AHkX2HDoc0KvEPR3s2q9LhXueUHsjNjER29NwtwF8uuTvDhpffR
+ qEorB6G2iDs3BuW0zE5l1N6K7jKl9h+qQG34HXJBmbjwzd69UtilzuC8Ms0h+YwVWOTu
+ 3BvzuJt45XNoVxvlEzXKPz4j+x4FfRWgJYyryvQTMEGEl0VPCW1loN06tibKxhQsBbpQ
+ /oaw==
+X-Gm-Message-State: AO0yUKUbREZK7f1RriIT9UVlhOL01YHAcgiofPLvt1qtmf5787GmHAh7
+ mwL6Y4bN/kyNTDsHQy7KNBfM78TGZmlzWg==
+X-Google-Smtp-Source: AK7set9eNHJzHz6iYyU+6Tan7r4YRib39D76L9ClSK4mp3n/lOuSpvIaBaIL/4h2Gl0AvW8UKP8ahQ==
+X-Received: by 2002:a17:907:2d29:b0:8e6:bcb6:469e with SMTP id
+ gs41-20020a1709072d2900b008e6bcb6469emr19613507ejc.0.1677344956491; 
+ Sat, 25 Feb 2023 09:09:16 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf06ee000578a61baa078133.dip0.t-ipconnect.de.
  [2003:fa:af06:ee00:578:a61b:aa07:8133])
  by smtp.gmail.com with ESMTPSA id
- t6-20020a17090616c600b008d356cafaedsm989066ejd.40.2023.02.25.09.09.14
+ t6-20020a17090616c600b008d356cafaedsm989066ejd.40.2023.02.25.09.09.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 25 Feb 2023 09:09:15 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
@@ -61,16 +61,16 @@ Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 2/3] hw/isa/vt82c686: Implement PCI IRQ routing
-Date: Sat, 25 Feb 2023 18:08:56 +0100
-Message-Id: <20230225170857.15774-3-shentey@gmail.com>
+Subject: [PATCH v2 3/3] hw/usb/vt82c686-uhci-pci: Use PCI IRQ routing
+Date: Sat, 25 Feb 2023 18:08:57 +0100
+Message-Id: <20230225170857.15774-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230225170857.15774-1-shentey@gmail.com>
 References: <20230225170857.15774-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,79 +93,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The real VIA south bridges implement a PCI IRQ router which is configured
-by the BIOS or the OS. In order to respect these configurations, QEMU
-needs to implement it as well.
-
-Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+According to the PCI specification, PCI_INTERRUPT_LINE shall have no
+effect on hardware operations. Now that the VIA south bridges implement
+the internal PCI interrupt router let's be more conformant to the PCI
+specification.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ hw/usb/vt82c686-uhci-pci.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 3f9bd0c04d..f24e387d63 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -604,6 +604,48 @@ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
-     qemu_set_irq(s->cpu_intr, level);
- }
+diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+index 46a901f56f..b4884c9011 100644
+--- a/hw/usb/vt82c686-uhci-pci.c
++++ b/hw/usb/vt82c686-uhci-pci.c
+@@ -1,17 +1,7 @@
+ #include "qemu/osdep.h"
+-#include "hw/irq.h"
+ #include "hw/isa/vt82c686.h"
+ #include "hcd-uhci.h"
  
-+static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
-+{
-+    switch (irq_num) {
-+    case 0:
-+        return s->dev.config[0x55] >> 4;
-+
-+    case 1:
-+        return s->dev.config[0x56] & 0xf;
-+
-+    case 2:
-+        return s->dev.config[0x56] >> 4;
-+
-+    case 3:
-+        return s->dev.config[0x57] >> 4;
-+    }
-+
-+    return 0;
-+}
-+
-+static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
-+{
-+    ViaISAState *s = opaque;
-+    PCIBus *bus = pci_get_bus(&s->dev);
-+    int pic_irq;
-+
-+    /* now we change the pic irq level according to the via irq mappings */
-+    /* XXX: optimize */
-+    pic_irq = via_isa_get_pci_irq(s, irq_num);
-+    if (pic_irq < ISA_NUM_IRQS) {
-+        int i, pic_level;
-+
-+        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-+        pic_level = 0;
-+        for (i = 0; i < PCI_NUM_PINS; i++) {
-+            if (pic_irq == via_isa_get_pci_irq(s, i)) {
-+                pic_level |= pci_bus_get_irq_level(bus, i);
-+            }
-+        }
-+        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
-+    }
-+}
-+
- static void via_isa_realize(PCIDevice *d, Error **errp)
+-static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
+-{
+-    UHCIState *s = opaque;
+-    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
+-    if (irq > 0 && irq < 15) {
+-        via_isa_set_irq(pci_get_function_0(&s->dev), irq, level);
+-    }
+-}
+-
+ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
  {
-     ViaISAState *s = VIA_ISA(d);
-@@ -676,6 +718,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
-         return;
-     }
-+
-+    pci_bus_irqs(pci_bus, via_isa_set_pci_irq, s, PCI_NUM_PINS);
+     UHCIState *s = UHCI(dev);
+@@ -25,8 +15,6 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+     pci_set_long(pci_conf + 0xc0, 0x00002000);
+ 
+     usb_uhci_common_realize(dev, errp);
+-    object_unref(s->irq);
+-    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
  }
  
- /* TYPE_VT82C686B_ISA */
+ static UHCIInfo uhci_info[] = {
 -- 
 2.39.2
 
