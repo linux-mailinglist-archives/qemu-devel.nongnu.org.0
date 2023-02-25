@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444F76A2850
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AC96A286D
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:29:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVqjk-0008UV-Jp; Sat, 25 Feb 2023 04:21:00 -0500
+	id 1pVqji-0008Bc-8B; Sat, 25 Feb 2023 04:20:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqiz-000689-3a
+ id 1pVqj0-00068f-8L
  for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:20:17 -0500
 Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqim-00035n-Cc
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:20:11 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- qi12-20020a17090b274c00b002341621377cso5230783pjb.2
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:19:59 -0800 (PST)
+ id 1pVqip-0002vk-EU
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:20:12 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id u10so1410448pjc.5
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:20:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=45/fsZysA6znj3lsxas/Rtz/1l3A7Tl30S+1TTOT2Q4=;
- b=g+vNjYz05eCDlEQYXQOMbIuEgMIxY1RWete2BPvO0/wo6gcBiYEPEGATtYZGDfKQSO
- auPYyj1S5CbXq8JH5wz59yX3Qjwj3e5cFgq1BXzGMNEYF6wDT6iy1SAIg4CNUkeFI2a3
- Cy98aQ3w9GKqiDukKmA8oDY+do2cYoTtHpMQdiye1hBfS1u+jfk5iLdKMSA2aDEv/G0a
- Ehq7Vw1a+pPawge7DOxDi7pNRxAxME9VAZsBVEsuBQObVxOVM4HYsZNbRGvGwBNJzskx
- FG0GVQIZ1foXpz4gsIpeA0fTlHGQdUhzqGGlX8r3Uhq23MT3V824A9AZWVIiqLvx5aMc
- g+MQ==
+ bh=wgLKFnmS08d59nAAlckVp6By00CbIN6BRDR8pm/wMZM=;
+ b=qfa8VejOx6/v9i6BKnDnEWnTQnmvRn0uz+SxPgUXBuR5dj7mDoRSYr351xkI2KVFT/
+ JAojqxktSUNrLUweOffKNLJq7ObmPp5JY6T4LJ4hdmKjxLu+JwH0QYui890N/hTTaO+6
+ GWl8SKhn0M7D9QQchB1vTU+PvX9ROnVFuJs6ex573UYauaF0dEWx/9TYA+n2SXC/poJO
+ /bDpDbSetj18w0uin5VE90zi9vWiIek6FDuyN5LQnMkDkb1UrjhihkDRfCsg6I7Vq+Qd
+ B6s/9oJhiUkZjCLShEaBRzXTxxyKXBESl1BMRNA5KghG+owozQO6ih3YDvG00yCqjU/T
+ L6yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=45/fsZysA6znj3lsxas/Rtz/1l3A7Tl30S+1TTOT2Q4=;
- b=qL1Cm2YejtcIfjSaAJ9MBn5tKyVbKUZMipngRlOkX3OEu1O7Qzt7iYIyhTB+Da9faS
- 0rlr6jWzzwv9TYrFQXpQBnxMsnxfWGTArqw586DuRsaGWLDoUX9TdamjY1e3mfVyZI+L
- 9iQfkezXrAZWv9M6UmIyrSkSxdJrLfMJLAoFmOaiRyAF4gHN8fRo/4X+vIBNNYtenPFH
- XtEuHxESIk5sq7KKxan1PhC4HqrdygH4C0ReeJOWal/BB4Hwe2vMzpWImHf2OKmQ/oK4
- Jfs1rGbqx7r+1quoLPIBJyv5sQJWVld03Y3QS4fYCD89oykRFDcBY5o/qKSnjRX14fUF
- fzYg==
-X-Gm-Message-State: AO0yUKUoHOAoCgq37SbOUo+CmhWmumOB9WQNMUSzL+66igjXwpxE6XBw
- jt1nmWeQkbsS4oO1TFJ1XyM8YlcsoJ54S35SkzI=
-X-Google-Smtp-Source: AK7set9OfNtYlFFa5rM/r3r+8dt2rwn2Uc4ae+Fj4ZM6SZ0MyKYxJ45MMPp9Ar6f7R8pkJx0q7CJYg==
-X-Received: by 2002:a05:6a20:1589:b0:b8:4b1a:deb5 with SMTP id
- h9-20020a056a20158900b000b84b1adeb5mr2338868pzj.18.1677316798864; 
- Sat, 25 Feb 2023 01:19:58 -0800 (PST)
+ bh=wgLKFnmS08d59nAAlckVp6By00CbIN6BRDR8pm/wMZM=;
+ b=JW+WJCma4zZOVMNYc1d3AcudL6fCie7rhHZJv/eSJo3qx/hrwIttgcS0aXqfi+YaYl
+ 5Hjb+xBkfd6nC0YBxotFKcDOLA73O6DN3w0lXLA3znOmW/PyhJeQBZ9kilVHCS/E8FGI
+ 3mSOtS2mSiinU3xFO/0tE0HxkklyPgl/LsMSIlLcbs1Gqb58T+oKCJu02di+D6+/RZZQ
+ 2guDe+uJ0ilF/I5E0QSvzFtLIj8LFKhZBIesU7CUEi1VUvRxD5yiTuQ94z5ludqXLGNu
+ AybbVNQSPs2/ebk9f4uvWWwsibk72kBrpcHfog+9xsnFuDansSRGV10yD2FYpguLYHP8
+ MOGw==
+X-Gm-Message-State: AO0yUKUK1fyiEcRDPJ3yD17wys0s+FhBFr3jrHziCGpV3pF6zjiGRNTR
+ H7uEtwaU3VIYrxwVPW7/yWMiOaBx0TuohhHM5Sw=
+X-Google-Smtp-Source: AK7set8/ffI7XLszllDBr0sGm6Qq51pq97qRvp2baxMLXoU5h9gPWhwKl/UNkgoHNh3vYPoRkvNfaA==
+X-Received: by 2002:a05:6a20:1441:b0:c7:4bf5:fa0a with SMTP id
+ a1-20020a056a20144100b000c74bf5fa0amr21202441pzi.48.1677316801487; 
+ Sat, 25 Feb 2023 01:20:01 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- 26-20020aa7921a000000b00592417157f2sm843114pfo.148.2023.02.25.01.19.56
+ 26-20020aa7921a000000b00592417157f2sm843114pfo.148.2023.02.25.01.19.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Feb 2023 01:19:58 -0800 (PST)
+ Sat, 25 Feb 2023 01:20:01 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -64,9 +63,10 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  edgar.iglesias@gmail.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 56/76] target/s390x: Use tcg_constant_* for DisasCompare
-Date: Fri, 24 Feb 2023 23:14:07 -1000
-Message-Id: <20230225091427.1817156-57-richard.henderson@linaro.org>
+Subject: [PATCH 57/76] target/s390x: Use tcg_constant_i32 for
+ fpinst_extract_m34
+Date: Fri, 24 Feb 2023 23:14:08 -1000
+Message-Id: <20230225091427.1817156-58-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230225091427.1817156-1-richard.henderson@linaro.org>
 References: <20230225091427.1817156-1-richard.henderson@linaro.org>
@@ -97,164 +97,221 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The a and b fields are not modified by the consumer,
-and while we need not free a constant, tcg will quietly
-ignore such frees, so free_compare need not be changed.
+Return a constant or NULL, which means the free may be
+removed from all callers of fpinst_extract_m34.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/tcg/translate.c | 44 ++++++++++++++++++------------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+ target/s390x/tcg/translate.c | 26 +-------------------------
+ 1 file changed, 1 insertion(+), 25 deletions(-)
 
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 3e3f685451..f2f2ea06eb 100644
+index f2f2ea06eb..811049ea28 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -845,7 +845,7 @@ static void disas_jcc(DisasContext *s, DisasCompare *c, uint32_t mask)
-         c->is_64 = false;
-         c->u.s32.a = tcg_temp_new_i32();
-         tcg_gen_extrl_i64_i32(c->u.s32.a, cc_dst);
--        c->u.s32.b = tcg_const_i32(0);
-+        c->u.s32.b = tcg_constant_i32(0);
-         break;
-     case CC_OP_LTGT_32:
-     case CC_OP_LTUGTU_32:
-@@ -860,7 +860,7 @@ static void disas_jcc(DisasContext *s, DisasCompare *c, uint32_t mask)
-     case CC_OP_NZ:
-     case CC_OP_FLOGR:
-         c->u.s64.a = cc_dst;
--        c->u.s64.b = tcg_const_i64(0);
-+        c->u.s64.b = tcg_constant_i64(0);
-         c->g1 = true;
-         break;
-     case CC_OP_LTGT_64:
-@@ -874,14 +874,14 @@ static void disas_jcc(DisasContext *s, DisasCompare *c, uint32_t mask)
-     case CC_OP_TM_64:
-     case CC_OP_ICM:
-         c->u.s64.a = tcg_temp_new_i64();
--        c->u.s64.b = tcg_const_i64(0);
-+        c->u.s64.b = tcg_constant_i64(0);
-         tcg_gen_and_i64(c->u.s64.a, cc_src, cc_dst);
-         break;
+@@ -1790,7 +1790,7 @@ static TCGv_i32 fpinst_extract_m34(DisasContext *s, bool m3_with_fpe,
+         return NULL;
+     }
  
-     case CC_OP_ADDU:
-     case CC_OP_SUBU:
-         c->is_64 = true;
--        c->u.s64.b = tcg_const_i64(0);
-+        c->u.s64.b = tcg_constant_i64(0);
-         c->g1 = true;
-         switch (mask) {
-         case 8 | 2:
-@@ -904,65 +904,65 @@ static void disas_jcc(DisasContext *s, DisasCompare *c, uint32_t mask)
-         switch (mask) {
-         case 0x8 | 0x4 | 0x2: /* cc != 3 */
-             cond = TCG_COND_NE;
--            c->u.s32.b = tcg_const_i32(3);
-+            c->u.s32.b = tcg_constant_i32(3);
-             break;
-         case 0x8 | 0x4 | 0x1: /* cc != 2 */
-             cond = TCG_COND_NE;
--            c->u.s32.b = tcg_const_i32(2);
-+            c->u.s32.b = tcg_constant_i32(2);
-             break;
-         case 0x8 | 0x2 | 0x1: /* cc != 1 */
-             cond = TCG_COND_NE;
--            c->u.s32.b = tcg_const_i32(1);
-+            c->u.s32.b = tcg_constant_i32(1);
-             break;
-         case 0x8 | 0x2: /* cc == 0 || cc == 2 => (cc & 1) == 0 */
-             cond = TCG_COND_EQ;
-             c->g1 = false;
-             c->u.s32.a = tcg_temp_new_i32();
--            c->u.s32.b = tcg_const_i32(0);
-+            c->u.s32.b = tcg_constant_i32(0);
-             tcg_gen_andi_i32(c->u.s32.a, cc_op, 1);
-             break;
-         case 0x8 | 0x4: /* cc < 2 */
-             cond = TCG_COND_LTU;
--            c->u.s32.b = tcg_const_i32(2);
-+            c->u.s32.b = tcg_constant_i32(2);
-             break;
-         case 0x8: /* cc == 0 */
-             cond = TCG_COND_EQ;
--            c->u.s32.b = tcg_const_i32(0);
-+            c->u.s32.b = tcg_constant_i32(0);
-             break;
-         case 0x4 | 0x2 | 0x1: /* cc != 0 */
-             cond = TCG_COND_NE;
--            c->u.s32.b = tcg_const_i32(0);
-+            c->u.s32.b = tcg_constant_i32(0);
-             break;
-         case 0x4 | 0x1: /* cc == 1 || cc == 3 => (cc & 1) != 0 */
-             cond = TCG_COND_NE;
-             c->g1 = false;
-             c->u.s32.a = tcg_temp_new_i32();
--            c->u.s32.b = tcg_const_i32(0);
-+            c->u.s32.b = tcg_constant_i32(0);
-             tcg_gen_andi_i32(c->u.s32.a, cc_op, 1);
-             break;
-         case 0x4: /* cc == 1 */
-             cond = TCG_COND_EQ;
--            c->u.s32.b = tcg_const_i32(1);
-+            c->u.s32.b = tcg_constant_i32(1);
-             break;
-         case 0x2 | 0x1: /* cc > 1 */
-             cond = TCG_COND_GTU;
--            c->u.s32.b = tcg_const_i32(1);
-+            c->u.s32.b = tcg_constant_i32(1);
-             break;
-         case 0x2: /* cc == 2 */
-             cond = TCG_COND_EQ;
--            c->u.s32.b = tcg_const_i32(2);
-+            c->u.s32.b = tcg_constant_i32(2);
-             break;
-         case 0x1: /* cc == 3 */
-             cond = TCG_COND_EQ;
--            c->u.s32.b = tcg_const_i32(3);
-+            c->u.s32.b = tcg_constant_i32(3);
-             break;
-         default:
-             /* CC is masked by something else: (8 >> cc) & mask.  */
-             cond = TCG_COND_NE;
-             c->g1 = false;
--            c->u.s32.a = tcg_const_i32(8);
--            c->u.s32.b = tcg_const_i32(0);
--            tcg_gen_shr_i32(c->u.s32.a, c->u.s32.a, cc_op);
-+            c->u.s32.a = tcg_temp_new_i32();
-+            c->u.s32.b = tcg_constant_i32(0);
-+            tcg_gen_shr_i32(c->u.s32.a, tcg_constant_i32(8), cc_op);
-             tcg_gen_andi_i32(c->u.s32.a, c->u.s32.a, mask);
-             break;
-         }
-@@ -1619,7 +1619,7 @@ static DisasJumpType op_bct32(DisasContext *s, DisasOps *o)
-     tcg_gen_subi_i64(t, regs[r1], 1);
-     store_reg32_i64(r1, t);
-     c.u.s32.a = tcg_temp_new_i32();
--    c.u.s32.b = tcg_const_i32(0);
-+    c.u.s32.b = tcg_constant_i32(0);
-     tcg_gen_extrl_i64_i32(c.u.s32.a, t);
-     tcg_temp_free_i64(t);
- 
-@@ -1643,7 +1643,7 @@ static DisasJumpType op_bcth(DisasContext *s, DisasOps *o)
-     tcg_gen_subi_i64(t, t, 1);
-     store_reg32h_i64(r1, t);
-     c.u.s32.a = tcg_temp_new_i32();
--    c.u.s32.b = tcg_const_i32(0);
-+    c.u.s32.b = tcg_constant_i32(0);
-     tcg_gen_extrl_i64_i32(c.u.s32.a, t);
-     tcg_temp_free_i64(t);
- 
-@@ -1664,7 +1664,7 @@ static DisasJumpType op_bct64(DisasContext *s, DisasOps *o)
- 
-     tcg_gen_subi_i64(regs[r1], regs[r1], 1);
-     c.u.s64.a = regs[r1];
--    c.u.s64.b = tcg_const_i64(0);
-+    c.u.s64.b = tcg_constant_i64(0);
- 
-     return help_branch(s, &c, is_imm, imm, o->in2);
+-    return tcg_const_i32(deposit32(m3, 4, 4, m4));
++    return tcg_constant_i32(deposit32(m3, 4, 4, m4));
  }
+ 
+ static DisasJumpType op_cfeb(DisasContext *s, DisasOps *o)
+@@ -1801,7 +1801,6 @@ static DisasJumpType op_cfeb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cfeb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1814,7 +1813,6 @@ static DisasJumpType op_cfdb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cfdb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1827,7 +1825,6 @@ static DisasJumpType op_cfxb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cfxb(o->out, cpu_env, o->in2_128, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1840,7 +1837,6 @@ static DisasJumpType op_cgeb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cgeb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1853,7 +1849,6 @@ static DisasJumpType op_cgdb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cgdb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1866,7 +1861,6 @@ static DisasJumpType op_cgxb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cgxb(o->out, cpu_env, o->in2_128, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1879,7 +1873,6 @@ static DisasJumpType op_clfeb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_clfeb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1892,7 +1885,6 @@ static DisasJumpType op_clfdb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_clfdb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1905,7 +1897,6 @@ static DisasJumpType op_clfxb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_clfxb(o->out, cpu_env, o->in2_128, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1918,7 +1909,6 @@ static DisasJumpType op_clgeb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_clgeb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1931,7 +1921,6 @@ static DisasJumpType op_clgdb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_clgdb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1944,7 +1933,6 @@ static DisasJumpType op_clgxb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_clgxb(o->out, cpu_env, o->in2_128, m34);
+-    tcg_temp_free_i32(m34);
+     set_cc_static(s);
+     return DISAS_NEXT;
+ }
+@@ -1957,7 +1945,6 @@ static DisasJumpType op_cegb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cegb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -1969,7 +1956,6 @@ static DisasJumpType op_cdgb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cdgb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -1981,7 +1967,6 @@ static DisasJumpType op_cxgb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cxgb(o->out_128, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -1993,7 +1978,6 @@ static DisasJumpType op_celgb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_celgb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -2005,7 +1989,6 @@ static DisasJumpType op_cdlgb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cdlgb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -2017,7 +2000,6 @@ static DisasJumpType op_cxlgb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_cxlgb(o->out_128, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -2486,7 +2468,6 @@ static DisasJumpType op_fieb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_fieb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -2498,7 +2479,6 @@ static DisasJumpType op_fidb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_fidb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -2510,7 +2490,6 @@ static DisasJumpType op_fixb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_fixb(o->out_128, cpu_env, o->in2_128, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -2785,7 +2764,6 @@ static DisasJumpType op_ledb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_ledb(o->out, cpu_env, o->in2, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -2797,7 +2775,6 @@ static DisasJumpType op_ldxb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_ldxb(o->out, cpu_env, o->in2_128, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
+@@ -2809,7 +2786,6 @@ static DisasJumpType op_lexb(DisasContext *s, DisasOps *o)
+         return DISAS_NORETURN;
+     }
+     gen_helper_lexb(o->out, cpu_env, o->in2_128, m34);
+-    tcg_temp_free_i32(m34);
+     return DISAS_NEXT;
+ }
+ 
 -- 
 2.34.1
 
