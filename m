@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD136A28A8
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0876E6A28AA
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:55:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVrBd-0000cG-CO; Sat, 25 Feb 2023 04:49:49 -0500
+	id 1pVrG4-0005hv-L8; Sat, 25 Feb 2023 04:54:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVrBV-0000TU-VB
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:49:42 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVrG0-0005gt-7u
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:54:21 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVrBU-0000Pf-CF
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:49:41 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- m25-20020a7bcb99000000b003e7842b75f2so983948wmi.3
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:49:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVrFy-00023N-Nm
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:54:20 -0500
+Received: by mail-wr1-x431.google.com with SMTP id 6so1543648wrb.11
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:54:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dHwEoMi3MEImb9Gq1/MR47PuMg0pIyHWlD7SUPk6AuQ=;
- b=h95h92uLFlFw1V3bNCihM9QJHeANSD6LhfNBL9C3rB/Z2+ZKR3hoOJ0PNgslW4bDjq
- QeSFw8AxHHTaRu7xo72I0YUmZ6iekZkxPovUExWkUJtihouM6R14d7EBOM/qZYiY+2tr
- 4l8dPVPws6P8lRHYZiOgsFJD68fykHbkdAQYhgUcF9GS2hKPpSOns7jOS2/chRFHLnhL
- GootXhh/HODPMpdLPXUmq5X8FfTMRfPUlx8lI2sRM3Gyl//eZvrZiWWNEWhLpRrSwtQO
- 2bv3+QDwKN5dfTY08yOJxYaSHhuJkB1j8nqDDUkK8aojhtPNoYX91ND9LJvMbKIiWAQo
- 88Bg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=V2QB5JomT5K9bcn7VNcYX4T2nBzZrx3+X0bB66OnSGY=;
+ b=jD/d546jINDRAbQNEpiu97MAlRwz3ZMM3746ZJtlkrnHDgsH8A1X4pDJEtzz8uXIvd
+ bWYgJunfua8s+ahNT6RRcZ9FV2pxM/mYn50KoWxFS1oUGbGHrK/OVjTaSdU5nFqFyvhf
+ zDwiqGQOy7YbPJNenqnNgS+ki17xdDTdUyG6WcGkYs2xT7gRKFnMgJrd2YAOSx1QLFgP
+ QuLPTWHQy7yw9USu0lR9APYCk+WJFHTVUDyg4h6RgmdOTxPkFXri4hXZUvNOMjh6vJij
+ A3VvvL+5+ZFmjxz6s/gRXPiVvrncxp1G6d7qyC4aQNqy2E7Bo/N1BD7arIwPkzgRoWeX
+ 6EoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dHwEoMi3MEImb9Gq1/MR47PuMg0pIyHWlD7SUPk6AuQ=;
- b=eU1kaIYYqAoiOdE6X2I/2psHBVVURpPNKBtyVFhGQDpC9SVzDF9LJYeKnmrqbkMvRp
- iOODc+SGIX/B1i6/tURKGKeZhhjjno9U55hKIYQ9ZrrHhOxhegjId2zr5mOoHDZyFo++
- ZDxxcwIUvH4bmlG6Oev/I5y9MVSY1w0NAW8LkAElkWDRYuuYcLCKIfpY4TZzscglu9ZX
- W6/lZFUu8m6/uxFAGc829TB4XaTB/FCTrqCW3CVipzyvPla/Vc9g0+Q8DLbLmJnzuYvw
- rapEDGZTuXSW/SN6vhlstlmgVjKD/Xcn1uh8bvyJWceYQxO6o7nl3T1hxQd9/JfxVJ5C
- wJjA==
-X-Gm-Message-State: AO0yUKWNfdbSjJdZVPSwv4FLyTvj93jtaN9vfPiG2Lfg0PgdWylj/Ypr
- HKxiPZe1HyT8BDitiAGkQPbgRqeYxTv5rHZB5Wc=
-X-Google-Smtp-Source: AK7set+5/hhkY949mmCID/ycird+TD6bBQk8q4TT9/YIOhirgTQ3axh2WGPqKRCJjgNQnryKuFSAPg==
-X-Received: by 2002:a05:600c:a698:b0:3e2:1e31:36bc with SMTP id
- ip24-20020a05600ca69800b003e21e3136bcmr13408091wmb.12.1677318579469; 
- Sat, 25 Feb 2023 01:49:39 -0800 (PST)
-Received: from localhost.localdomain (120.red-95-127-35.staticip.rima-tde.net.
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=V2QB5JomT5K9bcn7VNcYX4T2nBzZrx3+X0bB66OnSGY=;
+ b=mUSvmvifND3JO1Le5B06ObilEJ8DxPy9sfBN4dEMZwCVXEEBwkd4Pi+Z64V92oCYOq
+ 5Tn/mtQ6+Zk4Dbvpy8oIhY1v5eefBCFNDMVJb/XX59IqjCoyEGGxevo+zJLk13wSBPu1
+ ybLjzTmBSrs5WyFn+AbAET3tXrxmAZYhrX1Ye2mbMKvNeD4bZnPIhNcLQi9edI6Ly0W3
+ oURw+6GQ0sWsPqxjgojprQnvIA/47Ge6iWxZEv1VM7iJuQnsYmmqA0C3dSerTfmWndty
+ Zr9gL+/6FD5TM9iyFl+FuLAFhHqLpHyhJhz96Ql4XzQjP3xa/jFEEDITWFd5BJ1Rif5W
+ 4cfw==
+X-Gm-Message-State: AO0yUKXKPxLAtZiMMoj5dDRDMjTEN4ouN6mroS10HTF7uaKC6F7I81bH
+ CryvCwG4LdIubz5AmriwESdkUw==
+X-Google-Smtp-Source: AK7set9KVGbUs85w3YAN4quxNkkU4X+ZFrdcgYxQ90phojNOwPPVOHSW9Qg83RwkWrxubieWXLpAvQ==
+X-Received: by 2002:adf:e58f:0:b0:2c5:a07e:4bb6 with SMTP id
+ l15-20020adfe58f000000b002c5a07e4bb6mr15363621wrm.33.1677318856675; 
+ Sat, 25 Feb 2023 01:54:16 -0800 (PST)
+Received: from [192.168.136.175] (120.red-95-127-35.staticip.rima-tde.net.
  [95.127.35.120]) by smtp.gmail.com with ESMTPSA id
- t23-20020a1c7717000000b003daf672a616sm1976931wmi.22.2023.02.25.01.49.38
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 25 Feb 2023 01:49:39 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Janosch Frank <frankja@linux.ibm.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v6 5/5] dump: Add create_win_dump() stub for non-x86 targets
-Date: Sat, 25 Feb 2023 10:49:03 +0100
-Message-Id: <20230225094903.53167-6-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230225094903.53167-1-philmd@linaro.org>
-References: <20230225094903.53167-1-philmd@linaro.org>
+ o6-20020a05600c510600b003e20a6fd604sm2139551wms.4.2023.02.25.01.54.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Feb 2023 01:54:16 -0800 (PST)
+Message-ID: <da634383-48cd-8b3d-b5b0-b6ca598cf1e2@linaro.org>
+Date: Sat, 25 Feb 2023 10:53:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 14/30] tcg: Use tcg_constant_ptr in do_dup
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+References: <20230225085945.1798188-1-richard.henderson@linaro.org>
+ <20230225085945.1798188-15-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230225085945.1798188-15-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,58 +91,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Implement the non-x86 create_win_dump(). We can remove
-the last TARGET_X86_64 #ifdef'ry in dump.c, which thus
-becomes target-independent. Update meson accordingly.
+On 25/2/23 09:59, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/tcg-op-gvec.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+> index a10d406bba..877b0b659b 100644
+> --- a/tcg/tcg-op-gvec.c
+> +++ b/tcg/tcg-op-gvec.c
+> @@ -630,7 +630,7 @@ static void do_dup(unsigned vece, uint32_t dofs, uint32_t oprsz,
+>        * stores through to memset.
+>        */
+>       if (oprsz == maxsz && vece == MO_8) {
+> -        TCGv_ptr t_size = tcg_const_ptr(oprsz);
+> +        TCGv_ptr t_size = tcg_constant_ptr(oprsz);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- dump/dump.c      | 2 --
- dump/meson.build | 4 +---
- dump/win_dump.c  | 5 +++++
- 3 files changed, 6 insertions(+), 5 deletions(-)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-diff --git a/dump/dump.c b/dump/dump.c
-index fa650980d8..544d5bce3a 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -2018,9 +2018,7 @@ static void dump_process(DumpState *s, Error **errp)
-     DumpQueryResult *result = NULL;
- 
-     if (s->has_format && s->format == DUMP_GUEST_MEMORY_FORMAT_WIN_DMP) {
--#ifdef TARGET_X86_64
-         create_win_dump(s, errp);
--#endif
-     } else if (s->has_format && s->format != DUMP_GUEST_MEMORY_FORMAT_ELF) {
-         create_kdump_vmcore(s, errp);
-     } else {
-diff --git a/dump/meson.build b/dump/meson.build
-index f13b29a849..df52ee4268 100644
---- a/dump/meson.build
-+++ b/dump/meson.build
-@@ -1,4 +1,2 @@
--softmmu_ss.add(files('dump-hmp-cmds.c'))
--
--specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
-+softmmu_ss.add([files('dump.c', 'dump-hmp-cmds.c'), snappy, lzo])
- specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('win_dump.c'))
-diff --git a/dump/win_dump.c b/dump/win_dump.c
-index ff9c5bd339..0152f7330a 100644
---- a/dump/win_dump.c
-+++ b/dump/win_dump.c
-@@ -487,4 +487,9 @@ bool win_dump_available(Error **errp)
-     return false;
- }
- 
-+void create_win_dump(DumpState *s, Error **errp)
-+{
-+    win_dump_available(errp);
-+}
-+
- #endif
--- 
-2.38.1
-
+Can we remove tcg_const_ptr() or inline it in plugin-gen.c?
 
