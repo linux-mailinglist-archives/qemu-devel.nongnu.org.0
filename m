@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FDA6A2B00
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F176A2AFF
 	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 18:10:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVy2y-0001af-LK; Sat, 25 Feb 2023 12:09:20 -0500
+	id 1pVy30-0001c3-0s; Sat, 25 Feb 2023 12:09:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pVy2w-0001a2-AM; Sat, 25 Feb 2023 12:09:18 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ id 1pVy2x-0001ab-Tf; Sat, 25 Feb 2023 12:09:19 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pVy2u-0005bf-NA; Sat, 25 Feb 2023 12:09:18 -0500
-Received: by mail-ed1-x536.google.com with SMTP id s26so9298661edw.11;
+ id 1pVy2v-0005co-HO; Sat, 25 Feb 2023 12:09:19 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id cq23so9535368edb.1;
  Sat, 25 Feb 2023 09:09:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7DZ4IC21cN4EEqkYPJ+LbANCivKRiX+Zc8yuBjmuGaQ=;
- b=fb8l3FH5vliNikDo69X9Z02iyOrPe/M2G8yPO3sgiPR3PiAM74fLA2X3wiV/GEu4ea
- U/1X5CyFVK+H3xePtdhsiMvSAS/InYEZRLQdcbUHZwoH3U6dycJCuqPDqWIr+qD6gAh+
- FxA8bZJrZoNhMy8t2QWZGxVL/nAn0a3Wao+n0SMxICCM/O0bsxFjZO2HUhiDvY8Rx9A0
- vwCGFe6Wx2nwoUuGeLYORQhlhHvREvJ5TkgOku7vK2c5Vid/lg7wedCQnZPNHyiVFgvw
- WYZ7AYhNvUeP11MV3AFTQRpM0/8vMVx/VqFA6gq0XaJYNar3fwaoSDpeYV9xlDZl4wnX
- knKg==
+ bh=URC4QULn1s6Vm1JS2+nnjxOu3AuTbC5LZ+8A63obzbk=;
+ b=dieEEyiDTvB7t7aoMeXFfM18WiGE9+IoqB7nDW1gfo85+2R/tvrv4BBuzU8dOeR1Pe
+ Y1rN3PX/D2raoI7eEqPpNgg/6RJScEGgbVH6gHjs6TB+iny/6elfKGIj4rpnwXloGeWA
+ Ud/3NH+5IgCbb0bbo+cSX9Ck9afioJHwserHD+vTsCxjEya6NiZ1QSugA6G8WbkjbMds
+ iAkJS21S45uX31p57WP1CON80FnY8fgJXMQ37OxRBoo5N8M/k0moo4G3UNkhtReQzqPe
+ 9GV8fOaeXaEca0Wl3H++VHaUNocHjmOEBAoRCVzJVi7LiVnYOlUI3hHVhM/76GEChKGr
+ 3kkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7DZ4IC21cN4EEqkYPJ+LbANCivKRiX+Zc8yuBjmuGaQ=;
- b=vG/6L9aPVhonDeaG23Mmr90ckTy1HUAshJvPCKMAR+pCBHxveJfroXsmZ+HN4znzer
- qePXgPt5ubK/vsGTZ9dkAWSiq1Q4o+RiiuDMr3HldailJtkRX2hl/2pIsf8fuHkNX4Wt
- 8Chf1OXezNRvQ3rbqe3ik5MJ3wd4Tzhgzg8r8qin24NZfNMgmNhrbuodyNgxkGAfzPpR
- vTeyglr1+TgY02LvdgVftCjbAg92dq9x9NMJ+HJE0a13ElxUM6f2DGNr9V/nHLLa4SF1
- UPP4ld9HsGHeD4I6Sovv3MzbU3r11IRoDbWH4FFA4O0atR++FA/uEUaeanX9X2dOdHmA
- hQMg==
-X-Gm-Message-State: AO0yUKUDNzRXJ2Y8SHP+pJYlyRXYImke9+KdxGFhoLX4PS2bDqhmFZnK
- C31TWF6rIKVKz0qODWJ+2OLxOOsRDII5iA==
-X-Google-Smtp-Source: AK7set9DC+rcRxmXaOCkkb1d8suLuaBY/jFWlWRquJh4qeaEBkqRewV4rVm6g+vGxnltdMdtFuKxAA==
-X-Received: by 2002:a17:906:4909:b0:8af:2191:89a6 with SMTP id
- b9-20020a170906490900b008af219189a6mr24361766ejq.72.1677344954627; 
- Sat, 25 Feb 2023 09:09:14 -0800 (PST)
+ bh=URC4QULn1s6Vm1JS2+nnjxOu3AuTbC5LZ+8A63obzbk=;
+ b=QkRVzyTDAcZ2YoZvTMCKzvJwOqC4OORvOiQ32J28biRGfNI9Zjb9Jyfrc0YwkWTrLR
+ eWT7xSbTAwSHmoD4GoyiNCbn+g7fewYdewtkPCanNuWx/lzEQWCxAggYXkMItqSBK9BC
+ vnx9ghYlQJc80y1bv+WoDYdRtGCDL2GLa1TqyX028CgCYQrTWdJ8+wDIkq/ECduPcNRq
+ l+o5o4tLfg4+P+rARKyP1m7AkcYUxPxao76hHTRD+Dd1JkJyikz9hVkbPMENAWARPaDG
+ 3XweYVd8vdAAhTvnOlxclkMWtuNdSM6+nrt/1Q+jXO9a8OdxdI0Uo84BoNtyDdYj5bYX
+ SXsA==
+X-Gm-Message-State: AO0yUKVMPV/lnwZnk/uSPPKpzMt2exDCbJYswH9fU5M67nqf3p949iC9
+ 66gAbqRihNbxD13dFOQ16WgzgAz0l5dVAg==
+X-Google-Smtp-Source: AK7set8RudUZM7uL76kAOH5izV1ijB9Vkgt50kyP/gJH4t04XiPzpJtw5WK4HdAZ561wlNVeGHT6Xg==
+X-Received: by 2002:a17:906:2610:b0:8b1:2e7c:df49 with SMTP id
+ h16-20020a170906261000b008b12e7cdf49mr26114898ejc.7.1677344955454; 
+ Sat, 25 Feb 2023 09:09:15 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf06ee000578a61baa078133.dip0.t-ipconnect.de.
  [2003:fa:af06:ee00:578:a61b:aa07:8133])
  by smtp.gmail.com with ESMTPSA id
- t6-20020a17090616c600b008d356cafaedsm989066ejd.40.2023.02.25.09.09.13
+ t6-20020a17090616c600b008d356cafaedsm989066ejd.40.2023.02.25.09.09.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Feb 2023 09:09:14 -0800 (PST)
+ Sat, 25 Feb 2023 09:09:15 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -61,16 +61,16 @@ Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 1/3] hw/ppc/pegasos2: Initialize VT8231 PCI IRQ router
-Date: Sat, 25 Feb 2023 18:08:55 +0100
-Message-Id: <20230225170857.15774-2-shentey@gmail.com>
+Subject: [PATCH v2 2/3] hw/isa/vt82c686: Implement PCI IRQ routing
+Date: Sat, 25 Feb 2023 18:08:56 +0100
+Message-Id: <20230225170857.15774-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230225170857.15774-1-shentey@gmail.com>
 References: <20230225170857.15774-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,40 +93,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The firmware of the real PegasosII board routes all PIRQx to IRQ9, so do
-the same in QEMU. The PCI_INTERRUPT_LINE registers of the respective
-internal PCI functions are already initialized with IRQ9 which are
-currently used for routing.
+The real VIA south bridges implement a PCI IRQ router which is configured
+by the BIOS or the OS. In order to respect these configurations, QEMU
+needs to implement it as well.
 
-Note that the PCI interrupt router isn't implemented yet in the VIA
-south bridges. This change has therefore no effect until this happens.
-
-Inspired-by:
-<c046d77c20875c8cd8bfdc79b4619a98ffd0bf33.1677004415.git.balaton@eik.bme.hu>
-("hw/ppc/pegasos2: Fix PCI interrupt routing")
+Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ppc/pegasos2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/isa/vt82c686.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index a9563f4fb2..41688699eb 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -268,6 +268,12 @@ static void pegasos2_machine_reset(MachineState *machine, ShutdownCause reason)
-                               PCI_INTERRUPT_LINE, 2, 0x9);
-     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-                               0x50, 1, 0x2);
-+    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-+                              0x55, 1, 0x90);
-+    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-+                              0x56, 1, 0x99);
-+    pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 0) << 8) |
-+                              0x57, 1, 0x90);
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 3f9bd0c04d..f24e387d63 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -604,6 +604,48 @@ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+     qemu_set_irq(s->cpu_intr, level);
+ }
  
-     pegasos2_pci_config_write(pm, 1, (PCI_DEVFN(12, 1) << 8) |
-                               PCI_INTERRUPT_LINE, 2, 0x109);
++static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
++{
++    switch (irq_num) {
++    case 0:
++        return s->dev.config[0x55] >> 4;
++
++    case 1:
++        return s->dev.config[0x56] & 0xf;
++
++    case 2:
++        return s->dev.config[0x56] >> 4;
++
++    case 3:
++        return s->dev.config[0x57] >> 4;
++    }
++
++    return 0;
++}
++
++static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
++{
++    ViaISAState *s = opaque;
++    PCIBus *bus = pci_get_bus(&s->dev);
++    int pic_irq;
++
++    /* now we change the pic irq level according to the via irq mappings */
++    /* XXX: optimize */
++    pic_irq = via_isa_get_pci_irq(s, irq_num);
++    if (pic_irq < ISA_NUM_IRQS) {
++        int i, pic_level;
++
++        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
++        pic_level = 0;
++        for (i = 0; i < PCI_NUM_PINS; i++) {
++            if (pic_irq == via_isa_get_pci_irq(s, i)) {
++                pic_level |= pci_bus_get_irq_level(bus, i);
++            }
++        }
++        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
++    }
++}
++
+ static void via_isa_realize(PCIDevice *d, Error **errp)
+ {
+     ViaISAState *s = VIA_ISA(d);
+@@ -676,6 +718,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
+         return;
+     }
++
++    pci_bus_irqs(pci_bus, via_isa_set_pci_irq, s, PCI_NUM_PINS);
+ }
+ 
+ /* TYPE_VT82C686B_ISA */
 -- 
 2.39.2
 
