@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71F56A2874
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED386A2833
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:19:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVqdj-0004VN-JC; Sat, 25 Feb 2023 04:14:47 -0500
+	id 1pVqdn-0004dX-5C; Sat, 25 Feb 2023 04:14:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqdg-0004Pr-Ol
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:14:45 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1pVqdj-0004VW-2S
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:14:47 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqdd-0001Pj-Jn
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:14:44 -0500
-Received: by mail-pl1-x633.google.com with SMTP id p6so1034081plf.0
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:14:41 -0800 (PST)
+ id 1pVqdg-0001QX-IM
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:14:46 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ h17-20020a17090aea9100b0023739b10792so1605230pjz.1
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:14:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kzN44zkvPiekz5pNcUok1y3dyGa4SpE7A5HrTAlnyn4=;
- b=g8fUUhnlBnXZpZXK7SAScuEbpSPOnxhzobUxh7KfZ6HFWJ5TIxIg6m2Ja5CB919ERG
- 96Hybj7HLrCosLF2sSkWjc3U67Cs2kFwPO3LGFQA2u4983PRz0R91DnPzYIlTiV7WB3a
- +nAjCNHlVjK64THsV10l/Kwl4M7kZ7eI/6Sz/8eHQhPsKNssjBmQ2a/vwAiQKXgRD1U/
- Vrj+vj8fIHa0crVfWS666Ilt7o9RyXU1At40v8KT5E3RSM+wIWCWfjfBRmoeHBCCGcDo
- NzBt4GY05XMcD4Oz6U8DEBAzbvLOIcJJL0wfhvFeZ0QoWdAQs9NtgiffUx+pyxxJzB/8
- tQwQ==
+ bh=1VaFmmXL1EVKNQ+ZqOqeimp8aObM/yTnVcjTeVASrNc=;
+ b=O2Ks1fP8RrZpJ4YMbHwrjF8IIGei6KqfL6/eoU9se98zJxmlLoYwIzEQboEWYbTfG1
+ ABYQF/N92zzAFypSjFUCkwaa3cIUIJDxFOZ+I9y+G/MLIrKTa8xA8FyK1XWnTv7BhoaK
+ ykuQvwbt9i4nOU+GZijv8SmRYDJihTRKNLvfar166PfqL4cGAPxy705Dv7v30c5alqId
+ ltVLOkm3uYj1XDJxxE3KWOGSy11HGVBc1WKpRWGWLy0xmpCn+6Ag43tmEu/oqQAYkNu5
+ sw1b6gHVBO7H3IvK6MPaga6YiWoeGvnaKKEVpkvDRQuoIgHkIlsjLqQSm0YUtYwtYPho
+ nSGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kzN44zkvPiekz5pNcUok1y3dyGa4SpE7A5HrTAlnyn4=;
- b=aFrdNlIk13/OP1f3MyNGluSLp8G481iYtoBjnfMPyTfBHPS4UifcYBTnXpBUAF6TOa
- dMLnNNHW8C2ssKqoOp4o78VYHWbeXtJlWiXvfjYNZXfeVzw0DZBVIiI2B6ccfQY6kRto
- Ttj8hNneSxyVMLq0DTSGxD4cSxqH6X/ImoDHpxEM1ZjgpIlWIWdjaj6g/gtqQ2ZUg+pZ
- qUH3uaqMbT6YNGbgCeI+YvAoOYE54uHOW2S833hM4MtmmoDi+5jedUDMxzX7zW/Y7J+S
- cOseWL8QiWHxGkIsk7ft2/+HI65sZHjqyUyoJAc3VV30StjKd9OGKJQ2oqKW0uE8HV2+
- bUhw==
-X-Gm-Message-State: AO0yUKUZuyAnJzfRAiN8xn0nDdnni3+9yeZ0LMaViUQJuELy59ue0UNR
- WW3J3doS+ToHq+DdDUe3E1Aoo2FGZsXoug3lWLk=
-X-Google-Smtp-Source: AK7set8Z1rkm+8/TFYuH2VOi/ZfYnxMnNopWwERLuYESkvkNWXPeg5iyw2I2sySTxjkZKEX1k7i+0g==
-X-Received: by 2002:a17:902:c40b:b0:19a:5958:15e7 with SMTP id
- k11-20020a170902c40b00b0019a595815e7mr2875365plk.15.1677316480031; 
- Sat, 25 Feb 2023 01:14:40 -0800 (PST)
+ bh=1VaFmmXL1EVKNQ+ZqOqeimp8aObM/yTnVcjTeVASrNc=;
+ b=Wk1/3GIRgRE+B54v3rKRGDojpXRBH1baT/d6RrQpyCxOu8SIw8iFbvI3TGs18Vaf84
+ 7yd1tiZ5WGrDv4Cn8mIlHZc/NOqrvEpu52LJKXSfRxJHFYmrexvfTwDcQlp2J3s8yvLH
+ lCc62Ir3Wb+/d7HQswgvOTGLJM7yimNPVf1KZsTq4D9X1btNhy78OmJCDMwKdLUK2KiJ
+ hrzNe8TIMsUDV8sQOlOsDTaa1esf9tbRMNOcL7HTGczdBJpiEOnkjqaRw/75HXBS8uPp
+ HBzHwnQTBoAARt2KW3VZ+NjtcgIEjvfj2vCn7LHLz1WSmCYtnVWEUjaS3crOGXpq8b4G
+ cM6A==
+X-Gm-Message-State: AO0yUKWLvtQ+X4KM+WPrDtoM0CszZKdI4l4YpFk1J7rrkbR21Q1rZV9H
+ sOveYC1dHzRdh8EcqFLasIxWnRJUpzYMOpTMXyo=
+X-Google-Smtp-Source: AK7set9VB7NLoNxNjpZU28FAV3cYVR373PgoyQjF6RvtsNUY0wWDidE3jg/CCHqT/OGBraAoHXl8dw==
+X-Received: by 2002:a17:903:28ce:b0:19c:f1bd:e91b with SMTP id
+ kv14-20020a17090328ce00b0019cf1bde91bmr705168plb.36.1677316482606; 
+ Sat, 25 Feb 2023 01:14:42 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- je12-20020a170903264c00b0019607aeda8bsm831101plb.73.2023.02.25.01.14.37
+ je12-20020a170903264c00b0019607aeda8bsm831101plb.73.2023.02.25.01.14.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Feb 2023 01:14:39 -0800 (PST)
+ Sat, 25 Feb 2023 01:14:42 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -61,16 +62,16 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com
-Subject: [PATCH 03/76] target/alpha: Drop tcg_temp_free
-Date: Fri, 24 Feb 2023 23:13:14 -1000
-Message-Id: <20230225091427.1817156-4-richard.henderson@linaro.org>
+Subject: [PATCH 04/76] target/arm: Remove arm_free_cc, a64_free_cc
+Date: Fri, 24 Feb 2023 23:13:15 -1000
+Message-Id: <20230225091427.1817156-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230225091427.1817156-1-richard.henderson@linaro.org>
 References: <20230225091427.1817156-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,467 +98,109 @@ Translators are no longer required to free tcg temporaries.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/translate.c | 70 ----------------------------------------
- 1 file changed, 70 deletions(-)
+ target/arm/translate.h     |  1 -
+ target/arm/translate-a64.c | 17 ++++-------------
+ target/arm/translate.c     |  9 ---------
+ 3 files changed, 4 insertions(+), 23 deletions(-)
 
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index a0afdbb465..9d25e21164 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -179,7 +179,6 @@ static void free_context_temps(DisasContext *ctx)
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 3717824b75..7f52f08c5e 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -304,7 +304,6 @@ static inline void gen_a64_update_pc(DisasContext *s, target_long diff)
+ #endif
+ 
+ void arm_test_cc(DisasCompare *cmp, int cc);
+-void arm_free_cc(DisasCompare *cmp);
+ void arm_jump_cc(DisasCompare *cmp, TCGLabel *label);
+ void arm_gen_test_cc(int cc, TCGLabel *label);
+ MemOp pow2_align(unsigned i);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 98537bc2ef..2a0bba3815 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -319,18 +319,13 @@ static void a64_test_cc(DisasCompare64 *c64, int cc)
+ 
+     arm_test_cc(&c32, cc);
+ 
+-    /* Sign-extend the 32-bit value so that the GE/LT comparisons work
+-       * properly.  The NE/EQ comparisons are also fine with this choice.  */
++    /*
++     * Sign-extend the 32-bit value so that the GE/LT comparisons work
++     * properly.  The NE/EQ comparisons are also fine with this choice.
++      */
+     c64->cond = c32.cond;
+     c64->value = tcg_temp_new_i64();
+     tcg_gen_ext_i32_i64(c64->value, c32.value);
+-
+-    arm_free_cc(&c32);
+-}
+-
+-static void a64_free_cc(DisasCompare64 *c64)
+-{
+-    tcg_temp_free_i64(c64->value);
+ }
+ 
+ static void gen_rebuild_hflags(DisasContext *s)
+@@ -5315,7 +5310,6 @@ static void disas_cc(DisasContext *s, uint32_t insn)
+     tcg_t0 = tcg_temp_new_i32();
+     arm_test_cc(&c, cond);
+     tcg_gen_setcondi_i32(tcg_invert_cond(c.cond), tcg_t0, c.value, 0);
+-    arm_free_cc(&c);
+ 
+     /* Load the arguments for the new comparison.  */
+     if (is_imm) {
+@@ -5435,8 +5429,6 @@ static void disas_cond_select(DisasContext *s, uint32_t insn)
+         tcg_gen_movcond_i64(c.cond, tcg_rd, c.value, zero, t_true, t_false);
+     }
+ 
+-    a64_free_cc(&c);
+-
+     if (!sf) {
+         tcg_gen_ext32u_i64(tcg_rd, tcg_rd);
+     }
+@@ -6256,7 +6248,6 @@ static void disas_fp_csel(DisasContext *s, uint32_t insn)
+     tcg_gen_movcond_i64(c.cond, t_true, c.value, tcg_constant_i64(0),
+                         t_true, t_false);
+     tcg_temp_free_i64(t_false);
+-    a64_free_cc(&c);
+ 
+     /* Note that sregs & hregs write back zeros to the high bits,
+        and we've already done the zero-extension.  */
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 614c438786..a0a298f8f7 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -754,13 +754,6 @@ void arm_test_cc(DisasCompare *cmp, int cc)
+     cmp->value_global = global;
+ }
+ 
+-void arm_free_cc(DisasCompare *cmp)
+-{
+-    if (!cmp->value_global) {
+-        tcg_temp_free_i32(cmp->value);
+-    }
+-}
+-
+ void arm_jump_cc(DisasCompare *cmp, TCGLabel *label)
  {
-     if (ctx->sink) {
-         tcg_gen_discard_i64(ctx->sink);
--        tcg_temp_free(ctx->sink);
-         ctx->sink = NULL;
-     }
- }
-@@ -279,7 +278,6 @@ static void gen_ldf(DisasContext *ctx, TCGv dest, TCGv addr)
-     TCGv_i32 tmp32 = tcg_temp_new_i32();
-     tcg_gen_qemu_ld_i32(tmp32, addr, ctx->mem_idx, MO_LEUL | UNALIGN(ctx));
-     gen_helper_memory_to_f(dest, tmp32);
--    tcg_temp_free_i32(tmp32);
+     tcg_gen_brcondi_i32(cmp->cond, cmp->value, 0, label);
+@@ -771,7 +764,6 @@ void arm_gen_test_cc(int cc, TCGLabel *label)
+     DisasCompare cmp;
+     arm_test_cc(&cmp, cc);
+     arm_jump_cc(&cmp, label);
+-    arm_free_cc(&cmp);
  }
  
- static void gen_ldg(DisasContext *ctx, TCGv dest, TCGv addr)
-@@ -287,7 +285,6 @@ static void gen_ldg(DisasContext *ctx, TCGv dest, TCGv addr)
-     TCGv tmp = tcg_temp_new();
-     tcg_gen_qemu_ld_i64(tmp, addr, ctx->mem_idx, MO_LEUQ | UNALIGN(ctx));
-     gen_helper_memory_to_g(dest, tmp);
--    tcg_temp_free(tmp);
- }
+ void gen_set_condexec(DisasContext *s)
+@@ -9125,7 +9117,6 @@ static bool trans_CSEL(DisasContext *s, arg_CSEL *a)
  
- static void gen_lds(DisasContext *ctx, TCGv dest, TCGv addr)
-@@ -295,7 +292,6 @@ static void gen_lds(DisasContext *ctx, TCGv dest, TCGv addr)
-     TCGv_i32 tmp32 = tcg_temp_new_i32();
-     tcg_gen_qemu_ld_i32(tmp32, addr, ctx->mem_idx, MO_LEUL | UNALIGN(ctx));
-     gen_helper_memory_to_s(dest, tmp32);
--    tcg_temp_free_i32(tmp32);
- }
+     arm_test_cc(&c, a->fcond);
+     tcg_gen_movcond_i32(c.cond, rn, c.value, zero, rn, rm);
+-    arm_free_cc(&c);
  
- static void gen_ldt(DisasContext *ctx, TCGv dest, TCGv addr)
-@@ -311,7 +307,6 @@ static void gen_load_fp(DisasContext *ctx, int ra, int rb, int32_t disp16,
-         TCGv addr = tcg_temp_new();
-         tcg_gen_addi_i64(addr, load_gpr(ctx, rb), disp16);
-         func(ctx, cpu_fir[ra], addr);
--        tcg_temp_free(addr);
-     }
- }
- 
-@@ -342,7 +337,6 @@ static void gen_load_int(DisasContext *ctx, int ra, int rb, int32_t disp16,
-         tcg_gen_mov_i64(cpu_lock_addr, addr);
-         tcg_gen_mov_i64(cpu_lock_value, dest);
-     }
--    tcg_temp_free(addr);
- }
- 
- static void gen_stf(DisasContext *ctx, TCGv src, TCGv addr)
-@@ -350,7 +344,6 @@ static void gen_stf(DisasContext *ctx, TCGv src, TCGv addr)
-     TCGv_i32 tmp32 = tcg_temp_new_i32();
-     gen_helper_f_to_memory(tmp32, addr);
-     tcg_gen_qemu_st_i32(tmp32, addr, ctx->mem_idx, MO_LEUL | UNALIGN(ctx));
--    tcg_temp_free_i32(tmp32);
- }
- 
- static void gen_stg(DisasContext *ctx, TCGv src, TCGv addr)
-@@ -358,7 +351,6 @@ static void gen_stg(DisasContext *ctx, TCGv src, TCGv addr)
-     TCGv tmp = tcg_temp_new();
-     gen_helper_g_to_memory(tmp, src);
-     tcg_gen_qemu_st_i64(tmp, addr, ctx->mem_idx, MO_LEUQ | UNALIGN(ctx));
--    tcg_temp_free(tmp);
- }
- 
- static void gen_sts(DisasContext *ctx, TCGv src, TCGv addr)
-@@ -366,7 +358,6 @@ static void gen_sts(DisasContext *ctx, TCGv src, TCGv addr)
-     TCGv_i32 tmp32 = tcg_temp_new_i32();
-     gen_helper_s_to_memory(tmp32, src);
-     tcg_gen_qemu_st_i32(tmp32, addr, ctx->mem_idx, MO_LEUL | UNALIGN(ctx));
--    tcg_temp_free_i32(tmp32);
- }
- 
- static void gen_stt(DisasContext *ctx, TCGv src, TCGv addr)
-@@ -380,7 +371,6 @@ static void gen_store_fp(DisasContext *ctx, int ra, int rb, int32_t disp16,
-     TCGv addr = tcg_temp_new();
-     tcg_gen_addi_i64(addr, load_gpr(ctx, rb), disp16);
-     func(ctx, load_fpr(ctx, ra), addr);
--    tcg_temp_free(addr);
- }
- 
- static void gen_store_int(DisasContext *ctx, int ra, int rb, int32_t disp16,
-@@ -398,8 +388,6 @@ static void gen_store_int(DisasContext *ctx, int ra, int rb, int32_t disp16,
- 
-     src = load_gpr(ctx, ra);
-     tcg_gen_qemu_st_i64(src, addr, ctx->mem_idx, op);
--
--    tcg_temp_free(addr);
- }
- 
- static DisasJumpType gen_store_conditional(DisasContext *ctx, int ra, int rb,
-@@ -416,7 +404,6 @@ static DisasJumpType gen_store_conditional(DisasContext *ctx, int ra, int rb,
-     lab_fail = gen_new_label();
-     lab_done = gen_new_label();
-     tcg_gen_brcond_i64(TCG_COND_NE, addr, cpu_lock_addr, lab_fail);
--    tcg_temp_free_i64(addr);
- 
-     val = tcg_temp_new_i64();
-     tcg_gen_atomic_cmpxchg_i64(val, cpu_lock_addr, cpu_lock_value,
-@@ -426,7 +413,6 @@ static DisasJumpType gen_store_conditional(DisasContext *ctx, int ra, int rb,
-     if (ra != 31) {
-         tcg_gen_setcond_i64(TCG_COND_EQ, ctx->ir[ra], val, cpu_lock_value);
-     }
--    tcg_temp_free_i64(val);
-     tcg_gen_br(lab_done);
- 
-     gen_set_label(lab_fail);
-@@ -504,7 +490,6 @@ static DisasJumpType gen_bcond(DisasContext *ctx, TCGCond cond, int ra,
- 
-         tcg_gen_andi_i64(tmp, load_gpr(ctx, ra), 1);
-         ret = gen_bcond_internal(ctx, cond, tmp, disp);
--        tcg_temp_free(tmp);
-         return ret;
-     }
-     return gen_bcond_internal(ctx, cond, load_gpr(ctx, ra), disp);
-@@ -550,7 +535,6 @@ static DisasJumpType gen_fbcond(DisasContext *ctx, TCGCond cond, int ra,
- 
-     gen_fold_mzero(cond, cmp_tmp, load_fpr(ctx, ra));
-     ret = gen_bcond_internal(ctx, cond, cmp_tmp, disp);
--    tcg_temp_free(cmp_tmp);
-     return ret;
- }
- 
-@@ -564,8 +548,6 @@ static void gen_fcmov(DisasContext *ctx, TCGCond cond, int ra, int rb, int rc)
-     gen_fold_mzero(cond, va, load_fpr(ctx, ra));
- 
-     tcg_gen_movcond_i64(cond, dest_fpr(ctx, rc), va, z, vb, load_fpr(ctx, rc));
--
--    tcg_temp_free(va);
- }
- 
- #define QUAL_RM_N       0x080   /* Round mode nearest even */
-@@ -615,8 +597,6 @@ static void gen_qual_roundmode(DisasContext *ctx, int fn11)
- #else
-     gen_helper_setroundmode(tmp);
- #endif
--
--    tcg_temp_free_i32(tmp);
- }
- 
- static void gen_qual_flushzero(DisasContext *ctx, int fn11)
-@@ -645,8 +625,6 @@ static void gen_qual_flushzero(DisasContext *ctx, int fn11)
- #else
-     gen_helper_setflushzero(tmp);
- #endif
--
--    tcg_temp_free_i32(tmp);
- }
- 
- static TCGv gen_ieee_input(DisasContext *ctx, int reg, int fn11, int is_cmp)
-@@ -716,8 +694,6 @@ static void gen_cvtlq(TCGv vc, TCGv vb)
-     tcg_gen_shri_i64(tmp, vb, 29);
-     tcg_gen_sari_i64(vc, vb, 32);
-     tcg_gen_deposit_i64(vc, vc, tmp, 0, 30);
--
--    tcg_temp_free(tmp);
- }
- 
- static void gen_ieee_arith2(DisasContext *ctx,
-@@ -808,8 +784,6 @@ static void gen_cpy_mask(TCGv vc, TCGv va, TCGv vb, bool inv_a, uint64_t mask)
- 
-     tcg_gen_andc_i64(vc, vb, vmask);
-     tcg_gen_or_i64(vc, vc, tmp);
--
--    tcg_temp_free(tmp);
- }
- 
- static void gen_ieee_arith3(DisasContext *ctx,
-@@ -927,7 +901,6 @@ static void gen_ext_h(DisasContext *ctx, TCGv vc, TCGv va, int rb, bool islit,
-         tcg_gen_neg_i64(tmp, tmp);
-         tcg_gen_andi_i64(tmp, tmp, 0x3f);
-         tcg_gen_shl_i64(vc, va, tmp);
--        tcg_temp_free(tmp);
-     }
-     gen_zapnoti(vc, vc, byte_mask);
- }
-@@ -948,7 +921,6 @@ static void gen_ext_l(DisasContext *ctx, TCGv vc, TCGv va, int rb, bool islit,
-         tcg_gen_andi_i64(tmp, load_gpr(ctx, rb), 7);
-         tcg_gen_shli_i64(tmp, tmp, 3);
-         tcg_gen_shr_i64(vc, va, tmp);
--        tcg_temp_free(tmp);
-         gen_zapnoti(vc, vc, byte_mask);
-     }
- }
-@@ -986,8 +958,6 @@ static void gen_ins_h(DisasContext *ctx, TCGv vc, TCGv va, int rb, bool islit,
- 
-         tcg_gen_shr_i64(vc, tmp, shift);
-         tcg_gen_shri_i64(vc, vc, 1);
--        tcg_temp_free(shift);
--        tcg_temp_free(tmp);
-     }
- }
- 
-@@ -1015,8 +985,6 @@ static void gen_ins_l(DisasContext *ctx, TCGv vc, TCGv va, int rb, bool islit,
-         tcg_gen_andi_i64(shift, load_gpr(ctx, rb), 7);
-         tcg_gen_shli_i64(shift, shift, 3);
-         tcg_gen_shl_i64(vc, tmp, shift);
--        tcg_temp_free(shift);
--        tcg_temp_free(tmp);
-     }
- }
- 
-@@ -1047,9 +1015,6 @@ static void gen_msk_h(DisasContext *ctx, TCGv vc, TCGv va, int rb, bool islit,
-         tcg_gen_shri_i64(mask, mask, 1);
- 
-         tcg_gen_andc_i64(vc, va, mask);
--
--        tcg_temp_free(mask);
--        tcg_temp_free(shift);
-     }
- }
- 
-@@ -1069,9 +1034,6 @@ static void gen_msk_l(DisasContext *ctx, TCGv vc, TCGv va, int rb, bool islit,
-         tcg_gen_shl_i64(mask, mask, shift);
- 
-         tcg_gen_andc_i64(vc, va, mask);
--
--        tcg_temp_free(mask);
--        tcg_temp_free(shift);
-     }
- }
- 
-@@ -1152,7 +1114,6 @@ static DisasJumpType gen_call_pal(DisasContext *ctx, int palcode)
-                 TCGv tmp = tcg_temp_new();
-                 tcg_gen_andi_i64(tmp, ctx->ir[IR_A0], PS_INT_MASK);
-                 st_flag_byte(tmp, ENV_FLAG_PS_SHIFT);
--                tcg_temp_free(tmp);
-             }
- 
-             /* Allow interrupts to be recognized right away.  */
-@@ -1215,7 +1176,6 @@ static DisasJumpType gen_call_pal(DisasContext *ctx, int palcode)
- 
-         tcg_gen_movi_i64(tmp, exc_addr);
-         tcg_gen_st_i64(tmp, cpu_env, offsetof(CPUAlphaState, exc_addr));
--        tcg_temp_free(tmp);
- 
-         entry += (palcode & 0x80
-                   ? 0x2000 + (palcode - 0x80) * 64
-@@ -1550,7 +1510,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_shli_i64(tmp, va, 2);
-             tcg_gen_add_i64(tmp, tmp, vb);
-             tcg_gen_ext32s_i64(vc, tmp);
--            tcg_temp_free(tmp);
-             break;
-         case 0x09:
-             /* SUBL */
-@@ -1563,7 +1522,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_shli_i64(tmp, va, 2);
-             tcg_gen_sub_i64(tmp, tmp, vb);
-             tcg_gen_ext32s_i64(vc, tmp);
--            tcg_temp_free(tmp);
-             break;
-         case 0x0F:
-             /* CMPBGE */
-@@ -1580,7 +1538,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_shli_i64(tmp, va, 3);
-             tcg_gen_add_i64(tmp, tmp, vb);
-             tcg_gen_ext32s_i64(vc, tmp);
--            tcg_temp_free(tmp);
-             break;
-         case 0x1B:
-             /* S8SUBL */
-@@ -1588,7 +1545,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_shli_i64(tmp, va, 3);
-             tcg_gen_sub_i64(tmp, tmp, vb);
-             tcg_gen_ext32s_i64(vc, tmp);
--            tcg_temp_free(tmp);
-             break;
-         case 0x1D:
-             /* CMPULT */
-@@ -1603,7 +1559,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tmp = tcg_temp_new();
-             tcg_gen_shli_i64(tmp, va, 2);
-             tcg_gen_add_i64(vc, tmp, vb);
--            tcg_temp_free(tmp);
-             break;
-         case 0x29:
-             /* SUBQ */
-@@ -1614,7 +1569,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tmp = tcg_temp_new();
-             tcg_gen_shli_i64(tmp, va, 2);
-             tcg_gen_sub_i64(vc, tmp, vb);
--            tcg_temp_free(tmp);
-             break;
-         case 0x2D:
-             /* CMPEQ */
-@@ -1625,14 +1579,12 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tmp = tcg_temp_new();
-             tcg_gen_shli_i64(tmp, va, 3);
-             tcg_gen_add_i64(vc, tmp, vb);
--            tcg_temp_free(tmp);
-             break;
-         case 0x3B:
-             /* S8SUBQ */
-             tmp = tcg_temp_new();
-             tcg_gen_shli_i64(tmp, va, 3);
-             tcg_gen_sub_i64(vc, tmp, vb);
--            tcg_temp_free(tmp);
-             break;
-         case 0x3D:
-             /* CMPULE */
-@@ -1646,7 +1598,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_add_i64(tmp, tmp, vc);
-             tcg_gen_ext32s_i64(vc, tmp);
-             gen_helper_check_overflow(cpu_env, vc, tmp);
--            tcg_temp_free(tmp);
-             break;
-         case 0x49:
-             /* SUBL/V */
-@@ -1656,7 +1607,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_sub_i64(tmp, tmp, vc);
-             tcg_gen_ext32s_i64(vc, tmp);
-             gen_helper_check_overflow(cpu_env, vc, tmp);
--            tcg_temp_free(tmp);
-             break;
-         case 0x4D:
-             /* CMPLT */
-@@ -1674,8 +1624,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_shri_i64(tmp, tmp, 63);
-             tcg_gen_movi_i64(tmp2, 0);
-             gen_helper_check_overflow(cpu_env, tmp, tmp2);
--            tcg_temp_free(tmp);
--            tcg_temp_free(tmp2);
-             break;
-         case 0x69:
-             /* SUBQ/V */
-@@ -1689,8 +1637,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_shri_i64(tmp, tmp, 63);
-             tcg_gen_movi_i64(tmp2, 0);
-             gen_helper_check_overflow(cpu_env, tmp, tmp2);
--            tcg_temp_free(tmp);
--            tcg_temp_free(tmp2);
-             break;
-         case 0x6D:
-             /* CMPLE */
-@@ -1744,7 +1690,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_andi_i64(tmp, va, 1);
-             tcg_gen_movcond_i64(TCG_COND_NE, vc, tmp, load_zero(ctx),
-                                 vb, load_gpr(ctx, rc));
--            tcg_temp_free(tmp);
-             break;
-         case 0x16:
-             /* CMOVLBC */
-@@ -1752,7 +1697,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_andi_i64(tmp, va, 1);
-             tcg_gen_movcond_i64(TCG_COND_EQ, vc, tmp, load_zero(ctx),
-                                 vb, load_gpr(ctx, rc));
--            tcg_temp_free(tmp);
-             break;
-         case 0x20:
-             /* BIS */
-@@ -1884,7 +1828,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-                 vb = load_gpr(ctx, rb);
-                 tcg_gen_andi_i64(tmp, vb, 0x3f);
-                 tcg_gen_shr_i64(vc, va, tmp);
--                tcg_temp_free(tmp);
-             }
-             break;
-         case 0x36:
-@@ -1900,7 +1843,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-                 vb = load_gpr(ctx, rb);
-                 tcg_gen_andi_i64(tmp, vb, 0x3f);
-                 tcg_gen_shl_i64(vc, va, tmp);
--                tcg_temp_free(tmp);
-             }
-             break;
-         case 0x3B:
-@@ -1916,7 +1858,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-                 vb = load_gpr(ctx, rb);
-                 tcg_gen_andi_i64(tmp, vb, 0x3f);
-                 tcg_gen_sar_i64(vc, va, tmp);
--                tcg_temp_free(tmp);
-             }
-             break;
-         case 0x52:
-@@ -1978,7 +1919,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             /* UMULH */
-             tmp = tcg_temp_new();
-             tcg_gen_mulu2_i64(tmp, vc, va, vb);
--            tcg_temp_free(tmp);
-             break;
-         case 0x40:
-             /* MULL/V */
-@@ -1988,7 +1928,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_mul_i64(tmp, tmp, vc);
-             tcg_gen_ext32s_i64(vc, tmp);
-             gen_helper_check_overflow(cpu_env, vc, tmp);
--            tcg_temp_free(tmp);
-             break;
-         case 0x60:
-             /* MULQ/V */
-@@ -1997,8 +1936,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             tcg_gen_muls2_i64(vc, tmp, va, vb);
-             tcg_gen_sari_i64(tmp2, vc, 63);
-             gen_helper_check_overflow(cpu_env, tmp, tmp2);
--            tcg_temp_free(tmp);
--            tcg_temp_free(tmp2);
-             break;
-         default:
-             goto invalid_opc;
-@@ -2017,7 +1954,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             va = load_gpr(ctx, ra);
-             tcg_gen_extrl_i64_i32(t32, va);
-             gen_helper_memory_to_s(vc, t32);
--            tcg_temp_free_i32(t32);
-             break;
-         case 0x0A:
-             /* SQRTF */
-@@ -2040,7 +1976,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             va = load_gpr(ctx, ra);
-             tcg_gen_extrl_i64_i32(t32, va);
-             gen_helper_memory_to_f(vc, t32);
--            tcg_temp_free_i32(t32);
-             break;
-         case 0x24:
-             /* ITOFT */
-@@ -2526,7 +2461,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-                 tcg_gen_qemu_ld_i64(va, addr, MMU_USER_IDX, MO_LEUQ);
-                 break;
-             }
--            tcg_temp_free(addr);
-             break;
-         }
- #else
-@@ -2550,7 +2484,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             va = load_fpr(ctx, ra);
-             gen_helper_s_to_memory(t32, va);
-             tcg_gen_ext_i32_i64(vc, t32);
--            tcg_temp_free_i32(t32);
-             break;
-         }
- 
-@@ -2706,7 +2639,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-         tmp = tcg_temp_new();
-         tcg_gen_andi_i64(tmp, vb, 1);
-         st_flag_byte(tmp, ENV_FLAG_PAL_SHIFT);
--        tcg_temp_free(tmp);
-         tcg_gen_andi_i64(cpu_pc, vb, ~3);
-         /* Allow interrupts to be recognized right away.  */
-         ret = DISAS_PC_UPDATED_NOCHAIN;
-@@ -2728,7 +2660,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-                 tmp = tcg_temp_new();
-                 tcg_gen_addi_i64(tmp, vb, disp12);
-                 tcg_gen_qemu_st_i64(va, tmp, MMU_PHYS_IDX, MO_LESL);
--                tcg_temp_free(tmp);
-                 break;
-             case 0x1:
-                 /* Quadword physical access */
-@@ -2737,7 +2668,6 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-                 tmp = tcg_temp_new();
-                 tcg_gen_addi_i64(tmp, vb, disp12);
-                 tcg_gen_qemu_st_i64(va, tmp, MMU_PHYS_IDX, MO_LEUQ);
--                tcg_temp_free(tmp);
-                 break;
-             case 0x2:
-                 /* Longword physical access with lock */
+     store_reg(s, a->rd, rn);
+     tcg_temp_free_i32(rm);
 -- 
 2.34.1
 
