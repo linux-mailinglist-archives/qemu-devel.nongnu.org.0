@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171EE6A2814
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:04:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA546A2818
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:04:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVqQC-00017H-Gw; Sat, 25 Feb 2023 04:00:48 -0500
+	id 1pVqQD-00019p-1q; Sat, 25 Feb 2023 04:00:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqPe-0000RY-Td
+ id 1pVqPg-0000Ra-32
  for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:00:18 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqPc-0004pY-J2
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:00:14 -0500
-Received: by mail-pl1-x631.google.com with SMTP id bh1so1829149plb.11
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:00:12 -0800 (PST)
+ id 1pVqPe-00054h-A7
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:00:15 -0500
+Received: by mail-pl1-x633.google.com with SMTP id ky4so1878185plb.3
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:00:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DKuK62hxv2vXEM1ktPotl0poAfziKcuIlZAl/cEb0MU=;
- b=TQ6BT2SANhKD0lhngD+isYxae6gxRHg7lBA7l7RAsEqeSzXS0d8QGi5zGIiHryrqE0
- BjvgDvT09cFT0D6zMRPLExCAC8hoRzRF8ke3sgtXiR9fUbPQUjRAQjqJDNIQbrs2JJck
- a/WZ3I7nW1S5J+LrxG6DO5zT9otlFsImGFxd4py7EjjdU0NZ+AffUf2gSaP8XzLQAXAD
- T3wRCHsagdvgqzPEhNPZ4zHrK3y33j4+lRvTSStpn5fJCBVD+wXWOQQMYm0Ea1WzPQHa
- aIszAsihhV+w0rnydn0OXNMyF4eQI5AR4zZPKoesVM9I4d7gBm5PwG3htNeUNTbNZbOI
- Dtww==
+ bh=c/FsI5n4WgHRv66eevhE+xAIN7J7lkFbjUwPoPOuuXQ=;
+ b=wR/8+JJYNmAQNzxK1ZYJPc0AP7lD70l3eMAzMar86M19in5ynlGrmlKGYFEDAJSED6
+ QwYVJpRxIBva75MvkSGn4J8ko6jAoI6XNw8MZDTD3QaHFzDTJi7f7d3MOXAozZIQBdi9
+ IS1hU2HFEqF7l7sNbtUJeRl6EFEhT3PHlyCgYG4Wv8X6VV67ekDwc+X52WGVQ/FrBKXN
+ j0Fc/KdQwf3Xf6r1e61ALQiRqBd0AHkm0UHSmJA4lpUVYVSgzYziYuAj4ZyXymA6s9d/
+ rRTMkCAXKE38buJ/2J7oXMIAyEbSTz9zvuKMkuLszZUT7sJZUS0YoQVMliooO+SyhBh7
+ qZlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DKuK62hxv2vXEM1ktPotl0poAfziKcuIlZAl/cEb0MU=;
- b=YDiU+oM/TJ7KE8LAzsgy/zN3mVY3f7aV5p6gVls/RPOcyAVBVj9r9eUd/pZZwgMOJS
- lmCx/1Xb9eMG3ExuaKSPsS5lkX/zv0tjzHLYrEDxSfd5j5ASGhBzhvUdG+0lru2s+B+S
- +hePVvVSKDXKrA8T4tvI0TeUgq3WJG+mIdLlqEDmz8iyt00xY2+EGIKX2gT5BMRUjn6V
- DNz0x0y19ohUsSlICY8CuFk2N8bZUDbZxNhIf3flNwxFCn2CbQ6T7GhSfJEb37VZp7Ta
- D1SilelCx2u21W05S/t+KQPOm3CmBVIxCDUxFm5hSbBz2X2KVoR56TAsAsEnBSp3HVWZ
- ey5w==
-X-Gm-Message-State: AO0yUKVlR8yJrLpCM0Z0HMZLEI5YqxnVr6kHh3dA/vSrgSHpYwAm0KFT
- hgkFyJJEY91MXpezzFfLLArzGPh1RtLKW6XexQk=
-X-Google-Smtp-Source: AK7set/AcBVzDcTYwATb/Pm7RIMegAnpSbXFTONnPxvEXaikXacMpdy+K9KFEhXvMuiXaxTHFXaNhA==
-X-Received: by 2002:a05:6a20:12d2:b0:cb:98e5:de33 with SMTP id
- v18-20020a056a2012d200b000cb98e5de33mr18777805pzg.3.1677315611699; 
- Sat, 25 Feb 2023 01:00:11 -0800 (PST)
+ bh=c/FsI5n4WgHRv66eevhE+xAIN7J7lkFbjUwPoPOuuXQ=;
+ b=uPFhB1wGK20G031efYMuMvfwMBHPpiYFb0crLD0OhUX61ynbktTA5mSF4B+nlKG0Dg
+ m5dZGuh/JoWguABqIiDOyCHzXMRzu9B8ghNp7J3Y7EHJFDwdbc41MsE44TXIkf27e1np
+ 73sksJ++3ONEDv1gH5jksKeSvJN8vEPB9caVuUFbi52B2MUsYTkE1E1nwugyi9kamRgL
+ n1gq6xjrzIFtUwd0nbz5o+E07M31hDCg3xs0T1dBE9ce2nmTZQ+Y7GDmcZIoh9Tfn3Fx
+ 6OCDlAo4MsbzAjUHgzNSnIv0zn0l9iCVFXHVjzJzTqb9TnAsh9w+OtM9qlmMvRVpyWrJ
+ 7utA==
+X-Gm-Message-State: AO0yUKWr9MRwm2L+aS8rojhbPNIW+Kvl5kPlOkjA9vxb6b9JxZ5in3EY
+ ejqfKgoBCDMZo2DzWcpqaBeW+yN8MxFs46y7zTQ=
+X-Google-Smtp-Source: AK7set8kWCNGSsDv1LxLmVk6ca+xKz0X9wf16/AQUMyGkwxns7acF8HYAZ9EpiFPxrEHYdUUFni+jw==
+X-Received: by 2002:a17:90a:31c:b0:237:1b6a:dbce with SMTP id
+ 28-20020a17090a031c00b002371b6adbcemr17954255pje.2.1677315613129; 
+ Sat, 25 Feb 2023 01:00:13 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- s17-20020a639251000000b00502ecb91940sm715546pgn.55.2023.02.25.01.00.10
+ s17-20020a639251000000b00502ecb91940sm715546pgn.55.2023.02.25.01.00.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Feb 2023 01:00:11 -0800 (PST)
+ Sat, 25 Feb 2023 01:00:12 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 15/30] accel/tcg/plugin: Use tcg_temp_ebb_*
-Date: Fri, 24 Feb 2023 22:59:30 -1000
-Message-Id: <20230225085945.1798188-16-richard.henderson@linaro.org>
+Subject: [PATCH v3 16/30] accel/tcg/plugin: Tidy plugin_gen_disable_mem_helpers
+Date: Fri, 24 Feb 2023 22:59:31 -1000
+Message-Id: <20230225085945.1798188-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230225085945.1798188-1-richard.henderson@linaro.org>
 References: <20230225085945.1798188-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,76 +91,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All of these uses have quite local scope.
-Avoid tcg_const_*, because we haven't added a corresponding
-interface for TEMP_EBB.  Use explicit tcg_gen_movi_* instead.
+Here we are creating a temp whose value needs to be replaced,
+but always storing NULL into CPUState.plugin_mem_cbs.
+Use tcg_constant_ptr(0) explicitly.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/plugin-gen.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ accel/tcg/plugin-gen.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 17a686bd9e..9b793ac62c 100644
+index 9b793ac62c..c42a436c0c 100644
 --- a/accel/tcg/plugin-gen.c
 +++ b/accel/tcg/plugin-gen.c
-@@ -93,11 +93,13 @@ void HELPER(plugin_vcpu_mem_cb)(unsigned int vcpu_index,
- 
- static void do_gen_mem_cb(TCGv vaddr, uint32_t info)
- {
--    TCGv_i32 cpu_index = tcg_temp_new_i32();
--    TCGv_i32 meminfo = tcg_const_i32(info);
--    TCGv_i64 vaddr64 = tcg_temp_new_i64();
--    TCGv_ptr udata = tcg_const_ptr(NULL);
-+    TCGv_i32 cpu_index = tcg_temp_ebb_new_i32();
-+    TCGv_i32 meminfo = tcg_temp_ebb_new_i32();
-+    TCGv_i64 vaddr64 = tcg_temp_ebb_new_i64();
-+    TCGv_ptr udata = tcg_temp_ebb_new_ptr();
- 
-+    tcg_gen_movi_i32(meminfo, info);
-+    tcg_gen_movi_ptr(udata, 0);
-     tcg_gen_ld_i32(cpu_index, cpu_env,
-                    -offsetof(ArchCPU, env) + offsetof(CPUState, cpu_index));
-     tcg_gen_extu_tl_i64(vaddr64, vaddr);
-@@ -112,9 +114,10 @@ static void do_gen_mem_cb(TCGv vaddr, uint32_t info)
- 
- static void gen_empty_udata_cb(void)
- {
--    TCGv_i32 cpu_index = tcg_temp_new_i32();
--    TCGv_ptr udata = tcg_const_ptr(NULL); /* will be overwritten later */
-+    TCGv_i32 cpu_index = tcg_temp_ebb_new_i32();
-+    TCGv_ptr udata = tcg_temp_ebb_new_ptr();
- 
-+    tcg_gen_movi_ptr(udata, 0);
-     tcg_gen_ld_i32(cpu_index, cpu_env,
-                    -offsetof(ArchCPU, env) + offsetof(CPUState, cpu_index));
-     gen_helper_plugin_vcpu_udata_cb(cpu_index, udata);
-@@ -129,9 +132,10 @@ static void gen_empty_udata_cb(void)
-  */
- static void gen_empty_inline_cb(void)
- {
--    TCGv_i64 val = tcg_temp_new_i64();
--    TCGv_ptr ptr = tcg_const_ptr(NULL); /* overwritten later */
-+    TCGv_i64 val = tcg_temp_ebb_new_i64();
-+    TCGv_ptr ptr = tcg_temp_ebb_new_ptr();
- 
-+    tcg_gen_movi_ptr(ptr, 0);
-     tcg_gen_ld_i64(val, ptr, 0);
-     /* pass an immediate != 0 so that it doesn't get optimized away */
-     tcg_gen_addi_i64(val, val, 0xdeadface);
-@@ -151,9 +155,9 @@ static void gen_empty_mem_cb(TCGv addr, uint32_t info)
-  */
- static void gen_empty_mem_helper(void)
+@@ -630,8 +630,6 @@ static void inject_mem_disable_helper(struct qemu_plugin_insn *plugin_insn,
+ /* called before finishing a TB with exit_tb, goto_tb or goto_ptr */
+ void plugin_gen_disable_mem_helpers(void)
  {
 -    TCGv_ptr ptr;
-+    TCGv_ptr ptr = tcg_temp_ebb_new_ptr();
- 
+-
+     /*
+      * We could emit the clearing unconditionally and be done. However, this can
+      * be wasteful if for instance plugins don't track memory accesses, or if
+@@ -644,10 +642,8 @@ void plugin_gen_disable_mem_helpers(void)
+     if (!tcg_ctx->plugin_tb->mem_helper) {
+         return;
+     }
 -    ptr = tcg_const_ptr(NULL);
-+    tcg_gen_movi_ptr(ptr, 0);
-     tcg_gen_st_ptr(ptr, cpu_env, offsetof(CPUState, plugin_mem_cbs) -
-                                  offsetof(ArchCPU, env));
-     tcg_temp_free_ptr(ptr);
+-    tcg_gen_st_ptr(ptr, cpu_env, offsetof(CPUState, plugin_mem_cbs) -
+-                                 offsetof(ArchCPU, env));
+-    tcg_temp_free_ptr(ptr);
++    tcg_gen_st_ptr(tcg_constant_ptr(NULL), cpu_env,
++                   offsetof(CPUState, plugin_mem_cbs) - offsetof(ArchCPU, env));
+ }
+ 
+ static void plugin_gen_tb_udata(const struct qemu_plugin_tb *ptb,
 -- 
 2.34.1
 
