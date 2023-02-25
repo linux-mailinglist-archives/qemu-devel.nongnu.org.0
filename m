@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB656A287D
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F17C6A287B
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:31:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVqkN-0001cD-Sq; Sat, 25 Feb 2023 04:21:39 -0500
+	id 1pVqkK-0001KY-8N; Sat, 25 Feb 2023 04:21:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqjb-0007Tg-1e
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:20:51 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ id 1pVqjc-0007gE-Vg
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:20:53 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqjW-0003LG-6B
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:20:50 -0500
-Received: by mail-pl1-x629.google.com with SMTP id z2so1853119plf.12
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:20:45 -0800 (PST)
+ id 1pVqjY-0003LF-Ow
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:20:52 -0500
+Received: by mail-pl1-x630.google.com with SMTP id ky4so1905962plb.3
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:20:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kCS1rL10+CIKqmoLW6jSTzgoiAWGrByH8UqPxDNVxjM=;
- b=WBpVyPYBqpNgiZWj+9+HvdqfjNyb3r3u6T9buUrPVd0JCkABBfNK7T3M3Q10THLGn4
- waiJFusn2ahjTkDA9Wiib5TAYE8ClDa40oUqIxmPHVp9oy7zkCgXJK/wH2vYy1Vqjfma
- MVq/hup/gDyFPGUZhl0bYlVftd+64m3daTUORnfl1RRVdskoaC7CiUlvneyySyvdvgqe
- M2ZdoA9Q2brykutrCuteQFeyS8phHbsZsSPgm0qJcG7YYgwyWnZen18BTGEpZnx5jrIx
- zKEullfKWeZO31zyHt2mCMOe4EVXYJxx1P66e2ce4KFvGVYQXGelUD3lcCztOQnxxK7/
- n0yA==
+ bh=gP1FaZV2jwIFaxfD+zljAWbUZCjQNTs1C1nJUdyENMk=;
+ b=fs0fTH3vrf/1IwKgl45ef46u7ytbBe1ya5mkka7jxDKJUPTdmrGorektm3cx63qtd6
+ lQy2PM75KNoNdWqJVDL6j/Wwrx+em+IlcgXGrZvttLkK3iTjMgzXdyAdutqPhKvmVvUy
+ PIks4x+6GwhwNlVIq748LBGLOCY4W7sPrUHZ5AQ5Ipu1WbjtjiBfTcFwtuh3PlQxLqFM
+ kObrH7rYhFDZWB3LXA2sySha8Sx3jVvpJP/YEwwqcz2nznk+O4exzdqPEtO5BObEruJ2
+ B+M7zAiZnZhCuTWPPa0dIXHTFdGrXgbirkiaEjx0ds4af21Ad3HuEIHFfKzhfxP2NEP5
+ oXMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kCS1rL10+CIKqmoLW6jSTzgoiAWGrByH8UqPxDNVxjM=;
- b=PtcRzek69gpScqscwn308VRJH55+1eA8dGvwVDddIJ0IXZb9qa9gCfN7ma54gBVZop
- gExQrob7BGEeuHSa8l1UjOrvqN5yUiCFzD9vsBh3zQSKA8Qrcc117oyTHagxTFwBWzKv
- ZNY9A8/ZKg4ts12GjS9eXBvgJv59Lsfbq/7s81L+fNlwBTvp0SBaYigCKLn6vC22jxPc
- 6ax2ilVUX+qcC884EocQpvJtzrqRc6QgvIx03yjYv7ea0X2Mewx4vEq2+V1Eb2FikNiH
- JytQnV9RyuygFPhLGtj+HNKDBCQsTjA43+2RmO9wJ0FVnvaO5icjdKEuQ1HQP5WvGpif
- U4zA==
-X-Gm-Message-State: AO0yUKW/ixe7/I+6iyR35jycIYoBoOSxkLmYA9WqSP5CVzanl8RlsSRq
- Js6LAr4J4zg36Ya6K8Nfi10e3UlbPjd5G2aPDeI=
-X-Google-Smtp-Source: AK7set80i3Ttgl0ASgVFZftCr9HDiLAX8iFYwv/bvUp4EAeli0X5lvfc5bdKM5BzSkI8kgDAFgFDQQ==
-X-Received: by 2002:a05:6a20:9151:b0:cc:5917:c4ee with SMTP id
- x17-20020a056a20915100b000cc5917c4eemr7601955pzc.35.1677316845149; 
- Sat, 25 Feb 2023 01:20:45 -0800 (PST)
+ bh=gP1FaZV2jwIFaxfD+zljAWbUZCjQNTs1C1nJUdyENMk=;
+ b=IVJ7RAP5+XyaMbn2pcWxAOlzfmTHgN1USlgGdj8NfFrxBhkLel9eqLnjL9xKl1zlSU
+ NyTTnzSzSHbrwTTkvSN0nNmk+HkXV7pjHiM8lAHmj+VhklopDm6lr8VMQsW4YLUeOuyc
+ K2WnSm6Np0mqD4/I7GCGR8eABFj3YzodfHTJVW2EYPGcsODbX75nZo39aYRKqC29aF27
+ 9YZLOLfc/ry9Cb0mggw25lPuBYqBx+jozREPOK1515GQeHv54llDfFu9hESuFqmmbiod
+ i4LXeBgcPnqGozGQOjfBhCd+KkKev5FKRCPASJcjXqmsDlxPJVBk8DKCtEpe8tc0yC7r
+ fmyQ==
+X-Gm-Message-State: AO0yUKWAFAucceFYw1SyL1C5HzmEG7NLsqMxHsRrS4BrpU04Pj6xvrOs
+ lNodvCkuowQM5MN3GTlfjQg5ZYHFu1sGm4sozVQ=
+X-Google-Smtp-Source: AK7set8n21cgRQwDkk8Cxy0YxJEwXNC2mcJ0/dMxqzElGa1SgjorurYuYipn8yr6JXwO9MoSo6G9Lg==
+X-Received: by 2002:a05:6a20:a005:b0:c7:1d82:838c with SMTP id
+ p5-20020a056a20a00500b000c71d82838cmr17920260pzj.41.1677316847760; 
+ Sat, 25 Feb 2023 01:20:47 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- 26-20020aa7921a000000b00592417157f2sm843114pfo.148.2023.02.25.01.20.42
+ 26-20020aa7921a000000b00592417157f2sm843114pfo.148.2023.02.25.01.20.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Feb 2023 01:20:44 -0800 (PST)
+ Sat, 25 Feb 2023 01:20:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -61,24 +61,23 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com
-Subject: [PATCH 74/76] tracing: remove transform.py
-Date: Fri, 24 Feb 2023 23:14:25 -1000
-Message-Id: <20230225091427.1817156-75-richard.henderson@linaro.org>
+Subject: [PATCH 75/76] tcg: Create tcg/tcg-temp-internal.h
+Date: Fri, 24 Feb 2023 23:14:26 -1000
+Message-Id: <20230225091427.1817156-76-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230225091427.1817156-1-richard.henderson@linaro.org>
 References: <20230225091427.1817156-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: 23
+X-Spam_score: 2.3
+X-Spam_bar: ++
+X-Spam_report: (2.3 / 5.0 requ) BAYES_00=-1.9, BITCOIN_OBFU_SUBJ=3.376,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FUZZY_BITCOIN=1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,203 +93,267 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This file got left behind when the tcg stuff was
-removed from tracetool.
+Move the  tcg_temp_free_* and tcg_temp_ebb_new_* declarations
+and inlines to the new header.  These are private to the
+implementation, and will prevent tcg_temp_free_* from creaping
+back into the guest front ends.
 
-Fixes: 126d4123c50a ("tracing: excise the tcg related from tracetool")
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build                    |   1 -
- scripts/tracetool/transform.py | 168 ---------------------------------
- 2 files changed, 169 deletions(-)
- delete mode 100644 scripts/tracetool/transform.py
+ include/tcg/tcg-temp-internal.h | 83 +++++++++++++++++++++++++++++++++
+ include/tcg/tcg.h               | 54 ---------------------
+ accel/tcg/plugin-gen.c          |  1 +
+ tcg/tcg-op-gvec.c               |  1 +
+ tcg/tcg-op-vec.c                |  1 +
+ tcg/tcg-op.c                    |  1 +
+ tcg/tcg.c                       |  1 +
+ 7 files changed, 88 insertions(+), 54 deletions(-)
+ create mode 100644 include/tcg/tcg-temp-internal.h
 
-diff --git a/meson.build b/meson.build
-index 6cb2b1a42f..275399b8c2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2861,7 +2861,6 @@ tracetool_depends = files(
-   'scripts/tracetool/format/log_stap.py',
-   'scripts/tracetool/format/stap.py',
-   'scripts/tracetool/__init__.py',
--  'scripts/tracetool/transform.py',
-   'scripts/tracetool/vcpu.py'
- )
+diff --git a/include/tcg/tcg-temp-internal.h b/include/tcg/tcg-temp-internal.h
+new file mode 100644
+index 0000000000..dded2917e5
+--- /dev/null
++++ b/include/tcg/tcg-temp-internal.h
+@@ -0,0 +1,83 @@
++/*
++ * TCG internals related to TCG temp allocation
++ *
++ * Copyright (c) 2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef TCG_TEMP_INTERNAL_H
++#define TCG_TEMP_INTERNAL_H
++
++/*
++ * Allocation and freeing of EBB temps is reserved to TCG internals
++ */
++
++void tcg_temp_free_internal(TCGTemp *);
++
++static inline void tcg_temp_free_i32(TCGv_i32 arg)
++{
++    tcg_temp_free_internal(tcgv_i32_temp(arg));
++}
++
++static inline void tcg_temp_free_i64(TCGv_i64 arg)
++{
++    tcg_temp_free_internal(tcgv_i64_temp(arg));
++}
++
++static inline void tcg_temp_free_i128(TCGv_i128 arg)
++{
++    tcg_temp_free_internal(tcgv_i128_temp(arg));
++}
++
++static inline void tcg_temp_free_ptr(TCGv_ptr arg)
++{
++    tcg_temp_free_internal(tcgv_ptr_temp(arg));
++}
++
++static inline void tcg_temp_free_vec(TCGv_vec arg)
++{
++    tcg_temp_free_internal(tcgv_vec_temp(arg));
++}
++
++static inline TCGv_i32 tcg_temp_ebb_new_i32(void)
++{
++    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I32, TEMP_EBB);
++    return temp_tcgv_i32(t);
++}
++
++static inline TCGv_i64 tcg_temp_ebb_new_i64(void)
++{
++    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I64, TEMP_EBB);
++    return temp_tcgv_i64(t);
++}
++
++static inline TCGv_i128 tcg_temp_ebb_new_i128(void)
++{
++    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, TEMP_EBB);
++    return temp_tcgv_i128(t);
++}
++
++static inline TCGv_ptr tcg_temp_ebb_new_ptr(void)
++{
++    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_PTR, TEMP_EBB);
++    return temp_tcgv_ptr(t);
++}
++
++#endif /* TCG_TEMP_FREE_H */
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index e8f73115ec..43ce4bfa7d 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -855,35 +855,9 @@ void tcg_set_frame(TCGContext *s, TCGReg reg, intptr_t start, intptr_t size);
+ TCGTemp *tcg_global_mem_new_internal(TCGType, TCGv_ptr,
+                                      intptr_t, const char *);
+ TCGTemp *tcg_temp_new_internal(TCGType, TCGTempKind);
+-void tcg_temp_free_internal(TCGTemp *);
+ TCGv_vec tcg_temp_new_vec(TCGType type);
+ TCGv_vec tcg_temp_new_vec_matching(TCGv_vec match);
  
-diff --git a/scripts/tracetool/transform.py b/scripts/tracetool/transform.py
-deleted file mode 100644
-index ea8b27799d..0000000000
---- a/scripts/tracetool/transform.py
-+++ /dev/null
-@@ -1,168 +0,0 @@
--# -*- coding: utf-8 -*-
+-static inline void tcg_temp_free_i32(TCGv_i32 arg)
+-{
+-    tcg_temp_free_internal(tcgv_i32_temp(arg));
+-}
 -
--"""
--Type-transformation rules.
--"""
+-static inline void tcg_temp_free_i64(TCGv_i64 arg)
+-{
+-    tcg_temp_free_internal(tcgv_i64_temp(arg));
+-}
 -
--__author__     = "Lluís Vilanova <vilanova@ac.upc.edu>"
--__copyright__  = "Copyright 2012-2016, Lluís Vilanova <vilanova@ac.upc.edu>"
--__license__    = "GPL version 2 or (at your option) any later version"
+-static inline void tcg_temp_free_i128(TCGv_i128 arg)
+-{
+-    tcg_temp_free_internal(tcgv_i128_temp(arg));
+-}
 -
--__maintainer__ = "Stefan Hajnoczi"
--__email__      = "stefanha@redhat.com"
+-static inline void tcg_temp_free_ptr(TCGv_ptr arg)
+-{
+-    tcg_temp_free_internal(tcgv_ptr_temp(arg));
+-}
 -
+-static inline void tcg_temp_free_vec(TCGv_vec arg)
+-{
+-    tcg_temp_free_internal(tcgv_vec_temp(arg));
+-}
 -
--def _transform_type(type_, trans):
--    if isinstance(trans, str):
--        return trans
--    elif isinstance(trans, dict):
--        if type_ in trans:
--            return _transform_type(type_, trans[type_])
--        elif None in trans:
--            return _transform_type(type_, trans[None])
--        else:
--            return type_
--    elif callable(trans):
--        return trans(type_)
--    else:
--        raise ValueError("Invalid type transformation rule: %s" % trans)
+ static inline TCGv_i32 tcg_global_mem_new_i32(TCGv_ptr reg, intptr_t offset,
+                                               const char *name)
+ {
+@@ -891,13 +865,6 @@ static inline TCGv_i32 tcg_global_mem_new_i32(TCGv_ptr reg, intptr_t offset,
+     return temp_tcgv_i32(t);
+ }
+ 
+-/* Used only by tcg infrastructure: tcg-op.c or plugin-gen.c */
+-static inline TCGv_i32 tcg_temp_ebb_new_i32(void)
+-{
+-    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I32, TEMP_EBB);
+-    return temp_tcgv_i32(t);
+-}
 -
+ static inline TCGv_i32 tcg_temp_new_i32(void)
+ {
+     TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I32, TEMP_TB);
+@@ -911,26 +878,12 @@ static inline TCGv_i64 tcg_global_mem_new_i64(TCGv_ptr reg, intptr_t offset,
+     return temp_tcgv_i64(t);
+ }
+ 
+-/* Used only by tcg infrastructure: tcg-op.c or plugin-gen.c */
+-static inline TCGv_i64 tcg_temp_ebb_new_i64(void)
+-{
+-    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I64, TEMP_EBB);
+-    return temp_tcgv_i64(t);
+-}
 -
--def transform_type(type_, *trans):
--    """Return a new type transformed according to the given rules.
+ static inline TCGv_i64 tcg_temp_new_i64(void)
+ {
+     TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I64, TEMP_TB);
+     return temp_tcgv_i64(t);
+ }
+ 
+-/* Used only by tcg infrastructure: tcg-op.c or plugin-gen.c */
+-static inline TCGv_i128 tcg_temp_ebb_new_i128(void)
+-{
+-    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, TEMP_EBB);
+-    return temp_tcgv_i128(t);
+-}
 -
--    Applies each of the transformation rules in trans in order.
+ static inline TCGv_i128 tcg_temp_new_i128(void)
+ {
+     TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, TEMP_TB);
+@@ -944,13 +897,6 @@ static inline TCGv_ptr tcg_global_mem_new_ptr(TCGv_ptr reg, intptr_t offset,
+     return temp_tcgv_ptr(t);
+ }
+ 
+-/* Used only by tcg infrastructure: tcg-op.c or plugin-gen.c */
+-static inline TCGv_ptr tcg_temp_ebb_new_ptr(void)
+-{
+-    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_PTR, TEMP_EBB);
+-    return temp_tcgv_ptr(t);
+-}
 -
--    If an element of trans is a string, return it.
--
--    If an element of trans is a function, call it with type_ as its only
--    argument.
--
--    If an element of trans is a dict, search type_ in its keys. If type_ is
--    a key, use the value as a transformation rule for type_. Otherwise, if
--    None is a key use the value as a transformation rule for type_.
--
--    Otherwise, return type_.
--
--    Parameters
--    ----------
--    type_ : str
--        Type to transform.
--    trans : list of function or dict
--        Type transformation rules.
--    """
--    if len(trans) == 0:
--        raise ValueError
--    res = type_
--    for t in trans:
--        res = _transform_type(res, t)
--    return res
--
--
--##################################################
--# tcg -> host
--
--def _tcg_2_host(type_):
--    if type_ == "TCGv":
--        # force a fixed-size type (target-independent)
--        return "uint64_t"
--    else:
--        return type_
--
--TCG_2_HOST = {
--    "TCGv_i32": "uint32_t",
--    "TCGv_i64": "uint64_t",
--    "TCGv_ptr": "void *",
--    None: _tcg_2_host,
--    }
--
--
--##################################################
--# host -> host compatible with tcg sizes
--
--HOST_2_TCG_COMPAT = {
--    "uint8_t": "uint32_t",
--    "uint16_t": "uint32_t",
--    }
--
--
--##################################################
--# host/tcg -> tcg
--
--def _host_2_tcg(type_):
--    if type_.startswith("TCGv"):
--        return type_
--    raise ValueError("Don't know how to translate '%s' into a TCG type\n" % type_)
--
--HOST_2_TCG = {
--    "uint32_t": "TCGv_i32",
--    "uint64_t": "TCGv_i64",
--    "void *"  : "TCGv_ptr",
--    "CPUArchState *": "TCGv_env",
--    None: _host_2_tcg,
--    }
--
--
--##################################################
--# tcg -> tcg helper definition
--
--def _tcg_2_helper_def(type_):
--    if type_ == "TCGv":
--        return "target_ulong"
--    else:
--        return type_
--
--TCG_2_TCG_HELPER_DEF = {
--    "TCGv_i32": "uint32_t",
--    "TCGv_i64": "uint64_t",
--    "TCGv_ptr": "void *",
--    None: _tcg_2_helper_def,
--    }
--
--
--##################################################
--# tcg -> tcg helper declaration
--
--def _tcg_2_tcg_helper_decl_error(type_):
--    raise ValueError("Don't know how to translate type '%s' into a TCG helper declaration type\n" % type_)
--
--TCG_2_TCG_HELPER_DECL = {
--    "TCGv"    : "tl",
--    "TCGv_ptr": "ptr",
--    "TCGv_i32": "i32",
--    "TCGv_i64": "i64",
--    "TCGv_env": "env",
--    None: _tcg_2_tcg_helper_decl_error,
--    }
--
--
--##################################################
--# host/tcg -> tcg temporal constant allocation
--
--def _host_2_tcg_tmp_new(type_):
--    if type_.startswith("TCGv"):
--        return "tcg_temp_new_nop"
--    raise ValueError("Don't know how to translate type '%s' into a TCG temporal allocation" % type_)
--
--HOST_2_TCG_TMP_NEW = {
--    "uint32_t": "tcg_const_i32",
--    "uint64_t": "tcg_const_i64",
--    "void *"  : "tcg_const_ptr",
--    None: _host_2_tcg_tmp_new,
--    }
--
--
--##################################################
--# host/tcg -> tcg temporal constant deallocation
--
--def _host_2_tcg_tmp_free(type_):
--    if type_.startswith("TCGv"):
--        return "tcg_temp_free_nop"
--    raise ValueError("Don't know how to translate type '%s' into a TCG temporal deallocation" % type_)
--
--HOST_2_TCG_TMP_FREE = {
--    "uint32_t": "tcg_temp_free_i32",
--    "uint64_t": "tcg_temp_free_i64",
--    "void *"  : "tcg_temp_free_ptr",
--    None: _host_2_tcg_tmp_free,
--    }
+ static inline TCGv_ptr tcg_temp_new_ptr(void)
+ {
+     TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_PTR, TEMP_TB);
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index c42a436c0c..5efb8db258 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -44,6 +44,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "tcg/tcg.h"
++#include "tcg/tcg-temp-internal.h"
+ #include "tcg/tcg-op.h"
+ #include "exec/exec-all.h"
+ #include "exec/plugin-gen.h"
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 877b0b659b..f7072b213f 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -19,6 +19,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "tcg/tcg.h"
++#include "tcg/tcg-temp-internal.h"
+ #include "tcg/tcg-op.h"
+ #include "tcg/tcg-op-gvec.h"
+ #include "qemu/main-loop.h"
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index 966d41d65a..0f023f42c6 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -19,6 +19,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "tcg/tcg.h"
++#include "tcg/tcg-temp-internal.h"
+ #include "tcg/tcg-op.h"
+ #include "tcg/tcg-mo.h"
+ #include "tcg-internal.h"
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index f2269a1b91..53e96b5b69 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "exec/exec-all.h"
+ #include "tcg/tcg.h"
++#include "tcg/tcg-temp-internal.h"
+ #include "tcg/tcg-op.h"
+ #include "tcg/tcg-mo.h"
+ #include "exec/plugin-gen.h"
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index e3c0fa1012..4d3fb6aee2 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -60,6 +60,7 @@
+ #include "elf.h"
+ #include "exec/log.h"
+ #include "tcg/tcg-ldst.h"
++#include "tcg/tcg-temp-internal.h"
+ #include "tcg-internal.h"
+ #include "accel/tcg/perf.h"
+ 
 -- 
 2.34.1
 
