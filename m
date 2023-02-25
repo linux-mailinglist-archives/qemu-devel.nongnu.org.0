@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8299F6A2808
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:02:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44126A27FB
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:00:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVqPQ-0000NG-Ti; Sat, 25 Feb 2023 04:00:00 -0500
+	id 1pVqPS-0000OU-SD; Sat, 25 Feb 2023 04:00:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqPO-0000MI-DT
+ id 1pVqPP-0000Mt-Qk
  for qemu-devel@nongnu.org; Sat, 25 Feb 2023 03:59:59 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqPN-0004pK-0J
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 03:59:58 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- k21-20020a17090aaa1500b002376652e160so1621922pjq.0
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 00:59:56 -0800 (PST)
+ id 1pVqPO-0004pY-5p
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 03:59:59 -0500
+Received: by mail-pl1-x631.google.com with SMTP id bh1so1828766plb.11
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 00:59:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KgU8jRRsy/4dDTOMKHuklv2pdjkeQjC0sYzVe39pJ+4=;
- b=QIKkmIpc6Z3Xmc110LJe5rbi0YY89jxj2bDY9lg50WkyBHD4ud/2GeALV/qzs1McxF
- THhqQ3QetjQoOYk7BsPEiNclrjbOsakB4BqeCI8qU0KOFmPWgaqMwsdAMp8ZqKMB3acR
- 3ZzMcD8jg4jGBuhQVA49oGarMJn2isgirw9RGtf646rIIIJrY5nm70rEJWteEm59RVKr
- 2qMtJyJgn5sJqDPq5lSNYykjHNGAfvCZLpINXtrsU7dX7Wrj4oNC1P/l6NffkOz6cUC1
- WMweLpuEiCQ118Z7vaM2KisqSvOJlj11DQfDEg1HIGj1Bq8CLZbxQthEUeO1h0eflQER
- 7Jxw==
+ bh=Me3y4NGZuYmWF3kVGO2rrjiIggu4967Ajmd6fpL1eaM=;
+ b=rpua9tDS/XjVPicEUXxJSEz3yvAaGF/i5t31E331Rb7i4aNQxR7QjRaHKXoLJTEsPW
+ smK9RX15sH2yRQm5l+mIXrPRmbwUHaJglDE+ESyD8X61yQ9j363+ThCwVmxdWE35mLvp
+ +b4T9UQkqWQBxz9nZyYMBRWZUBh9L/d2RiIkA3qiCbGpinFegNMg/vW+bGCAegVzfevZ
+ 4It0J+fpkeYKBPJ9ZcyR15mzqRURyjJ0ijEWVnefFgv2VpLrIx4Qid/Fr5kWlknFa3aJ
+ LH+6DFs5bmZOQAoJ2ZGw1b6mbdZq2QeHV4Yn2dUKRs2yakVgWMrhneg7NyqHOVg/iBHu
+ 9G8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KgU8jRRsy/4dDTOMKHuklv2pdjkeQjC0sYzVe39pJ+4=;
- b=kMSoPsIjeY4ds4rjok6+Bs9pYzyJSVeHr36eTeCgDKMzewc2Q5w7y0aK4JzvRfKKAB
- 1pwY+zmve+4Dll1F+q4lv+bawT99r2yaUCVF0/0IRZ4weY0zeWkRBGPxVyxmkCMoACzp
- 5mJzmR9WVcbXXUcOq1ccPwUUekY0gdzpCIDxBB/H7bF1sSa2wOXOoAUmXBnlVSn14//2
- 7m6clLnmxLW+7zPFOyC8pWa+kTcCwNgDr7oIXW1Hwu4FVobVDSgL7mPyOCZvAeF/obR2
- RlNpdoRrEO1Sklqg4CuBHrc6/PoGZ8VK4D8gUzgzoZOo1pLHeKvYaz1TRd/RbpJKMeCK
- MKxg==
-X-Gm-Message-State: AO0yUKXpGSyJnbde35/9m7qkVnlFBijGzWkJnN4wQGsWcqTQc1N5MurL
- Y386J6k/9kJGcykQANF3raEHZmKWQoGWQ/JqxmU=
-X-Google-Smtp-Source: AK7set/8EMqetalPFIoFy8MNNNWkrqKMLDiOLvm4PEOqCRusB0zCNgD551jfPtK+WpiVBNe+cxB1Cw==
-X-Received: by 2002:a17:902:ec86:b0:196:11b1:101d with SMTP id
- x6-20020a170902ec8600b0019611b1101dmr21029494plg.28.1677315595510; 
- Sat, 25 Feb 2023 00:59:55 -0800 (PST)
+ bh=Me3y4NGZuYmWF3kVGO2rrjiIggu4967Ajmd6fpL1eaM=;
+ b=OXQ6M+dFx8i7c9SQgMFhERIaRn6iflux5zC72yfhXFH7JPmPr8Llwv3YqjmRcJ6vNa
+ YbejRR4uU3GubdeZGW9nj+7qtkEg39ngRmFO4bqH9edrsMC1HESHfpUn8G5j7zMLKYBu
+ fFOACCEPfXd6Ck1Iw3xnDSrnx8adlIWzrsnd6zWdXksTmMZxrj2mM7g88fNGr3Eq7zcx
+ aku5ezp3fNnmpq3SnZdfLTlp/wDSFElViRsAPk6eYG+sh0OCSY++p+lvFDnaa7U8W/Lr
+ E2aL6MWEyEQvFgOSlxmbLWjCzt9ehKgBkmucQ8csxVNchjfFwCazrEkXIlpEAa45mucE
+ 1iiw==
+X-Gm-Message-State: AO0yUKVeOKuoXeLXhtffzUlXX0sqfbHAlk5sxtbFuZ5a98YLthk4TSUJ
+ MeY6a+yQh8w3O2JzGemx/fHVKATTatYufXanMrU=
+X-Google-Smtp-Source: AK7set9gDu+puxiDCmFBVEsM7VTdGRu4yTf2+y2gj8LxHiVjtEtn51sPIIMNus1M9GMgU0MbTIMgaw==
+X-Received: by 2002:a05:6a20:1610:b0:be:22c5:92df with SMTP id
+ l16-20020a056a20161000b000be22c592dfmr15540413pzj.16.1677315596831; 
+ Sat, 25 Feb 2023 00:59:56 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- s17-20020a639251000000b00502ecb91940sm715546pgn.55.2023.02.25.00.59.54
+ s17-20020a639251000000b00502ecb91940sm715546pgn.55.2023.02.25.00.59.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Feb 2023 00:59:55 -0800 (PST)
+ Sat, 25 Feb 2023 00:59:56 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 04/30] tcg: Remove branch-to-next regardless of reference
- count
-Date: Fri, 24 Feb 2023 22:59:19 -1000
-Message-Id: <20230225085945.1798188-5-richard.henderson@linaro.org>
+Subject: [PATCH v3 05/30] tcg: Rename TEMP_LOCAL to TEMP_TB
+Date: Fri, 24 Feb 2023 22:59:20 -1000
+Message-Id: <20230225085945.1798188-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230225085945.1798188-1-richard.henderson@linaro.org>
 References: <20230225085945.1798188-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,75 +91,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Just because the label reference count is more than 1 does
-not mean we cannot remove a branch-to-next.  By doing this
-first, the label reference count may drop to 0, and then
-the label itself gets removed as before.
+Use TEMP_TB as that is more explicit about the default
+lifetime of the data.  While "global" and "local" used
+to be contrasting, we have more lifetimes than that now.
+
+Do not yet rename tcg_temp_local_new_*, just the enum.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+ include/tcg/tcg.h | 12 ++++++++----
+ tcg/optimize.c    |  2 +-
+ tcg/tcg.c         | 18 +++++++++---------
+ 3 files changed, 18 insertions(+), 14 deletions(-)
 
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 59854f95b1..2010e746ca 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -433,11 +433,15 @@ typedef enum TCGTempVal {
+ typedef enum TCGTempKind {
+     /* Temp is dead at the end of all basic blocks. */
+     TEMP_NORMAL,
+-    /* Temp is live across conditional branch, but dead otherwise. */
++    /*
++     * Temp is dead at the end of the extended basic block (EBB),
++     * the single-entry multiple-exit region that falls through
++     * conditional branches.
++     */
+     TEMP_EBB,
+-    /* Temp is saved across basic blocks but dead at the end of TBs. */
+-    TEMP_LOCAL,
+-    /* Temp is saved across both basic blocks and translation blocks. */
++    /* Temp is live across the entire translation block, but dead at end. */
++    TEMP_TB,
++    /* Temp is live across the entire translation block, and between them. */
+     TEMP_GLOBAL,
+     /* Temp is in a fixed register. */
+     TEMP_FIXED,
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 763bca9ea6..ce05989c39 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -190,7 +190,7 @@ static TCGTemp *find_better_copy(TCGContext *s, TCGTemp *ts)
+         } else if (i->kind > ts->kind) {
+             if (i->kind == TEMP_GLOBAL) {
+                 g = i;
+-            } else if (i->kind == TEMP_LOCAL) {
++            } else if (i->kind == TEMP_TB) {
+                 l = i;
+             }
+         }
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 06209e6160..0992fb4f31 100644
+index 0992fb4f31..bf2af8b0fe 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -2638,7 +2638,7 @@ TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *old_op,
- /* Reachable analysis : remove unreachable code.  */
- static void reachable_code_pass(TCGContext *s)
+@@ -1258,7 +1258,7 @@ TCGTemp *tcg_global_mem_new_internal(TCGType type, TCGv_ptr base,
+ TCGTemp *tcg_temp_new_internal(TCGType type, bool temp_local)
  {
--    TCGOp *op, *op_next;
-+    TCGOp *op, *op_next, *op_prev;
-     bool dead = false;
+     TCGContext *s = tcg_ctx;
+-    TCGTempKind kind = temp_local ? TEMP_LOCAL : TEMP_NORMAL;
++    TCGTempKind kind = temp_local ? TEMP_TB : TEMP_NORMAL;
+     TCGTemp *ts;
+     int idx, k;
  
-     QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
-@@ -2648,6 +2648,22 @@ static void reachable_code_pass(TCGContext *s)
-         switch (op->opc) {
-         case INDEX_op_set_label:
-             label = arg_label(op->args[0]);
-+
-+            /*
-+             * Optimization can fold conditional branches to unconditional.
-+             * If we find a label which is preceded by an unconditional
-+             * branch to next, remove the branch.  We couldn't do this when
-+             * processing the branch because any dead code between the branch
-+             * and label had not yet been removed.
-+             */
-+            op_prev = QTAILQ_PREV(op, link);
-+            if (op_prev->opc == INDEX_op_br &&
-+                label == arg_label(op_prev->args[0])) {
-+                tcg_op_remove(s, op_prev);
-+                /* Fall through means insns become live again.  */
-+                dead = false;
-+            }
-+
-             if (label->refs == 0) {
-                 /*
-                  * While there is an occasional backward branch, virtually
-@@ -2661,21 +2677,6 @@ static void reachable_code_pass(TCGContext *s)
-                 /* Once we see a label, insns become live again.  */
-                 dead = false;
-                 remove = false;
--
--                /*
--                 * Optimization can fold conditional branches to unconditional.
--                 * If we find a label with one reference which is preceded by
--                 * an unconditional branch to it, remove both.  This needed to
--                 * wait until the dead code in between them was removed.
--                 */
--                if (label->refs == 1) {
--                    TCGOp *op_prev = QTAILQ_PREV(op, link);
--                    if (op_prev->opc == INDEX_op_br &&
--                        label == arg_label(op_prev->args[0])) {
--                        tcg_op_remove(s, op_prev);
--                        remove = true;
--                    }
--                }
-             }
+@@ -1369,7 +1369,7 @@ void tcg_temp_free_internal(TCGTemp *ts)
+          */
+         return;
+     case TEMP_NORMAL:
+-    case TEMP_LOCAL:
++    case TEMP_TB:
+         break;
+     default:
+         g_assert_not_reached();
+@@ -1915,7 +1915,7 @@ static void tcg_reg_alloc_start(TCGContext *s)
+         case TEMP_EBB:
+             val = TEMP_VAL_DEAD;
+             /* fall through */
+-        case TEMP_LOCAL:
++        case TEMP_TB:
+             ts->mem_allocated = 0;
              break;
+         default:
+@@ -1937,7 +1937,7 @@ static char *tcg_get_arg_str_ptr(TCGContext *s, char *buf, int buf_size,
+     case TEMP_GLOBAL:
+         pstrcpy(buf, buf_size, ts->name);
+         break;
+-    case TEMP_LOCAL:
++    case TEMP_TB:
+         snprintf(buf, buf_size, "loc%d", idx - s->nb_globals);
+         break;
+     case TEMP_EBB:
+@@ -2759,7 +2759,7 @@ static void la_bb_end(TCGContext *s, int ng, int nt)
+         switch (ts->kind) {
+         case TEMP_FIXED:
+         case TEMP_GLOBAL:
+-        case TEMP_LOCAL:
++        case TEMP_TB:
+             state = TS_DEAD | TS_MEM;
+             break;
+         case TEMP_NORMAL:
+@@ -2804,7 +2804,7 @@ static void la_bb_sync(TCGContext *s, int ng, int nt)
+         int state;
  
+         switch (ts->kind) {
+-        case TEMP_LOCAL:
++        case TEMP_TB:
+             state = ts->state;
+             ts->state = state | TS_MEM;
+             if (state != TS_DEAD) {
+@@ -3497,7 +3497,7 @@ static void temp_free_or_dead(TCGContext *s, TCGTemp *ts, int free_or_dead)
+     case TEMP_FIXED:
+         return;
+     case TEMP_GLOBAL:
+-    case TEMP_LOCAL:
++    case TEMP_TB:
+         new_type = TEMP_VAL_MEM;
+         break;
+     case TEMP_NORMAL:
+@@ -3785,7 +3785,7 @@ static void tcg_reg_alloc_bb_end(TCGContext *s, TCGRegSet allocated_regs)
+         TCGTemp *ts = &s->temps[i];
+ 
+         switch (ts->kind) {
+-        case TEMP_LOCAL:
++        case TEMP_TB:
+             temp_save(s, ts, allocated_regs);
+             break;
+         case TEMP_NORMAL:
+@@ -3822,7 +3822,7 @@ static void tcg_reg_alloc_cbranch(TCGContext *s, TCGRegSet allocated_regs)
+          * Keep tcg_debug_asserts for safety.
+          */
+         switch (ts->kind) {
+-        case TEMP_LOCAL:
++        case TEMP_TB:
+             tcg_debug_assert(ts->val_type != TEMP_VAL_REG || ts->mem_coherent);
+             break;
+         case TEMP_NORMAL:
 -- 
 2.34.1
 
