@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD09F6A2807
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1606B6A2801
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 10:00:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVqQF-0001Yy-I3; Sat, 25 Feb 2023 04:00:51 -0500
+	id 1pVqQ1-0000u9-1B; Sat, 25 Feb 2023 04:00:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqPj-0000YP-C5
+ id 1pVqPk-0000bw-HD
  for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:00:23 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pVqPh-00055I-Gl
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:00:19 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id l15so1885951pls.1
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:00:16 -0800 (PST)
+ id 1pVqPi-00055R-Hx
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 04:00:20 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id l1so1414026pjt.2
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 01:00:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IYCWwbbJIP8d6veHeIA0O5e/DufmdWm+tt9+vif/hVA=;
- b=VUrQnVZ1IGfsZCE8+qkzQqJ1oss8edsfToGLAdSIt40neYju0E8VmGYxrYyrz99aFN
- Syhn5Wf4e6sWWbnj/85jkJimt6/knMI7dD6YNntE2nhaFqCrqkdRBwvlmr0PgqTm2Du+
- CCa+HIKujKcVUUFb+Nl+Ou3ZeaHxH2jdys1qQRZ72oXYef1B95QMwh1UtiXhUZjEmNey
- J0q5J3Qy64/luVQV2WUdf0GQ6ClOEQ0SAzQMJA07gfqIfyTF4PtaP0t74nwjk5gUyC57
- itw4/uxT59FbY44JXDUbtcigslx/Tm+v+4neVgvg3PHVucwHA7JUBtP8s9uUdiBHIA6R
- HK9A==
+ bh=EN6i3124GbzuDzAfWYCmS/x0Jquz/HN39rL+uzxBiIE=;
+ b=X6ssmHrd7M+qcCGy7SFLWbO321UeEApegMbFrVSYus7iWozpDBVSOH0tQYq0o47/FO
+ glZmR0Wl1rXpqCPxL+5wHK47FycFLc9fyBu65uDhS1oKwJsqKDxeobNxXTnptzv3QjaP
+ 31OHMXprht1t6C7Vnb3Eg+7MHkr2jhJfFiiPt+OmShje3pW8UruA6NkKOilEYxU0gDR4
+ sQ5Fo6fx36twV4Bh1j4xnbZcWoEtoWQExYyZH/snTcTEtFGYfTbFiXy4ZwzZMnlqLruY
+ wfWdycNMTYCcR4pQGf6UlBvqUNEsJPD9+B/UGSwm1+uYinA1gSnwoUhe4hMYDh1qwCuZ
+ Uirg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IYCWwbbJIP8d6veHeIA0O5e/DufmdWm+tt9+vif/hVA=;
- b=wf1D2U/Eks5BjeDjhcn0oiMWZW0XMmNGJoOIoyzUgUSGYP+P6AYQpmRsMzvbXkhQas
- OziuwtiHeq6rqE5fslkA/2GLREZPV25VWIPsca/7ERwkNQBEuIk56+EPJC658UlQIH7d
- uhNr7QnyWmwVd1tHDphNWJaopheCuAkruwgdAbhkdI5tNYhshWhKhQevGI5/S5OxhihM
- 3MGElZ4V8PtnBu4UuEf3PnD+CTeGDLhxhR5ovraQaUOdcCN99ubReYcDCGNBMCY9zIAF
- RPNdp9be6HkkLvWg4dSmjg58yd87ljiBGDMg7X4HtT0EMKcEvUV5oNehFSS/H+a15S8m
- GDSw==
-X-Gm-Message-State: AO0yUKXAg+lxGyytyRIrBhZvMrNt27M1RFRyOeyjzqgncB62Sv781zco
- 9zIA6i0xpCnC5ECIaFO9Eurwz5nKne569PBiSAU=
-X-Google-Smtp-Source: AK7set8ZSGtqLiDnDWC9JKohBoEj8dIPnR+wdOgpABY8xm/B8BW4FDsb3UlGhJzUnk3lt1Y86E+Ybw==
-X-Received: by 2002:a05:6a20:6a0c:b0:cb:a09e:6941 with SMTP id
- p12-20020a056a206a0c00b000cba09e6941mr17639776pzk.61.1677315615911; 
- Sat, 25 Feb 2023 01:00:15 -0800 (PST)
+ bh=EN6i3124GbzuDzAfWYCmS/x0Jquz/HN39rL+uzxBiIE=;
+ b=2smCnr5IliBCvp+zjL89XMhlcvU9/6kyuFErsQHR3uOfUXLyGT6iZp7bEuymRJP1HM
+ p+PtBML7ECiG5YKtKQgsnM0uTGePUxhciOPtTKTFABFSEUjaWSUzj6MhMgFxNjbyHBCN
+ 2Xp1ovvqAl8+HZxtpdRRVkHchVpqT0rCQln5jmGnKPYwcRbyBvmtndNGF9jRWONwWNmx
+ O/pXuf3kNwYi1iWHYgb8+n1KQhW5gMgLRj999ArOGiErqRcASRfCuwjJeY94XDGvVshQ
+ WJKsRW1rZeZJfeENhCRuWfxNTB5BSkFZqCoGZ/OrHiegr78fVKaf+OLwZ34YVDCAXQXs
+ ONFA==
+X-Gm-Message-State: AO0yUKURIEIDZsD3GklUNnvWhdtdHi4l4xmp0yKpK9+BcG3SXafTqjyI
+ t9/NN60Wigk54xDlcBqvIo2lqjC00//IesqUYt0=
+X-Google-Smtp-Source: AK7set//L4TJ0S7xi+3mDmBXldwH36RcUZuxY+nkH+AH5yia9o40SneyZPEg5CsyvQ43mJpd+M4p9w==
+X-Received: by 2002:a17:902:76c9:b0:19c:a6d6:7d25 with SMTP id
+ j9-20020a17090276c900b0019ca6d67d25mr11051503plt.37.1677315617177; 
+ Sat, 25 Feb 2023 01:00:17 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- s17-20020a639251000000b00502ecb91940sm715546pgn.55.2023.02.25.01.00.14
+ s17-20020a639251000000b00502ecb91940sm715546pgn.55.2023.02.25.01.00.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Feb 2023 01:00:15 -0800 (PST)
+ Sat, 25 Feb 2023 01:00:16 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v3 18/30] tcg: Change default temp lifetime to TEMP_TB
-Date: Fri, 24 Feb 2023 22:59:33 -1000
-Message-Id: <20230225085945.1798188-19-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org
+Subject: [PATCH v3 19/30] target/arm: Drop copies in gen_sve_{ldr,str}
+Date: Fri, 24 Feb 2023 22:59:34 -1000
+Message-Id: <20230225085945.1798188-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230225085945.1798188-1-richard.henderson@linaro.org>
 References: <20230225085945.1798188-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,56 +89,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Guest front-ends now get temps that span the lifetime of
-the translation block by default, which avoids accidentally
-using the temp across branches and invalidating the data.
+Since we now get TEMP_TB temporaries by default, we no longer
+need to make copies across these loops.  These were the only
+uses of new_tmp_a64_local(), so remove that as well.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/arm/translate-a64.h |  1 -
+ target/arm/translate-a64.c |  6 ------
+ target/arm/translate-sve.c | 32 --------------------------------
+ 3 files changed, 39 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 6cc6758cd6..2e220d4040 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -901,7 +901,7 @@ static inline TCGv_i32 tcg_temp_ebb_new_i32(void)
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index ad3762d1ac..ca24c39dbe 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -19,7 +19,6 @@
+ #define TARGET_ARM_TRANSLATE_A64_H
  
- static inline TCGv_i32 tcg_temp_new_i32(void)
- {
--    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I32, TEMP_EBB);
-+    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I32, TEMP_TB);
-     return temp_tcgv_i32(t);
+ TCGv_i64 new_tmp_a64(DisasContext *s);
+-TCGv_i64 new_tmp_a64_local(DisasContext *s);
+ TCGv_i64 new_tmp_a64_zero(DisasContext *s);
+ TCGv_i64 cpu_reg(DisasContext *s, int reg);
+ TCGv_i64 cpu_reg_sp(DisasContext *s, int reg);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 67e9c4ee79..9da5010fe1 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -436,12 +436,6 @@ TCGv_i64 new_tmp_a64(DisasContext *s)
+     return s->tmp_a64[s->tmp_a64_count++] = tcg_temp_new_i64();
  }
  
-@@ -927,7 +927,7 @@ static inline TCGv_i64 tcg_temp_ebb_new_i64(void)
- 
- static inline TCGv_i64 tcg_temp_new_i64(void)
+-TCGv_i64 new_tmp_a64_local(DisasContext *s)
+-{
+-    assert(s->tmp_a64_count < TMP_A64_MAX);
+-    return s->tmp_a64[s->tmp_a64_count++] = tcg_temp_local_new_i64();
+-}
+-
+ TCGv_i64 new_tmp_a64_zero(DisasContext *s)
  {
--    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I64, TEMP_EBB);
-+    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I64, TEMP_TB);
-     return temp_tcgv_i64(t);
- }
+     TCGv_i64 t = new_tmp_a64(s);
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 621a2abb22..02150d93e8 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4344,17 +4344,6 @@ void gen_sve_ldr(DisasContext *s, TCGv_ptr base, int vofs,
+         TCGLabel *loop = gen_new_label();
+         TCGv_ptr tp, i = tcg_const_local_ptr(0);
  
-@@ -946,7 +946,7 @@ static inline TCGv_i128 tcg_temp_ebb_new_i128(void)
+-        /* Copy the clean address into a local temp, live across the loop. */
+-        t0 = clean_addr;
+-        clean_addr = new_tmp_a64_local(s);
+-        tcg_gen_mov_i64(clean_addr, t0);
+-
+-        if (base != cpu_env) {
+-            TCGv_ptr b = tcg_temp_local_new_ptr();
+-            tcg_gen_mov_ptr(b, base);
+-            base = b;
+-        }
+-
+         gen_set_label(loop);
  
- static inline TCGv_i128 tcg_temp_new_i128(void)
- {
--    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, TEMP_EBB);
-+    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, TEMP_TB);
-     return temp_tcgv_i128(t);
- }
+         t0 = tcg_temp_new_i64();
+@@ -4370,11 +4359,6 @@ void gen_sve_ldr(DisasContext *s, TCGv_ptr base, int vofs,
  
-@@ -972,7 +972,7 @@ static inline TCGv_ptr tcg_temp_ebb_new_ptr(void)
+         tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
+         tcg_temp_free_ptr(i);
+-
+-        if (base != cpu_env) {
+-            tcg_temp_free_ptr(base);
+-            assert(len_remain == 0);
+-        }
+     }
  
- static inline TCGv_ptr tcg_temp_new_ptr(void)
- {
--    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_PTR, TEMP_EBB);
-+    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_PTR, TEMP_TB);
-     return temp_tcgv_ptr(t);
- }
+     /*
+@@ -4445,17 +4429,6 @@ void gen_sve_str(DisasContext *s, TCGv_ptr base, int vofs,
+         TCGLabel *loop = gen_new_label();
+         TCGv_ptr tp, i = tcg_const_local_ptr(0);
  
+-        /* Copy the clean address into a local temp, live across the loop. */
+-        t0 = clean_addr;
+-        clean_addr = new_tmp_a64_local(s);
+-        tcg_gen_mov_i64(clean_addr, t0);
+-
+-        if (base != cpu_env) {
+-            TCGv_ptr b = tcg_temp_local_new_ptr();
+-            tcg_gen_mov_ptr(b, base);
+-            base = b;
+-        }
+-
+         gen_set_label(loop);
+ 
+         t0 = tcg_temp_new_i64();
+@@ -4471,11 +4444,6 @@ void gen_sve_str(DisasContext *s, TCGv_ptr base, int vofs,
+ 
+         tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
+         tcg_temp_free_ptr(i);
+-
+-        if (base != cpu_env) {
+-            tcg_temp_free_ptr(base);
+-            assert(len_remain == 0);
+-        }
+     }
+ 
+     /* Predicate register stores can be any multiple of 2.  */
 -- 
 2.34.1
 
