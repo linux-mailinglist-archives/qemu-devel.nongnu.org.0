@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE706A2A81
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 16:33:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1F26A2AB6
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 17:33:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVwXC-0005Hu-0Z; Sat, 25 Feb 2023 10:32:26 -0500
+	id 1pVxSw-0006x1-QV; Sat, 25 Feb 2023 11:32:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pVwX9-0005HX-KB
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 10:32:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pVxSs-0006ua-BK
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 11:32:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pVwX4-0004SW-6l
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 10:32:23 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pVxSo-0007lP-Kn
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 11:32:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677339134;
+ s=mimecast20190719; t=1677342712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CXDCM8KiSDzB40E0S1YE/FzRHGyNG/eE5HB5UWSxOiI=;
- b=cHMpRdaCwcrZO0zas30qUB+KVasauWGbPY1x2S67Ju0/YUh4tUxvGpyHC57dXUi0vJ0qE1
- noJXpYGVZLuoYJnGt66lvC33sygaVXlelT60t3zXgA+Vu1PxFQUpveWaoj6HxX1sONtTzD
- vfS4hUlYIUQGPxQmgSKje3LD/XivxuU=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kyeISwv7IHUwTe+cR1VHFTFAbHTCuDn7BzT16r1rNbY=;
+ b=QoueXXvpT9eNjIwCZNIy3vyA4lVJdrAvgkNPPtkqzPvfwU8883j5/6MmiFmj1vkE+nGrAs
+ NazJu7/Z3bLrwzka7hkcvw2n96HYp0tCCqsd5WiRutRF3hmWGrQZSbu/z0WtPzWsHSdPk5
+ 6vv7Do0fxVRSXJuYxxIkxVfAGuvJhCw=
 Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
  [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-370-Smv-DQoKMRiMC65YbyigEw-1; Sat, 25 Feb 2023 10:32:12 -0500
-X-MC-Unique: Smv-DQoKMRiMC65YbyigEw-1
+ us-mta-593-LLsbr7LIPM24GjP34QXyWA-1; Sat, 25 Feb 2023 11:31:50 -0500
+X-MC-Unique: LLsbr7LIPM24GjP34QXyWA-1
 Received: by mail-qk1-f197.google.com with SMTP id
- 8-20020a370508000000b00724fd33cb3eso1272395qkf.14
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 07:32:12 -0800 (PST)
+ x5-20020a05620a01e500b007428997e800so872150qkn.10
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 08:31:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CXDCM8KiSDzB40E0S1YE/FzRHGyNG/eE5HB5UWSxOiI=;
- b=JUjThssz0HWY0cc3nM5MFrD30RoCdPYcpmYb5PHlsM7aznZDAIxK6t9AJ0cZGXlSdS
- d6aHxMyTsNpcSsOJGXBa28v/XxRbpmBxGCue8MvGIF2L2BhlboOLiIKpKYQ/seToDLr5
- z3HYLhdsZLYmO9kEmhZjQTHoyasm/F9+kWWwqFJBhKGXrj+RiYDMvCnk9BCMh3hgzjaq
- GSlo54xsaCp+RFjK6mjg46KnQ7sJYoypRsY7QGfmuA49qNit3gPuJU/heVHsN1l4VKuN
- A0zbjZ+5/eV4M+LxCNBux4nhiwi8Cgzu8f4qBq36rLMiMc7mSYc56a2Zgj1XOPb0zYWi
- NXtw==
-X-Gm-Message-State: AO0yUKU3EKL232aCx6/6R9tw2cUO1bkimF88r0eikFiWSNN/hPXY+CuR
- d6CIIzqKfOxts0PmuC7IPC91Z9jAwfVqgwbygB7duPoB0t+LJISQEqZ7gTwdCWT035Me8SoPMLS
- RNggxJxGGr1kQTJA=
-X-Received: by 2002:ac8:5f0d:0:b0:3b8:695b:aad1 with SMTP id
- x13-20020ac85f0d000000b003b8695baad1mr34486005qta.1.1677339132357; 
- Sat, 25 Feb 2023 07:32:12 -0800 (PST)
-X-Google-Smtp-Source: AK7set+YhPxhr6Wrg89nT9JEEjNuay23vrk4wOEnKRn06Shr4UkYfKNDvQkjLrGve/in5o314bCjrQ==
-X-Received: by 2002:ac8:5f0d:0:b0:3b8:695b:aad1 with SMTP id
- x13-20020ac85f0d000000b003b8695baad1mr34485962qta.1.1677339132000; 
- Sat, 25 Feb 2023 07:32:12 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- h20-20020ac85154000000b0039cc0fbdb61sm1455220qtn.53.2023.02.25.07.32.10
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kyeISwv7IHUwTe+cR1VHFTFAbHTCuDn7BzT16r1rNbY=;
+ b=2K+VvTsgXZ9bL/QhPIdMmPlvPo+jppW26mrhaYO4aKHDV34p4b84rTEq13J1jfDuCm
+ diN0Cai+ZZkrqy+HKF1iILpe9Mp4BJMIcEIS+lTKwDzbke/pRP3LaLbucbVu3EYojasr
+ JK8ELUuG4mZ1LqkQTRapmiAa2xAb3mdXlDxP4X8EYpetOT92yJTBAxrXeJf7luT5PDYQ
+ ngricVmSoTq8ajYwqZfkOudn2L8Gc9nrZw4kEd1YMTvhyqZW3K2J7AqF/stOiJSdlMwP
+ /7ryVH3UV7Ys6eSshWoCzrC1LSJUlFieXwnA29yhYIXqGIzI7Gv+W9pAmPA98/OH5Zrk
+ qCMg==
+X-Gm-Message-State: AO0yUKVV17mO6s+dFpPgC6J8XK3o+2iSD9oGWqRXbTbZ0juuiazWnnBo
+ 67MqeCk2zPyzAMxdLemvkoRGBsLDtSuPkwO+PmPIReePe2/Rq93tYNojKyZGV+EdXB/4/Dzw1ho
+ pL1Etw0rwhgNClQh9vLsyY++CNAe78A4wSKWp9igR6aRyN9NFptL8F7SCxaVg63xtYQUQjw==
+X-Received: by 2002:ac8:59c1:0:b0:3ba:1ace:8bae with SMTP id
+ f1-20020ac859c1000000b003ba1ace8baemr38850565qtf.0.1677342704698; 
+ Sat, 25 Feb 2023 08:31:44 -0800 (PST)
+X-Google-Smtp-Source: AK7set/ih3wWFbW5hAUmMXwcauuKgbi2NLku4xI198ZYYXu603UUadRamD4KbVPKKwL+bG0FWesvoA==
+X-Received: by 2002:ac8:59c1:0:b0:3ba:1ace:8bae with SMTP id
+ f1-20020ac859c1000000b003ba1ace8baemr38850495qtf.0.1677342704176; 
+ Sat, 25 Feb 2023 08:31:44 -0800 (PST)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca. [70.30.145.63])
+ by smtp.gmail.com with ESMTPSA id
+ t8-20020ac85888000000b003bb8c60cdf1sm1558142qta.78.2023.02.25.08.31.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Feb 2023 07:32:10 -0800 (PST)
-Date: Sat, 25 Feb 2023 10:32:09 -0500
+ Sat, 25 Feb 2023 08:31:43 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
-To: Chuang Xu <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
- pbonzini@redhat.com, david@redhat.com, philmd@linaro.org,
- zhouyibo@bytedance.com
-Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
- vmstate
-Message-ID: <Y/op+bM6IimMTvIx@x1n>
-References: <877cwizqvy.fsf@secure.mitica>
- <a555b989-27be-006e-0d00-9f1688c5be4e@bytedance.com>
- <abcb08b7-460c-d88c-af48-c1d256f89c54@bytedance.com>
- <Y++i1NmxUxOPDM/V@x1n>
- <76a253ef-6989-f92d-cb33-6456a270a8d1@bytedance.com>
- <51d862b2-96be-0b93-7ed2-fcd15ffaa76e@bytedance.com>
- <Y/UrXwRK7rB2KRKO@x1n>
- <44f02b6f-2809-5e2d-bbc4-e4a43a4a8b75@bytedance.com>
- <Y/Y7Txt3Utq5AfbZ@x1n>
- <e748090b-3053-17f1-66f6-15d24b70170b@bytedance.com>
+To: qemu-devel@nongnu.org
+Cc: Maxim Levitsky <mlevitsk@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Chuang Xu <xuchuangxclwt@bytedance.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ peterx@redhat.com
+Subject: [PATCH RFC 0/4] memory: Fix (/ Discuss) a few rcu issues
+Date: Sat, 25 Feb 2023 11:31:37 -0500
+Message-Id: <20230225163141.1209368-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.39.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="rPjpR8BAik+zdhb5"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e748090b-3053-17f1-66f6-15d24b70170b@bytedance.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -109,371 +101,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+[not for merging, but for discussion; this is something I found when
+ looking at another issue on Chuang's optimization for migration downtime]
 
---rPjpR8BAik+zdhb5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Summary: we tried to access memory_listeners, address_spaces, etc. in RCU
+way.  However we didn't implement them with RCU-safety. This patchset is
+trying to do that; at least making it closer.
 
-On Thu, Feb 23, 2023 at 11:28:46AM +0800, Chuang Xu wrote:
-> Hi, Peter
+NOTE!  It's doing it wrongly for now, so please feel free to see this as a
+thread to start discussing this problem, as in subject.
 
-Hi, Chuang,
+The core problem here is how to make sure memory listeners will be freed in
+RCU ways, per when unlinking them from the global memory_listeners list.
 
-> 
-> On 2023/2/22 下午11:57, Peter Xu wrote:
-> > On Wed, Feb 22, 2023 at 02:27:55PM +0800, Chuang Xu wrote:
-> > > Hi, Peter
-> > Hi, Chuang,
-> > 
-> > > Note that as I mentioned in the comment, we temporarily replace this value
-> > > to prevent commit() and address_space_to_flatview() call each other recursively,
-> > > and eventually stack overflow.
-> > Sorry to have overlooked that part.  IMHO here it's not about the depth,
-> > but rather that we don't even need any RCU protection when updating
-> > ioeventfds because we exclusively own the FlatView* too there.
-> > 
-> > I wanted to describe what I had in mind but instead I figured a patch may
-> > be needed to be accurate (with some cleanups alongside), hence attached.
-> > IIUC it can work with what I suggested before without fiddling with depth.
-> > Please have a look.  The patch should apply cleanly to master branch so if
-> > it works it can be your 1st patch too.
-> > 
-> > PS: Paolo - I know I asked this before, but it'll be good to have your
-> > review comment on anything above.
-> > 
-> > Thanks,
-> > 
-> Here are two problems I can see:
-> 
-> 1. It is inappropriate to use assert(qemu_mutex_iothread_locked()
-> && !memory_region_update_pending) in update_ioeventfds().
-> 
-> For example, when entering commit(), if memory_region_update_pending
-> is true, the assertion will be triggered immediately when update_ioeventfds
-> is called.
+The current patchset (in patch 1) did it with drain_call_rcu(), but of
+course it's wrong, because of at least two things:
 
-I don't see why it's wrong, and that's exactly what I wanted to guarantee,
-that if memory_region_update_pending==true when updating ioeventfd, we may
-have some serios problem.
+  (1) drain_call_rcu() will release BQL; currently there's no way to me to
+      guarantee that releasing BQL is safe here.
 
-For this, I split my patch into two parts and I put this change into the
-last patch.  See the attachment.  If you worry about this, you can e.g. try
-applying patch 1 only later, but I still don't see why it could.
+  (2) memory_listener_unregister() can be called within a RCU read lock
+      itself (we're so happy to take rcu read lock in many places but we
+      don't think much on how long it'll be taken; at least not as strict
+      as the kernel variance, so we're just less care about that fact yet).
+      It means, drain_call_rcu() should deadlock there waiting for itself.
+      For an example, see Appendix A.
 
-> 
-> 2. The problem of stack overflow has not been solved. There are
-> too many places where address_space_to_flatview() may be called.
-> 
-> Here are another coredump stack:
-> 
-> #8  0x000055a3a769ed85 in memory_region_transaction_commit_force () at ../softmmu/memory.c:1154
-> #9  0x000055a3a769fd75 in address_space_to_flatview (as=0x55a3a7ede180 <address_space_memory>) at /data00/migration/qemu-open/include/exec/memory.h:1118
-> #10 address_space_update_topology_pass (as=as@entry=0x55a3a7ede180 <address_space_memory>, old_view=old_view@entry=0x55a3a9d44990, new_view=new_view@entry=0x55a3d6837390,
->     adding=adding@entry=false) at ../softmmu/memory.c:955
-> #11 0x000055a3a76a007c in address_space_set_flatview (as=as@entry=0x55a3a7ede180 <address_space_memory>) at ../softmmu/memory.c:1062
-> #12 0x000055a3a769e870 in address_space_update_flatview_all () at ../softmmu/memory.c:1107
-> #13 0x000055a3a769ed85 in memory_region_transaction_commit_force () at ../softmmu/memory.c:1154
-> #14 0x000055a3a769fd75 in address_space_to_flatview (as=0x55a3a7ede180 <address_space_memory>) at /data00/migration/qemu-open/include/exec/memory.h:1118
-> #15 address_space_update_topology_pass (as=as@entry=0x55a3a7ede180 <address_space_memory>, old_view=old_view@entry=0x55a3a9d44990, new_view=new_view@entry=0x55a3d67f8d90,
->     adding=adding@entry=false) at ../softmmu/memory.c:955
-> #16 0x000055a3a76a007c in address_space_set_flatview (as=as@entry=0x55a3a7ede180 <address_space_memory>) at ../softmmu/memory.c:1062
-> #17 0x000055a3a769e870 in address_space_update_flatview_all () at ../softmmu/memory.c:1107
-> #18 0x000055a3a769ed85 in memory_region_transaction_commit_force () at ../softmmu/memory.c:1154
-> #19 0x000055a3a769fd75 in address_space_to_flatview (as=0x55a3a7ede180 <address_space_memory>) at /data00/migration/qemu-open/include/exec/memory.h:1118
-> #20 address_space_update_topology_pass (as=as@entry=0x55a3a7ede180 <address_space_memory>, old_view=old_view@entry=0x55a3a9d44990, new_view=new_view@entry=0x55a3d67ba790,
->     adding=adding@entry=false) at ../softmmu/memory.c:955
-> #21 0x000055a3a76a007c in address_space_set_flatview (as=as@entry=0x55a3a7ede180 <address_space_memory>) at ../softmmu/memory.c:1062
-> #22 0x000055a3a769e870 in address_space_update_flatview_all () at ../softmmu/memory.c:1107
-> #23 0x000055a3a769ed85 in memory_region_transaction_commit_force () at ../softmmu/memory.c:1154
-> 
-> And this may not be the only case where stack overflow occurs.
-> Thus, changing the depth value is the safest way I think.
+Side question to Stefan / Maxim: why do we need drain_call_rcu() and what's
+its difference from synchronize_rcu() in API level besides releasing and
+retaking BQL when taken?
 
-I really think changing depth is a hack... :(
+I have a few solutions in mind, none of them look pretty, though.  Before
+going further, I think I should raise this to the list and discuss.  The
+good thing is I don't think the fix is urgently needed, because hitting the
+bug should be very rare in real life (I do think we have yet another bug to
+sometimes not taking RCU lock for memory_region_clear_dirty_bitmap too; see
+patch 3, which I think is only used during virtio-mem / virtio-balloon
+migrating).  However I think it should still be important to discuss this
+or it'll be even harder to maintain in the future with more things piled
+up.
 
-Here IMHO the problem is we have other missing calls to
-address_space_to_flatview() during commit() and that caused the issue.
-There aren't a lot of those, and sorry to miss yet another one.
+Solution A
+==========
 
-So let me try one more time on this (with patch 1; I think I've got two
-places missed in the previous attempt).  Let's see how it goes.
+We can logically release everything that contains a MemoryListener with
+g_free_rcu() rather than g_free().  It can be actually quite
+straightforward for some cases (e.g. VFIOContainer, where we can simply do
+s/g_free/g_free_rcu/ with the two call sites), but not for some others
+(vhost_dev, where there can be tons of other structures wrapping vhost_dev
+and it's sometimes not straightforward when the object got freed).
 
-We may want to add a tracepoint or have some way to know when enfornced
-commit() is triggered during the vm load phase.  I just noticed when you
-worried about having enforced commit() to often then it beats the original
-purpose and I think yes that's something to worry.
+Solution B
+==========
 
-I still believe AHCI condition is rare (since e.g. you've passed all Juan's
-tests even before we have this "do_commit" stuff), but in short: I think it
-would still be interesting if you can capture all the users of enforced
-commit() like the AHCI case you quoted before, and list them in the cover
-letter in your next post (along with a new perf measurements, to make sure
-your worry is not true on having too much enforced commit will invalid the
-whole idea).
+Can we omit taking RCU read lock if we already hold BQL?  Logically it's
+safe for most of the cases we're using RCU with BQL modifying the protected
+strucuture, but it may have issue when we extend RCU to outside-BQL usages,
+IOW, we may need to have a BQL-flavoured rcu_read_lock_bql() that we use to
+reference things that will be protected by BQL, then replace most of the
+RCU read locks in QEMU to use that, then I think maybe we can safely not
+taking RCU read lock when BQL is taken, but I am really not that sure yet.
 
-When I was digging this out, I also found some RCU issue when using
-address_space_to_flatview() (when BQL was not taken), only in the
-memory_region_clear_dirty_bitmap() path.  I hope the new assertion
-(rcu_read_is_locked()) won't trigger on some of the use cases for you
-already, but anyway feel free to ignore this whole paragraph for now until
-if you see some assert(rcu_read_is_locked()) being triggered.  I plan to
-post some RFC for fixing RCU and I'll have you copied just for reference
-(may be separate issue as what you're working on).
+Thoughts?  Is there any better way to do so?  Or am I perhaps over worried?
 
 Thanks,
 
--- 
-Peter Xu
+Appendix A
+==========
 
---rPjpR8BAik+zdhb5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment;
-	filename="0001-memory-Reference-as-current_map-directly-in-memory-c.patch"
+Sample of calling memory_listener_unregister() with both BQL & RCU held
+(RCU held in address_space_write).
 
-From 8a554824db8db6366508d8adce36aa45ff8bc6aa Mon Sep 17 00:00:00 2001
-From: Peter Xu <peterx@redhat.com>
-Date: Thu, 23 Feb 2023 11:16:09 -0500
-Subject: [PATCH 1/2] memory: Reference as->current_map directly in memory
- commit
+  3  0x0000562b8da6bd60 in memory_listener_unregister (listener=0x562b8feeae48) at ../softmmu/memory.c:3065
+  4  0x0000562b8da1ad47 in virtio_device_unrealize (dev=0x562b8feead60) at ../hw/virtio/virtio.c:3631
+  5  0x0000562b8db1e2f1 in device_set_realized (obj=0x562b8feead60, value=false, errp=0x562b8e617138 <error_abort>) at ../hw/core/qdev.c:599
+  6  0x0000562b8db27e45 in property_set_bool (obj=0x562b8feead60, v=0x562b90715670, name=0x562b8dec2b19 "realized", opaque=0x562b8fc46070, errp=0x562b8e617138 <error_abort>)
+     at ../qom/object.c:2285
+  7  0x0000562b8db25e16 in object_property_set (obj=0x562b8feead60, name=0x562b8dec2b19 "realized", v=0x562b90715670, errp=0x562b8e617138 <error_abort>) at ../qom/object.c:1420
+  8  0x0000562b8db2a2ad in object_property_set_qobject (obj=0x562b8feead60, name=0x562b8dec2b19 "realized", value=0x562b8ff09800, errp=0x562b8e617138 <error_abort>)
+     at ../qom/qom-qobject.c:28
+  9  0x0000562b8db26181 in object_property_set_bool (obj=0x562b8feead60, name=0x562b8dec2b19 "realized", value=false, errp=0x562b8e617138 <error_abort>) at ../qom/object.c:1489
+  10 0x0000562b8db1d82a in qdev_unrealize (dev=0x562b8feead60) at ../hw/core/qdev.c:306
+  11 0x0000562b8db1a500 in bus_set_realized (obj=0x562b8feeace0, value=false, errp=0x562b8e617138 <error_abort>) at ../hw/core/bus.c:205
+  12 0x0000562b8db27e45 in property_set_bool (obj=0x562b8feeace0, v=0x562b90e71800, name=0x562b8dec21f8 "realized", opaque=0x562b908fc660, errp=0x562b8e617138 <error_abort>)
+     at ../qom/object.c:2285
+  13 0x0000562b8db25e16 in object_property_set (obj=0x562b8feeace0, name=0x562b8dec21f8 "realized", v=0x562b90e71800, errp=0x562b8e617138 <error_abort>) at ../qom/object.c:1420
+  14 0x0000562b8db2a2ad in object_property_set_qobject (obj=0x562b8feeace0, name=0x562b8dec21f8 "realized", value=0x562b8ff097e0, errp=0x562b8e617138 <error_abort>)
+     at ../qom/qom-qobject.c:28
+  15 0x0000562b8db26181 in object_property_set_bool (obj=0x562b8feeace0, name=0x562b8dec21f8 "realized", value=false, errp=0x562b8e617138 <error_abort>) at ../qom/object.c:1489
+  16 0x0000562b8db1a3eb in qbus_unrealize (bus=0x562b8feeace0) at ../hw/core/bus.c:179
+  17 0x0000562b8db1e25f in device_set_realized (obj=0x562b8fee29a0, value=false, errp=0x562b8e617138 <error_abort>) at ../hw/core/qdev.c:593
+  18 0x0000562b8db27e45 in property_set_bool (obj=0x562b8fee29a0, v=0x562b90e6eac0, name=0x562b8dec2b19 "realized", opaque=0x562b8fc46070, errp=0x562b8e617138 <error_abort>)
+     at ../qom/object.c:2285
+  19 0x0000562b8db25e16 in object_property_set (obj=0x562b8fee29a0, name=0x562b8dec2b19 "realized", v=0x562b90e6eac0, errp=0x562b8e617138 <error_abort>) at ../qom/object.c:1420
+  20 0x0000562b8db2a2ad in object_property_set_qobject (obj=0x562b8fee29a0, name=0x562b8dec2b19 "realized", value=0x562b908fc800, errp=0x562b8e617138 <error_abort>)
+     at ../qom/qom-qobject.c:28
+  21 0x0000562b8db26181 in object_property_set_bool (obj=0x562b8fee29a0, name=0x562b8dec2b19 "realized", value=false, errp=0x562b8e617138 <error_abort>) at ../qom/object.c:1489
+  22 0x0000562b8db1d82a in qdev_unrealize (dev=0x562b8fee29a0) at ../hw/core/qdev.c:306
+  23 0x0000562b8d603a4a in acpi_pcihp_device_unplug_cb (hotplug_dev=0x562b90add210, s=0x562b90ade510, dev=0x562b8fee29a0, errp=0x562b8e617138 <error_abort>) at ../hw/acpi/pcihp.c:415
+  24 0x0000562b8d601397 in piix4_device_unplug_cb (hotplug_dev=0x562b90add210, dev=0x562b8fee29a0, errp=0x562b8e617138 <error_abort>) at ../hw/acpi/piix4.c:394
+  25 0x0000562b8db2265d in hotplug_handler_unplug (plug_handler=0x562b90add210, plugged_dev=0x562b8fee29a0, errp=0x562b8e617138 <error_abort>) at ../hw/core/hotplug.c:56
+  26 0x0000562b8d603386 in acpi_pcihp_eject_slot (s=0x562b90ade510, bsel=0, slots=64) at ../hw/acpi/pcihp.c:251
+  27 0x0000562b8d603e5f in pci_write (opaque=0x562b90ade510, addr=8, data=64, size=4) at ../hw/acpi/pcihp.c:528
+  28 0x0000562b8da641cd in memory_region_write_accessor (mr=0x562b90adf120, addr=8, value=0x7fff5484aae8, size=4, shift=0, mask=4294967295, attrs=...) at ../softmmu/memory.c:493
+  29 0x0000562b8da6441a in access_with_adjusted_size
+      (addr=8, value=0x7fff5484aae8, size=4, access_size_min=1, access_size_max=4, access_fn=0x562b8da640d7 <memory_region_write_accessor>, mr=0x562b90adf120, attrs=...) at ../softmmu/memory5
+  30 0x0000562b8da676ba in memory_region_dispatch_write (mr=0x562b90adf120, addr=8, data=64, op=MO_32, attrs=...) at ../softmmu/memory.c:1515
+  31 0x0000562b8da752a4 in flatview_write_continue (fv=0x562b8fefc190, addr=44552, attrs=..., ptr=0x7fff5484ac64, len=4, addr1=8, l=4, mr=0x562b90adf120) at ../softmmu/physmem.c:2826
+  32 0x0000562b8da75407 in flatview_write (fv=0x562b8fefc190, addr=44552, attrs=..., buf=0x7fff5484ac64, len=4) at ../softmmu/physmem.c:2868
+  -Type <RET> for more, q to quit, c to continue without paging--
+  33 0x0000562b8da757b7 in address_space_write (as=0x562b8e5f9f60 <address_space_io>, addr=44552, attrs=..., buf=0x7fff5484ac64, len=4) at ../softmmu/physmem.c:2964
+  34 0x0000562b8da60ad9 in cpu_outl (addr=44552, val=64) at ../softmmu/ioport.c:80
+  35 0x0000562b8da7a952 in qtest_process_command (chr=0x562b8fc49070, words=0x562b90e57cb0) at ../softmmu/qtest.c:482
+  36 0x0000562b8da7c565 in qtest_process_inbuf (chr=0x562b8fc49070, inbuf=0x562b8fe11da0) at ../softmmu/qtest.c:802
+  37 0x0000562b8da7c5f6 in qtest_read (opaque=0x562b8fc49070, buf=0x7fff5484afc0 "outl 0xae08 0x40\n306c\n", size=17) at ../softmmu/qtest.c:814
+  38 0x0000562b8dc3bc25 in qemu_chr_be_write_impl (s=0x562b8fe3f800, buf=0x7fff5484afc0 "outl 0xae08 0x40\n306c\n", len=17) at ../chardev/char.c:202
+  39 0x0000562b8dc3bc89 in qemu_chr_be_write (s=0x562b8fe3f800, buf=0x7fff5484afc0 "outl 0xae08 0x40\n306c\n", len=17) at ../chardev/char.c:214
+  40 0x0000562b8dc37846 in tcp_chr_read (chan=0x562b8fdf5e80, cond=G_IO_IN, opaque=0x562b8fe3f800) at ../chardev/char-socket.c:508
+  41 0x0000562b8db30e65 in qio_channel_fd_source_dispatch (source=0x562b90028ea0, callback=0x562b8dc376cb <tcp_chr_read>, user_data=0x562b8fe3f800) at ../io/channel-watch.c:84
+  42 0x00007f1d80e7cfaf in g_main_dispatch (context=0x562b8fc43e80) at ../glib/gmain.c:3417
+  43 g_main_context_dispatch (context=0x562b8fc43e80) at ../glib/gmain.c:4135
+  44 0x0000562b8dd1d9c4 in glib_pollfds_poll () at ../util/main-loop.c:294
+  45 0x0000562b8dd1da41 in os_host_main_loop_wait (timeout=27462700) at ../util/main-loop.c:317
+  46 0x0000562b8dd1db4f in main_loop_wait (nonblocking=0) at ../util/main-loop.c:603
+  47 0x0000562b8d822785 in qemu_main_loop () at ../softmmu/runstate.c:730
+  48 0x0000562b8d5ad486 in qemu_default_main () at ../softmmu/main.c:37
+  49 0x0000562b8d5ad4bc in main (argc=21, argv=0x7fff5484c2c8) at ../softmmu/main.c:48
 
-Calling RCU variance of address_space_get|to_flatview() during memory
-commit (flatview updates, triggering memory listeners, or updating
-ioeventfds, etc.) is not 100% accurate, because commit() requires BQL
-rather than RCU read lock, so the context exclusively owns current_map and
-can be directly referenced.
+Peter Xu (4):
+  memory: Make memory_listeners RCU-safe for real
+  memory: Use rcu list variance for address_spaces modifications
+  memory: Protect memory_region_clear_dirty_bitmap with RCU
+  memory: Use rcu traversal in memory_region_to_address_space
 
-Neither does it need a refcount to current_map because it cannot be freed
-from under the caller.
+ softmmu/memory.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-Add address_space_get_flatview_raw() for the case where the context holds
-BQL rather than RCU read lock and use it across the core memory updates,
-Drop the extra refcounts on FlatView*.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- softmmu/memory.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
-
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 9d64efca26..213496802b 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -61,6 +61,13 @@ struct AddrRange {
-     Int128 size;
- };
- 
-+/* Called with BQL held */
-+static inline FlatView *address_space_to_flatview_raw(AddressSpace *as)
-+{
-+    assert(qemu_mutex_iothread_locked());
-+    return as->current_map;
-+}
-+
- static AddrRange addrrange_make(Int128 start, Int128 size)
- {
-     return (AddrRange) { start, size };
-@@ -155,7 +162,7 @@ enum ListenerDirection { Forward, Reverse };
- #define MEMORY_LISTENER_UPDATE_REGION(fr, as, dir, callback, _args...)  \
-     do {                                                                \
-         MemoryRegionSection mrs = section_from_flat_range(fr,           \
--                address_space_to_flatview(as));                         \
-+                address_space_to_flatview_raw(as));                     \
-         MEMORY_LISTENER_CALL(as, callback, dir, &mrs, ##_args);         \
-     } while(0)
- 
-@@ -753,6 +760,7 @@ static FlatView *generate_memory_topology(MemoryRegion *mr)
- }
- 
- static void address_space_add_del_ioeventfds(AddressSpace *as,
-+                                             FlatView *view,
-                                              MemoryRegionIoeventfd *fds_new,
-                                              unsigned fds_new_nb,
-                                              MemoryRegionIoeventfd *fds_old,
-@@ -774,7 +782,7 @@ static void address_space_add_del_ioeventfds(AddressSpace *as,
-                                                   &fds_new[inew]))) {
-             fd = &fds_old[iold];
-             section = (MemoryRegionSection) {
--                .fv = address_space_to_flatview(as),
-+                .fv = view,
-                 .offset_within_address_space = int128_get64(fd->addr.start),
-                 .size = fd->addr.size,
-             };
-@@ -787,7 +795,7 @@ static void address_space_add_del_ioeventfds(AddressSpace *as,
-                                                          &fds_old[iold]))) {
-             fd = &fds_new[inew];
-             section = (MemoryRegionSection) {
--                .fv = address_space_to_flatview(as),
-+                .fv = view,
-                 .offset_within_address_space = int128_get64(fd->addr.start),
-                 .size = fd->addr.size,
-             };
-@@ -833,7 +841,7 @@ static void address_space_update_ioeventfds(AddressSpace *as)
-     ioeventfd_max = QEMU_ALIGN_UP(as->ioeventfd_nb, 4);
-     ioeventfds = g_new(MemoryRegionIoeventfd, ioeventfd_max);
- 
--    view = address_space_get_flatview(as);
-+    view = address_space_to_flatview_raw(as);
-     FOR_EACH_FLAT_RANGE(fr, view) {
-         for (i = 0; i < fr->mr->ioeventfd_nb; ++i) {
-             tmp = addrrange_shift(fr->mr->ioeventfds[i].addr,
-@@ -852,13 +860,12 @@ static void address_space_update_ioeventfds(AddressSpace *as)
-         }
-     }
- 
--    address_space_add_del_ioeventfds(as, ioeventfds, ioeventfd_nb,
-+    address_space_add_del_ioeventfds(as, view, ioeventfds, ioeventfd_nb,
-                                      as->ioeventfds, as->ioeventfd_nb);
- 
-     g_free(as->ioeventfds);
-     as->ioeventfds = ioeventfds;
-     as->ioeventfd_nb = ioeventfd_nb;
--    flatview_unref(view);
- }
- 
- /*
-@@ -1026,7 +1033,7 @@ static void flatviews_reset(void)
- 
- static void address_space_set_flatview(AddressSpace *as)
- {
--    FlatView *old_view = address_space_to_flatview(as);
-+    FlatView *old_view = address_space_to_flatview_raw(as);
-     MemoryRegion *physmr = memory_region_get_flatview_root(as->root);
-     FlatView *new_view = g_hash_table_lookup(flat_views, physmr);
- 
 -- 
 2.39.1
-
-
---rPjpR8BAik+zdhb5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment;
-	filename="0002-memory-Cleanup-address-space-commit-phase.patch"
-
-From e33a2bdd98da0ba7f3e9fde88611a1c8165b809f Mon Sep 17 00:00:00 2001
-From: Peter Xu <peterx@redhat.com>
-Date: Sat, 25 Feb 2023 09:40:05 -0500
-Subject: [PATCH 2/2] memory: Cleanup address space commit phase
-
-The major goal of this patch is to make it even clearer on the order of
-updates for memory regions and ioeventfds during commit phase.  There used
-to have an implicit dependency on the two steps during commit but it's not
-obvious.
-
-This patch makes it obvious by seperating the two steps with standalone
-functions, meanwhile add an assertion in ioeventfd updates to guarantee
-there's no pending memory updates.
-
-Note that ioeventfd updates also happen in address_space_init() which is
-not global, but that should be safe too because address_space_init() should
-be called also with BQL so there should anyway have no pending region
-updates.
-
-There's a slight drawback is we'll need to walk the address space list
-twice after this patch, but assuming it's fine because (1) memory region
-updates should be rare, and (2) if it will become a perf issue, it is
-probably not gonna resolve after we go back to walking it once either; we
-may need to rethink the whole design anyway.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- softmmu/memory.c | 65 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 44 insertions(+), 21 deletions(-)
-
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 213496802b..e538f2fe57 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -833,6 +833,13 @@ static void address_space_update_ioeventfds(AddressSpace *as)
-     AddrRange tmp;
-     unsigned i;
- 
-+    /*
-+     * Update ioeventfds require: (1) BQL held, since during commit() of an
-+     * address space, and (2) make sure there's no pending memory region
-+     * updates, because ioeventfd update relies on the latest FlatView*.
-+     */
-+    assert(qemu_mutex_iothread_locked() && !memory_region_update_pending);
-+
-     /*
-      * It is likely that the number of ioeventfds hasn't changed much, so use
-      * the previous size as the starting value, with some headroom to avoid
-@@ -1093,34 +1100,50 @@ void memory_region_transaction_begin(void)
-     ++memory_region_transaction_depth;
- }
- 
--void memory_region_transaction_commit(void)
-+static void address_space_update_flatviews_all(void)
- {
-     AddressSpace *as;
- 
--    assert(memory_region_transaction_depth);
-+    flatviews_reset();
-+    MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
-+    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-+        address_space_set_flatview(as);
-+    }
-+    MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
-+    memory_region_update_pending = false;
-+}
-+
-+static void address_space_update_ioeventfds_all(void)
-+{
-+    AddressSpace *as;
-+
-+    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-+        address_space_update_ioeventfds(as);
-+    }
-+    ioeventfd_update_pending = false;
-+}
-+
-+static void memory_region_transaction_do_commit(void)
-+{
-     assert(qemu_mutex_iothread_locked());
- 
--    --memory_region_transaction_depth;
--    if (!memory_region_transaction_depth) {
--        if (memory_region_update_pending) {
--            flatviews_reset();
-+    if (memory_region_update_pending) {
-+        address_space_update_flatviews_all();
-+        /* ioeventfds rely on flatviews being latest */
-+        address_space_update_ioeventfds_all();
-+    } else if (ioeventfd_update_pending) {
-+        address_space_update_ioeventfds_all();
-+    }
-+}
- 
--            MEMORY_LISTENER_CALL_GLOBAL(begin, Forward);
-+void memory_region_transaction_commit(void)
-+{
-+    assert(memory_region_transaction_depth);
- 
--            QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--                address_space_set_flatview(as);
--                address_space_update_ioeventfds(as);
--            }
--            memory_region_update_pending = false;
--            ioeventfd_update_pending = false;
--            MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
--        } else if (ioeventfd_update_pending) {
--            QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--                address_space_update_ioeventfds(as);
--            }
--            ioeventfd_update_pending = false;
--        }
--   }
-+    --memory_region_transaction_depth;
-+    if (!memory_region_transaction_depth) {
-+        memory_region_transaction_do_commit();
-+    }
- }
- 
- static void memory_region_destructor_none(MemoryRegion *mr)
--- 
-2.39.1
-
-
---rPjpR8BAik+zdhb5--
 
 
