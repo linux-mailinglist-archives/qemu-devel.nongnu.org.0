@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D3D6A3488
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 23:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5B16A348B
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 23:16:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWPHw-0003IE-WC; Sun, 26 Feb 2023 17:14:37 -0500
+	id 1pWPHy-0003Jy-7P; Sun, 26 Feb 2023 17:14:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pWPHu-0003GT-9f; Sun, 26 Feb 2023 17:14:34 -0500
+ id 1pWPHv-0003H4-Ai; Sun, 26 Feb 2023 17:14:35 -0500
 Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pWPHr-000502-OK; Sun, 26 Feb 2023 17:14:33 -0500
+ id 1pWPHs-00050K-Kw; Sun, 26 Feb 2023 17:14:35 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 36281746D65;
- Sun, 26 Feb 2023 23:14:30 +0100 (CET)
+ by localhost (Postfix) with SMTP id 3D538746E5A;
+ Sun, 26 Feb 2023 23:14:31 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0D183746705; Sun, 26 Feb 2023 23:14:30 +0100 (CET)
-Message-Id: <20ed9442a0146238254ccc340c0d1efa226c6356.1677445307.git.balaton@eik.bme.hu>
+ id 1814D746E58; Sun, 26 Feb 2023 23:14:31 +0100 (CET)
+Message-Id: <dfd40c3c45fa606e64c22d9010d43d3cf8bd32f8.1677445307.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1677445307.git.balaton@eik.bme.hu>
 References: <cover.1677445307.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Sat, 25 Feb 2023 22:35:28 +0100
-Subject: [PATCH v3 2/8] hw/display/sm501: Add fallbacks to pixman routines
+Date: Sat, 25 Feb 2023 23:46:16 +0100
+Subject: [PATCH v3 3/8] hw/display/sm501: Add debug property to control pixman
+ usage
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,13 +38,13 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
  vr_qemu@t-online.de, ReneEngel80@emailn.de
-X-Spam-Probability: 8%
+X-Spam-Probability: 12%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -5
-X-Spam_score: -0.6
+X-Spam_score_int: -8
+X-Spam_score: -0.9
 X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,120 +61,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Pixman may return false if it does not have a suitable implementation.
-Add fallbacks to handle such cases.
+Add a property to allow disabling pixman and always use the fallbacks
+for different operations which is useful for testing different drawing
+methods or debugging pixman related issues.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reported-by: Rene Engel <ReneEngel80@emailn.de>
-Tested-by: Rene Engel <ReneEngel80@emailn.de>
 ---
- hw/display/sm501.c | 75 ++++++++++++++++++++++++++++++++--------------
- 1 file changed, 52 insertions(+), 23 deletions(-)
+ hw/display/sm501.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 58bc9701ee..23c4418e19 100644
+index 23c4418e19..f2f7f26751 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -691,7 +691,7 @@ static void sm501_2d_operation(SM501State *s)
-     unsigned int dst_pitch = (s->twoD_pitch >> 16) & 0x1FFF;
-     int crt = (s->dc_crt_control & SM501_DC_CRT_CONTROL_SEL) ? 1 : 0;
-     int fb_len = get_width(s, crt) * get_height(s, crt) * get_bpp(s, crt);
--    bool overlap = false;
-+    bool overlap = false, fallback = false;
+@@ -464,6 +464,7 @@ typedef struct SM501State {
+     uint32_t last_width;
+     uint32_t last_height;
+     bool do_full_update; /* perform a full update next time */
++    uint8_t use_pixman;
+     I2CBus *i2c_bus;
  
-     if ((s->twoD_stretch >> 16) & 0xF) {
-         qemu_log_mask(LOG_UNIMP, "sm501: only XY addressing is supported.\n");
-@@ -834,25 +834,48 @@ static void sm501_2d_operation(SM501State *s)
-                 if (tmp_stride * sizeof(uint32_t) * height > sizeof(tmp_buf)) {
-                     tmp = g_malloc(tmp_stride * sizeof(uint32_t) * height);
-                 }
--                pixman_blt((uint32_t *)&s->local_mem[src_base], tmp,
--                           src_pitch * bypp / sizeof(uint32_t),
--                           tmp_stride, 8 * bypp, 8 * bypp,
--                           src_x, src_y, 0, 0, width, height);
--                pixman_blt(tmp, (uint32_t *)&s->local_mem[dst_base],
--                           tmp_stride,
--                           dst_pitch * bypp / sizeof(uint32_t),
--                           8 * bypp, 8 * bypp,
--                           0, 0, dst_x, dst_y, width, height);
-+                fallback = !pixman_blt((uint32_t *)&s->local_mem[src_base],
-+                                       tmp,
-+                                       src_pitch * bypp / sizeof(uint32_t),
-+                                       tmp_stride,
-+                                       8 * bypp, 8 * bypp,
-+                                       src_x, src_y, 0, 0, width, height);
-+                if (!fallback) {
-+                    fallback = !pixman_blt(tmp,
-+                                       (uint32_t *)&s->local_mem[dst_base],
-+                                       tmp_stride,
-+                                       dst_pitch * bypp / sizeof(uint32_t),
-+                                       8 * bypp, 8 * bypp,
-+                                       0, 0, dst_x, dst_y, width, height);
-+                }
+     /* mmio registers */
+@@ -826,7 +827,7 @@ static void sm501_2d_operation(SM501State *s)
+                 de = db + (width + (height - 1) * dst_pitch) * bypp;
+                 overlap = (db < se && sb < de);
+             }
+-            if (overlap) {
++            if (overlap && (s->use_pixman & BIT(2))) {
+                 /* pixman can't do reverse blit: copy via temporary */
+                 int tmp_stride = DIV_ROUND_UP(width * bypp, sizeof(uint32_t));
+                 uint32_t *tmp = tmp_buf;
+@@ -851,13 +852,15 @@ static void sm501_2d_operation(SM501State *s)
                  if (tmp != tmp_buf) {
                      g_free(tmp);
                  }
-             } else {
--                pixman_blt((uint32_t *)&s->local_mem[src_base],
--                           (uint32_t *)&s->local_mem[dst_base],
--                           src_pitch * bypp / sizeof(uint32_t),
--                           dst_pitch * bypp / sizeof(uint32_t),
--                           8 * bypp, 8 * bypp,
--                           src_x, src_y, dst_x, dst_y, width, height);
-+                fallback = !pixman_blt((uint32_t *)&s->local_mem[src_base],
-+                                       (uint32_t *)&s->local_mem[dst_base],
-+                                       src_pitch * bypp / sizeof(uint32_t),
-+                                       dst_pitch * bypp / sizeof(uint32_t),
-+                                       8 * bypp, 8 * bypp, src_x, src_y,
-+                                       dst_x, dst_y, width, height);
-+            }
-+            if (fallback) {
-+                uint8_t *sp = s->local_mem + src_base;
-+                uint8_t *d = s->local_mem + dst_base;
-+                unsigned int y, i, j;
-+                for (y = 0; y < height; y++) {
-+                    if (overlap) { /* overlap also means rtl */
-+                        i = (dst_y + height - 1 - y) * dst_pitch;
-+                        i = (dst_x + i) * bypp;
-+                        j = (src_y + height - 1 - y) * src_pitch;
-+                        j = (src_x + j) * bypp;
-+                        memmove(&d[i], &sp[j], width * bypp);
-+                    } else {
-+                        i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
-+                        j = (src_x + (src_y + y) * src_pitch) * bypp;
-+                        memcpy(&d[i], &sp[j], width * bypp);
-+                    }
-+                }
+-            } else {
++            } else if (!overlap && (s->use_pixman & BIT(1))) {
+                 fallback = !pixman_blt((uint32_t *)&s->local_mem[src_base],
+                                        (uint32_t *)&s->local_mem[dst_base],
+                                        src_pitch * bypp / sizeof(uint32_t),
+                                        dst_pitch * bypp / sizeof(uint32_t),
+                                        8 * bypp, 8 * bypp, src_x, src_y,
+                                        dst_x, dst_y, width, height);
++            } else {
++                fallback = true;
              }
-         }
-         break;
-@@ -867,13 +890,19 @@ static void sm501_2d_operation(SM501State *s)
+             if (fallback) {
+                 uint8_t *sp = s->local_mem + src_base;
+@@ -890,7 +893,7 @@ static void sm501_2d_operation(SM501State *s)
              color = cpu_to_le16(color);
          }
  
--        if (width == 1 && height == 1) {
--            unsigned int i = (dst_x + dst_y * dst_pitch) * bypp;
--            stn_he_p(&s->local_mem[dst_base + i], bypp, color);
--        } else {
--            pixman_fill((uint32_t *)&s->local_mem[dst_base],
--                        dst_pitch * bypp / sizeof(uint32_t),
--                        8 * bypp, dst_x, dst_y, width, height, color);
-+        if ((width == 1 && height == 1) ||
-+            !pixman_fill((uint32_t *)&s->local_mem[dst_base],
-+                         dst_pitch * bypp / sizeof(uint32_t), 8 * bypp,
-+                         dst_x, dst_y, width, height, color)) {
-+            /* fallback when pixman failed or we don't want to call it */
-+            uint8_t *d = s->local_mem + dst_base;
-+            unsigned int x, y, i;
-+            for (y = 0; y < height; y++, i += dst_pitch * bypp) {
-+                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
-+                for (x = 0; x < width; x++, i += bypp) {
-+                    stn_he_p(&d[i], bypp, color);
-+                }
-+            }
-         }
-         break;
-     }
+-        if ((width == 1 && height == 1) ||
++        if (!(s->use_pixman & BIT(0)) || (width == 1 && height == 1) ||
+             !pixman_fill((uint32_t *)&s->local_mem[dst_base],
+                          dst_pitch * bypp / sizeof(uint32_t), 8 * bypp,
+                          dst_x, dst_y, width, height, color)) {
+@@ -2039,6 +2042,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
+ static Property sm501_sysbus_properties[] = {
+     DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
+     DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
++    DEFINE_PROP_UINT8("x-pixman", SM501SysBusState, state.use_pixman, 7),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -2122,6 +2126,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
+ 
+ static Property sm501_pci_properties[] = {
+     DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
++    DEFINE_PROP_UINT8("x-pixman", SM501PCIState, state.use_pixman, 7),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -2162,11 +2167,18 @@ static void sm501_pci_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_sm501_pci;
+ }
+ 
++static void sm501_pci_init(Object *o)
++{
++    object_property_set_description(o, "x-pixman", "Use pixman for: "
++                                    "1: fill, 2: blit, 4: overlap blit");
++}
++
+ static const TypeInfo sm501_pci_info = {
+     .name          = TYPE_PCI_SM501,
+     .parent        = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(SM501PCIState),
+     .class_init    = sm501_pci_class_init,
++    .instance_init = sm501_pci_init,
+     .interfaces = (InterfaceInfo[]) {
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+         { },
 -- 
 2.30.7
 
