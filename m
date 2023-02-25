@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393576A28D7
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 11:14:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953146A28DD
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Feb 2023 11:15:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pVrYo-0003oF-9i; Sat, 25 Feb 2023 05:13:46 -0500
+	id 1pVraS-00055g-7P; Sat, 25 Feb 2023 05:15:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVrYm-0003no-Lm
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 05:13:44 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pVraP-00054m-Ie
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 05:15:26 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pVrYl-0003gR-4N
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 05:13:44 -0500
-Received: by mail-wr1-x432.google.com with SMTP id t15so1591782wrz.7
- for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 02:13:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pVraN-0004BO-Vz
+ for qemu-devel@nongnu.org; Sat, 25 Feb 2023 05:15:25 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id kb15so1520534pjb.1
+ for <qemu-devel@nongnu.org>; Sat, 25 Feb 2023 02:15:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=W7KRw6PMlBZzNstxpv1u7AClycWc9GpPdytB5zsafC0=;
- b=OLD7DOkUm55SpQrgQj4pW9G/jo1qQdqVxp3taj1bURuRu2ypQzF3FfBfTE3o4lay3W
- /nHn9WCRj2CyQA8Va9SvDeIeUO24qNkLyMeBwVWTbIhwBHI60HskGyf+6bsP1WW/fjOT
- JQnUK0NkQg3JUGkTyGOOBgu5oOHPdm9vNip1S3PbbAHz2E0swU9CPf0PR17vbcqisG7q
- fa/AW7bkgkRbunUvr2WpvqlTO+Ak5sVG8OAZDsfsQFMXTgNkn9SNVARiApqzGcWG+icZ
- kgT/fwx/r3yzwdpYzj6qI3nRKUc401hzwIVJ6mhR6vtZHLT2tw1lnBYP0LK1+opd6aXn
- 1zzw==
+ bh=iAMHL7kZ86L5KZS4GPla8N7fo9u7X8qYBH7eOjeyRD0=;
+ b=XNWUe3oH5+TORxaoS7xPIy84Py/j5KJFldhmIhxpw88brXoxlWwQxSpwdJH7BZlznA
+ 2tFVX6GeUooSvL6v9pZUos5MrcdWpAtrRpCdhDf0fs3VFq82GP4NmTuMVhs7zRSaGx3i
+ +RNx2HFfNXFFs5gdhgEm46gmD1Gs4ta9EwFrLJjn02378rjSZiQiJ5lnGyhN6d9nbeKB
+ ITAE937RiBEAz7WVjdrFzeUGgauaqgo7jaQzOhBrrTbzTkgdJo1rPHwx6xxPwya0YUAT
+ GkbV5p3CguG1btXkcWysYX0YkjecJpz7sPpny6rrJ6RSYXZ8JmyHxwRvWl2l8l9dHjKp
+ zTNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=W7KRw6PMlBZzNstxpv1u7AClycWc9GpPdytB5zsafC0=;
- b=dxuWkqvHYJIyyPoqhBQWvuZs/aH4E9Gpwz9ubPRJqZMe1Flq+l/+PZT4JkOdruA2IL
- G9B9Vghboq5eXCTYp+Q4/eoX6okw03EHDW23/yrGbgF7LUSxsZKhagZ22hD5yVpxPLyq
- HKh+y8Ei7e+ObdNs55EfKkSmYLoMflI8cKPtEa2GQXd4/XF6huAX/QK68zNExt2yLspM
- Rps/nF+1P73/PWMdYJN6iZYGJNztas0F3imofYfDvjEsV8J2ENaFwshIgGJx2dzOYgWI
- fl85syx8rt9sH3rSdvykiYX4bTh8Pu5o6gdwjALRwRTeUCQE3hR+nWTnwS1cVt5H1obC
- +DgA==
-X-Gm-Message-State: AO0yUKUDAAYgx/KR+AiJCxdF2uXnDKRvJIX7Gz+hlDXSM3GxrS2yaQ/y
- S76bFSvpU06DIZLOSBhmyogLz3iBOidGrs6T
-X-Google-Smtp-Source: AK7set9TO3jGBa4xdmrAwsvMazK6SlrIFNc5AuK9j83jyfQbXOWoF2oAhRRNe2vdl2iEjU3TmZxuVw==
-X-Received: by 2002:adf:f390:0:b0:2c5:8353:e0ec with SMTP id
- m16-20020adff390000000b002c58353e0ecmr15818378wro.10.1677320021641; 
- Sat, 25 Feb 2023 02:13:41 -0800 (PST)
-Received: from [192.168.136.175] (120.red-95-127-35.staticip.rima-tde.net.
- [95.127.35.120]) by smtp.gmail.com with ESMTPSA id
- k10-20020adfd84a000000b002c55551e6e9sm1329092wrl.108.2023.02.25.02.13.40
+ bh=iAMHL7kZ86L5KZS4GPla8N7fo9u7X8qYBH7eOjeyRD0=;
+ b=zqIWKrM+DH5E3i6H8A3pAqxoWRCbHgUPJNyFkCG3HLRE97AAKH5aRLcoUP/PQfoZbW
+ RTk7n+hxq5U88Hgd04UGYzpfnX/AhCit70uw2ilNF8qxrnEfmKf1DBtPUMY54kk4wMe6
+ 3mdQJhy1cjuYAHWYBC6O84sTjbL0gevOstqo87SiFKyJ8jPBYi2lTw6p9LgWiooOjydj
+ 4BTqx15NDrzaO8izECYhVL+sTs+/KjCfiIqXUBmroWXCQEVfTQpXd05jOgyJ2Is19diV
+ PSKl+Q24o6Vn7+Qvh/wN/JymtUmLeEdxpCgDfgL0EDZkA2q6kDvlksI3rjN4GGZZfQom
+ qORA==
+X-Gm-Message-State: AO0yUKUWzUDSl8Vel9lddJIgjU5AWNBIHllnbwQomndWeMu03rANKZrk
+ Gl9kot/hhATWIub3B3awJ6w=
+X-Google-Smtp-Source: AK7set/nLncrfTj5H0KFJC62sd8VciELDQ73znonu3/5kI5NfrfsLxEPcCcGzJ06wS94rwrwO0g9sw==
+X-Received: by 2002:a05:6a20:728c:b0:cc:47ae:18dd with SMTP id
+ o12-20020a056a20728c00b000cc47ae18ddmr8682935pzk.42.1677320121553; 
+ Sat, 25 Feb 2023 02:15:21 -0800 (PST)
+Received: from [192.168.31.113] ([171.226.229.86])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020aa79386000000b005907716bf8bsm932049pfe.60.2023.02.25.02.15.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Feb 2023 02:13:41 -0800 (PST)
-Message-ID: <9119a309-5dd7-f1c5-43e3-b9f61ca67ab4@linaro.org>
-Date: Sat, 25 Feb 2023 11:13:39 +0100
+ Sat, 25 Feb 2023 02:15:21 -0800 (PST)
+Message-ID: <ee3d42c1-9e52-57f9-eba8-a5dc3a45d14f@gmail.com>
+Date: Sat, 25 Feb 2023 17:15:17 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 20/30] target/arm: Don't use tcg_temp_local_new_*
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/4] apic: add support for x2APIC mode
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230221160500.30336-1-minhquangbui99@gmail.com>
+ <20230221160500.30336-2-minhquangbui99@gmail.com>
+ <20230224152932.1de436cb@imammedo.users.ipa.redhat.com>
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-References: <20230225085945.1798188-1-richard.henderson@linaro.org>
- <20230225085945.1798188-21-richard.henderson@linaro.org>
- <93fb111c-818e-d644-d132-41b6d0cd0fb9@linaro.org>
- <fd2c7018-ab20-efa6-fe46-23e857c46843@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <fd2c7018-ab20-efa6-fe46-23e857c46843@linaro.org>
+From: Bui Quang Minh <minhquangbui99@gmail.com>
+In-Reply-To: <20230224152932.1de436cb@imammedo.users.ipa.redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.094,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,37 +98,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/2/23 11:09, Richard Henderson wrote:
-> On 2/25/23 00:05, Philippe Mathieu-Daudé wrote:
->> On 25/2/23 09:59, Richard Henderson wrote:
->>> Since tcg_temp_new_* is now identical, use those.
->>>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   target/arm/translate-sve.c | 6 +++---
->>>   target/arm/translate.c     | 6 +++---
->>>   2 files changed, 6 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
->>> index 02150d93e8..718a5bce1b 100644
->>> --- a/target/arm/translate-sve.c
->>> +++ b/target/arm/translate-sve.c
->>
->>
->>> @@ -4342,7 +4342,7 @@ void gen_sve_ldr(DisasContext *s, TCGv_ptr 
->>> base, int vofs,
->>>           tcg_temp_free_i64(t0);
->>>       } else {
->>>           TCGLabel *loop = gen_new_label();
->>> -        TCGv_ptr tp, i = tcg_const_local_ptr(0);
->>> +        TCGv_ptr tp, i = tcg_const_ptr(0);
->>
->> Can we directly switch to tcg_constant_ptr(NULL)?
+On 2/24/23 21:29, Igor Mammedov wrote:
+> On Tue, 21 Feb 2023 23:04:57 +0700
+> Bui Quang Minh <minhquangbui99@gmail.com> wrote:
 > 
-> No, i is written.  This ought to get changed to tcg_temp_new + 
-> tcg_gen_movi, but that'll wait for a different patch set.
+>> This commit refactors APIC registers read/write function to support both
+>> MMIO read/write in xAPIC mode and MSR read/write in x2APIC mode. Also,
+>> support larger APIC ID, self IPI, new IPI destination determination in
+>> x2APIC mode.
+>>
+>> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
+>> ---
+>>   hw/intc/apic.c                  | 211 +++++++++++++++++++++++++-------
+>>   hw/intc/apic_common.c           |   2 +-
+>>   include/hw/i386/apic.h          |   5 +-
+>>   include/hw/i386/apic_internal.h |   2 +-
+>>   4 files changed, 172 insertions(+), 48 deletions(-)
+>>
+>> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+>> index 2d3e55f4e2..205d5923ec 100644
+>> --- a/hw/intc/apic.c
+>> +++ b/hw/intc/apic.c
+>> @@ -30,6 +30,7 @@
+>>   #include "hw/i386/apic-msidef.h"
+>>   #include "qapi/error.h"
+>>   #include "qom/object.h"
+>> +#include "tcg/helper-tcg.h"
+>>   
+>>   #define MAX_APICS 255
+> 
+> I'm curious how does it work without increasing ^^^?
 
-Indeed. Sure :)
+Hmm, my commit message is not entirely correct. In this series, some 
+operations (send IPI, IPI destination determination) have been updated 
+to support x2APIC mode. However, the emulated APIC still doesn't support 
+APIC ID larger than 255 because currently, we use a fixed length (255 + 
+1) array to manage local APICs. So to support larger APIC ID, I think we 
+need to find any way to manage those, as the possible allocated APIC ID 
+range is large and maybe the allocated APIC ID is sparse which makes 
+fixed length array so wasteful.
 
+Thanks,
+Quang Minh.
 
