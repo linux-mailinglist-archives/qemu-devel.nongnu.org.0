@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627046A344E
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 22:51:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046DD6A3455
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 23:03:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWOuD-0007b7-Tb; Sun, 26 Feb 2023 16:50:05 -0500
+	id 1pWP6F-0001EH-OB; Sun, 26 Feb 2023 17:02:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWOuB-0007ap-89
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 16:50:03 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWP6C-0001DZ-4b
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 17:02:28 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWOu9-0000nS-7r
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 16:50:02 -0500
-Received: by mail-wm1-x330.google.com with SMTP id p16so3094562wmq.5
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 13:50:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWP67-0003E7-SB
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 17:02:25 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ m14-20020a7bce0e000000b003e00c739ce4so2742106wmc.5
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 14:02:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=H5YgHt+Jvr9/26xPahxgwytEvqsWmdlbHjdKBanwHPo=;
- b=QWaQZMYjvfC583OnRu6NnQLzYFlVjCYPNsTl/JNh+POUFDpbqgpUVmAvjn2Dctb3BO
- 87u1bgrXUvu/FJX+y2rMo8xeoYdQDA6ojJfA7d+9QGc64kYnvXZdEW6OwgYicCBdMUFG
- s1sW4php071n9U/cwK+rYlXqk5t4hSgVT2PfNZHsv8ZndCwY5d8QWqm2edE+nBbXAii5
- 5Un25e5WT0tnZ3obB7CCOBiUDH9URKid63XSeID8peRS87zMsre0L8BreBDTtGC1CKZA
- Su+fQGHpqIUQOJTLD5v7dK9Xan8Dm00b3xlw9SO3hNlPczyhqS+4ke9UJ7ZYtvS/EqBR
- qg/Q==
+ bh=4EaHpi3TXwBncl61nWREz/kwqGOoNdH8tfgvf1jpJRw=;
+ b=Y8yjUJninbaJz461+nYAWmoPuyj7czNCDou1uuDgMMYm3Y4Uzd00JK8/z0Br2ra9OH
+ 4XL/K0mGQpnT0tYtWUtzukeNGh1nl4USTH9Pn2IyEy5UUuVmTkzZO2gy1/x6QNoIZ5VH
+ qnxMoZOei3xNNUHY3z3Z8muYP6yTMukT01sLJSpC0pru8IevGmIgp4lxMCD+Jea0lN5d
+ BI015L3SVpjLDUyex6niOBsKzFhZEUxf6HwU4CgPBNfHA+0oTUxbpcQYX8VZ2ShfYeWE
+ /2m+trTEyt1V8999H0K42DK13UgFU3tUPwm6ntVH8juGnWJDzzLSD4ZfMlRPxaTNwEQ4
+ jRzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H5YgHt+Jvr9/26xPahxgwytEvqsWmdlbHjdKBanwHPo=;
- b=Uq8Codv0d9lWTpSrxi8pAnh+Bk8gBnp9ldFYDMKmqqLYjXaSaFbvrSaCy6JV8QiCBm
- PTdGC1YSmgC7fpgVmJ+lqYIBl15eS8lYoqwouEl5EyqyDStVHk3/1dZn51K5EpsjK2nN
- ZAH1qgigjfzH7sV+KlHhpXNiMk3OqCxhU6tcij6kyMW3aACOIY8z0fXt0Xp0G82s8G4f
- 4ZL9OplYHGWDLUtzwG15xXM20GpqIzHMLKepAMR1WaKGHLkHRVyJ1jjY5HA66niDD62m
- zNor2taNOO/Pmb3jnsgrg1pRm1VYc75Y3/sLLIQ6Kk4BfHAXBEIlE8yZQbeXeMBgyCUH
- 5nbA==
-X-Gm-Message-State: AO0yUKUp78zS8kPsn1WQSNXOJyIEl/jdqAKH3Bqm8Ab0D7onKgHsfH4W
- HRUouuqr2YQFrkxeHlYs2nG80Q==
-X-Google-Smtp-Source: AK7set8kAUOfwxUGPuE4PGdkdbOSVaDoyR5bxIsCcxVDLz0ek+uMFVLwc3g//qODVEjA3ETQL/MUaA==
-X-Received: by 2002:a05:600c:746:b0:3eb:38e6:f652 with SMTP id
- j6-20020a05600c074600b003eb38e6f652mr4653861wmn.13.1677448198156; 
- Sun, 26 Feb 2023 13:49:58 -0800 (PST)
+ bh=4EaHpi3TXwBncl61nWREz/kwqGOoNdH8tfgvf1jpJRw=;
+ b=rSX4ejDWEfdUugEgmcwCIdVBKXX+tsPk8PEY1rduTtMsRAsiVlMKFKDUHdoL4SOUJn
+ m+EvOyN+QEO/gaynR0lWkc1c7hkGhlUFkFycG394zvB41kyP2SJmV+RnCEMqNJnoOL6w
+ 893h3ZER/FtNnvGm6nkdkUd5COKo9vHKHfRtXuvCzjUQh+JSMZWAPLQYgkfwyopkHgMm
+ vMBb1U1/lkVghSF6lzG0G/JwLMup9kFi0ikMt2emPOwNg2Z6GBOiVzhN/LceIElr7QmB
+ +ZW9HPhXz8KFD34aJvSCODju4ZDrG162fDTFPusBkGYhV2KOBcjMPndGXybhVu9Q2t0A
+ 15QA==
+X-Gm-Message-State: AO0yUKWByCOdhzzgQvV0Yo+oU4zfOuNtnXjAoGchQtpUEsoyXRLaVftR
+ FH0CHtZIE5jTfQGB5Ocx2KO8mQ==
+X-Google-Smtp-Source: AK7set/34dNcrfvbsP3dq9tAlsK2wnseuRQYE/ZMD6rt7JTY8N49Tx/0oNGfe3wPKcERCreNwfENQg==
+X-Received: by 2002:a05:600c:a4c:b0:3ea:e667:b1ee with SMTP id
+ c12-20020a05600c0a4c00b003eae667b1eemr8729011wmq.38.1677448941990; 
+ Sun, 26 Feb 2023 14:02:21 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u26-20020a05600c441a00b003e21638c0edsm7101430wmn.45.2023.02.26.13.49.56
+ z14-20020a05600c220e00b003e11f280b8bsm10515414wml.44.2023.02.26.14.02.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Feb 2023 13:49:57 -0800 (PST)
-Message-ID: <dada6e29-e65c-ec19-2b21-68823f13c9ff@linaro.org>
-Date: Sun, 26 Feb 2023 22:49:55 +0100
+ Sun, 26 Feb 2023 14:02:21 -0800 (PST)
+Message-ID: <05a0390e-b14f-6a2e-678e-c2b680e6d8cf@linaro.org>
+Date: Sun, 26 Feb 2023 23:02:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v6 0/5] dump: Make most of it target agnostic (build once)
+Subject: Re: [PATCH] hw/display/sm501: Implement more 2D raster operations
 Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-Cc: qemu-devel@nongnu.org, Janosch Frank <frankja@linux.ibm.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-References: <20230225094903.53167-1-philmd@linaro.org>
- <CAMxuvazgMMtduim4rHPO__VteFJTa2BKtRd4Vg9i+01uKLed1A@mail.gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Sebastian Bauer <mail@sebastianbauer.info>
+References: <20230216144043.D632874634B@zero.eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAMxuvazgMMtduim4rHPO__VteFJTa2BKtRd4Vg9i+01uKLed1A@mail.gmail.com>
+In-Reply-To: <20230216144043.D632874634B@zero.eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,19 +95,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/2/23 13:39, Marc-André Lureau wrote:
+On 16/2/23 15:40, BALATON Zoltan wrote:
+> Add simple implementation for two raster operations that are used by
+> AmigaOS which fixes graphics problems in some progtams using these.
 
->     Philippe Mathieu-Daudé (5):
->        dump: Replace tswapN() -> cpu_to_dumpN()
->        dump: Replace TARGET_PAGE_SIZE -> qemu_target_page_size()
->        dump: Clean included headers
->        dump: Simplify compiling win_dump.o by introducing
->          win_dump_available()
->        dump: Add create_win_dump() stub for non-x86 targets
+Typo "programs".
 
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com 
-> <mailto:marcandre.lureau@redhat.com>>
-> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+> For definitions of these see:
+> https://learn.microsoft.com/en-us/windows/win32/gdi/ternary-raster-operations
 
-Thanks, I'm going to queue this series with various qdev cleanups.
+Comment worth being in the commit description IMO.
+
+>   hw/display/sm501.c | 30 +++++++++++++++++++++++++++++-
+>   1 file changed, 29 insertions(+), 1 deletion(-)
+
 
