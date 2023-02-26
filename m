@@ -2,52 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18716A2D04
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 02:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E13E6A2D05
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 03:01:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pW6J1-0005zz-Hg; Sat, 25 Feb 2023 20:58:27 -0500
+	id 1pW6L8-0006iN-7p; Sat, 25 Feb 2023 21:00:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien@zamaudio.com>)
- id 1pW6Iy-0005zT-ER
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 20:58:25 -0500
-Received: from mail-0201.mail-europe.com ([51.77.79.158])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pW6L5-0006i8-8b; Sat, 25 Feb 2023 21:00:35 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien@zamaudio.com>)
- id 1pW6Iv-0002yF-C3
- for qemu-devel@nongnu.org; Sat, 25 Feb 2023 20:58:23 -0500
-Date: Sun, 26 Feb 2023 01:58:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zamaudio.com;
- s=protonmail3; t=1677376694; x=1677635894;
- bh=YtEcSvrIKmrXEzmTDaHWLzTOfA8pqLAVbEU/xV2w4ig=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=C6pedWGwAiIG6gOeKRQ4Zd23fC5dEAwimJ3Pvs7hvAip0hWABzIOICJA4lO+8X6Dq
- 7mW9tLwmtlwrt7rMPgRsjMxDCFSlBt1bESwAlhrwBvE4CqtUPWPgKNzXnmcMBxmxc7
- kXfsro6Zc60l+RfqcBCfONyr7BMSzCKn0Cqy4ojdFa9Wtx3lFSgLvoZO6Fsx7JVuC/
- ylu4IxoEwn2TqKyc4zL2GrjIE5Ij3GnOID+POvi6ciy6BqyMhAvq0T11tg52bFZvNR
- 7YBEqLQSZ9u+f+1a2CUDkgJLJIctgxO5tYREkt1sMKgWDCJg3nrPIEfdBsQaur1Lpv
- FtY0K6K/bid9w==
-To: qemu-devel@nongnu.org
-From: Damien Zammit <damien@zamaudio.com>
-Cc: Damien Zammit <damien@zamaudio.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH qemu] timer/i8254: Fix one shot PIT mode
-Message-ID: <20230226015755.52624-1-damien@zamaudio.com>
-Feedback-ID: 43209410:user:proton
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pW6L2-0003U2-J2; Sat, 25 Feb 2023 21:00:34 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 9F363746335;
+ Sun, 26 Feb 2023 03:00:29 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A811874635C; Sun, 26 Feb 2023 03:00:28 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A63AF74634B;
+ Sun, 26 Feb 2023 03:00:28 +0100 (CET)
+Date: Sun, 26 Feb 2023 03:00:28 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v2 0/3] VT82xx PCI IRQ routing fixes
+In-Reply-To: <20230225170857.15774-1-shentey@gmail.com>
+Message-ID: <4f450d71-ab29-3afe-eb02-f46c303a0acb@eik.bme.hu>
+References: <20230225170857.15774-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=51.77.79.158; envelope-from=damien@zamaudio.com;
- helo=mail-0201.mail-europe.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,37 +60,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, the one-shot (mode 1) PIT expires far too quickly,
-due to the output being set under the wrong logic.
-This change fixes the one-shot PIT mode to behave similarly to mode 0.
+On Sat, 25 Feb 2023, Bernhard Beschow wrote:
+> This series makes PCI interrupt routing in the VIA south bridges more compliant
+> to the PCI specification. It aims to help bringing audio output support to the
+> ppc/pegasos2 machine [1].
+>
+> v2:
+> * Remove audio patches which were included for proof of concept
 
-TESTED: using the one-shot PIT mode to calibrate a local apic timer.
+I've merged this with my other patches and made a series with all patches 
+needed for AmigaOS on pegasos2 and MorphOS sound support here on branch 
+pegasos2-alt:
 
-Signed-off-by: Damien Zammit <damien@zamaudio.com>
+https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2-alt/
 
----
- hw/timer/i8254_common.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I hope to get it tested before Monday so we can finalise it early next 
+week.
 
-diff --git a/hw/timer/i8254_common.c b/hw/timer/i8254_common.c
-index 050875b497..9164576ca9 100644
---- a/hw/timer/i8254_common.c
-+++ b/hw/timer/i8254_common.c
-@@ -52,10 +52,8 @@ int pit_get_out(PITChannelState *s, int64_t current_time=
-)
-     switch (s->mode) {
-     default:
-     case 0:
--        out =3D (d >=3D s->count);
--        break;
-     case 1:
--        out =3D (d < s->count);
-+        out =3D (d >=3D s->count);
-         break;
-     case 2:
-         if ((d % s->count) =3D=3D 0 && d !=3D 0) {
---
-2.39.0
+> Testing done with via-ac97 audio patches on top:
+> * `make check`
+> * `qemu-system-ppc -M pegasos2 -rtc base=localtime -device
+>  ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -kernel
+>  morphos-3.17/boot.img`
+>  -> There is a nice sound when the Desktop becomes visible.
+> * `qemu-system-ppc -M pegasos2 -bios pegasos2.rom -rtc base=localtime -device
+>  ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso`
+>  -> There is a nice sound when the Desktop becomes visible.
+> * `qemu-system-ppc -M pegasos2 -bios pegasos2.rom -rtc base=localtime -device
+>  ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso -device
+>  usb-mouse -device usb-kbd`
+>  -> The machine hangs when audio is supposed to play while the mouse is moved.
+>     This behavior can also be reproduced in v1.
 
+Please come up with a similar workaround for this issue that I've done in 
+my series on which this works now without hanging. My series is on 
+pegasos2 branch:
 
+https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/
+
+but I don't understand your irq mapping function and don't know how could 
+I add similar workaround to that.
+
+Regards,
+BALATON Zoltan
+
+> [1] https://patchew.org/QEMU/cover.1677004414.git.balaton@eik.bme.hu/
+>
+> Bernhard Beschow (3):
+>  hw/ppc/pegasos2: Initialize VT8231 PCI IRQ router
+>  hw/isa/vt82c686: Implement PCI IRQ routing
+>  hw/usb/vt82c686-uhci-pci: Use PCI IRQ routing
+>
+> hw/isa/vt82c686.c          | 44 ++++++++++++++++++++++++++++++++++++++
+> hw/ppc/pegasos2.c          |  6 ++++++
+> hw/usb/vt82c686-uhci-pci.c | 12 -----------
+> 3 files changed, 50 insertions(+), 12 deletions(-)
+>
+> --
+> 2.39.2
+>
+>
+>
 
