@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C566A2FB1
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 14:04:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 221AB6A2FD5
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 14:35:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWGhi-0002I0-DB; Sun, 26 Feb 2023 08:04:38 -0500
+	id 1pWH8q-0002Uu-HQ; Sun, 26 Feb 2023 08:32:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pWGhg-0002FQ-Da; Sun, 26 Feb 2023 08:04:36 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pWGhb-0003Rp-Rp; Sun, 26 Feb 2023 08:04:36 -0500
-Received: from [192.168.0.120] (unknown [180.165.240.213])
- by APP-05 (Coremail) with SMTP id zQCowACXnprTWPtjBTG8CA--.17386S2;
- Sun, 26 Feb 2023 21:04:20 +0800 (CST)
-Message-ID: <82fe3ccd-31ce-3e6c-5a60-3e4169aae99b@iscas.ac.cn>
-Date: Sun, 26 Feb 2023 21:04:18 +0800
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pWH8X-0002Pv-Bq
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 08:32:28 -0500
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pWH8S-00047b-TA
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 08:32:21 -0500
+Received: by mail-lj1-x22b.google.com with SMTP id g18so1639590ljl.3
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 05:32:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P5ustKT8/vWxbwnTx2esJPnJe7TESzvKe2GzvlAMgbE=;
+ b=gD15FrIvzZfUQZEBvx8CSUHxHwfg8d3nFYmdDyVpL52EgH6v/RK9QgynAB77/iwSHR
+ j14iZeTONxGmJwQNHfFWmXGVLbMV/M50UVZ4cGO8LcmitXQP8XrMpCZHVvx32JWjg5Mr
+ ZmOyKPtaWBkzJmzA52if39wKv9cMZ8egTB2N5QbJJgwKpUocJPVRpBf6618C6XFDYd+q
+ 1WP62+zglkFK0TQ+aWZVng0Jn5Q1zcFeLc4e9mRqxMHe4yuQN6TGkgrNjk2jeadqoJBo
+ o79Lk4CPA6q/bqwG+mI8fcw1C0gr1sFjJj4l4LkWVpkBM6F+QEMAbDQwcq/px/mIEOcB
+ nw/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=P5ustKT8/vWxbwnTx2esJPnJe7TESzvKe2GzvlAMgbE=;
+ b=swrDO7/h7EKVYetdwntMzWykL8pXgQ0C2YrkiIIMnIO1i1R7WD3gA5ATu9nIQHZ97Q
+ +vP3eqVaWsffxM1M0mn0UVrg5BG7ymR+VbzIAaA3c6APVj4TwsAHLu3mmykFAzbIePud
+ uPG7dsvM5DLyEIC0HnsWwpxznF4yIyMsgia2zj43dV/qaDq/DznGKvy6QVfm2BiNEAKP
+ 4xWUzq+btqCZfsMFv/KyBk5QmAzjP+/lO/7dXb8hKXVSO+h5tkkXkBqj6E24De7Ybajh
+ HtgYMZ37SrB2uTdSk0khtF92i3Mw+ezdPx68w5UeiJLjzDotcagb29SLwqOmesZeq1M3
+ 9NVg==
+X-Gm-Message-State: AO0yUKV22BtCDzQftZdOX/8JizslXxaA5kiw0OhdsP6seGPbL80u91Sd
+ +VLbk5eVPwqFYxZO2yZoCLdQGAp2n9J3VrBI1Ro=
+X-Google-Smtp-Source: AK7set/wOU8WNXp+/HB6ZggGyzGPBpSlKBTko2SFvKNzxbpFsuA3nE0oHaA85d7CaMuEBkX618ZUeg8JJcxME2zQmC0=
+X-Received: by 2002:a2e:b54f:0:b0:295:b026:8c34 with SMTP id
+ a15-20020a2eb54f000000b00295b0268c34mr911944ljn.4.1677418325252; Sun, 26 Feb
+ 2023 05:32:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 53/76] target/riscv: Drop tcg_temp_free
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230225091427.1817156-1-richard.henderson@linaro.org>
- <20230225091427.1817156-54-richard.henderson@linaro.org>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230225091427.1817156-54-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowACXnprTWPtjBTG8CA--.17386S2
-X-Coremail-Antispam: 1UD129KBjvAXoWfAF4kWF4rArWxCFyDJF1DZFb_yoW5ArykZo
- W7Gr45CryxKr13WF1rArykJa47AayIgan5Jws0g3Wvgr4xXryrtF18Xan8Zay5Kr13WFyr
- X3WfKFZ7t395JrZxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUUYD7k0a2IF6w4kM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
- x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
- 1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0
- I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjc
- xK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG
- 64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r
- 1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kI
- c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x07beeHgUUUUU=
-X-Originating-IP: [180.165.240.213]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+References: <20230217170732.298264-1-dbassey@redhat.com>
+In-Reply-To: <20230217170732.298264-1-dbassey@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Sun, 26 Feb 2023 17:31:52 +0400
+Message-ID: <CAJ+F1C+-k4n1Y-a6=h=unJA0R9a_E0hE9KfHdYE7nMaKy7Grew@mail.gmail.com>
+Subject: Re: [PATCH v4] audio/pwaudio.c: Add Pipewire audio backend for QEMU
+To: Dorinda Bassey <dbassey@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, armbru@redhat.com, 
+ qemu_oss@crudebyte.com, pbonzini@redhat.com, wtaymans@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,921 +85,1213 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi
 
-On 2023/2/25 17:14, Richard Henderson wrote:
-> Translators are no longer required to free tcg temporaries.
+On Fri, Feb 17, 2023 at 9:08 PM Dorinda Bassey <dbassey@redhat.com> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> This commit adds a new audiodev backend to allow QEMU to use Pipewire as
+> both an audio sink and source. This backend is available on most systems
+>
+> Add Pipewire entry points for QEMU Pipewire audio backend
+> Add wrappers for QEMU Pipewire audio backend in qpw_pcm_ops()
+> qpw_write function returns the current state of the stream to pwaudio
+> and Writes some data to the server for playback streams using pipewire
+> spa_ringbuffer implementation.
+> qpw_read function returns the current state of the stream to pwaudio and
+> reads some data from the server for capture streams using pipewire
+> spa_ringbuffer implementation. These functions qpw_write and qpw_read
+> are called during playback and capture.
+> Added some functions that convert pw audio formats to QEMU audio format
+> and vice versa which would be needed in the pipewire audio sink and
+> source functions qpw_init_in() & qpw_init_out().
+> These methods that implement playback and recording will create streams
+> for playback and capture that will start processing and will result in
+> the on_process callbacks to be called.
+> Built a connection to the Pipewire sound system server in the
+> qpw_audio_init() method.
+>
+> Signed-off-by: Dorinda Bassey <dbassey@redhat.com>
 
-Weiwei Li
+pipewire: Initialize PW context
+stream state: "connecting"
+stream state: "connecting"
+stream state: "paused"
+node id: 125
+stream state: "paused"
+node id: 142
+stream state: "streaming"
+stream state: "streaming"
+
+Can you make it a bit silent? Probably all AUD_log() & printf*( should
+be replaced by trace.
+
+Playback works for me, however recording is failing. I haven't
+investigated, is it working for you?
+
 > ---
->   target/riscv/translate.c                   |  7 ---
->   target/riscv/insn_trans/trans_rvb.c.inc    | 24 ----------
->   target/riscv/insn_trans/trans_rvd.c.inc    |  2 -
->   target/riscv/insn_trans/trans_rvf.c.inc    |  9 ----
->   target/riscv/insn_trans/trans_rvi.c.inc    | 37 ---------------
->   target/riscv/insn_trans/trans_rvk.c.inc    | 15 ------
->   target/riscv/insn_trans/trans_rvm.c.inc    | 33 -------------
->   target/riscv/insn_trans/trans_rvv.c.inc    | 55 ----------------------
->   target/riscv/insn_trans/trans_rvzfh.c.inc  | 10 ----
->   target/riscv/insn_trans/trans_xthead.c.inc | 24 +---------
->   10 files changed, 1 insertion(+), 215 deletions(-)
+> fix typo
+> raise version dependency
 >
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index b5d8080a6f..180fa5d30d 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -205,8 +205,6 @@ static void gen_check_nanbox_h(TCGv_i64 out, TCGv_i64 in)
->       TCGv_i64 t_nan = tcg_const_i64(0xffffffffffff7e00ull);
->   
->       tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
-> -    tcg_temp_free_i64(t_max);
-> -    tcg_temp_free_i64(t_nan);
->   }
->   
->   static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-> @@ -621,7 +619,6 @@ static void mark_fs_dirty(DisasContext *ctx)
->           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
->           tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
->           tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-> -        tcg_temp_free(tmp);
->       }
->   
->       if (ctx->virt_enabled && ctx->mstatus_hs_fs != MSTATUS_FS) {
-> @@ -632,7 +629,6 @@ static void mark_fs_dirty(DisasContext *ctx)
->           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
->           tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS);
->           tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-> -        tcg_temp_free(tmp);
->       }
->   }
->   #else
-> @@ -657,7 +653,6 @@ static void mark_vs_dirty(DisasContext *ctx)
->           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
->           tcg_gen_ori_tl(tmp, tmp, MSTATUS_VS);
->           tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-> -        tcg_temp_free(tmp);
->       }
->   
->       if (ctx->virt_enabled && ctx->mstatus_hs_vs != MSTATUS_VS) {
-> @@ -668,7 +663,6 @@ static void mark_vs_dirty(DisasContext *ctx)
->           tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
->           tcg_gen_ori_tl(tmp, tmp, MSTATUS_VS);
->           tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-> -        tcg_temp_free(tmp);
->       }
->   }
->   #else
-> @@ -1019,7 +1013,6 @@ static bool gen_shift(DisasContext *ctx, arg_r *a, DisasExtend ext,
->           f128(dest, desth, src1, src1h, ext2);
->           gen_set_gpr128(ctx, a->rd, dest, desth);
->       }
-> -    tcg_temp_free(ext2);
->       return true;
->   }
->   
-> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-> index 990bc94b98..e4dcc7c991 100644
-> --- a/target/riscv/insn_trans/trans_rvb.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> @@ -64,7 +64,6 @@ static void gen_clzw(TCGv ret, TCGv arg1)
->       TCGv t = tcg_temp_new();
->       tcg_gen_shli_tl(t, arg1, 32);
->       tcg_gen_clzi_tl(ret, t, 32);
-> -    tcg_temp_free(t);
->   }
->   
->   static bool trans_clz(DisasContext *ctx, arg_clz *a)
-> @@ -161,8 +160,6 @@ static void gen_bset(TCGv ret, TCGv arg1, TCGv shamt)
->   
->       gen_sbop_mask(t, shamt);
->       tcg_gen_or_tl(ret, arg1, t);
-> -
-> -    tcg_temp_free(t);
->   }
->   
->   static bool trans_bset(DisasContext *ctx, arg_bset *a)
-> @@ -183,8 +180,6 @@ static void gen_bclr(TCGv ret, TCGv arg1, TCGv shamt)
->   
->       gen_sbop_mask(t, shamt);
->       tcg_gen_andc_tl(ret, arg1, t);
-> -
-> -    tcg_temp_free(t);
->   }
->   
->   static bool trans_bclr(DisasContext *ctx, arg_bclr *a)
-> @@ -205,8 +200,6 @@ static void gen_binv(TCGv ret, TCGv arg1, TCGv shamt)
->   
->       gen_sbop_mask(t, shamt);
->       tcg_gen_xor_tl(ret, arg1, t);
-> -
-> -    tcg_temp_free(t);
->   }
->   
->   static bool trans_binv(DisasContext *ctx, arg_binv *a)
-> @@ -252,9 +245,6 @@ static void gen_rorw(TCGv ret, TCGv arg1, TCGv arg2)
->   
->       /* sign-extend 64-bits */
->       tcg_gen_ext_i32_tl(ret, t1);
-> -
-> -    tcg_temp_free_i32(t1);
-> -    tcg_temp_free_i32(t2);
->   }
->   
->   static bool trans_ror(DisasContext *ctx, arg_ror *a)
-> @@ -270,8 +260,6 @@ static void gen_roriw(TCGv ret, TCGv arg1, target_long shamt)
->       tcg_gen_trunc_tl_i32(t1, arg1);
->       tcg_gen_rotri_i32(t1, t1, shamt);
->       tcg_gen_ext_i32_tl(ret, t1);
-> -
-> -    tcg_temp_free_i32(t1);
->   }
->   
->   static bool trans_rori(DisasContext *ctx, arg_rori *a)
-> @@ -294,9 +282,6 @@ static void gen_rolw(TCGv ret, TCGv arg1, TCGv arg2)
->   
->       /* sign-extend 64-bits */
->       tcg_gen_ext_i32_tl(ret, t1);
-> -
-> -    tcg_temp_free_i32(t1);
-> -    tcg_temp_free_i32(t2);
->   }
->   
->   static bool trans_rol(DisasContext *ctx, arg_rol *a)
-> @@ -340,8 +325,6 @@ static void gen_orc_b(TCGv ret, TCGv source1)
->   
->       /* Replicate the lsb of each byte across the byte. */
->       tcg_gen_muli_tl(ret, tmp, 0xff);
-> -
-> -    tcg_temp_free(tmp);
->   }
->   
->   static bool trans_orc_b(DisasContext *ctx, arg_orc_b *a)
-> @@ -357,8 +340,6 @@ static void gen_sh##SHAMT##add(TCGv ret, TCGv arg1, TCGv arg2) \
->                                                                  \
->       tcg_gen_shli_tl(t, arg1, SHAMT);                           \
->       tcg_gen_add_tl(ret, t, arg2);                              \
-> -                                                               \
-> -    tcg_temp_free(t);                                          \
->   }
->   
->   GEN_SHADD(1)
-> @@ -446,8 +427,6 @@ static void gen_sh##SHAMT##add_uw(TCGv ret, TCGv arg1, TCGv arg2) \
->                                                                     \
->       tcg_gen_shli_tl(t, t, SHAMT);                                 \
->       tcg_gen_add_tl(ret, t, arg2);                                 \
-> -                                                                  \
-> -    tcg_temp_free(t);                                             \
->   }
->   
->   GEN_SHADD_UW(1)
-> @@ -472,7 +451,6 @@ static void gen_add_uw(TCGv ret, TCGv arg1, TCGv arg2)
->       TCGv t = tcg_temp_new();
->       tcg_gen_ext32u_tl(t, arg1);
->       tcg_gen_add_tl(ret, t, arg2);
-> -    tcg_temp_free(t);
->   }
->   
->   static bool trans_add_uw(DisasContext *ctx, arg_add_uw *a)
-> @@ -531,7 +509,6 @@ static void gen_packh(TCGv ret, TCGv src1, TCGv src2)
->   
->       tcg_gen_ext8u_tl(t, src2);
->       tcg_gen_deposit_tl(ret, src1, t, 8, TARGET_LONG_BITS - 8);
-> -    tcg_temp_free(t);
->   }
->   
->   static void gen_packw(TCGv ret, TCGv src1, TCGv src2)
-> @@ -540,7 +517,6 @@ static void gen_packw(TCGv ret, TCGv src1, TCGv src2)
->   
->       tcg_gen_ext16s_tl(t, src2);
->       tcg_gen_deposit_tl(ret, src1, t, 16, TARGET_LONG_BITS - 16);
-> -    tcg_temp_free(t);
->   }
->   
->   static bool trans_brev8(DisasContext *ctx, arg_brev8 *a)
-> diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
-> index 6e3159b797..1597bf31d8 100644
-> --- a/target/riscv/insn_trans/trans_rvd.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvd.c.inc
-> @@ -250,7 +250,6 @@ static bool trans_fsgnjn_d(DisasContext *ctx, arg_fsgnjn_d *a)
->           TCGv_i64 t0 = tcg_temp_new_i64();
->           tcg_gen_not_i64(t0, src2);
->           tcg_gen_deposit_i64(dest, t0, src1, 0, 63);
-> -        tcg_temp_free_i64(t0);
->       }
->       gen_set_fpr_d(ctx, a->rd, dest);
->       mark_fs_dirty(ctx);
-> @@ -273,7 +272,6 @@ static bool trans_fsgnjx_d(DisasContext *ctx, arg_fsgnjx_d *a)
->           TCGv_i64 t0 = tcg_temp_new_i64();
->           tcg_gen_andi_i64(t0, src2, INT64_MIN);
->           tcg_gen_xor_i64(dest, src1, t0);
-> -        tcg_temp_free_i64(t0);
->       }
->       gen_set_fpr_d(ctx, a->rd, dest);
->       mark_fs_dirty(ctx);
-> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-> index 965e1f8d11..052408f45c 100644
-> --- a/target/riscv/insn_trans/trans_rvf.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
-> @@ -233,9 +233,6 @@ static bool trans_fsgnj_s(DisasContext *ctx, arg_fsgnj_s *a)
->   
->               /* This formulation retains the nanboxing of rs2 in normal 'F'. */
->               tcg_gen_deposit_i64(dest, rs2, rs1, 0, 31);
-> -
-> -            tcg_temp_free_i64(rs1);
-> -            tcg_temp_free_i64(rs2);
->           } else {
->               tcg_gen_deposit_i64(dest, src2, src1, 0, 31);
->               tcg_gen_ext32s_i64(dest, dest);
-> @@ -281,15 +278,12 @@ static bool trans_fsgnjn_s(DisasContext *ctx, arg_fsgnjn_s *a)
->           tcg_gen_nor_i64(rs2, rs2, mask);
->           tcg_gen_and_i64(dest, mask, rs1);
->           tcg_gen_or_i64(dest, dest, rs2);
-> -
-> -        tcg_temp_free_i64(rs2);
->       }
->       /* signed-extended intead of nanboxing for result if enable zfinx */
->       if (ctx->cfg_ptr->ext_zfinx) {
->           tcg_gen_ext32s_i64(dest, dest);
->       }
->       gen_set_fpr_hs(ctx, a->rd, dest);
-> -    tcg_temp_free_i64(rs1);
->       mark_fs_dirty(ctx);
->       return true;
->   }
-> @@ -329,14 +323,11 @@ static bool trans_fsgnjx_s(DisasContext *ctx, arg_fsgnjx_s *a)
->            */
->           tcg_gen_andi_i64(dest, rs2, MAKE_64BIT_MASK(31, 1));
->           tcg_gen_xor_i64(dest, rs1, dest);
-> -
-> -        tcg_temp_free_i64(rs2);
->       }
->       /* signed-extended intead of nanboxing for result if enable zfinx */
->       if (ctx->cfg_ptr->ext_zfinx) {
->           tcg_gen_ext32s_i64(dest, dest);
->       }
-> -    tcg_temp_free_i64(rs1);
->       gen_set_fpr_hs(ctx, a->rd, dest);
->       mark_fs_dirty(ctx);
->       return true;
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> index 4496f21266..4ad54e8a49 100644
-> --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -62,7 +62,6 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
->           misaligned = gen_new_label();
->           tcg_gen_andi_tl(t0, cpu_pc, 0x2);
->           tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
-> -        tcg_temp_free(t0);
->       }
->   
->       gen_set_gpri(ctx, a->rd, ctx->pc_succ_insn);
-> @@ -108,8 +107,6 @@ static TCGCond gen_compare_i128(bool bz, TCGv rl,
->               tcg_gen_xor_tl(tmp, ah, bh);
->               tcg_gen_and_tl(rl, rl, tmp);
->               tcg_gen_xor_tl(rl, rh, rl);
-> -
-> -            tcg_temp_free(tmp);
->           }
->           break;
->   
-> @@ -128,8 +125,6 @@ static TCGCond gen_compare_i128(bool bz, TCGv rl,
->               /* seed third word with 1, which will be result */
->               tcg_gen_sub2_tl(tmp, rh, ah, one, tmp, zero);
->               tcg_gen_sub2_tl(tmp, rl, tmp, rh, bh, zero);
-> -
-> -            tcg_temp_free(tmp);
->           }
->           break;
->   
-> @@ -140,8 +135,6 @@ static TCGCond gen_compare_i128(bool bz, TCGv rl,
->       if (invert) {
->           cond = tcg_invert_cond(cond);
->       }
-> -
-> -    tcg_temp_free(rh);
->       return cond;
->   }
->   
-> @@ -169,8 +162,6 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
->           cond = gen_compare_i128(a->rs2 == 0,
->                                   tmp, src1, src1h, src2, src2h, cond);
->           tcg_gen_brcondi_tl(cond, tmp, 0, l);
-> -
-> -        tcg_temp_free(tmp);
->       } else {
->           tcg_gen_brcond_tl(cond, src1, src2, l);
->       }
-> @@ -254,8 +245,6 @@ static bool gen_load_i128(DisasContext *ctx, arg_lb *a, MemOp memop)
->       }
->   
->       gen_set_gpr128(ctx, a->rd, destl, desth);
-> -
-> -    tcg_temp_free(addrl);
->       return true;
->   }
->   
-> @@ -344,8 +333,6 @@ static bool gen_store_i128(DisasContext *ctx, arg_sb *a, MemOp memop)
->           tcg_gen_addi_tl(addrl, addrl, 8);
->           tcg_gen_qemu_st_tl(src2h, addrl, ctx->mem_idx, MO_TEUQ);
->       }
-> -
-> -    tcg_temp_free(addrl);
->       return true;
->   }
->   
-> @@ -568,14 +555,6 @@ static void gen_sll_i128(TCGv destl, TCGv desth,
->   
->       tcg_gen_movcond_tl(TCG_COND_NE, destl, hs, zero, zero, ll);
->       tcg_gen_movcond_tl(TCG_COND_NE, desth, hs, zero, ll, h1);
-> -
-> -    tcg_temp_free(ls);
-> -    tcg_temp_free(rs);
-> -    tcg_temp_free(hs);
-> -    tcg_temp_free(ll);
-> -    tcg_temp_free(lr);
-> -    tcg_temp_free(h0);
-> -    tcg_temp_free(h1);
->   }
->   
->   static bool trans_sll(DisasContext *ctx, arg_sll *a)
-> @@ -618,14 +597,6 @@ static void gen_srl_i128(TCGv destl, TCGv desth,
->   
->       tcg_gen_movcond_tl(TCG_COND_NE, destl, hs, zero, h1, h0);
->       tcg_gen_movcond_tl(TCG_COND_NE, desth, hs, zero, zero, h1);
-> -
-> -    tcg_temp_free(ls);
-> -    tcg_temp_free(rs);
-> -    tcg_temp_free(hs);
-> -    tcg_temp_free(ll);
-> -    tcg_temp_free(lr);
-> -    tcg_temp_free(h0);
-> -    tcg_temp_free(h1);
->   }
->   
->   static bool trans_srl(DisasContext *ctx, arg_srl *a)
-> @@ -659,14 +630,6 @@ static void gen_sra_i128(TCGv destl, TCGv desth,
->   
->       tcg_gen_movcond_tl(TCG_COND_NE, destl, hs, zero, h1, h0);
->       tcg_gen_movcond_tl(TCG_COND_NE, desth, hs, zero, lr, h1);
-> -
-> -    tcg_temp_free(ls);
-> -    tcg_temp_free(rs);
-> -    tcg_temp_free(hs);
-> -    tcg_temp_free(ll);
-> -    tcg_temp_free(lr);
-> -    tcg_temp_free(h0);
-> -    tcg_temp_free(h1);
->   }
->   
->   static bool trans_sra(DisasContext *ctx, arg_sra *a)
-> diff --git a/target/riscv/insn_trans/trans_rvk.c.inc b/target/riscv/insn_trans/trans_rvk.c.inc
-> index 90f4eeff60..6600c710a7 100644
-> --- a/target/riscv/insn_trans/trans_rvk.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvk.c.inc
-> @@ -161,9 +161,6 @@ static bool gen_sha256(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
->       tcg_gen_ext_i32_tl(dest, t1);
->   
->       gen_set_gpr(ctx, a->rd, dest);
-> -    tcg_temp_free_i32(t0);
-> -    tcg_temp_free_i32(t1);
-> -    tcg_temp_free_i32(t2);
->       return true;
->   }
->   
-> @@ -212,9 +209,6 @@ static bool gen_sha512_rv32(DisasContext *ctx, arg_r *a, DisasExtend ext,
->       tcg_gen_trunc_i64_tl(dest, t1);
->   
->       gen_set_gpr(ctx, a->rd, dest);
-> -    tcg_temp_free_i64(t0);
-> -    tcg_temp_free_i64(t1);
-> -    tcg_temp_free_i64(t2);
->       return true;
->   }
->   
-> @@ -271,9 +265,6 @@ static bool gen_sha512h_rv32(DisasContext *ctx, arg_r *a, DisasExtend ext,
->       tcg_gen_trunc_i64_tl(dest, t1);
->   
->       gen_set_gpr(ctx, a->rd, dest);
-> -    tcg_temp_free_i64(t0);
-> -    tcg_temp_free_i64(t1);
-> -    tcg_temp_free_i64(t2);
->       return true;
->   }
->   
-> @@ -310,9 +301,6 @@ static bool gen_sha512_rv64(DisasContext *ctx, arg_r2 *a, DisasExtend ext,
->       tcg_gen_trunc_i64_tl(dest, t1);
->   
->       gen_set_gpr(ctx, a->rd, dest);
-> -    tcg_temp_free_i64(t0);
-> -    tcg_temp_free_i64(t1);
-> -    tcg_temp_free_i64(t2);
->       return true;
->   }
->   
-> @@ -359,9 +347,6 @@ static bool gen_sm3(DisasContext *ctx, arg_r2 *a, int32_t b, int32_t c)
->       tcg_gen_xor_i32(t1, t1, t0);
->       tcg_gen_ext_i32_tl(dest, t1);
->       gen_set_gpr(ctx, a->rd, dest);
-> -
-> -    tcg_temp_free_i32(t0);
-> -    tcg_temp_free_i32(t1);
->       return true;
->   }
->   
-> diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_trans/trans_rvm.c.inc
-> index ec7f705aab..2f0fd1f700 100644
-> --- a/target/riscv/insn_trans/trans_rvm.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvm.c.inc
-> @@ -45,9 +45,6 @@ static void gen_mulhu_i128(TCGv r2, TCGv r3, TCGv al, TCGv ah, TCGv bl, TCGv bh)
->   
->       tcg_gen_mulu2_tl(tmpl, tmph, ah, bh);
->       tcg_gen_add2_tl(r2, r3, r2, r3, tmpl, tmph);
-> -
-> -    tcg_temp_free(tmpl);
-> -    tcg_temp_free(tmph);
->   }
->   
->   static void gen_mul_i128(TCGv rl, TCGv rh,
-> @@ -63,10 +60,6 @@ static void gen_mul_i128(TCGv rl, TCGv rh,
->       tcg_gen_add2_tl(rh, tmpx, rh, zero, tmpl, tmph);
->       tcg_gen_mulu2_tl(tmpl, tmph, rs1h, rs2l);
->       tcg_gen_add2_tl(rh, tmph, rh, tmpx, tmpl, tmph);
-> -
-> -    tcg_temp_free(tmpl);
-> -    tcg_temp_free(tmph);
-> -    tcg_temp_free(tmpx);
->   }
->   
->   static bool trans_mul(DisasContext *ctx, arg_mul *a)
-> @@ -92,11 +85,6 @@ static void gen_mulh_i128(TCGv rl, TCGv rh,
->       tcg_gen_and_tl(t1h, t1h, rs1h);
->       tcg_gen_sub2_tl(t0l, t0h, rl, rh, t0l, t0h);
->       tcg_gen_sub2_tl(rl, rh, t0l, t0h, t1l, t1h);
-> -
-> -    tcg_temp_free(t0l);
-> -    tcg_temp_free(t0h);
-> -    tcg_temp_free(t1l);
-> -    tcg_temp_free(t1h);
->   }
->   
->   static void gen_mulh(TCGv ret, TCGv s1, TCGv s2)
-> @@ -104,7 +92,6 @@ static void gen_mulh(TCGv ret, TCGv s1, TCGv s2)
->       TCGv discard = tcg_temp_new();
->   
->       tcg_gen_muls2_tl(discard, ret, s1, s2);
-> -    tcg_temp_free(discard);
->   }
->   
->   static void gen_mulh_w(TCGv ret, TCGv s1, TCGv s2)
-> @@ -132,9 +119,6 @@ static void gen_mulhsu_i128(TCGv rl, TCGv rh,
->       tcg_gen_and_tl(t0l, t0h, rs2l);
->       tcg_gen_and_tl(t0h, t0h, rs2h);
->       tcg_gen_sub2_tl(rl, rh, rl, rh, t0l, t0h);
-> -
-> -    tcg_temp_free(t0l);
-> -    tcg_temp_free(t0h);
->   }
->   
->   static void gen_mulhsu(TCGv ret, TCGv arg1, TCGv arg2)
-> @@ -147,9 +131,6 @@ static void gen_mulhsu(TCGv ret, TCGv arg1, TCGv arg2)
->       tcg_gen_sari_tl(rl, arg1, TARGET_LONG_BITS - 1);
->       tcg_gen_and_tl(rl, rl, arg2);
->       tcg_gen_sub_tl(ret, rh, rl);
-> -
-> -    tcg_temp_free(rl);
-> -    tcg_temp_free(rh);
->   }
->   
->   static void gen_mulhsu_w(TCGv ret, TCGv arg1, TCGv arg2)
-> @@ -160,8 +141,6 @@ static void gen_mulhsu_w(TCGv ret, TCGv arg1, TCGv arg2)
->       tcg_gen_ext32s_tl(t1, arg1);
->       tcg_gen_ext32u_tl(t2, arg2);
->       tcg_gen_mul_tl(ret, t1, t2);
-> -    tcg_temp_free(t1);
-> -    tcg_temp_free(t2);
->       tcg_gen_sari_tl(ret, ret, 32);
->   }
->   
-> @@ -177,7 +156,6 @@ static void gen_mulhu(TCGv ret, TCGv s1, TCGv s2)
->       TCGv discard = tcg_temp_new();
->   
->       tcg_gen_mulu2_tl(discard, ret, s1, s2);
-> -    tcg_temp_free(discard);
->   }
->   
->   static bool trans_mulhu(DisasContext *ctx, arg_mulhu *a)
-> @@ -223,9 +201,6 @@ static void gen_div(TCGv ret, TCGv source1, TCGv source2)
->       tcg_gen_movcond_tl(TCG_COND_EQ, temp2, source2, zero, one, temp2);
->   
->       tcg_gen_div_tl(ret, temp1, temp2);
-> -
-> -    tcg_temp_free(temp1);
-> -    tcg_temp_free(temp2);
->   }
->   
->   static bool trans_div(DisasContext *ctx, arg_div *a)
-> @@ -258,9 +233,6 @@ static void gen_divu(TCGv ret, TCGv source1, TCGv source2)
->       tcg_gen_movcond_tl(TCG_COND_EQ, temp1, source2, zero, max, source1);
->       tcg_gen_movcond_tl(TCG_COND_EQ, temp2, source2, zero, one, source2);
->       tcg_gen_divu_tl(ret, temp1, temp2);
-> -
-> -    tcg_temp_free(temp1);
-> -    tcg_temp_free(temp2);
->   }
->   
->   static bool trans_divu(DisasContext *ctx, arg_divu *a)
-> @@ -306,9 +278,6 @@ static void gen_rem(TCGv ret, TCGv source1, TCGv source2)
->   
->       /* If div by zero, the required result is the original dividend. */
->       tcg_gen_movcond_tl(TCG_COND_EQ, ret, source2, zero, source1, temp1);
-> -
-> -    tcg_temp_free(temp1);
-> -    tcg_temp_free(temp2);
->   }
->   
->   static bool trans_rem(DisasContext *ctx, arg_rem *a)
-> @@ -342,8 +311,6 @@ static void gen_remu(TCGv ret, TCGv source1, TCGv source2)
->   
->       /* If div by zero, the required result is the original dividend. */
->       tcg_gen_movcond_tl(TCG_COND_EQ, ret, source2, zero, source1, temp);
-> -
-> -    tcg_temp_free(temp);
->   }
->   
->   static bool trans_remu(DisasContext *ctx, arg_remu *a)
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index bbb5c3a7b5..0607eff5e6 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -198,11 +198,6 @@ static bool do_vsetvl(DisasContext *s, int rd, int rs1, TCGv s2)
->       gen_set_pc_imm(s, s->pc_succ_insn);
->       lookup_and_goto_ptr(s);
->       s->base.is_jmp = DISAS_NORETURN;
-> -
-> -    if (rd == 0 && rs1 == 0) {
-> -        tcg_temp_free(s1);
-> -    }
-> -
->       return true;
->   }
->   
-> @@ -673,9 +668,6 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->   
->       fn(dest, mask, base, cpu_env, desc);
->   
-> -    tcg_temp_free_ptr(dest);
-> -    tcg_temp_free_ptr(mask);
-> -
->       if (!is_store) {
->           mark_vs_dirty(s);
->       }
-> @@ -838,9 +830,6 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
->   
->       fn(dest, mask, base, stride, cpu_env, desc);
->   
-> -    tcg_temp_free_ptr(dest);
-> -    tcg_temp_free_ptr(mask);
-> -
->       if (!is_store) {
->           mark_vs_dirty(s);
->       }
-> @@ -949,10 +938,6 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->   
->       fn(dest, mask, base, index, cpu_env, desc);
->   
-> -    tcg_temp_free_ptr(dest);
-> -    tcg_temp_free_ptr(mask);
-> -    tcg_temp_free_ptr(index);
-> -
->       if (!is_store) {
->           mark_vs_dirty(s);
->       }
-> @@ -1092,8 +1077,6 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->   
->       fn(dest, mask, base, cpu_env, desc);
->   
-> -    tcg_temp_free_ptr(dest);
-> -    tcg_temp_free_ptr(mask);
->       mark_vs_dirty(s);
->       gen_set_label(over);
->       return true;
-> @@ -1154,8 +1137,6 @@ static bool ldst_whole_trans(uint32_t vd, uint32_t rs1, uint32_t nf,
->   
->       fn(dest, base, cpu_env, desc);
->   
-> -    tcg_temp_free_ptr(dest);
-> -
->       if (!is_store) {
->           mark_vs_dirty(s);
->       }
-> @@ -1311,9 +1292,6 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
->   
->       fn(dest, mask, src1, src2, cpu_env, desc);
->   
-> -    tcg_temp_free_ptr(dest);
-> -    tcg_temp_free_ptr(mask);
-> -    tcg_temp_free_ptr(src2);
->       mark_vs_dirty(s);
->       gen_set_label(over);
->       return true;
-> @@ -1344,7 +1322,6 @@ do_opivx_gvec(DisasContext *s, arg_rmrr *a, GVecGen2sFn *gvec_fn,
->           gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
->                   src1, MAXSZ(s), MAXSZ(s));
->   
-> -        tcg_temp_free_i64(src1);
->           mark_vs_dirty(s);
->           return true;
->       }
-> @@ -1479,9 +1456,6 @@ static bool opivi_trans(uint32_t vd, uint32_t imm, uint32_t vs2, uint32_t vm,
->   
->       fn(dest, mask, src1, src2, cpu_env, desc);
->   
-> -    tcg_temp_free_ptr(dest);
-> -    tcg_temp_free_ptr(mask);
-> -    tcg_temp_free_ptr(src2);
->       mark_vs_dirty(s);
->       gen_set_label(over);
->       return true;
-> @@ -1850,7 +1824,6 @@ do_opivx_gvec_shift(DisasContext *s, arg_rmrr *a, GVecGen2sFn32 *gvec_fn,
->           gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
->                   src1, MAXSZ(s), MAXSZ(s));
->   
-> -        tcg_temp_free_i32(src1);
->           mark_vs_dirty(s);
->           return true;
->       }
-> @@ -2145,7 +2118,6 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
->                   tcg_gen_ext_tl_i64(s1_i64, s1);
->                   tcg_gen_gvec_dup_i64(s->sew, vreg_ofs(s, a->rd),
->                                        MAXSZ(s), MAXSZ(s), s1_i64);
-> -                tcg_temp_free_i64(s1_i64);
->               } else {
->                   tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
->                                       MAXSZ(s), MAXSZ(s), s1);
-> @@ -2166,9 +2138,6 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
->                                                 s->cfg_ptr->vlen / 8, data));
->               tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
->               fns[s->sew](dest, s1_i64, cpu_env, desc);
-> -
-> -            tcg_temp_free_ptr(dest);
-> -            tcg_temp_free_i64(s1_i64);
->           }
->   
->           mark_vs_dirty(s);
-> @@ -2210,7 +2179,6 @@ static bool trans_vmv_v_i(DisasContext *s, arg_vmv_v_i *a)
->               tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
->               fns[s->sew](dest, s1, cpu_env, desc);
->   
-> -            tcg_temp_free_ptr(dest);
->               mark_vs_dirty(s);
->               gen_set_label(over);
->           }
-> @@ -2407,10 +2375,6 @@ static bool opfvf_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->   
->       fn(dest, mask, t1, src2, cpu_env, desc);
->   
-> -    tcg_temp_free_ptr(dest);
-> -    tcg_temp_free_ptr(mask);
-> -    tcg_temp_free_ptr(src2);
-> -    tcg_temp_free_i64(t1);
->       mark_vs_dirty(s);
->       gen_set_label(over);
->       return true;
-> @@ -2814,11 +2778,9 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
->   
->               fns[s->sew - 1](dest, t1, cpu_env, desc);
->   
-> -            tcg_temp_free_ptr(dest);
->               mark_vs_dirty(s);
->               gen_set_label(over);
->           }
-> -        tcg_temp_free_i64(t1);
->           return true;
->       }
->       return false;
-> @@ -3200,10 +3162,6 @@ static bool trans_vcpop_m(DisasContext *s, arg_rmr *a)
->   
->           gen_helper_vcpop_m(dst, mask, src2, cpu_env, desc);
->           gen_set_gpr(s, a->rd, dst);
-> -
-> -        tcg_temp_free_ptr(mask);
-> -        tcg_temp_free_ptr(src2);
-> -
->           return true;
->       }
->       return false;
-> @@ -3233,9 +3191,6 @@ static bool trans_vfirst_m(DisasContext *s, arg_rmr *a)
->   
->           gen_helper_vfirst_m(dst, mask, src2, cpu_env, desc);
->           gen_set_gpr(s, a->rd, dst);
-> -
-> -        tcg_temp_free_ptr(mask);
-> -        tcg_temp_free_ptr(src2);
->           return true;
->       }
->       return false;
-> @@ -3430,8 +3385,6 @@ static void vec_element_loadx(DisasContext *s, TCGv_i64 dest,
->       /* Perform the load. */
->       load_element(dest, base,
->                    vreg_ofs(s, vreg), s->sew, false);
-> -    tcg_temp_free_ptr(base);
-> -    tcg_temp_free_i32(ofs);
->   
->       /* Flush out-of-range indexing to zero.  */
->       t_vlmax = tcg_constant_i64(vlmax);
-> @@ -3440,8 +3393,6 @@ static void vec_element_loadx(DisasContext *s, TCGv_i64 dest,
->   
->       tcg_gen_movcond_i64(TCG_COND_LTU, dest, t_idx,
->                           t_vlmax, dest, t_zero);
-> -
-> -    tcg_temp_free_i64(t_idx);
->   }
->   
->   static void vec_element_loadi(DisasContext *s, TCGv_i64 dest,
-> @@ -3501,9 +3452,6 @@ static bool trans_vmv_x_s(DisasContext *s, arg_vmv_x_s *a)
->           vec_element_loadi(s, t1, a->rs2, 0, true);
->           tcg_gen_trunc_i64_tl(dest, t1);
->           gen_set_gpr(s, a->rd, dest);
-> -        tcg_temp_free_i64(t1);
-> -        tcg_temp_free(dest);
-> -
->           return true;
->       }
->       return false;
-> @@ -3531,7 +3479,6 @@ static bool trans_vmv_s_x(DisasContext *s, arg_vmv_s_x *a)
->           s1 = get_gpr(s, a->rs1, EXT_NONE);
->           tcg_gen_ext_tl_i64(t1, s1);
->           vec_element_storei(s, a->rd, 0, t1);
-> -        tcg_temp_free_i64(t1);
->           mark_vs_dirty(s);
->           gen_set_label(over);
->           return true;
-> @@ -3590,7 +3537,6 @@ static bool trans_vfmv_s_f(DisasContext *s, arg_vfmv_s_f *a)
->           do_nanbox(s, t1, cpu_fpr[a->rs1]);
->   
->           vec_element_storei(s, a->rd, 0, t1);
-> -        tcg_temp_free_i64(t1);
->           mark_vs_dirty(s);
->           gen_set_label(over);
->           return true;
-> @@ -3703,7 +3649,6 @@ static bool trans_vrgather_vx(DisasContext *s, arg_rmrr *a)
->   
->           tcg_gen_gvec_dup_i64(s->sew, vreg_ofs(s, a->rd),
->                                MAXSZ(s), MAXSZ(s), dest);
-> -        tcg_temp_free_i64(dest);
->           mark_vs_dirty(s);
->       } else {
->           static gen_helper_opivx * const fns[4] = {
-> diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> index 5024e6ecab..03773e2aa8 100644
-> --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> @@ -257,9 +257,6 @@ static bool trans_fsgnj_h(DisasContext *ctx, arg_fsgnj_h *a)
->   
->               /* This formulation retains the nanboxing of rs2 in normal 'Zfh'. */
->               tcg_gen_deposit_i64(dest, rs2, rs1, 0, 15);
-> -
-> -            tcg_temp_free_i64(rs1);
-> -            tcg_temp_free_i64(rs2);
->           } else {
->               tcg_gen_deposit_i64(dest, src2, src1, 0, 15);
->               tcg_gen_ext16s_i64(dest, dest);
-> @@ -308,15 +305,11 @@ static bool trans_fsgnjn_h(DisasContext *ctx, arg_fsgnjn_h *a)
->           tcg_gen_andc_i64(rs2, rs2, mask);
->           tcg_gen_and_i64(dest, mask, rs1);
->           tcg_gen_or_i64(dest, dest, rs2);
-> -
-> -        tcg_temp_free_i64(mask);
-> -        tcg_temp_free_i64(rs2);
->       }
->       /* signed-extended intead of nanboxing for result if enable zfinx */
->       if (ctx->cfg_ptr->ext_zfinx) {
->           tcg_gen_ext16s_i64(dest, dest);
->       }
-> -    tcg_temp_free_i64(rs1);
->       mark_fs_dirty(ctx);
->       return true;
->   }
-> @@ -356,14 +349,11 @@ static bool trans_fsgnjx_h(DisasContext *ctx, arg_fsgnjx_h *a)
->            */
->           tcg_gen_andi_i64(dest, rs2, MAKE_64BIT_MASK(15, 1));
->           tcg_gen_xor_i64(dest, rs1, dest);
-> -
-> -        tcg_temp_free_i64(rs2);
->       }
->       /* signed-extended intead of nanboxing for result if enable zfinx */
->       if (ctx->cfg_ptr->ext_zfinx) {
->           tcg_gen_ext16s_i64(dest, dest);
->       }
-> -    tcg_temp_free_i64(rs1);
->       mark_fs_dirty(ctx);
->       return true;
->   }
-> diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/insn_trans/trans_xthead.c.inc
-> index be87c34f56..9f76223718 100644
-> --- a/target/riscv/insn_trans/trans_xthead.c.inc
-> +++ b/target/riscv/insn_trans/trans_xthead.c.inc
-> @@ -100,10 +100,7 @@ static TCGv get_th_address_indexed(DisasContext *ctx, int rs1, int rs2,
->           tcg_gen_shli_tl(offs, src2, imm2);
->       }
->   
-> -    TCGv addr = get_address_indexed(ctx, rs1, offs);
-> -
-> -    tcg_temp_free(offs);
-> -    return addr;
-> +    return get_address_indexed(ctx, rs1, offs);
->   }
->   
->   /* XTheadBa */
-> @@ -120,7 +117,6 @@ static void gen_th_addsl##SHAMT(TCGv ret, TCGv arg1, TCGv arg2) \
->       TCGv t = tcg_temp_new();                                    \
->       tcg_gen_shli_tl(t, arg2, SHAMT);                            \
->       tcg_gen_add_tl(ret, t, arg1);                               \
-> -    tcg_temp_free(t);                                           \
->   }
->   
->   GEN_TH_ADDSL(1)
-> @@ -204,7 +200,6 @@ static bool gen_th_ff0(DisasContext *ctx, arg_th_ff0 *a, DisasExtend ext)
->           gen_clz(dest, t);
->       }
->   
-> -    tcg_temp_free(t);
->       gen_set_gpr(ctx, a->rd, dest);
->   
->       return true;
-> @@ -469,7 +464,6 @@ static bool trans_th_fmv_hw_x(DisasContext *ctx, arg_th_fmv_hw_x *a)
->   
->       tcg_gen_extu_tl_i64(t1, src1);
->       tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], t1, 32, 32);
-> -    tcg_temp_free_i64(t1);
->       mark_fs_dirty(ctx);
->       return true;
->   }
-> @@ -489,7 +483,6 @@ static bool trans_th_fmv_x_hw(DisasContext *ctx, arg_th_fmv_x_hw *a)
->       tcg_gen_extract_i64(t1, cpu_fpr[a->rs1], 32, 32);
->       tcg_gen_trunc_i64_tl(dst, t1);
->       gen_set_gpr(ctx, a->rd, dst);
-> -    tcg_temp_free_i64(t1);
->       mark_fs_dirty(ctx);
->       return true;
->   }
-> @@ -511,15 +504,12 @@ static bool gen_th_mac(DisasContext *ctx, arg_r *a,
->           extend_operand_func(tmp, src1);
->           extend_operand_func(tmp2, src2);
->           tcg_gen_mul_tl(tmp, tmp, tmp2);
-> -        tcg_temp_free(tmp2);
->       } else {
->           tcg_gen_mul_tl(tmp, src1, src2);
->       }
->   
->       accumulate_func(dest, src0, tmp);
->       gen_set_gpr(ctx, a->rd, dest);
-> -    tcg_temp_free(tmp);
-> -
->       return true;
->   }
->   
-> @@ -594,8 +584,6 @@ static bool gen_load_inc(DisasContext *ctx, arg_th_meminc *a, MemOp memop,
->       tcg_gen_addi_tl(rs1, rs1, imm);
->       gen_set_gpr(ctx, a->rd, rd);
->       gen_set_gpr(ctx, a->rs1, rs1);
-> -
-> -    tcg_temp_free(addr);
->       return true;
->   }
->   
-> @@ -615,8 +603,6 @@ static bool gen_store_inc(DisasContext *ctx, arg_th_meminc *a, MemOp memop,
->       tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, memop);
->       tcg_gen_addi_tl(rs1, rs1, imm);
->       gen_set_gpr(ctx, a->rs1, rs1);
-> -
-> -    tcg_temp_free(addr);
->       return true;
->   }
->   
-> @@ -950,11 +936,6 @@ static bool gen_loadpair_tl(DisasContext *ctx, arg_th_pair *a, MemOp memop,
->       tcg_gen_qemu_ld_tl(t2, addr2, ctx->mem_idx, memop);
->       gen_set_gpr(ctx, a->rd1, t1);
->       gen_set_gpr(ctx, a->rd2, t2);
-> -
-> -    tcg_temp_free(t1);
-> -    tcg_temp_free(t2);
-> -    tcg_temp_free(addr1);
-> -    tcg_temp_free(addr2);
->       return true;
->   }
->   
-> @@ -995,9 +976,6 @@ static bool gen_storepair_tl(DisasContext *ctx, arg_th_pair *a, MemOp memop,
->   
->       tcg_gen_qemu_st_tl(data1, addr1, ctx->mem_idx, memop);
->       tcg_gen_qemu_st_tl(data2, addr2, ctx->mem_idx, memop);
-> -
-> -    tcg_temp_free(addr1);
-> -    tcg_temp_free(addr2);
->       return true;
->   }
->   
+>  audio/audio.c                 |   3 +
+>  audio/audio_template.h        |   4 +
+>  audio/meson.build             |   1 +
+>  audio/pwaudio.c               | 827 ++++++++++++++++++++++++++++++++++
+>  meson.build                   |   8 +
+>  meson_options.txt             |   4 +-
+>  qapi/audio.json               |  45 ++
+>  qemu-options.hx               |  17 +
+>  scripts/meson-buildoptions.sh |   8 +-
+>  9 files changed, 914 insertions(+), 3 deletions(-)
+>  create mode 100644 audio/pwaudio.c
+>
+> diff --git a/audio/audio.c b/audio/audio.c
+> index 4290309d18..aa55e41ad8 100644
+> --- a/audio/audio.c
+> +++ b/audio/audio.c
+> @@ -2069,6 +2069,9 @@ void audio_create_pdos(Audiodev *dev)
+>  #ifdef CONFIG_AUDIO_PA
+>          CASE(PA, pa, Pa);
+>  #endif
+> +#ifdef CONFIG_AUDIO_PIPEWIRE
+> +        CASE(PIPEWIRE, pipewire, Pipewire);
+> +#endif
+>  #ifdef CONFIG_AUDIO_SDL
+>          CASE(SDL, sdl, Sdl);
+>  #endif
+> diff --git a/audio/audio_template.h b/audio/audio_template.h
+> index 42b4712acb..0f02afb921 100644
+> --- a/audio/audio_template.h
+> +++ b/audio/audio_template.h
+> @@ -355,6 +355,10 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TY=
+PE)(Audiodev *dev)
+>      case AUDIODEV_DRIVER_PA:
+>          return qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.TYPE);
+>  #endif
+> +#ifdef CONFIG_AUDIO_PIPEWIRE
+> +    case AUDIODEV_DRIVER_PIPEWIRE:
+> +        return qapi_AudiodevPipewirePerDirectionOptions_base(dev->u.pipe=
+wire.TYPE);
+> +#endif
+>  #ifdef CONFIG_AUDIO_SDL
+>      case AUDIODEV_DRIVER_SDL:
+>          return qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.TYPE)=
+;
+> diff --git a/audio/meson.build b/audio/meson.build
+> index 0722224ba9..65a49c1a10 100644
+> --- a/audio/meson.build
+> +++ b/audio/meson.build
+> @@ -19,6 +19,7 @@ foreach m : [
+>    ['sdl', sdl, files('sdlaudio.c')],
+>    ['jack', jack, files('jackaudio.c')],
+>    ['sndio', sndio, files('sndioaudio.c')],
+> +  ['pipewire', pipewire, files('pwaudio.c')],
+>    ['spice', spice, files('spiceaudio.c')]
+>  ]
+>    if m[1].found()
+> diff --git a/audio/pwaudio.c b/audio/pwaudio.c
+> new file mode 100644
+> index 0000000000..aa22f40a80
+> --- /dev/null
+> +++ b/audio/pwaudio.c
+> @@ -0,0 +1,827 @@
+> +/*
+> + * QEMU Pipewire audio driver
+> + *
+> + * Copyright (c) 2023 Red Hat Inc.
+> + *
+> + * Author: Dorinda Bassey       <dbassey@redhat.com>
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
+> + * of this software and associated documentation files (the "Software"),=
+ to deal
+> + * in the Software without restriction, including without limitation the=
+ rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be includ=
+ed in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
+> + * THE SOFTWARE.
 
+SPDX identifier instead would be neat
+
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/module.h"
+> +#include "audio.h"
+> +#include <errno.h>
+> +#include <spa/param/audio/format-utils.h>
+> +#include <spa/utils/ringbuffer.h>
+> +#include <spa/utils/result.h>
+> +
+> +#include <pipewire/pipewire.h>
+> +
+> +#define AUDIO_CAP "pipewire"
+> +#define RINGBUFFER_SIZE    (1u << 22)
+
+Why that much?
+
+> +#define RINGBUFFER_MASK    (RINGBUFFER_SIZE - 1)
+> +#define BUFFER_SAMPLES    512
+> +
+> +#include "audio_int.h"
+> +
+> +enum {
+> +    MODE_SINK,
+> +    MODE_SOURCE
+> +};
+> +
+> +typedef struct pwaudio {
+> +    Audiodev *dev;
+> +    struct pw_thread_loop *thread_loop;
+> +    struct pw_context *context;
+> +
+> +    struct pw_core *core;
+> +    struct spa_hook core_listener;
+> +    int seq;
+> +} pwaudio;
+> +
+> +typedef struct PWVoice {
+> +    pwaudio *g;
+> +    bool enabled;
+> +    struct pw_stream *stream;
+> +    struct spa_hook stream_listener;
+> +    struct spa_audio_info_raw info;
+> +    uint32_t frame_size;
+> +    struct spa_ringbuffer ring;
+> +    uint8_t buffer[RINGBUFFER_SIZE];
+> +
+> +    uint32_t mode;
+> +    struct pw_properties *props;
+> +} PWVoice;
+> +
+> +typedef struct PWVoiceOut {
+> +    HWVoiceOut hw;
+> +    PWVoice v;
+> +} PWVoiceOut;
+> +
+> +typedef struct PWVoiceIn {
+> +    HWVoiceIn hw;
+> +    PWVoice v;
+> +} PWVoiceIn;
+> +
+> +static void
+> +stream_destroy(void *data)
+> +{
+> +    PWVoice *v =3D (PWVoice *) data;
+> +    spa_hook_remove(&v->stream_listener);
+> +    v->stream =3D NULL;
+> +}
+> +
+> +/* output data processing function to read stuffs from the buffer */
+> +static void
+> +playback_on_process(void *data)
+> +{
+> +    PWVoice *v =3D (PWVoice *) data;
+> +    void *p;
+> +    struct pw_buffer *b;
+> +    struct spa_buffer *buf;
+> +    uint32_t n_frames, req, index, n_bytes;
+> +    int32_t avail;
+> +
+> +    if (!v->stream) {
+> +        return;
+> +    }
+> +
+> +    /* obtain a buffer to read from */
+> +    b =3D pw_stream_dequeue_buffer(v->stream);
+> +    if (b =3D=3D NULL) {
+> +        pw_log_warn("out of buffers: %m");
+> +        return;
+> +    }
+> +
+> +    buf =3D b->buffer;
+> +    p =3D buf->datas[0].data;
+> +    if (p =3D=3D NULL) {
+> +        return;
+> +    }
+> +    req =3D b->requested * v->frame_size;
+> +    if (req =3D=3D 0) {
+> +        req =3D 4096 * v->frame_size;
+> +    }
+> +    n_frames =3D SPA_MIN(req, buf->datas[0].maxsize);
+> +    n_bytes =3D n_frames * v->frame_size;
+> +
+> +    /* get no of available bytes to read data from buffer */
+> +
+> +    avail =3D spa_ringbuffer_get_read_index(&v->ring, &index);
+> +
+> +    if (!v->enabled) {
+> +        avail =3D 0;
+> +    }
+> +
+> +    if (avail =3D=3D 0) {
+> +        memset(p, 0, n_bytes);
+> +    } else {
+> +        if (avail < (int32_t) n_bytes) {
+> +            n_bytes =3D avail;
+> +        }
+> +
+> +        spa_ringbuffer_read_data(&v->ring,
+> +                                    v->buffer, RINGBUFFER_SIZE,
+> +                                    index & RINGBUFFER_MASK, p, n_bytes)=
+;
+> +
+> +        index +=3D n_bytes;
+> +        spa_ringbuffer_read_update(&v->ring, index);
+> +    }
+> +
+> +    buf->datas[0].chunk->offset =3D 0;
+> +    buf->datas[0].chunk->stride =3D v->frame_size;
+> +    buf->datas[0].chunk->size =3D n_bytes;
+> +
+> +    /* queue the buffer for playback */
+> +    pw_stream_queue_buffer(v->stream, b);
+> +}
+> +
+> +/* output data processing function to generate stuffs in the buffer */
+> +static void
+> +capture_on_process(void *data)
+> +{
+> +    PWVoice *v =3D (PWVoice *) data;
+> +    void *p;
+> +    struct pw_buffer *b;
+> +    struct spa_buffer *buf;
+> +    int32_t filled;
+> +    uint32_t index, offs, n_bytes;
+> +
+> +    if (!v->stream) {
+> +        return;
+> +    }
+> +
+> +    /* obtain a buffer */
+> +    b =3D pw_stream_dequeue_buffer(v->stream);
+> +    if (b =3D=3D NULL) {
+> +        pw_log_warn("out of buffers: %m");
+> +        return;
+> +    }
+> +
+> +    /* Write data into buffer */
+> +    buf =3D b->buffer;
+> +    p =3D buf->datas[0].data;
+> +    if (p =3D=3D NULL) {
+> +        return;
+> +    }
+> +    offs =3D SPA_MIN(buf->datas[0].chunk->offset, buf->datas[0].maxsize)=
+;
+> +    n_bytes =3D SPA_MIN(buf->datas[0].chunk->size, buf->datas[0].maxsize=
+ - offs);
+> +
+> +    filled =3D spa_ringbuffer_get_write_index(&v->ring, &index);
+> +
+> +    if (!v->enabled) {
+> +        n_bytes =3D 0;
+> +    }
+> +
+> +    if (filled < 0) {
+> +        pw_log_warn("%p: underrun write:%u filled:%d", p, index, filled)=
+;
+> +    } else {
+> +        if ((uint32_t) filled + n_bytes > RINGBUFFER_SIZE) {
+> +            pw_log_warn("%p: overrun write:%u filled:%d + size:%u > max:=
+%u",
+> +            p, index, filled, n_bytes, RINGBUFFER_SIZE);
+> +        }
+> +    }
+> +    spa_ringbuffer_write_data(&v->ring,
+> +                                v->buffer, RINGBUFFER_SIZE,
+> +                                index & RINGBUFFER_MASK,
+> +                                SPA_PTROFF(p, offs, void), n_bytes);
+> +    index +=3D n_bytes;
+> +    spa_ringbuffer_write_update(&v->ring, index);
+> +
+> +    /* queue the buffer for playback */
+> +    pw_stream_queue_buffer(v->stream, b);
+> +}
+> +
+> +static void
+> +on_stream_state_changed(void *_data, enum pw_stream_state old,
+> +                        enum pw_stream_state state, const char *error)
+> +{
+> +    PWVoice *v =3D (PWVoice *) _data;
+> +
+> +    printf("stream state: \"%s\"\n", pw_stream_state_as_string(state));
+> +
+> +    switch (state) {
+> +    case PW_STREAM_STATE_ERROR:
+> +    case PW_STREAM_STATE_UNCONNECTED:
+> +        {
+> +            break;
+> +        }
+> +    case PW_STREAM_STATE_PAUSED:
+> +        printf("node id: %d\n", pw_stream_get_node_id(v->stream));
+> +        break;
+> +    case PW_STREAM_STATE_CONNECTING:
+> +    case PW_STREAM_STATE_STREAMING:
+> +        break;
+> +    }
+> +}
+> +
+> +static const struct pw_stream_events capture_stream_events =3D {
+> +    PW_VERSION_STREAM_EVENTS,
+> +    .destroy =3D stream_destroy,
+> +    .state_changed =3D on_stream_state_changed,
+> +    .process =3D capture_on_process
+> +};
+> +
+> +static const struct pw_stream_events playback_stream_events =3D {
+> +    PW_VERSION_STREAM_EVENTS,
+> +    .destroy =3D stream_destroy,
+> +    .state_changed =3D on_stream_state_changed,
+> +    .process =3D playback_on_process
+> +};
+> +
+> +static size_t
+> +qpw_read(HWVoiceIn *hw, void *data, size_t len)
+> +{
+> +    PWVoiceIn *pw =3D (PWVoiceIn *) hw;
+> +    PWVoice *v =3D &pw->v;
+> +    pwaudio *c =3D v->g;
+> +    const char *error =3D NULL;
+> +    size_t l;
+> +    int32_t avail;
+> +    uint32_t index;
+> +
+> +    pw_thread_loop_lock(c->thread_loop);
+> +    if (pw_stream_get_state(v->stream, &error) !=3D PW_STREAM_STATE_STRE=
+AMING) {
+> +        /* wait for stream to become ready */
+> +        l =3D 0;
+> +        goto done_unlock;
+> +    }
+> +    /* get no of available bytes to read data from buffer */
+> +    avail =3D spa_ringbuffer_get_read_index(&v->ring, &index);
+> +
+> +    if (avail < (int32_t) len) {
+> +        len =3D avail;
+> +    }
+> +
+> +    spa_ringbuffer_read_data(&v->ring,
+> +                             v->buffer, RINGBUFFER_SIZE,
+> +                             index & RINGBUFFER_MASK, data, len);
+> +    index +=3D len;
+> +    spa_ringbuffer_read_update(&v->ring, index);
+> +    l =3D len;
+> +
+> +done_unlock:
+> +    pw_thread_loop_unlock(c->thread_loop);
+> +    return l;
+> +}
+> +
+> +static size_t
+> +qpw_write(HWVoiceOut *hw, void *data, size_t len)
+> +{
+> +    PWVoiceOut *pw =3D (PWVoiceOut *) hw;
+> +    PWVoice *v =3D &pw->v;
+> +    pwaudio *c =3D v->g;
+> +    const char *error =3D NULL;
+> +    const int periods =3D 3;
+> +    size_t l;
+> +    int32_t filled, avail;
+> +    uint32_t index;
+> +
+> +    pw_thread_loop_lock(c->thread_loop);
+> +    if (pw_stream_get_state(v->stream, &error) !=3D PW_STREAM_STATE_STRE=
+AMING) {
+> +        /* wait for stream to become ready */
+> +        l =3D 0;
+> +        goto done_unlock;
+> +    }
+> +    filled =3D spa_ringbuffer_get_write_index(&v->ring, &index);
+> +
+> +    avail =3D BUFFER_SAMPLES * v->frame_size * periods - filled;
+> +
+> +    pw_log_debug("%u %u %u %zu", filled, avail, index, len);
+> +
+> +    if (len > avail) {
+> +        len =3D avail;
+> +    }
+> +
+> +    if (filled < 0) {
+> +        pw_log_warn("%p: underrun write:%u filled:%d", pw, index, filled=
+);
+> +    } else {
+> +        if ((uint32_t) filled + len > RINGBUFFER_SIZE) {
+> +            pw_log_warn("%p: overrun write:%u filled:%d + size:%zu > max=
+:%u",
+> +            pw, index, filled, len, RINGBUFFER_SIZE);
+> +        }
+> +    }
+> +
+> +    spa_ringbuffer_write_data(&v->ring,
+> +                                v->buffer, RINGBUFFER_SIZE,
+> +                                index & RINGBUFFER_MASK, data, len);
+
+It looks like you don't take latency into account. Isn't there a more
+direct/simple pw push API that takes care of internal buffering? The
+intermediate ringbuffer is not nice to deal with.
+
+> +    index +=3D len;
+> +    spa_ringbuffer_write_update(&v->ring, index);
+> +    l =3D len;
+> +
+> +done_unlock:
+> +    pw_thread_loop_unlock(c->thread_loop);
+> +    return l;
+> +}
+> +
+> +static int
+> +audfmt_to_pw(AudioFormat fmt, int endianness)
+> +{
+> +    int format;
+> +
+> +    switch (fmt) {
+> +    case AUDIO_FORMAT_S8:
+> +        format =3D SPA_AUDIO_FORMAT_S8;
+> +        break;
+> +    case AUDIO_FORMAT_U8:
+> +        format =3D SPA_AUDIO_FORMAT_U8;
+> +        break;
+> +    case AUDIO_FORMAT_S16:
+> +        format =3D endianness ? SPA_AUDIO_FORMAT_S16_BE : SPA_AUDIO_FORM=
+AT_S16_LE;
+> +        break;
+> +    case AUDIO_FORMAT_U16:
+> +        format =3D endianness ? SPA_AUDIO_FORMAT_U16_BE : SPA_AUDIO_FORM=
+AT_U16_LE;
+> +        break;
+> +    case AUDIO_FORMAT_S32:
+> +        format =3D endianness ? SPA_AUDIO_FORMAT_S32_BE : SPA_AUDIO_FORM=
+AT_S32_LE;
+> +        break;
+> +    case AUDIO_FORMAT_U32:
+> +        format =3D endianness ? SPA_AUDIO_FORMAT_U32_BE : SPA_AUDIO_FORM=
+AT_U32_LE;
+> +        break;
+> +    case AUDIO_FORMAT_F32:
+> +        format =3D endianness ? SPA_AUDIO_FORMAT_F32_BE : SPA_AUDIO_FORM=
+AT_F32_LE;
+> +        break;
+> +    default:
+> +        dolog("Internal logic error: Bad audio format %d\n", fmt);
+> +        format =3D SPA_AUDIO_FORMAT_U8;
+> +        break;
+> +    }
+> +    return format;
+> +}
+> +
+> +static AudioFormat
+> +pw_to_audfmt(enum spa_audio_format fmt, int *endianness,
+> +             uint32_t *frame_size)
+> +{
+> +    switch (fmt) {
+> +    case SPA_AUDIO_FORMAT_S8:
+> +        *frame_size =3D 1;
+> +        return AUDIO_FORMAT_S8;
+> +    case SPA_AUDIO_FORMAT_U8:
+> +        *frame_size =3D 1;
+> +        return AUDIO_FORMAT_U8;
+> +    case SPA_AUDIO_FORMAT_S16_BE:
+> +        *frame_size =3D 2;
+> +        *endianness =3D 1;
+> +        return AUDIO_FORMAT_S16;
+> +    case SPA_AUDIO_FORMAT_S16_LE:
+> +        *frame_size =3D 2;
+> +        *endianness =3D 0;
+> +        return AUDIO_FORMAT_S16;
+> +    case SPA_AUDIO_FORMAT_U16_BE:
+> +        *frame_size =3D 2;
+> +        *endianness =3D 1;
+> +        return AUDIO_FORMAT_U16;
+> +    case SPA_AUDIO_FORMAT_U16_LE:
+> +        *frame_size =3D 2;
+> +        *endianness =3D 0;
+> +        return AUDIO_FORMAT_U16;
+> +    case SPA_AUDIO_FORMAT_S32_BE:
+> +        *frame_size =3D 4;
+> +        *endianness =3D 1;
+> +        return AUDIO_FORMAT_S32;
+> +    case SPA_AUDIO_FORMAT_S32_LE:
+> +        *frame_size =3D 4;
+> +        *endianness =3D 0;
+> +        return AUDIO_FORMAT_S32;
+> +    case SPA_AUDIO_FORMAT_U32_BE:
+> +        *frame_size =3D 4;
+> +        *endianness =3D 1;
+> +        return AUDIO_FORMAT_U32;
+> +    case SPA_AUDIO_FORMAT_U32_LE:
+> +        *frame_size =3D 4;
+> +        *endianness =3D 0;
+> +        return AUDIO_FORMAT_U32;
+> +    case SPA_AUDIO_FORMAT_F32_BE:
+> +        *frame_size =3D 4;
+> +        *endianness =3D 1;
+> +        return AUDIO_FORMAT_F32;
+> +    case SPA_AUDIO_FORMAT_F32_LE:
+> +        *frame_size =3D 4;
+> +        *endianness =3D 0;
+> +        return AUDIO_FORMAT_F32;
+> +    default:
+> +        *frame_size =3D 1;
+> +        dolog("Internal logic error: Bad spa_audio_format %d\n", fmt);
+> +        return AUDIO_FORMAT_U8;
+> +    }
+> +}
+> +
+> +static int
+> +create_stream(pwaudio *c, PWVoice *v, const char *name)
+> +{
+> +    int res;
+> +    uint32_t n_params;
+> +    const struct spa_pod *params[2];
+> +    uint8_t buffer[1024];
+> +    struct spa_pod_builder b;
+> +
+> +    v->stream =3D pw_stream_new(c->core, name, NULL);
+> +
+> +    if (v->stream =3D=3D NULL) {
+> +        res =3D -errno;
+> +        goto error;
+> +    }
+> +
+> +    if (v->mode =3D=3D MODE_SOURCE) {
+> +        pw_stream_add_listener(v->stream,
+> +                            &v->stream_listener, &capture_stream_events,=
+ v);
+> +    } else {
+> +        pw_stream_add_listener(v->stream,
+> +                            &v->stream_listener, &playback_stream_events=
+, v);
+> +    }
+> +
+> +    n_params =3D 0;
+> +    spa_pod_builder_init(&b, buffer, sizeof(buffer));
+> +    params[n_params++] =3D spa_format_audio_raw_build(&b,
+> +                            SPA_PARAM_EnumFormat,
+> +                            &v->info);
+> +
+> +    /* connect the stream to a sink or source */
+> +    res =3D pw_stream_connect(v->stream,
+> +                            v->mode =3D=3D
+> +                            MODE_SOURCE ? PW_DIRECTION_INPUT :
+> +                            PW_DIRECTION_OUTPUT, PW_ID_ANY,
+> +                            PW_STREAM_FLAG_AUTOCONNECT |
+> +                            PW_STREAM_FLAG_MAP_BUFFERS |
+> +                            PW_STREAM_FLAG_RT_PROCESS, params, n_params)=
+;
+> +    if (res < 0) {
+> +        goto error;
+> +    }
+> +
+> +    return 0;
+> +error:
+> +    return res;
+> +}
+> +
+> +static void
+> +pw_destroy(pwaudio *c)
+> +{
+> +    if (c->thread_loop) {
+> +        pw_thread_loop_stop(c->thread_loop);
+> +    }
+> +    if (c->core) {
+> +        pw_core_disconnect(c->core);
+> +    }
+> +
+> +    g_free(c);
+> +}
+> +
+> +static int
+> +qpw_stream_new(pwaudio *c, PWVoice *v, const char *name)
+> +{
+> +    int r;
+> +
+> +    pw_thread_loop_lock(c->thread_loop);
+> +
+> +    switch (v->info.channels) {
+> +    case 8:
+> +        v->info.position[0] =3D SPA_AUDIO_CHANNEL_FL;
+> +        v->info.position[1] =3D SPA_AUDIO_CHANNEL_FR;
+> +        v->info.position[2] =3D SPA_AUDIO_CHANNEL_FC;
+> +        v->info.position[3] =3D SPA_AUDIO_CHANNEL_LFE;
+> +        v->info.position[4] =3D SPA_AUDIO_CHANNEL_RL;
+> +        v->info.position[5] =3D SPA_AUDIO_CHANNEL_RR;
+> +        v->info.position[6] =3D SPA_AUDIO_CHANNEL_SL;
+> +        v->info.position[7] =3D SPA_AUDIO_CHANNEL_SR;
+> +        break;
+> +    case 6:
+> +        v->info.position[0] =3D SPA_AUDIO_CHANNEL_FL;
+> +        v->info.position[1] =3D SPA_AUDIO_CHANNEL_FR;
+> +        v->info.position[2] =3D SPA_AUDIO_CHANNEL_FC;
+> +        v->info.position[3] =3D SPA_AUDIO_CHANNEL_LFE;
+> +        v->info.position[4] =3D SPA_AUDIO_CHANNEL_RL;
+> +        v->info.position[5] =3D SPA_AUDIO_CHANNEL_RR;
+> +        break;
+> +    case 5:
+> +        v->info.position[0] =3D SPA_AUDIO_CHANNEL_FL;
+> +        v->info.position[1] =3D SPA_AUDIO_CHANNEL_FR;
+> +        v->info.position[2] =3D SPA_AUDIO_CHANNEL_FC;
+> +        v->info.position[3] =3D SPA_AUDIO_CHANNEL_LFE;
+> +        v->info.position[4] =3D SPA_AUDIO_CHANNEL_RC;
+> +        break;
+> +    case 4:
+> +        v->info.position[0] =3D SPA_AUDIO_CHANNEL_FL;
+> +        v->info.position[1] =3D SPA_AUDIO_CHANNEL_FR;
+> +        v->info.position[2] =3D SPA_AUDIO_CHANNEL_FC;
+> +        v->info.position[3] =3D SPA_AUDIO_CHANNEL_RC;
+> +        break;
+> +    case 3:
+> +        v->info.position[0] =3D SPA_AUDIO_CHANNEL_FL;
+> +        v->info.position[1] =3D SPA_AUDIO_CHANNEL_FR;
+> +        v->info.position[2] =3D SPA_AUDIO_CHANNEL_LFE;
+> +        break;
+> +    case 2:
+> +        v->info.position[0] =3D SPA_AUDIO_CHANNEL_FL;
+> +        v->info.position[1] =3D SPA_AUDIO_CHANNEL_FR;
+> +        break;
+> +    case 1:
+> +        v->info.position[0] =3D SPA_AUDIO_CHANNEL_MONO;
+> +        break;
+> +    default:
+> +        for (size_t i =3D 0; i < v->info.channels; i++) {
+> +            v->info.position[i] =3D SPA_AUDIO_CHANNEL_UNKNOWN;
+> +        }
+> +        break;
+> +    }
+> +
+> +    /* create a new unconnected pwstream */
+> +    r =3D create_stream(c, v, name);
+> +    if (r < 0) {
+> +        goto error;
+> +    }
+> +
+> +    pw_thread_loop_unlock(c->thread_loop);
+> +    return r;
+> +
+> +error:
+> +    AUD_log(AUDIO_CAP, "Failed to create stream.");
+> +    pw_thread_loop_unlock(c->thread_loop);
+> +    pw_destroy(c);
+> +    return -1;
+> +}
+> +
+> +static int
+> +qpw_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
+> +{
+> +    PWVoiceOut *pw =3D (PWVoiceOut *) hw;
+> +    PWVoice *v =3D &pw->v;
+> +    struct audsettings obt_as =3D *as;
+> +    pwaudio *c =3D v->g =3D drv_opaque;
+> +    AudiodevPipewireOptions *popts =3D &c->dev->u.pipewire;
+> +    AudiodevPipewirePerDirectionOptions *ppdo =3D popts->out;
+> +    int r;
+> +    v->enabled =3D false;
+> +
+> +    v->mode =3D MODE_SINK;
+> +
+> +    pw_thread_loop_lock(c->thread_loop);
+> +
+> +    v->info.format =3D audfmt_to_pw(as->fmt, as->endianness);
+> +    v->info.channels =3D as->nchannels;
+> +    v->info.rate =3D as->freq;
+> +
+> +    obt_as.fmt =3D
+> +        pw_to_audfmt(v->info.format, &obt_as.endianness, &v->frame_size)=
+;
+> +    v->frame_size *=3D as->nchannels;
+> +
+> +    /* call the function that creates a new stream for playback */
+> +    r =3D qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id);
+> +    if (r < 0) {
+> +        pw_log_error("qpw_stream_new for playback failed\n ");
+> +        goto fail;
+> +    }
+> +
+> +    /* report the audio format we support */
+> +    audio_pcm_init_info(&hw->info, &obt_as);
+> +
+> +    /* report the buffer size to qemu */
+> +    hw->samples =3D BUFFER_SAMPLES;
+> +
+> +    pw_thread_loop_unlock(c->thread_loop);
+> +    return 0;
+> +fail:
+> +    pw_thread_loop_unlock(c->thread_loop);
+> +    return -1;
+> +}
+> +
+> +static int
+> +qpw_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+> +{
+> +    PWVoiceIn *pw =3D (PWVoiceIn *) hw;
+> +    PWVoice *v =3D &pw->v;
+> +    struct audsettings obt_as =3D *as;
+> +    pwaudio *c =3D v->g =3D drv_opaque;
+> +    AudiodevPipewireOptions *popts =3D &c->dev->u.pipewire;
+> +    AudiodevPipewirePerDirectionOptions *ppdo =3D popts->in;
+> +    int r;
+> +    v->enabled =3D false;
+> +
+> +    v->mode =3D MODE_SOURCE;
+> +    pw_thread_loop_lock(c->thread_loop);
+> +
+> +    v->info.format =3D audfmt_to_pw(as->fmt, as->endianness);
+> +    v->info.channels =3D as->nchannels;
+> +    v->info.rate =3D as->freq;
+> +
+> +    obt_as.fmt =3D
+> +        pw_to_audfmt(v->info.format, &obt_as.endianness, &v->frame_size)=
+;
+> +    v->frame_size *=3D as->nchannels;
+> +
+> +    /* call the function that creates a new stream for recording */
+> +    r =3D qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id);
+> +    if (r < 0) {
+> +        pw_log_error("qpw_stream_new for recording failed\n ");
+> +        goto fail;
+> +    }
+> +
+> +    /* report the audio format we support */
+> +    audio_pcm_init_info(&hw->info, &obt_as);
+> +
+> +    /* report the buffer size to qemu */
+> +    hw->samples =3D BUFFER_SAMPLES;
+> +
+> +    pw_thread_loop_unlock(c->thread_loop);
+> +    return 0;
+> +fail:
+> +    pw_thread_loop_unlock(c->thread_loop);
+> +    return -1;
+> +}
+> +
+> +static void
+> +qpw_fini_out(HWVoiceOut *hw)
+> +{
+> +    PWVoiceOut *pw =3D (PWVoiceOut *) hw;
+> +    PWVoice *v =3D &pw->v;
+> +
+> +    if (v->stream) {
+> +        pwaudio *c =3D v->g;
+> +        pw_thread_loop_lock(c->thread_loop);
+> +        pw_stream_destroy(v->stream);
+> +        v->stream =3D NULL;
+> +        pw_thread_loop_unlock(c->thread_loop);
+> +    }
+> +}
+> +
+> +static void
+> +qpw_fini_in(HWVoiceIn *hw)
+> +{
+> +    PWVoiceIn *pw =3D (PWVoiceIn *) hw;
+> +    PWVoice *v =3D &pw->v;
+> +
+> +    if (v->stream) {
+> +        pwaudio *c =3D v->g;
+> +        pw_thread_loop_lock(c->thread_loop);
+> +        pw_stream_destroy(v->stream);
+> +        v->stream =3D NULL;
+> +        pw_thread_loop_unlock(c->thread_loop);
+> +    }
+> +}
+> +
+> +static void
+> +qpw_enable_out(HWVoiceOut *hw, bool enable)
+> +{
+> +    PWVoiceOut *po =3D (PWVoiceOut *) hw;
+> +    PWVoice *v =3D &po->v;
+> +    v->enabled =3D enable;
+> +}
+> +
+> +static void
+> +qpw_enable_in(HWVoiceIn *hw, bool enable)
+> +{
+> +    PWVoiceIn *pi =3D (PWVoiceIn *) hw;
+> +    PWVoice *v =3D &pi->v;
+> +    v->enabled =3D enable;
+> +}
+> +
+> +static void
+> +on_core_error(void *data, uint32_t id, int seq, int res, const char *mes=
+sage)
+> +{
+> +    pwaudio *pw =3D data;
+> +
+> +    pw_log_warn("error id:%u seq:%d res:%d (%s): %s",
+> +                id, seq, res, spa_strerror(res), message);
+> +
+> +    pw_thread_loop_signal(pw->thread_loop, FALSE);
+> +}
+> +
+> +static void
+> +on_core_done(void *data, uint32_t id, int seq)
+> +{
+> +    pwaudio *pw =3D data;
+> +    if (id =3D=3D PW_ID_CORE) {
+> +        pw->seq =3D seq;
+> +        pw_thread_loop_signal(pw->thread_loop, FALSE);
+> +    }
+> +}
+> +
+> +static const struct pw_core_events core_events =3D {
+> +    PW_VERSION_CORE_EVENTS,
+> +    .done =3D on_core_done,
+> +    .error =3D on_core_error,
+> +};
+> +
+> +static void *
+> +qpw_audio_init(Audiodev *dev)
+> +{
+> +    pwaudio *pw;
+> +    pw =3D g_new0(pwaudio, 1);
+> +    pw_init(NULL, NULL);
+> +
+> +    AudiodevPipewireOptions *popts;
+> +    AUD_log(AUDIO_CAP, "Initialize PW context\n");
+> +    assert(dev->driver =3D=3D AUDIODEV_DRIVER_PIPEWIRE);
+> +    popts =3D &dev->u.pipewire;
+> +
+> +    if (!popts->has_latency) {
+> +        popts->has_latency =3D true;
+> +        popts->latency =3D 15000;
+> +    }
+> +
+> +    pw->dev =3D dev;
+> +    pw->thread_loop =3D pw_thread_loop_new("Pipewire thread loop", NULL)=
+;
+> +    if (pw->thread_loop =3D=3D NULL) {
+> +        goto fail;
+> +    }
+> +    pw->context =3D
+> +        pw_context_new(pw_thread_loop_get_loop(pw->thread_loop), NULL, 0=
+);
+> +
+> +    if (pw_thread_loop_start(pw->thread_loop) < 0) {
+> +        goto fail;
+> +    }
+> +
+> +    pw_thread_loop_lock(pw->thread_loop);
+> +
+> +    pw->core =3D pw_context_connect(pw->context, NULL, 0);
+> +    if (pw->core =3D=3D NULL) {
+> +        goto fail;
+> +    }
+> +
+> +    pw_core_add_listener(pw->core, &pw->core_listener, &core_events, pw)=
+;
+> +
+> +    pw_thread_loop_unlock(pw->thread_loop);
+> +
+> +    return pw;
+> +
+> +fail:
+> +    AUD_log(AUDIO_CAP, "Failed to initialize PW context");
+> +    pw_thread_loop_unlock(pw->thread_loop);
+> +    pw_context_destroy(pw->context);
+> +    pw_thread_loop_destroy(pw->thread_loop);
+> +    g_free(pw);
+> +    return NULL;
+> +}
+> +
+> +static void
+> +qpw_audio_fini(void *opaque)
+> +{
+> +    pwaudio *pw =3D opaque;
+> +
+> +    pw_thread_loop_stop(pw->thread_loop);
+> +
+> +    if (pw->core) {
+> +        spa_hook_remove(&pw->core_listener);
+> +        spa_zero(pw->core_listener);
+> +        pw_core_disconnect(pw->core);
+> +    }
+> +
+> +    if (pw->context) {
+> +        pw_context_destroy(pw->context);
+> +    }
+> +    pw_thread_loop_destroy(pw->thread_loop);
+> +
+> +    g_free(pw);
+> +}
+> +
+> +static struct audio_pcm_ops qpw_pcm_ops =3D {
+> +    .init_out =3D qpw_init_out,
+> +    .fini_out =3D qpw_fini_out,
+> +    .write =3D qpw_write,
+> +    .buffer_get_free =3D audio_generic_buffer_get_free,
+> +    .run_buffer_out =3D audio_generic_run_buffer_out,
+> +    .enable_out =3D qpw_enable_out,
+> +
+> +    .init_in =3D qpw_init_in,
+> +    .fini_in =3D qpw_fini_in,
+> +    .read =3D qpw_read,
+> +    .run_buffer_in =3D audio_generic_run_buffer_in,
+> +    .enable_in =3D qpw_enable_in
+> +};
+> +
+> +static struct audio_driver pw_audio_driver =3D {
+> +    .name =3D "pipewire",
+> +    .descr =3D "http://www.pipewire.org/",
+> +    .init =3D qpw_audio_init,
+> +    .fini =3D qpw_audio_fini,
+> +    .pcm_ops =3D &qpw_pcm_ops,
+> +    .can_be_default =3D 1,
+> +    .max_voices_out =3D INT_MAX,
+> +    .max_voices_in =3D INT_MAX,
+> +    .voice_size_out =3D sizeof(PWVoiceOut),
+> +    .voice_size_in =3D sizeof(PWVoiceIn),
+> +};
+> +
+> +static void
+> +register_audio_pw(void)
+> +{
+> +    audio_driver_register(&pw_audio_driver);
+> +}
+> +
+> +type_init(register_audio_pw);
+> diff --git a/meson.build b/meson.build
+> index a76c855312..eafe068044 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -734,6 +734,12 @@ if not get_option('jack').auto() or have_system
+>    jack =3D dependency('jack', required: get_option('jack'),
+>                      method: 'pkg-config', kwargs: static_kwargs)
+>  endif
+> +pipewire =3D not_found
+> +if not get_option('pipewire').auto() or (targetos =3D=3D 'linux' and hav=
+e_system)
+> +  pipewire =3D dependency('libpipewire-0.3', version: '>=3D0.3.60',
+> +                    required: get_option('pipewire'),
+> +                    method: 'pkg-config', kwargs: static_kwargs)
+> +endif
+>  sndio =3D not_found
+>  if not get_option('sndio').auto() or have_system
+>    sndio =3D dependency('sndio', required: get_option('sndio'),
+> @@ -1671,6 +1677,7 @@ if have_system
+>      'jack': jack.found(),
+>      'oss': oss.found(),
+>      'pa': pulse.found(),
+> +    'pipewire': pipewire.found(),
+>      'sdl': sdl.found(),
+>      'sndio': sndio.found(),
+>    }
+> @@ -3949,6 +3956,7 @@ endif
+>  if targetos =3D=3D 'linux'
+>    summary_info +=3D {'ALSA support':    alsa}
+>    summary_info +=3D {'PulseAudio support': pulse}
+> +  summary_info +=3D {'Pipewire support':   pipewire}
+
+Since it is not linux specific, no need to put it there. (filed
+alignment is kind of pointless to me)
+
+>  endif
+>  summary_info +=3D {'JACK support':      jack}
+>  summary_info +=3D {'brlapi support':    brlapi}
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 7e5801db90..1b7847250d 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -21,7 +21,7 @@ option('tls_priority', type : 'string', value : 'NORMAL=
+',
+>  option('default_devices', type : 'boolean', value : true,
+>         description: 'Include a default selection of devices in emulators=
+')
+>  option('audio_drv_list', type: 'array', value: ['default'],
+> -       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss'=
+, 'pa', 'sdl', 'sndio'],
+> +       choices: ['alsa', 'coreaudio', 'default', 'dsound', 'jack', 'oss'=
+, 'pa', 'pipewire', 'sdl', 'sndio'],
+>         description: 'Set audio driver list')
+>  option('block_drv_rw_whitelist', type : 'string', value : '',
+>         description: 'set block driver read-write whitelist (by default a=
+ffects only QEMU, not tools like qemu-img)')
+> @@ -255,6 +255,8 @@ option('oss', type: 'feature', value: 'auto',
+>         description: 'OSS sound support')
+>  option('pa', type: 'feature', value: 'auto',
+>         description: 'PulseAudio sound support')
+> +option('pipewire', type: 'feature', value: 'auto',
+> +       description: 'Pipewire sound support')
+>  option('sndio', type: 'feature', value: 'auto',
+>         description: 'sndio sound support')
+>
+> diff --git a/qapi/audio.json b/qapi/audio.json
+> index 4e54c00f51..b872e9f10d 100644
+> --- a/qapi/audio.json
+> +++ b/qapi/audio.json
+> @@ -324,6 +324,48 @@
+>      '*out':    'AudiodevPaPerDirectionOptions',
+>      '*server': 'str' } }
+>
+> +##
+> +# @AudiodevPipewirePerDirectionOptions:
+> +#
+> +# Options of the Pipewire backend that are used for both playback and
+> +# recording.
+> +#
+> +# @name: name of the sink/source to use
+> +#
+> +# @stream-name: name of the Pipewire stream created by qemu.  Can be
+> +#               used to identify the stream in Pipewire when you
+> +#               create multiple Pipewire devices or run multiple qemu
+> +#               instances (default: audiodev's id, since 7.1)
+> +#
+> +#
+> +# Since: 7.2
+
+Should be 8.0
+
+> +##
+> +{ 'struct': 'AudiodevPipewirePerDirectionOptions',
+> +  'base': 'AudiodevPerDirectionOptions',
+> +  'data': {
+> +    '*name': 'str',
+> +    '*stream-name': 'str' } }
+> +
+> +##
+> +# @AudiodevPipewireOptions:
+> +#
+> +# Options of the Pipewire audio backend.
+> +#
+> +# @in: options of the capture stream
+> +#
+> +# @out: options of the playback stream
+> +#
+> +# @latency: add latency to playback in microseconds
+> +#           (default 44100)
+
+Where is this latency value coming from?
+
+> +#
+> +# Since: 7.2
+
+8.0
+
+
+> +##
+> +{ 'struct': 'AudiodevPipewireOptions',
+> +  'data': {
+> +    '*in':     'AudiodevPipewirePerDirectionOptions',
+> +    '*out':    'AudiodevPipewirePerDirectionOptions',
+> +    '*latency': 'uint32' } }
+> +
+>  ##
+>  # @AudiodevSdlPerDirectionOptions:
+>  #
+> @@ -416,6 +458,7 @@
+>              { 'name': 'jack', 'if': 'CONFIG_AUDIO_JACK' },
+>              { 'name': 'oss', 'if': 'CONFIG_AUDIO_OSS' },
+>              { 'name': 'pa', 'if': 'CONFIG_AUDIO_PA' },
+> +            { 'name': 'pipewire', 'if': 'CONFIG_AUDIO_PIPEWIRE' },
+>              { 'name': 'sdl', 'if': 'CONFIG_AUDIO_SDL' },
+>              { 'name': 'sndio', 'if': 'CONFIG_AUDIO_SNDIO' },
+>              { 'name': 'spice', 'if': 'CONFIG_SPICE' },
+> @@ -456,6 +499,8 @@
+>                     'if': 'CONFIG_AUDIO_OSS' },
+>      'pa':        { 'type': 'AudiodevPaOptions',
+>                     'if': 'CONFIG_AUDIO_PA' },
+> +    'pipewire':  { 'type': 'AudiodevPipewireOptions',
+> +                   'if': 'CONFIG_AUDIO_PIPEWIRE' },
+>      'sdl':       { 'type': 'AudiodevSdlOptions',
+>                     'if': 'CONFIG_AUDIO_SDL' },
+>      'sndio':     { 'type': 'AudiodevSndioOptions',
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index cafd8be8ed..95ed5e5c2d 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -779,6 +779,11 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
+>      "                in|out.name=3D source/sink device name\n"
+>      "                in|out.latency=3D desired latency in microseconds\n=
+"
+>  #endif
+> +#ifdef CONFIG_AUDIO_PIPEWIRE
+> +    "-audiodev pipewire,id=3Did[,prop[=3Dvalue][,...]]\n"
+> +    "                in|out.name=3D source/sink device name\n"
+> +    "                latency=3D desired latency in microseconds\n"
+> +#endif
+>  #ifdef CONFIG_AUDIO_SDL
+>      "-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]\n"
+>      "                in|out.buffer-count=3D number of buffers\n"
+> @@ -942,6 +947,18 @@ SRST
+>          Desired latency in microseconds. The PulseAudio server will try
+>          to honor this value but actual latencies may be lower or higher.
+>
+> +``-audiodev pipewire,id=3Did[,prop[=3Dvalue][,...]]``
+> +    Creates a backend using Pipewire. This backend is available on
+> +    most systems.
+> +
+> +    Pipewire specific options are:
+> +
+> +    ``latency=3Dlatency``
+> +        Add extra latency to playback in microseconds
+> +
+> +    ``in|out.name=3Dsink``
+> +        Use the specified source/sink for recording/playback.
+> +
+>  ``-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]``
+>      Creates a backend using SDL. This backend is available on most
+>      systems, but you should use your platform's native backend if
+> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.s=
+h
+> index 939cc114dd..05c0090118 100644
+> --- a/scripts/meson-buildoptions.sh
+> +++ b/scripts/meson-buildoptions.sh
+> @@ -1,7 +1,8 @@
+>  # This file is generated by meson-buildoptions.py, do not edit!
+>  meson_options_help() {
+> -  printf "%s\n" '  --audio-drv-list=3DCHOICES Set audio driver list [def=
+ault] (choices: alsa/co'
+> -  printf "%s\n" '                           reaudio/default/dsound/jack/=
+oss/pa/sdl/sndio)'
+> +  printf "%s\n" '  --audio-drv-list=3DCHOICES Set audio driver list [def=
+ault] (choices: al'
+> +  printf "%s\n" '                           sa/coreaudio/default/dsound/=
+jack/oss/pa/'
+> +  printf "%s\n" '                           pipewire/sdl/sndio)'
+>    printf "%s\n" '  --block-drv-ro-whitelist=3DVALUE'
+>    printf "%s\n" '                           set block driver read-only w=
+hitelist (by default'
+>    printf "%s\n" '                           affects only QEMU, not tools=
+ like qemu-img)'
+> @@ -135,6 +136,7 @@ meson_options_help() {
+>    printf "%s\n" '  oss             OSS sound support'
+>    printf "%s\n" '  pa              PulseAudio sound support'
+>    printf "%s\n" '  parallels       parallels image format support'
+> +  printf "%s\n" '  pipewire        Pipewire sound support'
+>    printf "%s\n" '  png             PNG support with libpng'
+>    printf "%s\n" '  pvrdma          Enable PVRDMA support'
+>    printf "%s\n" '  qcow1           qcow1 image format support'
+> @@ -370,6 +372,8 @@ _meson_option_parse() {
+>      --disable-pa) printf "%s" -Dpa=3Ddisabled ;;
+>      --enable-parallels) printf "%s" -Dparallels=3Denabled ;;
+>      --disable-parallels) printf "%s" -Dparallels=3Ddisabled ;;
+> +    --enable-pipewire) printf "%s" -Dpipewire=3Denabled ;;
+> +    --disable-pipewire) printf "%s" -Dpipewire=3Ddisabled ;;
+>      --with-pkgversion=3D*) quote_sh "-Dpkgversion=3D$2" ;;
+>      --enable-png) printf "%s" -Dpng=3Denabled ;;
+>      --disable-png) printf "%s" -Dpng=3Ddisabled ;;
+> --
+> 2.39.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
