@@ -2,67 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14146A2FA5
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 14:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78906A2FB0
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 14:04:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWGfA-0000Jp-R1; Sun, 26 Feb 2023 08:02:00 -0500
+	id 1pWGh4-0001g3-2c; Sun, 26 Feb 2023 08:03:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pWGf7-0000Cp-Jf; Sun, 26 Feb 2023 08:01:57 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pWGf4-0002i2-Rs; Sun, 26 Feb 2023 08:01:57 -0500
-Received: from [192.168.0.120] (unknown [180.165.240.213])
- by APP-05 (Coremail) with SMTP id zQCowABnbuo3WPtjQxa8CA--.55575S2;
- Sun, 26 Feb 2023 21:01:44 +0800 (CST)
-Message-ID: <9f35adf5-c523-646e-f16d-866e515f7b82@iscas.ac.cn>
-Date: Sun, 26 Feb 2023 21:01:43 +0800
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWGh2-0001fh-Jd
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 08:03:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWGh0-0003Kp-TG
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 08:03:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677416633;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nar+mx9Fo9R1wZ/9bnH/8iRxIJccAB9474qk2C+g2QY=;
+ b=dLzcKT/tyVOpFFur4hKfs54QnElI1PW9dskVaufVOr9rxcw10Mduj7h42/Mp39uNTKreol
+ O9XhCdrrKF6rtJj299ahyScftUzgEWLAStbvZkvQKcTOrxRhf6tyxt687+JQWDQBDNlcLX
+ SxFBgHCLEwJUhCbPhWDy0v5c5SKGg3U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-64-JXuBHcviMiKuyTt4oIn0pA-1; Sun, 26 Feb 2023 08:03:52 -0500
+X-MC-Unique: JXuBHcviMiKuyTt4oIn0pA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j32-20020a05600c1c2000b003e9bdf02c9fso3892972wms.6
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 05:03:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nar+mx9Fo9R1wZ/9bnH/8iRxIJccAB9474qk2C+g2QY=;
+ b=jRpGFiswG5nDMf3TYMAh7VSFD5XKvDuGBdZcf1bx+hcKv+JxnIbL40y1MMFLMAadmQ
+ JbloeP+tkJHihhh/N0VqXgdUuBF7n4UkHVSkqHwVPtPo83w8EYkTOBp4Clg9U0neQ2KO
+ Mab4bijcJ776Jw+8l4/2V2KZ8beVM0b2eGijRd9B6PFNnrFEMh8+PuPyVCKbfP8j7fzF
+ ned4MbRIrPeuWAojOuZiT1SfI5Yghj/DFp9V8rQ4wNGD+3kY+vn6njemF6lR5NQu4tOC
+ IFkmeMf8VJRLOrTdrCSRXQR02yemCcD5BnxAl8hegkXOp4GeFNL4yRkmTLW+KEN6v3P2
+ UVww==
+X-Gm-Message-State: AO0yUKW3gh04wsOenfk9XY+X+8jlVAoBW+XgbaZbRybGOWs+uPCAbWzO
+ 8hfXeKJ8GcfP5I16qaFvKo1Q0zymU+pr6xlshhQYx8d26Bo/Yj8YUWRZc0B9kdTyYNlHlWQa3HG
+ RPQMSrf3sugv/QYA=
+X-Received: by 2002:a5d:50cc:0:b0:2c7:1a96:efcd with SMTP id
+ f12-20020a5d50cc000000b002c71a96efcdmr6876540wrt.1.1677416630930; 
+ Sun, 26 Feb 2023 05:03:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set+gwxqqy8lnWJ7U07DAU0zZCeswc5PeKyCErP1heJQ+tOINpHRyzX29lmWK1/c/JRBVgiBPig==
+X-Received: by 2002:a5d:50cc:0:b0:2c7:1a96:efcd with SMTP id
+ f12-20020a5d50cc000000b002c71a96efcdmr6876532wrt.1.1677416630669; 
+ Sun, 26 Feb 2023 05:03:50 -0800 (PST)
+Received: from redhat.com ([2.52.24.119]) by smtp.gmail.com with ESMTPSA id
+ p1-20020a056000018100b002c54fb024b2sm4361067wrx.61.2023.02.26.05.03.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Feb 2023 05:03:50 -0800 (PST)
+Date: Sun, 26 Feb 2023 08:03:47 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Max Filippov <jcmvbkbc@gmail.com>, Damien Zammit <damien@zamaudio.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH qemu] timer/i8254: Fix one shot PIT mode
+Message-ID: <20230226080328-mutt-send-email-mst@kernel.org>
+References: <20230226015755.52624-1-damien@zamaudio.com>
+ <20230226035018-mutt-send-email-mst@kernel.org>
+ <2a62e6fa-3c80-5d07-2b65-0ef27ceabb86@zamaudio.com>
+ <CAMo8BfKm1DAfKRo+8rO7rjiQ3N_BwPFPsMmUjwRA=mx1QJqa3w@mail.gmail.com>
+ <59513eba-4cd3-2e0f-c81a-fac19407cb3d@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 51/76] target/riscv: Drop ftemp_new
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
- ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
- tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
-References: <20230225091427.1817156-1-richard.henderson@linaro.org>
- <20230225091427.1817156-52-richard.henderson@linaro.org>
-From: liweiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20230225091427.1817156-52-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowABnbuo3WPtjQxa8CA--.55575S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJw1UWF13Gw4fKr1kur4rKrg_yoW5ZrWfpr
- 4Sk342vF1FqrySva9rtw4DZF1UZr4xCF1UK3s0gw48Cr42qr1kJ395K3yYvFW0vFWkZr4Y
- kF4DCry5Aa12qaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvKb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
- C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
- Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJV
- W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkI
- wI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
- 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
- VjvjDU0xZFpf9x07j1VbkUUUUU=
-X-Originating-IP: [180.165.240.213]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <59513eba-4cd3-2e0f-c81a-fac19407cb3d@eik.bme.hu>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,100 +101,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Sun, Feb 26, 2023 at 01:11:19PM +0100, BALATON Zoltan wrote:
+> On Sun, 26 Feb 2023, Max Filippov wrote:
+> > On Sun, Feb 26, 2023 at 1:18 AM Damien Zammit <damien@zamaudio.com> wrote:
+> > > 
+> > > Hi Michael,
+> > > 
+> > > Thanks for reviewing this on a weekend!
+> > > 
+> > > On 26/2/23 19:51, Michael S. Tsirkin wrote:
+> > > > On Sun, Feb 26, 2023 at 01:58:10AM +0000, Damien Zammit wrote:
+> > > > >       case 0:
+> > > > > -        out = (d >= s->count);
+> > > > > -        break;
+> > > > 
+> > > > 
+> > > > I think you need something like
+> > > >       /* FALLTHRU */
+> > > > here otherwise some gcc versions will warn.
+> > > > 
+> > > > >       case 1:
+> > > > > -        out = (d < s->count);
+> > > > > +        out = (d >= s->count);
+> > > 
+> > > It seems that there are quite a number of these consecutive fallthrough cases
+> > > without /* FALLTHRU */ in i8254_common.c
+> > > 
+> > > Can these be fixed in a separate patch?
+> > 
+> > I believe that the comment is only needed when there's code
+> > between the labels and is not needed between the labels that
+> > follow each other.
+> 
+> I think so too, I have some of these consecutive case labels in my code and
+> never had a problem with that. Only when you have a statement between labels
+> without break is when a comment is needed.
+> 
+> Regards,
+> BALATON Zoltan
 
-On 2023/2/25 17:14, Richard Henderson wrote:
-> Translators are no longer required to free tcg temporaries,
-> therefore there's no need to record temps for later freeing.
-> Replace the few uses with tcg_temp_new_i64.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Weiwei Li
-> ---
->   target/riscv/translate.c | 24 ++++--------------------
->   1 file changed, 4 insertions(+), 20 deletions(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index f9d5d1097e..273e566d66 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -106,9 +106,6 @@ typedef struct DisasContext {
->       TCGv zero;
->       /* Space for 3 operands plus 1 extra for address computation. */
->       TCGv temp[4];
-> -    /* Space for 4 operands(1 dest and <=3 src) for float point computation */
-> -    TCGv_i64 ftemp[4];
-> -    uint8_t nftemp;
->       /* PointerMasking extension */
->       bool pm_mask_enabled;
->       bool pm_base_enabled;
-> @@ -431,12 +428,6 @@ static void gen_set_gpr128(DisasContext *ctx, int reg_num, TCGv rl, TCGv rh)
->       }
->   }
->   
-> -static TCGv_i64 ftemp_new(DisasContext *ctx)
-> -{
-> -    assert(ctx->nftemp < ARRAY_SIZE(ctx->ftemp));
-> -    return ctx->ftemp[ctx->nftemp++] = tcg_temp_new_i64();
-> -}
-> -
->   static TCGv_i64 get_fpr_hs(DisasContext *ctx, int reg_num)
->   {
->       if (!ctx->cfg_ptr->ext_zfinx) {
-> @@ -450,7 +441,7 @@ static TCGv_i64 get_fpr_hs(DisasContext *ctx, int reg_num)
->       case MXL_RV32:
->   #ifdef TARGET_RISCV32
->       {
-> -        TCGv_i64 t = ftemp_new(ctx);
-> +        TCGv_i64 t = tcg_temp_new_i64();
->           tcg_gen_ext_i32_i64(t, cpu_gpr[reg_num]);
->           return t;
->       }
-> @@ -476,7 +467,7 @@ static TCGv_i64 get_fpr_d(DisasContext *ctx, int reg_num)
->       switch (get_xl(ctx)) {
->       case MXL_RV32:
->       {
-> -        TCGv_i64 t = ftemp_new(ctx);
-> +        TCGv_i64 t = tcg_temp_new_i64();
->           tcg_gen_concat_tl_i64(t, cpu_gpr[reg_num], cpu_gpr[reg_num + 1]);
->           return t;
->       }
-> @@ -496,12 +487,12 @@ static TCGv_i64 dest_fpr(DisasContext *ctx, int reg_num)
->       }
->   
->       if (reg_num == 0) {
-> -        return ftemp_new(ctx);
-> +        return tcg_temp_new_i64();
->       }
->   
->       switch (get_xl(ctx)) {
->       case MXL_RV32:
-> -        return ftemp_new(ctx);
-> +        return tcg_temp_new_i64();
->   #ifdef TARGET_RISCV64
->       case MXL_RV64:
->           return cpu_gpr[reg_num];
-> @@ -1207,8 +1198,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->       ctx->cs = cs;
->       ctx->ntemp = 0;
->       memset(ctx->temp, 0, sizeof(ctx->temp));
-> -    ctx->nftemp = 0;
-> -    memset(ctx->ftemp, 0, sizeof(ctx->ftemp));
->       ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
->       ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
->       ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
-> @@ -1244,11 +1233,6 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
->           ctx->temp[i] = NULL;
->       }
->       ctx->ntemp = 0;
-> -    for (i = ctx->nftemp - 1; i >= 0; --i) {
-> -        tcg_temp_free_i64(ctx->ftemp[i]);
-> -        ctx->ftemp[i] = NULL;
-> -    }
-> -    ctx->nftemp = 0;
->   
->       /* Only the first insn within a TB is allowed to cross a page boundary. */
->       if (ctx->base.is_jmp == DISAS_NEXT) {
+I just tried and it looks like you are right. Pls ignore sorry about the
+noise.
+
+-- 
+MST
 
 
