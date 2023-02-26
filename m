@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4FD6A3345
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 18:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F295D6A3346
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 18:41:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWKzb-0000Ki-S3; Sun, 26 Feb 2023 12:39:23 -0500
+	id 1pWL0r-000155-8c; Sun, 26 Feb 2023 12:40:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pWKzZ-0000Js-9Q
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 12:39:21 -0500
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
+ id 1pWL0p-00014R-M9
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 12:40:39 -0500
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pWKzX-00005g-JL
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 12:39:21 -0500
-Received: by mail-ot1-x331.google.com with SMTP id
- f19-20020a9d5f13000000b00693ce5a2f3eso2385296oti.8
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 09:39:19 -0800 (PST)
+ id 1pWL0n-0000fI-QI
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 12:40:39 -0500
+Received: by mail-oi1-x235.google.com with SMTP id bp19so813503oib.4
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 09:40:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=KUA8q3Fj41xJHwdHNcG8P4gH+u93c7k9hWi14N+NnZs=;
- b=DZ6wUn1a/1BIx9OvdE5vZFX6VhA+LvRjk5pGcazk41q5F6Kd+0pY0OeIYhwsUWwcsz
- kq2RDEvC8eub1LwhYZ2/zL06A3T5M/JKaTUiUKxBOW8mhifny2dmMFGGLZv6ZVqn/6dR
- ChqMrDl0sHDhv0d6GRGHgtJ/z/QUF9AgZyk+VMhI6J+SM335QFJeu45LXmrw9x1wTX3/
- HAvixQD+L3rUxJU7uraJ6VJCxgjkbuY1uPfk7ZMdpRcD3ZrJbY/Pe0zonrHbiLWcnOJC
- GoYpK9nsIyvHUKQN5e8esWZXOc50mWUKQJdoG/LdquGt92DluRFO7GMWUH5EQL1MW3Vr
- LXoQ==
+ bh=c6LHvOc90J63so5eZbunqRgg+90Ljlg6DRiMf+4yVwg=;
+ b=j+GeVa1+mbuOwh4Tat9VKE6Fab+sc+mIiSK2+QGtI01P0U0JH9uK2JPQs2dfY+iHl6
+ AQjrJUx6tWUitMXcxQgKDimgz0qjIuXpQqNpYXugcolCsXsnKSO5KzjU2272Y+IiqZ0N
+ HFD1v68E1CgE09gnLrY2dlvc/WHLCfG8umiruMgZlFTbX0K98qlBqlmJ1RjIG0t2I9UQ
+ jtpxrV93IRf0oYIE7e7cyKfq63opfaNvExz0uJbgLsoXEGSqUYhVQCNckCQZTa+zWUyM
+ joqk5pHg8OZWch69FGBPhDCnKLv1ebMGVAk/tsKwylHxK5b365zgCpwhw53JTEWOVHJ0
+ GTfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KUA8q3Fj41xJHwdHNcG8P4gH+u93c7k9hWi14N+NnZs=;
- b=3yg7glnJzew0DC6c2WkBf/XW0Z/pYoYlO/YR6T3rxn/s3h3XaVH97MVHv9JFdDM/SY
- zXccoKV3LsP4NRIoQLwOj/tK3VB2usLFzsiSdPFR6v5UTQwDG+piUL1U7Q30crSgWzKY
- 8Z18hBfLw/76ROetdFVkv3fJ52fV+MbUfuLVaD96NL3muVrgvbUj+GGYStxPWfQo+yHs
- BHX4i6apKhAQGXV7EfC3I+d1i5o0R1ALVnk8jX7/H440NJujGVXhpZr9hzOvhEVBigSL
- 7ILPW0uPWLuqZb5Xcmc8U5O0nuTEz0z6jrmCriwWf4RrbLqjdAFZBt8Os7RQUO6g5jIK
- Uf9A==
-X-Gm-Message-State: AO0yUKWaz6v8gl3gKZYZhSH3VnROpFhe1QRdruv0YxT+20mcrnxpCuPh
- lCZwo0jDdxxbS7DBi3q2l/apXQ==
-X-Google-Smtp-Source: AK7set+rfB13Qt1k8oMlY60zTueBT+f/WNt6tonTOuSwLG/YcHPw2RsB5/0nQedxQzkFQ1mkmF2F6Q==
-X-Received: by 2002:a05:6830:4393:b0:68d:51d9:3321 with SMTP id
- s19-20020a056830439300b0068d51d93321mr11592277otv.22.1677433158086; 
- Sun, 26 Feb 2023 09:39:18 -0800 (PST)
+ bh=c6LHvOc90J63so5eZbunqRgg+90Ljlg6DRiMf+4yVwg=;
+ b=zngZN2RWTrZw8ASs34FlGPU5sqAzC0pKxcAekj/025Y5U4ZJfnKxIkJbQad9q7STLj
+ L7NjrDzgdLqNsQVSsfZ4Ye6tigNVikcgMkqrsGalYRmwvL0XYulpFvus0WDVblCKKG2x
+ 3qk0mUHq9jy6uq5Dl/rGLAepFw2ABVowuoEGlm0aUl9d8AmxYS6DoI8GOBJ9yH8PLelZ
+ ixdDHtKIDZKM3n/w0YdXs9rd0yrJnptT0cXp3j+sm0927nBvQ8+FpXpHyk2g6aFsvd/i
+ p1sk+phPfK/YpzxVbxiNd7Q7BBc2cYt/HJCfSIjcQjDQpNV2hSbMB/lxg8BiJEMz/pny
+ 3duA==
+X-Gm-Message-State: AO0yUKVJe5aowhv2BrXepmJYPu/QeZGkctB9IsjbJczcoTMqP2MUFRer
+ zDoiZg/p1SkV/bkaj/XZL8MgVvLKgC1k5DyQ
+X-Google-Smtp-Source: AK7set+cUCNGnY70jyDhgzXyCY79L19CgW9nyIoMhMQShBrszIyabdP1yoA3IyKnrqDbNfKsWR8izg==
+X-Received: by 2002:a05:6808:144c:b0:37f:b48d:cd80 with SMTP id
+ x12-20020a056808144c00b0037fb48dcd80mr3406561oiv.4.1677433236067; 
+ Sun, 26 Feb 2023 09:40:36 -0800 (PST)
 Received: from [192.168.68.107] ([189.110.112.117])
  by smtp.gmail.com with ESMTPSA id
- m10-20020a9d73ca000000b0068d3ec1427bsm1751868otk.69.2023.02.26.09.39.15
+ a20-20020a05683012d400b00690df568258sm1739639otq.63.2023.02.26.09.40.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Feb 2023 09:39:17 -0800 (PST)
-Message-ID: <6792b6c7-0ed4-80e4-f34a-9721280f6065@ventanamicro.com>
-Date: Sun, 26 Feb 2023 14:39:13 -0300
+ Sun, 26 Feb 2023 09:40:35 -0800 (PST)
+Message-ID: <71c44bac-fe89-a8a7-8996-c8635f1f9da9@ventanamicro.com>
+Date: Sun, 26 Feb 2023 14:40:31 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 0/4] RISCVCPUConfig related cleanups
+Subject: Re: [PATCH] target/riscv/vector_helper.c: create
+ vext_set_tail_elems_1s()
 Content-Language: en-US
-To: liweiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org
+To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- zhiwei_liu@linux.alibaba.com
-References: <20230224174520.92490-1-dbarboza@ventanamicro.com>
- <72692287-da2f-86a9-c313-6c4ae6454b46@iscas.ac.cn>
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
+References: <20230221184525.140704-1-dbarboza@ventanamicro.com>
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <72692287-da2f-86a9-c313-6c4ae6454b46@iscas.ac.cn>
+In-Reply-To: <20230221184525.140704-1-dbarboza@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x331.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x235.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,44 +95,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Thanks for the reviews!
 
 
-On 2/25/23 03:47, liweiwei wrote:
-> 
-> On 2023/2/25 01:45, Daniel Henrique Barboza wrote:
->> Hi,
->>
->> These cleanups were suggested by LIU Zhiwei during the review of the
->> RISCV_FEATURE_* cleanups, currently on version 7 [1].
->>
->> These are dependent on the patch "[PATCH v7 01/10] target/riscv: introduce
->> riscv_cpu_cfg()" from [1] because we use the riscv_cpu_cfg() API.
->>
->>
->> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg06467.html
->>
->> Daniel Henrique Barboza (4):
->>    target/riscv/csr.c: use env_archcpu() in ctr()
->>    target/riscv/csr.c: simplify mctr()
->>    target/riscv/csr.c: use riscv_cpu_cfg() to avoid env_cpu() pointers
->>    target/riscv/csr.c: avoid env_archcpu() usages when reading
->>      RISCVCPUConfig
->>
->>   target/riscv/csr.c | 90 +++++++++++++---------------------------------
->>   1 file changed, 24 insertions(+), 66 deletions(-)
->>
-> As  I suggested in another patch, cpu_get_cfg() can also be used in vector_helper.c.
-
-
-I decided to do it in a separated series together with the vector_helper.c change
-I did last week:
+I decided to take this patch (acks included) and send it in together with
+a cleanup of the env_archcpu() usages in vector_helper.c:
 
 
 https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg07566.html
 
-
-The vector_change I did prior eliminated some of the env_archcpu() we want to
-avoid so makes sense to one after the other.
 
 
 Thanks,
@@ -141,11 +111,174 @@ Thanks,
 
 Daniel
 
-
+On 2/21/23 15:45, Daniel Henrique Barboza wrote:
+> Commit 752614cab8e6 ("target/riscv: rvv: Add tail agnostic for vector
+> load / store instructions") added code to set the tail elements to 1 in
+> the end of vext_ldst_stride(), vext_ldst_us(), vext_ldst_index() and
+> vext_ldff(). Aside from a env->vl versus an evl value being used in the
+> first loop, the code is being repeated 4 times.
 > 
-> Regards,
+> Create a helper to avoid code repetition in all those functions.
+> Arguments that are used in the callers (nf, esz and max_elems) are
+> passed as arguments. All other values are being derived inside the
+> helper.
 > 
-> Weiwei Li
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>   target/riscv/vector_helper.c | 86 +++++++++++++-----------------------
+>   1 file changed, 30 insertions(+), 56 deletions(-)
 > 
-> 
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 00de879787..7d2e3978f1 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -267,6 +267,28 @@ GEN_VEXT_ST_ELEM(ste_h, int16_t, H2, stw)
+>   GEN_VEXT_ST_ELEM(ste_w, int32_t, H4, stl)
+>   GEN_VEXT_ST_ELEM(ste_d, int64_t, H8, stq)
+>   
+> +static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,
+> +                                   void *vd, uint32_t desc, uint32_t nf,
+> +                                   uint32_t esz, uint32_t max_elems)
+> +{
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> +    uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> +    uint32_t vta = vext_vta(desc);
+> +    uint32_t registers_used;
+> +    int k;
+> +
+> +    for (k = 0; k < nf; ++k) {
+> +        vext_set_elems_1s(vd, vta, (k * max_elems + vl) * esz,
+> +                          (k * max_elems + max_elems) * esz);
+> +    }
+> +
+> +    if (nf * max_elems % total_elems != 0) {
+> +        registers_used = ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> +        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> +                          registers_used * vlenb);
+> +    }
+> +}
+> +
+>   /*
+>    *** stride: access vector element from strided memory
+>    */
+> @@ -281,8 +303,6 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>       uint32_t nf = vext_nf(desc);
+>       uint32_t max_elems = vext_max_elems(desc, log2_esz);
+>       uint32_t esz = 1 << log2_esz;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+>       uint32_t vma = vext_vma(desc);
+>   
+>       for (i = env->vstart; i < env->vl; i++, env->vstart++) {
+> @@ -301,18 +321,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>           }
+>       }
+>       env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    for (k = 0; k < nf; ++k) {
+> -        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> -                          (k * max_elems + max_elems) * esz);
+> -    }
+> -    if (nf * max_elems % total_elems != 0) {
+> -        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> -        uint32_t registers_used =
+> -            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> -        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> -                          registers_used * vlenb);
+> -    }
+> +
+> +    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+>   }
+>   
+>   #define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)                        \
+> @@ -359,8 +369,6 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+>       uint32_t nf = vext_nf(desc);
+>       uint32_t max_elems = vext_max_elems(desc, log2_esz);
+>       uint32_t esz = 1 << log2_esz;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+>   
+>       /* load bytes from guest memory */
+>       for (i = env->vstart; i < evl; i++, env->vstart++) {
+> @@ -372,18 +380,8 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+>           }
+>       }
+>       env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    for (k = 0; k < nf; ++k) {
+> -        vext_set_elems_1s(vd, vta, (k * max_elems + evl) * esz,
+> -                          (k * max_elems + max_elems) * esz);
+> -    }
+> -    if (nf * max_elems % total_elems != 0) {
+> -        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> -        uint32_t registers_used =
+> -            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> -        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> -                          registers_used * vlenb);
+> -    }
+> +
+> +    vext_set_tail_elems_1s(env, evl, vd, desc, nf, esz, max_elems);
+>   }
+>   
+>   /*
+> @@ -484,8 +482,6 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+>       uint32_t vm = vext_vm(desc);
+>       uint32_t max_elems = vext_max_elems(desc, log2_esz);
+>       uint32_t esz = 1 << log2_esz;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+>       uint32_t vma = vext_vma(desc);
+>   
+>       /* load bytes from guest memory */
+> @@ -505,18 +501,8 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+>           }
+>       }
+>       env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    for (k = 0; k < nf; ++k) {
+> -        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> -                          (k * max_elems + max_elems) * esz);
+> -    }
+> -    if (nf * max_elems % total_elems != 0) {
+> -        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> -        uint32_t registers_used =
+> -            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> -        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> -                          registers_used * vlenb);
+> -    }
+> +
+> +    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+>   }
+>   
+>   #define GEN_VEXT_LD_INDEX(NAME, ETYPE, INDEX_FN, LOAD_FN)                  \
+> @@ -585,8 +571,6 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+>       uint32_t vm = vext_vm(desc);
+>       uint32_t max_elems = vext_max_elems(desc, log2_esz);
+>       uint32_t esz = 1 << log2_esz;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+>       uint32_t vma = vext_vma(desc);
+>       target_ulong addr, offset, remain;
+>   
+> @@ -647,18 +631,8 @@ ProbeSuccess:
+>           }
+>       }
+>       env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    for (k = 0; k < nf; ++k) {
+> -        vext_set_elems_1s(vd, vta, (k * max_elems + env->vl) * esz,
+> -                          (k * max_elems + max_elems) * esz);
+> -    }
+> -    if (nf * max_elems % total_elems != 0) {
+> -        uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> -        uint32_t registers_used =
+> -            ((nf * max_elems) * esz + (vlenb - 1)) / vlenb;
+> -        vext_set_elems_1s(vd, vta, (nf * max_elems) * esz,
+> -                          registers_used * vlenb);
+> -    }
+> +
+> +    vext_set_tail_elems_1s(env, env->vl, vd, desc, nf, esz, max_elems);
+>   }
+>   
+>   #define GEN_VEXT_LDFF(NAME, ETYPE, LOAD_FN)               \
 
