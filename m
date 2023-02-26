@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0245C6A336A
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 19:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BC46A33E4
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 21:15:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWLh5-00013C-9R; Sun, 26 Feb 2023 13:24:19 -0500
+	id 1pWNOz-0004gM-E0; Sun, 26 Feb 2023 15:13:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWLh3-00012o-TM
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 13:24:17 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWNOx-0004g5-0q
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 15:13:43 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWLh2-0001li-B4
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 13:24:17 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- ay29-20020a05600c1e1d00b003e9f4c2b623so5682231wmb.3
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 10:24:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWNOv-0007EV-42
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 15:13:42 -0500
+Received: by mail-pl1-x629.google.com with SMTP id y11so561168plg.1
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 12:13:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FWMwjHf49m5E8/9KwysLnylCdgJZJjLpQg/sl7KuPck=;
- b=zgliCXHgFA5SuctiwD4s+0GceC3w8uc1mzL+PwTTKRxPa0paIvRlGK+Ccz5ePAyjNk
- 1D5Niy8WMvwFs1+CMJhxeTTIhbuIGEOq3gW1YSMsy302/v135bzurAv2FQ2xQX5FIlGt
- qCtNKBxQECWOeTvQiVj2yav163nncQMaKN62jox9ABhBQUMiNnLrTiXaesn2XqgChNW2
- 9vblQtFzgNKmTUA8LUAofI+ZaurKmbl//4XqrNaaZkj59GR+7ay1irGCq+6/OVxxIXSi
- 2Rye46aMfmJ0RiGjsN8TR90Uf1Ls7uYb5Fgwfpvo5a2zDbCCPwLMnlVnIintRS7sLRXo
- 1+6g==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SCdbcZwfJDUcfhBRHtuAc9KRoqltNB5eZFxswt1VGME=;
+ b=I53VnQc4UQ6A0BO+S5YcNRPLuw61CBxasC5rkV43kHVcOt3A8mRzlw9dWGwTYziII/
+ u+Om8Pdm3wUNVOmto6M7v6hOCdpFD6OQiQmY9wsQNTqyGmsmjS+/PwZtfBXl1ISOFq+Y
+ 5VU2cEoIt1UyXBqBDZKrh0ktk7bwBCOQ+lBvkB0BbhB41jaU7B9nE0PeCjuIZV5mRXS7
+ 6vwbN4PyvEpHLfRjGkJVRM9xyNfJQsDxWK5VLXSnUQ4gBud/v7G6S6LHeySwopTUXeVn
+ UWfvqzhS+COHOZaGD+6YL0fyteRimfev1mAzqjtNzqHNaLe0JEJ/8q1ajl4WZABmbzFW
+ c82A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FWMwjHf49m5E8/9KwysLnylCdgJZJjLpQg/sl7KuPck=;
- b=TueWRaAxQ4lkktBhJExyVG158S9anPeBMsl7zt/o0cv285392IIYXXU5c+m1fy4nx8
- NRJ/MMoTtn6NYGPxObpaYM1l7s/cSbXpiSXgE942GBgxuSxUAu9XHNr4TsXAr3vviaC7
- X3Wl1dpNJRTjfU7YelPlSaGuQt83T4ZNMvnD+Kp5SDQkP9PgS9wa5LsZ+DlLg39sW1K9
- XH2fC1lo9vmXz93U6QKONJoDRPfMGu043U94/rULdhg0WNtNHrpAiV0e1FXEkinO1uJK
- 4B1Vl90Y4RYC5Igxw7xPdS2fIESbXZmdhDN9Mr0+bsQWzoCzhiwJQuTSpUd4FDyGYR7+
- W8Tw==
-X-Gm-Message-State: AO0yUKVpOoI1CggmiCHJARruysqEe4hpNHZ04DIg5dm2gxrcfC9oll/P
- SC6GsyEHNGBjq0SuFpFIQ7kgzg==
-X-Google-Smtp-Source: AK7set+2zIyXKA2U5lZEWYRsdh1M29+Y9hxFF3a+58IM5W/KIxphsP/C6NTCMArHa5qhwME78XzxOA==
-X-Received: by 2002:a05:600c:3d1a:b0:3eb:3945:d406 with SMTP id
- bh26-20020a05600c3d1a00b003eb3945d406mr3089574wmb.16.1677435854876; 
- Sun, 26 Feb 2023 10:24:14 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- u26-20020a05600c441a00b003e21638c0edsm6656814wmn.45.2023.02.26.10.24.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Feb 2023 10:24:14 -0800 (PST)
-Message-ID: <0f790eb2-e891-640f-a3cf-d3403eccc934@linaro.org>
-Date: Sun, 26 Feb 2023 19:24:12 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SCdbcZwfJDUcfhBRHtuAc9KRoqltNB5eZFxswt1VGME=;
+ b=eY8GqGZwDS6lhv6N0dhx+GGMVaZeYSm11nDcqrPC8z+G7NZbIsDmkI5dw15j0SvL0p
+ Meu4b0ILaSE/iOsohh7qqSaes1hJYXcxjVX/kynI7gArNMx6Nh5nY7UJYIsuds7iZY0n
+ XTApqWku3pbuhto7pLi5hdJpkX6oHx+bqpGx4lWqiB4vGC25+VrtTRc43Oao4NaHVxst
+ 7Z6n+ZLiIlTyjLRdN8sOpUrfg4BVuH8MnXgz02RpZjswwQkMnaR6iQ/C5ax3ZCTbehZ6
+ RCT/UUQ9PPu7daxviawAE+4h9RXGTiVt/YJkQ4ajO8lLHZIc9wpBoPzRb9Ug8ob4N9XR
+ VoiQ==
+X-Gm-Message-State: AO0yUKU7k6Xw0i3isU3QvL9J0IgGDyzLUBpdYoH4MkMouhnxj1rxIJc1
+ iLpTIIJUdPseiBlGAcl3Yn+/PqQpDkWGKXy0RDt9OQ==
+X-Google-Smtp-Source: AK7set/tOH9fVIRGQ6nWa8hft7aple/xoaKYFas3LMQzDPY0ONM12URL+HyIdpXmTm+hqzqDXFCdWRotbVHPXjAqW5I=
+X-Received: by 2002:a17:903:1313:b0:19a:b151:eb83 with SMTP id
+ iy19-20020a170903131300b0019ab151eb83mr5182154plb.13.1677442418770; Sun, 26
+ Feb 2023 12:13:38 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 2/2] target/riscv/vector_helper.c: avoid env_archcpu()
- when reading RISCVCPUConfig
-Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
- liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
-References: <20230226170514.588071-1-dbarboza@ventanamicro.com>
- <20230226170514.588071-3-dbarboza@ventanamicro.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230226170514.588071-3-dbarboza@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+References: <20230223155720.310593-1-alex.bennee@linaro.org>
+ <CAFEAcA_bqLjiF6VHABTRop7HsdgTpd1KVJzTgpXvXgo+uuABtg@mail.gmail.com>
+ <87sfeurgb4.fsf@linaro.org> <8fe14d63-ebe1-4a1c-ab1d-ea96718e278e@linaro.org>
+In-Reply-To: <8fe14d63-ebe1-4a1c-ab1d-ea96718e278e@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 26 Feb 2023 20:13:27 +0000
+Message-ID: <CAFEAcA8Ae0vQmo4AZkkKKJHruR5EeC9kxVYHcPzU23gurwa0zw@mail.gmail.com>
+Subject: Re: [PULL 00/13] testing updates (gitlab, cirrus, docker, avocado,
+ windows)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,16 +88,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/2/23 18:05, Daniel Henrique Barboza wrote:
-> This file has several uses of env_archcpu() that are used solely to read
-> cfg->vlen. Use the new riscv_cpu_cfg() inline instead.
-> 
-> Suggested-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->   target/riscv/vector_helper.c | 20 ++++++++++----------
->   1 file changed, 10 insertions(+), 10 deletions(-)
+On Fri, 24 Feb 2023 at 21:23, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> On 24/2/23 20:52, Alex Benn=C3=A9e wrote:
+> >
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> >
+> >> On Thu, 23 Feb 2023 at 15:57, Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+> >>>
+> >>> The following changes since commit 79b677d658d3d35e1e776826ac4abb28cd=
+ce69b8:
+> >>>
+> >>>    Merge tag 'net-pull-request' of https://github.com/jasowang/qemu
+> >>> into staging (2023-02-21 11:28:31 +0000)
+> >>>
+> >>> are available in the Git repository at:
+> >>>
+> >>>    https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-230223-=
+1
+> >>>
+> >>> for you to fetch changes up to e9969376f01180d7bcbee25ae8333983da7eda=
+2c:
+> >>>
+> >>>    cirrus.yml: Improve the windows_msys2_task (2023-02-23 15:48:23 +0=
+000)
+> >>>
+> >>> ----------------------------------------------------------------
+> >>> testing updates:
+> >>>
+> >>>    - ensure socat available for tests
+> >>>    - skip socat tests for MacOS
+> >>>    - properly clean up fifos after use
+> >>>    - make fp-test less chatty
+> >>>    - store test artefacts on Cirrus
+> >>>    - control custom runners with QEMU_CI knobs
+> >>>    - disable benchmark runs under tsan build
+> >>>    - update ubuntu 2004 to 2204
+> >>>    - skip nios2 kernel replay test
+> >>>    - add tuxrun baselines to avocado
+> >>>    - binary build of tricore tools
+> >>>    - export test results on cross builds
+> >>>    - improve windows builds
+> >>>
+> >>> ----------------------------------------------------------------
+> >>
+> >> So I've been applying pullreqs relying on a combination of the
+> >> private-runner CI jobs plus using the free minutes allowance
+> >> on my personal gitlab account, and ad-hoc local builds. I'm
+> >> a bit reluctant to do that for this one though, because it's
+> >> touching all the gitlab config and we won't be able test that
+> >> that is OK until we can do a full run with the standard config.
+> >> What do you think ?
+>
+> What is the alternative, waiting 5 days up to March 1st?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+That would be the other option, yes.
 
+-- PMM
 
