@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8EC36A2F6D
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 13:40:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8716A2F91
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Feb 2023 14:00:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWGJJ-0002f6-Es; Sun, 26 Feb 2023 07:39:26 -0500
+	id 1pWGc5-0006Wl-8U; Sun, 26 Feb 2023 07:58:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pWGJG-0002eg-8U
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 07:39:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pWGJE-0004Ip-EQ
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 07:39:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677415158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2WsPDKCuViy6SniuXUMfmKkbxkBR28aBLrMuwO5ZP28=;
- b=ZAANsiA+LQOgJugD0rwY7OsS3BzmOcCMxRvivEILv1tBz8p+VC1vZZu3VkBa/9dUBCGhaC
- KQZwBoIr5e+MmpTSjZdZcOPQapier4usyHAVdDkYhtIhcMd9hycJWHAFYBUoo3QadZ1Dqq
- Q2LTq2Qy2h0q39ZO2KE+kaGdXgi3jvU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-610-PDhjhpZdN-qNpj2JqmfCfQ-1; Sun, 26 Feb 2023 07:39:16 -0500
-X-MC-Unique: PDhjhpZdN-qNpj2JqmfCfQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- c1-20020a0564021f8100b004acbe232c03so4728854edc.9
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 04:39:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2WsPDKCuViy6SniuXUMfmKkbxkBR28aBLrMuwO5ZP28=;
- b=BHIBb3bVs38yd8CzE2vWRlrs/CpWpJqLhB2QdTX+CyaoT2XxwWKrYgkG1h39B4XxOe
- cgYQJi1J9MP78Ce3OWBoi/Jy1PttmZfmWnyhcim6S+ev+kTiBtO5k7EYVTXOKNmkToYa
- YcJTm6tw314hB6vRKxogi9rCFRiXdjKXQiYtenABE51iq900e2+kQCzg1M7V0uFlx34z
- 64bcokkGWtz20Hd/2f5NFK7olrpSN67aTAwGlr+wUN42RgOyHifFYXso9bCb00igOXRX
- YyuLfpcr8XT5qAiWJ0I4eJIN8OY+r0CslCVZJNpkovnVjqfDeNe8S5eHYkTcacXfXldW
- Ypqw==
-X-Gm-Message-State: AO0yUKXCVtuHM+O85A2ILKHylgS3dtlEfnpvgaFs3t9IIkYwfPEnspWV
- OMXaKvHOhxLA65ZitlUvv5/k/KsqLqJF5kLOwToJWab40me+0209exmUfOylypfDS9q4XQvS7+5
- wA43LFgnJi39TdapEKMRbA8Q9qUlGJNI=
-X-Received: by 2002:a17:906:9419:b0:877:e539:810b with SMTP id
- q25-20020a170906941900b00877e539810bmr13421101ejx.2.1677415155713; 
- Sun, 26 Feb 2023 04:39:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set+KgOWgBZylZwy5GrnAudAKszmwJiXi8ymkAxGOrjjVXKzGsOwVdsDOxFQhe25tGyJGO4G+kdWCwa6HvYmsBkI=
-X-Received: by 2002:a17:906:9419:b0:877:e539:810b with SMTP id
- q25-20020a170906941900b00877e539810bmr13421096ejx.2.1677415155447; Sun, 26
- Feb 2023 04:39:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pWGc2-0006Vu-4x; Sun, 26 Feb 2023 07:58:46 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pWGbz-0001J5-3t; Sun, 26 Feb 2023 07:58:45 -0500
+Received: from [192.168.0.120] (unknown [180.165.240.213])
+ by APP-05 (Coremail) with SMTP id zQCowAB3OqBqV_tjFdi7CA--.55403S2;
+ Sun, 26 Feb 2023 20:58:19 +0800 (CST)
+Message-ID: <0c1f5d05-9dc3-24d7-af0d-679d8402572e@iscas.ac.cn>
+Date: Sun, 26 Feb 2023 20:58:17 +0800
 MIME-Version: 1.0
-References: <20230225094903.53167-1-philmd@linaro.org>
-In-Reply-To: <20230225094903.53167-1-philmd@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Sun, 26 Feb 2023 16:39:03 +0400
-Message-ID: <CAMxuvazgMMtduim4rHPO__VteFJTa2BKtRd4Vg9i+01uKLed1A@mail.gmail.com>
-Subject: Re: [PATCH v6 0/5] dump: Make most of it target agnostic (build once)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Janosch Frank <frankja@linux.ibm.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007b525605f599a6ef"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 51/76] target/riscv: Drop ftemp_new
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
+ ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
+ tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com, edgar.iglesias@gmail.com
+References: <20230225091427.1817156-1-richard.henderson@linaro.org>
+ <20230225091427.1817156-52-richard.henderson@linaro.org>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230225091427.1817156-52-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: zQCowAB3OqBqV_tjFdi7CA--.55403S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJw1UWF1fJr48Kw1fZw47Jwb_yoW5Zryrpr
+ 4Sk342vF1FqrySva9rtw4DZF15Zr4xCF1UK3s0gw48Cr42qr1kJ395K34YvFW09FZ5Zr4Y
+ kF4DCry5Aa12qaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvKb7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+ Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+ W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkI
+ wI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
+ 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+ VjvjDU0xZFpf9x07j8GYLUUUUU=
+X-Originating-IP: [180.165.240.213]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,87 +79,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000007b525605f599a6ef
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 25, 2023 at 1:49 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
-org>
-wrote:
+On 2023/2/25 17:14, Richard Henderson wrote:
+> Translators are no longer required to free tcg temporaries,
+> therefore there's no need to record temps for later freeing.
+> Replace the few uses with tcg_temp_new_i64.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> All series reviewed.
->
-> Since v5:
-> - reword one commit description (Thomas)
-> - drop CONFIG_SOFTMMU, unify softmmu_ss (Richard)
->
-> Since v4:
-> - more unused headers removed
-> - KISS, use a bit of #ifdef'ry to avoid a stub file
->
-> Thanks to Richard help, we can now build dump.o once
-> for all targets, keeping win_dump.o for x86* targets.
->
-> Philippe Mathieu-Daud=C3=A9 (5):
->   dump: Replace tswapN() -> cpu_to_dumpN()
->   dump: Replace TARGET_PAGE_SIZE -> qemu_target_page_size()
->   dump: Clean included headers
->   dump: Simplify compiling win_dump.o by introducing
->     win_dump_available()
->   dump: Add create_win_dump() stub for non-x86 targets
->
->  dump/dump-hmp-cmds.c |  2 +-
->  dump/dump.c          | 35 +++++++++++++----------------------
->  dump/meson.build     |  6 ++----
->  dump/win_dump.c      | 38 ++++++++++++++++++++++++++++----------
->  dump/win_dump.h      |  5 ++++-
->  5 files changed, 48 insertions(+), 38 deletions(-)
->
->
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+How about the temp_new?
 
---0000000000007b525605f599a6ef
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Regards,
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 25, 2023 at 1:49 PM Phili=
-ppe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">All series reviewed.<br>
-<br>
-Since v5:<br>
-- reword one commit description (Thomas)<br>
-- drop CONFIG_SOFTMMU, unify softmmu_ss (Richard)<br>
-<br>
-Since v4:<br>
-- more unused headers removed<br>
-- KISS, use a bit of #ifdef&#39;ry to avoid a stub file<br>
-<br>
-Thanks to Richard help, we can now build dump.o once<br>
-for all targets, keeping win_dump.o for x86* targets.<br>
-<br>
-Philippe Mathieu-Daud=C3=A9 (5):<br>
-=C2=A0 dump: Replace tswapN() -&gt; cpu_to_dumpN()<br>
-=C2=A0 dump: Replace TARGET_PAGE_SIZE -&gt; qemu_target_page_size()<br>
-=C2=A0 dump: Clean included headers<br>
-=C2=A0 dump: Simplify compiling win_dump.o by introducing<br>
-=C2=A0 =C2=A0 win_dump_available()<br>
-=C2=A0 dump: Add create_win_dump() stub for non-x86 targets<br>
-<br>
-=C2=A0dump/dump-hmp-cmds.c |=C2=A0 2 +-<br>
-=C2=A0dump/dump.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 35 +++++++++++++-----=
------------------<br>
-=C2=A0dump/meson.build=C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++----<br>
-=C2=A0dump/win_dump.c=C2=A0 =C2=A0 =C2=A0 | 38 ++++++++++++++++++++++++++++=
-----------<br>
-=C2=A0dump/win_dump.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 ++++-<br>
-=C2=A05 files changed, 48 insertions(+), 38 deletions(-)<br>
-<br></blockquote><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &l=
-t;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.co=
-m</a>&gt;<br><br></div></div></div>
+Weiwei Li
 
---0000000000007b525605f599a6ef--
+> ---
+>   target/riscv/translate.c | 24 ++++--------------------
+>   1 file changed, 4 insertions(+), 20 deletions(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index f9d5d1097e..273e566d66 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -106,9 +106,6 @@ typedef struct DisasContext {
+>       TCGv zero;
+>       /* Space for 3 operands plus 1 extra for address computation. */
+>       TCGv temp[4];
+> -    /* Space for 4 operands(1 dest and <=3 src) for float point computation */
+> -    TCGv_i64 ftemp[4];
+> -    uint8_t nftemp;
+>       /* PointerMasking extension */
+>       bool pm_mask_enabled;
+>       bool pm_base_enabled;
+> @@ -431,12 +428,6 @@ static void gen_set_gpr128(DisasContext *ctx, int reg_num, TCGv rl, TCGv rh)
+>       }
+>   }
+>   
+> -static TCGv_i64 ftemp_new(DisasContext *ctx)
+> -{
+> -    assert(ctx->nftemp < ARRAY_SIZE(ctx->ftemp));
+> -    return ctx->ftemp[ctx->nftemp++] = tcg_temp_new_i64();
+> -}
+> -
+>   static TCGv_i64 get_fpr_hs(DisasContext *ctx, int reg_num)
+>   {
+>       if (!ctx->cfg_ptr->ext_zfinx) {
+> @@ -450,7 +441,7 @@ static TCGv_i64 get_fpr_hs(DisasContext *ctx, int reg_num)
+>       case MXL_RV32:
+>   #ifdef TARGET_RISCV32
+>       {
+> -        TCGv_i64 t = ftemp_new(ctx);
+> +        TCGv_i64 t = tcg_temp_new_i64();
+>           tcg_gen_ext_i32_i64(t, cpu_gpr[reg_num]);
+>           return t;
+>       }
+> @@ -476,7 +467,7 @@ static TCGv_i64 get_fpr_d(DisasContext *ctx, int reg_num)
+>       switch (get_xl(ctx)) {
+>       case MXL_RV32:
+>       {
+> -        TCGv_i64 t = ftemp_new(ctx);
+> +        TCGv_i64 t = tcg_temp_new_i64();
+>           tcg_gen_concat_tl_i64(t, cpu_gpr[reg_num], cpu_gpr[reg_num + 1]);
+>           return t;
+>       }
+> @@ -496,12 +487,12 @@ static TCGv_i64 dest_fpr(DisasContext *ctx, int reg_num)
+>       }
+>   
+>       if (reg_num == 0) {
+> -        return ftemp_new(ctx);
+> +        return tcg_temp_new_i64();
+>       }
+>   
+>       switch (get_xl(ctx)) {
+>       case MXL_RV32:
+> -        return ftemp_new(ctx);
+> +        return tcg_temp_new_i64();
+>   #ifdef TARGET_RISCV64
+>       case MXL_RV64:
+>           return cpu_gpr[reg_num];
+> @@ -1207,8 +1198,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->cs = cs;
+>       ctx->ntemp = 0;
+>       memset(ctx->temp, 0, sizeof(ctx->temp));
+> -    ctx->nftemp = 0;
+> -    memset(ctx->ftemp, 0, sizeof(ctx->ftemp));
+>       ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
+>       ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
+>       ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
+> @@ -1244,11 +1233,6 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>           ctx->temp[i] = NULL;
+>       }
+>       ctx->ntemp = 0;
+> -    for (i = ctx->nftemp - 1; i >= 0; --i) {
+> -        tcg_temp_free_i64(ctx->ftemp[i]);
+> -        ctx->ftemp[i] = NULL;
+> -    }
+> -    ctx->nftemp = 0;
+>   
+>       /* Only the first insn within a TB is allowed to cross a page boundary. */
+>       if (ctx->base.is_jmp == DISAS_NEXT) {
 
 
