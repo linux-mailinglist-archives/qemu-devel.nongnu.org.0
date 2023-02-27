@@ -2,67 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10EA6A4C97
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 21:58:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1966A4CE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 22:14:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWkYq-0003jq-KL; Mon, 27 Feb 2023 15:57:28 -0500
+	id 1pWknW-0005Ss-Ie; Mon, 27 Feb 2023 16:12:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pWkYo-0003i3-Ba
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 15:57:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pWkYm-0004ml-Jw
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 15:57:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677531439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pWknV-0005Sc-HG
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:12:37 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pWknT-00083Z-6w
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:12:37 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8356921A10;
+ Mon, 27 Feb 2023 21:12:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677532353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p4GUR5X3j1jU9Wyto2daf0oQc6cHODkpkxYzZnI230k=;
- b=BAWnzHD01AqXbbyt7B2QN4artkxQ6igC6cPaZFbPn6v42gmXcPzh5fRNZDTNw4jUEKWVa/
- MWjpOqJki3u5r45ZXc98nWg02QxL7IqwTPMasKQi3HwZWsmErGE8VsGC0aic5XgeintphU
- pLCxIDmVzpQHbRLDypCzJ4Wj25iZXc4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-125-6DOd5szGNCumPzHF-LIjUw-1; Mon, 27 Feb 2023 15:57:16 -0500
-X-MC-Unique: 6DOd5szGNCumPzHF-LIjUw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=buBmvia9eUPdOGKTTkgNabtW7OuYKCdI5JQwbc3miUE=;
+ b=zsITynUSkSheUkb5PjwvoVA0CfNahabqPdw2YRS9gJl6Pa+tMtjW0nWzmb9EiBSokTwfwS
+ 8mo6w/bgzp9v221r3r3eNNXvkvDX501YtwCdd3HVKfnD0JF3qZ1TgvCNyr0E/2dx/6o7r6
+ NE+zpHpTo7qkGglr2EdyULDXAwUyzvI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677532353;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=buBmvia9eUPdOGKTTkgNabtW7OuYKCdI5JQwbc3miUE=;
+ b=20ZIQh1HgjyQVf2ydyCLhnm4o/mFXGIbUTgPQYuUhyieIBWlDEPDCamaZQkUBckVh2pzNH
+ 8BEeftZ0SDuQSnDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE32B3C0D859;
- Mon, 27 Feb 2023 20:57:15 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6ABFDC15BAD;
- Mon, 27 Feb 2023 20:57:15 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 3/3] block: protect BlockBackend->queued_requests with a lock
-Date: Mon, 27 Feb 2023 15:57:04 -0500
-Message-Id: <20230227205704.1910562-4-stefanha@redhat.com>
-In-Reply-To: <20230227205704.1910562-1-stefanha@redhat.com>
-References: <20230227205704.1910562-1-stefanha@redhat.com>
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0600113A43;
+ Mon, 27 Feb 2023 21:12:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DYTDLsAc/WMfOAAAMHmgww
+ (envelope-from <farosas@suse.de>); Mon, 27 Feb 2023 21:12:32 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Wainer dos Santos
+ Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v3 1/1] gitlab: Use plain docker in
+ container-template.yml
+In-Reply-To: <87fsargc9w.fsf@linaro.org>
+References: <20230227151110.31455-1-farosas@suse.de>
+ <20230227151110.31455-2-farosas@suse.de> <87fsargc9w.fsf@linaro.org>
+Date: Mon, 27 Feb 2023 18:12:30 -0300
+Message-ID: <87lekiyfr5.fsf@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,83 +89,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The CoQueue API offers thread-safety via the lock argument that
-qemu_co_queue_wait() and qemu_co_enter_next() take. BlockBackend
-currently does not make use of the lock argument. This means that
-multiple threads submitting I/O requests can corrupt the CoQueue's
-QSIMPLEQ.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Add a QemuMutex and pass it to CoQueue APIs so that the queue is
-protected. While we're at it, also assert that the queue is empty when
-the BlockBackend is deleted.
+> Fabiano Rosas <farosas@suse.de> writes:
+>
+>> Our dockerfiles no longer reference layers from other qemu images so
+>> we can now use 'docker build' on them.
+>>
+>> Also reinstate the caching that was disabled due to bad interactions
+>> with certain runners. See commit 6ddc3dc7a8 ("tests/docker: don't use
+>> BUILDKIT in GitLab either"). We now believe those issues to be fixed.
+>>
+>> The COMMON_TAG needed to be fixed for the caching to work. The
+>> docker.py script was not using the variable, but constructing the
+>> correct URL directly.
+>>
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>> ---
+>>  .gitlab-ci.d/container-template.yml | 9 ++++-----
+>>  1 file changed, 4 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/containe=
+r-template.yml
+>> index c434b9c8f3..519b8a9482 100644
+>> --- a/.gitlab-ci.d/container-template.yml
+>> +++ b/.gitlab-ci.d/container-template.yml
+>> @@ -6,17 +6,16 @@
+>>      - docker:dind
+>>    before_script:
+>>      - export TAG=3D"$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+>> -    - export COMMON_TAG=3D"$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
+>> +    - export COMMON_TAG=3D"$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:la=
+test"
+>>      - apk add python3
+>>      - docker info
+>>      - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY=
+_PASSWORD"
+>>    script:
+>>      - echo "TAG:$TAG"
+>>      - echo "COMMON_TAG:$COMMON_TAG"
+>> -    - ./tests/docker/docker.py --engine docker build
+>> -          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
+>> -          -r $CI_REGISTRY/qemu-project/qemu
+>> -    - docker tag "qemu/$NAME" "$TAG"
+>> +    - docker build --tag "$TAG" --cache-from "$TAG" --cache-from "$COMM=
+ON_TAG"
+>> +      --build-arg BUILDKIT_INLINE_CACHE=3D1
+>> +      -f "tests/docker/dockerfiles/$NAME.docker" "."
+>
+> I wonder why this doesn't injest a bunch of context. If I run:
+>
+>   docker build --cache-from registry.gitlab.com/stsquad/qemu/qemu/debian-=
+alpha-cross --build-arg BUILDKIT_INLINE_CACHE=3D1  --build-arg USER=3Dalex =
+--build-arg UID=3D1000 -t qemu
+>   /debian-alpha-cross -f "/home/alex/lsrc/qemu.git/tests/docker/dockerfil=
+es/debian-alpha-cross.docker" .
+>
+> it attempts to bring my entire build directory in as build context. This
+> is why we use the - < docker form in the Makefile.
+>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/block-backend.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+I only see that without DOCKER_BUILDKIT=3D1. With the variable set it does
+like in the CI jobs. I presume it is being set automatically by gitlab,
+but we could add it to the script to be explicit.
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index ec7eafd7fb..c4dd16f4da 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -81,6 +81,7 @@ struct BlockBackend {
-     QLIST_HEAD(, BlockBackendAioNotifier) aio_notifiers;
- 
-     int quiesce_counter; /* atomic: written under BQL, read by other threads */
-+    QemuMutex queued_requests_lock; /* protects queued_requests */
-     CoQueue queued_requests;
-     bool disable_request_queuing; /* atomic */
- 
-@@ -368,6 +369,7 @@ BlockBackend *blk_new(AioContext *ctx, uint64_t perm, uint64_t shared_perm)
- 
-     block_acct_init(&blk->stats);
- 
-+    qemu_mutex_init(&blk->queued_requests_lock);
-     qemu_co_queue_init(&blk->queued_requests);
-     notifier_list_init(&blk->remove_bs_notifiers);
-     notifier_list_init(&blk->insert_bs_notifiers);
-@@ -485,6 +487,8 @@ static void blk_delete(BlockBackend *blk)
-     assert(QLIST_EMPTY(&blk->remove_bs_notifiers.notifiers));
-     assert(QLIST_EMPTY(&blk->insert_bs_notifiers.notifiers));
-     assert(QLIST_EMPTY(&blk->aio_notifiers));
-+    assert(qemu_co_queue_empty(&blk->queued_requests));
-+    qemu_mutex_destroy(&blk->queued_requests_lock);
-     QTAILQ_REMOVE(&block_backends, blk, link);
-     drive_info_del(blk->legacy_dinfo);
-     block_acct_cleanup(&blk->stats);
-@@ -1273,9 +1277,16 @@ static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
- 
-     if (qatomic_read(&blk->quiesce_counter) &&
-         !qatomic_read(&blk->disable_request_queuing)) {
-+        /*
-+         * Take lock before decrementing in flight counter so main loop thread
-+         * waits for us to enqueue ourselves before it can leave the drained
-+         * section.
-+         */
-+        qemu_mutex_lock(&blk->queued_requests_lock);
-         blk_dec_in_flight(blk);
--        qemu_co_queue_wait(&blk->queued_requests, NULL);
-+        qemu_co_queue_wait(&blk->queued_requests, &blk->queued_requests_lock);
-         blk_inc_in_flight(blk);
-+        qemu_mutex_unlock(&blk->queued_requests_lock);
-     }
- }
- 
-@@ -2611,9 +2622,12 @@ static void blk_root_drained_end(BdrvChild *child)
-         if (blk->dev_ops && blk->dev_ops->drained_end) {
-             blk->dev_ops->drained_end(blk->dev_opaque);
-         }
--        while (qemu_co_enter_next(&blk->queued_requests, NULL)) {
-+        qemu_mutex_lock(&blk->queued_requests_lock);
-+        while (qemu_co_enter_next(&blk->queued_requests,
-+                                  &blk->queued_requests_lock)) {
-             /* Resume all queued requests */
-         }
-+        qemu_mutex_unlock(&blk->queued_requests_lock);
-     }
- }
- 
--- 
-2.39.2
+>>      - docker push "$TAG"
+>>    after_script:
+>>      - docker logout
+>
+> So what I don't understand is if I do:
+>
+>   docker pull registry.gitlab.com/stsquad/qemu/qemu/debian-alpha-cross
+>   docker build --cache-from registry.gitlab.com/stsquad/qemu/qemu/debian-=
+alpha-cross --build-arg
+>     BUILDKIT_INLINE_CACHE=3D1 -t qemu/debian-alpha-cross - <
+>     /home/alex/lsrc/qemu.git/tests/docker/dockerfiles/debian-alpha-cross.=
+docker
+>
+> I still see pretty much a full rebuild of the image.
+
+I don't use docker and podman does not support caching. I have
+fresh-installed docker today and indeed it seems to not use the cache at
+every build. We're missing something.
+
+Sometimes it works:
+
+=3D=3D=3D
+$ docker system prune -a -f
+Deleted build cache objects:=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+xzbxmzaib3a8s0ufetop5ikhi=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+0ce9qln4ipd2vgf9xw9to0fdb=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+se4hq3rce3lad20t9sqqnubob
+
+Total reclaimed space: 5.845kB
+
+$ docker images -a
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+
+$ DOCKER_BUILDKIT=3D1 docker build --tag
+registry.gitlab.com/farosas/qemu/qemu/debian-amd64:latest --cache-from
+registry.gitlab.com/farosas/qemu/qemu/debian-amd64:latest --build-arg
+BUILDKIT_INLINE_CACHE=3D1 -f debian-amd64.docker .
+
+[+] Building 57.8s (12/12) FINISHED=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+ =3D> [internal] load build definition from debian-amd64.docker            =
+                                                                           =
+                                      0.2s
+ =3D> =3D> transferring dockerfile: 5.90kB                                 =
+                                                                           =
+                                        0.0s
+ =3D> [internal] load .dockerignore                                        =
+                                                                           =
+                                      0.3s
+ =3D> =3D> transferring context: 2B                                        =
+                                                                           =
+                                        0.0s
+ =3D> [internal] load metadata for docker.io/library/debian:11-slim        =
+                                                                           =
+                                      1.8s
+ =3D> importing cache manifest from registry.gitlab.com/farosas/qemu/qemu/d=
+ebian-amd64:latest                                                         =
+                                      0.7s
+ =3D> [1/6] FROM docker.io/library/debian:11-slim@sha256:8eaee63a5ea83744e6=
+2d5bf88e7d472d7f19b5feda3bfc6a2304cc074f269269                             =
+                                      0.0s
+ =3D> CACHED [2/6] RUN export DEBIAN_FRONTEND=3Dnoninteractive &&     apt-g=
+et update &&     apt-get install -y eatmydata &&     eatmydata apt-get dist=
+-upgrade -y &&     eatmydata apt-get i  0.0s
+ =3D> CACHED [3/6] RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata   apt ins=
+tall -y --no-install-recommends   cscope  global  linux-headers-amd64      =
+                                        0.0s
+ =3D> CACHED [4/6] RUN git clone https://github.com/luigirizzo/netmap.git /=
+usr/src/netmap                                                             =
+                                      0.0s
+ =3D> CACHED [5/6] RUN cd /usr/src/netmap && git checkout v11.3            =
+                                                                           =
+                                      0.0s
+ =3D> CACHED [6/6] RUN cd /usr/src/netmap/LINUX && ./configure --no-drivers=
+ --no-apps --kernel-dir=3D$(ls -d /usr/src/linux-headers-*-amd64) && make i=
+nstall                                 54.9s
+ =3D> =3D> pulling sha256:bb263680fed18eecdc67f885094df6f589bafc19004839d7f=
+df141df236a61aa                                                            =
+                                        1.2s
+ =3D> =3D> pulling sha256:f63092d28e024c119d6a4e257d0c62bb2117be93605f1f236=
+3b1d9cb8fc9dc6c                                                            =
+                                       44.6s
+ =3D> =3D> pulling sha256:30fcedea9de9f22da43e20a79b40516c6e4a55e70eea401ac=
+acca18912e86769                                                            =
+                                        4.5s
+ =3D> =3D> pulling sha256:6f498daa6d20055a31e4681ec878e86129c3c1eaf5cf40f7e=
+d87631accef1906                                                            =
+                                        3.6s
+ =3D> =3D> pulling sha256:79b1b0d7bce9a16b4a01e2055cd402d93e04efded50e2ffcf=
+6be0d7c67e4895a                                                            =
+                                        0.6s
+ =3D> =3D> pulling sha256:250b927c5ce2d6d3e9d24bf085f649ce951966c9ec9c9e00a=
+b8292dfb02c8b17                                                            =
+                                        0.7s
+ =3D> exporting to image                                                   =
+                                                                           =
+                                      0.1s
+ =3D> =3D> exporting layers                                                =
+                                                                           =
+                                        0.0s
+ =3D> =3D> writing image sha256:3663223c0a31c2be678c2fe110ba284b80b8d04d2d3=
+290c14be7a4d7320f8a67                                                      =
+                                        0.0s
+ =3D> =3D> naming to registry.gitlab.com/farosas/qemu/qemu/debian-amd64:lat=
+est                                                                        =
+                                        0.0s
+ =3D> exporting cache                                                      =
+                                                                           =
+                                      0.0s
+ =3D> =3D> preparing build cache for export=20=20
+=3D=3D=3D
+
+There are issues pointing to some general unreliability of the cache:
+
+https://github.com/moby/buildkit/issues/2274
+https://github.com/moby/buildkit/issues/1981
+
+What is your docker version? Mine is 20.10.17-ce and Gitlab's is
+23.0.1. The issues above are on 20.10.11.
+
 
 
