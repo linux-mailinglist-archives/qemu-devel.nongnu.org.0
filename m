@@ -2,72 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104C56A4998
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 19:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3E66A49DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 19:33:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWi9X-00072b-D7; Mon, 27 Feb 2023 13:23:11 -0500
+	id 1pWiIR-0007J0-J4; Mon, 27 Feb 2023 13:32:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWi9V-000729-B9
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:23:09 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pWiIP-0007Ii-8k
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:32:21 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWi9T-0002KM-MP
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:23:09 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id 132so4088055pgh.13
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 10:23:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pWiIN-0004C0-MV
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:32:21 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id p6so6860097plf.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 10:32:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HFs7USdCuKMD3Dj0wX8BRFlsf9fdILCiIQ4eJ1l1w78=;
- b=drsrlWzXvs+axQzPalNVJaDWobCdisrfYUXzxzd84Z0xQn/yHZwqtIOfcEIMrZAWqP
- o0D43cgbBkFRX8t4Go7kFN1tJm4o3gr22hmzMbt7scBRlyleEZ7OaJq7+Uw5jayRJ3Ea
- P0d3EoTWliHsgG6q1h3K98JtAKl6Kj9aJrw2Ld/MSeRbxn5FAtaloQ+B6z8m0XDKhOkB
- oLhTbSyz5jaxDuNTanqlfI/ofUD7eqTWC9ehY/KrofL+fMlxTWjZPG1zZKjwOwlp+voJ
- 7Q/C9qkuTZv7v3gVfxMoCAae0k1UWHfe3cY13LN0/FvWyGfPv1tF14vJXIm+X93qwt3M
- Xmsw==
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=G3kvzrE4d5Q2+Tua9D6UKBpnX63zpoL63JuO3ShQfhU=;
+ b=YZ/wUj0vlcU3OnFaUZMZpw4+f51Pygbr8vJkWaUG/yC8AbJDnuW4Q+TOUmq8Bsnfb4
+ VWCIjrvAaQCy5jOewd1L20pZbq8Du/T1Pm3iU14lh7YHFSwrKCeri2uvK0/e4IdXx8Br
+ 70fTPwUunjDJfKDIi5DyW9GayeZxZyfFKySwGfEbeMGcRE+cOs8tkMwzTAYuexPXsyzw
+ Xb+Rui0egeYMZtv4aJQZbI7jnGrbl57t/VIiP6gkRRHfWVz6EfIyX6crEt3sdt+mz4ko
+ wMH3DLdskpwfUja0dChxOoUqq0K3nD4HpiZfY9GhMFvLI27jLi6ifoGDzEtylCt/L4xH
+ Aw7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HFs7USdCuKMD3Dj0wX8BRFlsf9fdILCiIQ4eJ1l1w78=;
- b=R/O3yZ/THKzw6R3QRv5h3ia+riqcyS3KJv340Zx18cGUomrD/eMsrdEm0WScwORxi5
- XrKCcknHierBptVTjweS1XX0hN5gMVKl1nQ8ZqphkhMWxJswyYffjnf6Rv8yuHHOKEzU
- qQ5/VtVlXS3/u+SgXj7C0oqwIXcCs91mahP3PmQ2aFhYF4I6ajKMEPpPFZGp/nZzfuoE
- dAi4aSwsrSS42+VScnMH9lqFZi0r4AN9V3wMYBS6lQQF5fInWBic8DoPYbPFmrw/wlfJ
- a//7x4KBP91ewEzeCwIjVjQ7Oa9uGMz59Tj4w/eLMMaBk6QdjPsNY+hn/1p4oXQiLeSr
- /iIA==
-X-Gm-Message-State: AO0yUKWfzhuLgj2xM6jIdaMmHK9IHQlkj7xsD1HPLidsRrI7mmlwQlV8
- bRf+dLEPCBQY2QM2vM0wxc+G/VruFwb+Up1Nli6AzA==
-X-Google-Smtp-Source: AK7set8KyMGnOoWMYC44fesWoL991cilTUaqortiphg6XMqV61Epq8doioJOmyKWs1QeLJW7jSUZcSBHwa5VZTNCmJc=
-X-Received: by 2002:a63:364a:0:b0:502:f4c6:305c with SMTP id
- d71-20020a63364a000000b00502f4c6305cmr4691057pga.9.1677522184720; Mon, 27 Feb
- 2023 10:23:04 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G3kvzrE4d5Q2+Tua9D6UKBpnX63zpoL63JuO3ShQfhU=;
+ b=UeJJHCnPsmv5kbVpJk4Vyajt3qzKR6OPwJcUsPAvx91zQrhOH8x9WLTT3O2UJOy0OA
+ u+JkSbbJOn8g4DBLvvbO2cttjYzAY/Cl37FyrdoO11fbfnNoMUIgGPhRjoAg1yNViS24
+ LizE64+4sJJetEJ9OPxVLkqiewndPOuJyxFW8iwlMvCoSt20QjnVob4CGgDwZsEhVyAs
+ qaGNLnliWBHkPr8D3sFL7hNb6CDFp8AC3ba8SK6hGD2Xuu1/LDLPKQ61ksDL0RE+G3F/
+ xu9QDuOy3RBlGLzUfTHhsSF0pA+ioJeuTvc9KdTEbgZxrwaJ+EbSOd5RxG63g24+g2Tm
+ lvHQ==
+X-Gm-Message-State: AO0yUKVvQbc+ytrJokj7qtn4dauNDSGGL9mf2jfkaR6FU/dKlvkYpavp
+ /z2vghPb1wCqT3Q0gLYIpHoxcA==
+X-Google-Smtp-Source: AK7set+pdBszamc9RnaVg8zKXnLKHRH584X6vBIKPXf5htnmZwZIV5VEE5dGeic+p7leAHOAfdgwjA==
+X-Received: by 2002:a17:902:e80f:b0:19c:cb64:dacc with SMTP id
+ u15-20020a170902e80f00b0019ccb64daccmr15951279plg.61.1677522737694; 
+ Mon, 27 Feb 2023 10:32:17 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ iz10-20020a170902ef8a00b0019c901b35ecsm4949454plb.106.2023.02.27.10.32.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 10:32:17 -0800 (PST)
+Message-ID: <d31b5dce-15c1-b681-6e6b-e4a6ae645a9a@linaro.org>
+Date: Mon, 27 Feb 2023 08:32:12 -1000
 MIME-Version: 1.0
-References: <20230227140213.35084-1-philmd@linaro.org>
-In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Feb 2023 18:22:53 +0000
-Message-ID: <CAFEAcA_ny6SumTx6CuFan3yCuP24TXjmyOBO95OeZam3Qw057w@mail.gmail.com>
-Subject: Re: [RESEND PULL 000/126] Buildsys / QOM / QDev / UI patches for
- 2023-02-27
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
+To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-11-gaosong@loongson.cn>
+ <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
+ <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
+ <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
+ <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
+ <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
+ <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
+ <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
+ <d052497f-fc2c-17ab-d455-f0a1727b422d@loongson.cn>
+ <5ac3c25f-8d4b-6aa3-5bc2-2b3abc22dce8@linaro.org>
+ <32723bb0-17fe-cbd5-73f1-99cbcfbf73aa@loongson.cn>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <32723bb0-17fe-cbd5-73f1-99cbcfbf73aa@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,77 +102,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 at 14:08, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> Hi Peter,
->
-> I apologize for the size of this request, I was hoping various
-> series would go via other tree, but everybody has been quite busy
-> and the freezing windows is close, so I'm sending a huge mixed
-> patchset here.
->
-> Previous post failed with:
->
->   Unable to initialize SMTP properly. Check config and use --smtp-debug.
->   VALUES: server=3Dsmtp.gmail.com encryption=3Dtls hello=3Dlocalhost.loca=
-ldomain
->   port=3D587 at /opt/homebrew/Cellar/git/2.38.1/libexec/git-core/git-send=
--email
->   line 1684.
->
-> Reposting adding "--forget-cc --cc-cmd=3D/usr/bin/true --suppress-cc=3Dal=
-l".
->
-> The following changes since commit b11728dc3ae67ddedf34b7a4f318170e709280=
-3c:
->
->   Merge tag 'pull-riscv-to-apply-20230224' of github.com:palmer-dabbelt/q=
-emu into staging (2023-02-26 20:14:46 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/philmd/qemu.git tags/buildsys-qom-qdev-ui-20230227
->
-> for you to fetch changes up to 79fbbf323ce0b2608eca53f85f5e02b8c4b73b90:
->
->   ui/cocoa: user friendly characters for release mouse (2023-02-27 14:48:=
-10 +0100)
->
-> ----------------------------------------------------------------
-> - buildsys
->   - Various header cleaned up (removing pointless headers)
->   - Mark various files/code user/system specific
->   - Make various objects target-independent
->   - Remove tswapN() calls from dump.o
->   - Suggest g_assert_not_reached() instead of assert(0)
->
-> - qdev / qom
->   - Replace various container_of() by QOM cast macros
->   - Declare some QOM macros using OBJECT_DECLARE_TYPE()
->   - Embed OHCI QOM child in SM501 chipset
->
-> - hw (ISA & IDE)
->   - add some documentation, improve function names
->   - un-inline, open-code few functions
->   - have ISA API accessing IRQ/DMA prefer ISABus over ISADevice
->   - Demote IDE subsystem maintenance to "Odd Fixes"
->
-> - ui: Improve Ctrl+Alt hint on Darwin Cocoa
+On 2/27/23 02:54, gaosong wrote:
+> 
+> 在 2023/2/27 下午5:20, Richard Henderson 写道:
+>> On 2/26/23 23:14, gaosong wrote:
+>>> like this:
+>>> the vece is MO_32.
+>>> static void gen_vaddwev_s(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
+>>> {
+>>>      TCGv_vec t1 = tcg_temp_new_vec_matching(a);
+>>>      TCGv_vec t2 = tcg_temp_new_vec_matching(b);
+>>>      int halfbits = 4 << vece;
+>>>      tcg_gen_shli_vec(vece, t1, a, halfbits);
+>>>      tcg_gen_shri_vec(vece, t1, t1, halfbits);
+>>>
+>>>      tcg_gen_shli_vec(vece, t2, b,  halfbits);
+>>>      tcg_gen_shri_vec(vece, t2, t2, halfbits);
+>>>
+>>>      tcg_gen_add_vec(vece, t, t1, t2);
+>>>
+>>>      tcg_temp_free_vec(t1);
+>>>      tcg_temp_free_vec(t2);
+>>> }
+>>> ...
+>>>         op[MO_16];
+>>>          {
+>>>              .fniv = gen_vaddwev_s,
+>>>              .fno = gen_helper_vaddwev_w_h,
+>>>              .opt_opc = vecop_list,
+>>>              .vece = MO_32
+>>>          },
+>>> ...
+>>> TRANS(vaddwev_w_h, gvec_vvv, MO_16, gvec_vaddwev_s)
+>>>
+>>> input :     0x ffff fffe ffff fffe  ffff fffe ffff fffe  + 0
+>>> output :    0x 0000 fffe 0000 fffe  0000 fffe 0000 fffe
+>>> correct is  0xffffffffefffffffefffffffe       ffff fffe.
+>>
+>> sari above, not shri, for sign-extension.
+>>
+>>
+> Got it.
+> 
+> and how to  sign-extend  the odd  element  of vector?
 
-Seems to have broken the TCG plugins somehow?
+For the odd elements, you omit the shli, because the odd element is already at the most 
+significant end of the wider element.
 
-https://gitlab.com/pm215/qemu/-/jobs/3841174348
 
-TEST munmap-pthread on aarch64
-**
-ERROR:../plugins/core.c:221:qemu_plugin_vcpu_init_hook: assertion
-failed: (success)
+r~
 
-Similarly in
-https://gitlab.com/pm215/qemu/-/jobs/3841174344
-https://gitlab.com/pm215/qemu/-/jobs/3841174341
-
-thanks
--- PMM
 
