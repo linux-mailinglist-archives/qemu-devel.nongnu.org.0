@@ -2,95 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4256A41DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC236A41EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:45:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWcno-000432-1C; Mon, 27 Feb 2023 07:40:24 -0500
+	id 1pWcoy-0005lZ-Hl; Mon, 27 Feb 2023 07:41:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWcnO-0003XU-BN
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:40:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWcnH-0001HS-1u
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:39:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677501590;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cMMqs3SVTvebSpFoMCgni9IV5ypQSyPPBlVp3D5v8+4=;
- b=T5fdLO+mZ2rQVrKZzXJPVj+zj+1qxEIO3VyEMbzpUt2KyLH04u2SUQB5wtuYAZap613Bg9
- GJnINkEBliyoV4cFQ7B9PEvLNW0kt5quDBzHbKF2864B1WiJMOydRr6G3VRJdKdyQ6nuhO
- dspLKDT5kK3OoUkXI9uakea8zVVbS8M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-433-wXzaKjFYOJimgSjWuadRKA-1; Mon, 27 Feb 2023 07:39:48 -0500
-X-MC-Unique: wXzaKjFYOJimgSjWuadRKA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f14-20020a7bcc0e000000b003dd41ad974bso2851515wmh.3
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:39:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alvaro.karsz@solid-run.com>)
+ id 1pWcoA-0005Ij-A7
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:40:55 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alvaro.karsz@solid-run.com>)
+ id 1pWco5-0001m4-W2
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:40:43 -0500
+Received: by mail-pf1-x434.google.com with SMTP id ce7so3415649pfb.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:40:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=solid-run-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=S2jhasNjoy802hJ5uR0TgTEFUPCoR2lDLD3l4YCiU10=;
+ b=QW7wHSpafPjwd7TaL6/+tHtP86DxIsIbik99Z/cop3ea1f+RrzBqosm4H3vmFA30lI
+ YmsHN6qenC29DXU/HQ3jnGx8SD7JJbXF/Ky/dqmr/dTWDpLd3ZUsMmXwmxAE6W934pmz
+ 4Qgcuo2iVRLxIGv+g4wcE3qLmpT9gQ4coJTRdnGumpINYXl8mXn+mVrHYE/Y/r53y6wx
+ 5IzYxpNImD1nXBFXcBeIahdFrH3Zm/S0MmqTDTtHfho8cEGKbthiWVOG6XhMYpUY1Zhi
+ Wc78RDevYI5Q7B8869hWX2HaZvvgtlubgAcuQ8i7EPNwxkqcufYKA99vskYotgIAPucW
+ kVrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cMMqs3SVTvebSpFoMCgni9IV5ypQSyPPBlVp3D5v8+4=;
- b=JQ+RhmR64PZgiAMVqh/irg2AIxDCnuqxnUCIt9oqE95iOiGONWe7DIwpY8A2wAUO7e
- de0jVoofnQvH5H2MRUWnJDWkQKiHFVFzdWLyO7yqGUYPiHX3Z/q5hP3kNRVFNyPNw+yl
- ROYB8B5Y6PlhbLXiBrbOy4nWhtzqlzuUFzUZ4pEnxKDkS3TSx20O5Kh9dVk1brILP/H+
- URiJohgReuU49O7chyEcWuaf3v3PI/2zozN50+JfqrhXa7Qb69I2j+HBXxfjvy+OWwhS
- 5JXW2dgAOF7H3Tj3VV9uNY/VtMDnN+mDUH5iokNImyu5CqJ9bCh6XCrGGObhZa3wadxR
- vtfw==
-X-Gm-Message-State: AO0yUKWtEkj/h9FkVR7zwO0j6rRB43sLQA9t19fCSHLJ+rSdY6euBCcL
- UwCCAkprtBt2Ijr2ALm0Zy9vFRXTE/QnE8sIza/VOLfWp0yXAK51tGYfSbJhm7qG8SY1t8SfTc9
- X18gWyzKOIUedFDA=
-X-Received: by 2002:a05:600c:4b30:b0:3e2:147f:ac1a with SMTP id
- i48-20020a05600c4b3000b003e2147fac1amr16862849wmp.21.1677501587841; 
- Mon, 27 Feb 2023 04:39:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set9KPsx6+1T3kuKidRwsQAIPZyfimjAZLiWjTRLNbUcke4Oge0qHZsM8yzLru/NcsBv3NBFMiw==
-X-Received: by 2002:a05:600c:4b30:b0:3e2:147f:ac1a with SMTP id
- i48-20020a05600c4b3000b003e2147fac1amr16862831wmp.21.1677501587534; 
- Mon, 27 Feb 2023 04:39:47 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-150.web.vodafone.de.
- [109.43.176.150]) by smtp.gmail.com with ESMTPSA id
- u6-20020a05600c00c600b003e21dcccf9fsm12279156wmm.16.2023.02.27.04.39.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 04:39:47 -0800 (PST)
-Message-ID: <f6854f27-2c32-dc07-883d-9cbfc9d49c48@redhat.com>
-Date: Mon, 27 Feb 2023 13:39:45 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=S2jhasNjoy802hJ5uR0TgTEFUPCoR2lDLD3l4YCiU10=;
+ b=VRnZmB83T8pz3qzzRuCLIXUWyBr/yp8TZNRSYOzRGhnXrTV3u/we3KJ+C5iwxSlDTS
+ Ts5cvPnX2gjdcM0uRAtz9ofUolLKC8P40rz42l4RwqQ+U921aMDdhT58czm7cXFeu7Dk
+ Z01sWhqlOfRw1woN+vzhdWTNbHCm3EbY0X0cRcg73Tv2JvGFj6K7C40fWN+QVMyaPnR1
+ voCJC56rm6D+VKLq8lIwG9QXkhuof++bRNXmmucZAbuxkBsWDRetZIzN/5VXZHWyKStf
+ H+x0wqsc2HGY9UiTjjoXuB4yDvkoSDDmpXiCesrrEPeH7RJ/ft73c6Eu9gh1GIeCeGF/
+ uqfA==
+X-Gm-Message-State: AO0yUKV0MqWKaBoyshVq+msQlWEq9N1Yx4qJnw9kzj1xezcFsWRTIcy1
+ c7bX0UjoO7APdmVIrca/uZIGigyz5/lrmAZn4OaQEg==
+X-Google-Smtp-Source: AK7set/YVkPThBzFKuxa/rdrEXhC1I+scq6HJaE9jiZU7WaOxbb5GKqwj45Rl6til8gIhoy8jWB+6rkrowSffmrJEgg=
+X-Received: by 2002:a63:364a:0:b0:4ff:6b33:5a3a with SMTP id
+ d71-20020a63364a000000b004ff6b335a3amr5777628pga.2.1677501638125; Mon, 27 Feb
+ 2023 04:40:38 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230222142105.84700-1-pmorel@linux.ibm.com>
- <20230222142105.84700-7-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v16 06/11] s390x/cpu topology: interception of PTF
- instruction
-In-Reply-To: <20230222142105.84700-7-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20230224155438.112797-1-eperezma@redhat.com>
+In-Reply-To: <20230224155438.112797-1-eperezma@redhat.com>
+From: Alvaro Karsz <alvaro.karsz@solid-run.com>
+Date: Mon, 27 Feb 2023 14:40:01 +0200
+Message-ID: <CAJs=3_CirpgqNNXxPNmcHmEpmPn01ef9h-Xcinmd_DDtp3Md4Q@mail.gmail.com>
+Subject: Re: [PATCH v4 00/15] Dynamically switch to vhost shadow virtqueues at
+ vdpa net migration
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
+ Shannon Nelson <snelson@pensando.io>, Jason Wang <jasowang@redhat.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Laurent Vivier <lvivier@redhat.com>,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
+ Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: permerror client-ip=2607:f8b0:4864:20::434;
+ envelope-from=alvaro.karsz@solid-run.com; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,82 +94,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/02/2023 15.21, Pierre Morel wrote:
-> When the host supports the CPU topology facility, the PTF
-> instruction with function code 2 is interpreted by the SIE,
-> provided that the userland hypervisor activates the interpretation
-> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
-> 
-> The PTF instructions with function code 0 and 1 are intercepted
-> and must be emulated by the userland hypervisor.
-> 
-> During RESET all CPU of the configuration are placed in
-> horizontal polarity.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   include/hw/s390x/s390-virtio-ccw.h |  6 +++
->   hw/s390x/cpu-topology.c            | 85 ++++++++++++++++++++++++++++++
->   target/s390x/kvm/kvm.c             | 11 ++++
->   3 files changed, 102 insertions(+)
-> 
-> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-> index 9bba21a916..c1d46e78af 100644
-> --- a/include/hw/s390x/s390-virtio-ccw.h
-> +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -30,6 +30,12 @@ struct S390CcwMachineState {
->       uint8_t loadparm[8];
->   };
->   
-> +#define S390_PTF_REASON_NONE (0x00 << 8)
-> +#define S390_PTF_REASON_DONE (0x01 << 8)
-> +#define S390_PTF_REASON_BUSY (0x02 << 8)
-> +#define S390_TOPO_FC_MASK 0xffUL
-> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
-> +
->   struct S390CcwMachineClass {
->       /*< private >*/
->       MachineClass parent_class;
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index 08642e0e04..40253a2444 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -87,6 +87,89 @@ static void s390_topology_init(MachineState *ms)
->       QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
->   }
->   
-> +/**
-> + * s390_topology_set_cpus_entitlement:
-> + * @polarization: polarization requested by the caller
-> + *
-> + * Set all CPU entitlement according to polarization and
-> + * dedication.
-> + * Default vertical entitlement is S390_CPU_ENTITLEMENT_MEDIUM as
-> + * it does not require host modification of the CPU provisioning
-> + * until the host decide to modify individual CPU provisioning
-> + * using QAPI interface.
-> + * However a dedicated vCPU will have a S390_CPU_ENTITLEMENT_HIGH
-> + * entitlement.
-> + */
-> +static void s390_topology_set_cpus_entitlement(int polarization)
-> +{
-> +    CPUState *cs;
-> +
-> +    CPU_FOREACH(cs) {
-> +        if (polarization == S390_CPU_POLARIZATION_HORIZONTAL) {
-> +            S390_CPU(cs)->env.entitlement = 0;
+>
+> It's possible to migrate vdpa net devices if they are shadowed from the
+> start.  But to always shadow the dataplane is to effectively break its ho=
+st
+> passthrough, so its not efficient in vDPA scenarios.
+>
+> This series enables dynamically switching to shadow mode only at
+> migration time.  This allows full data virtqueues passthrough all the
+> time qemu is not migrating.
+>
+> In this series only net devices with no CVQ are migratable.  CVQ adds
+> additional state that would make the series bigger and still had some
+> controversy on previous RFC, so let's split it.
+>
+> Successfully tested with vdpa_sim_net with patch [1] applied and with the=
+ qemu
+> emulated device with vp_vdpa with some restrictions:
+> * No CVQ. No feature that didn't work with SVQ previously (packed, ...)
+> * VIRTIO_RING_F_STATE patches implementing [2].
+> * Expose _F_SUSPEND, but ignore it and suspend on ring state fetch like
+>   DPDK.
+>
+> Previous versions were tested by many vendors. Not carrying Tested-by bec=
+ause
+> of code changes, so re-testing would be appreciated.
+>
+> Comments are welcome.
+>
+> v4:
+> - Recover used_idx from guest's vring if device cannot suspend.
+> - Fix starting device in the middle of a migration.  Removed some
+>   duplication in setting / clearing enable_shadow_vqs and shadow_data
+>   members of vhost_vdpa.
+> - Fix (again) "Check for SUSPEND in vhost_dev.backend_cap, as
+>   .backend_features is empty at the check moment.". It was reverted by
+>   mistake in v3.
+> - Fix memory leak of iova tree.
+> - Properly rewind SVQ as in flight descriptors were still being accounted
+>   in vq base.
+> - Expand documentation.
+>
+> v3:
+> - Start datapatch in SVQ in device started while migrating.
+> - Properly register migration blockers if device present unsupported feat=
+ures.
+> - Fix race condition because of not stopping the SVQ until device cleanup=
+.
+> - Explain purpose of iova tree in the first patch message.
+> - s/dynamycally/dynamically/ in cover letter.
+> - at lore.kernel.org/qemu-devel/20230215173850.298832-14-eperezma@redhat.=
+com
+>
+> v2:
+> - Check for SUSPEND in vhost_dev.backend_cap, as .backend_features is emp=
+ty at
+>   the check moment.
+> - at https://lore.kernel.org/all/20230208094253.702672-12-eperezma@redhat=
+.com/T/
+>
+> v1:
+> - Omit all code working with CVQ and block migration if the device suppor=
+ts
+>   CVQ.
+> - Remove spurious kick.
+> - Move all possible checks for migration to vhost-vdpa instead of the net
+>   backend. Move them to init code from start code.
+> - Suspend on vhost_vdpa_dev_start(false) instead of in vhost-vdpa net bac=
+kend.
+> - Properly split suspend after geting base and adding of status_reset pat=
+ches.
+> - Add possible TODOs to points where this series can improve in the futur=
+e.
+> - Check the state of migration using migration_in_setup and
+>   migration_has_failed instead of checking all the possible migration sta=
+tus in
+>   a switch.
+> - Add TODO with possible low hand fruit using RESUME ops.
+> - Always offer _F_LOG from virtio/vhost-vdpa and let migration blockers d=
+o
+>   their thing instead of adding a variable.
+> - RFC v2 at https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg0257=
+4.html
+>
+> RFC v2:
+> - Use a migration listener instead of a memory listener to know when
+>   the migration starts.
+> - Add stuff not picked with ASID patches, like enable rings after
+>   driver_ok
+> - Add rewinding on the migration src, not in dst
+> - RFC v1 at https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg0166=
+4.html
+>
+> [1] https://lore.kernel.org/lkml/20230203142501.300125-1-eperezma@redhat.=
+com/T/
+> [2] https://lists.oasis-open.org/archives/virtio-comment/202103/msg00036.=
+html
+>
+> Eugenio P=C3=A9rez (15):
+>   vdpa net: move iova tree creation from init to start
+>   vdpa: Remember last call fd set
+>   vdpa: stop svq at vhost_vdpa_dev_start(false)
+>   vdpa: Negotiate _F_SUSPEND feature
+>   vdpa: move vhost reset after get vring base
+>   vdpa: add vhost_vdpa->suspended parameter
+>   vdpa: add vhost_vdpa_suspend
+>   vdpa: rewind at get_base, not set_base
+>   vdpa: add vdpa net migration state notifier
+>   vdpa: disable RAM block discard only for the first device
+>   vdpa net: block migration if the device has CVQ
+>   vdpa: block migration if device has unsupported features
+>   vdpa: block migration if SVQ does not admit a feature
+>   vdpa net: allow VHOST_F_LOG_ALL
+>   vdpa: return VHOST_F_LOG_ALL in vhost-vdpa devices
+>
+>  include/hw/virtio/vhost-backend.h  |   4 +
+>  include/hw/virtio/vhost-vdpa.h     |   3 +
+>  hw/virtio/vhost-shadow-virtqueue.c |   8 +-
+>  hw/virtio/vhost-vdpa.c             | 128 +++++++++++++------
+>  hw/virtio/vhost.c                  |   3 +
+>  net/vhost-vdpa.c                   | 198 ++++++++++++++++++++++++-----
+>  hw/virtio/trace-events             |   1 +
+>  7 files changed, 273 insertions(+), 72 deletions(-)
+>
+> --
 
-Maybe use S390_CPU_ENTITLEMENT_HORIZONTAL instead of "0" ?
+The migration works with SolidNET DPU.
 
-> +        } else if (S390_CPU(cs)->env.dedicated) {
-> +            S390_CPU(cs)->env.entitlement = S390_CPU_ENTITLEMENT_HIGH;
-> +        } else {
-> +            S390_CPU(cs)->env.entitlement = S390_CPU_ENTITLEMENT_MEDIUM;
-> +        }
-> +    }
-> +}
-
-With the nit above fixed:
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+Tested-by: Alvaro Karsz <alvaro.karsz@solid-run.com>
 
