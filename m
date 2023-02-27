@@ -2,92 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AEC6A3BF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:08:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD4F6A3CAA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:26:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWY1u-00068P-TU; Mon, 27 Feb 2023 02:34:38 -0500
+	id 1pWYRp-0000DC-BO; Mon, 27 Feb 2023 03:01:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pWY1m-000680-Kz
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 02:34:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWYRV-0008Tp-P5
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:01:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pWY1j-0007xo-Li
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 02:34:30 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWYRR-0003lJ-MZ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:01:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677483259;
+ s=mimecast20190719; t=1677484860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LNyh6ty354TqaT+I9MM6JrQEa/RfxXfuVfvsohl8EN4=;
- b=Io9yNUam/3Zfw8eyaRXN+UVd+/WDEuUkngXiXinIsUXMk6V5tCjsjIeaQcT/OYmnXkCX8r
- E5wf2TQgEdHoaF3QeDJdSZ7+M6bwUObieEuwyLLJDSwZg5eD25vWaWNs5GVPDMsUPnUKdY
- nJ6n2M8oyDyrRna59GtgPozQwYvTD9s=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cSB2JpodE8sZyJM1yWA/wzyyEAdvIrDjsUCzMJhckF4=;
+ b=W+dbbV8/23UuGIa2JpkZW40LOrKsrPH0ZL/7VQnXK+inwKCVETQ0tKKxMlCZzIpHwywih7
+ MH4/lgmN1oM9KNo+cn3exT4+a9LZj6vGGL0nJ8uJVa37/++1V/JDxLq9viXoE4557j9U/V
+ xQ2CzxaHT7fu91SQ25slIitUtJyee50=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-344--aNLmRs3Nzq3OvihUnnCSA-1; Mon, 27 Feb 2023 02:34:18 -0500
-X-MC-Unique: -aNLmRs3Nzq3OvihUnnCSA-1
-Received: by mail-pj1-f69.google.com with SMTP id
- d3-20020a17090acd0300b00237659aae8dso4756398pju.1
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 23:34:17 -0800 (PST)
+ us-mta-672-sETcoTYrOpuQbG-c4j0TOA-1; Mon, 27 Feb 2023 02:59:20 -0500
+X-MC-Unique: sETcoTYrOpuQbG-c4j0TOA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ x18-20020a1c7c12000000b003e1e7d3cf9fso4983158wmc.3
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 23:59:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LNyh6ty354TqaT+I9MM6JrQEa/RfxXfuVfvsohl8EN4=;
- b=6Td7JGzraXeQcLGWdw/8xLUJWm6Zbl/+Q2jUgoBemPc6D3Dt4sCRpak2NoYg0mX6kg
- 2rnGnWSTTCHjkTF4gEJdhWS8cmgUS2s6kiHD8QUDBxHDdw0hirbSeonH0QNRW0gZHMBK
- wEd6eoTARNz01pe6WXu8Vg2w8m4kLFTUuqaXt4n0dfiAWeWCPk8fmpNOKkrTo5dQ9nIe
- 5ZW0SF9wsHrD5fZCBq8VbzXmtCETi4Cngy+fuWcPE2wr6CTDdKeZg/tNmO+LlAU2hf1y
- h4Dgow9ZARjHnLgapKyddHo4h4vMBQiwzUbAl19nYvLp9b2aitrZ1Q/3WQvU7C3odvg3
- i5gw==
-X-Gm-Message-State: AO0yUKUWYKsPhxI8iieB4TLEAQ9J/me5vFEKFloYobcOfb7Wrsn75Efk
- Q2vJZ9bw8X7B4kVb5Kr9u9HANfoQ0Z4AzLnX61XqDRMV2mFIrh0yhIGVID4JQK7M7qki2h8nbOr
- HbUlGWU0MlHfLcW0=
-X-Received: by 2002:a17:903:78b:b0:19d:473:4dca with SMTP id
- kn11-20020a170903078b00b0019d04734dcamr3546034plb.15.1677483256843; 
- Sun, 26 Feb 2023 23:34:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set8vREmQ9wU019pF54R3mtn9CLTcVfGuTTUOnsyzFyQcC2yVw9Ha6UyGLkRkJm3BIC/YcTn+UQ==
-X-Received: by 2002:a17:903:78b:b0:19d:473:4dca with SMTP id
- kn11-20020a170903078b00b0019d04734dcamr3545908plb.15.1677483252246; 
- Sun, 26 Feb 2023 23:34:12 -0800 (PST)
-Received: from [10.72.13.83] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- d91-20020a17090a6f6400b00233b1da232csm5531088pjk.41.2023.02.26.23.34.06
+ bh=cSB2JpodE8sZyJM1yWA/wzyyEAdvIrDjsUCzMJhckF4=;
+ b=YoJWuQV1WTG+AgyyGWhi9RkL/Qq7cqS5K5Y2rW3zj5E7afy784bVeOJiiXNJOzqsVo
+ JhgJX8VRLhvHc86uYVLHjBOJjLkyy5eEBaMVU0krXYgm+6p/6x1eiT1ms60TJekZ9Wzo
+ P+KJo4LvNSzFVSJRIQexJVbHalS41O4duqQNpDaI/e3rU7qdgMilt0qriAUI4JQiTbtb
+ iOuJTG9KQeTE5fzroI1mriCfDaTWxIGlFC7uqFeYkCSLqxW329fQaDjXPMnJhmpj50hT
+ mL81DjFlNN4E826Eed/kkT/flKrSPUCvZF4m5XlEee8C6bIavp4QlCJVNiM4iavTpChr
+ Ij/w==
+X-Gm-Message-State: AO0yUKUAkTdZp6AsxzULiM4xN2Yq/IrW5Ik9+Nc8ODpaw6AOu+UJwJtX
+ qkgFdERTIGtXoOWdyWhoKvqZaFONw1uO1C4fnmujwIx5XMzsEgqbBvQHxhhq9/3ZAdE/01h4lOE
+ z2/dCu+Ry1VdImzg=
+X-Received: by 2002:a05:6000:1005:b0:2c9:97f8:2604 with SMTP id
+ a5-20020a056000100500b002c997f82604mr4642054wrx.14.1677484758990; 
+ Sun, 26 Feb 2023 23:59:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set+Osqlt3nxOK14nQvtcQm9/Yl2gx2MpF2q5Ms1VYsaRJiZZ3XljP9gj61qAn8kHnrdci+cfPg==
+X-Received: by 2002:a05:6000:1005:b0:2c9:97f8:2604 with SMTP id
+ a5-20020a056000100500b002c997f82604mr4642047wrx.14.1677484758691; 
+ Sun, 26 Feb 2023 23:59:18 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-150.web.vodafone.de.
+ [109.43.176.150]) by smtp.gmail.com with ESMTPSA id
+ a4-20020a5d5704000000b002c559843748sm6361875wrv.10.2023.02.26.23.59.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Feb 2023 23:34:11 -0800 (PST)
-Message-ID: <83e6d634-3f03-e10b-eebc-b3a9c9c8705e@redhat.com>
-Date: Mon, 27 Feb 2023 15:34:03 +0800
+ Sun, 26 Feb 2023 23:59:18 -0800 (PST)
+Message-ID: <0a93eb0e-2552-07b7-2067-f46d542126f4@redhat.com>
+Date: Mon, 27 Feb 2023 08:59:16 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 08/15] vdpa: rewind at get_base, not set_base
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v16 08/11] qapi/s390x/cpu topology: set-cpu-topology
+ monitor command
 Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Stefano Garzarella <sgarzare@redhat.com>,
- Shannon Nelson <snelson@pensando.io>, Gautam Dawar <gdawar@xilinx.com>,
- Laurent Vivier <lvivier@redhat.com>, alvaro.karsz@solid-run.com,
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com,
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>,
- Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-9-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20230224155438.112797-9-eperezma@redhat.com>
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230222142105.84700-1-pmorel@linux.ibm.com>
+ <20230222142105.84700-9-pmorel@linux.ibm.com>
+ <aaf4aa7b7350e88f65fc03f148146e38fe4f7fdb.camel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <aaf4aa7b7350e88f65fc03f148146e38fe4f7fdb.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,7 +92,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,82 +108,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 24/02/2023 18.15, Nina Schoetterl-Glausch wrote:
+> On Wed, 2023-02-22 at 15:21 +0100, Pierre Morel wrote:
+>> The modification of the CPU attributes are done through a monitor
+>> command.
+>>
+>> It allows to move the core inside the topology tree to optimize
+>> the cache usage in the case the host's hypervisor previously
+>> moved the CPU.
+>>
+>> The same command allows to modify the CPU attributes modifiers
+>> like polarization entitlement and the dedicated attribute to notify
+>> the guest if the host admin modified scheduling or dedication of a vCPU.
+>>
+>> With this knowledge the guest has the possibility to optimize the
+>> usage of the vCPUs.
+>>
+>> The command has a feature unstable for the moment.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   qapi/machine-target.json |  35 +++++++++
+>>   include/monitor/hmp.h    |   1 +
+>>   hw/s390x/cpu-topology.c  | 154 +++++++++++++++++++++++++++++++++++++++
+>>   hmp-commands.hx          |  17 +++++
+>>   4 files changed, 207 insertions(+)
+>>
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index a52cc32f09..baa9d273cf 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -354,3 +354,38 @@
+>>   { 'enum': 'CpuS390Polarization',
+>>     'prefix': 'S390_CPU_POLARIZATION',
+>>     'data': [ 'horizontal', 'vertical' ] }
+>> +
+>> +##
+>> +# @set-cpu-topology:
+>> +#
+>> +# @core-id: the vCPU ID to be moved
+>> +# @socket-id: optional destination socket where to move the vCPU
+>> +# @book-id: optional destination book where to move the vCPU
+>> +# @drawer-id: optional destination drawer where to move the vCPU
+>> +# @entitlement: optional entitlement
+>> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
+>> +#
+>> +# Features:
+>> +# @unstable: This command may still be modified.
+>> +#
+>> +# Modifies the topology by moving the CPU inside the topology
+>> +# tree or by changing a modifier attribute of a CPU.
+>> +# Default value for optional parameter is the current value
+>> +# used by the CPU.
+>> +#
+>> +# Returns: Nothing on success, the reason on failure.
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'command': 'set-cpu-topology',
+>> +  'data': {
+>> +      'core-id': 'uint16',
+>> +      '*socket-id': 'uint16',
+>> +      '*book-id': 'uint16',
+>> +      '*drawer-id': 'uint16',
+>> +      '*entitlement': 'str',
+> 
+> How about you add a machine-common.json and define CpuS390Entitlement there,
+> and then include it from both machine.json and machine-target.json?
 
-在 2023/2/24 23:54, Eugenio Pérez 写道:
-> At this moment it is only possible to migrate to a vdpa device running
-> with x-svq=on. As a protective measure, the rewind of the inflight
-> descriptors was done at the destination. That way if the source sent a
-> virtqueue with inuse descriptors they are always discarded.
->
-> Since this series allows to migrate also to passthrough devices with no
-> SVQ, the right thing to do is to rewind at the source so the base of
-> vrings are correct.
->
-> Support for inflight descriptors may be added in the future.
->
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+I'm not sure whether double inclusion works with the QAPI parser (since this 
+might code to be generated twice) ... have you tried?
 
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-Thanks
-
-
-> ---
-> v4:
-> * Use virtqueue_unpop at vhost_svq_stop instead of rewinding at
->    vhost_vdpa_get_vring_base.
-> ---
->   hw/virtio/vhost-shadow-virtqueue.c |  8 ++++++--
->   hw/virtio/vhost-vdpa.c             | 11 -----------
->   2 files changed, 6 insertions(+), 13 deletions(-)
->
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> index 4307296358..523b379439 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -694,13 +694,17 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
->           g_autofree VirtQueueElement *elem = NULL;
->           elem = g_steal_pointer(&svq->desc_state[i].elem);
->           if (elem) {
-> -            virtqueue_detach_element(svq->vq, elem, 0);
-> +            /*
-> +             * TODO: This is ok for networking, but other kinds of devices
-> +             * might have problems with just unpop these.
-> +             */
-> +            virtqueue_unpop(svq->vq, elem, 0);
->           }
->       }
->   
->       next_avail_elem = g_steal_pointer(&svq->next_guest_avail_elem);
->       if (next_avail_elem) {
-> -        virtqueue_detach_element(svq->vq, next_avail_elem, 0);
-> +        virtqueue_unpop(svq->vq, next_avail_elem, 0);
->       }
->       svq->vq = NULL;
->       g_free(svq->desc_next);
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index f542960a64..71e3dc21fe 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -1218,18 +1218,7 @@ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
->                                          struct vhost_vring_state *ring)
->   {
->       struct vhost_vdpa *v = dev->opaque;
-> -    VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
->   
-> -    /*
-> -     * vhost-vdpa devices does not support in-flight requests. Set all of them
-> -     * as available.
-> -     *
-> -     * TODO: This is ok for networking, but other kinds of devices might
-> -     * have problems with these retransmissions.
-> -     */
-> -    while (virtqueue_rewind(vq, 1)) {
-> -        continue;
-> -    }
->       if (v->shadow_vqs_enabled) {
->           /*
->            * Device vring base was set at device start. SVQ base is handled by
+  Thomas
 
 
