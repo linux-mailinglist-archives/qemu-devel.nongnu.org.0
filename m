@@ -2,89 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF106A411A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0976A4121
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:48:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbtT-0006z6-BO; Mon, 27 Feb 2023 06:42:12 -0500
+	id 1pWbxs-0005AC-HL; Mon, 27 Feb 2023 06:46:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbt1-0006iG-Cp
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:41:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbxp-000597-6x
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:46:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbsy-0006X7-VU
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:41:42 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbxn-0007lX-F2
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:46:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677498100;
+ s=mimecast20190719; t=1677498398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8LvHLlulYEtlkcvVmu2nyyNu/wXaOJXUueaEdOu1BbQ=;
- b=ZAzSGGgUnwF7UqaE05b+2YfRpYxTPqPfnUDWx4K+46cwCYC2x13GIgojcrGIKv5KMZaAHQ
- uGlkk2Hly4Yt0ZLyQ8qYHtZg8Uavec++z6hhMe1WY08uALL8VxcrsRpsj0i9t9D19pYpXn
- oRWLCQrpZf43hCG7wky4iZr5TR9oxFA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1X+sytCbcnBB0dpwB9T5MA49ayoRI/cKMaQQmUpYaAQ=;
+ b=CNs/CEO117jhBrEMjwf/EgtXejlpHqsHfYdm6+Busxieaf9MTIgyskM+ABjLHe4r6MmHkx
+ guQxDGUjK/yGAnJLxCORL6GW5YfgXUMcvW0Iifqjk+Cm5ujpWCAt7y6GIWDc72D8W2aao2
+ ydX6kuZl/CXIPLSsp07SaDlLkV/kjn0=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-629-lTGUAzVmP9mZs8QnrWoIiQ-1; Mon, 27 Feb 2023 06:41:38 -0500
-X-MC-Unique: lTGUAzVmP9mZs8QnrWoIiQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l23-20020a7bc457000000b003e206cbce8dso2288550wmi.7
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:41:38 -0800 (PST)
+ us-mta-164-_AwM6IUENQuNbQ0TNLl7Ww-1; Mon, 27 Feb 2023 06:46:37 -0500
+X-MC-Unique: _AwM6IUENQuNbQ0TNLl7Ww-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ e9-20020a0cf749000000b00571f1377451so3251777qvo.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:46:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8LvHLlulYEtlkcvVmu2nyyNu/wXaOJXUueaEdOu1BbQ=;
- b=X1CW4w5PYibMQzi3GWGl6yqnfB025HTdH3NI6wLLlKLMVFlm7U+dUckzv9lRiglZcW
- zSz8TxEEnn2kleysCHXOuN3WFnmAZSfCgL2kw3vVLrEgqZowQmYh+t6xxjq2Qj7mE49t
- Dkaz1sFkWoAY1rLZBlkAnc/yUmWsSl4aDdHC1sK1GujPkt1cqJJRDdVzKNdjdsnzSwyM
- MO5RgZUW/DWGMyNcQ+YrVUfPri+/P4b1YBerLZpK9YyJSAACV1XC75m172N2NirfiJvB
- ikAbrUhaLn+5VmnTpP/HNKMg6jq5Is+8EdVkcxD0SwZC4bGWYSZvEJSUDODKEoEeFPyJ
- cwFQ==
-X-Gm-Message-State: AO0yUKVooOVsIwZVibpcL7R5qLgOrjRqdY/Ow/d8fZERhIPxzu6e/X57
- 5WyyR6nklwYwe70hAK/KHNqwDEYuvkBfr4LDPfpoElmpZ26wX0n/9zCWfHo1ESbrI03Lx6yIcql
- vIy3QYyCMaVG+qP0=
-X-Received: by 2002:a05:600c:1d9d:b0:3ea:e7f6:fc2e with SMTP id
- p29-20020a05600c1d9d00b003eae7f6fc2emr9702351wms.6.1677498097851; 
- Mon, 27 Feb 2023 03:41:37 -0800 (PST)
-X-Google-Smtp-Source: AK7set+kFMhjvWwTbodaZpJ2O65Q+eNvdkKpfYwYr74Gr9ttoyuV+v03cG+xllsMg+HI0PjlY00yFw==
-X-Received: by 2002:a05:600c:1d9d:b0:3ea:e7f6:fc2e with SMTP id
- p29-20020a05600c1d9d00b003eae7f6fc2emr9702340wms.6.1677498097595; 
- Mon, 27 Feb 2023 03:41:37 -0800 (PST)
+ bh=1X+sytCbcnBB0dpwB9T5MA49ayoRI/cKMaQQmUpYaAQ=;
+ b=zg6qzgp44dqtamRVaF4oaRvvmrBd2vBa++fpKoqHDPNDpBOqGD2CgTaEjoDp6acnp3
+ 5gHUNfReephSoyv2Cyknv+1eneiOPiMSmzYuv1TOUYLxfbljEr7dt/BgkqZ5V5xQoKu3
+ Mg+2rxJuSDrmVdTBRMpXh5qLPKp0r4AvGVJE5LI0bYz77UW63SyCCjnobJk2sA6L/HSo
+ 37c0Iob2lWnXmrXDRwCNH/98Y42r81vPgPOo55KrYVer/z57I5hzf5N2LVBEkUPfmkHS
+ ie/ULH3hW2mJKW4r8af4qavtrFfzavWP8+pWxMscast91GwS4TMxsEpD5GALSHQL3U6X
+ Z2LQ==
+X-Gm-Message-State: AO0yUKXcACBhfeldOF2lX5hZhw93MeacIGJZHsBwGsxrGQMxCOhYjGk7
+ mOEiHk7H2NxE081e4nbumRuPE8AYGqksQLTIovEgQrAbD/g3Pwqvhy7L9lplI+mh9OSWzGeUi64
+ P1DydKQ/7tMVjaqk=
+X-Received: by 2002:a05:622a:13cf:b0:3bf:c86b:3d2f with SMTP id
+ p15-20020a05622a13cf00b003bfc86b3d2fmr13042953qtk.51.1677498396796; 
+ Mon, 27 Feb 2023 03:46:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set+qwqRoaJwaE9jwrN7BfuVLaJn/sClCRx4cFZsumUyF3mB5SVvj8ZwyaUj8KEUFTuK0Ym1IRA==
+X-Received: by 2002:a05:622a:13cf:b0:3bf:c86b:3d2f with SMTP id
+ p15-20020a05622a13cf00b003bfc86b3d2fmr13042936qtk.51.1677498396566; 
+ Mon, 27 Feb 2023 03:46:36 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-176-150.web.vodafone.de.
  [109.43.176.150]) by smtp.gmail.com with ESMTPSA id
- u4-20020adff884000000b002c70851bfcasm6857736wrp.28.2023.02.27.03.41.36
+ n76-20020a37404f000000b0071aacb2c76asm4644437qka.132.2023.02.27.03.46.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 03:41:37 -0800 (PST)
-Message-ID: <6840da18-ca5f-db7c-a60a-1f2fb45d806d@redhat.com>
-Date: Mon, 27 Feb 2023 12:41:36 +0100
+ Mon, 27 Feb 2023 03:46:36 -0800 (PST)
+Message-ID: <34cacdc8-ee20-7dfe-52f4-a68cc29fbfb2@redhat.com>
+Date: Mon, 27 Feb 2023 12:46:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v4 27/27] target/s390x: Enable TARGET_TB_PCREL
+Subject: Re: [PATCH v3 0/6] hw/vfio/ccw: hw: Use QOM macros and remove
+ DO_UPCAST() uses
 Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>
+Cc: Eric Farman <farman@linux.ibm.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-s390x@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230213170145.45666-1-philmd@linaro.org>
+ <ba7cefe1-7fb7-7b6e-e22c-867eb4f0b3ad@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230220184052.163465-1-richard.henderson@linaro.org>
- <20230220184052.163465-28-richard.henderson@linaro.org>
- <0a437546-3b18-3a3a-6ffb-afa93a93c170@redhat.com>
-In-Reply-To: <0a437546-3b18-3a3a-6ffb-afa93a93c170@redhat.com>
+In-Reply-To: <ba7cefe1-7fb7-7b6e-e22c-867eb4f0b3ad@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,63 +107,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/02/2023 15.35, Thomas Huth wrote:
-> On 20/02/2023 19.40, Richard Henderson wrote:
->> Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/s390x/cpu-param.h     |  4 ++
->>   target/s390x/cpu.c           | 12 +++++
->>   target/s390x/tcg/translate.c | 86 +++++++++++++++++++++++-------------
->>   3 files changed, 71 insertions(+), 31 deletions(-)
+On 27/02/2023 12.15, Philippe Mathieu-Daudé wrote:
+> Hi Alex,
+> 
+> On 13/2/23 18:01, Philippe Mathieu-Daudé wrote:
+>> QOM housekeeping series which replace the DO_UPCAST() macro
+>> uses by equivalent QOM ones (and few more trivial cleanups).
 >>
->> diff --git a/target/s390x/cpu-param.h b/target/s390x/cpu-param.h
->> index bf951a002e..52bb95de57 100644
->> --- a/target/s390x/cpu-param.h
->> +++ b/target/s390x/cpu-param.h
->> @@ -14,4 +14,8 @@
->>   #define TARGET_VIRT_ADDR_SPACE_BITS 64
->>   #define NB_MMU_MODES 4
->> +#ifndef CONFIG_USER_ONLY
->> +# define TARGET_TB_PCREL 1
->> +#endif
->> +
->>   #endif
->> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
->> index b10a8541ff..933ff06395 100644
->> --- a/target/s390x/cpu.c
->> +++ b/target/s390x/cpu.c
->> @@ -37,6 +37,7 @@
->>   #ifndef CONFIG_USER_ONLY
->>   #include "sysemu/reset.h"
->>   #endif
->> +#include "exec/exec-all.h"
->>   #define CR0_RESET       0xE0UL
->>   #define CR14_RESET      0xC2000000UL;
->> @@ -83,6 +84,16 @@ uint64_t s390_cpu_get_psw_mask(CPUS390XState *env)
->>       return r;
->>   }
->> +static void s390_cpu_synchronize_from_tb(CPUState *cs,
->> +                                         const TranslationBlock *tb)
->> +{
->> +    /* The program counter is always up to date with TARGET_TB_PCREL. */
->> +    if (!TARGET_TB_PCREL) {
->> +        S390CPU *cpu = S390_CPU(cs);
->> +        cpu->env.psw.addr = tb_pc(tb);
->> +    }
->> +}
+>> Since v2:
+>> - Split of bigger series
+>> - Split in simpler patches
+>> - Added Eric R-b tags
+>>
+>> v2:
+>> https://lore.kernel.org/qemu-devel/20230213070820.76881-17-philmd@linaro.org/
+>>
+>> Philippe Mathieu-Daudé (6):
+>>    hw/s390x/event-facility: Replace DO_UPCAST(SCLPEvent) by SCLP_EVENT()
 > 
-> FYI, this causes a build failure with --disable-tcg:
+> Thomas took the first patch,
 > 
->   https://gitlab.com/thuth/qemu/-/jobs/3806828645#L1885
+>>    hw/vfio/ccw: Simplify using DEVICE() macro
+>>    hw/vfio/ccw: Use intermediate S390CCWDevice variable
+>>    hw/vfio/ccw: Replace DO_UPCAST(S390CCWDevice) by S390_CCW_DEVICE()
+>>    hw/vfio/ccw: Remove pointless S390CCWDevice variable
+>>    hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by VFIO_CCW()
 > 
-> I'll add this to fix it, no need to respin:
+> Could you take the other ones via your VFIO tree?
+> (all patches reviewed).
 
-FYI, I've unqueued this series from my current pull request again since it's 
-causing trouble with the avocado-system-centos and avocado-system-opensuse 
-CI jobs ... I'll try to pin-point the failing patch later, but since the 
-rest of my current queue is quite long already, I really want to get that 
-big queue merged first.
+I've picked the other patches now, too (since they've got a Reviewed-by by 
+one of the vfio-ccw maintainers now).
 
   Thomas
 
