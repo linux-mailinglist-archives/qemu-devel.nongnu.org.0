@@ -2,94 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CEA6A46BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 17:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321316A46CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 17:12:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWg2v-0004SG-SK; Mon, 27 Feb 2023 11:08:13 -0500
+	id 1pWg6d-0004Y9-K3; Mon, 27 Feb 2023 11:12:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pWg2t-0004G8-I8
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:08:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWg6b-0004Qz-J6
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:12:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pWg2s-0008Vi-1G
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:08:11 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWg6Z-0000nJ-Vc
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:12:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677514088;
+ s=mimecast20190719; t=1677514319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W8UKKtblNQex7SBNhLhoN2JkWACMBc9dITR3yeEr7jE=;
- b=DXZjs9TjzqAodyW2lvM+QavCwuzYtQdWWHNevP109+0fPq2ZiYeXr8w5w/FE70btbZctu5
- B4zvzoyHrXTqhehWYf4pbKC/mpBCX+ssv/hcV/7lmVQAcA7QT58OvV2kU7yErQPmrHXa+R
- e3qFY7OePZjhKRCPnsDTuD6wwrBGjr0=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OdriFUYeeOvWoj/shIseU2RgsOT/aw1VcPMx3doB/u0=;
+ b=LbTt6HqP1QFaoNog2i44tgEeTMVLeFOgOGAYZWvh/C3nY8e+qbxKFpu8i2VAl5doMsax7H
+ KUec6GKWOA6a8dgvKZTWFttbjbqO/rtY1Nz7YJvZqg2WUEtjZ9Q40MZv19bBNdXm78+w7F
+ LO5tgnQyn5Jea5Q/B1+hde5HUvJAaNY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-274-_BjI3cGuMeC3rIIHJcAsQg-1; Mon, 27 Feb 2023 11:08:03 -0500
-X-MC-Unique: _BjI3cGuMeC3rIIHJcAsQg-1
-Received: by mail-qt1-f197.google.com with SMTP id
- bb31-20020a05622a1b1f00b003bfc3311816so3025002qtb.4
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 08:08:03 -0800 (PST)
+ us-mta-83-ztiXG869MKegKjbD6MofiA-1; Mon, 27 Feb 2023 11:11:57 -0500
+X-MC-Unique: ztiXG869MKegKjbD6MofiA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ bx25-20020a5d5b19000000b002c7ce4ce3c3so985657wrb.13
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 08:11:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W8UKKtblNQex7SBNhLhoN2JkWACMBc9dITR3yeEr7jE=;
- b=YkW7LeUZklZno0XhZFKuMpTf3xn3Y26rSBrVmoHxds11poFOGT3U+4eRq6feUoPsFC
- e1tUaLCbZxPP1eBmXGOrLC7jGi1CkTD4hqe9iqqB9/YXFxdDGG/qzD8PQTfiIqbO2uXY
- GBzFZgc8ANoPu9gTD8hZUBm0SeN2GrgFwJFEBBVdTo/BKbjDv4cYPcVURB/CnWLhzsY1
- yo5TYx1JLtlX3p4LitXeMRq9gwwIfmMHtp91g36c3BleDRhVib8ZuMcIrUEFGlVW2XjJ
- m8eKHyqiLUpTHG3Q8DrJtJuQiPo695GabknBi2SMiJDn33mTQKwwllRvTPUJRdHFrQNR
- Ef9Q==
-X-Gm-Message-State: AO0yUKVqUrL11u3l/mteu9vF8YzsYD8uYZNPH+4fAaPqHOKMr+bi7/+d
- ItxWn+UtH/h/1UTXQmPi9SV16A3vJyAhyfD+oPF40onG56PJl2HDNO/25WEio7qYqpwjzaG16Dv
- FvsNAnHTAgY0U1nw=
-X-Received: by 2002:a05:6214:1d08:b0:570:ee5c:2953 with SMTP id
- e8-20020a0562141d0800b00570ee5c2953mr16330743qvd.11.1677514083414; 
- Mon, 27 Feb 2023 08:08:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set+L8Dt/P/Wula5PEOYLeyvL/dY7d0/aVKgf/USAxprDSIBUdfAENZ6LarAgJ57IflQIPMsD6A==
-X-Received: by 2002:a05:6214:1d08:b0:570:ee5c:2953 with SMTP id
- e8-20020a0562141d0800b00570ee5c2953mr16330693qvd.11.1677514083005; 
- Mon, 27 Feb 2023 08:08:03 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- q190-20020a3743c7000000b00742a23cada8sm2859928qka.131.2023.02.27.08.08.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 08:08:01 -0800 (PST)
-Date: Mon, 27 Feb 2023 17:07:59 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bui Quang Minh <minhquangbui99@gmail.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "Michael S . Tsirkin" <mst@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH 1/4] apic: add support for x2APIC mode
-Message-ID: <20230227170759.12297901@imammedo.users.ipa.redhat.com>
-In-Reply-To: <ee3d42c1-9e52-57f9-eba8-a5dc3a45d14f@gmail.com>
-References: <20230221160500.30336-1-minhquangbui99@gmail.com>
- <20230221160500.30336-2-minhquangbui99@gmail.com>
- <20230224152932.1de436cb@imammedo.users.ipa.redhat.com>
- <ee3d42c1-9e52-57f9-eba8-a5dc3a45d14f@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OdriFUYeeOvWoj/shIseU2RgsOT/aw1VcPMx3doB/u0=;
+ b=ELWF+N46Or/I5qPsZp4XMr+BZp/H7zOCMPJHMOgXpSMZg7FB6qDB4CQloSwrQeZlKi
+ RuyDQqV19T0Ng1v/x93M5nX+TWunJXesKi06RPyLcvYh7n/JnIrxyJyd8GevDPSxhPpX
+ owhX+rRUvLtDOuWrxq8YP0HoJ5Fz83tZSPIOXe0rD3XblvTSf4u6FG3lQwIhb/NJmUh0
+ 674Cb9wgMmrNIM7ZBj4iuHo4detaP6VpDkgEoUJ/N1z2F35n7MN5kApOGp99JmAXrZvM
+ 4Jzpo/lRjQwvO5YsM8csPa00LtAeljmGuZUjiBFeIxNkHeOln875VQ0JejCcuxmfJB6N
+ iEoQ==
+X-Gm-Message-State: AO0yUKWp8I6N1U28U6RKyQGGwoLc2RktPBoDL6fSpZjtVTbyrL6T30Jy
+ Qe7VhEPeIONZpBmRFH4aR9V+RiXXsucO9OznKbIhS338qlil8rJ/YV8J9+3hY4SBCkuZ+t3GJSP
+ 8uKNr6ZmJ0P2AbuM=
+X-Received: by 2002:a05:600c:491f:b0:3eb:3974:aad7 with SMTP id
+ f31-20020a05600c491f00b003eb3974aad7mr6352417wmp.24.1677514316533; 
+ Mon, 27 Feb 2023 08:11:56 -0800 (PST)
+X-Google-Smtp-Source: AK7set/H78MYNd7WkD9btRY9oqgMxTw0R7/a/pKcQSETreroY4l5dzarKNFCeeAyxfosLAaD7slTvg==
+X-Received: by 2002:a05:600c:491f:b0:3eb:3974:aad7 with SMTP id
+ f31-20020a05600c491f00b003eb3974aad7mr6352404wmp.24.1677514316290; 
+ Mon, 27 Feb 2023 08:11:56 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-150.web.vodafone.de.
+ [109.43.176.150]) by smtp.gmail.com with ESMTPSA id
+ l9-20020adffe89000000b002c59e001631sm7537288wrr.77.2023.02.27.08.11.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 08:11:55 -0800 (PST)
+Message-ID: <618f8617-8240-4d48-cbd4-6c16695eae1c@redhat.com>
+Date: Mon, 27 Feb 2023 17:11:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [qemu-web PATCH] Announce Google Summer of Code and Outreachy 2023
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+References: <20230224011006.1574493-1-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230224011006.1574493-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,59 +99,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 25 Feb 2023 17:15:17 +0700
-Bui Quang Minh <minhquangbui99@gmail.com> wrote:
-
-> On 2/24/23 21:29, Igor Mammedov wrote:
-> > On Tue, 21 Feb 2023 23:04:57 +0700
-> > Bui Quang Minh <minhquangbui99@gmail.com> wrote:
-> >   
-> >> This commit refactors APIC registers read/write function to support both
-> >> MMIO read/write in xAPIC mode and MSR read/write in x2APIC mode. Also,
-> >> support larger APIC ID, self IPI, new IPI destination determination in
-> >> x2APIC mode.
-> >>
-> >> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
-> >> ---
-> >>   hw/intc/apic.c                  | 211 +++++++++++++++++++++++++-------
-> >>   hw/intc/apic_common.c           |   2 +-
-> >>   include/hw/i386/apic.h          |   5 +-
-> >>   include/hw/i386/apic_internal.h |   2 +-
-> >>   4 files changed, 172 insertions(+), 48 deletions(-)
-> >>
-> >> diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-> >> index 2d3e55f4e2..205d5923ec 100644
-> >> --- a/hw/intc/apic.c
-> >> +++ b/hw/intc/apic.c
-> >> @@ -30,6 +30,7 @@
-> >>   #include "hw/i386/apic-msidef.h"
-> >>   #include "qapi/error.h"
-> >>   #include "qom/object.h"
-> >> +#include "tcg/helper-tcg.h"
-> >>   
-> >>   #define MAX_APICS 255  
-> > 
-> > I'm curious how does it work without increasing ^^^?  
+On 24/02/2023 02.10, Stefan Hajnoczi wrote:
+> QEMU is participating in GSoC and Outreachy again. This blog post will
+> draw people's attention to our open source internships and increase the
+> number of applicants.
 > 
-> Hmm, my commit message is not entirely correct. In this series, some 
-> operations (send IPI, IPI destination determination) have been updated 
-> to support x2APIC mode. However, the emulated APIC still doesn't support 
-> APIC ID larger than 255 because currently, we use a fixed length (255 + 
-> 1) array to manage local APICs. So to support larger APIC ID, I think we 
-> need to find any way to manage those, as the possible allocated APIC ID 
-> range is large and maybe the allocated APIC ID is sparse which makes 
-> fixed length array so wasteful.
-how much sparse it is? 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   _posts/2023-02-23-gsoc-outreachy-2023.md | 46 ++++++++++++++++++++++++
+>   1 file changed, 46 insertions(+)
+>   create mode 100644 _posts/2023-02-23-gsoc-outreachy-2023.md
 
-benefits of simple static array is simplicity in management and O(1) access time.
-QEMU does know in advance max apic id so we can size array by dynamically
-allocating it when 1st apic is created. Or if IDs are too sparse
-switch to another structure to keep mapping.
+Thanks, pushed!
 
-
-> 
-> Thanks,
-> Quang Minh.
-> 
+  Thomas
 
 
