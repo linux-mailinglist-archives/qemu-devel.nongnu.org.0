@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091F76A4491
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4561D6A449C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:36:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeBV-0003Sw-A1; Mon, 27 Feb 2023 09:08:57 -0500
+	id 1pWeBW-0003hp-ND; Mon, 27 Feb 2023 09:08:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeB6-00035X-Vs
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:33 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeBH-0003Ho-94
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:46 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeB5-0000Qh-8N
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:32 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id l1so3312313wry.12
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:08:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeBB-0000R9-4E
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:39 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so7266189wms.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=nfzbgiNXdB7bzGKCFvc/rYiWW7yVj2AEWIRDHY3zhyM=;
- b=RxLj3AE19JAlvSjgeXZ0Agi0QNGJJRBQABvqG6A5MyBVWpXMw0BXSKI0Rk1eWm6b7G
- aZnkbnxkBivZNiNwVxJRl8StrMkaeQyRFEkiCgBwWhnjQ8BbQ2/zD+oheCgRMHVhCQ2A
- sreCgf3KZ1hbbiPz81ye5uAs2L9Q9WCd1CJLkqYZ3oH0VhyjU4fC4mFJNZlmUuBakJjg
- pl61syeGMdNNmo+QIsDhoE0TYOKgDNWm1bLIfZtHTBxxTPNqc6Bn0lzrEjWQFeAboHQ5
- NhLys21dprPMdyoF+lo4bh33mwvnAA+3twe2wIOZfJb3j78YCA+ELafaEtKF+91b8DHO
- ImEQ==
+ :reply-to; bh=g1WFgmQi9RTPdbhVn2Otree0rWFPQ8KugT3/QR1c5Yo=;
+ b=VppkSAy2ThYZerfqb9FGVrNkvqUcOHzJlwVUaWtURunO8pChLTNiLFqvdfRs3rQbev
+ vQvJlKJ91f9REZOAohil+I+dKM8mW9ohSN4VhQwDOFs3oby8xuLyzoRahyLFGLIXx5D6
+ ALhal8vYU9pz1hkMoWIsjsUkx4OHcWJRUSPdg+9YNCI+UzklhDoSyMeYwquYPTlcBwHc
+ jqx0o354kBArsYWbUbUx6mwMaNrTMvBXrxSGZIgTZeTGgkQoBTCVWELdDibQCGxEHgSR
+ 1FFyNof52yTYaSjVsLLrVQN/nVgOrHJLcWQqdm3UzMP2UnGH6ejhsmTn8ttPoTK2ffdu
+ ypXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nfzbgiNXdB7bzGKCFvc/rYiWW7yVj2AEWIRDHY3zhyM=;
- b=X5fMRuEkhPICWZfdNqzOvQBhyt37xXjEkHqRB2rsl0YAfA0m0deSZDIWu3SuO1yg7A
- 1qohGOlP780fQwMRlLkHOEZrBgOwg6kIZZIRH7gq7jQPaoU0i/aW4S5kzvBYdxdBP/kd
- 5zBTWz+RUepXDaIKryk3FzRpn1qoI0aWa0GYLvhoFXmQ7AWeTZlya1fh5h648hZahRQV
- dkssodP+3KLwLd5WehOHT3UAdocCltxhtixwaRKvGmG5/3nD9vFMiCqHkohiweuQL09L
- D2Zg3WVoy6XleUChnkUWtVG5MOyA1BRfL0HRBw94SxYH26GCCm4XoHaY+GfxV9E3/dZe
- Cs/g==
-X-Gm-Message-State: AO0yUKXUJ8FcOYNqncJ/yJ41Ws2EN/xAmOqmhV5u40bgxiHLmjvyNnky
- aGR2Xsxqn0lgV6KGSBnQexsFkOdif7cchHuZ
-X-Google-Smtp-Source: AK7set+ZJtpowER9RxT8e4c8Fp9OZJ65yRQv0UkAZnehntFrJOn/yu9p0j134olPDzYG/GXjjfs1sQ==
-X-Received: by 2002:adf:ed0b:0:b0:2c7:1e16:57cf with SMTP id
- a11-20020adfed0b000000b002c71e1657cfmr9509135wro.67.1677506909486; 
- Mon, 27 Feb 2023 06:08:29 -0800 (PST)
+ bh=g1WFgmQi9RTPdbhVn2Otree0rWFPQ8KugT3/QR1c5Yo=;
+ b=rF5m5M2/BMPdfJdmRSNGqug0a0Qce8qCT2RH0tHf+2RpNeq/1BZbAr/QV2jg9PzvmG
+ vYw04+ef3hUhpSJuxuh3+mJ0ExMMF3ob6btPeBu9J0tnS1nAVTTVFoesEpjqZpUxbQ/m
+ 50opUtlJyW8EKafyq6AcvLacYK9z9a2ZJnAb+YYEwo3a62urRgCLxbotDZzxxG0pqo72
+ JCL6tsa4MjLB3xRgDM6GQmmxyK7rn2SPvoE4SbC/pZS5z5lg3uvisosUP8zBDYU/FZ8b
+ ZoGe0+Bm+sxHFnopW+4EjmwCHKhkNCZ4d9orPGn825EaERY/aiSsHlnY5M6/3axyd5bX
+ FJrA==
+X-Gm-Message-State: AO0yUKWe27I5yfI94PdckQBXFv99g68DfxVx1vqJNa7aJ9q6nOpWIKgp
+ 5qy0RyI/onolINEJj6Cz255u4rIh++ouf8bk
+X-Google-Smtp-Source: AK7set/TES6bUxdy0rdX9NuE4Y3TBaiISV/uWMmYEA1ckxh93QiwHrBtXxxaNV6lZQ6NG8Dgxw4n6g==
+X-Received: by 2002:a05:600c:4f96:b0:3db:8de:6993 with SMTP id
+ n22-20020a05600c4f9600b003db08de6993mr6685644wmq.4.1677506915104; 
+ Mon, 27 Feb 2023 06:08:35 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- u3-20020adfed43000000b002c55ec7f661sm7544192wro.5.2023.02.27.06.08.28
+ n41-20020a05600c3ba900b003e20fa01a86sm9873340wms.13.2023.02.27.06.08.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:08:29 -0800 (PST)
+ Mon, 27 Feb 2023 06:08:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 078/126] hw/usb/ohci: Use OHCIState type definition
-Date: Mon, 27 Feb 2023 15:01:25 +0100
-Message-Id: <20230227140213.35084-69-philmd@linaro.org>
+Subject: [PULL 079/126] hw/usb/ohci: Code style fix comments
+Date: Mon, 27 Feb 2023 15:01:26 +0100
+Message-Id: <20230227140213.35084-70-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,64 +88,308 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Forward-define the type first, then use it for the ohci_die() handler.
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <9b0aadedc7c4780fefdc27f14f72ac9003032fbf.1676916639.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230220150515.32549-3-philmd@linaro.org>
 ---
- hw/usb/hcd-ohci.c |  2 +-
- hw/usb/hcd-ohci.h | 10 ++++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ hw/usb/hcd-ohci.c | 99 +++++++++++++++++++++++------------------------
+ 1 file changed, 49 insertions(+), 50 deletions(-)
 
 diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index 9d68036d23..7ecf9b15b7 100644
+index 7ecf9b15b7..93fc592161 100644
 --- a/hw/usb/hcd-ohci.c
 +++ b/hw/usb/hcd-ohci.c
-@@ -1827,7 +1827,7 @@ static USBBusOps ohci_bus_ops = {
- void usb_ohci_init(OHCIState *ohci, DeviceState *dev, uint32_t num_ports,
-                    dma_addr_t localmem_base, char *masterbus,
-                    uint32_t firstport, AddressSpace *as,
--                   void (*ohci_die_fn)(struct OHCIState *), Error **errp)
-+                   void (*ohci_die_fn)(OHCIState *), Error **errp)
+@@ -23,7 +23,7 @@
+  *  o Disable timers when nothing needs to be done, or remove timer usage
+  *    all together.
+  *  o BIOS work to boot from USB storage
+-*/
++ */
+ 
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+@@ -39,7 +39,7 @@
+ #include "hcd-ohci.h"
+ 
+ /* This causes frames to occur 1000x slower */
+-//#define OHCI_TIME_WARP 1
++/*#define OHCI_TIME_WARP 1*/
+ 
+ #define ED_LINK_LIMIT 32
+ 
+@@ -58,7 +58,7 @@ struct ohci_hcca {
+ #define ED_WBACK_OFFSET offsetof(struct ohci_ed, head)
+ #define ED_WBACK_SIZE   4
+ 
+-/* Bitfields for the first word of an Endpoint Desciptor.  */
++/* Bitfields for the first word of an Endpoint Desciptor. */
+ #define OHCI_ED_FA_SHIFT  0
+ #define OHCI_ED_FA_MASK   (0x7f<<OHCI_ED_FA_SHIFT)
+ #define OHCI_ED_EN_SHIFT  7
+@@ -71,11 +71,11 @@ struct ohci_hcca {
+ #define OHCI_ED_MPS_SHIFT 16
+ #define OHCI_ED_MPS_MASK  (0x7ff<<OHCI_ED_MPS_SHIFT)
+ 
+-/* Flags in the head field of an Endpoint Desciptor.  */
++/* Flags in the head field of an Endpoint Desciptor. */
+ #define OHCI_ED_H         1
+ #define OHCI_ED_C         2
+ 
+-/* Bitfields for the first word of a Transfer Desciptor.  */
++/* Bitfields for the first word of a Transfer Desciptor. */
+ #define OHCI_TD_R         (1<<18)
+ #define OHCI_TD_DP_SHIFT  19
+ #define OHCI_TD_DP_MASK   (3<<OHCI_TD_DP_SHIFT)
+@@ -88,7 +88,7 @@ struct ohci_hcca {
+ #define OHCI_TD_CC_SHIFT  28
+ #define OHCI_TD_CC_MASK   (0xf<<OHCI_TD_CC_SHIFT)
+ 
+-/* Bitfields for the first word of an Isochronous Transfer Desciptor.  */
++/* Bitfields for the first word of an Isochronous Transfer Desciptor. */
+ /* CC & DI - same as in the General Transfer Desciptor */
+ #define OHCI_TD_SF_SHIFT  0
+ #define OHCI_TD_SF_MASK   (0xffff<<OHCI_TD_SF_SHIFT)
+@@ -335,8 +335,8 @@ static void ohci_soft_reset(OHCIState *ohci)
+     ohci->per_cur = 0;
+     ohci->done = 0;
+     ohci->done_count = 7;
+-
+-    /* FSMPS is marked TBD in OCHI 1.0, what gives ffs?
++    /*
++     * FSMPS is marked TBD in OCHI 1.0, what gives ffs?
+      * I took the value linux sets ...
+      */
+     ohci->fsmps = 0x2778;
+@@ -460,10 +460,10 @@ static inline int ohci_read_hcca(OHCIState *ohci,
+ static inline int ohci_put_ed(OHCIState *ohci,
+                               dma_addr_t addr, struct ohci_ed *ed)
  {
-     Error *err = NULL;
-     int i;
-diff --git a/hw/usb/hcd-ohci.h b/hw/usb/hcd-ohci.h
-index e5e6b434fd..e1827227ac 100644
---- a/hw/usb/hcd-ohci.h
-+++ b/hw/usb/hcd-ohci.h
-@@ -34,7 +34,9 @@ typedef struct OHCIPort {
-     uint32_t ctrl;
- } OHCIPort;
+-    /* ed->tail is under control of the HCD.
++    /*
++     * ed->tail is under control of the HCD.
+      * Since just ed->head is changed by HC, just write back this
+      */
+-
+     return put_dwords(ohci, addr + ED_WBACK_OFFSET,
+                       (uint32_t *)((char *)ed + ED_WBACK_OFFSET),
+                       ED_WBACK_SIZE >> 2);
+@@ -601,8 +601,10 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed)
+         trace_usb_ohci_iso_td_relative_frame_number_neg(relative_frame_number);
+         return 1;
+     } else if (relative_frame_number > frame_count) {
+-        /* ISO TD expired - retire the TD to the Done Queue and continue with
+-           the next ISO TD of the same ED */
++        /*
++         * ISO TD expired - retire the TD to the Done Queue and continue with
++         * the next ISO TD of the same ED
++         */
+         trace_usb_ohci_iso_td_relative_frame_number_big(relative_frame_number,
+                                                         frame_count);
+         if (OHCI_CC_DATAOVERRUN == OHCI_BM(iso_td.flags, TD_CC)) {
+@@ -845,9 +847,10 @@ static void ohci_td_pkt(const char *msg, const uint8_t *buf, size_t len)
+     }
+ }
  
--typedef struct OHCIState {
-+typedef struct OHCIState OHCIState;
-+
-+struct OHCIState {
-     USBBus bus;
-     qemu_irq irq;
-     MemoryRegion mem;
-@@ -90,8 +92,8 @@ typedef struct OHCIState {
-     uint32_t async_td;
-     bool async_complete;
+-/* Service a transport descriptor.
+-   Returns nonzero to terminate processing of this endpoint.  */
+-
++/*
++ * Service a transport descriptor.
++ * Returns nonzero to terminate processing of this endpoint.
++ */
+ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
+ {
+     int dir;
+@@ -869,7 +872,7 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
+         return 1;
+     }
  
--    void (*ohci_die)(struct OHCIState *ohci);
--} OHCIState;
-+    void (*ohci_die)(OHCIState *ohci);
-+};
+-    /* See if this TD has already been submitted to the device.  */
++    /* See if this TD has already been submitted to the device. */
+     completion = (addr == ohci->async_td);
+     if (completion && !ohci->async_complete) {
+         trace_usb_ohci_td_skip_async();
+@@ -885,7 +888,7 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
+     switch (dir) {
+     case OHCI_TD_DIR_OUT:
+     case OHCI_TD_DIR_IN:
+-        /* Same value.  */
++        /* Same value. */
+         break;
+     default:
+         dir = OHCI_BM(td.flags, TD_DP);
+@@ -956,11 +959,12 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
+         }
+         ep = usb_ep_get(dev, pid, OHCI_BM(ed->flags, ED_EN));
+         if (ohci->async_td) {
+-            /* ??? The hardware should allow one active packet per
+-               endpoint.  We only allow one active packet per controller.
+-               This should be sufficient as long as devices respond in a
+-               timely manner.
+-            */
++            /*
++             * ??? The hardware should allow one active packet per
++             * endpoint.  We only allow one active packet per controller.
++             * This should be sufficient as long as devices respond in a
++             * timely manner.
++             */
+             trace_usb_ohci_td_too_many_pending(ep->nr);
+             return 1;
+         }
+@@ -996,7 +1000,7 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
  
- #define TYPE_SYSBUS_OHCI "sysbus-ohci"
- OBJECT_DECLARE_SIMPLE_TYPE(OHCISysBusState, SYSBUS_OHCI)
-@@ -113,7 +115,7 @@ extern const VMStateDescription vmstate_ohci_state;
- void usb_ohci_init(OHCIState *ohci, DeviceState *dev, uint32_t num_ports,
-                    dma_addr_t localmem_base, char *masterbus,
-                    uint32_t firstport, AddressSpace *as,
--                   void (*ohci_die_fn)(struct OHCIState *), Error **errp);
-+                   void (*ohci_die_fn)(OHCIState *), Error **errp);
- void ohci_bus_stop(OHCIState *ohci);
- void ohci_stop_endpoints(OHCIState *ohci);
- void ohci_hard_reset(OHCIState *ohci);
+     /* Writeback */
+     if (ret == pktlen || (dir == OHCI_TD_DIR_IN && ret >= 0 && flag_r)) {
+-        /* Transmission succeeded.  */
++        /* Transmission succeeded. */
+         if (ret == len) {
+             td.cbp = 0;
+         } else {
+@@ -1048,8 +1052,10 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
+                 OHCI_SET_BM(td.flags, TD_EC, 3);
+                 break;
+             }
+-            /* An error occurred so we have to clear the interrupt counter. See
+-             * spec at 6.4.4 on page 104 */
++            /*
++             * An error occurred so we have to clear the interrupt counter.
++             * See spec at 6.4.4 on page 104
++             */
+             ohci->done_count = 0;
+         }
+         ed->head |= OHCI_ED_H;
+@@ -1071,7 +1077,7 @@ exit_no_retire:
+     return OHCI_BM(td.flags, TD_CC) != OHCI_CC_NOERROR;
+ }
+ 
+-/* Service an endpoint list.  Returns nonzero if active TD were found.  */
++/* Service an endpoint list.  Returns nonzero if active TD were found. */
+ static int ohci_service_ed_list(OHCIState *ohci, uint32_t head)
+ {
+     struct ohci_ed ed;
+@@ -1095,7 +1101,7 @@ static int ohci_service_ed_list(OHCIState *ohci, uint32_t head)
+ 
+         if ((ed.head & OHCI_ED_H) || (ed.flags & OHCI_ED_K)) {
+             uint32_t addr;
+-            /* Cancel pending packets for ED that have been paused.  */
++            /* Cancel pending packets for ED that have been paused. */
+             addr = ed.head & OHCI_DPTR_MASK;
+             if (ohci->async_td && addr == ohci->async_td) {
+                 usb_cancel_packet(&ohci->usb_packet);
+@@ -1151,7 +1157,7 @@ static void ohci_sof(OHCIState *ohci)
+     ohci_set_interrupt(ohci, OHCI_INTR_SF);
+ }
+ 
+-/* Process Control and Bulk lists.  */
++/* Process Control and Bulk lists. */
+ static void ohci_process_lists(OHCIState *ohci)
+ {
+     if ((ohci->ctl & OHCI_CTL_CLE) && (ohci->status & OHCI_STATUS_CLF)) {
+@@ -1192,7 +1198,7 @@ static void ohci_frame_boundary(void *opaque)
+         ohci_service_ed_list(ohci, le32_to_cpu(hcca.intr[n]));
+     }
+ 
+-    /* Cancel all pending packets if either of the lists has been disabled.  */
++    /* Cancel all pending packets if either of the lists has been disabled. */
+     if (ohci->old_ctl & (~ohci->ctl) & (OHCI_CTL_BLE | OHCI_CTL_CLE)) {
+         ohci_stop_endpoints(ohci);
+     }
+@@ -1234,18 +1240,17 @@ static void ohci_frame_boundary(void *opaque)
+     }
+ }
+ 
+-/* Start sending SOF tokens across the USB bus, lists are processed in
++/*
++ * Start sending SOF tokens across the USB bus, lists are processed in
+  * next frame
+  */
+ static int ohci_bus_start(OHCIState *ohci)
+ {
+     trace_usb_ohci_start(ohci->name);
+-
+-    /* Delay the first SOF event by one frame time as
+-     * linux driver is not ready to receive it and
+-     * can meet some race conditions
++    /*
++     * Delay the first SOF event by one frame time as linux driver is
++     * not ready to receive it and can meet some race conditions
+      */
+-
+     ohci->sof_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+     ohci_eof_timer(ohci);
+ 
+@@ -1259,9 +1264,9 @@ void ohci_bus_stop(OHCIState *ohci)
+     timer_del(ohci->eof_timer);
+ }
+ 
+-/* Sets a flag in a port status register but only set it if the port is
+- * connected, if not set ConnectStatusChange flag. If flag is enabled
+- * return 1.
++/*
++ * Sets a flag in a port status reg but only set it if the port is connected.
++ * If not set ConnectStatusChange flag. If flag is enabled return 1.
+  */
+ static int ohci_port_set_if_connected(OHCIState *ohci, int i, uint32_t val)
+ {
+@@ -1271,9 +1276,7 @@ static int ohci_port_set_if_connected(OHCIState *ohci, int i, uint32_t val)
+     if (val == 0)
+         return 0;
+ 
+-    /* If CurrentConnectStatus is cleared we set
+-     * ConnectStatusChange
+-     */
++    /* If CurrentConnectStatus is cleared we set ConnectStatusChange */
+     if (!(ohci->rhport[i].ctrl & OHCI_PORT_CCS)) {
+         ohci->rhport[i].ctrl |= OHCI_PORT_CSC;
+         if (ohci->rhstatus & OHCI_RHS_DRWE) {
+@@ -1291,7 +1294,7 @@ static int ohci_port_set_if_connected(OHCIState *ohci, int i, uint32_t val)
+     return ret;
+ }
+ 
+-/* Set the frame interval - frame interval toggle is manipulated by the hcd only */
++/* Frame interval toggle is manipulated by the hcd only */
+ static void ohci_set_frame_interval(OHCIState *ohci, uint16_t val)
+ {
+     val &= OHCI_FMI_FI;
+@@ -1357,9 +1360,7 @@ static uint32_t ohci_get_frame_remaining(OHCIState *ohci)
+     if ((ohci->ctl & OHCI_CTL_HCFS) != OHCI_USB_OPERATIONAL)
+         return (ohci->frt << 31);
+ 
+-    /* Being in USB operational state guarnatees sof_time was
+-     * set already.
+-     */
++    /* Being in USB operational state guarnatees sof_time was set already. */
+     tks = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - ohci->sof_time;
+     if (tks < 0) {
+         tks = 0;
+@@ -1439,13 +1440,11 @@ static void ohci_port_set_status(OHCIState *ohci, int portnum, uint32_t val)
+         trace_usb_ohci_port_reset(portnum);
+         usb_device_reset(port->port.dev);
+         port->ctrl &= ~OHCI_PORT_PRS;
+-        /* ??? Should this also set OHCI_PORT_PESC.  */
++        /* ??? Should this also set OHCI_PORT_PESC. */
+         port->ctrl |= OHCI_PORT_PES | OHCI_PORT_PRSC;
+     }
+ 
+-    /* Invert order here to ensure in ambiguous case, device is
+-     * powered up...
+-     */
++    /* Invert order here to ensure in ambiguous case, device is powered up. */
+     if (val & OHCI_PORT_LSDA)
+         ohci_port_power(ohci, portnum, 0);
+     if (val & OHCI_PORT_PPS)
+@@ -1892,7 +1891,7 @@ void usb_ohci_init(OHCIState *ohci, DeviceState *dev, uint32_t num_ports,
+                                    ohci_frame_boundary, ohci);
+ }
+ 
+-/**
++/*
+  * A typical OHCI will stop operating and set itself into error state
+  * (which can be queried by MMIO) to signal that it got an error.
+  */
 -- 
 2.38.1
 
