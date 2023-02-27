@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D79B6A44A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:37:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B524E6A44F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:44:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeFT-0002lY-VA; Mon, 27 Feb 2023 09:13:03 -0500
+	id 1pWeFQ-00029f-PM; Mon, 27 Feb 2023 09:13:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeEF-0000OZ-5M
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:11:47 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeEd-0000RW-E1
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:12:12 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeED-0001CS-Hh
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:11:46 -0500
-Received: by mail-wr1-x429.google.com with SMTP id j2so6354316wrh.9
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:11:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeEI-0001Cr-QV
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:11:52 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ j19-20020a05600c191300b003eb3e1eb0caso2621044wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:11:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=boxJ68eJA67XnJT9rYf8WV4k46uWX8EKHHrm/LJLj1s=;
- b=eSWQAD6CcgyPQ1iPA2AIG+VX0FfnPPTEL8cW0kTPSQ+lNxqRYCnuKpCSD/9y5dJCIV
- 0t71E1LPQjMq7YBmJRJcRGqaignk9vgGhrk34+8UPe1+MUvIP0mGhzxU15hq256p+ihp
- XLUDSM6GE1vzsEK051io3LgxF7dPA4OxRVWChR3owkAjTe281YDL3U73Q/jp0jrZhPN2
- xOZ3srxjuSEnVtCzn6OmdzVEvyhW07QdUXmitWdiaYjUwnxfJqCIBA5BPGy7+q3OqQxT
- SF1Ti3Tj7Nios18VxCLaOJzEbFYi9yJQbujwvLnQ4M8IjxFlqJr8HP7QNsf05jzqzzkl
- lviA==
+ :reply-to; bh=fusPliZxFroR31tM0titpPE2I3vuj4ZeCjqW1pWpihU=;
+ b=VbkeYioHaKWC9ppe0N3KlVLItL89O7jqZU5XvsrRy5MEAMqM3c5RJhcrqqz9liGJXw
+ U0loIbNBreHKE22SKQW05imGz8fwl9NECH3ThURz/io26GbaVoG0QepMr8wM60OhQ4yE
+ NME2+XKfScC93V1bHTy0k3cIqGXS4BOCHdqAAV+uGTuhdQnyihd3hIxQZ6Px3ms6TXpB
+ WGmliWRYOYL0woQnXRAewm1qT8m/db7sYn3p4h9aytvDsc76ZwFWTJuvBvmWO34viTS4
+ WemN1EfsOdpd2DXOwcHLvTiXiajaKTJzUuJOj5nuw9PgOx87y/YNHKfvKk0hr9AojXvf
+ dnfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=boxJ68eJA67XnJT9rYf8WV4k46uWX8EKHHrm/LJLj1s=;
- b=w5CWr2TIdFtRvtvpfwMXGA3FmEQ/FtBfE+Hy9qkwlhICKEW2q7RG+k1QRBAJ0x0I/v
- khl3nIIrLX71W1UB/2WsVlNNGjGuyq5NWYPGhPaxjttGyTkO3We5NR6+ClmGbTf4NArd
- piGvrF+B1b65PU89pktpyrf7t09BpdhIzGBvc6R3Y93FOziiyuXJ7C7AsoVPW4OpSY69
- 0jId9XhKQJ/ebe1SOlBQlXQ+x9ACrv3SmphofO7Dd3LxByq69z+eefhHhgXHitk2GJHQ
- Cw+aymwJcpqWFdeeYw2mSr2eOhje+DivgRakLf+M9DQPGF2T/qmoA25w7XbeaH254e9B
- KN+A==
-X-Gm-Message-State: AO0yUKXtBS5+Yy5Br/wqkltw8FIdwmQAtQIPHoNjVG/43winiBaPEQp9
- xH/1hB5IV6Dlf0Qy82+ZguyQwkNP8R0L/gCw
-X-Google-Smtp-Source: AK7set+S0DDyvaS67ej1WNoplP4s8WAwleflBxbghCfLkqmQj4ZVpulkBK/mxTqlNbYIxt/w51Jk5w==
-X-Received: by 2002:a5d:6812:0:b0:2c7:f2f:e47 with SMTP id
- w18-20020a5d6812000000b002c70f2f0e47mr13043859wru.22.1677507103941; 
- Mon, 27 Feb 2023 06:11:43 -0800 (PST)
+ bh=fusPliZxFroR31tM0titpPE2I3vuj4ZeCjqW1pWpihU=;
+ b=1JHMLAYoWlJPgmMmrzEiKG4hJaDRIjSfwJ3lnDwkQ6vOJqPfEzWCdxqrvXJb0Lpj1y
+ zFteEDr5J9HEhcbpA98edvKNaucGYerwdFMVk+IgAda3Pu99GYM6VwFfNuVrjZFnmjDZ
+ KN3gPQY2ubAL2/e3ZaIeaaMvw5jSqCpzgrZ/lGL0me0U181CqiqH9+mabsBoZUYuCTTU
+ 9a/zvBK7gc0d7F8hJe2VvHcyJM9kyzVHxRCqByrGmEl7hh4paD4U+A9+XxoHpd18BFnp
+ n316zPWc4O7gkbp6bKiH5bn2DT2qlJRo4QQp95+TAui3S9nsSv8qRQE//jB9+aDGXepi
+ vwlw==
+X-Gm-Message-State: AO0yUKV6si6Ku8A84ud7WO2Sfu3XscHGu1kEPY7pZF5MqWT/jOotIXoo
+ fntSfVM3aIzjHXQ2JBbrh10u3CxotsefHbjr
+X-Google-Smtp-Source: AK7set+yyqBvqBtQVafgC2PuCbIkIWrx7RPHkfCxHezTP+KKw2KeY41zV/sGx4/SExwONozFKl44Mg==
+X-Received: by 2002:a05:600c:4d18:b0:3ea:e554:7808 with SMTP id
+ u24-20020a05600c4d1800b003eae5547808mr9946317wmp.19.1677507109187; 
+ Mon, 27 Feb 2023 06:11:49 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- c4-20020adffb04000000b002c70bfe505esm7159484wrr.82.2023.02.27.06.11.43
+ d24-20020a1c7318000000b003dc522dd25esm9082325wmb.30.2023.02.27.06.11.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:11:43 -0800 (PST)
+ Mon, 27 Feb 2023 06:11:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 114/126] hw/ide/ioport: Remove unnecessary includes
-Date: Mon, 27 Feb 2023 15:02:01 +0100
-Message-Id: <20230227140213.35084-105-philmd@linaro.org>
+Subject: [PULL 115/126] hw/ide/pci: Unexport bmdma_active_if()
+Date: Mon, 27 Feb 2023 15:02:02 +0100
+Message-Id: <20230227140213.35084-106-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,34 +88,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230215112712.23110-17-philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- hw/ide/ioport.c | 10 ----------
- 1 file changed, 10 deletions(-)
+From: Bernhard Beschow <shentey@gmail.com>
 
-diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
-index e6caa537fa..e2ecc6230c 100644
---- a/hw/ide/ioport.c
-+++ b/hw/ide/ioport.c
-@@ -25,16 +25,6 @@
+The function is only used inside ide/pci.c, so doesn't need to be exported.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230215112712.23110-18-philmd@linaro.org>
+---
+ hw/ide/pci.c         | 6 ++++++
+ include/hw/ide/pci.h | 6 ------
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/hw/ide/pci.c b/hw/ide/pci.c
+index 2ddcb49b27..fc9224bbc9 100644
+--- a/hw/ide/pci.c
++++ b/hw/ide/pci.c
+@@ -104,6 +104,12 @@ const MemoryRegionOps pci_ide_data_le_ops = {
+     .endianness = DEVICE_LITTLE_ENDIAN,
+ };
  
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
--#include "qemu/error-report.h"
--#include "qemu/timer.h"
--#include "sysemu/blockdev.h"
--#include "sysemu/dma.h"
--#include "hw/block/block.h"
--#include "sysemu/block-backend.h"
--#include "qapi/error.h"
--#include "qemu/cutils.h"
--#include "sysemu/replay.h"
++static IDEState *bmdma_active_if(BMDMAState *bmdma)
++{
++    assert(bmdma->bus->retry_unit != (uint8_t)-1);
++    return bmdma->bus->ifs + bmdma->bus->retry_unit;
++}
++
+ static void bmdma_start_dma(const IDEDMA *dma, IDEState *s,
+                             BlockCompletionFunc *dma_cb)
+ {
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index 2a6284acac..7b5e3f6e1c 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -55,12 +55,6 @@ struct PCIIDEState {
+     MemoryRegion data_bar[2];
+ };
+ 
+-static inline IDEState *bmdma_active_if(BMDMAState *bmdma)
+-{
+-    assert(bmdma->bus->retry_unit != (uint8_t)-1);
+-    return bmdma->bus->ifs + bmdma->bus->retry_unit;
+-}
 -
- #include "hw/ide/internal.h"
- #include "trace.h"
- 
+ void bmdma_init(IDEBus *bus, BMDMAState *bm, PCIIDEState *d);
+ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
+ extern MemoryRegionOps bmdma_addr_ioport_ops;
 -- 
 2.38.1
 
