@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843F26A4146
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA356A420F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:53:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWc9O-00007B-N7; Mon, 27 Feb 2023 06:58:38 -0500
+	id 1pWcMO-0007fh-76; Mon, 27 Feb 2023 07:12:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWc9F-00006m-UP
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:58:31 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pWcML-0007ek-0U
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:12:02 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWc9E-0001Wx-4M
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:58:29 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id h31so3371789pgl.6
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:58:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pWcMI-0004bt-IQ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:12:00 -0500
+Received: by mail-wr1-x432.google.com with SMTP id v16so3163277wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:11:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rDNmIZIHtYv4UMmSdU20SKIB99BoJCQgFZygUF45ecw=;
- b=ZNPaSuKJaX77YHCy/L5FSPARmB3zPgxva+fEk5PBoxLPZD6qlyhcimIWBwJeFGKHQy
- gS+LaxamrCJI+9izbl+6trdNeulNzlBq0EyFtwQwcQby3Erl41nq0q1kO+KdDGu5PbZw
- 1hRR14P+TqQfNIJttBOD9MXa+BkcLQJwHPjbU6KDmXPgzQ3Xj+xbE5wywUUkazj93rA2
- UW0xTQO9MIeOPuO5Pb2d0XCBo2oSKsV3/oRYhSa1ydKvpwKXkMXnnbk2dlGzRLUYF7kq
- e1sufq6VuUZWXaLMc5k1jk6ZF8eRS/MRG+pJJsi7R5sZ4BtnumMnzilnVF0k+88wZzi7
- 8NpA==
+ bh=qJCsFYRe6nL7XT5G5gFRwCb9shkQpd0AIQ7ThKksO4c=;
+ b=edv8pz1ZxE8214FAiePhsiPTzFlbmQFL8WsL2q9hBGFtdtLssFfQVUKZ5Y4tQ4gQGX
+ Vxt/wlEqRXy6Gc7+j2kQyZy5jQdhcmJJY+Me8NFmr1SEmK1CwuQ5Ewh671FXctNBb4LB
+ iMggNJQIzPR80hHp/VRF+mfydEWkRKDyAOzGY6J8h0hJWf/VQLxGzt1bqexHcC70jnoQ
+ yg7+GX6dLmvP3rmbXTBXh/t7osY2zGZ/19ytYeUHl3oYtBVp1x3aqqcs3X5+D/J4vfhW
+ wzEBMroS5plfoK1tcNjL0F5/+2UB7EyXSfT6C5qDetEFTJJqvp970EbNKrpk28n2iUz5
+ 2+MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rDNmIZIHtYv4UMmSdU20SKIB99BoJCQgFZygUF45ecw=;
- b=WPoVONjmS7Gooh70LSZ/+I7WNntVb52jJKqmyaY4dy92BEPgAEkUO/67Iculs1N29V
- xjUotFI8Vx7CbAHLBCe0N29KwpLJCQAGOpP6NORIijDXzjFOuJ/dUq/DZt9PANp7aD+J
- UzrCSRyfKEKwQacDk5BiUDtEFUtF4XtMa7JpZqOqGGQ2buAsIwpB1V6I4FfzWHlEKyO9
- SQbniO8Icdw1dsseZJcGhqAzQCdDCbbeP+ZNa66p3NfzndoB+IzDnJaXxpq8JT/YAG4t
- jMPMxRdCmDIO7nnuO+SqvIA6/UrL99eRIndgq6EbCZFHZ4H9/U06al7gMZG0uZt7nyYB
- 3BTg==
-X-Gm-Message-State: AO0yUKW8WhxZD/uteW137IVKpa0GrkU6gFwlAwt5U84K6I8PFxyhoypW
- dCv5C4Y8GhMZslCfDJw0KPmvAim4OmwSpe1Y7XDu7Q==
-X-Google-Smtp-Source: AK7set/57Oftp8LXpSOBM6D1VbwdYKFXhHdDuCZwK+K/eDkJOrcFieyp/6amqmx1LQvNgHfCEBxlux0D0lf/U7kuuho=
-X-Received: by 2002:a63:8c55:0:b0:502:f5c8:a00c with SMTP id
- q21-20020a638c55000000b00502f5c8a00cmr4451393pgn.9.1677499106619; Mon, 27 Feb
- 2023 03:58:26 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=qJCsFYRe6nL7XT5G5gFRwCb9shkQpd0AIQ7ThKksO4c=;
+ b=CzC77wXe0+YrSJDub2wuNjts9MLlk3ay6W07zTZvGwB8H8slHHGkTOOXoppW3YNhfe
+ NkYYuXq9DHml4kp7kLlMw4PHNeqxSLYXrS7Ehc9kl5tBHwQB/VvyYARs6QnWXzJT4oMA
+ KAv3G3/RjlFHOBwrpfzVvYko9Yc4SDKF2Y6+AGIX8YyDTHevSQQT1PYELK8gotkbCg4z
+ aBCM5sATnxAgu6xMXczF6B9IiPgyK3Wk5JrDxk7qF3OnE2KzO2NiUGit3Ybf5IMO5RyI
+ CNFcIArw1D5RjJEP6FCAbfcQ6IOyZiIKtMycqDSaePcwr941yYhtbWLLluhyJjee2yrq
+ 0HOQ==
+X-Gm-Message-State: AO0yUKVnAMjFKkwAFsGpWq37LNMisunGZyVNnx5QEFeVnJAQ0Fu2HdUC
+ Qxk9fE2S5aNuFfMb4PZNSreLLA==
+X-Google-Smtp-Source: AK7set+HeH/UHij4gwRj0zpX5HUWgozhRj5RK7J1UQVi6s4J6G8cTQodU8n2Z6z2cwVcMfcrP6jeJQ==
+X-Received: by 2002:a5d:5652:0:b0:2cc:4e58:f6d0 with SMTP id
+ j18-20020a5d5652000000b002cc4e58f6d0mr488235wrw.54.1677499916833; 
+ Mon, 27 Feb 2023 04:11:56 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ d21-20020a1c7315000000b003b47b80cec3sm12527400wmb.42.2023.02.27.04.11.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 04:11:56 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 083CA1FFB7;
+ Mon, 27 Feb 2023 12:11:56 +0000 (GMT)
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-4-marcandre.lureau@redhat.com>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>, Eric Blake
+ <eblake@redhat.com>, Stefan Weil <sw@weilnetz.de>, Paolo Bonzini
+ <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?=
+ <philmd@linaro.org>, Markus Armbruster <armbru@redhat.com>, =?utf-8?Q?Dan?=
+ =?utf-8?Q?iel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v3 03/10] tests/docker: fix a win32 error due to
+ portability
+Date: Mon, 27 Feb 2023 12:11:49 +0000
+In-reply-to: <20230207142535.1153722-4-marcandre.lureau@redhat.com>
+Message-ID: <875ybni9ys.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20230223155720.310593-1-alex.bennee@linaro.org>
-In-Reply-To: <20230223155720.310593-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Feb 2023 11:58:15 +0000
-Message-ID: <CAFEAcA_Up9_180Xb+_2ybuVPfknP7=WTmTAGcZEk5_iP0YH5rw@mail.gmail.com>
-Subject: Re: [PULL 00/13] testing updates (gitlab, cirrus, docker, avocado,
- windows)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,65 +103,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 23 Feb 2023 at 15:57, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit 79b677d658d3d35e1e776826ac4abb28cdce69=
-b8:
->
->   Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into s=
-taging (2023-02-21 11:28:31 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-230223-1
->
-> for you to fetch changes up to e9969376f01180d7bcbee25ae8333983da7eda2c:
->
->   cirrus.yml: Improve the windows_msys2_task (2023-02-23 15:48:23 +0000)
->
-> ----------------------------------------------------------------
-> testing updates:
->
->   - ensure socat available for tests
->   - skip socat tests for MacOS
->   - properly clean up fifos after use
->   - make fp-test less chatty
->   - store test artefacts on Cirrus
->   - control custom runners with QEMU_CI knobs
->   - disable benchmark runs under tsan build
->   - update ubuntu 2004 to 2204
->   - skip nios2 kernel replay test
->   - add tuxrun baselines to avocado
->   - binary build of tricore tools
->   - export test results on cross builds
->   - improve windows builds
 
-This hangs when I try to merge it, and eventually times out:
+marcandre.lureau@redhat.com writes:
 
-Switched to branch 'master'
-Your branch is up-to-date with 'origin/master'.
-Already up-to-date.
-Switched to branch 'staging'
-fetching from remote https://gitlab.com/stsquad/qemu.git
-tags/pull-testing-next-230223-1
-remote: Enumerating objects: 108, done.
-remote: Counting objects: 100% (108/108), done.
-remote: Compressing objects: 100% (50/50), done.
-remote: Total 108 (delta 59), reused 93 (delta 57), pack-reused 0
-Receiving objects: 100% (108/108), 100.58 KiB | 7.74 MiB/s, done.
-Resolving deltas: 100% (59/59), completed with 23 local objects.
-From https://gitlab.com/stsquad/qemu
- * tag                       pull-testing-next-230223-1 -> FETCH_HEAD
-Fetching submodule tests/fp/berkeley-testfloat-3
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> docker.py is run during configure, and produces an error: No module
+> named 'pwd'.
+>
+> Use a more portable and recommended alternative to lookup the user
+> "login name".
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-fatal: unable to connect to github.com:
-github.com[0: 140.82.121.3]: errno=3DConnection timed out
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-
-I don't understand why anything is trying to fetch from github
-in the first place: the URL for the testfloat-3 submodule
-is a gitlab one..
-
--- PMM
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
