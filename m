@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A446A4397
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:02:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2407D6A43C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:08:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe4t-00018r-QA; Mon, 27 Feb 2023 09:02:07 -0500
+	id 1pWe76-0001uQ-Em; Mon, 27 Feb 2023 09:04:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe3z-0000VE-Ok
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:11 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe71-0001ho-KK
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:21 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe3x-0007WR-Uq
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:11 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id r7so6329417wrz.6
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe70-0007yy-2f
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:19 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id k37so4348479wms.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=vrjkaKCliIFkLE0ljnHmQFIiPqAoUGCU+4M0ENFMcrk=;
- b=gRNlgXABrQlLN4CfgW1Z61p3m+VGHgsGU8hF7Yvj5/QE82BS81YVdsqXEx1/NGwYTu
- JMaTJTUJQFB6WcYMhcRkAVVQnTJy6ECw6i5lc6vh20fLXKj5ToWe/UjWqN5dWxT2482u
- S27zOUvnE03xwtAIog27jdG6Q2McFMT7QlpzLJDxKCT8apmC5OAb7V5XqChF5e3hTZ/n
- /yIIc+pp1EKlY+KXdFMP3yy1K8KlH8c5FWWBuOzZff+7Xp80wmDc7oSTOKHH/AX32n+Z
- 5SiYVmTi6Qo01Oq5Jw56qJRz0oZpUesu0CmQlpc6IdMiCMR5Sxb96OqGBaxsvjz2M+lu
- itvA==
+ :reply-to; bh=GNz/wLv9q/CfxjcpxtTBilmbJ9v6EOOZzvA1J/LwMtM=;
+ b=Odx3syVmuCGIBKq3/o7UAqCa8u0n6jaxtSaiLwKlGtkKDGtqaAC20iFglLpKIH8Ra2
+ 068kxEDwfa5kWKbHr1wK3F7CVbBcaflV3XGDblUarDmnN5sBlsbSGmCKuTkGA4QARPkY
+ YiqStzcOXP3U5MLVl2xh4HskR1VufteKPA4rAf7AHdZs4hpQsmLQxs0rw7xz/fZaV3b/
+ 3az7BBJx8XNHv2xl2FP+qHdhhpCZI+H6nPKWnLYtrJVgaHkELROLY+DyLwCcEjiTS9c4
+ 0UKBeqtYkOUAiZ0DsXM1J5qC0gNLMSx8rO5Sof5/vD5PeGWMBJl5Mma4pf9n4kg+dXoC
+ SYdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vrjkaKCliIFkLE0ljnHmQFIiPqAoUGCU+4M0ENFMcrk=;
- b=I2rozQbDILvhtSqWMOqtV2pEyFaekqEt1V0sdZqSQAQ+rgAAxCn95p8xtLfKBWg6Rr
- p/iZUBpdnHet16BAvJmnymJS0YMxkreUYX0816dhnzyUdTkQ6ajld/waUkD6SWvtXFzu
- +idl+zAg1I6c0P++uREufbdXYYdM6LQ/APA6p3CT20XnAFUOMcoW8ektTTUPHqyZlv+x
- /r++nAtF4qytPHolMzJu43gBOlwDyiExvXM3r1bIwMs4XW7Sx9ywEtSS7MwHxZ5y6ozs
- eAPR4TfSPKoEptIrkCb8IbZl0Xb/QwA4pY+N/y7q06xb82xlH++f5qnVJVPnUxybN8SV
- AMDw==
-X-Gm-Message-State: AO0yUKV21in3HW57DYGkQvqZfDvVAXoKZ7RkckShRaZzsZ6/Cm08d8z7
- zDeGljQfRGPZ0OAQWj2h7bvCUGXmOSdkYdad
-X-Google-Smtp-Source: AK7set92RCYaHHmN6+NU38W2Mf/WseupTp2C/P0IQzcgLFWxtU9LBhvnWvSQgaZIg7Nop+DOSWWpjQ==
-X-Received: by 2002:a5d:4447:0:b0:2c9:b3a9:b080 with SMTP id
- x7-20020a5d4447000000b002c9b3a9b080mr6098768wrr.16.1677506468299; 
- Mon, 27 Feb 2023 06:01:08 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=GNz/wLv9q/CfxjcpxtTBilmbJ9v6EOOZzvA1J/LwMtM=;
+ b=WGLVu7rMUZ0+iq6MKnKdqsPnE1JHk+Pm8/AxLj4EWVRB6oksj8wKRLJUiJz6WhMUKS
+ 6XAowhQR/WzPFXuGYPayR6rPoyymJPW11fO1yCbUuUO9gF6w+sj2BQ/sgB2q5AiTPVzE
+ LkkjwYmdpr404k6Wv6uoJ2QTb3TMu8zY7O6yeKe0JH9sM5G21+BG2Lx2a8ghFKjGYkgQ
+ /kUhqPqcHQ+S/xPpNNKjOa1+dWZ3X2SFJZafqyYq4Jnwu6quWvV2TSx6PfQpuw/gbc04
+ mri/7mFGY+p9W6hCEiRRrebz1AhMbfYZduw2SZESiClA5y7KH+n81lhR/j0WHfy2RBAS
+ CpTQ==
+X-Gm-Message-State: AO0yUKW9EyUSYzV9buZnV/+vSleWhefGQSp/E0feYBAaXUo1K80X3JlL
+ 8vDvoSB2LcHJV6kJHANlNP6XvyDGpl7Qfbqq
+X-Google-Smtp-Source: AK7set9FwuprcO5ybqYwQXy0UuU5cqbJ34BR1SBqrY+JtpJFTqoLLBz54RqbUq03BGkYkNRBCB1rdg==
+X-Received: by 2002:a05:600c:251:b0:3ea:f73e:9d8a with SMTP id
+ 17-20020a05600c025100b003eaf73e9d8amr11387470wmj.30.1677506656572; 
+ Mon, 27 Feb 2023 06:04:16 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.06
+ s2-20020a5d6a82000000b002c53cc7504csm7396758wru.78.2023.02.27.06.04.15
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 06:01:07 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 27 Feb 2023 06:04:16 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/25] target/arm: Wrap breakpoint/watchpoint updates with
- tcg_enabled
-Date: Mon, 27 Feb 2023 14:00:39 +0000
-Message-Id: <20230227140102.3712344-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
-References: <20230227140102.3712344-1-peter.maydell@linaro.org>
+Subject: [PULL 032/126] tests/unit: Restrict machine-smp.c test to system
+ emulation
+Date: Mon, 27 Feb 2023 15:00:39 +0100
+Message-Id: <20230227140213.35084-23-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
+References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,111 +88,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fabiano Rosas <farosas@suse.de>
-
-This is in preparation for restricting compilation of some parts of
-debug_helper.c to TCG only.
-
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20221219170806.60580-6-philmd@linaro.org>
 ---
- target/arm/cpu.c          |  6 ++++--
- target/arm/debug_helper.c | 16 ++++++++++++----
- target/arm/machine.c      |  7 +++++--
- 3 files changed, 21 insertions(+), 8 deletions(-)
+ tests/unit/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 876ab8f3bf8..da416f7b1cb 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -539,8 +539,10 @@ static void arm_cpu_reset_hold(Object *obj)
-     }
- #endif
- 
--    hw_breakpoint_update_all(cpu);
--    hw_watchpoint_update_all(cpu);
-+    if (tcg_enabled()) {
-+        hw_breakpoint_update_all(cpu);
-+        hw_watchpoint_update_all(cpu);
-+    }
-     arm_rebuild_hflags(env);
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index ffa444f432..51f453e6c4 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -46,7 +46,6 @@ tests = {
+   'test-uuid': [],
+   'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
+   'test-qapi-util': [],
+-  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
+   'test-interval-tree': [],
  }
  
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index 3c671c88c1a..3325eb9d7df 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -939,7 +939,9 @@ static void dbgwvr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     value &= ~3ULL;
- 
-     raw_write(env, ri, value);
--    hw_watchpoint_update(cpu, i);
-+    if (tcg_enabled()) {
-+        hw_watchpoint_update(cpu, i);
-+    }
- }
- 
- static void dbgwcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -949,7 +951,9 @@ static void dbgwcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     int i = ri->crm;
- 
-     raw_write(env, ri, value);
--    hw_watchpoint_update(cpu, i);
-+    if (tcg_enabled()) {
-+        hw_watchpoint_update(cpu, i);
-+    }
- }
- 
- void hw_breakpoint_update(ARMCPU *cpu, int n)
-@@ -1062,7 +1066,9 @@ static void dbgbvr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     int i = ri->crm;
- 
-     raw_write(env, ri, value);
--    hw_breakpoint_update(cpu, i);
-+    if (tcg_enabled()) {
-+        hw_breakpoint_update(cpu, i);
-+    }
- }
- 
- static void dbgbcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -1079,7 +1085,9 @@ static void dbgbcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     value = deposit64(value, 8, 1, extract64(value, 7, 1));
- 
-     raw_write(env, ri, value);
--    hw_breakpoint_update(cpu, i);
-+    if (tcg_enabled()) {
-+        hw_breakpoint_update(cpu, i);
-+    }
- }
- 
- void define_debug_regs(ARMCPU *cpu)
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index b4c3850570c..fd6323f6d8a 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -2,6 +2,7 @@
- #include "cpu.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
- #include "kvm_arm.h"
- #include "internals.h"
- #include "migration/cpu.h"
-@@ -848,8 +849,10 @@ static int cpu_post_load(void *opaque, int version_id)
-         return -1;
-     }
- 
--    hw_breakpoint_update_all(cpu);
--    hw_watchpoint_update_all(cpu);
-+    if (tcg_enabled()) {
-+        hw_breakpoint_update_all(cpu);
-+        hw_watchpoint_update_all(cpu);
-+    }
- 
-     /*
-      * TCG gen_update_fp_context() relies on the invariant that
+@@ -134,6 +133,7 @@ if have_system
+     'test-util-sockets': ['socket-helpers.c'],
+     'test-base64': [],
+     'test-bufferiszero': [],
++    'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
+     'test-vmstate': [migration, io],
+     'test-yank': ['socket-helpers.c', qom, io, chardev]
+   }
 -- 
-2.34.1
+2.38.1
 
 
