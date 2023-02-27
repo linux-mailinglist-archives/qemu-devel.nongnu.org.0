@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BE96A4369
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337156A4378
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:56:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdvx-00076s-Dw; Mon, 27 Feb 2023 08:52:53 -0500
+	id 1pWdvy-0007AZ-Tv; Mon, 27 Feb 2023 08:52:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvq-0006wv-Pj
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:46 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvr-0006yO-Nj
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:47 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvo-0005lk-8E
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:46 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvp-0005m8-TJ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=3vwFSoB2bHvtgYg87TuPJr3UNKK7u87K+rpHlY/+9d8=; b=MOdzfPO92CgVXDGAtVlY/V87AK
- roTZCgtO/Pj+jcv1D21bgAVw/mlvBOleM/oTLKy5UhdyFNmWIqhAhi1oXrVIjbJoRzTRWGTYPEWgH
- fEpI98V7adXs97tTCLHjBW8BOhDqxEp1olAS9wds4txmlum3HIn8Du9wy5a7ZIkTophk=;
+ bh=bqC+bKWEc1/BvfjKom/hMlnYKvNb5ko9EOk+d122qfU=; b=q4XS8e0NYe1kv1G0Vlslnc/ByC
+ gX7HaQI/iUowdwJB7kbwXlcAQPjgeMRLgfDm0QKJY+YWqQIp+NBGR5M3zjcTw4pVmozQKXyinVeK4
+ TOQYPrOUslXEiI27MMQWo4BrCTSa91BqJTdNgHSwflCYQja4eWu1gtf8dB2hiK3MIVBE=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v3 26/27] target/arm: Replace `tb_pc()` with `tb->pc`
-Date: Mon, 27 Feb 2023 14:52:01 +0100
-Message-Id: <20230227135202.9710-27-anjo@rev.ng>
+Subject: [PATCH v3 27/27] include/exec: Remove `tb_pc()`
+Date: Mon, 27 Feb 2023 14:52:02 +0100
+Message-Id: <20230227135202.9710-28-anjo@rev.ng>
 In-Reply-To: <20230227135202.9710-1-anjo@rev.ng>
 References: <20230227135202.9710-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -68,25 +68,27 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/arm/cpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/exec/exec-all.h | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index c05cb86a47..db8f62beae 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -86,9 +86,9 @@ void arm_cpu_synchronize_from_tb(CPUState *cs,
-          * never possible for an AArch64 TB to chain to an AArch32 TB.
-          */
-         if (is_a64(env)) {
--            env->pc = tb_pc(tb);
-+            env->pc = tb->pc;
-         } else {
--            env->regs[15] = tb_pc(tb);
-+            env->regs[15] = tb->pc;
-         }
-     }
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index f1615af7cb..c03c271995 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -618,13 +618,6 @@ static inline uint32_t tb_cflags(const TranslationBlock *tb)
+     return qatomic_read(&tb->cflags);
  }
+ 
+-/* Hide the read to avoid ifdefs for CF_PCREL. */
+-static inline target_ulong tb_pc(const TranslationBlock *tb)
+-{
+-    assert(!(tb_cflags(tb) & CF_PCREL));
+-    return tb->pc;
+-}
+-
+ static inline tb_page_addr_t tb_page_addr0(const TranslationBlock *tb)
+ {
+ #ifdef CONFIG_USER_ONLY
 -- 
 2.39.1
 
