@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEFD6A3DFF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 10:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DE86A3E0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 10:14:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWZYq-0007eU-Up; Mon, 27 Feb 2023 04:12:44 -0500
+	id 1pWZaS-0002fq-93; Mon, 27 Feb 2023 04:14:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWZYl-0007aS-7A; Mon, 27 Feb 2023 04:12:39 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWZYi-0003IN-0I; Mon, 27 Feb 2023 04:12:38 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id eg37so22632917edb.12;
- Mon, 27 Feb 2023 01:12:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KzaNf1BV/eaGYcmV4bEFPcP3Whyl+deLmO2zFyaQccw=;
- b=LH49lfLXiIW2oFhywWISwSzcn+81doZKbJhdlXry2AZVwGiIggkcemTAcBOCzzlIvs
- dPTWIHEkMvCu1BCs1Wh+2bST2tFkoNsJ/Eeks7xgmh6H+fS3pWxMh1J8BjQ1g6j7sv9b
- K1EdcTslXC1DzdmXSAH8bZi+i/71ieDEAj6jKKss2rnjB1vhFtcNKH1uWY9ygj98gzEv
- guYn2bZNYAABU3Duwb8tLVioyt0fnGJIdUqOHCjS5sQ/nPNPAkyQC4pCcQmejBd2nuUJ
- yPhp1BQ/h63F8usJx/3quxYVuXa4cW8LRpP/AV/RKqBWyClrIVzIRTNB5nXhS9XNV/9t
- 1zMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KzaNf1BV/eaGYcmV4bEFPcP3Whyl+deLmO2zFyaQccw=;
- b=ExntNHJd8NFgbSc7HQ+wFNM7IY2nixyCOtuIqHmjNmcl44YfPKih52b7lBNnWNEGBS
- Hs8VjP/p85d9tStAncWJ4vDtS3ZPJl7yymgJcEX2YYC5k4GWPOZGJMc7g/+bjUSRZUHL
- ZRa0vtbofJYhD2GcWv9n4H/hC3nt8+XtKH+cGeATerNP9zONOe+WtPd06k5aAo/PK7ax
- T2bUE35ZigPVlV+BzbfyGi0bxSiKRr9GbmJGTyU1zhr3AwhDxsGptRoNNnTkM6ZxpOwL
- RwmgWweC9tN/2RHzGgwyjDHLI8NeMKq23PpLwHdjP9v5Vq5E1tZFtMD7sORuXLCIohd4
- K3OQ==
-X-Gm-Message-State: AO0yUKUGHUDFq3XY6cmFhKQZaMKIcgFPB0sFNw75qBCY7OQr85Z6V6yp
- liKJTElXZtvHR9QoTYLX0fU=
-X-Google-Smtp-Source: AK7set9qr4tc5/SWC9Xk7eV+cHpmxkR2ALIMPC7alNSUUJhtKaMz3xZUVzUpuJYNHtAisJ7ADzq0DA==
-X-Received: by 2002:a17:906:4914:b0:8b1:7eaf:4708 with SMTP id
- b20-20020a170906491400b008b17eaf4708mr36469864ejq.65.1677489153649; 
- Mon, 27 Feb 2023 01:12:33 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-078-055-154-008.78.55.pool.telefonica.de.
- [78.55.154.8]) by smtp.gmail.com with ESMTPSA id
- gx16-20020a1709068a5000b008b69aa62efcsm2994179ejc.62.2023.02.27.01.12.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 01:12:33 -0800 (PST)
-Date: Mon, 27 Feb 2023 09:12:25 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 00/10] Resolve isabus global
-In-Reply-To: <EF0E7E03-2330-410C-BB6D-D0708D1DC05B@gmail.com>
-References: <20230126211740.66874-1-shentey@gmail.com>
- <20230224112230-mutt-send-email-mst@kernel.org>
- <EF0E7E03-2330-410C-BB6D-D0708D1DC05B@gmail.com>
-Message-ID: <5A6D6A22-C45C-478E-B1F7-B5EEC2A69205@gmail.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pWZaP-0002dI-D0
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 04:14:21 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pWZaL-0003YF-CS
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 04:14:19 -0500
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8BxMI9bdPxjJQsGAA--.5702S3;
+ Mon, 27 Feb 2023 17:14:04 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxX+RYdPxjhrs+AA--.12777S3; 
+ Mon, 27 Feb 2023 17:14:00 +0800 (CST)
+Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-11-gaosong@loongson.cn>
+ <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
+ <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
+ <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
+ <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
+ <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
+ <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
+ <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <d052497f-fc2c-17ab-d455-f0a1727b422d@loongson.cn>
+Date: Mon, 27 Feb 2023 17:14:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8AxX+RYdPxjhrs+AA--.12777S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxGry3ArykJF18tw18CryUZFb_yoW5CFWxpr
+ 1kuryxXF9xW3s7Jr15Grn8AryUGryUJw15Jr15XF9xCFWjgF1jqr45XFyY9rnxAw4fZw47
+ Zr4kXrWjvas8X3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUzpBTUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: 14
+X-Spam_score: 1.4
+X-Spam_bar: +
+X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,131 +87,104 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+在 2023/2/25 上午3:24, Richard Henderson 写道:
+> On 2/23/23 21:24, gaosong wrote:
+>> I was wrong, the instruction is to sign-extend the odd or even 
+>> elements of the vector before the operation, not to sign-extend the 
+>> result.
+>> E.g
+>> vaddwev_h_b  vd, vj, vk
+>> vd->H[i] = SignExtend(vj->B[2i])  + SignExtend(vk->B[2i]);
+>> vaddwev_w_h  vd, vj, vk
+>> vd->W[i] = SignExtend(vj->H[2i])  + SignExtend(vk->H[2i]);
+>> vaddwev_d_w  vd, vj, vk
+>> vd->Q[i] = SignExtend(vj->W[2i])  + SignExtend(vk->W[2i]);
+>> vaddwev_q_d  vd, vj, vk
+>> vd->Q[i] = SignExtend(vj->D[2i])  + SignExtend(vk->D[2i]);
+>
+> Ok, good example.
+>
+Sorry ,  My description is not comprehensive.
 
-Am 26=2E Februar 2023 20:38:24 UTC schrieb Bernhard Beschow <shentey@gmail=
-=2Ecom>:
->
->
->Am 24=2E Februar 2023 16:22:48 UTC schrieb "Michael S=2E Tsirkin" <mst@re=
-dhat=2Ecom>:
->>On Thu, Jan 26, 2023 at 10:17:30PM +0100, Bernhard Beschow wrote:
->>> This series resolves the global "isabus" variable and is basically a v=
-2 of [1]=2E
->>> Note that the majority of the work consists of fixing ISA API calls in=
- PIIX IDE
->>> which implicitly rely on the usage of the isabus global=2E
->>>=20
->>> Rather than adding an ISABus pointer in PCIIDEState as in [1] this ser=
-ies uses
->>> a qemu_irq array which is roughly the approach outlined in [2]=2E More=
-over, this
->>> series considers backwards compatibility for user-created PIIX IDE
->>> "Frankensten" devices by fishing out TYPE_ISA_BUS from the QOM tree in=
-side
->>> the PIIX IDE device model=2E This hack can be removed again once a dep=
-recation
->>> period of user-createable PIIX IDE devices is over=2E This deprecation=
- wasn't
->>> announced yet but now might be a good time=2E
->>>=20
->>> This series is structured as follows: The first three patches massage =
-the ISA
->>> code for patch 8=2E Patches 4-8 change the PIIX IDE device models to n=
-ot use the
->>> isabus global implicitly=2E Finally, the last two patches clan up and =
-remove the
->>> isabus singleton=2E
->>
->>I expect there will be a v3 of this, right?
->
->I would do it and I could rebase onto master if necessary=2E However, ano=
-ther series unrelated to this one but doing essentially the same thing with=
- less backwards promises went through various iterations in the meantime=2E=
- I don't know what the plan is=2E
+vaddwedv_w_h  vd, vj, vk
 
-Phil, how shall we proceed? What's holding back the PIIX consolidation? It=
- was fully reviewed at the beginning of the development window=2E Now the f=
-reeze is just a couple of days ahead=2E
+...
 
-Best regards,
-Bernhard
+for i in range(4):
+     vd->W[i] = SignExtend(vj->H[2i], 32)  + SignExtend(vk->H[2i]. 32);
 
+...
+
+>> static void gen_vaddwev_s(unsigned vece, TCGv_vec t, TCGv_vec a, 
+>> TCGv_vec b)
+>> {
+>>      TCGv_vec t1 = tcg_temp_new_vec_matching(a);
+>>      TCGv_vec t2 = tcg_temp_new_vec_matching(b);
+>>
+>>      int halfbits  =  4 << vece;
+>>
+>>      /* Sign-extend even elements from a */
+>>      tcg_gen_dupi_vec(vece, t1, MAKE_64BIT_MASK(0, halfbits));
+>>      tcg_gen_and_vec(vece, a, a, t1);
 >
->Best regards,
->Bernhard
+> No need to mask off these bits...
 >
+I am not sure.  but the result is not correct.   It's  weird.
+
+
+like this:
+the vece is MO_32.
+static void gen_vaddwev_s(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
+{
+     TCGv_vec t1 = tcg_temp_new_vec_matching(a);
+     TCGv_vec t2 = tcg_temp_new_vec_matching(b);
+     int halfbits = 4 << vece;
+     tcg_gen_shli_vec(vece, t1, a, halfbits);
+     tcg_gen_shri_vec(vece, t1, t1, halfbits);
+
+     tcg_gen_shli_vec(vece, t2, b,  halfbits);
+     tcg_gen_shri_vec(vece, t2, t2, halfbits);
+
+     tcg_gen_add_vec(vece, t, t1, t2);
+
+     tcg_temp_free_vec(t1);
+     tcg_temp_free_vec(t2);
+}
+...
+        op[MO_16];
+         {
+             .fniv = gen_vaddwev_s,
+             .fno = gen_helper_vaddwev_w_h,
+             .opt_opc = vecop_list,
+             .vece = MO_32
+         },
+...
+TRANS(vaddwev_w_h, gvec_vvv, MO_16, gvec_vaddwev_s)
+
+input :       0x ffff     fffe ffff     fffe   ffff    fffe ffff fffe  + 0
+output :    0x 0000 fffe 0000 fffe  0000 fffe 0000 fffe
+the crroect is  0xffffffffefffffffefffffffefffffffe.
+
+Thanks.
+Song Gao
+>>      tcg_gen_shli_vec(vece, a, a, halfbits);
+>
+> ... because they shift out here anyway.
+>
+>>      tcg_gen_sari_vec(vece, a, a, halfbits);
 >>
+>>      /* Sign-extend even elements from b */
+>>      tcg_gen_dupi_vec(vece, t2, MAKE_64BIT_MASK(0, halfbits));
+>>      tcg_gen_and_vec(vece, b, b, t2);
+>>      tcg_gen_shli_vec(vece, b, b, halfbits);
+>>      tcg_gen_sari_vec(vece,  b, b, halfbits);
 >>
->>> Based-on: <20230109172347=2E1830-1-shentey@gmail=2Ecom>
->>>           'Consolidate PIIX south bridges'
->>>=20
->>> v2:
->>> - Big rework sticking closer to [1], giving it more credit and reusing=
- one patch
->>> - Add io port cleanup
->>> - Rebase onto [4] so changes to PIIX could be done once and centrally
->>>=20
->>> Testing done:
->>> * `make check`
->>> * `=2E/qemu-system-x86_64 -M x-remote -device piix3-ide` still fails g=
-racefully with
->>>   `qemu-system-x86_64: -device piix3-ide: No ISA bus found while piix3=
--ide requires one`
->>> * `qemu-system-x86_64 -M pc -m 2G -cdrom manjaro-kde-21=2E3=2E2-220704=
--linux515=2Eiso`
->>> * `qemu-system-x86_64 -M q35 -m 2G -device piix4-ide -cdrom \
->>>    manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
->>> * `qemu-system-mips64el -M malta -kernel vmlinux-3=2E2=2E0-4-5kc-malta=
- -hda \
->>>   debian_wheezy_mipsel_standard=2Eqcow2 -append "root=3D/dev/sda1 cons=
-ole=3DttyS0"`
->>>=20
->>> [1] https://patchew=2Eorg/QEMU/20210518215545=2E1793947-1-philmd@redha=
-t=2Ecom/
->>> [2] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2020-03/msg01=
-707=2Ehtml
->>> [3] https://people=2Edebian=2Eorg/~aurel32/qemu/mips/
->>> [4] https://patchew=2Eorg/QEMU/20230109172347=2E1830-1-shentey@gmail=
-=2Ecom/
->>>=20
->>> Bernhard Beschow (9):
->>>   softmmu/ioport: Move portio_list_init() in front of portio_list_add(=
-)
->>>   softmmu/ioport: Merge portio_list_add() into portio_list_init()
->>>   softmmu/ioport: Remove unused functions
->>>   hw/ide/piix: Disuse isa_get_irq()
->>>   Revert "hw/ide: Fix crash when plugging a piix3-ide device into the
->>>     x-remote machine"
->>>   hw/ide/pci: Add PCIIDEState::isa_irqs[]
->>>   hw/ide/piix: Require an ISABus only for user-created instances
->>>   hw/ide: Let ide_init_ioport() take a MemoryRegion argument instead o=
-f
->>>     ISADevice
->>>   hw/isa/isa-bus: Resolve isabus global
->>>=20
->>> Philippe Mathieu-Daud=C3=A9 (1):
->>>   hw/isa: Remove use of global isa bus
->>>=20
->>>  include/exec/ioport=2Eh     |  8 ++---
->>>  include/hw/ide/internal=2Eh |  3 +-
->>>  include/hw/ide/pci=2Eh      |  2 ++
->>>  include/hw/isa/isa=2Eh      | 15 ++++----
->>>  hw/audio/adlib=2Ec          |  4 +--
->>>  hw/display/qxl=2Ec          |  5 ++-
->>>  hw/display/vga=2Ec          |  8 ++---
->>>  hw/dma/i82374=2Ec           |  6 ++--
->>>  hw/ide/ioport=2Ec           | 19 +++++-----
->>>  hw/ide/isa=2Ec              |  4 ++-
->>>  hw/ide/piix=2Ec             | 75 +++++++++++++++++++++++++++++++-----=
----
->>>  hw/isa/isa-bus=2Ec          | 54 +++++++++++++++-------------
->>>  hw/isa/piix=2Ec             |  5 +++
->>>  hw/watchdog/wdt_ib700=2Ec   |  4 +--
->>>  softmmu/ioport=2Ec          | 70 +++++++++++-------------------------
->>>  15 files changed, 149 insertions(+), 133 deletions(-)
->>>=20
->>> --=20
->>> 2=2E39=2E1
->>>=20
+>>      tcg_gen_add_vec(vece, t, a, b);
 >>
+>>      tcg_temp_free_vec(t1);
+>>      tcg_temp_free_vec(t2);
+>> }
+>
+> Otherwise this looks good.
+
 
