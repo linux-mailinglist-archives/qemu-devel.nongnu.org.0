@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FC56A43FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A54D6A43A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:03:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe91-0005kf-BQ; Mon, 27 Feb 2023 09:06:23 -0500
+	id 1pWe5L-0003vF-By; Mon, 27 Feb 2023 09:02:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8z-0005fN-8n
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:21 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4S-0000px-Oi
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:46 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8x-00006d-Mq
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:21 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v16so3549925wrn.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:06:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4P-0007WH-M9
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:39 -0500
+Received: by mail-wr1-x436.google.com with SMTP id bx12so3175870wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LhfXfTTiOAw8Tas+LE/Xmhs92F8Sdpjj0w+PGmwionY=;
- b=IqWigxu1kIdvtmMEWcZ9cfn/O2o2sfFJWBMQ8vtjXdUW3ssXADR/rq1Na4opfju1hA
- 5nBk42uvmmdbnv/5AizkqXmrVJiqIVTLwqDTwox37ZZUzI1iTYDl+hnky1KNkekaE2sB
- gv/U5U0p4/+umeRNmoKk3AJhJwrSbERxBAK8e0CpqsT3oFkWiHpnLPLQRK3vHU/XQp/f
- IKfRWe6ikn4MF+Ioek1M4vpNV2BevJHchPpWfLxb0sQtTGXFV9I3fP1p2oLOoYECoyPz
- GD2zhRleXu7+gwDK7TQZQiqb4pxjrtUF0pzxTO05pZGrg9fDI0rrlMLnwmYQPGY3rjH3
- DeRA==
+ :reply-to; bh=UjsmPr4NI1xBRDaPfLgfuSMFB/tmuf/54srjtmPP27c=;
+ b=EhnD367YwV75/gp9l5edA72NTiWkJlJR4DFKmtpXOPN+GRxXwLE+tvYxqExQb7GQ0k
+ //yqcFdMrHIgztELWGcQCrhrLQWv3zHJ4rdHZ+LeoT7bumAS/rOiZ8IHpVG8b4n6znlI
+ ziXhwrXXTmPcZ2AjYbsmrwEOHnmmeYZN9LBNs3KUhKtO/7IOQMxfiWgzyWVerLtHJz5y
+ 3Kl8pm9YKbrXa4NZCCv8U8+hNL0bg8gmJr1vq0s66TPq/hgTScgzUTgSrnmFrDoaLU1J
+ 5JvA4YgxfMDo5aM/nRE50IgrOyvQUu7ls8usa6KgTX6sVm+7Q8I5oY8uqvBqzII2TW8e
+ 0ogA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LhfXfTTiOAw8Tas+LE/Xmhs92F8Sdpjj0w+PGmwionY=;
- b=zZBn2BZcK+Bs+s0+ETL7e6hWV0ap4utQNTEnyUcUK7LbTHWIwVcskIMcTIPlLNKQ+u
- eUuaBGOLFo1aXvX9srGPH/8zf8KXUPyBrc1ZyWnBTc+DiPkzW26ngqUo5tADzF20OHXl
- hFF28o9oZw9m3QoI8yoQbetTnYTrGv5RqmH9x2iG96NrDQTjfE0iEE4EtntkCOs1dxgZ
- k17VCRPgbhkJCHZ7pM3YkX+cWIrDqfjg8ldEy/0We7k4gv0bNlgBf2+W2NP2L3Ce9VUD
- NpcddwFOr66n2xQl2+NhmA9vlNp+k0zeD0Pi9kP2X05FaPWneQAHWD7hJbXf87t0GCjN
- ad+w==
-X-Gm-Message-State: AO0yUKWcTJYtah6iYFMp8vrV1EqutsRtlsqPRM82fdcOlCODcXfBdKkZ
- okItVCya+l1LL40pzHXyP359xClH11uS0amE
-X-Google-Smtp-Source: AK7set9qMTpwU8MRE6xCohaNtbQ8fGvaOaAsBT9Vdb0GmpkO5fqsxAXehI6/PSYhMI2ThfVMIg1T4Q==
-X-Received: by 2002:adf:f80c:0:b0:2c8:f78:2772 with SMTP id
- s12-20020adff80c000000b002c80f782772mr10067972wrp.19.1677506778202; 
- Mon, 27 Feb 2023 06:06:18 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ bh=UjsmPr4NI1xBRDaPfLgfuSMFB/tmuf/54srjtmPP27c=;
+ b=ZhmWCic+h2zN0QSeSFHrUdHztcbyuwX+BpC9FTmIeHHZoS8CNtwsK9P8V/yl7rOE1w
+ dr505hrlwwuvpsMfdRw8noLUhhyeS02j21nIAKn0ulR4bUxRKZOerZ4fhB5U7dOqY6xi
+ /bbIZ2CgXurvaaSQR2tSDwt4MzzrBKfClBOPHdDI8HcbAZ0YCqv9qwxxJe1lBgaBplLv
+ yXl8vtqfUCY1aDvjZyGud7KpQNciJTe17p/7AHVTU+Ck9trpCK6ixrfvvg1sFA7eee5F
+ yW8MAgeoufagbiGrHEFhq+XVOcoJk4G3xo/7Q0v7a2DttjLGmIWKvGF0RQ0TOZEk6cX0
+ Gjdw==
+X-Gm-Message-State: AO0yUKUlZezSpPxagcq+y5swp972EvGIVVYrY9FRRi7baZYpU5eru+o0
+ lIuRD+sP4IN1fhzcZbqWqkUI7iwPXSrwIrSj
+X-Google-Smtp-Source: AK7set8I1THzidQ+SjLUP21UWvJUl+tRVDlMc5kLeIFWBWD+LirIY0f1aRgi7iFYx1fxhnYKUJGmVg==
+X-Received: by 2002:a5d:6e88:0:b0:2cc:1935:1ae8 with SMTP id
+ k8-20020a5d6e88000000b002cc19351ae8mr1972459wrz.47.1677506496973; 
+ Mon, 27 Feb 2023 06:01:36 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c10-20020a5d4f0a000000b002c54911f50bsm7210770wru.84.2023.02.27.06.06.17
+ s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.36
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:06:17 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 06:01:36 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 054/126] hw/isa/i82378: Rename output IRQ as 'cpu_intr'
-Date: Mon, 27 Feb 2023 15:01:01 +0100
-Message-Id: <20230227140213.35084-45-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
-References: <20230227140213.35084-1-philmd@linaro.org>
+Subject: [PULL 24/25] hw/or-irq: Declare QOM macros using
+ OBJECT_DECLARE_SIMPLE_TYPE()
+Date: Mon, 27 Feb 2023 14:01:01 +0000
+Message-Id: <20230227140102.3712344-25-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
+References: <20230227140102.3712344-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,52 +90,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit a04ff94097 ("prep: Add i82378 PCI-to-ISA bridge
-emulation") aimed to model the 2 output IRQs: CPU intr
-and NMI. Commit 5039d6e235 ("i8257: remove cpu_request_exit
-irq") removed the NMI IRQ.
-Since this model only use the CPU interrupt, replace the
-'out[2]' array by a single 'cpu_intr'.
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+Missed during automatic conversion from commit 8063396bf3
+("Use OBJECT_DECLARE_SIMPLE_TYPE when possible").
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230210163744.32182-3-philmd@linaro.org>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20230113200138.52869-4-philmd@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/isa/i82378.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/hw/or-irq.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index e3322e03bf..84ce761f5f 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -32,7 +32,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(I82378State, I82378)
- struct I82378State {
-     PCIDevice parent_obj;
+diff --git a/include/hw/or-irq.h b/include/hw/or-irq.h
+index f2f0a273810..131abc2e0c7 100644
+--- a/include/hw/or-irq.h
++++ b/include/hw/or-irq.h
+@@ -37,8 +37,7 @@
  
--    qemu_irq out[2];
-+    qemu_irq cpu_intr;
-     qemu_irq *i8259;
-     MemoryRegion io;
- };
-@@ -50,7 +50,7 @@ static const VMStateDescription vmstate_i82378 = {
- static void i82378_request_out0_irq(void *opaque, int irq, int level)
- {
-     I82378State *s = opaque;
--    qemu_set_irq(s->out[0], level);
-+    qemu_set_irq(s->cpu_intr, level);
- }
+ typedef struct OrIRQState qemu_or_irq;
  
- static void i82378_request_pic_irq(void *opaque, int irq, int level)
-@@ -113,7 +113,7 @@ static void i82378_init(Object *obj)
-     DeviceState *dev = DEVICE(obj);
-     I82378State *s = I82378(obj);
+-DECLARE_INSTANCE_CHECKER(qemu_or_irq, OR_IRQ,
+-                         TYPE_OR_IRQ)
++OBJECT_DECLARE_SIMPLE_TYPE(OrIRQState, OR_IRQ)
  
--    qdev_init_gpio_out(dev, s->out, 1);
-+    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-     qdev_init_gpio_in(dev, i82378_request_pic_irq, 16);
- }
- 
+ struct OrIRQState {
+     DeviceState parent_obj;
 -- 
-2.38.1
+2.34.1
 
 
