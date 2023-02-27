@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C8D6A439D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:02:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1E26A441F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:18:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe5G-0003Dn-P7; Mon, 27 Feb 2023 09:02:30 -0500
+	id 1pWe8p-0005Ax-J6; Mon, 27 Feb 2023 09:06:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe4L-0000lV-O7
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:34 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8f-0004rw-7D
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:01 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe4K-0007Wi-5O
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:33 -0500
-Received: by mail-wr1-x431.google.com with SMTP id v16so3529422wrn.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8c-00082r-8q
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:00 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so7229881wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=z84JjE7d4GepJQVg5IhunfehKuie9dRvNDWsB4oPk4A=;
- b=mDSOKS6gDhesGLyZ8MVmdMLDmIamMbZWl4NAmBXaAMckuZgKFF4nVfudbffA3dem9V
- Gbh3jXB0z9yQAch5rAoImWI7AuynCFW6Wma1yYyYKSuh567iCIJNGzNvD9k0zTs7b9s/
- Jc0mbVxh2PK+yFfSM7kI7K30G7rglxV7Dvux4oYXjyCWTsWZ/HZQcspZuV1dKexH82Uq
- eYZGVXftdKW0howb66ypPRI9X2J08OhmHw6MBgGxiAFNtFLLX3WfmAl0HtrZGtO5aLJs
- 5lnJBGDjsyXISIt9yyNO2qDcVUwzIl8QVLFfhnJdkgItM2nrAp71rkLLuXeIDS3HBC3e
- TjQg==
+ :reply-to; bh=XcyZBEGIyj8pgSPqx0qibrEIuq5k2XdtgcY01B6U23g=;
+ b=TZVwXBkoLX/8qcON2BtCCUbAs3WAgrAeeN5rdVMcDO6NQ+IZtC/eJgc36uCPioSijh
+ uHwsHP8Fuig4eNMCzMvLWSvFeFio9i6V4wugn42jNHshnAvtOQxQPH0XErLIVDejmmp3
+ xggfNMyL6pz2SAtFVDu3VaJZkSSIZy19dqgzmAlp4T1WFNGowhJvYX2l/DlFS2tRdbcm
+ N+KOgvkriPUW4zlmSZmQuwz/ceFjh6vwZT6Ai1tysUGsTWXOXPZWuo6ruPEMAd3KvSVG
+ muuGgU0R4L39SKh/ek6xYO7aiJK8bZu1lh8s3AkoRZyTPEsjowZBBq2nWVr+rwPI50aG
+ 0yXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=z84JjE7d4GepJQVg5IhunfehKuie9dRvNDWsB4oPk4A=;
- b=xyaQHoAxAZK8i7enoaDUPeW8xj5ibw28kIRKzsVOZpos0dfaRwTMjjHi3jSeXxloR0
- 40Dl/ff4e8RuMFf2fw8mu0vh8I3LfTXmC8ttJQOHNTvDbsYsqmBFSFIGR9MqUsoJ4LYz
- mxe8ZkI7CkqMmNZep5K/daxmspHknRctHGgbSfoxryssy22MPyBLVdGcVTkmeWbAkjUR
- 7ZbABRHB80ADRKHacmZVFFlnOvh+FSksqXnyMcSKQVOG48+xD/2EkHKyQ9ovtnfwMG37
- cGXPhAhJSNXIVz/efSYDizlz9lkuC5gILjWGjsWh6X2hEzMpYQHKLivFw5DPnM/PaMR1
- 0gAw==
-X-Gm-Message-State: AO0yUKVrG97Hw7s/Ki7gubsr+2X0ClspjjpABrljGzfAI0kLZFzrpd40
- yngcR5ma8oQl2FIwrNVQ2W1/8rGxEnHIlO9C
-X-Google-Smtp-Source: AK7set+Hv5c9qrdTo/5EuC10v/f0TtspSw/BejWw2ZE0NDfk08HIkb3J34S3dCr7Db169MdzRsh5hA==
-X-Received: by 2002:a5d:6406:0:b0:2c7:ae2:56df with SMTP id
- z6-20020a5d6406000000b002c70ae256dfmr15748272wru.70.1677506490876; 
- Mon, 27 Feb 2023 06:01:30 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=XcyZBEGIyj8pgSPqx0qibrEIuq5k2XdtgcY01B6U23g=;
+ b=wajmTCPaUim8fbhmcH1VJNJ+Y1tDlGyJvUzv1G8qsw5NnKeklnv414srvByFUqPLbM
+ Roq7Y1gxECRUJonIPNr7hkNCpKZHXXtTW0/uSw7VMkFQOM74iQIoqw+1dvqluwHQgv35
+ yRs4t8IxL/KUibc8dFTAFuAGiI0i0YLtzqTlGk4prcjQQu3Ji+A9zRePmGsaItjmoPIC
+ ZhlIr506LzKu5unqi4enYTvMBNtndW6qWMxa+2YX8Dn3C2sH4xrFxnyIHv7YYK2ENTcW
+ OuiN1rof3JfGo7DCG/C2WFM0jbHrrnrlMZwkI3W8I9uG3akgeUwyIkbnz7pcf4/rgE+8
+ 3H9A==
+X-Gm-Message-State: AO0yUKXfGEnQvA4MNcX15zBycOuAAvwQtvSkEdO1cnbFGOZGLiWq8za0
+ yWjHKEhXUrlBapnBuRk2K/rMs4opwECROWky
+X-Google-Smtp-Source: AK7set+lFZKHFpXdpQB21TqdC471OppUC1Ok6lnZqGj9SrvZwv0lhvzyR7r/HIJC/x8ed+Md83HhcQ==
+X-Received: by 2002:a05:600c:6001:b0:3e7:772d:22de with SMTP id
+ az1-20020a05600c600100b003e7772d22demr16640849wmb.30.1677506756686; 
+ Mon, 27 Feb 2023 06:05:56 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.29
+ z19-20020a05600c0a1300b003e4326a6d53sm12811395wmp.35.2023.02.27.06.05.55
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 06:01:29 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 27 Feb 2023 06:05:56 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/25] hw/timer/cmsdk-apb-timer: Remove unused
- 'qdev-properties.h' header
-Date: Mon, 27 Feb 2023 14:00:56 +0000
-Message-Id: <20230227140102.3712344-20-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
-References: <20230227140102.3712344-1-peter.maydell@linaro.org>
+Subject: [PULL 050/126] hw/i386/ich9: Clean up includes
+Date: Mon, 27 Feb 2023 15:00:57 +0100
+Message-Id: <20230227140213.35084-41-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
+References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SPACE_RATIO=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,29 +88,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Bernhard Beschow <shentey@gmail.com>
 
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230213173033.98762-12-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20230220115114.25237-8-philmd@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/timer/cmsdk-apb-timer.h | 1 -
- 1 file changed, 1 deletion(-)
+ hw/i386/acpi-build.c   | 1 +
+ hw/isa/lpc_ich9.c      | 2 +-
+ include/hw/i386/ich9.h | 8 +++++---
+ 3 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/timer/cmsdk-apb-timer.h b/include/hw/timer/cmsdk-apb-timer.h
-index c4c7eae8499..2dd615d1be9 100644
---- a/include/hw/timer/cmsdk-apb-timer.h
-+++ b/include/hw/timer/cmsdk-apb-timer.h
-@@ -12,7 +12,6 @@
- #ifndef CMSDK_APB_TIMER_H
- #define CMSDK_APB_TIMER_H
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index b67dcbbb37..1bb73c3e9a 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -59,6 +59,7 @@
+ #include "hw/acpi/pcihp.h"
+ #include "hw/i386/fw_cfg.h"
+ #include "hw/i386/ich9.h"
++#include "hw/i386/pc.h"
+ #include "hw/pci/pci_bus.h"
+ #include "hw/pci-host/i440fx.h"
+ #include "hw/pci-host/q35.h"
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index e3385ca7be..ce946760bb 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -40,8 +40,8 @@
+ #include "hw/irq.h"
+ #include "hw/isa/apm.h"
+ #include "hw/pci/pci.h"
+-#include "hw/pci/pci_bridge.h"
+ #include "hw/i386/ich9.h"
++#include "hw/i386/pc.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/ich9.h"
+ #include "hw/pci/pci_bus.h"
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index d29090a9b7..3125863049 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -1,11 +1,13 @@
+ #ifndef HW_ICH9_H
+ #define HW_ICH9_H
  
--#include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
- #include "hw/ptimer.h"
- #include "hw/clock.h"
+-#include "hw/sysbus.h"
+-#include "hw/i386/pc.h"
+ #include "hw/isa/apm.h"
+-#include "hw/acpi/acpi.h"
+ #include "hw/acpi/ich9.h"
++#include "hw/intc/ioapic.h"
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_device.h"
++#include "exec/memory.h"
++#include "qemu/notify.h"
+ #include "qom/object.h"
+ 
+ void ich9_generate_smi(void);
 -- 
-2.34.1
+2.38.1
 
 
