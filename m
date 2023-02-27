@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3F66A41E5
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D986A41E3
 	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:44:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWcpB-0005s8-2R; Mon, 27 Feb 2023 07:41:50 -0500
+	id 1pWcpj-0006Fq-Bd; Mon, 27 Feb 2023 07:42:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pWcoU-0005dR-1j
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:41:09 -0500
+ id 1pWcpE-000645-H3
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:41:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pWcoS-0001pn-L7
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:41:05 -0500
+ id 1pWcp2-0001w0-UF
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:41:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677501663;
+ s=mimecast20190719; t=1677501700;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JlBgzsgSw8DYt21D6Sr1RCIpUsY9HRBJVPv+S2ORs0k=;
- b=J7/VwChndQuf0VseibRbnFweWBON+2nvydKqXeKfOfqgDm9M7qRAMCVpuoA8UtOyNunkxO
- ZQE5IU6FGDXIe8x1Vqphp5gTaMRnC3YA6EuErjkvWjzmUzw/WXWR7CoD9Al9vEK/2ErP82
- 3qrcfG6ia4Zj3XVZQJFaXQyRlCourwk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xvDv44B94IXcgpa5Sk9TVvP+k6B2ZLnN/qoymhLGra0=;
+ b=iTUbGJ7MZ8K+ulFOTkF0jUox2GXU2RWjXSKCTRDxgPzxGCIFl+5PdkNJvwLHd0Sws0hgUc
+ RQmw23Ggmy21Sn/8LYIBnIQITN4EHXLZuXtOdv4hcwK6h+Ro9ggU+PxtIQUYXyJQ5DievY
+ 0vcRTGxVIH2F4J3BeHOJXSYrC/DbyAs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-113-IxKs219HNJKzfkNLnqx2xA-1; Mon, 27 Feb 2023 07:41:02 -0500
-X-MC-Unique: IxKs219HNJKzfkNLnqx2xA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l31-20020a05600c1d1f00b003e8626cdd42so2343825wms.3
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:41:02 -0800 (PST)
+ us-mta-13-VhO9SBP9M4KIHnhEak8Jqw-1; Mon, 27 Feb 2023 07:41:38 -0500
+X-MC-Unique: VhO9SBP9M4KIHnhEak8Jqw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ bh3-20020a05600005c300b002c70d6e2014so809835wrb.10
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:41:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JlBgzsgSw8DYt21D6Sr1RCIpUsY9HRBJVPv+S2ORs0k=;
- b=rJtftw9qDubUkwIto8v3q0cAA6G1QkIe5eMMyPfzGM37llXpWRfHDGmnVMXjyZ4qUI
- 7svh12arvd4Y5Oc/PJdQr/ivcGxN2TywtV8vQFZ3dX+sIAFaTQgORxL4CGkn5JlcMV6k
- bflZi1D0z+yidrPGMCNpcB902ELxpZegpbn3bjOX1u2praWd28MSiM29Ta2SNtgeTaWm
- McRDIf7XdXag4/A7ZiokytrtWbn0FIrop5pZ997cUn2XOeTIn628e9/zq/yzNSSPZmrI
- u0NEH4A71LIboQetQluwwV0ysWYcphXilUUv4cwgWgP0GRi8iZKZfyMCZ2yWbXexnBgY
- yYMw==
-X-Gm-Message-State: AO0yUKXHAMxBFc5yF1ls6SJQjYUwMR6lg/OgqAbdzM3lxNo8skBbBrIT
- ++1h6354GG4SKAhy3shjHABx8cx535rPGOMn6kZixCag9lxDOZHtsBwTxE/2atQWa0tn9L6D7H0
- dCDoVCTYi/k/M5GY=
-X-Received: by 2002:a05:600c:755:b0:3eb:3945:d3f9 with SMTP id
- j21-20020a05600c075500b003eb3945d3f9mr5026848wmn.4.1677501661291; 
- Mon, 27 Feb 2023 04:41:01 -0800 (PST)
-X-Google-Smtp-Source: AK7set/rLrq3CscNsPD4MXBZeTAME8REk9KfeW8ICOXxEyShEKfQjmuMw2CAEPKTzl135JLjGmMxrw==
-X-Received: by 2002:a05:600c:755:b0:3eb:3945:d3f9 with SMTP id
- j21-20020a05600c075500b003eb3945d3f9mr5026832wmn.4.1677501661059; 
- Mon, 27 Feb 2023 04:41:01 -0800 (PST)
+ bh=xvDv44B94IXcgpa5Sk9TVvP+k6B2ZLnN/qoymhLGra0=;
+ b=vY2LsgLPWJg31jCEtdvXbvV+RdFklSwMyHsHIiwXJMfgMTAA51bvkOjLNnkjLZETce
+ jom0xPKJJ6N7PErXLb+OnKwjkoSC1N602JARsmXTbuM1PTopHAt4TkxeIgQbxCkaxWLb
+ Ua61i/M5JESHrPG62gok7H/mSPORqbD7UYYUJGZ+PthhopRh6aQCWOk02pAl6kQWWpJ6
+ ryFTWxMGkXjMVKKeBG00tSGRE7b6k22hC/Z2i27Vmhm7vlmTmm8Bz1VtboqyPeHmHdgN
+ PfmDLIMoUWumvsRcgdJhWlcp8NDjZaWL81NMae+5xak7klGF+aOQPCoqG7YMtHfdm0xW
+ B1ug==
+X-Gm-Message-State: AO0yUKXGBbY8W4jRKLPo9FqSkibfXQ8eG3ZZJN0PDKJYh4NbqwiPDJ97
+ 0TFxrEZVQSU0oMuT173PQjUWcNlUX71xdtbPRf5SkPqzBoJNgdjRprPtrdev22GbIzWyMnSzbsc
+ oBk/CyHVf9zDiOdesiBGVOJo=
+X-Received: by 2002:a05:600c:4a9d:b0:3ea:e7f6:f8fa with SMTP id
+ b29-20020a05600c4a9d00b003eae7f6f8famr11879132wmp.10.1677501696511; 
+ Mon, 27 Feb 2023 04:41:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set8+S9+DQdRiE3gG6ZkRFwpHuu+OIP75LEu1cpV+g2DN1OTmxWzFyLkB6Kr6hrKpORKwOQJL6w==
+X-Received: by 2002:a05:600c:4a9d:b0:3ea:e7f6:f8fa with SMTP id
+ b29-20020a05600c4a9d00b003eae7f6f8famr11879116wmp.10.1677501696218; 
+ Mon, 27 Feb 2023 04:41:36 -0800 (PST)
 Received: from redhat.com (nat-252.udc.es. [193.144.61.252])
  by smtp.gmail.com with ESMTPSA id
- v7-20020a05600c470700b003eb3933ef10sm7405311wmo.46.2023.02.27.04.41.00
+ o3-20020a5d4083000000b002c5a790e959sm7086696wrp.19.2023.02.27.04.41.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 04:41:00 -0800 (PST)
+ Mon, 27 Feb 2023 04:41:35 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org,  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
@@ -71,16 +71,16 @@ Cc: qemu-devel@nongnu.org,  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
  <michael.roth@amd.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>,  Gerd Hoffmann
  <kraxel@redhat.com>,  Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/2] qapi: Do not generate default switch case in
- gen_visit_object_members()
-In-Reply-To: <20230224155451.20211-2-philmd@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 24 Feb 2023 16:54:50
+Subject: Re: [PATCH 2/2] qapi: Generate enum count as definition in
+ gen_enum_lookup()
+In-Reply-To: <20230224155451.20211-3-philmd@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 24 Feb 2023 16:54:51
  +0100")
 References: <20230224155451.20211-1-philmd@linaro.org>
- <20230224155451.20211-2-philmd@linaro.org>
+ <20230224155451.20211-3-philmd@linaro.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 27 Feb 2023 13:40:59 +0100
-Message-ID: <87a60zp9gk.fsf@secure.mitica>
+Date: Mon, 27 Feb 2023 13:41:34 +0100
+Message-ID: <875ybnp9fl.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -110,14 +110,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
-> When iterating over a QAPISchemaEnumType, all possible
-> values are covered. The 'default' switch case is unreachable,
-> remove it.
+> QAPI's gen_enum() generates QAPI enum values and the number
+> of this values (as foo__MAX).
+> The number of entries in an enum type is not part of the
+> enumerated values, but we generate it as such. See for
+> example:
 >
+>   typedef enum OnOffAuto {
+>       ON_OFF_AUTO_AUTO,
+>       ON_OFF_AUTO_ON,
+>       ON_OFF_AUTO_OFF,
+>       ON_OFF_AUTO__MAX,        <---------
+>   } OnOffAuto;
+>
+> Instead of declaring the enum count as the last enumerated
+> value, #define it, so it is not part of the enum. The previous
+> example becomes:
+>
+>   typedef enum OnOffAuto {
+>       ON_OFF_AUTO_AUTO,
+>       ON_OFF_AUTO_ON,
+>       ON_OFF_AUTO_OFF,
+>   #define ON_OFF_AUTO__MAX 3   <---------
+>   } OnOffAuto;
+>
+> Since Clang enables the -Wswitch warning by default [*], remove all
+> pointless foo__MAX cases in switch statement, in order to avoid:
+>
+>  audio/audio.c:2231:10: error: case value not in enumerated type 'AudioFo=
+rmat' (aka 'enum AudioFormat') [-Wswitch]
+>     case AUDIO_FORMAT__MAX:
+>          ^
+>  ui/input.c:233:14: error: case value not in enumerated type 'KeyValueKin=
+d' (aka 'enum KeyValueKind') [-Wswitch]
+>         case KEY_VALUE_KIND__MAX:
+>              ^
+>  ...
+>
+> [*] https://clang.llvm.org/docs/DiagnosticsReference.html#wswitch
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-Althought my qapi is rusty.
+This other is very nice.
+
+Thanks, Juan.
 
 
