@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197DD6A40FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F936A40DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:39:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbpN-0006zk-7X; Mon, 27 Feb 2023 06:37:57 -0500
+	id 1pWbpT-0007hB-IG; Mon, 27 Feb 2023 06:38:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboV-0005sL-Mt
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:37:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboV-0005sK-Mh
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:37:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboO-0005iO-Tj
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:59 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboP-0005ib-HG
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1677497816;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XxaFHRXWv/AgYuXGgqEIfr86HgQSO7TP/vFbYTzZrxk=;
- b=GzLHEvkeDRCc77KoQZtixVHl5shfJqDAZ6CqT8n2CUC0wPXfPmOXBA8Gnx5HbOEIdYIPOD
- POve7ScfG2c4Zq43jpGZf4Fd/mfXbbI7EjqJywe5aPQubo9WhafygARohP+vBqncvmwtle
- ex0sg7dkLXMcrxMy7H3y5SV++0Dobjo=
+ bh=qGtxdCK9woe6+Rs1kSjCIb73FWpxI3wGanttbVAMtls=;
+ b=Ab85A8IzN8U1JoiMv/PAc3q/tFYq4ZWJiSX5+p8jYeNPLSrXSeGtUD6WIyjADmLW9FMO+k
+ LaTPzPXaRSMACQDY2lsYOla0/zRY2lO39PzvvFX4VqnrdfctfaeIWZCosAymtxIgZeRADc
+ a8Rh3exuP6lfgklNligPLIeGooNOgmM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-218-2crM0QX4PRW102txMW0IJA-1; Mon, 27 Feb 2023 06:36:53 -0500
-X-MC-Unique: 2crM0QX4PRW102txMW0IJA-1
+ us-mta-139-O-YG3UpkOVS1NOtQlggDnQ-1; Mon, 27 Feb 2023 06:36:53 -0500
+X-MC-Unique: O-YG3UpkOVS1NOtQlggDnQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9BB0F85CBE2;
- Mon, 27 Feb 2023 11:36:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 73CF5100F909;
+ Mon, 27 Feb 2023 11:36:53 +0000 (UTC)
 Received: from thuth.com (unknown [10.45.227.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB9681121314;
- Mon, 27 Feb 2023 11:36:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB48F1121314;
+ Mon, 27 Feb 2023 11:36:52 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: Dinah Baum <dinahbaum123@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 24/33] configure: Add 'mkdir build' check
-Date: Mon, 27 Feb 2023 12:36:12 +0100
-Message-Id: <20230227113621.58468-25-thuth@redhat.com>
+Subject: [PULL 25/33] qemu-keymap: Silence memory leak warning from Clang's
+ sanitizer
+Date: Mon, 27 Feb 2023 12:36:13 +0100
+Message-Id: <20230227113621.58468-26-thuth@redhat.com>
 In-Reply-To: <20230227113621.58468-1-thuth@redhat.com>
 References: <20230227113621.58468-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,44 +76,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Dinah Baum <dinahbaum123@gmail.com>
+When compiling QEMU with "--enable-sanitizers --enable-xkbcommon --cc=clang"
+there is a memory leak warning when running qemu-keymap:
 
-QEMU configure script goes into an infinite error printing loop
-when in read only directory due to 'build' dir never being created.
+ $ ./qemu-keymap -f pc-bios/keymaps/de -l de
 
-Checking if 'mkdir dir' succeeds prevents this error.
+ =================================================================
+ ==610321==ERROR: LeakSanitizer: detected memory leaks
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/321
+ Direct leak of 136 byte(s) in 1 object(s) allocated from:
+     #0 0x5642830d0820 in __interceptor_calloc.part.11 asan_malloc_linux.cpp.o
+     #1 0x7f31873b8d2b in xkb_state_new (/lib64/libxkbcommon.so.0+0x1dd2b) (BuildId: dd32581e2248833243f3f646324ae9b98469f025)
+
+ SUMMARY: AddressSanitizer: 136 byte(s) leaked in 1 allocation(s).
+
+It can be silenced by properly releasing the "state" again
+after it has been used.
+
+Message-Id: <20230221122440.612281-1-thuth@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Dinah Baum <dinahbaum123@gmail.com>
-Message-Id: <20230221110631.4142-1-dinahbaum123@gmail.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-[thuth: Remove second "touch $MARKER"]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ qemu-keymap.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/configure b/configure
-index cf6db3d551..dccb5d4f96 100755
---- a/configure
-+++ b/configure
-@@ -31,8 +31,12 @@ then
-         fi
-     fi
+diff --git a/qemu-keymap.c b/qemu-keymap.c
+index 4095b654a6..229866e004 100644
+--- a/qemu-keymap.c
++++ b/qemu-keymap.c
+@@ -226,6 +226,8 @@ int main(int argc, char *argv[])
  
--    mkdir build
--    touch $MARKER
-+    if ! mkdir build || ! touch $MARKER
-+    then
-+        echo "ERROR: Could not create ./build directory. Check the permissions on"
-+        echo "your source directory, or try doing an out-of-tree build."
-+        exit 1
-+    fi
+     state = xkb_state_new(map);
+     xkb_keymap_key_for_each(map, walk_map, state);
++    xkb_state_unref(state);
++    state = NULL;
  
-     cat > GNUmakefile <<'EOF'
- # This file is auto-generated by configure to support in-source tree
+     /* add quirks */
+     fprintf(outfile,
 -- 
 2.31.1
 
