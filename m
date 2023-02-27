@@ -2,43 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EC76A4782
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F99F6A4781
 	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:04:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWguj-0003nL-IL; Mon, 27 Feb 2023 12:03:52 -0500
+	id 1pWgvL-0004bb-Ko; Mon, 27 Feb 2023 12:04:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWguF-0003c8-Ej
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:03:20 -0500
+ id 1pWguj-0004Cp-Di
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:03:51 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWguC-0002xz-FW
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:03:19 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PQRX86vL4z6J7mp;
- Tue, 28 Feb 2023 00:58:16 +0800 (CST)
+ id 1pWgue-00039L-1n
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:03:45 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PQRXl50vCz6J78n;
+ Tue, 28 Feb 2023 00:58:47 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Feb 2023 17:03:10 +0000
+ 15.1.2507.21; Mon, 27 Feb 2023 17:03:40 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
  <fan.ni@samsung.com>
 CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
  <ira.weiny@intel.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>
-Subject: [PATCH v2 0/6] hw/cxl: Poison get, inject, clear
-Date: Mon, 27 Feb 2023 17:03:05 +0000
-Message-ID: <20230227170311.20054-1-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v2 1/6] hw/cxl: rename mailbox return code type from ret_code
+ to CXLRetCode
+Date: Mon, 27 Feb 2023 17:03:06 +0000
+Message-ID: <20230227170311.20054-2-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230227170311.20054-1-Jonathan.Cameron@huawei.com>
+References: <20230227170311.20054-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -66,94 +69,181 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v2: Thanks to Ira for review and also to Philippe as some of the
-    changes follow through from comments on precusor series.
+Given the increasing usage of this mailbox return code type, now
+is a good time to switch to QEMU style naming.
 
-- Fixed a bunch of endian issues. Note that QEMU CXL suppport only currently
-  supports platforms that happen to be little endian so these are more
-  theoretical than bugs that can be triggered.
-- Improve handling over mailbox inject poison that overlaps with
-  qmp injected (which can be bigger).
-- Tighter checks on alignment.
-- Add 'Since' entries to qapi docs.
-- Drop the CXLRetCode move out of this series as it isn't needed for this.
-  Will appear in next series I post instead (Ira's event series)
-- Drag down the st24_le_p() patch from Ira's Event series so we can use
-  it in this series.
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Note Alison has stated the kernel series will be post 6.3 material
-so this one isn't quite as urgent as the patches it is based on.
-However I think this series in a good state (plus I have lots more queued
-behind it) hence promoting it from RFC.
+--
+v7: (thanks to Ira Weiny for review)
+- Rename in place as the move to the header isn't needed for this series
+  That move patch will now be the start of the CXL events series that
+  will follow this one.
+---
+ hw/cxl/cxl-mailbox-utils.c | 64 +++++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-Changes since RFC v2: Thanks to Markus for review.
- - Improve documentation for QMP interface
- - Add better description of baseline series
- - Include precursor refactors around ret_code / CXLRetCode as this is now
-   the first series in suggeste merge order to rely on those.
- - Include Ira's cxl_device_get_timestamp() function as it was better than
-   the equivalent in the RFC.
-
-Based on following series (in order)
-1. [PATCH v4 00/10] hw/cxl: CXL emulation cleanups and minor fixes for upstream
-2. [PATCH v6 0/8] hw/cxl: RAS error emulation and injection
-3. [PATCH v2 0/2] hw/cxl: Passthrough HDM decoder emulation
-4. [PATCH v4 0/2] hw/mem: CXL Type-3 Volatile Memory Support
-
-Based on: Message-Id: 20230206172816.8201-1-Jonathan.Cameron@huawei.com
-Based-on: Message-id: 20230227112751.6101-1-Jonathan.Cameron@huawei.com
-Based-on: Message-id: 20230227153128.8164-1-Jonathan.Cameron@huawei.com
-Based-on: Message-id: 20230227163157.6621-1-Jonathan.Cameron@huawei.com
-
-The series supports:
-1) Injection of variable length poison regions via QMP (to fake real
-   memory corruption and ensure we deal with odd overflow corner cases
-   such as clearing the middle of a large region making the list overflow
-   as we go from one long entry to two smaller entries.
-2) Read of poison list via the CXL mailbox.
-3) Injection via the poison injection mailbox command (limited to 64 byte
-   entries)
-4) Clearing of poison injected via either method.
-
-The implementation is meant to be a valid combination of impdef choices
-based on what the spec allowed. There are a number of places where it could
-be made more sophisticated that we might consider in future:
-* Fusing adjacent poison entries if the types match.
-* Separate injection list and main poison list, to test out limits on
-  injected poison list being smaller than the main list.
-* Poison list overflow event (needs event log support in general)
-* Connecting up to the poison list error record generation (rather complex
-  and not needed for currently kernel handling testing).
-
-As the kernel code is currently fairly simple, it is likely that the above
-does not yet matter but who knows what will turn up in future!
-
-Kernel patches:
- [PATCH v7 0/6] CXL Poison List Retrieval & Tracing
- cover.1676685180.git.alison.schofield@intel.com
- [PATCH v2 0/6] cxl: CXL Inject & Clear Poison
- cover.1674101475.git.alison.schofield@intel.com
-
-
-Ira Weiny (2):
-  hw/cxl: Introduce cxl_device_get_timestamp() utility function
-  bswap: Add the ability to store to an unaligned 24 bit field
-
-Jonathan Cameron (4):
-  hw/cxl: rename mailbox return code type from ret_code to CXLRetCode
-  hw/cxl: QMP based poison injection support
-  hw/cxl: Add poison injection via the mailbox.
-  hw/cxl: Add clear poison mailbox command support.
-
- hw/cxl/cxl-device-utils.c   |  15 ++
- hw/cxl/cxl-mailbox-utils.c  | 285 ++++++++++++++++++++++++++++++------
- hw/mem/cxl_type3.c          |  92 ++++++++++++
- hw/mem/cxl_type3_stubs.c    |   6 +
- include/hw/cxl/cxl_device.h |  23 +++
- include/qemu/bswap.h        |  23 +++
- qapi/cxl.json               |  18 +++
- 7 files changed, 420 insertions(+), 42 deletions(-)
-
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index ed663cc04a..7b2aef0d67 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -23,7 +23,7 @@
+  *     FOO    = 0x7f,
+  *          #define BAR 0
+  *  2. Implement the handler
+- *    static ret_code cmd_foo_bar(struct cxl_cmd *cmd,
++ *    static CXLRetCode cmd_foo_bar(struct cxl_cmd *cmd,
+  *                                  CXLDeviceState *cxl_dstate, uint16_t *len)
+  *  3. Add the command to the cxl_cmd_set[][]
+  *    [FOO][BAR] = { "FOO_BAR", cmd_foo_bar, x, y },
+@@ -90,10 +90,10 @@ typedef enum {
+     CXL_MBOX_UNSUPPORTED_MAILBOX = 0x15,
+     CXL_MBOX_INVALID_PAYLOAD_LENGTH = 0x16,
+     CXL_MBOX_MAX = 0x17
+-} ret_code;
++} CXLRetCode;
+ 
+ struct cxl_cmd;
+-typedef ret_code (*opcode_handler)(struct cxl_cmd *cmd,
++typedef CXLRetCode (*opcode_handler)(struct cxl_cmd *cmd,
+                                    CXLDeviceState *cxl_dstate, uint16_t *len);
+ struct cxl_cmd {
+     const char *name;
+@@ -105,16 +105,16 @@ struct cxl_cmd {
+ 
+ #define DEFINE_MAILBOX_HANDLER_ZEROED(name, size)                         \
+     uint16_t __zero##name = size;                                         \
+-    static ret_code cmd_##name(struct cxl_cmd *cmd,                       \
+-                               CXLDeviceState *cxl_dstate, uint16_t *len) \
++    static CXLRetCode cmd_##name(struct cxl_cmd *cmd,                       \
++                                 CXLDeviceState *cxl_dstate, uint16_t *len) \
+     {                                                                     \
+         *len = __zero##name;                                              \
+         memset(cmd->payload, 0, *len);                                    \
+         return CXL_MBOX_SUCCESS;                                          \
+     }
+ #define DEFINE_MAILBOX_HANDLER_NOP(name)                                  \
+-    static ret_code cmd_##name(struct cxl_cmd *cmd,                       \
+-                               CXLDeviceState *cxl_dstate, uint16_t *len) \
++    static CXLRetCode cmd_##name(struct cxl_cmd *cmd,                       \
++                                 CXLDeviceState *cxl_dstate, uint16_t *len) \
+     {                                                                     \
+         return CXL_MBOX_SUCCESS;                                          \
+     }
+@@ -125,9 +125,9 @@ DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_policy, 4);
+ DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
+ 
+ /* 8.2.9.2.1 */
+-static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+-                                             CXLDeviceState *cxl_dstate,
+-                                             uint16_t *len)
++static CXLRetCode cmd_firmware_update_get_info(struct cxl_cmd *cmd,
++                                               CXLDeviceState *cxl_dstate,
++                                               uint16_t *len)
+ {
+     struct {
+         uint8_t slots_supported;
+@@ -159,9 +159,9 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+ }
+ 
+ /* 8.2.9.3.1 */
+-static ret_code cmd_timestamp_get(struct cxl_cmd *cmd,
+-                                  CXLDeviceState *cxl_dstate,
+-                                  uint16_t *len)
++static CXLRetCode cmd_timestamp_get(struct cxl_cmd *cmd,
++                                    CXLDeviceState *cxl_dstate,
++                                    uint16_t *len)
+ {
+     uint64_t time, delta;
+     uint64_t final_time = 0;
+@@ -181,7 +181,7 @@ static ret_code cmd_timestamp_get(struct cxl_cmd *cmd,
+ }
+ 
+ /* 8.2.9.3.2 */
+-static ret_code cmd_timestamp_set(struct cxl_cmd *cmd,
++static CXLRetCode cmd_timestamp_set(struct cxl_cmd *cmd,
+                                   CXLDeviceState *cxl_dstate,
+                                   uint16_t *len)
+ {
+@@ -201,9 +201,9 @@ static const QemuUUID cel_uuid = {
+ };
+ 
+ /* 8.2.9.4.1 */
+-static ret_code cmd_logs_get_supported(struct cxl_cmd *cmd,
+-                                       CXLDeviceState *cxl_dstate,
+-                                       uint16_t *len)
++static CXLRetCode cmd_logs_get_supported(struct cxl_cmd *cmd,
++                                         CXLDeviceState *cxl_dstate,
++                                         uint16_t *len)
+ {
+     struct {
+         uint16_t entries;
+@@ -224,9 +224,9 @@ static ret_code cmd_logs_get_supported(struct cxl_cmd *cmd,
+ }
+ 
+ /* 8.2.9.4.2 */
+-static ret_code cmd_logs_get_log(struct cxl_cmd *cmd,
+-                                 CXLDeviceState *cxl_dstate,
+-                                 uint16_t *len)
++static CXLRetCode cmd_logs_get_log(struct cxl_cmd *cmd,
++                                   CXLDeviceState *cxl_dstate,
++                                   uint16_t *len)
+ {
+     struct {
+         QemuUUID uuid;
+@@ -265,9 +265,9 @@ static ret_code cmd_logs_get_log(struct cxl_cmd *cmd,
+ }
+ 
+ /* 8.2.9.5.1.1 */
+-static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+-                                           CXLDeviceState *cxl_dstate,
+-                                           uint16_t *len)
++static CXLRetCode cmd_identify_memory_device(struct cxl_cmd *cmd,
++                                             CXLDeviceState *cxl_dstate,
++                                             uint16_t *len)
+ {
+     struct {
+         char fw_revision[0x10];
+@@ -309,9 +309,9 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+     return CXL_MBOX_SUCCESS;
+ }
+ 
+-static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+-                                           CXLDeviceState *cxl_dstate,
+-                                           uint16_t *len)
++static CXLRetCode cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
++                                              CXLDeviceState *cxl_dstate,
++                                              uint16_t *len)
+ {
+     struct {
+         uint64_t active_vmem;
+@@ -339,9 +339,9 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+     return CXL_MBOX_SUCCESS;
+ }
+ 
+-static ret_code cmd_ccls_get_lsa(struct cxl_cmd *cmd,
+-                                 CXLDeviceState *cxl_dstate,
+-                                 uint16_t *len)
++static CXLRetCode cmd_ccls_get_lsa(struct cxl_cmd *cmd,
++                                   CXLDeviceState *cxl_dstate,
++                                   uint16_t *len)
+ {
+     struct {
+         uint32_t offset;
+@@ -364,9 +364,9 @@ static ret_code cmd_ccls_get_lsa(struct cxl_cmd *cmd,
+     return CXL_MBOX_SUCCESS;
+ }
+ 
+-static ret_code cmd_ccls_set_lsa(struct cxl_cmd *cmd,
+-                                 CXLDeviceState *cxl_dstate,
+-                                 uint16_t *len)
++static CXLRetCode cmd_ccls_set_lsa(struct cxl_cmd *cmd,
++                                   CXLDeviceState *cxl_dstate,
++                                   uint16_t *len)
+ {
+     struct set_lsa_pl {
+         uint32_t offset;
 -- 
 2.37.2
 
