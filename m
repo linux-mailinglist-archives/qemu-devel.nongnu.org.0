@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842CC6A4F12
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 23:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAC36A4F24
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 00:00:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWmSB-0001Q0-VX; Mon, 27 Feb 2023 17:58:43 -0500
+	id 1pWmSD-0001RQ-K3; Mon, 27 Feb 2023 17:58:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWmSA-0001PD-LA
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 17:58:42 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pWmSB-0001Q8-KW
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 17:58:43 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWmS8-0008VL-5A
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 17:58:42 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- k21-20020a17090aaa1500b002376652e160so7811332pjq.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 14:58:39 -0800 (PST)
+ id 1pWmSA-0008Vc-2F
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 17:58:43 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id i3so8492199plg.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 14:58:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=J33WqVqAxFla+dpmD2MbLyNB18FeHqj+AFmY8xo8oOg=;
- b=Q9Ddh4nAqUVNIP3p/merUIIeqsHyMC0zpe6gxHTvWWr2TRkPXf/W0fQF6n6bnhN14x
- UuohiUN5eRTOL05z8hKraKpy6Tu1jlASLyT+aifFtUtaWCXejSbmZ1OGa8efZNFDtDTN
- vgmyIebL/NWQG2v3G+Ab1m26wtrcEGJw1w/P8Qp9Ngbaqq0cBj53WFCLtHbgjCol9FSf
- VAgtXymBGNuub9b+a+L6bkEA7LRqJz8YQIZ53+FjeTHm+gxjNLrhWVS5CU4ihjVDl8Yj
- 5wK1sHe7Sd04b2jNJtPafLUMVMUgjPwyiJ63AqTXy+bRrXdtiAM4f3I1ApPhHwSbXIne
- vzdA==
+ bh=pUw/Q9WV6uI2o5+wRzg6/DeRVdVBmeUlUspfEoqm0lE=;
+ b=vECubhlKRdQsN3lP8ZDYsjEKaVPJU7IbO2Bi8mzQPB6UOv7S2WTn3+w4fr8Ba6PlJ5
+ 0B+EkahIrihV88wCB5zYCRFbUWLtnSNNXB1mYZ9aFE8o7QXF16rw9yZc6ADmhKLhUVeS
+ Qpx2TZfgco2oVSGtNVcIDADi3VdreXHMHyL8H3BRWrs6015roN0+dKGPdQP1+wNLehwz
+ 2Pm1zbVWyI4zZrvo+glxMCmJmEj2KK/NqvdUv5Sl6w7uxewrQ4PxjOpO5U9FT8orU81g
+ H6BPHLWOcjdL91Hpv5L9FnvN5wH58IUvub6HhLpJ9qZgxDcUoAlCppOMf3Lm1S3pOchS
+ xx6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=J33WqVqAxFla+dpmD2MbLyNB18FeHqj+AFmY8xo8oOg=;
- b=527tgDKxRSGur0sP/g+aEOyeJgenyiwWszIcyohjo9udYhB6CXJ2ahvtShPZl1pngZ
- sYW5k9gdI5TYYU41+K3IbhBOqI7vgiJ04n8oFko/DIH9VYr0K8BOhRNTAIM2Lc6i1+CL
- nXVl0vNvoM2W04WVuVG7Fvn9qR3hjwTTlqPt3sjQzziqfMBMOY91KyWk8ybrgspQdXCU
- Werzzykhn35DmpE7HFMNWXv/ODe1FTR0zQE8Skrmbl40XCd61MlvDOchXMM6pMwheBmt
- duF0al86UTqGryF6ZMyTr5P+7CyKHPWdlVtP1YDl14tohWbV8bku6Wz73gM1EYz5V4Mf
- 8V3w==
-X-Gm-Message-State: AO0yUKVoNjnQBEJqUq4VlcU3UQoesEHu+1uYRL+QXfCY55jDMXxTZG1Z
- 9PxoYFZRtziLSoKc1qy5Cm/RLIeMBgBa3EhsDxg=
-X-Google-Smtp-Source: AK7set+atZxqKultIk7M+pjqQqfqad/wJEH1S1dy3lCqcHRjvAfyhFI9i62lKDjnO6uES2Pb3hLwgQ==
-X-Received: by 2002:a05:6a20:c323:b0:c7:1da3:e3a with SMTP id
- dk35-20020a056a20c32300b000c71da30e3amr924967pzb.16.1677538718760; 
- Mon, 27 Feb 2023 14:58:38 -0800 (PST)
+ bh=pUw/Q9WV6uI2o5+wRzg6/DeRVdVBmeUlUspfEoqm0lE=;
+ b=TFWK/RHtlP8U3N7qUTr+i7CADVinQFV8aIdWLo0W7IrkIqKoNeGLcqzgOrlChvjIHO
+ ARqmQ3LA+Gjkx3hxgTyHK4BnbP6zgqLK0SWH7hO593UXHbjR4qO6Q4cQUuVodLtYQZY0
+ fIUAbd0qlATj1J8U7Sgvu7Ls9sAM1a0JsRjHSTLGkHRqnPkViGI/B2/hOnpybMk65j61
+ KtOCGwfL2khM7pENhh0iXBRf0YuWBjYrmbLbARSaOSihIl/ZYHUHuS3XRsQP0S+hmOEj
+ YcBf8zi+uGQL5k3AbahLtWaZGT0E297c6sb7EsOCc5nHl6DTMnGwg+GbQAUXE3QcTRvj
+ c/0w==
+X-Gm-Message-State: AO0yUKXQ3H3R/U0eUvdj8qVqed6z1V1Db27DfL18fXtVsFtrPgkirgpP
+ FrzSXkMz+xSO6gtKo1EDbr5nvN/Z06Qon8FTNE4=
+X-Google-Smtp-Source: AK7set/6MaWdpOf7eIWaCjsp11jMQxRfjx41+UoheAxKTRgjXcceybTo24lxvLElAEIxgIQLTI3KJg==
+X-Received: by 2002:a05:6a20:691b:b0:cd:a358:bb7 with SMTP id
+ q27-20020a056a20691b00b000cda3580bb7mr972153pzj.37.1677538720613; 
+ Mon, 27 Feb 2023 14:58:40 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a6566c2000000b00503000f0492sm4441050pgw.14.2023.02.27.14.58.37
+ c2-20020a6566c2000000b00503000f0492sm4441050pgw.14.2023.02.27.14.58.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 14:58:38 -0800 (PST)
+ Mon, 27 Feb 2023 14:58:40 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH for-8.0 v4 2/4] target/arm: Stub arm_hcr_el2_eff for m-profile
-Date: Mon, 27 Feb 2023 12:58:30 -1000
-Message-Id: <20230227225832.816605-3-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH for-8.0 v4 3/4] target/arm: Diagnose incorrect usage of
+ arm_is_secure subroutines
+Date: Mon, 27 Feb 2023 12:58:31 -1000
+Message-Id: <20230227225832.816605-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227225832.816605-1-richard.henderson@linaro.org>
 References: <20230227225832.816605-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,31 +92,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-M-profile doesn't have HCR_EL2.  While we could test features
-before each call, zero is a generally safe return value to
-disable the code in the caller.  This test is required to
-avoid an assert in arm_is_secure_below_el3.
+In several places we use arm_is_secure_below_el3 and
+arm_is_el3_or_mon separately from arm_is_secure.
+These functions make no sense for m-profile, and
+would indicate prior incorrect feature testing.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/cpu.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 14af7ba095..bd12efd392 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5788,6 +5788,9 @@ uint64_t arm_hcr_el2_eff_secstate(CPUARMState *env, bool secure)
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 7a2f804aeb..cb4e405f04 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2389,7 +2389,8 @@ static inline int arm_feature(CPUARMState *env, int feature)
+ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp);
  
- uint64_t arm_hcr_el2_eff(CPUARMState *env)
+ #if !defined(CONFIG_USER_ONLY)
+-/* Return true if exception levels below EL3 are in secure state,
++/*
++ * Return true if exception levels below EL3 are in secure state,
+  * or would be following an exception return to that level.
+  * Unlike arm_is_secure() (which is always a question about the
+  * _current_ state of the CPU) this doesn't care about the current
+@@ -2397,6 +2398,7 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp);
+  */
+ static inline bool arm_is_secure_below_el3(CPUARMState *env)
  {
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        return 0;
-+    }
-     return arm_hcr_el2_eff_secstate(env, arm_is_secure_below_el3(env));
- }
- 
++    assert(!arm_feature(env, ARM_FEATURE_M));
+     if (arm_feature(env, ARM_FEATURE_EL3)) {
+         return !(env->cp15.scr_el3 & SCR_NS);
+     } else {
+@@ -2410,6 +2412,7 @@ static inline bool arm_is_secure_below_el3(CPUARMState *env)
+ /* Return true if the CPU is AArch64 EL3 or AArch32 Mon */
+ static inline bool arm_is_el3_or_mon(CPUARMState *env)
+ {
++    assert(!arm_feature(env, ARM_FEATURE_M));
+     if (arm_feature(env, ARM_FEATURE_EL3)) {
+         if (is_a64(env) && extract32(env->pstate, 2, 2) == 3) {
+             /* CPU currently in AArch64 state and EL3 */
 -- 
 2.34.1
 
