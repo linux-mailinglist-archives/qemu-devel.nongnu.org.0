@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA2B6A3AF3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC806A3AF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:54:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWWIh-0004w5-Ag; Mon, 27 Feb 2023 00:43:51 -0500
+	id 1pWWIh-00051H-U6; Mon, 27 Feb 2023 00:43:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWIM-0004LZ-Gv
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:43:30 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+ id 1pWWIS-0004TF-19
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:43:36 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWIK-000504-Ih
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:43:30 -0500
-Received: by mail-pg1-x535.google.com with SMTP id p6so2883157pga.0
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:43:27 -0800 (PST)
+ id 1pWWIM-0004rQ-S5
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:43:32 -0500
+Received: by mail-pl1-x631.google.com with SMTP id z2so5528949plf.12
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:43:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ayfqorD9uX7/Vi+5yV/fsV6QKxxs5QiH623wECf/tb4=;
- b=dVxpBUlM768pnD18AqVBmiwPTby3CHGQ7bD6WZ9QbnuRlNs1V+WfpQHcEYNtGBBAoM
- XoF6lRZ0qQgrjyowHaAM5oO1OEb4/4UA5Fnf4EkEoJ0LwIDSa0kzz5nHGQ9VRrCxgByd
- gtgcAABUlf+XZvvSzyrOa2xX3Og6evcgTx50F+eqHL97b6jtG70d/lj76wXepkO19FWP
- P49nKe2+9tFNJffo56BEn4krwxlyMh+cI5WLJaoBCUTNpx+IO5Uk0gPGH0M1Ntl/lxgm
- gTi/yObaJG5w5oMErv431mh1/8jIZ51xNYGDLnESLdv0PzBRgMWzyUD2LWoLGQPD9zQQ
- SOMg==
+ bh=YWyB6GQNgVYVxuAOGEyoKh6Pcm1Ty+r0BVfYb9qxS/M=;
+ b=EukppHBPd8MCw6RtCfNX3p1XFndx5p1rr2qQ9UOXDXvnMBdEtqWyW/5tTegUSwh6FR
+ utONsUUC1TVC70DZDHmIAYYDE6Gb6PoePLCZ+4BKfqmI/Fe4ne6UqzdP+WHjeCXKfM2Q
+ jWohcY0kBUSl0RgSedpz5PjIw8cyVCBstkSrr+r8Q6Zm8XRZj6v/6VPswbVYLu7bb5Zo
+ ++1hOM8yOxfmdbDCT5sBOR8UZDnVVZNVa7qnNImiIpCLFr1+ydkLaUnmR1shnsy2e1p6
+ Gi62FtzXacX+3vkBlAS5CPklZCFUEQCByOCNIbykTXLykIe3Kps8b8wRjfF8IFRpy51l
+ xaMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ayfqorD9uX7/Vi+5yV/fsV6QKxxs5QiH623wECf/tb4=;
- b=oP0fL24p8AcKigCbdnuHEkCL21wnT+TIQy/KZ+wkHG6XKO7y6wC2CSLErgd3atYYgr
- N28MLItM9jZHpp9/KQ9WsRuyXonb9ZENyKpYc4iXM+1lEP2TigJKb64xaH248saaGKGs
- 5vasKfYOq4ixhetgSpYCLDV+lJpiCeOdQwU9+A+Wqs5jaOhaMtSpjlF/LCMeYhr/Nd2H
- XB37jXtVE9/waaecvtDcvlGXr5kP4qnO2x1IbpsCGllEnC1OH3wjkojsVYc23XX0SgcU
- TFIvRazySsrKkp37IVhORCxq4qOXBfoVuL5ld2O2plzs1IkK8lC+pVTSS6ghJuPqydJO
- 3gHg==
-X-Gm-Message-State: AO0yUKU/+1pD9ISWip3L+gA32NYZ9UtNiTCkC6vdUGUrqVjmkpRx59Rj
- 8bOmPeMF3DD4MRv0iYBNmJLoqlZ95fJiYe+XAME=
-X-Google-Smtp-Source: AK7set+5BcWuOnayQ3zbvQQt336ztKI2i35s1OOYBp/OczESlQviKYMJ0Xqu+u8D/V/blIZQh+TSXQ==
-X-Received: by 2002:a62:17ce:0:b0:5a8:abd2:2beb with SMTP id
- 197-20020a6217ce000000b005a8abd22bebmr19633529pfx.30.1677476607602; 
- Sun, 26 Feb 2023 21:43:27 -0800 (PST)
+ bh=YWyB6GQNgVYVxuAOGEyoKh6Pcm1Ty+r0BVfYb9qxS/M=;
+ b=vdLE9b18RSYtook3ISQS+EjnP7VFYDwD0mz7gqI+Fc7lbMkAhmE2Fey6Dw2AgbAICG
+ OoEzbsTV3h6pidMBIGhNvaG8NPeJQXdSaU+7e5KYzH5KjA0hqvSMtIVxMjH3KiNjCQCI
+ uH6iNGR6sA0jf+d54Buh6UCSrfYxXc5jke9Z2ajW9dUqPNzIh1zMOs+Hm4wYZep+aW2i
+ jldP2Q/R9JRivHgAvP+bpFUUnf6NroYmY6B+rEX4/ZfqaPoYIm4KLEmwKpfiDnPvOnpT
+ V2osVzjBZBYqGAzp6zgN6kNsyQBlWoY80/cKOVdhTWCXIy3I+yp+YZs1mHzLP5GiGr01
+ fhVA==
+X-Gm-Message-State: AO0yUKVRq9n+44MYmzQTpjAGzU4Wn4LTgVYvaym3eV9h2Wped907ujqV
+ 15lCweZewVl7ddDnqmrpGekFCXesq/1SNXTKLuA=
+X-Google-Smtp-Source: AK7set+EdjgA4zaDL2qJ3l2l/qijO4JKoPcTC30StQLhYZPzz2KwcyDovgRgnpKs0+5G09tNYIDyMQ==
+X-Received: by 2002:a05:6a20:938d:b0:cc:d20c:434f with SMTP id
+ x13-20020a056a20938d00b000ccd20c434fmr7510407pzh.59.1677476610033; 
+ Sun, 26 Feb 2023 21:43:30 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- d10-20020aa7868a000000b005cdc64a287dsm3317137pfo.115.2023.02.26.21.43.24
+ d10-20020aa7868a000000b005cdc64a287dsm3317137pfo.115.2023.02.26.21.43.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:43:27 -0800 (PST)
+ Sun, 26 Feb 2023 21:43:29 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -61,23 +61,24 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com
-Subject: [PATCH 16/70] target/hexagon/idef-parser: Use gen_tmp for LPCFG
-Date: Sun, 26 Feb 2023 19:41:39 -1000
-Message-Id: <20230227054233.390271-17-richard.henderson@linaro.org>
+Subject: [PATCH 17/70] target/hexagon/idef-parser: Use gen_tmp for
+ gen_pred_assign
+Date: Sun, 26 Feb 2023 19:41:40 -1000
+Message-Id: <20230227054233.390271-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227054233.390271-1-richard.henderson@linaro.org>
 References: <20230227054233.390271-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,60 +94,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The GET_USR_FIELD macro initializes the output, so the initial assignment
-of zero is discarded.  This is the only use of get_tmp_value outside of
-parser-helper.c, so make it static.
+The allocation is immediately followed by tcg_gen_mov_i32,
+so the initial assignment of zero is discarded.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/idef-parser/parser-helpers.h | 6 ------
  target/hexagon/idef-parser/parser-helpers.c | 2 +-
- target/hexagon/idef-parser/idef-parser.y    | 2 +-
- 3 files changed, 2 insertions(+), 8 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/hexagon/idef-parser/parser-helpers.h b/target/hexagon/idef-parser/parser-helpers.h
-index 4c89498f5b..1239d23a6a 100644
---- a/target/hexagon/idef-parser/parser-helpers.h
-+++ b/target/hexagon/idef-parser/parser-helpers.h
-@@ -154,12 +154,6 @@ HexValue gen_tmp(Context *c,
-                  unsigned bit_width,
-                  HexSignedness signedness);
- 
--HexValue gen_tmp_value(Context *c,
--                       YYLTYPE *locp,
--                       const char *value,
--                       unsigned bit_width,
--                       HexSignedness signedness);
--
- HexValue gen_imm_value(Context *c __attribute__((unused)),
-                        YYLTYPE *locp,
-                        int value,
 diff --git a/target/hexagon/idef-parser/parser-helpers.c b/target/hexagon/idef-parser/parser-helpers.c
-index 6fb5f31cf7..be979dac86 100644
+index be979dac86..760e499149 100644
 --- a/target/hexagon/idef-parser/parser-helpers.c
 +++ b/target/hexagon/idef-parser/parser-helpers.c
-@@ -305,7 +305,7 @@ HexValue gen_tmp(Context *c,
-     return rvalue;
- }
- 
--HexValue gen_tmp_value(Context *c,
-+static HexValue gen_tmp_value(Context *c,
-                        YYLTYPE *locp,
-                        const char *value,
-                        unsigned bit_width,
-diff --git a/target/hexagon/idef-parser/idef-parser.y b/target/hexagon/idef-parser/idef-parser.y
-index fae291e5f8..c784726d41 100644
---- a/target/hexagon/idef-parser/idef-parser.y
-+++ b/target/hexagon/idef-parser/idef-parser.y
-@@ -783,7 +783,7 @@ rvalue : FAIL
-          }
-        | LPCFG
-          {
--             $$ = gen_tmp_value(c, &@1, "0", 32, UNSIGNED);
-+             $$ = gen_tmp(c, &@1, 32, UNSIGNED);
-              OUT(c, &@1, "GET_USR_FIELD(USR_LPCFG, ", &$$, ");\n");
-          }
-        | EXTRACT '(' rvalue ',' rvalue ')'
+@@ -1743,7 +1743,7 @@ void gen_pred_assign(Context *c, YYLTYPE *locp, HexValue *left_pred,
+              "Predicate assign not allowed in ternary!");
+     /* Extract predicate TCGv */
+     if (is_direct) {
+-        *left_pred = gen_tmp_value(c, locp, "0", 32, UNSIGNED);
++        *left_pred = gen_tmp(c, locp, 32, UNSIGNED);
+     }
+     /* Extract first 8 bits, and store new predicate value */
+     OUT(c, locp, "tcg_gen_mov_i32(", left_pred, ", ", &r, ");\n");
 -- 
 2.34.1
 
