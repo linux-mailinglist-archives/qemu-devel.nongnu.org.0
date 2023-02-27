@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AA96A3AE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:51:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B34B6A3AD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:50:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWWHq-00023D-Sy; Mon, 27 Feb 2023 00:42:58 -0500
+	id 1pWWHy-0002X1-J0; Mon, 27 Feb 2023 00:43:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWHo-0001um-Ea
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:42:56 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+ id 1pWWHs-0002I6-Ey
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:43:00 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWHl-0004nL-Pg
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:42:56 -0500
-Received: by mail-pg1-x529.google.com with SMTP id q23so2845501pgt.7
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:42:53 -0800 (PST)
+ id 1pWWHq-0004k1-8q
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:43:00 -0500
+Received: by mail-pf1-x429.google.com with SMTP id ay18so2815085pfb.2
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:42:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0WSSf76yO4ky84ChGadZWB86T9ItD/RboRX03rlB3p8=;
- b=W/MAG9BRHJ/aNWhr0Ig2EdraVGHK4+Q4hMBfcKI8k/KX+Hy7UGUpxkVnaBKCwmJ8Br
- fxeiysALdypYmh8E0V1Z53PYkHJQ0sMTKiS+JxgCP2z++ZNou1dDC1SCTrSOYd4no8BO
- pmDz6VVmghL+XJrSwvIscP0x9iJyGW1pel6gKZdYTRbmERavBLwaJR3rounfc4/VYgZ3
- ZSaMURboA3lgJfx2bCpZWKEzyBwbhZmXN3/K+XMCVNCLxa83vuIGEmH0tAGBa/J2wERF
- 3Iu1VtJct1IUzKBlc0BysouKk2EfzKlKPwNvlqjftetNCL456gQjXxB4Mm/qnVBDo5df
- gcBg==
+ bh=J6bFQbr4bFP1rh4Nb5AKcYb/yq2BEfgRK7JPoiaNmaA=;
+ b=CdPLsiuQ19juWpyq14r/MO76tXcmg+ScjE9v9VqqyD6flMQpnFswRfylRCqikQCApK
+ i5VKVDzGOrtUFcDBiRQmDS1Dq6/yi9fgyWzbu6B/xgk+aUqLjgb3ZkDizuDUYFSipyOp
+ CC2d3IUMQlxf6rdHD7iitQiIWH95SeCYIfer/Y0yXnWiUd6k4Rt3IYQZIoxWqzR9dy8z
+ 3aO8+mkwGrUNl8fiySV19x5ulWOytqCNoD9rO3Ws9sxGs3/iOridir+dcNQuQJ61LmPs
+ CPIrWo2bHogZNJOOFjUhtuBr4UvP3HLgT0d3qoF5e6HoLOtUrWH/Sw80o0hNtkU2NRYZ
+ Xb0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0WSSf76yO4ky84ChGadZWB86T9ItD/RboRX03rlB3p8=;
- b=uQEimJwpjMRvKnj9drU82dQMGLHWE1XyaLM269YVhyIle8G7Enwc9UUg3VkUZIptNB
- cAfZ3ILS0R9644pYsWO49SqxqsrYb5/hIL3udRpbpBoM+fRRJsx4z4wIkbj3h9yZz0gS
- bI4zGzKFy+hBu29wZZj6+LfEj408OrEKGAPnXTodP9IYs5StgvHQV0Dtc8qaKjs7nPIb
- GA65TooytKoaOiHlDI53qS5SiiHUrguODMshhO8NJO/bN75hSrCJ8LhDVIPw+IQ7vH5n
- D6pcTKkXbucXoLQzIswdz3LqG9c6ZLJNOVxrLU3pvbOgJbj309BIP4NCvCL3CT9e1T26
- Q91g==
-X-Gm-Message-State: AO0yUKUfiPUAkKNrDcI61GOb36NZSFMC7t3DNpdz6OgyfVbicQBzrde8
- giqgeAUN1QYD49utUVt0wpOx/7IpI30AB6O1LHE=
-X-Google-Smtp-Source: AK7set/XdSmzPNU9/8dDucICWS3jbXUxuiXc6kq2dVS7xYh4EK37+VHsKe87VLB0B7rTLXUgWY8atQ==
-X-Received: by 2002:a62:1a49:0:b0:5a8:ae60:eb4a with SMTP id
- a70-20020a621a49000000b005a8ae60eb4amr19138845pfa.28.1677476572237; 
- Sun, 26 Feb 2023 21:42:52 -0800 (PST)
+ bh=J6bFQbr4bFP1rh4Nb5AKcYb/yq2BEfgRK7JPoiaNmaA=;
+ b=oBNnGqqi5Xq2vcFNZgbaLuL09q7wgajW/q/KB6Z9RiPmdrMJPXItOuvnjBgKnndIz1
+ XP0P5rUwv2QImB9cQpDhFMprTm+EFy11bFmcTkt+pAvF72Pt+6tnseDSHN6aM+p8P3RH
+ 3q1Sz+yWC5C2DuYAcyDIU2RuZa9qzQiDwFzQPCQu1nBlYjBRUuKNaBowCuyvVypG1SN0
+ 3YMjKm6Pw1IUsP5WfExmxWCQ4kzpcK9FCQZWtEN3hAD8WBjBqKUohR7Z30JoZnREZqPT
+ +B0mY29bIyACCaHYS9uAL54oLFSBScEbL6UqQy+OFdEgPVdyeIxybxyaucfGQa3gpHlH
+ 7T7w==
+X-Gm-Message-State: AO0yUKUc6zIfqhOPFfpajm10aKgKiTbYPOet53NQAua4PAYr6eXDVnNC
+ 4uzu+FduFpwrb2l54Tq0jiBrv/+oRIuGe60vwQU=
+X-Google-Smtp-Source: AK7set+eITPfouu9k0DhcMMugT+nQE/iLy0iGpSYRMopG0FAC0sd98bXHdLs4L74KzgJ6720pdo3EQ==
+X-Received: by 2002:aa7:958a:0:b0:5e1:f54e:8074 with SMTP id
+ z10-20020aa7958a000000b005e1f54e8074mr10046437pfj.21.1677476577405; 
+ Sun, 26 Feb 2023 21:42:57 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- d10-20020aa7868a000000b005cdc64a287dsm3317137pfo.115.2023.02.26.21.42.49
+ d10-20020aa7868a000000b005cdc64a287dsm3317137pfo.115.2023.02.26.21.42.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:42:51 -0800 (PST)
+ Sun, 26 Feb 2023 21:42:56 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -61,23 +61,23 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com
-Subject: [PATCH 03/70] target/arm: Improve arm_rmode_to_sf
-Date: Sun, 26 Feb 2023 19:41:26 -1000
-Message-Id: <20230227054233.390271-4-richard.henderson@linaro.org>
+Subject: [PATCH 05/70] target/arm: Create gen_set_rmode, gen_restore_rmode
+Date: Sun, 26 Feb 2023 19:41:28 -1000
+Message-Id: <20230227054233.390271-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227054233.390271-1-richard.henderson@linaro.org>
 References: <20230227054233.390271-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,104 +93,302 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use proper enumeration types for input and output.
-Use a const array to perform the mapping, with an
-assert that the input is valid.
+Split out common subroutines for handing rounding mode
+changes during translation.  Use tcg_constant_i32 and
+tcg_temp_new_i32 instead of tcg_const_i32.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h     | 12 +++++++++---
- target/arm/translate-mve.c |  2 +-
- target/arm/vfp_helper.c    | 33 ++++++++-------------------------
- 3 files changed, 18 insertions(+), 29 deletions(-)
+ target/arm/translate.h     | 17 ++++++++++++++
+ target/arm/translate-a64.c | 47 +++++++++++++++-----------------------
+ target/arm/translate-sve.c |  6 ++---
+ target/arm/translate-vfp.c | 26 ++++++++-------------
+ 4 files changed, 48 insertions(+), 48 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 759b70c646..47d3c32825 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -193,16 +193,22 @@ void arm_restore_state_to_opc(CPUState *cs,
- void arm_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
- #endif /* CONFIG_TCG */
- 
--enum arm_fprounding {
-+typedef enum ARMFPRounding {
-     FPROUNDING_TIEEVEN,
-     FPROUNDING_POSINF,
-     FPROUNDING_NEGINF,
-     FPROUNDING_ZERO,
-     FPROUNDING_TIEAWAY,
-     FPROUNDING_ODD
--};
-+} ARMFPRounding;
- 
--int arm_rmode_to_sf(int rmode);
-+extern const FloatRoundMode arm_rmode_to_sf_map[6];
-+
-+static inline FloatRoundMode arm_rmode_to_sf(ARMFPRounding rmode)
-+{
-+    assert((unsigned)rmode < ARRAY_SIZE(arm_rmode_to_sf_map));
-+    return arm_rmode_to_sf_map[rmode];
-+}
- 
- static inline void aarch64_save_sp(CPUARMState *env, int el)
- {
-diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 798b4fddfe..9744bf3de0 100644
---- a/target/arm/translate-mve.c
-+++ b/target/arm/translate-mve.c
-@@ -588,7 +588,7 @@ DO_VCVT(VCVT_FS, vcvt_hs, vcvt_fs)
- DO_VCVT(VCVT_FU, vcvt_hu, vcvt_fu)
- 
- static bool do_vcvt_rmode(DisasContext *s, arg_1op *a,
--                          enum arm_fprounding rmode, bool u)
-+                          ARMFPRounding rmode, bool u)
- {
-     /*
-      * Handle VCVT fp to int with specified rounding mode.
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 90cc324f71..36906db8e0 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -1104,31 +1104,14 @@ float64 HELPER(rintd)(float64 x, void *fp_status)
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 3dbff87349..062f91de54 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -616,6 +616,23 @@ static inline TCGv_ptr gen_lookup_cp_reg(uint32_t key)
+     return ret;
  }
  
- /* Convert ARM rounding mode to softfloat */
--int arm_rmode_to_sf(int rmode)
--{
--    switch (rmode) {
--    case FPROUNDING_TIEAWAY:
--        rmode = float_round_ties_away;
--        break;
--    case FPROUNDING_ODD:
--        rmode = float_round_to_odd;
--        break;
--    case FPROUNDING_TIEEVEN:
--    default:
--        rmode = float_round_nearest_even;
--        break;
--    case FPROUNDING_POSINF:
--        rmode = float_round_up;
--        break;
--    case FPROUNDING_NEGINF:
--        rmode = float_round_down;
--        break;
--    case FPROUNDING_ZERO:
--        rmode = float_round_to_zero;
--        break;
--    }
--    return rmode;
--}
-+const FloatRoundMode arm_rmode_to_sf_map[] = {
-+    [FPROUNDING_TIEEVEN] = float_round_nearest_even,
-+    [FPROUNDING_POSINF] = float_round_up,
-+    [FPROUNDING_NEGINF] = float_round_down,
-+    [FPROUNDING_ZERO] = float_round_to_zero,
-+    [FPROUNDING_TIEAWAY] = float_round_ties_away,
-+    [FPROUNDING_ODD] = float_round_to_odd,
-+};
- 
++/*
++ * Set and reset rounding mode around another operation.
++ */
++static inline TCGv_i32 gen_set_rmode(ARMFPRounding rmode, TCGv_ptr fpst)
++{
++    TCGv_i32 new = tcg_constant_i32(arm_rmode_to_sf(rmode));
++    TCGv_i32 old = tcg_temp_new_i32();
++
++    gen_helper_set_rmode(old, new, fpst);
++    return old;
++}
++
++static inline void gen_restore_rmode(TCGv_i32 old, TCGv_ptr fpst)
++{
++    gen_helper_set_rmode(old, old, fpst);
++}
++
  /*
-  * Implement float64 to int32_t conversion without saturation;
+  * Helpers for implementing sets of trans_* functions.
+  * Defer the implementation of NAME to FUNC, with optional extra arguments.
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 3c0462a9c1..9e682f36c9 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -6146,13 +6146,12 @@ static void handle_fp_1src_half(DisasContext *s, int opcode, int rd, int rn)
+     case 0xb: /* FRINTZ */
+     case 0xc: /* FRINTA */
+     {
+-        TCGv_i32 tcg_rmode = tcg_const_i32(arm_rmode_to_sf(opcode & 7));
++        TCGv_i32 tcg_rmode;
++
+         fpst = fpstatus_ptr(FPST_FPCR_F16);
+-
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++        tcg_rmode = gen_set_rmode(opcode & 7, fpst);
+         gen_helper_advsimd_rinth(tcg_res, tcg_op, fpst);
+-
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++        gen_restore_rmode(tcg_rmode, fpst);
+         break;
+     }
+     case 0xe: /* FRINTX */
+@@ -6231,10 +6230,9 @@ static void handle_fp_1src_single(DisasContext *s, int opcode, int rd, int rn)
+ 
+     fpst = fpstatus_ptr(FPST_FPCR);
+     if (rmode >= 0) {
+-        TCGv_i32 tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++        TCGv_i32 tcg_rmode = gen_set_rmode(rmode, fpst);
+         gen_fpst(tcg_res, tcg_op, fpst);
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++        gen_restore_rmode(tcg_rmode, fpst);
+     } else {
+         gen_fpst(tcg_res, tcg_op, fpst);
+     }
+@@ -6304,10 +6302,9 @@ static void handle_fp_1src_double(DisasContext *s, int opcode, int rd, int rn)
+ 
+     fpst = fpstatus_ptr(FPST_FPCR);
+     if (rmode >= 0) {
+-        TCGv_i32 tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++        TCGv_i32 tcg_rmode = gen_set_rmode(rmode, fpst);
+         gen_fpst(tcg_res, tcg_op, fpst);
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++        gen_restore_rmode(tcg_rmode, fpst);
+     } else {
+         gen_fpst(tcg_res, tcg_op, fpst);
+     }
+@@ -6944,9 +6941,7 @@ static void handle_fpfpcvt(DisasContext *s, int rd, int rn, int opcode,
+             rmode = FPROUNDING_TIEAWAY;
+         }
+ 
+-        tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+-
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++        tcg_rmode = gen_set_rmode(rmode, tcg_fpstatus);
+ 
+         switch (type) {
+         case 1: /* float64 */
+@@ -7023,7 +7018,7 @@ static void handle_fpfpcvt(DisasContext *s, int rd, int rn, int opcode,
+             g_assert_not_reached();
+         }
+ 
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++        gen_restore_rmode(tcg_rmode, tcg_fpstatus);
+     }
+ }
+ 
+@@ -8771,9 +8766,8 @@ static void handle_simd_shift_fpint_conv(DisasContext *s, bool is_scalar,
+ 
+     assert(!(is_scalar && is_q));
+ 
+-    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(FPROUNDING_ZERO));
+     tcg_fpstatus = fpstatus_ptr(size == MO_16 ? FPST_FPCR_F16 : FPST_FPCR);
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++    tcg_rmode = gen_set_rmode(FPROUNDING_ZERO, tcg_fpstatus);
+     fracbits = (16 << size) - immhb;
+     tcg_shift = tcg_constant_i32(fracbits);
+ 
+@@ -8831,7 +8825,7 @@ static void handle_simd_shift_fpint_conv(DisasContext *s, bool is_scalar,
+         }
+     }
+ 
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++    gen_restore_rmode(tcg_rmode, tcg_fpstatus);
+ }
+ 
+ /* AdvSIMD scalar shift by immediate
+@@ -10219,12 +10213,11 @@ static void disas_simd_scalar_two_reg_misc(DisasContext *s, uint32_t insn)
+     }
+ 
+     if (is_fcvt) {
+-        tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+         tcg_fpstatus = fpstatus_ptr(FPST_FPCR);
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++        tcg_rmode = gen_set_rmode(rmode, tcg_fpstatus);
+     } else {
+-        tcg_rmode = NULL;
+         tcg_fpstatus = NULL;
++        tcg_rmode = NULL;
+     }
+ 
+     if (size == 3) {
+@@ -10276,7 +10269,7 @@ static void disas_simd_scalar_two_reg_misc(DisasContext *s, uint32_t insn)
+     }
+ 
+     if (is_fcvt) {
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++        gen_restore_rmode(tcg_rmode, tcg_fpstatus);
+     }
+ }
+ 
+@@ -12406,8 +12399,7 @@ static void disas_simd_two_reg_misc(DisasContext *s, uint32_t insn)
+         tcg_fpstatus = NULL;
+     }
+     if (rmode >= 0) {
+-        tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++        tcg_rmode = gen_set_rmode(rmode, tcg_fpstatus);
+     } else {
+         tcg_rmode = NULL;
+     }
+@@ -12590,7 +12582,7 @@ static void disas_simd_two_reg_misc(DisasContext *s, uint32_t insn)
+     clear_vec_high(s, is_q, rd);
+ 
+     if (tcg_rmode) {
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++        gen_restore_rmode(tcg_rmode, tcg_fpstatus);
+     }
+ }
+ 
+@@ -12758,8 +12750,7 @@ static void disas_simd_two_reg_misc_fp16(DisasContext *s, uint32_t insn)
+     }
+ 
+     if (rmode >= 0) {
+-        tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++        tcg_rmode = gen_set_rmode(rmode, tcg_fpstatus);
+     }
+ 
+     if (is_scalar) {
+@@ -12859,7 +12850,7 @@ static void disas_simd_two_reg_misc_fp16(DisasContext *s, uint32_t insn)
+     }
+ 
+     if (tcg_rmode) {
+-        gen_helper_set_rmode(tcg_rmode, tcg_rmode, tcg_fpstatus);
++        gen_restore_rmode(tcg_rmode, tcg_fpstatus);
+     }
+ }
+ 
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 3c65dd1ff2..3ca60fb36b 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4096,17 +4096,15 @@ static bool do_frint_mode(DisasContext *s, arg_rpr_esz *a,
+     }
+ 
+     vsz = vec_full_reg_size(s);
+-    tmode = tcg_const_i32(arm_rmode_to_sf(mode));
+     status = fpstatus_ptr(a->esz == MO_16 ? FPST_FPCR_F16 : FPST_FPCR);
+-
+-    gen_helper_set_rmode(tmode, tmode, status);
++    tmode = gen_set_rmode(mode, status);
+ 
+     tcg_gen_gvec_3_ptr(vec_full_reg_offset(s, a->rd),
+                        vec_full_reg_offset(s, a->rn),
+                        pred_full_reg_offset(s, a->pg),
+                        status, vsz, vsz, 0, fn);
+ 
+-    gen_helper_set_rmode(tmode, tmode, status);
++    gen_restore_rmode(tmode, status);
+     return true;
+ }
+ 
+diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
+index e7acfb3338..dd782aacf4 100644
+--- a/target/arm/translate-vfp.c
++++ b/target/arm/translate-vfp.c
+@@ -464,8 +464,7 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
+         fpst = fpstatus_ptr(FPST_FPCR);
+     }
+ 
+-    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rounding));
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    tcg_rmode = gen_set_rmode(rounding, fpst);
+ 
+     if (sz == 3) {
+         TCGv_i64 tcg_op;
+@@ -489,7 +488,7 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
+         vfp_store_reg32(tcg_res, rd);
+     }
+ 
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    gen_restore_rmode(tcg_rmode, fpst);
+     return true;
+ }
+ 
+@@ -533,9 +532,7 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
+     }
+ 
+     tcg_shift = tcg_constant_i32(0);
+-
+-    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rounding));
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    tcg_rmode = gen_set_rmode(rounding, fpst);
+ 
+     if (sz == 3) {
+         TCGv_i64 tcg_double, tcg_res;
+@@ -572,7 +569,7 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
+         vfp_store_reg32(tcg_res, rd);
+     }
+ 
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    gen_restore_rmode(tcg_rmode, fpst);
+     return true;
+ }
+ 
+@@ -2783,10 +2780,9 @@ static bool trans_VRINTZ_hp(DisasContext *s, arg_VRINTZ_sp *a)
+     tmp = tcg_temp_new_i32();
+     vfp_load_reg32(tmp, a->vm);
+     fpst = fpstatus_ptr(FPST_FPCR_F16);
+-    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(FPROUNDING_ZERO));
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    tcg_rmode = gen_set_rmode(FPROUNDING_ZERO, fpst);
+     gen_helper_rinth(tmp, tmp, fpst);
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    gen_restore_rmode(tcg_rmode, fpst);
+     vfp_store_reg32(tmp, a->vd);
+     return true;
+ }
+@@ -2808,10 +2804,9 @@ static bool trans_VRINTZ_sp(DisasContext *s, arg_VRINTZ_sp *a)
+     tmp = tcg_temp_new_i32();
+     vfp_load_reg32(tmp, a->vm);
+     fpst = fpstatus_ptr(FPST_FPCR);
+-    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(FPROUNDING_ZERO));
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    tcg_rmode = gen_set_rmode(FPROUNDING_ZERO, fpst);
+     gen_helper_rints(tmp, tmp, fpst);
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    gen_restore_rmode(tcg_rmode, fpst);
+     vfp_store_reg32(tmp, a->vd);
+     return true;
+ }
+@@ -2842,10 +2837,9 @@ static bool trans_VRINTZ_dp(DisasContext *s, arg_VRINTZ_dp *a)
+     tmp = tcg_temp_new_i64();
+     vfp_load_reg64(tmp, a->vm);
+     fpst = fpstatus_ptr(FPST_FPCR);
+-    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(FPROUNDING_ZERO));
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    tcg_rmode = gen_set_rmode(FPROUNDING_ZERO, fpst);
+     gen_helper_rintd(tmp, tmp, fpst);
+-    gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
++    gen_restore_rmode(tcg_rmode, fpst);
+     vfp_store_reg64(tmp, a->vd);
+     return true;
+ }
 -- 
 2.34.1
 
