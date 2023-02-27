@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8712C6A46DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 17:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93BC6A46F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 17:27:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWgD8-0002ZN-Uu; Mon, 27 Feb 2023 11:18:46 -0500
+	id 1pWgKf-0002cK-I0; Mon, 27 Feb 2023 11:26:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWgD6-0002UR-Gi
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:18:44 -0500
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pWgKd-0002bk-Kt
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:26:31 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWgD4-0001lj-Td
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:18:44 -0500
-Received: by mail-pf1-x436.google.com with SMTP id cp12so3105677pfb.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 08:18:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pWgKb-0003gK-WE
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:26:31 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so7590635wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 08:26:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UskA3uCy8fREgppDGZ0c/eBa3833IwCy2ycyiANK1V8=;
- b=d+kP3v8lGxJi2v++9e7tYVvnCZ1y+ooAMsqN1FZjAyvDR5hKW+EE8kYUr4Cx8YNVoq
- Tp2rdUvYRyJaDRc3GdqUUzQZwtLLggVKLUvLYuHTMMthyocXORWVM4jQdKEGPyHMACqT
- MIUtWIE3CzDyUgC+r/zXoFRo7lQ0ft5GKeoyI6nXGqG0FwdGU0n8nHfqC4QGecGk0n+t
- xyH2TfQydjz5ksEECJTM/XYg1ZGQJSLWxDC7XXxnnmN1zwfZf8S6BHON8hKNynYdmPEl
- dO9FZ/mwMe9YwBWR1gY/Z7khCo6JQzKZCo+hC8erWwvCiB1tW/NiSbPtKfJ5nAp8jpO+
- FNww==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0roiBvZapZssi1jOAbpmVAbrD3ihJbRnDsp4/ZPARY4=;
+ b=z0DnTvk1DP8Il6LF7Anlec5bmE8sfWDHOMiLzqoJut2TY1C8wyCcPGV6uVH/jhQBe3
+ M3k6KZ5Sjr7mcTbGCgZfxyC/17o3Q6aaA0G8w0Xajt8gjwP/PhPs8aVNa31kmCopDg03
+ NidQK+CMzm1UFb7/chAYvsJ00kbddijOcnZiJRuzoeMcCSnMAshpwwGmQyXW9eTZqWTI
+ xrAMTBnr5RcyI82elDk2AauzunLERFyW+FpyDlP0R13LyGfVd9WDmW3L9Ay5gfdkGSPY
+ q8EjXTQogb0lDVUR6B8M6dSDVHav8fq6Pmgy9V70ZwPCr7LEFuMcMeZXzwoQEWYKfq3v
+ NSVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UskA3uCy8fREgppDGZ0c/eBa3833IwCy2ycyiANK1V8=;
- b=3QIGp0DubWA9aaHCk86QOCP39OVOmoAi4GTgd3UzwwAvdFNOxuSLfdnC5bjQH8+3/2
- SVexW8xz2Zu6LSRU8DZPygceMQFBNeseIJPHcSfe1qok2eNa5XxHcsx2Nt6djeH4nR5v
- OAQN2eWKQj44PyTQikFNhy/n3+oEmDLVKUDiss6zE7FbXYj9lI6S3hVbAebNG1YoHZNs
- 8nt/dQ11bFAqekItEatXU+DQBds9f68Fi4Yic+1R6YqO2DfmawvhBm/f5ARG7T2IiBtc
- Vzzp/kdHJUV6VqBJ18gdFc9AN3AONc/PhWGqOLQJRWiaanbH9Sg1qsSF+AvtuwhCYBIF
- MH9Q==
-X-Gm-Message-State: AO0yUKXpZta392hUp95Nyn01tGBinTi8pBY6LkzedERthyRSspO4OJil
- RTTIhnppBeAzH63GzQ5seBp4indYIRU2h/EP2q/uiyGWKiXkEw==
-X-Google-Smtp-Source: AK7set+AuMp6uXOVgpwSIPYlS0o23bdDbjwcG0/KVIXebBPRYzPa2CcTBDCSu/kPCjDrikzMIuIcUQyy6/12HQfGprQ=
-X-Received: by 2002:a63:3fc6:0:b0:503:2583:effb with SMTP id
- m189-20020a633fc6000000b005032583effbmr2620243pga.9.1677514721375; Mon, 27
- Feb 2023 08:18:41 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=0roiBvZapZssi1jOAbpmVAbrD3ihJbRnDsp4/ZPARY4=;
+ b=UoWavAISSmgZKRPPKXEwA5It0I7ze5vCFxsq+Qv7HkoDTwqe/bbsoqVqj0mwibYm3k
+ NHT3U6CrZpv1x9QHf9BpbE//JUAjgml08lnZVvhhmkAmqjyHWwY3bhHmd9SEAkTwukcF
+ pUGM0SExzKThGfYRtxHVc0R6yObUwok06DmJbpM0avuwsAfe9Q0HEbh+s2Y6rWIZRM1o
+ k7XpFOHqpntbcyuAQYPJWrkjNIATVu93OywWzrrO1UF3UTZ2s/QmpldQ5fRPZ9feTF0q
+ ndgNbhVquWCYDtx2xeAAdMZn7dw3xJKAhhggnNHkdm13vBbV3dlh7mPOjWXAFKrQxDeU
+ S/6Q==
+X-Gm-Message-State: AO0yUKUc+DsHw+svn5bY6f9h3jkon60xP4lpaKo8DjE8dFIflHrIf3ch
+ qxp3lJHb5/O2IqfYR8dyyOO+jA==
+X-Google-Smtp-Source: AK7set9rOMneURYcmzqk8HIahYwvadv+iY0eVH8T7se7VHX0l7vqOSUUxhg4wlgVbit4iyiBgyo2MA==
+X-Received: by 2002:a05:600c:1d96:b0:3ea:e7f7:4faa with SMTP id
+ p22-20020a05600c1d9600b003eae7f74faamr10801158wms.26.1677515186425; 
+ Mon, 27 Feb 2023 08:26:26 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ n17-20020a05600c4f9100b003e876122dc1sm13955128wmq.47.2023.02.27.08.26.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 08:26:25 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8B6BC1FFB7;
+ Mon, 27 Feb 2023 16:26:25 +0000 (GMT)
+References: <20230227103258.13295-1-philmd@linaro.org>
+ <20230227103258.13295-2-philmd@linaro.org>
+ <20230227084621.15cab9da.alex.williamson@redhat.com>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater
+ <clg@redhat.com>, Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] hw/vfio/migration: Remove unused 'exec/ram_addr.h'
+ header
+Date: Mon, 27 Feb 2023 16:24:16 +0000
+In-reply-to: <20230227084621.15cab9da.alex.williamson@redhat.com>
+Message-ID: <87o7pfgjm6.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20230227140102.3712344-1-peter.maydell@linaro.org>
-In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Feb 2023 16:18:30 +0000
-Message-ID: <CAFEAcA-1AZaT7EqguzSLpVak6JMtMsohNtp6-uU-W03cz72Dcw@mail.gmail.com>
-Subject: Re: [PULL 00/25] target-arm queue
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x436.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,32 +99,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 at 14:01, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The following changes since commit b11728dc3ae67ddedf34b7a4f318170e7092803c:
->
->   Merge tag 'pull-riscv-to-apply-20230224' of github.com:palmer-dabbelt/qemu into staging (2023-02-26 20:14:46 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git pull-target-arm-20230227
->
-> for you to fetch changes up to e844f0c5d0bd2c4d8d3c1622eb2a88586c9c4677:
->
->   hw: Replace qemu_or_irq typedef by OrIRQState (2023-02-27 13:27:05 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Various code cleanups
->  * More refactoring working towards allowing a build
->    without CONFIG_TCG
->
 
+Alex Williamson <alex.williamson@redhat.com> writes:
 
-Applied, thanks.
+> On Mon, 27 Feb 2023 11:32:57 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>
+> Empty commit logs are a pet peeve of mine, there must be some sort of
+> motivation for the change, something that changed to make this
+> possible, or perhaps why this was never necessary.  Thanks,
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
+I think that is a little unfair for this case as the motivation and
+action are all covered by the summary line. Granted the overall goal is
+covered by the cover letter and the following patch however for this
+patch I would hope its self explanatory.
 
--- PMM
+Anyway:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
