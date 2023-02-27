@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065306A41FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A7F6A41D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:39:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWcnr-0004BC-PJ; Mon, 27 Feb 2023 07:40:27 -0500
+	id 1pWcmb-0002FD-HN; Mon, 27 Feb 2023 07:39:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcnW-0003ZJ-9r
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:40:09 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pWcmD-0002Dl-Sz
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:38:47 -0500
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcnU-0001C9-1X
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:40:05 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- bg16-20020a05600c3c9000b003eb34e21bdfso3594266wmb.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/oty7L+dT114p7izIAQG2VIHtXkztcaV4U4LXVZRSPo=;
- b=XLx/BaGGjQy++bkrn+FB4tvSEcbY8s7x10MpHmNhJHRWUJacAuz2dbTEmfIJH9NoII
- Jzir9XtxpEGwjussStrExW1Aj/3AqFpo+nYDv7otWDutvDAAe4twfz6GF62cidRCF8pW
- B/wRA8UQTZ3N91uyMeE+L/gy7JUm5GRliCnWYHFFaZZECIa4a6+Lxpmyr/NCfgCFiTj4
- bY8XyyzGCV9ZFPy/TBBIIwEWwl51uDSMDzB9IiUy3fjsAPs9N8aK4j+plYvs+Ytecuya
- mk8fWhh+FCNBA/4P04RXHNwEx9K/pIoB7t1DVxi8QQqXEFppjsb8sAdjrEuAEN0Tr3Xr
- AYNg==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pWcmB-00015x-JZ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:38:45 -0500
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-1720433ba75so7229278fac.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:38:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/Tdw6LYsYhKnnDa1lcyJZ/PkbGt3pTohjvy5MbVoz0s=;
+ b=TlctZMjJH8r3iIN6DnSUn4MxtjyOeRwXGrw6Mh9yajL2SXuJumYk0AiYGbpXVDKXfD
+ Yu/EK0Qjb/abbAKQNXp9fA05UvmQp+pZnKpBzdePERRWrm1U7ImQO4YKs5tXuHuU0azN
+ 6uE+Zvb591YCj8ROkGmJS9HjF1NFfqtPLI+RuV/uDO4Zn20qGm+bpeF2ykuNuZsfqaap
+ ayp/SxJEGxVCpaoZQhbaJdJl9jOj5qZ6cdpyfAniwx3uLbBKA6NbU9f+OtXvSOZ3Rag/
+ vaENkcRqBphh7YnMC+RWssEOqx8YMqJo60RvdEyeqalnCGnOHXdmGp7yv6B92MfUbGk7
+ 8xxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/oty7L+dT114p7izIAQG2VIHtXkztcaV4U4LXVZRSPo=;
- b=auGg6fvt7U0dGfklUImlvQTwp4oWYqhbs7YzL04Ym8oiCv1ihcS0Ka51L7awHtbevy
- OrdMZ+eNDC7evCwrfka5gboKkSvo6nl8HzPvIswmkQXP0NJbrdWxcDLtrEhJ1alfgYT/
- A0WoV+3PGkE+wlKkQwshQGPdwxzSd67nCaiquDue7a9ynijFdvsv7w37acKZ0LqYFKAJ
- ym/uCM6vmJKwQ7JnP0ytB9vJB4cnXj+ebBWHOat9eXCjDZrxjIyejJx/Jlz5QRvCsCLb
- g+DuSzAkhhE5xDPZgOHECwhs5gGM8vgCzejCp2gYliIRC3OHL0QirlJ84yqbpLyhvFLW
- tv3g==
-X-Gm-Message-State: AO0yUKVrk1MhuiEuOVaQV3PCJM/MbJxnSYf6DEnn2WS6sZK8Y4JDrIy6
- wJMpo3k3ONzWIHcq4B7AOMe9ENMDtIKtx1Lc
-X-Google-Smtp-Source: AK7set8s1WVVc0F5GiPY8+hi285n4ZFqFgScfpBlvfOAaeDPRfmUlIG9+Crjq5CeLlu8kHPG11bK0w==
-X-Received: by 2002:a05:600c:1d9e:b0:3dc:4042:5c21 with SMTP id
- p30-20020a05600c1d9e00b003dc40425c21mr19338212wms.6.1677501602546; 
- Mon, 27 Feb 2023 04:40:02 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/Tdw6LYsYhKnnDa1lcyJZ/PkbGt3pTohjvy5MbVoz0s=;
+ b=MiMjH7XgMgZNMdHn05aw+JGecRSUJbhFE+FDGKIEJYRr0eOxgq0cQvzM7Ly1dacPLj
+ mLDKN9LCxzqArcjnUxwA3SFljoVVoqBpRjUvyjaT0HR1kJsi48rCUpH+MXrNmD9PLW3c
+ F1xlNjcWnT8i+sBnFlOh340oTN/boQb1wwUBQp+I3qA9IZ7Lx7PtsbxjiH/CjvH3yz5f
+ G7ZGcSGAZkYDcasaXL6CJNrb7iK338vLNXZBc6LoxF/Jzj+Nfd66eMh+kMxqamsGRM/K
+ jwxn4zRk6doAlMDYMhjzwGjhCmKHjm0GqnR4o1gP34B6mLiw3ncRB3Nk5gr31LWgSPC6
+ MCDQ==
+X-Gm-Message-State: AO0yUKXIS2pAzq5Qk7hvvSfm6qlBowkMRCc48HiKXWRPnxJ97mqX8LM6
+ Exk8J74zsRmbHqYn6KcN2b0JWw==
+X-Google-Smtp-Source: AK7set9WoZqcPwIV6GaAq8G3x17PuRn4MsiAJowxs/9fIvM5B6Af0wvFggUPtkfadmjmkRDZllmv7w==
+X-Received: by 2002:a05:6870:80d4:b0:172:c150:9200 with SMTP id
+ r20-20020a05687080d400b00172c1509200mr5962078oab.20.1677501522014; 
+ Mon, 27 Feb 2023 04:38:42 -0800 (PST)
+Received: from [192.168.68.107] ([189.110.112.117])
  by smtp.gmail.com with ESMTPSA id
- l1-20020a1c7901000000b003e2058a7109sm12461234wme.14.2023.02.27.04.40.01
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 04:40:02 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 011/123] target/hppa: Extract system helpers to sys_helper.c
-Date: Mon, 27 Feb 2023 13:36:55 +0100
-Message-Id: <20230227123847.27110-12-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230227123847.27110-1-philmd@linaro.org>
-References: <20230227123847.27110-1-philmd@linaro.org>
+ ds53-20020a0568705b3500b0016e49af5815sm2225824oab.51.2023.02.27.04.38.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 04:38:41 -0800 (PST)
+Message-ID: <8141699e-d035-ca7c-e284-d91cc00d10a4@ventanamicro.com>
+Date: Mon, 27 Feb 2023 09:38:34 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 3/3] hw/riscv: Validate cluster and NUMA node boundary
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, rad@semihalf.com,
+ peter.maydell@linaro.org, quic_llindhol@quicinc.com, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, philmd@linaro.org, wangyanan55@huawei.com,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com,
+ imammedo@redhat.com, yihyu@redhat.com, ajones@ventanamicro.com,
+ berrange@redhat.com, shan.gavin@gmail.com
+References: <20230225063527.281479-1-gshan@redhat.com>
+ <20230225063527.281479-4-gshan@redhat.com>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <20230225063527.281479-4-gshan@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2f;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2f.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,226 +101,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221217173219.8715-3-philmd@linaro.org>
----
- target/hppa/meson.build  |  1 +
- target/hppa/op_helper.c  | 77 -------------------------------
- target/hppa/sys_helper.c | 99 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 100 insertions(+), 77 deletions(-)
- create mode 100644 target/hppa/sys_helper.c
 
-diff --git a/target/hppa/meson.build b/target/hppa/meson.build
-index fb90aed5de..81b4b4e617 100644
---- a/target/hppa/meson.build
-+++ b/target/hppa/meson.build
-@@ -16,6 +16,7 @@ hppa_softmmu_ss = ss.source_set()
- hppa_softmmu_ss.add(files(
-   'machine.c',
-   'mem_helper.c',
-+  'sys_helper.c',
- ))
- 
- target_arch += {'hppa': hppa_ss}
-diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
-index f5905c9fc2..32c27c66b2 100644
---- a/target/hppa/op_helper.c
-+++ b/target/hppa/op_helper.c
-@@ -24,7 +24,6 @@
- #include "exec/helper-proto.h"
- #include "exec/cpu_ldst.h"
- #include "qemu/timer.h"
--#include "sysemu/runstate.h"
- #include "trace.h"
- 
- G_NORETURN void HELPER(excp)(CPUHPPAState *env, int excp)
-@@ -209,79 +208,3 @@ target_ureg HELPER(read_interval_timer)(void)
-     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) >> 2;
- #endif
- }
--
--#ifndef CONFIG_USER_ONLY
--void HELPER(write_interval_timer)(CPUHPPAState *env, target_ureg val)
--{
--    HPPACPU *cpu = env_archcpu(env);
--    uint64_t current = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--    uint64_t timeout;
--
--    /* Even in 64-bit mode, the comparator is always 32-bit.  But the
--       value we expose to the guest is 1/4 of the speed of the clock,
--       so moosh in 34 bits.  */
--    timeout = deposit64(current, 0, 34, (uint64_t)val << 2);
--
--    /* If the mooshing puts the clock in the past, advance to next round.  */
--    if (timeout < current + 1000) {
--        timeout += 1ULL << 34;
--    }
--
--    cpu->env.cr[CR_IT] = timeout;
--    timer_mod(cpu->alarm_timer, timeout);
--}
--
--void HELPER(halt)(CPUHPPAState *env)
--{
--    qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
--    helper_excp(env, EXCP_HLT);
--}
--
--void HELPER(reset)(CPUHPPAState *env)
--{
--    qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    helper_excp(env, EXCP_HLT);
--}
--
--target_ureg HELPER(swap_system_mask)(CPUHPPAState *env, target_ureg nsm)
--{
--    target_ulong psw = env->psw;
--    /*
--     * Setting the PSW Q bit to 1, if it was not already 1, is an
--     * undefined operation.
--     *
--     * However, HP-UX 10.20 does this with the SSM instruction.
--     * Tested this on HP9000/712 and HP9000/785/C3750 and both
--     * machines set the Q bit from 0 to 1 without an exception,
--     * so let this go without comment.
--     */
--    env->psw = (psw & ~PSW_SM) | (nsm & PSW_SM);
--    return psw & PSW_SM;
--}
--
--void HELPER(rfi)(CPUHPPAState *env)
--{
--    env->iasq_f = (uint64_t)env->cr[CR_IIASQ] << 32;
--    env->iasq_b = (uint64_t)env->cr_back[0] << 32;
--    env->iaoq_f = env->cr[CR_IIAOQ];
--    env->iaoq_b = env->cr_back[1];
--    cpu_hppa_put_psw(env, env->cr[CR_IPSW]);
--}
--
--void HELPER(getshadowregs)(CPUHPPAState *env)
--{
--    env->gr[1] = env->shadow[0];
--    env->gr[8] = env->shadow[1];
--    env->gr[9] = env->shadow[2];
--    env->gr[16] = env->shadow[3];
--    env->gr[17] = env->shadow[4];
--    env->gr[24] = env->shadow[5];
--    env->gr[25] = env->shadow[6];
--}
--
--void HELPER(rfi_r)(CPUHPPAState *env)
--{
--    helper_getshadowregs(env);
--    helper_rfi(env);
--}
--#endif
-diff --git a/target/hppa/sys_helper.c b/target/hppa/sys_helper.c
-new file mode 100644
-index 0000000000..b0dded9e07
---- /dev/null
-+++ b/target/hppa/sys_helper.c
-@@ -0,0 +1,99 @@
-+/*
-+ * Helpers for HPPA system instructions.
-+ *
-+ * Copyright (c) 2016 Richard Henderson <rth@twiddle.net>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+#include "qemu/timer.h"
-+#include "sysemu/runstate.h"
-+
-+void HELPER(write_interval_timer)(CPUHPPAState *env, target_ureg val)
-+{
-+    HPPACPU *cpu = env_archcpu(env);
-+    uint64_t current = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    uint64_t timeout;
-+
-+    /* Even in 64-bit mode, the comparator is always 32-bit.  But the
-+       value we expose to the guest is 1/4 of the speed of the clock,
-+       so moosh in 34 bits.  */
-+    timeout = deposit64(current, 0, 34, (uint64_t)val << 2);
-+
-+    /* If the mooshing puts the clock in the past, advance to next round.  */
-+    if (timeout < current + 1000) {
-+        timeout += 1ULL << 34;
-+    }
-+
-+    cpu->env.cr[CR_IT] = timeout;
-+    timer_mod(cpu->alarm_timer, timeout);
-+}
-+
-+void HELPER(halt)(CPUHPPAState *env)
-+{
-+    qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+    helper_excp(env, EXCP_HLT);
-+}
-+
-+void HELPER(reset)(CPUHPPAState *env)
-+{
-+    qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+    helper_excp(env, EXCP_HLT);
-+}
-+
-+target_ureg HELPER(swap_system_mask)(CPUHPPAState *env, target_ureg nsm)
-+{
-+    target_ulong psw = env->psw;
-+    /*
-+     * Setting the PSW Q bit to 1, if it was not already 1, is an
-+     * undefined operation.
-+     *
-+     * However, HP-UX 10.20 does this with the SSM instruction.
-+     * Tested this on HP9000/712 and HP9000/785/C3750 and both
-+     * machines set the Q bit from 0 to 1 without an exception,
-+     * so let this go without comment.
-+     */
-+    env->psw = (psw & ~PSW_SM) | (nsm & PSW_SM);
-+    return psw & PSW_SM;
-+}
-+
-+void HELPER(rfi)(CPUHPPAState *env)
-+{
-+    env->iasq_f = (uint64_t)env->cr[CR_IIASQ] << 32;
-+    env->iasq_b = (uint64_t)env->cr_back[0] << 32;
-+    env->iaoq_f = env->cr[CR_IIAOQ];
-+    env->iaoq_b = env->cr_back[1];
-+    cpu_hppa_put_psw(env, env->cr[CR_IPSW]);
-+}
-+
-+void HELPER(getshadowregs)(CPUHPPAState *env)
-+{
-+    env->gr[1] = env->shadow[0];
-+    env->gr[8] = env->shadow[1];
-+    env->gr[9] = env->shadow[2];
-+    env->gr[16] = env->shadow[3];
-+    env->gr[17] = env->shadow[4];
-+    env->gr[24] = env->shadow[5];
-+    env->gr[25] = env->shadow[6];
-+}
-+
-+void HELPER(rfi_r)(CPUHPPAState *env)
-+{
-+    helper_getshadowregs(env);
-+    helper_rfi(env);
-+}
--- 
-2.38.1
 
+On 2/25/23 03:35, Gavin Shan wrote:
+> There are two RISCV machines where NUMA is aware: 'virt' and 'spike'.
+> Both of them are required to follow cluster-NUMA-node boundary. To
+> enable the validation to warn about the irregular configuration where
+> multiple CPUs in one cluster has been associated with multiple NUMA
+> nodes.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+
+>   hw/riscv/spike.c | 2 ++
+>   hw/riscv/virt.c  | 2 ++
+>   2 files changed, 4 insertions(+)
+> 
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index cc3f6dac17..b09b993634 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -357,6 +357,8 @@ static void spike_machine_class_init(ObjectClass *oc, void *data)
+>       mc->cpu_index_to_instance_props = riscv_numa_cpu_index_to_props;
+>       mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
+>       mc->numa_mem_supported = true;
+> +    /* platform instead of architectural choice */
+> +    mc->cpu_cluster_has_numa_boundary = true;
+>       mc->default_ram_id = "riscv.spike.ram";
+>   }
+>   
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index b81081c70b..e5bb168169 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1636,6 +1636,8 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+>       mc->cpu_index_to_instance_props = riscv_numa_cpu_index_to_props;
+>       mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
+>       mc->numa_mem_supported = true;
+> +    /* platform instead of architectural choice */
+> +    mc->cpu_cluster_has_numa_boundary = true;
+>       mc->default_ram_id = "riscv_virt_board.ram";
+>       assert(!mc->get_hotplug_handler);
+>       mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
 
