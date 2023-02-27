@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFD76A4063
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095F36A406B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:16:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbRj-0006Bv-Gr; Mon, 27 Feb 2023 06:13:31 -0500
+	id 1pWbTp-0001OR-0n; Mon, 27 Feb 2023 06:15:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pWbRh-00067T-6G
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:13:29 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pWbRe-0001CD-RI
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:13:28 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id r18so5801076wrx.1
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:13:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0CUR5eriz6ZQAmAdDWWPwluWPccH1XaT/t4IAOauMxs=;
- b=uF4TY/eFqO1uwwvv4b3Ms1778VdlxTltdmOqlXfVeGy2fuTXRMN6Lwu+Ie4lTXlteY
- d1+TbdaE4se7mnS/qUWg4WP+dfd/8cONRpXe5TgkN0PSW8CIYgifaws7rebh2HQORitd
- us6sctLc+GfZyVXMNFl/nglyWqxEj45RLD+qJBOegMaNX5eVdNHWT18TqG6xZd6GyeFx
- O3fZ1g09iddrYFJvYbs36a/2Q1Lz86wTmZs+hIyHvXRmHdMky6/1u8TXTDiJn3NJyOOy
- Q4zxImr4WiMZ4HKdH3p/30SGBjcbYW1n+qZrbYo+tW6UOmCHpZZq4A3iq4QBnmAS2MO3
- jy0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=0CUR5eriz6ZQAmAdDWWPwluWPccH1XaT/t4IAOauMxs=;
- b=cisBOoXvnjMZEajF/LgGt+xaYhB/ByibKcq2r3S96PvDJkQ8h2mUqePeNMVfS8Z2qm
- U2G0o9POTGIXmnb6wtN8cy30nwkU9yZgUE1/VwVivPvwga+HX25du1y9ZJV2n73Ig423
- afi3sQcZYUKSUuAxWXxdpoHzEfI9n1wnVvmYE/KC8MsLyDGID71m6A8iILqDgoE7xjvs
- rOYz0M+e5EmByLZdw/GJO7idUvMDyjrqWfOoR6DYGZWiwzdA9b/knfRqy2tSdoXXkaF4
- +4FFwFOduDoAUe1n7BdM+WH9fa5nI1cUZU2lCMGo5b75QeGXxmkmMCXSkQfymfddSg4N
- FjYA==
-X-Gm-Message-State: AO0yUKVcl/QdQwnGY8d9uP278yQfIOSLOKhHY6PWZwvM+4P4OhJhRXZt
- t8rJ8yykzt9kJy3OI9ovK70yuQ==
-X-Google-Smtp-Source: AK7set+Dll4msysyvUYl69deV1VbYkVYvqZR4Q8qxx4EKlvyikel+w8DfYybce0MIeECb6bVFr5jUw==
-X-Received: by 2002:adf:f247:0:b0:2c7:1e00:d514 with SMTP id
- b7-20020adff247000000b002c71e00d514mr11522473wrp.38.1677496404328; 
- Mon, 27 Feb 2023 03:13:24 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- n5-20020a5d51c5000000b002c70d97af78sm6888569wrv.85.2023.02.27.03.13.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 03:13:24 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A50CC1FFB7;
- Mon, 27 Feb 2023 11:13:23 +0000 (GMT)
-References: <20230220091358.17038-1-philmd@linaro.org>
- <20230220091358.17038-10-philmd@linaro.org>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
- qemu-block@nongnu.org, qemu-arm@nongnu.org, Richard Henderson
- <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 09/24] hw/ide: Include 'exec/ioport.h' instead of
- 'hw/isa/isa.h'
-Date: Mon, 27 Feb 2023 11:13:18 +0000
-In-reply-to: <20230220091358.17038-10-philmd@linaro.org>
-Message-ID: <87mt4zicoc.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWbTJ-0001NJ-A8
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:15:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWbTG-0001c4-UF
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:15:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677496505;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q8quW/S3YlkC5tpMQB+7/oU2hHmkzJyAe4hhtwQ0kmc=;
+ b=eAv4wKXvv4c+1IYl9HqmsAFO8xaWmbFTS00cNpDTPgZpfLiKJ0WeszjrXUrO2a1/PUnjxs
+ Citm2kzuCg4w5DtUCLlSDvg9cttCY3adHbsromj12Qba3LQteo18KCrhado8PdJcy3DRCo
+ Q5u5M1Uva7sqQIuVzEpWfpSN1R0K+2I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-572-boaZ86mLOviHUXM3j8sDLw-1; Mon, 27 Feb 2023 06:15:02 -0500
+X-MC-Unique: boaZ86mLOviHUXM3j8sDLw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D701380662C;
+ Mon, 27 Feb 2023 11:15:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A12F8404BEC5;
+ Mon, 27 Feb 2023 11:14:56 +0000 (UTC)
+Date: Mon, 27 Feb 2023 11:14:54 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Beraldo Leal <bleal@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Ed Maste <emaste@freebsd.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, qemu-arm@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-block@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ John Snow <jsnow@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Hanna Reitz <hreitz@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Subject: Re: [PATCH 2/7] tests/dockerfiles: unify debian-toolchain references
+Message-ID: <Y/yQrrfd/XLG6kwv@redhat.com>
+References: <20230224180857.1050220-1-alex.bennee@linaro.org>
+ <20230224180857.1050220-3-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230224180857.1050220-3-alex.bennee@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,22 +95,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, Feb 24, 2023 at 06:08:52PM +0000, Alex Bennée wrote:
+> We use the debian release number elsewhere so fix it for consistency
+> along with the broken comment.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  tests/docker/dockerfiles/debian-toolchain.docker | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-> The IDEBus structure has PortioList fields, so we need its
-> declarations from "exec/ioport.h". "hw/isa/isa.h" is not required.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Message-Id: <20230215112712.23110-9-philmd@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
