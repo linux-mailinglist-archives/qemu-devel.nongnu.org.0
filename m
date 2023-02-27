@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE266A437F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB526A436E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:55:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdvt-00070Z-07; Mon, 27 Feb 2023 08:52:49 -0500
+	id 1pWdw3-0007Bj-5q; Mon, 27 Feb 2023 08:52:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvk-0006iU-Aj
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:41 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvl-0006ip-0r
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:42 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvi-0005hK-Ky
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:39 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvj-0005ih-Kf
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=To/K7zSjkYeExqHwpYMB6FMxgTqRR+IRGvUK5lFbbTc=; b=Aq2V0MlmJNxb7qhKPTItImzd8h
- kiC6RK7WXXAuZOND8tyQsBrnSis5tIGUEVHFuRLZ+6smrY4/PlEzxJBBzC4ZPlHVqwhtRqDbumEBm
- nop/K4SQe92qEDhOCO17xBcdPNzJKnlv0BNkzio50IsWM0V0O/3QxRzHhsTS15KTVHfE=;
+ bh=NbKI7hPp5Bs1auSOccsA2cqxjm4fd9JxkoxK5vqOTX4=; b=Y+WdCcvpOHW01h/0Kq2izGXaAc
+ k//2TBcG8g0CrSEFmdxd+wDq9426ngPdqIUMHUN9GF/ffu0YDUj6WxnLzm0UBV/WTCeM6hLm02+GV
+ QuGdwih5hhYDTsBtl5nJC34HaAYa9llyyGuxKx2P9ZzBqR2xj3NSmw5zG7JvvQVW7NRI=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v3 20/27] target/microblaze: Replace `tb_pc()` with `tb->pc`
-Date: Mon, 27 Feb 2023 14:51:55 +0100
-Message-Id: <20230227135202.9710-21-anjo@rev.ng>
+Subject: [PATCH v3 21/27] target/loongarch: Replace `tb_pc()` with `tb->pc`
+Date: Mon, 27 Feb 2023 14:51:56 +0100
+Message-Id: <20230227135202.9710-22-anjo@rev.ng>
 In-Reply-To: <20230227135202.9710-1-anjo@rev.ng>
 References: <20230227135202.9710-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -68,31 +68,40 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/microblaze/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/loongarch/cpu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index a2d2f5c340..03c2c4db1f 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -30,6 +30,7 @@
- #include "exec/exec-all.h"
- #include "exec/gdbstub.h"
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 290ab4d526..e5efe4ebd7 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -18,6 +18,7 @@
  #include "fpu/softfloat-helpers.h"
+ #include "cpu-csr.h"
+ #include "sysemu/reset.h"
 +#include "tcg/tcg.h"
  
- static const struct {
-     const char *name;
-@@ -97,7 +98,8 @@ static void mb_cpu_synchronize_from_tb(CPUState *cs,
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+ const char * const regnames[32] = {
+     "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
+@@ -321,7 +322,8 @@ static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
+     LoongArchCPU *cpu = LOONGARCH_CPU(cs);
+     CPULoongArchState *env = &cpu->env;
  
--    cpu->env.pc = tb_pc(tb);
+-    env->pc = tb_pc(tb);
 +    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
-+    cpu->env.pc = tb->pc;
-     cpu->env.iflags = tb->flags & IFLAGS_TB_MASK;
++    env->pc = tb->pc;
  }
  
+ static void loongarch_restore_state_to_opc(CPUState *cs,
+@@ -599,7 +601,7 @@ static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
+ 
+     oc = object_class_by_name(cpu_model);
+     if (!oc) {
+-        g_autofree char *typename 
++        g_autofree char *typename
+             = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
+         oc = object_class_by_name(typename);
+         if (!oc) {
 -- 
 2.39.1
 
