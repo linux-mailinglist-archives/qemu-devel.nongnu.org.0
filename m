@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C846A472B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 17:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3766A474A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 17:52:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWgVb-0003PE-Ly; Mon, 27 Feb 2023 11:37:51 -0500
+	id 1pWghV-0008Dw-VJ; Mon, 27 Feb 2023 11:50:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1pWgVX-00030J-GU; Mon, 27 Feb 2023 11:37:47 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pWghT-0008CG-5T
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:50:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1pWgVU-00063V-2t; Mon, 27 Feb 2023 11:37:47 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31RFwvTH017935; Mon, 27 Feb 2023 16:37:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2022-7-12;
- bh=DPCvqMvPGr7V9CaopBQymsI4DUZJ7DMryFxJNSsGiN0=;
- b=n5YvX+GdQ97oigmnQY1fuJ+/VI/mN28paW/eg77ToGDuPhZLcIVNrvbL+1N9nX4JOUMc
- 4Fxi2Rek5Q3CW6M7Aj2qNgG6od19/B5au4R543FvcmzOrsU/qqd9QGLZXQ4oW69EHK42
- 3bf/0LGi44K+TiUt0G5VqLDBHe24MC3snGZEEZvmOtQjVTiS/wYlEyjMnf+zySJJhtFS
- IbD8BVX+gRCo8Mg/9CITNKzfZSzjn80Yn4SOIyXYNH6OQa2T3+9239VJWg31IiDzMaE4
- 4y55sVgOvPAKf/6BrikQ/XTCIIB9667WhRlc5F//B8Ui2/RIemZxmWc8WhTClchkPJ74 Pw== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nybakm2q8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Feb 2023 16:37:40 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 31RFvTXR015935; Mon, 27 Feb 2023 16:37:40 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3ny8s5sy6e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Feb 2023 16:37:39 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31RGbMkO006629;
- Mon, 27 Feb 2023 16:37:39 GMT
-Received: from mlluis-mac.uk.oracle.com (dhcp-10-175-167-110.vpn.oracle.com
- [10.175.167.110])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3ny8s5sxr5-6; Mon, 27 Feb 2023 16:37:38 +0000
-From: Miguel Luis <miguel.luis@oracle.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Haibo Xu <haibo.xu@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Marc Zyngier <maz@kernel.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pWghO-0000QJ-4X
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:50:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677516600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l7gAfPxjYy1ZF+2eDrtb7tn+rvsV2iQvicqksHVx7l4=;
+ b=ZwvTYsu9Gotpstm8npxMjsCtlbfPP5lBKHOZ25IRHNV7cOY1EUJP+3n8xcdQ7qge18I5VQ
+ 4mdhf3FxGp6ja7hP4v0+PQIDViwNhjXC9TCYMfE2OJchYy8ST5KdMGPM5ztWUfp05a65/4
+ Gzt4dKxhOThGpTss1oEEmL0gskeLrPI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-663-iXQANjHrMdyknHDWa6E6mw-1; Mon, 27 Feb 2023 11:49:59 -0500
+X-MC-Unique: iXQANjHrMdyknHDWa6E6mw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8DD0610115E1;
+ Mon, 27 Feb 2023 16:49:57 +0000 (UTC)
+Received: from localhost (unknown [10.45.226.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3621D4044B30;
+ Mon, 27 Feb 2023 16:49:57 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Miguel Luis <miguel.luis@oracle.com>, Peter Maydell
+ <peter.maydell@linaro.org>, "Michael S . Tsirkin" <mst@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Haibo Xu <haibo.xu@linaro.org>, Andrew Jones <drjones@redhat.com>, Marc
+ Zyngier <maz@kernel.org>
 Cc: Miguel Luis <miguel.luis@oracle.com>
-Subject: [RFC PATCH 5/5] arm/virt: provide virtualization extensions to the
- guest
-Date: Mon, 27 Feb 2023 15:37:18 -0100
-Message-Id: <20230227163718.62003-6-miguel.luis@oracle.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230227163718.62003-1-miguel.luis@oracle.com>
+Subject: Re: [RFC PATCH 1/5] linux-headers: [kvm, arm64] add the necessary
+ definitions to match host kernel
+In-Reply-To: <20230227163718.62003-2-miguel.luis@oracle.com>
+Organization: Red Hat GmbH
 References: <20230227163718.62003-1-miguel.luis@oracle.com>
+ <20230227163718.62003-2-miguel.luis@oracle.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Mon, 27 Feb 2023 17:49:55 +0100
+Message-ID: <87v8jn3vf0.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-27_13,2023-02-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 suspectscore=0 phishscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302270129
-X-Proofpoint-GUID: uYuUIqgWuiwxsgj6NLYdHGKFxoaKAUku
-X-Proofpoint-ORIG-GUID: uYuUIqgWuiwxsgj6NLYdHGKFxoaKAUku
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=miguel.luis@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,33 +82,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Haibo Xu <haibo.xu@linaro.org>
+On Mon, Feb 27 2023, Miguel Luis <miguel.luis@oracle.com> wrote:
 
-VHE enablement if host supports EL2.
+> From: Haibo Xu <haibo.xu@linaro.org>
+>
+> linux-headers define host properties needed for the VMM to interact with
+> KVM, so let's include them *while* they're not available yet on linux
+> upstream since aarch64 nested virtualization is still a work in
+> progress.
+>
+> Ref: https://lore.kernel.org/qemu-devel/636b5932e4cf061b6f97516e82d4319c1d29b871.1616052889.git.haibo.xu@linaro.org/
+>
+> Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
+> Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
+> ---
+>  linux-headers/asm-arm64/kvm.h | 2 ++
+>  linux-headers/linux/kvm.h     | 1 +
+>  2 files changed, 3 insertions(+)
 
-Ref: https://lore.kernel.org/qemu-devel/b7c2626e6c720ccc43e57197dff3dac72d613640.1616052890.git.haibo.xu@linaro.org/
-
-Signed-off-by: Haibo Xu <haibo.xu@linaro.org>
-Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
----
- hw/arm/virt.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 377181e009..7103aecf3f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2093,7 +2093,8 @@ static void machvirt_init(MachineState *machine)
-         exit(1);
-     }
- 
--    if (vms->virt && (kvm_enabled() || hvf_enabled())) {
-+    if (vms->virt && (kvm_enabled() || hvf_enabled())
-+        && !kvm_arm_el2_supported()) {
-         error_report("mach-virt: %s does not support providing "
-                      "Virtualization extensions to the guest CPU",
-                      kvm_enabled() ? "KVM" : "HVF");
--- 
-2.39.2
+Can you please mark this explicitly as a placeholder for a proper
+headers update? Just so that it doesn't get lost :)
 
 
