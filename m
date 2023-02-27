@@ -2,90 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3E66A49DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 19:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A2106A49DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 19:36:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWiIR-0007J0-J4; Mon, 27 Feb 2023 13:32:23 -0500
+	id 1pWiLQ-0002fb-NP; Mon, 27 Feb 2023 13:35:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWiIP-0007Ii-8k
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:32:21 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWiIN-0004C0-MV
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:32:21 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id p6so6860097plf.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 10:32:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=G3kvzrE4d5Q2+Tua9D6UKBpnX63zpoL63JuO3ShQfhU=;
- b=YZ/wUj0vlcU3OnFaUZMZpw4+f51Pygbr8vJkWaUG/yC8AbJDnuW4Q+TOUmq8Bsnfb4
- VWCIjrvAaQCy5jOewd1L20pZbq8Du/T1Pm3iU14lh7YHFSwrKCeri2uvK0/e4IdXx8Br
- 70fTPwUunjDJfKDIi5DyW9GayeZxZyfFKySwGfEbeMGcRE+cOs8tkMwzTAYuexPXsyzw
- Xb+Rui0egeYMZtv4aJQZbI7jnGrbl57t/VIiP6gkRRHfWVz6EfIyX6crEt3sdt+mz4ko
- wMH3DLdskpwfUja0dChxOoUqq0K3nD4HpiZfY9GhMFvLI27jLi6ifoGDzEtylCt/L4xH
- Aw7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G3kvzrE4d5Q2+Tua9D6UKBpnX63zpoL63JuO3ShQfhU=;
- b=UeJJHCnPsmv5kbVpJk4Vyajt3qzKR6OPwJcUsPAvx91zQrhOH8x9WLTT3O2UJOy0OA
- u+JkSbbJOn8g4DBLvvbO2cttjYzAY/Cl37FyrdoO11fbfnNoMUIgGPhRjoAg1yNViS24
- LizE64+4sJJetEJ9OPxVLkqiewndPOuJyxFW8iwlMvCoSt20QjnVob4CGgDwZsEhVyAs
- qaGNLnliWBHkPr8D3sFL7hNb6CDFp8AC3ba8SK6hGD2Xuu1/LDLPKQ61ksDL0RE+G3F/
- xu9QDuOy3RBlGLzUfTHhsSF0pA+ioJeuTvc9KdTEbgZxrwaJ+EbSOd5RxG63g24+g2Tm
- lvHQ==
-X-Gm-Message-State: AO0yUKVvQbc+ytrJokj7qtn4dauNDSGGL9mf2jfkaR6FU/dKlvkYpavp
- /z2vghPb1wCqT3Q0gLYIpHoxcA==
-X-Google-Smtp-Source: AK7set+pdBszamc9RnaVg8zKXnLKHRH584X6vBIKPXf5htnmZwZIV5VEE5dGeic+p7leAHOAfdgwjA==
-X-Received: by 2002:a17:902:e80f:b0:19c:cb64:dacc with SMTP id
- u15-20020a170902e80f00b0019ccb64daccmr15951279plg.61.1677522737694; 
- Mon, 27 Feb 2023 10:32:17 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- iz10-20020a170902ef8a00b0019c901b35ecsm4949454plb.106.2023.02.27.10.32.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 10:32:17 -0800 (PST)
-Message-ID: <d31b5dce-15c1-b681-6e6b-e4a6ae645a9a@linaro.org>
-Date: Mon, 27 Feb 2023 08:32:12 -1000
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pWiLN-0002TF-DD
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:35:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pWiLK-0004tb-La
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:35:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677522913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Qe7t4/2DJcxXKXDU/ds6vqSkl1whlvfe9rcLF5b6OqY=;
+ b=J3kZeh2xB60GF9yz1x82JzlLAS0QjZ1I1oNfltGD1jHBGFzX0D1zxvdW/E3RPfRzIDhySQ
+ R7TfLnI94evE3VPvMAyS04/5PM3ChIcWncl9Nr9f+H+kyR8x5RCMRFVo1uJ1Y5DuEN7Rm1
+ 2rcyuPI1MxG709+RO6RtYa6WJ/O4mcY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-27-GDhCGG6LPGSSqCFc8HC45Q-1; Mon, 27 Feb 2023 13:35:11 -0500
+X-MC-Unique: GDhCGG6LPGSSqCFc8HC45Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3FEC73823A06;
+ Mon, 27 Feb 2023 18:35:11 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.45.224.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8739F40C6EC4;
+ Mon, 27 Feb 2023 18:35:08 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, dgilbert@redhat.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, rjones@redhat.com,
+ marcandre.lureau@redhat.com
+Cc: armbru@redhat.com,
+	philmd@linaro.org,
+	berrange@redhat.com
+Subject: [PATCH v2] test-vmstate: fix bad GTree usage, use-after-free
+Date: Mon, 27 Feb 2023 19:35:05 +0100
+Message-Id: <20230227183505.280368-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-11-gaosong@loongson.cn>
- <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
- <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
- <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
- <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
- <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
- <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
- <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
- <d052497f-fc2c-17ab-d455-f0a1727b422d@loongson.cn>
- <5ac3c25f-8d4b-6aa3-5bc2-2b3abc22dce8@linaro.org>
- <32723bb0-17fe-cbd5-73f1-99cbcfbf73aa@loongson.cn>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <32723bb0-17fe-cbd5-73f1-99cbcfbf73aa@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,54 +79,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/27/23 02:54, gaosong wrote:
-> 
-> 在 2023/2/27 下午5:20, Richard Henderson 写道:
->> On 2/26/23 23:14, gaosong wrote:
->>> like this:
->>> the vece is MO_32.
->>> static void gen_vaddwev_s(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
->>> {
->>>      TCGv_vec t1 = tcg_temp_new_vec_matching(a);
->>>      TCGv_vec t2 = tcg_temp_new_vec_matching(b);
->>>      int halfbits = 4 << vece;
->>>      tcg_gen_shli_vec(vece, t1, a, halfbits);
->>>      tcg_gen_shri_vec(vece, t1, t1, halfbits);
->>>
->>>      tcg_gen_shli_vec(vece, t2, b,  halfbits);
->>>      tcg_gen_shri_vec(vece, t2, t2, halfbits);
->>>
->>>      tcg_gen_add_vec(vece, t, t1, t2);
->>>
->>>      tcg_temp_free_vec(t1);
->>>      tcg_temp_free_vec(t2);
->>> }
->>> ...
->>>         op[MO_16];
->>>          {
->>>              .fniv = gen_vaddwev_s,
->>>              .fno = gen_helper_vaddwev_w_h,
->>>              .opt_opc = vecop_list,
->>>              .vece = MO_32
->>>          },
->>> ...
->>> TRANS(vaddwev_w_h, gvec_vvv, MO_16, gvec_vaddwev_s)
->>>
->>> input :     0x ffff fffe ffff fffe  ffff fffe ffff fffe  + 0
->>> output :    0x 0000 fffe 0000 fffe  0000 fffe 0000 fffe
->>> correct is  0xffffffffefffffffefffffffe       ffff fffe.
->>
->> sari above, not shri, for sign-extension.
->>
->>
-> Got it.
-> 
-> and how to  sign-extend  the odd  element  of vector?
+According to g_tree_foreach() documentation:
+"The tree may not be modified while iterating over it (you can't
+add/remove items)."
 
-For the odd elements, you omit the shli, because the odd element is already at the most 
-significant end of the wider element.
+A SIGSEV can be observed while running test-vmstate.
 
+Get rid of the node removal within the tree traversal. Also
+check the trees have the same number of nodes before the actual
+diff.
 
-r~
+Fixes: 9a85e4b8f6 ("migration: Support gtree migration")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1518
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reported-by: Richard W.M. Jones <rjones@redhat.com>
+
+---
+
+This is a respin of Marc-André's patch from Aug 2020, which can be
+found at
+https://lore.kernel.org/qemu-devel/20200827161826.1165971-1-marcandre.lureau@redhat.com/
+This fell through the cracks and now we hit a SIGSEV
+---
+ tests/unit/test-vmstate.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
+index 79357b29ca..0b7d5ecd68 100644
+--- a/tests/unit/test-vmstate.c
++++ b/tests/unit/test-vmstate.c
+@@ -1073,7 +1073,6 @@ static gboolean diff_tree(gpointer key, gpointer value, gpointer data)
+     struct match_node_data d = {tp->tree2, key, value};
+ 
+     g_tree_foreach(tp->tree2, tp->match_node, &d);
+-    g_tree_remove(tp->tree1, key);
+     return false;
+ }
+ 
+@@ -1082,9 +1081,9 @@ static void compare_trees(GTree *tree1, GTree *tree2,
+ {
+     struct tree_cmp_data tp = {tree1, tree2, function};
+ 
++    assert(g_tree_nnodes(tree1) == g_tree_nnodes(tree2));
+     g_tree_foreach(tree1, diff_tree, &tp);
+-    assert(g_tree_nnodes(tree1) == 0);
+-    assert(g_tree_nnodes(tree2) == 0);
++    g_tree_destroy(g_tree_ref(tree1));
+ }
+ 
+ static void diff_domain(TestGTreeDomain *d1, TestGTreeDomain *d2)
+-- 
+2.38.1
 
 
