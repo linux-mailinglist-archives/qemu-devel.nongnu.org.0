@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744EB6A4A90
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 20:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6E86A4AA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 20:16:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWio5-0007Px-Kh; Mon, 27 Feb 2023 14:05:05 -0500
+	id 1pWixG-0004lt-7B; Mon, 27 Feb 2023 14:14:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pWio4-0007Pl-09
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:05:04 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pWio2-0004FA-8d
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:05:03 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id k37so4947935wms.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 11:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mUUO3V4j4IfzPuXbkd9GP8e4YnrmWIlkPWOTg4NEhq8=;
- b=ouZvhFZIF+jLvtz4dDDPYLTPPlm07agiuTlV6N+KzFN1NkRrMFqzcx89oVJGrv1SjA
- W2HUp11r2n56ddLfh5yLjquDPxUzRhE4FnyOwf1P3pLE3lu+HtJlb8HoZyrYeTdHYCKh
- WTfMq+yh1tYgkCMGAGTTj9+j6UJQuFFZVQZ86Si9pRACELFUpkyyDKnUSi8mWAtloqZS
- 1DyRAcQj5buvicmoGJImEMXblfBEY7lLyc0hPbuYAoRTUrFig+C7fyvvKsuXG0WIMcky
- lfe/caNHi+brdkUz/mKiCqakZt1yOqpmySB/26XUnSU07Ar0tTJvo7GT6IFy48QaQ7zn
- 0KUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=mUUO3V4j4IfzPuXbkd9GP8e4YnrmWIlkPWOTg4NEhq8=;
- b=AOtiVbHlVAxg3yZNOqdqdayBVUuLYTK7tgdK/nCOLrR36rDcxeg8DI/9pByXjvSSZE
- z4qaE3RsVI9rTtB9IfnRvKJWJ4QbjQEiGDL1+9mQziPF79GplFMnhY4o28fBjr0xYemX
- Hss5DieCbzM2PHcCVFjLlpspo/FcDUCNs99VyBbZboNomo6S0OoISQNx0yQ5osOvgOP6
- GrIBZ5Hywd8AdJ1R+z2fhTRkpuA9P+m2NBF7r1qlTn0jEGSHNr7l8Snmss+gA2jQ0O5e
- FHYQAXEUPgWNfRgk/ELwSuO/hzJvOvG8Ff/UaMHr/kyxIBbQgx101+GP24VEQezZXlhm
- bf7g==
-X-Gm-Message-State: AO0yUKUwqoJxGay/CLcPLRUd0g1Du6KjvhsthYeHdUsuRgQQcto0pk9l
- gQRm86Dfz4YmSSHgZUgGIHKdog==
-X-Google-Smtp-Source: AK7set84nUrbLpLOzmDUFuToYrLLUece18KD0PLW/sun+jJR+vZgtZQzNjUiLYeVoRxjRyk1cPf5YQ==
-X-Received: by 2002:a05:600c:4f81:b0:3ea:dbdd:b59c with SMTP id
- n1-20020a05600c4f8100b003eadbddb59cmr155924wmq.15.1677524700289; 
- Mon, 27 Feb 2023 11:05:00 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- y7-20020a05600c364700b003e2096da239sm13719882wmq.7.2023.02.27.11.04.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 11:04:59 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8FEF41FFB7;
- Mon, 27 Feb 2023 19:04:59 +0000 (GMT)
-References: <20230227151110.31455-1-farosas@suse.de>
- <20230227151110.31455-2-farosas@suse.de>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Wainer dos Santos
- Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, =?utf-8?Q?Daniel?=
- =?utf-8?Q?_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [RFC PATCH v3 1/1] gitlab: Use plain docker in
- container-template.yml
-Date: Mon, 27 Feb 2023 19:00:03 +0000
-In-reply-to: <20230227151110.31455-2-farosas@suse.de>
-Message-ID: <87fsargc9w.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pWixE-0004lW-AI
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:14:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pWixC-0007lN-Pp
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:14:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677525269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IdkWxOFYr+x8DwOBIYfcZ0I9ImrdlutHyynwl1OkOMA=;
+ b=faywaynZ0FZJ1vnhQX/SQ7nM4ED2mVob4oDzV31bhdiSd9b0qZJYlL+fPsenukMBmNsxTR
+ x8zRmGt7AaZ2U241wTA2EoPVcHcIB1KCtyenG+Q6TzkpjUSnBDxBZMDvmLmXQmFUPGLABe
+ RhV+qM78PVbfX6dzJS0/mTHd/ddNvuc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-127-0xxA6cqeMEyfmSmmfn-25w-1; Mon, 27 Feb 2023 14:14:26 -0500
+X-MC-Unique: 0xxA6cqeMEyfmSmmfn-25w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52474857A93;
+ Mon, 27 Feb 2023 19:14:25 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9026C2026D4B;
+ Mon, 27 Feb 2023 19:14:24 +0000 (UTC)
+Date: Mon, 27 Feb 2023 14:14:22 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
+ hare@suse.de, damien.lemoal@opensource.wdc.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH v15 3/8] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls
+Message-ID: <Y/0BDib2ww1XdIov@fedora>
+References: <20230129102850.84731-1-faithilikerun@gmail.com>
+ <20230129102850.84731-4-faithilikerun@gmail.com>
+ <Y/z0Xl0qxUpJAXUl@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QvfxJT8yRO7FHEtz"
+Content-Disposition: inline
+In-Reply-To: <Y/z0Xl0qxUpJAXUl@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,79 +89,119 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Fabiano Rosas <farosas@suse.de> writes:
+--QvfxJT8yRO7FHEtz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Our dockerfiles no longer reference layers from other qemu images so
-> we can now use 'docker build' on them.
->
-> Also reinstate the caching that was disabled due to bad interactions
-> with certain runners. See commit 6ddc3dc7a8 ("tests/docker: don't use
-> BUILDKIT in GitLab either"). We now believe those issues to be fixed.
->
-> The COMMON_TAG needed to be fixed for the caching to work. The
-> docker.py script was not using the variable, but constructing the
-> correct URL directly.
->
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->  .gitlab-ci.d/container-template.yml | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container=
--template.yml
-> index c434b9c8f3..519b8a9482 100644
-> --- a/.gitlab-ci.d/container-template.yml
-> +++ b/.gitlab-ci.d/container-template.yml
-> @@ -6,17 +6,16 @@
->      - docker:dind
->    before_script:
->      - export TAG=3D"$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
-> -    - export COMMON_TAG=3D"$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
-> +    - export COMMON_TAG=3D"$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:lat=
-est"
->      - apk add python3
->      - docker info
->      - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_=
-PASSWORD"
->    script:
->      - echo "TAG:$TAG"
->      - echo "COMMON_TAG:$COMMON_TAG"
-> -    - ./tests/docker/docker.py --engine docker build
-> -          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
-> -          -r $CI_REGISTRY/qemu-project/qemu
-> -    - docker tag "qemu/$NAME" "$TAG"
-> +    - docker build --tag "$TAG" --cache-from "$TAG" --cache-from "$COMMO=
-N_TAG"
-> +      --build-arg BUILDKIT_INLINE_CACHE=3D1
-> +      -f "tests/docker/dockerfiles/$NAME.docker" "."
+On Mon, Feb 27, 2023 at 07:20:14PM +0100, Kevin Wolf wrote:
+> Am 29.01.2023 um 11:28 hat Sam Li geschrieben:
+> > Add zoned device option to host_device BlockDriver. It will be presente=
+d only
+> > for zoned host block devices. By adding zone management operations to t=
+he
+> > host_block_device BlockDriver, users can use the new block layer APIs
+> > including Report Zone and four zone management operations
+> > (open, close, finish, reset, reset_all).
+> >=20
+> > Qemu-io uses the new APIs to perform zoned storage commands of the devi=
+ce:
+> > zone_report(zrp), zone_open(zo), zone_close(zc), zone_reset(zrs),
+> > zone_finish(zf).
+> >=20
+> > For example, to test zone_report, use following command:
+> > $ ./build/qemu-io --image-opts -n driver=3Dhost_device, filename=3D/dev=
+/nullb0
+> > -c "zrp offset nr_zones"
+> >=20
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > Reviewed-by: Hannes Reinecke <hare@suse.de>
+> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  block/block-backend.c             | 147 ++++++++++++++
+> >  block/file-posix.c                | 323 ++++++++++++++++++++++++++++++
+> >  block/io.c                        |  41 ++++
+> >  include/block/block-io.h          |   7 +
+> >  include/block/block_int-common.h  |  21 ++
+> >  include/block/raw-aio.h           |   6 +-
+> >  include/sysemu/block-backend-io.h |  18 ++
+> >  meson.build                       |   4 +
+> >  qemu-io-cmds.c                    | 149 ++++++++++++++
+> >  9 files changed, 715 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/block/block-backend.c b/block/block-backend.c
+> > index ba7bf1d6bc..a4847b9131 100644
+> > --- a/block/block-backend.c
+> > +++ b/block/block-backend.c
+> > @@ -1451,6 +1451,15 @@ typedef struct BlkRwCo {
+> >      void *iobuf;
+> >      int ret;
+> >      BdrvRequestFlags flags;
+> > +    union {
+> > +        struct {
+> > +            unsigned int *nr_zones;
+> > +            BlockZoneDescriptor *zones;
+> > +        } zone_report;
+> > +        struct {
+> > +            unsigned long op;
+> > +        } zone_mgmt;
+> > +    };
+> >  } BlkRwCo;
+>=20
+> Should we use a different struct for blk_aio_zone_*() so that we don't
+> need to touch the one for the normal I/O path? My concern is that
+> increasing the size of the struct (currently 32 bytes) might negatively
+> impact the performance even of non-zoned devices. Maybe it turns out
+> that it wasn't really necessary in the end (have we done any
+> benchmarks?), but I don't think it can hurt anyway.
+>=20
+> With this changed, you can add to the series:
+> Acked-by: Kevin Wolf <kwolf@redhat.com>
 
-I wonder why this doesn't injest a bunch of context. If I run:
+There are unused fields in BlkRwCo and BlkAioEmAIOCB, so changing the
+size of the struct isn't necessary. ioctl/flush/pdiscard already use
+BlkAioEmAIOCB/BlkRwCo for non-read/write operations, including using the
+iobuf field for different types, so it wouldn't be weird:
 
-  docker build --cache-from registry.gitlab.com/stsquad/qemu/qemu/debian-al=
-pha-cross --build-arg BUILDKIT_INLINE_CACHE=3D1  --build-arg USER=3Dalex --=
-build-arg UID=3D1000 -t qemu
-  /debian-alpha-cross -f "/home/alex/lsrc/qemu.git/tests/docker/dockerfiles=
-/debian-alpha-cross.docker" .
+  typedef struct BlkRwCo {
+      BlockBackend *blk;
+      int64_t offset;
+      void *iobuf;
+            ^^^^^ used for preadv/pwritev qiov, ioctl buf, and NULL for
+                  other request types. zone_report could put the
+                  BlockZoneDescriptor pointer here. zone_mgmt could put
+                  op here.
+      int ret;
+      BdrvRequestFlags flags;
+  } BlkRwCo;
 
-it attempts to bring my entire build directory in as build context. This
-is why we use the - < docker form in the Makefile.
+  typedef struct BlkAioEmAIOCB {
+      BlockAIOCB common;
+      BlkRwCo rwco;
+      int64_t bytes;
+              ^^^^^ zone_report could put the nr_zones pointer here
+      bool has_returned;
+  } BlkAioEmAIOCB;
 
->      - docker push "$TAG"
->    after_script:
->      - docker logout
+Does that sound okay?
 
-So what I don't understand is if I do:
+Stefan
 
-  docker pull registry.gitlab.com/stsquad/qemu/qemu/debian-alpha-cross
-  docker build --cache-from registry.gitlab.com/stsquad/qemu/qemu/debian-al=
-pha-cross --build-arg
-    BUILDKIT_INLINE_CACHE=3D1 -t qemu/debian-alpha-cross - <
-    /home/alex/lsrc/qemu.git/tests/docker/dockerfiles/debian-alpha-cross.do=
-cker
+--QvfxJT8yRO7FHEtz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I still see pretty much a full rebuild of the image.
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP9AQ4ACgkQnKSrs4Gr
+c8g2Fwf9EMFkLT8O/kdjsm0flMV1/+xutRbawiGK+uJZW6NkoQyJtb7QubSwBAA6
+UfmAN2k68PB3IFaD/2YcyJqRmrsWgAUin8stQ69GJuijIWUqEDxOrI4BhGxnTiln
+kQoj37GTnsZ0XOpd7MlPK750nUHTMw8oaKse7BTiZyKNj37Dt4Zz8unWZpUG0Tex
+39dbchWKTrEh5kSdYljPbbiyc4pZvh+y1MQ1oYhhjxtBPBrDN7q4z0tHUu+4/NIw
+7TLoknQYRv0+r1n4xhQPxqqXirKoMudbUGYDLwajcKyPXcLaZ0+srWF8r9kHT642
+Rcz80JCZbTvxFNstEroeNnA35HhEyg==
+=GXO+
+-----END PGP SIGNATURE-----
+
+--QvfxJT8yRO7FHEtz--
+
 
