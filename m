@@ -2,54 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C0D6A4838
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017586A481D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:35:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWhRj-00078E-1J; Mon, 27 Feb 2023 12:37:55 -0500
+	id 1pWhOf-0005TV-FV; Mon, 27 Feb 2023 12:34:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWhRh-00077h-9B
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:37:53 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pWhOb-0005Pn-Qy; Mon, 27 Feb 2023 12:34:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWhRf-0000zo-D9
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:37:52 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PQSJ80Pntz6J7mD;
- Tue, 28 Feb 2023 01:32:56 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Feb 2023 17:37:49 +0000
-To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
- <fan.ni@samsung.com>
-CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>
-Subject: [PATCH v3 7/7] hw/cxl/events: Add injection of Memory Module Events
-Date: Mon, 27 Feb 2023 17:34:16 +0000
-Message-ID: <20230227173416.7740-8-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230227173416.7740-1-Jonathan.Cameron@huawei.com>
-References: <20230227173416.7740-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pWhOZ-000098-6q; Mon, 27 Feb 2023 12:34:41 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31RGpfMG026739; Mon, 27 Feb 2023 17:34:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Z4MQjNfpT/pG5Ir8oEEcSXH0GeCk+FTPmNQ9BuLSP1E=;
+ b=QA7s6KMs2IiqAY/ZEjwI6+uD1aR2UqtfZdCP+jtVVzvGSM6m3FYc2SWKILSJoLXZYPrl
+ psxe6wk0T5zbmiS7kuUW18igibKSHwRH5YOz8uXYjhcRTUsHtxQrq81ojXkNYSWT31f2
+ qBHfI0+E3MTN3/5XBHUN5vk76J9IsKnTbsSbfDDT2AoebEAh4YY2TzE3lVkW76ZJfnkY
+ CD3eSWctHdbDf8sZMWUdruj/MpbFhkEjsKKaMUh16WhFKjxblyusK/9KR/FeTt2rJtPh
+ Fa8iAFJg76zvloqau5RynolujSHJJErSyqpWhZpctkJhImiVz1H4tZO6dujhhk27ySyr zQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p0u1rb2v1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Feb 2023 17:34:33 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31RH3SW0016597;
+ Mon, 27 Feb 2023 17:34:32 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p0u1rb2u3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Feb 2023 17:34:32 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31QMtiMe018440;
+ Mon, 27 Feb 2023 17:34:29 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3nybbdhm52-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Feb 2023 17:34:29 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 31RHYQqc22151494
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Feb 2023 17:34:26 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2C6952004B;
+ Mon, 27 Feb 2023 17:34:26 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C01DD20043;
+ Mon, 27 Feb 2023 17:34:24 +0000 (GMT)
+Received: from [9.171.54.232] (unknown [9.171.54.232])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Mon, 27 Feb 2023 17:34:24 +0000 (GMT)
+Message-ID: <0a5c020e-4827-4e6c-ab2c-2e4c47285f33@linux.ibm.com>
+Date: Mon, 27 Feb 2023 18:34:23 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v16 11/11] docs/s390x/cpu topology: document s390x cpu
+ topology
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230222142105.84700-1-pmorel@linux.ibm.com>
+ <20230222142105.84700-12-pmorel@linux.ibm.com>
+ <039b5a0f-4440-324c-d5a7-54e9e1c89ea8@redhat.com>
+ <dcac1561-8c91-310c-7e9f-db9fff3b00a7@linux.ibm.com>
+ <365c5bca-eda6-52dd-a90c-12de397bedf6@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <365c5bca-eda6-52dd-a90c-12de397bedf6@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VXr9Ndm6xS3faKTZ9wzTzcU7MnYFcnlA
+X-Proofpoint-ORIG-GUID: eEikCUMIKpcrtnoHcBQXvN-N1JeIEDLo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-27_13,2023-02-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ clxscore=1015 suspectscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ spamscore=0 impostorscore=0 priorityscore=1501 mlxscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302270137
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,207 +119,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These events include a copy of the device health information at the
-time of the event. Actually using the emulated device health would
-require a lot of controls to manipulate that state.  Given the aim
-of this injection code is to just test the flows when events occur,
-inject the contents of the device health state as well.
 
-Future work may add more sophisticate device health emulation
-including direct generation of these records when events occur
-(such as a temperature threshold being crossed).  That does not
-reduce the usefulness of this more basic generation of the events.
+On 2/27/23 15:27, Thomas Huth wrote:
+> On 27/02/2023 15.17, Pierre Morel wrote:
+>>
+>> On 2/27/23 14:58, Thomas Huth wrote:
+>>> On 22/02/2023 15.21, Pierre Morel wrote:
+>>>> Add some basic examples for the definition of cpu topology
+>>>> in s390x.
+>>>>
+>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>> ---
+>>>>   docs/system/s390x/cpu-topology.rst | 378 
+>>>> +++++++++++++++++++++++++++++
+>>>>   docs/system/target-s390x.rst       |   1 +
+>>>>   2 files changed, 379 insertions(+)
+>>>>   create mode 100644 docs/system/s390x/cpu-topology.rst
+>>>>
+>>>> diff --git a/docs/system/s390x/cpu-topology.rst 
+>>>> b/docs/system/s390x/cpu-topology.rst
+>>>> new file mode 100644
+>>>> index 0000000000..d470e28b97
+>>>> --- /dev/null
+>>>> +++ b/docs/system/s390x/cpu-topology.rst
+>>>> @@ -0,0 +1,378 @@
+>>>> +CPU topology on s390x
+>>>> +=====================
+>>>> +
+>>>> +Since QEMU 8.0, CPU topology on s390x provides up to 3 levels of
+>>>> +topology containers: drawers, books, sockets, defining a tree shaped
+>>>> +hierarchy.
+>>>> +
+>>>> +The socket container contains one or more CPU entries consisting
+>>>> +of a bitmap of three dentical CPU attributes:
+>>>
+>>> What do you mean by "dentical" here?
+>>
+>> :D i.. dentical
+>>
+>> I change it to identical
+>
+> Ok, but even with "i" at the beginning, it does not make too much 
+> sense here to me - I'd interpret "identical" as "same", but these 
+> attributes have clearly different meanings, haven't they?
+>
+>  Thomas
+>
+>
+Ah OK I understand what is unclear.
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/mem/cxl_type3.c          | 61 +++++++++++++++++++++++++++++++++++++
- hw/mem/cxl_type3_stubs.c    | 12 ++++++++
- include/hw/cxl/cxl_events.h | 19 ++++++++++++
- qapi/cxl.json               | 35 +++++++++++++++++++++
- 4 files changed, 127 insertions(+)
+What I mean is that in each socket we have several CPU TLE entries each 
+entry has different attributes values and contains CPU bit in the mask 
+for CPU with identical attributes.
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index cff5341b7b..98c0c9ad32 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -1172,6 +1172,11 @@ static const QemuUUID dram_uuid = {
-                  0x4e, 0x9b, 0xfb, 0x5c, 0x96, 0x24),
- };
- 
-+static const QemuUUID memory_module_uuid = {
-+    .data = UUID(0xfe927475, 0xdd59, 0x4339, 0xa5, 0x86,
-+                 0x79, 0xba, 0xb1, 0x13, 0xb7, 0x74),
-+};
-+
- #define CXL_GMER_VALID_CHANNEL                          BIT(0)
- #define CXL_GMER_VALID_RANK                             BIT(1)
- #define CXL_GMER_VALID_DEVICE                           BIT(2)
-@@ -1377,6 +1382,62 @@ void qmp_cxl_inject_dram_event(const char *path, CxlEventLog log, uint8_t flags,
-     return;
- }
- 
-+void qmp_cxl_inject_memory_module_event(const char *path, CxlEventLog log,
-+                                        uint8_t flags, uint8_t type,
-+                                        uint8_t health_status,
-+                                        uint8_t media_status,
-+                                        uint8_t additional_status,
-+                                        uint8_t life_used,
-+                                        int16_t temperature,
-+                                        uint32_t dirty_shutdown_count,
-+                                        uint32_t corrected_volatile_error_count,
-+                                        uint32_t corrected_persistent_error_count,
-+                                        Error **errp)
-+{
-+    Object *obj = object_resolve_path(path, NULL);
-+    CXLEventMemoryModule module;
-+    CXLEventRecordHdr *hdr = &module.hdr;
-+    CXLDeviceState *cxlds;
-+    CXLType3Dev *ct3d;
-+    uint8_t enc_log;
-+    int rc;
-+
-+    if (!obj) {
-+        error_setg(errp, "Unable to resolve path");
-+        return;
-+    }
-+    if (!object_dynamic_cast(obj, TYPE_CXL_TYPE3)) {
-+        error_setg(errp, "Path does not point to a CXL type 3 device");
-+        return;
-+    }
-+    ct3d = CXL_TYPE3(obj);
-+    cxlds = &ct3d->cxl_dstate;
-+
-+    rc = ct3d_qmp_cxl_event_log_enc(log);
-+    if (rc < 0) {
-+        error_setg(errp, "Unhandled error log type");
-+        return;
-+    }
-+    enc_log = rc;
-+
-+    memset(&module, 0, sizeof(module));
-+    cxl_assign_event_header(hdr, &memory_module_uuid, flags, sizeof(module));
-+
-+    module.type = type;
-+    module.health_status = health_status;
-+    module.media_status = media_status;
-+    module.additional_status = additional_status;
-+    module.life_used = life_used;
-+    stw_le_p(&module.temperature, temperature);
-+    stl_le_p(&module.dirty_shutdown_count, dirty_shutdown_count);
-+    stl_le_p(&module.corrected_volatile_error_count, corrected_volatile_error_count);
-+    stl_le_p(&module.corrected_persistent_error_count, corrected_persistent_error_count);
-+
-+    if (cxl_event_insert(cxlds, enc_log, (CXLEventRecordRaw *)&module)) {
-+        cxl_event_irq_assert(ct3d);
-+    }
-+}
-+
- static void ct3_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-diff --git a/hw/mem/cxl_type3_stubs.c b/hw/mem/cxl_type3_stubs.c
-index 235c171264..2196bd841c 100644
---- a/hw/mem/cxl_type3_stubs.c
-+++ b/hw/mem/cxl_type3_stubs.c
-@@ -26,6 +26,18 @@ void qmp_cxl_inject_dram_event(const char *path, CxlEventLog log, uint8_t flags,
-                                bool has_correction_mask, uint64List *correction_mask,
-                                Error **errp) {}
- 
-+void qmp_cxl_inject_memory_module_event(const char *path, CxlEventLog log,
-+                                        uint8_t flags, uint8_t type,
-+                                        uint8_t health_status,
-+                                        uint8_t media_status,
-+                                        uint8_t additional_status,
-+                                        uint8_t life_used,
-+                                        int16_t temperature,
-+                                        uint32_t dirty_shutdown_count,
-+                                        uint32_t corrected_volatile_error_count,
-+                                        uint32_t corrected_persistent_error_count,
-+                                        Error **errp) {}
-+
- void qmp_cxl_inject_poison(const char *path, uint64_t start, uint64_t length,
-                            Error **errp)
- {
-diff --git a/include/hw/cxl/cxl_events.h b/include/hw/cxl/cxl_events.h
-index a39e30d973..089ba2091f 100644
---- a/include/hw/cxl/cxl_events.h
-+++ b/include/hw/cxl/cxl_events.h
-@@ -146,4 +146,23 @@ typedef struct CXLEventDram {
-     uint8_t reserved[0x17];
- } QEMU_PACKED CXLEventDram;
- 
-+/*
-+ * Memory Module Event Record
-+ * CXL Rev 3.0 Section 8.2.9.2.1.3: Table 8-45
-+ * All fields little endian.
-+ */
-+typedef struct CXLEventMemoryModule {
-+    CXLEventRecordHdr hdr;
-+    uint8_t type;
-+    uint8_t health_status;
-+    uint8_t media_status;
-+    uint8_t additional_status;
-+    uint8_t life_used;
-+    int16_t temperature;
-+    uint32_t dirty_shutdown_count;
-+    uint32_t corrected_volatile_error_count;
-+    uint32_t corrected_persistent_error_count;
-+    uint8_t reserved[0x3d];
-+} QEMU_PACKED CXLEventMemoryModule;
-+
- #endif /* CXL_EVENTS_H */
-diff --git a/qapi/cxl.json b/qapi/cxl.json
-index 32f340d972..8b3d30cd71 100644
---- a/qapi/cxl.json
-+++ b/qapi/cxl.json
-@@ -90,6 +90,41 @@
-             '*column': 'uint16', '*correction-mask': [ 'uint64' ]
-            }}
- 
-+##
-+# @cxl-inject-memory-module-event:
-+#
-+# Inject an event record for a Memory Module Event (CXL r3.0 8.2.9.2.1.3)
-+# This event includes a copy of the Device Health info at the time of
-+# the event.
-+#
-+# @path: CXL type 3 device canonical QOM path
-+# @log: Event Log to add the event to
-+# @flags: header flags
-+# @type: Device Event Type (see spec for permitted values)
-+# @health-status: Overall health summary bitmap (see spec for permitted bits)
-+# @media-status: Overall media health summary (see spec for permitted values)
-+# @additional-status: Complex field (see spec for meaning)
-+# @life-used: Percentage (0-100) of factory expected life span
-+# @temperature: Device temperature in degrees Celsius
-+# @dirty-shutdown-count: Counter incremented whenever device is unable
-+#                        to determine if data loss may have occured.
-+# @corrected-volatile-error-count: Total number of correctable errors in
-+#                                  volatile memory
-+# @corrected-persistent-error-count: Total number correctable errors in
-+#                                    persistent memory
-+#
-+# Since: 8.0
-+##
-+{ 'command': 'cxl-inject-memory-module-event',
-+  'data': { 'path': 'str', 'log': 'CxlEventLog', 'flags' : 'uint8',
-+            'type': 'uint8', 'health-status': 'uint8',
-+            'media-status': 'uint8', 'additional-status': 'uint8',
-+            'life-used': 'uint8', 'temperature' : 'int16',
-+            'dirty-shutdown-count': 'uint32',
-+            'corrected-volatile-error-count': 'uint32',
-+            'corrected-persistent-error-count': 'uint32'
-+            }}
-+
- ##
- # @cxl-inject-poison:
- #
--- 
-2.37.2
+For example,
+
+in the case of horizontal polarization, we have one CPU TLE entry for 
+low entitlement, one CPU TLE for medium entitlement, one for high 
+entitlement and one for high entitlement with dedicated CPU
+
+in the case of horizontal polarization we have one CPU TLE for non 
+dedicated CPU and one for dedicated CPU.
+
+Only CPU TLE with at least one bit (CPU) set in the mask is written 
+inside the SYSIB.
+
+Regards,
+
+Pierre
+
+
+
 
 
