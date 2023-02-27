@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E12B6A3992
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 04:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645676A39F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 05:03:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWUCf-0000g9-Gy; Sun, 26 Feb 2023 22:29:29 -0500
+	id 1pWUit-0006hN-79; Sun, 26 Feb 2023 23:02:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
- id 1pWUCe-0000g0-1N
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 22:29:28 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pWUiq-0006cS-LB
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 23:02:44 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
- id 1pWUCc-0001QW-1R
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 22:29:27 -0500
-Received: by mail-ed1-x532.google.com with SMTP id eg37so20088871edb.12
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 19:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=KScNLqVDeP81ABS2AdN/MqfRn+xwi/2mxOhc0+4AdQk=;
- b=TpZmSij5j+GJ/gyTDYJMi7Hgq13KVLm3leZcSec8zWIETJ8KkqEyHFN9QKac5516A8
- iYIKtVs+JLoL0Nh2sKPspG5Xz55XhDWo31VoFGd9/dksctfBevbSyXJUwHkGWqQGp1yy
- BG74VaGJsMuVLmmWYEn6dQZ8TY65hsA8wdZ4CMrL+emDjWkPd9Zwarn9YWez56iFt7J4
- Xq0o0116bHMqM94x7m9n5+Rhvx+VQprmpT81Gg+vmE4M3C93de9jWEa7sv1rrgF4Pqky
- OHq/f5gMdv32niOAObPrmftWDAntFUUpRFGF0iKX6qk5o0k3jnvyqrQLcCqX41Cczavg
- pYNQ==
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pWUio-0008Fc-PH
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 23:02:44 -0500
+Received: by mail-pl1-x630.google.com with SMTP id i3so5393898plg.6
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 20:02:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Bj8YZUQqoH/wWKUG9cBIsXQII/f2NzHsSWeQQ89UJuI=;
+ b=DY9a4c2PXSv8U+mpCpoplo1vO+PVcr+M6R+JN74H27ecj37fHUEcsmsykvLvnhZhcp
+ nRJD4mGj4b8H/unsRQ6Bd920dLTuOFtAo15VS8Ug1OmhQxfWENLnB85xNrLiyymhFjx9
+ jF5fGm6GQL8VRj62Cyfz+ia7y4KZmmvcOaOiFJj5nAvPz5OmM1ZDmDFV/IcuAmvyazRT
+ 0Gv5g3P0SyVtaN+PdM3pr73dcGnUfhmfePJ5B9dE7Oc85MmN8XldpIG1fcgkjkGZCen/
+ faGj2QC4TyjRIz67G2ynwDjacc8ic1Ql4YZorvsf2sBO1pRuRcM8bvMY4bEkvYxxOpPg
+ 7aYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KScNLqVDeP81ABS2AdN/MqfRn+xwi/2mxOhc0+4AdQk=;
- b=Tke/K4LfCykyPPi4uLcAhM56BO7h1AFDoFPU2e/o5LYFo6dzEk+8xpoGr/Vx1grGnF
- MooRdviNpg7iD2amjKZ2egzvb5HsUyx1I+0DNt1UAFrdKKzfNznn5Bs4GRNzrSRxEUWS
- TZUYEpTbL0T2M0Lwui76/7JGXHsz1BlRIKUMhTg41OL6dW/Qk6t/+0SGSWMwMVfseViU
- 5IwrobKDlomZqzg2iltxvz90m+WfWnWygClpDmM6H5PQwMSezngsAKUItXFA+VsTQO3N
- 0gvmXQM/pZcp/jvAsHkelrA/AzR72OHx1+oLrNNMzzCk4GWEi1AxI9KQ1PZEjR4uZiTp
- 6M4w==
-X-Gm-Message-State: AO0yUKUx5voy7EZSLIPlG+tj+Pg9plufrVE7lqgmejdGz+sMiEgpTqoy
- QE8XYtmBRau8pnFiHe6CaeUoXoU91k+GoE1nRZ4tmkQ0B24=
-X-Google-Smtp-Source: AK7set8FAcm3Jm9Pwyni9YZ8jEFbOj6KWDJBwiq7woIviWxjUbJpIyDb+vAr+nz7MhLDUoJfTj8OFKTR2k0nZNz8SII=
-X-Received: by 2002:a50:9f05:0:b0:4ad:72b2:cf53 with SMTP id
- b5-20020a509f05000000b004ad72b2cf53mr10894893edf.2.1677468563043; Sun, 26 Feb
- 2023 19:29:23 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Bj8YZUQqoH/wWKUG9cBIsXQII/f2NzHsSWeQQ89UJuI=;
+ b=qRZ6WJG50o0iuHXgO12mUC5nkJdSk/5V4kMFqeXkp1ML/A5KqIo+dKq74dcVJSQCKT
+ RC4ERcJJN3P1vowVmKFZa9qm/Bu4Bjini4lqpFjT11iTWNF8v+quDs7ejhG0iRPYW3rb
+ Aoye0DUZjmgnjlt/MHvJjB30CfR83gAbs5l1ct8UerRAaDvog00+OtsamXfTIsbMoz+U
+ BVRB9/D7f+NSBoeU3gFLuBYwEoqrGRRVke6e6D91muE+3GK4VfadoGuNoSx01HQ7sdEV
+ Dd30dtfoL8ISHi/fkTSwptl9NV7WOwh3nTnQs5S7pi0Q3YKTq2+ad34kzDdIxmGTjgeB
+ VkUw==
+X-Gm-Message-State: AO0yUKWJPDuH5wxdcO7Ntgg3xNTDpada1oJ+KtbSc1sVIzWzwFNyhbgQ
+ MYOMgMZDdLfQ8jqnArMCIczP+qabshBl5n0RV8rhGQ==
+X-Google-Smtp-Source: AK7set/YbXdgbyDV3CPxvnE9LSPeueRYvPtdTWK1C6Rb5KMR3IHqbRnoS0i0+cPdWwP5fh/D9hmpWaxSNvT1IsE65wU=
+X-Received: by 2002:a17:902:ea01:b0:19a:7f9c:66e3 with SMTP id
+ s1-20020a170902ea0100b0019a7f9c66e3mr3902730plg.5.1677470560925; Sun, 26 Feb
+ 2023 20:02:40 -0800 (PST)
 MIME-Version: 1.0
-From: Dinah B <dinahbaum123@gmail.com>
-Date: Sun, 26 Feb 2023 22:29:11 -0500
-Message-ID: <CAH50XRfsWih++5yoZSx-3L9mzf+vGPRz2Che=_6TAuATphvXbQ@mail.gmail.com>
-Subject: Adopting abandoned patch?
-To: "open list:All patches CC here" <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000d2791d05f5a6159e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=dinahbaum123@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+References: <20230219162100.174318-1-andrew@daynix.com>
+ <20230219162100.174318-4-andrew@daynix.com>
+ <Y/NCQhGmqIadlw0y@redhat.com>
+In-Reply-To: <Y/NCQhGmqIadlw0y@redhat.com>
+From: Andrew Melnichenko <andrew@daynix.com>
+Date: Mon, 27 Feb 2023 05:45:32 +0200
+Message-ID: <CABcq3pF9M1=e21WwLTZSjcST1WZnJMHwYN_r_KrvPgv1OWUc9Q@mail.gmail.com>
+Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: jasowang@redhat.com, mst@redhat.com, pbonzini@redhat.com, 
+ marcandre.lureau@redhat.com, thuth@redhat.com, philmd@linaro.org, 
+ armbru@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com, 
+ mprivozn@redhat.com, yuri.benditovich@daynix.com, yan@daynix.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::630;
+ envelope-from=andrew@daynix.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,37 +87,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000d2791d05f5a6159e
-Content-Type: text/plain; charset="UTF-8"
+Hi all,
 
-Hi,
+On Mon, Feb 20, 2023 at 11:50 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
+>
+> On Sun, Feb 19, 2023 at 06:20:58PM +0200, Andrew Melnychenko wrote:
+> > Added a function to check the stamp in the helper.
+> > eBPF helper should have a special symbol that generates during the buil=
+d.
+> > QEMU checks the helper and determines that it fits, so the helper
+> > will produce proper output.
+>
+> I think this is quite limiting for in place upgrades.
+>
+> Consider this scenario
+>
+>  * Host has QEMU 8.1.0 installed
+>  * VM is running QEMU 8.1.0
+>  * QEMU 8.1.1 is released with a bug fix in the EBF program
+>  * Host is upgraded to QEMU 8.1.1
+>  * User attempts to hotplug a NIC to the running VM
+>
+> IIUC this last step is going to fail because we'll be loading
+> the EBF program from 8.1.1 and so its hash is different from
+> that expected by the QEMU 8.1.0 that the pre-existing VM is
+> running.
+>
+> If some changes to the EBF program are not going to be back
+> compatible from the POV of the QEMU process, should we instead
+> be versioning the EBF program. eg so new QEMU will ship both
+> the old and new versions of the EBF program.
+>
 
-I'm looking to get more involved in contributing to QEMU. I noticed that
-there are some issues in the tracker where a sample patch has been
-contributed but never got merged, like a proposal to add multiboot2
-support: https://gitlab.com/qemu-project/qemu/-/issues/389
+I think it's too complicated to maintain backward compatibility with
+eBPF programs in "one package".
+As we can see, the eBPF skeleton may be changed not only by bugfix but
+with changes in libbpf(g.e. libbpf 1.0.1+).
+This may lead to issues when with a newer environment you can't
+consistently recreate the "old" skeleton.
 
-Is another dev allowed to "adopt" the patch as-is, with proper attribution
-to the original dev and drive it to completion/merging (there are some
-features missing)? Or is "starting from scratch" required for legal reasons?
+To solve the case - we need to "save" the halper from an old package someho=
+w.
 
-Thanks,
--Dinah
-
---000000000000d2791d05f5a6159e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I&#39;m looking to get m=
-ore involved in contributing to QEMU. I noticed that there are some issues =
-in the tracker where a sample patch has been contributed but never got merg=
-ed, like a proposal to add multiboot2 support: <a href=3D"https://gitlab.co=
-m/qemu-project/qemu/-/issues/389">https://gitlab.com/qemu-project/qemu/-/is=
-sues/389</a></div><div><br></div><div>Is another dev allowed to &quot;adopt=
-&quot; the patch as-is, with proper attribution to the original dev and dri=
-ve it to completion/merging (there are some features missing)? Or is &quot;=
-starting from scratch&quot; required for legal reasons?<br></div><div><br><=
-/div><div>Thanks,</div><div>-Dinah<br></div></div>
-
---000000000000d2791d05f5a6159e--
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
