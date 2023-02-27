@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F356A43DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:10:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533706A43EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:13:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe52-0001PH-UC; Mon, 27 Feb 2023 09:02:16 -0500
+	id 1pWe7q-0003wx-Mc; Mon, 27 Feb 2023 09:05:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe4A-0000ds-Af
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:29 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7e-0003p6-OS
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:59 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe47-0007Xv-Ox
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:21 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- d41-20020a05600c4c2900b003e9e066550fso3884554wmp.4
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7c-00082r-5d
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:58 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so7226912wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=6hrZpnhPLRDXNa3A83fUHvIa4VTeZDIvb4ThTrNTe+A=;
- b=Kj1DMvseuh3f0ipPcHG5Sto6W8TOREEnezReAJy1Gu/ST4WQINTz8CivgrRvJ2mAQC
- UWbIDcW7iIOH0R+bfMK+194dJruazsloVtM02w0SodEKNkA+ndkwaiR27ItciFVoJ2lu
- zDv4FBoDg42h6KD1y9jhDLhd/n8Bx4QhBY6DZOfMXd9TmCCGvYhGOjLySzRXJhFJHuRn
- tg6B/Y7wAW+fgs1gEtxBHbx5lHrpcn9ofvEag2PIs1xqVL+KlLALDiLoxUKSq+W9fEDo
- qGCrXUl6UCDZFcbOEg/v4wYfI6iO9c3Zemjqkx1jYHL8R62YkttoRAMpDkb4qf2JN1hZ
- TLwg==
+ :reply-to; bh=mJyzaNmEWDD6f28J9cynPLyHkGzHEVC06BDnzv7dYkk=;
+ b=WjFxKdjrjG++Bd4xLVGTUS/wop6IXH8EpHE/+cSKZG4py+vTfRUPNkvH6UavriKWJJ
+ xhOoZiQqjmeU3Q9v2MIx7gdB9tHgoqFDqtWdEKLOLumjAWN/doYyPjBm7h/4wzDIw1/a
+ DKacyAaYxmo8qYkWJ68sa43UU+gEtDS73cCBe6q/3JGoAgoEepCHfCK6MFKJowNQ7/1x
+ aYiR7ro7TouxA0MFWrFCNwCPQrXoaRqkp608Kqlj/+ownQV9Qmb2iPSzwiJ7W0b7753I
+ 7lwN6AEZrN57S+iUiYMo4Aq/K+OzvIcrg2Syd+8yzu9OC8qU0/wrG5kpWcVrRl27VyPH
+ pC6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6hrZpnhPLRDXNa3A83fUHvIa4VTeZDIvb4ThTrNTe+A=;
- b=UAgAHzO/u+XphMdSUxgOWUAHfRgWL2Qk8OsER8mZHE0mYKNSnuLViEAbUhXlOSA6wF
- s5+P/Y+C5OjXBNpp6JIf3JHCrZd9shDfjtIT7qj1EBoS15h6prlGcAw6Wzgfksj37Qu9
- 3L6DD1jVPxGEPqFQiZrcTSiws+d/UygjqND4PxbI3SFm+LKUqFZhPuAH7j7Jw3VfoqIx
- 8ZBHjRjXM1DI8KTCbc9X1HKv85Xo1T+Uk0oDB5rA+YjtAaX5ip73ad7ZAixgI0APtO/r
- nrzDVobqAgs7YqvXu57LG03iIWlk0thJ7tA7Hf64V9VLnHijk8feP0SyuXPcI/zcOSH3
- rsMQ==
-X-Gm-Message-State: AO0yUKWJgdC9zxP3ZpT2W8Tfc+uFifdaRnAngYr+vIZbOsrdZanFwRnW
- eOTjY0x5CELLeG06T3+gh3zds3ktTafF+JQW
-X-Google-Smtp-Source: AK7set8Ii9fEY+YAqTS9YZkMJXhBIHxpd/q74RDHPwIC52shtbeYBkfWSHBlYa6Ci+kMO7BRXJ7lYg==
-X-Received: by 2002:a7b:c384:0:b0:3ea:d620:570a with SMTP id
- s4-20020a7bc384000000b003ead620570amr12963128wmj.38.1677506477153; 
- Mon, 27 Feb 2023 06:01:17 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=mJyzaNmEWDD6f28J9cynPLyHkGzHEVC06BDnzv7dYkk=;
+ b=z92nAH6vvhx5/fx2MT6B0K3S8PhY9fa05e7B6QohtTW7hvo/FzDSOblIbA7KXq6yb2
+ zeXJnhhY0/0yxMOmb4eIlWUrDMvg9wIj1s7gV+al7u4Ld9OdCdwmi9NoD41xBZVDJuQo
+ RKUqQKHu6hIVPrDgG2AfFx1zS9ik7nI1LP+MCoSBWjXWMWiR0NmXdtSmyuY+b1d9TMGW
+ 8QoUXxZttAEJK7EQtZqjLuFy44a0KV4RuU5QLWH+JTfapqrMFXWG8oyrqKl4f0INhTVQ
+ R5DUL73WAAtu6SAxLCfUPOm9uLN6zJNdAArgdRtbvXgmZfA3efj6eaJOpM1vO2DjnmNl
+ +sKg==
+X-Gm-Message-State: AO0yUKUEZRk+1UBjLl9LZhjJTOpa0J5mZMyU+/IvbIZM24GhLkFbxT0S
+ OQB6V21YG4D5w70OIbr7/NGe85EoegJ1W6/+
+X-Google-Smtp-Source: AK7set9egFGq3ngOYOr+CTL5GCW5IHixpsMQi6VsdOIGYI6w/2wLTtNo9oE/qmWuqOdbhXMgCyh1lQ==
+X-Received: by 2002:a05:600c:998:b0:3dc:5b88:e6dd with SMTP id
+ w24-20020a05600c099800b003dc5b88e6ddmr19939204wmp.10.1677506693573; 
+ Mon, 27 Feb 2023 06:04:53 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.16
+ d21-20020a1c7315000000b003b47b80cec3sm12847780wmb.42.2023.02.27.06.04.52
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 06:01:16 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 27 Feb 2023 06:04:53 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/25] target/arm: Move regime_using_lpae_format into internal.h
-Date: Mon, 27 Feb 2023 14:00:46 +0000
-Message-Id: <20230227140102.3712344-10-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
-References: <20230227140102.3712344-1-peter.maydell@linaro.org>
+Subject: [PULL 039/126] hw/i386/x86: Reduce init_topo_info() scope
+Date: Mon, 27 Feb 2023 15:00:46 +0100
+Message-Id: <20230227140213.35084-30-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
+References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,90 +88,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fabiano Rosas <farosas@suse.de>
+This function is not used anywhere outside this file, so
+we can delete the prototype from include/hw/i386/x86.h and
+make the function "static void".
 
-This function is needed by common code (ptw.c), so move it along with
-the other regime_* functions in internal.h. When we enable the build
-without TCG, the tlb_helper.c file will not be present.
+This fixes when building with -Wall and using Clang
+("Apple clang version 14.0.0 (clang-1400.0.29.202)"):
 
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
+  ../hw/i386/x86.c:70:24: error: static function 'MACHINE' is used in an inline function with external linkage [-Werror,-Wstatic-in-inline]
+      MachineState *ms = MACHINE(x86ms);
+                         ^
+  include/hw/i386/x86.h:101:1: note: use 'static' to give inline function 'init_topo_info' internal linkage
+  void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
+  ^
+  static
+  include/hw/boards.h:24:49: note: 'MACHINE' declared here
+  OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
+                                                  ^
+
+Reported-by: Stefan Weil <sw@weilnetz.de>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20221216220158.6317-6-philmd@linaro.org>
 ---
- target/arm/internals.h      | 21 ++++++++++++++++++---
- target/arm/tcg/tlb_helper.c | 18 ------------------
- 2 files changed, 18 insertions(+), 21 deletions(-)
+ hw/i386/x86.c         | 2 +-
+ include/hw/i386/x86.h | 3 ---
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index ed48f8c9a69..680c5747170 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -600,9 +600,6 @@ int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx);
- /* Return the MMU index for a v7M CPU in the specified security state */
- ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate);
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 48be7a1c23..5f28dc8390 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -64,7 +64,7 @@
+ /* Physical Address of PVH entry point read from kernel ELF NOTE */
+ static size_t pvh_start_addr;
  
--/* Return true if the translation regime is using LPAE format page tables */
--bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx);
+-inline void init_topo_info(X86CPUTopoInfo *topo_info,
++static void init_topo_info(X86CPUTopoInfo *topo_info,
+                            const X86MachineState *x86ms)
+ {
+     MachineState *ms = MACHINE(x86ms);
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 62fa5774f8..5d3047a1d1 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -20,7 +20,6 @@
+ #include "exec/hwaddr.h"
+ #include "qemu/notify.h"
+ 
+-#include "hw/i386/topology.h"
+ #include "hw/boards.h"
+ #include "hw/nmi.h"
+ #include "hw/isa/isa.h"
+@@ -98,8 +97,6 @@ struct X86MachineState {
+ #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+ OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+ 
+-void init_topo_info(X86CPUTopoInfo *topo_info, const X86MachineState *x86ms);
 -
- /*
-  * Return true if the stage 1 translation regime is using LPAE
-  * format page tables
-@@ -767,6 +764,24 @@ static inline uint64_t regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return env->cp15.tcr_el[regime_el(env, mmu_idx)];
- }
+ uint32_t x86_cpu_apic_id_from_index(X86MachineState *pcms,
+                                     unsigned int cpu_index);
  
-+/* Return true if the translation regime is using LPAE format page tables */
-+static inline bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
-+{
-+    int el = regime_el(env, mmu_idx);
-+    if (el == 2 || arm_el_is_aa64(env, el)) {
-+        return true;
-+    }
-+    if (arm_feature(env, ARM_FEATURE_PMSA) &&
-+        arm_feature(env, ARM_FEATURE_V8)) {
-+        return true;
-+    }
-+    if (arm_feature(env, ARM_FEATURE_LPAE)
-+        && (regime_tcr(env, mmu_idx) & TTBCR_EAE)) {
-+        return true;
-+    }
-+    return false;
-+}
-+
- /**
-  * arm_num_brps: Return number of implemented breakpoints.
-  * Note that the ID register BRPS field is "number of bps - 1",
-diff --git a/target/arm/tcg/tlb_helper.c b/target/arm/tcg/tlb_helper.c
-index 60abcbebe64..31eb77f7df9 100644
---- a/target/arm/tcg/tlb_helper.c
-+++ b/target/arm/tcg/tlb_helper.c
-@@ -12,24 +12,6 @@
- #include "exec/helper-proto.h"
- 
- 
--/* Return true if the translation regime is using LPAE format page tables */
--bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
--{
--    int el = regime_el(env, mmu_idx);
--    if (el == 2 || arm_el_is_aa64(env, el)) {
--        return true;
--    }
--    if (arm_feature(env, ARM_FEATURE_PMSA) &&
--        arm_feature(env, ARM_FEATURE_V8)) {
--        return true;
--    }
--    if (arm_feature(env, ARM_FEATURE_LPAE)
--        && (regime_tcr(env, mmu_idx) & TTBCR_EAE)) {
--        return true;
--    }
--    return false;
--}
--
- /*
-  * Returns true if the stage 1 translation regime is using LPAE format page
-  * tables. Used when raising alignment exceptions, whose FSR changes depending
 -- 
-2.34.1
+2.38.1
 
 
