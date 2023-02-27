@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D8F6A42F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D706A42E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:36:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdeY-0005Ek-Cm; Mon, 27 Feb 2023 08:34:54 -0500
+	id 1pWdeY-0005F0-LP; Mon, 27 Feb 2023 08:34:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWdds-0004zE-4r; Mon, 27 Feb 2023 08:34:20 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ id 1pWddv-0004zc-IE; Mon, 27 Feb 2023 08:34:24 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWddl-0007eN-4A; Mon, 27 Feb 2023 08:34:10 -0500
-Received: by mail-ed1-x536.google.com with SMTP id ee7so25948173edb.2;
- Mon, 27 Feb 2023 05:33:58 -0800 (PST)
+ id 1pWddo-0007eb-Qe; Mon, 27 Feb 2023 08:34:13 -0500
+Received: by mail-ed1-x535.google.com with SMTP id o12so25781433edb.9;
+ Mon, 27 Feb 2023 05:33:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=B5zggyZjvmOw/4139SlhqhQ6pnq8/WqaY6vuJBs+amg=;
- b=K9z0/j75c2Nv0wqgc+npFfm2WGTTKOZLnAJW0uXRRpZRpJEtavHNMfLsMVPTAGENJZ
- 2lfnNkIotmrpJ1fCixI8WmN4O5iIhZwvIhwFtY8V7O6eDjrHObaLz23xBbKxIv/el3u8
- prjUtl0D0BtqnPDOr1/SIIWGphyfkg3iLzeHZOWLlCXuHVc6GsIkj//nd68ZXmkdThY7
- lYVwAky+vwCNUxQVV0eWj7nEZGGDAFJCH7CUoWqySY3bkczW8znXy5DrUT74aeZpRydN
- wt8x1UHOIQfaFLOMnAHvsxQ5EBCQMFhATWugXWc6HbYZEOA44vsJU5K2/ap/KQbt1pRm
- aA0g==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0Lqzv22KvYd26WZBONiwLPN2WCs4CWG7bM0JqgVXsno=;
+ b=nuo2CveytfjAXGT5pVJ0vSsWFFOOSCNeaBKGMqLZjsg92D28UkimNplFlynr3JUWX6
+ i9Aveg4abv2vfjObyop4yZkh4T+LP9HtTaaTSDW/iHTjU/vDblZbTsNbJD9d/g+M6dFh
+ LsCMhl3iKYrK31ibeqrUqfraNhcmGKnqEGmk88UGIeXQwFR3+3RQXYbXRtcUn/vx+Q3g
+ HVGXpdTlowNU21HFZu88kKEho2dEDAzfc+c99QK6UwfZk9TGcdFiSyRu37w7dywZD05X
+ dzzhRCrziKefpj+h6urlzLN5UVqmgLvKMp6c3GjgkFEyNk9IC0N+xh5lIse6yE/b+G9S
+ dnCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=B5zggyZjvmOw/4139SlhqhQ6pnq8/WqaY6vuJBs+amg=;
- b=ppaVXR0vjWTWanGCfaqJK6gevUDk3YGBD+lbyHoGGdz5Af8oeD6OeqW+oApllFkZnk
- /z9SvYpwp+bMpqAQ5s/vIE1TkLnZPQjtKegHd6fRhSK5SYI5AYiRhnJbBXW1BmGjgUxy
- v/RXDf1LEjbyIrJK5sz8wHWRHaoXqAAbUoHiHESKW+vpjHHVNKi1waJOLejy+TmMVKhi
- +FmxxlD39w72vsRJ71CfDid1WuOwX5mtmYiKbPollKN8lx321JVA2/dkANM2D+dKky2e
- 8/Ef7BjbZn5HVloo0J2Rg6GC9VesbnM/iu/ijIVKmb1PmaiZvhEy/yjdppuyHBYQ1KBL
- x5dA==
-X-Gm-Message-State: AO0yUKUVBJQWNjQCwPNf4PXtCksw0wr4nebb6r3DiuvIkZTSTrj6V9EO
- 1H2hwuUbmKfPQxueT5zVbNzdcmc06Mg=
-X-Google-Smtp-Source: AK7set+E3Ws7j/8V/sVV5grrVK9D2UhAuE7/VP0u4zDye82NXicClmPmq9ij2dUyhpMfjp0zgf0vsA==
-X-Received: by 2002:a17:906:c0c5:b0:8f3:dc49:d8eb with SMTP id
- bn5-20020a170906c0c500b008f3dc49d8ebmr12741841ejb.71.1677504837061; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0Lqzv22KvYd26WZBONiwLPN2WCs4CWG7bM0JqgVXsno=;
+ b=SqXADK0NHW1w1VRsJP/UuQZCkATajCI/SJed/mRw94fs0OKCphNM9zdv1uOot4Y3O/
+ lz3TBE/4B0hpJPBhHlraCqULeQXrDksOAT1cItmbkORK5XzYVfpqiOyu6pziTG98XQCJ
+ 7rkpT9cH0ek44MEIu/muqk6P7WD4poAU/Ca/69CghVyGzGIsezjjNc9Og7qm9kRWth3b
+ FkmPYP6ZCo+SnI0g44NZ0RpVADBW2r7ZTMKyLb8yVbk6kcVDhAmAIu0Inl1ygHIg1kjj
+ liO/C7eDiTKqw3VlPQlCTjT2K1Xat7BFHd9dbuIIOI9EV9UGjYp6mshd13baFaGpU+k1
+ Uaag==
+X-Gm-Message-State: AO0yUKWsaGPFsMyLcx0TZiiI57LFH4rexC76ckGaaCweNQaU3ZkrjCMq
+ fo+B0W8WXig4O6f73AfIlFnsD+dVI5k=
+X-Google-Smtp-Source: AK7set965rrO8OqvvVKqbc2Oivr8UkYH7Vt+MrC5I2N7iwamiArLHohjZJhQ/Egbk9A6Cdo0cFWg4w==
+X-Received: by 2002:a17:907:1c14:b0:8f0:143d:ee34 with SMTP id
+ nc20-20020a1709071c1400b008f0143dee34mr9829024ejc.1.1677504837992; 
  Mon, 27 Feb 2023 05:33:57 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-078-055-154-008.78.55.pool.telefonica.de. [78.55.154.8])
  by smtp.gmail.com with ESMTPSA id
- gx16-20020a1709068a5000b008b69aa62efcsm3253603ejc.62.2023.02.27.05.33.55
+ gx16-20020a1709068a5000b008b69aa62efcsm3253603ejc.62.2023.02.27.05.33.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 05:33:56 -0800 (PST)
+ Mon, 27 Feb 2023 05:33:57 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: BALATON Zoltan <balaton@eik.bme.hu>, Huacai Chen <chenhuacai@kernel.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v4 0/7] [RESEND] Pegasos2 fixes and audio output support
-Date: Mon, 27 Feb 2023 14:33:18 +0100
-Message-Id: <20230227133325.22023-1-shentey@gmail.com>
+ Rene Engel <ReneEngel80@emailn.de>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH v4 1/7] hw/display/sm501: Implement more 2D raster operations
+Date: Mon, 27 Feb 2023 14:33:19 +0100
+Message-Id: <20230227133325.22023-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230227133325.22023-1-shentey@gmail.com>
+References: <20230227133325.22023-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,84 +93,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On behalve of Zoltan BALATON:=0D
-=0D
-Hello,=0D
-=0D
-This is marked v3 to avoid confusion with previously separate patches=0D
-that already had v2, even if the series had no v2 yet.=0D
-=0D
-This series now includes all patches needed to get AmigaOS 4.1 run=0D
-well on pegasos2 and add audio output to this board. It has 3 parts:=0D
-patches 1-3 improve hw/display/sm501 model to avoid graphics problems=0D
-that were present with AmigaOS; patches 4-6 fix PCI interrupt routing=0D
-in VIA VT8231 model and in pegasos2 board that fixes PCI cards such as=0D
-network or sound card not working before; finally patches 7-8 add=0D
-basic implementation of the via-ac97 audio part of VT8231 (also used=0D
-on VT82C686B) for output that is the default audio device on pegasos2.=0D
-=0D
-This version was re-tested by Rene Engel with latest AmigaOS version=0D
-and runs as well as my original series did (posted a video with that=0D
-before). This works now on an M1 MacStudio on macOS where it was=0D
-unusable before. I've also tested it on Linux x86_64 with older=0D
-AmigaOS version that also boots and makes sound and verified MorphOS=0D
-still boots and also has sound now.=0D
-=0D
-One known problem with this version that includes Berhard's=0D
-alternative vt82c686 patches is with MorphOS which uses level=0D
-sensitive mode of the i8259 PIC that QEMU does not support so it hangs=0D
-when multiple devices try to raise a shared IRQ. I could work around=0D
-that in my otiginal series (see here:=0D
-https://lists.nongnu.org/archive/html/qemu-ppc/2023-02/msg00403.html )=0D
-where this works and was also tested, that version is available here:=0D
-https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/=0D
-but I could not convince Bernhard so I now expect him to provide a=0D
-work around for that. This isn't a blocker though as MorphOS already=0D
-runs on mac99 and sam460ex and only available as a time limited demo=0D
-(they only sell licenses for real hardware) so not really usable apart=0D
-from testing anyway so getting it running on pegasos2 would be nice=0D
-but not a prioriey, more important is that AmigaOS runs for which this=0D
-is the only viable machine as sam460ex version runs much slower. So=0D
-I'd like this to be merged for 8.0 as it is now or only minor chnages=0D
-(or alternatively we can return to my series which was also tested the=0D
-same way and apart from different VIA IRQ router modelling contains=0D
-the same patches).=0D
-=0D
-Please review and let me know who will take care of merging this for 8.0.=0D
-=0D
-Regards,=0D
-BALATON Zoltan=0D
-=0D
-v4:=0D
-* Rebased onto "[PATCH v3 0/3] VT82xx PCI IRQ routing fixes"=0D
-=0D
-Based-on: <20230227123316.18719-1-shentey@gmail.com>=0D
-          "[PATCH v3 0/3] VT82xx PCI IRQ routing fixes"=0D
-=0D
-BALATON Zoltan (7):=0D
-  hw/display/sm501: Implement more 2D raster operations=0D
-  hw/display/sm501: Add fallbacks to pixman routines=0D
-  hw/display/sm501: Add debug property to control pixman usage=0D
-  hw/isa/vt82c686: Declare gpio inputs so it can be connected in board=0D
-    code=0D
-  hw/ppc/pegasos2: Fix PCI interrupt routing=0D
-  hw/audio/ac97: Split off some definitions to a header=0D
-  hw/audio/via-ac97: Basic implementation of audio playback=0D
-=0D
- hw/audio/ac97.h           |  65 ++++++=0D
- include/hw/isa/vt82c686.h |  25 +++=0D
- hw/audio/ac97.c           |  43 +---=0D
- hw/audio/via-ac97.c       | 455 +++++++++++++++++++++++++++++++++++++-=0D
- hw/display/sm501.c        | 119 +++++++---=0D
- hw/isa/vt82c686.c         |   3 +-=0D
- hw/pci-host/mv64361.c     |   4 -=0D
- hw/ppc/pegasos2.c         |  20 +-=0D
- hw/audio/trace-events     |   6 +=0D
- hw/isa/trace-events       |   1 +=0D
- 10 files changed, 662 insertions(+), 79 deletions(-)=0D
- create mode 100644 hw/audio/ac97.h=0D
-=0D
--- =0D
-2.39.2=0D
-=0D
+From: BALATON Zoltan <balaton@eik.bme.hu>
+
+Add simple implementation for two raster operations that are used by
+AmigaOS which fixes graphics problems in some programs using these.
+
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reported-by: Rene Engel <ReneEngel80@emailn.de>
+Tested-by: Rene Engel <ReneEngel80@emailn.de>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <17ef3c59dc7868f75034e9ebe21e2999c8f718d4.1677445307.git.balaton@eik.bme.hu>
+---
+ hw/display/sm501.c | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
+
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index e1d0591d36..58bc9701ee 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -753,7 +753,7 @@ static void sm501_2d_operation(SM501State *s)
+         }
+ 
+         if ((rop_mode && rop == 0x5) || (!rop_mode && rop == 0x55)) {
+-            /* Invert dest, is there a way to do this with pixman? */
++            /* DSTINVERT, is there a way to do this with pixman? */
+             unsigned int x, y, i;
+             uint8_t *d = s->local_mem + dst_base;
+ 
+@@ -763,6 +763,34 @@ static void sm501_2d_operation(SM501State *s)
+                     stn_he_p(&d[i], bypp, ~ldn_he_p(&d[i], bypp));
+                 }
+             }
++        } else if (!rop_mode && rop == 0x99) {
++            /* DSxn, is there a way to do this with pixman? */
++            unsigned int x, y, i, j;
++            uint8_t *sp = s->local_mem + src_base;
++            uint8_t *d = s->local_mem + dst_base;
++
++            for (y = 0; y < height; y++) {
++                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
++                j = (src_x + (src_y + y) * src_pitch) * bypp;
++                for (x = 0; x < width; x++, i += bypp, j += bypp) {
++                    stn_he_p(&d[i], bypp,
++                             ~(ldn_he_p(&sp[j], bypp) ^ ldn_he_p(&d[i], bypp)));
++                }
++            }
++        } else if (!rop_mode && rop == 0xee) {
++            /* SRCPAINT, is there a way to do this with pixman? */
++            unsigned int x, y, i, j;
++            uint8_t *sp = s->local_mem + src_base;
++            uint8_t *d = s->local_mem + dst_base;
++
++            for (y = 0; y < height; y++) {
++                i = (dst_x + (dst_y + y) * dst_pitch) * bypp;
++                j = (src_x + (src_y + y) * src_pitch) * bypp;
++                for (x = 0; x < width; x++, i += bypp, j += bypp) {
++                    stn_he_p(&d[i], bypp,
++                             ldn_he_p(&sp[j], bypp) | ldn_he_p(&d[i], bypp));
++                }
++            }
+         } else {
+             /* Do copy src for unimplemented ops, better than unpainted area */
+             if ((rop_mode && (rop != 0xc || rop2_source_is_pattern)) ||
+-- 
+2.39.2
+
 
