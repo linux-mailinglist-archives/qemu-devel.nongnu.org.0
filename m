@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B16F6A437B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72E36A435B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:53:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdvq-0006sw-V2; Mon, 27 Feb 2023 08:52:46 -0500
+	id 1pWdvw-00075B-En; Mon, 27 Feb 2023 08:52:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvf-0006ec-Q5
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvg-0006ee-6N
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:36 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvd-0005Vd-Ur
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdve-0005XS-Po
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,9 +22,9 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=f/TAlMn82j9GjJEOo8R3MYaUwFdLzcRvPDSX8QpvNt8=; b=QIbco9VyB560Og4FtHzXTPc0VH
- J8mo6I3/SoDuEWUk76ixamXeBZkZuRL/fdbsbl+fzmWPQfyuLz4sHx12pNgbpMUXuFC/OJ5Rs5BGt
- 8y5e5cemOopkcYnDmcL7KdAu/8thMXDuR/anKZZvq8eehIsrO2nz+AfRuPufClpo51+0=;
+ bh=1GXR6MGWUJ2dCVeHJYvl+ZtvPt87CDGKcRqDWcrOKj4=; b=JpncjHAQ8kVq1pZ57eR58RR6LK
+ HA6pjxjc2eNH9T3PqltqZYFVhsaT9oHXulOvSDTsLCESzgAeD0BhxjtAh42DYTCm99+k0ZYKIoHAH
+ YyBmKV0xPbbhofDc697ZEcma/h+MuqiB84Fi+Sg7g1QHqCjZf+5SfbS6u6olmtXWmLqM=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v3 15/27] target/sh4: Replace `tb_pc()` with `tb->pc`
-Date: Mon, 27 Feb 2023 14:51:50 +0100
-Message-Id: <20230227135202.9710-16-anjo@rev.ng>
+Subject: [PATCH v3 16/27] target/rx: Replace `tb_pc()` with `tb->pc`
+Date: Mon, 27 Feb 2023 14:51:51 +0100
+Message-Id: <20230227135202.9710-17-anjo@rev.ng>
 In-Reply-To: <20230227135202.9710-1-anjo@rev.ng>
 References: <20230227135202.9710-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -68,40 +68,23 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/sh4/cpu.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ target/rx/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index f0934b20fa..61769ffdfa 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -26,6 +26,7 @@
- #include "migration/vmstate.h"
- #include "exec/exec-all.h"
- #include "fpu/softfloat-helpers.h"
-+#include "tcg/tcg.h"
- 
- static void superh_cpu_set_pc(CPUState *cs, vaddr value)
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index 219ef28e46..67452e310c 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -44,7 +44,8 @@ static void rx_cpu_synchronize_from_tb(CPUState *cs,
  {
-@@ -46,7 +47,8 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
- {
-     SuperHCPU *cpu = SUPERH_CPU(cs);
+     RXCPU *cpu = RX_CPU(cs);
  
 -    cpu->env.pc = tb_pc(tb);
 +    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
 +    cpu->env.pc = tb->pc;
-     cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
  }
  
-@@ -73,7 +75,7 @@ static bool superh_io_recompile_replay_branch(CPUState *cs,
-     CPUSH4State *env = &cpu->env;
- 
-     if ((env->flags & (TB_FLAG_DELAY_SLOT | TB_FLAG_DELAY_SLOT_COND))
--        && env->pc != tb_pc(tb)) {
-+        && !(cs->tcg_cflags & CF_PCREL) && env->pc != tb->pc) {
-         env->pc -= 2;
-         env->flags &= ~(TB_FLAG_DELAY_SLOT | TB_FLAG_DELAY_SLOT_COND);
-         return true;
+ static void rx_restore_state_to_opc(CPUState *cs,
 -- 
 2.39.1
 
