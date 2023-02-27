@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF2A6A43D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:10:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08D56A440D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:16:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe7U-0003Vp-L4; Mon, 27 Feb 2023 09:04:48 -0500
+	id 1pWe7p-0003rR-Tu; Mon, 27 Feb 2023 09:05:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7S-0003Mw-6A
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:46 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7Y-0003ke-5J
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:53 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7Q-000827-Oy
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:45 -0500
-Received: by mail-wr1-x430.google.com with SMTP id bw19so6310966wrb.13
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7W-00082X-El
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:51 -0500
+Received: by mail-wr1-x435.google.com with SMTP id bv17so6352412wrb.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hqZbA/VxjYps6TlZPucyPAJK2NQRYopiLwtGGc2bqQI=;
- b=iD9WZ4G4RiqSx4nmA1C7z2o4SR4zuBBqV2rnZoa/HXx9aBO3Iw/fHzINbxN0ekAlwq
- S8o6Z4Lhu2sF90EPpLjEHX9nh4NeRWGuIAxdHSHwnJQoAW1VPweXU8SJ17h/qx+4XoZP
- lnOA7f6bjSiKY1vbMeLvjI5Tv2Vg4TpEZbQZqA+DToBJ/mGqvUUZn7iLkpvdo2+0n5zD
- P9oq0VGKYeuXaNZmVjSbNBnCrMwCyo8jwSbGIzFP4RU9DqRQ9Du7vM8VFnqefW3sHoH6
- q2Cy8ZCfXca7RQ+le46utAVRa1RkX3BWji4Wd1TyaaaSOCx/yWamAfozEBFXDh+9HdQu
- yEdw==
+ :reply-to; bh=BY+O27vkTKz7VveF8F3o+v7d714AMEm3Jk9i5pC/EpA=;
+ b=dHcCV7Kjta0W2eSKYtRuURLnrNxhVybgIc7fmqDUNArr9FkdmB9cDOsrP2HfItAWox
+ Qg+5eS9LALDQzN04N0rTtiOvnnEWFHHf396BTb4J/RnelZ1PXAho1O1QJAeO8OWpVbam
+ L3fZtGVRBcV9E4qy6PgwalrMicprcP1bIJ3wE3/B41JVN37h1fdCVW41KRtvfWUdEwUV
+ J2U4gptzJwo7g9C86eg1FwI49GWZ/W6wBIHAqZHZGxWT66CbNVSXgyYa/wPM6Mbm2JYt
+ ZMNa/UQqSkZWIy/3rZ8V0CKIYAk6TlTCrN3pnr+rGNunRP1btUGLelUtw4LDjBYmC812
+ aXXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hqZbA/VxjYps6TlZPucyPAJK2NQRYopiLwtGGc2bqQI=;
- b=fJhfOS+LC0cZc+Q7nEcwmNCb9XA1AJKlS8mtV5D5odqh1cVxndMyGKofSWLHZWuqM8
- /SLE/ftIHWd1peYk8xEk/Inp/pXtusNRZmzjIfhWh8HpobFXFzID7ruGSrXLo9L7YhO7
- pulkkJECmn5oJxJsA7JjdOwkp0QggGHnftnZpGSC7gwCo+6mDfMg5I+uv2uJQ/VXezM7
- Br2V+oKLOShha4+nG/VW6US2ywpA0pc0oxyc4dnCoRmCBedO45QZEwbybJ0U2C4P0O/B
- fjb5O9V/FVI2p31jj5xCnTiUEl8VwOJufr5t1K43Hdwq6plCT9g2e7Y8BF7jUucVKHrD
- Y5hg==
-X-Gm-Message-State: AO0yUKXMp34uBtsW8XimLDE/Qj9TKU09qy7JCdmRFmLdSgN5mm2N5r7Z
- pSLhoLH4CrzH5/exQlh222ZZCM0AqrlJ4tH6
-X-Google-Smtp-Source: AK7set8I0kpscfqBuRKFBPxwXzT5NzjJJ3dwkxKUJtHGI7/RyGgXZ50i/D04m9SaYV+2RI9u873VEw==
-X-Received: by 2002:adf:ef06:0:b0:2c7:da1:4694 with SMTP id
- e6-20020adfef06000000b002c70da14694mr12989686wro.62.1677506683236; 
- Mon, 27 Feb 2023 06:04:43 -0800 (PST)
+ bh=BY+O27vkTKz7VveF8F3o+v7d714AMEm3Jk9i5pC/EpA=;
+ b=vxiat1SMs++NdwKm028CCNOYrj6+Nxn83f7mBiRJhDLn4E83hS1gIduWNc96mL8baj
+ n0vog/eB/rCRLNB2lY2uVdcjnzLOJRgVpZsFL3c0vcBGYnYtH0YMU7aa3CmeFBL5oCJG
+ ZoG3vzkVz2pSH29jEvHbhmXO+NS2XY3dOtOARPVWh6VRpES3FRv+wxfE4LeHQlr9NS1u
+ smuCJC/KK+yqZRMkssAvBwPIKOC8HzbObfnpwv+XBctlABIDIbpcS9CnkdIHF9G7VRTW
+ 1SZA/I7MmKvFZ3tfBYpa6/Ic4eFNQzQTJKQW+nylOqZ8+M80YJTEczqYQiVl6ila7LCM
+ nTdQ==
+X-Gm-Message-State: AO0yUKWtDNwjdgMNhng9nApU7L8iAT1f8ClqLItNlQh+RgxXwh3bdh00
+ mdgl1ap6x2l9PQiL0Gc38oH9k58mWIV06cOA
+X-Google-Smtp-Source: AK7set9TbZtDn0WeHZukhuieK5oqH64SBtI7jlU4rf7ctn22BUe0rq190jhYLGZAC3a2P2XWBSBQAQ==
+X-Received: by 2002:a5d:4952:0:b0:2c6:e861:2a49 with SMTP id
+ r18-20020a5d4952000000b002c6e8612a49mr20260197wrs.59.1677506688720; 
+ Mon, 27 Feb 2023 06:04:48 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s2-20020adff802000000b002c706c754fesm7259928wrp.32.2023.02.27.06.04.42
+ p2-20020adfe602000000b002c561805a4csm7340780wrm.45.2023.02.27.06.04.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:04:42 -0800 (PST)
+ Mon, 27 Feb 2023 06:04:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 037/126] hw/qdev: Constify DeviceState* argument of
- qdev_get_parent_bus()
-Date: Mon, 27 Feb 2023 15:00:44 +0100
-Message-Id: <20230227140213.35084-28-philmd@linaro.org>
+Subject: [PULL 038/126] hw/cpu: Extend CPUState::cluster_index documentation
+Date: Mon, 27 Feb 2023 15:00:45 +0100
+Message-Id: <20230227140213.35084-29-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,42 +87,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The structure is accessed read-only by qdev_get_parent_bus().
+Copy part of the description of commit f7b78602fd ("accel/tcg:
+Add cluster number to TCG TB hash") in tcg_cpu_init_cflags(),
+improving a bit CPUState::cluster_index documentation.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230212224730.51438-2-philmd@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20230216142338.82982-2-philmd@linaro.org>
 ---
- hw/core/qdev.c         | 2 +-
- include/hw/qdev-core.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ accel/tcg/tcg-accel-ops.c | 13 ++++++++++++-
+ include/hw/core/cpu.h     |  2 ++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index d759c4602c..43d863b0c5 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -330,7 +330,7 @@ bool qdev_machine_modified(void)
-     return qdev_hot_added || qdev_hot_removed;
- }
+diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+index d9228fd403..aeb1cbaf65 100644
+--- a/accel/tcg/tcg-accel-ops.c
++++ b/accel/tcg/tcg-accel-ops.c
+@@ -44,7 +44,18 @@
  
--BusState *qdev_get_parent_bus(DeviceState *dev)
-+BusState *qdev_get_parent_bus(const DeviceState *dev)
+ void tcg_cpu_init_cflags(CPUState *cpu, bool parallel)
  {
-     return dev->parent_bus;
- }
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 35fddb19a6..f5b3b2f89a 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -715,7 +715,7 @@ static inline void qdev_init_gpio_in_named(DeviceState *dev,
- void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
-                      const char *name);
- 
--BusState *qdev_get_parent_bus(DeviceState *dev);
-+BusState *qdev_get_parent_bus(const DeviceState *dev);
- 
- /*** BUS API. ***/
- 
+-    uint32_t cflags = cpu->cluster_index << CF_CLUSTER_SHIFT;
++    uint32_t cflags;
++
++    /*
++     * Include the cluster number in the hash we use to look up TBs.
++     * This is important because a TB that is valid for one cluster at
++     * a given physical address and set of CPU flags is not necessarily
++     * valid for another:
++     * the two clusters may have different views of physical memory, or
++     * may have different CPU features (eg FPU present or absent).
++     */
++    cflags = cpu->cluster_index << CF_CLUSTER_SHIFT;
++
+     cflags |= parallel ? CF_PARALLEL : 0;
+     cflags |= icount_enabled() ? CF_USE_ICOUNT : 0;
+     cpu->tcg_cflags = cflags;
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index a5aa44d12c..7fd6657039 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -272,6 +272,8 @@ struct qemu_work_item;
+  *   to a cluster this will be UNASSIGNED_CLUSTER_INDEX; otherwise it will
+  *   be the same as the cluster-id property of the CPU object's TYPE_CPU_CLUSTER
+  *   QOM parent.
++ *   Under TCG this value is propagated to @tcg_cflags.
++ *   See TranslationBlock::TCG CF_CLUSTER_MASK.
+  * @tcg_cflags: Pre-computed cflags for this cpu.
+  * @nr_cores: Number of cores within this CPU package.
+  * @nr_threads: Number of threads within this CPU.
 -- 
 2.38.1
 
