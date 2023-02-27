@@ -2,96 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0976A4121
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:48:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3216A4130
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:51:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbxs-0005AC-HL; Mon, 27 Feb 2023 06:46:44 -0500
+	id 1pWc1k-00075c-2B; Mon, 27 Feb 2023 06:50:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbxp-000597-6x
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:46:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWc1P-0006vP-PG
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:50:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbxn-0007lX-F2
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:46:40 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWc1M-0008DA-L6
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:50:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677498398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1X+sytCbcnBB0dpwB9T5MA49ayoRI/cKMaQQmUpYaAQ=;
- b=CNs/CEO117jhBrEMjwf/EgtXejlpHqsHfYdm6+Busxieaf9MTIgyskM+ABjLHe4r6MmHkx
- guQxDGUjK/yGAnJLxCORL6GW5YfgXUMcvW0Iifqjk+Cm5ujpWCAt7y6GIWDc72D8W2aao2
- ydX6kuZl/CXIPLSsp07SaDlLkV/kjn0=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-164-_AwM6IUENQuNbQ0TNLl7Ww-1; Mon, 27 Feb 2023 06:46:37 -0500
-X-MC-Unique: _AwM6IUENQuNbQ0TNLl7Ww-1
-Received: by mail-qv1-f70.google.com with SMTP id
- e9-20020a0cf749000000b00571f1377451so3251777qvo.2
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:46:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1X+sytCbcnBB0dpwB9T5MA49ayoRI/cKMaQQmUpYaAQ=;
- b=zg6qzgp44dqtamRVaF4oaRvvmrBd2vBa++fpKoqHDPNDpBOqGD2CgTaEjoDp6acnp3
- 5gHUNfReephSoyv2Cyknv+1eneiOPiMSmzYuv1TOUYLxfbljEr7dt/BgkqZ5V5xQoKu3
- Mg+2rxJuSDrmVdTBRMpXh5qLPKp0r4AvGVJE5LI0bYz77UW63SyCCjnobJk2sA6L/HSo
- 37c0Iob2lWnXmrXDRwCNH/98Y42r81vPgPOo55KrYVer/z57I5hzf5N2LVBEkUPfmkHS
- ie/ULH3hW2mJKW4r8af4qavtrFfzavWP8+pWxMscast91GwS4TMxsEpD5GALSHQL3U6X
- Z2LQ==
-X-Gm-Message-State: AO0yUKXcACBhfeldOF2lX5hZhw93MeacIGJZHsBwGsxrGQMxCOhYjGk7
- mOEiHk7H2NxE081e4nbumRuPE8AYGqksQLTIovEgQrAbD/g3Pwqvhy7L9lplI+mh9OSWzGeUi64
- P1DydKQ/7tMVjaqk=
-X-Received: by 2002:a05:622a:13cf:b0:3bf:c86b:3d2f with SMTP id
- p15-20020a05622a13cf00b003bfc86b3d2fmr13042953qtk.51.1677498396796; 
- Mon, 27 Feb 2023 03:46:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set+qwqRoaJwaE9jwrN7BfuVLaJn/sClCRx4cFZsumUyF3mB5SVvj8ZwyaUj8KEUFTuK0Ym1IRA==
-X-Received: by 2002:a05:622a:13cf:b0:3bf:c86b:3d2f with SMTP id
- p15-20020a05622a13cf00b003bfc86b3d2fmr13042936qtk.51.1677498396566; 
- Mon, 27 Feb 2023 03:46:36 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-150.web.vodafone.de.
- [109.43.176.150]) by smtp.gmail.com with ESMTPSA id
- n76-20020a37404f000000b0071aacb2c76asm4644437qka.132.2023.02.27.03.46.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 03:46:36 -0800 (PST)
-Message-ID: <34cacdc8-ee20-7dfe-52f4-a68cc29fbfb2@redhat.com>
-Date: Mon, 27 Feb 2023 12:46:27 +0100
+ s=mimecast20190719; t=1677498619;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=dygdNjOBh/f7cSHZKBYj9epAgNeJlw1ARAk1Xkm8Jpw=;
+ b=BJvDBHl5jl4W0s+HI0NSbot4kwCEUIHj6X4i/7CrDZEkEiXrFHBkTgEBJIVy1iPqeN0AL5
+ ajygKRH1pIeI8A86M1VYCzV5zjQ7p5ZBZ6nEYAC10zZCve7ee54vk8Tb0EIGwaGrQ6OW2x
+ T1vLRf6fToDMPuUHG1jSc0ltbNmZZzI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611--S0vocKJPE6OuEDYgPwYzA-1; Mon, 27 Feb 2023 06:50:16 -0500
+X-MC-Unique: -S0vocKJPE6OuEDYgPwYzA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A983185CBE0;
+ Mon, 27 Feb 2023 11:50:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 47033140EBF4;
+ Mon, 27 Feb 2023 11:50:09 +0000 (UTC)
+Date: Mon, 27 Feb 2023 11:50:07 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-arm@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
+ qemu-system-i386
+Message-ID: <Y/yY72L9wyjuv3Yz@redhat.com>
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <20230227111050.54083-2-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 0/6] hw/vfio/ccw: hw: Use QOM macros and remove
- DO_UPCAST() uses
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>
-Cc: Eric Farman <farman@linux.ibm.com>, Eduardo Habkost
- <eduardo@habkost.net>, Richard Henderson <richard.henderson@linaro.org>,
- qemu-s390x@nongnu.org, David Hildenbrand <david@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230213170145.45666-1-philmd@linaro.org>
- <ba7cefe1-7fb7-7b6e-e22c-867eb4f0b3ad@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <ba7cefe1-7fb7-7b6e-e22c-867eb4f0b3ad@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230227111050.54083-2-thuth@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,41 +84,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/02/2023 12.15, Philippe Mathieu-Daudé wrote:
-> Hi Alex,
+On Mon, Feb 27, 2023 at 12:10:49PM +0100, Thomas Huth wrote:
+> Hardly anybody still uses 32-bit x86 hosts today, so we should
+> start deprecating them to finally have less test efforts.
+> With regards to 32-bit KVM support in the x86 Linux kernel,
+> the developers confirmed that they do not need a recent
+> qemu-system-i386 binary here:
 > 
-> On 13/2/23 18:01, Philippe Mathieu-Daudé wrote:
->> QOM housekeeping series which replace the DO_UPCAST() macro
->> uses by equivalent QOM ones (and few more trivial cleanups).
->>
->> Since v2:
->> - Split of bigger series
->> - Split in simpler patches
->> - Added Eric R-b tags
->>
->> v2:
->> https://lore.kernel.org/qemu-devel/20230213070820.76881-17-philmd@linaro.org/
->>
->> Philippe Mathieu-Daudé (6):
->>    hw/s390x/event-facility: Replace DO_UPCAST(SCLPEvent) by SCLP_EVENT()
+>  https://lore.kernel.org/kvm/Y%2ffkTs5ajFy0hP1U@google.com/
 > 
-> Thomas took the first patch,
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/about/deprecated.rst | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
->>    hw/vfio/ccw: Simplify using DEVICE() macro
->>    hw/vfio/ccw: Use intermediate S390CCWDevice variable
->>    hw/vfio/ccw: Replace DO_UPCAST(S390CCWDevice) by S390_CCW_DEVICE()
->>    hw/vfio/ccw: Remove pointless S390CCWDevice variable
->>    hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by VFIO_CCW()
-> 
-> Could you take the other ones via your VFIO tree?
-> (all patches reviewed).
+> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+> index 15084f7bea..98517f5187 100644
+> --- a/docs/about/deprecated.rst
+> +++ b/docs/about/deprecated.rst
+> @@ -196,6 +196,19 @@ CI coverage support may bitrot away before the deprecation process
+>  completes. The little endian variants of MIPS (both 32 and 64 bit) are
+>  still a supported host architecture.
+>  
+> +32-bit x86 hosts and ``qemu-system-i386`` (since 8.0)
+> +'''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Testing 32-bit x86 host OS support takes a lot of precious time during the
+> +QEMU contiguous integration tests, and considering that most OS vendors
+> +stopped shipping 32-bit variants of their x86 OS distributions and most
+> +x86 hardware from the past >10 years is capable of 64-bit, keeping the
+> +32-bit support alive is an inadequate burden for the QEMU project. Thus
+> +QEMU will soon drop the support for 32-bit x86 host systems and the
+> +``qemu-system-i386`` binary. Use ``qemu-system-x86_64`` (which is a proper
+> +superset of ``qemu-system-i386``) on a 64-bit host machine instead.
 
-I've picked the other patches now, too (since they've got a Reviewed-by by 
-one of the vfio-ccw maintainers now).
+I feel like we should have separate deprecation entries for the
+i686 host support, and for qemu-system-i386 emulator binary, as
+although they're related they are independant features with
+differing impact. eg removing qemu-system-i386 affects all
+host architectures, not merely 32-bit x86 host, so I think we
+can explain the impact more clearly if we separate them.
 
-  Thomas
+How about something like....
+
+
+32-bit x86 hosts
+''''''''''''''''
+
+Support for 32-bit x86 host deployments is increasingly uncommon in
+mainstream Linux distributions given the widespread availability of
+64-bit x86 hardware. The QEMU project no longer considers 32-bit
+x86 support to be an effective use of its limited resources, and
+thus intends to discontinue it.
+
+Current users of QEMU on 32-bit x86 hosts should either continue
+using existing releases of QEMU, with the caveat that they will
+no longer get security fixes, or migrate to a 64-bit platform
+which remains capable of running 32-bit guests if needed.
+
+``qemu-system-i386`` binary removal
+'''''''''''''''''''''''''''''''''''
+
+The ``qemu-system-x86_64`` binary can be used to run 32-bit guests
+by selecting a 32-bit CPU model, including KVM support on x86_64
+hosts. Once support for the 32-bit x86 host platform is discontinued,
+the ``qemu-system-i386`` binary will be redundant. Current users are
+recommended to reconfigure their systems to use the ``qemu-system-x86_64``
+binary.
+
+
+
+Same point for the next patch about 32-bit arm vs qemu-system-arm
+binary.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
