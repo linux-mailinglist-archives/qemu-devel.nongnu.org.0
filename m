@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008CC6A4213
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A506A4212
 	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:56:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWd2X-0001AK-52; Mon, 27 Feb 2023 07:55:37 -0500
+	id 1pWd2f-0001Pf-IB; Mon, 27 Feb 2023 07:55:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pWd20-00019p-Jp
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:55:04 -0500
+ id 1pWd27-0001Cy-Ce
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:55:19 -0500
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pWd1u-0005vk-Vr
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:55:04 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1pWd24-00068d-Ra
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:55:11 -0500
 Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8DxEzQaqPxjmRsGAA--.5970S3;
- Mon, 27 Feb 2023 20:54:51 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxJEwqqPxjnBsGAA--.5947S3;
+ Mon, 27 Feb 2023 20:55:06 +0800 (CST)
 Received: from [10.20.42.238] (unknown [10.20.42.238])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxc+UZqPxjcAI_AA--.13248S3; 
- Mon, 27 Feb 2023 20:54:49 +0800 (CST)
+ AQAAf8DxTuQpqPxjegI_AA--.12447S3; 
+ Mon, 27 Feb 2023 20:55:06 +0800 (CST)
 Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20221224081633.4185445-1-gaosong@loongson.cn>
@@ -35,36 +35,35 @@ References: <20221224081633.4185445-1-gaosong@loongson.cn>
  <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
  <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
  <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
- <d052497f-fc2c-17ab-d455-f0a1727b422d@loongson.cn>
- <5ac3c25f-8d4b-6aa3-5bc2-2b3abc22dce8@linaro.org>
 From: gaosong <gaosong@loongson.cn>
-Message-ID: <32723bb0-17fe-cbd5-73f1-99cbcfbf73aa@loongson.cn>
-Date: Mon, 27 Feb 2023 20:54:49 +0800
+Message-ID: <5ce46e81-b2c3-8b45-1bd9-9705520f4557@loongson.cn>
+Date: Mon, 27 Feb 2023 20:55:05 +0800
 User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <5ac3c25f-8d4b-6aa3-5bc2-2b3abc22dce8@linaro.org>
+In-Reply-To: <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8Bxc+UZqPxjcAI_AA--.13248S3
+X-CM-TRANSID: AQAAf8DxTuQpqPxjegI_AA--.12447S3
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Ar4xtF17WF1rAF4xtrW8JFb_yoW8Xr1xpr
- 1kJry8GFy5WrykJr15Gw15AryUGryUJw15Jr15JFy5AFWjgr1jqr4UXFyY9FnrAw4rZw17
- Zr1DXr42vw1DJw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uw47JFW7AF1ftF4fur45ZFb_yoW8GF1kpr
+ 1kGr47CryUGr1kJr1UGr1UWryUJw18Jw15Jr4UJFyUGryUJr1jqr17Xr1j9F1UCr48Wr1U
+ Jr1UJr1Uur1Dt3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ bakYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
  1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
  wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
  x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
  0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
- AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1l
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1l
  Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
- xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
- GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI4
- 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
- MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I
- 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUzpBTUUUUU
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1l
+ x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
+ v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
+ x2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
+ Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
+ yTuYvjxU7pnQUUUUU
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: 13
@@ -89,49 +88,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/2/27 下午5:20, Richard Henderson 写道:
-> On 2/26/23 23:14, gaosong wrote:
->> like this:
->> the vece is MO_32.
->> static void gen_vaddwev_s(unsigned vece, TCGv_vec t, TCGv_vec a, 
->> TCGv_vec b)
->> {
->>      TCGv_vec t1 = tcg_temp_new_vec_matching(a);
->>      TCGv_vec t2 = tcg_temp_new_vec_matching(b);
->>      int halfbits = 4 << vece;
->>      tcg_gen_shli_vec(vece, t1, a, halfbits);
->>      tcg_gen_shri_vec(vece, t1, t1, halfbits);
->>
->>      tcg_gen_shli_vec(vece, t2, b,  halfbits);
->>      tcg_gen_shri_vec(vece, t2, t2, halfbits);
->>
->>      tcg_gen_add_vec(vece, t, t1, t2);
->>
->>      tcg_temp_free_vec(t1);
->>      tcg_temp_free_vec(t2);
->> }
->> ...
->>         op[MO_16];
+在 2023/2/25 上午3:24, Richard Henderson 写道:
 >>          {
 >>              .fniv = gen_vaddwev_s,
->>              .fno = gen_helper_vaddwev_w_h,
+>>              .fno = gen_helper_vaddwev_q_d,
 >>              .opt_opc = vecop_list,
->>              .vece = MO_32
+>>              .vece = MO_128
 >>          },
->> ...
->> TRANS(vaddwev_w_h, gvec_vvv, MO_16, gvec_vaddwev_s)
->>
->> input :     0x ffff fffe ffff fffe  ffff fffe ffff fffe  + 0
->> output :    0x 0000 fffe 0000 fffe  0000 fffe 0000 fffe
->> correct is  0xffffffffefffffffefffffffe       ffff fffe.
 >
-> sari above, not shri, for sign-extension.
+> There are no 128-bit vector operations; you'll need to do this one 
+> differently.
 >
+> Presumably just load the two 64-bit elements, sign-extend into 
+> 128-bits, add with tcg_gen_add2_i64, and store the two 64-bit elements 
+> as output.  But that won't fit into the tcg_gen_gvec_3 interface.
 >
-Got it.
+'sign-extend into 128-bits,'   Could you give a example?
 
-and how to  sign-extend  the odd  element  of vector?
+I see a example at target/ppc/translate/vmx-impl.c.inc
+     static bool do_vx_vprtyb(DisasContext *ctx, arg_VX_tb *a, unsigned 
+vece)
+     {
+             ...
+             {
+             .fno = gen_helper_VPRTYBQ,
+             .vece = MO_128
+             },
+             tcg_gen_gvec_2(avr_full_offset(a->vrt), 
+avr_full_offset(a->vrb),
+                                16, 16, &op[vece - MO_32]);
+         return true;
+     }
+TRANS(VPRTYBQ, do_vx_vprtyb, MO_128)
+...
 
+do_vx_vprtyb  fit the fno into the tcg_gen_gvec_2.
+I am not sure this  example is right.
 
 Thanks.
 Song Gao
