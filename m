@@ -2,54 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE346A478C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:06:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8848F6A47A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:15:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWgxA-0004jt-D3; Mon, 27 Feb 2023 12:06:20 -0500
+	id 1pWh4N-0002WE-Nc; Mon, 27 Feb 2023 12:13:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWgx9-0004iN-4Y
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:06:19 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pWh4K-0002H8-23
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:13:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWgx7-0003rt-9F
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:06:18 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PQRfh2n0cz6880d;
- Tue, 28 Feb 2023 01:03:56 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Feb 2023 17:06:13 +0000
-To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
- <fan.ni@samsung.com>
-CC: <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>
-Subject: [PATCH v2 6/6] hw/cxl: Add clear poison mailbox command support.
-Date: Mon, 27 Feb 2023 17:03:11 +0000
-Message-ID: <20230227170311.20054-7-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230227170311.20054-1-Jonathan.Cameron@huawei.com>
-References: <20230227170311.20054-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pWh4G-0005Gj-8q
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:13:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677518019;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T097oCflhdyY38IK2jdHpgB2HohxHNoOizvTylnaJ7c=;
+ b=LUp6t4ym40jb66mhfRYqke6n6AUuTmcet+Mdd9A60eZkJho38/MM2UeVX8PbungMCYXEGL
+ pCDEkMTPJqFOdNZfLEjh7DmjciuLGcAp80Vhu7Tn/8Acx1zD6C07wxqTP4WTiVU0qWLC5C
+ +h68n6QiNVGcmNA/b+wJFd71VR4yO5U=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-607-yCp-azP8MkuqV_yTqlMdog-1; Mon, 27 Feb 2023 12:13:34 -0500
+X-MC-Unique: yCp-azP8MkuqV_yTqlMdog-1
+Received: by mail-io1-f71.google.com with SMTP id
+ v4-20020a6b5b04000000b0074cb180c5e2so4414139ioh.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 09:13:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=T097oCflhdyY38IK2jdHpgB2HohxHNoOizvTylnaJ7c=;
+ b=5X7hXq4Re2DHcP0WVPAQdWghejMCD9IOTbJSxwUN/SSV6mb9ba/IKvcAwxePlyxHcm
+ HtoQUL/+2ITGLjAmLIv8RD1sCea+EVm3B0A/4UoXkyaHthJrOwk/wjGpkjl50cSSISgf
+ VppCJ3nenT0MZ2luXe274Gi1dvgM0C82xrKz8390yvc9Y1TSiB20zWpUZlQcxGWggJKt
+ qSsyaoB7QAzI3K947xVLFoPOGFbto28UgrKDLBrAU8w/9peApFmQtW2VlPagwVR3Q8Rr
+ segoX6hml4SWFq10JJ2RVcU3hNkCjugEPSJbBrafKyjtz80SVjSXKyttTdn1l7344fLH
+ oJ3A==
+X-Gm-Message-State: AO0yUKXt/im6v4k84pNtgEPgHN35y4wPk4Qw9JKqObGw0AAJyBQBy5xq
+ YLDqAyj53OtJtZ5VaWosQ8ChOvXLJ2Awq2FpMEC/luVUVvzJ2tBzvr3MEpEL6V8/Sk61L3wZXCY
+ utD3eZBT8xSV2+1s=
+X-Received: by 2002:a05:6e02:1d05:b0:315:9959:c1c5 with SMTP id
+ i5-20020a056e021d0500b003159959c1c5mr7009394ila.3.1677518008009; 
+ Mon, 27 Feb 2023 09:13:28 -0800 (PST)
+X-Google-Smtp-Source: AK7set8tq8GM91oZ0A8YBsgh8eCvtqnAbttTwcOBlunaqN9G/VUDRf3r1jjm2kg1la96rUeoMB8M0g==
+X-Received: by 2002:a05:6e02:1d05:b0:315:9959:c1c5 with SMTP id
+ i5-20020a056e021d0500b003159959c1c5mr7009379ila.3.1677518007764; 
+ Mon, 27 Feb 2023 09:13:27 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ a25-20020a029999000000b003c50e23ef4esm2222021jal.74.2023.02.27.09.13.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 09:13:27 -0800 (PST)
+Date: Mon, 27 Feb 2023 10:13:25 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>, Thomas Huth
+ <thuth@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/2] hw/vfio/migration: Remove unused 'exec/ram_addr.h'
+ header
+Message-ID: <20230227101325.1ba4f5c4.alex.williamson@redhat.com>
+In-Reply-To: <87o7pfgjm6.fsf@linaro.org>
+References: <20230227103258.13295-1-philmd@linaro.org>
+ <20230227103258.13295-2-philmd@linaro.org>
+ <20230227084621.15cab9da.alex.williamson@redhat.com>
+ <87o7pfgjm6.fsf@linaro.org>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,195 +102,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Current implementation is very simple so many of the corner
-cases do not exist (e.g. fragmenting larger poison list entries)
+On Mon, 27 Feb 2023 16:24:16 +0000
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
-v2:
-- Endian fix
----
- hw/cxl/cxl-mailbox-utils.c  | 79 +++++++++++++++++++++++++++++++++++++
- hw/mem/cxl_type3.c          | 36 +++++++++++++++++
- include/hw/cxl/cxl_device.h |  1 +
- 3 files changed, 116 insertions(+)
+> Alex Williamson <alex.williamson@redhat.com> writes:
+>=20
+> > On Mon, 27 Feb 2023 11:32:57 +0100
+> > Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+> > =20
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> =20
+> >
+> > Empty commit logs are a pet peeve of mine, there must be some sort of
+> > motivation for the change, something that changed to make this
+> > possible, or perhaps why this was never necessary.  Thanks, =20
+>=20
+> I think that is a little unfair for this case as the motivation and
+> action are all covered by the summary line. Granted the overall goal is
+> covered by the cover letter and the following patch however for this
+> patch I would hope its self explanatory.
 
-diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index da8732a547..f2a339bedc 100644
---- a/hw/cxl/cxl-mailbox-utils.c
-+++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -65,6 +65,7 @@ enum {
-     MEDIA_AND_POISON = 0x43,
-         #define GET_POISON_LIST        0x0
-         #define INJECT_POISON          0x1
-+        #define CLEAR_POISON           0x2
- };
- 
- /* 8.2.8.4.5.1 Command Return Codes */
-@@ -511,6 +512,82 @@ static CXLRetCode cmd_media_inject_poison(struct cxl_cmd *cmd,
-     return CXL_MBOX_SUCCESS;
- }
- 
-+static CXLRetCode cmd_media_clear_poison(struct cxl_cmd *cmd,
-+                                         CXLDeviceState *cxl_dstate,
-+                                         uint16_t *len)
-+{
-+    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-+    CXLPoisonList *poison_list = &ct3d->poison_list;
-+    CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
-+    struct clear_poison_pl {
-+        uint64_t dpa;
-+        uint8_t data[64];
-+    };
-+    CXLPoison *ent;
-+    uint64_t dpa;
-+
-+    struct clear_poison_pl *in = (void *)cmd->payload;
-+
-+    dpa = ldq_le_p(&in->dpa);
-+    if (dpa + 64 > cxl_dstate->mem_size) {
-+        return CXL_MBOX_INVALID_PA;
-+    }
-+
-+    QLIST_FOREACH(ent, poison_list, node) {
-+        /*
-+         * Test for contained in entry. Simpler than general case
-+         * as clearing 64 bytes and entries 64 byte aligned
-+         */
-+        if ((dpa < ent->start) || (dpa >= ent->start + ent->length)) {
-+            continue;
-+        }
-+        /* Do accounting early as we know one will go away */
-+        ct3d->poison_list_cnt--;
-+        if (dpa > ent->start) {
-+            CXLPoison *frag;
-+            if (ct3d->poison_list_cnt == CXL_POISON_LIST_LIMIT) {
-+                cxl_set_poison_list_overflowed(ct3d);
-+                break;
-+            }
-+            frag = g_new0(CXLPoison, 1);
-+
-+            frag->start = ent->start;
-+            frag->length = dpa - ent->start;
-+            frag->type = ent->type;
-+
-+            QLIST_INSERT_HEAD(poison_list, frag, node);
-+            ct3d->poison_list_cnt++;
-+        }
-+        if (dpa + 64 < ent->start + ent->length) {
-+            CXLPoison *frag;
-+
-+            if (ct3d->poison_list_cnt == CXL_POISON_LIST_LIMIT) {
-+                cxl_set_poison_list_overflowed(ct3d);
-+                break;
-+            }
-+
-+            frag = g_new0(CXLPoison, 1);
-+
-+            frag->start = dpa + 64;
-+            frag->length = ent->start + ent->length - frag->start;
-+            frag->type = ent->type;
-+            QLIST_INSERT_HEAD(poison_list, frag, node);
-+            ct3d->poison_list_cnt++;
-+        }
-+        /* Any fragments have been added, free original entry */
-+        QLIST_REMOVE(ent, node);
-+        g_free(ent);
-+        break;
-+    }
-+    /* Clearing a region with no poison is not an error so always do so */
-+    if (cvc->set_cacheline)
-+        if (!cvc->set_cacheline(ct3d, dpa, in->data)) {
-+            return CXL_MBOX_INTERNAL_ERROR;
-+        }
-+
-+    return CXL_MBOX_SUCCESS;
-+}
-+
- #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
- #define IMMEDIATE_DATA_CHANGE (1 << 2)
- #define IMMEDIATE_POLICY_CHANGE (1 << 3)
-@@ -542,6 +619,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
-         cmd_media_get_poison_list, 16, 0 },
-     [MEDIA_AND_POISON][INJECT_POISON] = { "MEDIA_AND_POISON_INJECT_POISON",
-         cmd_media_inject_poison, 8, 0 },
-+    [MEDIA_AND_POISON][CLEAR_POISON] = { "MEDIA_AND_POISON_CLEAR_POISON",
-+        cmd_media_clear_poison, 72, 0 },
- };
- 
- void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 21e3a84785..44ffc7d9b0 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -919,6 +919,41 @@ static void set_lsa(CXLType3Dev *ct3d, const void *buf, uint64_t size,
-      */
- }
- 
-+static bool set_cacheline(CXLType3Dev *ct3d, uint64_t dpa_offset, uint8_t *data)
-+{
-+    MemoryRegion *vmr = NULL, *pmr = NULL;
-+    AddressSpace *as;
-+
-+    if (ct3d->hostvmem) {
-+        vmr = host_memory_backend_get_memory(ct3d->hostvmem);
-+    }
-+    if (ct3d->hostpmem) {
-+        pmr = host_memory_backend_get_memory(ct3d->hostpmem);
-+    }
-+
-+    if (!vmr && !pmr) {
-+        return false;
-+    }
-+
-+    if (dpa_offset + 64 > int128_get64(ct3d->cxl_dstate.mem_size)) {
-+        return false;
-+    }
-+
-+    if (vmr) {
-+        if (dpa_offset <= int128_get64(vmr->size)) {
-+            as = &ct3d->hostvmem_as;
-+        } else {
-+            as = &ct3d->hostpmem_as;
-+            dpa_offset -= vmr->size;
-+        }
-+    } else {
-+        as = &ct3d->hostpmem_as;
-+    }
-+
-+    address_space_write(as, dpa_offset, MEMTXATTRS_UNSPECIFIED, &data, 64);
-+    return true;
-+}
-+
- void cxl_set_poison_list_overflowed(CXLType3Dev *ct3d)
- {
-         ct3d->poison_list_overflowed = true;
-@@ -1140,6 +1175,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     cvc->get_lsa_size = get_lsa_size;
-     cvc->get_lsa = get_lsa;
-     cvc->set_lsa = set_lsa;
-+    cvc->set_cacheline = set_cacheline;
- }
- 
- static const TypeInfo ct3d_info = {
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 32c234ea91..73328a52cf 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -298,6 +298,7 @@ struct CXLType3Class {
-                         uint64_t offset);
-     void (*set_lsa)(CXLType3Dev *ct3d, const void *buf, uint64_t size,
-                     uint64_t offset);
-+    bool (*set_cacheline)(CXLType3Dev *ct3d, uint64_t dpa_offset, uint8_t *data);
- };
- 
- MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_addr, uint64_t *data,
--- 
-2.37.2
+The commit title only conveys that the include is unused and the action
+to therefore remove it.  The motivation is actually to create target
+independent objects and the specific reasoning here is that not only is
+this include file unnecessary, but forces per target builds.
+
+This is exactly the "barrier to entry" I mention to Peter, it's obvious
+to the experts in the crowd, but it provides no underlying direction
+for those who might be more novice.  There is always some reasoning
+that can be included in a commit log beyond the simple "a therefore b"
+of the commit title.  Thanks,
+
+Alex
 
 
