@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CE56A443B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873936A441C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:18:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeAY-0000ze-37; Mon, 27 Feb 2023 09:07:58 -0500
+	id 1pWeAb-0001gr-S3; Mon, 27 Feb 2023 09:08:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAV-0000d1-Nk
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:55 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAa-0001aN-2k
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:00 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAT-0000Lb-SB
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:55 -0500
-Received: by mail-wr1-x433.google.com with SMTP id h14so6365013wru.4
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:07:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAY-0000FS-9K
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:59 -0500
+Received: by mail-wr1-x430.google.com with SMTP id l25so6371285wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9BQv1kTB2L0mnCbjAHXP+un9EH4FVICZqpzI5v7B5ww=;
- b=ww56SprYy/WgKYYwysoYvV/+aY16HBvRbmo95k9guREgWVpeuroFyWlDTpC0H1JldR
- b3BmImq757spZfuj5V0b2IkIBn3Ae4PlJ8/ExuIQPRk1tjr3f1i6Zq1Uq2VCMs2mHAAc
- G1hDCZY/vEcb4T3JfE2LIsHxqEO2Fjek3SdrkLwHYbuUUWgjrxvqR4qP0TmUyvbe2dtV
- vk+dHhsctSzugHe2yZ5Om+UAFUTEFz27rJQACvLVjT2D1Hm3FjmBqzwrNFkbfNz32n0W
- srjUjKovdHrCk/KFpo8I0J6kS1iXo1w9vV6bvYg/PhyD9O4K17FBmEWskkvJh7I1vQIX
- I13w==
+ :reply-to; bh=xWSTUmb++2mGiogMvXbqJJocrCykF9OSc1ggtSDBGQk=;
+ b=KVWgdG2kE24e/aar+GrSettzPiMGN9m0BA3Gdu6FAbuk/+58aSiuz7ZnrGWtfDa8Lz
+ OXLVQNqNnuMhvaH9kRaPa7eB0gUrUHXunYIEircwNPJtSbhx34kN6XyIGKPMREsYcVdo
+ sbfR8WIM4obmm1wTaGV6EF+JUmTwVd5o7432loFWelGW/PUQrqT1v8J8mxR6b9reOHl+
+ p4xNHwrY5Kx55hRC90eQsB6gPB3kpBTCWtx9ssTUqjcNJoa9DNS/ugRMBnjK9I1LhyF8
+ QhgOwdQc4KLl5gIVSOjWo9FXx2Z3N8XvcvpjhU+/8ZX+NIkQYA5SGmsFaX0Sl+17hTpW
+ 6XNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9BQv1kTB2L0mnCbjAHXP+un9EH4FVICZqpzI5v7B5ww=;
- b=GtkjGKGXs3bNDJMLAd37G1mug5jLkhHs84jdEA6O7cqcZYpvIvgrNHzxwvfRe0jIHG
- qSR/vQrKa2Q2K2UEHm1Upsypp+J+dbeTgqVlRQL2rwLcBtBlQJWf7/LOIf6hvowpk+H3
- MYH/6MTY0BEEYNzxYpS9BOKzNNYoaRu6eEvitgQbzM+ptTjPXzfGqtli6jde5tyzQOCD
- 4SQHB4rrovDgdUPPXTjuFhWt1reOtU90E+sp2JJIVqAkViik3F69llRZndbK623nfO1D
- T1O1Y53+ETWpSwn98jdRk/6F92ro8HXWRsPXOcg7JgBwBFI8AVSeix4fTvbRsZHOetp3
- wEcA==
-X-Gm-Message-State: AO0yUKWkFACrkP2kfuXJ/sxH6kRqZZ+frdnxUElIeWkbapY6UOzE5mCO
- G8CBkQ52Hf1634it1CMsfMsjiCkHLjJvMkAR
-X-Google-Smtp-Source: AK7set8IcY09psHG2aE8UuOKisUVteXglH1QMFd1DkRDnUSgiIkC4WWXxPq+nCIqBL1yk+ACb9t8Iw==
-X-Received: by 2002:a5d:6147:0:b0:2c9:ed98:c3bd with SMTP id
- y7-20020a5d6147000000b002c9ed98c3bdmr5054984wrt.60.1677506872002; 
- Mon, 27 Feb 2023 06:07:52 -0800 (PST)
+ bh=xWSTUmb++2mGiogMvXbqJJocrCykF9OSc1ggtSDBGQk=;
+ b=zu9IJPJaq1vQF0wYdmg7s6a1Uso+C5iAr/iAMeJbifkEXeHjzK1t6qHRCYBuhdLaIb
+ +2EVwMU+63otXpJFZ75XtMJf/owFZwKhQL4fCoiSVJTnf/w6U+XiUaH0TEPgaQlMsOHy
+ Gi6OL3QMh8eMERkG0TvWzYtQfFeZ7Mb1xohWpzxRMf47TE8r1Luld47l7HD5aq1yl51a
+ +ODD3Svj8AgTd9vDE6Ah5ZKTZtpyiexJxtIYW1qYNly7n06QQfZJU7KMoFnXVK2fCPQp
+ 2uzUVKi6nZFrkBXA11uIxZpl7VJrq8g044Vts1ZyDXXlBxcVci5zCHbP3Y0tzpsnhmC7
+ OJkQ==
+X-Gm-Message-State: AO0yUKU6llbVBArp8wnPRLJZq/O5IWTi7UfLVYHkWMwmNxU3U/NDOInJ
+ aUBGM3lsWGAKUubRTPc/e2J0Ff9VLMaxvUaD
+X-Google-Smtp-Source: AK7set/NlVkftvCEjSXfABRPAaNYsdr1g+seO6fSvRX5Cj0+RfsyiSw6Soh1cyiW6nNV5753j0MJng==
+X-Received: by 2002:adf:d089:0:b0:2cc:4dd4:b7f7 with SMTP id
+ y9-20020adfd089000000b002cc4dd4b7f7mr932333wrh.63.1677506877330; 
+ Mon, 27 Feb 2023 06:07:57 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- fm26-20020a05600c0c1a00b003e6dcd562a6sm9640860wmb.28.2023.02.27.06.07.51
+ a14-20020a5d4d4e000000b002c57475c375sm7169011wru.110.2023.02.27.06.07.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:07:51 -0800 (PST)
+ Mon, 27 Feb 2023 06:07:56 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 071/126] hw/audio/es1370: Avoid forward-declaring ES1370State
-Date: Mon, 27 Feb 2023 15:01:18 +0100
-Message-Id: <20230227140213.35084-62-philmd@linaro.org>
+Subject: [PULL 072/126] hw/audio/es1370: Replace container_of() by ES1370()
+ QOM cast macro
+Date: Mon, 27 Feb 2023 15:01:19 +0100
+Message-Id: <20230227140213.35084-63-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,48 +88,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To avoid forward-declaring ES1370State, declare ES1370 QOM
-definitions before its use in the chan_bits structure.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230220131837.26292-3-philmd@linaro.org>
+Message-Id: <20230220131837.26292-4-philmd@linaro.org>
 ---
- hw/audio/es1370.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/audio/es1370.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
-index 54cc19a637..ea76c9a734 100644
+index ea76c9a734..4f738a0ad8 100644
 --- a/hw/audio/es1370.c
 +++ b/hw/audio/es1370.c
-@@ -256,6 +256,9 @@ static void print_sctl (uint32_t val)
- #define lwarn(...)
- #endif
+@@ -843,7 +843,8 @@ static const VMStateDescription vmstate_es1370 = {
  
-+#define TYPE_ES1370 "ES1370"
-+OBJECT_DECLARE_SIMPLE_TYPE(ES1370State, ES1370)
+ static void es1370_on_reset(DeviceState *dev)
+ {
+-    ES1370State *s = container_of(dev, ES1370State, dev.qdev);
++    ES1370State *s = ES1370(dev);
 +
- struct chan {
-     uint32_t shift;
-     uint32_t leftover;
-@@ -278,7 +281,6 @@ struct ES1370State {
-     uint32_t codec;
-     uint32_t sctl;
- };
--typedef struct ES1370State ES1370State;
+     es1370_reset (s);
+ }
  
- struct chan_bits {
-     uint32_t ctl_en;
-@@ -292,9 +294,6 @@ struct chan_bits {
-                        uint32_t *old_freq, uint32_t *new_freq);
- };
- 
--#define TYPE_ES1370 "ES1370"
--OBJECT_DECLARE_SIMPLE_TYPE(ES1370State, ES1370)
--
- static void es1370_dac1_calc_freq (ES1370State *s, uint32_t ctl,
-                                    uint32_t *old_freq, uint32_t *new_freq);
- static void es1370_dac2_and_adc_calc_freq (ES1370State *s, uint32_t ctl,
 -- 
 2.38.1
 
