@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25D66A443A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:21:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2786A44B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:38:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeCM-0005I5-Ne; Mon, 27 Feb 2023 09:09:50 -0500
+	id 1pWeCO-0005Kd-JF; Mon, 27 Feb 2023 09:09:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeC4-0004jE-Vb
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:34 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeC9-0004mn-Vp
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:38 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeC3-0000Zx-9h
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:32 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- t25-20020a1c7719000000b003eb052cc5ccso6824101wmi.4
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:09:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeC8-0000b3-Ad
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:37 -0500
+Received: by mail-wm1-x335.google.com with SMTP id p26so4307189wmc.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:09:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=jWJvrSdJX2sHlOeU6ruiLsKR+oVCbKmfMpesV07gggA=;
- b=zyO/PJgfdL/mLJzPDfaVxOJCeE5Orx3ZcXskmM/6RVq/9Vet1VBJ6o2gwpEYx6aXnY
- 7bpiPe3cVZhNDWJduPaa39Umk0hYslDSC6//u+wBQ1LxhbTZOPHQ7QgAYxbu+cbgeNlW
- jr4+V8O/Ohaz9I61SYUrHCD38ohw/098C7sqZgmg/RBGy/Ov8rvhp4odn8nVBUhzrbEx
- YOvVf6bsRbDyCa25+8QB5aV6iz9I5CtPpwKj/s60XVJLCveQaMAkMJQcmIwtFXU+7Xnp
- sN3Oe/0wy/geaKAZFPJFhR5/rfaj1X1lVo9bpNiivlz2pPf1Q2Xga1wyGjKuKNoxjA7n
- 1EVQ==
+ :reply-to; bh=reFqpRaD/SRUkm/EOnn9E/Z0xVn0tzwElddaq98oV3o=;
+ b=jT63GyUFa7ScoWkWi8FCYh1gQGra0gFt4iTHSwSnL5umiiojJ+jARHFN6oxbxa7C1q
+ 42fEetnCu0zI98ZXSgwhjiwpiXAN0lNWozZ3DvOWkA7KcfDdFoc1RGGrToQO5hn7WpWy
+ r8P/2PKJvJ5RB3paCtdBE34nKrNuvaCivN71faex7UfGCT/EBcpElCp80NA94h/sfA/j
+ V3lciG4iSDpzKgpzbUQdNUtm29HcHNFKH6I3zmDMJ9eoc/4KIvTXeHxYDomtiYqhZSiU
+ a6zqQ2mlcuZthp9TBuN1SW3gBqRkHMMKbuawOsK1LE3F7PLK248HjzOlQSPzPiP5+X1y
+ obMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jWJvrSdJX2sHlOeU6ruiLsKR+oVCbKmfMpesV07gggA=;
- b=n4jecXjlbN0cYGnLKOunkA0nTRmtknoLbbb40O3dAOm8Skf5VNx9DN2u5b/+y17faR
- yvhtLcWfhvXnWooHOTopxMB0PYaEEiePJlzW81BRfHMeeXuvrsd66HjkDwM9d5hav0kc
- t3wYjzcJi/qYpY27zaeYfqWXz0GxPRIxBCqyiwS/98wCu8OCUPcRBg5Ypt+LJtzohJUL
- +hArclMfTzeUTZoJEbNyGQPg1KVs/ZQZGeBC4cZ5NfpEKth/onqwXnlJFlKVVKvFK8Le
- mdEA/xTiB5JbMrsQh2Tro+pVESkWaEIHSviL/voFqE3o8bZ070N0v3pRZXNpzNQ1Itcw
- ooxg==
-X-Gm-Message-State: AO0yUKUIluwi4G3mpFcwbgD0llyC/S2zrj7LFpQDaYqCmF/uM6MO/M7S
- lqT1ZduRmm9V6CsJbF5x1hid1GVLMFwl+vQ5
-X-Google-Smtp-Source: AK7set/XdKy7E4ZDZ/EsHX13cIZSsyXP0AYKSABftBOR4CG2dtmNdsRZirq4MqwIdTsaDRDIBwtJ6g==
-X-Received: by 2002:a05:600c:998:b0:3dc:5b88:e6dd with SMTP id
- w24-20020a05600c099800b003dc5b88e6ddmr19957914wmp.10.1677506969590; 
- Mon, 27 Feb 2023 06:09:29 -0800 (PST)
+ bh=reFqpRaD/SRUkm/EOnn9E/Z0xVn0tzwElddaq98oV3o=;
+ b=NKyMqQtqtOHElXmZ0Jxvubr/uJPznfqiflWkNrTJKS37/thuF819hvLD7sSOhO4Uf1
+ B7ITim20hFWd1XAUAyUED5uaPbjsoJHjgPYnI3+0e2n1phogQDap1ISNFYa2pMz23ACO
+ OhTs+1xM3xzNqAP60XBYTepyt5Wzn9Muou9kGD49WiPPBz5P93L7OxcIeJ2J4msqjqr6
+ iFUnaBdj1asbqHXwgyLyTUntv/uSSHjiTXeeCPv/eutYcxZCZXw/3PDzHjygChTBQiRn
+ ULy1BbuIhEBDGWuYdkk1aRoZEdiwRgiB5Jn9EwbWY2M4R2uM0Ljig1PbSHUOyXLpI/1D
+ V0VQ==
+X-Gm-Message-State: AO0yUKWvc4rLQHC+MJD1exbTWcu2HuudUZ4t8BxrB+qpaGLJmxFsOrOj
+ CkAhLzuhlAIACF3E5oXlAb0SKsoLbsHPz8oa
+X-Google-Smtp-Source: AK7set9Ua5g2i+3Xrsx2mkwpp+DdQzxW5TKK4N8VVFBADnqDXaoO5RYn4XA6gDVPCI85u/OngFdp9w==
+X-Received: by 2002:a05:600c:3093:b0:3dc:5c86:12f3 with SMTP id
+ g19-20020a05600c309300b003dc5c8612f3mr15892250wmn.1.1677506974537; 
+ Mon, 27 Feb 2023 06:09:34 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p20-20020a05600c359400b003daf7721bb3sm13719342wmq.12.2023.02.27.06.09.28
+ n41-20020a05600c3ba900b003e20fa01a86sm9877012wms.13.2023.02.27.06.09.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:09:29 -0800 (PST)
+ Mon, 27 Feb 2023 06:09:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 089/126] hw/display/sm501: Embed OHCI QOM child in chipset
-Date: Mon, 27 Feb 2023 15:01:36 +0100
-Message-Id: <20230227140213.35084-80-philmd@linaro.org>
+Subject: [PULL 090/126] hw/display/sm501: Alias 'dma-offset' QOM property in
+ chipset object
+Date: Mon, 27 Feb 2023 15:01:37 +0100
+Message-Id: <20230227140213.35084-81-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,73 +88,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Note this device doesn't implement unrealize().
+No need to use an intermediate 'dma-offset' property in the
+chipset object. Alias the property, so when the machine (here
+r2d-plus) sets the value on the chipset, it is propagated to
+the OHCI object.
+
+Note we can rename the chipset 'base' property as 'dma-offset'
+since the object is a non-user-creatable sysbus type.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <20230203145536.17585-11-philmd@linaro.org>
+Message-Id: <20230203145536.17585-12-philmd@linaro.org>
 ---
- hw/display/sm501.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ hw/display/sm501.c | 7 ++-----
+ hw/sh4/r2d.c       | 2 +-
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index e1d0591d36..38b8d0e16b 100644
+index 38b8d0e16b..bb53499dff 100644
 --- a/hw/display/sm501.c
 +++ b/hw/display/sm501.c
-@@ -28,6 +28,7 @@
- #include "qapi/error.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "hw/usb/hcd-ohci.h"
- #include "hw/char/serial.h"
- #include "ui/console.h"
- #include "hw/sysbus.h"
-@@ -1945,13 +1946,13 @@ struct SM501SysBusState {
+@@ -1944,7 +1944,6 @@ struct SM501SysBusState {
+     /*< public >*/
+     SM501State state;
      uint32_t vram_size;
-     uint32_t base;
+-    uint32_t base;
      SerialMM serial;
-+    OHCISysBusState ohci;
+     OHCISysBusState ohci;
  };
- 
- static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
- {
-     SM501SysBusState *s = SYSBUS_SM501(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--    DeviceState *usb_dev;
-     MemoryRegion *mr;
- 
-     sm501_init(&s->state, dev, s->vram_size);
-@@ -1964,13 +1965,11 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
+@@ -1965,7 +1964,6 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
      sysbus_init_mmio(sbd, &s->state.mmio_region);
  
      /* bridge to usb host emulation module */
--    usb_dev = qdev_new("sysbus-ohci");
--    qdev_prop_set_uint32(usb_dev, "num-ports", 2);
--    qdev_prop_set_uint64(usb_dev, "dma-offset", s->base);
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(usb_dev), &error_fatal);
-+    qdev_prop_set_uint64(DEVICE(&s->ohci), "dma-offset", s->base);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(&s->ohci), &error_fatal);
+-    qdev_prop_set_uint64(DEVICE(&s->ohci), "dma-offset", s->base);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(&s->ohci), &error_fatal);
      memory_region_add_subregion(&s->state.mmio_region, SM501_USB_HOST,
--                       sysbus_mmio_get_region(SYS_BUS_DEVICE(usb_dev), 0));
--    sysbus_pass_irq(sbd, SYS_BUS_DEVICE(usb_dev));
-+                       sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->ohci), 0));
-+    sysbus_pass_irq(sbd, SYS_BUS_DEVICE(&s->ohci));
+                        sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->ohci), 0));
+@@ -1980,7 +1978,6 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
  
-     /* bridge to serial emulation module */
-     sysbus_realize(SYS_BUS_DEVICE(&s->serial), &error_fatal);
-@@ -2017,8 +2016,12 @@ static void sm501_sysbus_class_init(ObjectClass *klass, void *data)
- static void sm501_sysbus_init(Object *o)
- {
-     SM501SysBusState *sm501 = SYSBUS_SM501(o);
-+    OHCISysBusState *ohci = &sm501->ohci;
+ static Property sm501_sysbus_properties[] = {
+     DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
+-    DEFINE_PROP_UINT32("base", SM501SysBusState, base, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -2020,6 +2017,7 @@ static void sm501_sysbus_init(Object *o)
      SerialMM *smm = &sm501->serial;
  
-+    object_initialize_child(o, "ohci", ohci, TYPE_SYSBUS_OHCI);
-+    qdev_prop_set_uint32(DEVICE(ohci), "num-ports", 2);
-+
+     object_initialize_child(o, "ohci", ohci, TYPE_SYSBUS_OHCI);
++    object_property_add_alias(o, "dma-offset", OBJECT(ohci), "dma-offset");
+     qdev_prop_set_uint32(DEVICE(ohci), "num-ports", 2);
+ 
      object_initialize_child(o, "serial", smm, TYPE_SERIAL_MM);
-     qdev_set_legacy_instance_id(DEVICE(smm), SM501_UART0, 2);
+@@ -2027,8 +2025,7 @@ static void sm501_sysbus_init(Object *o)
      qdev_prop_set_uint8(DEVICE(smm), "regshift", 2);
+     qdev_prop_set_uint8(DEVICE(smm), "endianness", DEVICE_LITTLE_ENDIAN);
+ 
+-    object_property_add_alias(o, "chardev",
+-                              OBJECT(smm), "chardev");
++    object_property_add_alias(o, "chardev", OBJECT(smm), "chardev");
+ }
+ 
+ static const TypeInfo sm501_sysbus_info = {
+diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+index 39fc4f19d9..d7020d6d2b 100644
+--- a/hw/sh4/r2d.c
++++ b/hw/sh4/r2d.c
+@@ -274,7 +274,7 @@ static void r2d_init(MachineState *machine)
+     dev = qdev_new("sysbus-sm501");
+     busdev = SYS_BUS_DEVICE(dev);
+     qdev_prop_set_uint32(dev, "vram-size", SM501_VRAM_SIZE);
+-    qdev_prop_set_uint32(dev, "base", 0x10000000);
++    qdev_prop_set_uint64(dev, "dma-offset", 0x10000000);
+     qdev_prop_set_chr(dev, "chardev", serial_hd(2));
+     sysbus_realize_and_unref(busdev, &error_fatal);
+     sysbus_mmio_map(busdev, 0, 0x10000000);
 -- 
 2.38.1
 
