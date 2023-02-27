@@ -2,59 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740E26A455A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:58:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1076A4580
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 16:02:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWewY-0005m7-EX; Mon, 27 Feb 2023 09:57:34 -0500
+	id 1pWf0Y-0001c2-Hs; Mon, 27 Feb 2023 10:01:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWewV-0005lJ-6M
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:57:31 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWewR-0002xG-C8
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:57:30 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PQNrb5gfWz6J7CH;
- Mon, 27 Feb 2023 22:57:19 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 27 Feb
- 2023 14:57:23 +0000
-Date: Mon, 27 Feb 2023 14:57:22 +0000
-To: Ira Weiny <ira.weiny@intel.com>
-CC: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
- Gregory Price <gourry.memverge@gmail.com>, Philippe =?ISO-8859-1?Q?Mathie?=
- =?ISO-8859-1?Q?u-Daud=E9?= <philmd@linaro.org>, Mike Maslenkin
- <mike.maslenkin@gmail.com>, Markus Armbruster <armbru@redhat.com>, "Dave
- Jiang" <dave.jiang@intel.com>, <alison.schofield@intel.com>
-Subject: Re: [PATCH 5/6] hw/cxl: Add poison injection via the mailbox.
-Message-ID: <20230227145722.000049f2@huawei.com>
-In-Reply-To: <63f56d49deb1f_1dc7bb29489@iweiny-mobl.notmuch>
-References: <20230217181812.26995-1-Jonathan.Cameron@huawei.com>
- <20230217181812.26995-6-Jonathan.Cameron@huawei.com>
- <63f56d49deb1f_1dc7bb29489@iweiny-mobl.notmuch>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pWf0G-0001Zr-My
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:01:32 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pWf0B-0003kp-Dy
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:01:21 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ l7-20020a05600c4f0700b003e79fa98ce1so4023168wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 07:01:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cdAJkRecFKsSYP5Ew4FPrPZbv9AZ4HDi441Gc4VlooI=;
+ b=dBzjjvRp0zI615Axykcb6lJ48SRSnbhAEDzkrKTVNNCoWoD4vjenudtidKBKP9IjN7
+ ST0zFu2l9SwZnrU8PWHt3dlLz5aQFCB2EOVn6JCIE4U0DdWKO+RiNrkq+qB7ANSbJ1mj
+ XOvbyjFtJqKbB4gNmL0FYag2YSm+Scx9LaXoqMlfZ8EhQ8cQHec+3mUOaGVsyDjCVTnY
+ nR+sLCSzSOfBDqW3Hm27vVpVB9/jCKE+NlfCzVU0qAb7gYI9cr9XE/rc4/qCM6smcxjj
+ JHub+XN0qCaGOGkfn4vTRtyKY/w3mppr3fa8RIgaVkC4oE+6QkcVBM6Rndq9jh1UN8WH
+ 1eOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=cdAJkRecFKsSYP5Ew4FPrPZbv9AZ4HDi441Gc4VlooI=;
+ b=qof7b6aeIl0BmjGZdgQB2RdCz3Un+bLWLMkx0iEuGnQiHlXTH4W/GcobRt1Qp2aiU4
+ Oq/WbATsVGaZh7jIyWWjtNOzDIfGUqIO6/P2KPW6kNUiseYLV6N6C8Fq/WFCIVr8PGkb
+ 3xLzV/71fbShMg3/FVD29uja9sz3u4M86V3Qtvb+D4u+jStbkNR62LUGS6XZJeRcyd/m
+ ghoAl9m6Lq1tmQLRWpx/L30TyWb6g31BvglbIW4u+mAR1qB43NrjQ+j1ndAZlXCeRXda
+ 6DNypVKYBTge1cZ+JahGoP2uhNY1p5hn1Sd65zmL0cSfE6QaFFb3QiMJ85hwlgOYYmd3
+ GVLw==
+X-Gm-Message-State: AO0yUKUgw/HkKS0tpp61sp4B9lDzFZe+VvruvwDYKcES66RNr5Ks6rlj
+ wLOld80GNjvkp1MchpTfVpm12g==
+X-Google-Smtp-Source: AK7set8ZJWeL8hGtX870aHQUBdJXm9UeyPFfdHp3EVveGfWEcd7AMs/mpOZ9FP7JdvGPyyUFqb4Kfw==
+X-Received: by 2002:a05:600c:90a:b0:3eb:2b88:7838 with SMTP id
+ m10-20020a05600c090a00b003eb2b887838mr7628070wmp.14.1677510077825; 
+ Mon, 27 Feb 2023 07:01:17 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ r23-20020a05600c2f1700b003eae73ee4a1sm9379866wmn.17.2023.02.27.07.01.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 07:01:17 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F41701FFB7;
+ Mon, 27 Feb 2023 15:01:16 +0000 (GMT)
+References: <20230223155720.310593-1-alex.bennee@linaro.org>
+ <CAFEAcA_Up9_180Xb+_2ybuVPfknP7=WTmTAGcZEk5_iP0YH5rw@mail.gmail.com>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 00/13] testing updates (gitlab, cirrus, docker, avocado,
+ windows)
+Date: Mon, 27 Feb 2023 14:59:41 +0000
+In-reply-to: <CAFEAcA_Up9_180Xb+_2ybuVPfknP7=WTmTAGcZEk5_iP0YH5rw@mail.gmail.com>
+Message-ID: <87sfergnk3.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,137 +93,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 21 Feb 2023 17:18:01 -0800
-Ira Weiny <ira.weiny@intel.com> wrote:
 
-> Jonathan Cameron wrote:
-> > Very simple implementation to allow testing of corresponding
-> > kernel code. Note that for now we track each 64 byte section
-> > independently.  Whilst a valid implementation choice, it may
-> > make sense to fuse entries so as to prove out more complex
-> > corners of the kernel code.
-> > 
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > ---
-> >  hw/cxl/cxl-mailbox-utils.c | 40 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 40 insertions(+)
-> > 
-> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> > index cf3cfb10a1..7d3f7bcd3a 100644
-> > --- a/hw/cxl/cxl-mailbox-utils.c
-> > +++ b/hw/cxl/cxl-mailbox-utils.c
-> > @@ -64,6 +64,7 @@ enum {
-> >          #define SET_LSA       0x3
-> >      MEDIA_AND_POISON = 0x43,
-> >          #define GET_POISON_LIST        0x0
-> > +        #define INJECT_POISON          0x1
-> >  };
-> >  
-> >  struct cxl_cmd;
-> > @@ -436,6 +437,43 @@ static CXLRetCode cmd_media_get_poison_list(struct cxl_cmd *cmd,
-> >      return CXL_MBOX_SUCCESS;
-> >  }
-> >  
-> > +static CXLRetCode cmd_media_inject_poison(struct cxl_cmd *cmd,
-> > +                                          CXLDeviceState *cxl_dstate,
-> > +                                          uint16_t *len)
-> > +{
-> > +    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-> > +    CXLPoisonList *poison_list = &ct3d->poison_list;
-> > +    CXLPoison *ent;
-> > +    struct inject_poison_pl {
-> > +        uint64_t dpa;
-> > +    };
-> > +    struct inject_poison_pl *in = (void *)cmd->payload;
-> > +    CXLPoison *p;
-> > +
-> > +    QLIST_FOREACH(ent, poison_list, node) {
-> > +        if (ent->start == in->dpa && ent->length == 64) {  
-> 
-> How does this interact with the QMP inject poison?  Should this be
-> checking the range of the entries?
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Good question and this implementation is definitely not right.
-Having looked at the spec I'm not entirely sure what happens wrt
-to the poison list if there is overlap. It leaves things less
-sharply defined than I'd like.
+> On Thu, 23 Feb 2023 at 15:57, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit 79b677d658d3d35e1e776826ac4abb28cdce6=
+9b8:
+>>
+>>   Merge tag 'net-pull-request' of https://github.com/jasowang/qemu
+>> into staging (2023-02-21 11:28:31 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-230223-1
+>>
+>> for you to fetch changes up to e9969376f01180d7bcbee25ae8333983da7eda2c:
+>>
+>>   cirrus.yml: Improve the windows_msys2_task (2023-02-23 15:48:23 +0000)
+>>
+>> ----------------------------------------------------------------
+>> testing updates:
+>>
+>>   - ensure socat available for tests
+>>   - skip socat tests for MacOS
+>>   - properly clean up fifos after use
+>>   - make fp-test less chatty
+>>   - store test artefacts on Cirrus
+>>   - control custom runners with QEMU_CI knobs
+>>   - disable benchmark runs under tsan build
+>>   - update ubuntu 2004 to 2204
+>>   - skip nios2 kernel replay test
+>>   - add tuxrun baselines to avocado
+>>   - binary build of tricore tools
+>>   - export test results on cross builds
+>>   - improve windows builds
+>
+> This hangs when I try to merge it, and eventually times out:
+>
+> Switched to branch 'master'
+> Your branch is up-to-date with 'origin/master'.
+> Already up-to-date.
+> Switched to branch 'staging'
+> fetching from remote https://gitlab.com/stsquad/qemu.git
+> tags/pull-testing-next-230223-1
+> remote: Enumerating objects: 108, done.
+> remote: Counting objects: 100% (108/108), done.
+> remote: Compressing objects: 100% (50/50), done.
+> remote: Total 108 (delta 59), reused 93 (delta 57), pack-reused 0
+> Receiving objects: 100% (108/108), 100.58 KiB | 7.74 MiB/s, done.
+> Resolving deltas: 100% (59/59), completed with 23 local objects.
+> From https://gitlab.com/stsquad/qemu
+>  * tag                       pull-testing-next-230223-1 -> FETCH_HEAD
+> Fetching submodule tests/fp/berkeley-testfloat-3
+>
+> fatal: unable to connect to github.com:
+> github.com[0: 140.82.121.3]: errno=3DConnection timed out
+>
+>
+> I don't understand why anything is trying to fetch from github
+> in the first place: the URL for the testfloat-3 submodule
+> is a gitlab one..
 
-The inject poison command calls out that it is not an error to inject poison
-into a DPA that already has poison present - so a range match would
-make more sense than what is here - I'll fix that.
+I think the underlying config needs updating:
 
-It also calls out that the device "shall add a the new physical
-address to the device's poison list and error source shall be set to an
-injected event".
+  .git/modules/tests/fp/berkeley-testfloat-3/config
 
-What it doesn't say is what should it do if there is already an entry
-for a different poison type.  Should we update the type?  That's
-nasty as it could lead to list overflow by turning one region into 2 or
-3.
+I'm surprised the git config for submodules doesn't carry the metadata.
 
-I guess no one really cares that much on the precise detail of poison
-injection hence the spec is a little vague.
-
-Anyhow, for now I'm thinking that if a range contains matches leave the
-type alone is easy and I can't find anything to say that's not a valid
-implementation choice.
-
-As a side note, we don't yet have events support (that series is later in
-the tree) so that fact injecting poison should add an entry to that isn't
-happening.  I don't propose doing that until after the generic event injection
-is done though as it will otherwise make that series more complex and
-I doubt this is the only case we need to cover of these various error
-reporting paths interacting.
-
-Jonathan
-
-
-> 
-> Ira
-> 
-> > +            return CXL_MBOX_SUCCESS;
-> > +        }
-> > +    }
-> > +
-> > +    if (ct3d->poison_list_cnt == CXL_POISON_LIST_LIMIT) {
-> > +        return CXL_MBOX_INJECT_POISON_LIMIT;
-> > +    }
-> > +    p = g_new0(CXLPoison, 1);
-> > +
-> > +    p->length = 64;
-> > +    p->start = in->dpa;
-> > +    p->type = CXL_POISON_TYPE_INJECTED;
-> > +
-> > +    /*
-> > +     * Possible todo: Merge with existing entry if next to it and if same type
-> > +     */
-> > +    QLIST_INSERT_HEAD(poison_list, p, node);
-> > +    ct3d->poison_list_cnt++;
-> > +
-> > +    return CXL_MBOX_SUCCESS;
-> > +}
-> > +
-> >  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
-> >  #define IMMEDIATE_DATA_CHANGE (1 << 2)
-> >  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
-> > @@ -465,6 +503,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
-> >          ~0, IMMEDIATE_CONFIG_CHANGE | IMMEDIATE_DATA_CHANGE },
-> >      [MEDIA_AND_POISON][GET_POISON_LIST] = { "MEDIA_AND_POISON_GET_POISON_LIST",
-> >          cmd_media_get_poison_list, 16, 0 },
-> > +    [MEDIA_AND_POISON][INJECT_POISON] = { "MEDIA_AND_POISON_INJECT_POISON",
-> > +        cmd_media_inject_poison, 8, 0 },
-> >  };
-> >  
-> >  void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> > -- 
-> > 2.37.2
-> >   
-> 
-> 
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
