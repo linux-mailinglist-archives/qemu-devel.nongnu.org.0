@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021A86A405F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DDF56A405A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:13:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbRR-0005Sn-3Q; Mon, 27 Feb 2023 06:13:13 -0500
+	id 1pWbRV-0005WA-L8; Mon, 27 Feb 2023 06:13:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pWbRE-0005R9-8M
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:13:00 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1pWbRR-0005V1-Dt
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:13:13 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pWbRB-000195-UQ
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:12:59 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id p16so3962994wmq.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:12:56 -0800 (PST)
+ id 1pWbRO-0001Ae-Th
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:13:13 -0500
+Received: by mail-wr1-x430.google.com with SMTP id bv17so5786896wrb.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:13:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=E/0wWoKSdV+vhplWmsuqfRD2TkeK2kz9slJBugAJD8g=;
- b=qTwaV3mt0TRhY4Npie/FkdIFG8+7sfcnoIMfynwMEssajwAwsNhK4WrMgKn3w5PxCf
- /XynVGNEx+7FO/yr/pNhAjYvq5fqk1mXT48eaIb+wwW4SGvtLAtpS86fsZwnfMleAg6j
- dqChsbB99qoncra7vBfueo8RaRlmaLZhGkCXQfF6zP8HZe2JJb8SIUNdafkxjCslF/FF
- JTxoMVibE62z73Vz45fZZnk7HHO1VDxUdp0EaezJiM7MVmgZSJGyQP6YDa0Wm09V4Vmp
- R3E1Nuc/tBLt94wdhjk5dAgEczmQmj3AAAJBmcl4j1TY72w5SDFnzuMEUQZXJxJG9Zup
- 90JA==
+ bh=kUdBAwRARd3s1dTlYLEQworfGBWLLm7cP+OrVd1zGSs=;
+ b=Qppk+9rw0fMgzHs/j+Mrw2esv9Iz8+gYFQyNcuethe6RE3h4OmFbsBAdBn40m/ASK5
+ 2BiWwzmmGu/h37/l3843LOSu7Tsa/px3mR4nmzY2/tfc0BUpNc5HeV8vOsRffyuWtZH8
+ wNRLNiEyW61QNd2v0NNCnQU0WJfzBopgLxEGOYI6RmlXvQbj31sGdU1aLtSBtsxY2Pvj
+ //6dIsGsa5i1N4VWij2DdsiPt+elqn+yD88DMV4trkPGUtY7nXMizPHd4KY+iGZiIpx5
+ /o1x7dACyApKEsHfj1rMuebEhLHSf4mvuPlwhNorauSSOdZL1gxY7BHP4LhtkxtGsTBD
+ qXpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=E/0wWoKSdV+vhplWmsuqfRD2TkeK2kz9slJBugAJD8g=;
- b=x2sI6whW7TOTmIrKhZT6vIMxj4aRA3TYVQyyCNVcrw8fvtfNfKUU5xcPjlI61JJSmX
- CwpU0Gac7A1WYE2ZLfhJycH0SgVPkeFRQBAUtY4+1DjNwREl3K2twt3PRkyaq8zqCzRR
- vFWS0T3+kZqaQg4X4UI0TOMi5aNyTb3C6VaV+M9BW76fyHuDRp79f6dZcO4l6/ydHCH7
- fNgS81Lk1ObAIoh4J0ZVNIV1ER0bY9LyG9oz2nQ14aadQTTnq51zAyHp7sIkg4WUd/3r
- 6dG/NBcOWx+klUHs3UiPKO97LBs0JEDWqkp2E+CE0zMVCuweLuBIFT3CoiPS///4tDLG
- UG6A==
-X-Gm-Message-State: AO0yUKUyqOp/AYjzWKxLcU2TfScA+/v/0n2Xf/B8qgbF11oRI/we1hua
- T/5/jFOlugDnP3+QGMxow01wtA==
-X-Google-Smtp-Source: AK7set+MtiqoZW6Viebegz12ybDeYkZgMx2TRKuqCdyhG7lTQaJAZBxN5flrKXNul6kfQqCXmjZRcA==
-X-Received: by 2002:a05:600c:329d:b0:3eb:3e24:59e2 with SMTP id
- t29-20020a05600c329d00b003eb3e2459e2mr3027351wmp.25.1677496375500; 
- Mon, 27 Feb 2023 03:12:55 -0800 (PST)
+ bh=kUdBAwRARd3s1dTlYLEQworfGBWLLm7cP+OrVd1zGSs=;
+ b=ztU7WKyFIX8vvuKpLhwZkvN8Dy3Ny5YqXCzupKJA5kdbI1RrHwQmWfXWcTvzjkIOXJ
+ a4hz0SgunzTIM4UO9bEYE6XDJCOTqMUWy4Cn0mzAMX1AwoFjweXAP1Vod2z4Mo5e3Ywn
+ 4snfnk/joIgZ9pEVR8ubleFxkceQlkVLVrpBzMzMaECUSt+1TnYVa89OK9/IruyOH4Ck
+ swROoXFGe12GxnDS01U4a8iETyimW0SKqiTU2b/YaNoYr1CErdXn55zzQ34pdveWnYcD
+ SghSD/+tDumtWGpWhmcwMYmGNTD9DlAO99Ih29H9LJ3a3V2Npf0PWoLQmjIkV6AItGdH
+ do7g==
+X-Gm-Message-State: AO0yUKXc263kVU7uomnMjVZZF4WrtYhUj9WNgBFvT/3NAWnc3lxTjnYF
+ 8xlqPeGCVDvbBQlIg9w1NliC5Q==
+X-Google-Smtp-Source: AK7set82kJlwWFXE5wjAmN+Y5bQpiw7GS48YBHIYaVFQZ2Y50xGx4XAl0y5S/MPtKTF4/DpDE6dFBw==
+X-Received: by 2002:a5d:5e8c:0:b0:2c3:d707:7339 with SMTP id
+ ck12-20020a5d5e8c000000b002c3d7077339mr6470717wrb.6.1677496389227; 
+ Mon, 27 Feb 2023 03:13:09 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- u26-20020a05600c441a00b003e21638c0edsm8956302wmn.45.2023.02.27.03.12.55
+ t1-20020a5d6a41000000b002c70a68111asm6920836wrw.83.2023.02.27.03.13.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 03:12:55 -0800 (PST)
+ Mon, 27 Feb 2023 03:13:08 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A85581FFB7;
- Mon, 27 Feb 2023 11:12:54 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 901581FFB7;
+ Mon, 27 Feb 2023 11:13:08 +0000 (GMT)
 References: <20230220091358.17038-1-philmd@linaro.org>
- <20230220091358.17038-8-philmd@linaro.org>
+ <20230220091358.17038-9-philmd@linaro.org>
 User-agent: mu4e 1.9.21; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, John Snow
  <jsnow@redhat.com>, qemu-block@nongnu.org, Richard Henderson
  <richard.henderson@linaro.org>, qemu-arm@nongnu.org
-Subject: Re: [PATCH v2 07/24] hw/ide/atapi: Restrict 'scsi/constants.h'
- inclusion
-Date: Mon, 27 Feb 2023 11:12:49 +0000
-In-reply-to: <20230220091358.17038-8-philmd@linaro.org>
-Message-ID: <87v8jnicp5.fsf@linaro.org>
+Subject: Re: [PATCH v2 08/24] hw/ide: Remove unused
+ 'qapi/qapi-types-run-state.h'
+Date: Mon, 27 Feb 2023 11:13:00 +0000
+In-reply-to: <20230220091358.17038-9-philmd@linaro.org>
+Message-ID: <87r0ubicor.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,11 +100,11 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> Only atapi.c requires the SCSI constants. No need to include
-> it in all files including "hw/ide/internal.h".
+> Missed in commit d7458e7754 ("hw/ide/internal: Remove unused
+> DMARestartFunc typedef") which removed the single use of RunState.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Message-Id: <20230215112712.23110-7-philmd@linaro.org>
+> Message-Id: <20230215112712.23110-8-philmd@linaro.org>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
