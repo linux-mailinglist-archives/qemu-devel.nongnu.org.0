@@ -2,89 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535F86A48B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835C96A48B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:57:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWhjM-0004gO-Go; Mon, 27 Feb 2023 12:56:08 -0500
+	id 1pWhjh-0005CT-BR; Mon, 27 Feb 2023 12:56:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pWhjK-0004Yn-AR
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:56:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pWhjX-0004xo-Km; Mon, 27 Feb 2023 12:56:21 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pWhjI-0004SS-Nc
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:56:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677520564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lomllCW7nDN/Y6izMfkHDcPsISnbquKestIO5XNSkbQ=;
- b=ag01ARiYQKr3YXZWlBmzTJ5bdmVAS1ERBKLKN4xUEN8bkgxYNo5ZCxVBLzwKWgCxFvsBM2
- 0oBzjE4d8gXtIx8i+357yq4SvMhwkKJgKwOQk/n29btBGVsD06CVq26aZkxgA56qFfEmW5
- sXPlFBSsyY88b2sd79wj4mnwP5TdS7Q=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-505-4QnU5h6yPWypdk0APVS0Bg-1; Mon, 27 Feb 2023 12:56:00 -0500
-X-MC-Unique: 4QnU5h6yPWypdk0APVS0Bg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cz22-20020a0564021cb600b004a245f58006so9866868edb.12
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 09:56:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lomllCW7nDN/Y6izMfkHDcPsISnbquKestIO5XNSkbQ=;
- b=Dd4fiLTuDG2G4Wer8CFYF5tHVeg7PDTMOPKQt8vnT4hktyLBvPD10BfDwN1h4Qcu2x
- 7VceJFzclVZgewhARiQhtpG97q2wDReVgCv+ecCGto+kVbIyAv5OTFoUmJiTxXxunfzd
- X1BAamQHVNvsEUfcugmScUWrem6q+6+bsDnDSUmwYbeHBBSzvxxu8X27un7+me/0HvF0
- gkhn7eR4B9LXfgz2ltnfzahTgcBngOFCKnGys89hQPzwr3OIQsSaP1Lf+92vsbK2g8Tq
- XtST6BVRORcE1kAM/cmisMO4+BmWiWf7G/f8fIttVSCv9zeSLQ4ny0QTCdspSkJu1rcV
- pVvQ==
-X-Gm-Message-State: AO0yUKUnC9g7Qeljw2xzJcfDX98by5EwHnvq13aPXE2JzMjB9E8HtG58
- 8H65wLy90PRGPs/ubuIT6/iIfwQ+/ek1Og3o7tgakEA+lB9ygfimjiWp0OOmnQON/Z0R3C1xZXe
- CWQdoAJZTwOGZkc9m2Fpe6EdWFhmGZAgdkXENyVevt3zMnFbZRMEHbd8tOSWb1EsZzz60v8Oo
-X-Received: by 2002:a17:907:2ce6:b0:8ec:439f:18fb with SMTP id
- hz6-20020a1709072ce600b008ec439f18fbmr328714ejc.29.1677520558669; 
- Mon, 27 Feb 2023 09:55:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set/7sBblZV8/EQ0TLeRj781xeXE4ObwD2S+3WNzGDTbu2Bj/OpOrUJGittUF7vEUwtav1KvY6Q==
-X-Received: by 2002:a17:907:2ce6:b0:8ec:439f:18fb with SMTP id
- hz6-20020a1709072ce600b008ec439f18fbmr328692ejc.29.1677520558223; 
- Mon, 27 Feb 2023 09:55:58 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- e29-20020a170906749d00b008c33ebac259sm3450130ejl.127.2023.02.27.09.55.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 09:55:57 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>
-Subject: [PULL 12/13] target/i386: KVM: allow fast string operations if host
- supports them
-Date: Mon, 27 Feb 2023 18:55:23 +0100
-Message-Id: <20230227175524.710880-13-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230227175524.710880-1-pbonzini@redhat.com>
-References: <20230227175524.710880-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pWhjV-0004Td-K3; Mon, 27 Feb 2023 12:56:19 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 26D555C0152;
+ Mon, 27 Feb 2023 12:56:13 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 27 Feb 2023 12:56:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1677520573; x=
+ 1677606973; bh=80hjrlqlexHHPcLCpZJQDNiDJotlGJiIxpwf4WkZL1I=; b=1
+ mKOmQp97rqp0412RtJF7/EWO3yBTPi3mfkLpw+anH36uU5YzLtl7pTs1OyK1iJvx
+ veuvnhpPSwXikLMkcsdp1OLZS433pPuErg8qdspvAVjbXxOlawN/nn4uGnv98Z7l
+ t7Di2Dc+HPOGqejX7uj9LjF/JMaTVngN3Qtjjw0o4pgY+r+PtFZCCb+ef6A7XIQN
+ KTREJ7I6Vvx0U/UCFfeXoAFONBorAQ/xfklmnm1He3mykvMCej9aggc8uLnr0nNJ
+ Qmm+eqpUQ6zlUuZCC4inUtvKsE/zBata0b64+1N4efv6bKYSCAwdW9OLEEHcFAW0
+ 1ImwIm9rfaeEg4ww5BHaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677520573; x=
+ 1677606973; bh=80hjrlqlexHHPcLCpZJQDNiDJotlGJiIxpwf4WkZL1I=; b=d
+ 0P6015auGBaeGS05d/EC43T/tAZQE9FZPdLNq+BinQqpxVbMyPKinIi4x8DsWenV
+ ixPU1ukNxf/AaJtFu/V91YEdRIRHNEBoU1/vONUkFJvwHhCz4XFlZFliBZztTm3i
+ cT433w0bOySA/sGXXXH9Xui2s9CG97fS0Ic54c6xUWTxMtUkfQRFx9xglNmS+kbW
+ XhAtgNsiZnCQakQufGNPq2ZcNuFSBc7/ZTUMb1c1zYSFDjl9JbimJ+uLb6d57Yk2
+ eQgTit4UNLHOZjOlhVjOKcbDEaLRXpMacZw5+M8lKM20hcLNqWJOcJ7ml87PTmoY
+ 06133TUKfLldRyMrSbH6A==
+X-ME-Sender: <xms:vO78Y03vmrK66ZwVukv-_A-Kv4afZ8LqmYmD0tyQIpf9bcBRlZDcSA>
+ <xme:vO78Y_Et6ecHnmsLpck6DsEV2zM-FjeACmtMPEX0KHeRdv0MN7cfZpB6E8LwOqfJ5
+ zuMXzLtDSkz55Z5Q2A>
+X-ME-Received: <xmr:vO78Y85tG42cXi033t1Q0qOpoyi-GU0-Iyvqc-UB9cSL5zG8ccAP4oKgzf7TRCjEUzWdYSVHjTyLANaTnyY2AR5K>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddguddtfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggugfgjse
+ htkeertddttdejnecuhfhrohhmpefrvghtvghrucffvghlvghvohhrhigrshcuoehpvght
+ vghrsehpjhgurdguvghvqeenucggtffrrghtthgvrhhnpeelhfektdelffdtudevffdthe
+ eghfdtjefhueelleelhfefvdfffedukeeffffhkeenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:vO78Y91AINyiFYBgK5x2STisOPZmdQSq5GbL2V_cwZ1CHzyLHU6lhw>
+ <xmx:vO78Y3HwAWIn9FNzQbh3rK-wb_b_9GV4tXSB2ezz4DETWRUH6HhXdA>
+ <xmx:vO78Y2-C658DBJDqYVfW0L8P96cJJQWDJhtXUyHjjORJ0m8LxE4AWA>
+ <xmx:ve78Y-BS64XczQRaKOh94-obnvbD02uK6U0nzAZQOeEEWX7xLCtRqg>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Feb 2023 12:56:11 -0500 (EST)
+Date: Mon, 27 Feb 2023 09:56:08 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: ~ssinprem <ssinprem@celestica.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-stable@nongnu.org,
+ ssumet@celestica.com, srikanth@celestica.com, kgengan@celestica.com,
+ clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au
+Subject: Re: [PATCH qemu v3 1/2] hw/at24c : modify at24c to support 1 byte
+ address mode
+Message-ID: <Y/zuuKaIihN8aYam@pdel-mbp.dhcp.thefacebook.com>
+References: <167660539263.10409.9736070122710923479-0@git.sr.ht>
+ <167660539263.10409.9736070122710923479-1@git.sr.ht>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <167660539263.10409.9736070122710923479-1@git.sr.ht>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=peter@pjd.dev;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,65 +103,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These are just a flag that documents the performance characteristic of
-an instruction; it needs no hypervisor support.  So include them even
-if KVM does not show them.  In particular, FZRM/FSRS/FSRC have only
-been added very recently, but they are available on Sapphire Rapids
-processors.
+On Fri, Feb 17, 2023 at 10:31:27AM +0700, ~ssinprem wrote:
+> From: Sittisak Sinprem <ssinprem@celestica.com>
+> 
+> Signed-off-by: Sittisak Sinprem <ssinprem@celestica.com>
+> ---
+>  hw/nvram/eeprom_at24c.c | 28 +++++++++++++++++++++++++---
+>  1 file changed, 25 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+> index 3328c32814..64259cde67 100644
+> --- a/hw/nvram/eeprom_at24c.c
+> +++ b/hw/nvram/eeprom_at24c.c
+> @@ -41,6 +41,12 @@ struct EEPROMState {
+>      uint16_t cur;
+>      /* total size in bytes */
+>      uint32_t rsize;
+> +    /* address byte number 
+> +     *  for  24c01, 24c02 size <= 256 byte, use only 1 byte
+> +     *  otherwise size > 256, use 2 byte
+> +     */
+> +    uint8_t asize;
 
-Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/kvm/kvm.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+I was going to say "why not address_size", but then I see right above there's
+"rsize", which is also very obscure lol, so whatever, this is keeping
+consistent with the existing code.
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 587030199192..d18bd2f3e889 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -352,7 +352,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
- {
-     struct kvm_cpuid2 *cpuid;
-     uint32_t ret = 0;
--    uint32_t cpuid_1_edx;
-+    uint32_t cpuid_1_edx, unused;
-     uint64_t bitmask;
- 
-     cpuid = get_supported_cpuid(s);
-@@ -399,10 +399,20 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-     } else if (function == 6 && reg == R_EAX) {
-         ret |= CPUID_6_EAX_ARAT; /* safe to allow because of emulated APIC */
-     } else if (function == 7 && index == 0 && reg == R_EBX) {
-+        /* Not new instructions, just an optimization.  */
-+        uint32_t ebx;
-+        host_cpuid(7, 0, &unused, &ebx, &unused, &unused);
-+        ret |= ebx & CPUID_7_0_EBX_ERMS;
-+
-         if (host_tsx_broken()) {
-             ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
-         }
-     } else if (function == 7 && index == 0 && reg == R_EDX) {
-+        /* Not new instructions, just an optimization.  */
-+        uint32_t edx;
-+        host_cpuid(7, 0, &unused, &unused, &unused, &edx);
-+        ret |= edx & CPUID_7_0_EDX_FSRM;
-+
-         /*
-          * Linux v4.17-v4.20 incorrectly return ARCH_CAPABILITIES on SVM hosts.
-          * We can detect the bug by checking if MSR_IA32_ARCH_CAPABILITIES is
-@@ -411,6 +421,11 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
-         if (!has_msr_arch_capabs) {
-             ret &= ~CPUID_7_0_EDX_ARCH_CAPABILITIES;
-         }
-+    } else if (function == 7 && index == 1 && reg == R_EAX) {
-+        /* Not new instructions, just an optimization.  */
-+        uint32_t eax;
-+        host_cpuid(7, 1, &eax, &unused, &unused, &unused);
-+        ret |= eax & (CPUID_7_1_EAX_FZRM | CPUID_7_1_EAX_FSRS | CPUID_7_1_EAX_FSRC);
-     } else if (function == 0xd && index == 0 &&
-                (reg == R_EAX || reg == R_EDX)) {
-         /*
--- 
-2.39.1
+> +
+>      bool writable;
+>      /* cells changed since last START? */
+>      bool changed;
+> @@ -91,7 +97,10 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
+>      EEPROMState *ee = AT24C_EE(s);
+>      uint8_t ret;
+>  
+> -    if (ee->haveaddr == 1) {
+> +    /* If got the byte address but not completely with address size
+> +     *  will return the invalid value
+> +     */
+> +    if (ee->haveaddr > 0 && ee->haveaddr < ee->asize) {
+>          return 0xff;
+>      }
+>  
+> @@ -108,11 +117,11 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
+>  {
+>      EEPROMState *ee = AT24C_EE(s);
+>  
+> -    if (ee->haveaddr < 2) {
+> +    if (ee->haveaddr < ee->asize) {
 
+Yay, love it 🍍
+
+>          ee->cur <<= 8;
+>          ee->cur |= data;
+>          ee->haveaddr++;
+> -        if (ee->haveaddr == 2) {
+> +        if (ee->haveaddr == ee->asize) {
+>              ee->cur %= ee->rsize;
+>              DPRINTK("Set pointer %04x\n", ee->cur);
+>          }
+> @@ -199,6 +208,18 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+>          }
+>          DPRINTK("Reset read backing file\n");
+>      }
+> +
+> +    /*
+> +     * If address size didn't define with property set
+> +     *   value is 0 as default, setting it by Rom size detecting.
+
+Helpful comment, good stuff
+
+> +     */
+> +    if (ee->asize == 0) {
+> +        if (ee->rsize <= 256) {
+> +            ee->asize = 1;
+> +        } else {
+> +            ee->asize = 2;
+> +        }
+> +    }
+>  }
+>  
+>  static
+> @@ -213,6 +234,7 @@ void at24c_eeprom_reset(DeviceState *state)
+>  
+>  static Property at24c_eeprom_props[] = {
+>      DEFINE_PROP_UINT32("rom-size", EEPROMState, rsize, 0),
+> +    DEFINE_PROP_UINT8("address-size", EEPROMState, asize, 0),
+>      DEFINE_PROP_BOOL("writable", EEPROMState, writable, true),
+>      DEFINE_PROP_DRIVE("drive", EEPROMState, blk),
+>      DEFINE_PROP_END_OF_LIST()
+
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+
+> -- 
+> 2.34.6
+> 
+> 
 
