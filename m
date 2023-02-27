@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AB66A4459
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:27:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17816A43F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:14:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe8A-0004Ls-97; Mon, 27 Feb 2023 09:05:30 -0500
+	id 1pWe5B-0002Ia-LR; Mon, 27 Feb 2023 09:02:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7y-0004Eu-AZ
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:19 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4E-0000gd-VW
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:33 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7w-0008FX-Ma
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:18 -0500
-Received: by mail-wr1-x435.google.com with SMTP id j2so6330434wrh.9
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:05:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4C-0007Yy-SI
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:26 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id bw19so6296146wrb.13
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hsqxNNnhQ7gTxIdnokXihLeuCOxh7TyQaqkWOyOK8ME=;
- b=sysjHBe10hz+V51SritdZTcs1CRGP9d/nPK4pl09u+eHDG3ijBjlZd2EiBE47fXGqI
- lmSmWucTLJpSxplEkYEKyISxyW/7TerUNVw0yNSj/ebNownzUkb1Om+OjRo7W9UHIyd6
- JPU0udsPVgT7Sf1fAVGD250FUqh4G13U4FFHiBtQu3b+a9/kicALM4ZbdeWfQ6YhtRwh
- 5p1hrjkxKgS1XfCXW7ASwdN3oqp0jtnDXqUASCgqxT63IUDhGZSaFR5zUZ7YwiPtldhJ
- FBw0oLTN9n2saa4Fuqz+VblVM0mpXs0oloy9NgG8fFL80LDNdS8ZAh+TWFbBMDJ9FEak
- P/7w==
+ :reply-to; bh=/KzSvjX9f4BCGIMkUG2tIfmdibE7Hacb/lDW3ntcm+Y=;
+ b=wYdBEPwFeJ9dtloednwvpgqd2a3dmH9iCt2y2zuh/1aqxEKhEstoy318C8gaXaH6JO
+ uQnSouejSOIllwnHROaREn1E38v61OQhqzXbgUtS+1l1r4cYxiD1wb+LlpHBdPK5X3Ck
+ 3hB4ric1YZ0PT/PjRIk2PyjxRpUBRP+/jV1tJs+Piag/6hWMx2qjql6lCYFbF3sRgdaR
+ XOcSeckxm4Ah6hm0QLaJC1OmZmH6qq3NkY1cEuEr0DEfMcleBCNPjcxAVt1BVtXWq+yZ
+ C3bmm2n+2a2gOWN6yKCEmfziZfojKKkYdi5YAZdswYvF2qZGc9GsejfHXfIQGM+WNjpT
+ sEuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hsqxNNnhQ7gTxIdnokXihLeuCOxh7TyQaqkWOyOK8ME=;
- b=C4KhNFEn3bNpCsmnuAcLd6zWucTh3gdht8P2fichxmxAYFtyH24J6CfZuHb/6ILLCA
- LjXTA9xGJJKVfq7Vg50VkJIHFzkGXWkPG7i1a3no9g/wPBy2eF2mM/5nSSV9aI5IDbgS
- WmIvC5mSC53oTxqDPxtmWoCzLP1hbGZbpakdOEQt3wY8iB8l4Z2p0dWCEtuTM2+5pij7
- oHldC4nHhphhxFr8Hz6CO7h8l8FLbqq38TgIpQ+C+5U8AK/Q8M45ZhaH5wyFN7uxLQlK
- 2x8t2ocyebdYulz9/9psShBqlwCQBmt0t8seiJ2EQ/IF3kdBFHQoQCymzuJ6UZdfALEL
- VSCA==
-X-Gm-Message-State: AO0yUKUCXYxLEEU1xTVwEil5J/vGKxq/QStdG8V1Jmb2Q7x2mfeGL3C2
- VMKz2wRSLAvRcWp4nobbCQbYh9y06UQByUTN
-X-Google-Smtp-Source: AK7set/rVG2p0vP1jqa3mwxsEt9Tr187OXBcyzOSXxNAJFRuA+sv4q+twFg6fY4ir8+PkORKbI3x3w==
-X-Received: by 2002:adf:ec03:0:b0:2c9:850c:6b15 with SMTP id
- x3-20020adfec03000000b002c9850c6b15mr6041808wrn.41.1677506715237; 
- Mon, 27 Feb 2023 06:05:15 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ bh=/KzSvjX9f4BCGIMkUG2tIfmdibE7Hacb/lDW3ntcm+Y=;
+ b=Q0paCAMjDxM+NtdnuvKCRsk5y42plomSeThsgw89cDSa7zKrR7+Naq9EghBPXh0aPz
+ 8cSSTJDgORrTODJREs+3dNOgoku+zCuyuVcOVH2ccSxHE3hNb+2XX3e9jTuh2Xf+Huhi
+ 9J+twpfIDP7NOIZ1ZCqbfDyDw4RVEXUSKpVaxMqs31vb26FesXNiz4miVjMxUnNxFQR+
+ 6xfuvDwEmC+a9RmiNTCwHjZxv4byuYp2qnL07vyqgNUjWJdXptID/LB4WrrlIbXjEArL
+ upJPUOKIsUIWoa3HQ1stELRroBsLz6teDV5wUfB1IaKruSARS22DTS9DTBmnyymIAJbP
+ FZeQ==
+X-Gm-Message-State: AO0yUKW3cqokAG9g6itn0QhQP4MB8WvebvFg0nV88FJI0SOBonXw2fEA
+ JnU0qLUOYWB6oz3+chW/uyVf+C7rmI7YyAoX
+X-Google-Smtp-Source: AK7set80suw588oUiYmCIOsVeU+o4gBOPnvqAB+HhipYkzcFcAKCt+Kb9srii+VG3r3J5taO+aj/yQ==
+X-Received: by 2002:adf:f34f:0:b0:2c7:fcc:2501 with SMTP id
+ e15-20020adff34f000000b002c70fcc2501mr12136896wrp.28.1677506483327; 
+ Mon, 27 Feb 2023 06:01:23 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n31-20020a05600c3b9f00b003e8dcc67bdesm14299032wms.30.2023.02.27.06.05.14
+ s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.22
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:05:14 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 06:01:22 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 043/126] hw/i2c/smbus_ich9: Move ich9_smb_set_irq() in front of
- ich9_smbus_realize()
-Date: Mon, 27 Feb 2023 15:00:50 +0100
-Message-Id: <20230227140213.35084-34-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
-References: <20230227140213.35084-1-philmd@linaro.org>
+Subject: [PULL 13/25] hw/gpio/max7310: Simplify max7310_realize()
+Date: Mon, 27 Feb 2023 14:00:50 +0000
+Message-Id: <20230227140102.3712344-14-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
+References: <20230227140102.3712344-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,61 +89,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-This is a preparation for the next commit to make it cleaner.
+Since &I2C_SLAVE(dev)->qdev == dev, no need to go back and
+forth with QOM type casting. Directly use 'dev'.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230213173033.98762-5-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20230220115114.25237-2-philmd@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/i2c/smbus_ich9.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ hw/gpio/max7310.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
-index 52ba77f3fc..d29c0f6ffa 100644
---- a/hw/i2c/smbus_ich9.c
-+++ b/hw/i2c/smbus_ich9.c
-@@ -80,6 +80,18 @@ static void ich9_smbus_write_config(PCIDevice *d, uint32_t address,
-     }
+diff --git a/hw/gpio/max7310.c b/hw/gpio/max7310.c
+index db6b5e3d764..031482d9398 100644
+--- a/hw/gpio/max7310.c
++++ b/hw/gpio/max7310.c
+@@ -183,11 +183,10 @@ static void max7310_gpio_set(void *opaque, int line, int level)
+  * but also accepts sequences that are not SMBus so return an I2C device.  */
+ static void max7310_realize(DeviceState *dev, Error **errp)
+ {
+-    I2CSlave *i2c = I2C_SLAVE(dev);
+     MAX7310State *s = MAX7310(dev);
+ 
+-    qdev_init_gpio_in(&i2c->qdev, max7310_gpio_set, 8);
+-    qdev_init_gpio_out(&i2c->qdev, s->handler, 8);
++    qdev_init_gpio_in(dev, max7310_gpio_set, ARRAY_SIZE(s->handler));
++    qdev_init_gpio_out(dev, s->handler, ARRAY_SIZE(s->handler));
  }
  
-+static void ich9_smb_set_irq(PMSMBus *pmsmb, bool enabled)
-+{
-+    ICH9SMBState *s = pmsmb->opaque;
-+
-+    if (enabled == s->irq_enabled) {
-+        return;
-+    }
-+
-+    s->irq_enabled = enabled;
-+    pci_set_irq(&s->dev, enabled);
-+}
-+
- static void ich9_smbus_realize(PCIDevice *d, Error **errp)
- {
-     ICH9SMBState *s = ICH9_SMB_DEVICE(d);
-@@ -125,18 +137,6 @@ static void ich9_smb_class_init(ObjectClass *klass, void *data)
-     adevc->build_dev_aml = build_ich9_smb_aml;
- }
- 
--static void ich9_smb_set_irq(PMSMBus *pmsmb, bool enabled)
--{
--    ICH9SMBState *s = pmsmb->opaque;
--
--    if (enabled == s->irq_enabled) {
--        return;
--    }
--
--    s->irq_enabled = enabled;
--    pci_set_irq(&s->dev, enabled);
--}
--
- I2CBus *ich9_smb_init(PCIBus *bus, int devfn, uint32_t smb_io_base)
- {
-     PCIDevice *d =
+ static void max7310_class_init(ObjectClass *klass, void *data)
 -- 
-2.38.1
+2.34.1
 
 
