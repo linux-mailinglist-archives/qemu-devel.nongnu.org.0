@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7CA6A3DFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 10:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAEFD6A3DFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 10:13:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWZYK-0006aU-4y; Mon, 27 Feb 2023 04:12:12 -0500
+	id 1pWZYq-0007eU-Up; Mon, 27 Feb 2023 04:12:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWZYI-0006Wa-7a
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 04:12:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWZYF-0003EO-9g
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 04:12:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677489126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1aB4Bn7wobn23hBjLm919VbWySt9cJ1R5a1rYO091io=;
- b=c0Y/BYGbnpQlX8w4Dzh4WpJQXS/VfUdM71dOIc5medCdW4xqL+Pi/uWrkEXOcfSPZQGb8l
- wCL8cu0A47oWJuIRuHnxeJLsEKFzksBbgkNkIu+Fwm0NpULngnEh/X/B/QBAWcPxfzSoZD
- jhcMCmWUHohnIz+izfcSAoy9y00z/AQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-517-YJGcMKEFOR2L3CNZrdnn4A-1; Mon, 27 Feb 2023 04:12:04 -0500
-X-MC-Unique: YJGcMKEFOR2L3CNZrdnn4A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- m7-20020a056000008700b002c7047ea429so635875wrx.21
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 01:12:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWZYl-0007aS-7A; Mon, 27 Feb 2023 04:12:39 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWZYi-0003IN-0I; Mon, 27 Feb 2023 04:12:38 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id eg37so22632917edb.12;
+ Mon, 27 Feb 2023 01:12:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KzaNf1BV/eaGYcmV4bEFPcP3Whyl+deLmO2zFyaQccw=;
+ b=LH49lfLXiIW2oFhywWISwSzcn+81doZKbJhdlXry2AZVwGiIggkcemTAcBOCzzlIvs
+ dPTWIHEkMvCu1BCs1Wh+2bST2tFkoNsJ/Eeks7xgmh6H+fS3pWxMh1J8BjQ1g6j7sv9b
+ K1EdcTslXC1DzdmXSAH8bZi+i/71ieDEAj6jKKss2rnjB1vhFtcNKH1uWY9ygj98gzEv
+ guYn2bZNYAABU3Duwb8tLVioyt0fnGJIdUqOHCjS5sQ/nPNPAkyQC4pCcQmejBd2nuUJ
+ yPhp1BQ/h63F8usJx/3quxYVuXa4cW8LRpP/AV/RKqBWyClrIVzIRTNB5nXhS9XNV/9t
+ 1zMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1aB4Bn7wobn23hBjLm919VbWySt9cJ1R5a1rYO091io=;
- b=uJF+CtjGtltjSPZXCLCKxkNPkO+uo8a7053EBejkQq/J3icS4T2w8G9qoJ0Zw5MpHR
- GSWanQADVV15jInz7PQxmuPeqne2kjjsOyYHaqemrpcydlhLctzoX1yi8VrAQ5xLB7EF
- Xf+9aZKZK1aPEimr5iw3gxtNs0Ypf+cFy5jI0UfRkK9+f8uHv6NMMM+7ijNiLTNU6W3Z
- 84ugLxrOaKj8OSWwycajTYi1yJ4Eq6QqvE3uYLaoG4OEtysl8RxRiM6CYC5Id78W/9Au
- V8biXbneSRhoPopMChPoFZCBz4gNh8130iucqlK56cUotiPMyktRliNXi9JXquMHBUuu
- ry8w==
-X-Gm-Message-State: AO0yUKV86pJ2RdM1uvq21/Av4DM46cU+esG4oOjzY5uuBg6bnubPKt9C
- Agb2xQ13aT4ddjZzhFFIah5PhEi4fcmhNd+4/W/uUBlFadI9ViPG7mXBkpQ6S+vIETgQ9yMLSME
- RO9Pl4M2LeM5gi5A=
-X-Received: by 2002:adf:ee50:0:b0:2c9:8b81:bcf2 with SMTP id
- w16-20020adfee50000000b002c98b81bcf2mr5296828wro.29.1677489123546; 
- Mon, 27 Feb 2023 01:12:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set/KgoIcpp6nstqqFM59B9tiHgdvGXp0MPXJ02BuGJLDUXJJTdaZrZP0KMfub3smWscu3d8eng==
-X-Received: by 2002:adf:ee50:0:b0:2c9:8b81:bcf2 with SMTP id
- w16-20020adfee50000000b002c98b81bcf2mr5296807wro.29.1677489123216; 
- Mon, 27 Feb 2023 01:12:03 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-150.web.vodafone.de.
- [109.43.176.150]) by smtp.gmail.com with ESMTPSA id
- fm26-20020a05600c0c1a00b003e6dcd562a6sm8668210wmb.28.2023.02.27.01.12.02
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KzaNf1BV/eaGYcmV4bEFPcP3Whyl+deLmO2zFyaQccw=;
+ b=ExntNHJd8NFgbSc7HQ+wFNM7IY2nixyCOtuIqHmjNmcl44YfPKih52b7lBNnWNEGBS
+ Hs8VjP/p85d9tStAncWJ4vDtS3ZPJl7yymgJcEX2YYC5k4GWPOZGJMc7g/+bjUSRZUHL
+ ZRa0vtbofJYhD2GcWv9n4H/hC3nt8+XtKH+cGeATerNP9zONOe+WtPd06k5aAo/PK7ax
+ T2bUE35ZigPVlV+BzbfyGi0bxSiKRr9GbmJGTyU1zhr3AwhDxsGptRoNNnTkM6ZxpOwL
+ RwmgWweC9tN/2RHzGgwyjDHLI8NeMKq23PpLwHdjP9v5Vq5E1tZFtMD7sORuXLCIohd4
+ K3OQ==
+X-Gm-Message-State: AO0yUKUGHUDFq3XY6cmFhKQZaMKIcgFPB0sFNw75qBCY7OQr85Z6V6yp
+ liKJTElXZtvHR9QoTYLX0fU=
+X-Google-Smtp-Source: AK7set9qr4tc5/SWC9Xk7eV+cHpmxkR2ALIMPC7alNSUUJhtKaMz3xZUVzUpuJYNHtAisJ7ADzq0DA==
+X-Received: by 2002:a17:906:4914:b0:8b1:7eaf:4708 with SMTP id
+ b20-20020a170906491400b008b17eaf4708mr36469864ejq.65.1677489153649; 
+ Mon, 27 Feb 2023 01:12:33 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-078-055-154-008.78.55.pool.telefonica.de.
+ [78.55.154.8]) by smtp.gmail.com with ESMTPSA id
+ gx16-20020a1709068a5000b008b69aa62efcsm2994179ejc.62.2023.02.27.01.12.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 01:12:02 -0800 (PST)
-Message-ID: <ea176722-9dee-0df6-edf2-b8ff8e1193ba@redhat.com>
-Date: Mon, 27 Feb 2023 10:12:01 +0100
+ Mon, 27 Feb 2023 01:12:33 -0800 (PST)
+Date: Mon, 27 Feb 2023 09:12:25 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 00/10] Resolve isabus global
+In-Reply-To: <EF0E7E03-2330-410C-BB6D-D0708D1DC05B@gmail.com>
+References: <20230126211740.66874-1-shentey@gmail.com>
+ <20230224112230-mutt-send-email-mst@kernel.org>
+ <EF0E7E03-2330-410C-BB6D-D0708D1DC05B@gmail.com>
+Message-ID: <5A6D6A22-C45C-478E-B1F7-B5EEC2A69205@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PULL 00/29] Block layer patches
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-References: <20230223185146.306454-1-kwolf@redhat.com>
- <CAFEAcA8uYhS=MoOuGpYo90uF7mCa1JH6fapy+qvW8iCsNMmBfA@mail.gmail.com>
- <d6280636-d40f-a79d-ead0-4b94a0628f10@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <d6280636-d40f-a79d-ead0-4b94a0628f10@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,107 +96,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/02/2023 22.35, Philippe Mathieu-Daudé wrote:
-> Hi,
-> 
-> On 24/2/23 19:50, Peter Maydell wrote:
->> On Thu, 23 Feb 2023 at 18:51, Kevin Wolf <kwolf@redhat.com> wrote:
->>>
->>> The following changes since commit 79b677d658d3d35e1e776826ac4abb28cdce69b8:
->>>
->>>    Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into 
->>> staging (2023-02-21 11:28:31 +0000)
->>>
->>> are available in the Git repository at:
->>>
->>>    https://repo.or.cz/qemu/kevin.git tags/for-upstream
->>>
->>> for you to fetch changes up to 0f385a2420d2c3f8ae7ed65fbe2712027664059e:
->>>
->>>    block/rbd: Add support for layered encryption (2023-02-23 19:49:35 +0100)
->>>
->>> ----------------------------------------------------------------
->>> Block layer patches
->>>
->>> - Lock the graph, part 2 (BlockDriver callbacks)
->>> - virtio-scsi: fix SCSIDevice hot unplug with IOThread
->>> - rbd: Add support for layered encryption
->>>
->>> ----------------------------------------------------------------
+
+
+Am 26=2E Februar 2023 20:38:24 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>
+>
+>Am 24=2E Februar 2023 16:22:48 UTC schrieb "Michael S=2E Tsirkin" <mst@re=
+dhat=2Ecom>:
+>>On Thu, Jan 26, 2023 at 10:17:30PM +0100, Bernhard Beschow wrote:
+>>> This series resolves the global "isabus" variable and is basically a v=
+2 of [1]=2E
+>>> Note that the majority of the work consists of fixing ISA API calls in=
+ PIIX IDE
+>>> which implicitly rely on the usage of the isabus global=2E
+>>>=20
+>>> Rather than adding an ISABus pointer in PCIIDEState as in [1] this ser=
+ies uses
+>>> a qemu_irq array which is roughly the approach outlined in [2]=2E More=
+over, this
+>>> series considers backwards compatibility for user-created PIIX IDE
+>>> "Frankensten" devices by fishing out TYPE_ISA_BUS from the QOM tree in=
+side
+>>> the PIIX IDE device model=2E This hack can be removed again once a dep=
+recation
+>>> period of user-createable PIIX IDE devices is over=2E This deprecation=
+ wasn't
+>>> announced yet but now might be a good time=2E
+>>>=20
+>>> This series is structured as follows: The first three patches massage =
+the ISA
+>>> code for patch 8=2E Patches 4-8 change the PIIX IDE device models to n=
+ot use the
+>>> isabus global implicitly=2E Finally, the last two patches clan up and =
+remove the
+>>> isabus singleton=2E
+>>
+>>I expect there will be a v3 of this, right?
+>
+>I would do it and I could rebase onto master if necessary=2E However, ano=
+ther series unrelated to this one but doing essentially the same thing with=
+ less backwards promises went through various iterations in the meantime=2E=
+ I don't know what the plan is=2E
+
+Phil, how shall we proceed? What's holding back the PIIX consolidation? It=
+ was fully reviewed at the beginning of the development window=2E Now the f=
+reeze is just a couple of days ahead=2E
+
+Best regards,
+Bernhard
+
+>
+>Best regards,
+>Bernhard
+>
 >>
 >>
->> Applied, thanks.
-> 
-> Configuring with --extra-cflags=-ggdb, on
-> 
-> C compiler for the host machine: clang (clang 14.0.0 "Apple clang version 
-> 14.0.0 (clang-1400.0.29.202)")
-> C linker for the host machine: clang ld64 820.1
-> Host machine cpu family: aarch64
-> Host machine cpu: aarch64
-> ...
->      CFLAGS                       : -ggdb -g -O2
-> 
-> I'm getting:
-> 
-> ../../block/io.c:182:38: warning: reading variable 'bdrv_aio_preadv' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->                                  drv->bdrv_aio_preadv ||
->                                       ^
-> ../../block/io.c:997:14: warning: reading variable 'bdrv_aio_preadv' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->      if (drv->bdrv_aio_preadv) {
->               ^
-> ../../block/io.c:1003:20: warning: reading variable 'bdrv_aio_preadv' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->          acb = drv->bdrv_aio_preadv(bs, offset, bytes, qiov, flags,
->                     ^
-> ../../block/io.c:1076:14: warning: reading variable 'bdrv_aio_pwritev' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->      if (drv->bdrv_aio_pwritev) {
->               ^
-> ../../block/io.c:1082:20: warning: reading variable 'bdrv_aio_pwritev' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->          acb = drv->bdrv_aio_pwritev(bs, offset, bytes, qiov, flags,
->                     ^
-> ../../block/io.c:2899:25: warning: reading variable 'bdrv_aio_flush' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->      } else if (bs->drv->bdrv_aio_flush) {
->                          ^
-> ../../block/io.c:2905:24: warning: reading variable 'bdrv_aio_flush' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->          acb = bs->drv->bdrv_aio_flush(bs, bdrv_co_io_em_complete, &co);
->                         ^
-> ../../block/io.c:2991:49: warning: reading variable 'bdrv_aio_pdiscard' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->      if (!bs->drv->bdrv_co_pdiscard && !bs->drv->bdrv_aio_pdiscard) {
->                                                  ^
-> ../../block/io.c:3058:28: warning: reading variable 'bdrv_aio_pdiscard' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->              acb = bs->drv->bdrv_aio_pdiscard(bs, offset, num,
->                             ^
-> ../../block/io.c:3094:24: warning: reading variable 'bdrv_aio_ioctl' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->      if (!drv || (!drv->bdrv_aio_ioctl && !drv->bdrv_co_ioctl)) {
->                         ^
-> ../../block/io.c:3102:20: warning: reading variable 'bdrv_aio_ioctl' 
-> requires holding mutex 'graph_lock' [-Wthread-safety-analysis]
->          acb = drv->bdrv_aio_ioctl(bs, req, buf, bdrv_co_io_em_complete, &co);
->                     ^
-> 11 warnings generated.
-
-This can also reproduced in the gitlab-ci:
-
-  https://gitlab.com/thuth/qemu/-/jobs/3837884040#L2862
-
-Peter, in case you also have a github account, could you maybe enable the 
-Cirrus-CI for your gitlab repo like it is explained here:
-
-  .gitlab-ci.d/cirrus/README.rst
-
-?
-
-  Thanks,
-   Thomas
-
+>>> Based-on: <20230109172347=2E1830-1-shentey@gmail=2Ecom>
+>>>           'Consolidate PIIX south bridges'
+>>>=20
+>>> v2:
+>>> - Big rework sticking closer to [1], giving it more credit and reusing=
+ one patch
+>>> - Add io port cleanup
+>>> - Rebase onto [4] so changes to PIIX could be done once and centrally
+>>>=20
+>>> Testing done:
+>>> * `make check`
+>>> * `=2E/qemu-system-x86_64 -M x-remote -device piix3-ide` still fails g=
+racefully with
+>>>   `qemu-system-x86_64: -device piix3-ide: No ISA bus found while piix3=
+-ide requires one`
+>>> * `qemu-system-x86_64 -M pc -m 2G -cdrom manjaro-kde-21=2E3=2E2-220704=
+-linux515=2Eiso`
+>>> * `qemu-system-x86_64 -M q35 -m 2G -device piix4-ide -cdrom \
+>>>    manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
+>>> * `qemu-system-mips64el -M malta -kernel vmlinux-3=2E2=2E0-4-5kc-malta=
+ -hda \
+>>>   debian_wheezy_mipsel_standard=2Eqcow2 -append "root=3D/dev/sda1 cons=
+ole=3DttyS0"`
+>>>=20
+>>> [1] https://patchew=2Eorg/QEMU/20210518215545=2E1793947-1-philmd@redha=
+t=2Ecom/
+>>> [2] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2020-03/msg01=
+707=2Ehtml
+>>> [3] https://people=2Edebian=2Eorg/~aurel32/qemu/mips/
+>>> [4] https://patchew=2Eorg/QEMU/20230109172347=2E1830-1-shentey@gmail=
+=2Ecom/
+>>>=20
+>>> Bernhard Beschow (9):
+>>>   softmmu/ioport: Move portio_list_init() in front of portio_list_add(=
+)
+>>>   softmmu/ioport: Merge portio_list_add() into portio_list_init()
+>>>   softmmu/ioport: Remove unused functions
+>>>   hw/ide/piix: Disuse isa_get_irq()
+>>>   Revert "hw/ide: Fix crash when plugging a piix3-ide device into the
+>>>     x-remote machine"
+>>>   hw/ide/pci: Add PCIIDEState::isa_irqs[]
+>>>   hw/ide/piix: Require an ISABus only for user-created instances
+>>>   hw/ide: Let ide_init_ioport() take a MemoryRegion argument instead o=
+f
+>>>     ISADevice
+>>>   hw/isa/isa-bus: Resolve isabus global
+>>>=20
+>>> Philippe Mathieu-Daud=C3=A9 (1):
+>>>   hw/isa: Remove use of global isa bus
+>>>=20
+>>>  include/exec/ioport=2Eh     |  8 ++---
+>>>  include/hw/ide/internal=2Eh |  3 +-
+>>>  include/hw/ide/pci=2Eh      |  2 ++
+>>>  include/hw/isa/isa=2Eh      | 15 ++++----
+>>>  hw/audio/adlib=2Ec          |  4 +--
+>>>  hw/display/qxl=2Ec          |  5 ++-
+>>>  hw/display/vga=2Ec          |  8 ++---
+>>>  hw/dma/i82374=2Ec           |  6 ++--
+>>>  hw/ide/ioport=2Ec           | 19 +++++-----
+>>>  hw/ide/isa=2Ec              |  4 ++-
+>>>  hw/ide/piix=2Ec             | 75 +++++++++++++++++++++++++++++++-----=
+---
+>>>  hw/isa/isa-bus=2Ec          | 54 +++++++++++++++-------------
+>>>  hw/isa/piix=2Ec             |  5 +++
+>>>  hw/watchdog/wdt_ib700=2Ec   |  4 +--
+>>>  softmmu/ioport=2Ec          | 70 +++++++++++-------------------------
+>>>  15 files changed, 149 insertions(+), 133 deletions(-)
+>>>=20
+>>> --=20
+>>> 2=2E39=2E1
+>>>=20
+>>
 
