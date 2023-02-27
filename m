@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A436A4398
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:02:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FF76A43C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:09:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe54-0001q8-BK; Mon, 27 Feb 2023 09:02:18 -0500
+	id 1pWe7K-0002ow-TE; Mon, 27 Feb 2023 09:04:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe46-0000dL-0V
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:29 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7I-0002bO-CK
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:36 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe41-0007XC-Vb
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:15 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- o38-20020a05600c512600b003e8320d1c11so6627700wms.1
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7G-0007zp-NT
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:36 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t15so6342858wrz.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=oID0XRKWjWT5mF7tiW/PUiEOqizwpNDJYfpRIj4ZwZM=;
- b=H0rma6gXAXIT3PwNQMJH9TfYLwot1Wvz/3s/xT/TG9qqSsMSi4uEse7gx7UBsrjMnX
- dntEzeCwLrG3Puxguxvq95RjC8h0GV3VdtgPlJ+nQpsRyc1mqcwZsHCSiOKXybivk2js
- PElGYL81CExuKpQnr9xgjySmC4Js0ipI5LyfWz+xie0hg1YQ/mYttb7z1Ujaah8q5Gyq
- 3ioDyUB3Pd+/IoA9fi+Hy+CcR8ieN/oqRZzfN1ecCMgJaUmAcs8+vLDIMiXbfqLrCtJy
- TlOiiOSDidU4vhSK/OP/C6OQ1oxFJhjKUVMyKdZ7KwmffQMPovqAz+pDrLL2GI3xf0tu
- 6kpw==
+ :reply-to; bh=L/MEORMaWwsIW0OPJMEmwpwT73YawX+aPFL1yN3FA/c=;
+ b=KSl5dTDth1soWlS4XeTFdFL85g1ju4W2aYC8sabeYe/GgRaoKE5e8XmkB8AVGYrYaI
+ MvaEnmz/q24gU3gLAF340V5+sU7bc5ioU8X7adzLGk4YEx0mgYalyMrV+EDZZS9GNg/m
+ usjJDtZTlSs+GP7EQMK6wDyLxlFSzAigF8sSv6Pt8RA7cb2lyhNCt0jVgCJnvexFa38N
+ iDmf8/+WESScK+mxO6uLmdPstuz9rQPPowUvdDyiZM9aG4va7niUhpiZg/irCxDidsZC
+ IxsC76yvGwNur2U9aYkD2LGL6/sMqwPYzBVicC25caK4qzxC5W9aPAdHqv6/jraNXYNJ
+ 6U+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oID0XRKWjWT5mF7tiW/PUiEOqizwpNDJYfpRIj4ZwZM=;
- b=bUc94ToRZmW/cli0wL5+1rHU7yeSKeLUj2cl9XjiSfU9QWQ3zoTvCGyRcVmS9KS+JR
- APudq5OjilDJGvH6e8HDmbyTUVHhy2OLdVY06x52hkKaidpQteaMxJyYs+Apuf4SHqbM
- SugCSqxcq8pA/X4vxvTjOKQ/5we/UgxA/HiN1X487r3uRRgqhq+5vuVCjknsFuanLOia
- IswKHfBmXoaq1IZGORewF6UCN9g2w28t8fyAa48sat19HvH646tSSzz7ASRkYBeYuOn8
- WtDumrAmvleOgbBOHo8NXm4NFnjuSvhBgb1U/sI4nAAwUsiqvWcWUPX5hZ8oCDiyuOfe
- EVTw==
-X-Gm-Message-State: AO0yUKU6uSvC+FkknMsIr7COAPrzlgFjmppMiTts5Orh/0yuyTaWgJP9
- 7Pj4M14xiZtuITYObIVBbtPvLNnb29NpBNjm
-X-Google-Smtp-Source: AK7set81ag2L8DDKFaPlzptGAmGqhwUIjhfPgCj0Ob91WmgpW5GxlVQPoemd1+LEzw/IcCQTm4d+Bw==
-X-Received: by 2002:a05:600c:331b:b0:3dc:4318:d00d with SMTP id
- q27-20020a05600c331b00b003dc4318d00dmr18799432wmp.11.1677506472129; 
- Mon, 27 Feb 2023 06:01:12 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=L/MEORMaWwsIW0OPJMEmwpwT73YawX+aPFL1yN3FA/c=;
+ b=Z+WP+/oYp2iqwRVlBJInAyKVvY+WtoIYjD4KxQWih+zpux61tGOt5aXM0ksSc2iy9w
+ btPmEZROLVHPI+R4Cfujg+2+R1wB9Qyl3w6RkbCkcqMDUnsnb9FD9c/M3QqhWixFYZ9a
+ Mw4oAboGlFhuzfjOSMw2KGpUUI/PBBldhA3NR9gJ3+zD/jdGlEmbP2DmR2q02f95IpRN
+ /KEXAsDRpemKdUvufwriLI1O3zUPDPdy5lV0MJ3+mxeWRO7xlMKNZIsR1/vyDbKyEByh
+ 8xozLYTOJn6Zrkh4lZs61jzJTPZumWF7wqSCBTNR3KuMWdA9p33khj37xLUt0eVPq8LW
+ tVuQ==
+X-Gm-Message-State: AO0yUKWq18hK/C4gWynU6RJqO138Xm6yc7DN/e7kL4Go93zoAr5RZc84
+ tJV0OJ8xQpS+Ot6JxP+8kDRQJz68dKsOkg6x
+X-Google-Smtp-Source: AK7set9VEgms6yx2v/agfcx+f9m7iqvXOaT7C1DrRWbQ9OecnWoB0B+Se4kpb1X0rT0JsX1Dt88bhg==
+X-Received: by 2002:a5d:4a50:0:b0:2c8:d399:1645 with SMTP id
+ v16-20020a5d4a50000000b002c8d3991645mr6711073wrs.37.1677506672838; 
+ Mon, 27 Feb 2023 06:04:32 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.11
+ f3-20020a0560001b0300b002c70e60abd4sm7282177wrz.2.2023.02.27.06.04.31
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 06:01:11 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 27 Feb 2023 06:04:32 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/25] target/arm: move helpers to tcg/
-Date: Mon, 27 Feb 2023 14:00:42 +0000
-Message-Id: <20230227140102.3712344-6-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
-References: <20230227140102.3712344-1-peter.maydell@linaro.org>
+Subject: [PULL 035/126] qemu/typedefs: Sort in case-insensitive alphabetical
+ order (again)
+Date: Mon, 27 Feb 2023 15:00:42 +0100
+Message-Id: <20230227140213.35084-26-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
+References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,206 +88,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Fontana <cfontana@suse.de>
+Following the recommendation added in commit a98c370c46
+("typedefs: (Re-)sort entries alphabetically"), and similarly
+to commit 64baadc272 ("Sort include/qemu/typedefs.h"), sort
+again the type definitions (in case-insensitive alphabetical
+order, using 'sort --ignore-case').
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20230217141832.24777-2-philmd@linaro.org>
 ---
- target/arm/{ => tcg}/vec_internal.h  |  0
- target/arm/tcg-stubs.c               | 23 +++++++++++++++++++++++
- target/arm/{ => tcg}/crypto_helper.c |  0
- target/arm/{ => tcg}/helper-a64.c    |  0
- target/arm/{ => tcg}/iwmmxt_helper.c |  0
- target/arm/{ => tcg}/m_helper.c      |  0
- target/arm/{ => tcg}/mte_helper.c    |  0
- target/arm/{ => tcg}/mve_helper.c    |  0
- target/arm/{ => tcg}/neon_helper.c   |  0
- target/arm/{ => tcg}/op_helper.c     |  0
- target/arm/{ => tcg}/pauth_helper.c  |  0
- target/arm/{ => tcg}/sme_helper.c    |  0
- target/arm/{ => tcg}/sve_helper.c    |  0
- target/arm/{ => tcg}/tlb_helper.c    |  0
- target/arm/{ => tcg}/vec_helper.c    |  0
- target/arm/meson.build               | 15 ++-------------
- target/arm/tcg/meson.build           | 13 +++++++++++++
- 17 files changed, 38 insertions(+), 13 deletions(-)
- rename target/arm/{ => tcg}/vec_internal.h (100%)
- create mode 100644 target/arm/tcg-stubs.c
- rename target/arm/{ => tcg}/crypto_helper.c (100%)
- rename target/arm/{ => tcg}/helper-a64.c (100%)
- rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
- rename target/arm/{ => tcg}/m_helper.c (100%)
- rename target/arm/{ => tcg}/mte_helper.c (100%)
- rename target/arm/{ => tcg}/mve_helper.c (100%)
- rename target/arm/{ => tcg}/neon_helper.c (100%)
- rename target/arm/{ => tcg}/op_helper.c (100%)
- rename target/arm/{ => tcg}/pauth_helper.c (100%)
- rename target/arm/{ => tcg}/sme_helper.c (100%)
- rename target/arm/{ => tcg}/sve_helper.c (100%)
- rename target/arm/{ => tcg}/tlb_helper.c (100%)
- rename target/arm/{ => tcg}/vec_helper.c (100%)
+ include/qemu/typedefs.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/vec_internal.h b/target/arm/tcg/vec_internal.h
-similarity index 100%
-rename from target/arm/vec_internal.h
-rename to target/arm/tcg/vec_internal.h
-diff --git a/target/arm/tcg-stubs.c b/target/arm/tcg-stubs.c
-new file mode 100644
-index 00000000000..1a7ddb36647
---- /dev/null
-+++ b/target/arm/tcg-stubs.c
-@@ -0,0 +1,23 @@
-+/*
-+ * QEMU ARM stubs for some TCG helper functions
-+ *
-+ * Copyright 2021 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internals.h"
-+
-+void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void raise_exception_ra(CPUARMState *env, uint32_t excp, uint32_t syndrome,
-+                        uint32_t target_el, uintptr_t ra)
-+{
-+    g_assert_not_reached();
-+}
-diff --git a/target/arm/crypto_helper.c b/target/arm/tcg/crypto_helper.c
-similarity index 100%
-rename from target/arm/crypto_helper.c
-rename to target/arm/tcg/crypto_helper.c
-diff --git a/target/arm/helper-a64.c b/target/arm/tcg/helper-a64.c
-similarity index 100%
-rename from target/arm/helper-a64.c
-rename to target/arm/tcg/helper-a64.c
-diff --git a/target/arm/iwmmxt_helper.c b/target/arm/tcg/iwmmxt_helper.c
-similarity index 100%
-rename from target/arm/iwmmxt_helper.c
-rename to target/arm/tcg/iwmmxt_helper.c
-diff --git a/target/arm/m_helper.c b/target/arm/tcg/m_helper.c
-similarity index 100%
-rename from target/arm/m_helper.c
-rename to target/arm/tcg/m_helper.c
-diff --git a/target/arm/mte_helper.c b/target/arm/tcg/mte_helper.c
-similarity index 100%
-rename from target/arm/mte_helper.c
-rename to target/arm/tcg/mte_helper.c
-diff --git a/target/arm/mve_helper.c b/target/arm/tcg/mve_helper.c
-similarity index 100%
-rename from target/arm/mve_helper.c
-rename to target/arm/tcg/mve_helper.c
-diff --git a/target/arm/neon_helper.c b/target/arm/tcg/neon_helper.c
-similarity index 100%
-rename from target/arm/neon_helper.c
-rename to target/arm/tcg/neon_helper.c
-diff --git a/target/arm/op_helper.c b/target/arm/tcg/op_helper.c
-similarity index 100%
-rename from target/arm/op_helper.c
-rename to target/arm/tcg/op_helper.c
-diff --git a/target/arm/pauth_helper.c b/target/arm/tcg/pauth_helper.c
-similarity index 100%
-rename from target/arm/pauth_helper.c
-rename to target/arm/tcg/pauth_helper.c
-diff --git a/target/arm/sme_helper.c b/target/arm/tcg/sme_helper.c
-similarity index 100%
-rename from target/arm/sme_helper.c
-rename to target/arm/tcg/sme_helper.c
-diff --git a/target/arm/sve_helper.c b/target/arm/tcg/sve_helper.c
-similarity index 100%
-rename from target/arm/sve_helper.c
-rename to target/arm/tcg/sve_helper.c
-diff --git a/target/arm/tlb_helper.c b/target/arm/tcg/tlb_helper.c
-similarity index 100%
-rename from target/arm/tlb_helper.c
-rename to target/arm/tcg/tlb_helper.c
-diff --git a/target/arm/vec_helper.c b/target/arm/tcg/vec_helper.c
-similarity index 100%
-rename from target/arm/vec_helper.c
-rename to target/arm/tcg/vec_helper.c
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index b2904b676b0..3e2f4030056 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -1,17 +1,9 @@
- arm_ss = ss.source_set()
- arm_ss.add(files(
-   'cpu.c',
--  'crypto_helper.c',
-   'debug_helper.c',
-   'gdbstub.c',
-   'helper.c',
--  'iwmmxt_helper.c',
--  'm_helper.c',
--  'mve_helper.c',
--  'neon_helper.c',
--  'op_helper.c',
--  'tlb_helper.c',
--  'vec_helper.c',
-   'vfp_helper.c',
-   'cpu_tcg.c',
- ))
-@@ -22,11 +14,6 @@ arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: fil
- arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-   'cpu64.c',
-   'gdbstub64.c',
--  'helper-a64.c',
--  'mte_helper.c',
--  'pauth_helper.c',
--  'sve_helper.c',
--  'sme_helper.c',
- ))
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index c7c8a85315..df4b55ac65 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -49,6 +49,7 @@ typedef struct DeviceState DeviceState;
+ typedef struct DirtyBitmapSnapshot DirtyBitmapSnapshot;
+ typedef struct DisplayChangeListener DisplayChangeListener;
+ typedef struct DriveInfo DriveInfo;
++typedef struct DumpState DumpState;
+ typedef struct Error Error;
+ typedef struct EventNotifier EventNotifier;
+ typedef struct FlatView FlatView;
+@@ -56,6 +57,7 @@ typedef struct FWCfgEntry FWCfgEntry;
+ typedef struct FWCfgIoState FWCfgIoState;
+ typedef struct FWCfgMemState FWCfgMemState;
+ typedef struct FWCfgState FWCfgState;
++typedef struct GraphicHwOps GraphicHwOps;
+ typedef struct HostMemoryBackend HostMemoryBackend;
+ typedef struct I2CBus I2CBus;
+ typedef struct I2SCodec I2SCodec;
+@@ -90,10 +92,10 @@ typedef struct PCIDevice PCIDevice;
+ typedef struct PCIEAERErr PCIEAERErr;
+ typedef struct PCIEAERLog PCIEAERLog;
+ typedef struct PCIEAERMsg PCIEAERMsg;
+-typedef struct PCIESriovPF PCIESriovPF;
+-typedef struct PCIESriovVF PCIESriovVF;
+ typedef struct PCIEPort PCIEPort;
+ typedef struct PCIESlot PCIESlot;
++typedef struct PCIESriovPF PCIESriovPF;
++typedef struct PCIESriovVF PCIESriovVF;
+ typedef struct PCIExpressDevice PCIExpressDevice;
+ typedef struct PCIExpressHost PCIExpressHost;
+ typedef struct PCIHostDeviceAddress PCIHostDeviceAddress;
+@@ -106,6 +108,7 @@ typedef struct QBool QBool;
+ typedef struct QDict QDict;
+ typedef struct QEMUBH QEMUBH;
+ typedef struct QemuConsole QemuConsole;
++typedef struct QEMUCursor QEMUCursor;
+ typedef struct QEMUFile QEMUFile;
+ typedef struct QemuLockable QemuLockable;
+ typedef struct QemuMutex QemuMutex;
+@@ -132,9 +135,6 @@ typedef struct VirtIODevice VirtIODevice;
+ typedef struct Visitor Visitor;
+ typedef struct VMChangeStateEntry VMChangeStateEntry;
+ typedef struct VMStateDescription VMStateDescription;
+-typedef struct DumpState DumpState;
+-typedef struct GraphicHwOps GraphicHwOps;
+-typedef struct QEMUCursor QEMUCursor;
  
- arm_softmmu_ss = ss.source_set()
-@@ -43,6 +30,8 @@ subdir('hvf')
- 
- if 'CONFIG_TCG' in config_all
-    subdir('tcg')
-+else
-+    arm_ss.add(files('tcg-stubs.c'))
- endif
- 
- target_arch += {'arm': arm_ss}
-diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
-index 044561bd4de..1f27ba1272e 100644
---- a/target/arm/tcg/meson.build
-+++ b/target/arm/tcg/meson.build
-@@ -23,10 +23,23 @@ arm_ss.add(files(
-   'translate-mve.c',
-   'translate-neon.c',
-   'translate-vfp.c',
-+  'crypto_helper.c',
-+  'iwmmxt_helper.c',
-+  'm_helper.c',
-+  'mve_helper.c',
-+  'neon_helper.c',
-+  'op_helper.c',
-+  'tlb_helper.c',
-+  'vec_helper.c',
- ))
- 
- arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-   'translate-a64.c',
-   'translate-sve.c',
-   'translate-sme.c',
-+  'helper-a64.c',
-+  'mte_helper.c',
-+  'pauth_helper.c',
-+  'sme_helper.c',
-+  'sve_helper.c',
- ))
+ /*
+  * Pointer types
 -- 
-2.34.1
+2.38.1
 
 
