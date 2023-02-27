@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D756A4242
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC07D6A425A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:12:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWcWp-0008K4-JV; Mon, 27 Feb 2023 07:22:51 -0500
+	id 1pWdHR-0008IL-Lb; Mon, 27 Feb 2023 08:11:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcWi-0008Ib-DK
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:22:44 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcWg-0006Xg-DU
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:22:43 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id bv17so6005293wrb.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:22:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CsT2YahkPmHQgEosCLjW9UC9/Yxb8K/Hl5ul7F+hJNQ=;
- b=fmBDnKdOkH9DJr9QFJ/aOvA4Pc7533h2alFApmDJxTx0feuJkY0D53sB4fpdiYGXIT
- wJZembClcOcVnx39/jqctJdDiI7IVacTDfc+wI7FX7ovhH+yVIAJRhBSH65+1DavD/GU
- JxieMzDWnkAskXHhWbCEXss+A9ulLcnFTEL0qWmiZQRL+B8iKEuKXoF2hbCeD8WUFtKN
- m5mtF+EUHwijy+FxpwFEGpoTby5BY1EA8s6Ie07C2HGTLHOIf7mbxxkQyz8Cg4jgJO7f
- 3hU1BVjTtMTRsvAq0e1PQh51Hinbh9UD8D4ZLBBVjOm6/NjaXpfAkdL9GZnumo6xrpV3
- 3lOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CsT2YahkPmHQgEosCLjW9UC9/Yxb8K/Hl5ul7F+hJNQ=;
- b=6rDFRjKaO8+yzuePJ5aeR8/DpAhjhUjOoIadDxB1pDLDEDuEWL/jO6+BJezR6emsg3
- rUTM+unO2wY2cBWBujt2GSz6YgYM2JEN0cjP74yVjXpnYrXgbEUKZ6+Sl5FoS6YoBXb1
- z5TuKp53QBr/SW8tp97L88jsGwUOo+4w+S9A/F50LeiFBDseKbEb0a6a9A4ujPnnhCih
- 4CL9mtKHlcA+4JXszDDfO0th/Uvkn0Yjr8UI3YeXRBcgUE3q5gw09Rk89hf3rk9aldYP
- Wk2ag9r6W8TfOJfDhtXFA5x2qo0nBEcPAVJ+vpA2/5qg5g9tapFirtJ1etHpWbpQx64A
- dsaQ==
-X-Gm-Message-State: AO0yUKXs7HhlZYUmo9Bi06PAOM/grUZmilpX0IbAaslynlxFWX92bFWI
- tVOQnlFlMoqNpONLu+LgJk0ShA==
-X-Google-Smtp-Source: AK7set8VCjOX//mMK6uAzOiLRLLQ+T4hI/dqUdMWcKfSTZvcYG5ifA84I6L2Oxa/Va5agzR9DK3svQ==
-X-Received: by 2002:a5d:6245:0:b0:2c9:57a8:eeac with SMTP id
- m5-20020a5d6245000000b002c957a8eeacmr6073308wrv.25.1677500560812; 
- Mon, 27 Feb 2023 04:22:40 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- f12-20020adffccc000000b002c705058773sm6928161wrs.74.2023.02.27.04.22.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 04:22:40 -0800 (PST)
-Message-ID: <554823d7-7437-d164-a93c-29faeef7857e@linaro.org>
-Date: Mon, 27 Feb 2023 13:22:37 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pWdHM-0008Hd-Fu
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:10:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pWdHK-0002u7-D6
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:10:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677503453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I0ObCjx3j/Lp6c/6sQzW921BoGV1+9uZOmiULpSL+B4=;
+ b=WimDeuiZ9yLZ2H6goOocZCvi2EiDBYeFQxftRQDbglS/q4mChGPQ5Mj6u93p2KfoLVf4x+
+ qQA1eOdPhtMuzHwwLu1B21U/fRMVdp6z1AWuWXRAgLx+SrW/ius0x80d9ow30dz95i7UM3
+ +Hb8o736zOFoqIqGAFzaL3YM7l0sIKU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-194-ZxhpmahZNoWZBppEGUyIgA-1; Mon, 27 Feb 2023 08:10:50 -0500
+X-MC-Unique: ZxhpmahZNoWZBppEGUyIgA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29827811E9C;
+ Mon, 27 Feb 2023 13:10:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 01B48C15BAD;
+ Mon, 27 Feb 2023 13:10:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id ECE9A21E6A1F; Mon, 27 Feb 2023 14:10:47 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,  Michael Roth
+ <michael.roth@amd.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,  Gerd Hoffmann
+ <kraxel@redhat.com>,  Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 2/2] qapi: Generate enum count as definition in
+ gen_enum_lookup()
+References: <20230224155451.20211-1-philmd@linaro.org>
+ <20230224155451.20211-3-philmd@linaro.org>
+Date: Mon, 27 Feb 2023 14:10:47 +0100
+In-Reply-To: <20230224155451.20211-3-philmd@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 24 Feb 2023 16:54:51
+ +0100")
+Message-ID: <87ilfnqmnc.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 12/12] hw: Move ich9.h to southbridge/
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Eduardo Habkost <eduardo@habkost.net>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Thomas Huth <thuth@redhat.com>
-References: <20230213173033.98762-1-shentey@gmail.com>
- <20230213173033.98762-13-shentey@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213173033.98762-13-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,32 +87,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 13/2/23 18:30, Bernhard Beschow wrote:
-> ICH9 is a south bridge which doesn't necessarily depend on x86, so move
-> it into the southbridge folder, analoguous to PIIX.
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-However it is still tied to it due to:
+> QAPI's gen_enum() generates QAPI enum values and the number
+> of this values (as foo__MAX).
+> The number of entries in an enum type is not part of the
+> enumerated values, but we generate it as such. See for
+> example:
+>
+>   typedef enum OnOffAuto {
+>       ON_OFF_AUTO_AUTO,
+>       ON_OFF_AUTO_ON,
+>       ON_OFF_AUTO_OFF,
+>       ON_OFF_AUTO__MAX,        <---------
+>   } OnOffAuto;
+>
+> Instead of declaring the enum count as the last enumerated
+> value, #define it, so it is not part of the enum. The previous
+> example becomes:
+>
+>   typedef enum OnOffAuto {
+>       ON_OFF_AUTO_AUTO,
+>       ON_OFF_AUTO_ON,
+>       ON_OFF_AUTO_OFF,
+>   #define ON_OFF_AUTO__MAX 3   <---------
+>   } OnOffAuto;
 
-hw/isa/lpc_ich9.c:315:    cpu_interrupt(first_cpu, CPU_INTERRUPT_SMI);
-hw/isa/lpc_ich9.c:462:                cpu_interrupt(cs, CPU_INTERRUPT_SMI);
-hw/isa/lpc_ich9.c:465:            cpu_interrupt(current_cpu, 
-CPU_INTERRUPT_SMI);
-target/i386/cpu.h:1145:#define CPU_INTERRUPT_SMI 
-CPU_INTERRUPT_TGT_EXT_2
+I'm in favour.  In fact, I've wanted to do this for a while, just never
+got around to it.
 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   MAINTAINERS                             | 1 +
->   include/hw/{i386 => southbridge}/ich9.h | 6 +++---
->   hw/acpi/ich9.c                          | 2 +-
->   hw/acpi/ich9_tco.c                      | 2 +-
->   hw/i2c/smbus_ich9.c                     | 2 +-
->   hw/i386/acpi-build.c                    | 2 +-
->   hw/i386/pc_q35.c                        | 2 +-
->   hw/isa/lpc_ich9.c                       | 2 +-
->   hw/pci-bridge/i82801b11.c               | 2 +-
->   tests/qtest/tco-test.c                  | 2 +-
->   10 files changed, 12 insertions(+), 11 deletions(-)
->   rename include/hw/{i386 => southbridge}/ich9.h (99%)
+> Since Clang enables the -Wswitch warning by default [*], remove all
+> pointless foo__MAX cases in switch statement, in order to avoid:
+>
+>  audio/audio.c:2231:10: error: case value not in enumerated type 'AudioFo=
+rmat' (aka 'enum AudioFormat') [-Wswitch]
+>     case AUDIO_FORMAT__MAX:
+>          ^
+>  ui/input.c:233:14: error: case value not in enumerated type 'KeyValueKin=
+d' (aka 'enum KeyValueKind') [-Wswitch]
+>         case KEY_VALUE_KIND__MAX:
+>              ^
+>  ...
+>
+> [*] https://clang.llvm.org/docs/DiagnosticsReference.html#wswitch
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+
+Falls apart when the enum is empty:
+
+    gcc -m64 -mcx16 -Iqga/qemu-ga.p -Iqga -I../qga -I. -Iqapi -Itrace -Iui =
+-Iui/shader -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/in=
+clude/sysprof-4 -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -std=3Dgnu11=
+ -O0 -g -isystem /work/armbru/qemu/linux-headers -isystem linux-headers -iq=
+uote . -iquote /work/armbru/qemu -iquote /work/armbru/qemu/include -iquote =
+/work/armbru/qemu/tcg/i386 -pthread -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 =
+-D_LARGEFILE_SOURCE -fno-strict-aliasing -fno-common -fwrapv -Wundef -Wwrit=
+e-strings -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wold-=
+style-declaration -Wold-style-definition -Wtype-limits -Wformat-security -W=
+format-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs -=
+Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wmissing-f=
+ormat-attribute -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-ps=
+abi -fstack-protector-strong -fPIE -MD -MQ qga/qemu-ga.p/meson-generated_..=
+_qga-qapi-emit-events.c.o -MF qga/qemu-ga.p/meson-generated_.._qga-qapi-emi=
+t-events.c.o.d -o qga/qemu-ga.p/meson-generated_.._qga-qapi-emit-events.c.o=
+ -c qga/qga-qapi-emit-events.c
+    In file included from qga/qga-qapi-emit-events.c:14:
+    qga/qga-qapi-emit-events.h:20:1: error: empty enum is invalid
+       20 | } qga_QAPIEvent;
+          | ^
+
+qga/qapi-schema.json does not define any events, so its (implicitly
+defined) event enumeration comes out empty.
+
+We could detect this, and either emit a dummy event, or suppress code
+generation for events entirely.
+
+Explicitly defined enumerations may also be empty.  qapi-code-gen.rst
+says:
+
+    Nothing prevents an empty enumeration, although it is probably not
+    useful.
+
+We could forbid empty enumerations.
+
+Speaking of qapi-code-gen.rst: it also needs an update.  Search for
+__MAX.
 
 
