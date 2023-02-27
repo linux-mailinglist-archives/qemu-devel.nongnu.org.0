@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14AA6A4A04
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 19:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 744EB6A4A90
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 20:06:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWiQn-0002vm-8B; Mon, 27 Feb 2023 13:41:01 -0500
+	id 1pWio5-0007Px-Kh; Mon, 27 Feb 2023 14:05:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWiQj-0002vR-BV
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:40:57 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pWio4-0007Pl-09
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:05:04 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWiQh-00069I-9u
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 13:40:56 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id i3so7735858plg.6
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 10:40:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pWio2-0004FA-8d
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:05:03 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id k37so4947935wms.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 11:05:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NQEVJMpf00c85p4M6QMwTRpg4xKJNRVJNpmBN5hc4C8=;
- b=LIvNMDHtAv+g9H1qqYrpojBkSQrAUkp0J6sfEP7TjaSrbf3y+UVRvCQJShem2hSK/h
- Oa1QgoRwp0kySzf/NsxGO4N3H4vXbDQdf1BsCsOz/q0jNkpTRqxAD9niRnrw31Dl7D9x
- Y8QzrjM++uMM75IwlBRrL6XKODxhuE5sPC61mlY/GHCVg6pdFMGgxmZT/JaZKMrsNWNQ
- ayY08tUq9AHRCdZSlQ/NiJ9VRWOtoh35EquQJ0pPcswGh/DnTvT5+GJwc/p1nLtMhMTA
- heavLM/m53vT4Lo36NLIc5vX6uymgWw1dmh1Ta+Gf+QKYRCrwNjsMGHmmhpDrXsfJtu5
- eDKA==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mUUO3V4j4IfzPuXbkd9GP8e4YnrmWIlkPWOTg4NEhq8=;
+ b=ouZvhFZIF+jLvtz4dDDPYLTPPlm07agiuTlV6N+KzFN1NkRrMFqzcx89oVJGrv1SjA
+ W2HUp11r2n56ddLfh5yLjquDPxUzRhE4FnyOwf1P3pLE3lu+HtJlb8HoZyrYeTdHYCKh
+ WTfMq+yh1tYgkCMGAGTTj9+j6UJQuFFZVQZ86Si9pRACELFUpkyyDKnUSi8mWAtloqZS
+ 1DyRAcQj5buvicmoGJImEMXblfBEY7lLyc0hPbuYAoRTUrFig+C7fyvvKsuXG0WIMcky
+ lfe/caNHi+brdkUz/mKiCqakZt1yOqpmySB/26XUnSU07Ar0tTJvo7GT6IFy48QaQ7zn
+ 0KUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NQEVJMpf00c85p4M6QMwTRpg4xKJNRVJNpmBN5hc4C8=;
- b=7GxDtPH+oLRowAlUc1S4gFBD6L/A/wFf9vue1U6f9Y22i47Wbm+LSW5HoBppDtqPTS
- mCV8EC+Rg/1+3n0DdBouKZiWRVav6YxUHWy2qc6jHhw2GC2W9g6krm7bagZZrtzJ5hb8
- vLU0uT1MAqRkb25c7rvQJXNYffQf0u/Dga0Wan6QugvizzFmYH981tuWLEfg6k9sNR/h
- NnIKvjrB+uowqeiH7G1j6s79dkwJCgWix/H+jatPBHcc58LvSTT7ejxh/dicokJtGNOp
- 65LQyYW40SGevfeD/3+TFuZ3y4ma4vP2l9Tcqixm5U5FpPiMDBEy7bYrEfaUlxvRik6s
- KjPg==
-X-Gm-Message-State: AO0yUKUYpdvAh7nz079o0ecryoDU4fJdl7Av4pZVlPR1gYwBGxrP8N3d
- LCvyU8KfhSp1WT1QK9bp4o2hrQ==
-X-Google-Smtp-Source: AK7set8VCL3qvHPaOePwfu9PekPVoyDJIfEyISc30g6glBbPr1rOtSMWYywBxaz2ahlQbsNwHe5h5w==
-X-Received: by 2002:a05:6a20:69a4:b0:cd:6172:3b6 with SMTP id
- t36-20020a056a2069a400b000cd617203b6mr391606pzk.33.1677523253579; 
- Mon, 27 Feb 2023 10:40:53 -0800 (PST)
-Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- n7-20020a6543c7000000b00502f9fba637sm4206545pgp.68.2023.02.27.10.40.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 10:40:53 -0800 (PST)
-Message-ID: <5b3120cd-ddfb-770b-3216-0f02e89c9c24@linaro.org>
-Date: Mon, 27 Feb 2023 08:40:50 -1000
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=mUUO3V4j4IfzPuXbkd9GP8e4YnrmWIlkPWOTg4NEhq8=;
+ b=AOtiVbHlVAxg3yZNOqdqdayBVUuLYTK7tgdK/nCOLrR36rDcxeg8DI/9pByXjvSSZE
+ z4qaE3RsVI9rTtB9IfnRvKJWJ4QbjQEiGDL1+9mQziPF79GplFMnhY4o28fBjr0xYemX
+ Hss5DieCbzM2PHcCVFjLlpspo/FcDUCNs99VyBbZboNomo6S0OoISQNx0yQ5osOvgOP6
+ GrIBZ5Hywd8AdJ1R+z2fhTRkpuA9P+m2NBF7r1qlTn0jEGSHNr7l8Snmss+gA2jQ0O5e
+ FHYQAXEUPgWNfRgk/ELwSuO/hzJvOvG8Ff/UaMHr/kyxIBbQgx101+GP24VEQezZXlhm
+ bf7g==
+X-Gm-Message-State: AO0yUKUwqoJxGay/CLcPLRUd0g1Du6KjvhsthYeHdUsuRgQQcto0pk9l
+ gQRm86Dfz4YmSSHgZUgGIHKdog==
+X-Google-Smtp-Source: AK7set84nUrbLpLOzmDUFuToYrLLUece18KD0PLW/sun+jJR+vZgtZQzNjUiLYeVoRxjRyk1cPf5YQ==
+X-Received: by 2002:a05:600c:4f81:b0:3ea:dbdd:b59c with SMTP id
+ n1-20020a05600c4f8100b003eadbddb59cmr155924wmq.15.1677524700289; 
+ Mon, 27 Feb 2023 11:05:00 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ y7-20020a05600c364700b003e2096da239sm13719882wmq.7.2023.02.27.11.04.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 11:04:59 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8FEF41FFB7;
+ Mon, 27 Feb 2023 19:04:59 +0000 (GMT)
+References: <20230227151110.31455-1-farosas@suse.de>
+ <20230227151110.31455-2-farosas@suse.de>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Wainer dos Santos
+ Moschetta
+ <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, =?utf-8?Q?Daniel?=
+ =?utf-8?Q?_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v3 1/1] gitlab: Use plain docker in
+ container-template.yml
+Date: Mon, 27 Feb 2023 19:00:03 +0000
+In-reply-to: <20230227151110.31455-2-farosas@suse.de>
+Message-ID: <87fsargc9w.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-11-gaosong@loongson.cn>
- <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
- <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
- <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
- <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
- <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
- <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
- <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
- <5ce46e81-b2c3-8b45-1bd9-9705520f4557@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <5ce46e81-b2c3-8b45-1bd9-9705520f4557@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,59 +99,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/27/23 02:55, gaosong wrote:
-> 
-> 在 2023/2/25 上午3:24, Richard Henderson 写道:
->>>          {
->>>              .fniv = gen_vaddwev_s,
->>>              .fno = gen_helper_vaddwev_q_d,
->>>              .opt_opc = vecop_list,
->>>              .vece = MO_128
->>>          },
->>
->> There are no 128-bit vector operations; you'll need to do this one differently.
->>
->> Presumably just load the two 64-bit elements, sign-extend into 128-bits, add with 
->> tcg_gen_add2_i64, and store the two 64-bit elements as output.  But that won't fit into 
->> the tcg_gen_gvec_3 interface.
->>
-> 'sign-extend into 128-bits,'   Could you give a example?
 
-Well, for vadd, as the example we have been using:
+Fabiano Rosas <farosas@suse.de> writes:
 
-     tcg_gen_ld_i64(lo1, cpu_env, offsetof(vector_reg[A].lo));
-     tcg_gen_ld_i64(lo2, cpu_env, offsetof(vector_reg[B].lo));
-     tcg_gen_sari_i64(hi1, lo1, 63);
-     tcg_gen_sari_i64(hi2, lo2, 63);
-     tcg_gen_add2_i64(lo1, hi1, lo1, hi1, lo2, hi2);
-     tcg_gen_st_i64(lo1, cpu_env, offsetof(vector_reg[R].lo));
-     tcg_gen_st_i64(hi1, cpu_env, offsetof(vector_reg[R].hi));
+> Our dockerfiles no longer reference layers from other qemu images so
+> we can now use 'docker build' on them.
+>
+> Also reinstate the caching that was disabled due to bad interactions
+> with certain runners. See commit 6ddc3dc7a8 ("tests/docker: don't use
+> BUILDKIT in GitLab either"). We now believe those issues to be fixed.
+>
+> The COMMON_TAG needed to be fixed for the caching to work. The
+> docker.py script was not using the variable, but constructing the
+> correct URL directly.
+>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>  .gitlab-ci.d/container-template.yml | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container=
+-template.yml
+> index c434b9c8f3..519b8a9482 100644
+> --- a/.gitlab-ci.d/container-template.yml
+> +++ b/.gitlab-ci.d/container-template.yml
+> @@ -6,17 +6,16 @@
+>      - docker:dind
+>    before_script:
+>      - export TAG=3D"$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+> -    - export COMMON_TAG=3D"$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
+> +    - export COMMON_TAG=3D"$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:lat=
+est"
+>      - apk add python3
+>      - docker info
+>      - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_=
+PASSWORD"
+>    script:
+>      - echo "TAG:$TAG"
+>      - echo "COMMON_TAG:$COMMON_TAG"
+> -    - ./tests/docker/docker.py --engine docker build
+> -          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
+> -          -r $CI_REGISTRY/qemu-project/qemu
+> -    - docker tag "qemu/$NAME" "$TAG"
+> +    - docker build --tag "$TAG" --cache-from "$TAG" --cache-from "$COMMO=
+N_TAG"
+> +      --build-arg BUILDKIT_INLINE_CACHE=3D1
+> +      -f "tests/docker/dockerfiles/$NAME.docker" "."
 
-The middle two sari operations replicate the sign bit across the entire high word, so the 
-pair of variables constitute a sign-extended 128-bit value.
+I wonder why this doesn't injest a bunch of context. If I run:
 
-> I see a example at target/ppc/translate/vmx-impl.c.inc
->      static bool do_vx_vprtyb(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
->      {
->              ...
->              {
->              .fno = gen_helper_VPRTYBQ,
->              .vece = MO_128
->              },
->              tcg_gen_gvec_2(avr_full_offset(a->vrt), avr_full_offset(a->vrb),
->                                 16, 16, &op[vece - MO_32]);
->          return true;
->      }
-> TRANS(VPRTYBQ, do_vx_vprtyb, MO_128)
-> ...
-> 
-> do_vx_vprtyb  fit the fno into the tcg_gen_gvec_2.
-> I am not sure this  example is right.
+  docker build --cache-from registry.gitlab.com/stsquad/qemu/qemu/debian-al=
+pha-cross --build-arg BUILDKIT_INLINE_CACHE=3D1  --build-arg USER=3Dalex --=
+build-arg UID=3D1000 -t qemu
+  /debian-alpha-cross -f "/home/alex/lsrc/qemu.git/tests/docker/dockerfiles=
+/debian-alpha-cross.docker" .
 
-Ah, well.  When .fno is the only callback, the implementation is entirely out-of-line, and 
-the .vece member is not used.  I see that is confusing.
+it attempts to bring my entire build directory in as build context. This
+is why we use the - < docker form in the Makefile.
 
+>      - docker push "$TAG"
+>    after_script:
+>      - docker logout
 
-r~
+So what I don't understand is if I do:
 
+  docker pull registry.gitlab.com/stsquad/qemu/qemu/debian-alpha-cross
+  docker build --cache-from registry.gitlab.com/stsquad/qemu/qemu/debian-al=
+pha-cross --build-arg
+    BUILDKIT_INLINE_CACHE=3D1 -t qemu/debian-alpha-cross - <
+    /home/alex/lsrc/qemu.git/tests/docker/dockerfiles/debian-alpha-cross.do=
+cker
+
+I still see pretty much a full rebuild of the image.
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
