@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781016A43D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:10:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512FA6A43B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:06:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe50-0001Go-8u; Mon, 27 Feb 2023 09:02:16 -0500
+	id 1pWe8e-0004hb-RA; Mon, 27 Feb 2023 09:06:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe4K-0000lS-C6
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:34 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8M-0004cQ-Pg
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:47 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe4H-0007a0-9R
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:30 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id bv17so6337274wrb.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8K-0008P7-QO
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:42 -0500
+Received: by mail-wr1-x430.google.com with SMTP id bw19so6314416wrb.13
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:05:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=KlVlw+pS2hFrB7UptmYDw7cy3LLQizZlFOoz6eLzmsM=;
- b=cxXGaEndh7+OuX+TZ2yTc+x+y7rL/E4bsZJDXjEvRXtTTLJpdBK7JDx8EkeLx9qGwo
- nW22qX0VAK18PSNR4hHGKLFe0UaRaM3FQR5lAebRS60jIVwi7vrif47uurlErnwlwtSM
- aBkVaJrBiNSJWFFJ7fS1AuzJ39NqMID8OWc+levdCR0jbFth3fyuTEfm2zvBfZmagGVl
- U8WltLxFLSZQPw+4vHHEhkxMXbEPvCINVxUtNG+mBJgnHHJiC7k2eAvXQT1Aj6uqBIRs
- DUEtbcXTKVQ7GVo/018Pvh4G2u2A+4mjC7IJIBZZQAgoMX+i3lvPyUWgFjqXJ2b6WKhZ
- 93yg==
+ :reply-to; bh=IhuV0d5qQy+FV+jJNXdu8LUM/kunpfBbQzrkBv7Z+wQ=;
+ b=uEVoVhUObMydO8btZ1rAGEIGHqnk4N1IfOIL0CGdfMowv8B7G7Q9RpBtdSJzln6Ldh
+ e05SictgQvjbijM6NDQGpCKoUIr9YndMqnIF4gxBeyZMMKjFZZG8paZ4aNueyOhR5J3l
+ yclxHNPlODVy8EPNWGYfUR3c0fZhMvAN/2TFHv0TJuxcMA/C07Nwy0NxsxmCLmOO7pxs
+ tZ5VPFdPT6Xn14G2u3D8xLSOhtwiJ9SZOwgfh1DMjaoboT0qCSzg5FqfN1KcTvbswrsP
+ mSmFwuSQmk48SIh+ha9rl3IEadzuimFayMnaR9mwE/wiGNCBntj3VusndlfFvHdLX5Zi
+ kroQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KlVlw+pS2hFrB7UptmYDw7cy3LLQizZlFOoz6eLzmsM=;
- b=b1gO9lFfgK2iPs2+HA5ZijCEz8P9AjAiBtlVYV+acu9L11ibB/30/A6f7ahVVQWdcg
- 5lBN9uqx/gJszBQwGKl/+OF5v/+qqDmpIJtgj5bo9GFP6CCZVO42tKDf/SW6UBN/vJ1C
- Lq26r8BeoPhG0Wlrag0pY1RnBlNd21O+c9mW92HmceU1Rlh94Uvw4qD/9eKhrcityX2g
- s18C9mCc7azSsBdAZcjHc9EdogK4cO2qeTdrTTY5oosSuRRbxQ8UqgxEaEN/BlyPa3i5
- tsg4XTr8i5Mb57ilyV96rSGnr5U5COSNYluGZjqRc8R9n5B5kvpVAYFlVDBxLMiqLFuz
- xsmg==
-X-Gm-Message-State: AO0yUKUSASedaJjlkdbfJOZ2wOsRhLs0W68HQdBjyPAFESMsG9XxkJSN
- vvBSn0I7tvjWITcCYOVefD2lmUS/yEcJIveC
-X-Google-Smtp-Source: AK7set8A9yIIi63B44mHDAItgg2IvyeBDxU/tiXUrDYGJIaSi/AlNCdLTG3Ph2EbBU14CmS7vWaYXg==
-X-Received: by 2002:a5d:4bc6:0:b0:2ca:7dcd:530 with SMTP id
- l6-20020a5d4bc6000000b002ca7dcd0530mr3957768wrt.37.1677506487343; 
- Mon, 27 Feb 2023 06:01:27 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=IhuV0d5qQy+FV+jJNXdu8LUM/kunpfBbQzrkBv7Z+wQ=;
+ b=c90G7dOiAzWgUe7PxlmhObCgHQkrN9NdLoq1BzbCoNXbwrzcj1wfxJi0UusdD3yS30
+ uN8ZYP7YBdQUSdFedLmug9ULd9B5FtMlitt3yuM1xtgXaBcKmcqzQdxIc7CkG99nov5N
+ 63NGnGNKjJp5LN9pXBVzFtNxvt8Wpp0VwIg95F1VecVePcrkNtr4xUPdpL32a8O6M/tt
+ 0HgOuJOV/SO00XNo+Jvq844oIEhPmvSLG8ethrf7cRVmaUap5ruSo/O3pIHc3+IcPq8M
+ 4xeDMvt7xsFx5egZRZePbjcmEGVWV91yZlExapYAvOuMyd+7NJl35nALTAH3OSWivoBB
+ cv1w==
+X-Gm-Message-State: AO0yUKW0U3esyzoT4pILCgczAF8oxzWL6bBeJTM4Wtp/q077xTP756tL
+ iqZDBsiZ+ifVwJYafJyWRZXEozRJxGrHy3SB
+X-Google-Smtp-Source: AK7set/lnVvE7cGrxky3RrlDPn4sqn/BolL6/hcbWXFFLHVhegAGSakgRMGxiix8+R1ePiCUuDh59g==
+X-Received: by 2002:a5d:4d4b:0:b0:2bf:d0a4:3e63 with SMTP id
+ a11-20020a5d4d4b000000b002bfd0a43e63mr21043169wru.44.1677506738333; 
+ Mon, 27 Feb 2023 06:05:38 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.26
+ e7-20020a5d5947000000b002c5a07e940csm7229548wri.33.2023.02.27.06.05.37
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 06:01:26 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 27 Feb 2023 06:05:38 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/25] hw/char/xilinx_uartlite: Expose XILINX_UARTLITE QOM type
-Date: Mon, 27 Feb 2023 14:00:53 +0000
-Message-Id: <20230227140102.3712344-17-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
-References: <20230227140102.3712344-1-peter.maydell@linaro.org>
+Subject: [PULL 047/126] hw/isa/lpc_ich9: Remove redundant ich9_lpc_reset()
+ invocation
+Date: Mon, 27 Feb 2023 15:00:54 +0100
+Message-Id: <20230227140213.35084-38-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
+References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,65 +88,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Bernhard Beschow <shentey@gmail.com>
 
+ich9_lpc_reset() is the dc->reset callback which is called
+automatically. No need to call it explicitly during k->realize.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230213173033.98762-9-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230220115114.25237-5-philmd@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/char/xilinx_uartlite.h | 6 +++++-
- hw/char/xilinx_uartlite.c         | 4 +---
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ hw/isa/lpc_ich9.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/include/hw/char/xilinx_uartlite.h b/include/hw/char/xilinx_uartlite.h
-index dd09c068019..753d3a453ec 100644
---- a/include/hw/char/xilinx_uartlite.h
-+++ b/include/hw/char/xilinx_uartlite.h
-@@ -18,6 +18,10 @@
- #include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
- #include "qapi/error.h"
-+#include "qom/object.h"
-+
-+#define TYPE_XILINX_UARTLITE "xlnx.xps-uartlite"
-+OBJECT_DECLARE_SIMPLE_TYPE(XilinxUARTLite, XILINX_UARTLITE)
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index c5060d145f..2a4baac129 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -57,8 +57,6 @@
+ /*****************************************************************************/
+ /* ICH9 LPC PCI to ISA bridge */
  
- static inline DeviceState *xilinx_uartlite_create(hwaddr addr,
-                                         qemu_irq irq,
-@@ -26,7 +30,7 @@ static inline DeviceState *xilinx_uartlite_create(hwaddr addr,
-     DeviceState *dev;
-     SysBusDevice *s;
- 
--    dev = qdev_new("xlnx.xps-uartlite");
-+    dev = qdev_new(TYPE_XILINX_UARTLITE);
-     s = SYS_BUS_DEVICE(dev);
-     qdev_prop_set_chr(dev, "chardev", chr);
-     sysbus_realize_and_unref(s, &error_fatal);
-diff --git a/hw/char/xilinx_uartlite.c b/hw/char/xilinx_uartlite.c
-index 99b9a6f851e..180bb97202c 100644
---- a/hw/char/xilinx_uartlite.c
-+++ b/hw/char/xilinx_uartlite.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "hw/char/xilinx_uartlite.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-@@ -53,9 +54,6 @@
- #define CONTROL_RST_RX    0x02
- #define CONTROL_IE        0x10
- 
--#define TYPE_XILINX_UARTLITE "xlnx.xps-uartlite"
--OBJECT_DECLARE_SIMPLE_TYPE(XilinxUARTLite, XILINX_UARTLITE)
+-static void ich9_lpc_reset(DeviceState *qdev);
 -
- struct XilinxUARTLite {
-     SysBusDevice parent_obj;
+ /* chipset configuration register
+  * to access chipset configuration registers, pci_[sg]et_{byte, word, long}
+  * are used.
+@@ -439,8 +437,6 @@ static void ich9_lpc_pm_init(ICH9LPCState *lpc)
+                                  sizeof lpc->smi_features_ok,
+                                  true);
+     }
+-
+-    ich9_lpc_reset(DEVICE(lpc));
+ }
  
+ /* APM */
 -- 
-2.34.1
+2.38.1
 
 
