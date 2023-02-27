@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3F86A4647
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 16:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B04F6A4661
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 16:47:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWfea-0001fx-Pj; Mon, 27 Feb 2023 10:43:05 -0500
+	id 1pWfhv-0006IN-CL; Mon, 27 Feb 2023 10:46:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pWfeY-0001b9-94
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:43:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pWfht-0006G3-3K
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:46:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pWfeW-00030R-R5
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:43:02 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pWfhr-0003rC-IB
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:46:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677512580;
+ s=mimecast20190719; t=1677512786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MZmm0dkHHu1gtdR6Pn8es1YlTHROluQ3L0iSaEbgzvo=;
- b=UuNW3g91OR0jNRkfJpWmCjw9Uc224clK2O0valgFbuSksr9FtWCvPHW2O6wsvpu8wi6tzv
- ZTiZaNuoZgFrA0tByJP7gl77+Oxs7T+G6ZQ/F8Pig0TphNR2VBuzmQ3gsLLLY5I+etPWo1
- VARUYcNDbvJ4+19oRZegTHLHUmColr0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-xAohin6jM4WwRqsvuOeokA-1; Mon, 27 Feb 2023 10:42:56 -0500
-X-MC-Unique: xAohin6jM4WwRqsvuOeokA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 158911C02D30;
- Mon, 27 Feb 2023 15:42:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ABEC71121314;
- Mon, 27 Feb 2023 15:42:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 957C321E6A1F; Mon, 27 Feb 2023 16:42:54 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eduardo Habkost <eduardo@habkost.net>,  Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>,  Philippe =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?=
- <philmd@linaro.org>,  Yanan Wang <wangyanan55@huawei.com>,  Eric Blake
- <eblake@redhat.com>
-Subject: Re: [PATCH] qapi: Add 'acpi' field to 'query-machines' output
-References: <c556e203447618f5e1020878b1781428b16ad97e.1677511289.git.pkrempa@redhat.com>
-Date: Mon, 27 Feb 2023 16:42:54 +0100
-In-Reply-To: <c556e203447618f5e1020878b1781428b16ad97e.1677511289.git.pkrempa@redhat.com>
- (Peter Krempa's message of "Mon, 27 Feb 2023 16:31:39 +0100")
-Message-ID: <875ybnp11d.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=mn/LHOq8s7IzGNnqW6n5CyaHeKYRybGfXLHTkVLu9jU=;
+ b=CXJP7MO/fpZCaA8qkcfzKybHq1LGXLV2mnJEpyGsz4CrIBEJo0m8jq8XPMSxzTTuWTvfAB
+ l1G94Cf2IiP7aPpoF/h+o2cqMJfTyygZifDwrPBdrTn1/im5Jf9DiCuyDtJQH7Ul1yZMgu
+ GuogP8hXxNOxAMDAxwcWu64m06VptAg=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-628-VmuYavO5PTm0tvbXphTKkQ-1; Mon, 27 Feb 2023 10:46:24 -0500
+X-MC-Unique: VmuYavO5PTm0tvbXphTKkQ-1
+Received: by mail-il1-f197.google.com with SMTP id
+ k2-20020a056e0205a200b0031703f4bcabso4062323ils.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 07:46:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:organization:references
+ :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mn/LHOq8s7IzGNnqW6n5CyaHeKYRybGfXLHTkVLu9jU=;
+ b=kpdFBJd9LuiqaqrtpDEcgj4oVSXsba3YPkzXMJt5jah99taLvTl7Eezv149MUIPgm/
+ JaqYEgOEPEjFqLeaav/QggJRE/fj2LAeChzBcyYl3Yp1coMEhMOit3XzfG77TSakN+hQ
+ hPIhpkMhssH2Oq54agepktpo9Jnt/oJGH1+uv/os1L6F9Cg5w/HZxHIOaR0WYpTxoXYY
+ PM8R/SAWdaQS4JcFWFu6BJMCLQZ/RiblaEnZlYczhc+BDoDUPeulhdxKfkygjOPMWYEB
+ Mv68/7eejkP0ryPpqm22wL1h++BnBwZRv5lzmRNuJI+h085lMGqiqr7Ar5GiVjWQGHT1
+ bp6w==
+X-Gm-Message-State: AO0yUKU6bJgUJqOhXKuliB+mhumCoPnudRw7yNXI4HAZsoGm3Rs0d6uS
+ JMsAhPLRzpHoVO9xCAI8sKDDOD47rzmRyupqEmc7vFtu5zi/lLUriu+WeM1S+v0KWC3nODNnmF2
+ zFv6LiRb6wgxOIg0=
+X-Received: by 2002:a5e:a612:0:b0:74c:d689:64bd with SMTP id
+ q18-20020a5ea612000000b0074cd68964bdmr4226821ioi.19.1677512783756; 
+ Mon, 27 Feb 2023 07:46:23 -0800 (PST)
+X-Google-Smtp-Source: AK7set9FxnRBD8qRwCUZXTIAzflBnNzfmNxYAc+Ta63tc+1jVjouIf8gwms5uLhDBkQFYVNgxumOLg==
+X-Received: by 2002:a5e:a612:0:b0:74c:d689:64bd with SMTP id
+ q18-20020a5ea612000000b0074cd68964bdmr4226808ioi.19.1677512783468; 
+ Mon, 27 Feb 2023 07:46:23 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ h6-20020a0566380f0600b0039e5786d7b7sm2199852jas.18.2023.02.27.07.46.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 07:46:22 -0800 (PST)
+Date: Mon, 27 Feb 2023 08:46:21 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater
+ <clg@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/2] hw/vfio/migration: Remove unused 'exec/ram_addr.h'
+ header
+Message-ID: <20230227084621.15cab9da.alex.williamson@redhat.com>
+In-Reply-To: <20230227103258.13295-2-philmd@linaro.org>
+References: <20230227103258.13295-1-philmd@linaro.org>
+ <20230227103258.13295-2-philmd@linaro.org>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,45 +102,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Krempa <pkrempa@redhat.com> writes:
+On Mon, 27 Feb 2023 11:32:57 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
 
-> Report which machine types support ACPI so that management applications
-> can properly use the 'acpi' property even on platforms such as ARM where
-> support for ACPI depends on the machine type and thus checking presence
-> of '-machine acpi=' in 'query-command-line-options' is insufficient.
->
-> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
-[...]
+Empty commit logs are a pet peeve of mine, there must be some sort of
+motivation for the change, something that changed to make this
+possible, or perhaps why this was never necessary.  Thanks,
 
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index b9228a5e46..f82a00963b 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -155,6 +155,8 @@
->  #
->  # @default-ram-id: the default ID of initial RAM memory backend (since 5.2)
->  #
-> +# @acpi: machine type supports acpi (since 8.0)
+Alex
 
-supports ACPI
-
-> +#
->  # Since: 1.2
->  ##
->  { 'struct': 'MachineInfo',
-> @@ -162,7 +164,7 @@
->              '*is-default': 'bool', 'cpu-max': 'int',
->              'hotpluggable-cpus': 'bool',  'numa-mem-supported': 'bool',
->              'deprecated': 'bool', '*default-cpu-type': 'str',
-> -            '*default-ram-id': 'str' } }
-> +            '*default-ram-id': 'str', 'acpi': 'bool' } }
->
->  ##
->  # @query-machines:
-
-
-With that
-Acked-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  hw/vfio/migration.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index a2c3d9bade..f9ac074c63 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -24,7 +24,6 @@
+>  #include "migration/misc.h"
+>  #include "qapi/error.h"
+>  #include "exec/ramlist.h"
+> -#include "exec/ram_addr.h"
+>  #include "pci.h"
+>  #include "trace.h"
+>  #include "hw/hw.h"
 
 
