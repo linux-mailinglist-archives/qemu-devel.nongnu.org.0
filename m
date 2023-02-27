@@ -2,131 +2,174 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B33C6A4D83
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 22:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E20D6A4D9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 22:56:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWlJ9-0004gG-7s; Mon, 27 Feb 2023 16:45:19 -0500
+	id 1pWlTB-0005dS-FP; Mon, 27 Feb 2023 16:55:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pWlJ2-0004fl-9S
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:45:12 -0500
-Received: from mailout1.w2.samsung.com ([211.189.100.11])
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1pWlT7-0005ak-W4; Mon, 27 Feb 2023 16:55:38 -0500
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pWlIx-0006hg-FX
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:45:11 -0500
-Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
- by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230227214458usoutp019efbc7ba87d3ae0888f947fdd7165f58~HzI6GLkpl3141931419usoutp01t;
- Mon, 27 Feb 2023 21:44:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
- 20230227214458usoutp019efbc7ba87d3ae0888f947fdd7165f58~HzI6GLkpl3141931419usoutp01t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1677534298;
- bh=+y1JdfcbgAePPFJuhZ24K/7L2scuIK61T+CqculVAbI=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=qsDcrOuf4bVqve3ikqHwV+kIzbHlLUEGD/+pYj1LiweCzh7x/K9II81cH5P2eCPJe
- l1tUpR7ITVLYygpoCw24+vze5Bf661yy+cQH+SblIvrq/5bF9mtKngT8eV/x6pWAwY
- SpQvnwYprWQ8J+3PiGVbd8GO+D0BeZRZIPKj3avk=
-Received: from ussmges3new.samsung.com (u112.gpu85.samsung.co.kr
- [203.254.195.112]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230227214458uscas1p2926c3b3c7068c8aae84c25ffcbfd1617~HzI58-fgC1175311753uscas1p2I;
- Mon, 27 Feb 2023 21:44:58 +0000 (GMT)
-Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
- ussmges3new.samsung.com (USCPEMTA) with SMTP id C9.82.12196.A542DF36; Mon,
- 27 Feb 2023 16:44:58 -0500 (EST)
-Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
- [203.254.195.91]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230227214458uscas1p1f3493214ecf7563502f1f1ffbf540103~HzI5jks900761407614uscas1p1y;
- Mon, 27 Feb 2023 21:44:58 +0000 (GMT)
-X-AuditID: cbfec370-83dfe70000012fa4-2a-63fd245ab65b
-Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.146]) by
- ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id F1.F2.17110.9542DF36; Mon,
- 27 Feb 2023 16:44:58 -0500 (EST)
-Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
- SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2375.24; Mon, 27 Feb 2023 13:44:57 -0800
-Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
- SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Mon,
- 27 Feb 2023 13:44:57 -0800
-From: Fan Ni <fan.ni@samsung.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
- <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, Mike
- Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
- "Adam Manzanares" <a.manzanares@samsung.com>, "dave@stgolabs.net"
- <dave@stgolabs.net>
-Subject: Re: [PATCH v2 0/2] hw/cxl: Passthrough HDM decoder emulation
-Thread-Topic: [PATCH v2 0/2] hw/cxl: Passthrough HDM decoder emulation
-Thread-Index: AQHZSsCUsUt4UVu11UmvUYmjkPdc367j2g0A
-Date: Mon, 27 Feb 2023 21:44:57 +0000
-Message-ID: <20230227214449.GA1338620@bgt-140510-bm03>
-In-Reply-To: <20230227153128.8164-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1pWlT6-0000z3-1h; Mon, 27 Feb 2023 16:55:37 -0500
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31R1v8kh028066; Mon, 27 Feb 2023 21:55:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=F5axuwISSPANH2ew5QG+VJqtffLX6v5AjwkU9eiYVlA=;
+ b=KS54XgA4AKLPflY4rRIP/lWJAePCRPqa6h60rr1aFlkzrGWtfYozkZYseQa/JVRiHkOz
+ rbDjaNKoP2c7WaA4QfC+yJof9akHGbeveifj7bTYi1dsD8TxtugZK42AfQVOqt4bf79Z
+ FIykHgTsHYN1Q1QINGWowq9echtnY2kTbS/DXBafSY57RWwVBFVCF0nPjrjK8Q39HZTX
+ kvWINUMjwJ3PQrzZLd3sKDAT6CW0GPCgCV5srsVC+qwTtgl0/lZAqN75LJeWnMkbwuqf
+ vmZRAZ3JPeCdme1GqitiPxVGHacuDERtbb/k+TROdsLEHh2OeMhhwU7l0GBQus31G1V1 iQ== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nyb3qe4fm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Feb 2023 21:55:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gkGVUIwpvsSoQPgBD/BuLPSG3Ne4EYSjpSjW1vg7xRiUkL6WMBpwiflDj7Yf9KfTCtowAjcYcl/4EsTJDGRVA+Sm/FvJGYF14m2d95gsTWLNEJEB3Yw/MZkdLU9TzM/iNzGm4SvXuQ7ITOdIYnBcgQggNYJFoLRL5ICT0MMU/Zr+ESUh+9fjXOOWwENMiakClmtz3vIXrTeI16oO7YduzbUn2ds4rznJNZ2qkqUnGr4h1sODcP5v+tDVcWp43+EOGTy96aazEEMLZ0XFOj7+tyHIp84au/BoO1xme9PZqKN1rNDrCHL+NteDx8aLAjvhq2idHagIk+4d/R5ZI4Kmhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F5axuwISSPANH2ew5QG+VJqtffLX6v5AjwkU9eiYVlA=;
+ b=l2WDJTChiczqCH/xaQZK/oGfujTK8FD7ZXCbCShmnBxVyayCPb/9OqgjERxAi5VcGAkD88WHZXB0+M+G0+CeTBNsD7tYcD0b0vpFMY382ssi8JKb16viRRWBAM6V7H7ZdaR9TGkwxeGLiiRJPeVZf2jHLB7cqBkOqODgUw5Yro1klLzgUMdf8FepfqWnS8rl0je3UugrY37U5vyx8sHBp4ECMjFLp9voyPbhgZMyvLak1XSdnHweTk0HYYV4JKH9qRDeh9mPOtqU9Hcf7z1GVTDDCsuWmJLR++ovy8RWCJt1tfbWnU4JUj7jx09qubRc7UqXJuoc5hP27oUG/0Ftfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by BY5PR02MB6948.namprd02.prod.outlook.com
+ (2603:10b6:a03:23f::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.29; Mon, 27 Feb
+ 2023 21:55:08 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::3e12:c026:afdc:beda]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::3e12:c026:afdc:beda%5]) with mapi id 15.20.6134.027; Mon, 27 Feb 2023
+ 21:55:08 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+CC: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "qemu-ppc@nongnu.org"
+ <qemu-ppc@nongnu.org>, "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>, "jcmvbkbc@gmail.com"
+ <jcmvbkbc@gmail.com>, "kbastian@mail.uni-paderborn.de"
+ <kbastian@mail.uni-paderborn.de>, "ysato@users.sourceforge.jp"
+ <ysato@users.sourceforge.jp>, "gaosong@loongson.cn" <gaosong@loongson.cn>,
+ "jiaxun.yang@flygoat.com" <jiaxun.yang@flygoat.com>, "ale@rev.ng"
+ <ale@rev.ng>, "mrolnik@gmail.com" <mrolnik@gmail.com>,
+ "edgar.iglesias@gmail.com" <edgar.iglesias@gmail.com>
+Subject: RE: [PATCH 19/70] target/hexagon/idef-parser: Use gen_constant for
+ gen_extend_tcg_width_op
+Thread-Topic: [PATCH 19/70] target/hexagon/idef-parser: Use gen_constant for
+ gen_extend_tcg_width_op
+Thread-Index: AQHZSm50ZyXv9tx31EmNxsaO9Mt21a7jVrrw
+Date: Mon, 27 Feb 2023 21:55:08 +0000
+Message-ID: <SN4PR0201MB880877A0320F4E445033484DDEAF9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20230227054233.390271-1-richard.henderson@linaro.org>
+ <20230227054233.390271-20-richard.henderson@linaro.org>
+In-Reply-To: <20230227054233.390271-20-richard.henderson@linaro.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <9A365481888CFD44B19914F80EA19999@ssi.samsung.com>
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|BY5PR02MB6948:EE_
+x-ms-office365-filtering-correlation-id: 57e5c55b-db58-4765-86ee-08db190d4af9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Df9svK8jbz0D1gxICkS65MQXVX5q43j9sHnF8ESKK15Di16/IiT75vwqvCnrxOFvYbgGOfndZHrzZ8WKvmyRpQD8zK2NPJFfGF+PdelTENEWSbsEutd7rObJvMeDOkRrVACwODjadXFZ44tblMAK+F5KQezvY2HzqJW1LrABP0SpTCrmFjgpXYfXp3J/4ZABzr0OTkgTKgZeQ8XW9YzpTpvKZ0KJWNJx6BkdUewwXvfvrvrETtLgS7KESKBbGmqw07W6fHM1LTvZyny9uT5CCnTDZwnU2j7n6OXF6PA10k+NYGr1wDTfNYBlHswbf0SpxkpGji/tEYwKKg9x4WBRuHdeF+2Fcl/zKe59kRfy/rhhBcz+Ef6lTW/r9danx2kJ8n0f1efYXH+HgRuqA9tdL/t8glfkcRrLj9BXDVZoO2o1F9tHtW1cdSWLRPA/iQhfTCqLIK8ZkpjgWij1QDlpReppXZvgFaBgedStZqS0UlzlaSFkrTFDhVBLScw2CuRAYoliumBwCMh4a/WgygRD4woPvY5LOTSmpGAKmB/hULmZnPbb9tjrFtR8Rr2PcB9iaLyfZjhThQEKFG1A85BsNXBIlMDR4WsRSxhXxagw+KDe4qG90ffC7a074q8Lt6G7a1awSQUIuoitBNhSzVre0WAJTbBIjqTRLbLhXILEi8Th4j2UXdyoFQZboV93qt+fYmpQsgINvYhDaPyMFWdtkw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(396003)(376002)(346002)(136003)(366004)(451199018)(83380400001)(54906003)(110136005)(316002)(33656002)(4326008)(122000001)(64756008)(66476007)(8676002)(66446008)(38100700002)(53546011)(6506007)(478600001)(186003)(26005)(9686003)(7696005)(71200400001)(7416002)(5660300002)(55016003)(66556008)(76116006)(66946007)(52536014)(8936002)(38070700005)(86362001)(2906002)(41300700001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ORwNyCh36OdevKwSEc2lPS8GJTlMZDaWkw4P4+Yy2hb80aE1exHBwwm5yr1m?=
+ =?us-ascii?Q?tPg8R7mEwjuHm/YW1INROaiPEIhQvkAmifDpMQRjjTRL/e3o0rjvumslqnkL?=
+ =?us-ascii?Q?nNpgANUn8ACD78Z2220XvdnEKakVb+0J0ljl4szrZBATQIR/Ov51iYQxwkE7?=
+ =?us-ascii?Q?bFT5Pfc9BgC5ukJ3teuMza5cQbu/1+IGGcfk3pFuba7WqiXtRLka2hcphlfb?=
+ =?us-ascii?Q?8+1gI7YO7mRp8Ewf96vhXw2KZOOoEUphikPa0c56u89w6Q/R+0+3PDjNV/MM?=
+ =?us-ascii?Q?KO7ZfGYLsuiVrICBo2CVjTg/hEHXmG2erxzbEH8fvvoFOOH003dU3r+XhkHS?=
+ =?us-ascii?Q?/k2Dy3ml/5OBZ882yV7No1nu2GdD0Yy4uJcJIU37zJ2hgVi1Levpf3zbHIh6?=
+ =?us-ascii?Q?6I3MdxlH3iV6393VfSP7R3qE0SapikeGfel7pELfIpI0V4l9TXYuAxMZvT1N?=
+ =?us-ascii?Q?MopcmVMVpNRVFVXAsleBG3rvvFP3inFMI021mkMkJFZs013e+hgY83ofF//k?=
+ =?us-ascii?Q?Rxq1Q1jCJO5hFkqAmS0utarefki96oOlfxyhYMCc2HjGeWaiudwyoTaCYGE1?=
+ =?us-ascii?Q?t7anCAs09Y/R7rNOCghc9FOB1z3rvdNwpsp0/QOVNR7HWkBPttVfL1J2VCHF?=
+ =?us-ascii?Q?sttQf8AX+ytnqpiJthjdEU6GUqoUPpwMX29aaapEzSnmejB1klWUUAh41P0T?=
+ =?us-ascii?Q?2QvlWj7tlsZ/rQm5a7RiwMiCkYx24DsJ8VdayD+2iwSxt1KcUxWEvIHPURCI?=
+ =?us-ascii?Q?OQq5KZr+2sUDfW+MPyb2Suzc89lMrmv+T2YsxWvL0hlmWabtevm2xtmy4PEJ?=
+ =?us-ascii?Q?eqTAGEFpFAF3BNKymx9M0pjffOhswThxlMWIvFbCpRImVa0aIBGOygE4owi9?=
+ =?us-ascii?Q?MGuHUuae5jt5kSYAcw3GAvAuWnkUwa2N0VDqiX8ZSSw9f6bYuvhHZFSsBG0d?=
+ =?us-ascii?Q?luqcQLRa6GrOXkMv1G67880Q7CYCTMyQFU5zUNXEJ8S8rBk5oaWYDFFPuB73?=
+ =?us-ascii?Q?bzG2Rd6qP+RpqWD+h9Tq1nwmXaR3HAbewa086DuygjoaYa6VBRIdWkb0zwGJ?=
+ =?us-ascii?Q?vTgpuGmCxlHU+ZaQE6JE+ujyyvrUjzPHTSNj2fZpLjY9riUHH/n8rEYtGIFQ?=
+ =?us-ascii?Q?ZNT6M/18oBaKYniMIvsRTmHcGXcTNI2u1FaraB9fKO2PSxtL9gcrQo/HQrMS?=
+ =?us-ascii?Q?MjX4cq8Zpi1JOM8CYaMGEFpv4zm+XS00NR0uyeK1XhRfW0fDCIzCVou67TCe?=
+ =?us-ascii?Q?4H4r7wWeVOwy9euWp+5UpliCTCu49PVrmgJupINOgLUQv6bwDbayfz7K/XY7?=
+ =?us-ascii?Q?dkQdMIIbfnmPZDmYRCKZxLCCLTQL/bCxh1eLvx0kxiq8NbXOncyQ8waYoQ98?=
+ =?us-ascii?Q?DXaVeqrIYfX0BzyVCcfCVFaP26UgWd/cOmDyjOoRCxSgr1fth25Sqte6705J?=
+ =?us-ascii?Q?kuPGZLAjIrBhJi0vhp8Q+9C3plAPfhVluqQt0C+hkFPG+jLw9Nt2+iko8ZlL?=
+ =?us-ascii?Q?SyxOYQjg7fSQoQf6GoYtd3uMFKNV9NyoX2oFET2eT+idAt0OSDdXEaG4VHYr?=
+ =?us-ascii?Q?bHbQCSKmV3BSme72gc924Pikpuy9EIogQwBxhnMx?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBKsWRmVeSWpSXmKPExsWy7djXc7pRKn+TDSY/krJonryY0eLEzUY2
- i9U31zBavPjznMli/9PnLBarFl5jszg/6xSLxeGNZ5gsfq99zGTx/9crVos1K4QtjvfuYHHg
- 8dg56y67R8uRt6wei/e8ZPLYtKqTzePOtT1sHk+ubWbyeL/vKpvH1Nn1Hp83yQVwRnHZpKTm
- ZJalFunbJXBlPD/5g7lgqUTFg+2nWBsY5wp3MXJySAiYSDw5/Iqxi5GLQ0hgJaPE8pMXmCGc
- ViaJXV+WsMJUXV/6HyqxllHiWF8XO4TziVHi96pNUP3LGCXO/mlmBGlhE1CU2Ne1nQ3EFhEw
- knh3YxJYEbPAfBaJQ39PM4MkhAVcJSZdnMAMUeQm8XrWF3aYhqszj4HZLAKqEqdXHQIbyitg
- JvGmfx2YzSngINH+swmshlFATOL7qTVMIDazgLjErSfzmSDuFpRYNHsPM4QtJvFv10M2CFtR
- 4v73l+wQ9XoSN6ZOYYOw7SQ+Pl/BCmFrSyxb+JoZYq+gxMmZT1ggeiUlDq64wQLyjITAZE6J
- 7a/uQiVcJHYdXga1QFri791lQEdwANnJEqs+ckGEcyTmL9kCVW4tsfDPeqYJjCqzkJw9C8lJ
- s5CcNAvJSbOQnLSAkXUVo3hpcXFuemqxcV5quV5xYm5xaV66XnJ+7iZGYOI7/e9wwQ7GW7c+
- 6h1iZOJgPMQowcGsJMK78PafZCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8hrYnk4UE0hNLUrNT
- UwtSi2CyTBycUg1MRkcn97nea2J68VD3bHKSA1fN5bfxte0nih4V9LQv+ZQ43bXR1PuJeMay
- 8nPCQnr54ty8mS+dGq9xR/M45HC+CtSryAvnE2eVa1OqkTs+4/7zWvM3s48kvQi12bxoA+ul
- VGHtaot1vtznIr46OKgmzGieMDtTr/BEViXDzZy25w9snLbIde2Z53eqXDHLIf1UVkB7dOs1
- gfvZNf8SEpZtPnTy/db0rxxr5ml2m0cw2OSpRq/zVEl7Jx14KGB97ILpOSzHJrdu6tiVor1x
- XUFd669Ow6yQ2qOrfkY5hH7afXJq1/9pxgWyc1lmCDS9ZDP+duXc5TdxN/77T73Cc2lJj+LV
- 8yn7Nt0JeRpbsE+JpTgj0VCLuag4EQDTrBBK6wMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTYRjG+c45O57NjONm+mlgOpRueCXiEOali50swhKiLLLhjk50XnY0
- LxSuexqRzRQ9ZWqW2FxJKzRDjGZUaiRetnQWLlSWqZVppWWa8xDsvx88z/s87wsvgYpnMA8i
- KTWTUaXKUqS4CEtSIxq/WJ+/8YEFFoQ6W1wDqNcDp3GqfkAHqE/zVoR6NmrFKG21Cae6uA6M
- anv4BqH+3B9GqMXfnwWUrk5CvbryBAtfQTdzHxzocy8mBXRNyxhC67UFOP3e1ILTI6ZHCP21
- 1YjTJTfy6Wm9Z7QwVhQiZ1KSTjCqgNDjIoW1fRZNvwtzLE0dAjWokBQCIQHJTfDd3UW0EIgI
- MVkPoHpCh9oEMfkdwDnLDl6oBfCFvgOzCTjpDVsLm3Abu5DB8Eu/BtgYJSsx+Lwux8YScifU
- dBehvCcSjnMzDv/9xvKXy4yRvrBTa1iedSI3w4mrDwBfHAZLRweXu4RkOLw4d2bZD0hX+KtD
- h/BdbtA8UonwF5DwTksXyvMqODa8IODZGw79GnPg/f6wv+Q6znMonLLWCXjeCGurx1F+B2fY
- Xj6C8bPuS6f0Y0UAcnZ1nF0UZxfF2UVxdlFVQKAFblksq0zMYYNTmWx/VqZks1IT/ePTlHqw
- 9BidC21HnoBB85S/ASAEMABIoFIXp+rB+Xixk1yWm8eo0uJUWSkMawCrCUzq5jQWey1OTCbK
- MplkhklnVP9VhBB6qBGi1Evqwt46OnzAUbA4WfYx6ofhS0ZvnvtMQHjItT1bUnbn7WpvEjZT
- ytII84HLrybIKm7+kmOJMcwnQa59+8GoH8q/jsyszTg88FrSek7DkttQRfLJgowCOYytrlwQ
- KWvPSiyKy/1zBrq4ewgG0L1q06UYk2vkrFtgbqN1317JN696S/qi71TNyYhZV+eEuebp8Mds
- iHzHhfjG4pjIbnfTQe29UKwvyO98cN0pxXSEZassLjdMcqwiKvF+X+WsdGVZpnC/xui+XdfT
- 1vXNyzx5YWqidvp2zIPsyd1izzxB1NenGo+eslMO5qB7P/3WsIfyG8bX96672SZSNkTflmKs
- Qha0AVWxsn/i7Ax/hwMAAA==
-X-CMS-MailID: 20230227214458uscas1p1f3493214ecf7563502f1f1ffbf540103
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20230227214458uscas1p1f3493214ecf7563502f1f1ffbf540103
-References: <20230227153128.8164-1-Jonathan.Cameron@huawei.com>
- <CGME20230227214458uscas1p1f3493214ecf7563502f1f1ffbf540103@uscas1p1.samsung.com>
-Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
- helo=mailout1.w2.samsung.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?jyehwKyjGNDtFqLXnHk0DamK5rLKBbJ9Dku0hBrcbDiPYZ2KXlFCFqmP9iuE?=
+ =?us-ascii?Q?pOWqGieztU5Od/pVwiQKmvjmpo4aw2GWVReFV1Cvr01PndEwFFL/Ii4cNP3r?=
+ =?us-ascii?Q?X5uMrrV495cmVXkxy4Y2zVng+EWNp4OaVNtLVdYv7QWCy+f6vji6WKYJsVfa?=
+ =?us-ascii?Q?BbEqNLmO1kaAVVsrXFUvCOPrl0fcm7ThQL1UZYWztJDvGhYPpOTvuEsehjVM?=
+ =?us-ascii?Q?ALvV8qK7NpGXc/sk2aIHaYF4DAIiFbe+vxPheHvX9fcnO9mSvtRi55OrOSZJ?=
+ =?us-ascii?Q?VRGePktzYGtIMoKnEaoQBWFlWrwWcaiIRnrMZ4l2jUFEf39VSHFjA8kC1Zzs?=
+ =?us-ascii?Q?ZttvA7uqvy+0eBg4ip0MbBbWIbcAAarl8jWBWS6xsiVAB8wNlzpPZe/S95BB?=
+ =?us-ascii?Q?0eeeI8xPDDwp+/zAnWOTMSTCn0WK1hh1yBmTUgFT7JvHjEt8jAlsf7VzHt8b?=
+ =?us-ascii?Q?YfCzTqWRKUza694s2eXK77NqKrWX+xR7XdxB7JHDvsyOQjK/mMexAr66FHrI?=
+ =?us-ascii?Q?WT3DX3cJ4Vk0ZJZIuiFVh/ok9+b6mLbj+r11qOrbvGFrW7QM9u63HahFvX5+?=
+ =?us-ascii?Q?d6i06K6IH8UiPsfhbCZwDEDxEPLgrIJBvyEZy07I0MLllpXrqrXZfYLTw3by?=
+ =?us-ascii?Q?7n5EISRnxzjA49aUZaSodaTuZF8XVnZe4sbuiZ/dbAxUErYjOtjDD7QA9zTD?=
+ =?us-ascii?Q?u3dHFHQcjkhSro1ubgNmM1IXSVNwQ62sTWU9LG4iLjVx95ebVx5YLaUz1NoD?=
+ =?us-ascii?Q?XQYiRLbkWDdK6K98tkie4prx97o2cURT3Ksq/kk2IqptzXN7ppXXEmMpXb1j?=
+ =?us-ascii?Q?Eq5slwLfRc2tZIA7Ye6i9WW6V38r8R1T83A6p9PnyDPlkz6kwuPPDybWoxr3?=
+ =?us-ascii?Q?JFkb3zWEaAQSXKRrKeQqJ3WpCg6tXhDfYjTgZ1WC59WxVdm6wP+A4T7LGRWP?=
+ =?us-ascii?Q?iUCP9VecbJ9H/6Ow+uzngdtMN7xug/h+mtPCvk4HcPDYZ8v5V4YbwPiCgSRF?=
+ =?us-ascii?Q?mjTAYYigW0bDQFllA3ZUFve96w=3D=3D?=
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57e5c55b-db58-4765-86ee-08db190d4af9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2023 21:55:08.5412 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: h1iNobsP8IRWo6nHTioIt7SjBXdwSAU7Xuc3NIvb9D9CkSsRj2pPUz8XDW4O4TzW1+veVyKnzPmpisDCnG0P3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6948
+X-Proofpoint-ORIG-GUID: l7OY7SZI0lpOmuIFyYs-0M-Hruq5aOlc
+X-Proofpoint-GUID: l7OY7SZI0lpOmuIFyYs-0M-Hruq5aOlc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-27_17,2023-02-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 impostorscore=0 mlxscore=0 phishscore=0 spamscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 mlxlogscore=649
+ lowpriorityscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302270175
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=tsimpson@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -142,80 +185,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 03:31:26PM +0000, Jonathan Cameron wrote:
-
-> v2:
-> - Rebase and pick up tags.
-> - State prereq patche sets more clearly.
->=20
-> Mostly sending out again because some of the precursors have been updated
-> and to fix a typo in a tag given on v1.
->=20
-> Until now, testing using CXL has relied up always using two root ports
-> below a host bridge, to work around a current assumption in the Linux
-> kernel support that, in the single root port case, the implementation wil=
-l
-> use the allowed passthrough decoder implementation choice. If that choice
-> is made all accesses are routed from the host bridge to the single
-> root port that is present. Effectively we have a pass through decoder
-> (it is called that in the kernel driver).
->=20
-> This patch series implements that functionality and makes it the default
-> See patch 2 for a discussion of why I think we can make this change
-> without backwards compatibility issues (basically if it didn't work befor=
-e
-> who are we breaking by making it work?)
->=20
-> Whilst this limitation has been known since the initial QEMU patch
-> postings / kernel CXL region support, Fan Ni ran into it recently remindi=
-ng
-> me that we should solve it.
->=20
-> Note that if you enable hdm_for_passthrough and use a configuration that
-> would otherwise get a passthrough decoder, the linux kernel will currentl=
-y
-> fail to set it up correctly.  That's a bug / missing feature in Linux
-> not an issue with the emulation.
->=20
-> Based on series "[PATCH v4 00/10] hw/cxl: CXL emulation cleanups and mino=
-r fixes for upstream"
-> Based on series "[PATCH v6 0/8] hw/cxl: RAS error emulation and injection=
-"
->=20
-> Based on: Message-Id: 20230206172816.8201-1-Jonathan.Cameron@huawei.com
-> Based on: Message-Id: 20230227112751.6101-1-Jonathan.Cameron@huawei.com
->=20
-> Jonathan Cameron (2):
->   hw/pci: Add pcie_count_ds_port() and pcie_find_port_first() helpers
->   hw/pxb-cxl: Support passthrough HDM Decoders unless overridden
->=20
->  hw/cxl/cxl-host.c                   | 31 ++++++++++++--------
->  hw/pci-bridge/pci_expander_bridge.c | 44 +++++++++++++++++++++++++----
->  hw/pci/pcie_port.c                  | 38 +++++++++++++++++++++++++
->  include/hw/cxl/cxl.h                |  1 +
->  include/hw/cxl/cxl_component.h      |  1 +
->  include/hw/pci/pci_bridge.h         |  1 +
->  include/hw/pci/pcie_port.h          |  2 ++
->  7 files changed, 101 insertions(+), 17 deletions(-)
->=20
-> --=20
-> 2.37.2
->=20
->=20
-
-The code looks good for me.
-
-Applied the two patch series mentioned above before applying this patch
-series on ToT, it is clean.
-Tested to crete region, create namespace and convert to system RAM and
-use it with simple command (numactl --membind=3D1 htop), no issue related
-to the patch has been found.
-
-Also tried with the latest volatile patch (Message-ID:
-20230227163157.6621-1-Jonathan.Cameron@huawei.com), creating volatile
-region and converting to system RAM (automatically) and online and test
-it with the same command as for pmem above works fine.
 
 
-Fan=
+> -----Original Message-----
+> From: Richard Henderson <richard.henderson@linaro.org>
+> Sent: Sunday, February 26, 2023 10:42 PM
+> To: qemu-devel@nongnu.org
+> Cc: qemu-arm@nongnu.org; qemu-ppc@nongnu.org; qemu-
+> riscv@nongnu.org; qemu-s390x@nongnu.org; jcmvbkbc@gmail.com;
+> kbastian@mail.uni-paderborn.de; ysato@users.sourceforge.jp;
+> gaosong@loongson.cn; jiaxun.yang@flygoat.com; Taylor Simpson
+> <tsimpson@quicinc.com>; ale@rev.ng; mrolnik@gmail.com;
+> edgar.iglesias@gmail.com
+> Subject: [PATCH 19/70] target/hexagon/idef-parser: Use gen_constant for
+> gen_extend_tcg_width_op
+>=20
+> We already have a temporary, res, which we can use for the intermediate
+> shift result.  Simplify the constant to -1 instead of 0xf*f.
+> This was the last use of gen_tmp_value, so remove it.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/hexagon/idef-parser/parser-helpers.c | 30 +++------------------
+>  1 file changed, 3 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/target/hexagon/idef-parser/parser-helpers.c
+> b/target/hexagon/idef-parser/parser-helpers.c
+> index c0e6f2190c..e1a55412c8 100644
+> --- a/target/hexagon/idef-parser/parser-helpers.c
+> +++ b/target/hexagon/idef-parser/parser-helpers.c
+> @@ -1120,15 +1100,11 @@ static
+> HexValue gen_extend_tcg_width_op(Context *c,
+>      OUT(c, locp, "tcg_gen_subfi_i", &dst_width);
+>      OUT(c, locp, "(", &shift, ", ", &dst_width, ", ", &src_width_m, ");\=
+n");
+>      if (signedness =3D=3D UNSIGNED) {
+> -        const char *mask_str =3D (dst_width =3D=3D 32)
+> -            ? "0xffffffff"
+> -            : "0xffffffffffffffff";
+> -        HexValue mask =3D gen_tmp_value(c, locp, mask_str,
+> -                                     dst_width, UNSIGNED);
+> +        HexValue mask =3D gen_constant(c, locp, "-1", dst_width,
+> + UNSIGNED);
+>          OUT(c, locp, "tcg_gen_shr_i", &dst_width, "(",
+> -            &mask, ", ", &mask, ", ", &shift, ");\n");
+> +            &res, ", ", &mask, ", ", &shift, ");\n");
+>          OUT(c, locp, "tcg_gen_and_i", &dst_width, "(",
+> -            &res, ", ", value, ", ", &mask, ");\n");
+> +            &res, ", ", &res, ", ", value, ");\n");
+
+What's the advantage of putting the result of the tcg_gen_shr into res inst=
+ead of mask?  Is there something in TCG code generation that takes advantag=
+e?
+
+
+>      } else {
+>          OUT(c, locp, "tcg_gen_shl_i", &dst_width, "(",
+>              &res, ", ", value, ", ", &shift, ");\n");
 
