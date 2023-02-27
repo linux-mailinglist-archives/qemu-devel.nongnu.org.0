@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18F56A44CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51C56A44B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:38:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeFV-0002tE-1e; Mon, 27 Feb 2023 09:13:05 -0500
+	id 1pWeFW-0002zv-7e; Mon, 27 Feb 2023 09:13:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeF1-0000Vz-7J
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeF1-0000WX-Cz
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:12:35 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeEU-0001I8-NY
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:12:04 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r7so6371715wrz.6
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:12:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeEY-0001Ih-MN
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:12:08 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id l1so3324912wry.12
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:12:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=yM9TeJs0ek6ciQN9256F7MMNBJln7mQ/1ROtgdvo/kY=;
- b=m+uuNfutLciGYHLbb/CtvunYE+zgbtbWYuJjlN85BgLTXHibADkK1IUzYV3ul4Uash
- tFAEPwJ7btFEVJ67o8Zbytw6zbs6S1ooELJ3p9HRXY5WzlOPM3QYdxuqlBS7S3UqWBIv
- q9xsy3vK1acjAPmGl566I1WZcu0Y9BVyV9MdFZsHtPmIIUPlNhEP9NiZCGkBStVLLoCf
- OLmFlWRc3mJAKN5EWAKQDqneFYkR2zlhzbv/seoYrkiflesN4JZu5MI6T6SXU1mNM+4d
- kmOYVuasDjQMk0bLO3OiJSDl7VNJYfh2UmIQ+Ipre0dU005cBpg8cNia+/uUWZy6qbtw
- /I6Q==
+ :reply-to; bh=XtxNKvcZ3XKeJ9IU2NxfSQHl2tOAm2Whlka61SEn0a4=;
+ b=TZBzrKI/tHC6hf1tjSXJkuk6hIvm2s/hSmdm/Gt7i7so1wk1+VEtCYrObxnZOGeCLW
+ 5v/t2zNFGzZ9Ltp4UFbH2bR3vo6IKIeJ46701t6hoQPPjw4GuGNCiRZmMZVQEety3Hxm
+ DsutjobE/G+cxX4KJebi5yVSsdbsS82LMdbizMkLKSLrwt4/kfIvSEdvy4cGwXxVge5s
+ X4nqAuYA95qWfNmZ/X0rO+Ff3hT/oa74QchVbr6efUlhPr2j9RsiFfitP7Y57foR6YvA
+ uzTWFWjLxgWRv3UwZWhzNFAnVMGJEr6wNiSYpYBpDkmOF/KVkFKUMy552Zwf1kx0w7yo
+ gXYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yM9TeJs0ek6ciQN9256F7MMNBJln7mQ/1ROtgdvo/kY=;
- b=V4yXj2JBEZlKtfSS7Toj4l0WuOVEDHMhANvSeAI5379IKfu/+BlK0kfOq8ifdv8lXU
- rHtFS3OVEsCaxze+QP4nSFVWBe2ObbXltxOlsojeno1sMUsV0Y0PW7U1TqmDAOFl8O+M
- z29ETMBjt1odIl9IKat+0AJeedx8a5nnyrGvkWNdmHtftvewfIhNf35rfEKkw3CXRNSP
- EjRG38Wguav5ptSarSUrVRKdrXvPqzjP7ssmJbXu5qbz8iZRvIe0rYzep3cl0i43GKj6
- r7bKxuZ+A0PFrntIj2H0qYfxyhAWaDDDUQPJi/tSc2sJ2gBYD1UIIRUvPYyKQP8B+bd3
- NMIA==
-X-Gm-Message-State: AO0yUKWVOwDidSX7E0Tk6W+g4w0yzK2SaLUB4P9LMyHFFPmcjbiU+5u3
- a3zo6Kg/6CQNxvRg33JxZS92ESsQDfk7bOk2
-X-Google-Smtp-Source: AK7set/9hNjGfVRkf0iX9aitVu3DO2wAqKRmSkvcXDB571IwIcczSvfg0Ahgxoc65bjIyyS0pUXUkw==
-X-Received: by 2002:a5d:4207:0:b0:2c7:11a5:d7bc with SMTP id
- n7-20020a5d4207000000b002c711a5d7bcmr11671700wrq.43.1677507119725; 
- Mon, 27 Feb 2023 06:11:59 -0800 (PST)
+ bh=XtxNKvcZ3XKeJ9IU2NxfSQHl2tOAm2Whlka61SEn0a4=;
+ b=vgA8+W5ONlKnADZkQwtg00m/UIsaiVu1ar2HE80XFBhjIBC1z4IT+GJutm7UxhJwWN
+ dbrcXFZ3ujjbu6KdEL49IqmcND79s0GhkZVKgrxxMSEYkI4+CgItEkEzhGgBiV1e6poU
+ 3hhZc8qCULZaFdIftralDq9t7Fm9UFQiLi3vqxNF5LrKM6qiP0cZVvganspaTLu73IMN
+ 2sQQ9G06cjc+b22zvw4icCMXjChMN7w2GknQqSuh3LlMmQohlYaa+pVB/UHHEKYElkxX
+ 49ER37igGEGwgdSoNgCKr1k08zHBIUJZaGdWaMOJSfCEkLoqCZAVrbVUFB38dr8YppAY
+ H8lA==
+X-Gm-Message-State: AO0yUKUbSYBNVBURUHjoWSuvjTuBoOKdcy3353Ad9fKCrKy8s6reTpXf
+ SadQm9aQe/6QPErLE6XXLoBf20kEeoDvIZri
+X-Google-Smtp-Source: AK7set8/lcIgn82bhqjFubUIbyKZi1KKKGMEajsqQUF83DgyDK9/h+qMI0wgrN7Q23dgy+jUljTRGg==
+X-Received: by 2002:a05:6000:1:b0:2c7:1e60:3518 with SMTP id
+ h1-20020a056000000100b002c71e603518mr8796096wrx.13.1677507124801; 
+ Mon, 27 Feb 2023 06:12:04 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- y13-20020adfe6cd000000b002c8476dde7asm7190300wrm.114.2023.02.27.06.11.58
+ 21-20020a05600c229500b003e1f2e43a1csm9103814wmf.48.2023.02.27.06.12.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:11:59 -0800 (PST)
+ Mon, 27 Feb 2023 06:12:04 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 117/126] hw/ide/piix: Pass Error* to pci_piix_init_ports() for
- better error msg
-Date: Mon, 27 Feb 2023 15:02:04 +0100
-Message-Id: <20230227140213.35084-108-philmd@linaro.org>
+Subject: [PULL 118/126] hw/ide/piix: Refactor pci_piix_init_ports as
+ pci_piix_init_bus per bus
+Date: Mon, 27 Feb 2023 15:02:05 +0100
+Message-Id: <20230227140213.35084-109-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,62 +89,73 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230215112712.23110-20-philmd@linaro.org>
+Message-Id: <20230215112712.23110-21-philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/ide/piix.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ hw/ide/piix.c | 37 ++++++++++++++++++-------------------
+ 1 file changed, 18 insertions(+), 19 deletions(-)
 
 diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 6354ae740b..f10bdf39ff 100644
+index f10bdf39ff..41d60921e3 100644
 --- a/hw/ide/piix.c
 +++ b/hw/ide/piix.c
 @@ -121,7 +121,7 @@ static void piix_ide_reset(DeviceState *dev)
      pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
  }
  
--static int pci_piix_init_ports(PCIIDEState *d)
-+static bool pci_piix_init_ports(PCIIDEState *d, Error **errp)
+-static bool pci_piix_init_ports(PCIIDEState *d, Error **errp)
++static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, Error **errp)
  {
      static const struct {
          int iobase;
-@@ -138,7 +138,9 @@ static int pci_piix_init_ports(PCIIDEState *d)
-         ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
-                               port_info[i].iobase2);
-         if (ret) {
--            return ret;
-+            error_setg_errno(errp, -ret, "Failed to realize %s port %u",
-+                             object_get_typename(OBJECT(d)), i);
-+            return false;
-         }
-         ide_bus_init_output_irq(&d->bus[i],
-                                 isa_get_irq(NULL, port_info[i].isairq));
-@@ -148,14 +150,13 @@ static int pci_piix_init_ports(PCIIDEState *d)
-         ide_bus_register_restart_cb(&d->bus[i]);
+@@ -131,24 +131,21 @@ static bool pci_piix_init_ports(PCIIDEState *d, Error **errp)
+         {0x1f0, 0x3f6, 14},
+         {0x170, 0x376, 15},
+     };
+-    int i, ret;
++    int ret;
+ 
+-    for (i = 0; i < 2; i++) {
+-        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
+-        ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
+-                              port_info[i].iobase2);
+-        if (ret) {
+-            error_setg_errno(errp, -ret, "Failed to realize %s port %u",
+-                             object_get_typename(OBJECT(d)), i);
+-            return false;
+-        }
+-        ide_bus_init_output_irq(&d->bus[i],
+-                                isa_get_irq(NULL, port_info[i].isairq));
+-
+-        bmdma_init(&d->bus[i], &d->bmdma[i], d);
+-        d->bmdma[i].bus = &d->bus[i];
+-        ide_bus_register_restart_cb(&d->bus[i]);
++    ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
++    ret = ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
++                          port_info[i].iobase2);
++    if (ret) {
++        error_setg_errno(errp, -ret, "Failed to realize %s port %u",
++                         object_get_typename(OBJECT(d)), i);
++        return false;
      }
++    ide_bus_init_output_irq(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
++
++    bmdma_init(&d->bus[i], &d->bmdma[i], d);
++    d->bmdma[i].bus = &d->bus[i];
++    ide_bus_register_restart_cb(&d->bus[i]);
  
--    return 0;
-+    return true;
+     return true;
  }
- 
- static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-     uint8_t *pci_conf = dev->config;
--    int rc;
- 
-     pci_conf[PCI_CLASS_PROG] = 0x80; // legacy ATA mode
- 
-@@ -164,10 +165,8 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+@@ -165,8 +162,10 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
  
      vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
  
--    rc = pci_piix_init_ports(d);
--    if (rc) {
--        error_setg_errno(errp, -rc, "Failed to realize %s",
--                         object_get_typename(OBJECT(dev)));
-+    if (!pci_piix_init_ports(d, errp)) {
-+        return;
+-    if (!pci_piix_init_ports(d, errp)) {
+-        return;
++    for (unsigned i = 0; i < 2; i++) {
++        if (!pci_piix_init_bus(d, i, errp)) {
++            return;
++        }
      }
  }
  
