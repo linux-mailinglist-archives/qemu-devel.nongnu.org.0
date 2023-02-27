@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A506A4212
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A2C6A421D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:58:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWd2f-0001Pf-IB; Mon, 27 Feb 2023 07:55:49 -0500
+	id 1pWd5C-0003lj-TI; Mon, 27 Feb 2023 07:58:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pWd27-0001Cy-Ce
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:55:19 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pWd24-00068d-Ra
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:55:11 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8AxJEwqqPxjnBsGAA--.5947S3;
- Mon, 27 Feb 2023 20:55:06 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxTuQpqPxjegI_AA--.12447S3; 
- Mon, 27 Feb 2023 20:55:06 +0800 (CST)
-Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-11-gaosong@loongson.cn>
- <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
- <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
- <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
- <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
- <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
- <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
- <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <5ce46e81-b2c3-8b45-1bd9-9705520f4557@loongson.cn>
-Date: Mon, 27 Feb 2023 20:55:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWd4z-0003jo-N2; Mon, 27 Feb 2023 07:58:10 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWd4x-00070N-FT; Mon, 27 Feb 2023 07:58:09 -0500
+Received: by mail-ed1-x534.google.com with SMTP id d30so25399865eda.4;
+ Mon, 27 Feb 2023 04:58:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=B5zggyZjvmOw/4139SlhqhQ6pnq8/WqaY6vuJBs+amg=;
+ b=UBzI+oG0JE4hKfrY7YYcTYLk8/ibJrzJY6TJHM49zCFuWUcG8cdBbthv8hg85xnYWg
+ UhB92wlD0msvEynoO72p2ZQw45nlzfYLsGeIKHxoJfdu1uNukVjVt+5knCggTCSi45Ee
+ f4W3o4z7P7kjb1ElEGyHPIZeE+6bnrhd0QbHfIFmO+bbxcLWtIduTbr5JMekgNw94/l9
+ aWobYCgYsbfLaE2Dqrpe+jeprCjBYJjrqazBjm28haEeZhA+7jNL/qHna4ekoSsF9paV
+ rTn2kRerphGuIKLO8KesIn+Wu1wGYisQ7N0R3ttvCoogXIiqEQ9DGB4Ikxbgc5UBoBX4
+ PmnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=B5zggyZjvmOw/4139SlhqhQ6pnq8/WqaY6vuJBs+amg=;
+ b=C5pqcFLU16ViUDNrR/Sa2WSfPwPfdv1cxjnUEJjKgAowEd7HUGX+JoY2m8gfzHkE0A
+ fCSe8SjwphrCMkkgjdT2iVnaCdLINXMJzfP18pxy+cPFTpkuLaU1ogdFls6ajUSYrc+4
+ 9IP+8knnF5LRf2OMYOZEJCDVX41Ljn2QZyk958My/JnOK8XsE+uvYEmYlDeyCL2E2ykv
+ kGlgf71kGQv3ec1DIemlbaTQ+zTAx3aNQMkS12yX9+5wEaC0mEOJCKlRBzmQx9N79hvF
+ rxgJhfZrEcsyA6X9UolMRI9FFRCdmf7JffgukKlLkPrCF+uZTVvFEehBv3lV0RPW5Y5q
+ pd5g==
+X-Gm-Message-State: AO0yUKVkEfhmaQRLlCq25bn7nHv+4vdQxEX88jufan1c2damU1UiI6YQ
+ HiAxZ5eBSDZqbHVDkd/gWkSd81TZqNI=
+X-Google-Smtp-Source: AK7set+R8kAblSkFyQcdjCJ0pDCqUPVwonuRcsGj06lPEZACz4pnkCmkXd5WNnSVs+a5w7uUiTnSqA==
+X-Received: by 2002:a17:907:9543:b0:8b2:c2fc:178e with SMTP id
+ ex3-20020a170907954300b008b2c2fc178emr26452671ejc.74.1677502684957; 
+ Mon, 27 Feb 2023 04:58:04 -0800 (PST)
+Received: from localhost.localdomain
+ (dynamic-078-055-154-008.78.55.pool.telefonica.de. [78.55.154.8])
+ by smtp.gmail.com with ESMTPSA id
+ bk4-20020a170906b0c400b008d7a8083dffsm3186414ejb.222.2023.02.27.04.58.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 04:58:04 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v4 0/7] Pegasos2 fixes and audio output support
+Date: Mon, 27 Feb 2023 13:57:25 +0100
+Message-Id: <20230227125732.20941-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-In-Reply-To: <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8DxTuQpqPxjegI_AA--.12447S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7uw47JFW7AF1ftF4fur45ZFb_yoW8GF1kpr
- 1kGr47CryUGr1kJr1UGr1UWryUJw18Jw15Jr4UJFyUGryUJr1jqr17Xr1j9F1UCr48Wr1U
- Jr1UJr1Uur1Dt3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bakYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
- AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1l
- Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
- xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1l
- x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
- v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
- x2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
- Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
- yTuYvjxU7pnQUUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,45 +90,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-在 2023/2/25 上午3:24, Richard Henderson 写道:
->>          {
->>              .fniv = gen_vaddwev_s,
->>              .fno = gen_helper_vaddwev_q_d,
->>              .opt_opc = vecop_list,
->>              .vece = MO_128
->>          },
->
-> There are no 128-bit vector operations; you'll need to do this one 
-> differently.
->
-> Presumably just load the two 64-bit elements, sign-extend into 
-> 128-bits, add with tcg_gen_add2_i64, and store the two 64-bit elements 
-> as output.  But that won't fit into the tcg_gen_gvec_3 interface.
->
-'sign-extend into 128-bits,'   Could you give a example?
-
-I see a example at target/ppc/translate/vmx-impl.c.inc
-     static bool do_vx_vprtyb(DisasContext *ctx, arg_VX_tb *a, unsigned 
-vece)
-     {
-             ...
-             {
-             .fno = gen_helper_VPRTYBQ,
-             .vece = MO_128
-             },
-             tcg_gen_gvec_2(avr_full_offset(a->vrt), 
-avr_full_offset(a->vrb),
-                                16, 16, &op[vece - MO_32]);
-         return true;
-     }
-TRANS(VPRTYBQ, do_vx_vprtyb, MO_128)
-...
-
-do_vx_vprtyb  fit the fno into the tcg_gen_gvec_2.
-I am not sure this  example is right.
-
-Thanks.
-Song Gao
-
+On behalve of Zoltan BALATON:=0D
+=0D
+Hello,=0D
+=0D
+This is marked v3 to avoid confusion with previously separate patches=0D
+that already had v2, even if the series had no v2 yet.=0D
+=0D
+This series now includes all patches needed to get AmigaOS 4.1 run=0D
+well on pegasos2 and add audio output to this board. It has 3 parts:=0D
+patches 1-3 improve hw/display/sm501 model to avoid graphics problems=0D
+that were present with AmigaOS; patches 4-6 fix PCI interrupt routing=0D
+in VIA VT8231 model and in pegasos2 board that fixes PCI cards such as=0D
+network or sound card not working before; finally patches 7-8 add=0D
+basic implementation of the via-ac97 audio part of VT8231 (also used=0D
+on VT82C686B) for output that is the default audio device on pegasos2.=0D
+=0D
+This version was re-tested by Rene Engel with latest AmigaOS version=0D
+and runs as well as my original series did (posted a video with that=0D
+before). This works now on an M1 MacStudio on macOS where it was=0D
+unusable before. I've also tested it on Linux x86_64 with older=0D
+AmigaOS version that also boots and makes sound and verified MorphOS=0D
+still boots and also has sound now.=0D
+=0D
+One known problem with this version that includes Berhard's=0D
+alternative vt82c686 patches is with MorphOS which uses level=0D
+sensitive mode of the i8259 PIC that QEMU does not support so it hangs=0D
+when multiple devices try to raise a shared IRQ. I could work around=0D
+that in my otiginal series (see here:=0D
+https://lists.nongnu.org/archive/html/qemu-ppc/2023-02/msg00403.html )=0D
+where this works and was also tested, that version is available here:=0D
+https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/=0D
+but I could not convince Bernhard so I now expect him to provide a=0D
+work around for that. This isn't a blocker though as MorphOS already=0D
+runs on mac99 and sam460ex and only available as a time limited demo=0D
+(they only sell licenses for real hardware) so not really usable apart=0D
+from testing anyway so getting it running on pegasos2 would be nice=0D
+but not a prioriey, more important is that AmigaOS runs for which this=0D
+is the only viable machine as sam460ex version runs much slower. So=0D
+I'd like this to be merged for 8.0 as it is now or only minor chnages=0D
+(or alternatively we can return to my series which was also tested the=0D
+same way and apart from different VIA IRQ router modelling contains=0D
+the same patches).=0D
+=0D
+Please review and let me know who will take care of merging this for 8.0.=0D
+=0D
+Regards,=0D
+BALATON Zoltan=0D
+=0D
+v4:=0D
+* Rebased onto "[PATCH v3 0/3] VT82xx PCI IRQ routing fixes"=0D
+=0D
+Based-on: <20230227123316.18719-1-shentey@gmail.com>=0D
+          "[PATCH v3 0/3] VT82xx PCI IRQ routing fixes"=0D
+=0D
+BALATON Zoltan (7):=0D
+  hw/display/sm501: Implement more 2D raster operations=0D
+  hw/display/sm501: Add fallbacks to pixman routines=0D
+  hw/display/sm501: Add debug property to control pixman usage=0D
+  hw/isa/vt82c686: Declare gpio inputs so it can be connected in board=0D
+    code=0D
+  hw/ppc/pegasos2: Fix PCI interrupt routing=0D
+  hw/audio/ac97: Split off some definitions to a header=0D
+  hw/audio/via-ac97: Basic implementation of audio playback=0D
+=0D
+ hw/audio/ac97.h           |  65 ++++++=0D
+ include/hw/isa/vt82c686.h |  25 +++=0D
+ hw/audio/ac97.c           |  43 +---=0D
+ hw/audio/via-ac97.c       | 455 +++++++++++++++++++++++++++++++++++++-=0D
+ hw/display/sm501.c        | 119 +++++++---=0D
+ hw/isa/vt82c686.c         |   3 +-=0D
+ hw/pci-host/mv64361.c     |   4 -=0D
+ hw/ppc/pegasos2.c         |  20 +-=0D
+ hw/audio/trace-events     |   6 +=0D
+ hw/isa/trace-events       |   1 +=0D
+ 10 files changed, 662 insertions(+), 79 deletions(-)=0D
+ create mode 100644 hw/audio/ac97.h=0D
+=0D
+-- =0D
+2.39.2=0D
+=0D
 
