@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B186A4D4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 22:35:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D820B6A4D45
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 22:34:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWl8B-0007cN-MB; Mon, 27 Feb 2023 16:33:59 -0500
+	id 1pWl8f-000866-8I; Mon, 27 Feb 2023 16:34:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWl88-0007Ox-E1
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:33:56 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
+ id 1pWl8d-00085X-4N
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:34:27 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWl86-0004Fz-G8
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:33:56 -0500
-Received: by mail-pl1-x632.google.com with SMTP id u5so4861197plq.7
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 13:33:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sjZqTaUdPrCEIBQBnlQoRyAJsBDKtnJU1VZAEsiRUE4=;
- b=AGmsmoIStwnubTaQPLJVr9SjKDLCYaByR1HVjUtVlJAl62uCRuthnVXGYtUTSDTYIZ
- bMPHERD5bkvK5xKW31h817Nuq3wXKy/g+e1SDZoD0LmTnVo/n++cKurRVnfbNWNNyXe+
- knG31lGkHBV9YPAfjhxjd5A9VddOllver+GNXB9C69FOBIQXMy0sVG9DisxwvYoeluEU
- tSkp8Jqu4pK/yuwS+6MQDh2vYhi2U2kmuVaMdQWKlEHisx38slTmiUh1Tt3o926uxQSh
- 34+QXfRJHSZep3NI59PN/8V1pQPafFkTB1R7135MNZ5vPl8BkFq6BvRrBpcQCLurgm1l
- lxeQ==
+ (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
+ id 1pWl8b-0004Qv-CN
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:34:26 -0500
+Received: by mail-ed1-x531.google.com with SMTP id i34so31561001eda.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 13:34:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=tqrLY2WdS281sIf7D4uqNDQP8P4y/ZmDflR5bGXbqO0=;
+ b=WcokwnAE9GJIJNojGOY4v3gwfIPqIBHExf+kRZXuI3jW4lSOvAFuug0WQn4dIw5Z+W
+ p+MHywNTTatzbv60UpcJfz2R1H56tsyTNlXriZ1gOc02GmvUP7g71wcDfLITIN9IGq3v
+ tSaxJLMuq/1uzv95NP6hxTyMe9zTyqdDWH0AHEWEb7t05Qeh3i6BhQvMnz/d0EFHbk00
+ WNvfTkk8WNopmWfKx52FgPcApEOEEK/0koHgt5jw4rxy+AbUl0Jga5IA3Ds1NRCp96F9
+ 4t33KrcDPJ2w++acoFEXd1nxwdSk4LPOA0I0Qo5aap0shL05C94K6SgCOAQ+7sM6CDs3
+ uChw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sjZqTaUdPrCEIBQBnlQoRyAJsBDKtnJU1VZAEsiRUE4=;
- b=jCHToU+yL/J28GkZP2tvYzrZetPAseMbbrW8CfI6+7h+NgPNSYUg8xTAL1THJDJDhu
- Wmof+i+egqtF4G/tDpKC0aWWzxRnya+3+XwqgLRQ6goRf85y09JAVzWEGIXT7SKI2Q3l
- k/T4FcllXbDWYvaHBLsl7/6nJeU4GijHQUcef4PIic6BRYdLsYR2LiqAGQKLLKEv0DBe
- AS8CAgqSoE+62aVWdrYJgUePFJZ5EdMPpzK4rDTvdM2w2HRI8hrwVUrxYb2hwzY84r4P
- nl6uXOKx71W74c797KF6j1EmOzmuwieQLaD2IRVCaU/Pz/HUB9vXS34Fm3HJJX+0G215
- ht7w==
-X-Gm-Message-State: AO0yUKUet+TqVtPHgR+AuL+BuopIG9Sn+l+jBB57tqMIibV8TvJbpo5B
- jSRP4IfUwVY2XTff64D9fkjNSiJFQkCUymHogGw=
-X-Google-Smtp-Source: AK7set+2ctYAPZOI7mb3tTAcbH+9+p84XjaJefXa3SbFoeukqajkQGSwgz4qU1+QzAzDfODRsngL9w==
-X-Received: by 2002:a05:6a20:7f44:b0:bc:5a6:1b2a with SMTP id
- e4-20020a056a207f4400b000bc05a61b2amr658797pzk.49.1677533633683; 
- Mon, 27 Feb 2023 13:33:53 -0800 (PST)
-Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id
- d137-20020a63368f000000b00478c48cf73csm4375262pga.82.2023.02.27.13.33.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 13:33:53 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	David Reiss <dreiss@meta.com>
-Subject: [PATCH v3 14/14] target/arm: Implement gdbstub m-profile systemreg
- and secext
-Date: Mon, 27 Feb 2023 11:33:29 -1000
-Message-Id: <20230227213329.793795-15-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227213329.793795-1-richard.henderson@linaro.org>
-References: <20230227213329.793795-1-richard.henderson@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tqrLY2WdS281sIf7D4uqNDQP8P4y/ZmDflR5bGXbqO0=;
+ b=TjB/jQfsfOPahWqKHZY6gJZr1ibqAX8DwwBVHP6+RW22brXyhQmBLrSUktS1sphPgA
+ zu5KQw/l2Z4pLH4osicgB4vPaajmEJJJmKpoRXNaHylXFawIXQ7jx4V5nzLUFEfrHGme
+ NOE8IY718SHRjTAXBMJu7tX8dr1d3XlD+KinCsJZFoILWP183FZ+xyAmD5XlBZiFYLtn
+ +74AnJ/tNY8434a/k5YZRZ9/DVlbmtUi4cqNXpK/O59sYUtmX7UBoUhUEghlTOFf3IIv
+ 1UNyhTlMyqxaBNWEt53edXnyViNji3r1zIoJECS4+e+91pdzRzgLqKgxTzVFJFgRQawZ
+ gIGg==
+X-Gm-Message-State: AO0yUKUt1BrHKj+eu4uL29VQcvRvyfSsiEcZXAfk9y8yUqa812S3FaxB
+ VcifoXj/BwrDlJkDqpxZ4p2je9EHEi1J8snXbR8=
+X-Google-Smtp-Source: AK7set9ItNw8x4e8qeq/WznsJbOy0Jk76FmiDO3mEBco80UHYIedA9YfZwmmDEvX/pKJWe2Q7MnjNbEph8vDuG0+v9M=
+X-Received: by 2002:a50:ab58:0:b0:4ad:7943:f4b9 with SMTP id
+ t24-20020a50ab58000000b004ad7943f4b9mr570034edc.2.1677533663629; Mon, 27 Feb
+ 2023 13:34:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <CAH50XRfsWih++5yoZSx-3L9mzf+vGPRz2Che=_6TAuATphvXbQ@mail.gmail.com>
+ <874jr7juo5.fsf@linaro.org>
+ <CAH50XRddEDTxJeCMXmbNg417vRojEuYpb8GzDrw75rt=OmF_uQ@mail.gmail.com>
+In-Reply-To: <CAH50XRddEDTxJeCMXmbNg417vRojEuYpb8GzDrw75rt=OmF_uQ@mail.gmail.com>
+From: Dinah B <dinahbaum123@gmail.com>
+Date: Mon, 27 Feb 2023 16:34:12 -0500
+Message-ID: <CAH50XRe5EJG_CecVjwNJDuMbO4D-dJC4e8wrkR2G0Rn0VFF+oQ@mail.gmail.com>
+Subject: Re: Adopting abandoned patch?
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000001e9b9e05f5b53eea"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=dinahbaum123@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,236 +85,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The upstream gdb xml only implements {MSP,PSP}{,_NS,S}, but
-go ahead and implement the other system registers as well.
+--0000000000001e9b9e05f5b53eea
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Since there is significant overlap between the two, implement
-them with common code.  The only exception is the systemreg
-view of CONTROL, which merges the banked bits as per MRS.
+It looks like the author didn't include a "Signed off" in their patch draft
+and it doesn't look like Debian qemu-kvm maintainers ever merged it.
+Does this change the patch adoption process?
 
-Signed-off-by: David Reiss <dreiss@meta.com>
-[rth: Substatial rewrite using enumerator and shared code.]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.h     |   2 +
- target/arm/gdbstub.c | 178 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 180 insertions(+)
+Thanks,
+-Dinah
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 059fe62eaa..6e97a256fb 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -869,6 +869,8 @@ struct ArchCPU {
- 
-     DynamicGDBXMLInfo dyn_sysreg_xml;
-     DynamicGDBXMLInfo dyn_svereg_xml;
-+    DynamicGDBXMLInfo dyn_m_systemreg_xml;
-+    DynamicGDBXMLInfo dyn_m_secextreg_xml;
- 
-     /* Timers used by the generic (architected) timer */
-     QEMUTimer *gt_timer[NUM_GTIMERS];
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 062c8d447a..3f799f5d05 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -322,6 +322,164 @@ static int arm_gen_dynamic_sysreg_xml(CPUState *cs, int base_reg)
-     return cpu->dyn_sysreg_xml.num;
- }
- 
-+typedef enum {
-+    M_SYSREG_MSP,
-+    M_SYSREG_PSP,
-+    M_SYSREG_PRIMASK,
-+    M_SYSREG_CONTROL,
-+    M_SYSREG_BASEPRI,
-+    M_SYSREG_FAULTMASK,
-+    M_SYSREG_MSPLIM,
-+    M_SYSREG_PSPLIM,
-+} MProfileSysreg;
-+
-+static const struct {
-+    const char *name;
-+    int feature;
-+} m_sysreg_def[] = {
-+    [M_SYSREG_MSP] = { "msp", ARM_FEATURE_M },
-+    [M_SYSREG_PSP] = { "psp", ARM_FEATURE_M },
-+    [M_SYSREG_PRIMASK] = { "primask", ARM_FEATURE_M },
-+    [M_SYSREG_CONTROL] = { "control", ARM_FEATURE_M },
-+    [M_SYSREG_BASEPRI] = { "basepri", ARM_FEATURE_M_MAIN },
-+    [M_SYSREG_FAULTMASK] = { "faultmask", ARM_FEATURE_M_MAIN },
-+    [M_SYSREG_MSPLIM] = { "msplim", ARM_FEATURE_V8 },
-+    [M_SYSREG_PSPLIM] = { "psplim", ARM_FEATURE_V8 },
-+};
-+
-+static uint32_t *m_sysreg_ptr(CPUARMState *env, MProfileSysreg reg, bool sec)
-+{
-+    uint32_t *ptr;
-+
-+    switch (reg) {
-+    case M_SYSREG_MSP:
-+        ptr = arm_v7m_get_sp_ptr(env, sec, false, true);
-+        break;
-+    case M_SYSREG_PSP:
-+        ptr = arm_v7m_get_sp_ptr(env, sec, true, true);
-+        break;
-+    case M_SYSREG_MSPLIM:
-+        ptr = &env->v7m.msplim[sec];
-+        break;
-+    case M_SYSREG_PSPLIM:
-+        ptr = &env->v7m.psplim[sec];
-+        break;
-+    case M_SYSREG_PRIMASK:
-+        ptr = &env->v7m.primask[sec];
-+        break;
-+    case M_SYSREG_BASEPRI:
-+        ptr = &env->v7m.basepri[sec];
-+        break;
-+    case M_SYSREG_FAULTMASK:
-+        ptr = &env->v7m.faultmask[sec];
-+        break;
-+    case M_SYSREG_CONTROL:
-+        ptr = &env->v7m.control[sec];
-+        break;
-+    default:
-+        return NULL;
-+    }
-+    return arm_feature(env, m_sysreg_def[reg].feature) ? ptr : NULL;
-+}
-+
-+static int m_sysreg_get(CPUARMState *env, GByteArray *buf,
-+                        MProfileSysreg reg, bool secure)
-+{
-+    uint32_t *ptr = m_sysreg_ptr(env, reg, secure);
-+
-+    if (ptr == NULL) {
-+        return 0;
-+    }
-+    return gdb_get_reg32(buf, *ptr);
-+}
-+
-+static int arm_gdb_get_m_systemreg(CPUARMState *env, GByteArray *buf, int reg)
-+{
-+    /*
-+     * Here, we emulate MRS instruction, where CONTROL has a mix of
-+     * banked and non-banked bits.
-+     */
-+    if (reg == M_SYSREG_CONTROL) {
-+        return gdb_get_reg32(buf, arm_v7m_mrs_control(env, env->v7m.secure));
-+    }
-+    return m_sysreg_get(env, buf, reg, env->v7m.secure);
-+}
-+
-+static int arm_gdb_set_m_systemreg(CPUARMState *env, uint8_t *buf, int reg)
-+{
-+    return 0; /* TODO */
-+}
-+
-+static int arm_gen_dynamic_m_systemreg_xml(CPUState *cs, int orig_base_reg)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-+    GString *s = g_string_new(NULL);
-+    int base_reg = orig_base_reg;
-+    int i;
-+
-+    g_string_printf(s, "<?xml version=\"1.0\"?>");
-+    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
-+    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.arm.m-system\">\n");
-+
-+    for (i = 0; i < ARRAY_SIZE(m_sysreg_def); i++) {
-+        if (arm_feature(env, m_sysreg_def[i].feature)) {
-+            g_string_append_printf(s,
-+                "<reg name=\"%s\" bitsize=\"32\" regnum=\"%d\"/>\n",
-+                m_sysreg_def[i].name, base_reg++);
-+        }
-+    }
-+
-+    g_string_append_printf(s, "</feature>");
-+    cpu->dyn_m_systemreg_xml.desc = g_string_free(s, false);
-+    cpu->dyn_m_systemreg_xml.num = base_reg - orig_base_reg;
-+
-+    return cpu->dyn_m_systemreg_xml.num;
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+/*
-+ * For user-only, we see the non-secure registers via m_systemreg above.
-+ * For secext, encode the non-secure view as even and secure view as odd.
-+ */
-+static int arm_gdb_get_m_secextreg(CPUARMState *env, GByteArray *buf, int reg)
-+{
-+    return m_sysreg_get(env, buf, reg >> 1, reg & 1);
-+}
-+
-+static int arm_gdb_set_m_secextreg(CPUARMState *env, uint8_t *buf, int reg)
-+{
-+    return 0; /* TODO */
-+}
-+
-+static int arm_gen_dynamic_m_secextreg_xml(CPUState *cs, int orig_base_reg)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    GString *s = g_string_new(NULL);
-+    int base_reg = orig_base_reg;
-+    int i;
-+
-+    g_string_printf(s, "<?xml version=\"1.0\"?>");
-+    g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
-+    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.arm.secext\">\n");
-+
-+    for (i = 0; i < ARRAY_SIZE(m_sysreg_def); i++) {
-+        g_string_append_printf(s,
-+            "<reg name=\"%s_ns\" bitsize=\"32\" regnum=\"%d\"/>\n",
-+            m_sysreg_def[i].name, base_reg++);
-+        g_string_append_printf(s,
-+            "<reg name=\"%s_s\" bitsize=\"32\" regnum=\"%d\"/>\n",
-+            m_sysreg_def[i].name, base_reg++);
-+    }
-+
-+    g_string_append_printf(s, "</feature>");
-+    cpu->dyn_m_secextreg_xml.desc = g_string_free(s, false);
-+    cpu->dyn_m_secextreg_xml.num = base_reg - orig_base_reg;
-+
-+    return cpu->dyn_m_secextreg_xml.num;
-+}
-+#endif
-+
- const char *arm_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-@@ -330,6 +488,12 @@ const char *arm_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
-         return cpu->dyn_sysreg_xml.desc;
-     } else if (strcmp(xmlname, "sve-registers.xml") == 0) {
-         return cpu->dyn_svereg_xml.desc;
-+    } else if (strcmp(xmlname, "arm-m-system.xml") == 0) {
-+        return cpu->dyn_m_systemreg_xml.desc;
-+#ifndef CONFIG_USER_ONLY
-+    } else if (strcmp(xmlname, "arm-m-secext.xml") == 0) {
-+        return cpu->dyn_m_secextreg_xml.desc;
-+#endif
-     }
-     return NULL;
- }
-@@ -389,4 +553,18 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
-                              "system-registers.xml", 0);
- 
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        gdb_register_coprocessor(cs,
-+            arm_gdb_get_m_systemreg, arm_gdb_set_m_systemreg,
-+            arm_gen_dynamic_m_systemreg_xml(cs, cs->gdb_num_regs),
-+            "arm-m-system.xml", 0);
-+#ifndef CONFIG_USER_ONLY
-+        if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-+            gdb_register_coprocessor(cs,
-+                arm_gdb_get_m_secextreg, arm_gdb_set_m_secextreg,
-+                arm_gen_dynamic_m_secextreg_xml(cs, cs->gdb_num_regs),
-+                "arm-m-secext.xml", 0);
-+        }
-+#endif
-+    }
- }
--- 
-2.34.1
+On Mon, Feb 27, 2023 at 4:23=E2=80=AFPM Dinah B <dinahbaum123@gmail.com> wr=
+ote:
 
+> Thanks, here's the original patch:
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?att=3D2;bug=3D621529;filena=
+me=3Dmultiboot2.patch;msg=3D15
+>
+> On Mon, Feb 27, 2023 at 4:59=E2=80=AFAM Alex Benn=C3=A9e <alex.bennee@lin=
+aro.org>
+> wrote:
+>
+>>
+>> Dinah B <dinahbaum123@gmail.com> writes:
+>>
+>> > Hi,
+>> >
+>> > I'm looking to get more involved in contributing to QEMU. I noticed
+>> that there are some issues in the tracker
+>> > where a sample patch has been contributed but never got merged, like a
+>> proposal to add multiboot2 support:
+>> > https://gitlab.com/qemu-project/qemu/-/issues/389
+>>
+>> I couldn't see a patch attached to the bug report. Is it elsewhere?
+>>
+>> >
+>> > Is another dev allowed to "adopt" the patch as-is, with proper
+>> attribution to the original dev and drive it to
+>> > completion/merging (there are some features missing)? Or is "starting
+>> from scratch" required for legal
+>> > reasons?
+>>
+>> It's certainly possible to pick up a patch from someone else and take it
+>> forward. Aside from addressing any review comments I think the minimum
+>> requirement is the authors original Signed-off-by is intact which
+>> asserts they could contribute code to the project.
+>>
+>> --
+>> Alex Benn=C3=A9e
+>> Virtualisation Tech Lead @ Linaro
+>>
+>
+
+--0000000000001e9b9e05f5b53eea
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>It looks like the author didn&#39;t include a &quot;S=
+igned off&quot; in their patch draft and it doesn&#39;t look like Debian qe=
+mu-kvm maintainers ever merged it.</div><div>Does this change the patch ado=
+ption process?<br></div><div><br></div><div>Thanks,</div><div>-Dinah<br></d=
+iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Mon, Feb 27, 2023 at 4:23=E2=80=AFPM Dinah B &lt;<a href=3D"mailto:di=
+nahbaum123@gmail.com">dinahbaum123@gmail.com</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Thanks, here&#=
+39;s the original patch: <a href=3D"https://bugs.debian.org/cgi-bin/bugrepo=
+rt.cgi?att=3D2;bug=3D621529;filename=3Dmultiboot2.patch;msg=3D15" target=3D=
+"_blank">https://bugs.debian.org/cgi-bin/bugreport.cgi?att=3D2;bug=3D621529=
+;filename=3Dmultiboot2.patch;msg=3D15</a></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 27, 2023 at 4:59=E2=80=
+=AFAM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" target=
+=3D"_blank">alex.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><br>
+Dinah B &lt;<a href=3D"mailto:dinahbaum123@gmail.com" target=3D"_blank">din=
+ahbaum123@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; I&#39;m looking to get more involved in contributing to QEMU. I notice=
+d that there are some issues in the tracker<br>
+&gt; where a sample patch has been contributed but never got merged, like a=
+ proposal to add multiboot2 support:<br>
+&gt; <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/389" rel=3D"n=
+oreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/issues/=
+389</a><br>
+<br>
+I couldn&#39;t see a patch attached to the bug report. Is it elsewhere?<br>
+<br>
+&gt;<br>
+&gt; Is another dev allowed to &quot;adopt&quot; the patch as-is, with prop=
+er attribution to the original dev and drive it to<br>
+&gt; completion/merging (there are some features missing)? Or is &quot;star=
+ting from scratch&quot; required for legal<br>
+&gt; reasons?<br>
+<br>
+It&#39;s certainly possible to pick up a patch from someone else and take i=
+t<br>
+forward. Aside from addressing any review comments I think the minimum<br>
+requirement is the authors original Signed-off-by is intact which<br>
+asserts they could contribute code to the project.<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+Virtualisation Tech Lead @ Linaro<br>
+</blockquote></div>
+</blockquote></div>
+
+--0000000000001e9b9e05f5b53eea--
 
