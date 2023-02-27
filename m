@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1792B6A3C8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11366A3D0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:29:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWYlP-0004CX-Ap; Mon, 27 Feb 2023 03:21:40 -0500
+	id 1pWYmL-0006Kc-Rp; Mon, 27 Feb 2023 03:22:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWYlK-0003vX-1Z; Mon, 27 Feb 2023 03:21:35 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pWYmH-000648-CZ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:22:33 -0500
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWYlF-0000Xg-3K; Mon, 27 Feb 2023 03:21:31 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id cy6so22280026edb.5;
- Mon, 27 Feb 2023 00:21:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pWYmF-0000s7-Dr
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:22:33 -0500
+Received: by mail-lj1-x22b.google.com with SMTP id t14so5537445ljd.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 00:22:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jZUPV2qISL80vnLTJOIdBMQOy5drkx8tt2WKvyJgAUE=;
- b=gxcWccCd9cBgPSMnejgkyshfYRahgGrkWPg8IXJIfTtI5/qlq69uGSTuf0V0GcIPyS
- eTWyDamrEJIvsPzQsKVA2GgRVFHz+eD5cVt8lhm9MX4RsxDEUIU+X39Eqa7q7u9auGqU
- y1po510CJs22Y7WKZ+RO3UQylT8XFjwPKNuZJuNV40tMvPWsof5/sY1U8KaAqqcIC94a
- a7NVuys1BN0hAq1ncqtpHzVF7Zo7qdIgof93YawL9+pP9HyZcqQZEBNeIXQoi1KvW+To
- WROsalNF8qnhkp5atRQ5gctKsc0zhgPFrnO5NjLUwHSPSMSIQ4qJlM0TUHTqhxkf11UJ
- JG0Q==
+ bh=6SA01+q+FMkiTWJxb4V8IgT1pnk2GGsvIruYZ5+a9UU=;
+ b=XJysJrqSe295zcost9MgqvrcXRFU6du4V99VkXuHWyrHn5CKfYDQ3IUUqayxagsRYH
+ dpG9kXSE4uzyPO7d8RSnNeKvNY/TGJMRDOVFhd9C6gj0BcpVlxmrhkdaFYD2dl4bOrPQ
+ bb2XXgRJh/qYYRNYj+4MJdrCYUeXUSyKf4OjGvHB0W2X/47a5rEj4ytMetZ2KUzZa3ZI
+ lj2FX1Q/ENoo8Sp0gOUkaff6SnMQ/91UluCBsQTH1oafRrhrPjtwAPSXYTQccVLuj5Sm
+ DUAfhtu+FEhLi7kzTDh0+8hIhq5Zo04tTPH/jCVWiWJW+oshwK/6vkZh/soyr62D5aSm
+ 2Cqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jZUPV2qISL80vnLTJOIdBMQOy5drkx8tt2WKvyJgAUE=;
- b=ncap5bw2q3iaTy9PN8AWkd+SFqX7ftssCQtph9AWQQWCt9n9n8d4e9z3kaFCHx/fK+
- HYrBuAUnJy8iK6/gBScFfpK5QROnXqMrzkj55Zuiva0L1dDtWFc6Qxy2kKf7hw0U7qJC
- O0RydW2iytWjPItOy83IwdpISD8QN8Xl0oG5b6yiaVa7rxJdniD0tY3fVMImspKo8wPO
- 1xCnXH6ICn0CEUL8PGKKO4aTUFh5CuOvDFrOKS7elM6uJcqgNXenAeBh33NYw7rt5RuD
- 7qMCHBieF+Ibq8nLzf3NCBankHLM2okCyve6LGoo5o+G6YIFRMoeuP5NRS6o25eGTVU/
- RjFg==
-X-Gm-Message-State: AO0yUKVzOT4JWSNJhRvvvR4xl22JtZ2reFUJBtvntiV9xRJn9v6WmUhl
- I1Cta96o6omSkGPmOKhy6ck=
-X-Google-Smtp-Source: AK7set/eXJNT9TSpXzf8ySvzOqp2LeUti+gV9lSjehsX6rchdUl/D4ffh3XX7TbwN7eXRC3f3DNSFg==
-X-Received: by 2002:a17:907:c927:b0:8b2:7150:dd03 with SMTP id
- ui39-20020a170907c92700b008b27150dd03mr29183737ejc.35.1677486086790; 
- Mon, 27 Feb 2023 00:21:26 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-078-055-154-008.78.55.pool.telefonica.de.
- [78.55.154.8]) by smtp.gmail.com with ESMTPSA id
- hz18-20020a1709072cf200b008b26f3d45fbsm2956727ejc.143.2023.02.27.00.21.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 00:21:26 -0800 (PST)
-Date: Mon, 27 Feb 2023 08:21:20 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, ReneEngel80@emailn.de
-Subject: Re: [PATCH v3 4/8] hw/isa/vt82c686: Implement PCI IRQ routing
-In-Reply-To: <236a7e87-b8dd-720d-e2e2-2c1beb97116e@eik.bme.hu>
-References: <cover.1677445307.git.balaton@eik.bme.hu>
- <0fd9eac9174a840054c511fbc015048929c7bc40.1677445307.git.balaton@eik.bme.hu>
- <a496276e-24fb-e2bc-fbdf-ace9ef7f361f@linaro.org>
- <0E10FCF9-465D-462A-8031-880B0907CCDA@gmail.com>
- <236a7e87-b8dd-720d-e2e2-2c1beb97116e@eik.bme.hu>
-Message-ID: <E383649B-F5D7-4D4F-886A-6A29B00BBDFA@gmail.com>
+ bh=6SA01+q+FMkiTWJxb4V8IgT1pnk2GGsvIruYZ5+a9UU=;
+ b=tPNRUT2HS9y99foyaLN/UP30fMnykrGoKxSG0pFy1nS1GDuJOuiafBoAbZs/sqkMBY
+ zfGCbikhv5/cot8UoEl9AHV9lkINmq4CheuG1ahJG0fTmRBfoTIqg8MbP1AAUEiZ6y7a
+ 1ZQacEW3MhKnRJCgzV3D1xshN/wOTn4SzMWIYjVHI79qhfcaV+Myh5IFYQm64oUTQTV+
+ aLlzBHzNYvOtVAj6aDXV7fyAv5Vztu/UP8H1sT54koIQa4hal2+1UoacOWSPeXNhoAUR
+ GURRGeH//WcpHeb22HtLWct71gHONuYSiMIPJIRRv9gamPKca/iLH+3nY5srXXK0YGY0
+ f8Pg==
+X-Gm-Message-State: AO0yUKUzfCAaV1RYXvQkUm8uSW+pWQaGii8TEGXRWjitP9Kjhvj/bEKi
+ KtHnv53k9LQrbM4GUxfCB6TfAV6RbK5yIMVarOk=
+X-Google-Smtp-Source: AK7set8xLakQsCodJltwGqtpiw/TA4gWTKYv17w8CUi88Wk6B7uJAwItXU8AndnR578Tcw9TlHRot17QkhvVoSCJ/Vo=
+X-Received: by 2002:a2e:b802:0:b0:295:a8c7:4b3b with SMTP id
+ u2-20020a2eb802000000b00295a8c74b3bmr2557358ljo.4.1677486149011; Mon, 27 Feb
+ 2023 00:22:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <cover.1677197937.git.dxu@dxuuu.xyz>
+ <6ed3091be8bc0ae8d3fee767b6e7400a8e32c493.1677197937.git.dxu@dxuuu.xyz>
+In-Reply-To: <6ed3091be8bc0ae8d3fee767b6e7400a8e32c493.1677197937.git.dxu@dxuuu.xyz>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 27 Feb 2023 12:22:17 +0400
+Message-ID: <CAJ+F1CKa70J1cah7XnyCAtuUXJFCjmyau+BZpFWbyvR_jKTdBQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] qga: Add optional `merge-output` flag to guest-exec
+ qapi
+To: Daniel Xu <dxu@dxuuu.xyz>
+Cc: michael.roth@amd.com, kkostiuk@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,108 +86,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi
 
-
-Am 26=2E Februar 2023 23:37:24 UTC schrieb BALATON Zoltan <balaton@eik=2Eb=
-me=2Ehu>:
->On Sun, 26 Feb 2023, Bernhard Beschow wrote:
->> Am 26=2E Februar 2023 22:27:50 UTC schrieb "Philippe Mathieu-Daud=C3=A9=
-" <philmd@linaro=2Eorg>:
->>> On 25/2/23 19:11, BALATON Zoltan wrote:
->>>> From: Bernhard Beschow <shentey@gmail=2Ecom>
->>>>=20
->>>> The real VIA south bridges implement a PCI IRQ router which is config=
-ured
->>>> by the BIOS or the OS=2E In order to respect these configurations, QE=
-MU
->>>> needs to implement it as well=2E
->>>>=20
->>>> Note: The implementation was taken from piix4_set_irq() in hw/isa/pii=
-x4=2E
->>>>=20
->>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>>> [balaton: declare gpio inputs instead of changing pci bus irqs so it =
-can
->>>>   be connected in board code; remove some empty lines]
->>>> Signed-off-by: BALATON Zoltan <balaton@eik=2Ebme=2Ehu>
->>>> Tested-by: Rene Engel <ReneEngel80@emailn=2Ede>
->>>> ---
->>>>   hw/isa/vt82c686=2Ec | 39 +++++++++++++++++++++++++++++++++++++++
->>>>   1 file changed, 39 insertions(+)
->>>=20
->>>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
->>>> +{
->>>> +    switch (irq_num) {
->>>> +    case 0:
->>>> +        return s->dev=2Econfig[0x55] >> 4;
->>>> +    case 1:
->>>> +        return s->dev=2Econfig[0x56] & 0xf;
->>>> +    case 2:
->>>> +        return s->dev=2Econfig[0x56] >> 4;
->>>> +    case 3:
->>>> +        return s->dev=2Econfig[0x57] >> 4;
->>>> +    }
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level=
-)
->>>> +{
->>>> +    ViaISAState *s =3D opaque;
->>>> +    PCIBus *bus =3D pci_get_bus(&s->dev);
->>>> +    int pic_irq;
->>>> +
->>>> +    /* now we change the pic irq level according to the via irq mapp=
-ings */
->>>> +    /* XXX: optimize */
->>>> +    pic_irq =3D via_isa_get_pci_irq(s, irq_num);
->>>> +    if (pic_irq < ISA_NUM_IRQS) {
->>>=20
->>> the ISA IRQ is stored in 4-bit so will always be in range=2E
->>=20
->> Indeed=2E I'd turn this into an assert to keep this assum visible=2E I'=
-ll do another iteration of the PCI IRQ router series=2E
+On Fri, Feb 24, 2023 at 8:31 AM Daniel Xu <dxu@dxuuu.xyz> wrote:
 >
->If you do that please don't break it and make me redo this series again=
-=2E Sumbit a patch as a reply to this that can be substituted without chang=
-ing other patches and I can include in later respins=2E
-
-I will only do the mist minimal changes satisfying the review comments=2E =
-This should minimize the risk of breakage=2E Also, you can minimize the cha=
-nce of breakage on your side by not introducing more changes than needed, e=
-=2Eg=2E by not doing any formatting changes=2E
-
->We don't have time to make extensive changes now, the freeze is too close=
-=2E
-
-I don't intend to make extensive changes unless review comments requre it=
-=2E
-
-Best regards,
-Bernhard
-
+> Currently, the captured output (via `capture-output`) is segregated into
+> separate GuestExecStatus fields (`out-data` and `err-data`). This means
+> that downstream consumers have no way to reassemble the captured data
+> back into the original stream.
 >
->Regards,
->BALATON Zoltan
+> This is relevant for chatty and semi-interactive (ie. read only) CLI
+> tools.  Such tools may deliberately interleave stdout and stderr for
+> visual effect. If segregated, the output becomes harder to visually
+> understand.
 >
->> Best regards,
->> Bernhard
->>>=20
->>>> +        int i, pic_level;
->>>> +
->>>> +        /* The pic level is the logical OR of all the PCI irqs mappe=
-d to it=2E */
->>>> +        pic_level =3D 0;
->>>> +        for (i =3D 0; i < PCI_NUM_PINS; i++) {
->>>> +            if (pic_irq =3D=3D via_isa_get_pci_irq(s, i)) {
->>>> +                pic_level |=3D pci_bus_get_irq_level(bus, i);
->>>> +            }
->>>> +        }
->>>> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
->>>> +    }
->>>> +}
->>>=20
->>>=20
->>=20
->> 
+> This commit adds a new optional flag to the guest-exec qapi to merge the
+> output streams such that consumers can have a pristine view of the
+> original command output.
+>
+> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+> ---
+>  qga/commands.c       | 13 ++++++++++++-
+>  qga/qapi-schema.json |  6 +++++-
+>  2 files changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/qga/commands.c b/qga/commands.c
+> index 360077364e..14b970e768 100644
+> --- a/qga/commands.c
+> +++ b/qga/commands.c
+> @@ -274,6 +274,15 @@ static void guest_exec_child_watch(GPid pid, gint st=
+atus, gpointer data)
+>  /** Reset ignored signals back to default. */
+>  static void guest_exec_task_setup(gpointer data)
+>  {
+> +    bool has_merge =3D *(bool *)data;
+> +
+> +    if (has_merge) {
+> +        if (dup2(STDOUT_FILENO, STDERR_FILENO) !=3D 0) {
+> +            slog("dup2() failed to merge stderr into stdout: %s",
+> +                 strerror(errno));
+> +        }
+> +    }
+
+https://docs.gtk.org/glib/callback.SpawnChildSetupFunc.html
+
+"On Windows, the function is called in the parent. Its usefulness on
+Windows is thus questionable. In many cases executing the child setup
+function in the parent can have ill effects, and you should be very
+careful when porting software to Windows that uses child setup
+functions."
+
+It looks like this would be bad.
+
+> +
+>  #if !defined(G_OS_WIN32)
+>      struct sigaction sigact;
+>
+> @@ -385,6 +394,7 @@ GuestExec *qmp_guest_exec(const char *path,
+>                         bool has_env, strList *env,
+>                         const char *input_data,
+>                         bool has_capture_output, bool capture_output,
+> +                       bool has_merge_output, bool merge_output,
+>                         Error **errp)
+>  {
+>      GPid pid;
+> @@ -398,6 +408,7 @@ GuestExec *qmp_guest_exec(const char *path,
+>      GIOChannel *in_ch, *out_ch, *err_ch;
+>      GSpawnFlags flags;
+>      bool has_output =3D (has_capture_output && capture_output);
+> +    bool has_merge =3D (has_merge_output && merge_output);
+>      g_autofree uint8_t *input =3D NULL;
+>      size_t ninput =3D 0;
+>
+> @@ -421,7 +432,7 @@ GuestExec *qmp_guest_exec(const char *path,
+>      }
+>
+>      ret =3D g_spawn_async_with_pipes(NULL, argv, envp, flags,
+> -            guest_exec_task_setup, NULL, &pid, input_data ? &in_fd : NUL=
+L,
+> +            guest_exec_task_setup, &has_merge, &pid, input_data ? &in_fd=
+ : NULL,
+>              has_output ? &out_fd : NULL, has_output ? &err_fd : NULL, &g=
+err);
+>      if (!ret) {
+>          error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
+> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> index 796434ed34..4192fcc5a4 100644
+> --- a/qga/qapi-schema.json
+> +++ b/qga/qapi-schema.json
+> @@ -1211,6 +1211,9 @@
+>  # @input-data: data to be passed to process stdin (base64 encoded)
+>  # @capture-output: bool flag to enable capture of
+>  #                  stdout/stderr of running process. defaults to false.
+> +# @merge-output: bool flag to merge stdout/stderr of running process
+> +#                into stdout. only effective if used with @capture-outpu=
+t.
+> +#                defaults to false.
+
+Add (since: 8.0)
+
+>  #
+>  # Returns: PID on success.
+>  #
+> @@ -1218,7 +1221,8 @@
+>  ##
+>  { 'command': 'guest-exec',
+>    'data':    { 'path': 'str', '*arg': ['str'], '*env': ['str'],
+> -               '*input-data': 'str', '*capture-output': 'bool' },
+> +               '*input-data': 'str', '*capture-output': 'bool',
+> +               '*merge-output': 'bool' },
+>    'returns': 'GuestExec' }
+>
+>
+> --
+> 2.39.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
