@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81646A445E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C73E6A450E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:47:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeFZ-0003dG-66; Mon, 27 Feb 2023 09:13:09 -0500
+	id 1pWeFQ-00029z-OG; Mon, 27 Feb 2023 09:13:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeF2-0000Y7-Ol
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:12:36 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeF2-0000YL-Ux
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:12:37 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeEc-0001CS-KX
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:12:11 -0500
-Received: by mail-wr1-x429.google.com with SMTP id j2so6355919wrh.9
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:12:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeEj-0001JK-5H
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:12:18 -0500
+Received: by mail-wr1-x436.google.com with SMTP id bx12so3218053wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:12:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=uyj2N1V5KX2b0ID+h6AUIAfOe3fyRF4wROR42WY2Q44=;
- b=AsNa9WX/16QecpF96hurnU10OuXV4myfnh9bWP44tyseaErE6ppuW0Dh59PBJO5cp2
- SlnCf8bpcJfCD6ugO+PkxBTbksTDDvtP7VOy8k7QuHt8ClVukfC4h5txuXr5HqT07dCK
- 2TCsizl9Q4kF8Z9y7m0QdzeYBEsWuwsGR1UoTv49ji7SEvjBH44oReztAGmnX/izC4+d
- 2PG2Aj7M86Fa7xiaNcpxeVbHKmWtCKrdUB3tNjrlvNyFo6qhTPG9pD4StoQcRMnJzz81
- ix2PrPL2FG3VH5kgUovp+fFxHLLkpDox6+m1bVc7dW04hIKvsIV5hB+0Iukzo7Cmwfb2
- dfzA==
+ :reply-to; bh=OccisqI4WNIDr8E7Yjsdl5GaM3rLNuobwKRrMT0Br6E=;
+ b=vBj7v8dQCQDsRnqJG3milKwjXTdwIJ+Vew7E16Vgv52ADlfwQhBjeC+mjac7dn+NuH
+ d9m889U4Znm/9zSNl63JhmSiBY5VdJmA6atRZ03+FVUtp3hpGfay9UbNHRaN2VsmMBHW
+ yU6+GSu1KKrePN+gHy8EZkb+zpIX5eSOrSU72WA67zOxLvyXhVtFs1G8U5R8N36z6yH5
+ IJl5cLQP96RowaTfRvVKnqujJJ1Kec1y74xbwOdqFRR7K8Ksj8RD1TOPhji8+Ud84JEw
+ LWQ7w6K0BbJSZi/gySARysI4byzMkvgN1Ojp1iTEGfIawfRF/yUwS4kkZ0xNE6/Phxm8
+ 3NGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uyj2N1V5KX2b0ID+h6AUIAfOe3fyRF4wROR42WY2Q44=;
- b=M4LD0qImeNBePZJ8hjPeAfH3Acg+EmRo7NPpXZn+VwCb8MDvw1XyvCjmFpw7PJDA3f
- OvXF9KvNLOo0/T7gcz7sNLnpT5PNrF3eEBITcs84USrn6tok2DfToN81dFSaL6u0yVYJ
- YuWYsXyDZn8n/SMP90dKZH/K4xK+Vf9T0G9TEYRX3PM7K4FgU9SMHYg0sCxg7dOzNl1B
- Huq1+Rdx9E/XNK+uYt2pIPp4GWcyo0Kayr674M2o1V+0ZP7o0omTRYfippr7u34mZKyV
- AF1GI+I9N4WxoRMLInV1fCDQlet+bJKcPTCSBu+4bFi4GEC4iG2qMgeEKFZUXiC50j1d
- 3AYg==
-X-Gm-Message-State: AO0yUKVnWbIdmZ2AtembPtvTYRW+rL6BxLaE7nBE95eqgrWoQrmofr9e
- AePBf/+YS27otqko3xm2uwoTbN47cVCN9Ul5
-X-Google-Smtp-Source: AK7set/j+lzIYfMt5quryXVR/2alNoR2d3GcBUizWNUMcu5ZbM5fk3Ur+Wsz+0QSuzozAbb5oGKdvg==
-X-Received: by 2002:a5d:5e8c:0:b0:2c3:d707:7339 with SMTP id
- ck12-20020a5d5e8c000000b002c3d7077339mr6942335wrb.6.1677507129727; 
- Mon, 27 Feb 2023 06:12:09 -0800 (PST)
+ bh=OccisqI4WNIDr8E7Yjsdl5GaM3rLNuobwKRrMT0Br6E=;
+ b=Nb5sPgxvPvRTfjeVV7K1c6f4ayvGDjIzEzhpttOpgY+zDvG+wvPgZt1/7plMGp1Uyw
+ P3HymZHClEuoDACnL1CI5jcQ9ndVtz1pH3RTlsARXtjcwquOTHoewAKSY+RoHtd1mT8D
+ 3WAnI4gtxyZ/chcKbcyOMxR0xTcCZS0B9Lfnx4LttR23fiY1qY62Gl33C+1ZWU8jaA6L
+ KHkvz5ykZMQSY7f7TD+WIlYsslv1Tw3aEJqk9XyaFyieXv6ii/I/PChkHmPcZ8B+AUG0
+ my1pryyzqxXnxAgdHjaGjXMPsIWp/iooce2dcpVxyoHpqSqi8FsNQ7Gl8vpwz57upzOu
+ vWJg==
+X-Gm-Message-State: AO0yUKW7gzAsGpPCMlVlLFBBi0nsnnq/TcyzzDSaVjDFPhhgmZq5pkzW
+ qY6vHEujI/CcEjGvtaVKSPrOiyVxxM6H+dyK
+X-Google-Smtp-Source: AK7set8giuoQZiF4s3R5H2Nm8KIbSeyfg2QACZTaalm14PXtDlQMF1hweX3MONIR95iyCQMAta6x2Q==
+X-Received: by 2002:adf:cd8b:0:b0:2c7:bfe:4f60 with SMTP id
+ q11-20020adfcd8b000000b002c70bfe4f60mr16526846wrj.15.1677507135226; 
+ Mon, 27 Feb 2023 06:12:15 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- n7-20020a5d4c47000000b002c5534db60bsm7088284wrt.71.2023.02.27.06.12.09
+ s9-20020a5d4249000000b002c5598c14acsm7181688wrr.6.2023.02.27.06.12.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:12:09 -0800 (PST)
+ Mon, 27 Feb 2023 06:12:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 119/126] hw/ide/via: Replace magic 2 value by ARRAY_SIZE /
- MAX_IDE_DEVS
-Date: Mon, 27 Feb 2023 15:02:06 +0100
-Message-Id: <20230227140213.35084-110-philmd@linaro.org>
+Subject: [PULL 120/126] hw/ide/pci: Add PCIIDEState::isa_irq[]
+Date: Mon, 27 Feb 2023 15:02:07 +0100
+Message-Id: <20230227140213.35084-111-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,60 +87,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Bernhard Beschow <shentey@gmail.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210511041848.2743312-5-f4bug@amsat.org>
+These legacy ISA IRQs allow the PIIX IDE functions to be wired up in
+their south bridges and the VIA IDE functions to disuse
+PCI_INTERRUPT_LINE as outlined in https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg01707.html
+
+Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230126211740.66874-7-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/ide/via.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/hw/ide/pci.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index ab9e43e244..177baea9a7 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -90,7 +90,7 @@ static void bmdma_setup_bar(PCIIDEState *d)
-     int i;
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index 7b5e3f6e1c..74c127e32f 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -49,6 +49,7 @@ struct PCIIDEState {
  
-     memory_region_init(&d->bmdma_bar, OBJECT(d), "via-bmdma-container", 16);
--    for(i = 0;i < 2; i++) {
-+    for (i = 0; i < ARRAY_SIZE(d->bmdma); i++) {
-         BMDMAState *bm = &d->bmdma[i];
- 
-         memory_region_init_io(&bm->extra_io, OBJECT(d), &via_bmdma_ops, bm,
-@@ -122,7 +122,7 @@ static void via_ide_reset(DeviceState *dev)
-     uint8_t *pci_conf = pd->config;
-     int i;
- 
--    for (i = 0; i < 2; i++) {
-+    for (i = 0; i < ARRAY_SIZE(d->bus); i++) {
-         ide_bus_reset(&d->bus[i]);
-     }
- 
-@@ -188,9 +188,9 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
-     bmdma_setup_bar(d);
-     pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
- 
--    qdev_init_gpio_in(ds, via_ide_set_irq, 2);
--    for (i = 0; i < 2; i++) {
--        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-+    qdev_init_gpio_in(ds, via_ide_set_irq, ARRAY_SIZE(d->bus));
-+    for (i = 0; i < ARRAY_SIZE(d->bus); i++) {
-+        ide_bus_init(&d->bus[i], sizeof(d->bus[i]), ds, i, MAX_IDE_DEVS);
-         ide_bus_init_output_irq(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
-@@ -204,7 +204,7 @@ static void via_ide_exitfn(PCIDevice *dev)
-     PCIIDEState *d = PCI_IDE(dev);
-     unsigned i;
- 
--    for (i = 0; i < 2; ++i) {
-+    for (i = 0; i < ARRAY_SIZE(d->bmdma); ++i) {
-         memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].extra_io);
-         memory_region_del_subregion(&d->bmdma_bar, &d->bmdma[i].addr_ioport);
-     }
+     IDEBus bus[2];
+     BMDMAState bmdma[2];
++    qemu_irq isa_irq[2];
+     uint32_t secondary; /* used only for cmd646 */
+     MemoryRegion bmdma_bar;
+     MemoryRegion cmd_bar[2];
 -- 
 2.38.1
 
