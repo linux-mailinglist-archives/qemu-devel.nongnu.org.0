@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292996A48AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB876A48D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:58:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWhj2-0003OI-FV; Mon, 27 Feb 2023 12:55:48 -0500
+	id 1pWhj5-0003ZK-Ut; Mon, 27 Feb 2023 12:55:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pWhix-0003NZ-7o
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:55:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pWhj3-0003T8-E1
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:55:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pWhiv-0004Mj-MF
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:55:42 -0500
+ id 1pWhiy-0004NV-GS
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:55:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677520541;
+ s=mimecast20190719; t=1677520543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j3Nog1fgcHNKlxcsiRIt88xpa7VcBQJEhsDy4muCKSw=;
- b=PnXm4N/E2vvec+AGWU0JAEvbwjg3ltLSwrzW6Rnq4Ygr4T2X4Z4bcu9L1G0qdZ1J/UkU28
- u2j6QiW//9/NXeh5L72Jqa3Cholni2vpUqh7CYPdi1cbeA6VSoDiFwhiTlA6bmJ7yK2Fhg
- eWtMl2MmKmz43hGYlRoEEXTMVjzJNFo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=j7cmWIhDDxQGwLFHA3gSJT1kLOkZXbzMzyorFy46txw=;
+ b=bTCAzalCqjiFYQAfRs7l/p+UWkBohf6Zk5tQFHji35ygdFVCZj7DRjoxJrsC/n755twXp4
+ L7quxduSqesVPEpE/TdhunhJI2Dnru76acdky+yR2NEgFWsR/RhCE9VEA/Bjbusne3AocE
+ JqaWDDYxd9Nq9Dt3QAdd12Z9QDh0jLU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-596-ePcXVJd7MMiZ1-xnBA6KmA-1; Mon, 27 Feb 2023 12:55:39 -0500
-X-MC-Unique: ePcXVJd7MMiZ1-xnBA6KmA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cz22-20020a0564021cb600b004a245f58006so9865517edb.12
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 09:55:39 -0800 (PST)
+ us-mta-609-Jeb_VShbMKWtAA5EemtEHQ-1; Mon, 27 Feb 2023 12:55:42 -0500
+X-MC-Unique: Jeb_VShbMKWtAA5EemtEHQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ h13-20020a0564020e8d00b004a26ef05c34so9732472eda.16
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 09:55:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=j3Nog1fgcHNKlxcsiRIt88xpa7VcBQJEhsDy4muCKSw=;
- b=Vmqrz2jdRq0Wv1dAUVV/VnsgMbX+bgxNKt9jkMZadHOUAaR2VjpOVM9GVMQKwIvse0
- yg6+/molb0424Oh+79eJ1BGq1rVONTHcnWMO+mLUjTA7954K0aU6PyTQ5xAN6nA3SAjx
- IceHg+iLd3UIf8dsK5aq3HVTwhV+VHcRqHOJd09I/Z3oKXNQAyY46HGIJ2WQo8XSqXQG
- c55f1dhZrp/xmezjha5MbQ+hJ7QCJ7p+a0Qcln/VLHXLScWW9MuOKLZij7/h5vE7JYZg
- yR0SHuFSC1o/23uJ1WEIdKdy51FMedbrfHj3Sp/jU1670jl+9AhtyozNxT1R6POau2iq
- yMlg==
-X-Gm-Message-State: AO0yUKW4jhVE7k24kMq80TQIogdowKTDLckVvaADwAUzHGFJEylMOFsz
- gapBqwPGmhIJGnzPpyN9g4eZe+e+hFf4B1hAgH7TuDIF3TlCVINhNcRBB0d3tP9g6WpduoQHYrp
- ft6ibahi86YYjMi6HaBsiE0P4VqJI8uhK07gvFyD+gsMTBrv1/Blu876BaW4lQYrY+zbIMKUC
-X-Received: by 2002:a17:906:1c17:b0:8b1:88aa:46da with SMTP id
- k23-20020a1709061c1700b008b188aa46damr34237438ejg.48.1677520538373; 
- Mon, 27 Feb 2023 09:55:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set98aALMz/VrJxeWbyg65WG7lXpq3Pn23HWv7b+UqwSLnuwel28cQoW4dffoEbGiQ32ArSoyZw==
-X-Received: by 2002:a17:906:1c17:b0:8b1:88aa:46da with SMTP id
- k23-20020a1709061c1700b008b188aa46damr34237419ejg.48.1677520537973; 
- Mon, 27 Feb 2023 09:55:37 -0800 (PST)
+ bh=j7cmWIhDDxQGwLFHA3gSJT1kLOkZXbzMzyorFy46txw=;
+ b=ToyJTiKFj0yJl57a519QAS1vNWYwZa5YdBWToIDkxhYKA1U/FNWpXhciJ4m+glLY1e
+ aOHSDVoyAjvam/k587xpiSIBID7BSJfTx7Fa+8zt0bNjpPKyCrixpXcFPE5BscVCP1XA
+ 0XZ4+PuFVh3OexZ+VHcvcwXYpj7aOlikcoxY2itM2nuIBbQPi1Xto10j9qY8k2ig5GI8
+ v+TqfoUoJP1jDJnlMODHqlKZ36QL3H8jO9yFtEs11nIw4bIe6p71+Rblix5xLuz3xv8S
+ ymCFzk6II3nMS+tm/c+XaYWDd6Gr86+cvNPbh0UChgK/ts/0jDk5srJ+rAzFRDUu/OMz
+ 20TA==
+X-Gm-Message-State: AO0yUKVlez4KtcisBXmUSur0AHJgggMQ23Ts5DWeO9bNdahzqsmqRrk6
+ w7/gD24b83+LtAtnzVukI69HEJXdI3mmeRo9qRKynuBXu3tsrDJQ+JWzoTMurLNSiksAifPZWrA
+ WqPTsKJ3Ql9B2i9I3jvsB+P0f3Xj6r+ZaAbtUCyR6WQrOAlJ/2L4ith8JGphO9/hxoBx30kS0
+X-Received: by 2002:a17:907:6eac:b0:878:58e6:f1eb with SMTP id
+ sh44-20020a1709076eac00b0087858e6f1ebmr44599065ejc.23.1677520540899; 
+ Mon, 27 Feb 2023 09:55:40 -0800 (PST)
+X-Google-Smtp-Source: AK7set9FevdlK+hoDtgmfCxrCXb7ULtYF2iK0AurxLC9BYdetUMM1Tk40NGu8yu8ikXboaR5eLAyfg==
+X-Received: by 2002:a17:907:6eac:b0:878:58e6:f1eb with SMTP id
+ sh44-20020a1709076eac00b0087858e6f1ebmr44599039ejc.23.1677520540481; 
+ Mon, 27 Feb 2023 09:55:40 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- g15-20020a1709064e4f00b008ee64893786sm3522985ejw.99.2023.02.27.09.55.37
+ qx27-20020a170906fcdb00b008bda61ff999sm3467187ejb.130.2023.02.27.09.55.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 09:55:37 -0800 (PST)
+ Mon, 27 Feb 2023 09:55:40 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: John Snow <jsnow@redhat.com>
-Subject: [PULL 04/13] configure: protect against escaping venv when running
- Meson
-Date: Mon, 27 Feb 2023 18:55:15 +0100
-Message-Id: <20230227175524.710880-5-pbonzini@redhat.com>
+Cc: John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PULL 05/13] configure: Look for auxiliary Python installations
+Date: Mon, 27 Feb 2023 18:55:16 +0100
+Message-Id: <20230227175524.710880-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230227175524.710880-1-pbonzini@redhat.com>
 References: <20230227175524.710880-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,61 +101,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If neither --python nor --meson are specified, Meson's generated
-build.ninja will invoke Python script using the interpreter *that Meson
-itself is running under*; not the one identified by configure.
+From: John Snow <jsnow@redhat.com>
 
-This is only an issue if Meson's Python interpreter is not "the first
-one in the path", which is the one that is used if --python is not
-specified.  A common case where this happen is when the "python3" binary
-comes from a virtual environment but Meson is not installed (with pip)
-in the virtual environment.  In this case (presumably) whoever set up
-the venv wanted to use the venv's Python interpreter to build QEMU,
-while Meson might use a different one, for example an enterprise
-distro's older runtime.
+At the moment, we look for just "python3" and "python", which is good
+enough almost all of the time. But ... if you are on a platform that
+uses an older Python by default and only offers a newer Python as an
+option, you'll have to specify --python=/usr/bin/foo every time.
 
-So, detect whether a virtual environment is setup, and if the virtual
-environment does not have Meson, use the meson submodule.  Meson will
-then run under the virtual environment's Python interpreter.
+We can be kind and instead make a cursory attempt to locate a suitable
+Python binary ourselves, looking for the remaining well-known binaries.
 
-Reported-by: John Snow <jsnow@redhat.com>
+This configure loop will prefer, in order:
+
+1. Whatever is specified in $PYTHON
+2. python3
+3. python
+4. python3.11 down through python3.6
+
+Notes:
+
+- Python virtual environment provides binaries for "python3", "python",
+  and whichever version you used to create the venv,
+  e.g. "python3.8". If configure is invoked from inside of a venv, this
+  configure loop will not "break out" of that venv unless that venv is
+  created using an explicitly non-suitable version of Python that we
+  cannot use.
+
+- In the event that no suitable python is found, the first python found
+  is the version used to generate the human-readable error message.
+
+- The error message isn't printed right away to allow later
+  configuration code to pick up an explicitly configured python.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ configure | 63 ++++++++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 46 insertions(+), 17 deletions(-)
 
 diff --git a/configure b/configure
-index cf6db3d5518c..a1912463c94e 100755
+index a1912463c94e..0e41c5e36ce2 100755
 --- a/configure
 +++ b/configure
-@@ -1044,11 +1044,24 @@ if ! $python -c 'import sys; sys.exit(sys.version_info < (3,6))'; then
-       "Use --python=/path/to/python to specify a supported Python."
+@@ -592,20 +592,43 @@ esac
+ 
+ : ${make=${MAKE-make}}
+ 
+-# We prefer python 3.x. A bare 'python' is traditionally
+-# python 2.x, but some distros have it as python 3.x, so
+-# we check that too
+-python=
+-explicit_python=no
+-for binary in "${PYTHON-python3}" python
+-do
+-    if has "$binary"
+-    then
+-        python=$(command -v "$binary")
+-        break
+-    fi
+-done
+ 
++check_py_version() {
++    # We require python >= 3.6.
++    # NB: a True python conditional creates a non-zero return code (Failure)
++    "$1" -c 'import sys; sys.exit(sys.version_info < (3,6))'
++}
++
++python=
++first_python=
++if test -z "${PYTHON}"; then
++    explicit_python=no
++    # A bare 'python' is traditionally python 2.x, but some distros
++    # have it as python 3.x, so check in both places.
++    for binary in python3 python python3.11 python3.10 python3.9 python3.8 python3.7 python3.6; do
++        if has "$binary"; then
++            python=$(command -v "$binary")
++            if check_py_version "$python"; then
++                # This one is good.
++                first_python=
++                break
++            else
++                first_python=$python
++            fi
++        fi
++    done
++else
++    # Same as above, but only check the environment variable.
++    has "${PYTHON}" || error_exit "The PYTHON environment variable does not point to an executable"
++    python=$(command -v "$PYTHON")
++    explicit_python=yes
++    if check_py_version "$python"; then
++        # This one is good.
++        first_python=
++    else
++        first_python=$first_python
++    fi
++fi
+ 
+ # Check for ancillary tools used in testing
+ genisoimage=
+@@ -1030,16 +1053,22 @@ rm -f ./*/config-devices.mak.d
+ 
+ if test -z "$python"
+ then
+-    error_exit "Python not found. Use --python=/path/to/python"
++    # If first_python is set, there was a binary somewhere even though
++    # it was not suitable.  Use it for the error message.
++    if test -n "$first_python"; then
++        error_exit "Cannot use '$first_python', Python >= 3.6 is required." \
++            "Use --python=/path/to/python to specify a supported Python."
++    else
++        error_exit "Python not found. Use --python=/path/to/python"
++    fi
+ fi
++
+ if ! has "$make"
+ then
+     error_exit "GNU make ($make) not found"
  fi
  
--# Suppress writing compiled files
--python="$python -B"
-+# Resolve PATH + suppress writing compiled files
-+python="$(command -v "$python") -B"
-+
-+has_meson() {
-+  local python_dir=$(dirname "$python")
-+  # PEP405: pyvenv.cfg is either adjacent to the Python executable
-+  # or one directory above
-+  if test -f $python_dir/pyvenv.cfg || test -f $python_dir/../pyvenv.cfg; then
-+    # Ensure that Meson and Python come from the same virtual environment
-+    test -x "$python_dir/meson" &&
-+      test "$(command -v meson)" -ef "$python_dir/meson"
-+  else
-+    has meson
-+  fi
-+}
- 
- if test -z "$meson"; then
--    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.61.5; then
-+    if test "$explicit_python" = no && has_meson && version_ge "$(meson --version)" 0.61.5; then
-         meson=meson
-     elif test "$git_submodules_action" != 'ignore' ; then
-         meson=git
+-# Note that if the Python conditional here evaluates True we will exit
+-# with status 1 which is a shell 'false' value.
+-if ! $python -c 'import sys; sys.exit(sys.version_info < (3,6))'; then
++if ! check_py_version "$python"; then
+   error_exit "Cannot use '$python', Python >= 3.6 is required." \
+       "Use --python=/path/to/python to specify a supported Python."
+ fi
 -- 
 2.39.1
 
