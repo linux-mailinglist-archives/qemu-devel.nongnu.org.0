@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7755A6A4AE4
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 20:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9196A4AE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 20:33:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWjDW-00061U-7H; Mon, 27 Feb 2023 14:31:22 -0500
+	id 1pWjF1-0008Hh-RQ; Mon, 27 Feb 2023 14:32:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWjDU-000604-90
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:31:20 -0500
+ id 1pWjEw-000870-77
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:32:50 -0500
 Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWjDS-0003Uc-QB
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:31:19 -0500
+ id 1pWjEu-0003j0-Hn
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 14:32:49 -0500
 Received: by mail-pj1-x1036.google.com with SMTP id
- m20-20020a17090ab79400b00239d8e182efso413991pjr.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 11:31:17 -0800 (PST)
+ cp7-20020a17090afb8700b0023756229427so11257315pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 11:32:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EeeTE37fmsQPI1eXBbAqesr7oiLHd0791rkVC7NDMnA=;
- b=UK4+ItHfosCwThnJqHaUPEAXYCRTrN3V8uViRwJHsDl9pCsN05tPsaxF8+hxa5HyZO
- Im63sAlIIOvFOa109nCGNdnMk9TKE/PndU0PDcKMmLn0qZmtEbMkgqY5Qjk73w3d3De/
- ptpOVwXm8HUim6bKDHuVRXJZcld0VPVxiwnLFZTzeuQFkAUerF5UzzbZqGOr5v5ReIHf
- hB7AEiRxaJEFhNbx/DH8T3Ej2+2kTUjriqkH8kMZ7m+ibcTh/n1IgoHTkOVtknlQ7OxH
- 66PvCd13Hgu+DmL5R0UFk9lM7oaw/J+0Teb6gjIiJbhKAK8OT0I3knD87nPaXkegzRrZ
- exoA==
+ bh=zdX2Qv+6NhUA5AuuuyN8kpw5vDSMVMAbrcuiOGPbQGg=;
+ b=wkmYTOvmiGlQxFDC1XzD2Fdol93hyJQEz0IxX1WuQbrvbMmQbpOpOfWcbcmJEztSZB
+ i/xLDVygRnxifDG7+arQq0tAizM4exzqvNnbskSeNnAh+7jNMzShB0yTy2jHlA1RKIu4
+ +NkUzdo6F7oJlV5xyfgfQShWqq3fzOpJ6CqgX4Qt78pcnZIKaH3Y0McRqVHUuAzD86Lz
+ ZpY9FGIvwkSp11jkNUWQRmLhASL4xjB5Ho4BoRXu1Xzj3TeYnVF1EkplpWQ4byrciQXo
+ u8M+ls3/p6amxND+YApWL1qGqGh202heywT3NVTUtNfbGIqcU3qxpsZgoguTLSuJlbyX
+ dR0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EeeTE37fmsQPI1eXBbAqesr7oiLHd0791rkVC7NDMnA=;
- b=Iss0foKm+eE+HChVwy7qqp14MGH7kc/G9HbEPL/rBREC7EIIkxK4IzZq0i+MLaQMwH
- 57L1xOUk2sU00x3cfXzDmLlaumsw+l7F8+kBpS5OLgYpntDIpAqoPcLUSs/7RWa2laMx
- ce3IzlbblZZeKIV1l5Qe3Ku0lPkkzQs55Zdn3+G+I5zjHRhZ9XKar4n8i/c4HwpTo66j
- muiidxP331kQy+vI0iOc7Glf6+x83Li7eMQ9yXzqN1GHYXDY8lMQbahG/2pahsnJUkBs
- Qx/B7I7gwAAJUSLAezUF83tqgSf6Id3oJQTYWvCuQffjaETo86P3lvgkxtJHhJXfn/B8
- Zh8w==
-X-Gm-Message-State: AO0yUKUHepCufhlz/YPSzw81Y+KNimWqy77Lb+g7Hq2dBU+mkwS1CBCc
- iO21FhOcDDgFclxOHW7Lj7omRI/sxxfy4/vfrmk=
-X-Google-Smtp-Source: AK7set+QH/pFdNp91iXjGqToOnJdtVjNPX2LdE5zeATwGZT0oeUi4yGiKXuuQFijiI0kMAxnf934Iw==
-X-Received: by 2002:a05:6a20:431b:b0:cc:9b29:f617 with SMTP id
- h27-20020a056a20431b00b000cc9b29f617mr846575pzk.0.1677526276514; 
- Mon, 27 Feb 2023 11:31:16 -0800 (PST)
+ bh=zdX2Qv+6NhUA5AuuuyN8kpw5vDSMVMAbrcuiOGPbQGg=;
+ b=2cYF5ic6U7bARAlPP5f5xoZ+3SF8YFqw+Fw6iwhFsxrh48T0CfagDCnqu3kQf8anXW
+ XYw0xZC1n8nUCAdY1ZHzW3pefBju0unTcYYBKtOWRAkC/u8t/PVUVxuyEYuLwyYy+OmV
+ gjbnta6LXd9lHOOPwwKw06tNkNRyLsa/vpL7K4q7HvP/QozoEhZ58jQEQ9a2oiirWQgQ
+ OaUxG5kXkXkchtke5UYHqrNZ8Y0QER9uCxrVib8e5DEoR0T1STME9oEGJpsxn1AUo38d
+ YWgSDbw5KChGf9B7qedGiCG68VHPHET78XQHG/4cxBu5l0/+41NWESstUujh6LL68/TY
+ +Dtg==
+X-Gm-Message-State: AO0yUKUyhzZs0S2Z1OcqZG66qojqdCZyXKp7ROJ0kJ4cioxIa5pdYMMg
+ zqEKam0ohDNehE9xIYQOhJySyw==
+X-Google-Smtp-Source: AK7set9aU/jfjq7Ib8Cco+E+GGrPIEY3m/tZYfuBpjpV0Kk4sq7pjAZhbFRI8E/hloPxwQ/OrA1OWg==
+X-Received: by 2002:a17:902:e750:b0:19c:dc25:dbf5 with SMTP id
+ p16-20020a170902e75000b0019cdc25dbf5mr13329140plf.67.1677526367097; 
+ Mon, 27 Feb 2023 11:32:47 -0800 (PST)
 Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- k10-20020aa7820a000000b005cdbd9c8825sm4571884pfi.195.2023.02.27.11.31.14
+ 1-20020a170902c24100b0019a8468cbe7sm4522749plg.224.2023.02.27.11.32.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 11:31:16 -0800 (PST)
-Message-ID: <c45b9a95-7951-6dab-3ef3-5d7189ca7b09@linaro.org>
-Date: Mon, 27 Feb 2023 09:31:12 -1000
+ Mon, 27 Feb 2023 11:32:46 -0800 (PST)
+Message-ID: <63d28071-d933-b7c8-5879-a6a78f9ad985@linaro.org>
+Date: Mon, 27 Feb 2023 09:32:43 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v4 2/4] target/i386: add FZRM, FSRS, FSRC
+Subject: Re: [PATCH v4 3/4] target/i386: KVM: allow fast string operations if
+ host supports them
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: lei4.wang@intel.com, robert.hu@linux.intel.com, xiaoyao.li@intel.com,
  chenyi.qiang@intel.com
 References: <20230227101332.636203-1-pbonzini@redhat.com>
- <20230227101332.636203-3-pbonzini@redhat.com>
+ <20230227101332.636203-4-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230227101332.636203-3-pbonzini@redhat.com>
+In-Reply-To: <20230227101332.636203-4-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
@@ -96,17 +97,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/27/23 00:13, Paolo Bonzini wrote:
-> These are three more markers for string operation optimizations.
-> They can all be added to TCG, whose string operations are more or
-> less as fast as they can be for short lengths.
+> These are just a flag that documents the performance characteristic of
+> an instruction; it needs no hypervisor support.  So include them even
+> if KVM does not show them.  In particular, FZRM/FSRS/FSRC have only
+> been added very recently, but they are available on Sapphire Rapids
+> processors.
 > 
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   target/i386/cpu.c | 7 ++++---
->   target/i386/cpu.h | 7 +++++++
->   2 files changed, 11 insertions(+), 3 deletions(-)
-
-They could in fact be faster, but good enough.  :-)
+>   target/i386/kvm/kvm.c | 17 ++++++++++++++++-
+>   1 file changed, 16 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
