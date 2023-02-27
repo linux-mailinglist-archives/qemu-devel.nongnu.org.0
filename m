@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA6D6A3BFD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3086A3C43
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:20:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWWHn-0001kj-U0; Mon, 27 Feb 2023 00:42:55 -0500
+	id 1pWWHx-0002KB-Fc; Mon, 27 Feb 2023 00:43:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWHk-0001ax-9R
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:42:52 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ id 1pWWHr-00028S-0Q
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:42:59 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWHi-0004lT-OK
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:42:51 -0500
-Received: by mail-pf1-x429.google.com with SMTP id c10so2154809pfv.13
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:42:50 -0800 (PST)
+ id 1pWWHo-0004oV-GN
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:42:58 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id bd34so2807445pfb.3
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0pAAJQpTXusO2gtYYECFwL93OVrfV+/mCd8k9ZuweJc=;
- b=l72pf3K+0P8HFUOJ3ikYaBCT7Py0e11WlKG6xrkJG3v1JAzC3zgQzGJ1uFLmLbzS1t
- VMZ+OnN0z4/Kt/qAvaIzPAwO6KA171Vh92VeXvE3SnxkuJ1hs5SJE27Bd45iVvmkBd8A
- MpNYeT6vcBrKVnRFVcFAsRlPvwPsTGXo2FIsaFADpUT0qNCMQ5IL35VZS0hVw34A7Tv3
- PonTlT9Y+z/yNlsMvKtddu38aeD0BV1A2xPYUPJtvxus2nxkkL3MZr24k6tjeLQKnDN5
- H3CCJgas6M0gtNl3Ephmirh0w93IcxcxIoQ0VMn8I2KbngVQakjVdtZiiIEOCMrJHiav
- 3M/Q==
+ bh=dS1IiMxvN3PN6cOLh1bTyXU8CtedsGRsJAlzWKhUz38=;
+ b=PxM5EFzydZoVsO47nVeNlB6okP5U3NE3ZqJDgRf4iUKYTc39XcEuxWN86DTGAn2Pg5
+ bcaaBzcSjYrT5tSjocGZXV2KYFFpOehbMGKO9zNO0mCGIYBEke92s+ablInOles2KqRf
+ LPqZYQAxgdfJBWTUpyJUf1/7NL3R2Bm2pVW5CX8CGwTV94vJkYUGIFWzBzCJf/UMKBm4
+ JoJN7DMvGh79lmWx1lpC39P86YTr5QoPVyKACHNJEQFl/MAuaz3RfrnUFGlQ0/eix0AX
+ Ak3W4gIcRck+4EFdtPIoZmPxUvbExaIcsJ3A72g6e0x+N9PAqNfG74Vk6on5O0mQvGRB
+ uI8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0pAAJQpTXusO2gtYYECFwL93OVrfV+/mCd8k9ZuweJc=;
- b=T1568r9mTxfpRgIfvm+2seYdd4nxRfO2x4jGOX6n+grlA+ud1xvxMDXwkLC5xvdHCI
- Hn5rzz4GY4VLvj9Bd50fWGnuu/StHiEl9jekrRr/ye1V5vesIz6Lobqv5fZha6fVfqQn
- myJCjni8oyTAcddKV2kn/BVG/MpZVyVeXqy/rW7ZndW7RtG4D54EsQvtY5UYTVdbaeD9
- EdR9ilumm4SCc1RwS5OJWMFUWBsLNUFWRbjiSbgniJmCQcgJ7Yiaiy/AsxXg/7VRBJY7
- YdewKfAokDUBF6X9LDNx6CO+XfajmvHjTR6RSel2VMnIMXpx9+vjXAcTlglF2GjtbnnF
- uIow==
-X-Gm-Message-State: AO0yUKU4PgCa5xHvikZNnHlvLYJh/Ubq3awb+72C8rGBUUjDUKoYgiYA
- /U3shudKp4AuYpAi41x4tlP96wLJCj7WbcQ1o8Q=
-X-Google-Smtp-Source: AK7set9NsrvusZTGyF2nrgm7EB8vsmGpLvbDoEQzoSRNZQngMryKF58Go4lNJ632/G3gDjJtgU18zA==
-X-Received: by 2002:a62:19cc:0:b0:5e2:434d:116b with SMTP id
- 195-20020a6219cc000000b005e2434d116bmr9630626pfz.23.1677476569461; 
- Sun, 26 Feb 2023 21:42:49 -0800 (PST)
+ bh=dS1IiMxvN3PN6cOLh1bTyXU8CtedsGRsJAlzWKhUz38=;
+ b=ttEgP9zuudihlHF1yK3t8x5LvPVt3xb2hFFOWGQb3J+H7wWayZiHygzdZYn+w0ARPG
+ aaaz+kTThLpm7gI/857LZTB6NFzbvgGCUWtBIRvJzz6kEE7+MF63XTjAORblvCCeZEbq
+ S3aSiXbzgb4/xhh2USZ0V9GiRxyLuC+FdNKEl4gOdBjtLY6ALnJ1J1hG/04Co8ZrOZQs
+ IRhoQFujEhEk2Kmb548I0sXLXwepXELOFL7U0jJh7JHx9p3eZUbYtznz6cXPvCYUv2Uv
+ ysdPmF7H1lTSi+G6qAnNQpQ19VZ0GaE2FRBPQ44DMD0J/q8LSbBJzZ3fLC3sFaw0Y+7e
+ 7m6A==
+X-Gm-Message-State: AO0yUKU1qEu29/itVYXuNqIEPXQQIKcf1W+6c6hL7Us6uqiqcTiCOhSR
+ G94loqPJuPOv1xGICQXrn5HDywmzZI6F9kTVndw=
+X-Google-Smtp-Source: AK7set9HEht8UwWKd9gGBT1rXbTo7YG5smzfqKIq6RSh+nDNFfPpZfpSgCrtwTN1bnaWLV5bP3FIUQ==
+X-Received: by 2002:a05:6a00:47:b0:5cd:d766:8a2b with SMTP id
+ i7-20020a056a00004700b005cdd7668a2bmr18698810pfk.6.1677476574927; 
+ Sun, 26 Feb 2023 21:42:54 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- d10-20020aa7868a000000b005cdc64a287dsm3317137pfo.115.2023.02.26.21.42.47
+ d10-20020aa7868a000000b005cdc64a287dsm3317137pfo.115.2023.02.26.21.42.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:42:49 -0800 (PST)
+ Sun, 26 Feb 2023 21:42:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -61,23 +61,24 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com
-Subject: [PATCH 02/70] target/arm: Handle FPROUNDING_ODD in arm_rmode_to_sf
-Date: Sun, 26 Feb 2023 19:41:25 -1000
-Message-Id: <20230227054233.390271-3-richard.henderson@linaro.org>
+Subject: [PATCH 04/70] target/arm: Consistently use ARMFPRounding during
+ translation
+Date: Sun, 26 Feb 2023 19:41:27 -1000
+Message-Id: <20230227054233.390271-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227054233.390271-1-richard.henderson@linaro.org>
 References: <20230227054233.390271-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,36 +94,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While this enumerator has been present since the first commit,
-it isn't ever used.  The first actual use of round-to-odd came
-with SVE, which currently uses float_round_to_odd instead of
-the arm-specific enumerator.
-
-Amusingly, the comment about unhandled TIEAWAY has been
-out of date since the initial commit of translate-a64.c.
+In preparation for extracting new helpers, ensure that
+the rounding mode is represented as ARMFPRounding and
+not FloatRoundMode.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/vfp_helper.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/arm/translate-a64.c | 16 ++++++++--------
+ target/arm/translate-sve.c | 18 +++++++++---------
+ target/arm/translate-vfp.c |  6 +++---
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 24e3d820a5..90cc324f71 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -1111,10 +1111,8 @@ int arm_rmode_to_sf(int rmode)
-         rmode = float_round_ties_away;
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 1c575de3e0..3c0462a9c1 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -6202,7 +6202,7 @@ static void handle_fp_1src_single(DisasContext *s, int opcode, int rd, int rn)
+     case 0xa: /* FRINTM */
+     case 0xb: /* FRINTZ */
+     case 0xc: /* FRINTA */
+-        rmode = arm_rmode_to_sf(opcode & 7);
++        rmode = opcode & 7;
+         gen_fpst = gen_helper_rints;
          break;
-     case FPROUNDING_ODD:
--        /* FIXME: add support for TIEAWAY and ODD */
--        qemu_log_mask(LOG_UNIMP, "arm: unimplemented rounding mode: %d\n",
--                      rmode);
--        /* fall through for now */
-+        rmode = float_round_to_odd;
-+        break;
-     case FPROUNDING_TIEEVEN:
-     default:
-         rmode = float_round_nearest_even;
+     case 0xe: /* FRINTX */
+@@ -6212,14 +6212,14 @@ static void handle_fp_1src_single(DisasContext *s, int opcode, int rd, int rn)
+         gen_fpst = gen_helper_rints;
+         break;
+     case 0x10: /* FRINT32Z */
+-        rmode = float_round_to_zero;
++        rmode = FPROUNDING_ZERO;
+         gen_fpst = gen_helper_frint32_s;
+         break;
+     case 0x11: /* FRINT32X */
+         gen_fpst = gen_helper_frint32_s;
+         break;
+     case 0x12: /* FRINT64Z */
+-        rmode = float_round_to_zero;
++        rmode = FPROUNDING_ZERO;
+         gen_fpst = gen_helper_frint64_s;
+         break;
+     case 0x13: /* FRINT64X */
+@@ -6231,7 +6231,7 @@ static void handle_fp_1src_single(DisasContext *s, int opcode, int rd, int rn)
+ 
+     fpst = fpstatus_ptr(FPST_FPCR);
+     if (rmode >= 0) {
+-        TCGv_i32 tcg_rmode = tcg_const_i32(rmode);
++        TCGv_i32 tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+         gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+         gen_fpst(tcg_res, tcg_op, fpst);
+         gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+@@ -6275,7 +6275,7 @@ static void handle_fp_1src_double(DisasContext *s, int opcode, int rd, int rn)
+     case 0xa: /* FRINTM */
+     case 0xb: /* FRINTZ */
+     case 0xc: /* FRINTA */
+-        rmode = arm_rmode_to_sf(opcode & 7);
++        rmode = opcode & 7;
+         gen_fpst = gen_helper_rintd;
+         break;
+     case 0xe: /* FRINTX */
+@@ -6285,14 +6285,14 @@ static void handle_fp_1src_double(DisasContext *s, int opcode, int rd, int rn)
+         gen_fpst = gen_helper_rintd;
+         break;
+     case 0x10: /* FRINT32Z */
+-        rmode = float_round_to_zero;
++        rmode = FPROUNDING_ZERO;
+         gen_fpst = gen_helper_frint32_d;
+         break;
+     case 0x11: /* FRINT32X */
+         gen_fpst = gen_helper_frint32_d;
+         break;
+     case 0x12: /* FRINT64Z */
+-        rmode = float_round_to_zero;
++        rmode = FPROUNDING_ZERO;
+         gen_fpst = gen_helper_frint64_d;
+         break;
+     case 0x13: /* FRINT64X */
+@@ -6304,7 +6304,7 @@ static void handle_fp_1src_double(DisasContext *s, int opcode, int rd, int rn)
+ 
+     fpst = fpstatus_ptr(FPST_FPCR);
+     if (rmode >= 0) {
+-        TCGv_i32 tcg_rmode = tcg_const_i32(rmode);
++        TCGv_i32 tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+         gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+         gen_fpst(tcg_res, tcg_op, fpst);
+         gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 5bf80b22d7..3c65dd1ff2 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4082,7 +4082,7 @@ TRANS_FEAT(FRINTX, aa64_sve, gen_gvec_fpst_arg_zpz, frintx_fns[a->esz],
+            a, 0, a->esz == MO_16 ? FPST_FPCR_F16 : FPST_FPCR);
+ 
+ static bool do_frint_mode(DisasContext *s, arg_rpr_esz *a,
+-                          int mode, gen_helper_gvec_3_ptr *fn)
++                          ARMFPRounding mode, gen_helper_gvec_3_ptr *fn)
+ {
+     unsigned vsz;
+     TCGv_i32 tmode;
+@@ -4096,7 +4096,7 @@ static bool do_frint_mode(DisasContext *s, arg_rpr_esz *a,
+     }
+ 
+     vsz = vec_full_reg_size(s);
+-    tmode = tcg_const_i32(mode);
++    tmode = tcg_const_i32(arm_rmode_to_sf(mode));
+     status = fpstatus_ptr(a->esz == MO_16 ? FPST_FPCR_F16 : FPST_FPCR);
+ 
+     gen_helper_set_rmode(tmode, tmode, status);
+@@ -4111,15 +4111,15 @@ static bool do_frint_mode(DisasContext *s, arg_rpr_esz *a,
+ }
+ 
+ TRANS_FEAT(FRINTN, aa64_sve, do_frint_mode, a,
+-           float_round_nearest_even, frint_fns[a->esz])
++           FPROUNDING_TIEEVEN, frint_fns[a->esz])
+ TRANS_FEAT(FRINTP, aa64_sve, do_frint_mode, a,
+-           float_round_up, frint_fns[a->esz])
++           FPROUNDING_POSINF, frint_fns[a->esz])
+ TRANS_FEAT(FRINTM, aa64_sve, do_frint_mode, a,
+-           float_round_down, frint_fns[a->esz])
++           FPROUNDING_NEGINF, frint_fns[a->esz])
+ TRANS_FEAT(FRINTZ, aa64_sve, do_frint_mode, a,
+-           float_round_to_zero, frint_fns[a->esz])
++           FPROUNDING_ZERO, frint_fns[a->esz])
+ TRANS_FEAT(FRINTA, aa64_sve, do_frint_mode, a,
+-           float_round_ties_away, frint_fns[a->esz])
++           FPROUNDING_TIEAWAY, frint_fns[a->esz])
+ 
+ static gen_helper_gvec_3_ptr * const frecpx_fns[] = {
+     NULL,                    gen_helper_sve_frecpx_h,
+@@ -7145,9 +7145,9 @@ TRANS_FEAT(FCVTLT_sd, aa64_sve2, gen_gvec_fpst_arg_zpz,
+            gen_helper_sve2_fcvtlt_sd, a, 0, FPST_FPCR)
+ 
+ TRANS_FEAT(FCVTX_ds, aa64_sve2, do_frint_mode, a,
+-           float_round_to_odd, gen_helper_sve_fcvt_ds)
++           FPROUNDING_ODD, gen_helper_sve_fcvt_ds)
+ TRANS_FEAT(FCVTXNT_ds, aa64_sve2, do_frint_mode, a,
+-           float_round_to_odd, gen_helper_sve2_fcvtnt_ds)
++           FPROUNDING_ODD, gen_helper_sve2_fcvtnt_ds)
+ 
+ static gen_helper_gvec_3_ptr * const flogb_fns[] = {
+     NULL,               gen_helper_flogb_h,
+diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
+index 757a2bf7d9..e7acfb3338 100644
+--- a/target/arm/translate-vfp.c
++++ b/target/arm/translate-vfp.c
+@@ -2783,7 +2783,7 @@ static bool trans_VRINTZ_hp(DisasContext *s, arg_VRINTZ_sp *a)
+     tmp = tcg_temp_new_i32();
+     vfp_load_reg32(tmp, a->vm);
+     fpst = fpstatus_ptr(FPST_FPCR_F16);
+-    tcg_rmode = tcg_const_i32(float_round_to_zero);
++    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(FPROUNDING_ZERO));
+     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+     gen_helper_rinth(tmp, tmp, fpst);
+     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+@@ -2808,7 +2808,7 @@ static bool trans_VRINTZ_sp(DisasContext *s, arg_VRINTZ_sp *a)
+     tmp = tcg_temp_new_i32();
+     vfp_load_reg32(tmp, a->vm);
+     fpst = fpstatus_ptr(FPST_FPCR);
+-    tcg_rmode = tcg_const_i32(float_round_to_zero);
++    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(FPROUNDING_ZERO));
+     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+     gen_helper_rints(tmp, tmp, fpst);
+     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+@@ -2842,7 +2842,7 @@ static bool trans_VRINTZ_dp(DisasContext *s, arg_VRINTZ_dp *a)
+     tmp = tcg_temp_new_i64();
+     vfp_load_reg64(tmp, a->vm);
+     fpst = fpstatus_ptr(FPST_FPCR);
+-    tcg_rmode = tcg_const_i32(float_round_to_zero);
++    tcg_rmode = tcg_const_i32(arm_rmode_to_sf(FPROUNDING_ZERO));
+     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
+     gen_helper_rintd(tmp, tmp, fpst);
+     gen_helper_set_rmode(tcg_rmode, tcg_rmode, fpst);
 -- 
 2.34.1
 
