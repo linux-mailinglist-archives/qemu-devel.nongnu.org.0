@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBD76A4304
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757AC6A42F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:36:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdeX-0005ES-Q6; Mon, 27 Feb 2023 08:34:53 -0500
+	id 1pWdeX-0005E0-0D; Mon, 27 Feb 2023 08:34:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWddv-0004za-Hz; Mon, 27 Feb 2023 08:34:24 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ id 1pWddv-0004ze-KT; Mon, 27 Feb 2023 08:34:24 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWddq-0007fe-VM; Mon, 27 Feb 2023 08:34:13 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id cy6so25876462edb.5;
+ id 1pWdds-0007fp-82; Mon, 27 Feb 2023 08:34:15 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id da10so25925514edb.3;
  Mon, 27 Feb 2023 05:34:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7h7DFpIyPYWA8e6aIzCKHW2L9bDyUG+cLQqGnLqsunY=;
- b=A47rFavkzxsiirFam0FsfIsTzgFHtdx17KQVO1AV2ZQgeggRW8UT1AGHyCEMGIiXLv
- YShmPGd/51O0L7YAheLHIEFNQRbUS8TceVC5QpGaRDPaex+B346XPMyMzBCWfUhRMM1S
- q2dl4kGVEUiiSz5Fc2Iac8lQQh8yeDc5pR+2vHeNLhsvEE/AQq7y21zcQ/r9UnI08vt+
- dYjBFVWgGNTGnFRyU2Q2PVmCLk8YozDU6rOKb4/9xtb01Y2P17CVblFkuZZqWSLDRT7G
- cXaFvcrE7h3RFqSDY+7rZoOGF9RjdtIKCppT8Fi1IT6McRAvgjlUZV+Qw0ZWNTQEcsjt
- 4/FA==
+ bh=g6hWoNmNq0LdjIkJy1284FovBi3hLwMAwc1D442lKak=;
+ b=lZkNwYlrbWvL94zTPKBQ++s69Q+4wrQ/zNkViUsi/SNXO4eZVdyWAzInPgeB9sH5/D
+ lgnZ7fdJumuVy+XD51fICr7Q9ZglyO1KmpGBuH0CMFugnQ4w02cTpzvAEcOFcbqHt5nm
+ JzJOzc23YTH89vwrnQZFlA8xzyernVaI1TXwauEPtVzOZfT3J3fTqtFsS8sGOD9Ednid
+ 8qvsp304HerIgP41TlpofKiu5KC75FbNAm4mG47ug9MQ706ALjEoZigb+XZVIK1cRzBY
+ zf48dNU9YO2itowgLlmar5RPAIAziYlvP83h3kJfK6aalD90/HA+LawiXa77N9kO/0ej
+ vXPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7h7DFpIyPYWA8e6aIzCKHW2L9bDyUG+cLQqGnLqsunY=;
- b=UTUrutgU6usdHFEhitmRRnZ1mAzuL7QGsvii1VMdAMOdzYsoMwMLlhgZhUlWsLgH+a
- T8QTSKawZW1L5AymNKvfFeBJlGbIn54WVJYnpKrCHROY2cEMTnRyMSlEf4tg2CuKIQbk
- CfC5vCTWEX0D/RzEevkaaItvBwDyI3Vws2Ye+7W3YRO8NPqIGljaf3j+qbJzytFB3POP
- ajCT/YPiQP0oK9BjNGi2foVYmk9DfI9Bve408WUvQbcEMc0/JyNmY2xi/CxNKx9x6FZL
- 2WnHTuQMYZbC1WyHZSmLew18vZXjkF6/X9qncH2Ycn9jNpTmY0UXev9GjWgz4ZamKn2X
- awUw==
-X-Gm-Message-State: AO0yUKU+e2Z0j/atXaVGXrjT1UD+OuKbyjBxe64aBGx/u9GD2Sqp+bQE
- VBSUELSXyFr67R2avEvy6yIfJcYtBCM=
-X-Google-Smtp-Source: AK7set+HuFmyqvy4jQnTC/ASxe1f7iGINGEP3cFXSgZ16L64Ej/7UjcQ4qxGrgOHObabVFkSfiSmIA==
-X-Received: by 2002:a17:907:c293:b0:88d:79df:7cfc with SMTP id
- tk19-20020a170907c29300b0088d79df7cfcmr31561825ejc.62.1677504841915; 
- Mon, 27 Feb 2023 05:34:01 -0800 (PST)
+ bh=g6hWoNmNq0LdjIkJy1284FovBi3hLwMAwc1D442lKak=;
+ b=024E2AY6+RhYp1UCTGqWslEKsOdl8Ny43ThY1DKmRvT3mFbl3OHTNCYcpfet6gLo+i
+ Y6LjEbd/jk8eO39eaXPmlwyGxtFouGlNTTdNUIHjezdG9peL1OI6CC3jruErmV3DhZFS
+ khNwLj5b8LZXQHryipOxCnsQfLZOTVQCdEtA6MeDo/GIm8EpCGrsiWcxGOcOCmLbmn5Y
+ co0JvaqTRZPrG3YSx8ZBaCDuZlKDDyiCrQpFeuWPO0rZzTx34XHJpfIWWkczyc9GThDb
+ 1NET0h5T++OWeNmRC4uXpbstha4KT1SIxsQ4agXFYlQwCZ8epBFPZyYXZQqEZdDJMf0K
+ jjag==
+X-Gm-Message-State: AO0yUKVOVpAbwznd7q4daJpAqgWzcb8ACWio++3mYdnD/aDywycPHAh2
+ OesHjvuPUxLEX+PPLGKXCoe7SgFRgsY=
+X-Google-Smtp-Source: AK7set8D8yrA0nlPntLElGNbh9ThIw142TlxmklN+xaBOucCssBbhTCXcxYD36rsL4rfSUAORppBvg==
+X-Received: by 2002:a17:907:98c4:b0:8ae:27d1:511a with SMTP id
+ kd4-20020a17090798c400b008ae27d1511amr32968319ejc.61.1677504842823; 
+ Mon, 27 Feb 2023 05:34:02 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-078-055-154-008.78.55.pool.telefonica.de. [78.55.154.8])
  by smtp.gmail.com with ESMTPSA id
- gx16-20020a1709068a5000b008b69aa62efcsm3253603ejc.62.2023.02.27.05.34.01
+ gx16-20020a1709068a5000b008b69aa62efcsm3253603ejc.62.2023.02.27.05.34.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 05:34:01 -0800 (PST)
+ Mon, 27 Feb 2023 05:34:02 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: BALATON Zoltan <balaton@eik.bme.hu>, Huacai Chen <chenhuacai@kernel.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Rene Engel <ReneEngel80@emailn.de>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v4 5/7] hw/ppc/pegasos2: Fix PCI interrupt routing
-Date: Mon, 27 Feb 2023 14:33:23 +0100
-Message-Id: <20230227133325.22023-6-shentey@gmail.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v4 6/7] hw/audio/ac97: Split off some definitions to a header
+Date: Mon, 27 Feb 2023 14:33:24 +0100
+Message-Id: <20230227133325.22023-7-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230227133325.22023-1-shentey@gmail.com>
 References: <20230227133325.22023-1-shentey@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,101 +94,149 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-According to the PegasosII schematics the PCI interrupt lines are
-connected to both the gpp pins of the Mv64361 north bridge and the
-PINT pins of the VT8231 south bridge so guests can get interrupts from
-either of these. So far we only had the MV64361 connections which
-worked for on board devices but for additional PCI devices (such as
-network or sound card added with -device) guest OSes expect interrupt
-from the ISA IRQ 9 where the firmware routes these PCI interrupts in
-VT8231 ISA bridge. After the previous patches we can now model this
-and also remove the board specific connection from mv64361. Also
-configure routing of these lines when using Virtual Open Firmware to
-match board firmware for guests that expect this.
-
-This fixes PCI interrupts on pegasos2 under Linux, MorphOS and AmigaOS.
+These can be shared with other AC97 implementations.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Tested-by: Rene Engel <ReneEngel80@emailn.de>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <eca1ecce0b814ece8d285cb869ff839130a37b70.1677445307.git.balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <6f0980fdc3753624be6f3935a6ab0a2dc1df4b30.1677445307.git.balaton@eik.bme.hu>
 ---
- hw/pci-host/mv64361.c |  4 ----
- hw/ppc/pegasos2.c     | 20 +++++++++++++++++++-
- 2 files changed, 19 insertions(+), 5 deletions(-)
+ hw/audio/ac97.h | 65 +++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/audio/ac97.c | 43 +-------------------------------
+ 2 files changed, 66 insertions(+), 42 deletions(-)
+ create mode 100644 hw/audio/ac97.h
 
-diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
-index f43f33fbd9..3d9132f989 100644
---- a/hw/pci-host/mv64361.c
-+++ b/hw/pci-host/mv64361.c
-@@ -874,10 +874,6 @@ static void mv64361_realize(DeviceState *dev, Error **errp)
-     }
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
-     qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
--    /* FIXME: PCI IRQ connections may be board specific */
--    for (i = 0; i < PCI_NUM_PINS; i++) {
--        s->pci[1].irq[i] = qdev_get_gpio_in_named(dev, "gpp", 12 + i);
--    }
- }
- 
- static void mv64361_reset(DeviceState *dev)
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 41688699eb..4e1476673b 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -74,6 +74,8 @@ struct Pegasos2MachineState {
-     MachineState parent_obj;
-     PowerPCCPU *cpu;
-     DeviceState *mv;
-+    qemu_irq mv_pirq[PCI_NUM_PINS];
-+    qemu_irq via_pirq[PCI_NUM_PINS];
-     Vof *vof;
-     void *fdt_blob;
-     uint64_t kernel_addr;
-@@ -96,6 +98,15 @@ static void pegasos2_cpu_reset(void *opaque)
-     }
- }
- 
-+static void pegasos2_pci_irq(void *opaque, int n, int level)
-+{
-+    Pegasos2MachineState *pm = opaque;
+diff --git a/hw/audio/ac97.h b/hw/audio/ac97.h
+new file mode 100644
+index 0000000000..0358b56ff4
+--- /dev/null
++++ b/hw/audio/ac97.h
+@@ -0,0 +1,65 @@
++/*
++ * Copyright (C) 2006 InnoTek Systemberatung GmbH
++ *
++ * This file is part of VirtualBox Open Source Edition (OSE), as
++ * available from http://www.virtualbox.org. This file is free software;
++ * you can redistribute it and/or modify it under the terms of the GNU
++ * General Public License as published by the Free Software Foundation,
++ * in version 2 as it comes in the "COPYING" file of the VirtualBox OSE
++ * distribution. VirtualBox OSE is distributed in the hope that it will
++ * be useful, but WITHOUT ANY WARRANTY of any kind.
++ *
++ * If you received this file as part of a commercial VirtualBox
++ * distribution, then only the terms of your commercial VirtualBox
++ * license agreement apply instead of the previous paragraph.
++ *
++ * Contributions after 2012-01-13 are licensed under the terms of the
++ * GNU GPL, version 2 or (at your option) any later version.
++ */
 +
-+    /* PCI interrupt lines are connected to both MV64361 and VT8231 */
-+    qemu_set_irq(pm->mv_pirq[n], level);
-+    qemu_set_irq(pm->via_pirq[n], level);
-+}
++#ifndef AC97_H
++#define AC97_H
 +
- static void pegasos2_init(MachineState *machine)
- {
-     Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
-@@ -107,7 +118,7 @@ static void pegasos2_init(MachineState *machine)
-     I2CBus *i2c_bus;
-     const char *fwname = machine->firmware ?: PROM_FILENAME;
-     char *filename;
--    int sz;
-+    int i, sz;
-     uint8_t *spd_data;
++enum {
++    AC97_Reset                     = 0x00,
++    AC97_Master_Volume_Mute        = 0x02,
++    AC97_Headphone_Volume_Mute     = 0x04,
++    AC97_Master_Volume_Mono_Mute   = 0x06,
++    AC97_Master_Tone_RL            = 0x08,
++    AC97_PC_BEEP_Volume_Mute       = 0x0A,
++    AC97_Phone_Volume_Mute         = 0x0C,
++    AC97_Mic_Volume_Mute           = 0x0E,
++    AC97_Line_In_Volume_Mute       = 0x10,
++    AC97_CD_Volume_Mute            = 0x12,
++    AC97_Video_Volume_Mute         = 0x14,
++    AC97_Aux_Volume_Mute           = 0x16,
++    AC97_PCM_Out_Volume_Mute       = 0x18,
++    AC97_Record_Select             = 0x1A,
++    AC97_Record_Gain_Mute          = 0x1C,
++    AC97_Record_Gain_Mic_Mute      = 0x1E,
++    AC97_General_Purpose           = 0x20,
++    AC97_3D_Control                = 0x22,
++    AC97_AC_97_RESERVED            = 0x24,
++    AC97_Powerdown_Ctrl_Stat       = 0x26,
++    AC97_Extended_Audio_ID         = 0x28,
++    AC97_Extended_Audio_Ctrl_Stat  = 0x2A,
++    AC97_PCM_Front_DAC_Rate        = 0x2C,
++    AC97_PCM_Surround_DAC_Rate     = 0x2E,
++    AC97_PCM_LFE_DAC_Rate          = 0x30,
++    AC97_PCM_LR_ADC_Rate           = 0x32,
++    AC97_MIC_ADC_Rate              = 0x34,
++    AC97_6Ch_Vol_C_LFE_Mute        = 0x36,
++    AC97_6Ch_Vol_L_R_Surround_Mute = 0x38,
++    AC97_Vendor_Reserved           = 0x58,
++    AC97_Sigmatel_Analog           = 0x6c, /* We emulate a Sigmatel codec */
++    AC97_Sigmatel_Dac2Invert       = 0x6e, /* We emulate a Sigmatel codec */
++    AC97_Vendor_ID1                = 0x7c,
++    AC97_Vendor_ID2                = 0x7e
++};
++
++#define EACS_VRA 1
++#define EACS_VRM 8
++
++#define MUTE_SHIFT 15
++
++#endif /* AC97_H */
+diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+index 364cdfa733..b3fb10284c 100644
+--- a/hw/audio/ac97.c
++++ b/hw/audio/ac97.c
+@@ -26,43 +26,7 @@
+ #include "qemu/module.h"
+ #include "sysemu/dma.h"
+ #include "qom/object.h"
+-
+-enum {
+-    AC97_Reset                     = 0x00,
+-    AC97_Master_Volume_Mute        = 0x02,
+-    AC97_Headphone_Volume_Mute     = 0x04,
+-    AC97_Master_Volume_Mono_Mute   = 0x06,
+-    AC97_Master_Tone_RL            = 0x08,
+-    AC97_PC_BEEP_Volume_Mute       = 0x0A,
+-    AC97_Phone_Volume_Mute         = 0x0C,
+-    AC97_Mic_Volume_Mute           = 0x0E,
+-    AC97_Line_In_Volume_Mute       = 0x10,
+-    AC97_CD_Volume_Mute            = 0x12,
+-    AC97_Video_Volume_Mute         = 0x14,
+-    AC97_Aux_Volume_Mute           = 0x16,
+-    AC97_PCM_Out_Volume_Mute       = 0x18,
+-    AC97_Record_Select             = 0x1A,
+-    AC97_Record_Gain_Mute          = 0x1C,
+-    AC97_Record_Gain_Mic_Mute      = 0x1E,
+-    AC97_General_Purpose           = 0x20,
+-    AC97_3D_Control                = 0x22,
+-    AC97_AC_97_RESERVED            = 0x24,
+-    AC97_Powerdown_Ctrl_Stat       = 0x26,
+-    AC97_Extended_Audio_ID         = 0x28,
+-    AC97_Extended_Audio_Ctrl_Stat  = 0x2A,
+-    AC97_PCM_Front_DAC_Rate        = 0x2C,
+-    AC97_PCM_Surround_DAC_Rate     = 0x2E,
+-    AC97_PCM_LFE_DAC_Rate          = 0x30,
+-    AC97_PCM_LR_ADC_Rate           = 0x32,
+-    AC97_MIC_ADC_Rate              = 0x34,
+-    AC97_6Ch_Vol_C_LFE_Mute        = 0x36,
+-    AC97_6Ch_Vol_L_R_Surround_Mute = 0x38,
+-    AC97_Vendor_Reserved           = 0x58,
+-    AC97_Sigmatel_Analog           = 0x6c, /* We emulate a Sigmatel codec */
+-    AC97_Sigmatel_Dac2Invert       = 0x6e, /* We emulate a Sigmatel codec */
+-    AC97_Vendor_ID1                = 0x7c,
+-    AC97_Vendor_ID2                = 0x7e
+-};
++#include "ac97.h"
  
-     /* init CPU */
-@@ -157,11 +168,18 @@ static void pegasos2_init(MachineState *machine)
-     /* Marvell Discovery II system controller */
-     pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
-                           qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
-+    for (i = 0; i < PCI_NUM_PINS; i++) {
-+        pm->mv_pirq[i] = qdev_get_gpio_in_named(pm->mv, "gpp", 12 + i);
-+    }
-     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
-+    pci_bus_irqs(pci_bus, pegasos2_pci_irq, pm, PCI_NUM_PINS);
+ #define SOFT_VOLUME
+ #define SR_FIFOE 16             /* rwc */
+@@ -121,11 +85,6 @@ enum {
+ #define BD_IOC (1 << 31)
+ #define BD_BUP (1 << 30)
  
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
-     via = OBJECT(pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0),
-                                                  true, TYPE_VT8231_ISA));
-+    for (i = 0; i < PCI_NUM_PINS; i++) {
-+        pm->via_pirq[i] = qdev_get_gpio_in_named(DEVICE(via), "pirq", i);
-+    }
-     object_property_add_alias(OBJECT(machine), "rtc-time",
-                               object_resolve_path_component(via, "rtc"),
-                               "date");
+-#define EACS_VRA 1
+-#define EACS_VRM 8
+-
+-#define MUTE_SHIFT 15
+-
+ #define TYPE_AC97 "AC97"
+ OBJECT_DECLARE_SIMPLE_TYPE(AC97LinkState, AC97)
+ 
 -- 
 2.39.2
 
