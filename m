@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACAF6A3C4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8576A3C5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:23:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWYbZ-0001DE-DH; Mon, 27 Feb 2023 03:11:29 -0500
+	id 1pWYdD-0004yz-GT; Mon, 27 Feb 2023 03:13:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pWYbR-00013E-N9
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:11:22 -0500
+ id 1pWYdA-0004xl-O7
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:13:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pWYbQ-0005n4-4o
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:11:21 -0500
+ id 1pWYd9-00063L-5p
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:13:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677485478;
+ s=mimecast20190719; t=1677485586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hUtR13nE9ADMPfRUasH4TVIIvHusnhAtQQrD5pDjQxw=;
- b=XaohO3YL1UUQ8cLVp/rJlZWQAfczznPgJeSWIc8/VEOnnNau9Z+EzZj8bkglCuyB1DpyY8
- 4UnME+Nq/TAkZ4KQlsSVZBr8EdsdKABNYhD/ZWx+i1ppLB01qQzgWdrfJKxR1wti52vQq8
- iiSFKzqEPHl+dVyTbbCbANpf74FpJk0=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5DAVnTYAtQHEGqRzHa5Lwp4NgBHmokSHOFK2RDhsKbQ=;
+ b=Qxbk5Hxh44gHdLZ7FxC/SgxDvWEgAaXgjum0gykc9cBVmBJRR0Gu6sNL5OqqyFqtBA/iDE
+ AAVkF3t10WcRgq3PfONFB0Jb19wvYkjkFCf8QPBxU9ZGfXhYNW9TQjSDOklcWOSqD1t9Ax
+ wV5HVZQJjIF5MydpvmkQp8XUOqvyoVk=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-435-b51Dw0DnNg23A014n-RNsQ-1; Mon, 27 Feb 2023 03:11:17 -0500
-X-MC-Unique: b51Dw0DnNg23A014n-RNsQ-1
-Received: by mail-pf1-f198.google.com with SMTP id
- a10-20020a056a000c8a00b005fc6b117942so94640pfv.2
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 00:11:17 -0800 (PST)
+ us-mta-661-jda8BLvSPQqSzDVua5LpmQ-1; Mon, 27 Feb 2023 03:12:59 -0500
+X-MC-Unique: jda8BLvSPQqSzDVua5LpmQ-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ m1-20020a17090a668100b00237d84de790so950270pjj.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 00:12:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hUtR13nE9ADMPfRUasH4TVIIvHusnhAtQQrD5pDjQxw=;
- b=LVEZnHcO9LVH9NBkHjxGeNY9bwLGOBU3y0j2wZQ0AK9L3N7LjeWD+N8ebIpfnvdTfU
- K5WOXQD7vbG5yXyLkktrMAz7Em7SOqvcywszuTlsC83LnRleigNC5O4kdD2Uydtmy5iV
- z7IoQrB3kdRezV6h/SuYd+3JmtU2+pINwRnFnG8kqR4GoOqEtTf+P9jro5xjoVwq7wR0
- 93Tr1V2bNoBl1FCcz09OhPBvTftc8HgY0MwV+UW2rX0R5eV0HZXWfi3/32cqy/5lYrma
- Zwtylg0gjO4dzuInU/cPGWBlFy2ES0yqwzs6BEhnFZJ/N4/8YGiE+SwwrLQjhPdaRwnC
- i+XQ==
-X-Gm-Message-State: AO0yUKXY0KxrWE8G27C5qKy1r5M2onzQzEENDr5x2ONjL2vjhNmJnsQL
- nM52q0fkMexiIk5e8XS9n9eVl6pNdSAn6Y2DBUBNhDMeoF/A5dlmd3o3V0Wlg7+APW98AZzsaTa
- lB5c7BaPEPquQvOI=
-X-Received: by 2002:a05:6a20:3d22:b0:cb:2c8e:14c with SMTP id
- y34-20020a056a203d2200b000cb2c8e014cmr28921264pzi.10.1677485475483; 
- Mon, 27 Feb 2023 00:11:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set8BhUGj4vcSwHgyu0gKLYPNZhMCRxlPQM0ZRXhswU/X8LocF0YSDbVhbN1tzMwhbVQS25+x4Q==
-X-Received: by 2002:a05:6a20:3d22:b0:cb:2c8e:14c with SMTP id
- y34-20020a056a203d2200b000cb2c8e014cmr28921230pzi.10.1677485475193; 
- Mon, 27 Feb 2023 00:11:15 -0800 (PST)
+ bh=5DAVnTYAtQHEGqRzHa5Lwp4NgBHmokSHOFK2RDhsKbQ=;
+ b=HohCG5Pue5cVs2RQHMU2gfr4DF67uWDGK3iudZgYLIj07wlSWbtmN4LC2XP8cBwyhK
+ XueL1BeioN9qmi1+84NIPuzqMNIJedMCCgYum1O72/dqU3UZhW6Oxa9Baaxet7ZwmGmG
+ ZISgno6hhvBv8nqNSYGXtZQWQfRTJyHhEUA9HPsiDHQMr2+k8IxP+0RbmWS6V6ECw/M8
+ 6PEqCFevhT+N/ZhxXNUL2QKPgqijbpdWvJjHr3TsW2Wb/D646jUa3FAsqj8a2Gf6r+bX
+ Dh1eb3C4pNnxeXay7snb9au0x9bcOxKqO61EeaXC/u4t2zbDgzpBEzuf3VJl2yc/txnN
+ q3mQ==
+X-Gm-Message-State: AO0yUKVgjTpswFc+dzTKR5zF/nOMZcvlhccgkGznSPm7dyCcyKAF2cBg
+ bqqFbBeTHXmf0c3LEAqgXPJQso5ODxyGNDsIkGDr2hBkMxDr9i8f3RDnRhyfWu7JO8fwje44HTg
+ eXkN6MP5iX54pCKI=
+X-Received: by 2002:a17:903:1390:b0:19c:b11b:ffe3 with SMTP id
+ jx16-20020a170903139000b0019cb11bffe3mr13523725plb.23.1677485578162; 
+ Mon, 27 Feb 2023 00:12:58 -0800 (PST)
+X-Google-Smtp-Source: AK7set+FKdw5XBaDf8PETzZIIX0Ka6KUuwhVZcUzDA9yECP/l5m+7vA93exeG48Jl2elXXueKJovdg==
+X-Received: by 2002:a17:903:1390:b0:19c:b11b:ffe3 with SMTP id
+ jx16-20020a170903139000b0019cb11bffe3mr13523712plb.23.1677485577873; 
+ Mon, 27 Feb 2023 00:12:57 -0800 (PST)
 Received: from [10.72.13.83] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- g66-20020a636b45000000b004ff6b744248sm3471596pgc.48.2023.02.27.00.11.09
+ jg15-20020a17090326cf00b0019adbef6a63sm3938244plb.235.2023.02.27.00.12.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 00:11:14 -0800 (PST)
-Message-ID: <45482a90-1bb6-fc67-3fbd-86833d7d00c1@redhat.com>
-Date: Mon, 27 Feb 2023 16:11:06 +0800
+ Mon, 27 Feb 2023 00:12:57 -0800 (PST)
+Message-ID: <687e3228-2070-2842-0e30-c636c2fbda05@redhat.com>
+Date: Mon, 27 Feb 2023 16:12:44 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 10/15] vdpa: disable RAM block discard only for the
- first device
+Subject: Re: [PATCH v4 11/15] vdpa net: block migration if the device has CVQ
 Content-Language: en-US
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 Cc: Stefano Garzarella <sgarzare@redhat.com>,
@@ -83,9 +82,9 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
 References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-11-eperezma@redhat.com>
+ <20230224155438.112797-12-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20230224155438.112797-11-eperezma@redhat.com>
+In-Reply-To: <20230224155438.112797-12-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
@@ -114,83 +113,70 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 在 2023/2/24 23:54, Eugenio Pérez 写道:
-> Although it does not make a big difference, its more correct and
-> simplifies the cleanup path in subsequent patches.
->
-> Move ram_block_discard_disable(false) call to the top of
-> vhost_vdpa_cleanup because:
-> * We cannot use vhost_vdpa_first_dev after dev->opaque = NULL
->    assignment.
-> * Improve the stack order in cleanup: since it is the last action taken
->    in init, it should be the first at cleanup.
+> Devices with CVQ needs to migrate state beyond vq state.  Leaving this
+> to future series.
 >
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
->   hw/virtio/vhost-vdpa.c | 25 ++++++++++++++-----------
->   1 file changed, 14 insertions(+), 11 deletions(-)
+> v3: Migration blocker is registered in vhost_dev.
+> ---
+>   include/hw/virtio/vhost-vdpa.h | 1 +
+>   hw/virtio/vhost-vdpa.c         | 1 +
+>   net/vhost-vdpa.c               | 9 +++++++++
+>   3 files changed, 11 insertions(+)
 >
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+> index 4a7d396674..c278a2a8de 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -50,6 +50,7 @@ typedef struct vhost_vdpa {
+>       const VhostShadowVirtqueueOps *shadow_vq_ops;
+>       void *shadow_vq_ops_opaque;
+>       struct vhost_dev *dev;
+> +    Error *migration_blocker;
+>       VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+>   } VhostVDPA;
+>   
 > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 71e3dc21fe..27655e7582 100644
+> index 27655e7582..25b64ae854 100644
 > --- a/hw/virtio/vhost-vdpa.c
 > +++ b/hw/virtio/vhost-vdpa.c
-> @@ -431,16 +431,6 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
->       trace_vhost_vdpa_init(dev, opaque);
->       int ret;
+> @@ -438,6 +438,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+>       v->msg_type = VHOST_IOTLB_MSG_V2;
+>       vhost_vdpa_init_svq(dev, v);
 >   
-> -    /*
-> -     * Similar to VFIO, we end up pinning all guest memory and have to
-> -     * disable discarding of RAM.
-> -     */
-> -    ret = ram_block_discard_disable(true);
-> -    if (ret) {
-> -        error_report("Cannot set discarding of RAM broken");
-> -        return ret;
-> -    }
-> -
->       v = opaque;
->       v->dev = dev;
->       dev->opaque =  opaque ;
-> @@ -452,6 +442,16 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+> +    error_propagate(&dev->migration_blocker, v->migration_blocker);
+>       if (!vhost_vdpa_first_dev(dev)) {
 >           return 0;
 >       }
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index c5512ddf10..4f983df000 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -828,6 +828,15 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
 >   
-> +    /*
-> +     * Similar to VFIO, we end up pinning all guest memory and have to
-> +     * disable discarding of RAM.
-> +     */
-> +    ret = ram_block_discard_disable(true);
-> +    if (ret) {
-> +        error_report("Cannot set discarding of RAM broken");
-> +        return ret;
-> +    }
+>           s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
+>           s->vhost_vdpa.shadow_vq_ops_opaque = s;
+> +
+> +        /*
+> +         * TODO: We cannot migrate devices with CVQ as there is no way to set
+> +         * the device state (MAC, MQ, etc) before starting datapath.
+> +         *
+> +         * Migration blocker ownership now belongs to v
 
 
-We seems to lose the chance to free svq allocated by 
-vhost_vdpa_init_svq() in this case?
+The sentence is incomplete.
+
+Other looks good.
 
 Thanks
 
 
-> +
->       vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->                                  VIRTIO_CONFIG_S_DRIVER);
->   
-> @@ -577,12 +577,15 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
->       assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
->       v = dev->opaque;
->       trace_vhost_vdpa_cleanup(dev, v);
-> +    if (vhost_vdpa_first_dev(dev)) {
-> +        ram_block_discard_disable(false);
-> +    }
-> +
->       vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
->       memory_listener_unregister(&v->listener);
->       vhost_vdpa_svq_cleanup(dev);
->   
->       dev->opaque = NULL;
-> -    ram_block_discard_disable(false);
->   
->       return 0;
->   }
+> +         */
+> +        error_setg(&s->vhost_vdpa.migration_blocker,
+> +                   "net vdpa cannot migrate with CVQ feature");
+>       }
+>       ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
+>       if (ret) {
 
 
