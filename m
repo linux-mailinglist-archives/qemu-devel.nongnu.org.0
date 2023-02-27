@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08A76A3A81
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662DC6A3ABB
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:44:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWW8U-0004w7-Gy; Mon, 27 Feb 2023 00:33:20 -0500
+	id 1pWW8n-0005S6-R6; Mon, 27 Feb 2023 00:33:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWW6y-0000Fs-2I
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:31:47 -0500
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043])
+ id 1pWW71-0000Jz-SE
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:31:51 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWW6u-00017h-C6
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:31:43 -0500
-Received: by mail-pj1-x1043.google.com with SMTP id
- y15-20020a17090aa40f00b00237ad8ee3a0so5052260pjp.2
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:31:39 -0800 (PST)
+ id 1pWW6z-0000ru-6M
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:31:46 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id ky4so5560416plb.3
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:31:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Mto8gZo3djU/h+euQ02hp/2HLo7eYXM2X3ttNgQzbL0=;
- b=dPMjuN51uwbpJ4JmQ8SW7crleXCdFGo1x9CSDSYZra3JOiBT+/WAyRyZLkK5lVhY/h
- 8UoV0j0SIW5ynF0sHAeGj9BaR/U6CcNUDCCdYyDABGht9IY/gzgwmB/tzWEn7kSXb39D
- 3O2LdU2fsyviWlioVImh9/v1k/WhTokm9aWDFwMnGxVKK6OdG85HmfGCJ50goOcWAXI6
- +bVUUDUxyThZZY6Uiv1z5tqPZl4syciaEYk1sUb0GOOaFuZeldQhfQCo27cOBOPKf6fJ
- OaP3VIQ+QhDgATQIbyhhrPhe0clKDDN8YPInBKojC+7ERsAujgIm5agFdn0QBa8R+X44
- 4+1A==
+ bh=6I7Tkr0gEn5C9IQe3ln5Tw/bG/eqeOfdkUEZ9u/mHS8=;
+ b=mCNFkg1KAEm6JAKFnd8Dj1uDhojomv3wDz7YeWWJxTZR56LZxsYGvCSSpTDNh//A+w
+ 6+ybr0XnCqwgrnapWtMr1nRSpuPRLsgTLnTad/ysGXM54NjZyTy8qMBFrQDsGSsmpOjg
+ 0JyerYruIwtvdMWjRMTe1kuTk72gBqKZJyP3JqXHzK7lAHicWuXA6JGGVdijfSMxlkMd
+ 3BHN4uLUS7k0IjusWqDcP/7oZhChoRF65UMmFWr9pb5NLifbXMNfrbKgaHZp7ANjVod4
+ aDJSaNnGsGtX/ww+MPPVoHJYkIsNrPLb/ZZfme5yZ7MDmR18LsB/4ShqaFvPlNyaCpFn
+ TGiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Mto8gZo3djU/h+euQ02hp/2HLo7eYXM2X3ttNgQzbL0=;
- b=8M1Heo+mGtVr3JN344/c9XgiDaKb03jUa4N90c21clMwF6rjpWM4E7afrSVLdgI3YI
- HvnM+tnth7DHMeVqOukU6PAH7HQxNWhsEW3q5XIN0kipCmSDoNNFieJe5BpKgf8nPFE3
- ZO821CZ3nXY0FpXFVcuOSyrvAwp9oOgjUH6+1bedNO7LQ+GfcWsg+WMxaf88KeTU8BWT
- S85Ylupw2bfbirB2X+pic+F5JqK0UQckUyVmIq7xErqDhkamcqnVYibtgSvLX1JHf5wj
- EQdLvvzowtF+dOLOcoACNdkFE98ddxcoxJ/tpjyHNh1txuUEcHN61ZsKy2b5nmJoLC3R
- bRXQ==
-X-Gm-Message-State: AO0yUKXnhA6wCvkOhXNLUuFlNANgquT6GnACVG9qXFDf3Q61txapNZvt
- bOV0N9+9en1dY87tgIh3bkIDdVPlNFL3RRY3kElfaw==
-X-Google-Smtp-Source: AK7set90O85UfQt7TwehI8ptmrVIzhQfI92kmfbROxj5iSCGOjg3DyrZ70/UoLTSO46h41R6qGqh0w==
-X-Received: by 2002:a17:90b:1b09:b0:233:c3e7:bd37 with SMTP id
- nu9-20020a17090b1b0900b00233c3e7bd37mr7792845pjb.10.1677475898982; 
- Sun, 26 Feb 2023 21:31:38 -0800 (PST)
+ bh=6I7Tkr0gEn5C9IQe3ln5Tw/bG/eqeOfdkUEZ9u/mHS8=;
+ b=JHUOGgZapY/i/m7tFrMuMEjsDexcVYc9WDaOKqKZZeeb7oIJAugtZb0Oe5FVoIb6Ga
+ BnojLgZrvPqMrSn8uapx7kE7DbvJC7bJ+g+Jo8QmtTppglrR9iuuth2WzyKckk9RrfP6
+ 2fcA3j8kvnu9cx2NgYZqRs/bbyVG+PRvYllTApba82CmlbDIYD37QOJDGNQgTyx/fcWI
+ wfUccazP0wqOMXaQFrzm6yvOUpSYZB2YFB/nMq3g3DSx9/8m+jGIzf8ftGTyDUJeZYL/
+ iwoXwZsCqW/UglMiKYB/+kY3ae3m7GioQK0sXcaU1iaNrxzCc3uMh2eESiUnVFdJGZTd
+ zH6A==
+X-Gm-Message-State: AO0yUKWw0+W8QVgMruIKE9AFfXvqDR1dIE8A0yJtX4SlTRj3BfAw+hZO
+ /Qxvyw9gNqW5IEYX3oN5vx6vJmlHZKQ8qsnS2dI=
+X-Google-Smtp-Source: AK7set9YRmZ5/P5MlijVmSzd9iM2zPOk2StbY7weZLH3FndmWE3gZsYRHAn8TCOCgcIw/57QRe3XmQ==
+X-Received: by 2002:a17:90b:4f8f:b0:234:190d:e636 with SMTP id
+ qe15-20020a17090b4f8f00b00234190de636mr25563686pjb.8.1677475904448; 
+ Sun, 26 Feb 2023 21:31:44 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- v4-20020a17090a520400b002369e16b276sm5172926pjh.32.2023.02.26.21.31.36
+ v4-20020a17090a520400b002369e16b276sm5172926pjh.32.2023.02.26.21.31.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:31:38 -0800 (PST)
+ Sun, 26 Feb 2023 21:31:44 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
- edgar.iglesias@gmail.com
-Subject: [PATCH v2 74/76] tracing: remove transform.py
-Date: Sun, 26 Feb 2023 19:25:03 -1000
-Message-Id: <20230227052505.352889-75-richard.henderson@linaro.org>
+ edgar.iglesias@gmail.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v2 76/76] docs/devel/tcg-ops: Drop recommendation to free temps
+Date: Sun, 26 Feb 2023 19:25:05 -1000
+Message-Id: <20230227052505.352889-77-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227052505.352889-1-richard.henderson@linaro.org>
 References: <20230227052505.352889-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,252 +94,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This file, and a couple of uses, got left behind when the
-tcg stuff was removed from tracetool.
-
-Fixes: 126d4123c50a ("tracing: excise the tcg related from tracetool")
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build                    |   1 -
- scripts/tracetool/__init__.py  |  23 -----
- scripts/tracetool/transform.py | 168 ---------------------------------
- 3 files changed, 192 deletions(-)
- delete mode 100644 scripts/tracetool/transform.py
+ docs/devel/tcg-ops.rst | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 6cb2b1a42f..275399b8c2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2861,7 +2861,6 @@ tracetool_depends = files(
-   'scripts/tracetool/format/log_stap.py',
-   'scripts/tracetool/format/stap.py',
-   'scripts/tracetool/__init__.py',
--  'scripts/tracetool/transform.py',
-   'scripts/tracetool/vcpu.py'
- )
+diff --git a/docs/devel/tcg-ops.rst b/docs/devel/tcg-ops.rst
+index 561c416574..f3f451b77f 100644
+--- a/docs/devel/tcg-ops.rst
++++ b/docs/devel/tcg-ops.rst
+@@ -951,10 +951,6 @@ Recommended coding rules for best performance
+   often modified, e.g. the integer registers and the condition
+   codes. TCG will be able to use host registers to store them.
  
-diff --git a/scripts/tracetool/__init__.py b/scripts/tracetool/__init__.py
-index 5393c7fc5c..33cf85e2b0 100644
---- a/scripts/tracetool/__init__.py
-+++ b/scripts/tracetool/__init__.py
-@@ -18,7 +18,6 @@
- 
- import tracetool.format
- import tracetool.backend
--import tracetool.transform
- 
- 
- def error_write(*lines):
-@@ -190,18 +189,6 @@ def casted(self):
-         """List of argument names casted to their type."""
-         return ["(%s)%s" % (type_, name) for type_, name in self._args]
- 
--    def transform(self, *trans):
--        """Return a new Arguments instance with transformed types.
+-- Free temporaries when they are no longer used (``tcg_temp_free``).
+-  Since ``tcg_const_x`` also creates a temporary, you should free it
+-  after it is used.
 -
--        The types in the resulting Arguments instance are transformed according
--        to tracetool.transform.transform_type.
--        """
--        res = []
--        for type_, name in self._args:
--            res.append((tracetool.transform.transform_type(type_, *trans),
--                        name))
--        return Arguments(res)
--
- 
- class Event(object):
-     """Event description.
-@@ -358,16 +345,6 @@ def api(self, fmt=None):
-             fmt = Event.QEMU_TRACE
-         return fmt % {"name": self.name, "NAME": self.name.upper()}
- 
--    def transform(self, *trans):
--        """Return a new Event with transformed Arguments."""
--        return Event(self.name,
--                     list(self.properties),
--                     self.fmt,
--                     self.args.transform(*trans),
--                     self.lineno,
--                     self.filename,
--                     self)
--
- 
- def read_events(fobj, fname):
-     """Generate the output for the given (format, backends) pair.
-diff --git a/scripts/tracetool/transform.py b/scripts/tracetool/transform.py
-deleted file mode 100644
-index ea8b27799d..0000000000
---- a/scripts/tracetool/transform.py
-+++ /dev/null
-@@ -1,168 +0,0 @@
--# -*- coding: utf-8 -*-
--
--"""
--Type-transformation rules.
--"""
--
--__author__     = "Lluís Vilanova <vilanova@ac.upc.edu>"
--__copyright__  = "Copyright 2012-2016, Lluís Vilanova <vilanova@ac.upc.edu>"
--__license__    = "GPL version 2 or (at your option) any later version"
--
--__maintainer__ = "Stefan Hajnoczi"
--__email__      = "stefanha@redhat.com"
--
--
--def _transform_type(type_, trans):
--    if isinstance(trans, str):
--        return trans
--    elif isinstance(trans, dict):
--        if type_ in trans:
--            return _transform_type(type_, trans[type_])
--        elif None in trans:
--            return _transform_type(type_, trans[None])
--        else:
--            return type_
--    elif callable(trans):
--        return trans(type_)
--    else:
--        raise ValueError("Invalid type transformation rule: %s" % trans)
--
--
--def transform_type(type_, *trans):
--    """Return a new type transformed according to the given rules.
--
--    Applies each of the transformation rules in trans in order.
--
--    If an element of trans is a string, return it.
--
--    If an element of trans is a function, call it with type_ as its only
--    argument.
--
--    If an element of trans is a dict, search type_ in its keys. If type_ is
--    a key, use the value as a transformation rule for type_. Otherwise, if
--    None is a key use the value as a transformation rule for type_.
--
--    Otherwise, return type_.
--
--    Parameters
--    ----------
--    type_ : str
--        Type to transform.
--    trans : list of function or dict
--        Type transformation rules.
--    """
--    if len(trans) == 0:
--        raise ValueError
--    res = type_
--    for t in trans:
--        res = _transform_type(res, t)
--    return res
--
--
--##################################################
--# tcg -> host
--
--def _tcg_2_host(type_):
--    if type_ == "TCGv":
--        # force a fixed-size type (target-independent)
--        return "uint64_t"
--    else:
--        return type_
--
--TCG_2_HOST = {
--    "TCGv_i32": "uint32_t",
--    "TCGv_i64": "uint64_t",
--    "TCGv_ptr": "void *",
--    None: _tcg_2_host,
--    }
--
--
--##################################################
--# host -> host compatible with tcg sizes
--
--HOST_2_TCG_COMPAT = {
--    "uint8_t": "uint32_t",
--    "uint16_t": "uint32_t",
--    }
--
--
--##################################################
--# host/tcg -> tcg
--
--def _host_2_tcg(type_):
--    if type_.startswith("TCGv"):
--        return type_
--    raise ValueError("Don't know how to translate '%s' into a TCG type\n" % type_)
--
--HOST_2_TCG = {
--    "uint32_t": "TCGv_i32",
--    "uint64_t": "TCGv_i64",
--    "void *"  : "TCGv_ptr",
--    "CPUArchState *": "TCGv_env",
--    None: _host_2_tcg,
--    }
--
--
--##################################################
--# tcg -> tcg helper definition
--
--def _tcg_2_helper_def(type_):
--    if type_ == "TCGv":
--        return "target_ulong"
--    else:
--        return type_
--
--TCG_2_TCG_HELPER_DEF = {
--    "TCGv_i32": "uint32_t",
--    "TCGv_i64": "uint64_t",
--    "TCGv_ptr": "void *",
--    None: _tcg_2_helper_def,
--    }
--
--
--##################################################
--# tcg -> tcg helper declaration
--
--def _tcg_2_tcg_helper_decl_error(type_):
--    raise ValueError("Don't know how to translate type '%s' into a TCG helper declaration type\n" % type_)
--
--TCG_2_TCG_HELPER_DECL = {
--    "TCGv"    : "tl",
--    "TCGv_ptr": "ptr",
--    "TCGv_i32": "i32",
--    "TCGv_i64": "i64",
--    "TCGv_env": "env",
--    None: _tcg_2_tcg_helper_decl_error,
--    }
--
--
--##################################################
--# host/tcg -> tcg temporal constant allocation
--
--def _host_2_tcg_tmp_new(type_):
--    if type_.startswith("TCGv"):
--        return "tcg_temp_new_nop"
--    raise ValueError("Don't know how to translate type '%s' into a TCG temporal allocation" % type_)
--
--HOST_2_TCG_TMP_NEW = {
--    "uint32_t": "tcg_const_i32",
--    "uint64_t": "tcg_const_i64",
--    "void *"  : "tcg_const_ptr",
--    None: _host_2_tcg_tmp_new,
--    }
--
--
--##################################################
--# host/tcg -> tcg temporal constant deallocation
--
--def _host_2_tcg_tmp_free(type_):
--    if type_.startswith("TCGv"):
--        return "tcg_temp_free_nop"
--    raise ValueError("Don't know how to translate type '%s' into a TCG temporal deallocation" % type_)
--
--HOST_2_TCG_TMP_FREE = {
--    "uint32_t": "tcg_temp_free_i32",
--    "uint64_t": "tcg_temp_free_i64",
--    "void *"  : "tcg_temp_free_ptr",
--    None: _host_2_tcg_tmp_free,
--    }
+ - Don't hesitate to use helpers for complicated or seldom used guest
+   instructions. There is little performance advantage in using TCG to
+   implement guest instructions taking more than about twenty TCG
 -- 
 2.34.1
 
