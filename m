@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56396A40D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1F96A40D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:39:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbpO-00073x-BJ; Mon, 27 Feb 2023 06:37:58 -0500
+	id 1pWbpR-0007Sn-RE; Mon, 27 Feb 2023 06:38:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbot-0006A9-Rr
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:37:33 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboZ-0005uh-M2
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:37:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboX-0005je-Vg
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:37:11 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboY-0005jV-2i
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:37:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677497825;
+ s=mimecast20190719; t=1677497824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jw8hBhirtWepa/XGvDp97V9pOe9gNgISwSWI/zZGAE8=;
- b=W7E3QIWxhEUXiYIkxEBSzbevxZtvfSUHynhqpkdg/RGPcYBSpBuOi4zXkiyWftaez7CfJF
- giBNQgGuTyctgZSNEA3kCRAdMdhu/D9O6daz1X02vvTQzowdsj3pUc/fCiYMGnYg5HGP8m
- PzoFWSlq3KVzoqEHAuO5xpSf6NQI3Ng=
+ bh=5ljH6cBBcNiI8kZSssVwvGVOfnz6Q5CfPyreEdKkCAE=;
+ b=Py1RbxbZv+ASPrZExWxaW/0P56RfpjHS7eczrTBvmNELfS3BRH05RY9e6kzt0eWIRk1sYT
+ LHxFzh64HJ73yqykHRE0pdSxN+S54QfVB6uhfwb9wMqKWyuEkicKXEzT/eulHT6SXqLgKI
+ o0DHTZU69mpedHngZCBnVG9RUWd8gow=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-sAWbUqVmP82k-_HJBd7xMw-1; Mon, 27 Feb 2023 06:37:01 -0500
-X-MC-Unique: sAWbUqVmP82k-_HJBd7xMw-1
+ us-mta-212-deU-0k0fM1icQjYyU32O_w-1; Mon, 27 Feb 2023 06:37:03 -0500
+X-MC-Unique: deU-0k0fM1icQjYyU32O_w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66C95100F913;
- Mon, 27 Feb 2023 11:37:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CEDDB100F910;
+ Mon, 27 Feb 2023 11:37:02 +0000 (UTC)
 Received: from thuth.com (unknown [10.45.227.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C91D21121314;
- Mon, 27 Feb 2023 11:37:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A811C1121314;
+ Mon, 27 Feb 2023 11:37:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 32/33] gitlab-ci.d/base: Mark jobs as interruptible by default
-Date: Mon, 27 Feb 2023 12:36:20 +0100
-Message-Id: <20230227113621.58468-33-thuth@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Peter Krempa <pkrempa@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Sunil V L <sunilvl@ventanamicro.com>
+Subject: [PULL 33/33] Deprecate the "-no-acpi" command line switch
+Date: Mon, 27 Feb 2023 12:36:21 +0100
+Message-Id: <20230227113621.58468-34-thuth@redhat.com>
 In-Reply-To: <20230227113621.58468-1-thuth@redhat.com>
 References: <20230227113621.58468-1-thuth@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -75,40 +79,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When handling pull requests in the staging branch, it often happens
-that one of the job fails due to a problem, so that the pull request
-can't be merged. Peter/Richard/Stefan then informs the sender of the
-pull request and continues by pushing the next pending pull request
-from another subsystem maintainer. Now the problem is that there might
-still be lots of other running jobs in the pipeline of the first pull
-request, eating up precious CI minutes though the pipeline is not
-needed anymore. We can avoid this by marking the jobs as "interruptible".
-With this setting, the jobs from previous pipelines are automatically
-terminated when pushing a new one. If someone does not like this auto-
-matic termination, it can still be disabled in the settings of the
-repository. See this URL for details:
+Similar to "-no-hpet", the "-no-acpi" switch is a legacy command
+line option that should be replaced with the "acpi" machine parameter
+nowadays.
 
- https://docs.gitlab.com/ee/ci/yaml/index.html#interruptible
-
-Message-Id: <20230223191343.1064274-1-thuth@redhat.com>
+Message-Id: <20230224090543.1129677-1-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Peter Krempa <pkrempa@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Sunil V L <sunilvl@ventanamicro.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/base.yml | 2 ++
- 1 file changed, 2 insertions(+)
+ docs/about/deprecated.rst | 6 ++++++
+ softmmu/vl.c              | 1 +
+ 2 files changed, 7 insertions(+)
 
-diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
-index 50fb59e147..0274228de8 100644
---- a/.gitlab-ci.d/base.yml
-+++ b/.gitlab-ci.d/base.yml
-@@ -11,6 +11,8 @@
-     # and show the duration of each line.
-     FF_SCRIPT_SECTIONS: 1
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index ee95bcb1a6..15084f7bea 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -99,6 +99,12 @@ form is preferred.
+ The HPET setting has been turned into a machine property.
+ Use ``-machine hpet=off`` instead.
  
-+  interruptible: true
++``-no-acpi`` (since 8.0)
++''''''''''''''''''''''''
 +
-   rules:
-     #############################################################
-     # Stage 1: exclude scenarios where we definitely don't
++The ``-no-acpi`` setting has been turned into a machine property.
++Use ``-machine acpi=off`` instead.
++
+ ``-accel hax`` (since 8.0)
+ ''''''''''''''''''''''''''
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 6e526d95bb..f29e4c4dc3 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3264,6 +3264,7 @@ void qemu_init(int argc, char **argv)
+                 vnc_parse(optarg);
+                 break;
+             case QEMU_OPTION_no_acpi:
++                warn_report("-no-acpi is deprecated, use '-machine acpi=off' instead");
+                 qdict_put_str(machine_opts_dict, "acpi", "off");
+                 break;
+             case QEMU_OPTION_no_hpet:
 -- 
 2.31.1
 
