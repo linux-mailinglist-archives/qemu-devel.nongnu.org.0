@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF936A4483
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064E56A447B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:34:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeAR-0008H5-DA; Mon, 27 Feb 2023 09:07:51 -0500
+	id 1pWeAT-00006E-HG; Mon, 27 Feb 2023 09:07:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9s-0007jp-OY
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:26 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeA3-0007kt-Dr
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:35 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9r-0000F2-1b
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:16 -0500
-Received: by mail-wr1-x434.google.com with SMTP id h14so6362568wru.4
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:07:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeA1-0000FS-Kh
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:27 -0500
+Received: by mail-wr1-x430.google.com with SMTP id l25so6368926wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:07:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Wvgc1q+JeB9mB1p5KKDFDthHdUae8hWBwy/9CcINALg=;
- b=Ye+RJJYYiExrYT2Kv7dBdmNHikfxupx84XMOdqPhIB0aA9MCFslL8IuTCSt5wex5F5
- IHBsiYcpvDMgCp3eXhYwDc05oQnhfO/n7mp7YgnLwxyFOEQMBlqKrHn8LcFe+/5hfASl
- HstlfmP/GHUraPaYzLxhVLk0yGOFCmj2MnyUnvAKNIltsHh0xo8k2wpEaqimXvn5DS6K
- okdLONUiLz/S0mI4zBeNHVURE7VNPTz0xtnkE3y6n7odPbT85IVVe9EPBKB23ya9CKkT
- GUau2cVGIFhQb0+7+Y9QlsFWgebMg47h34DeJJ+A3RNHoPl11GpoBRLfIC6blCTVOR7J
- Cvkw==
+ :reply-to; bh=sD8nMOvl9XnKQqeIn+DUxNqc5UOPoGaD9olkVeLlkv0=;
+ b=oU5viHelvs8Z/BYMPZCeCpbPBzzy6Npi/jpNZYeek1YFNJZ3+lY4rrumvtNEqV9GdV
+ dzkit7Q84hAQQcd7V1a388GfHAOQOC9w023oRCwkPaeadQKjiVCwilBISvV9vemUmlqH
+ oGexPU4ibepG7FLNbj8HKhzfkwd6afumuW1PFr4INxwxzJMc3p78ibWF3DD3wfYdCxUJ
+ U9upmfr0/zh/pSkXe2aDoQZZtO3kGMp19J6SL1y0hXQqp5jX5FLzwPm6yp5M2lzUVrHf
+ kIOl8g59Nm1mzDCtmMhiqRXAJsyA+I+bGeZWBB6JOEWnhgIwAyHzwyVyJCcKWaDKxBLa
+ /MKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Wvgc1q+JeB9mB1p5KKDFDthHdUae8hWBwy/9CcINALg=;
- b=ZBVcRcU44YorH63vZfFCn+U2GpqGDfzzcpR6pkVBNyH9oSa8oD9weqgiQGFo3LHwfZ
- Gs5++gV6SgvP7suGy+JxikOJuWbCbaTsnr8rfKULlPucQTDM/EAVXpw+hS1+1wFhubtO
- B08DpMNzM1nYq4gD2x3wvEAMpYEMVxSHRDfY3ve/46HMGmV70/+bgJbva548Wh0Drprq
- 7rrUsemsgYzr/wpr65bWJsEKf2H1UUm3Gn5Jdu8P4/QRJk0fiLPtL3Hw4M1oRLdbv/1J
- a+La1avZiD4T0xoyKcj+Z3e1Ol3sPPVG9wek9D88iQy0VgZIHN8rv/tcY6OioYfhQJQv
- utZw==
-X-Gm-Message-State: AO0yUKWeL+g9MX4V2V1SQVR+pfS1ixQar5xKki8gb2GdROKyNiXcMzGW
- QwKVPKeEfQoBqM9olIf0DswKTek88cEjnBO5
-X-Google-Smtp-Source: AK7set/9+LfqykWHzKcyg+s/YtxNnf+WSvmHmEhFOQ2zgbqr7uPa24h/ROfXoXP16DTMlHkBXA+qwQ==
-X-Received: by 2002:adf:e450:0:b0:2c3:fb3e:ae85 with SMTP id
- t16-20020adfe450000000b002c3fb3eae85mr22364261wrm.44.1677506832595; 
- Mon, 27 Feb 2023 06:07:12 -0800 (PST)
+ bh=sD8nMOvl9XnKQqeIn+DUxNqc5UOPoGaD9olkVeLlkv0=;
+ b=T6H8/3xEX6ZyEiQzkUdl/MxeVjuYSjJnn7czS0a+8ntntnbtfBV7wscKIIaEEdvDAJ
+ SrxS/mal4FRNjixAzOUNsyUvWAKl2fi01j9eG+Z9QlPsZ7Iz62zskXbbRYs9DK5misgP
+ am4hr/V34c77NvrdIjDgHsjldh00Rs7Xk9UOMJCs0/7AWAlD0VQmPQvzXjeZGsly/rQy
+ FaZQ9bCij/mt6fFmnWVGSMwxVKd5P41RZvezl9t0j5EjoqVIkUV67+WisPCWoZKUsMCo
+ BAiy8JIwXfFriqYziVK7RkH7dJk9+LFrdQ2Pkyjd/YTt8KhO7drSRXni/CGhW5zivvZv
+ 6/KQ==
+X-Gm-Message-State: AO0yUKUNDL8g6el/FFTGxon0Y2Q3bwIXaGi25kHK/C1md3NaMU/gj5vI
+ SUBET4NDVuW+lwFjuZPK0fUijEmhHGprIPZn
+X-Google-Smtp-Source: AK7set8rsm8MhVFNl90tLpBfKwSHGUXiwBvAeoJzJMRT3zhWyiRhzw2XE8D01nGINgp4biyQdBxb3A==
+X-Received: by 2002:adf:fdc5:0:b0:2c7:dec:77ac with SMTP id
+ i5-20020adffdc5000000b002c70dec77acmr14119105wrs.21.1677506837997; 
+ Mon, 27 Feb 2023 06:07:17 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- y18-20020a5d4ad2000000b002c5584d0e3dsm7294008wrs.24.2023.02.27.06.07.11
+ c4-20020adffb04000000b002c70bfe505esm7149901wrr.82.2023.02.27.06.07.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:07:12 -0800 (PST)
+ Mon, 27 Feb 2023 06:07:17 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 064/126] hw/isa: Factor isa_bus_get_irq() out of isa_get_irq()
-Date: Mon, 27 Feb 2023 15:01:11 +0100
-Message-Id: <20230227140213.35084-55-philmd@linaro.org>
+Subject: [PULL 065/126] hw: Replace isa_get_irq() by isa_bus_get_irq() when
+ ISABus is available
+Date: Mon, 27 Feb 2023 15:01:12 +0100
+Message-Id: <20230227140213.35084-56-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,82 +88,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-isa_get_irq() was added in commit 3a38d437ca
-("Add isa_reserve_irq()" Fri Aug 14 11:36:15 2009) as:
-
-    a temporary interface to be used to allocate ISA IRQs for
-    devices which have not yet been converted to qdev, and for
-    special cases which are not suited for qdev conversions,
-    such as the 'ferr'.
-
-We still use it 14 years later, using the global 'isabus'
-singleton. In order to get rid of such *temporary* interface,
-extract isa_bus_get_irq() which can take any ISABus* object.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230215161641.32663-3-philmd@linaro.org>
+Message-Id: <20230215161641.32663-4-philmd@linaro.org>
 ---
- hw/isa/isa-bus.c     | 14 ++++++++++----
- include/hw/isa/isa.h |  8 ++++++++
- 2 files changed, 18 insertions(+), 4 deletions(-)
+ hw/audio/cs4231a.c       | 5 +++--
+ hw/audio/gus.c           | 5 +++--
+ hw/audio/sb16.c          | 7 ++++---
+ hw/block/fdc-isa.c       | 5 +++--
+ include/hw/timer/i8254.h | 3 ++-
+ 5 files changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 80d8fb4c5b..a289eccfb1 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -72,6 +72,13 @@ void isa_bus_register_input_irqs(ISABus *bus, qemu_irq *irqs_in)
-     bus->irqs_in = irqs_in;
- }
- 
-+qemu_irq isa_bus_get_irq(ISABus *bus, unsigned irqnum)
-+{
-+    assert(irqnum < ISA_NUM_IRQS);
-+    assert(bus->irqs_in);
-+    return bus->irqs_in[irqnum];
-+}
-+
- /*
-  * isa_get_irq() returns the corresponding input qemu_irq entry for the i8259.
-  *
-@@ -81,14 +88,13 @@ void isa_bus_register_input_irqs(ISABus *bus, qemu_irq *irqs_in)
- qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
+diff --git a/hw/audio/cs4231a.c b/hw/audio/cs4231a.c
+index ec066fcd89..5c6d643732 100644
+--- a/hw/audio/cs4231a.c
++++ b/hw/audio/cs4231a.c
+@@ -668,16 +668,17 @@ static void cs4231a_initfn (Object *obj)
+ static void cs4231a_realizefn (DeviceState *dev, Error **errp)
  {
-     assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
--    assert(isairq < ISA_NUM_IRQS);
--    return isabus->irqs_in[isairq];
-+    return isa_bus_get_irq(isabus, isairq);
- }
+     ISADevice *d = ISA_DEVICE (dev);
++    ISABus *bus = isa_bus_from_device(d);
+     CSState *s = CS4231A (dev);
+     IsaDmaClass *k;
  
- void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
+-    s->isa_dma = isa_bus_get_dma(isa_bus_from_device(d), s->dma);
++    s->isa_dma = isa_bus_get_dma(bus, s->dma);
+     if (!s->isa_dma) {
+         error_setg(errp, "ISA controller does not support DMA");
+         return;
+     }
+ 
+-    s->pic = isa_get_irq(d, s->irq);
++    s->pic = isa_bus_get_irq(bus, s->irq);
+     k = ISADMA_GET_CLASS(s->isa_dma);
+     k->register_channel(s->isa_dma, s->dma, cs_dma_read, s);
+ 
+diff --git a/hw/audio/gus.c b/hw/audio/gus.c
+index 2a08a0f7d7..787345ce54 100644
+--- a/hw/audio/gus.c
++++ b/hw/audio/gus.c
+@@ -236,11 +236,12 @@ static const MemoryRegionPortio gus_portio_list2[] = {
+ static void gus_realizefn (DeviceState *dev, Error **errp)
  {
--    qemu_irq irq = isa_get_irq(isadev, isairq);
--    qdev_connect_gpio_out(DEVICE(isadev), gpioirq, irq);
-+    qemu_irq input_irq = isa_get_irq(isadev, isairq);
-+    qdev_connect_gpio_out(DEVICE(isadev), gpioirq, input_irq);
- }
+     ISADevice *d = ISA_DEVICE(dev);
++    ISABus *bus = isa_bus_from_device(d);
+     GUSState *s = GUS (dev);
+     IsaDmaClass *k;
+     struct audsettings as;
  
- void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16)
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 3a60f6afa6..40d6224a4e 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -72,6 +72,14 @@ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion *address_space,
- void isa_bus_register_input_irqs(ISABus *bus, qemu_irq *irqs_in);
- void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16);
- IsaDma *isa_bus_get_dma(ISABus *bus, int nchan);
-+/**
-+ * isa_bus_get_irq: Return input IRQ on ISA bus.
-+ * @bus: the #ISABus to plug ISA devices on.
-+ * @irqnum: the ISA IRQ number.
-+ *
-+ * Return IRQ @irqnum from the PIC associated on ISA @bus.
-+ */
-+qemu_irq isa_bus_get_irq(ISABus *bus, unsigned irqnum);
- ISADevice *isa_new(const char *name);
- ISADevice *isa_try_new(const char *name);
- bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp);
+-    s->isa_dma = isa_bus_get_dma(isa_bus_from_device(d), s->emu.gusdma);
++    s->isa_dma = isa_bus_get_dma(bus, s->emu.gusdma);
+     if (!s->isa_dma) {
+         error_setg(errp, "ISA controller does not support DMA");
+         return;
+@@ -282,7 +283,7 @@ static void gus_realizefn (DeviceState *dev, Error **errp)
+     s->emu.himemaddr = s->himem;
+     s->emu.gusdatapos = s->emu.himemaddr + 1024 * 1024 + 32;
+     s->emu.opaque = s;
+-    s->pic = isa_get_irq(d, s->emu.gusirq);
++    s->pic = isa_bus_get_irq(bus, s->emu.gusirq);
+ 
+     AUD_set_active_out (s->voice, 1);
+ }
+diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
+index ae745c7283..535ccccdc9 100644
+--- a/hw/audio/sb16.c
++++ b/hw/audio/sb16.c
+@@ -1398,17 +1398,18 @@ static void sb16_initfn (Object *obj)
+ static void sb16_realizefn (DeviceState *dev, Error **errp)
+ {
+     ISADevice *isadev = ISA_DEVICE (dev);
++    ISABus *bus = isa_bus_from_device(isadev);
+     SB16State *s = SB16 (dev);
+     IsaDmaClass *k;
+ 
+-    s->isa_hdma = isa_bus_get_dma(isa_bus_from_device(isadev), s->hdma);
+-    s->isa_dma = isa_bus_get_dma(isa_bus_from_device(isadev), s->dma);
++    s->isa_hdma = isa_bus_get_dma(bus, s->hdma);
++    s->isa_dma = isa_bus_get_dma(bus, s->dma);
+     if (!s->isa_dma || !s->isa_hdma) {
+         error_setg(errp, "ISA controller does not support DMA");
+         return;
+     }
+ 
+-    s->pic = isa_get_irq(isadev, s->irq);
++    s->pic = isa_bus_get_irq(bus, s->irq);
+ 
+     s->mixer_regs[0x80] = magic_of_irq (s->irq);
+     s->mixer_regs[0x81] = (1 << s->dma) | (1 << s->hdma);
+diff --git a/hw/block/fdc-isa.c b/hw/block/fdc-isa.c
+index a5f07b668d..7ec075e470 100644
+--- a/hw/block/fdc-isa.c
++++ b/hw/block/fdc-isa.c
+@@ -86,6 +86,7 @@ static const MemoryRegionPortio fdc_portio_list[] = {
+ static void isabus_fdc_realize(DeviceState *dev, Error **errp)
+ {
+     ISADevice *isadev = ISA_DEVICE(dev);
++    ISABus *bus = isa_bus_from_device(isadev);
+     FDCtrlISABus *isa = ISA_FDC(dev);
+     FDCtrl *fdctrl = &isa->state;
+     Error *err = NULL;
+@@ -94,11 +95,11 @@ static void isabus_fdc_realize(DeviceState *dev, Error **errp)
+                              isa->iobase, fdc_portio_list, fdctrl,
+                              "fdc");
+ 
+-    fdctrl->irq = isa_get_irq(isadev, isa->irq);
++    fdctrl->irq = isa_bus_get_irq(bus, isa->irq);
+     fdctrl->dma_chann = isa->dma;
+     if (fdctrl->dma_chann != -1) {
+         IsaDmaClass *k;
+-        fdctrl->dma = isa_bus_get_dma(isa_bus_from_device(isadev), isa->dma);
++        fdctrl->dma = isa_bus_get_dma(bus, isa->dma);
+         if (!fdctrl->dma) {
+             error_setg(errp, "ISA controller does not support DMA");
+             return;
+diff --git a/include/hw/timer/i8254.h b/include/hw/timer/i8254.h
+index 3e569f42b6..8402caad30 100644
+--- a/include/hw/timer/i8254.h
++++ b/include/hw/timer/i8254.h
+@@ -56,7 +56,8 @@ static inline ISADevice *i8254_pit_init(ISABus *bus, int base, int isa_irq,
+     qdev_prop_set_uint32(dev, "iobase", base);
+     isa_realize_and_unref(d, bus, &error_fatal);
+     qdev_connect_gpio_out(dev, 0,
+-                          isa_irq >= 0 ? isa_get_irq(d, isa_irq) : alt_irq);
++                          isa_irq >= 0 ? isa_bus_get_irq(bus, isa_irq)
++                                       : alt_irq);
+ 
+     return d;
+ }
 -- 
 2.38.1
 
