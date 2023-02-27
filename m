@@ -2,106 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4936A3CF8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:29:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AAD26A3D5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:36:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWYqt-00043y-9g; Mon, 27 Feb 2023 03:27:19 -0500
+	id 1pWYzN-0001dg-HM; Mon, 27 Feb 2023 03:36:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pWYqV-0003eo-J7; Mon, 27 Feb 2023 03:26:58 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pWYqT-0002gL-0b; Mon, 27 Feb 2023 03:26:55 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31R7xjTD004460; Mon, 27 Feb 2023 08:26:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=iYzTbCx7jzdspPO+ZzizQJEYkl8OexuVAAWUtLto6Hg=;
- b=PTSF9b6lT5jMCcJiUxc5cyOgnZ4swcfclBn30M8T74GhVflP5+UL7npZcjr1J6uljA7I
- 3ACu/zZeegMlBPnGATjEuOgCbKv736IrS7HDv4WGrWbq61RQpl2OeIce19SBBcotsLj2
- dzuIXv5brxlEYMFfA9E4ufc/1gDtUQ5D6jyyoOCA9Ze1091+3ISia8JFV1ah2mhP/X0N
- vPo1v5ROHeuW3u+ELmEOBHY8tFAFK1rh2qFB34DE5owT0jm4uI5yssnGid6ktHztxCIe
- w9An8UTeFeCn64GAgIDBg/61k5moTB4/yMrD98nfSqmZhY3Xfl3+I2ickJZmG5TGIdE4 pQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p0rmbgptd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 08:26:40 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31R82CBw011610;
- Mon, 27 Feb 2023 08:26:40 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p0rmbgpsb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 08:26:40 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31PMqsfE001589;
- Mon, 27 Feb 2023 08:26:37 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3nybdfs8u0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 08:26:37 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31R8QY6H43450752
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Feb 2023 08:26:34 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E4CFF2004D;
- Mon, 27 Feb 2023 08:26:33 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DA81D20040;
- Mon, 27 Feb 2023 08:26:32 +0000 (GMT)
-Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com (unknown
- [9.171.37.166]) by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 27 Feb 2023 08:26:32 +0000 (GMT)
-Message-ID: <c80290f87e2c8377dc33584ec33ce77e1f58f091.camel@linux.ibm.com>
-Subject: Re: [PATCH v16 08/11] qapi/s390x/cpu topology: set-cpu-topology
- monitor command
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com, clg@kaod.org
-Date: Mon, 27 Feb 2023 09:26:32 +0100
-In-Reply-To: <20230222142105.84700-9-pmorel@linux.ibm.com>
-References: <20230222142105.84700-1-pmorel@linux.ibm.com>
- <20230222142105.84700-9-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ceHKkSMFCvd-X2OkaHrVXxKDTXEfE1vR
-X-Proofpoint-ORIG-GUID: wPCf72VTABhYaZ80SYwXvRujovM5PnFw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-26_22,2023-02-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
- suspectscore=0 mlxscore=0 mlxlogscore=999 adultscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302270063
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWYz9-0001YR-Q1; Mon, 27 Feb 2023 03:35:56 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWYz7-0005CZ-0w; Mon, 27 Feb 2023 03:35:51 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id o12so22328004edb.9;
+ Mon, 27 Feb 2023 00:35:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OiNpRYoYLH3sroQtlpzLzvkhid0pHsf/1yGroQpEvq0=;
+ b=qud7UP7j/JVn4iCbM2AItzXGktL+gzzXz4+OzJJZG7ZRV/PE711ZsGRMmSEVcfNVjC
+ IRlatD8s/MLDJv5rJXeZNY3W80DC13Z+HSH7upuLdWKxR3sZgt+bOcTzOYdB3E0ZucZ0
+ DD0Q4RJF83B1x51bTXJnYLa+8vT+AR+wwp0rPSJddZbkDAASshdO47LJfS5JO3J9XWA0
+ BVcggZfBT7uu0VW6lAtiaM5BxKHZtVz7u+djKqdNd+dIsHmbEN1b7G0M4FwAdyzWb7uM
+ IU1sDNJb6mJvILKDRfjG1vaEgrKGpbSymVjTtRYTqutg98+ZH9syIHR+y+OwlFBggZc4
+ vw6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OiNpRYoYLH3sroQtlpzLzvkhid0pHsf/1yGroQpEvq0=;
+ b=LZmPFZ1VyudW+KBtrD6E8jn1rJP8Nf2+XsIjeGiPhSmCbN2VegB/qkD+SzxAOEgYI+
+ wHI3fXaoVj7/kWglp5extwk6vLCSGwOoltnwUrqZT6qIC7PIrq1xekOhWAcPR86VSJXp
+ HkaDXl8RlVybMHn7YuZ8o4M31ciL/mMMtLos4VKv+KNXGxBON42Wnxye+aRrF94mEMSL
+ 7Vs/xZYlS4tWwTbfxm54AqMahSap+Clzpa1yDQixtXoWzc0unjQpfzH7a4JduJDUclNq
+ IRrA3iF8WWDQR9e+mkBDWt2pc43qIUAnQLcMxVlha+GWZs2aIWDrHpHhhjF7Du686iiL
+ ukwQ==
+X-Gm-Message-State: AO0yUKWaUr7V6f7uMQzDM/WsoU5K7GfJ3tMF56QluSwVXkpamfP16Nou
+ AyzZEecvvURSUmzLrmxT7wI=
+X-Google-Smtp-Source: AK7set/XyjbmpiVIaaXckJsfzy5YIl40n9PhzTEWXwWMWqctbrj3xt4VLfgLoItU5hoToDEqi1jqDQ==
+X-Received: by 2002:a17:906:255b:b0:8af:3fcc:2b05 with SMTP id
+ j27-20020a170906255b00b008af3fcc2b05mr33062459ejb.12.1677486945549; 
+ Mon, 27 Feb 2023 00:35:45 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-078-055-154-008.78.55.pool.telefonica.de.
+ [78.55.154.8]) by smtp.gmail.com with ESMTPSA id
+ qq10-20020a17090720ca00b008cb7473e488sm2994249ejb.12.2023.02.27.00.35.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 00:35:45 -0800 (PST)
+Date: Mon, 27 Feb 2023 08:35:38 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, ReneEngel80@emailn.de
+Subject: Re: [PATCH v3 4/8] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <cc565f01-c09e-bf03-b594-5216f51351c5@eik.bme.hu>
+References: <cover.1677445307.git.balaton@eik.bme.hu>
+ <0fd9eac9174a840054c511fbc015048929c7bc40.1677445307.git.balaton@eik.bme.hu>
+ <a496276e-24fb-e2bc-fbdf-ace9ef7f361f@linaro.org>
+ <0E10FCF9-465D-462A-8031-880B0907CCDA@gmail.com>
+ <cc565f01-c09e-bf03-b594-5216f51351c5@eik.bme.hu>
+Message-ID: <57051528-2FE3-4624-A042-F51813A1C302@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,321 +98,100 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-/o\  Sorry, I changed the HMP arguments in the C code from core.. to
-core-id.. and forgot to change them inside the hmp-command.hx file.
 
-Also I need to extend the info hotpluggable-cpus.
+Am 26=2E Februar 2023 23:58:32 UTC schrieb BALATON Zoltan <balaton@eik=2Eb=
+me=2Ehu>:
+>On Sun, 26 Feb 2023, Bernhard Beschow wrote:
+>> Am 26=2E Februar 2023 22:27:50 UTC schrieb "Philippe Mathieu-Daud=C3=A9=
+" <philmd@linaro=2Eorg>:
+>>> On 25/2/23 19:11, BALATON Zoltan wrote:
+>>>> From: Bernhard Beschow <shentey@gmail=2Ecom>
+>>>>=20
+>>>> The real VIA south bridges implement a PCI IRQ router which is config=
+ured
+>>>> by the BIOS or the OS=2E In order to respect these configurations, QE=
+MU
+>>>> needs to implement it as well=2E
+>>>>=20
+>>>> Note: The implementation was taken from piix4_set_irq() in hw/isa/pii=
+x4=2E
+>>>>=20
+>>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>>>> [balaton: declare gpio inputs instead of changing pci bus irqs so it =
+can
+>>>>   be connected in board code; remove some empty lines]
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik=2Ebme=2Ehu>
+>>>> Tested-by: Rene Engel <ReneEngel80@emailn=2Ede>
+>>>> ---
+>>>>   hw/isa/vt82c686=2Ec | 39 +++++++++++++++++++++++++++++++++++++++
+>>>>   1 file changed, 39 insertions(+)
+>>>=20
+>>>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+>>>> +{
+>>>> +    switch (irq_num) {
+>>>> +    case 0:
+>>>> +        return s->dev=2Econfig[0x55] >> 4;
+>>>> +    case 1:
+>>>> +        return s->dev=2Econfig[0x56] & 0xf;
+>>>> +    case 2:
+>>>> +        return s->dev=2Econfig[0x56] >> 4;
+>>>> +    case 3:
+>>>> +        return s->dev=2Econfig[0x57] >> 4;
+>>>> +    }
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level=
+)
+>>>> +{
+>>>> +    ViaISAState *s =3D opaque;
+>>>> +    PCIBus *bus =3D pci_get_bus(&s->dev);
+>>>> +    int pic_irq;
+>>>> +
+>>>> +    /* now we change the pic irq level according to the via irq mapp=
+ings */
+>>>> +    /* XXX: optimize */
+>>>> +    pic_irq =3D via_isa_get_pci_irq(s, irq_num);
+>>>> +    if (pic_irq < ISA_NUM_IRQS) {
+>>>=20
+>>> the ISA IRQ is stored in 4-bit so will always be in range=2E
+>>=20
+>> Indeed=2E I'd turn this into an assert to keep this assum visible=2E I'=
+ll do another iteration of the PCI IRQ router series=2E
+>
+>I don't like a useless assert in an irq handler that's potentially called=
+ a lot=2E If you want to keep that add a comment instead=2E
 
-I will provide alternate patches with these two corrections.
+It won't because it will only affect debug builds=2E If it fails it's imme=
+diately clear in which direction to look for the culprit=2E
 
-Regards,
-Pierre
-
-
-On Wed, 2023-02-22 at 15:21 +0100, Pierre Morel wrote:
-> The modification of the CPU attributes are done through a monitor
-> command.
-> 
-> It allows to move the core inside the topology tree to optimize
-> the cache usage in the case the host's hypervisor previously
-> moved the CPU.
-> 
-> The same command allows to modify the CPU attributes modifiers
-> like polarization entitlement and the dedicated attribute to notify
-> the guest if the host admin modified scheduling or dedication of a
-> vCPU.
-> 
-> With this knowledge the guest has the possibility to optimize the
-> usage of the vCPUs.
-> 
-> The command has a feature unstable for the moment.
-> 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  qapi/machine-target.json |  35 +++++++++
->  include/monitor/hmp.h    |   1 +
->  hw/s390x/cpu-topology.c  | 154
-> +++++++++++++++++++++++++++++++++++++++
->  hmp-commands.hx          |  17 +++++
->  4 files changed, 207 insertions(+)
-> 
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index a52cc32f09..baa9d273cf 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -354,3 +354,38 @@
->  { 'enum': 'CpuS390Polarization',
->    'prefix': 'S390_CPU_POLARIZATION',
->    'data': [ 'horizontal', 'vertical' ] }
-> +
-> +##
-> +# @set-cpu-topology:
-> +#
-> +# @core-id: the vCPU ID to be moved
-> +# @socket-id: optional destination socket where to move the vCPU
-> +# @book-id: optional destination book where to move the vCPU
-> +# @drawer-id: optional destination drawer where to move the vCPU
-> +# @entitlement: optional entitlement
-> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
-> +#
-> +# Features:
-> +# @unstable: This command may still be modified.
-> +#
-> +# Modifies the topology by moving the CPU inside the topology
-> +# tree or by changing a modifier attribute of a CPU.
-> +# Default value for optional parameter is the current value
-> +# used by the CPU.
-> +#
-> +# Returns: Nothing on success, the reason on failure.
-> +#
-> +# Since: 8.0
-> +##
-> +{ 'command': 'set-cpu-topology',
-> +  'data': {
-> +      'core-id': 'uint16',
-> +      '*socket-id': 'uint16',
-> +      '*book-id': 'uint16',
-> +      '*drawer-id': 'uint16',
-> +      '*entitlement': 'str',
-> +      '*dedicated': 'bool'
-> +  },
-> +  'features': [ 'unstable' ],
-> +  'if': { 'all': [ 'TARGET_S390X' ] }
-> +}
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index 2220f14fc9..4e65e6d08e 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -178,5 +178,6 @@ void hmp_ioport_read(Monitor *mon, const QDict
-> *qdict);
->  void hmp_ioport_write(Monitor *mon, const QDict *qdict);
->  void hmp_boot_set(Monitor *mon, const QDict *qdict);
->  void hmp_info_mtree(Monitor *mon, const QDict *qdict);
-> +void hmp_set_cpu_topology(Monitor *mon, const QDict *qdict);
->  
->  #endif
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index ed5fc75381..3a7eb441a3 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -19,6 +19,12 @@
->  #include "hw/s390x/s390-virtio-ccw.h"
->  #include "hw/s390x/cpu-topology.h"
->  #include "qapi/qapi-types-machine-target.h"
-> +#include "qapi/qapi-types-machine.h"
-> +#include "qapi/qapi-commands-machine-target.h"
-> +#include "qapi/qmp/qdict.h"
-> +#include "monitor/hmp.h"
-> +#include "monitor/monitor.h"
-> +
->  /*
->   * s390_topology is used to keep the topology information.
->   * .cores_per_socket: tracks information on the count of cores
-> @@ -310,6 +316,26 @@ static void
-> s390_topology_add_core_to_socket(S390CPU *cpu, int drawer_id,
->      }
->  }
->  
-> +/**
-> + * s390_topology_need_report
-> + * @cpu: Current cpu
-> + * @drawer_id: future drawer ID
-> + * @book_id: future book ID
-> + * @socket_id: future socket ID
-> + *
-> + * A modified topology change report is needed if the
-> + */
-> +static int s390_topology_need_report(S390CPU *cpu, int drawer_id,
-> +                                   int book_id, int socket_id,
-> +                                   uint16_t entitlement, bool
-> dedicated)
-> +{
-> +    return cpu->env.drawer_id != drawer_id ||
-> +           cpu->env.book_id != book_id ||
-> +           cpu->env.socket_id != socket_id ||
-> +           cpu->env.entitlement != entitlement ||
-> +           cpu->env.dedicated != dedicated;
-> +}
-> +
->  /**
->   * s390_update_cpu_props:
->   * @ms: the machine state
-> @@ -376,3 +402,131 @@ void s390_topology_setup_cpu(MachineState *ms,
-> S390CPU *cpu, Error **errp)
->      /* topology tree is reflected in props */
->      s390_update_cpu_props(ms, cpu);
->  }
-> +
-> +/*
-> + * qmp and hmp implementations
-> + */
-> +
-> +#define TOPOLOGY_SET(n) do {                                \
-> +                            if (has_ ## n) {                \
-> +                                calc_ ## n = n;             \
-> +                            } else {                        \
-> +                                calc_ ## n = cpu->env.n;    \
-> +                            }                               \
-> +                        } while (0)
-> +
-> +static void s390_change_topology(uint16_t core_id,
-> +                                 bool has_socket_id, uint16_t
-> socket_id,
-> +                                 bool has_book_id, uint16_t book_id,
-> +                                 bool has_drawer_id, uint16_t
-> drawer_id,
-> +                                 bool has_entitlement, uint16_t
-> entitlement,
-> +                                 bool has_dedicated, bool dedicated,
-> +                                 Error **errp)
-> +{
-> +    MachineState *ms = current_machine;
-> +    uint16_t calc_dedicated, calc_entitlement;
-> +    uint16_t calc_socket_id, calc_book_id, calc_drawer_id;
-> +    S390CPU *cpu;
-> +    int report_needed;
-> +    ERRP_GUARD();
-> +
-> +    if (core_id >= ms->smp.max_cpus) {
-> +        error_setg(errp, "Core-id %d out of range!", core_id);
-> +        return;
-> +    }
-> +
-> +    cpu = (S390CPU *)ms->possible_cpus->cpus[core_id].cpu;
-> +    if (!cpu) {
-> +        error_setg(errp, "Core-id %d does not exist!", core_id);
-> +        return;
-> +    }
-> +
-> +    /* Get unprovided attributes from cpu and verify the new
-> topology */
-> +    TOPOLOGY_SET(entitlement);
-> +    TOPOLOGY_SET(dedicated);
-> +    TOPOLOGY_SET(socket_id);
-> +    TOPOLOGY_SET(book_id);
-> +    TOPOLOGY_SET(drawer_id);
-> +
-> +    s390_topology_check(calc_socket_id, calc_book_id,
-> calc_drawer_id,
-> +                        calc_entitlement, calc_dedicated, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +
-> +    /* Move the CPU into its new socket */
-> +    s390_topology_add_core_to_socket(cpu, calc_drawer_id,
-> calc_book_id,
-> +                                     calc_socket_id, false, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +
-> +    /* Check if we need to report the modified topology */
-> +    report_needed = s390_topology_need_report(cpu, calc_drawer_id,
-> calc_book_id,
-> +                                              calc_socket_id,
-> calc_entitlement,
-> +                                              calc_dedicated);
-> +
-> +    /* All checks done, report new topology into the vCPU */
-> +    cpu->env.drawer_id = calc_drawer_id;
-> +    cpu->env.book_id = calc_book_id;
-> +    cpu->env.socket_id = calc_socket_id;
-> +    cpu->env.dedicated = calc_dedicated;
-> +    cpu->env.entitlement = calc_entitlement;
-> +
-> +    /* topology tree is reflected in props */
-> +    s390_update_cpu_props(ms, cpu);
-> +
-> +    /* Advertise the topology change */
-> +    if (report_needed) {
-> +        s390_cpu_topology_set_changed(true);
-> +    }
-> +}
-> +
-> +void qmp_set_cpu_topology(uint16_t core,
-> +                         bool has_socket, uint16_t socket,
-> +                         bool has_book, uint16_t book,
-> +                         bool has_drawer, uint16_t drawer,
-> +                         const char *entitlement_str,
-> +                         bool has_dedicated, bool dedicated,
-> +                         Error **errp)
-> +{
-> +    bool has_entitlement = false;
-> +    int entitlement;
-> +    ERRP_GUARD();
-> +
-> +    if (!s390_has_topology()) {
-> +        error_setg(errp, "This machine doesn't support topology");
-> +        return;
-> +    }
-> +
-> +    entitlement = qapi_enum_parse(&CpuS390Entitlement_lookup,
-> entitlement_str,
-> +                                  -1, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +    has_entitlement = entitlement >= 0;
-> +
-> +    s390_change_topology(core, has_socket, socket, has_book, book,
-> +                         has_drawer, drawer, has_entitlement,
-> entitlement,
-> +                         has_dedicated, dedicated, errp);
-> +}
-> +
-> +void hmp_set_cpu_topology(Monitor *mon, const QDict *qdict)
-> +{
-> +    const uint16_t core = qdict_get_int(qdict, "core-id");
-> +    bool has_socket    = qdict_haskey(qdict, "socket-id");
-> +    const uint16_t socket = qdict_get_try_int(qdict, "socket-id",
-> 0);
-> +    bool has_book    = qdict_haskey(qdict, "book-id");
-> +    const uint16_t book = qdict_get_try_int(qdict, "book-id", 0);
-> +    bool has_drawer    = qdict_haskey(qdict, "drawer-id");
-> +    const uint16_t drawer = qdict_get_try_int(qdict, "drawer-id",
-> 0);
-> +    const char *entitlement = qdict_get_try_str(qdict,
-> "entitlement");
-> +    bool has_dedicated    = qdict_haskey(qdict, "dedicated");
-> +    const bool dedicated = qdict_get_try_bool(qdict, "dedicated",
-> false);
-> +    Error *local_err = NULL;
-> +
-> +    qmp_set_cpu_topology(core, has_socket, socket, has_book, book,
-> +                           has_drawer, drawer, entitlement,
-> +                           has_dedicated, dedicated, &local_err);
-> +    hmp_handle_error(mon, local_err);
-> +}
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index fbb5daf09b..d8c37808c7 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1815,3 +1815,20 @@ SRST
->    Dump the FDT in dtb format to *filename*.
->  ERST
->  #endif
-> +
-> +#if defined(TARGET_S390X)
-> +    {
-> +        .name       = "set-cpu-topology",
-> +        .args_type  =
-> "core:l,socket:l?,book:l?,drawer:l?,entitlement:s?,dedicated:b?",
-> +        .params     = "core [socket] [book] [drawer] [entitlement]
-> [dedicated]",
-> +        .help       = "Move CPU 'core' to 'socket/book/drawer' "
-> +                      "optionally modifies entitlement and
-> dedication",
-> +        .cmd        = hmp_set_cpu_topology,
-> +    },
-> +
-> +SRST
-> +``set-cpu-topology`` *core* *socket* *book* *drawer* *entitlement*
-> *dedicated*
-> +  Modify CPU topology for the CPU *core* to move on *socket* *book*
-> *drawer*
-> +  with topology attributes *entitlement* *dedicated*.
-> +ERST
-> +#endif
-
+>
+>Also I can't use Based-on because having all patches in a single series h=
+elps maintainers to follow what belongs to here so this should be one serie=
+s=2E You don't have to follow your one any more as it was fully incorporate=
+d here so this is the only version you'd have to watch=2E
+>
+>Regards,
+>BALATON Zoltan
+>
+>> Best regards,
+>> Bernhard
+>>>=20
+>>>> +        int i, pic_level;
+>>>> +
+>>>> +        /* The pic level is the logical OR of all the PCI irqs mappe=
+d to it=2E */
+>>>> +        pic_level =3D 0;
+>>>> +        for (i =3D 0; i < PCI_NUM_PINS; i++) {
+>>>> +            if (pic_irq =3D=3D via_isa_get_pci_irq(s, i)) {
+>>>> +                pic_level |=3D pci_bus_get_irq_level(bus, i);
+>>>> +            }
+>>>> +        }
+>>>> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
+>>>> +    }
+>>>> +}
+>>>=20
+>>>=20
+>>=20
+>> 
 
