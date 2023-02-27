@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32AE6A44CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6540B6A44CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:40:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeZy-0004vu-ES; Mon, 27 Feb 2023 09:34:14 -0500
+	id 1pWea0-00054J-N3; Mon, 27 Feb 2023 09:34:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6644499f1bfadfc93882+7127+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pWeVg-0005R9-2z
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:29:57 -0500
+ id 1pWeVf-0005Pw-CF
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:29:55 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6644499f1bfadfc93882+7127+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pWeVN-0004ZA-9F
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:29:38 -0500
+ id 1pWeVN-0004Zf-HR
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:29:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=KdIquPT3w8iWmZ3SorPN0uTm3VvCKu59CLhnN+8JEIU=; b=KFZlvoWurJ7xlBjv2jFfDokbfc
- WEFYPPlhwTy4yxNRLVZXPiCTSwZozpDRv3lCY5XanleWnwYR4obZDq8BnyTiwjB+Z7fxaW79n8JY/
- Amw4/E44Qq0u34THWk65JtvQ4bMr+rYqEd40eAAqu7gFA4EuNp4NhNHdvprmYS965myOV2ucE9Mpe
- POGpxwUjbdHymhkFtsu5sZiMieGQco1soJbnGsgORWPMBmyEHJlv2lpxPm3w5KkT8IML/hDBo6ZiU
- 8WYbOivZtf6Joxia547Fh30TktZjXveZDZpvB8z36FH+GcDe2GGq4B/uRP33VUP8HUJtkTHR6HmrP
- RHfy59jQ==;
+ bh=Lt46U8B0GRIt+YKpl9V8mU4n9VTbMETd0ZsLeZehHZo=; b=FWI7FpDezGkEU5t6xsuKPfEEnO
+ tEBP3bTkhBnujaCzJZR9Iiu0EaA/qeRpZBKvwfi8lXL8UQ4h5D6u8vAq5gMO2PADcUsuk0/zUmgZY
+ BfQui+k09vw84e8ipOicjvc0ViAEJGwrz22mP2gkww0ojLBWwK13dwRi3GZTTpFa27BOex7en+yZ3
+ 5v4giaAVgw64k9XCXHoxyeOYWl3AMeL8LSmTF5WptPdDtsxMj9/aDIauxKBzNUbVYyH+14zExhX0/
+ I1vSc3Btqla9B/54Ds398lZtRRquYmqYFBRKXokyjArGECd71c1Vu85kBrjdHAhInBnqUziDJizpg
+ Ze7R4caQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pWeV6-00EFC4-2x; Mon, 27 Feb 2023 14:29:18 +0000
+ id 1pWeV6-00EFC6-3B; Mon, 27 Feb 2023 14:29:19 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pWeV6-0027CP-2b; Mon, 27 Feb 2023 14:29:12 +0000
+ Linux)) id 1pWeV6-0027CU-2n; Mon, 27 Feb 2023 14:29:12 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,9 +50,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v14 35/60] hw/xen: Implement EVTCHNOP_alloc_unbound
-Date: Mon, 27 Feb 2023 14:28:43 +0000
-Message-Id: <20230227142908.503517-36-dwmw2@infradead.org>
+Subject: [PATCH v14 36/60] hw/xen: Implement EVTCHNOP_bind_interdomain
+Date: Mon, 27 Feb 2023 14:28:44 +0000
+Message-Id: <20230227142908.503517-37-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227142908.503517-1-dwmw2@infradead.org>
 References: <20230227142908.503517-1-dwmw2@infradead.org>
@@ -90,20 +90,44 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/xen_evtchn.c  | 32 ++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  2 ++
- target/i386/kvm/xen-emu.c | 15 +++++++++++++++
- 3 files changed, 49 insertions(+)
+ hw/i386/kvm/xen_evtchn.c  | 78 +++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.h  |  2 +
+ target/i386/kvm/xen-emu.c | 16 ++++++++
+ 3 files changed, 96 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index ce7a969234..df25bf0806 100644
+index df25bf0806..e2e36d94f6 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -837,6 +837,38 @@ int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi)
+@@ -722,6 +722,23 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
+         }
+         break;
+ 
++    case EVTCHNSTAT_interdomain:
++        if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
++            /* Not yet implemented. This can't happen! */
++        } else {
++            /* Loopback interdomain */
++            XenEvtchnPort *rp = &s->port_table[p->type_val];
++            if (!valid_port(p->type_val) || rp->type_val != port ||
++                rp->type != EVTCHNSTAT_interdomain) {
++                error_report("Inconsistent state for interdomain unbind");
++            } else {
++                /* Set the other end back to unbound */
++                rp->type = EVTCHNSTAT_unbound;
++                rp->type_val = 0;
++            }
++        }
++        break;
++
+     default:
+         break;
+     }
+@@ -837,6 +854,67 @@ int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi)
      return ret;
  }
  
-+int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc)
++int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
 +    uint16_t type_val;
@@ -113,68 +137,99 @@ index ce7a969234..df25bf0806 100644
 +        return -ENOTSUP;
 +    }
 +
-+    if (alloc->dom != DOMID_SELF && alloc->dom != xen_domid) {
++    if (interdomain->remote_dom == DOMID_QEMU) {
++        type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU;
++    } else if (interdomain->remote_dom == DOMID_SELF ||
++               interdomain->remote_dom == xen_domid) {
++        type_val = 0;
++    } else {
 +        return -ESRCH;
 +    }
 +
-+    if (alloc->remote_dom == DOMID_QEMU) {
-+        type_val = PORT_INFO_TYPEVAL_REMOTE_QEMU;
-+    } else if (alloc->remote_dom == DOMID_SELF ||
-+               alloc->remote_dom == xen_domid) {
-+        type_val = 0;
-+    } else {
-+        return -EPERM;
++    if (!valid_port(interdomain->remote_port)) {
++        return -EINVAL;
 +    }
 +
 +    qemu_mutex_lock(&s->port_lock);
 +
-+    ret = allocate_port(s, 0, EVTCHNSTAT_unbound, type_val, &alloc->port);
++    /* The newly allocated port starts out as unbound */
++    ret = allocate_port(s, 0, EVTCHNSTAT_unbound, type_val,
++                        &interdomain->local_port);
++    if (ret) {
++        goto out;
++    }
 +
++    if (interdomain->remote_dom == DOMID_QEMU) {
++        /* We haven't hooked up QEMU's PV drivers to this yet */
++        ret = -ENOSYS;
++    } else {
++        /* Loopback */
++        XenEvtchnPort *rp = &s->port_table[interdomain->remote_port];
++        XenEvtchnPort *lp = &s->port_table[interdomain->local_port];
++
++        if (rp->type == EVTCHNSTAT_unbound && rp->type_val == 0) {
++            /* It's a match! */
++            rp->type = EVTCHNSTAT_interdomain;
++            rp->type_val = interdomain->local_port;
++
++            lp->type = EVTCHNSTAT_interdomain;
++            lp->type_val = interdomain->remote_port;
++        } else {
++            ret = -EINVAL;
++        }
++    }
++
++    if (ret) {
++        free_port(s, interdomain->local_port);
++    }
++ out:
 +    qemu_mutex_unlock(&s->port_lock);
 +
 +    return ret;
-+}
 +
- int xen_evtchn_send_op(struct evtchn_send *send)
++}
+ int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc)
  {
      XenEvtchnState *s = xen_evtchn_singleton;
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 500fdbe8b8..fc080138e3 100644
+index fc080138e3..1ebc7580eb 100644
 --- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -21,11 +21,13 @@ struct evtchn_unmask;
- struct evtchn_bind_virq;
+@@ -22,6 +22,7 @@ struct evtchn_bind_virq;
  struct evtchn_bind_ipi;
  struct evtchn_send;
-+struct evtchn_alloc_unbound;
+ struct evtchn_alloc_unbound;
++struct evtchn_bind_interdomain;
  int xen_evtchn_status_op(struct evtchn_status *status);
  int xen_evtchn_close_op(struct evtchn_close *close);
  int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
- int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq);
+@@ -29,5 +30,6 @@ int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq);
  int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi);
  int xen_evtchn_send_op(struct evtchn_send *send);
-+int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc);
+ int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc);
++int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain);
  
  #endif /* QEMU_XEN_EVTCHN_H */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 19a7f16ebe..ac04387a6a 100644
+index ac04387a6a..1aff6b1042 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -921,6 +921,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         err = xen_evtchn_send_op(&send);
+@@ -936,6 +936,22 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         }
          break;
      }
-+    case EVTCHNOP_alloc_unbound: {
-+        struct evtchn_alloc_unbound alloc;
++    case EVTCHNOP_bind_interdomain: {
++        struct evtchn_bind_interdomain interdomain;
 +
-+        qemu_build_assert(sizeof(alloc) == 8);
-+        if (kvm_copy_from_gva(cs, arg, &alloc, sizeof(alloc))) {
++        qemu_build_assert(sizeof(interdomain) == 12);
++        if (kvm_copy_from_gva(cs, arg, &interdomain, sizeof(interdomain))) {
 +            err = -EFAULT;
 +            break;
 +        }
 +
-+        err = xen_evtchn_alloc_unbound_op(&alloc);
-+        if (!err && kvm_copy_to_gva(cs, arg, &alloc, sizeof(alloc))) {
++        err = xen_evtchn_bind_interdomain_op(&interdomain);
++        if (!err &&
++            kvm_copy_to_gva(cs, arg, &interdomain, sizeof(interdomain))) {
 +            err = -EFAULT;
 +        }
 +        break;
