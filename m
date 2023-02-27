@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15FE6A45A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 16:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC686A45A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 16:12:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWfAI-00012T-2K; Mon, 27 Feb 2023 10:11:46 -0500
+	id 1pWfBA-0002gU-8Y; Mon, 27 Feb 2023 10:12:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pWf9s-0000xU-Jm
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:11:20 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pWf9r-0005p6-1R
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:11:20 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B51DF1FD66;
- Mon, 27 Feb 2023 15:11:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677510677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pWfB1-0002cK-4C
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:12:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pWfAz-00062n-H9
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:12:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677510749;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8FjqmsuJqb3czjDU2akdw+NZbiT5wvxvTVQOgN1RsK0=;
- b=BvKHlAMqjLG0Lz995tlCkmVpAw7Nl1f6M4jj/SqPq0jRdepl08CyQP6sbwxiC6JY4JkyUl
- vj1nc/C9XU7wMkvucx9TH1HuXgjmXVwyW5NzKpXdqCDbP4t/Us4BEeHt3/+oMorHBBofVJ
- bt9siOuytsDajr2XxbpGFrdyMgrsAk4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677510677;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8FjqmsuJqb3czjDU2akdw+NZbiT5wvxvTVQOgN1RsK0=;
- b=OtprcSM/tobXvWm1Hp4atdQ67PdXr/xtWhC1ud3lNP66VNJ0O6YE0EwbSsZvuZLk07WpGT
- OgXcrIvthn5VSMDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=1N24a9jHrr8aJ2RFQYYJuZ0zIDzBlJZkBj9a2PQXJok=;
+ b=aMSGyuUYbpgMHCVbzOC3VRuqqsPJQwaC14o/+HKkPJytGkPJ7YZwm0egRgz9fCRKxLwdxd
+ WjscNs/eG+IXxmwgUC0o2GAA9vGx17l/uOU+T0yi+U8BHMFp+Sc/Ibs3wwjLnKAgkGGH/x
+ 4peZQPzgXt8ANPCftQ8bj2DMAW5i/OA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-376-qaFv04jzNlem9IXZUjZ_uQ-1; Mon, 27 Feb 2023 10:12:24 -0500
+X-MC-Unique: qaFv04jzNlem9IXZUjZ_uQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BA1B413A43;
- Mon, 27 Feb 2023 15:11:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wP+cIBPI/GOwHwAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 27 Feb 2023 15:11:15 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [RFC PATCH v3 1/1] gitlab: Use plain docker in container-template.yml
-Date: Mon, 27 Feb 2023 12:11:10 -0300
-Message-Id: <20230227151110.31455-2-farosas@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230227151110.31455-1-farosas@suse.de>
-References: <20230227151110.31455-1-farosas@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3123188646A;
+ Mon, 27 Feb 2023 15:12:24 +0000 (UTC)
+Received: from localhost (unknown [10.45.226.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE3DA40C6EC4;
+ Mon, 27 Feb 2023 15:12:23 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Auger <eauger@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH v5 2/3] arm/kvm: add support for MTE
+In-Reply-To: <877cwun51m.fsf@redhat.com>
+Organization: Red Hat GmbH
+References: <20230203134433.31513-1-cohuck@redhat.com>
+ <20230203134433.31513-3-cohuck@redhat.com>
+ <da118de5-adcd-ec0c-9870-454c3741a4ab@linaro.org>
+ <071ec3a6-cb4b-0dac-87fd-f3c3d00b5e83@redhat.com>
+ <877cwun51m.fsf@redhat.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Mon, 27 Feb 2023 16:12:22 +0100
+Message-ID: <871qmb5ei1.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,49 +87,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Our dockerfiles no longer reference layers from other qemu images so
-we can now use 'docker build' on them.
+On Mon, Feb 06 2023, Cornelia Huck <cohuck@redhat.com> wrote:
 
-Also reinstate the caching that was disabled due to bad interactions
-with certain runners. See commit 6ddc3dc7a8 ("tests/docker: don't use
-BUILDKIT in GitLab either"). We now believe those issues to be fixed.
+> On Mon, Feb 06 2023, Eric Auger <eauger@redhat.com> wrote:
+>
+>> Hi,
+>>
+>> On 2/3/23 21:40, Richard Henderson wrote:
+>>> On 2/3/23 03:44, Cornelia Huck wrote:
+>>>> +static void aarch64_cpu_get_mte(Object *obj, Visitor *v, const char
+>>>> *name,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *opaque, Error **errp)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 ARMCPU *cpu =3D ARM_CPU(obj);
+>>>> +=C2=A0=C2=A0=C2=A0 OnOffAuto mte =3D cpu->prop_mte;
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 visit_type_OnOffAuto(v, name, &mte, errp);
+>>>> +}
+>>>=20
+>>> You don't need to copy to a local variable here.
+>>>=20
+>>>> +
+>>>> +static void aarch64_cpu_set_mte(Object *obj, Visitor *v, const char
+>>>> *name,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *opaque, Error **errp)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 ARMCPU *cpu =3D ARM_CPU(obj);
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 visit_type_OnOffAuto(v, name, &cpu->prop_mte, errp=
+);
+>>>> +}
+>>>=20
+>>> ... which makes get and set functions identical.
+>>> No need for both.
+>> This looks like a common pattern though. virt_get_acpi/set_acpi in
+>> virt.c or pc_machine_get_vmport/set_vmport in i386/pc.c and many other
+>> places (microvm ...). Do those other callers also need some simplificati=
+ons?
+>
+> Indeed, I'm pretty sure that I copied + adapted it from somewhere :)
+>
+> Should we clean up all instances in one go instead? (Probably on top of
+> this series, in order to minimize conflicts with other changes.)
 
-The COMMON_TAG needed to be fixed for the caching to work. The
-docker.py script was not using the variable, but constructing the
-correct URL directly.
-
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
----
- .gitlab-ci.d/container-template.yml | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
-index c434b9c8f3..519b8a9482 100644
---- a/.gitlab-ci.d/container-template.yml
-+++ b/.gitlab-ci.d/container-template.yml
-@@ -6,17 +6,16 @@
-     - docker:dind
-   before_script:
-     - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
--    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
-+    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
-     - apk add python3
-     - docker info
-     - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-   script:
-     - echo "TAG:$TAG"
-     - echo "COMMON_TAG:$COMMON_TAG"
--    - ./tests/docker/docker.py --engine docker build
--          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
--          -r $CI_REGISTRY/qemu-project/qemu
--    - docker tag "qemu/$NAME" "$TAG"
-+    - docker build --tag "$TAG" --cache-from "$TAG" --cache-from "$COMMON_TAG"
-+      --build-arg BUILDKIT_INLINE_CACHE=1
-+      -f "tests/docker/dockerfiles/$NAME.docker" "."
-     - docker push "$TAG"
-   after_script:
-     - docker logout
--- 
-2.35.3
+Any objections to going with the code above and just doing a general
+cleanup on top?
 
 
