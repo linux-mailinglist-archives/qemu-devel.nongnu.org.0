@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE06F6A40C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:38:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F5F6A40E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:39:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbo9-0005UI-LH; Mon, 27 Feb 2023 06:36:41 -0500
+	id 1pWboC-0005W3-JE; Mon, 27 Feb 2023 06:36:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo3-0005Ps-GV
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo9-0005UO-9U
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo1-0005eb-7z
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo7-0005fL-Ha
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677497792;
+ s=mimecast20190719; t=1677497795;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=glytSs2pWzm45dgiOYImbDeuuZoq6m1kxVGdLQjZoqk=;
- b=SLpjYVLUp63Q2BjrbCk0jwx4at3TvTwJIXE4/xpkb3hWl8Hnh2G/+RerYvsI5t6XFDQh04
- Lm/SMaA2ijorcplMt50DFOAWMtSH+LipNkBW1jRHEprtTLQTRy31wnEyLkZ5gdXr97IIIB
- 0yaaLUbuhp/pSCqcdbY2qR0VX63PC4U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aO3EBuZP2ABmdi0vBlEipdhvCOE2f/2c5NmCr4yWzzE=;
+ b=NIj5qutHob3FV2bhnKcM45xRTYCxMUy/o3D+R3gc/3GPNdAmg0AqoK2Svi0PSZUx6edYjj
+ CnfEk6AbzoVg56aAVEVxByjnr7L55YfB06MyZTY5l+09AZ0IhpDHfMZ0s5kHLmQVCoetW4
+ kI7SPxGetApJUWBsQ0Ms6cr5yV4tfQA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-417-chJp-IYOOja_ZqGXsNoJsw-1; Mon, 27 Feb 2023 06:36:31 -0500
-X-MC-Unique: chJp-IYOOja_ZqGXsNoJsw-1
+ us-mta-194-4CsjKjLZNQKgl1PqBDmo3Q-1; Mon, 27 Feb 2023 06:36:32 -0500
+X-MC-Unique: 4CsjKjLZNQKgl1PqBDmo3Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF7FE830F81;
- Mon, 27 Feb 2023 11:36:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 183013C0E445;
+ Mon, 27 Feb 2023 11:36:32 +0000 (UTC)
 Received: from thuth.com (unknown [10.45.227.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 022BD1121314;
- Mon, 27 Feb 2023 11:36:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F88D1121314;
+ Mon, 27 Feb 2023 11:36:31 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Eric Farman <farman@linux.ibm.com>
-Subject: [PULL 06/33] hw/vfio/ccw: Remove pointless S390CCWDevice variable
-Date: Mon, 27 Feb 2023 12:35:54 +0100
-Message-Id: <20230227113621.58468-7-thuth@redhat.com>
+Subject: [PULL 07/33] hw/vfio/ccw: Replace DO_UPCAST(VFIOCCWDevice) by
+ VFIO_CCW()
+Date: Mon, 27 Feb 2023 12:35:55 +0100
+Message-Id: <20230227113621.58468-8-thuth@redhat.com>
 In-Reply-To: <20230227113621.58468-1-thuth@redhat.com>
 References: <20230227113621.58468-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,34 +81,88 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-QOM parenthood relationship is:
+Use the VFIO_CCW() QOM type-checking macro to avoid DO_UPCAST().
 
-  VFIOCCWDevice -> S390CCWDevice -> CcwDevice -> DeviceState
-
-No need to double-cast, call CCW_DEVICE() on VFIOCCWDevice.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Eric Farman <farman@linux.ibm.com>
-Message-Id: <20230213170145.45666-6-philmd@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230213170145.45666-7-philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/vfio/ccw.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/vfio/ccw.c | 19 +++++++------------
+ 1 file changed, 7 insertions(+), 12 deletions(-)
 
 diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index 2ea7b4a63c..cd66b66742 100644
+index cd66b66742..1e2fce83b0 100644
 --- a/hw/vfio/ccw.c
 +++ b/hw/vfio/ccw.c
-@@ -314,8 +314,7 @@ static void vfio_ccw_io_notifier_handler(void *opaque)
+@@ -76,8 +76,7 @@ struct VFIODeviceOps vfio_ccw_ops = {
+ 
+ static IOInstEnding vfio_ccw_handle_request(SubchDev *sch)
  {
-     VFIOCCWDevice *vcdev = opaque;
+-    S390CCWDevice *cdev = sch->driver_data;
+-    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
++    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
      struct ccw_io_region *region = vcdev->io_region;
--    S390CCWDevice *cdev = S390_CCW_DEVICE(vcdev);
--    CcwDevice *ccw_dev = CCW_DEVICE(cdev);
-+    CcwDevice *ccw_dev = CCW_DEVICE(vcdev);
-     SubchDev *sch = ccw_dev->sch;
+     int ret;
+ 
+@@ -125,8 +124,7 @@ again:
+ 
+ static IOInstEnding vfio_ccw_handle_store(SubchDev *sch)
+ {
+-    S390CCWDevice *cdev = sch->driver_data;
+-    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
++    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
      SCHIB *schib = &sch->curr_status;
-     SCSW s;
+     struct ccw_schib_region *region = vcdev->schib_region;
+     SCHIB *s;
+@@ -170,8 +168,7 @@ static IOInstEnding vfio_ccw_handle_store(SubchDev *sch)
+ 
+ static int vfio_ccw_handle_clear(SubchDev *sch)
+ {
+-    S390CCWDevice *cdev = sch->driver_data;
+-    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
++    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
+     struct ccw_cmd_region *region = vcdev->async_cmd_region;
+     int ret;
+ 
+@@ -210,8 +207,7 @@ again:
+ 
+ static int vfio_ccw_handle_halt(SubchDev *sch)
+ {
+-    S390CCWDevice *cdev = sch->driver_data;
+-    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
++    VFIOCCWDevice *vcdev = VFIO_CCW(sch->driver_data);
+     struct ccw_cmd_region *region = vcdev->async_cmd_region;
+     int ret;
+ 
+@@ -251,8 +247,7 @@ again:
+ 
+ static void vfio_ccw_reset(DeviceState *dev)
+ {
+-    S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
+-    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
++    VFIOCCWDevice *vcdev = VFIO_CCW(dev);
+ 
+     ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
+ }
+@@ -656,7 +651,7 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
+ {
+     VFIOGroup *group;
+     S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
+-    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
++    VFIOCCWDevice *vcdev = VFIO_CCW(cdev);
+     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
+     Error *err = NULL;
+ 
+@@ -727,7 +722,7 @@ out_err_propagate:
+ static void vfio_ccw_unrealize(DeviceState *dev)
+ {
+     S390CCWDevice *cdev = S390_CCW_DEVICE(dev);
+-    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
++    VFIOCCWDevice *vcdev = VFIO_CCW(cdev);
+     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
+     VFIOGroup *group = vcdev->vdev.group;
+ 
 -- 
 2.31.1
 
