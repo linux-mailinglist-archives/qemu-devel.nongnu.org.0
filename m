@@ -2,105 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8481E6A4285
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:21:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6BE6A429B
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:27:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdRT-0007im-59; Mon, 27 Feb 2023 08:21:23 -0500
+	id 1pWdWt-00031b-Pc; Mon, 27 Feb 2023 08:27:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pWdRQ-0007gW-HN; Mon, 27 Feb 2023 08:21:20 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWdWo-0002vw-4O
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:26:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pWdRO-0004tt-0o; Mon, 27 Feb 2023 08:21:20 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31RCp6rV015539; Mon, 27 Feb 2023 13:21:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=0dQyWyKFFypT3sBoHpxT8vqxBKgb1B8es9OdRG2qFoc=;
- b=qfZr44ZrxZc9iiHE8hAMR/irihThCNhWBZ+ukQdG2MtiS8Xv1m9gQXYjsuRxcwFKDP7G
- o18Ke35efP3UFDOI+fYBYRqdNUmZkBiLLBCKF5MulT++t+SkpAtyoHGrv0E2bsiydeEr
- Iqh1hMZ7nsAuV3/lV/7lmtV2xupf4gaP0q7c0x5aX6idULbv9Aqm68dTUUYXQpr+If3w
- 0gRI1lQU/Q8dtLScJ79ZjLEvOMscdEv2RutXAFqbahehTCXCSrdbwb9d+qCeBvyHCxZZ
- IvgWHJ/UyYC39jAzM1NsWJhDqupT8CxFGp8TeCr4tO889BaYsj/kk2I6LrsZnBNxdJxZ Xg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p0vvqgsqb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 13:21:14 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31RDEsCV031312;
- Mon, 27 Feb 2023 13:21:14 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p0vvqgsp6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 13:21:14 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31R2jg12030383;
- Mon, 27 Feb 2023 13:21:12 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3nybbysfg7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 13:21:12 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31RDL87259507068
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Feb 2023 13:21:08 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5BDE72004B;
- Mon, 27 Feb 2023 13:21:08 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E0DB120040;
- Mon, 27 Feb 2023 13:21:07 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.148.35]) by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 27 Feb 2023 13:21:07 +0000 (GMT)
-Message-ID: <01fa83156fa7452b0e45fe9df8d799b1f3589295.camel@linux.ibm.com>
-Subject: Re: [PATCH v16 03/11] target/s390x/cpu topology: handle STSI(15)
- and build the SYSIB
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWdWm-00065O-Jf
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:26:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677504411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sGqh4Ik+oRbmAsuqw2wIJX12fd2+4f+6hgrcZKwbZPM=;
+ b=gn/jkCe7E33Nd5FQmqSGORZYIinHgT+no4gjDbOmYlW9EfAwpq6SfmAQl8KJbpiyMA4pfp
+ mQdAMOwDkvXLj37k/djQ2o1inwt+PhFgxFbHXF7VF+gWXMsrAhnuxZamCJUZS/rCHzP58A
+ F7Tbq7pKrRtQSkQmPI2mAuqSZOpbKOs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-557-Uh2nqDoZMM2WNqumjMO2ag-1; Mon, 27 Feb 2023 08:26:50 -0500
+X-MC-Unique: Uh2nqDoZMM2WNqumjMO2ag-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ s18-20020a7bc392000000b003deaf780ab6so2890479wmj.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 05:26:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sGqh4Ik+oRbmAsuqw2wIJX12fd2+4f+6hgrcZKwbZPM=;
+ b=dZtMOWWYt66cwldxeuyqbger7itviqjVoa3Ab8/7CXjAS4ca8u9CXivVLiMKSDfLNF
+ c+EFrFI77Hudah4H61erC65tGQAbT1gl1S6Z3YZmpz6S+75QcQvfsFROmtOqgxoisqqA
+ 0z456041UkWKsl5Y+QvCVp5t+DoTVdjAsx2s1JcCgkKyDdPxBE+hWpRqMlguvvq6ZQVZ
+ ok0dSLsgj4Jdh7g3+5igJfQ9EMegvWmb7M1S4HmdBvyCTMTe7dPI4hjukKvrB9T+r0Ib
+ AsWNO8myw2z0Wja87e5CNPrbrWaA30vXeGSbOmhRqtuUGpD5GxFsoHdUet/mXSxHo4VG
+ xSpA==
+X-Gm-Message-State: AO0yUKUtXuYDWKBkdbilq8Q45p5lF8qIpTACp/iIoHrcSgxRlJKLYLmd
+ N+P6vmAezyD4qttLcGiMV2ljulo8JSGSLTMuB1GUovHD4FJ52MfjeWO2OdjtuHWeyVC61JAQ5Tg
+ 9zc0eLIfCxgLkPl0=
+X-Received: by 2002:a05:600c:4b30:b0:3e2:147f:ac1a with SMTP id
+ i48-20020a05600c4b3000b003e2147fac1amr16979589wmp.21.1677504409145; 
+ Mon, 27 Feb 2023 05:26:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set+1Avf/Yrs1gCObx/1C7m2Kv9QB7PbtYi2lYA8hdBhRrl2VrOlIf0xJ6+wmmfRF04u3VOB9Eg==
+X-Received: by 2002:a05:600c:4b30:b0:3e2:147f:ac1a with SMTP id
+ i48-20020a05600c4b3000b003e2147fac1amr16979576wmp.21.1677504408926; 
+ Mon, 27 Feb 2023 05:26:48 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-150.web.vodafone.de.
+ [109.43.176.150]) by smtp.gmail.com with ESMTPSA id
+ iz10-20020a05600c554a00b003e2243cfe15sm9095089wmb.39.2023.02.27.05.26.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 05:26:48 -0800 (PST)
+Message-ID: <b90a748c-e56c-840a-e983-6fc608a10e13@redhat.com>
+Date: Mon, 27 Feb 2023 14:26:46 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v16 07/11] target/s390x/cpu topology: activating CPU
+ topology
+Content-Language: en-US
 To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Mon, 27 Feb 2023 14:21:07 +0100
-In-Reply-To: <20230222142105.84700-4-pmorel@linux.ibm.com>
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
 References: <20230222142105.84700-1-pmorel@linux.ibm.com>
- <20230222142105.84700-4-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: aYv3Ucynyd3eI4nttDC8qHClN6gY8l1Q
-X-Proofpoint-GUID: By2CxkTmW7QiEwWXa3Qba-l3r8Rch0Xf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-27_10,2023-02-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 lowpriorityscore=0
- mlxlogscore=999 malwarescore=0 adultscore=0 clxscore=1015 suspectscore=0
- spamscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302270102
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ <20230222142105.84700-8-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230222142105.84700-8-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,154 +106,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-02-22 at 15:20 +0100, Pierre Morel wrote:
-> On interception of STSI(15.1.x) the System Information Block
-> (SYSIB) is built from the list of pre-ordered topology entries.
->=20
+On 22/02/2023 15.21, Pierre Morel wrote:
+> The KVM capability KVM_CAP_S390_CPU_TOPOLOGY is used to
+> activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
+> the topology facility in the host CPU model for the guest
+> in the case the topology is available in QEMU and in KVM.
+> 
+> The feature is disabled by default and fenced for SE
+> (secure execution).
+> 
 > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->  include/hw/s390x/cpu-topology.h |  21 +++
->  include/hw/s390x/sclp.h         |   1 +
->  target/s390x/cpu.h              |  72 ++++++++
->  hw/s390x/cpu-topology.c         |  14 +-
->  target/s390x/kvm/cpu_topology.c | 312 ++++++++++++++++++++++++++++++++
->  target/s390x/kvm/kvm.c          |   5 +-
->  target/s390x/kvm/meson.build    |   3 +-
->  7 files changed, 425 insertions(+), 3 deletions(-)
->  create mode 100644 target/s390x/kvm/cpu_topology.c
->=20
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topol=
-ogy.h
-> index fa7f885a9f..8dc42d2942 100644
-> --- a/include/hw/s390x/cpu-topology.h
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -16,8 +16,29 @@
-> =20
->  #define S390_TOPOLOGY_CPU_IFL   0x03
-> =20
-> +typedef union s390_topology_id {
-> +    uint64_t id;
-> +    struct {
-> +        uint8_t level5;
+>   hw/s390x/cpu-topology.c   | 2 +-
+>   target/s390x/cpu_models.c | 1 +
+>   target/s390x/kvm/kvm.c    | 9 +++++++++
+>   3 files changed, 11 insertions(+), 1 deletion(-)
 
-You could rename this to sentinel, since that's the only use case and
-if there ever is another level the sentinel implementation might need
-to be changed anyway.
+Maybe s/activating/activate/ in the subject?
 
-> +        uint8_t drawer;
-> +        uint8_t book;
-> +        uint8_t socket;
-> +        uint8_t dedicated;
-> +        uint8_t entitlement;
-> +        uint8_t type;
-> +        uint8_t origin;
-> +    };
-> +} s390_topology_id;
-> +
->=20
-[...]
-
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index d654267a71..c899f4e04b 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
-> @@ -560,6 +560,25 @@ typedef struct SysIB_322 {
->=20
-[...]
-> =20
-> +/*
-> + * CPU Topology List provided by STSI with fc=3D15 provides a list
-> + * of two different Topology List Entries (TLE) types to specify
-> + * the topology hierarchy.
-> + *
-> + * - Container Topology List Entry
-> + *   Defines a container to contain other Topology List Entries
-> + *   of any type, nested containers or CPU.
-> + * - CPU Topology List Entry
-> + *   Specifies the CPUs position, type, entitlement and polarization
-> + *   of the CPUs contained in the last Container TLE.
-> + *
-> + * There can be theoretically up to five levels of containers, QEMU
-> + * uses only three levels, the drawer's, book's and socket's level.
-> + *
-> + * A container of with a nesting level (NL) greater than 1 can only
-
-s/of//
-
-> + * contain another container of nesting level NL-1.
-> + *
-> + * A container of nesting level 1 (socket), contains as many CPU TLE
-> + * as needed to describe the position and qualities of all CPUs inside
-> + * the container.
-> + * The qualities of a CPU are polarization, entitlement and type.
-> + *
-> + * The CPU TLE defines the position of the CPUs of identical qualities
-> + * using a 64bits mask which first bit has its offset defined by
-> + * the CPU address orgin field of the CPU TLE like in:
-> + * CPU address =3D origin * 64 + bit position within the mask
-> + *
-> + */
-> +/* Container type Topology List Entry */
-> +typedef struct SysIBTl_container {
-> +        uint8_t nl;
-> +        uint8_t reserved[6];
-> +        uint8_t id;
-> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
-> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) !=3D 8);
-> +
-[...]
-> +
-> +/**
-> + * s390_topology_from_cpu:
-> + * @cpu: The S390CPU
-> + *
-> + * Initialize the topology id from the CPU environment.
-> + */
-> +static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
-> +{
-> +    s390_topology_id topology_id =3D {0};
-> +
-> +    topology_id.drawer =3D cpu->env.drawer_id;
-> +    topology_id.book =3D cpu->env.book_id;
-> +    topology_id.socket =3D cpu->env.socket_id;
-> +    topology_id.origin =3D cpu->env.core_id / 64;
-> +    topology_id.type =3D S390_TOPOLOGY_CPU_IFL;
-> +    topology_id.dedicated =3D cpu->env.dedicated;
-> +
-> +    if (s390_topology.polarization =3D=3D S390_CPU_POLARIZATION_VERTICAL=
-) {
-> +        /*
-> +         * Vertical polarization with dedicated CPU implies
-> +         * vertical high entitlement.
-> +         */
-> +        if (topology_id.dedicated) {
-> +            topology_id.entitlement =3D S390_CPU_ENTITLEMENT_HIGH;
-> +        } else {
-> +            topology_id.entitlement =3D cpu->env.entitlement;
-> +        }
-
-I don't see why you need this if, it should already be correct.
-
-> +    }
-
-I'd suggest the following:
-* rename entitlement in s390_topology_id back to polarization, but keep ent=
-itlement everywhere else.
-* remove horizontal/none from CpuS390Entitlement, this way the user cannot =
-set it,
-	and it doesn't show up in the output of query-cpus-fast.
-* this is where you convert between the two, so:
-	if horizontal, id.polarization =3D 0,
-	otherwise id.polarization =3D entitlement + 1, or a switch case.
-* in patch 6 in s390_topology_set_cpus_entitlement you don't set the entitl=
-ement if the polarization
-	is horizontal, which is ok because of the conversion above.
-
-> +
-> +    return topology_id;
-> +}
-> +
->=20
-[...]
+Anyway:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
