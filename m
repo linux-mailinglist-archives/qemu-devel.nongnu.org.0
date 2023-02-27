@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C996A4308
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:40:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442B36A430D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:41:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdj7-0008SA-PT; Mon, 27 Feb 2023 08:39:37 -0500
+	id 1pWdkD-0001s8-JA; Mon, 27 Feb 2023 08:40:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pWdj5-0008RA-8A
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:39:35 -0500
-Received: from mga12.intel.com ([192.55.52.136])
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pWdk8-0001fC-Qe
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:40:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pWdj3-0001Nc-H3
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:39:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677505173; x=1709041173;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Kgw1IdayYT0BQOSv00Cxa9YCJVYWef08UdTPzJOoEZs=;
- b=mf2x4Sxxz38kgdssS3Loz4SViYazdaTx6T1Sk21/SczU7rG9/HEa0dCO
- kkxWPR24HEfXrljPcykDl/77JQFO6jCSZ4R0MYfM7S5HNmVYTBDYVTNxg
- akFqKIPwDix2xGg4P4famO+SuLJsW2nz0IyXy2pptUv5pYP3J+ZPX0UBJ
- tPxM20Gdi4OwgJ9B8DhXPjkmNwRkwS/LJogWJdZ7o8oEZsOc+JBFTlar5
- 6n8/tJkFziyyO5fAWxsFk4rE4+TJOw9wLczn3kvztFYkSJsS9lb3Whj+G
- fU4IkEUxHtH9G25hK7CYzJfhdapkuVsZjxU2iDA9pvSJdaL7z0QnWUN7X Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="313529831"
-X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; d="scan'208";a="313529831"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 05:39:31 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="706197233"
-X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; d="scan'208";a="706197233"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.190])
- ([10.255.28.190])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 05:39:29 -0800
-Message-ID: <a9f521af-2c48-c2ea-b80b-db444fb81925@intel.com>
-Date: Mon, 27 Feb 2023 21:39:27 +0800
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pWdk7-0002Fz-7A
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:40:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677505238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SJibdRGjNWPb4yoZuOIXoozndFxi91p1e66GNYe/PDk=;
+ b=NIazSNVnnijBd/+m/azgSv6eHO+e38WV7Xi/Jj2nj44p80XGYm/379hAKd+xM8IBosT8Nu
+ SG7J4LGFWfwg/6t6OpmPufMWfzmOyDL8EONDelrX/lfHjXqdUZ3p3+/ypGfii+MGIXGtUo
+ hsla6ipNGMzzcpS8ccj+jLBozmLLpqA=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-319-o1dlNCBQMe6aiZhSEAl9Jg-1; Mon, 27 Feb 2023 08:40:36 -0500
+X-MC-Unique: o1dlNCBQMe6aiZhSEAl9Jg-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ pz4-20020ad45504000000b0056f060452adso3310061qvb.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 05:40:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SJibdRGjNWPb4yoZuOIXoozndFxi91p1e66GNYe/PDk=;
+ b=IitAgldozuXEtX5Bp967aI+SA9pcde794tXGs+l92aMLK8sSU0SSacxg9IvAPWmdIQ
+ g3b+hjvTmMD+16m5Qp/JKJx94d/pLK8awXLAqwEMYDkeoN2BPtVHL4jaTVh2mIaMLFAK
+ NvQY80HhtxoC8KH1fvNh4AMWdI1Y161jA+SqSFB1xFuh0pvf8UEnaFicvAqFastc2Z+L
+ dZWa0d01555OEo6XswOAI8jTF3azgpDhR+vGfapjJFbtl4PGyiuFTX430VWR7G1hHLA4
+ 6tukYU4AnI6bJFgpNecjM1zUdJVzRSbi+EYnYym7doJ7Z9Mrx4BXuzbyBC26UCXHak/7
+ FoeA==
+X-Gm-Message-State: AO0yUKVWWkpMHqY4a1zgYEVyeJ1pixqN3zA2QTRge4q05t+eoAZcX3MX
+ 7QjzfQDhad/cDnWkW0hzgi8bwTCa7fZpKQCaO3xT0OuYtGCS0+jxmeeKKwZ/S9THAr2AAEMd3O4
+ kB1o67FQFQoXxPDc=
+X-Received: by 2002:a05:622a:60e:b0:3b8:5199:f84a with SMTP id
+ z14-20020a05622a060e00b003b85199f84amr26434565qta.3.1677505236469; 
+ Mon, 27 Feb 2023 05:40:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set/aSXShYsCUhXPxfFgeUIFan5sU9pqkQZRfBGYFg+OilJr2j3EgB7ok+xFZ30G4NEsuGKNhNQ==
+X-Received: by 2002:a05:622a:60e:b0:3b8:5199:f84a with SMTP id
+ z14-20020a05622a060e00b003b85199f84amr26434536qta.3.1677505236226; 
+ Mon, 27 Feb 2023 05:40:36 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
+ ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ by smtp.gmail.com with ESMTPSA id
+ j13-20020ac8664d000000b003b82489d8acsm4622659qtp.21.2023.02.27.05.40.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 05:40:35 -0800 (PST)
+Message-ID: <01e5c200-a343-6def-1d52-74141c1b86ce@redhat.com>
+Date: Mon, 27 Feb 2023 14:40:33 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 2/4] target/i386: add FZRM, FSRS, FSRC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH 1/2] hw/vfio/migration: Remove unused 'exec/ram_addr.h'
+ header
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: lei4.wang@intel.com, robert.hu@linux.intel.com, chenyi.qiang@intel.com
-References: <20230227101332.636203-1-pbonzini@redhat.com>
- <20230227101332.636203-3-pbonzini@redhat.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20230227101332.636203-3-pbonzini@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20230227103258.13295-1-philmd@linaro.org>
+ <20230227103258.13295-2-philmd@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
+In-Reply-To: <20230227103258.13295-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=xiaoyao.li@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,62 +104,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/27/2023 6:13 PM, Paolo Bonzini wrote:
-> These are three more markers for string operation optimizations.
-> They can all be added to TCG, whose string operations are more or
-> less as fast as they can be for short lengths.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 2/27/23 11:32, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
+
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
+
+Thanks,
+
+C.
+
 
 > ---
->   target/i386/cpu.c | 7 ++++---
->   target/i386/cpu.h | 7 +++++++
->   2 files changed, 11 insertions(+), 3 deletions(-)
+>   hw/vfio/migration.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 34e2cead870e..26ec6e9da754 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -662,7 +662,8 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
->             /* CPUID_7_0_ECX_OSPKE is dynamic */ \
->             CPUID_7_0_ECX_LA57 | CPUID_7_0_ECX_PKS | CPUID_7_0_ECX_VAES)
->   #define TCG_7_0_EDX_FEATURES CPUID_7_0_EDX_FSRM
-> -#define TCG_7_1_EAX_FEATURES 0
-> +#define TCG_7_1_EAX_FEATURES (CPUID_7_1_EAX_FZRM | CPUID_7_1_EAX_FSRS | \
-> +          CPUID_7_1_EAX_FSRC)
->   #define TCG_APM_FEATURES 0
->   #define TCG_6_EAX_FEATURES CPUID_6_EAX_ARAT
->   #define TCG_XSAVE_FEATURES (CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XGETBV1)
-> @@ -872,8 +873,8 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->           .feat_names = {
->               NULL, NULL, NULL, NULL,
->               "avx-vnni", "avx512-bf16", NULL, NULL,
-> -            NULL, NULL, NULL, NULL,
-> -            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, "fzrm", "fsrs",
-> +            "fsrc", NULL, NULL, NULL,
->               NULL, NULL, NULL, NULL,
->               NULL, NULL, NULL, NULL,
->               NULL, NULL, NULL, NULL,
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index d4bc19577a21..e0703feb5ed0 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -900,6 +900,13 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
->   #define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
->   /* AVX512 BFloat16 Instruction */
->   #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
-> +/* Fast Zero REP MOVS */
-> +#define CPUID_7_1_EAX_FZRM              (1U << 10)
-> +/* Fast Short REP STOS */
-> +#define CPUID_7_1_EAX_FSRS              (1U << 11)
-> +/* Fast Short REP CMPS/SCAS */
-> +#define CPUID_7_1_EAX_FSRC              (1U << 12)
-> +
->   /* XFD Extend Feature Disabled */
->   #define CPUID_D_1_EAX_XFD               (1U << 4)
->   
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index a2c3d9bade..f9ac074c63 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -24,7 +24,6 @@
+>   #include "migration/misc.h"
+>   #include "qapi/error.h"
+>   #include "exec/ramlist.h"
+> -#include "exec/ram_addr.h"
+>   #include "pci.h"
+>   #include "trace.h"
+>   #include "hw/hw.h"
 
 
