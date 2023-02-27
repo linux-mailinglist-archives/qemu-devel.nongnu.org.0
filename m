@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63446A42FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D8F6A42F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:36:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdeV-0004zt-Av; Mon, 27 Feb 2023 08:34:51 -0500
+	id 1pWdeY-0005Ek-Cm; Mon, 27 Feb 2023 08:34:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWdch-0004Vh-Vj
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:33:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWdcg-0007L4-Kq
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:32:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677504777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hPF6OqkldqKMAfXygeIPr6QHZzjaTi2wskjIdYzJSBk=;
- b=Ggbt3M9WkDdR/CHsGAICsJazT5wf3Ie128PFOztg7G+TjWQUxdoTEC836utyeBX2zAmUj4
- 8I1KmfSwxAX1QuGlruMcF+HZUY4xX+kpLEVir/dJ1gu4uWdRi8q7VQsSm2XmM56tu5ydQu
- IId8eqc+RZNwqK4UN+5CeAtBCV5rQQ0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-212-HXb3IJ4HPtK5AbFLD28JkA-1; Mon, 27 Feb 2023 08:32:53 -0500
-X-MC-Unique: HXb3IJ4HPtK5AbFLD28JkA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k36-20020a05600c1ca400b003eac86e4387so5335244wms.8
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 05:32:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWdds-0004zE-4r; Mon, 27 Feb 2023 08:34:20 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWddl-0007eN-4A; Mon, 27 Feb 2023 08:34:10 -0500
+Received: by mail-ed1-x536.google.com with SMTP id ee7so25948173edb.2;
+ Mon, 27 Feb 2023 05:33:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=B5zggyZjvmOw/4139SlhqhQ6pnq8/WqaY6vuJBs+amg=;
+ b=K9z0/j75c2Nv0wqgc+npFfm2WGTTKOZLnAJW0uXRRpZRpJEtavHNMfLsMVPTAGENJZ
+ 2lfnNkIotmrpJ1fCixI8WmN4O5iIhZwvIhwFtY8V7O6eDjrHObaLz23xBbKxIv/el3u8
+ prjUtl0D0BtqnPDOr1/SIIWGphyfkg3iLzeHZOWLlCXuHVc6GsIkj//nd68ZXmkdThY7
+ lYVwAky+vwCNUxQVV0eWj7nEZGGDAFJCH7CUoWqySY3bkczW8znXy5DrUT74aeZpRydN
+ wt8x1UHOIQfaFLOMnAHvsxQ5EBCQMFhATWugXWc6HbYZEOA44vsJU5K2/ap/KQbt1pRm
+ aA0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hPF6OqkldqKMAfXygeIPr6QHZzjaTi2wskjIdYzJSBk=;
- b=bpxC+3DwwFDzQcH9wfP54Tp5H8EwFzNBvgciblrCjlGb9lCh/QOnB0XWnbvIzbcqWX
- 6352mRcXMExDudOnu7jNSxVky1Mq+b0oF9xNPrzVg/JeuQ+3x4zju5g1wGqUeyLTZc1Z
- kto12zG+skzPwKyJSLjzfhAUQWME744GuTuB3z05bgO8Y76pEQJXjGbdaGPu50qANo1J
- lbQpnfejSpslT+uDwt6bjEUPSTbeYSY81kmJkokjNB02NlMoBNyAAS8L7ErUQLqqtQhs
- z0atbrM11e6aW+u7q9kUb3V36WcQiNT4RLu9CR6SQQLWUh7i3yRMPjgiQu4jEd8MfjIh
- Jq9Q==
-X-Gm-Message-State: AO0yUKXe7lTdqczikPn4IpidXz9UAHZWc2yLl4Gt7ZBlmTOuuJvVL99v
- qcKwDJ1OC1UXRxgIDMdqfT3I1JUNx6Z5Jlyuu0EPnD6Gs3LW1NWKPB04Q4hsQDAhYZOaoOMI8Jl
- NIGm1TMaFq5S1KBI=
-X-Received: by 2002:a05:600c:1c86:b0:3ea:ed4d:38f6 with SMTP id
- k6-20020a05600c1c8600b003eaed4d38f6mr12435575wms.4.1677504772805; 
- Mon, 27 Feb 2023 05:32:52 -0800 (PST)
-X-Google-Smtp-Source: AK7set/HHsOVoCqCSi4LLgNkgXWJ8tbRO76NvBzHEZr9RzACY5CRnnRRggW5lBz8VKGsyv0o7aCVfQ==
-X-Received: by 2002:a05:600c:1c86:b0:3ea:ed4d:38f6 with SMTP id
- k6-20020a05600c1c8600b003eaed4d38f6mr12435555wms.4.1677504772515; 
- Mon, 27 Feb 2023 05:32:52 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-150.web.vodafone.de.
- [109.43.176.150]) by smtp.gmail.com with ESMTPSA id
- c2-20020a5d4cc2000000b002bfd524255esm6983507wrt.43.2023.02.27.05.32.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 05:32:51 -0800 (PST)
-Message-ID: <9a029d4e-4794-9a6a-7516-bed8feb39d97@redhat.com>
-Date: Mon, 27 Feb 2023 14:32:50 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=B5zggyZjvmOw/4139SlhqhQ6pnq8/WqaY6vuJBs+amg=;
+ b=ppaVXR0vjWTWanGCfaqJK6gevUDk3YGBD+lbyHoGGdz5Af8oeD6OeqW+oApllFkZnk
+ /z9SvYpwp+bMpqAQ5s/vIE1TkLnZPQjtKegHd6fRhSK5SYI5AYiRhnJbBXW1BmGjgUxy
+ v/RXDf1LEjbyIrJK5sz8wHWRHaoXqAAbUoHiHESKW+vpjHHVNKi1waJOLejy+TmMVKhi
+ +FmxxlD39w72vsRJ71CfDid1WuOwX5mtmYiKbPollKN8lx321JVA2/dkANM2D+dKky2e
+ 8/Ef7BjbZn5HVloo0J2Rg6GC9VesbnM/iu/ijIVKmb1PmaiZvhEy/yjdppuyHBYQ1KBL
+ x5dA==
+X-Gm-Message-State: AO0yUKUVBJQWNjQCwPNf4PXtCksw0wr4nebb6r3DiuvIkZTSTrj6V9EO
+ 1H2hwuUbmKfPQxueT5zVbNzdcmc06Mg=
+X-Google-Smtp-Source: AK7set+E3Ws7j/8V/sVV5grrVK9D2UhAuE7/VP0u4zDye82NXicClmPmq9ij2dUyhpMfjp0zgf0vsA==
+X-Received: by 2002:a17:906:c0c5:b0:8f3:dc49:d8eb with SMTP id
+ bn5-20020a170906c0c500b008f3dc49d8ebmr12741841ejb.71.1677504837061; 
+ Mon, 27 Feb 2023 05:33:57 -0800 (PST)
+Received: from localhost.localdomain
+ (dynamic-078-055-154-008.78.55.pool.telefonica.de. [78.55.154.8])
+ by smtp.gmail.com with ESMTPSA id
+ gx16-20020a1709068a5000b008b69aa62efcsm3253603ejc.62.2023.02.27.05.33.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 05:33:56 -0800 (PST)
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: BALATON Zoltan <balaton@eik.bme.hu>, Huacai Chen <chenhuacai@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v4 0/7] [RESEND] Pegasos2 fixes and audio output support
+Date: Mon, 27 Feb 2023 14:33:18 +0100
+Message-Id: <20230227133325.22023-1-shentey@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v16 10/11] qapi/s390x/cpu topology:
- CPU_POLARIZATION_CHANGE qapi event
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230222142105.84700-1-pmorel@linux.ibm.com>
- <20230222142105.84700-11-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230222142105.84700-11-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,62 +90,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 22/02/2023 15.21, Pierre Morel wrote:
-> When the guest asks to change the polarization this change
-> is forwarded to the admin using QAPI.
-> The admin is supposed to take according decisions concerning
-> CPU provisioning.
-
-I still find it weird talking about "the admin" here. I don't think any 
-human will monitor this event to take action on it. Maybe rather talk about 
-the "upper layer" (libvirt) or whatever you have in mind to monitor this event?
-
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index baa9d273cf..e7a9049c1f 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -389,3 +389,37 @@
->     'features': [ 'unstable' ],
->     'if': { 'all': [ 'TARGET_S390X' ] }
->   }
-> +
-> +##
-> +# @CPU_POLARIZATION_CHANGE:
-> +#
-> +# Emitted when the guest asks to change the polarization.
-> +#
-> +# @polarization: polarization specified by the guest
-> +#
-> +# Features:
-> +# @unstable: This command may still be modified.
-> +#
-> +# The guest can tell the host (via the PTF instruction) whether the
-> +# CPUs should be provisioned using horizontal or vertical polarization.
-> +#
-> +# On horizontal polarization the host is expected to provision all vCPUs
-> +# equally.
-> +# On vertical polarization the host can provision each vCPU differently.
-> +# The guest will get information on the details of the provisioning
-> +# the next time it uses the STSI(15) instruction.
-> +#
-> +# Since: 8.0
-> +#
-> +# Example:
-> +#
-> +# <- { "event": "CPU_POLARIZATION_CHANGE",
-> +#      "data": { "polarization": 0 },
-> +#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
-> +#
-
-I'd remove the final empty line.
-
-> +##
-> +{ 'event': 'CPU_POLARIZATION_CHANGE',
-> +  'data': { 'polarization': 'CpuS390Polarization' },
-> +  'features': [ 'unstable' ],
-> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
-> +}
-
-  Thomas
-
+On behalve of Zoltan BALATON:=0D
+=0D
+Hello,=0D
+=0D
+This is marked v3 to avoid confusion with previously separate patches=0D
+that already had v2, even if the series had no v2 yet.=0D
+=0D
+This series now includes all patches needed to get AmigaOS 4.1 run=0D
+well on pegasos2 and add audio output to this board. It has 3 parts:=0D
+patches 1-3 improve hw/display/sm501 model to avoid graphics problems=0D
+that were present with AmigaOS; patches 4-6 fix PCI interrupt routing=0D
+in VIA VT8231 model and in pegasos2 board that fixes PCI cards such as=0D
+network or sound card not working before; finally patches 7-8 add=0D
+basic implementation of the via-ac97 audio part of VT8231 (also used=0D
+on VT82C686B) for output that is the default audio device on pegasos2.=0D
+=0D
+This version was re-tested by Rene Engel with latest AmigaOS version=0D
+and runs as well as my original series did (posted a video with that=0D
+before). This works now on an M1 MacStudio on macOS where it was=0D
+unusable before. I've also tested it on Linux x86_64 with older=0D
+AmigaOS version that also boots and makes sound and verified MorphOS=0D
+still boots and also has sound now.=0D
+=0D
+One known problem with this version that includes Berhard's=0D
+alternative vt82c686 patches is with MorphOS which uses level=0D
+sensitive mode of the i8259 PIC that QEMU does not support so it hangs=0D
+when multiple devices try to raise a shared IRQ. I could work around=0D
+that in my otiginal series (see here:=0D
+https://lists.nongnu.org/archive/html/qemu-ppc/2023-02/msg00403.html )=0D
+where this works and was also tested, that version is available here:=0D
+https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/=0D
+but I could not convince Bernhard so I now expect him to provide a=0D
+work around for that. This isn't a blocker though as MorphOS already=0D
+runs on mac99 and sam460ex and only available as a time limited demo=0D
+(they only sell licenses for real hardware) so not really usable apart=0D
+from testing anyway so getting it running on pegasos2 would be nice=0D
+but not a prioriey, more important is that AmigaOS runs for which this=0D
+is the only viable machine as sam460ex version runs much slower. So=0D
+I'd like this to be merged for 8.0 as it is now or only minor chnages=0D
+(or alternatively we can return to my series which was also tested the=0D
+same way and apart from different VIA IRQ router modelling contains=0D
+the same patches).=0D
+=0D
+Please review and let me know who will take care of merging this for 8.0.=0D
+=0D
+Regards,=0D
+BALATON Zoltan=0D
+=0D
+v4:=0D
+* Rebased onto "[PATCH v3 0/3] VT82xx PCI IRQ routing fixes"=0D
+=0D
+Based-on: <20230227123316.18719-1-shentey@gmail.com>=0D
+          "[PATCH v3 0/3] VT82xx PCI IRQ routing fixes"=0D
+=0D
+BALATON Zoltan (7):=0D
+  hw/display/sm501: Implement more 2D raster operations=0D
+  hw/display/sm501: Add fallbacks to pixman routines=0D
+  hw/display/sm501: Add debug property to control pixman usage=0D
+  hw/isa/vt82c686: Declare gpio inputs so it can be connected in board=0D
+    code=0D
+  hw/ppc/pegasos2: Fix PCI interrupt routing=0D
+  hw/audio/ac97: Split off some definitions to a header=0D
+  hw/audio/via-ac97: Basic implementation of audio playback=0D
+=0D
+ hw/audio/ac97.h           |  65 ++++++=0D
+ include/hw/isa/vt82c686.h |  25 +++=0D
+ hw/audio/ac97.c           |  43 +---=0D
+ hw/audio/via-ac97.c       | 455 +++++++++++++++++++++++++++++++++++++-=0D
+ hw/display/sm501.c        | 119 +++++++---=0D
+ hw/isa/vt82c686.c         |   3 +-=0D
+ hw/pci-host/mv64361.c     |   4 -=0D
+ hw/ppc/pegasos2.c         |  20 +-=0D
+ hw/audio/trace-events     |   6 +=0D
+ hw/isa/trace-events       |   1 +=0D
+ 10 files changed, 662 insertions(+), 79 deletions(-)=0D
+ create mode 100644 hw/audio/ac97.h=0D
+=0D
+-- =0D
+2.39.2=0D
+=0D
 
