@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E50B6A4E16
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 23:32:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3320A6A4EC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 23:38:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWm2e-0007ZD-Us; Mon, 27 Feb 2023 17:32:20 -0500
+	id 1pWm7X-0004eX-Pj; Mon, 27 Feb 2023 17:37:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWm2c-0007YU-HD
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 17:32:18 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWm7V-0004e4-Oh
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 17:37:21 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWm2a-0002EC-OP
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 17:32:18 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- bg16-20020a05600c3c9000b003eb34e21bdfso4835350wmb.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 14:32:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWm7T-0003ZI-QL
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 17:37:21 -0500
+Received: by mail-wr1-x433.google.com with SMTP id r18so7859934wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 14:37:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Ofek98SXwJV2M6Yf6K+LdTUVNT4BwXDI3q6LCsUjAbM=;
- b=mvOH5L0O5VrDuqOkJOneTHF0kZjSFhkuqYqGYY1b3iDRgoS25+AjZMG/Sbr5+PT3cH
- eNVT811nI0dgMwuHj2PnFqPQdJQf+ZmaRS9u7MpvRQUD6goztJc7aYuRh2AbH2JjJueE
- YEHRp5Ng1EZrCF67kMuU7nZ1JRLnL8vZFP6rBDITyO2KP9iAuQL5zr3+VLXmlXT4ubra
- weEsjWLbVI4YP5Jhmbdi6U8LLRgCrqoMGjf12zrPfHW98Ncuslo0F4Nd1oa8iss3ReSS
- t184TWHoXYgOHbSQ3Mv2nTRA1ZLys135PxQwHvrQytH8vuhsRspz5Ik8LZQAAzjn1wdi
- l1Fg==
+ bh=ayHZc6ONIf0DTAL1z8VWOF7fViKga5Yvvt2mtDqrgvk=;
+ b=YG/wCi/XMnJVL9us2LkxxBs5gE7zRmLAf8Ns+FJHzIpHNVc818m7AFSZxu+wAwmFjo
+ w0KDqHpKzyAEywQ/wQj+HyPB3duMrHydec1gMopfqrufWJzsFXp79f7x+yjhvXYp5WG0
+ D2TAIZdaByfWTfxTGktFRAboqbPgHqP8Ei9R3a8etgoRnEythiB9L8kJQgD/Qf/WhNm+
+ HJoZDu98L6vbM0V/mSjRJmVGSlU/ZfEe+B1/Z1SJal8pu48tyv1WlgQMJq0jFWH03ez5
+ FsuRjwTb3IvQWZrvnCy0eP74u6IJ0cXA/yO6nXdwb95XV06RVsX2HOSiMQdwH/KnZguD
+ GXCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ofek98SXwJV2M6Yf6K+LdTUVNT4BwXDI3q6LCsUjAbM=;
- b=ekRiLnCsPf5zR1uTsLoo6KZ4d30nt0OBkBiQzbXx0MqPw7b3uP950GYWeD1yzW2wkx
- tjnMi8Qk5iY0f3FRWhIS4Im7Yhbi2ZF93GnuuHboMhbJRnCLMENqjcudmIIUqSflerBG
- wYukbu8YxYsIHntnJ6/M2hZtN2f1YIm8u15aQgYIzAqTj/mBP4lam7HiW3/cV395KdHJ
- cW0rhjioN5IpTnJKUQBMheI1CHQWFVRnjNNIPutgUzwKRNmKiAHIr+aJmM7741Fa/xvS
- DytwNEAqqMG7S6FA999vG2SSDUCMOkonOeYXp1mctHYoJ4KDVdyJhYGMW7zkNKYlFDME
- jLrQ==
-X-Gm-Message-State: AO0yUKWHpWzJm7k+qDGZKlPMzbpxUHvIdaVPYGpLjFvVsJ3ni1IQwpMb
- KrujVtOMSC/Dwh8Ph/nNOlIn+A==
-X-Google-Smtp-Source: AK7set9s3SslHAqqicd2niVRMhwWH/QJ3T9n5pd3LtY4pHcbw8/iWqLGlwcnuR5R+JDLd9iTy2Ht0w==
-X-Received: by 2002:a05:600c:4f45:b0:3e2:24a0:ba26 with SMTP id
- m5-20020a05600c4f4500b003e224a0ba26mr482035wmq.16.1677537134886; 
- Mon, 27 Feb 2023 14:32:14 -0800 (PST)
+ bh=ayHZc6ONIf0DTAL1z8VWOF7fViKga5Yvvt2mtDqrgvk=;
+ b=v3dlC+u0JGKb+GPos8YkWGFMR+SXacXXvu9l5J8AWA5z+RAi301VvyRWctyZ/IcPsm
+ +rZySDUjNm2mc1jy2Mwz/853t/knPcaILaEHtwwh/B2zikIXhkNmrtmHdpCfxNHkbZK5
+ gr2lS1iWNwaPRQd/Sn9B3kEJJxB0SLXoJCssun5mvXmjBio9n+x23W3N3N0IFaIlS6Nl
+ r6sP9JWUnPMO0UcAXnJCx4qlUpsIgqPUR7RFV9TMR2PxNdQEdQpvi9FroMvOJ6zC7opb
+ itmqRc941LmATM3amFWdp2y9hNDD2H0buNaKCS1I5YRfxA3NJe4HLHzf8umaxlDRRBM8
+ C+Ag==
+X-Gm-Message-State: AO0yUKWLNIK2bu0ys2ysq7N/5kn+0RqIUSwbzKF3b2QfxzrbX20VWYk5
+ G6jVuOcaDwWizJZrdGUeQ6p7vw==
+X-Google-Smtp-Source: AK7set/gLeKToQgN6j/5v7tZPDt9u8OCqOQwtct8PKVCICMJVe7dy2gtGbQD49AOa3rSxGdZR+hWMg==
+X-Received: by 2002:a5d:6d51:0:b0:2c9:b3a9:b080 with SMTP id
+ k17-20020a5d6d51000000b002c9b3a9b080mr611290wri.16.1677537438060; 
+ Mon, 27 Feb 2023 14:37:18 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c028700b003dc47d458cdsm10091307wmk.15.2023.02.27.14.32.12
+ i20-20020a5d5234000000b002c5493a17efsm8272712wra.25.2023.02.27.14.37.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 14:32:14 -0800 (PST)
-Message-ID: <77b8545c-4f2a-b389-2811-47d2d48940d9@linaro.org>
-Date: Mon, 27 Feb 2023 23:32:11 +0100
+ Mon, 27 Feb 2023 14:37:17 -0800 (PST)
+Message-ID: <31fa46c5-cd5e-47b3-f971-a6465d6d4b02@linaro.org>
+Date: Mon, 27 Feb 2023 23:37:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
- qemu-system-i386
+Subject: Re: [PATCH v14 15/60] i386/xen: add pc_machine_kvm_type to initialize
+ XEN_EMULATE mode
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230227111050.54083-1-thuth@redhat.com>
- <20230227111050.54083-2-thuth@redhat.com> <Y/yY72L9wyjuv3Yz@redhat.com>
- <20230227150858-mutt-send-email-mst@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
+ Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
+References: <20230227142908.503517-1-dwmw2@infradead.org>
+ <20230227142908.503517-16-dwmw2@infradead.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230227150858-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230227142908.503517-16-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -102,31 +102,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/2/23 21:12, Michael S. Tsirkin wrote:
-> On Mon, Feb 27, 2023 at 11:50:07AM +0000, Daniel P. Berrangé wrote:
->> I feel like we should have separate deprecation entries for the
->> i686 host support, and for qemu-system-i386 emulator binary, as
->> although they're related they are independant features with
->> differing impact. eg removing qemu-system-i386 affects all
->> host architectures, not merely 32-bit x86 host, so I think we
->> can explain the impact more clearly if we separate them.
+On 27/2/23 15:28, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Removing qemu-system-i386 seems ok to me - I think qemu-system-x86_64 is
-> a superset.
+> The xen_overlay device (and later similar devices for event channels and
+> grant tables) need to be instantiated. Do this from a kvm_type method on
+> the PC machine derivatives, since KVM is only way to support Xen emulation
+> for now.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Reviewed-by: Paul Durrant <paul@xen.org>
+> ---
+>   hw/i386/pc.c         | 11 +++++++++++
+>   include/hw/i386/pc.h |  3 +++
+>   2 files changed, 14 insertions(+)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index a7a2ededf9..9eb572b64b 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -89,6 +89,7 @@
+>   #include "hw/virtio/virtio-iommu.h"
+>   #include "hw/virtio/virtio-pmem-pci.h"
+>   #include "hw/virtio/virtio-mem-pci.h"
+> +#include "hw/i386/kvm/xen_overlay.h"
+>   #include "hw/mem/memory-device.h"
+>   #include "sysemu/replay.h"
+>   #include "target/i386/cpu.h"
+> @@ -1843,6 +1844,16 @@ static void pc_machine_initfn(Object *obj)
+>       cxl_machine_init(obj, &pcms->cxl_devices_state);
+>   }
+>   
+> +int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
+> +{
+> +#ifdef CONFIG_XEN_EMU
+> +    if (xen_mode == XEN_EMULATE) {
+> +        xen_overlay_create();
+> +    }
+> +#endif
+> +    return 0;
+> +}
+> +
+>   static void pc_machine_reset(MachineState *machine, ShutdownCause reason)
+>   {
+>       CPUState *cs;
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 66e3d059ef..740497a961 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -291,12 +291,15 @@ extern const size_t pc_compat_1_5_len;
+>   extern GlobalProperty pc_compat_1_4[];
+>   extern const size_t pc_compat_1_4_len;
+>   
+> +extern int pc_machine_kvm_type(MachineState *machine, const char *vm_type);
 
-Doesn't qemu-system-i386 start the CPU in a different mode that
-qemu-system-x86_64? Last time we discussed it, we mention adding
--32 and -64 CLI flags to maintain compat, and IIRC this flag would
-add boot code to switch the CPU in 32-b. But then maybe I misunderstood.
-Thomas said, "CPUs must start in the same mode they start in HW".
+No 'extern' qualifier for function prototype please.
 
-> Removing support for building on 32 bit systems seems like a pity - it's
-> one of a small number of ways to run 64 bit binaries on 32 bit systems,
-> and the maintainance overhead is quite small.
-> 
-> In fact, keeping this support around forces correct use of
-> posix APIs such as e.g. PRIx64 which makes the code base
-> more future-proof.
-> 
+>   #define DEFINE_PC_MACHINE(suffix, namestr, initfn, optsfn) \
+>       static void pc_machine_##suffix##_class_init(ObjectClass *oc, void *data) \
+>       { \
+>           MachineClass *mc = MACHINE_CLASS(oc); \
+>           optsfn(mc); \
+>           mc->init = initfn; \
+> +        mc->kvm_type = pc_machine_kvm_type; \
+>       } \
+>       static const TypeInfo pc_machine_type_##suffix = { \
+>           .name       = namestr TYPE_MACHINE_SUFFIX, \
 
 
