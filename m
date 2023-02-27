@@ -2,111 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD036A420C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008CC6A4213
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:56:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWcz1-0008Bb-UX; Mon, 27 Feb 2023 07:51:59 -0500
+	id 1pWd2X-0001AK-52; Mon, 27 Feb 2023 07:55:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pWcyv-0008An-EP; Mon, 27 Feb 2023 07:51:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pWcys-0005Sd-PX; Mon, 27 Feb 2023 07:51:52 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31RAxjjL026690; Mon, 27 Feb 2023 12:51:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=cduFZsxbHCwIMqUUdtVBrltvaeYrlg4SYyh56QtzuDg=;
- b=rtuaZ5d2EznAa+7KYVz4znyNTYfOn6eTg/102Y/pRg0N2+TZrRHw2/x826N8/V2zNL54
- EEtEAdd1x53yQNUtGQHH4E8mbxxBZwmj+FF1qO5XI2i095NMHQzDh+DkPugiNCzaxOpM
- iy+s5mmHE0HUgdlZD+a/nSFZSg2hDLllZRLjRFmiMDIuI0j20Uq9TsZnTtxj+pXFLVs4
- 8oHf0QAMmMaQ+lYuW+p0jLOybyUK3H1b31hQPrwtOYzlYKjVlDMna+QU6rXO38D/n7g5
- n1SczxHoZJbMP6pWfNniIgK4czdYBH1bLeNyJ6E8SIW77xOSYt6VWvXp58N4mFzVnxg0 ZQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p0u8qtpww-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 12:51:38 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31RBlg62024254;
- Mon, 27 Feb 2023 12:51:38 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p0u8qtpq9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 12:51:38 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 31R4D83f031070;
- Mon, 27 Feb 2023 12:51:24 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3nybdfsefp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 12:51:23 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 31RCpKrZ61800788
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Feb 2023 12:51:20 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 118D120043;
- Mon, 27 Feb 2023 12:51:20 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8CAD120040;
- Mon, 27 Feb 2023 12:51:19 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.148.35]) by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 27 Feb 2023 12:51:19 +0000 (GMT)
-Message-ID: <d8da6f7d1e3addcb63614f548ed77ac1b8895e63.camel@linux.ibm.com>
-Subject: Re: [PATCH v16 08/11] qapi/s390x/cpu topology: set-cpu-topology
- monitor command
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
- pasic@linux.ibm.com, richard.henderson@linaro.org, david@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Mon, 27 Feb 2023 13:51:19 +0100
-In-Reply-To: <87v8jnqorg.fsf@pond.sub.org>
-References: <20230222142105.84700-1-pmorel@linux.ibm.com>
- <20230222142105.84700-9-pmorel@linux.ibm.com>
- <aaf4aa7b7350e88f65fc03f148146e38fe4f7fdb.camel@linux.ibm.com>
- <0a93eb0e-2552-07b7-2067-f46d542126f4@redhat.com>
- <9e1cbbe11ac1429335c288e817a21f19f8f4af87.camel@linux.ibm.com>
- <87v8jnqorg.fsf@pond.sub.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pWd20-00019p-Jp
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:55:04 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pWd1u-0005vk-Vr
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:55:04 -0500
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8DxEzQaqPxjmRsGAA--.5970S3;
+ Mon, 27 Feb 2023 20:54:51 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxc+UZqPxjcAI_AA--.13248S3; 
+ Mon, 27 Feb 2023 20:54:49 +0800 (CST)
+Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-11-gaosong@loongson.cn>
+ <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
+ <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
+ <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
+ <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
+ <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
+ <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
+ <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
+ <d052497f-fc2c-17ab-d455-f0a1727b422d@loongson.cn>
+ <5ac3c25f-8d4b-6aa3-5bc2-2b3abc22dce8@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <32723bb0-17fe-cbd5-73f1-99cbcfbf73aa@loongson.cn>
+Date: Mon, 27 Feb 2023 20:54:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: y3-cCLFJ0hg8pXB5Np8e2y6j0ZCyYwR6
-X-Proofpoint-GUID: D0OYw_YqB4zz-QV1Jqu5FvBI4kOSlMA_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-27_10,2023-02-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 spamscore=0 malwarescore=0 suspectscore=0 phishscore=0
- adultscore=0 priorityscore=1501 mlxscore=0 mlxlogscore=618 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302270097
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5ac3c25f-8d4b-6aa3-5bc2-2b3abc22dce8@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Bxc+UZqPxjcAI_AA--.13248S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Ar4xtF17WF1rAF4xtrW8JFb_yoW8Xr1xpr
+ 1kJry8GFy5WrykJr15Gw15AryUGryUJw15Jr15JFy5AFWjgr1jqr4UXFyY9FnrAw4rZw17
+ Zr1DXr42vw1DJw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Gr0_Cr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUzpBTUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: 13
+X-Spam_score: 1.3
+X-Spam_bar: +
+X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,89 +88,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2023-02-27 at 13:25 +0100, Markus Armbruster wrote:
-> Nina Schoetterl-Glausch <nsg@linux.ibm.com> writes:
->=20
-> > On Mon, 2023-02-27 at 08:59 +0100, Thomas Huth wrote:
->=20
-> [...]
->=20
-> > > I'm not sure whether double inclusion works with the QAPI parser (sin=
-ce this=20
-> > > might code to be generated twice) ... have you tried?
-> >=20
-> > I haven't, the documentation says:
-> >=20
-> > > Include directives
-> > > ------------------
-> > >=20
-> > > Syntax::
-> > >=20
-> > >     INCLUDE =3D { 'include': STRING }
-> > >=20
-> > > The QAPI schema definitions can be modularized using the 'include' di=
-rective::
-> > >=20
-> > >  { 'include': 'path/to/file.json' }
-> > >=20
-> > > The directive is evaluated recursively, and include paths are relativ=
-e
-> > > to the file using the directive.  Multiple includes of the same file
-> > > are idempotent.
-> >=20
-> > Which is why I thought it should work, but I guess this is a statement =
-about
-> > including the same file twice in another file and not about including t=
-he same
-> > file from two files.
->=20
-> No, this is intended to say multiple inclusion is fine, regardless where
-> the include directives are.
->=20
-> An include directive has two effects:
->=20
-> 1. If the included file has not been included already, pull in its
->    contents.
->=20
-> 2. Insert #include in generated C.  Example: qdev.json includes
->    qom.json.  The generated qapi-*-qdev.h include qapi-types-qom.h.
->=20
->    Including any required modules, as recommended by qapi-code-gen.rst,
->    results in properly self-contained generated headers.
 
-Ok, thanks. Not sure if another phrasing would be better given the intended
-meaning is the way I read it initially.
+在 2023/2/27 下午5:20, Richard Henderson 写道:
+> On 2/26/23 23:14, gaosong wrote:
+>> like this:
+>> the vece is MO_32.
+>> static void gen_vaddwev_s(unsigned vece, TCGv_vec t, TCGv_vec a, 
+>> TCGv_vec b)
+>> {
+>>      TCGv_vec t1 = tcg_temp_new_vec_matching(a);
+>>      TCGv_vec t2 = tcg_temp_new_vec_matching(b);
+>>      int halfbits = 4 << vece;
+>>      tcg_gen_shli_vec(vece, t1, a, halfbits);
+>>      tcg_gen_shri_vec(vece, t1, t1, halfbits);
+>>
+>>      tcg_gen_shli_vec(vece, t2, b,  halfbits);
+>>      tcg_gen_shri_vec(vece, t2, t2, halfbits);
+>>
+>>      tcg_gen_add_vec(vece, t, t1, t2);
+>>
+>>      tcg_temp_free_vec(t1);
+>>      tcg_temp_free_vec(t2);
+>> }
+>> ...
+>>         op[MO_16];
+>>          {
+>>              .fniv = gen_vaddwev_s,
+>>              .fno = gen_helper_vaddwev_w_h,
+>>              .opt_opc = vecop_list,
+>>              .vece = MO_32
+>>          },
+>> ...
+>> TRANS(vaddwev_w_h, gvec_vvv, MO_16, gvec_vaddwev_s)
+>>
+>> input :     0x ffff fffe ffff fffe  ffff fffe ffff fffe  + 0
+>> output :    0x 0000 fffe 0000 fffe  0000 fffe 0000 fffe
+>> correct is  0xffffffffefffffffefffffffe       ffff fffe.
+>
+> sari above, not shri, for sign-extension.
+>
+>
+Got it.
 
->=20
-> > But then, as far as I can tell, the build system only builds qapi-schem=
-a.json,
-> > which includes all other files, so it could apply.
->=20
-> Yes, qapi-schema.json is the main module, which includes all the others.
->=20
-> In fact, it includes all the others *directly*.  Why?
->=20
-> We generate documentation in source order.  Included material gets
-> inserted right at the first inclusion; subsequent inclusions have no
-> effect.
->=20
-> If we put all first inclusions right into qapi-schema.json, the order of
-> things in documentation is visible right there, and won't change just
-> because we change inclusions deeper down.
->=20
-> Questions?
-
-CpuS390Entitlement would be useful in both machine.json and machine-target.=
-json
-because query-cpu-fast is defined in machine.json and set-cpu-topology is d=
-efined
-in machine-target.json.
-So then the question is where best to define CpuS390Entitlement.
-In machine.json and include machine.json in machine-target.json?
-Or define it in another file and include it from both?
-
-Thanks
+and how to  sign-extend  the odd  element  of vector?
 
 
+Thanks.
+Song Gao
 
 
