@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512FA6A43B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59CA06A43AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:04:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe8e-0004hb-RA; Mon, 27 Feb 2023 09:06:00 -0500
+	id 1pWe5B-0002H6-4l; Mon, 27 Feb 2023 09:02:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8M-0004cQ-Pg
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:47 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4L-0000lW-Or
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:36 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8K-0008P7-QO
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:42 -0500
-Received: by mail-wr1-x430.google.com with SMTP id bw19so6314416wrb.13
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:05:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4I-0007at-Vy
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:33 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so7244343wms.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=IhuV0d5qQy+FV+jJNXdu8LUM/kunpfBbQzrkBv7Z+wQ=;
- b=uEVoVhUObMydO8btZ1rAGEIGHqnk4N1IfOIL0CGdfMowv8B7G7Q9RpBtdSJzln6Ldh
- e05SictgQvjbijM6NDQGpCKoUIr9YndMqnIF4gxBeyZMMKjFZZG8paZ4aNueyOhR5J3l
- yclxHNPlODVy8EPNWGYfUR3c0fZhMvAN/2TFHv0TJuxcMA/C07Nwy0NxsxmCLmOO7pxs
- tZ5VPFdPT6Xn14G2u3D8xLSOhtwiJ9SZOwgfh1DMjaoboT0qCSzg5FqfN1KcTvbswrsP
- mSmFwuSQmk48SIh+ha9rl3IEadzuimFayMnaR9mwE/wiGNCBntj3VusndlfFvHdLX5Zi
- kroQ==
+ :reply-to; bh=vzsUur0Aw/LlsgsbO3t88OL+32rrRcXjZlMZhRcStSQ=;
+ b=bCdhMYzmUz1147AEbgy2qrIzzG28Smey6nbuTnIM30alPqs1VHkp0TrrP43F4Kw45+
+ aEEfOeuez71v7ZsOMzpR/5z+m/BpfsJewWLKTyFEvisIjJu+uaNuFs3OsisYqz/IQMyU
+ Im9gkw7XgB3o7zWvcgBXGaTb75au6cY9O6K9w1bpmZaQand5T27C51TfmYJlv2k90EPi
+ s6rK0Gv6Lo2hkQe8+G98yhblmHtZixFO6BAgUfSRLFLb8rvRqrjIDjGs+AaWyE5wQWt9
+ ij0yY/LEua5TfTkvpyxRi7QJp0MkB/KmUcdbgmebPKsZx+wF48H1No3Qdh1DuaN4w9+p
+ K1XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IhuV0d5qQy+FV+jJNXdu8LUM/kunpfBbQzrkBv7Z+wQ=;
- b=c90G7dOiAzWgUe7PxlmhObCgHQkrN9NdLoq1BzbCoNXbwrzcj1wfxJi0UusdD3yS30
- uN8ZYP7YBdQUSdFedLmug9ULd9B5FtMlitt3yuM1xtgXaBcKmcqzQdxIc7CkG99nov5N
- 63NGnGNKjJp5LN9pXBVzFtNxvt8Wpp0VwIg95F1VecVePcrkNtr4xUPdpL32a8O6M/tt
- 0HgOuJOV/SO00XNo+Jvq844oIEhPmvSLG8ethrf7cRVmaUap5ruSo/O3pIHc3+IcPq8M
- 4xeDMvt7xsFx5egZRZePbjcmEGVWV91yZlExapYAvOuMyd+7NJl35nALTAH3OSWivoBB
- cv1w==
-X-Gm-Message-State: AO0yUKW0U3esyzoT4pILCgczAF8oxzWL6bBeJTM4Wtp/q077xTP756tL
- iqZDBsiZ+ifVwJYafJyWRZXEozRJxGrHy3SB
-X-Google-Smtp-Source: AK7set/lnVvE7cGrxky3RrlDPn4sqn/BolL6/hcbWXFFLHVhegAGSakgRMGxiix8+R1ePiCUuDh59g==
-X-Received: by 2002:a5d:4d4b:0:b0:2bf:d0a4:3e63 with SMTP id
- a11-20020a5d4d4b000000b002bfd0a43e63mr21043169wru.44.1677506738333; 
- Mon, 27 Feb 2023 06:05:38 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ bh=vzsUur0Aw/LlsgsbO3t88OL+32rrRcXjZlMZhRcStSQ=;
+ b=mRYaXa67JFO0s9BEPsV1n7vhH4LQimATD9i2nikb2qRrQPBv2nm4zs8XRHhGfuZniH
+ 8Q1JHiclDMoO4hz4BqtG2ofGVDnQkhLgKUe6TazKGSkawMWsMVeedLRpSlQsXXm3mB+t
+ 8Yp22jK2i+XocExDSo7F+8VZD+wTWDzGsAgC0Ly9+TGXsc8Cca1nO0d7ed6gnubW1tXd
+ k/qR5IvNWJ+qZtrnLOhITKUV8D0H+n8y6UbFS/1RQrIf+qnr2fa4/3mPFv79IwPSUvhi
+ 2Iq7F5R2jateeTeYUyVM6t5ZqcDHFiRevHQ6onAfIm70EGxs7xfcEZmjwACpCnX3uxjZ
+ xT4A==
+X-Gm-Message-State: AO0yUKU9LjbfbfhiUQvW0LlkvrKdO6RLTau3rolqmZbHNv9ECxZ+F6r3
+ MnG1EFDV1UdDZXDT8iiQpkWzzecocUGM3UL4
+X-Google-Smtp-Source: AK7set/0zSOW0nMh9LHDjyZRxmw7TcDsB+z1UCz/o7Xj245nlmZE8tG/vqd/Trk/S04qu94mDAt73w==
+X-Received: by 2002:a05:600c:44d4:b0:3eb:2de9:8aed with SMTP id
+ f20-20020a05600c44d400b003eb2de98aedmr7407506wmo.41.1677506488560; 
+ Mon, 27 Feb 2023 06:01:28 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- e7-20020a5d5947000000b002c5a07e940csm7229548wri.33.2023.02.27.06.05.37
+ s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.27
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:05:38 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 06:01:27 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 047/126] hw/isa/lpc_ich9: Remove redundant ich9_lpc_reset()
- invocation
-Date: Mon, 27 Feb 2023 15:00:54 +0100
-Message-Id: <20230227140213.35084-38-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
-References: <20230227140213.35084-1-philmd@linaro.org>
+Subject: [PULL 17/25] hw/char/xilinx_uartlite: Open-code
+ xilinx_uartlite_create()
+Date: Mon, 27 Feb 2023 14:00:54 +0000
+Message-Id: <20230227140102.3712344-18-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
+References: <20230227140102.3712344-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,42 +91,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-ich9_lpc_reset() is the dc->reset callback which is called
-automatically. No need to call it explicitly during k->realize.
+Open-code the single use of xilinx_uartlite_create().
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230213173033.98762-9-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20230220115114.25237-6-philmd@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/isa/lpc_ich9.c | 4 ----
- 1 file changed, 4 deletions(-)
+ include/hw/char/xilinx_uartlite.h        | 20 --------------------
+ hw/microblaze/petalogix_s3adsp1800_mmu.c |  7 +++++--
+ 2 files changed, 5 insertions(+), 22 deletions(-)
 
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index c5060d145f..2a4baac129 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -57,8 +57,6 @@
- /*****************************************************************************/
- /* ICH9 LPC PCI to ISA bridge */
+diff --git a/include/hw/char/xilinx_uartlite.h b/include/hw/char/xilinx_uartlite.h
+index 753d3a453ec..36d4e8444da 100644
+--- a/include/hw/char/xilinx_uartlite.h
++++ b/include/hw/char/xilinx_uartlite.h
+@@ -15,29 +15,9 @@
+ #ifndef XILINX_UARTLITE_H
+ #define XILINX_UARTLITE_H
  
--static void ich9_lpc_reset(DeviceState *qdev);
+-#include "hw/qdev-properties.h"
+-#include "hw/sysbus.h"
+-#include "qapi/error.h"
+ #include "qom/object.h"
+ 
+ #define TYPE_XILINX_UARTLITE "xlnx.xps-uartlite"
+ OBJECT_DECLARE_SIMPLE_TYPE(XilinxUARTLite, XILINX_UARTLITE)
+ 
+-static inline DeviceState *xilinx_uartlite_create(hwaddr addr,
+-                                        qemu_irq irq,
+-                                        Chardev *chr)
+-{
+-    DeviceState *dev;
+-    SysBusDevice *s;
 -
- /* chipset configuration register
-  * to access chipset configuration registers, pci_[sg]et_{byte, word, long}
-  * are used.
-@@ -439,8 +437,6 @@ static void ich9_lpc_pm_init(ICH9LPCState *lpc)
-                                  sizeof lpc->smi_features_ok,
-                                  true);
+-    dev = qdev_new(TYPE_XILINX_UARTLITE);
+-    s = SYS_BUS_DEVICE(dev);
+-    qdev_prop_set_chr(dev, "chardev", chr);
+-    sysbus_realize_and_unref(s, &error_fatal);
+-    sysbus_mmio_map(s, 0, addr);
+-    sysbus_connect_irq(s, 0, irq);
+-
+-    return dev;
+-}
+-
+ #endif
+diff --git a/hw/microblaze/petalogix_s3adsp1800_mmu.c b/hw/microblaze/petalogix_s3adsp1800_mmu.c
+index 9d959d1ad80..505639c2980 100644
+--- a/hw/microblaze/petalogix_s3adsp1800_mmu.c
++++ b/hw/microblaze/petalogix_s3adsp1800_mmu.c
+@@ -100,8 +100,11 @@ petalogix_s3adsp1800_init(MachineState *machine)
+         irq[i] = qdev_get_gpio_in(dev, i);
      }
--
--    ich9_lpc_reset(DEVICE(lpc));
- }
  
- /* APM */
+-    xilinx_uartlite_create(UARTLITE_BASEADDR, irq[UARTLITE_IRQ],
+-                           serial_hd(0));
++    dev = qdev_new(TYPE_XILINX_UARTLITE);
++    qdev_prop_set_chr(dev, "chardev", serial_hd(0));
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, UARTLITE_BASEADDR);
++    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq[UARTLITE_IRQ]);
+ 
+     /* 2 timers at irq 2 @ 62 Mhz.  */
+     dev = qdev_new("xlnx.xps-timer");
 -- 
-2.38.1
+2.34.1
 
 
