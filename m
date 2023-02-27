@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3CA6A413C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823F76A413D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:56:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWc6W-0005ef-Bl; Mon, 27 Feb 2023 06:55:40 -0500
+	id 1pWc74-00064O-6w; Mon, 27 Feb 2023 06:56:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWc6M-0005eJ-OW
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:55:30 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWc6t-00062M-H1
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:56:05 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWc6K-0000hd-E8
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:55:29 -0500
-Received: by mail-wr1-x430.google.com with SMTP id bv17so5921102wrb.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:55:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWc6r-0000oZ-Mr
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:56:03 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ m25-20020a7bcb99000000b003e7842b75f2so3647144wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 03:55:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EWSrkYudlSki4kE8Xpb0XBXqzfN+yMyfgZ5IYXHoN28=;
- b=icGRrTcQ8pjJ34iw1lGFk/wzzUAjMMj7liGGCxgi1wpJ4kFaytxhvtjEMV4D4nWNk/
- pzPwmS+sQu167FIT1oNxOAy3f2ow0yfx+rpzyf7q8n6wMFGiSECHOHPKhltj2FK99CbB
- V1vOxfoHTlm6eSahvS7Bi07/+gHcDtVfrZ2v/hukEX4+5s2wp8KVPonB7EsNE3uUtNSF
- vEcEn5U7udJAJdB/rvNUYpw6l+sJOYAUKYALmmjXU8Jj+FnvVxV+D0Q43+Ny2A/WMqEy
- gsInWg+iMnMGRJZ4rfUn9jD3MbTP2kMEMN8nziYCDcBqsQ8PNrSiofOexKBZ18NBIxDb
- J4Sw==
+ bh=WjdfL26YmFPvxotZkKLLkDiGMcCKt9gQYj4MnZd4IkQ=;
+ b=fCo0VdO8D6NDX/iwyP+Nc5jFJkGI8aKibRvtfzooUL3j7CaiAH8/mv2vZ2afz2Qp0p
+ oWAfF80cxNQfy5YhDwsCr2Rh68O0N+WGlZmfVNx8SsTjopQ/4PbN2pJ+aRZbp1gf5z7s
+ TLgq13qHYVwFI6VkWZ0cWS68p+qb7PlGVm1Y6o/EdcnsTAoJDdkDLko6w1AHyAC2T3an
+ iAFKt5Z8mCm11wMKlbD8ldKkgXsgFfTb57yG1lORKTXMJlwnXxxRFQHlaH+NGY9Wnm4A
+ G5TabOrHSxf6uOmAcjLKMYMOpqq8uoNcOzNVyqOi1rAXwyqWLkEBhV3XZLr0wpnRBe/r
+ WEHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EWSrkYudlSki4kE8Xpb0XBXqzfN+yMyfgZ5IYXHoN28=;
- b=dNUJwPSS1VE0eyLEaraBkIzLByovJP+hNhiBFBHv3mx+qJ2KPE++KgWlTeF034UBVL
- Q0mMYLxO1frZ3CkxwlMNoU3tJdG738ETfBLK+QJUSjYNN6TX2q8oeDD3+ymf9oIz0sBu
- CNw7qnFfLyPUNtKSmpZspoRW6Wc3f5RlOzlam6epQMSBOBVwEZogZWjMMfhTJINTAjQp
- 2BkUY3snoXUd3o5GWDDiNc6jo/XN8HINuwr9V7w+aZMSiNq4e8G0647nYvZb1RiHzoj2
- bg7WRtRX7kfUybY5pJa9fnb4mQgK1Ge67H+ZWI8iU1jLjgjZeh2Z09EHurgYH4SD7z6f
- UOvg==
-X-Gm-Message-State: AO0yUKWAqT8PVRvx+MXkD5TFumtPMsdP04cPmrJgRzA4eOa4Waw3sEk8
- WXfHiIQZDg0+uBOFnFxZXYJ3CQ==
-X-Google-Smtp-Source: AK7set+eTfs1E9FF+ZKbLcbibWau5PzIm8VLTCl+yhEOqWjECsv6nlJxCorTNY/cAZ4kJ4GeCaCpPg==
-X-Received: by 2002:a05:6000:1049:b0:2c7:6bb:fb7a with SMTP id
- c9-20020a056000104900b002c706bbfb7amr16920753wrx.54.1677498926888; 
- Mon, 27 Feb 2023 03:55:26 -0800 (PST)
+ bh=WjdfL26YmFPvxotZkKLLkDiGMcCKt9gQYj4MnZd4IkQ=;
+ b=0fLCaTYUld9qG/RPperJ3ZHaHbFlKrW+YLBva6rzngbP3UukJ+PGYSK89usYT5T4lI
+ bZMTbAO/SiPp8G/68/jumaJVvqTlw19A2xHhkmoJEZKeLQNL5CJd6BjY55+zvzf+Yk8T
+ NCbcdT+WJ2uGS8uPn2b+YFuW4WV1gNrc8PaeDEMFh53KUdmXDTvnqpdNWv+M68bVS/0K
+ JWUYr6f1jtZmAFKFxcepnFhaydaSKkW9DWaXsa1cIQt3NPGj25wohjImN4Y0QL7xJb6G
+ qXpFeh+YHk2QEc+VkImkV3Abm1SBhFxrRUzerPfzkvBtvPWTAV3pYi0wlz3MguEodEif
+ KP2A==
+X-Gm-Message-State: AO0yUKWd3BMaTJyMBqfk0EiC7i+VM/9/qCKAp6xkGYWNgC/lRogrDXWd
+ /T1G4tWUy9mRsl9SdLfryA4uFA==
+X-Google-Smtp-Source: AK7set8LLjAAC9NLcvE8U7JkBvYSebAXnkC3zFJVIIcg8uIbE18hfaZORzb38i9yf4hcvAQPPCuTLQ==
+X-Received: by 2002:a05:600c:70a:b0:3df:eecc:de2b with SMTP id
+ i10-20020a05600c070a00b003dfeeccde2bmr15469700wmn.11.1677498958904; 
+ Mon, 27 Feb 2023 03:55:58 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- k28-20020a5d525c000000b002c556a4f1casm6833167wrc.42.2023.02.27.03.55.24
+ p15-20020a7bcdef000000b003e200d3b2d1sm8905402wmj.38.2023.02.27.03.55.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 03:55:25 -0800 (PST)
-Message-ID: <7e9d9d2d-2cc9-8d97-9c34-39e888882a6f@linaro.org>
-Date: Mon, 27 Feb 2023 12:55:23 +0100
+ Mon, 27 Feb 2023 03:55:58 -0800 (PST)
+Message-ID: <dbe01fb1-106e-3c2e-ba6b-d739f77d39bc@linaro.org>
+Date: Mon, 27 Feb 2023 12:55:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 07/12] hw/isa/lpc_ich9: Connect pm stuff to lpc internally
+Subject: Re: [PATCH 08/12] hw/isa/lpc_ich9: Remove redundant ich9_lpc_reset()
+ invocation
 Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -66,13 +68,13 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, Thomas Huth <thuth@redhat.com>
 References: <20230213173033.98762-1-shentey@gmail.com>
- <20230213173033.98762-8-shentey@gmail.com>
+ <20230213173033.98762-9-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230213173033.98762-8-shentey@gmail.com>
+In-Reply-To: <20230213173033.98762-9-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -96,19 +98,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 13/2/23 18:30, Bernhard Beschow wrote:
-> Make TYPE_ICH9_LPC_DEVICE more self-contained by moving the call to
-> ich9_lpc_pm_init() from board code to its realize function. In order
-> to propagate x86_machine_is_smm_enabled(), introduce an "smm-enabled"
-> property like we have in piix4.
+> ich9_lpc_reset() is the dc->reset callback which is called
+> automatically. No need to call it explicitly during k->realize.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   include/hw/acpi/ich9.h | 6 ++----
->   include/hw/i386/ich9.h | 2 --
->   hw/acpi/ich9.c         | 8 ++------
->   hw/i386/pc_q35.c       | 5 ++---
->   hw/isa/lpc_ich9.c      | 8 +++++---
->   5 files changed, 11 insertions(+), 18 deletions(-)
+>   hw/isa/lpc_ich9.c | 4 ----
+>   1 file changed, 4 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
