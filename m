@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525826A3CAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:26:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1792B6A3C8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:25:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWYk7-0007oU-7x; Mon, 27 Feb 2023 03:20:19 -0500
+	id 1pWYlP-0004CX-Ap; Mon, 27 Feb 2023 03:21:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pWYjz-0007Ns-2j
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:20:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pWYjw-0008Cv-4u
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 03:20:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677486007;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZAeHxyUwJVHN8PzkafY6op1MIGDp3/3HL3aFhUhLx0U=;
- b=bCg7+ByGOh+28wzb7VvSRWX29AwVH6eBEQU9fFhwzckjyUEreD3ayHJtooZLaFizFxCUFa
- 1uvCNnCT6x95AvctZOBzuhhYliHCGG/8k43ivhTpe33prviXycJf4O06miOJp/Kcc+uf0s
- mVVfB3Gf66I8qY4jfRm8jmub9GKCFZ0=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-646-t1xt8hKwMQCFWziQy28cQw-1; Mon, 27 Feb 2023 03:20:05 -0500
-X-MC-Unique: t1xt8hKwMQCFWziQy28cQw-1
-Received: by mail-oi1-f197.google.com with SMTP id
- bb36-20020a05680816a400b00383df099ffdso1365124oib.7
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 00:20:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWYlK-0003vX-1Z; Mon, 27 Feb 2023 03:21:35 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pWYlF-0000Xg-3K; Mon, 27 Feb 2023 03:21:31 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id cy6so22280026edb.5;
+ Mon, 27 Feb 2023 00:21:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jZUPV2qISL80vnLTJOIdBMQOy5drkx8tt2WKvyJgAUE=;
+ b=gxcWccCd9cBgPSMnejgkyshfYRahgGrkWPg8IXJIfTtI5/qlq69uGSTuf0V0GcIPyS
+ eTWyDamrEJIvsPzQsKVA2GgRVFHz+eD5cVt8lhm9MX4RsxDEUIU+X39Eqa7q7u9auGqU
+ y1po510CJs22Y7WKZ+RO3UQylT8XFjwPKNuZJuNV40tMvPWsof5/sY1U8KaAqqcIC94a
+ a7NVuys1BN0hAq1ncqtpHzVF7Zo7qdIgof93YawL9+pP9HyZcqQZEBNeIXQoi1KvW+To
+ WROsalNF8qnhkp5atRQ5gctKsc0zhgPFrnO5NjLUwHSPSMSIQ4qJlM0TUHTqhxkf11UJ
+ JG0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZAeHxyUwJVHN8PzkafY6op1MIGDp3/3HL3aFhUhLx0U=;
- b=NHxpw5cYktZVE8lCYZdafVm6geCnN/ih02InxhceWHAsVH99CSNIzRsSbGCbLPDu+1
- ArCm4UYAWklyl8bVLCmykdofzkq6xdEvHGMn67up3+r6uCLZHJRWiyC+a+AJg3psh/Yk
- 3dumHVyAdkChAcNS/r0E294QjOLXTjL/sZr34+Py/jO54fyvd/68IvV1wNEMpj6LumdE
- c5atkyKOlGNoP5iBatagWOKIjNTNO/5ryLp2E/BxUVtV0WTLxnmsF6awIPgqiC73ql5P
- o4sK1vYMH+WcHDa0anGu3gfa/+w9MY9+EOwFYk2ClmONnl8PLyh36H0mQ92zZP954QeU
- cTIg==
-X-Gm-Message-State: AO0yUKX6cU26ccy71UVzCrJdtsUOqlMB21hgPrUK6kQEpqjDy0QRyyjp
- gl9C2aM1t0o1wMfizsLFB1zSSyArDlHPTdOXTf/yA6uhYzZOMRKs4QLuKvtJloHFNVpexrUmu1d
- S/3vtD+xxEbrdFrSnONy2xX4e2sJq8Ec=
-X-Received: by 2002:aca:911:0:b0:36e:f6f5:604c with SMTP id
- 17-20020aca0911000000b0036ef6f5604cmr3061886oij.9.1677486005127; 
- Mon, 27 Feb 2023 00:20:05 -0800 (PST)
-X-Google-Smtp-Source: AK7set8zn8gc0mU/teU6Qe0ZjKCtm5c8WmdPv8ShuIiXY4PnGfMOzdf4R8ZsXJ7/s7kQy52fVf9MD7I4Gl436K1if0A=
-X-Received: by 2002:aca:911:0:b0:36e:f6f5:604c with SMTP id
- 17-20020aca0911000000b0036ef6f5604cmr3061875oij.9.1677486004895; Mon, 27 Feb
- 2023 00:20:04 -0800 (PST)
+ bh=jZUPV2qISL80vnLTJOIdBMQOy5drkx8tt2WKvyJgAUE=;
+ b=ncap5bw2q3iaTy9PN8AWkd+SFqX7ftssCQtph9AWQQWCt9n9n8d4e9z3kaFCHx/fK+
+ HYrBuAUnJy8iK6/gBScFfpK5QROnXqMrzkj55Zuiva0L1dDtWFc6Qxy2kKf7hw0U7qJC
+ O0RydW2iytWjPItOy83IwdpISD8QN8Xl0oG5b6yiaVa7rxJdniD0tY3fVMImspKo8wPO
+ 1xCnXH6ICn0CEUL8PGKKO4aTUFh5CuOvDFrOKS7elM6uJcqgNXenAeBh33NYw7rt5RuD
+ 7qMCHBieF+Ibq8nLzf3NCBankHLM2okCyve6LGoo5o+G6YIFRMoeuP5NRS6o25eGTVU/
+ RjFg==
+X-Gm-Message-State: AO0yUKVzOT4JWSNJhRvvvR4xl22JtZ2reFUJBtvntiV9xRJn9v6WmUhl
+ I1Cta96o6omSkGPmOKhy6ck=
+X-Google-Smtp-Source: AK7set/eXJNT9TSpXzf8ySvzOqp2LeUti+gV9lSjehsX6rchdUl/D4ffh3XX7TbwN7eXRC3f3DNSFg==
+X-Received: by 2002:a17:907:c927:b0:8b2:7150:dd03 with SMTP id
+ ui39-20020a170907c92700b008b27150dd03mr29183737ejc.35.1677486086790; 
+ Mon, 27 Feb 2023 00:21:26 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-078-055-154-008.78.55.pool.telefonica.de.
+ [78.55.154.8]) by smtp.gmail.com with ESMTPSA id
+ hz18-20020a1709072cf200b008b26f3d45fbsm2956727ejc.143.2023.02.27.00.21.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 00:21:26 -0800 (PST)
+Date: Mon, 27 Feb 2023 08:21:20 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, ReneEngel80@emailn.de
+Subject: Re: [PATCH v3 4/8] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <236a7e87-b8dd-720d-e2e2-2c1beb97116e@eik.bme.hu>
+References: <cover.1677445307.git.balaton@eik.bme.hu>
+ <0fd9eac9174a840054c511fbc015048929c7bc40.1677445307.git.balaton@eik.bme.hu>
+ <a496276e-24fb-e2bc-fbdf-ace9ef7f361f@linaro.org>
+ <0E10FCF9-465D-462A-8031-880B0907CCDA@gmail.com>
+ <236a7e87-b8dd-720d-e2e2-2c1beb97116e@eik.bme.hu>
+Message-ID: <E383649B-F5D7-4D4F-886A-6A29B00BBDFA@gmail.com>
 MIME-Version: 1.0
-References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-13-eperezma@redhat.com>
- <2367dcff-e8c3-c3ca-378a-e9e67e10710a@redhat.com>
-In-Reply-To: <2367dcff-e8c3-c3ca-378a-e9e67e10710a@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 27 Feb 2023 16:19:53 +0800
-Message-ID: <CACGkMEs13RdzLfU8nZwHT0YsZ_hXy47or4t9jkHCoJ1EVa3q9w@mail.gmail.com>
-Subject: Re: [PATCH v4 12/15] vdpa: block migration if device has unsupported
- features
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- qemu-devel@nongnu.org
-Cc: Stefano Garzarella <sgarzare@redhat.com>,
- Shannon Nelson <snelson@pensando.io>, 
- Gautam Dawar <gdawar@xilinx.com>, Laurent Vivier <lvivier@redhat.com>,
- alvaro.karsz@solid-run.com, 
- longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
- Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
- Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,101 +97,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 4:15=E2=80=AFPM Jason Wang <jasowang@redhat.com> wr=
-ote:
->
->
-> =E5=9C=A8 2023/2/24 23:54, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > A vdpa net device must initialize with SVQ in order to be migratable at
-> > this moment, and initialization code verifies some conditions.  If the
-> > device is not initialized with the x-svq parameter, it will not expose
-> > _F_LOG so the vhost subsystem will block VM migration from its
-> > initialization.
-> >
-> > Next patches change this, so we need to verify migration conditions
-> > differently.
-> >
-> > QEMU only supports a subset of net features in SVQ, and it cannot
-> > migrate state that cannot track or restore in the destination.  Add a
-> > migration blocker if the device offer an unsupported feature.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> > v3: add mirgation blocker properly so vhost_dev can handle it.
-> > ---
-> >   net/vhost-vdpa.c | 12 ++++++++----
-> >   1 file changed, 8 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 4f983df000..094dc1c2d0 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -795,7 +795,8 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
-tState *peer,
-> >                                          int nvqs,
-> >                                          bool is_datapath,
-> >                                          bool svq,
-> > -                                       struct vhost_vdpa_iova_range io=
-va_range)
-> > +                                       struct vhost_vdpa_iova_range io=
-va_range,
-> > +                                       uint64_t features)
-> >   {
-> >       NetClientState *nc =3D NULL;
-> >       VhostVDPAState *s;
-> > @@ -818,7 +819,10 @@ static NetClientState *net_vhost_vdpa_init(NetClie=
-ntState *peer,
-> >       s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> >       s->vhost_vdpa.iova_range =3D iova_range;
-> >       s->vhost_vdpa.shadow_data =3D svq;
-> > -    if (!is_datapath) {
-> > +    if (queue_pair_index =3D=3D 0) {
-> > +        vhost_vdpa_net_valid_svq_features(features,
-> > +                                          &s->vhost_vdpa.migration_blo=
-cker);
->
->
-> Since we do validation at initialization, is this necessary to valid
-> once again in other places?
 
-Ok, after reading patch 13, I think the question is:
 
-The validation seems to be independent to net, can we valid it once
-during vhost_vdpa_init()?
+Am 26=2E Februar 2023 23:37:24 UTC schrieb BALATON Zoltan <balaton@eik=2Eb=
+me=2Ehu>:
+>On Sun, 26 Feb 2023, Bernhard Beschow wrote:
+>> Am 26=2E Februar 2023 22:27:50 UTC schrieb "Philippe Mathieu-Daud=C3=A9=
+" <philmd@linaro=2Eorg>:
+>>> On 25/2/23 19:11, BALATON Zoltan wrote:
+>>>> From: Bernhard Beschow <shentey@gmail=2Ecom>
+>>>>=20
+>>>> The real VIA south bridges implement a PCI IRQ router which is config=
+ured
+>>>> by the BIOS or the OS=2E In order to respect these configurations, QE=
+MU
+>>>> needs to implement it as well=2E
+>>>>=20
+>>>> Note: The implementation was taken from piix4_set_irq() in hw/isa/pii=
+x4=2E
+>>>>=20
+>>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>>>> [balaton: declare gpio inputs instead of changing pci bus irqs so it =
+can
+>>>>   be connected in board code; remove some empty lines]
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik=2Ebme=2Ehu>
+>>>> Tested-by: Rene Engel <ReneEngel80@emailn=2Ede>
+>>>> ---
+>>>>   hw/isa/vt82c686=2Ec | 39 +++++++++++++++++++++++++++++++++++++++
+>>>>   1 file changed, 39 insertions(+)
+>>>=20
+>>>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+>>>> +{
+>>>> +    switch (irq_num) {
+>>>> +    case 0:
+>>>> +        return s->dev=2Econfig[0x55] >> 4;
+>>>> +    case 1:
+>>>> +        return s->dev=2Econfig[0x56] & 0xf;
+>>>> +    case 2:
+>>>> +        return s->dev=2Econfig[0x56] >> 4;
+>>>> +    case 3:
+>>>> +        return s->dev=2Econfig[0x57] >> 4;
+>>>> +    }
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level=
+)
+>>>> +{
+>>>> +    ViaISAState *s =3D opaque;
+>>>> +    PCIBus *bus =3D pci_get_bus(&s->dev);
+>>>> +    int pic_irq;
+>>>> +
+>>>> +    /* now we change the pic irq level according to the via irq mapp=
+ings */
+>>>> +    /* XXX: optimize */
+>>>> +    pic_irq =3D via_isa_get_pci_irq(s, irq_num);
+>>>> +    if (pic_irq < ISA_NUM_IRQS) {
+>>>=20
+>>> the ISA IRQ is stored in 4-bit so will always be in range=2E
+>>=20
+>> Indeed=2E I'd turn this into an assert to keep this assum visible=2E I'=
+ll do another iteration of the PCI IRQ router series=2E
+>
+>If you do that please don't break it and make me redo this series again=
+=2E Sumbit a patch as a reply to this that can be substituted without chang=
+ing other patches and I can include in later respins=2E
 
-Thanks
+I will only do the mist minimal changes satisfying the review comments=2E =
+This should minimize the risk of breakage=2E Also, you can minimize the cha=
+nce of breakage on your side by not introducing more changes than needed, e=
+=2Eg=2E by not doing any formatting changes=2E
+
+>We don't have time to make extensive changes now, the freeze is too close=
+=2E
+
+I don't intend to make extensive changes unless review comments requre it=
+=2E
+
+Best regards,
+Bernhard
 
 >
-> Thanks
+>Regards,
+>BALATON Zoltan
 >
->
-> > +    } else if (!is_datapath) {
-> >           s->cvq_cmd_out_buffer =3D qemu_memalign(qemu_real_host_page_s=
-ize(),
-> >                                               vhost_vdpa_net_cvq_cmd_pa=
-ge_len());
-> >           memset(s->cvq_cmd_out_buffer, 0, vhost_vdpa_net_cvq_cmd_page_=
-len());
-> > @@ -956,7 +960,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
- char *name,
-> >       for (i =3D 0; i < queue_pairs; i++) {
-> >           ncs[i] =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> >                                        vdpa_device_fd, i, 2, true, opts=
-->x_svq,
-> > -                                     iova_range);
-> > +                                     iova_range, features);
-> >           if (!ncs[i])
-> >               goto err;
-> >       }
-> > @@ -964,7 +968,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
- char *name,
-> >       if (has_cvq) {
-> >           nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> >                                    vdpa_device_fd, i, 1, false,
-> > -                                 opts->x_svq, iova_range);
-> > +                                 opts->x_svq, iova_range, features);
-> >           if (!nc)
-> >               goto err;
-> >       }
-
+>> Best regards,
+>> Bernhard
+>>>=20
+>>>> +        int i, pic_level;
+>>>> +
+>>>> +        /* The pic level is the logical OR of all the PCI irqs mappe=
+d to it=2E */
+>>>> +        pic_level =3D 0;
+>>>> +        for (i =3D 0; i < PCI_NUM_PINS; i++) {
+>>>> +            if (pic_irq =3D=3D via_isa_get_pci_irq(s, i)) {
+>>>> +                pic_level |=3D pci_bus_get_irq_level(bus, i);
+>>>> +            }
+>>>> +        }
+>>>> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
+>>>> +    }
+>>>> +}
+>>>=20
+>>>=20
+>>=20
+>> 
 
