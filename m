@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C78C6A43E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:13:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2036A43AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:05:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe6L-0000Aw-Tx; Mon, 27 Feb 2023 09:03:37 -0500
+	id 1pWe6N-0000YN-Vd; Mon, 27 Feb 2023 09:03:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe6F-00089c-Tw
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:03:34 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe6L-0000GM-F5
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:03:37 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe6E-0007p3-93
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:03:31 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id j3so4317185wms.2
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:03:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe6J-0007r5-RI
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:03:37 -0500
+Received: by mail-wr1-x434.google.com with SMTP id e37so3867675wri.10
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:03:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hNlq0z7v8fGXrKo5qebTFeTRFjOGloH/Fy/CTfeeYb4=;
- b=S5TiaoVtTAkBeGgcrvMhUebnHH5RtdvsUAPo/ZRtG0xSYFyrBj5WxX15hhGwLpag+s
- peq1EqRNwF3EAX1xloGnUPZaiCEk5aQmgn0dt4wuYzKMLOVcNpnvvpYMZONMbyiY7nZ1
- EGOIt/KXOWu3D/lXrmbIfzIrJyjXia4DLTFAaHbxO4FkQOskiFhBePMZwrzJvDnmgFEP
- /0+QBgBa960xArDwjcMrv/6od04SK7dMYwuU/3r6okMx5CXgbCIPFvuq+iUXYIB0gJ5f
- HAvAyZ5Z748XWMce0eoT/XKko/dYzGAv63sLVi/WndjeYl4+oSgijH713ep1QQWmxUwY
- 6xqQ==
+ :reply-to; bh=w35//Xi+HiFDJb401HrXFg/UrizCqNe+LmSJMze6aS0=;
+ b=MxMY4xgPCbQcLjKGmcMG96NOl/DEJvs6McEitkcUOL3yq1O8Y89Lh9l8jZQDnHL982
+ XLcRYgCwxAeiPdBGAHcmA4pZawdNJ+vM/iDGLSYeSyCKa4elMhcHcp+WPUYo1Gi894OF
+ kvBPL5+dRB0TGYB7eNiUoHgzAtYfPPEC+mBiyPP+cxph/TseunILZFP6BwY8lb5vC6b0
+ srwPlnbx4WA5j4dTiMFpJlIjoDSYg1MtlstDkIWV10iwS5X8ArSpp19/yrdb8LmBQVC1
+ CX+T+yYs55aNVM3flIKCvqY+NC4dDQq0EWMt44Oy6q2sHZiR2dx9fORUyeoVGMo+GlKm
+ gSlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hNlq0z7v8fGXrKo5qebTFeTRFjOGloH/Fy/CTfeeYb4=;
- b=ADGWfLSt1MlzLxJ6L8uoyzxUNhJwKbT/TSFyuiQ+vFal4exKXBSWHTS5IiwgoXEsc/
- i8Hev6vWA3NeXo8KvkU+X4WnNUbIHvrU7xaUrgGgzVDczY+gJcKAVNdPeHLmqqZBY2l9
- jinsvUBwQijDQzxteM8vlm/hJv+VWR+orrjNTTQ3doxGOnNrAQc0eVDOc6p1ElkqU9x9
- We1MHHkrEamn1lz8cAeYKs61DVK49IBCEIId7Hr08WwOtluQnJmCeKeQPcU6eb+hK8A7
- M+oSCDnrgwbYqK/htdgEOVoFAOKU1Yyx1CwDrMsLspxbR4kzQlCqJmTqsbh5IBuOeUsN
- yuoA==
-X-Gm-Message-State: AO0yUKXEh9O9MdLb2X4RkstlfRsaBKVcv6LmtyU7qSYLqTNWPQejyuur
- rpporUFJ1xJZBunhU7jKN7t+/9TjSuvleeWR
-X-Google-Smtp-Source: AK7set/7gurUpCim7MSSjkoySk8VdFIRxKqQQWTU1yScmVqkHf9ATKOTgm2jJQQlhVreclmWzBGpUA==
-X-Received: by 2002:a05:600c:929:b0:3df:3bd6:63e5 with SMTP id
- m41-20020a05600c092900b003df3bd663e5mr18215721wmp.12.1677506609033; 
- Mon, 27 Feb 2023 06:03:29 -0800 (PST)
+ bh=w35//Xi+HiFDJb401HrXFg/UrizCqNe+LmSJMze6aS0=;
+ b=fTJa2WgyTP89/70Nj2wXalpWnmv0WAeljUQSwPWAl9JkszvWdN7/UqjkqoU0EIK2dW
+ BZYEEQ9bviDWPNO5Zl+0DFaOw7Hi6RRf+6Br2Fcar0flBW5mTV4lR+ZK6Nm/Z2aWlVFZ
+ ngbUBfHv6OTHEDsEIQgYeDJvX7MbIdZEpcVhMZ1pgd62aiufKl7npU37gFuihpID93IG
+ wwSC5gLoapEnR4r8IRLwGZ0JjmbvlVcWJsp81wBxnifwDbhvSpgKBGXVshO/FzoS6lzk
+ BKl4F/1QHu22XKk81GBf+gsox8Tp7Phu9jG7E/WuN5LR/0dUJuP/0l1/bcfgn4qkVqhq
+ s64g==
+X-Gm-Message-State: AO0yUKXNnXSRscGJxc7xyzvInMAXPTO5yLJ/MhAiDlOO2Mb5jEloDRDh
+ D2wxw9ik7zm5cnILb7h1pkBp5mkmahIElKv2
+X-Google-Smtp-Source: AK7set/N4djjq4CoAYtkK5jLov7XjWksfcbfMsH5gdiiVRdIA6o0Si1JqpYXfBkHFcweAZyEEl+U+w==
+X-Received: by 2002:a05:6000:144e:b0:2cb:29eb:a35e with SMTP id
+ v14-20020a056000144e00b002cb29eba35emr3237924wrx.11.1677506614134; 
+ Mon, 27 Feb 2023 06:03:34 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- m21-20020a7bcb95000000b003e21f959453sm9368241wmi.32.2023.02.27.06.03.28
+ t1-20020a5d6a41000000b002c70a68111asm7316419wrw.83.2023.02.27.06.03.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:03:28 -0800 (PST)
+ Mon, 27 Feb 2023 06:03:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 023/126] trace: Do not try to include QMP commands in user
- emulation binaries
-Date: Mon, 27 Feb 2023 15:00:30 +0100
-Message-Id: <20230227140213.35084-14-philmd@linaro.org>
+Subject: [PULL 024/126] exec: Remove unused 'qemu/timer.h' timer
+Date: Mon, 27 Feb 2023 15:00:31 +0100
+Message-Id: <20230227140213.35084-15-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,32 +87,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QMP is not available on user emulation; there is not monitor.
-Besides, since commit a0e61807a3 ("qapi: Remove QMP events
-and commands from user-mode builds") we don't generate the
-qapi-commands-trace.h header in a user-emulation-only build.
-
-Remove the QMP trace commands from qemu-user binaries.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221220150417.26751-1-philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20221219170806.60580-2-philmd@linaro.org>
 ---
- trace/meson.build | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ accel/tcg/cpu-exec.c      | 1 -
+ accel/tcg/translate-all.c | 1 -
+ include/exec/gen-icount.h | 1 -
+ include/sysemu/cpus.h     | 1 -
+ tcg/tcg.c                 | 1 -
+ 5 files changed, 5 deletions(-)
 
-diff --git a/trace/meson.build b/trace/meson.build
-index d565948b09..8e80be895c 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -89,4 +89,6 @@ if 'ftrace' in get_option('trace_backends')
-   trace_ss.add(files('ftrace.c'))
- endif
- trace_ss.add(files('control.c'))
--trace_ss.add(files('qmp.c'))
-+if have_system or have_tools or have_ga
-+  trace_ss.add(files('qmp.c'))
-+endif
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 5357608b14..29b9bdac38 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -28,7 +28,6 @@
+ #include "exec/exec-all.h"
+ #include "tcg/tcg.h"
+ #include "qemu/atomic.h"
+-#include "qemu/timer.h"
+ #include "qemu/rcu.h"
+ #include "exec/log.h"
+ #include "qemu/main-loop.h"
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 9e925c10f3..84f129337b 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -49,7 +49,6 @@
+ #include "exec/translator.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/qemu-print.h"
+-#include "qemu/timer.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/cacheinfo.h"
+ #include "exec/log.h"
+diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
+index c57204ddad..166170b08e 100644
+--- a/include/exec/gen-icount.h
++++ b/include/exec/gen-icount.h
+@@ -2,7 +2,6 @@
+ #define GEN_ICOUNT_H
+ 
+ #include "exec/exec-all.h"
+-#include "qemu/timer.h"
+ 
+ /* Helpers for instruction counting code generation.  */
+ 
+diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+index 1bace3379b..0535a4c68a 100644
+--- a/include/sysemu/cpus.h
++++ b/include/sysemu/cpus.h
+@@ -1,7 +1,6 @@
+ #ifndef QEMU_CPUS_H
+ #define QEMU_CPUS_H
+ 
+-#include "qemu/timer.h"
+ #include "sysemu/accel-ops.h"
+ 
+ /* register accel-specific operations */
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index a4a3da6804..9822c65ea8 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -34,7 +34,6 @@
+ #include "qemu/cutils.h"
+ #include "qemu/host-utils.h"
+ #include "qemu/qemu-print.h"
+-#include "qemu/timer.h"
+ #include "qemu/cacheflush.h"
+ #include "qemu/cacheinfo.h"
+ 
 -- 
 2.38.1
 
