@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1E26A441F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4226A43A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:03:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe8p-0005Ax-J6; Mon, 27 Feb 2023 09:06:11 -0500
+	id 1pWe55-0001u8-D7; Mon, 27 Feb 2023 09:02:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8f-0004rw-7D
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:01 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4O-0000mD-7d
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:39 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8c-00082r-8q
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:00 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- fm20-20020a05600c0c1400b003ead37e6588so7229881wmb.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:05:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4L-0007ch-HC
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:35 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id t15so6329142wrz.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=XcyZBEGIyj8pgSPqx0qibrEIuq5k2XdtgcY01B6U23g=;
- b=TZVwXBkoLX/8qcON2BtCCUbAs3WAgrAeeN5rdVMcDO6NQ+IZtC/eJgc36uCPioSijh
- uHwsHP8Fuig4eNMCzMvLWSvFeFio9i6V4wugn42jNHshnAvtOQxQPH0XErLIVDejmmp3
- xggfNMyL6pz2SAtFVDu3VaJZkSSIZy19dqgzmAlp4T1WFNGowhJvYX2l/DlFS2tRdbcm
- N+KOgvkriPUW4zlmSZmQuwz/ceFjh6vwZT6Ai1tysUGsTWXOXPZWuo6ruPEMAd3KvSVG
- muuGgU0R4L39SKh/ek6xYO7aiJK8bZu1lh8s3AkoRZyTPEsjowZBBq2nWVr+rwPI50aG
- 0yXQ==
+ :reply-to; bh=a/LUrffyQW57nzfvUKYl3CFpJsURKsL4yXJqSOTnUyw=;
+ b=iY7AT3Aq+MFTlX/QpmZBttEhj4wTBY4adRx3cneP7IomS5z1VebshN8SHmQWuCqZ2l
+ lzPy82vnt8hn4eDv6N1VkvkYAg8mn8H8PYJcwUTs4DNP+kc/NIG2Uq1PPumWSJ/flWNR
+ JNR9KiwNs1LzZ/yOEF4fk+tpAv0qtKf1cEJHRq8R5byUH0ZMuGxy+ou7zpXqRN282Csq
+ n3QJY6SttMKbwvhsvjyT1B5qbJ1lU8pwSL9F0l2PRwCR1HzMqzL5eUUEV67s+M6Cjbbz
+ W416pKRG1n6C5Gz4Ve1coUYow1yMdEcH4lcyf1wzmFxkF420hAbMflVONDI3zWhKON19
+ nXZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XcyZBEGIyj8pgSPqx0qibrEIuq5k2XdtgcY01B6U23g=;
- b=wajmTCPaUim8fbhmcH1VJNJ+Y1tDlGyJvUzv1G8qsw5NnKeklnv414srvByFUqPLbM
- Roq7Y1gxECRUJonIPNr7hkNCpKZHXXtTW0/uSw7VMkFQOM74iQIoqw+1dvqluwHQgv35
- yRs4t8IxL/KUibc8dFTAFuAGiI0i0YLtzqTlGk4prcjQQu3Ji+A9zRePmGsaItjmoPIC
- ZhlIr506LzKu5unqi4enYTvMBNtndW6qWMxa+2YX8Dn3C2sH4xrFxnyIHv7YYK2ENTcW
- OuiN1rof3JfGo7DCG/C2WFM0jbHrrnrlMZwkI3W8I9uG3akgeUwyIkbnz7pcf4/rgE+8
- 3H9A==
-X-Gm-Message-State: AO0yUKXfGEnQvA4MNcX15zBycOuAAvwQtvSkEdO1cnbFGOZGLiWq8za0
- yWjHKEhXUrlBapnBuRk2K/rMs4opwECROWky
-X-Google-Smtp-Source: AK7set+lFZKHFpXdpQB21TqdC471OppUC1Ok6lnZqGj9SrvZwv0lhvzyR7r/HIJC/x8ed+Md83HhcQ==
-X-Received: by 2002:a05:600c:6001:b0:3e7:772d:22de with SMTP id
- az1-20020a05600c600100b003e7772d22demr16640849wmb.30.1677506756686; 
- Mon, 27 Feb 2023 06:05:56 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ bh=a/LUrffyQW57nzfvUKYl3CFpJsURKsL4yXJqSOTnUyw=;
+ b=MTJXsDu2LcBes0cIDVSccGvZSxkSR9oJLSScq1axB/1uZsS9MPBoK5/9qx60IvcoAR
+ XtcVKIOJXlo+w6Tn0sJEo+4AnuQdjVKPr8/+E+xE/ZMFYLJMadVfkiOyLcFe9UoonSPN
+ LCSWk/3Y4nBVKGTiMp3zqzEFnMsritPafo7a5HPGPotT4aLzO/RCQJIE83EVeVp0Ve9U
+ 9wwfuGwuyl+xXi7qlZCZeNymB1DCpqJz1qzzD8tVHsKB8E3ZQorIwVPEaKmGT4bmv1U6
+ iQrbPuyvjAjoLkLhulA5bcpG11UF0vulb/YbJ00AsQnyPLwOy+qIOsak1yYV1cfLtZFj
+ KzWw==
+X-Gm-Message-State: AO0yUKU/D8/dvrIJCFH9x3KfANw/9rbpj4e8myB/3UsAVlIX6NjpweaF
+ xKCjALKl6ZJ+8rE3bdD8PVnRidZ4d+ktlJXU
+X-Google-Smtp-Source: AK7set/YZ43CJ8DyAKyth9/JrwvpF0DP70wdHrSvCJ+c0fLwajYt5z+oa0kU5rhBpbZkHUgQ7oSaLA==
+X-Received: by 2002:adf:f1c1:0:b0:2c5:598c:14b0 with SMTP id
+ z1-20020adff1c1000000b002c5598c14b0mr20196526wro.20.1677506492100; 
+ Mon, 27 Feb 2023 06:01:32 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- z19-20020a05600c0a1300b003e4326a6d53sm12811395wmp.35.2023.02.27.06.05.55
+ s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.30
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:05:56 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 06:01:31 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 050/126] hw/i386/ich9: Clean up includes
-Date: Mon, 27 Feb 2023 15:00:57 +0100
-Message-Id: <20230227140213.35084-41-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
-References: <20230227140213.35084-1-philmd@linaro.org>
+Subject: [PULL 20/25] hw/intc/armv7m_nvic: Use QOM cast CPU() macro
+Date: Mon, 27 Feb 2023 14:00:57 +0000
+Message-Id: <20230227140102.3712344-21-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
+References: <20230227140102.3712344-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,66 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230213173033.98762-12-shentey@gmail.com>
+Avoid accessing 'parent_obj' directly.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-id: 20230220115114.25237-9-philmd@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/i386/acpi-build.c   | 1 +
- hw/isa/lpc_ich9.c      | 2 +-
- include/hw/i386/ich9.h | 8 +++++---
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ hw/intc/armv7m_nvic.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index b67dcbbb37..1bb73c3e9a 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -59,6 +59,7 @@
- #include "hw/acpi/pcihp.h"
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/ich9.h"
-+#include "hw/i386/pc.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci-host/i440fx.h"
- #include "hw/pci-host/q35.h"
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index e3385ca7be..ce946760bb 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -40,8 +40,8 @@
- #include "hw/irq.h"
- #include "hw/isa/apm.h"
- #include "hw/pci/pci.h"
--#include "hw/pci/pci_bridge.h"
- #include "hw/i386/ich9.h"
-+#include "hw/i386/pc.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/ich9.h"
- #include "hw/pci/pci_bus.h"
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index d29090a9b7..3125863049 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -1,11 +1,13 @@
- #ifndef HW_ICH9_H
- #define HW_ICH9_H
- 
--#include "hw/sysbus.h"
--#include "hw/i386/pc.h"
- #include "hw/isa/apm.h"
--#include "hw/acpi/acpi.h"
- #include "hw/acpi/ich9.h"
-+#include "hw/intc/ioapic.h"
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pci_device.h"
-+#include "exec/memory.h"
-+#include "qemu/notify.h"
- #include "qom/object.h"
- 
- void ich9_generate_smi(void);
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index 8e289051a40..63afe1fdf58 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -578,7 +578,7 @@ static void do_armv7m_nvic_set_pending(void *opaque, int irq, bool secure,
+              * which saves having to have an extra argument is_terminal
+              * that we'd only use in one place.
+              */
+-            cpu_abort(&s->cpu->parent_obj,
++            cpu_abort(CPU(s->cpu),
+                       "Lockup: can't take terminal derived exception "
+                       "(original exception priority %d)\n",
+                       s->vectpending_prio);
+@@ -644,7 +644,7 @@ static void do_armv7m_nvic_set_pending(void *opaque, int irq, bool secure,
+                  * Lockup condition due to a guest bug. We don't model
+                  * Lockup, so report via cpu_abort() instead.
+                  */
+-                cpu_abort(&s->cpu->parent_obj,
++                cpu_abort(CPU(s->cpu),
+                           "Lockup: can't escalate %d to HardFault "
+                           "(current priority %d)\n", irq, running);
+             }
+@@ -742,7 +742,7 @@ void armv7m_nvic_set_pending_lazyfp(NVICState *s, int irq, bool secure)
+              * We want to escalate to HardFault but the context the
+              * FP state belongs to prevents the exception pre-empting.
+              */
+-            cpu_abort(&s->cpu->parent_obj,
++            cpu_abort(CPU(s->cpu),
+                       "Lockup: can't escalate to HardFault during "
+                       "lazy FP register stacking\n");
+         }
 -- 
-2.38.1
+2.34.1
 
 
