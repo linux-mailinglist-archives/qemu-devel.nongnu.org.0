@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E67F6A446A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7806A4421
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:18:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeER-0000PY-Lv; Mon, 27 Feb 2023 09:11:59 -0500
+	id 1pWeEB-00088w-Ri; Mon, 27 Feb 2023 09:11:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeD1-0007Fk-Ri
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:10:38 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeD7-0007GB-KZ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:10:39 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeD0-0000uG-81
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:10:31 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- j19-20020a05600c191300b003eb3e1eb0caso2617385wmq.1
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:10:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeD5-0000xB-S7
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:10:37 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id j3so4333053wms.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:10:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=DX0+YXyuyC7bCbAN48oSNcnK6nwWOgos2TH5GHnP6Kw=;
- b=M9nEvIDlekQcT9r7mh6gdpw+A8qiUckhK3i1zSaK+3OxtFv+8yhL/yTivzL8jHtlnq
- +Dtt0lowzp7nWePiWWoYR8fZxMIz8T4557GbieiRdFl2yuVp9IivG6aXhVzkLUoB7rzA
- SfZC/SDVvFRy68CtfuyIuvQc7LwMxQwgyEHEetlnTtyrF+o/1qzjlxLurFrt13O/CoX2
- AG5bh4CDqgcuwBQVJm6rWQ/rf5kSR0XVadMHBzy1wOTVequLMjHesYr1sL9clDqjtOVh
- vo95aPM8HrzrPvB7Ak+5uADfrUA8IGksXejHN93+ArqkRCRKgZdA2fcIF72hEepVc3si
- fzoQ==
+ :reply-to; bh=s/VV8gMq+SwEfVdND04j3PKQUCL7nPvwuzVVhOpvlV0=;
+ b=UVoWMWrIxct28PSvms5AUbv0LnO1h7vmkbHjfIotZ8ud/ne4/9rrTiOrCB0tq+wHbJ
+ cnVptXBXr36X33t0g6Uo10IkFOpfmideOhTryzQrJ79Do2Qb2NPHd5lEgAbGlBqlymWl
+ uRCrrtI4FLePKAQvuGT25UBgmso4kd6MNh9TsLzpA8khsUMfXsjA2DgNiTrdzZBX0SwU
+ CKbZW2VFTGCnFcTsPkzxa/ta3ZcSFgCTf2GYblVcx7M8IC5mJ3pFXD6YtjSvMyE6hqi1
+ 8K51FJD/qt5PjSHJ3FUIfQWF2TpL01tuK/3WdU9PGf1pasLjMdvvHGE3QMJcsNMWlLcX
+ 8cqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DX0+YXyuyC7bCbAN48oSNcnK6nwWOgos2TH5GHnP6Kw=;
- b=aSk7hWrAIsTcxicj901lCmepb7PBZ++yjK5QZFBtD2g7yMNNLHTIs4mbghrOQG5Y+S
- 9XaOQMuB2xfMN57ZTPPsUruZHRF7TlloYNsc7CxCcLa9T2wlpXA/4Ki92GwmUDFWpIDJ
- YIMLKKQzSFQLqVmafipjBAggSoaVLwNPdilS5IoYvDqcOZ1yjZ1UWXv9fupEDjcWnMwp
- sJP++jycNiVvxxZYqlLXOuXp5QCcc6R1v8idMHzD8QUxwoISucXBei2gEgQgbobWBrmi
- sJ1CQNBT5ZCDK15bQ0MEuIaJ52qvMUUVfcNA4DIOK4CxxpuGU5pkeC328jP6xoqW5JdQ
- 5chg==
-X-Gm-Message-State: AO0yUKUFgvoCrEnkFViS503sv6AWeK0F5pOAUxZBwc8i+iSQKRWTgLBB
- 9SvFoBgBtejQjEKSkYHQYsAEinhZhO021wjl
-X-Google-Smtp-Source: AK7set+IWpGjzsqI5Fs1u+t06DMKrVJMjGM1g/Oba81ralK6bBSZCVpsKY26HQNyFFHCqzLklbWVTw==
-X-Received: by 2002:a05:600c:a295:b0:3eb:29fe:70ec with SMTP id
- hu21-20020a05600ca29500b003eb29fe70ecmr8418496wmb.27.1677507028746; 
- Mon, 27 Feb 2023 06:10:28 -0800 (PST)
+ bh=s/VV8gMq+SwEfVdND04j3PKQUCL7nPvwuzVVhOpvlV0=;
+ b=UTl+yysr6YSDsop9dgVWOqh+i+JhYNT43ycn5t/HDvooQP+2DZ2PTsQjQhHdDIj/xO
+ pDwhsXVAfZPbVhNAzozNqb7oJhd1fhR+rGOPWq1YCdgsJ0+9FHxqEGfan3h4IqHUmHQG
+ uWWYnXH1XJ8uZqEAG/UVFBFxia/fBY8Xd5dQOuAKGt6Du78JtP0a6cPLAN7qK2BzDQIN
+ 4xv8lBozeoUnOgXCllhRbmD0REmTjF3/gGS6Fn2YQ7Stzom9ttqTMxtYxV7AoQNvcDxh
+ 8tpHcm4q2k7/H3VqU2K1UGN9yI3AE7qyrwREJApMVve+ZqZkF35YvElSd2nz4yxyp4of
+ cZPQ==
+X-Gm-Message-State: AO0yUKXER/pvb1vES0ERp5ucYSe8POQbR6Rzfnaqip1XK/jEUFdJd7LN
+ UaqcWTS5+3Hm215JM5IdTiALSBp7QPQRkr0D
+X-Google-Smtp-Source: AK7set+KcE9A1lVrEAR1xPQBJa30uie8Fj9XqciH3Prn7tFSo/gCnJj3sMQRV9gm9uHXGghzbrxygA==
+X-Received: by 2002:a7b:c8ce:0:b0:3eb:248f:a140 with SMTP id
+ f14-20020a7bc8ce000000b003eb248fa140mr8641631wml.6.1677507034094; 
+ Mon, 27 Feb 2023 06:10:34 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- n4-20020a7bcbc4000000b003dc3f3d77e3sm8785650wmi.7.2023.02.27.06.10.27
+ l21-20020a1c7915000000b003e21ba8684dsm9059689wme.26.2023.02.27.06.10.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:10:28 -0800 (PST)
+ Mon, 27 Feb 2023 06:10:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 100/126] hw/ide/mmio: Extract TYPE_MMIO_IDE declarations to
- 'hw/ide/mmio.h'
-Date: Mon, 27 Feb 2023 15:01:47 +0100
-Message-Id: <20230227140213.35084-91-philmd@linaro.org>
+Subject: [PULL 101/126] hw/ide/isa: Extract TYPE_ISA_IDE declarations to
+ 'hw/ide/isa.h'
+Date: Mon, 27 Feb 2023 15:01:48 +0100
+Message-Id: <20230227140213.35084-92-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,105 +90,141 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 "hw/ide.h" is a mixed bag of lost IDE declarations.
 
-Extract mmio_ide_init_drives() and the TYPE_MMIO_IDE QOM
-declarations to a new "hw/ide/mmio.h" header.
+Extract isa_ide_init() and the TYPE_ISA_IDE QOM declarations
+to a new "hw/ide/isa.h" header.
 
-Document the SysBus interface.
+Rename ISAIDEState::isairq as 'irqnum' to emphasize this is
+not a qemu_irq object but the number (index) of an ISA IRQ.
 
-Message-Id: <20230215112712.23110-4-philmd@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20230215112712.23110-5-philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Bernhard Beschow <shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/ide/mmio.c         |  5 +----
- hw/sh4/r2d.c          |  2 +-
- include/hw/ide.h      |  3 ---
- include/hw/ide/mmio.h | 26 ++++++++++++++++++++++++++
- 4 files changed, 28 insertions(+), 8 deletions(-)
- create mode 100644 include/hw/ide/mmio.h
+ hw/i386/pc_piix.c    |  1 +
+ hw/ide/isa.c         | 14 ++++++--------
+ include/hw/ide.h     |  5 -----
+ include/hw/ide/isa.h | 20 ++++++++++++++++++++
+ 4 files changed, 27 insertions(+), 13 deletions(-)
+ create mode 100644 include/hw/ide/isa.h
 
-diff --git a/hw/ide/mmio.c b/hw/ide/mmio.c
-index 08493930b7..6bf9048b1e 100644
---- a/hw/ide/mmio.c
-+++ b/hw/ide/mmio.c
-@@ -29,9 +29,9 @@
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 7c48ba30e0..126b6c11df 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -39,6 +39,7 @@
+ #include "hw/pci/pci_ids.h"
+ #include "hw/usb.h"
+ #include "net/net.h"
++#include "hw/ide/isa.h"
+ #include "hw/ide/pci.h"
+ #include "hw/ide/piix.h"
+ #include "hw/irq.h"
+diff --git a/hw/ide/isa.c b/hw/ide/isa.c
+index 8bedbd13f1..5c3e83a0fc 100644
+--- a/hw/ide/isa.c
++++ b/hw/ide/isa.c
+@@ -31,22 +31,20 @@
  #include "qemu/module.h"
  #include "sysemu/dma.h"
  
-+#include "hw/ide/mmio.h"
++#include "hw/ide/isa.h"
  #include "hw/ide/internal.h"
- #include "hw/qdev-properties.h"
--#include "qom/object.h"
+ #include "qom/object.h"
  
  /***********************************************************/
- /* MMIO based ide port
-@@ -39,9 +39,6 @@
-  * dedicated ide controller, which is often seen on embedded boards.
-  */
+ /* ISA IDE definitions */
  
--#define TYPE_MMIO_IDE "mmio-ide"
--OBJECT_DECLARE_SIMPLE_TYPE(MMIOIDEState, MMIO_IDE)
+-#define TYPE_ISA_IDE "isa-ide"
+-OBJECT_DECLARE_SIMPLE_TYPE(ISAIDEState, ISA_IDE)
 -
- struct MMIOIDEState {
-     /*< private >*/
-     SysBusDevice parent_obj;
-diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-index d7020d6d2b..826a0a31b5 100644
---- a/hw/sh4/r2d.c
-+++ b/hw/sh4/r2d.c
-@@ -38,7 +38,7 @@
- #include "hw/qdev-properties.h"
- #include "net/net.h"
- #include "sh7750_regs.h"
--#include "hw/ide.h"
-+#include "hw/ide/mmio.h"
- #include "hw/irq.h"
- #include "hw/loader.h"
- #include "hw/usb.h"
+ struct ISAIDEState {
+     ISADevice parent_obj;
+ 
+     IDEBus    bus;
+     uint32_t  iobase;
+     uint32_t  iobase2;
+-    uint32_t  isairq;
++    uint32_t  irqnum;
+     qemu_irq  irq;
+ };
+ 
+@@ -75,13 +73,13 @@ static void isa_ide_realizefn(DeviceState *dev, Error **errp)
+ 
+     ide_bus_init(&s->bus, sizeof(s->bus), dev, 0, 2);
+     ide_init_ioport(&s->bus, isadev, s->iobase, s->iobase2);
+-    s->irq = isa_get_irq(isadev, s->isairq);
++    s->irq = isa_get_irq(isadev, s->irqnum);
+     ide_init2(&s->bus, s->irq);
+     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_isa, s);
+     ide_register_restart_cb(&s->bus);
+ }
+ 
+-ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
++ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int irqnum,
+                         DriveInfo *hd0, DriveInfo *hd1)
+ {
+     DeviceState *dev;
+@@ -92,7 +90,7 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
+     dev = DEVICE(isadev);
+     qdev_prop_set_uint32(dev, "iobase",  iobase);
+     qdev_prop_set_uint32(dev, "iobase2", iobase2);
+-    qdev_prop_set_uint32(dev, "irq",     isairq);
++    qdev_prop_set_uint32(dev, "irq",     irqnum);
+     isa_realize_and_unref(isadev, bus, &error_fatal);
+ 
+     s = ISA_IDE(dev);
+@@ -108,7 +106,7 @@ ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
+ static Property isa_ide_properties[] = {
+     DEFINE_PROP_UINT32("iobase",  ISAIDEState, iobase,  0x1f0),
+     DEFINE_PROP_UINT32("iobase2", ISAIDEState, iobase2, 0x3f6),
+-    DEFINE_PROP_UINT32("irq",    ISAIDEState, isairq,  14),
++    DEFINE_PROP_UINT32("irq",     ISAIDEState, irqnum,  14),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 diff --git a/include/hw/ide.h b/include/hw/ide.h
-index 60f1f4f714..5f8c36b2aa 100644
+index 5f8c36b2aa..24a7aa2925 100644
 --- a/include/hw/ide.h
 +++ b/include/hw/ide.h
-@@ -8,9 +8,6 @@
- ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
-                         DriveInfo *hd0, DriveInfo *hd1);
+@@ -1,13 +1,8 @@
+ #ifndef HW_IDE_H
+ #define HW_IDE_H
  
--/* ide-mmio.c */
--void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
+-#include "hw/isa/isa.h"
+ #include "exec/memory.h"
+ 
+-/* ide-isa.c */
+-ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int isairq,
+-                        DriveInfo *hd0, DriveInfo *hd1);
 -
  int ide_get_geometry(BusState *bus, int unit,
                       int16_t *cyls, int8_t *heads, int8_t *secs);
  int ide_get_bios_chs_trans(BusState *bus, int unit);
-diff --git a/include/hw/ide/mmio.h b/include/hw/ide/mmio.h
+diff --git a/include/hw/ide/isa.h b/include/hw/ide/isa.h
 new file mode 100644
-index 0000000000..d726a49848
+index 0000000000..1cd0ff1fa6
 --- /dev/null
-+++ b/include/hw/ide/mmio.h
-@@ -0,0 +1,26 @@
++++ b/include/hw/ide/isa.h
+@@ -0,0 +1,20 @@
 +/*
-+ * QEMU IDE Emulation: mmio support (for embedded).
++ * QEMU IDE Emulation: ISA Bus support.
 + *
 + * Copyright (c) 2003 Fabrice Bellard
 + * Copyright (c) 2006 Openedhand Ltd.
 + *
 + * SPDX-License-Identifier: MIT
 + */
-+
-+#ifndef HW_IDE_MMIO_H
-+#define HW_IDE_MMIO_H
++#ifndef HW_IDE_ISA_H
++#define HW_IDE_ISA_H
 +
 +#include "qom/object.h"
 +
-+/*
-+ * QEMU interface:
-+ *  + sysbus IRQ 0: asserted by the IDE channel
-+ *  + sysbus MMIO region 0: data registers
-+ *  + sysbus MMIO region 1: status & control registers
-+ */
-+#define TYPE_MMIO_IDE "mmio-ide"
-+OBJECT_DECLARE_SIMPLE_TYPE(MMIOIDEState, MMIO_IDE)
++#define TYPE_ISA_IDE "isa-ide"
++OBJECT_DECLARE_SIMPLE_TYPE(ISAIDEState, ISA_IDE)
 +
-+void mmio_ide_init_drives(DeviceState *dev, DriveInfo *hd0, DriveInfo *hd1);
++ISADevice *isa_ide_init(ISABus *bus, int iobase, int iobase2, int irqnum,
++                        DriveInfo *hd0, DriveInfo *hd1);
 +
 +#endif
 -- 
