@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88C76A41F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F616A41D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:41:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWcni-0003hz-Tn; Mon, 27 Feb 2023 07:40:18 -0500
+	id 1pWcno-00043w-42; Mon, 27 Feb 2023 07:40:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcnG-0003Ro-3Q
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:39:59 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcnR-0003Xv-2k
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:40:09 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcnB-0001C9-NT
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:39:46 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- bg16-20020a05600c3c9000b003eb34e21bdfso3593505wmb.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:39:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcnJ-0001Hg-3Z
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:39:59 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ m25-20020a7bcb99000000b003e7842b75f2so3723036wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:39:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Yei9QnFICkrpmPfGhAgTkxbxJU4xJpesTJ9Xhh8kSsc=;
- b=vYkyo7KyRR8QTCZDYg4kC6Ksm5O6KTnQIWtDb/gkUUH+ocr31WzpT/ClX/ptDrI6Zv
- Li7ASSOdh2Z8ekcmTh8TIC2igpNe2IASHCXBYCR5NsFYRfyzJuNIV0/tVw1JwofCdKdj
- N08jyfefDi+XfxH20vBVy9ILbylHFMIpGRxDuMDHMBKP9Sr9mjCoB5PAtxXQuasSZRF4
- 8CYCkTfZ1RlKJ1fd/ZdFHvV8uiKtBUN7JpyepfSkoIUsM1eIeYRAPew44OB9XBIyg3vQ
- O1KryCtBZIPMZI2lROXVLCMqzxg+5yEYLO3mp4Qj8yVfs3Stdr7IuaVsYXauY2COdd4u
- BD3g==
+ bh=XFJBWkOMCsiWl7Sxau1Mv58g5Ilkt0suSW8cPE3/PLs=;
+ b=cNGP6sJvClcEUgzWLGADREdbHRTWuJw1n6++9Rkz0XjoVbC/Wir9JVIGM3bIB+0XS4
+ XVBfLoKDHQJfgws2IrUVtWHQxWKf/a+ye3dc2ClxrTSaOrYKkdE34isYVUjOHWQgoVzq
+ BaDZoIJNkKZ0T+2KiXwufkLk91PmMqSlYeqb4/mz1c/DyccCuGJ4SvW55zg6Hm1ZeSVc
+ MCXa2bugLj/0QP8kE+/0wziOThXZEfrP5bEICs66cnJPXqsnDIILAhH5ort4UB+SsbsC
+ KMYZn7T7Yf+BdzLlX86ysScXUshPzlAHbLCZ7sO5g8RUozRxFn9UDLnvep+vfzHQYrpk
+ P1Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Yei9QnFICkrpmPfGhAgTkxbxJU4xJpesTJ9Xhh8kSsc=;
- b=xCuCvpu3momxttdPmyovUYCA6DnYuhD7XTBog1Cen+9uBlhu6GRm9XsYz6ud/aaAAw
- Pc1aIS1mZmvwsca44P3PV8vA7eY+zO7KwLI1rkySWRynJglU8TRUhr1jKrsR4WMLNjFg
- 5FImlzXYDEM6hhHHWaFiO8gK0HzRaCerS+z+fjGZJ6Fn58Ss3HY1hax9J6cyODq0gq5H
- aCQg5lNuRc+RV4lh5OsvkAig0TtRqltThdWN9vwAWuVHuHOFeosExoQNuhlxwjtPbF8/
- 9+MlBH+vMLhH8bEPa93D9s3GIH5kJv/eddibTx/pIygp4w2VumJLo7nQ+Q97OqPD6uOX
- Tt8w==
-X-Gm-Message-State: AO0yUKX1Cvt/xiscO6L+sgJUFAKu7IJNa3qZ6ag6rREsneSYqHob2ot5
- qc0SInOijBxxFZH8wUVyH4fa3BawJ53Svkdh
-X-Google-Smtp-Source: AK7set+wuymm3f8mf2RJpxpT7blCylHbrDqoqTwd4lPgnv5F9dnfRebAPu9ou4yuneMTSw1Vn28KhA==
-X-Received: by 2002:a05:600c:1708:b0:3eb:376e:2ba5 with SMTP id
- c8-20020a05600c170800b003eb376e2ba5mr4995801wmn.3.1677501584661; 
- Mon, 27 Feb 2023 04:39:44 -0800 (PST)
+ bh=XFJBWkOMCsiWl7Sxau1Mv58g5Ilkt0suSW8cPE3/PLs=;
+ b=67f+Da8J3mOF8NVGgqy9tPdDXfrj2OzpUuQI5QZcetonDT2YKQdd/ISWjOv3RKKDES
+ rWqpah9TcXXzov4hfXU5cohixubuWHRRWrnc36F2GVjQdx/mgloLimPfMTV3vxo5DUOG
+ vMkI4SV12qiZJSxhwPcyyIp0WNw4vvOT+YYnZx5Ap2oT7XqECPi4P+OopYOvshQV9Won
+ dXqIAe3JDm0gh0i6tDoj9UFtRYhv/rcaa1MOxRNeHp+7wKmP2pY1tAUqZh5zD30f89aL
+ Dy38E0pcxR6ujTzmwzWo0lJq+l1WVL6C4jcJGcrg3dzldiH+RmKZ8q9aKEuQjzBBpuOP
+ fs7Q==
+X-Gm-Message-State: AO0yUKWE6n0NQlKvwPKZrWB7oNtsmdtkGRjgivvakQ2sKW7jUS+MG20T
+ +7kXKWruwUs/x2OuxQPp10TsFLL1GbQJ97ia
+X-Google-Smtp-Source: AK7set+/6V/F10htiQnpCdWf32wUZfjsTcx/BMWr9pafTj3UHKo01tgUqxmFxDr+U/HiIifvAawO6w==
+X-Received: by 2002:a05:600c:2183:b0:3ea:edd7:1f24 with SMTP id
+ e3-20020a05600c218300b003eaedd71f24mr9386014wme.39.1677501590651; 
+ Mon, 27 Feb 2023 04:39:50 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a1c544d000000b003e208cec49bsm19039312wmi.3.2023.02.27.04.39.42
+ l1-20020a1ced01000000b003ea57808179sm12317016wmh.38.2023.02.27.04.39.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 04:39:43 -0800 (PST)
+ Mon, 27 Feb 2023 04:39:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
@@ -60,17 +60,18 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 008/123] target/i386/cpu: Remove dead helper_lock() declaration
-Date: Mon, 27 Feb 2023 13:36:52 +0100
-Message-Id: <20230227123847.27110-9-philmd@linaro.org>
+Subject: [PULL 009/123] target/i386: Remove x86_cpu_dump_local_apic_state()
+ dead stub
+Date: Mon, 27 Feb 2023 13:36:53 +0100
+Message-Id: <20230227123847.27110-10-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227123847.27110-1-philmd@linaro.org>
 References: <20230227123847.27110-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,29 +94,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Missed in commit 37b995f6e7 ("target-i386: remove helper_lock()").
+x86_cpu_dump_local_apic_state() is called from monitor.c which
+is only compiled for system emulation since commit bf95728400
+("monitor: remove target-specific code from monitor.c").
+
+Interestingly this stub was added few weeks later in commit
+1f871d49e3 ("hmp: added local apic dump state") and was not
+necessary by that time.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221216220158.6317-3-philmd@linaro.org>
+Message-Id: <20221216220158.6317-5-philmd@linaro.org>
 ---
- target/i386/cpu.h | 3 ---
- 1 file changed, 3 deletions(-)
+ target/i386/cpu-dump.c | 5 +----
+ target/i386/cpu.h      | 4 ++++
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
+diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
+index 08ac957e99..40697064d9 100644
+--- a/target/i386/cpu-dump.c
++++ b/target/i386/cpu-dump.c
+@@ -335,10 +335,7 @@ void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
+     }
+     qemu_printf(" PPR 0x%02x\n", apic_get_ppr(s));
+ }
+-#else
+-void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
+-{
+-}
++
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ #define DUMP_CODE_BYTES_TOTAL    50
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index f729e0f09c..9824b7f8f2 100644
+index 9824b7f8f2..32d048f326 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -2313,9 +2313,6 @@ static inline void cpu_set_fpuc(CPUX86State *env, uint16_t fpuc)
-      }
- }
+@@ -2355,12 +2355,16 @@ typedef int X86CPUVersion;
+  */
+ void x86_cpu_set_default_version(X86CPUVersion version);
  
--/* mem_helper.c */
--void helper_lock_init(void);
--
- /* svm_helper.c */
- #ifdef CONFIG_USER_ONLY
- static inline void
++#ifndef CONFIG_USER_ONLY
++
+ #define APIC_DEFAULT_ADDRESS 0xfee00000
+ #define APIC_SPACE_SIZE      0x100000
+ 
+ /* cpu-dump.c */
+ void x86_cpu_dump_local_apic_state(CPUState *cs, int flags);
+ 
++#endif
++
+ /* cpu.c */
+ bool cpu_is_bsp(X86CPU *cpu);
+ 
 -- 
 2.38.1
 
