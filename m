@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57C36A43EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:13:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB096A44C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:39:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe5I-0003Uv-Er; Mon, 27 Feb 2023 09:02:32 -0500
+	id 1pWe8m-0004xO-MT; Mon, 27 Feb 2023 09:06:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe4N-0000lm-7w
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:36 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8b-0004hJ-A2
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:59 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe4K-0007c6-5I
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:34 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id bt28so6326858wrb.8
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8V-0008Tj-Ks
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:55 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id bx12so3194245wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:05:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qm89jNZzQrE8sBPqBWdhslClrvicJCmDVh4kNrz6Gcg=;
- b=D7CntBw7raCyyiA7qN+bhq/iWLoOdtJHd5z1WsXKP/AWlUWHlj85IvtYz53rrV2tJ2
- ZsQRXZBsnWBZ0EtCBIokjtAo+Cul0iJYKa2pCgzeziFv8epzD5UsQT4Qrb7MAUHBjM9k
- M7xP1lV0cQLgx2qgttmncy/DdtTGAI1XJDGcPF0VC24E618BiBYhrCvwItGmmxqr1Of6
- I04fAA7wWeQo0+F49LUIw0fJ5epJKQwP6TVChoY8tD0o8zCFROHKwVYZGP3KXsvoHZp8
- 4PPJfEbVi3mSJMWxqB3e836LEX5PrSSf5Xvb6POuQw2jcVuYICcxWwhv0Fhr01R/TClE
- 2wFw==
+ :reply-to; bh=08h5Sg79+cASqvgDSYHDJ7cpvTKNlaT94Ic05Ks8HVE=;
+ b=zUtkzdcoewXrWXfPux5I8yv6KgCTkxyoc5zbh2pcH5CMYArFOOrjmtEvSVdIKruyzo
+ HOVE+9PUZ2no0jPEX9zDi6omlLf3PjvOnYz48/Zd5vVW0e1lda9MMG5/4JkrKsU6woZZ
+ e34nj6l8kxwl23bect04RdtNs0YnXhcWNpxHpbA90uar0B3SD9SRaoad+wmBXaUf2Je2
+ 6hX/PYethnKnXXNAFDONyFDN5HUDzOsDbhKGS80Ob3fHHlSnooFCohePvEKDbg6UU4n9
+ 9K6CdE3PzCh3I6ekbl37pzuhWI/v4wJP6AHPrNKzfwYaFXkPdiTPFw457IrekDlCD11P
+ I7Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qm89jNZzQrE8sBPqBWdhslClrvicJCmDVh4kNrz6Gcg=;
- b=rstdMuRySFaBWq56cLEee0EM/4DwIrooKXzSPtFaW56on49LXohV+kLgcCWFRib1+B
- KP1wCIO+EJ51lvMGuIWd1mXvX5+zFZQ31gNHiMVCeQcKNPnSECKySdxc+l1llcwW4s36
- 6ykJ0f3gVn4JAUYD46DeS4cjkgpgIDy3C87QCb//WkxOBv7ueHTFqTMp3CFDqwNAfk2q
- RROwIqYX9kREKZ/uApUWJXGSTAT1MQ40PT+CIipTPyj6LwGY30Y42YjCezYmeQlEVFqr
- JHUMaXOkXVv6KuydSDPXC5qIjPTNhZMSl5r0iqPjmLbn4h+Gi7cq5EWmHZvLIq+YQALq
- DcYA==
-X-Gm-Message-State: AO0yUKXMl5Yplq62X0HghOfIPRPH6s72ejREjpMqmx1phRU60gB9cxdy
- IeAoKI7y5WO5w0T7YiOB2ip0yIZZtNC6tA/4
-X-Google-Smtp-Source: AK7set/ks4AhZBlvUYlUVcauH8CtwY+3s61cmuq3ZIwzwljaepzfuiOTGkBN8jwFhw/gggZCvgh4ug==
-X-Received: by 2002:a5d:60ca:0:b0:2c7:e909:5fcf with SMTP id
- x10-20020a5d60ca000000b002c7e9095fcfmr8141292wrt.3.1677506489697; 
- Mon, 27 Feb 2023 06:01:29 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=08h5Sg79+cASqvgDSYHDJ7cpvTKNlaT94Ic05Ks8HVE=;
+ b=s206kmAxO2c/lSbri6+fWq03XHDPEmr+StBBigixh6NslhbnV8wezPCKTkVM/IfPnf
+ 9JYupizYukpCB8XlqdEcOtJC6FIxQ6u8OGAUPKCcu4cfLDIdsYBuSUFaIgnk5IxTxGy7
+ uRyfbR/22xULJsuasWPQiQUpMwdBfVkBZ9MHQOYnb9u60GMjb597jkG6d48bHi1vrg+n
+ pA+GcnoggBfN/9eaGz5BskSVgGaloODFWfpTehYDpu/ag3RW4m5AkAx/dEbdDmTbSVjj
+ NMnFQFaW1LqHi60Ft6hn2KxG2S2LLjLhL1KVywOjapmGEdUfGXSFUqGdgFm0I7oi7UJa
+ a7Yg==
+X-Gm-Message-State: AO0yUKVOXRTBX6yt7J/fWfcfalDAwMEqFRzWPnfnFvtjtInTZ7wgMHEj
+ x9h6T5RDKkc4E82STq8fsd38nfE0i3TATpp1
+X-Google-Smtp-Source: AK7set/SYtT9sX1UUVcN9WNEH6Rn/GGEKPnhNPdNi5h8cuNWUl4/m8/RJhW7PpYX+6kQqt4XUvUo3w==
+X-Received: by 2002:a5d:564a:0:b0:2c7:1d26:7686 with SMTP id
+ j10-20020a5d564a000000b002c71d267686mr11201698wrw.3.1677506749385; 
+ Mon, 27 Feb 2023 06:05:49 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.28
+ m21-20020a7bcb95000000b003e21f959453sm9374905wmi.32.2023.02.27.06.05.48
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 06:01:28 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 27 Feb 2023 06:05:48 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/25] hw/char/cmsdk-apb-uart: Open-code cmsdk_apb_uart_create()
-Date: Mon, 27 Feb 2023 14:00:55 +0000
-Message-Id: <20230227140102.3712344-19-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
-References: <20230227140102.3712344-1-peter.maydell@linaro.org>
+Subject: [PULL 049/126] hw: Move ioapic*.h to intc/
+Date: Mon, 27 Feb 2023 15:00:56 +0100
+Message-Id: <20230227140213.35084-40-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
+References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,153 +87,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Bernhard Beschow <shentey@gmail.com>
 
-cmsdk_apb_uart_create() is only used twice in the same
-file. Open-code it.
+The ioapic sources reside in hw/intc already. Move the headers there
+as well.
 
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230213173033.98762-11-shentey@gmail.com>
+[PMD: Keep ioapic_internal.h in hw/intc/, not under include/]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20230220115114.25237-7-philmd@linaro.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/char/cmsdk-apb-uart.h | 34 --------------------------
- hw/arm/mps2.c                    | 41 +++++++++++++++++++++-----------
- 2 files changed, 27 insertions(+), 48 deletions(-)
+ MAINTAINERS                                    | 1 +
+ hw/i386/kvm/ioapic.c                           | 3 +--
+ hw/i386/pc.c                                   | 2 +-
+ hw/i386/pc_q35.c                               | 2 +-
+ hw/intc/apic.c                                 | 2 +-
+ hw/intc/ioapic.c                               | 4 ++--
+ hw/intc/ioapic_common.c                        | 4 ++--
+ {include/hw/i386 => hw/intc}/ioapic_internal.h | 8 ++++----
+ include/hw/i386/x86.h                          | 2 +-
+ include/hw/{i386 => intc}/ioapic.h             | 6 +++---
+ target/i386/whpx/whpx-all.c                    | 2 +-
+ 11 files changed, 18 insertions(+), 18 deletions(-)
+ rename {include/hw/i386 => hw/intc}/ioapic_internal.h (96%)
+ rename include/hw/{i386 => intc}/ioapic.h (93%)
 
-diff --git a/include/hw/char/cmsdk-apb-uart.h b/include/hw/char/cmsdk-apb-uart.h
-index 64b0a3d5345..7de8f8d1b94 100644
---- a/include/hw/char/cmsdk-apb-uart.h
-+++ b/include/hw/char/cmsdk-apb-uart.h
-@@ -12,10 +12,8 @@
- #ifndef CMSDK_APB_UART_H
- #define CMSDK_APB_UART_H
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 75dccf0b4e..2c7731aeb7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1711,6 +1711,7 @@ F: include/hw/char/parallel.h
+ F: include/hw/dma/i8257.h
+ F: include/hw/i2c/pm_smbus.h
+ F: include/hw/input/i8042.h
++F: include/hw/intc/ioapic*
+ F: include/hw/isa/i8259_internal.h
+ F: include/hw/isa/superio.h
+ F: include/hw/timer/hpet.h
+diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
+index 272e26b4a2..cd5ea5d60b 100644
+--- a/hw/i386/kvm/ioapic.c
++++ b/hw/i386/kvm/ioapic.c
+@@ -12,9 +12,8 @@
  
--#include "hw/qdev-properties.h"
+ #include "qemu/osdep.h"
+ #include "monitor/monitor.h"
+-#include "hw/i386/x86.h"
+ #include "hw/qdev-properties.h"
+-#include "hw/i386/ioapic_internal.h"
++#include "hw/intc/ioapic_internal.h"
+ #include "hw/intc/kvm_irqcount.h"
+ #include "sysemu/kvm.h"
+ 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index d257545018..7ad71b19aa 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -28,7 +28,6 @@
+ #include "hw/i386/pc.h"
+ #include "hw/char/serial.h"
+ #include "hw/char/parallel.h"
+-#include "hw/i386/ioapic.h"
+ #include "hw/i386/topology.h"
+ #include "hw/i386/fw_cfg.h"
+ #include "hw/i386/vmport.h"
+@@ -47,6 +46,7 @@
+ #include "multiboot.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/intc/i8259.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/input/i8042.h"
+ #include "hw/irq.h"
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index d35316878d..0afea6705c 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -43,11 +43,11 @@
+ #include "hw/i386/ich9.h"
+ #include "hw/i386/amd_iommu.h"
+ #include "hw/i386/intel_iommu.h"
+-#include "hw/i386/ioapic.h"
+ #include "hw/display/ramfb.h"
+ #include "hw/firmware/smbios.h"
+ #include "hw/ide/pci.h"
+ #include "hw/ide/ahci.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/usb.h"
+ #include "hw/usb/hcd-uhci.h"
+ #include "qapi/error.h"
+diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+index 2d3e55f4e2..0ff060f721 100644
+--- a/hw/intc/apic.c
++++ b/hw/intc/apic.c
+@@ -20,7 +20,7 @@
+ #include "qemu/thread.h"
+ #include "hw/i386/apic_internal.h"
+ #include "hw/i386/apic.h"
+-#include "hw/i386/ioapic.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/intc/i8259.h"
+ #include "hw/intc/kvm_irqcount.h"
+ #include "hw/pci/msi.h"
+diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+index 264262959d..6364ecab1b 100644
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -24,10 +24,10 @@
+ #include "qapi/error.h"
+ #include "monitor/monitor.h"
+ #include "hw/i386/apic.h"
+-#include "hw/i386/ioapic.h"
+-#include "hw/i386/ioapic_internal.h"
+ #include "hw/i386/x86.h"
+ #include "hw/intc/i8259.h"
++#include "hw/intc/ioapic.h"
++#include "hw/intc/ioapic_internal.h"
+ #include "hw/pci/msi.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/kvm.h"
+diff --git a/hw/intc/ioapic_common.c b/hw/intc/ioapic_common.c
+index aa5f760871..b05f436dac 100644
+--- a/hw/intc/ioapic_common.c
++++ b/hw/intc/ioapic_common.c
+@@ -24,9 +24,9 @@
+ #include "qemu/module.h"
+ #include "migration/vmstate.h"
+ #include "monitor/monitor.h"
+-#include "hw/i386/ioapic.h"
+-#include "hw/i386/ioapic_internal.h"
+ #include "hw/intc/intc.h"
++#include "hw/intc/ioapic.h"
++#include "hw/intc/ioapic_internal.h"
  #include "hw/sysbus.h"
- #include "chardev/char-fe.h"
--#include "qapi/error.h"
+ 
+ /* ioapic_no count start from 0 to MAX_IOAPICS,
+diff --git a/include/hw/i386/ioapic_internal.h b/hw/intc/ioapic_internal.h
+similarity index 96%
+rename from include/hw/i386/ioapic_internal.h
+rename to hw/intc/ioapic_internal.h
+index e8ff338d7f..37b8565539 100644
+--- a/include/hw/i386/ioapic_internal.h
++++ b/hw/intc/ioapic_internal.h
+@@ -19,11 +19,11 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#ifndef QEMU_IOAPIC_INTERNAL_H
+-#define QEMU_IOAPIC_INTERNAL_H
++#ifndef HW_INTC_IOAPIC_INTERNAL_H
++#define HW_INTC_IOAPIC_INTERNAL_H
+ 
+ #include "exec/memory.h"
+-#include "hw/i386/ioapic.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/sysbus.h"
+ #include "qemu/notify.h"
+ #include "qom/object.h"
+@@ -115,4 +115,4 @@ void ioapic_reset_common(DeviceState *dev);
+ 
+ void ioapic_stat_update_irq(IOAPICCommonState *s, int irq, int level);
+ 
+-#endif /* QEMU_IOAPIC_INTERNAL_H */
++#endif /* HW_INTC_IOAPIC_INTERNAL_H */
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index a09388b657..890dfad23e 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -22,8 +22,8 @@
+ 
+ #include "hw/boards.h"
+ #include "hw/nmi.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/isa/isa.h"
+-#include "hw/i386/ioapic.h"
  #include "qom/object.h"
  
- #define TYPE_CMSDK_APB_UART "cmsdk-apb-uart"
-@@ -45,36 +43,4 @@ struct CMSDKAPBUART {
-     uint8_t rxbuf;
- };
+ struct X86MachineClass {
+diff --git a/include/hw/i386/ioapic.h b/include/hw/intc/ioapic.h
+similarity index 93%
+rename from include/hw/i386/ioapic.h
+rename to include/hw/intc/ioapic.h
+index ef37b8a9fd..aa122e25e3 100644
+--- a/include/hw/i386/ioapic.h
++++ b/include/hw/intc/ioapic.h
+@@ -17,8 +17,8 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
  
--/**
-- * cmsdk_apb_uart_create - convenience function to create TYPE_CMSDK_APB_UART
-- * @addr: location in system memory to map registers
-- * @chr: Chardev backend to connect UART to, or NULL if no backend
-- * @pclk_frq: frequency in Hz of the PCLK clock (used for calculating baud rate)
-- */
--static inline DeviceState *cmsdk_apb_uart_create(hwaddr addr,
--                                                 qemu_irq txint,
--                                                 qemu_irq rxint,
--                                                 qemu_irq txovrint,
--                                                 qemu_irq rxovrint,
--                                                 qemu_irq uartint,
--                                                 Chardev *chr,
--                                                 uint32_t pclk_frq)
--{
--    DeviceState *dev;
--    SysBusDevice *s;
--
--    dev = qdev_new(TYPE_CMSDK_APB_UART);
--    s = SYS_BUS_DEVICE(dev);
--    qdev_prop_set_chr(dev, "chardev", chr);
--    qdev_prop_set_uint32(dev, "pclk-frq", pclk_frq);
--    sysbus_realize_and_unref(s, &error_fatal);
--    sysbus_mmio_map(s, 0, addr);
--    sysbus_connect_irq(s, 0, txint);
--    sysbus_connect_irq(s, 1, rxint);
--    sysbus_connect_irq(s, 2, txovrint);
--    sysbus_connect_irq(s, 3, rxovrint);
--    sysbus_connect_irq(s, 4, uartint);
--    return dev;
--}
--
- #endif
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index a86a994dbac..d92fd60684c 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -35,6 +35,7 @@
+-#ifndef HW_IOAPIC_H
+-#define HW_IOAPIC_H
++#ifndef HW_INTC_IOAPIC_H
++#define HW_INTC_IOAPIC_H
+ 
+ #define IOAPIC_NUM_PINS 24
+ #define IO_APIC_DEFAULT_ADDRESS 0xfec00000
+@@ -30,4 +30,4 @@
+ 
+ void ioapic_eoi_broadcast(int vector);
+ 
+-#endif /* HW_IOAPIC_H */
++#endif /* HW_INTC_IOAPIC_H */
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+index e738d83e81..3d0c0b375f 100644
+--- a/target/i386/whpx/whpx-all.c
++++ b/target/i386/whpx/whpx-all.c
+@@ -19,7 +19,7 @@
+ #include "sysemu/runstate.h"
+ #include "qemu/main-loop.h"
  #include "hw/boards.h"
- #include "exec/address-spaces.h"
- #include "sysemu/sysemu.h"
-+#include "hw/qdev-properties.h"
- #include "hw/misc/unimp.h"
- #include "hw/char/cmsdk-apb-uart.h"
- #include "hw/timer/cmsdk-apb-timer.h"
-@@ -282,6 +283,9 @@ static void mps2_common_init(MachineState *machine)
-         qdev_connect_gpio_out(orgate_dev, 0, qdev_get_gpio_in(armv7m, 12));
- 
-         for (i = 0; i < 5; i++) {
-+            DeviceState *dev;
-+            SysBusDevice *s;
-+
-             static const hwaddr uartbase[] = {0x40004000, 0x40005000,
-                                               0x40006000, 0x40007000,
-                                               0x40009000};
-@@ -294,12 +298,16 @@ static void mps2_common_init(MachineState *machine)
-                 rxovrint = qdev_get_gpio_in(orgate_dev, i * 2 + 1);
-             }
- 
--            cmsdk_apb_uart_create(uartbase[i],
--                                  qdev_get_gpio_in(armv7m, uartirq[i] + 1),
--                                  qdev_get_gpio_in(armv7m, uartirq[i]),
--                                  txovrint, rxovrint,
--                                  NULL,
--                                  serial_hd(i), SYSCLK_FRQ);
-+            dev = qdev_new(TYPE_CMSDK_APB_UART);
-+            s = SYS_BUS_DEVICE(dev);
-+            qdev_prop_set_chr(dev, "chardev", serial_hd(i));
-+            qdev_prop_set_uint32(dev, "pclk-frq", SYSCLK_FRQ);
-+            sysbus_realize_and_unref(s, &error_fatal);
-+            sysbus_mmio_map(s, 0, uartbase[i]);
-+            sysbus_connect_irq(s, 0, qdev_get_gpio_in(armv7m, uartirq[i] + 1));
-+            sysbus_connect_irq(s, 1, qdev_get_gpio_in(armv7m, uartirq[i]));
-+            sysbus_connect_irq(s, 2, txovrint);
-+            sysbus_connect_irq(s, 3, rxovrint);
-         }
-         break;
-     }
-@@ -324,7 +332,8 @@ static void mps2_common_init(MachineState *machine)
-                                               0x4002c000, 0x4002d000,
-                                               0x4002e000};
-             Object *txrx_orgate;
--            DeviceState *txrx_orgate_dev;
-+            DeviceState *txrx_orgate_dev, *dev;
-+            SysBusDevice *s;
- 
-             txrx_orgate = object_new(TYPE_OR_IRQ);
-             object_property_set_int(txrx_orgate, "num-lines", 2, &error_fatal);
-@@ -332,13 +341,17 @@ static void mps2_common_init(MachineState *machine)
-             txrx_orgate_dev = DEVICE(txrx_orgate);
-             qdev_connect_gpio_out(txrx_orgate_dev, 0,
-                                   qdev_get_gpio_in(armv7m, uart_txrx_irqno[i]));
--            cmsdk_apb_uart_create(uartbase[i],
--                                  qdev_get_gpio_in(txrx_orgate_dev, 0),
--                                  qdev_get_gpio_in(txrx_orgate_dev, 1),
--                                  qdev_get_gpio_in(orgate_dev, i * 2),
--                                  qdev_get_gpio_in(orgate_dev, i * 2 + 1),
--                                  NULL,
--                                  serial_hd(i), SYSCLK_FRQ);
-+
-+            dev = qdev_new(TYPE_CMSDK_APB_UART);
-+            s = SYS_BUS_DEVICE(dev);
-+            qdev_prop_set_chr(dev, "chardev", serial_hd(i));
-+            qdev_prop_set_uint32(dev, "pclk-frq", SYSCLK_FRQ);
-+            sysbus_realize_and_unref(s, &error_fatal);
-+            sysbus_mmio_map(s, 0, uartbase[i]);
-+            sysbus_connect_irq(s, 0, qdev_get_gpio_in(txrx_orgate_dev, 0));
-+            sysbus_connect_irq(s, 1, qdev_get_gpio_in(txrx_orgate_dev, 1));
-+            sysbus_connect_irq(s, 2, qdev_get_gpio_in(orgate_dev, i * 2));
-+            sysbus_connect_irq(s, 3, qdev_get_gpio_in(orgate_dev, i * 2 + 1));
-         }
-         break;
-     }
+-#include "hw/i386/ioapic.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/i386/apic_internal.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
 -- 
-2.34.1
+2.38.1
 
 
