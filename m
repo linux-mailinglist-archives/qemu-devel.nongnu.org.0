@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA286A42E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AA56A4300
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:37:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdfJ-0006jO-91; Mon, 27 Feb 2023 08:35:41 -0500
+	id 1pWdfd-0007PL-2m; Mon, 27 Feb 2023 08:36:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1pWdf9-0006fB-Bz; Mon, 27 Feb 2023 08:35:31 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1pWdf3-0008Fi-MS; Mon, 27 Feb 2023 08:35:30 -0500
-Received: by mail-ed1-x533.google.com with SMTP id da10so25942420edb.3;
- Mon, 27 Feb 2023 05:35:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677504919;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=2R87fxRxuvFc06tZmTYTnKW6FrVlOp76tj8d5IiSmQc=;
- b=IghM2O1H4PZasklNAOXKUnparx8iMVgH9NmOyvBmTUPCw4fVPChGXTq7TePhiG+IyD
- Go5Egw28pE7cFy5d0TWh8S0FE7nPwWq6hy2oulIeRhuMcbka11129WREFGb/5O1P+HwC
- 6GAxYU004d3swJ3Dx9jbmFw7OBkyT4+elLEbpBGmZKEBjYyfwoN5ZUDGzjIyekwLbWxq
- lvcoRYxCer9tFBkeHzHeorKAAjwleLmQCBD8A5povnc2xdKnqvT0KJFltXrxjUGXs1CW
- Qly2ITl1J0midLku1tri3XbLjGekjWkeUMAq6P3NLkcVeC2A2xmpGSLFNF0++M0b4yD/
- OB8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677504919;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2R87fxRxuvFc06tZmTYTnKW6FrVlOp76tj8d5IiSmQc=;
- b=3msDOYx43pFCxlgUu8X4otLkkSOH59bclb3h+UTeuc3BfPwymQCGDEOhDxHTUQMYjv
- 1TR7t+nYYm6rDT3Ql1ZXuf0ZvFteREA+6B0NVY36THZtARRLPosffIHwd9Jt1piNu4j7
- HvVdSR/tGd8TF/05w65XWO2BmIexWPzQidbjBMY58yUqyin03RaR6GzZs1zlkLZ8nVDt
- ApHN7mxvvmw2TMlTHZaHU3XRua/oRHoe+9m2NDoo9YWnr+wGp+fQVcbCdtKj1xf3Mofg
- FjKJGzvem4u0ChStFDArsRpuOj6uttuiRb2LM8EBxPLqTsMka1O6rVFBTh00alQJP8/s
- sYig==
-X-Gm-Message-State: AO0yUKXfoMcYw83Oq5UBuJS9PKlAhmD+S4CsQo5v+dNqjFWGIruOB4Gg
- 0XBSwlCYA7bKm+FBFx4EnyxLZt8/YudE6sZo
-X-Google-Smtp-Source: AK7set/DyO4/D2YptmMemJ3EDDaIyVB4/Be51hBsrRQdMy8AaHysRqjSUzvtOq8kEsh5TRQuSjmDSQ==
-X-Received: by 2002:a17:907:75c2:b0:8b1:3008:b4f3 with SMTP id
- jl2-20020a17090775c200b008b13008b4f3mr32500882ejc.52.1677504919636; 
- Mon, 27 Feb 2023 05:35:19 -0800 (PST)
-Received: from localhost.localdomain ([2a00:a041:2ba6:7c00::1008])
- by smtp.gmail.com with ESMTPSA id
- c30-20020a50d65e000000b004acbe5409b4sm3129134edj.48.2023.02.27.05.35.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 05:35:18 -0800 (PST)
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
-To: qemu-devel@nongnu.org, soulchen8650@gmail.com, secalert@redhat.com,
- mcascell@redhat.com, qemu-security@nongnu.org, yuval.shaia.ml@gmail.com,
- marcel.apfelbaum@gmail.com
-Subject: [PATCH] hw/pvrdma: Protect against buggy or malicious guest driver
-Date: Mon, 27 Feb 2023 15:35:11 +0200
-Message-Id: <20230227133511.5913-1-yuval.shaia.ml@gmail.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pWdfa-0007L0-Fv
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:35:58 -0500
+Received: from mga17.intel.com ([192.55.52.151])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pWdfX-00005d-5a
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:35:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677504955; x=1709040955;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=fOGnqKrczo7fmnmtxjZOfxvh9nut4tew30f5W6bLKk4=;
+ b=WE8+Q3m0Kr82IGFDV1Uf6m3nlyUd5VD49bpZ8TFSGbsjCceb0Y2ZQxzx
+ iRrz8g1KXl5jqZsus796VB7/4sIwSF8YihVej9+JXDQ+zFska9gCSZ8Mj
+ ODvJ2CZKMDoOu/JJ4KqsbhdI12g9cJMfwPPdXTcFekE+UKjWjSHESweXo
+ v1Wu703pYaI1R4steDEuDXiaJ9nqezeQaETuv43NYRVe4yLd6Q7Xt4VRc
+ M/Kcy1/vREyLk5jMKUn/r60/UFPU+4b+WmmI/tO5zUcklsr2zMoLV8QbY
+ jv1CtIys0Noj30Se6+XUQGet/M/BbzGJvC00jfcTCmm8QICkFERvQpuXg g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="314283464"
+X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; d="scan'208";a="314283464"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 05:35:51 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="762735161"
+X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; d="scan'208";a="762735161"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.190])
+ ([10.255.28.190])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 05:35:49 -0800
+Message-ID: <d34d6406-4684-40f7-d00b-5b79a201eb4c@intel.com>
+Date: Mon, 27 Feb 2023 21:35:47 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=yuval.shaia.ml@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [PATCH v4 3/4] target/i386: KVM: allow fast string operations if
+ host supports them
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: lei4.wang@intel.com, robert.hu@linux.intel.com, chenyi.qiang@intel.com
+References: <20230227101332.636203-1-pbonzini@redhat.com>
+ <20230227101332.636203-4-pbonzini@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20230227101332.636203-4-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=xiaoyao.li@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,46 +82,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Guest driver allocates and initialize page tables to be used as a ring
-of descriptors for CQ and async events.
-The page table that represents the ring, along with the number of pages
-in the page table is passed to the device.
-Currently our device supports only one page table for a ring.
+On 2/27/2023 6:13 PM, Paolo Bonzini wrote:
+> These are just a flag that documents the performance characteristic of
+> an instruction; it needs no hypervisor support.  So include them even
+> if KVM does not show them.  In particular, FZRM/FSRS/FSRC have only
+> been added very recently, but they are available on Sapphire Rapids
+> processors.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   target/i386/kvm/kvm.c | 17 ++++++++++++++++-
+>   1 file changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index 587030199192..fe66a4953d41 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -352,7 +352,7 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+>   {
+>       struct kvm_cpuid2 *cpuid;
+>       uint32_t ret = 0;
+> -    uint32_t cpuid_1_edx;
+> +    uint32_t cpuid_1_edx, unused;
+>       uint64_t bitmask;
+>   
+>       cpuid = get_supported_cpuid(s);
+> @@ -399,10 +399,20 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+>       } else if (function == 6 && reg == R_EAX) {
+>           ret |= CPUID_6_EAX_ARAT; /* safe to allow because of emulated APIC */
+>       } else if (function == 7 && index == 0 && reg == R_EBX) {
+> +        /* Not new instructions, just an optimization.  */
+> +        uint32_t ebx;
+> +        host_cpuid(1, 0, &unused, &ebx, &unused, &unused);
+                       ^
 
-Let's make sure that the number of page table entries the driver
-reports, do not exceeds the one page table size.
+It should be leaf 7, not 1.
 
-Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
----
- hw/rdma/vmw/pvrdma_main.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> +        ret |= ebx & CPUID_7_0_EBX_ERMS;
+> +
+>           if (host_tsx_broken()) {
+>               ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
+>           }
+>       } else if (function == 7 && index == 0 && reg == R_EDX) {
+> +        /* Not new instructions, just an optimization.  */
+> +        uint32_t edx;
+> +        host_cpuid(1, 0, &unused, &unused, &unused, &edx);
 
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 4fc6712025..e84d68a81f 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -98,12 +98,20 @@ static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState **ring_state,
-         return -EINVAL;
-     }
- 
-+    if (num_pages > TARGET_PAGE_SIZE / sizeof(dma_addr_t)) {
-+        rdma_error_report("Maximum pages on a single directory must not exceed %ld\n",
-+                          TARGET_PAGE_SIZE / sizeof(dma_addr_t));
-+        return -EINVAL;
-+    }
-+
-     dir = rdma_pci_dma_map(pci_dev, dir_addr, TARGET_PAGE_SIZE);
-     if (!dir) {
-         rdma_error_report("Failed to map to page directory (ring %s)", name);
-         rc = -ENOMEM;
-         goto out;
-     }
-+
-+    /* We support only one page table for a ring */
-     tbl = rdma_pci_dma_map(pci_dev, dir[0], TARGET_PAGE_SIZE);
-     if (!tbl) {
-         rdma_error_report("Failed to map to page table (ring %s)", name);
--- 
-2.20.1
+Ditto.
+
+> +        ret |= edx & CPUID_7_0_EDX_FSRM;
+> +
+>           /*
+>            * Linux v4.17-v4.20 incorrectly return ARCH_CAPABILITIES on SVM hosts.
+>            * We can detect the bug by checking if MSR_IA32_ARCH_CAPABILITIES is
+> @@ -411,6 +421,11 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+>           if (!has_msr_arch_capabs) {
+>               ret &= ~CPUID_7_0_EDX_ARCH_CAPABILITIES;
+>           }
+> +    } else if (function == 7 && index == 1 && reg == R_EAX) {
+> +        /* Not new instructions, just an optimization.  */
+> +        uint32_t eax;
+> +        host_cpuid(1, 0, &eax, &unused, &unused, &unused);
+
+Ditto.
+
+After them fixed,
+
+Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
+
+> +        ret |= eax & (CPUID_7_1_EAX_FZRM | CPUID_7_1_EAX_FSRS | CPUID_7_1_EAX_FSRC);
+>       } else if (function == 0xd && index == 0 &&
+>                  (reg == R_EAX || reg == R_EDX)) {
+>           /*
 
 
