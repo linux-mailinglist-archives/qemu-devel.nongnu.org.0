@@ -2,95 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311D06A4699
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 17:00:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FF46A46AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 17:05:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWfuZ-0000g2-Im; Mon, 27 Feb 2023 10:59:35 -0500
+	id 1pWfzO-0008E7-7R; Mon, 27 Feb 2023 11:04:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pWfuX-0000Ox-1p
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:59:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pWfuV-0006cg-Bw
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:59:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677513570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bvP4onGfIKSgvrhagbREcTib5S75SUYcHaG7vHhhr0k=;
- b=cyE/PZQ2rC7mbwagAIGrCo9vN8xWkTlTD+voQS4sTTmqkYlv+xi0vdPPay7YgCbe5/w66o
- oYR6C/cT8M5IP18yvyVIZsJzAqKsLHq1FifFjZiSC0NtsHjOAKP5mNazLjod0NLFy0Brgm
- S/aoxfvCA89cwscav+wjD0X202vjW+s=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-77-GyDLNyXaNkucM64tRQM7zg-1; Mon, 27 Feb 2023 10:59:29 -0500
-X-MC-Unique: GyDLNyXaNkucM64tRQM7zg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- 1-20020a056000154100b002c54d9b8312so956700wry.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 07:59:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWfzM-0008Dh-MV
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:04:32 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWfzK-0007g9-UZ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 11:04:32 -0500
+Received: by mail-pf1-x435.google.com with SMTP id u20so3825268pfm.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 08:04:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/y6pnvHfzfzPeqPY1fiiZ4ZQ/X2eUSkgkLGcEy4Q47U=;
+ b=FrOfTbf5tEhkAZtv9li43DuBoQd+YpuvJOAo2GLZ552LUmBlSS1y00/RmM/7wmfpxD
+ vVptTQxdpgPIlP9jwfnyG4Gh3Z1nS0hCXB6ol4GAQgt7Nn6OtT2E/GmCXC3RVa7ksRh9
+ X8gTnP56dscvQm0dZXi0IgKzXUOM3SwseLWL9rx7umOlhlOnKFxZhg//cm4tK5YVaFbn
+ 9VRuYi4ZdJkvNo7KJw/E4JsXtFFx5+KK1eNstS438/n/FCsKkjMysfj3FhRVQi6PNJaZ
+ MkYsRvA1hPPJuh3afS4jMsZG+5SdLyj2Ud3iXDvmmZL0YuPuY8N/dDMKjozkdRMsSDE/
+ EgzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bvP4onGfIKSgvrhagbREcTib5S75SUYcHaG7vHhhr0k=;
- b=AilxDrY21HCylnL9P9SUd1JmNKzbsBu6UHpuw1ZQkgAUL69JzufIJmRKvOcmjwkrI0
- Q//GCK/e/3UKLmcVqSmDaXr6zypUzyt1DjpCLot8eRJtC/0IR025NiO0MPXB1tKW20J0
- Ef9h8irsq58lhC0NHsoNhl+w8cBuxD78dMesgoaldsv45nU3PoRTUYmhgqlGWUhv8iph
- h1iFTLhyrlLxmEmcfZk6jkAEHcn2K4zejADjHbkM3pP7vMLecGSwLbKaQnO3Sim0WasX
- HFKotsvD/Os6PbSGuQH8Gj9EWpuzcv90yZUHkC6FzlhDoYap4WT6pkf9cR8rweneZtuz
- 2ESQ==
-X-Gm-Message-State: AO0yUKVyXt0AT27AJ9TrVFkSgeoP3rRjA03TpUEqQ9rqCq/bfOVgz32m
- BbraqxckG/rpXp1eRf8mNIVJY3rjSJk0+twTCBVeb0HUKO9XX7gKCDwuvLWppL90yB2kY1RU/7B
- csnV0ANyfOdhdjYw=
-X-Received: by 2002:a5d:66ce:0:b0:2c5:c71:4a84 with SMTP id
- k14-20020a5d66ce000000b002c50c714a84mr18772887wrw.68.1677513568241; 
- Mon, 27 Feb 2023 07:59:28 -0800 (PST)
-X-Google-Smtp-Source: AK7set/PHZAJsMchn+AVGGBC3m+o39Zj8gpt+ZtTlZpXmVSxz7zeW+dqO2a8QPK1hgyvIgVahwmaSw==
-X-Received: by 2002:a5d:66ce:0:b0:2c5:c71:4a84 with SMTP id
- k14-20020a5d66ce000000b002c50c714a84mr18772873wrw.68.1677513567869; 
- Mon, 27 Feb 2023 07:59:27 -0800 (PST)
-Received: from ?IPV6:2003:cb:c703:1f00:7816:2307:5967:2228?
- (p200300cbc7031f007816230759672228.dip0.t-ipconnect.de.
- [2003:cb:c703:1f00:7816:2307:5967:2228])
- by smtp.gmail.com with ESMTPSA id
- j4-20020a5d6044000000b002c53f6c7599sm7484670wrt.29.2023.02.27.07.59.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 07:59:27 -0800 (PST)
-Message-ID: <ebf795d9-9cbb-dda4-cf10-b83e52678a4f@redhat.com>
-Date: Mon, 27 Feb 2023 16:59:26 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/y6pnvHfzfzPeqPY1fiiZ4ZQ/X2eUSkgkLGcEy4Q47U=;
+ b=ElXjr9ADL10m6OIKWQ+r3T07q/10QsEwPi7Ab02hheVyqPDoEwod6OxlY+YHuWDnmq
+ izPNttgy7oEbQL9iZVpA/x3UHVP0odvS5LpJkaHJXfJMt/kXmCBfVaS+xGvKB1XCVUuA
+ +JuNEyqGkOrEie+2EodOn6vP+0ZFB5OJ5zKVQKpNQ7ZoR+vOX8jEUst0GTnoH9trIwiB
+ 7nm7Df0N+UQ/kwhNT1okJPXbq1Y4no6yOw55qknKHkfYnVNkS3piVZeCBcfXiuAENXzb
+ le0GIf9a3Ka5Mt9Q1+WVsphaeAuYH2uajrac/tl4D8C1w4nLMihJjfAMf+TzAFtIAmhB
+ yr/A==
+X-Gm-Message-State: AO0yUKX2LH28dXUQrMWO9MQsHUT8fqSFFS/OcxSTxfKsIdoLM4qFRaS+
+ GTXk+mVDMYsaB2GU9ndUSdzve14GDHDi2VfqU0NV1Q==
+X-Google-Smtp-Source: AK7set8ECgYbF0pwYG/G3YoF18KD/6XNmOeuOfyjeIR/Z+nf3Bkk+A+rKCBs5kteOZvEQpU0DFrVPCG0logSyZWtZFo=
+X-Received: by 2002:a63:b959:0:b0:4fc:7e60:d09 with SMTP id
+ v25-20020a63b959000000b004fc7e600d09mr6077725pgo.9.1677513868706; Mon, 27 Feb
+ 2023 08:04:28 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: Reply: [PATCH] virtio-balloon: optimize the virtio-balloon on the
- ARM platform.
-Content-Language: en-US
-To: Yangming <yangming73@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "wangzhigang (O)" <wangzhigang17@huawei.com>,
- "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
-References: <6d5f8a599b6a41de8885434e6bb91c9a@huawei.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <6d5f8a599b6a41de8885434e6bb91c9a@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230227103258.13295-1-philmd@linaro.org>
+ <20230227103258.13295-2-philmd@linaro.org>
+ <20230227084621.15cab9da.alex.williamson@redhat.com>
+In-Reply-To: <20230227084621.15cab9da.alex.williamson@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 27 Feb 2023 16:04:16 +0000
+Message-ID: <CAFEAcA-Fp8nSZ6iimZH28DXGVWkFbcYv25RvVDdc8WZkBXgfrg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/vfio/migration: Remove unused 'exec/ram_addr.h'
+ header
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,52 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> Optimize the virtio-balloon feature on the ARM platform by adding
-> a variable to keep track of the current hot-plugged pc-dimm size,
-> instead of traversing the virtual machine's memory modules to count
-> the current RAM size during the balloon inflation or deflation
-> process. This variable can be updated only when plugging or unplugging
-> the device, which will result in an increase of approximately 60%
-> efficiency of balloon process on the ARM platform.
-> 
-> We tested the total amount of time required for the balloon inflation process on ARM:
-> inflate the balloon to 64GB of a 128GB guest under stress.
-> Before: 102 seconds
-> After: 42 seconds
-> 
-> Signed-off-by: Qi Xi <xiqi2@huawei.com>
-> Signed-off-by: Ming Yang yangming73@huawei.com
-> ---
->   hw/mem/pc-dimm.c           |  2 ++
->   hw/virtio/virtio-balloon.c | 33 +++++----------------------------
->   include/hw/boards.h        |  1 +
->   3 files changed, 8 insertions(+), 28 deletions(-)
-> 
-> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-> index 50ef83215c..192fc7922c 100644
-> --- a/hw/mem/pc-dimm.c
-> +++ b/hw/mem/pc-dimm.c
-> @@ -81,6 +81,7 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
->   
->       memory_device_plug(MEMORY_DEVICE(dimm), machine);
->       vmstate_register_ram(vmstate_mr, DEVICE(dimm));
-> +    machine->device_memory->dimm_size += vmstate_mr->size;
->   }
->   
->   void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
-> @@ -90,6 +91,7 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
->   
->       memory_device_unplug(MEMORY_DEVICE(dimm), machine);
->       vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
-> +    machine->device_memory->dimm_size -= vmstate_mr->size;
->   }
+On Mon, 27 Feb 2023 at 15:46, Alex Williamson
+<alex.williamson@redhat.com> wrote:
+>
+> On Mon, 27 Feb 2023 11:32:57 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+>
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>
+> Empty commit logs are a pet peeve of mine, there must be some sort of
+> motivation for the change, something that changed to make this
+> possible, or perhaps why this was never necessary.  Thanks,
 
-Ahh, missed that my previous comment was not addressed: we only want to 
-track "real" DIMMs, not NVDIMMs.
+I generally agree, but "this file doesn't actually need to
+include this header" seems straightforward enough that the commit
+subject says everything you'd want to say about it.
+The underlying reason is going to be one of:
+ * this used to be needed, but somewhere along the line the
+   thing the file needs moved to a different header
+ * this used to be needed, but the code in the file changed
+   and no longer uses the thing the header was providing
+ * this was never needed, and the include was just cut-n-pasted
+   from a different file when the file was originally written
 
--- 
-Thanks,
+Tracking down which of those is the case for every single
+"file is including unnecessary headers" cleanup seems like
+a lot of work trawling through git histories and doesn't
+really provide any interesting information.
 
-David / dhildenb
-
+thanks
+-- PMM
 
