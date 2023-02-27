@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEDB6A3FFD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9906A3FFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:09:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbN3-0006Uv-IJ; Mon, 27 Feb 2023 06:08:41 -0500
+	id 1pWbNq-0000Sv-RF; Mon, 27 Feb 2023 06:09:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pWbMv-0006KV-S8; Mon, 27 Feb 2023 06:08:34 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWbNo-0000Qo-S2
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:09:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pWbMt-0000DC-TR; Mon, 27 Feb 2023 06:08:33 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3BEFB746369;
- Mon, 27 Feb 2023 12:08:30 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F15E9745720; Mon, 27 Feb 2023 12:08:29 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F00AB745706;
- Mon, 27 Feb 2023 12:08:29 +0100 (CET)
-Date: Mon, 27 Feb 2023 12:08:29 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>, ReneEngel80@emailn.de
-Subject: Re: [PATCH v3 4/8] hw/isa/vt82c686: Implement PCI IRQ routing
-In-Reply-To: <57051528-2FE3-4624-A042-F51813A1C302@gmail.com>
-Message-ID: <d4b913c4-57cf-e202-5e87-7e475c5e0cb3@eik.bme.hu>
-References: <cover.1677445307.git.balaton@eik.bme.hu>
- <0fd9eac9174a840054c511fbc015048929c7bc40.1677445307.git.balaton@eik.bme.hu>
- <a496276e-24fb-e2bc-fbdf-ace9ef7f361f@linaro.org>
- <0E10FCF9-465D-462A-8031-880B0907CCDA@gmail.com>
- <cc565f01-c09e-bf03-b594-5216f51351c5@eik.bme.hu>
- <57051528-2FE3-4624-A042-F51813A1C302@gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWbNm-0000IP-Iw
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:09:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677496165;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=xwDto3RGPe7nMDBWvkTaFoAg8mpttDebalNFKNAMrMk=;
+ b=gNOyjBmOCA+Coa1E/HLwXUiwbdVP4CQL40dOWzyJsacNLlmk4q1fkD6rpgsPsnD3I1Ll/0
+ PS3sxB7ZqNxSnWhpPUMs68lCB/bdp3rkERVjWy5of0y7z2WSBUG7OANRJSD6tr/Mfs6j7q
+ sHmN3yPzJf3aGTHW1wdVjLty0je4A9I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-606-gEBfp37LMxGHISn5dphYiA-1; Mon, 27 Feb 2023 06:09:22 -0500
+X-MC-Unique: gEBfp37LMxGHISn5dphYiA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9750101B450;
+ Mon, 27 Feb 2023 11:09:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A3E4404BEC5;
+ Mon, 27 Feb 2023 11:09:20 +0000 (UTC)
+Date: Mon, 27 Feb 2023 11:09:17 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: Re: [RFC PATCH v2 2/3] gitlab: Cache container images
+Message-ID: <Y/yPXQrys5P8WmBl@redhat.com>
+References: <20230224125207.19616-1-farosas@suse.de>
+ <20230224125207.19616-3-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-998313976-1677496109=:43063"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230224125207.19616-3-farosas@suse.de>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,79 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, Feb 24, 2023 at 09:52:06AM -0300, Fabiano Rosas wrote:
+> Make use of the --cache-from option from 'docker build' by including
+> build layers when building and then pulling a previously built image
+> before the next build.
+> 
+> This was previously done by the docker.py script, but got disabled due
+> to bad interactions with certain runners. See commit 6ddc3dc7a8
+> ("tests/docker: don't use BUILDKIT in GitLab either").
+> 
+> We now believe those issues to be fixed, so restore the caching
+> functionality as it brings a significant reduction in container build
+> times.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>  .gitlab-ci.d/container-template.yml | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
+> index f417452212..31e4e36a7d 100644
+> --- a/.gitlab-ci.d/container-template.yml
+> +++ b/.gitlab-ci.d/container-template.yml
+> @@ -13,7 +13,10 @@
+>    script:
+>      - echo "TAG:$TAG"
+>      - echo "COMMON_TAG:$COMMON_TAG"
+> -    - docker build --tag $TAG -f "tests/docker/dockerfiles/$NAME.docker" "."
+> +    - docker pull "$TAG" || true
+> +    - docker build --tag "$TAG" --cache-from "$TAG"
 
---3866299591-998313976-1677496109=:43063
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+We should have
 
-On Mon, 27 Feb 2023, Bernhard Beschow wrote:
-> Am 26. Februar 2023 23:58:32 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Sun, 26 Feb 2023, Bernhard Beschow wrote:
->>> Am 26. Februar 2023 22:27:50 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->>>> On 25/2/23 19:11, BALATON Zoltan wrote:
->>>>> From: Bernhard Beschow <shentey@gmail.com>
->>>>>
->>>>> The real VIA south bridges implement a PCI IRQ router which is configured
->>>>> by the BIOS or the OS. In order to respect these configurations, QEMU
->>>>> needs to implement it as well.
->>>>>
->>>>> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
->>>>>
->>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>>>> [balaton: declare gpio inputs instead of changing pci bus irqs so it can
->>>>>   be connected in board code; remove some empty lines]
->>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
->>>>> ---
->>>>>   hw/isa/vt82c686.c | 39 +++++++++++++++++++++++++++++++++++++++
->>>>>   1 file changed, 39 insertions(+)
->>>>
->>>>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
->>>>> +{
->>>>> +    switch (irq_num) {
->>>>> +    case 0:
->>>>> +        return s->dev.config[0x55] >> 4;
->>>>> +    case 1:
->>>>> +        return s->dev.config[0x56] & 0xf;
->>>>> +    case 2:
->>>>> +        return s->dev.config[0x56] >> 4;
->>>>> +    case 3:
->>>>> +        return s->dev.config[0x57] >> 4;
->>>>> +    }
->>>>> +    return 0;
->>>>> +}
->>>>> +
->>>>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
->>>>> +{
->>>>> +    ViaISAState *s = opaque;
->>>>> +    PCIBus *bus = pci_get_bus(&s->dev);
->>>>> +    int pic_irq;
->>>>> +
->>>>> +    /* now we change the pic irq level according to the via irq mappings */
->>>>> +    /* XXX: optimize */
->>>>> +    pic_irq = via_isa_get_pci_irq(s, irq_num);
->>>>> +    if (pic_irq < ISA_NUM_IRQS) {
->>>>
->>>> the ISA IRQ is stored in 4-bit so will always be in range.
->>>
->>> Indeed. I'd turn this into an assert to keep this assum visible. I'll do another iteration of the PCI IRQ router series.
->>
->> I don't like a useless assert in an irq handler that's potentially called a lot. If you want to keep that add a comment instead.
->
-> It won't because it will only affect debug builds. If it fails it's 
-> immediately clear in which direction to look for the culprit.
+   --cache-from "$TAG" --cache-from "$COMMON_TAG"
 
-You may think so but it's not. QEMU cannot be built with NDEBUG (there was 
-even some discussion about this recently on the list) so all the asserts 
-are there in release builds. Let's at least keep them out from frequently 
-called parts especially if they can never fire.
+The reason is that users may not keep their branches up2date on a regular
+basis. As such the registry associated with the fork may not be useful
+as a caching source. Thus if we include cache from the upstream repo, this
+will benefit forks.  This was the rational behind having TAG + COMMON_TAG
+originally, but we lost it somewhere along the way.
 
-Regards,
-BALATON Zoltan
---3866299591-998313976-1677496109=:43063--
+> +      --build-arg BUILDKIT_INLINE_CACHE=1
+> +      -f "tests/docker/dockerfiles/$NAME.docker" "."
+>      - docker push "$TAG"
+>    after_script:
+>      - docker logout
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
