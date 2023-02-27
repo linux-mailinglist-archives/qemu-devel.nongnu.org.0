@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1866A4495
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:36:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC61E6A44BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:39:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeAV-0000TN-Lf; Mon, 27 Feb 2023 09:07:55 -0500
+	id 1pWeAV-0000TZ-Lp; Mon, 27 Feb 2023 09:07:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAK-0007vS-L4
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:48 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAQ-0008Ei-61
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:50 -0500
 Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAJ-0000J6-6D
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:44 -0500
-Received: by mail-wr1-x430.google.com with SMTP id bt28so6352850wrb.8
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:07:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAO-0000J6-Ff
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:49 -0500
+Received: by mail-wr1-x430.google.com with SMTP id bt28so6353152wrb.8
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:07:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=FlE7UGdxR/uM/IgeqU29kmjHYiv7oetRrBoHo0yqcyc=;
- b=Or7Ts3NI0L56hQaab+RAccj6pS6drEp2Vx+U1CwurQ8sjpUNw6Q0fFzOm0AomaEPBO
- b/9Z93jVjshedO0xvPs9KE/QpontXL28Fo+3Uwb9Q6Icl280iaefaKGW/wSO88wR2E9X
- fMSnA2gR7Mmjdm5VwQJ1vgHpVGaaJ04rAQMbgQ+YGQLuKp8fAHrXnaCZtNpQLwPjbTFa
- gfBsVgKVTfThqb7PJV4vKJ6H0Y/cHxOzuct2upLYVBsQOr5KW/0DaiquCopop4SrK5is
- ezqGyiUegSPg9zmadcPky/4MtcozNeV7X35isp33gcWL/1RdrFfYihX2VTt6+Vr4uwzm
- GlEw==
+ :reply-to; bh=3enTjFCWEZfDXiQrgweVk1M1zUaM7hjsygeC4oyGuF0=;
+ b=w0V0MT9snEsleCIfJ2SSIaopnG5u/1pZPC0pamLYuLWdI9xl7mJ8Xlva+BOmvNGyex
+ 5gPboEoirOtL1KFEveTSgBoj9B3iMhHKsJc3gnhrW1E0q9H3AOLrEEMA03wfgBZ/yIj0
+ 93ItkGteuvo0XIHZD1Fo91FAlFPTuWILP076G4ctu44K1T98NjIiQ30g2AXiFIjMW1tX
+ HVAgXkGr8jnmF34Jx34iZDnp8kCIQuiCCqz/2w4p5zBYUj8GAhtPl88khl2JG4crEBnc
+ k0PRgq2TdY1RXY8NqiJ1Ga0HosZPCCXAdwDa04O2Ne94CB0bAmGJitgNWCPo/Y94DSN6
+ XQqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FlE7UGdxR/uM/IgeqU29kmjHYiv7oetRrBoHo0yqcyc=;
- b=q0/LM7CX1k1WBwb+Y8BfgPJxMqeEZ7CPX0XNwyeM37VsdF7pFbx2F+j6evEhwAA/kh
- vYB9FWUTWwlSEnUeVntB+y/vjcGEyAzt3suKj2p6rC/JBWsYOGgtLk13AvdimzxIP+gB
- 3+m2IotQQjurhEFJMjTmCaUVZOUylITw4zYjdXpJmxJ/yuSprFbf9UYnyGhwf9Q8CV9m
- 8q1msSGCUfHiCBHxlYh5V87BI5zaLSbei578eM7fFC9dbX/904cJrkCzSYCErecY+S/u
- DYoIrVdwxvsfh6awlm1RKzxuMxEp7fYVlaKQ0CoZQ61/yYvbdKNd60VxnzREiH2kAlcj
- Dl4w==
-X-Gm-Message-State: AO0yUKW3957IK9Ay5lrSkVFpZv68BuwyLysug85OMd0BUPB37iol9k1r
- lZi/TxFVKsdj/ca9V42ToEyrPjVqaDdKxcWA
-X-Google-Smtp-Source: AK7set/vAArA9PbjYIkVdzuvmaGE4nAoXJNJ7RK6ekBDUyQU6EmhXtljNsCWPeG4YR+c8iO0OLXSrw==
-X-Received: by 2002:adf:e58f:0:b0:2c5:a07e:4bb6 with SMTP id
- l15-20020adfe58f000000b002c5a07e4bb6mr20580291wrm.33.1677506861222; 
- Mon, 27 Feb 2023 06:07:41 -0800 (PST)
+ bh=3enTjFCWEZfDXiQrgweVk1M1zUaM7hjsygeC4oyGuF0=;
+ b=P+F0WP4uBT0o/+RHkbZjPvQegp9BvEsSGXPZQz4oefKAJvzoigTOSFMFcYVb/CppZD
+ 20YAEzZ2FDUnQjal1nFtyCgczSOdsME8+A4D/4sH/pWIdXk31A5KCItancGUBSJjE6Q6
+ kIzLfTbKoTqylKTcg/qGH/oZDjPJQOrIvreOJfsqZCBizCH/PYiFQZU8uXoHbVg023pY
+ l8yMc+eWTgk36PWWat16qxLi9tx6hXFNlFSYvt4HbigOfAvhwCp/8nsWFJAy/x7Sf8Zb
+ fodRG+MCBIUi+2lug+07/pBYZgkViLqai8jaq0riKj+FKogJn0F576RYLl/O5LBesu8H
+ yIaA==
+X-Gm-Message-State: AO0yUKUygJ4ctpl4Gmh5wU5rJcoOSn/BjGnVziGJBMufx4Kb8kjfLhDF
+ N9bEkA8dXIUznni5jVl0YrUu+F/47dC+gTTA
+X-Google-Smtp-Source: AK7set8PQzf4BL+sC9e+oR5VKexFzQADKVzklWsr2V5du5WL5mbxTTWodYvzuQIDQJgqtcm8/ZcS7w==
+X-Received: by 2002:adf:ef0d:0:b0:2c5:587e:75ba with SMTP id
+ e13-20020adfef0d000000b002c5587e75bamr19890379wro.55.1677506866636; 
+ Mon, 27 Feb 2023 06:07:46 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- j24-20020a05600c1c1800b003e22508a343sm9905965wms.12.2023.02.27.06.07.40
+ t23-20020a05600c2f9700b003e2232d0960sm9190227wmn.23.2023.02.27.06.07.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:07:40 -0800 (PST)
+ Mon, 27 Feb 2023 06:07:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 069/126] hw/timer/hpet: Include missing 'hw/qdev-properties.h'
- header
-Date: Mon, 27 Feb 2023 15:01:16 +0100
-Message-Id: <20230227140213.35084-60-philmd@linaro.org>
+Subject: [PULL 070/126] hw/audio/hda-codec: Avoid forward-declaring
+ HDAAudioState
+Date: Mon, 27 Feb 2023 15:01:17 +0100
+Message-Id: <20230227140213.35084-61-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
@@ -88,34 +88,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Avoid when refactoring unrelated headers:
-
-  hw/timer/hpet.c:776:39: error: array has incomplete element type 'Property' (aka 'struct Property')
-  static Property hpet_device_properties[] = {
-                                        ^
-  hw/timer/hpet.c:777:5: error: implicit declaration of function 'DEFINE_PROP_UINT8' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-      DEFINE_PROP_UINT8("timers", HPETState, num_timers, HPET_MIN_TIMERS),
-      ^
+To avoid forward-declaring HDAAudioState, declare HDA_AUDIO QOM
+definitions before its use in the HDAAudioStream structure.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230215174353.37097-2-philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230220131837.26292-2-philmd@linaro.org>
 ---
- hw/timer/hpet.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/audio/hda-codec.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 9520471be2..214d6a0501 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -30,6 +30,7 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
-+#include "hw/qdev-properties.h"
- #include "hw/timer/hpet.h"
- #include "hw/sysbus.h"
- #include "hw/rtc/mc146818rtc.h"
+diff --git a/hw/audio/hda-codec.c b/hw/audio/hda-codec.c
+index feb8f9e2bb..c51d8ba617 100644
+--- a/hw/audio/hda-codec.c
++++ b/hw/audio/hda-codec.c
+@@ -145,7 +145,9 @@ static const char *fmt2name[] = {
+     [ AUDIO_FORMAT_S32 ] = "PCM-S32",
+ };
+ 
+-typedef struct HDAAudioState HDAAudioState;
++#define TYPE_HDA_AUDIO "hda-audio"
++OBJECT_DECLARE_SIMPLE_TYPE(HDAAudioState, HDA_AUDIO)
++
+ typedef struct HDAAudioStream HDAAudioStream;
+ 
+ struct HDAAudioStream {
+@@ -171,9 +173,6 @@ struct HDAAudioStream {
+     int64_t buft_start;
+ };
+ 
+-#define TYPE_HDA_AUDIO "hda-audio"
+-OBJECT_DECLARE_SIMPLE_TYPE(HDAAudioState, HDA_AUDIO)
+-
+ struct HDAAudioState {
+     HDACodecDevice hda;
+     const char *name;
 -- 
 2.38.1
 
