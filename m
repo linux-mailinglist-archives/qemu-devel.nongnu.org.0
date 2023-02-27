@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D946A4360
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:53:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681AC6A4365
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:54:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdvU-0006Y7-PK; Mon, 27 Feb 2023 08:52:24 -0500
+	id 1pWdvT-0006X5-Jd; Mon, 27 Feb 2023 08:52:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvT-0006Xh-7j
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:23 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvR-0006Wg-13
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:21 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvP-0005SP-1J
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:21 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvP-0005SR-1X
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=fBI/AjOzHlMldbXhLcLi9zLothnIOoo/aEN4NYBD7uM=; b=KRmOoje4i5MW+Rrqxi1NTF+IFr
- bXijpdkpoI/YIW/NLGoyPANxhUgcOIrYoHE8fGnVdj1ENYk0Vf9VodoyviE0xsDJoz6SM4pWTw3Ah
- h6poy9Kz/Jf3XBIel6/m/ZxkgEoSD5ou74ukb3aFe4Vgf1oNVtqELgudQ2zgJuiQapv0=;
+ bh=cuUZBMX/VXDjcuE/bVBJEpwIvu8iTfj/mJKO3kd5jDo=; b=WPRpmldJEXChWGqmBXllAVIMSp
+ rtlRQeyambJiH49lR2U6toWelikoFGTjDwGzAuuqVFD7Kjzp0eYRBDg3fb8fa+80QYwqJuGtYxpOg
+ 8NLddFNsCWlVYnrddcmEHzoxjB0qKQUvMiuwiYpuWgnVG7MU1TajNsNFJzAd7U46ELZg=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v3 01/27] include/exec: Introduce `CF_PCREL`
-Date: Mon, 27 Feb 2023 14:51:36 +0100
-Message-Id: <20230227135202.9710-2-anjo@rev.ng>
+Subject: [PATCH v3 02/27] target/i386: set `CF_PCREL` in `x86_cpu_realizefn`
+Date: Mon, 27 Feb 2023 14:51:37 +0100
+Message-Id: <20230227135202.9710-3-anjo@rev.ng>
 In-Reply-To: <20230227135202.9710-1-anjo@rev.ng>
 References: <20230227135202.9710-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -65,29 +65,28 @@ From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Adds a new field to TranslationBlock.cflags denoting whether or not the
-instructions of a given translation block are pc-relative. This field
-aims to replace the macro `TARGET_TB_PCREL`.
-
 Signed-off-by: Anton Johansson <anjo@rev.ng>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- include/exec/exec-all.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/cpu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 0e36f4d063..9186a58554 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -545,6 +545,7 @@ struct TranslationBlock {
- #define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
- #define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
- #define CF_NOIRQ         0x00100000 /* Generate an uninterruptible TB */
-+#define CF_PCREL         0x00200000 /* Opcodes in TB are PC-relative */
- #define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
- #define CF_CLUSTER_SHIFT 24
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 4d2b8d0444..5be294b122 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6404,6 +6404,11 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+     static bool ht_warned;
+     unsigned requested_lbr_fmt;
  
++    /* Use pc-relative instructions in system-mode */
++#ifndef CONFIG_USER_ONLY
++    cs->tcg_cflags |= CF_PCREL;
++#endif
++
+     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
+         error_setg(errp, "apic-id property was not initialized properly");
+         return;
 -- 
 2.39.1
 
