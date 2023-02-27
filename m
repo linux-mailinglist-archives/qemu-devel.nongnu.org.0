@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7075E6A4510
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41A26A4538
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:53:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWelJ-00021t-2M; Mon, 27 Feb 2023 09:45:57 -0500
+	id 1pWerl-0000LB-3C; Mon, 27 Feb 2023 09:52:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWelG-0001rw-Ah
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:45:54 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWelE-0000OH-Ge
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:45:54 -0500
-Received: by mail-wr1-x430.google.com with SMTP id l25so6505529wrb.3
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:45:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HpLk7tk5pCXFVuqX4++s3nBj+CH/NW+6+BTecI/A6sQ=;
- b=O9JFmxR++cV8JfAif6P47Rl5HZzCDCCvVao/lr1l1TaZ+9Dv0Wg9/7rTQ0pWGAk1vw
- E2CoJrDNEx9Mj619+XgyXRygRi7pgjcYJlc3P2bfCWkYvVvFEgcgOsepNSYVBi4QNpe/
- hV4C/qqQeqrLzTURZtc+gngPVnLsLo9o+YZom7Dui6wkrv9X0PYzstsPOO1FcAIqT1+w
- /W7UFxKX7MgGsVuqoyz7Uok92M69NfC+Y++7E+3oszAl1ReMLTcGSAwfdPNyE+/SbMbh
- cn0AE7PaaDd52pTJuCJm0BOqgnsEm6W6kJz0k5zC4kTz9K86kfsacHKPVMvHVtpwDhhy
- QN/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HpLk7tk5pCXFVuqX4++s3nBj+CH/NW+6+BTecI/A6sQ=;
- b=8A+AFrVA3GsBxePLxSxAbrivKKTY1S15k7O/MYkk4e9lsPF2Zvc3Y6AJU4wZ/mOcAa
- DsI7m6HsH5cbX6naXVnOuseQ4kh+bss1P0sV7Ggbfdhhkx86HatDUJRuEFygQyxK2Cgp
- +684OkJWOhXkS+CjfI5LT7mLTnIAtgAh8j3YyMkz7iShGhq7x/qPDTKkscNzOpPj5Tsl
- fZFtKLjdMOxwlvZP3g3V43V2GNzbvHdLDnOHDd6jcbWTStXUm9vqIlQXWHylvuSOoGMb
- apmOpun/tC16jjATWnid0kisX0zU+XoZtUxU8V7KcLz7BEm+BOihCJ2HYbZgZfjf1wfP
- Iidw==
-X-Gm-Message-State: AO0yUKW6ZKQp5r9bP9Vp80Fq3dMs+kbfe1JcZ0Cn6cwEmlQSJm6a4529
- 2yZpvne/ybPStdjHpyy2Fs5frJ6jlDH3p2ibfzTLyw==
-X-Google-Smtp-Source: AK7set8wuWxb23lUI58a+YNFdnzeE6fb2jrfmcRx0G7Zdkhfpdt6YQ5ShZ66xDAN3pPGWHUDRaTtYVa6pxBypH/klBI=
-X-Received: by 2002:a5d:45c4:0:b0:2c9:bb13:2122 with SMTP id
- b4-20020a5d45c4000000b002c9bb132122mr1169402wrs.8.1677509150929; Mon, 27 Feb
- 2023 06:45:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ernunes@redhat.com>)
+ id 1pWerj-0000JX-2X
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:52:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ernunes@redhat.com>)
+ id 1pWerh-0002AY-Ek
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:52:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677509552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FfDNu4ow+Ntdfdp7m5E6yLvwuO/GqJRY+e2EfHPN7Mc=;
+ b=dm/sqqvFtppiUZauBQRKWoKo+eFaeagXxXk4ML0dXj1jctpAjVBO7g5OHflwKvYkaOYQHo
+ L9rmwwYPVj48JqXr7SJe4KfkdZ9RZMyDBWs1nBENkT76A47j/MIodtFYqASxQXI7gjAeUk
+ ZQet26pjza5hzHVFEup2o6DXi6RLqwI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-277-FHbhVAY8P4G6EPo2_dcy-w-1; Mon, 27 Feb 2023 09:52:30 -0500
+X-MC-Unique: FHbhVAY8P4G6EPo2_dcy-w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E3F11871D9D
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 14:52:30 +0000 (UTC)
+Received: from centennial.enunes.eu (unknown [10.43.17.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C50518EC7;
+ Mon, 27 Feb 2023 14:52:30 +0000 (UTC)
+From: Erico Nunes <ernunes@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Erico Nunes <ernunes@redhat.com>
+Subject: [PATCH] tests/acceptance/virtio-gpu.py: update fedora URL
+Date: Mon, 27 Feb 2023 15:52:22 +0100
+Message-Id: <20230227145222.360719-1-ernunes@redhat.com>
 MIME-Version: 1.0
-References: <20230227113621.58468-1-thuth@redhat.com>
-In-Reply-To: <20230227113621.58468-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 27 Feb 2023 14:45:30 +0000
-Message-ID: <CAFEAcA8ADDjxdHUfxVDVkjqpbysRCH-sSQbTDBzX2G1v=bsnHQ@mail.gmail.com>
-Subject: Re: [PULL 00/33] s390x and testing related patches
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=ernunes@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,37 +74,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 at 11:36, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter!
->
-> The following changes since commit 1270a3f57c9221080f3205a15964814ff8359ca9:
->
->   Merge tag 'for-upstream' of https://repo.or.cz/qemu/kevin into staging (2023-02-24 15:09:39 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2023-02-27
->
-> for you to fetch changes up to fffa36b68e2f266c8b03ef3fdd242aa9a9181a87:
->
->   Deprecate the "-no-acpi" command line switch (2023-02-27 09:23:21 +0100)
->
-> ----------------------------------------------------------------
-> * Simplify device casting in w/vfio/ccw.c
-> * Fix memory corruption in the s390x dump code
-> * Various s390x TCG clean-ups
-> * s390x PV support for asynchronous teardown for reboot
-> * qemu-keymap related fixes
-> * Improvements for the duration of the gitlab-CI
-> * Deprecate the "-no-acpi" command line switch
->
+The URL listed previously is no longer valid and that caused the test
+to skip.
 
+Signed-off-by: Erico Nunes <ernunes@redhat.com>
+---
+ tests/avocado/virtio-gpu.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Applied, thanks.
+diff --git a/tests/avocado/virtio-gpu.py b/tests/avocado/virtio-gpu.py
+index 2a249a3a2c..e3b58fe799 100644
+--- a/tests/avocado/virtio-gpu.py
++++ b/tests/avocado/virtio-gpu.py
+@@ -36,13 +36,13 @@ class VirtioGPUx86(QemuSystemTest):
+ 
+     KERNEL_COMMAND_LINE = "printk.time=0 console=ttyS0 rdinit=/bin/bash"
+     KERNEL_URL = (
+-        "https://archives.fedoraproject.org/pub/fedora"
++        "https://archives.fedoraproject.org/pub/archive/fedora"
+         "/linux/releases/33/Everything/x86_64/os/images"
+         "/pxeboot/vmlinuz"
+     )
+     KERNEL_HASH = '1433cfe3f2ffaa44de4ecfb57ec25dc2399cdecf'
+     INITRD_URL = (
+-        "https://archives.fedoraproject.org/pub/fedora"
++        "https://archives.fedoraproject.org/pub/archive/fedora"
+         "/linux/releases/33/Everything/x86_64/os/images"
+         "/pxeboot/initrd.img"
+     )
+-- 
+2.39.2
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
 
