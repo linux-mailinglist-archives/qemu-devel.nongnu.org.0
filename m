@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C426A444A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:24:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473416A43F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:14:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeAw-0002Dp-3Z; Mon, 27 Feb 2023 09:08:22 -0500
+	id 1pWeAz-0002iD-Ug; Mon, 27 Feb 2023 09:08:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAt-00024R-8z
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:19 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAw-0002WE-S1
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:22 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAp-0000Od-1Y
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:16 -0500
-Received: by mail-wr1-x429.google.com with SMTP id r7so6358499wrz.6
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:08:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAu-0000PC-LT
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:22 -0500
+Received: by mail-wr1-x436.google.com with SMTP id r18so6381466wrx.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:08:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=QJ3BKCFcAXPLhAg+8B2nnFVcuypAiJT5mvyLP2qVcBI=;
- b=VA0DRsLi06sYDvJg8wAqDf+VYbENd1yjjJ3a3t4Ne/TP3jTKEASPL433P0BdrsJQBw
- gNG91KpCbfv0A1TVN2nrqEKBU9ZwI5pGuxIcmoyWA+8fSl+FPM1fHagWEpktLYV6CNfq
- /ybj2i9+ba5VkQS6D/AnJDIEitz1WcaHO6CuOdeqMU4wKKYhTl4N6SgFJ4I4Mh/8NJbv
- sBsmL+FQJXakjxNhv6jDFFfxE2syqQRREA5B4HkJTbA7SqV7xPweWeagvMy0+0srQdK7
- Kr1LjSNvt1wUhwnXBlq23DoYmE7iACtsm7wbsWIpasIgfEVuDuiaJ1SHb8WZrdTzs/jY
- D+vQ==
+ :reply-to; bh=mB/pDWgm2BIuPhx5UcfH++r62QSUw7La1WlZAVYPtq8=;
+ b=C3RoFFdjA2uZJzosvp4jan8q/NjYJwN7PP/Cfy+5B6sGZ4sMvGoVyTketMTTPfaRpl
+ u9JrrQVzXg20ebVykTmT0C/2HXLeEksA0HDiASJvAn5H3YpB3rWFvuJex+FKxBt2xBPs
+ 7lwUe1SZHufzyJfK4oqDC4UFGicp+epg+j2x22TmStwqPkxEa7Xo6JpAk/2YW3WoRWcl
+ rNNNeZxx+tdxC5leNZ3Cm5n3AZCjPKHZjOSQDJ2gHOVsrSct6IXtBEPYgrpg043kbsLZ
+ TypH8BS3qyzP2zz3wvSeQqf94CAo5CO1ShvdYS+y2h5hYip8WWYBJVtMLkDq93WM/2Wu
+ 0BvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QJ3BKCFcAXPLhAg+8B2nnFVcuypAiJT5mvyLP2qVcBI=;
- b=nYkuNKQRhRN7BvF+fkGGLa/+kZ7IhUpn2Y6h9X7BxfcU1oHnCSdoVAfUWMsBQ5CRyE
- NSo5P0HudRhwJ47T2DQVkl1ILTPQ7aNM62uumfdsdRNGJ51qT41CykvsO8JMOSQ28740
- ql2C5uUWl46wzLY3fnoIU1CpEfG4/XysXNryaybKurhFbheNQQoNy/DNLpRnV9dlTysx
- crZgL4/Ve0aKKK2TOk0KdxHMQMsnUtfzZi8cz6dPJBtx91D+Haq+U8p7tDKlBPRPS6Z/
- 6oUPshzf9hLv627NjtaaiCo0B0vE2YSBxhGxURRFLXAMkpLbITFMFniSIMVzYJZWrtPj
- nfbg==
-X-Gm-Message-State: AO0yUKXJNQ5kh+1AfpaT4tI91neQrtGpVuZgc2oO2YfM1quiE9Ztnddy
- eonOz2+Agn/8cmHrugNTRqbmQLlYxvfq1Fcx
-X-Google-Smtp-Source: AK7set+d5wLbNuGep5i5RIcThEBUcYKwINzZ2KDxiS6K2V5J1n6Cjilpa6agddr9FX09ta6di6sW2Q==
-X-Received: by 2002:a5d:58d9:0:b0:2c6:e87f:30cc with SMTP id
- o25-20020a5d58d9000000b002c6e87f30ccmr19165699wrf.48.1677506893523; 
- Mon, 27 Feb 2023 06:08:13 -0800 (PST)
+ bh=mB/pDWgm2BIuPhx5UcfH++r62QSUw7La1WlZAVYPtq8=;
+ b=k0d0keRGO0IIb4gu5VTCrAXhhN8pHbhzyqE5pXkelQsGogvMBTMw9NL3k3nQdBZaQb
+ bYhTa+WwVA/Q+yTv3cL+yPEtIC8GOxtwUdGxtYG9ckDjZ67nMhyEzYLGxNgkCob0uFop
+ Z+or/3lp95CxVP1oMFTKa0vtGosXgiXt5Z2MoRkDMn9qiScy/cRD7dB84FsKFEOaGx0M
+ f1XXC6ekTBtQR6nA7/Hefps6+auNg7Fnp/fMHiywq8E3oiV3GP82HEn1vk/OtsP9v2op
+ 9UFw+ae8s84qqFQRnrhj6i5qc0OaSs2wC6MDc0OAUsvSduI0y2kdXl2bDl1BHJcIobCR
+ XqhQ==
+X-Gm-Message-State: AO0yUKUJH4ZTe48Ctiah5+Lf4XXKEj1QCH2B0SgEslvPcwp1WEfBdQ2W
+ qnjip6kvacQCO9zOk6qvB8hW9V3ahZlusaQ+
+X-Google-Smtp-Source: AK7set8zlAHNiggIBawCJRRPXWv4zRiNKHLtfxhWluVwvl/26c1LfH9ez9j+BP+Q8dsc3GP+chOZhw==
+X-Received: by 2002:adf:f0cd:0:b0:2c7:d75:373a with SMTP id
+ x13-20020adff0cd000000b002c70d75373amr14817696wro.1.1677506898986; 
+ Mon, 27 Feb 2023 06:08:18 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- h8-20020adff188000000b002c54241b4fesm7118517wro.80.2023.02.27.06.08.12
+ j1-20020a5d4521000000b002c573cff730sm7203340wra.68.2023.02.27.06.08.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:08:13 -0800 (PST)
+ Mon, 27 Feb 2023 06:08:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 075/126] hw/usb/dev-smartcard-reader: Avoid forward-declaring
- CCIDBus
-Date: Mon, 27 Feb 2023 15:01:22 +0100
-Message-Id: <20230227140213.35084-66-philmd@linaro.org>
+Subject: [PULL 076/126] hw/usb/u2f: Declare QOM macros using
+ OBJECT_DECLARE_TYPE()
+Date: Mon, 27 Feb 2023 15:01:23 +0100
+Message-Id: <20230227140213.35084-67-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,41 +88,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To avoid forward-declaring CCIDBus, declare CCID_BUS QOM
-definitions before its use in the USBCCIDState structure.
+hw/usb/u2f.h was added by commit 80e267f1d1 ("hw/usb: Add
+U2F key base class"), almost the same time of the automatic
+conversion done by commit c821774a3b ("Use OBJECT_DECLARE_TYPE
+where posible"). Manually convert to OBJECT_DECLARE_TYPE().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230220150515.32549-2-philmd@linaro.org>
+Message-Id: <20230220150515.32549-9-philmd@linaro.org>
 ---
- hw/usb/dev-smartcard-reader.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/usb/u2f.h | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
-index 28164d89be..be0a4fc3bc 100644
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -278,7 +278,9 @@ typedef struct BulkIn {
- struct CCIDBus {
-     BusState qbus;
- };
--typedef struct CCIDBus CCIDBus;
-+
-+#define TYPE_CCID_BUS "ccid-bus"
-+OBJECT_DECLARE_SIMPLE_TYPE(CCIDBus, CCID_BUS)
+diff --git a/hw/usb/u2f.h b/hw/usb/u2f.h
+index a408a82927..8bff13141a 100644
+--- a/hw/usb/u2f.h
++++ b/hw/usb/u2f.h
+@@ -31,22 +31,16 @@
+ #define U2FHID_PACKET_SIZE 64
+ #define U2FHID_PENDING_IN_NUM 32
+ 
+-typedef struct U2FKeyState U2FKeyState;
+ typedef struct U2FKeyInfo U2FKeyInfo;
+ 
+ #define TYPE_U2F_KEY "u2f-key"
+-#define U2F_KEY(obj) \
+-    OBJECT_CHECK(U2FKeyState, (obj), TYPE_U2F_KEY)
+-#define U2F_KEY_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(U2FKeyClass, (klass), TYPE_U2F_KEY)
+-#define U2F_KEY_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(U2FKeyClass, (obj), TYPE_U2F_KEY)
++OBJECT_DECLARE_TYPE(U2FKeyState, U2FKeyClass, U2F_KEY)
  
  /*
-  * powered - defaults to true, changed by PowerOn/PowerOff messages
-@@ -1174,9 +1176,6 @@ static Property ccid_props[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
+  * Callbacks to be used by the U2F key base device (i.e. hw/u2f.c)
+  * to interact with its variants (i.e. hw/u2f-*.c)
+  */
+-typedef struct U2FKeyClass {
++struct U2FKeyClass {
+     /*< private >*/
+     USBDeviceClass parent_class;
  
--#define TYPE_CCID_BUS "ccid-bus"
--OBJECT_DECLARE_SIMPLE_TYPE(CCIDBus, CCID_BUS)
--
- static const TypeInfo ccid_bus_info = {
-     .name = TYPE_CCID_BUS,
-     .parent = TYPE_BUS,
+@@ -55,12 +49,12 @@ typedef struct U2FKeyClass {
+                             const uint8_t packet[U2FHID_PACKET_SIZE]);
+     void (*realize)(U2FKeyState *key, Error **errp);
+     void (*unrealize)(U2FKeyState *key);
+-} U2FKeyClass;
++};
+ 
+ /*
+  * State of the U2F key base device (i.e. hw/u2f.c)
+  */
+-typedef struct U2FKeyState {
++struct U2FKeyState {
+     USBDevice dev;
+     USBEndpoint *ep;
+     uint8_t idle;
+@@ -70,7 +64,7 @@ typedef struct U2FKeyState {
+     uint8_t pending_in_start;
+     uint8_t pending_in_end;
+     uint8_t pending_in_num;
+-} U2FKeyState;
++};
+ 
+ /*
+  * API to be used by the U2F key device variants (i.e. hw/u2f-*.c)
 -- 
 2.38.1
 
