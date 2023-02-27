@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5AB6A4D4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 22:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE566A4D48
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 22:34:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWl82-0007Dd-4f; Mon, 27 Feb 2023 16:33:50 -0500
+	id 1pWl84-0007Ey-IE; Mon, 27 Feb 2023 16:33:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWl80-0007Cu-8y
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:33:48 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pWl82-0007EI-DX
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:33:50 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWl7y-0004Fz-Sm
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:33:48 -0500
-Received: by mail-pl1-x632.google.com with SMTP id u5so4860874plq.7
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 13:33:46 -0800 (PST)
+ id 1pWl80-0004K5-Se
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 16:33:50 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ 6-20020a17090a190600b00237c5b6ecd7so7018304pjg.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 13:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ktLcLczpC5J61u+Wz7S4IYVLAaoqvKihU89wRw7bX20=;
- b=p63P1GiZPmiY8xvzMOADD+GWqI2H568kbhWRm5rtCG+A/8yhcYfqA8m/I79BDsdvp/
- Ktn6gtA4Bt8egk+vfdZsuVIvfv0dwpuSiPcMXaaeXBLR91gkmvtDDJaQwVutQkqSCfJO
- oZfeCM2+f+q+8VXHR4T0tn7gg5Hv4AzHu0N066Qo7HjkWJgbMBVMCQWYpnfa3wNT/vC8
- u5j53McfRhkl2HaNKl48dtAEhOwHBP0UqVDE0pD7ap4+GsWfyN4tMQ7ExJe/FmC3aTr5
- 3woO7vUrUlthqXyFtCcMfvjzsyz21IkCDr8gEEMO/OV36IFMEZBtvPCmc0y78T1r5xjr
- Z0kg==
+ bh=MvN6MH9XtbRDVN7/usi5kmILWEamfWIGeSaIRJTwC88=;
+ b=n0wJg8dooAPjYYANl4Zs0R8tvA4FgrUvQZ/sJIzxBmFoeFleQoOesaaxwwbJbCTw5i
+ E2x3Zx+6myEP3+vJGR23vm2x5x+94Rm9thvlYZFRz1Z1hGpnP0R2I9G6zHS+8KX9C7e8
+ 0W10K+hizPTOuc986iLq/mWu64Hk47GoR4rJTPjpLmks4OTKTia/iUyAsHhP0jQCJ4l/
+ z/s2ozZ/9Sdwq949vKsMYVp6S0dWJvDtmlxPaE1l5H1wx0TAjpJLexkAbsj7xFhIUrv8
+ fRVn2hTDMM4eyHGsnSkUVc1LxCRimWJnTXakHINLvR30uNm2UpzPw4SasJeYYA1oaN1L
+ sH1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ktLcLczpC5J61u+Wz7S4IYVLAaoqvKihU89wRw7bX20=;
- b=IrzcIsZXFsCM/PjE9HE9rSgrwicMOjZvzk1EYJkod8qtcjaPt2oa6fiEq6nTYYh3VX
- NP20a8tbqSCq/OBWXp5/3ybjfZ8uPgrz8bMVuJxbJ9RIh6AdjClnAQnJaMTFU5+P/P3X
- 87XG3XeVnI+nYNBmk72ovoeG/tfIdmD/Q4NYljE2cS61W6LjFNM0j8eB7cDUKZo8ucbT
- kXYlR9mciGZylHHQV21Pet4aGrGfvRTetqR51RHrKe8rX7JGnNrQihUv1dzhquH08Tve
- m3KAxq+wXB3qoE1H8KzpXSjiaiVcdnLwJ/3vaNc8MdMIOVgitACEIHs3vmmv8X1jhbgG
- PROg==
-X-Gm-Message-State: AO0yUKX9Lxt+70IFSI5nEyxeX0AB/1Rj08ypUk/l+aZeE4jtby1ImUf/
- UHGcXpRsWu56yHGNaOV1SzhXeCRDEnMTwgXKDhE=
-X-Google-Smtp-Source: AK7set92L19KYZNGsU/rsrh9cfLJi55mrYBZh+NYSpK6+wIpg3nBfr7ZkRDV1OakFyh9Is170on+sQ==
-X-Received: by 2002:a17:903:283:b0:19c:ac9d:f682 with SMTP id
- j3-20020a170903028300b0019cac9df682mr430578plr.25.1677533626115; 
- Mon, 27 Feb 2023 13:33:46 -0800 (PST)
+ bh=MvN6MH9XtbRDVN7/usi5kmILWEamfWIGeSaIRJTwC88=;
+ b=F6zw2XgfHoJ+kXTRoywYHerFfRxIG2jcn+4F8DeOLxZoL+CElUN0P1+enrEEtJe01E
+ OsejBhVbzRu3dhggtNwXDr2pogp0bW4qX4z/RQlHjqcna6dBfi/gx0I8n2X9NoR523ny
+ Wx5GIIndLiC7s+LTaMMolN32dvBYVRr8APWk2HyLKZCjLCt5wLX+26idRHcBkdUWqilH
+ KJ0f5GM6bSgRLZO6vKpH+6giS07RX8045Zn7c3joXFXMNZRDoyHX15TXBfZdG3FDUtzT
+ bdoC6cmGjRUqzanTwhhijlTymUgFmEQcQaOhVpdriqnRCNAl1Rl/Fy4gISKHf7SGsz4M
+ PmVA==
+X-Gm-Message-State: AO0yUKX9oG23g+y6t6Lc7JOhKh42tEF8m1YE05FzAhwIQ/UQPo2Sm543
+ zpq97bYUM6vH6qGiHtq2EmMH6747Qi81B3gBtlU=
+X-Google-Smtp-Source: AK7set82pGsBNiPGQnTCTBEwWYf5jf6P25CFDTdyfYKiZZ0hxlz+O+5+D0VaAHy6nVaN1Vh0ssEWqg==
+X-Received: by 2002:a05:6a20:bc8f:b0:cc:606a:4349 with SMTP id
+ fx15-20020a056a20bc8f00b000cc606a4349mr716607pzb.8.1677533627633; 
+ Mon, 27 Feb 2023 13:33:47 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- d137-20020a63368f000000b00478c48cf73csm4375262pga.82.2023.02.27.13.33.44
+ d137-20020a63368f000000b00478c48cf73csm4375262pga.82.2023.02.27.13.33.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 13:33:45 -0800 (PST)
+ Mon, 27 Feb 2023 13:33:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 09/14] target/arm: Simplify iteration over bit widths
-Date: Mon, 27 Feb 2023 11:33:24 -1000
-Message-Id: <20230227213329.793795-10-richard.henderson@linaro.org>
+Subject: [PATCH v3 10/14] target/arm: Create pauth_ptr_mask
+Date: Mon, 27 Feb 2023 11:33:25 -1000
+Message-Id: <20230227213329.793795-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227213329.793795-1-richard.henderson@linaro.org>
 References: <20230227213329.793795-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,53 +91,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Order suf[] by the log8 of the width.
-Use ARRAY_SIZE instead of hard-coding 128.
-
-This changes the order of the union definitions,
-but retains the order of the union-of-union members.
+Keep the logic for pauth within pauth_helper.c, and expose
+a helper function for use with the gdbstub pac extension.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/gdbstub64.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ target/arm/internals.h        | 10 ++++++++++
+ target/arm/tcg/pauth_helper.c | 26 ++++++++++++++++++++++----
+ 2 files changed, 32 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/gdbstub64.c b/target/arm/gdbstub64.c
-index 36166bf81e..3d9e9e97c8 100644
---- a/target/arm/gdbstub64.c
-+++ b/target/arm/gdbstub64.c
-@@ -240,8 +240,8 @@ static void output_vector_union_type(GString *s, int reg_width,
-         { "int8", 8, 'b', 's' },
-     };
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 725244d72d..c02dd59743 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1366,6 +1366,16 @@ int exception_target_el(CPUARMState *env);
+ bool arm_singlestep_active(CPUARMState *env);
+ bool arm_generate_debug_exceptions(CPUARMState *env);
  
--    static const char suf[] = { 'q', 'd', 's', 'h', 'b' };
--    int i, j, bits;
-+    static const char suf[] = { 'b', 'h', 's', 'd', 'q' };
-+    int i, j;
- 
-     /* First define types and totals in a whole VL */
-     for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-@@ -256,7 +256,9 @@ static void output_vector_union_type(GString *s, int reg_width,
-      * signed and potentially float versions of each size from 128 to
-      * 8 bits.
-      */
--    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
-+    for (i = 0; i < ARRAY_SIZE(suf); i++) {
-+        int bits = 8 << i;
++/**
++ * pauth_ptr_mask:
++ * @env: cpu context
++ * @ptr: selects between TTBR0 and TTBR1
++ * @data: selects between TBI and TBID
++ *
++ * Return a mask of the bits of @ptr that contain the authentication code.
++ */
++uint64_t pauth_ptr_mask(CPUARMState *env, uint64_t ptr, bool data);
 +
-         g_string_append_printf(s, "<union id=\"%sn%c\">", name, suf[i]);
-         for (j = 0; j < ARRAY_SIZE(vec_lanes); j++) {
-             if (vec_lanes[j].size == bits) {
-@@ -270,7 +272,7 @@ static void output_vector_union_type(GString *s, int reg_width,
+ /* Add the cpreg definitions for debug related system registers */
+ void define_debug_regs(ARMCPU *cpu);
  
-     /* And now the final union of unions */
-     g_string_append_printf(s, "<union id=\"%s\">", name);
--    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
-+    for (i = ARRAY_SIZE(suf) - 1; i >= 0; i--) {
-         g_string_append_printf(s, "<field name=\"%c\" type=\"%sn%c\"/>",
-                                suf[i], name, suf[i]);
-     }
+diff --git a/target/arm/tcg/pauth_helper.c b/target/arm/tcg/pauth_helper.c
+index d0483bf051..20f347332d 100644
+--- a/target/arm/tcg/pauth_helper.c
++++ b/target/arm/tcg/pauth_helper.c
+@@ -339,14 +339,32 @@ static uint64_t pauth_addpac(CPUARMState *env, uint64_t ptr, uint64_t modifier,
+     return pac | ext | ptr;
+ }
+ 
+-static uint64_t pauth_original_ptr(uint64_t ptr, ARMVAParameters param)
++static uint64_t pauth_ptr_mask_internal(ARMVAParameters param)
+ {
+-    /* Note that bit 55 is used whether or not the regime has 2 ranges. */
+-    uint64_t extfield = sextract64(ptr, 55, 1);
+     int bot_pac_bit = 64 - param.tsz;
+     int top_pac_bit = 64 - 8 * param.tbi;
+ 
+-    return deposit64(ptr, bot_pac_bit, top_pac_bit - bot_pac_bit, extfield);
++    return MAKE_64BIT_MASK(bot_pac_bit, top_pac_bit - bot_pac_bit);
++}
++
++static uint64_t pauth_original_ptr(uint64_t ptr, ARMVAParameters param)
++{
++    uint64_t mask = pauth_ptr_mask_internal(param);
++
++    /* Note that bit 55 is used whether or not the regime has 2 ranges. */
++    if (extract64(ptr, 55, 1)) {
++        return ptr | mask;
++    } else {
++        return ptr & ~mask;
++    }
++}
++
++uint64_t pauth_ptr_mask(CPUARMState *env, uint64_t ptr, bool data)
++{
++    ARMMMUIdx mmu_idx = arm_stage1_mmu_idx(env);
++    ARMVAParameters param = aa64_va_parameters(env, ptr, mmu_idx, data);
++
++    return pauth_ptr_mask_internal(param);
+ }
+ 
+ static uint64_t pauth_auth(CPUARMState *env, uint64_t ptr, uint64_t modifier,
 -- 
 2.34.1
 
