@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545526A3C25
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3050D6A3BF7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:07:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWWER-0000Rq-Aw; Mon, 27 Feb 2023 00:39:27 -0500
+	id 1pWWFX-0004sk-Pl; Mon, 27 Feb 2023 00:40:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWDC-0003Qy-HU
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:38:18 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ id 1pWWDX-0004IL-UF
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:38:32 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWD9-0002xk-FJ
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:38:10 -0500
-Received: by mail-pg1-x532.google.com with SMTP id z10so2835620pgr.8
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:38:04 -0800 (PST)
+ id 1pWWDU-0003AZ-7E
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:38:31 -0500
+Received: by mail-pl1-x631.google.com with SMTP id u5so2149073plq.7
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:38:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YhL2WzjGmls46D+quq34ze/ulksmGA+cQwYE9pUognw=;
- b=IqZ+RBL/2YYgOsYsdvePHMAGCFEFsncU1Fp92DEasNpFqQ9VMjHTWrnkmbtD052KBO
- /Vv04Uz9AZxyCUNMVTIq4ylwpeiQ0sS49zirXicKzO3MCypmMwb1G2osdfm+DV+XMO9Q
- OWxaTZhT3asJurwFQHXz/TCD+Li/Lp85Hs2eeBYQGNyK50vTgUIE7s1xO8iiP2l5PNxf
- ap3OLGVCkLlDocjvNOqF3v0elqZOyTXUvUihJP+X4gpVvENMyFS1fFLuEw/4tlbQLZek
- jxuql4dIDxK6jm25kCDD462Ue/A/cFDuLWmYXFRfZ7PkZxwkeyt1WVOiP4Y7O/ocRoGP
- opDA==
+ bh=muKWZigrTG0gZJODOQUV3tX7j3/M0bbzqhpHMPJfkYo=;
+ b=Xyt2k5Ud8eiGrcvqCwysPkVoeyDvBNW4qJpXU+br2EzibIoVBJ2Yqu24dH4NMfCkGK
+ PgAXe2EAfxemCQ4TnoNTl7zgTEnyOo1MnpJ88B9wptJPKK2YhUZrqHKVafXYQ+39qN2p
+ GFg5oW4chwgKYzbcPY6F6OGmqpqJh/XOIaqJYf/QFjqzzAiDDFnq+0JvJxP/edpm/8j6
+ i7YKQEDNBHMuyuPGr/o148tOAoKHi9+soy4DRTb7Y3Bob6qCxFz+1RvPnK31JEfrHRaW
+ 3h0+2Gsh62ZQHpjCz1MaJ9NJjubpT4FQJzOP+3wlZh7y6Hm37SqZ2baVJ5sKlHcBGGTz
+ QCXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YhL2WzjGmls46D+quq34ze/ulksmGA+cQwYE9pUognw=;
- b=nYUXug11dBb+llEz3sn7Pu4CQfHSz9NwIdz6CgdZm7I0VdKhAbqtKqOyg7Z4gefAHT
- W3xO90+o2flRgxy2hCnWqyZdK0/Mr9HN0UpdcNw7q7Ahp+NhRhwiGdXEFYBiomCAa29v
- 84le+u6b6hR/LF9fw3HmCyy2aIzz9o6iQVD73oCwbNajO2h3ETzrSAUm5MsKef+S0KZP
- wxsMFlHVw33G5QGupZ/UoBuvzklOEQx2n2tVdB0uRsZLGdnf5YNTYNp3pJLMJfV+3ArO
- AtpCJ0ot1X9X8HAEbeEHdU5Zzoldql3IsBzHUcsbPrfVrRWc2t9WI3QRtdTYFXKRiwGE
- zuXA==
-X-Gm-Message-State: AO0yUKWKoYIyLNyS4UXSFXJaj0TOK1FvZ96u/SfdIzcv/AgkuDbdG6s+
- PsBhI6KxG17G4Uk/530zn1/25/s7oYtof5X8lJ0=
-X-Google-Smtp-Source: AK7set8aosRGl0tv7yt+NrwMTMskIu6/SkHD5TZMa7qceHG7LodJuDjP5NUygtWqWeMD/ihAuU6e0w==
-X-Received: by 2002:aa7:99dc:0:b0:5e5:e066:2304 with SMTP id
- v28-20020aa799dc000000b005e5e0662304mr8267814pfi.31.1677476283963; 
- Sun, 26 Feb 2023 21:38:03 -0800 (PST)
+ bh=muKWZigrTG0gZJODOQUV3tX7j3/M0bbzqhpHMPJfkYo=;
+ b=a6clFAfprfFqS+cgig9iDXM/jpjgWbuN3ONSh7FSStfpquA3ZS0hNEwi0Xyx2LKSzQ
+ wBlOJ1T9B/fAgP1ewN6ZyUSXtqRN8mIOlRmnugvJmj19wWu8hbNgXShwDeE5Pspeh97B
+ N4XRf2VnveuSg39v/zZqpWkV8NvlteWm07dPByOiE3RWELsBFUMcebP5PXVbT1cGUwUS
+ jpX8Y95MAXvsfS8dcNUdhIxukKeDd5diw0GLGQfANEN85/t1+E1qvRvRLMm8i6MAy+wE
+ +YfH0pkNGdGsrhpYdVR+q73ioRfKafWCnPMpWDOWBiSSbuw9u/UCpx9cWryOidH3mFGC
+ 6m2g==
+X-Gm-Message-State: AO0yUKUVj3eaPqHl60m7lKKKpJGkWJ9Eor11y0cLwK5V0fVAn77VPic+
+ 9CpEMKCJr2sPRZ0lk+1wCclA4dg0Hccn2865AtA=
+X-Google-Smtp-Source: AK7set9/dZfAt+PbcViu83yXnTSbOulqyWT5/3CDn5n65w9+/OiFuS0fZgVCU497F5yi8Xr7dYbX4A==
+X-Received: by 2002:a05:6a20:160a:b0:b8:a0e1:2739 with SMTP id
+ l10-20020a056a20160a00b000b8a0e12739mr29438519pzj.3.1677476306870; 
+ Sun, 26 Feb 2023 21:38:26 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- k12-20020aa792cc000000b005a7c892b435sm3342137pfa.25.2023.02.26.21.38.01
+ k12-20020aa792cc000000b005a7c892b435sm3342137pfa.25.2023.02.26.21.38.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:38:03 -0800 (PST)
+ Sun, 26 Feb 2023 21:38:26 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -62,24 +62,24 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v4 21/31] target/cris: Don't use tcg_temp_local_new
-Date: Sun, 26 Feb 2023 19:36:51 -1000
-Message-Id: <20230227053701.368744-22-richard.henderson@linaro.org>
+Subject: [PATCH v4 30/31] tcg: Remove tcg_temp_local_new_*, tcg_const_local_*
+Date: Sun, 26 Feb 2023 19:37:00 -1000
+Message-Id: <20230227053701.368744-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227053701.368744-1-richard.henderson@linaro.org>
 References: <20230227053701.368744-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FUZZY_BITCOIN=1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,74 +95,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since tcg_temp_new is now identical, use that.
+These symbols are now unused.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/cris/translate.c         |  6 +++---
- target/cris/translate_v10.c.inc | 10 +++++-----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ include/tcg/tcg-op.h |  2 --
+ include/tcg/tcg.h    | 28 ----------------------------
+ tcg/tcg.c            | 16 ----------------
+ 3 files changed, 46 deletions(-)
 
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index 905d01288e..a959b27373 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -1621,7 +1621,7 @@ static int dec_bound_r(CPUCRISState *env, DisasContext *dc)
-     LOG_DIS("bound.%c $r%u, $r%u\n",
-             memsize_char(size), dc->op1, dc->op2);
-     cris_cc_mask(dc, CC_MASK_NZ);
--    l0 = tcg_temp_local_new();
-+    l0 = tcg_temp_new();
-     dec_prep_move_r(dc, dc->op1, dc->op2, size, 0, l0);
-     cris_alu(dc, CC_OP_BOUND, cpu_R[dc->op2], cpu_R[dc->op2], l0, 4);
-     tcg_temp_free(l0);
-@@ -2404,8 +2404,8 @@ static int dec_bound_m(CPUCRISState *env, DisasContext *dc)
-             dc->op1, dc->postinc ? "+]" : "]",
-             dc->op2);
+diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
+index 66b1461caa..353d430a63 100644
+--- a/include/tcg/tcg-op.h
++++ b/include/tcg/tcg-op.h
+@@ -828,14 +828,12 @@ static inline void tcg_gen_plugin_cb_end(void)
+ #if TARGET_LONG_BITS == 32
+ #define tcg_temp_new() tcg_temp_new_i32()
+ #define tcg_global_mem_new tcg_global_mem_new_i32
+-#define tcg_temp_local_new() tcg_temp_local_new_i32()
+ #define tcg_temp_free tcg_temp_free_i32
+ #define tcg_gen_qemu_ld_tl tcg_gen_qemu_ld_i32
+ #define tcg_gen_qemu_st_tl tcg_gen_qemu_st_i32
+ #else
+ #define tcg_temp_new() tcg_temp_new_i64()
+ #define tcg_global_mem_new tcg_global_mem_new_i64
+-#define tcg_temp_local_new() tcg_temp_local_new_i64()
+ #define tcg_temp_free tcg_temp_free_i64
+ #define tcg_gen_qemu_ld_tl tcg_gen_qemu_ld_i64
+ #define tcg_gen_qemu_st_tl tcg_gen_qemu_st_i64
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 2e220d4040..7e2b954dbc 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -905,12 +905,6 @@ static inline TCGv_i32 tcg_temp_new_i32(void)
+     return temp_tcgv_i32(t);
+ }
  
--    l[0] = tcg_temp_local_new();
--    l[1] = tcg_temp_local_new();
-+    l[0] = tcg_temp_new();
-+    l[1] = tcg_temp_new();
-         insn_len = dec_prep_alu_m(env, dc, 0, memsize, l[0], l[1]);
-     cris_cc_mask(dc, CC_MASK_NZ);
-     cris_alu(dc, CC_OP_BOUND, cpu_R[dc->op2], l[0], l[1], 4);
-diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
-index f500e93447..9660f28584 100644
---- a/target/cris/translate_v10.c.inc
-+++ b/target/cris/translate_v10.c.inc
-@@ -68,9 +68,9 @@ static void gen_store_v10_conditional(DisasContext *dc, TCGv addr, TCGv val,
-                        unsigned int size, int mem_index)
+-static inline TCGv_i32 tcg_temp_local_new_i32(void)
+-{
+-    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I32, TEMP_TB);
+-    return temp_tcgv_i32(t);
+-}
+-
+ static inline TCGv_i64 tcg_global_mem_new_i64(TCGv_ptr reg, intptr_t offset,
+                                               const char *name)
  {
-     TCGLabel *l1 = gen_new_label();
--    TCGv taddr = tcg_temp_local_new();
--    TCGv tval = tcg_temp_local_new();
--    TCGv t1 = tcg_temp_local_new();
-+    TCGv taddr = tcg_temp_new();
-+    TCGv tval = tcg_temp_new();
-+    TCGv t1 = tcg_temp_new();
-     dc->postinc = 0;
-     cris_evaluate_flags(dc);
+@@ -931,12 +925,6 @@ static inline TCGv_i64 tcg_temp_new_i64(void)
+     return temp_tcgv_i64(t);
+ }
  
-@@ -434,7 +434,7 @@ static void dec10_reg_bound(DisasContext *dc, int size)
+-static inline TCGv_i64 tcg_temp_local_new_i64(void)
+-{
+-    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I64, TEMP_TB);
+-    return temp_tcgv_i64(t);
+-}
+-
+ /* Used only by tcg infrastructure: tcg-op.c or plugin-gen.c */
+ static inline TCGv_i128 tcg_temp_ebb_new_i128(void)
  {
-     TCGv t;
+@@ -950,12 +938,6 @@ static inline TCGv_i128 tcg_temp_new_i128(void)
+     return temp_tcgv_i128(t);
+ }
  
--    t = tcg_temp_local_new();
-+    t = tcg_temp_new();
-     t_gen_zext(t, cpu_R[dc->src], size);
-     cris_alu(dc, CC_OP_BOUND, cpu_R[dc->dst], cpu_R[dc->dst], t, 4);
-     tcg_temp_free(t);
-@@ -935,7 +935,7 @@ static int dec10_ind_bound(CPUCRISState *env, DisasContext *dc,
-     int rd = dc->dst;
-     TCGv t;
+-static inline TCGv_i128 tcg_temp_local_new_i128(void)
+-{
+-    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, TEMP_TB);
+-    return temp_tcgv_i128(t);
+-}
+-
+ static inline TCGv_ptr tcg_global_mem_new_ptr(TCGv_ptr reg, intptr_t offset,
+                                               const char *name)
+ {
+@@ -976,12 +958,6 @@ static inline TCGv_ptr tcg_temp_new_ptr(void)
+     return temp_tcgv_ptr(t);
+ }
  
--    t = tcg_temp_local_new();
-+    t = tcg_temp_new();
-     insn_len += dec10_prep_move_m(env, dc, 0, size, t);
-     cris_alu(dc, CC_OP_BOUND, cpu_R[dc->dst], cpu_R[rd], t, 4);
-     if (dc->dst == 15) {
+-static inline TCGv_ptr tcg_temp_local_new_ptr(void)
+-{
+-    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_PTR, TEMP_TB);
+-    return temp_tcgv_ptr(t);
+-}
+-
+ #if defined(CONFIG_DEBUG_TCG)
+ /* If you call tcg_clear_temp_count() at the start of a section of
+  * code which is not supposed to leak any TCG temporaries, then
+@@ -1084,8 +1060,6 @@ void tcg_optimize(TCGContext *s);
+ /* Allocate a new temporary and initialize it with a constant. */
+ TCGv_i32 tcg_const_i32(int32_t val);
+ TCGv_i64 tcg_const_i64(int64_t val);
+-TCGv_i32 tcg_const_local_i32(int32_t val);
+-TCGv_i64 tcg_const_local_i64(int64_t val);
+ TCGv_vec tcg_const_zeros_vec(TCGType);
+ TCGv_vec tcg_const_ones_vec(TCGType);
+ TCGv_vec tcg_const_zeros_vec_matching(TCGv_vec);
+@@ -1113,11 +1087,9 @@ TCGv_vec tcg_constant_vec_matching(TCGv_vec match, unsigned vece, int64_t val);
+ 
+ #if UINTPTR_MAX == UINT32_MAX
+ # define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i32((intptr_t)(x)))
+-# define tcg_const_local_ptr(x)  ((TCGv_ptr)tcg_const_local_i32((intptr_t)(x)))
+ # define tcg_constant_ptr(x)     ((TCGv_ptr)tcg_constant_i32((intptr_t)(x)))
+ #else
+ # define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i64((intptr_t)(x)))
+-# define tcg_const_local_ptr(x)  ((TCGv_ptr)tcg_const_local_i64((intptr_t)(x)))
+ # define tcg_constant_ptr(x)     ((TCGv_ptr)tcg_constant_i64((intptr_t)(x)))
+ #endif
+ 
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 758b2a3e06..b65f2ffdbe 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1476,22 +1476,6 @@ TCGv_i64 tcg_const_i64(int64_t val)
+     return t0;
+ }
+ 
+-TCGv_i32 tcg_const_local_i32(int32_t val)
+-{
+-    TCGv_i32 t0;
+-    t0 = tcg_temp_local_new_i32();
+-    tcg_gen_movi_i32(t0, val);
+-    return t0;
+-}
+-
+-TCGv_i64 tcg_const_local_i64(int64_t val)
+-{
+-    TCGv_i64 t0;
+-    t0 = tcg_temp_local_new_i64();
+-    tcg_gen_movi_i64(t0, val);
+-    return t0;
+-}
+-
+ #if defined(CONFIG_DEBUG_TCG)
+ void tcg_clear_temp_count(void)
+ {
 -- 
 2.34.1
 
