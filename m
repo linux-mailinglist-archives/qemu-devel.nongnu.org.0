@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15546A44DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:42:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27226A44D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:40:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeYF-0001RI-Dn; Mon, 27 Feb 2023 09:32:27 -0500
+	id 1pWeYC-00015B-MD; Mon, 27 Feb 2023 09:32:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6644499f1bfadfc93882+7127+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pWeVh-0005nJ-N7
+ id 1pWeVh-0005n5-N7
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:29:57 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+6644499f1bfadfc93882+7127+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pWeVY-0004bf-4Z
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:29:49 -0500
+ id 1pWeVY-0004br-EW
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:29:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=BtUBa/ZTt7xRW1oD2u5uv2Eun9em4HTZUkXGAX8e74Y=; b=VtMuaS+1yi+7yf0KlCEJk5x80Z
- iP7RnFw/1kEMrUSvW23sqIscGpV1BEATwCKNHWcpfY+JdPC/1UQ5TvpI/6v/gOmVgIVgHcVtC1jb5
- YQ4hwj2OwFxdYbjt5q0uhyZ+OC2tR0WyaFV4t3A9QHgNsy9HrMVGMO3pIu8qgK6Eyv51KlqoNxKuI
- E74fnWnmj5GAm5Ox+7/asjbeR8TtJWwGpYZbCIhPsx2MdMUX/Hkb1wapx9gN07o4Oa5B9XbAEuwXQ
- 3QDfFSJxpPaQiVNTpdQtwIBR5y1K573du/7geSDPdrBFQ/gaYJlaqUB1uw+S3e/bX9wPDAuD9GSaK
- NgDQtQ/Q==;
+ bh=TyDAQMR3TFxQS2srp8GZeSYZyxuBR8OpfMCJcl9jVto=; b=mSjjQ19OzyAO22Tx7HZ8DCJ+Gk
+ GcljYLPKH1FHunsplwF6nL5sa01RBdj59xHp3+ItYvd8m07S6jqy2Aa22nb1VoTb2+4mP3YhXOzQ3
+ pfXWIESia30BO6i0JBsLbbWBf1MykRyz/IhmPucB7glWeMTm6vjvh50ViDv8teFRoBXLfLEqi25/0
+ Qy0RnrKgPatcQss/j1S+aE9LKplflfmCT6ZA8NeUcuC2O2QWGOsYitTJDeZnImoKIssqxJFwfqoWX
+ I6wtxaqlK1jB/9X6Z72+KZukMnzf9hNCQ/VrMw7zJsaB5Ml4TFHBygOM6psp+T+zI6dvexRmpGDHq
+ 5A2tQCiA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pWeV8-00EFCT-0Z; Mon, 27 Feb 2023 14:29:28 +0000
+ id 1pWeV8-00EFCU-0W; Mon, 27 Feb 2023 14:29:29 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pWeV7-0027Dp-2u; Mon, 27 Feb 2023 14:29:13 +0000
+ Linux)) id 1pWeV7-0027Dt-36; Mon, 27 Feb 2023 14:29:13 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,10 +50,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v14 53/60] hw/xen: Automatically add xen-platform PCI device
- for emulated Xen guests
-Date: Mon, 27 Feb 2023 14:29:01 +0000
-Message-Id: <20230227142908.503517-54-dwmw2@infradead.org>
+Subject: [PATCH v14 54/60] i386/xen: Implement HYPERVISOR_physdev_op
+Date: Mon, 27 Feb 2023 14:29:02 +0000
+Message-Id: <20230227142908.503517-55-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227142908.503517-1-dwmw2@infradead.org>
 References: <20230227142908.503517-1-dwmw2@infradead.org>
@@ -88,35 +87,237 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-It isn't strictly mandatory but Linux guests at least will only map
-their grant tables over the dummy BAR that it provides, and don't have
-sufficient wit to map them in any other unused part of their guest
-address space. So include it by default for minimal surprise factor.
-
-As I come to document "how to run a Xen guest in QEMU", this means one
-fewer thing to tell the user about, according to the mantra of "if it
-needs documenting, fix it first, then document what remains".
+Just hook up the basic hypercalls to stubs in xen_evtchn.c for now.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/pc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/i386/kvm/xen_evtchn.c     |  25 ++++++++
+ hw/i386/kvm/xen_evtchn.h     |  11 ++++
+ target/i386/kvm/xen-compat.h |  19 ++++++
+ target/i386/kvm/xen-emu.c    | 118 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 173 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index bbebaebe9b..eb4b8228f0 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1312,6 +1312,9 @@ void pc_basic_device_init(struct PCMachineState *pcms,
- #ifdef CONFIG_XEN_EMU
-     if (xen_mode == XEN_EMULATE) {
-         xen_evtchn_connect_gsis(gsi);
-+        if (pcms->bus) {
-+            pci_create_simple(pcms->bus, -1, "xen-platform");
-+        }
-     }
- #endif
+diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
+index a6b12b1c08..7d17d5e9ec 100644
+--- a/hw/i386/kvm/xen_evtchn.c
++++ b/hw/i386/kvm/xen_evtchn.c
+@@ -1349,6 +1349,31 @@ int xen_evtchn_set_port(uint16_t port)
+     return ret;
+ }
  
++int xen_physdev_map_pirq(struct physdev_map_pirq *map)
++{
++    return -ENOTSUP;
++}
++
++int xen_physdev_unmap_pirq(struct physdev_unmap_pirq *unmap)
++{
++    return -ENOTSUP;
++}
++
++int xen_physdev_eoi_pirq(struct physdev_eoi *eoi)
++{
++    return -ENOTSUP;
++}
++
++int xen_physdev_query_pirq(struct physdev_irq_status_query *query)
++{
++    return -ENOTSUP;
++}
++
++int xen_physdev_get_free_pirq(struct physdev_get_free_pirq *get)
++{
++    return -ENOTSUP;
++}
++
+ struct xenevtchn_handle *xen_be_evtchn_open(void)
+ {
+     struct xenevtchn_handle *xc = g_new0(struct xenevtchn_handle, 1);
+diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
+index 5a71ffb753..352c875976 100644
+--- a/hw/i386/kvm/xen_evtchn.h
++++ b/hw/i386/kvm/xen_evtchn.h
+@@ -62,4 +62,15 @@ int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain);
+ int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu);
+ int xen_evtchn_reset_op(struct evtchn_reset *reset);
+ 
++struct physdev_map_pirq;
++struct physdev_unmap_pirq;
++struct physdev_eoi;
++struct physdev_irq_status_query;
++struct physdev_get_free_pirq;
++int xen_physdev_map_pirq(struct physdev_map_pirq *map);
++int xen_physdev_unmap_pirq(struct physdev_unmap_pirq *unmap);
++int xen_physdev_eoi_pirq(struct physdev_eoi *eoi);
++int xen_physdev_query_pirq(struct physdev_irq_status_query *query);
++int xen_physdev_get_free_pirq(struct physdev_get_free_pirq *get);
++
+ #endif /* QEMU_XEN_EVTCHN_H */
+diff --git a/target/i386/kvm/xen-compat.h b/target/i386/kvm/xen-compat.h
+index 448336de92..7f30180cc2 100644
+--- a/target/i386/kvm/xen-compat.h
++++ b/target/i386/kvm/xen-compat.h
+@@ -48,4 +48,23 @@ struct compat_xen_add_to_physmap_batch {
+     COMPAT_HANDLE(int) errs;
+ };
+ 
++struct compat_physdev_map_pirq {
++    domid_t domid;
++    uint16_t pad;
++    /* IN */
++    int type;
++    /* IN (ignored for ..._MULTI_MSI) */
++    int index;
++    /* IN or OUT */
++    int pirq;
++    /* IN - high 16 bits hold segment for ..._MSI_SEG and ..._MULTI_MSI */
++    int bus;
++    /* IN */
++    int devfn;
++    /* IN (also OUT for ..._MULTI_MSI) */
++    int entry_nr;
++    /* IN */
++    uint64_t table_base;
++} __attribute__((packed));
++
+ #endif /* QEMU_I386_XEN_COMPAT_H */
+diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+index 50965b56f3..fe15696cc9 100644
+--- a/target/i386/kvm/xen-emu.c
++++ b/target/i386/kvm/xen-emu.c
+@@ -1539,6 +1539,121 @@ static bool kvm_xen_hcall_gnttab_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+     return true;
+ }
+ 
++static bool kvm_xen_hcall_physdev_op(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                     int cmd, uint64_t arg)
++{
++    CPUState *cs = CPU(cpu);
++    int err;
++
++    switch (cmd) {
++    case PHYSDEVOP_map_pirq: {
++        struct physdev_map_pirq map;
++
++        if (hypercall_compat32(exit->u.hcall.longmode)) {
++            struct compat_physdev_map_pirq *map32 = (void *)&map;
++
++            if (kvm_copy_from_gva(cs, arg, map32, sizeof(*map32))) {
++                return -EFAULT;
++            }
++
++            /*
++             * The only thing that's different is the alignment of the
++             * uint64_t table_base at the end, which gets padding to make
++             * it 64-bit aligned in the 64-bit version.
++             */
++            qemu_build_assert(sizeof(*map32) == 36);
++            qemu_build_assert(offsetof(struct physdev_map_pirq, entry_nr) ==
++                              offsetof(struct compat_physdev_map_pirq, entry_nr));
++            memmove(&map.table_base, &map32->table_base, sizeof(map.table_base));
++        } else {
++            if (kvm_copy_from_gva(cs, arg, &map, sizeof(map))) {
++                err = -EFAULT;
++                break;
++            }
++        }
++        err = xen_physdev_map_pirq(&map);
++        /*
++         * Since table_base is an IN parameter and won't be changed, just
++         * copy the size of the compat structure back to the guest.
++         */
++        if (!err && kvm_copy_to_gva(cs, arg, &map,
++                                    sizeof(struct compat_physdev_map_pirq))) {
++            err = -EFAULT;
++        }
++        break;
++    }
++    case PHYSDEVOP_unmap_pirq: {
++        struct physdev_unmap_pirq unmap;
++
++        qemu_build_assert(sizeof(unmap) == 8);
++        if (kvm_copy_from_gva(cs, arg, &unmap, sizeof(unmap))) {
++            err = -EFAULT;
++            break;
++        }
++
++        err = xen_physdev_unmap_pirq(&unmap);
++        if (!err && kvm_copy_to_gva(cs, arg, &unmap, sizeof(unmap))) {
++            err = -EFAULT;
++        }
++        break;
++    }
++    case PHYSDEVOP_eoi: {
++        struct physdev_eoi eoi;
++
++        qemu_build_assert(sizeof(eoi) == 4);
++        if (kvm_copy_from_gva(cs, arg, &eoi, sizeof(eoi))) {
++            err = -EFAULT;
++            break;
++        }
++
++        err = xen_physdev_eoi_pirq(&eoi);
++        if (!err && kvm_copy_to_gva(cs, arg, &eoi, sizeof(eoi))) {
++            err = -EFAULT;
++        }
++        break;
++    }
++    case PHYSDEVOP_irq_status_query: {
++        struct physdev_irq_status_query query;
++
++        qemu_build_assert(sizeof(query) == 8);
++        if (kvm_copy_from_gva(cs, arg, &query, sizeof(query))) {
++            err = -EFAULT;
++            break;
++        }
++
++        err = xen_physdev_query_pirq(&query);
++        if (!err && kvm_copy_to_gva(cs, arg, &query, sizeof(query))) {
++            err = -EFAULT;
++        }
++        break;
++    }
++    case PHYSDEVOP_get_free_pirq: {
++        struct physdev_get_free_pirq get;
++
++        qemu_build_assert(sizeof(get) == 8);
++        if (kvm_copy_from_gva(cs, arg, &get, sizeof(get))) {
++            err = -EFAULT;
++            break;
++        }
++
++        err = xen_physdev_get_free_pirq(&get);
++        if (!err && kvm_copy_to_gva(cs, arg, &get, sizeof(get))) {
++            err = -EFAULT;
++        }
++        break;
++    }
++    case PHYSDEVOP_pirq_eoi_gmfn_v2: /* FreeBSD 13 makes this hypercall */
++        err = -ENOSYS;
++        break;
++
++    default:
++        return false;
++    }
++
++    exit->u.hcall.result = err;
++    return true;
++}
++
+ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+ {
+     uint16_t code = exit->u.hcall.input;
+@@ -1580,6 +1695,9 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+     case __HYPERVISOR_memory_op:
+         return kvm_xen_hcall_memory_op(exit, cpu, exit->u.hcall.params[0],
+                                        exit->u.hcall.params[1]);
++    case __HYPERVISOR_physdev_op:
++        return kvm_xen_hcall_physdev_op(exit, cpu, exit->u.hcall.params[0],
++                                        exit->u.hcall.params[1]);
+     case __HYPERVISOR_xen_version:
+         return kvm_xen_hcall_xen_version(exit, cpu, exit->u.hcall.params[0],
+                                          exit->u.hcall.params[1]);
 -- 
 2.39.0
 
