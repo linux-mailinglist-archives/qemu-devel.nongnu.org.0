@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146456A435D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F093D6A4371
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:55:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdvp-0006nG-DZ; Mon, 27 Feb 2023 08:52:45 -0500
+	id 1pWdvo-0006eb-Uk; Mon, 27 Feb 2023 08:52:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvc-0006dq-Dt
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvd-0006ds-32
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:33 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdva-0005Uh-Cw
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvb-0005Ut-Cj
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,9 +22,9 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=/u3FgMygsWd0vUlU2d/GekzCv9Q6hjVxri4Ia8zuJKc=; b=TPjhia1kb62CeGZfLe4YzaWLaX
- atdCo2NXVo4cr2vDJBKisTB6c5JOwWYdPxvrBeYK7DFasTN4TfaRVRiZvQLrMcKJ/lw7GiQt3vuX7
- eqZEknSq0WD+ITG40/hPBQHI2XVlqF6E5grOOXY+7mhh29pM/NUIqI+79FbcqKn8G8DE=;
+ bh=KCn0DP9LFcqTdO/rtbmJiogNKZBjx4i5JUhhIgtvyls=; b=MyzxH9NW4A63UBgBk+9fSVp/W8
+ GGZYaAq+Un2bHqgdV9A0Upvxl7pIT3fr4lsUoPbpyrf4cvnLdRDGQI3Woth0pOKDAF9y9s3wDvYL/
+ yCi8H8tNwB0WR5JRqkPMqNRMAuKacUwSRjKwy9pr8rR+N8MdtM0yhlGHE1TwHGTEr41g=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v3 11/27] accel/tcg: Move jmp-cache `CF_PCREL` checks to caller
-Date: Mon, 27 Feb 2023 14:51:46 +0100
-Message-Id: <20230227135202.9710-12-anjo@rev.ng>
+Subject: [PATCH v3 12/27] accel/tcg: Replace `tb_pc()` with `tb->pc`
+Date: Mon, 27 Feb 2023 14:51:47 +0100
+Message-Id: <20230227135202.9710-13-anjo@rev.ng>
 In-Reply-To: <20230227135202.9710-1-anjo@rev.ng>
 References: <20230227135202.9710-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -65,139 +65,121 @@ From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-tb-jmp-cache.h contains a few small functions that only exist to hide a
-CF_PCREL check, however the caller often already performs such a check.
-
-This patch moves CF_PCREL checks from the callee to the caller, and also
-removes these functions which now only hide an access of the jmp-cache.
-
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- accel/tcg/cpu-exec.c     | 56 +++++++++++++++++++++++++++++-----------
- accel/tcg/tb-jmp-cache.h | 36 --------------------------
- 2 files changed, 41 insertions(+), 51 deletions(-)
+ accel/tcg/cpu-exec.c      | 6 +++---
+ accel/tcg/internal.h      | 2 +-
+ accel/tcg/tb-maint.c      | 8 ++++----
+ accel/tcg/translate-all.c | 4 ++--
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 92b833adcf..5efa8bf42a 100644
+index 5efa8bf42a..9fb0fabf95 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -256,21 +256,46 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+@@ -185,7 +185,7 @@ static bool tb_lookup_cmp(const void *p, const void *d)
+     const TranslationBlock *tb = p;
+     const struct tb_desc *desc = d;
  
-     hash = tb_jmp_cache_hash_func(pc);
-     jc = cpu->tb_jmp_cache;
--    tb = tb_jmp_cache_get_tb(jc, cflags, hash);
--
--    if (likely(tb &&
--               tb_jmp_cache_get_pc(jc, hash, tb) == pc &&
--               tb->cs_base == cs_base &&
--               tb->flags == flags &&
--               tb->trace_vcpu_dstate == *cpu->trace_dstate &&
--               tb_cflags(tb) == cflags)) {
--        return tb;
--    }
--    tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
--    if (tb == NULL) {
--        return NULL;
-+
-+    if (cflags & CF_PCREL) {
-+        /* Use acquire to ensure current load of pc from jc. */
-+        tb =  qatomic_load_acquire(&jc->array[hash].tb);
-+
-+        if (likely(tb &&
-+                   jc->array[hash].pc == pc &&
-+                   tb->cs_base == cs_base &&
-+                   tb->flags == flags &&
-+                   tb->trace_vcpu_dstate == *cpu->trace_dstate &&
-+                   tb_cflags(tb) == cflags)) {
-+            return tb;
-+        }
-+        tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
-+        if (tb == NULL) {
-+            return NULL;
-+        }
-+        jc->array[hash].pc = pc;
-+        /* Use store_release on tb to ensure pc is written first. */
-+        qatomic_store_release(&jc->array[hash].tb, tb);
-+    } else {
-+        /* Use rcu_read to ensure current load of pc from *tb. */
-+        tb = qatomic_rcu_read(&jc->array[hash].tb);
-+
-+        if (likely(tb &&
-+                   tb_pc(tb) == pc &&
-+                   tb->cs_base == cs_base &&
-+                   tb->flags == flags &&
-+                   tb->trace_vcpu_dstate == *cpu->trace_dstate &&
-+                   tb_cflags(tb) == cflags)) {
-+            return tb;
-+        }
-+        tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
-+        if (tb == NULL) {
-+            return NULL;
-+        }
-+        /* Use the pc value already stored in tb->pc. */
-+        qatomic_set(&jc->array[hash].tb, tb);
+-    if ((tb_cflags(tb) & CF_PCREL || tb_pc(tb) == desc->pc) &&
++    if ((tb_cflags(tb) & CF_PCREL || tb->pc == desc->pc) &&
+         tb_page_addr0(tb) == desc->page_addr0 &&
+         tb->cs_base == desc->cs_base &&
+         tb->flags == desc->flags &&
+@@ -281,7 +281,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+         tb = qatomic_rcu_read(&jc->array[hash].tb);
+ 
+         if (likely(tb &&
+-                   tb_pc(tb) == pc &&
++                   tb->pc == pc &&
+                    tb->cs_base == cs_base &&
+                    tb->flags == flags &&
+                    tb->trace_vcpu_dstate == *cpu->trace_dstate &&
+@@ -486,7 +486,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
+         } else {
+             tcg_debug_assert(!(tb_cflags(last_tb) & CF_PCREL));
+             assert(cc->set_pc);
+-            cc->set_pc(cpu, tb_pc(last_tb));
++            cc->set_pc(cpu, last_tb->pc);
+         }
+         if (qemu_loglevel_mask(CPU_LOG_EXEC)) {
+             target_ulong pc = log_pc(cpu, last_tb);
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+index 261924e7fa..17b52ecdb7 100644
+--- a/accel/tcg/internal.h
++++ b/accel/tcg/internal.h
+@@ -60,7 +60,7 @@ static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
+     if (tb_cflags(tb) & CF_PCREL) {
+         return cpu->cc->get_pc(cpu);
+     } else {
+-        return tb_pc(tb);
++        return tb->pc;
      }
--    tb_jmp_cache_set(jc, hash, tb, pc);
-+
-     return tb;
  }
  
-@@ -959,7 +984,8 @@ cpu_exec_loop(CPUState *cpu, SyncClocks *sc)
-                  * for the fast lookup
-                  */
-                 h = tb_jmp_cache_hash_func(pc);
--                tb_jmp_cache_set(cpu->tb_jmp_cache, h, tb, pc);
-+                /* Use the pc value already stored in tb->pc. */
-+                qatomic_set(&cpu->tb_jmp_cache->array[h].tb, tb);
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index 2dbc2ce172..efefa08ee1 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -44,7 +44,7 @@ static bool tb_cmp(const void *ap, const void *bp)
+     const TranslationBlock *a = ap;
+     const TranslationBlock *b = bp;
+ 
+-    return ((tb_cflags(a) & CF_PCREL || tb_pc(a) == tb_pc(b)) &&
++    return ((tb_cflags(a) & CF_PCREL || a->pc == b->pc) &&
+             a->cs_base == b->cs_base &&
+             a->flags == b->flags &&
+             (tb_cflags(a) & ~CF_INVALID) == (tb_cflags(b) & ~CF_INVALID) &&
+@@ -853,7 +853,7 @@ static void tb_jmp_cache_inval_tb(TranslationBlock *tb)
+             tcg_flush_jmp_cache(cpu);
+         }
+     } else {
+-        uint32_t h = tb_jmp_cache_hash_func(tb_pc(tb));
++        uint32_t h = tb_jmp_cache_hash_func(tb->pc);
+ 
+         CPU_FOREACH(cpu) {
+             CPUJumpCache *jc = cpu->tb_jmp_cache;
+@@ -885,7 +885,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+ 
+     /* remove the TB from the hash list */
+     phys_pc = tb_page_addr0(tb);
+-    h = tb_hash_func(phys_pc, (orig_cflags & CF_PCREL ? 0 : tb_pc(tb)),
++    h = tb_hash_func(phys_pc, (orig_cflags & CF_PCREL ? 0 : tb->pc),
+                      tb->flags, orig_cflags, tb->trace_vcpu_dstate);
+     if (!qht_remove(&tb_ctx.htable, tb, h)) {
+         return;
+@@ -966,7 +966,7 @@ TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+     tb_record(tb, p, p2);
+ 
+     /* add in the hash table */
+-    h = tb_hash_func(phys_pc, (tb->cflags & CF_PCREL ? 0 : tb_pc(tb)),
++    h = tb_hash_func(phys_pc, (tb->cflags & CF_PCREL ? 0 : tb->pc),
+                      tb->flags, tb->cflags, tb->trace_vcpu_dstate);
+     qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
+ 
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 6ae3cc9d71..389d0a940b 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -135,7 +135,7 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
+ 
+         for (j = 0; j < TARGET_INSN_START_WORDS; ++j) {
+             if (i == 0) {
+-                prev = (!(tb_cflags(tb) & CF_PCREL) && j == 0 ? tb_pc(tb) : 0);
++                prev = (!(tb_cflags(tb) & CF_PCREL) && j == 0 ? tb->pc : 0);
+             } else {
+                 prev = tcg_ctx->gen_insn_data[i - 1][j];
              }
+@@ -171,7 +171,7 @@ static int cpu_unwind_data_from_tb(TranslationBlock *tb, uintptr_t host_pc,
  
- #ifndef CONFIG_USER_ONLY
-diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
-index 083939b302..bee87eb840 100644
---- a/accel/tcg/tb-jmp-cache.h
-+++ b/accel/tcg/tb-jmp-cache.h
-@@ -25,40 +25,4 @@ struct CPUJumpCache {
-     } array[TB_JMP_CACHE_SIZE];
- };
+     memset(data, 0, sizeof(uint64_t) * TARGET_INSN_START_WORDS);
+     if (!(tb_cflags(tb) & CF_PCREL)) {
+-        data[0] = tb_pc(tb);
++        data[0] = tb->pc;
+     }
  
--static inline TranslationBlock *
--tb_jmp_cache_get_tb(CPUJumpCache *jc, uint32_t cflags, uint32_t hash)
--{
--    if (cflags & CF_PCREL) {
--        /* Use acquire to ensure current load of pc from jc. */
--        return qatomic_load_acquire(&jc->array[hash].tb);
--    } else {
--        /* Use rcu_read to ensure current load of pc from *tb. */
--        return qatomic_rcu_read(&jc->array[hash].tb);
--    }
--}
--
--static inline target_ulong
--tb_jmp_cache_get_pc(CPUJumpCache *jc, uint32_t hash, TranslationBlock *tb)
--{
--    if (tb_cflags(tb) & CF_PCREL) {
--        return jc->array[hash].pc;
--    } else {
--        return tb_pc(tb);
--    }
--}
--
--static inline void
--tb_jmp_cache_set(CPUJumpCache *jc, uint32_t hash,
--                 TranslationBlock *tb, target_ulong pc)
--{
--    if (tb_cflags(tb) & CF_PCREL) {
--        jc->array[hash].pc = pc;
--        /* Use store_release on tb to ensure pc is written first. */
--        qatomic_store_release(&jc->array[hash].tb, tb);
--    } else{
--        /* Use the pc value already stored in tb->pc. */
--        qatomic_set(&jc->array[hash].tb, tb);
--    }
--}
--
- #endif /* ACCEL_TCG_TB_JMP_CACHE_H */
+     /*
 -- 
 2.39.1
 
