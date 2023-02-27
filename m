@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1AE6A40CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:38:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3456A40C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:38:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWboG-0005dA-47; Mon, 27 Feb 2023 06:36:48 -0500
+	id 1pWboE-0005Xz-AW; Mon, 27 Feb 2023 06:36:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboD-0005XL-0K
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:45 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboC-0005WO-EN
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:44 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboB-0005gO-Fx
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboA-0005gC-Hn
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677497802;
+ s=mimecast20190719; t=1677497801;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7qZyOf8rmw5OCUwVosJn2HKesgZmHQoVJenmudKYq3A=;
- b=iQZwMYbX9CMQBWonhYyq2KvMlx4J5vVDYifR8g3fOod6Ufgr04qlOZC3sy61dRreMCqSjv
- joawbG9SeR6ugWj2RuIJ5LwspFAFXw7eJjtszDNeEjNecVLE8Uu4E0XzQ8BttTNDawCf/o
- +s8dSsK9SwxHObZUDqYZQ35755rA7p4=
+ bh=g2W75rkVRLi0PLmhomrqiDNgo/vNSDvKn4xxxoW/ipk=;
+ b=Vg6xXSEkfT261LAUP/dK516I2adB1DNJs7ivbSNuMotOZmf4t7dy9P9F0UaUZ4yV1xZOWE
+ A3piq05LSAEw8h02qjN7OKjRwMFdX8KqFRHZPXUsuqDJBeNGyHwvYUIGYAMk6lNFmhxE+a
+ GFKWV2bhTgfYqdPjdLrUW44kU9AVIks=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-LukEIeTYP1K6pq1djUmfpA-1; Mon, 27 Feb 2023 06:36:39 -0500
-X-MC-Unique: LukEIeTYP1K6pq1djUmfpA-1
+ us-mta-621-jukybfDHNtuKV46Wsh582A-1; Mon, 27 Feb 2023 06:36:40 -0500
+X-MC-Unique: jukybfDHNtuKV46Wsh582A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30A4A183B3C1;
- Mon, 27 Feb 2023 11:36:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FC1D100F908;
+ Mon, 27 Feb 2023 11:36:40 +0000 (UTC)
 Received: from thuth.com (unknown [10.45.227.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 459B41121314;
- Mon, 27 Feb 2023 11:36:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73FD61121314;
+ Mon, 27 Feb 2023 11:36:39 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>
-Subject: [PULL 13/33] target/s390x: Tidy access_prepare_nf
-Date: Mon, 27 Feb 2023 12:36:01 +0100
-Message-Id: <20230227113621.58468-14-thuth@redhat.com>
+Subject: [PULL 14/33] target/s390x: Remove TLB_NOTDIRTY workarounds
+Date: Mon, 27 Feb 2023 12:36:02 +0100
+Message-Id: <20230227113621.58468-15-thuth@redhat.com>
 In-Reply-To: <20230227113621.58468-1-thuth@redhat.com>
 References: <20230227113621.58468-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,76 +79,155 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Assign to access struct immediately, rather than waiting
-until the end of the function.  This means we can pass
-address of haddr struct members instead of allocating
-extra space on the local stack.
+When this code was written, it was using tlb_vaddr_to_host,
+which does not handle TLB_DIRTY.  Since then, it has been
+converted to probe_access_flags, which does.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20230109201856.3916639-5-richard.henderson@linaro.org>
+Acked-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20230109201856.3916639-6-richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/mem_helper.c | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
+ target/s390x/tcg/mem_helper.c | 74 +++++++++++------------------------
+ 1 file changed, 22 insertions(+), 52 deletions(-)
 
 diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index 4d157ba9cf..dc9b5ff088 100644
+index dc9b5ff088..e9d54b1dd5 100644
 --- a/target/s390x/tcg/mem_helper.c
 +++ b/target/s390x/tcg/mem_helper.c
-@@ -176,39 +176,35 @@ static int access_prepare_nf(S390Access *access, CPUS390XState *env,
-                              MMUAccessType access_type,
-                              int mmu_idx, uintptr_t ra)
+@@ -122,11 +122,7 @@ typedef struct S390Access {
+      * If we can't access the host page directly, we'll have to do I/O access
+      * via ld/st helpers. These are internal details, so we store the
+      * mmu idx to do the access here instead of passing it around in the
+-     * helpers. Maybe, one day we can get rid of ld/st access - once we can
+-     * handle TLB_NOTDIRTY differently. We don't expect these special accesses
+-     * to trigger exceptions - only if we would have TLB_NOTDIRTY on LAP
+-     * pages, we might trigger a new MMU translation - very unlikely that
+-     * the mapping changes in between and we would trigger a fault.
++     * helpers.
+      */
+     int mmu_idx;
+ } S390Access;
+@@ -224,28 +220,14 @@ static void do_access_memset(CPUS390XState *env, vaddr vaddr, char *haddr,
+                              uintptr_t ra)
  {
--    void *haddr1, *haddr2 = NULL;
-     int size1, size2, exc;
--    vaddr vaddr2 = 0;
- 
-     assert(size > 0 && size <= 4096);
- 
-     size1 = MIN(size, -(vaddr1 | TARGET_PAGE_MASK)),
-     size2 = size - size1;
- 
-+    memset(access, 0, sizeof(*access));
-+    access->vaddr1 = vaddr1;
-+    access->size1 = size1;
-+    access->size2 = size2;
-+    access->mmu_idx = mmu_idx;
-+
-     exc = s390_probe_access(env, vaddr1, size1, access_type, mmu_idx, nonfault,
--                            &haddr1, ra);
--    if (exc) {
-+                            &access->haddr1, ra);
-+    if (unlikely(exc)) {
-         return exc;
-     }
-     if (unlikely(size2)) {
-         /* The access crosses page boundaries. */
--        vaddr2 = wrap_address(env, vaddr1 + size1);
-+        vaddr vaddr2 = wrap_address(env, vaddr1 + size1);
-+
-+        access->vaddr2 = vaddr2;
-         exc = s390_probe_access(env, vaddr2, size2, access_type, mmu_idx,
--                                nonfault, &haddr2, ra);
--        if (exc) {
-+                                nonfault, &access->haddr2, ra);
-+        if (unlikely(exc)) {
-             return exc;
+ #ifdef CONFIG_USER_ONLY
+-    g_assert(haddr);
+     memset(haddr, byte, size);
+ #else
+-    MemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
+-    int i;
+-
+     if (likely(haddr)) {
+         memset(haddr, byte, size);
+     } else {
+-        /*
+-         * Do a single access and test if we can then get access to the
+-         * page. This is especially relevant to speed up TLB_NOTDIRTY.
+-         */
+-        g_assert(size > 0);
+-        cpu_stb_mmu(env, vaddr, byte, oi, ra);
+-        haddr = tlb_vaddr_to_host(env, vaddr, MMU_DATA_STORE, mmu_idx);
+-        if (likely(haddr)) {
+-            memset(haddr + 1, byte, size - 1);
+-        } else {
+-            for (i = 1; i < size; i++) {
+-                cpu_stb_mmu(env, vaddr + i, byte, oi, ra);
+-            }
++        MemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
++        for (int i = 0; i < size; i++) {
++            cpu_stb_mmu(env, vaddr + i, byte, oi, ra);
          }
      }
--
--    *access = (S390Access) {
--        .vaddr1 = vaddr1,
--        .vaddr2 = vaddr2,
--        .haddr1 = haddr1,
--        .haddr2 = haddr2,
--        .size1 = size1,
--        .size2 = size2,
--        .mmu_idx = mmu_idx
--    };
-     return 0;
+ #endif
+@@ -265,25 +247,18 @@ static void access_memset(CPUS390XState *env, S390Access *desta,
  }
  
+ static uint8_t do_access_get_byte(CPUS390XState *env, vaddr vaddr,
+-                                  void **haddr, int offset,
++                                  void *haddr, int offset,
+                                   int mmu_idx, uintptr_t ra)
+ {
+ #ifdef CONFIG_USER_ONLY
+-    return ldub_p(*haddr + offset);
++    return ldub_p(haddr + offset);
+ #else
+-    MemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
+-    uint8_t byte;
+-
+-    if (likely(*haddr)) {
+-        return ldub_p(*haddr + offset);
++    if (likely(haddr)) {
++        return ldub_p(haddr + offset);
++    } else {
++        MemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
++        return cpu_ldb_mmu(env, vaddr + offset, oi, ra);
+     }
+-    /*
+-     * Do a single access and test if we can then get access to the
+-     * page. This is especially relevant to speed up TLB_NOTDIRTY.
+-     */
+-    byte = cpu_ldb_mmu(env, vaddr + offset, oi, ra);
+-    *haddr = tlb_vaddr_to_host(env, vaddr, MMU_DATA_LOAD, mmu_idx);
+-    return byte;
+ #endif
+ }
+ 
+@@ -291,32 +266,27 @@ static uint8_t access_get_byte(CPUS390XState *env, S390Access *access,
+                                int offset, uintptr_t ra)
+ {
+     if (offset < access->size1) {
+-        return do_access_get_byte(env, access->vaddr1, &access->haddr1,
++        return do_access_get_byte(env, access->vaddr1, access->haddr1,
+                                   offset, access->mmu_idx, ra);
+     }
+-    return do_access_get_byte(env, access->vaddr2, &access->haddr2,
++    return do_access_get_byte(env, access->vaddr2, access->haddr2,
+                               offset - access->size1, access->mmu_idx, ra);
+ }
+ 
+-static void do_access_set_byte(CPUS390XState *env, vaddr vaddr, void **haddr,
++static void do_access_set_byte(CPUS390XState *env, vaddr vaddr, void *haddr,
+                                int offset, uint8_t byte, int mmu_idx,
+                                uintptr_t ra)
+ {
+ #ifdef CONFIG_USER_ONLY
+-    stb_p(*haddr + offset, byte);
++    stb_p(haddr + offset, byte);
+ #else
+-    MemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
+ 
+-    if (likely(*haddr)) {
+-        stb_p(*haddr + offset, byte);
+-        return;
++    if (likely(haddr)) {
++        stb_p(haddr + offset, byte);
++    } else {
++        MemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
++        cpu_stb_mmu(env, vaddr + offset, byte, oi, ra);
+     }
+-    /*
+-     * Do a single access and test if we can then get access to the
+-     * page. This is especially relevant to speed up TLB_NOTDIRTY.
+-     */
+-    cpu_stb_mmu(env, vaddr + offset, byte, oi, ra);
+-    *haddr = tlb_vaddr_to_host(env, vaddr, MMU_DATA_STORE, mmu_idx);
+ #endif
+ }
+ 
+@@ -324,10 +294,10 @@ static void access_set_byte(CPUS390XState *env, S390Access *access,
+                             int offset, uint8_t byte, uintptr_t ra)
+ {
+     if (offset < access->size1) {
+-        do_access_set_byte(env, access->vaddr1, &access->haddr1, offset, byte,
++        do_access_set_byte(env, access->vaddr1, access->haddr1, offset, byte,
+                            access->mmu_idx, ra);
+     } else {
+-        do_access_set_byte(env, access->vaddr2, &access->haddr2,
++        do_access_set_byte(env, access->vaddr2, access->haddr2,
+                            offset - access->size1, byte, access->mmu_idx, ra);
+     }
+ }
 -- 
 2.31.1
 
