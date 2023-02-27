@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761906A40CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747C46A40CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:38:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbo8-0005QE-VQ; Mon, 27 Feb 2023 06:36:41 -0500
+	id 1pWbo9-0005UM-Ua; Mon, 27 Feb 2023 06:36:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo0-0005Oc-Np
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo2-0005P9-CR
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbny-0005ce-M0
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:32 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbnz-0005eB-2e
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677497787;
+ s=mimecast20190719; t=1677497790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BvdedQHE2XFHgWmaM09tYUZ1I/EqK7zCoouJXMb+WOQ=;
- b=FVJMK9/L6/oUnkmcviTR3TFSEPX4KaK6Ig6gpuQ3wRVB1IPQA6MFDcJYFr2BF/AKrq1lLd
- CkpKcjOp3BjmMNYjpmp/oGezUK/h5czcIyl+8wOrce91n+PimDj0pGicx7sdma+hfCk9HQ
- syFCeaeyECBYyuFqMMnG2kciECaZxgA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CCIoh355eR2gifpP69uJvxJdIfAbhg3hOGe1Eb6bkWg=;
+ b=h2lLhv/p3tbDBnlEt5YRIG+rEQwtaeFR4Gztv35YlZjYHL6XUTaggb15VFCOZGwWhGlXcJ
+ Ey20kYSPx0UuJ2ooB/uxxdiSvwpajOCQEK5rX3VhQLjBeQok8qKf+WVJJ9vQxbCO2PRKwM
+ qUzENGR6iWOvJwiPGItLcBebMNRxAtc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-100-MinSBph2ONq-lZQN3nh7Nw-1; Mon, 27 Feb 2023 06:36:25 -0500
-X-MC-Unique: MinSBph2ONq-lZQN3nh7Nw-1
+ us-mta-77-WRfIqcCPPIy3R5DL82N7iw-1; Mon, 27 Feb 2023 06:36:26 -0500
+X-MC-Unique: WRfIqcCPPIy3R5DL82N7iw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5462185CBE2;
- Mon, 27 Feb 2023 11:36:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56E763C0E441;
+ Mon, 27 Feb 2023 11:36:26 +0000 (UTC)
 Received: from thuth.com (unknown [10.45.227.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93A661121314;
- Mon, 27 Feb 2023 11:36:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 963D51121314;
+ Mon, 27 Feb 2023 11:36:25 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 01/33] tests/qtest/rtl8139-test: Make the test less verbose by
- default
-Date: Mon, 27 Feb 2023 12:35:49 +0100
-Message-Id: <20230227113621.58468-2-thuth@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 02/33] Do not include hw/hw.h if it is not necessary
+Date: Mon, 27 Feb 2023 12:35:50 +0100
+Message-Id: <20230227113621.58468-3-thuth@redhat.com>
 In-Reply-To: <20230227113621.58468-1-thuth@redhat.com>
 References: <20230227113621.58468-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,65 +77,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are facing the issues that some test logs in the gitlab CI are
-too big (and thus cut off). The rtl8139-test is one of the few qtests
-that prints many lines of output by default when running with V=1, so
-it contributes to this problem. Almost all other qtests are silent
-with V=1 and only print debug messages with V=2 and higher. Thus let's
-change the rtl8139-test to behave more like the other tests and only
-print the debug messages with V=2 (or higher).
+hw.h only contains the protoype of one function nowadays, hw_error(),
+so all files that do not use this function anymore also do not need
+to include this header anymore.
 
-Message-Id: <20230215124122.72037-1-thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20230216142915.304481-1-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/rtl8139-test.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ include/hw/ssi/ibex_spi_host.h          | 1 -
+ include/hw/tricore/tricore_testdevice.h | 1 -
+ hw/pci-host/mv64361.c                   | 1 -
+ hw/ppc/pegasos2.c                       | 1 -
+ hw/sensor/dps310.c                      | 1 -
+ 5 files changed, 5 deletions(-)
 
-diff --git a/tests/qtest/rtl8139-test.c b/tests/qtest/rtl8139-test.c
-index 8fa3313cc3..1beb83805c 100644
---- a/tests/qtest/rtl8139-test.c
-+++ b/tests/qtest/rtl8139-test.c
-@@ -12,6 +12,8 @@
- #include "libqos/pci-pc.h"
- #include "qemu/timer.h"
+diff --git a/include/hw/ssi/ibex_spi_host.h b/include/hw/ssi/ibex_spi_host.h
+index 8089cc1c31..5bd5557b9a 100644
+--- a/include/hw/ssi/ibex_spi_host.h
++++ b/include/hw/ssi/ibex_spi_host.h
+@@ -28,7 +28,6 @@
+ #define IBEX_SPI_HOST_H
  
-+static int verbosity_level;
-+
- /* Tests only initialization so far. TODO: Replace with functional tests */
- static void nop(void)
- {
-@@ -45,12 +47,16 @@ static QPCIDevice *get_device(void)
- static unsigned __attribute__((unused)) in_##name(void) \
- { \
-     unsigned res = qpci_io_read##len(dev, dev_bar, (val));     \
--    g_test_message("*%s -> %x", #name, res); \
-+    if (verbosity_level >= 2) { \
-+        g_test_message("*%s -> %x", #name, res); \
-+    } \
-     return res; \
- } \
- static void out_##name(unsigned v) \
- { \
--    g_test_message("%x -> *%s", v, #name); \
-+    if (verbosity_level >= 2) { \
-+        g_test_message("%x -> *%s", v, #name); \
-+    } \
-     qpci_io_write##len(dev, dev_bar, (val), v);        \
- }
+ #include "hw/sysbus.h"
+-#include "hw/hw.h"
+ #include "hw/ssi/ssi.h"
+ #include "qemu/fifo8.h"
+ #include "qom/object.h"
+diff --git a/include/hw/tricore/tricore_testdevice.h b/include/hw/tricore/tricore_testdevice.h
+index 1e2b8942ac..8b4fe15f24 100644
+--- a/include/hw/tricore/tricore_testdevice.h
++++ b/include/hw/tricore/tricore_testdevice.h
+@@ -19,7 +19,6 @@
+ #define HW_TRICORE_TESTDEVICE_H
  
-@@ -195,6 +201,11 @@ static void test_init(void)
- int main(int argc, char **argv)
- {
-     int ret;
-+    char *v_env = getenv("V");
-+
-+    if (v_env) {
-+        verbosity_level = atoi(v_env);
-+    }
+ #include "hw/sysbus.h"
+-#include "hw/hw.h"
  
-     qtest_start("-device rtl8139");
+ #define TYPE_TRICORE_TESTDEVICE "tricore_testdevice"
+ #define TRICORE_TESTDEVICE(obj) \
+diff --git a/hw/pci-host/mv64361.c b/hw/pci-host/mv64361.c
+index f43f33fbd9..298564f1f5 100644
+--- a/hw/pci-host/mv64361.c
++++ b/hw/pci-host/mv64361.c
+@@ -11,7 +11,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "hw/hw.h"
+ #include "hw/sysbus.h"
+ #include "hw/pci/pci_device.h"
+ #include "hw/pci/pci_host.h"
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index a9563f4fb2..7cc375df05 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -10,7 +10,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qapi/error.h"
+-#include "hw/hw.h"
+ #include "hw/ppc/ppc.h"
+ #include "hw/sysbus.h"
+ #include "hw/pci/pci_host.h"
+diff --git a/hw/sensor/dps310.c b/hw/sensor/dps310.c
+index d60a18ac41..addee99b19 100644
+--- a/hw/sensor/dps310.c
++++ b/hw/sensor/dps310.c
+@@ -9,7 +9,6 @@
  
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
+-#include "hw/hw.h"
+ #include "hw/i2c/i2c.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
 -- 
 2.31.1
 
