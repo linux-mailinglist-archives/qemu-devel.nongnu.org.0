@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478506A4047
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F01E6A4059
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:13:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbQH-0003eZ-TE; Mon, 27 Feb 2023 06:12:02 -0500
+	id 1pWbR8-0005Np-TI; Mon, 27 Feb 2023 06:12:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pWbQE-0003Jv-PQ
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:11:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pWbR6-0005NE-Rl; Mon, 27 Feb 2023 06:12:52 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pWbQD-0000vG-05
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:11:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677496316;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Nk2jGxbaAgGKqppq6ag01CUUWbs0JA6LRVtzC1jcJ/g=;
- b=U3tJgx8LIZUkr8APbZGidLuSG1UAIgV4cxxVOWvuI3fGm5elI4hp+uXZBRi0HHlrsm3YiM
- H4UcIWBpJ7BgnLeygau0iG/jqf0ccwwrwXP0rWBRPujZT04qtcKtA5N0PfeEk1kVu6opGy
- kkagK9Bdzbn7Lk1KvxdLICuoR1DZ1Kw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-CYjxJqehMwO1GoVCSw0aZw-1; Mon, 27 Feb 2023 06:11:52 -0500
-X-MC-Unique: CYjxJqehMwO1GoVCSw0aZw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5514685CBE2;
- Mon, 27 Feb 2023 11:11:52 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.71])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A509C16021;
- Mon, 27 Feb 2023 11:11:50 +0000 (UTC)
-Date: Mon, 27 Feb 2023 11:11:48 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH v2 1/3] gitlab: Use plain docker in
- container-template.yml
-Message-ID: <Y/yP9K1Z1UwT8TSj@redhat.com>
-References: <20230224125207.19616-1-farosas@suse.de>
- <20230224125207.19616-2-farosas@suse.de>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pWbR4-00018V-K7; Mon, 27 Feb 2023 06:12:52 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 179C274635C;
+ Mon, 27 Feb 2023 12:12:48 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C2A6F745720; Mon, 27 Feb 2023 12:12:47 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C0DD2745706;
+ Mon, 27 Feb 2023 12:12:47 +0100 (CET)
+Date: Mon, 27 Feb 2023 12:12:47 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, ReneEngel80@emailn.de
+Subject: Re: [PATCH v3 4/8] hw/isa/vt82c686: Implement PCI IRQ routing
+In-Reply-To: <bc066c26-e801-12a0-624e-16ce9c21e00c@eik.bme.hu>
+Message-ID: <7368aeee-4d33-6c90-4068-1ba9c2b2c57b@eik.bme.hu>
+References: <cover.1677445307.git.balaton@eik.bme.hu>
+ <0fd9eac9174a840054c511fbc015048929c7bc40.1677445307.git.balaton@eik.bme.hu>
+ <F86A8AF3-8D69-497A-ADD1-688D2B4FED03@gmail.com>
+ <04111f8e-e24d-2a61-d359-f20f8cd4634e@eik.bme.hu>
+ <877517F9-2205-413F-A408-72D36B5142EB@gmail.com>
+ <bc066c26-e801-12a0-624e-16ce9c21e00c@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230224125207.19616-2-farosas@suse.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,45 +63,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 24, 2023 at 09:52:05AM -0300, Fabiano Rosas wrote:
-> Our dockerfiles no longer reference layers from other qemu images so
-> we can now use 'docker build' on them.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->  .gitlab-ci.d/container-template.yml | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
-> index c434b9c8f3..f417452212 100644
-> --- a/.gitlab-ci.d/container-template.yml
-> +++ b/.gitlab-ci.d/container-template.yml
-> @@ -13,10 +13,7 @@
->    script:
->      - echo "TAG:$TAG"
->      - echo "COMMON_TAG:$COMMON_TAG"
-> -    - ./tests/docker/docker.py --engine docker build
-> -          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
-> -          -r $CI_REGISTRY/qemu-project/qemu
-> -    - docker tag "qemu/$NAME" "$TAG"
-> +    - docker build --tag $TAG -f "tests/docker/dockerfiles/$NAME.docker" "."
->      - docker push "$TAG"
+On Mon, 27 Feb 2023, BALATON Zoltan wrote:
+> On Mon, 27 Feb 2023, Bernhard Beschow wrote:
+>> Am 26. Februar 2023 23:33:20 UTC schrieb BALATON Zoltan 
+>> <balaton@eik.bme.hu>:
+>>> On Sun, 26 Feb 2023, Bernhard Beschow wrote:
+>>>> Am 25. Februar 2023 18:11:49 UTC schrieb BALATON Zoltan 
+>>>> <balaton@eik.bme.hu>:
+>>>>> From: Bernhard Beschow <shentey@gmail.com>
+>>>>> 
+>>>>> The real VIA south bridges implement a PCI IRQ router which is 
+>>>>> configured
+>>>>> by the BIOS or the OS. In order to respect these configurations, QEMU
+>>>>> needs to implement it as well.
+>>>>> 
+>>>>> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+>>>>> 
+>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+>>>>> [balaton: declare gpio inputs instead of changing pci bus irqs so it can
+>>>>> be connected in board code; remove some empty lines]
+>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
+>>>>> ---
+>>>>> hw/isa/vt82c686.c | 39 +++++++++++++++++++++++++++++++++++++++
+>>>>> 1 file changed, 39 insertions(+)
+>>>>> 
+>>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>>> index 3f9bd0c04d..4025f9bcdc 100644
+>>>>> --- a/hw/isa/vt82c686.c
+>>>>> +++ b/hw/isa/vt82c686.c
+>>>>> @@ -604,6 +604,44 @@ static void via_isa_request_i8259_irq(void *opaque, 
+>>>>> int irq, int level)
+>>>>>     qemu_set_irq(s->cpu_intr, level);
+>>>>> }
+>>>>> 
+>>>>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+>>>>> +{
+>>>>> +    switch (irq_num) {
+>>>>> +    case 0:
+>>>>> +        return s->dev.config[0x55] >> 4;
+>>>>> +    case 1:
+>>>>> +        return s->dev.config[0x56] & 0xf;
+>>>>> +    case 2:
+>>>>> +        return s->dev.config[0x56] >> 4;
+>>>>> +    case 3:
+>>>>> +        return s->dev.config[0x57] >> 4;
+>>>>> +    }
+>>>>> +    return 0;
+>>>>> +}
+>>>>> +
+>>>>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
+>>>>> +{
+>>>>> +    ViaISAState *s = opaque;
+>>>>> +    PCIBus *bus = pci_get_bus(&s->dev);
+>>>>> +    int pic_irq;
+>>>>> +
+>>>>> +    /* now we change the pic irq level according to the via irq 
+>>>>> mappings */
+>>>>> +    /* XXX: optimize */
+>>>>> +    pic_irq = via_isa_get_pci_irq(s, irq_num);
+>>>>> +    if (pic_irq < ISA_NUM_IRQS) {
+>>>>> +        int i, pic_level;
+>>>>> +
+>>>>> +        /* The pic level is the logical OR of all the PCI irqs mapped 
+>>>>> to it. */
+>>>>> +        pic_level = 0;
+>>>>> +        for (i = 0; i < PCI_NUM_PINS; i++) {
+>>>>> +            if (pic_irq == via_isa_get_pci_irq(s, i)) {
+>>>>> +                pic_level |= pci_bus_get_irq_level(bus, i);
+>>>>> +            }
+>>>>> +        }
+>>>>> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
+>>>>> +    }
+>>>>> +}
+>>>>> +
+>>>>> static void via_isa_realize(PCIDevice *d, Error **errp)
+>>>>> {
+>>>>>     ViaISAState *s = VIA_ISA(d);
+>>>>> @@ -614,6 +652,7 @@ static void via_isa_realize(PCIDevice *d, Error 
+>>>>> **errp)
+>>>>>     int i;
+>>>>>
+>>>>>     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+>>>>> +    qdev_init_gpio_in_named(dev, via_isa_set_pci_irq, "pirq", 
+>>>>> PCI_NUM_PINS);
+>>>> 
+>>>> This line is a Pegasos2 specific addition for fixing its IRQ handling. 
+>>>> Since this code must also work with the Fuloong2e board we should aim for 
+>>>> a minimal changeset here which renders this line out of scope.
+>>>> 
+>>>> Let's keep the two series separate since now I need to watch two series 
+>>>> for comments. Please use Based-on: tag next time instead.
+>>> 
+>>> Well, it's not. It's part of the QDev model for VT8231 that allows it to 
+>>> be connected by boards so I think this belongs here otherwise this won't 
+>>> even compile because the function you've added would be unused and bail on 
+>>> -Werror. Let's not make this more difficult than it is. I'm OK with 
+>>> reasonable changes but what's your goal now? You can't get rid of this 
+>>> line as it's how QDev can model it. Either I have to call into this model 
+>>> or have to export these pins as gpios.
+>> 
+>> Exporting the pins is a separate aspect on top of implementing PCI IRQ 
+>> routing. To make this clear and obvious this should be a dedicated patch. 
+>> In case either patch has an issue this would also ease and therefore 
+>> acellerate discussions.
+>
+> How would you do that? Introduce via_isa_set_pci_irq() as unused in this 
+> patch then have a one line patch to add connecting it to gpio pins? That just 
+> makes no sense. This is not modeling the chip with QDev and then the boatd
 
-I think I wouldn't separate this from patch 2, because in effect
-we're throwing away caching here, and then re-adding it in the
-next patch. IOW, the removal of usage of docker.py requires both
-patches combined.
+This is now modeling...
 
+> can connect it as appropriate modeling the board that the chip is in. So if 
+> fuloon2e needs to do that then it should. I'll check that as I was focusing
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+fuloong2e
 
+> on pegasos2 for now. You can't use pci_bur_irqs here because that breaks 
+> pegasos2 so no point in doing that way.
+>
+> Regards,
+> BALATON Zoltan
+>
+>
 
