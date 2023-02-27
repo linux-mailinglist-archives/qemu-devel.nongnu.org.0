@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B436A40E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:40:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138246A40D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:39:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWboC-0005WF-SD; Mon, 27 Feb 2023 06:36:44 -0500
+	id 1pWboD-0005X0-B4; Mon, 27 Feb 2023 06:36:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo9-0005UL-50
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboA-0005VQ-LU
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo7-0005fP-Mg
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:40 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWbo7-0005fV-Oi
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677497797;
+ s=mimecast20190719; t=1677497798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y8hPVKS129O4OqRumpSDuzuvxgt1IK9M7brEl9I5epE=;
- b=h0itrQfW5/8A9nxiHK/14Vmylo4l2v1uD9kCxt6lLE57oh2oQgq+YhmmJ/t5bcNHD15oVn
- KUs2QnMYJE9g0j0MtpmRSnfCF4P3F2kRQUotKpcPJzrac5oIi774djDQ7dCxPGO5XxYGut
- K8CKLm5nutRNXh+EFEEFPa5QI+zasT0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3HG6jRm/qjM4kk0nXdEquLhIJKaa+w72K1oXuqkJeUs=;
+ b=ejMiRkssB5/D0WQRXp/eD2HVhjtbsQPfgNs0kmFXNdhpVIFg6cwlZgTCaLd7IqPI1peD6p
+ qPP4jR6MV1iNuZbf96EnPFuqdnTHc0UxwIMQFY22gM9rQbHZ7vE03CPYSXCVrpUL2m4wof
+ 5wKlpkt+tR6rSciAjJDJldpuOhL3Xps=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-gjFhKlkYMAqcDc-QmrxZ_A-1; Mon, 27 Feb 2023 06:36:33 -0500
-X-MC-Unique: gjFhKlkYMAqcDc-QmrxZ_A-1
+ us-mta-635-Ijyemj6eMXWI0NfPLGK2fw-1; Mon, 27 Feb 2023 06:36:34 -0500
+X-MC-Unique: Ijyemj6eMXWI0NfPLGK2fw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65C5C830F82;
- Mon, 27 Feb 2023 11:36:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 691803815EE3;
+ Mon, 27 Feb 2023 11:36:34 +0000 (UTC)
 Received: from thuth.com (unknown [10.45.227.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DFD11121314;
- Mon, 27 Feb 2023 11:36:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A72901121314;
+ Mon, 27 Feb 2023 11:36:33 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: Sebastian Mitterle <smitterl@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 08/33] target/s390x/arch_dump: Fix memory corruption in
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 09/33] target/s390x/arch_dump: Simplify memory allocation in
  s390x_write_elf64_notes()
-Date: Mon, 27 Feb 2023 12:35:56 +0100
-Message-Id: <20230227113621.58468-9-thuth@redhat.com>
+Date: Mon, 27 Feb 2023 12:35:57 +0100
+Message-Id: <20230227113621.58468-10-thuth@redhat.com>
 In-Reply-To: <20230227113621.58468-1-thuth@redhat.com>
 References: <20230227113621.58468-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,34 +78,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"note_size" can be smaller than sizeof(note), so unconditionally calling
-memset(notep, 0, sizeof(note)) could cause a memory corruption here in
-case notep has been allocated dynamically, thus let's use note_size as
-length argument for memset() instead.
+We are not on a hot path here, so there is no real need for the logic
+here with the split heap and stack space allocation. Simplify it by
+always allocating memory from the heap.
 
-Reported-by: Sebastian Mitterle <smitterl@redhat.com>
-Fixes: 113d8f4e95 ("s390x: pv: Add dump support")
-Message-Id: <20230214141056.680969-1-thuth@redhat.com>
-Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230215085703.746788-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/arch_dump.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/s390x/arch_dump.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
 diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-index a2329141e8..a7c44ba49d 100644
+index a7c44ba49d..cb98f4894d 100644
 --- a/target/s390x/arch_dump.c
 +++ b/target/s390x/arch_dump.c
-@@ -248,7 +248,7 @@ static int s390x_write_elf64_notes(const char *note_name,
-             notep = g_malloc(note_size);
+@@ -227,25 +227,25 @@ static int s390x_write_elf64_notes(const char *note_name,
+                                        DumpState *s,
+                                        const NoteFuncDesc *funcs)
+ {
+-    Note note, *notep;
++    g_autofree Note *notep = NULL;
+     const NoteFuncDesc *nf;
+-    int note_size, content_size;
++    int note_size, prev_size = 0, content_size;
+     int ret = -1;
+ 
+-    assert(strlen(note_name) < sizeof(note.name));
++    assert(strlen(note_name) < sizeof(notep->name));
+ 
+     for (nf = funcs; nf->note_contents_func; nf++) {
+-        notep = &note;
+         if (nf->pvonly && !s390_is_pv()) {
+             continue;
          }
  
--        memset(notep, 0, sizeof(note));
-+        memset(notep, 0, note_size);
+         content_size = nf->note_size_func ? nf->note_size_func() : nf->contents_size;
+-        note_size = sizeof(note) - sizeof(notep->contents) + content_size;
++        note_size = sizeof(Note) - sizeof(notep->contents) + content_size;
  
-         /* Setup note header data */
-         notep->hdr.n_descsz = cpu_to_be32(content_size);
+-        /* Notes with dynamic sizes need to allocate a note */
+-        if (nf->note_size_func) {
++        if (prev_size < note_size) {
++            g_free(notep);
+             notep = g_malloc(note_size);
++            prev_size = note_size;
+         }
+ 
+         memset(notep, 0, note_size);
+@@ -258,15 +258,9 @@ static int s390x_write_elf64_notes(const char *note_name,
+         /* Get contents and write them out */
+         (*nf->note_contents_func)(notep, cpu, id);
+         ret = f(notep, note_size, s);
+-
+-        if (nf->note_size_func) {
+-            g_free(notep);
+-        }
+-
+         if (ret < 0) {
+             return -1;
+         }
+-
+     }
+ 
+     return 0;
 -- 
 2.31.1
 
