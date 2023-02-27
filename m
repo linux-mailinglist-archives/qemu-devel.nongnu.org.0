@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F2C6A43F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2458A6A439A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:02:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe53-0001Qc-0f; Mon, 27 Feb 2023 09:02:17 -0500
+	id 1pWe5F-00034H-6g; Mon, 27 Feb 2023 09:02:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe42-0000YM-DS
+ id 1pWe45-0000dJ-Kr
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:29 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe3z-0007Wi-Fn
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:13 -0500
-Received: by mail-wr1-x431.google.com with SMTP id v16so3527855wrn.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:11 -0800 (PST)
+ id 1pWe40-0007Ww-M0
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:14 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso2250201wmo.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=bE93Hku4a49BxWD57nAmzE6RVeycvKgkJSiaEIVzgyM=;
- b=cttRIdDnTLIWVpKXNinp7BxgUlMnCzEHvR/J8bg6B8aEBLX9XaSGxXknR73qrVbnNi
- X3VyH5Td1WroJ+Ig+CUjtHmjSAr28i9HG/jHqkHzrYaR2xaMMww9pCoIyfjRmDi8UNKb
- I2QxOWNdHg+MkULlsRjaiudmmVlcFPgWdKuDF5BA8sQBWdGS0CHBxHSCdsejRT0i0GTC
- kHgwQnJLYTmV3OIBE4dcovaWdenuNEWtI83IAOpI3WVW4WL+vmwH+wKjayjXTmdw2QLn
- q/Mo2Ka/pcxBs2c3EFL0rfrBF7aoNuA1U4XroenVG49b2PloDZ2QyBW3xYLOyrX+4XTL
- 7d+g==
+ :reply-to; bh=yWuIpfN973PjPZqsEuqLsmILfrrzNt0DJYDKzdG9yUE=;
+ b=hfaGH2e0HckZ0GVT5xJ+NNrEo8UjdQ2L1hoqUgCJywc2a2q3UP/AlFEzNG0NBJXDOY
+ wETuo08Lq0jmLPwJwEK0fC9teP/6KWsxGE0xCaQaxrWgMrYGy65nN4qsW7ODaojUfqT6
+ lAs/sxfwq5ltKqQ+zQnnMzJHkdf89oMgSaVqI8/YIjx2HeQ2va5fAASkipPnbmtCRPMs
+ qJ4a9WMCo9PqeKO5TTMk/geRcyfSLXLHQ/lzWm69UDlqbi+gQRP973KpP/tmA4bPzv9u
+ PKL6/dn+nPsgkCAPkuLJWmTiTsZi2BePpTG0i6/8kMVsUqGTpPd9km9lzZ/wtP5Tm6XX
+ GbuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bE93Hku4a49BxWD57nAmzE6RVeycvKgkJSiaEIVzgyM=;
- b=4gJl+ptqustAfl6awYV6GLEStYa3CZXc8zwtUg5/aXpRQpxEH1+WGlTq4/PKDVQ9fK
- nbPMQDakiCzjuKiZWucoWcBsteSGNprhxiPmY0d4KREnrNDd9rRyJZP/BDLg/pxu3A1C
- KyRAhlll4dE6hl+czeo8PnivCuKKmngeNpzopn1GAderOVcf9SyfGyyZFwBKsKW6yWrS
- uGdQKZxN73NsrRDBfHIJeDKlhX7+LLy92pxcUQnFOLzKKKiq/K0uCh2FV6BqNl2Pon9u
- AIVzp8TZ2B/5pOGg4EHJD72g8OFCrSj/mbQDJympmtUrRsNk5iL7SedyxrAgiRou1Era
- BUEg==
-X-Gm-Message-State: AO0yUKVnOFLq4UKxI6Pv8FrDdZQAuyDDWyQEoP3ZOZm03DSXMYdp1Vj1
- l3yHdGBbadeC6k7jQRWaJXqqQXbjXLhoYME9
-X-Google-Smtp-Source: AK7set8Mb8jnRPd4wZ0GjiGwdrR4iAlJt1J9nO6tMhjVYZHyoqIAFCt5rDLgoq4+r4DpcA34CL2WzQ==
-X-Received: by 2002:adf:ef8e:0:b0:2c7:83b:9d20 with SMTP id
- d14-20020adfef8e000000b002c7083b9d20mr15669589wro.34.1677506469590; 
- Mon, 27 Feb 2023 06:01:09 -0800 (PST)
+ bh=yWuIpfN973PjPZqsEuqLsmILfrrzNt0DJYDKzdG9yUE=;
+ b=HVonET8lB9T1jqThcb5OsqRwbp+jzpWvqpd1hh2/QTmF6B2d7BKyziU79sATirnUyV
+ 3e9hab/hR7FwC5eOCY3Bm+cGvCEy3kcLIoaPSkVmOtHvtNkh+fSmXvuK2KU/DwZhL4hB
+ iouQvT4rpvAWEypjM73CdCdiOqyNvN6aLZNc4odDYR/ifivMbsbsHX4oFuByWKObs5wP
+ /knvj7CBKSMEYJ7xDsgoNFlUD9meQq8ZwOtJhduPVCzjhs/fWszggBIMAhDGTylyCOMn
+ /9NW9ozNAE+4B27V+vrvynRcffSVVjUQ+u6vg9hMKnQmPn4expNfgovLvvIpjUI1wEs+
+ c0rg==
+X-Gm-Message-State: AO0yUKW5iVEgTWXadkRf0lERKlvpNLxJ9Q3tprOp2FepUWqoXzOWDfVj
+ d4Xwhs+qq5YkrAkUnHBDTPiTy0K4R5vrD4vG
+X-Google-Smtp-Source: AK7set+Ixyd0d2YPg0N3S5nLh0C0VhQV9pdVo3UOUlR3jAgmAyiX+tYsvdrAK7o8Kz0J/7wkK56Ngw==
+X-Received: by 2002:a05:600c:4da2:b0:3e2:19b0:887d with SMTP id
+ v34-20020a05600c4da200b003e219b0887dmr19902962wmp.25.1677506470906; 
+ Mon, 27 Feb 2023 06:01:10 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.08
+ s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 06:01:08 -0800 (PST)
+ Mon, 27 Feb 2023 06:01:09 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/25] target/arm: Wrap TCG-only code in debug_helper.c
-Date: Mon, 27 Feb 2023 14:00:40 +0000
-Message-Id: <20230227140102.3712344-4-peter.maydell@linaro.org>
+Subject: [PULL 04/25] target/arm: move translate modules to tcg/
+Date: Mon, 27 Feb 2023 14:00:41 +0000
+Message-Id: <20230227140102.3712344-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
 References: <20230227140102.3712344-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,531 +92,304 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-The next few patches will move helpers under CONFIG_TCG. We'd prefer
-to keep the debug helpers and debug registers close together, so
-rearrange the file a bit to be able to wrap the helpers with a TCG
-ifdef.
+Introduce the target/arm/tcg directory. Its purpose is to hold the TCG
+code that is selected by CONFIG_TCG.
 
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/debug_helper.c | 476 +++++++++++++++++++-------------------
- 1 file changed, 239 insertions(+), 237 deletions(-)
+ MAINTAINERS                             |  1 +
+ target/arm/{ => tcg}/translate-a64.h    |  0
+ target/arm/{ => tcg}/translate.h        |  0
+ target/arm/{ => tcg}/a32-uncond.decode  |  0
+ target/arm/{ => tcg}/a32.decode         |  0
+ target/arm/{ => tcg}/m-nocp.decode      |  0
+ target/arm/{ => tcg}/mve.decode         |  0
+ target/arm/{ => tcg}/neon-dp.decode     |  0
+ target/arm/{ => tcg}/neon-ls.decode     |  0
+ target/arm/{ => tcg}/neon-shared.decode |  0
+ target/arm/{ => tcg}/sme-fa64.decode    |  0
+ target/arm/{ => tcg}/sme.decode         |  0
+ target/arm/{ => tcg}/sve.decode         |  0
+ target/arm/{ => tcg}/t16.decode         |  0
+ target/arm/{ => tcg}/t32.decode         |  0
+ target/arm/{ => tcg}/vfp-uncond.decode  |  0
+ target/arm/{ => tcg}/vfp.decode         |  0
+ target/arm/{ => tcg}/translate-a64.c    |  0
+ target/arm/{ => tcg}/translate-m-nocp.c |  0
+ target/arm/{ => tcg}/translate-mve.c    |  0
+ target/arm/{ => tcg}/translate-neon.c   |  0
+ target/arm/{ => tcg}/translate-sme.c    |  0
+ target/arm/{ => tcg}/translate-sve.c    |  0
+ target/arm/{ => tcg}/translate-vfp.c    |  0
+ target/arm/{ => tcg}/translate.c        |  0
+ target/arm/meson.build                  | 30 +++---------------
+ target/arm/{ => tcg}/meson.build        | 41 +------------------------
+ 27 files changed, 6 insertions(+), 66 deletions(-)
+ rename target/arm/{ => tcg}/translate-a64.h (100%)
+ rename target/arm/{ => tcg}/translate.h (100%)
+ rename target/arm/{ => tcg}/a32-uncond.decode (100%)
+ rename target/arm/{ => tcg}/a32.decode (100%)
+ rename target/arm/{ => tcg}/m-nocp.decode (100%)
+ rename target/arm/{ => tcg}/mve.decode (100%)
+ rename target/arm/{ => tcg}/neon-dp.decode (100%)
+ rename target/arm/{ => tcg}/neon-ls.decode (100%)
+ rename target/arm/{ => tcg}/neon-shared.decode (100%)
+ rename target/arm/{ => tcg}/sme-fa64.decode (100%)
+ rename target/arm/{ => tcg}/sme.decode (100%)
+ rename target/arm/{ => tcg}/sve.decode (100%)
+ rename target/arm/{ => tcg}/t16.decode (100%)
+ rename target/arm/{ => tcg}/t32.decode (100%)
+ rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
+ rename target/arm/{ => tcg}/vfp.decode (100%)
+ rename target/arm/{ => tcg}/translate-a64.c (100%)
+ rename target/arm/{ => tcg}/translate-m-nocp.c (100%)
+ rename target/arm/{ => tcg}/translate-mve.c (100%)
+ rename target/arm/{ => tcg}/translate-neon.c (100%)
+ rename target/arm/{ => tcg}/translate-sme.c (100%)
+ rename target/arm/{ => tcg}/translate-sve.c (100%)
+ rename target/arm/{ => tcg}/translate-vfp.c (100%)
+ rename target/arm/{ => tcg}/translate.c (100%)
+ copy target/arm/{ => tcg}/meson.build (64%)
 
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index 3325eb9d7df..dfc8b2a1a5d 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -12,8 +12,9 @@
- #include "cpregs.h"
- #include "exec/exec-all.h"
- #include "exec/helper-proto.h"
-+#include "sysemu/tcg.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5c1ee411397..c6e6549f069 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -161,6 +161,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
+ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: target/arm/
++F: target/arm/tcg/
+ F: tests/tcg/arm/
+ F: tests/tcg/aarch64/
+ F: tests/qtest/arm-cpu-features.c
+diff --git a/target/arm/translate-a64.h b/target/arm/tcg/translate-a64.h
+similarity index 100%
+rename from target/arm/translate-a64.h
+rename to target/arm/tcg/translate-a64.h
+diff --git a/target/arm/translate.h b/target/arm/tcg/translate.h
+similarity index 100%
+rename from target/arm/translate.h
+rename to target/arm/tcg/translate.h
+diff --git a/target/arm/a32-uncond.decode b/target/arm/tcg/a32-uncond.decode
+similarity index 100%
+rename from target/arm/a32-uncond.decode
+rename to target/arm/tcg/a32-uncond.decode
+diff --git a/target/arm/a32.decode b/target/arm/tcg/a32.decode
+similarity index 100%
+rename from target/arm/a32.decode
+rename to target/arm/tcg/a32.decode
+diff --git a/target/arm/m-nocp.decode b/target/arm/tcg/m-nocp.decode
+similarity index 100%
+rename from target/arm/m-nocp.decode
+rename to target/arm/tcg/m-nocp.decode
+diff --git a/target/arm/mve.decode b/target/arm/tcg/mve.decode
+similarity index 100%
+rename from target/arm/mve.decode
+rename to target/arm/tcg/mve.decode
+diff --git a/target/arm/neon-dp.decode b/target/arm/tcg/neon-dp.decode
+similarity index 100%
+rename from target/arm/neon-dp.decode
+rename to target/arm/tcg/neon-dp.decode
+diff --git a/target/arm/neon-ls.decode b/target/arm/tcg/neon-ls.decode
+similarity index 100%
+rename from target/arm/neon-ls.decode
+rename to target/arm/tcg/neon-ls.decode
+diff --git a/target/arm/neon-shared.decode b/target/arm/tcg/neon-shared.decode
+similarity index 100%
+rename from target/arm/neon-shared.decode
+rename to target/arm/tcg/neon-shared.decode
+diff --git a/target/arm/sme-fa64.decode b/target/arm/tcg/sme-fa64.decode
+similarity index 100%
+rename from target/arm/sme-fa64.decode
+rename to target/arm/tcg/sme-fa64.decode
+diff --git a/target/arm/sme.decode b/target/arm/tcg/sme.decode
+similarity index 100%
+rename from target/arm/sme.decode
+rename to target/arm/tcg/sme.decode
+diff --git a/target/arm/sve.decode b/target/arm/tcg/sve.decode
+similarity index 100%
+rename from target/arm/sve.decode
+rename to target/arm/tcg/sve.decode
+diff --git a/target/arm/t16.decode b/target/arm/tcg/t16.decode
+similarity index 100%
+rename from target/arm/t16.decode
+rename to target/arm/tcg/t16.decode
+diff --git a/target/arm/t32.decode b/target/arm/tcg/t32.decode
+similarity index 100%
+rename from target/arm/t32.decode
+rename to target/arm/tcg/t32.decode
+diff --git a/target/arm/vfp-uncond.decode b/target/arm/tcg/vfp-uncond.decode
+similarity index 100%
+rename from target/arm/vfp-uncond.decode
+rename to target/arm/tcg/vfp-uncond.decode
+diff --git a/target/arm/vfp.decode b/target/arm/tcg/vfp.decode
+similarity index 100%
+rename from target/arm/vfp.decode
+rename to target/arm/tcg/vfp.decode
+diff --git a/target/arm/translate-a64.c b/target/arm/tcg/translate-a64.c
+similarity index 100%
+rename from target/arm/translate-a64.c
+rename to target/arm/tcg/translate-a64.c
+diff --git a/target/arm/translate-m-nocp.c b/target/arm/tcg/translate-m-nocp.c
+similarity index 100%
+rename from target/arm/translate-m-nocp.c
+rename to target/arm/tcg/translate-m-nocp.c
+diff --git a/target/arm/translate-mve.c b/target/arm/tcg/translate-mve.c
+similarity index 100%
+rename from target/arm/translate-mve.c
+rename to target/arm/tcg/translate-mve.c
+diff --git a/target/arm/translate-neon.c b/target/arm/tcg/translate-neon.c
+similarity index 100%
+rename from target/arm/translate-neon.c
+rename to target/arm/tcg/translate-neon.c
+diff --git a/target/arm/translate-sme.c b/target/arm/tcg/translate-sme.c
+similarity index 100%
+rename from target/arm/translate-sme.c
+rename to target/arm/tcg/translate-sme.c
+diff --git a/target/arm/translate-sve.c b/target/arm/tcg/translate-sve.c
+similarity index 100%
+rename from target/arm/translate-sve.c
+rename to target/arm/tcg/translate-sve.c
+diff --git a/target/arm/translate-vfp.c b/target/arm/tcg/translate-vfp.c
+similarity index 100%
+rename from target/arm/translate-vfp.c
+rename to target/arm/tcg/translate-vfp.c
+diff --git a/target/arm/translate.c b/target/arm/tcg/translate.c
+similarity index 100%
+rename from target/arm/translate.c
+rename to target/arm/tcg/translate.c
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 87e911b27fb..b2904b676b0 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -1,22 +1,4 @@
+-gen = [
+-  decodetree.process('sve.decode', extra_args: '--decode=disas_sve'),
+-  decodetree.process('sme.decode', extra_args: '--decode=disas_sme'),
+-  decodetree.process('sme-fa64.decode', extra_args: '--static-decode=disas_sme_fa64'),
+-  decodetree.process('neon-shared.decode', extra_args: '--decode=disas_neon_shared'),
+-  decodetree.process('neon-dp.decode', extra_args: '--decode=disas_neon_dp'),
+-  decodetree.process('neon-ls.decode', extra_args: '--decode=disas_neon_ls'),
+-  decodetree.process('vfp.decode', extra_args: '--decode=disas_vfp'),
+-  decodetree.process('vfp-uncond.decode', extra_args: '--decode=disas_vfp_uncond'),
+-  decodetree.process('m-nocp.decode', extra_args: '--decode=disas_m_nocp'),
+-  decodetree.process('mve.decode', extra_args: '--decode=disas_mve'),
+-  decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
+-  decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
+-  decodetree.process('t32.decode', extra_args: '--static-decode=disas_t32'),
+-  decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
+-]
+-
+ arm_ss = ss.source_set()
+-arm_ss.add(gen)
+ arm_ss.add(files(
+   'cpu.c',
+   'crypto_helper.c',
+@@ -29,11 +11,6 @@ arm_ss.add(files(
+   'neon_helper.c',
+   'op_helper.c',
+   'tlb_helper.c',
+-  'translate.c',
+-  'translate-m-nocp.c',
+-  'translate-mve.c',
+-  'translate-neon.c',
+-  'translate-vfp.c',
+   'vec_helper.c',
+   'vfp_helper.c',
+   'cpu_tcg.c',
+@@ -50,9 +27,6 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'pauth_helper.c',
+   'sve_helper.c',
+   'sme_helper.c',
+-  'translate-a64.c',
+-  'translate-sve.c',
+-  'translate-sme.c',
+ ))
  
--
-+#ifdef CONFIG_TCG
- /* Return the Exception Level targeted by debug exceptions. */
- static int arm_debug_target_el(CPUARMState *env)
- {
-@@ -536,6 +537,243 @@ void HELPER(exception_swstep)(CPUARMState *env, uint32_t syndrome)
-     raise_exception_debug(env, EXCP_UDEF, syndrome);
- }
+ arm_softmmu_ss = ss.source_set()
+@@ -67,5 +41,9 @@ arm_softmmu_ss.add(files(
  
-+void hw_watchpoint_update(ARMCPU *cpu, int n)
-+{
-+    CPUARMState *env = &cpu->env;
-+    vaddr len = 0;
-+    vaddr wvr = env->cp15.dbgwvr[n];
-+    uint64_t wcr = env->cp15.dbgwcr[n];
-+    int mask;
-+    int flags = BP_CPU | BP_STOP_BEFORE_ACCESS;
-+
-+    if (env->cpu_watchpoint[n]) {
-+        cpu_watchpoint_remove_by_ref(CPU(cpu), env->cpu_watchpoint[n]);
-+        env->cpu_watchpoint[n] = NULL;
-+    }
-+
-+    if (!FIELD_EX64(wcr, DBGWCR, E)) {
-+        /* E bit clear : watchpoint disabled */
-+        return;
-+    }
-+
-+    switch (FIELD_EX64(wcr, DBGWCR, LSC)) {
-+    case 0:
-+        /* LSC 00 is reserved and must behave as if the wp is disabled */
-+        return;
-+    case 1:
-+        flags |= BP_MEM_READ;
-+        break;
-+    case 2:
-+        flags |= BP_MEM_WRITE;
-+        break;
-+    case 3:
-+        flags |= BP_MEM_ACCESS;
-+        break;
-+    }
-+
-+    /*
-+     * Attempts to use both MASK and BAS fields simultaneously are
-+     * CONSTRAINED UNPREDICTABLE; we opt to ignore BAS in this case,
-+     * thus generating a watchpoint for every byte in the masked region.
-+     */
-+    mask = FIELD_EX64(wcr, DBGWCR, MASK);
-+    if (mask == 1 || mask == 2) {
-+        /*
-+         * Reserved values of MASK; we must act as if the mask value was
-+         * some non-reserved value, or as if the watchpoint were disabled.
-+         * We choose the latter.
-+         */
-+        return;
-+    } else if (mask) {
-+        /* Watchpoint covers an aligned area up to 2GB in size */
-+        len = 1ULL << mask;
-+        /*
-+         * If masked bits in WVR are not zero it's CONSTRAINED UNPREDICTABLE
-+         * whether the watchpoint fires when the unmasked bits match; we opt
-+         * to generate the exceptions.
-+         */
-+        wvr &= ~(len - 1);
-+    } else {
-+        /* Watchpoint covers bytes defined by the byte address select bits */
-+        int bas = FIELD_EX64(wcr, DBGWCR, BAS);
-+        int basstart;
-+
-+        if (extract64(wvr, 2, 1)) {
-+            /*
-+             * Deprecated case of an only 4-aligned address. BAS[7:4] are
-+             * ignored, and BAS[3:0] define which bytes to watch.
-+             */
-+            bas &= 0xf;
-+        }
-+
-+        if (bas == 0) {
-+            /* This must act as if the watchpoint is disabled */
-+            return;
-+        }
-+
-+        /*
-+         * The BAS bits are supposed to be programmed to indicate a contiguous
-+         * range of bytes. Otherwise it is CONSTRAINED UNPREDICTABLE whether
-+         * we fire for each byte in the word/doubleword addressed by the WVR.
-+         * We choose to ignore any non-zero bits after the first range of 1s.
-+         */
-+        basstart = ctz32(bas);
-+        len = cto32(bas >> basstart);
-+        wvr += basstart;
-+    }
-+
-+    cpu_watchpoint_insert(CPU(cpu), wvr, len, flags,
-+                          &env->cpu_watchpoint[n]);
-+}
-+
-+void hw_watchpoint_update_all(ARMCPU *cpu)
-+{
-+    int i;
-+    CPUARMState *env = &cpu->env;
-+
-+    /*
-+     * Completely clear out existing QEMU watchpoints and our array, to
-+     * avoid possible stale entries following migration load.
-+     */
-+    cpu_watchpoint_remove_all(CPU(cpu), BP_CPU);
-+    memset(env->cpu_watchpoint, 0, sizeof(env->cpu_watchpoint));
-+
-+    for (i = 0; i < ARRAY_SIZE(cpu->env.cpu_watchpoint); i++) {
-+        hw_watchpoint_update(cpu, i);
-+    }
-+}
-+
-+void hw_breakpoint_update(ARMCPU *cpu, int n)
-+{
-+    CPUARMState *env = &cpu->env;
-+    uint64_t bvr = env->cp15.dbgbvr[n];
-+    uint64_t bcr = env->cp15.dbgbcr[n];
-+    vaddr addr;
-+    int bt;
-+    int flags = BP_CPU;
-+
-+    if (env->cpu_breakpoint[n]) {
-+        cpu_breakpoint_remove_by_ref(CPU(cpu), env->cpu_breakpoint[n]);
-+        env->cpu_breakpoint[n] = NULL;
-+    }
-+
-+    if (!extract64(bcr, 0, 1)) {
-+        /* E bit clear : watchpoint disabled */
-+        return;
-+    }
-+
-+    bt = extract64(bcr, 20, 4);
-+
-+    switch (bt) {
-+    case 4: /* unlinked address mismatch (reserved if AArch64) */
-+    case 5: /* linked address mismatch (reserved if AArch64) */
-+        qemu_log_mask(LOG_UNIMP,
-+                      "arm: address mismatch breakpoint types not implemented\n");
-+        return;
-+    case 0: /* unlinked address match */
-+    case 1: /* linked address match */
-+    {
-+        /*
-+         * Bits [1:0] are RES0.
-+         *
-+         * It is IMPLEMENTATION DEFINED whether bits [63:49]
-+         * ([63:53] for FEAT_LVA) are hardwired to a copy of the sign bit
-+         * of the VA field ([48] or [52] for FEAT_LVA), or whether the
-+         * value is read as written.  It is CONSTRAINED UNPREDICTABLE
-+         * whether the RESS bits are ignored when comparing an address.
-+         * Therefore we are allowed to compare the entire register, which
-+         * lets us avoid considering whether FEAT_LVA is actually enabled.
-+         *
-+         * The BAS field is used to allow setting breakpoints on 16-bit
-+         * wide instructions; it is CONSTRAINED UNPREDICTABLE whether
-+         * a bp will fire if the addresses covered by the bp and the addresses
-+         * covered by the insn overlap but the insn doesn't start at the
-+         * start of the bp address range. We choose to require the insn and
-+         * the bp to have the same address. The constraints on writing to
-+         * BAS enforced in dbgbcr_write mean we have only four cases:
-+         *  0b0000  => no breakpoint
-+         *  0b0011  => breakpoint on addr
-+         *  0b1100  => breakpoint on addr + 2
-+         *  0b1111  => breakpoint on addr
-+         * See also figure D2-3 in the v8 ARM ARM (DDI0487A.c).
-+         */
-+        int bas = extract64(bcr, 5, 4);
-+        addr = bvr & ~3ULL;
-+        if (bas == 0) {
-+            return;
-+        }
-+        if (bas == 0xc) {
-+            addr += 2;
-+        }
-+        break;
-+    }
-+    case 2: /* unlinked context ID match */
-+    case 8: /* unlinked VMID match (reserved if no EL2) */
-+    case 10: /* unlinked context ID and VMID match (reserved if no EL2) */
-+        qemu_log_mask(LOG_UNIMP,
-+                      "arm: unlinked context breakpoint types not implemented\n");
-+        return;
-+    case 9: /* linked VMID match (reserved if no EL2) */
-+    case 11: /* linked context ID and VMID match (reserved if no EL2) */
-+    case 3: /* linked context ID match */
-+    default:
-+        /*
-+         * We must generate no events for Linked context matches (unless
-+         * they are linked to by some other bp/wp, which is handled in
-+         * updates for the linking bp/wp). We choose to also generate no events
-+         * for reserved values.
-+         */
-+        return;
-+    }
-+
-+    cpu_breakpoint_insert(CPU(cpu), addr, flags, &env->cpu_breakpoint[n]);
-+}
-+
-+void hw_breakpoint_update_all(ARMCPU *cpu)
-+{
-+    int i;
-+    CPUARMState *env = &cpu->env;
-+
-+    /*
-+     * Completely clear out existing QEMU breakpoints and our array, to
-+     * avoid possible stale entries following migration load.
-+     */
-+    cpu_breakpoint_remove_all(CPU(cpu), BP_CPU);
-+    memset(env->cpu_breakpoint, 0, sizeof(env->cpu_breakpoint));
-+
-+    for (i = 0; i < ARRAY_SIZE(cpu->env.cpu_breakpoint); i++) {
-+        hw_breakpoint_update(cpu, i);
-+    }
-+}
-+
-+#if !defined(CONFIG_USER_ONLY)
-+
-+vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-+
-+    /*
-+     * In BE32 system mode, target memory is stored byteswapped (on a
-+     * little-endian host system), and by the time we reach here (via an
-+     * opcode helper) the addresses of subword accesses have been adjusted
-+     * to account for that, which means that watchpoints will not match.
-+     * Undo the adjustment here.
-+     */
-+    if (arm_sctlr_b(env)) {
-+        if (len == 1) {
-+            addr ^= 3;
-+        } else if (len == 2) {
-+            addr ^= 2;
-+        }
-+    }
-+
-+    return addr;
-+}
-+
-+#endif /* !CONFIG_USER_ONLY */
-+#endif /* CONFIG_TCG */
-+
- /*
-  * Check for traps to "powerdown debug" registers, which are controlled
-  * by MDCR.TDOSA
-@@ -813,112 +1051,6 @@ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
-       .access = PL0_R, .type = ARM_CP_CONST | ARM_CP_64BIT, .resetvalue = 0 },
- };
+ subdir('hvf')
  
--void hw_watchpoint_update(ARMCPU *cpu, int n)
--{
--    CPUARMState *env = &cpu->env;
--    vaddr len = 0;
--    vaddr wvr = env->cp15.dbgwvr[n];
--    uint64_t wcr = env->cp15.dbgwcr[n];
--    int mask;
--    int flags = BP_CPU | BP_STOP_BEFORE_ACCESS;
--
--    if (env->cpu_watchpoint[n]) {
--        cpu_watchpoint_remove_by_ref(CPU(cpu), env->cpu_watchpoint[n]);
--        env->cpu_watchpoint[n] = NULL;
--    }
--
--    if (!FIELD_EX64(wcr, DBGWCR, E)) {
--        /* E bit clear : watchpoint disabled */
--        return;
--    }
--
--    switch (FIELD_EX64(wcr, DBGWCR, LSC)) {
--    case 0:
--        /* LSC 00 is reserved and must behave as if the wp is disabled */
--        return;
--    case 1:
--        flags |= BP_MEM_READ;
--        break;
--    case 2:
--        flags |= BP_MEM_WRITE;
--        break;
--    case 3:
--        flags |= BP_MEM_ACCESS;
--        break;
--    }
--
--    /*
--     * Attempts to use both MASK and BAS fields simultaneously are
--     * CONSTRAINED UNPREDICTABLE; we opt to ignore BAS in this case,
--     * thus generating a watchpoint for every byte in the masked region.
--     */
--    mask = FIELD_EX64(wcr, DBGWCR, MASK);
--    if (mask == 1 || mask == 2) {
--        /*
--         * Reserved values of MASK; we must act as if the mask value was
--         * some non-reserved value, or as if the watchpoint were disabled.
--         * We choose the latter.
--         */
--        return;
--    } else if (mask) {
--        /* Watchpoint covers an aligned area up to 2GB in size */
--        len = 1ULL << mask;
--        /*
--         * If masked bits in WVR are not zero it's CONSTRAINED UNPREDICTABLE
--         * whether the watchpoint fires when the unmasked bits match; we opt
--         * to generate the exceptions.
--         */
--        wvr &= ~(len - 1);
--    } else {
--        /* Watchpoint covers bytes defined by the byte address select bits */
--        int bas = FIELD_EX64(wcr, DBGWCR, BAS);
--        int basstart;
--
--        if (extract64(wvr, 2, 1)) {
--            /*
--             * Deprecated case of an only 4-aligned address. BAS[7:4] are
--             * ignored, and BAS[3:0] define which bytes to watch.
--             */
--            bas &= 0xf;
--        }
--
--        if (bas == 0) {
--            /* This must act as if the watchpoint is disabled */
--            return;
--        }
--
--        /*
--         * The BAS bits are supposed to be programmed to indicate a contiguous
--         * range of bytes. Otherwise it is CONSTRAINED UNPREDICTABLE whether
--         * we fire for each byte in the word/doubleword addressed by the WVR.
--         * We choose to ignore any non-zero bits after the first range of 1s.
--         */
--        basstart = ctz32(bas);
--        len = cto32(bas >> basstart);
--        wvr += basstart;
--    }
--
--    cpu_watchpoint_insert(CPU(cpu), wvr, len, flags,
--                          &env->cpu_watchpoint[n]);
--}
--
--void hw_watchpoint_update_all(ARMCPU *cpu)
--{
--    int i;
--    CPUARMState *env = &cpu->env;
--
--    /*
--     * Completely clear out existing QEMU watchpoints and our array, to
--     * avoid possible stale entries following migration load.
--     */
--    cpu_watchpoint_remove_all(CPU(cpu), BP_CPU);
--    memset(env->cpu_watchpoint, 0, sizeof(env->cpu_watchpoint));
--
--    for (i = 0; i < ARRAY_SIZE(cpu->env.cpu_watchpoint); i++) {
--        hw_watchpoint_update(cpu, i);
--    }
--}
--
- static void dbgwvr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                          uint64_t value)
- {
-@@ -956,109 +1088,6 @@ static void dbgwcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     }
- }
++if 'CONFIG_TCG' in config_all
++   subdir('tcg')
++endif
++
+ target_arch += {'arm': arm_ss}
+ target_softmmu_arch += {'arm': arm_softmmu_ss}
+diff --git a/target/arm/meson.build b/target/arm/tcg/meson.build
+similarity index 64%
+copy from target/arm/meson.build
+copy to target/arm/tcg/meson.build
+index 87e911b27fb..044561bd4de 100644
+--- a/target/arm/meson.build
++++ b/target/arm/tcg/meson.build
+@@ -15,57 +15,18 @@ gen = [
+   decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
+ ]
  
--void hw_breakpoint_update(ARMCPU *cpu, int n)
--{
--    CPUARMState *env = &cpu->env;
--    uint64_t bvr = env->cp15.dbgbvr[n];
--    uint64_t bcr = env->cp15.dbgbcr[n];
--    vaddr addr;
--    int bt;
--    int flags = BP_CPU;
+-arm_ss = ss.source_set()
+ arm_ss.add(gen)
++
+ arm_ss.add(files(
+-  'cpu.c',
+-  'crypto_helper.c',
+-  'debug_helper.c',
+-  'gdbstub.c',
+-  'helper.c',
+-  'iwmmxt_helper.c',
+-  'm_helper.c',
+-  'mve_helper.c',
+-  'neon_helper.c',
+-  'op_helper.c',
+-  'tlb_helper.c',
+   'translate.c',
+   'translate-m-nocp.c',
+   'translate-mve.c',
+   'translate-neon.c',
+   'translate-vfp.c',
+-  'vec_helper.c',
+-  'vfp_helper.c',
+-  'cpu_tcg.c',
+ ))
+-arm_ss.add(zlib)
 -
--    if (env->cpu_breakpoint[n]) {
--        cpu_breakpoint_remove_by_ref(CPU(cpu), env->cpu_breakpoint[n]);
--        env->cpu_breakpoint[n] = NULL;
--    }
+-arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
+ 
+ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+-  'cpu64.c',
+-  'gdbstub64.c',
+-  'helper-a64.c',
+-  'mte_helper.c',
+-  'pauth_helper.c',
+-  'sve_helper.c',
+-  'sme_helper.c',
+   'translate-a64.c',
+   'translate-sve.c',
+   'translate-sme.c',
+ ))
 -
--    if (!extract64(bcr, 0, 1)) {
--        /* E bit clear : watchpoint disabled */
--        return;
--    }
+-arm_softmmu_ss = ss.source_set()
+-arm_softmmu_ss.add(files(
+-  'arch_dump.c',
+-  'arm-powerctl.c',
+-  'machine.c',
+-  'monitor.c',
+-  'psci.c',
+-  'ptw.c',
+-))
 -
--    bt = extract64(bcr, 20, 4);
+-subdir('hvf')
 -
--    switch (bt) {
--    case 4: /* unlinked address mismatch (reserved if AArch64) */
--    case 5: /* linked address mismatch (reserved if AArch64) */
--        qemu_log_mask(LOG_UNIMP,
--                      "arm: address mismatch breakpoint types not implemented\n");
--        return;
--    case 0: /* unlinked address match */
--    case 1: /* linked address match */
--    {
--        /*
--         * Bits [1:0] are RES0.
--         *
--         * It is IMPLEMENTATION DEFINED whether bits [63:49]
--         * ([63:53] for FEAT_LVA) are hardwired to a copy of the sign bit
--         * of the VA field ([48] or [52] for FEAT_LVA), or whether the
--         * value is read as written.  It is CONSTRAINED UNPREDICTABLE
--         * whether the RESS bits are ignored when comparing an address.
--         * Therefore we are allowed to compare the entire register, which
--         * lets us avoid considering whether FEAT_LVA is actually enabled.
--         *
--         * The BAS field is used to allow setting breakpoints on 16-bit
--         * wide instructions; it is CONSTRAINED UNPREDICTABLE whether
--         * a bp will fire if the addresses covered by the bp and the addresses
--         * covered by the insn overlap but the insn doesn't start at the
--         * start of the bp address range. We choose to require the insn and
--         * the bp to have the same address. The constraints on writing to
--         * BAS enforced in dbgbcr_write mean we have only four cases:
--         *  0b0000  => no breakpoint
--         *  0b0011  => breakpoint on addr
--         *  0b1100  => breakpoint on addr + 2
--         *  0b1111  => breakpoint on addr
--         * See also figure D2-3 in the v8 ARM ARM (DDI0487A.c).
--         */
--        int bas = extract64(bcr, 5, 4);
--        addr = bvr & ~3ULL;
--        if (bas == 0) {
--            return;
--        }
--        if (bas == 0xc) {
--            addr += 2;
--        }
--        break;
--    }
--    case 2: /* unlinked context ID match */
--    case 8: /* unlinked VMID match (reserved if no EL2) */
--    case 10: /* unlinked context ID and VMID match (reserved if no EL2) */
--        qemu_log_mask(LOG_UNIMP,
--                      "arm: unlinked context breakpoint types not implemented\n");
--        return;
--    case 9: /* linked VMID match (reserved if no EL2) */
--    case 11: /* linked context ID and VMID match (reserved if no EL2) */
--    case 3: /* linked context ID match */
--    default:
--        /*
--         * We must generate no events for Linked context matches (unless
--         * they are linked to by some other bp/wp, which is handled in
--         * updates for the linking bp/wp). We choose to also generate no events
--         * for reserved values.
--         */
--        return;
--    }
--
--    cpu_breakpoint_insert(CPU(cpu), addr, flags, &env->cpu_breakpoint[n]);
--}
--
--void hw_breakpoint_update_all(ARMCPU *cpu)
--{
--    int i;
--    CPUARMState *env = &cpu->env;
--
--    /*
--     * Completely clear out existing QEMU breakpoints and our array, to
--     * avoid possible stale entries following migration load.
--     */
--    cpu_breakpoint_remove_all(CPU(cpu), BP_CPU);
--    memset(env->cpu_breakpoint, 0, sizeof(env->cpu_breakpoint));
--
--    for (i = 0; i < ARRAY_SIZE(cpu->env.cpu_breakpoint); i++) {
--        hw_breakpoint_update(cpu, i);
--    }
--}
--
- static void dbgbvr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                          uint64_t value)
- {
-@@ -1210,30 +1239,3 @@ void define_debug_regs(ARMCPU *cpu)
-         g_free(dbgwcr_el1_name);
-     }
- }
--
--#if !defined(CONFIG_USER_ONLY)
--
--vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
--{
--    ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
--
--    /*
--     * In BE32 system mode, target memory is stored byteswapped (on a
--     * little-endian host system), and by the time we reach here (via an
--     * opcode helper) the addresses of subword accesses have been adjusted
--     * to account for that, which means that watchpoints will not match.
--     * Undo the adjustment here.
--     */
--    if (arm_sctlr_b(env)) {
--        if (len == 1) {
--            addr ^= 3;
--        } else if (len == 2) {
--            addr ^= 2;
--        }
--    }
--
--    return addr;
--}
--
--#endif
+-target_arch += {'arm': arm_ss}
+-target_softmmu_arch += {'arm': arm_softmmu_ss}
 -- 
 2.34.1
 
