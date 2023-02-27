@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF7E6A40BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4336A40BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 12:38:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWbob-0005no-11; Mon, 27 Feb 2023 06:37:09 -0500
+	id 1pWbpJ-0005yG-7T; Mon, 27 Feb 2023 06:37:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboK-0005hW-8L
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboK-0005hR-8m
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboD-0005gu-Oa
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWboE-0005h1-PB
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 06:36:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677497805;
+ s=mimecast20190719; t=1677497806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MJu1omemYgmdzSiPVvM1QWO79XReOAHvv5PBaV/QHbc=;
- b=V2aWMSQJ0Z9U/C92Si5c6FPlzLa/uF7O/PrmcelnH53aRElQU4I4ct7a0SRWGyld9MYHQB
- HTcuEg2WpeubflUwx8tJHbtgHhnd/QmP4osCPsuC4s1COfkfutdrthwHceioSsQ0zgn5b9
- prekFMBqoB0Y/fd1jj2IpKRSJoyK+54=
+ bh=U7mbqNmgioHwFOABac5OkJAD03IW2iZfmJwZyH0uuQQ=;
+ b=gYzFCdpha7C1IkGjw++w7JSteao0aaysbrApuWQHsfq+RiEmMPetDSYdB9/i7S7g7lHxEr
+ 9yMkhR1CnLGf5ULOZ3tZnUaZW1DlfXfyDob22HNqVWRJ9auUD5dVzrPf78rDbuxQywoW4g
+ BI3e5DwOIS2xYr6t2fyW20L1HT/IsEc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-74KnOLI2OAKFiiC3-nVJJA-1; Mon, 27 Feb 2023 06:36:41 -0500
-X-MC-Unique: 74KnOLI2OAKFiiC3-nVJJA-1
+ us-mta-612-IP19m8yrPRuEphp3PKL6HQ-1; Mon, 27 Feb 2023 06:36:43 -0500
+X-MC-Unique: IP19m8yrPRuEphp3PKL6HQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89255101AA78;
- Mon, 27 Feb 2023 11:36:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4A74101B42B;
+ Mon, 27 Feb 2023 11:36:42 +0000 (UTC)
 Received: from thuth.com (unknown [10.45.227.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A44961121314;
- Mon, 27 Feb 2023 11:36:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDC9A1121314;
+ Mon, 27 Feb 2023 11:36:41 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>
-Subject: [PULL 15/33] target/s390x: Inline do_access_{get,set}_byte
-Date: Mon, 27 Feb 2023 12:36:03 +0100
-Message-Id: <20230227113621.58468-16-thuth@redhat.com>
+Subject: [PULL 16/33] target/s390x: Hoist some computation in access_memmove
+Date: Mon, 27 Feb 2023 12:36:04 +0100
+Message-Id: <20230227113621.58468-17-thuth@redhat.com>
 In-Reply-To: <20230227113621.58468-1-thuth@redhat.com>
 References: <20230227113621.58468-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,118 +79,66 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Inline into the parent functions with a simple test
-to select the page, and a new define to remove ifdefs.
+Ensure that the total length is in a local variable
+across the byte loop.  Compute size1 difference once.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20230109201856.3916639-7-richard.henderson@linaro.org>
+Message-Id: <20230109201856.3916639-8-richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/mem_helper.c | 70 +++++++++++++++--------------------
- 1 file changed, 30 insertions(+), 40 deletions(-)
+ target/s390x/tcg/mem_helper.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index e9d54b1dd5..f28126fde6 100644
+index f28126fde6..e51a0db0fe 100644
 --- a/target/s390x/tcg/mem_helper.c
 +++ b/target/s390x/tcg/mem_helper.c
-@@ -35,6 +35,12 @@
- #include "hw/boards.h"
- #endif
- 
-+#ifdef CONFIG_USER_ONLY
-+# define user_or_likely(X)    true
-+#else
-+# define user_or_likely(X)    likely(X)
-+#endif
-+
- /*****************************************************************************/
- /* Softmmu support */
- 
-@@ -246,59 +252,43 @@ static void access_memset(CPUS390XState *env, S390Access *desta,
-                      desta->mmu_idx, ra);
- }
- 
--static uint8_t do_access_get_byte(CPUS390XState *env, vaddr vaddr,
--                                  void *haddr, int offset,
--                                  int mmu_idx, uintptr_t ra)
--{
--#ifdef CONFIG_USER_ONLY
--    return ldub_p(haddr + offset);
--#else
--    if (likely(haddr)) {
--        return ldub_p(haddr + offset);
--    } else {
--        MemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
--        return cpu_ldb_mmu(env, vaddr + offset, oi, ra);
--    }
--#endif
--}
--
- static uint8_t access_get_byte(CPUS390XState *env, S390Access *access,
-                                int offset, uintptr_t ra)
+@@ -299,16 +299,17 @@ static void access_set_byte(CPUS390XState *env, S390Access *access,
+ static void access_memmove(CPUS390XState *env, S390Access *desta,
+                            S390Access *srca, uintptr_t ra)
  {
--    if (offset < access->size1) {
--        return do_access_get_byte(env, access->vaddr1, access->haddr1,
--                                  offset, access->mmu_idx, ra);
--    }
--    return do_access_get_byte(env, access->vaddr2, access->haddr2,
--                              offset - access->size1, access->mmu_idx, ra);
--}
-+    target_ulong vaddr = access->vaddr1;
-+    void *haddr = access->haddr1;
++    int len = desta->size1 + desta->size2;
+     int diff;
  
--static void do_access_set_byte(CPUS390XState *env, vaddr vaddr, void *haddr,
--                               int offset, uint8_t byte, int mmu_idx,
--                               uintptr_t ra)
--{
--#ifdef CONFIG_USER_ONLY
--    stb_p(haddr + offset, byte);
--#else
-+    if (unlikely(offset >= access->size1)) {
-+        offset -= access->size1;
-+        vaddr = access->vaddr2;
-+        haddr = access->haddr2;
-+    }
+-    g_assert(desta->size1 + desta->size2 == srca->size1 + srca->size2);
++    assert(len == srca->size1 + srca->size2);
  
--    if (likely(haddr)) {
--        stb_p(haddr + offset, byte);
-+    if (user_or_likely(haddr)) {
-+        return ldub_p(haddr + offset);
-     } else {
--        MemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
--        cpu_stb_mmu(env, vaddr + offset, byte, oi, ra);
-+        MemOpIdx oi = make_memop_idx(MO_UB, access->mmu_idx);
-+        return cpu_ldb_mmu(env, vaddr + offset, oi, ra);
+     /* Fallback to slow access in case we don't have access to all host pages */
+     if (unlikely(!desta->haddr1 || (desta->size2 && !desta->haddr2) ||
+                  !srca->haddr1 || (srca->size2 && !srca->haddr2))) {
+         int i;
+ 
+-        for (i = 0; i < desta->size1 + desta->size2; i++) {
++        for (i = 0; i < len; i++) {
+             uint8_t byte = access_get_byte(env, srca, i, ra);
+ 
+             access_set_byte(env, desta, i, byte, ra);
+@@ -316,20 +317,20 @@ static void access_memmove(CPUS390XState *env, S390Access *desta,
+         return;
      }
--#endif
- }
  
- static void access_set_byte(CPUS390XState *env, S390Access *access,
-                             int offset, uint8_t byte, uintptr_t ra)
- {
--    if (offset < access->size1) {
--        do_access_set_byte(env, access->vaddr1, access->haddr1, offset, byte,
--                           access->mmu_idx, ra);
-+    target_ulong vaddr = access->vaddr1;
-+    void *haddr = access->haddr1;
-+
-+    if (unlikely(offset >= access->size1)) {
-+        offset -= access->size1;
-+        vaddr = access->vaddr2;
-+        haddr = access->haddr2;
-+    }
-+
-+    if (user_or_likely(haddr)) {
-+        stb_p(haddr + offset, byte);
+-    if (srca->size1 == desta->size1) {
++    diff = desta->size1 - srca->size1;
++    if (likely(diff == 0)) {
+         memmove(desta->haddr1, srca->haddr1, srca->size1);
+         if (unlikely(srca->size2)) {
+             memmove(desta->haddr2, srca->haddr2, srca->size2);
+         }
+-    } else if (srca->size1 < desta->size1) {
+-        diff = desta->size1 - srca->size1;
++    } else if (diff > 0) {
+         memmove(desta->haddr1, srca->haddr1, srca->size1);
+         memmove(desta->haddr1 + srca->size1, srca->haddr2, diff);
+         if (likely(desta->size2)) {
+             memmove(desta->haddr2, srca->haddr2 + diff, desta->size2);
+         }
      } else {
--        do_access_set_byte(env, access->vaddr2, access->haddr2,
--                           offset - access->size1, byte, access->mmu_idx, ra);
-+        MemOpIdx oi = make_memop_idx(MO_UB, access->mmu_idx);
-+        cpu_stb_mmu(env, vaddr + offset, byte, oi, ra);
-     }
- }
- 
+-        diff = srca->size1 - desta->size1;
++        diff = -diff;
+         memmove(desta->haddr1, srca->haddr1, desta->size1);
+         memmove(desta->haddr2, srca->haddr1 + desta->size1, diff);
+         if (likely(srca->size2)) {
 -- 
 2.31.1
 
