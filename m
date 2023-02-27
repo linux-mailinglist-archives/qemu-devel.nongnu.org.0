@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03FF76A43C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A46C6A4399
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:02:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe7K-0002ow-TE; Mon, 27 Feb 2023 09:04:38 -0500
+	id 1pWe54-0001u5-RW; Mon, 27 Feb 2023 09:02:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7I-0002bO-CK
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:36 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe48-0000da-Qh
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:29 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7G-0007zp-NT
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:36 -0500
-Received: by mail-wr1-x430.google.com with SMTP id t15so6342858wrz.7
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe44-0007XL-Du
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:18 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ m25-20020a7bcb99000000b003e7842b75f2so3883991wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=L/MEORMaWwsIW0OPJMEmwpwT73YawX+aPFL1yN3FA/c=;
- b=KSl5dTDth1soWlS4XeTFdFL85g1ju4W2aYC8sabeYe/GgRaoKE5e8XmkB8AVGYrYaI
- MvaEnmz/q24gU3gLAF340V5+sU7bc5ioU8X7adzLGk4YEx0mgYalyMrV+EDZZS9GNg/m
- usjJDtZTlSs+GP7EQMK6wDyLxlFSzAigF8sSv6Pt8RA7cb2lyhNCt0jVgCJnvexFa38N
- iDmf8/+WESScK+mxO6uLmdPstuz9rQPPowUvdDyiZM9aG4va7niUhpiZg/irCxDidsZC
- IxsC76yvGwNur2U9aYkD2LGL6/sMqwPYzBVicC25caK4qzxC5W9aPAdHqv6/jraNXYNJ
- 6U+Q==
+ :reply-to; bh=oDI/Gvf1vTBawfRe/WqKnp9A0gmcK09jwaqQOvTxWMM=;
+ b=NE87DflL9Bcf61p+nKys6TyxSGKu1rFXWOAw9vFJdWYGnlZlrB8J/3CWdE+5OIpB+a
+ aOCZOop5WD7owzAt5xt0aSk2XdfswACgUjgzvwpYP8P5JFTvdQRjU2GH4+i6Lb5p9L//
+ 0EculsczBLExubH9T8IRUk3yprlLwXWqBVBHswzwE6nvL3CEB50bH1yQ5SOuK6KfBpi6
+ iIGCWAWjqQutIu4LkApoQDl7sx5DHl5loNegB4CjXZaUlPVe1WfACbECk9m1AwzlY9Z/
+ E6rsgdTbnCIiNJ4FuXr0GFl+ZBktAEy0dXiCEGI6LWy1oF3a/vgZpZ7aCN/sp0POgGmH
+ Y6hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=L/MEORMaWwsIW0OPJMEmwpwT73YawX+aPFL1yN3FA/c=;
- b=Z+WP+/oYp2iqwRVlBJInAyKVvY+WtoIYjD4KxQWih+zpux61tGOt5aXM0ksSc2iy9w
- btPmEZROLVHPI+R4Cfujg+2+R1wB9Qyl3w6RkbCkcqMDUnsnb9FD9c/M3QqhWixFYZ9a
- Mw4oAboGlFhuzfjOSMw2KGpUUI/PBBldhA3NR9gJ3+zD/jdGlEmbP2DmR2q02f95IpRN
- /KEXAsDRpemKdUvufwriLI1O3zUPDPdy5lV0MJ3+mxeWRO7xlMKNZIsR1/vyDbKyEByh
- 8xozLYTOJn6Zrkh4lZs61jzJTPZumWF7wqSCBTNR3KuMWdA9p33khj37xLUt0eVPq8LW
- tVuQ==
-X-Gm-Message-State: AO0yUKWq18hK/C4gWynU6RJqO138Xm6yc7DN/e7kL4Go93zoAr5RZc84
- tJV0OJ8xQpS+Ot6JxP+8kDRQJz68dKsOkg6x
-X-Google-Smtp-Source: AK7set9VEgms6yx2v/agfcx+f9m7iqvXOaT7C1DrRWbQ9OecnWoB0B+Se4kpb1X0rT0JsX1Dt88bhg==
-X-Received: by 2002:a5d:4a50:0:b0:2c8:d399:1645 with SMTP id
- v16-20020a5d4a50000000b002c8d3991645mr6711073wrs.37.1677506672838; 
- Mon, 27 Feb 2023 06:04:32 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ bh=oDI/Gvf1vTBawfRe/WqKnp9A0gmcK09jwaqQOvTxWMM=;
+ b=P7H8s37Cr4NC8KwRCdgRK1Cjb2H0BEDeyVM9HKoctfxa5sR4jGFlh3d9KCkDu1JqUX
+ JmWW/xXp/13RP9nt3QYlOjd8rCjIH/mTH34DNnGPy+LVeK7wJXQYoQ4Eu5J99pSCa2Xe
+ IsHFXAy4/8HOVWd+kezeZUaEFszzL6es9zh1JOeOW27th2J4Cz+tohzvxhEzEgaieEUY
+ jaCbksxvKi9Y2/V5gzQeiGxnQERonQP8KBehoU61C8BWlox/Jk9XZ2CG7cwD050o9uyV
+ Oaxpevw9Ov9KLcjJPB0fnXiHL1e945r/MHhqa33LrKexOARL5jeOF2MK97whwYsE8YpF
+ TgYQ==
+X-Gm-Message-State: AO0yUKUR9F8DbrhT+Qt/uQgF9GFJsHK5miRDdIgGV4zKM+Wd9qDf8MHN
+ 9+w2fWUuj1MfMwokQwghuMttg/Hxbl2ctQMC
+X-Google-Smtp-Source: AK7set+fU9W1kmC4NWQvBRwiYEi6ciw98U1ZjF6O9YMiIiECYfo1xjLfvUtvIrUAwn3ZwvC3DcHliA==
+X-Received: by 2002:a05:600c:3b1e:b0:3ea:e5fc:a5a4 with SMTP id
+ m30-20020a05600c3b1e00b003eae5fca5a4mr10202472wms.1.1677506473360; 
+ Mon, 27 Feb 2023 06:01:13 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f3-20020a0560001b0300b002c70e60abd4sm7282177wrz.2.2023.02.27.06.04.31
+ s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.12
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:04:32 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 06:01:12 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 035/126] qemu/typedefs: Sort in case-insensitive alphabetical
- order (again)
-Date: Mon, 27 Feb 2023 15:00:42 +0100
-Message-Id: <20230227140213.35084-26-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
-References: <20230227140213.35084-1-philmd@linaro.org>
+Subject: [PULL 06/25] target/arm: Move psci.c into the tcg directory
+Date: Mon, 27 Feb 2023 14:00:43 +0000
+Message-Id: <20230227140102.3712344-7-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
+References: <20230227140102.3712344-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,71 +90,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Following the recommendation added in commit a98c370c46
-("typedefs: (Re-)sort entries alphabetically"), and similarly
-to commit 64baadc272 ("Sort include/qemu/typedefs.h"), sort
-again the type definitions (in case-insensitive alphabetical
-order, using 'sort --ignore-case').
+From: Claudio Fontana <cfontana@suse.de>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230217141832.24777-2-philmd@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/qemu/typedefs.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ target/arm/{ => tcg}/psci.c | 0
+ target/arm/meson.build      | 1 -
+ target/arm/tcg/meson.build  | 4 ++++
+ 3 files changed, 4 insertions(+), 1 deletion(-)
+ rename target/arm/{ => tcg}/psci.c (100%)
 
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index c7c8a85315..df4b55ac65 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -49,6 +49,7 @@ typedef struct DeviceState DeviceState;
- typedef struct DirtyBitmapSnapshot DirtyBitmapSnapshot;
- typedef struct DisplayChangeListener DisplayChangeListener;
- typedef struct DriveInfo DriveInfo;
-+typedef struct DumpState DumpState;
- typedef struct Error Error;
- typedef struct EventNotifier EventNotifier;
- typedef struct FlatView FlatView;
-@@ -56,6 +57,7 @@ typedef struct FWCfgEntry FWCfgEntry;
- typedef struct FWCfgIoState FWCfgIoState;
- typedef struct FWCfgMemState FWCfgMemState;
- typedef struct FWCfgState FWCfgState;
-+typedef struct GraphicHwOps GraphicHwOps;
- typedef struct HostMemoryBackend HostMemoryBackend;
- typedef struct I2CBus I2CBus;
- typedef struct I2SCodec I2SCodec;
-@@ -90,10 +92,10 @@ typedef struct PCIDevice PCIDevice;
- typedef struct PCIEAERErr PCIEAERErr;
- typedef struct PCIEAERLog PCIEAERLog;
- typedef struct PCIEAERMsg PCIEAERMsg;
--typedef struct PCIESriovPF PCIESriovPF;
--typedef struct PCIESriovVF PCIESriovVF;
- typedef struct PCIEPort PCIEPort;
- typedef struct PCIESlot PCIESlot;
-+typedef struct PCIESriovPF PCIESriovPF;
-+typedef struct PCIESriovVF PCIESriovVF;
- typedef struct PCIExpressDevice PCIExpressDevice;
- typedef struct PCIExpressHost PCIExpressHost;
- typedef struct PCIHostDeviceAddress PCIHostDeviceAddress;
-@@ -106,6 +108,7 @@ typedef struct QBool QBool;
- typedef struct QDict QDict;
- typedef struct QEMUBH QEMUBH;
- typedef struct QemuConsole QemuConsole;
-+typedef struct QEMUCursor QEMUCursor;
- typedef struct QEMUFile QEMUFile;
- typedef struct QemuLockable QemuLockable;
- typedef struct QemuMutex QemuMutex;
-@@ -132,9 +135,6 @@ typedef struct VirtIODevice VirtIODevice;
- typedef struct Visitor Visitor;
- typedef struct VMChangeStateEntry VMChangeStateEntry;
- typedef struct VMStateDescription VMStateDescription;
--typedef struct DumpState DumpState;
--typedef struct GraphicHwOps GraphicHwOps;
--typedef struct QEMUCursor QEMUCursor;
+diff --git a/target/arm/psci.c b/target/arm/tcg/psci.c
+similarity index 100%
+rename from target/arm/psci.c
+rename to target/arm/tcg/psci.c
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 3e2f4030056..a5191b57e1c 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -22,7 +22,6 @@ arm_softmmu_ss.add(files(
+   'arm-powerctl.c',
+   'machine.c',
+   'monitor.c',
+-  'psci.c',
+   'ptw.c',
+ ))
  
- /*
-  * Pointer types
+diff --git a/target/arm/tcg/meson.build b/target/arm/tcg/meson.build
+index 1f27ba1272e..fa8a9eab933 100644
+--- a/target/arm/tcg/meson.build
++++ b/target/arm/tcg/meson.build
+@@ -43,3 +43,7 @@ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+   'sme_helper.c',
+   'sve_helper.c',
+ ))
++
++arm_softmmu_ss.add(files(
++  'psci.c',
++))
 -- 
-2.38.1
+2.34.1
 
 
