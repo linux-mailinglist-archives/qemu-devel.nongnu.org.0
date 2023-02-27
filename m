@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12246A3AA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A2A6A3A9F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:40:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWW6i-0007SN-JO; Mon, 27 Feb 2023 00:31:28 -0500
+	id 1pWW6b-0006t2-65; Mon, 27 Feb 2023 00:31:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWW5w-0003ZD-1K
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:30:43 -0500
+ id 1pWW5y-0003a6-5Y
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:30:45 -0500
 Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWW5q-0000Ze-H1
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:30:39 -0500
+ id 1pWW5u-000074-GT
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:30:41 -0500
 Received: by mail-pj1-x1042.google.com with SMTP id
- m8-20020a17090a4d8800b002377bced051so8930670pjh.0
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:30:34 -0800 (PST)
+ q31-20020a17090a17a200b0023750b69614so5010231pja.5
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jXzb0wguddcKP79wDFGGeUAakOtFrc7V197g1pVsdMU=;
- b=LR3Mov5ufwrZg1ODnQVmMK4M0FtsCmAzOG1+uiLQNlDF4J9efiw6Bi3CcRDaki5huj
- PVO32AD78ep8HoEVCBENqpEDpwKlNO3+U9e3GTR3pp8nqcWeMD7T0v7fDrC1o89b2zgz
- Zd5oou/HAfJBG/Qe1laK0Mv2RWA02WxTvAC6nPYQ+koh/fkE40gFIhwj/utfgsRVJAZz
- JMNLhqQOG9eOFlJgth5EdpxKaQLjOgnOmcKKPJx3DV+ItJsUVK5LxgItISB/n59i0f/V
- PmfQzM1yrui3XydvKN/KeK5yQTwAR8WemDHcCK3taQFO4vKa3JznZGceie9l6MigzuWu
- 7E8A==
+ bh=oKFoOtAQPc4IGDzDI3M0u00e6r6YXRrZmZGvxqeOd94=;
+ b=jP7z65h+OG1mIkfpq/kYCDUlGEMYvKJzAHc1NJZCmjd2FUtZxitdmtjYlLkVmy0ZGD
+ IcLBxmvuSZyXBAsZp/kzBBNuVT7hWME3cwy4ezTqW2UGB0rl2cr2EkcAcmGif77aBipV
+ KRRLFNpYIj6zTBgVplZGAXSXm/0zg78sowevW8pi8iUCfrE7rx24JBkY/ryezWASaVfq
+ DUYqPF6ydaROCfa2H+9XQUEotWSXiRpZSehBUAL+hgoEblwNdURb++Z2mQ7jhcaltwJ+
+ Zy64OYSxy2PTKMASC+i56hHHAE3EMIwWUtfCpz1jO+MXqJgD0OtRhFtKT27IaujIAd4d
+ 9q7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jXzb0wguddcKP79wDFGGeUAakOtFrc7V197g1pVsdMU=;
- b=V8gqxI+paMK6ISMzTmxLiGXTXMv5vwl2+hlFY22CbfXT7eXKvq/NojDojoQWw+ybfK
- Yw33tB2XbbdrSA351Pnl39uQmzHH274PhymlRWWKO7vzt3V4YRn/3ZMcK+k0WZ5tVG+z
- zEjZOOx05UOMU7io17VXzbH97eXvuXPN6kOWLg7UTaWWT6yPcDaXVVxBfbYc59HRtoA9
- CBJhFdmywD1HT98ZD2T1Gr/Vt1qxSesZYJDhyh25X6Qy87sstKkxdkSieTMH/XGILD5J
- 3wylpwR5wED92AP4A6kXKp7yXFmN3LWfs7i13pAFxMVWG1h19Gps1pC9jjtse40NBVaP
- c+YQ==
-X-Gm-Message-State: AO0yUKXCEI/FCC5sRhImnGWfaIbA4XGrWPNQIeWrtT+UtFg7Y0rXDKzo
- F6wp8yzd3wxQqz99iW2eWlrq8RUQs43UsBmQgGZFEQ==
-X-Google-Smtp-Source: AK7set+2cybHq0gFkCel5osP8mALq0PJdKb84YjeQSa6Wwycr61rAL6sPvJbfGbb/k6rlaDJyygzHg==
-X-Received: by 2002:a17:90b:350f:b0:234:86a5:f800 with SMTP id
- ls15-20020a17090b350f00b0023486a5f800mr25701915pjb.34.1677475832967; 
- Sun, 26 Feb 2023 21:30:32 -0800 (PST)
+ bh=oKFoOtAQPc4IGDzDI3M0u00e6r6YXRrZmZGvxqeOd94=;
+ b=hhBwqlkMwWvBq8Ve97Mns3Nz1zdCj0aAUwOqPlVNEHHwjkUvjpfRbhQtzMi+ynv01v
+ jnlSMid5AwE/FkV/s5tE/Nm07vAktqQ41h8NY53lxnVTkUhPU81gUGqTlrDimi19ADCT
+ V5jv3k5W8B7KqocNNkFn4WC38a42U/L4Rg6RpKEIZ/hHgySkwMoEdo4adSgTNoyPVPUy
+ HR/5TSEhKU4wpih5aTh0+nADgN+elizidTtw1TweXhaGRhaPs1+EXzm48CQfDA4ISsAl
+ Pn4sqG6K5eEOwLGSw3ZaDXYEw/Vx0b57F6/ZDBvmZWx0yR2tcSnROgvm0J11TfmhW4Pu
+ nvJA==
+X-Gm-Message-State: AO0yUKXyuAdUouoAwjDVQFChLIo9+Jvc7VeMhb0zzhZMTRHKom+p391t
+ 8LX95fIDy/rD39qeRnOWWRxYHreStjgkVESbDQYnPw==
+X-Google-Smtp-Source: AK7set9xcOodI6lGwDyuhO7RbFr83Q/tWSDh0yGRTDF5LcH9Djiv2D/O5BmhNwo2PcLUN+slu9ofww==
+X-Received: by 2002:a17:90b:17c5:b0:236:6a28:f783 with SMTP id
+ me5-20020a17090b17c500b002366a28f783mr8251860pjb.15.1677475835979; 
+ Sun, 26 Feb 2023 21:30:35 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- v4-20020a17090a520400b002369e16b276sm5172926pjh.32.2023.02.26.21.30.30
+ v4-20020a17090a520400b002369e16b276sm5172926pjh.32.2023.02.26.21.30.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:30:32 -0800 (PST)
+ Sun, 26 Feb 2023 21:30:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -63,9 +63,9 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v2 51/76] target/riscv: Drop ftemp_new
-Date: Sun, 26 Feb 2023 19:24:40 -1000
-Message-Id: <20230227052505.352889-52-richard.henderson@linaro.org>
+Subject: [PATCH v2 52/76] target/riscv: Drop temp_new
+Date: Sun, 26 Feb 2023 19:24:41 -1000
+Message-Id: <20230227052505.352889-53-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227052505.352889-1-richard.henderson@linaro.org>
 References: <20230227052505.352889-1-richard.henderson@linaro.org>
@@ -97,96 +97,136 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Translators are no longer required to free tcg temporaries,
 therefore there's no need to record temps for later freeing.
-Replace the few uses with tcg_temp_new_i64.
+Replace the few uses with tcg_temp_new.
 
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/translate.c | 24 ++++--------------------
- 1 file changed, 4 insertions(+), 20 deletions(-)
+ target/riscv/translate.c                  | 30 +++++------------------
+ target/riscv/insn_trans/trans_rvzfh.c.inc |  2 +-
+ 2 files changed, 7 insertions(+), 25 deletions(-)
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index f9d5d1097e..273e566d66 100644
+index 273e566d66..b5d8080a6f 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -106,9 +106,6 @@ typedef struct DisasContext {
+@@ -101,11 +101,8 @@ typedef struct DisasContext {
+     bool cfg_vta_all_1s;
+     target_ulong vstart;
+     bool vl_eq_vlmax;
+-    uint8_t ntemp;
+     CPUState *cs;
      TCGv zero;
-     /* Space for 3 operands plus 1 extra for address computation. */
-     TCGv temp[4];
--    /* Space for 4 operands(1 dest and <=3 src) for float point computation */
--    TCGv_i64 ftemp[4];
--    uint8_t nftemp;
+-    /* Space for 3 operands plus 1 extra for address computation. */
+-    TCGv temp[4];
      /* PointerMasking extension */
      bool pm_mask_enabled;
      bool pm_base_enabled;
-@@ -431,12 +428,6 @@ static void gen_set_gpr128(DisasContext *ctx, int reg_num, TCGv rl, TCGv rh)
-     }
- }
- 
--static TCGv_i64 ftemp_new(DisasContext *ctx)
+@@ -312,12 +309,6 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+  *
+  * Further, we may provide an extension for word operations.
+  */
+-static TCGv temp_new(DisasContext *ctx)
 -{
--    assert(ctx->nftemp < ARRAY_SIZE(ctx->ftemp));
--    return ctx->ftemp[ctx->nftemp++] = tcg_temp_new_i64();
+-    assert(ctx->ntemp < ARRAY_SIZE(ctx->temp));
+-    return ctx->temp[ctx->ntemp++] = tcg_temp_new();
 -}
 -
- static TCGv_i64 get_fpr_hs(DisasContext *ctx, int reg_num)
+ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
  {
-     if (!ctx->cfg_ptr->ext_zfinx) {
-@@ -450,7 +441,7 @@ static TCGv_i64 get_fpr_hs(DisasContext *ctx, int reg_num)
-     case MXL_RV32:
- #ifdef TARGET_RISCV32
-     {
--        TCGv_i64 t = ftemp_new(ctx);
-+        TCGv_i64 t = tcg_temp_new_i64();
-         tcg_gen_ext_i32_i64(t, cpu_gpr[reg_num]);
-         return t;
+     TCGv t;
+@@ -332,11 +323,11 @@ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
+         case EXT_NONE:
+             break;
+         case EXT_SIGN:
+-            t = temp_new(ctx);
++            t = tcg_temp_new();
+             tcg_gen_ext32s_tl(t, cpu_gpr[reg_num]);
+             return t;
+         case EXT_ZERO:
+-            t = temp_new(ctx);
++            t = tcg_temp_new();
+             tcg_gen_ext32u_tl(t, cpu_gpr[reg_num]);
+             return t;
+         default:
+@@ -364,7 +355,7 @@ static TCGv get_gprh(DisasContext *ctx, int reg_num)
+ static TCGv dest_gpr(DisasContext *ctx, int reg_num)
+ {
+     if (reg_num == 0 || get_olen(ctx) < TARGET_LONG_BITS) {
+-        return temp_new(ctx);
++        return tcg_temp_new();
      }
-@@ -476,7 +467,7 @@ static TCGv_i64 get_fpr_d(DisasContext *ctx, int reg_num)
-     switch (get_xl(ctx)) {
-     case MXL_RV32:
-     {
--        TCGv_i64 t = ftemp_new(ctx);
-+        TCGv_i64 t = tcg_temp_new_i64();
-         tcg_gen_concat_tl_i64(t, cpu_gpr[reg_num], cpu_gpr[reg_num + 1]);
-         return t;
-     }
-@@ -496,12 +487,12 @@ static TCGv_i64 dest_fpr(DisasContext *ctx, int reg_num)
-     }
- 
+     return cpu_gpr[reg_num];
+ }
+@@ -372,7 +363,7 @@ static TCGv dest_gpr(DisasContext *ctx, int reg_num)
+ static TCGv dest_gprh(DisasContext *ctx, int reg_num)
+ {
      if (reg_num == 0) {
--        return ftemp_new(ctx);
-+        return tcg_temp_new_i64();
+-        return temp_new(ctx);
++        return tcg_temp_new();
      }
+     return cpu_gprh[reg_num];
+ }
+@@ -575,7 +566,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+ /* Compute a canonical address from a register plus offset. */
+ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
+ {
+-    TCGv addr = temp_new(ctx);
++    TCGv addr = tcg_temp_new();
+     TCGv src1 = get_gpr(ctx, rs1, EXT_NONE);
  
-     switch (get_xl(ctx)) {
-     case MXL_RV32:
--        return ftemp_new(ctx);
-+        return tcg_temp_new_i64();
- #ifdef TARGET_RISCV64
-     case MXL_RV64:
-         return cpu_gpr[reg_num];
-@@ -1207,8 +1198,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     tcg_gen_addi_tl(addr, src1, imm);
+@@ -593,7 +584,7 @@ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
+ /* Compute a canonical address from a register plus reg offset. */
+ static TCGv get_address_indexed(DisasContext *ctx, int rs1, TCGv offs)
+ {
+-    TCGv addr = temp_new(ctx);
++    TCGv addr = tcg_temp_new();
+     TCGv src1 = get_gpr(ctx, rs1, EXT_NONE);
+ 
+     tcg_gen_add_tl(addr, src1, offs);
+@@ -1196,8 +1187,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->misa_mxl_max = env->misa_mxl_max;
+     ctx->xl = FIELD_EX32(tb_flags, TB_FLAGS, XL);
      ctx->cs = cs;
-     ctx->ntemp = 0;
-     memset(ctx->temp, 0, sizeof(ctx->temp));
--    ctx->nftemp = 0;
--    memset(ctx->ftemp, 0, sizeof(ctx->ftemp));
+-    ctx->ntemp = 0;
+-    memset(ctx->temp, 0, sizeof(ctx->temp));
      ctx->pm_mask_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_MASK_ENABLED);
      ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
      ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
-@@ -1244,11 +1233,6 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-         ctx->temp[i] = NULL;
-     }
-     ctx->ntemp = 0;
--    for (i = ctx->nftemp - 1; i >= 0; --i) {
--        tcg_temp_free_i64(ctx->ftemp[i]);
--        ctx->ftemp[i] = NULL;
--    }
--    ctx->nftemp = 0;
+@@ -1222,18 +1211,11 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPURISCVState *env = cpu->env_ptr;
+     uint16_t opcode16 = translator_lduw(env, &ctx->base, ctx->base.pc_next);
+-    int i;
  
+     ctx->ol = ctx->xl;
+     decode_opc(env, ctx, opcode16);
+     ctx->base.pc_next = ctx->pc_succ_insn;
+ 
+-    for (i = ctx->ntemp - 1; i >= 0; --i) {
+-        tcg_temp_free(ctx->temp[i]);
+-        ctx->temp[i] = NULL;
+-    }
+-    ctx->ntemp = 0;
+-
      /* Only the first insn within a TB is allowed to cross a page boundary. */
      if (ctx->base.is_jmp == DISAS_NEXT) {
+         if (ctx->itrigger || !is_same_page(&ctx->base, ctx->base.pc_next)) {
+diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
+index 2ad5716312..5024e6ecab 100644
+--- a/target/riscv/insn_trans/trans_rvzfh.c.inc
++++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
+@@ -52,7 +52,7 @@ static bool trans_flh(DisasContext *ctx, arg_flh *a)
+     decode_save_opc(ctx);
+     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
+     if (a->imm) {
+-        TCGv temp = temp_new(ctx);
++        TCGv temp = tcg_temp_new();
+         tcg_gen_addi_tl(temp, t0, a->imm);
+         t0 = temp;
+     }
 -- 
 2.34.1
 
