@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC846A3A2E
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 05:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E12B6A3992
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 04:30:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWVO1-0008EH-OA; Sun, 26 Feb 2023 23:45:17 -0500
+	id 1pWUCf-0000g9-Gy; Sun, 26 Feb 2023 22:29:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linux@weissschuh.net>)
- id 1pWU3d-0006qY-BC
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 22:20:09 -0500
-Received: from todd.t-8ch.de ([159.69.126.157])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linux@weissschuh.net>)
- id 1pWU3a-0007Vg-IO
- for qemu-devel@nongnu.org; Sun, 26 Feb 2023 22:20:09 -0500
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1677467998;
- bh=c3OID4OHGBiQHj/a18/Na81gQpWQRHYqRW26JTDxHKE=;
- h=From:Date:Subject:To:Cc:From;
- b=LRaNQJCE1bMq4h9CpQ0d3SHamcYhgLiw5ymuYKgB+NoPXTMxE4917X3J3XEQ80Fe5
- MOPFw4YGWznWX+jPlrXwOmWN07wnQGaJ5T83nRdF3uA7N6M/bwJThjIgcpsvk7FNjT
- h8lzTzV/J8zy3aG/aEv3s3PMvOj9b+bQRDGVZXFg=
-Date: Mon, 27 Feb 2023 03:19:56 +0000
-Subject: [PATCH] firmware: qemu_fw_cfg: make kobj_type structure constant
+ (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
+ id 1pWUCe-0000g0-1N
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 22:29:28 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dinahbaum123@gmail.com>)
+ id 1pWUCc-0001QW-1R
+ for qemu-devel@nongnu.org; Sun, 26 Feb 2023 22:29:27 -0500
+Received: by mail-ed1-x532.google.com with SMTP id eg37so20088871edb.12
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 19:29:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=KScNLqVDeP81ABS2AdN/MqfRn+xwi/2mxOhc0+4AdQk=;
+ b=TpZmSij5j+GJ/gyTDYJMi7Hgq13KVLm3leZcSec8zWIETJ8KkqEyHFN9QKac5516A8
+ iYIKtVs+JLoL0Nh2sKPspG5Xz55XhDWo31VoFGd9/dksctfBevbSyXJUwHkGWqQGp1yy
+ BG74VaGJsMuVLmmWYEn6dQZ8TY65hsA8wdZ4CMrL+emDjWkPd9Zwarn9YWez56iFt7J4
+ Xq0o0116bHMqM94x7m9n5+Rhvx+VQprmpT81Gg+vmE4M3C93de9jWEa7sv1rrgF4Pqky
+ OHq/f5gMdv32niOAObPrmftWDAntFUUpRFGF0iKX6qk5o0k3jnvyqrQLcCqX41Cczavg
+ pYNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KScNLqVDeP81ABS2AdN/MqfRn+xwi/2mxOhc0+4AdQk=;
+ b=Tke/K4LfCykyPPi4uLcAhM56BO7h1AFDoFPU2e/o5LYFo6dzEk+8xpoGr/Vx1grGnF
+ MooRdviNpg7iD2amjKZ2egzvb5HsUyx1I+0DNt1UAFrdKKzfNznn5Bs4GRNzrSRxEUWS
+ TZUYEpTbL0T2M0Lwui76/7JGXHsz1BlRIKUMhTg41OL6dW/Qk6t/+0SGSWMwMVfseViU
+ 5IwrobKDlomZqzg2iltxvz90m+WfWnWygClpDmM6H5PQwMSezngsAKUItXFA+VsTQO3N
+ 0gvmXQM/pZcp/jvAsHkelrA/AzR72OHx1+oLrNNMzzCk4GWEi1AxI9KQ1PZEjR4uZiTp
+ 6M4w==
+X-Gm-Message-State: AO0yUKUx5voy7EZSLIPlG+tj+Pg9plufrVE7lqgmejdGz+sMiEgpTqoy
+ QE8XYtmBRau8pnFiHe6CaeUoXoU91k+GoE1nRZ4tmkQ0B24=
+X-Google-Smtp-Source: AK7set8FAcm3Jm9Pwyni9YZ8jEFbOj6KWDJBwiq7woIviWxjUbJpIyDb+vAr+nz7MhLDUoJfTj8OFKTR2k0nZNz8SII=
+X-Received: by 2002:a50:9f05:0:b0:4ad:72b2:cf53 with SMTP id
+ b5-20020a509f05000000b004ad72b2cf53mr10894893edf.2.1677468563043; Sun, 26 Feb
+ 2023 19:29:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230227-kobj_type-firmware-qemu-v1-1-fc0c8b44424f@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAFsh/GMC/x2N0QqCQBAAf0X2uYVrFQ/6lYi41TW39LS9LEP89
- 44eZ2CYDZKYSoJTsYHJW5NOMcPxUEDTh3gT1DYzkKPSEXl8THy/vr6zYKc2foIJPmVc0Puq5ro
- k17KDXHNIgmwhNn3u4zIMWc4mna7/3fmy7z+XCpCnfgAAAA==
-To: Gabriel Somlo <somlo@cmu.edu>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677467996; l=1176;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=c3OID4OHGBiQHj/a18/Na81gQpWQRHYqRW26JTDxHKE=;
- b=aqXLp2yOWQMQHYa/WBolEG8uvRfp5q+eCr+6T9EaXn4m0kkl2hArfTv92d+BwFP1JUF5nzDm9
- GQpw3rtLQC3AMcEjhhcnZBojWn9GSfxGIGE+C7ndUaFVGBYp1CyB7kd
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
-Received-SPF: pass client-ip=159.69.126.157; envelope-from=linux@weissschuh.net;
- helo=todd.t-8ch.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+From: Dinah B <dinahbaum123@gmail.com>
+Date: Sun, 26 Feb 2023 22:29:11 -0500
+Message-ID: <CAH50XRfsWih++5yoZSx-3L9mzf+vGPRz2Che=_6TAuATphvXbQ@mail.gmail.com>
+Subject: Adopting abandoned patch?
+To: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000d2791d05f5a6159e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=dinahbaum123@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 26 Feb 2023 23:45:09 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +79,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since commit ee6d3dd4ed48 ("driver core: make kobj_type constant.")
-the driver core allows the usage of const struct kobj_type.
+--000000000000d2791d05f5a6159e
+Content-Type: text/plain; charset="UTF-8"
 
-Take advantage of this to constify the structure definition to prevent
-modification at runtime.
+Hi,
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/firmware/qemu_fw_cfg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm looking to get more involved in contributing to QEMU. I noticed that
+there are some issues in the tracker where a sample patch has been
+contributed but never got merged, like a proposal to add multiboot2
+support: https://gitlab.com/qemu-project/qemu/-/issues/389
 
-diff --git a/drivers/firmware/qemu_fw_cfg.c b/drivers/firmware/qemu_fw_cfg.c
-index a69399a6b7c0..f41de793f41b 100644
---- a/drivers/firmware/qemu_fw_cfg.c
-+++ b/drivers/firmware/qemu_fw_cfg.c
-@@ -452,7 +452,7 @@ static void fw_cfg_sysfs_release_entry(struct kobject *kobj)
- }
- 
- /* kobj_type: ties together all properties required to register an entry */
--static struct kobj_type fw_cfg_sysfs_entry_ktype = {
-+static const struct kobj_type fw_cfg_sysfs_entry_ktype = {
- 	.default_groups = fw_cfg_sysfs_entry_groups,
- 	.sysfs_ops = &fw_cfg_sysfs_attr_ops,
- 	.release = fw_cfg_sysfs_release_entry,
+Is another dev allowed to "adopt" the patch as-is, with proper attribution
+to the original dev and drive it to completion/merging (there are some
+features missing)? Or is "starting from scratch" required for legal reasons?
 
----
-base-commit: 2fcd07b7ccd5fd10b2120d298363e4e6c53ccf9c
-change-id: 20230227-kobj_type-firmware-qemu-7746b6320db0
+Thanks,
+-Dinah
 
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
+--000000000000d2791d05f5a6159e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I&#39;m looking to get m=
+ore involved in contributing to QEMU. I noticed that there are some issues =
+in the tracker where a sample patch has been contributed but never got merg=
+ed, like a proposal to add multiboot2 support: <a href=3D"https://gitlab.co=
+m/qemu-project/qemu/-/issues/389">https://gitlab.com/qemu-project/qemu/-/is=
+sues/389</a></div><div><br></div><div>Is another dev allowed to &quot;adopt=
+&quot; the patch as-is, with proper attribution to the original dev and dri=
+ve it to completion/merging (there are some features missing)? Or is &quot;=
+starting from scratch&quot; required for legal reasons?<br></div><div><br><=
+/div><div>Thanks,</div><div>-Dinah<br></div></div>
+
+--000000000000d2791d05f5a6159e--
 
