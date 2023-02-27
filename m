@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873936A441C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:18:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379F86A4423
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:18:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeAb-0001gr-S3; Mon, 27 Feb 2023 09:08:01 -0500
+	id 1pWeAv-00028a-2E; Mon, 27 Feb 2023 09:08:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAa-0001aN-2k
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:00 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAf-0001x2-Uz
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:08 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAY-0000FS-9K
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:59 -0500
-Received: by mail-wr1-x430.google.com with SMTP id l25so6371285wrb.3
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:07:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeAe-0000Ne-Ck
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:08:05 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ l7-20020a05600c4f0700b003e79fa98ce1so3914625wmq.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:08:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=xWSTUmb++2mGiogMvXbqJJocrCykF9OSc1ggtSDBGQk=;
- b=KVWgdG2kE24e/aar+GrSettzPiMGN9m0BA3Gdu6FAbuk/+58aSiuz7ZnrGWtfDa8Lz
- OXLVQNqNnuMhvaH9kRaPa7eB0gUrUHXunYIEircwNPJtSbhx34kN6XyIGKPMREsYcVdo
- sbfR8WIM4obmm1wTaGV6EF+JUmTwVd5o7432loFWelGW/PUQrqT1v8J8mxR6b9reOHl+
- p4xNHwrY5Kx55hRC90eQsB6gPB3kpBTCWtx9ssTUqjcNJoa9DNS/ugRMBnjK9I1LhyF8
- QhgOwdQc4KLl5gIVSOjWo9FXx2Z3N8XvcvpjhU+/8ZX+NIkQYA5SGmsFaX0Sl+17hTpW
- 6XNw==
+ :reply-to; bh=Yk2SedGuzUoZBp5OVz40sDs6z7kS7gFYhnzajKNCxAo=;
+ b=lwgnM3U6M7R26MZGTPQr7cgy7l/lk/xITg0TjLlBQalZSMX6Mixj62FOMi4p1p7zeg
+ povadoFnpOabmst/wR69sMtbfDt1FJWLNRuocSOAsJb7daS1feIQcowGM7jlpx9QBus7
+ d5yEiK+b54wLv45NH9wgOHEfoSRkoILwTrN9yKVO0TgWhPAHX25wPGReIiTOqyf4pqoH
+ Zg8cvhNvH3ysS/Lm9mdA1Ll1bjPxTawd6sMEabPIc8Se8jT+RTR2/2KMkEM5OoCxGQ87
+ 305TtMxa+RH2NZjvdv4Fa5Ya4TnUdzdzebOmw1WRCQGQpZ4s+eqQpKXEe+TwKlfoXqrw
+ zEhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xWSTUmb++2mGiogMvXbqJJocrCykF9OSc1ggtSDBGQk=;
- b=zu9IJPJaq1vQF0wYdmg7s6a1Uso+C5iAr/iAMeJbifkEXeHjzK1t6qHRCYBuhdLaIb
- +2EVwMU+63otXpJFZ75XtMJf/owFZwKhQL4fCoiSVJTnf/w6U+XiUaH0TEPgaQlMsOHy
- Gi6OL3QMh8eMERkG0TvWzYtQfFeZ7Mb1xohWpzxRMf47TE8r1Luld47l7HD5aq1yl51a
- +ODD3Svj8AgTd9vDE6Ah5ZKTZtpyiexJxtIYW1qYNly7n06QQfZJU7KMoFnXVK2fCPQp
- 2uzUVKi6nZFrkBXA11uIxZpl7VJrq8g044Vts1ZyDXXlBxcVci5zCHbP3Y0tzpsnhmC7
- OJkQ==
-X-Gm-Message-State: AO0yUKU6llbVBArp8wnPRLJZq/O5IWTi7UfLVYHkWMwmNxU3U/NDOInJ
- aUBGM3lsWGAKUubRTPc/e2J0Ff9VLMaxvUaD
-X-Google-Smtp-Source: AK7set/NlVkftvCEjSXfABRPAaNYsdr1g+seO6fSvRX5Cj0+RfsyiSw6Soh1cyiW6nNV5753j0MJng==
-X-Received: by 2002:adf:d089:0:b0:2cc:4dd4:b7f7 with SMTP id
- y9-20020adfd089000000b002cc4dd4b7f7mr932333wrh.63.1677506877330; 
- Mon, 27 Feb 2023 06:07:57 -0800 (PST)
+ bh=Yk2SedGuzUoZBp5OVz40sDs6z7kS7gFYhnzajKNCxAo=;
+ b=upvn9scaxKgdh3YlKimZe6cMl+4h/NJOhwyCd5o/SZxCKq04Ta11dSvJQe6HzBxx0K
+ UrYbK+pH80voE51xSsjO/63sUE8j1nhlHSIUwifVjgrd8qh48Ieh2rDHUkS1Gl/frc21
+ hlzOTCSpF10oApRZNhtC4CQLCiUmHbJrA8BsftEOWV9zmtFFsU0DY6a4tn2D3kMVFVTV
+ xngcZE/SCgjXyCB9lFZOcBTN5/f+r1XvsVgDosx3aT6CTw3hX4KD6G5Ua+kuBqjUMZM4
+ +WHYMG/VrpB3ux3hKDvTuqauLkR4y4OhkScjrxvOQ2QncYhWJDtyOxTX4dZfC++smrTp
+ V3rw==
+X-Gm-Message-State: AO0yUKWp+1QEj0BIwKDUDJhjXsVErzlDJ7djdyJBOJgVRAWQlx9JFgn/
+ yhCttLMSJNkyHzeymY6H8UJgxZSTBIbKTnnx
+X-Google-Smtp-Source: AK7set+GiV8Ip3ZDRDrphmUK/AoI1/shGz0QOLh/cD3aJUIJnzxsrBoY04/KKZUvOfdhjMbs6TUASQ==
+X-Received: by 2002:a05:600c:43c8:b0:3e2:1d1e:78d0 with SMTP id
+ f8-20020a05600c43c800b003e21d1e78d0mr16725248wmn.22.1677506882850; 
+ Mon, 27 Feb 2023 06:08:02 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- a14-20020a5d4d4e000000b002c57475c375sm7169011wru.110.2023.02.27.06.07.56
+ m4-20020a05600c4f4400b003e209b45f6bsm13710323wmq.29.2023.02.27.06.08.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:07:56 -0800 (PST)
+ Mon, 27 Feb 2023 06:08:02 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 072/126] hw/audio/es1370: Replace container_of() by ES1370()
- QOM cast macro
-Date: Mon, 27 Feb 2023 15:01:19 +0100
-Message-Id: <20230227140213.35084-63-philmd@linaro.org>
+Subject: [PULL 073/126] hw/audio/ac97: Replace container_of() by AC97() QOM
+ cast macro
+Date: Mon, 27 Feb 2023 15:01:20 +0100
+Message-Id: <20230227140213.35084-64-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,25 +91,24 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230220131837.26292-4-philmd@linaro.org>
+Message-Id: <20230220131837.26292-5-philmd@linaro.org>
 ---
- hw/audio/es1370.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/audio/ac97.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
-index ea76c9a734..4f738a0ad8 100644
---- a/hw/audio/es1370.c
-+++ b/hw/audio/es1370.c
-@@ -843,7 +843,8 @@ static const VMStateDescription vmstate_es1370 = {
+diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+index 364cdfa733..b3a45bb49f 100644
+--- a/hw/audio/ac97.c
++++ b/hw/audio/ac97.c
+@@ -1295,7 +1295,7 @@ static const MemoryRegionOps ac97_io_nabm_ops = {
  
- static void es1370_on_reset(DeviceState *dev)
+ static void ac97_on_reset(DeviceState *dev)
  {
--    ES1370State *s = container_of(dev, ES1370State, dev.qdev);
-+    ES1370State *s = ES1370(dev);
-+
-     es1370_reset (s);
- }
+-    AC97LinkState *s = container_of(dev, AC97LinkState, dev.qdev);
++    AC97LinkState *s = AC97(dev);
  
+     reset_bm_regs(s, &s->bm_regs[0]);
+     reset_bm_regs(s, &s->bm_regs[1]);
 -- 
 2.38.1
 
