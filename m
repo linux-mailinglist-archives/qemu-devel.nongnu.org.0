@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595E86A3C52
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AEC6A3BF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:08:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWXvE-0005eM-CJ; Mon, 27 Feb 2023 02:27:44 -0500
+	id 1pWY1u-00068P-TU; Mon, 27 Feb 2023 02:34:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pWXvB-0005eE-Pl
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 02:27:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pWY1m-000680-Kz
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 02:34:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pWXv9-00076c-Ei
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 02:27:41 -0500
+ id 1pWY1j-0007xo-Li
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 02:34:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677482852;
+ s=mimecast20190719; t=1677483259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d7Kw5/DWzTjaMGafWr+GDqIh5bOIBWiaaDRv7vmWjG8=;
- b=UwhyYkNcStR0MnwOtQ79RgQ6jVAZe3Baq5vROusgPSybWLUspsdyW1AfAU3EAOo1TCDIrt
- 5nW31xjUvxRBDiknAKz9r0Lf4DRHrGi4WA+s90e2ba1O5jNb3y+pgt9W6CBKsMKWnBw/fR
- 0vsaHvjq3ObVrTtto7K9BCy18Hy8o2w=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LNyh6ty354TqaT+I9MM6JrQEa/RfxXfuVfvsohl8EN4=;
+ b=Io9yNUam/3Zfw8eyaRXN+UVd+/WDEuUkngXiXinIsUXMk6V5tCjsjIeaQcT/OYmnXkCX8r
+ E5wf2TQgEdHoaF3QeDJdSZ7+M6bwUObieEuwyLLJDSwZg5eD25vWaWNs5GVPDMsUPnUKdY
+ nJ6n2M8oyDyrRna59GtgPozQwYvTD9s=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-399-HHx6GCh1OFmRi1QglphFsA-1; Mon, 27 Feb 2023 02:27:30 -0500
-X-MC-Unique: HHx6GCh1OFmRi1QglphFsA-1
-Received: by mail-pj1-f72.google.com with SMTP id
- o8-20020a17090a5b0800b0023740160d09so1211353pji.6
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 23:27:30 -0800 (PST)
+ us-mta-344--aNLmRs3Nzq3OvihUnnCSA-1; Mon, 27 Feb 2023 02:34:18 -0500
+X-MC-Unique: -aNLmRs3Nzq3OvihUnnCSA-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ d3-20020a17090acd0300b00237659aae8dso4756398pju.1
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 23:34:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d7Kw5/DWzTjaMGafWr+GDqIh5bOIBWiaaDRv7vmWjG8=;
- b=kTj0m1nRMnfTR+L2asqLR5x43hk9PfPNrGrTmBGSysB2MI/0dxeIuR+JHRzEwXJe82
- 8zgcXIlY8U1fLRlNfBmuZqBKNGSLJ5dzKldTe1OwSD9biHyIGHcGgCt3+5QDzrVc3Z2b
- F87BrFC1OhCt12fCdJBZIJKa+Zh6HvjGDf+CgGWDjQ7pCqgSMXa9uyQV4VVixcFrM2/U
- wMBQvVvh8RAz3rMgvC1D+aMor/M9vfk6QLu5o0zn/WG9/UNPpuFu9jwILC7Ddo5j2qHK
- 2U01k9XhAqkS5QGgnv5FNYyeg6ZHLJpnB9oMQJ3LYG4ay7JsZsum8M7szVT6uu0acjud
- 0gzw==
-X-Gm-Message-State: AO0yUKW1r9x8FDqpXG/hXuzant/q08gZ8XAJ6Rb+DJBxQIjD7jPGJ475
- ByHOPmJ7GvC0vjbCn2AIKxJp6Li6+KvDqZkRWENhwFjXeVrmrf/ASz+rGCPKUN/Erv915tKZziw
- MOVr+R9JOYu1F4RU=
-X-Received: by 2002:a05:6a20:7f8b:b0:c7:5e7a:d536 with SMTP id
- d11-20020a056a207f8b00b000c75e7ad536mr7824679pzj.17.1677482849218; 
- Sun, 26 Feb 2023 23:27:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set+4H/fFIu6ScwPUUSfUghZ+LmmB3oEqyCzuO1U4PHxsDGGTSnJBaFExkNqKGt5pmDxyj/I3/w==
-X-Received: by 2002:a05:6a20:7f8b:b0:c7:5e7a:d536 with SMTP id
- d11-20020a056a207f8b00b000c75e7ad536mr7824668pzj.17.1677482848915; 
- Sun, 26 Feb 2023 23:27:28 -0800 (PST)
+ bh=LNyh6ty354TqaT+I9MM6JrQEa/RfxXfuVfvsohl8EN4=;
+ b=6Td7JGzraXeQcLGWdw/8xLUJWm6Zbl/+Q2jUgoBemPc6D3Dt4sCRpak2NoYg0mX6kg
+ 2rnGnWSTTCHjkTF4gEJdhWS8cmgUS2s6kiHD8QUDBxHDdw0hirbSeonH0QNRW0gZHMBK
+ wEd6eoTARNz01pe6WXu8Vg2w8m4kLFTUuqaXt4n0dfiAWeWCPk8fmpNOKkrTo5dQ9nIe
+ 5ZW0SF9wsHrD5fZCBq8VbzXmtCETi4Cngy+fuWcPE2wr6CTDdKeZg/tNmO+LlAU2hf1y
+ h4Dgow9ZARjHnLgapKyddHo4h4vMBQiwzUbAl19nYvLp9b2aitrZ1Q/3WQvU7C3odvg3
+ i5gw==
+X-Gm-Message-State: AO0yUKUWYKsPhxI8iieB4TLEAQ9J/me5vFEKFloYobcOfb7Wrsn75Efk
+ Q2vJZ9bw8X7B4kVb5Kr9u9HANfoQ0Z4AzLnX61XqDRMV2mFIrh0yhIGVID4JQK7M7qki2h8nbOr
+ HbUlGWU0MlHfLcW0=
+X-Received: by 2002:a17:903:78b:b0:19d:473:4dca with SMTP id
+ kn11-20020a170903078b00b0019d04734dcamr3546034plb.15.1677483256843; 
+ Sun, 26 Feb 2023 23:34:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set8vREmQ9wU019pF54R3mtn9CLTcVfGuTTUOnsyzFyQcC2yVw9Ha6UyGLkRkJm3BIC/YcTn+UQ==
+X-Received: by 2002:a17:903:78b:b0:19d:473:4dca with SMTP id
+ kn11-20020a170903078b00b0019d04734dcamr3545908plb.15.1677483252246; 
+ Sun, 26 Feb 2023 23:34:12 -0800 (PST)
 Received: from [10.72.13.83] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- y9-20020a62b509000000b005a851e6d2b5sm3523206pfe.161.2023.02.26.23.27.23
+ d91-20020a17090a6f6400b00233b1da232csm5531088pjk.41.2023.02.26.23.34.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Feb 2023 23:27:28 -0800 (PST)
-Message-ID: <da8a880b-8b5b-8a41-a0ef-13adcc742821@redhat.com>
-Date: Mon, 27 Feb 2023 15:27:21 +0800
+ Sun, 26 Feb 2023 23:34:11 -0800 (PST)
+Message-ID: <83e6d634-3f03-e10b-eebc-b3a9c9c8705e@redhat.com>
+Date: Mon, 27 Feb 2023 15:34:03 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 07/15] vdpa: add vhost_vdpa_suspend
+Subject: Re: [PATCH v4 08/15] vdpa: rewind at get_base, not set_base
 Content-Language: en-US
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 Cc: Stefano Garzarella <sgarzare@redhat.com>,
@@ -82,12 +82,12 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
 References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-8-eperezma@redhat.com>
+ <20230224155438.112797-9-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20230224155438.112797-8-eperezma@redhat.com>
+In-Reply-To: <20230224155438.112797-9-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -113,102 +113,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 在 2023/2/24 23:54, Eugenio Pérez 写道:
-> The function vhost.c:vhost_dev_stop fetches the vring base so the vq
-> state can be migrated to other devices.  However, this is unreliable in
-> vdpa, since we didn't signal the device to suspend the queues, making
-> the value fetched useless.
+> At this moment it is only possible to migrate to a vdpa device running
+> with x-svq=on. As a protective measure, the rewind of the inflight
+> descriptors was done at the destination. That way if the source sent a
+> virtqueue with inuse descriptors they are always discarded.
 >
-> Suspend the device if possible before fetching first and subsequent
-> vring bases.
+> Since this series allows to migrate also to passthrough devices with no
+> SVQ, the right thing to do is to rewind at the source so the base of
+> vrings are correct.
 >
-> Moreover, vdpa totally reset and wipes the device at the last device
-> before fetch its vrings base, making that operation useless in the last
-> device. This will be fixed in later patches of this series.
+> Support for inflight descriptors may be added in the future.
 >
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 
 
-I suggest to squash this into patch 5 (or even squash patch 6 into this) 
-since it's not good to introduce a bug in 5 and fix in 7.
-
-
-> ---
-> v4:
-> * Look for _F_SUSPEND at vhost_dev->backend_cap, not backend_features
-> * Fall back on reset & fetch used idx from guest's memory
-
-
-A hint to squash patch 6.
+Acked-by: Jason Wang <jasowang@redhat.com>
 
 Thanks
 
 
 > ---
->   hw/virtio/vhost-vdpa.c | 25 +++++++++++++++++++++++++
->   hw/virtio/trace-events |  1 +
->   2 files changed, 26 insertions(+)
+> v4:
+> * Use virtqueue_unpop at vhost_svq_stop instead of rewinding at
+>    vhost_vdpa_get_vring_base.
+> ---
+>   hw/virtio/vhost-shadow-virtqueue.c |  8 ++++++--
+>   hw/virtio/vhost-vdpa.c             | 11 -----------
+>   2 files changed, 6 insertions(+), 13 deletions(-)
 >
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+> index 4307296358..523b379439 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -694,13 +694,17 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+>           g_autofree VirtQueueElement *elem = NULL;
+>           elem = g_steal_pointer(&svq->desc_state[i].elem);
+>           if (elem) {
+> -            virtqueue_detach_element(svq->vq, elem, 0);
+> +            /*
+> +             * TODO: This is ok for networking, but other kinds of devices
+> +             * might have problems with just unpop these.
+> +             */
+> +            virtqueue_unpop(svq->vq, elem, 0);
+>           }
+>       }
+>   
+>       next_avail_elem = g_steal_pointer(&svq->next_guest_avail_elem);
+>       if (next_avail_elem) {
+> -        virtqueue_detach_element(svq->vq, next_avail_elem, 0);
+> +        virtqueue_unpop(svq->vq, next_avail_elem, 0);
+>       }
+>       svq->vq = NULL;
+>       g_free(svq->desc_next);
 > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 228677895a..f542960a64 100644
+> index f542960a64..71e3dc21fe 100644
 > --- a/hw/virtio/vhost-vdpa.c
 > +++ b/hw/virtio/vhost-vdpa.c
-> @@ -712,6 +712,7 @@ static int vhost_vdpa_reset_device(struct vhost_dev *dev)
->   
->       ret = vhost_vdpa_call(dev, VHOST_VDPA_SET_STATUS, &status);
->       trace_vhost_vdpa_reset_device(dev, status);
-> +    v->suspended = false;
->       return ret;
->   }
->   
-> @@ -1109,6 +1110,29 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
->       }
->   }
->   
-> +static void vhost_vdpa_suspend(struct vhost_dev *dev)
-> +{
-> +    struct vhost_vdpa *v = dev->opaque;
-> +    int r;
-> +
-> +    if (!vhost_vdpa_first_dev(dev)) {
-> +        return;
-> +    }
-> +
-> +    if (!(dev->backend_cap & BIT_ULL(VHOST_BACKEND_F_SUSPEND))) {
-> +        trace_vhost_vdpa_suspend(dev);
-> +        r = ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
-> +        if (unlikely(r)) {
-> +            error_report("Cannot suspend: %s(%d)", g_strerror(errno), errno);
-> +        } else {
-> +            v->suspended = true;
-> +            return;
-> +        }
-> +    }
-> +
-> +    vhost_vdpa_reset_device(dev);
-> +}
-> +
->   static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+> @@ -1218,18 +1218,7 @@ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
+>                                          struct vhost_vring_state *ring)
 >   {
 >       struct vhost_vdpa *v = dev->opaque;
-> @@ -1123,6 +1147,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->           }
->           vhost_vdpa_set_vring_ready(dev);
->       } else {
-> +        vhost_vdpa_suspend(dev);
->           vhost_vdpa_svqs_stop(dev);
->           vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
->       }
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index a87c5f39a2..8f8d05cf9b 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -50,6 +50,7 @@ vhost_vdpa_set_vring_ready(void *dev) "dev: %p"
->   vhost_vdpa_dump_config(void *dev, const char *line) "dev: %p %s"
->   vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, uint32_t flags) "dev: %p offset: %"PRIu32" size: %"PRIu32" flags: 0x%"PRIx32
->   vhost_vdpa_get_config(void *dev, void *config, uint32_t config_len) "dev: %p config: %p config_len: %"PRIu32
-> +vhost_vdpa_suspend(void *dev) "dev: %p"
->   vhost_vdpa_dev_start(void *dev, bool started) "dev: %p started: %d"
->   vhost_vdpa_set_log_base(void *dev, uint64_t base, unsigned long long size, int refcnt, int fd, void *log) "dev: %p base: 0x%"PRIx64" size: %llu refcnt: %d fd: %d log: %p"
->   vhost_vdpa_set_vring_addr(void *dev, unsigned int index, unsigned int flags, uint64_t desc_user_addr, uint64_t used_user_addr, uint64_t avail_user_addr, uint64_t log_guest_addr) "dev: %p index: %u flags: 0x%x desc_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" log_guest_addr: 0x%"PRIx64
+> -    VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
+>   
+> -    /*
+> -     * vhost-vdpa devices does not support in-flight requests. Set all of them
+> -     * as available.
+> -     *
+> -     * TODO: This is ok for networking, but other kinds of devices might
+> -     * have problems with these retransmissions.
+> -     */
+> -    while (virtqueue_rewind(vq, 1)) {
+> -        continue;
+> -    }
+>       if (v->shadow_vqs_enabled) {
+>           /*
+>            * Device vring base was set at device start. SVQ base is handled by
 
 
