@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8287A6A4411
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:16:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C728B6A443E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:22:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeCN-0005JP-In; Mon, 27 Feb 2023 09:09:51 -0500
+	id 1pWeCI-00050H-Of; Mon, 27 Feb 2023 09:09:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeBr-0004YD-Hm
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:19 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeBs-0004Yv-Mp
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:22 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeBo-0000WB-8g
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:19 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- r19-20020a05600c459300b003eb3e2a5e7bso2269603wmo.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:09:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeBo-0000WZ-By
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:20 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ o11-20020a05600c4fcb00b003eb33ea29a8so3405865wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:09:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ZSoS+ygN+1cuiZu+xD0EGGjAruapBoISIy1LA8Yb1HM=;
- b=f36185WHGnV6uaIG4BiLUNZXapmda3hIGQm4SamaIkh+CyhRngxz+7hKRYoPTHbbE8
- aExDucPw4PgcvGSa0SjeB7sTpcriP70ZxlZw0D9wY6w/sDX+n9DOSp5mugKCNkshIhqb
- mJmJSM+xMx6MPCHHsNv7+bV8LnXEiQJsSA8CdPYYRC1u1pV2KT+3PaFlhT3yHL1/xDgU
- 1gQVTCIYphbjm21nI421JcQDQ1pkIuXWJejBUzxgDBHixwGNPZsGgdZMTN3SMJJj5tlU
- LAOk20RJAlSCIFwfBzBnAIjx+x3IC7CYy+yDZXXpwlkepN/oamhAXxcXAbZxOqI4ywPn
- gkVw==
+ :reply-to; bh=bUNkpksa1z+r3dKThl/p4YF8nw2umtf4CY7o0Emr5eg=;
+ b=PvmdxTEOxHXmlQZFqzj1XRqiK8lLA2R3uTu9M7oF1pZznCueb9iJXwC18QFGmJ4kIH
+ IBBOUGqT01urj06CMs/UBM2fKRxSomOZSj/YxPm3ZP0/6u5bXN0ozVjK0cJcmQWDnBpM
+ 0bQRLSRqzmVjKzo9myA56zWpdifOqynkUOhZIPqew+A9pjMuvKhIHuWcNwQMwlUhgRP8
+ Bz+N7bukM+h8bprYxUTLf3qg9fH8lCcFHOjG6nN0ZPwMz09aOFPnSADagf8MODI2LudK
+ cbN5ee4IWUCer5UOKcQfUuoBWQhNGxZu9zLZ5rk3IgBvpmM4mgpBsjJdR0laYJRnOJa/
+ yvFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZSoS+ygN+1cuiZu+xD0EGGjAruapBoISIy1LA8Yb1HM=;
- b=7Y9rBRGNmOmVs58AxWX1MsCRy4Y8rldAOvc8HnZOhr97oMWFP9oQhv8TpkHHbgFg6+
- lMbix750CL5Vn/oXS96UYRQuUBK7cN/EpI6qqTfwPvcXGEz31o+EefEgwXITtDYlldAR
- PKKAz8iN1HN9VfCuMDu+b2uLXAW+hWF2919pjG04jSxiUcaQ/AWra81XIHqW9jo5heR9
- walYdOp+l2lOMV5DyMwj1GPLp2uI73J3dvomnAZ/kyF4i890DHUmVMHe3TMTJT0FmHDD
- zx4Wm9yAWwAIe/FSAafh5mlhAXq+Qqpf5QnOWc+Q3gNO40AnmEHQdy0rOjug1eGvog1c
- K1OQ==
-X-Gm-Message-State: AO0yUKWwqWlMyveww3sQ4LvXnJDfor6DAdM3KnciuLuOO8iocZFOGq+D
- gxG38qFz8oNJbBhuOugStxVM45XAPNTQysig
-X-Google-Smtp-Source: AK7set8lUMGJU+w+fzHTMQgfhaPpdK2n9QxtTXogYgdYD+RM+RIe7Wo1dfaZZycI1JyhIcVjh/OU1A==
-X-Received: by 2002:a05:600c:3093:b0:3dc:5c86:12f3 with SMTP id
- g19-20020a05600c309300b003dc5c8612f3mr15890635wmn.1.1677506947943; 
- Mon, 27 Feb 2023 06:09:07 -0800 (PST)
+ bh=bUNkpksa1z+r3dKThl/p4YF8nw2umtf4CY7o0Emr5eg=;
+ b=fu64I91X5e9yhpfI5QSmFAHN9/U7O2K0HH87iPjAQlLxSGnQAE2rjMFUgZtrO/9HGz
+ WIXRIwuax3bJHPgihM8CD8oZPosvBQBKrpxnclTAEiKUac9JHGAcV9zN0YQGTz74jSdu
+ fssBs1pFY8O0Ow58GqdN4gIEhI5hAITPuopiVL/hQNExxYSVv9A4m/kLh1LghH5D7Jbl
+ LGO+DtHIKOE8wNqHnwVcDwcT9l2UXWcWjYdvPEXH/1Ka3GEN4IjK/H/i1C+VpAPdYymv
+ C9Le81JAXAyw66C3VJh3xj3q0Cms1HzLhbfgcCrdMDNpmhyg0KYjp5T2UEttz5M4thse
+ tZpw==
+X-Gm-Message-State: AO0yUKVrQd0GUo7z4wLeXWrM6ZahzAhvqk5KxVAlIRkXfbo4imxHL7tK
+ TWAppyRXRr0XeGbKbBdgUfTMFLJa91zjqcSr
+X-Google-Smtp-Source: AK7set88uPRbIUERmW5n397Lj4x0fbLktk518dkYoVufCzbWUPcgqZo922UiEVjlFTbHtTAGOdA2+g==
+X-Received: by 2002:a05:600c:16c7:b0:3e2:1e01:803a with SMTP id
+ l7-20020a05600c16c700b003e21e01803amr18724930wmn.9.1677506953305; 
+ Mon, 27 Feb 2023 06:09:13 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- n4-20020a7bcbc4000000b003dc3f3d77e3sm8782341wmi.7.2023.02.27.06.09.06
+ i11-20020a05600c354b00b003eb2e685c7dsm10668316wmq.9.2023.02.27.06.09.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:09:07 -0800 (PST)
+ Mon, 27 Feb 2023 06:09:12 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 085/126] hw/usb/uhci: Declare QOM macros using
- OBJECT_DECLARE_TYPE()
-Date: Mon, 27 Feb 2023 15:01:32 +0100
-Message-Id: <20230227140213.35084-76-philmd@linaro.org>
+Subject: [PULL 086/126] hw/usb/uhci: Replace container_of() by
+ UHCI_GET_CLASS() QOM macro
+Date: Mon, 27 Feb 2023 15:01:33 +0100
+Message-Id: <20230227140213.35084-77-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,47 +89,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The automatic conversion done during commit a489d1951c
-("Use OBJECT_DECLARE_TYPE when possible") missed this
-model because the typedefs are in a different file unit
-(hcd-uhci.c) than where the DECLARE_INSTANCE_CHECKER()
-is (hcd-uhci.h). Manually convert to OBJECT_DECLARE_TYPE().
+By using the QOM UHCI_GET_CLASS() cast macro we don't to
+use the intermediate PCIDeviceClass variable.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230220150515.32549-5-philmd@linaro.org>
+Message-Id: <20230220150515.32549-6-philmd@linaro.org>
 ---
- hw/usb/hcd-uhci.c | 2 --
- hw/usb/hcd-uhci.h | 2 +-
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ hw/usb/hcd-uhci.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
-index 30ae0104bb..f77ffda69a 100644
+index f77ffda69a..8ac1175ad2 100644
 --- a/hw/usb/hcd-uhci.c
 +++ b/hw/usb/hcd-uhci.c
-@@ -60,9 +60,7 @@ enum {
-     TD_RESULT_ASYNC_CONT,
- };
+@@ -1159,8 +1159,7 @@ static USBBusOps uhci_bus_ops = {
+ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
+ {
+     Error *err = NULL;
+-    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
+-    UHCIPCIDeviceClass *u = container_of(pc, UHCIPCIDeviceClass, parent_class);
++    UHCIPCIDeviceClass *u = UHCI_GET_CLASS(dev);
+     UHCIState *s = UHCI(dev);
+     uint8_t *pci_conf = s->dev.config;
+     int i;
+@@ -1267,7 +1266,7 @@ void uhci_data_class_init(ObjectClass *klass, void *data)
+ {
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+     DeviceClass *dc = DEVICE_CLASS(klass);
+-    UHCIPCIDeviceClass *u = container_of(k, UHCIPCIDeviceClass, parent_class);
++    UHCIPCIDeviceClass *u = UHCI_CLASS(klass);
+     UHCIInfo *info = data;
  
--typedef struct UHCIState UHCIState;
- typedef struct UHCIAsync UHCIAsync;
--typedef struct UHCIPCIDeviceClass UHCIPCIDeviceClass;
- 
- struct UHCIPCIDeviceClass {
-     PCIDeviceClass parent_class;
-diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
-index e0fdb98ef1..69f8b40c49 100644
---- a/hw/usb/hcd-uhci.h
-+++ b/hw/usb/hcd-uhci.h
-@@ -75,7 +75,7 @@ typedef struct UHCIState {
- } UHCIState;
- 
- #define TYPE_UHCI "pci-uhci-usb"
--DECLARE_INSTANCE_CHECKER(UHCIState, UHCI, TYPE_UHCI)
-+OBJECT_DECLARE_TYPE(UHCIState, UHCIPCIDeviceClass, UHCI)
- 
- typedef struct UHCIInfo {
-     const char *name;
+     k->realize = info->realize ? info->realize : usb_uhci_common_realize;
 -- 
 2.38.1
 
