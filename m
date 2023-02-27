@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF9F6A3A5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3586A3A61
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:30:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWW1B-0006ob-BD; Mon, 27 Feb 2023 00:25:45 -0500
+	id 1pWW1E-0006ui-4E; Mon, 27 Feb 2023 00:25:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWW0l-0006dH-Q0
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:25:20 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1pWW0o-0006e9-NW
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:25:24 -0500
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWW0h-00079a-6q
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:25:18 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id
- gi3-20020a17090b110300b0023762f642dcso5005610pjb.4
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:25:14 -0800 (PST)
+ id 1pWW0j-000791-Gh
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:25:20 -0500
+Received: by mail-pl1-x643.google.com with SMTP id bh1so5498445plb.11
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:25:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=D7Dr5dVd5BMP8VbVASryumiENZXah1Y2zUeyDZafQVk=;
- b=AIwUmVtqm3EQWqE0nuArRl98xM3APLghad3m8L3hE5rrtJYNzonJWtFFfNEnAuTvII
- SiyuAV6LWAhVizYX3oMLoYAbskNCs89x5af4UVaHqUwak0O82e4trCLH3DjPiEN5PvRX
- AK0uk9b6l8dqnTruUVm+ZXYCDxNxq+xpSMzghVDCndGXp/lTV6KQe+aVkNHrMBl1eOS9
- 3T578Xi0b1XjaM2gRLrCUkv7B3cvQ1ooC7XhazzyLKzVh1u+0PGq5XafZ/uiiFOaDOe2
- kGy7jDAhVloSh6Wi9pwjbpU6D/XDAb/dHzlU1A7kz+b178ZeMAxSq22Aox9oaYbKa41w
- GFPw==
+ bh=9BPaQYLLp4+nmOO9gXaqu9l3zT8hpHGLtGA7cjOsUko=;
+ b=cC6KasIgcfgFhHc0ZB5CO3YGMa5Zi8yzHQ9e+3yw8UjpJiBdchIp3TWvi8hvzT5jFo
+ T5i0y/iyyO30fCAPC/PH6C5iMzTc40o7lU2W9slISetRnJr1xjWad23uNrrHePz5+rI8
+ XZjWEDuTxGWcJzEGeZGi+mIUdbMJJv1027DidFfEHd2gtF/PuyGMM8nUGTAtaosCWeJZ
+ fE3Wt9wsurYGTBrMCQ6ooKIlOzBOxE+cSKZXZbi7mXt7BjhEVY8tqfnwO9trv/4zJ27f
+ RXlFRgWzMytxuWipTAWXg07VFSPT27wQRQ7EKpaxkDv5J7N9iR/tZm21dAQPTJNc5WG3
+ msyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=D7Dr5dVd5BMP8VbVASryumiENZXah1Y2zUeyDZafQVk=;
- b=D+7Ns/XwTWlWh+QEePAIA+MOkO8gKBLle9Dy1277Rwo9QmN1ihjDP8Yb4kWQriZmVa
- ujdvAnUCmSfYZEbHP2NfWklsmbozuXLXMmtDgH5IeCOlK/wRdGeFSiBxyKtnEuY0QGhE
- h7XZentyuXaKyGhj0PqIVE/am5Ahgis2y8icbbLgYS3UXZhawAuqXTPbxZ9oZzVheZPf
- tjKVeqgvVOsb2wZ8F9YeGaKxN1CBotxHYckqSvQ4fg7wmXmgQGYCCwdYXwrjJ4JHVThw
- ND849hXwftL32Fhd+2i51svmYuDCN3FQ6Feg1CbRKYJbGYv28jfL8h1Xn1D0Cxypn4sr
- gH4w==
-X-Gm-Message-State: AO0yUKVavaNn2tzpy2lkcDulCQ8YCoUbXe0koR0VcU+dWwfCZ+qj8GqU
- 1x7lOXJN0RY/MF2vA7dzcNwIaS5KpVkXOjZ0clo=
-X-Google-Smtp-Source: AK7set/fMeI0SqXaIxDJlJv6jADDS28zH5sRrUoa33mqbv05qgxGhKi3UDGWt4jd1g+vRaHyRPswAQ==
-X-Received: by 2002:a17:902:f693:b0:19d:1e33:a60d with SMTP id
- l19-20020a170902f69300b0019d1e33a60dmr1212656plg.25.1677475512964; 
- Sun, 26 Feb 2023 21:25:12 -0800 (PST)
+ bh=9BPaQYLLp4+nmOO9gXaqu9l3zT8hpHGLtGA7cjOsUko=;
+ b=QHNgi4loCXP7dYb2fJ67vvezMgfOuGfERU/id3s9c5qdh30k6WJoxEgCDiQ5ZdN6SF
+ /2uSsz895KBbxIQQ/XOb0VuIiU6YDF8wLuf+rZuAGWwH13hnUhSMA0gg4ZKkNLrWb53/
+ BNATyHhq5e8iDk1/IaBtKoUTWIRyu2LicmR+wmyYNEMoezw5sihPbxDlLdqGvd1i4tdq
+ nhFZeNckAeWOFz47Qmn/I6FLMSs2/rddI3qaO8PejYj6Ed4NfAwuChIaA4Of7W2/rRY9
+ ojc0nzte1OsRVnG5jpz+mhvj9dzwhDBsbvqdN5aJChBZv5u0X7PMZZBjAjdl4bqsXh1W
+ l5Pw==
+X-Gm-Message-State: AO0yUKXeOH1bE7bpgZWALUJRtffWgEcGdiaFJ0jakJGmIkI9COcIq1Ku
+ +LXmn/WwAgywsFp+AGjBpWES7A16fe/ecLbx4dMYCw==
+X-Google-Smtp-Source: AK7set/D+clYVKbDxAFqrP5s99INO/hQHt+v9opJ9ki0tZ9jzZ4NpHle/Ziu/ae8NmeFAXXYIDS/2w==
+X-Received: by 2002:a17:902:c407:b0:19b:dbf7:f9d1 with SMTP id
+ k7-20020a170902c40700b0019bdbf7f9d1mr26066194plk.37.1677475515545; 
+ Sun, 26 Feb 2023 21:25:15 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- a14-20020a170902ecce00b0019a837be977sm3513341plh.271.2023.02.26.21.25.10
+ a14-20020a170902ecce00b0019a837be977sm3513341plh.271.2023.02.26.21.25.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:25:12 -0800 (PST)
+ Sun, 26 Feb 2023 21:25:15 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -62,24 +61,23 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com
-Subject: [PATCH v2 01/76] tcg: Remove tcg_check_temp_count,
- tcg_clear_temp_count
-Date: Sun, 26 Feb 2023 19:23:50 -1000
-Message-Id: <20230227052505.352889-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/76] accel/tcg: Remove translator_loop_temp_check
+Date: Sun, 26 Feb 2023 19:23:51 -1000
+Message-Id: <20230227052505.352889-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227052505.352889-1-richard.henderson@linaro.org>
 References: <20230227052505.352889-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,173 +93,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since all temps allocated by guest front-ends are now TEMP_TB,
-and we don't recycle TEMP_TB, there's no point in requiring
-that the front-ends free the temps at all.  Begin by dropping
-the inner-most checks that all temps have been freed.
+Finish removing tcg temp free accounting interfaces.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h      | 14 -----------
- accel/tcg/translator.c | 12 ----------
- tcg/tcg.c              | 54 +++++++-----------------------------------
- 3 files changed, 8 insertions(+), 72 deletions(-)
+ include/exec/translator.h  | 2 --
+ accel/tcg/translator.c     | 4 ----
+ target/alpha/translate.c   | 1 -
+ target/arm/translate-a64.c | 2 --
+ target/arm/translate.c     | 1 -
+ target/ppc/translate.c     | 2 --
+ 6 files changed, 12 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 7e2b954dbc..e8f73115ec 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -567,7 +567,6 @@ struct TCGContext {
- #endif
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index 8b36690e80..797fef7515 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -150,8 +150,6 @@ void translator_loop(CPUState *cpu, TranslationBlock *tb, int *max_insns,
+                      target_ulong pc, void *host_pc,
+                      const TranslatorOps *ops, DisasContextBase *db);
  
- #ifdef CONFIG_DEBUG_TCG
--    int temps_in_use;
-     int goto_tb_issue_mask;
-     const TCGOpcode *vecop_list;
- #endif
-@@ -958,19 +957,6 @@ static inline TCGv_ptr tcg_temp_new_ptr(void)
-     return temp_tcgv_ptr(t);
- }
- 
--#if defined(CONFIG_DEBUG_TCG)
--/* If you call tcg_clear_temp_count() at the start of a section of
-- * code which is not supposed to leak any TCG temporaries, then
-- * calling tcg_check_temp_count() at the end of the section will
-- * return 1 if the section did in fact leak a temporary.
-- */
--void tcg_clear_temp_count(void);
--int tcg_check_temp_count(void);
--#else
--#define tcg_clear_temp_count() do { } while (0)
--#define tcg_check_temp_count() 0
--#endif
+-void translator_loop_temp_check(DisasContextBase *db);
 -
- int64_t tcg_cpu_exec_time(void);
- void tcg_dump_info(GString *buf);
- void tcg_dump_op_count(GString *buf);
+ /**
+  * translator_use_goto_tb
+  * @db: Disassembly context
 diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 62e8f28025..88567a88d1 100644
+index 88567a88d1..b4183d0278 100644
 --- a/accel/tcg/translator.c
 +++ b/accel/tcg/translator.c
-@@ -18,17 +18,8 @@
+@@ -18,10 +18,6 @@
  #include "exec/plugin-gen.h"
  #include "sysemu/replay.h"
  
--/* Pairs with tcg_clear_temp_count.
--   To be called by #TranslatorOps.{translate_insn,tb_stop} if
--   (1) the target is sufficiently clean to support reporting,
--   (2) as and when all temporaries are known to be consumed.
--   For most targets, (2) is at the end of translate_insn.  */
- void translator_loop_temp_check(DisasContextBase *db)
- {
--    if (tcg_check_temp_count()) {
--        qemu_log("warning: TCG temporary leaks before "
--                 TARGET_FMT_lx "\n", db->pc_next);
--    }
- }
- 
+-void translator_loop_temp_check(DisasContextBase *db)
+-{
+-}
+-
  bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
-@@ -67,9 +58,6 @@ void translator_loop(CPUState *cpu, TranslationBlock *tb, int *max_insns,
-     ops->init_disas_context(db, cpu);
-     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
+ {
+     /* Suppress goto_tb if requested. */
+diff --git a/target/alpha/translate.c b/target/alpha/translate.c
+index 716b083f39..a0afdbb465 100644
+--- a/target/alpha/translate.c
++++ b/target/alpha/translate.c
+@@ -2996,7 +2996,6 @@ static void alpha_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     ctx->base.is_jmp = translate_one(ctx, insn);
  
--    /* Reset the temp count so that we can identify leaks */
--    tcg_clear_temp_count();
--
-     /* Start translating.  */
-     gen_tb_start(db->tb);
-     ops->tb_start(db, cpu);
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index b65f2ffdbe..e3c0fa1012 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1272,7 +1272,7 @@ TCGTemp *tcg_temp_new_internal(TCGType type, TCGTempKind kind)
-             ts->temp_allocated = 1;
-             tcg_debug_assert(ts->base_type == type);
-             tcg_debug_assert(ts->kind == kind);
--            goto done;
-+            return ts;
-         }
-     } else {
-         tcg_debug_assert(kind == TEMP_TB);
-@@ -1316,11 +1316,6 @@ TCGTemp *tcg_temp_new_internal(TCGType type, TCGTempKind kind)
-             ts2->kind = kind;
-         }
+     free_context_temps(ctx);
+-    translator_loop_temp_check(&ctx->base);
+ }
+ 
+ static void alpha_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 9da5010fe1..98537bc2ef 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14957,8 +14957,6 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     if (s->btype > 0 && s->base.is_jmp != DISAS_NORETURN) {
+         reset_btype(s);
      }
 -
-- done:
--#if defined(CONFIG_DEBUG_TCG)
--    s->temps_in_use++;
--#endif
-     return ts;
+-    translator_loop_temp_check(&s->base);
  }
  
-@@ -1365,30 +1360,18 @@ void tcg_temp_free_internal(TCGTemp *ts)
+ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 9c8e1ac04c..614c438786 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9600,7 +9600,6 @@ static void arm_post_translate_insn(DisasContext *dc)
+         gen_set_label(dc->condlabel.label);
+         dc->condjmp = 0;
+     }
+-    translator_loop_temp_check(&dc->base);
+ }
  
-     switch (ts->kind) {
-     case TEMP_CONST:
--        /*
--         * In order to simplify users of tcg_constant_*,
--         * silently ignore free.
--         */
--        return;
--    case TEMP_EBB:
-     case TEMP_TB:
-+        /* Silently ignore free. */
-+        break;
-+    case TEMP_EBB:
-+        tcg_debug_assert(ts->temp_allocated != 0);
-+        ts->temp_allocated = 0;
-+        set_bit(temp_idx(ts), s->free_temps[ts->base_type].l);
-         break;
-     default:
-+        /* It never made sense to free TEMP_FIXED or TEMP_GLOBAL. */
-         g_assert_not_reached();
+ static void arm_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 2956021e89..c179f26f64 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7618,8 +7618,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     if (ctx->base.is_jmp == DISAS_NEXT && !(pc & ~TARGET_PAGE_MASK)) {
+         ctx->base.is_jmp = DISAS_TOO_MANY;
      }
 -
--    tcg_debug_assert(ts->temp_allocated != 0);
--    ts->temp_allocated = 0;
--
--#if defined(CONFIG_DEBUG_TCG)
--    assert(s->temps_in_use > 0);
--    s->temps_in_use--;
--#endif
--
--    if (ts->kind == TEMP_EBB) {
--        int idx = temp_idx(ts);
--        set_bit(idx, s->free_temps[ts->base_type].l);
--    }
+-    translator_loop_temp_check(&ctx->base);
  }
  
- TCGTemp *tcg_constant_internal(TCGType type, int64_t val)
-@@ -1476,27 +1459,6 @@ TCGv_i64 tcg_const_i64(int64_t val)
-     return t0;
- }
- 
--#if defined(CONFIG_DEBUG_TCG)
--void tcg_clear_temp_count(void)
--{
--    TCGContext *s = tcg_ctx;
--    s->temps_in_use = 0;
--}
--
--int tcg_check_temp_count(void)
--{
--    TCGContext *s = tcg_ctx;
--    if (s->temps_in_use) {
--        /* Clear the count so that we don't give another
--         * warning immediately next time around.
--         */
--        s->temps_in_use = 0;
--        return 1;
--    }
--    return 0;
--}
--#endif
--
- /* Return true if OP may appear in the opcode stream.
-    Test the runtime variable that controls each opcode.  */
- bool tcg_op_supported(TCGOpcode op)
+ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
 -- 
 2.34.1
 
