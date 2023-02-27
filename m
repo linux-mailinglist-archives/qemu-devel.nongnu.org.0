@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A135D6A44C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA526A440E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:16:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeCV-00063I-Bf; Mon, 27 Feb 2023 09:09:59 -0500
+	id 1pWeEF-0008Ah-9G; Mon, 27 Feb 2023 09:11:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pWeCN-0005QX-Ft
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:51 -0500
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pWeCw-0007Dj-AB
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:10:31 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pWeCL-0000ei-G2
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:09:51 -0500
+ (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pWeCt-0000ty-SQ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:10:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677506988;
+ s=mimecast20190719; t=1677507023;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Drwue0oif1xRoiUI9cnoovSMxO/ZrWq6JIFR1JDu7rw=;
- b=Ema92fJ5t5wa41vrtSQdFrSsPqQVNOtvvLT+yNproEQgCV1K+KFsMGMindPwy8eZKa+QW4
- 2OMSxcfLEQpDjWAoSpk/g9mqFiOD4FMKJzOjH1xE/HruvYgA7SfjmwQ+mNXDnkSmMJfQV5
- +q1ZxmoH0e1uoed4mN6jM68sTigV48g=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qwTMfj+GtDdsguLxKYz8N71JPcDeHj4m7VXwVE1veBQ=;
+ b=XUAvFWUheQqPGc5JjF/fHTMgTmT330wNJ5yF9DkJ3XVzFidFEEP1wFSTFIZqdAWlDHOrEf
+ FiMAm+e7brypEo08upR1gvaMnY6Vp30729Ipayj2fEPGOLkHISEHdpT150rljapLI1FMb6
+ 1urzqkC0RbLW/vw7RVHFoJ4zOcOfaFU=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-539-yklImrtUNcum_HgrdA9jVQ-1; Mon, 27 Feb 2023 09:09:47 -0500
-X-MC-Unique: yklImrtUNcum_HgrdA9jVQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- 8-20020a370508000000b00724fd33cb3eso4053121qkf.14
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:09:47 -0800 (PST)
+ us-mta-361-LUmVhQcuMay6Y3iwcHecJA-1; Mon, 27 Feb 2023 09:10:21 -0500
+X-MC-Unique: LUmVhQcuMay6Y3iwcHecJA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ jh21-20020a0562141fd500b0053c23b938a0so3393086qvb.17
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:10:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Drwue0oif1xRoiUI9cnoovSMxO/ZrWq6JIFR1JDu7rw=;
- b=B5MTMrLg1tKeg60BN5On5FcJDfGwMquLyA3KDinvwtgRBnF2eP3HfOesXeTwKUJUd6
- CMO46TAAsFAB6/HOLegVG2ZUAuCyHu/Ehyawy7WYAcVE6b0wypQgnD9YM/vsBkVt+/F9
- l0lgw1b9TuxrFy6w7CNR5ftif747R/TkSHDJ/CwWxmTfUxQIeTX77CfyRrWQy7iqrZCT
- K4NR+CvQrxMUoGsh+7VKOXO7WOobwW8dvoGWOaVOSwy9v8OROaT/hKlfWazak/TbYPAc
- tkCHugEISfZWSlx1/sNCDC0mvH0aXvbC4tDc3zA+kXOK+qLtb9CfJsRYus/AN7a/7Xgi
- nyXQ==
-X-Gm-Message-State: AO0yUKVaSepO2kj4DKbb2nFqe7uXuIjGP1bzyVPHqAGCp8Et1tQT7lp5
- 7mWHTAuxcwyag/fm2aGjjhVYEAYMzoMEaSIAznhywSUbQAZocd8efI5m6x4Bxl3MN49b+KKSXCq
- 2mspognVPsp/Qe1g=
-X-Received: by 2002:a05:622a:306:b0:3bf:cd42:7724 with SMTP id
- q6-20020a05622a030600b003bfcd427724mr12815074qtw.11.1677506986666; 
- Mon, 27 Feb 2023 06:09:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set+fDT+shqgWai4ji925VGbdBZTok4GRoIiFfdovOxaWQlAGW6WdIDcwe8eYdSd09oiuQzk6qw==
-X-Received: by 2002:a05:622a:306:b0:3bf:cd42:7724 with SMTP id
- q6-20020a05622a030600b003bfcd427724mr12815025qtw.11.1677506986292; 
- Mon, 27 Feb 2023 06:09:46 -0800 (PST)
+ bh=qwTMfj+GtDdsguLxKYz8N71JPcDeHj4m7VXwVE1veBQ=;
+ b=yBsg/qXsyWEdxo2nSOxTnktD0PdwG1SAkgnqbqMpCZeJjAqpY7KLsWdeUMVCC+wQMZ
+ gtI0iHGrIBGrEPlV9bkR6S/d+nJheZcUNTz8TafwxuDMjs2+FPRj/6pfIuDuaCyfuddI
+ N0eAu+ywGAoh4d6OiFQP1AuFGWb2TAAskILQhFKu0V08yx7H64OFfMTAGeYf067vzyrl
+ CP4aXcFr6T2/O0d7lOek+JebU5wLEKVjBiHZbvYbvYbnlKkphB8x0NRDkzh2NCnMvnPG
+ kfiJ3Z54MSphYgGt7Z9xDw0ik6wnnbOE3olRxkWx/1eQ+MadvNJ+J/ACQepBeolhxInQ
+ Wfxg==
+X-Gm-Message-State: AO0yUKWQW2rw9t8pXibOWYretbj2BSvaKiXVA58cHk4iwmbcG60Ouzor
+ 8z3wBAP73yXDfQaH2tm3nxOyU5yrFk8mQ5MnLDni99BZLs5pAPHlyLlGZ8qjmYqN3hKZdgSQsj9
+ JCntKu03gVO4waRE=
+X-Received: by 2002:a05:6214:1c4c:b0:56e:a2cb:574e with SMTP id
+ if12-20020a0562141c4c00b0056ea2cb574emr50185550qvb.5.1677507021026; 
+ Mon, 27 Feb 2023 06:10:21 -0800 (PST)
+X-Google-Smtp-Source: AK7set91IEKAQ7JPchfCduPdevNOrxp59alcRI4ffA7Kb6JEWThcN1awuC0iuE17QOSIpKLG5ZHrsw==
+X-Received: by 2002:a05:6214:1c4c:b0:56e:a2cb:574e with SMTP id
+ if12-20020a0562141c4c00b0056ea2cb574emr50185502qvb.5.1677507020771; 
+ Mon, 27 Feb 2023 06:10:20 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
  ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
  by smtp.gmail.com with ESMTPSA id
- r135-20020a37448d000000b00706bc44fda8sm4945050qka.79.2023.02.27.06.09.43
+ i62-20020a37b841000000b0073b79edf46csm4956862qkf.83.2023.02.27.06.10.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 06:09:45 -0800 (PST)
-Message-ID: <55b623e9-3f5a-1353-280c-e6012b5924e6@redhat.com>
-Date: Mon, 27 Feb 2023 15:09:42 +0100
+ Mon, 27 Feb 2023 06:10:20 -0800 (PST)
+Message-ID: <2a8dad3e-3dba-0fc5-8bde-b36c20e85138@redhat.com>
+Date: Mon, 27 Feb 2023 15:10:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH v2 07/20] vfio/common: Add VFIOBitmap and (de)alloc
- functions
+Subject: Re: [PATCH v2 02/20] vfio/migration: Refactor vfio_save_block() to
+ return saved data size
 Content-Language: en-US
 To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org
 Cc: Alex Williamson <alex.williamson@redhat.com>,
@@ -85,11 +85,11 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
  Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
  Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
 References: <20230222174915.5647-1-avihaih@nvidia.com>
- <20230222174915.5647-8-avihaih@nvidia.com>
+ <20230222174915.5647-3-avihaih@nvidia.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <20230222174915.5647-8-avihaih@nvidia.com>
+In-Reply-To: <20230222174915.5647-3-avihaih@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -114,190 +114,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/22/23 18:49, Avihai Horon wrote:
-> There are already two places where dirty page bitmap allocation and
-> calculations are done in open code. With device dirty page tracking
-> being added in next patches, there are going to be even more places.
+On 2/22/23 18:48, Avihai Horon wrote:
+> Refactor vfio_save_block() to return the size of saved data on success
+> and -errno on error.
 > 
-> To avoid code duplication, introduce VFIOBitmap struct and corresponding
-> alloc and dealloc functions and use them where applicable.
+> This will be used in next patch to implement VFIO migration pre-copy
+> support.
 > 
 > Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->   hw/vfio/common.c | 89 ++++++++++++++++++++++++++++++++----------------
->   1 file changed, 60 insertions(+), 29 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index ac93b85632..84f08bdbbb 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -320,6 +320,41 @@ const MemoryRegionOps vfio_region_ops = {
->    * Device state interfaces
->    */
->   
-> +typedef struct {
-> +    unsigned long *bitmap;
-> +    hwaddr size;
-> +    hwaddr pages;
-> +} VFIOBitmap;
-> +
-> +static VFIOBitmap *vfio_bitmap_alloc(hwaddr size)
-> +{
-> +    VFIOBitmap *vbmap = g_try_new0(VFIOBitmap, 1);
 
-I think using g_malloc0() for the VFIOBitmap should be fine. If QEMU can
-not allocate a couple of bytes, we are in trouble anyway.
+LGTM
+
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
 
 Thanks,
 
 C.
 
-
-> +    if (!vbmap) {
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    vbmap->pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
-> +    vbmap->size = ROUND_UP(vbmap->pages, sizeof(__u64) * BITS_PER_BYTE) /
-> +                                         BITS_PER_BYTE;
-> +    vbmap->bitmap = g_try_malloc0(vbmap->size);
-> +    if (!vbmap->bitmap) {
-> +        g_free(vbmap);
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    return vbmap;
-> +}
-> +
-> +static void vfio_bitmap_dealloc(VFIOBitmap *vbmap)
-> +{
-> +    g_free(vbmap->bitmap);
-> +    g_free(vbmap);
-> +}
-> +
->   bool vfio_mig_active(void)
->   {
->       VFIOGroup *group;
-> @@ -470,9 +505,14 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
->   {
->       struct vfio_iommu_type1_dma_unmap *unmap;
->       struct vfio_bitmap *bitmap;
-> -    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
-> +    VFIOBitmap *vbmap;
->       int ret;
->   
-> +    vbmap = vfio_bitmap_alloc(size);
-> +    if (!vbmap) {
-> +        return -errno;
-> +    }
-> +
->       unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
->   
->       unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
-> @@ -486,35 +526,28 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
->        * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
->        * to qemu_real_host_page_size.
->        */
-> -
->       bitmap->pgsize = qemu_real_host_page_size();
-> -    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
-> -                   BITS_PER_BYTE;
-> +    bitmap->size = vbmap->size;
-> +    bitmap->data = (__u64 *)vbmap->bitmap;
->   
-> -    if (bitmap->size > container->max_dirty_bitmap_size) {
-> -        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64,
-> -                     (uint64_t)bitmap->size);
-> +    if (vbmap->size > container->max_dirty_bitmap_size) {
-> +        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64, vbmap->size);
->           ret = -E2BIG;
->           goto unmap_exit;
->       }
->   
-> -    bitmap->data = g_try_malloc0(bitmap->size);
-> -    if (!bitmap->data) {
-> -        ret = -ENOMEM;
-> -        goto unmap_exit;
-> -    }
-> -
->       ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
->       if (!ret) {
-> -        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)bitmap->data,
-> -                iotlb->translated_addr, pages);
-> +        cpu_physical_memory_set_dirty_lebitmap(vbmap->bitmap,
-> +                iotlb->translated_addr, vbmap->pages);
->       } else {
->           error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
->       }
->   
-> -    g_free(bitmap->data);
->   unmap_exit:
->       g_free(unmap);
-> +    vfio_bitmap_dealloc(vbmap);
-> +
->       return ret;
+> ---
+>   hw/vfio/migration.c | 17 +++++++++--------
+>   1 file changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 4fb7d01532..94a4df73d0 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -240,8 +240,8 @@ static int vfio_query_stop_copy_size(VFIODevice *vbasedev,
+>       return 0;
 >   }
 >   
-> @@ -1331,7 +1364,7 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+> -/* Returns 1 if end-of-stream is reached, 0 if more data and -errno if error */
+> -static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
+> +/* Returns the size of saved data on success and -errno on error */
+> +static ssize_t vfio_save_block(QEMUFile *f, VFIOMigration *migration)
 >   {
->       struct vfio_iommu_type1_dirty_bitmap *dbitmap;
->       struct vfio_iommu_type1_dirty_bitmap_get *range;
-> -    uint64_t pages;
-> +    VFIOBitmap *vbmap;
+>       ssize_t data_size;
+>   
+> @@ -251,7 +251,7 @@ static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
+>           return -errno;
+>       }
+>       if (data_size == 0) {
+> -        return 1;
+> +        return 0;
+>       }
+>   
+>       qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
+> @@ -261,7 +261,7 @@ static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
+>   
+>       trace_vfio_save_block(migration->vbasedev->name, data_size);
+>   
+> -    return qemu_file_get_error(f);
+> +    return qemu_file_get_error(f) ?: data_size;
+>   }
+>   
+>   /* ---------------------------------------------------------------------- */
+> @@ -335,6 +335,7 @@ static void vfio_state_pending_exact(void *opaque, uint64_t threshold_size,
+>   static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>   {
+>       VFIODevice *vbasedev = opaque;
+> +    ssize_t data_size;
 >       int ret;
 >   
->       if (!container->dirty_pages_supported) {
-> @@ -1341,6 +1374,11 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
->           return 0;
+>       /* We reach here with device state STOP only */
+> @@ -345,11 +346,11 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
 >       }
 >   
-> +    vbmap = vfio_bitmap_alloc(size);
-> +    if (!vbmap) {
-> +        return -errno;
-> +    }
-> +
->       dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
+>       do {
+> -        ret = vfio_save_block(f, vbasedev->migration);
+> -        if (ret < 0) {
+> -            return ret;
+> +        data_size = vfio_save_block(f, vbasedev->migration);
+> +        if (data_size < 0) {
+> +            return data_size;
+>           }
+> -    } while (!ret);
+> +    } while (data_size);
 >   
->       dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
-> @@ -1355,15 +1393,8 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
->        * to qemu_real_host_page_size.
->        */
->       range->bitmap.pgsize = qemu_real_host_page_size();
-> -
-> -    pages = REAL_HOST_PAGE_ALIGN(range->size) / qemu_real_host_page_size();
-> -    range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
-> -                                         BITS_PER_BYTE;
-> -    range->bitmap.data = g_try_malloc0(range->bitmap.size);
-> -    if (!range->bitmap.data) {
-> -        ret = -ENOMEM;
-> -        goto err_out;
-> -    }
-> +    range->bitmap.size = vbmap->size;
-> +    range->bitmap.data = (__u64 *)vbmap->bitmap;
->   
->       ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
->       if (ret) {
-> @@ -1374,14 +1405,14 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
->           goto err_out;
->       }
->   
-> -    cpu_physical_memory_set_dirty_lebitmap((unsigned long *)range->bitmap.data,
-> -                                            ram_addr, pages);
-> +    cpu_physical_memory_set_dirty_lebitmap(vbmap->bitmap, ram_addr,
-> +                                           vbmap->pages);
->   
->       trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
->                                   range->bitmap.size, ram_addr);
->   err_out:
-> -    g_free(range->bitmap.data);
->       g_free(dbitmap);
-> +    vfio_bitmap_dealloc(vbmap);
->   
->       return ret;
->   }
+>       qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+>       ret = qemu_file_get_error(f);
 
 
