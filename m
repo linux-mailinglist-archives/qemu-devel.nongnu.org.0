@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14DFB6A41F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88C76A41F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 13:45:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWcnh-0003XV-OM; Mon, 27 Feb 2023 07:40:17 -0500
+	id 1pWcni-0003hz-Tn; Mon, 27 Feb 2023 07:40:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcn8-0003GS-0Z
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:39:43 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcnG-0003Ro-3Q
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:39:59 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcn5-0001GA-L4
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:39:41 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- o38-20020a05600c512600b003e8320d1c11so6523812wms.1
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:39:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWcnB-0001C9-NT
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 07:39:46 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ bg16-20020a05600c3c9000b003eb34e21bdfso3593505wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 04:39:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iz98TPI8pAawLZtmAnBjh4eyfxt6fssvCcKRTUKmqs8=;
- b=tJTT79UN+NMChJDxXh9QdGDQd7s5bmoqfu9WDJG0MBgmgOnAKeyZRoUAg1gX78OOoQ
- 3mi9b7MyGBVGEHSSSm3t1Ja+SKKm4ECHboqaduQWVK7in7EG+kQT82QERSU1zY8HCUfB
- Ha7LR9pRa6phYbGzuP97rNq+EnoTVA/CZHmf6LsqBb8FogF0QNO/TQgCY/skb4TTLVJK
- UfbrIagrqseusfDzCbxR9uLJFTaPbBjWMn15YIDj+jf2B+UYdwHFlGsmw9q7D2hHAVMX
- JMZ7qg5QHifIIBMo+xyAe1Ot4KxV4yc2I0+zSq4MpGj4wcNPfOBo16wO5nLFcSG//Ww0
- 838w==
+ bh=Yei9QnFICkrpmPfGhAgTkxbxJU4xJpesTJ9Xhh8kSsc=;
+ b=vYkyo7KyRR8QTCZDYg4kC6Ksm5O6KTnQIWtDb/gkUUH+ocr31WzpT/ClX/ptDrI6Zv
+ Li7ASSOdh2Z8ekcmTh8TIC2igpNe2IASHCXBYCR5NsFYRfyzJuNIV0/tVw1JwofCdKdj
+ N08jyfefDi+XfxH20vBVy9ILbylHFMIpGRxDuMDHMBKP9Sr9mjCoB5PAtxXQuasSZRF4
+ 8CYCkTfZ1RlKJ1fd/ZdFHvV8uiKtBUN7JpyepfSkoIUsM1eIeYRAPew44OB9XBIyg3vQ
+ O1KryCtBZIPMZI2lROXVLCMqzxg+5yEYLO3mp4Qj8yVfs3Stdr7IuaVsYXauY2COdd4u
+ BD3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iz98TPI8pAawLZtmAnBjh4eyfxt6fssvCcKRTUKmqs8=;
- b=JVjh8WxOlsA8dwogp2WRTQ6IuEiKzZwyaKsaRnxz5lMSquzkrdHuIZatKRfTbvI1kQ
- JpQK7GfgHwoWbJdA+EzwvK72HcsJ823Ccp2OmE6HlGJTTnsyXtXX2eCYI7XeW+5hXFrl
- OhAAyA0JQP0mR3lADRERjN8lS7+6W6XbzIebX/xrqN7LCUlrNJKLTYRRyF3V7Ed3pUjA
- Ep8l0k0tWL6i/UcU5nogjcJ8Awzg3/0l7Oi2KDPZ179Ievil6827zjI5Py/ktp6Is6V8
- 7XfIjW9GHx6UWQVWsd3k0ToPHht5b9UGRsLzEwtk57xpn/BWuqIIE1Nftjbw4z/xJkFf
- R4bA==
-X-Gm-Message-State: AO0yUKVe71H4KlWH23E9AXjYo5vQPW/MdaAM3LyyLrwnvrkl8KQ/qXf/
- XTARkmbGXNckZX84UnK1DyyU4WzBQnqBxWjH
-X-Google-Smtp-Source: AK7set+0Jt5iWcp4duE0udx0ntubXUEEqEowmb4cMTWo65SNkCsAEm9E2OBgJIUkwVx2+UBYKiLmWw==
-X-Received: by 2002:a05:600c:3b9e:b0:3ea:f6c4:5f26 with SMTP id
- n30-20020a05600c3b9e00b003eaf6c45f26mr9473682wms.17.1677501578116; 
- Mon, 27 Feb 2023 04:39:38 -0800 (PST)
+ bh=Yei9QnFICkrpmPfGhAgTkxbxJU4xJpesTJ9Xhh8kSsc=;
+ b=xCuCvpu3momxttdPmyovUYCA6DnYuhD7XTBog1Cen+9uBlhu6GRm9XsYz6ud/aaAAw
+ Pc1aIS1mZmvwsca44P3PV8vA7eY+zO7KwLI1rkySWRynJglU8TRUhr1jKrsR4WMLNjFg
+ 5FImlzXYDEM6hhHHWaFiO8gK0HzRaCerS+z+fjGZJ6Fn58Ss3HY1hax9J6cyODq0gq5H
+ aCQg5lNuRc+RV4lh5OsvkAig0TtRqltThdWN9vwAWuVHuHOFeosExoQNuhlxwjtPbF8/
+ 9+MlBH+vMLhH8bEPa93D9s3GIH5kJv/eddibTx/pIygp4w2VumJLo7nQ+Q97OqPD6uOX
+ Tt8w==
+X-Gm-Message-State: AO0yUKX1Cvt/xiscO6L+sgJUFAKu7IJNa3qZ6ag6rREsneSYqHob2ot5
+ qc0SInOijBxxFZH8wUVyH4fa3BawJ53Svkdh
+X-Google-Smtp-Source: AK7set+wuymm3f8mf2RJpxpT7blCylHbrDqoqTwd4lPgnv5F9dnfRebAPu9ou4yuneMTSw1Vn28KhA==
+X-Received: by 2002:a05:600c:1708:b0:3eb:376e:2ba5 with SMTP id
+ c8-20020a05600c170800b003eb376e2ba5mr4995801wmn.3.1677501584661; 
+ Mon, 27 Feb 2023 04:39:44 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a05600c154c00b003eb2e33f327sm10797003wmg.2.2023.02.27.04.39.36
+ p13-20020a1c544d000000b003e208cec49bsm19039312wmi.3.2023.02.27.04.39.42
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 04:39:37 -0800 (PST)
+ Mon, 27 Feb 2023 04:39:43 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: [PULL 007/123] target/i386: Remove NEED_CPU_H guard from
- target-specific headers
-Date: Mon, 27 Feb 2023 13:36:51 +0100
-Message-Id: <20230227123847.27110-8-philmd@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 008/123] target/i386/cpu: Remove dead helper_lock() declaration
+Date: Mon, 27 Feb 2023 13:36:52 +0100
+Message-Id: <20230227123847.27110-9-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227123847.27110-1-philmd@linaro.org>
 References: <20230227123847.27110-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,52 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-NEED_CPU_H is always defined for these target-specific headers.
+Missed in commit 37b995f6e7 ("target-i386: remove helper_lock()").
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221216220158.6317-2-philmd@linaro.org>
+Message-Id: <20221216220158.6317-3-philmd@linaro.org>
 ---
- target/i386/hax/hax-i386.h | 2 --
- target/i386/hvf/hvf-i386.h | 4 ----
- 2 files changed, 6 deletions(-)
+ target/i386/cpu.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/target/i386/hax/hax-i386.h b/target/i386/hax/hax-i386.h
-index efbb346238..409ebdb4af 100644
---- a/target/i386/hax/hax-i386.h
-+++ b/target/i386/hax/hax-i386.h
-@@ -49,7 +49,6 @@ struct hax_vm {
-     struct hax_vcpu_state **vcpus;
- };
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index f729e0f09c..9824b7f8f2 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -2313,9 +2313,6 @@ static inline void cpu_set_fpuc(CPUX86State *env, uint16_t fpuc)
+      }
+ }
  
--#ifdef NEED_CPU_H
- /* Functions exported to host specific mode */
- hax_fd hax_vcpu_get_fd(CPUArchState *env);
- int valid_hax_tunnel_size(uint16_t size);
-@@ -66,7 +65,6 @@ int hax_sync_vcpu_state(CPUArchState *env, struct vcpu_state_t *state,
-                         int set);
- int hax_sync_msr(CPUArchState *env, struct hax_msr_data *msrs, int set);
- int hax_sync_fpu(CPUArchState *env, struct fx_layout *fl, int set);
--#endif
- 
- int hax_vm_destroy(struct hax_vm *vm);
- int hax_capability(struct hax_state *hax, struct hax_capabilityinfo *cap);
-diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
-index 76e9235524..95b47c1c2e 100644
---- a/target/i386/hvf/hvf-i386.h
-+++ b/target/i386/hvf/hvf-i386.h
-@@ -24,11 +24,7 @@
- 
- void hvf_handle_io(CPUArchState *, uint16_t, void *, int, int, int);
- 
--#ifdef NEED_CPU_H
--/* Functions exported to host specific mode */
+-/* mem_helper.c */
+-void helper_lock_init(void);
 -
- /* Host specific functions */
- int hvf_inject_interrupt(CPUArchState *env, int vector);
--#endif
- 
- #endif
+ /* svm_helper.c */
+ #ifdef CONFIG_USER_ONLY
+ static inline void
 -- 
 2.38.1
 
