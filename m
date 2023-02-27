@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BE3A6A4301
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C996A4308
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:40:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdgf-0002Qc-7L; Mon, 27 Feb 2023 08:37:05 -0500
+	id 1pWdj7-0008SA-PT; Mon, 27 Feb 2023 08:39:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWdgY-0002FO-3A
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:37:00 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWdgW-0000Li-6m
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:36:57 -0500
-Received: by mail-wr1-x430.google.com with SMTP id bt28so6241761wrb.8
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 05:36:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZQ2vrDZNBIsBSNb8eZfl8obWkEBYq4wdGAnGqJmvtwg=;
- b=uOFohQpziXBAU0D9SGHCow3EsJIqS6N5R38I3C9fyBAOEaAhaDHztbbKHkkARxYzlk
- R9k+aplI2sVeoEsrszc3SOe6yeZzvqDBFkhHUUGDiLjZ8pTI9ckwToOR8PEERIDMzhWr
- Td/I/zCrxxQ617A+MY03VX0T5enYzs1CoLz47cRgPbB3jctdkRrHUFtMMS1Yp5DiR97g
- WqXJ9CZq3t2AjJuRNBb6YDITy13VmSYC8uUb8Jc1kYKB0RQrOaAjH03pm81hrCjZTslp
- Rm2F/bKNjzzlnAVay5Zevhpx6ENE1Drfeq0m5UeVQxdY4p4T9X3ySCGXnn1PMKd6AlEJ
- 3rhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZQ2vrDZNBIsBSNb8eZfl8obWkEBYq4wdGAnGqJmvtwg=;
- b=w3GOUa3zu0IyBZtTdpHzm45CYoN6AYfMnDUXIMevYwv2zx9KnRb6R7pksaxVO/q2vp
- D6WkP5QcN/qBj6pVP3H/1juTrIyzGhkG+kJCx75E9UhJH2iUzauK+KxabLgZmo+rNqGl
- tR2/dskLSpNR0Jv9DN/mE6hpYdZrkgfrC20vnR8isj0Ii6+QJ3Imb07DQfvXpreTGpSA
- V1rvx3V3djSs26bbp3q9BZnpwMl8NAl4AVQ+gOAwwyzhagfEvTpJ+cENJ7tqU1CaA1M0
- aRrd6UoO4QYKmMm3Kz2LPthBdnlS2mXGlZcFteAz8vLO0uuiPg8x+ACzAd6eU9Y69iAc
- Gmsg==
-X-Gm-Message-State: AO0yUKV0vKgeKGSERIxZsO+wjA8bask/8NwdMDdBCamlDqCEVsN66LXh
- p4DdE18qwHtQrmCDaxGzR61t8S9OR/ZexAwQ
-X-Google-Smtp-Source: AK7set/MuLQtA7HsvATf8PuxEFWk2B9CxzBdKKljA6H2Xiecho2VSE43vdUyIrj20C3ACP2xmb0TQw==
-X-Received: by 2002:a05:6000:5c1:b0:2c5:4ca3:d56c with SMTP id
- bh1-20020a05600005c100b002c54ca3d56cmr5797965wrb.0.1677505014578; 
- Mon, 27 Feb 2023 05:36:54 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- b6-20020a5d4b86000000b002c5691f13eesm7085390wrt.50.2023.02.27.05.36.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 05:36:54 -0800 (PST)
-Message-ID: <efb25519-b134-e8d0-14ac-58189b39103d@linaro.org>
-Date: Mon, 27 Feb 2023 14:36:50 +0100
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pWdj5-0008RA-8A
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:39:35 -0500
+Received: from mga12.intel.com ([192.55.52.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pWdj3-0001Nc-H3
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:39:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677505173; x=1709041173;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Kgw1IdayYT0BQOSv00Cxa9YCJVYWef08UdTPzJOoEZs=;
+ b=mf2x4Sxxz38kgdssS3Loz4SViYazdaTx6T1Sk21/SczU7rG9/HEa0dCO
+ kkxWPR24HEfXrljPcykDl/77JQFO6jCSZ4R0MYfM7S5HNmVYTBDYVTNxg
+ akFqKIPwDix2xGg4P4famO+SuLJsW2nz0IyXy2pptUv5pYP3J+ZPX0UBJ
+ tPxM20Gdi4OwgJ9B8DhXPjkmNwRkwS/LJogWJdZ7o8oEZsOc+JBFTlar5
+ 6n8/tJkFziyyO5fAWxsFk4rE4+TJOw9wLczn3kvztFYkSJsS9lb3Whj+G
+ fU4IkEUxHtH9G25hK7CYzJfhdapkuVsZjxU2iDA9pvSJdaL7z0QnWUN7X Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="313529831"
+X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; d="scan'208";a="313529831"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 05:39:31 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="706197233"
+X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; d="scan'208";a="706197233"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.28.190])
+ ([10.255.28.190])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 05:39:29 -0800
+Message-ID: <a9f521af-2c48-c2ea-b80b-db444fb81925@intel.com>
+Date: Mon, 27 Feb 2023 21:39:27 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 12/15] hw/display/sm501: Unify common QOM properties
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20230203145536.17585-1-philmd@linaro.org>
- <20230203145536.17585-13-philmd@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [PATCH v4 2/4] target/i386: add FZRM, FSRS, FSRC
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230203145536.17585-13-philmd@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: lei4.wang@intel.com, robert.hu@linux.intel.com, chenyi.qiang@intel.com
+References: <20230227101332.636203-1-pbonzini@redhat.com>
+ <20230227101332.636203-3-pbonzini@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20230227101332.636203-3-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=xiaoyao.li@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,44 +81,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/2/23 15:55, Philippe Mathieu-Daudé wrote:
-> Since now PCI and SysBus properties are identical, unify them.
+On 2/27/2023 6:13 PM, Paolo Bonzini wrote:
+> These are three more markers for string operation optimizations.
+> They can all be added to TCG, whose string operations are more or
+> less as fast as they can be for short lengths.
 > 
-> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Reviewed-by: Xiaoyao Li <xiaoyao.li@intel.com>
+
 > ---
->   hw/display/sm501.c | 11 +++--------
->   1 file changed, 3 insertions(+), 8 deletions(-)
+>   target/i386/cpu.c | 7 ++++---
+>   target/i386/cpu.h | 7 +++++++
+>   2 files changed, 11 insertions(+), 3 deletions(-)
 > 
-> diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-> index efebd93f1e..98375138b2 100644
-> --- a/hw/display/sm501.c
-> +++ b/hw/display/sm501.c
-> @@ -1975,7 +1975,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
->       /* TODO : chain irq to IRL */
->   }
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 34e2cead870e..26ec6e9da754 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -662,7 +662,8 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+>             /* CPUID_7_0_ECX_OSPKE is dynamic */ \
+>             CPUID_7_0_ECX_LA57 | CPUID_7_0_ECX_PKS | CPUID_7_0_ECX_VAES)
+>   #define TCG_7_0_EDX_FEATURES CPUID_7_0_EDX_FSRM
+> -#define TCG_7_1_EAX_FEATURES 0
+> +#define TCG_7_1_EAX_FEATURES (CPUID_7_1_EAX_FZRM | CPUID_7_1_EAX_FSRS | \
+> +          CPUID_7_1_EAX_FSRC)
+>   #define TCG_APM_FEATURES 0
+>   #define TCG_6_EAX_FEATURES CPUID_6_EAX_ARAT
+>   #define TCG_XSAVE_FEATURES (CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XGETBV1)
+> @@ -872,8 +873,8 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>           .feat_names = {
+>               NULL, NULL, NULL, NULL,
+>               "avx-vnni", "avx512-bf16", NULL, NULL,
+> -            NULL, NULL, NULL, NULL,
+> -            NULL, NULL, NULL, NULL,
+> +            NULL, NULL, "fzrm", "fsrs",
+> +            "fsrc", NULL, NULL, NULL,
+>               NULL, NULL, NULL, NULL,
+>               NULL, NULL, NULL, NULL,
+>               NULL, NULL, NULL, NULL,
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index d4bc19577a21..e0703feb5ed0 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -900,6 +900,13 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+>   #define CPUID_7_1_EAX_AVX_VNNI          (1U << 4)
+>   /* AVX512 BFloat16 Instruction */
+>   #define CPUID_7_1_EAX_AVX512_BF16       (1U << 5)
+> +/* Fast Zero REP MOVS */
+> +#define CPUID_7_1_EAX_FZRM              (1U << 10)
+> +/* Fast Short REP STOS */
+> +#define CPUID_7_1_EAX_FSRS              (1U << 11)
+> +/* Fast Short REP CMPS/SCAS */
+> +#define CPUID_7_1_EAX_FSRC              (1U << 12)
+> +
+>   /* XFD Extend Feature Disabled */
+>   #define CPUID_D_1_EAX_XFD               (1U << 4)
 >   
-> -static Property sm501_sysbus_properties[] = {
-> +static Property sm501_common_properties[] = {
->       DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
->       DEFINE_PROP_END_OF_LIST(),
->   };
-
-
-> @@ -2062,11 +2062,6 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
->                        &s->state.mmio_region);
->   }
->   
-> -static Property sm501_pci_properties[] = {
-> -    DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
-
-Patch is invalid:
-
-$ ./qemu-system-ppc -S -M sam460ex
-qemu-system-ppc: Invalid VRAM size, nearest valid size is 2097152
-
-> -    DEFINE_PROP_END_OF_LIST(),
-> -};
-
 
 
