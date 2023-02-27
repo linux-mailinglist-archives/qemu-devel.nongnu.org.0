@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEED6A44ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C536A4516
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:48:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeAP-0007nv-2O; Mon, 27 Feb 2023 09:07:49 -0500
+	id 1pWeAQ-00081k-66; Mon, 27 Feb 2023 09:07:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9d-0007g9-5K
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:06 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9h-0007gT-C3
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:07 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9b-0000E6-3k
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:00 -0500
-Received: by mail-wm1-x331.google.com with SMTP id p16so4300647wmq.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:06:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9f-0000EZ-Qr
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:07:05 -0500
+Received: by mail-wm1-x332.google.com with SMTP id az36so4333616wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:07:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=EGxj4BA7WuTT+dIhFQSBAHpPQ5r9fDzaqonnzDMCb7o=;
- b=aL4bsHUZ/YQWVu9mH0Xj35jFTNOJRl6psyabGa70txZK1zCDSZFbrIm6JQV6MIwyni
- JN1gVLW55BwQFhOpgsXZeLBBBZ0R4N37hj0kO2deOgZ3vP+wo/LRmkX0NSriGxQS+gNg
- aOtgwMkMRw8OdWELseCdgp9aPDvT0Z7TT3JRNahEovVY1xiEwrUHzgVHJkk91rU19bBp
- U23/E7ThNFV2bdeuhtt8lG0TMoXh5O0Vb9oT8uHvvBwR5pxUhTmyp1auFYWBgU9bIFO+
- wTBPF9jsSfupsh4GmqiJvO0bySGahOTh/o3zvaFGFDYiRJW6Wdm4bQi+a97gcIvbf+qb
- m28A==
+ :reply-to; bh=QS1nmh8lEScxSkqCqb2XqzqDwPQdmLvq21fW8K7LJn8=;
+ b=lKtFj8P53gUno+PDgZbq/JCYKkKg/iyC4DpWRoEjM2VRYneTLOc0svmv2eIRfnpTKw
+ wogM5MOkMuJK7nGCifnLEl5SHKVDQt0f1ZVT1WvZcuL8CjLOmaIjiyk7aZWCYF2025wE
+ i7d+HiuTpUR9XE5zukVqDD2UgwIymtsZpOZZSRLXchh69naFZJ+wFX9/o+qpWMuiqzzq
+ k3I/+RKE3KdnCWPWDPCFedLWGdzy86quIhLWugPJcLcWwETp77Tr6LX0xzH5gBMc1zYT
+ EL8UxNq6gs9Nxrdq7H2vMl+aZOEXvNbxb4CvhM3m4rfbPOflAU1avLCJieeD8pCCIUTl
+ Q2SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EGxj4BA7WuTT+dIhFQSBAHpPQ5r9fDzaqonnzDMCb7o=;
- b=pSa1wU5EoiOitsEjqO4npXgLZ+1S/eqB8Mg7OHDNWOnOZZ7QpjdU4FKp3BKhEUn30y
- SeQ7NeTuImViqYqiqM3fmgc3wid5V9q66esSJxDENbHTMGhmkUSf+h7ck07Ntiu4Mk1c
- GmalWQSkztqOpJMM/pJuSYAi7dtY4dTXS6SC5wvnpoVHUnXY6K0jUEE2n9h39v8xxLtK
- A/3YVWGK8A8U9P3siQLYDLYreA0+wxDKOdiir7jWpUZhWV7EW4s0bEX39Jqi8nfsHHOo
- D0yUsE+++rUCcfKocvVf+Iptx3SdLV34NSPUSkdDztSw6QQZjvJApQF0RWrVN5IvHNpM
- H/aA==
-X-Gm-Message-State: AO0yUKWM5BHikN+PzjEUKIgD9SmhlRGjN0hWKZuzvPa/MsKf1tg+YO6B
- ISUxiSRLQRnXT1URTZDPm5uPR4kjY1YRBIGN
-X-Google-Smtp-Source: AK7set/qETHRQBNG9/6bUfIWeMT+it8QpZFJ/1oag9tAHmQKIejY09kT1kv34K/MLgiH4AhvyAjYMg==
-X-Received: by 2002:a05:600c:4d21:b0:3d9:f769:2115 with SMTP id
- u33-20020a05600c4d2100b003d9f7692115mr18318256wmp.26.1677506817101; 
- Mon, 27 Feb 2023 06:06:57 -0800 (PST)
+ bh=QS1nmh8lEScxSkqCqb2XqzqDwPQdmLvq21fW8K7LJn8=;
+ b=2ITTunrvBl+DaPZNRCyVYP+8wY4LNxvwEgzGtPCvjp8eJeVQlKoaybImjxPKUjBiG4
+ xiML6udW8sv2RDdx7/H5TW4lUb/TXaNyY40G7SF8UPIyhtdvwwWpoCHwgrEnubYz6bE1
+ wnF3JFWC6HBrhKIw4/Ff+A0wCyf3KdMJ4cmu+Oywv/qFONU85QmitsJM2/hf1ttMTgVn
+ qi9FYx60P/xVXnJ5sjtAY/3SMtgaa5GBOpevvr3FaptIso1Viw1gcQLWvTLiettIIYhX
+ i1GT8oMMb+k6xb2gs1eWDkPj5m7kGB/KEC2JAVOwrIaOJoKpHGGxf6fxBygElSg7G0Na
+ P50g==
+X-Gm-Message-State: AO0yUKUhJ5wHCWlDujFzGjhBH0J5HmFuYvvEz7RNFtCOSJXU1zyJ6yBD
+ whWDJxe8tfARB1sQQkJnjq3gyHBdhck600+6
+X-Google-Smtp-Source: AK7set/1TpbgnOAVs8VQbk0D76tNuFPSJ8zeLo2W3a2PcFvTchyNRD/0Dcl3lOuZQNp+zV667rxXjg==
+X-Received: by 2002:a05:600c:714:b0:3e2:1368:e3a0 with SMTP id
+ i20-20020a05600c071400b003e21368e3a0mr17308710wmn.18.1677506822319; 
+ Mon, 27 Feb 2023 06:07:02 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- bd12-20020a05600c1f0c00b003e0015c8618sm12916505wmb.6.2023.02.27.06.06.54
+ ay26-20020a05600c1e1a00b003e21f20b646sm9573905wmb.21.2023.02.27.06.07.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:06:56 -0800 (PST)
+ Mon, 27 Feb 2023 06:07:01 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 061/126] hw/isa: Rename isa_bus_irqs() ->
- isa_bus_register_input_irqs()
-Date: Mon, 27 Feb 2023 15:01:08 +0100
-Message-Id: <20230227140213.35084-52-philmd@linaro.org>
+Subject: [PULL 062/126] hw/isa: Use isa_address_space_io() to reduce access on
+ global 'isabus'
+Date: Mon, 27 Feb 2023 15:01:09 +0100
+Message-Id: <20230227140213.35084-53-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,214 +88,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-isa_bus_irqs() register an array of input IRQs on
-the ISA bus. Rename it as isa_bus_register_input_irqs().
-
-Mechanical change using:
-
- $ sed -i -e 's/isa_bus_irqs/isa_bus_register_input_irqs/g' \
-   $(git grep -wl isa_bus_irqs)
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230210163744.32182-10-philmd@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230210163744.32182-11-philmd@linaro.org>
 ---
- hw/hppa/machine.c    | 2 +-
- hw/i386/microvm.c    | 2 +-
- hw/i386/pc_piix.c    | 2 +-
- hw/isa/i82378.c      | 2 +-
- hw/isa/isa-bus.c     | 8 ++++----
- hw/isa/lpc_ich9.c    | 2 +-
- hw/isa/piix4.c       | 2 +-
- hw/isa/vt82c686.c    | 2 +-
- hw/mips/jazz.c       | 2 +-
- hw/ppc/pnv_lpc.c     | 2 +-
- hw/sparc64/sun4u.c   | 2 +-
- include/hw/isa/isa.h | 4 ++--
- 12 files changed, 16 insertions(+), 16 deletions(-)
+ hw/isa/isa-bus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 7ac68c943f..8fea5fa6b8 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -98,7 +98,7 @@ static ISABus *hppa_isa_bus(void)
-     isa_irqs = i8259_init(isa_bus,
-                           /* qemu_allocate_irq(dino_set_isa_irq, s, 0)); */
-                           NULL);
--    isa_bus_irqs(isa_bus, isa_irqs);
-+    isa_bus_register_input_irqs(isa_bus, isa_irqs);
- 
-     return isa_bus;
- }
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 29f30dd6d3..fed468a34d 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -174,7 +174,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
- 
-     isa_bus = isa_bus_new(NULL, get_system_memory(), get_system_io(),
-                           &error_abort);
--    isa_bus_irqs(isa_bus, x86ms->gsi);
-+    isa_bus_register_input_irqs(isa_bus, x86ms->gsi);
- 
-     ioapic_init_gsi(gsi_state, "machine");
-     if (ioapics > 1) {
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index df64dd8dcc..7c48ba30e0 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -246,7 +246,7 @@ static void pc_init1(MachineState *machine,
-         i8257_dma_init(isa_bus, 0);
-         pcms->hpet_enabled = false;
-     }
--    isa_bus_irqs(isa_bus, x86ms->gsi);
-+    isa_bus_register_input_irqs(isa_bus, x86ms->gsi);
- 
-     if (x86ms->pic == ON_OFF_AUTO_ON || x86ms->pic == ON_OFF_AUTO_AUTO) {
-         pc_i8259_create(isa_bus, gsi_state->i8259_irq);
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index d32653369d..233059c6dc 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -89,7 +89,7 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
- 
-     /* 2 82C59 (irq) */
-     s->isa_irqs_in = i8259_init(isabus, s->cpu_intr);
--    isa_bus_irqs(isabus, s->isa_irqs_in);
-+    isa_bus_register_input_irqs(isabus, s->isa_irqs_in);
- 
-     /* 1 82C54 (pit) */
-     pit = i8254_pit_init(isabus, 0x40, 0, NULL);
 diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 2464357971..ce9999f7f7 100644
+index ce9999f7f7..b3d2e5ec52 100644
 --- a/hw/isa/isa-bus.c
 +++ b/hw/isa/isa-bus.c
-@@ -67,13 +67,13 @@ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion* address_space,
-     return isabus;
- }
+@@ -114,7 +114,7 @@ static inline void isa_init_ioport(ISADevice *dev, uint16_t ioport)
  
--void isa_bus_irqs(ISABus *bus, qemu_irq *irqs)
-+void isa_bus_register_input_irqs(ISABus *bus, qemu_irq *irqs_in)
+ void isa_register_ioport(ISADevice *dev, MemoryRegion *io, uint16_t start)
  {
--    bus->irqs = irqs;
-+    bus->irqs_in = irqs_in;
+-    memory_region_add_subregion(isabus->address_space_io, start, io);
++    memory_region_add_subregion(isa_address_space_io(dev), start, io);
+     isa_init_ioport(dev, start);
  }
  
- /*
-- * isa_get_irq() returns the corresponding qemu_irq entry for the i8259.
-+ * isa_get_irq() returns the corresponding input qemu_irq entry for the i8259.
-  *
-  * This function is only for special cases such as the 'ferr', and
-  * temporary use for normal devices until they are converted to qdev.
-@@ -82,7 +82,7 @@ qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq)
- {
-     assert(!dev || ISA_BUS(qdev_get_parent_bus(DEVICE(dev))) == isabus);
-     assert(isairq < ISA_NUM_IRQS);
--    return isabus->irqs[isairq];
-+    return isabus->irqs_in[isairq];
+@@ -135,7 +135,7 @@ int isa_register_portio_list(ISADevice *dev,
+     isa_init_ioport(dev, start);
+ 
+     portio_list_init(piolist, OBJECT(dev), pio_start, opaque, name);
+-    portio_list_add(piolist, isabus->address_space_io, start);
++    portio_list_add(piolist, isa_address_space_io(dev), start);
+ 
+     return 0;
  }
- 
- void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq)
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 96fd500502..d8303d0322 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -719,7 +719,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
- 
-     qdev_init_gpio_out_named(dev, lpc->gsi, ICH9_GPIO_GSI, IOAPIC_NUM_PINS);
- 
--    isa_bus_irqs(isa_bus, lpc->gsi);
-+    isa_bus_register_input_irqs(isa_bus, lpc->gsi);
- 
-     i8257_dma_init(isa_bus, 0);
- 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index de60ceef73..ef24826993 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -212,7 +212,7 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     s->isa = i8259_init(isa_bus, *i8259_out_irq);
- 
-     /* initialize ISA irqs */
--    isa_bus_irqs(isa_bus, s->isa);
-+    isa_bus_register_input_irqs(isa_bus, s->isa);
- 
-     /* initialize pit */
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index a913a509f7..52814cc751 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -615,7 +615,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     }
- 
-     s->isa_irqs_in = i8259_init(isa_bus, s->cpu_intr);
--    isa_bus_irqs(isa_bus, s->isa_irqs_in);
-+    isa_bus_register_input_irqs(isa_bus, s->isa_irqs_in);
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     i8257_dma_init(isa_bus, 0);
- 
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index 6aefe9a61b..ca4426a92c 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -249,7 +249,7 @@ static void mips_jazz_init(MachineState *machine,
- 
-     /* ISA devices */
-     i8259 = i8259_init(isa_bus, env->irq[4]);
--    isa_bus_irqs(isa_bus, i8259);
-+    isa_bus_register_input_irqs(isa_bus, i8259);
-     i8257_dma_init(isa_bus, 0);
-     pit = i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     pcspk_init(isa_new(TYPE_PC_SPEAKER), isa_bus, pit);
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index 71143b7692..01f44c19eb 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -837,7 +837,7 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bool use_cpld, Error **errp)
- 
-     irqs = qemu_allocate_irqs(handler, lpc, ISA_NUM_IRQS);
- 
--    isa_bus_irqs(isa_bus, irqs);
-+    isa_bus_register_input_irqs(isa_bus, irqs);
- 
-     return isa_bus;
- }
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 8fe47e2c22..8a56ba9f98 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -316,7 +316,7 @@ static void ebus_realize(PCIDevice *pci_dev, Error **errp)
- 
-     /* ISA bus */
-     s->isa_irqs_in = qemu_allocate_irqs(ebus_isa_irq_handler, s, ISA_NUM_IRQS);
--    isa_bus_irqs(s->isa_bus, s->isa_irqs_in);
-+    isa_bus_register_input_irqs(s->isa_bus, s->isa_irqs_in);
-     qdev_init_gpio_out_named(DEVICE(s), s->isa_irqs_out, "isa-irq",
-                              ISA_NUM_IRQS);
- 
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 1d3ffec4de..eb920aa710 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -55,7 +55,7 @@ struct ISABus {
- 
-     MemoryRegion *address_space;
-     MemoryRegion *address_space_io;
--    qemu_irq *irqs;
-+    qemu_irq *irqs_in;
-     IsaDma *dma[2];
- };
- 
-@@ -69,7 +69,7 @@ struct ISADevice {
- 
- ISABus *isa_bus_new(DeviceState *dev, MemoryRegion *address_space,
-                     MemoryRegion *address_space_io, Error **errp);
--void isa_bus_irqs(ISABus *bus, qemu_irq *irqs);
-+void isa_bus_register_input_irqs(ISABus *bus, qemu_irq *irqs_in);
- void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16);
- IsaDma *isa_get_dma(ISABus *bus, int nchan);
- ISADevice *isa_new(const char *name);
 -- 
 2.38.1
 
