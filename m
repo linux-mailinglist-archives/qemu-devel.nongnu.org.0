@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2407D6A43C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:08:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6464B6A4409
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:15:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe76-0001uQ-Em; Mon, 27 Feb 2023 09:04:24 -0500
+	id 1pWe7A-0002E0-La; Mon, 27 Feb 2023 09:04:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe71-0001ho-KK
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:21 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe77-00024A-F3
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:25 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe70-0007yy-2f
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:19 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id k37so4348479wms.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe75-0007zH-PV
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:25 -0500
+Received: by mail-wr1-x436.google.com with SMTP id v16so3542510wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=GNz/wLv9q/CfxjcpxtTBilmbJ9v6EOOZzvA1J/LwMtM=;
- b=Odx3syVmuCGIBKq3/o7UAqCa8u0n6jaxtSaiLwKlGtkKDGtqaAC20iFglLpKIH8Ra2
- 068kxEDwfa5kWKbHr1wK3F7CVbBcaflV3XGDblUarDmnN5sBlsbSGmCKuTkGA4QARPkY
- YiqStzcOXP3U5MLVl2xh4HskR1VufteKPA4rAf7AHdZs4hpQsmLQxs0rw7xz/fZaV3b/
- 3az7BBJx8XNHv2xl2FP+qHdhhpCZI+H6nPKWnLYtrJVgaHkELROLY+DyLwCcEjiTS9c4
- 0UKBeqtYkOUAiZ0DsXM1J5qC0gNLMSx8rO5Sof5/vD5PeGWMBJl5Mma4pf9n4kg+dXoC
- SYdA==
+ :reply-to; bh=aN47Fsd6Vw3ECvj3+90qDL+aYtdX8f7tcZ4eVa1EoMQ=;
+ b=p/Tde3Hu8yniS6549l1aYU6/xHK0lSw1eRySnJRsntXDQgpTj1txhl873rr6p5fk8g
+ XpHy90nEtu3kKcHBiozEkvCQOtk6l1zC8gc8PnGl0Xib2nZZI0tX3n8WXtRsUAyewiQ9
+ 7wHjdTFKlbicFJBjNU9jdWfSBDQwBYMUMUnPIWdzFUic+fpbSJ6wATb3lbtT5AXxiGAT
+ dv8AswEmqIMNAJK7Eahh/4fqklrNUrBeKtin4DIS75iuco2WRuF8xaxJ60b+TcdHpefj
+ QCSwQ0NmYkDOwUHmsi4QOz3Df1e22G5hq7h0oLYUybWVKeDt+pzqEJWoYMGmsaaDHQAU
+ HxPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GNz/wLv9q/CfxjcpxtTBilmbJ9v6EOOZzvA1J/LwMtM=;
- b=WGLVu7rMUZ0+iq6MKnKdqsPnE1JHk+Pm8/AxLj4EWVRB6oksj8wKRLJUiJz6WhMUKS
- 6XAowhQR/WzPFXuGYPayR6rPoyymJPW11fO1yCbUuUO9gF6w+sj2BQ/sgB2q5AiTPVzE
- LkkjwYmdpr404k6Wv6uoJ2QTb3TMu8zY7O6yeKe0JH9sM5G21+BG2Lx2a8ghFKjGYkgQ
- /kUhqPqcHQ+S/xPpNNKjOa1+dWZ3X2SFJZafqyYq4Jnwu6quWvV2TSx6PfQpuw/gbc04
- mri/7mFGY+p9W6hCEiRRrebz1AhMbfYZduw2SZESiClA5y7KH+n81lhR/j0WHfy2RBAS
- CpTQ==
-X-Gm-Message-State: AO0yUKW9EyUSYzV9buZnV/+vSleWhefGQSp/E0feYBAaXUo1K80X3JlL
- 8vDvoSB2LcHJV6kJHANlNP6XvyDGpl7Qfbqq
-X-Google-Smtp-Source: AK7set9FwuprcO5ybqYwQXy0UuU5cqbJ34BR1SBqrY+JtpJFTqoLLBz54RqbUq03BGkYkNRBCB1rdg==
-X-Received: by 2002:a05:600c:251:b0:3ea:f73e:9d8a with SMTP id
- 17-20020a05600c025100b003eaf73e9d8amr11387470wmj.30.1677506656572; 
- Mon, 27 Feb 2023 06:04:16 -0800 (PST)
+ bh=aN47Fsd6Vw3ECvj3+90qDL+aYtdX8f7tcZ4eVa1EoMQ=;
+ b=h8U0zUXq/DmtohyzyKunSz8yu0EunsFpJVrp12qC9R0/uskOGCTpDTkd73gHi1Smr1
+ i1uqh/35wSRwEaaefx/IC0Y2urnhYC/7KvH4Q6dGop7jy3zd79PHQLDHRDZdhM64njHt
+ 0hJOJjCFQ7F/L7j+FrulRpq0Zb/GbjcEiUJa2w0tyHTdrISW0AKsrSqavA82J/i68xii
+ NwyZjZt91Hme2/cCKDC8khICZP78ah6pSw49X3MsUTzHVnD/3WHFAnwkj6o0xl9OQnpC
+ rlltQcJHTk3zjbtjyorxqEDUUpOztRwE3x3DZ1RrVqORvU8w+SfK5TGzGTMK527ULTLD
+ 6IVg==
+X-Gm-Message-State: AO0yUKUt7VOD1+tHxbimYABFsZDzkFAxfTtuZ2awXJeYzkbjECUwIVhv
+ ZajPp1eV/XIghmrx7w5+3CMxeWFMA6pYIPot
+X-Google-Smtp-Source: AK7set8fU8p7qEp/UuGDwETA9ZQ/QOekrjxNGDpnrc+ozsK4bTduOA+owoO2geKo0UxBaN8GsiwSBA==
+X-Received: by 2002:a5d:6147:0:b0:2c9:ed98:c3bd with SMTP id
+ y7-20020a5d6147000000b002c9ed98c3bdmr5039607wrt.60.1677506662045; 
+ Mon, 27 Feb 2023 06:04:22 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s2-20020a5d6a82000000b002c53cc7504csm7396758wru.78.2023.02.27.06.04.15
+ v14-20020adfedce000000b002c7b229b1basm7232685wro.15.2023.02.27.06.04.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:04:16 -0800 (PST)
+ Mon, 27 Feb 2023 06:04:21 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 032/126] tests/unit: Restrict machine-smp.c test to system
- emulation
-Date: Mon, 27 Feb 2023 15:00:39 +0100
-Message-Id: <20230227140213.35084-23-philmd@linaro.org>
+Subject: [PULL 033/126] softmmu: Silent -Wmissing-field-initializers warning
+Date: Mon, 27 Feb 2023 15:00:40 +0100
+Message-Id: <20230227140213.35084-24-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,33 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Silent when compiling with -Wextra:
+
+  ../softmmu/vl.c:886:12: warning: missing field 'flags' initializer [-Wmissing-field-initializers]
+    { NULL },
+           ^
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221219170806.60580-6-philmd@linaro.org>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20221220143532.24958-4-philmd@linaro.org>
 ---
- tests/unit/meson.build | 2 +-
+ softmmu/vl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index ffa444f432..51f453e6c4 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -46,7 +46,6 @@ tests = {
-   'test-uuid': [],
-   'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
-   'test-qapi-util': [],
--  'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
-   'test-interval-tree': [],
- }
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 6e526d95bb..f5b9912c57 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -883,7 +883,7 @@ static const QEMUOption qemu_options[] = {
+ #define ARCHHEADING(text, arch_mask)
  
-@@ -134,6 +133,7 @@ if have_system
-     'test-util-sockets': ['socket-helpers.c'],
-     'test-base64': [],
-     'test-bufferiszero': [],
-+    'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
-     'test-vmstate': [migration, io],
-     'test-yank': ['socket-helpers.c', qom, io, chardev]
-   }
+ #include "qemu-options.def"
+-    { NULL },
++    { /* end of list */ }
+ };
+ 
+ typedef struct VGAInterfaceInfo {
 -- 
 2.38.1
 
