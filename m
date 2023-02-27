@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3607E6A43EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:13:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4AB66A4459
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:27:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe82-0004Gk-4C; Mon, 27 Feb 2023 09:05:22 -0500
+	id 1pWe8A-0004Ls-97; Mon, 27 Feb 2023 09:05:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7u-00048g-1R
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:15 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7y-0004Eu-AZ
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:19 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7r-0008F6-Np
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:13 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id p16so4296553wmq.5
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:05:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7w-0008FX-Ma
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:05:18 -0500
+Received: by mail-wr1-x435.google.com with SMTP id j2so6330434wrh.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:05:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=UXJl03FgLvsXYxtIMzGoPuJqJdkFHpVg6pSW+aXq01k=;
- b=OBaOOdlvy80OLGrNxkLVXzBHKFFyLUeelYGYx5k5lvM2Chpmb6sSL8gOcxrXJUNI7U
- iyT6vLpK4g6HSATm8zzFZzVpH4j1OkvUGtNshAB8DSOFAXWF8fTcrVw4f6fH9l+p1LqR
- 2zF4lc5WVlCJbs0gWtG9j2y2J+QgTSiv2bkvX9qPR3nAB9xl419VmAk61jChe/u7afQw
- Sjlt4MHyq1iodwgunmhxJ2vmSqIsDaHFzmBx1TvCuF4lvG3Nk2N6OQF9CzMMTtcf18vw
- AUaMsmRqgjuwcBYUl7dBNTcsjMG1Kk5OkCSKn+hI6+Pz5dXlPJ2NL9PD83tBUe/YwPZC
- 86xA==
+ :reply-to; bh=hsqxNNnhQ7gTxIdnokXihLeuCOxh7TyQaqkWOyOK8ME=;
+ b=sysjHBe10hz+V51SritdZTcs1CRGP9d/nPK4pl09u+eHDG3ijBjlZd2EiBE47fXGqI
+ lmSmWucTLJpSxplEkYEKyISxyW/7TerUNVw0yNSj/ebNownzUkb1Om+OjRo7W9UHIyd6
+ JPU0udsPVgT7Sf1fAVGD250FUqh4G13U4FFHiBtQu3b+a9/kicALM4ZbdeWfQ6YhtRwh
+ 5p1hrjkxKgS1XfCXW7ASwdN3oqp0jtnDXqUASCgqxT63IUDhGZSaFR5zUZ7YwiPtldhJ
+ FBw0oLTN9n2saa4Fuqz+VblVM0mpXs0oloy9NgG8fFL80LDNdS8ZAh+TWFbBMDJ9FEak
+ P/7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UXJl03FgLvsXYxtIMzGoPuJqJdkFHpVg6pSW+aXq01k=;
- b=3Vin0RAbD5GNoowESKv16gd6EaAeLSVe9Q+YkK3KOhpDw1oXvKW10m17wBT9SdHGth
- IrVQPDtcOKPDf9JipaNj3zC2DtTIZ5c6+RzztpN8XJV+wvpY1IJrEn4KPTE3VeSl2HEY
- ryXNigcHoWwEhqSR7t0SEF5y13xa8cu8OdxuLB1AYefHd9C3qvL8VdpBpX60EO3YIMPR
- hu+D+eJl1GpXqhJlmy0Z19unGq10yBj7AjW3J5IBk/N0TyNOYEJheXHo7PFdIwjFOnFv
- RbZee+BNfalTO5YiYj1CpJjViq+3pkqgi0ehPmS1YmoAJ19KrwMd8ryPCNoit4WaXV/X
- 3R8w==
-X-Gm-Message-State: AO0yUKVsIyBdoUhRgWG4cywAL8MtcYhI436weDm2k5UtgaHfefQuSilN
- 61+hxlZqf3SK3zPelbD513QffwCwHLnmb1bv
-X-Google-Smtp-Source: AK7set+MaD6iDZ/ydEocNQCNV8qSeyJkNQ/i4cqi6V7izBWXr6MlmXY1z4e/qhvd7bSno/rfTL73QQ==
-X-Received: by 2002:a05:600c:170a:b0:3eb:37ce:4c3d with SMTP id
- c10-20020a05600c170a00b003eb37ce4c3dmr5387715wmn.38.1677506710067; 
- Mon, 27 Feb 2023 06:05:10 -0800 (PST)
+ bh=hsqxNNnhQ7gTxIdnokXihLeuCOxh7TyQaqkWOyOK8ME=;
+ b=C4KhNFEn3bNpCsmnuAcLd6zWucTh3gdht8P2fichxmxAYFtyH24J6CfZuHb/6ILLCA
+ LjXTA9xGJJKVfq7Vg50VkJIHFzkGXWkPG7i1a3no9g/wPBy2eF2mM/5nSSV9aI5IDbgS
+ WmIvC5mSC53oTxqDPxtmWoCzLP1hbGZbpakdOEQt3wY8iB8l4Z2p0dWCEtuTM2+5pij7
+ oHldC4nHhphhxFr8Hz6CO7h8l8FLbqq38TgIpQ+C+5U8AK/Q8M45ZhaH5wyFN7uxLQlK
+ 2x8t2ocyebdYulz9/9psShBqlwCQBmt0t8seiJ2EQ/IF3kdBFHQoQCymzuJ6UZdfALEL
+ VSCA==
+X-Gm-Message-State: AO0yUKUCXYxLEEU1xTVwEil5J/vGKxq/QStdG8V1Jmb2Q7x2mfeGL3C2
+ VMKz2wRSLAvRcWp4nobbCQbYh9y06UQByUTN
+X-Google-Smtp-Source: AK7set/rVG2p0vP1jqa3mwxsEt9Tr187OXBcyzOSXxNAJFRuA+sv4q+twFg6fY4ir8+PkORKbI3x3w==
+X-Received: by 2002:adf:ec03:0:b0:2c9:850c:6b15 with SMTP id
+ x3-20020adfec03000000b002c9850c6b15mr6041808wrn.41.1677506715237; 
+ Mon, 27 Feb 2023 06:05:15 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- 13-20020a05600c020d00b003dc1d668866sm12800648wmi.10.2023.02.27.06.05.09
+ n31-20020a05600c3b9f00b003e8dcc67bdesm14299032wms.30.2023.02.27.06.05.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:05:09 -0800 (PST)
+ Mon, 27 Feb 2023 06:05:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 042/126] hw/isa/lpc_ich9: Eliminate ICH9LPCState::isa_bus
-Date: Mon, 27 Feb 2023 15:00:49 +0100
-Message-Id: <20230227140213.35084-33-philmd@linaro.org>
+Subject: [PULL 043/126] hw/i2c/smbus_ich9: Move ich9_smb_set_irq() in front of
+ ich9_smbus_realize()
+Date: Mon, 27 Feb 2023 15:00:50 +0100
+Message-Id: <20230227140213.35084-34-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,90 +90,58 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-By using qdev_get_child_bus() we can eliminate ICH9LPCState::isa_bus and
-spare the ich9_lpc variable in pc_q35, too.
+This is a preparation for the next commit to make it cleaner.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230213173033.98762-4-shentey@gmail.com>
+Message-Id: <20230213173033.98762-5-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/i386/pc_q35.c       | 4 +---
- hw/isa/lpc_ich9.c      | 5 +----
- include/hw/i386/ich9.h | 3 ---
- 3 files changed, 2 insertions(+), 10 deletions(-)
+ hw/i2c/smbus_ich9.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 5dfaeeed5f..5e3f7c7e86 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -132,7 +132,6 @@ static void pc_q35_init(MachineState *machine)
-     GSIState *gsi_state;
-     ISABus *isa_bus;
-     int i;
--    ICH9LPCState *ich9_lpc;
-     PCIDevice *ahci;
-     ram_addr_t lowmem;
-     DriveInfo *hd[MAX_SATA_PORTS];
-@@ -265,12 +264,11 @@ static void pc_q35_init(MachineState *machine)
-     /* irq lines */
-     gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
- 
--    ich9_lpc = ICH9_LPC_DEVICE(lpc);
-     lpc_dev = DEVICE(lpc);
-     for (i = 0; i < GSI_NUM_PINS; i++) {
-         qdev_connect_gpio_out_named(lpc_dev, ICH9_GPIO_GSI, i, x86ms->gsi[i]);
+diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
+index 52ba77f3fc..d29c0f6ffa 100644
+--- a/hw/i2c/smbus_ich9.c
++++ b/hw/i2c/smbus_ich9.c
+@@ -80,6 +80,18 @@ static void ich9_smbus_write_config(PCIDevice *d, uint32_t address,
      }
--    isa_bus = ich9_lpc->isa_bus;
-+    isa_bus = ISA_BUS(qdev_get_child_bus(lpc_dev, "isa.0"));
+ }
  
-     if (x86ms->pic == ON_OFF_AUTO_ON || x86ms->pic == ON_OFF_AUTO_AUTO) {
-         pc_i8259_create(isa_bus, gsi_state->i8259_irq);
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 54a8839cd2..71f7c18a2e 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -710,8 +710,6 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
-     memory_region_init_io(&lpc->rcrb_mem, OBJECT(d), &rcrb_mmio_ops, lpc,
-                           "lpc-rcrb-mmio", ICH9_CC_SIZE);
- 
--    lpc->isa_bus = isa_bus;
--
-     ich9_cc_init(lpc);
-     apm_init(d, &lpc->apm, ich9_apm_ctrl_changed, lpc);
- 
-@@ -818,8 +816,7 @@ static void ich9_send_gpe(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
- static void build_ich9_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
++static void ich9_smb_set_irq(PMSMBus *pmsmb, bool enabled)
++{
++    ICH9SMBState *s = pmsmb->opaque;
++
++    if (enabled == s->irq_enabled) {
++        return;
++    }
++
++    s->irq_enabled = enabled;
++    pci_set_irq(&s->dev, enabled);
++}
++
+ static void ich9_smbus_realize(PCIDevice *d, Error **errp)
  {
-     Aml *field;
--    ICH9LPCState *s = ICH9_LPC_DEVICE(adev);
--    BusState *bus = BUS(s->isa_bus);
-+    BusState *bus = qdev_get_child_bus(DEVICE(adev), "isa.0");
-     Aml *sb_scope = aml_scope("\\_SB");
+     ICH9SMBState *s = ICH9_SMB_DEVICE(d);
+@@ -125,18 +137,6 @@ static void ich9_smb_class_init(ObjectClass *klass, void *data)
+     adevc->build_dev_aml = build_ich9_smb_aml;
+ }
  
-     /* ICH9 PCI to ISA irq remapping */
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index 921e4c7ef6..05464f6965 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -1,7 +1,6 @@
- #ifndef HW_ICH9_H
- #define HW_ICH9_H
- 
--#include "hw/isa/isa.h"
- #include "hw/sysbus.h"
- #include "hw/i386/pc.h"
- #include "hw/isa/apm.h"
-@@ -64,8 +63,6 @@ struct ICH9LPCState {
-                                        * triggers feature lockdown */
-     uint64_t smi_negotiated_features; /* guest-invisible, host endian */
- 
--    /* isa bus */
--    ISABus *isa_bus;
-     MemoryRegion rcrb_mem; /* root complex register block */
-     Notifier machine_ready;
- 
+-static void ich9_smb_set_irq(PMSMBus *pmsmb, bool enabled)
+-{
+-    ICH9SMBState *s = pmsmb->opaque;
+-
+-    if (enabled == s->irq_enabled) {
+-        return;
+-    }
+-
+-    s->irq_enabled = enabled;
+-    pci_set_irq(&s->dev, enabled);
+-}
+-
+ I2CBus *ich9_smb_init(PCIBus *bus, int devfn, uint32_t smb_io_base)
+ {
+     PCIDevice *d =
 -- 
 2.38.1
 
