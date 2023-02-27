@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F40C6A4412
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF2A6A43D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:10:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe5A-0002E7-JL; Mon, 27 Feb 2023 09:02:24 -0500
+	id 1pWe7U-0003Vp-L4; Mon, 27 Feb 2023 09:04:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe48-0000dr-VG
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:29 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7S-0003Mw-6A
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:46 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pWe44-0007XY-Er
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:19 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- m25-20020a7bcb99000000b003e7842b75f2so3884039wmi.3
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe7Q-000827-Oy
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:04:45 -0500
+Received: by mail-wr1-x430.google.com with SMTP id bw19so6310966wrb.13
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:04:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qA/3Z94irQbWBM1pbSkHlsvHgpn7DcaD1jcVgPus5vI=;
- b=UOK/XBgkCuLakUDjlRyQFBTIDa84LBgmj3ZZfUnOfd/YcNitORKfoxCMZ9BALbabqb
- oNaFR976pL2BdQ7w815XICuBT3ONxxeZHGcUuCEG/ozGt0MJVjj+tNNi0zpox+k/yQGe
- cTMX+70SieY3HizgqxorLIR0DNuF61SXciBOxj3VuhVD8A+bWdl3f27f+zhRqJdAfT0g
- Z5mNwZ72VWqPMu6r+7Y6aby24DXhCXFo91C/AkbPmvaUaJSnpBWsclfLvEIvbnLDIqgm
- MqY8vEa490eUGDFlbH7L3iKvqLw6BfmYpW04DFLfAhQSe7mB/c8XQKE9Zz+VmIrsd19Q
- EINQ==
+ :reply-to; bh=hqZbA/VxjYps6TlZPucyPAJK2NQRYopiLwtGGc2bqQI=;
+ b=iD9WZ4G4RiqSx4nmA1C7z2o4SR4zuBBqV2rnZoa/HXx9aBO3Iw/fHzINbxN0ekAlwq
+ S8o6Z4Lhu2sF90EPpLjEHX9nh4NeRWGuIAxdHSHwnJQoAW1VPweXU8SJ17h/qx+4XoZP
+ lnOA7f6bjSiKY1vbMeLvjI5Tv2Vg4TpEZbQZqA+DToBJ/mGqvUUZn7iLkpvdo2+0n5zD
+ P9oq0VGKYeuXaNZmVjSbNBnCrMwCyo8jwSbGIzFP4RU9DqRQ9Du7vM8VFnqefW3sHoH6
+ q2Cy8ZCfXca7RQ+le46utAVRa1RkX3BWji4Wd1TyaaaSOCx/yWamAfozEBFXDh+9HdQu
+ yEdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qA/3Z94irQbWBM1pbSkHlsvHgpn7DcaD1jcVgPus5vI=;
- b=C4iCiEXGmf/SmTmvqVvMBlGEaeLQTAJq8N0TmOV85zYO0msdfvqB0a5r+LK/ly9Gk/
- 92yj6YCa892+AUvcn87TSNL74dCitk7Y+1Ul5QPM6hp2LnWgiCRaRMuVlxQjt8iKBln3
- f2ZlAz+JwRSXpZrIr/1kdT4Pv4YZ4ZK0y4GjxqzsuA4m1mkFOt7z8Ak/ejxFK5pa2wex
- 4zU3S5xP7Wejbr6u3aogVFiPoC5EMPTiPSDPMoHgCGZxvv3paa5kCFHgFRs+yDC15oHe
- TZeWyhBuWolpZbzRNe8kA1pcplgHXYc4YQD08dmnTQacn6EfWqpHtL7G9ERhpC22DJJZ
- DrJw==
-X-Gm-Message-State: AO0yUKWm+dXGZEpq4f4mIqBhR0kGdXpl4wEh1BRDbXeLJAa7ytzefwuq
- uXn+0ml5wbNoEZTmSylRLucDH4tAsM2TpZ/a
-X-Google-Smtp-Source: AK7set/PzKnmwFgbniuoBPUmNKCvCddV8QZXBCxwo5RUWr8+oocGUACuwsZ6xyPgCa64pC95+N2oTg==
-X-Received: by 2002:a05:600c:3b8b:b0:3ea:ea6b:f9ad with SMTP id
- n11-20020a05600c3b8b00b003eaea6bf9admr11959801wms.31.1677506474680; 
- Mon, 27 Feb 2023 06:01:14 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=hqZbA/VxjYps6TlZPucyPAJK2NQRYopiLwtGGc2bqQI=;
+ b=fJhfOS+LC0cZc+Q7nEcwmNCb9XA1AJKlS8mtV5D5odqh1cVxndMyGKofSWLHZWuqM8
+ /SLE/ftIHWd1peYk8xEk/Inp/pXtusNRZmzjIfhWh8HpobFXFzID7ruGSrXLo9L7YhO7
+ pulkkJECmn5oJxJsA7JjdOwkp0QggGHnftnZpGSC7gwCo+6mDfMg5I+uv2uJQ/VXezM7
+ Br2V+oKLOShha4+nG/VW6US2ywpA0pc0oxyc4dnCoRmCBedO45QZEwbybJ0U2C4P0O/B
+ fjb5O9V/FVI2p31jj5xCnTiUEl8VwOJufr5t1K43Hdwq6plCT9g2e7Y8BF7jUucVKHrD
+ Y5hg==
+X-Gm-Message-State: AO0yUKXMp34uBtsW8XimLDE/Qj9TKU09qy7JCdmRFmLdSgN5mm2N5r7Z
+ pSLhoLH4CrzH5/exQlh222ZZCM0AqrlJ4tH6
+X-Google-Smtp-Source: AK7set8I0kpscfqBuRKFBPxwXzT5NzjJJ3dwkxKUJtHGI7/RyGgXZ50i/D04m9SaYV+2RI9u873VEw==
+X-Received: by 2002:adf:ef06:0:b0:2c7:da1:4694 with SMTP id
+ e6-20020adfef06000000b002c70da14694mr12989686wro.62.1677506683236; 
+ Mon, 27 Feb 2023 06:04:43 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.13
+ s2-20020adff802000000b002c706c754fesm7259928wrp.32.2023.02.27.06.04.42
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 06:01:13 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 27 Feb 2023 06:04:42 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/25] target/arm: Wrap arm_rebuild_hflags calls with
- tcg_enabled
-Date: Mon, 27 Feb 2023 14:00:44 +0000
-Message-Id: <20230227140102.3712344-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
-References: <20230227140102.3712344-1-peter.maydell@linaro.org>
+Subject: [PULL 037/126] hw/qdev: Constify DeviceState* argument of
+ qdev_get_parent_bus()
+Date: Mon, 27 Feb 2023 15:00:44 +0100
+Message-Id: <20230227140213.35084-28-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
+References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,207 +88,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fabiano Rosas <farosas@suse.de>
+The structure is accessed read-only by qdev_get_parent_bus().
 
-This is in preparation to moving the hflags code into its own file
-under the tcg/ directory.
-
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20230212224730.51438-2-philmd@linaro.org>
 ---
- hw/arm/boot.c             |  6 +++++-
- hw/intc/armv7m_nvic.c     | 20 +++++++++++++-------
- target/arm/arm-powerctl.c |  7 +++++--
- target/arm/cpu.c          |  3 ++-
- target/arm/helper.c       | 18 +++++++++++++-----
- target/arm/machine.c      |  5 ++++-
- 6 files changed, 42 insertions(+), 17 deletions(-)
+ hw/core/qdev.c         | 2 +-
+ include/hw/qdev-core.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 3d7d11f782f..1e021c4a340 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -15,6 +15,7 @@
- #include "hw/arm/boot.h"
- #include "hw/arm/linux-boot-if.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/numa.h"
- #include "hw/boards.h"
-@@ -827,7 +828,10 @@ static void do_cpu_reset(void *opaque)
-                 info->secondary_cpu_reset_hook(cpu, info);
-             }
-         }
--        arm_rebuild_hflags(env);
-+
-+        if (tcg_enabled()) {
-+            arm_rebuild_hflags(env);
-+        }
-     }
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index d759c4602c..43d863b0c5 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -330,7 +330,7 @@ bool qdev_machine_modified(void)
+     return qdev_hot_added || qdev_hot_removed;
  }
  
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index e54553283f4..8e289051a40 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -18,6 +18,7 @@
- #include "hw/intc/armv7m_nvic.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-+#include "sysemu/tcg.h"
- #include "sysemu/runstate.h"
- #include "target/arm/cpu.h"
- #include "exec/exec-all.h"
-@@ -2454,8 +2455,10 @@ static MemTxResult nvic_sysreg_write(void *opaque, hwaddr addr,
-     /* This is UNPREDICTABLE; treat as RAZ/WI */
- 
-  exit_ok:
--    /* Ensure any changes made are reflected in the cached hflags.  */
--    arm_rebuild_hflags(&s->cpu->env);
-+    if (tcg_enabled()) {
-+        /* Ensure any changes made are reflected in the cached hflags. */
-+        arm_rebuild_hflags(&s->cpu->env);
-+    }
-     return MEMTX_OK;
+-BusState *qdev_get_parent_bus(DeviceState *dev)
++BusState *qdev_get_parent_bus(const DeviceState *dev)
+ {
+     return dev->parent_bus;
  }
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 35fddb19a6..f5b3b2f89a 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -715,7 +715,7 @@ static inline void qdev_init_gpio_in_named(DeviceState *dev,
+ void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
+                      const char *name);
  
-@@ -2636,11 +2639,14 @@ static void armv7m_nvic_reset(DeviceState *dev)
-         }
-     }
+-BusState *qdev_get_parent_bus(DeviceState *dev);
++BusState *qdev_get_parent_bus(const DeviceState *dev);
  
--    /*
--     * We updated state that affects the CPU's MMUidx and thus its hflags;
--     * and we can't guarantee that we run before the CPU reset function.
--     */
--    arm_rebuild_hflags(&s->cpu->env);
-+    if (tcg_enabled()) {
-+        /*
-+         * We updated state that affects the CPU's MMUidx and thus its
-+         * hflags; and we can't guarantee that we run before the CPU
-+         * reset function.
-+         */
-+        arm_rebuild_hflags(&s->cpu->env);
-+    }
- }
+ /*** BUS API. ***/
  
- static void nvic_systick_trigger(void *opaque, int n, int level)
-diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index b75f813b403..326a03153df 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -15,6 +15,7 @@
- #include "arm-powerctl.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
-+#include "sysemu/tcg.h"
- 
- #ifndef DEBUG_ARM_POWERCTL
- #define DEBUG_ARM_POWERCTL 0
-@@ -127,8 +128,10 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
-         target_cpu->env.regs[0] = info->context_id;
-     }
- 
--    /* CP15 update requires rebuilding hflags */
--    arm_rebuild_hflags(&target_cpu->env);
-+    if (tcg_enabled()) {
-+        /* CP15 update requires rebuilding hflags */
-+        arm_rebuild_hflags(&target_cpu->env);
-+    }
- 
-     /* Start the new CPU at the requested address */
-     cpu_set_pc(target_cpu_state, info->entry);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index da416f7b1cb..0b333a749f6 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -542,8 +542,9 @@ static void arm_cpu_reset_hold(Object *obj)
-     if (tcg_enabled()) {
-         hw_breakpoint_update_all(cpu);
-         hw_watchpoint_update_all(cpu);
-+
-+        arm_rebuild_hflags(env);
-     }
--    arm_rebuild_hflags(env);
- }
- 
- #if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 07d41003654..af72e6d16c0 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5173,7 +5173,7 @@ static void sctlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     /* This may enable/disable the MMU, so do a TLB flush.  */
-     tlb_flush(CPU(cpu));
- 
--    if (ri->type & ARM_CP_SUPPRESS_TB_END) {
-+    if (tcg_enabled() && ri->type & ARM_CP_SUPPRESS_TB_END) {
-         /*
-          * Normally we would always end the TB on an SCTLR write; see the
-          * comment in ARMCPRegInfo sctlr initialization below for why Xscale
-@@ -6841,7 +6841,9 @@ void aarch64_set_svcr(CPUARMState *env, uint64_t new, uint64_t mask)
-         memset(env->zarray, 0, sizeof(env->zarray));
-     }
- 
--    arm_rebuild_hflags(env);
-+    if (tcg_enabled()) {
-+        arm_rebuild_hflags(env);
-+    }
- }
- 
- static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -9886,7 +9888,7 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
-     }
-     mask &= ~CACHED_CPSR_BITS;
-     env->uncached_cpsr = (env->uncached_cpsr & ~mask) | (val & mask);
--    if (rebuild_hflags) {
-+    if (tcg_enabled() && rebuild_hflags) {
-         arm_rebuild_hflags(env);
-     }
- }
-@@ -10445,7 +10447,10 @@ static void take_aarch32_exception(CPUARMState *env, int new_mode,
-         env->regs[14] = env->regs[15] + offset;
-     }
-     env->regs[15] = newpc;
--    arm_rebuild_hflags(env);
-+
-+    if (tcg_enabled()) {
-+        arm_rebuild_hflags(env);
-+    }
- }
- 
- static void arm_cpu_do_interrupt_aarch32_hyp(CPUState *cs)
-@@ -11001,7 +11006,10 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-     pstate_write(env, PSTATE_DAIF | new_mode);
-     env->aarch64 = true;
-     aarch64_restore_sp(env, new_el);
--    helper_rebuild_hflags_a64(env, new_el);
-+
-+    if (tcg_enabled()) {
-+        helper_rebuild_hflags_a64(env, new_el);
-+    }
- 
-     env->pc = addr;
- 
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index fd6323f6d8a..fc4a4a40644 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -871,7 +871,10 @@ static int cpu_post_load(void *opaque, int version_id)
-     if (!kvm_enabled()) {
-         pmu_op_finish(&cpu->env);
-     }
--    arm_rebuild_hflags(&cpu->env);
-+
-+    if (tcg_enabled()) {
-+        arm_rebuild_hflags(&cpu->env);
-+    }
- 
-     return 0;
- }
 -- 
-2.34.1
+2.38.1
 
 
