@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD4A6A43BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AEC6A4482
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:34:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe9N-0006Zx-4x; Mon, 27 Feb 2023 09:06:45 -0500
+	id 1pWe9W-0006zs-9Z; Mon, 27 Feb 2023 09:06:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9K-0006Sy-P9
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:42 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9Q-0006sl-8I
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:48 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9I-0000Aj-Tq
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:42 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- r19-20020a05600c459300b003eb3e2a5e7bso2263791wmo.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:06:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe9O-0000D1-IP
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:47 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so7261471wms.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:06:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=RTRtgDksnMT+B/aM1t2yk3AWqylUm8qIOLRO646lQk0=;
- b=O6e/HmWzPwB+SZrfQwIrCEKvLelVPNyPMANr81I1m2nytFbLckBaFJtdsAj1xM8FBV
- vfDFKwtaDApxVd4dhx5zL5VnLLIUr/o7aIvcGzVQ4IoLlyySK1soVYvhu75gesh1wMh+
- QkFOkTaFLeSy4EjnzB2p1YY5DG1QfloPYWgakUuq2ew+w87EBAgp5YtAWWNUhI447zWj
- Sapy75QkB2kUcEhaNL7pxZj/STxNsiCuy0t391G5UwAqSXZRnIRsXAadsoatEJvgBCGp
- Bj+AsbaV7Ucd0AuwP8I2d9uha2V7IvmHT67eoNXGm/C/Hjfv0ec/xiEHPgmcCdTS5Tk7
- slUg==
+ :reply-to; bh=kei66XFAQeNAInQ8LiWStrDU7P2WNcF9VLRH7Ag0OZQ=;
+ b=czKZFykfWWwDIElRiKIqXCd2i44ejpQ52ibcHcPKMphz6f1WWugrHyW1gr2iDssf5+
+ HJW7axmlJusMfgyIZgF0eeouey+uF5WJ2KyiGDMdsF2i4oRbTekJpdzWurOufpOuhqr8
+ 3qoMfUSnQ496zIhLnXV19umGOcqsK84P+kRSn0P8JwxesL0DyqGtRsgXyvNFVhTM3XgL
+ auWP3ejbiQW5IiIIqFP7d7dO32C66G6AFYPsGMtxO1QhXJMn7lPR8RjhTLRENbnORRNZ
+ XJa7Fs+TQqxk3bZgpqji5grvOHijgzLxFeuSHCaey0Dv8parXbgU9pelVzGnJiwJlUep
+ IZeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RTRtgDksnMT+B/aM1t2yk3AWqylUm8qIOLRO646lQk0=;
- b=BU7lccc/vhTfaiGXIdljHZGxNuxDJ6GmZMU/FA8X4+3kkwPIq/zK/aMFCOzHU4qkK8
- wypd6Z0zMSrezyGVZZqujhU1h+ESGo1yB7m21S73qiuJA4+b9JxJxhL82ULAHrNfIu5X
- 0g93QkvEzGoy8sN5Jf2oCq94NDEMkQKqkwEi1HGn3NtIpK4u4jpw9Fa631lB3osprjOC
- moVl3B3+csQpO84NmqBCQxzn7jMNalIhNEiuua14fcYfS97AGpZuxF5ngKRtLl2uFd8r
- 2teHSGTjVDk/rRF8zqW+X94gGSDvPJaZHWsbb6iUjGYO9k2pQUq9R/CbU6CpOkNRLmF+
- ecwQ==
-X-Gm-Message-State: AO0yUKUnE7VDFlWGQhLOmnW5J+6RHRqyOkzoob6R/qZ8vWVQ1AUKkOEo
- GwIZa1LIt/pPKTz/3onexroECkC/3+v1P48o
-X-Google-Smtp-Source: AK7set8Wfbl2jUtbghDQKAh0qBHAqzCk/6uUzkYiE31yHOwNEkhN3WOu01ph9LSqNx/8U4Nc7z4n+A==
-X-Received: by 2002:a05:600c:492f:b0:3e2:6ec:7fbe with SMTP id
- f47-20020a05600c492f00b003e206ec7fbemr18220269wmp.40.1677506799472; 
- Mon, 27 Feb 2023 06:06:39 -0800 (PST)
+ bh=kei66XFAQeNAInQ8LiWStrDU7P2WNcF9VLRH7Ag0OZQ=;
+ b=kwwkBCZpNKsjSNZthHfUCG7nXo3uX8bQH+Oy/bQqmvwVg0j6bCDslpDoCg7F5IML4f
+ hUS3ZiKHMBhAVdQlxwi0jk1fyYkFfytuqWr8rVzl7uTeBH7h1pwA+8RPV+2jbC16I/eM
+ u5V9LaUWfwoNKwxJ1ZyDVnSX/AWNESBi9SjWgCEmZVzUvry0zQUWRBKq4/bZGvb2r/Ko
+ OXXlzR2Uh8kwgM3bMcYbsoLKH8vhfIUCY6OV5QHoiyJti6PX6LUNl50UhBPhgE8zqW9a
+ 3FnBI1WvKJCGiTQf9UEQLrcd4bndOsafNXqpOtb2LPYKkhqWgPm6lo5tf2MEraYMAiT7
+ gWnA==
+X-Gm-Message-State: AO0yUKXivbJdv5+PEcyKhVek4IqIKLR634MLXD1gKIkGsst3cvrzrpTX
+ MAm9j3FrsqCzpbvzsBL6sfDLhA0UHh18gAjG
+X-Google-Smtp-Source: AK7set8SjYkOnKDEtoOSxKgPE/axsGLLALmoTB8kzWjLwZfW5Be7NeiU7DFWxkLjypBDmpq+4brE0g==
+X-Received: by 2002:a05:600c:251:b0:3ea:f73e:9d8a with SMTP id
+ 17-20020a05600c025100b003eaf73e9d8amr11397617wmj.30.1677506805020; 
+ Mon, 27 Feb 2023 06:06:45 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p20-20020a05600c359400b003daf7721bb3sm13710134wmq.12.2023.02.27.06.06.38
+ j14-20020a5d464e000000b002c558869934sm7288427wrs.81.2023.02.27.06.06.44
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:06:39 -0800 (PST)
+ Mon, 27 Feb 2023 06:06:44 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 058/126] hw/isa: Remove empty ISADeviceClass structure
-Date: Mon, 27 Feb 2023 15:01:05 +0100
-Message-Id: <20230227140213.35084-49-philmd@linaro.org>
+Subject: [PULL 059/126] hw/isa: Reorder to separate ISABus* vs ISADevice*
+ functions
+Date: Mon, 27 Feb 2023 15:01:06 +0100
+Message-Id: <20230227140213.35084-50-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,110 +89,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ISADeviceClass is an empty class and just increase code
-complexity. Remove it, directly embedding DeviceClass in
-classes expanding TYPE_ISA_DEVICE.
+Separate functions taking an ISABus* argument versus
+functions taking a ISADevice* one.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bernhard Beschow <shentey@gmail.com>
-Message-Id: <20230215161641.32663-19-philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230210163744.32182-8-philmd@linaro.org>
 ---
- hw/isa/isa-bus.c                  | 1 -
- hw/rtc/m48t59-isa.c               | 2 +-
- include/hw/isa/i8259_internal.h   | 2 +-
- include/hw/isa/isa.h              | 6 +-----
- include/hw/isa/superio.h          | 2 +-
- include/hw/timer/i8254_internal.h | 2 +-
- 6 files changed, 5 insertions(+), 10 deletions(-)
+ include/hw/isa/isa.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index f155b80010..845686cb12 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -213,7 +213,6 @@ static const TypeInfo isa_device_type_info = {
-     .parent = TYPE_DEVICE,
-     .instance_size = sizeof(ISADevice),
-     .abstract = true,
--    .class_size = sizeof(ISADeviceClass),
-     .class_init = isa_device_class_init,
- };
- 
-diff --git a/hw/rtc/m48t59-isa.c b/hw/rtc/m48t59-isa.c
-index e61f7ec370..5bb46f2383 100644
---- a/hw/rtc/m48t59-isa.c
-+++ b/hw/rtc/m48t59-isa.c
-@@ -47,7 +47,7 @@ struct M48txxISAState {
- };
- 
- struct M48txxISADeviceClass {
--    ISADeviceClass parent_class;
-+    DeviceClass parent_class;
-     M48txxInfo info;
- };
- 
-diff --git a/include/hw/isa/i8259_internal.h b/include/hw/isa/i8259_internal.h
-index d272d879fb..155b098452 100644
---- a/include/hw/isa/i8259_internal.h
-+++ b/include/hw/isa/i8259_internal.h
-@@ -35,7 +35,7 @@
- OBJECT_DECLARE_TYPE(PICCommonState, PICCommonClass, PIC_COMMON)
- 
- struct PICCommonClass {
--    ISADeviceClass parent_class;
-+    DeviceClass parent_class;
- 
-     void (*pre_save)(PICCommonState *s);
-     void (*post_load)(PICCommonState *s);
 diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 25acd5c34c..7195bfb96c 100644
+index 7195bfb96c..34fa8977e9 100644
 --- a/include/hw/isa/isa.h
 +++ b/include/hw/isa/isa.h
-@@ -11,7 +11,7 @@
- #define ISA_NUM_IRQS 16
+@@ -70,12 +70,8 @@ struct ISADevice {
+ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion *address_space,
+                     MemoryRegion *address_space_io, Error **errp);
+ void isa_bus_irqs(ISABus *bus, qemu_irq *irqs);
+-qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq);
+-void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq);
+ void isa_bus_dma(ISABus *bus, IsaDma *dma8, IsaDma *dma16);
+ IsaDma *isa_get_dma(ISABus *bus, int nchan);
+-MemoryRegion *isa_address_space(ISADevice *dev);
+-MemoryRegion *isa_address_space_io(ISADevice *dev);
+ ISADevice *isa_new(const char *name);
+ ISADevice *isa_try_new(const char *name);
+ bool isa_realize_and_unref(ISADevice *dev, ISABus *bus, Error **errp);
+@@ -83,6 +79,11 @@ ISADevice *isa_create_simple(ISABus *bus, const char *name);
  
- #define TYPE_ISA_DEVICE "isa-device"
--OBJECT_DECLARE_TYPE(ISADevice, ISADeviceClass, ISA_DEVICE)
-+OBJECT_DECLARE_SIMPLE_TYPE(ISADevice, ISA_DEVICE)
+ ISADevice *isa_vga_init(ISABus *bus);
  
- #define TYPE_ISA_BUS "ISA"
- OBJECT_DECLARE_SIMPLE_TYPE(ISABus, ISA_BUS)
-@@ -48,10 +48,6 @@ struct IsaDmaClass {
-                              void *opaque);
- };
- 
--struct ISADeviceClass {
--    DeviceClass parent_class;
--};
--
- struct ISABus {
-     /*< private >*/
-     BusState parent_obj;
-diff --git a/include/hw/isa/superio.h b/include/hw/isa/superio.h
-index b9f5c19155..0dc45104d4 100644
---- a/include/hw/isa/superio.h
-+++ b/include/hw/isa/superio.h
-@@ -44,7 +44,7 @@ typedef struct ISASuperIOFuncs {
- 
- struct ISASuperIOClass {
-     /*< private >*/
--    ISADeviceClass parent_class;
-+    DeviceClass parent_class;
-     /*< public >*/
-     DeviceRealize parent_realize;
- 
-diff --git a/include/hw/timer/i8254_internal.h b/include/hw/timer/i8254_internal.h
-index a9a600d941..1761deb4cf 100644
---- a/include/hw/timer/i8254_internal.h
-+++ b/include/hw/timer/i8254_internal.h
-@@ -58,7 +58,7 @@ struct PITCommonState {
- };
- 
- struct PITCommonClass {
--    ISADeviceClass parent_class;
-+    DeviceClass parent_class;
- 
-     void (*set_channel_gate)(PITCommonState *s, PITChannelState *sc, int val);
-     void (*get_channel_info)(PITCommonState *s, PITChannelState *sc,
++qemu_irq isa_get_irq(ISADevice *dev, unsigned isairq);
++void isa_connect_gpio_out(ISADevice *isadev, int gpioirq, unsigned isairq);
++MemoryRegion *isa_address_space(ISADevice *dev);
++MemoryRegion *isa_address_space_io(ISADevice *dev);
++
+ /**
+  * isa_register_ioport: Install an I/O port region on the ISA bus.
+  *
 -- 
 2.38.1
 
