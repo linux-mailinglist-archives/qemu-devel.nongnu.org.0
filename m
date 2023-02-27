@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1A36A445F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B302A6A439C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:02:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWe8w-0005RJ-I7; Mon, 27 Feb 2023 09:06:18 -0500
+	id 1pWe5J-0003mo-UW; Mon, 27 Feb 2023 09:02:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8o-00058W-FQ
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:10 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4P-0000o6-Kh
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:42 -0500
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWe8k-0008V9-Tg
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:06:08 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- j19-20020a05600c191300b003eb3e1eb0caso2605890wmq.1
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:06:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pWe4N-0007dh-Uo
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:01:37 -0500
+Received: by mail-lf1-x136.google.com with SMTP id s22so8642071lfi.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:01:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3VVgDConF7QXTpND7x8W2tL9LlzCr7EZmnqokR1ktl8=;
- b=mqgyXFUkrpj1zlTVtF6K7P2rTyFI7pJK2JTDaC6WzndlnkmwH2ehNmJ41sILZv87mT
- +mKYFzAOTf9Iv13RlTjMCSpCLz7pdTWqWuK4+EMcfTseTyq46KPs/mPMZFpidOxYtqRm
- SYTry6RZtTBSgLqlZnZmOzV8oVWLVtbYWiCC8+v/C9y29zaWSDVwhoe7xbq9hlZz1V12
- r999NQ2GhbJA2jNfkN9NCeH1sv5q4up8FUn3NhXwb0PLi44mc9EUiPiok6P9PPg3xyMQ
- EeE4GMOXcRW03et0MUz/ZXivEbca3l5xg2Gf+5zCR38HJvQeY7KIu/fn/iVVgJ1A9DTE
- 72MA==
+ :reply-to; bh=s3p4BYVS0fXofW3OGu8iWGz+dlE7VopRg+VENQUXfKg=;
+ b=Vn1OL1xDJJy/CCs7G1bkkFkMBB+lGrlM4TzYq2N+XuwO1rct9INP4clQJmUfDubxeH
+ frLuHbhUCiWhGCalrTV7mSYBfMXq8E6IGVdTtNLHTxY/Uhhqs3P8rCLhbp5SLMvje2VU
+ RnrVuVxdWQkZ9TElNNWUa5XoqwHEtSxobInn55wgUfPsImtQqvw9ydW/6FFJ/2u8317F
+ nK3l8GLuHKV9/eOaG8n4XvfqSHgrpTNepn4k0W79KLpLyw4iSNkIokr0X9Wrb41lNtvT
+ Fup2RtJ/AWbQ8rp6M4ZmGDZx4S3x4IYfrTWqVDInoWuL2jV0Pv4GD7xWaMlTkAHxY19l
+ 6j0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3VVgDConF7QXTpND7x8W2tL9LlzCr7EZmnqokR1ktl8=;
- b=F6rw+V6Lp/gseskcndXGlGlknvGirBNR3PbCfawy3ulSH1Djo+r8Vpw78NHGHaYhjA
- M961uWLFeDnerbAtNTmxiJ1JtD4CcgoQHeofMNma1nGBUNPHnZPltygRk2DRIOlkScsa
- fJO6wTjOM3dfjliZlh2TrEc35R+jFbNUWfzRmKqBzAvqezV3+R6DQonzIZpLEfuL/gui
- izvUzG2TH9kfnSwd54VemvRc2QxkeNFjcuRIj+GuZGJpT0LuvEA8Vw0eK6kNqzRLNKif
- n8BVsFYdpkQpwJSGkDaIeIjoVvV5yjPPW9KMG3/e60n0nNHzC5V0esNtnjO9EPGsAeDE
- aZGA==
-X-Gm-Message-State: AO0yUKUujZtPEeVynEUr/+6JNSUckRiXIFQ7YmQ/U5NagBr7GYGEl9N6
- 6uutEEnYg00a4FgAI1OqQ+DkB1vxn3QaL6ss
-X-Google-Smtp-Source: AK7set+a0zeQqPpa+UPoKUPrTOYiRbfa15erDKXstwXsd+5eg12LH33TPBOuNtMkPWniW3UhBMkTyg==
-X-Received: by 2002:a05:600c:160a:b0:3eb:3945:d405 with SMTP id
- m10-20020a05600c160a00b003eb3945d405mr5026509wmn.38.1677506762508; 
- Mon, 27 Feb 2023 06:06:02 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ bh=s3p4BYVS0fXofW3OGu8iWGz+dlE7VopRg+VENQUXfKg=;
+ b=dy5V8gc07+Ztyhu7n+3vSn/qkuVV3Lxk5OJIPBx4N9x1ihJplw4Wokn/uNpLsEfpdB
+ /DB2vERXdZDAe99C2zFXrSRBWn3NSGn01QrpWO22ojvnuL1djZIp3nnL+MtPYZTDHYLi
+ LU9SoVYqjWnSfyeotRxhF7i0zNTEjM0163ExJhn6x0lmSf/Fd5e3tXLwnFEKavZBNohQ
+ jxr3OowFrEi/hxd1mn7jPjAXPhsObbaHV3N6/aQ7pylQzAT/xM5c1hemhMi8vgwZXe8D
+ S1HMf6SPBhYqM6NMfwRYvWZMtwccNx+eRC+kXB2Gi89yHdbi2zKunTmlnWA0Mz7Z4QBy
+ V6/g==
+X-Gm-Message-State: AO0yUKVIbBszyl6D18TsjOAlIKA9A+0LTmIxPzphKyhAXEjfd13kPe96
+ UJ6nwGaX3SZScg2EFCHRtNxpAIZKinKqSZUp
+X-Google-Smtp-Source: AK7set/+w+yx4VciZwmWWDjXvNgBh9mMwJnoBgvpZ4OaT6H9mcQ/Aq+N7i5OEW56xSYmNnTfTnbEwg==
+X-Received: by 2002:ac2:4e65:0:b0:4df:3185:5e05 with SMTP id
+ y5-20020ac24e65000000b004df31855e05mr1533042lfs.27.1677506493311; 
+ Mon, 27 Feb 2023 06:01:33 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- h18-20020a05600c351200b003eb192787bfsm9506783wmq.25.2023.02.27.06.06.01
+ s9-20020a5d4249000000b002c5598c14acsm7158514wrr.6.2023.02.27.06.01.32
  for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:06:02 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 06:01:32 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 051/126] hw: Move ich9.h to southbridge/
-Date: Mon, 27 Feb 2023 15:00:58 +0100
-Message-Id: <20230227140213.35084-42-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
-References: <20230227140213.35084-1-philmd@linaro.org>
+Subject: [PULL 21/25] hw/arm/musicpal: Remove unused dummy MemoryRegion
+Date: Mon, 27 Feb 2023 14:00:58 +0000
+Message-Id: <20230227140102.3712344-22-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230227140102.3712344-1-peter.maydell@linaro.org>
+References: <20230227140102.3712344-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=peter.maydell@linaro.org; helo=mail-lf1-x136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,177 +89,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-ICH9 is a south bridge which doesn't necessarily depend on x86, so move
-it into the southbridge folder, analoguous to PIIX.
-
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230213173033.98762-13-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- MAINTAINERS                             | 1 +
- hw/acpi/ich9.c                          | 2 +-
- hw/acpi/ich9_tco.c                      | 2 +-
- hw/i2c/smbus_ich9.c                     | 2 +-
- hw/i386/acpi-build.c                    | 2 +-
- hw/i386/pc_q35.c                        | 2 +-
- hw/isa/lpc_ich9.c                       | 2 +-
- hw/pci-bridge/i82801b11.c               | 2 +-
- include/hw/{i386 => southbridge}/ich9.h | 6 +++---
- tests/qtest/tco-test.c                  | 2 +-
- 10 files changed, 12 insertions(+), 11 deletions(-)
- rename include/hw/{i386 => southbridge}/ich9.h (99%)
+ hw/arm/musicpal.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2c7731aeb7..d54e5c4fb9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1679,6 +1679,7 @@ F: hw/i2c/smbus_ich9.c
- F: hw/acpi/piix4.c
- F: hw/acpi/ich9*.c
- F: include/hw/acpi/ich9*.h
-+F: include/hw/southbridge/ich9.h
- F: include/hw/southbridge/piix.h
- F: hw/isa/apm.c
- F: include/hw/isa/apm.h
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 54bb3d83b3..d23bfcaa6b 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -36,7 +36,7 @@
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/ich9_tco.h"
+diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+index 89b66606c32..06d9add7c72 100644
+--- a/hw/arm/musicpal.c
++++ b/hw/arm/musicpal.c
+@@ -1072,7 +1072,6 @@ struct musicpal_key_state {
+     SysBusDevice parent_obj;
+     /*< public >*/
  
--#include "hw/i386/ich9.h"
-+#include "hw/southbridge/ich9.h"
- #include "hw/mem/pc-dimm.h"
- #include "hw/mem/nvdimm.h"
+-    MemoryRegion iomem;
+     uint32_t kbd_extended;
+     uint32_t pressed_keys;
+     qemu_irq out[8];
+@@ -1161,9 +1160,6 @@ static void musicpal_key_init(Object *obj)
+     DeviceState *dev = DEVICE(sbd);
+     musicpal_key_state *s = MUSICPAL_KEY(dev);
  
-diff --git a/hw/acpi/ich9_tco.c b/hw/acpi/ich9_tco.c
-index fbf97f81f4..1540f4fd46 100644
---- a/hw/acpi/ich9_tco.c
-+++ b/hw/acpi/ich9_tco.c
-@@ -9,7 +9,7 @@
- 
- #include "qemu/osdep.h"
- #include "sysemu/watchdog.h"
--#include "hw/i386/ich9.h"
-+#include "hw/southbridge/ich9.h"
- #include "migration/vmstate.h"
- 
- #include "hw/acpi/ich9_tco.h"
-diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
-index f0dd3cb147..18d40e93c1 100644
---- a/hw/i2c/smbus_ich9.c
-+++ b/hw/i2c/smbus_ich9.c
-@@ -27,7 +27,7 @@
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- 
--#include "hw/i386/ich9.h"
-+#include "hw/southbridge/ich9.h"
- #include "qom/object.h"
- #include "hw/acpi/acpi_aml_interface.h"
- 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 1bb73c3e9a..d27921fd8f 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -55,10 +55,10 @@
- #include "hw/hyperv/vmbus-bridge.h"
- 
- /* Supported chipsets: */
-+#include "hw/southbridge/ich9.h"
- #include "hw/southbridge/piix.h"
- #include "hw/acpi/pcihp.h"
- #include "hw/i386/fw_cfg.h"
--#include "hw/i386/ich9.h"
- #include "hw/i386/pc.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci-host/i440fx.h"
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 0afea6705c..09004f3f1f 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -40,7 +40,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/i386/x86.h"
- #include "hw/i386/pc.h"
--#include "hw/i386/ich9.h"
- #include "hw/i386/amd_iommu.h"
- #include "hw/i386/intel_iommu.h"
- #include "hw/display/ramfb.h"
-@@ -48,6 +47,7 @@
- #include "hw/ide/pci.h"
- #include "hw/ide/ahci.h"
- #include "hw/intc/ioapic.h"
-+#include "hw/southbridge/ich9.h"
- #include "hw/usb.h"
- #include "hw/usb/hcd-uhci.h"
- #include "qapi/error.h"
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index ce946760bb..96fd500502 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -40,7 +40,7 @@
- #include "hw/irq.h"
- #include "hw/isa/apm.h"
- #include "hw/pci/pci.h"
--#include "hw/i386/ich9.h"
-+#include "hw/southbridge/ich9.h"
- #include "hw/i386/pc.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/ich9.h"
-diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
-index f3b4a14611..0e83cd11b2 100644
---- a/hw/pci-bridge/i82801b11.c
-+++ b/hw/pci-bridge/i82801b11.c
-@@ -45,7 +45,7 @@
- #include "hw/pci/pci_bridge.h"
- #include "migration/vmstate.h"
- #include "qemu/module.h"
--#include "hw/i386/ich9.h"
-+#include "hw/southbridge/ich9.h"
- 
- /*****************************************************************************/
- /* ICH9 DMI-to-PCI bridge */
-diff --git a/include/hw/i386/ich9.h b/include/hw/southbridge/ich9.h
-similarity index 99%
-rename from include/hw/i386/ich9.h
-rename to include/hw/southbridge/ich9.h
-index 3125863049..7004eecbf9 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/southbridge/ich9.h
-@@ -1,5 +1,5 @@
--#ifndef HW_ICH9_H
--#define HW_ICH9_H
-+#ifndef HW_SOUTHBRIDGE_ICH9_H
-+#define HW_SOUTHBRIDGE_ICH9_H
- 
- #include "hw/isa/apm.h"
- #include "hw/acpi/ich9.h"
-@@ -242,4 +242,4 @@ struct ICH9LPCState {
- #define ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT          1
- #define ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT       2
- 
--#endif /* HW_ICH9_H */
-+#endif /* HW_SOUTHBRIDGE_ICH9_H */
-diff --git a/tests/qtest/tco-test.c b/tests/qtest/tco-test.c
-index d865e95dfc..0547d41173 100644
---- a/tests/qtest/tco-test.c
-+++ b/tests/qtest/tco-test.c
-@@ -14,7 +14,7 @@
- #include "libqos/pci-pc.h"
- #include "qapi/qmp/qdict.h"
- #include "hw/pci/pci_regs.h"
--#include "hw/i386/ich9.h"
-+#include "hw/southbridge/ich9.h"
- #include "hw/acpi/ich9.h"
- #include "hw/acpi/ich9_tco.h"
+-    memory_region_init(&s->iomem, obj, "dummy", 0);
+-    sysbus_init_mmio(sbd, &s->iomem);
+-
+     s->kbd_extended = 0;
+     s->pressed_keys = 0;
  
 -- 
-2.38.1
+2.34.1
 
 
