@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBC46A3C04
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA2B6A3C14
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 09:13:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWWOF-0007lY-5N; Mon, 27 Feb 2023 00:49:35 -0500
+	id 1pWWOF-0007sT-Ln; Mon, 27 Feb 2023 00:49:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWN4-0003PY-2n
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:48:22 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1pWWN7-0003bz-6C
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:48:25 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWWMz-00074j-0v
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:48:21 -0500
-Received: by mail-pl1-x634.google.com with SMTP id v11so2041108plz.8
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:48:16 -0800 (PST)
+ id 1pWWN4-0007W4-Mq
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:48:24 -0500
+Received: by mail-pl1-x630.google.com with SMTP id i10so5550240plr.9
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:48:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AisW32xJlrcJQi+M6qK/ftrU2PNr6PIj4TLkVZ68u3o=;
- b=zYeZ73qWVqHwn3qWRj8CZON5nItJjG2hW9OnHx04eY/CwM9Cp4yNdmWkHuloJ03wP+
- W3VNo/QPi91RmvTqu43vrl9mGda49BUA1+59Kubm7VrPNZVziUvZ+6amJ9nOnDeMsxpf
- 1jwLM11ZGMccMEsreYL7MLBmjm7E9r/+k+z4Y1y9PIi8WWyglQGXUt4QbbJarUUbd8uK
- REt5EAqolMVzZgyuTn3E5GeFg7VLINSlHZu0ckF5i3ABibHjuyGVYHa+2WfYODxRmjCv
- rq8ypSUV8En7JNHZs0O8+9yP2XvQxGutN+jMtpGEOtRA9mdIHrvpwRgTq0I9TvpgPL4c
- 1KfQ==
+ bh=8N7xotiHYXic1O+ZngEc/VLZwzQZsxzh55isgdpz8J8=;
+ b=ZUVtD/F27vUyfCT6aiJTqZlp5XxOntjL3saEiLCHem5ik5o4QMTo2TkY6IU3yk+jtO
+ 6XaNAlMwh+0XEfs7VG9dOApUhOo0ErL9GHPGX3IyCGUw/NOl3ihpEH29tF/ak6BpzkyH
+ oEZU6OwYX+SF43iX2uD2KL2itlS3mKUUTgJr6EbYfdD3Fs94fJzS6NIaT+HK2krsJZ2q
+ y0k6E9hfKGU1952i7wldz83hLdTSHHcA0mQtVAUWWgMFlFeEFGsrIxKWYU5oQ7pjwXFj
+ uyz06cQeYXdG/q4Sw7P2qH0duLQwb2Whv17aMwzti/x+D0YBywBMNEwlVM++UX/vY8rT
+ iIqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AisW32xJlrcJQi+M6qK/ftrU2PNr6PIj4TLkVZ68u3o=;
- b=6ne4t84psKIxJaIfOaEr055Vy462CcPp2eWtvmKv+9MekOncwdWDFCe+WBrvsMi9IQ
- nBGX30OYWV7Gt9O7DjKZxyx6romlXEBv+OSCgI7OVDgPkmE7vcL4EV0NJVaMh16FANcw
- XPFA4pp28PnAjAc+RNphtJ7uwzPQfjNoCJ9ihyFhVKNo7SlEdyK7ctzItNzsygOawiBr
- wQCpRZ4v3BmyFXKGIfORrYDNUldlqnqCYdEiD8NAFcOKbb4DjscPaYMW6o5skA89t4Ys
- R3etv/6meI4PdkDTKyEHHMHaamZz+0lvtKBZtOFy8L38+8weAlfXcBUAMLs78RTymHhD
- vpcw==
-X-Gm-Message-State: AO0yUKU+TCZoI6CPtoD68jytwBviiaOsUJN8Orq4qIxGjV9puYSysSce
- eokpaY1RiO/feJJWAS6JAJ8dOO5ePlmZGzkbIw0=
-X-Google-Smtp-Source: AK7set9+MnYfHBDt/DymXOjTyQno6DCdLNcMjuZ5R8NldhxJXkVDPlVt2stfbgXgmmrboMtJikA5ng==
-X-Received: by 2002:a17:903:1ce:b0:19d:20fe:c149 with SMTP id
- e14-20020a17090301ce00b0019d20fec149mr722361plh.34.1677476895749; 
- Sun, 26 Feb 2023 21:48:15 -0800 (PST)
+ bh=8N7xotiHYXic1O+ZngEc/VLZwzQZsxzh55isgdpz8J8=;
+ b=O8zfdVhFav3CNwaCMP33QhAUQUtXUoaWlathE7NW1d3u+v12xgN4FneG4nDwd/5QMX
+ 32ZLMIUUjoKIY80UqUojdsphgttGPndZlXZ1gQjao1IrV7ri4uA3exuQo3Dk7XtjtOsC
+ PvK4IxTrRF9Zw2M5PMfkKWHHWBKO0GAmehzwAOcLJG9s9dtGHaxikj35crP2Wxi3yzol
+ YGVgDEyUPJd0WUJl1uJDCWw/yj103lMXJHqEOk4kuRFM/eAgvFwKOHxCYfBL8IrbixcV
+ q6yXZVgHYmb4HlMqJrp85GZUNFo+1W9fdmhHPeVwf3Y593RYO8qnrNZ/jLAMNO+opGD8
+ DC5Q==
+X-Gm-Message-State: AO0yUKXrTP3PJbFKI2dQmd3djqdjq3BzmnJ9w4cLvEh1MAMYi00G+q4n
+ Pw740ib+jeXI7HEIncsXMuhytBJSjsiWWyfgNfY=
+X-Google-Smtp-Source: AK7set/DCOJaKB/HOtcGgeDd20Qki6pG82CCyOkCh7kmm1rlISY8i3zKl0EU6KsH/MGoM8KXyE7KjQ==
+X-Received: by 2002:a17:902:d48e:b0:19d:1230:439b with SMTP id
+ c14-20020a170902d48e00b0019d1230439bmr3152137plg.63.1677476901086; 
+ Sun, 26 Feb 2023 21:48:21 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- im16-20020a170902bb1000b0019a983f0119sm3553986plb.307.2023.02.26.21.48.13
+ im16-20020a170902bb1000b0019a983f0119sm3553986plb.307.2023.02.26.21.48.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:48:15 -0800 (PST)
+ Sun, 26 Feb 2023 21:48:20 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -61,16 +61,17 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com
-Subject: [PATCH 57/70] target/tricore: Rename t_off10 and use tcg_constant_i32
-Date: Sun, 26 Feb 2023 19:42:20 -1000
-Message-Id: <20230227054233.390271-58-richard.henderson@linaro.org>
+Subject: [PATCH 59/70] target/tricore: Use setcondi instead of explicit
+ allocation
+Date: Sun, 26 Feb 2023 19:42:22 -1000
+Message-Id: <20230227054233.390271-60-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227054233.390271-1-richard.henderson@linaro.org>
 References: <20230227054233.390271-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,263 +94,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While temp3 could simply be initialized with tcg_constant_i32,
-the renaming makes the purpose clearer.
+This removes the only use of temp.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/tricore/translate.c | 56 ++++++++++++++++++--------------------
- 1 file changed, 27 insertions(+), 29 deletions(-)
+ target/tricore/translate.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 194bef27a6..19cf4b6cc7 100644
+index d5129f22f5..6b7b876808 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -4380,7 +4380,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
+@@ -3506,17 +3506,14 @@ static void decode_sr_accu(DisasContext *ctx)
+ {
      uint32_t op2;
-     uint32_t off10;
-     int32_t r1, r2;
--    TCGv temp, temp2, temp3;
-+    TCGv temp, temp2, t_off10;
+     uint32_t r1;
+-    TCGv temp;
  
-     r1 = MASK_OP_BO_S1D(ctx->opcode);
-     r2  = MASK_OP_BO_S2(ctx->opcode);
-@@ -4389,7 +4389,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
+     r1 = MASK_OP_SR_S1D(ctx->opcode);
+     op2 = MASK_OP_SR_OP2(ctx->opcode);
  
-     temp = tcg_temp_new();
-     temp2 = tcg_temp_new();
--    temp3 = tcg_const_i32(off10);
-+    t_off10 = tcg_constant_i32(off10);
-     CHECK_REG_PAIR(r2);
-     tcg_gen_ext16u_tl(temp, cpu_gpr_a[r2+1]);
-     tcg_gen_add_tl(temp2, cpu_gpr_a[r2], temp);
-@@ -4403,7 +4403,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
-     case OPC2_32_BO_CACHEA_WI_CIRC:
-     case OPC2_32_BO_CACHEA_W_CIRC:
-     case OPC2_32_BO_CACHEA_I_CIRC:
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_ST_A_BR:
-         tcg_gen_qemu_st_tl(cpu_gpr_a[r1], temp2, ctx->mem_idx, MO_LEUL);
-@@ -4411,7 +4411,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_ST_A_CIRC:
-         tcg_gen_qemu_st_tl(cpu_gpr_a[r1], temp2, ctx->mem_idx, MO_LEUL);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_ST_B_BR:
-         tcg_gen_qemu_st_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_UB);
-@@ -4419,7 +4419,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_ST_B_CIRC:
-         tcg_gen_qemu_st_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_UB);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_ST_D_BR:
-         CHECK_REG_PAIR(r1);
-@@ -4434,7 +4434,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
-         tcg_gen_rem_tl(temp, temp, temp2);
-         tcg_gen_add_tl(temp2, cpu_gpr_a[r2], temp);
-         tcg_gen_qemu_st_tl(cpu_gpr_d[r1+1], temp2, ctx->mem_idx, MO_LEUL);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_ST_DA_BR:
-         CHECK_REG_PAIR(r1);
-@@ -4449,7 +4449,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
-         tcg_gen_rem_tl(temp, temp, temp2);
-         tcg_gen_add_tl(temp2, cpu_gpr_a[r2], temp);
-         tcg_gen_qemu_st_tl(cpu_gpr_a[r1+1], temp2, ctx->mem_idx, MO_LEUL);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_ST_H_BR:
-         tcg_gen_qemu_st_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUW);
-@@ -4457,7 +4457,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_ST_H_CIRC:
-         tcg_gen_qemu_st_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUW);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_ST_Q_BR:
-         tcg_gen_shri_tl(temp, cpu_gpr_d[r1], 16);
-@@ -4467,7 +4467,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
-     case OPC2_32_BO_ST_Q_CIRC:
-         tcg_gen_shri_tl(temp, cpu_gpr_d[r1], 16);
-         tcg_gen_qemu_st_tl(temp, temp2, ctx->mem_idx, MO_LEUW);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_ST_W_BR:
-         tcg_gen_qemu_st_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUL);
-@@ -4475,7 +4475,7 @@ static void decode_bo_addrmode_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_ST_W_CIRC:
-         tcg_gen_qemu_st_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUL);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     default:
-         generate_trap(ctx, TRAPC_INSN_ERR, TIN2_IOPC);
-@@ -4619,8 +4619,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-     uint32_t op2;
-     uint32_t off10;
-     int r1, r2;
--
--    TCGv temp, temp2, temp3;
-+    TCGv temp, temp2, t_off10;
- 
-     r1 = MASK_OP_BO_S1D(ctx->opcode);
-     r2 = MASK_OP_BO_S2(ctx->opcode);
-@@ -4629,7 +4628,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
- 
-     temp = tcg_temp_new();
-     temp2 = tcg_temp_new();
--    temp3 = tcg_const_i32(off10);
-+    t_off10 = tcg_constant_i32(off10);
-     CHECK_REG_PAIR(r2);
-     tcg_gen_ext16u_tl(temp, cpu_gpr_a[r2+1]);
-     tcg_gen_add_tl(temp2, cpu_gpr_a[r2], temp);
-@@ -4642,7 +4641,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_LD_A_CIRC:
-         tcg_gen_qemu_ld_tl(cpu_gpr_a[r1], temp2, ctx->mem_idx, MO_LEUL);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_LD_B_BR:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_SB);
-@@ -4650,7 +4649,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_LD_B_CIRC:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_SB);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_LD_BU_BR:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_UB);
-@@ -4658,7 +4657,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_LD_BU_CIRC:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_UB);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_LD_D_BR:
-         CHECK_REG_PAIR(r1);
-@@ -4673,7 +4672,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-         tcg_gen_rem_tl(temp, temp, temp2);
-         tcg_gen_add_tl(temp2, cpu_gpr_a[r2], temp);
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1+1], temp2, ctx->mem_idx, MO_LEUL);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_LD_DA_BR:
-         CHECK_REG_PAIR(r1);
-@@ -4688,7 +4687,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-         tcg_gen_rem_tl(temp, temp, temp2);
-         tcg_gen_add_tl(temp2, cpu_gpr_a[r2], temp);
-         tcg_gen_qemu_ld_tl(cpu_gpr_a[r1+1], temp2, ctx->mem_idx, MO_LEUL);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_LD_H_BR:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LESW);
-@@ -4696,7 +4695,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_LD_H_CIRC:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LESW);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_LD_HU_BR:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUW);
-@@ -4704,7 +4703,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_LD_HU_CIRC:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUW);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_LD_Q_BR:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUW);
-@@ -4714,7 +4713,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-     case OPC2_32_BO_LD_Q_CIRC:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUW);
-         tcg_gen_shli_tl(cpu_gpr_d[r1], cpu_gpr_d[r1], 16);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_LD_W_BR:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUL);
-@@ -4722,7 +4721,7 @@ static void decode_bo_addrmode_ld_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_LD_W_CIRC:
-         tcg_gen_qemu_ld_tl(cpu_gpr_d[r1], temp2, ctx->mem_idx, MO_LEUL);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     default:
-         generate_trap(ctx, TRAPC_INSN_ERR, TIN2_IOPC);
-@@ -4823,8 +4822,7 @@ static void decode_bo_addrmode_ldmst_bitreverse_circular(DisasContext *ctx)
-     uint32_t op2;
-     uint32_t off10;
-     int r1, r2;
--
--    TCGv temp, temp2, temp3;
-+    TCGv temp, temp2, t_off10;
- 
-     r1 = MASK_OP_BO_S1D(ctx->opcode);
-     r2 = MASK_OP_BO_S2(ctx->opcode);
-@@ -4833,7 +4831,7 @@ static void decode_bo_addrmode_ldmst_bitreverse_circular(DisasContext *ctx)
- 
-     temp = tcg_temp_new();
-     temp2 = tcg_temp_new();
--    temp3 = tcg_const_i32(off10);
-+    t_off10 = tcg_constant_i32(off10);
-     CHECK_REG_PAIR(r2);
-     tcg_gen_ext16u_tl(temp, cpu_gpr_a[r2+1]);
-     tcg_gen_add_tl(temp2, cpu_gpr_a[r2], temp);
-@@ -4845,7 +4843,7 @@ static void decode_bo_addrmode_ldmst_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_LDMST_CIRC:
-         gen_ldmst(ctx, r1, temp2);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_SWAP_W_BR:
-         gen_swap(ctx, r1, temp2);
-@@ -4853,7 +4851,7 @@ static void decode_bo_addrmode_ldmst_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_SWAP_W_CIRC:
-         gen_swap(ctx, r1, temp2);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_CMPSWAP_W_BR:
-         gen_cmpswap(ctx, r1, temp2);
-@@ -4861,7 +4859,7 @@ static void decode_bo_addrmode_ldmst_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_CMPSWAP_W_CIRC:
-         gen_cmpswap(ctx, r1, temp2);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     case OPC2_32_BO_SWAPMSK_W_BR:
-         gen_swapmsk(ctx, r1, temp2);
-@@ -4869,7 +4867,7 @@ static void decode_bo_addrmode_ldmst_bitreverse_circular(DisasContext *ctx)
-         break;
-     case OPC2_32_BO_SWAPMSK_W_CIRC:
-         gen_swapmsk(ctx, r1, temp2);
--        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], temp3);
-+        gen_helper_circ_update(cpu_gpr_a[r2+1], cpu_gpr_a[r2+1], t_off10);
-         break;
-     default:
-         generate_trap(ctx, TRAPC_INSN_ERR, TIN2_IOPC);
+     switch (op2) {
+     case OPC2_16_SR_RSUB:
+-        /* overflow only if r1 = -0x80000000 */
+-        temp = tcg_const_i32(-0x80000000);
+-        /* calc V bit */
+-        tcg_gen_setcond_tl(TCG_COND_EQ, cpu_PSW_V, cpu_gpr_d[r1], temp);
++        /* calc V bit -- overflow only if r1 = -0x80000000 */
++        tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_PSW_V, cpu_gpr_d[r1], -0x80000000);
+         tcg_gen_shli_tl(cpu_PSW_V, cpu_PSW_V, 31);
+         /* calc SV bit */
+         tcg_gen_or_tl(cpu_PSW_SV, cpu_PSW_SV, cpu_PSW_V);
 -- 
 2.34.1
 
