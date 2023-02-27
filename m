@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681AC6A4365
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:54:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1146A6A435C
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 14:53:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWdvT-0006X5-Jd; Mon, 27 Feb 2023 08:52:23 -0500
+	id 1pWdvV-0006YS-Hm; Mon, 27 Feb 2023 08:52:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvR-0006Wg-13
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:21 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvT-0006Xj-CP
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:23 -0500
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvP-0005SR-1X
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:20 -0500
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pWdvP-0005Sj-AK
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 08:52:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=cuUZBMX/VXDjcuE/bVBJEpwIvu8iTfj/mJKO3kd5jDo=; b=WPRpmldJEXChWGqmBXllAVIMSp
- rtlRQeyambJiH49lR2U6toWelikoFGTjDwGzAuuqVFD7Kjzp0eYRBDg3fb8fa+80QYwqJuGtYxpOg
- 8NLddFNsCWlVYnrddcmEHzoxjB0qKQUvMiuwiYpuWgnVG7MU1TajNsNFJzAd7U46ELZg=;
+ bh=O05+soEBGfNiFxui8eVc890P7BMfErthp0BayCzbJuo=; b=AF6xPQOOkzHN/z+W9dbTJgazmj
+ SVRqYl3H5MZn1I2y1pfEdwywNg8scDi34YWXXhcPGuLVmH+lWHKT5y8tGMjVmNcoM5drhPcgrlPax
+ bUj1i8P3rNWBmFgdmRjIe6XdNCxCnrKQmrRv8pjOyd6SHFPLTaPWCmRVoE189Beuqa0I=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, peter.maydell@linaro.org, mrolnik@gmail.com,
@@ -33,9 +33,9 @@ Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk,
  atar4qemu@gmail.com, kbastian@mail.uni-paderborn.de
-Subject: [PATCH v3 02/27] target/i386: set `CF_PCREL` in `x86_cpu_realizefn`
-Date: Mon, 27 Feb 2023 14:51:37 +0100
-Message-Id: <20230227135202.9710-3-anjo@rev.ng>
+Subject: [PATCH v3 03/27] target/arm: set `CF_PCREL` in `arm_cpu_realizefn`
+Date: Mon, 27 Feb 2023 14:51:38 +0100
+Message-Id: <20230227135202.9710-4-anjo@rev.ng>
 In-Reply-To: <20230227135202.9710-1-anjo@rev.ng>
 References: <20230227135202.9710-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -68,25 +68,25 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/i386/cpu.c | 5 +++++
+ target/arm/cpu.c | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 4d2b8d0444..5be294b122 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6404,6 +6404,11 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-     static bool ht_warned;
-     unsigned requested_lbr_fmt;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 876ab8f3bf..c38420a4d1 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1554,6 +1554,11 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+     Error *local_err = NULL;
+     bool no_aa32 = false;
  
 +    /* Use pc-relative instructions in system-mode */
 +#ifndef CONFIG_USER_ONLY
 +    cs->tcg_cflags |= CF_PCREL;
 +#endif
 +
-     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
-         error_setg(errp, "apic-id property was not initialized properly");
-         return;
+     /* If we needed to query the host kernel for the CPU features
+      * then it's possible that might have failed in the initfn, but
+      * this is the first point where we can report it.
 -- 
 2.39.1
 
