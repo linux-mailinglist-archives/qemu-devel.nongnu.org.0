@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6496A4485
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D79B6A44A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 15:37:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWeFS-0002ZX-Dt; Mon, 27 Feb 2023 09:13:02 -0500
+	id 1pWeFT-0002lY-VA; Mon, 27 Feb 2023 09:13:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeED-0000NI-EM
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeEF-0000OZ-5M
  for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:11:47 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeE7-00016v-I7
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:11:40 -0500
-Received: by mail-wr1-x436.google.com with SMTP id bx12so3215845wrb.11
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:11:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWeED-0001CS-Hh
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 09:11:46 -0500
+Received: by mail-wr1-x429.google.com with SMTP id j2so6354316wrh.9
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 06:11:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=WAAv2NL3QoMZlMFQUgIQZmf6j2u7rmtL1deiCwTIQao=;
- b=Flrp+z/LvNgumA1/pzbnMH5TZrPJToCPEZbnF3PEImYcYLoQ3Fy4S1pfWjPtlXE2fD
- u+9SZ2ZVCPguQV7TtUL2pjoidLpHukvgnFaTyftfH9idc2q1gzaDSmzcCeI/4Y+uNO3g
- VI22PZm/k3TM09b4uud55IC5GXfISyw6dk2BBVzAz8i9kstAuAg04rScqQgXOXZSjMRy
- BE+cKN7HgV0VF/39UDNEThVw4V+UZoR3Z5uT/FYlKTt7AYgAKpzg5zhTeFwzjz4Us8UV
- PMLNWiPvj2MFsACAvheKyJd/5doe4p84uO2i97uB7b3fPM9FcmYoq2jJ2SPWO08voRw/
- 7A0A==
+ :reply-to; bh=boxJ68eJA67XnJT9rYf8WV4k46uWX8EKHHrm/LJLj1s=;
+ b=eSWQAD6CcgyPQ1iPA2AIG+VX0FfnPPTEL8cW0kTPSQ+lNxqRYCnuKpCSD/9y5dJCIV
+ 0t71E1LPQjMq7YBmJRJcRGqaignk9vgGhrk34+8UPe1+MUvIP0mGhzxU15hq256p+ihp
+ XLUDSM6GE1vzsEK051io3LgxF7dPA4OxRVWChR3owkAjTe281YDL3U73Q/jp0jrZhPN2
+ xOZ3srxjuSEnVtCzn6OmdzVEvyhW07QdUXmitWdiaYjUwnxfJqCIBA5BPGy7+q3OqQxT
+ SF1Ti3Tj7Nios18VxCLaOJzEbFYi9yJQbujwvLnQ4M8IjxFlqJr8HP7QNsf05jzqzzkl
+ lviA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WAAv2NL3QoMZlMFQUgIQZmf6j2u7rmtL1deiCwTIQao=;
- b=d+GFFT3ZrXmJyIbiSl+wmc0FRxEPbMXjIUl8uUX/nnp+m2pcyBP6Vq3UHkTTudpdk2
- n7ByXy6RN+6RrUw3LVo9/3k7x5Rra1iHXqtlcbaS4Ni+YTnRh2aIIGVuHCQb7P2G9YsH
- aaLgYqNYAW7bzzs2frWyaPisUB0IjHdREt+IN7ma4VfJGW5F8H2I2E1pc2nvYx7HfgnG
- zOP/XsylVJ21IODjF39HxlmoP9amxmoJSXA9M1Zrho6Fk93u74hICAIexxRfNfc9R/h4
- pNIX79p/ZTsvAuKv2LUHxdMWo93frdwp9+6WIUqyEBx+u3NOQV1WeuZ/efcfjA+xVAFY
- 9nVg==
-X-Gm-Message-State: AO0yUKUgBnelTf+0PLqi2xbhbJX0xT6alHYUWkklHIJAJJAdb0LRP4rr
- Q0IKhPRnnx8+gGlFbHlBHg3+OE5gzvWT1cGP
-X-Google-Smtp-Source: AK7set9cZzhjVVvV/CwfC3L43I/tjrokwzAuyGMZPBs+w0Pe0x9Wbvb31NGpKVVPFVwSpvhmcfnPow==
-X-Received: by 2002:a5d:4692:0:b0:2c7:16c3:1756 with SMTP id
- u18-20020a5d4692000000b002c716c31756mr11372254wrq.61.1677507098265; 
- Mon, 27 Feb 2023 06:11:38 -0800 (PST)
+ bh=boxJ68eJA67XnJT9rYf8WV4k46uWX8EKHHrm/LJLj1s=;
+ b=w5CWr2TIdFtRvtvpfwMXGA3FmEQ/FtBfE+Hy9qkwlhICKEW2q7RG+k1QRBAJ0x0I/v
+ khl3nIIrLX71W1UB/2WsVlNNGjGuyq5NWYPGhPaxjttGyTkO3We5NR6+ClmGbTf4NArd
+ piGvrF+B1b65PU89pktpyrf7t09BpdhIzGBvc6R3Y93FOziiyuXJ7C7AsoVPW4OpSY69
+ 0jId9XhKQJ/ebe1SOlBQlXQ+x9ACrv3SmphofO7Dd3LxByq69z+eefhHhgXHitk2GJHQ
+ Cw+aymwJcpqWFdeeYw2mSr2eOhje+DivgRakLf+M9DQPGF2T/qmoA25w7XbeaH254e9B
+ KN+A==
+X-Gm-Message-State: AO0yUKXtBS5+Yy5Br/wqkltw8FIdwmQAtQIPHoNjVG/43winiBaPEQp9
+ xH/1hB5IV6Dlf0Qy82+ZguyQwkNP8R0L/gCw
+X-Google-Smtp-Source: AK7set+S0DDyvaS67ej1WNoplP4s8WAwleflBxbghCfLkqmQj4ZVpulkBK/mxTqlNbYIxt/w51Jk5w==
+X-Received: by 2002:a5d:6812:0:b0:2c7:f2f:e47 with SMTP id
+ w18-20020a5d6812000000b002c70f2f0e47mr13043859wru.22.1677507103941; 
+ Mon, 27 Feb 2023 06:11:43 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- k24-20020a05600c0b5800b003e00c453447sm12353884wmr.48.2023.02.27.06.11.37
+ c4-20020adffb04000000b002c70bfe505esm7159484wrr.82.2023.02.27.06.11.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 27 Feb 2023 06:11:37 -0800 (PST)
+ Mon, 27 Feb 2023 06:11:43 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 113/126] hw/ide: Declare ide_get_[geometry/bios_chs_trans] in
- 'hw/ide/internal.h'
-Date: Mon, 27 Feb 2023 15:02:00 +0100
-Message-Id: <20230227140213.35084-104-philmd@linaro.org>
+Subject: [PULL 114/126] hw/ide/ioport: Remove unnecessary includes
+Date: Mon, 27 Feb 2023 15:02:01 +0100
+Message-Id: <20230227140213.35084-105-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230227140213.35084-1-philmd@linaro.org>
 References: <20230227140213.35084-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,65 +87,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ide_get_geometry() and ide_get_bios_chs_trans() are only
-used by the TYPE_PC_MACHINE.
-"hw/ide.h" is a mixed bag of lost IDE declarations. In order
-to remove this (almost) pointless header soon, move these
-declarations to "hw/ide/internal.h".
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230220091358.17038-18-philmd@linaro.org>
+Message-Id: <20230215112712.23110-17-philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/i386/pc.c              | 3 ++-
- include/hw/ide.h          | 4 ----
- include/hw/ide/internal.h | 4 ++++
- 3 files changed, 6 insertions(+), 5 deletions(-)
+ hw/ide/ioport.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 98c2becc11..992951c107 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -33,7 +33,8 @@
- #include "hw/i386/vmport.h"
- #include "sysemu/cpus.h"
- #include "hw/block/fdc.h"
--#include "hw/ide.h"
-+#include "hw/ide/internal.h"
-+#include "hw/ide/isa.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci-bridge/pci_expander_bridge.h"
-diff --git a/include/hw/ide.h b/include/hw/ide.h
-index 24a7aa2925..db963bdb77 100644
---- a/include/hw/ide.h
-+++ b/include/hw/ide.h
-@@ -3,10 +3,6 @@
+diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
+index e6caa537fa..e2ecc6230c 100644
+--- a/hw/ide/ioport.c
++++ b/hw/ide/ioport.c
+@@ -25,16 +25,6 @@
  
- #include "exec/memory.h"
- 
--int ide_get_geometry(BusState *bus, int unit,
--                     int16_t *cyls, int8_t *heads, int8_t *secs);
--int ide_get_bios_chs_trans(BusState *bus, int unit);
+ #include "qemu/osdep.h"
+ #include "hw/isa/isa.h"
+-#include "qemu/error-report.h"
+-#include "qemu/timer.h"
+-#include "sysemu/blockdev.h"
+-#include "sysemu/dma.h"
+-#include "hw/block/block.h"
+-#include "sysemu/block-backend.h"
+-#include "qapi/error.h"
+-#include "qemu/cutils.h"
+-#include "sysemu/replay.h"
 -
- /* ide/core.c */
- void ide_drive_get(DriveInfo **hd, int max_bus);
+ #include "hw/ide/internal.h"
+ #include "trace.h"
  
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index c2b794150f..d9f1f77dd5 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -647,6 +647,10 @@ void ide_bus_init(IDEBus *idebus, size_t idebus_size, DeviceState *dev,
-                   int bus_id, int max_units);
- IDEDevice *ide_bus_create_drive(IDEBus *bus, int unit, DriveInfo *drive);
- 
-+int ide_get_geometry(BusState *bus, int unit,
-+                     int16_t *cyls, int8_t *heads, int8_t *secs);
-+int ide_get_bios_chs_trans(BusState *bus, int unit);
-+
- int ide_handle_rw_error(IDEState *s, int error, int op);
- 
- #endif /* HW_IDE_INTERNAL_H */
 -- 
 2.38.1
 
