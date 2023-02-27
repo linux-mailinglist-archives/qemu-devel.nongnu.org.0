@@ -2,54 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026176A35BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 00:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188D56A360D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 02:00:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWQuf-00060j-TF; Sun, 26 Feb 2023 18:58:41 -0500
+	id 1pWRrH-0007eG-5H; Sun, 26 Feb 2023 19:59:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pWQud-0005zx-LG; Sun, 26 Feb 2023 18:58:39 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pWQub-0004Fw-FU; Sun, 26 Feb 2023 18:58:39 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6F0EC74635C;
- Mon, 27 Feb 2023 00:58:32 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 267A2745720; Mon, 27 Feb 2023 00:58:32 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 22414745706;
- Mon, 27 Feb 2023 00:58:32 +0100 (CET)
-Date: Mon, 27 Feb 2023 00:58:32 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Jiaxun Yang <jiaxun.yang@flygoat.com>, ReneEngel80@emailn.de
-Subject: Re: [PATCH v3 4/8] hw/isa/vt82c686: Implement PCI IRQ routing
-In-Reply-To: <0E10FCF9-465D-462A-8031-880B0907CCDA@gmail.com>
-Message-ID: <cc565f01-c09e-bf03-b594-5216f51351c5@eik.bme.hu>
-References: <cover.1677445307.git.balaton@eik.bme.hu>
- <0fd9eac9174a840054c511fbc015048929c7bc40.1677445307.git.balaton@eik.bme.hu>
- <a496276e-24fb-e2bc-fbdf-ace9ef7f361f@linaro.org>
- <0E10FCF9-465D-462A-8031-880B0907CCDA@gmail.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pWRrC-0007dn-Cu; Sun, 26 Feb 2023 19:59:10 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pWRr8-0000tb-Vm; Sun, 26 Feb 2023 19:59:09 -0500
+Received: from [192.168.0.120] (unknown [180.165.240.213])
+ by APP-05 (Coremail) with SMTP id zQCowAB3fppPAPxjLUTfCA--.20590S2;
+ Mon, 27 Feb 2023 08:58:56 +0800 (CST)
+Message-ID: <f63f2b25-3bf3-d8a0-6e5c-9050b5a177fd@iscas.ac.cn>
+Date: Mon, 27 Feb 2023 08:58:55 +0800
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1696778164-1677455912=:59185"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 2/2] target/riscv/vector_helper.c: avoid env_archcpu()
+ when reading RISCVCPUConfig
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com
+References: <20230226170514.588071-1-dbarboza@ventanamicro.com>
+ <20230226170514.588071-3-dbarboza@ventanamicro.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+In-Reply-To: <20230226170514.588071-3-dbarboza@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: zQCowAB3fppPAPxjLUTfCA--.20590S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCFy3Kw4xWF4kWF4kur4Uurg_yoWrCrW8pF
+ 40grW3Wr45JF97Xw13GF1UXF1Durn8Kr40k34rAa4rJr4rZrs8Ar1DAa10kr17Gas7CryY
+ va9rZa4Igan29FDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+ 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [180.165.240.213]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,92 +77,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-1696778164-1677455912=:59185
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sun, 26 Feb 2023, Bernhard Beschow wrote:
-> Am 26. Februar 2023 22:27:50 UTC schrieb "Philippe Mathieu-Daudé" <philmd@linaro.org>:
->> On 25/2/23 19:11, BALATON Zoltan wrote:
->>> From: Bernhard Beschow <shentey@gmail.com>
->>>
->>> The real VIA south bridges implement a PCI IRQ router which is configured
->>> by the BIOS or the OS. In order to respect these configurations, QEMU
->>> needs to implement it as well.
->>>
->>> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
->>>
->>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>> [balaton: declare gpio inputs instead of changing pci bus irqs so it can
->>>   be connected in board code; remove some empty lines]
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> Tested-by: Rene Engel <ReneEngel80@emailn.de>
->>> ---
->>>   hw/isa/vt82c686.c | 39 +++++++++++++++++++++++++++++++++++++++
->>>   1 file changed, 39 insertions(+)
->>
->>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
->>> +{
->>> +    switch (irq_num) {
->>> +    case 0:
->>> +        return s->dev.config[0x55] >> 4;
->>> +    case 1:
->>> +        return s->dev.config[0x56] & 0xf;
->>> +    case 2:
->>> +        return s->dev.config[0x56] >> 4;
->>> +    case 3:
->>> +        return s->dev.config[0x57] >> 4;
->>> +    }
->>> +    return 0;
->>> +}
->>> +
->>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
->>> +{
->>> +    ViaISAState *s = opaque;
->>> +    PCIBus *bus = pci_get_bus(&s->dev);
->>> +    int pic_irq;
->>> +
->>> +    /* now we change the pic irq level according to the via irq mappings */
->>> +    /* XXX: optimize */
->>> +    pic_irq = via_isa_get_pci_irq(s, irq_num);
->>> +    if (pic_irq < ISA_NUM_IRQS) {
->>
->> the ISA IRQ is stored in 4-bit so will always be in range.
+On 2023/2/27 01:05, Daniel Henrique Barboza wrote:
+> This file has several uses of env_archcpu() that are used solely to read
+> cfg->vlen. Use the new riscv_cpu_cfg() inline instead.
 >
-> Indeed. I'd turn this into an assert to keep this assum visible. I'll do another iteration of the PCI IRQ router series.
+> Suggested-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-I don't like a useless assert in an irq handler that's potentially called 
-a lot. If you want to keep that add a comment instead.
 
-Also I can't use Based-on because having all patches in a single series 
-helps maintainers to follow what belongs to here so this should be one 
-series. You don't have to follow your one any more as it was fully 
-incorporated here so this is the only version you'd have to watch.
+Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
 
-Regards,
-BALATON Zoltan
+Weiwei Li
 
-> Best regards,
-> Bernhard
->>
->>> +        int i, pic_level;
->>> +
->>> +        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
->>> +        pic_level = 0;
->>> +        for (i = 0; i < PCI_NUM_PINS; i++) {
->>> +            if (pic_irq == via_isa_get_pci_irq(s, i)) {
->>> +                pic_level |= pci_bus_get_irq_level(bus, i);
->>> +            }
->>> +        }
->>> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
->>> +    }
->>> +}
->>
->>
+> ---
+>   target/riscv/vector_helper.c | 20 ++++++++++----------
+>   1 file changed, 10 insertions(+), 10 deletions(-)
 >
->
---3866299591-1696778164-1677455912=:59185--
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 7d2e3978f1..a7fb09efa3 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -272,7 +272,7 @@ static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,
+>                                      uint32_t esz, uint32_t max_elems)
+>   {
+>       uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> +    uint32_t vlenb = riscv_cpu_cfg(env)->vlen >> 3;
+>       uint32_t vta = vext_vta(desc);
+>       uint32_t registers_used;
+>       int k;
+> @@ -671,7 +671,7 @@ vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+>   {
+>       uint32_t i, k, off, pos;
+>       uint32_t nf = vext_nf(desc);
+> -    uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+> +    uint32_t vlenb = riscv_cpu_cfg(env)->vlen >> 3;
+>       uint32_t max_elems = vlenb >> log2_esz;
+>   
+>       k = env->vstart / max_elems;
+> @@ -1141,7 +1141,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+>   {                                                             \
+>       uint32_t vl = env->vl;                                    \
+>       uint32_t vm = vext_vm(desc);                              \
+> -    uint32_t total_elems = env_archcpu(env)->cfg.vlen;        \
+> +    uint32_t total_elems = riscv_cpu_cfg(env)->vlen;          \
+>       uint32_t vta_all_1s = vext_vta_all_1s(desc);              \
+>       uint32_t i;                                               \
+>                                                                 \
+> @@ -1177,7 +1177,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,          \
+>   {                                                               \
+>       uint32_t vl = env->vl;                                      \
+>       uint32_t vm = vext_vm(desc);                                \
+> -    uint32_t total_elems = env_archcpu(env)->cfg.vlen;          \
+> +    uint32_t total_elems = riscv_cpu_cfg(env)->vlen;            \
+>       uint32_t vta_all_1s = vext_vta_all_1s(desc);                \
+>       uint32_t i;                                                 \
+>                                                                   \
+> @@ -1376,7 +1376,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+>   {                                                             \
+>       uint32_t vm = vext_vm(desc);                              \
+>       uint32_t vl = env->vl;                                    \
+> -    uint32_t total_elems = env_archcpu(env)->cfg.vlen;        \
+> +    uint32_t total_elems = riscv_cpu_cfg(env)->vlen;          \
+>       uint32_t vta_all_1s = vext_vta_all_1s(desc);              \
+>       uint32_t vma = vext_vma(desc);                            \
+>       uint32_t i;                                               \
+> @@ -1439,7 +1439,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,   \
+>   {                                                                   \
+>       uint32_t vm = vext_vm(desc);                                    \
+>       uint32_t vl = env->vl;                                          \
+> -    uint32_t total_elems = env_archcpu(env)->cfg.vlen;              \
+> +    uint32_t total_elems = riscv_cpu_cfg(env)->vlen;                \
+>       uint32_t vta_all_1s = vext_vta_all_1s(desc);                    \
+>       uint32_t vma = vext_vma(desc);                                  \
+>       uint32_t i;                                                     \
+> @@ -4152,7 +4152,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+>   {                                                             \
+>       uint32_t vm = vext_vm(desc);                              \
+>       uint32_t vl = env->vl;                                    \
+> -    uint32_t total_elems = env_archcpu(env)->cfg.vlen;        \
+> +    uint32_t total_elems = riscv_cpu_cfg(env)->vlen;          \
+>       uint32_t vta_all_1s = vext_vta_all_1s(desc);              \
+>       uint32_t vma = vext_vma(desc);                            \
+>       uint32_t i;                                               \
+> @@ -4190,7 +4190,7 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
+>   {                                                                   \
+>       uint32_t vm = vext_vm(desc);                                    \
+>       uint32_t vl = env->vl;                                          \
+> -    uint32_t total_elems = env_archcpu(env)->cfg.vlen;              \
+> +    uint32_t total_elems = riscv_cpu_cfg(env)->vlen;                \
+>       uint32_t vta_all_1s = vext_vta_all_1s(desc);                    \
+>       uint32_t vma = vext_vma(desc);                                  \
+>       uint32_t i;                                                     \
+> @@ -4721,7 +4721,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+>                     uint32_t desc)                          \
+>   {                                                         \
+>       uint32_t vl = env->vl;                                \
+> -    uint32_t total_elems = env_archcpu(env)->cfg.vlen;    \
+> +    uint32_t total_elems = riscv_cpu_cfg(env)->vlen;      \
+>       uint32_t vta_all_1s = vext_vta_all_1s(desc);          \
+>       uint32_t i;                                           \
+>       int a, b;                                             \
+> @@ -4808,7 +4808,7 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
+>   {
+>       uint32_t vm = vext_vm(desc);
+>       uint32_t vl = env->vl;
+> -    uint32_t total_elems = env_archcpu(env)->cfg.vlen;
+> +    uint32_t total_elems = riscv_cpu_cfg(env)->vlen;
+>       uint32_t vta_all_1s = vext_vta_all_1s(desc);
+>       uint32_t vma = vext_vma(desc);
+>       int i;
+
 
