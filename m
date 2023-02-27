@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1396A3ACE
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:48:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9F86A3A82
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 06:37:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWW8D-0004cv-2h; Mon, 27 Feb 2023 00:33:01 -0500
+	id 1pWW8S-0004v1-It; Mon, 27 Feb 2023 00:33:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWW6q-0008S4-RB
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:31:38 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pWW6u-0008Ue-85
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:31:41 -0500
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWW6l-0000eC-Ta
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:31:36 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- qa18-20020a17090b4fd200b0023750b675f5so8847492pjb.3
- for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:31:31 -0800 (PST)
+ id 1pWW6p-00015n-J3
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 00:31:39 -0500
+Received: by mail-pj1-x1043.google.com with SMTP id
+ m3-20020a17090ade0300b00229eec90a7fso10975743pjv.0
+ for <qemu-devel@nongnu.org>; Sun, 26 Feb 2023 21:31:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=agy/u0GMKA+XJZ7eZrr4m/SwvDijeZedhgSDznlTFuI=;
- b=fuzeETEEiQNzPI/I3KBVJ2gdT9a3y7Fyf1C1b8rQsWfmz46+tqtnXPdBMD9rBztO0s
- qW5KJLjvnr2Ym7HGWF51s1XPMnN0sybTDOC7v86zLOcZnZrVGvZ4952exU3Lz2vQL6bn
- BkcfMO5q/XS6qM5lxvLovvw8YYiX6GQARJ/i85DvFDsBjVX6K7ZPQdMWix015b+JZnZX
- 52sVGZpBAPvNnjPfMVan4GlQq1DSEWBOdVU61rrkUAxYesEp1MGu0vN5GYurR9AsiWZZ
- de5dD/u2/QGVHGlZRiHTh/+nUUbrSvM+z0STomXVGS9AMOufo7t+VCMCXUfV6J8CICnG
- 9X7Q==
+ bh=36+6c6XhddMEyIhn3+S9l0econtu2Qbbfj3zvO3qr6w=;
+ b=d7KDUAEmH2YMRMJY/9bGIXI+gQqAK5MF8dsbuecvsf46BWeAkj5bXreDJVuoDoKkm3
+ kEgaIQEFU0O0bUrnCUfBEgMr0ogOYr7Au9A17/ny3pfVK1vw2I2bcnXlwULPymOjlfnk
+ vDEZDZvARIR2v1xxpnBznFPIuzbvC8hoF9Im+KbPSecgIhY+GqehxEUzcw5xhmhIcpCP
+ hGKZ7xFb8JuufOZf6PoBgVS9ffxmYdz3IoTj9EAbbNpA+glVjDD4FpscDaPXPYX1PSrU
+ /d6Yto+cCYZvSi+fXt61BbZXT55vT3rYaJBJJWdmn60Xt+FAOudgXx3s9dgVg8d6NnuV
+ miWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=agy/u0GMKA+XJZ7eZrr4m/SwvDijeZedhgSDznlTFuI=;
- b=AKV8HcBidu5CFNSuokN7p4vosaJvKV2l9EmeJ3WdxpeLruAS5tYz1dYIfai8uyuxfR
- YbBDIv9lOkLpN+GmcZ4jQJelSj/Em+cQbvxXaIwsTo59R1+gak2/oC6WJAPifh6DVDjU
- Fk4x5S/8mw5i4//rkx2tG2Hrtu9HhYuyx9NBZbtaHJkgWXQEwFCEy7IwelkyqrmXkeaL
- A+e/qyLdteW4BxkUP3f8UneIj3RQ3quMsI+nhJD/7VjsPQnwQ9TkYZ/eQK4PEkrBsNgb
- OE4Z9XxoicpbssuGiBdB/6AgyH84nHL3YPGw6V+cm2FEhbngJ3G2+aJXq8o6GuiYQ4l0
- dY9g==
-X-Gm-Message-State: AO0yUKXPbofXncXHndbeJMd0ZFWKMhSBNF9yv0sXx8QcNi7LOVF5S9D5
- jqHPFrc4UlMTIp9q0P4QyiWUe4zKHU+EYi/Vbjk=
-X-Google-Smtp-Source: AK7set9bYL8FG+IZiUFnUy/jQO+95TRQp33CwPaBWy9mx+7DkeYE0bT0UXX6oMVnBI8UQ2zoSQqXxQ==
-X-Received: by 2002:a17:90b:180c:b0:237:d867:222c with SMTP id
- lw12-20020a17090b180c00b00237d867222cmr5447629pjb.42.1677475890878; 
- Sun, 26 Feb 2023 21:31:30 -0800 (PST)
+ bh=36+6c6XhddMEyIhn3+S9l0econtu2Qbbfj3zvO3qr6w=;
+ b=1Q8kIbOCda5q3BabILf6T2n1ysKDHKDuYV/VRl/6eJndl53Jpa60/XJm12As2PPOT2
+ 8Zyv1bRgSUfCi+5ifyAl4NK//OzHBpleY7KKHCISRtAmkoMS68pEHyWDypIAyBqvi8aL
+ 45tc3ph0SVWgw6M+yeesYWr4XJQvzrMn/kbboohrxRwmqr9kWLnyHftl0B4K5HtYsix0
+ sn8P4B6zTpDmZn3L7VP5qfQiL4oBOGaXvdxj0l0LAxIaGe0pNmR4AvZMheBIim4KoB8b
+ iDEhRirusaFACTCRx8fMZuPCycR3d3pmb4mjloowpOZToEo+FgRvfFWtz7odXAlypBbm
+ k7jw==
+X-Gm-Message-State: AO0yUKW8x2EeYfHK8KDxW2ktvPG9aqvWnsf1I7lrv5OWQeanFl83o30K
+ aR85gWcK9bNBi4zKyVxKDxc9O2M+C1ahDP5/CuODLA==
+X-Google-Smtp-Source: AK7set8+swk1gqzDC4KAxoM06/7wxDBwiZzG3fCPGPh0vYX6Fpia7rR+/SaL6rSD9tgoNkMGoLA52Q==
+X-Received: by 2002:a17:90b:3892:b0:237:aade:444 with SMTP id
+ mu18-20020a17090b389200b00237aade0444mr9018394pjb.42.1677475893649; 
+ Sun, 26 Feb 2023 21:31:33 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- v4-20020a17090a520400b002369e16b276sm5172926pjh.32.2023.02.26.21.31.28
+ v4-20020a17090a520400b002369e16b276sm5172926pjh.32.2023.02.26.21.31.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Feb 2023 21:31:30 -0800 (PST)
+ Sun, 26 Feb 2023 21:31:33 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
@@ -62,16 +62,16 @@ Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
  ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
  tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
  edgar.iglesias@gmail.com
-Subject: [PATCH v2 71/76] target/xtensa: Drop reset_sar_tracker
-Date: Sun, 26 Feb 2023 19:25:00 -1000
-Message-Id: <20230227052505.352889-72-richard.henderson@linaro.org>
+Subject: [PATCH v2 72/76] target/xtensa: Drop tcg_temp_free
+Date: Sun, 26 Feb 2023 19:25:01 -1000
+Message-Id: <20230227052505.352889-73-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230227052505.352889-1-richard.henderson@linaro.org>
 References: <20230227052505.352889-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,61 +95,529 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Translators are no longer required to free tcg temporaries.
-Remove sar_m32_allocated, as sar_m32 non-null is equivalent.
 
 Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/xtensa/translate.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ target/xtensa/translate.c | 107 --------------------------------------
+ 1 file changed, 107 deletions(-)
 
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 4af0650deb..910350dec6 100644
+index 910350dec6..3ea50d8bc3 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
-@@ -57,7 +57,6 @@ struct DisasContext {
- 
-     bool sar_5bit;
-     bool sar_m32_5bit;
--    bool sar_m32_allocated;
-     TCGv_i32 sar_m32;
- 
-     unsigned window;
-@@ -284,14 +283,7 @@ static void init_sar_tracker(DisasContext *dc)
- {
-     dc->sar_5bit = false;
-     dc->sar_m32_5bit = false;
--    dc->sar_m32_allocated = false;
--}
--
--static void reset_sar_tracker(DisasContext *dc)
--{
--    if (dc->sar_m32_allocated) {
--        tcg_temp_free(dc->sar_m32);
--    }
-+    dc->sar_m32 = NULL;
- }
- 
- static void gen_right_shift_sar(DisasContext *dc, TCGv_i32 sa)
-@@ -306,9 +298,8 @@ static void gen_right_shift_sar(DisasContext *dc, TCGv_i32 sa)
- 
- static void gen_left_shift_sar(DisasContext *dc, TCGv_i32 sa)
- {
--    if (!dc->sar_m32_allocated) {
-+    if (!dc->sar_m32) {
-         dc->sar_m32 = tcg_temp_new_i32();
--        dc->sar_m32_allocated = true;
+@@ -1102,16 +1102,6 @@ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
+         ops->translate(dc, pslot->arg, ops->par);
      }
-     tcg_gen_andi_i32(dc->sar_m32, sa, 0x1f);
-     tcg_gen_sub_i32(cpu_SR[SAR], tcg_constant_i32(32), dc->sar_m32);
-@@ -1247,7 +1238,6 @@ static void xtensa_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+ 
+-    for (i = 0; i < n_arg_copy; ++i) {
+-        if (arg_copy[i].arg->num_bits <= 32) {
+-            tcg_temp_free_i32(arg_copy[i].temp);
+-        } else if (arg_copy[i].arg->num_bits <= 64) {
+-            tcg_temp_free_i64(arg_copy[i].temp);
+-        } else {
+-            g_assert_not_reached();
+-        }
+-    }
+-
+     if (dc->base.is_jmp == DISAS_NEXT) {
+         gen_postprocess(dc, 0);
+         dc->op_flags = 0;
+@@ -1238,10 +1228,6 @@ static void xtensa_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
  {
      DisasContext *dc = container_of(dcbase, DisasContext, base);
  
--    reset_sar_tracker(dc);
-     if (dc->icount) {
-         tcg_temp_free(dc->next_icount);
+-    if (dc->icount) {
+-        tcg_temp_free(dc->next_icount);
+-    }
+-
+     switch (dc->base.is_jmp) {
+     case DISAS_NORETURN:
+         break;
+@@ -1369,7 +1355,6 @@ static void translate_addx(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     tcg_gen_shli_i32(tmp, arg[1].in, par[0]);
+     tcg_gen_add_i32(arg[0].out, tmp, arg[2].in);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_all(DisasContext *dc, const OpcodeArg arg[],
+@@ -1388,8 +1373,6 @@ static void translate_all(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_shri_i32(tmp, tmp, arg[1].imm + shift);
+     tcg_gen_deposit_i32(arg[0].out, arg[0].out,
+                         tmp, arg[0].imm, 1);
+-    tcg_temp_free(mask);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_and(DisasContext *dc, const OpcodeArg arg[],
+@@ -1404,7 +1387,6 @@ static void translate_ball(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     tcg_gen_and_i32(tmp, arg[0].in, arg[1].in);
+     gen_brcond(dc, par[0], tmp, arg[1].in, arg[2].imm);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_bany(DisasContext *dc, const OpcodeArg arg[],
+@@ -1413,7 +1395,6 @@ static void translate_bany(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     tcg_gen_and_i32(tmp, arg[0].in, arg[1].in);
+     gen_brcondi(dc, par[0], tmp, 0, arg[2].imm);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_b(DisasContext *dc, const OpcodeArg arg[],
+@@ -1439,8 +1420,6 @@ static void translate_bb(DisasContext *dc, const OpcodeArg arg[],
+ #endif
+     tcg_gen_and_i32(tmp, arg[0].in, bit);
+     gen_brcondi(dc, par[0], tmp, 0, arg[2].imm);
+-    tcg_temp_free(tmp);
+-    tcg_temp_free(bit);
+ }
+ 
+ static void translate_bbi(DisasContext *dc, const OpcodeArg arg[],
+@@ -1453,7 +1432,6 @@ static void translate_bbi(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_andi_i32(tmp, arg[0].in, 0x00000001u << arg[1].imm);
+ #endif
+     gen_brcondi(dc, par[0], tmp, 0, arg[2].imm);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_bi(DisasContext *dc, const OpcodeArg arg[],
+@@ -1494,8 +1472,6 @@ static void translate_boolean(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_shri_i32(tmp2, arg[2].in, arg[2].imm);
+     op[par[0]](tmp1, tmp1, tmp2);
+     tcg_gen_deposit_i32(arg[0].out, arg[0].out, tmp1, arg[0].imm, 1);
+-    tcg_temp_free(tmp1);
+-    tcg_temp_free(tmp2);
+ }
+ 
+ static void translate_bp(DisasContext *dc, const OpcodeArg arg[],
+@@ -1505,7 +1481,6 @@ static void translate_bp(DisasContext *dc, const OpcodeArg arg[],
+ 
+     tcg_gen_andi_i32(tmp, arg[0].in, 1 << arg[0].imm);
+     gen_brcondi(dc, par[0], tmp, 0, arg[1].imm);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_call0(DisasContext *dc, const OpcodeArg arg[],
+@@ -1520,7 +1495,6 @@ static void translate_callw(DisasContext *dc, const OpcodeArg arg[],
+ {
+     TCGv_i32 tmp = tcg_const_i32(arg[0].imm);
+     gen_callw_slot(dc, par[0], tmp, adjust_jump_slot(dc, arg[0].imm, 0));
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_callx0(DisasContext *dc, const OpcodeArg arg[],
+@@ -1530,7 +1504,6 @@ static void translate_callx0(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_mov_i32(tmp, arg[0].in);
+     tcg_gen_movi_i32(cpu_R[0], dc->base.pc_next);
+     gen_jump(dc, tmp);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_callxw(DisasContext *dc, const OpcodeArg arg[],
+@@ -1540,7 +1513,6 @@ static void translate_callxw(DisasContext *dc, const OpcodeArg arg[],
+ 
+     tcg_gen_mov_i32(tmp, arg[0].in);
+     gen_callw_slot(dc, par[0], tmp, -1);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_clamps(DisasContext *dc, const OpcodeArg arg[],
+@@ -1551,8 +1523,6 @@ static void translate_clamps(DisasContext *dc, const OpcodeArg arg[],
+ 
+     tcg_gen_smax_i32(tmp1, tmp1, arg[1].in);
+     tcg_gen_smin_i32(arg[0].out, tmp1, tmp2);
+-    tcg_temp_free(tmp1);
+-    tcg_temp_free(tmp2);
+ }
+ 
+ static void translate_clrb_expstate(DisasContext *dc, const OpcodeArg arg[],
+@@ -1574,7 +1544,6 @@ static void translate_const16(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 c = tcg_const_i32(arg[1].imm);
+ 
+     tcg_gen_deposit_i32(arg[0].out, c, arg[0].in, 16, 16);
+-    tcg_temp_free(c);
+ }
+ 
+ static void translate_dcache(DisasContext *dc, const OpcodeArg arg[],
+@@ -1585,8 +1554,6 @@ static void translate_dcache(DisasContext *dc, const OpcodeArg arg[],
+ 
+     tcg_gen_addi_i32(addr, arg[0].in, arg[1].imm);
+     tcg_gen_qemu_ld8u(res, addr, dc->cring);
+-    tcg_temp_free(addr);
+-    tcg_temp_free(res);
+ }
+ 
+ static void translate_depbits(DisasContext *dc, const OpcodeArg arg[],
+@@ -1637,7 +1604,6 @@ static void translate_extui(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     tcg_gen_shri_i32(tmp, arg[1].in, arg[2].imm);
+     tcg_gen_andi_i32(arg[0].out, tmp, maskimm);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_getex(DisasContext *dc, const OpcodeArg arg[],
+@@ -1648,7 +1614,6 @@ static void translate_getex(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_extract_i32(tmp, cpu_SR[ATOMCTL], 8, 1);
+     tcg_gen_deposit_i32(cpu_SR[ATOMCTL], cpu_SR[ATOMCTL], arg[0].in, 8, 1);
+     tcg_gen_mov_i32(arg[0].out, tmp);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_icache(DisasContext *dc, const OpcodeArg arg[],
+@@ -1660,7 +1625,6 @@ static void translate_icache(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_movi_i32(cpu_pc, dc->pc);
+     tcg_gen_addi_i32(addr, arg[0].in, arg[1].imm);
+     gen_helper_itlb_hit_test(cpu_env, addr);
+-    tcg_temp_free(addr);
+ #endif
+ }
+ 
+@@ -1695,7 +1659,6 @@ static void translate_l32e(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_addi_i32(addr, arg[1].in, arg[2].imm);
+     mop = gen_load_store_alignment(dc, MO_TEUL, addr);
+     tcg_gen_qemu_ld_tl(arg[0].out, addr, dc->ring, mop);
+-    tcg_temp_free(addr);
+ }
+ 
+ #ifdef CONFIG_USER_ONLY
+@@ -1726,7 +1689,6 @@ static void translate_l32ex(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_qemu_ld_i32(arg[0].out, addr, dc->cring, mop);
+     tcg_gen_mov_i32(cpu_exclusive_addr, addr);
+     tcg_gen_mov_i32(cpu_exclusive_val, arg[0].out);
+-    tcg_temp_free(addr);
+ }
+ 
+ static void translate_ldst(DisasContext *dc, const OpcodeArg arg[],
+@@ -1749,7 +1711,6 @@ static void translate_ldst(DisasContext *dc, const OpcodeArg arg[],
+             tcg_gen_mb(TCG_BAR_LDAQ | TCG_MO_ALL);
+         }
      }
+-    tcg_temp_free(addr);
+ }
+ 
+ static void translate_lct(DisasContext *dc, const OpcodeArg arg[],
+@@ -1770,7 +1731,6 @@ static void translate_l32r(DisasContext *dc, const OpcodeArg arg[],
+         tmp = tcg_const_i32(arg[1].imm);
+     }
+     tcg_gen_qemu_ld32u(arg[0].out, tmp, dc->cring);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_loop(DisasContext *dc, const OpcodeArg arg[],
+@@ -1856,19 +1816,12 @@ static void translate_mac16(DisasContext *dc, const OpcodeArg arg[],
+                                  lo, hi);
+             }
+             tcg_gen_ext8s_i32(cpu_SR[ACCHI], cpu_SR[ACCHI]);
+-
+-            tcg_temp_free_i32(lo);
+-            tcg_temp_free_i32(hi);
+         }
+-        tcg_temp_free(m1);
+-        tcg_temp_free(m2);
+     }
+     if (ld_offset) {
+         tcg_gen_mov_i32(arg[1].out, vaddr);
+         tcg_gen_mov_i32(cpu_SR[MR + arg[0].imm], mem32);
+     }
+-    tcg_temp_free(vaddr);
+-    tcg_temp_free(mem32);
+ }
+ 
+ static void translate_memw(DisasContext *dc, const OpcodeArg arg[],
+@@ -1932,7 +1885,6 @@ static void translate_movp(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_movcond_i32(par[0],
+                         arg[0].out, tmp, zero,
+                         arg[1].in, arg[0].in);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_movsp(DisasContext *dc, const OpcodeArg arg[],
+@@ -1955,8 +1907,6 @@ static void translate_mul16(DisasContext *dc, const OpcodeArg arg[],
+         tcg_gen_ext16u_i32(v2, arg[2].in);
+     }
+     tcg_gen_mul_i32(arg[0].out, v1, v2);
+-    tcg_temp_free(v2);
+-    tcg_temp_free(v1);
+ }
+ 
+ static void translate_mull(DisasContext *dc, const OpcodeArg arg[],
+@@ -1975,7 +1925,6 @@ static void translate_mulh(DisasContext *dc, const OpcodeArg arg[],
+     } else {
+         tcg_gen_mulu2_i32(lo, arg[0].out, arg[1].in, arg[2].in);
+     }
+-    tcg_temp_free(lo);
+ }
+ 
+ static void translate_neg(DisasContext *dc, const OpcodeArg arg[],
+@@ -2110,7 +2059,6 @@ static void translate_retw(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_deposit_i32(tmp, tmp, cpu_R[0], 0, 30);
+     gen_helper_retw(cpu_env, cpu_R[0]);
+     gen_jump(dc, tmp);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_rfde(DisasContext *dc, const OpcodeArg arg[],
+@@ -2149,7 +2097,6 @@ static void translate_rfw(DisasContext *dc, const OpcodeArg arg[],
+                        cpu_SR[WINDOW_START], tmp);
+     }
+ 
+-    tcg_temp_free(tmp);
+     gen_helper_restore_owb(cpu_env);
+     gen_jump(dc, cpu_SR[EPC1]);
+ }
+@@ -2199,7 +2146,6 @@ static void translate_rsr_ptevaddr(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_shri_i32(tmp, cpu_SR[EXCVADDR], 10);
+     tcg_gen_or_i32(tmp, tmp, cpu_SR[PTEVADDR]);
+     tcg_gen_andi_i32(arg[0].out, tmp, 0xfffffffc);
+-    tcg_temp_free(tmp);
+ #endif
+ }
+ 
+@@ -2273,8 +2219,6 @@ static void translate_s32c1i(DisasContext *dc, const OpcodeArg arg[],
+     gen_check_atomctl(dc, addr);
+     tcg_gen_atomic_cmpxchg_i32(arg[0].out, addr, cpu_SR[SCOMPARE1],
+                                tmp, dc->cring, mop);
+-    tcg_temp_free(addr);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_s32e(DisasContext *dc, const OpcodeArg arg[],
+@@ -2286,7 +2230,6 @@ static void translate_s32e(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_addi_i32(addr, arg[1].in, arg[2].imm);
+     mop = gen_load_store_alignment(dc, MO_TEUL, addr);
+     tcg_gen_qemu_st_tl(arg[0].in, addr, dc->ring, mop);
+-    tcg_temp_free(addr);
+ }
+ 
+ static void translate_s32ex(DisasContext *dc, const OpcodeArg arg[],
+@@ -2312,9 +2255,6 @@ static void translate_s32ex(DisasContext *dc, const OpcodeArg arg[],
+     gen_set_label(label);
+     tcg_gen_extract_i32(arg[0].out, cpu_SR[ATOMCTL], 8, 1);
+     tcg_gen_deposit_i32(cpu_SR[ATOMCTL], cpu_SR[ATOMCTL], res, 8, 1);
+-    tcg_temp_free(prev);
+-    tcg_temp_free(addr);
+-    tcg_temp_free(res);
+ }
+ 
+ static void translate_salt(DisasContext *dc, const OpcodeArg arg[],
+@@ -2338,7 +2278,6 @@ static void translate_sext(DisasContext *dc, const OpcodeArg arg[],
+         TCGv_i32 tmp = tcg_temp_new_i32();
+         tcg_gen_shli_i32(tmp, arg[1].in, shift);
+         tcg_gen_sari_i32(arg[0].out, tmp, shift);
+-        tcg_temp_free(tmp);
+     }
+ }
+ 
+@@ -2378,8 +2317,6 @@ static void translate_simcall(DisasContext *dc, const OpcodeArg arg[],
+                     tcg_gen_extu_i32_i64(tmp, reg); \
+                     tcg_gen_##cmd##_i64(v, v, tmp); \
+                     tcg_gen_extrl_i64_i32(arg[0].out, v); \
+-                    tcg_temp_free_i64(v); \
+-                    tcg_temp_free_i64(tmp); \
+                 } while (0)
+ 
+ #define gen_shift(cmd) gen_shift_reg(cmd, cpu_SR[SAR])
+@@ -2396,7 +2333,6 @@ static void translate_sll(DisasContext *dc, const OpcodeArg arg[],
+         tcg_gen_andi_i32(s, s, 0x3f);
+         tcg_gen_extu_i32_i64(v, arg[1].in);
+         gen_shift_reg(shl, s);
+-        tcg_temp_free(s);
+     }
+ }
+ 
+@@ -2463,7 +2399,6 @@ static void translate_ssa8b(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     tcg_gen_shli_i32(tmp, arg[0].in, 3);
+     gen_left_shift_sar(dc, tmp);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_ssa8l(DisasContext *dc, const OpcodeArg arg[],
+@@ -2472,7 +2407,6 @@ static void translate_ssa8l(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     tcg_gen_shli_i32(tmp, arg[0].in, 3);
+     gen_right_shift_sar(dc, tmp);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_ssai(DisasContext *dc, const OpcodeArg arg[],
+@@ -2505,7 +2439,6 @@ static void translate_subx(DisasContext *dc, const OpcodeArg arg[],
+     TCGv_i32 tmp = tcg_temp_new_i32();
+     tcg_gen_shli_i32(tmp, arg[1].in, par[0]);
+     tcg_gen_sub_i32(arg[0].out, tmp, arg[2].in);
+-    tcg_temp_free(tmp);
+ }
+ 
+ static void translate_waiti(DisasContext *dc, const OpcodeArg arg[],
+@@ -2757,7 +2690,6 @@ static void translate_xsr(DisasContext *dc, const OpcodeArg arg[],
+         tcg_gen_mov_i32(tmp, arg[0].in);
+         tcg_gen_mov_i32(arg[0].out, cpu_SR[par[0]]);
+         tcg_gen_mov_i32(cpu_SR[par[0]], tmp);
+-        tcg_temp_free(tmp);
+     } else {
+         tcg_gen_movi_i32(arg[0].out, 0);
+     }
+@@ -2772,7 +2704,6 @@ static void translate_xsr_mask(DisasContext *dc, const OpcodeArg arg[],
+         tcg_gen_mov_i32(tmp, arg[0].in);
+         tcg_gen_mov_i32(arg[0].out, cpu_SR[par[0]]);
+         tcg_gen_andi_i32(cpu_SR[par[0]], tmp, par[2]);
+-        tcg_temp_free(tmp);
+     } else {
+         tcg_gen_movi_i32(arg[0].out, 0);
+     }
+@@ -2792,7 +2723,6 @@ static void translate_xsr_ccount(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_mov_i32(tmp, cpu_SR[par[0]]);
+     gen_helper_wsr_ccount(cpu_env, arg[0].in);
+     tcg_gen_mov_i32(arg[0].out, tmp);
+-    tcg_temp_free(tmp);
+ 
+ #endif
+ }
+@@ -2810,7 +2740,6 @@ static void translate_xsr_ccount(DisasContext *dc, const OpcodeArg arg[],
+     } \
+     translate_wsr_##name(dc, arg, par); \
+     tcg_gen_mov_i32(arg[0].out, tmp); \
+-    tcg_temp_free(tmp); \
+ }
+ 
+ gen_translate_xsr(acchi)
+@@ -6297,16 +6226,6 @@ static inline void put_f32_o1_i3(const OpcodeArg *arg, const OpcodeArg *arg32,
+         (o0 >= 0 && arg[o0].num_bits == 64)) {
+         if (o0 >= 0) {
+             tcg_gen_extu_i32_i64(arg[o0].out, arg32[o0].out);
+-            tcg_temp_free_i32(arg32[o0].out);
+-        }
+-        if (i0 >= 0) {
+-            tcg_temp_free_i32(arg32[i0].in);
+-        }
+-        if (i1 >= 0) {
+-            tcg_temp_free_i32(arg32[i1].in);
+-        }
+-        if (i2 >= 0) {
+-            tcg_temp_free_i32(arg32[i2].in);
+         }
+     }
+ }
+@@ -6430,9 +6349,6 @@ static void translate_compare_d(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_movcond_i32(TCG_COND_NE,
+                         arg[0].out, res, zero,
+                         set_br, clr_br);
+-    tcg_temp_free(res);
+-    tcg_temp_free(set_br);
+-    tcg_temp_free(clr_br);
+ }
+ 
+ static void translate_compare_s(DisasContext *dc, const OpcodeArg arg[],
+@@ -6463,9 +6379,6 @@ static void translate_compare_s(DisasContext *dc, const OpcodeArg arg[],
+                         arg[0].out, res, zero,
+                         set_br, clr_br);
+     put_f32_i2(arg, arg32, 1, 2);
+-    tcg_temp_free(res);
+-    tcg_temp_free(set_br);
+-    tcg_temp_free(clr_br);
+ }
+ 
+ static void translate_const_d(DisasContext *dc, const OpcodeArg arg[],
+@@ -6584,7 +6497,6 @@ static void translate_ldsti(DisasContext *dc, const OpcodeArg arg[],
+     if (par[1]) {
+         tcg_gen_mov_i32(arg[1].out, addr);
+     }
+-    tcg_temp_free(addr);
+ }
+ 
+ static void translate_ldstx(DisasContext *dc, const OpcodeArg arg[],
+@@ -6603,7 +6515,6 @@ static void translate_ldstx(DisasContext *dc, const OpcodeArg arg[],
+     if (par[1]) {
+         tcg_gen_mov_i32(arg[1].out, addr);
+     }
+-    tcg_temp_free(addr);
+ }
+ 
+ static void translate_fpu2k_madd_s(DisasContext *dc, const OpcodeArg arg[],
+@@ -6639,7 +6550,6 @@ static void translate_movcond_d(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_movcond_i64(par[0], arg[0].out,
+                         arg2, zero,
+                         arg[1].in, arg[0].in);
+-    tcg_temp_free_i64(arg2);
+ }
+ 
+ static void translate_movcond_s(DisasContext *dc, const OpcodeArg arg[],
+@@ -6668,8 +6578,6 @@ static void translate_movp_d(DisasContext *dc, const OpcodeArg arg[],
+     tcg_gen_movcond_i64(par[0],
+                         arg[0].out, tmp2, zero,
+                         arg[1].in, arg[0].in);
+-    tcg_temp_free_i32(tmp1);
+-    tcg_temp_free_i64(tmp2);
+ }
+ 
+ static void translate_movp_s(DisasContext *dc, const OpcodeArg arg[],
+@@ -6683,7 +6591,6 @@ static void translate_movp_s(DisasContext *dc, const OpcodeArg arg[],
+         tcg_gen_movcond_i32(par[0],
+                             arg[0].out, tmp, zero,
+                             arg[1].in, arg[0].in);
+-        tcg_temp_free(tmp);
+     } else {
+         translate_movp_d(dc, arg, par);
+     }
+@@ -7015,7 +6922,6 @@ static void translate_cvtd_s(DisasContext *dc, const OpcodeArg arg[],
+ 
+     tcg_gen_extrl_i64_i32(v, arg[1].in);
+     gen_helper_cvtd_s(arg[0].out, cpu_env, v);
+-    tcg_temp_free_i32(v);
+ }
+ 
+ static void translate_cvts_d(DisasContext *dc, const OpcodeArg arg[],
+@@ -7025,7 +6931,6 @@ static void translate_cvts_d(DisasContext *dc, const OpcodeArg arg[],
+ 
+     gen_helper_cvts_d(v, cpu_env, arg[1].in);
+     tcg_gen_extu_i32_i64(arg[0].out, v);
+-    tcg_temp_free_i32(v);
+ }
+ 
+ static void translate_ldsti_d(DisasContext *dc, const OpcodeArg arg[],
+@@ -7053,9 +6958,6 @@ static void translate_ldsti_d(DisasContext *dc, const OpcodeArg arg[],
+             tcg_gen_addi_i32(arg[1].out, arg[1].in, arg[2].imm);
+         }
+     }
+-    if (par[1]) {
+-        tcg_temp_free(addr);
+-    }
+ }
+ 
+ static void translate_ldsti_s(DisasContext *dc, const OpcodeArg arg[],
+@@ -7088,9 +6990,6 @@ static void translate_ldsti_s(DisasContext *dc, const OpcodeArg arg[],
+             tcg_gen_addi_i32(arg[1].out, arg[1].in, arg[2].imm);
+         }
+     }
+-    if (par[1]) {
+-        tcg_temp_free(addr);
+-    }
+ }
+ 
+ static void translate_ldstx_d(DisasContext *dc, const OpcodeArg arg[],
+@@ -7118,9 +7017,6 @@ static void translate_ldstx_d(DisasContext *dc, const OpcodeArg arg[],
+             tcg_gen_add_i32(arg[1].out, arg[1].in, arg[2].in);
+         }
+     }
+-    if (par[1]) {
+-        tcg_temp_free(addr);
+-    }
+ }
+ 
+ static void translate_ldstx_s(DisasContext *dc, const OpcodeArg arg[],
+@@ -7153,9 +7049,6 @@ static void translate_ldstx_s(DisasContext *dc, const OpcodeArg arg[],
+             tcg_gen_add_i32(arg[1].out, arg[1].in, arg[2].in);
+         }
+     }
+-    if (par[1]) {
+-        tcg_temp_free(addr);
+-    }
+ }
+ 
+ static void translate_madd_d(DisasContext *dc, const OpcodeArg arg[],
 -- 
 2.34.1
 
