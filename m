@@ -2,55 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B15D6A4858
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CAD6A485F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 18:43:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWhUr-0002Ub-LP; Mon, 27 Feb 2023 12:41:09 -0500
+	id 1pWhWX-0004rx-MZ; Mon, 27 Feb 2023 12:42:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1pWhUn-0002KS-2d
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:41:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWhWV-0004rp-Hj
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:42:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1pWhUj-0001gw-BP
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:41:04 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWhWT-0001tc-Lq
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 12:42:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677519659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=jw5W4HBh/vvH2xursYNni3NZ/OMdQ/AtY0xGrmCRrYE=;
- b=NMDmxJ/soJsnSlj7gbKKZHz9QkeQ8hfErVzQ6jIOjfSI6suFc1gpOpx4TzwyFAxeSPH6Mf
- YROmICh6jNhjbZg4ibhp6kackGLV4e+AiRxiTxDGbsxznR5qrIBpNYrGOR04oPqlB5pw+K
- 9E3wpB9C9+KMpYmyIs1wwmNQuC/0ehQ=
+ s=mimecast20190719; t=1677519768;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cenlVRSFdWOl2ZrghS5ylrQEc2wc7xoGUxckcL75P+A=;
+ b=NWhFmMeEGSuO7hLQj3R16BBFds9RxK8oiUExjNHH2Q++uQsfWfdB6SkgqShIrvhrgJzK17
+ CYO089wIy0btI/XbmYL5dt8BIsxZjTTfW/oMt2aXxxBea9Yzw54jKs+bTeRItTkGGPqMLB
+ 0QVHAWBPbX0koXBL3b2bVSPSFhMauFg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-292-AvAz5LzIN2-C2K-DBrXn7A-1; Mon, 27 Feb 2023 12:40:54 -0500
-X-MC-Unique: AvAz5LzIN2-C2K-DBrXn7A-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-59-n6M6ZzoTMcKnHpR3_CxC2w-1; Mon, 27 Feb 2023 12:42:43 -0500
+X-MC-Unique: n6M6ZzoTMcKnHpR3_CxC2w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 304C219705A8;
- Mon, 27 Feb 2023 17:40:24 +0000 (UTC)
-Received: from pick.home.annexia.org (unknown [10.45.224.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54EFB492B0E;
- Mon, 27 Feb 2023 17:40:22 +0000 (UTC)
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: alxndr@bu.edu, pbonzini@redhat.com, bsd@redhat.com, stefanha@redhat.com,
- thuth@redhat.com, darren.kenny@oracle.com, Qiuhao.Li@outlook.com,
- fam@euphon.net, lvivier@redhat.com, berrange@redhat.com
-Subject: [PATCH] tests: Ensure TAP version is printed before other messages
-Date: Mon, 27 Feb 2023 17:40:19 +0000
-Message-Id: <20230227174019.1164205-1-rjones@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D9E8857A81;
+ Mon, 27 Feb 2023 17:42:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 03D52404BEC5;
+ Mon, 27 Feb 2023 17:42:36 +0000 (UTC)
+Date: Mon, 27 Feb 2023 17:42:34 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Ross Lagerwall <ross.lagerwall@citrix.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] ps2: Don't send key release event for Lang1, Lang2 keys
+Message-ID: <Y/zritfojBdlHWaz@redhat.com>
+References: <20230227173308.3944546-1-ross.lagerwall@citrix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+In-Reply-To: <20230227173308.3944546-1-ross.lagerwall@citrix.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -71,63 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These two tests were failing with this error:
+On Mon, Feb 27, 2023 at 05:33:08PM +0000, Ross Lagerwall wrote:
+> The scancodes for the Lang1 and Lang2 keys (i.e. Hangeul, Hanja) are
+> special since they already have the 0x80 bit set which is commonly used
+> to indicate a key release in AT set 1. Reportedly, real hardware does
+> not send a key release scancode. So, skip sending a release for these
+> keys. This ensures that Windows behaves correctly and interprets it as a
+> single keypress rather than two consecutive keypresses.
 
-  stderr:
-  TAP parsing error: version number must be on the first line
-  [...]
-  Unknown TAP version. The first line MUST be `TAP version <int>`. Assuming version 12.
+A reference for this assertion would be:
 
-This can be fixed by ensuring we always call g_test_init first in the
-body of main.
+  https://www.win.tue.nl/~aeb/linux/kbd/scancodes-9.html
 
-Thanks: Daniel Berrange, for diagnosing the problem
-Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
----
- tests/qtest/fuzz-lsi53c895a-test.c | 4 ++--
- tests/qtest/rtl8139-test.c         | 5 +++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+   "The Korean keyboard has two keys, the Korean/Chinese and
+    the Korean/English toggles, that generate scancodes f1
+    and f2 (respectively) when pressed, and nothing when
+    released."
 
-diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-index a9254b455d..2012bd54b7 100644
---- a/tests/qtest/fuzz-lsi53c895a-test.c
-+++ b/tests/qtest/fuzz-lsi53c895a-test.c
-@@ -112,12 +112,12 @@ static void test_lsi_do_dma_empty_queue(void)
- 
- int main(int argc, char **argv)
- {
-+    g_test_init(&argc, &argv, NULL);
-+
-     if (!qtest_has_device("lsi53c895a")) {
-         return 0;
-     }
- 
--    g_test_init(&argc, &argv, NULL);
--
-     qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
-                    test_lsi_do_dma_empty_queue);
- 
-diff --git a/tests/qtest/rtl8139-test.c b/tests/qtest/rtl8139-test.c
-index 1beb83805c..4bd240e9ee 100644
---- a/tests/qtest/rtl8139-test.c
-+++ b/tests/qtest/rtl8139-test.c
-@@ -207,9 +207,10 @@ int main(int argc, char **argv)
-         verbosity_level = atoi(v_env);
-     }
- 
--    qtest_start("-device rtl8139");
--
-     g_test_init(&argc, &argv, NULL);
-+
-+    qtest_start("-device rtl8139");
-+
-     qtest_add_func("/rtl8139/nop", nop);
-     qtest_add_func("/rtl8139/timer", test_init);
- 
+> 
+> Signed-off-by: Ross Lagerwall <ross.lagerwall@citrix.com>
+> ---
+>  hw/input/ps2.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+> 
+> diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+> index 3253ab6a92..45af76a837 100644
+> --- a/hw/input/ps2.c
+> +++ b/hw/input/ps2.c
+> @@ -402,6 +402,9 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
+>                      ps2_put_keycode(s, 0xaa);
+>                  }
+>              }
+> +        } else if ((qcode == Q_KEY_CODE_LANG1 || qcode == Q_KEY_CODE_LANG2)
+> +                   && !key->down) {
+> +            /* Ignore release for these keys */
+>          } else {
+>              if (qcode < qemu_input_map_qcode_to_atset1_len) {
+>                  keycode = qemu_input_map_qcode_to_atset1[qcode];
+> @@ -497,6 +500,9 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
+>                      ps2_put_keycode(s, 0x12);
+>                  }
+>              }
+> +        } else if ((qcode == Q_KEY_CODE_LANG1 || qcode == Q_KEY_CODE_LANG2) &&
+> +                   !key->down) {
+> +            /* Ignore release for these keys */
+>          } else {
+>              if (qcode < qemu_input_map_qcode_to_atset2_len) {
+>                  keycode = qemu_input_map_qcode_to_atset2[qcode];
+> -- 
+> 2.31.1
+> 
+
+With regards,
+Daniel
 -- 
-2.39.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
