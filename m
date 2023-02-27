@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330316A4622
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 16:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9EB6A461D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Feb 2023 16:32:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWfUb-0004YT-IB; Mon, 27 Feb 2023 10:32:45 -0500
+	id 1pWfTr-00033v-GO; Mon, 27 Feb 2023 10:31:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWfUR-0004IJ-6J
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:32:36 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1pWfTi-00030n-VL
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:31:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWfUP-000173-6K
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:32:34 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PQPWW4hWcz6J79W;
- Mon, 27 Feb 2023 23:27:35 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 27 Feb 2023 15:32:28 +0000
-To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Fan Ni
- <fan.ni@samsung.com>
-CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
- <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
- <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>, Dave Jiang
- <dave.jiang@intel.com>
-Subject: [PATCH v2 2/2] hw/pxb-cxl: Support passthrough HDM Decoders unless
- overridden
-Date: Mon, 27 Feb 2023 15:31:28 +0000
-Message-ID: <20230227153128.8164-3-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230227153128.8164-1-Jonathan.Cameron@huawei.com>
-References: <20230227153128.8164-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1pWfTh-00013E-5N
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 10:31:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677511906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GVLZJlBSmoUM7cwNX3XWxz7mTnN3JZ31QrYsVuata0A=;
+ b=eK2c21nONBYf+PxDj9m+s5Y4BXafNxKvdbqvyyo+soHFvk6if+sJcfUqnv9jdGuqkvs9dn
+ LQTchHfeiBXPWQbqPevCjUugJtI/XIE8vW2dbZW15KI7dYJjQJ4X18hSw8eEU+KJ9IVMZy
+ 6qZ2un7Jm2gaXMISKJXeXT6rZ5MK9As=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-noc4Nna_PoasTss9608tVQ-1; Mon, 27 Feb 2023 10:31:44 -0500
+X-MC-Unique: noc4Nna_PoasTss9608tVQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27FFD3823A08;
+ Mon, 27 Feb 2023 15:31:42 +0000 (UTC)
+Received: from speedmetal.redhat.com (unknown [10.45.242.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D98A2166B2B;
+ Mon, 27 Feb 2023 15:31:40 +0000 (UTC)
+From: Peter Krempa <pkrempa@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH] qapi: Add 'acpi' field to 'query-machines' output
+Date: Mon, 27 Feb 2023 16:31:39 +0100
+Message-Id: <c556e203447618f5e1020878b1781428b16ad97e.1677511289.git.pkrempa@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,221 +76,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The CXL r3.0 specification allows for there to be no HDM decoders on CXL
-Host Bridges if they have only a single root port. Instead, all accesses
-directed to the host bridge (as specified in CXL Fixed Memory Windows)
-are assumed to be routed to the single root port.
+Report which machine types support ACPI so that management applications
+can properly use the 'acpi' property even on platforms such as ARM where
+support for ACPI depends on the machine type and thus checking presence
+of '-machine acpi=' in 'query-command-line-options' is insufficient.
 
-Linux currently assumes this implementation choice. So to simplify testing,
-make QEMU emulation also default to no HDM decoders under these particular
-circumstances, but provide a hdm_for_passthrough boolean option to have
-HDM decoders as previously.
-
-Technically this is breaking backwards compatibility, but given the only
-known software stack used with the QEMU emulation is the Linux kernel
-and this configuration did not work before this change, there are
-unlikely to be any complaints that it now works. The option is retained
-to allow testing of software that does allow for these HDM decoders to exist,
-once someone writes it.
-
-Reported-by: Fan Ni <fan.ni@samsung.com>
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
-Tested-by: Fan Ni <fan.ni@samsung.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
---
-v2: Pick up and fix typo in tag from Fan Ni
+Signed-off-by: Peter Krempa <pkrempa@redhat.com>
 ---
- hw/cxl/cxl-host.c                   | 31 ++++++++++++--------
- hw/pci-bridge/pci_expander_bridge.c | 44 +++++++++++++++++++++++++----
- include/hw/cxl/cxl.h                |  1 +
- include/hw/cxl/cxl_component.h      |  1 +
- include/hw/pci/pci_bridge.h         |  1 +
- 5 files changed, 61 insertions(+), 17 deletions(-)
 
-diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-index 3c1ec8732a..6e923ceeaf 100644
---- a/hw/cxl/cxl-host.c
-+++ b/hw/cxl/cxl-host.c
-@@ -146,21 +146,28 @@ static PCIDevice *cxl_cfmws_find_device(CXLFixedWindow *fw, hwaddr addr)
-         return NULL;
-     }
- 
--    hb_cstate = cxl_get_hb_cstate(hb);
--    if (!hb_cstate) {
--        return NULL;
--    }
-+    if (cxl_get_hb_passthrough(hb)) {
-+        rp = pcie_find_port_first(hb->bus);
-+        if (!rp) {
-+            return NULL;
-+        }
-+    } else {
-+        hb_cstate = cxl_get_hb_cstate(hb);
-+        if (!hb_cstate) {
-+            return NULL;
-+        }
- 
--    cache_mem = hb_cstate->crb.cache_mem_registers;
-+        cache_mem = hb_cstate->crb.cache_mem_registers;
- 
--    target_found = cxl_hdm_find_target(cache_mem, addr, &target);
--    if (!target_found) {
--        return NULL;
--    }
-+        target_found = cxl_hdm_find_target(cache_mem, addr, &target);
-+        if (!target_found) {
-+            return NULL;
-+        }
- 
--    rp = pcie_find_port_by_pn(hb->bus, target);
--    if (!rp) {
--        return NULL;
-+        rp = pcie_find_port_by_pn(hb->bus, target);
-+        if (!rp) {
-+            return NULL;
-+        }
-     }
- 
-     d = pci_bridge_get_sec_bus(PCI_BRIDGE(rp))->devices[0];
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index e752a21292..ead33f0c05 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -15,6 +15,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci/pci_host.h"
-+#include "hw/pci/pcie_port.h"
- #include "hw/qdev-properties.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci-bridge/pci_expander_bridge.h"
-@@ -79,6 +80,13 @@ CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb)
-     return &host->cxl_cstate;
- }
- 
-+bool cxl_get_hb_passthrough(PCIHostState *hb)
-+{
-+    CXLHost *host = PXB_CXL_HOST(hb);
-+
-+    return host->passthrough;
-+}
-+
- static int pxb_bus_num(PCIBus *bus)
- {
-     PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-@@ -289,15 +297,32 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pin)
-     return pin - PCI_SLOT(pxb->devfn);
- }
- 
--static void pxb_dev_reset(DeviceState *dev)
-+static void pxb_cxl_dev_reset(DeviceState *dev)
- {
-     CXLHost *cxl = PXB_CXL_DEV(dev)->cxl.cxl_host_bridge;
-     CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-+    PCIHostState *hb = PCI_HOST_BRIDGE(cxl);
-     uint32_t *reg_state = cxl_cstate->crb.cache_mem_registers;
-     uint32_t *write_msk = cxl_cstate->crb.cache_mem_regs_write_mask;
-+    int dsp_count = 0;
- 
-     cxl_component_register_init_common(reg_state, write_msk, CXL2_ROOT_PORT);
--    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 8);
-+    /*
-+     * The CXL specification allows for host bridges with no HDM decoders
-+     * if they only have a single root port.
-+     */
-+    if (!PXB_DEV(dev)->hdm_for_passthrough) {
-+        dsp_count = pcie_count_ds_ports(hb->bus);
-+    }
-+    /* Initial reset will have 0 dsp so wait until > 0 */
-+    if (dsp_count == 1) {
-+        cxl->passthrough = true;
-+        /* Set Capability ID in header to NONE */
-+        ARRAY_FIELD_DP32(reg_state, CXL_HDM_CAPABILITY_HEADER, ID, 0);
-+    } else {
-+        ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT,
-+                         8);
-+    }
- }
- 
- static gint pxb_compare(gconstpointer a, gconstpointer b)
-@@ -481,9 +506,18 @@ static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
-     }
- 
-     pxb_dev_realize_common(dev, CXL, errp);
--    pxb_dev_reset(DEVICE(dev));
-+    pxb_cxl_dev_reset(DEVICE(dev));
- }
- 
-+static Property pxb_cxl_dev_properties[] = {
-+    /* Note: 0 is not a legal PXB bus number. */
-+    DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
-+    DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
-+    DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
-+    DEFINE_PROP_BOOL("hdm_for_passthrough", PXBDev, hdm_for_passthrough, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc   = DEVICE_CLASS(klass);
-@@ -497,12 +531,12 @@ static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
-      */
- 
-     dc->desc = "CXL Host Bridge";
--    device_class_set_props(dc, pxb_dev_properties);
-+    device_class_set_props(dc, pxb_cxl_dev_properties);
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
- 
-     /* Host bridges aren't hotpluggable. FIXME: spec reference */
-     dc->hotpluggable = false;
--    dc->reset = pxb_dev_reset;
-+    dc->reset = pxb_cxl_dev_reset;
- }
- 
- static const TypeInfo pxb_cxl_dev_info = {
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index b161be59b7..b2cffbb364 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -49,6 +49,7 @@ struct CXLHost {
-     PCIHostState parent_obj;
- 
-     CXLComponentState cxl_cstate;
-+    bool passthrough;
- };
- 
- #define TYPE_PXB_CXL_HOST "pxb-cxl-host"
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index ec4203b83f..42c7e581a7 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -247,6 +247,7 @@ static inline hwaddr cxl_decode_ig(int ig)
- }
- 
- CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb);
-+bool cxl_get_hb_passthrough(PCIHostState *hb);
- 
- void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp);
- void cxl_doe_cdat_release(CXLComponentState *cxl_cstate);
-diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-index 63a7521567..81a058bb2c 100644
---- a/include/hw/pci/pci_bridge.h
-+++ b/include/hw/pci/pci_bridge.h
-@@ -92,6 +92,7 @@ struct PXBDev {
-     uint8_t bus_nr;
-     uint16_t numa_node;
-     bool bypass_iommu;
-+    bool hdm_for_passthrough;
-     struct cxl_dev {
-         CXLHost *cxl_host_bridge; /* Pointer to a CXLHost */
-     } cxl;
+Libvirt intends to use this information to unbreak configs of ARM
+machines with machine type which doesn't support ACPI. Historically
+we'd use '-no-acpi' as the default was to enable ACPI. Conversion
+to the modern equivalent '-machine acpi=' unfortunately didn't really
+allow to fix the logic for this specific case whithout additional
+information.
+
+Libvirt patches are posted as:
+https://listman.redhat.com/archives/libvir-list/2023-February/238153.html
+
+ hw/core/machine-qmp-cmds.c | 1 +
+ include/hw/boards.h        | 3 +++
+ qapi/machine.json          | 4 +++-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 2d904747c0..b98ff15089 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -102,6 +102,7 @@ MachineInfoList *qmp_query_machines(Error **errp)
+         info->hotpluggable_cpus = mc->has_hotpluggable_cpus;
+         info->numa_mem_supported = mc->numa_mem_supported;
+         info->deprecated = !!mc->deprecation_reason;
++        info->acpi = !!object_class_property_find(OBJECT_CLASS(mc), "acpi");
+         if (mc->default_cpu_type) {
+             info->default_cpu_type = g_strdup(mc->default_cpu_type);
+         }
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 6fbbfd56c8..c18b444bef 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -174,6 +174,8 @@ typedef struct {
+  *    index @idx in @ms->possible_cpus[]
+  * @has_hotpluggable_cpus:
+  *    If true, board supports CPUs creation with -device/device_add.
++ * @has_acpi:
++ *    Machine type has support for ACPI.
+  * @default_cpu_type:
+  *    specifies default CPU_TYPE, which will be used for parsing target
+  *    specific features and for creating CPUs if CPU name wasn't provided
+@@ -262,6 +264,7 @@ struct MachineClass {
+     bool rom_file_has_mr;
+     int minimum_page_bits;
+     bool has_hotpluggable_cpus;
++    bool has_acpi;
+     bool ignore_memory_transaction_failures;
+     int numa_mem_align_shift;
+     const char **valid_cpu_types;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index b9228a5e46..f82a00963b 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -155,6 +155,8 @@
+ #
+ # @default-ram-id: the default ID of initial RAM memory backend (since 5.2)
+ #
++# @acpi: machine type supports acpi (since 8.0)
++#
+ # Since: 1.2
+ ##
+ { 'struct': 'MachineInfo',
+@@ -162,7 +164,7 @@
+             '*is-default': 'bool', 'cpu-max': 'int',
+             'hotpluggable-cpus': 'bool',  'numa-mem-supported': 'bool',
+             'deprecated': 'bool', '*default-cpu-type': 'str',
+-            '*default-ram-id': 'str' } }
++            '*default-ram-id': 'str', 'acpi': 'bool' } }
+
+ ##
+ # @query-machines:
 -- 
-2.37.2
+2.39.2
 
 
