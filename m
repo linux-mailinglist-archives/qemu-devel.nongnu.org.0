@@ -2,56 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1886A570C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D066A56ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:41:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWxWA-0005LA-Gl; Tue, 28 Feb 2023 05:47:34 -0500
+	id 1pWxPg-0000pE-2y; Tue, 28 Feb 2023 05:40:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pWxW8-0005Ki-Lz; Tue, 28 Feb 2023 05:47:32 -0500
-Received: from bg4.exmail.qq.com ([43.155.65.254])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWxPb-0000gp-D1
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:40:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pWxW6-0003xe-EI; Tue, 28 Feb 2023 05:47:32 -0500
-X-QQ-mid: bizesmtp71t1677581234teljenir
-Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 28 Feb 2023 18:47:12 +0800 (CST)
-X-QQ-SSF: 01200000000000D0E000000A0000000
-X-QQ-FEAT: nA8mzCjPbKgVHkwH6S450zcro+Wuzi0qx+B7gHciUvrnZOdIujWNnHEt+BGYs
- AsZYPNydL9UA77txphqXAcbkt0V/rA7qj1kqCP4BI29G9d/27HPPhTdwOOTwQo/ChsYbTJN
- 1N8JC+zRIlmdby3tImqS4eXJtKAr/gxQmg7ZpmWGTuRje5keJDEx+pUcnbizWTFdQjIH7xZ
- lUHXKM9b/kxlelYnycoiel0j8EpCK2TSpNPt7eASHB3vUdw85D/qzxmPZLQ9DpxrtHtXtMI
- M+HUEvBCEDktGmE/jMQliKet/OsiU2cUv4VhrBNW0NfmILN05lNjzvB/OWJBpqOW/OHcUx8
- rVU0iGmIuWxANLsJEBd2OympwyqQSVtL2tt7hS8l8hm0j2xJQc=
-X-QQ-GoodBg: 0
-From: Bin Meng <bmeng@tinylab.org>
-To: qemu-devel@nongnu.org
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
-Subject: [PATCH v2 06/18] target/riscv: Coding style fixes in csr.c
-Date: Tue, 28 Feb 2023 18:40:22 +0800
-Message-Id: <20230228104035.1879882-7-bmeng@tinylab.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230228104035.1879882-1-bmeng@tinylab.org>
-References: <20230228104035.1879882-1-bmeng@tinylab.org>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWxPZ-0002Bl-Ij
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:40:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677580845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rzrowUv/ZngLipz3SxIuROR69yrw50WqPBFbWvu+YCM=;
+ b=deMJkugu7dF73Rw37ZzbOy9DaVQ1gXXxnolNmLJkKHHejvUKByayoqp4Imw1mJglBufQxu
+ CfhkFEF/7VpyUcAOsBKvgZK/HnE19t2QyVy2pkO0/oFruJNWZVy/7zQj7zFDG/Db2QVL/F
+ uxTVjrnsfxYXeRhQ7b0MebHWyTsscYU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-590-w8ILleGBOeG6Q0Ya2CvOZw-1; Tue, 28 Feb 2023 05:40:40 -0500
+X-MC-Unique: w8ILleGBOeG6Q0Ya2CvOZw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ az39-20020a05600c602700b003e97eb80524so6723337wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 02:40:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677580838;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rzrowUv/ZngLipz3SxIuROR69yrw50WqPBFbWvu+YCM=;
+ b=t0oIAJ/o8WiYmF3bAknqMY/NrEBQvwOwxG68NFaAPUIiZhUJMOavG/Rlo5sSgyDvxy
+ rXo0sjXkBA2h5eHFZYkRBcOpN6NUm5CA3nj9j977KMGngObrCBeG6DoCoIVUYfRBz316
+ F37hT9ymV7/lSKRj1LL4Uc5b4xQNLwYct0OXOlrN7XHP10DaVJTviYlUmiTiiTYOz7D9
+ zkC8n52WwRLufgxtbjj0KSZtP1+Eje0D93gZV0WOeflilPSPQe5HupReujKSYymKZ5k0
+ mQQopcviDCC7xs8DT+A4JLexLqWDaFnlnTn47rV6MeFpUqlzbttJ+Ppntro/INq1/9Xv
+ c1fQ==
+X-Gm-Message-State: AO0yUKXQ7e9pmgHJ2v3F4XJqprTyvOrFh1thCdEPlmES4rPTQeU3oqEX
+ xKAv9pyHbqu0f165Dui6ly8jnOeP8OoLB7WZkbrcx/CqyhF2/VPOfMDobcHmzUXglN0kD21EUUg
+ LmxsQLfxlqRoA++g=
+X-Received: by 2002:a5d:400d:0:b0:2c7:6cd3:638a with SMTP id
+ n13-20020a5d400d000000b002c76cd3638amr1618030wrp.65.1677580838267; 
+ Tue, 28 Feb 2023 02:40:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/KI4zAjATmpKpGu1myN3tsm9P5fK2oPzYX/UP9x5koQ4HKzaA2Rypsf2nzlPdkP0O6ZMBEKQ==
+X-Received: by 2002:a5d:400d:0:b0:2c7:6cd3:638a with SMTP id
+ n13-20020a5d400d000000b002c76cd3638amr1618018wrp.65.1677580837947; 
+ Tue, 28 Feb 2023 02:40:37 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ d16-20020adff850000000b002c55306f6edsm9419441wrq.54.2023.02.28.02.40.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 02:40:37 -0800 (PST)
+Date: Tue, 28 Feb 2023 05:40:33 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Cc: jasowang@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, eperezma@redhat.com, alex.williamson@redhat.com,
+ mtosatti@redhat.com, clg@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v1 3/3] virtio-pci: defer to commit kvm irq routing when
+ enable msi/msix
+Message-ID: <20230228051830-mutt-send-email-mst@kernel.org>
+References: <20230228093937.2515-1-longpeng2@huawei.com>
+ <20230228093937.2515-4-longpeng2@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
- helo=bg4.exmail.qq.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230228093937.2515-4-longpeng2@huawei.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,291 +98,237 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix various places that violate QEMU coding style:
+On Tue, Feb 28, 2023 at 05:39:37PM +0800, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
+> 
+> All unmasked vectors will be setup in msix_set_vector_notifiers(), which
+> is a time-consuming operation because each vector need to be submit to
+> KVM once. It's even worse if the VM has several devices and each devices
+> has dozens of vectors.
+> 
+> We can defer and commit the vectors in batch, just like the commit dc580d51f7
+> ("vfio: defer to commit kvm irq routing when enable msi/msix"),
+> 
+> The can reduce 80% of the time spending on virtio_pci_set_guest_notifiers().
 
-- correct multi-line comment format
-- indent to opening parenthesis
+cover letter also refers to 80%. what about patch 1 then? does it 
+contribute some of this gain?
 
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
----
+> Signed-off-by: Longpeng <longpeng2@huawei.com>
 
-(no changes since v1)
+In the age of language models there's no longer any excuse to post
+agrammatical commit messages. Please just give your text to one of these
+to correct.
 
- target/riscv/csr.c | 62 ++++++++++++++++++++++++----------------------
- 1 file changed, 32 insertions(+), 30 deletions(-)
+I prompted: "please correct grammar in the following text"
+and got back:
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index cfd7ffc5c2..6a82628749 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -963,7 +963,7 @@ static RISCVException sstc_32(CPURISCVState *env, int csrno)
- }
- 
- static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
--                                    target_ulong *val)
-+                                     target_ulong *val)
- {
-     *val = env->vstimecmp;
- 
-@@ -971,7 +971,7 @@ static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
--                                    target_ulong *val)
-+                                      target_ulong *val)
- {
-     *val = env->vstimecmp >> 32;
- 
-@@ -979,7 +979,7 @@ static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
--                                    target_ulong val)
-+                                      target_ulong val)
- {
-     RISCVCPU *cpu = env_archcpu(env);
- 
-@@ -996,7 +996,7 @@ static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,
--                                    target_ulong val)
-+                                       target_ulong val)
- {
-     RISCVCPU *cpu = env_archcpu(env);
- 
-@@ -1020,7 +1020,7 @@ static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
--                                    target_ulong *val)
-+                                     target_ulong *val)
- {
-     if (riscv_cpu_virt_enabled(env)) {
-         *val = env->vstimecmp >> 32;
-@@ -1032,7 +1032,7 @@ static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
--                                    target_ulong val)
-+                                     target_ulong val)
- {
-     RISCVCPU *cpu = env_archcpu(env);
- 
-@@ -1055,7 +1055,7 @@ static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
--                                    target_ulong val)
-+                                      target_ulong val)
- {
-     RISCVCPU *cpu = env_archcpu(env);
- 
-@@ -1342,7 +1342,8 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
- 
-     /* 'E' excludes all other extensions */
-     if (val & RVE) {
--        /* when we support 'E' we can do "val = RVE;" however
-+        /*
-+         * when we support 'E' we can do "val = RVE;" however
-          * for now we just drop writes if 'E' is present.
-          */
-         return RISCV_EXCP_NONE;
-@@ -1361,7 +1362,8 @@ static RISCVException write_misa(CPURISCVState *env, int csrno,
-         val &= ~RVD;
-     }
- 
--    /* Suppress 'C' if next instruction is not aligned
-+    /*
-+     * Suppress 'C' if next instruction is not aligned
-      * TODO: this should check next_pc
-      */
-     if ((val & RVC) && (GETPC() & ~3) != 0) {
-@@ -1830,28 +1832,28 @@ static RISCVException write_mscratch(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException read_mepc(CPURISCVState *env, int csrno,
--                                     target_ulong *val)
-+                                target_ulong *val)
- {
-     *val = env->mepc;
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException write_mepc(CPURISCVState *env, int csrno,
--                                     target_ulong val)
-+                                 target_ulong val)
- {
-     env->mepc = val;
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException read_mcause(CPURISCVState *env, int csrno,
--                                     target_ulong *val)
-+                                  target_ulong *val)
- {
-     *val = env->mcause;
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException write_mcause(CPURISCVState *env, int csrno,
--                                     target_ulong val)
-+                                   target_ulong val)
- {
-     env->mcause = val;
-     return RISCV_EXCP_NONE;
-@@ -1873,14 +1875,14 @@ static RISCVException write_mtval(CPURISCVState *env, int csrno,
- 
- /* Execution environment configuration setup */
- static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
--                                 target_ulong *val)
-+                                   target_ulong *val)
- {
-     *val = env->menvcfg;
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
--                                  target_ulong val)
-+                                    target_ulong val)
- {
-     uint64_t mask = MENVCFG_FIOM | MENVCFG_CBIE | MENVCFG_CBCFE | MENVCFG_CBZE;
- 
-@@ -1893,14 +1895,14 @@ static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException read_menvcfgh(CPURISCVState *env, int csrno,
--                                 target_ulong *val)
-+                                    target_ulong *val)
- {
-     *val = env->menvcfg >> 32;
-     return RISCV_EXCP_NONE;
- }
- 
- static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
--                                  target_ulong val)
-+                                     target_ulong val)
- {
-     uint64_t mask = MENVCFG_PBMTE | MENVCFG_STCE;
-     uint64_t valh = (uint64_t)val << 32;
-@@ -1911,7 +1913,7 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
--                                 target_ulong *val)
-+                                   target_ulong *val)
- {
-     RISCVException ret;
- 
-@@ -1925,7 +1927,7 @@ static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
--                                  target_ulong val)
-+                                    target_ulong val)
- {
-     uint64_t mask = SENVCFG_FIOM | SENVCFG_CBIE | SENVCFG_CBCFE | SENVCFG_CBZE;
-     RISCVException ret;
-@@ -1940,7 +1942,7 @@ static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
--                                 target_ulong *val)
-+                                   target_ulong *val)
- {
-     RISCVException ret;
- 
-@@ -1954,7 +1956,7 @@ static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
--                                  target_ulong val)
-+                                    target_ulong val)
- {
-     uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE | HENVCFG_CBZE;
-     RISCVException ret;
-@@ -1974,7 +1976,7 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
--                                 target_ulong *val)
-+                                    target_ulong *val)
- {
-     RISCVException ret;
- 
-@@ -1988,7 +1990,7 @@ static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
--                                  target_ulong val)
-+                                     target_ulong val)
- {
-     uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
-     uint64_t valh = (uint64_t)val << 32;
-@@ -2031,13 +2033,13 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_mstateen_1_3(CPURISCVState *env, int csrno,
--                                      target_ulong new_val)
-+                                         target_ulong new_val)
- {
-     return write_mstateen(env, csrno, SMSTATEEN_STATEEN, new_val);
- }
- 
- static RISCVException read_mstateenh(CPURISCVState *env, int csrno,
--                                      target_ulong *val)
-+                                     target_ulong *val)
- {
-     *val = env->mstateen[csrno - CSR_MSTATEEN0H] >> 32;
- 
-@@ -2058,7 +2060,7 @@ static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
--                                      target_ulong new_val)
-+                                       target_ulong new_val)
- {
-     uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
- 
-@@ -2066,7 +2068,7 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_mstateenh_1_3(CPURISCVState *env, int csrno,
--                                      target_ulong new_val)
-+                                          target_ulong new_val)
- {
-     return write_mstateenh(env, csrno, SMSTATEEN_STATEEN, new_val);
- }
-@@ -2103,7 +2105,7 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_hstateen_1_3(CPURISCVState *env, int csrno,
--                                      target_ulong new_val)
-+                                         target_ulong new_val)
- {
-     return write_hstateen(env, csrno, SMSTATEEN_STATEEN, new_val);
- }
-@@ -2142,7 +2144,7 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_hstateenh_1_3(CPURISCVState *env, int csrno,
--                                       target_ulong new_val)
-+                                          target_ulong new_val)
- {
-     return write_hstateenh(env, csrno, SMSTATEEN_STATEEN, new_val);
- }
-@@ -3335,7 +3337,7 @@ static RISCVException read_mseccfg(CPURISCVState *env, int csrno,
- }
- 
- static RISCVException write_mseccfg(CPURISCVState *env, int csrno,
--                         target_ulong val)
-+                                    target_ulong val)
- {
-     mseccfg_csr_write(env, val);
-     return RISCV_EXCP_NONE;
--- 
-2.25.1
+	All unmasked vectors will be set up in
+	msix_set_vector_notifiers(), which is a time-consuming operation because
+	each vector needs to be submitted to KVM once. It's even worse if the VM
+	has several devices and each device has dozens of vectors.
+
+	We can defer and commit the vectors in batches, just like the
+	commit dc580d51f7 ("vfio: defer to commit kvm irq routing when enabling
+	msi/msix").
+
+	This can reduce the time spent on virtio_pci_set_guest_notifiers() by 80%.
+
+
+
+
+> ---
+>  hw/virtio/virtio-pci.c     | 113 ++++++++++++++++++++++++++++++++-----
+>  include/hw/virtio/virtio.h |   1 +
+>  2 files changed, 99 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 5fd02b7cb8..13f9c31009 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -51,15 +51,22 @@
+>  
+>  /* Protected by the BQL */
+>  static KVMRouteChange virtio_pci_route_change;
+> +static unsigned virtio_pci_route_change_depth;
+>  
+>  static inline void virtio_pci_begin_route_changes(void)
+>  {
+> -    virtio_pci_route_change = kvm_irqchip_begin_route_changes(kvm_state);
+> +    if (!virtio_pci_route_change_depth) {
+> +        virtio_pci_route_change = kvm_irqchip_begin_route_changes(kvm_state);
+> +    }
+> +    virtio_pci_route_change_depth++;
+>  }
+>  
+>  static inline void virtio_pci_commit_route_changes(void)
+>  {
+> -    kvm_irqchip_commit_route_changes(&virtio_pci_route_change);
+> +    virtio_pci_route_change_depth--;
+> +    if (!virtio_pci_route_change_depth) {
+> +        kvm_irqchip_commit_route_changes(&virtio_pci_route_change);
+> +    }
+>  }
+>  
+>  static void virtio_pci_bus_new(VirtioBusState *bus, size_t bus_size,
+> @@ -976,6 +983,88 @@ static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
+>      kvm_virtio_pci_vector_release_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
+>  }
+>  
+> +static int virtio_pci_vector_do_unmask(VirtIOPCIProxy *proxy,
+> +                                       unsigned int queue_no,
+> +                                       unsigned int vector,
+> +                                       EventNotifier *n)
+> +{
+> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> +    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> +    int ret = 0;
+> +
+> +    /*
+> +     * If guest supports masking, irqfd is already setup, unmask it.
+> +     * Otherwise, set it up now.
+> +     */
+> +    if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+> +        k->guest_notifier_mask(vdev, queue_no, false);
+> +        /* Test after unmasking to avoid losing events. */
+> +        if (k->guest_notifier_pending &&
+> +            k->guest_notifier_pending(vdev, queue_no)) {
+> +            event_notifier_set(n);
+> +        }
+> +    } else {
+> +        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static void virtio_pci_prepare_kvm_msi_virq_batch(VirtIOPCIProxy *proxy)
+> +{
+> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> +
+> +    assert(!vdev->defer_kvm_irq_routing);
+> +    vdev->defer_kvm_irq_routing = true;
+> +    virtio_pci_begin_route_changes();
+
+move this out of here please - otherwise it's not clear each begin
+is matched by commit.  in fact just open code this function.
+
+> +}
+> +
+> +static void virtio_pci_commit_kvm_msi_virq_batch(VirtIOPCIProxy *proxy)
+> +{
+> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> +    PCIDevice *dev = &proxy->pci_dev;
+> +    VirtQueue *vq;
+> +    EventNotifier *n;
+> +    int vector, index;
+> +    int ret;
+> +
+> +    assert(vdev->defer_kvm_irq_routing);
+> +    virtio_pci_commit_route_changes();
+> +    vdev->defer_kvm_irq_routing = false;
+> +
+> +    if (!msix_enabled(dev)) {
+> +        return;
+> +    }
+> +
+> +    /* Unmask all unmasked vectors */
+> +    for (vector = 0; vector < dev->msix_entries_nr; vector++) {
+> +        if (msix_is_masked(dev, vector)) {
+> +            continue;
+> +        }
+> +
+> +        vq = virtio_vector_first_queue(vdev, vector);
+> +        while (vq) {
+> +            index = virtio_get_queue_index(vq);
+> +            if (!virtio_queue_get_num(vdev, index)) {
+> +                break;
+> +            }
+> +            if (index < proxy->nvqs_with_notifiers) {
+> +                n = virtio_queue_get_guest_notifier(vq);
+> +                ret = virtio_pci_vector_do_unmask(proxy, index, vector, n);
+> +                assert(ret >= 0);
+> +            }
+> +            vq = virtio_vector_next_queue(vq);
+> +        }
+> +
+> +        if (vector == vdev->config_vector) {
+> +            n = virtio_config_get_guest_notifier(vdev);
+> +            ret = virtio_pci_vector_do_unmask(proxy, VIRTIO_CONFIG_IRQ_IDX,
+> +                                              vector, n);
+> +            assert(ret >= 0);
+> +        }
+> +    }
+> +}
+> +
+>  static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
+>                                         unsigned int queue_no,
+>                                         unsigned int vector,
+> @@ -983,7 +1072,6 @@ static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
+>                                         EventNotifier *n)
+>  {
+>      VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> -    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+>      VirtIOIRQFD *irqfd;
+>      int ret = 0;
+>  
+> @@ -1002,19 +1090,10 @@ static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
+>          }
+>      }
+>  
+> -    /* If guest supports masking, irqfd is already setup, unmask it.
+> -     * Otherwise, set it up now.
+> -     */
+> -    if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
+> -        k->guest_notifier_mask(vdev, queue_no, false);
+> -        /* Test after unmasking to avoid losing events. */
+> -        if (k->guest_notifier_pending &&
+> -            k->guest_notifier_pending(vdev, queue_no)) {
+> -            event_notifier_set(n);
+> -        }
+> -    } else {
+> -        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
+> +    if (!vdev->defer_kvm_irq_routing) {
+> +        ret = virtio_pci_vector_do_unmask(proxy, queue_no, vector, n);
+>      }
+> +
+>      return ret;
+>  }
+>  
+> @@ -1284,12 +1363,16 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
+>              }
+>          }
+>  
+> +        virtio_pci_prepare_kvm_msi_virq_batch(proxy);
+> +
+>          r = msix_set_vector_notifiers(&proxy->pci_dev, virtio_pci_vector_unmask,
+>                                        virtio_pci_vector_mask,
+>                                        virtio_pci_vector_poll);
+>          if (r < 0) {
+>              goto notifiers_error;
+>          }
+> +
+> +        virtio_pci_commit_kvm_msi_virq_batch(proxy);
+>      }
+>  
+>      return 0;
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index 77c6c55929..9d82831350 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -147,6 +147,7 @@ struct VirtIODevice
+>      bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
+>      bool disable_legacy_check;
+>      bool vhost_started;
+> +    bool defer_kvm_irq_routing;
+
+Can't we avoid leaking kvm things all over the place?
+What does this flag even mean?
+
+>      VMChangeStateEntry *vmstate;
+>      char *bus_name;
+>      uint8_t device_endian;
+> -- 
+> 2.23.0
 
 
