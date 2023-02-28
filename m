@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD866A5D15
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 17:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638916A5D1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 17:29:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX2nU-0003HV-Td; Tue, 28 Feb 2023 11:25:48 -0500
+	id 1pX2qA-0005Am-WD; Tue, 28 Feb 2023 11:28:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pX2nT-0003HF-8l
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:25:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pX2q3-0005AG-5g
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:28:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pX2nR-00046G-5l
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:25:47 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pX2pz-0004LH-Kg
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:28:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677601540;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1677601702;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jRHkYczZIw2nuJWSyoBVVqTFSFkBG5U1FrYNBZzyl/A=;
- b=e9p+0vVBEHNT/ZkNjH8a4lq6lJgqujs6pHg22aYeJTlT+T9VGj4u20SIeZYBfBcuSvDQCy
- bWSUJODKyXwg7FS0yfiJ/1a9HBtCGAEZ/8qRvT1N0ga7vdR5TH5weKL+zQIYx0y8JXYLNF
- 5cqaIdMHqasMBRmigBgqpLTKi82x0S8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-387-c8LL0LV2MM245LUSiVYyFw-1; Tue, 28 Feb 2023 11:25:37 -0500
-X-MC-Unique: c8LL0LV2MM245LUSiVYyFw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9551887A9EB;
- Tue, 28 Feb 2023 16:25:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89FC5492B0F;
- Tue, 28 Feb 2023 16:25:33 +0000 (UTC)
-Date: Tue, 28 Feb 2023 16:25:30 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 0/7] Pegasos2 fixes and audio output support
-Message-ID: <Y/4q+gZ6Q2738hmx@redhat.com>
-References: <20230227125732.20941-1-shentey@gmail.com>
- <b86db1dd-b9ca-a774-963c-4f9404c9af5c@eik.bme.hu>
- <CAG4p6K74Rm2FaErjvSyVCgcMQ2Qz0pkh2dg6yPeXU5BmwYp3RQ@mail.gmail.com>
- <56e3575f-2cac-2138-23d1-78d8ff1388b5@eik.bme.hu>
- <CAG4p6K7Yd6SWBCC1_-fJJ1rLqCuRqwi=dOmypum7kiUZ4SoH=g@mail.gmail.com>
- <2952e466-98e1-cf16-b8c2-fdc49d0ebf48@eik.bme.hu>
- <b4b60712-a94c-69f4-2de0-b9b5e08970fc@linaro.org>
- <16efff7f-afe7-7c92-bdbe-6b0920bf2438@eik.bme.hu>
+ bh=Riw0pCo5HkFo/VqRHY5PSsvUlH9WhsCxjer/lOQ2jEI=;
+ b=DTrUI/w64alv4eHmco1dACC8eX6QUBhVEUk0A3JRCUXfpAKKwTgApENWNIpr1KfcMBV/B4
+ HFB7DzyANEK1/ITnJeOIYUVyAzVmlMYx8afhZvltX7G5TqN/1mT8KS4B86Ol2qGO9tyXhM
+ BRJ4lhL7Nb2BEJzrmtwdQmRUrvia1Qs=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-300-buF1jhR7PBGyZCIYy_3_hw-1; Tue, 28 Feb 2023 11:28:20 -0500
+X-MC-Unique: buF1jhR7PBGyZCIYy_3_hw-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ ge13-20020a05621427cd00b005739f5f9d7cso5244225qvb.22
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 08:28:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677601700;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Riw0pCo5HkFo/VqRHY5PSsvUlH9WhsCxjer/lOQ2jEI=;
+ b=RHhb4gGew9KvO2h4UXeX6VVUnqlhkHTbML22quo0L/trnZ9F7pFkV/hR/sASfcSo9i
+ +tHp4Jpld0MrLZJYl8thNE/O+W095lqIcAJlTvYKzhrkVBvcSKLmKK9nbx0NKQtHGXZ7
+ 5PTLdi9VAp67zTfjYfv/7gC+i40g+rg2FodWhpXtN948WWZ//iGNoxbEIfvHskb3FXha
+ az2fqDpSDd31FbcOpiZ0f26LzhCamHDMH+nWmCE/HajFG9rxmKGEy/B+y51KMvfWzKx/
+ xa72g1qMVxpvUdR4qbz9sd45vxuMEJ/Wo9PIQZ1XjSYazmCrBXxJfWczj9o2Bu1D4PHo
+ Sf7A==
+X-Gm-Message-State: AO0yUKWVy+LIP0AozijBCGhROeKBNeNTihUCh/TxPiWeK5YyPrAerJ2k
+ 88TOafKmvObuxBJ4w2lI7YmXTSTDV+IOc4yWUn4CTNfifVJijZych5uFPdjbyI+ywgud8PlOkiP
+ VxZhK05F/lRSuIno=
+X-Received: by 2002:a05:622a:50:b0:3b8:6c6e:4949 with SMTP id
+ y16-20020a05622a005000b003b86c6e4949mr6764192qtw.4.1677601699969; 
+ Tue, 28 Feb 2023 08:28:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set+hPYs1CWoygF1ukFpmZlsrEJ5vsa7LPKpcw9jJdagBXR0B2vmLqDFxwOHU/3v7uBjypQtS2Q==
+X-Received: by 2002:a05:622a:50:b0:3b8:6c6e:4949 with SMTP id
+ y16-20020a05622a005000b003b86c6e4949mr6764152qtw.4.1677601699731; 
+ Tue, 28 Feb 2023 08:28:19 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ t8-20020ac85888000000b003bb8c60cdf1sm6884249qta.78.2023.02.28.08.28.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 08:28:19 -0800 (PST)
+Date: Tue, 28 Feb 2023 11:28:17 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
+Subject: Re: [PATCH v6 0/4] memory: prevent dma-reentracy issues
+Message-ID: <Y/4robsdEiewqv11@x1n>
+References: <20230205040737.3567731-1-alxndr@bu.edu>
+ <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
+ <d2df9600-0fcb-d457-727a-90cb18d4df48@redhat.com>
+ <20230228160714.pzb4tl2poz4beaav@mozz.bu.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <16efff7f-afe7-7c92-bdbe-6b0920bf2438@eik.bme.hu>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20230228160714.pzb4tl2poz4beaav@mozz.bu.edu>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,7 +95,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,62 +108,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 04:05:30PM +0100, BALATON Zoltan wrote:
-> On Mon, 27 Feb 2023, Philippe Mathieu-Daudé wrote:
-> > On 27/2/23 18:47, BALATON Zoltan wrote:
-> > > On Mon, 27 Feb 2023, Bernhard Beschow wrote:
-> > > > Unfortunately my patches had changes merged in. This now makes it hard to
-> > > > show what really changed (spoiler: nothing that affects behavior).
-> > > > 
-> > > > As you probably noticed in the "resend" version of this iteration I split
-> > > > off a patch introducing the priq properties. It belongs to the sub series
-> > > > of the Pegasos2 IRQ fixes which appear unnecessary to me, so I don't want
-> > > > to show up in `git blame` as the author of any of these changes. I
-> > > > attributed it to you because this was really your change which
-> > > > I'm not even
-> > > > sure is legal.
-> > > > 
-> > > > Let's avoid such complications by keeping our series separate.
-> > > 
-> > > Let's cool down a bit. Philippe took some of the sm501 patches in
-> > > his giant pull request (and a lot of your patches too) now so I'll
-> > > wait until that lands and hope to get some review for the remaining
-> > > patches too. Once that pull req is merged I'll rebase the remaining
-> > > patches and resubmit the series also adding changes for reasonable
-> > > review comments I get by then.
+On Tue, Feb 28, 2023 at 11:07:14AM -0500, Alexander Bulekov wrote:
+> On 230216 1214, Thomas Huth wrote:
+> > On 13/02/2023 03.11, Alexander Bulekov wrote:
+> > > ping
 > > 
-> > I'm sorry it took me so long, I was expecting these patches to be picked
-> > up by other maintainers but everybody is very busy. I know you'll need
+> > I think it would be really good to finally get these dma-reentrancy issues
+> > fixed! Who's supposed to pick up these patches? Paolo? David? Peter?
 > 
-> You have no reason to apologise really, you did a great job merging all the
-> patches. I was thinking that because as you say every maintainer is very
-> busy now and we also had CI outage for a few weeks should we consider
-> extending the date until the freeze by one or two weeks? That would allow
-> people to relax a bit and be able to consolidate and merge all still pending
-> patches. Postponing the 8.0 release one or two weeks is probably better than
-> missing a lot of changes until the next release in September. We'd still aim
-> for the original freeze date but if we fail to meet that it would be more
-> convenient to know there could be a possibility for extending it. But make
-> it clear that this is only for this one time because of CI outage and
-> additional maintainer load caused by that so not something that should be
-> done regularly but under current circumstances I would consider it.
+> Ping
 
-There's no need to change the release schedule IMHO. Subsystem maintainers
-should continue to send pull requests as normal. Peter is still processing
-PRs, albeit at a lower rate with adhoc CI. From the soft freeze POV what
-matters is just that the PRs are posted on the mailing list before the
-deadline. If they're posted in time, they're still valid for inclusion in
-the release. Our CI allowance is reset at the end of today anyway.
+Sorry to not have replied here - I talked to Paolo and I think Paolo has a
+plan to review it.
 
-With regards,
-Daniel
+Let's wait for another 2-3 days, perhaps?  Otherwise from what I can tell
+this series already received enough R-b/A-bs from major maintainers, this
+should be mergeable material going via any tree (for memory, it was always
+Paolo who sends the PR before).
+
+Thanks,
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Peter Xu
 
 
