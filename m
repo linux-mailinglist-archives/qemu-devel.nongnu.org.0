@@ -2,98 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EFC6A6021
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 21:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C766A6028
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 21:09:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX6E9-0006E9-OX; Tue, 28 Feb 2023 15:05:33 -0500
+	id 1pX6HY-0000Ax-N4; Tue, 28 Feb 2023 15:09:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pX6E7-0006Da-Kr
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:05:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pX6E1-0006Qn-Ms
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:05:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677614722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nQd+QhpwRnF3wyVrQuuVP52v3cZ2QpqTThkyv4Fl8ik=;
- b=LYSWGNG0eOszSCKFPF0C8unmwdKsNqrMLKfgybPOEjduXO/VySO2MdoPMMjHhH/feepGA+
- FuIdQkhfgaynGlptWX/TUrzCyrXY8cHUnnsLRrnAdX8k0xrXUkwsJpnw202ckDZLtgJMHX
- VWIuK7ktUi5l5pildVNun7OXLEPzS2A=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-166-6w6wdX9nP2WkaSPwOL1uAw-1; Tue, 28 Feb 2023 15:05:20 -0500
-X-MC-Unique: 6w6wdX9nP2WkaSPwOL1uAw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- x18-20020a1c7c12000000b003e1e7d3cf9fso7365795wmc.3
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 12:05:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pX6HX-0000Ab-0K
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:09:03 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pX6HU-00074a-T2
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:09:02 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id n6so10326232plf.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 12:09:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677614939;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+DO/6Nygfb584/f/t2R+CU8DGiroPOJR0U+nP5k7K8c=;
+ b=ohmr4utIRE9ASpYk8MDjDtduvRs4V5dXFN8vVEexPkmJ5wmHSJn+7gn26fdVzcUshA
+ v/PmE4WsNrecZ3Nde9uYI4ybvR08LQ4hAqC3JVutV1LxTdOkb4pzJoefNBeO9pDtDRUm
+ fE5VWR2wqLtOIMRBLbkXH8VduzbQBv/T5ZFqcOfHHVLmkIyWFPtuZks1WCDLBB5xR/Yt
+ u/3oZcF2jC/nCex6nYsLArsFaIRRYz52RkQ6d3dBEB1avh50P7yPbVhql81VwGcR5gEU
+ 8WYSw7Iq6yItZvwd+84HjzLf6ni0g/4wGKBI6DAppRpW2a32+H0/1u+5U0fa+UjbLzoy
+ Fd5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nQd+QhpwRnF3wyVrQuuVP52v3cZ2QpqTThkyv4Fl8ik=;
- b=kbbkKKTQRCAWD+xvQCZvJVSBqkFhPntQP5MROMmZksya4KM11kUUVYeJTdyQtisoL7
- MZKvOF1EGhayVGeRUlbsFpnJchK80skx1m7/RfbP83k0mug0zpbZw3I+Q6t8UhmYejXM
- Ls0aR2cvJW0sWBFmL5oUE6Tior9pX/gARHKCTs+wHQLU4AystM+FpEJJV2p9HDb7uxXx
- wp4u4f9DjyakzbbBUfOt5Ugjsx+b1C8QDNhA+2ZhEzC4CaLxJzLDVr0iZ9jMS9Z7vk8w
- NHISmCDEaSoWCEhwD04KG+z7r5A5qrOpq7W5neq0rP/GOaDpw1osiNyRSkbef0t4ADXL
- lCAg==
-X-Gm-Message-State: AO0yUKUaPdJlfzE0fFlNWCCDl1Y0mYSS0/srxK2amrV6HqRBqmCxknYm
- 3DiuZh5U/0galAbWkmR7kjhVwvXCu0+KKxXzgb2eHdv4lC3GYOUSK9gxt+flDBp7nXGjVX5PJ3+
- 3JkDOABXWH/PlhBQ=
-X-Received: by 2002:adf:e945:0:b0:2c7:17a0:c6b5 with SMTP id
- m5-20020adfe945000000b002c717a0c6b5mr2892268wrn.34.1677614719636; 
- Tue, 28 Feb 2023 12:05:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set9MmF9eZGPOsdEoWMFU4L/R5a85Aqi1pG3SMRTtHFB4tUvsUD1H2dNf0t4BROa+7hwk1Y3Vhg==
-X-Received: by 2002:adf:e945:0:b0:2c7:17a0:c6b5 with SMTP id
- m5-20020adfe945000000b002c717a0c6b5mr2892258wrn.34.1677614719335; 
- Tue, 28 Feb 2023 12:05:19 -0800 (PST)
-Received: from [192.168.8.100] (tmo-112-221.customers.d1-online.com.
- [80.187.112.221]) by smtp.gmail.com with ESMTPSA id
- c16-20020a05600c0ad000b003e214803343sm16622509wmr.46.2023.02.28.12.05.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 12:05:18 -0800 (PST)
-Message-ID: <99a83e65-273a-ea1b-e7d9-bbdd8ca32145@redhat.com>
-Date: Tue, 28 Feb 2023 21:05:16 +0100
+ d=1e100.net; s=20210112; t=1677614939;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+DO/6Nygfb584/f/t2R+CU8DGiroPOJR0U+nP5k7K8c=;
+ b=3j3CNIDSSv6UAp/pU3qcPbWS9LG8tLe6zAzOwfgvjeuDS7n8uaOEv60EY6e/pZp8n8
+ XXJLvItKkcqQe5VxtUKPal7eKyHvHyjoE+hssKsimkxzycsz+MCpxpzL5XRRwtjnpCPK
+ B9HyoZQYn99ViuK3qH9pH+BEMI08JZelq//9UpifvolIm9EBXSpNJjwpxk6keamyWeHP
+ E7cj75I1MV0n6biKs95bAiwXL4N1AoiCl495Jxm3l2jtKMD2x9Cr46qCM3j+B73pYGng
+ 1n9DGmWXLt5tgWU66Y8WjcxiRpnDDXNy1ZkKMG9M/F3+824mxQckURjvOPssPHsmrN2X
+ RDFA==
+X-Gm-Message-State: AO0yUKXOYDPjviKMFKkEQc5ZYU/OIcyi1gq+JeVwDyesK2HnM7IdrjTk
+ 2zQOc0T1705P1ar++NAx+8nwv1QmiTE/NNirv5bW9w==
+X-Google-Smtp-Source: AK7set+i8nWshPPAiFP9qWyqV7rGkeTtTkfdXXn7ckTKF6ILcSPnhHJoeqGTy59iZlweSYSuwSzCitAtawgUlcsy1Sg=
+X-Received: by 2002:a17:903:1314:b0:199:4a4f:9d2a with SMTP id
+ iy20-20020a170903131400b001994a4f9d2amr1418987plb.13.1677614939343; Tue, 28
+ Feb 2023 12:08:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230227111050.54083-1-thuth@redhat.com>
- <Y/z4rwv09Ckhbtfp@redhat.com>
- <001bedba-b12f-4dd8-0866-7ccb9ce877d0@redhat.com>
- <Y/3C+jC3Lk5MJxfu@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 0/2] Deprecate support for 32-bit x86 and arm hosts
-In-Reply-To: <Y/3C+jC3Lk5MJxfu@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230227213853.37885-1-philmd@linaro.org>
+In-Reply-To: <20230227213853.37885-1-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Feb 2023 20:08:47 +0000
+Message-ID: <CAFEAcA95yUEp1DO5MXg1LV_VQo7Gz8TBCEyDe=+pnRC00MBPYA@mail.gmail.com>
+Subject: Re: [PULL v2 000/125] Buildsys / QOM / QDev / UI patches for
+ 2023-02-27
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,58 +86,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/02/2023 10.01, Daniel P. Berrangé wrote:
-> On Tue, Feb 28, 2023 at 08:39:49AM +0100, Thomas Huth wrote:
->> On 27/02/2023 19.38, Daniel P. Berrangé wrote:
->>> On Mon, Feb 27, 2023 at 12:10:48PM +0100, Thomas Huth wrote:
->>>> We're struggling quite badly with our CI minutes on the shared
->>>> gitlab runners, so we urgently need to think of ways to cut down
->>>> our supported build and target environments. qemu-system-i386 and
->>>> qemu-system-arm are not really required anymore, since nobody uses
->>>> KVM on the corresponding systems for production anymore, and the
->>>> -x86_64 and -arch64 variants are a proper superset of those binaries.
->>>> So it's time to deprecate them and the corresponding 32-bit host
->>>> environments now.
->>>>
->>>> This is a follow-up patch series from the previous discussion here:
->>>>
->>>>    https://lore.kernel.org/qemu-devel/20230130114428.1297295-1-thuth@redhat.com/
->>>>
->>>> where people still mentioned that there is still interest in certain
->>>> support for 32-bit host hardware. But as far as I could see, there is
->>>> no real need for 32-bit host support for system emulation on x86 and
->>>> arm anymore, so it should be fine if we drop these host environments
->>>> now (these are also the two architectures that contribute the most to
->>>> the long test times in our CI, so we would benefit a lot by dropping
->>>> those).
->>>
->>> Your description here is a little ambiguous about what's being
->>> proposed. When you say dropping 32-bit host support do you mean
->>> just for the system emulator binaries, or for QEMU entirely ?
->>
->> Just for system emulation. Some people said that user emulation still might
->> be useful for some 32-bit environments.
->>
->>> And when the deprecation period is passed, are you proposing
->>> to actively prevent 32-bit builds, or merely stopping CI testing
->>> and leave 32-bit builds still working if people want them ?
->>
->> CI is the main pain point, so that's the most important thing. So whether we
->> throw a warning or a hard error while configuring the build, I don't care
->> too much.
-> 
-> If we're merely wanting to drop CI support, we can do that any time and
-> deprecation is not required/expected.  We should only be using deprecation
-> where we're explicitly intending that the code will cease to work.
+On Mon, 27 Feb 2023 at 21:40, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> Hi Peter,
+>
+> I apologize for the size of this request, I was hoping various
+> series would go via other tree, but everybody has been quite busy
+> and the freezing windows is close, so I'm sending a huge mixed
+> patchset here.
+>
+> Since v1:
+> - Dropped "cputlb: Restrict SavedIOTLB to system emulation" patch
+>
+> The following changes since commit e1f9f73ba15e0356ce1aa3317d7bd294f587ab=
+58:
+>
+>   Merge tag 'pull-target-arm-20230227' of https://git.linaro.org/people/p=
+maydell/qemu-arm into staging (2023-02-27 14:46:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/buildsys-qom-qdev-ui-20230227
+>
+> for you to fetch changes up to 23bdd0de97a18e34fe05126fbaf4de540e9eb7b2:
+>
+>   ui/cocoa: user friendly characters for release mouse (2023-02-27 22:29:=
+02 +0100)
+>
+> ----------------------------------------------------------------
+> - buildsys
+>   - Various header cleaned up (removing pointless headers)
+>   - Mark various files/code user/system specific
+>   - Make various objects target-independent
+>   - Remove tswapN() calls from dump.o
+>   - Suggest g_assert_not_reached() instead of assert(0)
+>
+> - qdev / qom
+>   - Replace various container_of() by QOM cast macros
+>   - Declare some QOM macros using OBJECT_DECLARE_TYPE()
+>   - Embed OHCI QOM child in SM501 chipset
+>
+> - hw (ISA & IDE)
+>   - add some documentation, improve function names
+>   - un-inline, open-code few functions
+>   - have ISA API accessing IRQ/DMA prefer ISABus over ISADevice
+>   - Demote IDE subsystem maintenance to "Odd Fixes"
+>
+> - ui: Improve Ctrl+Alt hint on Darwin Cocoa
 
-Well, without CI, I assume that the code will bitrot quite fast (considering 
-that there are continuous improvements to TCG, for example). And who's then 
-still volunteering to fix bugs that have crept in months ago, for a host 
-architecture that nobody really uses anymore?
-Clearly, 32-bit x86 host is pretty much dead nowadays, especially for 
-programs like QEMU that need beefy host hardware. Why do we still waste our 
-time with this?
 
-  Thomas
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
