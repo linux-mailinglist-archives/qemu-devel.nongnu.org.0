@@ -2,95 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8796D6A5663
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:12:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8EF36A566C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:14:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWwxL-000435-Hm; Tue, 28 Feb 2023 05:11:35 -0500
+	id 1pWwzs-0005W5-SJ; Tue, 28 Feb 2023 05:14:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWwxI-00040L-Ks
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:11:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWwzr-0005Vo-5f
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:14:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWwxG-0003VI-3s
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:11:32 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWwzp-0003ru-II
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:14:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677579089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1677579248;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VUsHXm3vGD11b06eHDzEiEyoV6j+i/reAk8OksRIJe4=;
- b=HXCDNtSvV+KZqaW2g1+Oqe7XG6BSmWX7uQZyA9KvuFHmPQfcn1bPBEO6GO4N9AFNk5p7sy
- gb8Unr23fX1t5U9iLzi+4k6l7yJOieHfMguRIA1FCiP/6JLeaWN8ilabM98HLSJcZXPJUB
- /jm0PSRmbk/1ZxE98YSXs1dGiVICVnc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-g2YUg_X_NFuXsV9sOs9qfQ-1; Tue, 28 Feb 2023 05:11:26 -0500
-X-MC-Unique: g2YUg_X_NFuXsV9sOs9qfQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- h13-20020a0564020e8d00b004a26ef05c34so13159530eda.16
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 02:11:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677579085;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VUsHXm3vGD11b06eHDzEiEyoV6j+i/reAk8OksRIJe4=;
- b=NdqK6wCwPYK18OKP3qYCr3fOWL4UQZzBJJpCD2gxqaM8+IvMXHtORRGfHz+yEi/F9d
- T9o07q1PnZyFF+ukCebpOK+NKviP7XdRIqs10aLNMvNFoUCffdqw56RaTMmfMAW4O8OB
- f0wWZHHRjZzUrH+rez/QeZz2UbHyoTeIzBtf7JTWxFISU+LEuq7yFRHZwnyctm/AR+3l
- GDPTkWBUpXJ6x2BDsC9f3YU62+qsYIorsRsj6BGPLZCrYR06sqYl+dzTvwhr+NXpLgB+
- 9IKphxP2ZtqkjE5NSBxTnHtjwpEpbvm+MLcyS0p3YqHjej8ORrZObyuizNRyuJTu2Duh
- uhjQ==
-X-Gm-Message-State: AO0yUKWjpKlU61KngFY+Gds03RpZ4i+5K1qF4dx/EidzSey+rw0Fzxlg
- 6qzet9OYcub0e53fmCo3PPgN0mfqIDXBbxipp7SMQZrgVG1EmSjxOctO9YqBlYpupKwQaUXcmB0
- IcdjlCNo9enrglj4=
-X-Received: by 2002:a17:907:cb81:b0:8b0:fbd1:1a61 with SMTP id
- un1-20020a170907cb8100b008b0fbd11a61mr2776603ejc.52.1677579085770; 
- Tue, 28 Feb 2023 02:11:25 -0800 (PST)
-X-Google-Smtp-Source: AK7set8xTF/bnD+AxesQL3OArWO5MlnXAcPheJM7sgj7/8nBceO+OQxCu+BpM+tstcL3jw1NyHbFqQ==
-X-Received: by 2002:a17:907:cb81:b0:8b0:fbd1:1a61 with SMTP id
- un1-20020a170907cb8100b008b0fbd11a61mr2776557ejc.52.1677579085382; 
- Tue, 28 Feb 2023 02:11:25 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- gg4-20020a170906e28400b008b1779ba3c1sm4349246ejb.115.2023.02.28.02.11.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 02:11:24 -0800 (PST)
-Date: Tue, 28 Feb 2023 05:11:20 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, Reinoud Zandijk <reinoud@netbsd.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
- qemu-system-i386
-Message-ID: <20230228050908-mutt-send-email-mst@kernel.org>
-References: <20230227111050.54083-1-thuth@redhat.com>
- <20230227111050.54083-2-thuth@redhat.com>
- <Y/yY72L9wyjuv3Yz@redhat.com>
- <20230227150858-mutt-send-email-mst@kernel.org>
- <84d7d3e5-0da2-7506-44a7-047ebfcfc4da@redhat.com>
- <20230228031026-mutt-send-email-mst@kernel.org>
- <Y/3CiEKKoG06t9rr@redhat.com>
- <20230228040115-mutt-send-email-mst@kernel.org>
- <fe4626c6-6103-d5e5-6920-9dfb4777b979@redhat.com>
- <Y/3MIUDRBUSNg6C5@redhat.com>
+ bh=igdmmpmIlNxClIZcxrG+g8fvAeiHJQ9yck8S52FvQT0=;
+ b=F+xrP+5h5gZ9DCr96WJyQFQTYzb5CtJ8GcG9HT1rPn55Zno9UkFg1Kv1K95XEaUgatdM9b
+ QUGTFgvusIfx0frokvkj88ZSUhjCIJ3pBR5g/paggvguOON+fKWW7JI/2PDjW3Z7rV9UTn
+ xCkI8vIZjCaSNfRtP00faLZgPQAcavk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-270-E0O2JNjpPlGpztRAiNpk1w-1; Tue, 28 Feb 2023 05:14:07 -0500
+X-MC-Unique: E0O2JNjpPlGpztRAiNpk1w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27C841C08965;
+ Tue, 28 Feb 2023 10:14:07 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC40BC15BAE;
+ Tue, 28 Feb 2023 10:14:05 +0000 (UTC)
+Date: Tue, 28 Feb 2023 10:14:03 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: Re: [RFC PATCH v3 1/1] gitlab: Use plain docker in
+ container-template.yml
+Message-ID: <Y/3T67qcA6SRhJ1w@redhat.com>
+References: <20230227151110.31455-1-farosas@suse.de>
+ <20230227151110.31455-2-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y/3MIUDRBUSNg6C5@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20230227151110.31455-2-farosas@suse.de>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,66 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 09:40:49AM +0000, Daniel P. BerrangÈ wrote:
-> On Tue, Feb 28, 2023 at 10:14:52AM +0100, Thomas Huth wrote:
-> > On 28/02/2023 10.03, Michael S. Tsirkin wrote:
-> > > On Tue, Feb 28, 2023 at 08:59:52AM +0000, Daniel P. BerrangÈ wrote:
-> > > > On Tue, Feb 28, 2023 at 03:19:20AM -0500, Michael S. Tsirkin wrote:
-> > > > > On Tue, Feb 28, 2023 at 08:49:09AM +0100, Thomas Huth wrote:
-> > > > > > On 27/02/2023 21.12, Michael S. Tsirkin wrote:
-> > > > > > > On Mon, Feb 27, 2023 at 11:50:07AM +0000, Daniel P. BerrangÈ wrote:
-> > > > > > > > I feel like we should have separate deprecation entries for the
-> > > > > > > > i686 host support, and for qemu-system-i386 emulator binary, as
-> > > > > > > > although they're related they are independant features with
-> > > > > > > > differing impact. eg removing qemu-system-i386 affects all
-> > > > > > > > host architectures, not merely 32-bit x86 host, so I think we
-> > > > > > > > can explain the impact more clearly if we separate them.
-> > > > > > > 
-> > > > > > > Removing qemu-system-i386 seems ok to me - I think qemu-system-x86_64 is
-> > > > > > > a superset.
-> > > > > > > 
-> > > > > > > Removing support for building on 32 bit systems seems like a pity - it's
-> > > > > > > one of a small number of ways to run 64 bit binaries on 32 bit systems,
-> > > > > > > and the maintainance overhead is quite small.
-> > > > > > 
-> > > > > > Note: We're talking about 32-bit *x86* hosts here. Do you really think that
-> > > > > > someone is still using QEMU usermode emulation
-> > > > > > to run 64-bit binaries on a 32-bit x86 host?? ... If so, I'd be very surprised!
-> > > > > 
-> > > > > I don't know - why x86 specifically? One can build a 32 bit binary on any host.
-> > > > > I think 32 bit x86 environments are just more common in the cloud.
-> > > > 
-> > > > Can you point to anything that backs up that assertion. Clouds I've
-> > > > seen always give you a 64-bit environment, and many OS no longer
-> > > > even ship 32-bit installable media.
-> > > 
-> > > Sorry about being unclear. I meant that it seems easier to run CI in the
-> > > cloud in a 32 bit x64 environment than get a 32 bit ARM environment.
-> > 
-> > It's still doable ... but for how much longer? We're currently depending on
-> > Fedora, but they also slowly drop more and more support for this
-> > environment, see e.g.:
+On Mon, Feb 27, 2023 at 12:11:10PM -0300, Fabiano Rosas wrote:
+> Our dockerfiles no longer reference layers from other qemu images so
+> we can now use 'docker build' on them.
 > 
-> FWIW, we should cull our fedora-i386-cross.docker dockerfile and
-> replace it with a debian i686 dockerfile generated by lcitool.
-> There's no compelling reason why i686 should be different from
-> all our other cross builds which are based on Debian. The Debian
-> lcitool generated container would have access to a wider range
-> of deps than our hand written Fedora one.
+> Also reinstate the caching that was disabled due to bad interactions
+> with certain runners. See commit 6ddc3dc7a8 ("tests/docker: don't use
+> BUILDKIT in GitLab either"). We now believe those issues to be fixed.
 > 
-> >  https://www.theregister.com/2022/03/10/fedora_inches_closer_to_dropping/
+> The COMMON_TAG needed to be fixed for the caching to work. The
+> docker.py script was not using the variable, but constructing the
+> correct URL directly.
 > 
-> With regards,
-> Daniel
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>  .gitlab-ci.d/container-template.yml | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 
-... and is closer to where 32 bit is likely to be deployed which is
-systems like e.g. raspberry pi os which until recently was only
-32 bit.
+Tested-by: Daniel P. Berrang√© <berrange@redhat.com>
+Reviewed-by: Daniel P. Berrang√© <berrange@redhat.com>
 
+> 
+> diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
+> index c434b9c8f3..519b8a9482 100644
+> --- a/.gitlab-ci.d/container-template.yml
+> +++ b/.gitlab-ci.d/container-template.yml
+> @@ -6,17 +6,16 @@
+>      - docker:dind
+>    before_script:
+>      - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+> -    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
+> +    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
+>      - apk add python3
+>      - docker info
+>      - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+>    script:
+>      - echo "TAG:$TAG"
+>      - echo "COMMON_TAG:$COMMON_TAG"
+> -    - ./tests/docker/docker.py --engine docker build
+> -          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
+> -          -r $CI_REGISTRY/qemu-project/qemu
+> -    - docker tag "qemu/$NAME" "$TAG"
+> +    - docker build --tag "$TAG" --cache-from "$TAG" --cache-from "$COMMON_TAG"
+> +      --build-arg BUILDKIT_INLINE_CACHE=1
+> +      -f "tests/docker/dockerfiles/$NAME.docker" "."
+>      - docker push "$TAG"
+>    after_script:
+>      - docker logout
+> -- 
+> 2.35.3
+> 
+
+With regards,
+Daniel
 -- 
-MST
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
