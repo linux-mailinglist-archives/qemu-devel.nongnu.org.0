@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35466A4FFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 01:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7936A5020
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 01:26:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWnWB-00065U-UB; Mon, 27 Feb 2023 19:06:55 -0500
+	id 1pWnnI-0002ss-Qk; Mon, 27 Feb 2023 19:24:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWnW7-0005ti-Sk
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 19:06:51 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1pWnnG-0002rT-5F
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 19:24:34 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pWnW6-0004A2-82
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 19:06:51 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id x34so8041599pjj.0
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 16:06:49 -0800 (PST)
+ id 1pWnnE-0007c1-N9
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 19:24:33 -0500
+Received: by mail-pg1-x531.google.com with SMTP id y19so4678801pgk.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 16:24:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Y0JJOlHBOo6w/Oy3Fpf0uTTDQtH8l39MtoUNW82wAbU=;
- b=G6kAVEWc60iQzOooOiUVtc4T2jW2ZVrEJl+zv1Jb7H674PGusvE3QtaKIA0fpENhAd
- 6YjO/uHqE3ZcO+3IIWsEeij4Gl/iubXo/yAXjbGphEfWw/P4ycxsc/eCknClvSHZ3rLh
- FEBEegSMXXvSGy+2yqLq7XbdNpglS53x/1Q4WWmYtuXuNDLz0igStpYFwwdyXRNQog19
- LVVtE3PY9W/Yn/V1bbsuOCwkHPwXZBz8JcRfTaqdWAs+6JW0AOsmX1GsTgm9gyi6DTab
- lp31wcJXRajXZyXfS8lcY5W6wEDBz6jz7wBJnZVobML5u8U5ooQJ806idf7M/1uGwz30
- 8K8Q==
+ bh=jXsdxYjAv5fg0ek7fYXs0C+xcux5cNegHNNaXTH94Gs=;
+ b=wuSiiJ6peONb7X/NKFgRuMQ8cF9lNPWL+lUPqFUYfH2vyuH6PA2tgmk1oqj5tY7PuH
+ FULxGc79+D8qPboXn+jbIAImNqK9nRaaznow3Rdlft5QVU35DptyJqL6+dwQZXMb0zln
+ nwNwsbJu3hz4USgrgwGlVhbTndsB8KhDEZYtZC7n03SJMVWxKSbcAVYS7yeUPsFAewKZ
+ xjLgOdedjIvJS4+Q4nsHE9s1fQ9fF1D5HJTZxWriBxZbBHlPcNnRziMA2BS3wYg145YP
+ 2ToMf4jAYn1Ed1r4qcU6nbHxz5zqVy0AQfZ+prH5mMEAVga4hLBwJyeMJBF27ecJZlen
+ g8iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Y0JJOlHBOo6w/Oy3Fpf0uTTDQtH8l39MtoUNW82wAbU=;
- b=4XZvBrYB/WhauJagY7KK54qGNha/jkmHE38mh/GkUFdk0JcCaz2s/1j8uPVJcAugNP
- 5HpGn7SMnlOZ35DGUK5Q4sqKD8y2CmlFES3Cx/NLbSDGvL2XCWFwkJJ/jWkUvut0cxpP
- WrngWyapaJ4qkpE5LfC3lfssLacbIUE5DxOEeGYW4SLGTwmDV6gimEVqt6CXOoCkVnAn
- P8HGi1mOq3mB6lQHcO2Sod0f17G/JpkwG/g9cxvFzUUEYRPR5i73j7zMHPHEU+bD2XIC
- 2VxjnF615X2HH7x6x9/Txx8NYLDgTLmYS1QE65TpGltVRwmrGblE9R1kuCdnQC70O2Wt
- RXgg==
-X-Gm-Message-State: AO0yUKX1dznS4xjbo6pDjHFLoBR9g4hffTrX6m3+agRMyLST2BLUAfoR
- zEgt59sOygz/ybxIfxflLuP8Zg==
-X-Google-Smtp-Source: AK7set9WXO/IkDGKWzXq/VIn4v3HYZXILz6m99ptZKkgeN1R6puYFQyULmXEILVtOzYlYzRa9x7riw==
-X-Received: by 2002:a05:6a20:b058:b0:cc:1fef:99ba with SMTP id
- dx24-20020a056a20b05800b000cc1fef99bamr1173013pzb.8.1677542808342; 
- Mon, 27 Feb 2023 16:06:48 -0800 (PST)
+ bh=jXsdxYjAv5fg0ek7fYXs0C+xcux5cNegHNNaXTH94Gs=;
+ b=195GWHdNpY30fvCbs+qdtppefD1lypP15nPSy8yvqaC4wc9qbY0v6mjl/vdoq8mtKQ
+ obVwXT6BmWLKhOpp+SZ6c4z5TKadN4jOXJfZRNL1s/ct64fL43FiKvxtaoJOhgKdXvvx
+ G8QdKcomqy41QjwAfaCg27Wgg7Oa/ldSqZVgsgdAPDhB3p/c7qmwdJAnz5RRHBL8mbPT
+ DTRMiu1GcHodTSm+b4nrUCJPZmk/9twmPtIQiBctDhkS/Q1X87nV3cOSCQv97M84xB0A
+ KsD8cbgEB5+VMlu9/cp6Pw6S/17d/Z7jKQSDW+544I1h7H1dulbIcn2q9uHOwWRM9Ivl
+ YeiA==
+X-Gm-Message-State: AO0yUKVYlg9/GMS5wHb6/NmfRtlGG3jdr6V+eFBDpWCg4Dq/nsKfZ8P6
+ 0eZlfBuTIi3wtmFxV3/Uz1Lnew==
+X-Google-Smtp-Source: AK7set/O058riAzl8Sn3h3cgy1Qt8HPTLvdv5jiJcRDMVy3RJYqGUOocvL3Xmlp1vaYY5otmc1dkSg==
+X-Received: by 2002:aa7:94bb:0:b0:602:7c0:3afe with SMTP id
+ a27-20020aa794bb000000b0060207c03afemr15313pfl.26.1677543870751; 
+ Mon, 27 Feb 2023 16:24:30 -0800 (PST)
 Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- i71-20020a63874a000000b00502e7115cbdsm4546834pge.51.2023.02.27.16.06.46
+ x27-20020aa793bb000000b005a8dd86018dsm4762832pff.64.2023.02.27.16.24.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 16:06:47 -0800 (PST)
-Message-ID: <b78c21e1-48bc-7798-03b2-b603842e69a6@linaro.org>
-Date: Mon, 27 Feb 2023 14:06:44 -1000
+ Mon, 27 Feb 2023 16:24:30 -0800 (PST)
+Message-ID: <8755d13f-3da6-3e5f-27e9-bb518ff32f1f@linaro.org>
+Date: Mon, 27 Feb 2023 14:24:26 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v2 2/2] loongarch: Add smbios command line option.
+Subject: Re: [PATCH v2 1/2] docs/system/loongarch: update loongson3.rst and
+ rename it to virt.rst
 Content-Language: en-US
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, philmd@linaro.org, armbru@redhat.com,
  thuth@redhat.com, mst@redhat.com, sw@weilnetz.de, clg@kaod.org,
  danielhb413@gmail.com, maobibo@loongson.cn, yangxiaojuan@loongson.cn
 References: <20230227035905.1290953-1-gaosong@loongson.cn>
- <20230227035905.1290953-2-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230227035905.1290953-2-gaosong@loongson.cn>
+In-Reply-To: <20230227035905.1290953-1-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -96,34 +96,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2/26/23 17:59, Song Gao wrote:
-> LoongArch has enabled CONFIG_SMBIOS, but didn't enable CLI '-smbios'.
-> 
-> Fixes: 3efa6fa1e629 ("hw/loongarch: Add smbios support")
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Message-Id: <20230208094133.2945979-2-gaosong@loongson.cn>
+> +Note: build release bios need set --buildtarget=RELEASE,
 
+Note: To build the release version of the bios, set...
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+
 r~
-
-> ---
->   qemu-options.hx | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index beeb4475ba..d42f60fb91 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -2585,7 +2585,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
->       "                specify SMBIOS type 17 fields\n"
->       "-smbios type=41[,designation=str][,kind=str][,instance=%d][,pcidev=str]\n"
->       "                specify SMBIOS type 41 fields\n",
-> -    QEMU_ARCH_I386 | QEMU_ARCH_ARM)
-> +    QEMU_ARCH_I386 | QEMU_ARCH_ARM | QEMU_ARCH_LOONGARCH)
->   SRST
->   ``-smbios file=binary``
->       Load SMBIOS entry from binary file.
-
 
