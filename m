@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347FC6A60AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 21:49:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91EB06A60B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 21:50:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX6tf-0000v4-CE; Tue, 28 Feb 2023 15:48:27 -0500
+	id 1pX6vp-0004Fh-50; Tue, 28 Feb 2023 15:50:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX6ta-0000tV-MO
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:48:22 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX6tY-0006Zx-Q6
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:48:22 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 5C5245C01EC;
- Tue, 28 Feb 2023 15:48:20 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 28 Feb 2023 15:48:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1677617300; x=1677703700; bh=qo
- kfXO0eNdD15vZdAmFZWrJn60AJd0dKe9QL9sF0xH8=; b=WokOoBoWjY1x4f4Gti
- 8J/2XnwZFzO7LeXLecCu69YXpI5SVbztWoGa3nI0ObMkxQRdmehpNbKo2jPMq1UN
- 3O99kMfVJNQumTqF+dRF8yKMF8k4p4pgNJKgLEWR0tZ5pT65EMUVWRDOqb4mFw6R
- KF7nuQrRGngEakrJEeSIuyR2vCC99qUJeE53ZiY9K86uVe2+nDeuswrPt3v3N5le
- dN3s/5TTjbJTCLOnPcDpQrK0V6H5OLzVHadOtmsMEGV6TlKTDa/tO4Aq3h6vm7Yg
- 2sgzKXPreRKrMnM0+iFsLaY2dPpNKdP79020hvRI4QYhdQ9gY1jhIjBKoo+hP+Fm
- EpOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1677617300; x=1677703700; bh=qokfXO0eNdD15
- vZdAmFZWrJn60AJd0dKe9QL9sF0xH8=; b=Hx5X8eSZeNLgYPKe7Hd0WuYMlyoUk
- wAVwMPQGzSGU/GV0nw81Vu07i/+G0m0P8e13EuxBEv3FMJipenmoWJng4p6Oy46H
- v1JD/zM2PBV2E3qZXzKjok45gjQwzrORB7I5oOZc+M3C0Y2TCpifzvIKVftHogOZ
- R4ieZjitk+Pz+jcq87pExHhmGw7b0F8iOi8Lu6REdPWAnjvniyeDwcjzLbaO5y7o
- goKjy+p8jUHPoQ3a29dPullV4G4iWrh8RE1wBmxdr3lPregR+Rd8ytAJi57iKJfO
- lCnFNmEZNYIfc+KsxkVtqIZ/CPsDcm9qhyB2FATaNyUPSAImLHaP0ywYA==
-X-ME-Sender: <xms:lGj-Y3tITQNkPXSq8X67D360pWUNuFbSmdHSoWw5GGuLTMg7CIGXoQ>
- <xme:lGj-Y4d6YJq47ylN8AMdXPOW2vpyJQBhZQ4zbHlpPPPWCDCnVBBjRdixfzqmiyvmR
- LnqHWh4uo6-J14KJw>
-X-ME-Received: <xmr:lGj-Y6zN_WYc6_DI84wwCHR6kxUSCRfddDn1t1FgQh3QqUrWUj41hadFgSp0lDp5LSkKsb_ST-9VnxkjL2BA29MmNTFdH47ZvJM353FTLnKakw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelfedgjeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdljedtmdenucfjughrpefhvf
- evufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceo
- ugiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepgfefgfegjefhudeike
- dvueetffelieefuedvhfehjeeljeejkefgffeghfdttdetnecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:lGj-Y2OGTOgMscv-Vx5kc06yOCX-Q5lchSPBmd8f9uWFv_RS2O3smQ>
- <xmx:lGj-Y3_u2aJdZ8LkpI3NjK2IK_waeBt_T8Ry_2woQ5xgYFr8DetGoQ>
- <xmx:lGj-Y2VCC6P6U8sf8CDmEX_ghQpkgs_eCYREStXMShe5TKJF1bfQyA>
- <xmx:lGj-Y5KsXm8MBhqZBN1B3YJHrjTb1VjqCz3QwdocBwGLDvWsDaOCQA>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Feb 2023 15:48:19 -0500 (EST)
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: michael.roth@amd.com,
-	kkostiuk@redhat.com,
-	marcandre.lureau@gmail.com
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] qga: test: Add tests for `merge-output` flag
-Date: Tue, 28 Feb 2023 13:48:04 -0700
-Message-Id: <46322f524542aa2147939efc1e814c9d1d273919.1677617035.git.dxu@dxuuu.xyz>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1677617035.git.dxu@dxuuu.xyz>
-References: <cover.1677617035.git.dxu@dxuuu.xyz>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pX6vl-0004EL-3E
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:50:37 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pX6vj-000789-6r
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:50:36 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ x20-20020a17090a8a9400b00233ba727724so358694pjn.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 12:50:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9tTXMexgD8yr+XUADHp1mgOTel0p6zMRNLFqZycOIKI=;
+ b=Vs2aaLAlb+NWKCh19ZRv4tDkHjWbxU19vcr9aeRqMaNqQTr7p3QGmT3zQrlkeN2CXD
+ zZxZ2zY50bbahIagJ9QLg20bL+xYCDYvoUrVBYmfFGF3HZkwkvTHJSi0Vpn0BNe5F4yg
+ DlB/yXELaR6b6a4aI6VeknHWBiOuhoR6Du9DMw7aD0miz+51DMLWeg8EVAWdpEinxVx8
+ 1tOs3oa/Qw6KOu1QHA2SKDga4kLN5IuqB6skIRyWyeg524ooCGkyb0eieUl4UWxfpdg2
+ q/hfxzMfVq2xneLXJWxPDWpflsNuM4nY1AqDH5TD8jFgIuOyw+vQbWlZ3fqy0f/IX3k1
+ RYbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9tTXMexgD8yr+XUADHp1mgOTel0p6zMRNLFqZycOIKI=;
+ b=yDciuM255iJuMdsoc+kyy+ft1c0MdWzkt6n0O7a0Oz5kQ9C9eqQO9fHW0mBdbzBDrj
+ n2xGOrt9I6N8jjZ2zNuEBLRgqnh0fwoIkmDXoKxdG63+2cRBrZV6BsqWuaaWonkintBw
+ AKvdOiN4RfrFSKeWa93r6+FJgUjJAq6dl/B9bUoGZ+NyGgivWIH9W2hR5jZaZtkYIK12
+ 2uKCvkgbaU+Ew4aqQ7JfDcyGX93zCuUsWt0y2J514XHTYyPD46PCUCrqyWgURWLSFaJZ
+ 72LOiXPaRVUxImV1vlgDfIxZxj0nDakwIC0iay9w4QjVpzW0RkMPDjX7drafcnvQsiuf
+ oFzA==
+X-Gm-Message-State: AO0yUKVY2ieEeFABWrJvKIRIOXKllQobPKGn7zPQ0MlowDDrkgZSZrQ0
+ fF0AMVHPO8WdGq4cITgDBHO4ww==
+X-Google-Smtp-Source: AK7set8Xuk93ZJtWorh730uts6QrRR4yS3gShK/jXD6Jb2W7sGnCuUUBHgyTdPNM3CZqNYnW8MFpqg==
+X-Received: by 2002:a05:6a20:3947:b0:cd:fe1b:df8 with SMTP id
+ r7-20020a056a20394700b000cdfe1b0df8mr2279655pzg.56.1677617431844; 
+ Tue, 28 Feb 2023 12:50:31 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ i23-20020aa787d7000000b0056d7cc80ea4sm6475810pfo.110.2023.02.28.12.50.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 12:50:31 -0800 (PST)
+Message-ID: <e1fc5734-2548-eba1-cc14-5f2a6482fba0@linaro.org>
+Date: Tue, 28 Feb 2023 10:50:26 -1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=dxu@dxuuu.xyz;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] plugin: fix clearing of plugin_mem_cbs before TB exit
+Content-Language: en-US
+To: Emilio Cota <cota@braap.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>,
+ "Eli G. Boling" <eboling@draper.com>
+References: <20230222043204.941336-1-cota@braap.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230222043204.941336-1-cota@braap.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,215 +95,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This commit adds a test to ensure `merge-output` functions as expected.
-We also add a negative test to ensure we haven't regressed previous
-functionality.
+On 2/21/23 18:32, Emilio Cota wrote:
+> Currently we are wrongly accessing plugin_tb->mem_helper at
+> translation time from plugin_gen_disable_mem_helpers, which is
+> called before generating a TB exit, e.g. with exit_tb.
+> 
+> Recall that it is only during TB finalisation, i.e. when we go over
+> the TB post-translation to inject or remove plugin instrumentation,
+> when plugin_tb->mem_helper is set. This means that we never clear
+> plugin_mem_cbs when calling plugin_gen_disable_mem_helpers since
+> mem_helper is always false. Therefore a guest instruction that uses
+> helpers and emits an explicit TB exit results in plugin_mem_cbs being
+> set upon exiting, which is caught by an assertion as reported in
+> the reopening of issue #1381 and replicated below.
+> 
+> Fix this by (1) adding an insertion point before exiting a TB
+> ("before_exit"), and (2) deciding whether or not to emit the
+> clearing of plugin_mem_cbs at this newly-added insertion point
+> during TB finalisation.
 
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
----
- tests/unit/test-qga.c | 157 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 140 insertions(+), 17 deletions(-)
+This is an improvement, but incomplete, because it does not handle the exception exit 
+case, via cpu_loop_exit.
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index b4e0a14573..717f3d1103 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -755,6 +755,31 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
-     g_assert_cmpstr(status, ==, "thawed");
- }
- 
-+static QDict *wait_for_guest_exec_completion(int fd, int64_t pid)
-+{
-+    QDict *ret = NULL;
-+    int64_t now;
-+    bool exited;
-+    QDict *val;
-+
-+    now = g_get_monotonic_time();
-+    do {
-+        ret = qmp_fd(fd,
-+                     "{'execute': 'guest-exec-status',"
-+                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
-+        g_assert_nonnull(ret);
-+        val = qdict_get_qdict(ret, "return");
-+        exited = qdict_get_bool(val, "exited");
-+        if (!exited) {
-+            qobject_unref(ret);
-+        }
-+    } while (!exited &&
-+             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
-+    g_assert(exited);
-+
-+    return ret;
-+}
-+
- static void test_qga_guest_exec(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -762,9 +787,8 @@ static void test_qga_guest_exec(gconstpointer fix)
-     QDict *val;
-     const gchar *out;
-     g_autofree guchar *decoded = NULL;
--    int64_t pid, now, exitcode;
-+    int64_t pid, exitcode;
-     gsize len;
--    bool exited;
- 
-     /* exec 'echo foo bar' */
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-@@ -777,23 +801,10 @@ static void test_qga_guest_exec(gconstpointer fix)
-     g_assert_cmpint(pid, >, 0);
-     qobject_unref(ret);
- 
--    /* wait for completion */
--    now = g_get_monotonic_time();
--    do {
--        ret = qmp_fd(fixture->fd,
--                     "{'execute': 'guest-exec-status',"
--                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
--        g_assert_nonnull(ret);
--        val = qdict_get_qdict(ret, "return");
--        exited = qdict_get_bool(val, "exited");
--        if (!exited) {
--            qobject_unref(ret);
--        }
--    } while (!exited &&
--             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
--    g_assert(exited);
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
- 
-     /* check stdout */
-+    val = qdict_get_qdict(ret, "return");
-     exitcode = qdict_get_int(val, "exitcode");
-     g_assert_cmpint(exitcode, ==, 0);
-     out = qdict_get_str(val, "out-data");
-@@ -802,6 +813,114 @@ static void test_qga_guest_exec(gconstpointer fix)
-     g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
- }
- 
-+static void test_qga_guest_exec_output_no_merge(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *out, *err;
-+    g_autofree guchar *out_decoded = NULL;
-+    g_autofree guchar *err_decoded = NULL;
-+    int64_t pid, exitcode;
-+    gsize len;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': true } }");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+    val = qdict_get_qdict(ret, "return");
-+    pid = qdict_get_int(val, "pid");
-+    g_assert_cmpint(pid, >, 0);
-+    qobject_unref(ret);
-+
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
-+
-+    val = qdict_get_qdict(ret, "return");
-+    exitcode = qdict_get_int(val, "exitcode");
-+    g_assert_cmpint(exitcode, ==, 0);
-+
-+    /* check stdout */
-+    out = qdict_get_str(val, "out-data");
-+    out_decoded = g_base64_decode(out, &len);
-+    g_assert_cmpint(len, ==, 14);
-+    g_assert_cmpstr((char *)out_decoded, ==, "stdout\nstdout\n");
-+
-+    /* check stderr */
-+    err = qdict_get_try_str(val, "err-data");
-+    err_decoded = g_base64_decode(err, &len);
-+    g_assert_cmpint(len, ==, 14);
-+    g_assert_cmpstr((char *)err_decoded, ==, "stderr\nstderr\n");
-+}
-+
-+#if defined(G_OS_WIN32)
-+static void test_qga_guest_exec_output_merge(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *class, *desc;
-+    g_autofree guchar *decoded = NULL;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': true,"
-+                 " 'merge-output': true } }");
-+
-+    g_assert_nonnull(ret);
-+    val = qdict_get_qdict(ret, "error");
-+    g_assert_nonnull(val);
-+    class = qdict_get_str(val, "class");
-+    desc = qdict_get_str(val, "desc");
-+    g_assert_cmpstr(class, ==, "GenericError");
-+    g_assert_cmpint(strlen(desc), >, 0);
-+}
-+#else
-+static void test_qga_guest_exec_output_merge(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *out, *err;
-+    g_autofree guchar *decoded = NULL;
-+    int64_t pid, exitcode;
-+    gsize len;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': true,"
-+                 " 'merge-output': true } }");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+    val = qdict_get_qdict(ret, "return");
-+    pid = qdict_get_int(val, "pid");
-+    g_assert_cmpint(pid, >, 0);
-+    qobject_unref(ret);
-+
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
-+
-+    val = qdict_get_qdict(ret, "return");
-+    exitcode = qdict_get_int(val, "exitcode");
-+    g_assert_cmpint(exitcode, ==, 0);
-+
-+    /* check stdout */
-+    out = qdict_get_str(val, "out-data");
-+    decoded = g_base64_decode(out, &len);
-+    g_assert_cmpint(len, ==, 28);
-+    g_assert_cmpstr((char *)decoded, ==, "stdout\nstderr\nstdout\nstderr\n");
-+
-+    /* check stderr */
-+    err = qdict_get_try_str(val, "err-data");
-+    g_assert_null(err);
-+}
-+#endif
-+
- static void test_qga_guest_exec_invalid(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -972,6 +1091,10 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
-     g_test_add_data_func("/qga/config", NULL, test_qga_config);
-     g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
-+    g_test_add_data_func("/qga/guest-exec-output-no-merge", &fix,
-+                         test_qga_guest_exec_output_no_merge);
-+    g_test_add_data_func("/qga/guest-exec-output-merge", &fix,
-+                         test_qga_guest_exec_output_merge);
-     g_test_add_data_func("/qga/guest-exec-invalid", &fix,
-                          test_qga_guest_exec_invalid);
-     g_test_add_data_func("/qga/guest-get-osinfo", &fix,
--- 
-2.39.1
 
+r~
 
