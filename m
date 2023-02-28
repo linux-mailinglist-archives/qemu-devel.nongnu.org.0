@@ -2,95 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA806A5E11
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692D26A5E36
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:31:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX3ac-0005zc-MS; Tue, 28 Feb 2023 12:16:34 -0500
+	id 1pX3nR-0005PS-7P; Tue, 28 Feb 2023 12:29:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pX3aZ-0005xz-Pe
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:16:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pX3aV-0004zU-JN
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:16:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677604586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cLUJVcYg/xF6CLs83TGnMc9OBpblxeR5Rg+jVNT+eKo=;
- b=ctc8qrFCPXU6DmkKwuhgPh/UvohIWFeyvlIlomJrBZ7NiYnR7RyTVBt9BvX0QFChst5GdD
- q79b6z7xbumEljL6KBdoREHk+Jz4BHGMdQrEqZWQpH5DLLVM8utjlZ2pL7gy4t2GMjZzat
- raZ8qkGNctPG9kFjf+VJ4EVrvLFWiZI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-33-fnyxpl_sM-uYT5iwSj9B7Q-1; Tue, 28 Feb 2023 12:16:24 -0500
-X-MC-Unique: fnyxpl_sM-uYT5iwSj9B7Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- n6-20020a5d51c6000000b002ca3c48ba46so1537936wrv.4
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 09:16:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pX3nP-0005OS-Af
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:29:47 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pX3nM-0007hL-NT
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:29:47 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ m25-20020a7bcb99000000b003e7842b75f2so6344940wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 09:29:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NFu8Bk18v4l7Jt0JdGbiRizsWONj5KXQ1ScWYd6O3Vo=;
+ b=Iih72F4Qa2c3KOP7PYX8hIk7jGckmLVYR9kZj6NxQXq2W7V/p5xFtWWjfZ99Bllwnz
+ gz2ggMSjb57AWvX4T8cxVVt1IMrajYHYJoxaVEoyJtN9IjviVEF/3yl2L+DW8bF4vJRo
+ AQi9J5iDocxjiLCTfmRoWP2AC7Vwuu39Zp0tVwxaQmAYWb1HcZ0V7vdXdGR10kn4aR4b
+ AUMQqnaSwiBbM78N25/Lk5DOJg59hPaWWJ9zVQy/DAd0bRnSN74OtwNl9xc2ZlyQn/me
+ 5wBnPeK2kHNqzk5fo/w+EkTOCHr30+Th2N7anTZYT+wBSGwY79uGx8Y/kVnROZsJyDqM
+ rMvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cLUJVcYg/xF6CLs83TGnMc9OBpblxeR5Rg+jVNT+eKo=;
- b=Jqzw9xAuAo5DclOdNiaC6V+KXKy1NEeoXGkuFSDwhSpeGf/TkLAxnJ8f0yMiIhNw0j
- OVzF2GQhPWpW+vF3l8NM7FXiiwxJRVBhEi958BV1YpQ+PAAC/H7tQlRhfmwy+8k2+G6X
- MrGxY1JellGshfyAMXSn73jg5h7nG/a6CGrlDCPmm9bwrgFehG2gx85hO/oV1Bdz5qSm
- 5/wbxlBET2z547nE32cs1prEFPX2pMGcfTYPoUgCuoeFOyLG5daOfXwRzSD4xT8qKtsI
- GKaYSEiaMKbydN7pXDLvUkxB1Gf2ZLZXfc00bt2wVe78nrfZpYrsov9aLyCkqcu28rhb
- oh9g==
-X-Gm-Message-State: AO0yUKVF2ZvgFjuq2oWJMs5hMUhIJ+xPuNTGi7Kq3OImSwvrMNIUYoHy
- nwj9ygjHCVtWa1K0R3iDIbcdoJ2W2azpBH1u19z9y6yDAmYyHRrJZ5AD0R9iCBBxkwoI+B+Cu8m
- aUPIMwSjC4QRoBps=
-X-Received: by 2002:a5d:50c5:0:b0:2c5:8353:e0ec with SMTP id
- f5-20020a5d50c5000000b002c58353e0ecmr2998763wrt.10.1677604583724; 
- Tue, 28 Feb 2023 09:16:23 -0800 (PST)
-X-Google-Smtp-Source: AK7set9KZhwEJGZgEluyAd/AgqC6OLbcnJObfvXdK8fvUZ4v7S7cwk8azGPlMDwqkh5PSfRHPUccSA==
-X-Received: by 2002:a5d:50c5:0:b0:2c5:8353:e0ec with SMTP id
- f5-20020a5d50c5000000b002c58353e0ecmr2998731wrt.10.1677604583351; 
- Tue, 28 Feb 2023 09:16:23 -0800 (PST)
-Received: from ?IPV6:2003:cb:c706:b800:3757:baed:f95e:20ac?
- (p200300cbc706b8003757baedf95e20ac.dip0.t-ipconnect.de.
- [2003:cb:c706:b800:3757:baed:f95e:20ac])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=NFu8Bk18v4l7Jt0JdGbiRizsWONj5KXQ1ScWYd6O3Vo=;
+ b=T266uVTfwiqAQDf2y1rX1tksVx+RGgxWBserxiPamg6gnnWxLxeQQU1Yv56HNd2O5m
+ ZEJTacqpuG8OrjdgyKUNB8LhC4vu9U+OCuRWH+l+KvxU7/VvqGrSW0LUOUEDBM6ublCw
+ E2MlGhNf783gtUp2d/8M7hz2QYdqtn5Mwyl0PindE7MPV1P4RMkl7y1lsbo7YsyOsB4h
+ gd9F7yRE9How+dxmMsdShrzs1ihEQMBGZitFwu9IQJ9Sy3zFr3Gw6Zz/F86YvuVzxQyI
+ V7LcCDVhBoYznoRZVUJiSTbWIGV+AYnjZhNWAszaqKicPYQRoOHPli3nappLnZYm0l8r
+ uGpg==
+X-Gm-Message-State: AO0yUKUCuEfADrIVKiUgsYpquOtZtPvs/RLzDIhMltjTIpaTKgkee9Po
+ KK4CYZpCTZK0kUsfZm3SNNGfPw==
+X-Google-Smtp-Source: AK7set/dP3ecKzmKuDKl2wnmDXr/7c0imSvVAcIa8EIna8Itnw1bfFQMtIp6DdmMZMZabHuaOT6NLQ==
+X-Received: by 2002:a05:600c:4e06:b0:3eb:2db4:c626 with SMTP id
+ b6-20020a05600c4e0600b003eb2db4c626mr2839135wmq.38.1677605382828; 
+ Tue, 28 Feb 2023 09:29:42 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- c2-20020a5d4cc2000000b002bfd524255esm10168288wrt.43.2023.02.28.09.16.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 09:16:22 -0800 (PST)
-Message-ID: <2018fac3-ac49-5d5a-93b4-298438bf624f@redhat.com>
-Date: Tue, 28 Feb 2023 18:16:21 +0100
+ n33-20020a05600c502100b003e8dc7a03basm17256919wmr.41.2023.02.28.09.29.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 09:29:42 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0AC191FFB7;
+ Tue, 28 Feb 2023 17:29:42 +0000 (GMT)
+References: <20230227053701.368744-1-richard.henderson@linaro.org>
+ <20230227053701.368744-8-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-s390x@nongnu.org, jcmvbkbc@gmail.com, kbastian@mail.uni-paderborn.de,
+ ysato@users.sourceforge.jp, gaosong@loongson.cn, jiaxun.yang@flygoat.com,
+ tsimpson@quicinc.com, ale@rev.ng, mrolnik@gmail.com,
+ edgar.iglesias@gmail.com, qemu-arm@nongnu.org
+Subject: Re: [PATCH v4 07/31] tcg: Add liveness_pass_0
+Date: Tue, 28 Feb 2023 17:29:37 +0000
+In-reply-to: <20230227053701.368744-8-richard.henderson@linaro.org>
+Message-ID: <874jr5g0l6.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] memory: avoid unnecessary iteration when updating
- ioeventfds
-Content-Language: en-US
-To: "Longpeng(Mike)" <longpeng2@huawei.com>, pbonzini@redhat.com,
- peterx@redhat.com, philmd@linaro.org, mst@redhat.com, jasowang@redhat.com
-Cc: qemu-devel@nongnu.org, eperezma@redhat.com, arei.gonglei@huawei.com,
- yechuan@huawei.com
-References: <20230228142514.2582-1-longpeng2@huawei.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230228142514.2582-1-longpeng2@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,64 +99,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28.02.23 15:25, Longpeng(Mike) via wrote:
-> From: Longpeng <longpeng2@huawei.com>
-> 
-> When updating ioeventfds, we need to iterate all address spaces and
-> iterate all flat ranges of each address space. There is so much
-> redundant process that a FlatView would be iterated for so many times
-> during one commit (memory_region_transaction_commit).
-> 
-> We can mark a FlatView as UPDATED and then skip it in the next iteration
-> and clear the UPDATED flag at the end of the commit. The overhead can
-> be significantly reduced.
-> 
-> For example, a VM with 16 vdpa net devices and each one has 65 vectors,
-> can reduce the time spent on memory_region_transaction_commit by 95%.
-> 
-> Signed-off-by: Longpeng <longpeng2@huawei.com>
-> ---
->   include/exec/memory.h |  2 ++
->   softmmu/memory.c      | 28 +++++++++++++++++++++++++++-
->   2 files changed, 29 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 2e602a2fad..974eabf765 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -1093,6 +1093,8 @@ struct FlatView {
->       unsigned nr_allocated;
->       struct AddressSpaceDispatch *dispatch;
->       MemoryRegion *root;
-> +#define FLATVIEW_FLAG_IOEVENTFD_UPDATED (1 << 0)
-> +    unsigned flags;
->   };
->   
->   static inline FlatView *address_space_to_flatview(AddressSpace *as)
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 9d64efca26..71ff996712 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -815,6 +815,15 @@ FlatView *address_space_get_flatview(AddressSpace *as)
->       return view;
->   }
->   
-> +static void address_space_reset_view_flags(AddressSpace *as, unsigned mask)
-> +{
-> +    FlatView *view = address_space_get_flatview(as);
-> +
-> +    if (view->flags & mask) {
-> +        view->flags &= ~mask;
-> +    }
 
-Just do it unconditionally.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Unfortunately, I cannot comment on the bigger picture, but it does look 
-good to me.
+> Attempt to reduce the lifetime of TEMP_TB.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-Thanks,
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-David / dhildenb
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
