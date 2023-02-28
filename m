@@ -2,94 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35C16A61C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 22:51:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3106A61C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 22:54:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX7rv-0006Sq-Ue; Tue, 28 Feb 2023 16:50:43 -0500
+	id 1pX7uQ-0007Hq-Od; Tue, 28 Feb 2023 16:53:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX7ru-0006Sa-Gy
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:50:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX7rt-0003A2-5b
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:50:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677621040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UdzkNeUdS61PBqy95gh5JkT7syPC9xHJ6D+kulAnETw=;
- b=JrwLfBuM76rd+LHLRXQcmkOCTYGdd8/ukxyfq8hWWp5iS/VJSIkICdUYWfBxxr++vc38WF
- 0v4c+kB+D6MDxvCCrKdYS2m0Ngst+c39ZOKsiMu3/gFwXvzJIVnPsBUnsgPgZMEwtvFhJi
- 4TwNJuk1aDEdD53to3SpDzdZQjOZiJQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-jnA8HjT9O_GVBKXpC4Z0Tw-1; Tue, 28 Feb 2023 16:50:39 -0500
-X-MC-Unique: jnA8HjT9O_GVBKXpC4Z0Tw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f14-20020a7bcc0e000000b003dd41ad974bso4760075wmh.3
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 13:50:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX7uO-0007HJ-Dd
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:53:16 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX7uK-0003c8-Jl
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:53:16 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ j19-20020a05600c191300b003eb3e1eb0caso5946746wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 13:53:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677621191;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eNWWTmXqD/Hl2svbeJU3DygbOC8Ekf8J+x0b2gnlOVU=;
+ b=tT6zcdlmnX/XpXr/pqTym9Xn6fvTrPLkZX1LubjvGFLnJ0jnq1uHsamMtO5fP6M/L2
+ MiCYeb5u1X1ELXQWn3JPyShD2FLHakncjLG/Cu5ouGYBdXu+/qg6TyTYcY4ZfPGBInyW
+ LexAd7nfWCQUxLkMAlxm9/8U63CAxLb8uREBqO9NWvlxwr8HXSTlHh/9Nz55kfpd87UR
+ sGXmGhwCKQg2h7z7a28Gziyw7CNSjDLta623y9CV2hNHAF23bQR0iUOkR6/1dl0uXpM+
+ CrW8safroNC8MkGD/o/Asgxb/1HQ5KwRzgLS3mHUn5QrFFtRh4dMghxr/v+hZmtl1V6A
+ AQXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677621038;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20210112; t=1677621191;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UdzkNeUdS61PBqy95gh5JkT7syPC9xHJ6D+kulAnETw=;
- b=vW9wLVBjivUUwd6cgQcqc0K44JsgfUGWZ5BStINQqfXRrv+vyKqZ8L3zf+bFfWGGrN
- sl6iqv/LSHkX9OYr69tE6Yk/v7NJEPK14/OFSbxfzwaP0poRPDHP94IwJhkVk/mt+h50
- fUuohEZyVjVOXZafNurUDnCMl1ydIOsA8dOHkv66ONffsqx9bz9unKCtJK56dBJQawgQ
- RhRXX1454SAQJ5a59BS+QQSQzrZBDnR/ACAoG4RhpzhFr+rx5degpiieSkBbXO0K6lPz
- 8pfkUcJ/4Pqyswykle0JLmRqEVLtwI+4V3Iy6MYsfwC7vdNPvhiT5fZPwxpwKH0GzbrX
- Zbxw==
-X-Gm-Message-State: AO0yUKWQQp4ycmMHxwvfLxrWf01O8Z/qBZTeWb0uzmEDvX1uoVdNG+s/
- LYQj1AnVN3pCCE2DxR27suZBs/XZiGYDjl0AeT29XSqGW42dp6VzLqgA0pww5kxsR0vdU5mx6A7
- MituV7szET/GROU8=
-X-Received: by 2002:a05:6000:11c7:b0:2c3:eeeb:b2f7 with SMTP id
- i7-20020a05600011c700b002c3eeebb2f7mr3116991wrx.62.1677621038076; 
- Tue, 28 Feb 2023 13:50:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set9IL1jWH53UjzonwXoPPHUyDjc8W2skkd+n/7d4K/f50FVRlWLdDlJ63RwT+ttPV7fryA8L/w==
-X-Received: by 2002:a05:6000:11c7:b0:2c3:eeeb:b2f7 with SMTP id
- i7-20020a05600011c700b002c3eeebb2f7mr3116981wrx.62.1677621037720; 
- Tue, 28 Feb 2023 13:50:37 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- d2-20020adfef82000000b002c5801aa9b0sm11009178wro.40.2023.02.28.13.50.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 13:50:37 -0800 (PST)
-Date: Tue, 28 Feb 2023 16:50:33 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: Re: [PATCH 0/3] hw/acpi/cpu_hotplug: Convert 'Object *device' ->
- 'DeviceState *parent'
-Message-ID: <20230228164923-mutt-send-email-mst@kernel.org>
-References: <20230203163021.35754-1-philmd@linaro.org>
- <00dd2e23-7b5c-272f-b8ea-f0d1677d18da@linaro.org>
- <e6f93935-70a1-a791-4026-c344e0fa95ca@linaro.org>
- <20230228164731.38d77311@imammedo.users.ipa.redhat.com>
+ bh=eNWWTmXqD/Hl2svbeJU3DygbOC8Ekf8J+x0b2gnlOVU=;
+ b=o0WARKgLFOl+a4fwe8QYwxKtAnIgG+Sg2o28jHuAF1a57rNJfe0+7pddLLQmIzUgSE
+ oviPe0jsMnNE1Kfyfb6W0c97lOB5YV4i76B5yqGm88SBxL3VYGOIigNJVunsoxDM9QV7
+ ZDeWdvq2/M7k5abHrsVW2vy7kmre3Tv7/FaptbRQh+8/obCYVC0wc2ZU+REHUhLW7pk0
+ 34X8pGtyHxeYs+/zA+RUsjKBqcp9mcvTIgleQbOzt/gVI85S410uuB9EXpidWq+K6DcV
+ 2BX4tO6STv6QqiQCLXanuksStBOCPvoEwlg9fwGmO8p6EbqzcSUC3zan90rIGml4BDI4
+ XNdA==
+X-Gm-Message-State: AO0yUKWaqsLbqCnb0ngdjX2pcmj2SxuM/506cBT+XaFKdpBuaNyUUhGk
+ phS/tR5iU1VRvMvLxwwXT49+XQ==
+X-Google-Smtp-Source: AK7set8oBR8ZUtKQfqXL+uNsLpS+qcGjndSeFiC+tF7ogAloU4b8rKQM0LcUu+sp9QLiYqfwgJaJdw==
+X-Received: by 2002:a05:600c:4fcc:b0:3ea:9530:22a6 with SMTP id
+ o12-20020a05600c4fcc00b003ea953022a6mr10194680wmq.1.1677621191115; 
+ Tue, 28 Feb 2023 13:53:11 -0800 (PST)
+Received: from [192.168.68.175] (166.red-88-28-30.dynamicip.rima-tde.net.
+ [88.28.30.166]) by smtp.gmail.com with ESMTPSA id
+ a2-20020adfdd02000000b002c3f03d8851sm11013264wrm.16.2023.02.28.13.53.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 13:53:10 -0800 (PST)
+Message-ID: <fa133859-b079-2cc1-f431-cee6b1c19af3@linaro.org>
+Date: Tue, 28 Feb 2023 22:53:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 24/24] tests/avocado: disable BootLinuxPPC64 test in CI
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
+ <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230228190653.1602033-1-alex.bennee@linaro.org>
+ <20230228190653.1602033-25-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230228190653.1602033-25-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230228164731.38d77311@imammedo.users.ipa.redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,44 +111,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 04:47:31PM +0100, Igor Mammedov wrote:
-> On Tue, 28 Feb 2023 14:36:43 +0100
-> Philippe Mathieu-DaudÈ <philmd@linaro.org> wrote:
+On 28/2/23 20:06, Alex Benn√©e wrote:
+> This test is exceptionally heavyweight (nearly 330s) compared to the
+> two (both endians) TuxRun baseline tests which complete in under 160s.
+> The coverage is slightly reduced but a more directed test could make
+> up the difference.
 > 
-> > ping^2
+> tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_ppc64:
 > 
-> please use checkpatch before pasting series.
+> Overall coverage rate:
+>    lines......: 9.6% (44110 of 458817 lines)
+>    functions..: 16.5% (6767 of 41054 functions)
+>    branches...: 6.0% (13395 of 222634 branches)
 > 
-> Object -> DeviceState is a nice cleanup,
+> tests/avocado/boot_linux.py:BootLinuxPPC64.test_pseries_tcg:
+> 
+> Overall coverage rate:
+>    lines......: 11.6% (53408 of 458817 lines)
+>    functions..: 18.7% (7691 of 41054 functions)
+>    branches...: 7.9% (17692 of 224218 branches)
+> 
+> So lets skip for GITLAB_CI and also unless AVOCADO_TIMEOUT_EXPECTED is
+> specified by the user.
+> 
+> Signed-off-by: Alex Benn√©e <alex.bennee@linaro.org>
+> ---
+>   tests/avocado/boot_linux.py | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-
-I don't like that one either because everyone wants Object so
-we just cast it back all the time. Let's carry what we use
-if all you call sites cast you know you should keep the type you
-cast to.
-
-
-> the rest is just unnecessary churn in my opinion and a matter of taste,
-> but I fine with it if it makes code easier to read
-> for someone else.
-> 
-> 
-> > 
-> > On 22/2/23 22:34, Philippe Mathieu-DaudÈ wrote:
-> > > On 3/2/23 17:30, Philippe Mathieu-DaudÈ wrote:  
-> > >> To ease code review, rename ACPI CPU hotplug variables
-> > >> to more meaningful names.
-> > >>
-> > >> Since hotplug parent can't be any QOM object, and must be
-> > >> a QDev, convert AcpiCpuHotplug::device from Object* to
-> > >> DeviceState*.
-> > >>
-> > >> Philippe Mathieu-DaudÈ (3):
-> > >> †† hw/acpi/cpu_hotplug: Rename gpe_cpu -> gpe
-> > >> †† hw/acpi/cpu_hotplug: Rename 'parent' MemoryRegion as 'container'
-> > >> †† hw/acpi/cpu_hotplug: Convert 'Object *device' -> 'DeviceState *parent'  
-> > > 
-> > > ping  
-> > 
+Reviewed-by: Philippe Mathieu-Daud√© <philmd@linaro.org>
 
 
