@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B4A6A5A40
+	by mail.lfdr.de (Postfix) with ESMTPS id 830376A5A41
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 14:47:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX0Iq-0001IV-Eo; Tue, 28 Feb 2023 08:46:00 -0500
+	id 1pX0Ip-00012T-Mp; Tue, 28 Feb 2023 08:45:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pX0Ig-0000ud-0q; Tue, 28 Feb 2023 08:45:50 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ id 1pX0Ig-0000uc-0s; Tue, 28 Feb 2023 08:45:50 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pX0Id-00031L-DP; Tue, 28 Feb 2023 08:45:48 -0500
-Received: by mail-pl1-x629.google.com with SMTP id v11so6936894plz.8;
+ id 1pX0Id-00030O-DM; Tue, 28 Feb 2023 08:45:48 -0500
+Received: by mail-pl1-x636.google.com with SMTP id y11so6322575plg.1;
  Tue, 28 Feb 2023 05:45:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ev2CVyKGsCzMKHUvLG0iHRpibO1vkQP9ZxUX3Vfk3Ao=;
- b=POapXY1ccbaJRiv+Q98IlkPbzlu6mP+ecZDqBzD8XmQX1YwZxSLLoAXe2jaH1EHivI
- kd4gKCfC0IuzXwMxzkp7o6VjFj3S4fIRT1U7rAFwCqG+NAU+iV5sKLl8prxdsX8M+HiH
- ZYrp9uuqopa12BT8kDji2VvH/PIeM/pdhq/aOqBcfdhMyGMoCHnqK9ZwVEGiyuxpP6QX
- xGQI4lMXjz2KR9AqVCUvYSmVFo9yDSlEljSFAa21O49VHl6aXIuDgGixyXkzyMOSmDxS
- xSKnhNxNGY6OvC10QnaVwREPOG/Mi18yxCXcgZtcpJ2769fTSO/vLbSi/3YrMypv8JDy
- l+nw==
+ bh=+JQ8rEzvJy2Hr5RXjOLFBE9vHB7yL2eNsfyaqnmJxNA=;
+ b=eoCpnsHO0L0n8035E9IvdDG9FHFeyEbTdosQxw2ytM3XWdUiwyBjF5qGcUsxjirU2s
+ Vjf8l5RSgDRmwsrp7whB1HVTOm18ynUAJU2NNE/LHBj/lYsafILU5ZUedpZOqj9cjOR5
+ 6XvMEbGan6613WWqp3m5fb68c9yhMgE2VlHUYMQyzwhuS/6e42iUmtD8jke8l4MTQgBt
+ AyYm9vj+URlK9DHpjzx7cPVXGw9cvQGDo8mmotNSLe5VZh0Iizzwh24wBqbiivXPiAzb
+ uEQiDf0ylDqwofTlivV3KZo42/SJ/AVC+fs+zlrqAaMP+hFzzroL2vHGBCaDOL8XUutD
+ xmUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ev2CVyKGsCzMKHUvLG0iHRpibO1vkQP9ZxUX3Vfk3Ao=;
- b=mWb3oi8eLh3NGmhFX3VJxcCoztCclhWN8hCNkWq9AX/3MBdlo3TVdqJNfNMJvZ/N1a
- 0HxxynMVtiacq0WR3EnWWx2QKu3QL3/Iz6BSAl/MMIvDl4kBwu/smES6aFWdw5D5g8T6
- s74tPHV5w5B/NdVq9bbuFZv1C6CbLhx6/2gOiXm8vSmTMZbRM82Gnl+kRTkLMJxkK79o
- PVn3g+hxU7xxAkZw96ldK6jUg70VlvxE/p6qO0QehjcLCJcHFXdbKV9s7vQMFmBDXoGd
- l4p4D0MHxi7gOtjBs4meUaojYTJxZrsV8i7qOpmDZcknlIxPLAIlpsHWpZY0kNG6JvDi
- uCbw==
-X-Gm-Message-State: AO0yUKWROWc4JFkYUVdWSKX/vMYItLyqMal5ovsN0e9vu/bOP5pP3tBG
- BtTNu9aKjMgzGFQtM1REPpks9CxJYuE=
-X-Google-Smtp-Source: AK7set+H3N0ha7BWntU9uEHgBWaEUIUaPMj23WZfrL8DC2TiKRogo9Hn08/BT1fiwUFI0OnwB5qmPw==
-X-Received: by 2002:a17:902:e54c:b0:19d:121a:6795 with SMTP id
- n12-20020a170902e54c00b0019d121a6795mr3547144plf.55.1677591941026; 
- Tue, 28 Feb 2023 05:45:41 -0800 (PST)
+ bh=+JQ8rEzvJy2Hr5RXjOLFBE9vHB7yL2eNsfyaqnmJxNA=;
+ b=G0IDJUTEUL715TrepAODqB8wY3PQK6tWBajXL+CXvngAd2LrW9n+S/3gEu2intmKxG
+ VVipTBr2WDEvPED/TLSFIiX+C1dnW53BDqEfuJFHK54vBxrH4x1yJ8EN7j37ueabCvx3
+ T+0B19oN+pvu/VwKy+WdE4gCnjVmd4Pmv6aE6eJ2FnsSN5RGditmLObUM6lsiuoDuqAG
+ U34xfc+kvRRf+S4kghNUxpznZPrlG8eVQdsWb3t8uYx3UmipuQf5o4JOnn5XHRW5fzHm
+ Q9kR9AbYzjYcRqNou5/qJ+ORdDvBZuuN/taA6Qoh7LT5kt9PhSgaRslxNZwalurjgQtj
+ apyA==
+X-Gm-Message-State: AO0yUKWudrVdxEZX7k6MGR855GnPZgVK8HBVvaC/xtfdqePqvZk6cRSn
+ aBXs9bxZliPIE1EbAAxTE+8UOx0IicE=
+X-Google-Smtp-Source: AK7set+GtsH07DwCd2HZkr8Dcy5sljZ8Nn3x4a8+vVfKzPShsp0JqBdxjpvRc2a7DKhpH0WNe5oQFQ==
+X-Received: by 2002:a17:902:e888:b0:19c:df17:b724 with SMTP id
+ w8-20020a170902e88800b0019cdf17b724mr3186049plg.58.1677591944665; 
+ Tue, 28 Feb 2023 05:45:44 -0800 (PST)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- j2-20020a170902758200b0019b06263bcasm1556896pll.247.2023.02.28.05.45.37
+ j2-20020a170902758200b0019b06263bcasm1556896pll.247.2023.02.28.05.45.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 05:45:40 -0800 (PST)
+ Tue, 28 Feb 2023 05:45:43 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bmeng@tinylab.org>, Weiwei Li <liweiwei@iscas.ac.cn>,
@@ -60,17 +60,17 @@ Cc: Bin Meng <bmeng@tinylab.org>, Weiwei Li <liweiwei@iscas.ac.cn>,
  Bin Meng <bin.meng@windriver.com>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
-Subject: [PATCH v2 12/18] target/riscv: gdbstub: Drop the vector CSRs in
- riscv-vector.xml
-Date: Tue, 28 Feb 2023 21:45:29 +0800
-Message-Id: <20230228104035.1879882-13-bmeng@tinylab.org>
+Subject: [PATCH v2 13/18] target/riscv: Allow debugger to access user timer
+ and counter CSRs
+Date: Tue, 28 Feb 2023 21:45:30 +0800
+Message-Id: <20230228104035.1879882-14-bmeng@tinylab.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230228104035.1879882-1-bmeng@tinylab.org>
-References: 
+References: <20230228104035.1879882-13-bmeng@tinylab.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,14 +95,10 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-It's worth noting that the vector CSR predicate() has a similar
-run-time check logic to the FPU CSR. With the previous patch our
-gdbstub can correctly report these vector CSRs via the CSR xml.
+At present user timer and counter CSRs are not reported in the
+CSR XML hence gdb cannot access them.
 
-Commit 719d3561b269 ("target/riscv: gdb: support vector registers for rv64 & rv32")
-inserted these vector CSRs in an ad-hoc, non-standard way in the
-riscv-vector.xml. Now we can treat these CSRs no different from
-other CSRs.
+Fix it by adding a debugger check in their predicate() routine.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
@@ -111,116 +107,24 @@ Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
 (no changes since v1)
 
- target/riscv/gdbstub.c | 75 ------------------------------------------
- 1 file changed, 75 deletions(-)
+ target/riscv/csr.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index ef52f41460..6048541606 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -127,40 +127,6 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
-     return 0;
- }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 7284fd8a0d..10ae5df5e6 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -131,6 +131,10 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
  
--/*
-- * Convert register index number passed by GDB to the correspond
-- * vector CSR number. Vector CSRs are defined after vector registers
-- * in dynamic generated riscv-vector.xml, thus the starting register index
-- * of vector CSRs is 32.
-- * Return 0 if register index number is out of range.
-- */
--static int riscv_gdb_vector_csrno(int num_regs)
--{
--    /*
--     * The order of vector CSRs in the switch case
--     * should match with the order defined in csr_ops[].
--     */
--    switch (num_regs) {
--    case 32:
--        return CSR_VSTART;
--    case 33:
--        return CSR_VXSAT;
--    case 34:
--        return CSR_VXRM;
--    case 35:
--        return CSR_VCSR;
--    case 36:
--        return CSR_VL;
--    case 37:
--        return CSR_VTYPE;
--    case 38:
--        return CSR_VLENB;
--    default:
--        /* Unknown register. */
--        return 0;
--    }
--}
--
- static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
- {
-     uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-@@ -174,19 +140,6 @@ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
-         return cnt;
+ skip_ext_pmu_check:
+ 
++    if (env->debugger) {
++        return RISCV_EXCP_NONE;
++    }
++
+     if (env->priv < PRV_M && !get_field(env->mcounteren, ctr_mask)) {
+         return RISCV_EXCP_ILLEGAL_INST;
      }
- 
--    int csrno = riscv_gdb_vector_csrno(n);
--
--    if (!csrno) {
--        return 0;
--    }
--
--    target_ulong val = 0;
--    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
--
--    if (result == RISCV_EXCP_NONE) {
--        return gdb_get_regl(buf, val);
--    }
--
-     return 0;
- }
- 
-@@ -201,19 +154,6 @@ static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
-         return vlenb;
-     }
- 
--    int csrno = riscv_gdb_vector_csrno(n);
--
--    if (!csrno) {
--        return 0;
--    }
--
--    target_ulong val = ldtul_p(mem_buf);
--    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
--
--    if (result == RISCV_EXCP_NONE) {
--        return sizeof(target_ulong);
--    }
--
-     return 0;
- }
- 
-@@ -361,21 +301,6 @@ static int ricsv_gen_dynamic_vector_xml(CPUState *cs, int base_reg)
-         num_regs++;
-     }
- 
--    /* Define vector CSRs */
--    const char *vector_csrs[7] = {
--        "vstart", "vxsat", "vxrm", "vcsr",
--        "vl", "vtype", "vlenb"
--    };
--
--    for (i = 0; i < 7; i++) {
--        g_string_append_printf(s,
--                               "<reg name=\"%s\" bitsize=\"%d\""
--                               " regnum=\"%d\" group=\"vector\""
--                               " type=\"int\"/>",
--                               vector_csrs[i], TARGET_LONG_BITS, base_reg++);
--        num_regs++;
--    }
--
-     g_string_append_printf(s, "</feature>");
- 
-     cpu->dyn_vreg_xml = g_string_free(s, false);
 -- 
 2.25.1
 
