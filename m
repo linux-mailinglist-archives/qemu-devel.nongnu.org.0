@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6981A6A5F45
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1A26A5F5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:11:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX5K4-0002Og-La; Tue, 28 Feb 2023 14:07:37 -0500
+	id 1pX5KD-0002VC-OW; Tue, 28 Feb 2023 14:07:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pX5Jk-0002JH-7i
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:18 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1pX5Jb-0002G9-TL
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:15 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pX5JT-0002ow-MV
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:06 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id bx12so7715393wrb.11
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 11:06:59 -0800 (PST)
+ id 1pX5JT-0002oG-1O
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:04 -0500
+Received: by mail-wr1-x434.google.com with SMTP id e37so8391554wri.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 11:06:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=21sp0hozNqE2G/F3Ib4OoUY82nDzhwO791FLVQWUI0Y=;
- b=k0u127K+0kfvMcv73QHpP9aIAxOwH/hP0h24oesYReBViSbaPYs7QW18rDhuF8opi0
- GqQdh68zX82Mz85ZIMLVj03F9/6VkR1sYV+YTOFrNhXUd4LmySZUhDgG7M57q6ufxE69
- 53zlTcH+aVSGgKCV00wzy5f6M5rvt5HBzJ/HnJIpqCbRTbuE3YI7KVj/T5mykmSQNJgY
- MW/t+oBDM+e2oXcKqhZYJOR9q4VoABi8A9XOTc8cyCOeHyf2uX/VfYFToepjjIm6thQ0
- 6R8r7zQfGWfkYeGBaWgf2tTJXIMuEJN6Oc94bOQoChgKUahY08GMGlFdxM7LkxZlI+qy
- BXNw==
+ bh=5n0PF6Nzsb2L9pU8FStkO5ltsqIAi0CEb9WzAVfdpXI=;
+ b=CCIJyPOOhP9hZGwLu64d8XAy1iaQ4UyYxp0KUclv2PLJP9MtjlT/3qtZ+2LV2BM5Gf
+ Wwyo4jKXPXIQ9F3tUaSrbQNQJrmXlkpdFOQJ2ZlsIAmPn1zdb/hBnH7zFKi75+VvD4Ux
+ poxDrQ3+fwJK+rO2KPE02GHURQ3k1t2cqKYQu7N6z8amIVlYQyu03kiRlx6+3OqVD6iJ
+ o0h7s/qjowDJv5N3Yr29z1MXTT6bLWderRShRCIliaoJ/mQLM05nQFJlUf7EM5/XyN/q
+ uWP6nQ1ycOYH8RcVIIry9FbrsLPy1Q3IJ/mfM/8lzW481HbmsUbq6Kul5z03IRy/C0vj
+ xnaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=21sp0hozNqE2G/F3Ib4OoUY82nDzhwO791FLVQWUI0Y=;
- b=yX8sPvKdskta/TX4ZfiB6ZYIIhUFg9DN5kxQDPe4J2VE6+naoMzYd6W7cTDb2mdGDz
- ONp8lNaHquiY0QK41iKuLpNAJ69sR2iVIB/rgmVYXmOnJG/MK/gFIZATcpzBoJrhLckv
- vIFCFCGOa8M6YO4mudYoSGuAyskHbnHJwm1f2zCAia/Ns/VfiN81UiDk7Dr1aYNqu/7G
- PjrEd/E1fjMVINUvkdAPNn6oCyM0vlCMIupMe/0nrUp2thQkmdgy24nHsRsqbyW/afsT
- eLS12rxnQvEfyqcOQ5a6gXcRp/6wcEj/HpSgI8vKWFGbtOOl/MrGRYiMCstLkBqiq1NB
- Z5sg==
-X-Gm-Message-State: AO0yUKWWgKQHI9UFMZ4sQV7obM0DKIJJQF6QHw5vbFcyRdv+AhHrZPwe
- DORV0/Hu/pX+XkVxDddMGyO0Pw==
-X-Google-Smtp-Source: AK7set88LRIOrmCN+PLI54C59GDu2UMQzTFiBWjmRoWK3+FspS8me2bjMiZzeif0Ktnv/XKZEnzXlw==
-X-Received: by 2002:a05:6000:38d:b0:2c5:5ee9:6b27 with SMTP id
- u13-20020a056000038d00b002c55ee96b27mr2816577wrf.13.1677611218055; 
- Tue, 28 Feb 2023 11:06:58 -0800 (PST)
+ bh=5n0PF6Nzsb2L9pU8FStkO5ltsqIAi0CEb9WzAVfdpXI=;
+ b=l9brPZVl20Bqpl41YsFyF6URbKf6TR2oRzvtie7iAeEVHza20famnPMwyRlfWZTApO
+ bVm1Z1gKO/dd5SrOccw/bmWCEu84yQwPPWkoBSWAQKA2uZEq8LtVuLu3b3pk+SHJH1dN
+ M0VmZsVk8e+1gsdtmnrv4r3jttTtM+RUkqeskVcyX/f2elEqS3hKt9F7QnTtBEicmV2a
+ eJu7tFyBuHJX4O2ium848kpHgsiZ3ENy3Rg+FeFTW+MaaVqAnmfiSQutDbwjRM6hrOKV
+ DJceFZbA7wvH09A1K/Nle71ehWm+3ifLat9IHMk+wqfq40J8USxCY945uSooypRBVfdL
+ O1pw==
+X-Gm-Message-State: AO0yUKVOW3qbGcQ1n4LnVQKMHaNM0YaiYbuA7bwkkEFwlwQ3CcBy8grz
+ 7mDxTJg0w9J9bCHmnd/v52RLzw==
+X-Google-Smtp-Source: AK7set8KMRK8ER6JfEQNQmyafLjpsOyH0dwh/bbWfktfsiC6vy9Bt5jdUxhk3YMj4OQXv7MAxe0UTQ==
+X-Received: by 2002:a5d:50c4:0:b0:2c7:b51:65d6 with SMTP id
+ f4-20020a5d50c4000000b002c70b5165d6mr2653070wrt.27.1677611217011; 
+ Tue, 28 Feb 2023 11:06:57 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- s2-20020adff802000000b002c706c754fesm10613655wrp.32.2023.02.28.11.06.54
+ z10-20020a5d44ca000000b002c6e8af1037sm10606277wrr.104.2023.02.28.11.06.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 28 Feb 2023 11:06:56 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F34561FFBE;
- Tue, 28 Feb 2023 19:06:53 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 1801D1FFB7;
+ Tue, 28 Feb 2023 19:06:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -80,17 +80,17 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Qiuhao Li <Qiuhao.Li@outlook.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 06/24] gitlab: extend custom runners with base_job_template
-Date: Tue, 28 Feb 2023 19:06:35 +0000
-Message-Id: <20230228190653.1602033-7-alex.bennee@linaro.org>
+Subject: [PATCH v3 07/24] tests: don't run benchmarks for the tsan build
+Date: Tue, 28 Feb 2023 19:06:36 +0000
+Message-Id: <20230228190653.1602033-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230228190653.1602033-1-alex.bennee@linaro.org>
 References: <20230228190653.1602033-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -113,145 +113,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The base job template is responsible for controlling how we kick off
-testing on our various branches. Rename and extend the
-custom_runner_template so we can take advantage of all that control.
+All we are really doing here is checking that TSAN builds compile and are
+therefor a tool available to developers. The benchmarks are not
+representative of QEMU's actual threading behaviour and they burn
+precious CI time. Indeed switching to check-unit reveals many
+unaddressed issues which have been logged at:
+
+  https://gitlab.com/qemu-project/qemu/-/issues/1496
+
+So for now disable the make check and make this a build only
+test.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230221094558.2864616-8-alex.bennee@linaro.org>
+Message-Id: <20230221094558.2864616-9-alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/custom-runners.yml                      |  3 ++-
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml   | 10 +++++-----
- .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml |  2 +-
- .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml | 10 +++++-----
- 4 files changed, 13 insertions(+), 12 deletions(-)
+ .gitlab-ci.d/buildtest.yml | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-index 9fdc476c48..34a1e6f327 100644
---- a/.gitlab-ci.d/custom-runners.yml
-+++ b/.gitlab-ci.d/custom-runners.yml
-@@ -15,7 +15,8 @@ variables:
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index d903c42798..7b92767689 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -463,7 +463,6 @@ tsan-build:
+     CONFIGURE_ARGS: --enable-tsan --cc=clang-10 --cxx=clang++-10
+           --enable-trace-backends=ust --disable-slirp
+     TARGETS: x86_64-softmmu ppc64-softmmu riscv64-softmmu x86_64-linux-user
+-    MAKE_CHECK_ARGS: bench V=1
  
- # All custom runners can extend this template to upload the testlog
- # data as an artifact and also feed the junit report
--.custom_artifacts_template:
-+.custom_runner_template:
-+  extends: .base_job_template
-   artifacts:
-     name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-     expire_in: 7 days
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index f512eaeaa3..cdae6c5212 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -3,7 +3,7 @@
- # "Install basic packages to build QEMU on Ubuntu 20.04/20.04"
- 
- ubuntu-20.04-s390x-all-linux-static:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-@@ -24,7 +24,7 @@ ubuntu-20.04-s390x-all-linux-static:
-  - make --output-sync -j`nproc` check
- 
- ubuntu-20.04-s390x-all:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-@@ -43,7 +43,7 @@ ubuntu-20.04-s390x-all:
-  - make --output-sync -j`nproc` check
- 
- ubuntu-20.04-s390x-alldbg:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-@@ -66,7 +66,7 @@ ubuntu-20.04-s390x-alldbg:
-  - make --output-sync -j`nproc` check
- 
- ubuntu-20.04-s390x-clang:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-@@ -108,7 +108,7 @@ ubuntu-20.04-s390x-tci:
-  - make --output-sync -j`nproc`
- 
- ubuntu-20.04-s390x-notcg:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-index 42137aaf2a..50e5646a44 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-@@ -3,7 +3,7 @@
- # "Install basic packages to build QEMU on Ubuntu 20.04"
- 
- ubuntu-22.04-aarch32-all:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-index 8ba85be440..13e14a0f87 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-@@ -3,7 +3,7 @@
- # "Install basic packages to build QEMU on Ubuntu 20.04"
- 
- ubuntu-22.04-aarch64-all-linux-static:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-@@ -24,7 +24,7 @@ ubuntu-22.04-aarch64-all-linux-static:
-  - make --output-sync -j`nproc --ignore=40` check
- 
- ubuntu-22.04-aarch64-all:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-@@ -46,7 +46,7 @@ ubuntu-22.04-aarch64-all:
-  - make --output-sync -j`nproc --ignore=40` check
- 
- ubuntu-22.04-aarch64-alldbg:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-@@ -65,7 +65,7 @@ ubuntu-22.04-aarch64-alldbg:
-  - make --output-sync -j`nproc --ignore=40` check
- 
- ubuntu-22.04-aarch64-clang:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
-@@ -107,7 +107,7 @@ ubuntu-22.04-aarch64-tci:
-  - make --output-sync -j`nproc --ignore=40`
- 
- ubuntu-22.04-aarch64-notcg:
-- extends: .custom_artifacts_template
-+ extends: .custom_runner_template
-  needs: []
-  stage: build
-  tags:
+ # gcov is a GCC features
+ gcov:
 -- 
 2.39.2
 
