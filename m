@@ -2,77 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1986A5446
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:19:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFA16A5450
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:20:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWvBz-0001Js-TP; Tue, 28 Feb 2023 03:18:35 -0500
+	id 1pWvDC-0001xW-Pu; Tue, 28 Feb 2023 03:19:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pWvBv-0001IB-Th
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:18:33 -0500
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pWvBr-00057o-Kq
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:18:29 -0500
-Received: by mail-lf1-x136.google.com with SMTP id bi9so12077688lfb.2
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 00:18:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ODIxoor5LiV54cycZmYGtbTfqY/BIllLgf4zlQBflpU=;
- b=VM2EXcVH3kPjI59nCROgKVdZ1i1rtc50tcPk+OPL7gonKOKrp3gRFmLPWByspwBk3M
- rZ1AoYy4jEi9NKDhGbhyymQVM3BJJx0xLhe46/rZmbHOZHrRvp19jl8Gy+9uCBMJ1sA/
- E5m/xPwf3OZskJDQ57CJbsHvC3yi/97KWMCPdyIU7Fn9DLvivakFLCFn8WFRHpqIfS88
- LkbVTDCXAakNFne/1/mFBfDh7sPpnlzbxvdVVYPEIVZQHYoc7ujQ+1B7nCS0N1hRra7G
- RPQYD/Vn7/7g6+9XsKRu8LWrMBCPoEbSZqVVjegEUXtN0zZb9pDv+MhpLcOfOsyZzk6N
- nmow==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWvCt-0001v5-FT
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:19:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWvCs-0005B2-26
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:19:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677572368;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0hz5AGTBN9eryZg3nZeMjxA9itLfbrKU7K0S/m+pqIE=;
+ b=hwVriYqOXDLEmq9D9ciyHLXTVf3PDLwysYlGbMx5IUuw0DIfCluUvSqUe7EmMEtYk95OA2
+ WX8yDbc0r3D6hgW7frVtd3w+9C8eVJRVauj6mOkuMxRsRgJx/cVgCfkRrhPQh4yqX7MPHY
+ eQD98/Zj7NAhFbtVgke0uly04sGqWxc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-378-2Qi3QyDnPKSXC-dHJh63XA-1; Tue, 28 Feb 2023 03:19:26 -0500
+X-MC-Unique: 2Qi3QyDnPKSXC-dHJh63XA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n27-20020a05600c3b9b00b003e9ca0f4677so3947511wms.8
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 00:19:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ODIxoor5LiV54cycZmYGtbTfqY/BIllLgf4zlQBflpU=;
- b=G7V3FOugcXoxMaklHSnevtRxfnawHzpQch0njDhXBU4FuH8GbO00v51NTmJtUSR2kq
- xzOo/uezRWqLoAIwg/h2BoZegO9aIQa1kh2T0tuS5s0dW7nX/QEmukkA9VopfuPMUj5k
- +zuTzdaUAulV5kbQdBaVMw3SMTkDQn3jk+UaKHYHtz6Lpu4iKzoC5qICy7r/q9MBCM1P
- W43aUPBFDOz+MkJ1fQDkeetO5Tg31gcA9PTrOAhVQij2EWe/0sRYaos7j6nM81XIWVW2
- lSZRyoFyl+48Y+ZKtLq0mmm0L//IbSuYQ3dKjmPTi1sJ7AACW2iBFdPIGC9S0C+5cz4f
- rs+g==
-X-Gm-Message-State: AO0yUKXsBGygo0LJAnqdr5F4n2dYfs7E0uDz6U1DAcRJVHX7pnWtez8T
- p4oQMGIRpV4NE4kuaHOr1ZPrqglXxrs6TC2YYW0=
-X-Google-Smtp-Source: AK7set/4Ae8DdL3Y1IWE+QHH0xs1w17i5R/UBWM8DzFobQwiVkCZVTBy233d4I/StYYVlSYEHo0e8BHcOhtDgDMC+rw=
-X-Received: by 2002:a05:6512:340f:b0:4d5:ca32:6ed6 with SMTP id
- i15-20020a056512340f00b004d5ca326ed6mr1122839lfr.4.1677572302608; Tue, 28 Feb
- 2023 00:18:22 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677572365;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0hz5AGTBN9eryZg3nZeMjxA9itLfbrKU7K0S/m+pqIE=;
+ b=KXLKWhGls28nAH79JaxcjGkcNxr/hFy7eMgvEsmvRUeaJgrUwifZXf+xU3qXFxJJIE
+ W1+wStWbGFHKwkLrMSsBCcSpww4boAdVASMKn/cDPSkxBsgL+QSK3uwxvFqSJbx4RVLg
+ zU5VyORtwYHNiccuH+NILbX9MrudOE6sHAvL5ZqaiZml+QjKnRQbVzRnWI3l9pvz3qRg
+ kcXlNu7KfAP0igdLWrKZGwau12jk/TKVCSjedf8rVlrpStXSP3AQpeIKQ0mjc4YR6HTN
+ Leua8bEXYNc4t9n2uGL8qQCXL4ekIZC/9zsaCuMNYINEQUtyK7qlF9w4ZgtnqW8NX78+
+ KeVQ==
+X-Gm-Message-State: AO0yUKXdyWB+5Ly3fu/V7Nas0wVoND9TVPJyiIMeFTXlRPmiK19JsEHx
+ 04KOgCUB1t8xGpLTt85/jCJ2+/oun5vN/PPaAYfiGtnpZhy/BNbq4QGUERqG1tuqc81tPrXT69i
+ 1H7TRQaaW5zLs90w=
+X-Received: by 2002:a05:600c:18a2:b0:3eb:4162:7352 with SMTP id
+ x34-20020a05600c18a200b003eb41627352mr1641556wmp.23.1677572365536; 
+ Tue, 28 Feb 2023 00:19:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set8MhRkZ82bCO1bCO62bz1qOyJGqKvLzP3Zce+ps0g0WYqtWG4J8YWNdNhuZ9T91hDRDN92U1Q==
+X-Received: by 2002:a05:600c:18a2:b0:3eb:4162:7352 with SMTP id
+ x34-20020a05600c18a200b003eb41627352mr1641531wmp.23.1677572365194; 
+ Tue, 28 Feb 2023 00:19:25 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ p15-20020a05600c1d8f00b003e20970175dsm15603198wms.32.2023.02.28.00.19.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 00:19:24 -0800 (PST)
+Date: Tue, 28 Feb 2023 03:19:20 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-arm@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
+ qemu-system-i386
+Message-ID: <20230228031026-mutt-send-email-mst@kernel.org>
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <20230227111050.54083-2-thuth@redhat.com>
+ <Y/yY72L9wyjuv3Yz@redhat.com>
+ <20230227150858-mutt-send-email-mst@kernel.org>
+ <84d7d3e5-0da2-7506-44a7-047ebfcfc4da@redhat.com>
 MIME-Version: 1.0
-References: <cover.1677197937.git.dxu@dxuuu.xyz>
- <6ed3091be8bc0ae8d3fee767b6e7400a8e32c493.1677197937.git.dxu@dxuuu.xyz>
- <CAJ+F1CKa70J1cah7XnyCAtuUXJFCjmyau+BZpFWbyvR_jKTdBQ@mail.gmail.com>
- <82c2bde8-9400-4289-9b6b-a9b6306fa362@app.fastmail.com>
-In-Reply-To: <82c2bde8-9400-4289-9b6b-a9b6306fa362@app.fastmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 28 Feb 2023 12:18:11 +0400
-Message-ID: <CAJ+F1C+osSQnFLmLBta+5uGB_PUD09z0Kzz7ncYL0N4Q1UXWhw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] qga: Add optional `merge-output` flag to guest-exec
- qapi
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: michael.roth@amd.com, kkostiuk@redhat.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x136.google.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <84d7d3e5-0da2-7506-44a7-047ebfcfc4da@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,148 +108,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+On Tue, Feb 28, 2023 at 08:49:09AM +0100, Thomas Huth wrote:
+> On 27/02/2023 21.12, Michael S. Tsirkin wrote:
+> > On Mon, Feb 27, 2023 at 11:50:07AM +0000, Daniel P. Berrangé wrote:
+> > > I feel like we should have separate deprecation entries for the
+> > > i686 host support, and for qemu-system-i386 emulator binary, as
+> > > although they're related they are independant features with
+> > > differing impact. eg removing qemu-system-i386 affects all
+> > > host architectures, not merely 32-bit x86 host, so I think we
+> > > can explain the impact more clearly if we separate them.
+> > 
+> > Removing qemu-system-i386 seems ok to me - I think qemu-system-x86_64 is
+> > a superset.
+> > 
+> > Removing support for building on 32 bit systems seems like a pity - it's
+> > one of a small number of ways to run 64 bit binaries on 32 bit systems,
+> > and the maintainance overhead is quite small.
+> 
+> Note: We're talking about 32-bit *x86* hosts here. Do you really think that
+> someone is still using QEMU usermode emulation
+> to run 64-bit binaries on a 32-bit x86 host?? ... If so, I'd be very surprised!
 
-On Tue, Feb 28, 2023 at 5:15 AM Daniel Xu <dxu@dxuuu.xyz> wrote:
->
-> Hi,
->
-> On Mon, Feb 27, 2023, at 1:22 AM, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Fri, Feb 24, 2023 at 8:31 AM Daniel Xu <dxu@dxuuu.xyz> wrote:
-> >>
-> >> Currently, the captured output (via `capture-output`) is segregated in=
-to
-> >> separate GuestExecStatus fields (`out-data` and `err-data`). This mean=
-s
-> >> that downstream consumers have no way to reassemble the captured data
-> >> back into the original stream.
-> >>
-> >> This is relevant for chatty and semi-interactive (ie. read only) CLI
-> >> tools.  Such tools may deliberately interleave stdout and stderr for
-> >> visual effect. If segregated, the output becomes harder to visually
-> >> understand.
-> >>
-> >> This commit adds a new optional flag to the guest-exec qapi to merge t=
-he
-> >> output streams such that consumers can have a pristine view of the
-> >> original command output.
-> >>
-> >> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
-> >> ---
-> >>  qga/commands.c       | 13 ++++++++++++-
-> >>  qga/qapi-schema.json |  6 +++++-
-> >>  2 files changed, 17 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/qga/commands.c b/qga/commands.c
-> >> index 360077364e..14b970e768 100644
-> >> --- a/qga/commands.c
-> >> +++ b/qga/commands.c
-> >> @@ -274,6 +274,15 @@ static void guest_exec_child_watch(GPid pid, gint=
- status, gpointer data)
-> >>  /** Reset ignored signals back to default. */
-> >>  static void guest_exec_task_setup(gpointer data)
-> >>  {
-> >> +    bool has_merge =3D *(bool *)data;
-> >> +
-> >> +    if (has_merge) {
-> >> +        if (dup2(STDOUT_FILENO, STDERR_FILENO) !=3D 0) {
-> >> +            slog("dup2() failed to merge stderr into stdout: %s",
-> >> +                 strerror(errno));
-> >> +        }
-> >> +    }
-> >
-> > https://docs.gtk.org/glib/callback.SpawnChildSetupFunc.html
-> >
-> > "On Windows, the function is called in the parent. Its usefulness on
-> > Windows is thus questionable. In many cases executing the child setup
-> > function in the parent can have ill effects, and you should be very
-> > careful when porting software to Windows that uses child setup
-> > functions."
-> >
-> > It looks like this would be bad.
->
-> Ah that's a good catch. I'm not very familiar with windows APIs so
-> unfortunately I don't have any good ideas here.
->
-> Best I can tell g_spawn_async_with_pipes_and_fds() work with it's
-> source_fds and target_fds mapping. But it looks like that came in
-> glib 2.68 so we cannot use it yet.
+I don't know - why x86 specifically? One can build a 32 bit binary on any host.
+I think 32 bit x86 environments are just more common in the cloud.
 
-g_spawn_async_with_fds() is from 2.58.. but we still depend on 2.56,
-because of CentOS 8. And it seems we will have to wait until Dec 2023
-to bump it.
+> > In fact, keeping this support around forces correct use of
+> > posix APIs such as e.g. PRIx64 which makes the code base
+> > more future-proof.
+> 
+> If you're concerned about PRIx64 and friends: We still continue to do
+> compile testing with 32-bit MIPS cross-compilers and Windows 32-bit
+> cross-compilers for now. The only thing we'd lose is the 32-bit "make check"
+> run in the CI.
+> 
+>  Thomas
 
-I don't know whether it would be acceptable to simply return an error
-when using 'merge-output' on old host (with glib < 2.58).
-
- Otherwise, I think you should use g_spawn_async_with_fds() when
-possible, and use the ChildSetupFunc fallback, but only on Unix (for
-CentOS 8!).
-
->
-> How about limiting this merge-output flag to linux/unix systems
-> for now? Could document this in the qapi doc string.
->
-> >
-> >> +
-> >>  #if !defined(G_OS_WIN32)
-> >>      struct sigaction sigact;
-> >>
-> >> @@ -385,6 +394,7 @@ GuestExec *qmp_guest_exec(const char *path,
-> >>                         bool has_env, strList *env,
-> >>                         const char *input_data,
-> >>                         bool has_capture_output, bool capture_output,
-> >> +                       bool has_merge_output, bool merge_output,
-> >>                         Error **errp)
-> >>  {
-> >>      GPid pid;
-> >> @@ -398,6 +408,7 @@ GuestExec *qmp_guest_exec(const char *path,
-> >>      GIOChannel *in_ch, *out_ch, *err_ch;
-> >>      GSpawnFlags flags;
-> >>      bool has_output =3D (has_capture_output && capture_output);
-> >> +    bool has_merge =3D (has_merge_output && merge_output);
-> >>      g_autofree uint8_t *input =3D NULL;
-> >>      size_t ninput =3D 0;
-> >>
-> >> @@ -421,7 +432,7 @@ GuestExec *qmp_guest_exec(const char *path,
-> >>      }
-> >>
-> >>      ret =3D g_spawn_async_with_pipes(NULL, argv, envp, flags,
-> >> -            guest_exec_task_setup, NULL, &pid, input_data ? &in_fd : =
-NULL,
-> >> +            guest_exec_task_setup, &has_merge, &pid, input_data ? &in=
-_fd : NULL,
-> >>              has_output ? &out_fd : NULL, has_output ? &err_fd : NULL,=
- &gerr);
-> >>      if (!ret) {
-> >>          error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
-> >> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> >> index 796434ed34..4192fcc5a4 100644
-> >> --- a/qga/qapi-schema.json
-> >> +++ b/qga/qapi-schema.json
-> >> @@ -1211,6 +1211,9 @@
-> >>  # @input-data: data to be passed to process stdin (base64 encoded)
-> >>  # @capture-output: bool flag to enable capture of
-> >>  #                  stdout/stderr of running process. defaults to fals=
-e.
-> >> +# @merge-output: bool flag to merge stdout/stderr of running process
-> >> +#                into stdout. only effective if used with @capture-ou=
-tput.
-> >> +#                defaults to false.
-> >
-> > Add (since: 8.0)
->
-> Ack.
->
-> [...]
->
-> Thanks,
-> Daniel
+Yes - fundamentally 32 bit does not seem that different from e.g.
+windows builds - we presumably support these but AFAIK CI does not
+test these.
 
 
+-- 
+MST
 
---=20
-Marc-Andr=C3=A9 Lureau
 
