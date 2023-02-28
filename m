@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B826A60AD
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9166A60B0
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 21:49:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX6tX-0000sK-TU; Tue, 28 Feb 2023 15:48:19 -0500
+	id 1pX6td-0000u6-20; Tue, 28 Feb 2023 15:48:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX6tV-0000rp-5X
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:48:17 -0500
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX6tZ-0000tB-5Y
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:48:21 -0500
 Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX6tS-0006YR-VK
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:48:16 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 1C2E15C009F;
- Tue, 28 Feb 2023 15:48:14 -0500 (EST)
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX6tX-0006ZP-MR
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:48:20 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 4F0AF5C01C2;
+ Tue, 28 Feb 2023 15:48:18 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 28 Feb 2023 15:48:14 -0500
+ by compute1.internal (MEProxy); Tue, 28 Feb 2023 15:48:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1677617294; x=1677703694; bh=DOgJN8xgSB
- X/r1kbXk2nEOE8wpz9ncDLR+8illHWppI=; b=VQFJBkDnqGzWQFcYQfv4uTeg8y
- oMQGfm+mhWlrFOwy7gGmnlRDe8uHyFNrcl58UQWZ+l3sMT5tdVSNRnJNgWx/oNGL
- VJL9GLJBgN4DS0VqwXXEo+lLw48jXO0txOSOSF9DcsWUsX53VfWDMqsordOU9fZB
- 9Pvpsz/FvsgMNtGaSq8mFxj6ATjqzALN6N4t8PUMJzlktn1XJlqKQQr6XqJGhU7g
- hyTqZzRy4fvzGkvgpqiicIev4KqPcg4gNJFvxYQbWNGIsQTHoGZXtmbizPy54z0g
- kXj9cT5V7CjZPFtuwfGvM/rYAHndDwxk81ZO0T3Y/+t9G28C+HjKVwGsMkjw==
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1677617298; x=
+ 1677703698; bh=HIHkUaAmd5J5Zb5kIv9UKGwuKi6dQDwTNzuIX4wlNzo=; b=r
+ ghP0hRTCtRE08E/pghD1fsvyFGoO2WN08Ej5oU2kYPThFuOeE8GlgDwaSDo5ivdp
+ BFBBa7+WZ0BpktlsMifP5DMBN73CaVEkMVzpG4F0rmH+fCODdPbujufYviodMW9Z
+ 8WFJ4HG/fykMcRTCNgyBr0B4cQ4wceaechqCxtmAYpaB/vb6JXxdDiD9VeW8mg8m
+ DyEWuOUxaZ3c/1X/ZTBxx563pPoNsvYuzRFOVfQEORojz6cTd0sfPUqHR2hGs5bE
+ PqiFoK6IDwIb6HvSM6EYe0cUtNwn2ZuHuWQq8SLd50W+D0PF2q9Uvy1t1BhIhcJE
+ HHgZVPlffBcCOyQhp3nig==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:date:feedback-id:feedback-id:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1677617294; x=1677703694; bh=DOgJN8xgSBX/r1kbXk2nEOE8wpz9
- ncDLR+8illHWppI=; b=ax790htmhqOpWePTaHIPqcjzc93fOqnNRFv//RSUPJYH
- b7abcUpno5RWpCElQWeuxOV2uae60M0QvodUP92+4K0Rui1VWp8uQcAImP/hOcvN
- mmM7hKn+0F5tUEkR0eU3eVAv3A+0jpkv7oEKg+ALpgxo9TwIS0+/URJfIvTxTkV9
- qFZ0ta1DvSuAjZB1sQwhz+tyBqVzbtGlvROEK+x2f38VPYblfqmzwtH7iA9Z97sE
- PHYaqN1OdLbauICQXmHivwzDB678RTiDShqUZlXP+Y5MxN9SvfM4NFPWjwr6dkzc
- VpfzRVIB0lD4P/Nr4xM6j0jm2P2EaZSyhZh7r9X+WQ==
-X-ME-Sender: <xms:jWj-Y2uEkfnLURpykt_wHov_YM5o8lECGn8wxyDCcSOgOBueYJIVqg>
- <xme:jWj-Y7efhySZ5pw5droCxqliwGLPUVpobBdavT49JnSU-g5VxVMwgn4JwREsuHtTn
- 20Bey14VxlOaSBzEg>
-X-ME-Received: <xmr:jWj-YxzDUU1p55Or65-kvhNtvw1JHc28-2shx8_ArS8sWqxU2cHB0wM_D1bWHnfN6LDXJwX0kMabW4PodjEs3Ji4omO5Ghcsd3RhlA80jfKLdA>
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677617298; x=
+ 1677703698; bh=HIHkUaAmd5J5Zb5kIv9UKGwuKi6dQDwTNzuIX4wlNzo=; b=P
+ 5iDzJ8Hvhys1nGci+jkYXEaDpOzMK/iilAewb2DsBcKZrFfZqqc0CDyCiP8iSevC
+ 8mUdOTKXN3+Cl3xo3sJiE4QF0EqqusoaFgZ/DX/3DIHufm0EDKlN3aR5YgBCONxq
+ Z4ARZez0qiG27gtjzAzigL5KUdxPV8zKrd5WB24qN9+YOdtjLNChcCVHkaENTg6J
+ jvokF2CY8069ezEi69/dajg5AlWiehXaSl0Fbky/mcN97dYYN02zG2akjMAt6CkR
+ uU3Y5IkBhPmFCiODTyQjkhnQVxWRUQ8+Jm1xnKYh6qP6bQiyF1+anovpKvoxa8gS
+ DBwdtAYHSQzFdawu5AgWA==
+X-ME-Sender: <xms:kmj-Y_3CPsddf7tlMRxPpaXCoyNIC3Vi2PlYaSjzYmVhTzKC22SIbQ>
+ <xme:kmj-Y-FvGqjim4sttNFwIUFDKUkXjG8vpboZaAlgaKi4TGut85PI06SpzN-ezooJ8
+ qdvm3kzm8AeRSEBDg>
+X-ME-Received: <xmr:kmj-Y_4gkozag-p4yV3Bl8kejIbphHX329f_4MgtkmJxkdLqoEQYoNbuCPZNxFrysjdN_AX8mJYZ9ElyXq_ocx_FVezdDnLgQ1rbz_ejKItTdw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelfedgjeekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdljedtmdenucfjughrpefhvf
- fufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeffrghnihgvlhcuighuuceougig
- uhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhephfetveduiefhgeektddugf
- elheevvefhveegledthedujeeuteelkeffleeiudfgnecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:jmj-YxOnzsu2xBQw-RfwrjLBBERuvNdVvuP-JMe3uD1RrPoRO7wLnA>
- <xmx:jmj-Y2_53yxe3UHRFgvJObi2h4ET7WGtkS6dTDdjvny_fVDT5sm2nw>
- <xmx:jmj-Y5WKsQopZ_P6rWufne9r3WwyjRMiYqznkx1v4IpMW-8tqzpEBg>
- <xmx:jmj-Y7GnEX_f6Wo9oTBgD5ZcJo-wY7NJ5S8dTA7FchP8lAwYmSiToA>
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ gfrhhlucfvnfffucdljedtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredt
+ redtjeenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqe
+ enucggtffrrghtthgvrhhnpeetheekkefggfeivedvtefgleeiffdtleegfeeuledvuddt
+ vdduhfekgfdutdevkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+ hlfhhrohhmpegugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:kmj-Y02s5xZV36E2td83dp6yJhlvXWnAfn-YASMfLgiPtYiyo3llNw>
+ <xmx:kmj-YyFPsb5TWER8EL5EtXx8c02usnJ5agf4z7vRC7vh7XFiXctQlQ>
+ <xmx:kmj-Y1_z6I84HQVKsKEaKRPEGYSiAJ7sLm9pnZP8sluXmkei5rdkkQ>
+ <xmx:kmj-Y9MfV5D2SOEDJQR5_-EuMlf9BeiUU6msdrk5MELFa1SU5EsTuQ>
 Feedback-ID: i6a694271:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Feb 2023 15:48:13 -0500 (EST)
+ 28 Feb 2023 15:48:17 -0500 (EST)
 From: Daniel Xu <dxu@dxuuu.xyz>
-To: qemu-devel@nongnu.org,
-	marcandre.lureau@gmail.com
-Subject: [PATCH v3 0/4] qga: Add optional `merge-output` flag to guest-exec
- QAPI
-Date: Tue, 28 Feb 2023 13:48:00 -0700
-Message-Id: <cover.1677617035.git.dxu@dxuuu.xyz>
+To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9=20marcandre=20=2E=20lureau=20=40=20gmail=20=2E=20com?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH v3 1/4] crypto/luks: Initialize stack variable to silence
+ warning
+Date: Tue, 28 Feb 2023 13:48:01 -0700
+Message-Id: <7d55ac8f0d021d39809298cac2f13f3826c284c8.1677617035.git.dxu@dxuuu.xyz>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <cover.1677617035.git.dxu@dxuuu.xyz>
+References: <cover.1677617035.git.dxu@dxuuu.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -96,42 +102,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, the captured output (via `capture-output`) is segregated into
-separate GuestExecStatus fields (`out-data` and `err-data`). This means
-that downstream consumers have no way to reassemble the captured data
-back into the original stream.
+With `../configure --enable-sanitizers`, I was getting the following
+build error:
 
-This is relevant for chatty and semi-interactive (ie. read only) CLI
-tools.  Such tools may deliberately interleave stdout and stderr for
-visual effect. If segregated, the output becomes harder to visually
-understand.
+        In file included from /usr/include/string.h:535,
+                         from /home/dxu/dev/qemu/include/qemu/osdep.h:99,
+                         from ../crypto/block-luks.c:21:
+        In function ‘memset’,
+            inlined from ‘qcrypto_block_luks_store_key’ at ../crypto/block-luks.c:843:9:
+        /usr/include/bits/string_fortified.h:59:10: error: ‘splitkeylen’ may be used
+        uninitialized [-Werror=maybe-uninitialized]
+           59 |   return __builtin___memset_chk (__dest, __ch, __len,
+              |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           60 |                                  __glibc_objsize0 (__dest));
+              |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ../crypto/block-luks.c: In function ‘qcrypto_block_luks_store_key’:
+        ../crypto/block-luks.c:699:12: note: ‘splitkeylen’ was declared here
+          699 |     size_t splitkeylen;
+              |            ^~~~~~~~~~~
+        cc1: all warnings being treated as errors
 
-This patchset adds support for merging stderr and stdout output streams
-via a new QAPI flag.
+The function is actually correct -- in the cleanup branch `splitkeylen`
+usage is guarded by checking `splitkey` nullness. But the compiler is
+not smart enough to realize that.
 
-Changes from v2:
-* Error out if `merge-output` on windows guests
-* Add FIXMEs for when glib is updated
-* Fix memory leaks in qemu-keymap
+Fix warning by initializing the variable.
 
-Changes from v1:
-* Drop invalid test fix
-* Do not support `merge-output` on windows guests
-* Fix a UAF in tests
+Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+---
+ crypto/block-luks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Daniel Xu (4):
-  crypto/luks: Initialize stack variable to silence warning
-  qemu-keymap: Fix memory leaks
-  qga: Add optional `merge-output` flag to guest-exec qapi
-  qga: test: Add tests for `merge-output` flag
-
- crypto/block-luks.c   |   2 +-
- qemu-keymap.c         |   5 ++
- qga/commands.c        |  28 +++++++-
- qga/qapi-schema.json  |   6 +-
- tests/unit/test-qga.c | 157 +++++++++++++++++++++++++++++++++++++-----
- 5 files changed, 177 insertions(+), 21 deletions(-)
-
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index 5688783ab1..bfdef25c80 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -696,7 +696,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
+     QCryptoBlockLUKS *luks = block->opaque;
+     QCryptoBlockLUKSKeySlot *slot;
+     g_autofree uint8_t *splitkey = NULL;
+-    size_t splitkeylen;
++    size_t splitkeylen = 0;
+     g_autofree uint8_t *slotkey = NULL;
+     g_autoptr(QCryptoCipher) cipher = NULL;
+     g_autoptr(QCryptoIVGen) ivgen = NULL;
 -- 
 2.39.1
 
