@@ -2,57 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5344D6A53DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 08:47:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B4D6A53E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 08:49:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWuhP-0007MT-PD; Tue, 28 Feb 2023 02:47:00 -0500
+	id 1pWujf-0008Qw-0h; Tue, 28 Feb 2023 02:49:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pWuhG-0007LS-Hs; Tue, 28 Feb 2023 02:46:51 -0500
-Received: from bg4.exmail.qq.com ([43.154.221.58])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWujd-0008Qo-PB
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 02:49:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>)
- id 1pWuhD-0000Ji-UM; Tue, 28 Feb 2023 02:46:49 -0500
-X-QQ-mid: bizesmtp66t1677570391tlvb54im
-Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 28 Feb 2023 15:46:29 +0800 (CST)
-X-QQ-SSF: 01200000000000D0E000000A0000000
-X-QQ-FEAT: 86xnumbl2QyMeHDDFnFKwrOMi9WaprPMZ6E96eVNHm5gijbPNxE5x/OqHAAe1
- Y2eWE20Hf418RyKRbT+uMN9pMklku09E9KJwBCLwTBjDGpEf+FwpG7L1dOSoUqdD7qYI2pv
- NWcSOAjQYfkIb4RXDgQ7b5bdpOjPhxIXz6VNit0pV7VyV2B0yv9NjnfPHqEsYis9Ho+dk4G
- 425V1VnpWGkvDO/liJcvYyO70lVtcXSDKqDRS5UJHbjWfkbDqTzPlIOIQvVj0Km7otAU6zA
- iA/+kVhZc6TFBhpOSJW9TtCUdcgod7m1ZGv23tveAUj25HZ+YmuKpCCHyy783qupfjcD1+9
- uyAeBupgynOoptY8Im3pBM69nmskxd4n7r+jgPICl/+zLiiEy8=
-X-QQ-GoodBg: 0
-From: Bin Meng <bmeng@tinylab.org>
-To: qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- qemu-riscv@nongnu.org
-Subject: [PATCH v2 2/2] hw/riscv: Move the dtb load bits outside of
- create_fdt()
-Date: Tue, 28 Feb 2023 15:45:22 +0800
-Message-Id: <20230228074522.1845007-2-bmeng@tinylab.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230228074522.1845007-1-bmeng@tinylab.org>
-References: <20230228074522.1845007-1-bmeng@tinylab.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWujb-0000ge-Tb
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 02:49:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677570554;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZiUfsADUzruFZXpDB4J4uXPtM0A/YxNLYWsjw+1AOZ4=;
+ b=AqMs+jXASDuvRsYLsm9vBqXOpqG+VFdEHzoQWsyAx9ppo20el6MZPJi2oqcm5zOHvklxTJ
+ JR1DwG/YdOGeblzPz+bTZG8Tr7ioz5y6C4unb237VaoNBsqbmwDJ121XAsUpX3b2brnbQi
+ yOp/YY9d1h7FLuQVvueYPO3CVNHHqYE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-110-Q5vNHdEiOrCcvIzRUdPDFQ-1; Tue, 28 Feb 2023 02:49:12 -0500
+X-MC-Unique: Q5vNHdEiOrCcvIzRUdPDFQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j32-20020a05600c1c2000b003e9bdf02c9fso6538529wms.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 23:49:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZiUfsADUzruFZXpDB4J4uXPtM0A/YxNLYWsjw+1AOZ4=;
+ b=mBD9omYfZjmuF5mVUwGriH6VbegFTtlj66hpzDVx9QaFsT67+9Mxpwro2G5VpBq0ro
+ PHYldxIEYAB9HAlNQcq7fDr74Io3mchOmn9ZgW+GC5EkF9gSSeBiT7ldeV14Ii35XQfQ
+ T2lhNmbqEzzdIhKUQKHvKGC+V/lYaVMS04jO1be5s3SyF3h127AOGx74ZHrsqxQme7ag
+ 8F28hbfM5jK4QMFL0VGPEqohb4LuVUu+x56wVIKQjLUSP52v77OM87LVJKzYNQk1iTj3
+ /yR+yfoWeWF0lKpo2LFO+t66omItr+08xRJ6+msbZ1J4jEceaZZLkK6YmWdZj3UqYxJu
+ oBAw==
+X-Gm-Message-State: AO0yUKXxt1qH9h7HCzNQEeJ5SJm5gMPfuTOGqfk+0kNe7RQM4vsIucG9
+ HsfzpMP1UlRwRc+GTa0H3l4pVCJSbxgEsu8bkoh/YWWqUYVhLdUZ+OL9F1yicVqlIJBb0kb5l4u
+ 8j30ZhWXePB5+WAo=
+X-Received: by 2002:a05:600c:3b26:b0:3ea:f05b:50cc with SMTP id
+ m38-20020a05600c3b2600b003eaf05b50ccmr1675996wms.8.1677570551834; 
+ Mon, 27 Feb 2023 23:49:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set9+Lj7WQrfp82VEPq525cyJkv1tNUqBhsPtcg5W6a+r1jgDEKuIymCq/mXAXSpAaDp6fX67sQ==
+X-Received: by 2002:a05:600c:3b26:b0:3ea:f05b:50cc with SMTP id
+ m38-20020a05600c3b2600b003eaf05b50ccmr1675985wms.8.1677570551536; 
+ Mon, 27 Feb 2023 23:49:11 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-75.web.vodafone.de.
+ [109.43.177.75]) by smtp.gmail.com with ESMTPSA id
+ l16-20020a5d6690000000b002c559626a50sm8844011wru.13.2023.02.27.23.49.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 23:49:10 -0800 (PST)
+Message-ID: <84d7d3e5-0da2-7506-44a7-047ebfcfc4da@redhat.com>
+Date: Tue, 28 Feb 2023 08:49:09 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
+ qemu-system-i386
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <20230227111050.54083-2-thuth@redhat.com> <Y/yY72L9wyjuv3Yz@redhat.com>
+ <20230227150858-mutt-send-email-mst@kernel.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230227150858-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
-Received-SPF: pass client-ip=43.154.221.58; envelope-from=bmeng@tinylab.org;
- helo=bg4.exmail.qq.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,138 +109,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Move the dtb load bits outside of create_fdt(), and put it explicitly
-in sifive_u_machine_init() and virt_machine_init(). With such change
-create_fdt() does exactly what its function name tells us.
+On 27/02/2023 21.12, Michael S. Tsirkin wrote:
+> On Mon, Feb 27, 2023 at 11:50:07AM +0000, Daniel P. Berrangé wrote:
+>> I feel like we should have separate deprecation entries for the
+>> i686 host support, and for qemu-system-i386 emulator binary, as
+>> although they're related they are independant features with
+>> differing impact. eg removing qemu-system-i386 affects all
+>> host architectures, not merely 32-bit x86 host, so I think we
+>> can explain the impact more clearly if we separate them.
+> 
+> Removing qemu-system-i386 seems ok to me - I think qemu-system-x86_64 is
+> a superset.
+> 
+> Removing support for building on 32 bit systems seems like a pity - it's
+> one of a small number of ways to run 64 bit binaries on 32 bit systems,
+> and the maintainance overhead is quite small.
 
-Suggested-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
----
+Note: We're talking about 32-bit *x86* hosts here. Do you really think that 
+someone is still using QEMU usermode emulation
+to run 64-bit binaries on a 32-bit x86 host?? ... If so, I'd be very surprised!
 
-Changes in v2:
-- new patch: Move the dtb load bits outside of create_fdt()
+> In fact, keeping this support around forces correct use of
+> posix APIs such as e.g. PRIx64 which makes the code base
+> more future-proof.
 
- include/hw/riscv/sifive_u.h |  1 +
- hw/riscv/sifive_u.c         | 31 +++++++++++++++----------------
- hw/riscv/virt.c             | 29 ++++++++++++++---------------
- 3 files changed, 30 insertions(+), 31 deletions(-)
+If you're concerned about PRIx64 and friends: We still continue to do 
+compile testing with 32-bit MIPS cross-compilers and Windows 32-bit 
+cross-compilers for now. The only thing we'd lose is the 32-bit "make check" 
+run in the CI.
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 65af306963..0696f85942 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -68,6 +68,7 @@ typedef struct SiFiveUState {
- 
-     /*< public >*/
-     SiFiveUSoCState soc;
-+    int fdt_size;
- 
-     bool start_in_flash;
-     uint32_t msel;
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 76db5ed3dd..35a335b8d0 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -99,7 +99,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     MachineState *ms = MACHINE(s);
-     uint64_t mem_size = ms->ram_size;
-     void *fdt;
--    int cpu, fdt_size;
-+    int cpu;
-     uint32_t *cells;
-     char *nodename;
-     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
-@@ -112,19 +112,10 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-         "sifive,plic-1.0.0", "riscv,plic0"
-     };
- 
--    if (ms->dtb) {
--        fdt = ms->fdt = load_device_tree(ms->dtb, &fdt_size);
--        if (!fdt) {
--            error_report("load_device_tree() failed");
--            exit(1);
--        }
--        return;
--    } else {
--        fdt = ms->fdt = create_device_tree(&fdt_size);
--        if (!fdt) {
--            error_report("create_device_tree() failed");
--            exit(1);
--        }
-+    fdt = ms->fdt = create_device_tree(&s->fdt_size);
-+    if (!fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
-     }
- 
-     qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
-@@ -561,8 +552,16 @@ static void sifive_u_machine_init(MachineState *machine)
-     qdev_connect_gpio_out(DEVICE(&(s->soc.gpio)), 10,
-                           qemu_allocate_irq(sifive_u_machine_reset, NULL, 0));
- 
--    /* create device tree */
--    create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
-+    /* load/create device tree */
-+    if (machine->dtb) {
-+        machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
-+        if (!machine->fdt) {
-+            error_report("load_device_tree() failed");
-+            exit(1);
-+        }
-+    } else {
-+        create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
-+    }
- 
-     if (s->start_in_flash) {
-         /*
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 0c7b4a1e46..53ed2e8369 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1008,19 +1008,10 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap)
-     uint32_t irq_pcie_phandle = 1, irq_virtio_phandle = 1;
-     uint8_t rng_seed[32];
- 
--    if (ms->dtb) {
--        ms->fdt = load_device_tree(ms->dtb, &s->fdt_size);
--        if (!ms->fdt) {
--            error_report("load_device_tree() failed");
--            exit(1);
--        }
--        return;
--    } else {
--        ms->fdt = create_device_tree(&s->fdt_size);
--        if (!ms->fdt) {
--            error_report("create_device_tree() failed");
--            exit(1);
--        }
-+    ms->fdt = create_device_tree(&s->fdt_size);
-+    if (!ms->fdt) {
-+        error_report("create_device_tree() failed");
-+        exit(1);
-     }
- 
-     qemu_fdt_setprop_string(ms->fdt, "/", "model", "riscv-virtio,qemu");
-@@ -1505,8 +1496,16 @@ static void virt_machine_init(MachineState *machine)
-     }
-     virt_flash_map(s, system_memory);
- 
--    /* create device tree */
--    create_fdt(s, memmap);
-+    /* load/create device tree */
-+    if (machine->dtb) {
-+        machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
-+        if (!machine->fdt) {
-+            error_report("load_device_tree() failed");
-+            exit(1);
-+        }
-+    } else {
-+        create_fdt(s, memmap);
-+    }
- 
-     s->machine_done.notify = virt_machine_done;
-     qemu_add_machine_init_done_notifier(&s->machine_done);
--- 
-2.25.1
+  Thomas
 
 
