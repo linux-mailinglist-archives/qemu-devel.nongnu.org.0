@@ -2,56 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28FE6A5729
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536926A572A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:52:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWxY3-0006LB-7c; Tue, 28 Feb 2023 05:49:31 -0500
+	id 1pWxaO-0007Ml-Rl; Tue, 28 Feb 2023 05:51:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWxXx-0006Kc-Oe
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:49:26 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWxaM-0007MJ-Br
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:51:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pWxXu-0004Iv-Rj
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:49:25 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PQvBG6Y5pz688J2;
- Tue, 28 Feb 2023 18:44:22 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 28 Feb
- 2023 10:49:17 +0000
-Date: Tue, 28 Feb 2023 10:49:16 +0000
-To: =?ISO-8859-1?Q?J=F8rgen?= Hansen <Jorgen.Hansen@wdc.com>
-CC: Gregory Price <gregory.price@memverge.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "linux-cxl@vger.kernel.org"
- <linux-cxl@vger.kernel.org>
-Subject: Re: [RFC] CXL: TCG/KVM instruction alignment issue discussion default
-Message-ID: <20230228104916.00003d9a@Huawei.com>
-In-Reply-To: <b066510e-8420-26ba-019b-fef2b255634e@wdc.com>
-References: <Y/Cm5nuJl3G2CG2p@memverge.com>
- <b066510e-8420-26ba-019b-fef2b255634e@wdc.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWxaK-00050H-Vr
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:51:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677581512;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TIARw/Eg/FHCbkTqHcE3f9NxhqHaLUkccjhqbNiCijE=;
+ b=aBB1oLWK3UvEyXIN0NzzVXKrjS/jgJxrR1Wkcrfja+zZjN6dSQDCW0i23a3AGrCO0EgKlH
+ e6QLrwpWt1ukkoZzJ2CjNck/fruGw8LHaQHI0BYraXLyXaktYN0jW+bllyv5lEhc9Iqjvd
+ UrgclACCW1tIbwga9/B4vmzATufC3gs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-402-EdjlhgObOPeXHxjMlOacog-1; Tue, 28 Feb 2023 05:51:48 -0500
+X-MC-Unique: EdjlhgObOPeXHxjMlOacog-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ e22-20020a05600c219600b003e000facbb1so6720248wme.9
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 02:51:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677581507;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TIARw/Eg/FHCbkTqHcE3f9NxhqHaLUkccjhqbNiCijE=;
+ b=mxMm4B01KFR76GEjb0Vpo/EocsrysBkRgSg1WPOmAPnPT3CKLY1023W4BzfnSR+xfL
+ tjrrvvp7irikhepw3NqedcwO7LxKcee+hDZb+x83CsEzTTg8TzX9ua1GBXpFVxwol73Q
+ q8yAlyRtu6lOoMVpSoOd7Ru4O2KsuQyT+n2Qpu1I8KQsviKqYkqkReklGkVWWoli4YPo
+ 7GSFM/L/T+kht/LDoxT6CSnhYKALAF0QNYC8mEYlee3pDilRn/LaS2XJ2VYcg+AcR7wJ
+ y7NZ+l02WzR5P0/Ni/UpCjtAFjgPQ206I0T1rnIvvl+yF2dUHnTa22lbM5T0F3TB0Lo3
+ FkMA==
+X-Gm-Message-State: AO0yUKUuSTEr3b1BFjjii3+o+zwuU0+MP1wTuc1M/oXhTDY8l2bsQ7KX
+ P+8RC77M0BuKTXx0OCcmIvmW/8LWRUHKrNLPap3+QXAE/jeXZRK/uDgqylIozVhObfJF/VCual7
+ Fy+hq/0mVlbvonEI=
+X-Received: by 2002:a05:600c:331b:b0:3df:fbd5:690 with SMTP id
+ q27-20020a05600c331b00b003dffbd50690mr1723642wmp.17.1677581507230; 
+ Tue, 28 Feb 2023 02:51:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set8cQlDBvAlJdAHtDjB/GY2t5VT2TFTWjVV6lyCTysKtoQJ8w5SKvyN5sJMgC80hVK24t3HvYw==
+X-Received: by 2002:a05:600c:331b:b0:3df:fbd5:690 with SMTP id
+ q27-20020a05600c331b00b003dffbd50690mr1723636wmp.17.1677581506970; 
+ Tue, 28 Feb 2023 02:51:46 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ 13-20020a05600c020d00b003dc1d668866sm15589805wmi.10.2023.02.28.02.51.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 02:51:45 -0800 (PST)
+Date: Tue, 28 Feb 2023 05:51:41 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Reinoud Zandijk <reinoud@netbsd.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
+ qemu-system-i386
+Message-ID: <20230228055016-mutt-send-email-mst@kernel.org>
+References: <Y/yY72L9wyjuv3Yz@redhat.com>
+ <20230227150858-mutt-send-email-mst@kernel.org>
+ <84d7d3e5-0da2-7506-44a7-047ebfcfc4da@redhat.com>
+ <20230228031026-mutt-send-email-mst@kernel.org>
+ <Y/3CiEKKoG06t9rr@redhat.com>
+ <20230228040115-mutt-send-email-mst@kernel.org>
+ <fe4626c6-6103-d5e5-6920-9dfb4777b979@redhat.com>
+ <Y/3MIUDRBUSNg6C5@redhat.com>
+ <20230228050908-mutt-send-email-mst@kernel.org>
+ <87cz5uhy50.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87cz5uhy50.fsf@pond.sub.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,95 +110,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 27 Feb 2023 11:06:47 +0000
-J=F8rgen Hansen <Jorgen.Hansen@wdc.com> wrote:
+On Tue, Feb 28, 2023 at 11:39:39AM +0100, Markus Armbruster wrote:
+> The question to answer: Is 32 bit x86 worth its upkeep?  Two
+> sub-questions: 1. Is it worth the human attention?  2. Is it worth
+> (scarce!) CI minutes?
 
-> On 2/18/23 11:22, Gregory Price wrote:
-> > Breaking this off into a separate thread for archival sake.
-> >=20
-> > There's a bug with handling execution of instructions held in CXL
-> > memory - specifically when an instruction crosses a page boundary.
-> >=20
-> > The result of this is that type-3 devices cannot use KVM at all at the
-> > moment, and require the attached patch to run in TCG-only mode.
-> >=20
-> >=20
-> > CXL memory devices are presently emulated as MMIO, and MMIO has no
-> > coherency guarantees, so TCG doesn't cache the results of translating
-> > an instruction, meaning execution is incredibly slow (orders of
-> > magnitude slower than KVM).
-> >=20
-> >=20
-> > Request for comments:
-> >=20
-> >=20
-> > First there's the stability issue:
-> >=20
-> > 0) TCG cannot handle instructions across a page boundary spanning ram a=
-nd
-> >     MMIO. See attached patch for hotfix.  This basically solves the page
-> >     boundary issue by reverting the entire block to MMIO-mode if the
-> >     problem is detected.
-> >=20
-> > 1) KVM needs to be investigated.  It's likely the same/similar issue,
-> >     but it's not confirmed. =20
->=20
-> I ran into an issue with KVM as well. However, it wasn't a page boundary=
-=20
-> spanning issue, since I could hit it when using pure CXL backed memory=20
-> for a given application. It turned out that (at least) certain AVX=20
-> instructions didn't handle execution from MMIO when using qemu. This=20
-> generated an illegal instruction exception for the application. At that=20
-> point, I switched to tcg, so I didn't investigate if running a non-AVX=20
-> system would work with KVM.
+3. Is it worth arguing about?
 
-Short term I'm wondering if we should attempt to error out on KVM
-unless some override parameter is used alongside the main cxl=3Don
-
->=20
-> > Second there's the performance issue:
-> >=20
-> > 0) Do we actually care about performance? How likely are users to
-> >     attempt to run software out of CXL memory?
-> >=20
-> > 1) If we do care, is there a potential for converting CXL away from the
-> >     MMIO design?  The issue is coherency for shared memory. Emulating
-> >     coherency is a) hard, and b) a ton of work for little gain.
-> >=20
-> >     Presently marking CXL memory as MMIO basically enforces coherency by
-> >     preventing caching, though it's unclear how this is enforced
-> >     by KVM (or if it is, i have to imagine it is).  =20
->=20
-> Having the option of doing device specific processing of accesses to a=20
-> CXL type 3 device (that the MMIO based access allows) is useful for=20
-> experimentation with device functionality, so I would be sad to see that=
-=20
-> option go away. Emulating cache line access to a type 3 device would be=20
-> interesting, and could potentially be implemented in a way that would=20
-> allow caching of device memory in a shadow page in RAM, but that it a=20
-> rather large project.
-
-Absolutely agree.  Can sketch a solution that is entirely in QEMU and
-works with KVM on a white board, but it doesn't feel like a small job
-to actually implement it and I'm sure there are nasty corners
-(persistency is going to be tricky)=20
-
-If anyone sees this as a 'fun challenge' and wants to take it on though
-that would be great!
-
-Jonathan
-
->=20
-> > It might be nice to solve this for non-shared memory regions, but
-> > testing functionality >>> performance at this point so it might not
-> > worth the investment. =20
->=20
-> Thanks,
-> Jorgen
+-- 
+MST
 
 
