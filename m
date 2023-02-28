@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E526A54AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A12D6A54E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:57:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWvdE-0008Ku-BA; Tue, 28 Feb 2023 03:46:44 -0500
+	id 1pWvmQ-0005vm-Kj; Tue, 28 Feb 2023 03:56:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pWvd6-0008If-Th
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:46:41 -0500
-Received: from mga04.intel.com ([192.55.52.120])
+ (Exim 4.90_1) (envelope-from
+ <BATV+7d6b05f3cc01f0cae584+7128+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pWvmJ-0005tp-21
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:56:10 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1pWvd4-0001ec-4w
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:46:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677573994; x=1709109994;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=E2NHBGOSvXpQ97/ZAMQbcNEwzLNkJrUlK5tFnUCz0Ac=;
- b=e6vMGXvyRQ/EuZm2qz1RSAX514nafMqDLc+KlACdjbCTYcFF3lTLr/3L
- Hr8cPz0aVils+dr+7d4FPXD3kWmFstdbElQS/9DM7EhGS8COe60d4pccT
- djayo8xJNai1g7F0DmLP2ZHxLqOZjHbKAV899SVOLWjAPVxFpTJe6OSbZ
- MzxYm53xTBUY/SG3vhllGgVZT8yK36lcbhALW4U7ejFPNv36BfSTgb9Cy
- Uer4M4wgpY91s8sald0UjpofBu6S6lW3JKoaVeXJjud3Sla40cEXBhcEc
- RqhTX5sv5A8l94/sEnrkebrq7DrovkOQjcaxQxtwk92fpmiH78ZqLZYqP A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332808123"
-X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; d="scan'208";a="332808123"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2023 00:46:17 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="738081578"
-X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; d="scan'208";a="738081578"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.254.211.20])
- ([10.254.211.20])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2023 00:46:15 -0800
-Message-ID: <022a4fec-b08e-fa87-4717-e27017fad6c9@intel.com>
-Date: Tue, 28 Feb 2023 16:46:13 +0800
+ (Exim 4.90_1) (envelope-from
+ <BATV+7d6b05f3cc01f0cae584+7128+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pWvmF-0003NI-2m
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:56:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=2OlLezIxFwu9mBgpOmx0imlWJrVIHeye2Jf+Ckk3UH8=; b=LU9xFEkpqVa+ZC9Q7T0covEJ6/
+ FTELYmv1qOA5H+qXHpW0uQU5j/gejVHCHf7jIMzdqiNkiO0U94SeAgyCXqaqe3pRDrVa9Hca7kOn6
+ nmBDTJXdf8iu0YWdN1hSHFv/VEL7jM6dCSjoguTyyLolyMa5BSONchimmhQoxjAg+MF4lwplpjmMC
+ qjvt9nZc7Kq2Ot7GdlJ3OfQl883CYSdETda/QgWJF0CPue9isYMSAvcc/0cMFCg20WeW/pPqQESlo
+ 6yzYAfvjCWO4fd7tZJ1zt0yyjYG1FTATSjW0kDQ0FuKyUJF2iZSezYV2WpGtqTBqGxRzv+zehnaxF
+ 42X8Kh7A==;
+Received: from [2001:8b0:10b:5:79c1:51c6:f359:2a9b]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pWvm2-000kgO-1u; Tue, 28 Feb 2023 08:55:50 +0000
+Message-ID: <72a0be7a0624e628a1cd79e1f8b777ceeb5ea4f5.camel@infradead.org>
+Subject: Re: [PATCH v14 15/60] i386/xen: add pc_machine_kvm_type to
+ initialize XEN_EMULATE mode
+From: David Woodhouse <dwmw2@infradead.org>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Peter
+ Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao
+ Martins <joao.m.martins@oracle.com>, Ankur Arora
+ <ankur.a.arora@oracle.com>, Thomas Huth <thuth@redhat.com>, Alex
+ =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,  Juan Quintela
+ <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>,  armbru@redhat.com, Stefano Stabellini
+ <sstabellini@kernel.org>,  vikram.garhwal@amd.com
+Date: Tue, 28 Feb 2023 08:55:48 +0000
+In-Reply-To: <31fa46c5-cd5e-47b3-f971-a6465d6d4b02@linaro.org>
+References: <20230227142908.503517-1-dwmw2@infradead.org>
+ <20230227142908.503517-16-dwmw2@infradead.org>
+ <31fa46c5-cd5e-47b3-f971-a6465d6d4b02@linaro.org>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-3/MsZgisGipcubwQBqOk"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [PATCH v4 0/4] target/i386: Add new CPU model SapphireRapids and
- new fast string op leaves
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: lei4.wang@intel.com, robert.hu@linux.intel.com, chenyi.qiang@intel.com
-References: <20230227101332.636203-1-pbonzini@redhat.com>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20230227101332.636203-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.089,
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+7d6b05f3cc01f0cae584+7128+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,76 +86,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/27/2023 6:13 PM, Paolo Bonzini wrote:
-> Sapphire Rapids enablement patches got stuck on the doubts regarding
-> properties for AMX support.  However, for now there is no need to have
-> anything but hardcoded values, because all Intel processors with AMX
-> currently support exactly the same palettes and TMUL limits.  Intel has
-> also promised that palette formats will remain backwards compatible so
-> the only worry is for the TMUL leaf, CPUID[1Eh].
-> 
-> However, providing modifiable properties for AMX is premature.  
-> Rather,
-> the first step should be to_validate_  host CPUID values against the
-> ones supported by QEMU.  
 
-Paolo,
+--=-3/MsZgisGipcubwQBqOk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The validation of host CPUID values (kvm supported CPUIDs) against the 
-ones supported by QEMU (the hardcoded value) is missing in current QEMU.
+On Mon, 2023-02-27 at 23:37 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
+> > +extern int pc_machine_kvm_type(MachineState *machine, const char *vm_t=
+ype);
+>=20
+> No 'extern' qualifier for function prototype please.
 
-As for how to implement the validation, I have two options in mind:
+Fixed in my tree. Thanks.
 
-a) special check in x86_cpu_filter_features() just like what did for 
-Intel PT:
+--=-3/MsZgisGipcubwQBqOk
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-     if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
-         kvm_enabled()) {
-         KVMState *s = CPU(cpu)->kvm_state;
-         uint32_t eax_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_EAX);
-         uint32_t ebx_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_EBX);
-         uint32_t ecx_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_ECX);
-         uint32_t eax_1 = kvm_arch_get_supported_cpuid(s, 0x14, 1, R_EAX);
-         uint32_t ebx_1 = kvm_arch_get_supported_cpuid(s, 0x14, 1, R_EBX);
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjI4MDg1NTQ4WjAvBgkqhkiG9w0BCQQxIgQglPQ1dJLc
+dBuOJ53GtkgOJZspUZDiYdtX+/yBVLGSroEwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgA7i5pM2vh0q077ln5dgNvhU0Q4wFW+JeZW
+JXKvC1D+HhFQWVKsBNHyvXligY1o8ATRZi/6qTLXC+Kuwd4Cl/wuEeX7vAwoPCn77BVNvUJGaxjw
+umczlppboeAZIZVR8Zhl/D80u+k2Nq8W7eNVJyEPfd153xtg8zZN1GJHL537wpoAZ44TdwjYgl/A
+4eT1at4v08fpJD9wYA/2qV2OwPfPTljsCH7xI0YLfz86sXNqkACy2fdlaCJHYuVVGd288Zpa5cC4
+BbluC+xNJI0qZUe3y4sPitgnwDM9v02T4VLiUx1jB80GbpQ8A+rvJzH+ICXWBRhe4k9q8RPgoxdX
+7SRTVSXbtXKz4mRjAF3x9p4lXmZlGFrJRa5eQaIJTADpUhlRhgSU/ZF8gcEimLcusJDVamKrvUJ/
+s3aFHgB7+UIUWIwTCeqYx7j4W+d9+S/oahRPnBZzj+cfYhtq6bUZiqiqHeGdQasnvtbwpVbF3y/T
+rvnwWe4pKLKVWyU3smjb0v79lcu2eHKgSdEvGE84FdyMiZj2qcTatARNFiYGWAACUUiNLwYnFGKX
+n+oxrFiZthrNg4ufJdvv4d8VbhwvnTXTmA/kWqXO8kX2Pl2UkyCJwY/xUM/IWdphMddi9MwMwpax
++6S+fblCkPriWepSRWkNfbxf15IT4xcOFN4vftSkrAAAAAAAAA==
 
-         if (!eax_0 ||
-            ((ebx_0 & INTEL_PT_MINIMAL_EBX) != INTEL_PT_MINIMAL_EBX) ||
-            ((ecx_0 & INTEL_PT_MINIMAL_ECX) != INTEL_PT_MINIMAL_ECX) ||
-            ((eax_1 & INTEL_PT_MTC_BITMAP) != INTEL_PT_MTC_BITMAP) ||
-            ((eax_1 & INTEL_PT_ADDR_RANGES_NUM_MASK) <
-                                            INTEL_PT_ADDR_RANGES_NUM) ||
-            ((ebx_1 & (INTEL_PT_PSB_BITMAP | INTEL_PT_CYCLE_BITMAP)) !=
-                 (INTEL_PT_PSB_BITMAP | INTEL_PT_CYCLE_BITMAP)) ||
-            ((ecx_0 & CPUID_14_0_ECX_LIP) !=
-                 (env->features[FEAT_14_0_ECX] & CPUID_14_0_ECX_LIP))) {
-             /*
-              * Processor Trace capabilities aren't configurable, so if the
-              * host can't emulate the capabilities we report on
-              * cpu_x86_cpuid(), intel-pt can't be enabled on the 
-current host.
-              */
-             mark_unavailable_features(cpu, FEAT_7_0_EBX, 
-CPUID_7_0_EBX_INTEL_PT, prefix);
-         }
-     }
 
-This has flaws for leaf 0x1e, since its value might change on future 
-production (Intel PT is facing this exact problem that SPR has less PT 
-capabilities of CPUID(0x14,1):EBX[15:0] than ICX, and Intel PT cannot be 
-enabled for guest on SPR machine). As well, if hardware reports 
-different value of leaf 0x1e in the future, QEMU will fail to enable AMX 
-for guest.
-
-b) at least introduce FEAT_ for CPUID leaf 0x1E, so that it will be 
-checked in x86_cpu_filter_features() automatically and "-cpu max/host" 
-can pass through the host's value to guest. The additional work is that 
-we might need MultiBitFeature framework introducing in 
-https://lore.kernel.org/qemu-devel/20230106083826.5384-1-lei4.wang@intel.com/T/#t
-
-Do you think it worths the effort to go for option b? or just option a 
-for now is enough?
-
-> So for now apply the simpler patch that only
-> adds the new model.
-
+--=-3/MsZgisGipcubwQBqOk--
 
