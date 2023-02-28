@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574CB6A5602
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 10:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CBA6A562F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 10:58:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWwTw-0003gw-Fs; Tue, 28 Feb 2023 04:41:12 -0500
+	id 1pWwj1-0006dl-VO; Tue, 28 Feb 2023 04:56:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pWwTt-0003Qh-Of
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 04:41:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pWwTq-0003iw-1z
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 04:41:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677577265;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iPwT6LbI6vnTr+kaV/WT6dv1nv2LsgKfksaLe2/+5Co=;
- b=hsLTtTQAhDQy1yu5BfbfJzpv7Om1OXzeumCgK/F2Eph4VHixwnbf8koc9A9QPQ8WLw7k2+
- dApqrzGcERJZgFIrVGBNpa5MDoG7p8CdvW7npwPUe5n2dIdVKmLxbczDvlsat8iqRPmyEQ
- HOdERHQsPZZME8AWYOhEOrauDE/qiXE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-IJDVr2aTPt6RuBqSL0DiIA-1; Tue, 28 Feb 2023 04:41:01 -0500
-X-MC-Unique: IJDVr2aTPt6RuBqSL0DiIA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF4002805588;
- Tue, 28 Feb 2023 09:41:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0344F492B12;
- Tue, 28 Feb 2023 09:40:57 +0000 (UTC)
-Date: Tue, 28 Feb 2023 09:40:49 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-arm@nongnu.org, Reinoud Zandijk <reinoud@netbsd.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
- qemu-system-i386
-Message-ID: <Y/3MIUDRBUSNg6C5@redhat.com>
-References: <20230227111050.54083-1-thuth@redhat.com>
- <20230227111050.54083-2-thuth@redhat.com>
- <Y/yY72L9wyjuv3Yz@redhat.com>
- <20230227150858-mutt-send-email-mst@kernel.org>
- <84d7d3e5-0da2-7506-44a7-047ebfcfc4da@redhat.com>
- <20230228031026-mutt-send-email-mst@kernel.org>
- <Y/3CiEKKoG06t9rr@redhat.com>
- <20230228040115-mutt-send-email-mst@kernel.org>
- <fe4626c6-6103-d5e5-6920-9dfb4777b979@redhat.com>
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1pWwiy-0006dV-Ta
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 04:56:45 -0500
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1pWwiw-0008K7-HO
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 04:56:44 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id r27so12345128lfe.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 01:56:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1677578199;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kL3nzxVuFSZW2Xm6DTx/7dmwetVtgBohQcbxDZFp37E=;
+ b=OkPhYc2VdXgREVY2urYhQMaWpZy88PglfzzIxqJWLReJuYLmc+3QSHsTcNOa/2DmIS
+ 7f6D7zgT1+3upZyzQruwsS4srbav96UxtigtYjAPWLklayiet89+Ykw1+WyRw+ELukPv
+ rA9uRjpMLQ/4madnyiUHEtFKEoF4tCQV4W9gEcAINFIMrftO+GpdTdVhstHT9A+rHSoi
+ sQ6sbx+8Yf+lJdE9AdXVxP84ODAyOVThCcl/eniRcytr/IxfDKrnJH1QAEokManff5Vv
+ Pt/5np5nShNRq7Q6j1xdUwnrflaaNHKrTU9Oc+tXwjgLuEdYebI3ChL6TTAclIF/iB3v
+ mV0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677578199;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kL3nzxVuFSZW2Xm6DTx/7dmwetVtgBohQcbxDZFp37E=;
+ b=JeXbepu2v11YxRsmy0pE2nBJmFSiu+4BPxOYBgdorW230r53qky8fiut5WwYpNbLsu
+ t0rVWUlyT3Fio23NiP5lFZr1WDOfmRMwRxdc+rqUEbvoiMWsI1n7ooD1M6zaJLkylKqG
+ yfiVbdVpxLAuV+iuekYfUBOuCKVVL5Cb1clPG3wbf6puEMoGcaHFQWlRF9XxYK+Zbj7B
+ evOfVwNB9i7zoE7RlCXWTJW/QK6yR0Lefo14fIDQPGU1oNgk64cFLNxoTWpLFBmNaKuT
+ m+UWcDr7XESpGEp3Tv/J1xWW5L7THhUHmMr7QINtTwKQRdIU1Fw+87K4c+BYFlNk2Qxy
+ 05jA==
+X-Gm-Message-State: AO0yUKWO0aOkdxFsEVb3Np19EmWWwkfiO+xYOxCOE4D0rA+EgPrKBXVY
+ vRE0bfIMVztAZrx3S2+lBRS92yqVlrZ9EC/Rc1jEuQ==
+X-Google-Smtp-Source: AK7set9BnZgajpxEGwzIR6Bvv1p5nrwpGJDPK19PXcBp2laXzqqFbN9t+LiXIsuIb9+8SBEJe0I0s2hiGsun2FhL2kE=
+X-Received: by 2002:a19:761a:0:b0:4dd:9931:c4ee with SMTP id
+ c26-20020a19761a000000b004dd9931c4eemr532146lff.12.1677578199514; Tue, 28 Feb
+ 2023 01:56:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fe4626c6-6103-d5e5-6920-9dfb4777b979@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230219162100.174318-1-andrew@daynix.com>
+ <20230219162100.174318-4-andrew@daynix.com>
+ <Y/NCQhGmqIadlw0y@redhat.com>
+In-Reply-To: <Y/NCQhGmqIadlw0y@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Tue, 28 Feb 2023 11:56:27 +0200
+Message-ID: <CAOEp5Of-sC1nuz4rAZkt8YoL2ctnSPAQ9QyxoQ97XiQ17wZ1Fg@mail.gmail.com>
+Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Andrew Melnychenko <andrew@daynix.com>, jasowang@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com, 
+ philmd@linaro.org, armbru@redhat.com, eblake@redhat.com, 
+ qemu-devel@nongnu.org, toke@redhat.com, mprivozn@redhat.com, yan@daynix.com
+Content-Type: multipart/alternative; boundary="000000000000aa539a05f5bf9c04"
+Received-SPF: none client-ip=2a00:1450:4864:20::12e;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,63 +84,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 10:14:52AM +0100, Thomas Huth wrote:
-> On 28/02/2023 10.03, Michael S. Tsirkin wrote:
-> > On Tue, Feb 28, 2023 at 08:59:52AM +0000, Daniel P. Berrangé wrote:
-> > > On Tue, Feb 28, 2023 at 03:19:20AM -0500, Michael S. Tsirkin wrote:
-> > > > On Tue, Feb 28, 2023 at 08:49:09AM +0100, Thomas Huth wrote:
-> > > > > On 27/02/2023 21.12, Michael S. Tsirkin wrote:
-> > > > > > On Mon, Feb 27, 2023 at 11:50:07AM +0000, Daniel P. Berrangé wrote:
-> > > > > > > I feel like we should have separate deprecation entries for the
-> > > > > > > i686 host support, and for qemu-system-i386 emulator binary, as
-> > > > > > > although they're related they are independant features with
-> > > > > > > differing impact. eg removing qemu-system-i386 affects all
-> > > > > > > host architectures, not merely 32-bit x86 host, so I think we
-> > > > > > > can explain the impact more clearly if we separate them.
-> > > > > > 
-> > > > > > Removing qemu-system-i386 seems ok to me - I think qemu-system-x86_64 is
-> > > > > > a superset.
-> > > > > > 
-> > > > > > Removing support for building on 32 bit systems seems like a pity - it's
-> > > > > > one of a small number of ways to run 64 bit binaries on 32 bit systems,
-> > > > > > and the maintainance overhead is quite small.
-> > > > > 
-> > > > > Note: We're talking about 32-bit *x86* hosts here. Do you really think that
-> > > > > someone is still using QEMU usermode emulation
-> > > > > to run 64-bit binaries on a 32-bit x86 host?? ... If so, I'd be very surprised!
-> > > > 
-> > > > I don't know - why x86 specifically? One can build a 32 bit binary on any host.
-> > > > I think 32 bit x86 environments are just more common in the cloud.
-> > > 
-> > > Can you point to anything that backs up that assertion. Clouds I've
-> > > seen always give you a 64-bit environment, and many OS no longer
-> > > even ship 32-bit installable media.
-> > 
-> > Sorry about being unclear. I meant that it seems easier to run CI in the
-> > cloud in a 32 bit x64 environment than get a 32 bit ARM environment.
-> 
-> It's still doable ... but for how much longer? We're currently depending on
-> Fedora, but they also slowly drop more and more support for this
-> environment, see e.g.:
+--000000000000aa539a05f5bf9c04
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-FWIW, we should cull our fedora-i386-cross.docker dockerfile and
-replace it with a debian i686 dockerfile generated by lcitool.
-There's no compelling reason why i686 should be different from
-all our other cross builds which are based on Debian. The Debian
-lcitool generated container would have access to a wider range
-of deps than our hand written Fedora one.
+On Mon, Feb 20, 2023 at 11:50=E2=80=AFAM Daniel P. Berrang=C3=A9 <berrange@=
+redhat.com>
+wrote:
 
->  https://www.theregister.com/2022/03/10/fedora_inches_closer_to_dropping/
+> On Sun, Feb 19, 2023 at 06:20:58PM +0200, Andrew Melnychenko wrote:
+> > Added a function to check the stamp in the helper.
+> > eBPF helper should have a special symbol that generates during the buil=
+d.
+> > QEMU checks the helper and determines that it fits, so the helper
+> > will produce proper output.
+>
+> I think this is quite limiting for in place upgrades.
+>
+> Consider this scenario
+>
+>  * Host has QEMU 8.1.0 installed
+>  * VM is running QEMU 8.1.0
+>  * QEMU 8.1.1 is released with a bug fix in the EBF program
+>  * Host is upgraded to QEMU 8.1.1
+>  * User attempts to hotplug a NIC to the running VM
+>
+> IIUC this last step is going to fail because we'll be loading
+> the EBF program from 8.1.1 and so its hash is different from
+> that expected by the QEMU 8.1.0 that the pre-existing VM is
+> running.
+>
+>   Indeed we did not take in account the in-place upgrade.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+
+> If some changes to the EBF program are not going to be back
+> compatible from the POV of the QEMU process, should we instead
+> be versioning the EBF program. eg so new QEMU will ship both
+> the old and new versions of the EBF program.
+>
+>
+This does not seem to be an elegant option: QEMU theoretically can include
+different eBPF programs but it hardly can interface with each one of them.
+The code of QEMU (access to eBPF maps etc) includes header files which eBPF
+of the day is being built with them.
+
+I see 2 options to address this issue (of course there are more)
+1. Build and install qemu-rss-helper-<hash> executable. Libvirt will always
+have a correct name, so for the running instance it will use
+qemu-rss-helper-<old-hash>, for the new instance it will use
+qemu-rss-helper-<new-hash>
+2. Build the helper executable and link it inside qemu as a blob. Libvirt
+will always retrieve the executable to the temporary file name and use it.
+So the retrieved helper will always be compatible with QEMU. I'm not sure
+what is the most portable way to do that.
+
+Daniel,
+Does one of these seem suitable?
+
+
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
+
+--000000000000aa539a05f5bf9c04
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>On Mon, Feb 20, 2023 at 11:50=E2=80=
+=AFAM Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">be=
+rrange@redhat.com</a>&gt; wrote:<br></div></div><div class=3D"gmail_quote">=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">On Sun, Feb 19, 2023 at 0=
+6:20:58PM +0200, Andrew Melnychenko wrote:<br>
+&gt; Added a function to check the stamp in the helper.<br>
+&gt; eBPF helper should have a special symbol that generates during the bui=
+ld.<br>
+&gt; QEMU checks the helper and determines that it fits, so the helper<br>
+&gt; will produce proper output.<br>
+<br>
+I think this is quite limiting for in place upgrades.<br>
+<br>
+Consider this scenario<br>
+<br>
+=C2=A0* Host has QEMU 8.1.0 installed<br>
+=C2=A0* VM is running QEMU 8.1.0<br>
+=C2=A0* QEMU 8.1.1 is released with a bug fix in the EBF program<br>
+=C2=A0* Host is upgraded to QEMU 8.1.1<br>
+=C2=A0* User attempts to hotplug a NIC to the running VM<br>
+<br>
+IIUC this last step is going to fail because we&#39;ll be loading<br>
+the EBF program from 8.1.1 and so its hash is different from<br>
+that expected by the QEMU 8.1.0 that the pre-existing VM is<br>
+running.<br>
+<br></blockquote><div>=C2=A0 Indeed we did not take in account the in-place=
+ upgrade.<div><br></div></div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+If some changes to the EBF program are not going to be back<br>
+compatible from the POV of the QEMU process, should we instead<br>
+be versioning the EBF program. eg so new QEMU will ship both<br>
+the old and new versions of the EBF program. <br>
+<br></blockquote><div><br></div><div>This does not seem to be an elegant op=
+tion: QEMU theoretically can include different eBPF programs but it hardly =
+can interface with each one of them.</div><div>The code of QEMU (access to =
+eBPF maps etc) includes header files which eBPF of the day is being built w=
+ith them.</div><div><br></div><div>I see 2 options to address this issue (o=
+f course there are more)</div><div>1. Build and install qemu-rss-helper-&lt=
+;hash&gt; executable. Libvirt will always have a correct name, so for the r=
+unning instance it will use qemu-rss-helper-&lt;old-hash&gt;, for the new i=
+nstance it will use=C2=A0 qemu-rss-helper-&lt;new-hash&gt;</div><div>2. Bui=
+ld the helper executable and link it inside qemu as a blob. Libvirt will al=
+ways retrieve the executable to the temporary file name and use it. So the =
+retrieved helper will always be compatible with QEMU. I&#39;m not sure what=
+ is the most portable way to do that.</div><div><br></div><div>Daniel,</div=
+><div>Does one of these seem suitable?</div><div><br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+<br>
+With regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div></div>
+
+--000000000000aa539a05f5bf9c04--
 
