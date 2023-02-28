@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622756A5F23
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC48B6A5F25
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:04:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX5FH-0003Xv-Ba; Tue, 28 Feb 2023 14:02:39 -0500
+	id 1pX5HH-0005TP-KM; Tue, 28 Feb 2023 14:04:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pX5Ek-0003VV-RO
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:02:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pX5Gp-0005AO-I6
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:04:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pX5Ei-0001Cf-Le
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:02:06 -0500
+ id 1pX5Gm-0001iZ-Oc
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:04:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677610924;
+ s=mimecast20190719; t=1677611047;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EI93ID6NZV5Mx8yw2DvY8JXTlvlJ6PuhcnFjPLyClN8=;
- b=ITilln5iymJJm6NyfjE4WyubFgtJmRG5jmrpKGVvDVWJT5bM2Mh0vnSW10CSuG4R1nD9u6
- IBIIwMNJoBxQjuzr2qQP7PdOm43TnOSb3m/WMv4eYrFw0Rk6xp0FirVxTh5YFPUSj+XaQU
- qgX/BIAqseJe/ioX/uMQ2IwRv4dzMqc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rjUBRkG1QIPOAaE+2lIdiScIg93u2/Fob0eR0sE4UPA=;
+ b=RQ/uo99ieAipruyxHXozX22sWlgZJLJYEgsYiWGfoxE56M011Bt7R/CHwWjsPcWrYMaQtS
+ efp7Q1vkqE5CYeT20u6+5uKCgqc+LoAIkdTEIYrkoAfRkHNhsSUrdksfkYqtjUYK9Gv+NJ
+ rDOYwVg3eK97PAVk0CTfUcjC1KWkHjM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-22vHBQVbPJKo4ao4XU0ang-1; Tue, 28 Feb 2023 14:02:00 -0500
-X-MC-Unique: 22vHBQVbPJKo4ao4XU0ang-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-295-VbMSbUe6OGakuDBPnALt4g-1; Tue, 28 Feb 2023 14:04:05 -0500
+X-MC-Unique: VbMSbUe6OGakuDBPnALt4g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAF1629AA386;
- Tue, 28 Feb 2023 19:01:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 51AEA101A55E;
+ Tue, 28 Feb 2023 19:04:04 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3657A2166B30;
- Tue, 28 Feb 2023 19:01:55 +0000 (UTC)
-Date: Tue, 28 Feb 2023 19:01:52 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 177A9111DCEC;
+ Tue, 28 Feb 2023 19:04:00 +0000 (UTC)
+Date: Tue, 28 Feb 2023 19:03:58 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>,
+To: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
  Andrew Melnychenko <andrew@daynix.com>, jasowang@redhat.com,
  mst@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
  thuth@redhat.com, philmd@linaro.org, armbru@redhat.com,
- eblake@redhat.com, qemu-devel@nongnu.org, toke@redhat.com,
- mprivozn@redhat.com, yan@daynix.com
+ eblake@redhat.com, qemu-devel@nongnu.org, mprivozn@redhat.com,
+ yan@daynix.com
 Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
-Message-ID: <Y/5PoFpnyx6NWVZG@redhat.com>
+Message-ID: <Y/5QHonZyB+7vzEN@redhat.com>
 References: <20230219162100.174318-1-andrew@daynix.com>
  <20230219162100.174318-4-andrew@daynix.com>
  <Y/NCQhGmqIadlw0y@redhat.com>
  <CAOEp5Of-sC1nuz4rAZkt8YoL2ctnSPAQ9QyxoQ97XiQ17wZ1Fg@mail.gmail.com>
- <Y/5CQ5md6huqNsx4@redhat.com>
+ <Y/5CQ5md6huqNsx4@redhat.com> <877cw1ipgg.fsf@toke.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y/5CQ5md6huqNsx4@redhat.com>
+In-Reply-To: <877cw1ipgg.fsf@toke.dk>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,125 +91,30 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 06:04:51PM +0000, Daniel P. Berrangé wrote:
-> On Tue, Feb 28, 2023 at 11:56:27AM +0200, Yuri Benditovich wrote:
-> > On Mon, Feb 20, 2023 at 11:50 AM Daniel P. Berrangé <berrange@redhat.com>
-> > wrote:
-> > 
-> > > On Sun, Feb 19, 2023 at 06:20:58PM +0200, Andrew Melnychenko wrote:
-> > > > Added a function to check the stamp in the helper.
-> > > > eBPF helper should have a special symbol that generates during the build.
-> > > > QEMU checks the helper and determines that it fits, so the helper
-> > > > will produce proper output.
-> > >
-> > > I think this is quite limiting for in place upgrades.
-> > >
-> > > Consider this scenario
-> > >
-> > >  * Host has QEMU 8.1.0 installed
-> > >  * VM is running QEMU 8.1.0
-> > >  * QEMU 8.1.1 is released with a bug fix in the EBF program
-> > >  * Host is upgraded to QEMU 8.1.1
-> > >  * User attempts to hotplug a NIC to the running VM
-> > >
-> > > IIUC this last step is going to fail because we'll be loading
-> > > the EBF program from 8.1.1 and so its hash is different from
-> > > that expected by the QEMU 8.1.0 that the pre-existing VM is
-> > > running.
-> > >
-> > >   Indeed we did not take in account the in-place upgrade.
-> > 
-> > 
-> > 
-> > > If some changes to the EBF program are not going to be back
-> > > compatible from the POV of the QEMU process, should we instead
-> > > be versioning the EBF program. eg so new QEMU will ship both
-> > > the old and new versions of the EBF program.
-> > 
-> > This does not seem to be an elegant option: QEMU theoretically can include
-> > different eBPF programs but it hardly can interface with each one of them.
-> > The code of QEMU (access to eBPF maps etc) includes header files which eBPF
-> > of the day is being built with them.
-> > 
-> > I see 2 options to address this issue (of course there are more)
-> > 1. Build and install qemu-rss-helper-<hash> executable. Libvirt will always
-> > have a correct name, so for the running instance it will use
-> > qemu-rss-helper-<old-hash>, for the new instance it will use
-> > qemu-rss-helper-<new-hash>
+On Tue, Feb 28, 2023 at 08:01:51PM +0100, Toke Høiland-Jørgensen wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> We'll get an ever growing number of program variants we need to
-> build & distribute with each new QEMU release.
+> Just to interject a note on this here: the skeleton code is mostly a
+> convenience feature used to embed BPF programs into the calling binary.
+> It is perfectly possible to just have the BPF object file itself reside
+> directly in the file system and just use the regular libbpf APIs to load
+> it. Some things get a bit more cumbersome (mostly setting values of
+> global variables, if the BPF program uses those).
 > 
-> > 2. Build the helper executable and link it inside qemu as a blob. Libvirt
-> > will always retrieve the executable to the temporary file name and use it.
-> > So the retrieved helper will always be compatible with QEMU. I'm not sure
-> > what is the most portable way to do that.
-> 
-> QEMU is considered an untrusted process, so there's no way we're going
-> to ask it to give us an ELF binary and then execute that in privileged
-> context.
-> 
-> > Does one of these seem suitable?
-> 
-> Neither feels very appealing to me.
-> 
-> I've been trying to understand the eBPF code we're dealing with in a
-> little more detail.
-> 
-> IIUC, QEMU, or rather the virtio-net  driver needs to receive one FD
-> for the BPF program, and one or more FDs for the BPF maps that the
-> program uses. Currently it uses 3 maps, so needs 3 map FDs on top of
-> the program FD.
-> 
-> The helper program that is proposed here calls ebpf_rss_load() to
-> load the program and get back a struct which gives access to the
-> 4 FDs, which are then sent to the mgmt app, which forwards them
-> onto QEMU.
-> 
-> The ebpf_rss_load() method is making use of various structs that
-> are specific to the RSS program implementation, but does not seems
-> to do anything especially interesting.  It calls into rss_bpf__open()
-> which eventually gets around to calling rss_bpf__create_skeleton
-> which is where the interesting stuff happens.
-> 
-> This rss_bpf__create_skeleton() method is implemented in terms of
-> totally generic libbpf APIs, and has the actual blob that is the
-> BPF program.
-> 
-> Looking at what this does, I feel it should be trivial for a mgmt
-> app to implement equivalent logic to rss_bpf__create_skeleton in a
-> generic manner, if we could just expose the program blob and the
-> map names to the mgmt app. eg a simple json file
-> 
->   {
->      "maps": [
->         "tap_rss_map_configurations",
-> 	"tap_rss_map_indirection_table",
-> 	"tap_rss_map_toeplitz_key",
->      ],
->      "program": "....the big blob encoded in base64..."
->   }
-> 
-> if we installed that file are /usr/share/qemu/bpf/net-rss.json
-> then when a QEMU process is started, the mgmt app capture the
-> data in this JSON file. It now has enough info to create the
-> EBPF programs needed and pass the FDs over to QEMU. This would
-> be robust against QEMU software upgrades, and not tied to the
-> specific EBPF program imlp. We can add or remove maps / change
-> their names etc any time, as the details in the JSON descriptor
-> can be updated.  This avoids need for any special helper program
-> to be provided by QEMU with the problems that is throwing up
-> for us.
+> So the JSON example above could just be a regular compiled-from-clang
+> BPF object file, and the management program can load that, inspect its
+> contents using the libbpf APIs and pass the file descriptors on to Qemu.
+> It's even possible to embed version information into this so that Qemu
+> can check if it understands the format and bail out if it doesn't - just
+> stick a version field in the configuration map as the first entry :)
 
-It occurrs to me that exposing the BPF program as data rather than
-via binary will make more practical to integrate this into KubeVirt's
-architecture. In their deployment setup both QEMU and libvirt are
-running unprivileged inside a container. For any advanced nmetworking
-a completely separate component creates the TAP device and passes it
-into the container running QEMU. I don't think that the separate
-precisely matched helper binary would be something they can use, but
-it might be possible to expose a data file providing the BPF program
-blob and describing its maps.
+If all you have is the BPF object file is it possible to interrogate
+it to get a list of all the maps, and get FDs associated for them ?
+I had a look at the libbpf API and wasn't sure about that, it seemed
+like you had to know the required maps upfront ?  If it is possible
+to auto-discover everything you need, soley from the BPF object file
+as input, then just dealing with that in isolation would feel simpler.
+
 
 With regards,
 Daniel
