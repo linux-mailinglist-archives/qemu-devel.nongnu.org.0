@@ -2,106 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC696A5DFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E796A5E03
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:14:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX3Wf-00031w-5b; Tue, 28 Feb 2023 12:12:29 -0500
+	id 1pX3Ye-0004yP-O3; Tue, 28 Feb 2023 12:14:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pX3Wc-0002w8-87
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:12:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pX3Yc-0004yD-PV; Tue, 28 Feb 2023 12:14:30 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pX3Wa-0004HD-8W
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:12:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677604343;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HxnZpZe1s57Ij/1uwiQ4l+CFpFlSO3GA1PTiZpgCbgc=;
- b=Jpz+XMGi3fehM4s7PYeuxg3QIMc0CpSjrCo3aH8YPSKEsHvH8aKEePLJ5bpei8EEmK4DjM
- N5JYTSkoZvwnnR7kiWJfWlyMlCr6U+uhOguIBMmcEW9SkHUecU6QCwegFTMhLvAaNs+bfx
- NnNrTk1cfqMG2UesSMbvnq2QCzvRuGc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-116-zV0zDkh-P-KljTOdt4nvOQ-1; Tue, 28 Feb 2023 12:12:21 -0500
-X-MC-Unique: zV0zDkh-P-KljTOdt4nvOQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u5-20020a5d6da5000000b002cd82373455so664085wrs.9
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 09:12:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HxnZpZe1s57Ij/1uwiQ4l+CFpFlSO3GA1PTiZpgCbgc=;
- b=c4G8okxkHuRhSGMS6yFdixSH0q4i/l76uPR4HRbvdo/fpij/nRy5+rJyHfIvDQXZeh
- wh1WWPuQ4JeyeG6vx2niPyem3BkA5fmYH/XhyheEfQ4vpyJGSq1ujTjbDbmkSssmAp8A
- buRlvqOWFaLocSRJrQ0mPcY4GMb466KuynkCpXWdgRDaUP4tCFTwlF2wIMASPmxpmQcX
- +H5XzONn6H5yMPzyMrcFJXxMmYjCFD3m1riVsNlQi1Et59CUPviRuCkZPv0rP/BqvAyU
- a+7LyI2TwaIfrM7ZszucScMQ564HOz3lvI7hdR5ybq/Y+59CT0AYAimqubBdtI4eUDCv
- fDpQ==
-X-Gm-Message-State: AO0yUKXWBuyO6771eTOdneRPBneOP3OAZvfnY9ccIIzmwD+mwKx1o8BA
- DAg8QKs4GNnS+W0GfiohhYM2odrfZoSUAn8REe+Og6NcB22b2ZInp7DTtt0DSmGmXpZO8tRqh/i
- t4DWPy0rSw4MPHXo=
-X-Received: by 2002:a05:600c:a4c:b0:3eb:2e27:2cf0 with SMTP id
- c12-20020a05600c0a4c00b003eb2e272cf0mr9766440wmq.0.1677604340277; 
- Tue, 28 Feb 2023 09:12:20 -0800 (PST)
-X-Google-Smtp-Source: AK7set+3FeInWEISQMelc+p2bHc1w37YTy25m6hNZAA7cmsAZsoxhft1HuXF0OoAQHDA2I7oyG6gDQ==
-X-Received: by 2002:a05:600c:a4c:b0:3eb:2e27:2cf0 with SMTP id
- c12-20020a05600c0a4c00b003eb2e272cf0mr9766420wmq.0.1677604339912; 
- Tue, 28 Feb 2023 09:12:19 -0800 (PST)
-Received: from ?IPV6:2003:cb:c706:b800:3757:baed:f95e:20ac?
- (p200300cbc706b8003757baedf95e20ac.dip0.t-ipconnect.de.
- [2003:cb:c706:b800:3757:baed:f95e:20ac])
- by smtp.gmail.com with ESMTPSA id
- bh22-20020a05600c3d1600b003e01493b136sm16577578wmb.43.2023.02.28.09.12.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 09:12:19 -0800 (PST)
-Message-ID: <3a25062c-ce51-b71f-4639-a062aa96ddfc@redhat.com>
-Date: Tue, 28 Feb 2023 18:12:18 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pX3Ya-0004YL-MT; Tue, 28 Feb 2023 12:14:30 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 481587462DB;
+ Tue, 28 Feb 2023 18:14:24 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 06BDC7457E7; Tue, 28 Feb 2023 18:14:24 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 04A09745706;
+ Tue, 28 Feb 2023 18:14:24 +0100 (CET)
+Date: Tue, 28 Feb 2023 18:14:23 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
+cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 0/7] Pegasos2 fixes and audio output support
+In-Reply-To: <Y/4q+gZ6Q2738hmx@redhat.com>
+Message-ID: <88ffe803-b5d3-da6f-9e52-00e6dd9cf092@eik.bme.hu>
+References: <20230227125732.20941-1-shentey@gmail.com>
+ <b86db1dd-b9ca-a774-963c-4f9404c9af5c@eik.bme.hu>
+ <CAG4p6K74Rm2FaErjvSyVCgcMQ2Qz0pkh2dg6yPeXU5BmwYp3RQ@mail.gmail.com>
+ <56e3575f-2cac-2138-23d1-78d8ff1388b5@eik.bme.hu>
+ <CAG4p6K7Yd6SWBCC1_-fJJ1rLqCuRqwi=dOmypum7kiUZ4SoH=g@mail.gmail.com>
+ <2952e466-98e1-cf16-b8c2-fdc49d0ebf48@eik.bme.hu>
+ <b4b60712-a94c-69f4-2de0-b9b5e08970fc@linaro.org>
+ <16efff7f-afe7-7c92-bdbe-6b0920bf2438@eik.bme.hu>
+ <Y/4q+gZ6Q2738hmx@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>,
- "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org
-References: <cover.1677274611.git.maciej.szmigiero@oracle.com>
- <4c4fe768b5457f8e6c17dcea7656cbe017c9a4df.1677274611.git.maciej.szmigiero@oracle.com>
- <20230228171828.5f610ea4@imammedo.users.ipa.redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH][RESEND v3 3/3] Add a Hyper-V Dynamic Memory Protocol
- driver (hv-balloon)
-In-Reply-To: <20230228171828.5f610ea4@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-554275059-1677604464=:7539"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,40 +68,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28.02.23 17:18, Igor Mammedov wrote:
-> On Fri, 24 Feb 2023 22:41:16 +0100
-> "Maciej S. Szmigiero" <mail@maciej.szmigiero.name> wrote:
-> 
->> From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-554275059-1677604464=:7539
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Tue, 28 Feb 2023, Daniel P. Berrangé wrote:
+> On Tue, Feb 28, 2023 at 04:05:30PM +0100, BALATON Zoltan wrote:
+>> On Mon, 27 Feb 2023, Philippe Mathieu-Daudé wrote:
+>>> On 27/2/23 18:47, BALATON Zoltan wrote:
+>>>> On Mon, 27 Feb 2023, Bernhard Beschow wrote:
+>>>>> Unfortunately my patches had changes merged in. This now makes it hard to
+>>>>> show what really changed (spoiler: nothing that affects behavior).
+>>>>>
+>>>>> As you probably noticed in the "resend" version of this iteration I split
+>>>>> off a patch introducing the priq properties. It belongs to the sub series
+>>>>> of the Pegasos2 IRQ fixes which appear unnecessary to me, so I don't want
+>>>>> to show up in `git blame` as the author of any of these changes. I
+>>>>> attributed it to you because this was really your change which
+>>>>> I'm not even
+>>>>> sure is legal.
+>>>>>
+>>>>> Let's avoid such complications by keeping our series separate.
+>>>>
+>>>> Let's cool down a bit. Philippe took some of the sm501 patches in
+>>>> his giant pull request (and a lot of your patches too) now so I'll
+>>>> wait until that lands and hope to get some review for the remaining
+>>>> patches too. Once that pull req is merged I'll rebase the remaining
+>>>> patches and resubmit the series also adding changes for reasonable
+>>>> review comments I get by then.
+>>>
+>>> I'm sorry it took me so long, I was expecting these patches to be picked
+>>> up by other maintainers but everybody is very busy. I know you'll need
 >>
->> This driver is like virtio-balloon on steroids: it allows both changing the
->> guest memory allocation via ballooning and inserting extra RAM into it by
->> adding required memory backends and providing them to the driver.
-> 
-> 
-> this sounds pretty much like what virtio-mem does, modulo used protocol.
-> Would it be too crazy ask to reuse virtio-mem by teaching it new protocol
-> and avoid adding new device with all mgmt hurdles that virtio-mem has
-> already solved?
+>> You have no reason to apologise really, you did a great job merging all the
+>> patches. I was thinking that because as you say every maintainer is very
+>> busy now and we also had CI outage for a few weeks should we consider
+>> extending the date until the freeze by one or two weeks? That would allow
+>> people to relax a bit and be able to consolidate and merge all still pending
+>> patches. Postponing the 8.0 release one or two weeks is probably better than
+>> missing a lot of changes until the next release in September. We'd still aim
+>> for the original freeze date but if we fail to meet that it would be more
+>> convenient to know there could be a possibility for extending it. But make
+>> it clear that this is only for this one time because of CI outage and
+>> additional maintainer load caused by that so not something that should be
+>> done regularly but under current circumstances I would consider it.
+>
+> There's no need to change the release schedule IMHO. Subsystem maintainers
+> should continue to send pull requests as normal. Peter is still processing
+> PRs, albeit at a lower rate with adhoc CI. From the soft freeze POV what
+> matters is just that the PRs are posted on the mailing list before the
+> deadline. If they're posted in time, they're still valid for inclusion in
+> the release. Our CI allowance is reset at the end of today anyway.
 
-There are some main differences between both approaches that make a 1:1 
-reuse impossible. As one example, the hv-balloon can operate (inflate) 
-on the whole VM memory, which is very different to the virtio-mem model. 
-As another example, the hv-balloon does not support variable (large) 
-block sizes, and must be able to operate in page granularity IIRC. This 
-not only restricts which memory backends we can use, it also means that 
-vfio support is rather problematic (just like with virtio-balloon).
+Problem is that some patches will need to be rebased on still pending pull 
+request and also may need the maintainer's attention to review them and 
+send the final pull despite series have been on the list few weeks before 
+the freeze that should be in time. So this will mean we might still have 
+some pending patches end of this week and if somebody asks for last minute 
+changes then it will be hard to meet the deadline. So at least one week 
+extension seems to resolve the pressure this causes and also give 
+maintainers some time to catch up. It's better than just saying "Sorry it 
+was out fault but you've still missed the release, see you next time."
 
-So there is more to that than a simple protocol difference and I don't 
-think we can simply implement a proxy devices.
-
-But I do think that we would be able to reuse some of the 
-ideas/infrastructure virtio-mem implemented: for example, using a single 
-large sparse memory region.
-
--- 
-Thanks,
-
-David / dhildenb
-
+Regards,
+BALATON Zoltan
+--3866299591-554275059-1677604464=:7539--
 
