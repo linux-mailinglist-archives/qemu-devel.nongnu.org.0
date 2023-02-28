@@ -2,131 +2,178 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE666A5245
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 05:16:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9454E6A529B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 06:20:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWrPE-0008Fh-EY; Mon, 27 Feb 2023 23:16:00 -0500
+	id 1pWsO8-0007yR-Ov; Tue, 28 Feb 2023 00:18:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pWrP2-0008Ex-F3
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 23:15:52 -0500
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+ (Exim 4.90_1) (envelope-from <siddhi.katage@oracle.com>)
+ id 1pWsO6-0007y4-0y
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 00:18:54 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pWrOZ-00038k-UZ
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 23:15:41 -0500
-Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230228041512usoutp02e0edf6a787fb51eff9907da1cf1b4e07~H4dndybJi1262212622usoutp02N;
- Tue, 28 Feb 2023 04:15:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20230228041512usoutp02e0edf6a787fb51eff9907da1cf1b4e07~H4dndybJi1262212622usoutp02N
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1677557712;
- bh=mbIzfCKyjKaIdxH+/8k1JP3aVSVXGPmWKDnEDTqqy2A=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=sTQXId+MAtQWy/JzUZ24W07aR8PXlMzL5XGb3p7Vf2F/iLkLInvb29OE7cLLDIOYn
- 69zgmU2sDdB1b3K5bOopvKDOD3b+hdljW/h+kP/aukCzex2WF/bWHi3ZpIn+3WbPRC
- 7aLOI3q4/jdR00PgViVssr+/Pl8UNUyqhsWe312c=
-Received: from ussmges3new.samsung.com (u112.gpu85.samsung.co.kr
- [203.254.195.112]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230228041511uscas1p2a3b6888d9d31f0b0ff7df80e5fc9db97~H4dnTeMyo2463924639uscas1p23;
- Tue, 28 Feb 2023 04:15:11 +0000 (GMT)
-Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
- ussmges3new.samsung.com (USCPEMTA) with SMTP id 15.F2.12196.FCF7DF36; Mon,
- 27 Feb 2023 23:15:11 -0500 (EST)
-Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
- [203.254.195.91]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230228041511uscas1p29bfa83f0efe2632d89d5d76ea1be0245~H4dnIHYPE2463924639uscas1p22;
- Tue, 28 Feb 2023 04:15:11 +0000 (GMT)
-X-AuditID: cbfec370-5b3ff70000012fa4-7d-63fd7fcf534d
-Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.146]) by
- ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id F2.F8.17110.FCF7DF36; Mon,
- 27 Feb 2023 23:15:11 -0500 (EST)
-Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
- SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2375.24; Mon, 27 Feb 2023 20:15:10 -0800
-Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
- SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Mon,
- 27 Feb 2023 20:15:10 -0800
-From: Fan Ni <fan.ni@samsung.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
- <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-Subject: Re: [PATCH v4 10/10] hw/cxl/mailbox: Use new UUID network order
- define for cel_uuid
-Thread-Topic: [PATCH v4 10/10] hw/cxl/mailbox: Use new UUID network order
- define for cel_uuid
-Thread-Index: AQHZSys/HAMpeEHzhUiuPAL7AephLA==
-Date: Tue, 28 Feb 2023 04:15:10 +0000
-Message-ID: <20230228041510.GJ1339780@bgt-140510-bm03>
-In-Reply-To: <20230206172816.8201-11-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <siddhi.katage@oracle.com>)
+ id 1pWsO3-0006yj-IB
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 00:18:53 -0500
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31RIiTws019023; Tue, 28 Feb 2023 05:18:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2022-7-12;
+ bh=OOz91N958JC6aCP9jS5Z6vw2X0p99WcuT/1PMuQ79+k=;
+ b=e+bWyT12M36yX/pSLwiz/t+VcVmqsejg21+s0SLVrtVOTQsRxMK2OBiQFq8XlmZ8qezl
+ Yr+Nxp+vBQVjjsDtbydR712iWXYYIcpeaFfI6QKTF09PAG2RfngcuU816LaHhHxSpNfQ
+ QpcbdgHUTYAOIDNSP4A+V5Wl6Eb6wWeJofmTJX7oicLuWZtC8unH5kcGrcm9M1BnAPqa
+ bAZzmu5R7rd+ccjIg3X9PrYGteXZIsOfsCnR2X38ASyv77GY1gThKRJBVdC03P5CVZtg
+ YQcwqqDpicnNxvHmsYXm2p9J70SwCzanS8meiHL2ASM1ze3wX9R5aawO4hHYKU/RBiBT 3A== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nyba7d7fs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Feb 2023 05:18:42 +0000
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 31S4Ufur029323; Tue, 28 Feb 2023 05:18:41 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3ny8scb1g1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Feb 2023 05:18:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QipN5eKzuCTf/01AuCSPsOH1umP/bk6yZJDCodaNFZawXlU3ypmMIArr805flwfuElqfMqT1O11fL7p9sVtlRlI7HksCmN8wNQGdyzAuDqSW7vR7Ych7JpwH3m2wQ6Fs2uemFUPXt5MxG/Xuw8pOQFY46Ll84cRjoB3ECKsmhUpArlGoIPgixAhEXCqqFcth+5UOpHeOYSIMIn5ZWbUkYvs3HdEEWy1ego5xRfMTPyu9OQj203D6Z/tXwODwQ7dou1mEto9dxw7Ypm1MgsWRJcqfkIThm3YaHNVGtwl747pd+VAY448kFea87tFSdZhn1FC7MRphL0Ggcyay28oq5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OOz91N958JC6aCP9jS5Z6vw2X0p99WcuT/1PMuQ79+k=;
+ b=RvFO2i1Aa7sH9xoF7w+ChQXCZH+0mkFkuPTvPFhYWM966+eUH26U4yAhBB8SkTSUMipLFDWWJCBqPMJJfICcIxNWEdRxK6rQaqdxGE4AYPTK5hdLiYBy3lseBAgeFj1Xsk/0qvdMltO0AzZSLi5Q7maf9nb0ZFScNLsKhmPjUJt728CLcp3uLOCxk8ITUsO+q4uoJnhbHM3IKK5O3R9K+75PmkHqTwf+yfSzMoYALSqVaFtIujzFGJoqLuJZzEkRBMNqY+kXizz675Td4NE9YOEsCWOVs0tIMMV79JaVNInTv5+XHJXI3ciB0Gllsn1ArSLlilrW3Xjj2UO9/j9Wug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OOz91N958JC6aCP9jS5Z6vw2X0p99WcuT/1PMuQ79+k=;
+ b=GG/mDp9NCbQ5Z6p06p7vnNAqxQW3LNhV04yYydpM4UTab/JN+/s7L76g5Mv9auAzIVBYpHQUhzI7NHp8LbWzm2MwWxep/DoCdqot5I7y9HyPsAkISCto7fUxaPsxoifIUXGmm1fZ9Wrs5d/8uecZWDzg1ZhWCHlz2AJcwnLFJGY=
+Received: from MN2PR10MB3200.namprd10.prod.outlook.com (2603:10b6:208:124::21)
+ by SN7PR10MB6955.namprd10.prod.outlook.com (2603:10b6:806:329::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.14; Tue, 28 Feb
+ 2023 05:18:39 +0000
+Received: from MN2PR10MB3200.namprd10.prod.outlook.com
+ ([fe80::7cfc:3b6c:998d:b2a0]) by MN2PR10MB3200.namprd10.prod.outlook.com
+ ([fe80::7cfc:3b6c:998d:b2a0%5]) with mapi id 15.20.6156.012; Tue, 28 Feb 2023
+ 05:18:39 +0000
+From: Siddhi Katage <siddhi.katage@oracle.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Joe Jin <joe.jin@oracle.com>, Dongli Zhang <dongli.zhang@oracle.com>,
+ "christian.ehrhardt@canonical.com" <christian.ehrhardt@canonical.com>,
+ "berrange@redhat.com" <berrange@redhat.com>, "pbonzini@redhat.com"
+ <pbonzini@redhat.com>
+Subject: RE: [External] : Re: [PATCH 1/1] modules: load modules from
+ /var/run/qemu/<version> directory firstly
+Thread-Topic: [External] : Re: [PATCH 1/1] modules: load modules from
+ /var/run/qemu/<version> directory firstly
+Thread-Index: AQHZMCNAS0vmLu1Eu0+9zNYnSizRBK6uRckAgDW9JEA=
+Date: Tue, 28 Feb 2023 05:18:39 +0000
+Message-ID: <MN2PR10MB32006866DB754AC8CEA9FFB48BAC9@MN2PR10MB3200.namprd10.prod.outlook.com>
+References: <1674585590-13888-1-git-send-email-siddhi.katage@oracle.com>
+ <3982a6f6-9c36-52c4-f512-f3ad31a59584@linaro.org>
+In-Reply-To: <3982a6f6-9c36-52c4-f512-f3ad31a59584@linaro.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <E6FC4462C9BFC14882EAD423592C39A1@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR10MB3200:EE_|SN7PR10MB6955:EE_
+x-ms-office365-filtering-correlation-id: fe27bc63-ae82-4cc6-1d3f-08db194b4018
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZJTa0btcghvtuMoD8PJEFRf+S5nHOADoKUGkCfm90SBTCRal8OjFkKGJt+KJ8M1gC8fogtTpiUjJeDAVhBIQjmMMv9LEJicO84ESuVDiNWm3WnLZ8uU9QzsPIbZg6vHUABAOzWkwJzBqura00lfskCy7Z0h1pEMGzzKs85RffTs6I3i0prMZ7eHP7QA1B+JIPJ2q+X9VQi9OmyWOghEwwJ2KMJIKbhS9EuMUJOAwgcOO5NIoZvtgvewT5Epw0zVw6MK0wPPD+Ow9tzNvGp4EMFdU/1jG2v5BK2hkxUXF9ZMipo6U+T76Zc3LSqsQNm6IxAdD/qofoi9YwLhAxXsP/Bu+lBtSlZ07aRBQFOTuL0S2aVksnzZAzo5qa592Y99No2kB8PDrzZY+T5N6gfB+7+3YHloJZ2Q1BbQ8Ok4GqSQMtIqDQEhG3QG92ijCKQg/FTpo6ttEHlLNnRl5ePimCcPW+TFColv/YIyoUHGjYPSDy7aLWtUNc/RzkACn14QhcMGbPq8Ur9YSCRBkvdGguLDC6aUW9dLw88a5Y5fAujRgZXfXTYPeHHMjH7XpcF/y/YdKReoHuneHUPeCre6dheyxycq2Mt47pGMr+RiejfyPUuwoRS5BuwVSrtuj00ZVmE5SJGz4xtJPdHf1KhpXYrx7/1pKXWjd6EgKWInQ9rT9qxZjWYE71coKwmB89x9jLD0jzvNMDrr+2j7W64HX5g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB3200.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(396003)(376002)(136003)(346002)(39860400002)(366004)(451199018)(83380400001)(316002)(54906003)(110136005)(33656002)(4326008)(122000001)(8676002)(55016003)(64756008)(38100700002)(76116006)(53546011)(6506007)(9686003)(186003)(26005)(71200400001)(7696005)(478600001)(5660300002)(66556008)(66446008)(66946007)(66476007)(44832011)(52536014)(8936002)(2906002)(41300700001)(86362001)(38070700005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R254R2VYRy9zVHc3MklVRFh3L0trU1ZzNFduT21CbGl3WEoxdTdBQU5PbjBE?=
+ =?utf-8?B?TzBRbHlFTkFPQkpWSjZNYVhVMU51ZXlDdnNMbjl6TDMzQ2REK1QwaDI4MU9P?=
+ =?utf-8?B?aWhnZ3VoNFNpZHBKTmRHOEJXZnBFdy85b3JtNndCS21KUHVMRk1WeUxycGRr?=
+ =?utf-8?B?RzIzOE5LYmplSTV2YkpvSUVoRE9VWVV6ZFJOSGtwWDdhOFBac3VhSmQ0MHFT?=
+ =?utf-8?B?L1JzMjFUcE1qOUxpVkR4N0pxeE1weDRoR09oZU0vZWE1NWJJUGdlaFVlVFl6?=
+ =?utf-8?B?VUFHSUNjZWFHalRHUFVRL2NxcmVPaFpYdWlJZWRlbmFKaGtCUGhDVVNZVU1B?=
+ =?utf-8?B?dnN5Zm13ZVNOM3FhUFU4dC8vOGttZlhHYlFoQzNkY1VtSWZ4YUJscTZMbzdV?=
+ =?utf-8?B?RGI5V1FEb2JDbDhvOUw4bnV3akE4cTRyNlJrandzdGMyUlQ0ajcwdUlaT2Ir?=
+ =?utf-8?B?dm1qNS9yN0lLRmhFWi9HQ1pJdlVMQzRLUzFEekptejRjMXpDVVZYZGNicU9K?=
+ =?utf-8?B?SXViR3N4OVREMVJHVWEvR3BSMkR5WEszMlBXMk9iTFJNaFp5VW5FQkFBakxx?=
+ =?utf-8?B?NUhwUXpKNEtjVXpwY0x4VVF1NXV0UHVhWWtyNklTVzZxZnNoNHZmaXgramdZ?=
+ =?utf-8?B?RjY2MlcyMllxWWV0OWNTSVpCY0JYejJQNlQxTHAyUTk3N2VIOTVPdlhtV2ZK?=
+ =?utf-8?B?TFd5SjhOSHpWZEZmUzlmbUc2b1c2QTY0T1NzMUdKb0gxUEtiY28rSWo1eVhh?=
+ =?utf-8?B?OFlFa2pBWGI0R3pYNHdleEFHMVJRT2I4MnRrRmw3amJLMTRGSGFUak5OWWVM?=
+ =?utf-8?B?Q3FrVk9YR0h4Mms4RlloMXdBMXQyRG44Z0djWFFMU3VUeTFxdW9TRTFNb0M3?=
+ =?utf-8?B?dTd1MDF3TjVvQ2ltSE13dlNZZGx6MVpYQlB0VXVxWGhsTnhkV2JtbVJjbldr?=
+ =?utf-8?B?T2hUejBVS09VUitjZXd1VXdFQXZuNVV4SWkvcFRCaEVkTDhwREZqdjFvZ1BF?=
+ =?utf-8?B?ZE0ySVpyN0dqeE5KNUZydkJ3d040Qm83YnpuODFOYXFFQUlHRnd1Y1BZTWts?=
+ =?utf-8?B?SDVaa2hwN1ArRVNrdDNBKzZVeTB0dlF0bE9KREVzbnhFVDM0WUJQeW9vMjVG?=
+ =?utf-8?B?aDEwWGRLVzYrSXJiVEswcjhCSGhxdTZ0SXlhOWtua2VpZk51NldReGxyQXJs?=
+ =?utf-8?B?MXRlWVJJTnZpQ1FrU2tMTzZkcTlqZFpwaCtId1drSlNoTVQrdVNicStkMHdk?=
+ =?utf-8?B?MDh5M0FYcDQvQzZHRjBPcFM0VEE4SkNtaXVNQjh4NGFpUVNoS2MrMUVRaDl4?=
+ =?utf-8?B?bUJ1RlcwRW9QaW1mbXJlT0hFYzFmbmRXR1lIb2kvU1hyVTFuT1JPb2lTaUlu?=
+ =?utf-8?B?VE56Y0hMZFJORGJkQndVZk9rQUFobzc3TmcvdVJYWlk0SmthMTNweHUvL2Ur?=
+ =?utf-8?B?bXpiRXFVUDBxNUtiWkExOU9BdTBhN1NWOTZybFNSQXI4Vmt4alRHbG1idmt6?=
+ =?utf-8?B?ZTRjMXgyRXkybVpYZEJiS1pQaDJrbzdoV3ZMNHhqWjg5RzJGUHY3ejV5dW9V?=
+ =?utf-8?B?ZWFpMHNTZVd6RXd6M2xNS0NldmdzdStkclUzSyt2NWF3QS9zQXhjQUw1dllu?=
+ =?utf-8?B?TW5kMGpRNFZaVXFJVUJUSlNZcjVFS1F6LzVvRE1jUkZneFhZS1dLU09sbSt0?=
+ =?utf-8?B?Y3lYNGp3bFJDTXUzY2NxMGdoNnVrVGQ0M3ZWbjhTUWloellZR1JCYTVOM2pL?=
+ =?utf-8?B?UDhZN0ZhZmd2RHFrV001RStoR2t2d3ZYT3lvU0NEOFZsKzdtR2xCUFIrb1lO?=
+ =?utf-8?B?TUNWcGlFWUl6U2wyRjNHSXRDRUFWaWtIdnBpOTJnNmZvcHhDYzllOHo2SXor?=
+ =?utf-8?B?ejI2RGdDZEcwaXBMQmJaUmFhYSswMGZRaUJOWDQxK2U1QUN5T2paNG1TR3B2?=
+ =?utf-8?B?TUdrWEhWNVlqSXJmUFZRS1h2M3BLTlQxMytianBFQjI0WWlrb0MvMmpEUzM4?=
+ =?utf-8?B?UkRLcVpUVUxheEdNZEpyUzcvcVJPZHNUdkdId2REMXUvMkI0bDJ1cVZjTkZM?=
+ =?utf-8?B?TlVvOTFBa285MjFVZXViZjJCSnZrTHE3NCt4bTM3elNOZDRKZHo5NTU2U051?=
+ =?utf-8?B?ZWhIR2xEakRDVHhVZHY0dHN1WCtING5aSHI1THdZZnNlTXp3SDY5Q1RYUGpZ?=
+ =?utf-8?B?RXc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIKsWRmVeSWpSXmKPExsWy7djX87rn6/8mG3ydYGLRPHkxo8WLP8+Z
- LPY/fc5isWrhNTaL87NOsVgc3niGyeL/r1esFmtWCFsc793B4sDpsXPWXXaPliNvWT0W73nJ
- 5LFpVSebx51re9g8nlzbzOTxft9VNo/Pm+QCOKK4bFJSczLLUov07RK4MhYe3sVeMFGm4ugy
- jQbG2WJdjJwcEgImEhf/zWbvYuTiEBJYySjx+v9VNpCEkEArk8SXDwIwRacb9jFCFK1llHh6
- CqQIxPnEKNFz4xErhLOMUeLEyjZmkBY2AUWJfV3bwUaJCBhJvLsxCaydWeALk8TUuxtZQBLC
- AnESG78vZoUoipdY3bwOqkFPYvOK52A1LAKqEqf3bwOL8wqYSUz4uJIdxOYUcJRY9LIRrIZR
- QEzi+6k1TCA2s4C4xK0n85kg7haUWDR7DzOELSbxb9dDNghbUeL+95fsEPV6EjemTgGKcwDZ
- dhIfblhAhLUlli18zQyxVlDi5MwnLBCtkhIHV9xgAflFQqCZU+LHiw1QCReJE0ffQe2Slvh7
- dxkTyEwJgWSJVR+5IMI5EvOXbIEqt5ZY+Gc90wRGlVlIrp6F5KJZCBfNQnLRLCQXLWBkXcUo
- XlpcnJueWmycl1quV5yYW1yal66XnJ+7iRGYyk7/O1ywg/HWrY96hxiZOBgPMUpwMCuJ8C68
- /SdZiDclsbIqtSg/vqg0J7X4EKM0B4uSOK+h7clkIYH0xJLU7NTUgtQimCwTB6dUA1PB3aod
- dfq3zmswtxyR8d32uLM+91bI60c56q8Zuf3sDkh+bzTrlDG79UP9ScSxaplFV+aKtpfM38Fx
- 1//Jp9O8wgf/TvgekuMzuzBg2ltOl6NB8u0T/z5If7ukVNkhbNW6UIPW7tdiqnu0Ni/p5Z2l
- WG9rs6NqwtSuSR4sxn9kFkWV5jNz2HazL5kjL3cn5jVHnmm3adK74nSXxg8cpzkeJcqfm2XT
- Ib1gy98NL04EXHZcZP9swdb4d08X9tR9XxGk7aoQX/mwJCvvdNmW3S3RNTpNQg8q1qjrvfiw
- 2qPMerflnenOFcq+eZ2ed8JcVOZOEA2Jbwi/+PHN0quxN6duPevBOn/GdhFlHhFlDiWW4oxE
- Qy3mouJEAFqhZxfUAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPIsWRmVeSWpSXmKPExsWS2cA0Sfd8/d9kg7OHVC2aJy9mtHjx5zmT
- xf6nz1ksVi28xmZxftYpFovDG88wWfz/9YrVYs0KYYvjvTtYHDg9ds66y+7RcuQtq8fiPS+Z
- PDat6mTzuHNtD5vHk2ubmTze77vK5vF5k1wARxSXTUpqTmZZapG+XQJXxsLDu9gLJspUHF2m
- 0cA4W6yLkZNDQsBE4nTDPsYuRi4OIYHVjBIbT85kgnA+MUrcP7EaylnGKDFxbgc7SAubgKLE
- vq7tbCC2iICRxLsbk8DamQW+MEnc+PCdBSQhLBAnsfH7YlaIoniJ21f2M0PYehKbVzwHq2ER
- UJU4vX8b2CBeATOJCR9XAi3gANpWJrHjUApImFPAUWLRy0awckYBMYnvp9YwgdjMAuISt57M
- Z4J4QUBiyZ7zzBC2qMTLx/9YIWxFifvfX7JD1OtJ3Jg6hQ1kPLOAncSHGxYQYW2JZQtfM0Nc
- IChxcuYTFohWSYmDK26wTGCUmIVk2ywkk2YhTJqFZNIsJJMWMLKuYhQvLS7OTa8oNspLLdcr
- TswtLs1L10vOz93ECEwDp/8djt7BePvWR71DjEwcjIcYJTiYlUR4F97+kyzEm5JYWZValB9f
- VJqTWnyIUZqDRUmc92XUxHghgfTEktTs1NSC1CKYLBMHp1QDk/u9Wxde97EeXbSk58qz9F2T
- KpnbXSZPefqFOe3YLJajjsseuoUqp61bo6+/64ey//Ns84BAy6xKWdPJeU+vPPVoTb1YPs3I
- zzTOakbw9bq188VPfNkQvS/z4nFu3QsHbYUrs5W+rN6w+L7Ygb+Gos75i+88vVXvybcwl62a
- aenTp9XTdq6QV3Ll8Ddls6vhMHk/41ua8snPv9LPK12KkF7+2TSS63quUnvz8f5i36dOn69d
- vXZUdXt/isq7s+e8GJYd2swklK8b3fS1rJt534LTuixr3q3ojPd4UZ0lJ7WuqN72Dsf+ZqPp
- 53dvfjDzEsM3yY2Rdbrrnkm/ncTRbj5Tqn/lDNZq+8Qjqwwe9CuxFGckGmoxFxUnAgD6m7Hs
- cgMAAA==
-X-CMS-MailID: 20230228041511uscas1p29bfa83f0efe2632d89d5d76ea1be0245
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20230228041511uscas1p29bfa83f0efe2632d89d5d76ea1be0245
-References: <20230206172816.8201-1-Jonathan.Cameron@huawei.com>
- <20230206172816.8201-11-Jonathan.Cameron@huawei.com>
- <CGME20230228041511uscas1p29bfa83f0efe2632d89d5d76ea1be0245@uscas1p2.samsung.com>
-Received-SPF: pass client-ip=211.189.100.12; envelope-from=fan.ni@samsung.com;
- helo=mailout2.w2.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: StbCRmAuydef/jxab2UE+80S0tSZL5M/96ricmz4iL2mXQmwpL/LClxYI7TmjJ6nTuKeoAA8JL6GI+Nx3Rb4srvcSMQ/pvqRFlNcnuEjNSEp6fSmlL96xoPH9vCRF/hHeJheE6BuDb1KF6rW7xsM8KIxEHOoChjYqRZ6LnhxQP48g742P0PuAhTWbJcdeWpKeQOU3FksqZemQrCMs1wcZBXieyLlUOpHC2xRBeRka4XvsB61Txaw58klO9pUuSnQ/Wcf+MDBYXz15cV7C4T4q8dBQg4bu59GxwT0HmTPDtufnw14PFRdTfUh3nBX83vrvjb5UUjj4lVKPKUyCMIH0zG6bmUKHJWYGZtWMuWG2mTVXw0mUM5gpsaVNA4LpCt5CG4H7v0mPuqstcr4O5Uog+tUixUTQl9IlNDdZ0IqoIEuMH6Mnqfq8HhAi8v7bLj1CJcLSC5jILomg4yEC5uu08UdVsFU6//l8Z4Yem2wr9a5zi5mpiO8OC6TzUV0CAjQ0oN3djV2WFA7PkYxC71FwaWWGcaDLgtV9xoeZFDLKyv3Z0n8WmNnatm0fuYepQM35UBeqNyXnjl/bO9enk2Y0oSdSRdLxW+A2v/A707eSJC8NQ3GmO9m2Kg1+a34ohHBGdhiORERdx4H8VV0FNU5QZuHGnoxoy/JTDOZt0wVTW4AVxwbTkCYWhMUCVbotNCJeRDrgb4sBwdvquOSLYBCkTCCNkvVw7X9AU8NBMUVeH5F9U4yXY2n4J5Y/AUEXz4mKtApZzrV1RKqZ3wxC5uunzC1rOa7cS4Q26Yic3evPZYnDDs6v4tfM+3T+to3GKMV/q0AmnJXRmb05Qw4PdVFSw==
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB3200.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe27bc63-ae82-4cc6-1d3f-08db194b4018
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Feb 2023 05:18:39.1308 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DKWAoUKOk9sct/XLFwJpgqRPmVikKsO+sEcBrbKEWt+orzDdl76/EwXT4dcziQROs+5B+bM2VUifdQql2Ytp9BoBjYqoES4fNo9LU3Q9mNE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6955
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-28_02,2023-02-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0
+ suspectscore=0 spamscore=0 adultscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302280037
+X-Proofpoint-ORIG-GUID: PoRaAxdQP31j50Aq--QKTuTgtAw3NgXS
+X-Proofpoint-GUID: PoRaAxdQP31j50Aq--QKTuTgtAw3NgXS
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=siddhi.katage@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -142,102 +189,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 06, 2023 at 05:28:16PM +0000, Jonathan Cameron wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
->=20
-> The cel_uuid was programatically generated previously because there was
-> no static initializer for network order UUIDs.
->=20
-> Use the new network order initializer for cel_uuid.  Adjust
-> cxl_initialize_mailbox() because it can't fail now.
->=20
-> Update specification reference.
->=20
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
-> Reviewed-by: Gregory Price <gregory.price@memverge.com>
-> Tested-by: Gregory Price <gregory.price@memverge.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->=20
-
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
-
-> ---
-> v2:
-> Make it const (Philippe)
-> ---
->  hw/cxl/cxl-device-utils.c   |  2 +-
->  hw/cxl/cxl-mailbox-utils.c  | 13 ++++++-------
->  include/hw/cxl/cxl_device.h |  2 +-
->  3 files changed, 8 insertions(+), 9 deletions(-)
->=20
-> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> index 83ce7a8270..4c5e88aaf5 100644
-> --- a/hw/cxl/cxl-device-utils.c
-> +++ b/hw/cxl/cxl-device-utils.c
-> @@ -267,5 +267,5 @@ void cxl_device_register_init_common(CXLDeviceState *=
-cxl_dstate)
->      cxl_device_cap_init(cxl_dstate, MEMORY_DEVICE, 0x4000);
->      memdev_reg_init_common(cxl_dstate);
-> =20
-> -    assert(cxl_initialize_mailbox(cxl_dstate) =3D=3D 0);
-> +    cxl_initialize_mailbox(cxl_dstate);
->  }
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index 3f67b665f5..206e04a4b8 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -193,7 +193,11 @@ static ret_code cmd_timestamp_set(struct cxl_cmd *cm=
-d,
->      return CXL_MBOX_SUCCESS;
->  }
-> =20
-> -static QemuUUID cel_uuid;
-> +/* CXL 3.0 8.2.9.5.2.1 Command Effects Log (CEL) */
-> +static const QemuUUID cel_uuid =3D {
-> +    .data =3D UUID(0x0da9c0b5, 0xbf41, 0x4b78, 0x8f, 0x79,
-> +                 0x96, 0xb1, 0x62, 0x3b, 0x3f, 0x17)
-> +};
-> =20
->  /* 8.2.9.4.1 */
->  static ret_code cmd_logs_get_supported(struct cxl_cmd *cmd,
-> @@ -458,11 +462,8 @@ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
->                       DOORBELL, 0);
->  }
-> =20
-> -int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
-> +void cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
->  {
-> -    /* CXL 2.0: Table 169 Get Supported Logs Log Entry */
-> -    const char *cel_uuidstr =3D "0da9c0b5-bf41-4b78-8f79-96b1623b3f17";
-> -
->      for (int set =3D 0; set < 256; set++) {
->          for (int cmd =3D 0; cmd < 256; cmd++) {
->              if (cxl_cmd_set[set][cmd].handler) {
-> @@ -476,6 +477,4 @@ int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate=
-)
->              }
->          }
->      }
-> -
-> -    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
->  }
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index 250adf18b2..7e5ad65c1d 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -170,7 +170,7 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MEMORY_DEVICE,
->                                        CXL_DEVICE_CAP_HDR1_OFFSET +
->                                            CXL_DEVICE_CAP_REG_SIZE * 2)
-> =20
-> -int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
-> +void cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
->  void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
-> =20
->  #define cxl_device_cap_init(dstate, reg, cap_id)                        =
-   \
-> --=20
-> 2.37.2
->=20
-> =
+SGkgLA0KQ2FuIEkga25vdyB3aGVuIHRoaXMgcGF0Y2ggd2lsbCBiZSBpbnRlZ3JhdGVkIHRvIHVw
+c3RyZWFtPw0KDQpUaGFuayB5b3UsDQpTaWRkaGkgS2F0YWdlDQoNCi0tLS0tT3JpZ2luYWwgTWVz
+c2FnZS0tLS0tDQpGcm9tOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQGxpbmFyby5v
+cmc+IA0KU2VudDogV2VkbmVzZGF5LCBKYW51YXJ5IDI1LCAyMDIzIDU6NTIgQU0NClRvOiBTaWRk
+aGkgS2F0YWdlIDxzaWRkaGkua2F0YWdlQG9yYWNsZS5jb20+OyBxZW11LWRldmVsQG5vbmdudS5v
+cmcNCkNjOiBKb2UgSmluIDxqb2UuamluQG9yYWNsZS5jb20+OyBEb25nbGkgWmhhbmcgPGRvbmds
+aS56aGFuZ0BvcmFjbGUuY29tPjsgY2hyaXN0aWFuLmVocmhhcmR0QGNhbm9uaWNhbC5jb207IGJl
+cnJhbmdlQHJlZGhhdC5jb207IHBib256aW5pQHJlZGhhdC5jb20NClN1YmplY3Q6IFtFeHRlcm5h
+bF0gOiBSZTogW1BBVENIIDEvMV0gbW9kdWxlczogbG9hZCBtb2R1bGVzIGZyb20gL3Zhci9ydW4v
+cWVtdS88dmVyc2lvbj4gZGlyZWN0b3J5IGZpcnN0bHkNCg0KT24gMjQvMS8yMyAxOTozOSwgU2lk
+ZGhpIEthdGFnZSB3cm90ZToNCj4gRnJvbTogU2lkZGhpIEthdGFnZSA8c2lkZGhpLmthdGFnZUBv
+cmFjbGUuY29tPg0KPiANCj4gQW4gb2xkIHJ1bm5pbmcgUUVNVSB3aWxsIHRyeSB0byBsb2FkIG1v
+ZHVsZXMgd2l0aCBuZXcgYnVpbGQtaWQgZmlyc3QsIA0KPiB0aGlzIHdpbGwgZmFpbCBhcyBleHBl
+Y3RlZCwgdGhlbiBRRU1VIHdpbGwgZmFsbGJhY2sgdG8gbG9hZCB0aGUgb2xkIA0KPiBtb2R1bGVz
+IHRoYXQNCg0KWW91IGNvcnJlY3RlZCB0aGUgY29tbWEvc3BhY2UgdHlwbyA6KQ0KDQo+IG1hdGNo
+ZXMgaXRzIGJ1aWxkLWlkIGZyb20gL3Zhci9ydW4vcWVtdS88dmVyc2lvbj4gZGlyZWN0b3J5Lg0K
+PiBNYWtlIC92YXIvcnVuL3FlbXUvPHZlcnNpb24+IGRpcmVjdG9yeSBhcyBmaXJzdCBzZWFyY2gg
+cGF0aCB0byBsb2FkIG1vZHVsZXMuDQo+IA0KPiBGaXhlczogYmQ4M2M4NjFjMCAoIm1vZHVsZXM6
+IGxvYWQgbW9kdWxlcyBmcm9tIHZlcnNpb25lZCAvdmFyL3J1biANCj4gZGlyIikNCj4gU2lnbmVk
+LW9mZi1ieTogU2lkZGhpIEthdGFnZSA8c2lkZGhpLmthdGFnZUBvcmFjbGUuY29tPg0KPiAtLS0N
+Cj4gICB1dGlsL21vZHVsZS5jIHwgMTAgKysrKystLS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA1
+IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQoNClJldmlld2VkLWJ5OiBQaGlsaXBwZSBN
+YXRoaWV1LURhdWTDqSA8cGhpbG1kQGxpbmFyby5vcmc+DQoNCg==
 
