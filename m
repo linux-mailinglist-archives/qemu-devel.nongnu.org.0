@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017B86A5A30
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 14:44:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B4A6A5A40
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 14:47:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX0HC-0007nx-EF; Tue, 28 Feb 2023 08:44:18 -0500
+	id 1pX0Iq-0001IV-Eo; Tue, 28 Feb 2023 08:46:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX0H6-0007gQ-5J
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:44:13 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pX0Ig-0000ud-0q; Tue, 28 Feb 2023 08:45:50 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX0H4-0002IY-7M
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:44:11 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id e37so7316933wri.10
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 05:44:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AwW/oRfOR3DEjVQSwIZ6xL3Vmd3fHPSnJlREv/kl3jk=;
- b=R6pi136pUFTc8rHCwYRad3toIIoC5ODrVSqrAD9/sNgwp74m9D933XtItuthixcBIB
- M8j9qi9SXqdrq5bLFmQN8ZtXtB4B9R7pbNwbb/CKbD4T8NkX66F3eunOKmuBbgreIDWw
- ffpAWtlnnHNStmPYQoDkplhUbmNINpAyCZXGnUHlSHiHPvlK1n9HZz/kz7Kn5j3+d+rk
- DvUfzs/fAJlVJlIzg3hpfgXqGhA9b4v5E9KxAjBrk2TWAZYzLzc7rzjCMwS2Ht5cQaEH
- jyyWXDM+6UdnVZy57IHcEqvmwPsOxRzvnFo0u3jKJHgk00xjXdH847gPxjjkYDh2LyeU
- ieTg==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pX0Id-00031L-DP; Tue, 28 Feb 2023 08:45:48 -0500
+Received: by mail-pl1-x629.google.com with SMTP id v11so6936894plz.8;
+ Tue, 28 Feb 2023 05:45:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ev2CVyKGsCzMKHUvLG0iHRpibO1vkQP9ZxUX3Vfk3Ao=;
+ b=POapXY1ccbaJRiv+Q98IlkPbzlu6mP+ecZDqBzD8XmQX1YwZxSLLoAXe2jaH1EHivI
+ kd4gKCfC0IuzXwMxzkp7o6VjFj3S4fIRT1U7rAFwCqG+NAU+iV5sKLl8prxdsX8M+HiH
+ ZYrp9uuqopa12BT8kDji2VvH/PIeM/pdhq/aOqBcfdhMyGMoCHnqK9ZwVEGiyuxpP6QX
+ xGQI4lMXjz2KR9AqVCUvYSmVFo9yDSlEljSFAa21O49VHl6aXIuDgGixyXkzyMOSmDxS
+ xSKnhNxNGY6OvC10QnaVwREPOG/Mi18yxCXcgZtcpJ2769fTSO/vLbSi/3YrMypv8JDy
+ l+nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AwW/oRfOR3DEjVQSwIZ6xL3Vmd3fHPSnJlREv/kl3jk=;
- b=mmovXFDCAV5g899XHE8/MvT7+Eb2pPZQ83x22jPFkcIS5xcUB40H+01PLLnTYDSlF6
- rfZXFYD54a4TFt1rQk4pyB42wEcJn/mbEDvsdq7+trVcLUBatfVdmRQTdITO6mSLAYEH
- IfJ+2l5DlmnoSM7hESvJ65EAnBtIsy88Yd9LW6ca0Ny2DHnSlxoyoxdZ6EU1lc41Av+d
- KxVu6+Y9ztFwXc8d/OdK5nxvVWMBpcGHPj8J7scoc3ZKntJjtPEFsoAh+CxxrLPiYKmw
- hQhSsy4GnfAsqtrQqjCX70VaR54rY9hOXw6d2dFoaTCH4lF7/PHgzLGYD39/CAYtjqoj
- PJwA==
-X-Gm-Message-State: AO0yUKWPUj/kQp5/PkOD8VVO/qAQ+OMB2UADhFlZtPUnIrEFUBYxIMjZ
- pMucT+ec/RIYynO8vwxDQKqlfFWUeF6Xixq5
-X-Google-Smtp-Source: AK7set8eN9TqWpBXTn8O0EwyTh8zqj6n7Iv9g2jnJ1PiZrXQIEQYZtczY4LOP7FQ5w5cSRHBKWol1w==
-X-Received: by 2002:a5d:5604:0:b0:2c7:832:8fc0 with SMTP id
- l4-20020a5d5604000000b002c708328fc0mr2174717wrv.3.1677591848215; 
- Tue, 28 Feb 2023 05:44:08 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- e15-20020a5d594f000000b002c5d3f0f737sm9787754wri.30.2023.02.28.05.44.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 05:44:07 -0800 (PST)
-Message-ID: <f90891e3-2e46-ac7a-8b1e-4486a5ebcd20@linaro.org>
-Date: Tue, 28 Feb 2023 14:44:05 +0100
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ev2CVyKGsCzMKHUvLG0iHRpibO1vkQP9ZxUX3Vfk3Ao=;
+ b=mWb3oi8eLh3NGmhFX3VJxcCoztCclhWN8hCNkWq9AX/3MBdlo3TVdqJNfNMJvZ/N1a
+ 0HxxynMVtiacq0WR3EnWWx2QKu3QL3/Iz6BSAl/MMIvDl4kBwu/smES6aFWdw5D5g8T6
+ s74tPHV5w5B/NdVq9bbuFZv1C6CbLhx6/2gOiXm8vSmTMZbRM82Gnl+kRTkLMJxkK79o
+ PVn3g+hxU7xxAkZw96ldK6jUg70VlvxE/p6qO0QehjcLCJcHFXdbKV9s7vQMFmBDXoGd
+ l4p4D0MHxi7gOtjBs4meUaojYTJxZrsV8i7qOpmDZcknlIxPLAIlpsHWpZY0kNG6JvDi
+ uCbw==
+X-Gm-Message-State: AO0yUKWROWc4JFkYUVdWSKX/vMYItLyqMal5ovsN0e9vu/bOP5pP3tBG
+ BtTNu9aKjMgzGFQtM1REPpks9CxJYuE=
+X-Google-Smtp-Source: AK7set+H3N0ha7BWntU9uEHgBWaEUIUaPMj23WZfrL8DC2TiKRogo9Hn08/BT1fiwUFI0OnwB5qmPw==
+X-Received: by 2002:a17:902:e54c:b0:19d:121a:6795 with SMTP id
+ n12-20020a170902e54c00b0019d121a6795mr3547144plf.55.1677591941026; 
+ Tue, 28 Feb 2023 05:45:41 -0800 (PST)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ j2-20020a170902758200b0019b06263bcasm1556896pll.247.2023.02.28.05.45.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 05:45:40 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Bin Meng <bmeng@tinylab.org>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+Subject: [PATCH v2 12/18] target/riscv: gdbstub: Drop the vector CSRs in
+ riscv-vector.xml
+Date: Tue, 28 Feb 2023 21:45:29 +0800
+Message-Id: <20230228104035.1879882-13-bmeng@tinylab.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230228104035.1879882-1-bmeng@tinylab.org>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 00/14] hw: Use QOM macros and remove DO_UPCAST() uses
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-block@nongnu.org, Hu Tao <hutao@cn.fujitsu.com>,
- Gonglei Arei <arei.gonglei@huawei.com>,
- Richard Henderson <richard.henderson@linaro.org>, Li Qiang <liq3ea@163.com>,
- Thomas Huth <thuth@redhat.com>, Cao jin <caoj.fnst@cn.fujitsu.com>,
- xiaoqiang zhao <zxq_yx_007@163.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20230213184338.46712-1-philmd@linaro.org>
- <52d46551-3969-7ad6-8047-77fd4cf40bd7@linaro.org>
-In-Reply-To: <52d46551-3969-7ad6-8047-77fd4cf40bd7@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,42 +93,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-(meanwhile, forgot to Cc Alex)
+From: Bin Meng <bmeng@tinylab.org>
 
-On 28/2/23 14:43, Philippe Mathieu-Daudé wrote:
-> On 13/2/23 19:43, Philippe Mathieu-Daudé wrote:
-> 
->> QOM housekeeping series which replace the DO_UPCAST() macro
->> uses by equivalent QOM ones. Also:
->> - Use DEVICE() macro
->> - Define some TYPE_xxx
->> - Define some type arrays using DEFINE_TYPES() macro
->> - Introduce abstract QOM (QDev) parent when relevant.
-> 
->> Philippe Mathieu-Daudé (14):
->>    hw/char/serial-pci: Replace DO_UPCAST(PCISerialState) by PCI_SERIAL()
->>    hw/char/serial-pci-multi: Batch register types using DEFINE_TYPES
->>      macro
->>    hw/char/serial-pci-multi: Introduce PCI_MULTISERIAL QOM abstract
->>      parent
->>    hw/char/serial-pci-multi: Factor multi_serial_class_initfn() out
->>    hw/char/serial-pci-multi: Replace DO_UPCAST() by PCI_MULTISERIAL()
-> 
->>    hw/ide/qdev: Replace DO_UPCAST(IDEDevice) by IDE_DEVICE()
->>    hw/ide/qdev: Replace DO_UPCAST(IDEBus) by IDE_BUS()
-> 
->>    hw/net/ne2000-pci: Replace DO_UPCAST(PCINE2000State) by PCI_NE2000()
->>    hw/net/tulip: Finish QOM conversion
-> 
->>    hw/pci/pci: Replace DO_UPCAST(PCIBus) by PCI_BUS()
-> 
->>    hw/scsi/scsi-bus: Replace DO_UPCAST(SCSIBus) by SCSI_BUS()
->>    hw/scsi/scsi-bus: Inline two uses of scsi_bus_from_device()
-> 
->>    hw/usb/dev-hub: Use QOM USB_HUB() macro instead of casting
->>    hw/usb: Replace DO_UPCAST(USBBus) by USB_BUS()
-> 
-> I'll respin as tiny series to help maintainers catch which patches
-> belong to their areas.
+It's worth noting that the vector CSR predicate() has a similar
+run-time check logic to the FPU CSR. With the previous patch our
+gdbstub can correctly report these vector CSRs via the CSR xml.
+
+Commit 719d3561b269 ("target/riscv: gdb: support vector registers for rv64 & rv32")
+inserted these vector CSRs in an ad-hoc, non-standard way in the
+riscv-vector.xml. Now we can treat these CSRs no different from
+other CSRs.
+
+Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+---
+
+(no changes since v1)
+
+ target/riscv/gdbstub.c | 75 ------------------------------------------
+ 1 file changed, 75 deletions(-)
+
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index ef52f41460..6048541606 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -127,40 +127,6 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+     return 0;
+ }
+ 
+-/*
+- * Convert register index number passed by GDB to the correspond
+- * vector CSR number. Vector CSRs are defined after vector registers
+- * in dynamic generated riscv-vector.xml, thus the starting register index
+- * of vector CSRs is 32.
+- * Return 0 if register index number is out of range.
+- */
+-static int riscv_gdb_vector_csrno(int num_regs)
+-{
+-    /*
+-     * The order of vector CSRs in the switch case
+-     * should match with the order defined in csr_ops[].
+-     */
+-    switch (num_regs) {
+-    case 32:
+-        return CSR_VSTART;
+-    case 33:
+-        return CSR_VXSAT;
+-    case 34:
+-        return CSR_VXRM;
+-    case 35:
+-        return CSR_VCSR;
+-    case 36:
+-        return CSR_VL;
+-    case 37:
+-        return CSR_VTYPE;
+-    case 38:
+-        return CSR_VLENB;
+-    default:
+-        /* Unknown register. */
+-        return 0;
+-    }
+-}
+-
+ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
+ {
+     uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
+@@ -174,19 +140,6 @@ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
+         return cnt;
+     }
+ 
+-    int csrno = riscv_gdb_vector_csrno(n);
+-
+-    if (!csrno) {
+-        return 0;
+-    }
+-
+-    target_ulong val = 0;
+-    int result = riscv_csrrw_debug(env, csrno, &val, 0, 0);
+-
+-    if (result == RISCV_EXCP_NONE) {
+-        return gdb_get_regl(buf, val);
+-    }
+-
+     return 0;
+ }
+ 
+@@ -201,19 +154,6 @@ static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
+         return vlenb;
+     }
+ 
+-    int csrno = riscv_gdb_vector_csrno(n);
+-
+-    if (!csrno) {
+-        return 0;
+-    }
+-
+-    target_ulong val = ldtul_p(mem_buf);
+-    int result = riscv_csrrw_debug(env, csrno, NULL, val, -1);
+-
+-    if (result == RISCV_EXCP_NONE) {
+-        return sizeof(target_ulong);
+-    }
+-
+     return 0;
+ }
+ 
+@@ -361,21 +301,6 @@ static int ricsv_gen_dynamic_vector_xml(CPUState *cs, int base_reg)
+         num_regs++;
+     }
+ 
+-    /* Define vector CSRs */
+-    const char *vector_csrs[7] = {
+-        "vstart", "vxsat", "vxrm", "vcsr",
+-        "vl", "vtype", "vlenb"
+-    };
+-
+-    for (i = 0; i < 7; i++) {
+-        g_string_append_printf(s,
+-                               "<reg name=\"%s\" bitsize=\"%d\""
+-                               " regnum=\"%d\" group=\"vector\""
+-                               " type=\"int\"/>",
+-                               vector_csrs[i], TARGET_LONG_BITS, base_reg++);
+-        num_regs++;
+-    }
+-
+     g_string_append_printf(s, "</feature>");
+ 
+     cpu->dyn_vreg_xml = g_string_free(s, false);
+-- 
+2.25.1
 
 
