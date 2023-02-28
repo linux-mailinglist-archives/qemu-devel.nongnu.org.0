@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899456A5A91
+	by mail.lfdr.de (Postfix) with ESMTPS id A44826A5A92
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 15:08:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX0dJ-0000Tw-Qw; Tue, 28 Feb 2023 09:07:09 -0500
+	id 1pX0dp-0000bE-JQ; Tue, 28 Feb 2023 09:07:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pX0dH-0000Tf-NV
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 09:07:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pX0dn-0000b2-JA
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 09:07:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pX0dF-0007zO-IF
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 09:07:07 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pX0dk-00082A-Q8
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 09:07:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677593222;
+ s=mimecast20190719; t=1677593255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VpK675oz/S2Ufef+1fjpGUHJskOdY4++ssqC+GdF9Wc=;
- b=hk5SazuObbeh+a/Qvt1lDxSC4sDjIyGWR7F1rX7diNRQXkh8p0eOqvR8LyoZQyPLahxwRD
- UOH3TBglXrTyDND+dgzV1MCt3/6TcPOj/zm7Y2glDJvZxTv7WQG360iOfoK0pp7VrSzsGV
- h8i3KBrhn/EKnBIgFx9VQhKluzWW68I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zrSnzj74ag5YU6Mp0Ke3cUH/yv6D2ccbvO/ENkpWNco=;
+ b=L7aoA9T2XlNA8iQgkq/6J24BhcFU2QgdMjIxAWZSsqFmyvXIq0lRgg3TLCltTwF2yxfI+c
+ NmhBoY2GpJ4DEV2EgLxuYKYm9BaT9ZZPgJMaGLR2BvjTEvQK2WQXPTz8HDSqIAqC8hdHGf
+ cYXsWvSVL8e4r5+aW/aNLkKEqiN34ME=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-3CVkzvjzOKKUJWVLWvoHgw-1; Tue, 28 Feb 2023 09:06:46 -0500
-X-MC-Unique: 3CVkzvjzOKKUJWVLWvoHgw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-144-SfokZVGQNsmXWZz8vYdz7Q-1; Tue, 28 Feb 2023 09:07:33 -0500
+X-MC-Unique: SfokZVGQNsmXWZz8vYdz7Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC7F11C06902;
- Tue, 28 Feb 2023 14:06:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75E08863194;
+ Tue, 28 Feb 2023 14:07:25 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8A4B43FBA;
- Tue, 28 Feb 2023 14:06:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F9E9492B12;
+ Tue, 28 Feb 2023 14:07:25 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9978021E6A1F; Tue, 28 Feb 2023 15:06:30 +0100 (CET)
+ id 4D1A921E6A1F; Tue, 28 Feb 2023 15:07:24 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,  zhenwei pi
- <pizhenwei@bytedance.com>,  arei.gonglei@huawei.com,  dgilbert@redhat.com,
- pbonzini@redhat.com,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 11/12] cryptodev: Support query-stats QMP command
-References: <20230129025747.682282-1-pizhenwei@bytedance.com>
- <20230129025747.682282-12-pizhenwei@bytedance.com>
- <20230228075511-mutt-send-email-mst@kernel.org>
- <Y/3/AJqXD4aDdtrP@redhat.com>
-Date: Tue, 28 Feb 2023 15:06:30 +0100
-In-Reply-To: <Y/3/AJqXD4aDdtrP@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Tue, 28 Feb 2023 13:17:52 +0000")
-Message-ID: <87v8jlg9zt.fsf@pond.sub.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: <qemu-devel@nongnu.org>,  Michael Tsirkin <mst@redhat.com>,  Fan Ni
+ <fan.ni@samsung.com>,  <linux-cxl@vger.kernel.org>,  <linuxarm@huawei.com>
+Subject: Re: [PATCH] MAINTAINERS: Add Fan Ni as Compute eXpress Link QEMU
+ reviewer
+References: <20230228113926.11485-1-Jonathan.Cameron@huawei.com>
+Date: Tue, 28 Feb 2023 15:07:24 +0100
+In-Reply-To: <20230228113926.11485-1-Jonathan.Cameron@huawei.com> (Jonathan
+ Cameron's message of "Tue, 28 Feb 2023 11:39:26 +0000")
+Message-ID: <87r0u9g9yb.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,20 +80,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Jonathan Cameron <Jonathan.Cameron@huawei.com> writes:
 
-> On Tue, Feb 28, 2023 at 07:56:14AM -0500, Michael S. Tsirkin wrote:
->> I assume since this has been out a long time and no
->> comments by maintainers it's ok from QAPI POV.
+> Fan Ni has offered to help out with QEMU CXL emulation reviewing.
+> Add him as a designated reviewer.
 >
-> I'm not the QAPI maintainer, but I think this worked out
-> pretty nicely compared to the previous versions of the
-> series which didn't use query-stats.. just a minor point
-> below.
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>
+> --
+> Thanks to Fan for stepping up after I requested help following Ben
+> stepping down as co-maintainer. Fan base been active in testing
+> and review recently so great to have Fan on board.
+>
+> Based on patch [PATCH] MAINTAINERS: Remove CXL maintainer Ben Widawsky
+>
+> Based-of: Message-id: 20230220212437.1462314-1-armbru@redhat.com
 
-I'm sorry, but I can't keep up with the amount of patches touching the
-QAPI schema.  Happy to rely on Daniel's judgement!
+Glad you found a co-maintainer!
 
-[...]
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
