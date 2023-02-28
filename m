@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083496A5C64
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 16:51:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56BE6A5C76
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 16:55:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX2Fo-0001Xk-Mu; Tue, 28 Feb 2023 10:51:00 -0500
+	id 1pX2IK-00039i-SC; Tue, 28 Feb 2023 10:53:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX2Fk-0001XY-HL
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:50:56 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pX2II-00038x-Ad
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:53:34 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX2Fi-0005OQ-TB
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:50:56 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- r19-20020a05600c459300b003eb3e2a5e7bso4523933wmo.0
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 07:50:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pX2IG-0005uB-6L
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:53:34 -0500
+Received: by mail-oi1-x230.google.com with SMTP id t22so8363687oiw.12
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 07:53:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1677599610;
+ h=content-transfer-encoding:in-reply-to:cc:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=FsV55x6cXG19BZp9PU/3kMDU8G4rSDl1Uku25UUqXxY=;
- b=MO3+gALcd0vyo/Yaf2aiECg53TxQfDDULzEVEoqptaQhFCibCuSKNPdsRRsOvshy9E
- Q3SWEkc25d3q3D/wGGx6TAGkBXZv1If6ltBKOlTZHYNVgyywdYjnSgXLha4zZDrDmUbA
- 16YOfTVjUd+BNLJdjT7Ha7e4liUBUKjJ/5XjgWsT2CmQwirvOjru2KQKoReICLTDu1Nf
- BosarsM3uFdIRDNgbbwzYm0LBb6zXpX66RN9N56QwkSTkgoTNMCPvxYYrb4oCMvX+etg
- WJI0BveGDLiqPO/7KZxdQXuZG8n6ymjJbv5HxnzW0Qo6F9bCWEIHeef+4vt2BZGulXik
- 8Fgg==
+ bh=jiMhR3QdFl+lc+AAEoKCquJcA6Gm80uHZxIAZn+1zh0=;
+ b=CeKMUlfMBaieUVMKRbD90hWN2IZRbPK2N3kSmwb9uK/zIJFnwGij0i/napzLJUFAMC
+ 5pqBVclT4qiNYDE/NxI+C3WSesAwwx8x85Mdo0+tfJyG/QbivGCruu/CPlI0xDySCbsm
+ MmPTPkMfqh9h7Fvb5VmRFMxmyFrBJUi/q69RiNtjvNjSKZoSpbekvN4PKCL8Bwnuo0py
+ 7Eo74gD6jPtps5nr+7QZKBqJvUABDfhJIUPVcWGwkxg1yNAr8XAqcqzXunbIFB0RFZeP
+ 569JW9XMshv+q+Jb+perJnJH6YyI2svTGnZeoBQ1WJSYh+FX5uclx3WUcrU6FIiSpiL5
+ tFCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20210112; t=1677599610;
+ h=content-transfer-encoding:in-reply-to:cc:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FsV55x6cXG19BZp9PU/3kMDU8G4rSDl1Uku25UUqXxY=;
- b=KBg4Ne3No9gniMrrCjmlaD967VcAsniJQy/CpZSzgudMGQ7j+OkGXDsEW7WoMqieyJ
- UNwb7Thzsykp93wBCAUJnLe29jVREi4DC41UWA0fyG/TSaN9jJldZs7wXD+cK8ma9jpP
- 5dA5ozlzLheu4TW1xAn5dVsXi+1LSRvnE16vsiDHalL2Iz5S1gkr6SCc32pG4422k7GP
- MAhd4BErRWupJQqbAbcM5f+Tx/pUISRO1SXeBsN5iu0SKsucIY6kzxIXHZMAwxW42r8P
- +aMUkHdKgaLE7GnMfeW8W9eCmBf2JidqjTzIWvR1NCkuWivfNE6t8W4kWlxt7kBfVIVO
- 8tBQ==
-X-Gm-Message-State: AO0yUKWRlt2jXK6tKENpTS30RGQ4mAlIcKu00TBNVhLnkndTmfPI18+u
- rWlDPM+Y9zitKTznINdYZnfIHA==
-X-Google-Smtp-Source: AK7set8SP1MZG8pSjtO3wNJORsMF8vT+W5HRr2JYmnOPaSYfKXbFK+JBZ9rklUEZiRzKTZQO32GSCQ==
-X-Received: by 2002:a05:600c:4da6:b0:3eb:19e7:b291 with SMTP id
- v38-20020a05600c4da600b003eb19e7b291mr2452246wmp.11.1677599453240; 
- Tue, 28 Feb 2023 07:50:53 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- hg13-20020a05600c538d00b003dc434b39c7sm2560903wmb.0.2023.02.28.07.50.51
+ bh=jiMhR3QdFl+lc+AAEoKCquJcA6Gm80uHZxIAZn+1zh0=;
+ b=2HA55ig+8pVqFfedN6pBGY17we4D7BJKoCaSMSibc6l98j7hrWn6v6Z/IcuzO+9ydz
+ /3+jnwjya6GDz6fVoHfTiSWIg8f9AxeG6Iyx2hH4mS6Xc9ppw63zsGgKXYOU6d/+qa2t
+ AxqsOPwGG7Ym5yIned2WkgbmhmSIYXpo/OhHnRhJHvdcihwc9StO7q7KOLrGEJIifVPV
+ LCXEv7BT8dUl/0G9RrhT3NMIfWG7HnXD9HYHGm7l0b3U7zOcvlVYXZkM5j1ikT1js7ZP
+ 6ppJpL5OOmGmQi3goDql/Jgbw9eZ/PwNMWOqW3p5cHOXHO6yXgy5PH64lxwCOzWOWH8H
+ qMXA==
+X-Gm-Message-State: AO0yUKXqmOvjwX1a3hzLzytW4ioPhp52mE9SDF8G5Ie9OobQ6BIBs9K0
+ 01dWQ/G+ZXJehoRnzrDNq4hHCw==
+X-Google-Smtp-Source: AK7set9zyUg2s6NpoNI9y/Liik3A6AGapSjlp2e46oGjpxwzEqw52STTeDU9je+CN2odOognoYeNkg==
+X-Received: by 2002:a05:6808:5d1:b0:384:43c4:29d8 with SMTP id
+ d17-20020a05680805d100b0038443c429d8mr1523261oij.20.1677599609757; 
+ Tue, 28 Feb 2023 07:53:29 -0800 (PST)
+Received: from [192.168.68.107] ([191.19.40.109])
+ by smtp.gmail.com with ESMTPSA id
+ v63-20020aca6142000000b0037d8aec19e0sm4587953oib.36.2023.02.28.07.53.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 07:50:52 -0800 (PST)
-Message-ID: <4a835d39-bcb4-e147-50e0-5a526d1ae107@linaro.org>
-Date: Tue, 28 Feb 2023 16:50:50 +0100
+ Tue, 28 Feb 2023 07:53:29 -0800 (PST)
+Message-ID: <aa1e82f7-54e9-7324-0921-ff4612dcdbc7@ventanamicro.com>
+Date: Tue, 28 Feb 2023 12:53:26 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 6/7] usb/ohci: Implement resume on connection status
- change
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] target/riscv: Convert epmp from feature to ratified
+ smepmp extension
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <cover.1676916639.git.balaton@eik.bme.hu>
- <35c4d4ccf2f73e6a87cdbd28fb6a1b33de72ed74.1676916640.git.balaton@eik.bme.hu>
- <9d4b7238-23f4-1ea8-10d9-6b73f4c026ec@linaro.org>
- <5281d606-7348-4537-01db-68714969c0e8@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <5281d606-7348-4537-01db-68714969c0e8@eik.bme.hu>
+To: Himanshu Chauhan <hchauhan@ventanamicro.com>, qemu-riscv@nongnu.org,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20230203042434.67293-1-hchauhan@ventanamicro.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>, Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230203042434.67293-1-hchauhan@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,82 +95,214 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/2/23 15:55, BALATON Zoltan wrote:
-> On Tue, 28 Feb 2023, Philippe Mathieu-Daudé wrote:
->> On 20/2/23 19:19, BALATON Zoltan wrote:
->>> If certain bit is set remote wake up should change state from
->>> suspended to resume and generate interrupt. There was a todo comment
->>> for this, implement that by moving existing resume logic to a function
->>> and call that.
->>>
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> ---
->>>   hw/usb/hcd-ohci.c | 23 +++++++++++++++++------
->>>   1 file changed, 17 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
->>> index bad8db7b1d..88bd42b14a 100644
->>> --- a/hw/usb/hcd-ohci.c
->>> +++ b/hw/usb/hcd-ohci.c
->>> @@ -1410,6 +1410,18 @@ static void ohci_set_hub_status(OHCIState 
->>> *ohci, uint32_t val)
->>>       }
->>>   }
->>>   +/* This is the one state transition the controller can do by 
->>> itself */
->>> +static int ohci_resume(OHCIState *s)
->>
->> Preferably returning bool.
+Hey. Sorry for the delay, this patch went through the cracks :(
+
+(CCing the reviewers)
+(CCing qemu-devel as well)
+
+On 2/3/23 01:24, Himanshu Chauhan wrote:
+> Smepmp is a ratified extension. This patch converts the existing epmp
+> support as a feature to an extension. With this, "smepmp" string will
+> be concatenated to riscv,isa in generated FDT.
 > 
-> I can change that on rebase. I just followed other exising functions in 
-> this file for consistency which return int (although some use 1 and 
-> others use -1 besides 0).
-
-I'll squash that myself.
-
->>> +{
->>> +    if ((s->ctl & OHCI_CTL_HCFS) == OHCI_USB_SUSPEND) {
->>> +        trace_usb_ohci_remote_wakeup(s->name);
->>> +        s->ctl &= ~OHCI_CTL_HCFS;
->>> +        s->ctl |= OHCI_USB_RESUME;
->>> +        return 1;
->>> +    }
->>> +    return 0;
->>> +}
->>> +
->>>   /*
->>>    * Sets a flag in a port status reg but only set it if the port is 
->>> connected.
->>>    * If not set ConnectStatusChange flag. If flag is enabled return 1.
->>> @@ -1426,7 +1438,10 @@ static int 
->>> ohci_port_set_if_connected(OHCIState *ohci, int i, uint32_t val)
->>>       if (!(ohci->rhport[i].ctrl & OHCI_PORT_CCS)) {
->>>           ohci->rhport[i].ctrl |= OHCI_PORT_CSC;
->>
->> // ConnectStatusChange
->>
->>>           if (ohci->rhstatus & OHCI_RHS_DRWE) {
->>
->> // DeviceRemoteWakeupEnable: ConnectStatusChange is a remote wakeup 
->> event.
+> Since the official name of the extension is Smepmp, the references
+> to epmp have also been changed to smepmp.
 > 
-> Not clear if you want any change here or the comments are just 
-> explanation in this email.
-
-I was just taking notes while reviewing ;) Our OHCI definitions
-aren't very verbose.
-
->>> -            /* TODO: CSC is a wakeup event */
->>> +            /* CSC is a wakeup event */
->>> +            if (ohci_resume(ohci)) {
->>> +                ohci_set_interrupt(ohci, OHCI_INTR_RD);
->>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: Himanshu Chauhan <hchauhan@ventanamicro.com>
+> ---
+>   target/riscv/cpu.c | 16 ++++++----------
+>   target/riscv/cpu.h |  3 +--
+>   target/riscv/csr.c |  8 +++++---
+>   target/riscv/pmp.c | 13 +++++++++----
+>   4 files changed, 21 insertions(+), 19 deletions(-)
 > 
-> Thanks for the review. You put a lot of work in QEMU and we appreciate 
-> very much that you're also doing the job of other maintainers.
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 14a7027095..d9bba04226 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -103,6 +103,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+>       ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+>       ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+>       ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
+> +    ISA_EXT_DATA_ENTRY(smepmp, true, PRIV_VERSION_1_12_0, ext_smepmp),
+>       ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
+>       ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
+>       ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
+> @@ -325,7 +326,7 @@ static void rv32_ibex_cpu_init(Object *obj)
+>       register_cpu_props(DEVICE(obj));
+>       set_priv_version(env, PRIV_VERSION_1_11_0);
+>       cpu->cfg.mmu = false;
+> -    cpu->cfg.epmp = true;
+> +    cpu->cfg.ext_smepmp = true;
+>   }
+>   
+>   static void rv32_imafcu_nommu_cpu_init(Object *obj)
+> @@ -884,14 +885,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>   
+>       if (cpu->cfg.pmp) {
+>           riscv_set_feature(env, RISCV_FEATURE_PMP);
+> -
+> -        /*
+> -         * Enhanced PMP should only be available
+> -         * on harts with PMP support
+> -         */
+> -        if (cpu->cfg.epmp) {
+> -            riscv_set_feature(env, RISCV_FEATURE_EPMP);
+> -        }
+> +    } else {
+> +        /* smepmp requires pmp support */
+> +        cpu->cfg.ext_smepmp = false;
 
-No problem. I'm queuing this patch for my next PR (hopefully much
-less patches, and before the freeze).
 
+I believe this and other chunk like it will collide with the work done in:
+
+"[PATCH v7 00/10] make write_misa a no-op and FEATURE_* cleanups"
+
+That series is already acked, so it would make the maintainer's life easier to
+base this patch on top of that. You can add a:
+
+Based-on: 20230222185205.355361-1-dbarboza@ventanamicro.com
+("[PATCH v7 00/10] make write_misa a no-op and FEATURE_* cleanups")
+
+at the start of the cover-letter to indicate the dependency.
+
+>       }
+>   
+>       if (cpu->cfg.debug) {
+> @@ -1051,6 +1047,7 @@ static Property riscv_cpu_extensions[] = {
+>       DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> +    DEFINE_PROP_BOOL("smepmp", RISCVCPU, cfg.ext_smepmp, false),
+>       DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
+>   
+>       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+> @@ -1093,7 +1090,6 @@ static Property riscv_cpu_extensions[] = {
+>       /* These are experimental so mark with 'x-' */
+>       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+>       /* ePMP 0.9.3 */
+> -    DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+>       DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
+>       DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
+>   
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index bcf0826753..30fd29e578 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -87,7 +87,6 @@
+>   enum {
+>       RISCV_FEATURE_MMU,
+>       RISCV_FEATURE_PMP,
+> -    RISCV_FEATURE_EPMP,
+>       RISCV_FEATURE_MISA,
+>       RISCV_FEATURE_DEBUG
+>   };
+> @@ -465,6 +464,7 @@ struct RISCVCPUConfig {
+>       bool ext_smaia;
+>       bool ext_ssaia;
+>       bool ext_sscofpmf;
+> +    bool ext_smepmp;
+>       bool rvv_ta_all_1s;
+>       bool rvv_ma_all_1s;
+>   
+> @@ -484,7 +484,6 @@ struct RISCVCPUConfig {
+>       uint16_t elen;
+>       bool mmu;
+>       bool pmp;
+> -    bool epmp;
+>       bool debug;
+>   
+>       bool short_isa_string;
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 62e6c4acbd..f70f6d9aad 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -426,9 +426,11 @@ static RISCVException pmp(CPURISCVState *env, int csrno)
+>       return RISCV_EXCP_ILLEGAL_INST;
+>   }
+>   
+> -static RISCVException epmp(CPURISCVState *env, int csrno)
+> +static RISCVException smepmp(CPURISCVState *env, int csrno)
+>   {
+> -    if (env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP)) {
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +
+> +    if (env->priv == PRV_M && cpu->cfg.ext_smepmp) {
+
+I did a recent cleanup in these code patterns by using a new riscv_cpu_cfg() API.
+If you rebase this patch on top of that series (which has the API) this code would
+become:
+
+> -   if (env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP)) {
+> +   if (env->priv == PRV_M && riscv_cpu_cfg(env)->ext_smepmp) {
+
+
+>           return RISCV_EXCP_NONE;
+>       }
+>   
+> @@ -4259,7 +4261,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>       [CSR_VSIPH]       = { "vsiph",       aia_hmode32, NULL, NULL, rmw_vsiph },
+>   
+>       /* Physical Memory Protection */
+> -    [CSR_MSECCFG]    = { "mseccfg",  epmp, read_mseccfg, write_mseccfg,
+> +    [CSR_MSECCFG]    = { "mseccfg",  smepmp, read_mseccfg, write_mseccfg,
+>                            .min_priv_ver = PRIV_VERSION_1_11_0           },
+>       [CSR_PMPCFG0]    = { "pmpcfg0",   pmp, read_pmpcfg,  write_pmpcfg  },
+>       [CSR_PMPCFG1]    = { "pmpcfg1",   pmp, read_pmpcfg,  write_pmpcfg  },
+> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+> index d1126a6066..d85ad07caa 100644
+> --- a/target/riscv/pmp.c
+> +++ b/target/riscv/pmp.c
+> @@ -58,6 +58,11 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
+>       return 0;
+>   }
+>   
+> +static inline int smepmp_is_enabled(CPURISCVState *env)
+> +{
+> +    return (RISCV_CPU(env_cpu(env))->cfg.ext_smepmp);
+> +}
+> +
+
+I believe you can just read "riscv_cpu_cfg(env)->ext_smepmp" directly wherever you need
+instead of creating a new function
+
+>   /*
+>    * Count the number of active rules.
+>    */
+> @@ -88,7 +93,7 @@ static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
+>       if (pmp_index < MAX_RISCV_PMPS) {
+>           bool locked = true;
+>   
+> -        if (riscv_feature(env, RISCV_FEATURE_EPMP)) {
+> +        if (smepmp_is_enabled(env)) {
+>               /* mseccfg.RLB is set */
+>               if (MSECCFG_RLB_ISSET(env)) {
+>                   locked = false;
+> @@ -239,7 +244,7 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
+>   {
+>       bool ret;
+>   
+> -    if (riscv_feature(env, RISCV_FEATURE_EPMP)) {
+> +    if (smepmp_is_enabled(env)) {
+>           if (MSECCFG_MMWP_ISSET(env)) {
+>               /*
+>                * The Machine Mode Whitelist Policy (mseccfg.MMWP) is set
+> @@ -265,7 +270,7 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
+>           }
+>       }
+>   
+> -    if ((!riscv_feature(env, RISCV_FEATURE_PMP)) || (mode == PRV_M)) {
+> +    if (!smepmp_is_enabled(env) || (mode == PRV_M)) {
+>           /*
+>            * Privileged spec v1.10 states if HW doesn't implement any PMP entry
+>            * or no PMP entry matches an M-Mode access, the access succeeds.
+> @@ -348,7 +353,7 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+>   
+>           /*
+>            * Convert the PMP permissions to match the truth table in the
+> -         * ePMP spec.
+> +         * Smepmp spec.
+>            */
+>           const uint8_t epmp_operation =
+>               ((env->pmp_state.pmp[i].cfg_reg & PMP_LOCK) >> 4) |
 
