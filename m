@@ -2,59 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E546A51CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 04:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C326A51D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 04:31:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWqeD-0000jL-DN; Mon, 27 Feb 2023 22:27:25 -0500
+	id 1pWqhe-00025x-H6; Mon, 27 Feb 2023 22:30:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
- id 1pWqeA-0000j9-JR
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 22:27:22 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangming73@huawei.com>)
- id 1pWqe6-000399-RD
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 22:27:22 -0500
-Received: from dggpemm100002.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4PQjQD2Qb7zRs7D;
- Tue, 28 Feb 2023 11:24:04 +0800 (CST)
-Received: from dggpemm500010.china.huawei.com (7.185.36.134) by
- dggpemm100002.china.huawei.com (7.185.36.179) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 28 Feb 2023 11:26:56 +0800
-Received: from dggpemm500010.china.huawei.com ([7.185.36.134]) by
- dggpemm500010.china.huawei.com ([7.185.36.134]) with mapi id 15.01.2507.021;
- Tue, 28 Feb 2023 11:26:56 +0800
-To: David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "wangzhigang (O)" <wangzhigang17@huawei.com>, "zhangliang (AG)"
- <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
-Subject: [PATCH] virtio-balloon: optimize the virtio-balloon on the ARM
- platform.
-Thread-Topic: [PATCH] virtio-balloon: optimize the virtio-balloon on the ARM
- platform.
-Thread-Index: AdlLJCk3Wfz4uKhKSM+62zmLrlFVzA==
-Date: Tue, 28 Feb 2023 03:26:56 +0000
-Message-ID: <264b6cc6a74945c3b5214fa4e8f099fe@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.184.140]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pWqhc-00025j-WF
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 22:30:57 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pWqha-00042S-Hi
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 22:30:56 -0500
+Received: from loongson.cn (unknown [10.20.42.238])
+ by gateway (Coremail) with SMTP id _____8CxMk5ldf1jfVYGAA--.6383S3;
+ Tue, 28 Feb 2023 11:30:45 +0800 (CST)
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxg+Vjdf1jQ0VAAA--.15563S3; 
+ Tue, 28 Feb 2023 11:30:43 +0800 (CST)
+Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221224081633.4185445-1-gaosong@loongson.cn>
+ <20221224081633.4185445-11-gaosong@loongson.cn>
+ <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
+ <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
+ <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
+ <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
+ <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
+ <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
+ <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
+ <5ce46e81-b2c3-8b45-1bd9-9705520f4557@loongson.cn>
+ <5b3120cd-ddfb-770b-3216-0f02e89c9c24@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <0ba7a544-347d-0a07-5f73-dff7fd347cc4@loongson.cn>
+Date: Tue, 28 Feb 2023 11:30:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=yangming73@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5b3120cd-ddfb-770b-3216-0f02e89c9c24@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Cxg+Vjdf1jQ0VAAA--.15563S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxWFWDWr48ur1rCrWfZFW3trb_yoW5tw48pr
+ 1ktF17AryDGr1kZryUCw1DWryUtw1UJw1UJrn8Ga4rJrWUtF1qqr1UZr1Y9ryUAr48Zr15
+ AryYq347urnrJ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: 13
+X-Spam_score: 1.3
+X-Spam_bar: +
+X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,113 +85,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Yangming <yangming73@huawei.com>
-From:  Yangming via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PiA+IE9wdGltaXplIHRoZSB2aXJ0aW8tYmFsbG9vbiBmZWF0dXJlIG9uIHRoZSBBUk0gcGxhdGZv
-cm0gYnkgYWRkaW5nIGENCj4gPiB2YXJpYWJsZSB0byBrZWVwIHRyYWNrIG9mIHRoZSBjdXJyZW50
-IGhvdC1wbHVnZ2VkIHBjLWRpbW0gc2l6ZSwNCj4gPiBpbnN0ZWFkIG9mIHRyYXZlcnNpbmcgdGhl
-IHZpcnR1YWwgbWFjaGluZSdzIG1lbW9yeSBtb2R1bGVzIHRvIGNvdW50DQo+ID4gdGhlIGN1cnJl
-bnQgUkFNIHNpemUgZHVyaW5nIHRoZSBiYWxsb29uIGluZmxhdGlvbiBvciBkZWZsYXRpb24NCj4g
-PiBwcm9jZXNzLiBUaGlzIHZhcmlhYmxlIGNhbiBiZSB1cGRhdGVkIG9ubHkgd2hlbiBwbHVnZ2lu
-ZyBvciB1bnBsdWdnaW5nDQo+ID4gdGhlIGRldmljZSwgd2hpY2ggd2lsbCByZXN1bHQgaW4gYW4g
-aW5jcmVhc2Ugb2YgYXBwcm94aW1hdGVseSA2MCUNCj4gPiBlZmZpY2llbmN5IG9mIGJhbGxvb24g
-cHJvY2VzcyBvbiB0aGUgQVJNIHBsYXRmb3JtLg0KPiA+DQo+ID4gV2UgdGVzdGVkIHRoZSB0b3Rh
-bCBhbW91bnQgb2YgdGltZSByZXF1aXJlZCBmb3IgdGhlIGJhbGxvb24gaW5mbGF0aW9uDQo+IHBy
-b2Nlc3Mgb24gQVJNOg0KPiA+IGluZmxhdGUgdGhlIGJhbGxvb24gdG8gNjRHQiBvZiBhIDEyOEdC
-IGd1ZXN0IHVuZGVyIHN0cmVzcy4NCj4gPiBCZWZvcmU6IDEwMiBzZWNvbmRzDQo+ID4gQWZ0ZXI6
-IDQyIHNlY29uZHMNCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFFpIFhpIDx4aXFpMkBodWF3ZWku
-Y29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IE1pbmcgWWFuZyB5YW5nbWluZzczQGh1YXdlaS5jb20N
-Cj4gPiAtLS0NCj4gPiAgIGh3L21lbS9wYy1kaW1tLmMgICAgICAgICAgIHwgIDIgKysNCj4gPiAg
-IGh3L3ZpcnRpby92aXJ0aW8tYmFsbG9vbi5jIHwgMzMgKysrKystLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tDQo+ID4gICBpbmNsdWRlL2h3L2JvYXJkcy5oICAgICAgICB8ICAxICsNCj4gPiAg
-IDMgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAyOCBkZWxldGlvbnMoLSkNCj4gPg0K
-PiA+IGRpZmYgLS1naXQgYS9ody9tZW0vcGMtZGltbS5jIGIvaHcvbWVtL3BjLWRpbW0uYyBpbmRl
-eA0KPiA+IDUwZWY4MzIxNWMuLjE5MmZjNzkyMmMgMTAwNjQ0DQo+ID4gLS0tIGEvaHcvbWVtL3Bj
-LWRpbW0uYw0KPiA+ICsrKyBiL2h3L21lbS9wYy1kaW1tLmMNCj4gPiBAQCAtODEsNiArODEsNyBA
-QCB2b2lkIHBjX2RpbW1fcGx1ZyhQQ0RJTU1EZXZpY2UgKmRpbW0sDQo+IE1hY2hpbmVTdGF0ZQ0K
-PiA+ICptYWNoaW5lKQ0KPiA+DQo+ID4gICAgICAgbWVtb3J5X2RldmljZV9wbHVnKE1FTU9SWV9E
-RVZJQ0UoZGltbSksIG1hY2hpbmUpOw0KPiA+ICAgICAgIHZtc3RhdGVfcmVnaXN0ZXJfcmFtKHZt
-c3RhdGVfbXIsIERFVklDRShkaW1tKSk7DQo+ID4gKyAgICBtYWNoaW5lLT5kZXZpY2VfbWVtb3J5
-LT5kaW1tX3NpemUgKz0gdm1zdGF0ZV9tci0+c2l6ZTsNCj4gPiAgIH0NCj4gPg0KPiA+ICAgdm9p
-ZCBwY19kaW1tX3VucGx1ZyhQQ0RJTU1EZXZpY2UgKmRpbW0sIE1hY2hpbmVTdGF0ZSAqbWFjaGlu
-ZSkNCj4gQEANCj4gPiAtOTAsNiArOTEsNyBAQCB2b2lkIHBjX2RpbW1fdW5wbHVnKFBDRElNTURl
-dmljZSAqZGltbSwNCj4gTWFjaGluZVN0YXRlDQo+ID4gKm1hY2hpbmUpDQo+ID4NCj4gPiAgICAg
-ICBtZW1vcnlfZGV2aWNlX3VucGx1ZyhNRU1PUllfREVWSUNFKGRpbW0pLCBtYWNoaW5lKTsNCj4g
-PiAgICAgICB2bXN0YXRlX3VucmVnaXN0ZXJfcmFtKHZtc3RhdGVfbXIsIERFVklDRShkaW1tKSk7
-DQo+ID4gKyAgICBtYWNoaW5lLT5kZXZpY2VfbWVtb3J5LT5kaW1tX3NpemUgLT0gdm1zdGF0ZV9t
-ci0+c2l6ZTsNCj4gPiAgIH0NCj4gDQo+IEFoaCwgbWlzc2VkIHRoYXQgbXkgcHJldmlvdXMgY29t
-bWVudCB3YXMgbm90IGFkZHJlc3NlZDogd2Ugb25seSB3YW50IHRvDQo+IHRyYWNrICJyZWFsIiBE
-SU1Ncywgbm90IE5WRElNTXMuDQo+IA0KPiAtLQ0KPiBUaGFua3MsDQo+IA0KPiBEYXZpZCAvIGRo
-aWxkZW5iDQoNCk9wdGltaXplIHRoZSB2aXJ0aW8tYmFsbG9vbiBmZWF0dXJlIG9uIHRoZSBBUk0g
-cGxhdGZvcm0gYnkgYWRkaW5nDQphIHZhcmlhYmxlIHRvIGtlZXAgdHJhY2sgb2YgdGhlIGN1cnJl
-bnQgaG90LXBsdWdnZWQgcGMtZGltbSBzaXplLA0KaW5zdGVhZCBvZiB0cmF2ZXJzaW5nIHRoZSB2
-aXJ0dWFsIG1hY2hpbmUncyBtZW1vcnkgbW9kdWxlcyB0byBjb3VudA0KdGhlIGN1cnJlbnQgUkFN
-IHNpemUgZHVyaW5nIHRoZSBiYWxsb29uIGluZmxhdGlvbiBvciBkZWZsYXRpb24NCnByb2Nlc3Mu
-IFRoaXMgdmFyaWFibGUgY2FuIGJlIHVwZGF0ZWQgb25seSB3aGVuIHBsdWdnaW5nIG9yIHVucGx1
-Z2dpbmcNCnRoZSBkZXZpY2UsIHdoaWNoIHdpbGwgcmVzdWx0IGluIGFuIGluY3JlYXNlIG9mIGFw
-cHJveGltYXRlbHkgNjAlDQplZmZpY2llbmN5IG9mIGJhbGxvb24gcHJvY2VzcyBvbiB0aGUgQVJN
-IHBsYXRmb3JtLg0KDQpXZSB0ZXN0ZWQgdGhlIHRvdGFsIGFtb3VudCBvZiB0aW1lIHJlcXVpcmVk
-IGZvciB0aGUgYmFsbG9vbiBpbmZsYXRpb24gcHJvY2VzcyBvbiBBUk06DQppbmZsYXRlIHRoZSBi
-YWxsb29uIHRvIDY0R0Igb2YgYSAxMjhHQiBndWVzdCB1bmRlciBzdHJlc3MuDQpCZWZvcmU6IDEw
-MiBzZWNvbmRzDQpBZnRlcjogNDIgc2Vjb25kcw0KDQpTaWduZWQtb2ZmLWJ5OiBRaSBYaSA8eGlx
-aTJAaHVhd2VpLmNvbT4NClNpZ25lZC1vZmYtYnk6IE1pbmcgWWFuZyB5YW5nbWluZzczQGh1YXdl
-aS5jb20NCi0tLQ0KIGh3L21lbS9wYy1kaW1tLmMgICAgICAgICAgIHwgIDggKysrKysrKysNCiBo
-dy92aXJ0aW8vdmlydGlvLWJhbGxvb24uYyB8IDMzICsrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQ0KIGluY2x1ZGUvaHcvYm9hcmRzLmggICAgICAgIHwgIDEgKw0KIDMgZmlsZXMgY2hh
-bmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMjggZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9o
-dy9tZW0vcGMtZGltbS5jIGIvaHcvbWVtL3BjLWRpbW0uYw0KaW5kZXggNTBlZjgzMjE1Yy4uMjEw
-NzYxNTAxNiAxMDA2NDQNCi0tLSBhL2h3L21lbS9wYy1kaW1tLmMNCisrKyBiL2h3L21lbS9wYy1k
-aW1tLmMNCkBAIC04MSw2ICs4MSwxMCBAQCB2b2lkIHBjX2RpbW1fcGx1ZyhQQ0RJTU1EZXZpY2Ug
-KmRpbW0sIE1hY2hpbmVTdGF0ZSAqbWFjaGluZSkNCiANCiAgICAgbWVtb3J5X2RldmljZV9wbHVn
-KE1FTU9SWV9ERVZJQ0UoZGltbSksIG1hY2hpbmUpOw0KICAgICB2bXN0YXRlX3JlZ2lzdGVyX3Jh
-bSh2bXN0YXRlX21yLCBERVZJQ0UoZGltbSkpOw0KKyAgICBib29sIGlzX252ZGltbSA9IG9iamVj
-dF9keW5hbWljX2Nhc3QoT0JKRUNUKGRpbW0pLCBUWVBFX05WRElNTSk7DQorICAgIGlmICghaXNf
-bnZkaW1tKSB7DQorICAgICAgICBtYWNoaW5lLT5kZXZpY2VfbWVtb3J5LT5kaW1tX3NpemUgKz0g
-dm1zdGF0ZV9tci0+c2l6ZTsNCisgICAgfQ0KIH0NCiANCiB2b2lkIHBjX2RpbW1fdW5wbHVnKFBD
-RElNTURldmljZSAqZGltbSwgTWFjaGluZVN0YXRlICptYWNoaW5lKQ0KQEAgLTkwLDYgKzk0LDEw
-IEBAIHZvaWQgcGNfZGltbV91bnBsdWcoUENESU1NRGV2aWNlICpkaW1tLCBNYWNoaW5lU3RhdGUg
-Km1hY2hpbmUpDQogDQogICAgIG1lbW9yeV9kZXZpY2VfdW5wbHVnKE1FTU9SWV9ERVZJQ0UoZGlt
-bSksIG1hY2hpbmUpOw0KICAgICB2bXN0YXRlX3VucmVnaXN0ZXJfcmFtKHZtc3RhdGVfbXIsIERF
-VklDRShkaW1tKSk7DQorICAgIGJvb2wgaXNfbnZkaW1tID0gb2JqZWN0X2R5bmFtaWNfY2FzdChP
-QkpFQ1QoZGltbSksIFRZUEVfTlZESU1NKTsNCisgICAgaWYgKCFpc19udmRpbW0pIHsNCisgICAg
-ICAgIG1hY2hpbmUtPmRldmljZV9tZW1vcnktPmRpbW1fc2l6ZSAtPSB2bXN0YXRlX21yLT5zaXpl
-Ow0KKyAgICB9DQogfQ0KIA0KIHN0YXRpYyBpbnQgcGNfZGltbV9zbG90MmJpdG1hcChPYmplY3Qg
-Km9iaiwgdm9pZCAqb3BhcXVlKQ0KZGlmZiAtLWdpdCBhL2h3L3ZpcnRpby92aXJ0aW8tYmFsbG9v
-bi5jIGIvaHcvdmlydGlvL3ZpcnRpby1iYWxsb29uLmMNCmluZGV4IDc0NmYwN2M0ZDIuLjgwYmJi
-NTkxMzIgMTAwNjQ0DQotLS0gYS9ody92aXJ0aW8vdmlydGlvLWJhbGxvb24uYw0KKysrIGIvaHcv
-dmlydGlvL3ZpcnRpby1iYWxsb29uLmMNCkBAIC03MjksMzcgKzcyOSwxNCBAQCBzdGF0aWMgdm9p
-ZCB2aXJ0aW9fYmFsbG9vbl9nZXRfY29uZmlnKFZpcnRJT0RldmljZSAqdmRldiwgdWludDhfdCAq
-Y29uZmlnX2RhdGEpDQogICAgIG1lbWNweShjb25maWdfZGF0YSwgJmNvbmZpZywgdmlydGlvX2Jh
-bGxvb25fY29uZmlnX3NpemUoZGV2KSk7DQogfQ0KIA0KLXN0YXRpYyBpbnQgYnVpbGRfZGltbV9s
-aXN0KE9iamVjdCAqb2JqLCB2b2lkICpvcGFxdWUpDQotew0KLSAgICBHU0xpc3QgKipsaXN0ID0g
-b3BhcXVlOw0KLQ0KLSAgICBpZiAob2JqZWN0X2R5bmFtaWNfY2FzdChvYmosIFRZUEVfUENfRElN
-TSkpIHsNCi0gICAgICAgIERldmljZVN0YXRlICpkZXYgPSBERVZJQ0Uob2JqKTsNCi0gICAgICAg
-IGlmIChkZXYtPnJlYWxpemVkKSB7IC8qIG9ubHkgcmVhbGl6ZWQgRElNTXMgbWF0dGVyICovDQot
-ICAgICAgICAgICAgKmxpc3QgPSBnX3NsaXN0X3ByZXBlbmQoKmxpc3QsIGRldik7DQotICAgICAg
-ICB9DQotICAgIH0NCi0NCi0gICAgb2JqZWN0X2NoaWxkX2ZvcmVhY2gob2JqLCBidWlsZF9kaW1t
-X2xpc3QsIG9wYXF1ZSk7DQotICAgIHJldHVybiAwOw0KLX0NCi0NCiBzdGF0aWMgcmFtX2FkZHJf
-dCBnZXRfY3VycmVudF9yYW1fc2l6ZSh2b2lkKQ0KIHsNCi0gICAgR1NMaXN0ICpsaXN0ID0gTlVM
-TCwgKml0ZW07DQotICAgIHJhbV9hZGRyX3Qgc2l6ZSA9IGN1cnJlbnRfbWFjaGluZS0+cmFtX3Np
-emU7DQotDQotICAgIGJ1aWxkX2RpbW1fbGlzdChxZGV2X2dldF9tYWNoaW5lKCksICZsaXN0KTsN
-Ci0gICAgZm9yIChpdGVtID0gbGlzdDsgaXRlbTsgaXRlbSA9IGdfc2xpc3RfbmV4dChpdGVtKSkg
-ew0KLSAgICAgICAgT2JqZWN0ICpvYmogPSBPQkpFQ1QoaXRlbS0+ZGF0YSk7DQotICAgICAgICBp
-ZiAoIXN0cmNtcChvYmplY3RfZ2V0X3R5cGVuYW1lKG9iaiksIFRZUEVfUENfRElNTSkpIHsNCi0g
-ICAgICAgICAgICBzaXplICs9IG9iamVjdF9wcm9wZXJ0eV9nZXRfaW50KG9iaiwgUENfRElNTV9T
-SVpFX1BST1AsDQotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAm
-ZXJyb3JfYWJvcnQpOw0KLSAgICAgICAgfQ0KKyAgICBNYWNoaW5lU3RhdGUgKm1hY2hpbmUgPSBN
-QUNISU5FKHFkZXZfZ2V0X21hY2hpbmUoKSk7DQorICAgIGlmIChtYWNoaW5lLT5kZXZpY2VfbWVt
-b3J5ICE9IE5VTEwpIHsNCisgICAgICAgIHJldHVybiBtYWNoaW5lLT5yYW1fc2l6ZSArIG1hY2hp
-bmUtPmRldmljZV9tZW1vcnktPmRpbW1fc2l6ZTsNCisgICAgfSBlbHNlIHsNCisgICAgICAgIHJl
-dHVybiBtYWNoaW5lLT5yYW1fc2l6ZTsNCiAgICAgfQ0KLSAgICBnX3NsaXN0X2ZyZWUobGlzdCk7
-DQotDQotICAgIHJldHVybiBzaXplOw0KIH0NCiANCiBzdGF0aWMgYm9vbCB2aXJ0aW9fYmFsbG9v
-bl9wYWdlX3BvaXNvbl9zdXBwb3J0KHZvaWQgKm9wYXF1ZSkNCmRpZmYgLS1naXQgYS9pbmNsdWRl
-L2h3L2JvYXJkcy5oIGIvaW5jbHVkZS9ody9ib2FyZHMuaA0KaW5kZXggNmZiYmZkNTZjOC4uNTUx
-YjRiNDE5ZSAxMDA2NDQNCi0tLSBhL2luY2x1ZGUvaHcvYm9hcmRzLmgNCisrKyBiL2luY2x1ZGUv
-aHcvYm9hcmRzLmgNCkBAIC0yOTYsNiArMjk2LDcgQEAgc3RydWN0IE1hY2hpbmVDbGFzcyB7DQog
-dHlwZWRlZiBzdHJ1Y3QgRGV2aWNlTWVtb3J5U3RhdGUgew0KICAgICBod2FkZHIgYmFzZTsNCiAg
-ICAgTWVtb3J5UmVnaW9uIG1yOw0KKyAgICByYW1fYWRkcl90IGRpbW1fc2l6ZTsNCiB9IERldmlj
-ZU1lbW9yeVN0YXRlOw0KIA0KIC8qKg0KLS0gDQoyLjMzLjANCg0K
+
+在 2023/2/28 上午2:40, Richard Henderson 写道:
+> On 2/27/23 02:55, gaosong wrote:
+>>
+>> 在 2023/2/25 上午3:24, Richard Henderson 写道:
+>>>>          {
+>>>>              .fniv = gen_vaddwev_s,
+>>>>              .fno = gen_helper_vaddwev_q_d,
+>>>>              .opt_opc = vecop_list,
+>>>>              .vece = MO_128
+>>>>          },
+>>>
+>>> There are no 128-bit vector operations; you'll need to do this one 
+>>> differently.
+>>>
+>>> Presumably just load the two 64-bit elements, sign-extend into 
+>>> 128-bits, add with tcg_gen_add2_i64, and store the two 64-bit 
+>>> elements as output.  But that won't fit into the tcg_gen_gvec_3 
+>>> interface.
+>>>
+>> 'sign-extend into 128-bits,'   Could you give a example?
+>
+> Well, for vadd, as the example we have been using:
+>
+>     tcg_gen_ld_i64(lo1, cpu_env, offsetof(vector_reg[A].lo));
+>     tcg_gen_ld_i64(lo2, cpu_env, offsetof(vector_reg[B].lo));
+>     tcg_gen_sari_i64(hi1, lo1, 63);
+>     tcg_gen_sari_i64(hi2, lo2, 63);
+>     tcg_gen_add2_i64(lo1, hi1, lo1, hi1, lo2, hi2);
+>     tcg_gen_st_i64(lo1, cpu_env, offsetof(vector_reg[R].lo));
+>     tcg_gen_st_i64(hi1, cpu_env, offsetof(vector_reg[R].hi));
+>
+> The middle two sari operations replicate the sign bit across the 
+> entire high word, so the pair of variables constitute a sign-extended 
+> 128-bit value.
+>
+Thank you .
+
+This is a way  to translate:
+
+static trans_vaddwev_q_d( DisasContext *ctx, arg_vvv *a)
+{
+     ...
+     tcg_gen_ld_i64(lo1, cpu_env, offsetof(vector_reg[A].lo));
+     tcg_gen_ld_i64(lo2, cpu_env, offsetof(vector_reg[B].lo));
+     tcg_gen_sari_i64(hi1, lo1, 63);
+     tcg_gen_sari_i64(hi2, lo2, 63);
+     tcg_gen_add2_i64(lo1, hi1, lo1, hi1, lo2, hi2);
+     tcg_gen_st_i64(lo1, cpu_env, offsetof(vector_reg[R].lo));
+     tcg_gen_st_i64(hi1, cpu_env, offsetof(vector_reg[R].hi));
+     ...
+}
+>> I see a example at target/ppc/translate/vmx-impl.c.inc
+>>      static bool do_vx_vprtyb(DisasContext *ctx, arg_VX_tb *a, 
+>> unsigned vece)
+>>      {
+>>              ...
+>>              {
+>>              .fno = gen_helper_VPRTYBQ,
+>>              .vece = MO_128
+>>              },
+>>              tcg_gen_gvec_2(avr_full_offset(a->vrt), 
+>> avr_full_offset(a->vrb),
+>>                                 16, 16, &op[vece - MO_32]);
+>>          return true;
+>>      }
+>> TRANS(VPRTYBQ, do_vx_vprtyb, MO_128)
+>> ...
+>>
+>> do_vx_vprtyb  fit the fno into the tcg_gen_gvec_2.
+>> I am not sure this  example is right.
+>
+> Ah, well.  When .fno is the only callback, the implementation is 
+> entirely out-of-line, and the .vece member is not used.  I see that is 
+> confusing.
+>
+and This is another way to translate:
+     ...
+          {
+              .fno = gen_helper_vaddwev_q_d,
+              .vece = MO_128
+          },
+     ...
+     void HELPER(vaddwev_q_d)(void *vd, void *vj, void *vk, uint32_t v)
+     {
+         VReg *Vd = (VReg *)vd;
+         VReg *Vj = (VReg *)vj;
+         VReg *Vk = (VReg *)vk;
+
+         Vd->Q(0) = int128_add((Int128)Vj->D(0), (Int128)Vk->D(0));
+     }
+
+These ways are can be chosen?
+
+Thanks.
+Song Gao
+
 
