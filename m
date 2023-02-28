@@ -2,95 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D103A6A5980
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 13:53:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CDB6A58FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 13:27:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWyzx-0005Tf-0l; Tue, 28 Feb 2023 07:22:25 -0500
+	id 1pWz49-0007Da-Q1; Tue, 28 Feb 2023 07:26:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWyzL-0005Sx-Fq
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 07:21:49 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWz47-0007Cj-1h
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 07:26:43 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWyzH-0008PL-W5
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 07:21:47 -0500
-Received: by mail-wm1-x335.google.com with SMTP id az36so6276258wmb.1
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 04:21:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWz45-0000x7-9Y
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 07:26:42 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t15so9528887wrz.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 04:26:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=91GaZzjlTl0Bu/cPlQuB4+9xK993xopmGcPom33VZ3M=;
- b=b6GJ1L6ifW9AJhpyombrp6CGk1cFX38s4MU+H2qfvF+zAnpTSYa4ByiL4pJIA5stRC
- KgdUqBKBbEnNQHqCOfpbQQJS1B7wiGz+Pvtc8wAs1iKrT7XrJYLw/wtYuPONEsoSi0x+
- RIV+YKpHxmOF52CavE3PMaKVmwnqtJAZLft5tIbN+MSik5h/3lbI6d+zVxLzY3BtP44Y
- w510j0EF0y4mT27WSzJrGqAuQGRYjJDHibAvcAxYDD7eIKAVVqcKigKaWNbRoqGVoJMI
- j7tLkWcHU7903Cp7t+MSaghy1IVBZM7HSr8/11l/rpMPTZqoyFJzOWWfhH9Za7imQq0v
- oVqQ==
+ bh=cu+nvG5w9sWCWl9GYD0stdG9tMSCSHPgD7RGc1i2YRA=;
+ b=K3wluKxcE/rCvWqOkwXeehlmYRMbEq8RyljUSJLktvXWQYzvfV0JVuxh7sEjOItHLy
+ zkB0bDfg1w0blyu7O79patbUxjElHTkQWl4dXxYhVt8U8TUSLz+j6ddCyrJhS7m5cNCn
+ JLxtUFnp8BSUDvt4S4Tw2zxaHnbV4XxV4VEVqJ/d+Y8YmSoKUc7w/Eb9CcXJEnBvBW/A
+ surEgKqpwer9fNgWwtsETr6+JOUrM+n0f+qX5qRY93yOvzTIh3pBSxNrOBcD3EKmU40Z
+ QzGrVYDctK5UF7fdvl4Q/aoN9YBMtUH8C7ppyKj5Xnqt7NAR6KHA4YfeOrcVsxTwOU7s
+ Czbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=91GaZzjlTl0Bu/cPlQuB4+9xK993xopmGcPom33VZ3M=;
- b=WrjSlDgEjO0xIKLH1MMjURUIfaOz+cBzv7TXXPQMTaJp7heCj2G7xEh3djIlm+iyR+
- KvKjwqZqIHUPbzqIJ2wkdlhxgRjxhKqxCxhMJa8HVQzqyTiwZ6aOBiJx7sxP++XdsL8j
- 8HHKmU3QMExB7iyV+ZFlcvuJKTcmzSwPTZXyXOkogTDswauquyXmqtTUuOeE8hB0FhGh
- Bm3ONJoNZ7aIZDx7cs74ZPrN7htvg2Ghn2pgcSKr7YGCBpopBt/qW0Te52qqIvpEpyul
- jJjs/Bwg2wBsY/0xxJV/ynqA0pZnPczqs75CVG42pFD6sldB9IfbK3GfdGa5Fnk5Tf61
- rePg==
-X-Gm-Message-State: AO0yUKU1l8dARcF7q/Vs2mKV+T/o9WolkfQt8HEjnY8wFtFcXN6W434D
- du7rhOgLqesO9+PRopIp/B3pyQ==
-X-Google-Smtp-Source: AK7set8PoN2e8CdgeoCxubbO4BCfoXW8vLQBJfHsjcuUHU4W35GaN1/4aFPkF1RrWXd6UgKnfkxCfg==
-X-Received: by 2002:a05:600c:4510:b0:3e2:19b0:887d with SMTP id
- t16-20020a05600c451000b003e219b0887dmr2259700wmo.25.1677586895925; 
- Tue, 28 Feb 2023 04:21:35 -0800 (PST)
+ bh=cu+nvG5w9sWCWl9GYD0stdG9tMSCSHPgD7RGc1i2YRA=;
+ b=dlQ31Mp1JhiSNlHSKgEiPiF6YVHMvL9nSwTARXhsOVoooMStJrcw+iK8RFKzBLRBuo
+ vpH1Q+FErdLDg9i/S4YwImZrmZfSQRbE4lu65GI67syKzIe/lO9/AXRUCC5kE3OnvfiO
+ bcn5+8ADMQ8s7MmwYrmI1bCDpHgR7MvMAE6IAS57B/IbCJZCg5BM4i7VwIFpD63KQL3e
+ s3H4Cq48noYPQBlBAFSdl71QwZ6yveL0gsMfI5ZxA/h3atFeZB8yAID0myiD4TeB7uHk
+ ej50oUVWdVcBRFsb6/YgPuizTXWnJsqIGIJKyJAb7lplWAKK7/m/hdLPkvadJnlyhBUX
+ dqqA==
+X-Gm-Message-State: AO0yUKV7B2cd4fGx2wEIFa/17dtzY5tzSkHYtFTwuX6viRieKGFotk6K
+ 2tvgk6C5iWR+Ao2NRU1weuAPVQ==
+X-Google-Smtp-Source: AK7set/FeEH3SMp+xTRs7KN0rO4ziPX4ZU/IYrCCDHUXsFss9SGulRgXPV/twaTftMt+Opk3ZZcv+w==
+X-Received: by 2002:adf:f405:0:b0:2c7:2cf4:baff with SMTP id
+ g5-20020adff405000000b002c72cf4baffmr2283941wro.70.1677587199717; 
+ Tue, 28 Feb 2023 04:26:39 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n4-20020a7bcbc4000000b003dc3f3d77e3sm11589858wmi.7.2023.02.28.04.21.32
+ c18-20020adfed92000000b002c54c9bd71fsm9920712wro.93.2023.02.28.04.26.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 04:21:35 -0800 (PST)
-Message-ID: <fee4a91c-3a66-e35a-2663-2565b4103549@linaro.org>
-Date: Tue, 28 Feb 2023 13:21:31 +0100
+ Tue, 28 Feb 2023 04:26:38 -0800 (PST)
+Message-ID: <084ec45e-944c-32a5-163f-d2fe5666d3c9@linaro.org>
+Date: Tue, 28 Feb 2023 13:26:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 4/7] tests/docker: add USER stanzas to non-lci images
+Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
+ qemu-system-i386
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Li-Wen Hsu <lwhsu@freebsd.org>,
- Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Beraldo Leal <bleal@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Ed Maste <emaste@freebsd.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, qemu-arm@nongnu.org,
- qemu-block@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- John Snow <jsnow@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Hanna Reitz <hreitz@redhat.com>, Bandan Das <bsd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Darren Kenny
- <darren.kenny@oracle.com>, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-References: <20230224180857.1050220-1-alex.bennee@linaro.org>
- <20230224180857.1050220-5-alex.bennee@linaro.org>
- <6a0a7246-e9fd-abfc-283e-b591000cfec7@linaro.org> <87h6v6f0db.fsf@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <20230227111050.54083-2-thuth@redhat.com> <Y/yY72L9wyjuv3Yz@redhat.com>
+ <20230227150858-mutt-send-email-mst@kernel.org>
+ <d1151c34-c2e3-50aa-b12e-f6c5cafed5d3@linaro.org>
+ <20230228035917-mutt-send-email-mst@kernel.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87h6v6f0db.fsf@linaro.org>
+In-Reply-To: <20230228035917-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,67 +102,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/2/23 13:18, Alex Bennée wrote:
-> 
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
-> 
->> On 24/2/23 19:08, Alex Bennée wrote:
->>> These are flat but not generated by lcitool so we need to manually
->>> update them with the `useradd` stanza.
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> ---
->>>    tests/docker/dockerfiles/debian-all-test-cross.docker     | 5 +++++
->>>    tests/docker/dockerfiles/debian-alpha-cross.docker        | 5 +++++
->>>    tests/docker/dockerfiles/debian-hexagon-cross.docker      | 5 +++++
->>>    tests/docker/dockerfiles/debian-hppa-cross.docker         | 5 +++++
->>>    tests/docker/dockerfiles/debian-loongarch-cross.docker    | 5 +++++
->>>    tests/docker/dockerfiles/debian-m68k-cross.docker         | 5 +++++
->>>    tests/docker/dockerfiles/debian-mips-cross.docker         | 5 +++++
->>>    tests/docker/dockerfiles/debian-mips64-cross.docker       | 5 +++++
->>>    tests/docker/dockerfiles/debian-native.docker             | 5 +++++
->>>    tests/docker/dockerfiles/debian-powerpc-test-cross.docker | 6 +++++-
->>>    tests/docker/dockerfiles/debian-riscv64-cross.docker      | 5 +++++
->>>    tests/docker/dockerfiles/debian-riscv64-test-cross.docker | 5 +++++
->>>    tests/docker/dockerfiles/debian-sh4-cross.docker          | 5 +++++
->>>    tests/docker/dockerfiles/debian-sparc64-cross.docker      | 5 +++++
->>>    tests/docker/dockerfiles/debian-toolchain.docker          | 5 +++++
->>>    tests/docker/dockerfiles/debian-tricore-cross.docker      | 5 +++++
->>>    tests/docker/dockerfiles/debian-xtensa-cross.docker       | 5 +++++
->>>    tests/docker/dockerfiles/fedora-cris-cross.docker         | 5 +++++
->>>    tests/docker/dockerfiles/fedora-i386-cross.docker         | 5 +++++
->>>    tests/docker/dockerfiles/python.docker                    | 5 +++++
->>>    20 files changed, 100 insertions(+), 1 deletion(-)
->>> diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker
->>> b/tests/docker/dockerfiles/debian-all-test-cross.docker
->>> index 8dc5e1b5de..981e9bdc7b 100644
->>> --- a/tests/docker/dockerfiles/debian-all-test-cross.docker
->>> +++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
->>> @@ -61,3 +61,8 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->>>      ENV QEMU_CONFIGURE_OPTS --disable-system --disable-docs
->>> --disable-tools
->>>    ENV DEF_TARGET_LIST aarch64-linux-user,alpha-linux-user,arm-linux-user,hppa-linux-user,i386-linux-user,m68k-linux-user,mips-linux-user,mips64-linux-user,mips64el-linux-user,mipsel-linux-user,ppc-linux-user,ppc64-linux-user,ppc64le-linux-user,riscv64-linux-user,s390x-linux-user,sh4-linux-user,sparc64-linux-user
->>> +# As a final step configure the user (if env is defined)
->>> +ARG USER
->>> +ARG UID
->>> +RUN if [ "${USER}" ]; then \
->>> +  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
+On 28/2/23 09:59, Michael S. Tsirkin wrote:
+> On Mon, Feb 27, 2023 at 10:21:14AM -1000, Richard Henderson wrote:
+>> On 2/27/23 10:12, Michael S. Tsirkin wrote:
+>>> On Mon, Feb 27, 2023 at 11:50:07AM +0000, Daniel P. Berrangé wrote:
+>>>> I feel like we should have separate deprecation entries for the
+>>>> i686 host support, and for qemu-system-i386 emulator binary, as
+>>>> although they're related they are independant features with
+>>>> differing impact. eg removing qemu-system-i386 affects all
+>>>> host architectures, not merely 32-bit x86 host, so I think we
+>>>> can explain the impact more clearly if we separate them.
+>>>
+>>> Removing qemu-system-i386 seems ok to me - I think qemu-system-x86_64 is
+>>> a superset.
+>>>
+>>> Removing support for building on 32 bit systems seems like a pity - it's
+>>> one of a small number of ways to run 64 bit binaries on 32 bit systems,
+>>> and the maintainance overhead is quite small.
 >>
->> Is that intended for local image building?
-> 
-> For building tests. When we run the compilers inside the docker
-> container we want to ensure the final binary is visible and accessible
-> outside the container.
-> 
->> Personally I only use the image built by gitlab and mount the containers
->> with -u $UID -v $HOME/.ccache -v $HOME/source/qemu. Would that still
->> keep working, or do I have to map from gitlab user to mine?
-> 
-> Its only added on for local builds so in theory you should cache all the
-> layers apart from the last one.
+>> It's not that small.  It only works for single-threaded system mode.  It
+>> silently does not honor atomicity for user-only mode, which is perhaps worse
+>> not working at all.
 
-OK.
+Will the same occur with 64-bit hosts when we introduce a 128-bit 
+target? If so, there is no much code we'll be able to drop,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> We should probably block multi-threading on 32 bit then.
 
+so this sound a user experience fix.
 
 
