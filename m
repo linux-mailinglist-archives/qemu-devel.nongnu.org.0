@@ -2,57 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D1A6A5786
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 12:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3446A5785
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 12:11:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWxsl-0007Br-Fu; Tue, 28 Feb 2023 06:10:55 -0500
+	id 1pWxt4-0007xb-84; Tue, 28 Feb 2023 06:11:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1pWxsd-00078b-Eh
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:10:47 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pWxt2-0007wV-8e
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:11:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1pWxsa-0008Tz-24
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:10:47 -0500
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4PQvls0ZxyzrSGY;
- Tue, 28 Feb 2023 19:10:01 +0800 (CST)
-Received: from [10.174.148.223] (10.174.148.223) by
- kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 28 Feb 2023 19:10:38 +0800
-Message-ID: <bab5d0de-133f-54b7-a239-11b354a79dd6@huawei.com>
-Date: Tue, 28 Feb 2023 19:10:36 +0800
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pWxt0-0000Eu-U9
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:11:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677582670;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=92lxxXSSADseUtEtUq/VFsjPjSGdh4REQIeaVi28QKE=;
+ b=M/9GRS/1MZPM4ySpkTg5elAprlKovV2Ux3UTZELmAHS/1yxqWaw5dxXExPun380Zv2kTro
+ EzLQ5RazJDqJmbgnPzDTMMkCi/+YQlzNXPe0XSYu3vKp+3wTREshA+EwxC+NZrj78Wj7Nl
+ R7SAsx5nEMncczys6LTwXkjJQbyg3sw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-155-OLiGtVufM0K5r5f2_tRA-g-1; Tue, 28 Feb 2023 06:11:08 -0500
+X-MC-Unique: OLiGtVufM0K5r5f2_tRA-g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ bh3-20020a05600005c300b002c70d6e2014so1483294wrb.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 03:11:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=92lxxXSSADseUtEtUq/VFsjPjSGdh4REQIeaVi28QKE=;
+ b=W3da5X+wGZhqb73cD+cvErxfsSFQLjcuWpk7b9P6xpWDVHz6XL25ca31j9009MKUIq
+ PQTN5nMcbJk31oBx71e2SxcIXFvUAXgQi/fYMap5o8Ssu1ej4HnAcXTh+Lq5eOcpWt/U
+ poi8xKUhO1/rBgLnBmYmYo5LySPxD0Uxb/7HZ8uW+Expbx/Bl5biVY7JGDCszEvMs2ng
+ DaEfboJk5RWY0/+UMfI90huvuh3i1aMvJgdyLl0yhDwE9nsAPtRozWRdR4MIXoVZPzF/
+ oyAHPjEpk7uTQEtekHzBX+2qTHdfRjQmWAJcaRihxsOViEPxWjLCCq4REZJoEhSr2fjP
+ HlHg==
+X-Gm-Message-State: AO0yUKUXrHzRd0tO65UI5mMcvjQSrD+O/tTF8FJe7EplqG+b4JECf98Q
+ Q369cuMITr6mqj0PnzrDNpta2plnVL8visSx3xIfzux+i7l2zTtAi02OW2NZJIDvUhI5wy91Rp4
+ ndFRoThZ28Nobdiw=
+X-Received: by 2002:adf:f603:0:b0:2c5:4db8:3dde with SMTP id
+ t3-20020adff603000000b002c54db83ddemr1651324wrp.70.1677582667630; 
+ Tue, 28 Feb 2023 03:11:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set+sXmaResgSHI2sCBVcSmLeXi2jf46OeulWS/VCFSWS9CPeKJKpbsNG7q/faVnFgYHsp68Kgw==
+X-Received: by 2002:adf:f603:0:b0:2c5:4db8:3dde with SMTP id
+ t3-20020adff603000000b002c54db83ddemr1651314wrp.70.1677582667390; 
+ Tue, 28 Feb 2023 03:11:07 -0800 (PST)
+Received: from redhat.com (nat-252.udc.es. [193.144.61.252])
+ by smtp.gmail.com with ESMTPSA id
+ e17-20020a05600c219100b003e7f1086660sm15712591wme.15.2023.02.28.03.11.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 03:11:06 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: "John Berberian, Jr" <jeb.study@gmail.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,  Stefan
+ Weil <sw@weilnetz.de>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,
+ qemu-devel@nongnu.org,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2] Fix exec migration on Windows (w32+w64).
+In-Reply-To: <12107bdf-f631-e42a-5136-59bb67e301fc@gmail.com> (John Berberian, 
+ Jr.'s message of "Fri, 17 Feb 2023 21:00:10 -0500")
+References: <20230116013421.3149183-1-jeb.study@gmail.com>
+ <CAJ+F1C+x3tSHAb6LbL+GK0m08UuKCS0RWygz41gMFycqL0JrrQ@mail.gmail.com>
+ <Y8UXR6uqdv22auoE@redhat.com>
+ <db09ab65-a6a7-0096-625a-c323a4b5aacf@gmail.com>
+ <CAJ+F1CKkqcgCYfnGVK7LSD5gE1ueX2HrCGqP26_UJZYt3E-q4A@mail.gmail.com>
+ <12107bdf-f631-e42a-5136-59bb67e301fc@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 28 Feb 2023 12:11:05 +0100
+Message-ID: <87pm9ukpti.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v1 3/3] virtio-pci: defer to commit kvm irq routing when
- enable msi/msix
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: <jasowang@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
- <yechuan@huawei.com>, <eperezma@redhat.com>, <alex.williamson@redhat.com>,
- <mtosatti@redhat.com>, <clg@redhat.com>, <qemu-devel@nongnu.org>
-References: <20230228093937.2515-1-longpeng2@huawei.com>
- <20230228093937.2515-4-longpeng2@huawei.com>
- <20230228051830-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20230228051830-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemi100025.china.huawei.com (7.221.188.158)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,257 +103,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+"John Berberian, Jr" <jeb.study@gmail.com> wrote:
+> ping. Is there anything I can do to help this get merged?
 
+Hi
 
-在 2023/2/28 18:40, Michael S. Tsirkin 写道:
-> On Tue, Feb 28, 2023 at 05:39:37PM +0800, Longpeng(Mike) wrote:
->> From: Longpeng <longpeng2@huawei.com>
->>
->> All unmasked vectors will be setup in msix_set_vector_notifiers(), which
->> is a time-consuming operation because each vector need to be submit to
->> KVM once. It's even worse if the VM has several devices and each devices
->> has dozens of vectors.
->>
->> We can defer and commit the vectors in batch, just like the commit dc580d51f7
->> ("vfio: defer to commit kvm irq routing when enable msi/msix"),
->>
->> The can reduce 80% of the time spending on virtio_pci_set_guest_notifiers().
-> 
-> cover letter also refers to 80%. what about patch 1 then? does it
-> contribute some of this gain?
-> 
+I have to get back from Marc/Daniel before proceed.
 
-Sorry, it's a clerical error, patch 3 reduces 50% in actually.
+You did an answer, but they didn't respond.
 
-In my test, patch 1 can reduce 37%(160ms->101ms) and patch 3 can reduce 
-50%(101ms->21ms, 80/160).
+What should we do here?
 
->> Signed-off-by: Longpeng <longpeng2@huawei.com>
-> 
-> In the age of language models there's no longer any excuse to post
-> agrammatical commit messages. Please just give your text to one of these
-> to correct.
-> 
+Thanks, Juan.
 
-Oh, I really envy you because I can not use it in my workspace. Thank 
-you for your correction.
+> Best regards,
+> John Berberian, Jr.
 
-> I prompted: "please correct grammar in the following text"
-> and got back:
-> 
-> 	All unmasked vectors will be set up in
-> 	msix_set_vector_notifiers(), which is a time-consuming operation because
-> 	each vector needs to be submitted to KVM once. It's even worse if the VM
-> 	has several devices and each device has dozens of vectors.
-> 
-> 	We can defer and commit the vectors in batches, just like the
-> 	commit dc580d51f7 ("vfio: defer to commit kvm irq routing when enabling
-> 	msi/msix").
-> 
-> 	This can reduce the time spent on virtio_pci_set_guest_notifiers() by 80%.
-> 
-> 
-> 
-> 
->> ---
->>   hw/virtio/virtio-pci.c     | 113 ++++++++++++++++++++++++++++++++-----
->>   include/hw/virtio/virtio.h |   1 +
->>   2 files changed, 99 insertions(+), 15 deletions(-)
->>
->> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
->> index 5fd02b7cb8..13f9c31009 100644
->> --- a/hw/virtio/virtio-pci.c
->> +++ b/hw/virtio/virtio-pci.c
->> @@ -51,15 +51,22 @@
->>   
->>   /* Protected by the BQL */
->>   static KVMRouteChange virtio_pci_route_change;
->> +static unsigned virtio_pci_route_change_depth;
->>   
->>   static inline void virtio_pci_begin_route_changes(void)
->>   {
->> -    virtio_pci_route_change = kvm_irqchip_begin_route_changes(kvm_state);
->> +    if (!virtio_pci_route_change_depth) {
->> +        virtio_pci_route_change = kvm_irqchip_begin_route_changes(kvm_state);
->> +    }
->> +    virtio_pci_route_change_depth++;
->>   }
->>   
->>   static inline void virtio_pci_commit_route_changes(void)
->>   {
->> -    kvm_irqchip_commit_route_changes(&virtio_pci_route_change);
->> +    virtio_pci_route_change_depth--;
->> +    if (!virtio_pci_route_change_depth) {
->> +        kvm_irqchip_commit_route_changes(&virtio_pci_route_change);
->> +    }
->>   }
->>   
->>   static void virtio_pci_bus_new(VirtioBusState *bus, size_t bus_size,
->> @@ -976,6 +983,88 @@ static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
->>       kvm_virtio_pci_vector_release_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
->>   }
->>   
->> +static int virtio_pci_vector_do_unmask(VirtIOPCIProxy *proxy,
->> +                                       unsigned int queue_no,
->> +                                       unsigned int vector,
->> +                                       EventNotifier *n)
->> +{
->> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->> +    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->> +    int ret = 0;
->> +
->> +    /*
->> +     * If guest supports masking, irqfd is already setup, unmask it.
->> +     * Otherwise, set it up now.
->> +     */
->> +    if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
->> +        k->guest_notifier_mask(vdev, queue_no, false);
->> +        /* Test after unmasking to avoid losing events. */
->> +        if (k->guest_notifier_pending &&
->> +            k->guest_notifier_pending(vdev, queue_no)) {
->> +            event_notifier_set(n);
->> +        }
->> +    } else {
->> +        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
->> +    }
->> +
->> +    return ret;
->> +}
->> +
->> +static void virtio_pci_prepare_kvm_msi_virq_batch(VirtIOPCIProxy *proxy)
->> +{
->> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->> +
->> +    assert(!vdev->defer_kvm_irq_routing);
->> +    vdev->defer_kvm_irq_routing = true;
->> +    virtio_pci_begin_route_changes();
-> 
-> move this out of here please - otherwise it's not clear each begin
-> is matched by commit.  in fact just open code this function.
-> 
->> +}
->> +
->> +static void virtio_pci_commit_kvm_msi_virq_batch(VirtIOPCIProxy *proxy)
->> +{
->> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->> +    PCIDevice *dev = &proxy->pci_dev;
->> +    VirtQueue *vq;
->> +    EventNotifier *n;
->> +    int vector, index;
->> +    int ret;
->> +
->> +    assert(vdev->defer_kvm_irq_routing);
->> +    virtio_pci_commit_route_changes();
->> +    vdev->defer_kvm_irq_routing = false;
->> +
->> +    if (!msix_enabled(dev)) {
->> +        return;
->> +    }
->> +
->> +    /* Unmask all unmasked vectors */
->> +    for (vector = 0; vector < dev->msix_entries_nr; vector++) {
->> +        if (msix_is_masked(dev, vector)) {
->> +            continue;
->> +        }
->> +
->> +        vq = virtio_vector_first_queue(vdev, vector);
->> +        while (vq) {
->> +            index = virtio_get_queue_index(vq);
->> +            if (!virtio_queue_get_num(vdev, index)) {
->> +                break;
->> +            }
->> +            if (index < proxy->nvqs_with_notifiers) {
->> +                n = virtio_queue_get_guest_notifier(vq);
->> +                ret = virtio_pci_vector_do_unmask(proxy, index, vector, n);
->> +                assert(ret >= 0);
->> +            }
->> +            vq = virtio_vector_next_queue(vq);
->> +        }
->> +
->> +        if (vector == vdev->config_vector) {
->> +            n = virtio_config_get_guest_notifier(vdev);
->> +            ret = virtio_pci_vector_do_unmask(proxy, VIRTIO_CONFIG_IRQ_IDX,
->> +                                              vector, n);
->> +            assert(ret >= 0);
->> +        }
->> +    }
->> +}
->> +
->>   static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
->>                                          unsigned int queue_no,
->>                                          unsigned int vector,
->> @@ -983,7 +1072,6 @@ static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
->>                                          EventNotifier *n)
->>   {
->>       VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
->> -    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->>       VirtIOIRQFD *irqfd;
->>       int ret = 0;
->>   
->> @@ -1002,19 +1090,10 @@ static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
->>           }
->>       }
->>   
->> -    /* If guest supports masking, irqfd is already setup, unmask it.
->> -     * Otherwise, set it up now.
->> -     */
->> -    if (vdev->use_guest_notifier_mask && k->guest_notifier_mask) {
->> -        k->guest_notifier_mask(vdev, queue_no, false);
->> -        /* Test after unmasking to avoid losing events. */
->> -        if (k->guest_notifier_pending &&
->> -            k->guest_notifier_pending(vdev, queue_no)) {
->> -            event_notifier_set(n);
->> -        }
->> -    } else {
->> -        ret = kvm_virtio_pci_irqfd_use(proxy, n, vector);
->> +    if (!vdev->defer_kvm_irq_routing) {
->> +        ret = virtio_pci_vector_do_unmask(proxy, queue_no, vector, n);
->>       }
->> +
->>       return ret;
->>   }
->>   
->> @@ -1284,12 +1363,16 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
->>               }
->>           }
->>   
->> +        virtio_pci_prepare_kvm_msi_virq_batch(proxy);
->> +
->>           r = msix_set_vector_notifiers(&proxy->pci_dev, virtio_pci_vector_unmask,
->>                                         virtio_pci_vector_mask,
->>                                         virtio_pci_vector_poll);
->>           if (r < 0) {
->>               goto notifiers_error;
->>           }
->> +
->> +        virtio_pci_commit_kvm_msi_virq_batch(proxy);
->>       }
->>   
->>       return 0;
->> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
->> index 77c6c55929..9d82831350 100644
->> --- a/include/hw/virtio/virtio.h
->> +++ b/include/hw/virtio/virtio.h
->> @@ -147,6 +147,7 @@ struct VirtIODevice
->>       bool start_on_kick; /* when virtio 1.0 feature has not been negotiated */
->>       bool disable_legacy_check;
->>       bool vhost_started;
->> +    bool defer_kvm_irq_routing;
-> 
-> Can't we avoid leaking kvm things all over the place?
-> What does this flag even mean?
-> 
->>       VMChangeStateEntry *vmstate;
->>       char *bus_name;
->>       uint8_t device_endian;
->> -- 
->> 2.23.0
-> 
-> .
 
