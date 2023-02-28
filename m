@@ -2,86 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256296A6242
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 23:17:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E4C6A6252
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 23:20:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX8HI-0000rg-G0; Tue, 28 Feb 2023 17:16:56 -0500
+	id 1pX8Ji-0002nF-QA; Tue, 28 Feb 2023 17:19:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX8HG-0000qp-7X
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 17:16:54 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX8HD-00007m-Fx
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 17:16:53 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id l25so11351168wrb.3
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 14:16:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677622610;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YcGlOy6d+YJ6uPn4TPoxXOLWH/geCaSw6qAp+kfaDHs=;
- b=TmQ4VbDhLjNY3N8adrrxGF/RjZS9fdrHnLJ2oDzULCK6tCJnfqWbJthdcJ+nbj053M
- QbM9jNKZm3s7veFDFUk47IXQBrNfg0f41huLSrpDhOYeR3zc80AuAELBTwSRnXS61fhy
- OyHYm+mgBAaI25H/PtIgNWTnEumHv4uUJ7DZG5FjI0nWznDiZ570S4YEWhbISenevtop
- SrBNgKfyMSIoPiHDTVjRyCUaUGRYDioMEQhSNJcJ8YkXx05hfYaM/AYqRT5A1taTWqUN
- xfpEUS32iYcmfUOa0gP+t0lhVYtqplgvxGhRVtKQWEoMyT4x9L4X33kn73CxzoiCvAib
- aJkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677622610;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YcGlOy6d+YJ6uPn4TPoxXOLWH/geCaSw6qAp+kfaDHs=;
- b=6pmruFpSoAjVKA1fV5L2hDTCCyJqLiptTsdqD9WYIaGuTHrPdP4i9IyHiPTZ4c9nmu
- /TMzITyuDcSVK2TxpEJJIdFkRAYuyHBmzmIK5X/kLRt27YR2NwR19Xgydf4XQ51w4hyl
- LtGBJ6QGNYaavyJP/Ye7yUy5DIGg92AAL+QXyddepMTBlJ203N/0vxRG5hpNC/0yby05
- SfgC0C8Vvgcta7TA3SBZxakM8+TfPhqD4I8td2gssgSX6O/rvk4AOkGV7a+t8xXF5HZx
- 368MJ4Y3dijVzlYTsMosUeBhCLrc0tprdUaG+xa3xaXt2ONPUw76VxvlIbnzuh2kIurb
- vhaA==
-X-Gm-Message-State: AO0yUKWiwG1hbd3HPswxv5/fRY9Uo/MSA1uiPXHl75utr1V4oMRmqyt5
- AiHT0yQ67mnmTgFOVDrPvMAxfg==
-X-Google-Smtp-Source: AK7set8ZFjkTwvDOGr75vUGF/vJBhOPpxmeb3P9vhff6haJJxS2YI4DfQs69x23iAP62l1H2lNeAuw==
-X-Received: by 2002:a05:6000:1a43:b0:2c7:ca2:1a28 with SMTP id
- t3-20020a0560001a4300b002c70ca21a28mr3034763wry.68.1677622609825; 
- Tue, 28 Feb 2023 14:16:49 -0800 (PST)
-Received: from [192.168.68.175] (166.red-88-28-30.dynamicip.rima-tde.net.
- [88.28.30.166]) by smtp.gmail.com with ESMTPSA id
- o3-20020a5d4083000000b002c5a790e959sm10926847wrp.19.2023.02.28.14.16.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 14:16:49 -0800 (PST)
-Message-ID: <089b255a-384d-55f4-2868-0f24dd2588ec@linaro.org>
-Date: Tue, 28 Feb 2023 23:16:46 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pX8Je-0002mx-UR
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 17:19:22 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pX8Jc-0000X2-05
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 17:19:22 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7F6DA7457E7;
+ Tue, 28 Feb 2023 23:19:18 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 09E4A745720; Tue, 28 Feb 2023 23:19:18 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 089B9745706;
+ Tue, 28 Feb 2023 23:19:18 +0100 (CET)
+Date: Tue, 28 Feb 2023 23:19:18 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: philmd@linaro.org
+cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 1/2] log: Add separate debug option for logging invalid
+ memory accesses
+In-Reply-To: <3b2d2ce2-f57d-41e0-eff6-e0a498138a88@eik.bme.hu>
+Message-ID: <27d07ba5-83c7-5dcb-7d58-f8355d22abbc@eik.bme.hu>
+References: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+ <ad4783ee-20ce-06d2-7c2f-1f915bd684d0@eik.bme.hu>
+ <413edbc1-8af1-4b0e-70ab-41d49f1bbbcd@eik.bme.hu>
+ <fcd09b07-c0ac-d617-8503-a5ecef947cfe@redhat.com> <Y+pM+H1PvTUUHrhx@x1n>
+ <7ae34a52-13a5-05e0-3cea-10a9fb89ec1c@eik.bme.hu>
+ <Y+piDukOkeg+xs9G@x1n> <0d85fc1d-4c97-5874-d49c-03ac3c265e2f@eik.bme.hu>
+ <Y+pwnar8b17Mu0u4@x1n> <d3ebfc88-8b03-cfb7-bc4f-9952521b3ba8@eik.bme.hu>
+ <Y+qqvqW/K8yJWrTm@x1n> <3b2d2ce2-f57d-41e0-eff6-e0a498138a88@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 2/3] hw/acpi/cpu_hotplug: Rename 'parent' MemoryRegion as
- 'container'
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
-References: <20230203163021.35754-1-philmd@linaro.org>
- <20230203163021.35754-3-philmd@linaro.org>
- <20230228164123-mutt-send-email-mst@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230228164123-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,130 +70,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/2/23 22:43, Michael S. Tsirkin wrote:
-> On Fri, Feb 03, 2023 at 05:30:20PM +0100, Philippe Mathieu-Daudé wrote:
->> No logical change, rename for clarity.
+On Mon, 13 Feb 2023, BALATON Zoltan wrote:
+> On Mon, 13 Feb 2023, Peter Xu wrote:
+>> On Mon, Feb 13, 2023 at 07:34:55PM +0100, BALATON Zoltan wrote:
+>>> On Mon, 13 Feb 2023, Peter Xu wrote:
+>>>> On Mon, Feb 13, 2023 at 05:34:04PM +0100, BALATON Zoltan wrote:
+>>>>> On Mon, 13 Feb 2023, Peter Xu wrote:
+>>>>>> On Mon, Feb 13, 2023 at 03:47:42PM +0100, BALATON Zoltan wrote:
+>>>>>>> On Mon, 13 Feb 2023, Peter Xu wrote:
+>>>>>>>> On Mon, Feb 13, 2023 at 12:41:29PM +0100, Thomas Huth wrote:
+>>>>>>>>> On 07/02/2023 17.33, BALATON Zoltan wrote:
+>>>>>>>>>> On Tue, 31 Jan 2023, BALATON Zoltan wrote:
+>>>>>>>>>>> On Thu, 19 Jan 2023, BALATON Zoltan wrote:
+>>>>>>>>>>>> Currently -d guest_errors enables logging of different invalid 
+>>>>>>>>>>>> actions
+>>>>>>>>>>>> by the guest such as misusing hardware, accessing missing 
+>>>>>>>>>>>> features or
+>>>>>>>>>>>> invalid memory areas. The memory access logging can be quite 
+>>>>>>>>>>>> verbose
+>>>>>>>>>>>> which obscures the other messages enabled by this debug switch so
+>>>>>>>>>>>> separate it by adding a new -d memaccess option to make it 
+>>>>>>>>>>>> possible to
+>>>>>>>>>>>> control it independently of other guest error logs.
+>>>>>>>>>>>> 
+>>>>>>>>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>>>>>>>> 
+>>>>>>>>>>> Ping? Could somebody review and pick it up please?
+>>>>>>>>>> 
+>>>>>>>>>> Ping?
+>>>>>>>>> 
+>>>>>>>>> Patch makes sense to me and looks fine, so:
+>>>>>>>>> 
+>>>>>>>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>>>>>>>> 
+>>>>>>>>> ... I think this should go via one of the "Memory API" maintainers 
+>>>>>>>>> branches?
+>>>>>>>>> Paolo? Peter? David?
+>>>>>>>> 
+>>>>>>>> Paolo normally does the pull, I assume that'll still be the case. 
+>>>>>>>> The
+>>>>>>>> patch looks good to me if Phil's comment will be addressed on merging 
+>>>>>>>> with
+>>>>>>>> the old mask, which makes sense to me:
+>>>>>>> 
+>>>>>>> Keeping the old mask kind of defies the purpose. I've tried to explain 
+>>>>>>> that
+>>>>>>> in the commit message but now that two of you did not get it maybe 
+>>>>>>> that
+>>>>>>> message needs to be clarified instead?
+>>>>>> 
+>>>>>> I think it's clear enough.  My fault to not read carefully into the
+>>>>>> message, sorry.
+>>>>>> 
+>>>>>> However, could you explain why a memory_region_access_valid() failure
+>>>>>> shouldn't belong to LOG_GUEST_ERROR?
+>>>>>> 
+>>>>>> commit e54eba1986f6c4bac2951e7f90a849cd842e25e4
+>>>>>> Author: Peter Maydell <peter.maydell@linaro.org>
+>>>>>> Date:   Thu Oct 18 14:11:35 2012 +0100
+>>>>>>
+>>>>>>    qemu-log: Add new log category for guest bugs
+>>>>>>
+>>>>>>    Add a new category for device models to log guest behaviour
+>>>>>>    which is likely to be a guest bug of some kind (accessing
+>>>>>>    nonexistent registers, reading 32 bit wide registers with
+>>>>>>    a byte access, etc). Making this its own log category allows
+>>>>>>    those who care (mostly guest OS authors) to see the complaints
+>>>>>>    without bothering most users.
+>>>>>> 
+>>>>>> Such an illegal memory access is definitely a suitable candidate of 
+>>>>>> guest
+>>>>>> misbehave to me.
+>>>>> 
+>>>>> Problem is that a lot of machines have unimplemented hardware that are 
+>>>>> valid
+>>>>> on real machine but we don't model them so running guests which access 
+>>>>> these
+>>>>> generate constant flow of unassigned memory access log which obscures 
+>>>>> the
+>>>>> actual guest_errors when an modelled device is accessed in unexpected 
+>>>>> ways.
+>>>>> For an example you can try booting MorphOS on mac99,via=pmu as described
+>>>>> here: http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
+>>>>> (or the pegasos2 command too). We could add dummy registers to silence 
+>>>>> these
+>>>>> but I think it's better to either implement it correctly or leave it
+>>>>> unimplemented so we don't hide errors by the dummy implementation.
+>>>>> 
+>>>>>> Not to mention Phil always have a good point that you may be violating
+>>>>>> others using guest_error already so what they wanted to capture can
+>>>>>> misterious going away without noticing, even if it may service your 
+>>>>>> goal.
+>>>>>> IOW it's a slight ABI and I think we ned justification to break it.
+>>>>> 
+>>>>> Probably this should be documented in changelog or do we need 
+>>>>> depracation
+>>>>> for a debug option meant for developers mostly? I did not think so. Also 
+>>>>> I
+>>>>> can't think of other way to solve this without changing what 
+>>>>> guest_erorrs do
+>>>>> unless we change the name of that flag as well. Also not that when this 
+>>>>> was
+>>>>> originally added it did not contain mem access logs as those were 
+>>>>> controlled
+>>>>> by a define in memory.c until Philippe changed it and added them to
+>>>>> guest_errors. So in a way I want the previous functionality back.
+>>>> 
+>>>> I see, thanks.
+>>>> 
+>>>> Indeed it's only a debug option, so I don't know whether the abi needs 
+>>>> the
+>>>> attention here.
+>>>> 
+>>>> I quickly looked at all the masks and afaict this is really a special and
+>>>> very useful one that if I'm a cloud provider I can run some script trying
+>>>> to capture those violations using this bit to identify suspecious guests.
+>>>> 
+>>>> So I think it would still be great to not break it if possible, IMHO.
+>>>> 
+>>>> Since currently I don't see an immediate limitation of having qemu log 
+>>>> mask
+>>>> being a single bit for each of the entry, one way to satisfy your need 
+>>>> (and
+>>>> also keep the old behavior, iiuc), is to make guest_errors a sugar syntax
+>>>> to cover 2 bits.  It shouldn't be complicated at all, I assume:
+>>>> 
+>>>> +/* This covers the generic guest errors besides memory violations */
+>>>> #define LOG_GUEST_ERROR    (1 << 11)
+>>>> 
+>>>> +/*
+>>>> + * This covers the guest errors on memory violations; see 
+>>>> LOG_GUEST_ERROR
+>>>> + * for generic guest errors.
+>>>> + */
+>>>> +#define LOG_GUEST_ERROR_MEM      (1 << 21)
+>>>> +#define LOG_GUEST_ERROR_ALL      (LOG_GUEST_ERROR | LOG_GUEST_ERROR_MEM)
+>>>> 
+>>>> -    { LOG_GUEST_ERROR, "guest_errors",
+>>>> +    { LOG_GUEST_ERROR_ALL, "guest_errors",
+>>>> 
+>>>> Then somehow squashed with your changes.  It'll make "guest_errors" not
+>>>> exactly matching the name of LOG_* but I think it may not be a big 
+>>>> concern.
+>>> 
+>>> I'm not sure I understand this. So -d memaccess would give me the 
+>>> unassigned
+>>> logs, that's fine and -d guest_errors are both LOG_GUEST_ERROR and 
+>>> memaccess
+>>> like currently but what option would give me just the guest_Errors before
+>>> mem access started to use this flag too? (I could not locate the commit 
+>>> that
+>>> changed this but I remember previously the unassigned mem logs were 
+>>> enabled
+>>> with a define in memory.c.) Do we need another -d option for just the 
+>>> guest
+>>> errors then? What should that be called?
+>> 
+>> I forgot to add those two definitions into qemu_log_items just now.  It can
+>> be defined as:
 >>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
-> Can't say container is clearer. If we are changing things
-> I'd like to see a real improvement.
+>>  - "guest_errors_common" for !mem errors
+>>  - "guest_errors_mem" for mem errors
+>>  - "guest_errors" for mem+!mem (compatible to the old code)
+>
+> OK I get that now but I would still like to call these differently. For one 
+> these are very long and also not quite clear. Unassigned mem access is most 
+> often not a guest error but error in emulating hardware, that is guest 
+> accessing devices we don't model will result in these so the guest does 
+> nothing wrong is't just missing emulation. Therefore I'd keep the flag called 
+> LOG_MEM_ACCESS and corresponding -d memaccess option. We can keep 
+> guest_errors to do what it does now setting both flags but then we need a new 
+> name for LOG_GUEST_ERROR alone. We could call that -d guest_error and then 
+> deprecate guest_errors to eventually get everybody convert to use -d 
+> guest_error,memeaccess instead which would also match the flags but I'm also 
+> OK with some other -d option name for just LOG_GUEST_ERROR however I don't 
+> think renaming the LOG_GUEST_ERROR flag is a good idea so that would result 
+> in mismatch between flag and option, but that could be OK.
+>
+>> With the two lines added:
+>> 
+>> -    { LOG_GUEST_ERROR, "guest_errors",
+>> +    { LOG_GUEST_ERROR_ALL, "guest_errors",
+>>       "log when the guest OS does something invalid (eg accessing a\n"
+>>       "non-existent register)" },
+>> +    { LOG_GUEST_ERROR, "guest_errors_common", "..." },
+>> +    { LOG_GUEST_ERROR_MEM, "guest_errors_mem", "..." },
+>> 
+>> I saw that Phil revoked his concern, I don't have a strong opinion
+>> personally, assuming Phil knows better on that since he modified the memory
+>> loggings before.  If all are happy with this, please proceed with either
+>> way.
+>
+> IIUC he was OK with adding memaccess as long as guest_errors will not change 
+> so together with this proposal but he can clarify what he prefers. I just 
+> want separate -d options for memaccess and the rest that's now in 
+> guest_errors the way it was before mem access errors were added to this flag.
 
-QOM API usually use 'parent' to indicate the inheritance / hierarchy
-between object.
-Memory API uses 'container', in particular when used with
-memory_region_add_subregion().
+This is less important now, I can carry this single patch a bit longer but 
+if you can decide on the above I may be able to still change it and 
+resubmit a new version. If you're too busy to think about it now we can 
+come back to this in next devel cycle.
 
-I still believe this is a worthwhile change as API style cleanup,
-but I agree the commit description lacks this explanation.
-
->> ---
->>   hw/acpi/acpi-cpu-hotplug-stub.c |  2 +-
->>   hw/acpi/cpu_hotplug.c           | 10 +++++-----
->>   hw/acpi/piix4.c                 | 10 +++++-----
->>   include/hw/acpi/cpu_hotplug.h   |  2 +-
->>   4 files changed, 12 insertions(+), 12 deletions(-)
->>
->> diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
->> index b590ad57e1..cbd7a6ec00 100644
->> --- a/hw/acpi/acpi-cpu-hotplug-stub.c
->> +++ b/hw/acpi/acpi-cpu-hotplug-stub.c
->> @@ -13,7 +13,7 @@ void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
->>       return;
->>   }
->>   
->> -void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
->> +void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
->>                                     AcpiCpuHotplug *gpe, uint16_t base)
->>   {
->>       return;
->> diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
->> index 3cfa4f45dc..636e985c50 100644
->> --- a/hw/acpi/cpu_hotplug.c
->> +++ b/hw/acpi/cpu_hotplug.c
->> @@ -81,14 +81,14 @@ void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev, AcpiCpuHotplug *gpe,
->>       acpi_send_event(DEVICE(hotplug_dev), ACPI_CPU_HOTPLUG_STATUS);
->>   }
->>   
->> -void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
->> +void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
->>                                     AcpiCpuHotplug *gpe, uint16_t base)
->>   {
->>       CPUState *cpu;
->>   
->>       memory_region_init_io(&gpe->io, owner, &AcpiCpuHotplug_ops,
->>                             gpe, "acpi-cpu-hotplug", ACPI_GPE_PROC_LEN);
->> -    memory_region_add_subregion(parent, base, &gpe->io);
->> +    memory_region_add_subregion(container, base, &gpe->io);
->>       gpe->device = owner;
->>   
->>       CPU_FOREACH(cpu) {
->> @@ -100,10 +100,10 @@ void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
->>                                   CPUHotplugState *cpuhp_state,
->>                                   uint16_t io_port)
->>   {
->> -    MemoryRegion *parent = pci_address_space_io(PCI_DEVICE(gpe->device));
->> +    MemoryRegion *container = pci_address_space_io(PCI_DEVICE(gpe->device));
->>   
->> -    memory_region_del_subregion(parent, &gpe->io);
->> -    cpu_hotplug_hw_init(parent, gpe->device, cpuhp_state, io_port);
->> +    memory_region_del_subregion(container, &gpe->io);
->> +    cpu_hotplug_hw_init(container, gpe->device, cpuhp_state, io_port);
->>   }
->>   
->>   void build_legacy_cpu_hotplug_aml(Aml *ctx, MachineState *machine,
->> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
->> index c702d83f27..5595fe5be5 100644
->> --- a/hw/acpi/piix4.c
->> +++ b/hw/acpi/piix4.c
->> @@ -555,15 +555,15 @@ static void piix4_set_cpu_hotplug_legacy(Object *obj, bool value, Error **errp)
->>       s->cpu_hotplug_legacy = value;
->>   }
->>   
->> -static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
->> +static void piix4_acpi_system_hot_add_init(MemoryRegion *container,
->>                                              PCIBus *bus, PIIX4PMState *s)
->>   {
->>       memory_region_init_io(&s->io_gpe, OBJECT(s), &piix4_gpe_ops, s,
->>                             "acpi-gpe0", GPE_LEN);
->> -    memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
->> +    memory_region_add_subregion(container, GPE_BASE, &s->io_gpe);
->>   
->>       if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
->> -        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
->> +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, container,
->>                           s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX4);
->>       }
->>   
->> @@ -571,11 +571,11 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
->>       object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
->>                                piix4_get_cpu_hotplug_legacy,
->>                                piix4_set_cpu_hotplug_legacy);
->> -    legacy_acpi_cpu_hotplug_init(parent, OBJECT(s), &s->gpe,
->> +    legacy_acpi_cpu_hotplug_init(container, OBJECT(s), &s->gpe,
->>                                    PIIX4_CPU_HOTPLUG_IO_BASE);
->>   
->>       if (s->acpi_memory_hotplug.is_enabled) {
->> -        acpi_memory_hotplug_init(parent, OBJECT(s), &s->acpi_memory_hotplug,
->> +        acpi_memory_hotplug_init(container, OBJECT(s), &s->acpi_memory_hotplug,
->>                                    ACPI_MEMORY_HOTPLUG_BASE);
->>       }
->>   }
->> diff --git a/include/hw/acpi/cpu_hotplug.h b/include/hw/acpi/cpu_hotplug.h
->> index 99c11b7151..5ff24ec417 100644
->> --- a/include/hw/acpi/cpu_hotplug.h
->> +++ b/include/hw/acpi/cpu_hotplug.h
->> @@ -28,7 +28,7 @@ typedef struct AcpiCpuHotplug {
->>   void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev, AcpiCpuHotplug *gpe,
->>                                DeviceState *dev, Error **errp);
->>   
->> -void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
->> +void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
->>                                     AcpiCpuHotplug *gpe, uint16_t base);
->>   
->>   void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
->> -- 
->> 2.38.1
-> 
-
+Regards,
+BALATON Zoltan
 
