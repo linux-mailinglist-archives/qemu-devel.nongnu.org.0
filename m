@@ -2,93 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452C96A6147
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 22:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7F36A614F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 22:37:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX7aj-0003LK-TK; Tue, 28 Feb 2023 16:32:59 -0500
+	id 1pX7dq-00085x-Cj; Tue, 28 Feb 2023 16:36:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX7ag-0003Jg-GV
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:32:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX7af-0007rI-6k
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:32:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677619972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8Pc860YSulk9fikEVG+B4aKAm8X5/+wGLcWnCvldhAU=;
- b=ZEVBf1UwYtMW9eUpGkDrsmOMrmPUweSfGu0FrlJzw/V9vLtvmfWkpjmIutzVi6LeNhnkjg
- /njyLueejpLTeKJ3IXHIcE6aOBUj0oxIN0/O8zYaVujvZezKShF3dH6wNVr5KvWWYTthEw
- It2ABeWxaTaES+FKYKVEgu+wIjra1uY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-673-UdISlaVtPtCUXVHAGgfnKQ-1; Tue, 28 Feb 2023 16:32:49 -0500
-X-MC-Unique: UdISlaVtPtCUXVHAGgfnKQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n15-20020a05600c500f00b003dd07ce79c8so4746210wmr.1
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 13:32:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677619968;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pX7dm-00085S-UG
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:36:06 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pX7dl-0008Tk-1l
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:36:06 -0500
+Received: by mail-ed1-x536.google.com with SMTP id i34so45844836eda.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 13:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677620163;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8Pc860YSulk9fikEVG+B4aKAm8X5/+wGLcWnCvldhAU=;
- b=FhELbJxFoc72C0eNa/15DY2QGPpOuBYWUiqcRToMToR8nJ5Nd7Snrf+Y/WUljG/Bkz
- k8nDNtT1mX7XPCCu2AyteKjvyHzRybeb80KpVRCLMW5EHAo/2r/YP0S/cJYZAwggAIXQ
- MKAttpINet8ELHE9RO7vXk2O/SAUp+WxHK85YRvV5GHggvsgnqcPHb7EJ/rraW44v+MW
- BsvGLOC9M3kEesgFLjeyVWJphvWeVvoZNbn42p8+lSc8YN1G+cJ+O6P/CYXT9u8Ld8ll
- CLZ3dlgMPw980oE95tRd32V5tYORgBpFHNgJrUzGXhLbGjDARk8yF+QKGetLDaXnF9ow
- BqMg==
-X-Gm-Message-State: AO0yUKVqQBBZbRmK2iQuG1qGxQxhgx0X5dyT/E7Bpj3HaYziBtbouBwB
- h1cJ87+74YSncTsIOc2ycwF4pkdKjF3WAmbTZOIB7djTu5MnnzN3CkKoPm3TNDs8TPdG+noKkgN
- ORmLX5hpi0QrRjGY=
-X-Received: by 2002:a5d:67cc:0:b0:2c6:e827:21c1 with SMTP id
- n12-20020a5d67cc000000b002c6e82721c1mr3043372wrw.50.1677619968656; 
- Tue, 28 Feb 2023 13:32:48 -0800 (PST)
-X-Google-Smtp-Source: AK7set+qz21qmC81CB8YlJDWkxwTaOAI0Hras+SGhZGbBgfG8gObN7oaGqTNlhYS4sY6pCkJX1a75w==
-X-Received: by 2002:a5d:67cc:0:b0:2c6:e827:21c1 with SMTP id
- n12-20020a5d67cc000000b002c6e82721c1mr3043357wrw.50.1677619968315; 
- Tue, 28 Feb 2023 13:32:48 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- w15-20020adfee4f000000b002be5bdbe40csm10742578wro.27.2023.02.28.13.32.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 13:32:47 -0800 (PST)
-Date: Tue, 28 Feb 2023 16:32:43 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-arm@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ bh=fkspXKIFCo/DLa6scIRI55yZnfTGbELE/HuEm4aUrn8=;
+ b=U9pc7e5hei8O3QjnXjgLUp0yCtHPGEQNimG8OmdxkKLdZq45N3N4KYT9v3U9TEdMm9
+ T7oa2gYCX/2+OIJ6W5qOfHk5m0okH/xaq2kiLhT9oQs8V1ZR7cYGrzehR3sE6OSvSP39
+ hmkST74F7EBFdnlEgcOiNJP0BcqjCMRxcns3EpRUVgmsv8xJ+BYYyHU087UTYuMygUrO
+ 8gbcLqDkupRB0M5qewUh6YbWXFOfI5YKkdIHaSHivv09uo/3iIAwXG2ZTRS4op+cZuB0
+ ijE1YAzViklNCUNHaBoGukDFOIaydEZEN7jyrqmNUVtng4SS+TGLP1xB75dvX6hnHSA1
+ wg7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677620163;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fkspXKIFCo/DLa6scIRI55yZnfTGbELE/HuEm4aUrn8=;
+ b=gc/xeeYFQNTMQ8GwmTSjc2rvQAQbof3VcMMbWhyCOJeVHqBU8rPSC6+M2V0sEhY15P
+ Xv2fFuXeg35NSWy4m1jp4mijCH/rPPLvr/OH05KSz4su269dneNIA6bpYcc+tgwiYExk
+ I2SWECpwze293yGinPAsQbfprHDq2uzg53VJ8CN3nii1rL/SnA081lH3aK++9cUE3P8+
+ pBPl8tNYRpJTZP29dqzcW9kmUK8D5hqQ1AEA29YjzZNUXMzYxG84UhDVIkpd+mNncLXO
+ 1mXrSRw9GHwWccF6ni7Io7/8WxVxHXHEZzu24E9mw+S697bMVV1JwcZt5xqtpOJ9gxHo
+ Yk/A==
+X-Gm-Message-State: AO0yUKXotsZmQw2GgGVFJtnT3bFyUuYbmMzFhHPENCJhte/nTkaY0qJj
+ csDX/kSNRdrK0wBh/4LWIarm0J92IBQ=
+X-Google-Smtp-Source: AK7set97Qhi8VOlZ7xvAudyPDOfFohUse7ctM0H2wom3RRHL9pDur0j6hKFAuA089aptDPBrPs5B0g==
+X-Received: by 2002:a17:907:c207:b0:8f6:dc49:337f with SMTP id
+ ti7-20020a170907c20700b008f6dc49337fmr5938100ejc.43.1677620163048; 
+ Tue, 28 Feb 2023 13:36:03 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-013-091-172.77.13.pool.telefonica.de.
+ [77.13.91.172]) by smtp.gmail.com with ESMTPSA id
+ qp16-20020a170907207000b008eb5877a221sm4926695ejb.75.2023.02.28.13.36.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 13:36:02 -0800 (PST)
+Date: Tue, 28 Feb 2023 21:35:53 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: Eduardo Habkost <eduardo@habkost.net>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH 0/2] Deprecate support for 32-bit x86 and arm hosts
-Message-ID: <20230228162938-mutt-send-email-mst@kernel.org>
-References: <20230227111050.54083-1-thuth@redhat.com>
- <Y/z4rwv09Ckhbtfp@redhat.com>
- <001bedba-b12f-4dd8-0866-7ccb9ce877d0@redhat.com>
- <Y/3C+jC3Lk5MJxfu@redhat.com>
- <99a83e65-273a-ea1b-e7d9-bbdd8ca32145@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_1/4=5D_hw/southbridge/piix=3A_?=
+ =?US-ASCII?Q?Use_OBJECT=5FDECLARE=5FSIMPLE=5FTYPE=28=29_macro?=
+In-Reply-To: <20230210165754.34342-2-philmd@linaro.org>
+References: <20230210165754.34342-1-philmd@linaro.org>
+ <20230210165754.34342-2-philmd@linaro.org>
+Message-ID: <6C95F114-3CC2-4258-8151-8CB678AA8DC3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99a83e65-273a-ea1b-e7d9-bbdd8ca32145@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,15 +97,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 09:05:16PM +0100, Thomas Huth wrote:
-> Well, without CI, I assume that the code will bitrot quite fast (considering
-> that there are continuous improvements to TCG, for example).
 
-We have lots of hosts which we don't test with CI.  They don't bitrot
-because people do testing before release. This is what RCs are for.
-We did releases before CI - it is a cost/benefit thing.
 
--- 
-MST
+Am 10=2E Februar 2023 16:57:51 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
+philmd@linaro=2Eorg>:
+>Manually convert to OBJECT_DECLARE_SIMPLE_TYPE() macro,
+>similarly to automatic conversion from commit 8063396bf3
+>("Use OBJECT_DECLARE_SIMPLE_TYPE when possible")=2E
+>
+>Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>---
+> include/hw/southbridge/piix=2Eh | 8 +++-----
+> 1 file changed, 3 insertions(+), 5 deletions(-)
+>
+>diff --git a/include/hw/southbridge/piix=2Eh b/include/hw/southbridge/pii=
+x=2Eh
+>index 0bf48e936d=2E=2Ea58bf13a41 100644
+>--- a/include/hw/southbridge/piix=2Eh
+>+++ b/include/hw/southbridge/piix=2Eh
+>@@ -29,7 +29,7 @@
+> #define PIIX_NUM_PIC_IRQS       16      /* i8259 * 2 */
+> #define PIIX_NUM_PIRQS          4ULL    /* PIRQ[A-D] */
+>=20
+>-struct PIIXState {
+>+struct PIIX3State {
+>     PCIDevice dev;
+>=20
+>     /*
+>@@ -57,14 +57,12 @@ struct PIIXState {
+>     /* IO memory region for Reset Control Register (PIIX_RCR_IOPORT) */
+>     MemoryRegion rcr_mem;
+> };
+>-typedef struct PIIXState PIIX3State;
+>=20
+> #define TYPE_PIIX3_PCI_DEVICE "pci-piix3"
+>-DECLARE_INSTANCE_CHECKER(PIIX3State, PIIX3_PCI_DEVICE,
+>-                         TYPE_PIIX3_PCI_DEVICE)
+>-
+> #define TYPE_PIIX3_DEVICE "PIIX3"
+> #define TYPE_PIIX3_XEN_DEVICE "PIIX3-xen"
+> #define TYPE_PIIX4_PCI_DEVICE "piix4-isa"
+>=20
+>+OBJECT_DECLARE_SIMPLE_TYPE(PIIX3State, PIIX3_PCI_DEVICE)
+>+
+> #endif
 
+The PIIX consolidation series drops the "3" for reuse by PIIX4=2E Do we re=
+ally need this?
 
