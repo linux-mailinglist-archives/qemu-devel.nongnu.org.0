@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979BD6A5558
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 10:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97AC26A55CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 10:31:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWw5b-0001Tw-CF; Tue, 28 Feb 2023 04:16:03 -0500
+	id 1pWwJC-0005FM-UD; Tue, 28 Feb 2023 04:30:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pWw5X-0001Lq-EA
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 04:15:59 -0500
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pWw5V-0007da-9L
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 04:15:58 -0500
-Received: by mail-oi1-x230.google.com with SMTP id bm20so7419789oib.7
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 01:15:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1677575755;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yLTAXG6BelqZwJSXjS0QiCc/UWzQB7XI3YjB1bVNiUI=;
- b=lY/zAZ2Oa/W25YwJvBKe5Bbay144YKyajFb0Ddh8SsP+U3Tluvk6oMmFr3UkBblYRR
- yHDHHkQFJXwfqgQ5Qm+YpLl+xqGuU2I46pbr5r+s6E/wa4GGY0CscWMkexRjC7DelLay
- sruLa+76UzX5RkUoeCqVeD76uobA1+5dDT5Wo4FryyTH7ATto/eepyaTSwe9B7uuCCfr
- 3kCnYsCOtAPSK+dyhbphcHFi0s13mzaoe6/8YYin1mNPg7rmHF3w1ngj1vUCu2rcbufI
- qES/8Ac/ZHdSN1L23t4udBs0T4LfarscW7TzYMFtvE0jxrwl/vMkidzr34HTrqdHhy0t
- Clcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677575755;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yLTAXG6BelqZwJSXjS0QiCc/UWzQB7XI3YjB1bVNiUI=;
- b=QxlwW9Yfi1vH4Aloyhe86BrKZi37heGsHgJCQ+1wPr0QHfuubC17a0kVAnrjLVD8cE
- oiOwsxMvg9A6RG+lmO69FZ2z+zJ6AVJRwuA0B7yrOG94P0s2XiXbmfH70MnYq0u9bZc1
- owdy+x6D40jhgGzjtE4zSYcpoWjTzSU3vQ5TO0H248+fHrjIuC07d3c/qvTuKupCd3ff
- icG4g16raS/W/O+0/CrMutk1KrH1TnFnyyND0mbyo/e15sav0tu2+WgTUyHvWSKAwBml
- 4owLD5Ry2BwK+M/eZlnulAAdMY0p7C8WYWjezg6l4mppHz8jVN03grDuvSEbAZzm1QE3
- k0Kw==
-X-Gm-Message-State: AO0yUKUZ3Il8neUaVraNjWFAWhMRuHF3pQtb50yu0A7o4XyLcQ5ESUjF
- Oo8zxViZMp+SIkPf947N7QDdEzVpL0zSSaUh
-X-Google-Smtp-Source: AK7set9E13CbHWeFvSMh4eXifwLVv3iqZ0MV+oYjF5J3K3C2/tORVdE1f953ParVtRdky5EJZT88HQ==
-X-Received: by 2002:a05:6808:b19:b0:37f:9d35:779 with SMTP id
- s25-20020a0568080b1900b0037f9d350779mr1098678oij.16.1677575755411; 
- Tue, 28 Feb 2023 01:15:55 -0800 (PST)
-Received: from [192.168.68.107] ([191.19.40.109])
- by smtp.gmail.com with ESMTPSA id
- bl12-20020a056808308c00b0038451502f92sm272599oib.58.2023.02.28.01.15.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 01:15:54 -0800 (PST)
-Message-ID: <b1147365-ac93-2857-d2f6-039307543207@ventanamicro.com>
-Date: Tue, 28 Feb 2023 06:15:50 -0300
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pWwJ3-0005EP-OG
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 04:29:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pWwJ0-0001QO-UX
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 04:29:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677576593;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dw31KU5kTtqYyIJOoZXgONAgLFqc+q7Xq8bJiEzcSak=;
+ b=UAAkLMgYoDtZiQciD9d1SOZmInzYMCwDw44tBmImkJu2eutHWB7UX41Bnvc2oG9vUYaEou
+ lK06FiJxZfrsfPYvj7qGOiuZ4vcA3Uz/YJhk7AQ3L8CDIIuw8agKP8j8IVBBXI5QBFJGp1
+ wAHgbXB60d8C5XopSq5IFFbyNr6Cda4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-385--l_5CPHEO-WNsuUW7TNpWg-1; Tue, 28 Feb 2023 04:29:52 -0500
+X-MC-Unique: -l_5CPHEO-WNsuUW7TNpWg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9C1285A5B1;
+ Tue, 28 Feb 2023 09:29:51 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.45.224.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D9672026D4B;
+ Tue, 28 Feb 2023 09:29:49 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, dgilbert@redhat.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, rjones@redhat.com,
+ marcandre.lureau@redhat.com
+Cc: armbru@redhat.com,
+	philmd@linaro.org,
+	berrange@redhat.com
+Subject: [PATCH v4] test-vmstate: fix bad GTree usage, use-after-free
+Date: Tue, 28 Feb 2023 10:29:44 +0100
+Message-Id: <20230228092944.341317-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] hw/riscv: Move the dtb load bits outside of
- create_fdt()
-Content-Language: en-US
-To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Liu Zhiwei
- <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org
-References: <20230228074522.1845007-1-bmeng@tinylab.org>
- <20230228074522.1845007-2-bmeng@tinylab.org>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230228074522.1845007-2-bmeng@tinylab.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,141 +79,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+According to g_tree_foreach() documentation:
+"The tree may not be modified while iterating over it (you can't
+add/remove items)."
 
+compare_trees()/diff_tree() fail to respect this rule.
+Historically GLib2 used a slice allocator for the GTree APIs
+which did not immediately release the memory back to the system
+allocator. As a result QEMU's use-after-free bug was not visible.
+With GLib > 2.75.3 however, GLib2 has switched to using malloc
+and now a SIGSEGV can be observed while running test-vmstate.
 
-On 2/28/23 04:45, Bin Meng wrote:
-> Move the dtb load bits outside of create_fdt(), and put it explicitly
-> in sifive_u_machine_init() and virt_machine_init(). With such change
-> create_fdt() does exactly what its function name tells us.
-> 
-> Suggested-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> Signed-off-by: Bin Meng <bmeng@tinylab.org>
-> ---
+Get rid of the node removal within the tree traversal. Also
+check the trees have the same number of nodes before the actual
+diff.
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Fixes: 9a85e4b8f6 ("migration: Support gtree migration")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1518
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reported-by: Richard W.M. Jones <rjones@redhat.com>
+Tested-by: Richard W.M. Jones <rjones@redhat.com>
+Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-> 
-> Changes in v2:
-> - new patch: Move the dtb load bits outside of create_fdt()
-> 
->   include/hw/riscv/sifive_u.h |  1 +
->   hw/riscv/sifive_u.c         | 31 +++++++++++++++----------------
->   hw/riscv/virt.c             | 29 ++++++++++++++---------------
->   3 files changed, 30 insertions(+), 31 deletions(-)
-> 
-> diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-> index 65af306963..0696f85942 100644
-> --- a/include/hw/riscv/sifive_u.h
-> +++ b/include/hw/riscv/sifive_u.h
-> @@ -68,6 +68,7 @@ typedef struct SiFiveUState {
->   
->       /*< public >*/
->       SiFiveUSoCState soc;
-> +    int fdt_size;
->   
->       bool start_in_flash;
->       uint32_t msel;
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 76db5ed3dd..35a335b8d0 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -99,7 +99,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->       MachineState *ms = MACHINE(s);
->       uint64_t mem_size = ms->ram_size;
->       void *fdt;
-> -    int cpu, fdt_size;
-> +    int cpu;
->       uint32_t *cells;
->       char *nodename;
->       uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
-> @@ -112,19 +112,10 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->           "sifive,plic-1.0.0", "riscv,plic0"
->       };
->   
-> -    if (ms->dtb) {
-> -        fdt = ms->fdt = load_device_tree(ms->dtb, &fdt_size);
-> -        if (!fdt) {
-> -            error_report("load_device_tree() failed");
-> -            exit(1);
-> -        }
-> -        return;
-> -    } else {
-> -        fdt = ms->fdt = create_device_tree(&fdt_size);
-> -        if (!fdt) {
-> -            error_report("create_device_tree() failed");
-> -            exit(1);
-> -        }
-> +    fdt = ms->fdt = create_device_tree(&s->fdt_size);
-> +    if (!fdt) {
-> +        error_report("create_device_tree() failed");
-> +        exit(1);
->       }
->   
->       qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
-> @@ -561,8 +552,16 @@ static void sifive_u_machine_init(MachineState *machine)
->       qdev_connect_gpio_out(DEVICE(&(s->soc.gpio)), 10,
->                             qemu_allocate_irq(sifive_u_machine_reset, NULL, 0));
->   
-> -    /* create device tree */
-> -    create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
-> +    /* load/create device tree */
-> +    if (machine->dtb) {
-> +        machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
-> +        if (!machine->fdt) {
-> +            error_report("load_device_tree() failed");
-> +            exit(1);
-> +        }
-> +    } else {
-> +        create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
-> +    }
->   
->       if (s->start_in_flash) {
->           /*
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 0c7b4a1e46..53ed2e8369 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1008,19 +1008,10 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap)
->       uint32_t irq_pcie_phandle = 1, irq_virtio_phandle = 1;
->       uint8_t rng_seed[32];
->   
-> -    if (ms->dtb) {
-> -        ms->fdt = load_device_tree(ms->dtb, &s->fdt_size);
-> -        if (!ms->fdt) {
-> -            error_report("load_device_tree() failed");
-> -            exit(1);
-> -        }
-> -        return;
-> -    } else {
-> -        ms->fdt = create_device_tree(&s->fdt_size);
-> -        if (!ms->fdt) {
-> -            error_report("create_device_tree() failed");
-> -            exit(1);
-> -        }
-> +    ms->fdt = create_device_tree(&s->fdt_size);
-> +    if (!ms->fdt) {
-> +        error_report("create_device_tree() failed");
-> +        exit(1);
->       }
->   
->       qemu_fdt_setprop_string(ms->fdt, "/", "model", "riscv-virtio,qemu");
-> @@ -1505,8 +1496,16 @@ static void virt_machine_init(MachineState *machine)
->       }
->       virt_flash_map(s, system_memory);
->   
-> -    /* create device tree */
-> -    create_fdt(s, memmap);
-> +    /* load/create device tree */
-> +    if (machine->dtb) {
-> +        machine->fdt = load_device_tree(machine->dtb, &s->fdt_size);
-> +        if (!machine->fdt) {
-> +            error_report("load_device_tree() failed");
-> +            exit(1);
-> +        }
-> +    } else {
-> +        create_fdt(s, memmap);
-> +    }
->   
->       s->machine_done.notify = virt_machine_done;
->       qemu_add_machine_init_done_notifier(&s->machine_done);
+---
+v3 -> v4:
+- Adopt Daniel's wording and add his R-b
+
+v2 -> v3:
+- Enhance the commit message with Rich's explanations
+- Add Roch's T-b and R-b
+
+v1 -> v2:
+- respin of Marc-André's patch from Aug 2020, which can be
+found at
+https://lore.kernel.org/qemu-devel/20200827161826.1165971-1-marcandre.lureau@redhat.com/
+This fell through the cracks and now we hit a SIGSEGV
+---
+ tests/unit/test-vmstate.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
+index 79357b29ca..0b7d5ecd68 100644
+--- a/tests/unit/test-vmstate.c
++++ b/tests/unit/test-vmstate.c
+@@ -1073,7 +1073,6 @@ static gboolean diff_tree(gpointer key, gpointer value, gpointer data)
+     struct match_node_data d = {tp->tree2, key, value};
+ 
+     g_tree_foreach(tp->tree2, tp->match_node, &d);
+-    g_tree_remove(tp->tree1, key);
+     return false;
+ }
+ 
+@@ -1082,9 +1081,9 @@ static void compare_trees(GTree *tree1, GTree *tree2,
+ {
+     struct tree_cmp_data tp = {tree1, tree2, function};
+ 
++    assert(g_tree_nnodes(tree1) == g_tree_nnodes(tree2));
+     g_tree_foreach(tree1, diff_tree, &tp);
+-    assert(g_tree_nnodes(tree1) == 0);
+-    assert(g_tree_nnodes(tree2) == 0);
++    g_tree_destroy(g_tree_ref(tree1));
+ }
+ 
+ static void diff_domain(TestGTreeDomain *d1, TestGTreeDomain *d2)
+-- 
+2.38.1
+
 
