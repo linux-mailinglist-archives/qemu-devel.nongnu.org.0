@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C3D6A625A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 23:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABB16A625D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 23:23:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX8M3-00044J-Nm; Tue, 28 Feb 2023 17:21:51 -0500
+	id 1pX8Mh-0004Lj-SL; Tue, 28 Feb 2023 17:22:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX8M1-000447-Vx
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 17:21:50 -0500
+ (Exim 4.90_1) (envelope-from <toke@redhat.com>) id 1pX8MO-0004FC-Dd
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 17:22:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX8Lz-0001IU-T2
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 17:21:49 -0500
+ (Exim 4.90_1) (envelope-from <toke@redhat.com>) id 1pX8MK-0001Kn-Dc
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 17:22:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677622906;
+ s=mimecast20190719; t=1677622927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=notJd6JOZS6qUBQqxgECEXKVvXEWqYqWzOCS7WtAfaY=;
- b=el8OObUUnUPRUSK4gs5nLA3RxicvqyGxl3x/7/pCRCy/c/6FcBv/imrE+uzUvfOXbhaED+
- Kk4zpBQbhNWXj49zMt4+bgevBNuR4QMJ+4Nkv8AdRtUUVULdqJnDUxtMu5UWMBBZ1D7S6/
- vSXxQVbcOqCTFCm1Oaxs7zlImzZkx2o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/IYWoWSqPQXy+oRny3Ijwv6UQYmPNRXwj2Gm6Um+zMI=;
+ b=dSnyI2x7N0oTz5ANid6MEdA+sjzKOfuF9r5CU/cHMRHbG5Kh+19R8QhtiIFxb2rgcuXewF
+ 2BmacHoXicjkeiBBb9/eIOGmL3VDakAfBbZy1xm60hCTHGAnqAvbx0s67A2dhnWZDF6Jpk
+ lVT63gRZK+14MlCzMUSpKdX0mynV11w=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-561-ACOAKEVgOoSbzDRfrQvyUg-1; Tue, 28 Feb 2023 17:21:39 -0500
-X-MC-Unique: ACOAKEVgOoSbzDRfrQvyUg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 4-20020a05600c024400b003eb2e295c05so4139214wmj.0
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 14:21:39 -0800 (PST)
+ us-mta-505-QQ2IYU_ZP5myRpYBbabVig-1; Tue, 28 Feb 2023 17:21:59 -0500
+X-MC-Unique: QQ2IYU_ZP5myRpYBbabVig-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ q13-20020a5085cd000000b004af50de0bcfso16230221edh.15
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 14:21:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677622899;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=notJd6JOZS6qUBQqxgECEXKVvXEWqYqWzOCS7WtAfaY=;
- b=ddxoRDQyWwJUqcz7qQFlHAUS9h9LnJRynFykskMfEQg8MiYdnqUeIyFazwXUYt2yUj
- B7vWB9Iw3OmNUCPJOsKm5kfLCKIpl9i3eyiwt3aOCnI+UZ2DCCAn36OHoUgm3flpHbym
- 8rZzjiYKVst5L6QIYXqNZjMxKMsoRbm5o3Jpq3p0xSfYM6S0ST+oNFGiOjmoCqrW5+pQ
- xAI2OqRqLje9Et41IzIkaEh0kLxJrIX/idW4ZrifXm9xqMzfwPUScYKiowZ4O1DHVyUh
- g8iCQUaEkxSSwZ6OF5s84MhNP0TL4wr2AdyNwqfXz+Ch9oeOJY2wGMowNs90nMBs623E
- r2/Q==
-X-Gm-Message-State: AO0yUKXvMvOwE5KiNRi7cSky4oGi+JRLiaZyypLFuphGsTYnUvhjsQ9O
- vYfhpMioHiG4Kr6JOTHpdF7GcH8KGNCLmAN4VrTlGK4fCrWbO/nGAXUxpxnpf2Cxl+OKhqIFIUK
- vwg/RjEHa5Y/arWI=
-X-Received: by 2002:a05:600c:350f:b0:3eb:3945:d400 with SMTP id
- h15-20020a05600c350f00b003eb3945d400mr3362365wmq.6.1677622898721; 
- Tue, 28 Feb 2023 14:21:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set9rlwspLw5vK84W4bHF6tyyMhAvLpTzq3Zaw10WELV0eaJ2luNWuvIB15jJ3zafvENopoapYg==
-X-Received: by 2002:a05:600c:350f:b0:3eb:3945:d400 with SMTP id
- h15-20020a05600c350f00b003eb3945d400mr3362354wmq.6.1677622898395; 
- Tue, 28 Feb 2023 14:21:38 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- bd12-20020a05600c1f0c00b003e0015c8618sm17420216wmb.6.2023.02.28.14.21.36
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/IYWoWSqPQXy+oRny3Ijwv6UQYmPNRXwj2Gm6Um+zMI=;
+ b=FvofNUbAwK3oo+8n2zI3xCtdsCoLoOnnBcCyFe/weCHX0SYLBOMiK96g6DkgNw/Fsh
+ U/vmsHIahqQUXEYcEJtxn00QW28fWPwKsk9mXUGtYeKZPtzC+8uHARgbqaaXgAygEC8e
+ lLFaXb/4Rd4mYdusd166BsawRLT5kAsjEsl/lCa4kM7wla/QDAee4c79q0wa7147ge1V
+ 5psrA7mG4FhiYPqQ32PHJlwEZzosSPTAQRtagK/Jf+640p0LchizIw5RcHDb/CyBfZ7G
+ 2/FEXvIBvEcwmRaYr5FGEOGYlQWynk7y55aCdYY71XR5/ryNwbFloP/fDx8w3XnjKm6Y
+ 3rSA==
+X-Gm-Message-State: AO0yUKVzZX5V08hJuayKdxwET1ygiTyM9vqSYK8uGSnLmFmtlQBIKF+C
+ JTC+LXEvSiznzWkXwQEKh8DK2fksHws2KyoLXnj8EnNI5XpK33JErgoo9eagOoNRL/dj6Srb+kY
+ 2o92LWPOoPGasTuU=
+X-Received: by 2002:a17:906:6601:b0:88a:724:244c with SMTP id
+ b1-20020a170906660100b0088a0724244cmr4166163ejp.71.1677622918594; 
+ Tue, 28 Feb 2023 14:21:58 -0800 (PST)
+X-Google-Smtp-Source: AK7set8rB8/w7uCfTQ1nNysdHX6b9xVu36b6f1cIP5SGRwXsG72fnuQ+h4S81YnuLzFml5KYrhGKxw==
+X-Received: by 2002:a17:906:6601:b0:88a:724:244c with SMTP id
+ b1-20020a170906660100b0088a0724244cmr4166135ejp.71.1677622918241; 
+ Tue, 28 Feb 2023 14:21:58 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+ by smtp.gmail.com with ESMTPSA id
+ cw18-20020a170906c79200b008e22978b98bsm5062549ejb.61.2023.02.28.14.21.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 14:21:37 -0800 (PST)
-Date: Tue, 28 Feb 2023 17:21:34 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
-Subject: Re: [PATCH 2/3] hw/acpi/cpu_hotplug: Rename 'parent' MemoryRegion as
- 'container'
-Message-ID: <20230228172004-mutt-send-email-mst@kernel.org>
-References: <20230203163021.35754-1-philmd@linaro.org>
- <20230203163021.35754-3-philmd@linaro.org>
- <20230228164123-mutt-send-email-mst@kernel.org>
- <089b255a-384d-55f4-2868-0f24dd2588ec@linaro.org>
+ Tue, 28 Feb 2023 14:21:57 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+ id AA3AF975EDD; Tue, 28 Feb 2023 23:21:56 +0100 (CET)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko
+ <andrew@daynix.com>, jasowang@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com,
+ philmd@linaro.org, armbru@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, mprivozn@redhat.com, yan@daynix.com
+Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
+In-Reply-To: <Y/5QHonZyB+7vzEN@redhat.com>
+References: <20230219162100.174318-1-andrew@daynix.com>
+ <20230219162100.174318-4-andrew@daynix.com> <Y/NCQhGmqIadlw0y@redhat.com>
+ <CAOEp5Of-sC1nuz4rAZkt8YoL2ctnSPAQ9QyxoQ97XiQ17wZ1Fg@mail.gmail.com>
+ <Y/5CQ5md6huqNsx4@redhat.com> <877cw1ipgg.fsf@toke.dk>
+ <Y/5QHonZyB+7vzEN@redhat.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Tue, 28 Feb 2023 23:21:56 +0100
+Message-ID: <87ttz5h1mj.fsf@toke.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <089b255a-384d-55f4-2868-0f24dd2588ec@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=toke@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,143 +107,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 11:16:46PM +0100, Philippe Mathieu-Daudé wrote:
-> On 28/2/23 22:43, Michael S. Tsirkin wrote:
-> > On Fri, Feb 03, 2023 at 05:30:20PM +0100, Philippe Mathieu-Daudé wrote:
-> > > No logical change, rename for clarity.
-> > > 
-> > > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> > 
-> > Can't say container is clearer. If we are changing things
-> > I'd like to see a real improvement.
-> 
-> QOM API usually use 'parent' to indicate the inheritance / hierarchy
-> between object.
-> Memory API uses 'container', in particular when used with
-> memory_region_add_subregion().
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-It says "container" in the comment but not in the API:
+> On Tue, Feb 28, 2023 at 08:01:51PM +0100, Toke H=C3=B8iland-J=C3=B8rgense=
+n wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> Just to interject a note on this here: the skeleton code is mostly a
+>> convenience feature used to embed BPF programs into the calling binary.
+>> It is perfectly possible to just have the BPF object file itself reside
+>> directly in the file system and just use the regular libbpf APIs to load
+>> it. Some things get a bit more cumbersome (mostly setting values of
+>> global variables, if the BPF program uses those).
+>>=20
+>> So the JSON example above could just be a regular compiled-from-clang
+>> BPF object file, and the management program can load that, inspect its
+>> contents using the libbpf APIs and pass the file descriptors on to Qemu.
+>> It's even possible to embed version information into this so that Qemu
+>> can check if it understands the format and bail out if it doesn't - just
+>> stick a version field in the configuration map as the first entry :)
+>
+> If all you have is the BPF object file is it possible to interrogate
+> it to get a list of all the maps, and get FDs associated for them ?
+> I had a look at the libbpf API and wasn't sure about that, it seemed
+> like you had to know the required maps upfront ?  If it is possible
+> to auto-discover everything you need, soley from the BPF object file
+> as input, then just dealing with that in isolation would feel simpler.
 
-/**
- * memory_region_add_subregion: Add a subregion to a container.
- *  
- * Adds a subregion at @offset.  The subregion may not overlap with other
- * subregions (except for those explicitly marked as overlapping).  A region
- * may only be added once as a subregion (unless removed with
- * memory_region_del_subregion()); use memory_region_init_alias() if you
- * want a region to be a subregion in multiple locations.
- *
- * @mr: the region to contain the new subregion; must be a container
- *      initialized with memory_region_init().
- * @offset: the offset relative to @mr where @subregion is added.
- * @subregion: the subregion to be added.
- */
-void memory_region_add_subregion(MemoryRegion *mr,
-                                 hwaddr offset,
-                                 MemoryRegion *subregion);
+It is. You load the object file, and bpf_object__for_each_map() lets you
+discover which maps it contains, with the different bpf_map__*() APIs
+telling you the properties of that map (and you can modify them too
+before loading the object if needed).
 
+The only thing that's not in the object file is any initial data you
+want to put into the map(s). But except for read-only maps that can be
+added by userspace after loading the maps, so you could just let Qemu do
+that...
 
-> I still believe this is a worthwhile change as API style cleanup,
-> but I agree the commit description lacks this explanation.
+> It occurrs to me that exposing the BPF program as data rather than
+> via binary will make more practical to integrate this into KubeVirt's
+> architecture. In their deployment setup both QEMU and libvirt are
+> running unprivileged inside a container. For any advanced nmetworking
+> a completely separate component creates the TAP device and passes it
+> into the container running QEMU. I don't think that the separate
+> precisely matched helper binary would be something they can use, but
+> it might be possible to expose a data file providing the BPF program
+> blob and describing its maps.
 
-If you are cleaning up APIs it's a good idea to add documentation.
-As long as you don't these renames don't add much.
+Well, "a data file providing the BPF program blob and describing its
+maps" is basically what a BPF .o file is. It just happens to be encoded
+in ELF format :)
 
-> > > ---
-> > >   hw/acpi/acpi-cpu-hotplug-stub.c |  2 +-
-> > >   hw/acpi/cpu_hotplug.c           | 10 +++++-----
-> > >   hw/acpi/piix4.c                 | 10 +++++-----
-> > >   include/hw/acpi/cpu_hotplug.h   |  2 +-
-> > >   4 files changed, 12 insertions(+), 12 deletions(-)
-> > > 
-> > > diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
-> > > index b590ad57e1..cbd7a6ec00 100644
-> > > --- a/hw/acpi/acpi-cpu-hotplug-stub.c
-> > > +++ b/hw/acpi/acpi-cpu-hotplug-stub.c
-> > > @@ -13,7 +13,7 @@ void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
-> > >       return;
-> > >   }
-> > > -void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
-> > > +void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
-> > >                                     AcpiCpuHotplug *gpe, uint16_t base)
-> > >   {
-> > >       return;
-> > > diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
-> > > index 3cfa4f45dc..636e985c50 100644
-> > > --- a/hw/acpi/cpu_hotplug.c
-> > > +++ b/hw/acpi/cpu_hotplug.c
-> > > @@ -81,14 +81,14 @@ void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev, AcpiCpuHotplug *gpe,
-> > >       acpi_send_event(DEVICE(hotplug_dev), ACPI_CPU_HOTPLUG_STATUS);
-> > >   }
-> > > -void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
-> > > +void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
-> > >                                     AcpiCpuHotplug *gpe, uint16_t base)
-> > >   {
-> > >       CPUState *cpu;
-> > >       memory_region_init_io(&gpe->io, owner, &AcpiCpuHotplug_ops,
-> > >                             gpe, "acpi-cpu-hotplug", ACPI_GPE_PROC_LEN);
-> > > -    memory_region_add_subregion(parent, base, &gpe->io);
-> > > +    memory_region_add_subregion(container, base, &gpe->io);
-> > >       gpe->device = owner;
-> > >       CPU_FOREACH(cpu) {
-> > > @@ -100,10 +100,10 @@ void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
-> > >                                   CPUHotplugState *cpuhp_state,
-> > >                                   uint16_t io_port)
-> > >   {
-> > > -    MemoryRegion *parent = pci_address_space_io(PCI_DEVICE(gpe->device));
-> > > +    MemoryRegion *container = pci_address_space_io(PCI_DEVICE(gpe->device));
-> > > -    memory_region_del_subregion(parent, &gpe->io);
-> > > -    cpu_hotplug_hw_init(parent, gpe->device, cpuhp_state, io_port);
-> > > +    memory_region_del_subregion(container, &gpe->io);
-> > > +    cpu_hotplug_hw_init(container, gpe->device, cpuhp_state, io_port);
-> > >   }
-> > >   void build_legacy_cpu_hotplug_aml(Aml *ctx, MachineState *machine,
-> > > diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> > > index c702d83f27..5595fe5be5 100644
-> > > --- a/hw/acpi/piix4.c
-> > > +++ b/hw/acpi/piix4.c
-> > > @@ -555,15 +555,15 @@ static void piix4_set_cpu_hotplug_legacy(Object *obj, bool value, Error **errp)
-> > >       s->cpu_hotplug_legacy = value;
-> > >   }
-> > > -static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-> > > +static void piix4_acpi_system_hot_add_init(MemoryRegion *container,
-> > >                                              PCIBus *bus, PIIX4PMState *s)
-> > >   {
-> > >       memory_region_init_io(&s->io_gpe, OBJECT(s), &piix4_gpe_ops, s,
-> > >                             "acpi-gpe0", GPE_LEN);
-> > > -    memory_region_add_subregion(parent, GPE_BASE, &s->io_gpe);
-> > > +    memory_region_add_subregion(container, GPE_BASE, &s->io_gpe);
-> > >       if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
-> > > -        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> > > +        acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, container,
-> > >                           s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX4);
-> > >       }
-> > > @@ -571,11 +571,11 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
-> > >       object_property_add_bool(OBJECT(s), "cpu-hotplug-legacy",
-> > >                                piix4_get_cpu_hotplug_legacy,
-> > >                                piix4_set_cpu_hotplug_legacy);
-> > > -    legacy_acpi_cpu_hotplug_init(parent, OBJECT(s), &s->gpe,
-> > > +    legacy_acpi_cpu_hotplug_init(container, OBJECT(s), &s->gpe,
-> > >                                    PIIX4_CPU_HOTPLUG_IO_BASE);
-> > >       if (s->acpi_memory_hotplug.is_enabled) {
-> > > -        acpi_memory_hotplug_init(parent, OBJECT(s), &s->acpi_memory_hotplug,
-> > > +        acpi_memory_hotplug_init(container, OBJECT(s), &s->acpi_memory_hotplug,
-> > >                                    ACPI_MEMORY_HOTPLUG_BASE);
-> > >       }
-> > >   }
-> > > diff --git a/include/hw/acpi/cpu_hotplug.h b/include/hw/acpi/cpu_hotplug.h
-> > > index 99c11b7151..5ff24ec417 100644
-> > > --- a/include/hw/acpi/cpu_hotplug.h
-> > > +++ b/include/hw/acpi/cpu_hotplug.h
-> > > @@ -28,7 +28,7 @@ typedef struct AcpiCpuHotplug {
-> > >   void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev, AcpiCpuHotplug *gpe,
-> > >                                DeviceState *dev, Error **errp);
-> > > -void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
-> > > +void legacy_acpi_cpu_hotplug_init(MemoryRegion *container, Object *owner,
-> > >                                     AcpiCpuHotplug *gpe, uint16_t base);
-> > >   void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe,
-> > > -- 
-> > > 2.38.1
-> > 
+You can embed it into some other data structure and have libbpf load it
+from a blob in memory as well as from the filesystem, though; that is
+basically what the skeleton file does (notice the big character string
+at the end, that's just the original .o file contents).
+
+-Toke
 
 
