@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2545E6A5415
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:04:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFF86A542B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:09:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWux7-0002iy-1P; Tue, 28 Feb 2023 03:03:13 -0500
+	id 1pWv2J-0004Ou-L2; Tue, 28 Feb 2023 03:08:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWuwo-0002iC-EE; Tue, 28 Feb 2023 03:02:55 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pWv2G-0004Oc-Vl; Tue, 28 Feb 2023 03:08:33 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pWuwm-0002nw-CR; Tue, 28 Feb 2023 03:02:54 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id d30so36269257eda.4;
- Tue, 28 Feb 2023 00:02:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pWv2F-0003ZJ-68; Tue, 28 Feb 2023 03:08:32 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id da10so36378812edb.3;
+ Tue, 28 Feb 2023 00:08:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TL2t7woMLCXouUqQ7fnm7SToKschG3SJEZugMgPMGWo=;
- b=n24Q1rtzwE3zjDcwkUKnezfE466nv7A8OMxl3Ig78nLVnSG8NIqSXrVgk72AKF7noz
- mGWQW47cGZRVamZNj+vQXd5E/3ZO16ZYkoiS9iOzhvmsa3OCR/rGgvCVj0P/+b6y7PA5
- p08rnpdiTRClFV3Q/UaFhEMf/t5m0g+Y8lyDcI73ZycExFZNvzlMewSfivEzTDPQdNcA
- 1L+7CvzpjBAPmj4q44UoA4rXPl5fyYR/MfN5Yqi3yrjy6JZYljWLsGAZTph7rZqYhIpb
- kna50Z7O+nzWYE326logLJNAHbAiHvflGZIjUaa816I7RFKGdMbPq+uHm3DVzYSR1mwj
- EyFw==
+ bh=B+QVVaB3Mx7TVOaAyXZy+2QXcSZPdcikKeLHJBSGXv8=;
+ b=O+5+mV7wXYxg0u1QdvMilGtz8LcLBrX83Zhvyv9Lfg3BI5YPg0hFRSoSnXtsdnXf/+
+ CDplj2jNij5jAl7nT956g1fFyK5JDyUdOHizzXkF8wDg1AoN42GmHZgdZPZf5ybQu6G7
+ gmaYkOO2LsdoQFytimrxZcP6aeT0Ib3DZL9GKLQGf4WbogiLi3yBZRCIFnkYmEmL2e4J
+ /v192dtUfNhu+LCe4K7onOUIxWZUebyFwLrVCPwFG246aARiL4y1oaQnjjZIY1rJQTyt
+ l/oFEcpeF+kNgvyJ4VhS07G468btAzP7535mV3lqfksE0LpPA41HURt3H+CpogVabZJ8
+ qkaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TL2t7woMLCXouUqQ7fnm7SToKschG3SJEZugMgPMGWo=;
- b=g+dQGYaeiLooCijZrgpDsaouBv8qwmIXprEmO8SiL55k2DrfK4pSBpKhARpPWioadt
- W7G9NchYyAIUOzUSXPtXvTtSP8R6Xwo/g5dTOqVElk7gzcxQRvX90qy/W/4nSEiwXP8+
- dbGf2fhrwhkx43kXak4MjaAAOVrz78UMo/FFebrrVp2NE8m1oTYO+/0Jyvz1a1W6pi+P
- r8JKoR0TolK/+tmi2cIXpok3GuY28OJemuFmRwe45uiYYNft8IhUnfctZFjf2cxp8pKx
- 1XicKEJh9NZGNElf3zYMUv8Mf8AibWir1OlBiGfnvkWPtKILxzf2qBznE7wmy5WeO515
- o1oQ==
-X-Gm-Message-State: AO0yUKV+9EDCuOz1p0TrnAldbE2oaY6kzsxVaNhJ9nxmfkxBSYgyfmcW
- EcbJzh5aAciu03RO+6rZCp0=
-X-Google-Smtp-Source: AK7set8a8Q7xzsgv32a5HpeCny/u+LmVHacUdvJIulT7rHKc/nSjwUTjcpKKlGOjMyPwpRirO8Ti9w==
-X-Received: by 2002:aa7:db58:0:b0:4ac:bd6e:9975 with SMTP id
- n24-20020aa7db58000000b004acbd6e9975mr2317696edt.20.1677571369252; 
- Tue, 28 Feb 2023 00:02:49 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-191-063-161.77.191.pool.telefonica.de.
- [77.191.63.161]) by smtp.gmail.com with ESMTPSA id
- a43-20020a509eae000000b004a21263bbaasm4025333edf.49.2023.02.28.00.02.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 00:02:48 -0800 (PST)
-Date: Tue, 28 Feb 2023 08:02:42 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-CC: qemu-devel@nongnu.org, Huacai Chen <chenhuacai@kernel.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 0/7] Pegasos2 fixes and audio output support
-In-Reply-To: <b4b60712-a94c-69f4-2de0-b9b5e08970fc@linaro.org>
-References: <20230227125732.20941-1-shentey@gmail.com>
- <b86db1dd-b9ca-a774-963c-4f9404c9af5c@eik.bme.hu>
- <CAG4p6K74Rm2FaErjvSyVCgcMQ2Qz0pkh2dg6yPeXU5BmwYp3RQ@mail.gmail.com>
- <56e3575f-2cac-2138-23d1-78d8ff1388b5@eik.bme.hu>
- <CAG4p6K7Yd6SWBCC1_-fJJ1rLqCuRqwi=dOmypum7kiUZ4SoH=g@mail.gmail.com>
- <2952e466-98e1-cf16-b8c2-fdc49d0ebf48@eik.bme.hu>
- <b4b60712-a94c-69f4-2de0-b9b5e08970fc@linaro.org>
-Message-ID: <9A21F1F3-270E-4C30-8B28-70719DF42D35@gmail.com>
+ bh=B+QVVaB3Mx7TVOaAyXZy+2QXcSZPdcikKeLHJBSGXv8=;
+ b=PKsktHBH2b3MmaMW+yIvu82xmOLUg3Od+ADNp9HevJHspzfYoT8XF/rZXMmLm2+QZV
+ qgNxE/Iuv948tmYR3HiZ83XYGsg2ZwsQJJqyxppytO2Fyc09QEvudKraxNSVeedtSbBC
+ yUW8JycLSFD4lIP6/uqhGrPUh9vKU2mzbI24IcZDpry9VqoOpsyzRBfsUM+TPfLHwcIA
+ TH6vCVGKdxHbrICPx6I610yULhSKZOi3o+WtLMKDlNeYCDg46AQPfXaEAuAme1jG5+1D
+ 8XQxA3EU5HmLvSJJi0VXSucRaaFs6P9sicIcq3INcnDPT/qmoUYtFIxj04FM1N+99W6P
+ mbDQ==
+X-Gm-Message-State: AO0yUKWkobIlgQ9StrKnByqNV5v7nw6r8MsIR4/H7Ew9owx3RRQcorM5
+ 25ditbyOtvi2NQvubVq/3G4kH+mv7iNPhs5PBcs=
+X-Google-Smtp-Source: AK7set9WOp2ngcieY9GCfmcekq4lLlvCEzdSMOir/E9ddrFZNlPQfxDmV0damPHs2G+AZ/T4IyY9ckS4yLQik4yLz1E=
+X-Received: by 2002:a17:906:3bcc:b0:8b1:2fff:8689 with SMTP id
+ v12-20020a1709063bcc00b008b12fff8689mr835265ejf.6.1677571708353; Tue, 28 Feb
+ 2023 00:08:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20230222185205.355361-1-dbarboza@ventanamicro.com>
+ <20230222185205.355361-4-dbarboza@ventanamicro.com>
+In-Reply-To: <20230222185205.355361-4-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 28 Feb 2023 16:08:17 +0800
+Message-ID: <CAEUhbmXwefV7M6gMz=QNfBUwPZnP7Jhz7S3rUZcW+dK4PhcwJA@mail.gmail.com>
+Subject: Re: [PATCH v7 03/10] target/riscv: allow MISA writes as experimental
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
+ palmer@rivosinc.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,68 +85,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-Am 27=2E Februar 2023 22:12:46 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <=
-philmd@linaro=2Eorg>:
->On 27/2/23 18:47, BALATON Zoltan wrote:
->> On Mon, 27 Feb 2023, Bernhard Beschow wrote:
->>> Unfortunately my patches had changes merged in=2E This now makes it ha=
-rd to
->>> show what really changed (spoiler: nothing that affects behavior)=2E
->>>=20
->>> As you probably noticed in the "resend" version of this iteration I sp=
-lit
->>> off a patch introducing the priq properties=2E It belongs to the sub s=
-eries
->>> of the Pegasos2 IRQ fixes which appear unnecessary to me, so I don't w=
-ant
->>> to show up in `git blame` as the author of any of these changes=2E I
->>> attributed it to you because this was really your change which I'm not=
- even
->>> sure is legal=2E
->>>=20
->>> Let's avoid such complications by keeping our series separate=2E
->>=20
->> Let's cool down a bit=2E Philippe took some of the sm501 patches in his=
- giant pull request (and a lot of your patches too) now so I'll wait until =
-that lands and hope to get some review for the remaining patches too=2E Onc=
-e that pull req is merged I'll rebase the remaining patches and resubmit th=
-e series also adding changes for reasonable review comments I get by then=
-=2E
+On Thu, Feb 23, 2023 at 2:53=E2=80=AFAM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
->I'm sorry it took me so long, I was expecting these patches to be picked
->up by other maintainers but everybody is very busy=2E I know you'll need
->to rebase and it might be painful=2E But I did that believing it is the
->best I could give to the project with my current capacity=2E Also I don't
->want to overlap (too much) into other (sub)maintained areas=2E
->If you are stuck with a rebase, I can try to help=2E
->We'll get to the end of PIIX, if this isn't this release, it will be
->the next one=2E I've been waiting for these cleanups since 4 years
->already, before Herv=C3=A9 Poussineau pushed toward that direction during
->3 years=2E We always hit problems due to PC world inheritance which,
->as a production system, can not regress=2E
-
-Did you intend to reply in the PIIX consolidation or global ISA bus renova=
-l series? This is a VT82xx thread=2E=2E=2E
-
-Thanks for picking up the ICH9 changes!
-
+> At this moment, and apparently since ever, we have no way of enabling
+> RISCV_FEATURE_MISA. This means that all the code from write_misa(), all
+> the nuts and bolts that handles how to properly write this CSR, has
+> always been a no-op as well because write_misa() will always exit
+> earlier.
 >
->Also I don't want to compete with you guys, I'd really love to work
->together as team, but I have other responsibilities and sometime I
->can't spend the time I'd like here=2E
+> This seems to be benign in the majority of cases. Booting an Ubuntu
+> 'virt' guest and logging all the calls to 'write_misa' shows that no
+> writes to MISA CSR was attempted. Writing MISA, i.e. enabling/disabling
+> RISC-V extensions after the machine is powered on, seems to be a niche
+> use.
 >
->What blocks the PIIX changes is the "q35/ich9/-device piix3" broken
->config=2E I'll explain elsewhere why it is broken=2E The problem is I
->don't know how to suggest alternative=2E
+> After discussions in the mailing list, most notably in [1], we reached
+> the consensus that this code is not suited to be exposed to users
+> because it's not well tested, but at the same time removing it is a bit
+> extreme because we would like to fix it, and it's easier to do so with
+> the code available to use instead of fetching it from git log.
 >
->Bernhard sometimes it is easier to share visions in a 30min call,
->rather than on a such thread=2E If you want I'm open for one=2E
+> The approach taken here is to get rid of RISCV_FEATURE_MISA altogether
+> and use a new experimental flag called x-misa-w. The default value is
+> false, meaning that we're keeping the existing behavior of doing nothing
+> if a write_misa() is attempted. As with any existing experimental flag,
+> x-misa-w is also a temporary flag that we need to remove once we fix
+> write_misa().
+>
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05092.html
+>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  target/riscv/cpu.c | 6 ++++++
+>  target/riscv/cpu.h | 2 +-
+>  target/riscv/csr.c | 2 +-
+>  3 files changed, 8 insertions(+), 2 deletions(-)
 >
 
-Sure, I'm open for that=2E I'll let you know when I'll have some time=2E
-
-Best regards,
-Bernhard
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
 
