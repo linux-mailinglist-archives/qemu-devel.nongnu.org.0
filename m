@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EF36A566C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3256A5680
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:19:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWwzs-0005W5-SJ; Tue, 28 Feb 2023 05:14:12 -0500
+	id 1pWx3t-0006fm-IE; Tue, 28 Feb 2023 05:18:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pWwzr-0005Vo-5f
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:14:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWx3Q-0006fA-2N
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:17:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pWwzp-0003ru-II
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:14:10 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWx3G-0004dv-W6
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:17:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677579248;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1677579444;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=igdmmpmIlNxClIZcxrG+g8fvAeiHJQ9yck8S52FvQT0=;
- b=F+xrP+5h5gZ9DCr96WJyQFQTYzb5CtJ8GcG9HT1rPn55Zno9UkFg1Kv1K95XEaUgatdM9b
- QUGTFgvusIfx0frokvkj88ZSUhjCIJ3pBR5g/paggvguOON+fKWW7JI/2PDjW3Z7rV9UTn
- xCkI8vIZjCaSNfRtP00faLZgPQAcavk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-270-E0O2JNjpPlGpztRAiNpk1w-1; Tue, 28 Feb 2023 05:14:07 -0500
-X-MC-Unique: E0O2JNjpPlGpztRAiNpk1w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27C841C08965;
- Tue, 28 Feb 2023 10:14:07 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC40BC15BAE;
- Tue, 28 Feb 2023 10:14:05 +0000 (UTC)
-Date: Tue, 28 Feb 2023 10:14:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH v3 1/1] gitlab: Use plain docker in
- container-template.yml
-Message-ID: <Y/3T67qcA6SRhJ1w@redhat.com>
-References: <20230227151110.31455-1-farosas@suse.de>
- <20230227151110.31455-2-farosas@suse.de>
+ bh=oP2CyzBU94V3MSm0lU/bl9Ic9WAEa5tzv+J4zA8jv3w=;
+ b=QUgqmkRM3qJ6MRrMRwfzjv1Ca4ZfUyeW969QJFJEBzn6R6J3RD042rRPgu57Tmdm8lgLNv
+ faUzc5gqxa0vBwWFlfCYLovG4Ao5v+XQdQloJG41hpGKN4UKfpCF4Fr9pFljC5XVbwGLx6
+ /UH4divE59qO+PrqdVLI0ZBP51esR6Y=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-519-2BHak_3iN1erNg-GbJOBXA-1; Tue, 28 Feb 2023 05:17:20 -0500
+X-MC-Unique: 2BHak_3iN1erNg-GbJOBXA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bi27-20020a05600c3d9b00b003e9d0925341so3436501wmb.8
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 02:17:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677579439;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oP2CyzBU94V3MSm0lU/bl9Ic9WAEa5tzv+J4zA8jv3w=;
+ b=uyGCcO8zQjnch+13gazVNIudHkMXozfrwG7g4ccdEfooiBM2Qkij3JTo+ghko+NAtU
+ T0zWJb4ugD0ISfk34QwQ9A0rvtTrwiYsVSF9UDchg4wZ9Tj3+9MN1wDmLmGaQXuwQQcI
+ liILa6PbI5rnP+v+ip4IltRZCcBCTMM28gGo82pfXC0+k2PFlGuRzZeGw5ec076wmtKQ
+ bIOimPX0/j8FZSmQB76vh12nUN0ql9fLee81v0Sn5F2/7xBTSllHxkfM7rnSCK/lcYHM
+ uNnM6a82u++pvyaBglf2JWJQq7ZClyiGyF2kv2wOSmdDscu+EKRLZr6QcV2dBD/jBUju
+ ot/Q==
+X-Gm-Message-State: AO0yUKWjXO1pWd8cbQh2G6rh/rPXtsGeta73RoIVXE9VDBXXh3ID6wd7
+ EKTbTL22lZh700HsrFzGFhs/Ut4Jd5cR3bMVB5TN9R6ACuVPbGSiaPxIS6/snn0h/5KG9BAuoB2
+ NUkClVynwyHtKFcE=
+X-Received: by 2002:a5d:5141:0:b0:2c7:1a96:efcd with SMTP id
+ u1-20020a5d5141000000b002c71a96efcdmr1907681wrt.1.1677579439535; 
+ Tue, 28 Feb 2023 02:17:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set8G0x1cUZLpr/eb9+hi8W5QqiSBehd8x3A95YftLjHqEyyXEcw8SqNh5WCQYGZlqdpqNCh9Sw==
+X-Received: by 2002:a5d:5141:0:b0:2c7:1a96:efcd with SMTP id
+ u1-20020a5d5141000000b002c71a96efcdmr1907662wrt.1.1677579439258; 
+ Tue, 28 Feb 2023 02:17:19 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ w9-20020adfee49000000b002c7107ce17fsm9671039wro.3.2023.02.28.02.17.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 02:17:18 -0800 (PST)
+Date: Tue, 28 Feb 2023 05:17:14 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Cc: jasowang@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, eperezma@redhat.com, alex.williamson@redhat.com,
+ mtosatti@redhat.com, clg@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v1 1/3] virtio-pci: submit msi route changes in batch
+Message-ID: <20230228051619-mutt-send-email-mst@kernel.org>
+References: <20230228093937.2515-1-longpeng2@huawei.com>
+ <20230228093937.2515-2-longpeng2@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230227151110.31455-2-farosas@suse.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20230228093937.2515-2-longpeng2@huawei.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,66 +94,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 12:11:10PM -0300, Fabiano Rosas wrote:
-> Our dockerfiles no longer reference layers from other qemu images so
-> we can now use 'docker build' on them.
+On Tue, Feb 28, 2023 at 05:39:35PM +0800, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
 > 
-> Also reinstate the caching that was disabled due to bad interactions
-> with certain runners. See commit 6ddc3dc7a8 ("tests/docker: don't use
-> BUILDKIT in GitLab either"). We now believe those issues to be fixed.
+> The kvm_irqchip_commit_routes() is a time-intensive operation, it needs
+> scan and update all irqfds that are already assigned during each invocation,
+> so more vectors means need more time to process them.
+
+I think the real reason is it's the write side of RCU.
+
+> For virtio-pci, we
+> can just submit once when enabling vectors of a virtio-pci device.
 > 
-> The COMMON_TAG needed to be fixed for the caching to work. The
-> docker.py script was not using the variable, but constructing the
-> correct URL directly.
+> This can reduce the downtime when migrating a VM with vhost-vdpa devices.
 > 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Signed-off-by: Longpeng <longpeng2@huawei.com>
 > ---
->  .gitlab-ci.d/container-template.yml | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-
-Tested-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
+>  hw/virtio/virtio-pci.c | 24 +++++++++++++++++++++---
+>  1 file changed, 21 insertions(+), 3 deletions(-)
 > 
-> diff --git a/.gitlab-ci.d/container-template.yml b/.gitlab-ci.d/container-template.yml
-> index c434b9c8f3..519b8a9482 100644
-> --- a/.gitlab-ci.d/container-template.yml
-> +++ b/.gitlab-ci.d/container-template.yml
-> @@ -6,17 +6,16 @@
->      - docker:dind
->    before_script:
->      - export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
-> -    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
-> +    - export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:latest"
->      - apk add python3
->      - docker info
->      - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
->    script:
->      - echo "TAG:$TAG"
->      - echo "COMMON_TAG:$COMMON_TAG"
-> -    - ./tests/docker/docker.py --engine docker build
-> -          -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
-> -          -r $CI_REGISTRY/qemu-project/qemu
-> -    - docker tag "qemu/$NAME" "$TAG"
-> +    - docker build --tag "$TAG" --cache-from "$TAG" --cache-from "$COMMON_TAG"
-> +      --build-arg BUILDKIT_INLINE_CACHE=1
-> +      -f "tests/docker/dockerfiles/$NAME.docker" "."
->      - docker push "$TAG"
->    after_script:
->      - docker logout
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 247325c193..22e76e3902 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -49,6 +49,19 @@
+>   * configuration space */
+>  #define VIRTIO_PCI_CONFIG_SIZE(dev)     VIRTIO_PCI_CONFIG_OFF(msix_enabled(dev))
+>  
+> +/* Protected by the BQL */
+> +static KVMRouteChange virtio_pci_route_change;
+> +
+> +static inline void virtio_pci_begin_route_changes(void)
+> +{
+> +    virtio_pci_route_change = kvm_irqchip_begin_route_changes(kvm_state);
+> +}
+> +
+> +static inline void virtio_pci_commit_route_changes(void)
+> +{
+> +    kvm_irqchip_commit_route_changes(&virtio_pci_route_change);
+> +}
+> +
+>  static void virtio_pci_bus_new(VirtioBusState *bus, size_t bus_size,
+>                                 VirtIOPCIProxy *dev);
+>  static void virtio_pci_reset(DeviceState *qdev);
+> @@ -790,12 +803,11 @@ static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
+>      int ret;
+>  
+>      if (irqfd->users == 0) {
+> -        KVMRouteChange c = kvm_irqchip_begin_route_changes(kvm_state);
+> -        ret = kvm_irqchip_add_msi_route(&c, vector, &proxy->pci_dev);
+> +        ret = kvm_irqchip_add_msi_route(&virtio_pci_route_change, vector,
+> +                                        &proxy->pci_dev);
+>          if (ret < 0) {
+>              return ret;
+>          }
+> -        kvm_irqchip_commit_route_changes(&c);
+>          irqfd->virq = ret;
+>      }
+>      irqfd->users++;
+> @@ -903,12 +915,18 @@ static int kvm_virtio_pci_vector_vq_use(VirtIOPCIProxy *proxy, int nvqs)
+>      int ret = 0;
+>      VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+>  
+> +    virtio_pci_begin_route_changes();
+> +
+>      for (queue_no = 0; queue_no < nvqs; queue_no++) {
+>          if (!virtio_queue_get_num(vdev, queue_no)) {
+> +            virtio_pci_commit_route_changes();
+>              return -1;
+>          }
+>          ret = kvm_virtio_pci_vector_use_one(proxy, queue_no);
+>      }
+> +
+> +    virtio_pci_commit_route_changes();
+> +
+>      return ret;
+>  }
+>  
 > -- 
-> 2.35.3
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 2.23.0
 
 
