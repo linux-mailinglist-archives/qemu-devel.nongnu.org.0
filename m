@@ -2,90 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24E66A606B
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FFC76A606A
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 21:32:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX6cu-0002PP-8N; Tue, 28 Feb 2023 15:31:08 -0500
+	id 1pX6cx-0002Q5-Qb; Tue, 28 Feb 2023 15:31:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pX6cr-0002MY-29
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:31:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX6cv-0002Ps-N4
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:31:09 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pX6cp-00035W-H9
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:31:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677616262;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=szJszfypPy+Yy8Ya4ONncuHJBOuB6y1Vk1gk1txkx7M=;
- b=IOiGLjGpc4u1IL3No3rEKnG3NC2zj2jhgeF1P5t1BZBmcACTpde0zRy+QKGCzQR+KjQeNI
- CYXAbvulavQT5BYm623KUXBoWGPLiUYqLDD6pi/LmUeIW0NL/mF78w4Q/D6LrMXNfJ9XjK
- edcdJkMimuiRdmxtCbfszV08aUcgWYI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-16-S0VAHIEvMM6YxV7pDXolpw-1; Tue, 28 Feb 2023 15:31:00 -0500
-X-MC-Unique: S0VAHIEvMM6YxV7pDXolpw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- bh3-20020a05600005c300b002c70d6e2014so1867067wrb.10
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 12:31:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=szJszfypPy+Yy8Ya4ONncuHJBOuB6y1Vk1gk1txkx7M=;
- b=lv+mGScz1fKJc40F/AtQT2QnNylYsEmZYS8NP+XEq0VosndIaNQyTrAi5y3IWbke/x
- pwH0rruthExn6uYkONis3jrr+ef9/BiEgOyy+trHL8n5TCICZ2VK0YjMtGkEEPItji5f
- ZQqOoB31ksN14O8Jv1BDEKFEse2biF2/Te/3Rcfc3cOmAnFe2aMOz+IaSIAEqUNg35Xp
- cpMzjpxHAR7xgBpd+4X9lCNHr1NY3ZP+XxMev6Iwl1wJqQci2hxfK7TGLUrgdR5K6ucA
- N4TjO1eTN20LGVxyjOavlYQVBuvPU+5B9QqYfsohvevnxXIoJOEioykowKvGvu3UqeqU
- zIQA==
-X-Gm-Message-State: AO0yUKVKgGKnkkf3IucpbWSTN2ChUoYpX9VtXlSjFn/xkVlSKqx+vIu5
- taELf1Klb/MPw0aXJlbusTwqV7z/q7v2BgRLWNGog9zN40m8W8AeWwxRnucM4rImng1sI7PM+XJ
- HprN1aQrmzrc75RE=
-X-Received: by 2002:adf:e48e:0:b0:2c5:7de8:212b with SMTP id
- i14-20020adfe48e000000b002c57de8212bmr3081119wrm.45.1677616259383; 
- Tue, 28 Feb 2023 12:30:59 -0800 (PST)
-X-Google-Smtp-Source: AK7set/BL6fR53zw7iG+SWHbPTUXMcRFs008TsbugkMAzAhDLnSD4cAQe6Nwsw4S9CoTh8Yr4QHUag==
-X-Received: by 2002:adf:e48e:0:b0:2c5:7de8:212b with SMTP id
- i14-20020adfe48e000000b002c57de8212bmr3081096wrm.45.1677616258976; 
- Tue, 28 Feb 2023 12:30:58 -0800 (PST)
-Received: from [192.168.8.100] (tmo-112-221.customers.d1-online.com.
- [80.187.112.221]) by smtp.gmail.com with ESMTPSA id
- k10-20020adfd84a000000b002c55551e6e9sm10811300wrl.108.2023.02.28.12.30.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 12:30:58 -0800 (PST)
-Message-ID: <6e28af8e-3e71-9888-8832-786550b81983@redhat.com>
-Date: Tue, 28 Feb 2023 21:30:56 +0100
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX6cs-00035n-Ij
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:31:09 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id F0EFD5C00F5;
+ Tue, 28 Feb 2023 15:31:03 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 28 Feb 2023 15:31:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1677616263; x=
+ 1677702663; bh=1TzrBw0ne8EXsWwsqSkPcwpkbe1yLZDYf7b/OKFdv0Y=; b=M
+ Dkrh6D1BBI77jvnYgKE4MoLSRrU9NaEwJXDvN6Xv/zG2zZuZ8eRt0zvE8u+uygQO
+ aFVfQnTKBcqHSeAI1JdOwBKnqF0FDUEJPrV1x0n1POCZDEGHIgj+LUoUC4lVDDDo
+ BbzHHoM/R4oFDTlHwfLHVmBQ8a66JW8kQUElHpprtsIpGnPYW0pSqsTGDRXDQKgn
+ GPeKIqsn8mSJITcUG8CAnWWsWnN3jHb7J8FTzM351PulWBFp8Uew7BeNhAcXvuNF
+ 0/hz0Uw3iq7c8cSP6mb34+tw+tGtCc8OIRnyNUBBFEh3H9pf6jHsc/NzBwZhclH8
+ /rWOv0NQ9SROLt7rx9ZPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677616263; x=
+ 1677702663; bh=1TzrBw0ne8EXsWwsqSkPcwpkbe1yLZDYf7b/OKFdv0Y=; b=c
+ YXme3uHGlzIOXFxMt7YJFWvxSr6VAhEfh0vjt0fKms4FFXl+vSWGZAHiufeETAQ+
+ 8gjnfmb25ImSwNducob7JBqwCGTcht4oQaH/XQiXHegoqL3b1PysqmAWlbPYOawI
+ 5zgUoZjxdOEStK9gbYr59JmQy4XXvBJZ3Lp/N2ubZ9wZQgzJw2ricDdsCrLKaEU+
+ LbyFf/JohlzeK6htaGSmgiAQbb4Nzp98DlyJfZ8gg7kGh2B9n2OyggHvqIofxOje
+ 384C44GSt7R+CDo9GzzaFd3AA5ojevhnU5BDJHnA7tgODrvzzjFIi6q0347vBV0e
+ KrdwVuUzRFmywSNZ3jRpw==
+X-ME-Sender: <xms:h2T-Y1l53BMJVXKirWNf57Tjx4Ev7gdMZJ_3gpmnmQjt69z0zvEFxQ>
+ <xme:h2T-Yw29593qGkt_UmKDcoC1GpLc86_3nFzSD_UalddM-qKHs7aa9gj3eKacZ6e6m
+ aqH67rsYawdtgIF6Q>
+X-ME-Received: <xmr:h2T-Y7qE4TQomCxjMB6AaH21jAqDScbRUlCXQjLyQRi1zSD2GEu8zcvmRa4w-3kHzlyvlxVwQwTXRKWTI3Fv0WXKBZ_lL86kZo3K-1U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelfedgjeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ gfrhhlucfvnfffucdljedtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredt
+ tddtudenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqe
+ enucggtffrrghtthgvrhhnpeegvdejveeuvdeigfejjeeufefhffetfeekuddtuddvuedt
+ ueffvdejleehgeetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+ hlfhhrohhmpegugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:h2T-Y1kLoA0kSAxUuQ8cx8oErJ1KnjnkTXizh6HUix7D4Chd_dOn2g>
+ <xmx:h2T-Yz2PpnfZx_61AsumcEeX1Ndb62-GG5FMcoJF3KhKckIp_xKSEw>
+ <xmx:h2T-Y0tnvglabyaH1TiDtg1OKsIfTCrNx7xCnSWSh8P4upSr1qohUQ>
+ <xmx:h2T-YxBnCzNQRYenRNAK3XAbGiubs741JFSg-H-1ggOvE8hwPN4QjA>
+Feedback-ID: i6a694271:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Feb 2023 15:31:03 -0500 (EST)
+Date: Tue, 28 Feb 2023 13:31:01 -0700
+From: Daniel Xu <dxu@dxuuu.xyz>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Cc: kkostiuk@redhat.com, michael.roth@amd.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/3] qga: Add optional `merge-output` flag to
+ guest-exec qapi
+Message-ID: <20230228203101.gsgbc5ejdfjtg2pf@kashmir.localdomain>
+References: <cover.1677609866.git.dxu@dxuuu.xyz>
+ <e4a6d274d554479c665de82b3627f1df2055306a.1677609866.git.dxu@dxuuu.xyz>
+ <CAJ+F1CJROMSagNReTttyAmoy_9GMkbmcvc6+WB4ZyKcp3yzQ9g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests: Ensure TAP version is printed before other messages
-Content-Language: en-US
-To: "Richard W.M. Jones" <rjones@redhat.com>, qemu-devel@nongnu.org
-Cc: alxndr@bu.edu, pbonzini@redhat.com, bsd@redhat.com, stefanha@redhat.com,
- darren.kenny@oracle.com, Qiuhao.Li@outlook.com, fam@euphon.net,
- lvivier@redhat.com, berrange@redhat.com
-References: <20230227174019.1164205-1-rjones@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230227174019.1164205-1-rjones@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ+F1CJROMSagNReTttyAmoy_9GMkbmcvc6+WB4ZyKcp3yzQ9g@mail.gmail.com>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=dxu@dxuuu.xyz;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,48 +103,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/02/2023 18.40, Richard W.M. Jones wrote:
-> These two tests were failing with this error:
+Hi Marc-André,
+
+Apologies if it looks like I ignored your previous email. I forgot to
+renew my domain registration so all my emails were getting blackholed
+or bounced for ~17 hours.
+
+But w.r.t. fallback with old versions of glib, I think it may be a
+little uglier than that. It looks like the build system uses
+preprocessor macros to warn on too-new APIs. So I suppose we could
+#undef and redefine GLIB_VERSION_MIN_REQUIRED, but may not be very nice.
+
+But if you feel strongly I can try that.
+
+On Tue, Feb 28, 2023 at 11:26:09PM +0400, Marc-André Lureau wrote:
+> Hi
 > 
->    stderr:
->    TAP parsing error: version number must be on the first line
->    [...]
->    Unknown TAP version. The first line MUST be `TAP version <int>`. Assuming version 12.
+> On Tue, Feb 28, 2023 at 10:51 PM Daniel Xu <dxu@dxuuu.xyz> wrote:
+> >
+> > Currently, the captured output (via `capture-output`) is segregated into
+> > separate GuestExecStatus fields (`out-data` and `err-data`). This means
+> > that downstream consumers have no way to reassemble the captured data
+> > back into the original stream.
+> >
+> > This is relevant for chatty and semi-interactive (ie. read only) CLI
+> > tools.  Such tools may deliberately interleave stdout and stderr for
+> > visual effect. If segregated, the output becomes harder to visually
+> > understand.
+> >
+> > This commit adds a new optional flag to the guest-exec qapi to merge the
+> > output streams such that consumers can have a pristine view of the
+> > original command output.
+> >
+> > Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+> > ---
+> >  qga/commands.c       | 14 ++++++++++++--
+> >  qga/qapi-schema.json |  6 +++++-
+> >  2 files changed, 17 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/qga/commands.c b/qga/commands.c
+> > index 172826f8f8..e13a8e86df 100644
+> > --- a/qga/commands.c
+> > +++ b/qga/commands.c
+> > @@ -270,12 +270,20 @@ static void guest_exec_child_watch(GPid pid, gint status, gpointer data)
+> >      g_spawn_close_pid(pid);
+> >  }
+> >
+> > -/** Reset ignored signals back to default. */
+> >  static void guest_exec_task_setup(gpointer data)
+> >  {
+> >  #if !defined(G_OS_WIN32)
+> > +    bool has_merge = *(bool *)data;
+> >      struct sigaction sigact;
+> >
+> > +    if (has_merge) {
+> > +        if (dup2(STDOUT_FILENO, STDERR_FILENO) != 0) {
+> > +            slog("dup2() failed to merge stderr into stdout: %s",
+> > +                 strerror(errno));
 > 
-> This can be fixed by ensuring we always call g_test_init first in the
-> body of main.
+> I would leave a FIXME comment for glib 2.58 g_spawn_async_with_fds() usage
+
+Ack.
+
 > 
-> Thanks: Daniel Berrange, for diagnosing the problem
-> Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
-> ---
->   tests/qtest/fuzz-lsi53c895a-test.c | 4 ++--
->   tests/qtest/rtl8139-test.c         | 5 +++--
->   2 files changed, 5 insertions(+), 4 deletions(-)
+> > +        }
+> > +    }
+> > +
+> > +    /* Reset ignored signals back to default. */
+> >      memset(&sigact, 0, sizeof(struct sigaction));
+> >      sigact.sa_handler = SIG_DFL;
+> >
+> > @@ -384,6 +392,7 @@ GuestExec *qmp_guest_exec(const char *path,
+> >                         bool has_env, strList *env,
+> >                         const char *input_data,
+> >                         bool has_capture_output, bool capture_output,
+> > +                       bool has_merge_output, bool merge_output,
+> >                         Error **errp)
+> >  {
+> >      GPid pid;
+> > @@ -397,6 +406,7 @@ GuestExec *qmp_guest_exec(const char *path,
+> >      GIOChannel *in_ch, *out_ch, *err_ch;
+> >      GSpawnFlags flags;
+> >      bool has_output = (has_capture_output && capture_output);
+> > +    bool has_merge = (has_merge_output && merge_output);
+> >      g_autofree uint8_t *input = NULL;
+> >      size_t ninput = 0;
+> >
+> > @@ -420,7 +430,7 @@ GuestExec *qmp_guest_exec(const char *path,
+> >      }
+> >
+> >      ret = g_spawn_async_with_pipes(NULL, argv, envp, flags,
+> > -            guest_exec_task_setup, NULL, &pid, input_data ? &in_fd : NULL,
+> > +            guest_exec_task_setup, &has_merge, &pid, input_data ? &in_fd : NULL,
+> >              has_output ? &out_fd : NULL, has_output ? &err_fd : NULL, &gerr);
+> >      if (!ret) {
+> >          error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
+> > diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> > index 796434ed34..9c2367acdf 100644
+> > --- a/qga/qapi-schema.json
+> > +++ b/qga/qapi-schema.json
+> > @@ -1211,6 +1211,9 @@
+> >  # @input-data: data to be passed to process stdin (base64 encoded)
+> >  # @capture-output: bool flag to enable capture of
+> >  #                  stdout/stderr of running process. defaults to false.
+> > +# @merge-output: bool flag to merge stdout/stderr of running process
+> > +#                into stdout. only effective if used with @capture-output.
+> > +#                not effective on windows guests. defaults to false. (since 8.0)
 > 
-> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-> index a9254b455d..2012bd54b7 100644
-> --- a/tests/qtest/fuzz-lsi53c895a-test.c
-> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
-> @@ -112,12 +112,12 @@ static void test_lsi_do_dma_empty_queue(void)
->   
->   int main(int argc, char **argv)
->   {
-> +    g_test_init(&argc, &argv, NULL);
-> +
->       if (!qtest_has_device("lsi53c895a")) {
->           return 0;
+> I think you should return an error on Windows instead.
 
-Could you please double-check that the !lsi53c895a case works fine, too? 
-(just temporarily change it into a "if (1) { ..." statement) ... I'm a 
-little bit afraid that the TAP protocol might be incomplete without the 
-g_test_run() at the end otherwise. If so, you might now need a "goto out" 
-instead of the "return 0" here...
+Ack.
 
-  Thomas
+[...]
 
-
->       }
->   
-> -    g_test_init(&argc, &argv, NULL);
-
+Thanks,
+Daniel
 
