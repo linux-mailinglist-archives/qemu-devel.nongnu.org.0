@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C4A6A58AE
+	by mail.lfdr.de (Postfix) with ESMTPS id A37516A58AF
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 12:55:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWyYp-0005Xu-8x; Tue, 28 Feb 2023 06:54:23 -0500
+	id 1pWyZ1-0005Yo-Ry; Tue, 28 Feb 2023 06:54:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pWyYn-0005XV-3q
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:54:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pWyYl-0000Sv-Hc
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:54:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677585258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FLfze983Kz0hH4lLKIHX4U0se1aMmsK9klkwoQXLYZk=;
- b=e7Po8GJf2DDHCfE0piz8MMGnH/Deg4ZzSJvMM2zCWCWWwZZKpGLHVMttQXzpNhn7D1YSsl
- bR2N5xIuli8H/1HcwCNBBtEwFDZgy9wITElY0mrImQ+0Of2o89f3wniKf5S/WVNyPRQ81s
- aiPKLAHzHRxVRPjTKkra6sZiP7twHeQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-vdhxV30pPPOYva3JsZkDZg-1; Tue, 28 Feb 2023 06:54:13 -0500
-X-MC-Unique: vdhxV30pPPOYva3JsZkDZg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17D41858F09;
- Tue, 28 Feb 2023 11:54:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15EE3492B0E;
- Tue, 28 Feb 2023 11:54:10 +0000 (UTC)
-Date: Tue, 28 Feb 2023 12:54:09 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, dmitry.fomichev@wdc.com,
- hare@suse.de, damien.lemoal@opensource.wdc.com,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Subject: Re: [PATCH v15 3/8] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls
-Message-ID: <Y/3rYd/yhMhziyHq@redhat.com>
-References: <20230129102850.84731-1-faithilikerun@gmail.com>
- <20230129102850.84731-4-faithilikerun@gmail.com>
- <Y/z0Xl0qxUpJAXUl@redhat.com> <Y/0BDib2ww1XdIov@fedora>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWyZ0-0005YI-D1
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:54:34 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pWyYy-0000UV-TV
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:54:34 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id q16so9450235wrw.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 03:54:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nk/W5I7yEYnRYYwu6FMoJYeX7Rz+RoLFVgBwtE6+/xY=;
+ b=W3W/w8s2bA4Hr7umWG7Q2odRwlU8IbiP0zdX45u6EGcdrbvenTqvxIarBrSwM5ecO/
+ /jUAidfEToG6DU2PToMFvZN4DLqOJ8kBaL/8+5CNhSI7+jc/zTZCjI9EWBa34Z7vQEEB
+ YANkH0OU+jmqs2u//fZgM3JQRpjAz7NWOLJHU7KIC0n2TlU9u/rI8qvK7dMxaj9naTyn
+ rya2eQ816WsBNGdCTDpkvz4lTcbrLq4TZcAUaJ7CHiepMw9e5MUevjECIocGSiFPXxoT
+ CMCGiyW/Y/7ps6bprGubeK1s6LZ3dyohFdKaIUJqHyOZjHNao9WR3HV3h6H422J/ysAq
+ OPbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nk/W5I7yEYnRYYwu6FMoJYeX7Rz+RoLFVgBwtE6+/xY=;
+ b=3gjI0grKIF88T1WT0QXwEvhv9yu1CLV7WV55ba2JgnbpYCzOxoz14+v0uBqWaWnFJ1
+ djlHHjQxrBJae3CdL+dWhMTSYVVKQ4if/0vUqpMjAZk7L4jFbMW3jwsqwpuOrVkyczq9
+ fGlDQa4Jdk9nzdPjyIup6BYle8r57ci7t2BYtdl/wgP9lw/RYGbueUptwbHhcN7GEz7O
+ Wu1ZxhMeAhQIJNIu56EaaGICf9XnJvEeZhjtvVPTPvs1FbrvhaUGF3JOoE7AJeA2pQtt
+ zjHKdRQU419qCRQp2zqmY06TW1FMyaIXNcJ7sLPnxV1CdCTJFm67TbxqIFvNX7qXTxVN
+ lf0Q==
+X-Gm-Message-State: AO0yUKUaTSMdqaFdJp9up0/8n0ps95Trpucc53pFzUdEFeW7o9e0TKGz
+ u7IIwHZug0xd/y9hrKdZ+LIkqw==
+X-Google-Smtp-Source: AK7set/wv8d59OwoPof6RRccYE50LP2cZGcQNkcr484s5EjCqd0u8DDl0c4Y+idT0t4c0MlXX0xpag==
+X-Received: by 2002:a05:6000:c7:b0:2c7:1c72:69a3 with SMTP id
+ q7-20020a05600000c700b002c71c7269a3mr1817350wrx.29.1677585271271; 
+ Tue, 28 Feb 2023 03:54:31 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ p9-20020adff209000000b002c3e3ee7d1asm10006438wro.79.2023.02.28.03.54.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 03:54:30 -0800 (PST)
+Message-ID: <307c003d-369a-c44b-2e62-679d3a9ac6d8@linaro.org>
+Date: Tue, 28 Feb 2023 12:54:27 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="csyeyuFJNg++ECyJ"
-Content-Disposition: inline
-In-Reply-To: <Y/0BDib2ww1XdIov@fedora>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH 1/7] configure: expose the direct container command
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Li-Wen Hsu <lwhsu@freebsd.org>, Thomas Huth <thuth@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Ed Maste <emaste@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, qemu-arm@nongnu.org,
+ qemu-block@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ John Snow <jsnow@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Hanna Reitz <hreitz@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Darren Kenny
+ <darren.kenny@oracle.com>, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+References: <20230224180857.1050220-1-alex.bennee@linaro.org>
+ <20230224180857.1050220-2-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230224180857.1050220-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,129 +105,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 24/2/23 19:08, Alex Bennée wrote:
+> In the process of migrating away from using docker.py to build our
+> containers we need to expose the command to the build environment. The
+> script is still a useful way to probe which command works though.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   configure | 3 +++
+>   1 file changed, 3 insertions(+)
 
---csyeyuFJNg++ECyJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Am 27.02.2023 um 20:14 hat Stefan Hajnoczi geschrieben:
-> On Mon, Feb 27, 2023 at 07:20:14PM +0100, Kevin Wolf wrote:
-> > Am 29.01.2023 um 11:28 hat Sam Li geschrieben:
-> > > Add zoned device option to host_device BlockDriver. It will be presen=
-ted only
-> > > for zoned host block devices. By adding zone management operations to=
- the
-> > > host_block_device BlockDriver, users can use the new block layer APIs
-> > > including Report Zone and four zone management operations
-> > > (open, close, finish, reset, reset_all).
-> > >=20
-> > > Qemu-io uses the new APIs to perform zoned storage commands of the de=
-vice:
-> > > zone_report(zrp), zone_open(zo), zone_close(zc), zone_reset(zrs),
-> > > zone_finish(zf).
-> > >=20
-> > > For example, to test zone_report, use following command:
-> > > $ ./build/qemu-io --image-opts -n driver=3Dhost_device, filename=3D/d=
-ev/nullb0
-> > > -c "zrp offset nr_zones"
-> > >=20
-> > > Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> > > Reviewed-by: Hannes Reinecke <hare@suse.de>
-> > > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > ---
-> > >  block/block-backend.c             | 147 ++++++++++++++
-> > >  block/file-posix.c                | 323 ++++++++++++++++++++++++++++=
-++
-> > >  block/io.c                        |  41 ++++
-> > >  include/block/block-io.h          |   7 +
-> > >  include/block/block_int-common.h  |  21 ++
-> > >  include/block/raw-aio.h           |   6 +-
-> > >  include/sysemu/block-backend-io.h |  18 ++
-> > >  meson.build                       |   4 +
-> > >  qemu-io-cmds.c                    | 149 ++++++++++++++
-> > >  9 files changed, 715 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/block/block-backend.c b/block/block-backend.c
-> > > index ba7bf1d6bc..a4847b9131 100644
-> > > --- a/block/block-backend.c
-> > > +++ b/block/block-backend.c
-> > > @@ -1451,6 +1451,15 @@ typedef struct BlkRwCo {
-> > >      void *iobuf;
-> > >      int ret;
-> > >      BdrvRequestFlags flags;
-> > > +    union {
-> > > +        struct {
-> > > +            unsigned int *nr_zones;
-> > > +            BlockZoneDescriptor *zones;
-> > > +        } zone_report;
-> > > +        struct {
-> > > +            unsigned long op;
-> > > +        } zone_mgmt;
-> > > +    };
-> > >  } BlkRwCo;
-> >=20
-> > Should we use a different struct for blk_aio_zone_*() so that we don't
-> > need to touch the one for the normal I/O path? My concern is that
-> > increasing the size of the struct (currently 32 bytes) might negatively
-> > impact the performance even of non-zoned devices. Maybe it turns out
-> > that it wasn't really necessary in the end (have we done any
-> > benchmarks?), but I don't think it can hurt anyway.
-> >=20
-> > With this changed, you can add to the series:
-> > Acked-by: Kevin Wolf <kwolf@redhat.com>
->=20
-> There are unused fields in BlkRwCo and BlkAioEmAIOCB, so changing the
-> size of the struct isn't necessary. ioctl/flush/pdiscard already use
-> BlkAioEmAIOCB/BlkRwCo for non-read/write operations, including using the
-> iobuf field for different types, so it wouldn't be weird:
->=20
->   typedef struct BlkRwCo {
->       BlockBackend *blk;
->       int64_t offset;
->       void *iobuf;
->             ^^^^^ used for preadv/pwritev qiov, ioctl buf, and NULL for
->                   other request types. zone_report could put the
->                   BlockZoneDescriptor pointer here. zone_mgmt could put
->                   op here.
->       int ret;
->       BdrvRequestFlags flags;
->   } BlkRwCo;
->=20
->   typedef struct BlkAioEmAIOCB {
->       BlockAIOCB common;
->       BlkRwCo rwco;
->       int64_t bytes;
->               ^^^^^ zone_report could put the nr_zones pointer here
->       bool has_returned;
->   } BlkAioEmAIOCB;
->=20
-> Does that sound okay?
-
-Might not be great for readability, but good enough for me.
-
-Kevin
-
---csyeyuFJNg++ECyJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmP962EACgkQfwmycsiP
-L9aPzBAAjA9NFCOjpjpxG606QZ2PAZMFJjGMA0fHSMN8pWfZptRxRxT/AHssCM6K
-evwti7EQ3u8wq0taPj+FRbSSm0IxiDateSlpoWHkImTKWxBv7VcS/waG8roiUK43
-0kSEMQsFx/6AzUuHUf6grvkH7+T3aEZ6bgPwhuGf2o3r7VSmevUu18P+1BezFlrg
-LlvDJky1R3hmtfVsGvJZsbQ8pE1ZrCVr5KMVdsnwO8xZJcyaMosiQkgAh6oYa01l
-i80KVkQ50P/B6keH75XyB0OnuXeAvcO8+o+T/SV6CXYFR6rqxXscVGM88tNE/JpN
-EFwPUUnREpxj+i164LyRF//UYcSaow/a4NUxEC3XPhqQ69F00t4IjzXaKYGJClmJ
-bZBstd8BuW8IIsEvt753Cl3jR5skGoGmyuKwbI7wFPKXV3YF3IkPzJGdAzGpO+Hu
-zhN8QD21pWLOaJNUkwC8iJMgyEvSnWcbmShi6j4YGfNmK/4X/XJbEdFmriFxPwcG
-Y2l2s7D8helHTa9FQuDS4UvKagpP/tJMAPzQCF1A/FMeVi8LnFAvBSGQaXv1nLWu
-cyA4IiAekyEdk57GNBmi4JKrrqr0z3CkXWpgh+Q8edLQNI2Lrypk32tf1Zmc3p6N
-1pjaxPgXxr5OBsPmW5BVcSSs44VwuDpBbh+iVEh8luOEvwCuC9Y=
-=5B5l
------END PGP SIGNATURE-----
-
---csyeyuFJNg++ECyJ--
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
