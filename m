@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8A56A5465
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E526A54AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:48:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWvOX-00073h-5W; Tue, 28 Feb 2023 03:31:33 -0500
+	id 1pWvdE-0008Ku-BA; Tue, 28 Feb 2023 03:46:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pWvOU-0006yt-DO
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:31:30 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pWvOS-0007DN-8w
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:31:29 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id bh1so9573048plb.11
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 00:31:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112; t=1677573086;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dtaVeFaGDQJ+M6OvzwKHmn2qzQLBA1m0UYmlyf2ZwYY=;
- b=y8LotopNjIrO2jQ1GgeSV+tjOWJAWaRduZC8/W7IG9uYF1KEq9tS2dxpo9S4WiXcxi
- H2Yt+ekkv/0982cSBqvxMFNrgFQwg7nS8s5U4PmWR6v6TIwh7dclqDZsRq1j4BZ8G87s
- l5n+4rWRe0LlQmYlI9f9kCgMFW1xhOVQmFrjKlGBRYJA3g4qJONo8p0QH3gpAECpsI7j
- ouZ9509lIoHEnJOvR7YN83Mmg9lxBwDFtSEfit9CMgv1SE7afeHMV/bJF0L64sek3ddz
- 3tB5v9MdiXn0c/DoYw0/j1/SlEHlj+jw7086+YI9UC3yX+QhM7/W61CxBlj+UhCN2g0E
- erCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677573086;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dtaVeFaGDQJ+M6OvzwKHmn2qzQLBA1m0UYmlyf2ZwYY=;
- b=JwDhPvdGWWmXNyzbTl8AJ7tUylE7HUIiw3DsTGUfSJ8bNaUmga66ZCMcvISqoF/piz
- 1VpTpLHK9jVkV2sp/vpH+NcnRgWnbhzLGJNkRjnXvlvTTG1hv2EkzhNVSb8EoZ6ptOAs
- QXUIuDNuakuBeDSRVNCbk9EOTQ9p581RhI4DzJ3JiLLbzRGMdDTogR01XTdZ3yovb1fe
- dcmvEEtr2HYzEAUf1MLGx5JOb7UvTM3QkTUCBibhbK3B0Gt3SyqU4z/EF1DfBwEz83G6
- p9mLsOm+zCxi4o3sshN1/QzhPtCZSrsaiGM9vCGFPPGMTiUyxJlRwBg/I+G8g08PG4GP
- JiUg==
-X-Gm-Message-State: AO0yUKUjJJK2D0Ty68uMRSxgY9ErPxF1GUXJIgqeEAVPiDv+1fMbVb9P
- /5/7F+0oO79QXO0XAQ7PQxFesE0boZnYekr1
-X-Google-Smtp-Source: AK7set9YpVPRT6+MTeuXAx2P3WNAZA2T1ZVNNV//cR1LZnkyE86YcEGr4auEDuaaOlerr8Bb1131MA==
-X-Received: by 2002:a17:902:c941:b0:196:5787:d73a with SMTP id
- i1-20020a170902c94100b001965787d73amr2376929pla.53.1677573086178; 
- Tue, 28 Feb 2023 00:31:26 -0800 (PST)
-Received: from alarm.u-tokyo.ac.jp ([157.82.194.14])
- by smtp.gmail.com with ESMTPSA id
- iz12-20020a170902ef8c00b0019945535973sm5952894plb.63.2023.02.28.00.31.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 00:31:25 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, Gustavo Noronha Silva <gustavo@noronha.eti.br>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH] ui/cocoa: Override windowDidResignKey
-Date: Tue, 28 Feb 2023 17:31:19 +0900
-Message-Id: <20230228083119.2863-1-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pWvd6-0008If-Th
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:46:41 -0500
+Received: from mga04.intel.com ([192.55.52.120])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1pWvd4-0001ec-4w
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:46:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677573994; x=1709109994;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=E2NHBGOSvXpQ97/ZAMQbcNEwzLNkJrUlK5tFnUCz0Ac=;
+ b=e6vMGXvyRQ/EuZm2qz1RSAX514nafMqDLc+KlACdjbCTYcFF3lTLr/3L
+ Hr8cPz0aVils+dr+7d4FPXD3kWmFstdbElQS/9DM7EhGS8COe60d4pccT
+ djayo8xJNai1g7F0DmLP2ZHxLqOZjHbKAV899SVOLWjAPVxFpTJe6OSbZ
+ MzxYm53xTBUY/SG3vhllGgVZT8yK36lcbhALW4U7ejFPNv36BfSTgb9Cy
+ Uer4M4wgpY91s8sald0UjpofBu6S6lW3JKoaVeXJjud3Sla40cEXBhcEc
+ RqhTX5sv5A8l94/sEnrkebrq7DrovkOQjcaxQxtwk92fpmiH78ZqLZYqP A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332808123"
+X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; d="scan'208";a="332808123"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 00:46:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="738081578"
+X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; d="scan'208";a="738081578"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.254.211.20])
+ ([10.254.211.20])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 00:46:15 -0800
+Message-ID: <022a4fec-b08e-fa87-4717-e27017fad6c9@intel.com>
+Date: Tue, 28 Feb 2023 16:46:13 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: 14
-X-Spam_score: 1.4
-X-Spam_bar: +
-X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [PATCH v4 0/4] target/i386: Add new CPU model SapphireRapids and
+ new fast string op leaves
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: lei4.wang@intel.com, robert.hu@linux.intel.com, chenyi.qiang@intel.com
+References: <20230227101332.636203-1-pbonzini@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20230227101332.636203-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,43 +81,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This fixes pressed keys being stuck when the deck is clicked and the
-window loses focus.
+On 2/27/2023 6:13 PM, Paolo Bonzini wrote:
+> Sapphire Rapids enablement patches got stuck on the doubts regarding
+> properties for AMX support.  However, for now there is no need to have
+> anything but hardcoded values, because all Intel processors with AMX
+> currently support exactly the same palettes and TMUL limits.  Intel has
+> also promised that palette formats will remain backwards compatible so
+> the only worry is for the TMUL leaf, CPUID[1Eh].
+> 
+> However, providing modifiable properties for AMX is premature.  
+> Rather,
+> the first step should be to_validate_  host CPUID values against the
+> ones supported by QEMU.  
 
-In the past, Gustavo Noronha Silva also had a patch to fix this issue
-though it only ungrabs mouse and does not release keys, and depends on
-another out-of-tree patch:
-https://github.com/akihikodaki/qemu/pull/3/commits/e906a80147b1dc6d4f31b6a08064ef9871a2b76c
+Paolo,
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- ui/cocoa.m | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+The validation of host CPUID values (kvm supported CPUIDs) against the 
+ones supported by QEMU (the hardcoded value) is missing in current QEMU.
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 52e750f8a2..ac1cee09cd 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1330,10 +1330,15 @@ - (BOOL)windowShouldClose:(id)sender
-     return NO;
- }
- 
--/* Called when QEMU goes into the background */
--- (void) applicationWillResignActive: (NSNotification *)aNotification
-+/*
-+ * Called when QEMU goes into the background. Note that
-+ * [-NSWindowDelegate windowDidResignKey:] is used here instead of
-+ * [-NSApplicationDelegate applicationWillResignActive:] because it cannot
-+ * detect that the window loses focus when the deck is clicked on macOS 13.2.1.
-+ */
-+- (void) windowDidResignKey: (NSNotification *)aNotification
- {
--    COCOA_DEBUG("QemuCocoaAppController: applicationWillResignActive\n");
-+    COCOA_DEBUG("%s\n", __func__);
-     [cocoaView ungrabMouse];
-     [cocoaView raiseAllKeys];
- }
--- 
-2.39.1
+As for how to implement the validation, I have two options in mind:
+
+a) special check in x86_cpu_filter_features() just like what did for 
+Intel PT:
+
+     if ((env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_INTEL_PT) &&
+         kvm_enabled()) {
+         KVMState *s = CPU(cpu)->kvm_state;
+         uint32_t eax_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_EAX);
+         uint32_t ebx_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_EBX);
+         uint32_t ecx_0 = kvm_arch_get_supported_cpuid(s, 0x14, 0, R_ECX);
+         uint32_t eax_1 = kvm_arch_get_supported_cpuid(s, 0x14, 1, R_EAX);
+         uint32_t ebx_1 = kvm_arch_get_supported_cpuid(s, 0x14, 1, R_EBX);
+
+         if (!eax_0 ||
+            ((ebx_0 & INTEL_PT_MINIMAL_EBX) != INTEL_PT_MINIMAL_EBX) ||
+            ((ecx_0 & INTEL_PT_MINIMAL_ECX) != INTEL_PT_MINIMAL_ECX) ||
+            ((eax_1 & INTEL_PT_MTC_BITMAP) != INTEL_PT_MTC_BITMAP) ||
+            ((eax_1 & INTEL_PT_ADDR_RANGES_NUM_MASK) <
+                                            INTEL_PT_ADDR_RANGES_NUM) ||
+            ((ebx_1 & (INTEL_PT_PSB_BITMAP | INTEL_PT_CYCLE_BITMAP)) !=
+                 (INTEL_PT_PSB_BITMAP | INTEL_PT_CYCLE_BITMAP)) ||
+            ((ecx_0 & CPUID_14_0_ECX_LIP) !=
+                 (env->features[FEAT_14_0_ECX] & CPUID_14_0_ECX_LIP))) {
+             /*
+              * Processor Trace capabilities aren't configurable, so if the
+              * host can't emulate the capabilities we report on
+              * cpu_x86_cpuid(), intel-pt can't be enabled on the 
+current host.
+              */
+             mark_unavailable_features(cpu, FEAT_7_0_EBX, 
+CPUID_7_0_EBX_INTEL_PT, prefix);
+         }
+     }
+
+This has flaws for leaf 0x1e, since its value might change on future 
+production (Intel PT is facing this exact problem that SPR has less PT 
+capabilities of CPUID(0x14,1):EBX[15:0] than ICX, and Intel PT cannot be 
+enabled for guest on SPR machine). As well, if hardware reports 
+different value of leaf 0x1e in the future, QEMU will fail to enable AMX 
+for guest.
+
+b) at least introduce FEAT_ for CPUID leaf 0x1E, so that it will be 
+checked in x86_cpu_filter_features() automatically and "-cpu max/host" 
+can pass through the host's value to guest. The additional work is that 
+we might need MultiBitFeature framework introducing in 
+https://lore.kernel.org/qemu-devel/20230106083826.5384-1-lei4.wang@intel.com/T/#t
+
+Do you think it worths the effort to go for option b? or just option a 
+for now is enough?
+
+> So for now apply the simpler patch that only
+> adds the new model.
 
 
