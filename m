@@ -2,84 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43396A5FA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EFC6A6021
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 21:06:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX5f0-0002b0-RM; Tue, 28 Feb 2023 14:29:14 -0500
+	id 1pX6E9-0006E9-OX; Tue, 28 Feb 2023 15:05:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pX5ew-0002Tn-GW; Tue, 28 Feb 2023 14:29:10 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pX5eu-0007Zk-Nh; Tue, 28 Feb 2023 14:29:10 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4EBB91FDEF;
- Tue, 28 Feb 2023 19:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677612547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pX6E7-0006Da-Kr
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:05:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pX6E1-0006Qn-Ms
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 15:05:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677614722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IZIy8Z3iGPcCgRkuMHF+6DkhbdLUaHXoLVg5l0Z77Vk=;
- b=MmI+AY9VDxZ6HRaquiMo1c9BiUqGUyX1/xOVubGxdfpXHbTbfPtzstZhpT8ozG5oUAJMYa
- nNU/epdC9iKrqbZraQnd1rODT+Rue3PDFWwzC0ksyYOmXvMTb8JZ7HjBCKdEwwYQsk8W16
- whYcIN/dZoNHtkJKU8Zi1w0tWYv8xAI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677612547;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IZIy8Z3iGPcCgRkuMHF+6DkhbdLUaHXoLVg5l0Z77Vk=;
- b=4jsoDVNmNAhzQlQoGcwt/2F5hTZQGNsn505ZYYON9ASM9x6HF5L75J+fLso5TJSCFcaety
- kUhamn91KDUJHUBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D7C661333C;
- Tue, 28 Feb 2023 19:29:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GGeQJ/5V/mNBagAAMHmgww
- (envelope-from <farosas@suse.de>); Tue, 28 Feb 2023 19:29:02 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH RESEND v7 9/9] tests/qtest: Fix tests when no KVM or TCG are
- present
-Date: Tue, 28 Feb 2023 16:26:28 -0300
-Message-Id: <20230228192628.26140-10-farosas@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230228192628.26140-1-farosas@suse.de>
-References: <20230228192628.26140-1-farosas@suse.de>
+ bh=nQd+QhpwRnF3wyVrQuuVP52v3cZ2QpqTThkyv4Fl8ik=;
+ b=LYSWGNG0eOszSCKFPF0C8unmwdKsNqrMLKfgybPOEjduXO/VySO2MdoPMMjHhH/feepGA+
+ FuIdQkhfgaynGlptWX/TUrzCyrXY8cHUnnsLRrnAdX8k0xrXUkwsJpnw202ckDZLtgJMHX
+ VWIuK7ktUi5l5pildVNun7OXLEPzS2A=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-166-6w6wdX9nP2WkaSPwOL1uAw-1; Tue, 28 Feb 2023 15:05:20 -0500
+X-MC-Unique: 6w6wdX9nP2WkaSPwOL1uAw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ x18-20020a1c7c12000000b003e1e7d3cf9fso7365795wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 12:05:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nQd+QhpwRnF3wyVrQuuVP52v3cZ2QpqTThkyv4Fl8ik=;
+ b=kbbkKKTQRCAWD+xvQCZvJVSBqkFhPntQP5MROMmZksya4KM11kUUVYeJTdyQtisoL7
+ MZKvOF1EGhayVGeRUlbsFpnJchK80skx1m7/RfbP83k0mug0zpbZw3I+Q6t8UhmYejXM
+ Ls0aR2cvJW0sWBFmL5oUE6Tior9pX/gARHKCTs+wHQLU4AystM+FpEJJV2p9HDb7uxXx
+ wp4u4f9DjyakzbbBUfOt5Ugjsx+b1C8QDNhA+2ZhEzC4CaLxJzLDVr0iZ9jMS9Z7vk8w
+ NHISmCDEaSoWCEhwD04KG+z7r5A5qrOpq7W5neq0rP/GOaDpw1osiNyRSkbef0t4ADXL
+ lCAg==
+X-Gm-Message-State: AO0yUKUaPdJlfzE0fFlNWCCDl1Y0mYSS0/srxK2amrV6HqRBqmCxknYm
+ 3DiuZh5U/0galAbWkmR7kjhVwvXCu0+KKxXzgb2eHdv4lC3GYOUSK9gxt+flDBp7nXGjVX5PJ3+
+ 3JkDOABXWH/PlhBQ=
+X-Received: by 2002:adf:e945:0:b0:2c7:17a0:c6b5 with SMTP id
+ m5-20020adfe945000000b002c717a0c6b5mr2892268wrn.34.1677614719636; 
+ Tue, 28 Feb 2023 12:05:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set9MmF9eZGPOsdEoWMFU4L/R5a85Aqi1pG3SMRTtHFB4tUvsUD1H2dNf0t4BROa+7hwk1Y3Vhg==
+X-Received: by 2002:adf:e945:0:b0:2c7:17a0:c6b5 with SMTP id
+ m5-20020adfe945000000b002c717a0c6b5mr2892258wrn.34.1677614719335; 
+ Tue, 28 Feb 2023 12:05:19 -0800 (PST)
+Received: from [192.168.8.100] (tmo-112-221.customers.d1-online.com.
+ [80.187.112.221]) by smtp.gmail.com with ESMTPSA id
+ c16-20020a05600c0ad000b003e214803343sm16622509wmr.46.2023.02.28.12.05.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 12:05:18 -0800 (PST)
+Message-ID: <99a83e65-273a-ea1b-e7d9-bbdd8ca32145@redhat.com>
+Date: Tue, 28 Feb 2023 21:05:16 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <Y/z4rwv09Ckhbtfp@redhat.com>
+ <001bedba-b12f-4dd8-0866-7ccb9ce877d0@redhat.com>
+ <Y/3C+jC3Lk5MJxfu@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 0/2] Deprecate support for 32-bit x86 and arm hosts
+In-Reply-To: <Y/3C+jC3Lk5MJxfu@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,127 +109,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is possible to have a build with both TCG and KVM disabled due to
-Xen requiring the i386 and x86_64 binaries to be present in an aarch64
-host.
+On 28/02/2023 10.01, Daniel P. Berrangé wrote:
+> On Tue, Feb 28, 2023 at 08:39:49AM +0100, Thomas Huth wrote:
+>> On 27/02/2023 19.38, Daniel P. Berrangé wrote:
+>>> On Mon, Feb 27, 2023 at 12:10:48PM +0100, Thomas Huth wrote:
+>>>> We're struggling quite badly with our CI minutes on the shared
+>>>> gitlab runners, so we urgently need to think of ways to cut down
+>>>> our supported build and target environments. qemu-system-i386 and
+>>>> qemu-system-arm are not really required anymore, since nobody uses
+>>>> KVM on the corresponding systems for production anymore, and the
+>>>> -x86_64 and -arch64 variants are a proper superset of those binaries.
+>>>> So it's time to deprecate them and the corresponding 32-bit host
+>>>> environments now.
+>>>>
+>>>> This is a follow-up patch series from the previous discussion here:
+>>>>
+>>>>    https://lore.kernel.org/qemu-devel/20230130114428.1297295-1-thuth@redhat.com/
+>>>>
+>>>> where people still mentioned that there is still interest in certain
+>>>> support for 32-bit host hardware. But as far as I could see, there is
+>>>> no real need for 32-bit host support for system emulation on x86 and
+>>>> arm anymore, so it should be fine if we drop these host environments
+>>>> now (these are also the two architectures that contribute the most to
+>>>> the long test times in our CI, so we would benefit a lot by dropping
+>>>> those).
+>>>
+>>> Your description here is a little ambiguous about what's being
+>>> proposed. When you say dropping 32-bit host support do you mean
+>>> just for the system emulator binaries, or for QEMU entirely ?
+>>
+>> Just for system emulation. Some people said that user emulation still might
+>> be useful for some 32-bit environments.
+>>
+>>> And when the deprecation period is passed, are you proposing
+>>> to actively prevent 32-bit builds, or merely stopping CI testing
+>>> and leave 32-bit builds still working if people want them ?
+>>
+>> CI is the main pain point, so that's the most important thing. So whether we
+>> throw a warning or a hard error while configuring the build, I don't care
+>> too much.
+> 
+> If we're merely wanting to drop CI support, we can do that any time and
+> deprecation is not required/expected.  We should only be using deprecation
+> where we're explicitly intending that the code will cease to work.
 
-If we build with --disable-tcg on the aarch64 host, we will end-up
-with a QEMU binary (x86) that does not support TCG nor KVM.
+Well, without CI, I assume that the code will bitrot quite fast (considering 
+that there are continuous improvements to TCG, for example). And who's then 
+still volunteering to fix bugs that have crept in months ago, for a host 
+architecture that nobody really uses anymore?
+Clearly, 32-bit x86 host is pretty much dead nowadays, especially for 
+programs like QEMU that need beefy host hardware. Why do we still waste our 
+time with this?
 
-Fix tests that crash or hang in the above scenario. Do not include any
-test cases if TCG and KVM are missing.
-
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
----
-This currently affects Arm, but will also affect x86 after the xenpvh
-series gets merged. This patch fixes both scenarios.
----
- tests/qtest/bios-tables-test.c |  4 ++++
- tests/qtest/boot-serial-test.c | 10 ++++++++++
- tests/qtest/migration-test.c   |  5 +++++
- tests/qtest/pxe-test.c         |  6 ++++++
- tests/qtest/vmgenid-test.c     |  6 ++++++
- 5 files changed, 31 insertions(+)
-
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index d29a4e47af..f6c2a010d2 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -2114,6 +2114,10 @@ int main(int argc, char *argv[])
-     char *v_env = getenv("V");
-     int ret;
- 
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
-+
-     if (v_env) {
-         verbosity_level = atoi(v_env);
-     }
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index 3aef3a97a9..45490f5931 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -17,6 +17,9 @@
- #include "libqtest.h"
- #include "libqos/libqos-spapr.h"
- 
-+static bool has_tcg;
-+static bool has_kvm;
-+
- static const uint8_t bios_avr[] = {
-     0x88, 0xe0,             /* ldi r24, 0x08   */
-     0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
-@@ -285,6 +288,13 @@ int main(int argc, char *argv[])
-     const char *arch = qtest_get_arch();
-     int i;
- 
-+    has_tcg = qtest_has_accel("tcg");
-+    has_kvm = qtest_has_accel("kvm");
-+
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
-+
-     g_test_init(&argc, &argv, NULL);
- 
-     for (i = 0; tests[i].arch != NULL; i++) {
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 109bc8e7b1..a6e3ca9f7d 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2460,11 +2460,16 @@ static bool kvm_dirty_ring_supported(void)
- int main(int argc, char **argv)
- {
-     const bool has_kvm = qtest_has_accel("kvm");
-+    const bool has_tcg = qtest_has_accel("tcg");
-     const bool has_uffd = ufd_version_check();
-     const char *arch = qtest_get_arch();
-     g_autoptr(GError) err = NULL;
-     int ret;
- 
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
-+
-     g_test_init(&argc, &argv, NULL);
- 
-     /*
-diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
-index 62b6eef464..05575f7687 100644
---- a/tests/qtest/pxe-test.c
-+++ b/tests/qtest/pxe-test.c
-@@ -130,6 +130,12 @@ int main(int argc, char *argv[])
- {
-     int ret;
-     const char *arch = qtest_get_arch();
-+    bool has_tcg = qtest_has_accel("tcg");
-+    bool has_kvm = qtest_has_accel("kvm");
-+
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
- 
-     ret = boot_sector_init(disk);
-     if(ret)
-diff --git a/tests/qtest/vmgenid-test.c b/tests/qtest/vmgenid-test.c
-index efba76e716..8045d3d706 100644
---- a/tests/qtest/vmgenid-test.c
-+++ b/tests/qtest/vmgenid-test.c
-@@ -164,6 +164,12 @@ static void vmgenid_query_monitor_test(void)
- int main(int argc, char **argv)
- {
-     int ret;
-+    bool has_tcg = qtest_has_accel("tcg");
-+    bool has_kvm = qtest_has_accel("kvm");
-+
-+    if (!has_tcg && !has_kvm) {
-+        return 0;
-+    }
- 
-     ret = boot_sector_init(disk);
-     if (ret) {
--- 
-2.35.3
+  Thomas
 
 
