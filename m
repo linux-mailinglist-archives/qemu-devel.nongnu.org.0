@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D996A56E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5253D6A56EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:40:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWxNW-00077F-VR; Tue, 28 Feb 2023 05:38:39 -0500
+	id 1pWxP7-0008Fd-Um; Tue, 28 Feb 2023 05:40:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pWxNS-0006tP-E7
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:38:35 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pWxOg-0008AH-I8
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:39:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pWxNQ-0001Ye-D1
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:38:34 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pWxOc-0001jW-Fl
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:39:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677580711;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1677580785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oEgNSVxFzIXU0kN/Ma+tLlR7sRWE/MFBauqEp+e7ZGE=;
- b=TljR0Lp39hcp87763ZMGZhK7+uE0hogRj1shRn+TVaSB33WedLZ0xqlEeE7nHUOXRjPjQ2
- ni4bClyYQTJ9Adqi0HRikJ2EnMEKLBilX6Uvnv79/8NEnJLfkZHXZn5s/rfotCjKU6K78o
- wgJReXAQxACOIlKf2J9L+T7wVDDOL+0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NJr1v+Fg3X7rjMTnlf2Bt1V+Ic/mzwck/Xt/BL3vIn0=;
+ b=cijT/e+3xZ3lTiNxfmvQZjdIC/q7uuhlMhJZ7clSjoMRUaItlVTUXbkwfHp/N9Cu3PfTNW
+ PkKIfaARYi2eeUrIydFuZOzWb5edBAXAAkbeNzELnrvsd+OAyjmMZnWCq/dQLrhuWqEqU2
+ 12fjMmuZ8uDfD6+ZdezVPSQo2//Gq84=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-339-Iu5r7JQrN_Sf8_GM_dAkvQ-1; Tue, 28 Feb 2023 05:38:28 -0500
-X-MC-Unique: Iu5r7JQrN_Sf8_GM_dAkvQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-329-lf9JwHrrNxiA7gTzVlLOEg-1; Tue, 28 Feb 2023 05:39:42 -0500
+X-MC-Unique: lf9JwHrrNxiA7gTzVlLOEg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49627800B23;
- Tue, 28 Feb 2023 10:38:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C2B7A1121318;
- Tue, 28 Feb 2023 10:38:22 +0000 (UTC)
-Date: Tue, 28 Feb 2023 10:38:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Li-Wen Hsu <lwhsu@freebsd.org>,
- Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Beraldo Leal <bleal@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Ed Maste <emaste@freebsd.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, qemu-arm@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-block@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- John Snow <jsnow@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Hanna Reitz <hreitz@redhat.com>,
- Bandan Das <bsd@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Subject: Re: [PATCH 3/7] tests/lcitool: append user setting stanza to
- dockerfiles
-Message-ID: <Y/3ZnMeOFKD7rNSy@redhat.com>
-References: <20230224180857.1050220-1-alex.bennee@linaro.org>
- <20230224180857.1050220-4-alex.bennee@linaro.org>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D422A293248C;
+ Tue, 28 Feb 2023 10:39:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91E7E2026D68;
+ Tue, 28 Feb 2023 10:39:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7BCBB21E6A1F; Tue, 28 Feb 2023 11:39:39 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Peter Maydell <peter.maydell@linaro.org>,
+ libvir-list@redhat.com,  Richard Henderson
+ <richard.henderson@linaro.org>,  qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org,  Reinoud Zandijk <reinoud@netbsd.org>,  Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>,  xen-devel@lists.xenproject.org,
+ Paolo Bonzini <pbonzini@redhat.com>,  Maxim Levitsky
+ <mlevitsk@redhat.com>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>
+Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
+ qemu-system-i386
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <20230227111050.54083-2-thuth@redhat.com>
+ <Y/yY72L9wyjuv3Yz@redhat.com>
+ <20230227150858-mutt-send-email-mst@kernel.org>
+ <84d7d3e5-0da2-7506-44a7-047ebfcfc4da@redhat.com>
+ <20230228031026-mutt-send-email-mst@kernel.org>
+ <Y/3CiEKKoG06t9rr@redhat.com>
+ <20230228040115-mutt-send-email-mst@kernel.org>
+ <fe4626c6-6103-d5e5-6920-9dfb4777b979@redhat.com>
+ <Y/3MIUDRBUSNg6C5@redhat.com>
+ <20230228050908-mutt-send-email-mst@kernel.org>
+Date: Tue, 28 Feb 2023 11:39:39 +0100
+In-Reply-To: <20230228050908-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Tue, 28 Feb 2023 05:11:20 -0500")
+Message-ID: <87cz5uhy50.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230224180857.1050220-4-alex.bennee@linaro.org>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,116 +96,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Feb 24, 2023 at 06:08:53PM +0000, Alex Bennée wrote:
-> For the cross-compilation use-case it is important to add the host
-> user to the dockerfile so we can map them to the docker environment
-> when cross-building files.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  .gitlab-ci.d/cirrus/freebsd-12.vars                   |  5 +++++
->  .gitlab-ci.d/cirrus/freebsd-13.vars                   |  5 +++++
->  .gitlab-ci.d/cirrus/macos-12.vars                     |  5 +++++
->  tests/docker/dockerfiles/alpine.docker                |  5 +++++
->  tests/docker/dockerfiles/centos8.docker               |  5 +++++
->  tests/docker/dockerfiles/debian-amd64-cross.docker    |  5 +++++
->  tests/docker/dockerfiles/debian-amd64.docker          |  5 +++++
->  tests/docker/dockerfiles/debian-arm64-cross.docker    |  5 +++++
->  tests/docker/dockerfiles/debian-armel-cross.docker    |  5 +++++
->  tests/docker/dockerfiles/debian-armhf-cross.docker    |  5 +++++
->  tests/docker/dockerfiles/debian-mips64el-cross.docker |  5 +++++
->  tests/docker/dockerfiles/debian-mipsel-cross.docker   |  5 +++++
->  tests/docker/dockerfiles/debian-ppc64el-cross.docker  |  5 +++++
->  tests/docker/dockerfiles/debian-s390x-cross.docker    |  5 +++++
->  tests/docker/dockerfiles/fedora-win32-cross.docker    |  5 +++++
->  tests/docker/dockerfiles/fedora-win64-cross.docker    |  5 +++++
->  tests/docker/dockerfiles/fedora.docker                |  5 +++++
->  tests/docker/dockerfiles/opensuse-leap.docker         |  5 +++++
->  tests/docker/dockerfiles/ubuntu2004.docker            |  5 +++++
->  tests/docker/dockerfiles/ubuntu2204.docker            |  5 +++++
->  tests/lcitool/refresh                                 | 11 ++++++++++-
->  21 files changed, 110 insertions(+), 1 deletion(-)
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
+> On Tue, Feb 28, 2023 at 09:40:49AM +0000, Daniel P. Berrang=C3=A9 wrote:
+>> On Tue, Feb 28, 2023 at 10:14:52AM +0100, Thomas Huth wrote:
+>> > On 28/02/2023 10.03, Michael S. Tsirkin wrote:
+>> > > On Tue, Feb 28, 2023 at 08:59:52AM +0000, Daniel P. Berrang=C3=A9 wr=
+ote:
+>> > > > On Tue, Feb 28, 2023 at 03:19:20AM -0500, Michael S. Tsirkin wrote:
+>> > > > > On Tue, Feb 28, 2023 at 08:49:09AM +0100, Thomas Huth wrote:
+>> > > > > > On 27/02/2023 21.12, Michael S. Tsirkin wrote:
+>> > > > > > > On Mon, Feb 27, 2023 at 11:50:07AM +0000, Daniel P. Berrang=
+=C3=A9 wrote:
+>> > > > > > > > I feel like we should have separate deprecation entries fo=
+r the
+>> > > > > > > > i686 host support, and for qemu-system-i386 emulator binar=
+y, as
+>> > > > > > > > although they're related they are independant features with
+>> > > > > > > > differing impact. eg removing qemu-system-i386 affects all
+>> > > > > > > > host architectures, not merely 32-bit x86 host, so I think=
+ we
+>> > > > > > > > can explain the impact more clearly if we separate them.
+>> > > > > > >=20
+>> > > > > > > Removing qemu-system-i386 seems ok to me - I think qemu-syst=
+em-x86_64 is
+>> > > > > > > a superset.
+>> > > > > > >=20
+>> > > > > > > Removing support for building on 32 bit systems seems like a=
+ pity - it's
+>> > > > > > > one of a small number of ways to run 64 bit binaries on 32 b=
+it systems,
+>> > > > > > > and the maintainance overhead is quite small.
+>> > > > > >=20
+>> > > > > > Note: We're talking about 32-bit *x86* hosts here. Do you real=
+ly think that
+>> > > > > > someone is still using QEMU usermode emulation
+>> > > > > > to run 64-bit binaries on a 32-bit x86 host?? ... If so, I'd b=
+e very surprised!
+>> > > > >=20
+>> > > > > I don't know - why x86 specifically? One can build a 32 bit bina=
+ry on any host.
+>> > > > > I think 32 bit x86 environments are just more common in the clou=
+d.
+>> > > >=20
+>> > > > Can you point to anything that backs up that assertion. Clouds I've
+>> > > > seen always give you a 64-bit environment, and many OS no longer
+>> > > > even ship 32-bit installable media.
+>> > >=20
+>> > > Sorry about being unclear. I meant that it seems easier to run CI in=
+ the
+>> > > cloud in a 32 bit x64 environment than get a 32 bit ARM environment.
+>> >=20
+>> > It's still doable ... but for how much longer? We're currently dependi=
+ng on
+>> > Fedora, but they also slowly drop more and more support for this
+>> > environment, see e.g.:
+>>=20
+>> FWIW, we should cull our fedora-i386-cross.docker dockerfile and
+>> replace it with a debian i686 dockerfile generated by lcitool.
+>> There's no compelling reason why i686 should be different from
+>> all our other cross builds which are based on Debian. The Debian
+>> lcitool generated container would have access to a wider range
+>> of deps than our hand written Fedora one.
+>>=20
+>> >  https://www.theregister.com/2022/03/10/fedora_inches_closer_to_droppi=
+ng/
+>>=20
+>> With regards,
+>> Daniel
+>
+> ... and is closer to where 32 bit is likely to be deployed which is
+> systems like e.g. raspberry pi os which until recently was only
+> 32 bit.
 
-> 
-> diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
-> index 44d8a2a511..0bff53be44 100644
-> --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
-> +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
-> @@ -14,3 +14,8 @@ PIP3='/usr/local/bin/pip-3.8'
->  PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio socat spice-protocol tesseract usbredir virglrenderer vte3 zstd'
->  PYPI_PKGS=''
->  PYTHON='/usr/local/bin/python3'
-> +# As a final step configure the user (if env is defined)
-> +ARG USER
-> +ARG UID
-> +RUN if [ "${USER}" ]; then \
-> +  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-> \ No newline at end of file
+32 bit ARM.  How is that an argument for continued maintenance of 32 bit
+x86?
 
-The cirrus/*.vars files aren't dockerfiles, they're shell
-scripts, so don't modify them
+If the argument goes like "32 bit x86 is easier to test in CI", then I
+don't buy it.  Testing 64 bit ARM + 32 bit x86 does not magically
+replace testing 32 bit ARM.
 
+The question to answer: Is 32 bit x86 worth its upkeep?  Two
+sub-questions: 1. Is it worth the human attention?  2. Is it worth
+(scarce!) CI minutes?
 
-> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-> index 56cf14e553..7b82dec8e5 100644
-> --- a/tests/docker/dockerfiles/alpine.docker
-> +++ b/tests/docker/dockerfiles/alpine.docker
-> @@ -124,3 +124,8 @@ ENV LANG "en_US.UTF-8"
->  ENV MAKE "/usr/bin/make"
->  ENV NINJA "/usr/bin/ninja"
->  ENV PYTHON "/usr/bin/python3"
-> +# As a final step configure the user (if env is defined)
-> +ARG USER
-> +ARG UID
-> +RUN if [ "${USER}" ]; then \
-> +  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi
-> \ No newline at end of file
+I want to see an argument for benefits justifying the costs.
 
-Add a trailing newline to these perhaps ?
-
-
-> diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-> index cc9e34ac87..88bf33fb74 100755
-> --- a/tests/lcitool/refresh
-> +++ b/tests/lcitool/refresh
-> @@ -40,6 +40,15 @@ def atomic_write(filename, content):
->          tmp.unlink()
->          raise
->  
-> +# Optional user setting, this will always be the last thing added
-> +# so maximise the number of layers that are cached
-> +add_user_mapping = [
-> +    "# As a final step configure the user (if env is defined)",
-> +    "ARG USER",
-> +    "ARG UID",
-> +    "RUN if [ \"${USER}\" ]; then \\",
-> +    "  id ${USER} 2>/dev/null || useradd -u ${UID} -U ${USER}; fi"
-> +]
->  
->  def generate(filename, cmd, trailer):
->      print("Generate %s" % filename)
-> @@ -51,9 +60,9 @@ def generate(filename, cmd, trailer):
->      content = lcitool.stdout.decode("utf8")
->      if trailer is not None:
->          content += trailer
-> +    content += "\n".join(add_user_mapping)
-
-  if filename.endswith(".docker"):
-       content += "\n".join(add_user_mapping)
-
-to avoid splattering the cirrus vars files
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+A benefit like "somebody out there might still want to use it" I'd value
+at zero.
 
 
