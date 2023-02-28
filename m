@@ -2,72 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F296A5B44
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 16:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AF16A5B43
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 16:04:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX1VS-0002oU-13; Tue, 28 Feb 2023 10:03:06 -0500
+	id 1pX1VS-0002op-RV; Tue, 28 Feb 2023 10:03:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pX1VD-0002ef-UK
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:02:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pX1VO-0002i6-V8
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:03:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pX1V8-0003a1-5n
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:02:48 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pX1VN-0003dt-6f
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:03:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677596564;
+ s=mimecast20190719; t=1677596579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rIsd2AR6rBy3LvtthCKr/JKSUa9znVYdiWORb5ehAkA=;
- b=bVSnEFUH3o2GtsVnGqPdJbCjUcDK8q4XkCJwcVY36VqngOqJfw+xm5y7HCgtfxNFRU05le
- 3DTuC9NAroy7NtYMlncRg/5KdmZVH4qKErKCYVSP+9RQ7ATdVnL/M0BhmSWlZxhcrsPrGq
- AwFEy9Q7DPPrmbLZrxHgiR/Pbb7xCrg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-gAnLldRtOpO0CBL4B9-sug-1; Tue, 28 Feb 2023 10:02:41 -0500
-X-MC-Unique: gAnLldRtOpO0CBL4B9-sug-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CCBAB1C06903;
- Tue, 28 Feb 2023 15:02:37 +0000 (UTC)
-Received: from gondolin.redhat.com (unknown [10.39.193.90])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0016F492B0E;
- Tue, 28 Feb 2023 15:02:35 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
- Eric Auger <eauger@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v6 2/2] qtests/arm: add some mte tests
-Date: Tue, 28 Feb 2023 16:02:16 +0100
-Message-Id: <20230228150216.77912-3-cohuck@redhat.com>
-In-Reply-To: <20230228150216.77912-1-cohuck@redhat.com>
-References: <20230228150216.77912-1-cohuck@redhat.com>
+ bh=QNUuFy+z5G9wmLrqSInl5QLCY/3dSqgXGEuukC3UluY=;
+ b=ewe1dvkDmMDaqBFBmj0ix08PJrrItJIxNHDsBQ1xSWM7HP1dN2i5TemrHloRMdnm4mPjNt
+ flrXPN7ovvfCYrEWO7+6PB9sscX8b3nOUtUPDs7TheEuECm7MiuCbXgxh5xwFpiaSWw0CV
+ cgvXrpRJK5N9kkl0xD48efP91wCIfNs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-122-Iltvy4K_O2GdUfIkkMCjiw-1; Tue, 28 Feb 2023 10:02:51 -0500
+X-MC-Unique: Iltvy4K_O2GdUfIkkMCjiw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i18-20020a05600011d200b002c94d861113so1595771wrx.16
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 07:02:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QNUuFy+z5G9wmLrqSInl5QLCY/3dSqgXGEuukC3UluY=;
+ b=2teWhdivTkyPOWk5LPP5mzcJj3Tvd6dQ/ra45A6OeEyxaGKcahjZ0e23Es+o/1bzwL
+ sPocx6MWmzhmAKF7Fj3rS0k9NTKo3U2VkjIhaSxRyS57ZAUlNRAv0Y0LnsmJ+oPGxf/w
+ 1cBg2EAeR0FdyTxdSIlyOScwK33IATJ5kcofM4xPJxX4+i46PVebvFD1R7tuC/pS6YaW
+ dTrKNE8xuv8GGlu4F2lOLw7ApmIh5sSmLc8N1hrSl86ViZ+itDrUGKN1o87PIZzVuEvs
+ sQacKDsfg8GngzkyY1vb/0BFgGK1xsRABJPewodV0rJEKrspSarno0sPFcqEqkVZUn1J
+ icXw==
+X-Gm-Message-State: AO0yUKUy3mHbOtGuUX1ZSRg4AavI/mhXu8ul/gjvFSunCzUrlXNz3ODe
+ WqSKghdeX8kdfUJld5jNYFFMqRHNnbg+IePwqXgV1MyGuLewbzcyNve/OVdDFd/Fj/GogdRwG2O
+ Oo6XD4A8MtJJkwQ+ICBDV
+X-Received: by 2002:a05:6000:1789:b0:2c5:5938:e6d6 with SMTP id
+ e9-20020a056000178900b002c55938e6d6mr2859494wrg.35.1677596569422; 
+ Tue, 28 Feb 2023 07:02:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set/lMnr8ZpbuLTPWdRLIvUFH/VnNddlQZAWVG/k0WhKkDnEblLgAYAegHzskJksH6qy+c0IsXQ==
+X-Received: by 2002:a05:6000:1789:b0:2c5:5938:e6d6 with SMTP id
+ e9-20020a056000178900b002c55938e6d6mr2859433wrg.35.1677596568853; 
+ Tue, 28 Feb 2023 07:02:48 -0800 (PST)
+Received: from ?IPV6:2003:cb:c706:b800:3757:baed:f95e:20ac?
+ (p200300cbc706b8003757baedf95e20ac.dip0.t-ipconnect.de.
+ [2003:cb:c706:b800:3757:baed:f95e:20ac])
+ by smtp.gmail.com with ESMTPSA id
+ t5-20020a5d6a45000000b002c5706f7c6dsm10035915wrw.94.2023.02.28.07.02.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 07:02:48 -0800 (PST)
+Message-ID: <f81827ce-2553-7b50-adba-a32e82f87e1f@redhat.com>
+Date: Tue, 28 Feb 2023 16:02:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <cover.1677274611.git.maciej.szmigiero@oracle.com>
+ <369d848fdc86994ca646a5aa4e04c4dc049d04f1.1677274611.git.maciej.szmigiero@oracle.com>
+ <0953dc26-da87-65c7-9bba-fec4cfb04999@redhat.com>
+ <a230f8bc-ef59-d2ad-1316-554f1a293da9@maciej.szmigiero.name>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH][RESEND v3 1/3] hapvdimm: add a virtual DIMM device for
+ memory hot-add protocols
+In-Reply-To: <a230f8bc-ef59-d2ad-1316-554f1a293da9@maciej.szmigiero.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,167 +117,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-With TCG, verify the interaction of the 'mte' cpu feature with virt
-machine tag memory.
+> 
+> That was more or less the approach that v1 of this driver took:
+> The QEMU manager inserted virtual DIMMs (Hyper-V DM memory devices,
+> whatever one calls them) explicitly via the machine hotplug handler
+> (using the device_add command).
+> 
+> At that time you said [1] that:
+>> 1) I dislike that an external entity has to do vDIMM adaptions /
+>> ballooning adaptions when rebooting or when wanting to resize a guest.
+> 
+> because:
+>> Once you have the current approach upstream (vDIMMs, ballooning),
+>> there is no easy way to change that later (requires deprecating, etc.).
+> 
+> That's why this version hides these vDIMMs.
 
-With KVM, only verify the existence of the cpu feature, as we cannot
-probe or enable the feature.
+Note that I don't have really strong feelings about letting the user 
+hotplug devices. My comment was in general about user interactions when 
+adding/removing memory or when rebooting the VM. As soon as you use 
+individual memory blocks and/or devices, we end up with a similar user 
+experience as we have already with DIMMS+virtio-balloon (bad IMHO).
 
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- tests/qtest/arm-cpu-features.c | 80 ++++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+Hiding the devices internally might make it a little bit easier to use, 
+but it's still the same underlying concept: to add more memory you have 
+to figure out whether to deflate the balloon or whether to add a new 
+memory backend. What memory backends will remain when we reboot? When 
+can we remove memory backends?
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 1cb08138ad1c..9533646f0dc5 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -22,6 +22,7 @@
- 
- #define MACHINE     "-machine virt,gic-version=max -accel tcg "
- #define MACHINE_KVM "-machine virt,gic-version=max -accel kvm "
-+#define MACHINE_MTE "-machine virt,gic-version=max,mte=on -accel tcg "
- #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
-                     "  'arguments': { 'type': 'full', "
- #define QUERY_TAIL  "}}"
-@@ -156,6 +157,18 @@ static bool resp_get_feature(QDict *resp, const char *feature)
-     g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
- })
- 
-+#define resp_assert_feature_str(resp, feature, expected_value)         \
-+({                                                                     \
-+    QDict *_props;                                                     \
-+                                                                       \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    _props = resp_get_props(_resp);                                    \
-+    g_assert(qdict_get(_props, feature));                              \
-+    g_assert_cmpstr(qdict_get_try_str(_props, feature), ==,            \
-+                    expected_value);                                   \
-+})
-+
- #define assert_feature(qts, cpu_type, feature, expected_value)         \
- ({                                                                     \
-     QDict *_resp;                                                      \
-@@ -166,6 +179,16 @@ static bool resp_get_feature(QDict *resp, const char *feature)
-     qobject_unref(_resp);                                              \
- })
- 
-+#define assert_feature_str(qts, cpu_type, feature, expected_value)     \
-+({                                                                     \
-+    QDict *_resp;                                                      \
-+                                                                       \
-+    _resp = do_query_no_props(qts, cpu_type);                          \
-+    g_assert(_resp);                                                   \
-+    resp_assert_feature_str(_resp, feature, expected_value);           \
-+    qobject_unref(_resp);                                              \
-+})
-+
- #define assert_set_feature(qts, cpu_type, feature, value)              \
- ({                                                                     \
-     const char *_fmt = (value) ? "{ %s: true }" : "{ %s: false }";     \
-@@ -177,6 +200,17 @@ static bool resp_get_feature(QDict *resp, const char *feature)
-     qobject_unref(_resp);                                              \
- })
- 
-+#define assert_set_feature_str(qts, cpu_type, feature, value, _fmt)    \
-+({                                                                     \
-+    const char *__fmt = _fmt;                                          \
-+    QDict *_resp;                                                      \
-+                                                                       \
-+    _resp = do_query(qts, cpu_type, __fmt, feature);                   \
-+    g_assert(_resp);                                                   \
-+    resp_assert_feature_str(_resp, feature, value);                    \
-+    qobject_unref(_resp);                                              \
-+})
-+
- #define assert_has_feature_enabled(qts, cpu_type, feature)             \
-     assert_feature(qts, cpu_type, feature, true)
- 
-@@ -413,6 +447,24 @@ static void sve_tests_sve_off_kvm(const void *data)
-     qtest_quit(qts);
- }
- 
-+static void mte_tests_tag_memory_on(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_MTE "-cpu max");
-+
-+    /*
-+     * With tag memory, "mte" should default to on, and explicitly specifying
-+     * either on or off should be fine.
-+     */
-+    assert_has_feature(qts, "max", "mte");
-+
-+    assert_set_feature_str(qts, "max", "mte", "off", "{ 'mte': 'off' }");
-+    assert_set_feature_str(qts, "max", "mte", "on", "{ 'mte': 'on' }");
-+
-+    qtest_quit(qts);
-+}
-+
- static void pauth_tests_default(QTestState *qts, const char *cpu_type)
- {
-     assert_has_feature_enabled(qts, cpu_type, "pauth");
-@@ -425,6 +477,19 @@ static void pauth_tests_default(QTestState *qts, const char *cpu_type)
-                  "{ 'pauth': false, 'pauth-impdef': true }");
- }
- 
-+static void mte_tests_default(QTestState *qts, const char *cpu_type)
-+{
-+    assert_has_feature(qts, cpu_type, "mte");
-+
-+    /*
-+     * Without tag memory, mte will be off under tcg.
-+     * Explicitly enabling it yields an error.
-+     */
-+    assert_set_feature_str(qts, "max", "mte", "off", "{ 'mte': 'off' }");
-+    assert_error(qts, cpu_type, "mte=on requires tag memory",
-+                 "{ 'mte': 'on' }");
-+}
-+
- static void test_query_cpu_model_expansion(const void *data)
- {
-     QTestState *qts;
-@@ -474,6 +539,7 @@ static void test_query_cpu_model_expansion(const void *data)
- 
-         sve_tests_default(qts, "max");
-         pauth_tests_default(qts, "max");
-+        mte_tests_default(qts, "max");
- 
-         /* Test that features that depend on KVM generate errors without. */
-         assert_error(qts, "max",
-@@ -517,6 +583,18 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-         assert_set_feature(qts, "host", "pmu", false);
-         assert_set_feature(qts, "host", "pmu", true);
- 
-+        /*
-+         * Unfortunately, there's no easy way to test whether this instance
-+         * of KVM supports MTE: the cpu model expansion will return "auto" for
-+         * the mte prop, regardless whether the host/KVM supports MTE or not.
-+         * Even if we got around that hurdle somehow, we would need to setup
-+         * proper memory mappings in order to enable MTE, which is not feasible
-+         * with qtest.
-+         * So we can only assert that the feature is present, but not whether it
-+         * can be toggled.
-+         */
-+        assert_has_feature(qts, "host", "mte");
-+
-         /*
-          * Some features would be enabled by default, but they're disabled
-          * because this instance of KVM doesn't support them. Test that the
-@@ -631,6 +709,8 @@ int main(int argc, char **argv)
- 
-         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion/sve-off",
-                             NULL, sve_tests_sve_off_kvm);
-+        qtest_add_data_func("/arm/max/query-cpu-model-expansion/tag-memory",
-+                            NULL, mte_tests_tag_memory_on);
-     }
- 
-     if (qtest_has_accel("tcg")) {
+But that's just about the user interaction in general. My comment here 
+was about the hidden devices: they have to go through plug handlers to 
+get resources assigned, not self-assign resources in the realize function.
+
+
+Note that virtio-mem uses a single sparse memory backend to make 
+resizing easier (well, and to handle migration and some other things 
+easier). But it comes with other things that require optimization. Using 
+multiple memslots to expose memory to the VM is one optimization I'm 
+working on. Resizable memory backends are another one.
+
+I think you could implement the memory adding part similar to 
+virtio-mem, and simply have a large sparse memory backend, from which 
+you expose new memory to the VM as you please. And you could even use 
+multiple memslots for that. But that's your design decision, and I won't 
+argue with that, just pointing that out.
+
+
+> Instead, the QEMU manager (user) directly provides the raw memory
+> backend device (for example, memory-backend-ram) to the driver via a QMP
+> command.
+
+Yes, that's what I understood.
+
+> 
+> Since now the user is not expected to touch these vDIMMs directly in any
+> way these become an implementation detail than can be changed or even
+> removed if needed at some point, without affecting the existing users.
+> 
+>> But before we dive into the details of that, I wonder if you could just avoid having a memory device for each block of memory you want to add.
+>>
+>>
+>> An alternative might be the following:
+>>
+>> Have a hv-balloon device be a memory device with a configured maximum size and a memory device region container. Let the machine hotplug handler assign a contiguous region in the device memory region and map the memory device region container (while plugging that hv-balloon device), just like we do it for virtio-mem and virtio-pmem.
+>>
+>> In essence, you reserve a region in physical address space that way and can decide what to (un)map into that memory device region container, you do your own placement.
+>>
+>> So when instructed to add a new memory backend, you simply assign an address in the assigned region yourself, and map the memory backend memory region into the device memory region container.
+>>
+>> The only catch is that that memory device (hv-balloon) will then consume multiple memslots (one for each memory backend), right now we only support 1 memslot (e.g., asking if one more slot is free when plugging the device).
+>>
+>>
+> Technically in this case a "main" hv-balloon device is still needed -
+> in contrast with virtio-mem (which allows multiple instances) there can
+> be only one Dynamic Memory protocol provider on the VMBus.
+
+Yes, just like virtio-balloon. There cannot be multiple instances.
+
+> 
+> That means these "container" sub-devices would need to register with that
+> main hv-balloon device.
+> 
+
+My question is, if they really have to be devices. Why wouldn't it 
+sufficient to map the memory backends directly into the container? Why 
+is the
+
+> However, I'm not sure what is exactly gained by this approach.
+> 
+> These sub-devices still need to implement the TYPE_MEMORY_DEVICE interface
+
+No, they wouldn't unless I am missing something. Only the hv-balloon 
+device would be a TYPE_MEMORY_DEVICE.
+
+> so they are accounted for properly (the alternative would be to patch
+> the relevant QEMU code all over the place - that's probably why
+> virtio-mem also implements this interface instead).
+
+Please elaborate, I don't understand what you are trying to say here. 
+Memory devices provide hooks, and the hooks exist for a reason -- 
+because memory devices are no longer simple DIMMs/NVDIMMs. And 
+virtio-mem + virtio-omem was responsible for adding some of these hooks.
+
+> 
+> One still needs some QMP command to add a raw memory backend to
+> the chosen "container" hv-balloon sub-device.
+
+If you go with multiple memory backends, yes.
+
+> 
+> Since now the QEMU manager (user) is aware of the presence of these
+> "container" sub-devices, and has to manage them, changing the QEMU
+> interface in the future is more complex (as you said in [1]).
+
+Can you elaborate? Yes, when you design the feature around "multiple 
+memory backends", you'll have to have an interface to add such. Well, 
+and to query them during migration. And, maybe also to detect when to 
+remove some (migration)?
+
+
+> 
+> I understand that virtio-mem uses a similar approach, however that's
+> because the virtio-mem protocol itself works that way.
+> 
+>> I'm adding support for that right now to implement a virtio-mem
+>> extension -- the memory device says how many memslots it requires,
+>> and these will get reserved for that memory device; the memory device
+>> can then consume them later without further checks dynamically. That
+>> approach could be extended to increase/decrease the memslot
+>> requirement (the device would ask to increase/decrease its limit),
+>> if ever required.
+> 
+> In terms of future virtio-mem things I'm also eagerly waiting for an
+> ability to set a removed virtio-mem block read-only (or not covered by
+> any memslot) - this most probably could be reused later for implementing
+> the same functionality in this driver.
+
+In contrast to setting them read-only, the memslots that contain no 
+plugged blocks anymore will be completely removed. The goal is to not 
+consume any metadata overhead in KVM (well, and also do one step into 
+the direction of protecting unplugged memory from getting reallocated).
+
 -- 
-2.39.2
+Thanks,
+
+David / dhildenb
 
 
