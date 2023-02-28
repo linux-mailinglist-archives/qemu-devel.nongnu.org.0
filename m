@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023BE6A5F44
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:08:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A8E6A5F4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:09:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX5Jz-0002ON-Tq; Tue, 28 Feb 2023 14:07:32 -0500
+	id 1pX5KB-0002Td-97; Tue, 28 Feb 2023 14:07:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pX5Jb-0002G7-SE
+ id 1pX5Jb-0002G8-T1
  for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:15 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pX5JR-0002nD-8P
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:02 -0500
-Received: by mail-wr1-x436.google.com with SMTP id g3so1995567wri.6
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 11:06:56 -0800 (PST)
+ id 1pX5JS-0002o5-9l
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:03 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ l7-20020a05600c4f0700b003e79fa98ce1so6514589wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 11:06:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SzNbeKwIel9LjJg1sGOYSKULJS+0zOsIf4KMX2V7u0g=;
- b=ph5Nho2sEe83aXr1/LNDSkwlWK4g1QTqP/Aa7o09f41oBWoOr0B4CxuPk414LLcJqG
- Ggq6pSJz23UBoJb9YWZoHdDT3s3OFmCnUfD9BtR5BOvtFP63ma70bp6SEV7aLX6gsOzx
- bmpDgWdlvAhxPCMOiFE7DZ5iB93ok2x8hO/d5vAeGMKIPKkhUFd7UP34dw2X8OpLXrHZ
- U7Lsh14Rd4/QPia4ryOL1YtL2sWCoiuvLZupI7mGDckdOmPlPISwAhhchN0yODD+91pi
- vlyoGkPiHDDK+der+P0xe6+OW4PJ+sEcCD2ZNEjs/cd4wpWEqpx2+z5qfLVkO8Ojbl5g
- e5FA==
+ bh=T0snCxknU51VUiIyOYYXzqb7lXY8Z5Vkr/7qnzRTdnE=;
+ b=jxXSJywnNu0PLak5jn92nBPa5UJuUl5rRmwSrHfecXKSJwwFeXOo34e46hs2exhJr4
+ uig/+YUIfQkOfetcsfwn8k2rJB91hgp+1EPDFy2hPvq8nVVla/zQ6ZI3/yQwz80Tunte
+ YKL/Ru9VM+iPlWc9zQO4nGaBX28uizr+noVM96+o/3c9n1trUqn0udW5wpncxtsQlsIn
+ 5FF8LSRMHt1/1q9RK0D3GGgNXISyPR0DMR34zLwwjWnB3VPQ/GDV1OaKtAguQKO5ukyI
+ ev3zpbR8+XoB06E4QCuqAZTd09Zl7koxiZEYlxX4hKrnaBJQEFX+TnhOiuk4Hf/3caca
+ FuxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SzNbeKwIel9LjJg1sGOYSKULJS+0zOsIf4KMX2V7u0g=;
- b=2GLYz9U2Q6Y3LRfKD3YP13OrPlUSc5jT5xmFc+pH2Gwi7JDT005cGGyVBFLdL07vnY
- zoESkp96ZjQVvZbVC1yyBdNUyJixpIZWrwsLSvpTr6cnt47UVa8MMbaHlauIvWPHCmzs
- BXx7DaV2jqrcWEwvw0WunlX718tYpAUUbAuO6fFxErzQsfJ+9juLGumkJq7jhgL2n+by
- 4+BmW/HOE//38zAFuxst3TX/bjHiBHxAXtz0HpzhWwxygJFvnqywEIQTEVC4165Rn25y
- TORoI6nIO7IZk4YDqzQZPYUkDOQUWNb8tCVdN3z15+/FlL0czsTHVdQOzwH/n95Aa1c9
- BXbA==
-X-Gm-Message-State: AO0yUKXCuXdrDevW0FtJuFJA2KWsbGJqwVQnS1/12rBXBBGTSs5FYzkK
- a+acKAVCiVZbIKKtEJXzzWYQQg==
-X-Google-Smtp-Source: AK7set+xkxA4Hz2udElM9xcSvWoWYWaCXHK6AI1Y66wMGDxyn6ZXsX6C9Zw9ip2yvv/mISpXwXbHRQ==
-X-Received: by 2002:adf:ce10:0:b0:2c7:e05:2d1b with SMTP id
- p16-20020adfce10000000b002c70e052d1bmr3155429wrn.50.1677611215768; 
- Tue, 28 Feb 2023 11:06:55 -0800 (PST)
+ bh=T0snCxknU51VUiIyOYYXzqb7lXY8Z5Vkr/7qnzRTdnE=;
+ b=5D2j9kuLunt2rqBogv11z4TU7gAaTBjrPbuP75ClJqwVQjJGx/fQ82ZTNyfdFueMyu
+ G4TeTSAG2Y2TFItRWmzlZAgadJcvp+nkiBo4jE68C7TcjbAcoJaud7oBP+6/DHiY+TaM
+ 7tfXTlsdnohpN1ttQW4HDbIdWDoVk6nMD2JbrxjIqQQuyQdnApwQYpwkPcVW/xF4m2y8
+ 9WeVeq7gBbEH3emFbPVSIEMb6tWHTx9+6BFggfgZUJ/pQfL05l3k3ewjaiVEA9R7ecmK
+ gENZwXYdNLe4/you65bCNhgDnCmJ7HiQ+2C+GU5r+hPmp/szxivAQvh/Yh3UNWJuLCdB
+ FCBw==
+X-Gm-Message-State: AO0yUKUoY8M1WxSqcR8B9ndDTeJB9m01nwNrd3J8vgCLuJJH4iY4bPgm
+ EGcXy2XEPNqmIjjdrRvjzHWe4w==
+X-Google-Smtp-Source: AK7set+aubwquuAe8WxkIZthp96quK2fvtERnvGr512fRzO//xJV/I7mtFYymHX9cNEMHz7uAZwi4Q==
+X-Received: by 2002:a05:600c:3506:b0:3ea:d620:579b with SMTP id
+ h6-20020a05600c350600b003ead620579bmr3066036wmq.0.1677611216721; 
+ Tue, 28 Feb 2023 11:06:56 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- m15-20020a5d6a0f000000b002c707785da4sm10345454wru.107.2023.02.28.11.06.54
+ bi22-20020a05600c3d9600b003dc42d48defsm13548583wmb.6.2023.02.28.11.06.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 11:06:54 -0800 (PST)
+ Tue, 28 Feb 2023 11:06:55 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BB21A1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id D455A1FFBD;
  Tue, 28 Feb 2023 19:06:53 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -80,18 +81,18 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Qiuhao Li <Qiuhao.Li@outlook.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 04/24] tests: make fp-test less chatty when running from
- test suite
-Date: Tue, 28 Feb 2023 19:06:33 +0000
-Message-Id: <20230228190653.1602033-5-alex.bennee@linaro.org>
+Subject: [PATCH v3 05/24] gitlab-ci: Use artifacts instead of dumping logs in
+ the Cirrus-CI jobs
+Date: Tue, 28 Feb 2023 19:06:34 +0000
+Message-Id: <20230228190653.1602033-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230228190653.1602033-1-alex.bennee@linaro.org>
 References: <20230228190653.1602033-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -114,97 +115,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As we like to run tests under CI with V=1 flags the softfloat tests
-can add up to a fair amount of extra log lines. With an update to the
-testfloat library we can now call fp-test with the -q flag and reduce
-the output to a terse one line per function tested.
+From: Thomas Huth <thuth@redhat.com>
 
-  make check-softfloat V=1 | wc -l
-  759
+The meson log files can get very big, especially if running the tests in
+verbose mode. So dumping those logs to the console was a bad idea, since
+gitlab truncates the output if it is getting too big. Let's publish the
+logs as artifacts instead. This has the disadvantage that you have to
+look up the logs on cirrus-ci.com now instead, but that's still better
+than not having the important part of the log at all since it got
+truncated.
 
+Fixes: 998f334722 ("gitlab: show testlog.txt contents ...")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20230215142503.90660-1-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230221094558.2864616-6-alex.bennee@linaro.org>
+Message-Id: <20230221094558.2864616-7-alex.bennee@linaro.org>
 ---
- tests/fp/fp-test.c            | 19 ++++++++++++++-----
- tests/fp/berkeley-testfloat-3 |  2 +-
- tests/fp/meson.build          |  2 +-
- 3 files changed, 16 insertions(+), 7 deletions(-)
+ .gitlab-ci.d/cirrus/build.yml | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/tests/fp/fp-test.c b/tests/fp/fp-test.c
-index 35829ad5f7..36b5712cda 100644
---- a/tests/fp/fp-test.c
-+++ b/tests/fp/fp-test.c
-@@ -106,7 +106,8 @@ static const char commands_string[] =
-     " -l = thoroughness level (1 (default), 2)\n"
-     " -r = rounding mode (even (default), zero, down, up, tieaway, odd)\n"
-     "      Set to 'all' to test all rounding modes, if applicable\n"
--    " -s = stop when a test fails";
-+    " -s = stop when a test fails\n"
-+    " -q = minimise noise when testing, just show each function being tested";
- 
- static void usage_complete(int argc, char *argv[])
- {
-@@ -190,9 +191,11 @@ static void do_testfloat(int op, int rmode, bool exact)
-     ab_f128M_z_bool true_ab_f128M_z_bool;
-     ab_f128M_z_bool subj_ab_f128M_z_bool;
- 
--    fputs(">> Testing ", stderr);
--    verCases_writeFunctionName(stderr);
--    fputs("\n", stderr);
-+    if (verCases_verbosity) {
-+        fputs(">> Testing ", stderr);
-+        verCases_writeFunctionName(stderr);
-+        fputs("\n", stderr);
-+    }
- 
-     if (!is_allowed(op, rmode)) {
-         not_implemented();
-@@ -837,7 +840,7 @@ static void parse_args(int argc, char *argv[])
-     int c;
- 
-     for (;;) {
--        c = getopt(argc, argv, "he:f:l:r:s");
-+        c = getopt(argc, argv, "he:f:l:r:sq");
-         if (c < 0) {
-             break;
-         }
-@@ -874,9 +877,15 @@ static void parse_args(int argc, char *argv[])
-                 }
-             }
-             break;
-+        /*
-+         * The following flags are declared in testfloat/source/verCases_common.c
-+         */
-         case 's':
-             verCases_errorStop = true;
-             break;
-+        case 'q':
-+            verCases_verbosity = 0;
-+            break;
-         case '?':
-             /* invalid option or missing argument; getopt prints error info */
-             exit(EXIT_FAILURE);
-diff --git a/tests/fp/berkeley-testfloat-3 b/tests/fp/berkeley-testfloat-3
-index 5a59dcec19..40619cbb3b 160000
---- a/tests/fp/berkeley-testfloat-3
-+++ b/tests/fp/berkeley-testfloat-3
-@@ -1 +1 @@
--Subproject commit 5a59dcec19327396a011a17fd924aed4fec416b3
-+Subproject commit 40619cbb3bf32872df8c53cc457039229428a263
-diff --git a/tests/fp/meson.build b/tests/fp/meson.build
-index 312a4d301f..f9ca6a93b4 100644
---- a/tests/fp/meson.build
-+++ b/tests/fp/meson.build
-@@ -609,7 +609,7 @@ softfloat_tests = {
- # The full test suite can take a bit of time, default to a quick run
- # "-l 2 -r all" can take more than a day for some operations and is best
- # run manually
--fptest_args = ['-s', '-l', '1']
-+fptest_args = ['-q', '-s', '-l', '1']
- fptest_rounding_args = ['-r', 'all']
- 
- # Conversion Routines:
+diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
+index 7ef6af8d33..a9444902ec 100644
+--- a/.gitlab-ci.d/cirrus/build.yml
++++ b/.gitlab-ci.d/cirrus/build.yml
+@@ -32,6 +32,9 @@ build_task:
+     - $MAKE -j$(sysctl -n hw.ncpu)
+     - for TARGET in $TEST_TARGETS ;
+       do
+-        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1
+-        || { cat meson-logs/testlog.txt; exit 1; } ;
++        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1 ;
+       done
++  always:
++    build_result_artifacts:
++      path: build/meson-logs/*log.txt
++      type: text/plain
 -- 
 2.39.2
 
