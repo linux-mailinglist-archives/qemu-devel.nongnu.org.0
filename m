@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF8A6A5F71
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:15:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C4B6A5F74
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:15:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX5Qp-0000Ph-B8; Tue, 28 Feb 2023 14:14:35 -0500
+	id 1pX5Qp-0000Pv-Mm; Tue, 28 Feb 2023 14:14:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pX5Ql-0000Oe-LO
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:14:32 -0500
+ id 1pX5Qo-0000PB-DG
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:14:34 -0500
 Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pX5Qh-0004fK-3Z
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:14:31 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id bx12so7735524wrb.11
+ id 1pX5Qg-0004fN-DX
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:14:34 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id r18so10913285wrx.1
  for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 11:14:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=G+62htoyJBiemmn6ddrMZ4MlyjuyTr1hSFkUI1vjiwM=;
- b=uatG3MWnZRdbIrX0cqJ4BCnWZbXF7zlO2EB9P77CISfzckCtyQxVJWeKZPHsb4LW55
- zt/nt6XjlJ0MzBOkeUliw9LGUqgnX1bObW6RqnpHfA4oDMxNj4fzx8gGx8BlyWHC/EUa
- 1hTN8fWROC7YIH76pLtmVN8w3O1SB2dlew97q9+kh3nDk5EFI6h4PU8a6X3nSx9waaqm
- icSfNv/zGndvE4zi7IzgDXffmJYpZjxaR6q0hp3qHGnKBEeVGhNKkfYHOMP0OX+YUzA/
- TvULyJhEXNcGXdnme9FvO+LadFQa3mMZDrDvjinv66qsZdt7opWL258IkLFdOWOmHjEq
- JLzg==
+ bh=f5HeGCTtnDvYK2JOBc+Ar5DGwIfM59biXTeTnbWUumM=;
+ b=cimG1UhTHHogOciz41WjK9qI22rkt8VBW0FU5zqgDzNzOj6NxZBP7s0p1+p9yHetGw
+ YjCcwxmCEhdWXO+rjbmEH+V4jW/ITK6M1Va+7+I1SLlZuQE+bmBvdzVkY6f61/nx04Cb
+ 6Fmz/f9zzGFTxqkXSz26jsZpW+WCJFJJnOf+8DRiZsiVpZ7HGR8oPdCatE75h+4SDkdS
+ GeCv1y3MHwoWP8hP9z1fG8tUAP6/yp/j2r4v40G2e6qrYDkUQARivJ5bsjViTP/SVudR
+ NNpzrNf3ilHLIfutvMIqaA0eyPG+Gv9OHUgLSAq72yL6/4vJ1rXT1FazOJb3uWkmYf9y
+ kdXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=G+62htoyJBiemmn6ddrMZ4MlyjuyTr1hSFkUI1vjiwM=;
- b=SnHRdASskMwOHKk+2NuhluBAcO4q3IOrfgRpaKjxXVZct8WeMmy1DsM8UYLZHhs0Zf
- VAKGGJFdHzmLoS9PpAf+8eR9DqgUoVjw/o8LwlZ4Kwp1HJP/eOebhS9rrm9WjxJQSwdR
- pGF/gOtUlRMzBJNz8V7RdvmaYQYMapH8w6ooVPQ2b74qCHCqvAXNJXztPuh8O8KC+DCU
- 1DzLioPiF157jcbvdN0JAaJrMVd5WpLYcWyHTaqKNb84g35Zktbfl0/dvSf5auaeda8x
- zWZYeq5LGEL4nU+j9PgvkTk7lRYosIxalWlYpXCIROGm3kd6e/UNxKdW+jBcugRlyguk
- p0Og==
-X-Gm-Message-State: AO0yUKWIv5bWBGEKtR8HR1Kg4wlhOP/XfzChl0lLf4MRNnxB4dUmraXR
- En/FSagOf41R7SKpWdF7dHv7Yg==
-X-Google-Smtp-Source: AK7set+im0RKSHNYkoqUxE9+usnLBEtPU+sYcCMRC0FxzHxLBaQwFLChQe+Fq6GsRbHXPPvzO2jybA==
-X-Received: by 2002:a5d:6ac4:0:b0:2c7:1d70:561 with SMTP id
- u4-20020a5d6ac4000000b002c71d700561mr2816919wrw.45.1677611661633; 
- Tue, 28 Feb 2023 11:14:21 -0800 (PST)
+ bh=f5HeGCTtnDvYK2JOBc+Ar5DGwIfM59biXTeTnbWUumM=;
+ b=OXxp0iQBFltj04KoxEl+eXvntFhy+qNxAyTRewHx8cCefHzWR2sfTnrX/Reqh4ZjVC
+ 8Aen/7J0Cmfw2CsjvaZbLgBia4HortUQraH7e4S5sMyuq64lca5c7M59W+bm2l71cvul
+ QkwO46GN2CHi9ykAfstMzvttv/H9ZtkuNnvLAe/5BUUqy65aCXWvTQyO3x1+cZTqK+Xo
+ flI8Ku7g/gSUwcncKx2LmXkmIT1cqt4qSukOgajh/uy1wuHo9tTrJ9FSFR5qqNjlEXH0
+ QqXpTg04YCZvcw3OoQNBUg2OP/JIXhk+Ue/KQuLb8cuHZaq7OXSQT3xtD9jm1TUji5F0
+ uHRQ==
+X-Gm-Message-State: AO0yUKX3kSG05Hi6p4YnbKdNlkp5NiySwVT7SoSEiRsD7DBFuu6JTCOT
+ LM5gI6oj5EkPe4I4HkDMNtYobA==
+X-Google-Smtp-Source: AK7set9HqcHfveBxZS7d081+vI4uW3WZAFXvge6aJ/I3NcA0tOBPa0/pSW50toapYprPp2PiqI1Cvg==
+X-Received: by 2002:adf:ce10:0:b0:2c7:e05:2d1b with SMTP id
+ p16-20020adfce10000000b002c70e052d1bmr3172076wrn.50.1677611660904; 
+ Tue, 28 Feb 2023 11:14:20 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- v7-20020a05600c470700b003eb3933ef10sm11889776wmo.46.2023.02.28.11.14.20
+ v16-20020a5d4a50000000b002c5526234d2sm10694219wrs.8.2023.02.28.11.14.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 28 Feb 2023 11:14:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E61A51FFBC;
- Tue, 28 Feb 2023 19:06:55 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0A4101FFC8;
+ Tue, 28 Feb 2023 19:06:56 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -80,10 +80,9 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Qiuhao Li <Qiuhao.Li@outlook.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 20/24] tests/docker: use direct RUNC call to build
- containers
-Date: Tue, 28 Feb 2023 19:06:49 +0000
-Message-Id: <20230228190653.1602033-21-alex.bennee@linaro.org>
+Subject: [PATCH v3 21/24] tests/docker: use direct RUNC call to run test jobs
+Date: Tue, 28 Feb 2023 19:06:50 +0000
+Message-Id: <20230228190653.1602033-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230228190653.1602033-1-alex.bennee@linaro.org>
 References: <20230228190653.1602033-1-alex.bennee@linaro.org>
@@ -114,65 +113,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We don't really need stuff from docker.py to do the build as we have
-everything we need with a direct call. We do rely on the dockerfiles
-being able to tweak the UID/name mapping as the last step.
+If we build them without the script we can certainly run them without
+it.
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+ tests/docker/Makefile.include | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index bfb0dcac21..680afff952 100644
+index 680afff952..54ed77f671 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -7,6 +7,8 @@ SPACE := $(NULL) #
- COMMA := ,
- 
- HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
-+USER = $(if $(NOUSER),,$(shell id -un))
-+UID = $(if $(NOUSER),,$(shell id -u))
- 
- DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
- ifeq ($(HOST_ARCH),x86_64)
-@@ -14,6 +16,7 @@ DOCKER_DEFAULT_REGISTRY := registry.gitlab.com/qemu-project/qemu
- endif
- DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),$(DOCKER_DEFAULT_REGISTRY))
- 
-+RUNC ?= docker
- ENGINE ?= auto
- DOCKER_SCRIPT=$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
- 
-@@ -35,15 +38,17 @@ docker-qemu-src: $(DOCKER_SRC_COPY)
- 
- # General rule for building docker images.
- docker-image-%: $(DOCKER_FILES_DIR)/%.docker
--	$(call quiet-command,\
--		$(DOCKER_SCRIPT) build -t qemu/$* -f $< \
--		$(if $V,,--quiet) \
--		$(if $(NOCACHE),--no-cache, \
--			$(if $(DOCKER_REGISTRY),--registry $(DOCKER_REGISTRY))) \
--		$(if $(NOUSER),,--add-current-user) \
--		$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))\
--		$(if $(EXECUTABLE),--include-executable=$(EXECUTABLE)),\
--		"BUILD","$*")
-+	  $(call quiet-command,			\
-+		$(RUNC) build				\
-+		$(if $V,,--quiet)			\
-+		$(if $(NOCACHE),--no-cache,		\
-+			$(if $(DOCKER_REGISTRY),--cache-from $(DOCKER_REGISTRY)/qemu/$*)) \
-+		--build-arg BUILDKIT_INLINE_CACHE=1 	\
-+		$(if $(NOUSER),,			\
-+			--build-arg USER=$(USER)	\
-+			--build-arg UID=$(UID))	\
-+		-t qemu/$* - < $<, 			\
-+		"BUILD", $1)
- 
- # Special rule for debootstraped binfmt linux-user images
- docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
+@@ -224,8 +224,9 @@ docker-run: docker-qemu-src
+ 			$(IMAGE) --executable $(EXECUTABLE),		\
+ 			"  COPYING $(EXECUTABLE) to $(IMAGE)"))
+ 	$(call quiet-command,						\
+-		$(DOCKER_SCRIPT) run 					\
+-			$(if $(NOUSER),,--run-as-current-user) 		\
++		$(RUNC) run 						\
++			--rm						\
++			$(if $(NOUSER),,-u $(UID)) 			\
+ 			--security-opt seccomp=unconfined		\
+ 			$(if $(DEBUG),-ti,)				\
+ 			$(if $(NETWORK),$(if $(subst $(NETWORK),,1),--net=$(NETWORK)),--net=none) \
 -- 
 2.39.2
 
