@@ -2,100 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E32F6A6135
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 22:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385BE6A6136
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 22:25:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX7SW-0003Ja-RC; Tue, 28 Feb 2023 16:24:28 -0500
+	id 1pX7Sw-0003fG-Dr; Tue, 28 Feb 2023 16:24:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX7SV-0003JJ-1V
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:24:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pX7Su-0003de-7G
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:24:52 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX7ST-00067d-Ci
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:24:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677619464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nYTNjbO/ErbVmboaJhjbHl5qUA3UJ7cYibDqQh5A13s=;
- b=Fx20fSUR8nfa2SNQqvq/Zx7EPG8aHr/J1AvgI8/pOcylgIkoTM3k5imVY4Ssn7+yLHIQqr
- we4UXrjoITsRiJozZ2jmamyTGTFpySM+HQ+LTqOOBwSO98L11cUJd5R/AwYrlxbf/AS2eo
- /Z+AxPnEU5ENPxgN4yLJqwW0ulKxcPQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-606-10EBDqo9PMelpy193QIKXQ-1; Tue, 28 Feb 2023 16:24:22 -0500
-X-MC-Unique: 10EBDqo9PMelpy193QIKXQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ba28-20020a0560001c1c00b002cc6d1f0c06so1108519wrb.17
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 13:24:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677619461;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nYTNjbO/ErbVmboaJhjbHl5qUA3UJ7cYibDqQh5A13s=;
- b=2TNpEyssrTCWrhmEOy6CiKdiozJ8IZO58xvWlo6EDraBzTOJI0hAfxSjtjgmxxOAhY
- 1wbiXVSkvU02tt6OsuA/2CVwQlaPkjzfpATZbw8kzdQVuXlGl4c3QWDakWcP9zVjuTrE
- hjGWyTgr3tfdXGY6hF3acWGZnnnSEO1g/L4xx+w2DLkX3yrBtdjHfA2fzKPkzL2dnjaF
- apa+nnndNmfxm+zDrIOHsvVREam6PWv23Xs01vJVWsohg8KIbIxJDydmTGzjCLd5ez1U
- GTwUnSBrIMDX6oyEIC6l9S4WTznOvl8w5ebPEOljtJrT6HgETCHw5jdZ1YoX/0JzYNtI
- AnkQ==
-X-Gm-Message-State: AO0yUKVPPVYQhSpNV40PkpZpID/eFYfemPir9gGjJKWxtZBzi9MlVCwb
- QvCAP6XUlUxNak2LBvdhOWYZ16iByaSXu8OpvEu97Mnn8PkYw6XJpT2dJBU4BYVwH0kHj+QwUpL
- eAtP9sFl2ys9CLPI=
-X-Received: by 2002:a05:600c:43ca:b0:3da:2a78:d7a4 with SMTP id
- f10-20020a05600c43ca00b003da2a78d7a4mr3135037wmn.21.1677619461169; 
- Tue, 28 Feb 2023 13:24:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set92wxQr45uZkmmH4sKNa7aw+qHpcZh4gMAYsGPuFGOHHVYAk9NpKggDElKStjtRFIhmvuK5Qg==
-X-Received: by 2002:a05:600c:43ca:b0:3da:2a78:d7a4 with SMTP id
- f10-20020a05600c43ca00b003da2a78d7a4mr3135017wmn.21.1677619460862; 
- Tue, 28 Feb 2023 13:24:20 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- n4-20020a7bcbc4000000b003dc3f3d77e3sm12812199wmi.7.2023.02.28.13.24.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 13:24:20 -0800 (PST)
-Date: Tue, 28 Feb 2023 16:24:16 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Anton Kuchin <antonkuchin@yandex-team.ru>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
- Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
-Message-ID: <20230228161602-mutt-send-email-mst@kernel.org>
-References: <11593688-7ca4-def3-6212-7c26faa4d1c6@yandex-team.ru>
- <20230222121133-mutt-send-email-mst@kernel.org>
- <a477ca70-8aea-6c16-122e-1ded4af11f49@yandex-team.ru>
- <20230222151814-mutt-send-email-mst@kernel.org>
- <20230223023604-mutt-send-email-mst@kernel.org>
- <Y/fZm12yGIPnwaDX@fedora>
- <20230224034258-mutt-send-email-mst@kernel.org>
- <8611d901-0940-3747-c2cd-9c193c7f24f2@yandex-team.ru>
- <20230228094756-mutt-send-email-mst@kernel.org>
- <f3338868-d43a-a499-5db8-2fb06d244e37@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pX7Ss-00069K-7t
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 16:24:51 -0500
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pX7Sg-0004Xa-If; Tue, 28 Feb 2023 22:24:38 +0100
+Message-ID: <608fcc8e-cd8c-2646-527d-420a3b04cfc9@maciej.szmigiero.name>
+Date: Tue, 28 Feb 2023 22:24:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f3338868-d43a-a499-5db8-2fb06d244e37@yandex-team.ru>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US, pl-PL
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <cover.1677274611.git.maciej.szmigiero@oracle.com>
+ <4c4fe768b5457f8e6c17dcea7656cbe017c9a4df.1677274611.git.maciej.szmigiero@oracle.com>
+ <Y/47QC6F/bPNgFOx@redhat.com>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Subject: Re: [PATCH][RESEND v3 3/3] Add a Hyper-V Dynamic Memory Protocol
+ driver (hv-balloon)
+In-Reply-To: <Y/47QC6F/bPNgFOx@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.092,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,92 +70,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 07:59:54PM +0200, Anton Kuchin wrote:
-> On 28/02/2023 16:57, Michael S. Tsirkin wrote:
-> > On Tue, Feb 28, 2023 at 04:30:36PM +0200, Anton Kuchin wrote:
-> > > I really don't understand why and what do you want to check on
-> > > destination.
-> > Yes I understand your patch controls source. Let me try to rephrase
-> > why I think it's better on destination.
-> > Here's my understanding
-> > - With vhost-user-fs state lives inside an external daemon.
-> > A- If after load you connect to the same daemon you can get migration mostly
-> >    for free.
-> > B- If you connect to a different daemon then that daemon will need
-> >    to pass information from original one.
-> > 
-> > Is this a fair summary?
-> > 
-> > Current solution is to set flag on the source meaning "I have an
-> > orchestration tool that will make sure that either A or B is correct".
-> > 
-> > However both A and B can only be known when destination is known.
-> > Especially as long as what we are really trying to do is just allow qemu
-> > restarts, Checking the flag on load will thus achive it in a cleaner
-> > way, in that orchestration tool can reasonably keep the flag
-> > clear normally and only set it if restarting qemu locally.
-> > 
-> > 
-> > By comparison, with your approach orchestration tool will have
-> > to either always set the flag (risky since then we lose the
-> > extra check that we coded) or keep it clear and set before migration
-> > (complex).
-> > 
-> > I hope I explained what and why I want to check.
-> > 
-> > I am far from a vhost-user-fs expert so maybe I am wrong but
-> > I wanted to make sure I got the point across even if other
-> > disagree.
-> > 
+On 28.02.2023 18:34, Daniel P. Berrangé wrote:
+> On Fri, Feb 24, 2023 at 10:41:16PM +0100, Maciej S. Szmigiero wrote:
 > 
-> Thank you for the explanation. Now I understand your concerns.
+>> Hot-adding additional memory is done by creating a new memory backend (for
+>> example by executing HMP command
+>> "object_add memory-backend-ram,id=mem1,size=4G"), then executing a new
+>> "hv-balloon-add-memory" QMP command, providing the id of that memory
+>> backend as the "id" parameter.
 > 
-> You are right about this mechanism being a bit risky if orchestrator is
-> not using it properly or clunky if it is used in a safest possible way.
-> That's why first attempt of this feature was with migration capability
-> to let orchestrator choose behavior right at the moment of migration.
-> But it has its own problems.
+> [snip]
 > 
-> We can't move this check only to destination because one of main goals
-> was to prevent orchestrators that are unaware of vhost-user-fs specifics
-> from accidentally migrating such VMs. We can't rely here entirely on
-> destination to block this because if VM is migrated to file and then
-> can't be loaded by destination there is no way to fallback and resume
-> the source so we need to have some kind of blocker on source by default.
+>> After a VM reboot each previously hot-added memory backend gets released.
+>> A "HV_BALLOON_MEMORY_BACKEND_UNUSED" QMP event is emitted in this case so
+>> the software controlling QEMU knows that it either needs to delete that
+>> memory backend (if no longer needed) or re-insert it.
+> 
+> IIUC you're saying that the 'hv-balloon-add-memory' command needs
+> to be re-run after a guest reset ?
 
-Interesting.  Why is there no way? Just load it back on source? Isn't
-this how any other load failure is managed? Because for sure you
-need to manage these, they will happen.
+Yes.
 
-> Said that checking on destination would need another flag and the safe
-> way of using this feature would require managing two flags instead of one
-> making it even more fragile. So I'd prefer not to make it more complex.
->
-> In my opinion the best way to use this property by orchestrator is to
-> leave default unmigratable behavior at start and just before migration when
-> destination is known enumerate all vhost-user-fs devices and set properties
-> according to their backends capability with QMP like you mentioned. This
-> gives us single point of making the decision for each device and avoids
-> guessing future at VM start.
+> If so I feel that is a rather> undesirable job to punt over the mgmt app. The 'reset' event can
+> be missed if the mgmt app happend to be restarting and reconnecting
+> to existing running QMP console.
 
-this means that you need to remember what the values were and then
-any failure on destination requires you to go back and set them
-to original values. With possibility of crashes on the orchestrator
-you also need to recall the temporary values in some file ...
-This is huge complexity much worse than two flags.
+See the answer below the next paragraph.
 
-Assuming we need two let's see whether just reload on source is good
-enough.
+>> In the future, the guest boot memory size might be changed on reboot
+>> instead, taking into account the effective size that VM had before that
+>> reboot (much like Hyper-V does).
+> 
+> Is that difficult to do right now ?  It isn't too nice to make the
+> mgmt apps implement the workaround now if we're going to make it
+> redundant later.
 
-> But allowing setup via command-line is valid too because some backends may
-> always be capable of external migration independent of hosts and don't need
-> the manipulations with QMP before migration at all.
+The v1 of this driver did re-add memory backends automatically after
+a reboot, so if that's something that is desirable it can be re-introduced
+without much difficulty.
 
-I am much more worried that the realistic schenario is hard to manage
-safely than about theoretical state migrating backends that don't exist.
+The issue here is that the guest might never re-connect to the DM protocol
+interface after a reboot (perhaps because the VM was rebooted from
+a Windows to a Linux guest).
+In this case the driver would wait endlessly, not letting the
+underlying memory backends to be removed.
 
+virtio-mem also seems to unplug all blocks unconditionally when the VM is
+rebooted.
 
--- 
-MST
+On the other hand, actually resizing the guest boot memory is definitely
+not trivial - for sure that's something for future work
+(virtio-mem might also benefit from it).
+
+>> The above design results in much better ballooning performance than when
+>> using virtio-balloon with the same guest: 230 GB / minute with this driver
+>> versus 70 GB / minute with virtio-balloon.
+> 
+> snip
+> 
+>> The unballoon operation is also pretty much instantaneous:
+>> thanks to the merging of the ballooned out page ranges 200 GB of memory can
+>> be returned to the guest in about 1 second.
+>> With virtio-balloon this operation takes about 2.5 minutes.
+> 
+> That's pretty impressive !
+
+Thanks!
+
+>> These tests were done against a Windows Server 2019 guest running on a
+>> Xeon E5-2699, after dirtying the whole memory inside guest before each
+>> balloon operation.
+> 
+> 
+> 
+>> Since the required GTree operations aren't present in every Glib version
+>> a check for them was added to "configure" script, together with new
+>> "--enable-hv-balloon" and "--disable-hv-balloon" arguments.
+>> If these GTree operations are missing in the system's Glib version this
+>> driver will be skipped during QEMU build.
+> 
+> Funnily enough there's a patch posted recently that imports the glib
+> GTree impl into QEMU calling it QTree. This was to workaround a problem
+> with GSlice not being async signal safe, but if we take that patch, then
+> you wouldn't need to skip the build you could rely on this in-tree copy
+> instead.
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg01225.html
+
+Thanks for the pointer, however the {G,Q}Tree import explicitly excludes
+these tree operations that this driver needs (as they currently don't
+have any callers in QEMU).
+
+So in this case either they would have to be imported too or the driver
+would need QEMU being built with the upstream Glib (as far as I can see,
+[1] says this will still be possible with glib >= 2.76.0).
+
+Thanks,
+Maciej
+
+[1]: https://gitlab.com/qemu-project/qemu/-/issues/285
 
 
