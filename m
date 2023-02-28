@@ -2,88 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A99D6A5F0B
+	by mail.lfdr.de (Postfix) with ESMTPS id 411536A5F09
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 19:52:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX54J-0006om-CJ; Tue, 28 Feb 2023 13:51:19 -0500
+	id 1pX54H-0006nc-0L; Tue, 28 Feb 2023 13:51:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX54G-0006nr-DM
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 13:51:16 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pX54C-0006lv-9t
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 13:51:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX54E-00071l-JD
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 13:51:16 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id C11265C00CF;
- Tue, 28 Feb 2023 13:51:13 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 28 Feb 2023 13:51:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1677610273; x=1677696673; bh=OK
- mgUdQ/AbIr0037Bdi6kfEzLOqPts9KtHWtFOPs0WI=; b=JlJuerdDASBVhrzeJR
- u0IHcQ3KeGgrIPV0BXuSJX8b/FtZM70YGwiTBFcSilexgiPaDU+vvdzsOHQaver7
- 0Hme+3nzXQxS3NYkBlbCRYM/+k6w3FCMfWvucbm+EjcueCSBcw1MvX49dv7KpHww
- 65MbGszHz5/+MEGSb32D0jbjzo9zFm30I4oaR7Pb7ljXhCQp0vddK6ypDplDWNx1
- xE8alSGd0wCSjt6RfDGUybdOga8HhGg2YgqHW3Eg7X1+RAxaT23Ln8/nv6/BLsf9
- BgSJHf/JtNcmlSzS3fzaCfmUUpjaB+m/fEKavAFG0Jq2uysQDSuwnHT45Vmhu5QS
- LTxg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1677610273; x=1677696673; bh=OKmgUdQ/AbIr0
- 037Bdi6kfEzLOqPts9KtHWtFOPs0WI=; b=b27ywx+d6G9SMUil7zXDU63WCUVa0
- Ff1ndh1GhUgvxh3PqefxBVuxSLy4WJC1CaEFge7TARYKniDFRj1Oxu4PR2YIGdxh
- DBeyzKlHo6EW2JmiUMVjCH5qpqrMZseMGiduVLbw508KWvyYtZ6npLqP/XTqxAAW
- JSJjVfiwkMPI478a05c7uJtCiDHeIpnL/Dvy8MqNvfo626djShRwILWfNB0u2146
- Ln9dS/46FmMcuDEGj6JqfCBEt1kEavJSOZqDUHr9GQCGYQbdH2PasXfXf3Xz6uEd
- JT0xeasF5Pl4FreA72G1Cy8yVaTPGHca06Icqtyi/vDIE+Sjb34SZ6Mpw==
-X-ME-Sender: <xms:IU3-Y5ZQrQFrBsKcuHblqNNZCrvNC9R-7l90CaRjcWx6mzEYRvc6hg>
- <xme:IU3-YwYwcBMkCwi9ohIhVmwejr4HWsj2qkgfw7YOWuOAZZk33lU49o5rokXLkdauh
- rC8D9q55BbgAOLUXw>
-X-ME-Received: <xmr:IU3-Y78u0oJ2MYDSMah5tdEl58jMZSsMsn0BrAo2WbHYRgjC1XT6O8O0ntXnbfMrLvNV-x50QiiUW7a8Odg2mp3S14rxPuG0lxLfn7EnVNOPRQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelfedgheehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdljedtmdenucfjughrpefhvf
- evufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceo
- ugiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepgfefgfegjefhudeike
- dvueetffelieefuedvhfehjeeljeejkefgffeghfdttdetnecuvehluhhsthgvrhfuihii
- vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:IU3-Y3rtdIhZdgWZwStn9M1ro9-qtFvIWKOqlLQGwE1xgIYlKGWxCA>
- <xmx:IU3-Y0p94BttUb_g0YbJlrmGDCGhurWhW2pLBU5ZylKRpO2nRmPj9Q>
- <xmx:IU3-Y9RwRLxgGUBbMYWk0H0XgPI4MutrnnM9ZpDhKGTOYwDAjtbuAA>
- <xmx:IU3-Y70pPtTKw2jkCOwK8ciRBjppiPIqsAM4RPpTZEit_fetu_lfZQ>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Feb 2023 13:51:12 -0500 (EST)
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: kkostiuk@redhat.com,
-	michael.roth@amd.com,
-	marcandre.lureau@gmail.com
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] qga: test: Add tests for `merge-output` flag
-Date: Tue, 28 Feb 2023 11:50:36 -0700
-Message-Id: <4d6cb0a2de825fc23c859a2b25836111e8ac0872.1677609866.git.dxu@dxuuu.xyz>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1677609866.git.dxu@dxuuu.xyz>
-References: <cover.1677609866.git.dxu@dxuuu.xyz>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pX54A-0006zm-Fo
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 13:51:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677610268;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=78Yer/+yLq311EMDicZXSTAEZfxJ6VrPE1nbxZiDul0=;
+ b=FrD+QwCEz9eMs6328Gx2hXom9uhv2p3xGk/mgKj04SXwKKpha4xDqbUsvXMZ3b3/ElsM3F
+ wep8Su2lQV6pSHNmhTCGI6FqY+kuABz1d5q73ibwISVqThNQ2scnhzCZM29AEHc5H0rF25
+ 2CEd/VuZsPbQjkQxqZr0fpg/7PpiceE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-108-Y0NwxwP8N--x-TK87EPrfw-1; Tue, 28 Feb 2023 13:51:07 -0500
+X-MC-Unique: Y0NwxwP8N--x-TK87EPrfw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ p22-20020a7bcc96000000b003e2036a1516so7278810wma.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 10:51:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=78Yer/+yLq311EMDicZXSTAEZfxJ6VrPE1nbxZiDul0=;
+ b=dsJQDrcb2IXGv+syaTZUKvdVGIag63byBFxuPG6BHooLMJIrZDdYswzgWU2jQTb80Q
+ WBaZdifp68T8D0eLwuxIORVxlnuRA544oLK2TdLXfSf5IidonSrupJ2uwpRRnA0lDeK2
+ 9BtgnHKQkXXwjMA06QDInBOBMDiCqy/Xbtgfxd/R8tQZ5lj5drgLd9TJD2mWE30M4MWW
+ jRmX3QMHrfl6Qlpg5HJZcILFDnF9PB1SEkKlVFBn0rG8ZRk/MoOdGG5LJfO3ebfZh625
+ lVPH2TrVuKV/XNSwE3J+W74Ypnj69GVDCi12tQrYX2RSU9TcRo0ShRyJHdFAD7g/0ZLl
+ nZsQ==
+X-Gm-Message-State: AO0yUKWDD2Bu2OD7On0+bBqDmJcER/HWBQfH26wNdZQr8z3/ZW+h7RVR
+ 2aSkMa12blivBUlrhC3eIbMjzl/oF3tIyxQn0JkVxHJAD1ixdRmLTCyauQmglf3wkda6DhV6aWS
+ w9JlKn8Y0mTW0xCs=
+X-Received: by 2002:adf:f512:0:b0:2c5:5ff8:6b02 with SMTP id
+ q18-20020adff512000000b002c55ff86b02mr2984581wro.0.1677610266193; 
+ Tue, 28 Feb 2023 10:51:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set/ZCplMG2PPNFTWEVcd7hZ0YRQbaOWSCNTtCNNPztIS9SN3f47V/S6ro8gKNbj/J/DCnkN2dQ==
+X-Received: by 2002:adf:f512:0:b0:2c5:5ff8:6b02 with SMTP id
+ q18-20020adff512000000b002c55ff86b02mr2984565wro.0.1677610265907; 
+ Tue, 28 Feb 2023 10:51:05 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ bi13-20020a05600c3d8d00b003e204fdb160sm16760770wmb.3.2023.02.28.10.51.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 10:51:05 -0800 (PST)
+Date: Tue, 28 Feb 2023 18:51:03 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH v3 06/10] monitor: release the lock before calling close()
+Message-ID: <Y/5NFy3tk+4+aH9H@work-vm>
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-7-marcandre.lureau@redhat.com>
+ <873578id74.fsf@pond.sub.org>
+ <CAJ+F1CL45o4Ro=0TGZU2yOK2nz9OfMX1jCFRKfDxZfXzRbdoRg@mail.gmail.com>
+ <Y+uRUyP/xTn6neMk@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=dxu@dxuuu.xyz;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <Y+uRUyP/xTn6neMk@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,191 +115,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This commit adds a test to ensure `merge-output` functions as expected.
-We also add a negative test to ensure we haven't regressed previous
-functionality.
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Tue, Feb 14, 2023 at 05:36:32PM +0400, Marc-André Lureau wrote:
+> > Hi
+> > 
+> > On Tue, Feb 14, 2023 at 5:34 PM Markus Armbruster <armbru@redhat.com> wrote:
+> > >
+> > > marcandre.lureau@redhat.com writes:
+> > >
+> > > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > > >
+> > > > As per comment, presumably to avoid syscall in critical section.
+> > > >
+> > > > Fixes: 0210c3b39bef08 ("monitor: Use LOCK_GUARD macros")
+> > > > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > > > ---
+> > > >  monitor/fds.c | 4 +++-
+> > > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/monitor/fds.c b/monitor/fds.c
+> > > > index 26b39a0ce6..03c5e97c35 100644
+> > > > --- a/monitor/fds.c
+> > > > +++ b/monitor/fds.c
+> > > > @@ -80,7 +80,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+> > > >          return;
+> > > >      }
+> > > >
+> > > > -    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
+> > > > +    qemu_mutex_lock(&cur_mon->mon_lock);
+> > > >      QLIST_FOREACH(monfd, &cur_mon->fds, next) {
+> > > >          if (strcmp(monfd->name, fdname) != 0) {
+> > > >              continue;
+> > > > @@ -88,6 +88,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+> > > >
+> > > >          tmp_fd = monfd->fd;
+> > > >          monfd->fd = fd;
+> > > > +        qemu_mutex_unlock(&cur_mon->mon_lock);
+> > > >          /* Make sure close() is outside critical section */
+> > > >          close(tmp_fd);
+> > > >          return;
+> > > > @@ -98,6 +99,7 @@ void qmp_getfd(const char *fdname, Error **errp)
+> > > >      monfd->fd = fd;
+> > > >
+> > > >      QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
+> > > > +    qemu_mutex_unlock(&cur_mon->mon_lock);
+> > > >  }
+> > > >
+> > > >  void qmp_closefd(const char *fdname, Error **errp)
+> > >
+> > > This confused me.  I think I understand now, but let's double-check.
+> > >
+> > > You're reverting commit 0210c3b39bef08 for qmp_getfd() because it
+> > > extended the criticial section beyond the close(), invalidating the
+> > > comment.  Correct?
+> > 
+> > Correct
+> > 
+> > > Did it actually break anything?
+> > 
+> > Not that I know of (David admitted over IRC that this was not intended)
+> 
+> Conceptually the only risk here is that 'close()' blocks for a
+> prolonged period of time, which prevents another thread from
+> acquiring the mutex.
+> 
+> First, the chances of close() blocking are incredibly low for
+> socket FDs which have not yet been used to transmit data. It
+> would require a malicious mgmt app to pass an unexpected FD
+> type that could block but that's quite hard, and we consider
+> the QMP client be a trusted entity anyway.
 
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
----
- tests/unit/test-qga.c | 133 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 116 insertions(+), 17 deletions(-)
+I agree it's unlikely; I'm not sure it actually requires something
+malicious though; e.g. a managmeent app that is itself blocked,
+a socket connection connection over a dead network etc are the ones
+we're worrying about - stuff that's not so much slow
+as either deadlocked or taking minutes for recovery/timeout.
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index b4e0a14573..02eb4bf980 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -755,6 +755,31 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
-     g_assert_cmpstr(status, ==, "thawed");
- }
- 
-+static QDict *wait_for_guest_exec_completion(int fd, int64_t pid)
-+{
-+    QDict *ret = NULL;
-+    int64_t now;
-+    bool exited;
-+    QDict *val;
-+
-+    now = g_get_monotonic_time();
-+    do {
-+        ret = qmp_fd(fd,
-+                     "{'execute': 'guest-exec-status',"
-+                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
-+        g_assert_nonnull(ret);
-+        val = qdict_get_qdict(ret, "return");
-+        exited = qdict_get_bool(val, "exited");
-+        if (!exited) {
-+            qobject_unref(ret);
-+        }
-+    } while (!exited &&
-+             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
-+    g_assert(exited);
-+
-+    return ret;
-+}
-+
- static void test_qga_guest_exec(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -762,9 +787,8 @@ static void test_qga_guest_exec(gconstpointer fix)
-     QDict *val;
-     const gchar *out;
-     g_autofree guchar *decoded = NULL;
--    int64_t pid, now, exitcode;
-+    int64_t pid, exitcode;
-     gsize len;
--    bool exited;
- 
-     /* exec 'echo foo bar' */
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-@@ -777,23 +801,10 @@ static void test_qga_guest_exec(gconstpointer fix)
-     g_assert_cmpint(pid, >, 0);
-     qobject_unref(ret);
- 
--    /* wait for completion */
--    now = g_get_monotonic_time();
--    do {
--        ret = qmp_fd(fixture->fd,
--                     "{'execute': 'guest-exec-status',"
--                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
--        g_assert_nonnull(ret);
--        val = qdict_get_qdict(ret, "return");
--        exited = qdict_get_bool(val, "exited");
--        if (!exited) {
--            qobject_unref(ret);
--        }
--    } while (!exited &&
--             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
--    g_assert(exited);
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
- 
-     /* check stdout */
-+    val = qdict_get_qdict(ret, "return");
-     exitcode = qdict_get_int(val, "exitcode");
-     g_assert_cmpint(exitcode, ==, 0);
-     out = qdict_get_str(val, "out-data");
-@@ -802,6 +813,90 @@ static void test_qga_guest_exec(gconstpointer fix)
-     g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
- }
- 
-+static void test_qga_guest_exec_output_no_merge(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *out, *err;
-+    g_autofree guchar *out_decoded = NULL;
-+    g_autofree guchar *err_decoded = NULL;
-+    int64_t pid, exitcode;
-+    gsize len;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': true } }");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+    val = qdict_get_qdict(ret, "return");
-+    pid = qdict_get_int(val, "pid");
-+    g_assert_cmpint(pid, >, 0);
-+    qobject_unref(ret);
-+
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
-+
-+    val = qdict_get_qdict(ret, "return");
-+    exitcode = qdict_get_int(val, "exitcode");
-+    g_assert_cmpint(exitcode, ==, 0);
-+
-+    /* check stdout */
-+    out = qdict_get_str(val, "out-data");
-+    out_decoded = g_base64_decode(out, &len);
-+    g_assert_cmpint(len, ==, 14);
-+    g_assert_cmpstr((char *)out_decoded, ==, "stdout\nstdout\n");
-+
-+    /* check stderr */
-+    err = qdict_get_try_str(val, "err-data");
-+    err_decoded = g_base64_decode(err, &len);
-+    g_assert_cmpint(len, ==, 14);
-+    g_assert_cmpstr((char *)err_decoded, ==, "stderr\nstderr\n");
-+}
-+
-+static void test_qga_guest_exec_output_merge(gconstpointer fix)
-+{
-+#if !defined(G_OS_WIN32)
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *out, *err;
-+    g_autofree guchar *decoded = NULL;
-+    int64_t pid, exitcode;
-+    gsize len;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': true,"
-+                 " 'merge-output': true } }");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+    val = qdict_get_qdict(ret, "return");
-+    pid = qdict_get_int(val, "pid");
-+    g_assert_cmpint(pid, >, 0);
-+    qobject_unref(ret);
-+
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
-+
-+    val = qdict_get_qdict(ret, "return");
-+    exitcode = qdict_get_int(val, "exitcode");
-+    g_assert_cmpint(exitcode, ==, 0);
-+
-+    /* check stdout */
-+    out = qdict_get_str(val, "out-data");
-+    decoded = g_base64_decode(out, &len);
-+    g_assert_cmpint(len, ==, 28);
-+    g_assert_cmpstr((char *)decoded, ==, "stdout\nstderr\nstdout\nstderr\n");
-+
-+    /* check stderr */
-+    err = qdict_get_try_str(val, "err-data");
-+    g_assert_null(err);
-+#endif
-+}
-+
- static void test_qga_guest_exec_invalid(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -972,6 +1067,10 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
-     g_test_add_data_func("/qga/config", NULL, test_qga_config);
-     g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
-+    g_test_add_data_func("/qga/guest-exec-output-no-merge", &fix,
-+                         test_qga_guest_exec_output_no_merge);
-+    g_test_add_data_func("/qga/guest-exec-output-merge", &fix,
-+                         test_qga_guest_exec_output_merge);
-     g_test_add_data_func("/qga/guest-exec-invalid", &fix,
-                          test_qga_guest_exec_invalid);
-     g_test_add_data_func("/qga/guest-get-osinfo", &fix,
+Dave
+
+> As for another thread blocking on the mutex I'm not convinced
+> that'll happen either. The FD set is scoped to the current
+> monitor. Almost certainly the FD is going to be consumed by
+> a later QMP device-add/object-add command, in the same thread.
+> Processing of that later QMP command will be delayed regardless
+> of whether the close is inside or outside the critical section.
+> 
+> AFAICT keeping close() oujtside the critical section serves
+> no purpose and we could just stick with the lock guard and
+> delete the comment.
+> 
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
 -- 
-2.39.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
