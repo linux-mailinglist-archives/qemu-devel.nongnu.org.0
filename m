@@ -2,94 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5016A57F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 12:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DF96A5802
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 12:25:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWy5n-0007J9-IV; Tue, 28 Feb 2023 06:24:23 -0500
+	id 1pWy6O-00087B-RC; Tue, 28 Feb 2023 06:25:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWy5c-0007Gb-61
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:24:13 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWy6M-00086V-8B
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:24:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWy5a-0002RY-Mm
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:24:11 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWy6K-0002Wz-Np
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 06:24:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677583450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cPt18yMFBhgEWcyFKRvmzxmC7YZWJirJ75g/XkJWVsg=;
- b=BkQXwGdzbZF7Ur7AANLRRr+QWwW1OHQR2nW1Vgk5a5JIUSdMPgeTNzG98NUtP3k+HbOFfI
- 67jhmhwcRZDZtZufzs3aObGCWX8JoAjIyr/DdZcws63PGVodZTwHknpK44Uem3kj8h6EXR
- t6/k75E1XuB19tI0E47Ql/07i49uWz0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-92-wVyQyjSlMsOr4OIcXHx1bQ-1; Tue, 28 Feb 2023 06:24:08 -0500
-X-MC-Unique: wVyQyjSlMsOr4OIcXHx1bQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f14-20020a7bcc0e000000b003dd41ad974bso4142224wmh.3
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 03:24:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677583447;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cPt18yMFBhgEWcyFKRvmzxmC7YZWJirJ75g/XkJWVsg=;
- b=EBkpta0Q4M205yk/1d9ZhzJjLjRPV1fXvzwfrgsQC1373dASpsi3AAnTWNqT50bnUd
- QvtTckQaGKVkLcuJNfKNbDkhsMiWutzY739y/yflACilSb00diKYy15ec/f7jPGPiizU
- EoJIY+nR0pQ7BF2MMr77ZvjwQ34anKLtpJqNdSsIOrA/v64EhLQHgcmWQyrTnkG+x3+W
- yFZBPzc8vB0dC8kV6RzMqFFM3Qk3tlV3NT3czOFJEzbHermGWKlbGj+ap2kEjbif7CTK
- usl0OnOzvN666Io5iiUW0BdIYlFX4n17S3bXOKfx4s6lypsRahbBFgq2Or/Jlz+p6zb0
- qG4w==
-X-Gm-Message-State: AO0yUKUIZaSkCLivPp5SJDRbcT+l/4FOfFCOXrcZheQVI3aiJnpVSJqw
- 0cDuH3VEhTpVQg6c/3viPiV3nIJe27Ck+YMJbjCOiIdOAB1dxGZmVq50rWXTYiN7GhnL13iFZwH
- s6WXasdG6NpvfS1E=
-X-Received: by 2002:a05:600c:4507:b0:3eb:2b88:a69a with SMTP id
- t7-20020a05600c450700b003eb2b88a69amr1863552wmo.14.1677583447653; 
- Tue, 28 Feb 2023 03:24:07 -0800 (PST)
-X-Google-Smtp-Source: AK7set9T5ZkS4VbZWkKkMQx04lsVjTlgvyWwH8VrH3B39Ebim23eqhBX9ts8ZVRgNNp1IV6iBjuM7Q==
-X-Received: by 2002:a05:600c:4507:b0:3eb:2b88:a69a with SMTP id
- t7-20020a05600c450700b003eb2b88a69amr1863526wmo.14.1677583447355; 
- Tue, 28 Feb 2023 03:24:07 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- i13-20020a1c540d000000b003db06224953sm12401771wmb.41.2023.02.28.03.24.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 03:24:06 -0800 (PST)
-Date: Tue, 28 Feb 2023 06:24:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 1/2] docs/about: Deprecate 32-bit x86 hosts and
- qemu-system-i386
-Message-ID: <20230228061853-mutt-send-email-mst@kernel.org>
-References: <84d7d3e5-0da2-7506-44a7-047ebfcfc4da@redhat.com>
- <20230228031026-mutt-send-email-mst@kernel.org>
- <Y/3CiEKKoG06t9rr@redhat.com>
- <20230228040115-mutt-send-email-mst@kernel.org>
- <fe4626c6-6103-d5e5-6920-9dfb4777b979@redhat.com>
- <Y/3MIUDRBUSNg6C5@redhat.com>
- <20230228050908-mutt-send-email-mst@kernel.org>
- <87cz5uhy50.fsf@pond.sub.org>
- <20230228055016-mutt-send-email-mst@kernel.org>
- <072a7502-6061-12b2-f778-736c6a8f5912@redhat.com>
+ s=mimecast20190719; t=1677583495;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=fYeLTq7TyDXrBPvAIZIBsPBHxw8d/YvHEsH17sw7svw=;
+ b=VrakJC+rKU9xoXI1hlW+YcDjugWL0stmIEVmEp+ZjU/QYJk+qBOTHuNNZ8I1e+SrkMvEA5
+ tMNzzMvkB8VuW6Ijj8FyWV0mApZYeQLVv7hghjtywqYjl5kGcq6U/SLH6JPcjMjUt3wc9Y
+ 27C+4/ow+Zk2dl50ijyeoIWIuN3WHdQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-48-nByGmdtiNkie70oWzhHE1A-1; Tue, 28 Feb 2023 06:24:52 -0500
+X-MC-Unique: nByGmdtiNkie70oWzhHE1A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3D2785CBE6;
+ Tue, 28 Feb 2023 11:24:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E124B40C6EC4;
+ Tue, 28 Feb 2023 11:24:50 +0000 (UTC)
+Date: Tue, 28 Feb 2023 11:24:48 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: "John Berberian, Jr" <jeb.study@gmail.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2] Fix exec migration on Windows (w32+w64).
+Message-ID: <Y/3kgLD1luTt4z4h@redhat.com>
+References: <20230116013421.3149183-1-jeb.study@gmail.com>
+ <CAJ+F1C+x3tSHAb6LbL+GK0m08UuKCS0RWygz41gMFycqL0JrrQ@mail.gmail.com>
+ <Y8UXR6uqdv22auoE@redhat.com>
+ <db09ab65-a6a7-0096-625a-c323a4b5aacf@gmail.com>
+ <CAJ+F1CKkqcgCYfnGVK7LSD5gE1ueX2HrCGqP26_UJZYt3E-q4A@mail.gmail.com>
+ <12107bdf-f631-e42a-5136-59bb67e301fc@gmail.com>
+ <87pm9ukpti.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <072a7502-6061-12b2-f778-736c6a8f5912@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <87pm9ukpti.fsf@secure.mitica>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -110,28 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 12:12:22PM +0100, Thomas Huth wrote:
-> On 28/02/2023 11.51, Michael S. Tsirkin wrote:
-> > On Tue, Feb 28, 2023 at 11:39:39AM +0100, Markus Armbruster wrote:
-> > > The question to answer: Is 32 bit x86 worth its upkeep?  Two
-> > > sub-questions: 1. Is it worth the human attention?  2. Is it worth
-> > > (scarce!) CI minutes?
-> > 
-> > 3. Is it worth arguing about?
+On Tue, Feb 28, 2023 at 12:11:05PM +0100, Juan Quintela wrote:
+> "John Berberian, Jr" <jeb.study@gmail.com> wrote:
+> > ping. Is there anything I can do to help this get merged?
 > 
-> You are aware of the problems we're currently struggeling with, aren't you?
-> Darn, we're having *SEVERE* problems with the CI, the QEMU project ran out
-> of CI minutes for the second time this year, and you ask whether it's worth
-> arguing about??? You're not serious with this question, are you?
+> Hi
 > 
->  Thomas
+> I have to get back from Marc/Daniel before proceed.
+> 
+> You did an answer, but they didn't respond.
+> 
+> What should we do here?
 
-Yah just couldn't resist. How many minutes do we use per month btw?
+I was hoping the patches that introduce the new migration QMP
+syntax would get in first, but its looking like it won't be
+so quick. So I'm OK introducing this patch in the meantime
+as a stop gap.
 
+With regards,
+Daniel
 -- 
-MST
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
