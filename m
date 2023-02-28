@@ -2,55 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385846A5AB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 15:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6757A6A59E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 14:19:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX0pV-0001SZ-6E; Tue, 28 Feb 2023 09:19:45 -0500
+	id 1pWzs6-0001YT-Gs; Tue, 28 Feb 2023 08:18:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gudkov.andrei@huawei.com>)
- id 1pWzrL-0001Cv-1c
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:17:35 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWzrt-0001Xn-Gg
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:18:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gudkov.andrei@huawei.com>)
- id 1pWzrF-0002sE-6w
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:17:34 -0500
-Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4PQyT54t6Jz6J7dm;
- Tue, 28 Feb 2023 21:12:25 +0800 (CST)
-Received: from DESKTOP-0LHM7NF.huawei.com (10.199.58.101) by
- lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 28 Feb 2023 13:17:17 +0000
-To: <qemu-devel@nongnu.org>
-CC: <quintela@redhat.com>, <dgilbert@redhat.com>, Andrei Gudkov
- <gudkov.andrei@huawei.com>
-Subject: [PATCH 2/2] migration/calc-dirty-rate: tool to predict migration time
-Date: Tue, 28 Feb 2023 16:16:03 +0300
-Message-ID: <839db5c82057f59782cc6156d74ffdc43d512a3d.1677589218.git.gudkov.andrei@huawei.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1677589218.git.gudkov.andrei@huawei.com>
-References: <cover.1677589218.git.gudkov.andrei@huawei.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pWzrr-000319-9L
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:18:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677590281;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0X2KqGgFAWfDRtgFH8AoZXw8fbaPnkEHlKT5ruC9ZIU=;
+ b=bTUgwHcbVBNKER3r82jyLDGGHNitElthxR47TodG5usvYPkOLIGCBXC/G976lNNcSNnOxi
+ MRsnku+tveFAf/BhioOPV2WkcfwBM4juoWn8lJctfESfnp5d4evYg0cgxEJcTH1ET8NJLs
+ Sc60hK6bG/WrAqnAn9nzAD2qmCiRQK8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-515-ZfjEA1nCPLSM066BhDjIvQ-1; Tue, 28 Feb 2023 08:17:57 -0500
+X-MC-Unique: ZfjEA1nCPLSM066BhDjIvQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D26F1C17427;
+ Tue, 28 Feb 2023 13:17:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 22D1F2166B26;
+ Tue, 28 Feb 2023 13:17:54 +0000 (UTC)
+Date: Tue, 28 Feb 2023 13:17:52 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: zhenwei pi <pizhenwei@bytedance.com>, arei.gonglei@huawei.com,
+ dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 11/12] cryptodev: Support query-stats QMP command
+Message-ID: <Y/3/AJqXD4aDdtrP@redhat.com>
+References: <20230129025747.682282-1-pizhenwei@bytedance.com>
+ <20230129025747.682282-12-pizhenwei@bytedance.com>
+ <20230228075511-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.199.58.101]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- lhrpeml500004.china.huawei.com (7.191.163.9)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=gudkov.andrei@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20230228075511-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 28 Feb 2023 09:19:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,320 +82,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Andrei Gudkov <gudkov.andrei@huawei.com>
-From:  Andrei Gudkov via <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Andrei Gudkov <gudkov.andrei@huawei.com>
----
- MAINTAINERS                  |   1 +
- scripts/predict_migration.py | 283 +++++++++++++++++++++++++++++++++++
- 2 files changed, 284 insertions(+)
- create mode 100644 scripts/predict_migration.py
+On Tue, Feb 28, 2023 at 07:56:14AM -0500, Michael S. Tsirkin wrote:
+> On Sun, Jan 29, 2023 at 10:57:46AM +0800, zhenwei pi wrote:
+> > Now we can use "query-stats" QMP command to query statistics of
+> > crypto devices. (Originally this was designed to show statistics
+> > by '{"execute": "query-cryptodev"}'. Daniel Berrangé suggested that
+> > querying configuration info by "query-cryptodev", and querying
+> > runtime performance info by "query-stats". This makes sense!)
+> > 
+> > Example:
+> > ~# virsh qemu-monitor-command vm '{"execute": "query-stats", \
+> >    "arguments": {"target": "cryptodev"} }' | jq
+> > {
+> >   "return": [
+> >     {
+> >       "provider": "cryptodev",
+> >       "stats": [
+> >         {
+> >           "name": "asym-verify-bytes",
+> >           "value": 7680
+> >         },
+> >         ...
+> >         {
+> >           "name": "asym-decrypt-ops",
+> >           "value": 32
+> >         },
+> >         {
+> >           "name": "asym-encrypt-ops",
+> >           "value": 48
+> >         }
+> >       ],
+> >       "qom-path": "/objects/cryptodev0" # support asym only
+> >     },
+> >     {
+> >       "provider": "cryptodev",
+> >       "stats": [
+> >         {
+> >           "name": "asym-verify-bytes",
+> >           "value": 0
+> >         },
+> >         ...
+> >         {
+> >           "name": "sym-decrypt-bytes",
+> >           "value": 5376
+> >         },
+> >         ...
+> >       ],
+> >       "qom-path": "/objects/cryptodev1" # support asym/sym
+> >     }
+> >   ],
+> >   "id": "libvirt-422"
+> > }
+> > 
+> > Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> > Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> 
+> I assume since this has been out a long time and no
+> comments by maintainers it's ok from QAPI POV.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c6e6549f06..2fb5b6298a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3107,6 +3107,7 @@ F: docs/devel/migration.rst
- F: qapi/migration.json
- F: tests/migration/
- F: util/userfaultfd.c
-+F: scripts/predict_migration.py
- 
- D-Bus
- M: Marc-André Lureau <marcandre.lureau@redhat.com>
-diff --git a/scripts/predict_migration.py b/scripts/predict_migration.py
-new file mode 100644
-index 0000000000..c92a97585f
---- /dev/null
-+++ b/scripts/predict_migration.py
-@@ -0,0 +1,283 @@
-+#!/usr/bin/env python3
-+#
-+# Predicts time required to migrate VM under given max downtime constraint.
-+#
-+# Copyright (c) 2023 HUAWEI TECHNOLOGIES CO.,LTD.
-+#
-+# Authors:
-+#  Andrei Gudkov <gudkov.andrei@huawei.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+
-+# Usage:
-+#
-+# Step 1. Collect dirty page statistics from live VM:
-+# $ scripts/predict_migration.py calc-dirty-rate <qmphost> <qmpport> >dirty.json
-+# <...takes 1 minute by default...>
-+#
-+# Step 2. Run predictor against collected data:
-+# $ scripts/predict_migration.py predict < dirty.json
-+# Downtime> |    125ms |    250ms |    500ms |   1000ms |   5000ms |    unlim |
-+# -----------------------------------------------------------------------------
-+#  100 Mbps |        - |        - |        - |        - |        - |   16m45s |
-+#    1 Gbps |        - |        - |        - |        - |        - |    1m39s |
-+#    2 Gbps |        - |        - |        - |        - |    1m55s |      50s |
-+#  2.5 Gbps |        - |        - |        - |        - |    1m12s |      40s |
-+#    5 Gbps |        - |        - |        - |      29s |      25s |      20s |
-+#   10 Gbps |      13s |      13s |      12s |      12s |      12s |      10s |
-+#   25 Gbps |       5s |       5s |       5s |       5s |       4s |       4s |
-+#   40 Gbps |       3s |       3s |       3s |       3s |       3s |       3s |
-+#
-+# The latter prints table that lists estimated time it will take to migrate VM.
-+# This time depends on the network bandwidth and max allowed downtime.
-+# Dash indicates that migration does not converge.
-+# Prediction takes care only about migrating RAM and only in pre-copy mode.
-+# Other features, such as compression or local disk migration, are not supported
-+
-+
-+import sys
-+import os
-+import math
-+import json
-+from dataclasses import dataclass
-+import asyncio
-+import argparse
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
-+from qemu.qmp import QMPClient
-+
-+async def calc_dirty_rate(host, port, calc_time, sample_pages):
-+    client = QMPClient()
-+    try:
-+        await client.connect((host, port))
-+        args = {
-+            'calc-time': calc_time,
-+            'sample-pages': sample_pages
-+        }
-+        await client.execute('calc-dirty-rate', args)
-+        await asyncio.sleep(calc_time)
-+        while True:
-+            data = await client.execute('query-dirty-rate')
-+            if data['status'] == 'measuring':
-+                await asyncio.sleep(0.5)
-+            elif data['status'] == 'measured':
-+                return data
-+            else:
-+                raise ValueError(data['status'])
-+    finally:
-+        await client.disconnect()
-+
-+
-+class MemoryModel:
-+    """
-+    Models RAM state during pre-copy migration using calc-dirty-rate results.
-+    Its primary function is to estimate how many pages will be dirtied
-+    after given time starting from "clean" state.
-+    This function is non-linear and saturates at some point.
-+    """
-+
-+    @dataclass
-+    class Point:
-+        period_millis:float
-+        dirty_pages:float
-+
-+    def __init__(self, data):
-+        """
-+        :param data: dictionary returned by calc-dirty-rate
-+        """
-+        self.__points = self.__make_points(data)
-+        self.__page_size = data['page-size']
-+        self.__num_total_pages = data['n-total-pages']
-+        self.__num_zero_pages = data['n-zero-pages'] / \
-+                (data['n-sampled-pages'] / data['n-total-pages'])
-+
-+    def __make_points(self, data):
-+        points = list()
-+
-+        # Add observed points
-+        sample_ratio = data['n-sampled-pages'] / data['n-total-pages']
-+        for millis,dirty_pages in zip(data['periods'], data['n-dirty-pages']):
-+            millis = float(millis)
-+            dirty_pages = dirty_pages / sample_ratio
-+            points.append(MemoryModel.Point(millis, dirty_pages))
-+
-+        # Extrapolate function to the left.
-+        # Assuming that the function is convex, the worst case is achieved
-+        # when dirty page count immediately jumps to some value at zero time
-+        # (infinite slope), and next keeps the same slope as in the region
-+        # between the first two observed points: points[0]..points[1]
-+        slope, offset = self.__fit_line(points[0], points[1])
-+        points.insert(0, MemoryModel.Point(0.0, max(offset, 0.0)))
-+
-+        # Extrapolate function to the right.
-+        # The worst case is achieved when the function has the same slope
-+        # as in the last observed region.
-+        slope, offset = self.__fit_line(points[-2], points[-1])
-+        max_dirty_pages = \
-+                data['n-total-pages'] - (data['n-zero-pages'] / sample_ratio)
-+        if slope > 0.0:
-+            saturation_millis = (max_dirty_pages - offset) / slope
-+            points.append(MemoryModel.Point(saturation_millis, max_dirty_pages))
-+        points.append(MemoryModel.Point(math.inf, max_dirty_pages))
-+
-+        return points
-+
-+    def __fit_line(self, lhs:Point, rhs:Point):
-+        slope = (rhs.dirty_pages - lhs.dirty_pages) / \
-+                (rhs.period_millis - lhs.period_millis)
-+        offset = lhs.dirty_pages - slope * lhs.period_millis
-+        return slope, offset
-+
-+    def page_size(self):
-+        """
-+        Return page size in bytes
-+        """
-+        return self.__page_size
-+
-+    def num_total_pages(self):
-+        return self.__num_total_pages
-+
-+    def num_zero_pages(self):
-+        """
-+        Estimated total number of zero pages. Assumed to be constant.
-+        """
-+        return self.__num_zero_pages
-+
-+    def num_dirty_pages(self, millis):
-+        """
-+        Estimate number of dirty pages after given time starting from "clean"
-+        state. The estimation is based on piece-wise linear interpolation.
-+        """
-+        for i in range(len(self.__points)):
-+            if self.__points[i].period_millis == millis:
-+                return self.__points[i].dirty_pages
-+            elif self.__points[i].period_millis > millis:
-+                slope, offset = self.__fit_line(self.__points[i-1],
-+                                                        self.__points[i])
-+                return offset + slope * millis
-+        raise RuntimeError("unreachable")
-+
-+
-+def predict_migration_time(model, bandwidth, downtime, deadline=3600*1000):
-+    """
-+    Predict how much time it will take to migrate VM under under given
-+    deadline constraint.
-+
-+    :param model: `MemoryModel` object for a given VM
-+    :param bandwidth: Bandwidth available for migration [bytes/s]
-+    :param downtime: Max allowed downtime [milliseconds]
-+    :param deadline: Max total time to migrate VM before timeout [milliseconds]
-+    :return: Predicted migration time [milliseconds] or `None`
-+             if migration process doesn't converge before given deadline
-+    """
-+
-+    left_zero_pages = model.num_zero_pages()
-+    left_normal_pages = model.num_total_pages() - model.num_zero_pages()
-+    header_size = 8
-+
-+    total_millis = 0.0
-+    while True:
-+        iter_bytes = 0.0
-+        iter_bytes += left_normal_pages * (model.page_size() + header_size)
-+        iter_bytes += left_zero_pages * header_size
-+
-+        iter_millis = iter_bytes * 1000.0 / bandwidth
-+
-+        total_millis += iter_millis
-+
-+        if iter_millis <= downtime:
-+            return int(math.ceil(total_millis))
-+        elif total_millis > deadline:
-+            return None
-+        else:
-+            left_zero_pages = 0
-+            left_normal_pages = model.num_dirty_pages(iter_millis)
-+
-+
-+def run_predict_cmd(model):
-+    @dataclass
-+    class ValStr:
-+        value:object
-+        string:str
-+
-+    def gbps(value):
-+        return ValStr(value*1024*1024*1024/8, f'{value} Gbps')
-+
-+    def mbps(value):
-+        return ValStr(value*1024*1024/8, f'{value} Mbps')
-+
-+    def dt(millis):
-+        if millis is not None:
-+            return ValStr(millis, f'{millis}ms')
-+        else:
-+            return ValStr(math.inf, 'unlim')
-+
-+    def eta(millis):
-+        if millis is not None:
-+            seconds = int(math.ceil(millis/1000.0))
-+            minutes, seconds = divmod(seconds, 60)
-+            s = ''
-+            if minutes > 0:
-+                s += f'{minutes}m'
-+            if len(s) > 0:
-+                s += f'{seconds:02d}s'
-+            else:
-+                s += f'{seconds}s'
-+        else:
-+            s = '-'
-+        return ValStr(millis, s)
-+
-+
-+    bandwidths = [mbps(100), gbps(1), gbps(2), gbps(2.5), gbps(5), gbps(10),
-+                  gbps(25), gbps(40)]
-+    downtimes = [dt(125), dt(250), dt(500), dt(1000), dt(5000), dt(None)]
-+
-+    out = ''
-+    out += 'Downtime> |'
-+    for downtime in downtimes:
-+        out += f'  {downtime.string:>7} |'
-+    print(out)
-+
-+    print('-'*len(out))
-+
-+    for bandwidth in bandwidths:
-+        print(f'{bandwidth.string:>9} | ', '', end='')
-+        for downtime in downtimes:
-+            millis = predict_migration_time(model,
-+                                            bandwidth.value,
-+                                            downtime.value)
-+            print(f'{eta(millis).string:>7} | ', '', end='')
-+        print()
-+
-+def main():
-+    parser = argparse.ArgumentParser()
-+    subparsers = parser.add_subparsers(dest='command', required=True)
-+
-+    parser_cdr = subparsers.add_parser('calc-dirty-rate',
-+            help='Collect and print dirty page statistics from live VM')
-+    parser_cdr.add_argument('--calc-time', type=int, default=60,
-+                            help='Calculation time in seconds')
-+    parser_cdr.add_argument('--sample-pages', type=int, default=512,
-+            help='Number of sampled pages per one gigabyte of RAM')
-+    parser_cdr.add_argument('host', metavar='host', type=str, help='QMP host')
-+    parser_cdr.add_argument('port', metavar='port', type=int, help='QMP port')
-+
-+    subparsers.add_parser('predict', help='Predict migration time')
-+
-+    args = parser.parse_args()
-+
-+    if args.command == 'calc-dirty-rate':
-+        data = asyncio.run(calc_dirty_rate(host=args.host,
-+                                           port=args.port,
-+                                           calc_time=args.calc_time,
-+                                           sample_pages=args.sample_pages))
-+        print(json.dumps(data))
-+    elif args.command == 'predict':
-+        data = json.load(sys.stdin)
-+        model = MemoryModel(data)
-+        run_predict_cmd(model)
-+
-+if __name__ == '__main__':
-+    main()
+I'm not the QAPI maintainer, but I think this worked out
+pretty nicely compared to the previous versions of the
+series which didn't use query-stats.. just a minor point
+below.
+
+> 
+> > ---
+> >  backends/cryptodev.c | 141 +++++++++++++++++++++++++++++++++++++++++++
+> >  monitor/hmp-cmds.c   |   5 ++
+> >  monitor/qmp-cmds.c   |   2 +
+> >  qapi/stats.json      |  10 ++-
+> >  4 files changed, 156 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+> > index 09ffdd345f..9d52220772 100644
+> > --- a/backends/cryptodev.c
+> > +++ b/backends/cryptodev.c
+> > @@ -22,9 +22,11 @@
+> >   */
+> >  
+> >  #include "qemu/osdep.h"
+> > +#include "monitor/stats.h"
+> >  #include "sysemu/cryptodev.h"
+> >  #include "qapi/error.h"
+> >  #include "qapi/qapi-commands-cryptodev.h"
+> > +#include "qapi/qapi-types-stats.h"
+> >  #include "qapi/visitor.h"
+> >  #include "qemu/config-file.h"
+> >  #include "qemu/error-report.h"
+> > @@ -32,6 +34,14 @@
+> >  #include "qom/object_interfaces.h"
+> >  #include "hw/virtio/virtio-crypto.h"
+> >  
+> > +typedef struct StatsArgs {
+> > +    union StatsResultsType {
+> > +        StatsResultList **stats;
+> > +        StatsSchemaList **schema;
+> > +    } result;
+> > +    strList *names;
+> > +    Error **errp;
+> > +} StatsArgs;
+> >  
+> >  static QTAILQ_HEAD(, CryptoDevBackendClient) crypto_clients;
+> >  
+> > @@ -435,6 +445,134 @@ static void cryptodev_backend_finalize(Object *obj)
+> >      }
+> >  }
+> >  
+> > +static StatsList *cryptodev_backend_stats_add(const char *name, int64_t *val,
+> > +                                              StatsList *stats_list)
+> > +{
+> > +    Stats *stats = g_new0(Stats, 1);
+> > +
+> > +    stats->name = g_strdup(name);
+> > +    stats->value = g_new0(StatsValue, 1);
+> > +    stats->value->type = QTYPE_QNUM;
+> > +    stats->value->u.scalar = *val;
+> > +
+> > +    QAPI_LIST_PREPEND(stats_list, stats);
+> > +    return stats_list;
+> > +}
+> > +
+> > +static int cryptodev_backend_stats_query(Object *obj, void *data)
+> > +{
+> > +    StatsArgs *stats_args = data;
+> > +    StatsResultList **stats_results = stats_args->result.stats;
+> > +    StatsList *stats_list = NULL;
+> > +    StatsResult *entry;
+> > +    CryptoDevBackend *backend;
+> > +    QCryptodevBackendSymStat *sym_stat;
+> > +    QCryptodevBackendAsymStat *asym_stat;
+> > +
+> > +    if (!object_dynamic_cast(obj, TYPE_CRYPTODEV_BACKEND)) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    backend = CRYPTODEV_BACKEND(obj);
+> > +    sym_stat = backend->sym_stat;
+> > +    if (sym_stat) {
+> > +        stats_list = cryptodev_backend_stats_add("sym-encrypt-ops",
+> > +                         &sym_stat->encrypt_ops, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("sym-decrypt-ops",
+> > +                         &sym_stat->decrypt_ops, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("sym-encrypt-bytes",
+> > +                         &sym_stat->encrypt_bytes, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("sym-decrypt-bytes",
+> > +                         &sym_stat->decrypt_bytes, stats_list);
+> > +    }
+> > +
+> > +    asym_stat = backend->asym_stat;
+> > +    if (asym_stat) {
+> > +        stats_list = cryptodev_backend_stats_add("asym-encrypt-ops",
+> > +                         &asym_stat->encrypt_ops, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("asym-decrypt-ops",
+> > +                         &asym_stat->decrypt_ops, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("asym-sign-ops",
+> > +                         &asym_stat->sign_ops, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("asym-verify-ops",
+> > +                         &asym_stat->verify_ops, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("asym-encrypt-bytes",
+> > +                         &asym_stat->encrypt_bytes, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("asym-decrypt-bytes",
+> > +                         &asym_stat->decrypt_bytes, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("asym-sign-bytes",
+> > +                         &asym_stat->sign_bytes, stats_list);
+> > +        stats_list = cryptodev_backend_stats_add("asym-verify-bytes",
+> > +                         &asym_stat->verify_bytes, stats_list);
+
+Perhaps there's benefit in having constants defined for these strings,
+since they become part of our API, and the same strings are repeated
+again further down.....
+
+> > +    }
+> > +
+> > +    entry = g_new0(StatsResult, 1);
+> > +    entry->provider = STATS_PROVIDER_CRYPTODEV;
+> > +    entry->qom_path = g_strdup(object_get_canonical_path(obj));
+> > +    entry->stats = stats_list;
+> > +    QAPI_LIST_PREPEND(*stats_results, entry);
+> > +
+> > +    return 0;
+> > +}
+
+...snip...
+
+> > +
+> > +static void cryptodev_backend_schemas_cb(StatsSchemaList **result,
+> > +                                         Error **errp)
+> > +{
+> > +    StatsSchemaValueList *stats_list = NULL;
+> > +    const char *sym_stats[] = {"sym-encrypt-ops", "sym-decrypt-ops",
+> > +                               "sym-encrypt-bytes", "sym-decrypt-bytes"};
+> > +    const char *asym_stats[] = {"asym-encrypt-ops", "asym-decrypt-ops",
+> > +                                "asym-sign-ops", "asym-verify-ops",
+> > +                                "asym-encrypt-bytes", "asym-decrypt-bytes",
+> > +                                "asym-sign-bytes", "asym-verify-bytes"};
+
+... here's the repeated use of the constant strings from earlier
+
+> > +
+> > +    for (int i = 0; i < ARRAY_SIZE(sym_stats); i++) {
+> > +        stats_list = cryptodev_backend_schemas_add(sym_stats[i], stats_list);
+> > +    }
+> > +
+> > +    for (int i = 0; i < ARRAY_SIZE(asym_stats); i++) {
+> > +        stats_list = cryptodev_backend_schemas_add(asym_stats[i], stats_list);
+> > +    }
+> > +
+> > +    add_stats_schema(result, STATS_PROVIDER_CRYPTODEV, STATS_TARGET_CRYPTODEV,
+> > +                     stats_list);
+> > +}
+
+With regards,
+Daniel
 -- 
-2.30.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
