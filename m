@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7058B6A53C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 08:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E22F6A53C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 08:40:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWuVf-0004R8-18; Tue, 28 Feb 2023 02:34:51 -0500
+	id 1pWuaf-0007K0-IJ; Tue, 28 Feb 2023 02:40:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pWuVc-0004Qo-Dq
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 02:34:48 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pWuVa-0006i7-II
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 02:34:48 -0500
-Received: by mail-pl1-x630.google.com with SMTP id p20so8266731plw.13
- for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 23:34:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=B2nPtVMoqQQeUurZLSBplL9QxFM/YOG7P8uSFLXSFhc=;
- b=RvfB+r/c1wjzj5utZuWxc82/lmnz5uYQCYBtH0Qe0awIsLZiUCoWDx/k7D8TgekQwl
- QuogIQoGznJgI3TBoIQxS21fId+Vp4EghWLZ7+P/GkoWGb2kmefPbvQIX5RF1xNpyBdf
- eV3lz6UgzyR5PXLmqMmtKFUBtEds1Toeysu2B4gt9DjT/k8J/LsZSPkq2/aiyuwkb5cO
- 3xUTDzhU0wAA4kcBRWTFszH6yF4cbimL+dAB/f7WZXgrOdjeOaK+LHLI4J+gNp4NVuIR
- Gx83rWMkWvYdQwzvAX8Bh4Ti2ipadPeMhI4Kc4bcZ4bfXx2nBQsycVzpzes1qTN9IclB
- aD+w==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWuab-0007Jk-OL
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 02:39:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pWuaZ-0007UN-UD
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 02:39:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677569994;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V4CuH1aIrAL4IShJibOpzwPQfte5RpGoDNGh1Yknmno=;
+ b=dSfVZA76tuA/yOTQ88MypLxdPxyBcUD6IJOxjIhbk2izEcWEP8t+qZZuutvNdXGW/Y7lCX
+ C2ZUQkNq+vf/ZgXlB3XTRkHT9x3kYOA5RrIk4xCh4LgT6v0mFzgVMXedDSxXrGqqC6yDHo
+ mJ6nfTaDjaQOSgs0l1t+SG8Z/vP911A=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-408-MiOxVvadN0aP8zG_2EObjA-1; Tue, 28 Feb 2023 02:39:53 -0500
+X-MC-Unique: MiOxVvadN0aP8zG_2EObjA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bi21-20020a05600c3d9500b003e836e354e0so3920489wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Feb 2023 23:39:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B2nPtVMoqQQeUurZLSBplL9QxFM/YOG7P8uSFLXSFhc=;
- b=VL+r04fqzXPu+7l8yqDercze0kXtwIa1zMdn0igkdVf/KHywvAHMzExr2sWNgMJN+Q
- bGb8vpdbL285YXF/SdAfqVqwUVCeheRpcHWC9ryk4ClmX/GcTou02YCqsjdhlPDRCYoN
- W0kLPI5486rpmqMFilb3oPoVAqADupjC1jpbqTz7iEqMmVZnraZhtGKoOMd5zpj/uMIL
- z8mry5KlUqo1dlojquFC54J/UlUYN34aV6ELXpv9wtX6W5Q0ZY/+jml3mXoRl5s1Cep8
- HLdYKhlPHmmffwPpTNnzuhkhiO6jstN5Fqux47pt6Q+RvWQHDZBZq+zbYHMTVl1MKtex
- acrA==
-X-Gm-Message-State: AO0yUKX7+JdhE5QjCeDIy8Bm95D/6eDXzxVpEnigEyJ45/8xJmdbCBkJ
- yTfhOEt4lqE+XQpQAulOhgFSFw==
-X-Google-Smtp-Source: AK7set/hdKRU97a3tM2BSAJIy1V+ot+PoObHyLUF2Z5O3qyk0UmDdeYbfT2KZCLUOviTcqWq5YgaUw==
-X-Received: by 2002:a17:903:284d:b0:19c:d420:9bc9 with SMTP id
- kq13-20020a170903284d00b0019cd4209bc9mr1698595plb.8.1677569684344; 
- Mon, 27 Feb 2023 23:34:44 -0800 (PST)
-Received: from sunil-laptop ([49.206.14.226]) by smtp.gmail.com with ESMTPSA id
- ij15-20020a170902ab4f00b0019602274208sm5781902plb.186.2023.02.27.23.34.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 23:34:44 -0800 (PST)
-Date: Tue, 28 Feb 2023 13:04:36 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Andrew Jones <ajones@ventanamicro.com>,
- Anup Patel <apatel@ventanamicro.com>,
- Atish Kumar Patra <atishp@rivosinc.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: Re: [PATCH V4 5/8] hw/riscv/virt: virt-acpi-build.c: Add RINTC in MADT
-Message-ID: <Y/2ujHMFrhnfJUiJ@sunil-laptop>
-References: <20230224083701.2657063-1-sunilvl@ventanamicro.com>
- <20230224083701.2657063-6-sunilvl@ventanamicro.com>
- <20230224135343.24a5a95b@imammedo.users.ipa.redhat.com>
- <Y/jJMnHaspaic2M3@sunil-laptop>
- <20230227164121.73d1ecc0@imammedo.users.ipa.redhat.com>
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=V4CuH1aIrAL4IShJibOpzwPQfte5RpGoDNGh1Yknmno=;
+ b=TORR4sQ8p7+sHqgEJs4PN9jzJ81glZmSDLWNjnFDTFwdPI2RoXaoAhXKJ1wdi4w6v5
+ y5YSVcESQIgaFfArfJtL9bLiRStXYmMjMS38Za3qcb9YB0hohW+CIzKTXDv2aYzTPGet
+ /qxH45Oj3rLYKxmSkT/ujOgoDM5j+l6JeLJptcTrCdb+NnsVvDUfB52KOQh0ndOYFT7Y
+ f/J0jgkJgtBnd5j0qaEbWbrfL3n472x3sy3+OR4gP422/17zpVIdGunkyJRs8+Nh18hX
+ IucmKSE3A/HGqk66LPnvIpxkYQe+egGzZavxoOhCm1VizllLhB79S6UCepY+/sXgMzCH
+ wO8Q==
+X-Gm-Message-State: AO0yUKWwRzZuRZwAR067YMXsgEV8tOgbiBjDY0KOoCE+TAnAFnQ3Tnlt
+ s3yTdNSFTAu9CBSQLqZkkr3K605dXGJUqAuP7zsArAe/gY8B35UpQbgnZUdU8kRwESxdgd1W6bj
+ kQVmsRqSX/Br200I=
+X-Received: by 2002:a05:600c:491d:b0:3dc:d5c:76d9 with SMTP id
+ f29-20020a05600c491d00b003dc0d5c76d9mr1711001wmp.0.1677569992209; 
+ Mon, 27 Feb 2023 23:39:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set/njPCmiXr23K7e76Er7M0HjsF+J1fmqdaUA9M/AOTPF1jtLXZ21lNSyv2Efwi4f6fqXtK/Ag==
+X-Received: by 2002:a05:600c:491d:b0:3dc:d5c:76d9 with SMTP id
+ f29-20020a05600c491d00b003dc0d5c76d9mr1710980wmp.0.1677569991934; 
+ Mon, 27 Feb 2023 23:39:51 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-75.web.vodafone.de.
+ [109.43.177.75]) by smtp.gmail.com with ESMTPSA id
+ q8-20020a1cf308000000b003e11ad0750csm11789964wmq.47.2023.02.27.23.39.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 23:39:51 -0800 (PST)
+Message-ID: <001bedba-b12f-4dd8-0866-7ccb9ce877d0@redhat.com>
+Date: Tue, 28 Feb 2023 08:39:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230227164121.73d1ecc0@imammedo.users.ipa.redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, libvir-list@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <Y/z4rwv09Ckhbtfp@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 0/2] Deprecate support for 32-bit x86 and arm hosts
+In-Reply-To: <Y/z4rwv09Ckhbtfp@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,106 +107,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 04:41:21PM +0100, Igor Mammedov wrote:
-> On Fri, 24 Feb 2023 19:56:58 +0530
-> Sunil V L <sunilvl@ventanamicro.com> wrote:
+On 27/02/2023 19.38, Daniel P. Berrangé wrote:
+> On Mon, Feb 27, 2023 at 12:10:48PM +0100, Thomas Huth wrote:
+>> We're struggling quite badly with our CI minutes on the shared
+>> gitlab runners, so we urgently need to think of ways to cut down
+>> our supported build and target environments. qemu-system-i386 and
+>> qemu-system-arm are not really required anymore, since nobody uses
+>> KVM on the corresponding systems for production anymore, and the
+>> -x86_64 and -arch64 variants are a proper superset of those binaries.
+>> So it's time to deprecate them and the corresponding 32-bit host
+>> environments now.
+>>
+>> This is a follow-up patch series from the previous discussion here:
+>>
+>>   https://lore.kernel.org/qemu-devel/20230130114428.1297295-1-thuth@redhat.com/
+>>
+>> where people still mentioned that there is still interest in certain
+>> support for 32-bit host hardware. But as far as I could see, there is
+>> no real need for 32-bit host support for system emulation on x86 and
+>> arm anymore, so it should be fine if we drop these host environments
+>> now (these are also the two architectures that contribute the most to
+>> the long test times in our CI, so we would benefit a lot by dropping
+>> those).
 > 
-> > Hi Igor,
-> > 
-> > On Fri, Feb 24, 2023 at 01:53:43PM +0100, Igor Mammedov wrote:
-> > > On Fri, 24 Feb 2023 14:06:58 +0530
-> > > Sunil V L <sunilvl@ventanamicro.com> wrote:
-> > >   
-> > > > Add Multiple APIC Description Table (MADT) with the
-> > > > RINTC structure for each cpu.
-> > > > 
-> > > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > > > Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> > > > ---
-> > > >  hw/riscv/virt-acpi-build.c | 44 ++++++++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 44 insertions(+)
-> > > > 
-> > > > diff --git a/hw/riscv/virt-acpi-build.c b/hw/riscv/virt-acpi-build.c
-> > > > index 3a5e2e6d53..8b85b34c55 100644
-> > > > --- a/hw/riscv/virt-acpi-build.c
-> > > > +++ b/hw/riscv/virt-acpi-build.c
-> > > > @@ -32,6 +32,7 @@
-> > > >  #include "sysemu/reset.h"
-> > > >  #include "migration/vmstate.h"
-> > > >  #include "hw/riscv/virt.h"
-> > > > +#include "hw/riscv/numa.h"
-> > > >  
-> > > >  #define ACPI_BUILD_TABLE_SIZE             0x20000
-> > > >  
-> > > > @@ -132,6 +133,46 @@ static void build_dsdt(GArray *table_data,
-> > > >      free_aml_allocator();
-> > > >  }
-> > > >  
-> > > > +/* MADT */  
-> > > 
-> > > see build_srat() how this comment must look like
-> > >  
-> > Currently, even though ECRs are approved, the ACPI spec is not released
-> > for these MADT structures. I can add the spec version for the generic
-> > MADT but not for the RINTC. Same issue with a new table RHCT.
-> > What is the recommendation in such case?
-> 
-> ther must be some draft variant of spec or a ticket where it was approved
-> or a reference impl. somewhere.
-> 
-Sure, I can add the ticket ID. Thanks!
+> Your description here is a little ambiguous about what's being
+> proposed. When you say dropping 32-bit host support do you mean
+> just for the system emulator binaries, or for QEMU entirely ?
 
-> > 
-> > > > +static void build_madt(GArray *table_data,
-> > > > +                       BIOSLinker *linker,
-> > > > +                       RISCVVirtState *s)
-> > > > +{
-> > > > +    MachineState *ms = MACHINE(s);
-> > > > +    int socket;
-> > > > +    uint16_t base_hartid = 0;
-> > > > +    uint32_t cpu_id = 0;
-> > > > +
-> > > > +    AcpiTable table = { .sig = "APIC", .rev = 6, .oem_id = s->oem_id,
-> > > > +                        .oem_table_id = s->oem_table_id };
-> > > > +
-> > > > +    acpi_table_begin(&table, table_data);
-> > > > +    /* Local Interrupt Controller Address */
-> > > > +    build_append_int_noprefix(table_data, 0, 4);
-> > > > +    build_append_int_noprefix(table_data, 0, 4);   /* MADT Flags */
-> > > > +
-> > > > +    /* RISC-V Local INTC structures per HART */
-> > > > +    for (socket = 0; socket < riscv_socket_count(ms); socket++) {
-> > > > +        base_hartid = riscv_socket_first_hartid(ms, socket);
-> > > > +
-> > > > +        for (int i = 0; i < s->soc[socket].num_harts; i++) {
-> > > > +            build_append_int_noprefix(table_data, 0x18, 1);    /* Type     */
-> > > > +            build_append_int_noprefix(table_data, 20, 1);      /* Length   */
-> > > > +            build_append_int_noprefix(table_data, 1, 1);       /* Version  */
-> > > > +            build_append_int_noprefix(table_data, 0, 1);       /* Reserved */
-> > > > +            build_append_int_noprefix(table_data, 1, 4);       /* Flags    */
-> > > > +            build_append_int_noprefix(table_data,
-> > > > +                                      (base_hartid + i), 8);   /* Hart ID  */
-> > > > +
-> > > > +            /* ACPI Processor UID  */
-> > > > +            build_append_int_noprefix(table_data, cpu_id, 4);  
-> > > 
-> > > cpu_id here seems to be unrelated to one in DSDT.
-> > > Could you explain how socket/hartid and cpu_id are related to each other?
-> > >   
-> > cpu_id should match the _UID. I needed two loops here to get the
-> > base_hartid of the socket. hart_id is the unique ID for each hart
-> > similar to MPIDR / APIC ID. I understand your point. Let me make DSDT
-> > also created using two loops so that both match.
-> 
-> Why not reuse possible CPUs to describe topology there and then
-> use ids from it to build ACPI tables instead of inventing your own
-> cpu topo all over the place?
-> 
-> PS: look for possible_cpus and how it's used (virt-arm already uses it
-> although partially). And I'd like to avoid adding new ad-hoc ways
-> to describe CPU topology is current possible_cpu ca do the job.
+Just for system emulation. Some people said that user emulation still might 
+be useful for some 32-bit environments.
 
-Okay, sure. Let me take a look at possible_cpus and use in cpu topology.
-Thanks!
+> And when the deprecation period is passed, are you proposing
+> to actively prevent 32-bit builds, or merely stopping CI testing
+> and leave 32-bit builds still working if people want them ?
+
+CI is the main pain point, so that's the most important thing. So whether we 
+throw a warning or a hard error while configuring the build, I don't care 
+too much.
+
+  Thomas
+
 
