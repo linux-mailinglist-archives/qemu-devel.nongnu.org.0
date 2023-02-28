@@ -2,81 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB7C6A5CA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 16:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F336A5CE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 17:12:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX2Mv-0005qG-RQ; Tue, 28 Feb 2023 10:58:21 -0500
+	id 1pX2ZH-00062b-9C; Tue, 28 Feb 2023 11:11:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pX2Mo-0005pQ-0M
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:58:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pX2ZD-00062S-D4
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:11:03 -0500
+Received: from esa6.hc2706-39.iphmx.com ([216.71.137.79])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pX2Mm-00072X-4Z
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:58:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677599890;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mf/KF4tXKuQnCbz4KAzgpPWiQs9jxi+AcZ+NOO2zb58=;
- b=PT2RuNcOubh+bhiXowYMvykTse67Ck4ouL6ga4OZUlPDrmhx8aKVzbtUM2j0KQdaId8DQO
- Y4qFJuknFmNLROdydgF1GAAU3biL7nGzS5lLghep2qWZwyMS79qFZBQ3AIJ97lpgKUaoxt
- EEqIPjAzudTeXUuhzGyzdbkv/DU5gy8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-118-3FGGPPKfNAGP3wkdQ5JSSA-1; Tue, 28 Feb 2023 10:58:06 -0500
-X-MC-Unique: 3FGGPPKfNAGP3wkdQ5JSSA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 620A110113C1;
- Tue, 28 Feb 2023 15:58:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 213B51121314;
- Tue, 28 Feb 2023 15:58:03 +0000 (UTC)
-Date: Tue, 28 Feb 2023 09:58:01 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Stefan Weil <sw@weilnetz.de>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pX2ZB-0000qT-LW
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:11:03 -0500
+X-IronPort-RemoteIP: 209.85.166.200
+X-IronPort-MID: 265347394
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:IDytm6t+RNyuU0L2MxjsDzLVGOfnVO5cMUV32f8akzHdYApBsoF/q
+ tZmKW+GP/2MMzCnKoh1Ot+y90NUuZTWz95hGlNk/H9gQy1E9ZOVVN+UEBzMMnLJJKUvbq7GA
+ +byyDXkBJppJpMJjk71atANlVEliefTAOK6ULWeUsxIbVcMYD87jh5+kPIOjIdtgNyoayuAo
+ tq3qMDEULOf82cc3lk8tuTS+HuDgNyo4GlD5gZkNagR1LPjvyJ94Kw3dPnZw0TQH9E88t6SH
+ 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IPM0SQqkEqSh8ai87XAMEhhXJ/0F1lqTzQJ
+ OJl7vRcQS9xVkHFdX90vxNwSkmSNoUfkFPLzOTWXWV+ACQqflO1q8iCAn3aMqUD8eN5HF5f8
+ sY3cjZVNDuGuca7xoqCH7wEasQLdKEHPasas3BkiDDdVLMoG8ibBarN4tBc0XE7gcUm8fT2P
+ ZJIL2oyKk2ePVsVYg9/5JEWxY9EglH2dy1epEi9r7dx7mTOpOB0+OKzbYGJJYfbGa25mG6bm
+ nL8o2apLCgwLeG67TeIrVCxtsjAyHaTtIU6UefQGuRRqESew3FWBBAIWF+Tp/6/hUijHdVFJ
+ CQpFjEGqKEz8AmqSoC4UUfg+DiLuRkTX9cWGOo/gO2Q9pfpD8+iLjBsZlZ8hBYO65doLdD2/
+ jdlR+/UOAE=
+IronPort-HdrOrdr: A9a23:KxjyG6PyZbsax8BcTv2jsMiBIKoaSvp037BL7SpMoHluGfBw+P
+ rCoB1273PJYU8qKRYdcLK7WZVoMEmyyXcd2+B4AV7FZmnbUQCTQr2Kg7GSpgHIKmnT8fNcyL
+ clU4UWMqyVMbGit7eY3OBvKadD/OW6
+Received: from mail-il1-f200.google.com ([209.85.166.200])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 28 Feb 2023 11:07:20 -0500
+Received: by mail-il1-f200.google.com with SMTP id
+ d6-20020a92d786000000b00316f1737173so6282286iln.16
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 08:07:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vds6DTW0duywbx7cAd0VQe+shLowhH725fSlkzHy1ic=;
+ b=Hshay1+aRBCuFqXANTYTmTzMA7Q3tB50uWXXH+cxoFnZkZYVvhSVuOvEFwGLLFm8Wq
+ lH0ZyZzcZuIFMSiBhhGM8hNQ/oOu4XhiTxmlTQadfeF8Kj7vIZGc1mF87/rpyS5EvMC+
+ 56rET0Ga6Cg8UJlOR7L50IZRvP8jaFxKrFGDn8qbWARw7/MSvavMMKLN0C9afOydQP9y
+ s78zIRQRHnmFaEZ/YYk9xrA3Mr0bZ+y0Cu+mGA/AEMMChhZETn6KQZvmNus2H87rnh7G
+ cJr6VqeuTd8QoWIe2qjkLc0uN70i0Kri4EKICM36dVbvQt1uF8Bl9sY7aXfIutSpKW60
+ S63g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Vds6DTW0duywbx7cAd0VQe+shLowhH725fSlkzHy1ic=;
+ b=M9FPpg3/91tgWnVZHxnNUww1Ft4fx5zQQMcn5zm6ocN9CHT2QhpVATx8wEkObNiJEh
+ 9pYOWlxdViFSR9dNgU27Jdib/ZMZlXvGfDpRUMROgC8oJuqCRBIMeKMkXY1oMvJb6weB
+ YN7W17LKf9RDPYxJ2SK+abouYIk75khxV8iAWAbVzLiMO9wzCZ4hCN9D/hikLA8sL/3C
+ /MT2RZMtH3M1b+smZ0Zdy2yhCU7y50nJPtuRSm9Aa9nw5JTvDHK9jDZKBPnpzxloBopk
+ nu/l98QKpP1QAzF+Mx422CoDXx1K7I/hf/BGRHcfPVyZ7m50LloMp6D+Lrr3X99IyRGK
+ qCvA==
+X-Gm-Message-State: AO0yUKVIyq0GWLuji50hfuqiMfXJE7Khaeml7nL7GqPDc8FXnwlgVVur
+ TZCz60juSbhGgCqgXyR0Un0w4YTFtO2CkRRCiXRib2FDW33/VyLV+r9n/X7s+1VNDdIuQXhxOWI
+ V0wrVXa/z4YvaETwf09/BaYSn2Ap4Sw==
+X-Received: by 2002:a5d:8404:0:b0:74c:a9a5:2c41 with SMTP id
+ i4-20020a5d8404000000b0074ca9a52c41mr2186900ion.2.1677600440224; 
+ Tue, 28 Feb 2023 08:07:20 -0800 (PST)
+X-Google-Smtp-Source: AK7set+MXSzCk/TtCxk2LeF8T3e2q5ssrB33eBOUrb/M/q4XpI+EwJvC/vwlT6+sVnep5tbVQrH7dg==
+X-Received: by 2002:a5d:8404:0:b0:74c:a9a5:2c41 with SMTP id
+ i4-20020a5d8404000000b0074ca9a52c41mr2186877ion.2.1677600439896; 
+ Tue, 28 Feb 2023 08:07:19 -0800 (PST)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ w5-20020a92db45000000b0031599ebe3a5sm2853987ilq.32.2023.02.28.08.07.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 08:07:19 -0800 (PST)
+Date: Tue, 28 Feb 2023 11:07:14 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
-Message-ID: <20230228155801.s2imkaybh3a4d5x3@redhat.com>
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-8-marcandre.lureau@redhat.com>
- <87fsb4k85h.fsf@pond.sub.org>
- <CAMxuvax6qPYQCzNX7vESJM9_f5k4C1Yat0sJcJjrHkh_1WGpQA@mail.gmail.com>
- <87a61821y3.fsf@pond.sub.org>
- <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
- <87356yq9rs.fsf@pond.sub.org>
+ Eduardo Habkost <eduardo@habkost.net>,
+ Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
+Subject: Re: [PATCH v6 0/4] memory: prevent dma-reentracy issues
+Message-ID: <20230228160714.pzb4tl2poz4beaav@mozz.bu.edu>
+References: <20230205040737.3567731-1-alxndr@bu.edu>
+ <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
+ <d2df9600-0fcb-d457-727a-90cb18d4df48@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87356yq9rs.fsf@pond.sub.org>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d2df9600-0fcb-d457-727a-90cb18d4df48@redhat.com>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.79; envelope-from=alxndr@bu.edu;
+ helo=esa6.hc2706-39.iphmx.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,60 +130,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 22, 2023 at 11:23:03AM +0100, Markus Armbruster wrote:
-> > However, I think it would be simpler, and better, if we piped the
-> > generated code to clang-format (when available). I made a simple patch
-> > for that too.
+On 230216 1214, Thomas Huth wrote:
+> On 13/02/2023 03.11, Alexander Bulekov wrote:
+> > ping
 > 
-> Piping through indent or clang-format may well give us neater results
-> for less effort.
+> I think it would be really good to finally get these dma-reentrancy issues
+> fixed! Who's supposed to pick up these patches? Paolo? David? Peter?
+
+Ping
+
 > 
-> We might want to dumb down generator code then.
-
-Indeed, this approach seems like it might be worth pursuing (our
-generator doesn't have to worry about spacing, because we do that in a
-second pass with something that will still produce human-legible final
-results).
-
-> >> > So I would rather assert that we don't introduce such a schema, until we
-> >> > fix the code generator. Or we acknowledge the limitation, and treat it as a
-> >> > schema error. Other ideas?
-> >>
-> >> Yes: throw an error.  Assertions are for programming errors.  This isn't
-> >> a programming error, it's a limitation of the current implementation.
-> >>
-> >> How hard would it be to lift the limitation?
-> >
-> > Taking this as a problematic example:
-> >
-> > void function(first,
-> > #ifdef A
-> >     a,
-> > #endif
-> > #ifdef B
-> >     b
-> > #endif
-> > )
-
-I am NOT a fan of preprocessor conditionals mid-function-signature.
-It gets really nasty, really fast.  Is there any way we can have:
-
-struct S {
-#ifdef A
-  type a;
-#endif
-#ifdef B
-  type b;
-#endif
-};
-
-void function(struct S)
-
-so that the preprocessor conditionals never appear inside ()?
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+>  Thomas
 
 
