@@ -2,119 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F336A5CE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 17:12:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C336A5CE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 17:12:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX2ZH-00062b-9C; Tue, 28 Feb 2023 11:11:07 -0500
+	id 1pX2Yh-0005e2-SK; Tue, 28 Feb 2023 11:10:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pX2ZD-00062S-D4
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:11:03 -0500
-Received: from esa6.hc2706-39.iphmx.com ([216.71.137.79])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pX2ZB-0000qT-LW
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:11:03 -0500
-X-IronPort-RemoteIP: 209.85.166.200
-X-IronPort-MID: 265347394
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:IDytm6t+RNyuU0L2MxjsDzLVGOfnVO5cMUV32f8akzHdYApBsoF/q
- tZmKW+GP/2MMzCnKoh1Ot+y90NUuZTWz95hGlNk/H9gQy1E9ZOVVN+UEBzMMnLJJKUvbq7GA
- +byyDXkBJppJpMJjk71atANlVEliefTAOK6ULWeUsxIbVcMYD87jh5+kPIOjIdtgNyoayuAo
- tq3qMDEULOf82cc3lk8tuTS+HuDgNyo4GlD5gZkNagR1LPjvyJ94Kw3dPnZw0TQH9E88t6SH
- 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IPM0SQqkEqSh8ai87XAMEhhXJ/0F1lqTzQJ
- OJl7vRcQS9xVkHFdX90vxNwSkmSNoUfkFPLzOTWXWV+ACQqflO1q8iCAn3aMqUD8eN5HF5f8
- sY3cjZVNDuGuca7xoqCH7wEasQLdKEHPasas3BkiDDdVLMoG8ibBarN4tBc0XE7gcUm8fT2P
- ZJIL2oyKk2ePVsVYg9/5JEWxY9EglH2dy1epEi9r7dx7mTOpOB0+OKzbYGJJYfbGa25mG6bm
- nL8o2apLCgwLeG67TeIrVCxtsjAyHaTtIU6UefQGuRRqESew3FWBBAIWF+Tp/6/hUijHdVFJ
- CQpFjEGqKEz8AmqSoC4UUfg+DiLuRkTX9cWGOo/gO2Q9pfpD8+iLjBsZlZ8hBYO65doLdD2/
- jdlR+/UOAE=
-IronPort-HdrOrdr: A9a23:KxjyG6PyZbsax8BcTv2jsMiBIKoaSvp037BL7SpMoHluGfBw+P
- rCoB1273PJYU8qKRYdcLK7WZVoMEmyyXcd2+B4AV7FZmnbUQCTQr2Kg7GSpgHIKmnT8fNcyL
- clU4UWMqyVMbGit7eY3OBvKadD/OW6
-Received: from mail-il1-f200.google.com ([209.85.166.200])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Feb 2023 11:07:20 -0500
-Received: by mail-il1-f200.google.com with SMTP id
- d6-20020a92d786000000b00316f1737173so6282286iln.16
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 08:07:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Vds6DTW0duywbx7cAd0VQe+shLowhH725fSlkzHy1ic=;
- b=Hshay1+aRBCuFqXANTYTmTzMA7Q3tB50uWXXH+cxoFnZkZYVvhSVuOvEFwGLLFm8Wq
- lH0ZyZzcZuIFMSiBhhGM8hNQ/oOu4XhiTxmlTQadfeF8Kj7vIZGc1mF87/rpyS5EvMC+
- 56rET0Ga6Cg8UJlOR7L50IZRvP8jaFxKrFGDn8qbWARw7/MSvavMMKLN0C9afOydQP9y
- s78zIRQRHnmFaEZ/YYk9xrA3Mr0bZ+y0Cu+mGA/AEMMChhZETn6KQZvmNus2H87rnh7G
- cJr6VqeuTd8QoWIe2qjkLc0uN70i0Kri4EKICM36dVbvQt1uF8Bl9sY7aXfIutSpKW60
- S63g==
+ (Exim 4.90_1) (envelope-from <hchauhan@ventanamicro.com>)
+ id 1pX2Yg-0005d1-67
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:10:30 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hchauhan@ventanamicro.com>)
+ id 1pX2Yd-0000jg-S3
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 11:10:29 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ q31-20020a17090a17a200b0023750b69614so10061297pja.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 08:10:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1677600625;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DjGM0IEteqDe9jCtaMeoJATFuSI/VlpZwchcVoWD2kA=;
+ b=PqTjpcKLrLVvGEMEUgeDLiD64fLXpsBI/yQ01J4GIrY6wIckuSewSwcAyTYXUzNZAI
+ +Ouo661FHtDEmgsuRJDSJ0GH1r9W4k6xnOB0ziOX75b9HX+30G8aTBSxh5jdI9F4P1jM
+ zC4WgPg9u3n+H5WgE0klyeJYA12fMwgyKOIysQj5X1SSogjbED2H4yJcKjcXtY4FsBcw
+ GFQoRnS74Ut1bi9GNzip278RDo0BopzBu1Kgo6olgJ3FrkngvET5qv73tyYoKdDeb3h6
+ x56QMrmrI87lYXq2xNQMRgx+ai5AKdiljDFCL6OBmVvv75k10PAFNPErMz+49zePyDdd
+ mBKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Vds6DTW0duywbx7cAd0VQe+shLowhH725fSlkzHy1ic=;
- b=M9FPpg3/91tgWnVZHxnNUww1Ft4fx5zQQMcn5zm6ocN9CHT2QhpVATx8wEkObNiJEh
- 9pYOWlxdViFSR9dNgU27Jdib/ZMZlXvGfDpRUMROgC8oJuqCRBIMeKMkXY1oMvJb6weB
- YN7W17LKf9RDPYxJ2SK+abouYIk75khxV8iAWAbVzLiMO9wzCZ4hCN9D/hikLA8sL/3C
- /MT2RZMtH3M1b+smZ0Zdy2yhCU7y50nJPtuRSm9Aa9nw5JTvDHK9jDZKBPnpzxloBopk
- nu/l98QKpP1QAzF+Mx422CoDXx1K7I/hf/BGRHcfPVyZ7m50LloMp6D+Lrr3X99IyRGK
- qCvA==
-X-Gm-Message-State: AO0yUKVIyq0GWLuji50hfuqiMfXJE7Khaeml7nL7GqPDc8FXnwlgVVur
- TZCz60juSbhGgCqgXyR0Un0w4YTFtO2CkRRCiXRib2FDW33/VyLV+r9n/X7s+1VNDdIuQXhxOWI
- V0wrVXa/z4YvaETwf09/BaYSn2Ap4Sw==
-X-Received: by 2002:a5d:8404:0:b0:74c:a9a5:2c41 with SMTP id
- i4-20020a5d8404000000b0074ca9a52c41mr2186900ion.2.1677600440224; 
- Tue, 28 Feb 2023 08:07:20 -0800 (PST)
-X-Google-Smtp-Source: AK7set+MXSzCk/TtCxk2LeF8T3e2q5ssrB33eBOUrb/M/q4XpI+EwJvC/vwlT6+sVnep5tbVQrH7dg==
-X-Received: by 2002:a5d:8404:0:b0:74c:a9a5:2c41 with SMTP id
- i4-20020a5d8404000000b0074ca9a52c41mr2186877ion.2.1677600439896; 
- Tue, 28 Feb 2023 08:07:19 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ d=1e100.net; s=20210112; t=1677600625;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DjGM0IEteqDe9jCtaMeoJATFuSI/VlpZwchcVoWD2kA=;
+ b=gqxgF8u5DYEBFVIWrT4OeBP/Wd43fU2uWczCFodpfDfKzXlDJj77pIDQpvsomYsial
+ toMIWps2x1QrSuZK7CN8bfCEwVyl0O7RjAOki+bv9++cMkGUfzdA3RW8jqg2AtlN8EhW
+ 2/Xw8472n8JguRYR9V709YBO4JHZhYL64lb0Lw6pHYIRdLYY4wlVZyqIp4GeSpsZY03R
+ 9cKQpASk2jrOT7J3weo4FM8C/VG1il4J0pn+Xnu02j0hJBato8ZXs7Ih2XkyZBx/bt44
+ Ol1zZ0IH7zVSUG1G0/cS8Pdtl3N+I5kHfIGzfi/b0ZeauPllyy5oecjggC9MmEKzUbM8
+ b4RA==
+X-Gm-Message-State: AO0yUKVpSBZI08SmrbxYrHLoVbyuxd2TNxtLtq24NaNQP5BdbMseOU5S
+ ywQ+SMtpUiMBHFC8hoJ1lIJ/Tg==
+X-Google-Smtp-Source: AK7set/G7skLsFvV6X8vvWVnnAAKWQPTae/0iinMFNLMvTg/qMQlps66SMDVNbGGZSqjpPyK2jUM6g==
+X-Received: by 2002:a05:6a21:32a5:b0:cc:e439:bdad with SMTP id
+ yt37-20020a056a2132a500b000cce439bdadmr3882993pzb.1.1677600624840; 
+ Tue, 28 Feb 2023 08:10:24 -0800 (PST)
+Received: from ?IPV6:2405:201:d019:c0a2:d1bb:4458:2b1b:e0d9?
+ ([2405:201:d019:c0a2:d1bb:4458:2b1b:e0d9])
  by smtp.gmail.com with ESMTPSA id
- w5-20020a92db45000000b0031599ebe3a5sm2853987ilq.32.2023.02.28.08.07.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 08:07:19 -0800 (PST)
-Date: Tue, 28 Feb 2023 11:07:14 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
-Subject: Re: [PATCH v6 0/4] memory: prevent dma-reentracy issues
-Message-ID: <20230228160714.pzb4tl2poz4beaav@mozz.bu.edu>
-References: <20230205040737.3567731-1-alxndr@bu.edu>
- <20230213021141.mmzdpzj6ekmml3bx@mozz.bu.edu>
- <d2df9600-0fcb-d457-727a-90cb18d4df48@redhat.com>
+ w16-20020aa78590000000b005a8cc32b23csm6261326pfn.20.2023.02.28.08.10.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 08:10:24 -0800 (PST)
+Message-ID: <2bdb572b-d6f4-5ff2-7dc4-33e27c885f89@ventanamicro.com>
+Date: Tue, 28 Feb 2023 21:40:21 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d2df9600-0fcb-d457-727a-90cb18d4df48@redhat.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.79; envelope-from=alxndr@bu.edu;
- helo=esa6.hc2706-39.iphmx.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] target/riscv: Convert epmp from feature to ratified
+ smepmp extension
+Content-Language: en-US
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ qemu-riscv@nongnu.org, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>, Liu Zhiwei <zhiwei_liu@linux.alibaba.com>
+References: <20230203042434.67293-1-hchauhan@ventanamicro.com>
+ <aa1e82f7-54e9-7324-0921-ff4612dcdbc7@ventanamicro.com>
+From: Himanshu Chauhan <hchauhan@ventanamicro.com>
+In-Reply-To: <aa1e82f7-54e9-7324-0921-ff4612dcdbc7@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=hchauhan@ventanamicro.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -130,16 +98,231 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 230216 1214, Thomas Huth wrote:
-> On 13/02/2023 03.11, Alexander Bulekov wrote:
-> > ping
-> 
-> I think it would be really good to finally get these dma-reentrancy issues
-> fixed! Who's supposed to pick up these patches? Paolo? David? Peter?
 
-Ping
+On 28/02/23 21:23, Daniel Henrique Barboza wrote:
+> Hey. Sorry for the delay, this patch went through the cracks :(
+>
+> (CCing the reviewers)
+> (CCing qemu-devel as well)
+>
+> On 2/3/23 01:24, Himanshu Chauhan wrote:
+>> Smepmp is a ratified extension. This patch converts the existing epmp
+>> support as a feature to an extension. With this, "smepmp" string will
+>> be concatenated to riscv,isa in generated FDT.
+>>
+>> Since the official name of the extension is Smepmp, the references
+>> to epmp have also been changed to smepmp.
+>>
+>> Signed-off-by: Himanshu Chauhan <hchauhan@ventanamicro.com>
+>> ---
+>>   target/riscv/cpu.c | 16 ++++++----------
+>>   target/riscv/cpu.h |  3 +--
+>>   target/riscv/csr.c |  8 +++++---
+>>   target/riscv/pmp.c | 13 +++++++++----
+>>   4 files changed, 21 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 14a7027095..d9bba04226 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -103,6 +103,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+>>       ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+>>       ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, 
+>> ext_zhinxmin),
+>>       ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
+>> +    ISA_EXT_DATA_ENTRY(smepmp, true, PRIV_VERSION_1_12_0, ext_smepmp),
+>>       ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
+>>       ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, 
+>> ext_sscofpmf),
+>>       ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
+>> @@ -325,7 +326,7 @@ static void rv32_ibex_cpu_init(Object *obj)
+>>       register_cpu_props(DEVICE(obj));
+>>       set_priv_version(env, PRIV_VERSION_1_11_0);
+>>       cpu->cfg.mmu = false;
+>> -    cpu->cfg.epmp = true;
+>> +    cpu->cfg.ext_smepmp = true;
+>>   }
+>>     static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>> @@ -884,14 +885,9 @@ static void riscv_cpu_realize(DeviceState *dev, 
+>> Error **errp)
+>>         if (cpu->cfg.pmp) {
+>>           riscv_set_feature(env, RISCV_FEATURE_PMP);
+>> -
+>> -        /*
+>> -         * Enhanced PMP should only be available
+>> -         * on harts with PMP support
+>> -         */
+>> -        if (cpu->cfg.epmp) {
+>> -            riscv_set_feature(env, RISCV_FEATURE_EPMP);
+>> -        }
+>> +    } else {
+>> +        /* smepmp requires pmp support */
+>> +        cpu->cfg.ext_smepmp = false;
+>
+>
+> I believe this and other chunk like it will collide with the work done 
+> in:
+>
+> "[PATCH v7 00/10] make write_misa a no-op and FEATURE_* cleanups"
+>
+> That series is already acked, so it would make the maintainer's life 
+> easier to
+> base this patch on top of that. You can add a:
+>
+> Based-on: 20230222185205.355361-1-dbarboza@ventanamicro.com
+> ("[PATCH v7 00/10] make write_misa a no-op and FEATURE_* cleanups")
+>
+> at the start of the cover-letter to indicate the dependency.
+>
+>>       }
+>>         if (cpu->cfg.debug) {
+>> @@ -1051,6 +1047,7 @@ static Property riscv_cpu_extensions[] = {
+>>       DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+>>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+>>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+>> +    DEFINE_PROP_BOOL("smepmp", RISCVCPU, cfg.ext_smepmp, false),
+>>       DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
+>>         DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+>> @@ -1093,7 +1090,6 @@ static Property riscv_cpu_extensions[] = {
+>>       /* These are experimental so mark with 'x-' */
+>>       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+>>       /* ePMP 0.9.3 */
+>> -    DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+>>       DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
+>>       DEFINE_PROP_BOOL("x-ssaia", RISCVCPU, cfg.ext_ssaia, false),
+>>   diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index bcf0826753..30fd29e578 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -87,7 +87,6 @@
+>>   enum {
+>>       RISCV_FEATURE_MMU,
+>>       RISCV_FEATURE_PMP,
+>> -    RISCV_FEATURE_EPMP,
+>>       RISCV_FEATURE_MISA,
+>>       RISCV_FEATURE_DEBUG
+>>   };
+>> @@ -465,6 +464,7 @@ struct RISCVCPUConfig {
+>>       bool ext_smaia;
+>>       bool ext_ssaia;
+>>       bool ext_sscofpmf;
+>> +    bool ext_smepmp;
+>>       bool rvv_ta_all_1s;
+>>       bool rvv_ma_all_1s;
+>>   @@ -484,7 +484,6 @@ struct RISCVCPUConfig {
+>>       uint16_t elen;
+>>       bool mmu;
+>>       bool pmp;
+>> -    bool epmp;
+>>       bool debug;
+>>         bool short_isa_string;
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index 62e6c4acbd..f70f6d9aad 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -426,9 +426,11 @@ static RISCVException pmp(CPURISCVState *env, 
+>> int csrno)
+>>       return RISCV_EXCP_ILLEGAL_INST;
+>>   }
+>>   -static RISCVException epmp(CPURISCVState *env, int csrno)
+>> +static RISCVException smepmp(CPURISCVState *env, int csrno)
+>>   {
+>> -    if (env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP)) {
+>> +    RISCVCPU *cpu = env_archcpu(env);
+>> +
+>> +    if (env->priv == PRV_M && cpu->cfg.ext_smepmp) {
+>
+> I did a recent cleanup in these code patterns by using a new 
+> riscv_cpu_cfg() API.
+> If you rebase this patch on top of that series (which has the API) 
+> this code would
+> become:
+>
+>> -   if (env->priv == PRV_M && riscv_feature(env, RISCV_FEATURE_EPMP)) {
+>> +   if (env->priv == PRV_M && riscv_cpu_cfg(env)->ext_smepmp) {
+>
+>
+>>           return RISCV_EXCP_NONE;
+>>       }
+>>   @@ -4259,7 +4261,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>>       [CSR_VSIPH]       = { "vsiph",       aia_hmode32, NULL, NULL, 
+>> rmw_vsiph },
+>>         /* Physical Memory Protection */
+>> -    [CSR_MSECCFG]    = { "mseccfg",  epmp, read_mseccfg, write_mseccfg,
+>> +    [CSR_MSECCFG]    = { "mseccfg",  smepmp, read_mseccfg, 
+>> write_mseccfg,
+>>                            .min_priv_ver = 
+>> PRIV_VERSION_1_11_0           },
+>>       [CSR_PMPCFG0]    = { "pmpcfg0",   pmp, read_pmpcfg, 
+>> write_pmpcfg  },
+>>       [CSR_PMPCFG1]    = { "pmpcfg1",   pmp, read_pmpcfg, 
+>> write_pmpcfg  },
+>> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+>> index d1126a6066..d85ad07caa 100644
+>> --- a/target/riscv/pmp.c
+>> +++ b/target/riscv/pmp.c
+>> @@ -58,6 +58,11 @@ static inline int pmp_is_locked(CPURISCVState 
+>> *env, uint32_t pmp_index)
+>>       return 0;
+>>   }
+>>   +static inline int smepmp_is_enabled(CPURISCVState *env)
+>> +{
+>> +    return (RISCV_CPU(env_cpu(env))->cfg.ext_smepmp);
+>> +}
+>> +
+>
+> I believe you can just read "riscv_cpu_cfg(env)->ext_smepmp" directly 
+> wherever you need
+> instead of creating a new function
+>
+>>   /*
+>>    * Count the number of active rules.
+>>    */
+>> @@ -88,7 +93,7 @@ static void pmp_write_cfg(CPURISCVState *env, 
+>> uint32_t pmp_index, uint8_t val)
+>>       if (pmp_index < MAX_RISCV_PMPS) {
+>>           bool locked = true;
+>>   -        if (riscv_feature(env, RISCV_FEATURE_EPMP)) {
+>> +        if (smepmp_is_enabled(env)) {
+>>               /* mseccfg.RLB is set */
+>>               if (MSECCFG_RLB_ISSET(env)) {
+>>                   locked = false;
+>> @@ -239,7 +244,7 @@ static bool 
+>> pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
+>>   {
+>>       bool ret;
+>>   -    if (riscv_feature(env, RISCV_FEATURE_EPMP)) {
+>> +    if (smepmp_is_enabled(env)) {
+>>           if (MSECCFG_MMWP_ISSET(env)) {
+>>               /*
+>>                * The Machine Mode Whitelist Policy (mseccfg.MMWP) is set
+>> @@ -265,7 +270,7 @@ static bool 
+>> pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
+>>           }
+>>       }
+>>   -    if ((!riscv_feature(env, RISCV_FEATURE_PMP)) || (mode == 
+>> PRV_M)) {
+>> +    if (!smepmp_is_enabled(env) || (mode == PRV_M)) {
+>>           /*
+>>            * Privileged spec v1.10 states if HW doesn't implement any 
+>> PMP entry
+>>            * or no PMP entry matches an M-Mode access, the access 
+>> succeeds.
+>> @@ -348,7 +353,7 @@ int pmp_hart_has_privs(CPURISCVState *env, 
+>> target_ulong addr,
+>>             /*
+>>            * Convert the PMP permissions to match the truth table in the
+>> -         * ePMP spec.
+>> +         * Smepmp spec.
+>>            */
+>>           const uint8_t epmp_operation =
+>>               ((env->pmp_state.pmp[i].cfg_reg & PMP_LOCK) >> 4) |
 
-> 
->  Thomas
+Thanks Daniel. I will rebase, take care of the conflicts, comments and 
+then resend it.
+
+Regards
+
+Himanshu
 
 
