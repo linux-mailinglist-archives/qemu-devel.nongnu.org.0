@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01FC6A5B4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 16:07:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2B86A5B68
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 16:10:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX1Y9-0001Ib-KA; Tue, 28 Feb 2023 10:05:53 -0500
+	id 1pX1bi-0003aV-EV; Tue, 28 Feb 2023 10:09:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pX1Xs-0001I2-BR; Tue, 28 Feb 2023 10:05:36 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pX1Xq-0004Gu-8F; Tue, 28 Feb 2023 10:05:36 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 791307457E7;
- Tue, 28 Feb 2023 16:05:30 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3B273745720; Tue, 28 Feb 2023 16:05:30 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 39BAA745706;
- Tue, 28 Feb 2023 16:05:30 +0100 (CET)
-Date: Tue, 28 Feb 2023 16:05:30 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 0/7] Pegasos2 fixes and audio output support
-In-Reply-To: <b4b60712-a94c-69f4-2de0-b9b5e08970fc@linaro.org>
-Message-ID: <16efff7f-afe7-7c92-bdbe-6b0920bf2438@eik.bme.hu>
-References: <20230227125732.20941-1-shentey@gmail.com>
- <b86db1dd-b9ca-a774-963c-4f9404c9af5c@eik.bme.hu>
- <CAG4p6K74Rm2FaErjvSyVCgcMQ2Qz0pkh2dg6yPeXU5BmwYp3RQ@mail.gmail.com>
- <56e3575f-2cac-2138-23d1-78d8ff1388b5@eik.bme.hu>
- <CAG4p6K7Yd6SWBCC1_-fJJ1rLqCuRqwi=dOmypum7kiUZ4SoH=g@mail.gmail.com>
- <2952e466-98e1-cf16-b8c2-fdc49d0ebf48@eik.bme.hu>
- <b4b60712-a94c-69f4-2de0-b9b5e08970fc@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pX1bP-0003Wr-D8
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:09:16 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pX1bN-0004pk-OJ
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 10:09:15 -0500
+Received: by mail-pg1-x534.google.com with SMTP id d6so5860718pgu.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 07:09:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/rMW8Z73j11hDxUN0CVXpUF7knWhm3EqEzgA5DMwvGo=;
+ b=kqivlg/pGrRlecogkcI2L1/sWqBd/Op9nboRtUbHk/5RrBW7Zwr9pOT+2jtkWg66l0
+ waipxqn9gyChZl7jUlW0wJ6H5gmnFNA/UILwiSr4FlNWYZGXZ9xoiL6PdM/X+6Lfb/T0
+ kSLsMwlWU+WB22HPhhSz2BTszMnUiwDl5DYvdQW2AZYnkb9qLQzV7YEjL25HCCLnz59D
+ mHPNQ5dt3fSjh7zdf2cXtvxscu3pJ+AfBHdDymbn0An3SodarQlIHBv9/S9bZL2pfw+a
+ zqC4pNnnfO3zucC0g0iQDZ+zb5RCNUhGLwHcZhZsUTovQ5UJATaAr/yVmmDmcXLgg/Ei
+ 84Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/rMW8Z73j11hDxUN0CVXpUF7knWhm3EqEzgA5DMwvGo=;
+ b=A5lmpdsrWXgMOiXAVR0iUshiHJFisJUMCsRYnq/sfUWJyJ2Day4suUMjYQvUMLkSnF
+ UrhpBoO0O3NajI4OUqZzERX6o2ilsl21izyMIMoGL+ZE1tawQUm8FmYBa0Sp13gNbkqe
+ 1VunaYPoX4ifaU3qLqa1LL3a2Lq0znHLlVOngRWH/rcROb9aV5462wr+oNLxA6/7y/op
+ o/uYfaLbaXaVGFlMfm2k+a1fDUwSHfkcuz9MZUT0EPNXLfxwePo9b8ntD9AL94ex8ogI
+ J8+JIn/x6bbtBi+WbuTBStkGV8d+Ah5yxcog6UimEc2EXWpacPGmaE5yqTzOwIzoobLH
+ CW7A==
+X-Gm-Message-State: AO0yUKVeI6jgQo7Gv8mhdwfrOjpWcqUF7JrxsIMxnlLUsN8HX2+YSikO
+ 0oZk953HLMqU+P1ybIj5Pq9nwmUwx2DanIDf4m2aXg==
+X-Google-Smtp-Source: AK7set8WqLDp1aigiY+te2rYOlp53cxfm9mmi7dqucZer7eYHbsp9GlsqnPec18NUOhPvvG2mHK7iOYcqeHdXQghokI=
+X-Received: by 2002:a63:3707:0:b0:503:77ce:a1ab with SMTP id
+ e7-20020a633707000000b0050377cea1abmr872796pga.9.1677596951701; Tue, 28 Feb
+ 2023 07:09:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-246266741-1677596730=:71268"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20230227175524.710880-1-pbonzini@redhat.com>
+In-Reply-To: <20230227175524.710880-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 28 Feb 2023 15:09:00 +0000
+Message-ID: <CAFEAcA_uGPYYyBWdiRyPTxeQSK-3ykg_bz+Jp_ayX4CeBScJ+w@mail.gmail.com>
+Subject: Re: [PULL 00/13] build, Python, target/i386 changes for 2023-02-27
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,53 +82,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-246266741-1677596730=:71268
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Mon, 27 Feb 2023, Philippe Mathieu-Daudé wrote:
-> On 27/2/23 18:47, BALATON Zoltan wrote:
->> On Mon, 27 Feb 2023, Bernhard Beschow wrote:
->>> Unfortunately my patches had changes merged in. This now makes it hard to
->>> show what really changed (spoiler: nothing that affects behavior).
->>> 
->>> As you probably noticed in the "resend" version of this iteration I split
->>> off a patch introducing the priq properties. It belongs to the sub series
->>> of the Pegasos2 IRQ fixes which appear unnecessary to me, so I don't want
->>> to show up in `git blame` as the author of any of these changes. I
->>> attributed it to you because this was really your change which I'm not 
->>> even
->>> sure is legal.
->>> 
->>> Let's avoid such complications by keeping our series separate.
->> 
->> Let's cool down a bit. Philippe took some of the sm501 patches in his giant 
->> pull request (and a lot of your patches too) now so I'll wait until that 
->> lands and hope to get some review for the remaining patches too. Once that 
->> pull req is merged I'll rebase the remaining patches and resubmit the 
->> series also adding changes for reasonable review comments I get by then.
+On Mon, 27 Feb 2023 at 17:55, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> I'm sorry it took me so long, I was expecting these patches to be picked
-> up by other maintainers but everybody is very busy. I know you'll need
+> The following changes since commit 1270a3f57c9221080f3205a15964814ff8359ca9:
+>
+>   Merge tag 'for-upstream' of https://repo.or.cz/qemu/kevin into staging (2023-02-24 15:09:39 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream-8.0
+>
+> for you to fetch changes up to 7eb061b06e97af9a8da7f31b839d78997ae737fc:
+>
+>   i386: Add new CPU model SapphireRapids (2023-02-27 18:53:00 +0100)
+>
+> ----------------------------------------------------------------
+> * New Sapphire Rapids model support
+> * x86 bugfixes
+> * Prepare to drop support for Python 3.6
+>
+> ----------------------------------------------------------------
 
-You have no reason to apologise really, you did a great job merging all 
-the patches. I was thinking that because as you say every maintainer is 
-very busy now and we also had CI outage for a few weeks should we consider 
-extending the date until the freeze by one or two weeks? That would allow 
-people to relax a bit and be able to consolidate and merge all still 
-pending patches. Postponing the 8.0 release one or two weeks is probably 
-better than missing a lot of changes until the next release in September. 
-We'd still aim for the original freeze date but if we fail to meet that it 
-would be more convenient to know there could be a possibility for 
-extending it. But make it clear that this is only for this one time 
-because of CI outage and additional maintainer load caused by that so not 
-something that should be done regularly but under current circumstances I 
-would consider it.
 
-Regards,
-BALATON Zoltan
---3866299591-246266741-1677596730=:71268--
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
