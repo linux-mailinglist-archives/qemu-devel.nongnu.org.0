@@ -2,87 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 483766A54E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:57:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C896A54F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:59:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWvmU-0005yj-VQ; Tue, 28 Feb 2023 03:56:19 -0500
+	id 1pWvpB-0001QG-1y; Tue, 28 Feb 2023 03:59:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWvmS-0005xA-2M
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:56:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pWvp8-0001Q4-Do
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:59:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWvmP-0003RB-7x
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:56:15 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pWvp3-0003uE-Va
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:58:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677574571;
+ s=mimecast20190719; t=1677574736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fiiegtKjUuha9vgeosMfcjy/7s+YnJDBKW8dCLfoFgM=;
- b=ibuCHiZ7LH4FSvIa5qe2gGfSDYqnL8/mCdiLffxky+btRDNNtxA/1q1U1qz5v6O0dRbcvh
- cPcq6VO6uFbf7NJE1N2PIOmWUoGK6eNMm03kBt7nOaPKq5l6QKYcl5KoB9tOXVQObpU8xQ
- miz466PqHrGTDI5etUz69hDoEL4CL80=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dNSRaOa+rlBBHSHTwQdbcLcB1XGQTlSqNnBDj0b7BRk=;
+ b=Lf8RSG/3aJ4/3TZYPGKyoJO8f68PrptNvks6m9dbhPHzpQEFjoEIr47jD2YMnZtMKbX32Y
+ jA0aTyYGGEJzcvIFclR20F1xeeaGic9YxCdUQwSxnbTIxF9/fbPOIfDQtSX8ffLvecEcF9
+ mQx1mTyJoJTOKb0+xrznC7TWtyMZKBg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-627-Oowj_lCKOCqv7xuEz-XQtg-1; Tue, 28 Feb 2023 03:56:10 -0500
-X-MC-Unique: Oowj_lCKOCqv7xuEz-XQtg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- da15-20020a056402176f00b004ace822b750so12882969edb.20
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 00:56:10 -0800 (PST)
+ us-mta-84-zRPiWQnBNfOWsEacSEfIsg-1; Tue, 28 Feb 2023 03:58:55 -0500
+X-MC-Unique: zRPiWQnBNfOWsEacSEfIsg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ bh3-20020a05600005c300b002c70d6e2014so1369743wrb.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 00:58:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677574568;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fiiegtKjUuha9vgeosMfcjy/7s+YnJDBKW8dCLfoFgM=;
- b=J7xRbeL7rlBU6Y11lTZYqI/LLrEe/VR0vaaKrSHJpyM4EBDSfO979xXaEfALzWv8Pk
- z8bwmcP5J24kvJ5e9L44s/QBbUV00ux80ZgwiKWIs3jRGLQzXTH2ifXj4I/D6M4QAS2j
- 5/pQ6upuTGb1qLEsbAdcsgNK27YrlIitHfU8d5FLaEP+Y7sG/RnydVAVVv5nwbZEjfA4
- /UIasYL/S+E6npDpTMnExG3PE9CZjBcUAtC6dwbD5WPOL1gZC052t3mz493sZ9gH1tCN
- 3SllWlvXqUdI5t6oRYx8H5xY6xF/n/H4gYMDMyMzyU+KQ9D6wiKGz/npGklrNwIcSkq+
- 36/w==
-X-Gm-Message-State: AO0yUKU56HnKPPqMpVXkWwdskKzpInBUcxDsQkfsQtFaByj3ty+o9i2f
- lIllBemxTTkasGQVdI3WbkuviJ6L/0UEULIJqKLcUk0oMJu0z3REfLV457um9cYlov/mPUQzCEO
- CW4075NLlAixq6og=
-X-Received: by 2002:a17:907:a49:b0:86c:a3ed:1442 with SMTP id
- be9-20020a1709070a4900b0086ca3ed1442mr2203427ejc.4.1677574567828; 
- Tue, 28 Feb 2023 00:56:07 -0800 (PST)
-X-Google-Smtp-Source: AK7set/7j96fO1BnXrAsBiWpYGcL6AVb5O3gAyb/XOGW4HN4n4GKByX2joOxuQnju9ckDciCFk5Z+w==
-X-Received: by 2002:a17:907:a49:b0:86c:a3ed:1442 with SMTP id
- be9-20020a1709070a4900b0086ca3ed1442mr2203411ejc.4.1677574567543; 
- Tue, 28 Feb 2023 00:56:07 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- e29-20020a170906749d00b008c33ebac259sm4235245ejl.127.2023.02.28.00.56.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 00:56:06 -0800 (PST)
-Date: Tue, 28 Feb 2023 03:56:03 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yangming <yangming73@huawei.com>
-Cc: David Hildenbrand <david@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "wangzhigang (O)" <wangzhigang17@huawei.com>,
- "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
+ bh=dNSRaOa+rlBBHSHTwQdbcLcB1XGQTlSqNnBDj0b7BRk=;
+ b=dWZKLYJko54dEAGCkWZpPvs/XOTfN1sVvBzBFUiuO2FOZzLVOVxRVOV6xTPNhuW60S
+ uMGueoxm6nyE0cP7k4AmQV2N5qRrYUfbT/UCdmFwo4itJCWejIVWFgU5++F+D+XfkrW6
+ 6+BlwTobTjB4SbfDtSD/POPmUyk0h6y5sYqj1arckQf3p3O64eV0PmYb2okZRJl2Z/Y+
+ vWmt4JP5zgCMCkcGkkojnDevBEYEIjZQ8CI9a4u9UDw4sN+ys2A2ZmDvZCsSrGBEQLV4
+ UbEtfhvl4h6YKifElxITV85t/JJi3jNF/FPh+Tz+f7L0PbEHNh7A6VvjHqwYQh9JO41T
+ MvPA==
+X-Gm-Message-State: AO0yUKVMD2y+FWh1Eg/kVRtVEaGPz6RME8s0wYbEHf9QWm/5tvHZ8eLy
+ k1M/ABCiqruhu4PfSBwztFOLawxBWP5tsYsbHOt7mu8u/Y0lAJvpDY4fr0pBycuy/R3myzT4LvH
+ gbgl8wJf4lpfl6RQ=
+X-Received: by 2002:a05:600c:44d4:b0:3eb:29fe:7baa with SMTP id
+ f20-20020a05600c44d400b003eb29fe7baamr1534979wmo.34.1677574734268; 
+ Tue, 28 Feb 2023 00:58:54 -0800 (PST)
+X-Google-Smtp-Source: AK7set+nwpthjMZ7COltEjEzePKAhkP21KqFqmxAioVvbVH4P5kdiOYErvp8tKqnzIpHciM7TJoeog==
+X-Received: by 2002:a05:600c:44d4:b0:3eb:29fe:7baa with SMTP id
+ f20-20020a05600c44d400b003eb29fe7baamr1534964wmo.34.1677574733859; 
+ Tue, 28 Feb 2023 00:58:53 -0800 (PST)
+Received: from ?IPV6:2003:cb:c706:b800:3757:baed:f95e:20ac?
+ (p200300cbc706b8003757baedf95e20ac.dip0.t-ipconnect.de.
+ [2003:cb:c706:b800:3757:baed:f95e:20ac])
+ by smtp.gmail.com with ESMTPSA id
+ m4-20020a05600c4f4400b003e209b45f6bsm16381438wmq.29.2023.02.28.00.58.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 00:58:53 -0800 (PST)
+Message-ID: <0bba1105-e576-5037-2158-79c00440606b@redhat.com>
+Date: Tue, 28 Feb 2023 09:58:52 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
 Subject: Re: [PATCH] virtio-balloon: optimize the virtio-balloon on the ARM
  platform.
-Message-ID: <20230228035341-mutt-send-email-mst@kernel.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Yangming <yangming73@huawei.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "wangzhigang (O)" <wangzhigang17@huawei.com>,
+ "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
 References: <264b6cc6a74945c3b5214fa4e8f099fe@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <264b6cc6a74945c3b5214fa4e8f099fe@huawei.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ <20230228035341-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230228035341-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,178 +107,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 03:26:56AM +0000, Yangming wrote:
-> > > Optimize the virtio-balloon feature on the ARM platform by adding a
-> > > variable to keep track of the current hot-plugged pc-dimm size,
-> > > instead of traversing the virtual machine's memory modules to count
-> > > the current RAM size during the balloon inflation or deflation
-> > > process. This variable can be updated only when plugging or unplugging
-> > > the device, which will result in an increase of approximately 60%
-> > > efficiency of balloon process on the ARM platform.
-> > >
-> > > We tested the total amount of time required for the balloon inflation
-> > process on ARM:
-> > > inflate the balloon to 64GB of a 128GB guest under stress.
-> > > Before: 102 seconds
-> > > After: 42 seconds
-> > >
-> > > Signed-off-by: Qi Xi <xiqi2@huawei.com>
-> > > Signed-off-by: Ming Yang yangming73@huawei.com
-> > > ---
-> > >   hw/mem/pc-dimm.c           |  2 ++
-> > >   hw/virtio/virtio-balloon.c | 33 +++++----------------------------
-> > >   include/hw/boards.h        |  1 +
-> > >   3 files changed, 8 insertions(+), 28 deletions(-)
-> > >
-> > > diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c index
-> > > 50ef83215c..192fc7922c 100644
-> > > --- a/hw/mem/pc-dimm.c
-> > > +++ b/hw/mem/pc-dimm.c
-> > > @@ -81,6 +81,7 @@ void pc_dimm_plug(PCDIMMDevice *dimm,
-> > MachineState
-> > > *machine)
-> > >
-> > >       memory_device_plug(MEMORY_DEVICE(dimm), machine);
-> > >       vmstate_register_ram(vmstate_mr, DEVICE(dimm));
-> > > +    machine->device_memory->dimm_size += vmstate_mr->size;
-> > >   }
-> > >
-> > >   void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
-> > @@
-> > > -90,6 +91,7 @@ void pc_dimm_unplug(PCDIMMDevice *dimm,
-> > MachineState
-> > > *machine)
-> > >
-> > >       memory_device_unplug(MEMORY_DEVICE(dimm), machine);
-> > >       vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
-> > > +    machine->device_memory->dimm_size -= vmstate_mr->size;
-> > >   }
-> > 
-> > Ahh, missed that my previous comment was not addressed: we only want to
-> > track "real" DIMMs, not NVDIMMs.
-> > 
-> > --
-> > Thanks,
-> > 
-> > David / dhildenb
+On 28.02.23 09:56, Michael S. Tsirkin wrote:
+> On Tue, Feb 28, 2023 at 03:26:56AM +0000, Yangming wrote:
+>>>> Optimize the virtio-balloon feature on the ARM platform by adding a
+>>>> variable to keep track of the current hot-plugged pc-dimm size,
+>>>> instead of traversing the virtual machine's memory modules to count
+>>>> the current RAM size during the balloon inflation or deflation
+>>>> process. This variable can be updated only when plugging or unplugging
+>>>> the device, which will result in an increase of approximately 60%
+>>>> efficiency of balloon process on the ARM platform.
+>>>>
+>>>> We tested the total amount of time required for the balloon inflation
+>>> process on ARM:
+>>>> inflate the balloon to 64GB of a 128GB guest under stress.
+>>>> Before: 102 seconds
+>>>> After: 42 seconds
+>>>>
+>>>> Signed-off-by: Qi Xi <xiqi2@huawei.com>
+>>>> Signed-off-by: Ming Yang yangming73@huawei.com
+>>>> ---
+>>>>    hw/mem/pc-dimm.c           |  2 ++
+>>>>    hw/virtio/virtio-balloon.c | 33 +++++----------------------------
+>>>>    include/hw/boards.h        |  1 +
+>>>>    3 files changed, 8 insertions(+), 28 deletions(-)
+>>>>
+>>>> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c index
+>>>> 50ef83215c..192fc7922c 100644
+>>>> --- a/hw/mem/pc-dimm.c
+>>>> +++ b/hw/mem/pc-dimm.c
+>>>> @@ -81,6 +81,7 @@ void pc_dimm_plug(PCDIMMDevice *dimm,
+>>> MachineState
+>>>> *machine)
+>>>>
+>>>>        memory_device_plug(MEMORY_DEVICE(dimm), machine);
+>>>>        vmstate_register_ram(vmstate_mr, DEVICE(dimm));
+>>>> +    machine->device_memory->dimm_size += vmstate_mr->size;
+>>>>    }
+>>>>
+>>>>    void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+>>> @@
+>>>> -90,6 +91,7 @@ void pc_dimm_unplug(PCDIMMDevice *dimm,
+>>> MachineState
+>>>> *machine)
+>>>>
+>>>>        memory_device_unplug(MEMORY_DEVICE(dimm), machine);
+>>>>        vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
+>>>> +    machine->device_memory->dimm_size -= vmstate_mr->size;
+>>>>    }
+>>>
+>>> Ahh, missed that my previous comment was not addressed: we only want to
+>>> track "real" DIMMs, not NVDIMMs.
+>>>
+>>> --
+>>> Thanks,
+>>>
+>>> David / dhildenb
+>>
+>> Optimize the virtio-balloon feature on the ARM platform by adding
+>> a variable to keep track of the current hot-plugged pc-dimm size,
+>> instead of traversing the virtual machine's memory modules to count
+>> the current RAM size during the balloon inflation or deflation
+>> process. This variable can be updated only when plugging or unplugging
+>> the device, which will result in an increase of approximately 60%
+>> efficiency of balloon process on the ARM platform.
+>>
+>> We tested the total amount of time required for the balloon inflation process on ARM:
+>> inflate the balloon to 64GB of a 128GB guest under stress.
+>> Before: 102 seconds
+>> After: 42 seconds
+>>
+>> Signed-off-by: Qi Xi <xiqi2@huawei.com>
+>> Signed-off-by: Ming Yang yangming73@huawei.com
+>> ---
+>>   hw/mem/pc-dimm.c           |  8 ++++++++
+>>   hw/virtio/virtio-balloon.c | 33 +++++----------------------------
+>>   include/hw/boards.h        |  1 +
+>>   3 files changed, 14 insertions(+), 28 deletions(-)
+>>
+>> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+>> index 50ef83215c..2107615016 100644
+>> --- a/hw/mem/pc-dimm.c
+>> +++ b/hw/mem/pc-dimm.c
+>> @@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
+>>   
+>>       memory_device_plug(MEMORY_DEVICE(dimm), machine);
+>>       vmstate_register_ram(vmstate_mr, DEVICE(dimm));
+>> +    bool is_nvdimm = object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM);
+>> +    if (!is_nvdimm) {
+>> +        machine->device_memory->dimm_size += vmstate_mr->size;
+>> +    }
+>>   }
+>>   
+>>   void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+>> @@ -90,6 +94,10 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+>>   
+>>       memory_device_unplug(MEMORY_DEVICE(dimm), machine);
+>>       vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
+>> +    bool is_nvdimm = object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM);
+>> +    if (!is_nvdimm) {
+>> +        machine->device_memory->dimm_size -= vmstate_mr->size;
+>> +    }
+>>   }
+>>
 > 
-> Optimize the virtio-balloon feature on the ARM platform by adding
-> a variable to keep track of the current hot-plugged pc-dimm size,
-> instead of traversing the virtual machine's memory modules to count
-> the current RAM size during the balloon inflation or deflation
-> process. This variable can be updated only when plugging or unplugging
-> the device, which will result in an increase of approximately 60%
-> efficiency of balloon process on the ARM platform.
-> 
-> We tested the total amount of time required for the balloon inflation process on ARM:
-> inflate the balloon to 64GB of a 128GB guest under stress.
-> Before: 102 seconds
-> After: 42 seconds
-> 
-> Signed-off-by: Qi Xi <xiqi2@huawei.com>
-> Signed-off-by: Ming Yang yangming73@huawei.com
-> ---
->  hw/mem/pc-dimm.c           |  8 ++++++++
->  hw/virtio/virtio-balloon.c | 33 +++++----------------------------
->  include/hw/boards.h        |  1 +
->  3 files changed, 14 insertions(+), 28 deletions(-)
-> 
-> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-> index 50ef83215c..2107615016 100644
-> --- a/hw/mem/pc-dimm.c
-> +++ b/hw/mem/pc-dimm.c
-> @@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
->  
->      memory_device_plug(MEMORY_DEVICE(dimm), machine);
->      vmstate_register_ram(vmstate_mr, DEVICE(dimm));
-> +    bool is_nvdimm = object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM);
-> +    if (!is_nvdimm) {
-> +        machine->device_memory->dimm_size += vmstate_mr->size;
-> +    }
->  }
->  
->  void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
-> @@ -90,6 +94,10 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
->  
->      memory_device_unplug(MEMORY_DEVICE(dimm), machine);
->      vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
-> +    bool is_nvdimm = object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM);
-> +    if (!is_nvdimm) {
-> +        machine->device_memory->dimm_size -= vmstate_mr->size;
-> +    }
->  }
->
+> add comments here explaining why are nvdimms excluded?
+>    
 
-add comments here explaining why are nvdimms excluded?
-  
->  static int pc_dimm_slot2bitmap(Object *obj, void *opaque)
-> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index 746f07c4d2..80bbb59132 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -729,37 +729,14 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
->      memcpy(config_data, &config, virtio_balloon_config_size(dev));
->  }
->  
-> -static int build_dimm_list(Object *obj, void *opaque)
-> -{
-> -    GSList **list = opaque;
-> -
-> -    if (object_dynamic_cast(obj, TYPE_PC_DIMM)) {
-> -        DeviceState *dev = DEVICE(obj);
-> -        if (dev->realized) { /* only realized DIMMs matter */
-> -            *list = g_slist_prepend(*list, dev);
-> -        }
-> -    }
-> -
-> -    object_child_foreach(obj, build_dimm_list, opaque);
-> -    return 0;
-> -}
-> -
->  static ram_addr_t get_current_ram_size(void)
->  {
-> -    GSList *list = NULL, *item;
-> -    ram_addr_t size = current_machine->ram_size;
-> -
-> -    build_dimm_list(qdev_get_machine(), &list);
-> -    for (item = list; item; item = g_slist_next(item)) {
-> -        Object *obj = OBJECT(item->data);
-> -        if (!strcmp(object_get_typename(obj), TYPE_PC_DIMM)) {
-> -            size += object_property_get_int(obj, PC_DIMM_SIZE_PROP,
-> -                                            &error_abort);
-> -        }
-> +    MachineState *machine = MACHINE(qdev_get_machine());
-> +    if (machine->device_memory != NULL) {
+I really prefer to avoid mixing declaration and initialization where it 
+an be avoided.
 
-just if (machine->device_memory) is equivalent and shorter
+Further, the local variable can be easily avoided completely.
 
-> +        return machine->ram_size + machine->device_memory->dimm_size;
-> +    } else {
-> +        return machine->ram_size;
->      }
-> -    g_slist_free(list);
-> -
-> -    return size;
->  }
->  
->  static bool virtio_balloon_page_poison_support(void *opaque)
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 6fbbfd56c8..551b4b419e 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -296,6 +296,7 @@ struct MachineClass {
->  typedef struct DeviceMemoryState {
->      hwaddr base;
->      MemoryRegion mr;
-> +    ram_addr_t dimm_size;
+if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM))
 
-add a comment explaining what this is?
+With that and with the other comments addressed
 
->  } DeviceMemoryState;
->  
->  /**
-> -- 
-> 2.33.0
-> 
+Acked-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
