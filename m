@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F146A5E40
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:34:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F126A5E49
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:35:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX3r9-0002Kc-75; Tue, 28 Feb 2023 12:33:39 -0500
+	id 1pX3sJ-00055t-DH; Tue, 28 Feb 2023 12:34:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1pX3r7-0002JD-Iy
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:33:37 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56])
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1pX3sH-00051f-Gj
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:34:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1pX3r4-0008UA-HB
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:33:36 -0500
-Received: from mailhub.u-ga.fr (mailhub-1.u-ga.fr [129.88.178.98])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 375F540264;
- Tue, 28 Feb 2023 18:33:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=univ-grenoble-alpes.fr; s=2020; t=1677605610;
- bh=Cr26sp2y3+mFZq6HGx5VQuK2uDI10zDp6ITnLPzXiA8=;
- h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
- b=KNi8K7xpKZHq8CAh8G6tUYFU6nS81yvzI8yR9XRCrCA0awaQQEIhAU5EuTr4QPBqM
- Qouc4QD74JurzMxk79WHxctZOE7CcsmWYiG2exVoGbuQH7C6aCwUJf0IQhlXhkAuXU
- XY8p6WW7xryf6JTdgytQx5vN240puOn8l6pFl8mLK16ldxexS11DuixndO08tT3Awo
- rP8JIYgkND0n3ZuxXmxErgiKWa2F5rz4KMG6kvg5mC95HjiNa+IcF2n9HeH+EIYQxC
- vRd2rP/Lsnz0BfXNnO0Tt7Lpxj4h6xKs7GHFVf2HO0pLaRxifzrEcveMnIIg20Ety3
- YioVl1My6CO8w==
-Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
- by mailhub.u-ga.fr (Postfix) with ESMTP id 3498A10005A;
- Tue, 28 Feb 2023 18:33:30 +0100 (CET)
-Received: from [192.168.1.61] (35.201.90.79.rev.sfr.net [79.90.201.35])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id DD6604004D;
- Tue, 28 Feb 2023 18:33:28 +0100 (CET)
-Message-ID: <b622ee87-6583-e095-6e59-415b685dba4e@univ-grenoble-alpes.fr>
-Date: Tue, 28 Feb 2023 18:33:31 +0100
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1pX3sF-0000Dp-KI
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:34:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677605685;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s/AGn97AI8YGBk4aLDSy0vGS4XOOuR9v1pJVC2xh3L4=;
+ b=ej64kDX+FjL1zZ6Ozv57pK0sXSJd4YZE/0d+l6tlv+KUIpFiVtdVnqOQJ7kTovLn3Cd9SN
+ dM+vBMBnJFQPI454BXvTUTDnOAZS5mxnB/i67WPLdw7YUgVgptwOHr/YOfNtmFzIDQlOpa
+ 7ZI35KAa5f8WmWsFTyDsQiEcC8XSGyM=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-84-IYPVLfqrNC6ULp1xKxzVdQ-1; Tue, 28 Feb 2023 12:34:44 -0500
+X-MC-Unique: IYPVLfqrNC6ULp1xKxzVdQ-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ x63-20020a17090a6c4500b00237731465feso3235814pjj.8
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 09:34:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=s/AGn97AI8YGBk4aLDSy0vGS4XOOuR9v1pJVC2xh3L4=;
+ b=DIeQ++2BpRme30ETvhGE8E/lV9B89039zSpm4A7W8oBxWrgkO2O/NuitaeYyaZAOPg
+ ujAhR29GZYvK75QdjFnylXsTBvBDg3BMhtHQAYaneKKKgh4fKZRp1/R4ZRTNOWHbCUfq
+ E8MxmVrXXScjbwe/0ZHmbWgG7CFY7yBGXjNOIjC+XtgWUmykZ3c3tLzpJZnFqcyN+aFi
+ nNUpu/kJct7Y8v3D7xQbP/CLu41IbRNlC2K1iBjkOabIZ1gi8QRlEZ1BSDqkLotu9CnQ
+ 1x0g8w03y7tMsBn4P+/CQpFVAsdyYe1ot98PtdeTKJPKGqpXyNBo6/s8Ij/jStcaWOhe
+ zjSQ==
+X-Gm-Message-State: AO0yUKVMuoY9Vkycm4f7CUB7VJzL+QmgryG1jQ8gCo3vcSLxpfBvD584
+ V2as3wATpF0E2aVDH7R8ianLXTjFFH1OhUOKs2IxPoLuo8gvfG31n3AbjpIXN8wrboM2aHqS0VV
+ 6hryMq0q7VtGT5EGzntr+on//2uUDe5g=
+X-Received: by 2002:a17:90a:d3ca:b0:237:9cbe:22ad with SMTP id
+ d10-20020a17090ad3ca00b002379cbe22admr1447594pjw.5.1677605683448; 
+ Tue, 28 Feb 2023 09:34:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set9HBdfALl9hzkys09ig8qmlnSHkfeZ6cIjUfNir/WVqf5tyDK6+if2qahCLYc4pe5NO434js9PXHlT/9uuJsZs=
+X-Received: by 2002:a17:90a:d3ca:b0:237:9cbe:22ad with SMTP id
+ d10-20020a17090ad3ca00b002379cbe22admr1447585pjw.5.1677605683150; Tue, 28 Feb
+ 2023 09:34:43 -0800 (PST)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Feb 2023 09:34:42 -0800
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20230228150216.77912-1-cohuck@redhat.com>
+ <20230228150216.77912-2-cohuck@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: fr
-To: Emilio Cota <cota@braap.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aaron Lindsay <aaron@os.amperecomputing.com>,
- "Eli G. Boling" <eboling@draper.com>
-References: <20230222043204.941336-1-cota@braap.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [PATCH] plugin: fix clearing of plugin_mem_cbs before TB exit
-In-Reply-To: <20230222043204.941336-1-cota@braap.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+In-Reply-To: <20230228150216.77912-2-cohuck@redhat.com>
+Date: Tue, 28 Feb 2023 09:34:42 -0800
+Message-ID: <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, 
+ kvm@vger.kernel.org, Eric Auger <eauger@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,100 +100,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 22/02/2023 à 05:32, Emilio Cota a écrit :
-> Currently we are wrongly accessing plugin_tb->mem_helper at
-> translation time from plugin_gen_disable_mem_helpers, which is
-> called before generating a TB exit, e.g. with exit_tb.
-> 
-> Recall that it is only during TB finalisation, i.e. when we go over
-> the TB post-translation to inject or remove plugin instrumentation,
-> when plugin_tb->mem_helper is set. This means that we never clear
-> plugin_mem_cbs when calling plugin_gen_disable_mem_helpers since
-> mem_helper is always false. Therefore a guest instruction that uses
-> helpers and emits an explicit TB exit results in plugin_mem_cbs being
-> set upon exiting, which is caught by an assertion as reported in
-> the reopening of issue #1381 and replicated below.
-> 
-> Fix this by (1) adding an insertion point before exiting a TB
-> ("before_exit"), and (2) deciding whether or not to emit the
-> clearing of plugin_mem_cbs at this newly-added insertion point
-> during TB finalisation.
-> 
-> While at it, suffix plugin_gen_disable_mem_helpers with _before_exit
-> to make its intent more clear.
-> 
-> - Before:
-> $ ./qemu-system-riscv32 -M spike -nographic -plugin contrib/plugins/libexeclog.so -d plugin,in_asm,op
-> IN:
-> Priv: 3; Virt: 0
-> 0x00001000:  00000297          auipc                   t0,0                    # 0x1000
-> 0x00001004:  02828613          addi                    a2,t0,40
-> 0x00001008:  f1402573          csrrs                   a0,mhartid,zero
-> 
-> OP:
->   ld_i32 tmp1,env,$0xfffffffffffffff0
->   brcond_i32 tmp1,$0x0,lt,$L0
-> 
->   ---- 00001000 00000000
->   mov_i64 tmp2,$0x7ff9940152e0
->   ld_i32 tmp1,env,$0xffffffffffffef80
->   call plugin(0x7ff9edbcb6f0),$0x11,$0,tmp1,tmp2
->   mov_i32 x5/t0,$0x1000
-> 
->   ---- 00001004 00000000
->   mov_i64 tmp2,$0x7ff9940153e0
->   ld_i32 tmp1,env,$0xffffffffffffef80
->   call plugin(0x7ff9edbcb6f0),$0x11,$0,tmp1,tmp2
->   add_i32 x12/a2,x5/t0,$0x28
-> 
->   ---- 00001008 f1402573
->   mov_i64 tmp2,$0x7ff9940136c0
->   st_i64 tmp2,env,$0xffffffffffffef68
->   mov_i64 tmp2,$0x7ff994015530
->   ld_i32 tmp1,env,$0xffffffffffffef80
->   call plugin(0x7ff9edbcb6f0),$0x11,$0,tmp1,tmp2 <-- sets plugin_mem_cbs
->   call csrr,$0x0,$1,x10/a0,env,$0xf14  <-- helper that might access memory
->   mov_i32 pc,$0x100c
->   exit_tb $0x0  <-- exit_tb right after the helper; missing clearing of plugin_mem_cbs
->   mov_i64 tmp2,$0x0
->   st_i64 tmp2,env,$0xffffffffffffef68 <-- after_insn clearing: dead due to exit_tb above
->   set_label $L0
->   exit_tb $0x7ff9a4000043 <-- again, missing clearing (doesn't matter due to $L0 label)
-> 
-> 0, 0x1000, 0x297, "00000297          auipc                   t0,0                    # 0x1000"
-> 0, 0x1004, 0x2828613, "02828613          addi                    a2,t0,40"
-> **
-> ERROR:../accel/tcg/cpu-exec.c:983:cpu_exec_loop: assertion failed: (cpu->plugin_mem_cbs == ((void *)0))
-> Bail out! ERROR:../accel/tcg/cpu-exec.c:983:cpu_exec_loop: assertion failed: (cpu->plugin_mem_cbs == ((void *)0))
-> Aborted (core dumped)
-> 
-> - After:
-> $ ./qemu-system-riscv32 -M spike -nographic -plugin contrib/plugins/libexeclog.so -d plugin,in_asm,op
-> (snip)
->   call plugin(0x7f19bc9e36f0),$0x11,$0,tmp1,tmp2 <-- sets plugin_mem_cbs
->   call csrr,$0x0,$1,x10/a0,env,$0xf14
->   mov_i32 pc,$0x100c
->   mov_i64 tmp2,$0x0
->   st_i64 tmp2,env,$0xffffffffffffef68 <-- before_exit clearing of plugin_mem_cbs
->   exit_tb $0x0
->   mov_i64 tmp2,$0x0
->   st_i64 tmp2,env,$0xffffffffffffef68 <-- after_insn clearing (dead)
->   set_label $L0
->   mov_i64 tmp2,$0x0
->   st_i64 tmp2,env,$0xffffffffffffef68 <-- before_exit clearing (doesn't matter due to $L0)
->   exit_tb $0x7f38c8000043
-> [...]
-> 
-> Fixes: #1381
-> Signed-off-by: Emilio Cota <cota@braap.org>
+On Tue, Feb 28, 2023 at 04:02:15PM +0100, Cornelia Huck wrote:
+> Introduce a new cpu feature flag to control MTE support. To preserve
+> backwards compatibility for tcg, MTE will continue to be enabled as
+> long as tag memory has been provided.
+>
+> If MTE has been enabled, we need to disable migration, as we do not
+> yet have a way to migrate the tags as well. Therefore, MTE will stay
+> off with KVM unless requested explicitly.
+>
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 > ---
->   accel/tcg/plugin-gen.c    | 44 ++++++++++++++++++++-------------------
->   include/exec/plugin-gen.h |  4 ++--
->   include/qemu/plugin.h     |  3 ---
->   tcg/tcg-op.c              |  6 +++---
->   4 files changed, 28 insertions(+), 29 deletions(-)
+>  docs/system/arm/cpu-features.rst |  21 ++++++
+>  hw/arm/virt.c                    |   2 +-
+>  target/arm/cpu.c                 |  18 ++---
+>  target/arm/cpu.h                 |   1 +
+>  target/arm/cpu64.c               | 110 +++++++++++++++++++++++++++++++
+>  target/arm/internals.h           |   1 +
+>  target/arm/kvm.c                 |  29 ++++++++
+>  target/arm/kvm64.c               |   5 ++
+>  target/arm/kvm_arm.h             |  19 ++++++
+>  target/arm/monitor.c             |   1 +
+>  10 files changed, 194 insertions(+), 13 deletions(-)
 
-    Thanks Emilio for the fix, and Aaron for pointing it out to me.
+I've given a quick look with libvirt integration in mind, and
+everything seem fine.
 
-    Tested-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+Specifically, MTE is advertised in the output of qom-list-properties
+both for max-arm-cpu and the latest virt-X.Y-machine, which means
+that libvirt can easily and reliably figure out whether MTE support
+is available.
+
+> +MTE CPU Property
+> +================
+> +
+> +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
+> +presence of tag memory (which can be turned on for the ``virt`` machine via
+> +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
+> +proper migration support is implemented, enabling MTE will install a migration
+> +blocker.
+
+Is it okay to use -machine virt,mte=on unconditionally for both KVM
+and TCG guests when MTE support is requested, or will that not work
+for the former?
+
+> +If not specified explicitly via ``on`` or ``off``, MTE will be available
+> +according to the following rules:
+> +
+> +* When TCG is used, MTE will be available if and only if tag memory is available;
+> +  i.e. it preserves the behaviour prior to the introduction of the feature.
+> +
+> +* When KVM is used, MTE will default to off, so that migration will not
+> +  unintentionally be blocked. This might change in a future QEMU version.
+
+If and when this changes, we should ensure that the new default
+behavior doesn't affect existing machine types, otherwise we will
+break guest ABI for existing VMs.
+
+-- 
+Andrea Bolognani / Red Hat / Virtualization
+
 
