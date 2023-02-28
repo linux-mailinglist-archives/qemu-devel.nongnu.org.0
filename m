@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E146A5F0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 19:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D696A5F08
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 19:52:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX548-0006kr-Dv; Tue, 28 Feb 2023 13:51:08 -0500
+	id 1pX54J-0006oN-6e; Tue, 28 Feb 2023 13:51:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX546-0006kg-St
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 13:51:06 -0500
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX54D-0006mF-MY
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 13:51:14 -0500
 Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX545-0006zK-Cu
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 13:51:06 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E647E5C00D8;
- Tue, 28 Feb 2023 13:51:04 -0500 (EST)
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pX54B-00071D-1n
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 13:51:12 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 97AE35C0071;
+ Tue, 28 Feb 2023 13:51:10 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 28 Feb 2023 13:51:04 -0500
+ by compute1.internal (MEProxy); Tue, 28 Feb 2023 13:51:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1677610264; x=
- 1677696664; bh=HIHkUaAmd5J5Zb5kIv9UKGwuKi6dQDwTNzuIX4wlNzo=; b=M
- Kl1bqOrNuW5aZUjsxlhxh+Z2HaLl8H9O4A0Qil+BGEl1plFrusvqcev+C5tdSip5
- izi/ukeznr07BfHty7zTLO8hLIG5XUUsboyZ+6HLM64gvqaavsUzLBg4R8YxKmGR
- PPDcXZ5WhzvHsRd1Hj3+O0kRf5HkR7szFh5E2+aCPV1ILy7y0oVxAZcobh7Yxbab
- ts1B3XyzlN2pFwdhFIkyIMEX7wl21tWNfNzyYIuT2vQ1+0IRP5fyPrQ37bEHx2Id
- hJxCKlItpuBJlSi2zuV9F0PjBfYkBm8+2otN1S/pzNguvqnIZPDceA+0GzEJ7k3d
- EhHaTDUP0irZ02dpCvU9A==
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1677610270; x=1677696670; bh=De
+ orb2Ky87bZWhMlXAeaO6j5gbitnxMii99qAMinGqU=; b=N8GD97VOY58jWFxuHf
+ 81WgCTCICDguSBoDV9zkmJT/2suYa4rJLwuMeQfGtJXWjdq6APc/NFTvdD9H4RH5
+ lAiO3HCD+oMptMCt5I66pI2w7jxo/Vttjymwsz7HFW0FmlCuaXEz7VR1GQe8L6Nl
+ waZo3WhQfdqS1U9VG52HU/ehGqJzf3JV2T/Vs5ZEBPp3Z4AE1a4HlPGxQ0bw/nYr
+ /P3YVQUyhEAIP6ZFJgvdcqz3jfLodT+dncydlyzKT+5rnFDSsbiKZV4C+T+ECDYW
+ JsfebRY3XS2qfZQsMKaERth7k1I6YeTkJknC0lGll4GrV7bhGO5l6YCTExlOOgj5
+ aKGw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677610264; x=
- 1677696664; bh=HIHkUaAmd5J5Zb5kIv9UKGwuKi6dQDwTNzuIX4wlNzo=; b=o
- qkeJEP12/pQqPFUyDfGde6RR0HSjxe3ga5ZsN/9DZUjZtdR6Tv2X9+DtKlmffaGJ
- en6Epkt0C2bo+peRVN03TTf+2bKdUKVYQV/ymGI/LfYgzoPbME6TIJ2PfUUpWNUP
- 6rYuF7ihCRRI8Dor350GL/GSqIdU1JHqrz0wdqZu3roLhHivPJJNoa1l3iCSb6M7
- leoeYjdXiZclbJV5TPvttFibBaBp6lBbGx4kghjYd4ld1e1eD7GKQF9bJhKEUX6p
- lNNcLNTOtJikVVnZm+wLVlNFUmOW8fUVxFhTXT6dOivyAFIkFrJsj072o38wEhT1
- 1l2JI7vzPw+VkIGLB1WBQ==
-X-ME-Sender: <xms:GE3-Y2I1VW_IzqxgydVcqgTiANZm0e-DGbaWuNGx9U-Y19ByItevwg>
- <xme:GE3-Y-Lii28qpQwOIU9Q3_mwAZScuHA8QMTZQKyQFhtL21YJU_N1GpSyDSEPZSf0w
- mwDSSL6ICLB1RRHDw>
-X-ME-Received: <xmr:GE3-Y2v-HkgcbacspH2V1779tniF_hpYsXUMLWFyWq4jrnOfkPn1_NJgjP8GG3iE4xe4C1KhOWAB-lJaQixqLUgi-a0QZODz6ohAblmF-OAI7A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelfedgheegucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1677610270; x=1677696670; bh=Deorb2Ky87bZW
+ hMlXAeaO6j5gbitnxMii99qAMinGqU=; b=pQwBZlsAfRVS7z/CF/sRHTFVX0eQ+
+ 2garmF3rcGPImwrkSsOnUATF9CF+lsUt/nUSsd/C9TZip8n7Rf7U3Hmvwc9+w5we
+ hnhmfiLlSVfNVC5aTZCk7lJn9Bek/3ZQCoyPpA1f3A8omYSAuAN1526nQ0alnfp/
+ ZhiTYi44N1qvLGa8YpXELuhtFKFT+jtLYaAXIgZBTl+TS4wbSVI+7JTcYdprrjyO
+ hmB7w4DSjsA44G6Lov+6NofxejjReLBMwXmYlkprJWXa/NsR5MBoUoetT293vy+A
+ LCMMhGVmZ1pkKtUd38/avJePfAmwkrRO7W3n1TITUYWMK6z14PM9vGadw==
+X-ME-Sender: <xms:Hk3-YwjZ2jWsf5hHIkffqHxIK57CBPia7vS3VXak5-9V-Uv5evRStQ>
+ <xme:Hk3-Y5C0gdjcX4kfZ8U8sEvHzexWVTPe5Qh0lx-7EirRs5JJ3jeFDhxbJulFqYFwj
+ s5DUlPlCKy4jPUD-g>
+X-ME-Received: <xmr:Hk3-Y4GZkwPzlzf141zyM6zFkkt9C_F4_Zv4Vg5gM2rPBbFb6oL3J7y0QQx16uDZz8M1pmeQubBDhHYwTlkEAHWnnlB9lqv_kSXeKrtvWaqR3Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelfedgheehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdljedtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredt
- redtjeenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqe
- enucggtffrrghtthgvrhhnpeetheekkefggfeivedvtefgleeiffdtleegfeeuledvuddt
- vdduhfekgfdutdevkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
- hlfhhrohhmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:GE3-Y7bhTSdY--pziFdh-Ojn_LNhuJyHLnv2eY8wTiyrzWncwIAOtg>
- <xmx:GE3-Y9Zi_tg_KsXzuJVE3mCIhkzTTIsXEWiUc_FuHVmlQ_VZFKt_Bw>
- <xmx:GE3-Y3D1SiPjTiA1p4EQi6QhVuhJZRafXbNQIRqOK-LtvmazZfng-w>
- <xmx:GE3-Y8wt3zTcBA04XAls8hRqmV8PcE9BTxqgLKzRd60vFV6LqU23Hw>
+ uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdljedtmdenucfjughrpefhvf
+ evufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeffrghnihgvlhcuighuuceo
+ ugiguhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepgfefgfegjefhudeike
+ dvueetffelieefuedvhfehjeeljeejkefgffeghfdttdetnecuvehluhhsthgvrhfuihii
+ vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
+X-ME-Proxy: <xmx:Hk3-YxSukceP9hA-81zVf003sNJVDfCycQfHeKG3ycTsn4aL5cJzKw>
+ <xmx:Hk3-Y9zaIOqa4mHK5yGtCCP0Z-K2qhQe65IRWWq6DypJ3N3KaAK8Pw>
+ <xmx:Hk3-Y_5zVUCllMj1W-Ardfzqg3ZuFN3TXIas6dMtuT1AqgRTzxs6Cw>
+ <xmx:Hk3-Y4_nwZiFpjzblUHrO05i8WlyFq8Dmr-zN5qO957jYV-AtX5QHA>
 Feedback-ID: i6a694271:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Feb 2023 13:51:04 -0500 (EST)
+ 28 Feb 2023 13:51:09 -0500 (EST)
 From: Daniel Xu <dxu@dxuuu.xyz>
-To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- marcandre.lureau@gmail.com
+To: kkostiuk@redhat.com,
+	michael.roth@amd.com,
+	marcandre.lureau@gmail.com
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] crypto/luks: Initialize stack variable to silence
- warning
-Date: Tue, 28 Feb 2023 11:50:34 -0700
-Message-Id: <af41fdbe67d2ad08909703f43fc4cc1b68a00bcd.1677609866.git.dxu@dxuuu.xyz>
+Subject: [PATCH v2 2/3] qga: Add optional `merge-output` flag to guest-exec
+ qapi
+Date: Tue, 28 Feb 2023 11:50:35 -0700
+Message-Id: <e4a6d274d554479c665de82b3627f1df2055306a.1677609866.git.dxu@dxuuu.xyz>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <cover.1677609866.git.dxu@dxuuu.xyz>
 References: <cover.1677609866.git.dxu@dxuuu.xyz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.25; envelope-from=dxu@dxuuu.xyz;
  helo=out1-smtp.messagingengine.com
@@ -102,50 +100,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-With `../configure --enable-sanitizers`, I was getting the following
-build error:
+Currently, the captured output (via `capture-output`) is segregated into
+separate GuestExecStatus fields (`out-data` and `err-data`). This means
+that downstream consumers have no way to reassemble the captured data
+back into the original stream.
 
-        In file included from /usr/include/string.h:535,
-                         from /home/dxu/dev/qemu/include/qemu/osdep.h:99,
-                         from ../crypto/block-luks.c:21:
-        In function ‘memset’,
-            inlined from ‘qcrypto_block_luks_store_key’ at ../crypto/block-luks.c:843:9:
-        /usr/include/bits/string_fortified.h:59:10: error: ‘splitkeylen’ may be used
-        uninitialized [-Werror=maybe-uninitialized]
-           59 |   return __builtin___memset_chk (__dest, __ch, __len,
-              |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           60 |                                  __glibc_objsize0 (__dest));
-              |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-        ../crypto/block-luks.c: In function ‘qcrypto_block_luks_store_key’:
-        ../crypto/block-luks.c:699:12: note: ‘splitkeylen’ was declared here
-          699 |     size_t splitkeylen;
-              |            ^~~~~~~~~~~
-        cc1: all warnings being treated as errors
+This is relevant for chatty and semi-interactive (ie. read only) CLI
+tools.  Such tools may deliberately interleave stdout and stderr for
+visual effect. If segregated, the output becomes harder to visually
+understand.
 
-The function is actually correct -- in the cleanup branch `splitkeylen`
-usage is guarded by checking `splitkey` nullness. But the compiler is
-not smart enough to realize that.
-
-Fix warning by initializing the variable.
+This commit adds a new optional flag to the guest-exec qapi to merge the
+output streams such that consumers can have a pristine view of the
+original command output.
 
 Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
 ---
- crypto/block-luks.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qga/commands.c       | 14 ++++++++++++--
+ qga/qapi-schema.json |  6 +++++-
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index 5688783ab1..bfdef25c80 100644
---- a/crypto/block-luks.c
-+++ b/crypto/block-luks.c
-@@ -696,7 +696,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
-     QCryptoBlockLUKS *luks = block->opaque;
-     QCryptoBlockLUKSKeySlot *slot;
-     g_autofree uint8_t *splitkey = NULL;
--    size_t splitkeylen;
-+    size_t splitkeylen = 0;
-     g_autofree uint8_t *slotkey = NULL;
-     g_autoptr(QCryptoCipher) cipher = NULL;
-     g_autoptr(QCryptoIVGen) ivgen = NULL;
+diff --git a/qga/commands.c b/qga/commands.c
+index 172826f8f8..e13a8e86df 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -270,12 +270,20 @@ static void guest_exec_child_watch(GPid pid, gint status, gpointer data)
+     g_spawn_close_pid(pid);
+ }
+ 
+-/** Reset ignored signals back to default. */
+ static void guest_exec_task_setup(gpointer data)
+ {
+ #if !defined(G_OS_WIN32)
++    bool has_merge = *(bool *)data;
+     struct sigaction sigact;
+ 
++    if (has_merge) {
++        if (dup2(STDOUT_FILENO, STDERR_FILENO) != 0) {
++            slog("dup2() failed to merge stderr into stdout: %s",
++                 strerror(errno));
++        }
++    }
++
++    /* Reset ignored signals back to default. */
+     memset(&sigact, 0, sizeof(struct sigaction));
+     sigact.sa_handler = SIG_DFL;
+ 
+@@ -384,6 +392,7 @@ GuestExec *qmp_guest_exec(const char *path,
+                        bool has_env, strList *env,
+                        const char *input_data,
+                        bool has_capture_output, bool capture_output,
++                       bool has_merge_output, bool merge_output,
+                        Error **errp)
+ {
+     GPid pid;
+@@ -397,6 +406,7 @@ GuestExec *qmp_guest_exec(const char *path,
+     GIOChannel *in_ch, *out_ch, *err_ch;
+     GSpawnFlags flags;
+     bool has_output = (has_capture_output && capture_output);
++    bool has_merge = (has_merge_output && merge_output);
+     g_autofree uint8_t *input = NULL;
+     size_t ninput = 0;
+ 
+@@ -420,7 +430,7 @@ GuestExec *qmp_guest_exec(const char *path,
+     }
+ 
+     ret = g_spawn_async_with_pipes(NULL, argv, envp, flags,
+-            guest_exec_task_setup, NULL, &pid, input_data ? &in_fd : NULL,
++            guest_exec_task_setup, &has_merge, &pid, input_data ? &in_fd : NULL,
+             has_output ? &out_fd : NULL, has_output ? &err_fd : NULL, &gerr);
+     if (!ret) {
+         error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 796434ed34..9c2367acdf 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1211,6 +1211,9 @@
+ # @input-data: data to be passed to process stdin (base64 encoded)
+ # @capture-output: bool flag to enable capture of
+ #                  stdout/stderr of running process. defaults to false.
++# @merge-output: bool flag to merge stdout/stderr of running process
++#                into stdout. only effective if used with @capture-output.
++#                not effective on windows guests. defaults to false. (since 8.0)
+ #
+ # Returns: PID on success.
+ #
+@@ -1218,7 +1221,8 @@
+ ##
+ { 'command': 'guest-exec',
+   'data':    { 'path': 'str', '*arg': ['str'], '*env': ['str'],
+-               '*input-data': 'str', '*capture-output': 'bool' },
++               '*input-data': 'str', '*capture-output': 'bool',
++               '*merge-output': 'bool' },
+   'returns': 'GuestExec' }
+ 
+ 
 -- 
 2.39.1
 
