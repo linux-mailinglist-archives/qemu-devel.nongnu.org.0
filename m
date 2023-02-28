@@ -2,77 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C326A51D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 04:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF46A6A5238
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 05:11:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWqhe-00025x-H6; Mon, 27 Feb 2023 22:30:58 -0500
+	id 1pWrJr-0001RZ-3v; Mon, 27 Feb 2023 23:10:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pWqhc-00025j-WF
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 22:30:57 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pWqha-00042S-Hi
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 22:30:56 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8CxMk5ldf1jfVYGAA--.6383S3;
- Tue, 28 Feb 2023 11:30:45 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cxg+Vjdf1jQ0VAAA--.15563S3; 
- Tue, 28 Feb 2023 11:30:43 +0800 (CST)
-Subject: Re: [RFC PATCH 10/43] target/loongarch: Implement vaddw/vsubw
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221224081633.4185445-1-gaosong@loongson.cn>
- <20221224081633.4185445-11-gaosong@loongson.cn>
- <268ef762-fce5-ca47-d5f7-bd60955a3a0f@linaro.org>
- <f5c0796d-62c9-691a-c2ba-e4dd9e654831@loongson.cn>
- <e75fd2b7-9955-ad2b-62d2-30d7b85d7e7b@linaro.org>
- <f484b933-8f9f-6f0b-0d81-7202bed31d83@loongson.cn>
- <1ad204fc-8f7e-0f1c-e8f6-163d11f3880b@linaro.org>
- <c795a157-21a8-a8d7-bbc1-ed33e7f32747@loongson.cn>
- <c5913a52-e5de-4fb5-688c-6d3fb3215353@linaro.org>
- <5ce46e81-b2c3-8b45-1bd9-9705520f4557@loongson.cn>
- <5b3120cd-ddfb-770b-3216-0f02e89c9c24@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <0ba7a544-347d-0a07-5f73-dff7fd347cc4@loongson.cn>
-Date: Tue, 28 Feb 2023 11:30:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <5b3120cd-ddfb-770b-3216-0f02e89c9c24@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pWrJi-0001RC-N0
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 23:10:18 -0500
+Received: from mailout2.w2.samsung.com ([211.189.100.12])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pWrJe-0002N6-OX
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 23:10:18 -0500
+Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
+ by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20230228041008usoutp02ef203a4d1b456d97bcd0a59594ec7a09~H4ZMvO9NY0129701297usoutp02Y;
+ Tue, 28 Feb 2023 04:10:08 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
+ 20230228041008usoutp02ef203a4d1b456d97bcd0a59594ec7a09~H4ZMvO9NY0129701297usoutp02Y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1677557408;
+ bh=3OfqJmIQkqUj6FXeIE7qWn6Eo7zKFRSZyQo733n/TQs=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=gjOvEa0gUX7RXRlnmSHOVfZBTRg8UrfRrV3PlXcE7vmkFnFpEp+QQ3BiV9HgMS7ix
+ GgNWbTbAeUCO+y82sMtVGKyX3ay11RlpCzLOPDPc5KnfLtTI69KA/Y0eN/L4BQLiQh
+ a05bNKnaA9+U6NSfGIkTo0CYtiJEJR08/SLkjhCI=
+Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
+ [203.254.195.109]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230228041008uscas1p2b44e12079c3e82082c1a3eb06c2096e0~H4ZMmxb8r0602806028uscas1p2Q;
+ Tue, 28 Feb 2023 04:10:08 +0000 (GMT)
+Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
+ ussmges1new.samsung.com (USCPEMTA) with SMTP id 9F.BB.06976.0AE7DF36; Mon,
+ 27 Feb 2023 23:10:08 -0500 (EST)
+Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
+ [203.254.195.89]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20230228041008uscas1p1296b02da63f7c8c81506d67dafe7ff75~H4ZMXMbol1390613906uscas1p1G;
+ Tue, 28 Feb 2023 04:10:08 +0000 (GMT)
+X-AuditID: cbfec36d-d99ff70000011b40-c3-63fd7ea0de0b
+Received: from SSI-EX2.ssi.samsung.com ( [105.128.2.146]) by
+ ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id 24.99.11378.F9E7DF36; Mon,
+ 27 Feb 2023 23:10:07 -0500 (EST)
+Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
+ SSI-EX2.ssi.samsung.com (105.128.2.227) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.24; Mon, 27 Feb 2023 20:10:07 -0800
+Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
+ SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Mon,
+ 27 Feb 2023 20:10:07 -0800
+From: Fan Ni <fan.ni@samsung.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
+ <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH v4 01/10] hw/mem/cxl_type3: Improve error handling in
+ realize()
+Thread-Topic: [PATCH v4 01/10] hw/mem/cxl_type3: Improve error handling in
+ realize()
+Thread-Index: AQHZSyqKTjA/cBi6uU2wPwT4M+lsnQ==
+Date: Tue, 28 Feb 2023 04:10:07 +0000
+Message-ID: <20230228040957.GA1339780@bgt-140510-bm03>
+In-Reply-To: <20230206172816.8201-2-Jonathan.Cameron@huawei.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8Cxg+Vjdf1jQ0VAAA--.15563S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxWFWDWr48ur1rCrWfZFW3trb_yoW5tw48pr
- 1ktF17AryDGr1kZryUCw1DWryUtw1UJw1UJrn8Ga4rJrWUtF1qqr1UZr1Y9ryUAr48Zr15
- AryYq347urnrJ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <9A50D40D9E744345BDB3D9E4E68754E4@ssi.samsung.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRmVeSWpSXmKPExsWy7djXc7oL6v4mG/y4xGvRPHkxo8WLP8+Z
+ LPY/fc5isWrhNTaL87NOsVgc3niGyeL/r1esFmtWCFsc793B4sDpsXPWXXaPliNvWT0W73nJ
+ 5LFpVSebx51re9g8nlzbzOTxft9VNo/Pm+QCOKK4bFJSczLLUov07RK4Mn7uWMZeMJu/4tG7
+ FYwNjO+4uxg5OSQETCTuT33N1sXIxSEksJJRYt3lB8wQTiuTxPW5f9lgqn7sOAdVtZZRYuXM
+ bnYI5xOjxJVXb6Ayyxgldv2YzwTSwiagKLGvaztYu4iAkcS7G5MYQYqYBb4wSUy9u5EFJCEs
+ ECqxp+UoM0RRmMTVg89YIGw9iRnb/oMNYhFQlbhy8gDYIF4BM4mjx6cC1XBwcAo4SBzZrggS
+ ZhQQk/h+ag1YObOAuMStJxA3SAgISiyavYcZwhaT+LfrIdQ7ihL3v79kh6jXk7gxdQobhG0n
+ sXDxRihbW2LZwtfMEGsFJU7OfMIC0SspcXDFDRaQXyQEmjklTuxuhxrqInF3xjQoW1ri6vWp
+ zCB3SggkS6z6yAURzpGYv2QL1BxriYV/1jNNYFSZheTsWUhOmoXkpFlITpqF5KQFjKyrGMVL
+ i4tz01OLDfNSy/WKE3OLS/PS9ZLzczcxAhPa6X+Hc3cw7rj1Ue8QIxMH4yFGCQ5mJRHehbf/
+ JAvxpiRWVqUW5ccXleakFh9ilOZgURLnNbQ9mSwkkJ5YkpqdmlqQWgSTZeLglGpgYlM4tEW/
+ 9hZzGc/8aL/K+rm/b+b8fqbYNqtu2o90ucOem6zvCRyrsH/zasom3Qs8cl4MpZ8P+r7NjH+e
+ fIJTcv+vkv8pLbXreA0FGzKWNc+bEbBRau5dFZWcbEYL05Lybu7VGw0X38lcprdhoaT9hOfn
+ Pm/bLx+i8qZoYfK7z+3eudMvxJm1C7iLaMw6dVxeenJI9OVNEx4f44sx5ToZFv/GyH6F9kMb
+ 1h2lxW+vBayN4vNaf8Ig7bp8TNP+la92aanH5OucM+sNfjLxqAKzzCqHgo3F2Surt61+37i9
+ y1Bw+btz7ktXqBzfmKqiotu67dartWJLsnhfds7QWCH9kq/dd+/uPw9drD3klXrPKbEUZyQa
+ ajEXFScCAIZGTn3XAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIIsWRmVeSWpSXmKPExsWS2cA0SXd+3d9kg873FhbNkxczWrz485zJ
+ Yv/T5ywWqxZeY7M4P+sUi8XhjWeYLP7/esVqsWaFsMXx3h0sDpweO2fdZfdoOfKW1WPxnpdM
+ HptWdbJ53Lm2h83jybXNTB7v911l8/i8SS6AI4rLJiU1J7MstUjfLoEr4+eOZewFs/krHr1b
+ wdjA+I67i5GTQ0LAROLHjnNsILaQwGpGiZXvKroYuYDsT4wSm5Y8ZYVwljFKrD+0nwWkik1A
+ UWJf13awDhEBI4l3NyYxghQxC3xhkrjx4TtYkbBAqMSelqPMEEVhEhevHmCBsPUkZmz7zwRi
+ swioSlw5eQBsEK+AmcTR41NZIM4olbj+6BlQLwcHp4CDxJHtiiBhRgExie+n1oC1MguIS9x6
+ Mp8J4gMBiSV7zjND2KISLx//Y4WwFSXuf3/JDlGvJ3Fj6hQ2CNtOYuHijVC2tsSyha+ZIU4Q
+ lDg58wkLRK+kxMEVN1gmMErMQrJuFpJRs5CMmoVk1CwkoxYwsq5iFC8tLs5Nryg2zEst1ytO
+ zC0uzUvXS87P3cQITAWn/x2O3MF49NZHvUOMTByMhxglOJiVRHgX3v6TLMSbklhZlVqUH19U
+ mpNafIhRmoNFSZxXyHVivJBAemJJanZqakFqEUyWiYNTqoFpgvCMFQLOxbcsI5e53W3/MrNu
+ nrvT0WcuHN8m+Zzs2qJTuaFw57Omr8I98z5s/1ZZuf3J6tW7XGbus+W7Kdf5/9o3nh6vOu7d
+ F/a2fVZwfC/zQ9w0pO/3zMdrd/o/94lWYVMQCXa/zPjmCmuT3oPTDauPH3+701flDme4tv7c
+ JHlRPraIUtW3k4wDz0/4lvLmWXTA2t3zOA1nhB3Wckx4MnmB9J4uR71dnOxxXzJXSoq1vdrW
+ muwffuzh+fhvt1IPhU3qWx25iaNaRursiTWL2GMEVb9EPpx1YT7LTqaTr7zf3M5bvSBi97Xd
+ 175NbvuvsNxEPl2y4rGFxyv9Xa8OTT1xbedenS8bJ85Yu/HW7UQlluKMREMt5qLiRADQ6LaL
+ dAMAAA==
+X-CMS-MailID: 20230228041008uscas1p1296b02da63f7c8c81506d67dafe7ff75
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20230228041008uscas1p1296b02da63f7c8c81506d67dafe7ff75
+References: <20230206172816.8201-1-Jonathan.Cameron@huawei.com>
+ <20230206172816.8201-2-Jonathan.Cameron@huawei.com>
+ <CGME20230228041008uscas1p1296b02da63f7c8c81506d67dafe7ff75@uscas1p1.samsung.com>
+Received-SPF: pass client-ip=211.189.100.12; envelope-from=fan.ni@samsung.com;
+ helo=mailout2.w2.samsung.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,101 +142,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Feb 06, 2023 at 05:28:07PM +0000, Jonathan Cameron wrote:
+> msix_init_exclusive_bar() can fail, so if it does cleanup the address spa=
+ce.
+>=20
+> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> Reviewed-by: Gregory Price <gregory.price@memverge.com>
+> Tested-by: Gregory Price <gregory.price@memverge.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
 
-在 2023/2/28 上午2:40, Richard Henderson 写道:
-> On 2/27/23 02:55, gaosong wrote:
->>
->> 在 2023/2/25 上午3:24, Richard Henderson 写道:
->>>>          {
->>>>              .fniv = gen_vaddwev_s,
->>>>              .fno = gen_helper_vaddwev_q_d,
->>>>              .opt_opc = vecop_list,
->>>>              .vece = MO_128
->>>>          },
->>>
->>> There are no 128-bit vector operations; you'll need to do this one 
->>> differently.
->>>
->>> Presumably just load the two 64-bit elements, sign-extend into 
->>> 128-bits, add with tcg_gen_add2_i64, and store the two 64-bit 
->>> elements as output.  But that won't fit into the tcg_gen_gvec_3 
->>> interface.
->>>
->> 'sign-extend into 128-bits,'   Could you give a example?
->
-> Well, for vadd, as the example we have been using:
->
->     tcg_gen_ld_i64(lo1, cpu_env, offsetof(vector_reg[A].lo));
->     tcg_gen_ld_i64(lo2, cpu_env, offsetof(vector_reg[B].lo));
->     tcg_gen_sari_i64(hi1, lo1, 63);
->     tcg_gen_sari_i64(hi2, lo2, 63);
->     tcg_gen_add2_i64(lo1, hi1, lo1, hi1, lo2, hi2);
->     tcg_gen_st_i64(lo1, cpu_env, offsetof(vector_reg[R].lo));
->     tcg_gen_st_i64(hi1, cpu_env, offsetof(vector_reg[R].hi));
->
-> The middle two sari operations replicate the sign bit across the 
-> entire high word, so the pair of variables constitute a sign-extended 
-> 128-bit value.
->
-Thank you .
+Reviewed-by: Fan Ni <fan.ni@samsung.com>
 
-This is a way  to translate:
-
-static trans_vaddwev_q_d( DisasContext *ctx, arg_vvv *a)
-{
-     ...
-     tcg_gen_ld_i64(lo1, cpu_env, offsetof(vector_reg[A].lo));
-     tcg_gen_ld_i64(lo2, cpu_env, offsetof(vector_reg[B].lo));
-     tcg_gen_sari_i64(hi1, lo1, 63);
-     tcg_gen_sari_i64(hi2, lo2, 63);
-     tcg_gen_add2_i64(lo1, hi1, lo1, hi1, lo2, hi2);
-     tcg_gen_st_i64(lo1, cpu_env, offsetof(vector_reg[R].lo));
-     tcg_gen_st_i64(hi1, cpu_env, offsetof(vector_reg[R].hi));
-     ...
-}
->> I see a example at target/ppc/translate/vmx-impl.c.inc
->>      static bool do_vx_vprtyb(DisasContext *ctx, arg_VX_tb *a, 
->> unsigned vece)
->>      {
->>              ...
->>              {
->>              .fno = gen_helper_VPRTYBQ,
->>              .vece = MO_128
->>              },
->>              tcg_gen_gvec_2(avr_full_offset(a->vrt), 
->> avr_full_offset(a->vrb),
->>                                 16, 16, &op[vece - MO_32]);
->>          return true;
->>      }
->> TRANS(VPRTYBQ, do_vx_vprtyb, MO_128)
->> ...
->>
->> do_vx_vprtyb  fit the fno into the tcg_gen_gvec_2.
->> I am not sure this  example is right.
->
-> Ah, well.  When .fno is the only callback, the implementation is 
-> entirely out-of-line, and the .vece member is not used.  I see that is 
-> confusing.
->
-and This is another way to translate:
-     ...
-          {
-              .fno = gen_helper_vaddwev_q_d,
-              .vece = MO_128
-          },
-     ...
-     void HELPER(vaddwev_q_d)(void *vd, void *vj, void *vk, uint32_t v)
-     {
-         VReg *Vd = (VReg *)vd;
-         VReg *Vj = (VReg *)vj;
-         VReg *Vk = (VReg *)vk;
-
-         Vd->Q(0) = int128_add((Int128)Vj->D(0), (Int128)Vk->D(0));
-     }
-
-These ways are can be chosen?
-
-Thanks.
-Song Gao
-
+>  hw/mem/cxl_type3.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index dae4fd89ca..252822bd82 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -401,7 +401,7 @@ static void ct3_realize(PCIDevice *pci_dev, Error **e=
+rrp)
+>      MemoryRegion *mr =3D &regs->component_registers;
+>      uint8_t *pci_conf =3D pci_dev->config;
+>      unsigned short msix_num =3D 1;
+> -    int i;
+> +    int i, rc;
+> =20
+>      if (!cxl_setup_memory(ct3d, errp)) {
+>          return;
+> @@ -438,7 +438,10 @@ static void ct3_realize(PCIDevice *pci_dev, Error **=
+errp)
+>                       &ct3d->cxl_dstate.device_registers);
+> =20
+>      /* MSI(-X) Initailization */
+> -    msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
+> +    rc =3D msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
+> +    if (rc) {
+> +        goto err_address_space_free;
+> +    }
+>      for (i =3D 0; i < msix_num; i++) {
+>          msix_vector_use(pci_dev, i);
+>      }
+> @@ -450,6 +453,11 @@ static void ct3_realize(PCIDevice *pci_dev, Error **=
+errp)
+>      cxl_cstate->cdat.free_cdat_table =3D ct3_free_cdat_table;
+>      cxl_cstate->cdat.private =3D ct3d;
+>      cxl_doe_cdat_init(cxl_cstate, errp);
+> +    return;
+> +
+> +err_address_space_free:
+> +    address_space_destroy(&ct3d->hostmem_as);
+> +    return;
+>  }
+> =20
+>  static void ct3_exit(PCIDevice *pci_dev)
+> --=20
+> 2.37.2
+>=20
+> =
 
