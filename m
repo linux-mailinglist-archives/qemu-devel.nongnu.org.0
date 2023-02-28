@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6C26A5A11
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 14:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433CD6A5A12
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 14:40:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX0B9-0001nQ-1A; Tue, 28 Feb 2023 08:38:03 -0500
+	id 1pX0CS-0002kb-Iv; Tue, 28 Feb 2023 08:39:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX0B1-0001mt-Mx
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:37:59 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX0CP-0002ch-Sv
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:39:21 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX0Az-0000nb-Ve
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:37:55 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id q16so9791427wrw.2
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 05:37:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pX0CO-00017s-8W
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 08:39:21 -0500
+Received: by mail-wr1-x436.google.com with SMTP id t15so9775435wrz.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 05:39:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vrM+Jzvvr11us9zAruSNQhpzPzpITmPlXpsveZHFKTk=;
- b=E6w1O3HYm1H/aSnr4DLxh0YJCt/S5nx5bu+215cPhZ4TJZJ8puRvkNuJ0jgHhcyBYZ
- rSFBwh5+utUabnwo/bpFm4mK7JXIE6VNxvWQe8wPlwmLZGxoIS2pNPvVZtjIU3FNVF9b
- mRc8pi8WkSbd1bMV8CaCREQplAtyNDxT9Y3s0U7mkH5x1gNP1PHChW7CGLLYaURdAVMS
- P0i9iBKCjFDKHr+msVWPpK87KGG97DVkdDAqah7FhXkP89QndE6PE+vA0PdRh0+5hGfX
- 4QySbsHr3pqLP5qEklM2BRNoEAYe5vCvMztFMYlYCcwOCL5qHJBlCyPwpGybgHHHOlFw
- 51xA==
+ bh=IQyjIY73kYfSoFunfDcx8s5b4BrBg2D4Pp8oYI2f7gU=;
+ b=QHXax0Q8JDWhajBdfJMqyhbnOv/nWpH7nKAns2a8YMKvVGbausGIr21qSVLUCV/GGR
+ hhhWgjdyaUyExqTXxcsTIGBxvO07yU0KA3fI04g9sLD0MzdKkYlffvqNRzw1w5TrTlAL
+ 3ogASXkYrxh0AzX91fU5RY+hoSDJ/jC+Vg0y4Wpipjyxz3he9ffwAo7Y6jDcpOTPZLby
+ FvYa/7LMq6Q5GfvRwDAHKRsdyPcEUxGsEi9yfpSk6JIKDoYv3aENn0q1221wdBRFGznC
+ /b4ECruaygsbYSIeOoX7oDB3/w+zb20+DwV/2KQpd6qumut+e+tNsE27k2u5STzrcOEk
+ 5xzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vrM+Jzvvr11us9zAruSNQhpzPzpITmPlXpsveZHFKTk=;
- b=IBMtoYXBSKmv9iTe75KsF77PmJp09OMmVzLl0KE7GqjK0lgmN4U1brSgg/1/nVfPHi
- Zm8A9WgFxjLeYAnxpNWNf5IRFygG0nFxVM/DRDFZ94G7304g0XDztlg7BWufAm6dlhSw
- pAIIJi8T8KrSNudcadJLnNSJ9aZ7eU3JV+uUHwPO6LvA86BJi8gW7Av/uOYUyDX7r5rz
- dSazwOkuZIdSuPp/D20YXXHUqRa2KK2Qx001ZyNyg66M6LdlGV/At5uDctmxxoZW5zp7
- P+/kIgZ4lfgWpltPGZgDIZie0K99NrU4jbT/uI+3OwQkasTEUqrpA3cOJI10rrIhhx+R
- IvEQ==
-X-Gm-Message-State: AO0yUKVFcfCsUNICYrIloSERmH35GcSH7VLE32NpvGCpnq4PQZ26n7V7
- RQ3zReecRw39Awvw9fQ0wCMVFjVkenelxROv
-X-Google-Smtp-Source: AK7set8KNstNyTWiyuOtFhNdwivjc0dlLuTCuPRqHufjP8g67QIZM+sWnHGTdTNPWnNSJN+cV3MYcg==
-X-Received: by 2002:a5d:5009:0:b0:2c5:5a65:79a0 with SMTP id
- e9-20020a5d5009000000b002c55a6579a0mr2497840wrt.53.1677591472007; 
- Tue, 28 Feb 2023 05:37:52 -0800 (PST)
+ bh=IQyjIY73kYfSoFunfDcx8s5b4BrBg2D4Pp8oYI2f7gU=;
+ b=jBdnpZgAma4o5uX58p00Q6fKlSjHTQEErKgip+Msrj6jqlCvQwb7vbItGV1mR73Vkt
+ TqwqdIvSGr7459cSd+qh7HNyauvyBocKVTwbO626Lc627mwzMbszYe+L17pLh48ULdmf
+ jCWwmYgCN1bYA1209EaIYFCyNmQPcLmYJkKOqFrik2KGc4frQimffkhhB5iutCoPm6Tn
+ +HwLXinCvNIxeV1CnUBER2saQrTYLkKYsnm0U9RHa6DDRB8t9ghN2iy/nZc1l+3A68Pc
+ 2rofNx0/CYHzai9CaYypvWCQPEKsXA/lV5bMctge/S1iSekfIuwYw74l4/NkczEoBZT1
+ D3Xw==
+X-Gm-Message-State: AO0yUKXeJnt9pQX7qCxkqj/2f+HFHI6yGjyNvMtwNemmIcjG+vbW+GvS
+ V0+BGTs295rZzMEyg86Hgl+926izgyz8iUKj
+X-Google-Smtp-Source: AK7set8JBva3YytNahgu1bSyg4YdqZH9K6Ftp/o7BzGIzGJadDlrFNyCklJTB8MOw+CDEw/op6ukqA==
+X-Received: by 2002:a05:6000:c8:b0:2c3:e0a0:93f with SMTP id
+ q8-20020a05600000c800b002c3e0a0093fmr2121111wrx.8.1677591558436; 
+ Tue, 28 Feb 2023 05:39:18 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- w15-20020adfee4f000000b002be5bdbe40csm9804458wro.27.2023.02.28.05.37.50
+ l15-20020a05600012cf00b002be505ab59asm9970001wrx.97.2023.02.28.05.39.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 05:37:51 -0800 (PST)
-Message-ID: <0655fae9-80db-c26b-ded1-406fd82c1331@linaro.org>
-Date: Tue, 28 Feb 2023 14:37:50 +0100
+ Tue, 28 Feb 2023 05:39:17 -0800 (PST)
+Message-ID: <a06d79d2-9cb8-9c36-ce49-f764b062d518@linaro.org>
+Date: Tue, 28 Feb 2023 14:39:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH 2/2] hw/pci: Trace IRQ routing on PCI topology
+Subject: Re: [PATCH v3 08/14] hw/net/ne2000-pci: Replace
+ DO_UPCAST(PCINE2000State) by PCI_NE2000()
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Bernhard Beschow <shentey@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>
-References: <20230211152239.88106-1-philmd@linaro.org>
- <20230211152239.88106-3-philmd@linaro.org>
+To: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Jason Wang <jasowang@redhat.com>
+Cc: qemu-block@nongnu.org, Hu Tao <hutao@cn.fujitsu.com>,
+ Gonglei Arei <arei.gonglei@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Li Qiang <liq3ea@163.com>,
+ Thomas Huth <thuth@redhat.com>, Cao jin <caoj.fnst@cn.fujitsu.com>,
+ xiaoqiang zhao <zxq_yx_007@163.com>
+References: <20230213184338.46712-1-philmd@linaro.org>
+ <20230213184338.46712-9-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230211152239.88106-3-philmd@linaro.org>
+In-Reply-To: <20230213184338.46712-9-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -92,59 +96,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ping
+Hi Jason, do you Ack this patch?
 
-On 11/2/23 16:22, Philippe Mathieu-Daudé wrote:
-> Trace how IRQ are rooted from EP to RC.
+On 13/2/23 19:43, Philippe Mathieu-Daudé wrote:
+> Define TYPE_PCI_NE2000 and the QOM PCI_NE2000() macro.
+> Use PCI_NE2000() instead of DO_UPCAST().
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   hw/pci/pci.c        | 8 ++++++++
->   hw/pci/trace-events | 1 +
->   2 files changed, 9 insertions(+)
+>   hw/net/ne2000-pci.c | 18 ++++++++++++------
+>   1 file changed, 12 insertions(+), 6 deletions(-)
 > 
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 805e4b0c68..2e785e3aef 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -279,9 +279,13 @@ static void pci_change_irq_level(PCIDevice *pci_dev, int irq_num, int change)
+> diff --git a/hw/net/ne2000-pci.c b/hw/net/ne2000-pci.c
+> index edc6689d33..0332e7f616 100644
+> --- a/hw/net/ne2000-pci.c
+> +++ b/hw/net/ne2000-pci.c
+> @@ -30,10 +30,16 @@
+>   #include "ne2000.h"
+>   #include "sysemu/sysemu.h"
+>   
+> -typedef struct PCINE2000State {
+> +#define TYPE_PCI_NE2000 "ne2k_pci"
+> +OBJECT_DECLARE_SIMPLE_TYPE(PCINE2000State, PCI_NE2000)
+> +
+> +struct PCINE2000State {
+> +    /*< private >*/
+>       PCIDevice dev;
+> +    /*< public >*/
+> +
+>       NE2000State ne2000;
+> -} PCINE2000State;
+> +};
+>   
+>   static const VMStateDescription vmstate_pci_ne2000 = {
+>       .name = "ne2000",
+> @@ -54,7 +60,7 @@ static NetClientInfo net_ne2000_info = {
+>   
+>   static void pci_ne2000_realize(PCIDevice *pci_dev, Error **errp)
 >   {
->       PCIBus *bus;
->       for (;;) {
-> +        int dev_irq = irq_num;
->           bus = pci_get_bus(pci_dev);
->           assert(bus->map_irq);
->           irq_num = bus->map_irq(pci_dev, irq_num);
-> +        trace_pci_route_irq(dev_irq, DEVICE(pci_dev)->canonical_path, irq_num,
-> +                            pci_bus_is_root(bus) ? "root-complex"
-> +                                    : DEVICE(bus->parent_dev)->canonical_path);
->           if (bus->set_irq)
->               break;
->           pci_dev = bus->parent_dev;
-> @@ -1600,8 +1604,12 @@ PCIINTxRoute pci_device_route_intx_to_irq(PCIDevice *dev, int pin)
->       PCIBus *bus;
+> -    PCINE2000State *d = DO_UPCAST(PCINE2000State, dev, pci_dev);
+> +    PCINE2000State *d = PCI_NE2000(pci_dev);
+>       NE2000State *s;
+>       uint8_t *pci_conf;
 >   
->       do {
-> +        int dev_irq = pin;
->           bus = pci_get_bus(dev);
->           pin = bus->map_irq(dev, pin);
-> +        trace_pci_route_irq(dev_irq, DEVICE(dev)->canonical_path, pin,
-> +                            pci_bus_is_root(bus) ? "root-complex"
-> +                                    : DEVICE(bus->parent_dev)->canonical_path);
->           dev = bus->parent_dev;
->       } while (dev);
+> @@ -77,7 +83,7 @@ static void pci_ne2000_realize(PCIDevice *pci_dev, Error **errp)
 >   
-> diff --git a/hw/pci/trace-events b/hw/pci/trace-events
-> index aaf46bc92d..42430869ce 100644
-> --- a/hw/pci/trace-events
-> +++ b/hw/pci/trace-events
-> @@ -3,6 +3,7 @@
->   # pci.c
->   pci_update_mappings_del(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
->   pci_update_mappings_add(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
-> +pci_route_irq(int dev_irq, const char *dev_path, int parent_irq, const char *parent_path) "IRQ %d @%s -> IRQ %d @%s"
+>   static void pci_ne2000_exit(PCIDevice *pci_dev)
+>   {
+> -    PCINE2000State *d = DO_UPCAST(PCINE2000State, dev, pci_dev);
+> +    PCINE2000State *d = PCI_NE2000(pci_dev);
+>       NE2000State *s = &d->ne2000;
 >   
->   # pci_host.c
->   pci_cfg_read(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, unsigned offs, unsigned val) "%s %02x:%02x.%x @0x%x -> 0x%x"
+>       qemu_del_nic(s->nic);
+> @@ -87,7 +93,7 @@ static void pci_ne2000_exit(PCIDevice *pci_dev)
+>   static void ne2000_instance_init(Object *obj)
+>   {
+>       PCIDevice *pci_dev = PCI_DEVICE(obj);
+> -    PCINE2000State *d = DO_UPCAST(PCINE2000State, dev, pci_dev);
+> +    PCINE2000State *d = PCI_NE2000(pci_dev);
+>       NE2000State *s = &d->ne2000;
+>   
+>       device_add_bootindex_property(obj, &s->c.bootindex,
+> @@ -117,7 +123,7 @@ static void ne2000_class_init(ObjectClass *klass, void *data)
+>   }
+>   
+>   static const TypeInfo ne2000_info = {
+> -    .name          = "ne2k_pci",
+> +    .name          = TYPE_PCI_NE2000,
+>       .parent        = TYPE_PCI_DEVICE,
+>       .instance_size = sizeof(PCINE2000State),
+>       .class_init    = ne2000_class_init,
 
 
