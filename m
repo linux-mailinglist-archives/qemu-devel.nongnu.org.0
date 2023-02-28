@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6850A6A5F54
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B85216A5F55
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:11:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX5KO-0002b4-Lr; Tue, 28 Feb 2023 14:07:58 -0500
+	id 1pX5KE-0002Z9-W0; Tue, 28 Feb 2023 14:07:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pX5Jk-0002JU-Ir
+ id 1pX5Jk-0002JP-Gb
  for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:18 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pX5JV-0002qB-Cb
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:11 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id r18so10893500wrx.1
+ id 1pX5JV-0002lm-CV
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 14:07:12 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ j19-20020a05600c1c1300b003e9b564fae9so10325123wms.2
  for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 11:07:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bqKQZTDvOZ1wpytMTM7QInXR36A1/tJ8b2AKON/coNY=;
- b=FryCXJ+g78WhQfGimALybwu64Dke8UWXuGPUyiAl6rnIduENmk4uQOcR5/Tq04hwfg
- rvw0dHHoskE3bHmbllyDV1f9Kfk5zVHbSB6DdGO2goC1RB4wqX3NVc7XyiwWoKcd2JAd
- kXwZfF6HQN9N44KdFvjYSw8LkO/FXdMtGR65Qk3s/65t+9Jb4cQs2lpdNID59D0sNeVR
- Php84ip1sY9toIqekvJYFMJJcScg3T0xJNsEyoqappnPUIXn1ek+/0Vp/7y7P466bgQW
- QgNadbi7+18A7PXnbrGZKN0R3Inm6DicUY2WI9nUOOrJ7+SHYADOTMuzT29S/kV28fA8
- s9uw==
+ bh=d4/zhLSmWu13QgiQEwsSfeYVh8tCmBtEQrl59j5YpTg=;
+ b=rC4TFzncAMB3T8V8Yj44eWdFnaC9m1ZYtwQGg9xS11jJmWPrpvBHBpjt6HTaeDtMZF
+ CLXYAQWThT3G2blEqiJhr1S/vl0FaUCFjYAQZTK454yq7kViK/Obg6vZu3nOKyaxBd1Y
+ IXtP7B8h5tt1bxs3y9k5dqSeQ8zLTkUFGY0SSiHrv+N9VRorCoqCZddi10KM97kR1jsr
+ zr3csqoqom6gedCTZfcJcjswivk2ziZB/UBptZAU+61llKr17aIYnpxCzV2JsV56FPp1
+ mOluBmQjK4VjlgVZkN5l76I2VSSD7dW4uFuUYZqxjwXoSUcGAGkZ1JtWiI63GZzmTFsi
+ wz+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bqKQZTDvOZ1wpytMTM7QInXR36A1/tJ8b2AKON/coNY=;
- b=vvbvCqKYRUtQ5q3kzEJFf6wcY/zH3cW7S9gDfoeS49rMvlz2I6Va00UAtJt8F2q1Tw
- 36V3VJ72Kj8Oi9YwboX8WOFj98WCnXU1nJfBoNunEsrqa2yP2W5o0TYwWApbJArfIUU2
- afHxxeLozYrlKMEm3l/BTZjbshtsdRHTOCe2KHY1TygdTjIHNEUSs0ha57S+kZ5eF7jh
- Gc/XUEypHeUv50DRqNvYzJuKhCJ1rDfH+dLq7SJNizqLZjaxW0cZ7X9HLo5eQjrDpUsN
- hCtVceiCaHu0dGQY8v5B33qpUQnEl8yq6rK0CsNnTjh/7ASwnayBlPvcbT2KQU+W9zwA
- sH2Q==
-X-Gm-Message-State: AO0yUKWqCQ0BLiF7bDhMtxrsem67zYEYX/Al88cuieE2UklsSW/YP7K2
- 3kTudJ8wY2ubOJZz4uVYcreuxA==
-X-Google-Smtp-Source: AK7set8mXCsqW6sxG6XC+OTDx18gP/MZLnqOUov8watQHjtrLPYElScGXB9ysMRGcWQsMA8ldmz4Bg==
-X-Received: by 2002:a5d:5e8c:0:b0:2c3:d707:7339 with SMTP id
- ck12-20020a5d5e8c000000b002c3d7077339mr10670367wrb.6.1677611219745; 
- Tue, 28 Feb 2023 11:06:59 -0800 (PST)
+ bh=d4/zhLSmWu13QgiQEwsSfeYVh8tCmBtEQrl59j5YpTg=;
+ b=VR8YVcN/xNRcaBuoZBXEUP7cdCQW2PyyuOsZowIBSCKwpDSRH1MjII/6wegWbwltbW
+ ucMPchx3okI4YDgbRA3Saz13zKdXreGS6LWI6Abj0isS0yXDgY5ryqJH/jR4DhkXSa2T
+ yPisrQA/CtiOXxkYcNqp32FaqSLELNmFLmVf4zQljnR4aj4yrXZI/z4lltL8beFZkSE4
+ BZxD6rPWXCueZKIH8arUlp+8e/AEslqND7G376iSku3xFJx4BpWKlpeKshsz6jolszvU
+ 1Fp4/pW7YBdNJvnqbsh+rmU6MU8NJajbdPLjTU6RA5iVOMEifyUcH7G+Vbl3LZ5E2kO/
+ 3cSg==
+X-Gm-Message-State: AO0yUKXTriQl7f2Jo+cyEOsYqVhHLM5HH2tK1K9p5zoJ46lgx0bH9S7S
+ p+jFNaVYszyvnBCFTB4G2iOMqQ==
+X-Google-Smtp-Source: AK7set+ZTpJkKEkkVr9iGmOWyDtwydlg0yb1R4Lv4aLS+Il4nmZEIVA72vg0fA94YYyIz1ZbFgM2LQ==
+X-Received: by 2002:a05:600c:a694:b0:3dc:4b87:a570 with SMTP id
+ ip20-20020a05600ca69400b003dc4b87a570mr3395774wmb.35.1677611220433; 
+ Tue, 28 Feb 2023 11:07:00 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- a14-20020a5d4d4e000000b002c57475c375sm10580099wru.110.2023.02.28.11.06.55
+ m4-20020a05600c4f4400b003e209b45f6bsm18218045wmq.29.2023.02.28.11.06.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 28 Feb 2023 11:06:56 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 979B31FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id B15711FFC2;
  Tue, 28 Feb 2023 19:06:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -80,24 +81,25 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Qiuhao Li <Qiuhao.Li@outlook.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 11/24] tests/docker: Use binaries for debian-tricore-cross
-Date: Tue, 28 Feb 2023 19:06:40 +0000
-Message-Id: <20230228190653.1602033-12-alex.bennee@linaro.org>
+Subject: [PATCH v3 12/24] tests: ensure we export job results for some cross
+ builds
+Date: Tue, 28 Feb 2023 19:06:41 +0000
+Message-Id: <20230228190653.1602033-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230228190653.1602033-1-alex.bennee@linaro.org>
 References: <20230228190653.1602033-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,97 +115,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+We do run tests on some cross builds. Provide a template to ensure we
+export the testlog to the build artefacts and report the test results
+via the junit.
 
-since binutils is pretty old, it fails our CI repeatedly during the
-compilation of tricore-binutils. We created a precompiled version using
-the debian docker image and download it instead of building it ourself.
-
-We also updated the package to include a newer version of binutils, gcc,
-and newlib. The default TriCore ISA version used by tricore-as changed
-from the old version, so we have to specify it now. If we don't
-'test_fadd' fails with 'unknown opcode'.
-
-The new assembler also picks a new encoding in ld.h which fails the
-'test_ld_h' test. We fix that by using the newest TriCore CPU for QEMU.
-
-The old assembler accepted an extra ')' in 'test_imask'. The new one
-does not, so lets remove it.
-
-Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-Id: <20230209145812.46730-1-kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230221094558.2864616-13-alex.bennee@linaro.org>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20230221094558.2864616-14-alex.bennee@linaro.org>
 ---
- tests/tcg/tricore/macros.h                           |  2 +-
- tests/docker/dockerfiles/debian-tricore-cross.docker | 10 +++-------
- tests/tcg/tricore/Makefile.softmmu-target            |  6 +++---
- 3 files changed, 7 insertions(+), 11 deletions(-)
+ .gitlab-ci.d/crossbuild-template.yml | 11 +++++++++++
+ .gitlab-ci.d/crossbuilds.yml         | 12 +++++++++---
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/tests/tcg/tricore/macros.h b/tests/tcg/tricore/macros.h
-index ec4f5bff52..3df2e0de82 100644
---- a/tests/tcg/tricore/macros.h
-+++ b/tests/tcg/tricore/macros.h
-@@ -174,7 +174,7 @@ test_ ## num:                                                    \
-     TEST_CASE_E(num, res_lo, res_hi,                           \
-     LI(DREG_RS1, rs1);                                         \
-     rstv;                                                      \
--    insn EREG_CALC_RESULT, imm1, DREG_RS1, imm2);              \
-+    insn EREG_CALC_RESULT, imm1, DREG_RS1, imm2;               \
-     )
+diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+index d07989e3b0..4f93b9e4e5 100644
+--- a/.gitlab-ci.d/crossbuild-template.yml
++++ b/.gitlab-ci.d/crossbuild-template.yml
+@@ -49,3 +49,14 @@
+           nios2-linux-user or1k-linux-user ppc-linux-user sparc-linux-user
+           xtensa-linux-user $CROSS_SKIP_TARGETS"
+     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
++
++# We can still run some tests on some of our cross build jobs. They can add this
++# template to their extends to save the build logs and test results
++.cross_test_artifacts:
++  artifacts:
++    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
++    expire_in: 7 days
++    paths:
++      - build/meson-logs/testlog.txt
++    reports:
++      junit: build/meson-logs/testlog.junit.xml
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 101416080c..d3a31a2112 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -44,7 +44,9 @@ cross-arm64-user:
+     IMAGE: debian-arm64-cross
  
+ cross-i386-system:
+-  extends: .cross_system_build_job
++  extends:
++    - .cross_system_build_job
++    - .cross_test_artifacts
+   needs:
+     job: i386-fedora-cross-container
+   variables:
+@@ -52,7 +54,9 @@ cross-i386-system:
+     MAKE_CHECK_ARGS: check-qtest
  
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 5ae58efa09..82e4576485 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -20,6 +20,7 @@ RUN apt update && \
-        bzip2 \
-        ca-certificates \
-        ccache \
-+       curl \
-        flex \
-        g++ \
-        gcc \
-@@ -34,13 +35,8 @@ RUN apt update && \
-        python3-setuptools \
-        python3-wheel
+ cross-i386-user:
+-  extends: .cross_user_build_job
++  extends:
++    - .cross_user_build_job
++    - .cross_test_artifacts
+   needs:
+     job: i386-fedora-cross-container
+   variables:
+@@ -60,7 +64,9 @@ cross-i386-user:
+     MAKE_CHECK_ARGS: check
  
--RUN git clone --single-branch \
--        https://github.com/bkoppelmann/tricore-binutils.git \
--        /usr/src/binutils && \
--    cd /usr/src/binutils && chmod +x missing && \
--    CFLAGS=-w ./configure --prefix=/usr/local --disable-nls --target=tricore && \
--    make && make install && \
--    rm -rf /usr/src/binutils
-+RUN curl -#SL https://github.com/bkoppelmann/package_940/releases/download/tricore-toolchain-9.40/tricore-toolchain-9.4.0.tar.gz \
-+    | tar -xzC /usr/local/
- 
- # This image can only build a very minimal QEMU as well as the tests
- ENV DEF_TARGET_LIST tricore-softmmu
-diff --git a/tests/tcg/tricore/Makefile.softmmu-target b/tests/tcg/tricore/Makefile.softmmu-target
-index d2446af8b4..b3cd56fffc 100644
---- a/tests/tcg/tricore/Makefile.softmmu-target
-+++ b/tests/tcg/tricore/Makefile.softmmu-target
-@@ -1,7 +1,7 @@
- TESTS_PATH = $(SRC_PATH)/tests/tcg/tricore
- 
--LDFLAGS = -T$(TESTS_PATH)/link.ld
--ASFLAGS =
-+LDFLAGS = -T$(TESTS_PATH)/link.ld --mcpu=tc162
-+ASFLAGS = -mtc162
- 
- TESTS += test_abs.tst
- TESTS += test_bmerge.tst
-@@ -19,7 +19,7 @@ TESTS += test_madd.tst
- TESTS += test_msub.tst
- TESTS += test_muls.tst
- 
--QEMU_OPTS += -M tricore_testboard -nographic -kernel
-+QEMU_OPTS += -M tricore_testboard -cpu tc27x -nographic -kernel
- 
- %.pS: $(TESTS_PATH)/%.S
- 	$(HOST_CC) -E -o $@ $<
+ cross-i386-tci:
+-  extends: .cross_accel_build_job
++  extends:
++    - .cross_accel_build_job
++    - .cross_test_artifacts
+   timeout: 60m
+   needs:
+     job: i386-fedora-cross-container
 -- 
 2.39.2
 
