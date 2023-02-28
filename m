@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36ADA6A5044
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 01:51:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CC66A5087
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 02:12:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWoBb-0005mV-F3; Mon, 27 Feb 2023 19:49:43 -0500
+	id 1pWoWE-0001vY-Rl; Mon, 27 Feb 2023 20:11:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pWoBY-0005e2-RL
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 19:49:40 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pWoBV-00044R-8x
- for qemu-devel@nongnu.org; Mon, 27 Feb 2023 19:49:39 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8BxMI+aT_1jBEkGAA--.6277S3;
- Tue, 28 Feb 2023 08:49:30 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxzr6ZT_1jrBtAAA--.59677S3; 
- Tue, 28 Feb 2023 08:49:29 +0800 (CST)
-Subject: Re: [PATCH v1] target/loongarch: Implement Chip Configuraiton Version
- Register(0x0000)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, philmd@linaro.org, maobibo@loongson.cn,
- yangxiaojuan@loongson.cn
-References: <20230227071046.1445572-1-gaosong@loongson.cn>
- <72f9cd37-3aa2-d268-629d-11754c7df34d@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <b8336500-ca70-6bc8-80a1-71d7f275b325@loongson.cn>
-Date: Tue, 28 Feb 2023 08:49:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <72f9cd37-3aa2-d268-629d-11754c7df34d@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Bxzr6ZT_1jrBtAAA--.59677S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7tFWUtw4DJr13ury7AFWfAFb_yoW8Jw1kpr
- 93CFW5KFW5JFZ2yanrWay5Xr98XrsrJr47WFsFqa4vkrs8Wr92gF1vqrZFgF9rAa97Gr40
- qF1rua45ZF4qq3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I2
- 62IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4
- CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvj
- eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw2
- 8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
- x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrw
- CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI
- 42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pWoWC-0001vK-Gw
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 20:11:00 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pWoWA-0007k8-MU
+ for qemu-devel@nongnu.org; Mon, 27 Feb 2023 20:11:00 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id C893F5C0114;
+ Mon, 27 Feb 2023 20:01:09 -0500 (EST)
+Received: from imap42 ([10.202.2.92])
+ by compute1.internal (MEProxy); Mon, 27 Feb 2023 20:01:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1677546069; x=
+ 1677632469; bh=Q85rDOzuoKnF9N3D41k1Gny4/h11sbFreEZfAsvwsSw=; b=L
+ +BhQwGdrfTgc6+hOX3D4MmQoPIiXGh1wzcKZ/NuvWm1ylhVJknQ8Es8IPwZVX4xM
+ zzqIgo5/hy23lZAU8EBwLcGFxlwx4kRngDbQdaFsoMsfJO/mB9cGi17bauDoEHZt
+ wOI7H1YNGdFp+52CbrooEbXvMiJt1uzmNu13yY6/JIZJp8dtHmcaQiPTvtiCDzok
+ B60sSEglMkHXxOEA6BfZDSF8HGDvVik5aMCylj9E6Mq/QdLvL49Jn1RaU7CXhTNY
+ pcwFIkfRrtMT7VvrRRYf5WpEuMZH0fyhUQ5Bsko6UfiYZ0zoicxjX+Nqn8PvUu29
+ 5d3PygnD+DTWyl1xAXZXQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677546069; x=
+ 1677632469; bh=Q85rDOzuoKnF9N3D41k1Gny4/h11sbFreEZfAsvwsSw=; b=m
+ TNQShSjfbIBlTH1KYsuULDJEQkMCY71cAYFK5a8MbZ/HkZ3iTQxvy1lcPBOUM3sX
+ rlVajJ49yyRwCINhkiH9kPg/WZW2j5Ad9rrxSbO/IZcEPqLci0JIO2dfe7p3Aa6C
+ fGIaeRPHri5XGeH42BQN8vstFL7IRFIzwZbWl9gajJyPF42MviFoE9EQ0HAGKVrt
+ 0pBoAgtXrLd/M3HS/8vg1g+Ok33X3cHguEyriPTFR+shGqNAT0gCHinDAsJ/wq+G
+ Pwp8/yoGVSbFVbJTBLeCD3wWd+0SPToCtDpM93zBxm/c6iDlxDS6kJuGcqgYgf+U
+ 6ngpa/jZ10hh7rd9CVrnw==
+X-ME-Sender: <xms:VVL9Yw7y8hLMre5LWfHyvnEYptu2C8rhWXlj1VBLCtNSA6mZoS-Pmw>
+ <xme:VVL9Yx7Ax-c_JbMNdKt4KKoBfpoRU35vv-nYyMRtlunp7bgFgXoosAQDxvaG9imOb
+ b8ziJ4Dzkt0SM76qQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeluddgvdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ gfrhhlucfvnfffucdlfeehmdenucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqher
+ tderreejnecuhfhrohhmpedfffgrnhhivghlucgiuhdfuceougiguhesugiguhhuuhdrgi
+ ihiieqnecuggftrfgrthhtvghrnhepveehudetfedvtdfhvdfgheejjedthfeiiefggffg
+ uddvffdtveeljeelleefieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+ hmrghilhhfrhhomhepugiguhesugiguhhuuhdrgiihii
+X-ME-Proxy: <xmx:VVL9Y_cYsD200t0no8dMwowgKFCl2u6YlisQVhKOs1MvF5jpObkAZg>
+ <xmx:VVL9Y1L3__RPwJt7OlpUcDiLU1WECKB10PnLg47OR5nL6SsCZHrp2w>
+ <xmx:VVL9Y0K-C6Gw2clHZr_B9juHQP0rBqNNMkYuQukUVOTCtp80aQDkmg>
+ <xmx:VVL9Y-y9NIBnaABsbpUWcE8tjXFABYdnRIR-ksqydMwfmdohvuVWXg>
+Feedback-ID: i6a694271:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 99648BC007C; Mon, 27 Feb 2023 20:01:09 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-183-gbf7d00f500-fm-20230220.001-gbf7d00f5
+Mime-Version: 1.0
+Message-Id: <25abc65e-a0fd-480a-bdf4-e03d03ac56c3@app.fastmail.com>
+In-Reply-To: <CAJ+F1CLY=8fnvqkn9OBwqvDw=-mgjsDeMr1pa-p2xBw3Oc4Nxg@mail.gmail.com>
+References: <cover.1677197937.git.dxu@dxuuu.xyz>
+ <d4b8f60e02ae9f6fd12f2d05feae3c903cfe9e82.1677197937.git.dxu@dxuuu.xyz>
+ <CAJ+F1CLY=8fnvqkn9OBwqvDw=-mgjsDeMr1pa-p2xBw3Oc4Nxg@mail.gmail.com>
+Date: Mon, 27 Feb 2023 18:00:49 -0700
+From: "Daniel Xu" <dxu@dxuuu.xyz>
+To: =?UTF-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: "Michael Roth" <michael.roth@amd.com>,
+ "Konstantin Kostiuk" <kkostiuk@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/3] qga: test: Use absolute path to test data
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=66.111.4.27; envelope-from=dxu@dxuuu.xyz;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_NXDOMAIN=0.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, NO_DNS_FOR_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,49 +103,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Marc-Andr=C3=A9,
 
-在 2023/2/28 上午3:37, Richard Henderson 写道:
-> On 2/26/23 21:10, Song Gao wrote:
->> According to the 3A5000 manual 4.1 implement Chip Configuration
->> Version Register(0x0000). The manual does not state that 0x0018 is
->> reserved for the vendor name and 0x0028 is reserved for the chip name.
+Thanks for reviewing the series.
+
+On Mon, Feb 27, 2023, at 1:16 AM, Marc-Andr=C3=A9 Lureau wrote:
+> Hi
+>
+> On Fri, Feb 24, 2023 at 8:31 AM Daniel Xu <dxu@dxuuu.xyz> wrote:
 >>
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> ---
->>   target/loongarch/cpu.c | 2 ++
->>   target/loongarch/cpu.h | 3 +++
->>   2 files changed, 5 insertions(+)
+>> It looks like qga's working directory is in a tempdir. So the relative
+>> path that the test case gives qga through the QGA_OS_RELEASE=3D
+>> env variable does not resolve correctly.
 >>
->> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
->> index 290ab4d526..d1c803c9d6 100644
->> --- a/target/loongarch/cpu.c
->> +++ b/target/loongarch/cpu.c
->> @@ -545,6 +545,8 @@ static void loongarch_qemu_write(void *opaque, 
->> hwaddr addr,
->>   static uint64_t loongarch_qemu_read(void *opaque, hwaddr addr, 
->> unsigned size)
->>   {
->>       switch (addr) {
->> +    case VERSION_REG:
->> +        return 0x11ULL;
+>> Fix by doing a poor man's path canonicalization of the test data file.
+>>
+>> Note we cannot use g_canonicalize_filename() b/c that helper was only
+>> introduced in glib 2.58 and the current GLIB_VERSION_MAX_ALLOWED is
+>> pinned to 2.56.
+>>
+>> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
 >
-> This one is back in manual v1.03.
-> I can't find manual 4.1?
-Oh,   Chapter 4 Section 1.  I will correct it.
->
->> +#define VENDOR_RESERVED_REG     0x18
->> +#define CPUNAME_RESERVED_REG    0x28
->
-> Since these are unused, perhaps omit them?
->
-OK.
+> This breaks "meson test test-qga" for me. How do you run the tests?
 
-Thanks.
-Song Gao
-> Either way,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
->
-> r~
+Ah, thanks for the hint. I was running the qga tests in build/ with:
 
+        $ ./tests/unit/test-qga
+
+Using meson to drive the tests fixed it for me. I will drop this patch.
+
+[...]
+
+Thanks,
+Daniel
 
