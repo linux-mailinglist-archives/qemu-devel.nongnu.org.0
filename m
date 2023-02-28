@@ -2,53 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE3A6A5B2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 15:57:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D228B6A5B31
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 15:58:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX1Ob-00064q-9l; Tue, 28 Feb 2023 09:56:01 -0500
+	id 1pX1Qw-0007cB-0z; Tue, 28 Feb 2023 09:58:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pX1OY-00064a-F6
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 09:55:58 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX1QW-0007PM-K7
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 09:58:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pX1OW-0002N0-Ed
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 09:55:58 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 11D40746335;
- Tue, 28 Feb 2023 15:55:49 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C8F7E7462DB; Tue, 28 Feb 2023 15:55:48 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C78597457E7;
- Tue, 28 Feb 2023 15:55:48 +0100 (CET)
-Date: Tue, 28 Feb 2023 15:55:48 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 6/7] usb/ohci: Implement resume on connection status
- change
-In-Reply-To: <9d4b7238-23f4-1ea8-10d9-6b73f4c026ec@linaro.org>
-Message-ID: <5281d606-7348-4537-01db-68714969c0e8@eik.bme.hu>
-References: <cover.1676916639.git.balaton@eik.bme.hu>
- <35c4d4ccf2f73e6a87cdbd28fb6a1b33de72ed74.1676916640.git.balaton@eik.bme.hu>
- <9d4b7238-23f4-1ea8-10d9-6b73f4c026ec@linaro.org>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pX1QU-0002dc-Ux
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 09:58:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677596278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iWpMszcCJXWCpgiuRnvs+fw7ApHP2G3OFxEc3YYrYzo=;
+ b=CeNpL5eE9+QSeKugYYjAVjgRDSNmRN2XrgCqcgpwpAhRxO1tJE1fac0wDd4AGCE1RphXB+
+ Ggi0MapVnraafLNGboTkpWv5/ShgaV0+nWWgrUpslOO6zruPcFYNJas/CZ48pbxUxpXZ6+
+ Qy6X6Mk8nGlOeLbz0rgBj6UZs0AFXIU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-664-EyoB-UezNwS7Vy2J_1nWFg-1; Tue, 28 Feb 2023 09:57:56 -0500
+X-MC-Unique: EyoB-UezNwS7Vy2J_1nWFg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ az12-20020a05600c600c00b003e8910ec2fdso3709948wmb.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 06:57:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677596275;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iWpMszcCJXWCpgiuRnvs+fw7ApHP2G3OFxEc3YYrYzo=;
+ b=ZKXT+mdrFTsJeGgdCty91GnUA9Ca5f+ngyDxINDjFOQErNhXq3kPuxvR8M4FLqnUHj
+ 9sJyancflvNgSHcNPqLM50lX9kyLpOhZpKjreB8BWOgif35SheBxL48BlC/x5vWD+/UO
+ epS3XYi5nmQUx0Fw1mdFVLFhl/EZDRi/735te/WiQ/5FuNxJMv+3Wozw4y0K39u/nYY3
+ IYEMHqRhBoBRhB5boxOLHOGSJv0bCCwPiYLAX9s1WZJzRRUk03vlocWc37W4wH3sF9Gk
+ bmhRscIs+/EnCZwRQDXjNqBNNmFTjEOax/l0qRTOlZ7eEGLb59DxMS943JjPKBhiqqvl
+ mwhA==
+X-Gm-Message-State: AO0yUKU5baiLsnAENyyMkOBK5AYbtgDkGv6yVjIRF703DGJ7JEiMtgQd
+ dghtqK9OEyoiYFmxZjUn6PxsYclPMQkhjr5bgzNC97JQZsqBeHKt+wz+e5RxbCY2zZtpCOnC6K+
+ y5QSeGmm0ww4xNiM=
+X-Received: by 2002:a5d:428e:0:b0:2c7:a3c:5b90 with SMTP id
+ k14-20020a5d428e000000b002c70a3c5b90mr2138764wrq.9.1677596275465; 
+ Tue, 28 Feb 2023 06:57:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set9qPD1X1ugrnYjzXkrbYvs2CKaGwPZ4zk0tjqurktVVPxpvOhB4RnDC7c+yuRecJzzLOXY7Aw==
+X-Received: by 2002:a5d:428e:0:b0:2c7:a3c:5b90 with SMTP id
+ k14-20020a5d428e000000b002c70a3c5b90mr2138739wrq.9.1677596275126; 
+ Tue, 28 Feb 2023 06:57:55 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ c10-20020a5d4f0a000000b002c54911f50bsm10056050wru.84.2023.02.28.06.57.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 06:57:54 -0800 (PST)
+Date: Tue, 28 Feb 2023 09:57:50 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Anton Kuchin <antonkuchin@yandex-team.ru>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
+ Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
+Message-ID: <20230228094756-mutt-send-email-mst@kernel.org>
+References: <333c4451-8eef-0603-c3f5-10e38c0eb24e@yandex-team.ru>
+ <20230222115106-mutt-send-email-mst@kernel.org>
+ <11593688-7ca4-def3-6212-7c26faa4d1c6@yandex-team.ru>
+ <20230222121133-mutt-send-email-mst@kernel.org>
+ <a477ca70-8aea-6c16-122e-1ded4af11f49@yandex-team.ru>
+ <20230222151814-mutt-send-email-mst@kernel.org>
+ <20230223023604-mutt-send-email-mst@kernel.org>
+ <Y/fZm12yGIPnwaDX@fedora>
+ <20230224034258-mutt-send-email-mst@kernel.org>
+ <8611d901-0940-3747-c2cd-9c193c7f24f2@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-657128405-1677596148=:71268"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8611d901-0940-3747-c2cd-9c193c7f24f2@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,105 +111,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Tue, Feb 28, 2023 at 04:30:36PM +0200, Anton Kuchin wrote:
+> I really don't understand why and what do you want to check on
+> destination.
 
---3866299591-657128405-1677596148=:71268
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Yes I understand your patch controls source. Let me try to rephrase
+why I think it's better on destination.
+Here's my understanding
+- With vhost-user-fs state lives inside an external daemon.
+A- If after load you connect to the same daemon you can get migration mostly
+  for free.
+B- If you connect to a different daemon then that daemon will need
+  to pass information from original one.
 
-On Tue, 28 Feb 2023, Philippe Mathieu-Daudé wrote:
-> On 20/2/23 19:19, BALATON Zoltan wrote:
->> If certain bit is set remote wake up should change state from
->> suspended to resume and generate interrupt. There was a todo comment
->> for this, implement that by moving existing resume logic to a function
->> and call that.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/usb/hcd-ohci.c | 23 +++++++++++++++++------
->>   1 file changed, 17 insertions(+), 6 deletions(-)
->> 
->> diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
->> index bad8db7b1d..88bd42b14a 100644
->> --- a/hw/usb/hcd-ohci.c
->> +++ b/hw/usb/hcd-ohci.c
->> @@ -1410,6 +1410,18 @@ static void ohci_set_hub_status(OHCIState *ohci, 
->> uint32_t val)
->>       }
->>   }
->>   +/* This is the one state transition the controller can do by itself */
->> +static int ohci_resume(OHCIState *s)
->
-> Preferably returning bool.
+Is this a fair summary?
 
-I can change that on rebase. I just followed other exising 
-functions in this file for consistency which return int (although some 
-use 1 and others use -1 besides 0).
+Current solution is to set flag on the source meaning "I have an
+orchestration tool that will make sure that either A or B is correct".
 
->> +{
->> +    if ((s->ctl & OHCI_CTL_HCFS) == OHCI_USB_SUSPEND) {
->> +        trace_usb_ohci_remote_wakeup(s->name);
->> +        s->ctl &= ~OHCI_CTL_HCFS;
->> +        s->ctl |= OHCI_USB_RESUME;
->> +        return 1;
->> +    }
->> +    return 0;
->> +}
->> +
->>   /*
->>    * Sets a flag in a port status reg but only set it if the port is 
->> connected.
->>    * If not set ConnectStatusChange flag. If flag is enabled return 1.
->> @@ -1426,7 +1438,10 @@ static int ohci_port_set_if_connected(OHCIState 
->> *ohci, int i, uint32_t val)
->>       if (!(ohci->rhport[i].ctrl & OHCI_PORT_CCS)) {
->>           ohci->rhport[i].ctrl |= OHCI_PORT_CSC;
->
-> // ConnectStatusChange
->
->>           if (ohci->rhstatus & OHCI_RHS_DRWE) {
->
-> // DeviceRemoteWakeupEnable: ConnectStatusChange is a remote wakeup event.
+However both A and B can only be known when destination is known.
+Especially as long as what we are really trying to do is just allow qemu
+restarts, Checking the flag on load will thus achive it in a cleaner
+way, in that orchestration tool can reasonably keep the flag
+clear normally and only set it if restarting qemu locally.
 
-Not clear if you want any change here or the comments are just explanation 
-in this email.
 
->> -            /* TODO: CSC is a wakeup event */
->> +            /* CSC is a wakeup event */
->> +            if (ohci_resume(ohci)) {
->> +                ohci_set_interrupt(ohci, OHCI_INTR_RD);
->
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+By comparison, with your approach orchestration tool will have
+to either always set the flag (risky since then we lose the
+extra check that we coded) or keep it clear and set before migration
+(complex).
 
-Thanks for the review. You put a lot of work in QEMU and we appreciate 
-very much that you're also doing the job of other maintainers.
+I hope I explained what and why I want to check.
 
-Regards,
-BALATON Zoltan
+I am far from a vhost-user-fs expert so maybe I am wrong but
+I wanted to make sure I got the point across even if other
+disagree.
 
-> Gerd, if you Ack I can queue this.
->
->> +            }
->>           }
->>           return 0;
->>       }
->> @@ -1828,11 +1843,7 @@ static void ohci_wakeup(USBPort *port1)
->>           intr = OHCI_INTR_RHSC;
->>       }
->>       /* Note that the controller can be suspended even if this port is not 
->> */
->> -    if ((s->ctl & OHCI_CTL_HCFS) == OHCI_USB_SUSPEND) {
->> -        trace_usb_ohci_remote_wakeup(s->name);
->> -        /* This is the one state transition the controller can do by 
->> itself */
->> -        s->ctl &= ~OHCI_CTL_HCFS;
->> -        s->ctl |= OHCI_USB_RESUME;
->> +    if (ohci_resume(s)) {
->>           /*
->>            * In suspend mode only ResumeDetected is possible, not RHSC:
->>            * see the OHCI spec 5.1.2.3.
->
->
---3866299591-657128405-1677596148=:71268--
+-- 
+MST
+
 
