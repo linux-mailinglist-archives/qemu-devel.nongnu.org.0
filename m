@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A12D6A54E4
+	by mail.lfdr.de (Postfix) with ESMTPS id 483766A54E3
 	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 09:57:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWvmQ-0005vm-Kj; Tue, 28 Feb 2023 03:56:14 -0500
+	id 1pWvmU-0005yj-VQ; Tue, 28 Feb 2023 03:56:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+7d6b05f3cc01f0cae584+7128+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pWvmJ-0005tp-21
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:56:10 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWvmS-0005xA-2M
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:56:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+7d6b05f3cc01f0cae584+7128+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pWvmF-0003NI-2m
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:56:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=2OlLezIxFwu9mBgpOmx0imlWJrVIHeye2Jf+Ckk3UH8=; b=LU9xFEkpqVa+ZC9Q7T0covEJ6/
- FTELYmv1qOA5H+qXHpW0uQU5j/gejVHCHf7jIMzdqiNkiO0U94SeAgyCXqaqe3pRDrVa9Hca7kOn6
- nmBDTJXdf8iu0YWdN1hSHFv/VEL7jM6dCSjoguTyyLolyMa5BSONchimmhQoxjAg+MF4lwplpjmMC
- qjvt9nZc7Kq2Ot7GdlJ3OfQl883CYSdETda/QgWJF0CPue9isYMSAvcc/0cMFCg20WeW/pPqQESlo
- 6yzYAfvjCWO4fd7tZJ1zt0yyjYG1FTATSjW0kDQ0FuKyUJF2iZSezYV2WpGtqTBqGxRzv+zehnaxF
- 42X8Kh7A==;
-Received: from [2001:8b0:10b:5:79c1:51c6:f359:2a9b]
- (helo=u3832b3a9db3152.ant.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pWvm2-000kgO-1u; Tue, 28 Feb 2023 08:55:50 +0000
-Message-ID: <72a0be7a0624e628a1cd79e1f8b777ceeb5ea4f5.camel@infradead.org>
-Subject: Re: [PATCH v14 15/60] i386/xen: add pc_machine_kvm_type to
- initialize XEN_EMULATE mode
-From: David Woodhouse <dwmw2@infradead.org>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>, Peter
- Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>, Joao
- Martins <joao.m.martins@oracle.com>, Ankur Arora
- <ankur.a.arora@oracle.com>, Thomas Huth <thuth@redhat.com>, Alex
- =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,  Juan Quintela
- <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>, "Michael
- S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>,  armbru@redhat.com, Stefano Stabellini
- <sstabellini@kernel.org>,  vikram.garhwal@amd.com
-Date: Tue, 28 Feb 2023 08:55:48 +0000
-In-Reply-To: <31fa46c5-cd5e-47b3-f971-a6465d6d4b02@linaro.org>
-References: <20230227142908.503517-1-dwmw2@infradead.org>
- <20230227142908.503517-16-dwmw2@infradead.org>
- <31fa46c5-cd5e-47b3-f971-a6465d6d4b02@linaro.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-3/MsZgisGipcubwQBqOk"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pWvmP-0003RB-7x
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 03:56:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677574571;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fiiegtKjUuha9vgeosMfcjy/7s+YnJDBKW8dCLfoFgM=;
+ b=ibuCHiZ7LH4FSvIa5qe2gGfSDYqnL8/mCdiLffxky+btRDNNtxA/1q1U1qz5v6O0dRbcvh
+ cPcq6VO6uFbf7NJE1N2PIOmWUoGK6eNMm03kBt7nOaPKq5l6QKYcl5KoB9tOXVQObpU8xQ
+ miz466PqHrGTDI5etUz69hDoEL4CL80=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-627-Oowj_lCKOCqv7xuEz-XQtg-1; Tue, 28 Feb 2023 03:56:10 -0500
+X-MC-Unique: Oowj_lCKOCqv7xuEz-XQtg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ da15-20020a056402176f00b004ace822b750so12882969edb.20
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 00:56:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677574568;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fiiegtKjUuha9vgeosMfcjy/7s+YnJDBKW8dCLfoFgM=;
+ b=J7xRbeL7rlBU6Y11lTZYqI/LLrEe/VR0vaaKrSHJpyM4EBDSfO979xXaEfALzWv8Pk
+ z8bwmcP5J24kvJ5e9L44s/QBbUV00ux80ZgwiKWIs3jRGLQzXTH2ifXj4I/D6M4QAS2j
+ 5/pQ6upuTGb1qLEsbAdcsgNK27YrlIitHfU8d5FLaEP+Y7sG/RnydVAVVv5nwbZEjfA4
+ /UIasYL/S+E6npDpTMnExG3PE9CZjBcUAtC6dwbD5WPOL1gZC052t3mz493sZ9gH1tCN
+ 3SllWlvXqUdI5t6oRYx8H5xY6xF/n/H4gYMDMyMzyU+KQ9D6wiKGz/npGklrNwIcSkq+
+ 36/w==
+X-Gm-Message-State: AO0yUKU56HnKPPqMpVXkWwdskKzpInBUcxDsQkfsQtFaByj3ty+o9i2f
+ lIllBemxTTkasGQVdI3WbkuviJ6L/0UEULIJqKLcUk0oMJu0z3REfLV457um9cYlov/mPUQzCEO
+ CW4075NLlAixq6og=
+X-Received: by 2002:a17:907:a49:b0:86c:a3ed:1442 with SMTP id
+ be9-20020a1709070a4900b0086ca3ed1442mr2203427ejc.4.1677574567828; 
+ Tue, 28 Feb 2023 00:56:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set/7j96fO1BnXrAsBiWpYGcL6AVb5O3gAyb/XOGW4HN4n4GKByX2joOxuQnju9ckDciCFk5Z+w==
+X-Received: by 2002:a17:907:a49:b0:86c:a3ed:1442 with SMTP id
+ be9-20020a1709070a4900b0086ca3ed1442mr2203411ejc.4.1677574567543; 
+ Tue, 28 Feb 2023 00:56:07 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ e29-20020a170906749d00b008c33ebac259sm4235245ejl.127.2023.02.28.00.56.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 00:56:06 -0800 (PST)
+Date: Tue, 28 Feb 2023 03:56:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yangming <yangming73@huawei.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "wangzhigang (O)" <wangzhigang17@huawei.com>,
+ "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
+Subject: Re: [PATCH] virtio-balloon: optimize the virtio-balloon on the ARM
+ platform.
+Message-ID: <20230228035341-mutt-send-email-mst@kernel.org>
+References: <264b6cc6a74945c3b5214fa4e8f099fe@huawei.com>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+7d6b05f3cc01f0cae584+7128+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <264b6cc6a74945c3b5214fa4e8f099fe@huawei.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,130 +98,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Feb 28, 2023 at 03:26:56AM +0000, Yangming wrote:
+> > > Optimize the virtio-balloon feature on the ARM platform by adding a
+> > > variable to keep track of the current hot-plugged pc-dimm size,
+> > > instead of traversing the virtual machine's memory modules to count
+> > > the current RAM size during the balloon inflation or deflation
+> > > process. This variable can be updated only when plugging or unplugging
+> > > the device, which will result in an increase of approximately 60%
+> > > efficiency of balloon process on the ARM platform.
+> > >
+> > > We tested the total amount of time required for the balloon inflation
+> > process on ARM:
+> > > inflate the balloon to 64GB of a 128GB guest under stress.
+> > > Before: 102 seconds
+> > > After: 42 seconds
+> > >
+> > > Signed-off-by: Qi Xi <xiqi2@huawei.com>
+> > > Signed-off-by: Ming Yang yangming73@huawei.com
+> > > ---
+> > >   hw/mem/pc-dimm.c           |  2 ++
+> > >   hw/virtio/virtio-balloon.c | 33 +++++----------------------------
+> > >   include/hw/boards.h        |  1 +
+> > >   3 files changed, 8 insertions(+), 28 deletions(-)
+> > >
+> > > diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c index
+> > > 50ef83215c..192fc7922c 100644
+> > > --- a/hw/mem/pc-dimm.c
+> > > +++ b/hw/mem/pc-dimm.c
+> > > @@ -81,6 +81,7 @@ void pc_dimm_plug(PCDIMMDevice *dimm,
+> > MachineState
+> > > *machine)
+> > >
+> > >       memory_device_plug(MEMORY_DEVICE(dimm), machine);
+> > >       vmstate_register_ram(vmstate_mr, DEVICE(dimm));
+> > > +    machine->device_memory->dimm_size += vmstate_mr->size;
+> > >   }
+> > >
+> > >   void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+> > @@
+> > > -90,6 +91,7 @@ void pc_dimm_unplug(PCDIMMDevice *dimm,
+> > MachineState
+> > > *machine)
+> > >
+> > >       memory_device_unplug(MEMORY_DEVICE(dimm), machine);
+> > >       vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
+> > > +    machine->device_memory->dimm_size -= vmstate_mr->size;
+> > >   }
+> > 
+> > Ahh, missed that my previous comment was not addressed: we only want to
+> > track "real" DIMMs, not NVDIMMs.
+> > 
+> > --
+> > Thanks,
+> > 
+> > David / dhildenb
+> 
+> Optimize the virtio-balloon feature on the ARM platform by adding
+> a variable to keep track of the current hot-plugged pc-dimm size,
+> instead of traversing the virtual machine's memory modules to count
+> the current RAM size during the balloon inflation or deflation
+> process. This variable can be updated only when plugging or unplugging
+> the device, which will result in an increase of approximately 60%
+> efficiency of balloon process on the ARM platform.
+> 
+> We tested the total amount of time required for the balloon inflation process on ARM:
+> inflate the balloon to 64GB of a 128GB guest under stress.
+> Before: 102 seconds
+> After: 42 seconds
+> 
+> Signed-off-by: Qi Xi <xiqi2@huawei.com>
+> Signed-off-by: Ming Yang yangming73@huawei.com
+> ---
+>  hw/mem/pc-dimm.c           |  8 ++++++++
+>  hw/virtio/virtio-balloon.c | 33 +++++----------------------------
+>  include/hw/boards.h        |  1 +
+>  3 files changed, 14 insertions(+), 28 deletions(-)
+> 
+> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+> index 50ef83215c..2107615016 100644
+> --- a/hw/mem/pc-dimm.c
+> +++ b/hw/mem/pc-dimm.c
+> @@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
+>  
+>      memory_device_plug(MEMORY_DEVICE(dimm), machine);
+>      vmstate_register_ram(vmstate_mr, DEVICE(dimm));
+> +    bool is_nvdimm = object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM);
+> +    if (!is_nvdimm) {
+> +        machine->device_memory->dimm_size += vmstate_mr->size;
+> +    }
+>  }
+>  
+>  void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+> @@ -90,6 +94,10 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
+>  
+>      memory_device_unplug(MEMORY_DEVICE(dimm), machine);
+>      vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
+> +    bool is_nvdimm = object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM);
+> +    if (!is_nvdimm) {
+> +        machine->device_memory->dimm_size -= vmstate_mr->size;
+> +    }
+>  }
+>
 
---=-3/MsZgisGipcubwQBqOk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+add comments here explaining why are nvdimms excluded?
+  
+>  static int pc_dimm_slot2bitmap(Object *obj, void *opaque)
+> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> index 746f07c4d2..80bbb59132 100644
+> --- a/hw/virtio/virtio-balloon.c
+> +++ b/hw/virtio/virtio-balloon.c
+> @@ -729,37 +729,14 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
+>      memcpy(config_data, &config, virtio_balloon_config_size(dev));
+>  }
+>  
+> -static int build_dimm_list(Object *obj, void *opaque)
+> -{
+> -    GSList **list = opaque;
+> -
+> -    if (object_dynamic_cast(obj, TYPE_PC_DIMM)) {
+> -        DeviceState *dev = DEVICE(obj);
+> -        if (dev->realized) { /* only realized DIMMs matter */
+> -            *list = g_slist_prepend(*list, dev);
+> -        }
+> -    }
+> -
+> -    object_child_foreach(obj, build_dimm_list, opaque);
+> -    return 0;
+> -}
+> -
+>  static ram_addr_t get_current_ram_size(void)
+>  {
+> -    GSList *list = NULL, *item;
+> -    ram_addr_t size = current_machine->ram_size;
+> -
+> -    build_dimm_list(qdev_get_machine(), &list);
+> -    for (item = list; item; item = g_slist_next(item)) {
+> -        Object *obj = OBJECT(item->data);
+> -        if (!strcmp(object_get_typename(obj), TYPE_PC_DIMM)) {
+> -            size += object_property_get_int(obj, PC_DIMM_SIZE_PROP,
+> -                                            &error_abort);
+> -        }
+> +    MachineState *machine = MACHINE(qdev_get_machine());
+> +    if (machine->device_memory != NULL) {
 
-On Mon, 2023-02-27 at 23:37 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> > +extern int pc_machine_kvm_type(MachineState *machine, const char *vm_t=
-ype);
->=20
-> No 'extern' qualifier for function prototype please.
+just if (machine->device_memory) is equivalent and shorter
 
-Fixed in my tree. Thanks.
+> +        return machine->ram_size + machine->device_memory->dimm_size;
+> +    } else {
+> +        return machine->ram_size;
+>      }
+> -    g_slist_free(list);
+> -
+> -    return size;
+>  }
+>  
+>  static bool virtio_balloon_page_poison_support(void *opaque)
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 6fbbfd56c8..551b4b419e 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -296,6 +296,7 @@ struct MachineClass {
+>  typedef struct DeviceMemoryState {
+>      hwaddr base;
+>      MemoryRegion mr;
+> +    ram_addr_t dimm_size;
 
---=-3/MsZgisGipcubwQBqOk
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+add a comment explaining what this is?
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjI4MDg1NTQ4WjAvBgkqhkiG9w0BCQQxIgQglPQ1dJLc
-dBuOJ53GtkgOJZspUZDiYdtX+/yBVLGSroEwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgA7i5pM2vh0q077ln5dgNvhU0Q4wFW+JeZW
-JXKvC1D+HhFQWVKsBNHyvXligY1o8ATRZi/6qTLXC+Kuwd4Cl/wuEeX7vAwoPCn77BVNvUJGaxjw
-umczlppboeAZIZVR8Zhl/D80u+k2Nq8W7eNVJyEPfd153xtg8zZN1GJHL537wpoAZ44TdwjYgl/A
-4eT1at4v08fpJD9wYA/2qV2OwPfPTljsCH7xI0YLfz86sXNqkACy2fdlaCJHYuVVGd288Zpa5cC4
-BbluC+xNJI0qZUe3y4sPitgnwDM9v02T4VLiUx1jB80GbpQ8A+rvJzH+ICXWBRhe4k9q8RPgoxdX
-7SRTVSXbtXKz4mRjAF3x9p4lXmZlGFrJRa5eQaIJTADpUhlRhgSU/ZF8gcEimLcusJDVamKrvUJ/
-s3aFHgB7+UIUWIwTCeqYx7j4W+d9+S/oahRPnBZzj+cfYhtq6bUZiqiqHeGdQasnvtbwpVbF3y/T
-rvnwWe4pKLKVWyU3smjb0v79lcu2eHKgSdEvGE84FdyMiZj2qcTatARNFiYGWAACUUiNLwYnFGKX
-n+oxrFiZthrNg4ufJdvv4d8VbhwvnTXTmA/kWqXO8kX2Pl2UkyCJwY/xUM/IWdphMddi9MwMwpax
-+6S+fblCkPriWepSRWkNfbxf15IT4xcOFN4vftSkrAAAAAAAAA==
+>  } DeviceMemoryState;
+>  
+>  /**
+> -- 
+> 2.33.0
+> 
 
-
---=-3/MsZgisGipcubwQBqOk--
 
