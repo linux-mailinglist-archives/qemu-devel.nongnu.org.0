@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E016A56BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:28:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522226A56C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 11:30:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pWxC3-0003PO-AQ; Tue, 28 Feb 2023 05:26:47 -0500
+	id 1pWxEx-0005W3-VS; Tue, 28 Feb 2023 05:29:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pWxBo-0003Ji-K1
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:26:33 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1pWxEo-0005Jd-PF
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:29:40 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pWxBm-00071B-K9
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:26:32 -0500
-Received: by mail-wr1-x430.google.com with SMTP id g3so272017wri.6
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 02:26:29 -0800 (PST)
+ id 1pWxEn-0007dh-9F
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 05:29:38 -0500
+Received: by mail-wr1-x434.google.com with SMTP id bx12so6007219wrb.11
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 02:29:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zzevNVM6+qMYBVc5Qk1P9nYOKfAAxPN/zxc4KZBZeNg=;
- b=HdDBvEOd1d5pECekO1fLCiNlpaSBPedwsEjUiUmH68EqINwk95KSHDz8RutdEXWL6L
- +Z3eEalAdoqLUTdUgHat8eVnI5yJ5Aa3rBDhg0Tr/1DhwIfmzkvWHBfJHRo0S1XbzL/P
- vG2ivfKkU4qCzvvuwPQlMLzJz9epMzwAA041hYFT8Y3N3kvYOoXo46jhNcnk2pgLg7Y4
- PEX3rg0IedslWzk3rAZPz7RzLGM5hiLvnrwQzfMEvoDqAi96oRl0Ot9FR59yMqpQVFsm
- 8/PetmtCiimXvxbwmD59VgS3Oj/EuNxkqzHo+VOkxtc5GZ49ttVnacsubjvagIdWleI2
- wIUw==
+ bh=hseie5Sbq3tya5Z0AR4daJTbJmYerWl65fuFxSvz928=;
+ b=qQz2ifWhgXnxZs5hNEx+HB3xc+Tj6rQzeBJNksMfyCQCSywNzfKKArwcA9wJ48ud4x
+ Eh2PZVJi9NCJ9ZH+eC57dO8fpB+1g0/BEqX6y0kkc/DlE2Y21w9bMCwQ9kCyjfjZY0T4
+ usc62RWm/mHJ3N6IU4OEyJxntCx+aViVHFtSBp+fV+cXzTZNO+WwtM9SzD5GO0MV8yFc
+ XvoKNUJ7BNLrzsY3JbkwR0HIB232M1YoSwTfwYWvMv48a4Bwldwkmp7qyPOxK5Fyx5in
+ 8sRvdNdV/vpT/q93MSB+rmWF6c9lut/+00JnfVPMD0nXU4gkH1cYMwgQz37oIqkfcD3f
+ ylJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=zzevNVM6+qMYBVc5Qk1P9nYOKfAAxPN/zxc4KZBZeNg=;
- b=g38+sshShU0sa8OYRzuApd3a/9PaR6iT6FbdN4ad5+XzfL1Y5kFCR6DO/6X6GvvLnC
- vNsg6z4dwB+FxO0Ou3IVo7V1zpgtYY/ZAPi+ImFMwwD0DXpITLrCeKU6fpswTcgwTGA/
- o577e2bTCd+IfE500f85dgWYOAwBiulY5Vv2sN6V4Uki5OgOYWfU0lrFcFx3UdN5Hbvo
- 30KYonrZlWkwuUzg/qKFLQBIfMqJDc6lEZ80HSluM8feHxtWRhn8wlbiGNefARM98RDE
- DIy03XdBeDvlV99VIeoQKQ7wIA+derH/zQlzKR1UjxLFmMAj0sr89w04DZ2pBKhcJtCH
- jbdA==
-X-Gm-Message-State: AO0yUKUZ5myq7iHU8nLGU7kLhh7DTqxKpiBdw93RlxTYeDiLvDZAb1/Z
- b8DxNMcKB5lVev6uO0xzPJ46og==
-X-Google-Smtp-Source: AK7set+wuB/yWry5WHQxiHHg6zu+GVWu9YActxhRFhhFTnO3Vo097Wm6mWOyu2R8p+HGE1ZEAafN2g==
-X-Received: by 2002:adf:ef4b:0:b0:2c6:67eb:a9d7 with SMTP id
- c11-20020adfef4b000000b002c667eba9d7mr1863515wrp.27.1677579988074; 
- Tue, 28 Feb 2023 02:26:28 -0800 (PST)
+ bh=hseie5Sbq3tya5Z0AR4daJTbJmYerWl65fuFxSvz928=;
+ b=D45gOUOnn3ofAwc32LSbg0eyPJQ22boAbh4fpNH/v/KFS12p+Le873DQ4q1rORY8Dh
+ ieGrg31SswkQXRZAqcaxdr3mGlF0ZytmoL1JPS9+3dccsWP1ApVtIj/38aJM82il22KM
+ /VDCMhPXtu5wWwbab/deDAj8EiPVPbPnCqux1l2kV57vZXfU/8M9H4TAxHkbGymsuqjH
+ LKryXL366cNAU65TIZ5SK5OR78li4V9ZS+C67pVQ1cdpJuKMdBh8qawry57J2mRRFzyv
+ t2Zx+H5aER8mvnTch0N+BsNvg4k2ac5+PlhuxMYuBqm76ST4kM+Zjm7POG2LTl4jjf5y
+ dNiw==
+X-Gm-Message-State: AO0yUKVPXmxGHJztRWrMmoVM368qU9BhqQb9kamPLBRyw7dOYX6+HUCj
+ eGhA4dduAhh8/e613Yb6jTpRFA==
+X-Google-Smtp-Source: AK7set/RbWB6TTmgDaFfsnmijQqb62AHTFt4UwFftV5Y6MBlOLIgbp8g0b47hVeV1ZapKck5ZPlaMA==
+X-Received: by 2002:adf:dd85:0:b0:2c7:efb:dded with SMTP id
+ x5-20020adfdd85000000b002c70efbddedmr1712942wrl.24.1677580175374; 
+ Tue, 28 Feb 2023 02:29:35 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- 2-20020a05600c028200b003e9ded91c27sm15474407wmk.4.2023.02.28.02.26.27
+ t10-20020a05600c128a00b003dfee43863fsm15289722wmd.26.2023.02.28.02.29.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 02:26:27 -0800 (PST)
+ Tue, 28 Feb 2023 02:29:35 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4A9891FFB7;
- Tue, 28 Feb 2023 10:26:27 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id A60E91FFB7;
+ Tue, 28 Feb 2023 10:29:34 +0000 (GMT)
 References: <20230227151110.31455-1-farosas@suse.de>
- <20230227151110.31455-2-farosas@suse.de> <87fsargc9w.fsf@linaro.org>
- <87lekiyfr5.fsf@suse.de>
 User-agent: mu4e 1.9.21; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Fabiano Rosas <farosas@suse.de>
@@ -68,16 +66,15 @@ Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, Philippe
  Moschetta
  <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>, =?utf-8?Q?Daniel?=
  =?utf-8?Q?_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [RFC PATCH v3 1/1] gitlab: Use plain docker in
- container-template.yml
-Date: Tue, 28 Feb 2023 10:23:27 +0000
-In-reply-to: <87lekiyfr5.fsf@suse.de>
-Message-ID: <87356qgk6k.fsf@linaro.org>
+Subject: Re: [RFC PATCH v3 0/1] ci: Speed up container stage
+Date: Tue, 28 Feb 2023 10:29:18 +0000
+In-reply-to: <20230227151110.31455-1-farosas@suse.de>
+Message-ID: <87y1oif5gx.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,30 +100,18 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Fabiano Rosas <farosas@suse.de> writes:
 
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->
->> Fabiano Rosas <farosas@suse.de> writes:
->>
 <snip>
 >
-> There are issues pointing to some general unreliability of the cache:
+> What do you think?
 >
-> https://github.com/moby/buildkit/issues/2274
-> https://github.com/moby/buildkit/issues/1981
+> Fabiano Rosas (1):
+>   gitlab: Use plain docker in container-template.yml
 >
-> What is your docker version? Mine is 20.10.17-ce and Gitlab's is
-> 23.0.1. The issues above are on 20.10.11.
+>  .gitlab-ci.d/container-template.yml | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 
-Ahh Debian stable strikes again:
 
-  19:34:42 [root@zen:~] # docker --version
-  Docker version 20.10.5+dfsg1, build 55c4c88
-
-Bookworm is only on 20.10.23+dfsg1-1 and others
-
-Maybe it's time to enable the docker repos again? Debian does offer
-podman but I had issues with mapping user ids between container and
-volume with it. All the user files appeared own by root.
+Queued to testing/next, thanks.
 
 --=20
 Alex Benn=C3=A9e
