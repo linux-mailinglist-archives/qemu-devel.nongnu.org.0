@@ -2,57 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E796A5E03
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:14:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA806A5E11
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:16:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX3Ye-0004yP-O3; Tue, 28 Feb 2023 12:14:32 -0500
+	id 1pX3ac-0005zc-MS; Tue, 28 Feb 2023 12:16:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pX3Yc-0004yD-PV; Tue, 28 Feb 2023 12:14:30 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pX3aZ-0005xz-Pe
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:16:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pX3Ya-0004YL-MT; Tue, 28 Feb 2023 12:14:30 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 481587462DB;
- Tue, 28 Feb 2023 18:14:24 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 06BDC7457E7; Tue, 28 Feb 2023 18:14:24 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 04A09745706;
- Tue, 28 Feb 2023 18:14:24 +0100 (CET)
-Date: Tue, 28 Feb 2023 18:14:23 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
-cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 0/7] Pegasos2 fixes and audio output support
-In-Reply-To: <Y/4q+gZ6Q2738hmx@redhat.com>
-Message-ID: <88ffe803-b5d3-da6f-9e52-00e6dd9cf092@eik.bme.hu>
-References: <20230227125732.20941-1-shentey@gmail.com>
- <b86db1dd-b9ca-a774-963c-4f9404c9af5c@eik.bme.hu>
- <CAG4p6K74Rm2FaErjvSyVCgcMQ2Qz0pkh2dg6yPeXU5BmwYp3RQ@mail.gmail.com>
- <56e3575f-2cac-2138-23d1-78d8ff1388b5@eik.bme.hu>
- <CAG4p6K7Yd6SWBCC1_-fJJ1rLqCuRqwi=dOmypum7kiUZ4SoH=g@mail.gmail.com>
- <2952e466-98e1-cf16-b8c2-fdc49d0ebf48@eik.bme.hu>
- <b4b60712-a94c-69f4-2de0-b9b5e08970fc@linaro.org>
- <16efff7f-afe7-7c92-bdbe-6b0920bf2438@eik.bme.hu>
- <Y/4q+gZ6Q2738hmx@redhat.com>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pX3aV-0004zU-JN
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:16:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677604586;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cLUJVcYg/xF6CLs83TGnMc9OBpblxeR5Rg+jVNT+eKo=;
+ b=ctc8qrFCPXU6DmkKwuhgPh/UvohIWFeyvlIlomJrBZ7NiYnR7RyTVBt9BvX0QFChst5GdD
+ q79b6z7xbumEljL6KBdoREHk+Jz4BHGMdQrEqZWQpH5DLLVM8utjlZ2pL7gy4t2GMjZzat
+ raZ8qkGNctPG9kFjf+VJ4EVrvLFWiZI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-33-fnyxpl_sM-uYT5iwSj9B7Q-1; Tue, 28 Feb 2023 12:16:24 -0500
+X-MC-Unique: fnyxpl_sM-uYT5iwSj9B7Q-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ n6-20020a5d51c6000000b002ca3c48ba46so1537936wrv.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 09:16:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cLUJVcYg/xF6CLs83TGnMc9OBpblxeR5Rg+jVNT+eKo=;
+ b=Jqzw9xAuAo5DclOdNiaC6V+KXKy1NEeoXGkuFSDwhSpeGf/TkLAxnJ8f0yMiIhNw0j
+ OVzF2GQhPWpW+vF3l8NM7FXiiwxJRVBhEi958BV1YpQ+PAAC/H7tQlRhfmwy+8k2+G6X
+ MrGxY1JellGshfyAMXSn73jg5h7nG/a6CGrlDCPmm9bwrgFehG2gx85hO/oV1Bdz5qSm
+ 5/wbxlBET2z547nE32cs1prEFPX2pMGcfTYPoUgCuoeFOyLG5daOfXwRzSD4xT8qKtsI
+ GKaYSEiaMKbydN7pXDLvUkxB1Gf2ZLZXfc00bt2wVe78nrfZpYrsov9aLyCkqcu28rhb
+ oh9g==
+X-Gm-Message-State: AO0yUKVF2ZvgFjuq2oWJMs5hMUhIJ+xPuNTGi7Kq3OImSwvrMNIUYoHy
+ nwj9ygjHCVtWa1K0R3iDIbcdoJ2W2azpBH1u19z9y6yDAmYyHRrJZ5AD0R9iCBBxkwoI+B+Cu8m
+ aUPIMwSjC4QRoBps=
+X-Received: by 2002:a5d:50c5:0:b0:2c5:8353:e0ec with SMTP id
+ f5-20020a5d50c5000000b002c58353e0ecmr2998763wrt.10.1677604583724; 
+ Tue, 28 Feb 2023 09:16:23 -0800 (PST)
+X-Google-Smtp-Source: AK7set9KZhwEJGZgEluyAd/AgqC6OLbcnJObfvXdK8fvUZ4v7S7cwk8azGPlMDwqkh5PSfRHPUccSA==
+X-Received: by 2002:a5d:50c5:0:b0:2c5:8353:e0ec with SMTP id
+ f5-20020a5d50c5000000b002c58353e0ecmr2998731wrt.10.1677604583351; 
+ Tue, 28 Feb 2023 09:16:23 -0800 (PST)
+Received: from ?IPV6:2003:cb:c706:b800:3757:baed:f95e:20ac?
+ (p200300cbc706b8003757baedf95e20ac.dip0.t-ipconnect.de.
+ [2003:cb:c706:b800:3757:baed:f95e:20ac])
+ by smtp.gmail.com with ESMTPSA id
+ c2-20020a5d4cc2000000b002bfd524255esm10168288wrt.43.2023.02.28.09.16.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 09:16:22 -0800 (PST)
+Message-ID: <2018fac3-ac49-5d5a-93b4-298438bf624f@redhat.com>
+Date: Tue, 28 Feb 2023 18:16:21 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-554275059-1677604464=:7539"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] memory: avoid unnecessary iteration when updating
+ ioeventfds
+Content-Language: en-US
+To: "Longpeng(Mike)" <longpeng2@huawei.com>, pbonzini@redhat.com,
+ peterx@redhat.com, philmd@linaro.org, mst@redhat.com, jasowang@redhat.com
+Cc: qemu-devel@nongnu.org, eperezma@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com
+References: <20230228142514.2582-1-longpeng2@huawei.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230228142514.2582-1-longpeng2@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,72 +106,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 28.02.23 15:25, Longpeng(Mike) via wrote:
+> From: Longpeng <longpeng2@huawei.com>
+> 
+> When updating ioeventfds, we need to iterate all address spaces and
+> iterate all flat ranges of each address space. There is so much
+> redundant process that a FlatView would be iterated for so many times
+> during one commit (memory_region_transaction_commit).
+> 
+> We can mark a FlatView as UPDATED and then skip it in the next iteration
+> and clear the UPDATED flag at the end of the commit. The overhead can
+> be significantly reduced.
+> 
+> For example, a VM with 16 vdpa net devices and each one has 65 vectors,
+> can reduce the time spent on memory_region_transaction_commit by 95%.
+> 
+> Signed-off-by: Longpeng <longpeng2@huawei.com>
+> ---
+>   include/exec/memory.h |  2 ++
+>   softmmu/memory.c      | 28 +++++++++++++++++++++++++++-
+>   2 files changed, 29 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 2e602a2fad..974eabf765 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -1093,6 +1093,8 @@ struct FlatView {
+>       unsigned nr_allocated;
+>       struct AddressSpaceDispatch *dispatch;
+>       MemoryRegion *root;
+> +#define FLATVIEW_FLAG_IOEVENTFD_UPDATED (1 << 0)
+> +    unsigned flags;
+>   };
+>   
+>   static inline FlatView *address_space_to_flatview(AddressSpace *as)
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 9d64efca26..71ff996712 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -815,6 +815,15 @@ FlatView *address_space_get_flatview(AddressSpace *as)
+>       return view;
+>   }
+>   
+> +static void address_space_reset_view_flags(AddressSpace *as, unsigned mask)
+> +{
+> +    FlatView *view = address_space_get_flatview(as);
+> +
+> +    if (view->flags & mask) {
+> +        view->flags &= ~mask;
+> +    }
 
---3866299591-554275059-1677604464=:7539
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Just do it unconditionally.
 
-On Tue, 28 Feb 2023, Daniel P. Berrangé wrote:
-> On Tue, Feb 28, 2023 at 04:05:30PM +0100, BALATON Zoltan wrote:
->> On Mon, 27 Feb 2023, Philippe Mathieu-Daudé wrote:
->>> On 27/2/23 18:47, BALATON Zoltan wrote:
->>>> On Mon, 27 Feb 2023, Bernhard Beschow wrote:
->>>>> Unfortunately my patches had changes merged in. This now makes it hard to
->>>>> show what really changed (spoiler: nothing that affects behavior).
->>>>>
->>>>> As you probably noticed in the "resend" version of this iteration I split
->>>>> off a patch introducing the priq properties. It belongs to the sub series
->>>>> of the Pegasos2 IRQ fixes which appear unnecessary to me, so I don't want
->>>>> to show up in `git blame` as the author of any of these changes. I
->>>>> attributed it to you because this was really your change which
->>>>> I'm not even
->>>>> sure is legal.
->>>>>
->>>>> Let's avoid such complications by keeping our series separate.
->>>>
->>>> Let's cool down a bit. Philippe took some of the sm501 patches in
->>>> his giant pull request (and a lot of your patches too) now so I'll
->>>> wait until that lands and hope to get some review for the remaining
->>>> patches too. Once that pull req is merged I'll rebase the remaining
->>>> patches and resubmit the series also adding changes for reasonable
->>>> review comments I get by then.
->>>
->>> I'm sorry it took me so long, I was expecting these patches to be picked
->>> up by other maintainers but everybody is very busy. I know you'll need
->>
->> You have no reason to apologise really, you did a great job merging all the
->> patches. I was thinking that because as you say every maintainer is very
->> busy now and we also had CI outage for a few weeks should we consider
->> extending the date until the freeze by one or two weeks? That would allow
->> people to relax a bit and be able to consolidate and merge all still pending
->> patches. Postponing the 8.0 release one or two weeks is probably better than
->> missing a lot of changes until the next release in September. We'd still aim
->> for the original freeze date but if we fail to meet that it would be more
->> convenient to know there could be a possibility for extending it. But make
->> it clear that this is only for this one time because of CI outage and
->> additional maintainer load caused by that so not something that should be
->> done regularly but under current circumstances I would consider it.
->
-> There's no need to change the release schedule IMHO. Subsystem maintainers
-> should continue to send pull requests as normal. Peter is still processing
-> PRs, albeit at a lower rate with adhoc CI. From the soft freeze POV what
-> matters is just that the PRs are posted on the mailing list before the
-> deadline. If they're posted in time, they're still valid for inclusion in
-> the release. Our CI allowance is reset at the end of today anyway.
+Unfortunately, I cannot comment on the bigger picture, but it does look 
+good to me.
 
-Problem is that some patches will need to be rebased on still pending pull 
-request and also may need the maintainer's attention to review them and 
-send the final pull despite series have been on the list few weeks before 
-the freeze that should be in time. So this will mean we might still have 
-some pending patches end of this week and if somebody asks for last minute 
-changes then it will be hard to meet the deadline. So at least one week 
-extension seems to resolve the pressure this causes and also give 
-maintainers some time to catch up. It's better than just saying "Sorry it 
-was out fault but you've still missed the release, see you next time."
+-- 
+Thanks,
 
-Regards,
-BALATON Zoltan
---3866299591-554275059-1677604464=:7539--
+David / dhildenb
+
 
