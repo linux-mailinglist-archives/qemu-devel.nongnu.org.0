@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94976A5FA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:30:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FAB6A5FA4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 20:30:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX5eq-0002Pf-O9; Tue, 28 Feb 2023 14:29:04 -0500
+	id 1pX5ew-0002RV-Bb; Tue, 28 Feb 2023 14:29:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pX5en-0002Oq-Ml; Tue, 28 Feb 2023 14:29:01 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ id 1pX5er-0002QO-9U; Tue, 28 Feb 2023 14:29:05 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pX5el-0007Yx-SK; Tue, 28 Feb 2023 14:29:01 -0500
+ id 1pX5ep-0007ZJ-Ps; Tue, 28 Feb 2023 14:29:05 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6E2C51FDEF;
- Tue, 28 Feb 2023 19:28:58 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6135321A79;
+ Tue, 28 Feb 2023 19:29:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677612538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ t=1677612542; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1qecaEyNsUUxptjayLjZvZZ8IlZx3hVFmWGtItqiTRo=;
- b=eNYGc1zkZowObdWqSX1YTwalCgRg31DUTobSXuKFsOWGkawJUYnxcEhZ7gMYsKwLjEnOaB
- 4YcVa1NWJWhoAWhueN2vEDCed6tHjUkrS/GfOf4kvNdqyPVCu98jiMKGDyMYQSWP9nkb77
- PLcxax063R6VLbVCcd6LLF0pb583VuU=
+ bh=l4/87AG6FGtdZrutVSYL3Mf2MUNzW5FyqQPULdr+1qY=;
+ b=hpt2ksVzYkLLXEEI+b2dAwUtbpdh1RkG0HPb3QufK24dtrUQsNBN+9gV9RfSc5e7Rdwbul
+ /ulCnZYO95rBdjJePjVvHT2SVTWAB84bgtBdzmppACT+ZENT7cKu9Lx9FKuET9GfNs1Gov
+ 57Sj7HmGqamuhGoH4ApY4a+lqAm2WtM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677612538;
+ s=susede2_ed25519; t=1677612542;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1qecaEyNsUUxptjayLjZvZZ8IlZx3hVFmWGtItqiTRo=;
- b=yF6ULXF2kLRgyLigXWzXOnYMFXfDAK0a5EWeqX/Ur4TiFNeRRtU0QvVuOghCOwl+yLFxxC
- ekN30ll5veFjc3Cw==
+ bh=l4/87AG6FGtdZrutVSYL3Mf2MUNzW5FyqQPULdr+1qY=;
+ b=2QgU79mjcEqgFUw1+8r3lIjVAXcXMmc1jfRvOnfmsLVSOxkJIQfpEK6xhD5xnubx+P088J
+ cHL/qVk4VagxXMAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 90BD91333C;
- Tue, 28 Feb 2023 19:28:55 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DDC031333C;
+ Tue, 28 Feb 2023 19:28:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GJYJFvdV/mNBagAAMHmgww
- (envelope-from <farosas@suse.de>); Tue, 28 Feb 2023 19:28:55 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id GMwLKfpV/mNBagAAMHmgww
+ (envelope-from <farosas@suse.de>); Tue, 28 Feb 2023 19:28:58 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,18 +57,21 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH RESEND v7 7/9] arm/Kconfig: Do not build TCG-only boards on a
- KVM-only build
-Date: Tue, 28 Feb 2023 16:26:26 -0300
-Message-Id: <20230228192628.26140-8-farosas@suse.de>
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH RESEND v7 8/9] gitlab-ci: Check building KVM-only aarch64
+ target
+Date: Tue, 28 Feb 2023 16:26:27 -0300
+Message-Id: <20230228192628.26140-9-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230228192628.26140-1-farosas@suse.de>
 References: <20230228192628.26140-1-farosas@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,391 +94,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Move all the CONFIG_FOO=y from default.mak into "default y if TCG"
-statements in Kconfig. That way they won't be selected when
-CONFIG_TCG=n.
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-I'm leaving CONFIG_ARM_VIRT in default.mak because it allows us to
-keep the two default.mak files not empty and keep aarch64-default.mak
-including arm-default.mak. That way we don't surprise anyone that's
-used to altering these files.
+Add a manual new job to cross-build the aarch64 target with
+only the KVM accelerator enabled (in particular, no TCG).
 
-With this change we can start building with --disable-tcg.
+Re-enable running the similar job on the project Aarch64
+custom runner.
 
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- configs/devices/aarch64-softmmu/default.mak |  4 --
- configs/devices/arm-softmmu/default.mak     | 37 ------------------
- hw/arm/Kconfig                              | 42 ++++++++++++++++++++-
- 3 files changed, 41 insertions(+), 42 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml                         | 11 +++++++++++
+ .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml |  4 ----
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/configs/devices/aarch64-softmmu/default.mak b/configs/devices/aarch64-softmmu/default.mak
-index cf43ac8da1..70e05a197d 100644
---- a/configs/devices/aarch64-softmmu/default.mak
-+++ b/configs/devices/aarch64-softmmu/default.mak
-@@ -2,7 +2,3 @@
- 
- # We support all the 32 bit boards so need all their config
- include ../arm-softmmu/default.mak
--
--CONFIG_XLNX_ZYNQMP_ARM=y
--CONFIG_XLNX_VERSAL=y
--CONFIG_SBSA_REF=y
-diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
-index cb3e5aea65..647fbce88d 100644
---- a/configs/devices/arm-softmmu/default.mak
-+++ b/configs/devices/arm-softmmu/default.mak
-@@ -4,40 +4,3 @@
- # CONFIG_TEST_DEVICES=n
- 
- CONFIG_ARM_VIRT=y
--CONFIG_CUBIEBOARD=y
--CONFIG_EXYNOS4=y
--CONFIG_HIGHBANK=y
--CONFIG_INTEGRATOR=y
--CONFIG_FSL_IMX31=y
--CONFIG_MUSICPAL=y
--CONFIG_MUSCA=y
--CONFIG_CHEETAH=y
--CONFIG_SX1=y
--CONFIG_NSERIES=y
--CONFIG_STELLARIS=y
--CONFIG_STM32VLDISCOVERY=y
--CONFIG_REALVIEW=y
--CONFIG_VERSATILE=y
--CONFIG_VEXPRESS=y
--CONFIG_ZYNQ=y
--CONFIG_MAINSTONE=y
--CONFIG_GUMSTIX=y
--CONFIG_SPITZ=y
--CONFIG_TOSA=y
--CONFIG_Z2=y
--CONFIG_NPCM7XX=y
--CONFIG_COLLIE=y
--CONFIG_ASPEED_SOC=y
--CONFIG_NETDUINO2=y
--CONFIG_NETDUINOPLUS2=y
--CONFIG_OLIMEX_STM32_H405=y
--CONFIG_MPS2=y
--CONFIG_RASPI=y
--CONFIG_DIGIC=y
--CONFIG_SABRELITE=y
--CONFIG_EMCRAFT_SF2=y
--CONFIG_MICROBIT=y
--CONFIG_FSL_IMX25=y
--CONFIG_FSL_IMX7=y
--CONFIG_FSL_IMX6UL=y
--CONFIG_ALLWINNER_H3=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index c0b213f42d..dd189eae2b 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -34,20 +34,24 @@ config ARM_VIRT
- 
- config CHEETAH
-     bool
-+    default y if TCG && ARM
-     select OMAP
-     select TSC210X
- 
- config CUBIEBOARD
-     bool
-+    default y if TCG && ARM
-     select ALLWINNER_A10
- 
- config DIGIC
-     bool
-+    default y if TCG && ARM
-     select PTIMER
-     select PFLASH_CFI02
- 
- config EXYNOS4
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select A9MPCORE
-     select I2C
-@@ -60,6 +64,7 @@ config EXYNOS4
- 
- config HIGHBANK
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select A15MPCORE
-     select AHCI
-@@ -74,6 +79,7 @@ config HIGHBANK
- 
- config INTEGRATOR
-     bool
-+    default y if TCG && ARM
-     select ARM_TIMER
-     select INTEGRATOR_DEBUG
-     select PL011 # UART
-@@ -86,12 +92,14 @@ config INTEGRATOR
- 
- config MAINSTONE
-     bool
-+    default y if TCG && ARM
-     select PXA2XX
-     select PFLASH_CFI01
-     select SMC91C111
- 
- config MUSCA
-     bool
-+    default y if TCG && ARM
-     select ARMSSE
-     select PL011
-     select PL031
-@@ -103,6 +111,7 @@ config MARVELL_88W8618
- 
- config MUSICPAL
-     bool
-+    default y if TCG && ARM
-     select OR_IRQ
-     select BITBANG_I2C
-     select MARVELL_88W8618
-@@ -113,18 +122,22 @@ config MUSICPAL
- 
- config NETDUINO2
-     bool
-+    default y if TCG && ARM
-     select STM32F205_SOC
- 
- config NETDUINOPLUS2
-     bool
-+    default y if TCG && ARM
-     select STM32F405_SOC
- 
- config OLIMEX_STM32_H405
-     bool
-+    default y if TCG && ARM
-     select STM32F405_SOC
- 
- config NSERIES
-     bool
-+    default y if TCG && ARM
-     select OMAP
-     select TMP105   # tempature sensor
-     select BLIZZARD # LCD/TV controller
-@@ -157,12 +170,14 @@ config PXA2XX
- 
- config GUMSTIX
-     bool
-+    default y if TCG && ARM
-     select PFLASH_CFI01
-     select SMC91C111
-     select PXA2XX
- 
- config TOSA
-     bool
-+    default y if TCG && ARM
-     select ZAURUS  # scoop
-     select MICRODRIVE
-     select PXA2XX
-@@ -170,6 +185,7 @@ config TOSA
- 
- config SPITZ
-     bool
-+    default y if TCG && ARM
-     select ADS7846 # touch-screen controller
-     select MAX111X # A/D converter
-     select WM8750  # audio codec
-@@ -182,6 +198,7 @@ config SPITZ
- 
- config Z2
-     bool
-+    default y if TCG && ARM
-     select PFLASH_CFI01
-     select WM8750
-     select PL011 # UART
-@@ -189,6 +206,7 @@ config Z2
- 
- config REALVIEW
-     bool
-+    default y if TCG && ARM
-     imply PCI_DEVICES
-     imply PCI_TESTDEV
-     imply I2C_DEVICES
-@@ -217,6 +235,7 @@ config REALVIEW
- 
- config SBSA_REF
-     bool
-+    default y if TCG && AARCH64
-     imply PCI_DEVICES
-     select AHCI
-     select ARM_SMMUV3
-@@ -232,11 +251,13 @@ config SBSA_REF
- 
- config SABRELITE
-     bool
-+    default y if TCG && ARM
-     select FSL_IMX6
-     select SSI_M25P80
- 
- config STELLARIS
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select ARM_V7M
-     select CMSDK_APB_WATCHDOG
-@@ -254,6 +275,7 @@ config STELLARIS
- 
- config STM32VLDISCOVERY
-     bool
-+    default y if TCG && ARM
-     select STM32F100_SOC
- 
- config STRONGARM
-@@ -262,16 +284,19 @@ config STRONGARM
- 
- config COLLIE
-     bool
-+    default y if TCG && ARM
-     select PFLASH_CFI01
-     select ZAURUS  # scoop
-     select STRONGARM
- 
- config SX1
-     bool
-+    default y if TCG && ARM
-     select OMAP
- 
- config VERSATILE
-     bool
-+    default y if TCG && ARM
-     select ARM_TIMER # sp804
-     select PFLASH_CFI01
-     select LSI_SCSI_PCI
-@@ -283,6 +308,7 @@ config VERSATILE
- 
- config VEXPRESS
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select A15MPCORE
-     select ARM_MPTIMER
-@@ -298,6 +324,7 @@ config VEXPRESS
- 
- config ZYNQ
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select CADENCE # UART
-     select PFLASH_CFI02
-@@ -314,7 +341,7 @@ config ZYNQ
- config ARM_V7M
-     bool
-     # currently v7M must be included in a TCG build due to translate.c
--    default y if TCG && (ARM || AARCH64)
-+    default y if TCG && ARM
-     select PTIMER
- 
- config ALLWINNER_A10
-@@ -332,6 +359,7 @@ config ALLWINNER_A10
- 
- config ALLWINNER_H3
-     bool
-+    default y if TCG && ARM
-     select ALLWINNER_A10_PIT
-     select ALLWINNER_SUN8I_EMAC
-     select ALLWINNER_I2C
-@@ -345,6 +373,7 @@ config ALLWINNER_H3
- 
- config RASPI
-     bool
-+    default y if TCG && ARM
-     select FRAMEBUFFER
-     select PL011 # UART
-     select SDHCI
-@@ -375,6 +404,7 @@ config STM32F405_SOC
- 
- config XLNX_ZYNQMP_ARM
-     bool
-+    default y if TCG && AARCH64
-     select AHCI
-     select ARM_GIC
-     select CADENCE
-@@ -392,6 +422,7 @@ config XLNX_ZYNQMP_ARM
- 
- config XLNX_VERSAL
-     bool
-+    default y if TCG && AARCH64
-     select ARM_GIC
-     select PL011
-     select CADENCE
-@@ -405,6 +436,7 @@ config XLNX_VERSAL
- 
- config NPCM7XX
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select ADM1272
-     select ARM_GIC
-@@ -421,6 +453,7 @@ config NPCM7XX
- 
- config FSL_IMX25
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select IMX
-     select IMX_FEC
-@@ -430,6 +463,7 @@ config FSL_IMX25
- 
- config FSL_IMX31
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select SERIAL
-     select IMX
-@@ -450,6 +484,7 @@ config FSL_IMX6
- 
- config ASPEED_SOC
-     bool
-+    default y if TCG && ARM
-     select DS1338
-     select FTGMAC100
-     select I2C
-@@ -470,6 +505,7 @@ config ASPEED_SOC
- 
- config MPS2
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select ARMSSE
-     select LAN9118
-@@ -485,6 +521,7 @@ config MPS2
- 
- config FSL_IMX7
-     bool
-+    default y if TCG && ARM
-     imply PCI_DEVICES
-     imply TEST_DEVICES
-     imply I2C_DEVICES
-@@ -503,6 +540,7 @@ config ARM_SMMUV3
- 
- config FSL_IMX6UL
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select A15MPCORE
-     select IMX
-@@ -514,6 +552,7 @@ config FSL_IMX6UL
- 
- config MICROBIT
-     bool
-+    default y if TCG && ARM
-     select NRF51_SOC
- 
- config NRF51_SOC
-@@ -525,6 +564,7 @@ config NRF51_SOC
- 
- config EMCRAFT_SF2
-     bool
-+    default y if TCG && ARM
-     select MSF2
-     select SSI_M25P80
- 
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 101416080c..65678e2870 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -214,3 +214,14 @@ cross-arm64-xen-only:
+     IMAGE: debian-arm64-cross
+     ACCEL: xen
+     EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
++
++# Similar job is run by qemu-project's custom runner by default
++cross-arm64-kvm-only:
++  extends: .cross_accel_build_job
++  needs:
++    job: arm64-debian-cross-container
++  variables:
++    QEMU_JOB_OPTIONAL: 1
++    IMAGE: debian-arm64-cross
++    ACCEL: kvm
++    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-xen --without-default-devices
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+index 8ba85be440..770e596242 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+@@ -115,11 +115,7 @@ ubuntu-22.04-aarch64-notcg:
+  - aarch64
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+-   when: manual
+-   allow_failure: true
+  - if: "$AARCH64_RUNNER_AVAILABLE"
+-   when: manual
+-   allow_failure: true
+  script:
+  - mkdir build
+  - cd build
 -- 
 2.35.3
 
