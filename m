@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F126A5E49
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE02A6A5E4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Feb 2023 18:36:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pX3sJ-00055t-DH; Tue, 28 Feb 2023 12:34:51 -0500
+	id 1pX3sd-0006QL-JR; Tue, 28 Feb 2023 12:35:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pX3sH-00051f-Gj
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:34:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pX3sa-0006FM-QT
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:35:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pX3sF-0000Dp-KI
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:34:49 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pX3sY-0000Uk-Kq
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 12:35:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677605685;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s/AGn97AI8YGBk4aLDSy0vGS4XOOuR9v1pJVC2xh3L4=;
- b=ej64kDX+FjL1zZ6Ozv57pK0sXSJd4YZE/0d+l6tlv+KUIpFiVtdVnqOQJ7kTovLn3Cd9SN
- dM+vBMBnJFQPI454BXvTUTDnOAZS5mxnB/i67WPLdw7YUgVgptwOHr/YOfNtmFzIDQlOpa
- 7ZI35KAa5f8WmWsFTyDsQiEcC8XSGyM=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-84-IYPVLfqrNC6ULp1xKxzVdQ-1; Tue, 28 Feb 2023 12:34:44 -0500
-X-MC-Unique: IYPVLfqrNC6ULp1xKxzVdQ-1
-Received: by mail-pj1-f69.google.com with SMTP id
- x63-20020a17090a6c4500b00237731465feso3235814pjj.8
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 09:34:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s/AGn97AI8YGBk4aLDSy0vGS4XOOuR9v1pJVC2xh3L4=;
- b=DIeQ++2BpRme30ETvhGE8E/lV9B89039zSpm4A7W8oBxWrgkO2O/NuitaeYyaZAOPg
- ujAhR29GZYvK75QdjFnylXsTBvBDg3BMhtHQAYaneKKKgh4fKZRp1/R4ZRTNOWHbCUfq
- E8MxmVrXXScjbwe/0ZHmbWgG7CFY7yBGXjNOIjC+XtgWUmykZ3c3tLzpJZnFqcyN+aFi
- nNUpu/kJct7Y8v3D7xQbP/CLu41IbRNlC2K1iBjkOabIZ1gi8QRlEZ1BSDqkLotu9CnQ
- 1x0g8w03y7tMsBn4P+/CQpFVAsdyYe1ot98PtdeTKJPKGqpXyNBo6/s8Ij/jStcaWOhe
- zjSQ==
-X-Gm-Message-State: AO0yUKVMuoY9Vkycm4f7CUB7VJzL+QmgryG1jQ8gCo3vcSLxpfBvD584
- V2as3wATpF0E2aVDH7R8ianLXTjFFH1OhUOKs2IxPoLuo8gvfG31n3AbjpIXN8wrboM2aHqS0VV
- 6hryMq0q7VtGT5EGzntr+on//2uUDe5g=
-X-Received: by 2002:a17:90a:d3ca:b0:237:9cbe:22ad with SMTP id
- d10-20020a17090ad3ca00b002379cbe22admr1447594pjw.5.1677605683448; 
- Tue, 28 Feb 2023 09:34:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set9HBdfALl9hzkys09ig8qmlnSHkfeZ6cIjUfNir/WVqf5tyDK6+if2qahCLYc4pe5NO434js9PXHlT/9uuJsZs=
-X-Received: by 2002:a17:90a:d3ca:b0:237:9cbe:22ad with SMTP id
- d10-20020a17090ad3ca00b002379cbe22admr1447585pjw.5.1677605683150; Tue, 28 Feb
- 2023 09:34:43 -0800 (PST)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 28 Feb 2023 09:34:42 -0800
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20230228150216.77912-1-cohuck@redhat.com>
- <20230228150216.77912-2-cohuck@redhat.com>
+ s=mimecast20190719; t=1677605705;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=0VLBxERkgcWvszYK+YGYsRiugWgfQ/G4CvC+/UmPOBQ=;
+ b=LvuClfyf96feN8NVkH4mpHYaRDvwqyVQQDojEuErIWkBTVNzNlPLHWWLM0AXDK4WP3nE0k
+ WmgMYBwsk6tw/uWu23PiZpbGyTHVeMzapCSa39dB/ox31TokMI/sCGerXkGyMVT7SaONXZ
+ HM5SsgkamlZQ0kLrDSVf0Ifgeq3iDEo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-361-Qc9-aeVbMSyQx_QlfLwaEg-1; Tue, 28 Feb 2023 12:35:03 -0500
+X-MC-Unique: Qc9-aeVbMSyQx_QlfLwaEg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 821E3882838;
+ Tue, 28 Feb 2023 17:35:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C19EF492B12;
+ Tue, 28 Feb 2023 17:34:59 +0000 (UTC)
+Date: Tue, 28 Feb 2023 17:34:56 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH][RESEND v3 3/3] Add a Hyper-V Dynamic Memory Protocol
+ driver (hv-balloon)
+Message-ID: <Y/47QC6F/bPNgFOx@redhat.com>
+References: <cover.1677274611.git.maciej.szmigiero@oracle.com>
+ <4c4fe768b5457f8e6c17dcea7656cbe017c9a4df.1677274611.git.maciej.szmigiero@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20230228150216.77912-2-cohuck@redhat.com>
-Date: Tue, 28 Feb 2023 09:34:42 -0800
-Message-ID: <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, 
- kvm@vger.kernel.org, Eric Auger <eauger@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4c4fe768b5457f8e6c17dcea7656cbe017c9a4df.1677274611.git.maciej.szmigiero@oracle.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,67 +87,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 04:02:15PM +0100, Cornelia Huck wrote:
-> Introduce a new cpu feature flag to control MTE support. To preserve
-> backwards compatibility for tcg, MTE will continue to be enabled as
-> long as tag memory has been provided.
->
-> If MTE has been enabled, we need to disable migration, as we do not
-> yet have a way to migrate the tags as well. Therefore, MTE will stay
-> off with KVM unless requested explicitly.
->
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->  docs/system/arm/cpu-features.rst |  21 ++++++
->  hw/arm/virt.c                    |   2 +-
->  target/arm/cpu.c                 |  18 ++---
->  target/arm/cpu.h                 |   1 +
->  target/arm/cpu64.c               | 110 +++++++++++++++++++++++++++++++
->  target/arm/internals.h           |   1 +
->  target/arm/kvm.c                 |  29 ++++++++
->  target/arm/kvm64.c               |   5 ++
->  target/arm/kvm_arm.h             |  19 ++++++
->  target/arm/monitor.c             |   1 +
->  10 files changed, 194 insertions(+), 13 deletions(-)
+On Fri, Feb 24, 2023 at 10:41:16PM +0100, Maciej S. Szmigiero wrote:
 
-I've given a quick look with libvirt integration in mind, and
-everything seem fine.
+> Hot-adding additional memory is done by creating a new memory backend (for
+> example by executing HMP command
+> "object_add memory-backend-ram,id=mem1,size=4G"), then executing a new
+> "hv-balloon-add-memory" QMP command, providing the id of that memory
+> backend as the "id" parameter.
 
-Specifically, MTE is advertised in the output of qom-list-properties
-both for max-arm-cpu and the latest virt-X.Y-machine, which means
-that libvirt can easily and reliably figure out whether MTE support
-is available.
+[snip]
 
-> +MTE CPU Property
-> +================
+> After a VM reboot each previously hot-added memory backend gets released.
+> A "HV_BALLOON_MEMORY_BACKEND_UNUSED" QMP event is emitted in this case so
+> the software controlling QEMU knows that it either needs to delete that
+> memory backend (if no longer needed) or re-insert it.
+
+IIUC you're saying that the 'hv-balloon-add-memory' command needs
+to be re-run after a guest reset ? If so I feel that is a rather
+undesirable job to punt over the mgmt app. The 'reset' event can
+be missed if the mgmt app happend to be restarting and reconnecting
+to existing running QMP console.
+
+> In the future, the guest boot memory size might be changed on reboot
+> instead, taking into account the effective size that VM had before that
+> reboot (much like Hyper-V does).
+
+Is that difficult to do right now ?  It isn't too nice to make the
+mgmt apps implement the workaround now if we're going to make it
+redundant later.
+
+> The above design results in much better ballooning performance than when
+> using virtio-balloon with the same guest: 230 GB / minute with this driver
+> versus 70 GB / minute with virtio-balloon.
+
+snip
+
+> The unballoon operation is also pretty much instantaneous:
+> thanks to the merging of the ballooned out page ranges 200 GB of memory can
+> be returned to the guest in about 1 second.
+> With virtio-balloon this operation takes about 2.5 minutes.
+
+That's pretty impressive !
+
+> These tests were done against a Windows Server 2019 guest running on a
+> Xeon E5-2699, after dirtying the whole memory inside guest before each
+> balloon operation.
+
+
+
+> Since the required GTree operations aren't present in every Glib version
+> a check for them was added to "configure" script, together with new
+> "--enable-hv-balloon" and "--disable-hv-balloon" arguments.
+> If these GTree operations are missing in the system's Glib version this
+> driver will be skipped during QEMU build.
+
+Funnily enough there's a patch posted recently that imports the glib
+GTree impl into QEMU calling it QTree. This was to workaround a problem
+with GSlice not being async signal safe, but if we take that patch, then
+you wouldn't need to skip the build you could rely on this in-tree copy
+instead.
+
+https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg01225.html
+
+
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index b9228a5e46..04ff95337a 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1104,6 +1104,74 @@
+>  { 'event': 'BALLOON_CHANGE',
+>    'data': { 'actual': 'int' } }
+>  
+> +##
+> +# @hv-balloon-add-memory:
+> +#
+> +# Hot-add memory backend via Hyper-V Dynamic Memory Protocol.
+> +#
+> +# @id: the name of the memory backend object to hot-add
+> +#
+> +# Returns: Nothing on success
+> +#          Error if there's no guest connected with hot-add capability,
+> +#          @id is not a valid memory backend or it's already in use.
+> +#
+> +# Since: TBD
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "hv-balloon-add-memory", "arguments": { "id": "mb1" } }
+> +# <- { "return": {} }
+> +#
+> +##
+> +{ 'command': 'hv-balloon-add-memory', 'data': {'id': 'str'} }
 > +
-> +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
-> +presence of tag memory (which can be turned on for the ``virt`` machine via
-> +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
-> +proper migration support is implemented, enabling MTE will install a migration
-> +blocker.
-
-Is it okay to use -machine virt,mte=on unconditionally for both KVM
-and TCG guests when MTE support is requested, or will that not work
-for the former?
-
-> +If not specified explicitly via ``on`` or ``off``, MTE will be available
-> +according to the following rules:
+> +##
+> +# @HV_BALLOON_STATUS_REPORT:
+> +#
+> +# Emitted when the hv-balloon driver receives a "STATUS" message from
+> +# the guest.
+> +#
+> +# @commited: the amount of memory in use inside the guest plus the amount
+> +#            of the memory unusable inside the guest (ballooned out,
+> +#            offline, etc.)
+> +#
+> +# @available: the amount of the memory inside the guest available for new
+> +#             allocations ("free")
+> +#
+> +# Since: TBD
+> +#
+> +# Example:
+> +#
+> +# <- { "event": "HV_BALLOON_STATUS_REPORT",
+> +#      "data": { "commited": 816640000, "available": 3333054464 },
+> +#      "timestamp": { "seconds": 1600295492, "microseconds": 661044 } }
+> +#
+> +##
+> +{ 'event': 'HV_BALLOON_STATUS_REPORT',
+> +  'data': { 'commited': 'size', 'available': 'size' } }
 > +
-> +* When TCG is used, MTE will be available if and only if tag memory is available;
-> +  i.e. it preserves the behaviour prior to the introduction of the feature.
-> +
-> +* When KVM is used, MTE will default to off, so that migration will not
-> +  unintentionally be blocked. This might change in a future QEMU version.
+> +##
+> +# @HV_BALLOON_MEMORY_BACKEND_UNUSED:
+> +#
+> +# Emitted when the hv-balloon driver marks a memory backend object
+> +# unused so it can now be removed, if required.
+> +#
+> +# This can happen because the VM was restarted.
+> +#
+> +# @id: the memory backend object id
+> +#
+> +# Since: TBD
+> +#
+> +# Example:
+> +#
+> +# <- { "event": "HV_BALLOON_MEMORY_BACKEND_UNUSED",
+> +#      "data": { "id": "mb1" },
+> +#      "timestamp": { "seconds": 1600295492, "microseconds": 661044 } }
+> +#
+> +##
+> +{ 'event': 'HV_BALLOON_MEMORY_BACKEND_UNUSED',
+> +  'data': { 'id': 'str' } }
 
-If and when this changes, we should ensure that the new default
-behavior doesn't affect existing machine types, otherwise we will
-break guest ABI for existing VMs.
+There is a reply from Igor about possibility of sharing code with
+virtio-mem. I also wonder if there's any scope for sharing with
+the virtio-balloon driver too, in terms of the QAPI schema.
 
+I've not looked closely enough to say if its possible to not, so
+if not practical, no worries.
+
+With regards,
+Daniel
 -- 
-Andrea Bolognani / Red Hat / Virtualization
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
