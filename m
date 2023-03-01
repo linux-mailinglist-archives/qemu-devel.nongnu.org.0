@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030E06A6AB8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC516A6AE9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:38:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJbb-000710-DS; Wed, 01 Mar 2023 05:22:39 -0500
+	id 1pXJpI-0000y4-Od; Wed, 01 Mar 2023 05:36:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pXJbW-00070T-Rz
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:22:36 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJp9-0000x8-Cn
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:36:40 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pXJbU-0000YT-7j
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:22:34 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id a9so3336385plh.11
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:22:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJp5-0002kF-2n
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:36:38 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id j3so8215363wms.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:36:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1677666150;
+ d=linaro.org; s=google; t=1677666992;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ftJFj6N8MOxnSkoK1R3vI8ooiI8KTBg6SM2nDO0wMYM=;
- b=gHvS3szy4Jhg/VrqaE7h7+BRhdQGgrKjzb1cc7WkqfEDszr7fzPPYI9gQCQsRih3rk
- 6T6sWR6yfXMXLi1O3ZlJlfxDsgcGeJZjyYdxTfrgP7L/G9sVDVCWOaX/I7jvzlKpoxeq
- atQmR/5lb0yNcxDTzWEj2zcZ4Sn2OTxw8PdNSZgLbqBZFiR3PDcKmjEA1mp+CwBbQ1xT
- kR3ERDV6mk2ENVepFRsuEg92dG+6FiVMOa05Osu91/uL3TVD6kbQr1ZdARm56Re+7efz
- Jk52rVu8DpABWEYKT2PJvbdK4hBXwprq21kI/mXK6YVix48DNOfH4a89gyGcDtNQavg9
- YjLg==
+ bh=2Azoh8xSU5TJ2zojXyKIHJjeHgyY2Otsjeo2O616Z/E=;
+ b=MomJXPLw6+iDG4sN17aGuvICmyfpwP31iyI5zx6XY5gqQQhf/8wJt3wlkPK2hzzX9R
+ if+afbT5jmbXAkEBFgk4mR6ALEIQ+TKygiBgSaZoA8i/5h9J1IS5eKgtYKNgM2OTk2EC
+ htZM4Qp+Jpt+5OhxyHFWjUvKSMgCJ6xM9JjI1JJ9skacX7jiMfi1GLxUoYbpYvJVW811
+ poAxvaMy3BdG/sJMY1noHRfmtxj81KsBQBB/ePgIJWxVRv6FSknW6R7U6/mykRLUKi9H
+ 74Dt/ThY48ExkGh2Aho+fW46PJQ4cULf+9Zc9MkteZ2CCbmJ0sKu3fXTmI3E08re8YgZ
+ nlZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677666150;
+ d=1e100.net; s=20210112; t=1677666992;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ftJFj6N8MOxnSkoK1R3vI8ooiI8KTBg6SM2nDO0wMYM=;
- b=QNmDKi0nLelfCC5bx1di85KRI0XQKWR9K2Ya0gr3xRVJfDES5GQO11jQfx2Eetrpyw
- y65VAnGJLdrh5W5Qgmc5RskO2uo9uCLpuSNIYgW8HgO5Yu8UWBQ+4fhumYXJqE7E+D28
- mTOljGFk91nK2sfljnZO9tHuX68GiRRy7mVPXgPvZINdeS4C3d+0LXCD8lmXzGSPf8Bm
- dJL0Mt5837sjFpd5GKsdQLgOG6I2NFMs94oAhp9Sp50kpzy7ZkX8qkNymBGtRODZZMWF
- 6ITVVHNTK+R1u5+9E3A4CtrDr2voCqE/AHjfbsTzpefld6S12zaRFMHntFcRnuMNp071
- dW7g==
-X-Gm-Message-State: AO0yUKXEP56wHWRy+TgxNTZuvAYKBs6u98PuZl27VFz3p1NGX0T31Jhw
- 43Yt4ZFa6DEOR/n/EgCmCgaPcg==
-X-Google-Smtp-Source: AK7set8vDMLcb0BaHxrX7m0c1CsmOyHkp3yqY1UQdXAt3XzUYZ7RVdn8s3r8FdIx/B8aJKl61YvhyQ==
-X-Received: by 2002:a17:90b:164e:b0:234:944d:dd6b with SMTP id
- il14-20020a17090b164e00b00234944ddd6bmr6980472pjb.12.1677666150465; 
- Wed, 01 Mar 2023 02:22:30 -0800 (PST)
-Received: from [10.3.43.196] ([61.213.176.9]) by smtp.gmail.com with ESMTPSA id
- d17-20020a17090ab31100b002340d317f3esm7781990pjr.52.2023.03.01.02.22.27
+ bh=2Azoh8xSU5TJ2zojXyKIHJjeHgyY2Otsjeo2O616Z/E=;
+ b=nU+azCj3+UgiyyGTtk4sJXO2ACAY61AMIz7Gf7zeaINOE1X8UY8NGA3OZoIfXxa2pU
+ v2wonNu/cw2RDdI5pacznb/uracvKbOlbkEvR3zig3IfwFRVzyEGxqoxcK7LSt3XKYNP
+ TkxKtuEeLVt+op2dDrkTGtZpt8ndqyDsmQzfg1ifdYIbSdtYYNHD+nnAi4iqwqN/ptHN
+ HxrJqn2b3bRD0KiWIUo7Z4EPal6b7sIFNCAAS5X8b+A5psTlg0layR6TYaBYp1PQQnPt
+ bNfazBXEp35HsqvUNhF9Xr/30WM7hruSEcJ3Giw40CzdQeSxq1Q+RMHpitQP4I3INY5l
+ 6LDw==
+X-Gm-Message-State: AO0yUKWBlticxKH3gN7Ywxb246wpCmbuh1yVjHEmy40BCMb4+/urf0zL
+ eogVbvnW/e++d5xL1th/6GBljA==
+X-Google-Smtp-Source: AK7set8g/7p+t7QJoU73e1BpHuSpVY4QWxYvgCy8MekatUiMFjrnBeNyJGweicw0Xa5AOL2Ipn7oxA==
+X-Received: by 2002:a05:600c:3495:b0:3de:a525:1d05 with SMTP id
+ a21-20020a05600c349500b003dea5251d05mr4832350wmq.8.1677666992518; 
+ Wed, 01 Mar 2023 02:36:32 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ v20-20020a1cf714000000b003db03725e86sm15236841wmh.8.2023.03.01.02.36.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 02:22:30 -0800 (PST)
-Message-ID: <d700920e-b9a8-0d99-3804-eefb7f64c582@bytedance.com>
-Date: Wed, 1 Mar 2023 18:20:54 +0800
+ Wed, 01 Mar 2023 02:36:31 -0800 (PST)
+Message-ID: <02a2118a-badf-29a9-716d-44f5a6c2923d@linaro.org>
+Date: Wed, 1 Mar 2023 11:36:27 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: Re: [PATCH v5 09/12] cryptodev: Account statistics
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 23/24] tests/docker: add zstdtools to the images
+ (!AWAITING UPSTREAM)
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: mst@redhat.com, arei.gonglei@huawei.com, dgilbert@redhat.com,
- pbonzini@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
-References: <20230301025124.3605557-1-pizhenwei@bytedance.com>
- <20230301025124.3605557-10-pizhenwei@bytedance.com>
- <Y/8ebZjswgBXlH81@redhat.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <Y/8ebZjswgBXlH81@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
+ <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230228190653.1602033-1-alex.bennee@linaro.org>
+ <20230228190653.1602033-24-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230228190653.1602033-24-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,246 +110,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 3/1/23 17:44, Daniel P. Berrangé wrote:
-> On Wed, Mar 01, 2023 at 10:51:21AM +0800, zhenwei pi wrote:
->> Account OPS/BPS for crypto device, this will be used for 'query-stats'
->> QEMU monitor command and QoS in the next step.
->>
->> Note that a crypto device may support symmetric mode, asymmetric mode,
->> both symmetric and asymmetric mode. So we use two structure to
->> describe the statistics of a crypto device.
->>
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->>   backends/cryptodev.c       | 68 +++++++++++++++++++++++++++++++++++---
->>   include/sysemu/cryptodev.h | 31 +++++++++++++++++
->>   qapi/cryptodev.json        | 54 ++++++++++++++++++++++++++++++
->>   3 files changed, 148 insertions(+), 5 deletions(-)
->>
->> diff --git a/backends/cryptodev.c b/backends/cryptodev.c
->> index ba7b0bc770..cc824e9665 100644
->> --- a/backends/cryptodev.c
->> +++ b/backends/cryptodev.c
->> @@ -107,6 +107,9 @@ void cryptodev_backend_cleanup(
->>       if (bc->cleanup) {
->>           bc->cleanup(backend, errp);
->>       }
->> +
->> +    g_free(backend->sym_stat);
->> +    g_free(backend->asym_stat);
->>   }
->>   
->>   int cryptodev_backend_create_session(
->> @@ -154,16 +157,61 @@ static int cryptodev_backend_operation(
->>       return -VIRTIO_CRYPTO_NOTSUPP;
->>   }
->>   
->> +static int cryptodev_backend_account(CryptoDevBackend *backend,
->> +                 CryptoDevBackendOpInfo *op_info)
->> +{
->> +    enum QCryptodevBackendAlgType algtype = op_info->algtype;
->> +    int len;
->> +
->> +    if (algtype == QCRYPTODEV_BACKEND_ALG_ASYM) {
->> +        CryptoDevBackendAsymOpInfo *asym_op_info = op_info->u.asym_op_info;
->> +        len = asym_op_info->src_len;
->> +        switch (op_info->op_code) {
->> +        case VIRTIO_CRYPTO_AKCIPHER_ENCRYPT:
->> +            QCryptodevAsymStatIncEncrypt(backend, len);
->> +            break;
->> +        case VIRTIO_CRYPTO_AKCIPHER_DECRYPT:
->> +            QCryptodevAsymStatIncDecrypt(backend, len);
->> +            break;
->> +        case VIRTIO_CRYPTO_AKCIPHER_SIGN:
->> +            QCryptodevAsymStatIncSign(backend, len);
->> +            break;
->> +        case VIRTIO_CRYPTO_AKCIPHER_VERIFY:
->> +            QCryptodevAsymStatIncVerify(backend, len);
->> +            break;
->> +        default:
->> +            return -VIRTIO_CRYPTO_NOTSUPP;
->> +        }
->> +    } else if (algtype == QCRYPTODEV_BACKEND_ALG_SYM) {
->> +        CryptoDevBackendSymOpInfo *sym_op_info = op_info->u.sym_op_info;
->> +        len = sym_op_info->src_len;
->> +        switch (op_info->op_code) {
->> +        case VIRTIO_CRYPTO_CIPHER_ENCRYPT:
->> +            QCryptodevSymStatIncEncrypt(backend, len);
->> +            break;
->> +        case VIRTIO_CRYPTO_CIPHER_DECRYPT:
->> +            QCryptodevSymStatIncDecrypt(backend, len);
->> +            break;
->> +        default:
->> +            return -VIRTIO_CRYPTO_NOTSUPP;
->> +        }
->> +    } else {
->> +        error_report("Unsupported cryptodev alg type: %" PRIu32 "", algtype);
->> +        return -VIRTIO_CRYPTO_NOTSUPP;
->> +    }
->> +
->> +    return len;
->> +}
->> +
->>   int cryptodev_backend_crypto_operation(
->>                    CryptoDevBackend *backend,
->>                    CryptoDevBackendOpInfo *op_info)
->>   {
->> -    QCryptodevBackendAlgType algtype = op_info->algtype;
->> +    int ret;
->>   
->> -    if ((algtype != QCRYPTODEV_BACKEND_ALG_SYM)
->> -        && (algtype != QCRYPTODEV_BACKEND_ALG_ASYM)) {
->> -        error_report("Unsupported cryptodev alg type: %" PRIu32 "", algtype);
->> -        return -VIRTIO_CRYPTO_NOTSUPP;
->> +    ret = cryptodev_backend_account(backend, op_info);
->> +    if (ret < 0) {
->> +        return ret;
->>       }
->>   
->>       return cryptodev_backend_operation(backend, op_info);
->> @@ -202,10 +250,20 @@ cryptodev_backend_complete(UserCreatable *uc, Error **errp)
->>   {
->>       CryptoDevBackend *backend = CRYPTODEV_BACKEND(uc);
->>       CryptoDevBackendClass *bc = CRYPTODEV_BACKEND_GET_CLASS(uc);
->> +    uint32_t services;
->>   
->>       if (bc->init) {
->>           bc->init(backend, errp);
->>       }
->> +
->> +    services = backend->conf.crypto_services;
->> +    if (services & (1 << QCRYPTODEV_BACKEND_SERVICE_CIPHER)) {
->> +        backend->sym_stat = g_new0(QCryptodevBackendSymStat, 1);
->> +    }
->> +
->> +    if (services & (1 << QCRYPTODEV_BACKEND_SERVICE_AKCIPHER)) {
->> +        backend->asym_stat = g_new0(QCryptodevBackendAsymStat, 1);
->> +    }
->>   }
->>   
->>   void cryptodev_backend_set_used(CryptoDevBackend *backend, bool used)
->> diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
->> index 048a627035..15e8c04dcf 100644
->> --- a/include/sysemu/cryptodev.h
->> +++ b/include/sysemu/cryptodev.h
->> @@ -253,8 +253,39 @@ struct CryptoDevBackend {
->>       /* Tag the cryptodev backend is used by virtio-crypto or not */
->>       bool is_used;
->>       CryptoDevBackendConf conf;
->> +    QCryptodevBackendSymStat *sym_stat;
->> +    QCryptodevBackendAsymStat *asym_stat;
->>   };
->>   
->> +#define QCryptodevSymStatInc(be, op, bytes) do { \
->> +   be->sym_stat->op##_bytes += (bytes); \
->> +   be->sym_stat->op##_ops += 1; \
->> +} while (/*CONSTCOND*/0)
->> +
->> +#define QCryptodevSymStatIncEncrypt(be, bytes) \
->> +            QCryptodevSymStatInc(be, encrypt, bytes)
->> +
->> +#define QCryptodevSymStatIncDecrypt(be, bytes) \
->> +            QCryptodevSymStatInc(be, decrypt, bytes)
->> +
->> +#define QCryptodevAsymStatInc(be, op, bytes) do { \
->> +    be->asym_stat->op##_bytes += (bytes); \
->> +    be->asym_stat->op##_ops += 1; \
->> +} while (/*CONSTCOND*/0)
->> +
->> +#define QCryptodevAsymStatIncEncrypt(be, bytes) \
->> +            QCryptodevAsymStatInc(be, encrypt, bytes)
->> +
->> +#define QCryptodevAsymStatIncDecrypt(be, bytes) \
->> +            QCryptodevAsymStatInc(be, decrypt, bytes)
->> +
->> +#define QCryptodevAsymStatIncSign(be, bytes) \
->> +            QCryptodevAsymStatInc(be, sign, bytes)
->> +
->> +#define QCryptodevAsymStatIncVerify(be, bytes) \
->> +            QCryptodevAsymStatInc(be, verify, bytes)
->> +
->> +
->>   /**
->>    * cryptodev_backend_new_client:
->>    *
->> diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
->> index f33f96a692..54d7f9cb58 100644
->> --- a/qapi/cryptodev.json
->> +++ b/qapi/cryptodev.json
->> @@ -87,3 +87,57 @@
->>   # Since: 8.0
->>   ##
->>   { 'command': 'query-cryptodev', 'returns': ['QCryptodevInfo']}
->> +
->> +##
->> +# @QCryptodevBackendSymStat:
->> +#
->> +# The statistics of symmetric operation.
->> +#
->> +# @encrypt-ops: the operations of symmetric encryption
->> +#
->> +# @decrypt-ops: the operations of symmetric decryption
->> +#
->> +# @encrypt-bytes: the bytes of symmetric encryption
->> +#
->> +# @decrypt-bytes: the bytes of symmetric decryption
->> +#
->> +# Since: 8.0
->> +##
->> +{ 'struct': 'QCryptodevBackendSymStat',
->> +  'data': { 'encrypt-ops': 'int',
->> +            'decrypt-ops': 'int',
->> +            'encrypt-bytes': 'int',
->> +            'decrypt-bytes': 'int' } }
->> +
->> +##
->> +# @QCryptodevBackendAsymStat:
->> +#
->> +# The statistics of asymmetric operation.
->> +#
->> +# @encrypt-ops: the operations of asymmetric encryption
->> +#
->> +# @decrypt-ops: the operations of asymmetric decryption
->> +#
->> +# @sign-ops: the operations of asymmetric signature
->> +#
->> +# @verify-ops: the operations of asymmetric verification
->> +#
->> +# @encrypt-bytes: the bytes of asymmetric encryption
->> +#
->> +# @decrypt-bytes: the bytes of asymmetric decryption
->> +#
->> +# @sign-bytes: the bytes of asymmetric signature
->> +#
->> +# @verify-bytes: the bytes of asymmetric verification
->> +#
->> +# Since: 8.0
->> +##
->> +{ 'struct': 'QCryptodevBackendAsymStat',
->> +  'data': { 'encrypt-ops': 'int',
->> +            'decrypt-ops': 'int',
->> +            'sign-ops': 'int',
->> +            'verify-ops': 'int',
->> +            'encrypt-bytes': 'int',
->> +            'decrypt-bytes': 'int',
->> +            'sign-bytes': 'int',
->> +            'verify-bytes': 'int' } }
+On 28/2/23 20:06, Alex Bennée wrote:
+> We need this to be able to run the tuxrun_baseline tests in CI which
+> in turn helps us reduce overhead running other tests.
 > 
-> AFAICT, these two structs are no longer used in QAPI since the switch
-> to using query-stats. IOW this has become just an indirect way to
-> declare a C struct for private use in the C code.
+> [See https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/361]
 > 
-> As such, I'd suggest that this QAPI addition be removed, and just
-> declare a normal C struct directly in the code which needs it.
-> 
-> With regards,
-> Daniel
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   tests/docker/dockerfiles/alpine.docker                | 1 +
+>   tests/docker/dockerfiles/centos8.docker               | 3 ++-
+>   tests/docker/dockerfiles/debian-amd64-cross.docker    | 3 ++-
+>   tests/docker/dockerfiles/debian-amd64.docker          | 3 ++-
+>   tests/docker/dockerfiles/debian-arm64-cross.docker    | 3 ++-
+>   tests/docker/dockerfiles/debian-armel-cross.docker    | 3 ++-
+>   tests/docker/dockerfiles/debian-armhf-cross.docker    | 3 ++-
+>   tests/docker/dockerfiles/debian-mips64el-cross.docker | 3 ++-
+>   tests/docker/dockerfiles/debian-mipsel-cross.docker   | 3 ++-
+>   tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 3 ++-
+>   tests/docker/dockerfiles/debian-s390x-cross.docker    | 3 ++-
+>   tests/docker/dockerfiles/fedora-win32-cross.docker    | 3 ++-
+>   tests/docker/dockerfiles/fedora-win64-cross.docker    | 3 ++-
+>   tests/docker/dockerfiles/fedora.docker                | 3 ++-
+>   tests/docker/dockerfiles/opensuse-leap.docker         | 3 ++-
+>   tests/docker/dockerfiles/ubuntu2004.docker            | 3 ++-
+>   tests/docker/dockerfiles/ubuntu2204.docker            | 3 ++-
+>   tests/lcitool/projects/qemu.yml                       | 1 +
+>   18 files changed, 34 insertions(+), 16 deletions(-)
 
+You simply ran 'lcitool-refresh', right? (not obvious from the
+commit desc).
 
-OK, I'll fix this in the next version. Thanks!
-
--- 
-zhenwei pi
+If #361 got merged, this patch should also change the
+tests/lcitool/libvirt-ci submodule to include it, isn't it?
 
