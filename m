@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2628C6A6DE3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E256A6E07
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:10:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXN7N-0007zZ-LI; Wed, 01 Mar 2023 09:07:41 -0500
+	id 1pXN9c-0007cu-Vf; Wed, 01 Mar 2023 09:10:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXN7G-0007mj-AZ
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:07:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pXN9W-0007Cd-21
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:09:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXN7E-0005tm-Ty
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:07:34 -0500
+ id 1pXN9T-0006A6-PM
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:09:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677679652;
+ s=mimecast20190719; t=1677679791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2eU6CUJmsaj+DRHhWhs2AoNFyx1lPX7SG8r6IebtsJY=;
- b=ErT1hSkm2yIxf0EdM000JvcHrU38vtZhRG1FvemQwCP1ic1RdKod9TZ5W7NislpfxHCuMQ
- D9gEKOERbj1RSi+M4hdN4gk7sksbrKtu5267VrmYmEfAxZ5mhKeHCrxqn9cr2gVPdjficO
- EQm5hbKKsi+2VR4tAvPpDIfnscgDNko=
+ bh=SL4Mx1u9PRTtlDNjVCwdJnpam7mtkh6o1cTY3iQw2tk=;
+ b=J9fdqkI2alSBL8q20mhWNFkZd/PsDtPEp2xWCLwMDiB9l6Ac2PwbSCLMLpJoN82uACqAHW
+ wZvFg1UXV7F1wEfjL42HgZ1S9OH1rGpIIKvYXxowPLW+axdNSrciiWrDxxy8ZeDsRi4vn8
+ kG5Wx7y6sxcnn0K3PKvuquc/1XZdcB8=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-591-wkaP1HmRMZqTbzwD2ERPsw-1; Wed, 01 Mar 2023 09:07:21 -0500
-X-MC-Unique: wkaP1HmRMZqTbzwD2ERPsw-1
+ us-mta-480-4Wi0MfnhNZOpuD6zdXSSUA-1; Wed, 01 Mar 2023 09:09:45 -0500
+X-MC-Unique: 4Wi0MfnhNZOpuD6zdXSSUA-1
 Received: by mail-wr1-f72.google.com with SMTP id
- m15-20020adfa3cf000000b002be0eb97f4fso2568138wrb.8
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 06:07:16 -0800 (PST)
+ i18-20020a05600011d200b002c94d861113so2543932wrx.16
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 06:09:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677679635;
+ d=1e100.net; s=20210112; t=1677679778;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2eU6CUJmsaj+DRHhWhs2AoNFyx1lPX7SG8r6IebtsJY=;
- b=7Qh/AE/Ofz7oGaJBxqsX5t/9Y3Y3DgUtsAzdmKhPyMouyxiGk4VhZs0jtdzKrohHxu
- qirUtiOsMRUKoHmHH9qADPviQlc3EASW3vmpvR/6G90fhKdDWyJwHOeXmU7RTLwY3kBz
- tKDjuLnCnKkyDrPGzQjZuW/yjOCUqM/CtmzPAFgtCJcT3oCDYmcx7CkkHYx6ebeUFAZ7
- el6T54bPoWqEv3UkxtAeLZNknqr+6jOBEFmQwYw0Qn2mSmPYey7Ep1ygebOCa2OGSJJw
- hYC/KAjOvvfXl7LCnaFo35wfGV6JFGPuIKsIldKaKW3Rh+e1PpgnuINfdQ73d3lZT8j6
- AfPQ==
-X-Gm-Message-State: AO0yUKXr41X0d90GvG4J3P805nahdr7Cf7cs2QqUObD1cO/FNdCNGbdC
- 1YXNgYuR6NioJcqBwTYbEf9OvXveYXmQFFXCdW0kBrdAc6/k3K2LngrT8AK59QaWKo4BUUX9fyx
- TxZxNMPiVDtBTKic=
-X-Received: by 2002:a5d:5092:0:b0:2c9:97f8:2604 with SMTP id
- a18-20020a5d5092000000b002c997f82604mr4466677wrt.14.1677679635152; 
- Wed, 01 Mar 2023 06:07:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set/7QWgYk6B6Zh/n6bpl7/tc/4aGqmoeXwzO1Sistf6H6RrO7H6ypRehSAEaAwiLgA1/TEzR5A==
-X-Received: by 2002:a5d:5092:0:b0:2c9:97f8:2604 with SMTP id
- a18-20020a5d5092000000b002c997f82604mr4466652wrt.14.1677679634801; 
- Wed, 01 Mar 2023 06:07:14 -0800 (PST)
+ bh=SL4Mx1u9PRTtlDNjVCwdJnpam7mtkh6o1cTY3iQw2tk=;
+ b=LLjuHN19NsP3CF6Qv2fIaAF5zvnIShx+Phdzz55x6gL9lu1SQQ+KsU4VXnFwHN2MQe
+ W52ndNCvI6PrcvrgMWuAsUiVZQNaPqb7W/Juwpi+iwli321729NU+qSBcK+WyCXwR1Ca
+ LPCBBYRrJ6bCSbQ8XrUCtTXziH57oRSiYy3QUSIXf4E9S582WIUgJQmtHnVirE/lMisy
+ iH92gUhm+P/rWSQDLgaFM1c/CM0x8shxvFYU/ZXsUtRIRg5jaUk7LwSM0n0PSXC6lTmM
+ PJ8RWwMFId6e3QRJUiFds3fjmCAvfrJIIBRdrh59W+z1BWCCh/pPQkIBZl4XtxvfNPQe
+ 9etA==
+X-Gm-Message-State: AO0yUKUnK9AL2cU/MmSDdtzRBejKBZE4PGLDZzg91fHopez3+TRpmtYi
+ CQ2K3anDkK+CMsFUF8Rbb+w4Doe3TzdQ68yvnTDMH2HFZPvaPhGVpFau9ZSmwDlnY10bnx1pOyJ
+ Uz13gfUZs1AEhqMI=
+X-Received: by 2002:a05:600c:3b28:b0:3eb:2da4:f304 with SMTP id
+ m40-20020a05600c3b2800b003eb2da4f304mr4948057wms.17.1677679778526; 
+ Wed, 01 Mar 2023 06:09:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set+JjkH2QX2s1dKiuPa/rwahv7emFvz50oMOBPmNFlBgi63pzcSAf4dMY9wzD6PSd04d6NlUEg==
+X-Received: by 2002:a05:600c:3b28:b0:3eb:2da4:f304 with SMTP id
+ m40-20020a05600c3b2800b003eb2da4f304mr4948043wms.17.1677679778223; 
+ Wed, 01 Mar 2023 06:09:38 -0800 (PST)
 Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
  by smtp.gmail.com with ESMTPSA id
- a2-20020adfdd02000000b002c3f03d8851sm13000492wrm.16.2023.03.01.06.07.13
+ n33-20020a05600c502100b003e8dc7a03basm20209830wmr.41.2023.03.01.06.09.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 06:07:14 -0800 (PST)
-Date: Wed, 1 Mar 2023 15:07:13 +0100
+ Wed, 01 Mar 2023 06:09:37 -0800 (PST)
+Date: Wed, 1 Mar 2023 15:09:36 +0100
 From: Igor Mammedov <imammedo@redhat.com>
 To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Markus Armbruster
  <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- qemu-riscv@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
- <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Aurelien
- Jarno <aurelien@aurel32.net>
-Subject: Re: [PATCH 03/19] hw/acpi: Set QDev properties using QDev API
-Message-ID: <20230301150713.48d4ef36@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230203180914.49112-4-philmd@linaro.org>
+ qemu-riscv@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Yanan
+ Wang <wangyanan55@huawei.com>
+Subject: Re: [RFC PATCH 05/19] hw/core/numa: Set QDev properties using QDev API
+Message-ID: <20230301150936.1eaf5697@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230203180914.49112-6-philmd@linaro.org>
 References: <20230203180914.49112-1-philmd@linaro.org>
- <20230203180914.49112-4-philmd@linaro.org>
+ <20230203180914.49112-6-philmd@linaro.org>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,7 +103,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri,  3 Feb 2023 19:08:58 +0100
+On Fri,  3 Feb 2023 19:09:00 +0100
 Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
 
 > No need to use the low-level QOM API when an object
@@ -113,92 +112,34 @@ Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > ---
->  hw/acpi/cpu_hotplug.c | 7 +++----
->  hw/acpi/ich9.c        | 4 ++--
->  hw/acpi/piix4.c       | 4 ++--
->  3 files changed, 7 insertions(+), 8 deletions(-)
+>  hw/core/numa.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/hw/acpi/cpu_hotplug.c b/hw/acpi/cpu_hotplug.c
-> index b8c9081738..5bc5f435f4 100644
-> --- a/hw/acpi/cpu_hotplug.c
-> +++ b/hw/acpi/cpu_hotplug.c
-> @@ -10,6 +10,7 @@
->   * See the COPYING file in the top-level directory.
->   */
->  #include "qemu/osdep.h"
+> diff --git a/hw/core/numa.c b/hw/core/numa.c
+> index d8d36b16d8..9b6f9848e3 100644
+> --- a/hw/core/numa.c
+> +++ b/hw/core/numa.c
+> @@ -34,6 +34,7 @@
+>  #include "qapi/opts-visitor.h"
+>  #include "qapi/qapi-visit-machine.h"
+>  #include "sysemu/qtest.h"
 > +#include "hw/qdev-properties.h"
->  #include "hw/acpi/cpu_hotplug.h"
->  #include "qapi/error.h"
 >  #include "hw/core/cpu.h"
-> @@ -41,8 +42,7 @@ static void cpu_status_write(void *opaque, hwaddr addr,=
- uint64_t data,
->       */
->      if (addr =3D=3D 0 && data =3D=3D 0) {
->          AcpiCpuHotplug *gpe =3D opaque;
-> -        object_property_set_bool(OBJECT(gpe->parent), "cpu-hotplug-legac=
-y",
-> -                                 false, &error_abort);
-> +        qdev_prop_set_bit(gpe->parent, "cpu-hotplug-legacy", false);
->      }
->  }
-> =20
-> @@ -66,8 +66,7 @@ static void acpi_set_cpu_present_bit(AcpiCpuHotplug *gp=
-e, CPUState *cpu)
-> =20
->      cpu_id =3D k->get_arch_id(cpu);
->      if ((cpu_id / 8) >=3D ACPI_GPE_PROC_LEN) {
-> -        object_property_set_bool(OBJECT(gpe->parent), "cpu-hotplug-legac=
-y",
-> -                                 false, &error_abort);
-> +        qdev_prop_set_bit(gpe->parent, "cpu-hotplug-legacy", false);
->          return;
->      }
-> =20
-> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> index 6c9a737479..9759119b32 100644
-> --- a/hw/acpi/ich9.c
-> +++ b/hw/acpi/ich9.c
-> @@ -30,6 +30,7 @@
->  #include "hw/pci/pci.h"
+>  #include "hw/mem/pc-dimm.h"
 >  #include "migration/vmstate.h"
->  #include "qemu/timer.h"
-> +#include "hw/qdev-properties.h"
->  #include "hw/core/cpu.h"
->  #include "sysemu/reset.h"
->  #include "sysemu/runstate.h"
-> @@ -197,8 +198,7 @@ static bool vmstate_test_use_cpuhp(void *opaque)
->  static int vmstate_cpuhp_pre_load(void *opaque)
->  {
->      ICH9LPCPMRegs *s =3D opaque;
-> -    Object *obj =3D OBJECT(s->gpe.parent);
-> -    object_property_set_bool(obj, "cpu-hotplug-legacy", false, &error_ab=
-ort);
-> +    qdev_prop_set_bit(s->gpe.parent, "cpu-hotplug-legacy", false);
->      return 0;
->  }
-> =20
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 3a61d89f92..9a86d506de 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -206,8 +206,8 @@ static bool vmstate_test_use_cpuhp(void *opaque)
-> =20
->  static int vmstate_cpuhp_pre_load(void *opaque)
->  {
-> -    Object *obj =3D OBJECT(opaque);
-> -    object_property_set_bool(obj, "cpu-hotplug-legacy", false, &error_ab=
-ort);
-> +    PIIX4PMState *s =3D opaque;
+> @@ -740,8 +741,7 @@ void numa_cpu_pre_plug(const CPUArchId *slot, DeviceS=
+tate *dev, Error **errp)
+>          /* due to bug in libvirt, it doesn't pass node-id from props on
+>           * device_add as expected, so we have to fix it up here */
+>          if (slot->props.has_node_id) {
+> -            object_property_set_int(OBJECT(dev), "node-id",
+> -                                    slot->props.node_id, errp);
+> +            qdev_prop_set_int32(dev, "node-id", slot->props.node_id);
 
-In other series you were aiming for type safety converting Object to Device=
-State
-and here you do opposite of that
+broken, see cover letter reply
 
-> +    qdev_prop_set_bit(DEVICE(s), "cpu-hotplug-legacy", false);
-if you have to, just use DEVICE(opaque) here and drop above pointer casting.
-
->      return 0;
->  }
-> =20
+>          }
+>      } else if (node_id !=3D slot->props.node_id) {
+>          error_setg(errp, "invalid node-id, must be %"PRId64,
 
 
