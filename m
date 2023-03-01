@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E9E6A716C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:43:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480C36A71A8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:58:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXPYR-0003o7-Gj; Wed, 01 Mar 2023 11:43:47 -0500
+	id 1pXPl1-0000eV-03; Wed, 01 Mar 2023 11:56:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <suda.kyoto@gmail.com>)
- id 1pXPYN-0003ni-MO
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:43:43 -0500
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <suda.kyoto@gmail.com>)
- id 1pXPYL-0004bB-TP
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:43:43 -0500
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-536bbef1c5eso374260597b3.9
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 08:43:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677689019;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=r7oMJe393CMnJrCA8B66Sm/zqRQ36f+TUcGK9JcqXKk=;
- b=I2slUSsQUdcTxOK6PqxiKerpfYEtAJkPAUcPgb5J1j2iVR0hj3RCdS0XcaGfAPiokt
- AadK8SdkRL3IfLcZoRvitlmi2gGdN8+MBlBQ5JI9NEvWQFZiECroPnldDuz9XC8m3rbx
- u23v36qec4QyeIzb/HMboCpO9VErteS0GPKmDKRsrW6Rerl1DpApXmtsRHyG5oywjKQD
- pt/XkMOa237TQyBwCHDYQjVBn4xVyrLdVpReqHBjJTnLUpjSZADexpNOORzF+kSmEeyP
- Z7kSFcHUfAi2twO5q/m4p1fwZtWWjrvpHWLbqamRYxhC+wIwI1zDuTfzYJlMeZKf1F1I
- wtQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677689019;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=r7oMJe393CMnJrCA8B66Sm/zqRQ36f+TUcGK9JcqXKk=;
- b=F2bOWF4v3jN/KLKMe4eBRMejUSCbyPmWKSCB34yORvu7Z00bYdtGarNFcSJCTSr7+F
- aERiQYaHqjCp0qn583briJVraNUA4k9VAxqsuoucJ6K5CRDG4mJAF0aNFm/WgpmZ4JiH
- kaHOTmh29UWfAlJLmh6CS7dR3oMkCWLOjP/fWCTpwvw4UKDvPG6+aYvvrsgs/D3Hukau
- n/IK0yjqppDkviqdCLH+d9XvAXFqeHyaoR8j/PBKs/PemuRGu5LEcnSa659g3fJaEyQA
- vBnVRZAQwWRVXPkb9v4k29O44HrtrgLcWS+qrg70J310Am5UseRFuJQh8aFPlBuNC/4i
- CZLg==
-X-Gm-Message-State: AO0yUKVsbp6P3zSM+7J3hPp8P/KUtUK01E1O62zecFfqXwhqlbm7u3Xq
- EIOnx2MgWGCwSl8N38wc4YOG2uMqru/J7C9bnvY=
-X-Google-Smtp-Source: AK7set/RUYhK+klyTwMzNsaxxrhNIDxW7ISkD+BR5i2TI6WKHnHkhjE6BQtJphMFmonvXJsl4vTSYZeGSfd8ngpaXIo=
-X-Received: by 2002:a81:ae61:0:b0:53c:7095:595a with SMTP id
- g33-20020a81ae61000000b0053c7095595amr1427261ywk.7.1677689019252; Wed, 01 Mar
- 2023 08:43:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <SRS0=znpK=6Z=kaod.org=clg@ozlabs.org>)
+ id 1pXPkv-0000dQ-On; Wed, 01 Mar 2023 11:56:44 -0500
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
+ helo=gandalf.ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <SRS0=znpK=6Z=kaod.org=clg@ozlabs.org>)
+ id 1pXPkt-0007bN-RK; Wed, 01 Mar 2023 11:56:41 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PRgPB1PHKz4x7v;
+ Thu,  2 Mar 2023 03:56:30 +1100 (AEDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PRgP76H3pz4x1R;
+ Thu,  2 Mar 2023 03:56:27 +1100 (AEDT)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH v2 00/11] aspeed queue
+Date: Wed,  1 Mar 2023 17:56:08 +0100
+Message-Id: <20230301165619.2171090-1-clg@kaod.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-From: Akihiro Suda <suda.kyoto@gmail.com>
-Date: Thu, 2 Mar 2023 01:43:28 +0900
-Message-ID: <CAG8fp8S4AErtJ5YjpmW5d7+sRSyqQp+Th6NrJRm248gohNwCiw@mail.gmail.com>
-Subject: [PULL v2 20/24] tests/docker: use direct RUNC call to build containers
-To: alex.bennee@linaro.org, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000009445405f5d96abc"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=suda.kyoto@gmail.com; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=SRS0=znpK=6Z=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,26 +63,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000009445405f5d96abc
-Content-Type: text/plain; charset="UTF-8"
+Hello,
 
-> +               $(RUNC) build                           \
+Here is the aspeed series I plan to send as a PR this week.
 
-There is no `runc build` command.
-Perhaps you meant `$(DOCKER) build`?
+ - fix for the Aspeed I2C slave mode, an I2C echo device from Klaus
+   and its associated test in avocado.   
+ - initial cleanups to allow the use of block devices instead of
+   drives on the command line.
+ - new facebook machines and eeprom fixes for the Fuji
+ - readline fix ! 
 
-Regards,
-Akihiro Suda
+Thanks,
 
---00000000000009445405f5d96abc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+C.
 
-<div dir=3D"ltr">&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $(=
-RUNC) build =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br><br>There is no `runc build` command.<br>P=
-erhaps you meant `$(DOCKER) build`?<br><div><br></div><div>Regards,</div><d=
-iv>Akihiro Suda</div><div><br></div></div>
+Cédric Le Goater (4):
+  tests/avocado/machine_aspeed.py: Add an I2C slave test
+  aspeed: Introduce a spi_boot region under the SoC
+  aspeed: Add a boot_rom overlap region in the SoC spi_boot container
+  aspeed/smc: Replace SysBus IRQs with GPIO lines
 
---00000000000009445405f5d96abc--
+Dongli Zhang (1):
+  readline: fix hmp completion issue
+
+Karthikeyan Pasupathi (2):
+  hw/arm/aspeed: Adding new machine Yosemitev2 in QEMU
+  hw/arm/aspeed: Adding new machine Tiogapass in QEMU
+
+Klaus Jensen (2):
+  hw/i2c: only schedule pending master when bus is idle
+  hw/misc: add a toy i2c echo device
+
+Sittisak Sinprem (2):
+  hw/at24c : modify at24c to support 1 byte address mode
+  aspeed/fuji : correct the eeprom size
+
+ docs/system/arm/aspeed.rst      |   2 +
+ hw/arm/aspeed_eeprom.h          |   6 ++
+ include/hw/arm/aspeed_soc.h     |   5 +
+ include/hw/i2c/i2c.h            |   2 +
+ hw/arm/aspeed.c                 | 159 ++++++++++++++++++++++----------
+ hw/arm/aspeed_ast2600.c         |  13 +++
+ hw/arm/aspeed_eeprom.c          |  45 +++++++++
+ hw/arm/aspeed_soc.c             |  14 +++
+ hw/arm/fby35.c                  |   8 +-
+ hw/i2c/aspeed_i2c.c             |   2 +
+ hw/i2c/core.c                   |  37 +++++---
+ hw/misc/i2c-echo.c              | 156 +++++++++++++++++++++++++++++++
+ hw/nvram/eeprom_at24c.c         |  30 +++++-
+ hw/ssi/aspeed_smc.c             |   5 +-
+ monitor/hmp.c                   |   8 +-
+ hw/misc/meson.build             |   2 +
+ tests/avocado/machine_aspeed.py |  10 ++
+ 17 files changed, 421 insertions(+), 83 deletions(-)
+ create mode 100644 hw/misc/i2c-echo.c
+
+-- 
+2.39.2
+
 
