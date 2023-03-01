@@ -2,74 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9686A747B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 20:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 094A26A74B2
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 20:57:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXSQX-00078z-Nj; Wed, 01 Mar 2023 14:47:49 -0500
+	id 1pXSYk-0003qa-1P; Wed, 01 Mar 2023 14:56:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXSQV-00078q-R6
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:47:47 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXSQT-0006oU-7C
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:47:47 -0500
-Received: by mail-ed1-x529.google.com with SMTP id ck15so58762240edb.0
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 11:47:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fTeQEhURtg0lqZ3Ns396CIFolx8DBSEYMT0DKJfuixs=;
- b=ncxIePHGgvrgttUf9lS2SzP1eL7a5qwn1ppEuNI9EEB/AoCPCzLoGOGGydhJob97CS
- ZsjVoMY5JqTx5qAMXnf8BiBcsIwhfLgAGihRfSbWoBG6QXXHNb9W6MPA9JINU8O8hiSi
- WJwx2PpxmFCafHJPiJmv2aHG241XQNmFt9cfzcpmnRba32fqhnhnhMQDggyINsbbLOWN
- Q15ha0AKEkXZ+yntx1ov3hYt7OMD36jCLzIyydPnJAX1btpgKkhE17SafO3QFHG1Divy
- DIT5WpprI8I/qG5jFF3Pu/KkjZZR1/QiebPHTR4Ve7VozBv5fNHtPZnEcTHghhH8/z54
- r5dQ==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pXSYb-0003nv-Nk
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:56:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pXSYX-0000tr-QF
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:56:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677700564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NBE1Y6YjfEBU0ZJ8mPUXQBZYbsPHO+w43pGTgJweJ/Y=;
+ b=Yp7OTPIfgrF2KaDy/+EmDZoHV6fVRU4QNktQcwjdcQNgBB40266C5Dz44yo7x/A0fTpqu/
+ FW/hwMxV7ZaMFVu+jknyoJG5NkukJGlSTm8H2ry0qyKUzjfOACrfIjk+xJgIjUY6D3TQaV
+ mVH4ypZw0vb0CN7agoAgmMijG+qnw5E=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-373-dv7rbkNcNf2IDj7MuGMXvQ-1; Wed, 01 Mar 2023 14:56:03 -0500
+X-MC-Unique: dv7rbkNcNf2IDj7MuGMXvQ-1
+Received: by mail-il1-f197.google.com with SMTP id
+ g14-20020a92dd8e000000b00316ea7ce6d3so8550399iln.15
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 11:56:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fTeQEhURtg0lqZ3Ns396CIFolx8DBSEYMT0DKJfuixs=;
- b=xmuw2Q4t564CVUy11rH4S5rzj7BKn26M7QsBXMrW5Po5qP49Zz60vYXAuODuWTaw1c
- 6fdg6d1KVt/wKxdTdEZmg4UAtsbEVrEUNIO7T8SvvENCoOJnc0XvjbBMVvjIBZdUq7Bv
- cbmRuquEUQKY2DRorJ2LYYnFx3FzKHo50I+FOnkpsewWQH9xxB/2g/ufvgqNqvxCBD0t
- HySUWIZhsmfSVuAEyHdHJN7gLcZpEtB8eYJHCQFJbW8vlA+wAwIYHZx7Lpn8k7IwJ9P1
- VAdmVg4qKI42GphVMJfRcnJBpI+6zT5gfUBmstKEqNqJpYDJnFZKEbbTPnYbkgzQ/f6Q
- gwLQ==
-X-Gm-Message-State: AO0yUKXeb+LPxwZIXc5WiQSlDRw6AtCBXN8+6Te2xzgC9OKUQD9imknJ
- BugNepY2gjdwTOQpEsVg9EPlHABaBfkeRnO3UBcS5A==
-X-Google-Smtp-Source: AK7set9BWV6OU/CHi5oYGlF3tXjbxxmbmAAWWziBef21yblwU/FIzSkmQR0Ojav4BbksDwtkdYZfP8cTVlvAIlM3v70=
-X-Received: by 2002:a17:906:52d2:b0:8b1:7ac6:318a with SMTP id
- w18-20020a17090652d200b008b17ac6318amr3620716ejn.4.1677700063321; Wed, 01 Mar
- 2023 11:47:43 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NBE1Y6YjfEBU0ZJ8mPUXQBZYbsPHO+w43pGTgJweJ/Y=;
+ b=n3Q1HIbqrpyHQvcbjYebDYwpOLMZ6hZcfomnKQwNBfAS7gjW3yC/G0BU1OSnDzBUgt
+ tBe2C77tb/lYhfJh9PBBYe+RVyHDxgEK4EQeZ6EMfGt7mgFSZ7Vslux+72AClx+dISDd
+ C8iJo2h8Dl+dOmqFGludeL/ATeKmEbjlOcLG2Semg4UYeTgdNg8L153kaQ2yirPccRrZ
+ D+fa6QPLRw7L4D3f5KXtJSSSKsq7Fn1Fo1y94MQSC+yOgs1ggCrUS7eeyj/SwjQcspc2
+ QNpR0wO4EiO+ySNnPpRpoSQwP1D4+JrXKuv3wCfbgm03WpkGHV/dVRgeJZibUO1mGLMt
+ UXrw==
+X-Gm-Message-State: AO0yUKUVfNqiUB23Ni44h36oYOXR/CzMGYJnrtvDLllHvIVS7+MebhXK
+ IMF+qAf0L/at0FbZcB5M4K3sNZ8q8UyciF22yATlDjXcO+VbdqEV00H1ECPuryn3EAH068NSlJd
+ jnn7WCH1o8AEBbzA=
+X-Received: by 2002:a92:c261:0:b0:313:ee3f:2b2b with SMTP id
+ h1-20020a92c261000000b00313ee3f2b2bmr7657753ild.8.1677700562628; 
+ Wed, 01 Mar 2023 11:56:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set9DWVSr1ZeSgtis6czrcRA2pDZMLPEDF0kQCwzTdHe7nr8TIAY4F3UgCEyIi358pvSXh9znjw==
+X-Received: by 2002:a92:c261:0:b0:313:ee3f:2b2b with SMTP id
+ h1-20020a92c261000000b00313ee3f2b2bmr7657726ild.8.1677700562361; 
+ Wed, 01 Mar 2023 11:56:02 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ k6-20020a02a706000000b003c48d97bea7sm4038047jam.147.2023.03.01.11.56.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 11:56:01 -0800 (PST)
+Date: Wed, 1 Mar 2023 12:55:59 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, qemu-devel@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>, Jason
+ Wang <jasowang@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
+ David Hildenbrand <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?=
+ =?UTF-8?B?w6k=?= <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v2 03/20] vfio/migration: Add VFIO migration pre-copy
+ support
+Message-ID: <20230301125559.613c85e9.alex.williamson@redhat.com>
+In-Reply-To: <b142b581-65c3-285d-bc68-fabc8d5ab0b7@nvidia.com>
+References: <20230222174915.5647-1-avihaih@nvidia.com>
+ <20230222174915.5647-4-avihaih@nvidia.com>
+ <20230222135811.705b85b7.alex.williamson@redhat.com>
+ <38bdb26f-08d7-fe11-9a97-ebcc95c82254@nvidia.com>
+ <20230223141637.67870a03.alex.williamson@redhat.com>
+ <a875f6e5-951b-8f39-7867-313eabe54363@nvidia.com>
+ <20230227091444.6a6e93cd.alex.williamson@redhat.com>
+ <Y/znqJvtxtUEmsHi@nvidia.com>
+ <20230227104308.14077d8a.alex.williamson@redhat.com>
+ <b142b581-65c3-285d-bc68-fabc8d5ab0b7@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230301151604.1948813-1-alex.bennee@linaro.org>
- <CAFEAcA_ok_VSAWk2uqhTs5sF2y3C_JmBNkb8HUGMX6ZX-xdVoA@mail.gmail.com>
- <87356ocp56.fsf@linaro.org>
- <CAFEAcA9X9nQ-6iYqGV9fWWmzDU_SE1ADed6xToOoDmMbvEBkuA@mail.gmail.com>
-In-Reply-To: <CAFEAcA9X9nQ-6iYqGV9fWWmzDU_SE1ADed6xToOoDmMbvEBkuA@mail.gmail.com>
-From: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Date: Wed, 1 Mar 2023 19:47:31 +0000
-Message-ID: <CAHDbmO19_HT7ZgtdvWfzp-BEn3uyhw7NKAW9f9adSHoaZ1mEug@mail.gmail.com>
-Subject: Re: [PULL v2 00/24] testing updates (gitlab, cirrus, docker, avocado,
- windows)
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000005071f205f5dbfce6"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,245 +119,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000005071f205f5dbfce6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 1 Mar 2023 20:49:28 +0200
+Avihai Horon <avihaih@nvidia.com> wrote:
 
-From the other thread:
-
-I think the underlying config needs updating:
-
-  .git/modules/tests/fp/berkeley-testfloat-3/config
-
-I'm surprised the git config for submodules doesn't carry the metadata.
-
-On Wed, 1 Mar 2023 at 19:19, Peter Maydell <peter.maydell@linaro.org> wrote=
-:
-
-> On Wed, 1 Mar 2023 at 18:17, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
+> On 27/02/2023 19:43, Alex Williamson wrote:
+> > External email: Use caution opening links or attachments
 > >
 > >
-> > Peter Maydell <peter.maydell@linaro.org> writes:
-> >
-> > > On Wed, 1 Mar 2023 at 15:16, Alex Benn=C3=A9e <alex.bennee@linaro.org=
->
-> wrote:
-> > >>
-> > >> The following changes since commit
-> 627634031092e1514f363fd8659a579398de0f0e:
-> > >>
-> > >>   Merge tag 'buildsys-qom-qdev-ui-20230227' of
-> > >> https://github.com/philmd/qemu into staging (2023-02-28 15:09:18
-> > >> +0000)
-> > >>
-> > >> are available in the Git repository at:
-> > >>
-> > >>   https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-010323-=
-1
-> > >>
-> > >> for you to fetch changes up to
-> c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb:
-> > >>
-> > >>   tests/avocado: disable BootLinuxPPC64 test in CI (2023-03-01
-> 12:51:01 +0000)
-> > >>
-> > >> ----------------------------------------------------------------
-> > >> testing updates:
-> > >>
-> > >>   - ensure socat available for tests
-> > >>   - skip socat tests for MacOS
-> > >>   - properly clean up fifos after use
-> > >>   - make fp-test less chatty
-> > >>   - store test artefacts on Cirrus
-> > >>   - control custom runners with QEMU_CI knobs
-> > >>   - disable benchmark runs under tsan build
-> > >>   - update ubuntu 2004 to 2204
-> > >>   - skip nios2 kernel replay test
-> > >>   - add tuxrun baselines to avocado
-> > >>   - binary build of tricore tools
-> > >>   - export test results on cross builds
-> > >>   - improve windows builds
-> > >>   - ensure we properly print TAP headers
-> > >>   - migrate away from docker.py for building containers
-> > >>   - be more efficient in our handling of build artefacts between
-> stages
-> > >>   - enable ztsd in containers so we can run tux_baselines
-> > >>   - disable heavyweight PPC64 Boot Linux test in CI
-> > >
-> > > This still won't merge:
-> > >
-> > > e104462:jammy:qemu-for-merges$ apply-pullreq
-> > > https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-010323-1
-> > > Switched to branch 'master'
-> > > Your branch is up-to-date with 'origin/master'.
-> > > Already up-to-date.
-> > > Switched to branch 'staging'
-> > > fetching from remote https://gitlab.com/stsquad/qemu.git
-> > > tags/pull-testing-next-010323-1
-> > > remote: Enumerating objects: 288, done.
-> > > remote: Counting objects: 100% (288/288), done.
-> > > remote: Compressing objects: 100% (135/135), done.
-> > > remote: Total 221 (delta 182), reused 114 (delta 84), pack-reused 0
-> > > Receiving objects: 100% (221/221), 43.20 KiB | 3.08 MiB/s, done.
-> > > Resolving deltas: 100% (182/182), completed with 57 local objects.
-> > > From https://gitlab.com/stsquad/qemu
-> > >  * tag                       pull-testing-next-010323-1 -> FETCH_HEAD
-> > > Fetching submodule tests/fp/berkeley-testfloat-3
-> > > fatal: unable to connect to github.com:
-> > > github.com[0: 140.82.121.3]: errno=3DConnection timed out
-> > >
-> > > fatal: unable to connect to github.com:
-> > > github.com[0: 140.82.114.4]: errno=3DConnection timed out
-> > >
-> > > Errors during submodule fetch:
-> > >         tests/fp/berkeley-testfloat-3
-> > >         tests/fp/berkeley-testfloat-3
-> >
-> > You'll need to do a fresh checkout or manually fix up the .git/ metadat=
-a
->
-> What metadata? I don't understand what's going on here...
-> The .gitmodules I have points at gitlab URLs for the
-> softfloat and testfloat stuff.
->
-> -- PMM
->
+> > On Mon, 27 Feb 2023 13:26:00 -0400
+> > Jason Gunthorpe <jgg@nvidia.com> wrote:
+> >  
+> >> On Mon, Feb 27, 2023 at 09:14:44AM -0700, Alex Williamson wrote:
+> >>  
+> >>> But we have no requirement to send all init_bytes before stop-copy.
+> >>> This is a hack to achieve a theoretical benefit that a driver might be
+> >>> able to improve the latency on the target by completing another
+> >>> iteration.  
+> >> I think this is another half-step at this point..
+> >>
+> >> The goal is to not stop the VM until the target VFIO driver has
+> >> completed loading initial_bytes.
+> >>
+> >> This signals that the time consuming pre-setup is completed in the
+> >> device and we don't have to use downtime to do that work.
+> >>
+> >> We've measured this in our devices and the time-shift can be
+> >> significant, like seconds levels of time removed from the downtime
+> >> period.
+> >>
+> >> Stopping the VM before this pre-setup is done is simply extending the
+> >> stopped VM downtime.
+> >>
+> >> Really what we want is to have the far side acknowledge that
+> >> initial_bytes has completed loading.
+> >>
+> >> To remind, what mlx5 is doing here with precopy is time-shifting work,
+> >> not data. We want to put expensive work (ie time) into the period when
+> >> the VM is still running and have less downtime.
+> >>
+> >> This challenges the assumption built into qmeu that all data has equal
+> >> time and it can estimate downtime time simply by scaling the estimated
+> >> data. We have a data-size independent time component to deal with as
+> >> well.  
+> > As I mentioned before, I understand the motivation, but imo the
+> > implementation is exploiting the interface it extended in order to force
+> > a device driven policy which is specifically not a requirement of the
+> > vfio migration uAPI.  It sounds like there's more work required in the
+> > QEMU migration interfaces to properly factor this information into the
+> > algorithm.  Until then, this seems like a follow-on improvement unless
+> > you can convince the migration maintainers that providing false
+> > information in order to force another pre-copy iteration is a valid use
+> > of passing the threshold value to the driver.  
+> 
+> In my previous message I suggested to drop this exploit and instead 
+> change the QEMU migration API and introduce to it the concept of 
+> pre-copy initial bytes -- data that must be transferred before source VM 
+> stops (which is different from current @must_precopy that represents 
+> data that can be transferred even when VM is stopped).
+> We could do it by adding a new parameter "init_precopy_size" to the 
+> state_pending_{estimate,exact} handlers and every migration user could 
+> use it (RAM, block, etc).
+> We will also change the migration algorithm to take this new parameter 
+> into account when deciding to move to stop-copy.
+> 
+> Of course this will have to be approved by migration maintainers first, 
+> but if it's done in a standard way such as above, via the migration API, 
+> would it be OK by you to go this way?
 
+I still think we're conflating information and requirements by allowing
+a device to impose a policy which keeps QEMU in pre-copy.  AIUI, what
+we're trying to do is maximize the time separation between the
+initial_bytes from the device and the end-of-stream.  But knowing the
+data size of initial_bytes is not really all that useful.
 
---=20
-Alex Benn=C3=A9e
-Emulation and Virtualisation Tech Lead @ Linaro
+If we think about the limits of network bandwidth, all data transfers
+approach zero time, but the startup latency of the target device that
+we're trying to maximize here is fixed.  By prioritizing initial_bytes,
+we're separating in space the beginning of target device setup from the
+end-of-stream, but that's only an approximation of time, which is what
+QEMU really needs to know to honor downtime requirements.
 
---0000000000005071f205f5dbfce6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So it seems like what we need here is both a preface buffer size and a
+target device latency.  The QEMU pre-copy algorithm should factor both
+the remaining data size and the device latency into deciding when to
+transition to stop-copy, thereby allowing the device to feed actually
+relevant data into the algorithm rather than dictate its behavior.
+Thanks,
 
-<div dir=3D"ltr"><div>From the other thread:</div><div><br></div><div>I thi=
-nk the underlying config needs updating:</div><br>=C2=A0 .git/modules/tests=
-/fp/berkeley-testfloat-3/config<br><br>I&#39;m surprised the git config for=
- submodules doesn&#39;t carry the metadata.<br></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 1 Mar 2023 at 19:19,=
- Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydel=
-l@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">On Wed, 1 Mar 2023 at 18:17, Alex Benn=C3=A9e &lt;<a href=3D"ma=
-ilto:alex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&g=
-t; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=
-=3D"_blank">peter.maydell@linaro.org</a>&gt; writes:<br>
-&gt;<br>
-&gt; &gt; On Wed, 1 Mar 2023 at 15:16, Alex Benn=C3=A9e &lt;<a href=3D"mail=
-to:alex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt;=
- wrote:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; The following changes since commit 627634031092e1514f363fd865=
-9a579398de0f0e:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0Merge tag &#39;buildsys-qom-qdev-ui-20230227&#39;=
- of<br>
-&gt; &gt;&gt; <a href=3D"https://github.com/philmd/qemu" rel=3D"noreferrer"=
- target=3D"_blank">https://github.com/philmd/qemu</a> into staging (2023-02=
--28 15:09:18<br>
-&gt; &gt;&gt; +0000)<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; are available in the Git repository at:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0<a href=3D"https://gitlab.com/stsquad/qemu.git" r=
-el=3D"noreferrer" target=3D"_blank">https://gitlab.com/stsquad/qemu.git</a>=
- tags/pull-testing-next-010323-1<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; for you to fetch changes up to c0c8687ef0fd990db8db1655a8a6c5=
-a5e35dd4bb:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0tests/avocado: disable BootLinuxPPC64 test in CI =
-(2023-03-01 12:51:01 +0000)<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; -------------------------------------------------------------=
----<br>
-&gt; &gt;&gt; testing updates:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- ensure socat available for tests<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- skip socat tests for MacOS<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- properly clean up fifos after use<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- make fp-test less chatty<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- store test artefacts on Cirrus<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- control custom runners with QEMU_CI knobs<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- disable benchmark runs under tsan build<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- update ubuntu 2004 to 2204<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- skip nios2 kernel replay test<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- add tuxrun baselines to avocado<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- binary build of tricore tools<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- export test results on cross builds<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- improve windows builds<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- ensure we properly print TAP headers<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- migrate away from docker.py for building contai=
-ners<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- be more efficient in our handling of build arte=
-facts between stages<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- enable ztsd in containers so we can run tux_bas=
-elines<br>
-&gt; &gt;&gt;=C2=A0 =C2=A0- disable heavyweight PPC64 Boot Linux test in CI=
-<br>
-&gt; &gt;<br>
-&gt; &gt; This still won&#39;t merge:<br>
-&gt; &gt;<br>
-&gt; &gt; e104462:jammy:qemu-for-merges$ apply-pullreq<br>
-&gt; &gt; <a href=3D"https://gitlab.com/stsquad/qemu.git" rel=3D"noreferrer=
-" target=3D"_blank">https://gitlab.com/stsquad/qemu.git</a> tags/pull-testi=
-ng-next-010323-1<br>
-&gt; &gt; Switched to branch &#39;master&#39;<br>
-&gt; &gt; Your branch is up-to-date with &#39;origin/master&#39;.<br>
-&gt; &gt; Already up-to-date.<br>
-&gt; &gt; Switched to branch &#39;staging&#39;<br>
-&gt; &gt; fetching from remote <a href=3D"https://gitlab.com/stsquad/qemu.g=
-it" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/stsquad/qemu.gi=
-t</a><br>
-&gt; &gt; tags/pull-testing-next-010323-1<br>
-&gt; &gt; remote: Enumerating objects: 288, done.<br>
-&gt; &gt; remote: Counting objects: 100% (288/288), done.<br>
-&gt; &gt; remote: Compressing objects: 100% (135/135), done.<br>
-&gt; &gt; remote: Total 221 (delta 182), reused 114 (delta 84), pack-reused=
- 0<br>
-&gt; &gt; Receiving objects: 100% (221/221), 43.20 KiB | 3.08 MiB/s, done.<=
-br>
-&gt; &gt; Resolving deltas: 100% (182/182), completed with 57 local objects=
-.<br>
-&gt; &gt; From <a href=3D"https://gitlab.com/stsquad/qemu" rel=3D"noreferre=
-r" target=3D"_blank">https://gitlab.com/stsquad/qemu</a><br>
-&gt; &gt;=C2=A0 * tag=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pull-testing-next-010323-1 -&gt; FETCH_HEAD<=
-br>
-&gt; &gt; Fetching submodule tests/fp/berkeley-testfloat-3<br>
-&gt; &gt; fatal: unable to connect to <a href=3D"http://github.com" rel=3D"=
-noreferrer" target=3D"_blank">github.com</a>:<br>
-&gt; &gt; <a href=3D"http://github.com" rel=3D"noreferrer" target=3D"_blank=
-">github.com</a>[0: 140.82.121.3]: errno=3DConnection timed out<br>
-&gt; &gt;<br>
-&gt; &gt; fatal: unable to connect to <a href=3D"http://github.com" rel=3D"=
-noreferrer" target=3D"_blank">github.com</a>:<br>
-&gt; &gt; <a href=3D"http://github.com" rel=3D"noreferrer" target=3D"_blank=
-">github.com</a>[0: 140.82.114.4]: errno=3DConnection timed out<br>
-&gt; &gt;<br>
-&gt; &gt; Errors during submodule fetch:<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tests/fp/berkeley-testfloat-3<br=
->
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tests/fp/berkeley-testfloat-3<br=
->
-&gt;<br>
-&gt; You&#39;ll need to do a fresh checkout or manually fix up the .git/ me=
-tadata<br>
-<br>
-What metadata? I don&#39;t understand what&#39;s going on here...<br>
-The .gitmodules I have points at gitlab URLs for the<br>
-softfloat and testfloat stuff.<br>
-<br>
--- PMM<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr">Alex Benn=C3=A9e<br>Emulation and Virtuali=
-sation Tech Lead @ Linaro</div></div>
+Alex
 
---0000000000005071f205f5dbfce6--
 
