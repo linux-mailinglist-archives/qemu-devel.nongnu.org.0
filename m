@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C746A6E86
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:35:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF32B6A6E8A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:35:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNX7-0007tM-Vh; Wed, 01 Mar 2023 09:34:17 -0500
+	id 1pXNY1-0000Ra-Ey; Wed, 01 Mar 2023 09:35:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pXNX5-0007sW-3j; Wed, 01 Mar 2023 09:34:15 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ id 1pXNXy-0000MZ-7s; Wed, 01 Mar 2023 09:35:10 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pXNX3-0003Xc-0Y; Wed, 01 Mar 2023 09:34:14 -0500
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:57a5:0:640:1f49:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 3B6185ECB4;
- Wed,  1 Mar 2023 17:34:02 +0300 (MSK)
+ id 1pXNXv-0003lv-5z; Wed, 01 Mar 2023 09:35:08 -0500
+Received: from mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
+ [IPv6:2a02:6b8:c08:ae0e:0:640:6e49:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id C1D89603DE;
+ Wed,  1 Mar 2023 17:34:57 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b71b::1:14] (unknown
  [2a02:6b8:b081:b71b::1:14])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id 1YWEa40OoGk0-0OqGlqOq; Wed, 01 Mar 2023 17:34:01 +0300
+ by mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id uYW7T305Qa60-U8n1GEc0; Wed, 01 Mar 2023 17:34:57 +0300
 X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+Authentication-Results: mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net;
  dkim=pass
-Message-ID: <1e66bfec-30be-7c0a-d307-50c5b1e9d3e0@yandex-team.ru>
-Date: Wed, 1 Mar 2023 17:34:01 +0300
+Message-ID: <bf90a430-226f-085c-557e-4c1c5f8787f3@yandex-team.ru>
+Date: Wed, 1 Mar 2023 17:34:56 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 2/9] block/mirror: set actively_synced even after the job
- is ready
+Subject: Re: [PATCH 0/9] mirror: allow switching from background to active mode
 Content-Language: en-US
 To: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, armbru@redhat.com, eblake@redhat.com,
  hreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com, den@virtuozzo.com,
  t.lamprecht@proxmox.com, alexander.ivanov@virtuozzo.com
 References: <20230224144825.466375-1-f.ebner@proxmox.com>
- <20230224144825.466375-3-f.ebner@proxmox.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230224144825.466375-3-f.ebner@proxmox.com>
+In-Reply-To: <20230224144825.466375-1-f.ebner@proxmox.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -69,13 +67,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 24.02.23 17:48, Fiona Ebner wrote:
-> In preparation to allow switching from background to active mode. This
-> ensures that setting actively_synced will not be missed when the
-> switch happens after the job is ready.
+> With active mode, the guest write speed is limited by the synchronous
+> writes to the mirror target. For this reason, management applications
+> might want to start out in background mode and only switch to active
+> mode later, when certain conditions are met. This series adds a
+> block-job-change QMP command to acheive that, as well as
+> job-type-specific information when querying block jobs, which
+> can be used to decide when the switch should happen.
 > 
-> Signed-off-by: Fiona Ebner<f.ebner@proxmox.com>
+> For now, only the direction background -> active is supported.
+> 
+> The information added upon querying is whether the target is actively
+> synced, the total data sent, and the remaining dirty bytes.
+> 
+> Initially, I tried to go for a more general 'job-change' command, but
+> I couldn't figure out a way to avoid mutual inclusion between
+> block-core.json and job.json.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Hmm, what do you mean? As I understand job-* API is "new" and block-job-* is "old", so we'd better add job-change command
 
 -- 
 Best regards,
