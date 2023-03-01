@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0895F6A65F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:59:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32D26A65FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:59:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXCea-0008If-2z; Tue, 28 Feb 2023 21:57:16 -0500
+	id 1pXCeg-0008Vt-Pr; Tue, 28 Feb 2023 21:57:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCeV-0008BO-Jh
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:11 -0500
+ id 1pXCeb-0008Po-4b
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:17 -0500
 Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCeK-00033e-4A
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:01 -0500
-Received: by mail-pl1-x636.google.com with SMTP id u5so9162747plq.7
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:56:59 -0800 (PST)
+ id 1pXCeV-00034o-Es
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:14 -0500
+Received: by mail-pl1-x636.google.com with SMTP id h8so9258889plf.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yCnXoix2KCDp3dAlICLH/1Trzu0mg9DNGkDG5uPTS+4=;
- b=XWGoovEoB1Nnvj7lIj5rqTje6QNZd7+2r8RXZKpU3uPqlI2JDeTR2n5RVxJsRof0PV
- MHpWWoN9h4j4M6CA9Lh4jR5dWtS4/stHmjfqNW6Ck7K88Ct13u50Y8yl4ftP8lFUXfgj
- ogqWhmyjtbzlYfyZ++ZhYetGKahEq0MwVWrk4cTzErL8Ur6kfTVsBslPc/CTUcnwj3wT
- ucqHaUoxH17h+wDvYSM6LZ8BgGy4z7ehdA1SI1lp67tAdh6Izrld55th9b/HiA88AxLn
- 89EcWvAyYVX9Vw2gTnjd5qW3xWQPty/D43BGq6ZQZ2sZA6Z6UgOCJHOM9APNFLYS3zSl
- YXEg==
+ bh=5V1kWsJXiLomUiBn79BuuHuVDcWX4pmOGpMVfh/rRyY=;
+ b=l/oaOwLbx9nJS0yTnVVOyAak8bk6g0RYW3pcpFrhl9yX4utOAs2pBGF8CnhpciOxQS
+ Y19jiL9SV3kL4hstIq3JpKH44/CffoUr+9vC6fmODEqKAbe+h5pVdwqu2v004gM+zC4b
+ ehK3uvG+BDw9MYjNpl6GNyMMzOYbRuiNmYOLOXmGAxxB/28xYZcBUpk9SP91Owx2ALMX
+ NScvW29Vlj9SXLlAHuetdtp+0naUVWHmcjHYhpQBkmu0Nv+IK4LRwaK+T9umfVS9yLH/
+ V4bL+YLa00HHMVvhI2HmlK/gP+t6GL770Qnroa57Y9iIi+RAEp6OUJNGFxfMOTzARBNN
+ WKiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yCnXoix2KCDp3dAlICLH/1Trzu0mg9DNGkDG5uPTS+4=;
- b=aUv0QoNx1/BMnfoOhOWq0hz3L+TBkKAA4gIu8iNKfDrKmDrtsxKkMKHF1xcmwkR6dG
- otdWqK1KP2RS0y7oIkcsQbJQ9GtX204frnysTtXRAmGyotj1R995sQnudTmjARo0qlTt
- PuAiXYdC9qjwFMmjXVJZExwZZ19pFXfKcjuasZP30ILHLcGGSv7ipF11ItnKr+UVAami
- 5gsGF+1rdho/7C60yynQYbunqk39bJpFKPAskIyVjrndwNmVmIkomzhot20DBF0BKH2s
- oRDOWp6hiKqQZsEw+eLLhCV2fspX8CKe8gE3YpsF7mtPCoNMvCmzXvYn5WSOqPRl/elv
- djcw==
-X-Gm-Message-State: AO0yUKW0DcYWRFpBoDFsdP6FRQY3BuNH4PJsEtYcazz2qP1I0fFV/O7j
- +DKbBcoxawvmxheicMV9Cq/FPo6kd6oLRAud7Dw=
-X-Google-Smtp-Source: AK7set90TpqvQjKMIQ7du8CsRNOUkgqUtKl1Eo15BjKB7NBX7HHPqLmikEh57XcyOkECdOroZLHWeA==
-X-Received: by 2002:a17:902:ea07:b0:19c:dc14:ea77 with SMTP id
- s7-20020a170902ea0700b0019cdc14ea77mr5569574plg.20.1677639418374; 
- Tue, 28 Feb 2023 18:56:58 -0800 (PST)
+ bh=5V1kWsJXiLomUiBn79BuuHuVDcWX4pmOGpMVfh/rRyY=;
+ b=l3vaXm7KexHCRumw8R8QhcAAXxMXsTwF3kpL6J+TDUUiCIGMUu2maUD7yd3vptwver
+ DV3VOMavPoqMu9Xae5GeWDQewoNxVi4TDJNox5Uh9QKufBeOwidghEhIGPmMfr05vBX7
+ vGAbCeNRxJB4X9A+iJ4Lc56FyDqujAs6uqVjqH9wExGwfepx1sgOWQBVDAAC1iwDxpxk
+ +v3N9CHWve9sMqITo1rhNzr2j7at++i1qTVnuKQbSxXt7RvJYNSBrRc/SoOEuDrYpVik
+ y6u5rS1xxWq+ObYM9hr2Bbm+S1A99syNaiz7TlGC93B07a1tB2CPct9wXnPVKypHJ+M6
+ O0WQ==
+X-Gm-Message-State: AO0yUKVF0qoGWU/7nOqqs4Gaz844SBUn2bw2QdiD1LT1q+GYIxfsV9Ut
+ Gf36iG9ldJPSan8RDeVE5T60uqDTpTqFXvN78UI=
+X-Google-Smtp-Source: AK7set85xzPtrucrI5gBQkMVzHjSLlkAQZAo467F9Ian9sdqCegCRjD0I8Ux7YSGG6LVmMacxp3x0g==
+X-Received: by 2002:a17:903:684:b0:19d:90f:6c7f with SMTP id
+ ki4-20020a170903068400b0019d090f6c7fmr4044253plb.43.1677639420204; 
+ Tue, 28 Feb 2023 18:57:00 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.56.56
+ jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.56.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 18:56:57 -0800 (PST)
+ Tue, 28 Feb 2023 18:56:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, Anton Johansson <anjo@rev.ng>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 07/62] target/arm: set `CF_PCREL` in `arm_cpu_realizefn`
-Date: Tue, 28 Feb 2023 16:55:48 -1000
-Message-Id: <20230301025643.1227244-8-richard.henderson@linaro.org>
+Subject: [PULL 08/62] accel/tcg: Replace `TARGET_TB_PCREL` with `CF_PCREL`
+Date: Tue, 28 Feb 2023 16:55:49 -1000
+Message-Id: <20230301025643.1227244-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301025643.1227244-1-richard.henderson@linaro.org>
 References: <20230301025643.1227244-1-richard.henderson@linaro.org>
@@ -95,28 +95,258 @@ From: Anton Johansson via <qemu-devel@nongnu.org>
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230227135202.9710-4-anjo@rev.ng>
+Message-Id: <20230227135202.9710-5-anjo@rev.ng>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ accel/tcg/internal.h      | 10 ++++----
+ accel/tcg/tb-jmp-cache.h  | 48 +++++++++++++++++++--------------------
+ accel/tcg/cpu-exec.c      |  8 +++----
+ accel/tcg/perf.c          |  2 +-
+ accel/tcg/tb-maint.c      |  8 +++----
+ accel/tcg/translate-all.c | 14 ++++++------
+ 6 files changed, 44 insertions(+), 46 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 0b333a749f..b21d52cce7 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1557,6 +1557,11 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-     Error *local_err = NULL;
-     bool no_aa32 = false;
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+index 130d7fd564..5daa4cf0d7 100644
+--- a/accel/tcg/internal.h
++++ b/accel/tcg/internal.h
+@@ -57,11 +57,11 @@ void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+ /* Return the current PC from CPU, which may be cached in TB. */
+ static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
+ {
+-#if TARGET_TB_PCREL
+-    return cpu->cc->get_pc(cpu);
+-#else
+-    return tb_pc(tb);
+-#endif
++    if (tb_cflags(tb) & CF_PCREL) {
++        return cpu->cc->get_pc(cpu);
++    } else {
++        return tb_pc(tb);
++    }
+ }
  
-+    /* Use pc-relative instructions in system-mode */
-+#ifndef CONFIG_USER_ONLY
-+    cs->tcg_cflags |= CF_PCREL;
-+#endif
-+
-     /* If we needed to query the host kernel for the CPU features
-      * then it's possible that might have failed in the initfn, but
-      * this is the first point where we can report it.
+ extern int64_t max_delay;
+diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
+index b3f6e78835..083939b302 100644
+--- a/accel/tcg/tb-jmp-cache.h
++++ b/accel/tcg/tb-jmp-cache.h
+@@ -14,53 +14,51 @@
+ 
+ /*
+  * Accessed in parallel; all accesses to 'tb' must be atomic.
+- * For TARGET_TB_PCREL, accesses to 'pc' must be protected by
+- * a load_acquire/store_release to 'tb'.
++ * For CF_PCREL, accesses to 'pc' must be protected by a
++ * load_acquire/store_release to 'tb'.
+  */
+ struct CPUJumpCache {
+     struct rcu_head rcu;
+     struct {
+         TranslationBlock *tb;
+-#if TARGET_TB_PCREL
+         target_ulong pc;
+-#endif
+     } array[TB_JMP_CACHE_SIZE];
+ };
+ 
+ static inline TranslationBlock *
+-tb_jmp_cache_get_tb(CPUJumpCache *jc, uint32_t hash)
++tb_jmp_cache_get_tb(CPUJumpCache *jc, uint32_t cflags, uint32_t hash)
+ {
+-#if TARGET_TB_PCREL
+-    /* Use acquire to ensure current load of pc from jc. */
+-    return qatomic_load_acquire(&jc->array[hash].tb);
+-#else
+-    /* Use rcu_read to ensure current load of pc from *tb. */
+-    return qatomic_rcu_read(&jc->array[hash].tb);
+-#endif
++    if (cflags & CF_PCREL) {
++        /* Use acquire to ensure current load of pc from jc. */
++        return qatomic_load_acquire(&jc->array[hash].tb);
++    } else {
++        /* Use rcu_read to ensure current load of pc from *tb. */
++        return qatomic_rcu_read(&jc->array[hash].tb);
++    }
+ }
+ 
+ static inline target_ulong
+ tb_jmp_cache_get_pc(CPUJumpCache *jc, uint32_t hash, TranslationBlock *tb)
+ {
+-#if TARGET_TB_PCREL
+-    return jc->array[hash].pc;
+-#else
+-    return tb_pc(tb);
+-#endif
++    if (tb_cflags(tb) & CF_PCREL) {
++        return jc->array[hash].pc;
++    } else {
++        return tb_pc(tb);
++    }
+ }
+ 
+ static inline void
+ tb_jmp_cache_set(CPUJumpCache *jc, uint32_t hash,
+                  TranslationBlock *tb, target_ulong pc)
+ {
+-#if TARGET_TB_PCREL
+-    jc->array[hash].pc = pc;
+-    /* Use store_release on tb to ensure pc is written first. */
+-    qatomic_store_release(&jc->array[hash].tb, tb);
+-#else
+-    /* Use the pc value already stored in tb->pc. */
+-    qatomic_set(&jc->array[hash].tb, tb);
+-#endif
++    if (tb_cflags(tb) & CF_PCREL) {
++        jc->array[hash].pc = pc;
++        /* Use store_release on tb to ensure pc is written first. */
++        qatomic_store_release(&jc->array[hash].tb, tb);
++    } else{
++        /* Use the pc value already stored in tb->pc. */
++        qatomic_set(&jc->array[hash].tb, tb);
++    }
+ }
+ 
+ #endif /* ACCEL_TCG_TB_JMP_CACHE_H */
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index ef557e57aa..013856f103 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -183,7 +183,7 @@ static bool tb_lookup_cmp(const void *p, const void *d)
+     const TranslationBlock *tb = p;
+     const struct tb_desc *desc = d;
+ 
+-    if ((TARGET_TB_PCREL || tb_pc(tb) == desc->pc) &&
++    if ((tb_cflags(tb) & CF_PCREL || tb_pc(tb) == desc->pc) &&
+         tb_page_addr0(tb) == desc->page_addr0 &&
+         tb->cs_base == desc->cs_base &&
+         tb->flags == desc->flags &&
+@@ -235,7 +235,7 @@ static TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+         return NULL;
+     }
+     desc.page_addr0 = phys_pc;
+-    h = tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : pc),
++    h = tb_hash_func(phys_pc, (cflags & CF_PCREL ? 0 : pc),
+                      flags, cflags, *cpu->trace_dstate);
+     return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
+ }
+@@ -254,7 +254,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+ 
+     hash = tb_jmp_cache_hash_func(pc);
+     jc = cpu->tb_jmp_cache;
+-    tb = tb_jmp_cache_get_tb(jc, hash);
++    tb = tb_jmp_cache_get_tb(jc, cflags, hash);
+ 
+     if (likely(tb &&
+                tb_jmp_cache_get_pc(jc, hash, tb) == pc &&
+@@ -457,7 +457,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
+         if (cc->tcg_ops->synchronize_from_tb) {
+             cc->tcg_ops->synchronize_from_tb(cpu, last_tb);
+         } else {
+-            assert(!TARGET_TB_PCREL);
++            tcg_debug_assert(!(tb_cflags(last_tb) & CF_PCREL));
+             assert(cc->set_pc);
+             cc->set_pc(cpu, tb_pc(last_tb));
+         }
+diff --git a/accel/tcg/perf.c b/accel/tcg/perf.c
+index ae19f6e28f..65e35ea3b9 100644
+--- a/accel/tcg/perf.c
++++ b/accel/tcg/perf.c
+@@ -328,7 +328,7 @@ void perf_report_code(uint64_t guest_pc, TranslationBlock *tb,
+     for (insn = 0; insn < tb->icount; insn++) {
+         /* FIXME: This replicates the restore_state_to_opc() logic. */
+         q[insn].address = tcg_ctx->gen_insn_data[insn][0];
+-        if (TARGET_TB_PCREL) {
++        if (tb_cflags(tb) & CF_PCREL) {
+             q[insn].address |= (guest_pc & TARGET_PAGE_MASK);
+         } else {
+ #if defined(TARGET_I386)
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index b3d6529ae2..2dbc2ce172 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -44,7 +44,7 @@ static bool tb_cmp(const void *ap, const void *bp)
+     const TranslationBlock *a = ap;
+     const TranslationBlock *b = bp;
+ 
+-    return ((TARGET_TB_PCREL || tb_pc(a) == tb_pc(b)) &&
++    return ((tb_cflags(a) & CF_PCREL || tb_pc(a) == tb_pc(b)) &&
+             a->cs_base == b->cs_base &&
+             a->flags == b->flags &&
+             (tb_cflags(a) & ~CF_INVALID) == (tb_cflags(b) & ~CF_INVALID) &&
+@@ -847,7 +847,7 @@ static void tb_jmp_cache_inval_tb(TranslationBlock *tb)
+ {
+     CPUState *cpu;
+ 
+-    if (TARGET_TB_PCREL) {
++    if (tb_cflags(tb) & CF_PCREL) {
+         /* A TB may be at any virtual address */
+         CPU_FOREACH(cpu) {
+             tcg_flush_jmp_cache(cpu);
+@@ -885,7 +885,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+ 
+     /* remove the TB from the hash list */
+     phys_pc = tb_page_addr0(tb);
+-    h = tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : tb_pc(tb)),
++    h = tb_hash_func(phys_pc, (orig_cflags & CF_PCREL ? 0 : tb_pc(tb)),
+                      tb->flags, orig_cflags, tb->trace_vcpu_dstate);
+     if (!qht_remove(&tb_ctx.htable, tb, h)) {
+         return;
+@@ -966,7 +966,7 @@ TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+     tb_record(tb, p, p2);
+ 
+     /* add in the hash table */
+-    h = tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : tb_pc(tb)),
++    h = tb_hash_func(phys_pc, (tb->cflags & CF_PCREL ? 0 : tb_pc(tb)),
+                      tb->flags, tb->cflags, tb->trace_vcpu_dstate);
+     qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
+ 
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 84f129337b..7969c1ee4c 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -134,7 +134,7 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
+ 
+         for (j = 0; j < TARGET_INSN_START_WORDS; ++j) {
+             if (i == 0) {
+-                prev = (!TARGET_TB_PCREL && j == 0 ? tb_pc(tb) : 0);
++                prev = (!(tb_cflags(tb) & CF_PCREL) && j == 0 ? tb_pc(tb) : 0);
+             } else {
+                 prev = tcg_ctx->gen_insn_data[i - 1][j];
+             }
+@@ -169,7 +169,7 @@ static int cpu_unwind_data_from_tb(TranslationBlock *tb, uintptr_t host_pc,
+     }
+ 
+     memset(data, 0, sizeof(uint64_t) * TARGET_INSN_START_WORDS);
+-    if (!TARGET_TB_PCREL) {
++    if (!(tb_cflags(tb) & CF_PCREL)) {
+         data[0] = tb_pc(tb);
+     }
+ 
+@@ -340,9 +340,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+ 
+     gen_code_buf = tcg_ctx->code_gen_ptr;
+     tb->tc.ptr = tcg_splitwx_to_rx(gen_code_buf);
+-#if !TARGET_TB_PCREL
+-    tb->pc = pc;
+-#endif
++    if (!(cflags & CF_PCREL)) {
++        tb->pc = pc;
++    }
+     tb->cs_base = cs_base;
+     tb->flags = flags;
+     tb->cflags = cflags;
+@@ -407,8 +407,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     tb->tc.size = gen_code_size;
+ 
+     /*
+-     * For TARGET_TB_PCREL, attribute all executions of the generated
+-     * code to its first mapping.
++     * For CF_PCREL, attribute all executions of the generated code
++     * to its first mapping.
+      */
+     perf_report_code(pc, tb, tcg_splitwx_to_rx(gen_code_buf));
+ 
 -- 
 2.34.1
 
