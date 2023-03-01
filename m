@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BD26A6D7B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:54:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A0B6A6D6F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:52:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXMu5-00023F-0U; Wed, 01 Mar 2023 08:53:57 -0500
+	id 1pXMsP-0007qA-1V; Wed, 01 Mar 2023 08:52:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+f4e15e254fb7e3cd38fc+7129+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pXMt7-0000Fp-Po
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:52:58 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1pXMsE-0007od-A5
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:52:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+f4e15e254fb7e3cd38fc+7129+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pXMsv-0002pc-Hn
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:52:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=S+kYmyhtd0CGdFl7Eb8/COkVA/VUCYj+6tLME3C5EHc=; b=UqJTiLapbrEzSBPjfw+U8db61B
- SUP4W7JZMa00IERxQacEfCxQAOyN2rxUK3Z9/dDMNpOioaATCNGRvyK7WEuegtMO4RZ3UCDReww6e
- RTE9x43ZV3MhUkasQnx+13SK72GeJIvWBPHS3aUthN08G2bx4QwAUxyiXRb6c6exhqbZQn2FKWOJq
- AxamngHO+mjIDrfaKMoDVBcnZkhby4PDXGjuHvdwllUDd9/RFsoLtsENXiV0wfMDj2tVf+LWDzcEc
- 6ftzf+2HL2H5AA3o4vYQT6accplvWWdztCvbgpx7WKpCkppZE3fY++USca3OsJYEIEVcvY/dQFzrt
- sBKmZQfQ==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pXMsd-001f42-78; Wed, 01 Mar 2023 13:52:28 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pXMsd-0049Vn-0h; Wed, 01 Mar 2023 13:52:27 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
- Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v15 33/60] hw/xen: Implement EVTCHNOP_bind_ipi
-Date: Wed,  1 Mar 2023 13:51:56 +0000
-Message-Id: <20230301135223.988336-34-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230301135223.988336-1-dwmw2@infradead.org>
-References: <20230301135223.988336-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1pXMsC-0002gM-8F
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:52:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677678719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mftfQEi9wdaH6McKuPClmRUmMChN2OhoG+1UjGPOpjw=;
+ b=AIXUY9apdKrVPNzPQ9jpLaG/2Mi1Pw3tcexix89ipHBAYuIABqpcaYGP2D3KonbWDr9Gfw
+ ncP5ZsALiGDTjWrGbKcD6qYCZfCM41dG2da61/HZ4EirRhsfbdacCZ4mW+UFpSGznUSQAp
+ 3i6nmynfCkbpl+z7pZaR/9+3BoISo5Y=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-221-ybI1atrsPQeKsjrFLRUOwg-1; Wed, 01 Mar 2023 08:51:58 -0500
+X-MC-Unique: ybI1atrsPQeKsjrFLRUOwg-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ h1-20020a62de01000000b005d943b97706so6889201pfg.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 05:51:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mftfQEi9wdaH6McKuPClmRUmMChN2OhoG+1UjGPOpjw=;
+ b=YQs23IyYfsQSj/ZgaWfB/iOgVRtXuKD/dzCoiKemc0t+6mrhNcfzc7pbEOEdlS5tZv
+ clwhDE/voMdi1bKSi4oqda3dP62B0wLc8pmpOw7FZqi5HWvjJjTdxVVSwwLHNTYXmlTi
+ 3WZraxRVzBEziup9I9lbCWpGjxZmfSTyuy+OTr4QxHDOxVfrW0//x/TNzUxxYRTELI0u
+ 35e06eoLSAa0FSNfpZVqGVLy1Q41xhLHJjbbxGmXURfNMeFUWHegxq9orupzKWOsphRR
+ dukFqZD9AzNJNig1uc9IfxrL/Jbob26J3ZtJeS/67WclNmlKQ+8nsptOhWS/Y6R1Xy/i
+ TaWQ==
+X-Gm-Message-State: AO0yUKUxWvasCBxFgWJSJQUHDWWORJ8GpNhzpIeedlfRjXy3QCp6+gKW
+ FrhbEEbSLtM3E9ei7WOv8CpXauVs27EW/zHT0zouBUKIGgIVY2yxaASrpghgiXa4yI9HQKT42lr
+ nll8+tUk44gksbuiaM/VkDjB0HOh5UMY=
+X-Received: by 2002:a17:902:a3cd:b0:19c:be03:ce10 with SMTP id
+ q13-20020a170902a3cd00b0019cbe03ce10mr2318743plb.9.1677678717057; 
+ Wed, 01 Mar 2023 05:51:57 -0800 (PST)
+X-Google-Smtp-Source: AK7set+VwIMpkQPmtqSDdknUDIutD4sizupNM19vKv5zm2iK/1JA7xp0lu/ds3MQ/WbVn6ZY+NHdJ+zI4iECpRjydb4=
+X-Received: by 2002:a17:902:a3cd:b0:19c:be03:ce10 with SMTP id
+ q13-20020a170902a3cd00b0019cbe03ce10mr2318736plb.9.1677678716764; Wed, 01 Mar
+ 2023 05:51:56 -0800 (PST)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 1 Mar 2023 05:51:56 -0800
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20230228150216.77912-1-cohuck@redhat.com>
+ <20230228150216.77912-2-cohuck@redhat.com>
+ <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
+ <874jr4dbcr.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+f4e15e254fb7e3cd38fc+7129+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <874jr4dbcr.fsf@redhat.com>
+Date: Wed, 1 Mar 2023 05:51:56 -0800
+Message-ID: <CABJz62MQH2U1QM26PcC3F1cy7t=53_mxkgViLKjcUMVmi29w+Q@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, 
+ kvm@vger.kernel.org, Eric Auger <eauger@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,157 +102,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On Wed, Mar 01, 2023 at 11:17:40AM +0100, Cornelia Huck wrote:
+> On Tue, Feb 28 2023, Andrea Bolognani <abologna@redhat.com> wrote:
+> > On Tue, Feb 28, 2023 at 04:02:15PM +0100, Cornelia Huck wrote:
+> >> +MTE CPU Property
+> >> +================
+> >> +
+> >> +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
+> >> +presence of tag memory (which can be turned on for the ``virt`` machine via
+> >> +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
+> >> +proper migration support is implemented, enabling MTE will install a migration
+> >> +blocker.
+> >
+> > Is it okay to use -machine virt,mte=on unconditionally for both KVM
+> > and TCG guests when MTE support is requested, or will that not work
+> > for the former?
+>
+> QEMU will error out if you try this with KVM (basically, same behaviour
+> as before.) Is that a problem for libvirt, or merely a bit inconvinient?
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
----
- hw/i386/kvm/xen_evtchn.c  | 69 +++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  2 ++
- target/i386/kvm/xen-emu.c | 15 +++++++++
- 3 files changed, 86 insertions(+)
+I'm actually a bit confused. The documentation for the mte property
+of the virt machine type says
 
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index a3202d39ab..eea80dc0f5 100644
---- a/hw/i386/kvm/xen_evtchn.c
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -13,6 +13,7 @@
- #include "qemu/host-utils.h"
- #include "qemu/module.h"
- #include "qemu/main-loop.h"
-+#include "qemu/log.h"
- #include "qapi/error.h"
- #include "qom/object.h"
- #include "exec/target_page.h"
-@@ -231,6 +232,43 @@ static void inject_callback(XenEvtchnState *s, uint32_t vcpu)
-     kvm_xen_inject_vcpu_callback_vector(vcpu, type);
- }
- 
-+static void deassign_kernel_port(evtchn_port_t port)
-+{
-+    struct kvm_xen_hvm_attr ha;
-+    int ret;
-+
-+    ha.type = KVM_XEN_ATTR_TYPE_EVTCHN;
-+    ha.u.evtchn.send_port = port;
-+    ha.u.evtchn.flags = KVM_XEN_EVTCHN_DEASSIGN;
-+
-+    ret = kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
-+    if (ret) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "Failed to unbind kernel port %d: %s\n",
-+                      port, strerror(ret));
-+    }
-+}
-+
-+static int assign_kernel_port(uint16_t type, evtchn_port_t port,
-+                              uint32_t vcpu_id)
-+{
-+    CPUState *cpu = qemu_get_cpu(vcpu_id);
-+    struct kvm_xen_hvm_attr ha;
-+
-+    if (!cpu) {
-+        return -ENOENT;
-+    }
-+
-+    ha.type = KVM_XEN_ATTR_TYPE_EVTCHN;
-+    ha.u.evtchn.send_port = port;
-+    ha.u.evtchn.type = type;
-+    ha.u.evtchn.flags = 0;
-+    ha.u.evtchn.deliver.port.port = port;
-+    ha.u.evtchn.deliver.port.vcpu = kvm_arch_vcpu_id(cpu);
-+    ha.u.evtchn.deliver.port.priority = KVM_IRQ_ROUTING_XEN_EVTCHN_PRIO_2LEVEL;
-+
-+    return kvm_vm_ioctl(kvm_state, KVM_XEN_HVM_SET_ATTR, &ha);
-+}
-+
- static bool valid_port(evtchn_port_t port)
- {
-     if (!port) {
-@@ -551,6 +589,12 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
-                               p->type_val, 0);
-         break;
- 
-+    case EVTCHNSTAT_ipi:
-+        if (s->evtchn_in_kernel) {
-+            deassign_kernel_port(port);
-+        }
-+        break;
-+
-     default:
-         break;
-     }
-@@ -640,3 +684,28 @@ int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq)
- 
-     return ret;
- }
-+
-+int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi)
-+{
-+    XenEvtchnState *s = xen_evtchn_singleton;
-+    int ret;
-+
-+    if (!s) {
-+        return -ENOTSUP;
-+    }
-+
-+    if (!valid_vcpu(ipi->vcpu)) {
-+        return -ENOENT;
-+    }
-+
-+    qemu_mutex_lock(&s->port_lock);
-+
-+    ret = allocate_port(s, ipi->vcpu, EVTCHNSTAT_ipi, 0, &ipi->port);
-+    if (!ret && s->evtchn_in_kernel) {
-+        assign_kernel_port(EVTCHNSTAT_ipi, ipi->port, ipi->vcpu);
-+    }
-+
-+    qemu_mutex_unlock(&s->port_lock);
-+
-+    return ret;
-+}
-diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 0ea13dda3a..107f420848 100644
---- a/hw/i386/kvm/xen_evtchn.h
-+++ b/hw/i386/kvm/xen_evtchn.h
-@@ -19,9 +19,11 @@ struct evtchn_status;
- struct evtchn_close;
- struct evtchn_unmask;
- struct evtchn_bind_virq;
-+struct evtchn_bind_ipi;
- int xen_evtchn_status_op(struct evtchn_status *status);
- int xen_evtchn_close_op(struct evtchn_close *close);
- int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
- int xen_evtchn_bind_virq_op(struct evtchn_bind_virq *virq);
-+int xen_evtchn_bind_ipi_op(struct evtchn_bind_ipi *ipi);
- 
- #endif /* QEMU_XEN_EVTCHN_H */
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index e0417f3d13..b8b439dd31 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -894,6 +894,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         }
-         break;
-     }
-+    case EVTCHNOP_bind_ipi: {
-+        struct evtchn_bind_ipi ipi;
-+
-+        qemu_build_assert(sizeof(ipi) == 8);
-+        if (kvm_copy_from_gva(cs, arg, &ipi, sizeof(ipi))) {
-+            err = -EFAULT;
-+            break;
-+        }
-+
-+        err = xen_evtchn_bind_ipi_op(&ipi);
-+        if (!err && kvm_copy_to_gva(cs, arg, &ipi, sizeof(ipi))) {
-+            err = -EFAULT;
-+        }
-+        break;
-+    }
-     default:
-         return false;
-     }
+  mte
+    Set on/off to enable/disable emulating a guest CPU which implements
+    the Arm Memory Tagging Extensions. The default is off.
+
+So why is there a need to have a CPU property in addition to the
+existing machine type property?
+
+From the libvirt integration point of view, setting the machine type
+property only for TCG is not a problem.
+
 -- 
-2.39.0
+Andrea Bolognani / Red Hat / Virtualization
 
 
