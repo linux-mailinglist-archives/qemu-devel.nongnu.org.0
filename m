@@ -2,128 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6106A77AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 00:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE916A77E2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 00:44:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXVvD-0005br-E8; Wed, 01 Mar 2023 18:31:43 -0500
+	id 1pXW6w-0003iJ-MA; Wed, 01 Mar 2023 18:43:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pXVvB-0005bj-9P
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 18:31:41 -0500
-Received: from mailout1.w2.samsung.com ([211.189.100.11])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pXVv7-0001x5-NR
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 18:31:41 -0500
-Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
- by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230301233131usoutp019cb1494582ac4a438eaca387be728cb9~Ib4ggj2FY2229222292usoutp012;
- Wed,  1 Mar 2023 23:31:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
- 20230301233131usoutp019cb1494582ac4a438eaca387be728cb9~Ib4ggj2FY2229222292usoutp012
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1677713491;
- bh=h765QhC8FCEZrNawIIXY+S1pXUl6tkWkze+8yvBwe1o=;
- h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=C6GVgtMREdA7KgF6c48qVEVCUaOriOJwj4Su3Ygqup1hW0BsQCmFgV6qxUBZzcLKA
- WFT4tQVimQpJGQ90C6IMn9/uzfJIedgDn3ZcnJ+YpS7LYoQpDk7xf5sQ9iMhozcQaG
- ugWBwTGS/MdmCS0/DGa8XyuRCDvKZ5eUfD6+1+iA=
-Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
- [203.254.195.111]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230301233131uscas1p10794ae973bc770f40aeff89ae21a1b8e~Ib4gXvRtM1405614056uscas1p1D;
- Wed,  1 Mar 2023 23:31:31 +0000 (GMT)
-Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
- ussmges2new.samsung.com (USCPEMTA) with SMTP id DC.FE.49129.350EFF36; Wed, 
- 1 Mar 2023 18:31:31 -0500 (EST)
-Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
- [203.254.195.91]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230301233131uscas1p1bb4ea930c66fd4a9e355c8bb830db3f9~Ib4f7MTZ42935229352uscas1p1n;
- Wed,  1 Mar 2023 23:31:31 +0000 (GMT)
-X-AuditID: cbfec36f-167fe7000001bfe9-6c-63ffe053a4cd
-Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.145]) by
- ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id D2.DE.17110.250EFF36; Wed, 
- 1 Mar 2023 18:31:30 -0500 (EST)
-Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
- SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2375.24; Wed, 1 Mar 2023 15:31:30 -0800
-Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
- SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Wed,
- 1 Mar 2023 15:31:30 -0800
-From: Fan Ni <fan.ni@samsung.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
- <mst@redhat.com>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?=
- <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>
-Subject: Re: [PATCH v2 3/6] bswap: Add the ability to store to an unaligned
- 24 bit field
-Thread-Topic: [PATCH v2 3/6] bswap: Add the ability to store to an unaligned
- 24 bit field
-Thread-Index: AQHZSs2ZilSdKpsGkUmfFTHAPmMwEK7nHGaA
-Date: Wed, 1 Mar 2023 23:31:30 +0000
-Message-ID: <20230301233129.GB1429848@bgt-140510-bm03>
-In-Reply-To: <20230227170311.20054-4-Jonathan.Cameron@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [105.128.2.176]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <87F3AE79F942B34699B3DD5837CFC99E@ssi.samsung.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa1BMYRjH5z3n7HF2m+W0Gz1KjB0fxNgK1XEJjds2fHBLJmNY25GmrdYe
- uV8KfbBDuYSsqC0aRVJSyVpjhUrIjtqUEtY0m6nsYHKrZZ0y++33Ps///76/Dy+FS0oFPlRc
- 4nZWm6hUy0gRUfH42/NpqzudqsBHjcDUvk4lmfsfuwimyNBMMi/09QTzsLQBY5w/uwXM9atS
- 5snxKmIBpThS0yNQ5BvtmOJNs5FU2JpvYYo+UxOp+FI2fgUZLZobw6rjdrDagHmbRFuz7CGa
- POmunouFKAWZR+qQkAJ6JlwrHhDokIiS0IUIsk7n4PwhDQNbt04wnOp4Pki4WEIXI3hWOIMP
- ORB8uHcK4xdXEFRX+riYpCeCSVdJutiLng69LaeQq4DTjzGwX276d6uUjoZLlnsEH1oPqTrn
- /4Iz+8bfOUUR9CTo/OjpGovpEDjZehZ3sZAOh5dHjiEXI3oM9Ndf/+eA097QasvBeGlPyLtg
- xHkeA4PV70ieJ8LbfvsIPi+HljOZJM/zwHi4l+B5KhQYPuH8u55Qd95G8N2x8OBqyxDbKOg5
- H87zIrh9OAPx7AsD7QWYSx9oFRQ5RPxYDTmXy4eqc8DwuwQ7gSbp3az1bkZ6NyO9m5HezSgX
- CYqQdzLHJcSy3PREdqecUyZwyYmxclVSQhn6+6ueDj5MqkLWVofcjDAKmRFQuMxLbGj7rZKI
- Y5S797DapI3aZDXLmZEvRci8xUFhdSoJHavczsazrIbVDm8xSuiTgnFLJ3ssTduVpbTmRd6c
- YGGOT72N91aY96lorSa+Y+0xa8mMyMajD2a/9RN7rG83qZLz00eZo5/URflFBaR+j+/QWRZz
- 49IPeGVeuuvPDKTG+0uFHJP+ptpqml27Zv7CwKyq0B/nSjJyTA0RB0fXiNID0KJDn+/7xoX4
- 3OnmXm1oGKetGhts2PgCyZZ7BDeGTvYrnpVviV01aO9r87/ZS1re63UrTyzpo8vScvdWjF9C
- LQv5FaSM0Wjqgwsy14WZKzUe2d/VLxc2BeorjTVCkXPtNvh6y9G1OePTptz8aqHVUS7oyhZE
- BMfsrxioJUIj902DUqt3ubRGHtW2ZVlgkozgtiqDpuBaTvkHvEIrTMQDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRmVeSWpSXmKPExsWS2cA0UTfowf9kg4u3zSxO3Gxks9j/9DmL
- xaqF19gszs86xWJxeOMZJov/v16xWqxZIWxxvHcHiwOHR8uRt6wei/e8ZPK4c20Pm8eTa5uZ
- PN7vu8rm8XmTXABbFJdNSmpOZllqkb5dAlfGjJdmBYuEK97OXcnYwHiIr4uRk0NCwETi3rl/
- LF2MXBxCAqsZJd60v2WDcD4ySuxfvQHKWcoo0bXxASNIC5uAosS+ru1sILaIgJHEuxuTwOLM
- AseYJPY8Meti5OAQFoiS+DTLGqIkWmLKp0uMMOX/56xjASlhEVCRePBUECTMK2AmMfHWNGYQ
- W0igXGLT+k0sIDangKPExZYesFZGATGJ76fWMEFsEpe49WQ+E8QDAhJL9pxnhrBFJV4+/scK
- YStK3P/+kh2iXk/ixtQpbBC2ncSe5ncsELa2xLKFr5khbhCUODnzCQtEr6TEwRU3WCYwSsxC
- sm4WklGzkIyahWTULCSjFjCyrmIULy0uzk2vKDbKSy3XK07MLS7NS9dLzs/dxAiM9NP/Dkfv
- YLx966PeIUYmDsZDjBIczEoivAtv/0kW4k1JrKxKLcqPLyrNSS0+xCjNwaIkzvsyamK8kEB6
- YklqdmpqQWoRTJaJg1OqgWne5rOv2brmnFrF3BQ1yf9k0ms2Y+uJy2/Ne2t0X+H5mRePzJ//
- ZpuWKNh3Q74y6/WMhSvrxQ+nx82PP3OCq+9ViUvb9aw1Whvvfgzq/+lZyJF/O/OeuJjzhWf2
- 32IUM9adeTpBLTit40bqYTGjWyttqt7MyM+RazTktJ43Yb3R4aJ4WfO4hMbPN3ICrjP5Xc4Q
- ceXQ+dYh77Yl9sKTPTM91JiyRAwYbUIe/ptyMP2a+ILzTwXmpMQ9Z3rl9vRaS+BDN6H/d29/
- q3iQqF6X8vRpdePHX06pkXyykerXtiSdW9Y1Z7+DlPPnj1O4E3792/248dOf1l+av3+vEZvT
- p6hTxOqSyZj+XyX9zzp3Z3UlluKMREMt5qLiRACAr393YwMAAA==
-X-CMS-MailID: 20230301233131uscas1p1bb4ea930c66fd4a9e355c8bb830db3f9
-CMS-TYPE: 301P
-X-CMS-RootMailID: 20230301233131uscas1p1bb4ea930c66fd4a9e355c8bb830db3f9
-References: <20230227170311.20054-1-Jonathan.Cameron@huawei.com>
- <20230227170311.20054-4-Jonathan.Cameron@huawei.com>
- <CGME20230301233131uscas1p1bb4ea930c66fd4a9e355c8bb830db3f9@uscas1p1.samsung.com>
-Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
- helo=mailout1.w2.samsung.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pXW6g-0003gl-Q5
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 18:43:34 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pXW6e-0004wP-E3
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 18:43:34 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ m8-20020a17090a4d8800b002377bced051so1071904pjh.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 15:43:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677714210;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=rymWH8j0FOTNy4RV5JJpfjea5x+7Bac53/l2RgNpI8I=;
+ b=ylrN84R7KCtZvdPhVCaNVD462l5dNBDyaJrvSt93mZH+iFQfPrcGs7CMMIxDQdn+3D
+ uKTMf6QO+Rh3BFNQoZ0Z575Jm2bfKBPeo6sUId//wwlV/WAfbtqs1vfrgDNIStdg4+y5
+ cb4kjSO6KVK+/6PPuZ/wBb1AyQWtiJbMCWCnz/LFhFi5NUYqWzR9Gn86mm8KPSSKzAX6
+ n91xzV87O34RlYVNuk6F2wY+v8QX/efw/MlASkzEno2Cd+VKdac6ZP9c6wExEObeAoXY
+ 6mnpvrX6KNrI7qvDWMtzrkeqtgQTiNPSm8VzBp/MvArHqRX4VIydjxNn2BD2KbMQxxwt
+ C/QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677714210;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rymWH8j0FOTNy4RV5JJpfjea5x+7Bac53/l2RgNpI8I=;
+ b=EuM3zS/ms4qZV4XSxmfL9hKbCDCPLIpJ4kHwRttf6LGdszEf5u95m3wYtghy06e+BT
+ /KMZpGrMksnFWWXllnXz2bOBH+fYgULoXgwQNRJ3np1tJwyugDyAFKrnIaypHjkabMtJ
+ JWDwRX4vmg6vyEaZOts1QP9APChM8pz9VikqewTWr0OHnkSC/YKT3TvvJJ0a7ZyjB0nz
+ ho8lZ5PuXhT6sutQDd2qfThs89Ar5fRaBlkBV4kuI6ChCUrGMOgCkTbGbOmXO7mXN5Ce
+ N4BACii/krlTcrlEYNntZEr1Zg3bGpZ0l5xRUxMamAVzx8stWQSwv4M7nkcj+tqXiheH
+ 97Ug==
+X-Gm-Message-State: AO0yUKVlK5nunWGCPEOb7y61AebnWecnYQmCPkYgM6inQ/HanqgmghcY
+ lK1HzkEZWuDUnj040CzfIMCSOrm8Wb03h674
+X-Google-Smtp-Source: AK7set/qyhgH1EgDXmAJXhL/ieAUJGFasiDBTEpG54j6lSwysuO+Orm0FkG0wFM19NGqH/bAIKmd9w==
+X-Received: by 2002:a17:902:dac3:b0:19a:a210:825 with SMTP id
+ q3-20020a170902dac300b0019aa2100825mr180631plx.20.1677714210338; 
+ Wed, 01 Mar 2023 15:43:30 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ p12-20020a170902eacc00b0019896d29197sm8933299pld.46.2023.03.01.15.43.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 15:43:29 -0800 (PST)
+Date: Wed, 01 Mar 2023 15:43:29 -0800 (PST)
+X-Google-Original-Date: Wed, 01 Mar 2023 13:57:34 PST (-0800)
+Subject: Re: [PATCH v7 00/10] make write_misa a no-op and FEATURE_* cleanups
+In-Reply-To: <20230222185205.355361-1-dbarboza@ventanamicro.com>
+CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
+ dbarboza@ventanamicro.com
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: dbarboza@ventanamicro.com
+Message-ID: <mhng-4f458d7a-5b65-415d-8d6d-2945db18b8d1@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=palmer@rivosinc.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -139,94 +91,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 05:03:08PM +0000, Jonathan Cameron wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
->=20
-> CXL has 24 bit unaligned fields which need to be stored to.  CXL is
-> specified as little endian.
->=20
-> Define st24_le_p() and the supporting functions to store such a field
-> from a 32 bit host native value.
->=20
-> The use of b, w, l, q as the size specifier is limiting.  So "24" was
-> used for the size part of the function name.
->=20
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->=20
+On Wed, 22 Feb 2023 10:51:55 PST (-0800), dbarboza@ventanamicro.com wrote:
+> Hi,
+>
+> In this version we gave up removing all the write_misa() body and,
+> instead, we went back to something closer to what we were doing in v2.
+> write_misa() is now gated behind an experimental x-misa-w cfg option,
+> defaulted to false.
+>
+> The idea is that x-misa-w allow us to keep experimenting and testing the
+> code. Marking it as experimental will (hopefully) make users wary of the
+> fact that this feature is unstable. The expectation is that the flag will
+> be removed once write_misa() is ready to always write MISA.
+>
+> Changes from v6:
+> - patches without reviews/acks: patch 3
+> - patch 2: taken from version 3, acks and r-bs preserved
+> - patch 3:
+>   - rename 'misa-w' to 'x-misa-w' to be clearer about our intents with
+>     the cfg option
+> - v6 link: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05047.html
+>
+> Daniel Henrique Barboza (10):
+>   target/riscv: introduce riscv_cpu_cfg()
+>   target/riscv: do not mask unsupported QEMU extensions in write_misa()
+>   target/riscv: allow MISA writes as experimental
+>   target/riscv: remove RISCV_FEATURE_DEBUG
+>   target/riscv/cpu.c: error out if EPMP is enabled without PMP
+>   target/riscv: remove RISCV_FEATURE_EPMP
+>   target/riscv: remove RISCV_FEATURE_PMP
+>   hw/riscv/virt.c: do not use RISCV_FEATURE_MMU in
+>     create_fdt_socket_cpus()
+>   target/riscv: remove RISCV_FEATURE_MMU
+>   target/riscv/cpu: remove CPUArchState::features and friends
+>
+>  hw/riscv/virt.c           |  7 ++++---
+>  target/riscv/cpu.c        | 25 ++++++++++---------------
+>  target/riscv/cpu.h        | 29 ++++++-----------------------
+>  target/riscv/cpu_helper.c |  6 +++---
+>  target/riscv/csr.c        | 15 ++++++---------
+>  target/riscv/machine.c    | 11 ++++-------
+>  target/riscv/monitor.c    |  2 +-
+>  target/riscv/op_helper.c  |  2 +-
+>  target/riscv/pmp.c        |  8 ++++----
+>  9 files changed, 39 insertions(+), 66 deletions(-)
 
-Reviewed-by: Fan Ni <fan.ni@samsung.com>
+I just queued this up, using the text from the v1 as that's more of a 
+description of the patch set.  I think that text is still sufficiently 
+accurate, but let me know if I missed anything.  Here's what I ended up 
+with
 
-> ---
-> v7:
->   - Pulled this patch out of the CXL events series as Ira pointed
->     out it can be used to simplify this series.
-> ---
->  include/qemu/bswap.h | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->=20
-> diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-> index 15a78c0db5..ee71cbeaaa 100644
-> --- a/include/qemu/bswap.h
-> +++ b/include/qemu/bswap.h
-> @@ -8,11 +8,23 @@
->  #undef  bswap64
->  #define bswap64(_x) __builtin_bswap64(_x)
-> =20
-> +static inline uint32_t bswap24(uint32_t x)
-> +{
-> +    return (((x & 0x000000ffU) << 16) |
-> +            ((x & 0x0000ff00U) <<  0) |
-> +            ((x & 0x00ff0000U) >> 16));
-> +}
-> +
->  static inline void bswap16s(uint16_t *s)
->  {
->      *s =3D __builtin_bswap16(*s);
->  }
-> =20
-> +static inline void bswap24s(uint32_t *s)
-> +{
-> +    *s =3D bswap24(*s);
-> +}
-> +
->  static inline void bswap32s(uint32_t *s)
->  {
->      *s =3D __builtin_bswap32(*s);
-> @@ -176,6 +188,7 @@ CPU_CONVERT(le, 64, uint64_t)
->   * size is:
->   *   b: 8 bits
->   *   w: 16 bits
-> + *   24: 24 bits
->   *   l: 32 bits
->   *   q: 64 bits
->   *
-> @@ -248,6 +261,11 @@ static inline void stw_he_p(void *ptr, uint16_t v)
->      __builtin_memcpy(ptr, &v, sizeof(v));
->  }
-> =20
-> +static inline void st24_he_p(void *ptr, uint32_t v)
-> +{
-> +    __builtin_memcpy(ptr, &v, 3);
-> +}
-> +
->  static inline int ldl_he_p(const void *ptr)
->  {
->      int32_t r;
-> @@ -297,6 +315,11 @@ static inline void stw_le_p(void *ptr, uint16_t v)
->      stw_he_p(ptr, le_bswap(v, 16));
->  }
-> =20
-> +static inline void st24_le_p(void *ptr, uint32_t v)
-> +{
-> +    st24_he_p(ptr, le_bswap(v, 24));
-> +}
-> +
->  static inline void stl_le_p(void *ptr, uint32_t v)
->  {
->      stl_he_p(ptr, le_bswap(v, 32));
-> --=20
-> 2.37.2
->=20
-> =
+    Merge patch series "make write_misa a no-op and FEATURE_* cleanups"
+    
+    Daniel Henrique Barboza <dbarboza@ventanamicro.com> says:
+    
+    The RISCV_FEATURES_* enum and the CPUArchState::features attribute were
+    introduced 4+ years ago, as a way to retrieve the enabled hart features
+    that aren't represented via MISA CSR bits. Time passed on, and
+    RISCVCPUConfig was introduced. With it, we now have a centralized way of
+    reading all hart features that are enabled/disabled by the user and the
+    board. All recent features are reading their correspondent cpu->cfg.X
+    flag.
+    
+    All but the 5 features in the RISCV_FEATURE_* enum. These features are
+    still operating in the same way: set it during riscv_cpu_realize() using
+    their cpu->cfg value, read it using riscv_feature() when needed. There
+    is nothing special about them in comparison with all the other features
+    and extensions to justify this special handling.
+    
+    This series then is doing two things: first we're actually allowing
+    users to write the MISA CSR if they so choose. Then we're deprecate each
+    RISC_FEATURE_* usage until, in patch 11, we remove everything related to
+    it. All 5 existing RISCV_FEATURE_* features will be handled as everyone
+    else.
+
+Thanks!
 
