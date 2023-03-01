@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A7A6A7351
+	by mail.lfdr.de (Postfix) with ESMTPS id 124D86A7350
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 19:18:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXR1A-0007a8-FS; Wed, 01 Mar 2023 13:17:32 -0500
+	id 1pXR1W-0007wZ-FQ; Wed, 01 Mar 2023 13:17:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXR18-0007Xs-By
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 13:17:30 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXR16-0005Cq-Iu
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 13:17:30 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- ay29-20020a05600c1e1d00b003e9f4c2b623so70457wmb.3
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 10:17:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9+kRBjcIl6F5pkN8xzl7OqfcrGbC+/4sRCvVB/NdvTI=;
- b=LUv5BzB2XO3mlDnQ3xracybLCZil9JxYkwvAVe8CTHMIr7JMhwPU0qqo8I2rRmVMl8
- PZ2YH3jmU67SA1M1ueZaIPC9wS3r4nhL7MA8Z4Wc7sk/u6JntgJZidvJK7Md/4eiYWP/
- 61AZNPQMp294ndQDTLZy+YFF4QcKWgvsC90qO2lSkIs60pARTxohaIMRDu88s0xwnyc8
- kqMhi3EaagDl6y9K58yfHj5DdcTEsIdDQC/byFT/eAV69NB1W60DeZU5CAApOMsAXIpW
- 1Ci2Ny7noX8/CBQzIqPBsMf2jZMH4vwL4YIUqh0ncFnKO1jVq7EthY0AQ0hqMGYzoCIx
- PHZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9+kRBjcIl6F5pkN8xzl7OqfcrGbC+/4sRCvVB/NdvTI=;
- b=E430DWaH3556/FThi9hfS4sC/Jxm6qISGUXBbol/ym7Km+HsEohAX/IbzT3sO9WRHd
- S2Ht9iUFLNXhicZCAlhxw19X+h+bsfFrlqdV14zlvxx1VCUXDqTHDxradkJwdxLSnsJJ
- 9WB2ye2eTWtwKyR4LnQMgmWEJRe+G8Rl3KFO0Jw2B0HWxH3MmJ0kX8C6KIr1KEkkslwg
- pLKiMkz0vmPLTH5A/YYUyPejqxZngN0ZVt4VQXBPy5v/EoRj3YBtTI5kKlgswR3yMmhT
- lgq+LTIKvpihnDzH0rS9jVWV21FjzfG+mr2SUGwN8dW7ZtGyqR+pd7uH3risUFL2lG0r
- +ZPg==
-X-Gm-Message-State: AO0yUKUQYY9q0O8tTr3UWQoMZLI/gOP3KPX0wXRnTNdbE8Uu0wmXSVlR
- zu1ynqIZFW8yw7WOjlPcaSGVVA==
-X-Google-Smtp-Source: AK7set8jJcfsszklvWR/KyZ099W6/pYwR//z1BsFubw5UgD/CjQuZ3UtKBebwcH2gxCT349g+CFVyA==
-X-Received: by 2002:a05:600c:5119:b0:3e2:1a01:3a7c with SMTP id
- o25-20020a05600c511900b003e21a013a7cmr11838509wms.6.1677694646710; 
- Wed, 01 Mar 2023 10:17:26 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- m7-20020a7bcb87000000b003dc4a47605fsm346886wmi.8.2023.03.01.10.17.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 10:17:26 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C9B501FFB7;
- Wed,  1 Mar 2023 18:17:25 +0000 (GMT)
-References: <20230301151604.1948813-1-alex.bennee@linaro.org>
- <CAFEAcA_ok_VSAWk2uqhTs5sF2y3C_JmBNkb8HUGMX6ZX-xdVoA@mail.gmail.com>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PULL v2 00/24] testing updates (gitlab, cirrus, docker,
- avocado, windows)
-Date: Wed, 01 Mar 2023 18:17:03 +0000
-In-reply-to: <CAFEAcA_ok_VSAWk2uqhTs5sF2y3C_JmBNkb8HUGMX6ZX-xdVoA@mail.gmail.com>
-Message-ID: <87356ocp56.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXR1P-0007vj-Mq; Wed, 01 Mar 2023 13:17:51 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXR1N-0005FZ-1W; Wed, 01 Mar 2023 13:17:47 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0853B746335;
+ Wed,  1 Mar 2023 19:17:39 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A6067746324; Wed,  1 Mar 2023 19:17:38 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A3D027462DB;
+ Wed,  1 Mar 2023 19:17:38 +0100 (CET)
+Date: Wed, 1 Mar 2023 19:17:38 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-ppc@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 0/7] Pegasos2 fixes and audio output support
+In-Reply-To: <4d834bb8-ebc7-d878-0345-d309610f6096@ilande.co.uk>
+Message-ID: <f3f4340e-aeaa-43aa-296d-4a859ad310ed@eik.bme.hu>
+References: <20230227125732.20941-1-shentey@gmail.com>
+ <b86db1dd-b9ca-a774-963c-4f9404c9af5c@eik.bme.hu>
+ <CAG4p6K74Rm2FaErjvSyVCgcMQ2Qz0pkh2dg6yPeXU5BmwYp3RQ@mail.gmail.com>
+ <56e3575f-2cac-2138-23d1-78d8ff1388b5@eik.bme.hu>
+ <CAG4p6K7Yd6SWBCC1_-fJJ1rLqCuRqwi=dOmypum7kiUZ4SoH=g@mail.gmail.com>
+ <3d91b199-c94c-ec9c-f1e4-4d5b45b82ff9@eik.bme.hu>
+ <4d834bb8-ebc7-d878-0345-d309610f6096@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1094003312-1677694658=:79433"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,90 +68,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+--3866299591-1094003312-1677694658=:79433
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> On Wed, 1 Mar 2023 at 15:16, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->>
->> The following changes since commit 627634031092e1514f363fd8659a579398de0=
-f0e:
->>
->>   Merge tag 'buildsys-qom-qdev-ui-20230227' of
->> https://github.com/philmd/qemu into staging (2023-02-28 15:09:18
->> +0000)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-010323-1
->>
->> for you to fetch changes up to c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb:
->>
->>   tests/avocado: disable BootLinuxPPC64 test in CI (2023-03-01 12:51:01 =
-+0000)
->>
->> ----------------------------------------------------------------
->> testing updates:
->>
->>   - ensure socat available for tests
->>   - skip socat tests for MacOS
->>   - properly clean up fifos after use
->>   - make fp-test less chatty
->>   - store test artefacts on Cirrus
->>   - control custom runners with QEMU_CI knobs
->>   - disable benchmark runs under tsan build
->>   - update ubuntu 2004 to 2204
->>   - skip nios2 kernel replay test
->>   - add tuxrun baselines to avocado
->>   - binary build of tricore tools
->>   - export test results on cross builds
->>   - improve windows builds
->>   - ensure we properly print TAP headers
->>   - migrate away from docker.py for building containers
->>   - be more efficient in our handling of build artefacts between stages
->>   - enable ztsd in containers so we can run tux_baselines
->>   - disable heavyweight PPC64 Boot Linux test in CI
+On Wed, 1 Mar 2023, Mark Cave-Ayland wrote:
+> On 27/02/2023 16:58, BALATON Zoltan wrote:
+>> On Mon, 27 Feb 2023, Bernhard Beschow wrote:
+>>> On Mon, Feb 27, 2023 at 2:45 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>>> On Mon, 27 Feb 2023, Bernhard Beschow wrote:
+>>>>> On Mon, Feb 27, 2023 at 2:00 PM BALATON Zoltan <balaton@eik.bme.hu>
+>>>> wrote:
+>>>>> 
+>>>>>> On Mon, 27 Feb 2023, Bernhard Beschow wrote:
+>>>>>>> On behalve of Zoltan BALATON:
+>>>>>> 
+>>>>>> You don't have to do that and in fact please don't. I'll handle this
+>>>>>> series just reply to the one patch that needs update with only the
+>>>> changes
+>>>>>> that were asked by review.
+>>>>>> 
+>>>>>> Regards,
+>>>>>> BALATON Zoltan
+>>>>>> 
+>>>>> 
+>>>>> Google seems to agree with me by not letting me send your patches :/
+>>>>> 
+>>>>>  Sent [PATCH v4 0/7] Pegasos2 fixes and audio output support
+>>>>>  Sent [PATCH v4 1/7] hw/display/sm501: Implement more 2D raster
+>>>> operations
+>>>>>  Sent [PATCH v4 2/7] hw/display/sm501: Add fallbacks to pixman routines
+>>>>>  Sent [PATCH v4 3/7] hw/display/sm501: Add debug property to control
+>>>>> pixman usage
+>>>>>  4.3.0 Mail server temporarily rejected message.
+>>>>> bk4-20020a170906b0c400b008d7a8083dffsm3186414ejb.222 - gsmtp
+>>>>> 
+>>>>> As said before I don't want to iterate on the changes of this series. I
+>>>>> can't test them and from my POV they seem unnecessary to me since all 
+>>>>> the
+>>>>> test cases I can perform still work without the IRQ changes.
+>>>> 
+>>>> Then why do you make me track your series and asking me to check if you
+>>>> broke anything in my patches during your rebase that I've asked you not
+>>>> to do?
+>>> 
+>>> 
+>>> Because I couldn't convince you about the PCI IRQ router changes ;) I've
+>>> asked how to proceed and got the suggestion to post an alternative series.
+>> 
+>> That's fine and you did that and I got your changes incorporated in my 
+>> series and had that tested again and then submitted as one series as asked 
+>> by the maintainer to keep all this togetner. Then you come back willing to 
+>> split this series again, reposting some untested changes that I have no 
+>> idea what did you change. This isn't very friendly before a freeze so 
+>> please stop doing that and keep this in one series otherwise we get lost 
+>> between all the changes.
+>> 
+>>>> The series I've submitted (both my original and the one with your
+>>>> changes) were tested and made sure it worked with AmigaOS that you say 
+>>>> you
+>>>> can't test.
+>>>> 
+>>> 
+>>> Unfortunately my patches had changes merged in. This now makes it hard to
+>>> show what really changed (spoiler: nothing that affects behavior).
+>> 
+>> The two changes I've made and noted in the commit message were:
+>> 
+>> 1. removing *empty* lines from a switch that only made it half as long and 
+>> easier to read without any change in content.
+>> 
+>> 2. instead of changing the interrupts of the PCI bus this device is 
+>> connected to with pci_bus_irqs(), I export these as gpio pins to model the 
+>> real chip which is then connected in the board as in real hadware.
+>> 
+>>> As you probably noticed in the "resend" version of this iteration I split
+>>> off a patch introducing the priq properties. It belongs to the sub series
+>>> of the Pegasos2 IRQ fixes which appear unnecessary to me, so I don't want
+>>> to show up in `git blame` as the author of any of these changes. I
+>>> attributed it to you because this was really your change which I'm not 
+>>> even
+>>> sure is legal.
+>>> 
+>>> Let's avoid such complications by keeping our series separate.
+>> 
+>> Yout series is wrong because of the pci_bus_irqs (did you check PCI cards 
+>> such as adding one with -device still work on fuloong2e with your patch?) 
+>> I've corrected in my series so that it also fits in with my changes. If you 
+>> don't like this change then we can drop your series and go back to mine 
+>> instead or make the patch Suggested-by you and I take the From: or just 
+>> keep out of this but please decide what you want and dont make it 
+>> unnecessarily difficult to review and merge this series.
+>> 
+>>>>> Looking at the schematics I get the impression that the PCI IRQs 
+>>>>> actually
+>>>>> work the other way around: Instead of the INTx lines of the 2nd PCI bus
+>>>>> triggering both the north and the south bridge IRQ controllers, the two
+>>>> PCI
+>>>>> buses of the north bridge both trigger the VT82xx PCI IRQ router. I'm
+>>>> not a
+>>>>> hardware engineer so I could be totally off here. That's why I rather
+>>>> leave
+>>>>> my hands off of this stuff.
+>>>> 
+>>>> You don't seem to leave your hands off and got involved voluntarily so 
+>>>> now
+>>>> don't run away :-)
+>>>> 
+>>> 
+>>> I'm happy to comment on it but please don't make me change anything there
+>>> for now. Feature freeze is approaching soon after all which in turn raises
+>>> the temperature for development.
+>> 
+>> I can just say the same to you. This was my series that you changed so 
+>> don't ask me to not change it. I've changed it as you proposed despite I'm 
+>> not buting that's the right way and had it re-tested but it's still not 
+>> good for you?
+>> 
+>>>> I'm no hardware engineer either but in any case pci_set_irq cannot be 
+>>>> used
+>>>> from a PCIDevice as I explained in the other message so your approach 
+>>>> with
+>>>> that is clearly wrong and we need gpios that something else connects to
+>>>> the PCI bus. You could only do that if the VIA chip was a north bridge
+>>>> that had a PCI bus but it doesn't. In pegasos2 the north bridge is the
+>>>> MV64361 but the PCI interrupt lines are connected to its GPP (General
+>>>> purpose or multi purpose pins in docs that are just gpio lines, which are
+>>>> programmable inputs or outputs). These can generate an interrupt in the
+>>>> MV64361 but the VT8231 also has an ability to route PCI IRQs to ISA
+>>>> interrupts which some guests use. So I think the way I've modeled it is
+>>>> correct by connecting the PCI bus interrupt pins to both of these chips
+>>>> and since they are independent models the only place you can do it 
+>>>> cleanly
+>>>> is the board code. Other boards may connect the VIA PIRQ pins differently
+>>>> but this model allows for that now. What is that you still don't like
+>>>> about it?
+>>>> 
+>>> 
+>>> On page 13 there is a note saying "Southbridge is INT controller". Another
+>>> note says "AGP uses A as first Int for none shared operation". These notes
+>>> describe hardware, so should apply to all guests.
+>>> 
+>>> Furthermore, I couldn't find any remotely useful documentation for the
+>>> MV64361 chip. This turns any discussion into guesswork.
+>> 
+>> Maybe check here: qmiga.osdn.io there are some hints how to find some docs. 
+>> Can't link then due to copyright reasons.
 >
-> This still won't merge:
->
-> e104462:jammy:qemu-for-merges$ apply-pullreq
-> https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-010323-1
-> Switched to branch 'master'
-> Your branch is up-to-date with 'origin/master'.
-> Already up-to-date.
-> Switched to branch 'staging'
-> fetching from remote https://gitlab.com/stsquad/qemu.git
-> tags/pull-testing-next-010323-1
-> remote: Enumerating objects: 288, done.
-> remote: Counting objects: 100% (288/288), done.
-> remote: Compressing objects: 100% (135/135), done.
-> remote: Total 221 (delta 182), reused 114 (delta 84), pack-reused 0
-> Receiving objects: 100% (221/221), 43.20 KiB | 3.08 MiB/s, done.
-> Resolving deltas: 100% (182/182), completed with 57 local objects.
-> From https://gitlab.com/stsquad/qemu
->  * tag                       pull-testing-next-010323-1 -> FETCH_HEAD
-> Fetching submodule tests/fp/berkeley-testfloat-3
-> fatal: unable to connect to github.com:
-> github.com[0: 140.82.121.3]: errno=3DConnection timed out
->
-> fatal: unable to connect to github.com:
-> github.com[0: 140.82.114.4]: errno=3DConnection timed out
->
-> Errors during submodule fetch:
->         tests/fp/berkeley-testfloat-3
->         tests/fp/berkeley-testfloat-3
+> I tried using the recommended searches, however all I can find are PDFs of 
+> the product summary. Can you provide some more hints, such as a filename for 
+> example?
 
-You'll need to do a fresh checkout or manually fix up the .git/ metadata
+Maybe these are not available any more but it's a family of chips called 
+MV64360, MB64361 and MV64362 (or Marvell Discovery II) with the different 
+numbers are the same chip with different options such as number of PCI 
+buses or ethernet controllers so the datasheet refers to them as 
+MV64360/1/2 but maybe it's under MV64360. Hope this helps.
 
->
-> (The script is doing 'git fetch  https://gitlab.com/stsquad/qemu.git
-> tags/pull-testing-next-010323-1')
->
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Regards,
+BALATON Zoltan
+--3866299591-1094003312-1677694658=:79433--
 
