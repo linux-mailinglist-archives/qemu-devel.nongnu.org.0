@@ -2,99 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40A36A6C28
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 13:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E016A6C29
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 13:15:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXLLi-0007cb-Ms; Wed, 01 Mar 2023 07:14:22 -0500
+	id 1pXLM5-0007y8-Hn; Wed, 01 Mar 2023 07:14:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pXLLf-0007bs-JV
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:14:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pXLM4-0007vX-6y; Wed, 01 Mar 2023 07:14:44 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pXLLc-0005Mi-VH
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:14:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677672856;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=lv40Kn/Y24+MEtMwfFUGc9IW8P9QonFwfp/VQszCnYw=;
- b=U3CI/dnvNq9mgdU5BMdnU1cWpSnU8B22S3EiaOM2IYM5yfrbV0fB25wVf1b6QiGddPhtP6
- xA5FaWPgZSwUxX5oaWIfAIwHNd5lF3jt1Q2Iyo+UeW4dE7VBb3rLqqAtvosRVuZLwsO6jc
- 78i1X8ick4BhCuFoa0FYP72Hft2IHGU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-77-mHillx30Pvm9jJxj8Cwu4g-1; Wed, 01 Mar 2023 07:14:14 -0500
-X-MC-Unique: mHillx30Pvm9jJxj8Cwu4g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r7-20020a05600c35c700b003eb3f2c4fb4so4018387wmq.6
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 04:14:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677672853;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lv40Kn/Y24+MEtMwfFUGc9IW8P9QonFwfp/VQszCnYw=;
- b=VsZvdre1JMSpR2h7kB19r14NfHCatsBVUdf3pQFSsy+megUoTkp+8W4uXaE4hyt14L
- wrkOaimgU8YmcNE3+z6r38933CJyn+hBCgql0rO1T2ur7xvfLTdYYGjDqewk+LyqquBO
- 0RFpFKuYyVGunigdDcPxVQlmEMc43Q9ToZQnTEl7E0gqWqx/DGBJVXJL3jCcM07Sg5r/
- azqDT6UZcJpro1z2xyjigp4Vt1rY1TD/ihMKzl58ckiAr8EQ8AVMHzAFuiSKnvRtx7c4
- rLqTfcOxGEOBvRjavS/obePXUcTwTMcDrOOWGpMDs4qxvAXXlHW3dTAHsd1fEFTeiaOj
- H44A==
-X-Gm-Message-State: AO0yUKU/ThIkF1xwV6PvZgQ6kMFwIo/2J/nqxNbolQ3KyOHV+flTTjFH
- DhAIijdZ8EiSnl8NqNyxM+SfO1fv14tl9G6UKmQZ+/HfEK3GU6Ktj9ECLtCxjNelqpBBrxbhc3p
- vhYluC7Pi7mXOerc=
-X-Received: by 2002:adf:ce91:0:b0:2c9:bb03:7843 with SMTP id
- r17-20020adfce91000000b002c9bb037843mr4527881wrn.69.1677672853679; 
- Wed, 01 Mar 2023 04:14:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set9UMKW2qVLma3nPlex8WZefMjjRMObmYrl+OQiRsqsB9RquqmHRBiTaFHEVDbRz/WeHy1VAaw==
-X-Received: by 2002:adf:ce91:0:b0:2c9:bb03:7843 with SMTP id
- r17-20020adfce91000000b002c9bb037843mr4527842wrn.69.1677672853321; 
- Wed, 01 Mar 2023 04:14:13 -0800 (PST)
-Received: from redhat.com ([47.63.153.28]) by smtp.gmail.com with ESMTPSA id
- i2-20020adfdec2000000b002c71dd1109fsm12453879wrn.47.2023.03.01.04.14.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 04:14:12 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org,  qemu-arm@nongnu.org,  Peter Maydell
- <peter.maydell@linaro.org>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,  Alex =?utf-8?Q?Benn?=
- =?utf-8?Q?=C3=A9e?=
- <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Claudio
- Fontana <cfontana@suse.de>,  Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>,  Cornelia Huck <cohuck@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,  Igor Mammedov
- <imammedo@redhat.com>,  Ani Sinha <ani@anisinha.ca>,  Thomas Huth
- <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RESEND v7 9/9] tests/qtest: Fix tests when no KVM or TCG
- are present
-In-Reply-To: <20230228192628.26140-10-farosas@suse.de> (Fabiano Rosas's
- message of "Tue, 28 Feb 2023 16:26:28 -0300")
-References: <20230228192628.26140-1-farosas@suse.de>
- <20230228192628.26140-10-farosas@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 01 Mar 2023 13:14:10 +0100
-Message-ID: <87a60wk6st.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pXLM1-0005QL-WE; Wed, 01 Mar 2023 07:14:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=T5E7UcNVTPclzTPVV/O1+iT1ZUKIUuwbDDWPyXiVapc=; b=IYlJAfQZNhQbPpbkaFwB2MZyw0
+ ccU8PGhDC7RFzKxrw0emgpJie5Bce4DsCBfuWCAbAs9Lxyt8F46lq55LANWkpXcrFurtUxrXzAlRD
+ ky79RCPRonoSpXvA9U5Pzz39J1YdiJ65cB56CO8IHzkPfYwrPTFG5h790lZaCGoEtPQB5uUIyNhpp
+ fUIbirPQsYu+OohWYNA1f+LMSNosyM6l1SK3cOkZkDN5T2vfIry9nyp4LXnYUYiMpIE1Gb2uUkIy0
+ uf7y7jyiyltioFcK1mvlU3EiCXN/eTr+1yFpL5IHUSqsh83iQ4okw+BKWtelf5uCgx8x2R6w0wYLJ
+ 2jNeE5fxMfbNmTBP4aoe/AOW4h1wBysQEg+z/Ce2ViWbx6HhEIRRi9DQJXeFJJRxnwPgVCBpd3LaR
+ Z7fL8JA+D0ci0ulJQT98YKBrTwssqNfC/GKUtadnFJOZzKUn53Cxk/IBB82AodV+CnMPfr6Yo2Dg+
+ rX+IssJgASPUTB+e1NNGajoXUu62R8X3Z4GycfSPUOKL+bmvbsx1tdQOYyvuvBThed691u5JvD35h
+ LKnrIVfRF1HyEbk7xecmgXDFpI1rs1RfXsdEBQJ/j92ph9Z6e7McB65no9jHwn3vlLfw0FDnLTgCg
+ 8ePQxGl6qMU1UC13IcoimaaRrAAKsiDeAOiIN06FQ=;
+Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pXLLO-0000Zw-Io; Wed, 01 Mar 2023 12:14:02 +0000
+Message-ID: <c312168c-ceec-f725-7eeb-be19e03a7273@ilande.co.uk>
+Date: Wed, 1 Mar 2023 12:14:36 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>
+References: <20230208000743.79415-1-philmd@linaro.org>
+ <20230208000743.79415-6-philmd@linaro.org>
+ <CAG4p6K4qnDXjM+7=B1iRjUNX1astmg0Pofco+aOOPWkJG2ajFQ@mail.gmail.com>
+ <965A25A6-D963-4F0A-82AD-7EBD9B487F96@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <965A25A6-D963-4F0A-82AD-7EBD9B487F96@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 5/7] hw/ide/piix: Use generic ide_init_ioport()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,31 +80,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fabiano Rosas <farosas@suse.de> wrote:
-> It is possible to have a build with both TCG and KVM disabled due to
-> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
-> host.
+On 10/02/2023 16:34, Bernhard Beschow wrote:
 
-Ouch.
+> Fishing out the ISA bus is still a hack IMO, for two reasons: First, IIUC, QOM'ified devices shall only care about its children while looking up one's parent bus violates this rule. Second, using the global machine pointer to scan for the ISA bus just trades one global for another. That's why I'm only doing this for user-created instances. If we deprecated user-created piix IDE devices we could eventually get rid of this hack.
 
-Just curious: why are they needed?
+As far as I can tell the solution to QOMified devices finding their parent bus is 
+easy: turn DeviceState::parent_bus into a QOM link property called "parent-bus" or 
+similar which accepts TYPE_BUS, and then any object of TYPE_DEVICE can locate its 
+parent bus using object_property_get_link() with a standardised property name.
 
->
-> If we build with --disable-tcg on the aarch64 host, we will end-up
-> with a QEMU binary (x86) that does not support TCG nor KVM.
->
-> Fix tests that crash or hang in the above scenario. Do not include any
-> test cases if TCG and KVM are missing.
->
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
-> This currently affects Arm, but will also affect x86 after the xenpvh
-> series gets merged. This patch fixes both scenarios.
+I think it may be impossible to completely remove parent bus references, since buses 
+like PCI currently make use of upwards hierarchy navigation for things like IRQ 
+mapping and PCI-PCI bridge traversal.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 
+ATB,
+
+Mark.
 
