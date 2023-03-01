@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB0F6A6E1D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:15:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 636046A6E46
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:21:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNF7-0005Ii-NC; Wed, 01 Mar 2023 09:15:41 -0500
+	id 1pXNKL-0007Hb-4G; Wed, 01 Mar 2023 09:21:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pXNEu-0005Gi-Cy
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:15:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pXNKI-0007H2-JH; Wed, 01 Mar 2023 09:21:03 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pXNEr-0007e4-8g
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:15:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677680124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KZK/Eir0iXKfCuBI/Twp952puaSpLfvrLp9JkJpn/ZA=;
- b=cIHAUQrArVB2DN2q4gQ47Di9DuiDZ+EP91JoWnfpqfoT+DNNIxhqmt+HpY0eKRogSflP4U
- WTOsnYf/7Zf4A6uhSFPiD6EurTjIrbbYXJsyBZjGC0MJiOMsS9YY8+rDm7zRkx/R5xuAAf
- eXhM4U/lfl0Aril0rMkvfW1dS6wZsww=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-x_3F7MgmPfq2-Z2EsiR_vg-1; Wed, 01 Mar 2023 09:15:20 -0500
-X-MC-Unique: x_3F7MgmPfq2-Z2EsiR_vg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 842B5100F90F;
- Wed,  1 Mar 2023 14:15:19 +0000 (UTC)
-Received: from localhost (dhcp-192-239.str.redhat.com [10.33.192.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D699492C3E;
- Wed,  1 Mar 2023 14:15:19 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth
- <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric
- Auger <eauger@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard
- Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
-In-Reply-To: <CABJz62MQH2U1QM26PcC3F1cy7t=53_mxkgViLKjcUMVmi29w+Q@mail.gmail.com>
-Organization: Red Hat GmbH
-References: <20230228150216.77912-1-cohuck@redhat.com>
- <20230228150216.77912-2-cohuck@redhat.com>
- <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
- <874jr4dbcr.fsf@redhat.com>
- <CABJz62MQH2U1QM26PcC3F1cy7t=53_mxkgViLKjcUMVmi29w+Q@mail.gmail.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Wed, 01 Mar 2023 15:15:17 +0100
-Message-ID: <87sfeoblsa.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pXNKG-0000Vi-RN; Wed, 01 Mar 2023 09:21:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vfPUVVxhMCTTmDWhAi413Rt68pz/KYmautxhYxHy4SU=; b=KQPzXGMd74r7qNRLpq4hWxvDjJ
+ Q21fi+6vt9GK2BREHdBDjNGBC3szU4CiiU100k+whij0y4SXhCtCz0QpPoSOE2t8HLM6cJjdJBXz1
+ oUwXhtJiZBn4owSNwkHjSHKbZfEKLP0SPoAr5OLsQIeVLevfvwRuyk5rrFOMka7xkUz7+jgHkmrhu
+ 4sXIHzOmiHbzypY7ATRmFhyE94UjRyzra4pKRpmzG7OtDKHoclL7M2w5gDvxcpTgp09Vd3frTu1Yd
+ cjTjn8u9fDNEVjPApnxSO6k3gamnxQx4WN+rpLybeHctS9DwIbvDqbfZsYVsuIu2gS87/roih+Eam
+ xuBlRnMUPHSvhfTiDQdUJp989E/T4EJRs7ZEU45XftWCo7HDA7EndtFwCTg+WsvLedzUli94pid+U
+ Nlrvphb1bIUMbn6Ea/Gj4ha93hu6E1xCZ6gQ9DSWtT1CJc3vS+mmgMoHYdm7QXrE4vwZXpTrrlot3
+ NygQROjphVzVIkzG7Ppwx/4N8Cu29n7/bK/sv0abMz+gVrhvxTIXO9dznnDSOrfch0kZdU+ScyV0+
+ fliLmfBCyuOc3y3d/J8fgeH4oIa1S+FSO74wsvUeEbCrDeiVQxon/MSPu3IZhr75V2Cf1uywibVhl
+ 7OruoupuMbEe2UX6xtM5dwq9nGaAC/6Ze5hdYVJ40=;
+Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pXNJc-0001U3-16; Wed, 01 Mar 2023 14:20:20 +0000
+Message-ID: <72f52a39-ecce-d17e-5161-5937076955ec@ilande.co.uk>
+Date: Wed, 1 Mar 2023 14:20:54 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20230223202053.117050-1-shentey@gmail.com>
+ <20230223202053.117050-3-shentey@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20230223202053.117050-3-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 2/5] hw/isa/vt82c686: Implement PCI IRQ routing
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,53 +81,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 01 2023, Andrea Bolognani <abologna@redhat.com> wrote:
+On 23/02/2023 20:20, Bernhard Beschow wrote:
 
-> On Wed, Mar 01, 2023 at 11:17:40AM +0100, Cornelia Huck wrote:
->> On Tue, Feb 28 2023, Andrea Bolognani <abologna@redhat.com> wrote:
->> > On Tue, Feb 28, 2023 at 04:02:15PM +0100, Cornelia Huck wrote:
->> >> +MTE CPU Property
->> >> +================
->> >> +
->> >> +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
->> >> +presence of tag memory (which can be turned on for the ``virt`` machine via
->> >> +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
->> >> +proper migration support is implemented, enabling MTE will install a migration
->> >> +blocker.
->> >
->> > Is it okay to use -machine virt,mte=on unconditionally for both KVM
->> > and TCG guests when MTE support is requested, or will that not work
->> > for the former?
->>
->> QEMU will error out if you try this with KVM (basically, same behaviour
->> as before.) Is that a problem for libvirt, or merely a bit inconvinient?
->
-> I'm actually a bit confused. The documentation for the mte property
-> of the virt machine type says
->
->   mte
->     Set on/off to enable/disable emulating a guest CPU which implements
->     the Arm Memory Tagging Extensions. The default is off.
->
-> So why is there a need to have a CPU property in addition to the
-> existing machine type property?
+> The real VIA south bridges implement a PCI IRQ router which is configured
+> by the BIOS or the OS. In order to respect these configurations, QEMU
+> needs to implement it as well.
+> 
+> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+> 
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/isa/vt82c686.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 44 insertions(+)
+> 
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index 3f9bd0c04d..f24e387d63 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -604,6 +604,48 @@ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+>       qemu_set_irq(s->cpu_intr, level);
+>   }
+>   
+> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
+> +{
+> +    switch (irq_num) {
+> +    case 0:
+> +        return s->dev.config[0x55] >> 4;
+> +
+> +    case 1:
+> +        return s->dev.config[0x56] & 0xf;
+> +
+> +    case 2:
+> +        return s->dev.config[0x56] >> 4;
+> +
+> +    case 3:
+> +        return s->dev.config[0x57] >> 4;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
+> +{
+> +    ViaISAState *s = opaque;
+> +    PCIBus *bus = pci_get_bus(&s->dev);
+> +    int pic_irq;
+> +
+> +    /* now we change the pic irq level according to the via irq mappings */
+> +    /* XXX: optimize */
+> +    pic_irq = via_isa_get_pci_irq(s, irq_num);
+> +    if (pic_irq < ISA_NUM_IRQS) {
+> +        int i, pic_level;
+> +
+> +        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
+> +        pic_level = 0;
+> +        for (i = 0; i < PCI_NUM_PINS; i++) {
+> +            if (pic_irq == via_isa_get_pci_irq(s, i)) {
+> +                pic_level |= pci_bus_get_irq_level(bus, i);
+> +            }
+> +        }
+> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
+> +    }
+> +}
+> +
+>   static void via_isa_realize(PCIDevice *d, Error **errp)
+>   {
+>       ViaISAState *s = VIA_ISA(d);
+> @@ -676,6 +718,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+>       if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
+>           return;
+>       }
+> +
+> +    pci_bus_irqs(pci_bus, via_isa_set_pci_irq, s, PCI_NUM_PINS);
+>   }
+>   
+>   /* TYPE_VT82C686B_ISA */
 
-I think the state prior to my patches is actually a bit confusing: the
-user needs to set a machine type property (causing tag memory to be
-allocated), which in turn enables a cpu feature. Supporting the machine
-type property for KVM does not make much sense IMHO: we don't allocate
-tag memory for KVM (in fact, that would not work). We have to keep the
-previous behaviour, and explicitly instructing QEMU to create cpus with
-a certain feature via a cpu property makes the most sense to me.
+This looks right, however generally a PCI device shouldn't really be setting PCI bus 
+IRQs: this is normally done by the PCI host bridge. Is it just the case that the x86 
+world is different here for legacy reasons?
 
-We might want to tweak the documentation for the machine property to
-indicate that it creates tag memory and only implicitly enables mte but
-is a pre-req for it -- thoughts?
 
->
-> From the libvirt integration point of view, setting the machine type
-> property only for TCG is not a problem.
+ATB,
 
-Ok.
-
+Mark.
 
