@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF7C6A6B45
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 12:01:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403256A6B46
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 12:01:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXKCf-0007Dj-EB; Wed, 01 Mar 2023 06:00:57 -0500
+	id 1pXKCv-0000AC-U6; Wed, 01 Mar 2023 06:01:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXKCU-00071K-Tb
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 06:00:47 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pXKCm-00089j-IZ
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 06:01:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXKCS-0006mV-R0
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 06:00:46 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pXKCk-0006wH-N0
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 06:01:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677668443;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=6MZpvl2Tm2SPd4hQZLfl2MuiASuQIz9lRXyXdFfEFLs=;
- b=OXlBQMLxPl3qat7ma0AomcWsIyvDFksXIIrIUJyvIRtT8F91AeaKD+ZzDzNKajkrwHHH+d
- XwtUyBGQcogZybVoYRBY7Rw4meCFbikzCP/KMnsihTgd5X1ZkIvyNxl6Ao4hxxMzeTn1DM
- kVjIcfSn5WoHP7Fm5k0BOCgu0vXo0c8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1677668461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=I5CnEm8l5YZVDDH+qklIObRGUcqJag32hV4lRzQ4ZXA=;
+ b=H6dDcuYjW0AASfZbw9UyJImpZT32bl8Im51nueOCxK7BxfcM+lmzWR5BySiCaw8XiUuMiL
+ cULv1RaX1JI+h0SHIOIpuuw8Hjl2r5Dfb1vBxfWaqdWHdU6Zf+43LytHcUBwb8QK4G9Zga
+ 6ML581LiQacQOrksjRWxRFfXnHq0z7w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-22-sYD0cT-3OCyMlKqlzfx0ag-1; Wed, 01 Mar 2023 06:00:40 -0500
-X-MC-Unique: sYD0cT-3OCyMlKqlzfx0ag-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-548-YTxI-4aAN_eKPllEuqT1nA-1; Wed, 01 Mar 2023 06:01:00 -0500
+X-MC-Unique: YTxI-4aAN_eKPllEuqT1nA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3EB513C0E209;
- Wed,  1 Mar 2023 11:00:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 528102026D4B;
- Wed,  1 Mar 2023 11:00:38 +0000 (UTC)
-Date: Wed, 1 Mar 2023 11:00:35 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, alxndr@bu.edu,
- pbonzini@redhat.com, bsd@redhat.com, stefanha@redhat.com,
- darren.kenny@oracle.com, Qiuhao.Li@outlook.com, fam@euphon.net,
- lvivier@redhat.com
-Subject: Re: [PATCH] tests: Ensure TAP version is printed before other messages
-Message-ID: <Y/8wU+w+dvIHlu+U@redhat.com>
-References: <20230227174019.1164205-1-rjones@redhat.com>
- <6e28af8e-3e71-9888-8832-786550b81983@redhat.com>
- <20230301105214.GZ7636@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EDE7A800B23
+ for <qemu-devel@nongnu.org>; Wed,  1 Mar 2023 11:00:59 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.194.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BF284010E7B;
+ Wed,  1 Mar 2023 11:00:59 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH] test: Fix test-crypto-secret when compiling without keyring
+ support
+Date: Wed,  1 Mar 2023 12:00:58 +0100
+Message-Id: <20230301110058.1255-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230301105214.GZ7636@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,105 +73,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 01, 2023 at 10:52:14AM +0000, Richard W.M. Jones wrote:
-> On Tue, Feb 28, 2023 at 09:30:56PM +0100, Thomas Huth wrote:
-> > On 27/02/2023 18.40, Richard W.M. Jones wrote:
-> > >These two tests were failing with this error:
-> > >
-> > >   stderr:
-> > >   TAP parsing error: version number must be on the first line
-> > >   [...]
-> > >   Unknown TAP version. The first line MUST be `TAP version <int>`. Assuming version 12.
-> > >
-> > >This can be fixed by ensuring we always call g_test_init first in the
-> > >body of main.
-> > >
-> > >Thanks: Daniel Berrange, for diagnosing the problem
-> > >Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
-> > >---
-> > >  tests/qtest/fuzz-lsi53c895a-test.c | 4 ++--
-> > >  tests/qtest/rtl8139-test.c         | 5 +++--
-> > >  2 files changed, 5 insertions(+), 4 deletions(-)
-> > >
-> > >diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-> > >index a9254b455d..2012bd54b7 100644
-> > >--- a/tests/qtest/fuzz-lsi53c895a-test.c
-> > >+++ b/tests/qtest/fuzz-lsi53c895a-test.c
-> > >@@ -112,12 +112,12 @@ static void test_lsi_do_dma_empty_queue(void)
-> > >  int main(int argc, char **argv)
-> > >  {
-> > >+    g_test_init(&argc, &argv, NULL);
-> > >+
-> > >      if (!qtest_has_device("lsi53c895a")) {
-> > >          return 0;
-> > 
-> > Could you please double-check that the !lsi53c895a case works fine,
-> > too? (just temporarily change it into a "if (1) { ..." statement)
-> > ... I'm a little bit afraid that the TAP protocol might be
-> > incomplete without the g_test_run() at the end otherwise. If so, you
-> > might now need a "goto out" instead of the "return 0" here...
-> 
-> Applying ...
-> 
-> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-> index 2012bd54b7..e0c902aac4 100644
-> --- a/tests/qtest/fuzz-lsi53c895a-test.c
-> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
-> @@ -114,7 +114,7 @@ int main(int argc, char **argv)
->  {
->      g_test_init(&argc, &argv, NULL);
->  
-> -    if (!qtest_has_device("lsi53c895a")) {
-> +    if (1) {
->          return 0;
->      }
->  
-> ... and rerunning the tests, everything still passes.
-> 
-> The stdout of the test after this change is:
-> 
-> TAP version 13
-> # random seed: R02S1c1f371a09fbfdf0dd747f898d55fe97
-> 
-> but apparently this version of TAP doesn't care (perhaps because the
-> number of tests "1..2" is never printed?)
+Linux keyring support is protected by CONFIG_KEYUTILS.
+Use CONFIG_SECRET_KEYRING.
 
-Right, the number of tests cannot be printed by g_test_init as the
-tests haven't been registered yet. This will only get run in thue
-g_test_run.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-I recall sometime in the past I believe we've seen problems with
-tests that exit without printing anything, but if that's a problem
-it would be pre-existing with this test case as written.
+---
 
-The TAP spec:
+Previous version of this patch changed the meson build rules.
+Daniel told me that the proper fix was to change the #ifdef test.
+---
+ tests/unit/test-crypto-secret.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-   https://testanything.org/tap-version-13-specification.html
-
-says the test plan (aka the '1..2' bit) is optional:
-
-  "The plan is optional but if there is a plan before the
-   test points it must be the first non-diagnostic line
-   output by the test file."
-
-So having merely the "TAP version 13" should be sufficient,
-but then earlier glib doesn't print this at all. As I say
-though, the existing test would already suffer from the
-problem if it mattered.
-
-> Anyway it doesn't appear to be a problem.
-
-Yep, I think we are probably ok.
-
-With regards,
-Daniel
+diff --git a/tests/unit/test-crypto-secret.c b/tests/unit/test-crypto-secret.c
+index 34a4aecc12..ccb9dbcd49 100644
+--- a/tests/unit/test-crypto-secret.c
++++ b/tests/unit/test-crypto-secret.c
+@@ -24,7 +24,7 @@
+ #include "crypto/secret.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+-#ifdef CONFIG_KEYUTILS
++#ifdef CONFIG_SECRET_KEYRING
+ #include "crypto/secret_keyring.h"
+ #include <keyutils.h>
+ #endif
+@@ -128,7 +128,7 @@ static void test_secret_indirect_emptyfile(void)
+     g_free(fname);
+ }
+ 
+-#ifdef CONFIG_KEYUTILS
++#ifdef CONFIG_SECRET_KEYRING
+ 
+ #define DESCRIPTION "qemu_test_secret"
+ #define PAYLOAD "Test Payload"
+@@ -268,7 +268,7 @@ static void test_secret_keyring_bad_key_access_right(void)
+     keyctl_unlink(key, KEY_SPEC_PROCESS_KEYRING);
+ }
+ 
+-#endif /* CONFIG_KEYUTILS */
++#endif /* CONFIG_SECRET_KEYRING */
+ 
+ static void test_secret_noconv_base64_good(void)
+ {
+@@ -571,7 +571,7 @@ int main(int argc, char **argv)
+     g_test_add_func("/crypto/secret/indirect/emptyfile",
+                     test_secret_indirect_emptyfile);
+ 
+-#ifdef CONFIG_KEYUTILS
++#ifdef CONFIG_SECRET_KEYRING
+     g_test_add_func("/crypto/secret/keyring/good",
+                     test_secret_keyring_good);
+     g_test_add_func("/crypto/secret/keyring/revoked_key",
+@@ -582,7 +582,7 @@ int main(int argc, char **argv)
+                     test_secret_keyring_bad_serial_key);
+     g_test_add_func("/crypto/secret/keyring/bad_key_access_right",
+                     test_secret_keyring_bad_key_access_right);
+-#endif /* CONFIG_KEYUTILS */
++#endif /* CONFIG_SECRET_KEYRING */
+ 
+     g_test_add_func("/crypto/secret/noconv/base64/good",
+                     test_secret_noconv_base64_good);
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.39.2
 
 
