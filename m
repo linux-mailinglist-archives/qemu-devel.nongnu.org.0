@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE4C6A65C8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:53:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE93B6A65CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:53:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXCZj-00082s-TZ; Tue, 28 Feb 2023 21:52:15 -0500
+	id 1pXCZj-00082a-LX; Tue, 28 Feb 2023 21:52:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pXCZc-0007zu-6d
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:52:09 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1pXCZg-00080G-1E
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:52:12 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pXCZa-0001d3-35
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:52:07 -0500
-Received: by mail-pl1-x634.google.com with SMTP id p6so11712080plf.0
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:52:05 -0800 (PST)
+ id 1pXCZe-0001nK-0o
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:52:11 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 6-20020a17090a190600b00237c5b6ecd7so11254265pjg.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:52:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1677639125;
+ d=bytedance.com; s=google; t=1677639129;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=INrx0BfaOa4IFJ+qXVprp2CmsCQfySfcHiPFFgrxkcs=;
- b=kJgz+KxRsEkDyWWeKqaQFGR7ZEWdrWDpF6W4sQClAG75FaUfAwsdFnK72gDkXeKkTo
- cb1wuCjZqUbII6C3+fVqOEN+l3mdt/foVefoDs+kmIAPv9qzdcgi7xj3dWBi6D4O7tkd
- 7aWssaeugcJzE8F/9UenK9zF0QLA+go9S2AQhlT0Uf4DlGHUDBKnALwwCk4bx+Z8C7Xs
- kjdoE9Wqa6E+sGQF8g/j5ZUQUZkRmrKEJpIPj5TP1LwOd3LlEmGHe+6oambEtkA/v3AS
- COtAfEJAfZsZshJO1FRjTCUsa96II42X48KfO/B060XUn2Ss2LGX8bn4pKqtyKhH/1bG
- 3ouA==
+ bh=GbgEvrqH7D2h3weUsC/mv9R1HaMrDMQO1h7Eqp1HmGU=;
+ b=dsR+cdWWemrSMw/8dVA8IiTPoj8oSpfXIOzwqmwNTTZbULj/XejjiDhzkccfbpEa7E
+ /w6GezgEPVv+RTKnpyu1RyC6+7oL1YH+G6JtBmlPhsd0QJ4JnfDmGpcNXQH5VUrEk5BD
+ EVT9zdpY4/uZkrMowLg7mNY+2BvPErSPHYYTnXaK3g92gEXOnM7EXV79BdvrTrnnMJth
+ T+MfN5QNJEiVsw5nnjlzoNdLSa1t6dQIp4JxM+twoIDg+WGzz9IDUJXaHI1z8sRQLFIm
+ bSMpCuxdnRbm9iOjcNeZfzG5NIBpDhkawbZjvbgZmzl39Oz47Qvt05EfsdXumcPJUIDq
+ atrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677639125;
+ d=1e100.net; s=20210112; t=1677639129;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=INrx0BfaOa4IFJ+qXVprp2CmsCQfySfcHiPFFgrxkcs=;
- b=cyVtLBCDYv3sketv6Rllx4JfnKkA77MxEZXBuQamZl7l6o3PYaTjHNyIzJeCw539oa
- 3HxZwCJQsb+PLU0FRZ/ur366TCv7M13r19N8TyQjKJTij9RZEX3kW47QLV9bLycgCuTg
- b6YtfwEvGSIFmnJFtOoyOSN5EGa9YcFvXaQJXXh9pYUKluiK9oKeWe0b+eU/kZa7Q7QM
- R5RMp5VBSWmhtBOukEXeKXliDTio82mhG/pYOpNjdSnl0KCANAHRALml35AB0q1i0Omj
- ygVJVjqDMlEyPIY/mylXWDBD3NYHPqJLwxK9iaUXL0UhptlHWv5w7lj6bbUAxxYbWuPD
- 3jAA==
-X-Gm-Message-State: AO0yUKXqke8Cp7vS/FHq+qJAhybnt+RpoCEFU7JYgAMqMLWVoTaN/mmw
- Mm3Gnk/WA53KErLY152I3GiGQQ==
-X-Google-Smtp-Source: AK7set+8iiCCRDGWOFiRgA2L4wKrsa2gtpAzy2tokjGnvrvxTI6xsS86d6euU4cquNFNY5gbQMlJqg==
-X-Received: by 2002:a17:902:e80a:b0:19b:afb:b92e with SMTP id
- u10-20020a170902e80a00b0019b0afbb92emr5767880plg.40.1677639125368; 
- Tue, 28 Feb 2023 18:52:05 -0800 (PST)
+ bh=GbgEvrqH7D2h3weUsC/mv9R1HaMrDMQO1h7Eqp1HmGU=;
+ b=hfYrWa0gafcQBoUC5y9DAKJ7iPWxxk80/SHhu0Upxp9tsx5mCxmHKCu9yNPbYgZI0V
+ EehKAWxWffpeChaBinNT0PhuU08oj1VMM56yzT9kiZuQbHD5INGI9rB1qYFJevCTBM+w
+ WcwK4FehJ4J65zvrKCiKuiLiw8FzgPLzRYjgDSU92Y3wA/stW9NKfS8+eg121GWJV81N
+ HLsKSKTaJES8j9BB4FTInK/rpBaSdGJ3Zh2RSL4kiOBdILePcq5ZpQzanmfY4AcEVn4+
+ wu3tOluz2dz74cyYaTnWT1HLD/SxrAZqIHjmZWbydMnrj2C0ZUyHWNscig53AMEv53ep
+ cyPQ==
+X-Gm-Message-State: AO0yUKWHOvUr6pzGlzzGq/H1EarMZmfVWaFMbRoAHQejJTWL8BdXm2kf
+ cMqSTPm+UqmLDo3ggZrviDIuEQ==
+X-Google-Smtp-Source: AK7set8X79cb5t15NeE/MWXM/3sP3VNmiSTzlSezc8nq937eQuQIetPunFU6/J2jHc2lEMcq8OMm/A==
+X-Received: by 2002:a17:902:d488:b0:19e:2e6b:1448 with SMTP id
+ c8-20020a170902d48800b0019e2e6b1448mr6294530plg.2.1677639128725; 
+ Tue, 28 Feb 2023 18:52:08 -0800 (PST)
 Received: from libai.bytedance.net ([61.213.176.5])
  by smtp.gmail.com with ESMTPSA id
- ix1-20020a170902f80100b0019ab58f47a6sm7218743plb.105.2023.02.28.18.52.02
+ ix1-20020a170902f80100b0019ab58f47a6sm7218743plb.105.2023.02.28.18.52.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 18:52:04 -0800 (PST)
+ Tue, 28 Feb 2023 18:52:08 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: mst@redhat.com,
 	arei.gonglei@huawei.com
 Cc: dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
  qemu-devel@nongnu.org, berrange@redhat.com,
  zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH v5 10/12] cryptodev: support QoS
-Date: Wed,  1 Mar 2023 10:51:22 +0800
-Message-Id: <20230301025124.3605557-11-pizhenwei@bytedance.com>
+Subject: [PATCH v5 11/12] cryptodev: Support query-stats QMP command
+Date: Wed,  1 Mar 2023 10:51:23 +0800
+Message-Id: <20230301025124.3605557-12-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301025124.3605557-1-pizhenwei@bytedance.com>
 References: <20230301025124.3605557-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,285 +95,324 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add 'throttle-bps' and 'throttle-ops' limitation to set QoS. The
-two arguments work with both QEMU command line and QMP command.
+Now we can use "query-stats" QMP command to query statistics of
+crypto devices. (Originally this was designed to show statistics
+by '{"execute": "query-cryptodev"}'. Daniel Berrangé suggested that
+querying configuration info by "query-cryptodev", and querying
+runtime performance info by "query-stats". This makes sense!)
 
-Example of QEMU command line:
--object cryptodev-backend-builtin,id=cryptodev1,throttle-bps=1600,\
-throttle-ops=100
+Example:
+~# virsh qemu-monitor-command vm '{"execute": "query-stats", \
+   "arguments": {"target": "cryptodev"} }' | jq
+{
+  "return": [
+    {
+      "provider": "cryptodev",
+      "stats": [
+        {
+          "name": "asym-verify-bytes",
+          "value": 7680
+        },
+        ...
+        {
+          "name": "asym-decrypt-ops",
+          "value": 32
+        },
+        {
+          "name": "asym-encrypt-ops",
+          "value": 48
+        }
+      ],
+      "qom-path": "/objects/cryptodev0" # support asym only
+    },
+    {
+      "provider": "cryptodev",
+      "stats": [
+        {
+          "name": "asym-verify-bytes",
+          "value": 0
+        },
+        ...
+        {
+          "name": "sym-decrypt-bytes",
+          "value": 5376
+        },
+        ...
+      ],
+      "qom-path": "/objects/cryptodev1" # support asym/sym
+    }
+  ],
+  "id": "libvirt-422"
+}
 
-Example of QMP command:
-virsh qemu-monitor-command buster --hmp qom-set /objects/cryptodev1 \
-throttle-ops 100
-
-or cancel limitation:
-virsh qemu-monitor-command buster --hmp qom-set /objects/cryptodev1 \
-throttle-ops 0
-
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- backends/cryptodev.c       | 138 +++++++++++++++++++++++++++++++++++++
- include/sysemu/cryptodev.h |   7 ++
- qapi/qom.json              |   8 ++-
- 3 files changed, 152 insertions(+), 1 deletion(-)
+ backends/cryptodev.c   | 155 +++++++++++++++++++++++++++++++++++++++++
+ qapi/stats.json        |  10 ++-
+ stats/stats-hmp-cmds.c |   5 ++
+ stats/stats-qmp-cmds.c |   2 +
+ 4 files changed, 170 insertions(+), 2 deletions(-)
 
 diff --git a/backends/cryptodev.c b/backends/cryptodev.c
-index cc824e9665..09ffdd345f 100644
+index 09ffdd345f..d8a54c0236 100644
 --- a/backends/cryptodev.c
 +++ b/backends/cryptodev.c
-@@ -28,6 +28,7 @@
+@@ -23,8 +23,10 @@
+ 
+ #include "qemu/osdep.h"
+ #include "sysemu/cryptodev.h"
++#include "sysemu/stats.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-cryptodev.h"
++#include "qapi/qapi-types-stats.h"
  #include "qapi/visitor.h"
  #include "qemu/config-file.h"
  #include "qemu/error-report.h"
-+#include "qemu/main-loop.h"
+@@ -32,6 +34,28 @@
  #include "qom/object_interfaces.h"
  #include "hw/virtio/virtio-crypto.h"
  
-@@ -203,17 +204,53 @@ static int cryptodev_backend_account(CryptoDevBackend *backend,
-     return len;
++#define SYM_ENCRYPT_OPS_STR "sym-encrypt-ops"
++#define SYM_DECRYPT_OPS_STR "sym-decrypt-ops"
++#define SYM_ENCRYPT_BYTES_STR "sym-encrypt-bytes"
++#define SYM_DECRYPT_BYTES_STR "sym-decrypt-bytes"
++
++#define ASYM_ENCRYPT_OPS_STR "asym-encrypt-ops"
++#define ASYM_DECRYPT_OPS_STR "asym-decrypt-ops"
++#define ASYM_SIGN_OPS_STR "asym-sign-ops"
++#define ASYM_VERIFY_OPS_STR "asym-verify-ops"
++#define ASYM_ENCRYPT_BYTES_STR "asym-encrypt-bytes"
++#define ASYM_DECRYPT_BYTES_STR "asym-decrypt-bytes"
++#define ASYM_SIGN_BYTES_STR "asym-sign-bytes"
++#define ASYM_VERIFY_BYTES_STR "asym-verify-bytes"
++
++typedef struct StatsArgs {
++    union StatsResultsType {
++        StatsResultList **stats;
++        StatsSchemaList **schema;
++    } result;
++    strList *names;
++    Error **errp;
++} StatsArgs;
+ 
+ static QTAILQ_HEAD(, CryptoDevBackendClient) crypto_clients;
+ 
+@@ -435,6 +459,134 @@ static void cryptodev_backend_finalize(Object *obj)
+     }
  }
  
-+static void cryptodev_backend_throttle_timer_cb(void *opaque)
++static StatsList *cryptodev_backend_stats_add(const char *name, int64_t *val,
++                                              StatsList *stats_list)
 +{
-+    CryptoDevBackend *backend = (CryptoDevBackend *)opaque;
-+    CryptoDevBackendOpInfo *op_info, *tmpop;
-+    int ret;
++    Stats *stats = g_new0(Stats, 1);
 +
-+    QTAILQ_FOREACH_SAFE(op_info, &backend->opinfos, next, tmpop) {
-+        QTAILQ_REMOVE(&backend->opinfos, op_info, next);
-+        ret = cryptodev_backend_account(backend, op_info);
-+        if (ret < 0) {
-+            op_info->cb(op_info->opaque, ret);
-+            continue;
-+        }
++    stats->name = g_strdup(name);
++    stats->value = g_new0(StatsValue, 1);
++    stats->value->type = QTYPE_QNUM;
++    stats->value->u.scalar = *val;
 +
-+        throttle_account(&backend->ts, true, ret);
-+        cryptodev_backend_operation(backend, op_info);
-+        if (throttle_enabled(&backend->tc) &&
-+            throttle_schedule_timer(&backend->ts, &backend->tt, true)) {
-+            break;
-+        }
-+    }
++    QAPI_LIST_PREPEND(stats_list, stats);
++    return stats_list;
 +}
 +
- int cryptodev_backend_crypto_operation(
-                  CryptoDevBackend *backend,
-                  CryptoDevBackendOpInfo *op_info)
- {
-     int ret;
- 
-+    if (!throttle_enabled(&backend->tc)) {
-+        goto do_account;
-+    }
++static int cryptodev_backend_stats_query(Object *obj, void *data)
++{
++    StatsArgs *stats_args = data;
++    StatsResultList **stats_results = stats_args->result.stats;
++    StatsList *stats_list = NULL;
++    StatsResult *entry;
++    CryptoDevBackend *backend;
++    QCryptodevBackendSymStat *sym_stat;
++    QCryptodevBackendAsymStat *asym_stat;
 +
-+    if (throttle_schedule_timer(&backend->ts, &backend->tt, true) ||
-+        !QTAILQ_EMPTY(&backend->opinfos)) {
-+        QTAILQ_INSERT_TAIL(&backend->opinfos, op_info, next);
++    if (!object_dynamic_cast(obj, TYPE_CRYPTODEV_BACKEND)) {
 +        return 0;
 +    }
 +
-+do_account:
-     ret = cryptodev_backend_account(backend, op_info);
-     if (ret < 0) {
-         return ret;
-     }
- 
-+    throttle_account(&backend->ts, true, ret);
-+
-     return cryptodev_backend_operation(backend, op_info);
- }
- 
-@@ -245,12 +282,98 @@ cryptodev_backend_set_queues(Object *obj, Visitor *v, const char *name,
-     backend->conf.peers.queues = value;
- }
- 
-+static void cryptodev_backend_set_throttle(CryptoDevBackend *backend, int field,
-+                                           uint64_t value, Error **errp)
-+{
-+    uint64_t orig = backend->tc.buckets[field].avg;
-+    bool enabled = throttle_enabled(&backend->tc);
-+
-+    if (orig == value) {
-+        return;
++    backend = CRYPTODEV_BACKEND(obj);
++    sym_stat = backend->sym_stat;
++    if (sym_stat) {
++        stats_list = cryptodev_backend_stats_add(SYM_ENCRYPT_OPS_STR,
++                         &sym_stat->encrypt_ops, stats_list);
++        stats_list = cryptodev_backend_stats_add(SYM_DECRYPT_OPS_STR,
++                         &sym_stat->decrypt_ops, stats_list);
++        stats_list = cryptodev_backend_stats_add(SYM_ENCRYPT_BYTES_STR,
++                         &sym_stat->encrypt_bytes, stats_list);
++        stats_list = cryptodev_backend_stats_add(SYM_DECRYPT_BYTES_STR,
++                         &sym_stat->decrypt_bytes, stats_list);
 +    }
 +
-+    backend->tc.buckets[field].avg = value;
-+    if (!throttle_enabled(&backend->tc)) {
-+        throttle_timers_destroy(&backend->tt);
-+        cryptodev_backend_throttle_timer_cb(backend); /* drain opinfos */
-+        return;
++    asym_stat = backend->asym_stat;
++    if (asym_stat) {
++        stats_list = cryptodev_backend_stats_add(ASYM_ENCRYPT_OPS_STR,
++                         &asym_stat->encrypt_ops, stats_list);
++        stats_list = cryptodev_backend_stats_add(ASYM_DECRYPT_OPS_STR,
++                         &asym_stat->decrypt_ops, stats_list);
++        stats_list = cryptodev_backend_stats_add(ASYM_SIGN_OPS_STR,
++                         &asym_stat->sign_ops, stats_list);
++        stats_list = cryptodev_backend_stats_add(ASYM_VERIFY_OPS_STR,
++                         &asym_stat->verify_ops, stats_list);
++        stats_list = cryptodev_backend_stats_add(ASYM_ENCRYPT_BYTES_STR,
++                         &asym_stat->encrypt_bytes, stats_list);
++        stats_list = cryptodev_backend_stats_add(ASYM_DECRYPT_BYTES_STR,
++                         &asym_stat->decrypt_bytes, stats_list);
++        stats_list = cryptodev_backend_stats_add(ASYM_SIGN_BYTES_STR,
++                         &asym_stat->sign_bytes, stats_list);
++        stats_list = cryptodev_backend_stats_add(ASYM_VERIFY_BYTES_STR,
++                         &asym_stat->verify_bytes, stats_list);
 +    }
 +
-+    if (!throttle_is_valid(&backend->tc, errp)) {
-+        backend->tc.buckets[field].avg = orig; /* revert change */
-+        return;
-+    }
++    entry = g_new0(StatsResult, 1);
++    entry->provider = STATS_PROVIDER_CRYPTODEV;
++    entry->qom_path = g_strdup(object_get_canonical_path(obj));
++    entry->stats = stats_list;
++    QAPI_LIST_PREPEND(*stats_results, entry);
 +
-+    if (!enabled) {
-+        throttle_init(&backend->ts);
-+        throttle_timers_init(&backend->tt, qemu_get_aio_context(),
-+                             QEMU_CLOCK_REALTIME,
-+                             cryptodev_backend_throttle_timer_cb, /* FIXME */
-+                             cryptodev_backend_throttle_timer_cb, backend);
-+    }
-+
-+    throttle_config(&backend->ts, QEMU_CLOCK_REALTIME, &backend->tc);
++    return 0;
 +}
 +
-+static void cryptodev_backend_get_bps(Object *obj, Visitor *v,
-+                                      const char *name, void *opaque,
-+                                      Error **errp)
-+{
-+    CryptoDevBackend *backend = CRYPTODEV_BACKEND(obj);
-+    uint64_t value = backend->tc.buckets[THROTTLE_BPS_TOTAL].avg;
-+
-+    visit_type_uint64(v, name, &value, errp);
-+}
-+
-+static void cryptodev_backend_set_bps(Object *obj, Visitor *v, const char *name,
-+                                      void *opaque, Error **errp)
-+{
-+    CryptoDevBackend *backend = CRYPTODEV_BACKEND(obj);
-+    uint64_t value;
-+
-+    if (!visit_type_uint64(v, name, &value, errp)) {
-+        return;
-+    }
-+
-+    cryptodev_backend_set_throttle(backend, THROTTLE_BPS_TOTAL, value, errp);
-+}
-+
-+static void cryptodev_backend_get_ops(Object *obj, Visitor *v, const char *name,
-+                                      void *opaque, Error **errp)
-+{
-+    CryptoDevBackend *backend = CRYPTODEV_BACKEND(obj);
-+    uint64_t value = backend->tc.buckets[THROTTLE_OPS_TOTAL].avg;
-+
-+    visit_type_uint64(v, name, &value, errp);
-+}
-+
-+static void cryptodev_backend_set_ops(Object *obj, Visitor *v,
-+                                       const char *name, void *opaque,
++static void cryptodev_backend_stats_cb(StatsResultList **result,
++                                       StatsTarget target,
++                                       strList *names, strList *targets,
 +                                       Error **errp)
 +{
-+    CryptoDevBackend *backend = CRYPTODEV_BACKEND(obj);
-+    uint64_t value;
++    switch (target) {
++    case STATS_TARGET_CRYPTODEV:
++    {
++        Object *objs = container_get(object_get_root(), "/objects");
++        StatsArgs stats_args;
++        stats_args.result.stats = result;
++        stats_args.names = names;
++        stats_args.errp = errp;
 +
-+    if (!visit_type_uint64(v, name, &value, errp)) {
-+        return;
++        object_child_foreach(objs, cryptodev_backend_stats_query, &stats_args);
++        break;
++    }
++    default:
++        break;
++    }
++}
++
++static StatsSchemaValueList *cryptodev_backend_schemas_add(const char *name,
++                                 StatsSchemaValueList *list)
++{
++    StatsSchemaValueList *schema_entry = g_new0(StatsSchemaValueList, 1);
++
++    schema_entry->value = g_new0(StatsSchemaValue, 1);
++    schema_entry->value->type = STATS_TYPE_CUMULATIVE;
++    schema_entry->value->name = g_strdup(name);
++    schema_entry->next = list;
++
++    return schema_entry;
++}
++
++static void cryptodev_backend_schemas_cb(StatsSchemaList **result,
++                                         Error **errp)
++{
++    StatsSchemaValueList *stats_list = NULL;
++    const char *sym_stats[] = { SYM_ENCRYPT_OPS_STR, SYM_DECRYPT_OPS_STR,
++                                SYM_ENCRYPT_BYTES_STR, SYM_DECRYPT_BYTES_STR };
++    const char *asym_stats[] = { ASYM_ENCRYPT_OPS_STR, ASYM_DECRYPT_OPS_STR,
++                                 ASYM_SIGN_OPS_STR, ASYM_VERIFY_OPS_STR,
++                                 ASYM_ENCRYPT_BYTES_STR, ASYM_DECRYPT_BYTES_STR,
++                                 ASYM_SIGN_BYTES_STR, ASYM_VERIFY_BYTES_STR };
++
++    for (int i = 0; i < ARRAY_SIZE(sym_stats); i++) {
++        stats_list = cryptodev_backend_schemas_add(sym_stats[i], stats_list);
 +    }
 +
-+    cryptodev_backend_set_throttle(backend, THROTTLE_OPS_TOTAL, value, errp);
++    for (int i = 0; i < ARRAY_SIZE(asym_stats); i++) {
++        stats_list = cryptodev_backend_schemas_add(asym_stats[i], stats_list);
++    }
++
++    add_stats_schema(result, STATS_PROVIDER_CRYPTODEV, STATS_TARGET_CRYPTODEV,
++                     stats_list);
 +}
 +
  static void
- cryptodev_backend_complete(UserCreatable *uc, Error **errp)
+ cryptodev_backend_class_init(ObjectClass *oc, void *data)
  {
-     CryptoDevBackend *backend = CRYPTODEV_BACKEND(uc);
-     CryptoDevBackendClass *bc = CRYPTODEV_BACKEND_GET_CLASS(uc);
-     uint32_t services;
-+    uint64_t value;
-+
-+    QTAILQ_INIT(&backend->opinfos);
-+    value = backend->tc.buckets[THROTTLE_OPS_TOTAL].avg;
-+    cryptodev_backend_set_throttle(backend, THROTTLE_OPS_TOTAL, value, errp);
-+    value = backend->tc.buckets[THROTTLE_BPS_TOTAL].avg;
-+    cryptodev_backend_set_throttle(backend, THROTTLE_BPS_TOTAL, value, errp);
- 
-     if (bc->init) {
-         bc->init(backend, errp);
-@@ -294,8 +417,12 @@ cryptodev_backend_can_be_deleted(UserCreatable *uc)
- 
- static void cryptodev_backend_instance_init(Object *obj)
- {
-+    CryptoDevBackend *backend = CRYPTODEV_BACKEND(obj);
-+
-     /* Initialize devices' queues property to 1 */
-     object_property_set_int(obj, "queues", 1, NULL);
-+
-+    throttle_config_init(&backend->tc);
- }
- 
- static void cryptodev_backend_finalize(Object *obj)
-@@ -303,6 +430,9 @@ static void cryptodev_backend_finalize(Object *obj)
-     CryptoDevBackend *backend = CRYPTODEV_BACKEND(obj);
- 
-     cryptodev_backend_cleanup(backend, NULL);
-+    if (throttle_enabled(&backend->tc)) {
-+        throttle_timers_destroy(&backend->tt);
-+    }
- }
- 
- static void
-@@ -318,6 +448,14 @@ cryptodev_backend_class_init(ObjectClass *oc, void *data)
-                               cryptodev_backend_get_queues,
-                               cryptodev_backend_set_queues,
+@@ -456,6 +608,9 @@ cryptodev_backend_class_init(ObjectClass *oc, void *data)
+                               cryptodev_backend_get_ops,
+                               cryptodev_backend_set_ops,
                                NULL, NULL);
-+    object_class_property_add(oc, "throttle-bps", "uint64",
-+                              cryptodev_backend_get_bps,
-+                              cryptodev_backend_set_bps,
-+                              NULL, NULL);
-+    object_class_property_add(oc, "throttle-ops", "uint64",
-+                              cryptodev_backend_get_ops,
-+                              cryptodev_backend_set_ops,
-+                              NULL, NULL);
++
++    add_stats_callbacks(STATS_PROVIDER_CRYPTODEV, cryptodev_backend_stats_cb,
++                        cryptodev_backend_schemas_cb);
  }
  
  static const TypeInfo cryptodev_backend_info = {
-diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
-index 15e8c04dcf..113eec4caf 100644
---- a/include/sysemu/cryptodev.h
-+++ b/include/sysemu/cryptodev.h
-@@ -24,6 +24,7 @@
- #define CRYPTODEV_H
- 
- #include "qemu/queue.h"
-+#include "qemu/throttle.h"
- #include "qom/object.h"
- #include "qapi/qapi-types-cryptodev.h"
- 
-@@ -187,6 +188,7 @@ typedef struct CryptoDevBackendOpInfo {
-         CryptoDevBackendSymOpInfo *sym_op_info;
-         CryptoDevBackendAsymOpInfo *asym_op_info;
-     } u;
-+    QTAILQ_ENTRY(CryptoDevBackendOpInfo) next;
- } CryptoDevBackendOpInfo;
- 
- struct CryptoDevBackendClass {
-@@ -255,6 +257,11 @@ struct CryptoDevBackend {
-     CryptoDevBackendConf conf;
-     QCryptodevBackendSymStat *sym_stat;
-     QCryptodevBackendAsymStat *asym_stat;
-+
-+    ThrottleState ts;
-+    ThrottleTimers tt;
-+    ThrottleConfig tc;
-+    QTAILQ_HEAD(, CryptoDevBackendOpInfo) opinfos;
- };
- 
- #define QCryptodevSymStatInc(be, op, bytes) do { \
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 30e76653ad..a877b879b9 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -278,10 +278,16 @@
- #          cryptodev-backend and must be 1 for cryptodev-backend-builtin.
- #          (default: 1)
+diff --git a/qapi/stats.json b/qapi/stats.json
+index 57db5b1c74..f9dec18066 100644
+--- a/qapi/stats.json
++++ b/qapi/stats.json
+@@ -50,10 +50,14 @@
  #
-+# @throttle-bps: limit total bytes per second (Since 8.0)
+ # Enumeration of statistics providers.
+ #
++# @kvm: since 7.1
 +#
-+# @throttle-ops: limit total operations per second (Since 8.0)
++# @cryptodev: since 8.0
 +#
- # Since: 2.8
+ # Since: 7.1
  ##
- { 'struct': 'CryptodevBackendProperties',
--  'data': { '*queues': 'uint32' } }
-+  'data': { '*queues': 'uint32',
-+            '*throttle-bps': 'uint64',
-+            '*throttle-ops': 'uint64' } }
+ { 'enum': 'StatsProvider',
+-  'data': [ 'kvm' ] }
++  'data': [ 'kvm', 'cryptodev' ] }
  
  ##
- # @CryptodevVhostUserProperties:
+ # @StatsTarget:
+@@ -65,10 +69,12 @@
+ #
+ # @vcpu: statistics that apply to a single virtual CPU.
+ #
++# @cryptodev: statistics that apply to a crypto device. since 8.0
++#
+ # Since: 7.1
+ ##
+ { 'enum': 'StatsTarget',
+-  'data': [ 'vm', 'vcpu' ] }
++  'data': [ 'vm', 'vcpu', 'cryptodev' ] }
+ 
+ ##
+ # @StatsRequest:
+diff --git a/stats/stats-hmp-cmds.c b/stats/stats-hmp-cmds.c
+index 531e35d128..1f91bf8bd5 100644
+--- a/stats/stats-hmp-cmds.c
++++ b/stats/stats-hmp-cmds.c
+@@ -155,6 +155,8 @@ static StatsFilter *stats_filter(StatsTarget target, const char *names,
+         filter->u.vcpu.vcpus = vcpu_list;
+         break;
+     }
++    case STATS_TARGET_CRYPTODEV:
++        break;
+     default:
+         break;
+     }
+@@ -226,6 +228,9 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
+         int cpu_index = monitor_get_cpu_index(mon);
+         filter = stats_filter(target, names, cpu_index, provider);
+         break;
++    case STATS_TARGET_CRYPTODEV:
++        filter = stats_filter(target, names, -1, provider);
++        break;
+     default:
+         abort();
+     }
+diff --git a/stats/stats-qmp-cmds.c b/stats/stats-qmp-cmds.c
+index bc973747fb..e214b964fd 100644
+--- a/stats/stats-qmp-cmds.c
++++ b/stats/stats-qmp-cmds.c
+@@ -64,6 +64,8 @@ static bool invoke_stats_cb(StatsCallbacks *entry,
+             targets = filter->u.vcpu.vcpus;
+         }
+         break;
++    case STATS_TARGET_CRYPTODEV:
++        break;
+     default:
+         abort();
+     }
 -- 
 2.34.1
 
