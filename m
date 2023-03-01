@@ -2,94 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93146A6809
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2297C6A682B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:34:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXGid-0006OD-0T; Wed, 01 Mar 2023 02:17:43 -0500
+	id 1pXGxM-0006oH-5d; Wed, 01 Mar 2023 02:32:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1pXGiU-0006LR-S9
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:17:35 -0500
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1pXGiS-00078H-U6
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:17:34 -0500
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 582203F22C
- for <qemu-devel@nongnu.org>; Wed,  1 Mar 2023 07:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1677655048;
- bh=QKsQ8l9IumEXVWV7TuEdX3URZpzq7WR5mdnaFgwQN0A=;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
- To:Cc:Content-Type;
- b=iaeft+Eff+i7FH1W7mQBgo5Wcb0HwiC2nKTuoyVKiOR+nMIppxyg61BNroR4U7lM2
- W1r1cs+qNBHJ3rDCMOes2oWYUpwcVRRqMxMeUmTNyJfFNTUocjfYOuHm3LUq2KTZ3f
- 7kS3wYFSP2ASpySa2UEhms6Ou2P1+79pCAsm61el/Yl0JMOfa78PRE8v0iU4g1/BuT
- Zpju+Jskqa0G7msK8nB9HcIVxQJHRnUfPRKrEmxvJbD8Haplrze1L+8ZUQ3+WFGtir
- Vy31SydTEQVOFgJk8CDHkombhTU41KvUGM47ycY8m1gsgiGWWxh1P/fsEb8zpMZtsh
- jIbwU7HR+WO1Q==
-Received: by mail-pj1-f71.google.com with SMTP id
- m1-20020a17090a668100b00237d84de790so3673023pjj.0
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 23:17:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXGwz-0006mx-Fl
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:32:33 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXGwx-000325-N4
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:32:33 -0500
+Received: by mail-wr1-x435.google.com with SMTP id l25so12220108wrb.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 23:32:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677655950;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JTrpK5hPgoGiyYpqNs91jF/dKSneDnT+krWJxrVZ9AM=;
+ b=CLcaQ1iX3K2cENTsi1z2YyOLo8fZxYN0Uc0k8neYrCvLe3z4guvU8Bw8HkQDQpqVSk
+ h/Xej79IExhgM0Ll1snIq1/FqHNrUFpZouLXZbieOt3MrSJaBb118KnEKTcK+Meyu+Kn
+ ye+YJzsGvqlfXErq9pVXwounCzLcbzpGneH0xYNiPAarz8YmHZM9ukLWkw4SKTBDsFHf
+ pHN+ia+X2iZX1Hh4bQ/o773Yfc1r4HgG8fOjEv6zKMEnId06DakF+LfZyOYK+NQ5H/8w
+ 9EW2VrOWLBXkWP8LVfLQmH1Doh2OBhlrEtL2AjxcdigYCOO45j/dmhRL4CfL2SnvRDmd
+ WxOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QKsQ8l9IumEXVWV7TuEdX3URZpzq7WR5mdnaFgwQN0A=;
- b=PQNwhrJL1hU0GXN+mjWy9gpD3v52HVUwcFCAQUWfYAxuG4qwdkgzL7OZIsEts0MIAU
- IqbD+mh6tnTfxKs2wLgyQp1ELY7Qm9aUiEYqXYv7Fd6Bd8QV5ydni59tKtJp3vkexIZb
- IAqKDLGlLINAIrVaxuJniLws7sXrM3uj3cc5RuMiJg4jXnjz88omAL1zeqwnQr6kApNp
- iDar0OfsdqODlgMo9/R4zsniaTw8ahkBFRgR5mqB0Bus4jJr3ChnBPd/Jz5jiKA6WUfb
- xBddXlIypkPh+nNxShPpa6BAZymCGvEKzNyRPoW3PcfA/J34tnUa5CDrZrUDLc7Zozkn
- JBHw==
-X-Gm-Message-State: AO0yUKU7K6Y/FaeuMY11pGnb723scHIpZyDLL82xsCJFNpS0TzXGb5+W
- 7/v+XBLE43oGL9zoc+cwRibQIgte3LtDs2MWo3EVrcIRrRwVnRS7GE+9COFnUOSNbNoP/PRnprp
- mEmXHG29W2H6tO+c+Lu/K7dM+ETrNJ4HVBwCz4rpqgIuH5jdD
-X-Received: by 2002:a17:902:da83:b0:19a:9434:af24 with SMTP id
- j3-20020a170902da8300b0019a9434af24mr2137458plx.10.1677655046869; 
- Tue, 28 Feb 2023 23:17:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set+rq/Y/FL90JgDZErVy6AH9TvseY++Jhx/YgJU06WEO+LxjliR99MDfyRlBg/YgNSm1GYrOw0c5EBKAFFt+/8M=
-X-Received: by 2002:a17:902:da83:b0:19a:9434:af24 with SMTP id
- j3-20020a170902da8300b0019a9434af24mr2137436plx.10.1677655046111; Tue, 28 Feb
- 2023 23:17:26 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677655950;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JTrpK5hPgoGiyYpqNs91jF/dKSneDnT+krWJxrVZ9AM=;
+ b=11J2z55dj1Dwtzid/wCK5EkOhoNDkU9p+sJDRSNI2PXDGSsKblFMppstBtIXjLclZo
+ mSbkFqnZx+2YqbkCIuj4saly3Btq+6fcWzqTLW+rCkbsa3A0QKK+2la8lbyA125vAlWP
+ TMPKqd4yXk7Rt1T0cEy6UFPcTw4fN0It6P4YQbuGivs1VSBJuXhVoczZY/yzdQwci50L
+ hBnqRG/CG1cSSvcunkLl6KeIbxhcBpxEeBAxu4VzqT6FSKHQ3BPpoIBih4uKYldx6B+1
+ L8ft5RkRnFLRqEcMYenbuCKhoCVUwwGY0A23hINx3DBofyY7eOwA7+j9FhzxQqd662+i
+ KLWg==
+X-Gm-Message-State: AO0yUKUnmR9RJOvzvA6udPW+TPHVm27l0zAjNDmL/GVof6vgv6VKxbDN
+ 2DEIJUE3A8p/XRDclVVrjimQWA==
+X-Google-Smtp-Source: AK7set9KXgNt8QtrHsmFXekecqcJy2CrSCvlR/IZmIJX7voN1q52G8JqysSXVmsWu8Yyi8rzY73kFQ==
+X-Received: by 2002:a05:6000:18f:b0:2bd:d34e:5355 with SMTP id
+ p15-20020a056000018f00b002bdd34e5355mr3708004wrx.20.1677655950000; 
+ Tue, 28 Feb 2023 23:32:30 -0800 (PST)
+Received: from [192.168.18.115] ([91.219.21.246])
+ by smtp.gmail.com with ESMTPSA id
+ f7-20020adffcc7000000b002c7163660a9sm12146520wrs.105.2023.02.28.23.32.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 23:32:29 -0800 (PST)
+Message-ID: <3aa65498-4d4e-429e-44f4-bbeb34a0e21e@linaro.org>
+Date: Wed, 1 Mar 2023 08:32:26 +0100
 MIME-Version: 1.0
-References: <20230104090138.214862-1-lersek@redhat.com>
- <20230104072457-mutt-send-email-mst@kernel.org>
- <7122894b-ccbf-9d30-ee54-c23c25c0f82b@redhat.com>
-In-Reply-To: <7122894b-ccbf-9d30-ee54-c23c25c0f82b@redhat.com>
-From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Date: Wed, 1 Mar 2023 08:17:00 +0100
-Message-ID: <CAATJJ0K8Qt3-gNFT4nmweRFk-1bSHGicuLPim_V7EjgaXmLtGw@mail.gmail.com>
-Subject: Re: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
- legacy reg block
-To: Laszlo Ersek <lersek@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Ani Sinha <ani@anisinha.ca>, 
- Ard Biesheuvel <ardb@kernel.org>, Igor Mammedov <imammedo@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-stable@nongnu.org, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.125.188.123;
- envelope-from=christian.ehrhardt@canonical.com;
- helo=smtp-relay-internal-1.canonical.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 22/24] gitlab: move the majority of artefact handling
+ to a template
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
+ <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Yonggang Luo <luoyonggang@gmail.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230228190653.1602033-1-alex.bennee@linaro.org>
+ <20230228190653.1602033-23-alex.bennee@linaro.org>
+ <85fa3961-eb23-8d93-b4e4-e3e4227fac26@linaro.org>
+ <199f0714-901a-a15d-690a-2a2f56db015a@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <199f0714-901a-a15d-690a-2a2f56db015a@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,48 +113,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 5, 2023 at 8:14=E2=80=AFAM Laszlo Ersek <lersek@redhat.com> wro=
-te:
->
-> On 1/4/23 13:35, Michael S. Tsirkin wrote:
-> > On Wed, Jan 04, 2023 at 10:01:38AM +0100, Laszlo Ersek wrote:
-> >> The modern ACPI CPU hotplug interface was introduced in the following
-> >> series (aa1dd39ca307..679dd1a957df), released in v2.7.0:
-> >>
-> >>   1  abd49bc2ed2f docs: update ACPI CPU hotplug spec with new protocol
-> >>   2  16bcab97eb9f pc: piix4/ich9: add 'cpu-hotplug-legacy' property
-> >>   3  5e1b5d93887b acpi: cpuhp: add CPU devices AML with _STA method
-> >>   4  ac35f13ba8f8 pc: acpi: introduce AcpiDeviceIfClass.madt_cpu hook
-> >>   5  d2238cb6781d acpi: cpuhp: implement hot-add parts of CPU hotplug
-> >>                   interface
-> >>   6  8872c25a26cc acpi: cpuhp: implement hot-remove parts of CPU hotpl=
-ug
-> >>                   interface
-> >>   7  76623d00ae57 acpi: cpuhp: add cpu._OST handling
-> >>   8  679dd1a957df pc: use new CPU hotplug interface since 2.7 machine =
-type
-> >>
-...
->
-> The solution to the riddle
+On 1/3/23 07:51, Thomas Huth wrote:
+> On 28/02/2023 22.41, Philippe Mathieu-Daudé wrote:
+>> On 28/2/23 20:06, Alex Bennée wrote:
+>>> To avoid lots of copy and paste lets deal with artefacts in a
+>>> template. This way we can filter out most of the pre-binary object and
+>>> library files we no longer need as we have the final binaries.
+>>>
+>>> build-system-alpine also saved .git-submodule-status so for simplicity
+>>> we bring that into the template as well.
+>>>
+>>> As an example the build-system-ubuntu artefacts before this patch
+>>> where around 1.3 GB, after dropping the object files it comes to 970
+>>> MB.
+>>>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> ---
+>>>   .gitlab-ci.d/buildtest-template.yml | 16 ++++++
+>>>   .gitlab-ci.d/buildtest.yml          | 81 +++++++++++------------------
+>>>   2 files changed, 46 insertions(+), 51 deletions(-)
+>>
+>> This is still kludging the fact that 'make check-qtest' rebuild
+>> the world even if QEMU binaries are present.
+> 
+> Did you try? ... if so, that would kill even more CI minutes, i.e. it 
+> would IMHO be a show-stopper for this patch.
 
-Hi,
-just to add to this nicely convoluted case an FYI to everyone involved
-back then,
-the fix seems to have caused a regression [1] in - as far as I've
-found - an edge case.
+I remember we had to pass all build/ otherwise calling 'make
+check-qtest check-tcg' would rebuild the same binaries, it it
+was pointless to split the jobs in 2 stages. I might have missed
+when that was fixed.
 
-[1]: https://gitlab.com/qemu-project/qemu/-/issues/1520
+I haven't tried, however I see in Alex job:
 
-...
+$ scripts/git-submodule.sh update $(sed -n '/GIT_SUBMODULES=/ s/.*=// p' 
+build/config-host.mak)
+sed: can't read build/config-host.mak: No such file or directory
+$ cd build
+/bin/bash: line 144: cd: build: No such file or directory
+ERROR: Job failed: exit code 1
 
-> Laszlo
->
->
-
-
---=20
-Christian Ehrhardt
-Senior Staff Engineer, Ubuntu Server
-Canonical Ltd
+https://gitlab.com/stsquad/qemu/-/jobs/3847747769
 
