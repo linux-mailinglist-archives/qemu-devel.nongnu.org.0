@@ -2,88 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E596A6A80
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD5F6A6AB2
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:19:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJKi-0001zU-83; Wed, 01 Mar 2023 05:05:12 -0500
+	id 1pXJX3-0003lD-1d; Wed, 01 Mar 2023 05:17:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXJIx-0000bb-8F
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:03:23 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXJIv-00055k-Cf
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:03:22 -0500
-Received: by mail-wr1-x432.google.com with SMTP id bx12so9444228wrb.11
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:03:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u+RFilx9s21tfgq+Juq/fgx06MGhetNBy/bKvbJWj64=;
- b=Iy8yIaPnTHNkLuZ8yChw+oXkIngUG+I3UQgHLQM+McRbDBun3qRhIeXq9Hk3RR1cB5
- qLPi/QwCcN3P7Ka6Fu+H3y5Rr8m/xP5F89Yb6gZpTvlXlpowKL4ds3EsIglhJSduBjp0
- +eUe6C/vP6fKtLjaDJEaMwhfzfNCmlw3cA6uavcBBJYOsYII58ECYZkqgVnxvhdwqVuE
- V13Ssly8RdEmY1iODmjiNmmDAZEwj/lUWf/0D84BRqtZ5jmkMP5rc4ZjbXkEcp0G5lo7
- gpdkW4JkC6pGO+spNRfB/VDyJlHBxCnMcmZuN+cCErG15v+s+8p+LF19EsVq5kidJi/2
- /DEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=u+RFilx9s21tfgq+Juq/fgx06MGhetNBy/bKvbJWj64=;
- b=2jmVOXTvqLNrdCtGNW/igWqefN5I9E+bJ2XlhDV8SllqEDUktFbK22GWEUTyimva+m
- ZNWICTxCA5SraqcgVaL+47N6exgH8eFYmKf7lVQJf22RekSfe7NLM/9800tdi9CfvJDC
- 5n7I6aTrPTlfJtpw4Xvf4R8c+OQy9u/No1OluQ+0vjaX9iJuGslLwJBH3vw8hck+0L7E
- dBRRHvqunRHtWkFMzasvAFXoLH+I2SpZrcpPiOwozz+N7opKDAo/+w6pNnVzK33VoHW1
- iA6coJE3JwVBHM041d+HKUJVFUPLDqvivCDk9tulf0aHHuCXzF8gh7eGM/RTKiIAwAq3
- cF/g==
-X-Gm-Message-State: AO0yUKU+Y+h1slMiQrI53BRl8tNUKBfVNfk4cFdWZSwEQIJExY53x4m2
- DoAf8/m/SGhxPF+o6PA8iBSzSQ==
-X-Google-Smtp-Source: AK7set/HIZZexr9TWS0+6lxokRRW0hmXVtCjAD6YK6WAd2W54FGONLkIOjWC5uWPKRGEb9ZdZ41JPg==
-X-Received: by 2002:a5d:5489:0:b0:2c8:cdde:c28a with SMTP id
- h9-20020a5d5489000000b002c8cddec28amr3988823wrv.59.1677664998772; 
- Wed, 01 Mar 2023 02:03:18 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- t3-20020a5d49c3000000b002c5804b6afasm12476595wrs.67.2023.03.01.02.03.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 02:03:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0BD6C1FFB7;
- Wed,  1 Mar 2023 10:03:18 +0000 (GMT)
-References: <20230223155720.310593-1-alex.bennee@linaro.org>
- <CAFEAcA_bqLjiF6VHABTRop7HsdgTpd1KVJzTgpXvXgo+uuABtg@mail.gmail.com>
- <87sfeurgb4.fsf@linaro.org>
- <8fe14d63-ebe1-4a1c-ab1d-ea96718e278e@linaro.org>
- <CAFEAcA8Ae0vQmo4AZkkKKJHruR5EeC9kxVYHcPzU23gurwa0zw@mail.gmail.com>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PULL 00/13] testing updates (gitlab, cirrus, docker, avocado,
- windows)
-Date: Wed, 01 Mar 2023 10:02:38 +0000
-In-reply-to: <CAFEAcA8Ae0vQmo4AZkkKKJHruR5EeC9kxVYHcPzU23gurwa0zw@mail.gmail.com>
-Message-ID: <87o7pcdc0p.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pXJWw-0003kH-T0
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:17:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pXJWt-000831-T7
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:17:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677665865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8r3Y4Afs6nDzR97mneU0Nx74HX2j2HXQLqk/fLNz+hc=;
+ b=A19+H00cXKT07H8fDSQfdGrHpXHCDbwFtZWhudV7lpuNzr5TG7Km9z9M/fqaS/1dnnUrB7
+ DOHo6G7wu459mgBRHMPs0UjpBo92IdLsQ3T9/cV+OJPDwgV8g+N/ww+qUQ0we8G9HijQlY
+ zGkPwwObWOBiqIUnf6Bt//xY71Taoeg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-283-6mHCLBv4PmGmk4Ky9GErJA-1; Wed, 01 Mar 2023 05:17:42 -0500
+X-MC-Unique: 6mHCLBv4PmGmk4Ky9GErJA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5C7D3C0F195;
+ Wed,  1 Mar 2023 10:17:41 +0000 (UTC)
+Received: from localhost (dhcp-192-239.str.redhat.com [10.33.192.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 88AB42026D4B;
+ Wed,  1 Mar 2023 10:17:41 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, Eric
+ Auger <eauger@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard
+ Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v6 1/2] arm/kvm: add support for MTE
+In-Reply-To: <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
+Organization: Red Hat GmbH
+References: <20230228150216.77912-1-cohuck@redhat.com>
+ <20230228150216.77912-2-cohuck@redhat.com>
+ <CABJz62OHjrq_V1QD4g4azzLm812EJapPEja81optr8o7jpnaHQ@mail.gmail.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Wed, 01 Mar 2023 11:17:40 +0100
+Message-ID: <874jr4dbcr.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,71 +84,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Feb 28 2023, Andrea Bolognani <abologna@redhat.com> wrote:
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Fri, 24 Feb 2023 at 21:23, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
-org> wrote:
+> On Tue, Feb 28, 2023 at 04:02:15PM +0100, Cornelia Huck wrote:
+>> Introduce a new cpu feature flag to control MTE support. To preserve
+>> backwards compatibility for tcg, MTE will continue to be enabled as
+>> long as tag memory has been provided.
 >>
->> On 24/2/23 20:52, Alex Benn=C3=A9e wrote:
->> >
->> > Peter Maydell <peter.maydell@linaro.org> writes:
->> >
->> >> On Thu, 23 Feb 2023 at 15:57, Alex Benn=C3=A9e <alex.bennee@linaro.or=
-g> wrote:
->> >>>
->> >>> The following changes since commit 79b677d658d3d35e1e776826ac4abb28c=
-dce69b8:
->> >>>
->> >>>    Merge tag 'net-pull-request' of https://github.com/jasowang/qemu
->> >>> into staging (2023-02-21 11:28:31 +0000)
->> >>>
->> >>> are available in the Git repository at:
->> >>>
->> >>>    https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-230223=
--1
->> >>>
->> >>> for you to fetch changes up to e9969376f01180d7bcbee25ae8333983da7ed=
-a2c:
->> >>>
->> >>>    cirrus.yml: Improve the windows_msys2_task (2023-02-23 15:48:23 +=
-0000)
->> >>>
->> >>> ----------------------------------------------------------------
->> >>> testing updates:
->> >>>
->> >>>    - ensure socat available for tests
->> >>>    - skip socat tests for MacOS
->> >>>    - properly clean up fifos after use
->> >>>    - make fp-test less chatty
->> >>>    - store test artefacts on Cirrus
->> >>>    - control custom runners with QEMU_CI knobs
->> >>>    - disable benchmark runs under tsan build
->> >>>    - update ubuntu 2004 to 2204
->> >>>    - skip nios2 kernel replay test
->> >>>    - add tuxrun baselines to avocado
->> >>>    - binary build of tricore tools
->> >>>    - export test results on cross builds
->> >>>    - improve windows builds
->> >>>
->> >>> ----------------------------------------------------------------
->> >>
->> >> So I've been applying pullreqs relying on a combination of the
->> >> private-runner CI jobs plus using the free minutes allowance
->> >> on my personal gitlab account, and ad-hoc local builds. I'm
->> >> a bit reluctant to do that for this one though, because it's
->> >> touching all the gitlab config and we won't be able test that
->> >> that is OK until we can do a full run with the standard config.
->> >> What do you think ?
+>> If MTE has been enabled, we need to disable migration, as we do not
+>> yet have a way to migrate the tags as well. Therefore, MTE will stay
+>> off with KVM unless requested explicitly.
 >>
->> What is the alternative, waiting 5 days up to March 1st?
+>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>> ---
+>>  docs/system/arm/cpu-features.rst |  21 ++++++
+>>  hw/arm/virt.c                    |   2 +-
+>>  target/arm/cpu.c                 |  18 ++---
+>>  target/arm/cpu.h                 |   1 +
+>>  target/arm/cpu64.c               | 110 +++++++++++++++++++++++++++++++
+>>  target/arm/internals.h           |   1 +
+>>  target/arm/kvm.c                 |  29 ++++++++
+>>  target/arm/kvm64.c               |   5 ++
+>>  target/arm/kvm_arm.h             |  19 ++++++
+>>  target/arm/monitor.c             |   1 +
+>>  10 files changed, 194 insertions(+), 13 deletions(-)
 >
-> That would be the other option, yes.
+> I've given a quick look with libvirt integration in mind, and
+> everything seem fine.
+>
+> Specifically, MTE is advertised in the output of qom-list-properties
+> both for max-arm-cpu and the latest virt-X.Y-machine, which means
+> that libvirt can easily and reliably figure out whether MTE support
+> is available.
 
-As the PR needs a re-base anyway please drop this and I'll respin with
-the additional patches from yesterday's testing/next post.
+Great, thanks for having a look!
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+>
+>> +MTE CPU Property
+>> +================
+>> +
+>> +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
+>> +presence of tag memory (which can be turned on for the ``virt`` machine via
+>> +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
+>> +proper migration support is implemented, enabling MTE will install a migration
+>> +blocker.
+>
+> Is it okay to use -machine virt,mte=on unconditionally for both KVM
+> and TCG guests when MTE support is requested, or will that not work
+> for the former?
+
+QEMU will error out if you try this with KVM (basically, same behaviour
+as before.) Is that a problem for libvirt, or merely a bit inconvinient?
+
+>
+>> +If not specified explicitly via ``on`` or ``off``, MTE will be available
+>> +according to the following rules:
+>> +
+>> +* When TCG is used, MTE will be available if and only if tag memory is available;
+>> +  i.e. it preserves the behaviour prior to the introduction of the feature.
+>> +
+>> +* When KVM is used, MTE will default to off, so that migration will not
+>> +  unintentionally be blocked. This might change in a future QEMU version.
+>
+> If and when this changes, we should ensure that the new default
+> behavior doesn't affect existing machine types, otherwise we will
+> break guest ABI for existing VMs.
+
+Nod, such a change would need proper compat handling. It's not quite
+clear yet if we'll ever flip it, though.
+
 
