@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AAC6A69FF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAD96A6A16
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:53:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJ2B-0002KP-AK; Wed, 01 Mar 2023 04:46:03 -0500
+	id 1pXJ8D-0007c1-Ev; Wed, 01 Mar 2023 04:52:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXJ29-0002EY-FI
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:46:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pXJ8B-0007bn-4o; Wed, 01 Mar 2023 04:52:15 -0500
+Received: from out30-111.freemail.mail.aliyun.com ([115.124.30.111])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXJ27-00020S-RJ
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:46:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677663957;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iLX1Q5OzdLtk/zNLQoTAvxlMX4QsjLh0H0baXmXQUV8=;
- b=deCavUdWixR2c8RAjY70JAaFtiIsbyL8uESdzvAbMeoE281AA8orVOA+0XUR2tq0kquu8D
- AY/JtzakUwIVsvgP5KzClfLt4it5iNp+PgA0oPMPKoYGqylOyNDaoJGhIaC0S0V2uMFo57
- nHUcY4WtvVTUp7xd0UliYLbCUunoXzM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-RCqTLPyGPgiAtAeKtAl_bw-1; Wed, 01 Mar 2023 04:45:54 -0500
-X-MC-Unique: RCqTLPyGPgiAtAeKtAl_bw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C0C2585A588;
- Wed,  1 Mar 2023 09:45:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E00040B40DF;
- Wed,  1 Mar 2023 09:45:52 +0000 (UTC)
-Date: Wed, 1 Mar 2023 09:45:49 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: mst@redhat.com, arei.gonglei@huawei.com, dgilbert@redhat.com,
- pbonzini@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 10/12] cryptodev: support QoS
-Message-ID: <Y/8ezUQ4+yXvvKB4@redhat.com>
-References: <20230301025124.3605557-1-pizhenwei@bytedance.com>
- <20230301025124.3605557-11-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pXJ88-0002xO-VQ; Wed, 01 Mar 2023 04:52:14 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R711e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
+ TI=SMTPD_---0VcsZR54_1677664322; 
+Received: from 30.221.97.107(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VcsZR54_1677664322) by smtp.aliyun-inc.com;
+ Wed, 01 Mar 2023 17:52:02 +0800
+Message-ID: <bc58e75a-e791-a507-767d-c95dbc59bc38@linux.alibaba.com>
+Date: Wed, 1 Mar 2023 17:52:00 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230301025124.3605557-11-pizhenwei@bytedance.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 05/18] target/riscv: gdbstub: Do not generate CSR XML
+ if Zicsr is disabled
+To: Bin Meng <bmeng@tinylab.org>, qemu-devel@nongnu.org
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+References: <20230228104035.1879882-1-bmeng@tinylab.org>
+ <20230228104035.1879882-6-bmeng@tinylab.org>
+Content-Language: en-US
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230228104035.1879882-6-bmeng@tinylab.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.124.30.111;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-111.freemail.mail.aliyun.com
+X-Spam_score_int: -99
+X-Spam_score: -10.0
+X-Spam_bar: ----------
+X-Spam_report: (-10.0 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,41 +65,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 01, 2023 at 10:51:22AM +0800, zhenwei pi wrote:
-> Add 'throttle-bps' and 'throttle-ops' limitation to set QoS. The
-> two arguments work with both QEMU command line and QMP command.
-> 
-> Example of QEMU command line:
-> -object cryptodev-backend-builtin,id=cryptodev1,throttle-bps=1600,\
-> throttle-ops=100
-> 
-> Example of QMP command:
-> virsh qemu-monitor-command buster --hmp qom-set /objects/cryptodev1 \
-> throttle-ops 100
-> 
-> or cancel limitation:
-> virsh qemu-monitor-command buster --hmp qom-set /objects/cryptodev1 \
-> throttle-ops 0
-> 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+
+On 2023/2/28 18:40, Bin Meng wrote:
+> There is no need to generate the CSR XML if the Zicsr extension
+> is not enabled.
+
+Should we generate the FPU XML or Vector XML when Zicsr is not enabled?
+
+Zhiwei
+
+>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 > ---
->  backends/cryptodev.c       | 138 +++++++++++++++++++++++++++++++++++++
->  include/sysemu/cryptodev.h |   7 ++
->  qapi/qom.json              |   8 ++-
->  3 files changed, 152 insertions(+), 1 deletion(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+>
+> (no changes since v1)
+>
+>   target/riscv/gdbstub.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 704f3d6922..294f0ceb1c 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -406,7 +406,10 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+>           g_assert_not_reached();
+>       }
+>   
+> -    gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+> -                             riscv_gen_dynamic_csr_xml(cs, cs->gdb_num_regs),
+> -                             "riscv-csr.xml", 0);
+> +    if (cpu->cfg.ext_icsr) {
+> +        int base_reg = cs->gdb_num_regs;
+> +        gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+> +                                 riscv_gen_dynamic_csr_xml(cs, base_reg),
+> +                                 "riscv-csr.xml", 0);
+> +    }
+>   }
 
