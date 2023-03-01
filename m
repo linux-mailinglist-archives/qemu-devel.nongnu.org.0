@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF45D6A6C21
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 13:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE3F6A6C24
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 13:12:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXLGQ-00053F-FU; Wed, 01 Mar 2023 07:08:54 -0500
+	id 1pXLJP-0006L6-8X; Wed, 01 Mar 2023 07:11:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXLGO-00051R-LW
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:08:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXLGL-00040p-VA
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:08:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677672527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=RLw0xA5K0Ct7qqXl7xhDELJ+M+JWWJ1vpXAfoJ/z+m6v70FSMyxTF7tddpsRBrJx8q1sZm
- b6aHv6kObhrtXhzPVfUTNrJf4SpJNCdC5N+g30fDTf/OzCXOwn4B+i56vZSAKXXIMpUJuO
- LtV6FpRMzbHZ6cA3MEwi7JbNwGxx7X4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-333-sboOQdBuPiKFT9ULVUvwdw-1; Wed, 01 Mar 2023 07:08:45 -0500
-X-MC-Unique: sboOQdBuPiKFT9ULVUvwdw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n6-20020a5d51c6000000b002ca3c48ba46so2265858wrv.4
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 04:08:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pXLJN-0006KQ-1K
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:11:57 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pXLJL-00058p-2d
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:11:56 -0500
+Received: by mail-pl1-x631.google.com with SMTP id z2so13708026plf.12
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 04:11:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braap-org.20210112.gappssmtp.com; s=20210112; t=1677672713;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=FBoEKNBx+PVfPaMdXiiUfjN7GfBhaPkm5221w9X5/FA=;
+ b=lKR9X29izJzmK6RCsEa1Apki5oq7LVLuKgpDB1IvjD02iRqQR9n4ybojSLl1gmsRs3
+ dGqd7vmffnwXDapmNYEjMXRD3rbV8S3QP66eJX8HB80BPwXNsKxPXhWH0XXHz4zljsDh
+ eagS/dQLV0P2/YV1Bq4LtQCPay13QQqZaJ0jeUNrq4VHUICCt1QgrtHcYIbOEVqLmHAq
+ IRbhK1a+rdIb4ZGx9ZX7gshdIOJqbsI6sPRPS8pfGQ6l6mBkWPjE9d847rbyEWPGFbH+
+ XN7OJDGteqJ6VIfbmWq1FaFjrK4wBlULcPocYVg+qVlHuQY6jAY3VWpdcRIVO3X4IbN/
+ jdfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=Hw3keeXKYtIcnJpBWGXDY/0Fbw3WEuqxNM3luAENBFPmOWC9iUiBa8EEJ7SSuMTdtz
- HtpfzEmh6QRBGn+lHVo1uI61ZkbDhFLgJwETOpY19roqwbqdgj2RZlGYg0usbU3MUGfA
- b/bxLgSbs0qBO5LcN1gKPV8H1s6tJZOw0zL9bWDzG/jYSKE4ebVzBqiNOspIaqRnoN8R
- qTvjezcIbvlFwF5ePtgE0yjjGTxbUbIkiF+8sxkqPVdAp9Su+ZlqQRuxiJ+Rxs8hqrDi
- jE7K2cNtrfg8+b/dDywwD/hvPyd0FAK87WR01CQpkRZ/DNMiGWXMjpQIWL1WOT4xcxvC
- nYYw==
-X-Gm-Message-State: AO0yUKW24/vdesahMNZhBcjXo3AO1gsaB1Adih7T0aovS1HwZUzThGnD
- XnFwtGc+HS6Q8/KFOty881WdwqVGAVt4z7QMLtDVhiV5BDyXhPYfcrn5hFrJNsklMb/gQz9T+Dz
- laFZaEMsvbnHRpzU=
-X-Received: by 2002:a05:600c:4d20:b0:3eb:2e66:8 with SMTP id
- u32-20020a05600c4d2000b003eb2e660008mr4772925wmp.35.1677672524840; 
- Wed, 01 Mar 2023 04:08:44 -0800 (PST)
-X-Google-Smtp-Source: AK7set9E5lh2dzM284XsN5TJRnqjbcH3gMadCPGOxqAeVvKM2scyr2DKWbhxxb0tPQuV4vRPdpHE5A==
-X-Received: by 2002:a05:600c:4d20:b0:3eb:2e66:8 with SMTP id
- u32-20020a05600c4d2000b003eb2e660008mr4772910wmp.35.1677672524498; 
- Wed, 01 Mar 2023 04:08:44 -0800 (PST)
-Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- z7-20020a05600c0a0700b003dc434b39c7sm2846033wmp.0.2023.03.01.04.08.43
+ d=1e100.net; s=20210112; t=1677672713;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FBoEKNBx+PVfPaMdXiiUfjN7GfBhaPkm5221w9X5/FA=;
+ b=fNkFyY1PuVaYXT/k4GznpRZFBM/tqS9FzTe5s+OzyzMD8yc48JP1CdtAgaaDMCRrc1
+ uB3Dt577HseXarSxJUkWMt4hpU/wxACYLHhRlXn3qYI7PSZQyizir6o9fIKJTi0plDZl
+ n3+TbcxcWIlaowl5MUPKibSXNx83txeWcwXpQY9mV1DNXpFU1Bup1sebA6VLcjEB3AYQ
+ avR7txA1bXyCBYVC72xeROERRXM1nBET6qA+UUS1srNRKHOH+fN8U9SWb9gfzJAQURg7
+ iHeB7mQRVodEDKliANySVoX5wSYqqFvrCAvozx6apgE8AcfI4jwdSgV8viiyPZI5FeXu
+ 8HgQ==
+X-Gm-Message-State: AO0yUKVNR8SG7mxa4QcyYoAwnPUdyADnBSqxy+tJYepv6xmGKCjA9fN/
+ 4t0JqzrTcwkCOKB7dBmAn69HFg==
+X-Google-Smtp-Source: AK7set+LTU54ROM2jytST8LGdl9Hq+x9zyvABMtv52cCAEq8f/8dHJv8Vh6rYco8EhErQuXER3UODA==
+X-Received: by 2002:a17:90b:1c0e:b0:236:7270:ddbf with SMTP id
+ oc14-20020a17090b1c0e00b002367270ddbfmr7260948pjb.21.1677672713258; 
+ Wed, 01 Mar 2023 04:11:53 -0800 (PST)
+Received: from localhost ([169.150.203.33]) by smtp.gmail.com with ESMTPSA id
+ ay22-20020a17090b031600b00227223c58ecsm7919118pjb.42.2023.03.01.04.11.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 04:08:43 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] Makefile: qemu-bundle is a directory
-Date: Wed,  1 Mar 2023 13:08:23 +0100
-Message-Id: <20230301120823.33561-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230301111910.1660-1-quintela@redhat.com>
-References: 
+ Wed, 01 Mar 2023 04:11:52 -0800 (PST)
+Date: Wed, 1 Mar 2023 07:11:48 -0500
+From: Emilio Cota <cota@braap.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
+Subject: Re: [PATCH 00/27] tcg: Simplify temporary usage
+Message-ID: <Y/9BBPCJHNCQWTRL@cota-l14>
+References: <20230130205935.1157347-1-richard.henderson@linaro.org>
+ <Y+Y6Dt03hwfWLd5J@cota-l14>
+ <abd9ad4a-d2b7-fd3e-1e67-db9d067bd0c0@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abd9ad4a-d2b7-fd3e-1e67-db9d067bd0c0@linaro.org>
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::631;
+ envelope-from=cota@braap.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,8 +87,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Queued, thanks.
+On Wed, Feb 15, 2023 at 20:15:37 -1000, Richard Henderson wrote:
+> On 2/10/23 02:35, Emilio Cota wrote:
+> > I ran yesterday linux-user SPEC06 benchmarks from your tcg-life branch.
+> > I do see perf regressions for two workloads (sjeng and xalancbmk).
+> > With perf(1) I see liveness_pass* are at 0.00%, so I wonder: is it
+> > possible that the emitted code isn't quite the same?
+> 
+> Everything that I checked by hand was the same, but it's possible.
+> It's a tedious process.  You'd definitely want to turn off ASR.
 
-Paolo
+I've checked with -jitdump and perf whether there was any difference
+in the generated code before vs. after for the most common TBs.
+They were identical.
 
+Benchmarking without ASR didn't make a difference, unfortunately.
+
+> My current branch has __attribute__((noreturn)) added to all of the liveness
+> passes, so that they don't get folded into tcg_gen_code.  But I still would
+> expect 0%.
+
+I'll bisect the series in the next few days see exactly where
+the perf regression begins so that at least we know where to look.
+
+Thanks,
+		Emilio
 
