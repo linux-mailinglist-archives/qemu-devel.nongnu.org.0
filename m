@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCEE6A75DF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:09:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4B86A75F1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:10:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXThA-0004lV-Sh; Wed, 01 Mar 2023 16:09:04 -0500
+	id 1pXThz-0005ng-4C; Wed, 01 Mar 2023 16:09:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pXTgy-0004V8-2X; Wed, 01 Mar 2023 16:08:53 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pXTgp-0007Tq-CD; Wed, 01 Mar 2023 16:08:47 -0500
-Received: by mail-ed1-x530.google.com with SMTP id g3so3957145eda.1;
- Wed, 01 Mar 2023 13:08:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677704920;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NfdgY2A73a5OGKdx5+rNn/bPcoeTE1XjAcGxuU2C64U=;
- b=BdSIN+Qax7FP19gnpjrle7hQvz6KTMBeYPorY00gYpJRqMej2Iyb4SgpKCIND/9Fe+
- c0XaAVg0rAZgrgx3t64PY1Iu/L75UNfVzx6UCCP03A7MLzn0z/wnb9pSZrxcAqTOtkVF
- RRuDPGF5bP/LcDY87d5ntXdVljiDURY4k0KyzLji/KPy6Pk5cTZlAZHNeBx/okE0AEdX
- vsZtfGBvkCxLInYQzCJiC9peG9EQEhZXOOgYdEFEjh8Fyr32DHazUMh41dXNV3EWmEC6
- 7Ep7FuV9ohXUpDOwHUhX6vvL/Hq2t4fqiQYfM6xJLhdP7PQkuLVjgPCeyzoTcHvSuVDm
- 3PTg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXThx-0005nU-Pd
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:09:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXThw-0007kL-8C
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:09:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677704991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jwK/rx/wFKZhto/Mn89DESZwi1NGd4SOX4Gr/+MddwY=;
+ b=NcMTjufvEf0bpusjOyhr4O8NVu+DTLQfQ+c09X3hsRmmuQYp+57c2G5q+KeDO0EcDZoKDc
+ /R0kM7Ke8WMAYOjV1LpGIsOsKJSdAH+CFL4bc6Xlz8XN4W+jxJkZu8B9Xsz35oB7hITasc
+ +t0D6KkR2QBW1DNPOqPmcKb07oju70E=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-131-YyoVAsJ4NjK6JNNU_eMItA-1; Wed, 01 Mar 2023 16:09:50 -0500
+X-MC-Unique: YyoVAsJ4NjK6JNNU_eMItA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l31-20020a05600c1d1f00b003e8626cdd42so5005174wms.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 13:09:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677704920;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NfdgY2A73a5OGKdx5+rNn/bPcoeTE1XjAcGxuU2C64U=;
- b=ARisPVCwpFN0NKLjQAjlndnfQZkrfooMawfLGUnaeDYzAkYv0GwSh0L9YHyCPYoLiM
- 6t296mS2SLx8S6LTpl8SX3fanQ7oYKFVmQyVOL3exUgx5QPTU0W3bpnoX4eCW+vWZXT7
- ZT1UuIijg+/wXR1hB3/fJiGgEEZyL97f18+6HMjaToHSJ73qjkS5ymhE5JZiZmUk6Ohr
- qaecen71F2dnIXr6yljcjgM1MVCLdk93N1PPnlocDpZf8aJC4cYJIg+TYkDcNox4xppB
- RMAPzukRlBo7QWNq53bBc8yyrL6KFgaVlvyjg8qVX+1iXDjaem98S/hiPIqwzb7kFcH0
- IumA==
-X-Gm-Message-State: AO0yUKWsGwhp3lj+4Tr9XIce0t3fmLe6+wz74FObzMlWZO2ML3wCNS9M
- /G2TpgMcB9TBC5kx64nW6+Q=
-X-Google-Smtp-Source: AK7set9qze6oFP8G+XPPzy1IgyK15LcWQPgHC5AEWtRg+3uAws/f3JXzqY3IIA0KkdVBquuxCkXACg==
-X-Received: by 2002:a17:907:7206:b0:8b1:94cc:4a6b with SMTP id
- dr6-20020a170907720600b008b194cc4a6bmr10525440ejc.37.1677704920609; 
- Wed, 01 Mar 2023 13:08:40 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-188-068-061.77.188.pool.telefonica.de.
- [77.188.68.61]) by smtp.gmail.com with ESMTPSA id
- uz25-20020a170907119900b008eb89a435c9sm6118315ejb.164.2023.03.01.13.08.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 13:08:40 -0800 (PST)
-Date: Wed, 01 Mar 2023 21:08:37 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- ReneEngel80@emailn.de
-Subject: Re: [PATCH v5 3/7] hw/isa/vt82c686: Implement PCI IRQ routing
-In-Reply-To: <794ef01a-730b-46c6-2e79-95c68bc42102@eik.bme.hu>
-References: <cover.1677628524.git.balaton@eik.bme.hu>
- <36574dd259a98b240bfe12cd9ffa30b778bf06eb.1677628524.git.balaton@eik.bme.hu>
- <375EC0ED-F7D8-4A40-B316-F7BA32709836@gmail.com>
- <794ef01a-730b-46c6-2e79-95c68bc42102@eik.bme.hu>
-Message-ID: <C6D02032-862B-4159-933C-D2B8C2BE00CC@gmail.com>
+ d=1e100.net; s=20210112; t=1677704989;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jwK/rx/wFKZhto/Mn89DESZwi1NGd4SOX4Gr/+MddwY=;
+ b=bP7lXV8NKeobzJX6EifIzv1mB0bb9FlPmbw6ZHz9eiSU8JIUxmX+uFqdNh+KHZsj1N
+ ys0sqZStyWjKDBLUGGCj95kSFG+QirTqAKq39DW5VPIxyAswPB6FtPNdwILEEi7CxJPH
+ Z4nHDlUSaIeRfLry7JYmVwOL6Kl+qBRgusJZHBjq5raXV3XyQ1exWIlGhOwrzvCYkBxJ
+ 7PLo6BM4lyPLIZ0F8nPD2p6Z8phr9oVQF9Xw6KdnIFBFilzu62KakQH0y/eSI5BGGX4A
+ YRTKJxLP1rkcP0c7/y/rLjOs+wluGx4WWPXUybTCQJUj1Ss02Dn/G1cPOs7ibVPd79xs
+ 14ig==
+X-Gm-Message-State: AO0yUKWpolkuCAHroQJIK0B8zos3DK4hhRfYk9DZ41XsuuBAmtgIkSgv
+ 5Jy8O5CgCg4HHUAr/YR7xjtsW1IdyXduuFmNKOEAHAypBYyNwDmAB4Jn9oniIk2N5IJmVtTamhJ
+ p/gj/AUIcoxDr5AE=
+X-Received: by 2002:adf:d4d2:0:b0:2c8:6db5:1561 with SMTP id
+ w18-20020adfd4d2000000b002c86db51561mr5410041wrk.41.1677704989033; 
+ Wed, 01 Mar 2023 13:09:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set9jLScNXyT23omcyr/eppZMmfYjV+y4ML8eQmadGOXzSCL4GNZqJ5+quAdDptwXYskFui5XVA==
+X-Received: by 2002:adf:d4d2:0:b0:2c8:6db5:1561 with SMTP id
+ w18-20020adfd4d2000000b002c86db51561mr5410024wrk.41.1677704988712; 
+ Wed, 01 Mar 2023 13:09:48 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ t3-20020a5d49c3000000b002c5804b6afasm13874847wrs.67.2023.03.01.13.09.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 13:09:48 -0800 (PST)
+Date: Wed, 1 Mar 2023 16:09:44 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
+ eduardo@habkost.net, berrange@redhat.com, pbonzini@redhat.com,
+ marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
+Subject: Re: [PATCH v5 13/18] pci: introduce pci_find_the_only_child()
+Message-ID: <20230301160855-mutt-send-email-mst@kernel.org>
+References: <20230216180356.156832-1-vsementsov@yandex-team.ru>
+ <20230216180356.156832-14-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216180356.156832-14-vsementsov@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,121 +98,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Feb 16, 2023 at 09:03:51PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> To be used in further patch to identify the device hot-plugged into
+> pcie-root-port.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> Reviewed-by: Anton Kuchin <antonkuchin@yandex-team.ru>
 
+Wait a second does this work for multifunction devices correctly?
 
-Am 1=2E M=C3=A4rz 2023 11:15:02 UTC schrieb BALATON Zoltan <balaton@eik=2E=
-bme=2Ehu>:
->On Wed, 1 Mar 2023, Bernhard Beschow wrote:
->> Am 1=2E M=C3=A4rz 2023 00:17:09 UTC schrieb BALATON Zoltan <balaton@eik=
-=2Ebme=2Ehu>:
->>> The real VIA south bridges implement a PCI IRQ router which is configu=
-red
->>> by the BIOS or the OS=2E In order to respect these configurations, QEM=
-U
->>> needs to implement it as well=2E The real chip may allow routing IRQs =
-from
->>> internal functions independently of PCI interrupts but since guests
->>> usually configute it to a single shared interrupt we don't model that
->>> here for simplicity=2E
->>>=20
->>> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix=
-4=2E
->>>=20
->>> Suggested-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>> Signed-off-by: BALATON Zoltan <balaton@eik=2Ebme=2Ehu>
->>> ---
->>> hw/isa/vt82c686=2Ec | 38 +++++++++++++++++++++++++++++++++++++-
->>> 1 file changed, 37 insertions(+), 1 deletion(-)
->>>=20
->>> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
->>> index 01e0148967=2E=2E018a119964 100644
->>> --- a/hw/isa/vt82c686=2Ec
->>> +++ b/hw/isa/vt82c686=2Ec
->>> @@ -604,6 +604,42 @@ static void via_isa_request_i8259_irq(void *opaqu=
-e, int irq, int level)
->>>     qemu_set_irq(s->cpu_intr, level);
->>> }
->>>=20
->>> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
->>> +{
->>> +    switch (irq_num) {
->>> +    case 0:
->>> +        return s->dev=2Econfig[0x55] >> 4;
->>> +    case 1:
->>> +        return s->dev=2Econfig[0x56] & 0xf;
->>> +    case 2:
->>> +        return s->dev=2Econfig[0x56] >> 4;
->>> +    case 3:
->>> +        return s->dev=2Econfig[0x57] >> 4;
->>> +    }
->>> +    return 0;
->>> +}
->>> +
->>> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
->>> +{
->>> +    ViaISAState *s =3D opaque;
->>> +    PCIBus *bus =3D pci_get_bus(&s->dev);
->>> +    int i, pic_level, pic_irq =3D via_isa_get_pci_irq(s, irq_num);
->>> +
->>> +    if (unlikely(pic_irq =3D=3D 0 || pic_irq =3D=3D 2 || pic_irq > 14=
-)) {
->>=20
->> Where does the "pic_irq > 14" come from? It's not mentioned in the data=
-sheet=2E
->
->Check at 0x3c register of USB and AC97 functions=2E For the others it may=
- be valid but unlikely to be used hence we just disallow it=2E (In my versi=
-on which also mapped IDE here I've checkrf for each source but there's no w=
-ay to do that in this version=2E)
+> ---
+>  include/hw/pci/pci.h |  1 +
+>  hw/pci/pci.c         | 33 +++++++++++++++++++++++++++++++++
+>  2 files changed, 34 insertions(+)
+> 
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index d5a40cd058..b6c9c44527 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -341,6 +341,7 @@ void pci_for_each_device_under_bus_reverse(PCIBus *bus,
+>  void pci_for_each_bus_depth_first(PCIBus *bus, pci_bus_ret_fn begin,
+>                                    pci_bus_fn end, void *parent_state);
+>  PCIDevice *pci_get_function_0(PCIDevice *pci_dev);
+> +PCIDevice *pci_find_the_only_child(PCIBus *bus, int bus_num, Error **errp);
+>  
+>  /* Use this wrapper when specific scan order is not required. */
+>  static inline
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 208c16f450..34fd1fb5b8 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -1771,6 +1771,39 @@ void pci_for_each_device(PCIBus *bus, int bus_num,
+>      }
+>  }
+>  
+> +typedef struct TheOnlyChild {
+> +    PCIDevice *dev;
+> +    int count;
+> +} TheOnlyChild;
+> +
+> +static void the_only_child_fn(PCIBus *bus, PCIDevice *dev, void *opaque)
+> +{
+> +    TheOnlyChild *s = opaque;
+> +
+> +    s->dev = dev;
+> +    s->count++;
+> +}
+> +
+> +PCIDevice *pci_find_the_only_child(PCIBus *bus, int bus_num, Error **errp)
+> +{
+> +    TheOnlyChild res = {0};
+> +
+> +    pci_for_each_device(bus, bus_num, the_only_child_fn, &res);
+> +
+> +    if (!res.dev) {
+> +        assert(res.count == 0);
+> +        error_setg(errp, "No child devices found");
+> +        return NULL;
+> +    }
+> +
+> +    if (res.count > 1) {
+> +        error_setg(errp, "Several child devices found");
+> +        return NULL;
+> +    }
+> +
+> +    return res.dev;
+> +}
+> +
+>  const pci_class_desc *get_class_desc(int class)
+>  {
+>      const pci_class_desc *desc;
+> -- 
+> 2.34.1
 
-I'm not sure what you mean=2E The 0x3c regs aren't related to the PCI IRQ =
-routing regs=2E
-
-Moreover, as I wrote in my other mail, I wonder what the datasheet tries t=
-o tell us here at all=2E The information there partly contradicts itself=2E
-
-Can you please clarify?
-
-Thanks,
-Bernhard
-
->
->Regards,
->BALATON Zoltan
->
->>> +        return;
->>> +    }
->>> +
->>> +    /* The pic level is the logical OR of all the PCI irqs mapped to =
-it=2E */
->>> +    pic_level =3D 0;
->>> +    for (i =3D 0; i < PCI_NUM_PINS; i++) {
->>> +        if (pic_irq =3D=3D via_isa_get_pci_irq(s, i)) {
->>> +            pic_level |=3D pci_bus_get_irq_level(bus, i);
->>> +        }
->>> +    }
->>> +    /* Now we change the pic irq level according to the via irq mappi=
-ngs=2E */
->>> +    qemu_set_irq(s->isa_irqs_in[pic_irq], pic_level);
->>> +}
->>> +
->>> static void via_isa_realize(PCIDevice *d, Error **errp)
->>> {
->>>     ViaISAState *s =3D VIA_ISA(d);
->>> @@ -615,9 +651,9 @@ static void via_isa_realize(PCIDevice *d, Error **=
-errp)
->>>=20
->>>     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
->>>     isa_irq =3D qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
->>> +    qdev_init_gpio_in_named(dev, via_isa_set_pci_irq, "pirq", PCI_NUM=
-_PINS);
->>>     isa_bus =3D isa_bus_new(dev, pci_address_space(d), pci_address_spa=
-ce_io(d),
->>>                           errp);
->>> -
->>>     if (!isa_bus) {
->>>         return;
->>>     }
->>=20
->>
 
