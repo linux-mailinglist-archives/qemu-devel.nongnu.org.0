@@ -2,62 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711216A6EA3
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EB96A6EA2
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:43:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNed-00054R-EY; Wed, 01 Mar 2023 09:42:03 -0500
+	id 1pXNfV-0005uW-GL; Wed, 01 Mar 2023 09:42:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXNeb-00054E-FB
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:42:01 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pXNfR-0005to-4g
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:42:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXNeZ-0005mb-PG
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:42:01 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pXNfP-0005vD-Gg
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:42:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677681718;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1677681770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GL8KoISy8MUmiFtG9b7W0c0GJGCi7LjL9wJkEaacU3U=;
- b=Zh1B9KmQgG3oM/7v6Mb0gbPhkBrHPIfAozXd/FS1OLXV6diqReSmGFeMp/I7kNfMsahm0A
- koobetDYYbT2J+2XhLzJgO6Chd02x+GeN6452+nOfWXp0Vqjgg3lp79Tf2loghCki/XjNY
- r1e97FSUickq1nZRp76au7nsmsuKUc4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-391-EQ-f3xGGMDelmEHY9zlERQ-1; Wed, 01 Mar 2023 09:41:57 -0500
-X-MC-Unique: EQ-f3xGGMDelmEHY9zlERQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 511E2181E3EE
- for <qemu-devel@nongnu.org>; Wed,  1 Mar 2023 14:41:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C418F1121315;
- Wed,  1 Mar 2023 14:41:56 +0000 (UTC)
-Date: Wed, 1 Mar 2023 14:41:54 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Erico Nunes <ernunes@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] ui/sdl2: remove workaround forcing x11
-Message-ID: <Y/9kMobasTih1xe7@redhat.com>
-References: <20230301141205.514338-1-ernunes@redhat.com>
+ bh=mUoL52djJHV4U6Q0AocUNXu5cOADzyGX1rCYcv947Vo=;
+ b=KiyCyF2/CCbzAG4fUSYASFLnst8wlsxs/Y99NuOEDNklCsy/koKsNh4657oXSjK3HZsL9c
+ lsMmRa6L+dgJiWK3WyxMO3JdJGfUOsy138M7+mMjlQBc5+ECE2prebI11MC+EK4qBVzRpV
+ EfPbXMj30dmxe9YpYzqBLAvmlM6EteY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-99-r6ghfZFvPAWAAxfMpzxImw-1; Wed, 01 Mar 2023 09:42:48 -0500
+X-MC-Unique: r6ghfZFvPAWAAxfMpzxImw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c30-20020adfa31e000000b002c59b266371so2597943wrb.6
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 06:42:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677681767;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mUoL52djJHV4U6Q0AocUNXu5cOADzyGX1rCYcv947Vo=;
+ b=CADao6wYAd9wqq9qLxk2UEug2nDWuLiamG2OkcF66TgDgzwdxOLVzgWduzlxu1TTQ/
+ aKFYC/QsA1uzi58Hl5RQWn4sc02QHCumFtf5Ip7BJQey1cpo18LuVzba+mXDQ9sRe/UE
+ ndzEW9pZIlXxaQ3W0WahIzKR95CVpFX1e4f+WpKD4d7yyht/W4mJX2wBLgo011cf1p3B
+ p0L1Ag7sFq8FdV449jiBNafNG82ZiPxdxO2ULpqZLcNX/XJuRjvhyo1KgTSd8ma+xODL
+ GweqOlhH8VDQzllBxKeKLBb8qRlVctH7El9B4drl0zRp80gEJtbUCgi21GUuVc2riD++
+ wwXg==
+X-Gm-Message-State: AO0yUKV2tMwkosSxwvfH+h1siMNbtw2U7hCr7WdoHN/gMOgAkPF1Yn2g
+ uagmMni1sxgvEJlxoC0Y+RT0USMvr8SuCLAxoaoz8Ifl7eMF3RLnGsprAdWT6w1gjImFgorkA67
+ TIfK5GddZanjNmxY=
+X-Received: by 2002:a5d:678e:0:b0:2c7:161e:702f with SMTP id
+ v14-20020a5d678e000000b002c7161e702fmr4825439wru.47.1677681766990; 
+ Wed, 01 Mar 2023 06:42:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set/zOgUuyvLnaJH6Hn9hIOpS/PNQuFvTdkBolnpXzzOnNSqCowCZQlhVB0SNPxoOnz+Bjh45ig==
+X-Received: by 2002:a5d:678e:0:b0:2c7:161e:702f with SMTP id
+ v14-20020a5d678e000000b002c7161e702fmr4825418wru.47.1677681766700; 
+ Wed, 01 Mar 2023 06:42:46 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id
+ n31-20020a05600c3b9f00b003e8dcc67bdesm21774453wms.30.2023.03.01.06.42.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 06:42:46 -0800 (PST)
+Date: Wed, 1 Mar 2023 15:42:44 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, Peter
+ Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, Samuel Thibault
+ <samuel.thibault@ens-lyon.org>, Paolo Bonzini <pbonzini@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH 0/3] qdev: Introduce QDEV_DECLARE_DEV_BUS_TYPES() macro
+Message-ID: <20230301154244.4f43aa6d@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230213105609.6173-1-philmd@linaro.org>
+References: <20230213105609.6173-1-philmd@linaro.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230301141205.514338-1-ernunes@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,38 +102,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 01, 2023 at 03:12:05PM +0100, Erico Nunes wrote:
-> This workaround was put in place in the original implementation almost
-> 10 years ago, considering a very old SDL2 version. Currently it prevents
-> users to run in a wayland-only environment without manually forcing the
-> backend.
-> The SDL2 wayland backend has been supported by distributions for a very
-> long time (e.g. in Fedora, first available 8 years ago), and is now
-> considered stable and becoming the default for new SDL2 releases.
-> Instead of requiring the x11 backend to exist by default, let new qemu
-> releases run with the default chosen by the installed SDL2 version.
+On Mon, 13 Feb 2023 11:56:06 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
 
-As the comment says, it is better fixed elsewhere anyway rather
-than hardcoding in QEMU
+> Experiment after discussing with Thomas around qdev_get_parent_bus:
+> https://lore.kernel.org/qemu-devel/ad356f64-dca0-8117-d22a-a530e620ddb0@r=
+edhat.com/
+>=20
+> When a QDev plug on a QBus, we'll always use qdev_get_parent_bus()
+> at least once with this type. Why not provide a consistent defined
+> macro instead of:
+>  1/ adding an inlined helper such usb_bus_from_device()
+>     or scsi_bus_from_device() with different type checks,
+>  2/ open-code calls to qdev_get_parent_bus() with unsafe casts
+> ?
+>=20
+> This RFC series introduce a QDev-equivalent of QOM DECLARE_TYPES
+> macro, to be used with a (device, bus) tuple, and declaring the
+> equivalent device_GET_BUS() macro.
+it's already bad having 2 ways to declare types (though SIMPLE was a huge L=
+OC saving)
+so question is where do we stop (API explosion ain't a good thing either).
 
-> 
-> Signed-off-by: Erico Nunes <ernunes@redhat.com>
-> ---
->  ui/sdl2.c | 16 ----------------
->  1 file changed, 16 deletions(-)
+I my opinion this is just code churn for nor tangible benefit,
+given how qdev_get_parent_bus() is used.
+Fixing unsafe casts and getting rid of DO_UPCAST you mentioned before,
+would better use of resources.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> hw/usb/ is converted as an example.
+>=20
+> Philippe Mathieu-Daud=C3=A9 (3):
+>   hw/qdev: Introduce QDEV_DECLARE_DEV_BUS_TYPES() macro
+>   hw/usb: Declare QOM macros using QDEV_DECLARE_DEV_BUS_TYPES()
+>   hw/usb: Use USB_DEVICE_GET_BUS() macro
+>=20
+>  hw/usb/bus.c           | 10 +++++-----
+>  hw/usb/core.c          |  6 +++---
+>  hw/usb/dev-hub.c       |  4 ++--
+>  hw/usb/dev-serial.c    | 10 +++++-----
+>  hw/usb/hcd-xhci.c      |  2 +-
+>  include/hw/qdev-core.h | 28 ++++++++++++++++++++++++++++
+>  include/hw/usb.h       | 13 ++++---------
+>  7 files changed, 48 insertions(+), 25 deletions(-)
+>=20
 
 
