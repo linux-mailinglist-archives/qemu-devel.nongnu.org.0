@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA836A6C4D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 13:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1879B6A6C4E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 13:26:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXLW1-0004b0-TE; Wed, 01 Mar 2023 07:25:01 -0500
+	id 1pXLWo-0004y6-Ly; Wed, 01 Mar 2023 07:25:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXLVz-0004aR-Fe; Wed, 01 Mar 2023 07:24:59 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXLVx-0007N2-UW; Wed, 01 Mar 2023 07:24:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ym5+Tton9L4NM3BVYMCx5ga1bD6RFLEJqXXEqlAGd6I=; b=wSleAuIwoLfWGxc21XirI3exDq
- 1KAbiAKKDVTprtJXjNlZ3ZDGzv2CX0t3p4+gvUKfXVf+ESd3o45DgRR/YfioDbsQlc8/0Kfm8Vfj2
- CuFt/tewv9Pxavz7y8UFwVmvaolZlFaAGEuU1eEHU+mtINICOrp2UeWQWBGJUuDo/4xYKDcnbuIaa
- fzTI+Tb2pIHJXaOFqpznm/9NaYQZW6VBcvxku0zL++wm52Iu9N4KyL3YgRj1nJ8y+E21GFdETfWBv
- uGRnZXkSWIVN8SJltfCpIoQhRIen2tTeUrAl2fzK0I9ZSljxKBpSCBv45+jefb7swH82mnfY0HeD7
- KcpJ1tnWB+fT24VJO8kkpEDIZHwBkJJPnKcMYoI/l/pgG0J/k1uwNJx40Dk+mqOnFw1ZVTISgZPXY
- x2XSJcNJRcOcxO/WlNO6aBIF6s5v6QrHMcgqwxgKef4RsSID6X5Lt9otPvsCLuuuHaRX0R+/frYmq
- 387CldBvh0Ni/Do2hkuQ3e2p/jPQN5W06DzI2ka0lRpIoLykLMAnHf6KxrTAmEH39i/4x8EMlv0Ou
- 5CFvs2rfIEf/DBEUrZQG85ibzfy3Ojwnsv57oJ0lXUY+XKALdahoXI3xN43F0f3QQXPD4OAX1RpGm
- D+yp1uMG+K8bNC8/bzk3tks7Scws3I3uQknKw24/4=;
-Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXLVL-0000e7-Is; Wed, 01 Mar 2023 12:24:19 +0000
-Message-ID: <63d47400-d2ad-3583-e17f-a8701d1fb780@ilande.co.uk>
-Date: Wed, 1 Mar 2023 12:24:54 +0000
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pXLWm-0004x7-9I; Wed, 01 Mar 2023 07:25:48 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pXLWk-0007hd-LM; Wed, 01 Mar 2023 07:25:48 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7217D21A85;
+ Wed,  1 Mar 2023 12:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677673544; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=05sZX5wgopLhI3s9SVqG68OzYkoj/pSPtQam+WCWZcM=;
+ b=VuHcHC0kbrr1bCGnDXyfK+/EkDyDzMks8ikttqIKAlMBkeQg+z4UoZIQiedfBbF06JujdI
+ ErYXAXBBjxlMLx7g0dwFaYRVtQiJ+qEFPEVdbJ5QuNsemxlifvxoJ9acH18JLc+0Ffm2fq
+ dh49qyXvtq83HYsU+9DnStAD7GlECCo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677673544;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=05sZX5wgopLhI3s9SVqG68OzYkoj/pSPtQam+WCWZcM=;
+ b=hHrpp290+4rcnbudHQmOEidN6GCVPgkSJX6gbAJY7h0Ir7k8GdxNDouFX3iPXX7P9tjVTw
+ BFeFNkie1IhmGUDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0072E13A63;
+ Wed,  1 Mar 2023 12:25:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5W4UL0dE/2PHbgAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 01 Mar 2023 12:25:43 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Peter Maydell
+ <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?=
+ <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Claudio
+ Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Thomas Huth
+ <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RESEND v7 9/9] tests/qtest: Fix tests when no KVM or TCG
+ are present
+In-Reply-To: <87a60wk6st.fsf@secure.mitica>
+References: <20230228192628.26140-1-farosas@suse.de>
+ <20230228192628.26140-10-farosas@suse.de> <87a60wk6st.fsf@secure.mitica>
+Date: Wed, 01 Mar 2023 09:25:41 -0300
+Message-ID: <87zg8wk69m.fsf@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>
-References: <a728cf1f-49b5-ef09-cd68-57179a44438e@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <a728cf1f-49b5-ef09-cd68-57179a44438e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: hw/ppc/mac_newworld: Problem with Uninorth IRQ lines
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,38 +94,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/02/2023 13:44, Philippe Mathieu-Daudé wrote:
+Juan Quintela <quintela@redhat.com> writes:
 
-> Hi Mark,
-> 
-> The mac99 machines use the same PIC input IRQs for the Uninorth
-> output IRQs:
-> 
-> 379     if (PPC_INPUT(env) != PPC_FLAGS_INPUT_970) {
-> 380         /* Uninorth AGP bus */
-> 381         for (i = 0; i < 4; i++) {
-> 382             qdev_connect_gpio_out(uninorth_agp_dev, i,
-> 383                                   qdev_get_gpio_in(pic_dev, 0x1b + i));
-> 384         }
-> 385
-> 386         /* Uninorth internal bus */
-> 387         for (i = 0; i < 4; i++) {
-> 388             qdev_connect_gpio_out(uninorth_internal_dev, i,
-> 389                                   qdev_get_gpio_in(pic_dev, 0x1b + i));
-> 390         }
-> 391     }
-> 
-> Did you mean to use an OR gate here?
+> Fabiano Rosas <farosas@suse.de> wrote:
+>> It is possible to have a build with both TCG and KVM disabled due to
+>> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
+>> host.
+>
+> Ouch.
+>
+> Just curious: why are they needed?
+>
 
-Hi Phil,
+From https://wiki.xenproject.org/wiki/QEMU_Upstream:
 
-These are separate PCI buses so I suspect they should be wired up with different 
-IRQs, but this wiring has been the same ever since the code was introduced. I think 
-it should be possible to dig the values out from a suitable device tree but it's not 
-something I've looked at in any detail.
+  Why is qemu-system-i386 used even on x86_64 and even non-x86?
+  
+  QEMU in a Xen system only provides device model (DM) emulation and not
+  any CPU instruction emulation, so the nominal arch doesn't actually
+  matter and Xen builds i386 everywhere as a basically arbitrary choice.
+  
+  It happens that the Xen DM part of QEMU is quite closely tied to the x86
+  scaffolding for various historical reasons, so we end up using
+  qemu-system-i386 even e.g. on ARM!  There is no practical difference
+  between qemu-system-i386 and qemu-system-x86_64, they should be
+  interchangeable. However only qemu-system-i386 is regularly tested by
+  Xen Project (via osstest).
 
+>>
+>> If we build with --disable-tcg on the aarch64 host, we will end-up
+>> with a QEMU binary (x86) that does not support TCG nor KVM.
+>>
+>> Fix tests that crash or hang in the above scenario. Do not include any
+>> test cases if TCG and KVM are missing.
+>>
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>> ---
+>> This currently affects Arm, but will also affect x86 after the xenpvh
+>> series gets merged. This patch fixes both scenarios.
+>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-ATB,
-
-Mark.
+Thanks!
 
