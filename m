@@ -2,104 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDBD6A6B43
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 12:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF7C6A6B45
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 12:01:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXKCr-0007vq-Tj; Wed, 01 Mar 2023 06:01:10 -0500
+	id 1pXKCf-0007Dj-EB; Wed, 01 Mar 2023 06:00:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXKCW-00079n-Mj
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 06:00:48 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXKCU-0006ml-HW
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 06:00:48 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- m14-20020a7bce0e000000b003e00c739ce4so7564483wmc.5
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 03:00:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mXjwfv7Vejy/CgNv556pTGpWnl93W0NFpnwb5Hh7/s4=;
- b=mNVpQQoSpXk2b2J1fI6OgTeR/j0FQMJwU49/A4p1k5hYW/TQc8/7auQEeuCy+ToiHp
- r7L8ddH+WXBYEsciG2pT1u3Mzzn6h+Xyj80oJ7Un9hkxtDu0P2DLFojGYvt7jEqZzdha
- Nl5s5zLy7b/YFy64KEqCeDcs5+Q+yoJfurV5KniEEQd69X4pTJ9uZ4Ua/8MWTRRVfDEz
- 09K19/tyz9io0+Z+/UPIc/HOUxNZutNgLfVmmVt9rx+IER7QCd7GPls/9Jr55r24ppBu
- 5aGan61vQjbf+iAQqac7Su9lD8Py8rm3eIh28Gnc5S+99HqXz7ytQSkLAbv+x2QmE3Ni
- 5sGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=mXjwfv7Vejy/CgNv556pTGpWnl93W0NFpnwb5Hh7/s4=;
- b=7cF0C2H0ncVO+lCDWECO2F6ozWOHIEnJslMJH89QK1cCvx4ylvMtaatGSOgK8xTHUz
- Wo9t4Jh50o7po+QbNEKgXn7ZlZxpOnmGSN/d1VZpVR/ZpJOSSqJUYOKsriuf5dpMH072
- vkq0t3cE7V+4IgjLYHDcXRt2+n1xjm0lLSpz+fmR+oYWwXccb7kmumnkbmD72nUSa8AK
- kyNcTXNmuprD/XNnmUr/K0+9Z5jzQQ9qIhxGTb5VDPOBOd/rDVpUcuDBMxE6vZhop322
- 2GmMfHFTK3b3eDbNT3m/ttuGGbh4MThiGLGkC5BK9MYw9ZAz8U0Beqcij3gQTXB3ohjv
- SzOw==
-X-Gm-Message-State: AO0yUKVCXD4bt18dAYnDhZuC/BTE/W+3HiMTA/STd1Q1PTgsaTjUn15x
- hs8sp4EEQPDi1yznLxd9qSi5Ug==
-X-Google-Smtp-Source: AK7set8/QDmIB25dVVzk58Oh0HGVtH0fp1T97r7IOcZyOWqPBLsx5GaZc2dm3SA2MpVkHUq6U/vjKQ==
-X-Received: by 2002:a05:600c:2e89:b0:3eb:376e:2bb7 with SMTP id
- p9-20020a05600c2e8900b003eb376e2bb7mr4461854wmn.3.1677668444042; 
- Wed, 01 Mar 2023 03:00:44 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- p4-20020a05600c358400b003dc5b59ed7asm16883847wmq.11.2023.03.01.03.00.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 03:00:43 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 479051FFB7;
- Wed,  1 Mar 2023 11:00:43 +0000 (GMT)
-References: <20230228190653.1602033-1-alex.bennee@linaro.org>
- <20230228190653.1602033-23-alex.bennee@linaro.org>
- <85fa3961-eb23-8d93-b4e4-e3e4227fac26@linaro.org>
- <199f0714-901a-a15d-690a-2a2f56db015a@redhat.com>
- <3aa65498-4d4e-429e-44f4-bbeb34a0e21e@linaro.org>
- <87wn40dc48.fsf@linaro.org>
- <d2513416-4378-f107-9fbc-d55f3640df5a@linaro.org>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, =?utf-8?Q?Marc-?=
- =?utf-8?Q?Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
- <berrange@redhat.com>, Michael Roth <michael.roth@amd.com>, Peter Maydell
- <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>, Beraldo Leal
- <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>, Aurelien Jarno
- <aurelien@aurel32.net>, Markus Armbruster <armbru@redhat.com>, Darren
- Kenny <darren.kenny@oracle.com>, Hanna Reitz <hreitz@redhat.com>, Cleber
- Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>, Ed Maste
- <emaste@freebsd.org>, qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
- Yonggang Luo <luoyonggang@gmail.com>, qemu-block@nongnu.org, Paolo Bonzini
- <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das
- <bsd@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk
- <pavel.dovgaluk@ispras.ru>, Laurent Vivier <lvivier@redhat.com>, Bastian
- Koppelmann <kbastian@mail.uni-paderborn.de>, Qiuhao Li
- <Qiuhao.Li@outlook.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 22/24] gitlab: move the majority of artefact handling
- to a template
-Date: Wed, 01 Mar 2023 11:00:17 +0000
-In-reply-to: <d2513416-4378-f107-9fbc-d55f3640df5a@linaro.org>
-Message-ID: <87fsaod9d0.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pXKCU-00071K-Tb
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 06:00:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pXKCS-0006mV-R0
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 06:00:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677668443;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=6MZpvl2Tm2SPd4hQZLfl2MuiASuQIz9lRXyXdFfEFLs=;
+ b=OXlBQMLxPl3qat7ma0AomcWsIyvDFksXIIrIUJyvIRtT8F91AeaKD+ZzDzNKajkrwHHH+d
+ XwtUyBGQcogZybVoYRBY7Rw4meCFbikzCP/KMnsihTgd5X1ZkIvyNxl6Ao4hxxMzeTn1DM
+ kVjIcfSn5WoHP7Fm5k0BOCgu0vXo0c8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-22-sYD0cT-3OCyMlKqlzfx0ag-1; Wed, 01 Mar 2023 06:00:40 -0500
+X-MC-Unique: sYD0cT-3OCyMlKqlzfx0ag-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3EB513C0E209;
+ Wed,  1 Mar 2023 11:00:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 528102026D4B;
+ Wed,  1 Mar 2023 11:00:38 +0000 (UTC)
+Date: Wed, 1 Mar 2023 11:00:35 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, alxndr@bu.edu,
+ pbonzini@redhat.com, bsd@redhat.com, stefanha@redhat.com,
+ darren.kenny@oracle.com, Qiuhao.Li@outlook.com, fam@euphon.net,
+ lvivier@redhat.com
+Subject: Re: [PATCH] tests: Ensure TAP version is printed before other messages
+Message-ID: <Y/8wU+w+dvIHlu+U@redhat.com>
+References: <20230227174019.1164205-1-rjones@redhat.com>
+ <6e28af8e-3e71-9888-8832-786550b81983@redhat.com>
+ <20230301105214.GZ7636@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Content-Disposition: inline
+In-Reply-To: <20230301105214.GZ7636@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,77 +80,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Mar 01, 2023 at 10:52:14AM +0000, Richard W.M. Jones wrote:
+> On Tue, Feb 28, 2023 at 09:30:56PM +0100, Thomas Huth wrote:
+> > On 27/02/2023 18.40, Richard W.M. Jones wrote:
+> > >These two tests were failing with this error:
+> > >
+> > >   stderr:
+> > >   TAP parsing error: version number must be on the first line
+> > >   [...]
+> > >   Unknown TAP version. The first line MUST be `TAP version <int>`. Assuming version 12.
+> > >
+> > >This can be fixed by ensuring we always call g_test_init first in the
+> > >body of main.
+> > >
+> > >Thanks: Daniel Berrange, for diagnosing the problem
+> > >Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
+> > >---
+> > >  tests/qtest/fuzz-lsi53c895a-test.c | 4 ++--
+> > >  tests/qtest/rtl8139-test.c         | 5 +++--
+> > >  2 files changed, 5 insertions(+), 4 deletions(-)
+> > >
+> > >diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+> > >index a9254b455d..2012bd54b7 100644
+> > >--- a/tests/qtest/fuzz-lsi53c895a-test.c
+> > >+++ b/tests/qtest/fuzz-lsi53c895a-test.c
+> > >@@ -112,12 +112,12 @@ static void test_lsi_do_dma_empty_queue(void)
+> > >  int main(int argc, char **argv)
+> > >  {
+> > >+    g_test_init(&argc, &argv, NULL);
+> > >+
+> > >      if (!qtest_has_device("lsi53c895a")) {
+> > >          return 0;
+> > 
+> > Could you please double-check that the !lsi53c895a case works fine,
+> > too? (just temporarily change it into a "if (1) { ..." statement)
+> > ... I'm a little bit afraid that the TAP protocol might be
+> > incomplete without the g_test_run() at the end otherwise. If so, you
+> > might now need a "goto out" instead of the "return 0" here...
+> 
+> Applying ...
+> 
+> diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+> index 2012bd54b7..e0c902aac4 100644
+> --- a/tests/qtest/fuzz-lsi53c895a-test.c
+> +++ b/tests/qtest/fuzz-lsi53c895a-test.c
+> @@ -114,7 +114,7 @@ int main(int argc, char **argv)
+>  {
+>      g_test_init(&argc, &argv, NULL);
+>  
+> -    if (!qtest_has_device("lsi53c895a")) {
+> +    if (1) {
+>          return 0;
+>      }
+>  
+> ... and rerunning the tests, everything still passes.
+> 
+> The stdout of the test after this change is:
+> 
+> TAP version 13
+> # random seed: R02S1c1f371a09fbfdf0dd747f898d55fe97
+> 
+> but apparently this version of TAP doesn't care (perhaps because the
+> number of tests "1..2" is never printed?)
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Right, the number of tests cannot be printed by g_test_init as the
+tests haven't been registered yet. This will only get run in thue
+g_test_run.
 
-> On 1/3/23 11:00, Alex Benn=C3=A9e wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
->>=20
->>> On 1/3/23 07:51, Thomas Huth wrote:
->>>> On 28/02/2023 22.41, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>> On 28/2/23 20:06, Alex Benn=C3=A9e wrote:
->>>>>> To avoid lots of copy and paste lets deal with artefacts in a
->>>>>> template. This way we can filter out most of the pre-binary object a=
-nd
->>>>>> library files we no longer need as we have the final binaries.
->>>>>>
->>>>>> build-system-alpine also saved .git-submodule-status so for simplici=
-ty
->>>>>> we bring that into the template as well.
->>>>>>
->>>>>> As an example the build-system-ubuntu artefacts before this patch
->>>>>> where around 1.3 GB, after dropping the object files it comes to 970
->>>>>> MB.
->>>>>>
->>>>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>>>> ---
->>>>>>  =C2=A0 .gitlab-ci.d/buildtest-template.yml | 16 ++++++
->>>>>>  =C2=A0 .gitlab-ci.d/buildtest.yml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 81 +++++++++++------------------
->>>>>>  =C2=A0 2 files changed, 46 insertions(+), 51 deletions(-)
->>>>>
->>>>> This is still kludging the fact that 'make check-qtest' rebuild
->>>>> the world even if QEMU binaries are present.
->>>> Did you try? ... if so, that would kill even more CI minutes, i.e.
->>>> it would IMHO be a show-stopper for this patch.
->>>
->>> I remember we had to pass all build/ otherwise calling 'make
->>> check-qtest check-tcg' would rebuild the same binaries, it it
->>> was pointless to split the jobs in 2 stages. I might have missed
->>> when that was fixed.
->>>
->>> I haven't tried, however I see in Alex job:
->>>
->>> $ scripts/git-submodule.sh update $(sed -n '/GIT_SUBMODULES=3D/ s/.*=3D=
-//
->>> p' build/config-host.mak)
->>> sed: can't read build/config-host.mak: No such file or directory
->>> $ cd build
->>> /bin/bash: line 144: cd: build: No such file or directory
->>> ERROR: Job failed: exit code 1
->>>
->>> https://gitlab.com/stsquad/qemu/-/jobs/3847747769
->> That was an older run of the job where I thought the skip path would
->> merge from the template. In the end I've just include git-submodules in
->> all the build aretfacts instead of just for alpine.
->> It ran fine:
->>    https://gitlab.com/stsquad/qemu/-/jobs/3849512854
->
-> Indeed:
-> https://gitlab.com/stsquad/qemu/-/jobs/3849512800/artifacts/browse/build/
->
-> So a good improvement, but I'd prefer having a stricter "only include
-> what we need" policy rather than "exclude what we don't". The former
-> will catch missing additions, while the later won't notice until someone
-> spend time excluding pointless files manually again.
+I recall sometime in the past I believe we've seen problems with
+tests that exit without printing anything, but if that's a problem
+it would be pre-existing with this test case as written.
 
-I'd argue the opposite because its hard to come up with patterns for all
-the binaries we build but easy for all the object files.
+The TAP spec:
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+   https://testanything.org/tap-version-13-specification.html
+
+says the test plan (aka the '1..2' bit) is optional:
+
+  "The plan is optional but if there is a plan before the
+   test points it must be the first non-diagnostic line
+   output by the test file."
+
+So having merely the "TAP version 13" should be sufficient,
+but then earlier glib doesn't print this at all. As I say
+though, the existing test would already suffer from the
+problem if it mattered.
+
+> Anyway it doesn't appear to be a problem.
+
+Yep, I think we are probably ok.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
