@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF0D6A6608
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB7C6A660A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:59:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXCfA-0002cu-83; Tue, 28 Feb 2023 21:57:52 -0500
+	id 1pXCf3-0001Yj-MO; Tue, 28 Feb 2023 21:57:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCes-00015G-UH
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:37 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pXCev-00016l-Cr
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:38 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCer-00035u-Dv
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:34 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- k21-20020a17090aaa1500b002376652e160so11655757pjq.0
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:32 -0800 (PST)
+ id 1pXCet-0003HI-Oc
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:37 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ me6-20020a17090b17c600b0023816b0c7ceso7822582pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/jph3WTICceFvpS1dBGx8XV34lqmng3+A7zDrw3SAFw=;
- b=TDA225QDVNjMpssf8WdHq8stmGLtORVlXNCUP4FeFKOC7UdmzaCn7H8pbWXccnLfMc
- /IZ6vw4MU9cpWEpOLARSaoOv6f3Cy2kBN9hKo2cHOvXez5PgqUHrjL234FeCrjNQOzCn
- xHYWRBdu4MzNkFzTgHkpjZP106Txdd0+SVnQpz7VWNDSk7OoKX7rZv1n3OU44MANLmCy
- Uq5AcpGGMx5DG0hRSzw0jTPDkd/cGOcrAXoxi3OMElPy/VWD7bsmNQ6ROcuLi8+K228c
- FxQLf4pWXauE4xTXzpJUXbS3DxNFZa1Vd2f8Af0BqzzOgy8/nybucDQXSnHzVU7/Ac/P
- KoiQ==
+ bh=iTyx8bHq8GJOs/1JkrWd4tO7K8HyRdDNRU1FxCeCPXc=;
+ b=uAJsfINQqonRYKW2guustQ1Rai0LxE3OcDObRXN31GS4i/IuWFE9LwGyOzcRiS6SH7
+ sxFUZOeufF05X1lcBmlY3Y/uVbh8K1FxKIIurgG9cOLwB08lnWtmTaScU/HYdi9ciFy1
+ H+0Ur57Q0d4Wr6z4UjfzqRCUZGtZK8smmP/J0gm0WZ4gaZGlGmnzoIzABZwOBGeCw5NT
+ Ed094PI9VBozJWhF9A/wODA5obEA7kTm1z0R+p5nuFZL86wglORYiQXywzj+JS8zkiFb
+ UOa+vv5xrOXsTC+kavrxNZS+VNZswRAgAQQQdMBBOVC+o81p1nn0X1HEdlnh1Hius0Dk
+ JGlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/jph3WTICceFvpS1dBGx8XV34lqmng3+A7zDrw3SAFw=;
- b=Pi+W2kqp9SybejwHcrO0EeH+5j8SEyThe/EYV6v4osCX+8GM9bHKWlRpYmGmKxl9Cz
- t++EZ/uQpaaiqffuWdWx2Hj7iJKgZ+1Nq05mT/hyGG0DIfX1efBIn5aM3DKNW0fBdonA
- nb0PjNELJvp+Cpc0fpfaC48IoJoZJ4SYXis/y570jpom9na139HrQ17TQ6WT9EcLrjWR
- umw8TaiZnGb0asl90C4v6rrA8gVuNUDB84TNRAn11/32Mr0Ejy7QMrwC5G2cAbBSAuNy
- WX5KiMthqcHIjFx8Hy80QyK5xan/9izxTqGwsLsUSu3FcfSUVSRVKvnkuXDyn0iMZ7Ap
- Hv2Q==
-X-Gm-Message-State: AO0yUKVHVlo7LrmshyX6o0Uhgh5W0F1H7pM7+RJcDc3k/XEv/JrbxnyO
- 0cP+nz5zyJAWQQr3ILZZBOUsGPxYSI+eqyXzMEI=
-X-Google-Smtp-Source: AK7set+2MCz+bnhj8tP6Q5AxYf7hV5jVNURf+J6YDgCegjnj9IPs1yOBOazQCZiqkC8I7VeYv49Odg==
-X-Received: by 2002:a17:903:1c8:b0:19d:553:745c with SMTP id
- e8-20020a17090301c800b0019d0553745cmr4818757plh.9.1677639452557; 
- Tue, 28 Feb 2023 18:57:32 -0800 (PST)
+ bh=iTyx8bHq8GJOs/1JkrWd4tO7K8HyRdDNRU1FxCeCPXc=;
+ b=VqLReQ7nciPyqI34bPVOhASdObaVLqBywvBG4uJo9ypGU2z+e/0Fa45fwhHzVIvmUj
+ vfA4H8R/T58FU3fyIpdyXmXh/qn9WzukNJT7HPLSnH4KkmJd2om6tZnNJHYveghHQxoj
+ I1C6ih4afv/U0LnEPYaGrmtWYFu/vP2DPZ5Del1O86ytYX1XLlpZOzwdntFbYdy/IuF6
+ 5Guf27w2UeSDYi1G/ANuXc1lG0hdMEOYHFkEJIZN81drKHYYAgVdkMCFmOn/v+BcDOLP
+ sKzXXvtIxzXE2EiXjfYqzQzBww3QqADA8oSY5rlPUnS7jDxKvwIbDs5CgJH26K48VYtQ
+ NZEg==
+X-Gm-Message-State: AO0yUKUBgyuspiI9rsugTiReXu+wyRu3+j3/uS0xf2Zm1gRne4QJfueG
+ cHKich/slGzsG/nftgNNVSGo7JXMc7M8CD6kquM=
+X-Google-Smtp-Source: AK7set/TmtOtRtpXY2KMw2ZeM4aEYUh7/+DN3FuiA/SYaeV2FMFRW27BdGjaCSviVe0t+7zqIadn5g==
+X-Received: by 2002:a17:902:be16:b0:19a:6ec0:50c2 with SMTP id
+ r22-20020a170902be1600b0019a6ec050c2mr4460806pls.26.1677639454408; 
+ Tue, 28 Feb 2023 18:57:34 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.57.31
+ jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.57.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 18:57:32 -0800 (PST)
+ Tue, 28 Feb 2023 18:57:33 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, Anton Johansson <anjo@rev.ng>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 27/62] target/hppa: Replace `tb_pc()` with `tb->pc`
-Date: Tue, 28 Feb 2023 16:56:08 -1000
-Message-Id: <20230301025643.1227244-28-richard.henderson@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Taylor Simpson <tsimpson@quicinc.com>
+Subject: [PULL 28/62] target/hexagon: Replace `tb_pc()` with `tb->pc`
+Date: Tue, 28 Feb 2023 16:56:09 -1000
+Message-Id: <20230301025643.1227244-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301025643.1227244-1-richard.henderson@linaro.org>
 References: <20230301025643.1227244-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,46 +97,35 @@ From: Anton Johansson via <qemu-devel@nongnu.org>
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230227135202.9710-24-anjo@rev.ng>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Message-Id: <20230227135202.9710-25-anjo@rev.ng>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hppa/cpu.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ target/hexagon/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 55c190280e..11022f9c99 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -26,7 +26,7 @@
- #include "qemu/module.h"
- #include "exec/exec-all.h"
- #include "fpu/softfloat.h"
--
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index 807037c586..ab40cfc283 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -23,6 +23,7 @@
+ #include "qapi/error.h"
+ #include "hw/qdev-properties.h"
+ #include "fpu/softfloat-helpers.h"
 +#include "tcg/tcg.h"
  
- static void hppa_cpu_set_pc(CPUState *cs, vaddr value)
+ static void hexagon_v67_cpu_init(Object *obj)
  {
-@@ -48,8 +48,10 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
+@@ -263,7 +264,8 @@ static void hexagon_cpu_synchronize_from_tb(CPUState *cs,
  {
-     HPPACPU *cpu = HPPA_CPU(cs);
- 
+     HexagonCPU *cpu = HEXAGON_CPU(cs);
+     CPUHexagonState *env = &cpu->env;
+-    env->gpr[HEX_REG_PC] = tb_pc(tb);
 +    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
-+
- #ifdef CONFIG_USER_ONLY
--    cpu->env.iaoq_f = tb_pc(tb);
-+    cpu->env.iaoq_f = tb->pc;
-     cpu->env.iaoq_b = tb->cs_base;
- #else
-     /* Recover the IAOQ values from the GVA + PRIV.  */
-@@ -59,7 +61,7 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
-     int32_t diff = cs_base;
++    env->gpr[HEX_REG_PC] = tb->pc;
+ }
  
-     cpu->env.iasq_f = iasq_f;
--    cpu->env.iaoq_f = (tb_pc(tb) & ~iasq_f) + priv;
-+    cpu->env.iaoq_f = (tb->pc & ~iasq_f) + priv;
-     if (diff) {
-         cpu->env.iaoq_b = cpu->env.iaoq_f + diff;
-     }
+ static bool hexagon_cpu_has_work(CPUState *cs)
 -- 
 2.34.1
 
