@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C166A696C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:04:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F276A6978
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:07:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXINh-0000GT-7d; Wed, 01 Mar 2023 04:04:13 -0500
+	id 1pXIQl-0002Yd-Rh; Wed, 01 Mar 2023 04:07:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXINY-0008PU-1A
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:04:05 -0500
+ id 1pXIQk-0002YE-HX
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:07:22 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXINU-00030u-Hf
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:04:02 -0500
+ id 1pXIQi-0003h5-It
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:07:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677661439;
+ s=mimecast20190719; t=1677661640;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=2ec62y5rmPPEejreLrPVmgfEODeVY/a3C63U1enBxJA=;
- b=YvKDhJWpWbpauU082UJQuIy03NNxzbcJoCePPu7aog6TFfO1BIxU6lm1b1/lGr/IrLm5/b
- nfitIo1zcmRvsi0qLly7n14n92KUdGho11j1cUitUq4HkRuTz1H2ACRKvtzfJTGXzR+gBf
- Hf3UZqopERhR4Z3q5mL7GE15gaNeT/4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=U+iejTLeCJuoXd0tH9wGr3nVL7f+w48njNqWaVVQxlw=;
+ b=hJAl23rpLVfwz6cxDQbpUIh3hRcF6ujBTi7W3w4UehZ9PSavHJAsxPGVMAnId6cEpXMYrc
+ Kbl1qW/DcW6iUHcOB6G2rO106JJtF8ruXcZbbd6bkoLa7nwooDkHh0+/8h6Uesf2f4wNGo
+ a+wzr++qZca1w5JTAWpa5BYJjYNOLXk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-ttVWVNElME-FF4h5CQMAfw-1; Wed, 01 Mar 2023 04:03:57 -0500
-X-MC-Unique: ttVWVNElME-FF4h5CQMAfw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-610-Yd9EHIBvOcmKATr5LBShWw-1; Wed, 01 Mar 2023 04:07:16 -0500
+X-MC-Unique: Yd9EHIBvOcmKATr5LBShWw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39410101A55E;
- Wed,  1 Mar 2023 09:03:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47C291C02D2C;
+ Wed,  1 Mar 2023 09:07:16 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0989B2026D68;
- Wed,  1 Mar 2023 09:03:55 +0000 (UTC)
-Date: Wed, 1 Mar 2023 09:03:53 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 344E1492B00;
+ Wed,  1 Mar 2023 09:07:15 +0000 (UTC)
+Date: Wed, 1 Mar 2023 09:07:12 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Daniel Xu <dxu@dxuuu.xyz>
 Cc: michael.roth@amd.com, kkostiuk@redhat.com, marcandre.lureau@gmail.com,
  qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 3/4] qga: Add optional `merge-output` flag to
- guest-exec qapi
-Message-ID: <Y/8U+QwEmm564GQJ@redhat.com>
+Subject: Re: [PATCH v3 4/4] qga: test: Add tests for `merge-output` flag
+Message-ID: <Y/8VwOClKyHfWWqH@redhat.com>
 References: <cover.1677617035.git.dxu@dxuuu.xyz>
- <1575b08b853385eeaec6159b88b8c66525baec65.1677617035.git.dxu@dxuuu.xyz>
+ <46322f524542aa2147939efc1e814c9d1d273919.1677617035.git.dxu@dxuuu.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1575b08b853385eeaec6159b88b8c66525baec65.1677617035.git.dxu@dxuuu.xyz>
+In-Reply-To: <46322f524542aa2147939efc1e814c9d1d273919.1677617035.git.dxu@dxuuu.xyz>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -82,146 +81,229 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 01:48:03PM -0700, Daniel Xu wrote:
-> Currently, the captured output (via `capture-output`) is segregated into
-> separate GuestExecStatus fields (`out-data` and `err-data`). This means
-> that downstream consumers have no way to reassemble the captured data
-> back into the original stream.
-> 
-> This is relevant for chatty and semi-interactive (ie. read only) CLI
-> tools.  Such tools may deliberately interleave stdout and stderr for
-> visual effect. If segregated, the output becomes harder to visually
-> understand.
-> 
-> This commit adds a new optional flag to the guest-exec qapi to merge the
-> output streams such that consumers can have a pristine view of the
-> original command output.
+On Tue, Feb 28, 2023 at 01:48:04PM -0700, Daniel Xu wrote:
+> This commit adds a test to ensure `merge-output` functions as expected.
+> We also add a negative test to ensure we haven't regressed previous
+> functionality.
 > 
 > Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
 > ---
->  qga/commands.c       | 28 ++++++++++++++++++++++++++--
->  qga/qapi-schema.json |  6 +++++-
->  2 files changed, 31 insertions(+), 3 deletions(-)
+>  tests/unit/test-qga.c | 157 +++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 140 insertions(+), 17 deletions(-)
 > 
-> diff --git a/qga/commands.c b/qga/commands.c
-> index 172826f8f8..cfce13d034 100644
-> --- a/qga/commands.c
-> +++ b/qga/commands.c
-> @@ -270,12 +270,26 @@ static void guest_exec_child_watch(GPid pid, gint status, gpointer data)
->      g_spawn_close_pid(pid);
+> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+> index b4e0a14573..717f3d1103 100644
+> --- a/tests/unit/test-qga.c
+> +++ b/tests/unit/test-qga.c
+> @@ -755,6 +755,31 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
+>      g_assert_cmpstr(status, ==, "thawed");
 >  }
 >  
-> -/** Reset ignored signals back to default. */
->  static void guest_exec_task_setup(gpointer data)
->  {
->  #if !defined(G_OS_WIN32)
-> +    bool has_merge = *(bool *)data;
->      struct sigaction sigact;
->  
-> +    if (has_merge) {
-> +        /*
-> +         * FIXME: When `GLIB_VERSION_MIN_REQUIRED` is bumped to 2.58+, use
-> +         * g_spawn_async_with_fds() to be portable on windows. The current
-> +         * logic does not work on windows b/c `GSpawnChildSetupFunc` is run
-> +         * inside the parent, not the child.
-> +         */
-> +        if (dup2(STDOUT_FILENO, STDERR_FILENO) != 0) {
-> +            slog("dup2() failed to merge stderr into stdout: %s",
-> +                 strerror(errno));
-> +        }
-> +    }
+> +static QDict *wait_for_guest_exec_completion(int fd, int64_t pid)
+> +{
+> +    QDict *ret = NULL;
+> +    int64_t now;
+> +    bool exited;
+> +    QDict *val;
 > +
-> +    /* Reset ignored signals back to default. */
->      memset(&sigact, 0, sizeof(struct sigaction));
->      sigact.sa_handler = SIG_DFL;
->  
-> @@ -384,6 +398,7 @@ GuestExec *qmp_guest_exec(const char *path,
->                         bool has_env, strList *env,
->                         const char *input_data,
->                         bool has_capture_output, bool capture_output,
-> +                       bool has_merge_output, bool merge_output,
->                         Error **errp)
+> +    now = g_get_monotonic_time();
+> +    do {
+> +        ret = qmp_fd(fd,
+> +                     "{'execute': 'guest-exec-status',"
+> +                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
+> +        g_assert_nonnull(ret);
+> +        val = qdict_get_qdict(ret, "return");
+> +        exited = qdict_get_bool(val, "exited");
+> +        if (!exited) {
+> +            qobject_unref(ret);
+> +        }
+> +    } while (!exited &&
+> +             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
+> +    g_assert(exited);
+> +
+> +    return ret;
+> +}
+> +
+>  static void test_qga_guest_exec(gconstpointer fix)
 >  {
->      GPid pid;
-> @@ -397,6 +412,7 @@ GuestExec *qmp_guest_exec(const char *path,
->      GIOChannel *in_ch, *out_ch, *err_ch;
->      GSpawnFlags flags;
->      bool has_output = (has_capture_output && capture_output);
-> +    bool has_merge = (has_merge_output && merge_output);
->      g_autofree uint8_t *input = NULL;
->      size_t ninput = 0;
+>      const TestFixture *fixture = fix;
+> @@ -762,9 +787,8 @@ static void test_qga_guest_exec(gconstpointer fix)
+>      QDict *val;
+>      const gchar *out;
+>      g_autofree guchar *decoded = NULL;
+> -    int64_t pid, now, exitcode;
+> +    int64_t pid, exitcode;
+>      gsize len;
+> -    bool exited;
 >  
-> @@ -410,6 +426,14 @@ GuestExec *qmp_guest_exec(const char *path,
->          }
->      }
+>      /* exec 'echo foo bar' */
+>      ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
+> @@ -777,23 +801,10 @@ static void test_qga_guest_exec(gconstpointer fix)
+>      g_assert_cmpint(pid, >, 0);
+>      qobject_unref(ret);
 >  
+> -    /* wait for completion */
+> -    now = g_get_monotonic_time();
+> -    do {
+> -        ret = qmp_fd(fixture->fd,
+> -                     "{'execute': 'guest-exec-status',"
+> -                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
+> -        g_assert_nonnull(ret);
+> -        val = qdict_get_qdict(ret, "return");
+> -        exited = qdict_get_bool(val, "exited");
+> -        if (!exited) {
+> -            qobject_unref(ret);
+> -        }
+> -    } while (!exited &&
+> -             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
+> -    g_assert(exited);
+> +    ret = wait_for_guest_exec_completion(fixture->fd, pid);
+>  
+>      /* check stdout */
+> +    val = qdict_get_qdict(ret, "return");
+>      exitcode = qdict_get_int(val, "exitcode");
+>      g_assert_cmpint(exitcode, ==, 0);
+>      out = qdict_get_str(val, "out-data");
+> @@ -802,6 +813,114 @@ static void test_qga_guest_exec(gconstpointer fix)
+>      g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
+>  }
+>  
+> +static void test_qga_guest_exec_output_no_merge(gconstpointer fix)
+> +{
+> +    const TestFixture *fixture = fix;
+> +    g_autoptr(QDict) ret = NULL;
+> +    QDict *val;
+> +    const gchar *out, *err;
+> +    g_autofree guchar *out_decoded = NULL;
+> +    g_autofree guchar *err_decoded = NULL;
+> +    int64_t pid, exitcode;
+> +    gsize len;
+> +
+> +    /* exec 'echo foo bar' */
+> +    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
+> +                 " 'path': '/bin/bash',"
+> +                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
+> +                 " 'capture-output': true } }");
+
+Surely /bin/bash isn't going to exist on most (all?) Windows deployments,
+and so this test will fail on Windows builds ?
+
+
+> +    g_assert_nonnull(ret);
+> +    qmp_assert_no_error(ret);
+> +    val = qdict_get_qdict(ret, "return");
+> +    pid = qdict_get_int(val, "pid");
+> +    g_assert_cmpint(pid, >, 0);
+> +    qobject_unref(ret);
+> +
+> +    ret = wait_for_guest_exec_completion(fixture->fd, pid);
+> +
+> +    val = qdict_get_qdict(ret, "return");
+> +    exitcode = qdict_get_int(val, "exitcode");
+> +    g_assert_cmpint(exitcode, ==, 0);
+> +
+> +    /* check stdout */
+> +    out = qdict_get_str(val, "out-data");
+> +    out_decoded = g_base64_decode(out, &len);
+> +    g_assert_cmpint(len, ==, 14);
+> +    g_assert_cmpstr((char *)out_decoded, ==, "stdout\nstdout\n");
+> +
+> +    /* check stderr */
+> +    err = qdict_get_try_str(val, "err-data");
+> +    err_decoded = g_base64_decode(err, &len);
+> +    g_assert_cmpint(len, ==, 14);
+> +    g_assert_cmpstr((char *)err_decoded, ==, "stderr\nstderr\n");
+> +}
+> +
 > +#if defined(G_OS_WIN32)
-> +    /* FIXME: see comment in guest_exec_task_setup() */
-> +    if (has_merge) {
-> +        error_setg(errp, "merge-output unsupported on windows");
-> +        return NULL;
-> +    }
+> +static void test_qga_guest_exec_output_merge(gconstpointer fix)
+> +{
+> +    const TestFixture *fixture = fix;
+> +    g_autoptr(QDict) ret = NULL;
+> +    QDict *val;
+> +    const gchar *class, *desc;
+> +    g_autofree guchar *decoded = NULL;
+> +
+> +    /* exec 'echo foo bar' */
+> +    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
+> +                 " 'path': '/bin/bash',"
+> +                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
+
+Looks odd to be invoking bash, though in this case its harmless as we
+don't get that far. Still would suggest using 'cmd.exe' as the
+example though.
+
+> +                 " 'capture-output': true,"
+> +                 " 'merge-output': true } }");
+> +
+> +    g_assert_nonnull(ret);
+> +    val = qdict_get_qdict(ret, "error");
+> +    g_assert_nonnull(val);
+> +    class = qdict_get_str(val, "class");
+> +    desc = qdict_get_str(val, "desc");
+> +    g_assert_cmpstr(class, ==, "GenericError");
+> +    g_assert_cmpint(strlen(desc), >, 0);
+> +}
+> +#else
+> +static void test_qga_guest_exec_output_merge(gconstpointer fix)
+> +{
+> +    const TestFixture *fixture = fix;
+> +    g_autoptr(QDict) ret = NULL;
+> +    QDict *val;
+> +    const gchar *out, *err;
+> +    g_autofree guchar *decoded = NULL;
+> +    int64_t pid, exitcode;
+> +    gsize len;
+> +
+> +    /* exec 'echo foo bar' */
+> +    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
+> +                 " 'path': '/bin/bash',"
+> +                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
+> +                 " 'capture-output': true,"
+> +                 " 'merge-output': true } }");
+> +    g_assert_nonnull(ret);
+> +    qmp_assert_no_error(ret);
+> +    val = qdict_get_qdict(ret, "return");
+> +    pid = qdict_get_int(val, "pid");
+> +    g_assert_cmpint(pid, >, 0);
+> +    qobject_unref(ret);
+> +
+> +    ret = wait_for_guest_exec_completion(fixture->fd, pid);
+> +
+> +    val = qdict_get_qdict(ret, "return");
+> +    exitcode = qdict_get_int(val, "exitcode");
+> +    g_assert_cmpint(exitcode, ==, 0);
+> +
+> +    /* check stdout */
+> +    out = qdict_get_str(val, "out-data");
+> +    decoded = g_base64_decode(out, &len);
+> +    g_assert_cmpint(len, ==, 28);
+> +    g_assert_cmpstr((char *)decoded, ==, "stdout\nstderr\nstdout\nstderr\n");
+> +
+> +    /* check stderr */
+> +    err = qdict_get_try_str(val, "err-data");
+> +    g_assert_null(err);
+> +}
 > +#endif
 > +
->      argv = guest_exec_get_args(&arglist, true);
->      envp = has_env ? guest_exec_get_args(env, false) : NULL;
->  
-> @@ -420,7 +444,7 @@ GuestExec *qmp_guest_exec(const char *path,
->      }
->  
->      ret = g_spawn_async_with_pipes(NULL, argv, envp, flags,
-> -            guest_exec_task_setup, NULL, &pid, input_data ? &in_fd : NULL,
-> +            guest_exec_task_setup, &has_merge, &pid, input_data ? &in_fd : NULL,
->              has_output ? &out_fd : NULL, has_output ? &err_fd : NULL, &gerr);
->      if (!ret) {
->          error_setg(errp, QERR_QGA_COMMAND_FAILED, gerr->message);
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 796434ed34..9c2367acdf 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -1211,6 +1211,9 @@
->  # @input-data: data to be passed to process stdin (base64 encoded)
->  # @capture-output: bool flag to enable capture of
->  #                  stdout/stderr of running process. defaults to false.
-> +# @merge-output: bool flag to merge stdout/stderr of running process
-> +#                into stdout. only effective if used with @capture-output.
-> +#                not effective on windows guests. defaults to false. (since 8.0)
->  #
->  # Returns: PID on success.
->  #
-> @@ -1218,7 +1221,8 @@
->  ##
->  { 'command': 'guest-exec',
->    'data':    { 'path': 'str', '*arg': ['str'], '*env': ['str'],
-> -               '*input-data': 'str', '*capture-output': 'bool' },
-> +               '*input-data': 'str', '*capture-output': 'bool',
-> +               '*merge-output': 'bool' },
->    'returns': 'GuestExec' }
-
-I feel like 'merge-output' is a somewhat specialized policy. What if
-we want to capture only stderr, and discard stdout, or vica-verca ?
-IMHO, the original 'capture-output' field was poorly designed and
-should have been an enum. I believe we can retrofit greater
-flexibility by using an enum plus and alternate thus:
-
- { 'enum': 'GuestExecCaptureOutputMode',
-   'data': [ 'none', 'stdout', 'stderr', 'all' ] }
-
- { 'alternate': 'GuestExecCaptureOutput',
-   'data': { 'flag': 'bool',
-             'mode': 'GuestExecCaptureOutputMode'} }
-
-And then change 'guest-exec':
-
-    '*capture-output': 'GuestExecCaptureOutput'
-
-the use of the alternate makes this backwards compatible, as we can
-distinguish a JSON bool on the wire from an enum represented as a
-string.
-
-This should be easy to implement, as it just involves selectively
-toggling G_SPAWN_STDOUT_TO_DEV_NULL / G_SPAWN_STDERR_TO_DEV_NULL
-flags, instead of setting them both together.
+>  static void test_qga_guest_exec_invalid(gconstpointer fix)
+>  {
+>      const TestFixture *fixture = fix;
+> @@ -972,6 +1091,10 @@ int main(int argc, char **argv)
+>      g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
+>      g_test_add_data_func("/qga/config", NULL, test_qga_config);
+>      g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
+> +    g_test_add_data_func("/qga/guest-exec-output-no-merge", &fix,
+> +                         test_qga_guest_exec_output_no_merge);
+> +    g_test_add_data_func("/qga/guest-exec-output-merge", &fix,
+> +                         test_qga_guest_exec_output_merge);
+>      g_test_add_data_func("/qga/guest-exec-invalid", &fix,
+>                           test_qga_guest_exec_invalid);
+>      g_test_add_data_func("/qga/guest-get-osinfo", &fix,
+> -- 
+> 2.39.1
+> 
+> 
 
 With regards,
 Daniel
