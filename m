@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24286A7416
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB786A7415
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 20:13:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXRrn-00052K-FP; Wed, 01 Mar 2023 14:11:55 -0500
+	id 1pXRsO-0005Kh-IQ; Wed, 01 Mar 2023 14:12:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pXRrj-00051s-4W
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:11:52 -0500
+ id 1pXRsM-0005Fi-22
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:12:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pXRrg-0006zh-U5
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:11:50 -0500
+ id 1pXRsK-00077a-EM
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:12:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677697907;
+ s=mimecast20190719; t=1677697947;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qwn/aXOr2awn9mXFMuHqGgL6YrMMn2q9BwbqwRU6kFA=;
- b=SdgwZmn/eF6wzRS8wv+3PC8im9Ab8CgxjeT6kZlSVuTKI/Y2iNjH7oEPVGn0Vt1Xx+KHHV
- w6j/DePHIZ+5m03OCDVJFdHPfkGeuIETKGb0wjL3kcLJaCPw4q4a971c/fXYFw5iW0UNlo
- /mB6yTBYcRP9g7q8j16irHpLe8voQUw=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-319-3sMnPn2MNpa_CkjlMUchmA-1; Wed, 01 Mar 2023 14:11:46 -0500
-X-MC-Unique: 3sMnPn2MNpa_CkjlMUchmA-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-536bf635080so293022067b3.23
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 11:11:46 -0800 (PST)
+ bh=q6MkEqkAgqwRtWCD+5x4mIlvYPCyA4uMO16D3D12Odk=;
+ b=cvFY8Jrmm9JftWJzKwpElFTa3IY0xDxWXH5EdFkOkk/469Y7QHRvIo4modfq7XMQlnV/rG
+ ZtWNz7PXzHOtyHUqiSackLRDA+n6IFKHx0LU7yYmlTXMYxHTRiVkA90d3bdfSAmrMu7Gmx
+ CH5t8VhfP6LpGGl5prceMzcKP36sS3o=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-63-VSinlX-KPj61wCCfvGOq5g-1; Wed, 01 Mar 2023 14:12:26 -0500
+X-MC-Unique: VSinlX-KPj61wCCfvGOq5g-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ 204-20020a2514d5000000b00a3637aea9e1so1359127ybu.17
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 11:12:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677697906;
+ d=1e100.net; s=20210112; t=1677697945;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qwn/aXOr2awn9mXFMuHqGgL6YrMMn2q9BwbqwRU6kFA=;
- b=cytdMDRSNVCf+ntqCnAyzYa63Xd80J+cRK+ntqdoFZv9yWGKWANN+F972B0OKMLZWr
- gASekHp8goT9nb4ru/O3Kq7r8oVi24kS+EWBhddInXJn0gO3cHS+ULoQiQJ89ipliNGX
- 3Nr9RjMrJEJk9c2HaAVm1Wwee1QZDt9SlWP+SdyahMnGhxrz7sc8tkS3df9ZiZs5WYJh
- yNmXzCbA08K7TQwYwtNCWfpqEmH00galFytjBwGcgp+guYiHudIvjZYi+Sn9YAo77XFm
- 5zlMDfU7W/uUZbFF9AtEgmeOaTe/UX/RQWpqCvViWEs8MLj3qKby92rU9nt7ySwwUDId
- WQAg==
-X-Gm-Message-State: AO0yUKUL5sQGVr9YHU2p3S4mfdFjqGCZj++pyp64XNEhHoUnQWTaUlCi
- 19tX/yzSGM4wIyUYu81JvqnjDwY31VYSiJGESkcOlBgLlThDEwASRode5EfgqNaQMUoFGQWWMNf
- vPERZvlNugaC9rDNX9su2kS+QzuGT7DM=
-X-Received: by 2002:a05:690c:681:b0:533:a15a:d33e with SMTP id
- bp1-20020a05690c068100b00533a15ad33emr15489669ywb.5.1677697905896; 
- Wed, 01 Mar 2023 11:11:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set+eWHhX1rtK1+0wv/LvGjHnSeGEYrS5P0HQdvhijhmL+S17PBrw4aRM9xNHY8CzOKKTEOJolZSP34JBrMFbSN8=
-X-Received: by 2002:a05:690c:681:b0:533:a15a:d33e with SMTP id
- bp1-20020a05690c068100b00533a15ad33emr15489655ywb.5.1677697905660; Wed, 01
- Mar 2023 11:11:45 -0800 (PST)
+ bh=q6MkEqkAgqwRtWCD+5x4mIlvYPCyA4uMO16D3D12Odk=;
+ b=ZNmDi3IEgD2UAeB8Oix8svanXa2LfXzuLPueDYPoUD79//4juWdjhGp7g7D1/b37Mx
+ KFhwk7zEPK5uLJiz+USMNcMZ0gUGKcF6i+CtiSvh348NMl45NsKb5BawT1DMmVZtA6zv
+ a/+d6bK3Ddy5WxXvyLyTr6bgx/g5s+1oD5eOmyi7ojj5PG0NpvSV2LS9EzXYgTEd5Vgn
+ QznYuG7AS/tg27RRTo/rsWkVNxH3r93735bhh/uDiDh40urEdHHqBIArD3DKnBKMFNoX
+ GihvqRNUkUt1lRZ1ww45ekb9FkozqS5bLn+jwS6mwZzgZQohKkUxM8WJiNOzBByY55Wx
+ kOlg==
+X-Gm-Message-State: AO0yUKWo4hGqwV50ggD4Q59s9oCiQc3nzfmU0DDEL+lE081tat6ULOQ+
+ FlFWm2SyZ75W19NsimN7ABWsQeeLaX/dCl7K5pCfIpVIYfZtU4wn9uW5pi4PndRuDBjhhA3gZvA
+ /bVbZUTg/XNynRDqrkvHUbtrcgPPnLAI=
+X-Received: by 2002:a5b:611:0:b0:a48:6236:1be4 with SMTP id
+ d17-20020a5b0611000000b00a4862361be4mr3636364ybq.2.1677697945366; 
+ Wed, 01 Mar 2023 11:12:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set+fHWANW1Pi2W30PNIvpvj6+C5zbEjuflsY8Gz/S49KXV+W2u3yEUV0eyR28pTprPqQKebBCBjl7ZnK8lUGoTc=
+X-Received: by 2002:a5b:611:0:b0:a48:6236:1be4 with SMTP id
+ d17-20020a5b0611000000b00a4862361be4mr3636344ybq.2.1677697945099; Wed, 01 Mar
+ 2023 11:12:25 -0800 (PST)
 MIME-Version: 1.0
 References: <20230224155438.112797-1-eperezma@redhat.com>
- <20230224155438.112797-7-eperezma@redhat.com>
- <f3111a92-75a0-c12e-147e-a75084e7457b@redhat.com>
-In-Reply-To: <f3111a92-75a0-c12e-147e-a75084e7457b@redhat.com>
+ <20230224155438.112797-6-eperezma@redhat.com>
+ <163ea0b7-1814-3ab6-2f8a-ee594914f6bc@redhat.com>
+In-Reply-To: <163ea0b7-1814-3ab6-2f8a-ee594914f6bc@redhat.com>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 1 Mar 2023 20:11:09 +0100
-Message-ID: <CAJaqyWddwpW7tjkiC5Vw57aUkpxnapzWP0_VFn6Ou34MCvU-bg@mail.gmail.com>
-Subject: Re: [PATCH v4 06/15] vdpa: add vhost_vdpa->suspended parameter
+Date: Wed, 1 Mar 2023 20:11:49 +0100
+Message-ID: <CAJaqyWdi=D-X__8=tBiw2ODmUhj=v7RM7BxFnKyHROGPYVkNBw@mail.gmail.com>
+Subject: Re: [PATCH v4 05/15] vdpa: move vhost reset after get vring base
 To: Jason Wang <jasowang@redhat.com>
 Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
  Shannon Nelson <snelson@pensando.io>, Gautam Dawar <gdawar@xilinx.com>, 
@@ -104,83 +104,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 8:24 AM Jason Wang <jasowang@redhat.com> wrote:
+On Mon, Feb 27, 2023 at 8:22 AM Jason Wang <jasowang@redhat.com> wrote:
 >
 >
 > =E5=9C=A8 2023/2/24 23:54, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > This allows vhost_vdpa to track if it is safe to get vring base from th=
-e
-> > device or not.  If it is not, vhost can fall back to fetch idx from the
-> > guest buffer again.
-> >
-> > No functional change intended in this patch, later patches will use thi=
-s
-> > field.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > The function vhost.c:vhost_dev_stop calls vhost operation
+> > vhost_dev_start(false). In the case of vdpa it totally reset and wipes
+> > the device, making the fetching of the vring base (virtqueue state) tot=
+ally
+> > useless.
 >
 >
-> I think we probably need to re-order the patch, e.g to let this come
-> before at least patch 5.
+> As discussed before, should we do something reverse: in
+> vhost_vdpa_dev_started() since what proposed in the patch doesn't solve
+> the issue (index could be moved after the get_vring_base())
 >
-
-Right, that was a miss. I'll reorder them.
-
+> 1) if _F_SUSPEND is negotiated, suspend instead of reset
 >
-> > ---
-> >   include/hw/virtio/vhost-vdpa.h | 2 ++
-> >   hw/virtio/vhost-vdpa.c         | 8 ++++++++
-> >   2 files changed, 10 insertions(+)
-> >
-> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
-dpa.h
-> > index 7997f09a8d..4a7d396674 100644
-> > --- a/include/hw/virtio/vhost-vdpa.h
-> > +++ b/include/hw/virtio/vhost-vdpa.h
-> > @@ -42,6 +42,8 @@ typedef struct vhost_vdpa {
-> >       bool shadow_vqs_enabled;
-> >       /* Vdpa must send shadow addresses as IOTLB key for data queues, =
-not GPA */
-> >       bool shadow_data;
-> > +    /* Device suspended successfully */
-> > +    bool suspended;
->
->
-> Should we implement the set/clear in this patch as well?
+> 2) if _F_SUSPEND is not negotiated, reset and fail
+> vhost_get_vring_base() to allow graceful fallback?
 >
 
-I'd prefer to keep each patch separated in declaration / usage but
-they can be squashed for sure.
+Right. I think option 2 is the right one, as it introduces the changes
+more gradually.
 
 Thanks!
 
 > Thanks
 >
 >
-> >       /* IOVA mapping used by the Shadow Virtqueue */
-> >       VhostIOVATree *iova_tree;
-> >       GPtrArray *shadow_vqs;
+> >
+> > The kernel backend does not use vhost_dev_start vhost op callback, but
+> > vhost-user do. A patch to make vhost_user_dev_start more similar to vdp=
+a
+> > is desirable, but it can be added on top.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   include/hw/virtio/vhost-backend.h |  4 ++++
+> >   hw/virtio/vhost-vdpa.c            | 22 ++++++++++++++++------
+> >   hw/virtio/vhost.c                 |  3 +++
+> >   3 files changed, 23 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhos=
+t-backend.h
+> > index c5ab49051e..ec3fbae58d 100644
+> > --- a/include/hw/virtio/vhost-backend.h
+> > +++ b/include/hw/virtio/vhost-backend.h
+> > @@ -130,6 +130,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_d=
+ev *dev);
+> >
+> >   typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
+> >                                          int fd);
+> > +
+> > +typedef void (*vhost_reset_status_op)(struct vhost_dev *dev);
+> > +
+> >   typedef struct VhostOps {
+> >       VhostBackendType backend_type;
+> >       vhost_backend_init vhost_backend_init;
+> > @@ -177,6 +180,7 @@ typedef struct VhostOps {
+> >       vhost_get_device_id_op vhost_get_device_id;
+> >       vhost_force_iommu_op vhost_force_iommu;
+> >       vhost_set_config_call_op vhost_set_config_call;
+> > +    vhost_reset_status_op vhost_reset_status;
+> >   } VhostOps;
+> >
+> >   int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
 > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 8cc9c98db9..228677895a 100644
+> > index 4fac144169..8cc9c98db9 100644
 > > --- a/hw/virtio/vhost-vdpa.c
 > > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -1227,6 +1227,14 @@ static int vhost_vdpa_get_vring_base(struct vhos=
-t_dev *dev,
-> >           return 0;
-> >       }
-> >
-> > +    if (!v->suspended) {
-> > +        /*
-> > +         * Cannot trust in value returned by device, let vhost recover=
- used
-> > +         * idx from guest.
-> > +         */
-> > +        return -1;
+> > @@ -1134,14 +1134,23 @@ static int vhost_vdpa_dev_start(struct vhost_de=
+v *dev, bool started)
+> >       if (started) {
+> >           memory_listener_register(&v->listener, &address_space_memory)=
+;
+> >           return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> > -    } else {
+> > -        vhost_vdpa_reset_device(dev);
+> > -        vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> > -                                   VIRTIO_CONFIG_S_DRIVER);
+> > -        memory_listener_unregister(&v->listener);
 > > +    }
+> >
+> > -        return 0;
+> > +    return 0;
+> > +}
 > > +
-> >       ret =3D vhost_vdpa_call(dev, VHOST_GET_VRING_BASE, ring);
-> >       trace_vhost_vdpa_get_vring_base(dev, ring->index, ring->num);
-> >       return ret;
+> > +static void vhost_vdpa_reset_status(struct vhost_dev *dev)
+> > +{
+> > +    struct vhost_vdpa *v =3D dev->opaque;
+> > +
+> > +    if (dev->vq_index + dev->nvqs !=3D dev->vq_index_end) {
+> > +        return;
+> >       }
+> > +
+> > +    vhost_vdpa_reset_device(dev);
+> > +    vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> > +                               VIRTIO_CONFIG_S_DRIVER);
+> > +    memory_listener_unregister(&v->listener);
+> >   }
+> >
+> >   static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t ba=
+se,
+> > @@ -1328,4 +1337,5 @@ const VhostOps vdpa_ops =3D {
+> >           .vhost_vq_get_addr =3D vhost_vdpa_vq_get_addr,
+> >           .vhost_force_iommu =3D vhost_vdpa_force_iommu,
+> >           .vhost_set_config_call =3D vhost_vdpa_set_config_call,
+> > +        .vhost_reset_status =3D vhost_vdpa_reset_status,
+> >   };
+> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> > index eb8c4c378c..a266396576 100644
+> > --- a/hw/virtio/vhost.c
+> > +++ b/hw/virtio/vhost.c
+> > @@ -2049,6 +2049,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtI=
+ODevice *vdev, bool vrings)
+> >                                hdev->vqs + i,
+> >                                hdev->vq_index + i);
+> >       }
+> > +    if (hdev->vhost_ops->vhost_reset_status) {
+> > +        hdev->vhost_ops->vhost_reset_status(hdev);
+> > +    }
+> >
+> >       if (vhost_dev_has_iommu(hdev)) {
+> >           if (hdev->vhost_ops->vhost_set_iotlb_callback) {
 >
 
 
