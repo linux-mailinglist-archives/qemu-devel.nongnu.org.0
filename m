@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D5D6A68C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 09:18:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230386A68FB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 09:38:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXHeO-00032V-J8; Wed, 01 Mar 2023 03:17:24 -0500
+	id 1pXHxI-0008HA-6V; Wed, 01 Mar 2023 03:36:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pXHe5-00032D-3Z
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 03:17:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pXHx8-0008Gc-MS
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 03:36:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pXHe3-0003QP-2Q
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 03:17:04 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pXHwz-0006xd-Pg
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 03:36:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677658621;
+ s=mimecast20190719; t=1677659793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q9r0YrXDSQLQ+p4oofsBKdCWCC4xR2vZOCGp5xx4Q8g=;
- b=bfa2ouN/IyXmgo3oLyHioNZ+XGT4sqDz7VIuDI0ZYhzZL6RnE4HUEm6Dx9c8tbIw/NtgRh
- tsqtm4xuNRl76qhWXsTqDFUJ40hbZCKfD/ygX8xVpHolXlxSS341KqW+0DZPVPNQDuPlIL
- xDYvxVA+9GoTpJzeK1clu2xoHL/LR6Q=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EmQ7Yzy/pUXwK4MlFlFCHs0ahg4BlZbD6c0J0eWnFLg=;
+ b=NSoAE1PJjkU0dKk56oUKw4ISDGVvsTfqxxkBzLlSC54YUluM3sT1i33NM6NVDIuPdN0cNr
+ iTFycGSq+AzxJmBRMitBhfuDZAmF/my54cS+S6wAaf6bxAM3p9b9h+KRMuIleW0tJW72wK
+ /dxu9hKMkAaa0ktojy78J0R/lDaQOHo=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-z4sT6yNuNaCQ5coCBrOKPQ-1; Wed, 01 Mar 2023 03:16:59 -0500
-X-MC-Unique: z4sT6yNuNaCQ5coCBrOKPQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d14-20020adfa34e000000b002bfc062eaa8so2346029wrb.20
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 00:16:59 -0800 (PST)
+ us-mta-380-DA6e38OOP0uzpoKpD_tfTA-1; Wed, 01 Mar 2023 03:36:32 -0500
+X-MC-Unique: DA6e38OOP0uzpoKpD_tfTA-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-1722c3691cfso6884172fac.8
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 00:36:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q9r0YrXDSQLQ+p4oofsBKdCWCC4xR2vZOCGp5xx4Q8g=;
- b=2cmHIVWnjTgdpXHCTryayVbnBdjV4r+wFd8sTAPA/qLVRerBvKnmlJZFZkL3kcHE0E
- qcnCZAzhLAqcgSlLETZi82Qtt0Ka9E3UdeaSXJKvlFcVLUx5dAJBtjkTy8qzrwEiNJX3
- Ylaf4RDmtgdITlSbIGAQSjpCsrP4zpCjq3DpHZ/100GSXqCgWKr+JV+HGmq270AyBZpB
- 9xguV5o8fLnxtD2XVnRtHR+dNtf5opy0e314vewVi+jqOrdJ7PN/9OBoWhnI0gMGCrP+
- 8W03OjhgZDwd7nHrNOloEaolMLNB6JrRhQUWNQntyIt8FmCaSOpjFhDZdAUUj5f9XmiM
- M0Vg==
-X-Gm-Message-State: AO0yUKVYMreSmzAa7+vwUS5LVDosD0+l/2rDwBMeLzqwUuEgLQ68bchT
- Dnwj5L5+bkAM1mBBdkNRN3WUcF5f+uENpUZFPS/AxrPeJ9hdlFovfYyqH5VanundNaaZXH2D2GN
- WgCfLcyLuQm27N7Q=
-X-Received: by 2002:a05:600c:5252:b0:3ea:8ed9:8f03 with SMTP id
- fc18-20020a05600c525200b003ea8ed98f03mr4107838wmb.24.1677658618650; 
- Wed, 01 Mar 2023 00:16:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set/h03Gsb6fEQ3VPqHWxeKepJX7jhsIQPE/Zch4HAspfGjaxKcqOdtShK2O9sDQHF7seJCxpmw==
-X-Received: by 2002:a05:600c:5252:b0:3ea:8ed9:8f03 with SMTP id
- fc18-20020a05600c525200b003ea8ed98f03mr4107823wmb.24.1677658618274; 
- Wed, 01 Mar 2023 00:16:58 -0800 (PST)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
- ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
- by smtp.gmail.com with ESMTPSA id
- d8-20020a05600c34c800b003dc4480df80sm19687503wmq.34.2023.03.01.00.16.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 00:16:57 -0800 (PST)
-Message-ID: <cf2cf2c8-108c-2e21-2695-161b13cea31b@redhat.com>
-Date: Wed, 1 Mar 2023 09:16:57 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=EmQ7Yzy/pUXwK4MlFlFCHs0ahg4BlZbD6c0J0eWnFLg=;
+ b=ZWhJnF6jxdMjcAGKXOAqAwy9fklImOx/aCWFfdIsmEXEZDbH/qYiUFfqEkNCd5Hcja
+ FpaLVjzCjZhw0UV2vPNDTOBgTQbBudspHgQ+VjmYQ69c7fUQChk9ZnA3AvTteDZmWOm7
+ 8mVhHPIC09DbVPjEOOiWz+hkQu8Tzh+ps26vIWyf3xIhF5xTDgbQZ+cRVlnlDwxz6lsU
+ 7LnStaI/4/T103nSUQqCa52lQ2upS/lctdfrHWT3n3KNc32QV51TP136evOasNbJZwJJ
+ tdgNtltzyoKqsx/Ei4TrbQ80J5K3hcd+n3KoTG68l1BG1OlC9O+UcHQstrt9elmwAOIh
+ 8Cvw==
+X-Gm-Message-State: AO0yUKUwmNsX6ykV0GhXgIAuXeCa9YAqW6Op53rwS6I3jngCU7fOHeyW
+ 52Bjt+J0CoRO/HL3KIVOyrGMH9824istL+x2tTtNuavB3ytUx+BqdwE97APgnXZR4wAmb3IXNxF
+ OJML6iE2WJ0eky2VjiJL4cCozrjS6LMg=
+X-Received: by 2002:a9d:334:0:b0:688:cf52:71c4 with SMTP id
+ 49-20020a9d0334000000b00688cf5271c4mr1957692otv.4.1677659791842; 
+ Wed, 01 Mar 2023 00:36:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set9SQMYn+g3fk0utx2B2iTe1UJgbSJdKj9QUuo+0AAp8+3XJALxdM6Hox7+p1X6aO0TT47xxmsbG0brqZr2nnVw=
+X-Received: by 2002:a9d:334:0:b0:688:cf52:71c4 with SMTP id
+ 49-20020a9d0334000000b00688cf5271c4mr1957682otv.4.1677659791616; Wed, 01 Mar
+ 2023 00:36:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] virtio-balloon: optimize the virtio-balloon on the ARM
- platform
-Content-Language: en-US
-To: Yangming <yangming73@huawei.com>, "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "wangzhigang (O)" <wangzhigang17@huawei.com>,
- "zhangliang (AG)" <zhangliang5@huawei.com>, xiqi <xiqi2@huawei.com>
-References: <20230301062642.1058-1-xiqi2@huawei.com>
- <afd620a5e7c14a0794812e72ba1af545@huawei.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <afd620a5e7c14a0794812e72ba1af545@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+References: <20230228142514.2582-1-longpeng2@huawei.com>
+In-Reply-To: <20230228142514.2582-1-longpeng2@huawei.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 1 Mar 2023 16:36:20 +0800
+Message-ID: <CACGkMEtvGwCVzSa1UpXK971bynNqybPAVa3QQ9e9Hw04j-ivHQ@mail.gmail.com>
+Subject: Re: [PATCH] memory: avoid unnecessary iteration when updating
+ ioeventfds
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Cc: pbonzini@redhat.com, peterx@redhat.com, david@redhat.com, 
+ philmd@linaro.org, mst@redhat.com, qemu-devel@nongnu.org, eperezma@redhat.com, 
+ arei.gonglei@huawei.com, yechuan@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,125 +96,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01.03.23 07:38, Yangming wrote:
-> Optimize the virtio-balloon feature on the ARM platform by adding
-> a variable to keep track of the current hot-plugged pc-dimm size,
-> instead of traversing the virtual machine's memory modules to count
-> the current RAM size during the balloon inflation or deflation
-> process. This variable can be updated only when plugging or unplugging
-> the device, which will result in an increase of approximately 60%
-> efficiency of balloon process on the ARM platform.
-> 
-> We tested the total amount of time required for the balloon inflation process on ARM:
-> inflate the balloon to 64GB of a 128GB guest under stress.
-> Before: 102 seconds
-> After: 42 seconds
-> 
-> Signed-off-by: Qi Xi <xiqi2@huawei.com>
-> Signed-off-by: Ming Yang yangming73@huawei.com
+On Tue, Feb 28, 2023 at 10:25=E2=80=AFPM Longpeng(Mike) <longpeng2@huawei.c=
+om> wrote:
+>
+> From: Longpeng <longpeng2@huawei.com>
+>
+> When updating ioeventfds, we need to iterate all address spaces and
+> iterate all flat ranges of each address space. There is so much
+> redundant process that a FlatView would be iterated for so many times
+> during one commit (memory_region_transaction_commit).
+>
+> We can mark a FlatView as UPDATED and then skip it in the next iteration
+> and clear the UPDATED flag at the end of the commit. The overhead can
+> be significantly reduced.
+>
+> For example, a VM with 16 vdpa net devices and each one has 65 vectors,
+> can reduce the time spent on memory_region_transaction_commit by 95%.
+>
+> Signed-off-by: Longpeng <longpeng2@huawei.com>
 > ---
-> Refactor the code by adding comments and removing unnecessary code.
-> 
->   hw/mem/pc-dimm.c           |  7 +++++++
->   hw/virtio/virtio-balloon.c | 33 +++++----------------------------
->   include/hw/boards.h        |  2 ++
->   3 files changed, 14 insertions(+), 28 deletions(-)
-> 
-> diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-> index 50ef83215c..3f2734a267 100644
-> --- a/hw/mem/pc-dimm.c
-> +++ b/hw/mem/pc-dimm.c
-> @@ -81,6 +81,10 @@ void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
->   
->       memory_device_plug(MEMORY_DEVICE(dimm), machine);
->       vmstate_register_ram(vmstate_mr, DEVICE(dimm));
-> +    /* count only "real" DIMMs, not NVDIMMs */
-> +    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
-> +        machine->device_memory->dimm_size += vmstate_mr->size;
+>  include/exec/memory.h |  2 ++
+>  softmmu/memory.c      | 28 +++++++++++++++++++++++++++-
+>  2 files changed, 29 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 2e602a2fad..974eabf765 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -1093,6 +1093,8 @@ struct FlatView {
+>      unsigned nr_allocated;
+>      struct AddressSpaceDispatch *dispatch;
+>      MemoryRegion *root;
+> +#define FLATVIEW_FLAG_IOEVENTFD_UPDATED (1 << 0)
+> +    unsigned flags;
+>  };
+>
+>  static inline FlatView *address_space_to_flatview(AddressSpace *as)
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 9d64efca26..71ff996712 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -815,6 +815,15 @@ FlatView *address_space_get_flatview(AddressSpace *a=
+s)
+>      return view;
+>  }
+>
+> +static void address_space_reset_view_flags(AddressSpace *as, unsigned ma=
+sk)
+> +{
+> +    FlatView *view =3D address_space_get_flatview(as);
+> +
+> +    if (view->flags & mask) {
+> +        view->flags &=3D ~mask;
 > +    }
->   }
->   
->   void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
-> @@ -90,6 +94,9 @@ void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine)
->   
->       memory_device_unplug(MEMORY_DEVICE(dimm), machine);
->       vmstate_unregister_ram(vmstate_mr, DEVICE(dimm));
-> +    if (!object_dynamic_cast(OBJECT(dimm), TYPE_NVDIMM)) {
-> +        machine->device_memory->dimm_size -= vmstate_mr->size;
+> +}
+> +
+>  static void address_space_update_ioeventfds(AddressSpace *as)
+>  {
+>      FlatView *view;
+> @@ -825,6 +834,12 @@ static void address_space_update_ioeventfds(AddressS=
+pace *as)
+>      AddrRange tmp;
+>      unsigned i;
+>
+> +    view =3D address_space_get_flatview(as);
+> +    if (view->flags & FLATVIEW_FLAG_IOEVENTFD_UPDATED) {
+> +        return;
 > +    }
->   }
->   
->   static int pc_dimm_slot2bitmap(Object *obj, void *opaque)
-> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index 746f07c4d2..2814a47cb1 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -729,37 +729,14 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
->       memcpy(config_data, &config, virtio_balloon_config_size(dev));
->   }
->   
-> -static int build_dimm_list(Object *obj, void *opaque)
-> -{
-> -    GSList **list = opaque;
-> -
-> -    if (object_dynamic_cast(obj, TYPE_PC_DIMM)) {
-> -        DeviceState *dev = DEVICE(obj);
-> -        if (dev->realized) { /* only realized DIMMs matter */
-> -            *list = g_slist_prepend(*list, dev);
-> -        }
-> -    }
-> -
-> -    object_child_foreach(obj, build_dimm_list, opaque);
-> -    return 0;
-> -}
-> -
->   static ram_addr_t get_current_ram_size(void)
->   {
-> -    GSList *list = NULL, *item;
-> -    ram_addr_t size = current_machine->ram_size;
-> -
-> -    build_dimm_list(qdev_get_machine(), &list);
-> -    for (item = list; item; item = g_slist_next(item)) {
-> -        Object *obj = OBJECT(item->data);
-> -        if (!strcmp(object_get_typename(obj), TYPE_PC_DIMM)) {
-> -            size += object_property_get_int(obj, PC_DIMM_SIZE_PROP,
-> -                                            &error_abort);
-> -        }
-> +    MachineState *machine = MACHINE(qdev_get_machine());
-> +    if (machine->device_memory) {
-> +        return machine->ram_size + machine->device_memory->dimm_size;
-> +    } else {
-> +        return machine->ram_size;
->       }
-> -    g_slist_free(list);
-> -
-> -    return size;
->   }
->   
->   static bool virtio_balloon_page_poison_support(void *opaque)
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 6fbbfd56c8..397ec10468 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -292,10 +292,12 @@ struct MachineClass {
->    * @base: address in guest physical address space where the memory
->    * address space for memory devices starts
->    * @mr: address space container for memory devices
-> + * @dimm_size: the sum of plugged DIMMs' sizes
->    */
->   typedef struct DeviceMemoryState {
->       hwaddr base;
->       MemoryRegion mr;
-> +    ram_addr_t dimm_size;
->   } DeviceMemoryState;
->   
->   /**
+> +    view->flags |=3D FLATVIEW_FLAG_IOEVENTFD_UPDATED;
+> +
 
-Acked-by: David Hildenbrand <david@redhat.com>
+Won't we lose the listener calls if multiple address spaces have the
+same flatview?
 
--- 
-Thanks,
+Thanks
 
-David / dhildenb
+>      /*
+>       * It is likely that the number of ioeventfds hasn't changed much, s=
+o use
+>       * the previous size as the starting value, with some headroom to av=
+oid
+> @@ -833,7 +848,6 @@ static void address_space_update_ioeventfds(AddressSp=
+ace *as)
+>      ioeventfd_max =3D QEMU_ALIGN_UP(as->ioeventfd_nb, 4);
+>      ioeventfds =3D g_new(MemoryRegionIoeventfd, ioeventfd_max);
+>
+> -    view =3D address_space_get_flatview(as);
+>      FOR_EACH_FLAT_RANGE(fr, view) {
+>          for (i =3D 0; i < fr->mr->ioeventfd_nb; ++i) {
+>              tmp =3D addrrange_shift(fr->mr->ioeventfds[i].addr,
+> @@ -1086,6 +1100,15 @@ void memory_region_transaction_begin(void)
+>      ++memory_region_transaction_depth;
+>  }
+>
+> +static inline void address_space_update_ioeventfds_finish(void)
+> +{
+> +    AddressSpace *as;
+> +
+> +    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+> +        address_space_reset_view_flags(as, FLATVIEW_FLAG_IOEVENTFD_UPDAT=
+ED);
+> +    }
+> +}
+> +
+>  void memory_region_transaction_commit(void)
+>  {
+>      AddressSpace *as;
+> @@ -1106,12 +1129,14 @@ void memory_region_transaction_commit(void)
+>              }
+>              memory_region_update_pending =3D false;
+>              ioeventfd_update_pending =3D false;
+> +            address_space_update_ioeventfds_finish();
+>              MEMORY_LISTENER_CALL_GLOBAL(commit, Forward);
+>          } else if (ioeventfd_update_pending) {
+>              QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+>                  address_space_update_ioeventfds(as);
+>              }
+>              ioeventfd_update_pending =3D false;
+> +            address_space_update_ioeventfds_finish();
+>          }
+>     }
+>  }
+> @@ -3076,6 +3101,7 @@ void address_space_init(AddressSpace *as, MemoryReg=
+ion *root, const char *name)
+>      as->name =3D g_strdup(name ? name : "anonymous");
+>      address_space_update_topology(as);
+>      address_space_update_ioeventfds(as);
+> +    address_space_reset_view_flags(as, FLATVIEW_FLAG_IOEVENTFD_UPDATED);
+>  }
+>
+>  static void do_address_space_destroy(AddressSpace *as)
+> --
+> 2.23.0
+>
 
 
