@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4976A6B3D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 12:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF4B6A6B39
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 12:00:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXKBL-0004ZQ-I9; Wed, 01 Mar 2023 05:59:35 -0500
+	id 1pXKBK-0004Yy-9Y; Wed, 01 Mar 2023 05:59:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pXKBC-0004YS-En
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:59:27 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pXKBB-0004YG-5E
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:59:25 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pXKB9-0006Fd-2W
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:59:25 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id n6so12169172plf.5
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:59:16 -0800 (PST)
+ id 1pXKB9-0006Fy-2Y
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:59:24 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id z2so13520335plf.12
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:59:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1677668356;
+ d=bytedance.com; s=google; t=1677668359;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ihnaClmcpFL3v9tNj7fgQemINsh8688QVm+1j1fBK14=;
- b=k4FEEygU0PAOs/SFAY8Vf3dW9jHzciWwfi4d3AhGbb7U2dZE3UWsrK+l+1FO4J1tX4
- v64ZMo8TH1KEhcxnc6hKjo1Ornl8Gz08MV9U3eD65CAdSJBoAbBwwVqGbDAYDqbjtsxd
- A/hzi/B8zpeeLu8gVU3SJtJ2qrW7sFDiRTnvnuBAClQLOSA/kZXs1VBWDaVUtyNY5PId
- g7frjRrfIIO4i0c52X47AYfYB7XRl6WE0XZ2E3bJfv63MQuayUr3ji0UCWbnYxXmFP4h
- n1G/OI7XoASl2SiatFcR538cIv2GSXAT0RNDSqBrWI6NbInihxZDp9Z3nYqLLeBvvVXt
- O8QA==
+ bh=opVVOmUrhPo60XXxThNotfODxmtNJYHwrlCGCosncyM=;
+ b=DyPRBwRY8Ac8Mo4yh8OCyo0L7qO7asRdgSVETqcRTQKBJe1TbHXxDriTFBmslNev3N
+ Xm2UVQLMfQgA7MO9vmtHM1nVMm9/XXplmRjy1mICRC9/QT4zfXATNV3gQEgMgOUxnvOX
+ FUfOELGwX1TqCrdhoBdplNgw1KCP7kXuqpSmSAAip0rQi4tzWLDHZpsypLShracuPgyL
+ z7z8yjGFQ0PhRbzqbPRO/lwMLP0tL45Ovtww2hOhzcvkOclKIcRyxH5l4Y2ED+cwNK0t
+ O1fDx+yNfqpmpkiY3c7fX2IchUbzHVQSQqD4E/BlDOg1F+lQbUSBmkYhoxHdpo30HJSQ
+ Dj9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677668356;
+ d=1e100.net; s=20210112; t=1677668359;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ihnaClmcpFL3v9tNj7fgQemINsh8688QVm+1j1fBK14=;
- b=FJktKVxoBsigKDqU9LC2hmcZ6IUqgn73h6EoEY4gzj/TPCj9hKIhI4wfK9kdinZO+N
- qhA11+9pWSueEf2ixvJMtfUUyDe/OPPrnhIoyj/tAQ/jJvA8SRkhSnMa7BazsskvzOPF
- 0ABAaJHrW3kxYwl138lAjtbUL7kW+8xeYb19NEHowR0eWL5Y3fz+rgqo7d3MuRgsXnkU
- i1m8YA0PHBdLJadCWFRoCJa2Q7PthNMcA628iyhBWLIKlwBwa8L+jXn7F07RdOUZWDNn
- 8sFUHPrwNpY/YjhBoc0m+BBj2auMUzOS8MHmzwSSGYeSqiP8ll88WbfvzqOupmyqk9QF
- 9mgg==
-X-Gm-Message-State: AO0yUKVshYjOBPOoFKCFHiio/RTbiHtvKsxHSGiX7zfE0EWiQkNg7XWQ
- 989wgdCZblT2NYY263vhkVrvcQ==
-X-Google-Smtp-Source: AK7set+r8GdyIJj8ecwk6+R+vsCFO11a7PouNVrYIM0wgMEODb/L8h9Z1ey7pKKvVwl30/i6S77+lA==
-X-Received: by 2002:a17:90b:4a4b:b0:234:b786:6869 with SMTP id
- lb11-20020a17090b4a4b00b00234b7866869mr6772281pjb.26.1677668355852; 
- Wed, 01 Mar 2023 02:59:15 -0800 (PST)
+ bh=opVVOmUrhPo60XXxThNotfODxmtNJYHwrlCGCosncyM=;
+ b=KCTTIoYoh34KV5w0nOwZX2cfjmKPXpiKdNoWeG8OjAOjd3UFOTIBhvzZeSSie1BiTw
+ 5vZ5GWCZ1DxMrpD7UQgHjnRV4Wo0rb1ysljbv0a920mt6RfxB4zqXfsY4MMXwN24j90Q
+ gWp4YhSNG+WI49mStIZ5aW0ebEWxy/9ntsKvXerdLK/E63TBGAZDFld0vlddzbQslBjs
+ dJV1cdq5kaF+/HXcuPK9r1OJRp8HGiYmksKfE1qeZwu7qB203PaBdlxDuTat7+e3e2vO
+ qw3syiHsYzOh8qe6ap8rVlBX5thQVrsGMiKdMbFR+LnLrQklXbha/A78VMqK8Re0gWti
+ gl5A==
+X-Gm-Message-State: AO0yUKXF916pC/OgcupMHATk3yOKiML1DjR5QBXn2v8PhD5SL5vLMFyH
+ NMkWqwdWxBAii4gSg+qHm+SuOg==
+X-Google-Smtp-Source: AK7set+uJQ0+Q+Svxg3Ot+2Pc3khK8qXTO0nMlp1zmPddEAh09q0FEqT2lCk2Pa33d3C71YpplxjqA==
+X-Received: by 2002:a17:90b:380d:b0:233:d870:f4c7 with SMTP id
+ mq13-20020a17090b380d00b00233d870f4c7mr7102770pjb.21.1677668358914; 
+ Wed, 01 Mar 2023 02:59:18 -0800 (PST)
 Received: from libai.bytedance.net ([61.213.176.5])
  by smtp.gmail.com with ESMTPSA id
- mj9-20020a17090b368900b002342ccc8280sm7829149pjb.6.2023.03.01.02.59.13
+ mj9-20020a17090b368900b002342ccc8280sm7829149pjb.6.2023.03.01.02.59.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 02:59:15 -0800 (PST)
+ Wed, 01 Mar 2023 02:59:18 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: mst@redhat.com,
 	arei.gonglei@huawei.com,
 	berrange@redhat.com
 Cc: dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
  qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH v6 04/12] cryptodev: Introduce server type in QAPI
-Date: Wed,  1 Mar 2023 18:58:39 +0800
-Message-Id: <20230301105847.253084-5-pizhenwei@bytedance.com>
+Subject: [PATCH v6 05/12] cryptodev: Introduce 'query-cryptodev' QMP command
+Date: Wed,  1 Mar 2023 18:58:40 +0800
+Message-Id: <20230301105847.253084-6-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301105847.253084-1-pizhenwei@bytedance.com>
 References: <20230301105847.253084-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,133 +94,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Introduce cryptodev service type in cryptodev.json, then apply this
-to related codes. Now we can remove VIRTIO_CRYPTO_SERVICE_xxx
-dependence from QEMU cryptodev.
+Now we have a QMP command to query crypto devices:
+virsh qemu-monitor-command vm '{"execute": "query-cryptodev"}' | jq
+{
+  "return": [
+    {
+      "service": [
+        "akcipher",
+        "mac",
+        "hash",
+        "cipher"
+      ],
+      "id": "cryptodev1",
+      "client": [
+        {
+          "queue": 0,
+          "type": "builtin"
+        }
+      ]
+    },
+    {
+      "service": [
+        "akcipher"
+      ],
+      "id": "cryptodev0",
+      "client": [
+        {
+          "queue": 0,
+          "type": "lkcf"
+        }
+      ]
+    }
+  ],
+  "id": "libvirt-417"
+}
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- backends/cryptodev-builtin.c    |  8 ++++----
- backends/cryptodev-lkcf.c       |  2 +-
- backends/cryptodev-vhost-user.c |  6 +++---
- hw/virtio/virtio-crypto.c       | 27 +++++++++++++++++++++++++--
- qapi/cryptodev.json             | 11 +++++++++++
- 5 files changed, 44 insertions(+), 10 deletions(-)
+ backends/cryptodev.c | 45 ++++++++++++++++++++++++++++++++++++++++++++
+ qapi/cryptodev.json  | 44 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 89 insertions(+)
 
-diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
-index e70dcd5dad..c0fbb650d7 100644
---- a/backends/cryptodev-builtin.c
-+++ b/backends/cryptodev-builtin.c
-@@ -79,10 +79,10 @@ static void cryptodev_builtin_init(
-     backend->conf.peers.ccs[0] = cc;
+diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+index c2a053db0e..3a45d19823 100644
+--- a/backends/cryptodev.c
++++ b/backends/cryptodev.c
+@@ -24,6 +24,7 @@
+ #include "qemu/osdep.h"
+ #include "sysemu/cryptodev.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-cryptodev.h"
+ #include "qapi/visitor.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+@@ -33,6 +34,50 @@
  
-     backend->conf.crypto_services =
--                         1u << VIRTIO_CRYPTO_SERVICE_CIPHER |
--                         1u << VIRTIO_CRYPTO_SERVICE_HASH |
--                         1u << VIRTIO_CRYPTO_SERVICE_MAC |
--                         1u << VIRTIO_CRYPTO_SERVICE_AKCIPHER;
-+                         1u << QCRYPTODEV_BACKEND_SERVICE_CIPHER |
-+                         1u << QCRYPTODEV_BACKEND_SERVICE_HASH |
-+                         1u << QCRYPTODEV_BACKEND_SERVICE_MAC |
-+                         1u << QCRYPTODEV_BACKEND_SERVICE_AKCIPHER;
-     backend->conf.cipher_algo_l = 1u << VIRTIO_CRYPTO_CIPHER_AES_CBC;
-     backend->conf.hash_algo = 1u << VIRTIO_CRYPTO_HASH_SHA1;
-     backend->conf.akcipher_algo = 1u << VIRTIO_CRYPTO_AKCIPHER_RSA;
-diff --git a/backends/cryptodev-lkcf.c b/backends/cryptodev-lkcf.c
-index 53a932b58d..edec99f104 100644
---- a/backends/cryptodev-lkcf.c
-+++ b/backends/cryptodev-lkcf.c
-@@ -230,7 +230,7 @@ static void cryptodev_lkcf_init(CryptoDevBackend *backend, Error **errp)
-     backend->conf.peers.ccs[0] = cc;
+ static QTAILQ_HEAD(, CryptoDevBackendClient) crypto_clients;
  
-     backend->conf.crypto_services =
--        1u << VIRTIO_CRYPTO_SERVICE_AKCIPHER;
-+        1u << QCRYPTODEV_BACKEND_SERVICE_AKCIPHER;
-     backend->conf.akcipher_algo = 1u << VIRTIO_CRYPTO_AKCIPHER_RSA;
-     lkcf->running = true;
- 
-diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
-index 580bd1abb0..b1d9eb735f 100644
---- a/backends/cryptodev-vhost-user.c
-+++ b/backends/cryptodev-vhost-user.c
-@@ -221,9 +221,9 @@ static void cryptodev_vhost_user_init(
-                      cryptodev_vhost_user_event, NULL, s, NULL, true);
- 
-     backend->conf.crypto_services =
--                         1u << VIRTIO_CRYPTO_SERVICE_CIPHER |
--                         1u << VIRTIO_CRYPTO_SERVICE_HASH |
--                         1u << VIRTIO_CRYPTO_SERVICE_MAC;
-+                         1u << QCRYPTODEV_BACKEND_SERVICE_CIPHER |
-+                         1u << QCRYPTODEV_BACKEND_SERVICE_HASH |
-+                         1u << QCRYPTODEV_BACKEND_SERVICE_MAC;
-     backend->conf.cipher_algo_l = 1u << VIRTIO_CRYPTO_CIPHER_AES_CBC;
-     backend->conf.hash_algo = 1u << VIRTIO_CRYPTO_HASH_SHA1;
- 
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index 0d1be0ada9..e4f0de4d1c 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -997,12 +997,35 @@ static void virtio_crypto_reset(VirtIODevice *vdev)
-     }
- }
- 
-+static uint32_t virtio_crypto_init_services(uint32_t qservices)
++static int qmp_query_cryptodev_foreach(Object *obj, void *data)
 +{
-+    uint32_t vservices = 0;
++    CryptoDevBackend *backend;
++    QCryptodevInfoList **infolist = data;
++    uint32_t services, i;
 +
-+    if (qservices & (1 << QCRYPTODEV_BACKEND_SERVICE_CIPHER)) {
-+        vservices |= (1 << VIRTIO_CRYPTO_SERVICE_CIPHER);
-+    }
-+    if (qservices & (1 << QCRYPTODEV_BACKEND_SERVICE_HASH)) {
-+        vservices |= (1 << VIRTIO_CRYPTO_SERVICE_HASH);
-+    }
-+    if (qservices & (1 << QCRYPTODEV_BACKEND_SERVICE_MAC)) {
-+        vservices |= (1 << VIRTIO_CRYPTO_SERVICE_MAC);
-+    }
-+    if (qservices & (1 << QCRYPTODEV_BACKEND_SERVICE_AEAD)) {
-+        vservices |= (1 << VIRTIO_CRYPTO_SERVICE_AEAD);
-+    }
-+    if (qservices & (1 << QCRYPTODEV_BACKEND_SERVICE_AKCIPHER)) {
-+        vservices |= (1 << VIRTIO_CRYPTO_SERVICE_AKCIPHER);
++    if (!object_dynamic_cast(obj, TYPE_CRYPTODEV_BACKEND)) {
++        return 0;
 +    }
 +
-+    return vservices;
++    QCryptodevInfo *info = g_new0(QCryptodevInfo, 1);
++    info->id = g_strdup(object_get_canonical_path_component(obj));
++
++    backend = CRYPTODEV_BACKEND(obj);
++    services = backend->conf.crypto_services;
++    for (i = 0; i < QCRYPTODEV_BACKEND_SERVICE__MAX; i++) {
++        if (services & (1 << i)) {
++            QAPI_LIST_PREPEND(info->service, i);
++        }
++    }
++
++    for (i = 0; i < backend->conf.peers.queues; i++) {
++        CryptoDevBackendClient *cc = backend->conf.peers.ccs[i];
++        QCryptodevBackendClient *client = g_new0(QCryptodevBackendClient, 1);
++
++        client->queue = cc->queue_index;
++        client->type = cc->type;
++        QAPI_LIST_PREPEND(info->client, client);
++    }
++
++    QAPI_LIST_PREPEND(*infolist, info);
++
++    return 0;
 +}
 +
- static void virtio_crypto_init_config(VirtIODevice *vdev)
- {
-     VirtIOCrypto *vcrypto = VIRTIO_CRYPTO(vdev);
++QCryptodevInfoList *qmp_query_cryptodev(Error **errp)
++{
++    QCryptodevInfoList *list = NULL;
++    Object *objs = container_get(object_get_root(), "/objects");
++
++    object_child_foreach(objs, qmp_query_cryptodev_foreach, &list);
++
++    return list;
++}
  
--    vcrypto->conf.crypto_services =
--                     vcrypto->conf.cryptodev->conf.crypto_services;
-+    vcrypto->conf.crypto_services = virtio_crypto_init_services(
-+                     vcrypto->conf.cryptodev->conf.crypto_services);
-     vcrypto->conf.cipher_algo_l =
-                      vcrypto->conf.cryptodev->conf.cipher_algo_l;
-     vcrypto->conf.cipher_algo_h =
+ CryptoDevBackendClient *cryptodev_backend_new_client(void)
+ {
 diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
-index ebb6852035..8732a30524 100644
+index 8732a30524..f33f96a692 100644
 --- a/qapi/cryptodev.json
 +++ b/qapi/cryptodev.json
-@@ -18,6 +18,17 @@
-   'prefix': 'QCRYPTODEV_BACKEND_ALG',
-   'data': ['sym', 'asym']}
- 
+@@ -43,3 +43,47 @@
+ { 'enum': 'QCryptodevBackendType',
+   'prefix': 'QCRYPTODEV_BACKEND_TYPE',
+   'data': ['builtin', 'vhost-user', 'lkcf']}
++
 +##
-+# @QCryptodevBackendServiceType:
++# @QCryptodevBackendClient:
 +#
-+# The supported service types of a crypto device.
++# Information about a queue of crypto device.
++#
++# @queue: the queue index of the crypto device
++#
++# @type: the type of the crypto device
 +#
 +# Since: 8.0
 +##
-+{ 'enum': 'QCryptodevBackendServiceType',
-+  'prefix': 'QCRYPTODEV_BACKEND_SERVICE',
-+  'data': ['cipher', 'hash', 'mac', 'aead', 'akcipher']}
++{ 'struct': 'QCryptodevBackendClient',
++  'data': { 'queue': 'uint32',
++            'type': 'QCryptodevBackendType' } }
 +
- ##
- # @QCryptodevBackendType:
- #
++##
++# @QCryptodevInfo:
++#
++# Information about a crypto device.
++#
++# @id: the id of the crypto device
++#
++# @service: supported service types of a crypto device
++#
++# @client: the additional infomation of the crypto device
++#
++# Since: 8.0
++##
++{ 'struct': 'QCryptodevInfo',
++  'data': { 'id': 'str',
++            'service': ['QCryptodevBackendServiceType'],
++            'client': ['QCryptodevBackendClient'] } }
++
++##
++# @query-cryptodev:
++#
++# Returns information about current crypto devices.
++#
++# Returns: a list of @QCryptodevInfo
++#
++# Since: 8.0
++##
++{ 'command': 'query-cryptodev', 'returns': ['QCryptodevInfo']}
 -- 
 2.34.1
 
