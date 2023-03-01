@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085CC6A65FA
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:59:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77FA96A6602
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:59:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXCei-0000Kw-BS; Tue, 28 Feb 2023 21:57:24 -0500
+	id 1pXCei-0000NK-Fm; Tue, 28 Feb 2023 21:57:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCeb-0008PR-3b
+ id 1pXCeb-0008Ph-4b
  for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:17 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642])
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCeV-00035b-8X
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:13 -0500
-Received: by mail-pl1-x642.google.com with SMTP id i10so12543244plr.9
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:06 -0800 (PST)
+ id 1pXCeV-00035u-EE
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:14 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ k21-20020a17090aaa1500b002376652e160so11655004pjq.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QtLGbV4ps4dOgnRhEyRR1a5PH5+scTyKgRQWf3+bYqs=;
- b=v/EysxPVQmBx/d5jQSi9OC3AWka2IOVTMrWpk+nd6reO8FQGQb7ZC4JO8vszzGTTCY
- W8fJUIy5GVBlXJQfujmdfe0MgZi3Fo+f8Imwr8014iRqYqn4OhpdVeAThDGjAcHUpOwN
- lytyEImojZWPuyUMVsvKJGEaOtrEL1JO194+jIoBrZDNDFo5yrqKUX0bKm3HU9yJHOdp
- 0IWZXAA8F8YKJZq5lxcxvNYUmXaKdVURBVZmhxrTOZkF6RiofGg0p2hj2XzmFnOoezpB
- hik9L18x6b7Ub9tRwuRWf16EFTS2sp92l0qpGIbvT0t3P/oHmC4HGmrp76dtF8f+x+9u
- TqZw==
+ bh=4VQktDbOqSG80kC+PXJHu0YqEFQhbrRQi4nuFRIYoVQ=;
+ b=enVwheiuSJ09rT9xLnWnPQWz+VoJHRsCsbHJ6L2puIsYbW+vOoa7WZUQvbCprUNWXX
+ mfrAzz5tmYNjqjUzJnu1l+MK6zSjHo+PYwf4cOocWEu+3ItrWQ9hJUOy3wJYOTORrGwM
+ zfUjUX+XI2m8tVOms9T3XUtTX6odVRe48RlX59A9hN6tixZblW95nzO9XZppwqeGH3iK
+ J10xTqzxZtcV1nryZZyOZCzhgTm0IwWzcq0pAFVc/Bwo6XMs09jLaFTBgbfaCmyOG3b9
+ k66yubq58Vy5f3vyUfM/hQlfbtGxLUAd5CHi+qtZ9xeJ9AN4kVSAZfbHGXLn19Cc5TYM
+ Arcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QtLGbV4ps4dOgnRhEyRR1a5PH5+scTyKgRQWf3+bYqs=;
- b=ehZNfHtSxsuzmsFLHGBRe9vlVsUEVMefifo3IA6twZRXrIUe8KkzYLITIAZmaeP2zd
- 2tUlW4l27i+Iq+CKA3N9NNzd1t8RbERdKIbl5aLrsskTxcvco3wVIMbtyJIyOH6QPHON
- T+er8P8koFIFXToiFQxhnAy8BfRSBJTF6DczxXqfDr9kUCUjldNhnMmq6dwmTrDvY9qa
- xwX3aEcbHL6N8oEfCnBSzmQtvZhbkH8X6y8fRnu/7nuMJsEx4Df/S6nyrSbHmHsvwyBQ
- iYz36oiiufT3ylDbN9pY2Nj99VDpcpdjJR/fg5DcUnnQqKVt3cU03gbckxH9DfWCQbYV
- R34g==
-X-Gm-Message-State: AO0yUKUluIT1vgxLKIJS7blgYIqnptJKN6+HPKAqhgEAT/kEi3AYcE6A
- EagozGbzvBHf/6Ack4FGzDSRJZOWRPCdDJnK5jVg+w==
-X-Google-Smtp-Source: AK7set/7xKIzdGiZCATUvuSkoGjmIuYEPgfjGKHBsFph+YyZt4LnTJqyEd/G2u3FyB8LDEGpXnnEFg==
-X-Received: by 2002:a17:902:b589:b0:19c:ff35:35d1 with SMTP id
- a9-20020a170902b58900b0019cff3535d1mr4148803pls.6.1677639425265; 
- Tue, 28 Feb 2023 18:57:05 -0800 (PST)
+ bh=4VQktDbOqSG80kC+PXJHu0YqEFQhbrRQi4nuFRIYoVQ=;
+ b=FPUOhbqwRD1vmTLsdQjHppOC3yatLPDotn9+uvs7kPhaI8ZNkNmG22+C1FeufHJROr
+ 045bp4Ii3CMu7YyNUexg9QgbDK06NLlg040qy955utFGQfgNptQHUTyrQk4nPm5ZWTA7
+ TnL1i2BbltGcDKpxWHc6fcfiMFXkHKL5HTpnEkc7wYSnnR4hwq+LQXZr5AO79wRfyYfI
+ iTYwNE7cPY3vIQlbWCQ2Jb5KxNEAJsETNp+eS3ALeag+r6OErr6f4WUl5welMNXrJx+o
+ fF9aKPMOHKODz/rs/3IVIKl6UgC6Ho9ZcsSP0DOOSeySYnbj/0VhzUGlJ4zmC6RR8hzK
+ L/4A==
+X-Gm-Message-State: AO0yUKUQ7fE/QR82qgeZGdfSCpzssqY5PYGjIXR7sDFZjDcCuWoV1xNB
+ vpNzXIb1LP3RX5eYPxhWhDy5uIgE7bXCdbP3PMs=
+X-Google-Smtp-Source: AK7set/mDimhJz2v6ewbE3ZHBSwVyEBMqaTLFkiNSJJmbzPpW4lYJxQlxUuR5C4A8n1cdYOGI1lQAw==
+X-Received: by 2002:a17:903:2341:b0:19b:2332:18cb with SMTP id
+ c1-20020a170903234100b0019b233218cbmr5582911plh.1.1677639427099; 
+ Tue, 28 Feb 2023 18:57:07 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.57.03
+ jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.57.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 18:57:04 -0800 (PST)
+ Tue, 28 Feb 2023 18:57:06 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, Anton Johansson <anjo@rev.ng>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 11/62] target/i386: Replace `TARGET_TB_PCREL` with `CF_PCREL`
-Date: Tue, 28 Feb 2023 16:55:52 -1000
-Message-Id: <20230301025643.1227244-12-richard.henderson@linaro.org>
+Subject: [PULL 12/62] include/exec: Remove `TARGET_TB_PCREL` define
+Date: Tue, 28 Feb 2023 16:55:53 -1000
+Message-Id: <20230301025643.1227244-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301025643.1227244-1-richard.henderson@linaro.org>
 References: <20230301025643.1227244-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,170 +96,26 @@ From: Anton Johansson via <qemu-devel@nongnu.org>
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230227135202.9710-8-anjo@rev.ng>
+Message-Id: <20230227135202.9710-9-anjo@rev.ng>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.c        |  2 +-
- target/i386/tcg/tcg-cpu.c   |  6 +++---
- target/i386/tcg/translate.c | 26 +++++++++++++-------------
- 3 files changed, 17 insertions(+), 17 deletions(-)
+ include/exec/cpu-defs.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 0ac2da066d..8857444819 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -520,7 +520,7 @@ static inline target_ulong get_memio_eip(CPUX86State *env)
-     }
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index d5a4f30717..be920d4208 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -54,9 +54,6 @@
+ #  error TARGET_PAGE_BITS must be defined in cpu-param.h
+ # endif
+ #endif
+-#ifndef TARGET_TB_PCREL
+-# define TARGET_TB_PCREL 0
+-#endif
  
-     /* Per x86_restore_state_to_opc. */
--    if (TARGET_TB_PCREL) {
-+    if (cs->tcg_cflags & CF_PCREL) {
-         return (env->eip & TARGET_PAGE_MASK) | data[0];
-     } else {
-         return data[0] - env->segs[R_CS].base;
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 79ac5908f7..c090ce152b 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -49,8 +49,8 @@ static void x86_cpu_exec_exit(CPUState *cs)
- static void x86_cpu_synchronize_from_tb(CPUState *cs,
-                                         const TranslationBlock *tb)
- {
--    /* The instruction pointer is always up to date with TARGET_TB_PCREL. */
--    if (!TARGET_TB_PCREL) {
-+    /* The instruction pointer is always up to date with CF_PCREL. */
-+    if (!(tb_cflags(tb) & CF_PCREL)) {
-         CPUX86State *env = cs->env_ptr;
-         env->eip = tb_pc(tb) - tb->cs_base;
-     }
-@@ -64,7 +64,7 @@ static void x86_restore_state_to_opc(CPUState *cs,
-     CPUX86State *env = &cpu->env;
-     int cc_op = data[1];
+ #define TARGET_LONG_SIZE (TARGET_LONG_BITS / 8)
  
--    if (TARGET_TB_PCREL) {
-+    if (tb_cflags(tb) & CF_PCREL) {
-         env->eip = (env->eip & TARGET_PAGE_MASK) | data[0];
-     } else {
-         env->eip = data[0] - tb->cs_base;
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 9d9392b009..3fed6d96f9 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -545,7 +545,7 @@ static inline void gen_op_st_rm_T0_A0(DisasContext *s, int idx, int d)
- static void gen_update_eip_cur(DisasContext *s)
- {
-     assert(s->pc_save != -1);
--    if (TARGET_TB_PCREL) {
-+    if (tb_cflags(s->base.tb) & CF_PCREL) {
-         tcg_gen_addi_tl(cpu_eip, cpu_eip, s->base.pc_next - s->pc_save);
-     } else {
-         tcg_gen_movi_tl(cpu_eip, s->base.pc_next - s->cs_base);
-@@ -556,7 +556,7 @@ static void gen_update_eip_cur(DisasContext *s)
- static void gen_update_eip_next(DisasContext *s)
- {
-     assert(s->pc_save != -1);
--    if (TARGET_TB_PCREL) {
-+    if (tb_cflags(s->base.tb) & CF_PCREL) {
-         tcg_gen_addi_tl(cpu_eip, cpu_eip, s->pc - s->pc_save);
-     } else {
-         tcg_gen_movi_tl(cpu_eip, s->pc - s->cs_base);
-@@ -588,7 +588,7 @@ static TCGv_i32 eip_next_i32(DisasContext *s)
-     if (CODE64(s)) {
-         return tcg_constant_i32(-1);
-     }
--    if (TARGET_TB_PCREL) {
-+    if (tb_cflags(s->base.tb) & CF_PCREL) {
-         TCGv_i32 ret = tcg_temp_new_i32();
-         tcg_gen_trunc_tl_i32(ret, cpu_eip);
-         tcg_gen_addi_i32(ret, ret, s->pc - s->pc_save);
-@@ -601,7 +601,7 @@ static TCGv_i32 eip_next_i32(DisasContext *s)
- static TCGv eip_next_tl(DisasContext *s)
- {
-     assert(s->pc_save != -1);
--    if (TARGET_TB_PCREL) {
-+    if (tb_cflags(s->base.tb) & CF_PCREL) {
-         TCGv ret = tcg_temp_new();
-         tcg_gen_addi_tl(ret, cpu_eip, s->pc - s->pc_save);
-         return ret;
-@@ -613,7 +613,7 @@ static TCGv eip_next_tl(DisasContext *s)
- static TCGv eip_cur_tl(DisasContext *s)
- {
-     assert(s->pc_save != -1);
--    if (TARGET_TB_PCREL) {
-+    if (tb_cflags(s->base.tb) & CF_PCREL) {
-         TCGv ret = tcg_temp_new();
-         tcg_gen_addi_tl(ret, cpu_eip, s->base.pc_next - s->pc_save);
-         return ret;
-@@ -1830,7 +1830,7 @@ static void gen_rot_rm_T1(DisasContext *s, MemOp ot, int op1, int is_right)
-     tcg_temp_free_i32(t0);
-     tcg_temp_free_i32(t1);
- 
--    /* The CC_OP value is no longer predictable.  */ 
-+    /* The CC_OP value is no longer predictable.  */
-     set_cc_op(s, CC_OP_DYNAMIC);
- }
- 
-@@ -1923,7 +1923,7 @@ static void gen_rotc_rm_T1(DisasContext *s, MemOp ot, int op1,
-         gen_op_ld_v(s, ot, s->T0, s->A0);
-     else
-         gen_op_mov_v_reg(s, ot, s->T0, op1);
--    
-+
-     if (is_right) {
-         switch (ot) {
-         case MO_8:
-@@ -2319,7 +2319,7 @@ static TCGv gen_lea_modrm_1(DisasContext *s, AddressParts a, bool is_vsib)
-         ea = cpu_regs[a.base];
-     }
-     if (!ea) {
--        if (TARGET_TB_PCREL && a.base == -2) {
-+        if (tb_cflags(s->base.tb) & CF_PCREL && a.base == -2) {
-             /* With cpu_eip ~= pc_save, the expression is pc-relative. */
-             tcg_gen_addi_tl(s->A0, cpu_eip, a.disp - s->pc_save);
-         } else {
-@@ -2867,7 +2867,7 @@ static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
-     if (!CODE64(s)) {
-         if (ot == MO_16) {
-             mask = 0xffff;
--            if (TARGET_TB_PCREL && CODE32(s)) {
-+            if (tb_cflags(s->base.tb) & CF_PCREL && CODE32(s)) {
-                 use_goto_tb = false;
-             }
-         } else {
-@@ -2879,7 +2879,7 @@ static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
-     gen_update_cc_op(s);
-     set_cc_op(s, CC_OP_DYNAMIC);
- 
--    if (TARGET_TB_PCREL) {
-+    if (tb_cflags(s->base.tb) & CF_PCREL) {
-         tcg_gen_addi_tl(cpu_eip, cpu_eip, new_pc - s->pc_save);
-         /*
-          * If we can prove the branch does not leave the page and we have
-@@ -2896,13 +2896,13 @@ static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
-         translator_use_goto_tb(&s->base, new_eip + s->cs_base)) {
-         /* jump to same page: we can use a direct jump */
-         tcg_gen_goto_tb(tb_num);
--        if (!TARGET_TB_PCREL) {
-+        if (!(tb_cflags(s->base.tb) & CF_PCREL)) {
-             tcg_gen_movi_tl(cpu_eip, new_eip);
-         }
-         tcg_gen_exit_tb(s->base.tb, tb_num);
-         s->base.is_jmp = DISAS_NORETURN;
-     } else {
--        if (!TARGET_TB_PCREL) {
-+        if (!(tb_cflags(s->base.tb) & CF_PCREL)) {
-             tcg_gen_movi_tl(cpu_eip, new_eip);
-         }
-         if (s->jmp_opt) {
-@@ -7065,7 +7065,7 @@ static void i386_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-     target_ulong pc_arg = dc->base.pc_next;
- 
-     dc->prev_insn_end = tcg_last_op();
--    if (TARGET_TB_PCREL) {
-+    if (tb_cflags(dcbase->tb) & CF_PCREL) {
-         pc_arg -= dc->cs_base;
-         pc_arg &= ~TARGET_PAGE_MASK;
-     }
 -- 
 2.34.1
 
