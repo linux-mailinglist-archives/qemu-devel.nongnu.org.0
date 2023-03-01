@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C476A67B0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 07:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBA36A67B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 07:50:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXGBk-00036E-Gq; Wed, 01 Mar 2023 01:43:44 -0500
+	id 1pXGHS-0007o0-N6; Wed, 01 Mar 2023 01:49:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pXGBS-0002vZ-ED; Wed, 01 Mar 2023 01:43:31 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ id 1pXGHC-0007nK-K0; Wed, 01 Mar 2023 01:49:24 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pXGBM-0008LU-81; Wed, 01 Mar 2023 01:43:23 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id eg37so49542230edb.12;
- Tue, 28 Feb 2023 22:43:18 -0800 (PST)
+ id 1pXGH3-000164-Mn; Wed, 01 Mar 2023 01:49:19 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id i34so49708157eda.7;
+ Tue, 28 Feb 2023 22:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677652998;
+ d=gmail.com; s=20210112; t=1677653352;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jhvWp/DQNlmCrNkLsVa9Svo9+HYSNyxJcxoWk93aT2Q=;
- b=JUPINV2W9vgjNQo21oI7W29lheq7UpBG+Ok75egr3AUGPQGRHpcWMVto9KzV+s2FIE
- rVpd8AotL9cgSDik/5yN+nGHLFxMVbij8GL+oo3qja60SH0AQfuhHd1swrmksu95PmRT
- JPHnZEKB62A4OXj38nndN81VOR356JYY+z7bEOdM8SssunWMbDBpPmPT2/nvxw+0h6FX
- kAnLwrSoSVcoEf5UjLhA4Nhew2Ay+C177o6DGEmGTr/pIxYHIs+xKe2PUsNFF/JQxGCg
- ZOXLJAah4XC451EZ8v46glmK+wA3Xbv2OeSBBm70yYs8YJKmuanooxyEUxIoL4H5lY10
- +Nhg==
+ bh=gR1g9fu7EmJ0v8S6vl6vcrhzA34p1EuNGvvEylw4iCA=;
+ b=HwDxkxv1lzPeRB0oBc8N4pXBtMtR6P6HhQoF8EM5Zwb4teZqpZpnjgmwRf2k0bwR0Y
+ eWQTlOVdyur7le9c6+JqMo9eEVBnvBr6w7hooohDxbbMTO3WAjbjjPhgXiA86rbdtueZ
+ lUeBwnfBNs4e5jrerhyUN441jQf6W0M7iVa2iDLHOW071diEs6IQbHi85tAmWrT3KdjZ
+ LUaHg79N/QjpKe4S/UCwFa198wM721VjnintrFM9dHtVgeKv+vfMsw7DTYitdbBNILgD
+ 4KVPTGTYk2qBM+qtEC44PMQb4x3VEzEi0hm56jE3iJpFGdlImE3bK0KlT0Ia/NjscbIp
+ CuPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677652998;
+ d=1e100.net; s=20210112; t=1677653352;
  h=content-transfer-encoding:mime-version:message-id:references
  :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jhvWp/DQNlmCrNkLsVa9Svo9+HYSNyxJcxoWk93aT2Q=;
- b=Ohd6i2ibgMIREiykgWF0YDM0pDMC1ycXdnqYfQxlgne35fBfW4fvhAniiKChrCaojE
- dXvyHY3Ll/aAct1zmI+1jeqc9pkzHuWrFGWg3LK47CSg1ARoVCyXObdK5/oa195Yo14G
- TzVdivctBPw4AM+GSekgE4P8DEsC0pZhynUUaFXMKcid0YeCphKVRCvVZa1v50bgHcWJ
- Gpolosrv+iwQKv9XbcgjMdq6PdyaCMQgzGm4frYEFdcw+YFzb6ikmooAzFbeNVmbJJtg
- 5OEfvyJqbME2lJaJTAGmx4QtV1OC+du3xX4h1JPIpI1GKzmUcKchun/bO8EHRD9o+aKX
- e3Zg==
-X-Gm-Message-State: AO0yUKV72fj0LQioQ8vfa6s6COWOWh/dIs0r8mWeV7OBtCxPKsrJBPi7
- N0Rng8jXHPbOGor5cyDNK70=
-X-Google-Smtp-Source: AK7set8dSUbald2VIoxfxAFy9jXHbGCrvy47VWN41GR8wBdKdCci+mm9GXt60dHX2kPB9sPmoY7wXQ==
-X-Received: by 2002:a17:906:7704:b0:8f8:b3a6:cc6b with SMTP id
- q4-20020a170906770400b008f8b3a6cc6bmr5085860ejm.58.1677652997924; 
- Tue, 28 Feb 2023 22:43:17 -0800 (PST)
+ bh=gR1g9fu7EmJ0v8S6vl6vcrhzA34p1EuNGvvEylw4iCA=;
+ b=ogOyd1f67Pdqd8hyMNcwSkCEr8xOs2Vx72nNXOHDs35IhmlGLf/9CQrvgCBEJTPhpE
+ S8UcbmFG1NLb+NA598s4ORsfvMQMb8+GGtCRzCc500/3lXutNAJQxUKImqTVR08P+UXO
+ lNlE87p3nWrKusXwbDbd7G/S3N60NWa4xnmoXz+hz7rER5fSBFKs9u76D/jP5c2lOHEw
+ oLnbmomQGRfQWyDfAGOpvg6HsLB245Ch7JldKvgtufP3RxH66smZ62vH9XJBp5oCgvPF
+ jNT3KT2UOYB0WcPJ4q0W3whWUcuDtCbscvgLlN+tH61lqBxU2MPOQHyDQHFxmqKyDcbO
+ MGcQ==
+X-Gm-Message-State: AO0yUKUiX9qyTOz6WU0Gr2u45ONei07TUOgl5rJC1k7WSh4uAHaYL83w
+ pymAVzx+eO3gGXw5OEVCMos=
+X-Google-Smtp-Source: AK7set/8SdYekDDEqJBPF7mUE3oq15RffDd9h1cg0feCHKeAburbjcj4Diy/qfn/J24iuSObTvkrlw==
+X-Received: by 2002:a17:906:1751:b0:8aa:bf4e:7b2c with SMTP id
+ d17-20020a170906175100b008aabf4e7b2cmr4883008eje.21.1677653351802; 
+ Tue, 28 Feb 2023 22:49:11 -0800 (PST)
 Received: from [127.0.0.1] (dynamic-078-054-154-055.78.54.pool.telefonica.de.
  [78.54.154.55]) by smtp.gmail.com with ESMTPSA id
- m15-20020a1709061ecf00b00882f9130eafsm5383199ejj.26.2023.02.28.22.43.17
+ w2-20020a17090649c200b008c16025b318sm5393785ejv.155.2023.02.28.22.49.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 22:43:17 -0800 (PST)
-Date: Wed, 01 Mar 2023 06:43:08 +0000
+ Tue, 28 Feb 2023 22:49:11 -0800 (PST)
+Date: Wed, 01 Mar 2023 06:49:01 +0000
 From: Bernhard Beschow <shentey@gmail.com>
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
@@ -61,19 +61,18 @@ CC: Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
  ReneEngel80@emailn.de
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v5_2/7=5D_Revert_=22hw/isa/vt82c?=
- =?US-ASCII?Q?686=3A_Remove_intermediate_IRQ_forwarder=22?=
-In-Reply-To: <709f5780-97e5-0cee-d776-4558cf39e000@eik.bme.hu>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v5_5/7=5D_hw/isa/vt82c686=3A_Work_arou?=
+ =?US-ASCII?Q?nd_missing_level_sensitive_irq_in_i8259_model?=
+In-Reply-To: <cd0b323bb88df202e36014f950c0eb13a9fafd54.1677628524.git.balaton@eik.bme.hu>
 References: <cover.1677628524.git.balaton@eik.bme.hu>
- <cdfb3c5a42e505450f6803124f27856434c5b298.1677628524.git.balaton@eik.bme.hu>
- <709f5780-97e5-0cee-d776-4558cf39e000@eik.bme.hu>
-Message-ID: <CDB81BB8-8136-4C97-84A2-EB3CAACC8781@gmail.com>
+ <cd0b323bb88df202e36014f950c0eb13a9fafd54.1677628524.git.balaton@eik.bme.hu>
+Message-ID: <CC88085A-C269-4BCF-8CFD-EB3B457533C9@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,72 +97,50 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 1=2E M=C3=A4rz 2023 00:33:28 UTC schrieb BALATON Zoltan <balaton@eik=2E=
+Am 1=2E M=C3=A4rz 2023 00:17:11 UTC schrieb BALATON Zoltan <balaton@eik=2E=
 bme=2Ehu>:
->On Wed, 1 Mar 2023, BALATON Zoltan wrote:
->> This partially reverts commit bb98e0f59cde846666d9fddc60ae74ef7ddfca17
->> keeping the rename of a state field but reverting other cahanges which
->> break interrupts on pegasos2=2E
+>MorphOS sets the ISA PIC to level sensitive mode but QEMU does not
+>support that so this causes a freeze if multiple devices try to raise
+>a shared interrupt=2E Work around it by lowering the interrupt before
+>raising it again if it is already raised=2E This could be reverted when
+>the i8259 model is fixed=2E
 >
->I've found this with just booting the MorphOS iso which now hangs without=
- this revert when trying to read from the ide device=2E I think I've mentio=
-ned that I've also tried this way first but then ended up adding this becau=
-se it was needed in a review of the patch earlier but I can't find that mes=
-sage now=2E For now it seems the easiest is to revert this and think about =
-it later=2E
+>Signed-off-by: BALATON Zoltan <balaton@eik=2Ebme=2Ehu>
+>---
+> hw/isa/vt82c686=2Ec | 9 +++++++++
+> 1 file changed, 9 insertions(+)
+>
+>diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
+>index 018a119964=2E=2E3e44a51f92 100644
+>--- a/hw/isa/vt82c686=2Ec
+>+++ b/hw/isa/vt82c686=2Ec
+>@@ -549,6 +549,7 @@ struct ViaISAState {
+>     PCIDevice dev;
+>     qemu_irq cpu_intr;
+>     qemu_irq *isa_irqs_in;
+>+    uint16_t isa_irqs_state;
+>     ViaSuperIOState via_sio;
+>     MC146818RtcState rtc;
+>     PCIIDEState ide;
+>@@ -636,6 +637,14 @@ static void via_isa_set_pci_irq(void *opaque, int ir=
+q_num, int level)
+>             pic_level |=3D pci_bus_get_irq_level(bus, i);
+>         }
+>     }
+>+    /* FIXME: workaround for i8259: level sensitive irq not supported */
+>+    if ((s->isa_irqs_state & BIT(pic_irq)) && pic_level) {
+>+        qemu_irq_lower(s->isa_irqs_in[pic_irq]);
+>+    } else if (pic_level) {
+>+        s->isa_irqs_state |=3D BIT(pic_irq);
+>+    } else {
+>+        s->isa_irqs_state &=3D ~BIT(pic_irq);
+>+    }
 
-It looks like Philippe's patch should work, at least in theory=2E Why does=
- the indirection work while it doesn't without?
+Let's not clutter the device model with workarounds which quickly snowball=
+ into unmaintainable code=2E Please fix the i8259 instead=2E
 
->
->Regards,
->BALATON Zoltan
->
->> Signed-off-by: BALATON Zoltan <balaton@eik=2Ebme=2Ehu>
->> ---
->> hw/isa/vt82c686=2Ec | 10 +++++++++-
->> 1 file changed, 9 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
->> index f4c40965cd=2E=2E01e0148967 100644
->> --- a/hw/isa/vt82c686=2Ec
->> +++ b/hw/isa/vt82c686=2Ec
->> @@ -598,15 +598,23 @@ void via_isa_set_irq(PCIDevice *d, int n, int lev=
-el)
->>     qemu_set_irq(s->isa_irqs_in[n], level);
->> }
->>=20
->> +static void via_isa_request_i8259_irq(void *opaque, int irq, int level=
-)
->> +{
->> +    ViaISAState *s =3D opaque;
->> +    qemu_set_irq(s->cpu_intr, level);
->> +}
->> +
->> static void via_isa_realize(PCIDevice *d, Error **errp)
->> {
->>     ViaISAState *s =3D VIA_ISA(d);
->>     DeviceState *dev =3D DEVICE(d);
->>     PCIBus *pci_bus =3D pci_get_bus(d);
->> +    qemu_irq *isa_irq;
->>     ISABus *isa_bus;
->>     int i;
->>=20
->>     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
->> +    isa_irq =3D qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
->>     isa_bus =3D isa_bus_new(dev, pci_address_space(d), pci_address_spac=
-e_io(d),
->>                           errp);
->>=20
->> @@ -614,7 +622,7 @@ static void via_isa_realize(PCIDevice *d, Error **e=
-rrp)
->>         return;
->>     }
->>=20
->> -    s->isa_irqs_in =3D i8259_init(isa_bus, s->cpu_intr);
->> +    s->isa_irqs_in =3D i8259_init(isa_bus, *isa_irq);
->>     isa_bus_register_input_irqs(isa_bus, s->isa_irqs_in);
->>     i8254_pit_init(isa_bus, 0x40, 0, NULL);
->>     i8257_dma_init(isa_bus, 0);
->>=20
+>     /* Now we change the pic irq level according to the via irq mappings=
+=2E */
+>     qemu_set_irq(s->isa_irqs_in[pic_irq], pic_level);
+> }
 
