@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181836A7089
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:07:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A5C6A7090
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:08:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXOyw-0008OW-HB; Wed, 01 Mar 2023 11:07:06 -0500
+	id 1pXP04-0001z3-At; Wed, 01 Mar 2023 11:08:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pXOyt-0008N6-0E
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:07:03 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pXP01-0001yP-NB
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:08:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pXOyq-0003ed-5I
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:07:02 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 2F90632004AE;
- Wed,  1 Mar 2023 11:06:58 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Wed, 01 Mar 2023 11:06:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1677686817; x=
- 1677773217; bh=sMf43TVwgi++OC7K4toVYgDwaIu2Rs2OOEwE/2BNMss=; b=D
- 0xmsxMjWsT3JfTXDIw1MTWmb1uZZ//sbTxB2PBLkAl50l2e0FBUiG7iUBRqnCZEu
- mq5JgItUQUPjQCI+QJYT6REnwtFb+p/vS9ACGsVRMaVcVBrHQgs2ZLlgJDuRt4HI
- wl3PiC7qOpSIO4Ky4XL54a2i3+hMcd3WN/y4ULFI/mYydSZWzVsYRj6KMIenWK5G
- VMc01Zuipdvx9vie6osYPl66S1Y8kel1P4SBLKBS6cLwAmK0ZyTr83QYch+rdTRq
- T7v1fKgy2FsOLqj38IXFFW+bl5I+yzb3Ns+BW+K6VQGDnuaXsmBhsCNzq4dikb6E
- UwCXaRaApRuNVo2DlkNIA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677686817; x=
- 1677773217; bh=sMf43TVwgi++OC7K4toVYgDwaIu2Rs2OOEwE/2BNMss=; b=K
- 1WJuAJOrP7sFUV357T/uwP3gPdibUsrTHd2Sfn60FsFfaQiOjOHaPNvUafSdt9Qa
- EGt7hago/YQSImdAVx6Ed8o7mwYlrXv8RsTEbN891msnvtdDkGHErsi5Tkr7M/1s
- 4BGK9Ej+gLvb4nb3G9ZklJ1Lbz0pnk+IMHVG2cK9yEMaRe2QGdUQSGHysKOylMUu
- nY6xiWlo/Aizwq2Y4XoNG3NEBmUop7MbvRAK8NXb4zuiEY8BxwH6D2VS9FJXqS/L
- ba+pMD6hp34DwQG3z8uSObnCyMBrbEttFFD5RKwGbuIR+KQiVYL3na0/dWZc5q78
- 2BrAMYQ5wnFrZgcj4MnOQ==
-X-ME-Sender: <xms:IXj_Y93n8vQpq4XAcuN_CN9cb164Khsk0jr47cOqgdFNXPHD9j4wNA>
- <xme:IXj_Y0FjbzVpCz6OVmHA_2JJWkXaHpb15wYEYq0Y5yPIXWXeBfELsOlDUo-LCZzm3
- ncvWedd0MCFQv4gow>
-X-ME-Received: <xmr:IXj_Y94A5qg_w3BQYq5ifd5_y8NMePhbl_TTZu72aqaCpl1J9P1v4SXPELTLPlxlZjECg6MiaJOUK43glyzA7AXhdlU-x3532y_Y5ZH1R_7HcA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelhedgjeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdlfeehmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredt
- redtjeenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqe
- enucggtffrrghtthgvrhhnpeetheekkefggfeivedvtefgleeiffdtleegfeeuledvuddt
- vdduhfekgfdutdevkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
- hlfhhrohhmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:IXj_Y60-QSR0JBy-u24-XDVpWyxd74LrejB4g0EOqKLkkN-c5rovHg>
- <xmx:IXj_YwHi1hflfI6RG2EaaqD9zhyEQ69a5Jg-MxP5u-4L4Z3iuE8MAg>
- <xmx:IXj_Y7-8Xe2dXQesxX54fo9jbLIlFr03NaScTr2cfXfX2_XK9hDLMw>
- <xmx:IXj_Y1TOAY_Y3q5WTTLsrzF5VeZldmgIyemstV1fyu8HLTYoGQ398w>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Mar 2023 11:06:57 -0500 (EST)
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: marcandre.lureau@gmail.com,
-	berrange@redhat.com
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 2/2] qemu-keymap: Fix memory leaks
-Date: Wed,  1 Mar 2023 09:05:46 -0700
-Message-Id: <54431d56ee32fd9f01f2080dc5e8606e4b83fb3a.1677686566.git.dxu@dxuuu.xyz>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <cover.1677686566.git.dxu@dxuuu.xyz>
-References: <cover.1677686566.git.dxu@dxuuu.xyz>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pXOzz-0003sb-RO
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:08:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677686887;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xtMNR/Fa8sxz+yQ8ERW7eBIuENAWWmSGQB38sP4IXBQ=;
+ b=ToxwuKc1/5XXE4HbwvCwt4nY66HfpqKZDXeMcu8NkyqGgbpVf8aYW6rknC1xjUn1CwoChb
+ W9Yg7IEtj0H2Br79I+b+zMXkDtOLKZwb+vOHDf93mTtzMu6nzC3/vqR7MPsdTm2KBQEOUI
+ 8wTYzE3ZHu6T2ut/GbqinG7OFUYewQI=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-650-mxmLqTgCNFKsf_k2WxGbIA-1; Wed, 01 Mar 2023 11:08:05 -0500
+X-MC-Unique: mxmLqTgCNFKsf_k2WxGbIA-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ l12-20020ac84a8c000000b003bfe751a7fdso3314515qtq.1
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 08:08:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677686884;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xtMNR/Fa8sxz+yQ8ERW7eBIuENAWWmSGQB38sP4IXBQ=;
+ b=qIbF2oPwW8X9vPM+OVtikN45rvr/T9n2YCMYrfPji0r3cL1AHRdLeC0JZvgzqIJmH+
+ j6Z50kStYCQVum2qEpHzzcOy7UVl+SN2MS6pK+ZeBYc0/ie9tiAZzJLHGiTxuECcde7K
+ kCi7muTnjLgWgeLt8Ole4PEVKeLxA2srYbnHSWd2I1BPld4SGqtvxd9tI2FTPooUQ+S4
+ +yfYg+VQk+9HQYGr43qUaMcH0GB/kw54uP++JACFxJwIyj6wWqcrV4E6fXjp0p8Qd/z8
+ qDMP4Co+1RPXtNpwQkCyUa/NSrOQfLUui7J3MSmgP1abJ7OENu7qmAdMiDfvtplQaCkT
+ /DRw==
+X-Gm-Message-State: AO0yUKUY3TO0B27xOXL33JMtjOMj2YgdR7Qm+5KCtuAAe8E7+cz2cQJy
+ wSgIMNokcx3/jxboYI1prjlohZxvPByKUaZYxCFGcCyemXiCatJPJ6wZ+WksnrquziGp0HFU+Mj
+ g4S1Fg796dCmxsHI=
+X-Received: by 2002:a0c:9c0e:0:b0:56b:e73e:e925 with SMTP id
+ v14-20020a0c9c0e000000b0056be73ee925mr10128524qve.0.1677686883824; 
+ Wed, 01 Mar 2023 08:08:03 -0800 (PST)
+X-Google-Smtp-Source: AK7set/SVP12Y577l5UBfl68M+orF3Lo3TCLo+b+eQMAtWfiovvsh79cMKzsDA4DprhhJu+kUm4mlg==
+X-Received: by 2002:a0c:9c0e:0:b0:56b:e73e:e925 with SMTP id
+ v14-20020a0c9c0e000000b0056be73ee925mr10128491qve.0.1677686883509; 
+ Wed, 01 Mar 2023 08:08:03 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ d25-20020a05620a205900b0073d873df3fesm9075826qka.30.2023.03.01.08.08.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 08:08:02 -0800 (PST)
+Date: Wed, 1 Mar 2023 11:08:01 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Chuang Xu <xuchuangxclwt@bytedance.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH RFC 0/4] memory: Fix (/ Discuss) a few rcu issues
+Message-ID: <Y/94YfBFIqZhrplF@x1n>
+References: <20230225163141.1209368-1-peterx@redhat.com>
+ <Y/6X1buYOXDpaXO0@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=dxu@dxuuu.xyz;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y/6X1buYOXDpaXO0@fedora>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,53 +101,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When building with `--enable-sanitizers`, I was getting quite a few
-memory leak crashes from ASAN:
+On Tue, Feb 28, 2023 at 07:09:57PM -0500, Stefan Hajnoczi wrote:
+> On Sat, Feb 25, 2023 at 11:31:37AM -0500, Peter Xu wrote:
+> > [not for merging, but for discussion; this is something I found when
+> >  looking at another issue on Chuang's optimization for migration downtime]
+> > 
+> > Summary: we tried to access memory_listeners, address_spaces, etc. in RCU
+> > way.  However we didn't implement them with RCU-safety. This patchset is
+> > trying to do that; at least making it closer.
+> > 
+> > NOTE!  It's doing it wrongly for now, so please feel free to see this as a
+> > thread to start discussing this problem, as in subject.
+> > 
+> > The core problem here is how to make sure memory listeners will be freed in
+> > RCU ways, per when unlinking them from the global memory_listeners list.
+> > 
+> > The current patchset (in patch 1) did it with drain_call_rcu(), but of
+> > course it's wrong, because of at least two things:
+> > 
+> >   (1) drain_call_rcu() will release BQL; currently there's no way to me to
+> >       guarantee that releasing BQL is safe here.
+> > 
+> >   (2) memory_listener_unregister() can be called within a RCU read lock
+> >       itself (we're so happy to take rcu read lock in many places but we
+> >       don't think much on how long it'll be taken; at least not as strict
+> >       as the kernel variance, so we're just less care about that fact yet).
+> >       It means, drain_call_rcu() should deadlock there waiting for itself.
+> >       For an example, see Appendix A.
+> > 
+> > Side question to Stefan / Maxim: why do we need drain_call_rcu() and what's
+> > its difference from synchronize_rcu() in API level besides releasing and
+> > retaking BQL when taken?
+> 
+> Hi,
+> I haven't taken a look at the patches or thought about the larger
+> problem you're tackling here, but I wanted to reply to this specific
+> question.
+> 
+> It's been a long time since Maxim, Paolo, and I discussed this, but
+> drain_call_rcu() and synchronize_rcu() do different things:
+> - drain_call_rcu() is about waiting until the current thread's
+>   call_rcu() callbacks have completed.
+> - synchronize_rcu() is about waiting until there are no more readers in
+>   the last grace period.
+> 
+> Calling synchronize_rcu() doesn't guarantee that call_rcu_thread() has
+> completed pending call_rcu() callbacks. Therefore it's not appropriate
+> for the existing drain_call_rcu() callers because they rely on previous
+> call_rcu() callbacks to have finished.
 
-        [21/574] Generating pc-bios/keymaps/fr-ch with a custom command
-        FAILED: pc-bios/keymaps/fr-ch
-        /home/dxu/dev/qemu/build/qemu-keymap -f pc-bios/keymaps/fr-ch -l ch -v fr
+Ah I missed that detail.
 
-        =================================================================
-        ==3232549==ERROR: LeakSanitizer: detected memory leaks
+I was quickly thinking whether such a requirement can also be done with a
+customized rcu callback that will simply kick a signal after the real
+"free" is done, while the call_rcu() context can wait for the signal.  It's
+just that assuming RCU callbacks will be executed in order is slightly
+tricky.  But I guess it's also hard if the call_rcu() is deep in the stack
+so drain_call_rcu() should avoid fiddling on the details.
 
-        Direct leak of 1424 byte(s) in 1 object(s) allocated from:
-            #0 0x7f32636bf411 in __interceptor_calloc /usr/src/debug/gcc/gcc/...
-            #1 0x7f32635db73e  (/usr/lib/libxkbcommon.so.0+0x2273e)
+Thanks Stefan!
 
-Fix leaks by correctly decrementing refcounts on xkb structs.
-
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- qemu-keymap.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/qemu-keymap.c b/qemu-keymap.c
-index 229866e004..ed8cee3467 100644
---- a/qemu-keymap.c
-+++ b/qemu-keymap.c
-@@ -203,6 +203,7 @@ int main(int argc, char *argv[])
-     map = xkb_keymap_new_from_names(ctx, &names, XKB_KEYMAP_COMPILE_NO_FLAGS);
-     if (!map) {
-         /* libxkbcommon prints error */
-+        xkb_context_unref(ctx);
-         exit(1);
-     }
- 
-@@ -227,7 +228,11 @@ int main(int argc, char *argv[])
-     state = xkb_state_new(map);
-     xkb_keymap_key_for_each(map, walk_map, state);
-     xkb_state_unref(state);
-+    xkb_keymap_unref(map);
-+    xkb_context_unref(ctx);
-     state = NULL;
-+    map = NULL;
-+    ctx = NULL;
- 
-     /* add quirks */
-     fprintf(outfile,
 -- 
-2.39.1
+Peter Xu
 
 
