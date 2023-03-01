@@ -2,94 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBCF6A75F9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1306A760E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:18:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXTkz-0007RY-JR; Wed, 01 Mar 2023 16:13:01 -0500
+	id 1pXTpw-00037i-CX; Wed, 01 Mar 2023 16:18:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pXTkv-0007PU-7R; Wed, 01 Mar 2023 16:12:57 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pXTks-0001Zn-FU; Wed, 01 Mar 2023 16:12:56 -0500
-Received: by mail-ed1-x536.google.com with SMTP id h16so59425723edz.10;
- Wed, 01 Mar 2023 13:12:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677705172;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MQjOJmPyfPi1ucCJRfw/OYWOSgWAkxBja0eXGgjjubw=;
- b=Enoag1xWqxq7rJp981BMFAF1l39OORturKjButehmjy+R65fWc1PbIDb49jBAAWX78
- 7yLIHZkveIANsyQo5v6i2sSWRZOqMOLQQBkFRPD311RDew4jIHfuBpsdeDJLHtw6ii/G
- ZABV/YcMBtuTzPqZtfLfCrp4LioWko4zAdzKw9630JTOyl7hQbdegF+zhgw47RqFLT5m
- sREqxJeIgyQ0eIzV/C4F/GLaykv/cuQsDvxyqrYv3LVJllWZ+60hEZW6sEHC0/EBt6Kz
- +tiyPu6V3os/fHiHlGB+58rhqgYNIcfiOWuKh2+COrRIRIPhO4OmGqjh6u60VHk1Az7v
- 0wOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677705172;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MQjOJmPyfPi1ucCJRfw/OYWOSgWAkxBja0eXGgjjubw=;
- b=TpXDYDTFfaoeFTrnTeJKSxTtLUsZ70bpkxp9gj/l8AbYzBhDFllW0YB7VU4kcBbO57
- FWn+m7WSwg5CVV8Ww9CR6S5It4iViL5HFlmQAEmYBG7HaN0TBZ9YiR7OOBs0Rtxj53jA
- 5fCz+MuR4uiz5D/qDg/xf3wats10gLZo2HdxqIx2DqU8oOU5ErMBOgZn1V2X7dS3Cawc
- i6PBXDWE1i9vrGeJ158i3ijjn1w+77nVje+P5rmCvnSJObh7joH1TqIey35ECIsLDSff
- JvNebMeMWw05nTYmbnexuYEr5S5KDUcnvh4HoVtSXGGUjwH6i2ZuoJp6PhM1c9zTc+T1
- 2vZw==
-X-Gm-Message-State: AO0yUKVmNMKgTocm1J+N2SIBVR/6oPtXwCKi/1O4yg6suDAas8PmdyFV
- m4QD7ARjR/KEjnYMWItC7QE=
-X-Google-Smtp-Source: AK7set93zRCWJM6GMq7QbtwmflIU/vuCt33xMpzyWaONRB0q32blQFS6QzYKxqHcHscUHdv41qGLWg==
-X-Received: by 2002:aa7:c6cc:0:b0:4bd:ff78:9c89 with SMTP id
- b12-20020aa7c6cc000000b004bdff789c89mr2066961eds.24.1677705171747; 
- Wed, 01 Mar 2023 13:12:51 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-188-068-061.77.188.pool.telefonica.de.
- [77.188.68.61]) by smtp.gmail.com with ESMTPSA id
- 13-20020a50874d000000b004af59c07495sm6116460edv.45.2023.03.01.13.12.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 13:12:51 -0800 (PST)
-Date: Wed, 01 Mar 2023 21:12:47 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- BALATON Zoltan <balaton@eik.bme.hu>
-CC: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_07/10=5D_hw/ide/piix=3A_Require?=
- =?US-ASCII?Q?_an_ISABus_only_for_user-created_instances?=
-In-Reply-To: <9d248bae-844a-33a6-3f8f-2a0f1fcfb33d@ilande.co.uk>
-References: <20230126211740.66874-1-shentey@gmail.com>
- <20230126211740.66874-8-shentey@gmail.com>
- <fb287888-c88c-60b1-20a4-1e50ddbf1daf@ilande.co.uk>
- <alpine.LMD.2.03.2302052308460.32269@eik.bme.hu>
- <935ae2a8-4327-53c6-1649-36698a00901d@ilande.co.uk>
- <00D45BF9-CA37-42FF-BDE1-F742B04F60F4@gmail.com>
- <b38987d5-5530-ecd9-2fd2-3a57e1a611dd@ilande.co.uk>
- <89F8A77B-BB73-4A91-8A19-C022A1FEF720@gmail.com>
- <9d248bae-844a-33a6-3f8f-2a0f1fcfb33d@ilande.co.uk>
-Message-ID: <3154B098-1455-4A06-857A-42917AA3E666@gmail.com>
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pXTps-0002wL-1X
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:18:04 -0500
+Received: from mail-co1nam11on2045.outbound.protection.outlook.com
+ ([40.107.220.45] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pXTpq-0003M9-01
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:18:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vx/mDWACFct37QT2PIoJQZnu44wO4IDgGg7BGYargzlI4w1Z/qxTme7hNwOMUzB0VVQT+JJ8llEn2ZWVp72oEF2OdGkW/Hx8nYER88MrC6MTZwWlxhBAk68X6ta1b7CtUA+YZlc82RmP+Sit/261lA4O+/kig/69UdlcHsxiIm9lButMrmrV6pOpruf3l8etIInVMW6ZYLvfyDGGKD6Tbcalk7+CNosw2kUbBTtc1B7TxEbUjasD7U75yDqfQDLPDlukgLnSdSTCF01DiusOExEx6a24Kc3rT4klXOJIyCa0XsVv9MEitWCTUn0aWpug8iuwYNOqTLsLoqW51Ib9yA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZqK5zXqBx3kN8lL8hX57l+ibIACH3W6/9wNRbEvkfys=;
+ b=HnUkcxrbtP6RuzW97Pz1k2fqeWUqtV1d6lBHdZqfWgWeP81AHJaRA7L0IVqRiz6/QMWEUdxLYyro4wqivc4Pp+3VGMp4AaGzDHAdVsuJzb4xlbOKrijhsnvjHsYDRZekiiN8bq4+WyTtPAh28B6paDWepZ9ufiSle55Stu8epZE7SculQTMRQI1BZEglU7a2vClynxfhDMBAZR2S5FD8LFFZRM4SYx2HpMix2WZuopNrzaZmjSXqAgcYj86HlTalr4MWeMA59xxgw8X6iHAFDNHVGwJYlIidmf2JZNHWs0D+2NZbJQN2l2uioVCd5vtGiCTXYhT121yX/743nXuTQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZqK5zXqBx3kN8lL8hX57l+ibIACH3W6/9wNRbEvkfys=;
+ b=ltkOY0csmk+sdKlq/Tloqe4ffYPFpgo5cdf6FKeCSg0iM8fCzFa4agcyfTZF5tpXVfTtOy4JOC5ikXiUdDTi/PZ/5UhAHWdy8ChrU67G6gkzPJBeQWCOd44Ht9TvlTGPvWXK8iU0kXfh87NVNU3Oc2gVLR1PFH6mvxnnUpFPosBK9Cb5ljlH+s+X12SnefaoSQJCnT+HycdfhP6AJrs3pgoNpuDaWHWuNulG14vtQVPbinETOiE4JmwkQircjcGvA2AnO67IcXKs7Ly83u487plKDiG+8eEDJMkxBgHYvtTwxk3bB9C39CF8LZ/sWdKeNp9VuiQRDYqp4zybdnCuqw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by BL1PR12MB5756.namprd12.prod.outlook.com (2603:10b6:208:393::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.26; Wed, 1 Mar
+ 2023 21:12:54 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::3cb3:2fce:5c8f:82ee]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::3cb3:2fce:5c8f:82ee%4]) with mapi id 15.20.6134.029; Wed, 1 Mar 2023
+ 21:12:54 +0000
+Date: Wed, 1 Mar 2023 17:12:51 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yishai Hadas <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v2 03/20] vfio/migration: Add VFIO migration pre-copy
+ support
+Message-ID: <Y/+/0z/MEkKuLNgk@nvidia.com>
+References: <20230222174915.5647-4-avihaih@nvidia.com>
+ <20230222135811.705b85b7.alex.williamson@redhat.com>
+ <38bdb26f-08d7-fe11-9a97-ebcc95c82254@nvidia.com>
+ <20230223141637.67870a03.alex.williamson@redhat.com>
+ <a875f6e5-951b-8f39-7867-313eabe54363@nvidia.com>
+ <20230227091444.6a6e93cd.alex.williamson@redhat.com>
+ <Y/znqJvtxtUEmsHi@nvidia.com>
+ <20230227104308.14077d8a.alex.williamson@redhat.com>
+ <b142b581-65c3-285d-bc68-fabc8d5ab0b7@nvidia.com>
+ <20230301125559.613c85e9.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230301125559.613c85e9.alex.williamson@redhat.com>
+X-ClientProxiedBy: SJ0PR05CA0207.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::32) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BL1PR12MB5756:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f3426e5-2078-4eae-28d2-08db1a99b95f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QotY31m7ktQKu6r2DhX0F1vzeRdLWNtoJjBXH9VLEzWJiA6Lw1neZEgsPU1K5NeY7acjnBylDY+I/5PzAeQoMlNVuXl74g6OnQuY/noq9ENMA9WamwnIV6iDs/hJXMRmIgUvbI07QPK0z/V2bMIkAcXM9SsJbmc4SEnePyDeLI7c6tpbY8HPlOHBWIEg+J0hhu50R1kDDoc2BwAAXQfUSXHOq6iNG7R7gYoTgjwbazuS9FjMA4bMm0bL6Qbdtit+Ig/2oH/vGusCyGOitDklrFb9aPMpnkqhJSBTVq1LPUAX8F+EOEByzuxpU0A2qicY0upaUS+hMoGmU5mrgjNW1t7+B+izbGo37etpNu0nzlI1X8MkgqrlWdbMj3H7dG1lLTkd10HBfyyl0bmZLErCvFgKytP5sSGa8OSTXkpZu7kgUMaW5uyX+nDEE95nHJfwSFvAAaYp8TIf2KRlsz0sVibEPLNOHT/hTQb4q5xHWY3nf58PgqerWqpbCr3fpYHYDAXZs31WdMvx6RiAfcHLIdQXH0A6bD8hH1BwiR2EO7sT4McIbTKUHBJvTkXIUpI8yZS6EfYuO2GfbIx0aNhL4t1G2lNGqpLTVAGEAzp9e/4YqAf81EAjxlxGq59uLYFK2MW27n1CgHRLZRCzZr0TMA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(376002)(346002)(396003)(136003)(366004)(451199018)(478600001)(66556008)(66476007)(4326008)(41300700001)(8936002)(8676002)(36756003)(86362001)(38100700002)(66946007)(6666004)(26005)(2616005)(6512007)(6506007)(186003)(6916009)(4744005)(6486002)(5660300002)(2906002)(54906003)(316002)(7416002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?w/5K0WgPRXmq2RsYnYPMoS0IRacmvqfTAecfyZG6jnFnOSOwq6YGKEx47/cA?=
+ =?us-ascii?Q?eXk0cVheUyuothIQhO3NoyUP2Fa5KjpUyt7vpjKhipxmalGilrO5ep4Jx24k?=
+ =?us-ascii?Q?OVRCzTYGInlTT6NY7N0zEGev0fAR1otHw+ZOz0i4fymYMBgSNwcd+CZjCgn2?=
+ =?us-ascii?Q?Ca+768SOr/FugQEoZZ8j0DSMCd51t34KVH6l69rFF1GpX8zq3qjge/ziKWoy?=
+ =?us-ascii?Q?ZDueS12sJWV0MUGuPXr2lFHLTplkgyBsM/U3D9GnrWVDaUnM7J/aO9uXoCFQ?=
+ =?us-ascii?Q?flbLP1xWP3PEmq192i3jYs4B+LoJdv5LoBBfWEBaOHrGaqsR2lKcJgT+UgBg?=
+ =?us-ascii?Q?odiKDwEdd9HaB/sGodA8Zgq6Ml+Uay6TEIx0MyILvblkngIUnyCOCwLAz8hY?=
+ =?us-ascii?Q?/EobO/t6rhYcfyImwKBqCMjMFnUrj3ev28wp70wJxokx94q1L4d86JkS31oU?=
+ =?us-ascii?Q?4VXPaNOMnp3RAKJKm7LjGbNA5z0J93/1ahxNXT5l65OrV0rqySuxyR3RYicd?=
+ =?us-ascii?Q?gGCm3rREZ9Lk+Oe6akcez4TTJiWf52b/cAgzi1yzAqj3Zn+mJBFazCYYzaFU?=
+ =?us-ascii?Q?WqllJ0XShkhD3Bczdq4WCb07/mCtsWFiBbZuxmpiS2skZ8gJkcXHgUDV9wWH?=
+ =?us-ascii?Q?DJ1TkoiwgiwOStkxcSFXyt3E7MS42smfFiXqElWWj7Mj36C3ESqr0NoffiIp?=
+ =?us-ascii?Q?cv6/I11b6aOb0YLz4HyEwJblc1CoropY1rbVVrRIxrSO/ACxV2BwPxl274ad?=
+ =?us-ascii?Q?jKzp3b99UraaAHKO8s6YqaSw5KAvd4Zf6ui05YkERZrCnC3Pff+DKwrnLmgl?=
+ =?us-ascii?Q?j4L+XUUOZ7pjobrmmUgdmoCiQmzbe+zIJQHMslidfniD0e28rN567oM/nNEC?=
+ =?us-ascii?Q?2E952RjM1ryY3vIxqouYugUFkg7snTAcljDx6UoCc9wjMc3HuOAaYMwpEhSO?=
+ =?us-ascii?Q?UXxTsh354btJaOZAwbfDuIYzxZD38a+fVVlzMDLX123HrotuPJRwaTJ7kSl8?=
+ =?us-ascii?Q?iWvRkgKMGcfNC967s6wsoZp4U4qexMxFzYzqKzAjV/6D3W7S8CcGHiLH1KSq?=
+ =?us-ascii?Q?nJRHrtW7vcRUU2MttFKP1gsY8d+b8dLm4xlKTBsU3P1kBKOBrvnO3g+UKOlQ?=
+ =?us-ascii?Q?i3QI7j+1BzhwoJ0pFjR6RxjF4F7SMdmw7vCadXRIPgB+tlKcy1MSrjGtY9ZZ?=
+ =?us-ascii?Q?Tn1uFy/i5Qcf6jshKfd5SiznlAzap2vn1Eu4Sfy3QBc/OM3bwSURjgaypMvz?=
+ =?us-ascii?Q?eEdrkfY21nkpAsmvOrDLIsp35V4swod5uklaoVgV/4m+OVxG8B2kt8NZuMlE?=
+ =?us-ascii?Q?WZ3+TVBcRzoLiByGnbAP2UflnL/CY3uq0PAP/JT3aH33g0FY7WtEAqppZpvJ?=
+ =?us-ascii?Q?MUp/iKEiLnG71DOFR9hUDBLVzLaxJqnGV81luo5HxCYntqXiAp2Hkj19u8tg?=
+ =?us-ascii?Q?TYrF1AYSy6CCUOBcIAWeLBQ8wWinezaLWAckm6rOSiBf5BJBc7DUmW1uV2+s?=
+ =?us-ascii?Q?OxE8VnZS/c+L1LsQNrUIvSEsU7VfJKALurK+09k6P24XjDofL8OF27L/kwkR?=
+ =?us-ascii?Q?RdMijiTt9YFHgTVnNUOqfAebuJLRh7yYZMhSUSjt?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f3426e5-2078-4eae-28d2-08db1a99b95f
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2023 21:12:54.7896 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 33a0qudmo3UwDswvaW0lki04xy09tgoWz/PL/s8zD4IMS1rn+RHxenNGLbl2t122
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5756
+Received-SPF: softfail client-ip=40.107.220.45; envelope-from=jgg@nvidia.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,351 +154,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Mar 01, 2023 at 12:55:59PM -0700, Alex Williamson wrote:
 
+> So it seems like what we need here is both a preface buffer size and a
+> target device latency.  The QEMU pre-copy algorithm should factor both
+> the remaining data size and the device latency into deciding when to
+> transition to stop-copy, thereby allowing the device to feed actually
+> relevant data into the algorithm rather than dictate its behavior.
 
-Am 1=2E M=C3=A4rz 2023 16:42:16 UTC schrieb Mark Cave-Ayland <mark=2Ecave-=
-ayland@ilande=2Eco=2Euk>:
->On 23/02/2023 20:46, Bernhard Beschow wrote:
->>=20
->>=20
->> Am 7=2E Februar 2023 20:52:02 UTC schrieb Mark Cave-Ayland <mark=2Ecave=
--ayland@ilande=2Eco=2Euk>:
->>> On 06/02/2023 23:40, Bernhard Beschow wrote:
->>>=20
->>>> Am 5=2E Februar 2023 22:32:03 UTC schrieb Mark Cave-Ayland <mark=2Eca=
-ve-ayland@ilande=2Eco=2Euk>:
->>>>> On 05/02/2023 22:21, BALATON Zoltan wrote:
->>>>>=20
->>>>>> On Sun, 5 Feb 2023, Mark Cave-Ayland wrote:
->>>>>>> On 26/01/2023 21:17, Bernhard Beschow wrote:
->>>>>>>> Internal instances now defer interrupt wiring to the caller which
->>>>>>>> decouples them from the ISABus=2E User-created devices still fish=
- out the
->>>>>>>> ISABus from the QOM tree and the interrupt wiring remains in PIIX=
- IDE=2E
->>>>>>>> The latter mechanism is considered a workaround and intended to b=
-e
->>>>>>>> removed once a deprecation period for user-created PIIX IDE devic=
-es is
->>>>>>>> over=2E
->>>>>>>>=20
->>>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->>>>>>>> ---
->>>>>>>>   =C2=A0 include/hw/ide/pci=2Eh |=C2=A0 1 +
->>>>>>>>   =C2=A0 hw/ide/piix=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 64 ++++++++++++++++++++++++++++++++++----------
->>>>>>>>   =C2=A0 hw/isa/piix=2Ec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 5 ++++
->>>>>>>>   =C2=A0 3 files changed, 56 insertions(+), 14 deletions(-)
->>>>>>>>=20
->>>>>>>> diff --git a/include/hw/ide/pci=2Eh b/include/hw/ide/pci=2Eh
->>>>>>>> index 24c0b7a2dd=2E=2Eee2c8781b7 100644
->>>>>>>> --- a/include/hw/ide/pci=2Eh
->>>>>>>> +++ b/include/hw/ide/pci=2Eh
->>>>>>>> @@ -54,6 +54,7 @@ struct PCIIDEState {
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion bmdma_bar;
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion cmd_bar[2];
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion data_bar[2];
->>>>>>>> +=C2=A0=C2=A0=C2=A0 bool user_created;
->>>>>>>>   =C2=A0 };
->>>>>>>>   =C2=A0=C2=A0=C2=A0 static inline IDEState *bmdma_active_if(BMDM=
-AState *bmdma)
->>>>>>>> diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
->>>>>>>> index 5980045db0=2E=2Ef0d95761ac 100644
->>>>>>>> --- a/hw/ide/piix=2Ec
->>>>>>>> +++ b/hw/ide/piix=2Ec
->>>>>>>> @@ -108,6 +108,13 @@ static void bmdma_setup_bar(PCIIDEState *d)
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>>>   =C2=A0 }
->>>>>>>>   =C2=A0 +static void piix_ide_set_irq(void *opaque, int n, int l=
-evel)
->>>>>>>> +{
->>>>>>>> +=C2=A0=C2=A0=C2=A0 PCIIDEState *d =3D opaque;
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0 qemu_set_irq(d->isa_irqs[n], level);
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>   =C2=A0 static void piix_ide_reset(DeviceState *dev)
->>>>>>>>   =C2=A0 {
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCIIDEState *d =3D PCI_IDE(dev);
->>>>>>>> @@ -138,11 +145,18 @@ static void pci_piix_init_ports(PCIIDEState=
- *d, ISABus *isa_bus)
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int i;
->>>>>>>>   =C2=A0 +=C2=A0=C2=A0=C2=A0 if (isa_bus) {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d->isa_irqs[0] =3D is=
-a_bus->irqs[port_info[0]=2Eisairq];
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d->isa_irqs[1] =3D is=
-a_bus->irqs[port_info[1]=2Eisairq];
->>>>>>>> +=C2=A0=C2=A0=C2=A0 } else {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_init_gpio_out(DE=
-VICE(d), d->isa_irqs, 2);
->>>>>>>> +=C2=A0=C2=A0=C2=A0 }
->>>>>>>> +
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 2; i++) {
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_bus_=
-init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_init=
-_ioport(&d->bus[i], NULL, port_info[i]=2Eiobase,
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 port_info[i]=2Eiobase2);
->>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_init2(&d->bus[i],=
- isa_bus->irqs[port_info[i]=2Eisairq]);
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ide_init2(&d->bus[i],=
- qdev_get_gpio_in(DEVICE(d), i));
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 bmdma_init(&d->bus[i], &d->bmdma[i], d);
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d->bmdma=
-[i]=2Ebus =3D &d->bus[i];
->>>>>>>> @@ -154,8 +168,7 @@ static void pci_piix_ide_realize(PCIDevice *d=
-ev, Error **errp)
->>>>>>>>   =C2=A0 {
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCIIDEState *d =3D PCI_IDE(dev);
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t *pci_conf =3D dev->confi=
-g;
->>>>>>>> -=C2=A0=C2=A0=C2=A0 ISABus *isa_bus;
->>>>>>>> -=C2=A0=C2=A0=C2=A0 bool ambiguous;
->>>>>>>> +=C2=A0=C2=A0=C2=A0 ISABus *isa_bus =3D NULL;
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_conf[PCI_CLASS_P=
-ROG] =3D 0x80; // legacy ATA mode
->>>>>>>>   =C2=A0 @@ -164,22 +177,36 @@ static void pci_piix_ide_realize(P=
-CIDevice *dev, Error **errp)
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmstate_register(VMS=
-TATE_IF(dev), 0, &vmstate_ide_pci, d);
->>>>>>>>   =C2=A0 -=C2=A0=C2=A0=C2=A0 isa_bus =3D ISA_BUS(object_resolve_p=
-ath_type("", TYPE_ISA_BUS, &ambiguous));
->>>>>>>> -=C2=A0=C2=A0=C2=A0 if (ambiguous) {
->>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp,
->>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "More than one ISA bus found =
-while %s supports only one",
->>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_get_typename(OBJECT(de=
-v)));
->>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>>>>>> -=C2=A0=C2=A0=C2=A0 }
->>>>>>>> -=C2=A0=C2=A0=C2=A0 if (!isa_bus) {
->>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "No =
-ISA bus found while %s requires one",
->>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 object_get_typename(OBJECT(de=
-v)));
->>>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>>>>>> +=C2=A0=C2=A0=C2=A0 if (d->user_created) {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool ambiguous;
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 isa_bus =3D ISA_BUS(o=
-bject_resolve_path_type("", TYPE_ISA_BUS,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 &ambiguous));
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ambiguous) {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 error_setg(errp,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "More=
- than one ISA bus found while %s supports only one",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 objec=
-t_get_typename(OBJECT(dev)));
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!isa_bus) {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 error_setg(errp, "No ISA bus found while %s requires one",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 objec=
-t_get_typename(OBJECT(dev)));
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_piix_init_ports(=
-d, isa_bus);
->>>>>>>>   =C2=A0 }
->>>>>>>>   =C2=A0 +static void pci_piix_ide_init(Object *obj)
->>>>>>>> +{
->>>>>>>> +=C2=A0=C2=A0=C2=A0 DeviceState *dev =3D DEVICE(obj);
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0 qdev_init_gpio_in(dev, piix_ide_set_irq, 2);
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>   =C2=A0 static void pci_piix_ide_exitfn(PCIDevice *dev)
->>>>>>>>   =C2=A0 {
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCIIDEState *d =3D PCI_IDE(dev);
->>>>>>>> @@ -191,6 +218,11 @@ static void pci_piix_ide_exitfn(PCIDevice *d=
-ev)
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>>>   =C2=A0 }
->>>>>>>>   =C2=A0 +static Property piix_ide_properties[] =3D {
->>>>>>>> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_BOOL("user-created", PCIIDEState,=
- user_created, true),
->>>>>>>> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_END_OF_LIST(),
->>>>>>>> +};
->>>>>>>> +
->>>>>>>>   =C2=A0 /* NOTE: for the PIIX3, the IRQs and IOports are hardcod=
-ed */
->>>>>>>>   =C2=A0 static void piix3_ide_class_init(ObjectClass *klass, voi=
-d *data)
->>>>>>>>   =C2=A0 {
->>>>>>>> @@ -205,11 +237,13 @@ static void piix3_ide_class_init(ObjectClas=
-s *klass, void *data)
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 k->class_id =3D PCI_CLASS_STORAG=
-E_IDE;
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_bit(DEVICE_CATEGORY_STORAGE,=
- dc->categories);
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dc->hotpluggable =3D false;
->>>>>>>> +=C2=A0=C2=A0=C2=A0 device_class_set_props(dc, piix_ide_propertie=
-s);
->>>>>>>>   =C2=A0 }
->>>>>>>>   =C2=A0=C2=A0=C2=A0 static const TypeInfo piix3_ide_info =3D {
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Ename=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D TYPE_PIIX3_IDE,
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Eparent=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 =3D TYPE_PCI_IDE,
->>>>>>>> +=C2=A0=C2=A0=C2=A0 =2Einstance_init =3D pci_piix_ide_init,
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Eclass_init=C2=A0=C2=A0=C2=A0 =
-=3D piix3_ide_class_init,
->>>>>>>>   =C2=A0 };
->>>>>>>>   =C2=A0 @@ -227,11 +261,13 @@ static void piix4_ide_class_init(O=
-bjectClass *klass, void *data)
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 k->class_id =3D PCI_CLASS_STORAG=
-E_IDE;
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_bit(DEVICE_CATEGORY_STORAGE,=
- dc->categories);
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dc->hotpluggable =3D false;
->>>>>>>> +=C2=A0=C2=A0=C2=A0 device_class_set_props(dc, piix_ide_propertie=
-s);
->>>>>>>>   =C2=A0 }
->>>>>>>>   =C2=A0=C2=A0=C2=A0 static const TypeInfo piix4_ide_info =3D {
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Ename=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D TYPE_PIIX4_IDE,
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Eparent=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 =3D TYPE_PCI_IDE,
->>>>>>>> +=C2=A0=C2=A0=C2=A0 =2Einstance_init =3D pci_piix_ide_init,
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =2Eclass_init=C2=A0=C2=A0=C2=A0 =
-=3D piix4_ide_class_init,
->>>>>>>>   =C2=A0 };
->>>>>>>>   =C2=A0 diff --git a/hw/isa/piix=2Ec b/hw/isa/piix=2Ec
->>>>>>>> index 54a1246a9d=2E=2Ef9974c2a77 100644
->>>>>>>> --- a/hw/isa/piix=2Ec
->>>>>>>> +++ b/hw/isa/piix=2Ec
->>>>>>>> @@ -345,9 +345,14 @@ static void pci_piix_realize(PCIDevice *dev,=
- const char *uhci_type,
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* IDE */
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qdev_prop_set_int32(DEVICE(&d->i=
-de), "addr", dev->devfn + 1);
->>>>>>>> +=C2=A0=C2=A0=C2=A0 qdev_prop_set_bit(DEVICE(&d->ide), "user-crea=
-ted", false);
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qdev_realize(DEVICE(&d->ide=
-), BUS(pci_bus), errp)) {
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>>> +=C2=A0=C2=A0=C2=A0 qdev_connect_gpio_out(DEVICE(&d->ide), 0,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 qdev_get_gpio_in(DEVICE(&d->pic), 14));
->>>>>>>> +=C2=A0=C2=A0=C2=A0 qdev_connect_gpio_out(DEVICE(&d->ide), 1,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 qdev_get_gpio_in(DEVICE(&d->pic), 15));
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* USB */
->>>>>>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (d->has_usb) {
->>>>>>>=20
->>>>>>> I haven't checked the datasheet, but I suspect this will be simila=
-r to the cmd646/via PCI-IDE interfaces in that there will be a PCI configur=
-ation register that will switch between ISA compatibility mode (and ISA irq=
-s) and PCI mode (with PCI IRQs)=2E So it would be the device configuration =
-that would specify PCI or ISA mode, rather than the presence of an ISABus=
-=2E
->>>>>>=20
->>>>>> I forgot about this topic already and haven't follwed this series e=
-ither so what I say may not fully make sense but I think CMD646 and via-ide=
- are different=2E CMD646 is a PCI device and should use PCI interrupts whil=
-e via-ide is part of a southbridge/superio complex and connected to the ISA=
- PICs within that southbride, so I think via-ide always uses ISA IRQs and t=
-he ISA btidge within the same chip may convert that to PCI IRQs or not (tha=
-t part is where I'm lost also because we may not actually model it that way=
-)=2E After a long debate we managed to find a solution back then that works=
- for every guest we use it for now so I think we don't want to touch it now=
- until some real need arises=2E It does not worth the trouble and added com=
-plexity to model something that is not used just for the sake of correctnes=
-s=2E By the time we find a use for that, the ISA emulation may evolve so it=
-'s easier to implement the missing switching between isa and native mode or=
- we may want to do it differently (such as we do things differently now com=
-pared to what we did years ago)=2E So I think it does not worth keeping the=
- ISA model from being simplified for some theoretical uses in the future wh=
-ich we may not actually do any time soon=2E But I don't want to get into th=
-is again so just shared my thoughts and feel free to ignore it=2E I don't c=
-are where these patches go as long as the VIA model keeps working for me=2E
->>>>>=20
->>>>> I have a vague memory that ISA compatibility mode was part of the or=
-iginal PCI-BMDMA specification, but it has been a while since I last looked=
-=2E
->>>>>=20
->>>>> Bernhard, is there any mention of this in the PIIX datasheet(s)? For=
- reference the cmd646 datasheet specifies that ISA mode or PCI mode is dete=
-rmined by register PROG_IF (0x9) in PCI configuration space=2E
->>>>=20
->>>> I've found the following:
->>>>=20
->>>>     "Only PCI masters have access to the IDE port=2E ISA Bus masters =
-cannot access the IDE I/O port addresses=2E Memory targeted by the IDE inte=
-rface acting as a PCI Bus master on behalf of IDE DMA slaves must reside on=
- PCI, usually main memory implemented by the host-to-PCI bridge=2E"
->>>>=20
->>>> And:
->>>>=20
->>>>     "PIIX4 can act as a PCI Bus master on behalf of an IDE slave devi=
-ce=2E"
->>>>=20
->>>> Does this perhaps mean that piix-ide does indeed have no ISA bus?
->>>=20
->>> I'd be amazed if that were the case: certainly when the first motherbo=
-ards came out with PCI and ISA slots, I'd expect the IDE legacy mode to be =
-enabled by default since BIOSes and OSs such as DOS wouldn't have been PCI =
-aware and would access the ISA ioports directly=2E From memory the OF PCI s=
-pecification has mention of workarounds such as mapping the old VGA memory =
-to PCI MMIO space for compatibility reasons, so I'd be surprised if there w=
-asn't something similar for IDE=2E
->>>=20
->>> The wording above is a bit ambiguous because I can see the above state=
-ments would be true if the PCI-IDE device were already switched to PCI mode=
-, and what we're looking for is whether a switch between the two is support=
-ed or possible=2E
->>=20
->> A switch is definitely impossible: The PIIX IDE function has the 0x3c (=
-interrupt line) and 0x3d (interrupt pin) registers reserved=2E It's fixed i=
-n legacy mode (prog-if is 0x80)=2E
->>=20
->> Best regards,
->> Bernhard
->
->Thanks for checking this=2E
+I don't know that we can realistically estimate startup latency,
+especially have the sender estimate latency on the receiver..
 
-Thanks for the valuable pointer=2E=2E=2E interesting and very comprehensiv=
-e read!
+I feel like trying to overlap the device start up with the STOP phase
+is an unnecessary optimization? How do you see it benifits?
 
->If you have any upcoming patches that touch this file, it's worth adding =
-a comment explaining this with a reference to the relevant part of the data=
-sheet, and also update wmask accordingly=2E
+I've been thinking of this from the perspective that we should always
+ensure device startup is completed, it is time that has to be paid,
+why pay it during STOP?
 
-Will do -- if I ever get to it=2E=2E=2E
-
-Phil, you have an alternate series=2E Would you be able to do this, too?
-
-Thanks,
-Bernhard
-
->
->
->ATB,
->
->Mark=2E
+Jason
 
