@@ -2,95 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84276A6CB1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:00:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27D76A6E7B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:32:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXM2V-0005Ud-7U; Wed, 01 Mar 2023 07:58:35 -0500
+	id 1pXNUi-0005gT-RQ; Wed, 01 Mar 2023 09:31:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXM2K-0005Gy-NK
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:58:24 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <williamvdvelde@gmail.com>)
+ id 1pXIeT-0002rI-Id
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:21:33 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXM2H-0005kT-US
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:58:23 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- fm20-20020a05600c0c1400b003ead37e6588so11739818wmb.5
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 04:58:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cQUjkR7e9OWO2hs8WPBUfm0SMDDvABGSCr0+jgFerLM=;
- b=z8UkJma/dHOeujfPeCYD2VzH/b5/oFLX6Y3jqxuQdZeY1EAeXgW6FBiPNL/ehWrgIg
- JnnMBKllxNdJ1fbYsKkQixVyj57Rz3fNSBFXr0HZsAO6N+SezN9vmy1Aul7e20YmjCo9
- 2A5k6RIxr1jdGER7QkgWnUjLFa6blybHRA3QKyF1WaXPMib4rZckp9eX3RY5xe/8h/wT
- Au8A1d53d8tkcaxzJGXM2iUgisxkVn4y77EcS10laYqKWsXizSUrpeK3tdfarRORW+U7
- hwAN0exySvCbdxfW9vBxRWteCAmuNCSHZSnm2DwcCGGnkrrKDgPIeQiwtUPs+sXlOPen
- 9SkQ==
+ (Exim 4.90_1) (envelope-from <williamvdvelde@gmail.com>)
+ id 1pXIeS-0006C8-48
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:21:33 -0500
+Received: by mail-ed1-x533.google.com with SMTP id s26so50962227edw.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 01:21:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677662490;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=UH/coAbyxU4ZirK2emktuM859u2bGuCi7NCkEdaHFwI=;
+ b=RQ49F4yEbMdG3vh/BvH0yCzr8gTwXCHCCzm/5acLPwhrNEfL9MaTSM2o7CSoT9Dis9
+ FudUHag8aHtKrlcpn81/UTQSBrKSbi9dDZs5uMIkFbwrE1lv8tlekBEredVnK6IYeAB6
+ aaDsaElR85G09vws3gXHTUEtRtWhY4PMkkp0+bCb8DdBjYaKKHEHHNj88/zp1O1ZmcVV
+ vQ3+fKSZ6rFhjLpfGui043rN/A9Pvz5ut0KqF5GZl/q271QJsOoBduWmXwxe0LEEItL+
+ j0NiDkqi0Rkpc4t6BYhOvwO1GUmewymor5Y6FIeutRcLpx28kyoJxIV1f1dbPNnMCper
+ omsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=cQUjkR7e9OWO2hs8WPBUfm0SMDDvABGSCr0+jgFerLM=;
- b=txyi6fY8YLbIc4HU388eGWKFBG0dAhU/BEkAq1WARVxMC5WSLI9iQIaSRBXX1Imzdv
- 5r13T5tvZqTiGOliKREe3gIWz3xqSsy4Lmy4euCO06LUFFjoc+AC6ZsTlDYgNh/14ImP
- tLBS6H3Bk5t4ReqQS1J1rmAA4O11KBCBArgBKB1Hxgugs74EA2q0t5QNdt47Z60hKwax
- X8ZPJxXr3kmEEZXzuR23Ap39Y9ZnWd94aZE7R0FieLky+S46tY+NtslDl8F0+dnHVKvn
- vRPkm4WRxtVIyp3eH/11F9bryT3mDWKvZZnB/XLNKFkx/DzpLpUdD06ldYK4DhjhbNrW
- WbBw==
-X-Gm-Message-State: AO0yUKVY1OCgLi/mEEZ+kcpSRJi7UqlDYm6KuCltlbTDexnW7j1g5ot5
- BYKPm0IvmpYOCTz7G8CLvs6KeQ==
-X-Google-Smtp-Source: AK7set+a+EVFkt++ywt9uyC4y1ofJRJW82+OXUA96PKYCYF5IqyEBPIvWZe8KkguwSDr4Qp/l/VP1w==
-X-Received: by 2002:a05:600c:c06:b0:3e0:17d:aeaf with SMTP id
- fm6-20020a05600c0c0600b003e0017daeafmr4640306wmb.7.1677675498974; 
- Wed, 01 Mar 2023 04:58:18 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- t25-20020a7bc3d9000000b003e896d953a8sm19318702wmj.17.2023.03.01.04.58.18
+ d=1e100.net; s=20210112; t=1677662490;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UH/coAbyxU4ZirK2emktuM859u2bGuCi7NCkEdaHFwI=;
+ b=v+sUagAXwDEsvjvtYERmSIpcC/rV0UKatPmexlPQUZVRJ8ObKt5qt58bpW2q12pZyP
+ wcajI5vtaiNgYf3XRvp0Cwt0vBTe8y6InFa1cRc4SU3PImtes46AhWXfSde7/behu10K
+ yYXeDYb3UQ3nkBRWsOaBjFH7qzzsqIi6Hgfkgw4SBrdn74k0rys2IxV+RKI5LU1bg+LF
+ cBZKF5AgIEQDMaR/R6K2EYSH8yXu/xk/UoJXuiD99j5+kgoBSGyCqih9YKHG6bU1h8aD
+ JZyMbvgBFS6JgS4FX1UMFFQODZSAb/QkGQ7WonxG33a6zI6/nDQUz1xcqG1hGH+QKaDW
+ XXMw==
+X-Gm-Message-State: AO0yUKVOQXnZA5fK5aSafYCDJldZdKlxY/HdKWo4woJP1DDNVJmgIt2s
+ k4hVTBfC7mTVQ/UIJRs6aidaN59SMA4=
+X-Google-Smtp-Source: AK7set9UjtPTfSjBa7a7+VGwHt4Orqj4rACd2fBlZGguMHrSK8d/QdNKUoMFwARsGGAx5ohFFGih3Q==
+X-Received: by 2002:aa7:d708:0:b0:4af:765b:b68e with SMTP id
+ t8-20020aa7d708000000b004af765bb68emr7050289edq.9.1677662489835; 
+ Wed, 01 Mar 2023 01:21:29 -0800 (PST)
+Received: from localhost.localdomain (77-162-74-183.fixed.kpn.net.
+ [77.162.74.183]) by smtp.gmail.com with ESMTPSA id
+ f22-20020a170906139600b008f398f25beesm5467963ejc.189.2023.03.01.01.21.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 04:58:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2C67D1FFB7;
- Wed,  1 Mar 2023 12:58:18 +0000 (GMT)
-References: <20230228192628.26140-1-farosas@suse.de>
- <20230228192628.26140-10-farosas@suse.de> <87a60wk6st.fsf@secure.mitica>
- <87zg8wk69m.fsf@suse.de>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: quintela@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org, Peter
- Maydell <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>, Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio  Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Thomas
- Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, "Dr. David
- Alan  Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RESEND v7 9/9] tests/qtest: Fix tests when no KVM or TCG
- are present
-Date: Wed, 01 Mar 2023 12:57:33 +0000
-In-reply-to: <87zg8wk69m.fsf@suse.de>
-Message-ID: <87bklcd3x1.fsf@linaro.org>
+ Wed, 01 Mar 2023 01:21:29 -0800 (PST)
+From: Willem van de Velde <williamvdvelde@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Willem van de Velde <williamvdvelde@gmail.com>
+Subject: [PATCH] Add qemu qcode support for keys F13 to F24
+Date: Wed,  1 Mar 2023 10:21:06 +0100
+Message-Id: <20230301092106.268440-1-williamvdvelde@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=williamvdvelde@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 01 Mar 2023 09:31:41 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,59 +88,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+To be able to use the function keys F13 to F24 these should be defined in de keycodemapdb and added to the qapi.
+The keycodemapdb is updated in its own repository, this patch enables the use of those keys within qemu.
 
-Fabiano Rosas <farosas@suse.de> writes:
+Signed-off-by: Willem van de Velde <williamvdvelde@gmail.com>
+---
+ qapi/ui.json    | 15 ++++++++++++++-
+ ui/keycodemapdb |  2 +-
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
-> Juan Quintela <quintela@redhat.com> writes:
->
->> Fabiano Rosas <farosas@suse.de> wrote:
->>> It is possible to have a build with both TCG and KVM disabled due to
->>> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
->>> host.
->>
->> Ouch.
->>
->> Just curious: why are they needed?
->>
->
-> From https://wiki.xenproject.org/wiki/QEMU_Upstream:
->
->   Why is qemu-system-i386 used even on x86_64 and even non-x86?
->=20=20=20
->   QEMU in a Xen system only provides device model (DM) emulation and not
->   any CPU instruction emulation, so the nominal arch doesn't actually
->   matter and Xen builds i386 everywhere as a basically arbitrary choice.
->=20=20=20
->   It happens that the Xen DM part of QEMU is quite closely tied to the x86
->   scaffolding for various historical reasons, so we end up using
->   qemu-system-i386 even e.g. on ARM!  There is no practical difference
->   between qemu-system-i386 and qemu-system-x86_64, they should be
->   interchangeable. However only qemu-system-i386 is regularly tested by
->   Xen Project (via osstest).
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 0abba3e930..98322342f7 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -886,6 +886,19 @@
+ # @lang1: since 6.1
+ # @lang2: since 6.1
+ #
++# @f13: since 8.0
++# @f14: since 8.0
++# @f15: since 8.0
++# @f16: since 8.0
++# @f17: since 8.0
++# @f18: since 8.0
++# @f19: since 8.0
++# @f20: since 8.0
++# @f21: since 8.0
++# @f22: since 8.0
++# @f23: since 8.0
++# @f24: since 8.0
++#
+ # 'sysrq' was mistakenly added to hack around the fact that
+ # the ps2 driver was not generating correct scancodes sequences
+ # when 'alt+print' was pressed. This flaw is now fixed and the
+@@ -918,7 +931,7 @@
+             'volumeup', 'volumedown', 'mediaselect',
+             'mail', 'calculator', 'computer',
+             'ac_home', 'ac_back', 'ac_forward', 'ac_refresh', 'ac_bookmarks',
+-            'lang1', 'lang2' ] }
++            'lang1', 'lang2','f13','f14','f15','f16','f17','f18','f19','f20','f21','f22','f23','f24' ] }
+ 
+ ##
+ # @KeyValueKind:
+diff --git a/ui/keycodemapdb b/ui/keycodemapdb
+index d21009b1c9..f5772a62ec 160000
+--- a/ui/keycodemapdb
++++ b/ui/keycodemapdb
+@@ -1 +1 @@
+-Subproject commit d21009b1c9f94b740ea66be8e48a1d8ad8124023
++Subproject commit f5772a62ec52591ff6870b7e8ef32482371f22c6
+-- 
+2.34.1
 
-That said with the xenpvh model that was added recently we should be
-able to finally build a Xen only qemu-system-aarch64 which while
-functionally the same will be less head scratching for users.
-
->
->>>
->>> If we build with --disable-tcg on the aarch64 host, we will end-up
->>> with a QEMU binary (x86) that does not support TCG nor KVM.
->>>
->>> Fix tests that crash or hang in the above scenario. Do not include any
->>> test cases if TCG and KVM are missing.
->>>
->>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->>> ---
->>> This currently affects Arm, but will also affect x86 after the xenpvh
->>> series gets merged. This patch fixes both scenarios.
->>
->> Reviewed-by: Juan Quintela <quintela@redhat.com>
->
-> Thanks!
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
