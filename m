@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAB36A6A81
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:08:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E596A6A80
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:08:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJIU-0008NP-LJ; Wed, 01 Mar 2023 05:02:54 -0500
+	id 1pXJKi-0001zU-83; Wed, 01 Mar 2023 05:05:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXJHn-0007bd-QM
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:02:12 -0500
+ id 1pXJIx-0000bb-8F
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:03:23 -0500
 Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXJHl-0004rg-Om
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:02:11 -0500
-Received: by mail-wr1-x432.google.com with SMTP id bx12so9440570wrb.11
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:02:09 -0800 (PST)
+ id 1pXJIv-00055k-Cf
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:03:22 -0500
+Received: by mail-wr1-x432.google.com with SMTP id bx12so9444228wrb.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:03:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2U16SEHt/m8NShOYDR9l8SRf5zKp5KNMqXVhsNiqXfQ=;
- b=clNVNTeyC1eALD/VjCZv7IRpUR4srz14aze25VOZe5X4vqxJWXHUpIUjbVjhopDdE6
- IzJfKx/dEfV7QUuoaPE0zQsDZsYtOHd+JKfEoYVqPkm7l5CW/UNqVdPQvG0pwplKqPxB
- 7PcyrJ04f447WmcnnwmIUsLSM3xHKqXmpkxQy4osRYCfx9Q8rmjfj3q57mmiGMH2nrvr
- Arpv5ri/UivfGZWhagqpcBlh92zU0Bv4rvmfi9dj2fn4VOPNQCpSXGNv4HghJLaaWt7l
- V/CXdbtcxE+AWp//13TQZVkV1J4I+5irHERHDrfpDR20f2OfHsNk/5VG+MYdH/FCweSS
- wPDg==
+ bh=u+RFilx9s21tfgq+Juq/fgx06MGhetNBy/bKvbJWj64=;
+ b=Iy8yIaPnTHNkLuZ8yChw+oXkIngUG+I3UQgHLQM+McRbDBun3qRhIeXq9Hk3RR1cB5
+ qLPi/QwCcN3P7Ka6Fu+H3y5Rr8m/xP5F89Yb6gZpTvlXlpowKL4ds3EsIglhJSduBjp0
+ +eUe6C/vP6fKtLjaDJEaMwhfzfNCmlw3cA6uavcBBJYOsYII58ECYZkqgVnxvhdwqVuE
+ V13Ssly8RdEmY1iODmjiNmmDAZEwj/lUWf/0D84BRqtZ5jmkMP5rc4ZjbXkEcp0G5lo7
+ gpdkW4JkC6pGO+spNRfB/VDyJlHBxCnMcmZuN+cCErG15v+s+8p+LF19EsVq5kidJi/2
+ /DEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=2U16SEHt/m8NShOYDR9l8SRf5zKp5KNMqXVhsNiqXfQ=;
- b=bbKAXCcIj5FSyf1gKWeucsFrGLCuPUcdLc7xhmD9d2ypTcH8QZ5RbwTtkDwqugS0Ug
- e/z5T3ADvsgLF9TYc2w4a+o0WQ1Q5cTwI/J0ztVPi0GE61xVKCUundETUggl0+WYcIeg
- dTQRujXynGHabhDfqjBosVOMWuvb5U1iI9sqbWI9FXMPd2V3BIu6wK+l0Pf/GJFsOzSL
- wYXM8Xu4bvC3kr4Uvvo4Z902OA9Sjj2H+nh+IHYbkn6ozhj9aDMfNyYnflOh6pXALJ0I
- SYCCYwictQXeS+CD2d+k1YLQPvyX0RM1xy0GsHE+aBYcIwkIXVIEtllZ2q0y2YhIRrPR
- NFHQ==
-X-Gm-Message-State: AO0yUKXLc5WBXcF+1mpYQXDSBUYamnsQN+90/NF5Dy3v/l8SsJlHSUwE
- Ol+YmzJlXp2oWW1qxfhCxtrJgg==
-X-Google-Smtp-Source: AK7set+eLJA6p/plmslrf9gHfgZO/Jjt7WpGeUpYqAvFGQpS/XQyi3iX3FmLrsry5lrg7poyjoPYnQ==
-X-Received: by 2002:a5d:5186:0:b0:2c9:730c:1439 with SMTP id
- k6-20020a5d5186000000b002c9730c1439mr3927854wrv.30.1677664928013; 
- Wed, 01 Mar 2023 02:02:08 -0800 (PST)
+ bh=u+RFilx9s21tfgq+Juq/fgx06MGhetNBy/bKvbJWj64=;
+ b=2jmVOXTvqLNrdCtGNW/igWqefN5I9E+bJ2XlhDV8SllqEDUktFbK22GWEUTyimva+m
+ ZNWICTxCA5SraqcgVaL+47N6exgH8eFYmKf7lVQJf22RekSfe7NLM/9800tdi9CfvJDC
+ 5n7I6aTrPTlfJtpw4Xvf4R8c+OQy9u/No1OluQ+0vjaX9iJuGslLwJBH3vw8hck+0L7E
+ dBRRHvqunRHtWkFMzasvAFXoLH+I2SpZrcpPiOwozz+N7opKDAo/+w6pNnVzK33VoHW1
+ iA6coJE3JwVBHM041d+HKUJVFUPLDqvivCDk9tulf0aHHuCXzF8gh7eGM/RTKiIAwAq3
+ cF/g==
+X-Gm-Message-State: AO0yUKU+Y+h1slMiQrI53BRl8tNUKBfVNfk4cFdWZSwEQIJExY53x4m2
+ DoAf8/m/SGhxPF+o6PA8iBSzSQ==
+X-Google-Smtp-Source: AK7set/HIZZexr9TWS0+6lxokRRW0hmXVtCjAD6YK6WAd2W54FGONLkIOjWC5uWPKRGEb9ZdZ41JPg==
+X-Received: by 2002:a5d:5489:0:b0:2c8:cdde:c28a with SMTP id
+ h9-20020a5d5489000000b002c8cddec28amr3988823wrv.59.1677664998772; 
+ Wed, 01 Mar 2023 02:03:18 -0800 (PST)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- p10-20020a5d458a000000b002c559def236sm12011646wrq.57.2023.03.01.02.02.07
+ t3-20020a5d49c3000000b002c5804b6afasm12476595wrs.67.2023.03.01.02.03.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 02:02:07 -0800 (PST)
+ Wed, 01 Mar 2023 02:03:18 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1D3331FFB7;
- Wed,  1 Mar 2023 10:02:07 +0000 (GMT)
-References: <20230228190653.1602033-1-alex.bennee@linaro.org>
- <20230228190653.1602033-23-alex.bennee@linaro.org>
- <db096848-11a3-b6da-93f1-b53a26a477f9@linaro.org>
+ by zen.linaroharston (Postfix) with ESMTP id 0BD6C1FFB7;
+ Wed,  1 Mar 2023 10:03:18 +0000 (GMT)
+References: <20230223155720.310593-1-alex.bennee@linaro.org>
+ <CAFEAcA_bqLjiF6VHABTRop7HsdgTpd1KVJzTgpXvXgo+uuABtg@mail.gmail.com>
+ <87sfeurgb4.fsf@linaro.org>
+ <8fe14d63-ebe1-4a1c-ab1d-ea96718e278e@linaro.org>
+ <CAFEAcA8Ae0vQmo4AZkkKKJHruR5EeC9kxVYHcPzU23gurwa0zw@mail.gmail.com>
 User-agent: mu4e 1.9.21; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Michael Roth
- <michael.roth@amd.com>, Peter Maydell <peter.maydell@linaro.org>, Kevin
- Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>, Alexander
- Bulekov <alxndr@bu.edu>, Aurelien Jarno <aurelien@aurel32.net>, Markus
- Armbruster <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>, John Snow
- <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>, qemu-arm@nongnu.org,
- Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>, Yonggang Luo
- <luoyonggang@gmail.com>, qemu-block@nongnu.org, Paolo Bonzini
- <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das
- <bsd@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk
- <pavel.dovgaluk@ispras.ru>, Laurent Vivier <lvivier@redhat.com>, Bastian
- Koppelmann <kbastian@mail.uni-paderborn.de>, Qiuhao Li
- <Qiuhao.Li@outlook.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 22/24] gitlab: move the majority of artefact handling
- to a template
-Date: Wed, 01 Mar 2023 10:01:55 +0000
-In-reply-to: <db096848-11a3-b6da-93f1-b53a26a477f9@linaro.org>
-Message-ID: <87sfeodc2o.fsf@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PULL 00/13] testing updates (gitlab, cirrus, docker, avocado,
+ windows)
+Date: Wed, 01 Mar 2023 10:02:38 +0000
+In-reply-to: <CAFEAcA8Ae0vQmo4AZkkKKJHruR5EeC9kxVYHcPzU23gurwa0zw@mail.gmail.com>
+Message-ID: <87o7pcdc0p.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -112,66 +100,68 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On 28/2/23 20:06, Alex Benn=C3=A9e wrote:
->> To avoid lots of copy and paste lets deal with artefacts in a
->> template. This way we can filter out most of the pre-binary object and
->> library files we no longer need as we have the final binaries.
->> build-system-alpine also saved .git-submodule-status so for
->> simplicity
->> we bring that into the template as well.
->> As an example the build-system-ubuntu artefacts before this patch
->> where around 1.3 GB, after dropping the object files it comes to 970
->> MB.
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>   .gitlab-ci.d/buildtest-template.yml | 16 ++++++
->>   .gitlab-ci.d/buildtest.yml          | 81 +++++++++++------------------
->>   2 files changed, 46 insertions(+), 51 deletions(-)
->> diff --git a/.gitlab-ci.d/buildtest-template.yml
->> b/.gitlab-ci.d/buildtest-template.yml
->> index cb96b55c3f..a6cfe9be97 100644
->> --- a/.gitlab-ci.d/buildtest-template.yml
->> +++ b/.gitlab-ci.d/buildtest-template.yml
->> @@ -25,6 +25,22 @@
->>           make -j"$JOBS" $MAKE_CHECK_ARGS ;
->>         fi
->>   +# We jump some hoops in common_test_job_template to avoid
->> +# rebuilding all the object files we skip in the artifacts
->> +.native_build_artifact_template:
->> +  artifacts:
->> +    expire_in: 2 days
->> +    paths:
->> +      - build
->> +      - .git-submodule-status
->> +    exclude:
->> +      - build/**/*.p
->> +      - build/**/*.a.p
->> +      - build/**/*.fa.p
->> +      - build/**/*.c.o
->> +      - build/**/*.c.o.d
->> +      - build/**/*.fa
->> +
->>   .common_test_job_template:
->>     extends: .base_job_template
->>     stage: test
->> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
->> index 43f9e4a81d..44b8275299 100644
->> --- a/.gitlab-ci.d/buildtest.yml
->> +++ b/.gitlab-ci.d/buildtest.yml
->> @@ -2,7 +2,9 @@ include:
->>     - local: '/.gitlab-ci.d/buildtest-template.yml'
->>     build-system-alpine:
->> -  extends: .native_build_job_template
->> +  extends:
->> +    - .native_build_job_template
->> +    - .native_build_artifact_template
+> On Fri, 24 Feb 2023 at 21:23, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
+org> wrote:
+>>
+>> On 24/2/23 20:52, Alex Benn=C3=A9e wrote:
+>> >
+>> > Peter Maydell <peter.maydell@linaro.org> writes:
+>> >
+>> >> On Thu, 23 Feb 2023 at 15:57, Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g> wrote:
+>> >>>
+>> >>> The following changes since commit 79b677d658d3d35e1e776826ac4abb28c=
+dce69b8:
+>> >>>
+>> >>>    Merge tag 'net-pull-request' of https://github.com/jasowang/qemu
+>> >>> into staging (2023-02-21 11:28:31 +0000)
+>> >>>
+>> >>> are available in the Git repository at:
+>> >>>
+>> >>>    https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-230223=
+-1
+>> >>>
+>> >>> for you to fetch changes up to e9969376f01180d7bcbee25ae8333983da7ed=
+a2c:
+>> >>>
+>> >>>    cirrus.yml: Improve the windows_msys2_task (2023-02-23 15:48:23 +=
+0000)
+>> >>>
+>> >>> ----------------------------------------------------------------
+>> >>> testing updates:
+>> >>>
+>> >>>    - ensure socat available for tests
+>> >>>    - skip socat tests for MacOS
+>> >>>    - properly clean up fifos after use
+>> >>>    - make fp-test less chatty
+>> >>>    - store test artefacts on Cirrus
+>> >>>    - control custom runners with QEMU_CI knobs
+>> >>>    - disable benchmark runs under tsan build
+>> >>>    - update ubuntu 2004 to 2204
+>> >>>    - skip nios2 kernel replay test
+>> >>>    - add tuxrun baselines to avocado
+>> >>>    - binary build of tricore tools
+>> >>>    - export test results on cross builds
+>> >>>    - improve windows builds
+>> >>>
+>> >>> ----------------------------------------------------------------
+>> >>
+>> >> So I've been applying pullreqs relying on a combination of the
+>> >> private-runner CI jobs plus using the free minutes allowance
+>> >> on my personal gitlab account, and ad-hoc local builds. I'm
+>> >> a bit reluctant to do that for this one though, because it's
+>> >> touching all the gitlab config and we won't be able test that
+>> >> that is OK until we can do a full run with the standard config.
+>> >> What do you think ?
+>>
+>> What is the alternative, waiting 5 days up to March 1st?
 >
-> I'm confused... Apparently this doesn't work:
-> https://gitlab.com/stsquad/qemu/-/jobs/3847747681/artifacts/browse
+> That would be the other option, yes.
 
-Nope you are one run behind ;-)
+As the PR needs a re-base anyway please drop this and I'll respin with
+the additional patches from yesterday's testing/next post.
 
 --=20
 Alex Benn=C3=A9e
