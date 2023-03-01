@@ -2,98 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC516A6AE9
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1696A6AE8
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:38:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJpI-0000y4-Od; Wed, 01 Mar 2023 05:36:48 -0500
+	id 1pXJpx-0001On-G3; Wed, 01 Mar 2023 05:37:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJp9-0000x8-Cn
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:36:40 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJp5-0002kF-2n
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:36:38 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id j3so8215363wms.2
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:36:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677666992;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2Azoh8xSU5TJ2zojXyKIHJjeHgyY2Otsjeo2O616Z/E=;
- b=MomJXPLw6+iDG4sN17aGuvICmyfpwP31iyI5zx6XY5gqQQhf/8wJt3wlkPK2hzzX9R
- if+afbT5jmbXAkEBFgk4mR6ALEIQ+TKygiBgSaZoA8i/5h9J1IS5eKgtYKNgM2OTk2EC
- htZM4Qp+Jpt+5OhxyHFWjUvKSMgCJ6xM9JjI1JJ9skacX7jiMfi1GLxUoYbpYvJVW811
- poAxvaMy3BdG/sJMY1noHRfmtxj81KsBQBB/ePgIJWxVRv6FSknW6R7U6/mykRLUKi9H
- 74Dt/ThY48ExkGh2Aho+fW46PJQ4cULf+9Zc9MkteZ2CCbmJ0sKu3fXTmI3E08re8YgZ
- nlZg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pXJpl-0001OL-F4
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:37:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pXJpk-0002nm-4Q
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:37:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677667034;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=aogM33uHLR/+otLW7Q4nDdLDmayz9GgNoUqhdsOdfPyM4w7EPGjVqcEeEis4WdzTkiNQJL
+ f9UI3PoaXoaOIQLCjKEMvsdQBV9pcfUQebaR8WVdBT8G1dtT/Ykne86Qg9HmIhgBKFbZ/E
+ aswdR/9PzMNTRbI75Ow9phwW/Tcv07Q=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-145-zGnNDhJQMd2TtrCdJjaSdg-1; Wed, 01 Mar 2023 05:37:13 -0500
+X-MC-Unique: zGnNDhJQMd2TtrCdJjaSdg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ o15-20020a05600002cf00b002c54a27803cso2450847wry.22
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:37:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677666992;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2Azoh8xSU5TJ2zojXyKIHJjeHgyY2Otsjeo2O616Z/E=;
- b=nU+azCj3+UgiyyGTtk4sJXO2ACAY61AMIz7Gf7zeaINOE1X8UY8NGA3OZoIfXxa2pU
- v2wonNu/cw2RDdI5pacznb/uracvKbOlbkEvR3zig3IfwFRVzyEGxqoxcK7LSt3XKYNP
- TkxKtuEeLVt+op2dDrkTGtZpt8ndqyDsmQzfg1ifdYIbSdtYYNHD+nnAi4iqwqN/ptHN
- HxrJqn2b3bRD0KiWIUo7Z4EPal6b7sIFNCAAS5X8b+A5psTlg0layR6TYaBYp1PQQnPt
- bNfazBXEp35HsqvUNhF9Xr/30WM7hruSEcJ3Giw40CzdQeSxq1Q+RMHpitQP4I3INY5l
- 6LDw==
-X-Gm-Message-State: AO0yUKWBlticxKH3gN7Ywxb246wpCmbuh1yVjHEmy40BCMb4+/urf0zL
- eogVbvnW/e++d5xL1th/6GBljA==
-X-Google-Smtp-Source: AK7set8g/7p+t7QJoU73e1BpHuSpVY4QWxYvgCy8MekatUiMFjrnBeNyJGweicw0Xa5AOL2Ipn7oxA==
-X-Received: by 2002:a05:600c:3495:b0:3de:a525:1d05 with SMTP id
- a21-20020a05600c349500b003dea5251d05mr4832350wmq.8.1677666992518; 
- Wed, 01 Mar 2023 02:36:32 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- v20-20020a1cf714000000b003db03725e86sm15236841wmh.8.2023.03.01.02.36.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 02:36:31 -0800 (PST)
-Message-ID: <02a2118a-badf-29a9-716d-44f5a6c2923d@linaro.org>
-Date: Wed, 1 Mar 2023 11:36:27 +0100
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=k4wGWcYXWg+L0OrugCFblxhMJGd3n7ajb6Oa24nvK1p7ona352sTQXDxYfEY4PYVH5
+ bAG7dHJKRlbNsUOnosJDPNaMjj8JcKMdXFEi+rg6jq9POnogbtgwzKHR4M6YH9lA/QFv
+ WUxqesLH52yUacowu6jd4AQgbukXOzpTy8UqlnLgGq0xZ0A3LLIlJX4I4HYqtQtSu2+W
+ yZ9W8nYFcJWkk5SWYV6taadtTsN4uRpLMPwCzjPgqq+vY46zNC6RLXSBe55mzu/9bD0J
+ UGXWZtfQUfkAYOGbZKgnZi2Fl+MQRIIGdzm5EIzkXqf24C/ivoAhcJ12eZmIgeLmUwbE
+ 6cMQ==
+X-Gm-Message-State: AO0yUKWomCpXsakxvFx7C6DdrLsdtR+Kz1xhae4j0yU/0Ign+faCYdx8
+ e3yEqJL+KFIjYNFniCiuKYfh8bQ45wZP4x8ZyCvPaFUp0j+oMdF4DSrn+8/P/oWMbagmEWvBumI
+ ftnwqaM3J46St61RildRF
+X-Received: by 2002:a05:600c:b8c:b0:3e2:2057:b9d6 with SMTP id
+ fl12-20020a05600c0b8c00b003e22057b9d6mr11269099wmb.20.1677667031656; 
+ Wed, 01 Mar 2023 02:37:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set99cNVxWg94HNl08JcKHRk4uyJiFqneFeCtGHaRI8EFeCS32fRL6LKn5HPJLuQIz/OBTTmI+g==
+X-Received: by 2002:a05:600c:b8c:b0:3e2:2057:b9d6 with SMTP id
+ fl12-20020a05600c0b8c00b003e22057b9d6mr11269085wmb.20.1677667031380; 
+ Wed, 01 Mar 2023 02:37:11 -0800 (PST)
+Received: from avogadro.local ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ bd12-20020a05600c1f0c00b003e0015c8618sm18960210wmb.6.2023.03.01.02.37.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 02:37:10 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2] qapi: Add 'acpi' field to 'query-machines' output
+Date: Wed,  1 Mar 2023 11:37:06 +0100
+Message-Id: <20230301103707.20586-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <537625d3e25d345052322c42ca19812b98b4f49a.1677571792.git.pkrempa@redhat.com>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 23/24] tests/docker: add zstdtools to the images
- (!AWAITING UPSTREAM)
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Peter Maydell
- <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
- <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Laurent Vivier <lvivier@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20230228190653.1602033-1-alex.bennee@linaro.org>
- <20230228190653.1602033-24-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230228190653.1602033-24-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,37 +102,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/2/23 20:06, Alex Bennée wrote:
-> We need this to be able to run the tuxrun_baseline tests in CI which
-> in turn helps us reduce overhead running other tests.
-> 
-> [See https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/361]
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tests/docker/dockerfiles/alpine.docker                | 1 +
->   tests/docker/dockerfiles/centos8.docker               | 3 ++-
->   tests/docker/dockerfiles/debian-amd64-cross.docker    | 3 ++-
->   tests/docker/dockerfiles/debian-amd64.docker          | 3 ++-
->   tests/docker/dockerfiles/debian-arm64-cross.docker    | 3 ++-
->   tests/docker/dockerfiles/debian-armel-cross.docker    | 3 ++-
->   tests/docker/dockerfiles/debian-armhf-cross.docker    | 3 ++-
->   tests/docker/dockerfiles/debian-mips64el-cross.docker | 3 ++-
->   tests/docker/dockerfiles/debian-mipsel-cross.docker   | 3 ++-
->   tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 3 ++-
->   tests/docker/dockerfiles/debian-s390x-cross.docker    | 3 ++-
->   tests/docker/dockerfiles/fedora-win32-cross.docker    | 3 ++-
->   tests/docker/dockerfiles/fedora-win64-cross.docker    | 3 ++-
->   tests/docker/dockerfiles/fedora.docker                | 3 ++-
->   tests/docker/dockerfiles/opensuse-leap.docker         | 3 ++-
->   tests/docker/dockerfiles/ubuntu2004.docker            | 3 ++-
->   tests/docker/dockerfiles/ubuntu2204.docker            | 3 ++-
->   tests/lcitool/projects/qemu.yml                       | 1 +
->   18 files changed, 34 insertions(+), 16 deletions(-)
+Queued, thanks.
 
-You simply ran 'lcitool-refresh', right? (not obvious from the
-commit desc).
+Paolo
 
-If #361 got merged, this patch should also change the
-tests/lcitool/libvirt-ci submodule to include it, isn't it?
 
