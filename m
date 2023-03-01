@@ -2,56 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F17D6A7287
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 19:03:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A7A6A7351
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 19:18:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXQln-0005va-Pc; Wed, 01 Mar 2023 13:01:39 -0500
+	id 1pXR1A-0007a8-FS; Wed, 01 Mar 2023 13:17:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXQlV-0005qA-Nv; Wed, 01 Mar 2023 13:01:22 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXQlT-0002I5-0u; Wed, 01 Mar 2023 13:01:21 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 98554746335;
- Wed,  1 Mar 2023 19:01:12 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5E951746324; Wed,  1 Mar 2023 19:01:12 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 5C8677457E7;
- Wed,  1 Mar 2023 19:01:12 +0100 (CET)
-Date: Wed, 1 Mar 2023 19:01:12 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Woodhouse <dwmw2@infradead.org>
-cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de
-Subject: Re: [PATCH v5 5/7] hw/isa/vt82c686: Work around missing level
- sensitive irq in i8259 model
-In-Reply-To: <859e28fd61203c35e30fce505f0101886a54e654.camel@infradead.org>
-Message-ID: <418dd5ca-cabc-fb91-6437-63bece1dfe1b@eik.bme.hu>
-References: <cover.1677628524.git.balaton@eik.bme.hu>
- <cd0b323bb88df202e36014f950c0eb13a9fafd54.1677628524.git.balaton@eik.bme.hu>
- <CC88085A-C269-4BCF-8CFD-EB3B457533C9@gmail.com>
- <6502f6bd-029c-25a8-49ec-e61784c64db5@eik.bme.hu>
- <943866390436e3c8828fea3e8cec117ae8553887.camel@infradead.org>
- <1c9daa28-b4b0-5227-ea94-90035a8bed7a@eik.bme.hu>
- <859e28fd61203c35e30fce505f0101886a54e654.camel@infradead.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pXR18-0007Xs-By
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 13:17:30 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pXR16-0005Cq-Iu
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 13:17:30 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ ay29-20020a05600c1e1d00b003e9f4c2b623so70457wmb.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 10:17:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9+kRBjcIl6F5pkN8xzl7OqfcrGbC+/4sRCvVB/NdvTI=;
+ b=LUv5BzB2XO3mlDnQ3xracybLCZil9JxYkwvAVe8CTHMIr7JMhwPU0qqo8I2rRmVMl8
+ PZ2YH3jmU67SA1M1ueZaIPC9wS3r4nhL7MA8Z4Wc7sk/u6JntgJZidvJK7Md/4eiYWP/
+ 61AZNPQMp294ndQDTLZy+YFF4QcKWgvsC90qO2lSkIs60pARTxohaIMRDu88s0xwnyc8
+ kqMhi3EaagDl6y9K58yfHj5DdcTEsIdDQC/byFT/eAV69NB1W60DeZU5CAApOMsAXIpW
+ 1Ci2Ny7noX8/CBQzIqPBsMf2jZMH4vwL4YIUqh0ncFnKO1jVq7EthY0AQ0hqMGYzoCIx
+ PHZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=9+kRBjcIl6F5pkN8xzl7OqfcrGbC+/4sRCvVB/NdvTI=;
+ b=E430DWaH3556/FThi9hfS4sC/Jxm6qISGUXBbol/ym7Km+HsEohAX/IbzT3sO9WRHd
+ S2Ht9iUFLNXhicZCAlhxw19X+h+bsfFrlqdV14zlvxx1VCUXDqTHDxradkJwdxLSnsJJ
+ 9WB2ye2eTWtwKyR4LnQMgmWEJRe+G8Rl3KFO0Jw2B0HWxH3MmJ0kX8C6KIr1KEkkslwg
+ pLKiMkz0vmPLTH5A/YYUyPejqxZngN0ZVt4VQXBPy5v/EoRj3YBtTI5kKlgswR3yMmhT
+ lgq+LTIKvpihnDzH0rS9jVWV21FjzfG+mr2SUGwN8dW7ZtGyqR+pd7uH3risUFL2lG0r
+ +ZPg==
+X-Gm-Message-State: AO0yUKUQYY9q0O8tTr3UWQoMZLI/gOP3KPX0wXRnTNdbE8Uu0wmXSVlR
+ zu1ynqIZFW8yw7WOjlPcaSGVVA==
+X-Google-Smtp-Source: AK7set8jJcfsszklvWR/KyZ099W6/pYwR//z1BsFubw5UgD/CjQuZ3UtKBebwcH2gxCT349g+CFVyA==
+X-Received: by 2002:a05:600c:5119:b0:3e2:1a01:3a7c with SMTP id
+ o25-20020a05600c511900b003e21a013a7cmr11838509wms.6.1677694646710; 
+ Wed, 01 Mar 2023 10:17:26 -0800 (PST)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ m7-20020a7bcb87000000b003dc4a47605fsm346886wmi.8.2023.03.01.10.17.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 10:17:26 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C9B501FFB7;
+ Wed,  1 Mar 2023 18:17:25 +0000 (GMT)
+References: <20230301151604.1948813-1-alex.bennee@linaro.org>
+ <CAFEAcA_ok_VSAWk2uqhTs5sF2y3C_JmBNkb8HUGMX6ZX-xdVoA@mail.gmail.com>
+User-agent: mu4e 1.9.21; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL v2 00/24] testing updates (gitlab, cirrus, docker,
+ avocado, windows)
+Date: Wed, 01 Mar 2023 18:17:03 +0000
+In-reply-to: <CAFEAcA_ok_VSAWk2uqhTs5sF2y3C_JmBNkb8HUGMX6ZX-xdVoA@mail.gmail.com>
+Message-ID: <87356ocp56.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,63 +96,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 1 Mar 2023, David Woodhouse wrote:
-> On Wed, 2023-03-01 at 14:18 +0100, BALATON Zoltan wrote:
->>> Are you sure the PIC ELCR is actually set for the lines you're having
->>> trouble with? Is that something the Pegasos SmartFirmware would have
->>> done, and MorphOS is expecting to inherit but isn't actually setting up
->>> for itself?
->>
->> No, it works with other guests like Linux and AmigaOS that use PIC as set
->> up by the firmware but MorphOS tries to use it in level sensitive mode and
->> likely has an IRQ handler which expects this to work. This is where I've
->> debugged it and came to this workaround:
->>
->> https://lists.nongnu.org/archive/html/qemu-ppc/2023-02/msg00403.html
->>
->> When booting MorphOS with -d unimp I see these logs:
->>
->> i8259: level sensitive irq not supported
->> i8259: level sensitive irq not supported
->>
->> which is I guess when it tries to set it for both PICs. (If you want to
->> try this MorphOS iso is downloadable and instructions how to boot it is
->> here: http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
->
->
-> Wow. Even looking at the PIIX3 datasheet from 1996, That 'Edge/Level
-> Bank Select (LTIM)' bit was documented as 'This bit is disabled. Its
-> function is replaced by the Edge/Level Triggerede Control (ELCR)
-> Registers.
->
-> We've been able to set the edge/level on a per-pin basis ever since the
-> ELCR was introduced with the IBM PS/2, I think.
->
-> It isn't a *correct* fix without a little bit more typing, but does
-> this make it work?
->
-> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
-> index 17910f3bcb..36ebcff025 100644
-> --- a/hw/intc/i8259.c
-> +++ b/hw/intc/i8259.c
-> @@ -246,6 +246,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
->             if (val & 0x08) {
->                 qemu_log_mask(LOG_UNIMP,
->                               "i8259: level sensitive irq not supported\n");
-> +                s->elcr = 0xff;
 
-This works too. I guess the log can be then removed too. Could you submit 
-a proper patch or you want me to do that so we can drop the workaround for 
-it? Thanks for looking into it.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Regards,
-BALATON Zoltan
+> On Wed, 1 Mar 2023 at 15:16, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>>
+>> The following changes since commit 627634031092e1514f363fd8659a579398de0=
+f0e:
+>>
+>>   Merge tag 'buildsys-qom-qdev-ui-20230227' of
+>> https://github.com/philmd/qemu into staging (2023-02-28 15:09:18
+>> +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-010323-1
+>>
+>> for you to fetch changes up to c0c8687ef0fd990db8db1655a8a6c5a5e35dd4bb:
+>>
+>>   tests/avocado: disable BootLinuxPPC64 test in CI (2023-03-01 12:51:01 =
++0000)
+>>
+>> ----------------------------------------------------------------
+>> testing updates:
+>>
+>>   - ensure socat available for tests
+>>   - skip socat tests for MacOS
+>>   - properly clean up fifos after use
+>>   - make fp-test less chatty
+>>   - store test artefacts on Cirrus
+>>   - control custom runners with QEMU_CI knobs
+>>   - disable benchmark runs under tsan build
+>>   - update ubuntu 2004 to 2204
+>>   - skip nios2 kernel replay test
+>>   - add tuxrun baselines to avocado
+>>   - binary build of tricore tools
+>>   - export test results on cross builds
+>>   - improve windows builds
+>>   - ensure we properly print TAP headers
+>>   - migrate away from docker.py for building containers
+>>   - be more efficient in our handling of build artefacts between stages
+>>   - enable ztsd in containers so we can run tux_baselines
+>>   - disable heavyweight PPC64 Boot Linux test in CI
+>
+> This still won't merge:
+>
+> e104462:jammy:qemu-for-merges$ apply-pullreq
+> https://gitlab.com/stsquad/qemu.git tags/pull-testing-next-010323-1
+> Switched to branch 'master'
+> Your branch is up-to-date with 'origin/master'.
+> Already up-to-date.
+> Switched to branch 'staging'
+> fetching from remote https://gitlab.com/stsquad/qemu.git
+> tags/pull-testing-next-010323-1
+> remote: Enumerating objects: 288, done.
+> remote: Counting objects: 100% (288/288), done.
+> remote: Compressing objects: 100% (135/135), done.
+> remote: Total 221 (delta 182), reused 114 (delta 84), pack-reused 0
+> Receiving objects: 100% (221/221), 43.20 KiB | 3.08 MiB/s, done.
+> Resolving deltas: 100% (182/182), completed with 57 local objects.
+> From https://gitlab.com/stsquad/qemu
+>  * tag                       pull-testing-next-010323-1 -> FETCH_HEAD
+> Fetching submodule tests/fp/berkeley-testfloat-3
+> fatal: unable to connect to github.com:
+> github.com[0: 140.82.121.3]: errno=3DConnection timed out
+>
+> fatal: unable to connect to github.com:
+> github.com[0: 140.82.114.4]: errno=3DConnection timed out
+>
+> Errors during submodule fetch:
+>         tests/fp/berkeley-testfloat-3
+>         tests/fp/berkeley-testfloat-3
 
->             }
->         } else if (val & 0x08) {
->             if (val & 0x04) {
+You'll need to do a fresh checkout or manually fix up the .git/ metadata
+
 >
+> (The script is doing 'git fetch  https://gitlab.com/stsquad/qemu.git
+> tags/pull-testing-next-010323-1')
 >
->
->
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
