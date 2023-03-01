@@ -2,83 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9D06A7261
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 18:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F17D6A7287
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 19:03:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXQdE-0005Oi-KU; Wed, 01 Mar 2023 12:52:48 -0500
+	id 1pXQln-0005va-Pc; Wed, 01 Mar 2023 13:01:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXQd8-0005ON-9H
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 12:52:42 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXQd6-0000fD-Kw
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 12:52:41 -0500
-Received: by mail-wr1-x433.google.com with SMTP id bx12so10962503wrb.11
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 09:52:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677693158;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=r5OW/MpZn6t0tHKu1yQh/I+98WeAdFzFmQo9cSRwnRs=;
- b=DJyW2oziP9YaqfFqy/dSOKFtfwmdvyLCUKlwOqNb7UN4k2/CFFjnn4gbugt/qb0xRi
- ZOfb4pi62RLlMUVdlGt8lBpn92RmqfUs/ChKfT58oaeQoroxdUYYfwqjzTXCspz1SH8L
- Nb/GnMZ4Civl2Ydu3jZMq5hIHt1xZ6qhM0vJrvMEiX8bpb5vFER8RySmpy8JjzwThuEU
- LmwOLsvFoqC1mSzweJvUBICN+Vtwzo75DSPIi+AinYeL6038H0X76yDgnpePSYlGoJR4
- CWEGJvr1Mrs5AeTBmuTYxYPDvgcKW/JBpsH3pk1P3MSywezqiGtv2Fdktwex/UDu5KLc
- /PZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677693158;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r5OW/MpZn6t0tHKu1yQh/I+98WeAdFzFmQo9cSRwnRs=;
- b=7B4qZJRHGIqMAQRfJmYSY9odW/2+Qnmq2seGJiDsq+pJGNKpMdrgkkOWklHRX9nJZF
- oesuIKZrngB1fwhEwpgsVQ68mY+rfXlu7fJYDVfho3JBraOFwAoO5yb2bdCTPqoj1bPd
- 6TQNsbKf0oWEwGKMbfxQIR20RKCRyB7NlEP8E7o/DtglMqCVy0C9GsnZa5oDg4EGSvnV
- sIqiCq6UqVpbP+NJsKdvvSQkVp4rpFJJBHDg3K0qr0SXnu9GqQ3/NRbVMQhS2LQJpZLF
- UOcxTCjzItWe1VkolAYYOEoS0UW1E0dp9A4ykNTyyy8uXTHS2mq4qem3VxNLINSFgxil
- o5iQ==
-X-Gm-Message-State: AO0yUKXbL/lOAM3TzB4Ztr0yHHme861DnqCTHcQjNzUJg4IN2i+jURWj
- 8/p/idCVU3WtSeUeHw1F1zoFaA==
-X-Google-Smtp-Source: AK7set/xhtuPoMFsUYgwTB2lRUxQ5CiXKtcEPkVuKxR12gNwCeLBhTfT8/nmma3An2wAUMi8m2512A==
-X-Received: by 2002:a5d:6388:0:b0:2c5:4cd0:4b86 with SMTP id
- p8-20020a5d6388000000b002c54cd04b86mr5293321wru.68.1677693158244; 
- Wed, 01 Mar 2023 09:52:38 -0800 (PST)
-Received: from [192.168.45.175] (41.red-88-29-167.dynamicip.rima-tde.net.
- [88.29.167.41]) by smtp.gmail.com with ESMTPSA id
- n5-20020a5d51c5000000b002c70d97af78sm13463701wrv.85.2023.03.01.09.52.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 09:52:37 -0800 (PST)
-Message-ID: <4306d877-e667-4bf9-276c-a68bf4e9717e@linaro.org>
-Date: Wed, 1 Mar 2023 18:52:33 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXQlV-0005qA-Nv; Wed, 01 Mar 2023 13:01:22 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXQlT-0002I5-0u; Wed, 01 Mar 2023 13:01:21 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 98554746335;
+ Wed,  1 Mar 2023 19:01:12 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5E951746324; Wed,  1 Mar 2023 19:01:12 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 5C8677457E7;
+ Wed,  1 Mar 2023 19:01:12 +0100 (CET)
+Date: Wed, 1 Mar 2023 19:01:12 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Woodhouse <dwmw2@infradead.org>
+cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
+ ReneEngel80@emailn.de
+Subject: Re: [PATCH v5 5/7] hw/isa/vt82c686: Work around missing level
+ sensitive irq in i8259 model
+In-Reply-To: <859e28fd61203c35e30fce505f0101886a54e654.camel@infradead.org>
+Message-ID: <418dd5ca-cabc-fb91-6437-63bece1dfe1b@eik.bme.hu>
+References: <cover.1677628524.git.balaton@eik.bme.hu>
+ <cd0b323bb88df202e36014f950c0eb13a9fafd54.1677628524.git.balaton@eik.bme.hu>
+ <CC88085A-C269-4BCF-8CFD-EB3B457533C9@gmail.com>
+ <6502f6bd-029c-25a8-49ec-e61784c64db5@eik.bme.hu>
+ <943866390436e3c8828fea3e8cec117ae8553887.camel@infradead.org>
+ <1c9daa28-b4b0-5227-ea94-90035a8bed7a@eik.bme.hu>
+ <859e28fd61203c35e30fce505f0101886a54e654.camel@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 09/11] aspeed: Introduce a spi_boot region under the SoC
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>
-References: <20230301165619.2171090-1-clg@kaod.org>
- <20230301165619.2171090-10-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230301165619.2171090-10-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,30 +68,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 17:56, Cédric Le Goater wrote:
-> The default boot address of the Aspeed SoCs is 0x0. For this reason,
-> the FMC flash device contents are remapped by HW on the first 256MB of
-> the address space. In QEMU, this is currently done in the machine init
-> with the setup of a region alias.
-> 
-> Move this code to the SoC and introduce an extra container to prepare
-> ground for the boot ROM region which will overlap the FMC flash
-> remapping.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   include/hw/arm/aspeed_soc.h |  5 +++++
->   hw/arm/aspeed.c             | 13 +------------
->   hw/arm/aspeed_ast2600.c     | 13 +++++++++++++
->   hw/arm/aspeed_soc.c         | 14 ++++++++++++++
+On Wed, 1 Mar 2023, David Woodhouse wrote:
+> On Wed, 2023-03-01 at 14:18 +0100, BALATON Zoltan wrote:
+>>> Are you sure the PIC ELCR is actually set for the lines you're having
+>>> trouble with? Is that something the Pegasos SmartFirmware would have
+>>> done, and MorphOS is expecting to inherit but isn't actually setting up
+>>> for itself?
+>>
+>> No, it works with other guests like Linux and AmigaOS that use PIC as set
+>> up by the firmware but MorphOS tries to use it in level sensitive mode and
+>> likely has an IRQ handler which expects this to work. This is where I've
+>> debugged it and came to this workaround:
+>>
+>> https://lists.nongnu.org/archive/html/qemu-ppc/2023-02/msg00403.html
+>>
+>> When booting MorphOS with -d unimp I see these logs:
+>>
+>> i8259: level sensitive irq not supported
+>> i8259: level sensitive irq not supported
+>>
+>> which is I guess when it tries to set it for both PICs. (If you want to
+>> try this MorphOS iso is downloadable and instructions how to boot it is
+>> here: http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
+>
+>
+> Wow. Even looking at the PIIX3 datasheet from 1996, That 'Edge/Level
+> Bank Select (LTIM)' bit was documented as 'This bit is disabled. Its
+> function is replaced by the Edge/Level Triggerede Control (ELCR)
+> Registers.
+>
+> We've been able to set the edge/level on a per-pin basis ever since the
+> ELCR was introduced with the IBM PS/2, I think.
+>
+> It isn't a *correct* fix without a little bit more typing, but does
+> this make it work?
+>
+> diff --git a/hw/intc/i8259.c b/hw/intc/i8259.c
+> index 17910f3bcb..36ebcff025 100644
+> --- a/hw/intc/i8259.c
+> +++ b/hw/intc/i8259.c
+> @@ -246,6 +246,7 @@ static void pic_ioport_write(void *opaque, hwaddr addr64,
+>             if (val & 0x08) {
+>                 qemu_log_mask(LOG_UNIMP,
+>                               "i8259: level sensitive irq not supported\n");
+> +                s->elcr = 0xff;
 
-Why aspeed2600 duplicates a lot of aspeed_soc_init() /
-aspeed_soc_realize() while inheriting from TYPE_ASPEED_SOC?
-Is that on purpose or because not using device_class_set_parent_realize?
+This works too. I guess the log can be then removed too. Could you submit 
+a proper patch or you want me to do that so we can drop the workaround for 
+it? Thanks for looking into it.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Regards,
+BALATON Zoltan
 
->   hw/arm/fby35.c              |  8 +-------
->   5 files changed, 34 insertions(+), 19 deletions(-)
-
+>             }
+>         } else if (val & 0x08) {
+>             if (val & 0x04) {
+>
+>
+>
+>
 
