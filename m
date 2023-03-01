@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937F86A6AB4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:21:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030E06A6AB8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:23:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJZd-0005w7-Am; Wed, 01 Mar 2023 05:20:37 -0500
+	id 1pXJbb-000710-DS; Wed, 01 Mar 2023 05:22:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pXJZP-0005tC-RP
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:20:25 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pXJbW-00070T-Rz
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:22:36 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pXJZN-0008SA-Gl
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:20:23 -0500
-Received: by mail-ed1-x529.google.com with SMTP id f13so51721745edz.6
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:20:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lSHSzt4zOHyJ9WuSAB5ugdJasUqyMnV0M3NNCNfAwzM=;
- b=j0oRwga4YHNtii0VjNYF3Ymc8DcqRgmjrz0Nnfvo52IwOQJ6u5T0MD8iidrhAQkQZu
- /gFO6zRvP1ChkrlKoR9JTTpSrNxVJl4uneOjR6IV/oV5A+/Bg/4t7wA+2jTkN7aykDJA
- rM0ZzewNTzpu6Bsj9a7usV6G/NB7uARktOvIVcCafNEkE7S8P2rDL097rjbNBRychkqK
- xGBjOWsqESqc3tDOJ68CkZ7tpu0S9VI474NbZrrvPjxyTTiBt4YhR+/Zt9ZOcX3ingzv
- LeCJzff/X9w2d4k4ob8JiFt9NM8nCMczw553q+4TZqfhW/hOuZdJWHvbs/RzlZTe2R2M
- Dg7w==
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pXJbU-0000YT-7j
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:22:34 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id a9so3336385plh.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:22:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1677666150;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ftJFj6N8MOxnSkoK1R3vI8ooiI8KTBg6SM2nDO0wMYM=;
+ b=gHvS3szy4Jhg/VrqaE7h7+BRhdQGgrKjzb1cc7WkqfEDszr7fzPPYI9gQCQsRih3rk
+ 6T6sWR6yfXMXLi1O3ZlJlfxDsgcGeJZjyYdxTfrgP7L/G9sVDVCWOaX/I7jvzlKpoxeq
+ atQmR/5lb0yNcxDTzWEj2zcZ4Sn2OTxw8PdNSZgLbqBZFiR3PDcKmjEA1mp+CwBbQ1xT
+ kR3ERDV6mk2ENVepFRsuEg92dG+6FiVMOa05Osu91/uL3TVD6kbQr1ZdARm56Re+7efz
+ Jk52rVu8DpABWEYKT2PJvbdK4hBXwprq21kI/mXK6YVix48DNOfH4a89gyGcDtNQavg9
+ YjLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lSHSzt4zOHyJ9WuSAB5ugdJasUqyMnV0M3NNCNfAwzM=;
- b=l9BHNGEqZenvK1ZAuKRtEYUmCdisNDQf3vl6rgLfCUZZQeymj8YwwNjmwwnIJDlAoW
- S4nsGeQFDaqfx3tu+Xx998z7WVv1+smAFm/ldwEIjEIMvUELRUK7Jfi4wpe3MbCmHUI0
- tXKb+JPUf6bW8OJ2HNg5mFNpHJoJkozNTuU/0a50x8ckm1OmWG+QSOW3FaspUBldTULf
- dlQiw+Y50NoJCxW5lxPWwv/6yIhvjR9y8pYoTKryzDMrh/bFLxgK9TiUHmFNETDIcvIZ
- 1liTfAXrSQircHKOPPdp/Iq76hjHm80zfIXik00hUM9EA0ouLlSMu+ijXD2gxvMVBbpD
- Cw5g==
-X-Gm-Message-State: AO0yUKUQqcLGPJgJIUC6Ifd0hgPCHC095md4vF/IPSsc9D6Xum9wKsGb
- zunX7DVRJsBWKWM8J8JoVkAF/PBzNCrfLyfRC7c=
-X-Google-Smtp-Source: AK7set86CyTXF6l7m9ZyOPklZBJpPMoD47UQaNgsSc+ypLeUKllBYpDx4f1kXix31F1MAQufS3KIkj9lJ0xa7SSRb1o=
-X-Received: by 2002:a17:906:c7c8:b0:8b1:30da:b585 with SMTP id
- dc8-20020a170906c7c800b008b130dab585mr2984943ejb.6.1677666019799; Wed, 01 Mar
- 2023 02:20:19 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677666150;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ftJFj6N8MOxnSkoK1R3vI8ooiI8KTBg6SM2nDO0wMYM=;
+ b=QNmDKi0nLelfCC5bx1di85KRI0XQKWR9K2Ya0gr3xRVJfDES5GQO11jQfx2Eetrpyw
+ y65VAnGJLdrh5W5Qgmc5RskO2uo9uCLpuSNIYgW8HgO5Yu8UWBQ+4fhumYXJqE7E+D28
+ mTOljGFk91nK2sfljnZO9tHuX68GiRRy7mVPXgPvZINdeS4C3d+0LXCD8lmXzGSPf8Bm
+ dJL0Mt5837sjFpd5GKsdQLgOG6I2NFMs94oAhp9Sp50kpzy7ZkX8qkNymBGtRODZZMWF
+ 6ITVVHNTK+R1u5+9E3A4CtrDr2voCqE/AHjfbsTzpefld6S12zaRFMHntFcRnuMNp071
+ dW7g==
+X-Gm-Message-State: AO0yUKXEP56wHWRy+TgxNTZuvAYKBs6u98PuZl27VFz3p1NGX0T31Jhw
+ 43Yt4ZFa6DEOR/n/EgCmCgaPcg==
+X-Google-Smtp-Source: AK7set8vDMLcb0BaHxrX7m0c1CsmOyHkp3yqY1UQdXAt3XzUYZ7RVdn8s3r8FdIx/B8aJKl61YvhyQ==
+X-Received: by 2002:a17:90b:164e:b0:234:944d:dd6b with SMTP id
+ il14-20020a17090b164e00b00234944ddd6bmr6980472pjb.12.1677666150465; 
+ Wed, 01 Mar 2023 02:22:30 -0800 (PST)
+Received: from [10.3.43.196] ([61.213.176.9]) by smtp.gmail.com with ESMTPSA id
+ d17-20020a17090ab31100b002340d317f3esm7781990pjr.52.2023.03.01.02.22.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Mar 2023 02:22:30 -0800 (PST)
+Message-ID: <d700920e-b9a8-0d99-3804-eefb7f64c582@bytedance.com>
+Date: Wed, 1 Mar 2023 18:20:54 +0800
 MIME-Version: 1.0
-References: <20230301090203.1601925-1-bmeng.cn@gmail.com>
- <d57cabeb-192a-e56e-7eac-c8d5634368bc@kaod.org>
-In-Reply-To: <d57cabeb-192a-e56e-7eac-c8d5634368bc@kaod.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 1 Mar 2023 18:20:08 +0800
-Message-ID: <CAEUhbmV+F1vEjy5giNR82gU6auOmJ0SUyaFu83_s8STuDUeVAw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] net: Pad short frames for network backends
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org, 
- Bin Meng <bmeng@tinylab.org>, Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
- Helge Deller <deller@gmx.de>, Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: Re: [PATCH v5 09/12] cryptodev: Account statistics
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: mst@redhat.com, arei.gonglei@huawei.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
+References: <20230301025124.3605557-1-pizhenwei@bytedance.com>
+ <20230301025124.3605557-10-pizhenwei@bytedance.com>
+ <Y/8ebZjswgBXlH81@redhat.com>
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <Y/8ebZjswgBXlH81@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,65 +95,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi C=C3=A9dric,
 
-On Wed, Mar 1, 2023 at 5:13=E2=80=AFPM C=C3=A9dric Le Goater <clg@kaod.org>=
- wrote:
->
-> Hello Bin,
->
-> On 3/1/23 10:01, bmeng.cn@gmail.com wrote:
-> > From: Bin Meng <bmeng@tinylab.org>
-> >
-> > The minimum Ethernet frame length is 60 bytes. For short frames with
-> > smaller length like ARP packets (only 42 bytes), on a real world NIC
-> > it can choose either padding its length to the minimum required 60
-> > bytes, or sending it out directly to the wire. Such behavior can be
-> > hardcoded or controled by a register bit. Similarly on the receive
-> > path, NICs can choose either dropping such short frames directly or
-> > handing them over to software to handle.
-> >
-> > On the other hand, for the network backends like SLiRP/TAP, they
-> > don't expose a way to control the short frame behavior. As of today
-> > they just send/receive data from/to the other end connected to them,
-> > which means any sized packet is acceptable. So they can send and
-> > receive short frames without any problem. It is observed that ARP
-> > packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-> > these ARP packets to the other end which might be a NIC model that
-> > does not allow short frames to pass through.
-> >
-> > To provide better compatibility, for packets sent from QEMU network
-> > backends like SLiRP/TAP, we change to pad short frames before sending
-> > it out to the other end, if the other end does not forbid it via the
-> > nc->do_not_pad flag. This ensures a backend as an Ethernet sender
-> > does not violate the spec. But with this change, the behavior of
-> > dropping short frames from SLiRP/TAP interfaces in the NIC model
-> > cannot be emulated because it always receives a packet that is spec
-> > complaint. The capability of sending short frames from NIC models is
-> > still supported and short frames can still pass through SLiRP/TAP.
-> >
-> > This series should be able to fix the issue as reported with some
-> > NIC models before, that ARP requests get dropped, preventing the
-> > guest from becoming visible on the network. It was workarounded in
-> > these NIC models on the receive path, that when a short frame is
-> > received, it is padded up to 60 bytes.
->
-> I guess we can drop this code in ftgmac100.c also then :
->
->      /* TODO : Pad to minimum Ethernet frame length */
->      /* handle small packets.  */
->      if (size < 10) {
->          qemu_log_mask(LOG_GUEST_ERROR, "%s: dropped frame of %zd bytes\n=
-",
->                        __func__, size);
->          return size;
->      }
->
-> Correct ? No need to resend. I can take care of it.
->
 
-Yes, I think so. Thanks!
+On 3/1/23 17:44, Daniel P. Berrangé wrote:
+> On Wed, Mar 01, 2023 at 10:51:21AM +0800, zhenwei pi wrote:
+>> Account OPS/BPS for crypto device, this will be used for 'query-stats'
+>> QEMU monitor command and QoS in the next step.
+>>
+>> Note that a crypto device may support symmetric mode, asymmetric mode,
+>> both symmetric and asymmetric mode. So we use two structure to
+>> describe the statistics of a crypto device.
+>>
+>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+>> ---
+>>   backends/cryptodev.c       | 68 +++++++++++++++++++++++++++++++++++---
+>>   include/sysemu/cryptodev.h | 31 +++++++++++++++++
+>>   qapi/cryptodev.json        | 54 ++++++++++++++++++++++++++++++
+>>   3 files changed, 148 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+>> index ba7b0bc770..cc824e9665 100644
+>> --- a/backends/cryptodev.c
+>> +++ b/backends/cryptodev.c
+>> @@ -107,6 +107,9 @@ void cryptodev_backend_cleanup(
+>>       if (bc->cleanup) {
+>>           bc->cleanup(backend, errp);
+>>       }
+>> +
+>> +    g_free(backend->sym_stat);
+>> +    g_free(backend->asym_stat);
+>>   }
+>>   
+>>   int cryptodev_backend_create_session(
+>> @@ -154,16 +157,61 @@ static int cryptodev_backend_operation(
+>>       return -VIRTIO_CRYPTO_NOTSUPP;
+>>   }
+>>   
+>> +static int cryptodev_backend_account(CryptoDevBackend *backend,
+>> +                 CryptoDevBackendOpInfo *op_info)
+>> +{
+>> +    enum QCryptodevBackendAlgType algtype = op_info->algtype;
+>> +    int len;
+>> +
+>> +    if (algtype == QCRYPTODEV_BACKEND_ALG_ASYM) {
+>> +        CryptoDevBackendAsymOpInfo *asym_op_info = op_info->u.asym_op_info;
+>> +        len = asym_op_info->src_len;
+>> +        switch (op_info->op_code) {
+>> +        case VIRTIO_CRYPTO_AKCIPHER_ENCRYPT:
+>> +            QCryptodevAsymStatIncEncrypt(backend, len);
+>> +            break;
+>> +        case VIRTIO_CRYPTO_AKCIPHER_DECRYPT:
+>> +            QCryptodevAsymStatIncDecrypt(backend, len);
+>> +            break;
+>> +        case VIRTIO_CRYPTO_AKCIPHER_SIGN:
+>> +            QCryptodevAsymStatIncSign(backend, len);
+>> +            break;
+>> +        case VIRTIO_CRYPTO_AKCIPHER_VERIFY:
+>> +            QCryptodevAsymStatIncVerify(backend, len);
+>> +            break;
+>> +        default:
+>> +            return -VIRTIO_CRYPTO_NOTSUPP;
+>> +        }
+>> +    } else if (algtype == QCRYPTODEV_BACKEND_ALG_SYM) {
+>> +        CryptoDevBackendSymOpInfo *sym_op_info = op_info->u.sym_op_info;
+>> +        len = sym_op_info->src_len;
+>> +        switch (op_info->op_code) {
+>> +        case VIRTIO_CRYPTO_CIPHER_ENCRYPT:
+>> +            QCryptodevSymStatIncEncrypt(backend, len);
+>> +            break;
+>> +        case VIRTIO_CRYPTO_CIPHER_DECRYPT:
+>> +            QCryptodevSymStatIncDecrypt(backend, len);
+>> +            break;
+>> +        default:
+>> +            return -VIRTIO_CRYPTO_NOTSUPP;
+>> +        }
+>> +    } else {
+>> +        error_report("Unsupported cryptodev alg type: %" PRIu32 "", algtype);
+>> +        return -VIRTIO_CRYPTO_NOTSUPP;
+>> +    }
+>> +
+>> +    return len;
+>> +}
+>> +
+>>   int cryptodev_backend_crypto_operation(
+>>                    CryptoDevBackend *backend,
+>>                    CryptoDevBackendOpInfo *op_info)
+>>   {
+>> -    QCryptodevBackendAlgType algtype = op_info->algtype;
+>> +    int ret;
+>>   
+>> -    if ((algtype != QCRYPTODEV_BACKEND_ALG_SYM)
+>> -        && (algtype != QCRYPTODEV_BACKEND_ALG_ASYM)) {
+>> -        error_report("Unsupported cryptodev alg type: %" PRIu32 "", algtype);
+>> -        return -VIRTIO_CRYPTO_NOTSUPP;
+>> +    ret = cryptodev_backend_account(backend, op_info);
+>> +    if (ret < 0) {
+>> +        return ret;
+>>       }
+>>   
+>>       return cryptodev_backend_operation(backend, op_info);
+>> @@ -202,10 +250,20 @@ cryptodev_backend_complete(UserCreatable *uc, Error **errp)
+>>   {
+>>       CryptoDevBackend *backend = CRYPTODEV_BACKEND(uc);
+>>       CryptoDevBackendClass *bc = CRYPTODEV_BACKEND_GET_CLASS(uc);
+>> +    uint32_t services;
+>>   
+>>       if (bc->init) {
+>>           bc->init(backend, errp);
+>>       }
+>> +
+>> +    services = backend->conf.crypto_services;
+>> +    if (services & (1 << QCRYPTODEV_BACKEND_SERVICE_CIPHER)) {
+>> +        backend->sym_stat = g_new0(QCryptodevBackendSymStat, 1);
+>> +    }
+>> +
+>> +    if (services & (1 << QCRYPTODEV_BACKEND_SERVICE_AKCIPHER)) {
+>> +        backend->asym_stat = g_new0(QCryptodevBackendAsymStat, 1);
+>> +    }
+>>   }
+>>   
+>>   void cryptodev_backend_set_used(CryptoDevBackend *backend, bool used)
+>> diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
+>> index 048a627035..15e8c04dcf 100644
+>> --- a/include/sysemu/cryptodev.h
+>> +++ b/include/sysemu/cryptodev.h
+>> @@ -253,8 +253,39 @@ struct CryptoDevBackend {
+>>       /* Tag the cryptodev backend is used by virtio-crypto or not */
+>>       bool is_used;
+>>       CryptoDevBackendConf conf;
+>> +    QCryptodevBackendSymStat *sym_stat;
+>> +    QCryptodevBackendAsymStat *asym_stat;
+>>   };
+>>   
+>> +#define QCryptodevSymStatInc(be, op, bytes) do { \
+>> +   be->sym_stat->op##_bytes += (bytes); \
+>> +   be->sym_stat->op##_ops += 1; \
+>> +} while (/*CONSTCOND*/0)
+>> +
+>> +#define QCryptodevSymStatIncEncrypt(be, bytes) \
+>> +            QCryptodevSymStatInc(be, encrypt, bytes)
+>> +
+>> +#define QCryptodevSymStatIncDecrypt(be, bytes) \
+>> +            QCryptodevSymStatInc(be, decrypt, bytes)
+>> +
+>> +#define QCryptodevAsymStatInc(be, op, bytes) do { \
+>> +    be->asym_stat->op##_bytes += (bytes); \
+>> +    be->asym_stat->op##_ops += 1; \
+>> +} while (/*CONSTCOND*/0)
+>> +
+>> +#define QCryptodevAsymStatIncEncrypt(be, bytes) \
+>> +            QCryptodevAsymStatInc(be, encrypt, bytes)
+>> +
+>> +#define QCryptodevAsymStatIncDecrypt(be, bytes) \
+>> +            QCryptodevAsymStatInc(be, decrypt, bytes)
+>> +
+>> +#define QCryptodevAsymStatIncSign(be, bytes) \
+>> +            QCryptodevAsymStatInc(be, sign, bytes)
+>> +
+>> +#define QCryptodevAsymStatIncVerify(be, bytes) \
+>> +            QCryptodevAsymStatInc(be, verify, bytes)
+>> +
+>> +
+>>   /**
+>>    * cryptodev_backend_new_client:
+>>    *
+>> diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
+>> index f33f96a692..54d7f9cb58 100644
+>> --- a/qapi/cryptodev.json
+>> +++ b/qapi/cryptodev.json
+>> @@ -87,3 +87,57 @@
+>>   # Since: 8.0
+>>   ##
+>>   { 'command': 'query-cryptodev', 'returns': ['QCryptodevInfo']}
+>> +
+>> +##
+>> +# @QCryptodevBackendSymStat:
+>> +#
+>> +# The statistics of symmetric operation.
+>> +#
+>> +# @encrypt-ops: the operations of symmetric encryption
+>> +#
+>> +# @decrypt-ops: the operations of symmetric decryption
+>> +#
+>> +# @encrypt-bytes: the bytes of symmetric encryption
+>> +#
+>> +# @decrypt-bytes: the bytes of symmetric decryption
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'struct': 'QCryptodevBackendSymStat',
+>> +  'data': { 'encrypt-ops': 'int',
+>> +            'decrypt-ops': 'int',
+>> +            'encrypt-bytes': 'int',
+>> +            'decrypt-bytes': 'int' } }
+>> +
+>> +##
+>> +# @QCryptodevBackendAsymStat:
+>> +#
+>> +# The statistics of asymmetric operation.
+>> +#
+>> +# @encrypt-ops: the operations of asymmetric encryption
+>> +#
+>> +# @decrypt-ops: the operations of asymmetric decryption
+>> +#
+>> +# @sign-ops: the operations of asymmetric signature
+>> +#
+>> +# @verify-ops: the operations of asymmetric verification
+>> +#
+>> +# @encrypt-bytes: the bytes of asymmetric encryption
+>> +#
+>> +# @decrypt-bytes: the bytes of asymmetric decryption
+>> +#
+>> +# @sign-bytes: the bytes of asymmetric signature
+>> +#
+>> +# @verify-bytes: the bytes of asymmetric verification
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'struct': 'QCryptodevBackendAsymStat',
+>> +  'data': { 'encrypt-ops': 'int',
+>> +            'decrypt-ops': 'int',
+>> +            'sign-ops': 'int',
+>> +            'verify-ops': 'int',
+>> +            'encrypt-bytes': 'int',
+>> +            'decrypt-bytes': 'int',
+>> +            'sign-bytes': 'int',
+>> +            'verify-bytes': 'int' } }
+> 
+> AFAICT, these two structs are no longer used in QAPI since the switch
+> to using query-stats. IOW this has become just an indirect way to
+> declare a C struct for private use in the C code.
+> 
+> As such, I'd suggest that this QAPI addition be removed, and just
+> declare a normal C struct directly in the code which needs it.
+> 
+> With regards,
+> Daniel
 
-Regards,
-Bin
+
+OK, I'll fix this in the next version. Thanks!
+
+-- 
+zhenwei pi
 
