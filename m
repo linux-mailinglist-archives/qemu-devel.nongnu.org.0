@@ -2,100 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC2E6A6841
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:38:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42056A6863
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:48:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXH2W-0006Bv-DJ; Wed, 01 Mar 2023 02:38:16 -0500
+	id 1pXHB0-0003Df-3m; Wed, 01 Mar 2023 02:47:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXH2O-00062W-44
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:38:09 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pXHAx-0003D4-S5
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:47:00 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXH2M-0004Ex-F0
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:38:07 -0500
-Received: by mail-wr1-x429.google.com with SMTP id h11so477929wrm.5
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 23:38:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pXHAv-0006P7-Gz
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:46:59 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id o12so50138884edb.9
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 23:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677656284;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XUpEQ/uHIC4kK9X3lf1DvjLD7Irehy2VfpQRNjmVuAs=;
- b=T/k+yPnEnNDGWwtdfjmSYseiBlXFDUZJKGYIF8GG2G1lzHTmmHEw28MBXuXr5ngjB+
- 9ra3OS0tjmaoz4aeChGke5yaugWPw4DwC92JHHyPLG/3TRT8UeTxDn3KmbTU5nxHL9RJ
- C5RGB4PsoBmOROlbmCWDroZCwYhXp8hr9k1U766/fQHMX37LHQs6C9LFNDItYSj4KPqr
- Kh3cDQrXwH/IJEIQhCMXXo88784ZKyQeuJs+TPHy1yrwRJ/5KvIMvrAx7txmf6xG8w4/
- bKxnlSiWjucYlH5x7GOPIoklYucSDpEVEtsGEFYbRhPa1CZAZ1YIWVesMSzRmBN8AuDb
- wyeQ==
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1677656815;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cfq7VAbovSYEGhbTr8+sp2WCCI5QenroDgBC6jwW7mY=;
+ b=zEstVKS/Z5vha8LsphOuaTag7FUglNdwKD021RCr5SUvVkHEczdn1DWKuFM2dg3nha
+ JsxNpSZQv4o0bz9XajPO7kBAXW94Tt7mKVkddv+zJIOlRj2XjhESQPf0CSQBMH9T5bP7
+ 2pAU4ozocqkZriv4mZvR658u7hoGJTjzdpjRUJh6EpSv1mej0rQ9n6LoRO1OecODKkOu
+ guSrRGcxY8aX04vbR5m4wL+H8lIVf7TCRJArQYNdoKhLkl1SmRmNp3sehXLrVLXQxZtA
+ 3liJXpnLCDVMzUhmc2Kzv/O2iXrtpRKLG4U8orl7bEIhFcleD9oxTkivgbNAyn0Ok89o
+ Fbfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677656284;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XUpEQ/uHIC4kK9X3lf1DvjLD7Irehy2VfpQRNjmVuAs=;
- b=nhx2d0TfxHjMgpGrI1+l1vZ2v/aWBbt+f19XPeDjEax2hN048pi3KiDPCABp6R5IIY
- ABdmrpcLSeec6JuawTMgqCPeg/6CLCqDJT5BA8+LiQ6s9utlDfiUKzlUwwA+fq3Ez3Rz
- aU7cIvCWYLtTDA/CrpEi4A3ZaithhPDiX+IJVNZibl4wDhbewVyIBZmIsvkJ1i5UNRUS
- E6dys/JW8jHlKTQLmtFfB7DIYpNeatRLcdYtaoHEO+euFTcGj3Bu2KIRf/7oq8C1uueT
- LiijFZjGOnKyTfjAXtxeu7pPyZE0ACAwdEXRk9VuznmtKEX4mpHUyOHQWZXhCSOHEAjY
- DHoQ==
-X-Gm-Message-State: AO0yUKVH4S3XGQYnF+a72h50QDzVQPTCHE0m4Qc0thv6nbkOJdjkaBlh
- /gjN2f27n3n/7Y0GbJcSX/uHNA==
-X-Google-Smtp-Source: AK7set+rXwvHDB1VgYk4qgSRVgkEWkfsYaTY0AHsrala+3ya5lCvJOOtfFyhWYGrZixe9aBZeGZxCA==
-X-Received: by 2002:adf:f44b:0:b0:2c8:5f9d:9f6f with SMTP id
- f11-20020adff44b000000b002c85f9d9f6fmr4938814wrp.10.1677656284511; 
- Tue, 28 Feb 2023 23:38:04 -0800 (PST)
-Received: from [192.168.18.115] ([91.219.21.246])
- by smtp.gmail.com with ESMTPSA id
- y18-20020adffa52000000b002c55efa9cbesm11643744wrr.39.2023.02.28.23.38.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 23:38:03 -0800 (PST)
-Message-ID: <db096848-11a3-b6da-93f1-b53a26a477f9@linaro.org>
-Date: Wed, 1 Mar 2023 08:38:01 +0100
+ d=1e100.net; s=20210112; t=1677656815;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Cfq7VAbovSYEGhbTr8+sp2WCCI5QenroDgBC6jwW7mY=;
+ b=KyAYHGRg5Bh7eArAUbJuDZf4J+UDSTbhKYDI1lJtE+sh8GX/OfKIgkzr3mpCt4z5TG
+ s7VaHWTMOgQcm7mnBBmK1NzB5UQXNivhoKDfzpImCSkU2Gbd/IjkROo1iYS+J6HtwFUO
+ K7ZbQE+cfZkxvRAUb6eh3O7q5yW67gNwJxxtCZrO5/kyuycaE9tZrKlzGtgDjWnCehcQ
+ 0Ab6EqYdfWQmoDhyiGcD41X4V7lJcWJN3Fic3OiZGzpzZlE4++WpW2Y+gPJeQE0EmT/u
+ Fl4YxFvIT3p8qZ+Pht6Q6sriOS5CvKMbE1BlgbdBYKrVUO53qMpqHGIYKj/x1RnVi3Ek
+ yaFw==
+X-Gm-Message-State: AO0yUKXdP/l1k3Kij7vFaBJV1aZNuND6uftqw7S5QzEUbLxt5bVtnks9
+ WJgDjKuTwRUVV9moh8GLeWHkG+8avAZHAcQz7SyvAw==
+X-Google-Smtp-Source: AK7set96k+5nSlBDhxrzgJTFNfFejbYzJ9QxIgrHSF+mJN22yC5dkY07Y1PoiKTk9vEeEAwybYN7rOTzg/E29xdw+m8=
+X-Received: by 2002:a17:906:7199:b0:8b1:3298:c587 with SMTP id
+ h25-20020a170906719900b008b13298c587mr2782109ejk.2.1677656815203; Tue, 28 Feb
+ 2023 23:46:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 22/24] gitlab: move the majority of artefact handling
- to a template
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Peter Maydell
- <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
- <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Laurent Vivier <lvivier@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20230228190653.1602033-1-alex.bennee@linaro.org>
- <20230228190653.1602033-23-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230228190653.1602033-23-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <Y/z4rwv09Ckhbtfp@redhat.com>
+ <001bedba-b12f-4dd8-0866-7ccb9ce877d0@redhat.com>
+ <Y/3C+jC3Lk5MJxfu@redhat.com>
+ <99a83e65-273a-ea1b-e7d9-bbdd8ca32145@redhat.com>
+ <20230228162938-mutt-send-email-mst@kernel.org>
+ <87lekg53gn.fsf@pond.sub.org>
+In-Reply-To: <87lekg53gn.fsf@pond.sub.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Wed, 1 Mar 2023 00:46:44 -0700
+Message-ID: <CANCZdfpdjBk63BVFqA3E3BJCkdgX0Z53G_=ktwKYLqHbgXxhqw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Deprecate support for 32-bit x86 and arm hosts
+To: Markus Armbruster <armbru@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-arm <qemu-arm@nongnu.org>, Maxim Levitsky <mlevitsk@redhat.com>,
+ libvir-list@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ xen-devel@lists.xenproject.org, Reinoud Zandijk <reinoud@netbsd.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000086894d05f5d1ea38"
+Received-SPF: none client-ip=2a00:1450:4864:20::52c;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,64 +95,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/2/23 20:06, Alex Bennée wrote:
-> To avoid lots of copy and paste lets deal with artefacts in a
-> template. This way we can filter out most of the pre-binary object and
-> library files we no longer need as we have the final binaries.
-> 
-> build-system-alpine also saved .git-submodule-status so for simplicity
-> we bring that into the template as well.
-> 
-> As an example the build-system-ubuntu artefacts before this patch
-> where around 1.3 GB, after dropping the object files it comes to 970
-> MB.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   .gitlab-ci.d/buildtest-template.yml | 16 ++++++
->   .gitlab-ci.d/buildtest.yml          | 81 +++++++++++------------------
->   2 files changed, 46 insertions(+), 51 deletions(-)
-> 
-> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-> index cb96b55c3f..a6cfe9be97 100644
-> --- a/.gitlab-ci.d/buildtest-template.yml
-> +++ b/.gitlab-ci.d/buildtest-template.yml
-> @@ -25,6 +25,22 @@
->           make -j"$JOBS" $MAKE_CHECK_ARGS ;
->         fi
->   
-> +# We jump some hoops in common_test_job_template to avoid
-> +# rebuilding all the object files we skip in the artifacts
-> +.native_build_artifact_template:
-> +  artifacts:
-> +    expire_in: 2 days
-> +    paths:
-> +      - build
-> +      - .git-submodule-status
-> +    exclude:
-> +      - build/**/*.p
-> +      - build/**/*.a.p
-> +      - build/**/*.fa.p
-> +      - build/**/*.c.o
-> +      - build/**/*.c.o.d
-> +      - build/**/*.fa
-> +
->   .common_test_job_template:
->     extends: .base_job_template
->     stage: test
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 43f9e4a81d..44b8275299 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -2,7 +2,9 @@ include:
->     - local: '/.gitlab-ci.d/buildtest-template.yml'
->   
->   build-system-alpine:
-> -  extends: .native_build_job_template
-> +  extends:
-> +    - .native_build_job_template
-> +    - .native_build_artifact_template
+--00000000000086894d05f5d1ea38
+Content-Type: text/plain; charset="UTF-8"
 
-I'm confused... Apparently this doesn't work:
-https://gitlab.com/stsquad/qemu/-/jobs/3847747681/artifacts/browse
+On Wed, Mar 1, 2023, 12:36 AM Markus Armbruster <armbru@redhat.com> wrote:
+
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>
+> > On Tue, Feb 28, 2023 at 09:05:16PM +0100, Thomas Huth wrote:
+> >> Well, without CI, I assume that the code will bitrot quite fast
+> (considering
+> >> that there are continuous improvements to TCG, for example).
+> >
+> > We have lots of hosts which we don't test with CI.  They don't bitrot
+> > because people do testing before release. This is what RCs are for.
+> > We did releases before CI - it is a cost/benefit thing.
+>
+> Dropping 32-bit x86 from CI feels like a no-brainer in the current
+> situation.
+>
+> As to deprecating 32-bit x86: the people by far most qualified to judge
+> the "cost/benefit thing" are the regulars who are bearing the cost,
+> i.e. the people who are actually maintaining it.  Their opinion should
+> overrule any "but somebody out there might still want to use it".
+>
+> Maintainers, please state your opinion, if any: aye or nay.
+>
+> Richard tells us "the maint overhead is large."  Makes me think he's in
+> favour of dropping 32-bit x86.  Richard?
+>
+> Peter seems to be reluctant to drop 32-bit ARM at this point.  Peter?
+>
+
+For FreeBSD systen we have no 32bit arm host users. There may be a few i386
+host users left, but they are a tiny sliver of users. The overwhelming bulk
+of our users for qemu-system- are on x86-64 or aarch64 hosts.
+
+For bsd-user, there is no 32 bit host support at all. It was dropped as
+part of the push to prune old code and upstream.
+
+Warner
+
+>
+
+--00000000000086894d05f5d1ea38
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Mar 1, 2023, 12:36 AM Markus Armbruster &lt;<a=
+ href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">&quot;Michael S. Tsirkin&quot; &lt;<a href=
+=3D"mailto:mst@redhat.com" target=3D"_blank" rel=3D"noreferrer">mst@redhat.=
+com</a>&gt; writes:<br>
+<br>
+&gt; On Tue, Feb 28, 2023 at 09:05:16PM +0100, Thomas Huth wrote:<br>
+&gt;&gt; Well, without CI, I assume that the code will bitrot quite fast (c=
+onsidering<br>
+&gt;&gt; that there are continuous improvements to TCG, for example).<br>
+&gt;<br>
+&gt; We have lots of hosts which we don&#39;t test with CI.=C2=A0 They don&=
+#39;t bitrot<br>
+&gt; because people do testing before release. This is what RCs are for.<br=
+>
+&gt; We did releases before CI - it is a cost/benefit thing.<br>
+<br>
+Dropping 32-bit x86 from CI feels like a no-brainer in the current<br>
+situation.<br>
+<br>
+As to deprecating 32-bit x86: the people by far most qualified to judge<br>
+the &quot;cost/benefit thing&quot; are the regulars who are bearing the cos=
+t,<br>
+i.e. the people who are actually maintaining it.=C2=A0 Their opinion should=
+<br>
+overrule any &quot;but somebody out there might still want to use it&quot;.=
+<br>
+<br>
+Maintainers, please state your opinion, if any: aye or nay.<br>
+<br>
+Richard tells us &quot;the maint overhead is large.&quot;=C2=A0 Makes me th=
+ink he&#39;s in<br>
+favour of dropping 32-bit x86.=C2=A0 Richard?<br>
+<br>
+Peter seems to be reluctant to drop 32-bit ARM at this point.=C2=A0 Peter?<=
+br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">F=
+or FreeBSD systen we have no 32bit arm host users. There may be a few i386 =
+host users left, but they are a tiny sliver of users. The overwhelming bulk=
+ of our users for qemu-system- are on x86-64 or aarch64 hosts.</div><div di=
+r=3D"auto"><br></div><div dir=3D"auto">For bsd-user, there is no 32 bit hos=
+t support at all. It was dropped as part of the push to prune old code and =
+upstream.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Warner=C2=A0</=
+div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">
+</blockquote></div></div></div>
+
+--00000000000086894d05f5d1ea38--
 
