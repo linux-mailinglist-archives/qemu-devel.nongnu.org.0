@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9386A65F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:58:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400436A65F4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:59:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXCfB-0002qA-Fu; Tue, 28 Feb 2023 21:57:53 -0500
+	id 1pXCfD-000372-8W; Tue, 28 Feb 2023 21:57:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCf9-0002dw-Ly
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:51 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1pXCfB-0002zy-UP
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:53 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCf7-0003Jo-SI
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:51 -0500
-Received: by mail-pl1-x633.google.com with SMTP id n6so11178949plf.5
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:49 -0800 (PST)
+ id 1pXCfA-0003L1-38
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:53 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ y15-20020a17090aa40f00b00237ad8ee3a0so11616636pjp.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dEZb5B03EEmkiUjZIvzh3a844AlICh5cfJo+CxxAESY=;
- b=nfiJ0+TOQGpnHv4FQr7t1dq/XD1UpSPR1d7l/EBgkG4W1w50NuWlSOvjxd2eqRJyvu
- alqdhsXPBb1tPE1wJwNem5uWvHcPDyQ1LvYK7jm4OUpL+TaW2fJmeoL3Sg2Ghm8GgNJ7
- 00JoClIowPtXlWnBq6VKwj7XDQ6SIdQeUOLZy6eIjXSSph6EI9AMlg3JCNx7XTjNa+qJ
- UGt9KyiZ4upb+LMQF9w+/55MUcmwj1gc88ywLD5g7fEtfV2o2Gt0NhF2Tx7QXjQl9ySE
- G0Uv+9jLBMKZKN7QenWqMj2vObJq/S4yVmjkMIuCyIxM5o+XbGSwzOaXeJ3Ns6orgeqU
- FoNQ==
+ bh=XHNQ406h/hUxehvnJIpfjbI2MbuZU/f56i9/YECKVw0=;
+ b=zvz3vA47xKehc+VGKZsOyfbMJePjfQ1mdvvEtAiteXlhkNZmE1pfI5ZeaVs/JOSyka
+ nshEZRlFVgxbGZO/E5dXwz1fvQ76y5pyJn//yDBZZEAe7ZzUdZ/tnqqPxay8DBIuBhk2
+ FMnYIFP5XYj5boj5sUKySIgKWXmY4OhKObWeDeMt8FhXrgTlRwTfVuTA5nAKy5u6477A
+ +HBlt0sqaVt3xyvHFlj9dSBqXodL1FPOBhha/wMEmZlNRM4HuCkvYkIlzyv+Dj0bstj5
+ ktj0Cil7NGGbfXVLzJIWcK8kXfPXArBCisZ3nQ+gGdRMcRyKdwghtIxP+mcCqrz6sH//
+ 47hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dEZb5B03EEmkiUjZIvzh3a844AlICh5cfJo+CxxAESY=;
- b=hrSDx63BprkGSDA1HzZYHRgdG2DzXiLQDV4+CH0fmv8+wCRK8LkfJOx0t6EfhGiefS
- kKAtMaYDApo0oXhn+C1S8BORnGc/+uasS8opIWXUtr7Q1EzThlsJRYFNLoHGeMNieyGc
- 5/ETaiFjZNO8rRCf9a7DoxisVLI+QtT3SSeVwxqtrXFn22qJzXJA7qxI+gJmp/WVOIM0
- E8QArpnG9SjZrAnVUE8Z3OkIRl6cGZrkZYjq/MoDIwC8M+eluyHebjs5NsJxsZlka+3n
- 5dF6LXPDom4KmPpyRfxVQ8CfvXHeXsbcuV/7dWpOMD1yvN3gZP/O0b4tG+UBZClPx/Os
- xlWw==
-X-Gm-Message-State: AO0yUKWjnQLHg74UGjqEXErAS8PTUC30O6pwpz5UWA/K31oSS9LbovZ4
- zMNq3TKHL8o/NDb3GD8p9SVbpIt5/N40GJ6qiic=
-X-Google-Smtp-Source: AK7set+5mwshum+AyoI18i9BOI04nUI8Yj/V2wvCQvUkuXp8YPqdVdEGrmwwRC5jMoBuwa24l+EgMA==
-X-Received: by 2002:a17:903:64d:b0:19c:b2b2:a3b9 with SMTP id
- kh13-20020a170903064d00b0019cb2b2a3b9mr4038666plb.60.1677639469061; 
- Tue, 28 Feb 2023 18:57:49 -0800 (PST)
+ bh=XHNQ406h/hUxehvnJIpfjbI2MbuZU/f56i9/YECKVw0=;
+ b=o0LtvbWYKtP3cP9LQpoU8Z1lMxVlgbQcfiEB/TL5ns8SlUSESD6JqiGceOaaj7g0DD
+ PGfYFyO9b/oOE4brYmKjArQ/TQVdIHRzfS0Oa3h9sy/xIZJsWjRhVcDwQT+J7546YTjz
+ rp5UtzNRghduN8WmcNT2yc5H/mOsoqojWj9+AaFuPW6eLdLwdPd0FJKVx0xZGFQaNtfV
+ r7T38112f2mqgjlbOKObKqO8roD/d/3V5HX85HcrPb160b2jNIDGtRg0ZMc0+PmX8121
+ DGangcxNn1dgISTsBwm2D5WhAkV8X1SgZ7s72ytleD5HJaFL1cIPbpHstFw2pSwRckat
+ 2mSg==
+X-Gm-Message-State: AO0yUKWSekELRrTyxUWaxk2h0UoInJSY0lV+yD167VS/c7eaY4Ggx+gT
+ wTMPp2j5uszbxPNkAMtt13zV4zw5oDoNs1tpQ54=
+X-Google-Smtp-Source: AK7set9Hg31bNpK+zZiv+ew3610q6EgaqjDdrjvkwh2b9AZwU4wm4SdYjuSmH2O5aRef6gQjCDYGiw==
+X-Received: by 2002:a17:902:cec1:b0:19a:a305:e367 with SMTP id
+ d1-20020a170902cec100b0019aa305e367mr5594986plg.30.1677639470558; 
+ Tue, 28 Feb 2023 18:57:50 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.57.47
+ jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.57.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 18:57:48 -0800 (PST)
+ Tue, 28 Feb 2023 18:57:50 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 37/62] tcg: Use noinline for major tcg_gen_code subroutines
-Date: Tue, 28 Feb 2023 16:56:18 -1000
-Message-Id: <20230301025643.1227244-38-richard.henderson@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 38/62] tcg: Add liveness_pass_0
+Date: Tue, 28 Feb 2023 16:56:19 -1000
+Message-Id: <20230301025643.1227244-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301025643.1227244-1-richard.henderson@linaro.org>
 References: <20230301025643.1227244-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,49 +92,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This makes it easier to assign blame with perf.
+Attempt to reduce the lifetime of TEMP_TB.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ tcg/tcg.c | 70 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 1a31a30a0d..71b6843eb1 100644
+index 71b6843eb1..1dbb24294e 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -2635,7 +2635,8 @@ TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *old_op,
+@@ -2857,6 +2857,75 @@ static void la_cross_call(TCGContext *s, int nt)
+     }
  }
  
- /* Reachable analysis : remove unreachable code.  */
--static void reachable_code_pass(TCGContext *s)
++/*
++ * Liveness analysis: Verify the lifetime of TEMP_TB, and reduce
++ * to TEMP_EBB, if possible.
++ */
 +static void __attribute__((noinline))
-+reachable_code_pass(TCGContext *s)
- {
-     TCGOp *op, *op_next, *op_prev;
-     bool dead = false;
-@@ -2859,7 +2860,8 @@ static void la_cross_call(TCGContext *s, int nt)
++liveness_pass_0(TCGContext *s)
++{
++    void * const multiple_ebb = (void *)(uintptr_t)-1;
++    int nb_temps = s->nb_temps;
++    TCGOp *op, *ebb;
++
++    for (int i = s->nb_globals; i < nb_temps; ++i) {
++        s->temps[i].state_ptr = NULL;
++    }
++
++    /*
++     * Represent each EBB by the op at which it begins.  In the case of
++     * the first EBB, this is the first op, otherwise it is a label.
++     * Collect the uses of each TEMP_TB: NULL for unused, EBB for use
++     * within a single EBB, else MULTIPLE_EBB.
++     */
++    ebb = QTAILQ_FIRST(&s->ops);
++    QTAILQ_FOREACH(op, &s->ops, link) {
++        const TCGOpDef *def;
++        int nb_oargs, nb_iargs;
++
++        switch (op->opc) {
++        case INDEX_op_set_label:
++            ebb = op;
++            continue;
++        case INDEX_op_discard:
++            continue;
++        case INDEX_op_call:
++            nb_oargs = TCGOP_CALLO(op);
++            nb_iargs = TCGOP_CALLI(op);
++            break;
++        default:
++            def = &tcg_op_defs[op->opc];
++            nb_oargs = def->nb_oargs;
++            nb_iargs = def->nb_iargs;
++            break;
++        }
++
++        for (int i = 0; i < nb_oargs + nb_iargs; ++i) {
++            TCGTemp *ts = arg_temp(op->args[i]);
++
++            if (ts->kind != TEMP_TB) {
++                continue;
++            }
++            if (ts->state_ptr == NULL) {
++                ts->state_ptr = ebb;
++            } else if (ts->state_ptr != ebb) {
++                ts->state_ptr = multiple_ebb;
++            }
++        }
++    }
++
++    /*
++     * For TEMP_TB that turned out not to be used beyond one EBB,
++     * reduce the liveness to TEMP_EBB.
++     */
++    for (int i = s->nb_globals; i < nb_temps; ++i) {
++        TCGTemp *ts = &s->temps[i];
++        if (ts->kind == TEMP_TB && ts->state_ptr != multiple_ebb) {
++            ts->kind = TEMP_EBB;
++        }
++    }
++}
++
  /* Liveness analysis : update the opc_arg_life array to tell if a
     given input arguments is dead. Instructions updating dead
     temporaries are removed. */
--static void liveness_pass_1(TCGContext *s)
-+static void __attribute__((noinline))
-+liveness_pass_1(TCGContext *s)
- {
-     int nb_globals = s->nb_globals;
-     int nb_temps = s->nb_temps;
-@@ -3199,7 +3201,8 @@ static void liveness_pass_1(TCGContext *s)
- }
+@@ -4872,6 +4941,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
+ #endif
  
- /* Liveness analysis: Convert indirect regs to direct temporaries.  */
--static bool liveness_pass_2(TCGContext *s)
-+static bool __attribute__((noinline))
-+liveness_pass_2(TCGContext *s)
- {
-     int nb_globals = s->nb_globals;
-     int nb_temps, i;
+     reachable_code_pass(s);
++    liveness_pass_0(s);
+     liveness_pass_1(s);
+ 
+     if (s->nb_indirects > 0) {
 -- 
 2.34.1
 
