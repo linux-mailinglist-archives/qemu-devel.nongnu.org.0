@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173E06A69C0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:26:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74626A69D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:32:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXIhT-0004MI-VF; Wed, 01 Mar 2023 04:24:40 -0500
+	id 1pXInZ-0001EE-TU; Wed, 01 Mar 2023 04:30:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXIhR-0004Le-Rh
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:24:38 -0500
+ id 1pXInX-0001DU-Ky
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:30:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXIhP-0006dg-Te
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:24:37 -0500
+ id 1pXInV-0007n3-1g
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:30:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677662674;
+ s=mimecast20190719; t=1677663051;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=L1MJvW/ASuF2296ev9DGZaqjT6JHt7vj/6UJCWL67Ws=;
- b=E2CZv7sH4PayxlWWguvXeXPtP4u2oQKDC+tVuCy5/htiS0IHClXiE0tObtYjNkXc4qOiBU
- cAwKCikf5tWkkWkWBJPwparHoSGnF5BCk8ZlyDQNbTnawr5redgkW1kV7OkgXIe8BGVuRf
- YXdOTm8E3eVNbikc88Y/YINNmeUXAAk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JT64EgFwfgnblMpLzCdmiXQiu2Gk161Jn8q78TxmRSc=;
+ b=NN6Thz4C7TIgG41jdKVMnqpYKct12GufzsAgg371LLA10UMMitowOv5Mboa/o+EhRE3M2r
+ r+w1hk5Ve3BjMj9PdkuihyKDH01XOLfR7icbLoyLfpuH+F6nwvSlrHplTYDEjUlPIqERVZ
+ Uz6J9ozG/USxEBwm3eDMohCI/0CftBM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-7fb6fTLbMmeCKXkeKJGXjg-1; Wed, 01 Mar 2023 04:24:33 -0500
-X-MC-Unique: 7fb6fTLbMmeCKXkeKJGXjg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-638-Uq1_pE8pPAarVH6TZp_bbw-1; Wed, 01 Mar 2023 04:30:47 -0500
+X-MC-Unique: Uq1_pE8pPAarVH6TZp_bbw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0BCF685CBE2;
- Wed,  1 Mar 2023 09:24:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7073E3C0F234;
+ Wed,  1 Mar 2023 09:30:47 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D20B1121315;
- Wed,  1 Mar 2023 09:24:30 +0000 (UTC)
-Date: Wed, 1 Mar 2023 09:24:27 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B88918EC1;
+ Wed,  1 Mar 2023 09:30:44 +0000 (UTC)
+Date: Wed, 1 Mar 2023 09:30:42 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
- Stefan Weil <sw@weilnetz.de>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
-Message-ID: <Y/8Zy/Lk8i9RCOdc@redhat.com>
-References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
- <20230207142535.1153722-8-marcandre.lureau@redhat.com>
- <87fsb4k85h.fsf@pond.sub.org>
- <CAMxuvax6qPYQCzNX7vESJM9_f5k4C1Yat0sJcJjrHkh_1WGpQA@mail.gmail.com>
- <87a61821y3.fsf@pond.sub.org>
- <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
- <87356yq9rs.fsf@pond.sub.org>
- <20230228155801.s2imkaybh3a4d5x3@redhat.com>
+To: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>, jasowang@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ thuth@redhat.com, philmd@linaro.org, armbru@redhat.com,
+ eblake@redhat.com, qemu-devel@nongnu.org, mprivozn@redhat.com,
+ yan@daynix.com
+Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
+Message-ID: <Y/8bQjj8VZ/7qal1@redhat.com>
+References: <20230219162100.174318-1-andrew@daynix.com>
+ <20230219162100.174318-4-andrew@daynix.com>
+ <Y/NCQhGmqIadlw0y@redhat.com>
+ <CAOEp5Of-sC1nuz4rAZkt8YoL2ctnSPAQ9QyxoQ97XiQ17wZ1Fg@mail.gmail.com>
+ <Y/5CQ5md6huqNsx4@redhat.com> <877cw1ipgg.fsf@toke.dk>
+ <Y/5QHonZyB+7vzEN@redhat.com> <87ttz5h1mj.fsf@toke.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230228155801.s2imkaybh3a4d5x3@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87ttz5h1mj.fsf@toke.dk>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -96,79 +92,70 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 28, 2023 at 09:58:01AM -0600, Eric Blake wrote:
-> On Wed, Feb 22, 2023 at 11:23:03AM +0100, Markus Armbruster wrote:
-> > > However, I think it would be simpler, and better, if we piped the
-> > > generated code to clang-format (when available). I made a simple patch
-> > > for that too.
-> > 
-> > Piping through indent or clang-format may well give us neater results
-> > for less effort.
-> > 
-> > We might want to dumb down generator code then.
+On Tue, Feb 28, 2023 at 11:21:56PM +0100, Toke Høiland-Jørgensen wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> Indeed, this approach seems like it might be worth pursuing (our
-> generator doesn't have to worry about spacing, because we do that in a
-> second pass with something that will still produce human-legible final
-> results).
+> > On Tue, Feb 28, 2023 at 08:01:51PM +0100, Toke Høiland-Jørgensen wrote:
+> >> Daniel P. Berrangé <berrange@redhat.com> writes:
+> >> 
+> >> Just to interject a note on this here: the skeleton code is mostly a
+> >> convenience feature used to embed BPF programs into the calling binary.
+> >> It is perfectly possible to just have the BPF object file itself reside
+> >> directly in the file system and just use the regular libbpf APIs to load
+> >> it. Some things get a bit more cumbersome (mostly setting values of
+> >> global variables, if the BPF program uses those).
+> >> 
+> >> So the JSON example above could just be a regular compiled-from-clang
+> >> BPF object file, and the management program can load that, inspect its
+> >> contents using the libbpf APIs and pass the file descriptors on to Qemu.
+> >> It's even possible to embed version information into this so that Qemu
+> >> can check if it understands the format and bail out if it doesn't - just
+> >> stick a version field in the configuration map as the first entry :)
+> >
+> > If all you have is the BPF object file is it possible to interrogate
+> > it to get a list of all the maps, and get FDs associated for them ?
+> > I had a look at the libbpf API and wasn't sure about that, it seemed
+> > like you had to know the required maps upfront ?  If it is possible
+> > to auto-discover everything you need, soley from the BPF object file
+> > as input, then just dealing with that in isolation would feel simpler.
 > 
-> > >> > So I would rather assert that we don't introduce such a schema, until we
-> > >> > fix the code generator. Or we acknowledge the limitation, and treat it as a
-> > >> > schema error. Other ideas?
-> > >>
-> > >> Yes: throw an error.  Assertions are for programming errors.  This isn't
-> > >> a programming error, it's a limitation of the current implementation.
-> > >>
-> > >> How hard would it be to lift the limitation?
-> > >
-> > > Taking this as a problematic example:
-> > >
-> > > void function(first,
-> > > #ifdef A
-> > >     a,
-> > > #endif
-> > > #ifdef B
-> > >     b
-> > > #endif
-> > > )
+> It is. You load the object file, and bpf_object__for_each_map() lets you
+> discover which maps it contains, with the different bpf_map__*() APIs
+> telling you the properties of that map (and you can modify them too
+> before loading the object if needed).
 > 
-> I am NOT a fan of preprocessor conditionals mid-function-signature.
-> It gets really nasty, really fast.  Is there any way we can have:
+> The only thing that's not in the object file is any initial data you
+> want to put into the map(s). But except for read-only maps that can be
+> added by userspace after loading the maps, so you could just let Qemu do
+> that...
 > 
-> struct S {
-> #ifdef A
->   type a;
-> #endif
-> #ifdef B
->   type b;
-> #endif
-> };
+> > It occurrs to me that exposing the BPF program as data rather than
+> > via binary will make more practical to integrate this into KubeVirt's
+> > architecture. In their deployment setup both QEMU and libvirt are
+> > running unprivileged inside a container. For any advanced nmetworking
+> > a completely separate component creates the TAP device and passes it
+> > into the container running QEMU. I don't think that the separate
+> > precisely matched helper binary would be something they can use, but
+> > it might be possible to expose a data file providing the BPF program
+> > blob and describing its maps.
 > 
-> void function(struct S)
+> Well, "a data file providing the BPF program blob and describing its
+> maps" is basically what a BPF .o file is. It just happens to be encoded
+> in ELF format :)
 > 
-> so that the preprocessor conditionals never appear inside ()?
+> You can embed it into some other data structure and have libbpf load it
+> from a blob in memory as well as from the filesystem, though; that is
+> basically what the skeleton file does (notice the big character string
+> at the end, that's just the original .o file contents).
 
-I'd question whether we should be doing conditional arguments
-at all.
+Ok, in that case I'm really wondering why any of this helper program
+stuff was proposed. I recall the rationale was that it was impossible
+for an external program to load the BPF object on behalf of QEMU,
+because it would not know how todo that without QEMU specific
+knowledge.
 
-IMHO having an API contract that changes based on configuration
-file settings is going to be nothing but trouble. Not only does
-it make the declaration ugly, but all callers become ugly too
-with conditionals. It will lead to bugs where a caller is written
-and tested with one build combination, and find it forgot the
-conditional calling needed for a different build combination.
-
-Any fields that we conditionally disable must already be marked
-as optional in the schema, to indicate to mgmt apps that they
-may or may not be present depend on what QEMU build the app is
-talking to.
-
-So if they're optional, what is wrong with generating the arguments
-unconditionally and just leaving them unused/unset in builds that
-don't require them ?  I think it'd be fine if the qmp_getfd API
-decl in QEMU had an 'const char *wsainfo' field even on Linux
-builds. The Linux impl can simply ignore it, or raise an error if
-it is set.
+It looks like we can simply expose the BPF object blob to mgmt apps
+directly and get rid of this helper program entirely.
 
 With regards,
 Daniel
