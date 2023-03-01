@@ -2,156 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419A96A6ED2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D96C06A6ED9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:54:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNoQ-0002K6-MG; Wed, 01 Mar 2023 09:52:10 -0500
+	id 1pXNq7-0003mT-J0; Wed, 01 Mar 2023 09:53:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=4177ebc6a=Jorgen.Hansen@wdc.com>)
- id 1pXNoO-0002Jp-9y
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:52:08 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42])
+ (Exim 4.90_1) (envelope-from <toke@redhat.com>) id 1pXNq5-0003m2-NI
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:53:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=4177ebc6a=Jorgen.Hansen@wdc.com>)
- id 1pXNoL-0008Bj-Va
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:52:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1677682325; x=1709218325;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=T3pg/qcx/1o3DEqVo84Kk/aZVeceJqJLsA5mL608dfM=;
- b=Lmvl52SUa6j6kPbU60aPnKzcBmwo+tJ/GTlwwBnZkc1V6359HcAd5vUL
- /SvsEQzcaT74/xwNhsxOQKjZDuAEyP/iP+hjD6elzXgFC273vkXXK+O9n
- njuOy+9jmtzf4fYNPfYKOIsLEUe20zQDiA+sSoOprncl0EThTH32WRTE0
- jqMD2J1nfaUgik6tX4qkWwIW7YWFd/N/nn11VU++kI1nrL1SjBaPInLPl
- ns2Y8BQKm7bCOWFRrSw1jbqlpBgt8honopPduu+ku5S/3s8yu9QtWzg/8
- Ry49A/jKm4aglC/JulZodgAwYkIbT3tFCiJqAvMY00mPnuGoGDvS4/omn g==;
-X-IronPort-AV: E=Sophos;i="5.98,225,1673884800"; d="scan'208";a="222820379"
-Received: from mail-co1nam11lp2168.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.168])
- by ob1.hgst.iphmx.com with ESMTP; 01 Mar 2023 22:51:55 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R2JdcTO8ShafWRM60u8EgjZjf+cuw5DWxgUOvbzLu+8mW+wczkBURMQm3/HmY4E3Mf0oLkh8gYBBUr1h69Vks6Tc1HHBXPkZ3wOd7aF5CW7oI08gA1g1rKSy9lDSN9kZ3EwfLQYhhvMIfCfGJWfxzEw3rYAZrQnUW59/VTzo+QkeJzk2WcZKDZr7yAAoaxTTgAwWW3PEhetHUqcSfJJ4STaENOlcvh+CLM+wk038WwdVsvXpwHu879FjyZt4yQTaYYF5fgfYqillUrZhmGExIiMXVQzx9xXIY1Hptodk4rhw42a5ulh/qxqWGSF74QRd0WQB0QFIHq85kTA0Mw6x2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T3pg/qcx/1o3DEqVo84Kk/aZVeceJqJLsA5mL608dfM=;
- b=Mg/w1E/anKTrxRUmRHAuJao8vTQ2ALU8/4XWcT0yMHzqkkz9JeimjeD3hJhLdolnsqaL5g0X4NeuzKuZn/sLTePPk4hKZUmY8d4vwJVBV3iCb78/E8dsb6/PX5/WzlsoaDi51wX8eF9pgy/ooN/sJ14zCC6zhnwPqiWKmWmJ2UlTay1AzE5407VPnBcMzDcuVqYMXrcBpC6OyvkwcNWwSAGRMfN52shhwDmbQPDUJwtarTG4tz8ZTmkOiD1QM3sspi9HTTJA465S1TLR+Yo3BFC/QgpnnwjjNC97qRUtbR9yCzxlnl4mWGy8lgPmkXkGQ+13k0Cech9JvpeYd8310g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T3pg/qcx/1o3DEqVo84Kk/aZVeceJqJLsA5mL608dfM=;
- b=SDpcHxk+ZCPG4/ib1qY/p0UdUknvzHFLIVGcZQeTDC6pxzIqcl4dfRkwWpEyk+jvvNNjpKChPpm2w11quN5C1ihsQW+Cs68+TbK4jREYpzFxo/A6fuH7xzwIhVpvMVZ2KFE1PjAb+7o6OZ3wbHebsIE7uPQPPZmBV2DZI5aRdAk=
-Received: from SN4PR0401MB3582.namprd04.prod.outlook.com
- (2603:10b6:803:4c::10) by DM6PR04MB6843.namprd04.prod.outlook.com
- (2603:10b6:5:245::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.30; Wed, 1 Mar
- 2023 14:51:53 +0000
-Received: from SN4PR0401MB3582.namprd04.prod.outlook.com
- ([fe80::9882:834e:7bd4:2c6f]) by SN4PR0401MB3582.namprd04.prod.outlook.com
- ([fe80::9882:834e:7bd4:2c6f%7]) with mapi id 15.20.6134.030; Wed, 1 Mar 2023
- 14:51:53 +0000
-From: =?utf-8?B?SsO4cmdlbiBIYW5zZW4=?= <Jorgen.Hansen@wdc.com>
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC: Gregory Price <gregory.price@memverge.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "linux-cxl@vger.kernel.org"
- <linux-cxl@vger.kernel.org>
-Subject: Re: [RFC] CXL: TCG/KVM instruction alignment issue discussion default
-Thread-Topic: [RFC] CXL: TCG/KVM instruction alignment issue discussion default
-Thread-Index: AQHZRgtxeLLIt7yTxEGDfnIKQ5YZqK7iqxIAgAGNcQCAAdYcgA==
-Date: Wed, 1 Mar 2023 14:51:52 +0000
-Message-ID: <e199668a-c808-ef35-3e75-7e3d95bdf990@wdc.com>
-References: <Y/Cm5nuJl3G2CG2p@memverge.com>
- <b066510e-8420-26ba-019b-fef2b255634e@wdc.com>
- <20230228104916.00003d9a@Huawei.com>
-In-Reply-To: <20230228104916.00003d9a@Huawei.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0401MB3582:EE_|DM6PR04MB6843:EE_
-x-ms-office365-filtering-correlation-id: 2601632a-9432-486c-35b3-08db1a647ec9
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sH7nl00wZh7YCAfRY6YlIpsrBHC5C4dgmzGlI5SADYNS9SuNQWFiVQ/NK8v2wytj8NgKITO77ZrJGzQkc1hKS3FAzUFr4LpCzwpgHeGZddjnNVeH3+5ZIAQMH3tMHcsxvbCB+4TdIyAD4nJkBsz5tmWw6RKa8240RnpZgrXhVc209RTK0MHMx3Z0p57ZxUs5BJeAC/IKZNSX8TzPHhnbQo7QJdjRWKK9GTD/MDTIt196FWX7WrtLZzQQmX39E+5wWxS0Jm2Dcy+oTbX/D66GZUzDTHD3xfE1un6I0/zDpDFXhRiv9gaIHKxBgXxAXvpYnlH18wrZy+iHsXbCbaznuj/owUvPPIa/JRI7ZBMgZT6xknZBJ+o9ensxNjtwm3zxXGSaWvGW0D3IJAaDRr1sMmeGUF0pMKdcw1KGRe5NaSPZ3p9Ab4qz9jDAT8L3lr4SW2LhJ9ptU8GCRsZTn4lkYPf1XcSKlgels2cRG5MfXG6vuTPpOSIE1wEpu1ESkLDK+AcMHayock4EnsccYiwAfD3i7by4iVqMcDJVArJDDcaAOxl0sFp6qXCirvXVXt3SkTFpX8FdPPPy6fqslH7kuzqKcbuLzuGAEdFurVT6eDXX3jxPMpFeTsUtQDnnp42rXWl7h4T4S7G6bmr9dIXDTUY0g8kgLkXfQZtHSw75pmI2WDd/JPkHcy820lRT3JoPFL1xdMK/hYEhTjMqKbqyd6BgWOZ7o+2Wbk6Km/9ipRQ=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0401MB3582.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(366004)(376002)(136003)(39860400002)(346002)(451199018)(82960400001)(122000001)(38100700002)(85202003)(66556008)(38070700005)(8676002)(36756003)(66476007)(86362001)(31696002)(41300700001)(66946007)(2906002)(66446008)(5660300002)(64756008)(6916009)(4326008)(85182001)(8936002)(6512007)(6506007)(2616005)(26005)(53546011)(186003)(83380400001)(76116006)(316002)(91956017)(478600001)(54906003)(71200400001)(6486002)(31686004)(66899018)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U1dzM1lhYTZhdDBzRmxuVXlRNlZOdmJ6K2g1MWZtN21mN2tCUDQxQVNKVTZF?=
- =?utf-8?B?cmMveTB4MFhEMTZhWWdmNkJrMXBpSno3TlE4a1FpN1ZHZnNxeFZFZDdGYXQ0?=
- =?utf-8?B?bElFYWM2ZElOK2dhaXJZNnlJTWlnNS9UbmtDUGpzZDgvdkhLVXVQOU8yQjYv?=
- =?utf-8?B?S2QxdWp5L2pvODlURTVFR1gvOHVURHlrbW1RczVkL0E2RUJiV1lSTS96b2RB?=
- =?utf-8?B?NFFra1J5MDUxNW0rS1Erb2RrVTVFKzZ1UEtmRG1pVXo4L2M0K3p3d1FXWmNB?=
- =?utf-8?B?T01MWTJvTHRpRG5mQlFaYW01cWdmSEIvdzZiQTBIYWU0TFhZNHJmMFNVWGNG?=
- =?utf-8?B?ZjA5UDdRdjNDZnJqdlJlMDdpL3l2dDg5S1MxWHpYdXVrUHVoVFY4YkhGbjB3?=
- =?utf-8?B?TktNMzNwYUFwVWY3bmxXTFJhWjJ0WWV2dDMxdjRacUJWODRYNHBKbzlzaXVT?=
- =?utf-8?B?TElKMEthSERpUEh4bExiOGlGMEVxS0NnbW9ESlNLa21wbUVSVHd2dzhRM3No?=
- =?utf-8?B?L0xzT2d4cFZFMDZqQTRxRnhVQm9uemhXRThJcjR6dmZabUowNG0xVTYxaENT?=
- =?utf-8?B?WlNzS2h3NVlTRWZ1OGF2NlpObmpCanNvTDNuVkRoS2NrcmdTQ2U2VE50OHNs?=
- =?utf-8?B?RkJoaWxLZ3F2KzZrVnJ0d1RZdWNqNEVVcVV3cGFIQmFvWFVseDIxWXpDa3hI?=
- =?utf-8?B?bVE1ZUxSTDhXY3JQdERTMlJ3TDdsMWU2azZpNWdUMnBvaXJGeHZKZE5lYjhH?=
- =?utf-8?B?dlZPM0FtRlgzcXJBRlgrTDlJSzVSSE84VFNHQ3FEeG1rekVSQWg2K1JVOHpz?=
- =?utf-8?B?cGJOSnVXbzNLd3FFQzd5eVJDeHkvZkZ2c2J4ZHJzbDNMck5KeVpQV1VPdzE0?=
- =?utf-8?B?ZGxrYWl2V3E0SHVWaTVKMFdZWkl6ckNJNmtWNGhHcnQ1SEJBNGhKdGpxQXdt?=
- =?utf-8?B?b0docFIxWDJEakxoQ01TenVOSXhsUTZjUmttakxHbS9iZy95dDBzbHQ0Y0JL?=
- =?utf-8?B?a0lMK3hMTkkrQzY4SnFVVWpKWElkdjhKSmNpMWNoNXRUSjNXYmtWckxMLzB2?=
- =?utf-8?B?YXRNUmlFRVRYWE1ZMHUwTGk0c2dBcG9EcGRGMTRGby84WWx5TUhldTIxOTFs?=
- =?utf-8?B?dG9FMTJtbWhKbUNJUkkrN1NPV1RyYk5vRGh6dWVPZTBUT3NvTXYwUHd1M3hS?=
- =?utf-8?B?L0Jxai9CSHlmZmpHYXRXaVVnYkx3NVNvUWtrQXV5T2JNZDJDWW5ldnMrQ3p4?=
- =?utf-8?B?SWd2WE5RQU1NZC9IMUd6WXd1Y0lwcVlBdHV6eWVFc1JZMSs1WXFIOEJ1Q3Ft?=
- =?utf-8?B?dnZKbjhGWGxrbVlONlFLN3FKNHpJUEY0K212cXg5L1YrZk03aVpTVDVvWmpj?=
- =?utf-8?B?Ym94Mkw0eGVvTGhPMHIxTy9jMFBWTk1nSmYxVS9Rd0UvNlBDOXo1SGN0ZCtM?=
- =?utf-8?B?c01qcDVVMTh1MG8zWDNrSzV1dkJjRU4zNEt2UG1KaU83c3ZLdGRVVFBsREx6?=
- =?utf-8?B?WkhocHBIdEdVK0xKY25aSkxiTjc4NmMyT0ZsNzBib2NNdndQVWV2US9GdmMv?=
- =?utf-8?B?MmQ3TGZvL3lYMXlodUc2Z2tFZmtHaVNJalJycEFERUV2SGNiYWFSQmN3dWNT?=
- =?utf-8?B?UU5iM3dRQThWaXlzZlZPNm82VzlQU01TMHRXcW45L2hrSFlWc2ZtT296dGVn?=
- =?utf-8?B?ME9DWG04cUwvN1F0VkpXTFAwcFVuUEhqUnZwMlpyS2pOUWR2MXo2WVJjRTd2?=
- =?utf-8?B?YVAwcHRTYVRqcVNMemFKV01HM1dsRXdGdE1CcWZ4ODN1Zk5JbTFvQ0NWQjJ5?=
- =?utf-8?B?NG5JQW5oc25SNm12VWJhRlR5YTA5dklpRVNmZ0lvT3pDRVB3bE5lVncvYmph?=
- =?utf-8?B?REJvVHREU2ZFV3F1UjQ4T3QvUHpVeWgxVlI2YzI5ZkJvdVp1b0VnNDczVkYx?=
- =?utf-8?B?TUNWRDBkNk9lcVA3V25DK0hqQytyandmaFU4SnIyQUpXL3ZYZHMzV0czbjBu?=
- =?utf-8?B?UUFSR3dIdGk0bmJqMVlEK2RsTUI2c0JOc0g4V29md0x0ZnhLRDlKYmNadUVv?=
- =?utf-8?B?cDBicFQ4UGRKNVM2NTlvTEdUWXpwWStjczdLQitLdnRDb05YQkhJdm5TNjc5?=
- =?utf-8?B?OFE0N0ZhY0tsVzZpMWhKbHJMczJCbW4yM1Z0ZjNocHl3bDhwMmFyU2xmaEFo?=
- =?utf-8?B?SUE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0C76B52F9C6B2B4CA708EDE240AC8778@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <toke@redhat.com>) id 1pXNq3-00007v-UE
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:53:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677682431;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Cb5gfCSv0jh4UqVatWYU3Dg6Pb3JIHv8n1e8fo2cMbg=;
+ b=CisvjVfOcVy/dETtGp/Rr6IpJhrGZ5O+p1SJpL/OOzNR8Zmt109vAG6E0DRPwEGqgKnka5
+ 9Yswy3GtzSh6Iex0HHtegK0e3UYWAzFi/G4SVy3UHMygnHFD7wuJrj4FG5DT6GBfzHP+W8
+ o1um7dSdQmmWkCZqrpJ0oeRFDQ8sjd4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-14-Pua4nVayO6qm9aE8-0RChw-1; Wed, 01 Mar 2023 09:53:49 -0500
+X-MC-Unique: Pua4nVayO6qm9aE8-0RChw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ da15-20020a056402176f00b004ace822b750so19662806edb.20
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 06:53:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Cb5gfCSv0jh4UqVatWYU3Dg6Pb3JIHv8n1e8fo2cMbg=;
+ b=WOtysDRgm/3yzxaEbvC9bTvUFOV9nKH2RnP3bUaHhSyrcHFVZfEdTSovlcrq9eUQXo
+ Vza0lpHDAnRlPcyNXsZS8hyvLVq0x34xMZozE2vWQnfEBkLKUg+cmAWQaRTxgxoHgDSe
+ qbHiRN4OzeIUSQFn7TUEXj2Ml3N3DzM/yMkRbF2Zbs2ZuJqLPlNU3YzPlzmvBi4SOOX6
+ 48guV53UK/k4METFYB8rG+am1GBbH6lIZM+xMoIYbsWyULZSQ/zq3rcZZPdiOVn4rHqk
+ qU1SI+KyLYSGgRcexlVXXpfsq555NKGcAaByyFr4+S8+PtU6vdMJrgvJyUmMOsHDBOFt
+ chzw==
+X-Gm-Message-State: AO0yUKX4hXBzVlZzSNEfufSy5rb5XTxnQB4bVQamfQbLnBcYmA02hkpU
+ CFvhAjx24y4hQB7EOnTFwEi8CgpbmzuRTg/EYulKGFUzQR8gITSubuyYRXXhjn5d2jZkS118KZw
+ OEUonbcc9mTkCUws=
+X-Received: by 2002:a05:6402:383:b0:4be:3b3e:c226 with SMTP id
+ o3-20020a056402038300b004be3b3ec226mr863393edv.7.1677682428736; 
+ Wed, 01 Mar 2023 06:53:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set+kUyb9hblYpC/5Vrh6mokc2rUVofaEZC6pZktxCGKgJsA4om4nO8BiNfph3+/qhUGHHOkxnw==
+X-Received: by 2002:a05:6402:383:b0:4be:3b3e:c226 with SMTP id
+ o3-20020a056402038300b004be3b3ec226mr863360edv.7.1677682428361; 
+ Wed, 01 Mar 2023 06:53:48 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+ by smtp.gmail.com with ESMTPSA id
+ f25-20020a170906139900b008eddbd46d7esm5879151ejc.31.2023.03.01.06.53.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 06:53:47 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+ id 2DC2797603E; Wed,  1 Mar 2023 15:53:47 +0100 (CET)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko
+ <andrew@daynix.com>, jasowang@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, thuth@redhat.com,
+ philmd@linaro.org, armbru@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, mprivozn@redhat.com, yan@daynix.com
+Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
+In-Reply-To: <Y/8bQjj8VZ/7qal1@redhat.com>
+References: <20230219162100.174318-1-andrew@daynix.com>
+ <20230219162100.174318-4-andrew@daynix.com> <Y/NCQhGmqIadlw0y@redhat.com>
+ <CAOEp5Of-sC1nuz4rAZkt8YoL2ctnSPAQ9QyxoQ97XiQ17wZ1Fg@mail.gmail.com>
+ <Y/5CQ5md6huqNsx4@redhat.com> <877cw1ipgg.fsf@toke.dk>
+ <Y/5QHonZyB+7vzEN@redhat.com> <87ttz5h1mj.fsf@toke.dk>
+ <Y/8bQjj8VZ/7qal1@redhat.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Wed, 01 Mar 2023 15:53:47 +0100
+Message-ID: <871qm8h69w.fsf@toke.dk>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: BZ0bKGy8oNUBH4Njm70rfFZ1Ph9SW7C/HuNbQ9pAVv4gG85T9YDVAmuyIbJs78/20hLFMpP4oWwrkOspWMSRw8vgaseZjmjiYGBH7TCSjts1CCqdlVkbkDHN/JlO6lbPC+N+44GjhcSHLwAn5XDU19OnsDYreAJ7VD5WiSNIGizVp8g6tIPSmyMemfXPw0i9jd5BMDcVYgRZGmGQhFLcYehRmel8KDmK1et1oI85/IdU5qYh/D/LQbsVlPpsLGOyjrgLljFoFyZQ04zVogw/gP5XUp7LdrArTJQx2/kocHBosGymrZmChjtz9JYNHzlm5AYt/G4FrawBcgeKJ8iE56UEiUtEr2EfbH+6dauss84B7Oge4iObMotp95LG0VS70X1TuZgyWjK9oXtAGzjkwrDXiP8Rn4CKQu4AY486DIvigRlNbJy5MR6k02jjblQnOpuWhqa0jzwwYhDDlmiYfnIWNYQ/HTSCC6sqqNg8n3hzzlEb2jy+77rW4siawIUIRnnmCph5iCNaE/qJDR+iN4SlqSUxXRYnuK8Wb7gSXzih5Ee838795X7h9MCxsG1IrJt4AsSiCIseP9/qfjFDjS0tBdiyZ5lsZTAPaYDSkaFD02mgQY0jFsu1pB2LNljkB2sIQVgXpIOaxd8INGIAeXC6x1S4k+qB1llac/BOS0tLMC//DhR0k6s3iHpt0cn1jzyTutOhA6f7ssbRJwugUYAN5bPpTvBj+RI9tmIPx7720t4H0jR1BeLiSKVBMASC2imIMLimm+g9dhGsx1icW7GjtdsiDR6basmeoUi3oj9rlew+h30k5kzbQSJEXheGOCY7YFJ00sZoTk2R+YVrl96gJFIVx2IrTLc6GCgeUAOBcSIvmE+jjcAVkU41U21f
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0401MB3582.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2601632a-9432-486c-35b3-08db1a647ec9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2023 14:51:52.8755 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: l+Lt2xatyeUn/5Zf0FV3OS+dMxw0yP07vLqs0pczgUByA7f3M9VkPQlcvBmHfa0cDQamQPAqb0XsPjk8p8u9Yw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6843
-Received-SPF: pass client-ip=216.71.154.42;
- envelope-from=prvs=4177ebc6a=Jorgen.Hansen@wdc.com; helo=esa4.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=toke@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -168,36 +108,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gMi8yOC8yMyAxMTo0OSwgSm9uYXRoYW4gQ2FtZXJvbiB3cm90ZToNCj4+PiBTZWNvbmQgdGhl
-cmUncyB0aGUgcGVyZm9ybWFuY2UgaXNzdWU6DQo+Pj4NCj4+PiAwKSBEbyB3ZSBhY3R1YWxseSBj
-YXJlIGFib3V0IHBlcmZvcm1hbmNlPyBIb3cgbGlrZWx5IGFyZSB1c2VycyB0bw0KPj4+ICAgICAg
-YXR0ZW1wdCB0byBydW4gc29mdHdhcmUgb3V0IG9mIENYTCBtZW1vcnk/DQo+Pj4NCj4+PiAxKSBJ
-ZiB3ZSBkbyBjYXJlLCBpcyB0aGVyZSBhIHBvdGVudGlhbCBmb3IgY29udmVydGluZyBDWEwgYXdh
-eSBmcm9tIHRoZQ0KPj4+ICAgICAgTU1JTyBkZXNpZ24/ICBUaGUgaXNzdWUgaXMgY29oZXJlbmN5
-IGZvciBzaGFyZWQgbWVtb3J5LiBFbXVsYXRpbmcNCj4+PiAgICAgIGNvaGVyZW5jeSBpcyBhKSBo
-YXJkLCBhbmQgYikgYSB0b24gb2Ygd29yayBmb3IgbGl0dGxlIGdhaW4uDQo+Pj4NCj4+PiAgICAg
-IFByZXNlbnRseSBtYXJraW5nIENYTCBtZW1vcnkgYXMgTU1JTyBiYXNpY2FsbHkgZW5mb3JjZXMg
-Y29oZXJlbmN5IGJ5DQo+Pj4gICAgICBwcmV2ZW50aW5nIGNhY2hpbmcsIHRob3VnaCBpdCdzIHVu
-Y2xlYXIgaG93IHRoaXMgaXMgZW5mb3JjZWQNCj4+PiAgICAgIGJ5IEtWTSAob3IgaWYgaXQgaXMs
-IGkgaGF2ZSB0byBpbWFnaW5lIGl0IGlzKS4NCj4+DQo+PiBIYXZpbmcgdGhlIG9wdGlvbiBvZiBk
-b2luZyBkZXZpY2Ugc3BlY2lmaWMgcHJvY2Vzc2luZyBvZiBhY2Nlc3NlcyB0byBhDQo+PiBDWEwg
-dHlwZSAzIGRldmljZSAodGhhdCB0aGUgTU1JTyBiYXNlZCBhY2Nlc3MgYWxsb3dzKSBpcyB1c2Vm
-dWwgZm9yDQo+PiBleHBlcmltZW50YXRpb24gd2l0aCBkZXZpY2UgZnVuY3Rpb25hbGl0eSwgc28g
-SSB3b3VsZCBiZSBzYWQgdG8gc2VlIHRoYXQNCj4+IG9wdGlvbiBnbyBhd2F5LiBFbXVsYXRpbmcg
-Y2FjaGUgbGluZSBhY2Nlc3MgdG8gYSB0eXBlIDMgZGV2aWNlIHdvdWxkIGJlDQo+PiBpbnRlcmVz
-dGluZywgYW5kIGNvdWxkIHBvdGVudGlhbGx5IGJlIGltcGxlbWVudGVkIGluIGEgd2F5IHRoYXQg
-d291bGQNCj4+IGFsbG93IGNhY2hpbmcgb2YgZGV2aWNlIG1lbW9yeSBpbiBhIHNoYWRvdyBwYWdl
-IGluIFJBTSwgYnV0IHRoYXQgaXQgYQ0KPj4gcmF0aGVyIGxhcmdlIHByb2plY3QuDQo+IA0KPiBB
-YnNvbHV0ZWx5IGFncmVlLiAgQ2FuIHNrZXRjaCBhIHNvbHV0aW9uIHRoYXQgaXMgZW50aXJlbHkg
-aW4gUUVNVSBhbmQNCj4gd29ya3Mgd2l0aCBLVk0gb24gYSB3aGl0ZSBib2FyZCwgYnV0IGl0IGRv
-ZXNuJ3QgZmVlbCBsaWtlIGEgc21hbGwgam9iDQo+IHRvIGFjdHVhbGx5IGltcGxlbWVudCBpdCBh
-bmQgSSdtIHN1cmUgdGhlcmUgYXJlIG5hc3R5IGNvcm5lcnMNCj4gKHBlcnNpc3RlbmN5IGlzIGdv
-aW5nIHRvIGJlIHRyaWNreSkNCj4gDQo+IElmIGFueW9uZSBzZWVzIHRoaXMgYXMgYSAnZnVuIGNo
-YWxsZW5nZScgYW5kIHdhbnRzIHRvIHRha2UgaXQgb24gdGhvdWdoDQo+IHRoYXQgd291bGQgYmUg
-Z3JlYXQhDQoNCkknZCBiZSBpbnRlcmVzdGVkIGluIGdldHRpbmcgbW9yZSBkZXRhaWxzIG9uIHlv
-dXIgdGhvdWdodHMgb24gdGhpcyBhbmQgDQpwb3RlbnRpYWxseSB3b3JrIG9uIGl0LiBXZSdkIGxp
-a2UgdG8gZ2V0IGNsb3NlciB0byB0aGUgQ1hMLm1lbSB0cmFmZmljIA0KdGhhdCBhIHBoeXNpY2Fs
-IHN5c3RlbSB3b3VsZCBzZWUsIGlkZWFsbHkgc2VlaW5nIHJlYWQgcmVxdWVzdHMgb25seSBvbiAN
-CkxMQyBjYWNoZSBtaXNzZXMgLSBhbHRob3VnaCB0aGF0IHNlZW1zIGhhcmQgdG8gYWNoaWV2ZS4N
-Cg0KVGhhbmtzLA0KSm9yZ2Vu
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+
+> On Tue, Feb 28, 2023 at 11:21:56PM +0100, Toke H=C3=B8iland-J=C3=B8rgense=
+n wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > On Tue, Feb 28, 2023 at 08:01:51PM +0100, Toke H=C3=B8iland-J=C3=B8rge=
+nsen wrote:
+>> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>> >>=20
+>> >> Just to interject a note on this here: the skeleton code is mostly a
+>> >> convenience feature used to embed BPF programs into the calling binar=
+y.
+>> >> It is perfectly possible to just have the BPF object file itself resi=
+de
+>> >> directly in the file system and just use the regular libbpf APIs to l=
+oad
+>> >> it. Some things get a bit more cumbersome (mostly setting values of
+>> >> global variables, if the BPF program uses those).
+>> >>=20
+>> >> So the JSON example above could just be a regular compiled-from-clang
+>> >> BPF object file, and the management program can load that, inspect its
+>> >> contents using the libbpf APIs and pass the file descriptors on to Qe=
+mu.
+>> >> It's even possible to embed version information into this so that Qemu
+>> >> can check if it understands the format and bail out if it doesn't - j=
+ust
+>> >> stick a version field in the configuration map as the first entry :)
+>> >
+>> > If all you have is the BPF object file is it possible to interrogate
+>> > it to get a list of all the maps, and get FDs associated for them ?
+>> > I had a look at the libbpf API and wasn't sure about that, it seemed
+>> > like you had to know the required maps upfront ?  If it is possible
+>> > to auto-discover everything you need, soley from the BPF object file
+>> > as input, then just dealing with that in isolation would feel simpler.
+>>=20
+>> It is. You load the object file, and bpf_object__for_each_map() lets you
+>> discover which maps it contains, with the different bpf_map__*() APIs
+>> telling you the properties of that map (and you can modify them too
+>> before loading the object if needed).
+>>=20
+>> The only thing that's not in the object file is any initial data you
+>> want to put into the map(s). But except for read-only maps that can be
+>> added by userspace after loading the maps, so you could just let Qemu do
+>> that...
+>>=20
+>> > It occurrs to me that exposing the BPF program as data rather than
+>> > via binary will make more practical to integrate this into KubeVirt's
+>> > architecture. In their deployment setup both QEMU and libvirt are
+>> > running unprivileged inside a container. For any advanced nmetworking
+>> > a completely separate component creates the TAP device and passes it
+>> > into the container running QEMU. I don't think that the separate
+>> > precisely matched helper binary would be something they can use, but
+>> > it might be possible to expose a data file providing the BPF program
+>> > blob and describing its maps.
+>>=20
+>> Well, "a data file providing the BPF program blob and describing its
+>> maps" is basically what a BPF .o file is. It just happens to be encoded
+>> in ELF format :)
+>>=20
+>> You can embed it into some other data structure and have libbpf load it
+>> from a blob in memory as well as from the filesystem, though; that is
+>> basically what the skeleton file does (notice the big character string
+>> at the end, that's just the original .o file contents).
+>
+> Ok, in that case I'm really wondering why any of this helper program
+> stuff was proposed. I recall the rationale was that it was impossible
+> for an external program to load the BPF object on behalf of QEMU,
+> because it would not know how todo that without QEMU specific
+> knowledge.
+
+I'm not sure either. Was there some bits that initially needed to be set
+before the program was loaded (read-only maps or something)? Also,
+upstream does encourage the use of skeletons for embedding into
+applications, so it's not an unreasonable thing to start with if you
+don't have the kind of deployment constraints that Qemu does in this
+case.
+
+> It looks like we can simply expose the BPF object blob to mgmt apps
+> directly and get rid of this helper program entirely.
+
+I believe so, yes. You'd still need to be sure that the BPF object file
+itself comes from a trusted place, but hopefully it should be enough to
+load it from a known filesystem path? (Sorry if this is a stupid
+question, I only have a fuzzy idea of how all the pieces fit together
+here).
+
+-Toke
+
 
