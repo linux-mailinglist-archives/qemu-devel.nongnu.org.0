@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636046A6E46
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:21:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37BE16A6E47
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:22:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNKL-0007Hb-4G; Wed, 01 Mar 2023 09:21:05 -0500
+	id 1pXNLK-00080V-UX; Wed, 01 Mar 2023 09:22:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXNKI-0007H2-JH; Wed, 01 Mar 2023 09:21:03 -0500
+ id 1pXNLH-0007z0-Ig; Wed, 01 Mar 2023 09:22:03 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXNKG-0000Vi-RN; Wed, 01 Mar 2023 09:21:02 -0500
+ id 1pXNLF-0000lo-Tm; Wed, 01 Mar 2023 09:22:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vfPUVVxhMCTTmDWhAi413Rt68pz/KYmautxhYxHy4SU=; b=KQPzXGMd74r7qNRLpq4hWxvDjJ
- Q21fi+6vt9GK2BREHdBDjNGBC3szU4CiiU100k+whij0y4SXhCtCz0QpPoSOE2t8HLM6cJjdJBXz1
- oUwXhtJiZBn4owSNwkHjSHKbZfEKLP0SPoAr5OLsQIeVLevfvwRuyk5rrFOMka7xkUz7+jgHkmrhu
- 4sXIHzOmiHbzypY7ATRmFhyE94UjRyzra4pKRpmzG7OtDKHoclL7M2w5gDvxcpTgp09Vd3frTu1Yd
- cjTjn8u9fDNEVjPApnxSO6k3gamnxQx4WN+rpLybeHctS9DwIbvDqbfZsYVsuIu2gS87/roih+Eam
- xuBlRnMUPHSvhfTiDQdUJp989E/T4EJRs7ZEU45XftWCo7HDA7EndtFwCTg+WsvLedzUli94pid+U
- Nlrvphb1bIUMbn6Ea/Gj4ha93hu6E1xCZ6gQ9DSWtT1CJc3vS+mmgMoHYdm7QXrE4vwZXpTrrlot3
- NygQROjphVzVIkzG7Ppwx/4N8Cu29n7/bK/sv0abMz+gVrhvxTIXO9dznnDSOrfch0kZdU+ScyV0+
- fliLmfBCyuOc3y3d/J8fgeH4oIa1S+FSO74wsvUeEbCrDeiVQxon/MSPu3IZhr75V2Cf1uywibVhl
- 7OruoupuMbEe2UX6xtM5dwq9nGaAC/6Ze5hdYVJ40=;
+ bh=P2QnA42HG03TYG2DhQ+RiXXF5trXwqVe18y4hHo1508=; b=It2bPV++aAJuHRI9oSnEzw+6vQ
+ 2vAKfmjiftfrbbY0xjTidDhO3SdspdOAyyJf4R2ohrj9mUP9g913egqjAVtNHF9sFk3rHxCWcI+5j
+ lcvvG7Nx4hXtpzy9sx5w3QX703wVBXi862DTKJCoLz+/mQQw8SQfNhb7q/cyk75NqiBeGct0jVMtp
+ zlaYqOznxNozNoCS9VtmNhPil1IK/kATh1J0Mr2Z/aj+cY0aazADxdGcArsTPXipmRXdhP7ulb/Rf
+ VKiG9BU1Cofx9wn3qb3KKlxBPVqu5c1Iq9WvUTdn5fvx1wbg1QTkxQeRt3iO3PYQSEeR0v4GJizv8
+ ehMQXwrwBl7VSN7HwkszSZMAyhqrkGXmRHEfoLGMWg/wk/Gd5Ft7MAm9GOo5/7ehSKm0auC2rMs8s
+ sWNPSNmDIQW8s8CM3eNkBQ8cKPLpN/tTwNXzh+6IIwI/QLV39yM2aLAdzyT/0M2damIzVm0ZzEW3D
+ H7vzHPYKIvBjoeP89yni0drxv4Ra2lLiopWdzPEK2PZk5YOQctI685KPfFY0LVN22Ya+Gahs36ywV
+ m/gJ+zqnYQliu4OYBJMnjc2rS/NFp18MpjowBy3jy9B9TfSm5zFFVdLFG5XTjjMjblQYyXDmKCSu/
+ 6an4AmuCO4i1dPQkbkTvxnTJFmgXfGZuZf2Dm58Gw=;
 Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXNJc-0001U3-16; Wed, 01 Mar 2023 14:20:20 +0000
-Message-ID: <72f52a39-ecce-d17e-5161-5937076955ec@ilande.co.uk>
-Date: Wed, 1 Mar 2023 14:20:54 +0000
+ id 1pXNKZ-0001Ud-J8; Wed, 01 Mar 2023 14:21:23 +0000
+Message-ID: <69ca8f8f-7b6c-f746-c414-1f121a31eaef@ilande.co.uk>
+Date: Wed, 1 Mar 2023 14:21:54 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -48,14 +48,14 @@ Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
  BALATON Zoltan <balaton@eik.bme.hu>
 References: <20230223202053.117050-1-shentey@gmail.com>
- <20230223202053.117050-3-shentey@gmail.com>
+ <20230223202053.117050-4-shentey@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230223202053.117050-3-shentey@gmail.com>
+In-Reply-To: <20230223202053.117050-4-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 2/5] hw/isa/vt82c686: Implement PCI IRQ routing
+Subject: Re: [PATCH 3/5] hw/usb/vt82c686-uhci-pci: Use PCI IRQ routing
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -83,83 +83,49 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 23/02/2023 20:20, Bernhard Beschow wrote:
 
-> The real VIA south bridges implement a PCI IRQ router which is configured
-> by the BIOS or the OS. In order to respect these configurations, QEMU
-> needs to implement it as well.
-> 
-> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4.
+> According to the PCI specification, PCI_INTERRUPT_LINE shall have no
+> effect on hardware operations. Now that the VIA south bridges implement
+> the internal PCI interrupt router let's be more conformant to the PCI
+> specification.
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/isa/vt82c686.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 44 insertions(+)
+>   hw/usb/vt82c686-uhci-pci.c | 12 ------------
+>   1 file changed, 12 deletions(-)
 > 
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 3f9bd0c04d..f24e387d63 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -604,6 +604,48 @@ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
->       qemu_set_irq(s->cpu_intr, level);
->   }
+> diff --git a/hw/usb/vt82c686-uhci-pci.c b/hw/usb/vt82c686-uhci-pci.c
+> index 46a901f56f..b4884c9011 100644
+> --- a/hw/usb/vt82c686-uhci-pci.c
+> +++ b/hw/usb/vt82c686-uhci-pci.c
+> @@ -1,17 +1,7 @@
+>   #include "qemu/osdep.h"
+> -#include "hw/irq.h"
+>   #include "hw/isa/vt82c686.h"
+>   #include "hcd-uhci.h"
 >   
-> +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
-> +{
-> +    switch (irq_num) {
-> +    case 0:
-> +        return s->dev.config[0x55] >> 4;
-> +
-> +    case 1:
-> +        return s->dev.config[0x56] & 0xf;
-> +
-> +    case 2:
-> +        return s->dev.config[0x56] >> 4;
-> +
-> +    case 3:
-> +        return s->dev.config[0x57] >> 4;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
-> +{
-> +    ViaISAState *s = opaque;
-> +    PCIBus *bus = pci_get_bus(&s->dev);
-> +    int pic_irq;
-> +
-> +    /* now we change the pic irq level according to the via irq mappings */
-> +    /* XXX: optimize */
-> +    pic_irq = via_isa_get_pci_irq(s, irq_num);
-> +    if (pic_irq < ISA_NUM_IRQS) {
-> +        int i, pic_level;
-> +
-> +        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-> +        pic_level = 0;
-> +        for (i = 0; i < PCI_NUM_PINS; i++) {
-> +            if (pic_irq == via_isa_get_pci_irq(s, i)) {
-> +                pic_level |= pci_bus_get_irq_level(bus, i);
-> +            }
-> +        }
-> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
-> +    }
-> +}
-> +
->   static void via_isa_realize(PCIDevice *d, Error **errp)
+> -static void uhci_isa_set_irq(void *opaque, int irq_num, int level)
+> -{
+> -    UHCIState *s = opaque;
+> -    uint8_t irq = pci_get_byte(s->dev.config + PCI_INTERRUPT_LINE);
+> -    if (irq > 0 && irq < 15) {
+> -        via_isa_set_irq(pci_get_function_0(&s->dev), irq, level);
+> -    }
+> -}
+> -
+>   static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
 >   {
->       ViaISAState *s = VIA_ISA(d);
-> @@ -676,6 +718,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
->       if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
->           return;
->       }
-> +
-> +    pci_bus_irqs(pci_bus, via_isa_set_pci_irq, s, PCI_NUM_PINS);
+>       UHCIState *s = UHCI(dev);
+> @@ -25,8 +15,6 @@ static void usb_uhci_vt82c686b_realize(PCIDevice *dev, Error **errp)
+>       pci_set_long(pci_conf + 0xc0, 0x00002000);
+>   
+>       usb_uhci_common_realize(dev, errp);
+> -    object_unref(s->irq);
+> -    s->irq = qemu_allocate_irq(uhci_isa_set_irq, s, 0);
 >   }
 >   
->   /* TYPE_VT82C686B_ISA */
+>   static UHCIInfo uhci_info[] = {
 
-This looks right, however generally a PCI device shouldn't really be setting PCI bus 
-IRQs: this is normally done by the PCI host bridge. Is it just the case that the x86 
-world is different here for legacy reasons?
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
