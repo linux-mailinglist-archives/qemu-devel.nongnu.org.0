@@ -2,29 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7AB6A71AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:59:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1D76A71A3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:58:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXPl5-0000hY-Gq; Wed, 01 Mar 2023 11:56:51 -0500
+	id 1pXPlD-0000iu-Ip; Wed, 01 Mar 2023 11:56:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=znpK=6Z=kaod.org=clg@ozlabs.org>)
- id 1pXPl4-0000hK-BO; Wed, 01 Mar 2023 11:56:50 -0500
+ id 1pXPl7-0000iC-AR; Wed, 01 Mar 2023 11:56:53 -0500
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=znpK=6Z=kaod.org=clg@ozlabs.org>)
- id 1pXPl2-0007eu-C1; Wed, 01 Mar 2023 11:56:50 -0500
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4PRgPV0Zn6z4xDl;
- Thu,  2 Mar 2023 03:56:46 +1100 (AEDT)
+ id 1pXPl5-0007h0-6x; Wed, 01 Mar 2023 11:56:53 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4PRgPX64ynz4x7x;
+ Thu,  2 Mar 2023 03:56:48 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4PRgPR5lvlz4x5Y;
- Thu,  2 Mar 2023 03:56:43 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PRgPV47d5z4x1R;
+ Thu,  2 Mar 2023 03:56:46 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -32,9 +33,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
  Andrew Jeffery <andrew@aj.id.au>,
  Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v2 05/11] hw/arm/aspeed: Adding new machine Yosemitev2 in QEMU
-Date: Wed,  1 Mar 2023 17:56:13 +0100
-Message-Id: <20230301165619.2171090-6-clg@kaod.org>
+Subject: [PATCH v2 06/11] hw/arm/aspeed: Adding new machine Tiogapass in QEMU
+Date: Wed,  1 Mar 2023 17:56:14 +0100
+Message-Id: <20230301165619.2171090-7-clg@kaod.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301165619.2171090-1-clg@kaod.org>
 References: <20230301165619.2171090-1-clg@kaod.org>
@@ -66,113 +67,117 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
 
-This patch support Yosemitev2 in QEMU environment.
-and introduced EEPROM BMC FRU data support "add fbyv2_bmc_fruid data"
+This patch support Tiogapass in QEMU environment.
+and introduced EEPROM BMC FRU data support "add tiogapass_bmc_fruid data"
 along with the machine support.
 
 Signed-off-by: Karthikeyan Pasupathi <pkarthikeyan1509@gmail.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 [ clg: - commit log topic update
+       - checkpatch issues
        - Documentation update ]
-Message-Id: <20230216133326.216017-1-pkarthikeyan1509@gmail.com>
+Message-Id: <20230216184342.253868-1-pkarthikeyan1509@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
  docs/system/arm/aspeed.rst |  1 +
  hw/arm/aspeed_eeprom.h     |  3 +++
- hw/arm/aspeed.c            | 31 +++++++++++++++++++++++++++++++
- hw/arm/aspeed_eeprom.c     | 23 +++++++++++++++++++++++
+ hw/arm/aspeed.c            | 32 ++++++++++++++++++++++++++++++++
+ hw/arm/aspeed_eeprom.c     | 22 ++++++++++++++++++++++
  4 files changed, 58 insertions(+)
 
 diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index 6c5b05128e..1d69b68591 100644
+index 1d69b68591..d4e293e7f9 100644
 --- a/docs/system/arm/aspeed.rst
 +++ b/docs/system/arm/aspeed.rst
-@@ -24,6 +24,7 @@ AST2500 SoC based machines :
- - ``sonorapass-bmc``       OCP SonoraPass BMC
+@@ -25,6 +25,7 @@ AST2500 SoC based machines :
  - ``fp5280g2-bmc``         Inspur FP5280G2 BMC
  - ``g220a-bmc``            Bytedance G220A BMC
-+- ``yosemitev2-bmc``       Facebook YosemiteV2 BMC
+ - ``yosemitev2-bmc``       Facebook YosemiteV2 BMC
++- ``tiogapass-bmc``        Facebook Tiogapass BMC
  
  AST2600 SoC based machines :
  
 diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
-index a0f848fa6e..edf18e9685 100644
+index edf18e9685..86db6f0479 100644
 --- a/hw/arm/aspeed_eeprom.h
 +++ b/hw/arm/aspeed_eeprom.h
-@@ -16,4 +16,7 @@ extern const size_t fby35_nic_fruid_len;
- extern const size_t fby35_bb_fruid_len;
- extern const size_t fby35_bmc_fruid_len;
+@@ -9,6 +9,9 @@
  
-+extern const uint8_t yosemitev2_bmc_fruid[];
-+extern const size_t yosemitev2_bmc_fruid_len;
+ #include "qemu/osdep.h"
+ 
++extern const uint8_t tiogapass_bmc_fruid[];
++extern const size_t tiogapass_bmc_fruid_len;
 +
- #endif
+ extern const uint8_t fby35_nic_fruid[];
+ extern const uint8_t fby35_bb_fruid[];
+ extern const uint8_t fby35_bmc_fruid[];
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 27dda58338..3f992fea46 100644
+index 3f992fea46..6bafeb8fdd 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -521,6 +521,15 @@ static void ast2600_evb_i2c_init(AspeedMachineState *bmc)
-                      TYPE_TMP105, 0x4d);
+@@ -539,6 +539,15 @@ static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 11), "ds1338", 0x32);
  }
  
-+static void yosemitev2_bmc_i2c_init(AspeedMachineState *bmc)
++static void tiogapass_bmc_i2c_init(AspeedMachineState *bmc)
 +{
 +    AspeedSoCState *soc = &bmc->soc;
 +
-+    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x51, 128 * KiB);
-+    at24c_eeprom_init_rom(aspeed_i2c_get_bus(&soc->i2c, 8), 0x51, 128 * KiB,
-+                          yosemitev2_bmc_fruid, yosemitev2_bmc_fruid_len);
++    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 4), 0x54, 128 * KiB);
++    at24c_eeprom_init_rom(aspeed_i2c_get_bus(&soc->i2c, 6), 0x54, 128 * KiB,
++                          tiogapass_bmc_fruid, tiogapass_bmc_fruid_len);
 +}
 +
- static void romulus_bmc_i2c_init(AspeedMachineState *bmc)
+ static void create_pca9552(AspeedSoCState *soc, int bus_id, int addr)
  {
-     AspeedSoCState *soc = &bmc->soc;
-@@ -1174,6 +1183,24 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
+     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, bus_id),
+@@ -1218,6 +1227,25 @@ static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
          aspeed_soc_num_cpus(amc->soc_name);
  };
  
-+static void aspeed_machine_yosemitev2_class_init(ObjectClass *oc, void *data)
++static void aspeed_machine_tiogapass_class_init(ObjectClass *oc, void *data)
 +{
 +    MachineClass *mc = MACHINE_CLASS(oc);
 +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
 +
-+    mc->desc       = "Facebook YosemiteV2 BMC (ARM1176)";
++    mc->desc       = "Facebook Tiogapass BMC (ARM1176)";
 +    amc->soc_name  = "ast2500-a1";
 +    amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
 +    amc->hw_strap2 = 0;
 +    amc->fmc_model = "n25q256a";
 +    amc->spi_model = "mx25l25635e";
 +    amc->num_cs    = 2;
-+    amc->i2c_init  = yosemitev2_bmc_i2c_init;
-+    mc->default_ram_size       = 512 * MiB;
++    amc->i2c_init  = tiogapass_bmc_i2c_init;
++    mc->default_ram_size       = 1 * GiB;
 +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
++        aspeed_soc_num_cpus(amc->soc_name);
 +        aspeed_soc_num_cpus(amc->soc_name);
 +};
 +
- static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
+ static void aspeed_machine_sonorapass_class_init(ObjectClass *oc, void *data)
  {
      MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1562,6 +1589,10 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = MACHINE_TYPE_NAME("ast2600-evb"),
-         .parent        = TYPE_ASPEED_MACHINE,
-         .class_init    = aspeed_machine_ast2600_evb_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("yosemitev2-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_yosemitev2_class_init,
-     }, {
+@@ -1597,6 +1625,10 @@ static const TypeInfo aspeed_machine_types[] = {
          .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
          .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_tacoma_class_init,
++    }, {
++        .name          = MACHINE_TYPE_NAME("tiogapass-bmc"),
++        .parent        = TYPE_ASPEED_MACHINE,
++        .class_init    = aspeed_machine_tiogapass_class_init,
+     }, {
+         .name          = MACHINE_TYPE_NAME("g220a-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
 diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
-index 04463acc9d..7006794654 100644
+index 7006794654..2fb2d5dbb7 100644
 --- a/hw/arm/aspeed_eeprom.c
 +++ b/hw/arm/aspeed_eeprom.c
-@@ -77,6 +77,29 @@ const uint8_t fby35_bmc_fruid[] = {
-     0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
- };
+@@ -6,6 +6,27 @@
  
-+/* Yosemite V2 BMC FRU */
-+const uint8_t yosemitev2_bmc_fruid[] = {
+ #include "aspeed_eeprom.h"
+ 
++/* Tiogapass BMC FRU */
++const uint8_t tiogapass_bmc_fruid[] = {
 +    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
 +    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
 +    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
@@ -182,21 +187,27 @@ index 04463acc9d..7006794654 100644
 +    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
 +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
 +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
-+    0x69, 0x74, 0x65, 0x20, 0x56, 0x32, 0x2e, 0x30, 0x20, 0x45, 0x56, 0x54,
++    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x54, 0x69, 0x6f, 0x67, 0x61,
++    0x20, 0x50, 0x61, 0x73, 0x73, 0x20, 0x53, 0x69, 0x6e, 0x67, 0x6c, 0x65,
 +    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
++    0x58, 0x58, 0x58, 0x58, 0xc4, 0x58, 0x58, 0x58, 0x32, 0xcd, 0x58, 0x58,
 +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
 +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
 +    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
 +    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
 +};
 +
+ const uint8_t fby35_nic_fruid[] = {
+     0x01, 0x00, 0x00, 0x01, 0x0f, 0x20, 0x00, 0xcf, 0x01, 0x0e, 0x19, 0xd7,
+     0x5e, 0xcf, 0xc8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xdd,
+@@ -98,6 +119,7 @@ const uint8_t yosemitev2_bmc_fruid[] = {
+     0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
+ };
+ 
++const size_t tiogapass_bmc_fruid_len = sizeof(tiogapass_bmc_fruid);
  const size_t fby35_nic_fruid_len = sizeof(fby35_nic_fruid);
  const size_t fby35_bb_fruid_len = sizeof(fby35_bb_fruid);
  const size_t fby35_bmc_fruid_len = sizeof(fby35_bmc_fruid);
-+
-+const size_t yosemitev2_bmc_fruid_len = sizeof(yosemitev2_bmc_fruid);
 -- 
 2.39.2
 
