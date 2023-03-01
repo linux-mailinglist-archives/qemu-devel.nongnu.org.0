@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7F36A736A
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 19:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7AE6A7365
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 19:26:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXR7f-0005T9-8q; Wed, 01 Mar 2023 13:24:15 -0500
+	id 1pXR7f-0005Tj-SZ; Wed, 01 Mar 2023 13:24:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pXR7c-0005JT-LI
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 13:24:12 -0500
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e])
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pXR7d-0005MV-46
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 13:24:13 -0500
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pXR7a-0006ns-Ta
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1pXR7b-0006o2-Cq
  for qemu-devel@nongnu.org; Wed, 01 Mar 2023 13:24:12 -0500
-Received: by mail-io1-xd2e.google.com with SMTP id y140so5745650iof.6
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 10:24:10 -0800 (PST)
+Received: by mail-io1-xd35.google.com with SMTP id d12so5746291ioe.10
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 10:24:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1677695049;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112; t=1677695050;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UDKo+pEqLr25ECZFRWghhYmC5CZ9G4l3ZCThpSQaZZ4=;
- b=qX7eGIrRItpdTrClA/kXJpb/cIdP6kfCZl+Y2P9uDtB+kePJOaAu4BtIIqT2U1e6u1
- FokiIRQiG7HREBXrpept0+Zk3UgnGhVmuOYvS/np6353f7rvZmuYobicYRWGa7Syg67Y
- KKyT+af1pZmbVYOhH3jfRm0I3GyTaswUwAufeG/ttaxaI8/jN/lk8fMiSTFLPXW35/Dr
- vBRd7N43+DxhRwdyVrnL7qAYf2LuzylGEFJr5BDVRnnhXeI4U1C8u7jiWxvmUoREd1ui
- fSaEdJhNM5A6nFmtb+bczY09RhiZvWDLCuKMjLwpMDfEmnt4aqB39jS6OUReqQkA7bDK
- urWA==
+ bh=qS3B4XxCtOnwr9umuPwlWj5mJg7Wr0+I5HiEP4TPEHo=;
+ b=ec4v1ib+Eubog1MGJ6PD5+1ltVOW+9acWaNPrj9INDgwN7PYU9sSe8n8HgdzWlLOuI
+ wrrv+97guwVzulzn8ebAMsgyIm2RSqHr1ssDjh29AUbUzF8uz+bF5syMswfKd/NQfipm
+ st7sk1T/91a5HwHwTuWO3l5iNlBONFyOkq6heMPHhTQAQyRCHlGlOoMtlx+rqEex3ewe
+ YU3laDkNcjlK+wD6eyZVBE3ssz3aeLYLv9wUEFaOYhRcwLaF+C0KJsvDHhhhmfHAJ+19
+ RV1rCIptjlIxs+vYZOWYPCrkuVH1VXgCtTXr4P+fNldHkUn3RnuuzELLoGs5fRmbwSX4
+ wlkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677695049;
+ d=1e100.net; s=20210112; t=1677695050;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UDKo+pEqLr25ECZFRWghhYmC5CZ9G4l3ZCThpSQaZZ4=;
- b=AEqbbksrjRxcI2MGgwFjTVJ5tPZfVLYXMT8VFmxscmYC4JwoGb+PH63lL0uF8WC1pt
- 5+S6pPQ8MWgMCmWEkNGtQbWWdHM9jY3V5QIz4Kt515fWy/Gq+eCDuUjHD0hQIuItY6xn
- +sVuEwhrjAxs1060ZvecTV9HIt0qH1SVrkM2nbzzqdZDwXaB6Y48NdY6V4xNCflQAKsq
- 3SzaD6FdEQKFpAdVEHkrv2wGZOTxtPAKARlenDftXrQwPBu5a2bwHE6GcL2e88mLMu69
- kwOOxnvK2jwoN+kaEC4JP6Id/oh47byABuCYiCBur1WYl6SSmVeCn5A6Bv+yENZBMERn
- ha4Q==
-X-Gm-Message-State: AO0yUKVS6FpfOEHlRY61qxkylb5FZTsxdRd74RrgnCgflVT4NUXTTpCY
- kUrb09pxsqB9BoBCN5ShBUJAzFQg+EtlkCjW
-X-Google-Smtp-Source: AK7set9D42skVUUaz9EZrC9JbSjHqbQkgGIS/MNKv/9efGl0nzl4K3b7m7iswwDfM5+73Nj5gEbD3g==
-X-Received: by 2002:a5d:844c:0:b0:734:e7c0:2058 with SMTP id
- w12-20020a5d844c000000b00734e7c02058mr5137379ior.9.1677695048927; 
- Wed, 01 Mar 2023 10:24:08 -0800 (PST)
+ bh=qS3B4XxCtOnwr9umuPwlWj5mJg7Wr0+I5HiEP4TPEHo=;
+ b=FBDEoiRX923AJf7JULDbZmAoS9B19wrkDJoPnqJXEVu/NNpBp643jX6Wuq1AdiEe8g
+ zZhnJF2tXE29EOdxhVw53tH1J80wAIPwV+y4+sHZlDfZZpYdqpRetUrbE6WjedtuNOjG
+ 1R/8DzKE9g7K2L/cHU4H0ZVLytSxDV9qpv0KUBnxVsPTPBcwzQQyYtBiDTVFn8FcbIQ1
+ 0F/VVOLkyQA4lOIIMormDegz58Cu+GIhZhmvQHEGH1mvBKDtjHQkeR4ls7pofGTF92yv
+ U0tp5r13faMV7Qgx51Oad91qlzzT/fC1arZ8+6aMN0wXbQDMyUMHzB3/Alp5mqw65AYh
+ RiRg==
+X-Gm-Message-State: AO0yUKXRUIIR7xOzTvJeI+ytf0GrtazEnHr/Uq79mAr4xNRHWHDaaXdm
+ +5gNG4rNLvg7MxexEpQa4jtUypCf4WT2Pn+F
+X-Google-Smtp-Source: AK7set+tD0EQXdfSQZNV4QKo6opa3SchPjfBKJQxVjy6XuBtUhUwn1ZV4U4ekArk89DjFRp3mfxh2g==
+X-Received: by 2002:a6b:ee0e:0:b0:721:d759:ab16 with SMTP id
+ i14-20020a6bee0e000000b00721d759ab16mr4712118ioh.18.1677695049752; 
+ Wed, 01 Mar 2023 10:24:09 -0800 (PST)
 Received: from dune.bsdimp.com (c-71-237-47-177.hsd1.co.comcast.net.
  [71.237.47.177]) by smtp.gmail.com with ESMTPSA id
- l5-20020a6b7b05000000b0073f8a470bacsm4169316iop.16.2023.03.01.10.24.07
+ l5-20020a6b7b05000000b0073f8a470bacsm4169316iop.16.2023.03.01.10.24.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 10:24:08 -0800 (PST)
+ Wed, 01 Mar 2023 10:24:09 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
 Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org,
- Paolo Bonzini <pbonzini@redhat.com>, Stacey Son <sson@FreeBSD.org>,
- Juergen Lock <nox@jelal.kn-bremen.de>
-Subject: [PULL 03/10] bsd-user: Add sysarch syscall
-Date: Wed,  1 Mar 2023 11:23:46 -0700
-Message-Id: <20230301182353.21559-4-imp@bsdimp.com>
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 04/10] bsd-user: various helper routines for sysctl
+Date: Wed,  1 Mar 2023 11:23:47 -0700
+Message-Id: <20230301182353.21559-5-imp@bsdimp.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230301182353.21559-1-imp@bsdimp.com>
 References: <20230301182353.21559-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd35.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,38 +91,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stacey Son <sson@FreeBSD.org>
+cap_memory - Caps the memory to just below MAXINT
+scale_to_guest_pages - Account for difference in host / guest page size
+h2g_long_sat - converts a int64_t to a int32_t, saturating at max / min values
+h2g_ulong_sat - converts a uint64_t to a uint32_t, saturating at max value
 
-Connect up the sysarch system call.
-
-Signed-off-by: Juergen Lock <nox@jelal.kn-bremen.de>
-Co-authored-by: Juergen Lock <nox@jelal.kn-bremen.de>
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Reviewed-by: Warner Losh <imp@bsdimp.com>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/os-syscall.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ bsd-user/freebsd/os-sys.c | 86 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
-diff --git a/bsd-user/freebsd/os-syscall.c b/bsd-user/freebsd/os-syscall.c
-index b4a663fc021..e00997a818c 100644
---- a/bsd-user/freebsd/os-syscall.c
-+++ b/bsd-user/freebsd/os-syscall.c
-@@ -491,6 +491,13 @@ static abi_long freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         ret = do_bsd_undelete(arg1);
-         break;
+diff --git a/bsd-user/freebsd/os-sys.c b/bsd-user/freebsd/os-sys.c
+index 1676ec10f83..a4f3fd8091a 100644
+--- a/bsd-user/freebsd/os-sys.c
++++ b/bsd-user/freebsd/os-sys.c
+@@ -21,6 +21,92 @@
+ #include "qemu.h"
+ #include "target_arch_sysarch.h"
  
-+        /*
-+         * sys{ctl, arch, call}
-+         */
-+    case TARGET_FREEBSD_NR_sysarch: /* sysarch(2) */
-+        ret = do_freebsd_sysarch(cpu_env, arg1, arg2);
-+        break;
++#include <sys/sysctl.h>
 +
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
-         ret = -TARGET_ENOSYS;
++/*
++ * Length for the fixed length types.
++ * 0 means variable length for strings and structures
++ * Compare with sys/kern_sysctl.c ctl_size
++ * Note: Not all types appear to be used in-tree.
++ */
++static const int G_GNUC_UNUSED guest_ctl_size[CTLTYPE + 1] = {
++        [CTLTYPE_INT] = sizeof(abi_int),
++        [CTLTYPE_UINT] = sizeof(abi_uint),
++        [CTLTYPE_LONG] = sizeof(abi_long),
++        [CTLTYPE_ULONG] = sizeof(abi_ulong),
++        [CTLTYPE_S8] = sizeof(int8_t),
++        [CTLTYPE_S16] = sizeof(int16_t),
++        [CTLTYPE_S32] = sizeof(int32_t),
++        [CTLTYPE_S64] = sizeof(int64_t),
++        [CTLTYPE_U8] = sizeof(uint8_t),
++        [CTLTYPE_U16] = sizeof(uint16_t),
++        [CTLTYPE_U32] = sizeof(uint32_t),
++        [CTLTYPE_U64] = sizeof(uint64_t),
++};
++
++static const int G_GNUC_UNUSED host_ctl_size[CTLTYPE + 1] = {
++        [CTLTYPE_INT] = sizeof(int),
++        [CTLTYPE_UINT] = sizeof(u_int),
++        [CTLTYPE_LONG] = sizeof(long),
++        [CTLTYPE_ULONG] = sizeof(u_long),
++        [CTLTYPE_S8] = sizeof(int8_t),
++        [CTLTYPE_S16] = sizeof(int16_t),
++        [CTLTYPE_S32] = sizeof(int32_t),
++        [CTLTYPE_S64] = sizeof(int64_t),
++        [CTLTYPE_U8] = sizeof(uint8_t),
++        [CTLTYPE_U16] = sizeof(uint16_t),
++        [CTLTYPE_U32] = sizeof(uint32_t),
++        [CTLTYPE_U64] = sizeof(uint64_t),
++};
++
++#ifdef TARGET_ABI32
++/*
++ * Limit the amount of available memory to be most of the 32-bit address
++ * space. 0x100c000 was arrived at through trial and error as a good
++ * definition of 'most'.
++ */
++static const abi_ulong guest_max_mem = UINT32_MAX - 0x100c000 + 1;
++
++static abi_ulong G_GNUC_UNUSED cap_memory(uint64_t mem)
++{
++    return MIN(guest_max_mem, mem);
++}
++#endif
++
++static abi_ulong G_GNUC_UNUSED scale_to_guest_pages(uint64_t pages)
++{
++    /* Scale pages from host to guest */
++    pages = muldiv64(pages, qemu_real_host_page_size(), TARGET_PAGE_SIZE);
++#ifdef TARGET_ABI32
++    /* cap pages if need be */
++    pages = MIN(pages, guest_max_mem / (abi_ulong)TARGET_PAGE_SIZE);
++#endif
++    return pages;
++}
++
++#ifdef TARGET_ABI32
++/* Used only for TARGET_ABI32 */
++static abi_long G_GNUC_UNUSED h2g_long_sat(long l)
++{
++    if (l > INT32_MAX) {
++        l = INT32_MAX;
++    } else if (l < INT32_MIN) {
++        l = INT32_MIN;
++    }
++    return l;
++}
++
++static abi_ulong G_GNUC_UNUSED h2g_ulong_sat(u_long ul)
++{
++    return MIN(ul, UINT32_MAX);
++}
++#endif
++
++/*
++ * placeholder until bsd-user downstream upstreams this with its thread support
++ */
++#define bsd_get_ncpu() 1
++
+ /* sysarch() is architecture dependent. */
+ abi_long do_freebsd_sysarch(void *cpu_env, abi_long arg1, abi_long arg2)
+ {
 -- 
 2.39.1
 
