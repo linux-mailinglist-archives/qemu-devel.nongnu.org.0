@@ -2,147 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1466A76E1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514026A76EA
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:40:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXV5F-0001HL-Sp; Wed, 01 Mar 2023 17:38:01 -0500
+	id 1pXV6h-0002Kn-W1; Wed, 01 Mar 2023 17:39:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pXV5D-0001HB-Nq
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:37:59 -0500
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pXV6g-0002FG-1W
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:39:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pXV5C-0006Y1-0b
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:37:59 -0500
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 321I0xMH030134; Wed, 1 Mar 2023 22:37:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=foQ2Ht7/0stm4bm6+ZghcTgoJ75tTymoShYaFsT0D0M=;
- b=hvJIme6dzHV9bJfYDWg1w/+FD+JeRTIoo/sF+Y9goYGlidewoBj6QaasXCxyoVX97MrK
- cwpPAxat8VbJKtf4IabnoKm+zpdjHvAs3FtPIqWkgc6aHqMswrdMXJVN680zwxQhLUIy
- 8e2N+ep5sb7sKTob3a137L3KBV0T+rQMrolDGVYv3J8nIMNVbXnM4p1OWWSnRtE4+oI1
- rxhOmFZ7pHBConhIyH27FOXhv9zxeQ8ffDFJXDl6bARrx1tMnsFl1oJWG+uJmWROk9Yu
- X8nqHOLwRCgxPR5NpWeJiFC8MBenXIZS2Q5hoXn5LfdYu9b0/91Gwzo0oafkz2VrNO6w vQ== 
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p20j2jrm0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Mar 2023 22:37:54 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=krYqeq7pDQySL3SaC3AhR5Q0599ZKQNQAD1G2bm8b31p2QMcoh9ZgGJnfpeO/vDEjH9Z7VepvXIwcZ6lWmvC57yDTFE/6Wr/GMoU5tBzLBuIu5aSf9+mCCxVYxQErmUXq8d5ohLsxak3h38TMAzZhx2lGQa+8IRSvFKcZfmCGJh5ZHQUmpt+EK65d2MDHhmx03aLHhGhnv+J04s2n0oV30+dB6FwMypEgLIjDneErGmVe7AtuSAJ9oHeY1pqFOOA0o0s64hSY0l4vXy66DJa7oE/oKhmQhCS+7Q0i85KZg5ItgTUybDbabZVKbU9wGhp+RIuTcIIa7pwN8DDXXSJ8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=foQ2Ht7/0stm4bm6+ZghcTgoJ75tTymoShYaFsT0D0M=;
- b=S03BF9Hyj7RUJF1dVZrJGvq7qvBvVXxLudSzFvsSbyUqYAF/JUZFCYMzigx5T+EezuFLbTIIB0Np+HylvJXtdvzm9Ul39v7nuQEav2p24Scecs40Y1nyiRwZOElYG3D3cid8GvCMkHTpyGH/fiSI7pEEAmKSTY0BvkNhrvspjI8nOWlKeRsjYchR3yAIdxzcB7NroELVE2qcq34IzumF+GK9/IvWgyoFBz0LaXNqL1uKjIFCAk28few8+2Jna4RRnNNYCcttVsQE3T1fmBQmXmiVA4Ttzpaodu4IkGcF5L94S5L7nPqPAsklNR1RjctTObM2yo8hqIcdCCsPTS3k0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by SA0PR02MB7497.namprd02.prod.outlook.com
- (2603:10b6:806:e0::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.30; Wed, 1 Mar
- 2023 22:37:52 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::3e12:c026:afdc:beda]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::3e12:c026:afdc:beda%4]) with mapi id 15.20.6134.030; Wed, 1 Mar 2023
- 22:37:51 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Anton Johansson <anjo@rev.ng>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "ale@rev.ng" <ale@rev.ng>, "richard.henderson@linaro.org"
- <richard.henderson@linaro.org>
-Subject: RE: [PATCH] tcg: `reachable_code_pass()` remove empty else-branch
-Thread-Topic: [PATCH] tcg: `reachable_code_pass()` remove empty else-branch
-Thread-Index: AQHZTElL9AdChuPYo0aSaFmd2Bpt7a7mfpBA
-Date: Wed, 1 Mar 2023 22:37:51 +0000
-Message-ID: <SN4PR0201MB8808E80B0AD000E394223813DEAD9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20230301142221.24495-1-anjo@rev.ng>
-In-Reply-To: <20230301142221.24495-1-anjo@rev.ng>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|SA0PR02MB7497:EE_
-x-ms-office365-filtering-correlation-id: 4ba77ee0-0149-40e9-f480-08db1aa59796
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: f3qCUenyDQInO7gvoQCHN4HbAt2fYjcAI/F4vXqkYKTHjDSeFhhXkquUbnFTtCqbEsuEvW8We9dPLm1IzDT7C95XBlmvBNn59UX1iYQ6tBHRaYBppxcp84GBi1hcrzJG+qvvwGhFXxrsmPrQ01F+hSf1lcfvtc3/jrR87WldNE6AeqvkVD4limJjUEiQIe7w/5j2J8/VMGmRz8wPJJmGsWiafqqwBtsbaW9Ymlq7LEbQgGGdGXcWr+E7zxJNXsZeXFBCnEh4hZ7h5YyNZ3aTN+zObTEi3B8XDQ43bcKYI3Npjm7ZLjyDGjW39qyO6gVH3Abo7jiyJxJhkWSTqHbprS+BAWXa1CgobRPi47O+YV8Kr2QoLMgEVIttmnU7w/KcTdlUnSD1VpR8pgw+3bBkhMddjIvaerWrNt2UICgMZ3ciQbyRO4Q6+7Isazs1d1kyuZk46+ddS7AhnLoHwS32XNb4DyeZ7pNJNlDDpJ/hKv8mvp3gnShJm1LrnqiVoJgmSupPbG4S6fu3njEMOEUaD0ZiQCHXSkvynk7dnUzUkhIubxY1wsUBG80a3U6M37IF1AFPRJeXMt5rcO6h95R7kfPQUnd0fDAtW0zjoOG/UNgQeZv5EMmjPqlQaBFpUFlcnYKcl8dF1M53imA5hQMa+XCj8pWHAW8WRdSLgHFXo67Tcj/t3J6GjLyh8+f220Jx32Ic7VvXOjceTDkkH4KRGg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(396003)(376002)(346002)(136003)(39860400002)(451199018)(122000001)(38100700002)(66446008)(64756008)(86362001)(33656002)(7696005)(52536014)(55016003)(2906002)(4326008)(5660300002)(66556008)(66946007)(66476007)(8936002)(8676002)(41300700001)(110136005)(6506007)(9686003)(186003)(26005)(76116006)(53546011)(83380400001)(316002)(54906003)(966005)(71200400001)(478600001)(38070700005)(66899018)(81973001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?A59Te/fWPk3wdACM0QiJucZyDNdGx+JeXDbiGBHPzBkzfEgYHTEVAB+vFYWv?=
- =?us-ascii?Q?fBUgu+o+shgo1NpGzRkmQfACPJvfuP+GqI4ExhfpGLflWezINLQEmQpm15Pf?=
- =?us-ascii?Q?KFe6RW075eWwYIu7IpvwqekiHnMtCgU1GbAGcb8Nht1WaPnYi2kVdeq4tuaB?=
- =?us-ascii?Q?3zr3s2rMkPmpt68Phj2NK+K60/dk2o+bLSdgC00QQi8vLzYAzKtrc5Hv+yoZ?=
- =?us-ascii?Q?65DnPZ8Nc66Jz7rZJYKfhwi98OC3opfNcjHTYwauV1H1HDVPNpUv85m9/fiD?=
- =?us-ascii?Q?W4B9BeC16xeBNAPJAJczgnc2MEDn/fDERR9QdN1Qk/t9s6wZs8MhiFeBdywH?=
- =?us-ascii?Q?FbIC/o9iPVaEy+SGJ1zYmKsqaz2umcGO5DAw2HqBRdqFkU0NTsnpndpP3wAh?=
- =?us-ascii?Q?lRHMFip8tGljfj66Z0jcULtDuMdwL160elc9uIqs7SSRjs7qq/I/PX1CUNC7?=
- =?us-ascii?Q?6uGstdS8/TrESGgDBlFPcxuxerW9D6nPoegt+XDE5CsB99s2QRKr60Gax35y?=
- =?us-ascii?Q?csOZQ8I2iTUhFmKSG0T/AO+blSo5NNa4uK0LLRxCrLzn+vr8bULhFYAcnpMO?=
- =?us-ascii?Q?E3EwoSZDJKCXF5vDOwa3dBBbYNyUybSaHnfxXWjtMx63QP16EwaUq+IL4/3q?=
- =?us-ascii?Q?tRXufwYfB06CD8cvd6ILTqXOi2Gj8fUp86jn27I6fFe6xt0BjbfIMzAowt2b?=
- =?us-ascii?Q?A8VFBKyxRZ9/H/cy/odhiUtPILBHEvMOqcAkUgAGi/rxD31EUAuVrBYKyzDU?=
- =?us-ascii?Q?H6y5Kqgc+RyMM7KmGUUW38nzEzjat2BjxNogHlEhK2oiDPSKVlFs5aDdPh05?=
- =?us-ascii?Q?6y6+sgdCtDUaqFD9V81n/ju4L0kg3cFf6VX/6bRP6DqsSik+AmDjX8TuqjiJ?=
- =?us-ascii?Q?U10+SRvbVflpKMj5mNPpTk/ut8CeKVd/D2phqjLwBrZ/V9MvDhLfotPN6stT?=
- =?us-ascii?Q?7VLrn37cjZVJ7kdr6KYjVX1ZSByU3L+K6ec13vQYRgUr/SNs8EbRpZHG8yEF?=
- =?us-ascii?Q?yvp7AUTMQOmjNrFYDolpe0Y0ACom6NHUfEpS7cra5jSgKMZ7oOantYJ8ZwyL?=
- =?us-ascii?Q?jMUxwg+jHVbELgjuvSkRIa/zSETAgErZR2VfysVPsgnWE35542H2AOhxJcKk?=
- =?us-ascii?Q?sUEFNIWzxvTGL0p4/WZQXtHp8dVubXnQPg7/ZgpwR9iAQq5NHlJmjwAcB3Us?=
- =?us-ascii?Q?vLQFWNzTbqzpbEpYbjT98Cz8opF6EzM44mND/4HIs+T2SYuS1bu+BbwyAzPH?=
- =?us-ascii?Q?WphPptfaLJV9goKKDErQkxZYowGsLN9toRV1azxnDMXNxFquwPUIiPF9zW0U?=
- =?us-ascii?Q?PiFkuROlzSD62ppV2E5dbWnL5Wg1b1mwjyr+oLypoFfuMAsRhCzf1H/kcLoL?=
- =?us-ascii?Q?db/ohfGPkfFawrKFC9oPa4+wZ6cTUUje9zRouqejAtnxgNZdbPeZwbPkpg8/?=
- =?us-ascii?Q?FuS+7pSwo15pBj/9oOmh66p7xp5YSfonJyQsFrx7k5YkoPt4tp24Ygj2UZOA?=
- =?us-ascii?Q?gUk6bM/8gSocCFWwY1Xrw8K+OWALEtX6L4TFnD/FULuR49WuaCfKAJS2ETWe?=
- =?us-ascii?Q?CByRXQ7vX8+FpVpKkXPbRXlrrosFFxqv0YY8NK7z?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pXV6e-0006gV-4B
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:39:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677710366;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YVcfXOHo5vohESTcT30vWZKo8h1iWZ7PSIKsssAFGmU=;
+ b=Mkp2igNXC7ErkoFTM0D1SwYqg+MhvDUYGAZX0XdgwErZIrrfla6TaNnjAUxEDSG/sevSfr
+ CJyKqhGVoWJqOdo6IPgTC5PlVGMsTo4OPzGYVdTNwE1fkOnZs4kkOwsa4/b2il2BTyb2DF
+ pYZHBpwCKfT6rHyEO/X6yJtWY0Calzo=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-56-sZUzpjzPOJex6ExsHDfdjA-1; Wed, 01 Mar 2023 17:39:25 -0500
+X-MC-Unique: sZUzpjzPOJex6ExsHDfdjA-1
+Received: by mail-il1-f199.google.com with SMTP id
+ y14-20020a92c74e000000b003157134a9fbso8740151ilp.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 14:39:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YVcfXOHo5vohESTcT30vWZKo8h1iWZ7PSIKsssAFGmU=;
+ b=2kwTeU0Zq0NKLPugFp8IVh+pW6ork1Vp+zu9WkapskjpBl6GI4t0pAAsh2tqJHzrXh
+ DmxOZQM5BchJg2bm6MBHQr3JoAEjalJTgWTl/f36W+59yyZEhKs8UFkiVEZKjesFZnTq
+ /za/Ag8286QcZSM4sB76ieuEHPgp8/QcdoSXw30YqpbcNDZ4dKzZE0tlVZhEwcO8biJ4
+ xUxASoqNaLk1kZE7kKLnQiSvWWPX+AhGNYQWXLsV3qpynvl2fq+DHM42I3D6ik3U61Td
+ 5r0ldXum7Bg8qsvnlt2slRm+dKJpRnyQbjPxKBWLuKShnQ9xjdIUH38V1o1Cdm46EblK
+ LlMA==
+X-Gm-Message-State: AO0yUKX4n4Bcmzc+7L383VNKn+4vzsufMSxSRxPZKHXMWBAoYq2ycHgi
+ x29KZA6G45fgP7wGiYEaFZCcBegnnI4yH62/9btwSvBt7TzBIQ9q5ocsIe1GlMKB0Kkt7dAEMTr
+ j9DOq1v+qkM+Kqo0=
+X-Received: by 2002:a5e:df09:0:b0:745:a99c:af1 with SMTP id
+ f9-20020a5edf09000000b00745a99c0af1mr5295835ioq.6.1677710364948; 
+ Wed, 01 Mar 2023 14:39:24 -0800 (PST)
+X-Google-Smtp-Source: AK7set/cQyuejDFmy+Af8to8A7aLJgkVwJlD9MYsQoYXCHjuPSFqUhN+8uyd6p5xccfOgTg5ORQvAA==
+X-Received: by 2002:a5e:df09:0:b0:745:a99c:af1 with SMTP id
+ f9-20020a5edf09000000b00745a99c0af1mr5295808ioq.6.1677710364703; 
+ Wed, 01 Mar 2023 14:39:24 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ u12-20020a92d1cc000000b00313f1b861b7sm3912843ilg.51.2023.03.01.14.39.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 14:39:24 -0800 (PST)
+Date: Wed, 1 Mar 2023 15:39:17 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>, Jason
+ Wang <jasowang@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
+ David Hildenbrand <david@redhat.com>, Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?=
+ =?UTF-8?B?w6k=?= <philmd@linaro.org>, Yishai Hadas <yishaih@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH v2 03/20] vfio/migration: Add VFIO migration pre-copy
+ support
+Message-ID: <20230301153917.243792b8.alex.williamson@redhat.com>
+In-Reply-To: <Y/+/0z/MEkKuLNgk@nvidia.com>
+References: <20230222174915.5647-4-avihaih@nvidia.com>
+ <20230222135811.705b85b7.alex.williamson@redhat.com>
+ <38bdb26f-08d7-fe11-9a97-ebcc95c82254@nvidia.com>
+ <20230223141637.67870a03.alex.williamson@redhat.com>
+ <a875f6e5-951b-8f39-7867-313eabe54363@nvidia.com>
+ <20230227091444.6a6e93cd.alex.williamson@redhat.com>
+ <Y/znqJvtxtUEmsHi@nvidia.com>
+ <20230227104308.14077d8a.alex.williamson@redhat.com>
+ <b142b581-65c3-285d-bc68-fabc8d5ab0b7@nvidia.com>
+ <20230301125559.613c85e9.alex.williamson@redhat.com>
+ <Y/+/0z/MEkKuLNgk@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: pLIsHXHCGQjSRBURT+nX3Ih0SqhBlyjmrA3v2d+X7d3F75LFVSdL2UDHqkf5vqGC03NkyTjFr9RQd05Rn1i3H1HeN7PWIlvbXQhzX7hvZUIa8sv3nCgcpeix/LXPXdiPqBN96Tflg8VCUxtibz3nvwxD4A+EhQcU6KP4VqeSP7ma+ZBfxUAhna+QmevWMpncHg5+QFyG6IRumvW+fs1Qyu0fxn0FwhAZcs4jtzF/DMcz+2TRqaJjTG0SkQ5cDjkeE3wbVUzeBQqkMWGeHtq+h4zigukLftn/p3MbWYPYaUeCpAajqYE9Bt3iaypAKRbWDVX+N7FSn6eAkvowyPjNhqZWwXxMr9Ebou4kKAhX82qnyqvvrUordaKG+nu1gmWkeqYT4vOaUcK3lb7ah+X8CgxrfrNHZRIld0EWgORfDLlGP2oHqtrwkwiBJwxjQlhkdM+MfSK3awNo9O9tF8JJCm0WX5abxY7Nr6DLy9gRwwmofOVWpv9kczgksxsrs2cbVDazPgBiFoP2sFLheg8Wqjcn6guXHWX7AARyzyxvy9FMQZRzeQDdla9brV+xDn2oo8m9cHr9zllIe6uokCC2h5Fcf+AhHtEfEbGrbC8XcUMgKbag8SC4H0ZkElys5vQldD3ILJCB+btVE8ysidydJCvq+n3dCCtTsxIzdxA8s+n6CrIUGFILcAsvDpgL13nnjzotJEvB82JBIL8ETTx4CwcQJw+s0QUZed/dcfV9zdP4+hY1/8KxSNbKsMQzpolfEzptk92AI7PtfQ5shjz/q6fgK6dXBWjHyZNMqWkmwP6jF8NFl1FLZkNdFUzGn1bD
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ba77ee0-0149-40e9-f480-08db1aa59796
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2023 22:37:51.8079 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7acwO6gi5idTcUe7FI7SO5+k49nHA7zkJuxad8wbbZ2PshsXggp51ck8Q6DVgDoUHbXCZd3hNcg3Q3FBpEWuvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR02MB7497
-X-Proofpoint-ORIG-GUID: EfI2rT-Ivr13bHzovueP-hpsmXE5Wfsy
-X-Proofpoint-GUID: EfI2rT-Ivr13bHzovueP-hpsmXE5Wfsy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-01_15,2023-03-01_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- spamscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0 mlxscore=0
- adultscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2303010180
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -159,70 +120,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 1 Mar 2023 17:12:51 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
+> On Wed, Mar 01, 2023 at 12:55:59PM -0700, Alex Williamson wrote:
+> 
+> > So it seems like what we need here is both a preface buffer size and a
+> > target device latency.  The QEMU pre-copy algorithm should factor both
+> > the remaining data size and the device latency into deciding when to
+> > transition to stop-copy, thereby allowing the device to feed actually
+> > relevant data into the algorithm rather than dictate its behavior.  
+> 
+> I don't know that we can realistically estimate startup latency,
+> especially have the sender estimate latency on the receiver..
 
-> -----Original Message-----
-> From: Anton Johansson <anjo@rev.ng>
-> Sent: Wednesday, March 1, 2023 7:22 AM
-> To: qemu-devel@nongnu.org
-> Cc: ale@rev.ng; richard.henderson@linaro.org; Taylor Simpson
-> <tsimpson@quicinc.com>
-> Subject: [PATCH] tcg: `reachable_code_pass()` remove empty else-branch
->=20
-> This patch extends reachable_code_pass() to also deal with empty else-
-> branches of the form
->=20
->   br $L0
->   set_label $L1
->   set_label $L0
->=20
-> converting them to
->=20
->   set_label $L1
->=20
-> when $L0 is only referenced by the br op.  This type of empty-else branch=
- will
-> be emitted by idef-parser in the Hexagon frontend once CANCEL statements
-> have been ignored.
->=20
-> Signed-off-by: Anton Johansson <anjo@rev.ng>
-> ---
->  tcg/tcg.c | 41 ++++++++++++++++++++++++++++++-----------
->  1 file changed, 30 insertions(+), 11 deletions(-)
->=20
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index a4a3da6804..531bc74231 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -2664,21 +2664,40 @@ static void reachable_code_pass(TCGContext *s)
->                  dead =3D false;
->                  remove =3D false;
->=20
-> -                /*
-> -                 * Optimization can fold conditional branches to uncondi=
-tional.
-> -                 * If we find a label with one reference which is preced=
-ed by
-> -                 * an unconditional branch to it, remove both.  This nee=
-ded to
-> -                 * wait until the dead code in between them was removed.
-> -                 */
-> -                if (label->refs =3D=3D 1) {
-> -                    TCGOp *op_prev =3D QTAILQ_PREV(op, link);
+Knowing that the target device is compatible with the source is a point
+towards making an educated guess.
 
-Can't we just insert a while loop here to move op_prev back across labels?
+> I feel like trying to overlap the device start up with the STOP phase
+> is an unnecessary optimization? How do you see it benifits?
 
-    while (op_next->opc =3D=3D INDEX_op_set_label) {
-        op_prev =3D QTAILQ_PREV(op, op_prev);
-    }
+If we can't guarantee that there's some time difference between sending
+initial bytes immediately at the end of pre-copy vs immediately at the
+beginning of stop-copy, does that mean any handling of initial bytes is
+an unnecessary optimization?
 
-> -                    if (op_prev->opc =3D=3D INDEX_op_br &&
-> -                        label =3D=3D arg_label(op_prev->args[0])) {
+I'm imagining that completing initial bytes triggers some
+initialization sequence in the target host driver which runs in
+parallel to the remaining data stream, so in practice, even if sent at
+the beginning of stop-copy, the target device gets a head start.
 
-Also, here is the patch that exposes the need for this optimization
-https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg07236.html
+> I've been thinking of this from the perspective that we should always
+> ensure device startup is completed, it is time that has to be paid,
+> why pay it during STOP?
 
-Thanks,
-Taylor
+Creating a policy for QEMU to send initial bytes in a given phase
+doesn't ensure startup is complete.  There's no guaranteed time
+difference between sending that data and the beginning of stop-copy.
+
+QEMU is trying to achieve a downtime goal, where it estimates network
+bandwidth to get a data size threshold, and then polls devices for
+remaining data.  That downtime goal might exceed the startup latency of
+the target device anyway, where it's then the operators choice to pay
+that time in stop-copy, or stalled on the target.
+
+But if we actually want to ensure startup of the target is complete,
+then drivers should be able to return both data size and estimated time
+for the target device to initialize.  That time estimate should be
+updated by the driver based on if/when initial_bytes is drained.  The
+decision whether to continue iterating pre-copy would then be based on
+both the maximum remaining device startup time and the calculated time
+based on remaining data size.
+
+I think this provides a better guarantee than anything based simply on
+transferring a given chunk of data in a specific phase of the process.
+Thoughts?  Thanks,
+
+Alex
 
 
