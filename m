@@ -2,52 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5D36A6449
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 01:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17336A64BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 02:23:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXAPf-0003z5-63; Tue, 28 Feb 2023 19:33:43 -0500
+	id 1pXB9v-0007ji-Rn; Tue, 28 Feb 2023 20:21:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXAPU-0003fW-Ua; Tue, 28 Feb 2023 19:33:33 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXAPT-0005XX-2A; Tue, 28 Feb 2023 19:33:32 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 75322746369;
- Wed,  1 Mar 2023 01:33:28 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3E80074633D; Wed,  1 Mar 2023 01:33:28 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3C593746335;
- Wed,  1 Mar 2023 01:33:28 +0100 (CET)
-Date: Wed, 1 Mar 2023 01:33:28 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-cc: Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Bernhard Beschow <shentey@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de
-Subject: Re: [PATCH v5 2/7] Revert "hw/isa/vt82c686: Remove intermediate IRQ
- forwarder"
-In-Reply-To: <cdfb3c5a42e505450f6803124f27856434c5b298.1677628524.git.balaton@eik.bme.hu>
-Message-ID: <709f5780-97e5-0cee-d776-4558cf39e000@eik.bme.hu>
-References: <cover.1677628524.git.balaton@eik.bme.hu>
- <cdfb3c5a42e505450f6803124f27856434c5b298.1677628524.git.balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXB9u-0007jS-Eu
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 20:21:30 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pXB9s-0007qD-SY
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 20:21:30 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ cp7-20020a17090afb8700b0023756229427so15618025pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 17:21:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PcFqs96t+/JGXoAq6gVLOXrsvN2eBSdItU0v2+/hoGo=;
+ b=paODFKRjey7o7P1jgwuM3Zjx2TypXm/YjSco45/Haz6Z/tmUW+Aj4IP+jSf9p0GyG/
+ ExGvlim6SfRHhtPghyY1ttbYgMTMZFx49h/Nn7BcacfUEsANCzZYHlDVPXa/B78mDs4t
+ /45+XUlXuJJml620niCU68i/44//z7J+2hLuOC6CCUIiFBEqo+DBK/VvIiWIjw4ZsJAK
+ 34clCQTM7ujsdpde5ScMy+DzkIDLiimF5NwuLXtAnFCHlmMqrj1W4pMonW2DoC8FAM2D
+ TZau5XGchAIqH75ONKEAto6AruDTmcF9CJjRr2fVV0aQc6QdqxwLikh5e1J2jaDF5EhC
+ CfSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PcFqs96t+/JGXoAq6gVLOXrsvN2eBSdItU0v2+/hoGo=;
+ b=3JBUxET+s1AFUP8eUHHlLFg1yO6c5paMKMs7AksikMX0V7X0p2Sniiw3O8+UXQDvO4
+ 8KWU66bR43Wa4xbJh9Xpub629/nQsQJjmZA7ZkRFc/seRi1X5SRUGyzYrMkZSLNJay2B
+ f21NQMM2qH5KT1s01i2RoEDwGIuGiucC049PG5OhWAboBdc2CTu++PsO44n82011OjkD
+ LTuSXCYRuYRGAw0MKL+NjJn1eq7H/zyi11iKq7HDx35Tennuvp20NwrcLkzsVCJS39Ec
+ pWMCUOCczL55rvAWOoigXEOHaEpK+UGOnxh+/iQ5wAu4quLhOw/K5AzvdMw9pZ/65oGp
+ 3ZFA==
+X-Gm-Message-State: AO0yUKU2MJlKf0S4vBEnMlhw+E2REOHobdh2HWukQZffW5TZ+yhJ3S2g
+ vN33Mdi5fnyOnzU7yNc0jMXCyA==
+X-Google-Smtp-Source: AK7set+G+oqBAZVWEI9qJdHdFShSHbt6tYFqMoZMLiCWAXGiaVKxUrnN0P49EB+HrL2KrZ6rGEYT9g==
+X-Received: by 2002:a05:6a21:3395:b0:cc:786d:2128 with SMTP id
+ yy21-20020a056a21339500b000cc786d2128mr6111913pzb.53.1677633687013; 
+ Tue, 28 Feb 2023 17:21:27 -0800 (PST)
+Received: from [192.168.6.128] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ s13-20020a65690d000000b004fcda0e59c3sm6292424pgq.69.2023.02.28.17.21.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 17:21:26 -0800 (PST)
+Message-ID: <4d42d401-9049-afc0-a5d3-9de28457afc2@linaro.org>
+Date: Tue, 28 Feb 2023 15:21:19 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH RESEND v7 1/9] target/arm: Move cortex sysregs into a
+ separate file
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20230228192628.26140-1-farosas@suse.de>
+ <20230228192628.26140-2-farosas@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230228192628.26140-2-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,62 +100,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 1 Mar 2023, BALATON Zoltan wrote:
-> This partially reverts commit bb98e0f59cde846666d9fddc60ae74ef7ddfca17
-> keeping the rename of a state field but reverting other cahanges which
-> break interrupts on pegasos2.
-
-I've found this with just booting the MorphOS iso which now hangs without 
-this revert when trying to read from the ide device. I think I've 
-mentioned that I've also tried this way first but then ended up adding 
-this because it was needed in a review of the patch earlier but I can't 
-find that message now. For now it seems the easiest is to revert this and 
-think about it later.
-
-Regards,
-BALATON Zoltan
-
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+On 2/28/23 09:26, Fabiano Rosas wrote:
+> The file cpu_tcg.c is about to be moved into the tcg/ directory, so
+> move the register definitions into a new file.
+> 
+> Also move the function declaration to the more appropriate cpregs.h.
+> 
+> Signed-off-by: Fabiano Rosas<farosas@suse.de>
 > ---
-> hw/isa/vt82c686.c | 10 +++++++++-
-> 1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index f4c40965cd..01e0148967 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -598,15 +598,23 @@ void via_isa_set_irq(PCIDevice *d, int n, int level)
->     qemu_set_irq(s->isa_irqs_in[n], level);
-> }
->
-> +static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
-> +{
-> +    ViaISAState *s = opaque;
-> +    qemu_set_irq(s->cpu_intr, level);
-> +}
-> +
-> static void via_isa_realize(PCIDevice *d, Error **errp)
-> {
->     ViaISAState *s = VIA_ISA(d);
->     DeviceState *dev = DEVICE(d);
->     PCIBus *pci_bus = pci_get_bus(d);
-> +    qemu_irq *isa_irq;
->     ISABus *isa_bus;
->     int i;
->
->     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-> +    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
->     isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
->                           errp);
->
-> @@ -614,7 +622,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
->         return;
->     }
->
-> -    s->isa_irqs_in = i8259_init(isa_bus, s->cpu_intr);
-> +    s->isa_irqs_in = i8259_init(isa_bus, *isa_irq);
->     isa_bus_register_input_irqs(isa_bus, s->isa_irqs_in);
->     i8254_pit_init(isa_bus, 0x40, 0, NULL);
->     i8257_dma_init(isa_bus, 0);
->
+>   target/arm/cortex-regs.c | 69 ++++++++++++++++++++++++++++++++++++++++
+>   target/arm/cpregs.h      |  6 ++++
+>   target/arm/cpu64.c       |  1 +
+>   target/arm/cpu_tcg.c     | 59 ----------------------------------
+>   target/arm/internals.h   |  6 ----
+>   target/arm/meson.build   |  1 +
+>   6 files changed, 77 insertions(+), 65 deletions(-)
+>   create mode 100644 target/arm/cortex-regs.c
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
