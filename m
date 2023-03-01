@@ -2,99 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4056A6B01
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8846A6B04
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:45:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJwU-0006O0-PY; Wed, 01 Mar 2023 05:44:14 -0500
+	id 1pXJxB-000790-Oy; Wed, 01 Mar 2023 05:44:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJwR-0006N2-DJ
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:44:11 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJwP-0003hw-TG
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:44:11 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- o11-20020a05600c4fcb00b003eb33ea29a8so7040949wmq.1
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:44:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677667448;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EWILjlbpqPDkwwgYhqqVnHdu6hv7prnzqRtq851YOI0=;
- b=H3sPnI9/l/R74Ht4pkgzonoVdbBUGE0QLdDwfu+czWaTOQpGPpkS5d6DRPfsAc+8fA
- ncckvYVO5CYlr7Wpj7V31TRS0UAzkB8a04Z/zuqrKAnw4rCshRjOybkOnoAyYlTDPXYi
- is19d1mRwZwp7laOmJZiAGXw860oMMKs/ZPiL/iAsvJUZflLS9ZVMA+5yCXgZHwUGCy2
- p62bpls9/fpsUJlr3/dXGMw0LjS3eO1PleaOpc9dO491nY2Xt8vTM16U9L9JkkkXFXpQ
- 4CjEtLIMx+erWyyyfA6OZMPNrSL3UF7//bY12YqOYfDko77gq0UkB1XIMLVvVEy2wdV8
- i+0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677667448;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EWILjlbpqPDkwwgYhqqVnHdu6hv7prnzqRtq851YOI0=;
- b=2nbbsNmxGXH1i4extqjKS8AC06LlLj5SzZoAAjcYu1oHB2g1wdohYQ/KNhUF3SA0VL
- Jni0nluN/Gsc6+IuTB+2FpPhv6lda6dTDi4c85bxiwV7FUEHoPD9YawFhZzRcIuGFzzY
- 0vrT2u32CeicEZWfwsPng7L4i3ua06wKnw9WbNPwC0kundLc/3Eis9qf8ylO0ND+uAcH
- dbJqPyI2TWrzCM/1Anki8n+d1NZsaAd6R6yCFsXUuS0giAmjTgjLzP2oSTRjQwTLWNZa
- 0dp1pNr7oZmZUGeyLJNyRSqtd1anGnuhGYDfVBvFyRVcgvaMCsVvv6wJ/Vo1Aur5OQOS
- GdeQ==
-X-Gm-Message-State: AO0yUKWUonpGDM8FndtR8rjIGBii0GMzulkd6STVwLKgXAA7aJPZlIh7
- kVA8Laeukm8qiZUALkJRkgpgyQ==
-X-Google-Smtp-Source: AK7set9foEZT8aN6zPnA937hIN3w+Of3XoY0wJwfCDGRfy9EGf5pqE3pqH407VI/0GsxuMUfxm8fpA==
-X-Received: by 2002:a05:600c:4e88:b0:3eb:3945:d406 with SMTP id
- f8-20020a05600c4e8800b003eb3945d406mr4669280wmq.16.1677667448276; 
- Wed, 01 Mar 2023 02:44:08 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i13-20020adfe48d000000b002c5539171d1sm12459113wrm.41.2023.03.01.02.44.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 02:44:07 -0800 (PST)
-Message-ID: <cce553f5-fef9-28d0-8e4c-2fc0d82a02af@linaro.org>
-Date: Wed, 1 Mar 2023 11:44:03 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pXJx9-00078d-Pl
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:44:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pXJx8-0003nS-Db
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:44:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677667493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=88lcDIJkcVkxamA8yLq2Y2R8HZsAhqN0g2WyvWvakhM=;
+ b=HI4/Vh/LSo9ofCw5TfZqEGUUV86HWeCeMwZZa1IJBY3/yHiFX8pHNnobxeN4Km/rpVbX7U
+ eHX9OWmD1CFSssSVauvH67bgULUZ7yiV7tDwPoq+O8/3O/2e/mZu4mKImofTCcLIL+mpi4
+ I5Xci3w6vHzBdmxl06JRzx5gFbBv52I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-kun74eb7OHSC1aInXz_3MA-1; Wed, 01 Mar 2023 05:44:52 -0500
+X-MC-Unique: kun74eb7OHSC1aInXz_3MA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1B3F1C29D40
+ for <qemu-devel@nongnu.org>; Wed,  1 Mar 2023 10:44:51 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.194.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C7ED4010E86;
+ Wed,  1 Mar 2023 10:44:50 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>
+Subject: [PATCH] test: Check vnc enable before compiling vnc test
+Date: Wed,  1 Mar 2023 11:44:50 +0100
+Message-Id: <20230301104450.1017-1-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v3 22/24] gitlab: move the majority of artefact handling
- to a template
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Peter Maydell <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
- <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Laurent Vivier <lvivier@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20230228190653.1602033-1-alex.bennee@linaro.org>
- <20230228190653.1602033-23-alex.bennee@linaro.org>
- <85fa3961-eb23-8d93-b4e4-e3e4227fac26@linaro.org> <87a60xe9q3.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87a60xe9q3.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,36 +75,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/2/23 22:55, Alex Bennée wrote:
-> 
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
-> 
->> On 28/2/23 20:06, Alex Bennée wrote:
->>> To avoid lots of copy and paste lets deal with artefacts in a
->>> template. This way we can filter out most of the pre-binary object and
->>> library files we no longer need as we have the final binaries.
->>> build-system-alpine also saved .git-submodule-status so for
->>> simplicity
->>> we bring that into the template as well.
->>> As an example the build-system-ubuntu artefacts before this patch
->>> where around 1.3 GB, after dropping the object files it comes to 970
->>> MB.
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> ---
->>>    .gitlab-ci.d/buildtest-template.yml | 16 ++++++
->>>    .gitlab-ci.d/buildtest.yml          | 81 +++++++++++------------------
->>>    2 files changed, 46 insertions(+), 51 deletions(-)
->>
->> This is still kludging the fact that 'make check-qtest' rebuild
->> the world even if QEMU binaries are present. Still an improvement, so
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
-> Is something being missed by:
-> 
->      # Avoid recompiling by hiding ninja with NINJA=":"
->      - make NINJA=":" $MAKE_CHECK_ARGS
-> 
-> ?
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ tests/qtest/meson.build | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Sorry, I wasn't looking at the correct pipeline.
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 29a4efb4c2..62eecf2edf 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -309,10 +309,12 @@ qtests = {
+   'netdev-socket': files('netdev-socket.c', '../unit/socket-helpers.c'),
+ }
+ 
+-gvnc = dependency('gvnc-1.0', required: false)
+-if gvnc.found()
+-  qtests += {'vnc-display-test': [gvnc]}
+-  qtests_generic += [ 'vnc-display-test' ]
++if vnc.found()
++  gvnc = dependency('gvnc-1.0', required: false)
++  if gvnc.found()
++    qtests += {'vnc-display-test': [gvnc]}
++    qtests_generic += [ 'vnc-display-test' ]
++  endif
+ endif
+ 
+ if dbus_display
+-- 
+2.39.2
+
 
