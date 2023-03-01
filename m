@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C016A6429
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 01:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80CEC6A6426
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 01:19:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXA9r-0008Kx-BW; Tue, 28 Feb 2023 19:17:23 -0500
+	id 1pXA9q-0008JH-2p; Tue, 28 Feb 2023 19:17:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXA9k-0008GG-Dr; Tue, 28 Feb 2023 19:17:17 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ id 1pXA9l-0008GR-NI; Tue, 28 Feb 2023 19:17:17 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXA9e-0001fh-2S; Tue, 28 Feb 2023 19:17:11 -0500
+ id 1pXA9f-0001fy-ED; Tue, 28 Feb 2023 19:17:17 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 466C374633D;
- Wed,  1 Mar 2023 01:17:07 +0100 (CET)
+ by localhost (Postfix) with SMTP id 57B2B746369;
+ Wed,  1 Mar 2023 01:17:08 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 266D5746335; Wed,  1 Mar 2023 01:17:07 +0100 (CET)
-Message-Id: <7976b7c4b950dc1ff378263dedf4c73b15614033.1677628524.git.balaton@eik.bme.hu>
+ id 3BF93746335; Wed,  1 Mar 2023 01:17:08 +0100 (CET)
+Message-Id: <cdfb3c5a42e505450f6803124f27856434c5b298.1677628524.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1677628524.git.balaton@eik.bme.hu>
 References: <cover.1677628524.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 1/7] hw/display/sm501: Add debug property to control pixman
- usage
+Subject: [PATCH v5 2/7] Revert "hw/isa/vt82c686: Remove intermediate IRQ
+ forwarder"
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -37,15 +37,15 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Bernhard Beschow <shentey@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
  ReneEngel80@emailn.de
-Date: Wed,  1 Mar 2023 01:17:07 +0100 (CET)
+Date: Wed,  1 Mar 2023 01:17:08 +0100 (CET)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,97 +61,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a property to allow disabling pixman and always use the fallbacks
-for different operations which is useful for testing different drawing
-methods or debugging pixman related issues.
+This partially reverts commit bb98e0f59cde846666d9fddc60ae74ef7ddfca17
+keeping the rename of a state field but reverting other cahanges which
+break interrupts on pegasos2.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/display/sm501.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ hw/isa/vt82c686.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 17835159fc..dbabbc4339 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -465,6 +465,7 @@ typedef struct SM501State {
-     uint32_t last_width;
-     uint32_t last_height;
-     bool do_full_update; /* perform a full update next time */
-+    uint8_t use_pixman;
-     I2CBus *i2c_bus;
- 
-     /* mmio registers */
-@@ -827,7 +828,7 @@ static void sm501_2d_operation(SM501State *s)
-                 de = db + (width + (height - 1) * dst_pitch) * bypp;
-                 overlap = (db < se && sb < de);
-             }
--            if (overlap) {
-+            if (overlap && (s->use_pixman & BIT(2))) {
-                 /* pixman can't do reverse blit: copy via temporary */
-                 int tmp_stride = DIV_ROUND_UP(width * bypp, sizeof(uint32_t));
-                 uint32_t *tmp = tmp_buf;
-@@ -852,13 +853,15 @@ static void sm501_2d_operation(SM501State *s)
-                 if (tmp != tmp_buf) {
-                     g_free(tmp);
-                 }
--            } else {
-+            } else if (!overlap && (s->use_pixman & BIT(1))) {
-                 fallback = !pixman_blt((uint32_t *)&s->local_mem[src_base],
-                                        (uint32_t *)&s->local_mem[dst_base],
-                                        src_pitch * bypp / sizeof(uint32_t),
-                                        dst_pitch * bypp / sizeof(uint32_t),
-                                        8 * bypp, 8 * bypp, src_x, src_y,
-                                        dst_x, dst_y, width, height);
-+            } else {
-+                fallback = true;
-             }
-             if (fallback) {
-                 uint8_t *sp = s->local_mem + src_base;
-@@ -891,7 +894,7 @@ static void sm501_2d_operation(SM501State *s)
-             color = cpu_to_le16(color);
-         }
- 
--        if ((width == 1 && height == 1) ||
-+        if (!(s->use_pixman & BIT(0)) || (width == 1 && height == 1) ||
-             !pixman_fill((uint32_t *)&s->local_mem[dst_base],
-                          dst_pitch * bypp / sizeof(uint32_t), 8 * bypp,
-                          dst_x, dst_y, width, height, color)) {
-@@ -2035,6 +2038,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
- 
- static Property sm501_sysbus_properties[] = {
-     DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
-+    DEFINE_PROP_UINT8("x-pixman", SM501SysBusState, state.use_pixman, 7),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -2122,6 +2126,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
- 
- static Property sm501_pci_properties[] = {
-     DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
-+    DEFINE_PROP_UINT8("x-pixman", SM501PCIState, state.use_pixman, 7),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -2162,11 +2167,18 @@ static void sm501_pci_class_init(ObjectClass *klass, void *data)
-     dc->vmsd = &vmstate_sm501_pci;
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index f4c40965cd..01e0148967 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -598,15 +598,23 @@ void via_isa_set_irq(PCIDevice *d, int n, int level)
+     qemu_set_irq(s->isa_irqs_in[n], level);
  }
  
-+static void sm501_pci_init(Object *o)
++static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
 +{
-+    object_property_set_description(o, "x-pixman", "Use pixman for: "
-+                                    "1: fill, 2: blit, 4: overlap blit");
++    ViaISAState *s = opaque;
++    qemu_set_irq(s->cpu_intr, level);
 +}
 +
- static const TypeInfo sm501_pci_info = {
-     .name          = TYPE_PCI_SM501,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(SM501PCIState),
-     .class_init    = sm501_pci_class_init,
-+    .instance_init = sm501_pci_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-         { },
+ static void via_isa_realize(PCIDevice *d, Error **errp)
+ {
+     ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     PCIBus *pci_bus = pci_get_bus(d);
++    qemu_irq *isa_irq;
+     ISABus *isa_bus;
+     int i;
+ 
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
++    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+     isa_bus = isa_bus_new(dev, pci_address_space(d), pci_address_space_io(d),
+                           errp);
+ 
+@@ -614,7 +622,7 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+         return;
+     }
+ 
+-    s->isa_irqs_in = i8259_init(isa_bus, s->cpu_intr);
++    s->isa_irqs_in = i8259_init(isa_bus, *isa_irq);
+     isa_bus_register_input_irqs(isa_bus, s->isa_irqs_in);
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
 -- 
 2.30.8
 
