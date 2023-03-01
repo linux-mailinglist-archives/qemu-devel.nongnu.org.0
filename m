@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BCBC6A771C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171226A7792
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 00:09:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXVGv-0004Tk-4G; Wed, 01 Mar 2023 17:50:05 -0500
+	id 1pXVYU-0006y3-WE; Wed, 01 Mar 2023 18:08:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pXVGs-0004TZ-U7
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:50:02 -0500
+ id 1pXVYS-0006te-V5
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 18:08:12 -0500
 Received: from mailout1.w2.samsung.com ([211.189.100.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pXVGo-0000Nc-Mz
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:50:02 -0500
+ id 1pXVYQ-00040P-9K
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 18:08:12 -0500
 Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
  by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230301224948usoutp01a366b6b55ec8c1f02e8073154be7f58d~IbUFarNuj1111011110usoutp01j;
- Wed,  1 Mar 2023 22:49:48 +0000 (GMT)
+ 20230301230801usoutp01e18460aca9706999ef4e868f100599db~Ibj-ooO7J0175701757usoutp01T;
+ Wed,  1 Mar 2023 23:08:01 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
- 20230301224948usoutp01a366b6b55ec8c1f02e8073154be7f58d~IbUFarNuj1111011110usoutp01j
+ 20230301230801usoutp01e18460aca9706999ef4e868f100599db~Ibj-ooO7J0175701757usoutp01T
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1677710988;
- bh=f5fvsfUYLls9BB9PQX6bPnVsXXg60znQjTTWY1wm1NI=;
+ s=mail20170921; t=1677712082;
+ bh=y6FMdj3R2ywpEtjkQRKVB8R956ygW+EjM8G+qnRkorM=;
  h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=h1FdmlQvEAT9iZxvvx79u3iH4hpPBeNsLEihlJI2OZ5jN/dstpy/XGqYBYxtz/mbZ
- 9Bz65/Cw1cYMqpoWi+SO1FyQ/nbfuQ59fmcMPF/iPRn5Xup0Sgh9S2y2g2Pys1PiAW
- LnnSQeqStC6cXDMmPfS6GwMSaW5JgmwV+enEoclY=
+ b=ZORRYD0C8kg86LL1NDwT31gDz2FaNlJXD4h6Kq72V/YRA+zTN0Hel3hPMO5OH6BnU
+ /uGPLk2kLYfoRfCEqCGX7CikvLYQ3gpgtPpiLwaXnYe+PLgitTOPMXoLxThQpvIGam
+ tCArHZFriA4qPX7EWo2QlW+EFwM1xVFOilSPOcRw=
 Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
  [203.254.195.111]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230301224948uscas1p124951d22c183dd76cc70d4fb6dab7480~IbUFKioaN1945619456uscas1p1X;
- Wed,  1 Mar 2023 22:49:48 +0000 (GMT)
-Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
- ussmges2new.samsung.com (USCPEMTA) with SMTP id 0D.3A.49129.C86DFF36; Wed, 
- 1 Mar 2023 17:49:48 -0500 (EST)
-Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
- [203.254.195.91]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230301224948uscas1p25eb7c2a56486532a290fe1bb63553cfd~IbUE3VuUq0297902979uscas1p2y;
- Wed,  1 Mar 2023 22:49:48 +0000 (GMT)
-X-AuditID: cbfec36f-167fe7000001bfe9-a6-63ffd68c57ec
+ 20230301230801uscas1p1054b7f07a54841f9f896061d74d6187c~Ibj-d0QIy2899428994uscas1p1j;
+ Wed,  1 Mar 2023 23:08:01 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+ ussmges2new.samsung.com (USCPEMTA) with SMTP id A4.5C.49129.1DADFF36; Wed, 
+ 1 Mar 2023 18:08:01 -0500 (EST)
+Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
+ [203.254.195.89]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20230301230801uscas1p155098774d0f921b4fd8a1f683343481c~Ibj-Q1Lm91447514475uscas1p13;
+ Wed,  1 Mar 2023 23:08:01 +0000 (GMT)
+X-AuditID: cbfec36f-eddff7000001bfe9-27-63ffdad1c966
 Received: from SSI-EX2.ssi.samsung.com ( [105.128.2.146]) by
- ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id 01.4D.17110.B86DFF36; Wed, 
- 1 Mar 2023 17:49:47 -0500 (EST)
+ ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id 99.CE.11378.1DADFF36; Wed, 
+ 1 Mar 2023 18:08:01 -0500 (EST)
 Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
  SSI-EX2.ssi.samsung.com (105.128.2.227) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2375.24; Wed, 1 Mar 2023 14:49:47 -0800
+ 15.1.2375.24; Wed, 1 Mar 2023 15:08:00 -0800
 Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
  SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Wed,
- 1 Mar 2023 14:49:47 -0800
+ 1 Mar 2023 15:08:00 -0800
 From: Fan Ni <fan.ni@samsung.com>
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
@@ -60,61 +60,61 @@ CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
  "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny
  <ira.weiny@intel.com>, =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?=
  <philmd@linaro.org>, Dave Jiang <dave.jiang@intel.com>
-Subject: Re: [PATCH v2 1/6] hw/cxl: rename mailbox return code type from
- ret_code to CXLRetCode
-Thread-Topic: [PATCH v2 1/6] hw/cxl: rename mailbox return code type from
- ret_code to CXLRetCode
-Thread-Index: AQHZSs12BBryuVWrXEqfQPLqBk7SZq7nELuA
-Date: Wed, 1 Mar 2023 22:49:47 +0000
-Message-ID: <20230301224940.GA1427276@bgt-140510-bm03>
-In-Reply-To: <20230227170311.20054-2-Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2 2/6] hw/cxl: Introduce cxl_device_get_timestamp()
+ utility function
+Thread-Topic: [PATCH v2 2/6] hw/cxl: Introduce cxl_device_get_timestamp()
+ utility function
+Thread-Index: AQHZSs2JfYF69ar8nESkKIBaSgB23a7nFdOA
+Date: Wed, 1 Mar 2023 23:08:00 +0000
+Message-ID: <20230301230753.GA1429848@bgt-140510-bm03>
+In-Reply-To: <20230227170311.20054-3-Jonathan.Cameron@huawei.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [105.128.2.176]
 Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <6C524BE4D72DC844B5C6EEF804BB7B0A@ssi.samsung.com>
+Content-ID: <01E891F4041D8B479DCB830395ECABAF@ssi.samsung.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEKsWRmVeSWpSXmKPExsWy7djXc7o91/4nG1x7J2Bx4mYjm8X+p89Z
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMKsWRmVeSWpSXmKPExsWy7djX87oXb/1PNpjZpGNx4mYjm8X+p89Z
  LFYtvMZmcX7WKRaLwxvPMFn8//WK1WLNCmGL4707WBw4PFqOvGX1WLznJZPHnWt72DyeXNvM
- 5PF+31U2j8+b5ALYorhsUlJzMstSi/TtErgyJk69xFZw0aGir+UPWwPjDbUuRk4OCQETia5N
- pxlBbCGBlYwSi686dzFyAdmtTBKHOt+zwhS9ffuTGSKxllHiw6keRgjnI6PEiksHmSCcpYwS
- x78fAmthE1CU2Ne1nQ3EFhEwknh3YxJYB7PAMSaJl0uuAhVxcAgLJEpsfSQLUZMksXXFW7j6
- fStuM4GUsAioSOx/lAIS5hUwk7j05AwzSJhTwFFiR2sdSJhRQEzi+6k1TCA2s4C4xK0n85kg
- jhaUWDR7DzOELSbxb9dDNghbUeL+95fsEPV6EjemTmGDsO0kDsz6BjVHW2LZwtfMEGsFJU7O
- fMIC0SspcXDFDRaQTyQEnnBIHF27lx0i4SIxoW0DVJG0xN+7y8DOlxBIllj1kQsinCMxf8kW
- qBJriYV/1jNNYFSZheTsWUhOmoXkpFlITpqF5KQFjKyrGMVLi4tz01OLjfJSy/WKE3OLS/PS
- 9ZLzczcxApPV6X+H83cwXr/1Ue8QIxMH4yFGCQ5mJRHehbf/JAvxpiRWVqUW5ccXleakFh9i
- lOZgURLnNbQ9mSwkkJ5YkpqdmlqQWgSTZeLglGpgCg5r278vbF70qyN+8za6d8oXr3jmeryn
- 9ubM76KzvCep8fjx5rS8jZwZfKGDiY+XyeMDa9Dskj8lOQti7/9ams1YLGqbL/grJsFK2Yfb
- UFWuvPr+n1t+60rm/q6b8ihFUFHu1/IrykmTT+abbLjt2amYwTtb5xf/hRNveB0FFNzlyk4b
- dvLInU+u25LMmrecOZUpldsu7Kt174u7PFpn/2VWv8spfZOZdiXGT+aum19lyd5arwvH9lwS
- 9J+0rfvPzbXuqQFzk/f/vuOuy2X28YaxhSn7702iSR79P+O/zn/Qfvv/0a+SLYeT5L9K5nfv
- qTnXnS55faHlpJUnEw0vx8t1HPy1siRp87VPBquUWIozEg21mIuKEwHP9fXZxQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPIsWRmVeSWpSXmKPExsWS2cA0Sbf72v9kg5P3rSxO3Gxks9j/9DmL
- xaqF19gszs86xWJxeOMZJov/v16xWqxZIWxxvHcHiwOHR8uRt6wei/e8ZPK4c20Pm8eTa5uZ
- PN7vu8rm8XmTXABbFJdNSmpOZllqkb5dAlfGxKmX2AouOlT0tfxha2C8odbFyMkhIWAi8fbt
- T+YuRi4OIYHVjBLtN6+xgCSEBD4ySvS+0oNILGWUeHRrNjNIgk1AUWJf13Y2EFtEwEji3Y1J
- jCA2s8AxJok9T8y6GDk4hAUSJbY+koUoSZLo7j/CDlO+b8VtJpASFgEVif2PUkDCvAJmEpee
- nGGGWFsuMePSFlaQEk4BR4kdrXUgYUYBMYnvp9YwQSwSl7j1ZD4TxPkCEkv2nGeGsEUlXj7+
- xwphK0rc//6SHaJeT+LG1ClsELadxIFZ36DmaEssW/iaGeIEQYmTM5+wQPRKShxccYNlAqPE
- LCTrZiEZNQvJqFlIRs1CMmoBI+sqRvHS4uLc9Ipio7zUcr3ixNzi0rx0veT83E2MwDg//e9w
- 9A7G27c+6h1iZOJgPMQowcGsJMK78PafZCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8L6MmxgsJ
- pCeWpGanphakFsFkmTg4pRqYKk3WR4e98JqZdYNXWU7V69jZX/PPBTXW5exe+WHBb//yH5rn
- dvonb3ezijvl9ef4i76Jm77fC/h5fL32Oj7ZQvNNG+8eahDQu+T25OeiRyfv+vvPrgmqfzFR
- zbP3U0aBbr/goZ2PZ3L+EPqu5PqN7yiH05o2/h1LxGe7Rv6/WjnV3vlVgLlyE3PH3Dsdh4JL
- DoSf6vVi/+j9Zn260wuNVEUZps/X6p2O/fQ0F5l2Sb9/m0/10pe+K7W6njfvrckzcGyxf7Pt
- 2zzRJ+6mPOZhqVMUP+xUMtD+6urLrXWe/byxVc2KgwobVeLbpG3z16pcnq02WafWsNm+55/g
- y1V8t2WskmJXT5x0bMHNOO3lSizFGYmGWsxFxYkAHu04F2IDAAA=
-X-CMS-MailID: 20230301224948uscas1p25eb7c2a56486532a290fe1bb63553cfd
+ 5PF+31U2j8+b5ALYorhsUlJzMstSi/TtErgyuvfuZitYKF7R2zWBsYGxW6iLkZNDQsBEoql1
+ CiuILSSwklHiyGTGLkYuILuVSWJK00EWmKLeD/uhEmsZJWZvvs4E4XxklHi9/C5UZimjxJOP
+ m8FmsQkoSuzr2s4GYosIGEm8uzEJrIhZ4BiTxMslV8GKhAWiJT5t+8sCURQj0bLnClARB1jD
+ hNmhIGEWARWJiXtPgM3hFTCTOLzlLRNICaeAo8S2HieQMKOAmMT3U2uYQGxmAXGJW0/mM0Fc
+ LSixaPYeZghbTOLfrodsELaixP3vL9kh6vUkbkydwgZh20lce/iKBcLWlli28DUzxFpBiZMz
+ n0BDQlLi4IobLCCvSAi84JDoOf8ZaqiLxPzZS9ghbGmJq9enMoPcKSGQLLHqIxdEOEdi/pIt
+ UHOsJRb+Wc80gVFlFpKzZyE5aRaSk2YhOWkWkpMWMLKuYhQvLS7OTU8tNspLLdcrTswtLs1L
+ 10vOz93ECExXp/8dzt/BeP3WR71DjEwcjIcYJTiYlUR4F97+kyzEm5JYWZValB9fVJqTWnyI
+ UZqDRUmc19D2ZLKQQHpiSWp2ampBahFMlomDU6qBaUrruvYFsu4HGUT7S49dshE/z/sj8c71
+ LNWJPiu6lunwTpWKXdTNrxS311VJxopPSGPS5mlZbhvurZfX1Lg6w3tyaJtE4zyhtCuTC769
+ TzrdcutGb33ZnG1ZLRq6K33yby9PezLB632fq0pYiGwRu1tr5VXRRVH14ol/dmytK965Yl9p
+ 1o0nRTbKPNsmXesOnhAg/f91553WxFNa9i59Wy+qTJA5FXx08p7muJSkLRE6+1bu4zY7NemW
+ 8qlvD00FHtzSVRURiPwur5kTGNl6YPv2s+XnDc8tW1zwL2/re4bFpxfpbzLIncDym9N4/8Sr
+ dw7PeGjlwxypnFzD9TGTI/RSefneVv5JSu9naz3oUWIpzkg01GIuKk4EAMSiPdHGAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRmVeSWpSXmKPExsWS2cA0Sffirf/JBlfXSlqcuNnIZrH/6XMW
+ i1ULr7FZnJ91isXi8MYzTBb/f71itVizQtjieO8OFgcOj5Yjb1k9Fu95yeRx59oeNo8n1zYz
+ ebzfd5XN4/MmuQC2KC6blNSczLLUIn27BK6M7r272QoWilf0dk1gbGDsFupi5OSQEDCR6P2w
+ n7GLkYtDSGA1o8TrlvnMEM5HRokTp+dDZZYySpz+Oo0dpIVNQFFiX9d2NhBbRMBI4t2NSYwg
+ NrPAMSaJPU/MQGxhgWiJT9v+skDUxEismLeOqYuRA6x+wuxQkDCLgIrExL0nwMbwCphJHN7y
+ lgnEFhIol+jZ3coCUs4p4CixrccJJMwoICbx/dQaJohN4hK3nsxngnhAQGLJnvPMELaoxMvH
+ /1ghbEWJ+99fskPU60ncmDqFDcK2k7j28BULhK0tsWzha2aIEwQlTs58wgLRKylxcMUNlgmM
+ ErOQrJuFZNQsJKNmIRk1C8moBYysqxjFS4uLc9Mrig3zUsv1ihNzi0vz0vWS83M3MQJj/fS/
+ w5E7GI/e+qh3iJGJg/EQowQHs5II78Lbf5KFeFMSK6tSi/Lji0pzUosPMUpzsCiJ8wq5TowX
+ EkhPLEnNTk0tSC2CyTJxcEo1MK25f+E009L+C+9NirLz5vvNOZaZUdBZm3a3v/PE/V3b3t/1
+ ObP+SdcdndQ/BWdmnn5guTqfUfVdwWX96xXzI3alnXFwcZ02LSKBb9UBJpUanwVzJ1e96+i0
+ ia74f3TZ1tdGj+PCeXNvnYo+nd6wM3RGQ8+CBUx5a3k3Hl3313kW38zWwH1x+UsY9c8cMmrY
+ cuufUfZq1btMqt8UlX8fckuS4ezI335s7+wZRzfu+XAud+apS3xLHvIsXn57ob35rDuRe6qu
+ 3rwR9/OCvOG3hQn5ch7v5ZX2fd4vL1L4NC+wpfD80zPTw1eb3ir9sfxNqXYXf8nrZH7ewOyv
+ vQIP48usjPlKilnn7f/o+jNmxlQeJZbijERDLeai4kQArJ8oTWQDAAA=
+X-CMS-MailID: 20230301230801uscas1p155098774d0f921b4fd8a1f683343481c
 CMS-TYPE: 301P
-X-CMS-RootMailID: 20230301224948uscas1p25eb7c2a56486532a290fe1bb63553cfd
+X-CMS-RootMailID: 20230301230801uscas1p155098774d0f921b4fd8a1f683343481c
 References: <20230227170311.20054-1-Jonathan.Cameron@huawei.com>
- <20230227170311.20054-2-Jonathan.Cameron@huawei.com>
- <CGME20230301224948uscas1p25eb7c2a56486532a290fe1bb63553cfd@uscas1p2.samsung.com>
+ <20230227170311.20054-3-Jonathan.Cameron@huawei.com>
+ <CGME20230301230801uscas1p155098774d0f921b4fd8a1f683343481c@uscas1p1.samsung.com>
 Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
  helo=mailout1.w2.samsung.com
 X-Spam_score_int: -43
@@ -139,214 +139,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 05:03:06PM +0000, Jonathan Cameron wrote:
-> Given the increasing usage of this mailbox return code type, now
-> is a good time to switch to QEMU style naming.
+On Mon, Feb 27, 2023 at 05:03:07PM +0000, Jonathan Cameron wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
 >=20
-> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> There are new users of this functionality coming shortly so factor
+> it out from the GET_TIMESTAMP mailbox command handling.
+>=20
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->=20
 
 Reviewed-by: Fan Ni <fan.ni@samsung.com>
 
-> --
-> v7: (thanks to Ira Weiny for review)
-> - Rename in place as the move to the header isn't needed for this series
->   That move patch will now be the start of the CXL events series that
->   will follow this one.
 > ---
->  hw/cxl/cxl-mailbox-utils.c | 64 +++++++++++++++++++-------------------
->  1 file changed, 32 insertions(+), 32 deletions(-)
+>  hw/cxl/cxl-device-utils.c   | 15 +++++++++++++++
+>  hw/cxl/cxl-mailbox-utils.c  | 11 +----------
+>  include/hw/cxl/cxl_device.h |  2 ++
+>  3 files changed, 18 insertions(+), 10 deletions(-)
 >=20
+> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+> index 4c5e88aaf5..86e1cea8ce 100644
+> --- a/hw/cxl/cxl-device-utils.c
+> +++ b/hw/cxl/cxl-device-utils.c
+> @@ -269,3 +269,18 @@ void cxl_device_register_init_common(CXLDeviceState =
+*cxl_dstate)
+> =20
+>      cxl_initialize_mailbox(cxl_dstate);
+>  }
+> +
+> +uint64_t cxl_device_get_timestamp(CXLDeviceState *cxl_dstate)
+> +{
+> +    uint64_t time, delta;
+> +    uint64_t final_time =3D 0;
+> +
+> +    if (cxl_dstate->timestamp.set) {
+> +        /* Find the delta from the last time the host set the time. */
+> +        time =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +        delta =3D time - cxl_dstate->timestamp.last_set;
+> +        final_time =3D cxl_dstate->timestamp.host_set + delta;
+> +    }
+> +
+> +    return final_time;
+> +}
 > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index ed663cc04a..7b2aef0d67 100644
+> index 7b2aef0d67..702e16ca20 100644
 > --- a/hw/cxl/cxl-mailbox-utils.c
 > +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -23,7 +23,7 @@
->   *     FOO    =3D 0x7f,
->   *          #define BAR 0
->   *  2. Implement the handler
-> - *    static ret_code cmd_foo_bar(struct cxl_cmd *cmd,
-> + *    static CXLRetCode cmd_foo_bar(struct cxl_cmd *cmd,
->   *                                  CXLDeviceState *cxl_dstate, uint16_t=
- *len)
->   *  3. Add the command to the cxl_cmd_set[][]
->   *    [FOO][BAR] =3D { "FOO_BAR", cmd_foo_bar, x, y },
-> @@ -90,10 +90,10 @@ typedef enum {
->      CXL_MBOX_UNSUPPORTED_MAILBOX =3D 0x15,
->      CXL_MBOX_INVALID_PAYLOAD_LENGTH =3D 0x16,
->      CXL_MBOX_MAX =3D 0x17
-> -} ret_code;
-> +} CXLRetCode;
-> =20
->  struct cxl_cmd;
-> -typedef ret_code (*opcode_handler)(struct cxl_cmd *cmd,
-> +typedef CXLRetCode (*opcode_handler)(struct cxl_cmd *cmd,
->                                     CXLDeviceState *cxl_dstate, uint16_t =
-*len);
->  struct cxl_cmd {
->      const char *name;
-> @@ -105,16 +105,16 @@ struct cxl_cmd {
-> =20
->  #define DEFINE_MAILBOX_HANDLER_ZEROED(name, size)                       =
-  \
->      uint16_t __zero##name =3D size;                                     =
-    \
-> -    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
-  \
-> -                               CXLDeviceState *cxl_dstate, uint16_t *len=
-) \
-> +    static CXLRetCode cmd_##name(struct cxl_cmd *cmd,                   =
-    \
-> +                                 CXLDeviceState *cxl_dstate, uint16_t *l=
-en) \
->      {                                                                   =
-  \
->          *len =3D __zero##name;                                          =
-    \
->          memset(cmd->payload, 0, *len);                                  =
-  \
->          return CXL_MBOX_SUCCESS;                                        =
-  \
->      }
->  #define DEFINE_MAILBOX_HANDLER_NOP(name)                                =
-  \
-> -    static ret_code cmd_##name(struct cxl_cmd *cmd,                     =
-  \
-> -                               CXLDeviceState *cxl_dstate, uint16_t *len=
-) \
-> +    static CXLRetCode cmd_##name(struct cxl_cmd *cmd,                   =
-    \
-> +                                 CXLDeviceState *cxl_dstate, uint16_t *l=
-en) \
->      {                                                                   =
-  \
->          return CXL_MBOX_SUCCESS;                                        =
-  \
->      }
-> @@ -125,9 +125,9 @@ DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_po=
-licy, 4);
->  DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
-> =20
->  /* 8.2.9.2.1 */
-> -static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
-> -                                             CXLDeviceState *cxl_dstate,
-> -                                             uint16_t *len)
-> +static CXLRetCode cmd_firmware_update_get_info(struct cxl_cmd *cmd,
-> +                                               CXLDeviceState *cxl_dstat=
-e,
-> +                                               uint16_t *len)
+> @@ -163,17 +163,8 @@ static CXLRetCode cmd_timestamp_get(struct cxl_cmd *=
+cmd,
+>                                      CXLDeviceState *cxl_dstate,
+>                                      uint16_t *len)
 >  {
->      struct {
->          uint8_t slots_supported;
-> @@ -159,9 +159,9 @@ static ret_code cmd_firmware_update_get_info(struct c=
-xl_cmd *cmd,
->  }
+> -    uint64_t time, delta;
+> -    uint64_t final_time =3D 0;
+> -
+> -    if (cxl_dstate->timestamp.set) {
+> -        /* First find the delta from the last time the host set the time=
+. */
+> -        time =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> -        delta =3D time - cxl_dstate->timestamp.last_set;
+> -        final_time =3D cxl_dstate->timestamp.host_set + delta;
+> -    }
+> +    uint64_t final_time =3D cxl_device_get_timestamp(cxl_dstate);
 > =20
->  /* 8.2.9.3.1 */
-> -static ret_code cmd_timestamp_get(struct cxl_cmd *cmd,
-> -                                  CXLDeviceState *cxl_dstate,
-> -                                  uint16_t *len)
-> +static CXLRetCode cmd_timestamp_get(struct cxl_cmd *cmd,
-> +                                    CXLDeviceState *cxl_dstate,
-> +                                    uint16_t *len)
->  {
->      uint64_t time, delta;
->      uint64_t final_time =3D 0;
-> @@ -181,7 +181,7 @@ static ret_code cmd_timestamp_get(struct cxl_cmd *cmd=
-,
->  }
+> -    /* Then adjust the actual time */
+>      stq_le_p(cmd->payload, final_time);
+>      *len =3D 8;
 > =20
->  /* 8.2.9.3.2 */
-> -static ret_code cmd_timestamp_set(struct cxl_cmd *cmd,
-> +static CXLRetCode cmd_timestamp_set(struct cxl_cmd *cmd,
->                                    CXLDeviceState *cxl_dstate,
->                                    uint16_t *len)
->  {
-> @@ -201,9 +201,9 @@ static const QemuUUID cel_uuid =3D {
->  };
+> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> index edb9791bab..02befda0f6 100644
+> --- a/include/hw/cxl/cxl_device.h
+> +++ b/include/hw/cxl/cxl_device.h
+> @@ -287,4 +287,6 @@ MemTxResult cxl_type3_read(PCIDevice *d, hwaddr host_=
+addr, uint64_t *data,
+>  MemTxResult cxl_type3_write(PCIDevice *d, hwaddr host_addr, uint64_t dat=
+a,
+>                              unsigned size, MemTxAttrs attrs);
 > =20
->  /* 8.2.9.4.1 */
-> -static ret_code cmd_logs_get_supported(struct cxl_cmd *cmd,
-> -                                       CXLDeviceState *cxl_dstate,
-> -                                       uint16_t *len)
-> +static CXLRetCode cmd_logs_get_supported(struct cxl_cmd *cmd,
-> +                                         CXLDeviceState *cxl_dstate,
-> +                                         uint16_t *len)
->  {
->      struct {
->          uint16_t entries;
-> @@ -224,9 +224,9 @@ static ret_code cmd_logs_get_supported(struct cxl_cmd=
- *cmd,
->  }
-> =20
->  /* 8.2.9.4.2 */
-> -static ret_code cmd_logs_get_log(struct cxl_cmd *cmd,
-> -                                 CXLDeviceState *cxl_dstate,
-> -                                 uint16_t *len)
-> +static CXLRetCode cmd_logs_get_log(struct cxl_cmd *cmd,
-> +                                   CXLDeviceState *cxl_dstate,
-> +                                   uint16_t *len)
->  {
->      struct {
->          QemuUUID uuid;
-> @@ -265,9 +265,9 @@ static ret_code cmd_logs_get_log(struct cxl_cmd *cmd,
->  }
-> =20
->  /* 8.2.9.5.1.1 */
-> -static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
-> -                                           CXLDeviceState *cxl_dstate,
-> -                                           uint16_t *len)
-> +static CXLRetCode cmd_identify_memory_device(struct cxl_cmd *cmd,
-> +                                             CXLDeviceState *cxl_dstate,
-> +                                             uint16_t *len)
->  {
->      struct {
->          char fw_revision[0x10];
-> @@ -309,9 +309,9 @@ static ret_code cmd_identify_memory_device(struct cxl=
-_cmd *cmd,
->      return CXL_MBOX_SUCCESS;
->  }
-> =20
-> -static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
-> -                                           CXLDeviceState *cxl_dstate,
-> -                                           uint16_t *len)
-> +static CXLRetCode cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
-> +                                              CXLDeviceState *cxl_dstate=
-,
-> +                                              uint16_t *len)
->  {
->      struct {
->          uint64_t active_vmem;
-> @@ -339,9 +339,9 @@ static ret_code cmd_ccls_get_partition_info(struct cx=
-l_cmd *cmd,
->      return CXL_MBOX_SUCCESS;
->  }
-> =20
-> -static ret_code cmd_ccls_get_lsa(struct cxl_cmd *cmd,
-> -                                 CXLDeviceState *cxl_dstate,
-> -                                 uint16_t *len)
-> +static CXLRetCode cmd_ccls_get_lsa(struct cxl_cmd *cmd,
-> +                                   CXLDeviceState *cxl_dstate,
-> +                                   uint16_t *len)
->  {
->      struct {
->          uint32_t offset;
-> @@ -364,9 +364,9 @@ static ret_code cmd_ccls_get_lsa(struct cxl_cmd *cmd,
->      return CXL_MBOX_SUCCESS;
->  }
-> =20
-> -static ret_code cmd_ccls_set_lsa(struct cxl_cmd *cmd,
-> -                                 CXLDeviceState *cxl_dstate,
-> -                                 uint16_t *len)
-> +static CXLRetCode cmd_ccls_set_lsa(struct cxl_cmd *cmd,
-> +                                   CXLDeviceState *cxl_dstate,
-> +                                   uint16_t *len)
->  {
->      struct set_lsa_pl {
->          uint32_t offset;
+> +uint64_t cxl_device_get_timestamp(CXLDeviceState *cxlds);
+> +
+>  #endif
 > --=20
 > 2.37.2
 >=20
->=20
+> =
 
