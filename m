@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45E496A75DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:08:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8466A75DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:09:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXTgF-0003tU-At; Wed, 01 Mar 2023 16:08:07 -0500
+	id 1pXTgj-0004PQ-AF; Wed, 01 Mar 2023 16:08:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXTgD-0003tK-Of
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:08:05 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXTgh-0004Ll-BC
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:08:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXTgB-0007JJ-O8
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:08:05 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXTgf-0007S9-Nl
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:08:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677704882;
+ s=mimecast20190719; t=1677704913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RAggOQHsrgTTrxGAn50qC31Nkm/K+Q8AxEy3yqbTA3Y=;
- b=MLT7LSXqFby9/OeDiGoNptL+Rgs+PCGVMkNDDS/jb2/o2bEwwhIo9eCIznDKauQd69au+I
- /8obdLALp6aom+rpRwEzNiHNm+/28ucyhBJG6IKPLLCii+FfW0gGE3b1WDDxjXZK9BbyNv
- nh6xG9kJNrjGv6Qaelg/AWWg3VoL/LQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CwJM6EV+NZ573/WsyVyTFBl18QW89Ii+o62SEmExYIo=;
+ b=Mj20khr8eQ/Vnk58haio6oOmitFS3+0nPny8hIlcf2eG5YS3uNMDFDZEO5DZZUdXKwHIQ/
+ u7yPWxj38EhL5N+l5fa0t9/mWwgaEZ8G7Y7ccrfjTfPiLkrbjKRc4dB8BMuKeksoyUGian
+ NJMD9aXbBQ/s2+Ef7/F8an3auHEkqnE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-654-FisExeRvNw2Z2L6eYufCrw-1; Wed, 01 Mar 2023 16:08:01 -0500
-X-MC-Unique: FisExeRvNw2Z2L6eYufCrw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n27-20020a05600c3b9b00b003e9ca0f4677so199210wms.8
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 13:08:01 -0800 (PST)
+ us-mta-172-ZwufVvx2M9ag62EnHL2hcw-1; Wed, 01 Mar 2023 16:08:31 -0500
+X-MC-Unique: ZwufVvx2M9ag62EnHL2hcw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i18-20020a05600011d200b002c94d861113so2772660wrx.16
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 13:08:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677704880;
+ d=1e100.net; s=20210112; t=1677704909;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RAggOQHsrgTTrxGAn50qC31Nkm/K+Q8AxEy3yqbTA3Y=;
- b=AtV+4DZjUmENHprv2LgP1Dp0nftC3iqfgc2If9UnsPOK0P3hRyKz0US/najNspEV5b
- 8n88sOUCK8kFmhu1s5iKZgVJwGO+RvkkXn72DxhLa9dvCwvs/eyNWDztp86LKewZ4qZy
- cg4N8TaTnbAwCy27dC0GVmP2+RiFgyImza4DtE21akp4rI0ZCiFChBLfDIPwKMwa1zHA
- FonEYchXmdLEB2jzp0FEXLzbZraIH8bLWq+qqL18Nz3PvXcKZiPwnhdVVdMoIED33szd
- hcTKcVH1nz7KZxqCtAEg8MLcrSaB3DAS9vYCdDrTVKw+REv/pEv7jUJ6/XHk8SLjJD60
- JAXA==
-X-Gm-Message-State: AO0yUKWoMxwmuV9FZGLdE2qQGMWrwCC2Spq+7MRz02FIx52vV478w3JK
- KZmmC4L0FNf6TT8jYaCKNeFv6z5sRUuPuiXeEcgW/2Yf3akYVzoGCY0/vUc4q/jJ7giAkUqBtHz
- PrROTWKGoDDp+5+4=
-X-Received: by 2002:adf:f405:0:b0:2c7:2cf4:baff with SMTP id
- g5-20020adff405000000b002c72cf4baffmr6610054wro.70.1677704880121; 
- Wed, 01 Mar 2023 13:08:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set9PlvA74njpit57scCWH6hRBnecJokoJfkC1wYdUTdOjnjya/qHDAV8HM0csS64Brdj2UO2Xw==
-X-Received: by 2002:adf:f405:0:b0:2c7:2cf4:baff with SMTP id
- g5-20020adff405000000b002c72cf4baffmr6610040wro.70.1677704879783; 
- Wed, 01 Mar 2023 13:07:59 -0800 (PST)
+ bh=CwJM6EV+NZ573/WsyVyTFBl18QW89Ii+o62SEmExYIo=;
+ b=yIJJ+7tByjmUaMDEmu8SP6r2ah+5Jz35aiqGZE2YwuJu2fl+hHiNGYCDbBqv11GmPG
+ 05Auy79FZW0FNzB5EyfGeTByPOE8gZzQXP5OjfaCNclua7sap0ch4ccH3eCRyV8E1V8E
+ Cmy1Qlysixv1fuDQN0Hye9bodNHa42FMHjxrK6e1ikjvdxSQCxoi+0i5yoZrpnctaLUv
+ g0SdPgJ1QpnTYIZkSsX6EAwDjV2uaG2L71n1aKnU8N3hwuh7GbuEeWqm89HzwrvuCoTs
+ 0qu5C+CaytBUSVyLUYGpjwu40vU08NMa9FaUeKZfsBfSdalJz+khymfXvokeZYgxaSsj
+ g0SQ==
+X-Gm-Message-State: AO0yUKXCFZrXOMHbzJDaPB3W7a+yZLfEGGfScDj+Hf2gnD0w+LqTdEUw
+ WG4gt6j+QGSRRtXbyPVY971o7ie95aUrYPaEErJ3ZpZpAEfzPWOKccsvsWA0pbfhK6dDAWiGA0K
+ 9BOCDI1eMd3mK5ZM=
+X-Received: by 2002:a05:600c:997:b0:3eb:39e0:3530 with SMTP id
+ w23-20020a05600c099700b003eb39e03530mr5902564wmp.41.1677704909755; 
+ Wed, 01 Mar 2023 13:08:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Xgs6v00k/CFIfKmqp6t137szU4B2VPl6efo2c/MuxUKC14o4n6Q8F6lC3NjuGwKlAAwhXXw==
+X-Received: by 2002:a05:600c:997:b0:3eb:39e0:3530 with SMTP id
+ w23-20020a05600c099700b003eb39e03530mr5902550wmp.41.1677704909355; 
+ Wed, 01 Mar 2023 13:08:29 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- y18-20020adffa52000000b002c55efa9cbesm13267555wrr.39.2023.03.01.13.07.56
+ o6-20020a1c7506000000b003dc522dd25esm663593wmc.30.2023.03.01.13.08.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 13:07:59 -0800 (PST)
-Date: Wed, 1 Mar 2023 16:07:54 -0500
+ Wed, 01 Mar 2023 13:08:28 -0800 (PST)
+Date: Wed, 1 Mar 2023 16:08:24 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, eblake@redhat.com,
  eduardo@habkost.net, berrange@redhat.com, pbonzini@redhat.com,
  marcel.apfelbaum@gmail.com, philmd@linaro.org,
  den-plotnikov@yandex-team.ru, antonkuchin@yandex-team.ru
-Subject: Re: [PATCH v5 18/18] qapi: introduce DEVICE_ON event
-Message-ID: <20230301160635-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v5 14/18] qapi/qdev.json: unite DEVICE_* event data into
+ single structure
+Message-ID: <20230301160809-mutt-send-email-mst@kernel.org>
 References: <20230216180356.156832-1-vsementsov@yandex-team.ru>
- <20230216180356.156832-19-vsementsov@yandex-team.ru>
+ <20230216180356.156832-15-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230216180356.156832-19-vsementsov@yandex-team.ru>
+In-Reply-To: <20230216180356.156832-15-vsementsov@yandex-team.ru>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -98,115 +99,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 16, 2023 at 09:03:56PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> We have DEVICE_DELETED event, that signals that device_del command is
-> actually completed. But we don't have a counter-part for device_add.
-> Still it's sensible for SHPC and PCIe-native hotplug, as there are time
-> when the device in some intermediate state. Let's add an event that say
-> that the device is finally powered on, power indicator is on and
-> everything is OK for next manipulation on that device.
+On Thu, Feb 16, 2023 at 09:03:52PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> DEVICE_DELETED and DEVICE_UNPLUG_GUEST_ERROR has equal data, let's
+> refactor it to one structure. That also helps to add new events
+> consistently.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-I don't much mind though a bit more motivation would be nice.
-How is this going to be used? When does management care?
-
-Meanwhile, for the schema - can this one get ACKs from QAPI maintainers please?
-
+Needs ack from QAPI maintainers.
 
 > ---
->  qapi/qdev.json | 10 ++++++++++
->  hw/pci/pcie.c  | 14 ++++++++++++++
->  hw/pci/shpc.c  | 12 ++++++++++++
->  3 files changed, 36 insertions(+)
+>  qapi/qdev.json | 39 +++++++++++++++++++++++++++------------
+>  1 file changed, 27 insertions(+), 12 deletions(-)
 > 
 > diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index 6f2d8d6647..116a8a7de8 100644
+> index 2708fb4e99..135cd81586 100644
 > --- a/qapi/qdev.json
 > +++ b/qapi/qdev.json
-> @@ -348,3 +348,13 @@
->  { 'command': 'query-hotplug',
->    'data': { 'id': 'str' },
->    'returns': 'HotplugInfo' }
-> +
-> +##
-> +# @DEVICE_ON:
+> @@ -114,16 +114,37 @@
+>  { 'command': 'device_del', 'data': {'id': 'str'} }
+>  
+>  ##
+> -# @DEVICE_DELETED:
+> +# @DeviceAndPath:
+>  #
+> -# Emitted whenever the device removal completion is acknowledged by the guest.
+> -# At this point, it's safe to reuse the specified device ID. Device removal can
+> -# be initiated by the guest or by HMP/QMP commands.
+> +# In events we designate devices by both their ID (if the device has one)
+> +# and QOM path.
 > +#
-> +# Emitted whenever the device insertion completion is acknowledged by the guest.
-> +# For now only emitted for SHPC and PCIe-native hotplug.
+> +# Why we need ID? User specify ID in device_add command and in command line
+> +# and expects same identifier in the event data.
 > +#
+> +# Why we need QOM path? Some devices don't have ID and we still want to emit
+> +# events for them.
+> +#
+> +# So, we have a bit of redundancy, as QOM path for device that has ID is
+> +# always /machine/peripheral/ID. But that's hard to change keeping both
+> +# simple interface for most users and universality for the generic case.
+>  #
+>  # @device: the device's ID if it has one
+>  #
+>  # @path: the device's QOM path
+>  #
 > +# Since: 8.0
 > +##
-> +{ 'event': 'DEVICE_ON', 'data': 'DeviceAndPath' }
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index 636f962a23..4297e4e8dc 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -22,6 +22,7 @@
->  
->  #include "monitor/qdev.h"
->  #include "qapi/error.h"
-> +#include "qapi/qapi-events-qdev.h"
->  #include "hw/pci/pci_bridge.h"
->  #include "hw/pci/pcie.h"
->  #include "hw/pci/msix.h"
-> @@ -47,6 +48,13 @@ static bool pcie_sltctl_powered_off(uint16_t sltctl)
->          && (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_OFF;
->  }
->  
-> +static bool pcie_sltctl_powered_on(uint16_t sltctl)
-> +{
-> +    return (sltctl & PCI_EXP_SLTCTL_PCC) == PCI_EXP_SLTCTL_PWR_ON &&
-> +        (sltctl & PCI_EXP_SLTCTL_PIC) == PCI_EXP_SLTCTL_PWR_IND_ON &&
-> +        (sltctl & PCI_EXP_SLTCTL_AIC) == PCI_EXP_SLTCTL_ATTN_IND_OFF;
-> +}
+> +{ 'struct': 'DeviceAndPath',
+> +  'data': { '*device': 'str', 'path': 'str' } }
 > +
->  static LedActivity pcie_led_state_to_qapi(uint16_t value)
->  {
->      switch (value) {
-> @@ -816,6 +824,12 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
->          qdev_hotplug_state_event(DEVICE(dev), NULL, child_dev, &changed_state);
->      }
+> +##
+> +# @DEVICE_DELETED:
+> +#
+> +# Emitted whenever the device removal completion is acknowledged by the guest.
+> +# At this point, it's safe to reuse the specified device ID. Device removal can
+> +# be initiated by the guest or by HMP/QMP commands.
+> +#
+>  # Since: 1.5
+>  #
+>  # Example:
+> @@ -134,18 +155,13 @@
+>  #      "timestamp": { "seconds": 1265044230, "microseconds": 450486 } }
+>  #
+>  ##
+> -{ 'event': 'DEVICE_DELETED',
+> -  'data': { '*device': 'str', 'path': 'str' } }
+> +{ 'event': 'DEVICE_DELETED', 'data': 'DeviceAndPath' }
 >  
-> +    if ((sltsta & PCI_EXP_SLTSTA_PDS) && pcie_sltctl_powered_on(val) &&
-> +        !pcie_sltctl_powered_on(old_slt_ctl) && child_dev)
-> +    {
-> +        qapi_event_send_device_on(child_dev->id, child_dev->canonical_path);
-> +    }
-> +
->      /*
->       * If the slot is populated, power indicator is off and power
->       * controller is off, it is safe to detach the devices.
-> diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-> index 6a4f93949d..380b2b83b3 100644
-> --- a/hw/pci/shpc.c
-> +++ b/hw/pci/shpc.c
-> @@ -299,6 +299,12 @@ static bool shpc_slot_is_off(uint8_t state, uint8_t power, uint8_t attn)
->      return state == SHPC_STATE_DISABLED && power == SHPC_LED_OFF;
->  }
->  
-> +static bool shpc_slot_is_on(uint8_t state, uint8_t power, uint8_t attn)
-> +{
-> +    return state == SHPC_STATE_ENABLED && power == SHPC_LED_ON &&
-> +        attn == SHPC_LED_OFF;
-> +}
-> +
->  static void shpc_slot_command(PCIDevice *d, uint8_t target,
->                                uint8_t state, uint8_t power, uint8_t attn)
->  {
-> @@ -366,6 +372,12 @@ static void shpc_slot_command(PCIDevice *d, uint8_t target,
->              SHPC_SLOT_EVENT_MRL |
->              SHPC_SLOT_EVENT_PRESENCE;
->      }
-> +
-> +    if (!shpc_slot_is_on(old_state, old_power, old_attn) &&
-> +        shpc_slot_is_on(state, power, attn) && child_dev)
-> +    {
-> +        qapi_event_send_device_on(child_dev->id, child_dev->canonical_path);
-> +    }
->  }
->  
->  static void shpc_command(PCIDevice *d)
+>  ##
+>  # @DEVICE_UNPLUG_GUEST_ERROR:
+>  #
+>  # Emitted when a device hot unplug fails due to a guest reported error.
+>  #
+> -# @device: the device's ID if it has one
+> -#
+> -# @path: the device's QOM path
+> -#
+>  # Since: 6.2
+>  #
+>  # Example:
+> @@ -156,5 +172,4 @@
+>  #      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
+>  #
+>  ##
+> -{ 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
+> -  'data': { '*device': 'str', 'path': 'str' } }
+> +{ 'event': 'DEVICE_UNPLUG_GUEST_ERROR', 'data': 'DeviceAndPath' }
 > -- 
 > 2.34.1
 
