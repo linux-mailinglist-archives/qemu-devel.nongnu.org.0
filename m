@@ -2,93 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3481F6A7630
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4AE6A763C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:37:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXU39-0002tg-BB; Wed, 01 Mar 2023 16:31:47 -0500
+	id 1pXU7C-00057c-Sx; Wed, 01 Mar 2023 16:35:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXU32-0002sd-8A
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:31:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXU30-0007Tl-O6
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:31:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677706295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uiNCerQo3l7CeVmG/GS4pA6rN3/iU/2bumjYtChVESE=;
- b=a1WCYRl4o+l6V+mJL6EUWii0fgORgVTd8XHAQrMVqcvdii3uSIsY1AlimEE2rMx96BeK1l
- Ka66ZWz/myKUULQzczd+zW1XZUZa7M+ptL42DwIP4QC1v7bD/9qjSMl2uD2fD7RrRT0n6e
- X82+OMBl40Ino42PnhDk4SffdmMwPVU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-440-vD0nAPZvOfCWd2JRHf32bw-1; Wed, 01 Mar 2023 16:31:33 -0500
-X-MC-Unique: vD0nAPZvOfCWd2JRHf32bw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- bh3-20020a05600005c300b002c70d6e2014so2851231wrb.10
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 13:31:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pXU73-0004w7-U1
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:35:53 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1pXU70-0000Dy-9Z
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:35:49 -0500
+Received: by mail-pg1-x536.google.com with SMTP id y19so8617542pgk.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 13:35:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112; t=1677706543;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=ME0fUxKCw5pLDPo2HIFL7NkgZLBrJZgmc8oJHeOcSGE=;
+ b=awaJbygHf7Uv7sDL5Y6+ZjRG02Unmooy8Q9fHYDjq3v9S29V+DlfDluGFC9mcyN5ts
+ umRVzEmwBqtDXbbo72ElTZ3DmeOcfNQjCy0kK+i8V0fzGp+7SPZG6jY6iaMkYha2sQ/V
+ VLiTu+sitMP/LA6uWkJWFV7lm7tD5ZbP1DnPj2qrRVbmqOrZ2ivJ+Vjk8R4SMiJIye5B
+ Ez59mvNyg2q1c2n7iamzKqc7BsacwIA26dDiG+Z0kr10yrpV4rvVaxR6QmWrFafFULEK
+ 85w/pYXnxGp6p4Idg8A5Ieokcst7nO5Ve2UZwR4NKbv4bL2Acm0Reez+p+THxPrMYExY
+ VtIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677706292;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uiNCerQo3l7CeVmG/GS4pA6rN3/iU/2bumjYtChVESE=;
- b=SUzYFow1m6RAG3IGsMCnoVPek6Q529t7Jfzta48ADznX3lfcnWyx+2BC9/m7H2bmMI
- vTAb0mNfyyPPbCoMr5doRhOQpDJlDThErBnPMrg6Rj1l94jJDrV3zPc1QtmntHlGfudj
- umvs4gkFY3jLlSOlJqBpaB0h5pYJXmK55vbDG9/e+2xoZY1IWSk3qGIu1q/zMxqQI7Y1
- 8dTa2YMh+DoQKoms899RMWQ6q0CyMebvBZxmYgBow67B8GWpq/3NxZ8GVl42LORmi/Zv
- B16KXeESD8gIAUXeIf6H4ehgQYLpgFxUjaHf8OyoPck7X0blSvACC2hI8LSMte7XgQnw
- H8CQ==
-X-Gm-Message-State: AO0yUKXien1VJd6OH4YeIERJ3qF2vWqXsOfFEOBi0fl8Car7/Ema6q2Z
- C/EXUduoAM8dF0skhVhhS2BFZH/ej0bKzjE2XQDqLTLKK9LUbCj7kEj1/Yc9XOiVwpswNnx8nkS
- uwpDymKItefEcHDQ=
-X-Received: by 2002:a5d:4051:0:b0:2c7:1aaa:2b49 with SMTP id
- w17-20020a5d4051000000b002c71aaa2b49mr5636187wrp.23.1677706292416; 
- Wed, 01 Mar 2023 13:31:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set8viHf2yYcjo0e4YQLUDQ6DcSdycuaNzaBQ0nyUHbfo0kpNrg0fo8KIIX5yInZoiN759mq4tA==
-X-Received: by 2002:a5d:4051:0:b0:2c7:1aaa:2b49 with SMTP id
- w17-20020a5d4051000000b002c71aaa2b49mr5636171wrp.23.1677706292085; 
- Wed, 01 Mar 2023 13:31:32 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- d18-20020adfe892000000b002c707b336c9sm13650534wrm.36.2023.03.01.13.31.29
+ d=1e100.net; s=20210112; t=1677706543;
+ h=content-transfer-encoding:mime-version:message-id:to:from:cc
+ :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ME0fUxKCw5pLDPo2HIFL7NkgZLBrJZgmc8oJHeOcSGE=;
+ b=pR/0HeDmsaBCz6thRqJsc9AneDhExwFh1qn4s0cM5ndd9Rbj6JE8xycWtbUue43EPz
+ qNYUTmrdAqU/34sgIXnwkDchhVjFsiuGLIGFYwq8A866bf+OdC9xuMazsnG0DfhUuyHa
+ /8mGEQZRYbjt3nPIXcCBACqNVE4DxeYWiguCpb9QMPJD7TP1ClGH+s5vwQz7/PrI/e6V
+ 7L56fr8IGP4e7HPMQP3hfj8gQm7IVhffM+urhe74j1/T2Q+Np9ODq+BCV4MogLVWoPix
+ aTTlERA+3jGVpVr4BJ9S7T3IsHPtTpMjG/gvec1WYlNguxOEDd8kMcmEwA6bpfdEjSkP
+ SUHg==
+X-Gm-Message-State: AO0yUKWFNihgIqmA0SQWRQjXlFmbfl/7w0E62Yk2Quv3/iGsPXDs6PJj
+ eV7j3Mrs7cpEBJfKwlKOsPQ+ANILHGTB2JwC
+X-Google-Smtp-Source: AK7set8QqQv+s5cedzFC2OinLFClnOlqsfNfHda4DwkPAvbRfTpdI8SDBAaltBdRnUOCaqnvOly2zw==
+X-Received: by 2002:aa7:9805:0:b0:5aa:4df7:7eef with SMTP id
+ e5-20020aa79805000000b005aa4df77eefmr7532281pfl.6.1677706542976; 
+ Wed, 01 Mar 2023 13:35:42 -0800 (PST)
+Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
+ e1-20020a635441000000b004fbfefd5183sm620680pgm.80.2023.03.01.13.35.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 13:31:31 -0800 (PST)
-Date: Wed, 1 Mar 2023 16:31:27 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Ani Sinha <ani@anisinha.ca>, Eduardo Habkost <eduardo@habkost.net>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 12/12] hw: Move ich9.h to southbridge/
-Message-ID: <20230301162609-mutt-send-email-mst@kernel.org>
-References: <20230213173033.98762-1-shentey@gmail.com>
- <20230213173033.98762-13-shentey@gmail.com>
- <554823d7-7437-d164-a93c-29faeef7857e@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ Wed, 01 Mar 2023 13:35:42 -0800 (PST)
+Date: Wed, 01 Mar 2023 13:35:42 -0800 (PST)
+X-Google-Original-Date: Wed, 01 Mar 2023 12:29:07 PST (-0800)
+Subject: Re: [PATCH v7 0/4] riscv: Add support for Zicbo[m,z,p] instructions
+In-Reply-To: <20230223234427.521114-1-dbarboza@ventanamicro.com>
+CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, bmeng@tinylab.org,
+ liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
+ Richard Henderson <richard.henderson@linaro.org>, dbarboza@ventanamicro.com
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: dbarboza@ventanamicro.com
+Message-ID: <mhng-1fd4c381-8371-4adc-b597-b4bc05f7afec@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <554823d7-7437-d164-a93c-29faeef7857e@linaro.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=palmer@rivosinc.com; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,35 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Feb 27, 2023 at 01:22:37PM +0100, Philippe Mathieu-Daudé wrote:
-> On 13/2/23 18:30, Bernhard Beschow wrote:
-> > ICH9 is a south bridge which doesn't necessarily depend on x86, so move
-> > it into the southbridge folder, analoguous to PIIX.
-> 
-> However it is still tied to it due to:
-> 
-> hw/isa/lpc_ich9.c:315:    cpu_interrupt(first_cpu, CPU_INTERRUPT_SMI);
-> hw/isa/lpc_ich9.c:462:                cpu_interrupt(cs, CPU_INTERRUPT_SMI);
-> hw/isa/lpc_ich9.c:465:            cpu_interrupt(current_cpu,
-> CPU_INTERRUPT_SMI);
-> target/i386/cpu.h:1145:#define CPU_INTERRUPT_SMI CPU_INTERRUPT_TGT_EXT_2
+On Thu, 23 Feb 2023 15:44:23 PST (-0800), dbarboza@ventanamicro.com wrote:
+> Hi,
+>
+> This new version has changes based on feedbacks of both v5 and v6.
+>
+> Patch 1 was revamped. We're modifying probe_access_flags() to accept a
+> 'size' parameter to allow for RISC-V usage with PMP. Changes in the existing
+> callers are trivial and no behavior change is done (well, at least it's not
+> intended). And we avoid adding another  probe_* API that only RISC-V
+> will care about.
+>
+> Changes from v6:
+> - patch 1:
+>   - no longer adding a new probe_access_flags_range() API
+>   - add a 'size' param to probe_access_flags()
+> - patch 2:
+>   - check for RISCV_EXCP_ILLEGAL_INST first in check_zicbo_envcfg()
+>   - add a probe for MMU_DATA_STORE after check_zicbo_envcfg()
+>   - write zeros even if the address isn't mapped to RAM
+> - patch 3:
+>   - simplify the verifications in check_zicbom_access() by using probe_write()
+> - v6 link: https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg05379.html
+>
+> Christoph Muellner (3):
+>   target/riscv: implement Zicboz extension
+>   target/riscv: implement Zicbom extension
+>   target/riscv: add Zicbop cbo.prefetch{i,r,m} placeholder
+>
+> Daniel Henrique Barboza (1):
+>   tcg: add 'size' param to probe_access_flags()
+>
+>  accel/stubs/tcg-stub.c                      |   2 +-
+>  accel/tcg/cputlb.c                          |  17 ++-
+>  accel/tcg/user-exec.c                       |   5 +-
+>  include/exec/exec-all.h                     |   3 +-
+>  semihosting/uaccess.c                       |   2 +-
+>  target/arm/ptw.c                            |   2 +-
+>  target/arm/sve_helper.c                     |   2 +-
+>  target/riscv/cpu.c                          |   7 ++
+>  target/riscv/cpu.h                          |   4 +
+>  target/riscv/helper.h                       |   5 +
+>  target/riscv/insn32.decode                  |  16 ++-
+>  target/riscv/insn_trans/trans_rvzicbo.c.inc |  57 +++++++++
+>  target/riscv/op_helper.c                    | 132 ++++++++++++++++++++
+>  target/riscv/translate.c                    |   1 +
+>  target/s390x/tcg/mem_helper.c               |   6 +-
+>  15 files changed, 247 insertions(+), 14 deletions(-)
+>  create mode 100644 target/riscv/insn_trans/trans_rvzicbo.c.inc
 
-I guess at least the commit log should be changed then.
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-
-> > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> > ---
-> >   MAINTAINERS                             | 1 +
-> >   include/hw/{i386 => southbridge}/ich9.h | 6 +++---
-> >   hw/acpi/ich9.c                          | 2 +-
-> >   hw/acpi/ich9_tco.c                      | 2 +-
-> >   hw/i2c/smbus_ich9.c                     | 2 +-
-> >   hw/i386/acpi-build.c                    | 2 +-
-> >   hw/i386/pc_q35.c                        | 2 +-
-> >   hw/isa/lpc_ich9.c                       | 2 +-
-> >   hw/pci-bridge/i82801b11.c               | 2 +-
-> >   tests/qtest/tco-test.c                  | 2 +-
-> >   10 files changed, 12 insertions(+), 11 deletions(-)
-> >   rename include/hw/{i386 => southbridge}/ich9.h (99%)
-
+in case Richard wants to take these along with the TCG patch, otherwise 
+I'm happy to take these through the RISC-V tree when that lands (or do 
+some sort of shared tag, as we're getting kind of close).
 
