@@ -2,55 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8886A6CF5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5776A6CFB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:22:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXMMc-0004BN-Cu; Wed, 01 Mar 2023 08:19:22 -0500
+	id 1pXMPO-0006Nk-DM; Wed, 01 Mar 2023 08:22:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXMME-00044D-EZ; Wed, 01 Mar 2023 08:18:59 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXMMC-0001fT-1x; Wed, 01 Mar 2023 08:18:58 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id E7F10746324;
- Wed,  1 Mar 2023 14:18:50 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E0B567457E7; Wed,  1 Mar 2023 14:18:42 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id DF07A745720;
- Wed,  1 Mar 2023 14:18:42 +0100 (CET)
-Date: Wed, 1 Mar 2023 14:18:42 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Woodhouse <dwmw2@infradead.org>
-cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org, 
- ReneEngel80@emailn.de
-Subject: Re: [PATCH v5 5/7] hw/isa/vt82c686: Work around missing level
- sensitive irq in i8259 model
-In-Reply-To: <943866390436e3c8828fea3e8cec117ae8553887.camel@infradead.org>
-Message-ID: <1c9daa28-b4b0-5227-ea94-90035a8bed7a@eik.bme.hu>
-References: <cover.1677628524.git.balaton@eik.bme.hu>
- <cd0b323bb88df202e36014f950c0eb13a9fafd54.1677628524.git.balaton@eik.bme.hu>
- <CC88085A-C269-4BCF-8CFD-EB3B457533C9@gmail.com>
- <6502f6bd-029c-25a8-49ec-e61784c64db5@eik.bme.hu>
- <943866390436e3c8828fea3e8cec117ae8553887.camel@infradead.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pXMPB-0006NS-6p
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:22:02 -0500
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pXMP9-0002Xc-H4
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:22:00 -0500
+Received: by mail-lj1-x235.google.com with SMTP id z42so13890097ljq.13
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 05:21:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677676915;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DJbfMrOgKHfSZYYumhZ1jttKH8wUuiPiyHZ15Vge4Lw=;
+ b=bw37Bc/yieZ0iAA1pXkxNgd2o4xXc/4LmFRF2E480GrKEiwJUUO4maawyZozZiatyj
+ 4IVqKaMiA3IK6wyNRCw63nTG2c88CmwpnaBsH1pxNtNcJcsmhsyWM0t9PviiS5MI6fht
+ gqy3BU6Mdv6Hj8CF924RUv2NSVv3IjXO66LJO3o8nOZxa/WNivmV7IQ4llRpJzRGas2N
+ h1DCPbRhAYL43l6P2YDoPcTypYYcy9DUtssyJVSOeSzQNTHLrDmpU6/VHBENdndL4DmA
+ 4A4SSmvUgC+ugVTdt8sNopmtFIFoynnPELt0IVaKxiNHV+wrbQuHbCKnT6lx4gzNP/cg
+ GXfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677676915;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DJbfMrOgKHfSZYYumhZ1jttKH8wUuiPiyHZ15Vge4Lw=;
+ b=soIRQcqDnZZtQblfjHLbel3Yi20irpKdgNlJV7spvr6mNxUSHqPzJ1+XAoch9pnrEh
+ 9uLD4rkoWAAxTHoR2RlohBY8Ess5pqq5rCfe9xlbpVGtVMr020A/PUYQTPB5fy+XsyGH
+ zQ2sSHuCrk+/ZY+sO2BPuWFzsbq/yh8Fujs/oWBP3ivpM5OgHXlMBT4QVvlyV8EBfa6x
+ uwN6BK8hve10KcKdGe1M0mJmn+xtGD9VnTbZL2wdddw5YIQKXrvJYHXBN2F7SGUV8H3G
+ bvtyKlp6sXkmob2RSHnlFWszS0JroHeWNnbZd/Y6XGXpi5Z4Vrx+TRodyEl9GAhE/ydl
+ Jgrg==
+X-Gm-Message-State: AO0yUKWdCWA6ncKC93iu2J4iGqdz72FSZ45IpMOb+2nmiXrUA3ORr/Wf
+ 5jT2VDZ/W7iEQ/+n+5QJJYTERndfOEq4qiXobRk=
+X-Google-Smtp-Source: AK7set/MG84etLO7HdrYU6/wZLF+3kxwnqm42RndtVtQRBTGfwbAHcBdmC9su5W2XwEFGnvGabWIRxq3+9Sidg2fNDU=
+X-Received: by 2002:a2e:8e70:0:b0:295:d63a:949b with SMTP id
+ t16-20020a2e8e70000000b00295d63a949bmr617812ljk.4.1677676915400; Wed, 01 Mar
+ 2023 05:21:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2076377483-1677676722=:5284"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-8-marcandre.lureau@redhat.com>
+ <87fsb4k85h.fsf@pond.sub.org>
+ <CAMxuvax6qPYQCzNX7vESJM9_f5k4C1Yat0sJcJjrHkh_1WGpQA@mail.gmail.com>
+ <87a61821y3.fsf@pond.sub.org>
+ <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
+ <87356yq9rs.fsf@pond.sub.org> <20230228155801.s2imkaybh3a4d5x3@redhat.com>
+ <Y/8Zy/Lk8i9RCOdc@redhat.com> <875ybkwr10.fsf@pond.sub.org>
+In-Reply-To: <875ybkwr10.fsf@pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 1 Mar 2023 17:21:43 +0400
+Message-ID: <CAJ+F1C+S+ChMdk0y5VHzFj94y5UV3iPjHweeLoUTHcBHW-pkYw@mail.gmail.com>
+Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
+To: Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,118 +101,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi
 
---3866299591-2076377483-1677676722=:5284
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+On Wed, Mar 1, 2023 at 5:16 PM Markus Armbruster <armbru@redhat.com> wrote:
+> What about 3. have an additional command conditional on CONFIG_WIN32?
+> Existing getfd stays the same: always fails when QEMU runs on a Windows
+> host.  The new command exists only when QEMU runs on a Windows host.
 
-On Wed, 1 Mar 2023, David Woodhouse wrote:
-> On Wed, 2023-03-01 at 12:27 +0100, BALATON Zoltan wrote:
->> On Wed, 1 Mar 2023, Bernhard Beschow wrote:
->>> Am 1. März 2023 00:17:11 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->>>> MorphOS sets the ISA PIC to level sensitive mode but QEMU does
->>>> not
->>>> support that so this causes a freeze if multiple devices try to
->>>> raise
->>>> a shared interrupt. Work around it by lowering the interrupt
->>>> before
->>>> raising it again if it is already raised. This could be reverted
->>>> when
->>>> the i8259 model is fixed.
->>>>
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> ---
->>>> hw/isa/vt82c686.c | 9 +++++++++
->>>> 1 file changed, 9 insertions(+)
->>>>
->>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>> index 018a119964..3e44a51f92 100644
->>>> --- a/hw/isa/vt82c686.c
->>>> +++ b/hw/isa/vt82c686.c
->>>> @@ -549,6 +549,7 @@ struct ViaISAState {
->>>>      PCIDevice dev;
->>>>      qemu_irq cpu_intr;
->>>>      qemu_irq *isa_irqs_in;
->>>> +    uint16_t isa_irqs_state;
->>>>      ViaSuperIOState via_sio;
->>>>      MC146818RtcState rtc;
->>>>      PCIIDEState ide;
->>>> @@ -636,6 +637,14 @@ static void via_isa_set_pci_irq(void
->>>> *opaque, int irq_num, int level)
->>>>              pic_level |= pci_bus_get_irq_level(bus, i);
->>>>          }
->>>>      }
->>>> +    /* FIXME: workaround for i8259: level sensitive irq not
->>>> supported */
->>>> +    if ((s->isa_irqs_state & BIT(pic_irq)) && pic_level) {
->>>> +        qemu_irq_lower(s->isa_irqs_in[pic_irq]);
->>>> +    } else if (pic_level) {
->>>> +        s->isa_irqs_state |= BIT(pic_irq);
->>>> +    } else {
->>>> +        s->isa_irqs_state &= ~BIT(pic_irq);
->>>> +    }
->>>
->>> Let's not clutter the device model with workarounds which quickly
->>> snowball into unmaintainable code. Please fix the i8259 instead.
->>
->> Do you have an idea how?
->
-> Let's start by understanding the problem completely. The i8259 *does*
-> support level-triggered interrupts. Look at the checks for s->elcr in
-> hw/intc/i8259.c, in pic_set_irq()...
->
->    if (s->elcr & mask) {
->        /* level triggered */
->        if (level) {
->            s->irr |= mask;
->            s->last_irr |= mask;
->        } else {
->            s->irr &= ~mask;
->            s->last_irr &= ~mask;
->        }
->    } else {
->        /* edge triggered */
->
->
-> ... and in pic_intack() ...
->
->
->    /* We don't clear a level sensitive interrupt here */
->    if (!(s->elcr & (1 << irq))) {
->        s->irr &= ~(1 << irq);
->    }
->
->
-> What qemu typically has an issue with is *shared* level-triggered
-> interrupts. But that would cause a level to be "forgotten" if another
-> input asserts and then deasserts the IRQ while one input thinks it's
-> holding it asserted. And I don't see how your workaround above would
-> have helped in that situation.
->
-> Are you sure the PIC ELCR is actually set for the lines you're having
-> trouble with? Is that something the Pegasos SmartFirmware would have
-> done, and MorphOS is expecting to inherit but isn't actually setting up
-> for itself?
+This is what was suggested initially:
+https://patchew.org/QEMU/20230103110814.3726795-1-marcandre.lureau@redhat.c=
+om/20230103110814.3726795-9-marcandre.lureau@redhat.com/
 
-No, it works with other guests like Linux and AmigaOS that use PIC as set 
-up by the firmware but MorphOS tries to use it in level sensitive mode and 
-likely has an IRQ handler which expects this to work. This is where I've 
-debugged it and came to this workaround:
+I also like it better, as a specific command for windows sockets, less
+ways to use it wrongly.
 
-https://lists.nongnu.org/archive/html/qemu-ppc/2023-02/msg00403.html
 
-When booting MorphOS with -d unimp I see these logs:
-
-i8259: level sensitive irq not supported
-i8259: level sensitive irq not supported
-
-which is I guess when it tries to set it for both PICs. (If you want to 
-try this MorphOS iso is downloadable and instructions how to boot it is 
-here: http://zero.eik.bme.hu/~balaton/qemu/amiga/#morphos
-
-Regards,
-BALATON Zoltan
---3866299591-2076377483-1677676722=:5284--
+--=20
+Marc-Andr=C3=A9 Lureau
 
