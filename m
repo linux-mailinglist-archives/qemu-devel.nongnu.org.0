@@ -2,90 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D29A6A6AF3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9275C6A6AF8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:42:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJtO-0003Yr-Il; Wed, 01 Mar 2023 05:41:02 -0500
+	id 1pXJtz-0004As-SD; Wed, 01 Mar 2023 05:41:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pXJtH-0003YL-RB
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:40:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pXJtG-0003Ld-5X
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:40:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677667253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cxQU8SnFBNMDfsOLIcCqAQaBj4KtcooV3mFft5xBMp4=;
- b=dfADEI9NrLuxbputLXvZhEtCzRrrNJuxo/n5Az7xiN6rKepOZUdNvdTlgRKIO0ARt7PAIM
- SF+qO4Kj2Zx0IZpxN8sIwHwNG8WfWYbuUfonvUm9mrm4kd0y1IUQ8DfCgJOAcWxlwLvC19
- uuFOJA1jAFGyxpGX+x4xZrXwmPOm5gA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-574-k3SvxWf8MFSG4_6iyXngYg-1; Wed, 01 Mar 2023 05:40:52 -0500
-X-MC-Unique: k3SvxWf8MFSG4_6iyXngYg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z6-20020a05600c220600b003e222c9c5f4so4427879wml.4
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:40:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJtx-00045R-81
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:41:37 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJtt-0003Oq-Ve
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:41:36 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id az36so8238064wmb.1
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:41:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677667292;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ox2O2OK4aGI1BMllSXrqC/7z82S+aWOv7xmHwuOpN9Q=;
+ b=m37rx2y9i3lVaNOMCAyMa03HMk8N6BhAIvXqeALWeMFCKD3g/9i115DosgX01kLCOe
+ UI3php34U1JVTHFNJO/ZqN3Ace6ZRH7Jfp9+rkoRKQobzMksQskx5qMv8WVuwhQy3J79
+ Sfcoqr1DDBB3h/xKNS0cZ4jAqgXBaxZJdEcNg1u8FlEuL2qfoah6JhyWl2JCXSIkKemQ
+ cdfbVfZfH77P1E4sZVmWDYrh1vBffad8jyf94nex905l0u148PpA6kwu4CRYhRXeDX25
+ EBgzR2Kmcsodvs0wda2fg9Hk5B9fwkrV+uYGnfcCEpJX2AkCXpbSmHJwRK6a3thi1wsZ
+ qvEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cxQU8SnFBNMDfsOLIcCqAQaBj4KtcooV3mFft5xBMp4=;
- b=wvPrnQyNUYfsDQFZr3mNDVUjHvpGPgCOg2ZyljNJ30rwyrZMhAqoqtiNjg4K5OShBo
- F2tfbmvH+INHAIvn9zsROBI+6BU2lCGgDzr0bjHscaKPq1FJd/XI7YfcjSsfEfRDCxnf
- Y3BC+3q7vhwCWdtsClNZXQLC1pq7k9Q1msEvV9Di4QaQhkmvz1tDUZS8yA52TpqlNFfE
- 2KVX3qpELxzPTIbom5MNru4Ah1NxeDunuEP+tiocEjQWUkBrNmhHmBsiLSMmaRjnYVf+
- MO73HVQZ1CjNXSVQE/RJpL/Jk1/Ik0/NVuZ3A61E0i8YqrX+bCDB0KJvkdWfPAX8y6yU
- wilA==
-X-Gm-Message-State: AO0yUKUVAgj/2DcYCQ5Gcir2Uls+pkzNEJaXJanHvy/mbzxi4lH4Alu4
- YIa5G1b4+8Bm1PZsmQmhjiJYTnkjFWp8On6ESLnDm/nQayYGJvskqC8wRU3zivFCfFdzPYXMu+P
- tgO/QtvIekeIhayg=
-X-Received: by 2002:adf:ee0d:0:b0:2c7:da1:4694 with SMTP id
- y13-20020adfee0d000000b002c70da14694mr4463437wrn.62.1677667250922; 
- Wed, 01 Mar 2023 02:40:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set8MpCK8F83yDA1CICotmUh5IliLl/Aeo2n02gBjoZBaL7rYRUsp0Zkzbk4wT4xXkAWdcI5Hhg==
-X-Received: by 2002:adf:ee0d:0:b0:2c7:da1:4694 with SMTP id
- y13-20020adfee0d000000b002c70da14694mr4463429wrn.62.1677667250592; 
- Wed, 01 Mar 2023 02:40:50 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- n7-20020adfe787000000b002c573778432sm12264437wrm.102.2023.03.01.02.40.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 02:40:50 -0800 (PST)
-Date: Wed, 1 Mar 2023 10:40:47 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: mst@redhat.com, arei.gonglei@huawei.com, pbonzini@redhat.com,
- armbru@redhat.com, qemu-devel@nongnu.org, berrange@redhat.com
-Subject: Re: [PATCH v5 07/12] hmp: add cryptodev info command
-Message-ID: <Y/8rr2QgBswG8y5z@work-vm>
-References: <20230301025124.3605557-1-pizhenwei@bytedance.com>
- <20230301025124.3605557-8-pizhenwei@bytedance.com>
+ d=1e100.net; s=20210112; t=1677667292;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ox2O2OK4aGI1BMllSXrqC/7z82S+aWOv7xmHwuOpN9Q=;
+ b=4izPoTdIvGT4FHRLMsfx8rG5pHWLJDv8wmFJM0mKUhs6ozYnO1Y6n/EYX9pLQ8sc6P
+ kpy7JCCSh87mFGAXNCXFdsfU6l4KpmoDeeJjN/S1sxb2qGjHYJmIt+aKPYQEdTWS7FSA
+ okaE4tOVS5Z0owWWeppRaathKEHoz4jJepWntW/pLsphuBNXEfPta+nzOzGO2OAIoylJ
+ 6y0Nnj4ae1i8PobrPIjs76Q17xiowbgezZxdgxHlXg/xJdhk+Zu0ebN4saoR7UHj1vOE
+ AiLO5b3ypWn+T6ePCVBubsfFhtjB7ZBRvioKmEXLgwdFSEuRFXL67xK3JMMEBvORnrcd
+ 4jRw==
+X-Gm-Message-State: AO0yUKWDFfrNDtEyDaDW97EGuF1lYUt2h2hfkKwta1fCKCQaWs2cZyBN
+ m/hrA0/yZnPH8I8CuFT+m8nRXg==
+X-Google-Smtp-Source: AK7set9vDR3SdaGOC1yPodzAbyAFrlrQrUT+VUQiEf1VjNUrmHjmEtOAbPY2OSdLDBUfqxZpFLoIfw==
+X-Received: by 2002:a05:600c:4fc5:b0:3ea:e7e7:a2f9 with SMTP id
+ o5-20020a05600c4fc500b003eae7e7a2f9mr4932789wmq.13.1677667292350; 
+ Wed, 01 Mar 2023 02:41:32 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n41-20020a05600c3ba900b003e20fa01a86sm16635528wms.13.2023.03.01.02.41.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Mar 2023 02:41:31 -0800 (PST)
+Message-ID: <d2513416-4378-f107-9fbc-d55f3640df5a@linaro.org>
+Date: Wed, 1 Mar 2023 11:41:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230301025124.3605557-8-pizhenwei@bytedance.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 22/24] gitlab: move the majority of artefact handling
+ to a template
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
+ <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Yonggang Luo <luoyonggang@gmail.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Bandan Das <bsd@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230228190653.1602033-1-alex.bennee@linaro.org>
+ <20230228190653.1602033-23-alex.bennee@linaro.org>
+ <85fa3961-eb23-8d93-b4e4-e3e4227fac26@linaro.org>
+ <199f0714-901a-a15d-690a-2a2f56db015a@redhat.com>
+ <3aa65498-4d4e-429e-44f4-bbeb34a0e21e@linaro.org> <87wn40dc48.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <87wn40dc48.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,134 +113,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* zhenwei pi (pizhenwei@bytedance.com) wrote:
-> Example of this command:
->  # virsh qemu-monitor-command vm --hmp info cryptodev
-> cryptodev1: service=[akcipher|mac|hash|cipher]
->     queue 0: type=builtin
-> cryptodev0: service=[akcipher]
->     queue 0: type=lkcf
+On 1/3/23 11:00, Alex Bennée wrote:
 > 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  backends/cryptodev-hmp-cmds.c | 54 +++++++++++++++++++++++++++++++++++
->  backends/meson.build          |  1 +
->  hmp-commands-info.hx          | 14 +++++++++
->  include/monitor/hmp.h         |  1 +
->  4 files changed, 70 insertions(+)
->  create mode 100644 backends/cryptodev-hmp-cmds.c
+> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
 > 
-> diff --git a/backends/cryptodev-hmp-cmds.c b/backends/cryptodev-hmp-cmds.c
-> new file mode 100644
-> index 0000000000..4f7220bb13
-> --- /dev/null
-> +++ b/backends/cryptodev-hmp-cmds.c
-> @@ -0,0 +1,54 @@
-> +/*
-> + * HMP commands related to cryptodev
-> + *
-> + * Copyright (c) 2023 Bytedance.Inc
-> + *
-> + * Authors:
-> + *    zhenwei pi<pizhenwei@bytedance.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * (at your option) any later version.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "monitor/hmp.h"
-> +#include "monitor/monitor.h"
-> +#include "qapi/qapi-commands-cryptodev.h"
-> +#include "qapi/qmp/qdict.h"
-> +
-> +
-> +void hmp_info_cryptodev(Monitor *mon, const QDict *qdict)
-> +{
-> +    QCryptodevInfoList *il;
-> +    QCryptodevBackendServiceTypeList *sl;
-> +    QCryptodevBackendClientList *cl;
-> +
-> +    for (il = qmp_query_cryptodev(NULL); il; il = il->next) {
-> +        g_autofree char *services = NULL;
-> +        QCryptodevInfo *info = il->value;
-> +        char *tmp_services;
-> +
-> +        /* build a string like 'service=[akcipher|mac|hash|cipher]' */
-> +        for (sl = info->service; sl; sl = sl->next) {
-> +            const char *service = QCryptodevBackendServiceType_str(sl->value);
-> +
-> +            if (!services) {
-> +                services = g_strdup(service);
-> +            } else {
-> +                tmp_services = g_strjoin("|", services, service, NULL);
-> +                g_free(services);
-> +                services = tmp_services;
-> +            }
-> +        }
-> +        monitor_printf(mon, "%s: service=[%s]\n", info->id, services);
-> +
-> +        for (cl = info->client; cl; cl = cl->next) {
-> +            QCryptodevBackendClient *client = cl->value;
-> +            monitor_printf(mon, "    queue %" PRIu32 ": type=%s\n",
-> +                           client->queue,
-> +                           QCryptodevBackendType_str(client->type));
-> +        }
-> +    }
-> +
-> +    qapi_free_QCryptodevInfoList(il);
-> +}
-> diff --git a/backends/meson.build b/backends/meson.build
-> index 954e658b25..b369e0a9d0 100644
-> --- a/backends/meson.build
-> +++ b/backends/meson.build
-> @@ -1,5 +1,6 @@
->  softmmu_ss.add([files(
->    'cryptodev-builtin.c',
-> +  'cryptodev-hmp-cmds.c',
->    'cryptodev.c',
->    'hostmem-ram.c',
->    'hostmem.c',
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index 754b1e8408..47d63d26db 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -993,3 +993,17 @@ SRST
->    ``info virtio-queue-element`` *path* *queue* [*index*]
->      Display element of a given virtio queue
->  ERST
-> +
-> +    {
-> +        .name       = "cryptodev",
-> +        .args_type  = "",
-> +        .params     = "",
-> +        .help       = "show the crypto devices",
-> +        .cmd        = hmp_info_cryptodev,
-> +        .flags      = "p",
-> +    },
-> +
-> +SRST
-> +  ``info cryptodev``
-> +    Show the crypto devices.
-> +ERST
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index 2220f14fc9..e6cf0b7aa7 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -178,5 +178,6 @@ void hmp_ioport_read(Monitor *mon, const QDict *qdict);
->  void hmp_ioport_write(Monitor *mon, const QDict *qdict);
->  void hmp_boot_set(Monitor *mon, const QDict *qdict);
->  void hmp_info_mtree(Monitor *mon, const QDict *qdict);
-> +void hmp_info_cryptodev(Monitor *mon, const QDict *qdict);
->  
->  #endif
-> -- 
-> 2.34.1
+>> On 1/3/23 07:51, Thomas Huth wrote:
+>>> On 28/02/2023 22.41, Philippe Mathieu-Daudé wrote:
+>>>> On 28/2/23 20:06, Alex Bennée wrote:
+>>>>> To avoid lots of copy and paste lets deal with artefacts in a
+>>>>> template. This way we can filter out most of the pre-binary object and
+>>>>> library files we no longer need as we have the final binaries.
+>>>>>
+>>>>> build-system-alpine also saved .git-submodule-status so for simplicity
+>>>>> we bring that into the template as well.
+>>>>>
+>>>>> As an example the build-system-ubuntu artefacts before this patch
+>>>>> where around 1.3 GB, after dropping the object files it comes to 970
+>>>>> MB.
+>>>>>
+>>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>>> ---
+>>>>>    .gitlab-ci.d/buildtest-template.yml | 16 ++++++
+>>>>>    .gitlab-ci.d/buildtest.yml          | 81 +++++++++++------------------
+>>>>>    2 files changed, 46 insertions(+), 51 deletions(-)
+>>>>
+>>>> This is still kludging the fact that 'make check-qtest' rebuild
+>>>> the world even if QEMU binaries are present.
+>>> Did you try? ... if so, that would kill even more CI minutes, i.e.
+>>> it would IMHO be a show-stopper for this patch.
+>>
+>> I remember we had to pass all build/ otherwise calling 'make
+>> check-qtest check-tcg' would rebuild the same binaries, it it
+>> was pointless to split the jobs in 2 stages. I might have missed
+>> when that was fixed.
+>>
+>> I haven't tried, however I see in Alex job:
+>>
+>> $ scripts/git-submodule.sh update $(sed -n '/GIT_SUBMODULES=/ s/.*=//
+>> p' build/config-host.mak)
+>> sed: can't read build/config-host.mak: No such file or directory
+>> $ cd build
+>> /bin/bash: line 144: cd: build: No such file or directory
+>> ERROR: Job failed: exit code 1
+>>
+>> https://gitlab.com/stsquad/qemu/-/jobs/3847747769
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> That was an older run of the job where I thought the skip path would
+> merge from the template. In the end I've just include git-submodules in
+> all the build aretfacts instead of just for alpine.
+> 
+> It ran fine:
+> 
+>    https://gitlab.com/stsquad/qemu/-/jobs/3849512854
 
+Indeed:
+https://gitlab.com/stsquad/qemu/-/jobs/3849512800/artifacts/browse/build/
+
+So a good improvement, but I'd prefer having a stricter "only include
+what we need" policy rather than "exclude what we don't". The former
+will catch missing additions, while the later won't notice until someone
+spend time excluding pointless files manually again.
 
