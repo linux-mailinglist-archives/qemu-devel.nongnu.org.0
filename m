@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DEB06A75B9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 21:59:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D996A75A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 21:58:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXTX3-0003OS-4J; Wed, 01 Mar 2023 15:58:37 -0500
+	id 1pXTX1-0003Nq-HR; Wed, 01 Mar 2023 15:58:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXTX1-0003Nt-AX
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 15:58:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pXTX0-0003LV-4P
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 15:58:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXTWz-0003zh-5m
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 15:58:35 -0500
+ id 1pXTWy-0003zZ-OI
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 15:58:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1677704312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A/TobBksR8XjbrP3bHhTfUZS09aM4kuJxHipMzY0CJI=;
- b=aHn3LDZEWGS/gMnhpCV3V0RnkVCirqx2EaVKJUDgWfdI4kYJhlndvTIAf8zje9Iyx00QNx
- Qpjj/bHkr0PYGiv+Kfey7i86QD2kdSEoPhpjWOVGhtz9gG6Y6H/HAbS50Bb1wL3wjySSbn
- ewLoqDOkWrQNCBl0G7rs9TSU0juE0R0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LdGb5Ls2u5U36PxIozwXUuHqm0B9xfiL5iWE7YMkha8=;
+ b=Tk3mwH7kTvemVHtFR5smjNUCWU4Zb7VsHQiMJAJEmf00I6zwNLfAOjtdXiRh4VONwTUOwg
+ o8PnPyWOsDKK6wITEH+UShAL8gCb/aYScuBNTKC7pf5RVP4bY3KhtvUbQoEuIlcgtlC/cf
+ gzK9kEwgdUuYsIiciP3/qgGvunSSAXk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-158-NE4KwpkTMTGl9XbEwNEvqg-1; Wed, 01 Mar 2023 15:58:27 -0500
-X-MC-Unique: NE4KwpkTMTGl9XbEwNEvqg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-465-rB75_74tPkWgzvltuna-ig-1; Wed, 01 Mar 2023 15:58:29 -0500
+X-MC-Unique: rB75_74tPkWgzvltuna-ig-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F6D9181E3EF;
- Wed,  1 Mar 2023 20:58:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C83D3C0D181;
+ Wed,  1 Mar 2023 20:58:28 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D3815C15BAD;
- Wed,  1 Mar 2023 20:58:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B288492C14;
+ Wed,  1 Mar 2023 20:58:27 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
@@ -50,15 +50,16 @@ Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
  Stefan Hajnoczi <stefanha@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH 1/6] block: don't acquire AioContext lock in bdrv_drain_all()
-Date: Wed,  1 Mar 2023 15:57:56 -0500
-Message-Id: <20230301205801.2453491-2-stefanha@redhat.com>
+Subject: [PATCH 2/6] block: convert blk_exp_close_all_type() to
+ AIO_WAIT_WHILE_UNLOCKED()
+Date: Wed,  1 Mar 2023 15:57:57 -0500
+Message-Id: <20230301205801.2453491-3-stefanha@redhat.com>
 In-Reply-To: <20230301205801.2453491-1-stefanha@redhat.com>
 References: <20230301205801.2453491-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,43 +83,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There is no need for the AioContext lock in bdrv_drain_all() because
-nothing in AIO_WAIT_WHILE() needs the lock and the condition is atomic.
-
-Note that the NULL AioContext argument to AIO_WAIT_WHILE() is odd. In
-the future it can be removed. There is an assertion in
-AIO_WAIT_WHILE() that checks that we're in the main loop AioContext and
-we would lose that check by dropping the argument. However, that was a
-precursor to the GLOBAL_STATE_CODE()/IO_CODE() macros and is now a
-duplicate check. So I think we won't lose much by dropping it, but let's
-do a few more AIO_WAIT_WHILE_UNLOCKED() coversions of this sort to
-confirm this is the case.
+There is no change in behavior. Switch to AIO_WAIT_WHILE_UNLOCKED()
+instead of AIO_WAIT_WHILE() to document that this code has already been
+audited and converted. The AioContext argument is already NULL so
+aio_context_release() is never called anyway.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/block-backend.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ block/export/export.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 278b04ce69..d2b6b3652d 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1835,14 +1835,8 @@ void blk_drain_all(void)
-     bdrv_drain_all_begin();
- 
-     while ((blk = blk_all_next(blk)) != NULL) {
--        AioContext *ctx = blk_get_aio_context(blk);
--
--        aio_context_acquire(ctx);
--
-         /* We may have -ENOMEDIUM completions in flight */
--        AIO_WAIT_WHILE(ctx, qatomic_mb_read(&blk->in_flight) > 0);
--
--        aio_context_release(ctx);
-+        AIO_WAIT_WHILE_UNLOCKED(NULL, qatomic_mb_read(&blk->in_flight) > 0);
+diff --git a/block/export/export.c b/block/export/export.c
+index 28a91c9c42..e3fee60611 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -306,7 +306,7 @@ void blk_exp_close_all_type(BlockExportType type)
+         blk_exp_request_shutdown(exp);
      }
  
-     bdrv_drain_all_end();
+-    AIO_WAIT_WHILE(NULL, blk_exp_has_type(type));
++    AIO_WAIT_WHILE_UNLOCKED(NULL, blk_exp_has_type(type));
+ }
+ 
+ void blk_exp_close_all(void)
 -- 
 2.39.2
 
