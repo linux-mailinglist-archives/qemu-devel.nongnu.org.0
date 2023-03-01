@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6226A6A4C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73496A6A30
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:55:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJCn-0003HX-4J; Wed, 01 Mar 2023 04:57:01 -0500
+	id 1pXJB5-0001s1-Hv; Wed, 01 Mar 2023 04:55:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXJCl-0003HK-Rc
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:56:59 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXJCj-0003ih-Rw
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:56:59 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- m25-20020a7bcb99000000b003e7842b75f2so7461158wmi.3
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 01:56:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7IdYx7bXhRk4ejJaUv2RkkRy5sRG4K8r94ReMMUNGvg=;
- b=N56B7df8eCuXBkj/EC2RxZjVDuCrrEHAeSjmN99lfz7AUsaBE0m0Wov5PMrCA4E5+p
- qKDJ4HRC/4mXOoyXdq9r0eKFqVkAEBtD01+zd5DZpwzU7xNdfk2VoQr0MmKDABZNDx6E
- aXr3XBXeXa1a1Hj0mAAdnqqoB7y+mz/Tvb6o7vcxlJN4gMWRvCCPJ9+CSUjwHL2UmSL+
- o/ufrsY5ptEkMsDBf1TZg8glIOhoP+mGbNukb8IZUz2KR29rHL3kFEhq+Xfiq5Fyow8J
- eKMXe+quFJ8miOmYi+kTypO71hpMpxHsUGOaIYMGYly9N5Ny98Q7qETWZJT+HwGWSVoN
- KbJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=7IdYx7bXhRk4ejJaUv2RkkRy5sRG4K8r94ReMMUNGvg=;
- b=MICtw4RKtQIXObFz7tTdUInukmAMxVEzt1Jrzl9CdTInnVff3p9JssbeKphCFWBpov
- 09v8ojAFvwYUIttJXmPb1mpRru0E/fSchGsnWt3grf8DzKnp60TtMPSXnVDEdozEoqOD
- HjL/7JS0MKyxhS7qJKNwHmQ/1o4MBQNaza48XvCnb6B60o+AIb83WJOIRRGF0q0IQNHO
- Y1z8A5P2pd5kS1qlNEt+1J/KK67AwXYwLzuPpLOVvUBeacEmZL7V8DgpNm8uQpJLlhBT
- N+XAKKu3S+olh2dcxHQBvvasWuQG66kU6r6p/CUB4nis174J9A3MDj6Lm6I7R7uCfvmh
- VgoA==
-X-Gm-Message-State: AO0yUKVwhWtQAx0x0O6gAZzhIVMd5L0mMxCdpdfglfNu0mtdHQYGHO2Q
- LcDR05ieIAmisTsFkkAgTxbQxQ==
-X-Google-Smtp-Source: AK7set/YopvjD+7gZ7xghhlzxvXN8DnQzlLZzDD8aXRUR4vI6SbP5HBd42Mwsy9suBHbJwNESz67zw==
-X-Received: by 2002:a05:600c:5252:b0:3ea:8ed9:8f03 with SMTP id
- fc18-20020a05600c525200b003ea8ed98f03mr4326050wmb.24.1677664615960; 
- Wed, 01 Mar 2023 01:56:55 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- h18-20020a05600c351200b003eb192787bfsm15977574wmq.25.2023.03.01.01.56.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 01:56:55 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1928F1FFB7;
- Wed,  1 Mar 2023 09:56:55 +0000 (GMT)
-References: <CAFEAcA83u_ENxDj3GJKa-xv6eLJGJPr_9FRDKAqm3qACyhrTgg@mail.gmail.com>
- <20230223152836.dpn4z5fy6jg44wqi@hetzy.fluff.org>
- <Y/eHLCKcdYk0V4Tt@redhat.com> <Y/fkf3Cya1NOopQA@invalid>
- <Y/zhZ4brfdQ7nwLI@redhat.com>
- <CAJSP0QX2tkaVZh0FX4Ke8EWn7tO9qm76YnRCHe6-UxWJg6LzTQ@mail.gmail.com>
- <Y/7ZzH/X5eb3vhPG@invalid>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Eldon Stegall <eldon-qemu@eldondev.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, =?utf-8?Q?Daniel_P=2E_Berrang?=
- =?utf-8?Q?=C3=A9?=
- <berrange@redhat.com>, Ben Dooks <qemu@ben.fluff.org>, Peter Maydell
- <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: out of CI pipeline minutes again
-Date: Wed, 01 Mar 2023 09:53:51 +0000
-In-reply-to: <Y/7ZzH/X5eb3vhPG@invalid>
-Message-ID: <875ybkeqvt.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1pXJB3-0001rq-IF
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:55:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1pXJB1-0003RX-PO
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:55:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677664510;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2bJHEiOzImdh+CVnRAPSAR/szb1ffWP12CAO2YT0k2I=;
+ b=abWWNylETYynHanuxlPLfNJyxXiqM61eM68MNY79jtjgk80D9N6sxSlqjsiAThnNwB+yb1
+ 1fO/gKzPS+ok10at6+xLsWcE3fcP9u6pr8QmmjVU0SA9w/FTO2B3yJVjnUBOb3FsW3CfRe
+ rRFDbhJol1YTe067zUFgV/8eQNIxnjc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-477-2ZL0q3sXMWOI7USuZ1vhFg-1; Wed, 01 Mar 2023 04:55:07 -0500
+X-MC-Unique: 2ZL0q3sXMWOI7USuZ1vhFg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B55A219705A8;
+ Wed,  1 Mar 2023 09:55:06 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.45.242.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 055AC40C6EC4;
+ Wed,  1 Mar 2023 09:55:04 +0000 (UTC)
+Date: Wed, 1 Mar 2023 10:55:02 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2] qapi: Add 'acpi' field to 'query-machines' output
+Message-ID: <Y/8g9tar75vaso4J@angien.pipo.sk>
+References: <537625d3e25d345052322c42ca19812b98b4f49a.1677571792.git.pkrempa@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <537625d3e25d345052322c42ca19812b98b4f49a.1677571792.git.pkrempa@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,53 +82,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Feb 28, 2023 at 09:12:34 +0100, Peter Krempa wrote:
+> Report which machine types support ACPI so that management applications
+> can properly use the 'acpi' property even on platforms such as ARM where
+> support for ACPI depends on the machine type and thus checking presence
+> of '-machine acpi=' in 'query-command-line-options' is insufficient.
+> 
+> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> ---
+> 
+> Diff to v1:
+>  - Fix spelling of 'ACPI' in 'machine.json'
+>  - Removed addition of a field to 'struct MachineClass' which was not
+>     used in the final version
 
-Eldon Stegall <eldon-qemu@eldondev.com> writes:
+It would be great to get this patch into the release as will allow
+libvirt to properly handle setting of ACPI now that '-no-acpi' flag was
+recently deprecated:
 
-> On Mon, Feb 27, 2023 at 12:43:55PM -0500, Stefan Hajnoczi wrote:
->> - Personally, I don't think this should exclude other efforts like
->> Eldon's. We can always add more private runners!
->
-> Hi!
-> Thanks so much to Alex, Thomas, Gerd, et al for the pointers.
->
-> Although the month has passed and presumably gitlab credits have
-> replenished, I am interested in continuing my efforts to replicate the
-> shared runner capabilities. After some tinkering I was able to utilise
-> Gerd's stateless runner strategy with a few changes, and had a number of
-> tests pass in a pipeline on my repo:
->
-> https://gitlab.com/eldondev/qemu/-/pipelines/791573670
+https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg07926.html
 
-Looking good. Eyeballing the run times they seem to be faster as well. I
-assume the runner is less loaded than the shared gitlab ones?
+The libvirt patches which make use of this feature were posted at:
 
-> Looking at the failures, it seems that some may already be addressed in
-> patchsets, and some may be attributable to things like open file handle
-> count, which would be useful to configure directly on the d-in-d
-> runners, so I will investigate those after integrating the changes from
-> the past couple of days.
->
-> I have been reading through Alex's patchsets to lower CI time in the
-> hopes that I might be able to contribute something there from my
-> learnings on these pipelines. If there is an intent to switch to the
-> kubernetes gitlab executor, I have worked with kubernetes a number of
-> times in the past, and I can trial that as well.
+https://listman.redhat.com/archives/libvir-list/2023-March/238217.html
 
-I've dropped that patch for now but I might revisit once the current
-testing/next is done.
-
-> Even with the possibility of turning on Azure and avoiding these monthly
-> crunches, maybe I can provide some help improving the turnaround time of
-> some of the jobs themselves, once I polish off greening the remaining
-> failures on my fork.
->
-> Forgive me if I knock around a bit here while I figure out how to be
-> useful.
-
-No problem, thanks for taking the time to look into it.
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
