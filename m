@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E016A6C29
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 13:15:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA836A6C4D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 13:26:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXLM5-0007y8-Hn; Wed, 01 Mar 2023 07:14:45 -0500
+	id 1pXLW1-0004b0-TE; Wed, 01 Mar 2023 07:25:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXLM4-0007vX-6y; Wed, 01 Mar 2023 07:14:44 -0500
+ id 1pXLVz-0004aR-Fe; Wed, 01 Mar 2023 07:24:59 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXLM1-0005QL-WE; Wed, 01 Mar 2023 07:14:43 -0500
+ id 1pXLVx-0007N2-UW; Wed, 01 Mar 2023 07:24:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=T5E7UcNVTPclzTPVV/O1+iT1ZUKIUuwbDDWPyXiVapc=; b=IYlJAfQZNhQbPpbkaFwB2MZyw0
- ccU8PGhDC7RFzKxrw0emgpJie5Bce4DsCBfuWCAbAs9Lxyt8F46lq55LANWkpXcrFurtUxrXzAlRD
- ky79RCPRonoSpXvA9U5Pzz39J1YdiJ65cB56CO8IHzkPfYwrPTFG5h790lZaCGoEtPQB5uUIyNhpp
- fUIbirPQsYu+OohWYNA1f+LMSNosyM6l1SK3cOkZkDN5T2vfIry9nyp4LXnYUYiMpIE1Gb2uUkIy0
- uf7y7jyiyltioFcK1mvlU3EiCXN/eTr+1yFpL5IHUSqsh83iQ4okw+BKWtelf5uCgx8x2R6w0wYLJ
- 2jNeE5fxMfbNmTBP4aoe/AOW4h1wBysQEg+z/Ce2ViWbx6HhEIRRi9DQJXeFJJRxnwPgVCBpd3LaR
- Z7fL8JA+D0ci0ulJQT98YKBrTwssqNfC/GKUtadnFJOZzKUn53Cxk/IBB82AodV+CnMPfr6Yo2Dg+
- rX+IssJgASPUTB+e1NNGajoXUu62R8X3Z4GycfSPUOKL+bmvbsx1tdQOYyvuvBThed691u5JvD35h
- LKnrIVfRF1HyEbk7xecmgXDFpI1rs1RfXsdEBQJ/j92ph9Z6e7McB65no9jHwn3vlLfw0FDnLTgCg
- 8ePQxGl6qMU1UC13IcoimaaRrAAKsiDeAOiIN06FQ=;
+ bh=Ym5+Tton9L4NM3BVYMCx5ga1bD6RFLEJqXXEqlAGd6I=; b=wSleAuIwoLfWGxc21XirI3exDq
+ 1KAbiAKKDVTprtJXjNlZ3ZDGzv2CX0t3p4+gvUKfXVf+ESd3o45DgRR/YfioDbsQlc8/0Kfm8Vfj2
+ CuFt/tewv9Pxavz7y8UFwVmvaolZlFaAGEuU1eEHU+mtINICOrp2UeWQWBGJUuDo/4xYKDcnbuIaa
+ fzTI+Tb2pIHJXaOFqpznm/9NaYQZW6VBcvxku0zL++wm52Iu9N4KyL3YgRj1nJ8y+E21GFdETfWBv
+ uGRnZXkSWIVN8SJltfCpIoQhRIen2tTeUrAl2fzK0I9ZSljxKBpSCBv45+jefb7swH82mnfY0HeD7
+ KcpJ1tnWB+fT24VJO8kkpEDIZHwBkJJPnKcMYoI/l/pgG0J/k1uwNJx40Dk+mqOnFw1ZVTISgZPXY
+ x2XSJcNJRcOcxO/WlNO6aBIF6s5v6QrHMcgqwxgKef4RsSID6X5Lt9otPvsCLuuuHaRX0R+/frYmq
+ 387CldBvh0Ni/Do2hkuQ3e2p/jPQN5W06DzI2ka0lRpIoLykLMAnHf6KxrTAmEH39i/4x8EMlv0Ou
+ 5CFvs2rfIEf/DBEUrZQG85ibzfy3Ojwnsv57oJ0lXUY+XKALdahoXI3xN43F0f3QQXPD4OAX1RpGm
+ D+yp1uMG+K8bNC8/bzk3tks7Scws3I3uQknKw24/4=;
 Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pXLLO-0000Zw-Io; Wed, 01 Mar 2023 12:14:02 +0000
-Message-ID: <c312168c-ceec-f725-7eeb-be19e03a7273@ilande.co.uk>
-Date: Wed, 1 Mar 2023 12:14:36 +0000
+ id 1pXLVL-0000e7-Is; Wed, 01 Mar 2023 12:24:19 +0000
+Message-ID: <63d47400-d2ad-3583-e17f-a8701d1fb780@ilande.co.uk>
+Date: Wed, 1 Mar 2023 12:24:54 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>
-References: <20230208000743.79415-1-philmd@linaro.org>
- <20230208000743.79415-6-philmd@linaro.org>
- <CAG4p6K4qnDXjM+7=B1iRjUNX1astmg0Pofco+aOOPWkJG2ajFQ@mail.gmail.com>
- <965A25A6-D963-4F0A-82AD-7EBD9B487F96@gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>
+References: <a728cf1f-49b5-ef09-cd68-57179a44438e@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <965A25A6-D963-4F0A-82AD-7EBD9B487F96@gmail.com>
+In-Reply-To: <a728cf1f-49b5-ef09-cd68-57179a44438e@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 5/7] hw/ide/piix: Use generic ide_init_ioport()
+Subject: Re: hw/ppc/mac_newworld: Problem with Uninorth IRQ lines
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -83,18 +78,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/02/2023 16:34, Bernhard Beschow wrote:
+On 21/02/2023 13:44, Philippe Mathieu-Daudé wrote:
 
-> Fishing out the ISA bus is still a hack IMO, for two reasons: First, IIUC, QOM'ified devices shall only care about its children while looking up one's parent bus violates this rule. Second, using the global machine pointer to scan for the ISA bus just trades one global for another. That's why I'm only doing this for user-created instances. If we deprecated user-created piix IDE devices we could eventually get rid of this hack.
+> Hi Mark,
+> 
+> The mac99 machines use the same PIC input IRQs for the Uninorth
+> output IRQs:
+> 
+> 379     if (PPC_INPUT(env) != PPC_FLAGS_INPUT_970) {
+> 380         /* Uninorth AGP bus */
+> 381         for (i = 0; i < 4; i++) {
+> 382             qdev_connect_gpio_out(uninorth_agp_dev, i,
+> 383                                   qdev_get_gpio_in(pic_dev, 0x1b + i));
+> 384         }
+> 385
+> 386         /* Uninorth internal bus */
+> 387         for (i = 0; i < 4; i++) {
+> 388             qdev_connect_gpio_out(uninorth_internal_dev, i,
+> 389                                   qdev_get_gpio_in(pic_dev, 0x1b + i));
+> 390         }
+> 391     }
+> 
+> Did you mean to use an OR gate here?
 
-As far as I can tell the solution to QOMified devices finding their parent bus is 
-easy: turn DeviceState::parent_bus into a QOM link property called "parent-bus" or 
-similar which accepts TYPE_BUS, and then any object of TYPE_DEVICE can locate its 
-parent bus using object_property_get_link() with a standardised property name.
+Hi Phil,
 
-I think it may be impossible to completely remove parent bus references, since buses 
-like PCI currently make use of upwards hierarchy navigation for things like IRQ 
-mapping and PCI-PCI bridge traversal.
+These are separate PCI buses so I suspect they should be wired up with different 
+IRQs, but this wiring has been the same ever since the code was introduced. I think 
+it should be possible to dig the values out from a suitable device tree but it's not 
+something I've looked at in any detail.
 
 
 ATB,
