@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CDB6A6EFF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 16:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A54216A6F03
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 16:08:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXO1S-0002QB-SH; Wed, 01 Mar 2023 10:05:38 -0500
+	id 1pXO3Y-0004Jy-W6; Wed, 01 Mar 2023 10:07:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXO1M-0002Ps-Nu
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:05:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pXO3S-0004Ji-O6
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:07:42 -0500
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXO1K-0004JN-QG
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:05:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677683130;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oAEN78H3UibrrHw4ahTTMOH+/Jvwvico4n92gQf4pW4=;
- b=hGvSOrwK1vC2GCOIDdtIrPgt0bajytOFSh2InkYu+PK2hxqAfbKl7vEDzCQXrXR/fhj1MP
- uB1SeTKrPU1wA8v1Lqb0EMyl9uvnJr9Fx1qrcSdH3TJi8XgZX5PiCSmOmUwZL/lhNzMTFa
- Ab2jQWRYiUHLOX8Mu824GV4PshxkCsk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-9UjMKNmhPw6jRA6wawTHTA-1; Wed, 01 Mar 2023 10:05:27 -0500
-X-MC-Unique: 9UjMKNmhPw6jRA6wawTHTA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B34985D060;
- Wed,  1 Mar 2023 15:05:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 120E540CF8EC;
- Wed,  1 Mar 2023 15:05:20 +0000 (UTC)
-Date: Wed, 1 Mar 2023 15:05:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>, jasowang@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
- thuth@redhat.com, philmd@linaro.org, armbru@redhat.com,
- eblake@redhat.com, qemu-devel@nongnu.org, mprivozn@redhat.com,
- yan@daynix.com
-Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
-Message-ID: <Y/9prSBDTQoL7yn5@redhat.com>
-References: <20230219162100.174318-1-andrew@daynix.com>
- <20230219162100.174318-4-andrew@daynix.com>
- <Y/NCQhGmqIadlw0y@redhat.com>
- <CAOEp5Of-sC1nuz4rAZkt8YoL2ctnSPAQ9QyxoQ97XiQ17wZ1Fg@mail.gmail.com>
- <Y/5CQ5md6huqNsx4@redhat.com> <877cw1ipgg.fsf@toke.dk>
- <Y/5QHonZyB+7vzEN@redhat.com> <87ttz5h1mj.fsf@toke.dk>
- <Y/8bQjj8VZ/7qal1@redhat.com> <871qm8h69w.fsf@toke.dk>
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pXO3Q-0004w1-Gi
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:07:42 -0500
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:1fac:0:640:45b5:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 3D3C75EC7A;
+ Wed,  1 Mar 2023 18:07:33 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b415::1:1a] (unknown
+ [2a02:6b8:b081:b415::1:1a])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id T7XQE50Od4Y0-CP7YyK7O; Wed, 01 Mar 2023 18:07:32 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass
+Message-ID: <8c3c140a-3c11-ba21-0c53-9cf25928bad0@yandex-team.ru>
+Date: Wed, 1 Mar 2023 17:07:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <871qm8h69w.fsf@toke.dk>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
+Content-Language: en-US, ru-RU
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
+ Eric Blake <eblake@redhat.com>
+References: <11593688-7ca4-def3-6212-7c26faa4d1c6@yandex-team.ru>
+ <20230222121133-mutt-send-email-mst@kernel.org>
+ <a477ca70-8aea-6c16-122e-1ded4af11f49@yandex-team.ru>
+ <20230222151814-mutt-send-email-mst@kernel.org>
+ <20230223023604-mutt-send-email-mst@kernel.org> <Y/fZm12yGIPnwaDX@fedora>
+ <20230224034258-mutt-send-email-mst@kernel.org>
+ <8611d901-0940-3747-c2cd-9c193c7f24f2@yandex-team.ru>
+ <20230228094756-mutt-send-email-mst@kernel.org>
+ <f3338868-d43a-a499-5db8-2fb06d244e37@yandex-team.ru>
+ <20230228161602-mutt-send-email-mst@kernel.org>
+From: Anton Kuchin <antonkuchin@yandex-team.ru>
+In-Reply-To: <20230228161602-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,101 +81,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 01, 2023 at 03:53:47PM +0100, Toke Høiland-Jørgensen wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Tue, Feb 28, 2023 at 11:21:56PM +0100, Toke Høiland-Jørgensen wrote:
-> >> Daniel P. Berrangé <berrange@redhat.com> writes:
-> >> 
-> >> > On Tue, Feb 28, 2023 at 08:01:51PM +0100, Toke Høiland-Jørgensen wrote:
-> >> >> Daniel P. Berrangé <berrange@redhat.com> writes:
-> >> >> 
-> >> >> Just to interject a note on this here: the skeleton code is mostly a
-> >> >> convenience feature used to embed BPF programs into the calling binary.
-> >> >> It is perfectly possible to just have the BPF object file itself reside
-> >> >> directly in the file system and just use the regular libbpf APIs to load
-> >> >> it. Some things get a bit more cumbersome (mostly setting values of
-> >> >> global variables, if the BPF program uses those).
-> >> >> 
-> >> >> So the JSON example above could just be a regular compiled-from-clang
-> >> >> BPF object file, and the management program can load that, inspect its
-> >> >> contents using the libbpf APIs and pass the file descriptors on to Qemu.
-> >> >> It's even possible to embed version information into this so that Qemu
-> >> >> can check if it understands the format and bail out if it doesn't - just
-> >> >> stick a version field in the configuration map as the first entry :)
-> >> >
-> >> > If all you have is the BPF object file is it possible to interrogate
-> >> > it to get a list of all the maps, and get FDs associated for them ?
-> >> > I had a look at the libbpf API and wasn't sure about that, it seemed
-> >> > like you had to know the required maps upfront ?  If it is possible
-> >> > to auto-discover everything you need, soley from the BPF object file
-> >> > as input, then just dealing with that in isolation would feel simpler.
-> >> 
-> >> It is. You load the object file, and bpf_object__for_each_map() lets you
-> >> discover which maps it contains, with the different bpf_map__*() APIs
-> >> telling you the properties of that map (and you can modify them too
-> >> before loading the object if needed).
-> >> 
-> >> The only thing that's not in the object file is any initial data you
-> >> want to put into the map(s). But except for read-only maps that can be
-> >> added by userspace after loading the maps, so you could just let Qemu do
-> >> that...
-> >> 
-> >> > It occurrs to me that exposing the BPF program as data rather than
-> >> > via binary will make more practical to integrate this into KubeVirt's
-> >> > architecture. In their deployment setup both QEMU and libvirt are
-> >> > running unprivileged inside a container. For any advanced nmetworking
-> >> > a completely separate component creates the TAP device and passes it
-> >> > into the container running QEMU. I don't think that the separate
-> >> > precisely matched helper binary would be something they can use, but
-> >> > it might be possible to expose a data file providing the BPF program
-> >> > blob and describing its maps.
-> >> 
-> >> Well, "a data file providing the BPF program blob and describing its
-> >> maps" is basically what a BPF .o file is. It just happens to be encoded
-> >> in ELF format :)
-> >> 
-> >> You can embed it into some other data structure and have libbpf load it
-> >> from a blob in memory as well as from the filesystem, though; that is
-> >> basically what the skeleton file does (notice the big character string
-> >> at the end, that's just the original .o file contents).
-> >
-> > Ok, in that case I'm really wondering why any of this helper program
-> > stuff was proposed. I recall the rationale was that it was impossible
-> > for an external program to load the BPF object on behalf of QEMU,
-> > because it would not know how todo that without QEMU specific
-> > knowledge.
-> 
-> I'm not sure either. Was there some bits that initially needed to be set
-> before the program was loaded (read-only maps or something)? Also,
-> upstream does encourage the use of skeletons for embedding into
-> applications, so it's not an unreasonable thing to start with if you
-> don't have the kind of deployment constraints that Qemu does in this
-> case.
-> 
-> > It looks like we can simply expose the BPF object blob to mgmt apps
-> > directly and get rid of this helper program entirely.
-> 
-> I believe so, yes. You'd still need to be sure that the BPF object file
-> itself comes from a trusted place, but hopefully it should be enough to
-> load it from a known filesystem path? (Sorry if this is a stupid
-> question, I only have a fuzzy idea of how all the pieces fit together
-> here).
+On 28/02/2023 23:24, Michael S. Tsirkin wrote:
+> On Tue, Feb 28, 2023 at 07:59:54PM +0200, Anton Kuchin wrote:
+>> On 28/02/2023 16:57, Michael S. Tsirkin wrote:
+>>> On Tue, Feb 28, 2023 at 04:30:36PM +0200, Anton Kuchin wrote:
+>>>> I really don't understand why and what do you want to check on
+>>>> destination.
+>>> Yes I understand your patch controls source. Let me try to rephrase
+>>> why I think it's better on destination.
+>>> Here's my understanding
+>>> - With vhost-user-fs state lives inside an external daemon.
+>>> A- If after load you connect to the same daemon you can get migration mostly
+>>>     for free.
+>>> B- If you connect to a different daemon then that daemon will need
+>>>     to pass information from original one.
+>>>
+>>> Is this a fair summary?
+>>>
+>>> Current solution is to set flag on the source meaning "I have an
+>>> orchestration tool that will make sure that either A or B is correct".
+>>>
+>>> However both A and B can only be known when destination is known.
+>>> Especially as long as what we are really trying to do is just allow qemu
+>>> restarts, Checking the flag on load will thus achive it in a cleaner
+>>> way, in that orchestration tool can reasonably keep the flag
+>>> clear normally and only set it if restarting qemu locally.
+>>>
+>>>
+>>> By comparison, with your approach orchestration tool will have
+>>> to either always set the flag (risky since then we lose the
+>>> extra check that we coded) or keep it clear and set before migration
+>>> (complex).
+>>>
+>>> I hope I explained what and why I want to check.
+>>>
+>>> I am far from a vhost-user-fs expert so maybe I am wrong but
+>>> I wanted to make sure I got the point across even if other
+>>> disagree.
+>>>
+>> Thank you for the explanation. Now I understand your concerns.
+>>
+>> You are right about this mechanism being a bit risky if orchestrator is
+>> not using it properly or clunky if it is used in a safest possible way.
+>> That's why first attempt of this feature was with migration capability
+>> to let orchestrator choose behavior right at the moment of migration.
+>> But it has its own problems.
+>>
+>> We can't move this check only to destination because one of main goals
+>> was to prevent orchestrators that are unaware of vhost-user-fs specifics
+>> from accidentally migrating such VMs. We can't rely here entirely on
+>> destination to block this because if VM is migrated to file and then
+>> can't be loaded by destination there is no way to fallback and resume
+>> the source so we need to have some kind of blocker on source by default.
+> Interesting.  Why is there no way? Just load it back on source? Isn't
+> this how any other load failure is managed? Because for sure you
+> need to manage these, they will happen.
 
-It could be from a well known location on the filesystem, but might
-be better to make it possible to query it from QMP, which is mostly
-safe *provided* you've not yet started guest CPUs running. It could
-be queried at startup and then cached for future use.
+Because source can be already terminated and if load is not supported by
+orchestrator and backend stream can't be loaded on source too. So we need to
+ensure that only orchestrators that know what they are doing explicitly 
+enable
+the feature are allowed to start migration.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>
+>> Said that checking on destination would need another flag and the safe
+>> way of using this feature would require managing two flags instead of one
+>> making it even more fragile. So I'd prefer not to make it more complex.
+>>
+>> In my opinion the best way to use this property by orchestrator is to
+>> leave default unmigratable behavior at start and just before migration when
+>> destination is known enumerate all vhost-user-fs devices and set properties
+>> according to their backends capability with QMP like you mentioned. This
+>> gives us single point of making the decision for each device and avoids
+>> guessing future at VM start.
+> this means that you need to remember what the values were and then
+> any failure on destination requires you to go back and set them
+> to original values. With possibility of crashes on the orchestrator
+> you also need to recall the temporary values in some file ...
+> This is huge complexity much worse than two flags.
+>
+> Assuming we need two let's see whether just reload on source is good
+> enough.
 
+Reload on source can't be guaranteed to work too. And even if we could
+guarantee it to work then we would also need to setup its incoming migration
+type in case outgoing migration fails.
+If orchestrator crashes and restarts it can revert flags for all devices
+or can rely on next migration code to setup them correctly because they have
+no effect between migrations anyway.
+
+Reverting migration that failed on destination is not an easy task too.
+It seems to be much more complicated than refusing to migrate on source.
+
+I believe we should perform sanity checks if we have data but engineering
+additional checks and putting extra restrictions just to prevent 
+orchestrator
+from doing wrong things is an overkill.
+
+>> But allowing setup via command-line is valid too because some backends may
+>> always be capable of external migration independent of hosts and don't need
+>> the manipulations with QMP before migration at all.
+> I am much more worried that the realistic schenario is hard to manage
+> safely than about theoretical state migrating backends that don't exist.
+>
+>
 
