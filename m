@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44B46A6EF2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 16:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CDB6A6EFF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 16:06:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNz8-0000vm-BP; Wed, 01 Mar 2023 10:03:14 -0500
+	id 1pXO1S-0002QB-SH; Wed, 01 Mar 2023 10:05:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXNz6-0000vR-HT
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:03:12 -0500
+ id 1pXO1M-0002Ps-Nu
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:05:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pXNz4-0003RA-9x
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:03:12 -0500
+ id 1pXO1K-0004JN-QG
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:05:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677682989;
+ s=mimecast20190719; t=1677683130;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8JW0RZSBvgSIMWB8egaCptwx/tOZYBBXFhyuAtJcN64=;
- b=BHMm8Yqq0CDbTJAsmEBeEOPpY9qSwWdZbmWnpddwnEHfZz8OHH8M5VMDbjl56sDM4OMvvQ
- JlS4XHOnC06gZp+0lfYjKd5eNliz82bGy9+Ch61HVWX1293yTlygP26TEo0N4rSChLNE7K
- r5Jg3zJiI/JMn1bMgbWuwyR3zMgXuKI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oAEN78H3UibrrHw4ahTTMOH+/Jvwvico4n92gQf4pW4=;
+ b=hGvSOrwK1vC2GCOIDdtIrPgt0bajytOFSh2InkYu+PK2hxqAfbKl7vEDzCQXrXR/fhj1MP
+ uB1SeTKrPU1wA8v1Lqb0EMyl9uvnJr9Fx1qrcSdH3TJi8XgZX5PiCSmOmUwZL/lhNzMTFa
+ Ab2jQWRYiUHLOX8Mu824GV4PshxkCsk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-6buQ-1akO0WE04--0400Qw-1; Wed, 01 Mar 2023 10:03:04 -0500
-X-MC-Unique: 6buQ-1akO0WE04--0400Qw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-526-9UjMKNmhPw6jRA6wawTHTA-1; Wed, 01 Mar 2023 10:05:27 -0500
+X-MC-Unique: 9UjMKNmhPw6jRA6wawTHTA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 45BB91C189A7;
- Wed,  1 Mar 2023 15:02:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B34985D060;
+ Wed,  1 Mar 2023 15:05:26 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DFEBE18EC1;
- Wed,  1 Mar 2023 15:02:35 +0000 (UTC)
-Date: Wed, 1 Mar 2023 15:02:25 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 120E540CF8EC;
+ Wed,  1 Mar 2023 15:05:20 +0000 (UTC)
+Date: Wed, 1 Mar 2023 15:05:17 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH 0/3] qdev: Introduce QDEV_DECLARE_DEV_BUS_TYPES() macro
-Message-ID: <Y/9pAaV0QoTzGg4q@redhat.com>
-References: <20230213105609.6173-1-philmd@linaro.org>
- <20230301154244.4f43aa6d@imammedo.users.ipa.redhat.com>
+To: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>, jasowang@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ thuth@redhat.com, philmd@linaro.org, armbru@redhat.com,
+ eblake@redhat.com, qemu-devel@nongnu.org, mprivozn@redhat.com,
+ yan@daynix.com
+Subject: Re: [PATCH 3/5] qmp: Added the helper stamp check.
+Message-ID: <Y/9prSBDTQoL7yn5@redhat.com>
+References: <20230219162100.174318-1-andrew@daynix.com>
+ <20230219162100.174318-4-andrew@daynix.com>
+ <Y/NCQhGmqIadlw0y@redhat.com>
+ <CAOEp5Of-sC1nuz4rAZkt8YoL2ctnSPAQ9QyxoQ97XiQ17wZ1Fg@mail.gmail.com>
+ <Y/5CQ5md6huqNsx4@redhat.com> <877cw1ipgg.fsf@toke.dk>
+ <Y/5QHonZyB+7vzEN@redhat.com> <87ttz5h1mj.fsf@toke.dk>
+ <Y/8bQjj8VZ/7qal1@redhat.com> <871qm8h69w.fsf@toke.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230301154244.4f43aa6d@imammedo.users.ipa.redhat.com>
+In-Reply-To: <871qm8h69w.fsf@toke.dk>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -91,40 +93,91 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 01, 2023 at 03:42:44PM +0100, Igor Mammedov wrote:
-> On Mon, 13 Feb 2023 11:56:06 +0100
-> Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+On Wed, Mar 01, 2023 at 03:53:47PM +0100, Toke Høiland-Jørgensen wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> > Experiment after discussing with Thomas around qdev_get_parent_bus:
-> > https://lore.kernel.org/qemu-devel/ad356f64-dca0-8117-d22a-a530e620ddb0@redhat.com/
-> > 
-> > When a QDev plug on a QBus, we'll always use qdev_get_parent_bus()
-> > at least once with this type. Why not provide a consistent defined
-> > macro instead of:
-> >  1/ adding an inlined helper such usb_bus_from_device()
-> >     or scsi_bus_from_device() with different type checks,
-> >  2/ open-code calls to qdev_get_parent_bus() with unsafe casts
-> > ?
-> > 
-> > This RFC series introduce a QDev-equivalent of QOM DECLARE_TYPES
-> > macro, to be used with a (device, bus) tuple, and declaring the
-> > equivalent device_GET_BUS() macro.
-> it's already bad having 2 ways to declare types (though SIMPLE was a huge LOC saving)
-> so question is where do we stop (API explosion ain't a good thing either).
+> > On Tue, Feb 28, 2023 at 11:21:56PM +0100, Toke Høiland-Jørgensen wrote:
+> >> Daniel P. Berrangé <berrange@redhat.com> writes:
+> >> 
+> >> > On Tue, Feb 28, 2023 at 08:01:51PM +0100, Toke Høiland-Jørgensen wrote:
+> >> >> Daniel P. Berrangé <berrange@redhat.com> writes:
+> >> >> 
+> >> >> Just to interject a note on this here: the skeleton code is mostly a
+> >> >> convenience feature used to embed BPF programs into the calling binary.
+> >> >> It is perfectly possible to just have the BPF object file itself reside
+> >> >> directly in the file system and just use the regular libbpf APIs to load
+> >> >> it. Some things get a bit more cumbersome (mostly setting values of
+> >> >> global variables, if the BPF program uses those).
+> >> >> 
+> >> >> So the JSON example above could just be a regular compiled-from-clang
+> >> >> BPF object file, and the management program can load that, inspect its
+> >> >> contents using the libbpf APIs and pass the file descriptors on to Qemu.
+> >> >> It's even possible to embed version information into this so that Qemu
+> >> >> can check if it understands the format and bail out if it doesn't - just
+> >> >> stick a version field in the configuration map as the first entry :)
+> >> >
+> >> > If all you have is the BPF object file is it possible to interrogate
+> >> > it to get a list of all the maps, and get FDs associated for them ?
+> >> > I had a look at the libbpf API and wasn't sure about that, it seemed
+> >> > like you had to know the required maps upfront ?  If it is possible
+> >> > to auto-discover everything you need, soley from the BPF object file
+> >> > as input, then just dealing with that in isolation would feel simpler.
+> >> 
+> >> It is. You load the object file, and bpf_object__for_each_map() lets you
+> >> discover which maps it contains, with the different bpf_map__*() APIs
+> >> telling you the properties of that map (and you can modify them too
+> >> before loading the object if needed).
+> >> 
+> >> The only thing that's not in the object file is any initial data you
+> >> want to put into the map(s). But except for read-only maps that can be
+> >> added by userspace after loading the maps, so you could just let Qemu do
+> >> that...
+> >> 
+> >> > It occurrs to me that exposing the BPF program as data rather than
+> >> > via binary will make more practical to integrate this into KubeVirt's
+> >> > architecture. In their deployment setup both QEMU and libvirt are
+> >> > running unprivileged inside a container. For any advanced nmetworking
+> >> > a completely separate component creates the TAP device and passes it
+> >> > into the container running QEMU. I don't think that the separate
+> >> > precisely matched helper binary would be something they can use, but
+> >> > it might be possible to expose a data file providing the BPF program
+> >> > blob and describing its maps.
+> >> 
+> >> Well, "a data file providing the BPF program blob and describing its
+> >> maps" is basically what a BPF .o file is. It just happens to be encoded
+> >> in ELF format :)
+> >> 
+> >> You can embed it into some other data structure and have libbpf load it
+> >> from a blob in memory as well as from the filesystem, though; that is
+> >> basically what the skeleton file does (notice the big character string
+> >> at the end, that's just the original .o file contents).
+> >
+> > Ok, in that case I'm really wondering why any of this helper program
+> > stuff was proposed. I recall the rationale was that it was impossible
+> > for an external program to load the BPF object on behalf of QEMU,
+> > because it would not know how todo that without QEMU specific
+> > knowledge.
 > 
-> I my opinion this is just code churn for nor tangible benefit,
-> given how qdev_get_parent_bus() is used.
+> I'm not sure either. Was there some bits that initially needed to be set
+> before the program was loaded (read-only maps or something)? Also,
+> upstream does encourage the use of skeletons for embedding into
+> applications, so it's not an unreasonable thing to start with if you
+> don't have the kind of deployment constraints that Qemu does in this
+> case.
+> 
+> > It looks like we can simply expose the BPF object blob to mgmt apps
+> > directly and get rid of this helper program entirely.
+> 
+> I believe so, yes. You'd still need to be sure that the BPF object file
+> itself comes from a trusted place, but hopefully it should be enough to
+> load it from a known filesystem path? (Sorry if this is a stupid
+> question, I only have a fuzzy idea of how all the pieces fit together
+> here).
 
-Right so in the USB conversion the only improvement is the elimination of
-this method:
-
--static inline USBBus *usb_bus_from_device(USBDevice *d)
--{
--    return DO_UPCAST(USBBus, qbus, qdev_get_parent_bus(DEVICE(d)));
--}
-
-It strikes me that we don't have especially many (bus-type, device-type)
-pairs that would benefit from this macro.
+It could be from a well known location on the filesystem, but might
+be better to make it possible to query it from QMP, which is mostly
+safe *provided* you've not yet started guest CPUs running. It could
+be queried at startup and then cached for future use.
 
 With regards,
 Daniel
