@@ -2,79 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5DDD6A6840
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:36:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC2E6A6841
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:38:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXGzs-0001Q6-QF; Wed, 01 Mar 2023 02:35:32 -0500
+	id 1pXH2W-0006Bv-DJ; Wed, 01 Mar 2023 02:38:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXGzp-0001J9-0S
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:35:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXGzm-0003fe-Ms
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:35:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677656125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HYF4RCZ3NLX6x5O6feGJIHu2VDXXKtj8N3eWJ+tbjLE=;
- b=FqTuBmlhHkleinulaIMnHgibUeYK1ZXphxB+ZnqXA3UIfdtVzoIBDpa6xi4uErUxR21Xev
- srDwOq3PcD14imWPuS5jKqU8ismJLXSSqhHmOtTpYrV/3PY3T4zRYcVGX2eR9OWnocjng/
- JVc8kY2PDx74xJlcraaCuE3zj8qbD8o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-RI74EMrUNE2QrJP1w4yKng-1; Wed, 01 Mar 2023 02:35:22 -0500
-X-MC-Unique: RI74EMrUNE2QrJP1w4yKng-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33D0918E0925;
- Wed,  1 Mar 2023 07:35:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0751C400D796;
- Wed,  1 Mar 2023 07:35:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DC27621E6A1F; Wed,  1 Mar 2023 08:35:20 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  qemu-devel@nongnu.org,  Peter Maydell
- <peter.maydell@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Alex
- =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  qemu-arm@nongnu.org,
- Maxim Levitsky
- <mlevitsk@redhat.com>,  libvir-list@redhat.com,  Richard Henderson
- <richard.henderson@linaro.org>,  xen-devel@lists.xenproject.org,  Reinoud
- Zandijk <reinoud@netbsd.org>,  Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH 0/2] Deprecate support for 32-bit x86 and arm hosts
-References: <20230227111050.54083-1-thuth@redhat.com>
- <Y/z4rwv09Ckhbtfp@redhat.com>
- <001bedba-b12f-4dd8-0866-7ccb9ce877d0@redhat.com>
- <Y/3C+jC3Lk5MJxfu@redhat.com>
- <99a83e65-273a-ea1b-e7d9-bbdd8ca32145@redhat.com>
- <20230228162938-mutt-send-email-mst@kernel.org>
-Date: Wed, 01 Mar 2023 08:35:20 +0100
-In-Reply-To: <20230228162938-mutt-send-email-mst@kernel.org> (Michael
- S. Tsirkin's message of "Tue, 28 Feb 2023 16:32:43 -0500")
-Message-ID: <87lekg53gn.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXH2O-00062W-44
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:38:09 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXH2M-0004Ex-F0
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:38:07 -0500
+Received: by mail-wr1-x429.google.com with SMTP id h11so477929wrm.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 23:38:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677656284;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=XUpEQ/uHIC4kK9X3lf1DvjLD7Irehy2VfpQRNjmVuAs=;
+ b=T/k+yPnEnNDGWwtdfjmSYseiBlXFDUZJKGYIF8GG2G1lzHTmmHEw28MBXuXr5ngjB+
+ 9ra3OS0tjmaoz4aeChGke5yaugWPw4DwC92JHHyPLG/3TRT8UeTxDn3KmbTU5nxHL9RJ
+ C5RGB4PsoBmOROlbmCWDroZCwYhXp8hr9k1U766/fQHMX37LHQs6C9LFNDItYSj4KPqr
+ Kh3cDQrXwH/IJEIQhCMXXo88784ZKyQeuJs+TPHy1yrwRJ/5KvIMvrAx7txmf6xG8w4/
+ bKxnlSiWjucYlH5x7GOPIoklYucSDpEVEtsGEFYbRhPa1CZAZ1YIWVesMSzRmBN8AuDb
+ wyeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677656284;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XUpEQ/uHIC4kK9X3lf1DvjLD7Irehy2VfpQRNjmVuAs=;
+ b=nhx2d0TfxHjMgpGrI1+l1vZ2v/aWBbt+f19XPeDjEax2hN048pi3KiDPCABp6R5IIY
+ ABdmrpcLSeec6JuawTMgqCPeg/6CLCqDJT5BA8+LiQ6s9utlDfiUKzlUwwA+fq3Ez3Rz
+ aU7cIvCWYLtTDA/CrpEi4A3ZaithhPDiX+IJVNZibl4wDhbewVyIBZmIsvkJ1i5UNRUS
+ E6dys/JW8jHlKTQLmtFfB7DIYpNeatRLcdYtaoHEO+euFTcGj3Bu2KIRf/7oq8C1uueT
+ LiijFZjGOnKyTfjAXtxeu7pPyZE0ACAwdEXRk9VuznmtKEX4mpHUyOHQWZXhCSOHEAjY
+ DHoQ==
+X-Gm-Message-State: AO0yUKVH4S3XGQYnF+a72h50QDzVQPTCHE0m4Qc0thv6nbkOJdjkaBlh
+ /gjN2f27n3n/7Y0GbJcSX/uHNA==
+X-Google-Smtp-Source: AK7set+rXwvHDB1VgYk4qgSRVgkEWkfsYaTY0AHsrala+3ya5lCvJOOtfFyhWYGrZixe9aBZeGZxCA==
+X-Received: by 2002:adf:f44b:0:b0:2c8:5f9d:9f6f with SMTP id
+ f11-20020adff44b000000b002c85f9d9f6fmr4938814wrp.10.1677656284511; 
+ Tue, 28 Feb 2023 23:38:04 -0800 (PST)
+Received: from [192.168.18.115] ([91.219.21.246])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020adffa52000000b002c55efa9cbesm11643744wrr.39.2023.02.28.23.38.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 23:38:03 -0800 (PST)
+Message-ID: <db096848-11a3-b6da-93f1-b53a26a477f9@linaro.org>
+Date: Wed, 1 Mar 2023 08:38:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.8.0
+Subject: Re: [PATCH v3 22/24] gitlab: move the majority of artefact handling
+ to a template
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
+ <armbru@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230228190653.1602033-1-alex.bennee@linaro.org>
+ <20230228190653.1602033-23-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230228190653.1602033-23-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,29 +111,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
+On 28/2/23 20:06, Alex Bennée wrote:
+> To avoid lots of copy and paste lets deal with artefacts in a
+> template. This way we can filter out most of the pre-binary object and
+> library files we no longer need as we have the final binaries.
+> 
+> build-system-alpine also saved .git-submodule-status so for simplicity
+> we bring that into the template as well.
+> 
+> As an example the build-system-ubuntu artefacts before this patch
+> where around 1.3 GB, after dropping the object files it comes to 970
+> MB.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   .gitlab-ci.d/buildtest-template.yml | 16 ++++++
+>   .gitlab-ci.d/buildtest.yml          | 81 +++++++++++------------------
+>   2 files changed, 46 insertions(+), 51 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+> index cb96b55c3f..a6cfe9be97 100644
+> --- a/.gitlab-ci.d/buildtest-template.yml
+> +++ b/.gitlab-ci.d/buildtest-template.yml
+> @@ -25,6 +25,22 @@
+>           make -j"$JOBS" $MAKE_CHECK_ARGS ;
+>         fi
+>   
+> +# We jump some hoops in common_test_job_template to avoid
+> +# rebuilding all the object files we skip in the artifacts
+> +.native_build_artifact_template:
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+> +      - .git-submodule-status
+> +    exclude:
+> +      - build/**/*.p
+> +      - build/**/*.a.p
+> +      - build/**/*.fa.p
+> +      - build/**/*.c.o
+> +      - build/**/*.c.o.d
+> +      - build/**/*.fa
+> +
+>   .common_test_job_template:
+>     extends: .base_job_template
+>     stage: test
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index 43f9e4a81d..44b8275299 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -2,7 +2,9 @@ include:
+>     - local: '/.gitlab-ci.d/buildtest-template.yml'
+>   
+>   build-system-alpine:
+> -  extends: .native_build_job_template
+> +  extends:
+> +    - .native_build_job_template
+> +    - .native_build_artifact_template
 
-> On Tue, Feb 28, 2023 at 09:05:16PM +0100, Thomas Huth wrote:
->> Well, without CI, I assume that the code will bitrot quite fast (considering
->> that there are continuous improvements to TCG, for example).
->
-> We have lots of hosts which we don't test with CI.  They don't bitrot
-> because people do testing before release. This is what RCs are for.
-> We did releases before CI - it is a cost/benefit thing.
-
-Dropping 32-bit x86 from CI feels like a no-brainer in the current
-situation.
-
-As to deprecating 32-bit x86: the people by far most qualified to judge
-the "cost/benefit thing" are the regulars who are bearing the cost,
-i.e. the people who are actually maintaining it.  Their opinion should
-overrule any "but somebody out there might still want to use it".
-
-Maintainers, please state your opinion, if any: aye or nay.
-
-Richard tells us "the maint overhead is large."  Makes me think he's in
-favour of dropping 32-bit x86.  Richard?
-
-Peter seems to be reluctant to drop 32-bit ARM at this point.  Peter?
-
+I'm confused... Apparently this doesn't work:
+https://gitlab.com/stsquad/qemu/-/jobs/3847747681/artifacts/browse
 
