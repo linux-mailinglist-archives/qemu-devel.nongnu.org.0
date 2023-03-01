@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFF46A6D0F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21786A6D0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:32:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXMZ1-00029X-Kr; Wed, 01 Mar 2023 08:32:11 -0500
+	id 1pXMZ0-00028S-UY; Wed, 01 Mar 2023 08:32:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pXMYe-0001zb-Kc; Wed, 01 Mar 2023 08:31:51 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pXMYc-0004aI-0U; Wed, 01 Mar 2023 08:31:47 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1CEFA1FE14;
- Wed,  1 Mar 2023 13:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677677503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pXMYl-00020n-WF
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:32:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pXMYg-0004cY-PR
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:31:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677677509;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6VQYdMFvHstlwEIjDgGv8K4OCyV74uU2y1WlLgWMGC0=;
- b=xZQmeGyctAUwtU6tqcjnCjz9RFKq+LNPfShkiELj846u99LrMMHKHc1VQeQjWO1rclbdMJ
- 2e9gwzz6ZQM7i0ptp9NzT+s3xa5TYBTu952ebz5ubeszl+s5nGczAsxm1DEBcchseN4TZ6
- pUcWRFODmkNXVUZX/6W0vjzFB3aPwLc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677677503;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6VQYdMFvHstlwEIjDgGv8K4OCyV74uU2y1WlLgWMGC0=;
- b=7z9lC47ScL8RQM2USWoI1/tvh9yYD+kxukRdYWU1u0BwcVGB+rnd6HkcMu2uiZ5GjFDRR1
- Id/yLZQnlZKSqeAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=nC69pigVc9e/BUhGQDukrEJzPKjpoGjkSCexA4b152M=;
+ b=F/WhS3RrIK2BoL7u+F2CAjvJa54NMJhrTqmb52h5W1NCo2WWDQo7XFlOB5k0EngTCBSbkU
+ H6kZhKc4EsN8LLqYlZCkyyVFuBjRDMJnJ5+xcS/r4aBJ5ivzx94aOh2kMaz/MgSgXcpRsz
+ ApizsmXQbB9No/PGj7K1baspWmfRklY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-185-vdYTECXDNB-AY2Sr9lzr1Q-1; Wed, 01 Mar 2023 08:31:48 -0500
+X-MC-Unique: vdYTECXDNB-AY2Sr9lzr1Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 946EA13A3E;
- Wed,  1 Mar 2023 13:31:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id xK1+F75T/2PiFgAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 01 Mar 2023 13:31:42 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Laurent
- Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RESEND v7 9/9] tests/qtest: Fix tests when no KVM or TCG
- are present
-In-Reply-To: <11be1f6c-2fc3-f6cd-bbf6-c6bdd790dec8@redhat.com>
-References: <20230228192628.26140-1-farosas@suse.de>
- <20230228192628.26140-10-farosas@suse.de>
- <11be1f6c-2fc3-f6cd-bbf6-c6bdd790dec8@redhat.com>
-Date: Wed, 01 Mar 2023 10:31:40 -0300
-Message-ID: <87v8jkk37n.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BACCF185A78B;
+ Wed,  1 Mar 2023 13:31:47 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F8B92026D76;
+ Wed,  1 Mar 2023 13:31:46 +0000 (UTC)
+Date: Wed, 1 Mar 2023 14:31:45 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Subject: Re: [PATCH] configure: Disable thread-safety warnings on macOS
+Message-ID: <Y/9TwfYFEsVeZKTr@redhat.com>
+References: <20230301113425.286946-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230301113425.286946-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,66 +77,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> writes:
+Am 01.03.2023 um 12:34 hat Thomas Huth geschrieben:
+> The enablement of -Wthread-safety broke compilation on macOS (if
+> -Werror is enabled, like in our CI). Disable it there by default
+> until the problems are resolved.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-> On 28/02/2023 20.26, Fabiano Rosas wrote:
->> It is possible to have a build with both TCG and KVM disabled due to
->> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
->> host.
->> 
->> If we build with --disable-tcg on the aarch64 host, we will end-up
->> with a QEMU binary (x86) that does not support TCG nor KVM.
->> 
->> Fix tests that crash or hang in the above scenario. Do not include any
->> test cases if TCG and KVM are missing.
->> 
->> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->> ---
-> ...
->> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
->> index 3aef3a97a9..45490f5931 100644
->> --- a/tests/qtest/boot-serial-test.c
->> +++ b/tests/qtest/boot-serial-test.c
->> @@ -17,6 +17,9 @@
->>   #include "libqtest.h"
->>   #include "libqos/libqos-spapr.h"
->>   
->> +static bool has_tcg;
->> +static bool has_kvm;
->
-> Any special reason for putting these here instead of making them local 
-> variables in the main() function?
->
+This is simpler than what I attempted (test compiling something using
+the same TSA features as the failing code), but didn't actually work.
+Since I don't have access to macOS, it's hard for me to improve the
+configure test. So I'm fine with just doing this instead.
 
-Yes, Phillipe was doing work in the same file and I put it here to
-minimize conflicts.
+Acked-by: Kevin Wolf <kwolf@redhat.com>
 
-https://lore.kernel.org/r/20230119145838.41835-5-philmd@linaro.org
+For reference, below my failed alternative attempt at a configure patch,
+which somehow still enabled TSA on macOS and therefore still fails to
+build.
 
->>   static const uint8_t bios_avr[] = {
->>       0x88, 0xe0,             /* ldi r24, 0x08   */
->>       0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
->> @@ -285,6 +288,13 @@ int main(int argc, char *argv[])
->>       const char *arch = qtest_get_arch();
->>       int i;
->>   
->> +    has_tcg = qtest_has_accel("tcg");
->> +    has_kvm = qtest_has_accel("kvm");
->> +
->> +    if (!has_tcg && !has_kvm) {
->> +        return 0;
->> +    }
->> +
->>       g_test_init(&argc, &argv, NULL);
->
-> Could you please put the new code below the g_test_init() ?
-> Just to avoid the problem that has been reported here:
->
->   https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg08331.html
->
+Kevin
 
-I could, but I don't understand why we need this. What does having
-"code" before g_test_init() causes? Should I move the qtest_get_arch()
-that's already there as well?
+
+diff --git a/configure b/configure
+index 2a8a9be8a1..970ee31889 100755
+--- a/configure
++++ b/configure
+@@ -228,6 +228,7 @@ cross_prefix=""
+ host_cc="cc"
+ stack_protector=""
+ safe_stack=""
++tsa=""
+ use_containers="yes"
+ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
+
+@@ -854,6 +855,10 @@ for opt do
+   ;;
+   --disable-safe-stack) safe_stack="no"
+   ;;
++  --enable-tsa) tsa="yes"
++  ;;
++  --disable-tsa) tsa="no"
++  ;;
+   --enable-cfi)
+       cfi="true";
+       meson_option_add -Db_lto=true
+@@ -1023,6 +1028,7 @@ Advanced options (experts only):
+   --with-devices-ARCH=NAME override default configs/devices
+   --enable-debug           enable common debug build options
+   --enable-sanitizers      enable default sanitizers
++  --enable-tsa             enable TSA (Thread Safety Analysis)
+   --enable-tsan            enable thread sanitizer
+   --disable-werror         disable compilation abort on warning
+   --disable-stack-protector disable compiler-provided stack protection
+@@ -1230,7 +1236,6 @@ add_to warn_flags -Wendif-labels
+ add_to warn_flags -Wexpansion-to-defined
+ add_to warn_flags -Wimplicit-fallthrough=2
+ add_to warn_flags -Wmissing-format-attribute
+-add_to warn_flags -Wthread-safety
+
+ nowarn_flags=
+ add_to nowarn_flags -Wno-initializer-overrides
+@@ -1308,6 +1313,28 @@ EOF
+   fi
+ fi
+
++if test "$tsa" != "no"; then
++  cat > $TMPC << EOF
++typedef int __attribute__((capability("mutex"))) Lock;
++Lock lock;
++static void __attribute__((assert_capability(lock))) assert_lock(void) {}
++static void __attribute__((requires_capability(lock))) require_lock(void) {}
++int main(void)
++{
++    assert_lock();
++    require_lock();
++    return 0;
++}
++EOF
++  flag="-Wthread-safety"
++  if compile_object "-Werror $flag"; then
++    QEMU_CFLAGS="$QEMU_CFLAGS $flag"
++    tsa="yes"
++  elif test "$tsa" = yes; then
++    error_exit "Thread Safety Analysis not supported"
++  fi
++fi
++
+ # Our module code doesn't support Windows
+ if test "$modules" = "yes" && test "$mingw32" = "yes" ; then
+   error_exit "Modules are not available for Windows"
+@@ -2378,6 +2405,9 @@ if test "$have_asan_iface_fiber" = "yes" ; then
+     echo "CONFIG_ASAN_IFACE_FIBER=y" >> $config_host_mak
+ fi
+
++if test "$tsa" = "yes"; then
++    echo "CONFIG_TSA=y" >> $config_host_mak
++fi
+ if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
+     echo "CONFIG_TSAN=y" >> $config_host_mak
+ fi
+diff --git a/meson.build b/meson.build
+index 77d2ae87e4..a793eaacc5 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3842,6 +3842,7 @@ else
+ endif
+ summary_info += {'gprof':             gprof_info}
+ summary_info += {'gcov':              get_option('b_coverage')}
++summary_info += {'thread safety analysis (TSA)': config_host.has_key('CONFIG_TSA')}
+ summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
+ summary_info += {'CFI support':       get_option('cfi')}
+ if get_option('cfi')
 
 
