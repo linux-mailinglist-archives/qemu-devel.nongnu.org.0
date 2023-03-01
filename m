@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF32B6A6E8A
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711216A6EA3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:43:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNY1-0000Ra-Ey; Wed, 01 Mar 2023 09:35:13 -0500
+	id 1pXNed-00054R-EY; Wed, 01 Mar 2023 09:42:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pXNXy-0000MZ-7s; Wed, 01 Mar 2023 09:35:10 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pXNeb-00054E-FB
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:42:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pXNXv-0003lv-5z; Wed, 01 Mar 2023 09:35:08 -0500
-Received: from mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
- [IPv6:2a02:6b8:c08:ae0e:0:640:6e49:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id C1D89603DE;
- Wed,  1 Mar 2023 17:34:57 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b71b::1:14] (unknown
- [2a02:6b8:b081:b71b::1:14])
- by mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id uYW7T305Qa60-U8n1GEc0; Wed, 01 Mar 2023 17:34:57 +0300
-X-Yandex-Fwd: 1
-Authentication-Results: mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net;
- dkim=pass
-Message-ID: <bf90a430-226f-085c-557e-4c1c5f8787f3@yandex-team.ru>
-Date: Wed, 1 Mar 2023 17:34:56 +0300
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pXNeZ-0005mb-PG
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:42:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677681718;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GL8KoISy8MUmiFtG9b7W0c0GJGCi7LjL9wJkEaacU3U=;
+ b=Zh1B9KmQgG3oM/7v6Mb0gbPhkBrHPIfAozXd/FS1OLXV6diqReSmGFeMp/I7kNfMsahm0A
+ koobetDYYbT2J+2XhLzJgO6Chd02x+GeN6452+nOfWXp0Vqjgg3lp79Tf2loghCki/XjNY
+ r1e97FSUickq1nZRp76au7nsmsuKUc4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-391-EQ-f3xGGMDelmEHY9zlERQ-1; Wed, 01 Mar 2023 09:41:57 -0500
+X-MC-Unique: EQ-f3xGGMDelmEHY9zlERQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 511E2181E3EE
+ for <qemu-devel@nongnu.org>; Wed,  1 Mar 2023 14:41:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C418F1121315;
+ Wed,  1 Mar 2023 14:41:56 +0000 (UTC)
+Date: Wed, 1 Mar 2023 14:41:54 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Erico Nunes <ernunes@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] ui/sdl2: remove workaround forcing x11
+Message-ID: <Y/9kMobasTih1xe7@redhat.com>
+References: <20230301141205.514338-1-ernunes@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 0/9] mirror: allow switching from background to active mode
-Content-Language: en-US
-To: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, armbru@redhat.com, eblake@redhat.com,
- hreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com, den@virtuozzo.com,
- t.lamprecht@proxmox.com, alexander.ivanov@virtuozzo.com
-References: <20230224144825.466375-1-f.ebner@proxmox.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230224144825.466375-1-f.ebner@proxmox.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230301141205.514338-1-ernunes@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,31 +78,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24.02.23 17:48, Fiona Ebner wrote:
-> With active mode, the guest write speed is limited by the synchronous
-> writes to the mirror target. For this reason, management applications
-> might want to start out in background mode and only switch to active
-> mode later, when certain conditions are met. This series adds a
-> block-job-change QMP command to acheive that, as well as
-> job-type-specific information when querying block jobs, which
-> can be used to decide when the switch should happen.
-> 
-> For now, only the direction background -> active is supported.
-> 
-> The information added upon querying is whether the target is actively
-> synced, the total data sent, and the remaining dirty bytes.
-> 
-> Initially, I tried to go for a more general 'job-change' command, but
-> I couldn't figure out a way to avoid mutual inclusion between
-> block-core.json and job.json.
+On Wed, Mar 01, 2023 at 03:12:05PM +0100, Erico Nunes wrote:
+> This workaround was put in place in the original implementation almost
+> 10 years ago, considering a very old SDL2 version. Currently it prevents
+> users to run in a wayland-only environment without manually forcing the
+> backend.
+> The SDL2 wayland backend has been supported by distributions for a very
+> long time (e.g. in Fedora, first available 8 years ago), and is now
+> considered stable and becoming the default for new SDL2 releases.
+> Instead of requiring the x11 backend to exist by default, let new qemu
+> releases run with the default chosen by the installed SDL2 version.
 
-Hmm, what do you mean? As I understand job-* API is "new" and block-job-* is "old", so we'd better add job-change command
+As the comment says, it is better fixed elsewhere anyway rather
+than hardcoding in QEMU
 
+> 
+> Signed-off-by: Erico Nunes <ernunes@redhat.com>
+> ---
+>  ui/sdl2.c | 16 ----------------
+>  1 file changed, 16 deletions(-)
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+With regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
