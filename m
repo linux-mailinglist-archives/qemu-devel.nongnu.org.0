@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27D76A6E7B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3646A6E7A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:32:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNUi-0005gT-RQ; Wed, 01 Mar 2023 09:31:48 -0500
+	id 1pXNUj-0005gg-6c; Wed, 01 Mar 2023 09:31:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <williamvdvelde@gmail.com>)
- id 1pXIeT-0002rI-Id
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:21:33 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
+ id 1pXLwg-0000RM-Ef
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:52:36 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <williamvdvelde@gmail.com>)
- id 1pXIeS-0006C8-48
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:21:33 -0500
-Received: by mail-ed1-x533.google.com with SMTP id s26so50962227edw.11
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 01:21:31 -0800 (PST)
+ id 1pXLwd-0004RC-Uv
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 07:52:33 -0500
+Received: by mail-ed1-x535.google.com with SMTP id d30so53338575eda.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 04:52:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677662490;
+ d=gmail.com; s=20210112; t=1677675149;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=UH/coAbyxU4ZirK2emktuM859u2bGuCi7NCkEdaHFwI=;
- b=RQ49F4yEbMdG3vh/BvH0yCzr8gTwXCHCCzm/5acLPwhrNEfL9MaTSM2o7CSoT9Dis9
- FudUHag8aHtKrlcpn81/UTQSBrKSbi9dDZs5uMIkFbwrE1lv8tlekBEredVnK6IYeAB6
- aaDsaElR85G09vws3gXHTUEtRtWhY4PMkkp0+bCb8DdBjYaKKHEHHNj88/zp1O1ZmcVV
- vQ3+fKSZ6rFhjLpfGui043rN/A9Pvz5ut0KqF5GZl/q271QJsOoBduWmXwxe0LEEItL+
- j0NiDkqi0Rkpc4t6BYhOvwO1GUmewymor5Y6FIeutRcLpx28kyoJxIV1f1dbPNnMCper
- omsg==
+ b=CoQweCyC+yRBiudvQixmiayJeWoyHh/C3d1nxmxBNNXbPnpL6YeGZ7dOl1EflAiURR
+ y4PkgcJ63rrNL4uAljYJng7ZNxdg0kP+OM8PqmCE83pDvG9Zh4Pj2vrPGNrReRj4FRf2
+ JR4kb7zLgYM82VkAF10iZMlXqOb1uowUz55T3Y12KgxZSC49b0xFerwpYind0tTpaxL7
+ MhQqjfp7CmUzM62LLJwo28agEDR+GsNtpy5QOnit7oheQ4Xmg+yht6B7vc+NCj2WHkas
+ ZbWup9SwiTj/CUI8hCZn5GCrAyfUv4MQKJQ7dG9JXJG13Tfa4wkhuW94tiys+otqr+JF
+ jlpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677662490;
+ d=1e100.net; s=20210112; t=1677675149;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=UH/coAbyxU4ZirK2emktuM859u2bGuCi7NCkEdaHFwI=;
- b=v+sUagAXwDEsvjvtYERmSIpcC/rV0UKatPmexlPQUZVRJ8ObKt5qt58bpW2q12pZyP
- wcajI5vtaiNgYf3XRvp0Cwt0vBTe8y6InFa1cRc4SU3PImtes46AhWXfSde7/behu10K
- yYXeDYb3UQ3nkBRWsOaBjFH7qzzsqIi6Hgfkgw4SBrdn74k0rys2IxV+RKI5LU1bg+LF
- cBZKF5AgIEQDMaR/R6K2EYSH8yXu/xk/UoJXuiD99j5+kgoBSGyCqih9YKHG6bU1h8aD
- JZyMbvgBFS6JgS4FX1UMFFQODZSAb/QkGQ7WonxG33a6zI6/nDQUz1xcqG1hGH+QKaDW
- XXMw==
-X-Gm-Message-State: AO0yUKVOQXnZA5fK5aSafYCDJldZdKlxY/HdKWo4woJP1DDNVJmgIt2s
- k4hVTBfC7mTVQ/UIJRs6aidaN59SMA4=
-X-Google-Smtp-Source: AK7set9UjtPTfSjBa7a7+VGwHt4Orqj4rACd2fBlZGguMHrSK8d/QdNKUoMFwARsGGAx5ohFFGih3Q==
-X-Received: by 2002:aa7:d708:0:b0:4af:765b:b68e with SMTP id
- t8-20020aa7d708000000b004af765bb68emr7050289edq.9.1677662489835; 
- Wed, 01 Mar 2023 01:21:29 -0800 (PST)
+ b=K3np+xmg2xwOQj/7BfZy5zP832WZiFSeHq+m0eOmdCz4z7M4X8WCM5a8skIzO7rioa
+ DDaIoDJFEiGQ5CoobQ/0NAAyTObcfv+YtrB57Gq6jPt1SySlRdYwJtJe3ClChInln0vW
+ Z18OEbUJVTz4C4Oz26P8mAkFBaJNRy1NHKIRBooOYsYVBcedDhUSMcWyiUzYHvp+CiUe
+ YghwKJ/yuQiUEjnpK0UvRuQe+rt8M3dRSnAfHJw4aPAO2Cfw8Jn08QdrMU92J99MHXxy
+ AGniqJYuF7Ejbx/r9iaqb7eant4FWXZh2V9uNL0nyEaQu50gwBGN9OZ1yJHt90KTWtam
+ JDBQ==
+X-Gm-Message-State: AO0yUKWkb6skjKPMlrO2GaNc/IimHbC95g/kbQZM/OqlgYlIWxEBNavd
+ KLSlUizyrvRJoqk4ZXlOR00dIZOYDcU=
+X-Google-Smtp-Source: AK7set8jrKFWqqjm1Ap8skwyXBRgq/DLa+koP0HVO5YnAtFpVo2wgVNC9hptONO7cHpFxS1qS9TrXQ==
+X-Received: by 2002:a17:906:fa91:b0:88a:2e57:9813 with SMTP id
+ lt17-20020a170906fa9100b0088a2e579813mr6758651ejb.33.1677675148953; 
+ Wed, 01 Mar 2023 04:52:28 -0800 (PST)
 Received: from localhost.localdomain (77-162-74-183.fixed.kpn.net.
  [77.162.74.183]) by smtp.gmail.com with ESMTPSA id
- f22-20020a170906139600b008f398f25beesm5467963ejc.189.2023.03.01.01.21.29
+ e19-20020a1709061e9300b008d83ad86fe8sm5790080ejj.59.2023.03.01.04.52.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 01:21:29 -0800 (PST)
+ Wed, 01 Mar 2023 04:52:28 -0800 (PST)
 From: Willem van de Velde <williamvdvelde@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Willem van de Velde <williamvdvelde@gmail.com>
 Subject: [PATCH] Add qemu qcode support for keys F13 to F24
-Date: Wed,  1 Mar 2023 10:21:06 +0100
-Message-Id: <20230301092106.268440-1-williamvdvelde@gmail.com>
+Date: Wed,  1 Mar 2023 13:52:11 +0100
+Message-Id: <20230301125211.278808-1-williamvdvelde@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=williamvdvelde@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=williamvdvelde@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
