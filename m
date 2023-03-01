@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943F36A6999
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D42B6A6998
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:14:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXIWT-00081I-05; Wed, 01 Mar 2023 04:13:17 -0500
+	id 1pXIWn-0008DG-35; Wed, 01 Mar 2023 04:13:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pXIWR-00080o-7T
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:13:15 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pXIWk-00089J-Ul
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:13:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pXIWP-0004kj-7q
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:13:14 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0F50821061;
- Wed,  1 Mar 2023 09:13:01 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 1 Mar
- 2023 10:13:00 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002081ea010-eb63-43a5-87a7-bb51fd4b7217,
- BA6511934B6943C3167A88A21852BB5F3FADB7F3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <d57cabeb-192a-e56e-7eac-c8d5634368bc@kaod.org>
-Date: Wed, 1 Mar 2023 10:12:54 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pXIWj-0004nu-7y
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:13:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677662012;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mjXqt3U7rdp3eRtlPD2cPRzu2cBpSfirkGk+AonnMSw=;
+ b=SuaWvkZHpaZDA4AqMKNIH9EZo5rKy9I7yEkZwFyurwPj3sfeRkbFqP5NPBG/OLVmxTYh8H
+ TCt7QZ6boChbBLsAEiikaiLPp9XqnVMECpH6GwdlRv3NlQsfPHG/wYFNGL4b7mIIBtVeP/
+ 28ze0nuUWEufVoiZTm6qWJrnliay2Sw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-218-YcibxsWAMw2MCzPKRn0SNQ-1; Wed, 01 Mar 2023 04:13:30 -0500
+X-MC-Unique: YcibxsWAMw2MCzPKRn0SNQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A49588B7A0;
+ Wed,  1 Mar 2023 09:13:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D217D2026D2A;
+ Wed,  1 Mar 2023 09:13:28 +0000 (UTC)
+Date: Wed, 1 Mar 2023 09:13:26 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: mst@redhat.com, arei.gonglei@huawei.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 11/12] cryptodev: Support query-stats QMP command
+Message-ID: <Y/8XNqyqNDFu7rZ6@redhat.com>
+References: <20230301025124.3605557-1-pizhenwei@bytedance.com>
+ <20230301025124.3605557-12-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v6 0/8] net: Pad short frames for network backends
-Content-Language: en-US
-To: <bmeng.cn@gmail.com>, Jason Wang <jasowang@redhat.com>,
- <qemu-devel@nongnu.org>
-CC: Bin Meng <bmeng@tinylab.org>, Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
- Helge Deller <deller@gmx.de>, Richard Henderson
- <richard.henderson@linaro.org>
-References: <20230301090203.1601925-1-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230301090203.1601925-1-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 1185deec-1c0e-405c-ae2e-94cb2517a8f5
-X-Ovh-Tracer-Id: 1665205965233752937
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudelgedguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkefhvefhheeiffduvefhfeeitefhleevudfgkedujeduieetfeffgfffvdelueelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegsmhgvnhhgrdgtnhesghhmrghilhdrtghomhdpjhgrshhofigrnhhgsehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpsghmvghnghesthhinhihlhgrsgdrohhrghdpughmihhtrhihrdhflhgvhihtmhgrnhesghhmrghilhdrtghomhdpuggvlhhlvghrsehgmhigrdguvgdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehvdelpd
- hmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230301025124.3605557-12-pizhenwei@bytedance.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,96 +80,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Bin,
+On Wed, Mar 01, 2023 at 10:51:23AM +0800, zhenwei pi wrote:
+> Now we can use "query-stats" QMP command to query statistics of
+> crypto devices. (Originally this was designed to show statistics
+> by '{"execute": "query-cryptodev"}'. Daniel Berrangé suggested that
+> querying configuration info by "query-cryptodev", and querying
+> runtime performance info by "query-stats". This makes sense!)
+> 
+> Example:
+> ~# virsh qemu-monitor-command vm '{"execute": "query-stats", \
+>    "arguments": {"target": "cryptodev"} }' | jq
+> {
+>   "return": [
+>     {
+>       "provider": "cryptodev",
+>       "stats": [
+>         {
+>           "name": "asym-verify-bytes",
+>           "value": 7680
+>         },
+>         ...
+>         {
+>           "name": "asym-decrypt-ops",
+>           "value": 32
+>         },
+>         {
+>           "name": "asym-encrypt-ops",
+>           "value": 48
+>         }
+>       ],
+>       "qom-path": "/objects/cryptodev0" # support asym only
+>     },
+>     {
+>       "provider": "cryptodev",
+>       "stats": [
+>         {
+>           "name": "asym-verify-bytes",
+>           "value": 0
+>         },
+>         ...
+>         {
+>           "name": "sym-decrypt-bytes",
+>           "value": 5376
+>         },
+>         ...
+>       ],
+>       "qom-path": "/objects/cryptodev1" # support asym/sym
+>     }
+>   ],
+>   "id": "libvirt-422"
+> }
+> 
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>  backends/cryptodev.c   | 155 +++++++++++++++++++++++++++++++++++++++++
+>  qapi/stats.json        |  10 ++-
+>  stats/stats-hmp-cmds.c |   5 ++
+>  stats/stats-qmp-cmds.c |   2 +
+>  4 files changed, 170 insertions(+), 2 deletions(-)
 
-On 3/1/23 10:01, bmeng.cn@gmail.com wrote:
-> From: Bin Meng <bmeng@tinylab.org>
-> 
-> The minimum Ethernet frame length is 60 bytes. For short frames with
-> smaller length like ARP packets (only 42 bytes), on a real world NIC
-> it can choose either padding its length to the minimum required 60
-> bytes, or sending it out directly to the wire. Such behavior can be
-> hardcoded or controled by a register bit. Similarly on the receive
-> path, NICs can choose either dropping such short frames directly or
-> handing them over to software to handle.
-> 
-> On the other hand, for the network backends like SLiRP/TAP, they
-> don't expose a way to control the short frame behavior. As of today
-> they just send/receive data from/to the other end connected to them,
-> which means any sized packet is acceptable. So they can send and
-> receive short frames without any problem. It is observed that ARP
-> packets sent from SLiRP/TAP are 42 bytes, and SLiRP/TAP just send
-> these ARP packets to the other end which might be a NIC model that
-> does not allow short frames to pass through.
-> 
-> To provide better compatibility, for packets sent from QEMU network
-> backends like SLiRP/TAP, we change to pad short frames before sending
-> it out to the other end, if the other end does not forbid it via the
-> nc->do_not_pad flag. This ensures a backend as an Ethernet sender
-> does not violate the spec. But with this change, the behavior of
-> dropping short frames from SLiRP/TAP interfaces in the NIC model
-> cannot be emulated because it always receives a packet that is spec
-> complaint. The capability of sending short frames from NIC models is
-> still supported and short frames can still pass through SLiRP/TAP.
-> 
-> This series should be able to fix the issue as reported with some
-> NIC models before, that ARP requests get dropped, preventing the
-> guest from becoming visible on the network. It was workarounded in
-> these NIC models on the receive path, that when a short frame is
-> received, it is padded up to 60 bytes.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-I guess we can drop this code in ftgmac100.c also then :
 
-     /* TODO : Pad to minimum Ethernet frame length */
-     /* handle small packets.  */
-     if (size < 10) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: dropped frame of %zd bytes\n",
-                       __func__, size);
-         return size;
-     }
-
-Correct ? No need to resend. I can take care of it.
-
-Thanks,
-
-C.
-
-> Note this is a resend of the v5 [1]. Only the first 4 patches were
-> applied in QEMU 6.0, and the reset was said to be queued for 6.1
-> but for some reason they never landed in QEMU mainline.
-> 
-> [1] https://lore.kernel.org/qemu-devel/859cd26a-feb2-ed62-98d5-764841a468cf@redhat.com/
-> 
-> Bin Meng (8):
->    hw/net: e1000: Remove the logic of padding short frames in the receive
->      path
->    hw/net: vmxnet3: Remove the logic of padding short frames in the
->      receive path
->    hw/net: i82596: Remove the logic of padding short frames in the
->      receive path
->    hw/net: ne2000: Remove the logic of padding short frames in the
->      receive path
->    hw/net: pcnet: Remove the logic of padding short frames in the receive
->      path
->    hw/net: rtl8139: Remove the logic of padding short frames in the
->      receive path
->    hw/net: sungem: Remove the logic of padding short frames in the
->      receive path
->    hw/net: sunhme: Remove the logic of padding short frames in the
->      receive path
-> 
->   hw/net/e1000.c   | 11 +----------
->   hw/net/i82596.c  | 18 ------------------
->   hw/net/ne2000.c  | 12 ------------
->   hw/net/pcnet.c   |  9 ---------
->   hw/net/rtl8139.c | 12 ------------
->   hw/net/sungem.c  | 14 --------------
->   hw/net/sunhme.c  | 11 -----------
->   hw/net/vmxnet3.c | 10 ----------
->   8 files changed, 1 insertion(+), 96 deletions(-)
-> 
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
