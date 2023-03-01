@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A626A768E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:03:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA096A76A0
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:09:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXUXi-0003Uv-EJ; Wed, 01 Mar 2023 17:03:22 -0500
+	id 1pXUd0-0007ui-HB; Wed, 01 Mar 2023 17:08:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUXg-0003Un-F1
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:03:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pXUcq-0007tU-7Q
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:08:40 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUXe-00084m-S7
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:03:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677708197;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DRu/xWCMk4OQTUeWjrgfpWO59a6QNy75U92eeQL+1fQ=;
- b=a1J8aUjOX9FgOlkCktz9c/MMOdbsaqXAs1vUCROyqhc96sKtWSsg2QoYn/Ylx6bqTI5bgE
- b3xgdvN2e+7ePGiJl/2oDB48mV8kuQMxgjh1Vp022rWH5+D1hTFGPL5xhg8e8/qtm+a+CZ
- p1VxNPZ4Lh6Ugm2IJDLjoDkNA5DEx2c=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-368-SG8JF4O5PB2h7dNdGycErQ-1; Wed, 01 Mar 2023 17:03:16 -0500
-X-MC-Unique: SG8JF4O5PB2h7dNdGycErQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c7-20020a7bc847000000b003e00be23a70so288579wml.2
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 14:03:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677708195;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DRu/xWCMk4OQTUeWjrgfpWO59a6QNy75U92eeQL+1fQ=;
- b=O0XrlPKBRTVoYTHGYCm2c+7JFwDdwi5z0K7oGwgnTY+PJtI6O/4TdbgciF6K7lqb7N
- wdhdKGD3a9pdpUX5n5S/Qfk0lslpOKXziWtlxCHDDSi14LvWP/zjBxeSSNarVnnotD6t
- KslMTNkF6atpWDkcLWo9YlAwIWtHMTOh+pxnJWYPZxEpmNSY6Dv3hVpQOkZ6KwsoW9tS
- GMHEdJw5HnA8EjZ7RwK78pLjLVlI9iNOXsahdAcRg41+suVr0pAbsEcqAT4C2aNQDXXo
- E9WYVpD2pWLtr0q4qjLMVuBqXbvoyhpXRLnR0d/QQr3dfAXNnvlLDRU5YBfbOELXCH7s
- LauQ==
-X-Gm-Message-State: AO0yUKUhQ8PaexaIPrCzig/1yqWxx49SLq2H8jh9YBFd0fxZD6QQ+qbp
- er8kKHJ1rJpsKZafw7PArssc7yC4PjRRxrKhfI05ItNBmuG5C9fKL1hBxRYBAIGuVibwsyewVKW
- Uulh9ZhGC9ncv/gE=
-X-Received: by 2002:a05:600c:81e:b0:3eb:3692:644e with SMTP id
- k30-20020a05600c081e00b003eb3692644emr5988989wmp.33.1677708195009; 
- Wed, 01 Mar 2023 14:03:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set+qtP7cyARwBMKjM0+oO2QOy0J0WUF4IS2HdL5Sm9cYNXESwKmz7ty3Fmtr6s8xYngHv5xSdw==
-X-Received: by 2002:a05:600c:81e:b0:3eb:3692:644e with SMTP id
- k30-20020a05600c081e00b003eb3692644emr5988978wmp.33.1677708194631; 
- Wed, 01 Mar 2023 14:03:14 -0800 (PST)
-Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- l15-20020a05600012cf00b002be505ab59asm13770891wrx.97.2023.03.01.14.03.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 14:03:14 -0800 (PST)
-Date: Wed, 1 Mar 2023 17:03:11 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Carlos =?iso-8859-1?Q?L=F3pez?= <clopez@suse.de>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] virtio: fix reachable assertion due to stale value of
- cached region size
-Message-ID: <20230301170016-mutt-send-email-mst@kernel.org>
-References: <20230215221444.29845-1-clopez@suse.de>
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pXUco-0000ZY-0u
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:08:39 -0500
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pXUcc-0001sb-EY; Wed, 01 Mar 2023 23:08:26 +0100
+Message-ID: <9280c056-43eb-08e6-cb63-a7e601cb4700@maciej.szmigiero.name>
+Date: Wed, 1 Mar 2023 23:08:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230215221444.29845-1-clopez@suse.de>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US, pl-PL
+To: David Hildenbrand <david@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <cover.1677274611.git.maciej.szmigiero@oracle.com>
+ <369d848fdc86994ca646a5aa4e04c4dc049d04f1.1677274611.git.maciej.szmigiero@oracle.com>
+ <0953dc26-da87-65c7-9bba-fec4cfb04999@redhat.com>
+ <a230f8bc-ef59-d2ad-1316-554f1a293da9@maciej.szmigiero.name>
+ <f81827ce-2553-7b50-adba-a32e82f87e1f@redhat.com>
+ <a0ebed14-436f-91c9-928d-e53e29d9db81@maciej.szmigiero.name>
+ <eb7e7365-b8e1-2547-596a-98ffe826766f@redhat.com>
+ <9f581e62-0cb3-7f0f-8feb-ddfda5bba621@maciej.szmigiero.name>
+ <678fb11d-4ac8-238f-9ead-d68d59d0a8ba@redhat.com>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Subject: Re: [PATCH][RESEND v3 1/3] hapvdimm: add a virtual DIMM device for
+ memory hot-add protocols
+In-Reply-To: <678fb11d-4ac8-238f-9ead-d68d59d0a8ba@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,113 +77,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 15, 2023 at 11:14:46PM +0100, Carlos López wrote:
-> In virtqueue_{split,packed}_get_avail_bytes() descriptors are read
-> in a loop via MemoryRegionCache regions and calls to
-> vring_{split,packed}_desc_read() - these take a region cache and the
-> index of the descriptor to be read.
+On 1.03.2023 18:24, David Hildenbrand wrote:
+(...)
+>> With virtio-mem one can simply have per-node virtio-mem devices.
+>>
+>> 2) I'm not sure what's the overhead of having, let's say, 1 TiB backing
+>> memory device mostly marked madvise(MADV_DONTNEED).
+>> Like, how much memory + swap this setup would actually consume - that's
+>> something I would need to measure.
 > 
-> For direct descriptors we use a cache provided by the caller, whose
-> size matches that of the virtqueue vring. We limit the number of
-> descriptors we can read by the size of that vring:
+> There are some WIP items to improve that (QEMU metadata (e.g., bitmaps), KVM metadata (e.g., per-memslot), Linux metadata (e.g., page tables).
+> Memory overcommit handling also has to be tackled.
 > 
->     max = vq->vring.num;
->     ...
->     MemoryRegionCache *desc_cache = &caches->desc;
+> So it would be a "shared" problem with virtio-mem and will be sorted out eventually :)
 > 
-> For indirect descriptors, we initialize a new cache and limit the
-> number of descriptors by the size of the intermediate descriptor:
+
+Yes, but this might take a bit of time, especially if kernel-side changes
+are involved - that's why I will check how this setup works in practice
+in its current shape.
+
+(...)
+>>> Reboot? Logically unplug all memory and as the guest boots up, re-add the memory after the guest booted up.
+>>>
+>>> The only thing we can't do is the following: when going below 4G, we cannot resize boot memory.
+>>>
+>>>
+>>> But I recall that that's *exactly* how the HV version I played with ~2 years ago worked: always start up with some initial memory ("startup memory"). After the VM is up for some seconds, we either add more memory (requested > startup) or request the VM to inflate memory (requested < startup).
+>>
+>> Hyper-V actually "cleans up" the guest memory map on reboot - if the
+>> guest was effectively resized up then on reboot the guest boot memory is
+>> resized up to match that last size.
+>> Similarly, if the guest was ballooned out - that amount of memory is
+>> removed from the boot memory on reboot.
 > 
->     len = address_space_cache_init(&indirect_desc_cache,
->                                    vdev->dma_as,
->                                    desc.addr, desc.len, false);
->     desc_cache = &indirect_desc_cache;
->     ...
->     max = desc.len / sizeof(VRingDesc);
+> Yes, it cleans up, but as I said last time I checked there was this concept of startup vs. minimum vs. maximum, at least for dynamic memory:
 > 
-> However, the first initialization of `max` is done outside the loop
-> where we process guest descriptors, while the second one is done
-> inside. This means that a sequence of an indirect descriptor followed
-> by a direct one will leave a stale value in `max`. If the second
-> descriptor's `next` field is smaller than the stale value, but
-> greater than the size of the virtqueue ring (and thus the cached
-> region), a failed assertion will be triggered in
-> address_space_read_cached() down the call chain.
+> https://www.fastvue.co/tmgreporter/blog/understanding-hyper-v-dynamic-memory-dynamic-ram/
 > 
-> Fix this by initializing `max` inside the loop in both functions.
+> Startup RAM would be whatever you specify for "-m xG". If you go below min, you remove memory via deflation once the guest is up.
+
+
+That article was from 2014, so I guess it pertained Windows 2012 R2.
+
+The memory settings page in more recent Hyper-V versions looks like on
+the screenshot at [1].
+
+It no longer calls that main memory amount value "Startup RAM", now it's
+just "RAM".
+
+Despite what one might think the "Enable Dynamic Memory" checkbox does
+*not* control the Dynamic Memory protocol availability or usage - the
+protocol is always available/exported to the guest.
+
+What the "Enable Dynamic Memory" checkbox controls is some host-side
+heuristics that automatically resize the guest within chosen bounds
+based on some metrics.
+
+Even if the "Enable Dynamic Memory" checkbox is *not* enabled the guest
+can still be online-resized via Dynamic Memory protocol by simply
+changing the value in the "RAM" field and clicking "Apply".
+
+At least that's how it works on Windows 2019 with a Linux guest.
+
+>>
+>> So it's not exactly doing a hot-add after the guest boots.
 > 
-> Fixes: 9796d0ac8fb0 ("virtio: use address_space_map/unmap to access descriptors")
-> Signed-off-by: Carlos López <clopez@suse.de>
-> ---
->  hw/virtio/virtio.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
+> I recall BUG reports in Linux, that we got hv-balloon hot-add requests ~1 minute after Linux booted up, because of the above reason of startup memory [in these BUG reports, memory onlining was disabled and the VM would run out of memory because we hotplugged too much memory]. That's why I remember that this approach once was done.
 > 
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index f35178f5fc..db70c4976e 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -1071,6 +1071,7 @@ static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
->      VirtIODevice *vdev = vq->vdev;
->      unsigned int max, idx;
->      unsigned int total_bufs, in_total, out_total;
-> +    MemoryRegionCache *desc_cache;
+> Maybe there are multiple implementations noways. At least in QEMU you could chose whatever makes most sense for QEMU.
+> 
 
-why are you moving desc_cache here?
+Right, it seems that the Hyper-V behavior evolved with time, too.
 
->      MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
->      int64_t len = 0;
->      int rc;
-> @@ -1078,15 +1079,13 @@ static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
->      idx = vq->last_avail_idx;
->      total_bufs = in_total = out_total = 0;
->  
-> -    max = vq->vring.num;
-> -
->      while ((rc = virtqueue_num_heads(vq, idx)) > 0) {
-> -        MemoryRegionCache *desc_cache = &caches->desc;
-> -        unsigned int num_bufs;
-> +        unsigned int num_bufs = total_bufs;
->          VRingDesc desc;
->          unsigned int i;
->  
-> -        num_bufs = total_bufs;
+>> This approach (of resizing the boot memory) also avoids problems if the
+>> guest loses hot-add / ballooning capability after a reboot - for example,
+>> rebooting into a Linux guest from Windows with hv-balloon.
+> 
+> TBH, I wouldn't be too concerned about that scenario ("hotplugged memory to a guest, guest reboots into a weird OS, weird OS isn't able to use hotplugged memory). For virtio-mem, the important part was that you always "know" how much memory the VM is aware about. If you always start with "Startup memory" and hotadd later (only if you detected guest support after a bootup), you can handle that scenario.
 
-nice cleanup but not a bugfix. Keep cleanups separate from fixes pls.
+I'm not *that* concerned with cross-guest-type scenario either,
+but if it can be made more smooth then I wouldn't mind.
 
-> +        desc_cache = &caches->desc;
+Thanks,
+Maciej
 
-init as part of declaration seems cleaner.
+[1]: https://www.tenforums.com/performance-maintenance/38478-windows-10-hyper-v-dynamic-memory.html#post544905
 
-> +        max = vq->vring.num;
->  
-
-can we move declaration of max here within the loop?
-will make sure the problem does not recur.
-
->          if (!virtqueue_get_head(vq, idx++, &i)) {
->              goto err;
-> @@ -1218,14 +1217,14 @@ static void virtqueue_packed_get_avail_bytes(VirtQueue *vq,
->      wrap_counter = vq->last_avail_wrap_counter;
->      total_bufs = in_total = out_total = 0;
->  
-> -    max = vq->vring.num;
-> -
->      for (;;) {
->          unsigned int num_bufs = total_bufs;
->          unsigned int i = idx;
->          int rc;
->  
->          desc_cache = &caches->desc;
-> +        max = vq->vring.num;
-> +
-
-
-same question can we move declaration into the loop?
-
->          vring_packed_desc_read(vdev, &desc, desc_cache, idx, true);
->          if (!is_desc_avail(desc.flags, wrap_counter)) {
->              break;
-> -- 
-> 2.35.3
 
 
