@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375D36A6617
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 04:01:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E92976A65F2
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 03:59:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXCf3-0001R1-Ks; Tue, 28 Feb 2023 21:57:45 -0500
+	id 1pXCf6-0001v3-6l; Tue, 28 Feb 2023 21:57:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCen-0000ym-WD
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:30 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1pXCeq-0000zb-Hz
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:33 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCem-00033e-Bu
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:29 -0500
-Received: by mail-pl1-x636.google.com with SMTP id u5so9163592plq.7
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:27 -0800 (PST)
+ id 1pXCeo-0003Fc-W6
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 21:57:32 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id a2so2121083plm.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 18:57:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pev3HlA4TjnFMH1XzD5ACqNnlxKIz9B0EG7wVEpD4Xg=;
- b=RuGcI1VW2D62HeMww7WpZ3D/lCP7CaFk+PhadupZU94LRiQz87XAZF2Coa8BBAYKRo
- nLocnCmlGm1rw5r9pS72rr1j4bb1hbF5aP2t+Li+6za99jnEmI49/gnSkhbvIZIfJD2g
- 5UHPT4tVHpX/5OQ+NdejXhlNrXALC75i71CwWHP2G6u0MczB+nr7jAcPy0ebQlVoiVTZ
- 5eMqClrRizX7iLR4d88Qhn4txpm6t4xJR+p9WYZbUMwymhx3ojIhzcLxNuPlmfn9Wi0v
- b04RWstMXQHV6E8Tpu1jD1eKm6qHTsB4OIs+kVGorwmLZmhN72YY7kaRza1AQV/WPnQy
- 6fiw==
+ bh=UogLDo1FAQewsA7Du/sRuTEP7c2MtAWy7Ed+ICEx2Lc=;
+ b=SE4chiZE3B2IDLAaXnFRj20rQkmzAjH3xPh7dnIws2d/A2EJC6y1XVFLWCWa3yqhmL
+ W6D+kt1tLDML9RTu22/3W0rukRKV3oLq2KPUQdPaqN7VHzbf67Q0hTLz1s9Bggyvl5EC
+ yUkpMjJLXkKGMga6Cho3KI5On+TPl83VJzTP9xArjmMNWrezwP8DtzBpde4NfZeEUFe9
+ rCXbXjL1ayJ9Mpi3sqW75RIH4kllk5RA8Ll3kaPO5/NwKSL93JKlFaIaBxMaLi7R0BvU
+ Za0jYIOX5mDDZ5Oc5vgqZ7JdKGhwoM9o8kou7L3OxpPojZxDGvafk/i9rj+i76bdSQJ/
+ 5ECg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pev3HlA4TjnFMH1XzD5ACqNnlxKIz9B0EG7wVEpD4Xg=;
- b=ETjniHMsrWwDvn2gRDey3wfTTRg8pFu7AKPlm1fgkIR1UxGrf+9qWclNPvwW/HlUpQ
- 82oKenKMtTzitu9x9k6Q+Mt/W7aIhchlj4wGtUrNZFDp/Ou36u2LjFC3Kg0wSn50O0Wp
- WHjP/a22miKgPhvsLsuM0FsDy2d9hpOF8sw3+24szVC9xOoqCct/+MfowPdBNhzCXz3d
- lnIgyof5KmgKtSjR7ej+8G138y8sSPhWKB72BIhS9Nli+2yW9c/zDSF8XtIdRDLv8nxt
- hRnTjVE+Jq+wpoMBVN5iRjszQbTWRUe3rqTMaczPXOYKUzjxOeChXqDc8+QClxEQLAt9
- eyfQ==
-X-Gm-Message-State: AO0yUKU8xpmfRWV6aa6IEJSzqRgOeU1jL56XCkS7EEr3UlRqlnlpbX+6
- a9Nz3CXF3Xf2lbCIPf2aGxGE5zlqbMaqED6XitE=
-X-Google-Smtp-Source: AK7set/aJF2Q0PU4mo+fhlay/l5OwglNAONQ+nkUYe+DVv2NzSo8yh5VLhlheIN6ge+pHvHyr31A2g==
-X-Received: by 2002:a17:902:d507:b0:19a:96ea:3850 with SMTP id
- b7-20020a170902d50700b0019a96ea3850mr5864320plg.17.1677639447599; 
- Tue, 28 Feb 2023 18:57:27 -0800 (PST)
+ bh=UogLDo1FAQewsA7Du/sRuTEP7c2MtAWy7Ed+ICEx2Lc=;
+ b=t47zRCsUxx6/j5dOcEcf7EKpDOHKNSyxUYAb+/BB36Wb1KUnJWI3ArCTotvoWkiZIq
+ 4U5WUEuVcpJ449jhCPnjKvp4ao3eofB2SvnVEGArb/FahfpBCQXOIIjZYkQxetaqBjdw
+ iQTsRxrBcMjadlmWq+dtQ7sdAZClhzM8ipe57xqSpsGsqPKO5Aa54Knb8+bFhMSc4aUq
+ EA+wh6xFqmn8womL/BaIdAO6mGbhbWTH+pNHzCTsikY24/4/iofLrijGMoHBy9nOVJHu
+ 9zjSnlYlmKpzjXsSeiG8v+Ev4Sz35TdEx7Q4fblGdLL1ROkbTyHVUuiABJlE2lohD5KS
+ eu6w==
+X-Gm-Message-State: AO0yUKWSz6+O5kCFAH37kNJ2+hefPS4IoY265jF6WOInDVV9jRL1vmup
+ Va7NELf7hbv7mZzGq6iB9yrB+JID/YkA9f6NbCo=
+X-Google-Smtp-Source: AK7set+8Y+rOk6rme+51BCRrHEb5swOGNsbtPo6PCbjvolaE3Yb5Oq/YLeE/xVfjFLbhq5Yg6jJIwg==
+X-Received: by 2002:a17:903:244e:b0:19c:e484:b4e with SMTP id
+ l14-20020a170903244e00b0019ce4840b4emr4474315pls.59.1677639449377; 
+ Tue, 28 Feb 2023 18:57:29 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.57.26
+ jg15-20020a17090326cf00b0019adbef6a63sm7210120plb.235.2023.02.28.18.57.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 18:57:27 -0800 (PST)
+ Tue, 28 Feb 2023 18:57:28 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, Anton Johansson <anjo@rev.ng>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 24/62] target/microblaze: Replace `tb_pc()` with `tb->pc`
-Date: Tue, 28 Feb 2023 16:56:05 -1000
-Message-Id: <20230301025643.1227244-25-richard.henderson@linaro.org>
+Subject: [PULL 25/62] target/loongarch: Replace `tb_pc()` with `tb->pc`
+Date: Tue, 28 Feb 2023 16:56:06 -1000
+Message-Id: <20230301025643.1227244-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301025643.1227244-1-richard.henderson@linaro.org>
 References: <20230301025643.1227244-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,34 +95,43 @@ From: Anton Johansson via <qemu-devel@nongnu.org>
 
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230227135202.9710-21-anjo@rev.ng>
+Message-Id: <20230227135202.9710-22-anjo@rev.ng>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/loongarch/cpu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index a2d2f5c340..03c2c4db1f 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -30,6 +30,7 @@
- #include "exec/exec-all.h"
- #include "exec/gdbstub.h"
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 290ab4d526..e5efe4ebd7 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -18,6 +18,7 @@
  #include "fpu/softfloat-helpers.h"
+ #include "cpu-csr.h"
+ #include "sysemu/reset.h"
 +#include "tcg/tcg.h"
  
- static const struct {
-     const char *name;
-@@ -97,7 +98,8 @@ static void mb_cpu_synchronize_from_tb(CPUState *cs,
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+ const char * const regnames[32] = {
+     "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
+@@ -321,7 +322,8 @@ static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
+     LoongArchCPU *cpu = LOONGARCH_CPU(cs);
+     CPULoongArchState *env = &cpu->env;
  
--    cpu->env.pc = tb_pc(tb);
+-    env->pc = tb_pc(tb);
 +    tcg_debug_assert(!(cs->tcg_cflags & CF_PCREL));
-+    cpu->env.pc = tb->pc;
-     cpu->env.iflags = tb->flags & IFLAGS_TB_MASK;
++    env->pc = tb->pc;
  }
  
+ static void loongarch_restore_state_to_opc(CPUState *cs,
+@@ -599,7 +601,7 @@ static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
+ 
+     oc = object_class_by_name(cpu_model);
+     if (!oc) {
+-        g_autofree char *typename 
++        g_autofree char *typename
+             = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
+         oc = object_class_by_name(typename);
+         if (!oc) {
 -- 
 2.34.1
 
