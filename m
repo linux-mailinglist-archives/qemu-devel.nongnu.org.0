@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EB96A6EA2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEEC6A6EC4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:47:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXNfV-0005uW-GL; Wed, 01 Mar 2023 09:42:57 -0500
+	id 1pXNj7-0008Pb-39; Wed, 01 Mar 2023 09:46:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXNfR-0005to-4g
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:42:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXNj2-0008PJ-VW
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:46:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXNfP-0005vD-Gg
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:42:52 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXNj1-0006jG-2A
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 09:46:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677681770;
+ s=mimecast20190719; t=1677681994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mUoL52djJHV4U6Q0AocUNXu5cOADzyGX1rCYcv947Vo=;
- b=KiyCyF2/CCbzAG4fUSYASFLnst8wlsxs/Y99NuOEDNklCsy/koKsNh4657oXSjK3HZsL9c
- lsMmRa6L+dgJiWK3WyxMO3JdJGfUOsy138M7+mMjlQBc5+ECE2prebI11MC+EK4qBVzRpV
- EfPbXMj30dmxe9YpYzqBLAvmlM6EteY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FUodR8JxkRYa87fm6MkZDbh50z3pIalO3KjLeCU20yg=;
+ b=g5sfOp3YjgmwCYj2ddwz8enBo8muXzr6EQ5N8hNfFNTb9lapBupTygrY0sKQsBjGkzDNHy
+ Km41/VFjktOY0N1YnSmkMX5uBSAp3tmGqV10y3x1OILoRLwVhm1uHx2VIRQfN+H33tVbQt
+ VDPzYngFleSws58ynrML3WYFqJnjr9c=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-99-r6ghfZFvPAWAAxfMpzxImw-1; Wed, 01 Mar 2023 09:42:48 -0500
-X-MC-Unique: r6ghfZFvPAWAAxfMpzxImw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- c30-20020adfa31e000000b002c59b266371so2597943wrb.6
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 06:42:47 -0800 (PST)
+ us-mta-82-Zv2hQHc3M0up0s7zsB8RCw-1; Wed, 01 Mar 2023 09:46:33 -0500
+X-MC-Unique: Zv2hQHc3M0up0s7zsB8RCw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ f14-20020a7bcc0e000000b003dd41ad974bso5423907wmh.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 06:46:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677681767;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mUoL52djJHV4U6Q0AocUNXu5cOADzyGX1rCYcv947Vo=;
- b=CADao6wYAd9wqq9qLxk2UEug2nDWuLiamG2OkcF66TgDgzwdxOLVzgWduzlxu1TTQ/
- aKFYC/QsA1uzi58Hl5RQWn4sc02QHCumFtf5Ip7BJQey1cpo18LuVzba+mXDQ9sRe/UE
- ndzEW9pZIlXxaQ3W0WahIzKR95CVpFX1e4f+WpKD4d7yyht/W4mJX2wBLgo011cf1p3B
- p0L1Ag7sFq8FdV449jiBNafNG82ZiPxdxO2ULpqZLcNX/XJuRjvhyo1KgTSd8ma+xODL
- GweqOlhH8VDQzllBxKeKLBb8qRlVctH7El9B4drl0zRp80gEJtbUCgi21GUuVc2riD++
- wwXg==
-X-Gm-Message-State: AO0yUKV2tMwkosSxwvfH+h1siMNbtw2U7hCr7WdoHN/gMOgAkPF1Yn2g
- uagmMni1sxgvEJlxoC0Y+RT0USMvr8SuCLAxoaoz8Ifl7eMF3RLnGsprAdWT6w1gjImFgorkA67
- TIfK5GddZanjNmxY=
-X-Received: by 2002:a5d:678e:0:b0:2c7:161e:702f with SMTP id
- v14-20020a5d678e000000b002c7161e702fmr4825439wru.47.1677681766990; 
- Wed, 01 Mar 2023 06:42:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set/zOgUuyvLnaJH6Hn9hIOpS/PNQuFvTdkBolnpXzzOnNSqCowCZQlhVB0SNPxoOnz+Bjh45ig==
-X-Received: by 2002:a5d:678e:0:b0:2c7:161e:702f with SMTP id
- v14-20020a5d678e000000b002c7161e702fmr4825418wru.47.1677681766700; 
- Wed, 01 Mar 2023 06:42:46 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- n31-20020a05600c3b9f00b003e8dcc67bdesm21774453wms.30.2023.03.01.06.42.45
+ d=1e100.net; s=20210112; t=1677681991;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FUodR8JxkRYa87fm6MkZDbh50z3pIalO3KjLeCU20yg=;
+ b=GSHmt/nnBajTAr9P0RXbjWXNj8xqdvZrTSs5drF9xoDaLlo/Z/kpTxZ/seLr3M93p0
+ 05YFW5sP5uuIxdBW3Ky1VlohiQKFqAZ+iL5N+VYY+4/aVz2pVxz4MiI56ow5P+Eaif0O
+ gFQgs/OF3MP34Sz4WXVtYuhsV2+Ac7zRjm/RL1fxZJPat7gWH19SREcLVEvofAM3tOlB
+ SvSCoWh8rwrU5q5q/g4Nsg2vxaZenMyfdNEAGRG3O/FRqVZZcrLLH7JG4C/+EyG5mtFo
+ jexKVK1ooEI+Mi00sQIv0d6GbcDE2x92V+dniOZHUSm+LOXBdurcc3v0ES01gXaXPEj6
+ /QlA==
+X-Gm-Message-State: AO0yUKU8T4S4E4ngt2EbxuZ9bq98gZCPaJs/ObKzY30mrq1DAQ98H12s
+ Jh6eqE+ZcNkUGgJ3usM8YAUiJfYhIGC5VkGw99gqzBRSwlv4pME2sEMVwPYorxfiAwHxit3Ldgu
+ Raltpn31rAf0r8OE=
+X-Received: by 2002:a5d:4561:0:b0:2c9:9147:a710 with SMTP id
+ a1-20020a5d4561000000b002c99147a710mr4993064wrc.43.1677681991348; 
+ Wed, 01 Mar 2023 06:46:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set/POqB/fdM1lHVckOXuu0l3XVz2LDJ2SYblRRAxHWBe2M8n5ZNUxP0Xr2q5R13IQNsFwbQvHQ==
+X-Received: by 2002:a5d:4561:0:b0:2c9:9147:a710 with SMTP id
+ a1-20020a5d4561000000b002c99147a710mr4993045wrc.43.1677681990986; 
+ Wed, 01 Mar 2023 06:46:30 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ f12-20020adffccc000000b002c705058773sm12767346wrs.74.2023.03.01.06.46.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 06:42:46 -0800 (PST)
-Date: Wed, 1 Mar 2023 15:42:44 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, Peter
- Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, Samuel Thibault
- <samuel.thibault@ens-lyon.org>, Paolo Bonzini <pbonzini@redhat.com>, Markus
- Armbruster <armbru@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?="
- <berrange@redhat.com>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH 0/3] qdev: Introduce QDEV_DECLARE_DEV_BUS_TYPES() macro
-Message-ID: <20230301154244.4f43aa6d@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230213105609.6173-1-philmd@linaro.org>
-References: <20230213105609.6173-1-philmd@linaro.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ Wed, 01 Mar 2023 06:46:30 -0800 (PST)
+Date: Wed, 1 Mar 2023 09:46:26 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ yc-core@yandex-team.ru, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
+ Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
+Message-ID: <20230301094424-mutt-send-email-mst@kernel.org>
+References: <a477ca70-8aea-6c16-122e-1ded4af11f49@yandex-team.ru>
+ <20230222151814-mutt-send-email-mst@kernel.org>
+ <20230223023604-mutt-send-email-mst@kernel.org>
+ <Y/fZm12yGIPnwaDX@fedora>
+ <20230224034258-mutt-send-email-mst@kernel.org>
+ <8611d901-0940-3747-c2cd-9c193c7f24f2@yandex-team.ru>
+ <20230228094756-mutt-send-email-mst@kernel.org>
+ <f3338868-d43a-a499-5db8-2fb06d244e37@yandex-team.ru>
+ <20230228161602-mutt-send-email-mst@kernel.org>
+ <e1f45021-071c-b8c4-69bd-85f8c29c669a@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e1f45021-071c-b8c4-69bd-85f8c29c669a@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,48 +110,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 13 Feb 2023 11:56:06 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+On Wed, Mar 01, 2023 at 05:03:03PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On 01.03.23 00:24, Michael S. Tsirkin wrote:
+> > > Said that checking on destination would need another flag and the safe
+> > > way of using this feature would require managing two flags instead of one
+> > > making it even more fragile. So I'd prefer not to make it more complex.
+> > > 
+> > > In my opinion the best way to use this property by orchestrator is to
+> > > leave default unmigratable behavior at start and just before migration when
+> > > destination is known enumerate all vhost-user-fs devices and set properties
+> > > according to their backends capability with QMP like you mentioned. This
+> > > gives us single point of making the decision for each device and avoids
+> > > guessing future at VM start.
+> > this means that you need to remember what the values were and then
+> > any failure on destination requires you to go back and set them
+> > to original values.
+> 
+> Why do we need to restore old values?
 
-> Experiment after discussing with Thomas around qdev_get_parent_bus:
-> https://lore.kernel.org/qemu-devel/ad356f64-dca0-8117-d22a-a530e620ddb0@r=
-edhat.com/
->=20
-> When a QDev plug on a QBus, we'll always use qdev_get_parent_bus()
-> at least once with this type. Why not provide a consistent defined
-> macro instead of:
->  1/ adding an inlined helper such usb_bus_from_device()
->     or scsi_bus_from_device() with different type checks,
->  2/ open-code calls to qdev_get_parent_bus() with unsafe casts
-> ?
->=20
-> This RFC series introduce a QDev-equivalent of QOM DECLARE_TYPES
-> macro, to be used with a (device, bus) tuple, and declaring the
-> equivalent device_GET_BUS() macro.
-it's already bad having 2 ways to declare types (though SIMPLE was a huge L=
-OC saving)
-so question is where do we stop (API explosion ain't a good thing either).
+To get back to where you were before you were starting migration.
 
-I my opinion this is just code churn for nor tangible benefit,
-given how qdev_get_parent_bus() is used.
-Fixing unsafe casts and getting rid of DO_UPCAST you mentioned before,
-would better use of resources.
+> For me, this new property is a kind of per-device migration
+> capability. Do we care to restore migration capabilities to the values
+> that they had before setting them for failed migration? We don't need
+> it, as we just always set capabilities as we want before each
+> migration. Same thing for this new property: just set it properly
+> before migration and you don't need to care about restoring it after
+> failed migration attempt.
 
-> hw/usb/ is converted as an example.
->=20
-> Philippe Mathieu-Daud=C3=A9 (3):
->   hw/qdev: Introduce QDEV_DECLARE_DEV_BUS_TYPES() macro
->   hw/usb: Declare QOM macros using QDEV_DECLARE_DEV_BUS_TYPES()
->   hw/usb: Use USB_DEVICE_GET_BUS() macro
->=20
->  hw/usb/bus.c           | 10 +++++-----
->  hw/usb/core.c          |  6 +++---
->  hw/usb/dev-hub.c       |  4 ++--
->  hw/usb/dev-serial.c    | 10 +++++-----
->  hw/usb/hcd-xhci.c      |  2 +-
->  include/hw/qdev-core.h | 28 ++++++++++++++++++++++++++++
->  include/hw/usb.h       | 13 ++++---------
->  7 files changed, 48 insertions(+), 25 deletions(-)
->=20
+If you really trust your management then we can just remove the
+migration blocker and be done with it. All this song and dance
+with changing properties is to catch errors. If one has to
+carefully play with QOM to achieve the desired result then
+IMHO we failed in this.
+
+
+> > With possibility of crashes on the orchestrator
+> > you also need to recall the temporary values in some file ...
+> > This is huge complexity much worse than two flags.
+> > 
+> > Assuming we need two let's see whether just reload on source is good
+> > enough.
+> > 
+> 
+> -- 
+> Best regards,
+> Vladimir
 
 
