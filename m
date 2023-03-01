@@ -2,95 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E2C6A6CDB
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B266A6CE8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:18:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXMAZ-0003oO-DG; Wed, 01 Mar 2023 08:06:55 -0500
+	id 1pXMK3-0002gj-0y; Wed, 01 Mar 2023 08:16:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pXMAV-0003dJ-6u
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:06:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXMJy-0002g4-PB
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:16:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pXMAT-00087M-99
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:06:50 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXMJu-0001R6-OE
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:16:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677676008;
+ s=mimecast20190719; t=1677676591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4azAcB8meYWKy1CT87t3qVCO3nvZ3/e9PmKCNrOdLuc=;
- b=G0SGLFSyVTBGv7GNwL6PewdE28bMzME6CzCWLXzm+DfG0vrQRjiCPpzA8ZYKyCDehY1W05
- azcotfutffpkLi0EmQZq7VIxwf1naLTnP3MAJ8arAoW2xFMw2MACoSPocGaLbfxNQnc2tL
- y+s7XUqG2GiDikpxhnYYSxztrFAwmQY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-600-D26I0ELWPpWYz2Jjphm0UQ-1; Wed, 01 Mar 2023 08:06:41 -0500
-X-MC-Unique: D26I0ELWPpWYz2Jjphm0UQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l31-20020a05600c1d1f00b003e8626cdd42so4545797wms.3
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 05:06:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4azAcB8meYWKy1CT87t3qVCO3nvZ3/e9PmKCNrOdLuc=;
- b=G5WrzmKiDjmby6QMpgB+dZ45UKrswi5rlp53QZiE3O4GgimBcddS1PUY542Auog89y
- aX4quVFNePmyiClGu2GjDyHUZEXgUalCQ7s6jz/LtGmnQq7nX4HKxiyqMj1esy5GhOHW
- KC+HQ7KZuBSaFxxe02dDGWlGBudaNj2f+Dc9Zgg1PT2t/WNSvYc8ieuZtn02HD9FiDKw
- L1tR3FV4+yvAFVnXGy2kI6HoPDA2uCayj48SUIuQrSqcN/0mqffDIiqJfiWpNltrR7YE
- zgu4rjEPQYFaJgyV5vmATMMSUwXFeVnlnDUah1BtO6KWHlBSNDG+KlnvnyKgIB5B5Jw2
- sBOg==
-X-Gm-Message-State: AO0yUKU/YuIcM85eQx8dvmptnCeiBpCO7+Ohs/qSMzxJePRpZylkFbhZ
- 8Yu+yvroCjzYEWgtebzvdTlifkoiLinZsmE6zgvCbsDZ1Pe2jkdF6mSRWEBIUWOJrjS1K2hVGLD
- Aihnj2ZuoJKVYqpWj3MikX2s=
-X-Received: by 2002:a05:600c:746:b0:3ea:e4bb:340c with SMTP id
- j6-20020a05600c074600b003eae4bb340cmr4913481wmn.18.1677675998240; 
- Wed, 01 Mar 2023 05:06:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set/F/gKQk6NnNwcpYMNNxZhJL1v87hhUKdkJjD1ljGLWEr2sYAJaDLSLWMZ/0dwCQRuJPLglVg==
-X-Received: by 2002:a05:600c:746:b0:3ea:e4bb:340c with SMTP id
- j6-20020a05600c074600b003eae4bb340cmr4913460wmn.18.1677675997932; 
- Wed, 01 Mar 2023 05:06:37 -0800 (PST)
-Received: from [192.168.8.101] (tmo-122-219.customers.d1-online.com.
- [80.187.122.219]) by smtp.gmail.com with ESMTPSA id
- y7-20020a05600c364700b003e2096da239sm19390165wmq.7.2023.03.01.05.06.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 05:06:37 -0800 (PST)
-Message-ID: <84e43a02-cecb-402c-1dbc-a4bbffcb1b66@redhat.com>
-Date: Wed, 1 Mar 2023 14:06:35 +0100
+ bh=OH9eGbkQVEWGmXgT9NVrgl8HCtw2VEmJYmpyJmzQa4E=;
+ b=ZjyIRqErF9Tf/1dzdN8pwmZQ1fwPLuIkIffUJ9bIPfdIW+8z4BQnMJ8R9O9zHDOBIlzQ9J
+ K1u2GdrPPUClnIVU46Mc6Sq3kx99iW4TASutF85uEc87c43ipUVNs3ve0vuTAzUY9/aFBG
+ 7nB5tJWL4zyB6oIRbnaqips8hfGqkPc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-100-9ZwEeSZqPV60DPnmDYoa-A-1; Wed, 01 Mar 2023 08:16:29 -0500
+X-MC-Unique: 9ZwEeSZqPV60DPnmDYoa-A-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 594351802CE7;
+ Wed,  1 Mar 2023 13:16:29 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA0B3492C3E;
+ Wed,  1 Mar 2023 13:16:28 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C910721E6A22; Wed,  1 Mar 2023 14:16:27 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@gmail.com>,  qemu-devel@nongnu.org,  Beraldo Leal
+ <bleal@redhat.com>,  Stefan Weil <sw@weilnetz.de>,  Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?=
+ <alex.bennee@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Laurent
+ Vivier <lvivier@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Gerd Hoffmann <kraxel@redhat.com>,  Michael Roth
+ <michael.roth@amd.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,  Wainer dos Santos Moschetta
+ <wainersm@redhat.com>
+Subject: Re: [PATCH v3 07/10] qapi: implement conditional command arguments
+References: <20230207142535.1153722-1-marcandre.lureau@redhat.com>
+ <20230207142535.1153722-8-marcandre.lureau@redhat.com>
+ <87fsb4k85h.fsf@pond.sub.org>
+ <CAMxuvax6qPYQCzNX7vESJM9_f5k4C1Yat0sJcJjrHkh_1WGpQA@mail.gmail.com>
+ <87a61821y3.fsf@pond.sub.org>
+ <CAJ+F1CJNgmf+j36wutNMdPYBShoZUXJvzEBGEVwW-B-Z6Tc3ug@mail.gmail.com>
+ <87356yq9rs.fsf@pond.sub.org>
+ <20230228155801.s2imkaybh3a4d5x3@redhat.com>
+ <Y/8Zy/Lk8i9RCOdc@redhat.com>
+Date: Wed, 01 Mar 2023 14:16:27 +0100
+In-Reply-To: <Y/8Zy/Lk8i9RCOdc@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Wed, 1 Mar 2023 09:24:27 +0000")
+Message-ID: <875ybkwr10.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH RESEND v7 4/9] target/arm: move cpu_tcg to tcg/cpu32.c
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-References: <20230228192628.26140-1-farosas@suse.de>
- <20230228192628.26140-5-farosas@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230228192628.26140-5-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,42 +99,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/02/2023 20.26, Fabiano Rosas wrote:
-> From: Claudio Fontana <cfontana@suse.de>
-> 
-> move the module containing cpu models definitions
-> for 32bit TCG-only CPUs to tcg/ and rename it for clarity.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-...
-> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-> index 1cb08138ad..1555b0bab8 100644
-> --- a/tests/qtest/arm-cpu-features.c
-> +++ b/tests/qtest/arm-cpu-features.c
-> @@ -506,9 +506,15 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
->           QDict *resp;
->           char *error;
->   
-> -        assert_error(qts, "cortex-a15",
-> -            "We cannot guarantee the CPU type 'cortex-a15' works "
-> -            "with KVM on this host", NULL);
-> +        if (qtest_has_accel("tcg")) {
-> +            assert_error(qts, "cortex-a15",
-> +                         "We cannot guarantee the CPU type 'cortex-a15' works "
-> +                         "with KVM on this host", NULL);
-> +        } else {
-> +            assert_error(qts, "cortex-a15",
-> +                         "The CPU type 'cortex-a15' is not a "
-> +                         "recognized ARM CPU type", NULL);
-> +        }
->   
->           assert_has_feature_enabled(qts, "host", "aarch64");
->   
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-FWIW:
-Acked-by: Thomas Huth <thuth@redhat.com>
+> On Tue, Feb 28, 2023 at 09:58:01AM -0600, Eric Blake wrote:
+>> On Wed, Feb 22, 2023 at 11:23:03AM +0100, Markus Armbruster wrote:
+>> > > However, I think it would be simpler, and better, if we piped the
+>> > > generated code to clang-format (when available). I made a simple pat=
+ch
+>> > > for that too.
+>> >=20
+>> > Piping through indent or clang-format may well give us neater results
+>> > for less effort.
+>> >=20
+>> > We might want to dumb down generator code then.
+>>=20
+>> Indeed, this approach seems like it might be worth pursuing (our
+>> generator doesn't have to worry about spacing, because we do that in a
+>> second pass with something that will still produce human-legible final
+>> results).
+>>=20
+>> > >> > So I would rather assert that we don't introduce such a schema, u=
+ntil we
+>> > >> > fix the code generator. Or we acknowledge the limitation, and tre=
+at it as a
+>> > >> > schema error. Other ideas?
+>> > >>
+>> > >> Yes: throw an error.  Assertions are for programming errors.  This =
+isn't
+>> > >> a programming error, it's a limitation of the current implementatio=
+n.
+>> > >>
+>> > >> How hard would it be to lift the limitation?
+>> > >
+>> > > Taking this as a problematic example:
+>> > >
+>> > > void function(first,
+>> > > #ifdef A
+>> > >     a,
+>> > > #endif
+>> > > #ifdef B
+>> > >     b
+>> > > #endif
+>> > > )
+>>=20
+>> I am NOT a fan of preprocessor conditionals mid-function-signature.
+>> It gets really nasty, really fast.  Is there any way we can have:
+>>=20
+>> struct S {
+>> #ifdef A
+>>   type a;
+>> #endif
+>> #ifdef B
+>>   type b;
+>> #endif
+>> };
+>>=20
+>> void function(struct S)
+>>=20
+>> so that the preprocessor conditionals never appear inside ()?
+
+Yes, there is a way: we have conditional object type members, and we
+have 'boxed': true for commands.
+
+> I'd question whether we should be doing conditional arguments
+> at all.
+
+Note that conditional arguments already exist.  This patch merely makes
+them work as advertized even without 'boxed': true.
+
+If we decide they shouldn't exist, we need to make the generator reject
+them.  But what *exactly* shouldn't exist?
+
+In my view, a command takes *one* argument (of complex type) and returns
+*one* result (of any type, but only because we had to grandfather
+non-complex types).
+
+For *struct* arguments, we support a special way to pass arguments:
+unboxed.  Actually used for most commands.
+
+Support for conditional members of complex types implies support for
+conditional members of (complex) argument types.
+
+We could restrict them to boxed.  Perhaps we should.
+
+> IMHO having an API contract that changes based on configuration
+> file settings is going to be nothing but trouble. Not only does
+> it make the declaration ugly, but all callers become ugly too
+> with conditionals. It will lead to bugs where a caller is written
+> and tested with one build combination, and find it forgot the
+> conditional calling needed for a different build combination.
+
+Two separate points: ugly and test matrix.
+
+"Ugly" is a valid point.  Ugly in two generated places (generated
+declaration and handwritten definition) is kind of bad, ugly in all
+places (plus all callers) is worse.
+
+"Test matrix" applies to conditionals anywhere, not just command
+arguments.  You could perhaps argue certain conditionals are more
+problematic than others.
+
+> Any fields that we conditionally disable must already be marked
+> as optional in the schema, to indicate to mgmt apps that they
+> may or may not be present depend on what QEMU build the app is
+> talking to.
+
+Not quite.
+
+Neither the code nor docs/devel/qapi-code-gen.txt require conditional
+members of complex types to be optional.  qapi-schema-test.json covers
+conditional mandatory members:
+
+    { 'struct': 'TestIfStruct',
+      'data': { 'foo': 'int',
+--->            'bar': { 'type': 'int', 'if': 'TEST_IF_STRUCT_BAR'} },
+      'if': 'TEST_IF_STRUCT' }
+
+"Optional" isn't for indicating "that a member may or may not be present
+depend on what QEMU build" via introspection, it's for indicating the
+member exists in *this* QEMU build, but it need not be present on the
+wire, no more, no less.
+
+We could perhaps derive "conditional member must be optional" from our
+compatibility promise, but my cold-addled brain is not up to that task
+right now.
+
+> So if they're optional, what is wrong with generating the arguments
+> unconditionally and just leaving them unused/unset in builds that
+> don't require them ?  I think it'd be fine if the qmp_getfd API
+> decl in QEMU had an 'const char *wsainfo' field even on Linux
+> builds. The Linux impl can simply ignore it, or raise an error if
+> it is set.
+
+Raise an error.  Silently ignoring is no good.
+
+Taking a step back...  both proposed solutions are kind of ugly.  Let me
+recap:
+
+1. QMP command getfd takes an additional argument when QEMU runs on a
+   Windows host.
+
+   a. The additional argument is mandatory.
+
+   b. The additional argument in optional, but only nominally; if
+      absent, the command fails.
+
+2. QMP comamnd getfd takes an optional argument.  If it's present and
+   QEMU runs on a POSIX host, the command fails.  Likewise when it's
+   absent and QEMU runs on a Windows host.
+
+What about 3. have an additional command conditional on CONFIG_WIN32?
+Existing getfd stays the same: always fails when QEMU runs on a Windows
+host.  The new command exists only when QEMU runs on a Windows host.
 
 
