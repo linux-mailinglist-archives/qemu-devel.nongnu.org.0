@@ -2,28 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7036A641F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 01:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C016A6429
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 01:19:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXA9o-0008HN-5r; Tue, 28 Feb 2023 19:17:20 -0500
+	id 1pXA9r-0008Kx-BW; Tue, 28 Feb 2023 19:17:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXA9k-0008GF-EX; Tue, 28 Feb 2023 19:17:17 -0500
+ id 1pXA9k-0008GG-Dr; Tue, 28 Feb 2023 19:17:17 -0500
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXA9c-0001fa-Vp; Tue, 28 Feb 2023 19:17:11 -0500
+ id 1pXA9e-0001fh-2S; Tue, 28 Feb 2023 19:17:11 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4CC257457E7;
- Wed,  1 Mar 2023 01:17:06 +0100 (CET)
+ by localhost (Postfix) with SMTP id 466C374633D;
+ Wed,  1 Mar 2023 01:17:07 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 154B2745720; Wed,  1 Mar 2023 01:17:06 +0100 (CET)
-Message-Id: <cover.1677628524.git.balaton@eik.bme.hu>
+ id 266D5746335; Wed,  1 Mar 2023 01:17:07 +0100 (CET)
+Message-Id: <7976b7c4b950dc1ff378263dedf4c73b15614033.1677628524.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1677628524.git.balaton@eik.bme.hu>
+References: <cover.1677628524.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v5 0/7] Pegasos2 fixes and audio output support
+Subject: [PATCH v5 1/7] hw/display/sm501: Add debug property to control pixman
+ usage
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -33,8 +36,8 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Bernhard Beschow <shentey@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- vr_qemu@t-online.de, ReneEngel80@emailn.de
-Date: Wed,  1 Mar 2023 01:17:06 +0100 (CET)
+ ReneEngel80@emailn.de
+Date: Wed,  1 Mar 2023 01:17:07 +0100 (CET)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -58,47 +61,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+Add a property to allow disabling pixman and always use the fallbacks
+for different operations which is useful for testing different drawing
+methods or debugging pixman related issues.
 
-This is marked v5 to avoid confusion with previously posted
-alternative versions. This series is now based on master and contains
-all patches needed to get AmigaOS and MorphOS work on pegasos2 with
-sound and I'd like this to be merged for 8.0.
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/display/sm501.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-Patch 1 is independent of the rest so could be merged separately but
-further patches are needed to fix interrupts which is needed for the
-last patc implementing the via-ac97 sound part of the south bridge
-chip used on pegasos2 so those patches depend on each other.
-
-Please review and somebody take care of merging this for 8.0 please. I
-try to address review comments but it's likely too late to restart
-from scratch so keep it reasonable, it could always be improved later
-or fixed during the freeze if some issues are found.
-
-Regards,
-BALATON Zoltan
-
-BALATON Zoltan (7):
-  hw/display/sm501: Add debug property to control pixman usage
-  Revert "hw/isa/vt82c686: Remove intermediate IRQ forwarder"
-  hw/isa/vt82c686: Implement PCI IRQ routing
-  hw/ppc/pegasos2: Fix PCI interrupt routing
-  hw/isa/vt82c686: Work around missing level sensitive irq in i8259
-    model
-  hw/usb/vt82c686-uhci-pci: Use PCI IRQ routing
-  hw/audio/via-ac97: Basic implementation of audio playback
-
- hw/audio/trace-events      |   6 +
- hw/audio/via-ac97.c        | 455 ++++++++++++++++++++++++++++++++++++-
- hw/display/sm501.c         |  18 +-
- hw/isa/trace-events        |   1 +
- hw/isa/vt82c686.c          |  59 ++++-
- hw/pci-host/mv64361.c      |   4 -
- hw/ppc/pegasos2.c          |  26 ++-
- hw/usb/vt82c686-uhci-pci.c |  12 -
- include/hw/isa/vt82c686.h  |  25 ++
- 9 files changed, 577 insertions(+), 29 deletions(-)
-
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index 17835159fc..dbabbc4339 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -465,6 +465,7 @@ typedef struct SM501State {
+     uint32_t last_width;
+     uint32_t last_height;
+     bool do_full_update; /* perform a full update next time */
++    uint8_t use_pixman;
+     I2CBus *i2c_bus;
+ 
+     /* mmio registers */
+@@ -827,7 +828,7 @@ static void sm501_2d_operation(SM501State *s)
+                 de = db + (width + (height - 1) * dst_pitch) * bypp;
+                 overlap = (db < se && sb < de);
+             }
+-            if (overlap) {
++            if (overlap && (s->use_pixman & BIT(2))) {
+                 /* pixman can't do reverse blit: copy via temporary */
+                 int tmp_stride = DIV_ROUND_UP(width * bypp, sizeof(uint32_t));
+                 uint32_t *tmp = tmp_buf;
+@@ -852,13 +853,15 @@ static void sm501_2d_operation(SM501State *s)
+                 if (tmp != tmp_buf) {
+                     g_free(tmp);
+                 }
+-            } else {
++            } else if (!overlap && (s->use_pixman & BIT(1))) {
+                 fallback = !pixman_blt((uint32_t *)&s->local_mem[src_base],
+                                        (uint32_t *)&s->local_mem[dst_base],
+                                        src_pitch * bypp / sizeof(uint32_t),
+                                        dst_pitch * bypp / sizeof(uint32_t),
+                                        8 * bypp, 8 * bypp, src_x, src_y,
+                                        dst_x, dst_y, width, height);
++            } else {
++                fallback = true;
+             }
+             if (fallback) {
+                 uint8_t *sp = s->local_mem + src_base;
+@@ -891,7 +894,7 @@ static void sm501_2d_operation(SM501State *s)
+             color = cpu_to_le16(color);
+         }
+ 
+-        if ((width == 1 && height == 1) ||
++        if (!(s->use_pixman & BIT(0)) || (width == 1 && height == 1) ||
+             !pixman_fill((uint32_t *)&s->local_mem[dst_base],
+                          dst_pitch * bypp / sizeof(uint32_t), 8 * bypp,
+                          dst_x, dst_y, width, height, color)) {
+@@ -2035,6 +2038,7 @@ static void sm501_realize_sysbus(DeviceState *dev, Error **errp)
+ 
+ static Property sm501_sysbus_properties[] = {
+     DEFINE_PROP_UINT32("vram-size", SM501SysBusState, vram_size, 0),
++    DEFINE_PROP_UINT8("x-pixman", SM501SysBusState, state.use_pixman, 7),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -2122,6 +2126,7 @@ static void sm501_realize_pci(PCIDevice *dev, Error **errp)
+ 
+ static Property sm501_pci_properties[] = {
+     DEFINE_PROP_UINT32("vram-size", SM501PCIState, vram_size, 64 * MiB),
++    DEFINE_PROP_UINT8("x-pixman", SM501PCIState, state.use_pixman, 7),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -2162,11 +2167,18 @@ static void sm501_pci_class_init(ObjectClass *klass, void *data)
+     dc->vmsd = &vmstate_sm501_pci;
+ }
+ 
++static void sm501_pci_init(Object *o)
++{
++    object_property_set_description(o, "x-pixman", "Use pixman for: "
++                                    "1: fill, 2: blit, 4: overlap blit");
++}
++
+ static const TypeInfo sm501_pci_info = {
+     .name          = TYPE_PCI_SM501,
+     .parent        = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(SM501PCIState),
+     .class_init    = sm501_pci_class_init,
++    .instance_init = sm501_pci_init,
+     .interfaces = (InterfaceInfo[]) {
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+         { },
 -- 
 2.30.8
 
