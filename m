@@ -2,105 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E396A7056
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A196A7055
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 16:54:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXOld-00033a-6F; Wed, 01 Mar 2023 10:53:21 -0500
+	id 1pXOm7-0004XA-Km; Wed, 01 Mar 2023 10:53:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pXOla-00032a-FH; Wed, 01 Mar 2023 10:53:18 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXOm5-0004Ut-Nm
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:53:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pXOlY-0007ts-Ph; Wed, 01 Mar 2023 10:53:18 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 321FflJ3022058; Wed, 1 Mar 2023 15:53:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=eYVCkaSbJ2rtItwyr5vHtJzgeDl7SPSyuL7arfT9xBY=;
- b=BcAgkj0r7AR9/EYqTJK5NcUyU2pGSGo0363RF92UvyescHSpxKFXIo/1V8mYc6/Eevef
- udYuE5yTX8y4si0wISoIAou3YIh+DX3VCHPE7yubiBoFi35eVebQFUmCFpre78CbLL7x
- 9b1KnsWqDOwysCzqQ3SsM7Hqg+GrwLtzSdqtTrlQcmI6ctHXWZMNQbY4vxZ5I3g1DF6G
- ucLM2lalgDvD7r3vFpmxjnH9+qJ16DSv56WqiiOvJdtnk77MvdqZBi8n4MGdxoiMw9xu
- b1Q5jOof7GYQWoeM32j7HclSjyGez/ROGALJGaQcxezTSSPS7KhMJjVq0S6fF2W79Bk0 EQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p29jqga9v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Mar 2023 15:53:04 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 321FghSk027696;
- Wed, 1 Mar 2023 15:53:04 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p29jqga8k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Mar 2023 15:53:04 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3216FLrG032007;
- Wed, 1 Mar 2023 15:52:07 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3nybcucnm1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Mar 2023 15:52:07 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 321Fq3Ow34210428
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 1 Mar 2023 15:52:03 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 62FB320043;
- Wed,  1 Mar 2023 15:52:03 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EFE3520040;
- Wed,  1 Mar 2023 15:52:02 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.186.20]) by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed,  1 Mar 2023 15:52:02 +0000 (GMT)
-Message-ID: <ae00f540a0842d4a13b851ed0298812710dd8133.camel@linux.ibm.com>
-Subject: Re: [PATCH v16 11/11] docs/s390x/cpu topology: document s390x cpu
- topology
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Wed, 01 Mar 2023 16:52:02 +0100
-In-Reply-To: <20230222142105.84700-12-pmorel@linux.ibm.com>
-References: <20230222142105.84700-1-pmorel@linux.ibm.com>
- <20230222142105.84700-12-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXOm4-0007za-A5
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 10:53:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677686026;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S9IZw7MPlOeDH0bgZtGzPvRkxT98IkeM3rZ50O1BiJ0=;
+ b=NZ+4sfiFEmS6Dhvh31vHNAk6DY2UQkuyuc5j1MUP6pIGQE+1xowxtcp0ImTguAzNmvWo3f
+ uK8H3Pk6xzT8ZCVf5DzbnD2LaALu+gWh7+2pa/WXcWv5rpu3fDWrka4drHtAhFGQcup6L8
+ b9/lZ8G+63/+BAm0bU6FyoX2moFoYCo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-528-oznwWzqKOl2iNnkOeQ679A-1; Wed, 01 Mar 2023 10:53:11 -0500
+X-MC-Unique: oznwWzqKOl2iNnkOeQ679A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a7-20020a056000188700b002cdd0562b11so251885wri.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 07:53:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677685979;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=S9IZw7MPlOeDH0bgZtGzPvRkxT98IkeM3rZ50O1BiJ0=;
+ b=iXb9o1eYD3oh5ls7Ny2mMoCq3hnstAb/0U/rqq6ZHioKwRJfNMChxe3SN5S+Q8+7/i
+ r4pNpN3CQXEDV2Bc916LJKGMTWbrtKfKB7rHvehvRbzdRMeRa3aG4K+ktd1TP/albg9k
+ uiFLoq2f2o4Vb1j24UjGoMEyNYS8lQmCBnXPw0Xa5Rh9Uxo6QpDVt9DNX2ulj/cRCezf
+ e8ciuGUnTidA+XlADZ7OMh9T9QMunyRBTfVl4B+0bFGLDU2TR+y6tkGsMtHWxknRdtu1
+ NVc8kNv4ijLDMfuzaUY46rj5rkHZ5RLRXJrL7jG+sAq07cIModoRMdrPxt4JDQQcSIVd
+ 5+aw==
+X-Gm-Message-State: AO0yUKUGBebNjpg5lDKLcnzUniF00yVrOFr5eQpLrZB9NjQSAILWPn03
+ 6/wBIMBh+yjX2TraaczdJf146A5FKanTG6kNtzlEkvDmH9MNgOMkZaVWyVoCeuUI1xowzJfZyoy
+ yX12Bb6NI3djb8Ec=
+X-Received: by 2002:a05:600c:43ca:b0:3da:2a78:d7a4 with SMTP id
+ f10-20020a05600c43ca00b003da2a78d7a4mr5142851wmn.21.1677685979289; 
+ Wed, 01 Mar 2023 07:52:59 -0800 (PST)
+X-Google-Smtp-Source: AK7set9CY4vfNBoH90tsrNNPFE61MUtkZhDj8LH2M55QdeDRRjGY7XVG5/KTes1YfYziaQfMvQbZlA==
+X-Received: by 2002:a05:600c:43ca:b0:3da:2a78:d7a4 with SMTP id
+ f10-20020a05600c43ca00b003da2a78d7a4mr5142836wmn.21.1677685978945; 
+ Wed, 01 Mar 2023 07:52:58 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ m9-20020a05600c4f4900b003dec22de1b1sm17931818wmq.10.2023.03.01.07.52.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 07:52:58 -0800 (PST)
+Date: Wed, 1 Mar 2023 10:52:53 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Anton Kuchin <antonkuchin@yandex-team.ru>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ yc-core@yandex-team.ru, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, virtio-fs@redhat.com,
+ Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 1/1] vhost-user-fs: add migration type property
+Message-ID: <20230301104316-mutt-send-email-mst@kernel.org>
+References: <20230223023604-mutt-send-email-mst@kernel.org>
+ <Y/fZm12yGIPnwaDX@fedora>
+ <20230224034258-mutt-send-email-mst@kernel.org>
+ <8611d901-0940-3747-c2cd-9c193c7f24f2@yandex-team.ru>
+ <20230228094756-mutt-send-email-mst@kernel.org>
+ <f3338868-d43a-a499-5db8-2fb06d244e37@yandex-team.ru>
+ <20230228161602-mutt-send-email-mst@kernel.org>
+ <e1f45021-071c-b8c4-69bd-85f8c29c669a@yandex-team.ru>
+ <20230301094424-mutt-send-email-mst@kernel.org>
+ <39577b2c-71ec-5e83-d796-2c4fe3d1fc10@yandex-team.ru>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: T0u-hh0OVB53MYKHz-VxCyor-HNF2XV2
-X-Proofpoint-ORIG-GUID: HghytpWqyJetFn7mrY9QcUqjNGQ494vV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-01_11,2023-03-01_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- adultscore=0 mlxlogscore=999 spamscore=0 malwarescore=0 bulkscore=0
- mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303010127
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <39577b2c-71ec-5e83-d796-2c4fe3d1fc10@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,50 +110,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-02-22 at 15:21 +0100, Pierre Morel wrote:
-> Add some basic examples for the definition of cpu topology
-> in s390x.
->=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  docs/system/s390x/cpu-topology.rst | 378 +++++++++++++++++++++++++++++
->  docs/system/target-s390x.rst       |   1 +
->  2 files changed, 379 insertions(+)
->  create mode 100644 docs/system/s390x/cpu-topology.rst
->=20
-> diff --git a/docs/system/s390x/cpu-topology.rst b/docs/system/s390x/cpu-t=
-opology.rst
-> new file mode 100644
-> index 0000000000..d470e28b97
-> --- /dev/null
-> +++ b/docs/system/s390x/cpu-topology.rst
-> @@ -0,0 +1,378 @@
->=20
-[...]
-> +
-> +set-cpu-topology
-> +++++++++++++++++
-> +
-> +The command set-cpu-topology allows the admin to modify the topology
-> +tree or the topology modifiers of a vCPU in the configuration.
-> +
-> +.. code-block:: QMP
-> +
-> + -> { "execute": "set-cpu-topology",
-> +      "arguments": {
-> +         "core-id": 11,
-> +         "socket-id": 0,
-> +         "book-id": 0,
-> +         "drawer-id": 0,
-> +         "entitlement": low,
-> +         "dedicated": false
-> +      }
-> +    }
-> + <- {"return": {}}
+On Wed, Mar 01, 2023 at 05:40:09PM +0200, Anton Kuchin wrote:
+> So catching errors in not the only purpose of this property, but it
+> definitely
+> allows us to catch some obvious ones.
 
-This fails when building the documenation.
-You need to get rid of the arrows and need "" around the low.
+OK let's say this. If migration=external then migration just works.
+If migration=internal it fails for now. We are agreed here right?
 
+Our argument is whether to check on load or save?
 
-[...]
+I propose this compromize: two properties:
+	migration-load and migration-save
+
+	migration-load : how is incoming migration handled.
+			 internal - through qemu
+			 external - through the daemon
+
+			  checked in pre-load
+
+	migration-save : how is outgoing migration handled.
+			 internal - through qemu
+			 external - through the daemon
+
+			  checked in post-save
+
+This way whether the check is on source or destination or both
+is up to the user.
+
+Hmm?
+
+-- 
+MST
+
 
