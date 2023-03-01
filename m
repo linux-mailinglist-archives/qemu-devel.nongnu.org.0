@@ -2,57 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B69C6A7432
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 20:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 842786A743A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 20:27:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXS3w-0002OQ-RM; Wed, 01 Mar 2023 14:24:28 -0500
+	id 1pXS6p-0003f4-Rl; Wed, 01 Mar 2023 14:27:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXS3u-0002Ny-WC; Wed, 01 Mar 2023 14:24:27 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pXS6n-0003ew-UA
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:27:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pXS3s-0000ZC-Ar; Wed, 01 Mar 2023 14:24:26 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AD13A746324;
- Wed,  1 Mar 2023 20:24:20 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4A4147462DB; Wed,  1 Mar 2023 20:24:20 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4853A7457E7;
- Wed,  1 Mar 2023 20:24:20 +0100 (CET)
-Date: Wed, 1 Mar 2023 20:24:20 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, philmd@linaro.org
-Subject: Re: [PATCH 0/5] Pegasos2 fixes and audio output support
-In-Reply-To: <5840b499-1bae-1e2d-d0bd-e3c8e388299a@ilande.co.uk>
-Message-ID: <39fb6771-7c81-ffe5-7d18-2950f258a837@eik.bme.hu>
-References: <cover.1677004414.git.balaton@eik.bme.hu>
- <CAG4p6K5n5uVD1UPx97jbBDx-k78KweNDTz=J1HoKpzkvau511Q@mail.gmail.com>
- <CAG4p6K50kgCTNrnAstM3vAY8tNkhBkFphWPKxhp=o99MeVpqDw@mail.gmail.com>
- <adb1fe51-a17e-53c2-4dd1-0c4270a928aa@eik.bme.hu>
- <CAG4p6K7b=-jCODvX0VYG3PFeYds2vgO6CmTWu+0aeT9P5Ppubw@mail.gmail.com>
- <67daf5dd-de6a-2d55-c830-8650efc59ee0@eik.bme.hu>
- <8AA6E5E4-6E9F-427D-9F65-D79D4FEEC1A0@gmail.com>
- <7df4771f-e6ab-af3d-3e82-98cb1c4dfce0@eik.bme.hu>
- <14710BE7-AD6F-452E-A3F5-3E9B08F95FD3@gmail.com>
- <5840b499-1bae-1e2d-d0bd-e3c8e388299a@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pXS6l-0001ZF-CF
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 14:27:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677698842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yU3rZ029Q+rLmU4yhYKSsHxQMSSerlr681ZzCmSTcBc=;
+ b=itz2ScdlgUumunsn20ZHaKXgUixteHMiegcIcwvmtwccJdjKp1vN5yzdzLr07+dGcNGu9/
+ dXH1yBC+nCrAjK20max+9yQKbD8JLuch4dtLY5CpCfTmeamj7NtXNDE4zjAopabHzHjINi
+ XQxVZNJB+P5bACgqOIWbftrRAHdFfjo=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-663-6yKEHYxyNgmr5V6sul01WA-1; Wed, 01 Mar 2023 14:27:21 -0500
+X-MC-Unique: 6yKEHYxyNgmr5V6sul01WA-1
+Received: by mail-yw1-f198.google.com with SMTP id
+ 00721157ae682-536a545bfbaso292181187b3.20
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 11:27:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677698840;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yU3rZ029Q+rLmU4yhYKSsHxQMSSerlr681ZzCmSTcBc=;
+ b=nrDDuQZvbFBtLadhy8emL163LTLNCHh9fzjaksvbg5QNHPRQvHVnp/Gvu638ifSnUG
+ 6YHzcrgkC+4uwZbyFPiq2vAcTKl6bzkExEk+VTlV0WGW+JUqHlsRpVsDGYqf6fN7L2BX
+ aPwta8Ag7UvUFzMqe4XtKR5Gw/g8ZGBOlwmtGlASIQ5HiZtY3oUGVNgVSWeJiyBJCkFN
+ FxHLHP4sGY89bAIJZM8FVZoDgA7INchtJidoQrP851sk/VAy6HuCuUu6Xa6f7J/xSHn1
+ miMTIBYbQ4TEzVXjCkudFlzDBtPAX8myDtQm+vWo1Tx0SL/peAc7ICliuB3Jt+Cq3nzP
+ amOA==
+X-Gm-Message-State: AO0yUKUxhhrQO0FEn7EPwH2OFJJWqyXa/uTg3iOtGs+BGk30vcnELljx
+ fJOju2nIvogH8piRYU/wMrndt1WVWeivPbzF4+w7myt8VBfi36aFdr0LA/BKBhU0WCOPb4R6n4Q
+ zJI/ZuRpXO4RtEYgzknJ2vWPdfgybtGU=
+X-Received: by 2002:a05:6902:18c2:b0:8ed:3426:8a69 with SMTP id
+ ck2-20020a05690218c200b008ed34268a69mr14532640ybb.1.1677698840282; 
+ Wed, 01 Mar 2023 11:27:20 -0800 (PST)
+X-Google-Smtp-Source: AK7set+OIimwJ5dlyOqsSFE67Mjmnw8HO1zyhL3oMdxllaRAEXRDano5p1bplbgRi5sQgQYu57KgR0G/YS5RVl8Apnk=
+X-Received: by 2002:a05:6902:18c2:b0:8ed:3426:8a69 with SMTP id
+ ck2-20020a05690218c200b008ed34268a69mr14532610ybb.1.1677698839966; Wed, 01
+ Mar 2023 11:27:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230224155438.112797-1-eperezma@redhat.com>
+ <20230224155438.112797-10-eperezma@redhat.com>
+ <afad31de-8109-36b7-b7ea-aa2e1a24f254@redhat.com>
+In-Reply-To: <afad31de-8109-36b7-b7ea-aa2e1a24f254@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 1 Mar 2023 20:26:43 +0100
+Message-ID: <CAJaqyWdyM6i6-GVNUbEkQ_Bo+AhbAQRDx3wZxRu-jwtc1mZT2g@mail.gmail.com>
+Subject: Re: [PATCH v4 09/15] vdpa: add vdpa net migration state notifier
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefano Garzarella <sgarzare@redhat.com>, 
+ Shannon Nelson <snelson@pensando.io>, Gautam Dawar <gdawar@xilinx.com>, 
+ Laurent Vivier <lvivier@redhat.com>, alvaro.karsz@solid-run.com,
+ longpeng2@huawei.com, virtualization@lists.linux-foundation.org, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, si-wei.liu@oracle.com, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
+ Eli Cohen <eli@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Lei Yang <leiyang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,225 +104,245 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 1 Mar 2023, Mark Cave-Ayland wrote:
-> On 23/02/2023 09:13, Bernhard Beschow wrote:
->> Am 22. Februar 2023 23:00:02 UTC schrieb BALATON Zoltan 
->> <balaton@eik.bme.hu>:
->>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
->>>> Am 22. Februar 2023 21:12:01 UTC schrieb BALATON Zoltan 
->>>> <balaton@eik.bme.hu>:
->>>>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
->>>>>> Am 22. Februar 2023 19:25:16 UTC schrieb BALATON Zoltan 
->>>>>> <balaton@eik.bme.hu>:
->>>>>>> On Wed, 22 Feb 2023, Bernhard Beschow wrote:
->>>>>>>> On Wed, Feb 22, 2023 at 4:38 PM Bernhard Beschow <shentey@gmail.com> 
->>>>>>>> wrote:
->>>>>>>>> I've had a closer look at your series and I think it can be 
->>>>>>>>> simplified:
->>>>>>>>> Patch 2 can be implemented quite straight-forward like I proposed in 
->>>>>>>>> a
->>>>>>>>> private mail: 
->>>>>>>>> https://github.com/shentok/qemu/commit/via-priq-routing.
->>>>>>>>> Then, in order to make patch 3 "hw/ppc/pegasos2: Fix PCI interrupt 
->>>>>>>>> routing"
->>>>>>>>> working, one can expose the PCI interrupts with a single line like 
->>>>>>>>> you do
->>>>>>>>> in patch 2. With this, patch 1 "hw/isa/vt82c686: Implement interrupt
->>>>>>>>> routing in via_isa_set_irq" isn't needed any longer and can be 
->>>>>>>>> omitted.
->>>>>>>>> 
->>>>>>>>> In via-ac97, rather than using via_isa_set_irq(), pci_set_irq() can 
->>>>>>>>> be
->>>>>>>>> used instead. pci_set_irq() internally takes care of all the ISA 
->>>>>>>>> interrupt
->>>>>>>>> level tracking patch 1 attempted to address.
->>>>>>>>> 
->>>>>>>> 
->>>>>>>> Here is a proof of concept branch to demonstrate that the 
->>>>>>>> simplification
->>>>>>>> actually works: https://github.com/shentok/qemu/commits/pegasos2 
->>>>>>>> (Tested
->>>>>>>> with MorphOS with and without pegasos2.rom).
->>>>>>> 
->>>>>>> Does this only work because both the via-ac97 and the PCI interrupts 
->>>>>>> are mapped to the same ISA IRQ and you've only tested sound? The guest 
->>>>>>> could configure each device to use a different IRQ, also mapping them 
->>>>>>> so they share one ISA interrupt. What happens if multiple devices are 
->>>>>>> mapped to IRQ 9 (which is the case on pegasos2 where PCI cards, ac97 
->>>>>>> and USB all share this IRQ) and more than one such device wants to 
->>>>>>> raise an interrupt at the same time? If you ack the ac97 interrupt but 
->>>>>>> a PCI network card or the USB part still wants to get the CPUs 
->>>>>>> attention the ISA IRQ should remain raised until all devices are 
->>>>>>> serviced.
->>>>>> 
->>>>>> pci_bus_get_irq_level(), used in via_isa_set_pci_irq(), should handle
->>>>>> exactly that case very well.
->>>>>> 
->>>>>>> I don't see a way to track the status of all devices in a single 
->>>>>>> qemu_irq which can only be up or down so we need something to store 
->>>>>>> the state of each source.
->>>>>> 
->>>>>> pci_set_irq() causes pci_bus_change_irq_level() to be called.
->>>>>> pci_bus_change_irq_level() tracks the sum of all irq levels of all
->>>>>> devices attached to a particular pin in irq_count. Have a look at
->>>>>> pci_bus_change_irq_level() and you will understand better.
->>>>> 
->>>>> I'm aware of that, we're using that in sam460ex which connects all PCI 
->>>>> interrupt lines to a single IRQ and Peter explored and explained it in a 
->>>>> comment there when that was discovered. First we had a patch with or-irq 
->>>>> but due to this behaviot that's not needed for PCI interrupts. But the 
->>>>> VT8132 could change what ISA IRQ you route the sub functions to.
->>>> 
->>>> That depends on the sub function if you can do that. And if so, then it 
->>>> depends on whether the function is still in PCI mode (see below).
->>>> 
->>>>> It happens that on pegasos2 by default all of those are routed to IRQ9 
->>>>> except IDE
->>>> 
->>>> All *PCI* interrupts are routed to IRQ9 while IDE legacy interrupts are 
->>>> routed to the compatible ISA IRQs. Note that the IDE function must only 
->>>> trigger the ISA IRQs if it is in legacy mode while it must only trigger 
->>>> the PCI IRQ in non-legacy mode. See https://www.bswd.com/pciide.pdf for 
->>>> more details on this particular topic.
->>> 
->>> The docs say so but based on what guests that work on real hardware do it 
->>> does not work that way. Look up previous discussion on this on the list 
->>> from around the time Mark changed via-ide about 4-5 years ago. That series 
->>> was a result of his review of my proposed changes and gave resuled in an 
->>> alternative appdroach. On pegasos2 (and probably also on fuloong2e based 
->>> on same later findings, see patches to that, I can try to find these later 
->>> if you can't find them) via-ide *always* uses IRQ 14/15 and the native 
->>> mode only switches register addresses from legacy io ports to PCI io space 
->>> so you can set it in with BAR regs but the IRQs don't change despite what 
->>> the docs say. There are some hacks in Linux kernel and other guests to 
->>> account for this but the comments for the reason are wrong in Linux, they 
->>> say IDE is always in legacy mode but in fact if has a half-native mode 
->>> which is what I called it where io addresses are set with BARs but IRQs 
->>> are still the legacy ISA ones. You can find some references in previous 
->>> discussion. Probably searching for via-ide half-native mode might find it.
->>> 
->>>>> but what if a guest changes ac97 to use a different interrupt? Then it's 
->>>>> not a PCI interrupt any more so you can't use pci_set_irq in via=ac97.
->>>> 
->>>> How would it do that? AFAICS there is no dedicated register to configure 
->>>> which IRQ to use. This means that it can only trigger an interrupt via 
->>>> its PCI intx pin which is subject to the PCI -> ISA IRQ router.
->>> 
->>> The VIA functions can use their PCI_INTERRUPT_LINE (0x3c) registers to set 
->>> their ISA IRQ according to the docs (and unlike IDE in other functions 
->>> like USB and sound this probably also works) and the PIRQA-D pins can be 
->>> mapped to ISA IRQs by the 0x55-0x57 config registers of the isa bridge 
->>> (function0). This is what I implemented in via_isa_set_irq() in this 
->>> series.
->>> 
->>>>> There are only 4 PCI INT lines but the VIA components can be routed to 
->>>>> 13 or 14 ISA IRQs.
->>>> 
->>>> Pure PCI components are only able to trigger one of the four PCI intx 
->>>> pins they are *hardwired* to.
->>> 
->>> This is true for PCI cards which can only use the 4 pins the slot they are 
->>> in is wired to. These come in through the PIRQA-D pins and they are routed 
->>> with the funstion 0 0x55-0x57 config registers. But I'm not sure about the 
->>> internal functions.
->>> 
->>>> Each component has only one pin. Which ISA IRQ gets triggered through 
->>>> that pin can be selected from 13 or 14 ISA IRQs as you say by means of 
->>>> the three configuration registers of the PCI -> ISA IRQ router.
->>> 
->>> So you say that internal functions are also wired to the same 4 lines like 
->>> normal PCI cards?
->> 
->> Yes.
->> 
->>> Then how can you route them to different interrupts setting their config 
->>> reg 0x3c independent of function0 0x55-0x57 regs?
->> 
->> 0x3c isn't supposed to be interpretet by hardware, and in general hardware 
->> can't: 0x3c is standardized for every PCI function which includes 
->> standalone PCI devices in particular. Standalone PCI devices don't have 
->> access to an IRQ router. So if they don't, how could they possibly 
->> configure the IRQ they are triggering?
->> 
->> 0x3c is only information to the OS (populated by the BIOS). It merily 
->> indicates that the PCI device needs attention when the IRQ configured in 
->> 0x3c is raised. See comment 4 in 
->> https://community.osr.com/discussion/30399/read-only-pci-interrupt-line-register 
->> for another explanation.
->> 
->> Even though the south bridge contains an interrupt router doesn't mean that 
->> its PCI functions can configure their IRQ through their 0x3c registers. 
->> That would change the semantics of standardized PCI registers which is 
->> surely not permitted by the standard. Instead, the PCI IRQs are configured 
->> through the device-specific 0x55-0x57 regs.
->> 
->> I see that 0x3c is also used for the USB functions. They used to trigger 
->> the raw ISA IRQs before your series which seems wrong. I think 0x3c usage 
->> needs to be cleaned up in the VIA model. Otherwise this will likely cause 
->> problems elsewhere.
->> 
->>> 
->>>>> How do you keep track of that with only the PCI bus interrupts?
->>>> 
->>>> Devices that operate in ISA mode such as the IDE function shall have 
->>>> their own, dedicated ISA IRQs assigned by the guest. Otherwise this 
->>>> causes a classic interrupt conflict, just like in the olden ISA days. If 
->>>> the function operates in PCI mode, it must not trigger the ISA IRQs, 
->>>> regardless of whether they are assigned or not.
->>> 
->>> This does not match with guests which clearly expect to get ISA IRQ9 for 
->>> PCI cards and USB and sound which is where these are routed within the VIA 
->>> bridge as the firmware programs it.
->> 
->> What I meant was that a component able to operate in native/legacy/mixed 
->> mode such as IDE must not use both PCI and legacy ISA interrupts at the 
->> same time. Multiple PCI functions may of course share interrupts.
->> 
->>> 
->>>> There is also the power management function whose ACPI interrupt (SCI) 
->>>> can be routed by means of a dedicated register. Again, a guest must make 
->>>> sure here to not configure interrupt conflicts.
->>>> 
->>>>> I don't get your approach.
->>>> 
->>>> I hope that I could help you get a better understanding. The linked .pdf 
->>>> is good and comprehensive reading material.
->>> 
->>> I'm not sure the via-ide confirms to that doc but it's also not any more a 
->>> problem with via-ide now. That was discussed to death back then and 
->>> "fixed" to work for the cases we want it to work with. We probably never 
->>> agreed on how this really works but at least what we ended up with works 
->>> with guests that run on real hardware. I'm OK with also making these cases 
->>> work that we want now such as network and sound card under AmigaOS and 
->>> sound under MorphOS (as long as you don't use USB) on pegasos2. This 
->>> series does that so unless it breaks something that worked before I 
->>> condider this moving forward and we can always improve adn fix it later. 
->>> I'm not saying I'm not interested in your improvements just that let's 
->>> that not hold this back now as we can fix and improve it later but 
->>> otherwise users will have to wait until September to be able to use it. I 
->>> know a few who want this and getting this out as it is would allow more 
->>> people to test it and report problems so unless there are clearly wrong 
->>> parts I'm OK with less than perfect but working solution as long as it's 
->>> not too messy.
->> 
->> Patch 1 really seems like duplicating PCI code that already exists in QEMU. 
->> This is not needed and we should avoid that.
->> 
->> Moreover, usage of the IRQ line register (0x3c) for interrupt routing 
->> should be switched to using the 0x55-0x57 regs to be PCI compliant.
->> 
->> Thanks to your great work to make via-ac97 work we can confirm that both 
->> IRQ routing implementations basically work for now. Let's work out a 
->> solution that relies on existing code, sticks to the standard and hopefully 
->> works for i386 and MIPS, too.
+On Mon, Feb 27, 2023 at 9:08 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> FWIW this analysis seems correct to me based upon my experience with older 
-> PCs and reading the various specifications.
+>
+> =E5=9C=A8 2023/2/24 23:54, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > This allows net to restart the device backend to configure SVQ on it.
+> >
+> > Ideally, these changes should not be net specific. However, the vdpa ne=
+t
+> > backend is the one with enough knowledge to configure everything becaus=
+e
+> > of some reasons:
+> > * Queues might need to be shadowed or not depending on its kind (contro=
+l
+> >    vs data).
+> > * Queues need to share the same map translations (iova tree).
+> >
+> > Because of that it is cleaner to restart the whole net backend and
+> > configure again as expected, similar to how vhost-kernel moves between
+> > userspace and passthrough.
+> >
+> > If more kinds of devices need dynamic switching to SVQ we can create a
+> > callback struct like VhostOps and move most of the code there.
+> > VhostOps cannot be reused since all vdpa backend share them, and to
+> > personalize just for networking would be too heavy.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> > v4:
+> > * Delete duplication of set shadow_data and shadow_vqs_enabled moving i=
+t
+> >    to data / cvq net start functions.
+> >
+> > v3:
+> > * Check for migration state at vdpa device start to enable SVQ in data
+> >    vqs.
+> >
+> > v1 from RFC:
+> > * Add TODO to use the resume operation in the future.
+> > * Use migration_in_setup and migration_has_failed instead of a
+> >    complicated switch case.
+> > ---
+> >   net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++-=
+-
+> >   1 file changed, 69 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index b89c99066a..c5512ddf10 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -26,12 +26,15 @@
+> >   #include <err.h>
+> >   #include "standard-headers/linux/virtio_net.h"
+> >   #include "monitor/monitor.h"
+> > +#include "migration/migration.h"
+> > +#include "migration/misc.h"
+> >   #include "hw/virtio/vhost.h"
+> >
+> >   /* Todo:need to add the multiqueue support here */
+> >   typedef struct VhostVDPAState {
+> >       NetClientState nc;
+> >       struct vhost_vdpa vhost_vdpa;
+> > +    Notifier migration_state;
+> >       VHostNetState *vhost_net;
+> >
+> >       /* Control commands shadow buffers */
+> > @@ -239,10 +242,59 @@ static VhostVDPAState *vhost_vdpa_net_first_nc_vd=
+pa(VhostVDPAState *s)
+> >       return DO_UPCAST(VhostVDPAState, nc, nc0);
+> >   }
+> >
+> > +static void vhost_vdpa_net_log_global_enable(VhostVDPAState *s, bool e=
+nable)
+> > +{
+> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
+> > +    VirtIONet *n;
+> > +    VirtIODevice *vdev;
+> > +    int data_queue_pairs, cvq, r;
+> > +
+> > +    /* We are only called on the first data vqs and only if x-svq is n=
+ot set */
+> > +    if (s->vhost_vdpa.shadow_vqs_enabled =3D=3D enable) {
+> > +        return;
+> > +    }
+> > +
+> > +    vdev =3D v->dev->vdev;
+> > +    n =3D VIRTIO_NET(vdev);
+> > +    if (!n->vhost_started) {
+> > +        return;
+> > +    }
+> > +
+> > +    data_queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
+> > +    cvq =3D virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
+> > +                                  n->max_ncs - n->max_queue_pairs : 0;
+> > +    /*
+> > +     * TODO: vhost_net_stop does suspend, get_base and reset. We can b=
+e smarter
+> > +     * in the future and resume the device if read-only operations bet=
+ween
+> > +     * suspend and reset goes wrong.
+> > +     */
+> > +    vhost_net_stop(vdev, n->nic->ncs, data_queue_pairs, cvq);
+> > +
+> > +    /* Start will check migration setup_or_active to configure or not =
+SVQ */
+> > +    r =3D vhost_net_start(vdev, n->nic->ncs, data_queue_pairs, cvq);
+> > +    if (unlikely(r < 0)) {
+> > +        error_report("unable to start vhost net: %s(%d)", g_strerror(-=
+r), -r);
+> > +    }
+> > +}
+> > +
+> > +static void vdpa_net_migration_state_notifier(Notifier *notifier, void=
+ *data)
+> > +{
+> > +    MigrationState *migration =3D data;
+> > +    VhostVDPAState *s =3D container_of(notifier, VhostVDPAState,
+> > +                                     migration_state);
+> > +
+> > +    if (migration_in_setup(migration)) {
+> > +        vhost_vdpa_net_log_global_enable(s, true);
+> > +    } else if (migration_has_failed(migration)) {
+> > +        vhost_vdpa_net_log_global_enable(s, false);
+> > +    }
+> > +}
+> > +
+> >   static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
+> >   {
+> >       struct vhost_vdpa *v =3D &s->vhost_vdpa;
+> >
+> > +    add_migration_state_change_notifier(&s->migration_state);
+> >       if (v->shadow_vqs_enabled) {
+> >           v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
+> >                                              v->iova_range.last);
+> > @@ -256,6 +308,15 @@ static int vhost_vdpa_net_data_start(NetClientStat=
+e *nc)
+> >
+> >       assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> >
+> > +    if (s->always_svq ||
+> > +        migration_is_setup_or_active(migrate_get_current()->state)) {
+> > +        v->shadow_vqs_enabled =3D true;
+> > +        v->shadow_data =3D true;
+> > +    } else {
+> > +        v->shadow_vqs_enabled =3D false;
+> > +        v->shadow_data =3D false;
+> > +    }
+> > +
+> >       if (v->index =3D=3D 0) {
+> >           vhost_vdpa_net_data_start_first(s);
+> >           return 0;
+> > @@ -276,6 +337,10 @@ static void vhost_vdpa_net_client_stop(NetClientSt=
+ate *nc)
+> >
+> >       assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+> >
+> > +    if (s->vhost_vdpa.index =3D=3D 0) {
+> > +        remove_migration_state_change_notifier(&s->migration_state);
+> > +    }
+>
+>
+> This should work but I just realize that vhost support
+> vhost_dev_set_log(), I wonder if it would be simpler to go with that way.
+>
+> Using vhost_virtqueue_set_addr(, enable_log =3D true)?
+>
 
-Have you read the VT82C686B and VT8231 spces which this is about? Other 
-specs may not apply to these chips, they should confirm to their own docs. 
-(But sometimes they may even fail to do that like in case of the IDE part.)
+We can do that but it has the same problem as with checking _F_LOG_ALL
+in set_features:
 
-Regards,
-BALATON Zoltan
+1. We're tearing down a vhost device using a listener registered
+against that device, at start / stop.
+2. We need to traverse all the devices many times to first get all the
+vqs state and then transverse them again to set them up properly.
+
+My two ideas to solve the recursiveness of 1 are:
+a. Duplicating vhost_dev_start / vhost_dev_stop at
+vhost_vdpa_set_features / vhost_vdpa_set_vring_addr.
+
+This has the same problem as all duplications: It will get out of sync
+eventually. For example, the latest changes about configure interrupt
+would need to be duplicated in this new call.
+
+b. Add a new parameter to vhost_dev_start/stop to skip the
+set_features / set_vring_address step.
+Now that the virtio queue reset changes have exposed these functions
+it is also possible to call them from vhost-vdpa.
+
+Maybe we can store that parameter in vhost_vdpa so we don't call
+vhost_dev_start / stop there instead of affecting all backends, but
+the idea is the same.
+
+For problem 2 I still do not have a solution. CVQ / MQ Is out of the
+scope for this series but I think it will bite us when we add it
+(hopefully soon).
+
+Thanks!
+
+> Thanks
+>
+>
+> > +
+> >       dev =3D s->vhost_vdpa.dev;
+> >       if (dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end) {
+> >           g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_del=
+ete);
+> > @@ -412,11 +477,12 @@ static int vhost_vdpa_net_cvq_start(NetClientStat=
+e *nc)
+> >       s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> >       v =3D &s->vhost_vdpa;
+> >
+> > -    v->shadow_data =3D s->always_svq;
+> > +    s0 =3D vhost_vdpa_net_first_nc_vdpa(s);
+> > +    v->shadow_data =3D s0->vhost_vdpa.shadow_vqs_enabled;
+> >       v->shadow_vqs_enabled =3D s->always_svq;
+> >       s->vhost_vdpa.address_space_id =3D VHOST_VDPA_GUEST_PA_ASID;
+> >
+> > -    if (s->always_svq) {
+> > +    if (s->vhost_vdpa.shadow_data) {
+> >           /* SVQ is already configured for all virtqueues */
+> >           goto out;
+> >       }
+> > @@ -473,7 +539,6 @@ out:
+> >           return 0;
+> >       }
+> >
+> > -    s0 =3D vhost_vdpa_net_first_nc_vdpa(s);
+> >       if (s0->vhost_vdpa.iova_tree) {
+> >           /*
+> >            * SVQ is already configured for all virtqueues.  Reuse IOVA =
+tree for
+> > @@ -749,6 +814,7 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
+tState *peer,
+> >       s->vhost_vdpa.device_fd =3D vdpa_device_fd;
+> >       s->vhost_vdpa.index =3D queue_pair_index;
+> >       s->always_svq =3D svq;
+> > +    s->migration_state.notify =3D vdpa_net_migration_state_notifier;
+> >       s->vhost_vdpa.shadow_vqs_enabled =3D svq;
+> >       s->vhost_vdpa.iova_range =3D iova_range;
+> >       s->vhost_vdpa.shadow_data =3D svq;
+>
+
 
