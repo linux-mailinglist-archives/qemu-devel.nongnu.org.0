@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894FA6A7650
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FBD6A7655
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 22:46:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXUGl-0006rJ-5i; Wed, 01 Mar 2023 16:45:51 -0500
+	id 1pXUHY-0007ja-JW; Wed, 01 Mar 2023 16:46:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUGN-0006gi-LD
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:45:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUHR-0007Zx-Kw
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:46:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUGG-0003iu-6d
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:45:24 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUHO-0004Bc-RT
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 16:46:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677707119;
+ s=mimecast20190719; t=1677707188;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CRNGmpiu07lhWIG9uQKmTyZmnoqqTWTxJX+XRpyNcVg=;
- b=RI+QPAqM39uHJgik30DltlvaW+ghzZrA8IEiaxaX9ftTF1sp6nPHmWuQY1BCSFqQXEayIK
- iizxRKWaRMp7oPJ9i4/Z/yuxlzWFNEz17+UKXcxSVTAchpFTMVpokoIy0CuFRhr0bXNeFb
- wz1AVe3dGA/M8+p8HBBDHq4oKOQjfEU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-42-k3mLlcXPMM6YY3-XIS4-dQ-1; Wed, 01 Mar 2023 16:45:18 -0500
-X-MC-Unique: k3mLlcXPMM6YY3-XIS4-dQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z6-20020a7bc7c6000000b003e0107732f4so5037173wmk.1
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 13:45:18 -0800 (PST)
+ bh=k8pv4CVAIYCba3sIARekdUs9VRnwsbaeSga1EzSc93Y=;
+ b=LPM8EzJTR8ZCSXJEnwhPhtbJfGDupI5iXMe3phGnp3IBVQ4EtLGXizCxgLDircyYsmPHLu
+ 3y9B9KnuSpYSXSR471mXLUOQ1TohZ7fY9oJA9Wqw01XsnCZN8UfR2T+tZMvN4vY8SFZa+F
+ diYftDqyvMgdREiUeECstz0iz+42uBw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-443-0hnP-x6oPW-3kfzEYunAVQ-1; Wed, 01 Mar 2023 16:46:27 -0500
+X-MC-Unique: 0hnP-x6oPW-3kfzEYunAVQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ x18-20020a1c7c12000000b003e1e7d3cf9fso267543wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 13:46:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677707117;
+ d=1e100.net; s=20210112; t=1677707186;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CRNGmpiu07lhWIG9uQKmTyZmnoqqTWTxJX+XRpyNcVg=;
- b=n/MIrZex0kfwvzu5jpqDBt7XvQnb+G9t+XqLUjEhdTZPlbMHZ5V96o0cwBPUq0LK7T
- 6WUtSrRr9p+p5R1iueN+dQBwI5Ukw8BZO75yfC3OQvzevf2mqd6SbgwfwgA9/dbt/Ppy
- TAJe936bK7ue7DxATxkugQCwzvwQK1v/rvBIqw8qKRQd8IbQEubFm9vKLrNueDPIYvbH
- 0YJZzHoWfuhgLdNsrnwwg5Sj9FKaWSqmQLlYtyQ3co3BJLnaC6xjsmdKNCRUfhOSRnj6
- 2JeSEHc3mAXmcmRuYHoQNw4/8xfb9WB974TKyM/+4HjV+jA8beY1nhpsVEkS4tSe7hph
- 6ggg==
-X-Gm-Message-State: AO0yUKWuGsUgMMlsOzhKupIFqw6Drn+tdZPoDjxnfyykdAUClIksEtgU
- FXbLww9/TNuutnfmY0TPGB+NVeY7zELcckdEMPirC61iNJDZ17s2Mumi8PVig+ClJ65i/88htcQ
- uCCilG3MAP+9qbir4BRWy
-X-Received: by 2002:a05:6000:104d:b0:2c7:390e:163c with SMTP id
- c13-20020a056000104d00b002c7390e163cmr5815607wrx.47.1677707116763; 
- Wed, 01 Mar 2023 13:45:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set8if8VHMfqaQ0LT5g45XskMpI3MgPpLAm+VhZVX5shp5saHPA6hns+udQTu/Ea9CdX0VmnstQ==
-X-Received: by 2002:a05:6000:104d:b0:2c7:390e:163c with SMTP id
- c13-20020a056000104d00b002c7390e163cmr5815599wrx.47.1677707116462; 
- Wed, 01 Mar 2023 13:45:16 -0800 (PST)
+ bh=k8pv4CVAIYCba3sIARekdUs9VRnwsbaeSga1EzSc93Y=;
+ b=aWu7rWQJ7SwdOgpXP7Mp2D6ziUoYfoXKQaw+mds06sBLqBjEh54sOJCY+Vq2tAzU/K
+ DZ3YXgsMfCd5cAp60wSCImOtwHc3hQ5DXl1M6ao8f4/5XNVZEgqF8pdTtb5eru0uMNrY
+ rjCBmJezQh5/tR9uqzL+H0H5QNQ3pWiVlfCg1rhM2zBaYNXCLp0xbVPfZrYugXmFgnrQ
+ koJqJQq3E/zkHYx5LoNcy/u0BDcDlQxq5d9gGEUyF68Bw5AS5r3qLJ1JRpEVyfNFQt0p
+ FXODdrltEnWL8YiBwdjxIn/XZc4rT15QL2Fw3lDFHLDEc4IX8GXJHKaCpE4RuOikCvnA
+ p1Gw==
+X-Gm-Message-State: AO0yUKVj1mS1njENqHuLf5IL3vPWQYwE2hYmJ9wBjUa0O5CyF4BW94Qd
+ HPWLX0twqOn970SQ4nLB+uXyWt9ElQ5xatedVmDub8NuN0xvouqH2bctMkKMa2sEAEpx/D7Rhmw
+ nEUxiFyuDes3rX68=
+X-Received: by 2002:a05:600c:4e06:b0:3eb:2db4:c626 with SMTP id
+ b6-20020a05600c4e0600b003eb2db4c626mr6028856wmq.38.1677707186391; 
+ Wed, 01 Mar 2023 13:46:26 -0800 (PST)
+X-Google-Smtp-Source: AK7set9m0aI3SOXZx96Aj+x0BXXTAKJLC43uO+HVuO/8E2OSpc16+Hu5usIx7lp4aXT5m7IRrzfzfg==
+X-Received: by 2002:a05:600c:4e06:b0:3eb:2db4:c626 with SMTP id
+ b6-20020a05600c4e0600b003eb2db4c626mr6028846wmq.38.1677707186104; 
+ Wed, 01 Mar 2023 13:46:26 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- i12-20020adfefcc000000b002c54f4d0f71sm13524100wrp.38.2023.03.01.13.45.14
+ w11-20020adff9cb000000b002c55de1c72bsm13463016wrr.62.2023.03.01.13.46.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 13:45:15 -0800 (PST)
-Date: Wed, 1 Mar 2023 16:45:12 -0500
+ Wed, 01 Mar 2023 13:46:25 -0800 (PST)
+Date: Wed, 1 Mar 2023 16:46:22 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Bernhard Beschow <shentey@gmail.com>
 Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH 03/12] hw/pci-host/q35: Use memory_region_set_address()
- also for tseg_blackhole
-Message-ID: <20230301164444-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH 05/12] hw/pci-host/q35: Initialize "bypass-iommu"
+ property from board code
+Message-ID: <20230301164557-mutt-send-email-mst@kernel.org>
 References: <20230214131441.101760-1-shentey@gmail.com>
- <20230214131441.101760-4-shentey@gmail.com>
+ <20230214131441.101760-6-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230214131441.101760-4-shentey@gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20230214131441.101760-6-shentey@gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,44 +98,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Feb 14, 2023 at 02:14:32PM +0100, Bernhard Beschow wrote:
-> Deleting from and adding to the parent memory region seems to be the old
-> way of changing a memory region's address which is superseeded by
-> memory_region_set_address(). Moreover, memory_region_set_address() is
-> already used for tseg_window which is tseg_blackhole's counterpart in
-> SMM space.
+On Tue, Feb 14, 2023 at 02:14:34PM +0100, Bernhard Beschow wrote:
+> The Q35 PCI host already has a "bypass-iommu" property. However, the
+> host initializes this property itself by accessing global machine state,
+> thereby assuming it to be a PC machine. Avoid this by having board code
+> set this property.
 > 
-> Ammends: bafc90bdc594 'q35: implement TSEG'
-
-I don't really see what purpose does this tag serve but
-if you want it use the standard format pls.
-
-
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->  hw/pci-host/q35.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  hw/i386/pc_q35.c  | 2 ++
+>  hw/pci-host/q35.c | 3 +--
+>  2 files changed, 3 insertions(+), 2 deletions(-)
 > 
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index c2dc87acee..b3c55012d4 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -231,6 +231,8 @@ static void pc_q35_init(MachineState *machine)
+>                              x86ms->below_4g_mem_size, NULL);
+>      object_property_set_int(phb, PCI_HOST_ABOVE_4G_MEM_SIZE,
+>                              x86ms->above_4g_mem_size, NULL);
+> +    object_property_set_bool(phb, "bypass-iommu",
+> +                             pcms->default_bus_bypass_iommu, NULL);
+
+Can we use a macro to avoid duplicating the property name?
+
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(phb), &error_fatal);
+>  
+>      /* pci */
 > diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> index 3124cad60f..0384ce4350 100644
+> index 26e9e28e0e..0e198f97a7 100644
 > --- a/hw/pci-host/q35.c
 > +++ b/hw/pci-host/q35.c
-> @@ -404,12 +404,11 @@ static void mch_update_smram(MCHPCIState *mch)
->      } else {
->          tseg_size = 0;
->      }
-> -    memory_region_del_subregion(mch->system_memory, &mch->tseg_blackhole);
+> @@ -66,8 +66,7 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
+>                                  s->mch.pci_address_space,
+>                                  s->mch.address_space_io,
+>                                  0, TYPE_PCIE_BUS);
+> -    pci->bypass_iommu =
+> -        PC_MACHINE(qdev_get_machine())->default_bus_bypass_iommu;
 > +
->      memory_region_set_enabled(&mch->tseg_blackhole, tseg_size);
->      memory_region_set_size(&mch->tseg_blackhole, tseg_size);
-> -    memory_region_add_subregion_overlap(mch->system_memory,
-> -                                        mch->below_4g_mem_size - tseg_size,
-> -                                        &mch->tseg_blackhole, 1);
-> +    memory_region_set_address(&mch->tseg_blackhole,
-> +                              mch->below_4g_mem_size - tseg_size);
+>      qdev_realize(DEVICE(&s->mch), BUS(pci->bus), &error_fatal);
+>  }
 >  
->      memory_region_set_enabled(&mch->tseg_window, tseg_size);
->      memory_region_set_size(&mch->tseg_window, tseg_size);
 > -- 
 > 2.39.1
 
