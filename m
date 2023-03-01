@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B14D6A6628
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 04:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5096A6619
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 04:01:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXCig-0002xo-92; Tue, 28 Feb 2023 22:01:30 -0500
+	id 1pXCin-0003j6-HR; Tue, 28 Feb 2023 22:01:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCib-0002Xt-Ey
+ id 1pXCib-0002Y0-EJ
  for qemu-devel@nongnu.org; Tue, 28 Feb 2023 22:01:25 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pXCiJ-0004G4-FI
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 22:01:09 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- h11-20020a17090a2ecb00b00237c740335cso10554757pjs.3
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 19:01:06 -0800 (PST)
+ id 1pXCiO-0004Jn-Cs
+ for qemu-devel@nongnu.org; Tue, 28 Feb 2023 22:01:13 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ x20-20020a17090a8a9400b00233ba727724so47965pjn.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 19:01:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c/FsI5n4WgHRv66eevhE+xAIN7J7lkFbjUwPoPOuuXQ=;
- b=f2K50/5MuR+l0eE2Yw/wdMpCI0rQmY5KIE/3oBa522Va2OHvIxrcPi1mC/FWLVfhvm
- c8mkkSK3vQsQU3/b/UN6aYn2fQqHcf95SC1gHCldpj+ySbnViDEcRoM6QLTV1Am05+/g
- 13CaRxQv43hal8b3rNCqIEnZQj5TIxwaHcgtfMEGnriLcc1DHon4AEyd2fip+0Kszix/
- IE5m7MQNt/XTNN9beoMKZPwkJR2l8bB0MUbzhk/LV5yk0I9hsAW0NpRYCuUcgy4oTeYP
- 8PSAyCZHAg4CzlddQDo34pJnKznb9Opo7/rG01Dw5IzHW5T8N72uxYksIL4l6W64zoUe
- q+zA==
+ bh=wgP/VlqDeygJvTan3lYcCGUlGsSNoYjFb+BGi032whY=;
+ b=NZYSrR0++HnlOriFb/fTFrSn1xs8a23uCIA7JH8RTIQrOtboLQSaD3KMolrlBxL3+1
+ DUl7QyUruCydXFMQUqwJlLxnU/C4Qbjq0U9p9u42nwsey3Wnu3ZA8B01hTv5c+3W5CAm
+ gV0DlEEd85N3dsKQnNAVxn5LJTtQ+i9XS8sjXCePt5sn6A5AxigVI7YLpqqgxrhewIMJ
+ IW+jM9dKx3klF2OJLXrSYVV7Yq5WRHmI+wz7fGeJMF1pzspYXLojbVigB/+8TrBfoObc
+ HAX58m+wSp8CS7TzBLgYkZWfliii27JvA38DNUG8AIAslLw0EBcdVR8URWbDrkNks9tj
+ VtWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=c/FsI5n4WgHRv66eevhE+xAIN7J7lkFbjUwPoPOuuXQ=;
- b=I1I+jaLVDOaLtEqI4FlGqpVgIAVZJ0vWgpnHg2b+iORO/Sq8TA0ahp+wPmbdMRsiDa
- 6DToo5eA8cH4pW43mTbwwAqqoprH+9P7zmp/BhmRRcOLhn1aDYKImlHgOQPc1S5I6N44
- xTdOY+mt145cpkz58E3G55QicKMW+59pIUgtvgxbA6bday2zecfmSbzsivLlBmmP4rgi
- 4CitZaihGmdHu0NxFkOkCzmKN5QqjPCQUDXztfr5K/76AFf3geHfDeJ5aM6GwOUiwA8B
- P3os0d8PmLLzl0jWDE8seBG3EmK719YhSnoFeTP8Z6Md2Gg8VIwru2QSvxjvY2hCuv0O
- cMKw==
-X-Gm-Message-State: AO0yUKWc9XiqSJukiE7Xeps3bZ3eE0TW//u29yLEH2CBQyr79Ejq1734
- uz8x0ou+VNS5jQTx4U/exTofA8rm46m4ZDle4Jk=
-X-Google-Smtp-Source: AK7set+f4zlmtiezumumx/NbmDaXehMm4GZEbL7shtC6l3yCKANdoanZnltwoDHc396h4dx5q6nz4A==
-X-Received: by 2002:a17:902:e549:b0:19a:a815:2876 with SMTP id
- n9-20020a170902e54900b0019aa8152876mr5916745plf.62.1677639666587; 
- Tue, 28 Feb 2023 19:01:06 -0800 (PST)
+ bh=wgP/VlqDeygJvTan3lYcCGUlGsSNoYjFb+BGi032whY=;
+ b=q40HmcMmExJPX8A+YmNcjQRh4xK6q7ehS3VZVnXCztqnztDn+7FSFePFJF/BYjSO00
+ KsmJSnIfrLUVjWWlyl/WuJAqsdgy6IjHD6DXP5pGG3RoOA9Y5U1hguPJ3cLl6YKwcR/u
+ jFf2a7Ch+uxdkXc00sVtUxixUe22/8QaJxSdcq2bOOJ4BVIpjOTAwnwRax4MkCSo84YU
+ Dg4ScH5csQiUZdIprOa8lKxMmfjKYrOJrlH86uw0l5PKCPxnOj515yZMMB74n9+EniNG
+ ZKYfTuxdshWFiIFGBU+KlA8qZIGrHpLMv072THmxfCqCkfpJmVrRHN7IEp9h5WNVj0Vw
+ Z+1A==
+X-Gm-Message-State: AO0yUKUv2RIgv879TuWCzPLfi57uaDn60EVH4D9yArRNsYtzVlvcIH7X
+ 6rHDpJoJHBBnqgx4x27MdTWqZgF+f4MKRysJbc8=
+X-Google-Smtp-Source: AK7set+OyFR68VsPbECQkKL2f1svtP5HJW9u0yNI9bhrsHE+TPhY3p6aFDGI44rrpu/GHcnupzROXA==
+X-Received: by 2002:a17:902:db0f:b0:19c:edcd:26cf with SMTP id
+ m15-20020a170902db0f00b0019cedcd26cfmr6052110plx.61.1677639671053; 
+ Tue, 28 Feb 2023 19:01:11 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- r11-20020a170902be0b00b0019aca830869sm7181444pls.238.2023.02.28.19.01.05
+ r11-20020a170902be0b00b0019aca830869sm7181444pls.238.2023.02.28.19.01.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 19:01:05 -0800 (PST)
+ Tue, 28 Feb 2023 19:01:10 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 47/62] accel/tcg/plugin: Tidy plugin_gen_disable_mem_helpers
-Date: Tue, 28 Feb 2023 16:56:28 -1000
-Message-Id: <20230301025643.1227244-48-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org
+Subject: [PULL 50/62] target/arm: Drop copies in gen_sve_{ldr,str}
+Date: Tue, 28 Feb 2023 16:56:31 -1000
+Message-Id: <20230301025643.1227244-51-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301025643.1227244-1-richard.henderson@linaro.org>
 References: <20230301025643.1227244-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,42 +90,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Here we are creating a temp whose value needs to be replaced,
-but always storing NULL into CPUState.plugin_mem_cbs.
-Use tcg_constant_ptr(0) explicitly.
+Since we now get TEMP_TB temporaries by default, we no longer
+need to make copies across these loops.  These were the only
+uses of new_tmp_a64_local(), so remove that as well.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/plugin-gen.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ target/arm/tcg/translate-a64.h |  1 -
+ target/arm/tcg/translate-a64.c |  6 ------
+ target/arm/tcg/translate-sve.c | 32 --------------------------------
+ 3 files changed, 39 deletions(-)
 
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 9b793ac62c..c42a436c0c 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -630,8 +630,6 @@ static void inject_mem_disable_helper(struct qemu_plugin_insn *plugin_insn,
- /* called before finishing a TB with exit_tb, goto_tb or goto_ptr */
- void plugin_gen_disable_mem_helpers(void)
- {
--    TCGv_ptr ptr;
--
-     /*
-      * We could emit the clearing unconditionally and be done. However, this can
-      * be wasteful if for instance plugins don't track memory accesses, or if
-@@ -644,10 +642,8 @@ void plugin_gen_disable_mem_helpers(void)
-     if (!tcg_ctx->plugin_tb->mem_helper) {
-         return;
-     }
--    ptr = tcg_const_ptr(NULL);
--    tcg_gen_st_ptr(ptr, cpu_env, offsetof(CPUState, plugin_mem_cbs) -
--                                 offsetof(ArchCPU, env));
--    tcg_temp_free_ptr(ptr);
-+    tcg_gen_st_ptr(tcg_constant_ptr(NULL), cpu_env,
-+                   offsetof(CPUState, plugin_mem_cbs) - offsetof(ArchCPU, env));
+diff --git a/target/arm/tcg/translate-a64.h b/target/arm/tcg/translate-a64.h
+index ad3762d1ac..ca24c39dbe 100644
+--- a/target/arm/tcg/translate-a64.h
++++ b/target/arm/tcg/translate-a64.h
+@@ -19,7 +19,6 @@
+ #define TARGET_ARM_TRANSLATE_A64_H
+ 
+ TCGv_i64 new_tmp_a64(DisasContext *s);
+-TCGv_i64 new_tmp_a64_local(DisasContext *s);
+ TCGv_i64 new_tmp_a64_zero(DisasContext *s);
+ TCGv_i64 cpu_reg(DisasContext *s, int reg);
+ TCGv_i64 cpu_reg_sp(DisasContext *s, int reg);
+diff --git a/target/arm/tcg/translate-a64.c b/target/arm/tcg/translate-a64.c
+index 7bbffdd1fe..f092aec801 100644
+--- a/target/arm/tcg/translate-a64.c
++++ b/target/arm/tcg/translate-a64.c
+@@ -436,12 +436,6 @@ TCGv_i64 new_tmp_a64(DisasContext *s)
+     return s->tmp_a64[s->tmp_a64_count++] = tcg_temp_new_i64();
  }
  
- static void plugin_gen_tb_udata(const struct qemu_plugin_tb *ptb,
+-TCGv_i64 new_tmp_a64_local(DisasContext *s)
+-{
+-    assert(s->tmp_a64_count < TMP_A64_MAX);
+-    return s->tmp_a64[s->tmp_a64_count++] = tcg_temp_local_new_i64();
+-}
+-
+ TCGv_i64 new_tmp_a64_zero(DisasContext *s)
+ {
+     TCGv_i64 t = new_tmp_a64(s);
+diff --git a/target/arm/tcg/translate-sve.c b/target/arm/tcg/translate-sve.c
+index 621a2abb22..02150d93e8 100644
+--- a/target/arm/tcg/translate-sve.c
++++ b/target/arm/tcg/translate-sve.c
+@@ -4344,17 +4344,6 @@ void gen_sve_ldr(DisasContext *s, TCGv_ptr base, int vofs,
+         TCGLabel *loop = gen_new_label();
+         TCGv_ptr tp, i = tcg_const_local_ptr(0);
+ 
+-        /* Copy the clean address into a local temp, live across the loop. */
+-        t0 = clean_addr;
+-        clean_addr = new_tmp_a64_local(s);
+-        tcg_gen_mov_i64(clean_addr, t0);
+-
+-        if (base != cpu_env) {
+-            TCGv_ptr b = tcg_temp_local_new_ptr();
+-            tcg_gen_mov_ptr(b, base);
+-            base = b;
+-        }
+-
+         gen_set_label(loop);
+ 
+         t0 = tcg_temp_new_i64();
+@@ -4370,11 +4359,6 @@ void gen_sve_ldr(DisasContext *s, TCGv_ptr base, int vofs,
+ 
+         tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
+         tcg_temp_free_ptr(i);
+-
+-        if (base != cpu_env) {
+-            tcg_temp_free_ptr(base);
+-            assert(len_remain == 0);
+-        }
+     }
+ 
+     /*
+@@ -4445,17 +4429,6 @@ void gen_sve_str(DisasContext *s, TCGv_ptr base, int vofs,
+         TCGLabel *loop = gen_new_label();
+         TCGv_ptr tp, i = tcg_const_local_ptr(0);
+ 
+-        /* Copy the clean address into a local temp, live across the loop. */
+-        t0 = clean_addr;
+-        clean_addr = new_tmp_a64_local(s);
+-        tcg_gen_mov_i64(clean_addr, t0);
+-
+-        if (base != cpu_env) {
+-            TCGv_ptr b = tcg_temp_local_new_ptr();
+-            tcg_gen_mov_ptr(b, base);
+-            base = b;
+-        }
+-
+         gen_set_label(loop);
+ 
+         t0 = tcg_temp_new_i64();
+@@ -4471,11 +4444,6 @@ void gen_sve_str(DisasContext *s, TCGv_ptr base, int vofs,
+ 
+         tcg_gen_brcondi_ptr(TCG_COND_LTU, i, len_align, loop);
+         tcg_temp_free_ptr(i);
+-
+-        if (base != cpu_env) {
+-            tcg_temp_free_ptr(base);
+-            assert(len_remain == 0);
+-        }
+     }
+ 
+     /* Predicate register stores can be any multiple of 2.  */
 -- 
 2.34.1
 
