@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A7B6A6835
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DDD6A6840
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:36:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXGyv-0008EL-Js; Wed, 01 Mar 2023 02:34:33 -0500
+	id 1pXGzs-0001Q6-QF; Wed, 01 Mar 2023 02:35:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pXGys-000886-Rl
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:34:31 -0500
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pXGyr-0003Lx-6Z
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:34:30 -0500
-Received: by mail-lf1-x132.google.com with SMTP id bi9so16455786lfb.2
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 23:34:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677656067;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EbPmmveDsoDfWAtTxQnh+QD2BWzalgjH7HztOoHMIC8=;
- b=fnCta4iL93FyUmd6ZTlIq9oUnRiWnFq9xvfP2oyw98S7wZj97qkzQb7+N577ayEBXY
- ph9oorQf3G45Q08xykPUilUONI+3T1J8MPEx3S0y32kiD6oORQKlaF40AzIRSV1iebL1
- HVaJPj4uWg0oQPDGRHmNXsraxw3tiy7bVj5rs76m064/Xe0MCR7LKW8fJ62Ka29XZRt/
- WZPB28SwP7qmL7SZjdu7okFHgLLfy8hu1/grm5YXYqCIwvxnnYqzd3arQ3M0VbxMI5EX
- nqof27uK15dN20MB902WmT/PCryPf/GSHBQ9l0IYjyp0qPiMrF0x4/nJTkJL9m66Txvn
- 6biA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677656067;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EbPmmveDsoDfWAtTxQnh+QD2BWzalgjH7HztOoHMIC8=;
- b=3jxqTyFJVDiRCIgpI3dXOKTyJdpHWD3dCcal01y7v9lfIIw1T1oySPR1B62mlzqPkH
- pv9Im4Qx/4BQf9hDylvfi0HkRNQK8//sFv4K88z/HLKZby5C1FyltPqGYevG9RipL1bU
- 9ff1XK0O7n6Xn1QuiB+TD+dqyM05pnoEh42pTRTflkzYxHOXu9G/Z7EiFy3rqrdsZOqm
- eXWGNgQY1bIsv+WCOu6iyyON5MIAYSLq4Np99ZupaZ9bOOdYBrwALHGkemEjDzWMlchM
- xB0zdnZbEczC6YYAiuM+YiQAT5DLSR7j7uxwYVAHKX/PUB3x5Yu+tEAqxVdsHB7yXuUj
- DVBg==
-X-Gm-Message-State: AO0yUKWL8vXcdIBMTmdnRqtKZMn4fz2npkN28K4zcTr4jbhizrGfYAgL
- AbA7vrvmeZuOB/TazRWlRuoPU2zjKReLmhTrQnc=
-X-Google-Smtp-Source: AK7set+qgtRBBskGJCbsr8PR8af5vvK9ZbrQIq+To3tdQOiN4oqSVDGu7DyCORLJMm7idFejPsFE+Kwv+7RZ6pZLEqQ=
-X-Received: by 2002:ac2:5690:0:b0:4db:33ed:89eb with SMTP id
- 16-20020ac25690000000b004db33ed89ebmr1559849lfr.5.1677656066989; Tue, 28 Feb
- 2023 23:34:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXGzp-0001J9-0S
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:35:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXGzm-0003fe-Ms
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:35:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677656125;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HYF4RCZ3NLX6x5O6feGJIHu2VDXXKtj8N3eWJ+tbjLE=;
+ b=FqTuBmlhHkleinulaIMnHgibUeYK1ZXphxB+ZnqXA3UIfdtVzoIBDpa6xi4uErUxR21Xev
+ srDwOq3PcD14imWPuS5jKqU8ismJLXSSqhHmOtTpYrV/3PY3T4zRYcVGX2eR9OWnocjng/
+ JVc8kY2PDx74xJlcraaCuE3zj8qbD8o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-509-RI74EMrUNE2QrJP1w4yKng-1; Wed, 01 Mar 2023 02:35:22 -0500
+X-MC-Unique: RI74EMrUNE2QrJP1w4yKng-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33D0918E0925;
+ Wed,  1 Mar 2023 07:35:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0751C400D796;
+ Wed,  1 Mar 2023 07:35:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DC27621E6A1F; Wed,  1 Mar 2023 08:35:20 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  qemu-devel@nongnu.org,  Peter Maydell
+ <peter.maydell@linaro.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Alex
+ =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  qemu-arm@nongnu.org,
+ Maxim Levitsky
+ <mlevitsk@redhat.com>,  libvir-list@redhat.com,  Richard Henderson
+ <richard.henderson@linaro.org>,  xen-devel@lists.xenproject.org,  Reinoud
+ Zandijk <reinoud@netbsd.org>,  Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH 0/2] Deprecate support for 32-bit x86 and arm hosts
+References: <20230227111050.54083-1-thuth@redhat.com>
+ <Y/z4rwv09Ckhbtfp@redhat.com>
+ <001bedba-b12f-4dd8-0866-7ccb9ce877d0@redhat.com>
+ <Y/3C+jC3Lk5MJxfu@redhat.com>
+ <99a83e65-273a-ea1b-e7d9-bbdd8ca32145@redhat.com>
+ <20230228162938-mutt-send-email-mst@kernel.org>
+Date: Wed, 01 Mar 2023 08:35:20 +0100
+In-Reply-To: <20230228162938-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Tue, 28 Feb 2023 16:32:43 -0500")
+Message-ID: <87lekg53gn.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <cover.1677617035.git.dxu@dxuuu.xyz>
- <3f1aaa1fb5b5fa6daaf4e0080faeb4b094030a06.1677617035.git.dxu@dxuuu.xyz>
-In-Reply-To: <3f1aaa1fb5b5fa6daaf4e0080faeb4b094030a06.1677617035.git.dxu@dxuuu.xyz>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 1 Mar 2023 11:34:15 +0400
-Message-ID: <CAJ+F1CLz86=kvYCea1eR6waWC_0Jka+ssWHnqA3avOFeQjHNQg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] qemu-keymap: Fix memory leaks
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x132.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,67 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Mar 1, 2023 at 12:48 AM Daniel Xu <dxu@dxuuu.xyz> wrote:
->
-> When building with `--enable-sanitizers`, I was getting quite a few
-> memory leak crashes from ASAN:
->
->         [21/574] Generating pc-bios/keymaps/fr-ch with a custom command
->         FAILED: pc-bios/keymaps/fr-ch
->         /home/dxu/dev/qemu/build/qemu-keymap -f pc-bios/keymaps/fr-ch -l =
-ch -v fr
->
->         =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->         =3D=3D3232549=3D=3DERROR: LeakSanitizer: detected memory leaks
->
->         Direct leak of 1424 byte(s) in 1 object(s) allocated from:
->             #0 0x7f32636bf411 in __interceptor_calloc /usr/src/debug/gcc/=
-gcc/...
->             #1 0x7f32635db73e  (/usr/lib/libxkbcommon.so.0+0x2273e)
->
-> Fix leaks by correctly decrementing refcounts on xkb structs.
->
-> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-> ---
->  qemu-keymap.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> On Tue, Feb 28, 2023 at 09:05:16PM +0100, Thomas Huth wrote:
+>> Well, without CI, I assume that the code will bitrot quite fast (considering
+>> that there are continuous improvements to TCG, for example).
 >
-> diff --git a/qemu-keymap.c b/qemu-keymap.c
-> index 229866e004..ed8cee3467 100644
-> --- a/qemu-keymap.c
-> +++ b/qemu-keymap.c
-> @@ -203,6 +203,7 @@ int main(int argc, char *argv[])
->      map =3D xkb_keymap_new_from_names(ctx, &names, XKB_KEYMAP_COMPILE_NO=
-_FLAGS);
->      if (!map) {
->          /* libxkbcommon prints error */
-> +        xkb_context_unref(ctx);
->          exit(1);
->      }
->
-> @@ -227,7 +228,11 @@ int main(int argc, char *argv[])
->      state =3D xkb_state_new(map);
->      xkb_keymap_key_for_each(map, walk_map, state);
->      xkb_state_unref(state);
-> +    xkb_keymap_unref(map);
-> +    xkb_context_unref(ctx);
->      state =3D NULL;
-> +    map =3D NULL;
-> +    ctx =3D NULL;
->
->      /* add quirks */
->      fprintf(outfile,
-> --
-> 2.39.1
->
+> We have lots of hosts which we don't test with CI.  They don't bitrot
+> because people do testing before release. This is what RCs are for.
+> We did releases before CI - it is a cost/benefit thing.
 
+Dropping 32-bit x86 from CI feels like a no-brainer in the current
+situation.
 
---=20
-Marc-Andr=C3=A9 Lureau
+As to deprecating 32-bit x86: the people by far most qualified to judge
+the "cost/benefit thing" are the regulars who are bearing the cost,
+i.e. the people who are actually maintaining it.  Their opinion should
+overrule any "but somebody out there might still want to use it".
+
+Maintainers, please state your opinion, if any: aye or nay.
+
+Richard tells us "the maint overhead is large."  Makes me think he's in
+favour of dropping 32-bit x86.  Richard?
+
+Peter seems to be reluctant to drop 32-bit ARM at this point.  Peter?
+
 
