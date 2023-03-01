@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B69D6A7085
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:07:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792456A708A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:07:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXOys-0008MQ-TH; Wed, 01 Mar 2023 11:07:02 -0500
+	id 1pXOyt-0008NG-Oh; Wed, 01 Mar 2023 11:07:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pXOya-0008Iz-NL
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:06:46 -0500
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pXOyq-0008Ks-Cw
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:07:01 -0500
 Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pXOyY-0003YA-LI
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:06:44 -0500
+ (Exim 4.90_1) (envelope-from <dxu@dxuuu.xyz>) id 1pXOyl-0003dT-9d
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:06:57 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 68F5D320055E;
- Wed,  1 Mar 2023 11:06:39 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id 0C8EB320095D;
+ Wed,  1 Mar 2023 11:06:53 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 01 Mar 2023 11:06:39 -0500
+ by compute6.internal (MEProxy); Wed, 01 Mar 2023 11:06:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1677686799; x=1677773199; bh=wId6MHYlUD
- OEja9VNhz+fiGX7jU+eHn4BxFrT9yBMAg=; b=BtWb+mUbAtIJXTyMZq9YTFOq3p
- 8uYfICrVCB47WIe4cHM5i5uywClW2kgWL4nWm+q9tQONa2KL7ULgXS9URhXMGDz/
- ziO6nqOKjeGsmTECn0VxS6fV5jUFCb+ILMlnQKSPHwDp5os6+Eh3FqyWCKBTur1U
- 6VWHUE2NglNjOOCTNs5fvEvzyPZYIHg0rsynA/e1RZUK8LpL6ITUbroc+WCnD5yF
- FR2vA05FwufStBACZAG6LMNcabkY6BGElnVAqvUIJrJbJZVsfdyVaWOo0tSguJk/
- uFJDM0dOSEDo7Po2yzQTMcWfMMD7UAk8Wf61WIbVBe36MJX/UuNYfqx6JnNQ==
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1677686813; x=
+ 1677773213; bh=Y8s3dr39XUKGzeqILlG7QC9XkUZaeFRhrypkaE1hxTY=; b=I
+ T6m4qUqwHctWB5dYcpKjJH32pIutnOAdldycpTcEQlAgsZ/TUAifhxAFbSCSBgj9
+ 8rYCyHRUNaCcFIk3QGothpKaQoCiyfZdIpHbKsMhSdaHy679TeV+PMxirLUqmZAI
+ 8+C5IVPsVqDLeGesoKs942jnx6iYGc/t1EQI5SDL//veT9nQzOw+4E6JB0x8v73e
+ CTYIbKUn414X1VuMgglc2JfwcltGoEP41MorQM6GdsYJKFvcd5TUXcZy2c3mpDbT
+ +Qm1k2650Xkro4QUhYkPgqUr/BmkLLamfif+sGrjqwfzILO1SV23K84wsGjCNU0s
+ wqNxsSji8foXyOiIxZKng==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:date:feedback-id:feedback-id:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1677686799; x=1677773199; bh=wId6MHYlUDOEja9VNhz+fiGX7jU+
- eHn4BxFrT9yBMAg=; b=i6SINPzJrPXGp/WNwlsxdfVKcigIUKM4CpfqCBHTWauD
- Ecd27p2JbBczv1jS8Uu16om5rpIPy7PBbQZfB2jMHzrjvUWkHaFfWMRJmbZ5gGsz
- 3rWebixl8rfDeZ322jj+EBGTZNA9ssw8yYHlT7x64ys7rIxo0h0srUDmltk0x+J1
- UorNO47o/OM7v1jZTgnoPsIwUSXrufcTOsFgvBAtIUAH8dlfwdIFVJoKdRpn98CQ
- UOmQABYwhQJPvv3lpIx6fSApx3/7YRqBqxnfhpjOKpaibNsjwFJW4nKrc3W5hQPG
- rZS0zU/ubv3RTWm/IWwmrMKmxO+951VHDM5DoRY2Jw==
-X-ME-Sender: <xms:Dnj_YzssWH9IpwWitRzLkYI_Q9SXHwx9gRNEmeN17zIb9A0DjJ4f2w>
- <xme:Dnj_Y0fzoaiYY58_KiBsflU9luM6z3oYJ9fv5yksh8zGKwSq2uUzW9bBVXE61LySB
- vXkq5pC075RcTrE2A>
-X-ME-Received: <xmr:Dnj_Y2y3WhyUwIU9e65aPr__2Oz2wsN8eU3S4-1iAV5Dit-dhaCUO1loZ7fGi1SFtTQp1aHg-5QCfYkrpaXxaOdGFpqODIMw9wV9sdadHg8C7g>
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677686813; x=
+ 1677773213; bh=Y8s3dr39XUKGzeqILlG7QC9XkUZaeFRhrypkaE1hxTY=; b=U
+ Z1oc0UZOgWx4dHBQ9pltgco76rJ1wvAKWSfDhlm8hb5E+aVPiUVmLlz0+80CLZ74
+ gd1KunVUlYhPsfoolrHHMH4TMN7RgT7KO1/RHn7STrX3TWdCC9aapIF7M8AjWEzR
+ cThT/oUZuxlE1T75Ept+qGEUg2Wp79g6L8CLLzSFKs0z/yChYLsGCMB7ZjzXLNxp
+ 2hbGMlPai+LDBhwbyRTcB0cmrVqs6ZvCMw9H6lpgpA8/Co8yF7KYN/s8GwfUKJfq
+ LwRN4KyG4b+xUrnGEyp4ZRG976Y4Qe6VCqVRy7q5NSMBnm56JsW1FqgKPs00PVOz
+ l4quTfQdyIFmrjIZqeS2g==
+X-ME-Sender: <xms:HXj_YydJu4FwSKfa-Y2mDmrCU2WqpyU7YGNG9TMdoewl1ytR8XhZFQ>
+ <xme:HXj_Y8NLYQqPxL4bnM2We01N0ybU-YMq-4IlQVNgFD458pgqcpc1fo9Ey4BctP-Rv
+ ot5OmqCw2RNyLXdhA>
+X-ME-Received: <xmr:HXj_YzjMor6Nu3q81PDwV525zXZLNBdPMa7yqhu4-7dzYbYZaSnBYN-atvsECpLSTprcVRK1QwcnE9r1Nk2Nly1QYr68LjLe-AT_S8jF9V11sg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelhedgjeeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlfeehmdenucfjughrpefhvf
- fufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeffrghnihgvlhcuighuuceougig
- uhesugiguhhuuhdrgiihiieqnecuggftrfgrthhtvghrnhepvddvteehveeutdekfeevte
- duheffledufeeiueekfffhjeehffdvheevffdvvefgnecuffhomhgrihhnpehkvghrnhgv
- lhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegugihusegugihuuhhurdighiii
-X-ME-Proxy: <xmx:Dnj_YyON3pfzVp_HaU_pZJlc8iwrDCJDNYo77EM24i8DKqWxdIASWA>
- <xmx:Dnj_Yz9OF08qjtbedNCgwmWQqqcCMPDHgoSBKiSZk5R0P8cLz4tOeg>
- <xmx:Dnj_YyWHM-Jau4v9PCfw-RLeT3ARv_P1R3vnceLilDqpc-a0KD6OQw>
- <xmx:D3j_Y9n5vgudNMES2xjJ3U_e-W_1CC6GnMT0LnVby6fWe1m0ltirjA>
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ gfrhhlucfvnfffucdlfeehmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredt
+ redtjeenucfhrhhomhepffgrnhhivghlucgiuhcuoegugihusegugihuuhhurdighiiiqe
+ enucggtffrrghtthgvrhhnpeetheekkefggfeivedvtefgleeiffdtleegfeeuledvuddt
+ vdduhfekgfdutdevkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+ hlfhhrohhmpegugihusegugihuuhhurdighiii
+X-ME-Proxy: <xmx:HXj_Y_-vTofYXrRiu38nwmwBt_qV6WbuyTIsiENHOOFl7vHA-_03Sg>
+ <xmx:HXj_Y-vN9-srEbtTbQ3D0RtnyKf9Pwf0y4BMbz_c6Luoe-IYx5ft4g>
+ <xmx:HXj_Y2FrDjt7fLYEwGN7O84clYD6CAWnrBR7gST1_ImNdJY9Yg8c_Q>
+ <xmx:HXj_Y004OCTmcv9jN-9tEd9KxCs5ux1ZhCnj8i_haSPyTNsVlMbXqA>
 Feedback-ID: i6a694271:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Mar 2023 11:06:38 -0500 (EST)
+ 1 Mar 2023 11:06:53 -0500 (EST)
 From: Daniel Xu <dxu@dxuuu.xyz>
-To: qemu-devel@nongnu.org,
-	marcandre.lureau@gmail.com,
-	berrange@redhat.com
-Subject: [PATCH 0/2] build: Fix --enable-sanitizers build errors
-Date: Wed,  1 Mar 2023 09:05:44 -0700
-Message-Id: <cover.1677686566.git.dxu@dxuuu.xyz>
+To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9=20marcandre=20=2E=20lureau=20=40=20gmail=20=2E=20com?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] crypto/luks: Initialize stack variable to silence warning
+Date: Wed,  1 Mar 2023 09:05:45 -0700
+Message-Id: <dc09bbd28e2471cb145ed0056d789220358e1efa.1677686566.git.dxu@dxuuu.xyz>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <cover.1677686566.git.dxu@dxuuu.xyz>
+References: <cover.1677686566.git.dxu@dxuuu.xyz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -97,19 +101,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I hit two small build errors when building with --enable-sanitizers.
-These two fixes are split out from a previous series [0].
+With `../configure --enable-sanitizers`, I was getting the following
+build error:
 
-[0]: https://lore.kernel.org/qemu-devel/cover.1677617035.git.dxu@dxuuu.xyz/
+        In file included from /usr/include/string.h:535,
+                         from /home/dxu/dev/qemu/include/qemu/osdep.h:99,
+                         from ../crypto/block-luks.c:21:
+        In function ‘memset’,
+            inlined from ‘qcrypto_block_luks_store_key’ at ../crypto/block-luks.c:843:9:
+        /usr/include/bits/string_fortified.h:59:10: error: ‘splitkeylen’ may be used
+        uninitialized [-Werror=maybe-uninitialized]
+           59 |   return __builtin___memset_chk (__dest, __ch, __len,
+              |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+           60 |                                  __glibc_objsize0 (__dest));
+              |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ../crypto/block-luks.c: In function ‘qcrypto_block_luks_store_key’:
+        ../crypto/block-luks.c:699:12: note: ‘splitkeylen’ was declared here
+          699 |     size_t splitkeylen;
+              |            ^~~~~~~~~~~
+        cc1: all warnings being treated as errors
 
-Daniel Xu (2):
-  crypto/luks: Initialize stack variable to silence warning
-  qemu-keymap: Fix memory leaks
+The function is actually correct -- in the cleanup branch `splitkeylen`
+usage is guarded by checking `splitkey` nullness. But the compiler is
+not smart enough to realize that.
 
+Fix warning by initializing the variable.
+
+Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
  crypto/block-luks.c | 2 +-
- qemu-keymap.c       | 5 +++++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index 5688783ab1..bfdef25c80 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -696,7 +696,7 @@ qcrypto_block_luks_store_key(QCryptoBlock *block,
+     QCryptoBlockLUKS *luks = block->opaque;
+     QCryptoBlockLUKSKeySlot *slot;
+     g_autofree uint8_t *splitkey = NULL;
+-    size_t splitkeylen;
++    size_t splitkeylen = 0;
+     g_autofree uint8_t *slotkey = NULL;
+     g_autoptr(QCryptoCipher) cipher = NULL;
+     g_autoptr(QCryptoIVGen) ivgen = NULL;
 -- 
 2.39.1
 
