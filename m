@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA436A75BA
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 21:59:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655716A75B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 21:59:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXTXH-0003h6-Rb; Wed, 01 Mar 2023 15:58:51 -0500
+	id 1pXTXL-0003rM-VI; Wed, 01 Mar 2023 15:58:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXTXG-0003fM-7M
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 15:58:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pXTXK-0003qx-Ic
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 15:58:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXTXE-00042n-Od
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 15:58:49 -0500
+ id 1pXTXJ-000449-2F
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 15:58:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677704328;
+ s=mimecast20190719; t=1677704332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hGMUDOrvdrqVeJV6p0I58n/itCYTbVoWgepoEQjV6cI=;
- b=EwNZQZuLlBbYZX/0tS4akSb1e+inVR753KdX1xqTfyEdGZI7zJc2f51/tbjEpUFo1Y4SMh
- V8uWvh3mkYdSXc06pIengqFJwVVPuI3IJwokYY0e6HtAY8rQ4ZOTI04TxG2a4cNq4WOxad
- OoX5dQ1h3wXRijXO7sU+07pz/zvCCgI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=l7FHaIBM/eBasSIGq1f13k97Nq9uyQeyH+6pJ/nmRAA=;
+ b=IUikfMTIoO1MOVAXcgMBo1JzFqOn3gvndINVq/bjhc84e1pLsXjpgD50SF9NfjmLQfBWy+
+ bslLWOsJk3PPHV11lBmstl/6GPMyRwqMTDsoGO6Sw2vv5LMSZgfxPHaWUDTv1extvK8JJo
+ iMf8YAx5I4AcE5VWDxWyqoE9F0Z9Dpw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-zICkY_JhNTOGr5Pi9a4sTA-1; Wed, 01 Mar 2023 15:58:46 -0500
-X-MC-Unique: zICkY_JhNTOGr5Pi9a4sTA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-426-4X4nKHZjOxa_icySQsdFzA-1; Wed, 01 Mar 2023 15:58:51 -0500
+X-MC-Unique: 4X4nKHZjOxa_icySQsdFzA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FD23181E3F0;
- Wed,  1 Mar 2023 20:58:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD9DC3811F2C;
+ Wed,  1 Mar 2023 20:58:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9D7B4014D1B;
- Wed,  1 Mar 2023 20:58:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2DB5C2166B26;
+ Wed,  1 Mar 2023 20:58:47 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
@@ -50,16 +50,16 @@ Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
  Stefan Hajnoczi <stefanha@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH 5/6] hmp: convert handle_hmp_command() to
+Subject: [PATCH 6/6] monitor: convert monitor_cleanup() to
  AIO_WAIT_WHILE_UNLOCKED()
-Date: Wed,  1 Mar 2023 15:58:00 -0500
-Message-Id: <20230301205801.2453491-6-stefanha@redhat.com>
+Date: Wed,  1 Mar 2023 15:58:01 -0500
+Message-Id: <20230301205801.2453491-7-stefanha@redhat.com>
 In-Reply-To: <20230301205801.2453491-1-stefanha@redhat.com>
 References: <20230301205801.2453491-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,7 +83,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The HMP monitor runs in the main loop thread. Calling
+monitor_cleanup() is called from the main loop thread. Calling
 AIO_WAIT_WHILE(qemu_get_aio_context(), ...) from the main loop thread is
 equivalent to AIO_WAIT_WHILE_UNLOCKED(NULL, ...) because neither unlocks
 the AioContext and the latter's assertion that we're in the main loop
@@ -91,22 +91,31 @@ succeeds.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- monitor/hmp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ monitor/monitor.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 2aa85d3982..5ecbdac802 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -1167,7 +1167,7 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
-         Coroutine *co = qemu_coroutine_create(handle_hmp_command_co, &data);
-         monitor_set_cur(co, &mon->common);
-         aio_co_enter(qemu_get_aio_context(), co);
--        AIO_WAIT_WHILE(qemu_get_aio_context(), !data.done);
-+        AIO_WAIT_WHILE_UNLOCKED(NULL, !data.done);
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 8dc96f6af9..602535696c 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -666,7 +666,7 @@ void monitor_cleanup(void)
+      * We need to poll both qemu_aio_context and iohandler_ctx to make
+      * sure that the dispatcher coroutine keeps making progress and
+      * eventually terminates.  qemu_aio_context is automatically
+-     * polled by calling AIO_WAIT_WHILE on it, but we must poll
++     * polled by calling AIO_WAIT_WHILE_UNLOCKED on it, but we must poll
+      * iohandler_ctx manually.
+      *
+      * Letting the iothread continue while shutting down the dispatcher
+@@ -679,7 +679,7 @@ void monitor_cleanup(void)
+         aio_co_wake(qmp_dispatcher_co);
      }
  
-     qobject_unref(qdict);
+-    AIO_WAIT_WHILE(qemu_get_aio_context(),
++    AIO_WAIT_WHILE_UNLOCKED(NULL,
+                    (aio_poll(iohandler_get_aio_context(), false),
+                     qatomic_mb_read(&qmp_dispatcher_co_busy)));
+ 
 -- 
 2.39.2
 
