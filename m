@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EA16A70B0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5764E6A70E1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 17:28:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXP89-000113-Lm; Wed, 01 Mar 2023 11:16:37 -0500
+	id 1pXPId-0004LI-Ql; Wed, 01 Mar 2023 11:27:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXP87-0000wS-TJ
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:16:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pXPIc-0004L1-3z
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:27:26 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXP86-0006Np-2h
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:16:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677687392;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vAdUUENjcrm00NwSYDTHFFvunEf4Hz2pRRqmyghg2c0=;
- b=ZzMmKrUeg1FIy3+zLXw2yJjKEZxmw/s2D9dBKaZyrUqGT7N2fT1/6FhPy4sp4YSReiERbF
- 9J/b5OQmoL0Gs9HJ2KPAQHw2mkvzsLEo7J6LD3iBsm3UGFluGQTBJxq1B9MC5JrnAJTEpU
- eqR0bbe/4O7f3YwY2jVW0rLCMUyxBIU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-329-HZHDUGgtNWyo9QvQmFxdzA-1; Wed, 01 Mar 2023 11:16:31 -0500
-X-MC-Unique: HZHDUGgtNWyo9QvQmFxdzA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8350E3C0E45E;
- Wed,  1 Mar 2023 16:16:30 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94B751121318;
- Wed,  1 Mar 2023 16:16:28 +0000 (UTC)
-Date: Wed, 1 Mar 2023 11:16:26 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-block@nongnu.org, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Greg Kurz <groug@kaod.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v5 1/4] linux-aio: use LinuxAioState from the running
- thread
-Message-ID: <Y/96WsnkiZEb0+kf@fedora>
-References: <20230203131731.851116-1-eesposit@redhat.com>
- <20230203131731.851116-2-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pXPIZ-0000fw-Mn
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 11:27:25 -0500
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1pXPIH-0000dT-NI; Wed, 01 Mar 2023 17:27:05 +0100
+Message-ID: <9f581e62-0cb3-7f0f-8feb-ddfda5bba621@maciej.szmigiero.name>
+Date: Wed, 1 Mar 2023 17:26:59 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="efvVWlJeZvCMCPQR"
-Content-Disposition: inline
-In-Reply-To: <20230203131731.851116-2-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+To: David Hildenbrand <david@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+References: <cover.1677274611.git.maciej.szmigiero@oracle.com>
+ <369d848fdc86994ca646a5aa4e04c4dc049d04f1.1677274611.git.maciej.szmigiero@oracle.com>
+ <0953dc26-da87-65c7-9bba-fec4cfb04999@redhat.com>
+ <a230f8bc-ef59-d2ad-1316-554f1a293da9@maciej.szmigiero.name>
+ <f81827ce-2553-7b50-adba-a32e82f87e1f@redhat.com>
+ <a0ebed14-436f-91c9-928d-e53e29d9db81@maciej.szmigiero.name>
+ <eb7e7365-b8e1-2547-596a-98ffe826766f@redhat.com>
+Content-Language: en-US, pl-PL
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Subject: Re: [PATCH][RESEND v3 1/3] hapvdimm: add a virtual DIMM device for
+ memory hot-add protocols
+In-Reply-To: <eb7e7365-b8e1-2547-596a-98ffe826766f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,163 +75,230 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 28.02.2023 23:12, David Hildenbrand wrote:
+> On 28.02.23 22:27, Maciej S. Szmigiero wrote:
+>> On 28.02.2023 16:02, David Hildenbrand wrote:
+>>>>
+>>>> That was more or less the approach that v1 of this driver took:
+>>>> The QEMU manager inserted virtual DIMMs (Hyper-V DM memory devices,
+>>>> whatever one calls them) explicitly via the machine hotplug handler
+>>>> (using the device_add command).
+>>>>
+>>>> At that time you said [1] that:
+>>>>> 1) I dislike that an external entity has to do vDIMM adaptions /
+>>>>> ballooning adaptions when rebooting or when wanting to resize a guest.
+>>>>
+>>>> because:
+>>>>> Once you have the current approach upstream (vDIMMs, ballooning),
+>>>>> there is no easy way to change that later (requires deprecating, etc.).
+>>>>
+>>>> That's why this version hides these vDIMMs.
+>>>
+>>> Note that I don't have really strong feelings about letting the user hotplug devices. My comment was in general about user interactions when adding/removing memory or when rebooting the VM. As soon as you use individual memory blocks and/or devices, we end up with a similar user experience as we have already with DIMMS+virtio-balloon (bad IMHO).
+>>>
+>>> Hiding the devices internally might make it a little bit easier to use, but it's still the same underlying concept: to add more memory you have to figure out whether to deflate the balloon or whether to add a new memory backend.
+>>
+>> Well, the logic here is pretty simple: deflate the balloon first
+>> (including deflating it by zero bytes if not inflated), then, if any
+>> memory size remains to add, hot-add the reminder.
+>>
+> 
+> Yes, but if you have 1 GiB deflated and want to add 2 GiB, things are already getting more involved if you get what I mean.
+> 
+> I was going through the exact same model back when I was designing virtio-mem, and eventually added with a way where you can just tell QEMU the requested size an be done with it.
 
---efvVWlJeZvCMCPQR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Understood, this interface seems obviously more user-friendly.
 
-On Fri, Feb 03, 2023 at 08:17:28AM -0500, Emanuele Giuseppe Esposito wrote:
-> Remove usage of aio_context_acquire by always submitting asynchronous
-> AIO to the current thread's LinuxAioState.
->=20
-> In order to prevent mistakes from the caller side, avoid passing LinuxAio=
-State
-> in laio_io_{plug/unplug} and laio_co_submit, and document the functions
-> to make clear that they work in the current thread's AioContext.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  include/block/aio.h               |  4 ----
->  include/block/raw-aio.h           | 18 ++++++++++++------
->  include/sysemu/block-backend-io.h |  6 ++++++
->  block/file-posix.c                | 10 +++-------
->  block/linux-aio.c                 | 29 +++++++++++++++++------------
->  5 files changed, 38 insertions(+), 29 deletions(-)
->=20
-> diff --git a/include/block/aio.h b/include/block/aio.h
-> index 8fba6a3584..b6b396cfcb 100644
-> --- a/include/block/aio.h
-> +++ b/include/block/aio.h
-> @@ -208,10 +208,6 @@ struct AioContext {
->      struct ThreadPool *thread_pool;
-> =20
->  #ifdef CONFIG_LINUX_AIO
-> -    /*
-> -     * State for native Linux AIO.  Uses aio_context_acquire/release for
-> -     * locking.
-> -     */
->      struct LinuxAioState *linux_aio;
->  #endif
->  #ifdef CONFIG_LINUX_IO_URING
-> diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
-> index f8cda9df91..db614472e6 100644
-> --- a/include/block/raw-aio.h
-> +++ b/include/block/raw-aio.h
-> @@ -49,14 +49,20 @@
->  typedef struct LinuxAioState LinuxAioState;
->  LinuxAioState *laio_init(Error **errp);
->  void laio_cleanup(LinuxAioState *s);
-> -int coroutine_fn laio_co_submit(BlockDriverState *bs, LinuxAioState *s, =
-int fd,
-> -                                uint64_t offset, QEMUIOVector *qiov, int=
- type,
-> -                                uint64_t dev_max_batch);
-> +
-> +/* laio_co_submit: submit I/O requests in the thread's current AioContex=
-t. */
-> +int coroutine_fn laio_co_submit(int fd, uint64_t offset, QEMUIOVector *q=
-iov,
-> +                                int type, uint64_t dev_max_batch);
-> +
->  void laio_detach_aio_context(LinuxAioState *s, AioContext *old_context);
->  void laio_attach_aio_context(LinuxAioState *s, AioContext *new_context);
-> -void laio_io_plug(BlockDriverState *bs, LinuxAioState *s);
-> -void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s,
-> -                    uint64_t dev_max_batch);
-> +
-> +/*
-> + * laio_io_plug/unplug work in the thread's current AioContext, therefor=
-e the
-> + * caller must ensure that they are paired in the same IOThread.
-> + */
-> +void laio_io_plug(void);
-> +void laio_io_unplug(uint64_t dev_max_batch);
->  #endif
->  /* io_uring.c - Linux io_uring implementation */
->  #ifdef CONFIG_LINUX_IO_URING
-> diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-bac=
-kend-io.h
-> index 031a27ba10..d41698ccc5 100644
-> --- a/include/sysemu/block-backend-io.h
-> +++ b/include/sysemu/block-backend-io.h
-> @@ -74,8 +74,14 @@ void blk_iostatus_set_err(BlockBackend *blk, int error=
-);
->  int blk_get_max_iov(BlockBackend *blk);
->  int blk_get_max_hw_iov(BlockBackend *blk);
-> =20
-> +/*
-> + * blk_io_plug/unplug are thread-local operations. This means that multi=
-ple
-> + * IOThreads can simultaneously call plug/unplug, but the caller must en=
-sure
-> + * that each unplug() is called in the same IOThread of the matching plu=
-g().
-> + */
->  void blk_io_plug(BlockBackend *blk);
->  void blk_io_unplug(BlockBackend *blk);
-> +
->  AioContext *blk_get_aio_context(BlockBackend *blk);
->  BlockAcctStats *blk_get_stats(BlockBackend *blk);
->  void *blk_aio_get(const AIOCBInfo *aiocb_info, BlockBackend *blk,
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index fa227d9d14..fa99d1c25a 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -2095,10 +2095,8 @@ static int coroutine_fn raw_co_prw(BlockDriverStat=
-e *bs, uint64_t offset,
->  #endif
->  #ifdef CONFIG_LINUX_AIO
->      } else if (s->use_linux_aio) {
-> -        LinuxAioState *aio =3D aio_get_linux_aio(bdrv_get_aio_context(bs=
-));
->          assert(qiov->size =3D=3D bytes);
-> -        return laio_co_submit(bs, aio, s->fd, offset, qiov, type,
-> -                              s->aio_max_batch);
-> +        return laio_co_submit(s->fd, offset, qiov, type, s->aio_max_batc=
-h);
+>> We can't get rid of ballooning altogether because otherwise going
+>> below the boot memory size wouldn't be possible.
+> 
+> Right, more on that below.
+> 
+>>
+>>> What memory backends will remain when we reboot?
+>>
+>> In this driver version, none will remain inserted
+>> (virtio-mem also seems to unplug all blocks unconditionally when the
+>> VM is rebooted).
+>>
+> 
+> There is a very important difference: virtio-mem only temporarily unplugs that memory. As the guest boots up it re-adds the requested amount of memory without any user interaction. That was added for two main reasons
+> 
+> (a) We can easily defragment the virtio-mem device that way.
+> (b) If the rebooted guest doesn't load the virtio-mem driver, it
+>      wouldn't be able to make use of that memory. Like, rebooting into
+>      Windows right now ;)
+> 
+> So if you hotplugged some memory using virtio-mem and reboot, that memory will automatically be re-added.
+> 
+>> In version 1, all memory backeds were re-inserted once the guest
+>> re-connected to the DM protocol after a reboot.
+>>
+>> As I wrote in my response to Daniel moments ago, there are some issues
+>> with automatic re-insertion if the guest never re-connects to the DM
+>> protocol - that's why I've removed this functionality from this
+>> driver version.
+> 
+> I think we might be able to to better, but that's just my idea how it could look like. I'll describe it below.
+> 
+> [...]
+> 
+>>>> However, I'm not sure what is exactly gained by this approach.
+>>>>
+>>>> These sub-devices still need to implement the TYPE_MEMORY_DEVICE interface
+>>>
+>>> No, they wouldn't unless I am missing something. Only the hv-balloon device would be a TYPE_MEMORY_DEVICE.
+>> In case of virtio-mem if one wants to add even more memory than the
+>> "current" backing memory device allows there's always a possibility of
+>> adding yet another virtio-mem-pci device with an additional backing
+>> memory device.
+> 
+> We could, but that's not the way I envision virtio-mem. The thing is, already when starting QEMU we have to make decisions about the maximum VM size when setting the maxmem option. Consequently, we cannot grow a VM until infinity, we already have to plan ahead to some degree.
+> 
+> So what my goal is with virito-mem, is the following (it already works, we just have to work on reduction of metadata and memory overcommit handling -- mostly internal optimizations):
+> 
+> qemu-kvm ... \
+> -m 4G,maxmem=1048G \
+> -object memory-backend-ram,id=mem0,size=1T, ... \
+> -device virtio-mem-pci,id=vmem0,memdev=mem0,requested-size=0
+> 
+> So we an grow the guest up to 1T if we like. There is no way we could add more memory to that VM because we're already hitting the limit of maxmem.
+> 
+> It gets more complicated with multiple NUMA nodes, NVDIMMS, etc, but the main goal is to make it possible to have the maximum size be ridiculously large (while optimizing it internally!) that one doesn't have to even worry about adding a new device.
+> 
+> I think the same model would work for hv as well, at least with my limited knowledge about it ;)
 
-I'm having second thoughts here. This is correct in an IOThread today,
-but the main loop thread case concerns me:
+I understand your idea - responded below, under the hv-balloon example.
 
-This patch changes behavior when the main loop or vCPU thread submits
-I/O. Before, the IOThread's LinuxAioState would be used. Now the main
-loop's LinuxAioState will be used instead and aio callbacks will be
-invoked in the main loop thread instead of the IOThread.
+>>
+>> If there would be just the main hv-balloon device (implementing
+>> TYPE_MEMORY_DEVICE) then this would not be possible, since one can't
+>> have multiple DM VMBus devices.
+>>
+>> Hence, intermediate sub-devices are necessary (each one implementing
+>> TYPE_MEMORY_DEVICE), which do not sit on the VMBus, in order to allow
+>> adding new backing memory devices (as virtio-mem allows).
+> 
+> Not necessarily, I think, as discussed.
+> 
+>>
+>>>> so they are accounted for properly (the alternative would be to patch
+>>>> the relevant QEMU code all over the place - that's probably why
+>>>> virtio-mem also implements this interface instead).
+>>>
+>>> Please elaborate, I don't understand what you are trying to say here. Memory devices provide hooks, and the hooks exist for a reason -- because memory devices are no longer simple DIMMs/NVDIMMs. And virtio-mem + virtio-omem was responsible for adding some of these hooks.
+>>
+>> I was referring to the necessity of implementing TYPE_MEMORY_DEVICE at
+>> all in hv-balloon driver - if it didn't implement this interface then it
+>> couldn't benefit from the logic in hw/mem/memory-device.c, so it would
+>> need to be open-coded inside the driver and every call to functions
+>> provided by that file from QEMU would need to be patched to account for
+>> the memory provided by this driver.
+> 
+> Ah, yes, one device has to be a memory device. I was just asking if you really need multiple ones.
+> 
+>>
+>>>
+>>>>
+>>>> One still needs some QMP command to add a raw memory backend to
+>>>> the chosen "container" hv-balloon sub-device.
+>>>
+>>> If you go with multiple memory backends, yes.
+>>>
+>>>>
+>>>> Since now the QEMU manager (user) is aware of the presence of these
+>>>> "container" sub-devices, and has to manage them, changing the QEMU
+>>>> interface in the future is more complex (as you said in [1]).>
+>>> Can you elaborate? Yes, when you design the feature around "multiple memory backends", you'll have to have an interface to add such. Well, and to query them during migration. And, maybe also to detect when to remove some (migration)?
+>>>
+>>
+>> As I wrote above, multiple backing memory devices are necessary so the
+>> guest can be expanded above the initially provided backing memory device,
+>> much like virtio-mem already allows.
+>>
+>> And then you have to either:
+>> 1) Let the hv-balloon driver transparently manage the lifetime of these
+>> sub-devices, like this version of the patch set does, OR:
+>>
+>> 2) Make the QEMU manager (user) insert and remove these sub-devices
+>> explicitly, like the version 1 of this driver did.
+> 
+> Let's me raise this idea:
+> 
+> qemu-kvm ... \
+> -m 4G,maxmem=1048G \
+> -object memory-backend-ram,id=mem0,size=1T, ... \
+> -device hv-balloon,id=vmem0,memdev=mem0
+> 
+> We'd do the same internal optimizations as we're doing (and the ones I am working on) for virtio-mem.
+> 
+> The above would result in a VM with 4G. With virtio-mem, we resize devices, with the balloon, you resize the logical VM size.
+> 
+> So the single (existing?) user interface would be the existing balloon cmd. Note that we set the logical VM size here, not the size of the balloon.
+> 
+> info balloon -> 4G
+> balloon 2G [will inflate]
+> info balloon -> 2G
+> balloon 128G [will deflate, then hotplug]
+> info balloon -> 128G
+> balloon 8G [will deflate]
+> info balloon -> 8G
+> ...
+> 
+> How memory is added (deflate first, then expose some new memory via the memdev, ...) is left to the hv-balloon device, the user doesn't have to bother. We set the logical VM size and hv-balloon will do it's thing to eventually reach that goal.
 
-This change will be fine when QEMU block layer support is complete, but
-will does it already work today?
+The idea would seem reasonable, but: (there's always some "but")
+1) Once we implement NUMA support we'd probably need multiple
+TYPE_MEMORY_DEVICEs anyway, since it seems one memdev can sit on only
+one NUMA node,
 
-When blk_preadv() is called from a non-coroutine in the main loop thread
-then the coroutine is spawned in the IOThread today. So we avoid the
-issue.
+With virtio-mem one can simply have per-node virtio-mem devices.
 
-But when blk_preadv() is called from a coroutine in the main loop thread
-we'll have multi-queue activity (I/O being processed in both the main
-loop thread and IOThread).
+2) I'm not sure what's the overhead of having, let's say, 1 TiB backing
+memory device mostly marked madvise(MADV_DONTNEED).
+Like, how much memory + swap this setup would actually consume - that's
+something I would need to measure.
 
-I like this patch series and think it's the right thing to do, but I'm
-not sure if it's safe to do this yet. We first need to be sure all aio
-callbacks are thread-safe (may are already, but there are probably still
-some that are not).
+3) In a public cloud environment malicious guests are a possibility.
+Currently (without things like resizable memslots) the best idea I tried
+was to place the whole QEMU process into a memory-limited cgroup
+(limited to the guest target size).
 
-Stefan
+There are still some issues with it: one needs to reserve swap space up
+to the guest maximum size so the QEMU process doesn't get OOM-killed if
+guest touches that memory and the cgroup memory controller for some
+reason seems to start swapping even before reaching its limit (that's
+still under investigation why).
 
---efvVWlJeZvCMCPQR
-Content-Type: application/pgp-signature; name="signature.asc"
+> Reboot? Logically unplug all memory and as the guest boots up, re-add the memory after the guest booted up.
+> 
+> The only thing we can't do is the following: when going below 4G, we cannot resize boot memory.
+> 
+> 
+> But I recall that that's *exactly* how the HV version I played with ~2 years ago worked: always start up with some initial memory ("startup memory"). After the VM is up for some seconds, we either add more memory (requested > startup) or request the VM to inflate memory (requested < startup).
 
------BEGIN PGP SIGNATURE-----
+Hyper-V actually "cleans up" the guest memory map on reboot - if the
+guest was effectively resized up then on reboot the guest boot memory is
+resized up to match that last size.
+Similarly, if the guest was ballooned out - that amount of memory is
+removed from the boot memory on reboot.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP/eloACgkQnKSrs4Gr
-c8i3FggAoalX9cw+KOORsVkSAX2NI5T1FeLxQmpdZhs7x4REaAwN96cxaDMx2s6J
-YuvvhJbLubhilaU6G1XbadamdctNgh08jhlX6BwMSCYbzgXWWL86LKXltWQdVlc6
-uDYZXP28QopBGHiuV0xE4jHAkzhFtdAdm2IkAEvzUvQtzBrFD7DvvZZVgLj0O2Gt
-owSGbyGkli+eOqI44L1WZMEyV2j8PMjpBKueq9YdO3udXJvSDSArsvvyOwL0SOL0
-VhBDe/irO6cI/VQG/fq+F567RqnBswkoCG+xmKvNzwKQCnQ2wkQhEEv6CbOiskqU
-4kvokb+XA9UHsDEWukcrR6J6R7hvAw==
-=bH/E
------END PGP SIGNATURE-----
+So it's not exactly doing a hot-add after the guest boots.
+This approach (of resizing the boot memory) also avoids problems if the
+guest loses hot-add / ballooning capability after a reboot - for example,
+rebooting into a Linux guest from Windows with hv-balloon.
 
---efvVWlJeZvCMCPQR--
+But unfortunately such resizing the guest boot memory seems not trivial
+to implement in QEMU.
+
+> 
+> 
+> Even migration could eventually be fairly simple, because virtio-mem already solved it to some degree. The only catch is, that for boot memory, we'd also have to detect discarded ranges. But that would be something to think about in the future.> 
+
+Yes, migration support is planned for future versions of the driver,
+when its final design is known.
+
+Thanks,
+Maciej
 
 
