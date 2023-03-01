@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7256A6DD3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 15:07:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E046A6D94
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:57:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXMv6-00040D-Uy; Wed, 01 Mar 2023 08:55:01 -0500
+	id 1pXMwT-00071t-Qh; Wed, 01 Mar 2023 08:56:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+f4e15e254fb7e3cd38fc+7129+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pXMsy-0008Vj-D0
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:52:50 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ <BATV+1cb70579e185fe7dd8a8+7129+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pXMt6-0000Cx-F8
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:52:57 -0500
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+f4e15e254fb7e3cd38fc+7129+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pXMsu-0002lB-7b
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:52:47 -0500
+ <BATV+1cb70579e185fe7dd8a8+7129+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pXMsu-0002pH-FL
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:52:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=t3Jx8t8sj4//bVkPvXF6LGmv4v4a/3H/6vDvqXvj08E=; b=FlLchlK+nOpVi3YpKtTN0QZN8k
- bDujmgwUzU2vulsLIat93rRdcv419kUt0GquFpTl/qkUz01v2stzGpxSF/Y+o/9ONKtmm5PfPfF/a
- gy5wYn9GBYa0fvXGXT2W8rjk2tLEV4bThQxCpKVun5AuIW6eNOdHS01lzcgGNaX2Xichf9SGetkwI
- o7pmhL+Us4klmVjxqhQWDGj+0oxmr9i8biBezzOA7NA0G8jQ4BzAnWR++0zOensEwplNI4WSVOq+z
- yfr2jeI4R5FK7Kzub28UJEKumAlDkqNwqMIGAq9ayb7Mrc0saxVljR0OefB1EZyTV6EsSbxkos4LF
- J1EqDrQw==;
+ bh=b3KrALW8kC8v7d7uKhpHfCPB//dLRrR8KQb70DV7SBM=; b=RXfhChVrEu/McZMdMGk6O8k8ws
+ Keftbf46xU3WSxnyTl7lEW1n2Z4SBVQbOJQ4dOt4kRcVoXusniqQOHiGlNX8HqsaMoZD/07+igLfK
+ iULF0xIDPc5oQgAdQiD9H9VPmnn3vwm4y+k/zKMOMU/aVKw+XqXdjY374BfXg4FiAQe7yJ5wIy69m
+ N8arJJfQVEgHdJPTRh+y5zXSFISEeGdZkPm9kPBJhwPsqNpNFmBpb7Z0yc/8VqKku356AgF1xyMBP
+ CGD/g0/upaXEmrgm9Yl4EClffRpcLXpsG/g+h6ffjTsi33NPQLIq9YPqWp4zCnAZ3gJiBfIzvKakK
+ vUjS62yQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pXMse-001f6P-0j; Wed, 01 Mar 2023 13:52:29 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pXMse-00EuW2-05; Wed, 01 Mar 2023 13:52:32 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pXMsd-0049Wb-2k; Wed, 01 Mar 2023 13:52:27 +0000
+ Linux)) id 1pXMsd-0049Wg-2w; Wed, 01 Mar 2023 13:52:27 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -50,19 +50,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, vikram.garhwal@amd.com
-Subject: [PATCH v15 44/60] hw/xen: Support mapping grant frames
-Date: Wed,  1 Mar 2023 13:52:07 +0000
-Message-Id: <20230301135223.988336-45-dwmw2@infradead.org>
+Subject: [PATCH v15 45/60] i386/xen: Implement HYPERVISOR_grant_table_op and
+ GNTTABOP_[gs]et_verson
+Date: Wed,  1 Mar 2023 13:52:08 +0000
+Message-Id: <20230301135223.988336-46-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230301135223.988336-1-dwmw2@infradead.org>
 References: <20230301135223.988336-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+f4e15e254fb7e3cd38fc+7129+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+1cb70579e185fe7dd8a8+7129+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -90,155 +91,149 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/xen_gnttab.c  | 73 ++++++++++++++++++++++++++++++++++++++-
- hw/i386/kvm/xen_overlay.c |  2 +-
- hw/i386/kvm/xen_overlay.h |  2 ++
- 3 files changed, 75 insertions(+), 2 deletions(-)
+ hw/i386/kvm/xen_gnttab.c  | 31 ++++++++++++++++++++
+ hw/i386/kvm/xen_gnttab.h  |  5 ++++
+ target/i386/kvm/xen-emu.c | 60 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 96 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_gnttab.c b/hw/i386/kvm/xen_gnttab.c
-index ef8857e50c..72e87aea6a 100644
+index 72e87aea6a..b54a94e2bd 100644
 --- a/hw/i386/kvm/xen_gnttab.c
 +++ b/hw/i386/kvm/xen_gnttab.c
-@@ -37,13 +37,26 @@ OBJECT_DECLARE_SIMPLE_TYPE(XenGnttabState, XEN_GNTTAB)
- #define XEN_PAGE_SHIFT 12
- #define XEN_PAGE_SIZE (1ULL << XEN_PAGE_SHIFT)
+@@ -180,3 +180,34 @@ int xen_gnttab_map_page(uint64_t idx, uint64_t gfn)
+     return 0;
+ }
  
-+#define ENTRIES_PER_FRAME_V1 (XEN_PAGE_SIZE / sizeof(grant_entry_v1_t))
++int xen_gnttab_set_version_op(struct gnttab_set_version *set)
++{
++    int ret;
 +
- struct XenGnttabState {
-     /*< private >*/
-     SysBusDevice busdev;
-     /*< public >*/
- 
-+    QemuMutex gnt_lock;
++    switch (set->version) {
++    case 1:
++        ret = 0;
++        break;
 +
-     uint32_t nr_frames;
-     uint32_t max_frames;
++    case 2:
++        /* Behave as before set_version was introduced. */
++        ret = -ENOSYS;
++        break;
 +
-+    union {
-+        grant_entry_v1_t *v1;
-+        /* Theoretically, v2 support could be added here. */
-+    } entries;
-+
-+    MemoryRegion gnt_frames;
-+    MemoryRegion *gnt_aliases;
-+    uint64_t *gnt_frame_gpas;
- };
- 
- struct XenGnttabState *xen_gnttab_singleton;
-@@ -51,6 +64,7 @@ struct XenGnttabState *xen_gnttab_singleton;
- static void xen_gnttab_realize(DeviceState *dev, Error **errp)
- {
-     XenGnttabState *s = XEN_GNTTAB(dev);
-+    int i;
- 
-     if (xen_mode != XEN_EMULATE) {
-         error_setg(errp, "Xen grant table support is for Xen emulation");
-@@ -58,6 +72,38 @@ static void xen_gnttab_realize(DeviceState *dev, Error **errp)
-     }
-     s->nr_frames = 0;
-     s->max_frames = kvm_xen_get_gnttab_max_frames();
-+    memory_region_init_ram(&s->gnt_frames, OBJECT(dev), "xen:grant_table",
-+                           XEN_PAGE_SIZE * s->max_frames, &error_abort);
-+    memory_region_set_enabled(&s->gnt_frames, true);
-+    s->entries.v1 = memory_region_get_ram_ptr(&s->gnt_frames);
-+    memset(s->entries.v1, 0, XEN_PAGE_SIZE * s->max_frames);
-+
-+    /* Create individual page-sizes aliases for overlays */
-+    s->gnt_aliases = (void *)g_new0(MemoryRegion, s->max_frames);
-+    s->gnt_frame_gpas = (void *)g_new(uint64_t, s->max_frames);
-+    for (i = 0; i < s->max_frames; i++) {
-+        memory_region_init_alias(&s->gnt_aliases[i], OBJECT(dev),
-+                                 NULL, &s->gnt_frames,
-+                                 i * XEN_PAGE_SIZE, XEN_PAGE_SIZE);
-+        s->gnt_frame_gpas[i] = INVALID_GPA;
++    default:
++        ret = -EINVAL;
 +    }
 +
-+    qemu_mutex_init(&s->gnt_lock);
-+
-+    xen_gnttab_singleton = s;
++    set->version = 1;
++    return ret;
 +}
 +
-+static int xen_gnttab_post_load(void *opaque, int version_id)
++int xen_gnttab_get_version_op(struct gnttab_get_version *get)
 +{
-+    XenGnttabState *s = XEN_GNTTAB(opaque);
-+    uint32_t i;
++    if (get->dom != DOMID_SELF && get->dom != xen_domid) {
++        return -ESRCH;
++    }
 +
-+    for (i = 0; i < s->nr_frames; i++) {
-+        if (s->gnt_frame_gpas[i] != INVALID_GPA) {
-+            xen_overlay_do_map_page(&s->gnt_aliases[i], s->gnt_frame_gpas[i]);
++    get->version = 1;
++    return 0;
++}
+diff --git a/hw/i386/kvm/xen_gnttab.h b/hw/i386/kvm/xen_gnttab.h
+index a7caa94c83..79579677ba 100644
+--- a/hw/i386/kvm/xen_gnttab.h
++++ b/hw/i386/kvm/xen_gnttab.h
+@@ -15,4 +15,9 @@
+ void xen_gnttab_create(void);
+ int xen_gnttab_map_page(uint64_t idx, uint64_t gfn);
+ 
++struct gnttab_set_version;
++struct gnttab_get_version;
++int xen_gnttab_set_version_op(struct gnttab_set_version *set);
++int xen_gnttab_get_version_op(struct gnttab_get_version *get);
++
+ #endif /* QEMU_XEN_GNTTAB_H */
+diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
+index 6f9b7a5cb9..d49b6117f1 100644
+--- a/target/i386/kvm/xen-emu.c
++++ b/target/i386/kvm/xen-emu.c
+@@ -34,6 +34,7 @@
+ #include "hw/xen/interface/hvm/params.h"
+ #include "hw/xen/interface/vcpu.h"
+ #include "hw/xen/interface/event_channel.h"
++#include "hw/xen/interface/grant_table.h"
+ 
+ #include "xen-compat.h"
+ 
+@@ -1169,6 +1170,61 @@ static bool kvm_xen_hcall_sched_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+     return true;
+ }
+ 
++static bool kvm_xen_hcall_gnttab_op(struct kvm_xen_exit *exit, X86CPU *cpu,
++                                    int cmd, uint64_t arg, int count)
++{
++    CPUState *cs = CPU(cpu);
++    int err;
++
++    switch (cmd) {
++    case GNTTABOP_set_version: {
++        struct gnttab_set_version set;
++
++        qemu_build_assert(sizeof(set) == 4);
++        if (kvm_copy_from_gva(cs, arg, &set, sizeof(set))) {
++            err = -EFAULT;
++            break;
 +        }
++
++        err = xen_gnttab_set_version_op(&set);
++        if (!err && kvm_copy_to_gva(cs, arg, &set, sizeof(set))) {
++            err = -EFAULT;
++        }
++        break;
 +    }
-+    return 0;
- }
- 
- static bool xen_gnttab_is_needed(void *opaque)
-@@ -70,8 +116,11 @@ static const VMStateDescription xen_gnttab_vmstate = {
-     .version_id = 1,
-     .minimum_version_id = 1,
-     .needed = xen_gnttab_is_needed,
-+    .post_load = xen_gnttab_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(nr_frames, XenGnttabState),
-+        VMSTATE_VARRAY_UINT32(gnt_frame_gpas, XenGnttabState, nr_frames, 0,
-+                              vmstate_info_uint64, uint64_t),
-         VMSTATE_END_OF_LIST()
++    case GNTTABOP_get_version: {
++        struct gnttab_get_version get;
++
++        qemu_build_assert(sizeof(get) == 8);
++        if (kvm_copy_from_gva(cs, arg, &get, sizeof(get))) {
++            err = -EFAULT;
++            break;
++        }
++
++        err = xen_gnttab_get_version_op(&get);
++        if (!err && kvm_copy_to_gva(cs, arg, &get, sizeof(get))) {
++            err = -EFAULT;
++        }
++        break;
++    }
++    case GNTTABOP_query_size:
++    case GNTTABOP_setup_table:
++    case GNTTABOP_copy:
++    case GNTTABOP_map_grant_ref:
++    case GNTTABOP_unmap_grant_ref:
++    case GNTTABOP_swap_grant_ref:
++        return false;
++
++    default:
++        /* Xen explicitly returns -ENOSYS to HVM guests for all others */
++        err = -ENOSYS;
++        break;
++    }
++
++    exit->u.hcall.result = err;
++    return true;
++}
++
+ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
+ {
+     uint16_t code = exit->u.hcall.input;
+@@ -1179,6 +1235,10 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
      }
- };
-@@ -106,6 +155,28 @@ type_init(xen_gnttab_register_types)
  
- int xen_gnttab_map_page(uint64_t idx, uint64_t gfn)
- {
--    return -ENOSYS;
-+    XenGnttabState *s = xen_gnttab_singleton;
-+    uint64_t gpa = gfn << XEN_PAGE_SHIFT;
-+
-+    if (!s) {
-+        return -ENOTSUP;
-+    }
-+
-+    if (idx >= s->max_frames) {
-+        return -EINVAL;
-+    }
-+
-+    QEMU_IOTHREAD_LOCK_GUARD();
-+    QEMU_LOCK_GUARD(&s->gnt_lock);
-+
-+    xen_overlay_do_map_page(&s->gnt_aliases[idx], gpa);
-+
-+    s->gnt_frame_gpas[idx] = gpa;
-+
-+    if (s->nr_frames <= idx) {
-+        s->nr_frames = idx + 1;
-+    }
-+
-+    return 0;
- }
- 
-diff --git a/hw/i386/kvm/xen_overlay.c b/hw/i386/kvm/xen_overlay.c
-index 8685d87959..39fda1b72c 100644
---- a/hw/i386/kvm/xen_overlay.c
-+++ b/hw/i386/kvm/xen_overlay.c
-@@ -49,7 +49,7 @@ struct XenOverlayState {
- 
- struct XenOverlayState *xen_overlay_singleton;
- 
--static void xen_overlay_do_map_page(MemoryRegion *page, uint64_t gpa)
-+void xen_overlay_do_map_page(MemoryRegion *page, uint64_t gpa)
- {
-     /*
-      * Xen allows guests to map the same page as many times as it likes
-diff --git a/hw/i386/kvm/xen_overlay.h b/hw/i386/kvm/xen_overlay.h
-index 5c46a0b036..75ecb6b359 100644
---- a/hw/i386/kvm/xen_overlay.h
-+++ b/hw/i386/kvm/xen_overlay.h
-@@ -21,4 +21,6 @@ int xen_sync_long_mode(void);
- int xen_set_long_mode(bool long_mode);
- bool xen_is_long_mode(void);
- 
-+void xen_overlay_do_map_page(MemoryRegion *page, uint64_t gpa);
-+
- #endif /* QEMU_XEN_OVERLAY_H */
+     switch (code) {
++    case __HYPERVISOR_grant_table_op:
++        return kvm_xen_hcall_gnttab_op(exit, cpu, exit->u.hcall.params[0],
++                                       exit->u.hcall.params[1],
++                                       exit->u.hcall.params[2]);
+     case __HYPERVISOR_sched_op:
+         return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
+                                       exit->u.hcall.params[1]);
 -- 
 2.39.0
 
