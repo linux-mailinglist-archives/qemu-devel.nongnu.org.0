@@ -2,66 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA096A76A0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3CE6A76BF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:21:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXUd0-0007ui-HB; Wed, 01 Mar 2023 17:08:50 -0500
+	id 1pXUnG-00075j-06; Wed, 01 Mar 2023 17:19:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1pXUcq-0007tU-7Q
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:08:40 -0500
-Received: from vps-vb.mhejs.net ([37.28.154.113])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUnD-0006wi-9B
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:19:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1pXUco-0000ZY-0u
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:08:39 -0500
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1pXUcc-0001sb-EY; Wed, 01 Mar 2023 23:08:26 +0100
-Message-ID: <9280c056-43eb-08e6-cb63-a7e601cb4700@maciej.szmigiero.name>
-Date: Wed, 1 Mar 2023 23:08:20 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US, pl-PL
-To: David Hildenbrand <david@redhat.com>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUnB-0002dr-P9
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:19:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677709160;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gEZMnp3771gv5eYO4rbQY0LOaiYVb7iXkQat+LC38sU=;
+ b=fx+KugTaio4yjAMB32LyREwQQDN7L1o3xn8Qqs4KIvngJ1xEfaZhA2DhR2zcPzXdO7C5pW
+ lO97AhI3jSpJUfMfQ4oI2N5aEYZjN2N9NHHbXUINcHEWBzu4JJ4b6gHkNqrXr1RzCxElvg
+ oSZeZF/GzyGwhP8g5jInGMlbqRvDgfo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-591-1I8o2CUUNeWH0E-yZfslZw-1; Wed, 01 Mar 2023 17:19:19 -0500
+X-MC-Unique: 1I8o2CUUNeWH0E-yZfslZw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u5-20020a5d6da5000000b002cd82373455so1730806wrs.9
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 14:19:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677709158;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gEZMnp3771gv5eYO4rbQY0LOaiYVb7iXkQat+LC38sU=;
+ b=4XmbH/XPoJUDXDjLpswr8JF2JbWdoJTrc36TYYt69V3jdykISMio+1Fbu6bMh30BtC
+ 1RKlfiv99hXu6CNfuQ1U0aWw0i4nZzElzWDsF7VVMfLWwNnYpt9YxZJGTwd+8rVOyFQj
+ 4D6NH00pPode3/HZZPbfrINXL3R/BGUNUbbF6KnujfJxgereL6ylcpS3rWl9ZdUOz37r
+ tLyFhM7NqhedSrAifO0KhXEuo0pFCbqpxGcgulVq57zgrjMpLDIytdQPxuUiQzNzkd26
+ kTjGwADz4GsAj0Ne3yVgfyHqQhNGumzFwiksGBXRoUmM3EW8sXGQfE6gjTuOnqMh/kaf
+ IM4g==
+X-Gm-Message-State: AO0yUKW2N2YUcm6pWarXNPxpA425xfrQSRr4MVe5K9i35a65qmtmll/V
+ RsbNnfB+kTUZfSJEKZFsbjn8eCIQx/Xuz2rJ6NLGfF1EHMBzZRbIUV98eR+o54bcIocraYZFvzw
+ f+O1EGdjB6nvpsz0=
+X-Received: by 2002:a5d:59c2:0:b0:2c5:4c5e:412b with SMTP id
+ v2-20020a5d59c2000000b002c54c5e412bmr11385035wry.23.1677709158432; 
+ Wed, 01 Mar 2023 14:19:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set821w4sHtYg8/kKl/xa3cc0lQwzUrhOaxNmWPvGim56pAwycuDrFhwZG1fXbw6A3P8u4dfQuw==
+X-Received: by 2002:a5d:59c2:0:b0:2c5:4c5e:412b with SMTP id
+ v2-20020a5d59c2000000b002c54c5e412bmr11385004wry.23.1677709158116; 
+ Wed, 01 Mar 2023 14:19:18 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ ja20-20020a05600c557400b003eb596cbc54sm897392wmb.0.2023.03.01.14.19.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 14:19:17 -0800 (PST)
+Date: Wed, 1 Mar 2023 17:19:12 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ qemu-arm@nongnu.org, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ John Snow <jsnow@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-References: <cover.1677274611.git.maciej.szmigiero@oracle.com>
- <369d848fdc86994ca646a5aa4e04c4dc049d04f1.1677274611.git.maciej.szmigiero@oracle.com>
- <0953dc26-da87-65c7-9bba-fec4cfb04999@redhat.com>
- <a230f8bc-ef59-d2ad-1316-554f1a293da9@maciej.szmigiero.name>
- <f81827ce-2553-7b50-adba-a32e82f87e1f@redhat.com>
- <a0ebed14-436f-91c9-928d-e53e29d9db81@maciej.szmigiero.name>
- <eb7e7365-b8e1-2547-596a-98ffe826766f@redhat.com>
- <9f581e62-0cb3-7f0f-8feb-ddfda5bba621@maciej.szmigiero.name>
- <678fb11d-4ac8-238f-9ead-d68d59d0a8ba@redhat.com>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Subject: Re: [PATCH][RESEND v3 1/3] hapvdimm: add a virtual DIMM device for
- memory hot-add protocols
-In-Reply-To: <678fb11d-4ac8-238f-9ead-d68d59d0a8ba@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-ppc@nongnu.org,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>
+Subject: Re: [PATCH v7 00/23] Consolidate PIIX south bridges
+Message-ID: <20230301171819-mutt-send-email-mst@kernel.org>
+References: <20230212123805.30799-1-shentey@gmail.com>
+ <A5067C75-87DB-4D58-B49E-97BEDF303831@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <A5067C75-87DB-4D58-B49E-97BEDF303831@gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,91 +111,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1.03.2023 18:24, David Hildenbrand wrote:
-(...)
->> With virtio-mem one can simply have per-node virtio-mem devices.
->>
->> 2) I'm not sure what's the overhead of having, let's say, 1 TiB backing
->> memory device mostly marked madvise(MADV_DONTNEED).
->> Like, how much memory + swap this setup would actually consume - that's
->> something I would need to measure.
+On Thu, Feb 23, 2023 at 05:25:23PM +0000, Bernhard Beschow wrote:
+> Ping
 > 
-> There are some WIP items to improve that (QEMU metadata (e.g., bitmaps), KVM metadata (e.g., per-memslot), Linux metadata (e.g., page tables).
-> Memory overcommit handling also has to be tackled.
+> Can we queue the piix3 part already? Now that the series doesn't introduce a PIC proxy any more the piix3 part is essentially QOM cleanup.
 > 
-> So it would be a "shared" problem with virtio-mem and will be sorted out eventually :)
+> Note that I cautiously dropped some Reviewed-by tags in the piix3 part as well.
 > 
+> Best regards,
+> Bernhard
 
-Yes, but this might take a bit of time, especially if kernel-side changes
-are involved - that's why I will check how this setup works in practice
-in its current shape.
+This conflicts with ICH9 cleanup - I guess once that is merged you will
+rebase right?
 
-(...)
->>> Reboot? Logically unplug all memory and as the guest boots up, re-add the memory after the guest booted up.
->>>
->>> The only thing we can't do is the following: when going below 4G, we cannot resize boot memory.
->>>
->>>
->>> But I recall that that's *exactly* how the HV version I played with ~2 years ago worked: always start up with some initial memory ("startup memory"). After the VM is up for some seconds, we either add more memory (requested > startup) or request the VM to inflate memory (requested < startup).
->>
->> Hyper-V actually "cleans up" the guest memory map on reboot - if the
->> guest was effectively resized up then on reboot the guest boot memory is
->> resized up to match that last size.
->> Similarly, if the guest was ballooned out - that amount of memory is
->> removed from the boot memory on reboot.
-> 
-> Yes, it cleans up, but as I said last time I checked there was this concept of startup vs. minimum vs. maximum, at least for dynamic memory:
-> 
-> https://www.fastvue.co/tmgreporter/blog/understanding-hyper-v-dynamic-memory-dynamic-ram/
-> 
-> Startup RAM would be whatever you specify for "-m xG". If you go below min, you remove memory via deflation once the guest is up.
-
-
-That article was from 2014, so I guess it pertained Windows 2012 R2.
-
-The memory settings page in more recent Hyper-V versions looks like on
-the screenshot at [1].
-
-It no longer calls that main memory amount value "Startup RAM", now it's
-just "RAM".
-
-Despite what one might think the "Enable Dynamic Memory" checkbox does
-*not* control the Dynamic Memory protocol availability or usage - the
-protocol is always available/exported to the guest.
-
-What the "Enable Dynamic Memory" checkbox controls is some host-side
-heuristics that automatically resize the guest within chosen bounds
-based on some metrics.
-
-Even if the "Enable Dynamic Memory" checkbox is *not* enabled the guest
-can still be online-resized via Dynamic Memory protocol by simply
-changing the value in the "RAM" field and clicking "Apply".
-
-At least that's how it works on Windows 2019 with a Linux guest.
-
->>
->> So it's not exactly doing a hot-add after the guest boots.
-> 
-> I recall BUG reports in Linux, that we got hv-balloon hot-add requests ~1 minute after Linux booted up, because of the above reason of startup memory [in these BUG reports, memory onlining was disabled and the VM would run out of memory because we hotplugged too much memory]. That's why I remember that this approach once was done.
-> 
-> Maybe there are multiple implementations noways. At least in QEMU you could chose whatever makes most sense for QEMU.
-> 
-
-Right, it seems that the Hyper-V behavior evolved with time, too.
-
->> This approach (of resizing the boot memory) also avoids problems if the
->> guest loses hot-add / ballooning capability after a reboot - for example,
->> rebooting into a Linux guest from Windows with hv-balloon.
-> 
-> TBH, I wouldn't be too concerned about that scenario ("hotplugged memory to a guest, guest reboots into a weird OS, weird OS isn't able to use hotplugged memory). For virtio-mem, the important part was that you always "know" how much memory the VM is aware about. If you always start with "Startup memory" and hotadd later (only if you detected guest support after a bootup), you can handle that scenario.
-
-I'm not *that* concerned with cross-guest-type scenario either,
-but if it can be made more smooth then I wouldn't mind.
-
-Thanks,
-Maciej
-
-[1]: https://www.tenforums.com/performance-maintenance/38478-windows-10-hyper-v-dynamic-memory.html#post544905
-
+-- 
+MST
 
 
