@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9275C6A6AF8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:42:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F19116A6AFF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 11:43:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXJtz-0004As-SD; Wed, 01 Mar 2023 05:41:39 -0500
+	id 1pXJvb-0005Mi-3R; Wed, 01 Mar 2023 05:43:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJtx-00045R-81
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:41:37 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJvZ-0005Lt-Bl
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:43:17 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJtt-0003Oq-Ve
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:41:36 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id az36so8238064wmb.1
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:41:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXJvW-0003d6-Kc
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 05:43:17 -0500
+Received: by mail-wr1-x433.google.com with SMTP id e13so1204551wro.10
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 02:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677667292;
+ d=linaro.org; s=google; t=1677667393;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ox2O2OK4aGI1BMllSXrqC/7z82S+aWOv7xmHwuOpN9Q=;
- b=m37rx2y9i3lVaNOMCAyMa03HMk8N6BhAIvXqeALWeMFCKD3g/9i115DosgX01kLCOe
- UI3php34U1JVTHFNJO/ZqN3Ace6ZRH7Jfp9+rkoRKQobzMksQskx5qMv8WVuwhQy3J79
- Sfcoqr1DDBB3h/xKNS0cZ4jAqgXBaxZJdEcNg1u8FlEuL2qfoah6JhyWl2JCXSIkKemQ
- cdfbVfZfH77P1E4sZVmWDYrh1vBffad8jyf94nex905l0u148PpA6kwu4CRYhRXeDX25
- EBgzR2Kmcsodvs0wda2fg9Hk5B9fwkrV+uYGnfcCEpJX2AkCXpbSmHJwRK6a3thi1wsZ
- qvEg==
+ bh=wsXQUeyFAJEfxTkVDZ8mG6U2/zmfD/nyfojNaH3hanc=;
+ b=GP8tM9iPve8HnXuaAIybtDFWT8js59UZB4B3pGdung1vtXlRhMuioYiedLXBSGljY5
+ ddWehVh9DvKPvWgcb8X67bjOmU40diKRZXwrqJxmuf5m8OgjJ5+keVRuO43NYIs7UGHi
+ 0sSbgE53+EkfOzaeTeo2KMLjoWthaEob2fSBS9L080CNDLZZK2CckWGrgMGA5c7l17Mt
+ bJQ+4MLPXiwi2KVMpoN12jE9urBpBCaqWc2rMHSlBaU/Z58Y4B8UzjK/+r2ZdeiYnWEG
+ aRIHODZ1SfKEfhYMr8sRIQPpHRfo6QxHS1rY4QRwcYSS+zOIhjoTKwYWOu81BY951zrM
+ J2Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677667292;
+ d=1e100.net; s=20210112; t=1677667393;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ox2O2OK4aGI1BMllSXrqC/7z82S+aWOv7xmHwuOpN9Q=;
- b=4izPoTdIvGT4FHRLMsfx8rG5pHWLJDv8wmFJM0mKUhs6ozYnO1Y6n/EYX9pLQ8sc6P
- kpy7JCCSh87mFGAXNCXFdsfU6l4KpmoDeeJjN/S1sxb2qGjHYJmIt+aKPYQEdTWS7FSA
- okaE4tOVS5Z0owWWeppRaathKEHoz4jJepWntW/pLsphuBNXEfPta+nzOzGO2OAIoylJ
- 6y0Nnj4ae1i8PobrPIjs76Q17xiowbgezZxdgxHlXg/xJdhk+Zu0ebN4saoR7UHj1vOE
- AiLO5b3ypWn+T6ePCVBubsfFhtjB7ZBRvioKmEXLgwdFSEuRFXL67xK3JMMEBvORnrcd
- 4jRw==
-X-Gm-Message-State: AO0yUKWDFfrNDtEyDaDW97EGuF1lYUt2h2hfkKwta1fCKCQaWs2cZyBN
- m/hrA0/yZnPH8I8CuFT+m8nRXg==
-X-Google-Smtp-Source: AK7set9vDR3SdaGOC1yPodzAbyAFrlrQrUT+VUQiEf1VjNUrmHjmEtOAbPY2OSdLDBUfqxZpFLoIfw==
-X-Received: by 2002:a05:600c:4fc5:b0:3ea:e7e7:a2f9 with SMTP id
- o5-20020a05600c4fc500b003eae7e7a2f9mr4932789wmq.13.1677667292350; 
- Wed, 01 Mar 2023 02:41:32 -0800 (PST)
+ bh=wsXQUeyFAJEfxTkVDZ8mG6U2/zmfD/nyfojNaH3hanc=;
+ b=lrgFVEksx5XZ1Zrqld7h+Z9MjtBn2PZYCZ7pjoNPi/swtbeBRt0/ODxbAkxe0uhjaB
+ rG9L41EEFxgW6rJBipvy0zpIaRend5odYLJCS1x1/1mFiP7RCrGuFYp4XiTcovXuRauU
+ FErFuHdYPOF5W+L5EEN9nB7HUfEn9pyVxatzVMhkLUG/R2yvkUIY/tjnUy9HXI2GErZh
+ K65NCigG83KavGAl2bnZT8b3L7KtG8IoCI8n9LxXWxO7aiD9JXFweiuGTgII3OekhhmN
+ 21jEpipja6oc4vMM5w8kSI+k3TtV8gmYb9gePLIPR/Thz5Nxhox3V8iHH8UZ1OQL8gps
+ nMig==
+X-Gm-Message-State: AO0yUKVDco+0yNwngBpASPkxQr6tjtfq6leut9+wdfqs9SLmSz7jpB/I
+ 12eX/eDDXZ1lDth/17g6Hp9r0A==
+X-Google-Smtp-Source: AK7set82yOLVwxB/Uu1gOKUcv6EEtoOKnkCy9Yj9L8IqihaYCIOUAhAQnEUh4EAcXmkSFyk8SARBeg==
+X-Received: by 2002:a5d:40ca:0:b0:2c7:4ec:8d79 with SMTP id
+ b10-20020a5d40ca000000b002c704ec8d79mr4007883wrq.21.1677667393202; 
+ Wed, 01 Mar 2023 02:43:13 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- n41-20020a05600c3ba900b003e20fa01a86sm16635528wms.13.2023.03.01.02.41.29
+ a2-20020adfdd02000000b002c3f03d8851sm12512961wrm.16.2023.03.01.02.43.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 02:41:31 -0800 (PST)
-Message-ID: <d2513416-4378-f107-9fbc-d55f3640df5a@linaro.org>
-Date: Wed, 1 Mar 2023 11:41:27 +0100
+ Wed, 01 Mar 2023 02:43:12 -0800 (PST)
+Message-ID: <8e982d42-4b3a-7334-8f13-44c3c58da1a3@linaro.org>
+Date: Wed, 1 Mar 2023 11:43:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.8.0
 Subject: Re: [PATCH v3 22/24] gitlab: move the majority of artefact handling
  to a template
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Peter Maydell
  <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
@@ -72,25 +72,22 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
  qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
- Yonggang Luo <luoyonggang@gmail.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Bandan Das <bsd@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
  Laurent Vivier <lvivier@redhat.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Qiuhao Li <Qiuhao.Li@outlook.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
 References: <20230228190653.1602033-1-alex.bennee@linaro.org>
  <20230228190653.1602033-23-alex.bennee@linaro.org>
- <85fa3961-eb23-8d93-b4e4-e3e4227fac26@linaro.org>
- <199f0714-901a-a15d-690a-2a2f56db015a@redhat.com>
- <3aa65498-4d4e-429e-44f4-bbeb34a0e21e@linaro.org> <87wn40dc48.fsf@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87wn40dc48.fsf@linaro.org>
+In-Reply-To: <20230228190653.1602033-23-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -113,64 +110,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/3/23 11:00, Alex Bennée wrote:
+On 28/2/23 20:06, Alex Bennée wrote:
+> To avoid lots of copy and paste lets deal with artefacts in a
+> template. This way we can filter out most of the pre-binary object and
+> library files we no longer need as we have the final binaries.
 > 
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+> build-system-alpine also saved .git-submodule-status so for simplicity
+> we bring that into the template as well.
 > 
->> On 1/3/23 07:51, Thomas Huth wrote:
->>> On 28/02/2023 22.41, Philippe Mathieu-Daudé wrote:
->>>> On 28/2/23 20:06, Alex Bennée wrote:
->>>>> To avoid lots of copy and paste lets deal with artefacts in a
->>>>> template. This way we can filter out most of the pre-binary object and
->>>>> library files we no longer need as we have the final binaries.
->>>>>
->>>>> build-system-alpine also saved .git-submodule-status so for simplicity
->>>>> we bring that into the template as well.
->>>>>
->>>>> As an example the build-system-ubuntu artefacts before this patch
->>>>> where around 1.3 GB, after dropping the object files it comes to 970
->>>>> MB.
->>>>>
->>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>>>> ---
->>>>>    .gitlab-ci.d/buildtest-template.yml | 16 ++++++
->>>>>    .gitlab-ci.d/buildtest.yml          | 81 +++++++++++------------------
->>>>>    2 files changed, 46 insertions(+), 51 deletions(-)
->>>>
->>>> This is still kludging the fact that 'make check-qtest' rebuild
->>>> the world even if QEMU binaries are present.
->>> Did you try? ... if so, that would kill even more CI minutes, i.e.
->>> it would IMHO be a show-stopper for this patch.
->>
->> I remember we had to pass all build/ otherwise calling 'make
->> check-qtest check-tcg' would rebuild the same binaries, it it
->> was pointless to split the jobs in 2 stages. I might have missed
->> when that was fixed.
->>
->> I haven't tried, however I see in Alex job:
->>
->> $ scripts/git-submodule.sh update $(sed -n '/GIT_SUBMODULES=/ s/.*=//
->> p' build/config-host.mak)
->> sed: can't read build/config-host.mak: No such file or directory
->> $ cd build
->> /bin/bash: line 144: cd: build: No such file or directory
->> ERROR: Job failed: exit code 1
->>
->> https://gitlab.com/stsquad/qemu/-/jobs/3847747769
+> As an example the build-system-ubuntu artefacts before this patch
+> where around 1.3 GB, after dropping the object files it comes to 970
+> MB.
 > 
-> That was an older run of the job where I thought the skip path would
-> merge from the template. In the end I've just include git-submodules in
-> all the build aretfacts instead of just for alpine.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   .gitlab-ci.d/buildtest-template.yml | 16 ++++++
+>   .gitlab-ci.d/buildtest.yml          | 81 +++++++++++------------------
+>   2 files changed, 46 insertions(+), 51 deletions(-)
 > 
-> It ran fine:
-> 
->    https://gitlab.com/stsquad/qemu/-/jobs/3849512854
+> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+> index cb96b55c3f..a6cfe9be97 100644
+> --- a/.gitlab-ci.d/buildtest-template.yml
+> +++ b/.gitlab-ci.d/buildtest-template.yml
+> @@ -25,6 +25,22 @@
+>           make -j"$JOBS" $MAKE_CHECK_ARGS ;
+>         fi
+>   
+> +# We jump some hoops in common_test_job_template to avoid
+> +# rebuilding all the object files we skip in the artifacts
+> +.native_build_artifact_template:
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+> +      - .git-submodule-status
+> +    exclude:
+> +      - build/**/*.p
+> +      - build/**/*.a.p
+> +      - build/**/*.fa.p
+> +      - build/**/*.c.o
+> +      - build/**/*.c.o.d
+> +      - build/**/*.fa
 
-Indeed:
-https://gitlab.com/stsquad/qemu/-/jobs/3849512800/artifacts/browse/build/
+Why not exclude "build/**/*.a", was there some issue?
 
-So a good improvement, but I'd prefer having a stricter "only include
-what we need" policy rather than "exclude what we don't". The former
-will catch missing additions, while the later won't notice until someone
-spend time excluding pointless files manually again.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
