@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6026A696B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:04:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2756A696A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 10:04:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXIM2-0004Ef-KS; Wed, 01 Mar 2023 04:02:30 -0500
+	id 1pXIM3-0004F1-B6; Wed, 01 Mar 2023 04:02:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pXILs-0004BR-NC
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:02:23 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1pXILx-0004CQ-2r
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:02:25 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pXILr-0002nN-8s
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:02:20 -0500
-Received: by mail-pl1-x633.google.com with SMTP id v11so9746400plz.8
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 01:02:18 -0800 (PST)
+ id 1pXILv-0002nj-4O
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 04:02:24 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id h8so9975256plf.10
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 01:02:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bR3FRdQWQGBH8ttmejZMVXzSfOR2rdp5N4y48mjA/eU=;
- b=PLJKHnMpll0rtX9ZGJ+4GFapGyN6tFlowy/jm24Rse53PCD1RjN28Ms3he0UzyUwrp
- P2QincGGFzmVeNKj7X1htAaenn+YIhw/PkGZSREaeqDDYHjq/P41zHyz5ro+ko+GAcn5
- AJXkbpafrLAESg6zh0mQ/KhvKOFVlzorateyvfYhI3iLMDa8K9w5QoJE1dJpkS/OogT2
- ZTk5mpmilTLctBBYt/4ZO2JJNOkzduXuXu8UQuyhMKrKvIueun4jLt+nmXg0iA7ojm2J
- 8qH19ngrD8ZEokgbccTrfeOcQ0xR4pd/7/EWYS5H2SGhSFRLer5a77ktzgLdk1UBCNUg
- TTdg==
+ bh=8Jom0mo8a7rLZDLeUuzG8/w1CotxFmoY2CGtNaw29Hg=;
+ b=PJwSQRpsd/OBUIT0hrWNrgQiScw9HjVo1LQH9HDixsikTazEvXeBdfIx0PFOgjjV/m
+ rfunMnFa26YuoxcelSGcHcxFzvWkJh+518dTuq6K/DK+Or9Brbqu4JagrPeLjTLNyZUs
+ cwSZ+7Sn2h85MyIqfE91gaWOrTKOjwAG1lfosKPBBFbCbA0HJAWcYbWzoSs9gsxLhwSH
+ zA/FCN43hncRvRruNnnhGtInMYBhbJRkciCA4UqpXXtEJF+T2PPDWIBstqkm/ATzdHtR
+ 67VeUYeFT1m6IiijBUw1nYk6xqb9VD6iPIMBZJIwJFX/2KuwFyq11Nhrn7VSjM5m8m2J
+ +1rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bR3FRdQWQGBH8ttmejZMVXzSfOR2rdp5N4y48mjA/eU=;
- b=RezxqXcu+5dB1hHTIqvITQ2II6ILf1z5PKhLLtx+IFDtZD2HxS3CZRM3l8j5rsOsuB
- ijw0DiyobxuufiOCGk+0x+klIewq739Mn5x7mHPbu5zmWwg4ms+ZxPCdPQF5kLR64+QD
- HvWjmPOmM9W2I+VEFEWfd69O5BbKawDp20aaQqHGS81V8DzjELxxKq1G7jFqdCz2JmuE
- Tf5h4vPwyq00zT96kjGRpLCWQT6K1bAeYoGj4JjN5tQTD1mKZbvXL5CbaIUJiJQ4P4IS
- 6P16RIwnDZx3Sf07B36Psf/kkXaBQr8yGQfYOtMnWkbU5Y28guUtVJrguRvXzKoWwie3
- ERzg==
-X-Gm-Message-State: AO0yUKVtLiqfmgUGrNDAhsEf7eN1HCQLHsihro0VgYY0f5BVIj5npfvZ
- uIiHo74dHey9f5OpPgfCSQY=
-X-Google-Smtp-Source: AK7set+GvU8FAXva4mEKXVfijtDysbl3WaKuMpR/5C5lpddUWDUJyOmxRyBwAk7FKuLgIky1gd4Ccg==
-X-Received: by 2002:a17:90b:38c7:b0:237:8686:1b78 with SMTP id
- nn7-20020a17090b38c700b0023786861b78mr6803057pjb.12.1677661337897; 
- Wed, 01 Mar 2023 01:02:17 -0800 (PST)
+ bh=8Jom0mo8a7rLZDLeUuzG8/w1CotxFmoY2CGtNaw29Hg=;
+ b=ebxENwQxqstFBzfo6CvP/j64opP2u/XZWFNE04BW9z0TkdLMPD40AYI6WCrQ4Z9Dao
+ plbEHk9978Im4Zjq+/bhHCUQ6i8kI4vkuTZY5pUWp4YHmT3juRZry7CsfdY+roYAhLzJ
+ LkC9gJmrsDlbcaOVxTYI0z7bQQy4TiiQymo1QmWA3Npu645Q0sIJraDXInCBl/ff5xPc
+ 3zwHEQ4OAoFYQFqEjpIOmbhQOD3c+WRqrQeGKUDuS04ErZ0mHUOeD2OCIdmddZwOI8l/
+ +L4wvJwDTct4xGVEBvo5AzPMCFMidyqXj+QMTcSixkixjKKzWBIY2qpK7mzPMr41GEDC
+ R3/w==
+X-Gm-Message-State: AO0yUKWILdsUfe6FH9+FIOxkN+id0wwzOH7Nqj+JCSmjLanQQfDCSeOf
+ h2L+tP4QxLMBxzKF43S9/F3s/HOA48A=
+X-Google-Smtp-Source: AK7set/0NbR1PANtNTYmwLXGAyqFosxffHAoz3Za84TlPKCoxXCzoxwiLI3vhLecATag6+iA/FV8Lw==
+X-Received: by 2002:a17:903:187:b0:19c:b662:e216 with SMTP id
+ z7-20020a170903018700b0019cb662e216mr6566066plg.69.1677661339963; 
+ Wed, 01 Mar 2023 01:02:19 -0800 (PST)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- iw6-20020a170903044600b0019aa8149cb3sm7878991plb.219.2023.03.01.01.02.16
+ iw6-20020a170903044600b0019aa8149cb3sm7878991plb.219.2023.03.01.01.02.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 01:02:17 -0800 (PST)
+ Wed, 01 Mar 2023 01:02:19 -0800 (PST)
 From: bmeng.cn@gmail.com
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: Bin Meng <bmeng.cn@gmail.com>,
 	Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH v6 4/8] hw/net: ne2000: Remove the logic of padding short
+Subject: [PATCH v6 5/8] hw/net: pcnet: Remove the logic of padding short
  frames in the receive path
-Date: Wed,  1 Mar 2023 17:01:59 +0800
-Message-Id: <20230301090203.1601925-5-bmeng.cn@gmail.com>
+Date: Wed,  1 Mar 2023 17:02:00 +0800
+Message-Id: <20230301090203.1601925-6-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230301090203.1601925-1-bmeng.cn@gmail.com>
 References: <20230301090203.1601925-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,34 +101,25 @@ Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 ---
 
- hw/net/ne2000.c | 12 ------------
- 1 file changed, 12 deletions(-)
+ hw/net/pcnet.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/hw/net/ne2000.c b/hw/net/ne2000.c
-index 3f31d04efb..d79c884d50 100644
---- a/hw/net/ne2000.c
-+++ b/hw/net/ne2000.c
-@@ -167,15 +167,12 @@ static int ne2000_buffer_full(NE2000State *s)
-     return 0;
- }
- 
--#define MIN_BUF_SIZE 60
--
- ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
+diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
+index d456094575..02828ae716 100644
+--- a/hw/net/pcnet.c
++++ b/hw/net/pcnet.c
+@@ -987,7 +987,6 @@ ssize_t pcnet_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
  {
-     NE2000State *s = qemu_get_nic_opaque(nc);
-     size_t size = size_;
-     uint8_t *p;
-     unsigned int total_len, next, avail, len, index, mcast_idx;
+     PCNetState *s = qemu_get_nic_opaque(nc);
+     int is_padr = 0, is_bcast = 0, is_ladr = 0;
 -    uint8_t buf1[60];
-     static const uint8_t broadcast_macaddr[6] =
-         { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff };
+     int remaining;
+     int crc_err = 0;
+     size_t size = size_;
+@@ -1000,14 +999,6 @@ ssize_t pcnet_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
+     printf("pcnet_receive size=%zu\n", size);
+ #endif
  
-@@ -213,15 +210,6 @@ ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
-         }
-     }
- 
--
 -    /* if too small buffer, then expand it */
 -    if (size < MIN_BUF_SIZE) {
 -        memcpy(buf1, buf, size);
@@ -137,9 +128,9 @@ index 3f31d04efb..d79c884d50 100644
 -        size = MIN_BUF_SIZE;
 -    }
 -
-     index = s->curpag << 8;
-     if (index >= NE2000_PMEM_END) {
-         index = s->start;
+     if (CSR_PROM(s)
+         || (is_padr=padr_match(s, buf, size))
+         || (is_bcast=padr_bcast(s, buf, size))
 -- 
 2.34.1
 
