@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2AB6A6D4E
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C76B6A6D4D
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 14:44:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXMjL-000089-T5; Wed, 01 Mar 2023 08:42:51 -0500
+	id 1pXMjy-0000GM-7V; Wed, 01 Mar 2023 08:43:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXMjJ-00006n-11
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:42:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXMjH-0008RX-Dj
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 08:42:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677678166;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pXMjv-0000Fo-EQ; Wed, 01 Mar 2023 08:43:27 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pXMjt-00005D-LW; Wed, 01 Mar 2023 08:43:27 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D8FE41FE14;
+ Wed,  1 Mar 2023 13:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677678203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MScLB+8lbFGwRQBY52TOhEDcemJszYTl7LVgeyNiOxI=;
- b=YT64k8GShMNxgqw+6DeHMOPvzbuFjMbbC6smT1y3xMQUMqFFPv7ckPPvCIaDoomRshi0r3
- b+mMuO4x20DSboOKWDSDF0wkmWWWsEfnw6sx3FOPzNIAbDDXZOaQ20QT3MTwtHbtGxLzjY
- N3AVDA9QHYiGpCfbJ7LXu510jugZorU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-31-tQ_cRtHcMs6QEqYM9aGSKA-1; Wed, 01 Mar 2023 08:42:43 -0500
-X-MC-Unique: tQ_cRtHcMs6QEqYM9aGSKA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bi21-20020a05600c3d9500b003e836e354e0so5339444wmb.5
- for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 05:42:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677678162;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MScLB+8lbFGwRQBY52TOhEDcemJszYTl7LVgeyNiOxI=;
- b=ZMlFQo7p8i+xNfZCR3OM/qpVHbxcX7YOWQRoyDO8WOsu7RnRWXcqf9WbXanmyXiTAn
- neAA4PwCsjCHI6d1xKmCV24VOiztDJVjlBHhVKazsjQz4Y0ya6X96QFLb7d/xHS8s3Hg
- hQV/tv3s4gg3txhqxq3xZaoYlx36nE+pIr8vqW6AyHyIJDgSrvu1KRcozl8OmnS3MFeV
- tMQlWYLP8F3Sm+mmDAjwzz6/kIyAKRmbFlxXZ6Fs9E6x+A8Odi1DX8kdvVkQ/wjBi65o
- 63oxV9HJUsYfJVdlSgnpwRHhEBvNsJBndua3Pcj0nNJB6j3YBJZlT62L7eCbBEXq9jB8
- ddYQ==
-X-Gm-Message-State: AO0yUKX3nD6ZySz7BaySEq3EQvzBHUMd7cU6xY1hagxlFv8ZZcYJ6a+G
- nFeIK66ISElDYLS+pqK+lhBXSqlmTfTtWM7QHUXIwGblsyOjOxCF3Iq5zwMoCXhFMhOyT7KJaMT
- ihrsNBCnnfEUyIFg=
-X-Received: by 2002:a05:600c:4fd4:b0:3eb:cf1:f2b6 with SMTP id
- o20-20020a05600c4fd400b003eb0cf1f2b6mr5570416wmq.14.1677678161826; 
- Wed, 01 Mar 2023 05:42:41 -0800 (PST)
-X-Google-Smtp-Source: AK7set/smHQs9bXXitsZnvk5cbJTvcuBuXOF1jOzivWIWVrCSNEurAWqdDQ9/wZ4a8dZX90cqlaZ3A==
-X-Received: by 2002:a05:600c:4fd4:b0:3eb:cf1:f2b6 with SMTP id
- o20-20020a05600c4fd400b003eb0cf1f2b6mr5570397wmq.14.1677678161472; 
- Wed, 01 Mar 2023 05:42:41 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id
- p4-20020a05600c358400b003dc5b59ed7asm17555933wmq.11.2023.03.01.05.42.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 05:42:40 -0800 (PST)
-Date: Wed, 1 Mar 2023 14:42:39 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, Markus Armbruster
- <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- qemu-riscv@nongnu.org
-Subject: Re: [PATCH 00/19] hw: Set QDev properties using QDev API (part 1/3)
-Message-ID: <20230301144239.7dc58097@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230203180914.49112-1-philmd@linaro.org>
-References: <20230203180914.49112-1-philmd@linaro.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ bh=q2cQhrtzPh68xvCEtMo+2lOAGLfGo7T8/hYfaExXG0k=;
+ b=QBV5dztPy0+2isxcwS5XREIsEdOEdxDQWacC4fwaM96kp27xJm3cbfN0lNb5UtcncrTr5f
+ DQC8SdHqA2YiALAIwhLp9E1aglM7pgO6VssF7MIQISR5Z3cqxvHdACTYevQ1tmNZ8OlGKx
+ nWjnX0F0hli54QjOVM4TRoWiyYe/5f4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677678203;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q2cQhrtzPh68xvCEtMo+2lOAGLfGo7T8/hYfaExXG0k=;
+ b=/zkKMxWqq3MwMzquArMUNVroZWYdGOs1oBamfcL/j6/WasA+YH/DDOx8Lyi444tVdYeyGO
+ VbWiuIESfKRGBzCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5C34B13A3E;
+ Wed,  1 Mar 2023 13:43:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 31f/CXtW/2NoHgAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 01 Mar 2023 13:43:23 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Laurent
+ Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RESEND v7 9/9] tests/qtest: Fix tests when no KVM or TCG
+ are present
+In-Reply-To: <87v8jkk37n.fsf@suse.de>
+References: <20230228192628.26140-1-farosas@suse.de>
+ <20230228192628.26140-10-farosas@suse.de>
+ <11be1f6c-2fc3-f6cd-bbf6-c6bdd790dec8@redhat.com> <87v8jkk37n.fsf@suse.de>
+Date: Wed, 01 Mar 2023 10:43:20 -0300
+Message-ID: <87o7pck2o7.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,107 +93,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri,  3 Feb 2023 19:08:55 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+Fabiano Rosas <farosas@suse.de> writes:
 
-> QEMU provides the QOM API for core objects.
-> Devices are modelled on top of QOM as QDev objects.
->=20
-> There is no point in using the lower level QOM API with
-> QDev; it makes the code more complex and harder to review.
->=20
-> I first converted all the calls using errp=3D&error_abort or
-> &errp=3DNULL, then noticed the other uses weren't really
-> consistent.
->=20
-> A QDev property defined with the DEFINE_PROP_xxx() macros
-> is always available, thus can't fail. When using hot-plug
-> devices, we only need to check for optional properties
-> registered at runtime with the object_property_add_XXX()
-> API. Some are even always registered in device instance_init.
->=20
-> I have probably been overzealous, so I tagged the patches
-> not using errp=3D&error_abort|&error_fatal|NULL as RFC.
+> Thomas Huth <thuth@redhat.com> writes:
+>
+>> On 28/02/2023 20.26, Fabiano Rosas wrote:
+>>> It is possible to have a build with both TCG and KVM disabled due to
+>>> Xen requiring the i386 and x86_64 binaries to be present in an aarch64
+>>> host.
+>>> 
+>>> If we build with --disable-tcg on the aarch64 host, we will end-up
+>>> with a QEMU binary (x86) that does not support TCG nor KVM.
+>>> 
+>>> Fix tests that crash or hang in the above scenario. Do not include any
+>>> test cases if TCG and KVM are missing.
+>>> 
+>>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>>> ---
+>> ...
+>>> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+>>> index 3aef3a97a9..45490f5931 100644
+>>> --- a/tests/qtest/boot-serial-test.c
+>>> +++ b/tests/qtest/boot-serial-test.c
+>>> @@ -17,6 +17,9 @@
+>>>   #include "libqtest.h"
+>>>   #include "libqos/libqos-spapr.h"
+>>>   
+>>> +static bool has_tcg;
+>>> +static bool has_kvm;
+>>
+>> Any special reason for putting these here instead of making them local 
+>> variables in the main() function?
+>>
+>
+> Yes, Phillipe was doing work in the same file and I put it here to
+> minimize conflicts.
+>
+> https://lore.kernel.org/r/20230119145838.41835-5-philmd@linaro.org
+>
+>>>   static const uint8_t bios_avr[] = {
+>>>       0x88, 0xe0,             /* ldi r24, 0x08   */
+>>>       0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
+>>> @@ -285,6 +288,13 @@ int main(int argc, char *argv[])
+>>>       const char *arch = qtest_get_arch();
+>>>       int i;
+>>>   
+>>> +    has_tcg = qtest_has_accel("tcg");
+>>> +    has_kvm = qtest_has_accel("kvm");
+>>> +
+>>> +    if (!has_tcg && !has_kvm) {
+>>> +        return 0;
+>>> +    }
+>>> +
+>>>       g_test_init(&argc, &argv, NULL);
+>>
+>> Could you please put the new code below the g_test_init() ?
+>> Just to avoid the problem that has been reported here:
+>>
+>>   https://lists.gnu.org/archive/html/qemu-devel/2023-02/msg08331.html
+>>
+>
+> I could, but I don't understand why we need this. What does having
+> "code" before g_test_init() causes? Should I move the qtest_get_arch()
+> that's already there as well?
 
-such patches are wrong (12/19 is definitely broken),
-you can do above only if failure is not expected
-otherwise you are killing QEMU process during runtime.
-
-So if you do this, plse describe in commit message why
-it isn't breaking anything for each case.
-
->=20
-> PPC and ARM conversions will follow as two different series.
->=20
-> Philippe Mathieu-Daud=C3=A9 (19):
->   scripts/coccinelle: Add qom-qdev-prop.cocci
->   hw/qdev: Introduce qdev_prop_set_link()
->   hw/acpi: Set QDev properties using QDev API
->   hw/audio: Set QDev properties using QDev API
->   hw/core/numa: Set QDev properties using QDev API
->   hw/core/gpio: Set QDev properties using QDev API
->   hw/scsi: Set QDev properties using QDev API
->   hw/usb: Set QDev properties using QDev API
->   hw/virtio: Set QDev properties using QDev API
->   hw/avr: Set QDev properties using QDev API
->   hw/hppa: Set QDev properties using QDev API
->   hw/i386: Set QDev properties using QDev API
->   hw/m68k: Set QDev properties using QDev API
->   hw/microblaze: Set QDev properties using QDev API
->   hw/mips: Set QDev properties using QDev API
->   hw/nios2: Set QDev properties using QDev API
->   hw/riscv: Set QDev properties using QDev API
->   hw/rx: Set QDev properties using QDev API
->   hw/sparc: Set QDev properties using QDev API
->=20
->  hw/acpi/cpu_hotplug.c                    |  7 ++--
->  hw/acpi/ich9.c                           |  4 +--
->  hw/acpi/piix4.c                          |  4 +--
->  hw/avr/arduino.c                         |  4 +--
->  hw/avr/atmega.c                          |  4 +--
->  hw/core/gpio.c                           |  8 ++---
->  hw/core/numa.c                           |  4 +--
->  hw/core/qdev-properties.c                |  5 +++
->  hw/display/virtio-gpu-pci.c              |  4 +--
->  hw/display/virtio-vga.c                  |  4 +--
->  hw/dma/sparc32_dma.c                     |  6 ++--
->  hw/hppa/machine.c                        |  3 +-
->  hw/i386/pc.c                             |  8 ++---
->  hw/i386/pc_q35.c                         | 25 +++++++-------
->  hw/i386/sgx.c                            |  3 +-
->  hw/i386/x86.c                            | 12 +++----
->  hw/m68k/next-cube.c                      |  2 +-
->  hw/m68k/q800.c                           |  7 ++--
->  hw/mem/pc-dimm.c                         |  5 ++-
->  hw/microblaze/petalogix_ml605_mmu.c      | 40 ++++++++++------------
->  hw/microblaze/petalogix_s3adsp1800_mmu.c |  2 +-
->  hw/microblaze/xlnx-zynqmp-pmu.c          | 40 +++++++++-------------
->  hw/mips/boston.c                         |  6 ++--
->  hw/mips/cps.c                            | 42 ++++++++----------------
->  hw/mips/jazz.c                           |  3 +-
->  hw/mips/malta.c                          |  6 ++--
->  hw/nios2/10m50_devboard.c                |  2 +-
->  hw/riscv/microchip_pfsoc.c               |  8 ++---
->  hw/riscv/opentitan.c                     |  9 ++---
->  hw/riscv/shakti_c.c                      |  7 ++--
->  hw/riscv/sifive_e.c                      |  8 ++---
->  hw/riscv/sifive_u.c                      |  9 ++---
->  hw/riscv/spike.c                         | 10 +++---
->  hw/riscv/virt.c                          |  9 ++---
->  hw/rx/rx-gdbsim.c                        | 11 +++----
->  hw/scsi/scsi-bus.c                       |  6 +---
->  hw/sparc/sun4m.c                         | 10 +++---
->  hw/sparc64/sun4u.c                       |  3 +-
->  hw/usb/hcd-xhci-pci.c                    |  2 +-
->  hw/usb/hcd-xhci-sysbus.c                 |  2 +-
->  hw/virtio/virtio-iommu-pci.c             |  3 +-
->  hw/virtio/virtio-rng.c                   |  3 +-
->  include/hw/audio/pcspk.h                 |  2 +-
->  include/hw/qdev-properties.h             |  1 +
->  target/i386/cpu.c                        |  6 ++--
->  target/i386/host-cpu.c                   |  7 ++--
->  46 files changed, 155 insertions(+), 221 deletions(-)
->  create mode 100644 scripts/coccinelle/qom-qdev-prop.cocci
->=20
-
+Oh, the issue is the early return? I guess it makes sense.
 
