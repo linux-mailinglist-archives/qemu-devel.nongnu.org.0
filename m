@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6355E6A640E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 01:11:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7036A641F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 01:18:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXA34-0006uO-9q; Tue, 28 Feb 2023 19:10:22 -0500
+	id 1pXA9o-0008HN-5r; Tue, 28 Feb 2023 19:17:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXA2t-0006ty-PN
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 19:10:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXA9k-0008GF-EX; Tue, 28 Feb 2023 19:17:17 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pXA2q-0008M1-EE
- for qemu-devel@nongnu.org; Tue, 28 Feb 2023 19:10:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677629405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qFJrXXLnosKcxnC4rBYX4KWr9paoukNnKRynu+LQU2E=;
- b=cCdHyiZsmrsNbSjf/Us6V7zB2V5CIrzq1XD9Ypt1F7rvApG5/vZRO4YlJNsaFva50vWzyE
- yZDKcE9CHx2JQW1gJPH9BgGzEErAaOwQMVL9SyEKAggvtabQnK/O0UqPjcag2wyCw47mGG
- YSMg/V7XnuS5PtRtKa2+/TLJhkp6+us=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-HWY_xUATOGyDdemJHbBq4w-1; Tue, 28 Feb 2023 19:10:01 -0500
-X-MC-Unique: HWY_xUATOGyDdemJHbBq4w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 649AC811E9C;
- Wed,  1 Mar 2023 00:10:00 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6A13140EBF6;
- Wed,  1 Mar 2023 00:09:59 +0000 (UTC)
-Date: Tue, 28 Feb 2023 19:09:57 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Chuang Xu <xuchuangxclwt@bytedance.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Subject: Re: [PATCH RFC 0/4] memory: Fix (/ Discuss) a few rcu issues
-Message-ID: <Y/6X1buYOXDpaXO0@fedora>
-References: <20230225163141.1209368-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pXA9c-0001fa-Vp; Tue, 28 Feb 2023 19:17:11 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4CC257457E7;
+ Wed,  1 Mar 2023 01:17:06 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 154B2745720; Wed,  1 Mar 2023 01:17:06 +0100 (CET)
+Message-Id: <cover.1677628524.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v5 0/7] Pegasos2 fixes and audio output support
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4V6I9W9NLLmP3ARl"
-Content-Disposition: inline
-In-Reply-To: <20230225163141.1209368-1-peterx@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ vr_qemu@t-online.de, ReneEngel80@emailn.de
+Date: Wed,  1 Mar 2023 01:17:06 +0100 (CET)
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,80 +58,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hello,
 
---4V6I9W9NLLmP3ARl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is marked v5 to avoid confusion with previously posted
+alternative versions. This series is now based on master and contains
+all patches needed to get AmigaOS and MorphOS work on pegasos2 with
+sound and I'd like this to be merged for 8.0.
 
-On Sat, Feb 25, 2023 at 11:31:37AM -0500, Peter Xu wrote:
-> [not for merging, but for discussion; this is something I found when
->  looking at another issue on Chuang's optimization for migration downtime]
->=20
-> Summary: we tried to access memory_listeners, address_spaces, etc. in RCU
-> way.  However we didn't implement them with RCU-safety. This patchset is
-> trying to do that; at least making it closer.
->=20
-> NOTE!  It's doing it wrongly for now, so please feel free to see this as a
-> thread to start discussing this problem, as in subject.
->=20
-> The core problem here is how to make sure memory listeners will be freed =
-in
-> RCU ways, per when unlinking them from the global memory_listeners list.
->=20
-> The current patchset (in patch 1) did it with drain_call_rcu(), but of
-> course it's wrong, because of at least two things:
->=20
->   (1) drain_call_rcu() will release BQL; currently there's no way to me to
->       guarantee that releasing BQL is safe here.
->=20
->   (2) memory_listener_unregister() can be called within a RCU read lock
->       itself (we're so happy to take rcu read lock in many places but we
->       don't think much on how long it'll be taken; at least not as strict
->       as the kernel variance, so we're just less care about that fact yet=
-).
->       It means, drain_call_rcu() should deadlock there waiting for itself.
->       For an example, see Appendix A.
->=20
-> Side question to Stefan / Maxim: why do we need drain_call_rcu() and what=
-'s
-> its difference from synchronize_rcu() in API level besides releasing and
-> retaking BQL when taken?
+Patch 1 is independent of the rest so could be merged separately but
+further patches are needed to fix interrupts which is needed for the
+last patc implementing the via-ac97 sound part of the south bridge
+chip used on pegasos2 so those patches depend on each other.
 
-Hi,
-I haven't taken a look at the patches or thought about the larger
-problem you're tackling here, but I wanted to reply to this specific
-question.
+Please review and somebody take care of merging this for 8.0 please. I
+try to address review comments but it's likely too late to restart
+from scratch so keep it reasonable, it could always be improved later
+or fixed during the freeze if some issues are found.
 
-It's been a long time since Maxim, Paolo, and I discussed this, but
-drain_call_rcu() and synchronize_rcu() do different things:
-- drain_call_rcu() is about waiting until the current thread's
-  call_rcu() callbacks have completed.
-- synchronize_rcu() is about waiting until there are no more readers in
-  the last grace period.
+Regards,
+BALATON Zoltan
 
-Calling synchronize_rcu() doesn't guarantee that call_rcu_thread() has
-completed pending call_rcu() callbacks. Therefore it's not appropriate
-for the existing drain_call_rcu() callers because they rely on previous
-call_rcu() callbacks to have finished.
+BALATON Zoltan (7):
+  hw/display/sm501: Add debug property to control pixman usage
+  Revert "hw/isa/vt82c686: Remove intermediate IRQ forwarder"
+  hw/isa/vt82c686: Implement PCI IRQ routing
+  hw/ppc/pegasos2: Fix PCI interrupt routing
+  hw/isa/vt82c686: Work around missing level sensitive irq in i8259
+    model
+  hw/usb/vt82c686-uhci-pci: Use PCI IRQ routing
+  hw/audio/via-ac97: Basic implementation of audio playback
 
-Stefan
+ hw/audio/trace-events      |   6 +
+ hw/audio/via-ac97.c        | 455 ++++++++++++++++++++++++++++++++++++-
+ hw/display/sm501.c         |  18 +-
+ hw/isa/trace-events        |   1 +
+ hw/isa/vt82c686.c          |  59 ++++-
+ hw/pci-host/mv64361.c      |   4 -
+ hw/ppc/pegasos2.c          |  26 ++-
+ hw/usb/vt82c686-uhci-pci.c |  12 -
+ include/hw/isa/vt82c686.h  |  25 ++
+ 9 files changed, 577 insertions(+), 29 deletions(-)
 
---4V6I9W9NLLmP3ARl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP+l9UACgkQnKSrs4Gr
-c8hnawf+NfOS75RRe25IQh8aRko+Dq9NefBWplFFiKIpMWwe5sc28AGajHEmLQUA
-R8TMsfkqjGkBOtsqzh8bH72WVvW3q1r6cZenMCEGd7O+kecxUPcEfQohDCGlx2zG
-KF6LLGldotDnwOMzjhB/bjWT+xGms5N0g1IMvY5SIFL+XAMrTlZe+ShvzBsR3ClH
-7PqVEscLWOun0ubXugs/CVZfSfyYvYEELR1em2XfSUIx1k6GGJB3BrS0Bqc8G7po
-PVu5kPkNruxZO0eU1RgcxwrlKErk/gSyz5vJwgsK/nIrtxeKBdPXpO8+lU8LhDvX
-0IxssB3+r3JDs20ftYU5agJt+WGoLQ==
-=EUUq
------END PGP SIGNATURE-----
-
---4V6I9W9NLLmP3ARl--
+-- 
+2.30.8
 
 
