@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AA36A768A
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A626A768E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 23:03:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXUWT-00023c-0G; Wed, 01 Mar 2023 17:02:05 -0500
+	id 1pXUXi-0003Uv-EJ; Wed, 01 Mar 2023 17:03:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pXUWO-00021u-Ot; Wed, 01 Mar 2023 17:02:01 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pXUWM-0007qv-O6; Wed, 01 Mar 2023 17:02:00 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id o12so59846947edb.9;
- Wed, 01 Mar 2023 14:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677708117;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=O7ipDq6ukP2lzPWqK3rFXfGGedHHMFR94i8oc5jpVmA=;
- b=G2QkIsXnInDKcIP5caLOq7LWvlFJqBsFjgGZ1bos3fmXgha/GiYt2ZGuQqzZt8v3Yl
- 7HxcYWVlljTxkpjKrLPqiROQVnfH7B4H7HLHi2ny9A0lHKBvc5NU3GyKVoCbVrn+NM+e
- CY+HDKbcMKxwkZQunabKX6eljgLQU7H9jUoMk+P4lHatQp4eccLnV9CIyFaCRL703R8g
- 0NY/b4GxBACP07/Us9LdAwropfwsvDOPAFs1D/AiEJovMnR3qorHM15pSe2N27JI/tr5
- lWPoax3CPbOzG1SxLlzj38IW2PNiVp53A3SzbOMOJukyFr0SRozRj8c8EIh3YjWWT+1G
- spow==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUXg-0003Un-F1
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:03:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXUXe-00084m-S7
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 17:03:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677708197;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DRu/xWCMk4OQTUeWjrgfpWO59a6QNy75U92eeQL+1fQ=;
+ b=a1J8aUjOX9FgOlkCktz9c/MMOdbsaqXAs1vUCROyqhc96sKtWSsg2QoYn/Ylx6bqTI5bgE
+ b3xgdvN2e+7ePGiJl/2oDB48mV8kuQMxgjh1Vp022rWH5+D1hTFGPL5xhg8e8/qtm+a+CZ
+ p1VxNPZ4Lh6Ugm2IJDLjoDkNA5DEx2c=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-368-SG8JF4O5PB2h7dNdGycErQ-1; Wed, 01 Mar 2023 17:03:16 -0500
+X-MC-Unique: SG8JF4O5PB2h7dNdGycErQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c7-20020a7bc847000000b003e00be23a70so288579wml.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Mar 2023 14:03:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677708117;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=O7ipDq6ukP2lzPWqK3rFXfGGedHHMFR94i8oc5jpVmA=;
- b=5/FfVY9ed9OHqKZ5SariMHiS4R4IJyNIbZqWfH4nHRLKelmlXPLz0Fq9zt3EJYHAO5
- aJm5HNpdqul6ZTKM8medPWK6USsYQzBLWeFBIBpVwIFL0dCbHW714V0tQ3fpkgGAr1o1
- D3oC5pNbrcxOFkmODo+LzjtPd3XUgQZW/oGIcgw75jUGPiaAF3AtW57xDpLupw4U+W3B
- 7bIeE3IELrifjm6+ro5/s7MjlGM0JEO+RYx3uaqsJs+cqc4D447jqWY1zxyJwWDb1ZvE
- CRClPl9bHoUOVf+R7uht4FroCb/PG55ut1jB/vcBxaq8myekTObPiII+cUfcDL44h4hy
- p7LQ==
-X-Gm-Message-State: AO0yUKV7w+kU9+kHGZt7K0+/FGW1NEiJUgvKU1Lr+30gGv815cFnOEQC
- xpGGQ1SrRq4y1CfJ4mrONuQ=
-X-Google-Smtp-Source: AK7set92Cbv93xHHzKfeVHx/zhTqUTv9In7Pj4u0/ZFyTerDtrEPfGSBL74aERPsgWOTJMzYMxZQUw==
-X-Received: by 2002:a05:6402:2301:b0:4ac:dac1:3f95 with SMTP id
- l1-20020a056402230100b004acdac13f95mr8179057eda.1.1677708116645; 
- Wed, 01 Mar 2023 14:01:56 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-188-068-061.77.188.pool.telefonica.de.
- [77.188.68.61]) by smtp.gmail.com with ESMTPSA id
- n28-20020a50935c000000b004bc15a440f1sm1326343eda.78.2023.03.01.14.01.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Mar 2023 14:01:56 -0800 (PST)
-Date: Wed, 01 Mar 2023 22:01:52 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, qemu-ppc@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 2/5] hw/isa/vt82c686: Implement PCI IRQ routing
-In-Reply-To: <72f52a39-ecce-d17e-5161-5937076955ec@ilande.co.uk>
-References: <20230223202053.117050-1-shentey@gmail.com>
- <20230223202053.117050-3-shentey@gmail.com>
- <72f52a39-ecce-d17e-5161-5937076955ec@ilande.co.uk>
-Message-ID: <E94EEC4B-495C-4C7D-8B1E-22FD92E05382@gmail.com>
+ d=1e100.net; s=20210112; t=1677708195;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DRu/xWCMk4OQTUeWjrgfpWO59a6QNy75U92eeQL+1fQ=;
+ b=O0XrlPKBRTVoYTHGYCm2c+7JFwDdwi5z0K7oGwgnTY+PJtI6O/4TdbgciF6K7lqb7N
+ wdhdKGD3a9pdpUX5n5S/Qfk0lslpOKXziWtlxCHDDSi14LvWP/zjBxeSSNarVnnotD6t
+ KslMTNkF6atpWDkcLWo9YlAwIWtHMTOh+pxnJWYPZxEpmNSY6Dv3hVpQOkZ6KwsoW9tS
+ GMHEdJw5HnA8EjZ7RwK78pLjLVlI9iNOXsahdAcRg41+suVr0pAbsEcqAT4C2aNQDXXo
+ E9WYVpD2pWLtr0q4qjLMVuBqXbvoyhpXRLnR0d/QQr3dfAXNnvlLDRU5YBfbOELXCH7s
+ LauQ==
+X-Gm-Message-State: AO0yUKUhQ8PaexaIPrCzig/1yqWxx49SLq2H8jh9YBFd0fxZD6QQ+qbp
+ er8kKHJ1rJpsKZafw7PArssc7yC4PjRRxrKhfI05ItNBmuG5C9fKL1hBxRYBAIGuVibwsyewVKW
+ Uulh9ZhGC9ncv/gE=
+X-Received: by 2002:a05:600c:81e:b0:3eb:3692:644e with SMTP id
+ k30-20020a05600c081e00b003eb3692644emr5988989wmp.33.1677708195009; 
+ Wed, 01 Mar 2023 14:03:15 -0800 (PST)
+X-Google-Smtp-Source: AK7set+qtP7cyARwBMKjM0+oO2QOy0J0WUF4IS2HdL5Sm9cYNXESwKmz7ty3Fmtr6s8xYngHv5xSdw==
+X-Received: by 2002:a05:600c:81e:b0:3eb:3692:644e with SMTP id
+ k30-20020a05600c081e00b003eb3692644emr5988978wmp.33.1677708194631; 
+ Wed, 01 Mar 2023 14:03:14 -0800 (PST)
+Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
+ l15-20020a05600012cf00b002be505ab59asm13770891wrx.97.2023.03.01.14.03.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 14:03:14 -0800 (PST)
+Date: Wed, 1 Mar 2023 17:03:11 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Carlos =?iso-8859-1?Q?L=F3pez?= <clopez@suse.de>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] virtio: fix reachable assertion due to stale value of
+ cached region size
+Message-ID: <20230301170016-mutt-send-email-mst@kernel.org>
+References: <20230215221444.29845-1-clopez@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230215221444.29845-1-clopez@suse.de>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,127 +97,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, Feb 15, 2023 at 11:14:46PM +0100, Carlos López wrote:
+> In virtqueue_{split,packed}_get_avail_bytes() descriptors are read
+> in a loop via MemoryRegionCache regions and calls to
+> vring_{split,packed}_desc_read() - these take a region cache and the
+> index of the descriptor to be read.
+> 
+> For direct descriptors we use a cache provided by the caller, whose
+> size matches that of the virtqueue vring. We limit the number of
+> descriptors we can read by the size of that vring:
+> 
+>     max = vq->vring.num;
+>     ...
+>     MemoryRegionCache *desc_cache = &caches->desc;
+> 
+> For indirect descriptors, we initialize a new cache and limit the
+> number of descriptors by the size of the intermediate descriptor:
+> 
+>     len = address_space_cache_init(&indirect_desc_cache,
+>                                    vdev->dma_as,
+>                                    desc.addr, desc.len, false);
+>     desc_cache = &indirect_desc_cache;
+>     ...
+>     max = desc.len / sizeof(VRingDesc);
+> 
+> However, the first initialization of `max` is done outside the loop
+> where we process guest descriptors, while the second one is done
+> inside. This means that a sequence of an indirect descriptor followed
+> by a direct one will leave a stale value in `max`. If the second
+> descriptor's `next` field is smaller than the stale value, but
+> greater than the size of the virtqueue ring (and thus the cached
+> region), a failed assertion will be triggered in
+> address_space_read_cached() down the call chain.
+> 
+> Fix this by initializing `max` inside the loop in both functions.
+> 
+> Fixes: 9796d0ac8fb0 ("virtio: use address_space_map/unmap to access descriptors")
+> Signed-off-by: Carlos López <clopez@suse.de>
+> ---
+>  hw/virtio/virtio.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index f35178f5fc..db70c4976e 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -1071,6 +1071,7 @@ static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
+>      VirtIODevice *vdev = vq->vdev;
+>      unsigned int max, idx;
+>      unsigned int total_bufs, in_total, out_total;
+> +    MemoryRegionCache *desc_cache;
+
+why are you moving desc_cache here?
+
+>      MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
+>      int64_t len = 0;
+>      int rc;
+> @@ -1078,15 +1079,13 @@ static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
+>      idx = vq->last_avail_idx;
+>      total_bufs = in_total = out_total = 0;
+>  
+> -    max = vq->vring.num;
+> -
+>      while ((rc = virtqueue_num_heads(vq, idx)) > 0) {
+> -        MemoryRegionCache *desc_cache = &caches->desc;
+> -        unsigned int num_bufs;
+> +        unsigned int num_bufs = total_bufs;
+>          VRingDesc desc;
+>          unsigned int i;
+>  
+> -        num_bufs = total_bufs;
+
+nice cleanup but not a bugfix. Keep cleanups separate from fixes pls.
+
+> +        desc_cache = &caches->desc;
+
+init as part of declaration seems cleaner.
+
+> +        max = vq->vring.num;
+>  
+
+can we move declaration of max here within the loop?
+will make sure the problem does not recur.
+
+>          if (!virtqueue_get_head(vq, idx++, &i)) {
+>              goto err;
+> @@ -1218,14 +1217,14 @@ static void virtqueue_packed_get_avail_bytes(VirtQueue *vq,
+>      wrap_counter = vq->last_avail_wrap_counter;
+>      total_bufs = in_total = out_total = 0;
+>  
+> -    max = vq->vring.num;
+> -
+>      for (;;) {
+>          unsigned int num_bufs = total_bufs;
+>          unsigned int i = idx;
+>          int rc;
+>  
+>          desc_cache = &caches->desc;
+> +        max = vq->vring.num;
+> +
 
 
-Am 1=2E M=C3=A4rz 2023 14:20:54 UTC schrieb Mark Cave-Ayland <mark=2Ecave-=
-ayland@ilande=2Eco=2Euk>:
->On 23/02/2023 20:20, Bernhard Beschow wrote:
->
->> The real VIA south bridges implement a PCI IRQ router which is configur=
-ed
->> by the BIOS or the OS=2E In order to respect these configurations, QEMU
->> needs to implement it as well=2E
->>=20
->> Note: The implementation was taken from piix4_set_irq() in hw/isa/piix4=
-=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> ---
->>   hw/isa/vt82c686=2Ec | 44 ++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 44 insertions(+)
->>=20
->> diff --git a/hw/isa/vt82c686=2Ec b/hw/isa/vt82c686=2Ec
->> index 3f9bd0c04d=2E=2Ef24e387d63 100644
->> --- a/hw/isa/vt82c686=2Ec
->> +++ b/hw/isa/vt82c686=2Ec
->> @@ -604,6 +604,48 @@ static void via_isa_request_i8259_irq(void *opaque=
-, int irq, int level)
->>       qemu_set_irq(s->cpu_intr, level);
->>   }
->>   +static int via_isa_get_pci_irq(const ViaISAState *s, int irq_num)
->> +{
->> +    switch (irq_num) {
->> +    case 0:
->> +        return s->dev=2Econfig[0x55] >> 4;
->> +
->> +    case 1:
->> +        return s->dev=2Econfig[0x56] & 0xf;
->> +
->> +    case 2:
->> +        return s->dev=2Econfig[0x56] >> 4;
->> +
->> +    case 3:
->> +        return s->dev=2Econfig[0x57] >> 4;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static void via_isa_set_pci_irq(void *opaque, int irq_num, int level)
->> +{
->> +    ViaISAState *s =3D opaque;
->> +    PCIBus *bus =3D pci_get_bus(&s->dev);
->> +    int pic_irq;
->> +
->> +    /* now we change the pic irq level according to the via irq mappin=
-gs */
->> +    /* XXX: optimize */
->> +    pic_irq =3D via_isa_get_pci_irq(s, irq_num);
->> +    if (pic_irq < ISA_NUM_IRQS) {
->> +        int i, pic_level;
->> +
->> +        /* The pic level is the logical OR of all the PCI irqs mapped =
-to it=2E */
->> +        pic_level =3D 0;
->> +        for (i =3D 0; i < PCI_NUM_PINS; i++) {
->> +            if (pic_irq =3D=3D via_isa_get_pci_irq(s, i)) {
->> +                pic_level |=3D pci_bus_get_irq_level(bus, i);
->> +            }
->> +        }
->> +        qemu_set_irq(s->isa_irqs[pic_irq], pic_level);
->> +    }
->> +}
->> +
->>   static void via_isa_realize(PCIDevice *d, Error **errp)
->>   {
->>       ViaISAState *s =3D VIA_ISA(d);
->> @@ -676,6 +718,8 @@ static void via_isa_realize(PCIDevice *d, Error **e=
-rrp)
->>       if (!qdev_realize(DEVICE(&s->mc97), BUS(pci_bus), errp)) {
->>           return;
->>       }
->> +
->> +    pci_bus_irqs(pci_bus, via_isa_set_pci_irq, s, PCI_NUM_PINS);
->>   }
->>     /* TYPE_VT82C686B_ISA */
->
->This looks right, however generally a PCI device shouldn't really be sett=
-ing PCI bus IRQs: this is normally done by the PCI host bridge=2E Is it jus=
-t the case that the x86 world is different here for legacy reasons?
+same question can we move declaration into the loop?
 
-Well, looking at the pegasos2 schematics it seems to me that at least the =
-intA + intB lines are connected to both chips (and that they are even share=
-d between the AGP slot and the PCI bus)=2E On the Marvell north bridge they=
- seem to be connected to GPIO pins and on the VIA chip to the PCI IRQ route=
-r=2E
+>          vring_packed_desc_read(vdev, &desc, desc_cache, idx, true);
+>          if (!is_desc_avail(desc.flags, wrap_counter)) {
+>              break;
+> -- 
+> 2.35.3
 
-Note that GPIO pins can usually be deactivated (tristated) and that the fo=
-ur VIA PCI IRQs can be deactivated by assigning "interrupt 0"=2E Such a des=
-ign would allow the lines to be hardwired to both "interrupt controllers", =
-allowing system software to use either controller, or possibly even mixed (=
-e=2Eg=2E intA to be treated by the north bridge and intB by VIA)=2E
-
-Such designs are currently not easily implementable in QEMU since only one=
- IRQ handler can be assigned to a PCI bus=2E As a workaround, one could ass=
-ign a custom IRQ handler which implements special handling=2E
-
-Getting back to your question, I think you are right that assigning the IR=
-Q handler in the VIA model may break e=2Eg=2E the Fuloong2e machine where t=
-he IRQ handler is set in the north bridge=2E Since the VIA chip is instanti=
-ated later it now effectively replaces the handler=2E
-
-It would be really neat if QEMU allowed for assigning two or more IRQ hand=
-lers to a PCI bus=2E=2E=2E
-
-Do you think that two interrupt controllers connected to IRQ lines like th=
-at sounds reasonable?
-
-Best regards,
-Bernhard
-
->
->
->ATB,
->
->Mark=2E
 
