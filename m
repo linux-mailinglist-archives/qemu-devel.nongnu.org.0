@@ -2,108 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7326A6807
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:16:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93146A6809
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Mar 2023 08:18:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXGgD-000373-SV; Wed, 01 Mar 2023 02:15:14 -0500
+	id 1pXGid-0006OD-0T; Wed, 01 Mar 2023 02:17:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pXGff-0002oM-59
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:14:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1pXGiU-0006LR-S9
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:17:35 -0500
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pXGfa-0006Q0-9Z
- for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:14:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677654873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v2QEBpwPNgq/Y/SIC0d9P/Jht3hesebq1EPx+baJhZA=;
- b=KI17N05z5P+zfqNUO8FGm13FKjANdz3+oaKUpPH/vAVtbdE7icl9JbyvugPMoQwDI5X94+
- kxp7ivOMKUaRX0piDR41UqSSTtI7B+eHJxzZ7QIsFdeyJqQ6G0ry2AjrsUxxvD3zkTHnsG
- S/hoPjwJ4hiVvVWXywNvaU4CO/5qr2M=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-615-a84GmpMmOM6ZxtikiTX3Yg-1; Wed, 01 Mar 2023 02:14:31 -0500
-X-MC-Unique: a84GmpMmOM6ZxtikiTX3Yg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d14-20020adfa34e000000b002bfc062eaa8so2294136wrb.20
- for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 23:14:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1pXGiS-00078H-U6
+ for qemu-devel@nongnu.org; Wed, 01 Mar 2023 02:17:34 -0500
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 582203F22C
+ for <qemu-devel@nongnu.org>; Wed,  1 Mar 2023 07:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1677655048;
+ bh=QKsQ8l9IumEXVWV7TuEdX3URZpzq7WR5mdnaFgwQN0A=;
+ h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+ To:Cc:Content-Type;
+ b=iaeft+Eff+i7FH1W7mQBgo5Wcb0HwiC2nKTuoyVKiOR+nMIppxyg61BNroR4U7lM2
+ W1r1cs+qNBHJ3rDCMOes2oWYUpwcVRRqMxMeUmTNyJfFNTUocjfYOuHm3LUq2KTZ3f
+ 7kS3wYFSP2ASpySa2UEhms6Ou2P1+79pCAsm61el/Yl0JMOfa78PRE8v0iU4g1/BuT
+ Zpju+Jskqa0G7msK8nB9HcIVxQJHRnUfPRKrEmxvJbD8Haplrze1L+8ZUQ3+WFGtir
+ Vy31SydTEQVOFgJk8CDHkombhTU41KvUGM47ycY8m1gsgiGWWxh1P/fsEb8zpMZtsh
+ jIbwU7HR+WO1Q==
+Received: by mail-pj1-f71.google.com with SMTP id
+ m1-20020a17090a668100b00237d84de790so3673023pjj.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Feb 2023 23:17:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v2QEBpwPNgq/Y/SIC0d9P/Jht3hesebq1EPx+baJhZA=;
- b=wfcRUfzRWQ3Eoo1YuYyZcv3xG/LmtuS01tq9mhR6IcVsY5rHROis9ao3F/ssdfJVBj
- 1saiwwy/otPFig66M5xUbUiIVXzjeIVEKQ1Nj50fgAyptGFZgX9ioCfxRH+giCK3QRpJ
- +8paiiZExJsTisI9wpvfP/P4Y5hu2OW0oGWJ433LkfeFcJTOaxIkn42V0NQnpVJLuoPw
- HJLxI4NxGQoGN6gRMkP7C00UCgADwuLYgPiTKTL+0ps3cAaSXNdMBnAnPDp4aRrB7fwv
- ya6kPlj3WPW7P0H7rE9q4UcmiQir73SqePanf5RZH30XwJM71++2TxosHuEB4iJQ5Oot
- SVqw==
-X-Gm-Message-State: AO0yUKX27/OOkxDDz5/KXnrRRZ7qr2NLKeZfo0O73s+SqG6n/+V1/UON
- DWETC/yB+XVKmifndRvm3u+mf7WrNxJANWwtpQc5XFv5umo/T8hylT0q3CyCf3PPDHlZkHMJ1r9
- Nj1Pv5RWB4B8o+w4=
-X-Received: by 2002:a05:600c:4d97:b0:3eb:29fe:f922 with SMTP id
- v23-20020a05600c4d9700b003eb29fef922mr3894051wmp.29.1677654870834; 
- Tue, 28 Feb 2023 23:14:30 -0800 (PST)
-X-Google-Smtp-Source: AK7set8EiyMChfkFEsef7MCucGfC0HauNqt/wB0m7j8O/igekSUjp3t1OkDcMWKwmi/ufYva/3ODXA==
-X-Received: by 2002:a05:600c:4d97:b0:3eb:29fe:f922 with SMTP id
- v23-20020a05600c4d9700b003eb29fef922mr3894022wmp.29.1677654870569; 
- Tue, 28 Feb 2023 23:14:30 -0800 (PST)
-Received: from [192.168.8.100] (tmo-114-247.customers.d1-online.com.
- [80.187.114.247]) by smtp.gmail.com with ESMTPSA id
- m9-20020a05600c4f4900b003dec22de1b1sm16231030wmq.10.2023.02.28.23.14.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 23:14:29 -0800 (PST)
-Message-ID: <72580c0e-353b-bb91-444e-b56d4c6ff7ba@redhat.com>
-Date: Wed, 1 Mar 2023 08:14:26 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QKsQ8l9IumEXVWV7TuEdX3URZpzq7WR5mdnaFgwQN0A=;
+ b=PQNwhrJL1hU0GXN+mjWy9gpD3v52HVUwcFCAQUWfYAxuG4qwdkgzL7OZIsEts0MIAU
+ IqbD+mh6tnTfxKs2wLgyQp1ELY7Qm9aUiEYqXYv7Fd6Bd8QV5ydni59tKtJp3vkexIZb
+ IAqKDLGlLINAIrVaxuJniLws7sXrM3uj3cc5RuMiJg4jXnjz88omAL1zeqwnQr6kApNp
+ iDar0OfsdqODlgMo9/R4zsniaTw8ahkBFRgR5mqB0Bus4jJr3ChnBPd/Jz5jiKA6WUfb
+ xBddXlIypkPh+nNxShPpa6BAZymCGvEKzNyRPoW3PcfA/J34tnUa5CDrZrUDLc7Zozkn
+ JBHw==
+X-Gm-Message-State: AO0yUKU7K6Y/FaeuMY11pGnb723scHIpZyDLL82xsCJFNpS0TzXGb5+W
+ 7/v+XBLE43oGL9zoc+cwRibQIgte3LtDs2MWo3EVrcIRrRwVnRS7GE+9COFnUOSNbNoP/PRnprp
+ mEmXHG29W2H6tO+c+Lu/K7dM+ETrNJ4HVBwCz4rpqgIuH5jdD
+X-Received: by 2002:a17:902:da83:b0:19a:9434:af24 with SMTP id
+ j3-20020a170902da8300b0019a9434af24mr2137458plx.10.1677655046869; 
+ Tue, 28 Feb 2023 23:17:26 -0800 (PST)
+X-Google-Smtp-Source: AK7set+rq/Y/FL90JgDZErVy6AH9TvseY++Jhx/YgJU06WEO+LxjliR99MDfyRlBg/YgNSm1GYrOw0c5EBKAFFt+/8M=
+X-Received: by 2002:a17:902:da83:b0:19a:9434:af24 with SMTP id
+ j3-20020a170902da8300b0019a9434af24mr2137436plx.10.1677655046111; Tue, 28 Feb
+ 2023 23:17:26 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Peter Maydell
- <peter.maydell@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Aurelien Jarno <aurelien@aurel32.net>, Markus Armbruster
- <armbru@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Darren Kenny <darren.kenny@oracle.com>,
- Hanna Reitz <hreitz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
- qemu-arm@nongnu.org, Fam Zheng <fam@euphon.net>,
- Yonggang Luo <luoyonggang@gmail.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Bandan Das <bsd@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Laurent Vivier <lvivier@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Qiuhao Li <Qiuhao.Li@outlook.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-References: <20230228190653.1602033-1-alex.bennee@linaro.org>
- <20230228190653.1602033-25-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 24/24] tests/avocado: disable BootLinuxPPC64 test in CI
-In-Reply-To: <20230228190653.1602033-25-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20230104090138.214862-1-lersek@redhat.com>
+ <20230104072457-mutt-send-email-mst@kernel.org>
+ <7122894b-ccbf-9d30-ee54-c23c25c0f82b@redhat.com>
+In-Reply-To: <7122894b-ccbf-9d30-ee54-c23c25c0f82b@redhat.com>
+From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Date: Wed, 1 Mar 2023 08:17:00 +0100
+Message-ID: <CAATJJ0K8Qt3-gNFT4nmweRFk-1bSHGicuLPim_V7EjgaXmLtGw@mail.gmail.com>
+Subject: Re: [PATCH] acpi: cpuhp: fix guest-visible maximum access size to the
+ legacy reg block
+To: Laszlo Ersek <lersek@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>, Ani Sinha <ani@anisinha.ca>, 
+ Ard Biesheuvel <ardb@kernel.org>, Igor Mammedov <imammedo@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-stable@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=185.125.188.123;
+ envelope-from=christian.ehrhardt@canonical.com;
+ helo=smtp-relay-internal-1.canonical.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,41 +105,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/02/2023 20.06, Alex Bennée wrote:
-> This test is exceptionally heavyweight (nearly 330s) compared to the
-> two (both endians) TuxRun baseline tests which complete in under 160s.
-> The coverage is slightly reduced but a more directed test could make
-> up the difference.
-> 
-> tests/avocado/tuxrun_baselines.py:TuxRunBaselineTest.test_ppc64:
-> 
-> Overall coverage rate:
->    lines......: 9.6% (44110 of 458817 lines)
->    functions..: 16.5% (6767 of 41054 functions)
->    branches...: 6.0% (13395 of 222634 branches)
-> 
-> tests/avocado/boot_linux.py:BootLinuxPPC64.test_pseries_tcg:
-> 
-> Overall coverage rate:
->    lines......: 11.6% (53408 of 458817 lines)
->    functions..: 18.7% (7691 of 41054 functions)
->    branches...: 7.9% (17692 of 224218 branches)
-> 
-> So lets skip for GITLAB_CI and also unless AVOCADO_TIMEOUT_EXPECTED is
-> specified by the user.
+On Thu, Jan 5, 2023 at 8:14=E2=80=AFAM Laszlo Ersek <lersek@redhat.com> wro=
+te:
+>
+> On 1/4/23 13:35, Michael S. Tsirkin wrote:
+> > On Wed, Jan 04, 2023 at 10:01:38AM +0100, Laszlo Ersek wrote:
+> >> The modern ACPI CPU hotplug interface was introduced in the following
+> >> series (aa1dd39ca307..679dd1a957df), released in v2.7.0:
+> >>
+> >>   1  abd49bc2ed2f docs: update ACPI CPU hotplug spec with new protocol
+> >>   2  16bcab97eb9f pc: piix4/ich9: add 'cpu-hotplug-legacy' property
+> >>   3  5e1b5d93887b acpi: cpuhp: add CPU devices AML with _STA method
+> >>   4  ac35f13ba8f8 pc: acpi: introduce AcpiDeviceIfClass.madt_cpu hook
+> >>   5  d2238cb6781d acpi: cpuhp: implement hot-add parts of CPU hotplug
+> >>                   interface
+> >>   6  8872c25a26cc acpi: cpuhp: implement hot-remove parts of CPU hotpl=
+ug
+> >>                   interface
+> >>   7  76623d00ae57 acpi: cpuhp: add cpu._OST handling
+> >>   8  679dd1a957df pc: use new CPU hotplug interface since 2.7 machine =
+type
+> >>
+...
+>
+> The solution to the riddle
 
-The explanation sounds somewhat implausible to me. AVOCADO_TIMEOUT_EXPECTED 
-should be for jobs where we are not sure whether the job really finishes in 
-time, e.g. when compiling QEMU with debug flags enabled, and not for jobs 
-that simply run a little bit longer (in the latter case, it would be enough 
-to simply bump the timeout setting a little bit if necessary). So did you 
-check whether you really run into timeout issues here when compiling QEMU 
-with debug flags?
+Hi,
+just to add to this nicely convoluted case an FYI to everyone involved
+back then,
+the fix seems to have caused a regression [1] in - as far as I've
+found - an edge case.
 
-Anyway, if you add AVOCADO_TIMEOUT_EXPECTED, then I think you don't need 
-GITLAB_CI anymore, since we certainly don't set AVOCADO_TIMEOUT_EXPECTED in 
-the gitlab CI.
+[1]: https://gitlab.com/qemu-project/qemu/-/issues/1520
 
-  Thomas
+...
 
+> Laszlo
+>
+>
+
+
+--=20
+Christian Ehrhardt
+Senior Staff Engineer, Ubuntu Server
+Canonical Ltd
 
