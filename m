@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC1A6A7CB7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B513A6A7CE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:37:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeHU-0005sI-UY; Thu, 02 Mar 2023 03:27:16 -0500
+	id 1pXeHa-0006EZ-Ti; Thu, 02 Mar 2023 03:27:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHE-0005gq-1v
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHE-0005gz-VI
  for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:27:00 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeH3-0002bb-2t
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:50 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeH4-0002bg-46
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745608;
+ s=mimecast20190719; t=1677745609;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nnTR3xgEleaKgQugx6zt8EnPv3TKHsZvrDjaL0Vvsrk=;
- b=VAQYK/tjEI+7PCu5oW6xkrR65GAcfLAZRlB8NgofbldjCumDExgo6zkEo465UhaCziGGHd
- QCgOIXu8NVEUxlwfvgq028oQSgq3dnx1H22z81F8AQ8rFFNhfIChewJP0+er1f4yx68Sq8
- CYNiYw0iErmVlC8U/yJGKIZrULWQ6PE=
+ bh=KXKJYPHxmk6txH9lWOLxXYxCMI6HULeDlaEu87sqk8Y=;
+ b=EB9HmQF4GIEUmAx/jITwRRF0ygs+x+e/YGS2rfUNkidZ9LvZRRYVfU9wyLN/Z+Tg/mPV3T
+ j92mvpPQ+gv4QRIn+1upkBktVOxgFxhTNRXYM96GnlmZVfBjwx8FoKjAsxI3keQVoayToh
+ D2gEBTuChlYgiAynpbrvrNB3Vi5aMCY=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-329-0yjyyI8cNsGgVopSMVL41w-1; Thu, 02 Mar 2023 03:26:45 -0500
-X-MC-Unique: 0yjyyI8cNsGgVopSMVL41w-1
+ us-mta-433-FpC0A7OVPf6fOLa2fX2ZLQ-1; Thu, 02 Mar 2023 03:26:48 -0500
+X-MC-Unique: FpC0A7OVPf6fOLa2fX2ZLQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- l16-20020a05600c1d1000b003e77552705cso743030wms.7
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:44 -0800 (PST)
+ t1-20020a7bc3c1000000b003dfe223de49so924514wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745603;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nnTR3xgEleaKgQugx6zt8EnPv3TKHsZvrDjaL0Vvsrk=;
- b=gZJ07YhpjAcPeV6M7DuYp3fqUUAqVvcS/aYW3eU46HsUCKeGnAGzK6b0wyg7FFCqiZ
- GPB+zFK2dOFvsR8ZAAF8xUZPp/5gAy7xkE/Ihc4nN3X/w3p7RN7qxLJaTVNzebl/dwOa
- SGJ7m0Y3XSbnSg9AbDKApB35+sH0NioIH13CG4vEz0JcwklyJqgC6t1ScsqJt77Aq1dj
- oWvE0+UY2A6KepcLpl9UQGlSv4QEjJixyotyrHNQozUNbDr9AIcGhJ6MQ/F5NgdXIny/
- hWSGgHrlPqhbQYGb/WQTRPKyhkRoR8D9gmCJPQZCqHOL5pDVZCdGZ44ye2cQNC+jUQzy
- AP0g==
-X-Gm-Message-State: AO0yUKVUSkfWCQghAfjjUmtyI1cBDnRrlbBhluzRhy+3u1k9DDC3K6H5
- Rs7wtwzC5VoI12Lqv/C/IwmncmsQXlypsP7W9mtj2rdiWbO4jNC/RAVJvKUUFnyA7vg8uiGDn4N
- t5ypHZdd5Qf2ia91rCyQWKeQp3uAk8sFMrmLKZjpdA6ydUTXxX83vy+N94UGneLYVOg==
-X-Received: by 2002:a05:600c:8518:b0:3eb:3cc9:9f85 with SMTP id
- gw24-20020a05600c851800b003eb3cc99f85mr8021200wmb.26.1677745603509; 
- Thu, 02 Mar 2023 00:26:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set/2pyEy5IouLjMztmLJAPfYvTgGV3rQf/FDDjjqlh6nWgdSrl2ynnKOF829DNCU1xrcPpU9iw==
-X-Received: by 2002:a05:600c:8518:b0:3eb:3cc9:9f85 with SMTP id
- gw24-20020a05600c851800b003eb3cc99f85mr8021180wmb.26.1677745603255; 
- Thu, 02 Mar 2023 00:26:43 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677745606;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KXKJYPHxmk6txH9lWOLxXYxCMI6HULeDlaEu87sqk8Y=;
+ b=Yc7HWq0KMUk1pHdEowRWm5Isy3VBdWAW7eol7mXOxeLhsORrK5B7Y+nAGN9Ta9P1WZ
+ 6pbDNu76zDe8TfF6c1uXq5V2ekm3OPnjkrPSaUtP5Fscg7whYHSdZqMI9PPRVnkdsDnz
+ Borrj6nI0efxR/1b6KJIIlmVhBUR/+NoBUhX0DjHoOX35QiFXyM+HZO9EhNT9igbUiTk
+ VwZjlqEeK6jXhCkY4gCt2SW7iNXblHDY0vKgI4pJDnzlXVB2ftW9ch5PzKA/D4RQXJSD
+ lVyJVUIGiqqSEkjIikfUQ25vSnLGoGMzRTrGZpcPZBad9q53RbLrKyqWRHW4Y48WEV/N
+ Mlig==
+X-Gm-Message-State: AO0yUKVQL9zaB8MXBCEb8Yvk0nxl7jLdqTygVyjCsBRhdxsluHIfxEws
+ JfHBZM3oPj8QrH+njs625UwG3Vmo3blXW/jQptjBhkHqqbhbhfqWx8qKiE3aiOyfPzPOClZKxeq
+ ljv0epCW2Rp1EpwNuQVufLwWzgI4S4godH2KU6IpBsGL+NOT4E7A3xEABdgbgVioPqw==
+X-Received: by 2002:a05:600c:3542:b0:3eb:2b88:5af2 with SMTP id
+ i2-20020a05600c354200b003eb2b885af2mr7494470wmq.20.1677745606508; 
+ Thu, 02 Mar 2023 00:26:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set/e6e3+0kjIHFhg0ff0K8memG7EK/ajFzZdMMBYU/qCuXCNWCgjpDD8U8r1+OjHmJpgas8lJg==
+X-Received: by 2002:a05:600c:3542:b0:3eb:2b88:5af2 with SMTP id
+ i2-20020a05600c354200b003eb2b885af2mr7494456wmq.20.1677745606257; 
+ Thu, 02 Mar 2023 00:26:46 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- e16-20020a7bc2f0000000b003eb5a531232sm2147188wmk.38.2023.03.02.00.26.41
+ i15-20020adffdcf000000b002c58ca558b6sm14710566wrs.88.2023.03.02.00.26.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:26:42 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:26:40 -0500
+ Thu, 02 Mar 2023 00:26:45 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:26:43 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Fan Ni <fan.ni@samsung.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PULL 42/53] MAINTAINERS: Add Fan Ni as Compute eXpress Link QEMU
- reviewer
-Message-ID: <20230302082343.560446-43-mst@redhat.com>
+ Ira Weiny <ira.weiny@intel.com>,
+ Gregory Price <gregory.price@memverge.com>,
+ Fan Ni <fan.ni@samsung.com>, Ben Widawsky <ben.widawsky@intel.com>
+Subject: [PULL 43/53] hw/mem/cxl_type3: Improve error handling in realize()
+Message-ID: <20230302082343.560446-44-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230302082343.560446-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -106,39 +102,57 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Fan Ni has offered to help out with QEMU CXL emulation reviewing.
-Add him as a designated reviewer.
+msix_init_exclusive_bar() can fail, so if it does cleanup the address space.
 
-Thanks to Fan for stepping up after I requested help following Ben
-stepping down as co-maintainer. Fan base been active in testing
-and review recently so great to have Fan on board.
-
-Based on patch [PATCH] MAINTAINERS: Remove CXL maintainer Ben Widawsky
-
-Message-id: <20230220212437.1462314-1-armbru@redhat.com>
-Message-Id: <20230228113926.11485-1-Jonathan.Cameron@huawei.com>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Reviewed-by: Gregory Price <gregory.price@memverge.com>
+Tested-by: Gregory Price <gregory.price@memverge.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Fan Ni <fan.ni@samsung.com>
+Message-Id: <20230206172816.8201-2-Jonathan.Cameron@huawei.com>
+Reviewed-by: Fan Ni <fan.ni@samsung.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ hw/mem/cxl_type3.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e96e9dbfe6..a4647dd1c4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2637,6 +2637,7 @@ T: git https://gitlab.com/vsementsov/qemu.git block
- Compute Express Link
- M: Ben Widawsky <ben.widawsky@intel.com>
- M: Jonathan Cameron <jonathan.cameron@huawei.com>
-+R: Fan Ni <fan.ni@samsung.com>
- S: Supported
- F: hw/cxl/
- F: hw/mem/cxl_type3.c
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index dae4fd89ca..252822bd82 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -401,7 +401,7 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     MemoryRegion *mr = &regs->component_registers;
+     uint8_t *pci_conf = pci_dev->config;
+     unsigned short msix_num = 1;
+-    int i;
++    int i, rc;
+ 
+     if (!cxl_setup_memory(ct3d, errp)) {
+         return;
+@@ -438,7 +438,10 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+                      &ct3d->cxl_dstate.device_registers);
+ 
+     /* MSI(-X) Initailization */
+-    msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
++    rc = msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
++    if (rc) {
++        goto err_address_space_free;
++    }
+     for (i = 0; i < msix_num; i++) {
+         msix_vector_use(pci_dev, i);
+     }
+@@ -450,6 +453,11 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
+     cxl_cstate->cdat.private = ct3d;
+     cxl_doe_cdat_init(cxl_cstate, errp);
++    return;
++
++err_address_space_free:
++    address_space_destroy(&ct3d->hostmem_as);
++    return;
+ }
+ 
+ static void ct3_exit(PCIDevice *pci_dev)
 -- 
 MST
 
