@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0116A7BC4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 08:19:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC276A7BC6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 08:20:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXdCi-0005Ep-A0; Thu, 02 Mar 2023 02:18:16 -0500
+	id 1pXdEs-0006bA-0j; Thu, 02 Mar 2023 02:20:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXdCO-00053L-GE
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:18:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXdEc-0006Wu-Tn
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:20:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXdCL-00011a-BP
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:17:56 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pXdEa-0003Pl-BF
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 02:20:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677741472;
+ s=mimecast20190719; t=1677741610;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CeBSzNi0tSQ9vVgQA45hG85q7ywgTYS3299HiH1yW+A=;
- b=Jkie97GV6598SlQZG/GVa/y3Emd3JGGWsq68S6hsBry7q0EGAejaSkz+Ke1Vyf7q+gCxIz
- EkH6SWkVAajeUvzV+Qqesw5SKIZmScPXJvO8sSOYhMnr39VFmpOoOBzzjAdN53M7RyXj0T
- 5S8lgEA8m+y+EWhDe/HZlCb+DucuX+8=
+ bh=eSJjpdgr8zrsSHFmVKnImc0WMG/f3xJzWA84/chtUJw=;
+ b=CD0s1aGvecPP6QZ433xSzG5AW2Ey040tHJhdYdGYestGZRFxFTqcEox6nLn5Uvp+ZTU/RM
+ PwJcLx8xQ2ONRvypAnzMrUFoEoJwy9xFf2/tCQqzP+BBOMTSOURC82yLcQDN5be+aLa0re
+ KQo917lGQLJMH04dgEcqr63pYGzGtbs=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-529-AvyyjyUYOSapCTtyVoRxwA-1; Thu, 02 Mar 2023 02:17:45 -0500
-X-MC-Unique: AvyyjyUYOSapCTtyVoRxwA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-448-GUriW01gNLO8w4oLxKYjQQ-1; Thu, 02 Mar 2023 02:20:04 -0500
+X-MC-Unique: GUriW01gNLO8w4oLxKYjQQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B6631C08971;
- Thu,  2 Mar 2023 07:17:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55D641C08984;
+ Thu,  2 Mar 2023 07:20:04 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 144CF440DE;
- Thu,  2 Mar 2023 07:17:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3400A140EBF4;
+ Thu,  2 Mar 2023 07:20:04 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EDFAC21E6A22; Thu,  2 Mar 2023 08:17:43 +0100 (CET)
+ id 2D43C21E6A22; Thu,  2 Mar 2023 08:20:03 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Cc: qemu-devel@nongnu.org,  Fam Zheng <fam@euphon.net>,
  qemu-block@nongnu.org,  Emanuele Giuseppe Esposito <eesposit@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>,  "Dr. David Alan Gilbert"
  <dgilbert@redhat.com>,  Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH 5/6] hmp: convert handle_hmp_command() to
+Subject: Re: [PATCH 6/6] monitor: convert monitor_cleanup() to
  AIO_WAIT_WHILE_UNLOCKED()
 References: <20230301205801.2453491-1-stefanha@redhat.com>
- <20230301205801.2453491-6-stefanha@redhat.com>
-Date: Thu, 02 Mar 2023 08:17:43 +0100
-In-Reply-To: <20230301205801.2453491-6-stefanha@redhat.com> (Stefan Hajnoczi's
- message of "Wed, 1 Mar 2023 15:58:00 -0500")
-Message-ID: <87ttz3sju0.fsf@pond.sub.org>
+ <20230301205801.2453491-7-stefanha@redhat.com>
+Date: Thu, 02 Mar 2023 08:20:03 +0100
+In-Reply-To: <20230301205801.2453491-7-stefanha@redhat.com> (Stefan Hajnoczi's
+ message of "Wed, 1 Mar 2023 15:58:01 -0500")
+Message-ID: <87pm9rsjq4.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,7 +85,7 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-> The HMP monitor runs in the main loop thread. Calling
+> monitor_cleanup() is called from the main loop thread. Calling
 
 Correct.
 
@@ -96,67 +96,34 @@ Correct.
 >
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  monitor/hmp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  monitor/monitor.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/monitor/hmp.c b/monitor/hmp.c
-> index 2aa85d3982..5ecbdac802 100644
-> --- a/monitor/hmp.c
-> +++ b/monitor/hmp.c
-> @@ -1167,7 +1167,7 @@ void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
->          Coroutine *co = qemu_coroutine_create(handle_hmp_command_co, &data);
->          monitor_set_cur(co, &mon->common);
->          aio_co_enter(qemu_get_aio_context(), co);
-> -        AIO_WAIT_WHILE(qemu_get_aio_context(), !data.done);
-> +        AIO_WAIT_WHILE_UNLOCKED(NULL, !data.done);
+> diff --git a/monitor/monitor.c b/monitor/monitor.c
+> index 8dc96f6af9..602535696c 100644
+> --- a/monitor/monitor.c
+> +++ b/monitor/monitor.c
+> @@ -666,7 +666,7 @@ void monitor_cleanup(void)
+>       * We need to poll both qemu_aio_context and iohandler_ctx to make
+>       * sure that the dispatcher coroutine keeps making progress and
+>       * eventually terminates.  qemu_aio_context is automatically
+> -     * polled by calling AIO_WAIT_WHILE on it, but we must poll
+> +     * polled by calling AIO_WAIT_WHILE_UNLOCKED on it, but we must poll
+>       * iohandler_ctx manually.
+>       *
+>       * Letting the iothread continue while shutting down the dispatcher
+> @@ -679,7 +679,7 @@ void monitor_cleanup(void)
+>          aio_co_wake(qmp_dispatcher_co);
 >      }
 >  
->      qobject_unref(qdict);
+> -    AIO_WAIT_WHILE(qemu_get_aio_context(),
+> +    AIO_WAIT_WHILE_UNLOCKED(NULL,
+>                     (aio_poll(iohandler_get_aio_context(), false),
+>                      qatomic_mb_read(&qmp_dispatcher_co_busy)));
 
 Acked-by: Markus Armbruster <armbru@redhat.com>
 
-For an R-by, I need to understand this in more detail.  I'm not familiar
-with the innards of AIO_WAIT_WHILE() & friends, so I need to go real
-slow.
-
-We change
-
-    ctx from qemu_get_aio_context() to NULL
-    unlock from true to false
-
-in
-
-    bool waited_ = false;                                          \
-    AioWait *wait_ = &global_aio_wait;                             \
-    AioContext *ctx_ = (ctx);                                      \
-    /* Increment wait_->num_waiters before evaluating cond. */     \
-    qatomic_inc(&wait_->num_waiters);                              \
-    /* Paired with smp_mb in aio_wait_kick(). */                   \
-    smp_mb();                                                      \
-    if (ctx_ && in_aio_context_home_thread(ctx_)) {                \
-        while ((cond)) {                                           \
-            aio_poll(ctx_, true);                                  \
-            waited_ = true;                                        \
-        }                                                          \
-    } else {                                                       \
-        assert(qemu_get_current_aio_context() ==                   \
-               qemu_get_aio_context());                            \
-        while ((cond)) {                                           \
-            if (unlock && ctx_) {                                  \
-                aio_context_release(ctx_);                         \
-            }                                                      \
-            aio_poll(qemu_get_aio_context(), true);                \
-            if (unlock && ctx_) {                                  \
-                aio_context_acquire(ctx_);                         \
-            }                                                      \
-            waited_ = true;                                        \
-        }                                                          \
-    }                                                              \
-    qatomic_dec(&wait_->num_waiters);                              \
-    waited_; })
-
-qemu_get_aio_context() is non-null here, correct?
-
-What's the value of in_aio_context_home_thread(qemu_get_aio_context())?
+For an R-by, I need to understand this in more detail.  See my reply to
+the previous patch.
 
 
