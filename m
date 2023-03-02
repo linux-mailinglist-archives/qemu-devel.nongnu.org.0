@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123416A862F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:20:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76BD6A8616
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:18:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlbq-0007QW-Qi; Thu, 02 Mar 2023 11:16:46 -0500
+	id 1pXlbo-0007Ia-AY; Thu, 02 Mar 2023 11:16:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbJ-0006HS-E7
+ id 1pXlbJ-0006HR-Dm
  for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pXlbB-0000K5-F6
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:11 -0500
+ id 1pXlbB-0000KH-Fl
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:16:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677773754;
+ s=mimecast20190719; t=1677773756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XTdaUW41KsYdJ+ixF+sOvm1OAGGA25ktcKt2UTMxlyU=;
- b=MHJUf18YtW8IoADzlcSKw7lRKC6jQE/2OwwpWQUcTyzCd7WaYwuw30oXnSWRzx1J/3yKSB
- Dvk9J35U0is5FoMm9E4hp/rQqjlXaqfIObwxCSqQ8ckPv6jmjdJSrp84/8kVDuzD08Hksb
- inSdFi6nzaIEsCNCVQXDolVW+J7VRUQ=
+ bh=w7Gn5xfjBfcLqVNvhb23Nz3jjfjUWW5kvv+MKR2ez5w=;
+ b=SorNl3nJIFZDhmFR5ooiKxD7SW/hC+GlkrCvUyoq1D6K5/G8lp1YHJvYJ0ER7DPj9DF3iV
+ rWhe2iXglQ2QJTqo27//nqH9MHyCIHVMBAFm3n/l7xmT0+Lfg41bpHe7w/J3/6JYCFLP9w
+ YiRIhTkkkRR/7fk/gIAbOrZvJjbHBec=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-9aHD4rKRPoqdj6ZqWpQ0Wg-1; Thu, 02 Mar 2023 11:15:52 -0500
-X-MC-Unique: 9aHD4rKRPoqdj6ZqWpQ0Wg-1
+ us-mta-661-zII7USoYMCyNxP_qygb9Sg-1; Thu, 02 Mar 2023 11:15:53 -0500
+X-MC-Unique: zII7USoYMCyNxP_qygb9Sg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 28398101A55E
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DF0C31875048
  for <qemu-devel@nongnu.org>; Thu,  2 Mar 2023 16:15:52 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq2.redhat.com
  (dell-r430-03.lab.eng.brq2.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9619A140EBF6;
- Thu,  2 Mar 2023 16:15:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 583D7140EBF6;
+ Thu,  2 Mar 2023 16:15:52 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	berrange@redhat.com
-Subject: [PATCH v2 08/34] tests: acpi: whitelist pc/DSDT.hpbrroot and
- pc/DSDT.hpbridge tests
-Date: Thu,  2 Mar 2023 17:15:17 +0100
-Message-Id: <20230302161543.286002-9-imammedo@redhat.com>
+Subject: [PATCH v2 09/34] x86: pcihp: fix missing bridge AML when intermediate
+ root-port has 'hotplug=off' set
+Date: Thu,  2 Mar 2023 17:15:18 +0100
+Message-Id: <20230302161543.286002-10-imammedo@redhat.com>
 In-Reply-To: <20230302161543.286002-1-imammedo@redhat.com>
 References: <20230302161543.286002-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -81,25 +81,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-follow up fix for missing root-port AML will affect these tests
-by adding non-hotpluggable Device descriptors of colplugged
-bridges when bridge hotplug is disabled.
+(I practice [1] hasn't broke anything since on hardware side we unset
+hotplug_handler on such intermediate port => hotplug behind it has
+never worked)
 
+When deciding if bridge should be described, the original
+condition was
+
+  cold_plugged_bridge && pcihp_bridge_en
+
+which was replaced [1] by
+
+  bridge has ACPI_PCIHP_PROP_BSEL
+
+the later however is not the same thing as the original
+and flips to false if intermediate bridge has hotplug
+turned off (root-port with 'hotplug=off' option).
+
+Since we already in build_pci_bridge_aml(), the question
+if it's bridge is answered. Use DeviceState::hotplugged
+to make decision if bridge should describe its slots.
+
+What's left out is pcihp_bridge_en, which tells us if
+ACPI bridge hotplug is enabled.
+
+With hotplug and non hotplug part now being mostly
+separated, omitting this check will only lead to
+colplugged bridges describe occupied slots in case
+when ACPI bridge hotplug is disabled.
+Which makes behavior consistent with occupied slots
+on hostbridge.
+
+Ex (pc/DSDT.hpbrroot diff):
+  ...
+               Device (S20)
+               {
+                   Name (_ADR, 0x00040000)  // _ADR: Address
+  +                Device (S08)
+  +                {
+  +                    Name (_ADR, 0x00010000)  // _ADR: Address
+  +                }
+  +
+  +                Device (S10)
+  +                {
+  +                    Name (_ADR, 0x00020000)  // _ADR: Address
+  +                }
+               }
+  ...
+
+PS:
+testing shows that above doesn't affect adversely guest OS
+behavior: i.e. if ACPI bridge hotplug is enabled it's
+expected behaviour, and with ACPI bridge hotplug is disabled
+(a.k. native hotplug), it doesn't break slot enumeration
+nor native hotplug. (tested with RHEL9.0 and WS2022).
+
+1)
+Fixes: 6c36ec46b0d ("pcihp: make bridge describe itself using AcpiDevAmlIfClass:build_dev_aml")
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/acpi/pci-bridge.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dabc024f53..a0dbb28cde 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1,5 @@
- /* List of comma-separated changed AML files to ignore */
- "tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/q35/DSDT.noacpihp",
+diff --git a/hw/acpi/pci-bridge.c b/hw/acpi/pci-bridge.c
+index 5f3ee5157f..4fbf6da6ad 100644
+--- a/hw/acpi/pci-bridge.c
++++ b/hw/acpi/pci-bridge.c
+@@ -21,7 +21,7 @@ void build_pci_bridge_aml(AcpiDevAmlIf *adev, Aml *scope)
+ {
+     PCIBridge *br = PCI_BRIDGE(adev);
+ 
+-    if (object_property_find(OBJECT(&br->sec_bus), ACPI_PCIHP_PROP_BSEL)) {
++    if (!DEVICE(br)->hotplugged) {
+         build_append_pci_bus_devices(scope, pci_bridge_get_sec_bus(br));
+     }
+ }
 -- 
 2.39.1
 
