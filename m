@@ -2,117 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C836A893C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 20:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A326A8944
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 20:14:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXoIq-0007nc-7X; Thu, 02 Mar 2023 14:09:20 -0500
+	id 1pXoLT-0008Jo-H4; Thu, 02 Mar 2023 14:12:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXoIn-0007fW-EV
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 14:09:17 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXoIR-0004Zq-Df
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 14:09:17 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id v16so191333wrn.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 11:08:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MqZnXo7hFBLHq1osD92qYOTfq2ZgDdz/ouY2s2JD3s4=;
- b=fOR2byWfCCcJXjXfwKA46URGir/fGPkWaGXjvyaUgzbeHfEdk+5+rMh8/ZWbZSyatP
- 0ODUvIcB0kpuSPwdT3VpN7Y/ItmmWXOXCM5GYBnwogvyhtzfBfT2ic/U2IM2PdcKBh7z
- FpZX2SmOXyLbWDtzIvURSf4W6ozOFlGlY/kSvWiM6O55YwbaV3bUmgz2ELDtEF7+potP
- OoOfd0ldZcJX+A3T6bBMS+IiGWAdhZiESkj/pAan4toAgMNH0Ef53jFKN6q/JGeNehmg
- JYwd3xCpfUEcOtPXnEGJSkg9XyrjsnyXjhEpvqMhUYswkJU7P1n80aZDHT+ssIlZcFXl
- OPLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MqZnXo7hFBLHq1osD92qYOTfq2ZgDdz/ouY2s2JD3s4=;
- b=lYIlcfMz4r7nWkYW//0mFgKvfrX2JMBf+MBPpWOzdC6P+03+O1aPW3LI2ZQQi0agVL
- +TdIwGhhcuWjdVcMz/7ucieK/0QsDh4zE4KgRC0V9wWK2IsgiQcQG85zOew2yKhjR1o3
- AlrW6R0XfyPvNWZeSbO/A08kXVWVSlCIFYZnqf9ZdsYkmLGgx0sI7S7uN57ChdvyU65d
- pKmYtLqfS08O0vobl9b9VkXbn/WdwUtaopUQ1wmBaieSFwIWgH5xG5ExoRY3NKiAZdmM
- GEsCCIm85ogcsKdEcoEq+qLrRiqhX2SZNEotPn1gjJFhUajAz23iP3Sd78WudBaXujN3
- ZEPQ==
-X-Gm-Message-State: AO0yUKWOvWlHI2SuLrjUt0iTsHFRnP8QomVAX3cSut8rvnuMYjHBk300
- QwVokexjSIh34bb6mgZ6byBUmg==
-X-Google-Smtp-Source: AK7set/GbLEkr34A33zpv5kh6AkqolZvhydftjLJJ27qgEGaUEAiZ0H0oRqb4S9ufCLxgSPqV3tmtg==
-X-Received: by 2002:a05:6000:c8:b0:2c3:e0a0:93f with SMTP id
- q8-20020a05600000c800b002c3e0a0093fmr8547360wrx.8.1677784133847; 
- Thu, 02 Mar 2023 11:08:53 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- a12-20020a056000100c00b002c55ec7f661sm190603wrx.5.2023.03.02.11.08.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 11:08:53 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A063E1FFD0;
- Thu,  2 Mar 2023 19:08:50 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Weiwei Li <liweiwei@iscas.ac.cn>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Laurent Vivier <laurent@vivier.eu>,
- nicolas.eder@lauterbach.com, Ilya Leoshkevich <iii@linux.ibm.com>,
- kvm@vger.kernel.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Max Filippov <jcmvbkbc@gmail.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-s390x@nongnu.org,
- Stafford Horne <shorne@gmail.com>, Bin Meng <bin.meng@windriver.com>,
- Marek Vasut <marex@denx.de>, Greg Kurz <groug@kaod.org>,
- Song Gao <gaosong@loongson.cn>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Chris Wulff <crwulff@gmail.com>, qemu-riscv@nongnu.org,
- Michael Rolnik <mrolnik@gmail.com>, qemu-arm@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Alexandre Iooss <erdnaxe@crans.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- mads@ynddal.dk, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-ppc@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- John Snow <jsnow@redhat.com>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Yanan Wang <wangyanan55@huawei.com>, David Hildenbrand <david@redhat.com>,
- Taylor Simpson <tsimpson@quicinc.com>,
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1pXoLR-0008FH-Mn; Thu, 02 Mar 2023 14:12:01 -0500
+Received: from muminek.juszkiewicz.com.pl ([213.251.184.221])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1pXoLQ-0006iU-16; Thu, 02 Mar 2023 14:12:01 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id 7980A261092;
+ Thu,  2 Mar 2023 20:11:56 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
+Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
+ by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IdTaJIq_VHC0; Thu,  2 Mar 2023 20:11:51 +0100 (CET)
+Received: from puchatek.lan (83.11.36.13.ipv4.supernova.orange.pl
+ [83.11.36.13])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id C74EA260167;
+ Thu,  2 Mar 2023 20:11:50 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: Radoslaw Biernacki <rad@semihalf.com>,
  Peter Maydell <peter.maydell@linaro.org>,
+ Leif Lindholm <quic_llindhol@quicinc.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Mads Ynddal <m.ynddal@samsung.com>
-Subject: [PATCH v4 26/26] gdbstub: move update guest debug to accel ops
-Date: Thu,  2 Mar 2023 19:08:46 +0000
-Message-Id: <20230302190846.2593720-27-alex.bennee@linaro.org>
+ Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Subject: [PATCH 1/3] tests/avocado: update AArch64 tests to Alpine 3.17.2
+Date: Thu,  2 Mar 2023 20:11:44 +0100
+Message-Id: <20230302191146.1790560-1-marcin.juszkiewicz@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230302190846.2593720-1-alex.bennee@linaro.org>
-References: <20230302190846.2593720-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: softfail client-ip=213.251.184.221;
+ envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -128,92 +63,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mads Ynddal <m.ynddal@samsung.com>
+To test Alpine boot on SBSA-Ref target we need Alpine Linux
+'standard' image as 'virt' one lacks kernel modules.
 
-Continuing the refactor of a48e7d9e52 (gdbstub: move guest debug support
-check to ops) by removing hardcoded kvm_enabled() from generic cpu.c
-code, and replace it with a property of AccelOpsClass.
+So to minimalize Avocado cache I move test to 'standard' image.
 
-Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230207131721.49233-1-mads@ynddal.dk>
-[AJB: add ifdef around update_guest_debug_ops, fix brace]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 ---
- include/sysemu/accel-ops.h |  1 +
- accel/kvm/kvm-accel-ops.c  |  8 ++++++++
- cpu.c                      | 11 ++++++++---
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ tests/avocado/machine_aarch64_virt.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index 30690c71bd..3c1fab4b1e 100644
---- a/include/sysemu/accel-ops.h
-+++ b/include/sysemu/accel-ops.h
-@@ -48,6 +48,7 @@ struct AccelOpsClass {
+diff --git a/tests/avocado/machine_aarch64_virt.py b/tests/avocado/machine_aarch64_virt.py
+index 25dab8dc00..a90dc6ff4b 100644
+--- a/tests/avocado/machine_aarch64_virt.py
++++ b/tests/avocado/machine_aarch64_virt.py
+@@ -38,11 +38,11 @@ def test_alpine_virt_tcg_gic_max(self):
+         :avocado: tags=accel:tcg
+         """
+         iso_url = ('https://dl-cdn.alpinelinux.org/'
+-                   'alpine/v3.16/releases/aarch64/'
+-                   'alpine-virt-3.16.3-aarch64.iso')
++                   'alpine/v3.17/releases/aarch64/'
++                   'alpine-standard-3.17.2-aarch64.iso')
  
-     /* gdbstub hooks */
-     bool (*supports_guest_debug)(void);
-+    int (*update_guest_debug)(CPUState *cpu);
-     int (*insert_breakpoint)(CPUState *cpu, int type, vaddr addr, vaddr len);
-     int (*remove_breakpoint)(CPUState *cpu, int type, vaddr addr, vaddr len);
-     void (*remove_all_breakpoints)(CPUState *cpu);
-diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index fbf4fe3497..457eafa380 100644
---- a/accel/kvm/kvm-accel-ops.c
-+++ b/accel/kvm/kvm-accel-ops.c
-@@ -86,6 +86,13 @@ static bool kvm_cpus_are_resettable(void)
-     return !kvm_enabled() || kvm_cpu_check_are_resettable();
- }
+         # Alpine use sha256 so I recalculated this myself
+-        iso_sha1 = '0683bc089486d55c91bf6607d5ecb93925769bc0'
++        iso_sha1 = '76284fcd7b41fe899b0c2375ceb8470803eea839'
+         iso_path = self.fetch_asset(iso_url, asset_hash=iso_sha1)
  
-+#ifdef KVM_CAP_SET_GUEST_DEBUG
-+static int kvm_update_guest_debug_ops(CPUState *cpu)
-+{
-+    return kvm_update_guest_debug(cpu, 0);
-+}
-+#endif
-+
- static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-@@ -99,6 +106,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
+         self.vm.set_console()
+@@ -65,7 +65,7 @@ def test_alpine_virt_tcg_gic_max(self):
+         self.vm.add_args('-object', 'rng-random,id=rng0,filename=/dev/urandom')
  
- #ifdef KVM_CAP_SET_GUEST_DEBUG
-+    ops->update_guest_debug = kvm_update_guest_debug_ops;
-     ops->supports_guest_debug = kvm_supports_guest_debug;
-     ops->insert_breakpoint = kvm_insert_breakpoint;
-     ops->remove_breakpoint = kvm_remove_breakpoint;
-diff --git a/cpu.c b/cpu.c
-index e6abc6c76c..567b23af46 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -31,8 +31,8 @@
- #include "hw/core/sysemu-cpu-ops.h"
- #include "exec/address-spaces.h"
- #endif
-+#include "sysemu/cpus.h"
- #include "sysemu/tcg.h"
--#include "sysemu/kvm.h"
- #include "exec/replay-core.h"
- #include "exec/cpu-common.h"
- #include "exec/exec-all.h"
-@@ -326,9 +326,14 @@ void cpu_single_step(CPUState *cpu, int enabled)
- {
-     if (cpu->singlestep_enabled != enabled) {
-         cpu->singlestep_enabled = enabled;
--        if (kvm_enabled()) {
--            kvm_update_guest_debug(cpu, 0);
-+
-+#if !defined(CONFIG_USER_ONLY)
-+        const AccelOpsClass *ops = cpus_get_accel();
-+        if (ops->update_guest_debug) {
-+            ops->update_guest_debug(cpu);
-         }
-+#endif
-+
-         trace_breakpoint_singlestep(cpu->cpu_index, enabled);
-     }
- }
+         self.vm.launch()
+-        self.wait_for_console_pattern('Welcome to Alpine Linux 3.16')
++        self.wait_for_console_pattern('Welcome to Alpine Linux 3.17')
+ 
+ 
+     def common_aarch64_virt(self, machine):
 -- 
 2.39.2
 
