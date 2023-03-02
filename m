@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916F86A7CC2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6066A7CC1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:33:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeHM-0005k4-3u; Thu, 02 Mar 2023 03:27:08 -0500
+	id 1pXeHc-0006RO-Pq; Thu, 02 Mar 2023 03:27:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeH9-0005g2-Ou
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHB-0005gI-5L
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGr-0002aG-0H
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:38 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeGu-0002ac-CP
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745596;
+ s=mimecast20190719; t=1677745599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LzDUIaTuNEevHNuAn+p1xusIpzBBwqLlx1bsRJPHkfQ=;
- b=gi3yebCUS8UMAJndrK1QY6pUxYLzq27q4k8Ct4W6QQce34QMpqOrirXpf0g9YRA0kvV2/y
- L+/9m/aTjdrh+wCE+pSLoLGs9Drk/uw1XuVcOLbLi+/0U8/kPrSj0NwjUJH8CH4kSOHNkX
- eZ3Gup7ZZtTP+4oJc9M/WdxWcH2KO8Y=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mK9tqXrZVANih9PF7PI/TwHTz75DueFW9hq/Lbg2GQE=;
+ b=gtuA2hlqQ9ntTe/W8dS+4yg+yUnDE927woLquQzERv9b0i3KySbuL7hi//ClJuIew4Oz1C
+ JebRZKf+2ZjO3tzYW+VDHQMquj4nOqJWRYbY4Mp9cpyQEoNqNGTshPnNQmzqQQWTPH1Bxi
+ FSJbNw2MqJ9sNHRPopKS/oAogU2fxzE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-607-n_OWyf5xNMiw5Z1G94iufQ-1; Thu, 02 Mar 2023 03:26:35 -0500
-X-MC-Unique: n_OWyf5xNMiw5Z1G94iufQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- g6-20020adfa486000000b002c55ef1ec94so2990333wrb.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:34 -0800 (PST)
+ us-mta-249-S3TabqArMNe8TkJmt05DzQ-1; Thu, 02 Mar 2023 03:26:38 -0500
+X-MC-Unique: S3TabqArMNe8TkJmt05DzQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l23-20020a7bc457000000b003e206cbce8dso5463061wmi.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745593;
+ d=1e100.net; s=20210112; t=1677745596;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LzDUIaTuNEevHNuAn+p1xusIpzBBwqLlx1bsRJPHkfQ=;
- b=q6ELmqlzIWlnnnmNHmnZebtmTTjqBuXWvhyzYqyVxuNwYYLInI+ATZ5YXEJhn45caP
- TQVdjBWfjViWCoN4XHNJBjx78urm+0Ndv/XPj2uP0Xp14LfIyiD9FFRpsKCIaXccij98
- i2EUBt3Q/nq1vqrIANOWC2TR6PORMaLy9n2uLsobFliHuflBV/2xXyPyciZLQHfMkGRO
- ZP2baTmI5LeE8lasdnXkr2U3HWuY1EhRiLDFkDaENLlhbEI2desVOdlxW2QjrmoahIsF
- hZ4s3+zqgQSWxPAxEsmDbLLgZc7A726YDwJoXpgr/0oBiDaodr24R0ce0n4Ey74R6cH1
- F58g==
-X-Gm-Message-State: AO0yUKVyXgcWL7Exa8s6DVJhhSSBZ5C1I5an8xx6HQxWeV0JCPZukjSL
- pq1S9tz70J91fXOfrE8+QqmFZ4FxMYNrp9Zsc7M2fQ1t02cBjaG4EIYUFkMUY6E+8aBNWW550rF
- 796yN1HiqxyP2ZitebmJyYN/VGGeKM+IWfrwCnARxlpQSV3zIXdTGvH5F2OeMAkYMfA==
-X-Received: by 2002:a05:600c:3c81:b0:3df:fcbd:3159 with SMTP id
- bg1-20020a05600c3c8100b003dffcbd3159mr816530wmb.3.1677745593538; 
- Thu, 02 Mar 2023 00:26:33 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Z2QWGjPu0PX+qOTVsmQgyxRnrHjBCzUvbAETBgq6f1laiG8bVBLHq0mkpjbLESj8Woik0/A==
-X-Received: by 2002:a05:600c:3c81:b0:3df:fcbd:3159 with SMTP id
- bg1-20020a05600c3c8100b003dffcbd3159mr816515wmb.3.1677745593288; 
- Thu, 02 Mar 2023 00:26:33 -0800 (PST)
+ bh=mK9tqXrZVANih9PF7PI/TwHTz75DueFW9hq/Lbg2GQE=;
+ b=Y+SezVq/+l1+IyDx23YF7PSv65Snys3HZTwQhDrKV/NcaS3mDgqGbI21H0VkMBd5AR
+ 5W68lGFozuj+c5DPm7ul81r7ROPSCupuOS94DXveNs8zNypCeBJD8w9iQwXzIvT3iJkf
+ q/0tyUKPkQBxkwgP9pVX1spuspa0Yzbx5qBM94PTDIPTORYubSum0Q9vvyGFm4N9dHen
+ sl51i0VhH5zpmHVf3uEZPh3ljNujDeyJ8i+okQeIcnf3JS2vQwXM1BJ97IZuybzkpJ/x
+ BDQ59k4kVBkH5mkDYIunJfPrtPz/k+E+qJwvwMtxQiD6qY16e9Jg96UZJivvjI38gDSE
+ qpXw==
+X-Gm-Message-State: AO0yUKWwiUcBEn9lA77Y2FFNusKen4dJx0l1pFaOS4cUFSX9WvuhjqtQ
+ y/KIzHOVgzBe5ZdvuXHWk5l6pWcWyRsTTT+SCeGzJgmPd+bXn5ZzFOrKWRo60PYStxhiHjbl9bD
+ e4N5jvIXH6w14iT9v4c4ttL/gijof7ijQOnTxao1+TKp1mZ8mc3bTt/WFTs8p+I50OQ==
+X-Received: by 2002:a05:6000:88:b0:2c7:6a6c:c72a with SMTP id
+ m8-20020a056000008800b002c76a6cc72amr6324009wrx.48.1677745596474; 
+ Thu, 02 Mar 2023 00:26:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set+8FPsC/pNLqD46HoPf4jhkeTGQITbrehqYZFaHz6vtjjxtHEW1Czsqh8HP970Y2Sd38/efgQ==
+X-Received: by 2002:a05:6000:88:b0:2c7:6a6c:c72a with SMTP id
+ m8-20020a056000008800b002c76a6cc72amr6323995wrx.48.1677745596224; 
+ Thu, 02 Mar 2023 00:26:36 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- hn30-20020a05600ca39e00b003e21f01c426sm2124351wmb.9.2023.03.02.00.26.31
+ r15-20020a05600c2f0f00b003eae73f0fc1sm2157736wmn.18.2023.03.02.00.26.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:26:32 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:26:30 -0500
+ Thu, 02 Mar 2023 00:26:35 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:26:33 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 39/53] memory: introduce
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org
+Subject: [PULL 40/53] smmu: switch to use
  memory_region_unmap_iommu_notifier_range()
-Message-ID: <20230302082343.560446-40-mst@redhat.com>
+Message-ID: <20230302082343.560446-41-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -84,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,64 +101,49 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jason Wang <jasowang@redhat.com>
 
-This patch introduces a new helper to unmap the range of a specific
-IOMMU notifier.
-
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20230223065924.42503-4-jasowang@redhat.com>
+Message-Id: <20230223065924.42503-5-jasowang@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/exec/memory.h | 10 ++++++++++
- softmmu/memory.c      | 13 +++++++++++++
- 2 files changed, 23 insertions(+)
+ hw/arm/smmu-common.c | 16 +---------------
+ 1 file changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 2e602a2fad..6fa0b071f0 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1731,6 +1731,16 @@ void memory_region_notify_iommu(IOMMUMemoryRegion *iommu_mr,
- void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
-                                     IOMMUTLBEvent *event);
+diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+index 0a5a60ca1e..e7f1c1f219 100644
+--- a/hw/arm/smmu-common.c
++++ b/hw/arm/smmu-common.c
+@@ -467,20 +467,6 @@ IOMMUMemoryRegion *smmu_iommu_mr(SMMUState *s, uint32_t sid)
+     return NULL;
+ }
  
-+/**
-+ * memory_region_unmap_iommu_notifier_range: notify a unmap for an IOMMU
-+ *                                           translation that covers the
-+ *                                           range of a notifier
-+ *
-+ * @notifier: the notifier to be notified
-+ */
-+void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n);
-+
-+
- /**
-  * memory_region_register_iommu_notifier: register a notifier for changes to
-  * IOMMU translation entries.
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index da7d846619..4699ba55ec 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1996,6 +1996,19 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+-/* Unmap the whole notifier's range */
+-static void smmu_unmap_notifier_range(IOMMUNotifier *n)
+-{
+-    IOMMUTLBEvent event;
+-
+-    event.type = IOMMU_NOTIFIER_UNMAP;
+-    event.entry.target_as = &address_space_memory;
+-    event.entry.iova = n->start;
+-    event.entry.perm = IOMMU_NONE;
+-    event.entry.addr_mask = n->end - n->start;
+-
+-    memory_region_notify_iommu_one(n, &event);
+-}
+-
+ /* Unmap all notifiers attached to @mr */
+ static void smmu_inv_notifiers_mr(IOMMUMemoryRegion *mr)
+ {
+@@ -488,7 +474,7 @@ static void smmu_inv_notifiers_mr(IOMMUMemoryRegion *mr)
+ 
+     trace_smmu_inv_notifiers_mr(mr->parent_obj.name);
+     IOMMU_NOTIFIER_FOREACH(n, mr) {
+-        smmu_unmap_notifier_range(n);
++        memory_region_unmap_iommu_notifier_range(n);
      }
  }
  
-+void memory_region_unmap_iommu_notifier_range(IOMMUNotifier *n)
-+{
-+    IOMMUTLBEvent event;
-+
-+    event.type = IOMMU_NOTIFIER_UNMAP;
-+    event.entry.target_as = &address_space_memory;
-+    event.entry.iova = n->start;
-+    event.entry.perm = IOMMU_NONE;
-+    event.entry.addr_mask = n->end - n->start;
-+
-+    memory_region_notify_iommu_one(n, &event);
-+}
-+
- void memory_region_notify_iommu(IOMMUMemoryRegion *iommu_mr,
-                                 int iommu_idx,
-                                 IOMMUTLBEvent event)
 -- 
 MST
 
