@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FD26A87B8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:18:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AF96A87D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 18:23:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXmYB-0002FJ-Kx; Thu, 02 Mar 2023 12:17:03 -0500
+	id 1pXmdi-0005eH-P1; Thu, 02 Mar 2023 12:22:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXmYA-0002F9-62
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:17:02 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pXmdf-0005Zw-Fi
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:22:43 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pXmY8-0008DX-A3
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:17:01 -0500
-Received: by mail-wr1-x429.google.com with SMTP id h14so17264746wru.4
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 09:16:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X7LFaw1eVIWZZU+0eBB/XZT/xjvDyiFvIR0aCCLaXVY=;
- b=BIMDKn0qcKCOoSW7C103+KBb8ur9wMvRzpHGvzeOyzRrY+Q7JrEWTGr7rKHrstuYxi
- 6c9DVEzQReKP7/Avz5rrIS3AT1U8VnrOKntiddWNjbE+UBvLkboCWuXGn8/fWirslTft
- udAMJu48ULjN9wvcpuhcFmpdVicauutLpPFxftBt6ylXWbFeAgiHcjYuVYBRuwU0doR1
- ywthoTsMwFbNH7JxMzPsdtZi+ubTe8VIifGEREeCqZ5bNbtS518eNizXhh9YrUZfM1fi
- vFE5VpachLve+MH2PssjJGriqPUk5zyR6oRlhyay5PEViR2zac67bUq0M8fRg+qEpPRe
- ie7Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pXmdd-00021f-6E
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 12:22:43 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id p16so95396wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 09:22:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677777734;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hgCkzz65aBOY+2JuhLPHaEOGjI4ymGEYSa63Lt1tzW8=;
+ b=abmVCTdp5CFpGxOGlLwJGu/qC2A7KvujiNDfHXKirvKCVJ7rbCxvHc/1dPQR76NrMr
+ 4ZNFjMj3DDhAej3ReRKstBLAAyfsnyljebGFrKkfJC5s97nwnGH5Lq/K7n2zMXyBO+EC
+ x6vIzJRM33aPG9A9UL3kOY96JE6uVRyS018U9NQBAR8cP9hIUC8JoLp3+nAlTlMn6YA0
+ le1eUQI4l0uD0e3cEQW/GPaShuYR/zzW0cBr/VNm9sGD3NeNgHwiZnbSOKT5lLy7Z0w6
+ ZbZp5UziXJljQL3FRXn1uoWOZUFLiTe6MN68cy88415G+aazc6baji85ACgXQUlsZixz
+ 6qKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=X7LFaw1eVIWZZU+0eBB/XZT/xjvDyiFvIR0aCCLaXVY=;
- b=XptcShO8A5PKgh+6EkmdPDq6GMgGGHwxhzJxTceA4sPwg0Sr/eKdb5ggCsdMtuK/pD
- R86Tl8zZR1l8RrAU/p8NHxDQJNDct6Cerdrqp0GRnrfnsPWv3UZpPSgEL9TDlAT4C3KC
- O5bw8y0dwOfnsyZWc4XlUObAZIwmK84pW4sUbtoEuro7/LESULAuO0e8Fg3DhWu6G7Ma
- Gy1rSdtXg+E1UD7Swr9FRYhtlyZ1N1gcyszp3oku9LQjFkFG4CpTChD4Mb2OL2Kv9qz0
- anAXxXwRblPXR7KS93jfTPvj7fqCRUniXgDpfPbnahGyyAhDC8D/H0xehU2xr3wfJed3
- I2hw==
-X-Gm-Message-State: AO0yUKXul8PsW7IzU+vrWDX2edqypD/2Xwui5E+2lT0K8suqzwhUaFEo
- vjIwh3nJ0+w7UiawF5c5BuVoSA==
-X-Google-Smtp-Source: AK7set9phY06rLLBW1inWqiRZp5cp22urB9DULw2idBPNK4nHSoISobki1Cc0+ofOkX5zbStwK6ixg==
-X-Received: by 2002:adf:fe8e:0:b0:2c7:1b6d:3356 with SMTP id
- l14-20020adffe8e000000b002c71b6d3356mr7786883wrr.70.1677777418333; 
- Thu, 02 Mar 2023 09:16:58 -0800 (PST)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20210112; t=1677777734;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hgCkzz65aBOY+2JuhLPHaEOGjI4ymGEYSa63Lt1tzW8=;
+ b=bXsWPnb1g6e+ICBItgQVxol4ZTIY1GpFls8tnudbp4iz0l4jF+nyeWjS/Bawl2cWWG
+ nY68CavQ3oc+HtPn04zXBadA2C24RNs4wnUmbnhnuOGqtJ2GngiOvN4i2kNI46F424n4
+ mZ0sCL1H2YtVlMYmPacS/NVUHDKcxeCjuPYK//YEdEYo8MIwEuVYX6ZdKc4N+mlY8knb
+ DruFBWLywhapC9LY+hSfXFDvDUDDwk/294cqs97uMee+WFZEdBDuDeoDDWFwPO3VVV4j
+ D2BG/WRYTwpTiiDb+MoK4Qh9VLNSvq1faS6e34bwiaRnMbKuOte8jYz+0KrjKhnL+alL
+ 1UpA==
+X-Gm-Message-State: AO0yUKXFDgrvdoiT39W62sr8sh/IOPcT00mbLxm4l00oiS5kd4pKgo8H
+ /f0iyoabJWb/cY+cr4XsL5hABKmFr19L5lsm
+X-Google-Smtp-Source: AK7set+yJDGKV30JR+JBAwDBzN1J7IpNpfPyskSggenHF9asMoyPxGEJbdjLewhz65oDRs51GP+hLw==
+X-Received: by 2002:a05:600c:358f:b0:3e9:9fc5:2c6d with SMTP id
+ p15-20020a05600c358f00b003e99fc52c6dmr8475604wmq.14.1677777734208; 
+ Thu, 02 Mar 2023 09:22:14 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- a4-20020a5d5704000000b002c559843748sm16012728wrv.10.2023.03.02.09.16.57
+ r20-20020a05600c425400b003dc47d458cdsm163019wmm.15.2023.03.02.09.22.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 09:16:57 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 86DE61FFB7;
- Thu,  2 Mar 2023 17:16:57 +0000 (GMT)
-References: <CA+Yfj7vS0kdkbQGe-HYf7stqf-So-5ny5dioeoC_V0LGvMfVuA@mail.gmail.com>
- <20230302135302.GM7636@redhat.com>
-User-agent: mu4e 1.9.21; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Cc: Ayush Singh <ayushdevel1325@gmail.com>, Erik Skultety
- <eskultet@redhat.com>, marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [GSoC 2023] Introducing Myself
-Date: Thu, 02 Mar 2023 17:14:15 +0000
-In-reply-to: <20230302135302.GM7636@redhat.com>
-Message-ID: <87r0u79ipi.fsf@linaro.org>
+ Thu, 02 Mar 2023 09:22:13 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>
+Subject: [PATCH] tests/qtest/migration-test: Disable
+ migration/multifd/tcp/plain/cancel
+Date: Thu,  2 Mar 2023 17:22:11 +0000
+Message-Id: <20230302172211.4146376-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,73 +91,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+migration-test has been flaky for a long time, both in CI and
+otherwise:
 
-"Richard W.M. Jones" <rjones@redhat.com> writes:
+https://gitlab.com/qemu-project/qemu/-/jobs/3806090216
+(a FreeBSD job)
+  32/648 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status: assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
 
-> On Thu, Mar 02, 2023 at 07:17:46PM +0530, Ayush Singh wrote:
->> Hello Everyone,
->>=20
->> I am Ayush Singh, a 3rd-year university student from the Indian Institut=
-e of
->> Technology (Indian School of Mines), Dhanbad, India. This email is just =
-to
->>=20
->> I participated and successfully completed my GSoC 2022 Project under Tia=
-nocore
->> Organization in Rust, so I am pretty experienced in Rust Language. I am =
-also
->> fairly proficient in reading and working with C, although not to the same
->> degree as Rust.
->>=20
->> I use Qemu often for testing and thus would like to contribute to Qemu a=
-s a
->> part of GSoC 2023. I have narrowed down the projects to:
->>=20
->> 1.=C2=A0 Rust bindings for libnbd: https://wiki.qemu.org/Google_Summer_o=
-f_Code_2023#
->> Rust_bindings_for_libnbd
->> 2.=C2=A0 RDP server: https://wiki.qemu.org/Google_Summer_of_Code_2023#RD=
-P_server
->>=20
->> I would just like to confirm if both of the above projects are up for gr=
-abs in
->> the upcoming GSoC 2023, and if there are any specific requirements/tasks=
- to
->> complete to apply for either of the projects.
->
-> We do have another candidate.  I'm not sure what happens in these
-> situations .. Erik?
+on a local macos x86 box:
+▶  34/621 ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed")) ERROR
+ 34/621 qemu:qtest+qtest-i386 / qtest-i386/migration-test                         ERROR          168.12s   killed by signal 6 SIGABRT
+――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+stderr:
+qemu-system-i386: Failed to peek at channel
+query-migrate shows failed migration: Unable to write to socket: Broken pipe
+**
+ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
 
-Project allocations happen through the GSoC process so everyone should
-apply and then you interview the prospective candidates and choose the
-best one.
+(test program exited with status code -6)
+――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
 
-> Rich.
->
->> Finally, what is the preferred way of discussions in Qemu community? I d=
-id see
->> an IRC channel as well as qemu-discuss mailing list.
+▶  37/621 ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed")) ERROR
+ 37/621 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test                     ERROR          174.37s   killed by signal 6 SIGABRT
+――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+stderr:
+query-migrate shows failed migration: Unable to write to socket: Broken pipe
+**
+ERROR:../../tests/qtest/migration-helpers.c:151:migrate_query_not_failed: assertion failed: (!g_str_equal(status, "failed"))
 
-For realtime questions (keeping in mind TZ's and working hours) IRC is
-the best way. You can connect via matrix as described here:
+(test program exited with status code -6)
 
-  https://www.qemu.org/support/
+In the cases where I've looked at the underlying log, this seems to
+be in the migration/multifd/tcp/plain/cancel subtest.  Disable that
+specific subtest by default until somebody can track down the
+underlying cause. Enthusiasts can opt back in by setting
+QEMU_TEST_FLAKY_TESTS=1 in their environment.
 
-as not everyone has access to a persistent IRC bouncer. Otherwise deeper
-technical questions are best handled on qemu-devel where the thread can
-be followed by the whole community.
+We might need to disable more parts of this test if this isn't
+sufficient to fix the flakiness.
 
->>=20
->> Yours sincerely
->> Ayush Singh
->>=20
->> Github: https://github.com/Ayush1325
->> GSoC 2022 Project: https://summerofcode.withgoogle.com/archive/2022/proj=
-ects/
->> PwQlcngc
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+This is a slightly more targeted variation on my original
+modest proposal.
+---
+ tests/qtest/migration-test.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 109bc8e7b13..d4ab3934ed2 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -2572,8 +2572,14 @@ int main(int argc, char **argv)
+     qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
+     qtest_add_func("/migration/multifd/tcp/plain/none",
+                    test_multifd_tcp_none);
+-    qtest_add_func("/migration/multifd/tcp/plain/cancel",
+-                   test_multifd_tcp_cancel);
++    /*
++     * This test is flaky and sometimes fails in CI and otherwise:
++     * don't run unless user opts in via environment variable.
++     */
++    if (getenv("QEMU_TEST_FLAKY_TESTS")) {
++        qtest_add_func("/migration/multifd/tcp/plain/cancel",
++                       test_multifd_tcp_cancel);
++    }
+     qtest_add_func("/migration/multifd/tcp/plain/zlib",
+                    test_multifd_tcp_zlib);
+ #ifdef CONFIG_ZSTD
+-- 
+2.34.1
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
