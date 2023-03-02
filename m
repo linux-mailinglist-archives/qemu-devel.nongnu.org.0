@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA336A82A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:51:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E9B6A82B4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:53:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXiAG-000621-Ux; Thu, 02 Mar 2023 07:36:05 -0500
+	id 1pXi98-0003uV-NP; Thu, 02 Mar 2023 07:35:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXi6S-0002HR-GH
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:08 -0500
+ id 1pXi6Z-0002Tv-HY
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pXi6M-0003ES-Q7
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:04 -0500
+ id 1pXi6X-0003GB-3x
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:32:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677760322;
+ s=mimecast20190719; t=1677760332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XqLTIkYoYhWQRiyItM2Zkh56OP3oFj18fIhn6GWDMlA=;
- b=bvXkCylgSprUoz7SPDm3/mlmPi72ImcMfS2Y/ALf5uZTsfG016+mSkkQJj2uOVtyF6q32v
- TIVZ3LUVXcdj7MB0Q/NFltFvqaXEnGxQfIcRl8x+Bst3iRcEOK3kRXvTRJKxBV/cpuBKyq
- XG3G7BpIdvQB/hRgOOooa4VLmuNUFxQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-465-KQ5H39kWPpKlGUeMPKykkA-1; Thu, 02 Mar 2023 07:32:01 -0500
-X-MC-Unique: KQ5H39kWPpKlGUeMPKykkA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 4-20020a05600c024400b003eb2e295c05so5712675wmj.0
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:32:00 -0800 (PST)
+ bh=p045YGNsUkHLlYlprLAAlEdm8b7gdb975n9yXq24B9I=;
+ b=an9znq3FMijRxqlnbdv3TvUaLdslgfTtzmgo8fHkakvQSmQC61aNAMRNrKxF8M98L5Kf9b
+ DzwYoA/h5p4VbqO5mK29XH1NcWnAq0nRDi7f1K6bfDjzteO6ryTCOfj91QZJOdeYHRhHpR
+ rWHjA5kMUuC7gvmNRAicNkJmdqaDYlI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-55-QttC81poPHe4QVqVy3IXFw-1; Thu, 02 Mar 2023 07:32:03 -0500
+X-MC-Unique: QttC81poPHe4QVqVy3IXFw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l20-20020a05600c1d1400b003e10d3e1c23so1208305wms.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 04:32:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XqLTIkYoYhWQRiyItM2Zkh56OP3oFj18fIhn6GWDMlA=;
- b=EFjkz4B3/bszxke/IsvZ6F5NPG+4y3WuEmGlXn6nZD5NyLIVwLdnNOuot/mP6FxRkS
- HQ+wq2JkaD6ysF5GKp1bMxZTQ1N7GCXi7yDVgmVix6+Lnm0vfEkv5Wr6Fm7bvQTjJvm3
- Uy2zkhlE2R+W77ikG0nRdPLXjyklxx/Me94KK2kVHoMV8fBuNxWYAcM7utOSOgB5+731
- yYuUQtJcLXxiBjo61PX8Duh1x9+xoD4JMM0r+KbD2k9Wzpx+CcSKw4XPlXR2/DsJ72di
- Ep9jdPgWvhAxzd/vHsTL9xsPS/IfSAzXLaf8VoDVlBaOIP0xy2UrJPp6BJUTVGJci9PJ
- 3rEw==
-X-Gm-Message-State: AO0yUKWZQitn5KJnQN3ghR1vG1zU5JR3udOsZhv8s7vo1deTprHqhu7R
- bcOBymD7dBn7Ts5ksvd1BCMMPsDdfEKoTieWit6isUxwj1+lgSMT13AEX9YjRPsKG8lUh/GE68O
- EKP7cANtxhQPWziRDCS8EeEgvt33digV4Z/kSwuFVnsWQgnBcORSte5WzuBIqQv95yFLgGpwJlb
- Y=
-X-Received: by 2002:a5d:4d43:0:b0:2c7:1e43:f46e with SMTP id
- a3-20020a5d4d43000000b002c71e43f46emr7790121wru.37.1677760319306; 
- Thu, 02 Mar 2023 04:31:59 -0800 (PST)
-X-Google-Smtp-Source: AK7set9vDwDi0bTrE77lNk5jc879knHYYEtwwoflpUKKlZgaLuJELw5CobvIz2PAzZWH33nviYMm1Q==
-X-Received: by 2002:a5d:4d43:0:b0:2c7:1e43:f46e with SMTP id
- a3-20020a5d4d43000000b002c71e43f46emr7790100wru.37.1677760318888; 
- Thu, 02 Mar 2023 04:31:58 -0800 (PST)
+ bh=p045YGNsUkHLlYlprLAAlEdm8b7gdb975n9yXq24B9I=;
+ b=TN3bfHTuHEwv3bKUC/yWeEnaPfCAg7wqwyMbzulOHYPHoFUrCesQrRYOggfrkyHTqO
+ wyW3CDTBuCmLfyvmKzjAY9/yiQtuy+D3rKTjWqE+OB4PxoEYsG9jUVgINctlcP++iJFe
+ rRqoDDHPdLMYqIgxDwxvRSrQe7Q5keznePi9X5gt9CjSp+FnBv22mACMBgTn8P1CrQs3
+ KfUxYU77M427oy6fv02pXXUPbmmGpp3mZWgOl10hypcpCie3I/TV11/YmLMrNu3MfAux
+ ctCuWM87AK/ugU94QDeYJFLOjNN9838KaZZ/ZkZaDRB0Lto4X4g2eWJeWBFcs9r8iaOI
+ tuZw==
+X-Gm-Message-State: AO0yUKUTYaukBCFFJr/ZdlwOhOwPemgEtwQJv8RNUyjZD9qJ4CJucCv2
+ MGQ0Bm5rLt8s2OgwkSkLLUQZmSyl8kdEugiSdetwPd0lYHIjyuZpRw9K+WFAO9WWujuhRLhW4CJ
+ v1gl1YYf5Ib3vx8SiRZDXdgza2tWJhY0fl2vKdyfoAAMgKMuvgVMlaUI70prJdiXhXNDp5dSnZF
+ c=
+X-Received: by 2002:a05:600c:164a:b0:3eb:4cb5:dfa with SMTP id
+ o10-20020a05600c164a00b003eb4cb50dfamr7373161wmn.31.1677760322176; 
+ Thu, 02 Mar 2023 04:32:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set8DvfZ/BGEd9eMtuKpFW0d1J5sz7ClMPh8H3iTc5YlsQPGR0lDbJ1Ki7irzve6CP9UHLBPCQg==
+X-Received: by 2002:a05:600c:164a:b0:3eb:4cb5:dfa with SMTP id
+ o10-20020a05600c164a00b003eb4cb50dfamr7373144wmn.31.1677760321852; 
+ Thu, 02 Mar 2023 04:32:01 -0800 (PST)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- d16-20020adff850000000b002c55306f6edsm15064822wrq.54.2023.03.02.04.31.58
+ v16-20020a05600c471000b003e9ded91c27sm3215782wmo.4.2023.03.02.04.32.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 04:31:58 -0800 (PST)
+ Thu, 02 Mar 2023 04:32:01 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Woodhouse <dwmw@amazon.co.uk>,
 	Paul Durrant <paul@xen.org>
-Subject: [PULL 29/62] hw/xen: Implement EVTCHNOP_status
-Date: Thu,  2 Mar 2023 13:29:56 +0100
-Message-Id: <20230302123029.153265-30-pbonzini@redhat.com>
+Subject: [PULL 30/62] hw/xen: Implement EVTCHNOP_close
+Date: Thu,  2 Mar 2023 13:29:57 +0100
+Message-Id: <20230302123029.153265-31-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302123029.153265-1-pbonzini@redhat.com>
 References: <20230302123029.153265-1-pbonzini@redhat.com>
@@ -103,223 +103,202 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-This adds the basic structure for maintaining the port table and reporting
-the status of ports therein.
+It calls an internal close_port() helper which will also be used from
+EVTCHNOP_reset and will actually do the work to disconnect/unbind a port
+once any of that is actually implemented in the first place.
+
+That in turn calls a free_port() internal function which will be in
+error paths after allocation.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/i386/kvm/xen_evtchn.c  | 104 ++++++++++++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |   3 ++
- target/i386/kvm/xen-emu.c |  20 +++++++-
- 3 files changed, 125 insertions(+), 2 deletions(-)
+ hw/i386/kvm/xen_evtchn.c  | 123 ++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xen_evtchn.h  |   2 +
+ target/i386/kvm/xen-emu.c |  12 ++++
+ 3 files changed, 137 insertions(+)
 
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 9d6f4076ad44..8bed33890f53 100644
+index 8bed33890f53..c57d36b492e0 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -22,6 +22,7 @@
+@@ -21,6 +21,7 @@
+ 
  #include "hw/sysbus.h"
  #include "hw/xen/xen.h"
++
  #include "xen_evtchn.h"
-+#include "xen_overlay.h"
+ #include "xen_overlay.h"
  
- #include "sysemu/kvm.h"
- #include "sysemu/kvm_xen.h"
-@@ -33,6 +34,22 @@
- #define TYPE_XEN_EVTCHN "xen-evtchn"
- OBJECT_DECLARE_SIMPLE_TYPE(XenEvtchnState, XEN_EVTCHN)
+@@ -40,6 +41,41 @@ typedef struct XenEvtchnPort {
+     uint16_t type_val;  /* pirq# / virq# / remote port according to type */
+ } XenEvtchnPort;
  
-+typedef struct XenEvtchnPort {
-+    uint32_t vcpu;      /* Xen/ACPI vcpu_id */
-+    uint16_t type;      /* EVTCHNSTAT_xxxx */
-+    uint16_t type_val;  /* pirq# / virq# / remote port according to type */
-+} XenEvtchnPort;
-+
-+#define COMPAT_EVTCHN_2L_NR_CHANNELS            1024
-+
-+/*
-+ * For unbound/interdomain ports there are only two possible remote
-+ * domains; self and QEMU. Use a single high bit in type_val for that,
-+ * and the low bits for the remote port number (or 0 for unbound).
-+ */
-+#define PORT_INFO_TYPEVAL_REMOTE_QEMU           0x8000
-+#define PORT_INFO_TYPEVAL_REMOTE_PORT_MASK      0x7FFF
-+
- struct XenEvtchnState {
-     /*< private >*/
-     SysBusDevice busdev;
-@@ -42,6 +59,8 @@ struct XenEvtchnState {
-     bool evtchn_in_kernel;
- 
-     QemuMutex port_lock;
-+    uint32_t nr_ports;
-+    XenEvtchnPort port_table[EVTCHN_2L_NR_CHANNELS];
- };
- 
- struct XenEvtchnState *xen_evtchn_singleton;
-@@ -65,6 +84,18 @@ static bool xen_evtchn_is_needed(void *opaque)
-     return xen_mode == XEN_EMULATE;
- }
- 
-+static const VMStateDescription xen_evtchn_port_vmstate = {
-+    .name = "xen_evtchn_port",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32(vcpu, XenEvtchnPort),
-+        VMSTATE_UINT16(type, XenEvtchnPort),
-+        VMSTATE_UINT16(type_val, XenEvtchnPort),
-+        VMSTATE_END_OF_LIST()
-+    }
++/* 32-bit compatibility definitions, also used natively in 32-bit build */
++struct compat_arch_vcpu_info {
++    unsigned int cr2;
++    unsigned int pad[5];
 +};
 +
- static const VMStateDescription xen_evtchn_vmstate = {
-     .name = "xen_evtchn",
-     .version_id = 1,
-@@ -73,6 +104,9 @@ static const VMStateDescription xen_evtchn_vmstate = {
-     .post_load = xen_evtchn_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT64(callback_param, XenEvtchnState),
-+        VMSTATE_UINT32(nr_ports, XenEvtchnState),
-+        VMSTATE_STRUCT_VARRAY_UINT32(port_table, XenEvtchnState, nr_ports, 1,
-+                                     xen_evtchn_port_vmstate, XenEvtchnPort),
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -153,3 +187,73 @@ int xen_evtchn_set_callback_param(uint64_t param)
++struct compat_vcpu_info {
++    uint8_t evtchn_upcall_pending;
++    uint8_t evtchn_upcall_mask;
++    uint16_t pad;
++    uint32_t evtchn_pending_sel;
++    struct compat_arch_vcpu_info arch;
++    struct vcpu_time_info time;
++}; /* 64 bytes (x86) */
++
++struct compat_arch_shared_info {
++    unsigned int max_pfn;
++    unsigned int pfn_to_mfn_frame_list_list;
++    unsigned int nmi_reason;
++    unsigned int p2m_cr3;
++    unsigned int p2m_vaddr;
++    unsigned int p2m_generation;
++    uint32_t wc_sec_hi;
++};
++
++struct compat_shared_info {
++    struct compat_vcpu_info vcpu_info[XEN_LEGACY_MAX_VCPUS];
++    uint32_t evtchn_pending[32];
++    uint32_t evtchn_mask[32];
++    uint32_t wc_version;      /* Version counter: see vcpu_time_info_t. */
++    uint32_t wc_sec;
++    uint32_t wc_nsec;
++    struct compat_arch_shared_info arch;
++};
++
+ #define COMPAT_EVTCHN_2L_NR_CHANNELS            1024
  
-     return ret;
+ /*
+@@ -257,3 +293,90 @@ int xen_evtchn_status_op(struct evtchn_status *status)
+     qemu_mutex_unlock(&s->port_lock);
+     return 0;
  }
 +
-+static bool valid_port(evtchn_port_t port)
++static int clear_port_pending(XenEvtchnState *s, evtchn_port_t port)
 +{
-+    if (!port) {
-+        return false;
++    void *p = xen_overlay_get_shinfo_ptr();
++
++    if (!p) {
++        return -ENOTSUP;
 +    }
 +
 +    if (xen_is_long_mode()) {
-+        return port < EVTCHN_2L_NR_CHANNELS;
++        struct shared_info *shinfo = p;
++        const int bits_per_word = BITS_PER_BYTE * sizeof(shinfo->evtchn_pending[0]);
++        typeof(shinfo->evtchn_pending[0]) mask;
++        int idx = port / bits_per_word;
++        int offset = port % bits_per_word;
++
++        mask = 1UL << offset;
++
++        qatomic_fetch_and(&shinfo->evtchn_pending[idx], ~mask);
 +    } else {
-+        return port < COMPAT_EVTCHN_2L_NR_CHANNELS;
++        struct compat_shared_info *shinfo = p;
++        const int bits_per_word = BITS_PER_BYTE * sizeof(shinfo->evtchn_pending[0]);
++        typeof(shinfo->evtchn_pending[0]) mask;
++        int idx = port / bits_per_word;
++        int offset = port % bits_per_word;
++
++        mask = 1UL << offset;
++
++        qatomic_fetch_and(&shinfo->evtchn_pending[idx], ~mask);
 +    }
++    return 0;
 +}
 +
-+int xen_evtchn_status_op(struct evtchn_status *status)
++static void free_port(XenEvtchnState *s, evtchn_port_t port)
++{
++    s->port_table[port].type = EVTCHNSTAT_closed;
++    s->port_table[port].type_val = 0;
++    s->port_table[port].vcpu = 0;
++
++    if (s->nr_ports == port + 1) {
++        do {
++            s->nr_ports--;
++        } while (s->nr_ports &&
++                 s->port_table[s->nr_ports - 1].type == EVTCHNSTAT_closed);
++    }
++
++    /* Clear pending event to avoid unexpected behavior on re-bind. */
++    clear_port_pending(s, port);
++}
++
++static int close_port(XenEvtchnState *s, evtchn_port_t port)
++{
++    XenEvtchnPort *p = &s->port_table[port];
++
++    switch (p->type) {
++    case EVTCHNSTAT_closed:
++        return -ENOENT;
++
++    default:
++        break;
++    }
++
++    free_port(s, port);
++    return 0;
++}
++
++int xen_evtchn_close_op(struct evtchn_close *close)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
-+    XenEvtchnPort *p;
++    int ret;
 +
 +    if (!s) {
 +        return -ENOTSUP;
 +    }
 +
-+    if (status->dom != DOMID_SELF && status->dom != xen_domid) {
-+        return -ESRCH;
-+    }
-+
-+    if (!valid_port(status->port)) {
++    if (!valid_port(close->port)) {
 +        return -EINVAL;
 +    }
 +
 +    qemu_mutex_lock(&s->port_lock);
 +
-+    p = &s->port_table[status->port];
-+
-+    status->status = p->type;
-+    status->vcpu = p->vcpu;
-+
-+    switch (p->type) {
-+    case EVTCHNSTAT_unbound:
-+        if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
-+            status->u.unbound.dom = DOMID_QEMU;
-+        } else {
-+            status->u.unbound.dom = xen_domid;
-+        }
-+        break;
-+
-+    case EVTCHNSTAT_interdomain:
-+        if (p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) {
-+            status->u.interdomain.dom = DOMID_QEMU;
-+        } else {
-+            status->u.interdomain.dom = xen_domid;
-+        }
-+
-+        status->u.interdomain.port = p->type_val &
-+            PORT_INFO_TYPEVAL_REMOTE_PORT_MASK;
-+        break;
-+
-+    case EVTCHNSTAT_pirq:
-+        status->u.pirq = p->type_val;
-+        break;
-+
-+    case EVTCHNSTAT_virq:
-+        status->u.virq = p->type_val;
-+        break;
-+    }
++    ret = close_port(s, close->port);
 +
 +    qemu_mutex_unlock(&s->port_lock);
-+    return 0;
++
++    return ret;
 +}
 diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index c9b7f9d11f10..76467636eed7 100644
+index 76467636eed7..cb3924941a57 100644
 --- a/hw/i386/kvm/xen_evtchn.h
 +++ b/hw/i386/kvm/xen_evtchn.h
-@@ -15,4 +15,7 @@
- void xen_evtchn_create(void);
+@@ -16,6 +16,8 @@ void xen_evtchn_create(void);
  int xen_evtchn_set_callback_param(uint64_t param);
  
-+struct evtchn_status;
-+int xen_evtchn_status_op(struct evtchn_status *status);
-+
+ struct evtchn_status;
++struct evtchn_close;
+ int xen_evtchn_status_op(struct evtchn_status *status);
++int xen_evtchn_close_op(struct evtchn_close *close);
+ 
  #endif /* QEMU_XEN_EVTCHN_H */
 diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 1b319e8bad69..45fac5ea03bd 100644
+index 45fac5ea03bd..fab7d6b6a914 100644
 --- a/target/i386/kvm/xen-emu.c
 +++ b/target/i386/kvm/xen-emu.c
-@@ -776,9 +776,10 @@ static bool kvm_xen_hcall_vcpu_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-     return true;
- }
- 
--static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
-+static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-                                     int cmd, uint64_t arg)
- {
-+    CPUState *cs = CPU(cpu);
-     int err = -ENOSYS;
- 
-     switch (cmd) {
-@@ -789,6 +790,21 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit,
-         err = -ENOSYS;
+@@ -805,6 +805,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
+         }
          break;
- 
-+    case EVTCHNOP_status: {
-+        struct evtchn_status status;
+     }
++    case EVTCHNOP_close: {
++        struct evtchn_close close;
 +
-+        qemu_build_assert(sizeof(status) == 24);
-+        if (kvm_copy_from_gva(cs, arg, &status, sizeof(status))) {
++        qemu_build_assert(sizeof(close) == 4);
++        if (kvm_copy_from_gva(cs, arg, &close, sizeof(close))) {
 +            err = -EFAULT;
 +            break;
 +        }
 +
-+        err = xen_evtchn_status_op(&status);
-+        if (!err && kvm_copy_to_gva(cs, arg, &status, sizeof(status))) {
-+            err = -EFAULT;
-+        }
++        err = xen_evtchn_close_op(&close);
 +        break;
 +    }
      default:
          return false;
      }
-@@ -914,7 +930,7 @@ static bool do_kvm_xen_handle_exit(X86CPU *cpu, struct kvm_xen_exit *exit)
-         return kvm_xen_hcall_sched_op(exit, cpu, exit->u.hcall.params[0],
-                                       exit->u.hcall.params[1]);
-     case __HYPERVISOR_event_channel_op:
--        return kvm_xen_hcall_evtchn_op(exit, exit->u.hcall.params[0],
-+        return kvm_xen_hcall_evtchn_op(exit, cpu, exit->u.hcall.params[0],
-                                        exit->u.hcall.params[1]);
-     case __HYPERVISOR_vcpu_op:
-         return kvm_xen_hcall_vcpu_op(exit, cpu,
 -- 
 2.39.1
 
