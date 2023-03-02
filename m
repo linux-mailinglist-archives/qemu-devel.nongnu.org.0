@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CD246A7C9E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9676A7CCC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 09:35:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXeHj-0007LY-0u; Thu, 02 Mar 2023 03:27:31 -0500
+	id 1pXeHg-00076Z-SE; Thu, 02 Mar 2023 03:27:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHF-0005hM-S1
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:27:01 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHH-0005hb-0F
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:27:03 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHB-0002cl-KC
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:26:58 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pXeHE-0002cw-Hj
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 03:27:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677745617;
+ s=mimecast20190719; t=1677745620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9Oa6YLBxIoDgfjENvfUetPLFDxTwoQRGLPSXdNky5K8=;
- b=NcDIs0qvjxuYRf52o56w9hGTVgNQbokhgb9qfimwI9G920G2ANMdznXpRE7Tm5j2lSutBx
- uK0Kp71ubOG6M4lxec9kEBlf1MSYg0avM3V7ZAyzsQ2IAVIWQD6FL6BgsBXoxBHOd/wU+h
- 43FEmsUYI2sPBkHdK6MedEv5N735nVc=
+ bh=7sh8dSfop4p9UJ3T0MvZ2cmCfp1xzBPVgRTzyaj5hc4=;
+ b=cfAYkMAdgPDfp2GBapxtPWQVA6nBAlHaSKC3OzV9dv/wafdRA5mYlDlsP5E+zyuIVnGdh8
+ Gi/Su+xk2Jv0SU1pGIbsSyx/iWvkn5dbbWM2n+YrKqGvaWk0SkTPaE3TEEtCtPsA0CUOBr
+ 7KLx+QYLwyXqdD1UkK0DMC5xoHCSFvw=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-314-gYrAdg0lOXSNwEyz7jSvDA-1; Thu, 02 Mar 2023 03:26:55 -0500
-X-MC-Unique: gYrAdg0lOXSNwEyz7jSvDA-1
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-70-TY3Z7dYiMm6AaWErYNf2qA-1; Thu, 02 Mar 2023 03:26:58 -0500
+X-MC-Unique: TY3Z7dYiMm6AaWErYNf2qA-1
 Received: by mail-wm1-f71.google.com with SMTP id
- p22-20020a7bcc96000000b003e2036a1516so920879wma.7
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:55 -0800 (PST)
+ t1-20020a7bc3c1000000b003dfe223de49so924753wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 00:26:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677745614;
+ d=1e100.net; s=20210112; t=1677745617;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9Oa6YLBxIoDgfjENvfUetPLFDxTwoQRGLPSXdNky5K8=;
- b=ebd4kCJ1zq81EGhs8mEkQ6fy7XVSAb6JGSDi0mj3OwvHIK43kpo1Wg1eTB409/W/Y1
- +d3gUmIvH8frjtA5yoCmSBTIPg+LlHiEuy31QWrBTh+Bml9Rj2zG9MR5EbxLii2b4Tm7
- WSoYQd1CPs0T44jsIdW19Z8JhXXfM3YwPhFLanCxcFrED/KU8VwVPDsZrYwY93r9muv+
- wmZz9VP6uVHA4N/YfK3+D1SNWJvU/TK5Pmnolebt18XeLlqnqLOQjZDGmaxSsY1kzmOt
- sejHfMO2pNfHi0CIxeLbRHdHbNU5Y2pHGRoUiA/ju2gL0xFQKji3ddbcQr6To2opSGtx
- rDyA==
-X-Gm-Message-State: AO0yUKVztAr7Jmhmgm4uIFZ7U5Wu2rDoEPVnCCi7flh3ewS8mnTHFim3
- Wx2JU165GpPqcGIE53MhA/TABLQSYS6uFtMDWhgwpu15psPDQ0QA6qrnMmx45LX5rLelAI/GlnH
- QLXCqlnRi9VSqEnGU6qRV4dgDk6ieZ8lm8MZ8SviMI3Ac1B/YgRuBgZ8DZBG/I943Cg==
-X-Received: by 2002:a05:600c:45d3:b0:3ea:f883:5ac with SMTP id
- s19-20020a05600c45d300b003eaf88305acmr6889191wmo.5.1677745614175; 
- Thu, 02 Mar 2023 00:26:54 -0800 (PST)
-X-Google-Smtp-Source: AK7set8TXpwQkoQrmiuWHa+5xCUJ2f3q7lFN2DlYCU8Z93Omodb4E3iDozBY14FqHM214+7ny+qQYw==
-X-Received: by 2002:a05:600c:45d3:b0:3ea:f883:5ac with SMTP id
- s19-20020a05600c45d300b003eaf88305acmr6889169wmo.5.1677745613830; 
- Thu, 02 Mar 2023 00:26:53 -0800 (PST)
+ bh=7sh8dSfop4p9UJ3T0MvZ2cmCfp1xzBPVgRTzyaj5hc4=;
+ b=zK3ebiudUGBJ92SPJex9BkGWauK+pHSn7hNaJp4tDUt22H424s69zd8r+HiAKYH8if
+ W6AgyCVKN7pLKwz0bxfki4geVcFTzHt0IUBDlffDBZdraFsEDS6w1cmoiWlHl09nSRAu
+ 2C836ukjXti7k0haXW1R2EAw5eqou8hdc39rk8dZVqnFJjbxHfSoJXtD21lpM47JdxFY
+ zC/fb3jK602JTSUc1FNeFrfa73GKY6vsrWsIdyN26iwkXyxjKGnbsuhbRHI1k0dZiYBA
+ 8YLcLbQItJ3xZqib3FQJd7Y6DozwNCQDLrp5KZNyQYS7nqbX0ZI00KXeIKpQ+y52yU0l
+ qLgg==
+X-Gm-Message-State: AO0yUKWozctvgKmYptGJof5w75yY9INwE7u4GTh4vw8s8/n7jnhTWzrU
+ +HbxX2KvTdpYAotWukoQkV/9E4ngubuQtsuV3TwTUj0buzMz5VTwLSBrAqozg0gUy/V7+5fFvRz
+ s9WgaM6x16KUUYwyz6Boe8AvEKrO16BtishjxtZS91mm9bVEuk2gWli56zUTRJAfqpw==
+X-Received: by 2002:a05:600c:4a9f:b0:3eb:3908:8541 with SMTP id
+ b31-20020a05600c4a9f00b003eb39088541mr6588281wmp.2.1677745617139; 
+ Thu, 02 Mar 2023 00:26:57 -0800 (PST)
+X-Google-Smtp-Source: AK7set80Ovf/bCv5bvVqVYbewAS/emBOgZ1D3xldmH6cE5Nl4BcD8Z1i7NmXxt/fKLvWtFQDmMwazw==
+X-Received: by 2002:a05:600c:4a9f:b0:3eb:3908:8541 with SMTP id
+ b31-20020a05600c4a9f00b003eb39088541mr6588260wmp.2.1677745616805; 
+ Thu, 02 Mar 2023 00:26:56 -0800 (PST)
 Received: from redhat.com ([2.52.141.194]) by smtp.gmail.com with ESMTPSA id
- f20-20020a7bc8d4000000b003db03725e86sm2082330wml.8.2023.03.02.00.26.52
+ u8-20020a05600c440800b003eb3933ef10sm2073958wmn.46.2023.03.02.00.26.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 00:26:53 -0800 (PST)
-Date: Thu, 2 Mar 2023 03:26:50 -0500
+ Thu, 02 Mar 2023 00:26:56 -0800 (PST)
+Date: Thu, 2 Mar 2023 03:26:54 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Gregory Price <gourry.memverge@gmail.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Ira Weiny <ira.weiny@intel.com>,
  Gregory Price <gregory.price@memverge.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
  Fan Ni <fan.ni@samsung.com>, Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL 45/53] hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
-Message-ID: <20230302082343.560446-46-mst@redhat.com>
+Subject: [PULL 46/53] hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+Message-ID: <20230302082343.560446-47-mst@redhat.com>
 References: <20230302082343.560446-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -103,41 +103,83 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Gregory Price <gourry.memverge@gmail.com>
 
-Current code sets to STORAGE_EXPRESS and then overrides it.
+Remove usage of magic numbers when accessing capacity fields and replace
+with CXL_CAPACITY_MULTIPLIER, matching the kernel definition.
 
-Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 Signed-off-by: Gregory Price <gregory.price@memverge.com>
+Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20230206172816.8201-4-Jonathan.Cameron@huawei.com>
+
+Message-Id: <20230206172816.8201-5-Jonathan.Cameron@huawei.com>
 Reviewed-by: Fan Ni <fan.ni@samsung.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/mem/cxl_type3.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/cxl/cxl-mailbox-utils.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 252822bd82..217a5e639b 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -408,7 +408,6 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index bc1bb18844..3f67b665f5 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -12,8 +12,11 @@
+ #include "hw/pci/pci.h"
+ #include "qemu/cutils.h"
+ #include "qemu/log.h"
++#include "qemu/units.h"
+ #include "qemu/uuid.h"
+ 
++#define CXL_CAPACITY_MULTIPLIER   (256 * MiB)
++
+ /*
+  * How to add a new command, example. The command set FOO, with cmd BAR.
+  *  1. Add the command set and cmd to the enum.
+@@ -138,7 +141,7 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+     } QEMU_PACKED *fw_info;
+     QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
+ 
+-    if (cxl_dstate->pmem_size < (256 << 20)) {
++    if (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER) {
+         return CXL_MBOX_INTERNAL_ERROR;
      }
  
-     pci_config_set_prog_interface(pci_conf, 0x10);
--    pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
+@@ -283,7 +286,7 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+     CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
+     uint64_t size = cxl_dstate->pmem_size;
  
-     pcie_endpoint_cap_init(pci_dev, 0x80);
-     if (ct3d->sn != UI64_NULL) {
-@@ -627,7 +626,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+-    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
++    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
+         return CXL_MBOX_INTERNAL_ERROR;
+     }
  
-     pc->realize = ct3_realize;
-     pc->exit = ct3_exit;
--    pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
-+    pc->class_id = PCI_CLASS_MEMORY_CXL;
-     pc->vendor_id = PCI_VENDOR_ID_INTEL;
-     pc->device_id = 0xd93; /* LVF for now */
-     pc->revision = 1;
+@@ -293,8 +296,8 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
+     /* PMEM only */
+     snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
+ 
+-    id->total_capacity = size / (256 << 20);
+-    id->persistent_capacity = size / (256 << 20);
++    id->total_capacity = size / CXL_CAPACITY_MULTIPLIER;
++    id->persistent_capacity = size / CXL_CAPACITY_MULTIPLIER;
+     id->lsa_size = cvc->get_lsa_size(ct3d);
+ 
+     *len = sizeof(*id);
+@@ -314,14 +317,14 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
+     QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
+     uint64_t size = cxl_dstate->pmem_size;
+ 
+-    if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
++    if (!QEMU_IS_ALIGNED(size, CXL_CAPACITY_MULTIPLIER)) {
+         return CXL_MBOX_INTERNAL_ERROR;
+     }
+ 
+     /* PMEM only */
+     part_info->active_vmem = 0;
+     part_info->next_vmem = 0;
+-    part_info->active_pmem = size / (256 << 20);
++    part_info->active_pmem = size / CXL_CAPACITY_MULTIPLIER;
+     part_info->next_pmem = 0;
+ 
+     *len = sizeof(*part_info);
 -- 
 MST
 
