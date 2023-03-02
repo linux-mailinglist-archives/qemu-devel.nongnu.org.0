@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD006A80B3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:07:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF7D6A80C0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 12:10:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXglV-00069y-SZ; Thu, 02 Mar 2023 06:06:25 -0500
+	id 1pXgoa-0000PB-2V; Thu, 02 Mar 2023 06:09:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXglS-00069j-Kt
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:06:22 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
+ id 1pXgoX-0000Ip-By
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:09:33 -0500
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pXglQ-0008Sn-Ht
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:06:22 -0500
-Received: by mail-wr1-x434.google.com with SMTP id h14so16121797wru.4
- for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:06:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <fam.zheng@bytedance.com>)
+ id 1pXgoV-0001m5-Bg
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 06:09:33 -0500
+Received: by mail-qt1-x832.google.com with SMTP id r5so17546578qtp.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 03:09:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677755178;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=64KAXUBGJqjvhroHU52eBNYyDBJrllD0A9oLg65O7a4=;
- b=rRqZ5uhN3p3W8+K7PLoZtqZpO37TRhJJ9JopZJl/eGzhYnQygviT+nyuVbX/xx6d99
- kOe0u2HkJuUDW1hVRYLWGnBeowNaA1n7vEUIxNijMUTWLrB1Q4MQDO2R1Z5ZZYoteDKG
- supx1I5t6VPpE/UH/+Xq3xGKZ68d9KHLCZknEEgWn9yyyRjwkY8cF5QWnO4X1QGj+oBv
- 32+K5BXxN2qCFQAVzDLQ3PAP6lWcyRomJp5ENk/7oLuAqiTaQVNNiEzaFAVFqHUgSZBY
- /HUhI0Gw1mG7XZL91sh+ZnTN9BsMJcp3p/T6/W5hSebk0Ai3J9QvGGrngrnOn1mwfCtd
- XpVQ==
+ d=bytedance.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZudvcLwMvUbYZ9rjSI6+sx+hNXnP93f2AUoNGYExEG8=;
+ b=D2RcFYPotMEfg7lRsVR1AzKKaNu/QrUO9yMo7J25O1O15bkkLUFF7BIhn2lluGaA/O
+ uqfujbZPJjXxpb3iG/+m8xpv7X/9jXRZSyu8jnDQlgy0SQB+v8Wu/9GulFk4zRbfs3Sb
+ rVZ2pXC9KKAjklzix70nNs2Rwz0N+DlE4tBsKMzNOEA5sMUzI1rTg2G+gSu4VloG1XzL
+ OjVR9YsDc9CrFAV2OGSniL0CR6dG7aAI3PxucctQOd3V5KOx3fW/aAVZlYgZNmUXaywm
+ 2QAry1gcNZHvqPyztgC/LYOgn+WrY6NYNWTA3m53FuSklnQn+R8toTVwh3JnqVBxhwZ7
+ 86aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677755178;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=64KAXUBGJqjvhroHU52eBNYyDBJrllD0A9oLg65O7a4=;
- b=GM2M0aiyHPwQ686NctPFPMASml7yoPC/W780s7QuY3mgXDLzMyOoM+9Vwbvz/YH92U
- ae1Qt4VrLNZmXSLe+Qp5CHSC/Yg5g/j0EW5xP4YtzPGbM9k2OvIifHGpeRAunxvhSYBG
- dI9JOVk5fUvJ3CA6y9iH0DkYDq6XvXaG/Wg2ez+5y0TbfuhBiSXSJL1KEKRdJ0HEjblp
- DOaZZDFE7jbE4zy7ycslG3zBbp1RWVEGqI8hWrTEyAxg4Ww+5HTCt8db1Rzj6HvGAVOQ
- u/8dxflV3LiR4jiBOafRY1hDb9naSwxCl6w7s/YtruH0Z6yMaXXJbI+hKobpQFgF1NwD
- rsXA==
-X-Gm-Message-State: AO0yUKWgVc7hVH0a3TmCdBYX3wojwSKMUHWqYATNRHOnAsWyRO29MlAc
- k6q2wAIj3iyj0uMclV9Z8EkAXw==
-X-Google-Smtp-Source: AK7set88ZOb8EGmLtO6cZp1yAf2t6ML/l0dGIWKlSOGpNoxKDlkT+zCGbYUb7RIMnuqJz2YuSeZKGQ==
-X-Received: by 2002:a5d:558d:0:b0:2c7:694:aa18 with SMTP id
- i13-20020a5d558d000000b002c70694aa18mr6708893wrv.15.1677755177800; 
- Thu, 02 Mar 2023 03:06:17 -0800 (PST)
-Received: from [192.168.74.175] (89.red-88-28-21.dynamicip.rima-tde.net.
- [88.28.21.89]) by smtp.gmail.com with ESMTPSA id
- w7-20020a05600c474700b003e204fdb160sm2867337wmo.3.2023.03.02.03.06.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 03:06:17 -0800 (PST)
-Message-ID: <20bb422e-746d-e841-5d26-ee93cb1da9ab@linaro.org>
-Date: Thu, 2 Mar 2023 12:06:12 +0100
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZudvcLwMvUbYZ9rjSI6+sx+hNXnP93f2AUoNGYExEG8=;
+ b=W5o4g/pLLbuonUo5qbiO38lLk8EcCAXwPPJqA0J/CsvYzA44K1iHluDSchRfS+xXqc
+ 8RLSUDhfwQ8qHGjdh42hgqIH9JvJXtwgbEfnafbqSnX14yRS+YOtU2eb4p3AzE+43Q+G
+ qZCrpxmWAeS42+bYKInd6ZxJ11nBiCobVK9+r0QqTvqfKpvdr74mT9gy5eRBOv1KzZ7y
+ v0uIGXdGq9kHt5il6LoSfJxelEzvxVbUOn/Fj18UkLX6AKeQYrGL/nS4iggvaYcSwFh2
+ AhEXLa3cXbSprOLOuKV3YyeRy6wzJQhgmSaV5bWPgS3ey0kscku/A4r7MHT4EWoRYpHl
+ yzwg==
+X-Gm-Message-State: AO0yUKVDR1Cba418bBfR+8T64848x51jrBL1mmknI7W8WYlpJ0GLFcOx
+ AQLuiJnBPdeGCjRFUfQs+xaPG7PyiZVcdhxelZU=
+X-Google-Smtp-Source: AK7set9aGs/LaqeyW8wd6ORIGsUjO323cTL+h5JOeZMszHsoF+OVeD79Gc72diHr3YJ6zlzz/k3I6g==
+X-Received: by 2002:a05:622a:514:b0:3b9:bc8c:c213 with SMTP id
+ l20-20020a05622a051400b003b9bc8cc213mr2313861qtx.30.1677755366478; 
+ Thu, 02 Mar 2023 03:09:26 -0800 (PST)
+Received: from localhost ([93.115.195.2]) by smtp.gmail.com with ESMTPSA id
+ g186-20020a37b6c3000000b007430494ab92sm1498404qkf.67.2023.03.02.03.09.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 03:09:26 -0800 (PST)
+From: Fam Zheng <fam.zheng@bytedance.com>
+To: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
+ fam@euphon.net, Igor Mammedov <imammedo@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ stefanha@redhat.com, Fam Zheng <fam.zheng@bytedance.com>
+Subject: [PATCH] hostmem: Add clear option to file backend
+Date: Thu,  2 Mar 2023 11:09:25 +0000
+Message-Id: <20230302110925.4680-1-fam.zheng@bytedance.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v2 0/2] QGA installer fixes
-Content-Language: en-US
-To: Brian Wiltse <brian.wiltse@live.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- Yonggang Luo <luoyonggang@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Yan Vugenfirer <yvugenfi@redhat.com>,
- Evgeny Iakovlev <eiakovlev@linux.microsoft.com>,
- Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>
-References: <20230221112157.418648-1-kkostiuk@redhat.com>
- <170a0ba8-d85c-4b31-557a-d85b12b88089@linaro.org>
- <CAPMcbCrqgrBkABhtSxCUbroszpPhCCWJ=FXL7AJbSmxN2n-q+Q@mail.gmail.com>
- <SN4P220MB079034D6B286760E22D50411EBAC9@SN4P220MB0790.NAMP220.PROD.OUTLOOK.COM>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <SN4P220MB079034D6B286760E22D50411EBAC9@SN4P220MB0790.NAMP220.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=fam.zheng@bytedance.com; helo=mail-qt1-x832.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -108,45 +93,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Brian, Konstantin,
+This adds a memset to clear the backing memory. This is useful in the
+case of PMEM DAX to drop dirty data, if the backing memory is handed
+over from a previous application or firmware which didn't clean up
+before exiting.
 
-On 28/2/23 23:48, Brian Wiltse wrote:
-> Microsoft has a list of best practices for MSI creation which covers 
-> custom actions 
-> https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-best-practices#if-you-use-custom-actions-follow-good-custom-action-practices <https://learn.microsoft.com/en-us/windows/win32/msi/windows-installer-best-practices#if-you-use-custom-actions-follow-good-custom-action-practices>, The change to the custom action from an interactive command shell to a silent invocation of rundll32.exe keeps the interactive shell from being easily caught and abused, but this does not fully solve the repair from being triggered from a non admin user. There is still the potential for abuse indirectly via attacks like the Mitre documented Hijack Execution Flow technique - Path Interception by PATH Environment Variable (https://attack.mitre.org/techniques/T1574/007/ <https://attack.mitre.org/techniques/T1574/007/>), or even the abuse of potential arbitrary folder creates, file writes and deletes in user-controlled areas such as C:\ProgramData.
-> 
-> The Change button was removed from "Programs and Features", but the 
-> cached installer in c:\windows\installer can be leveraged directly to 
-> start a privileged repair with msiexec.exe as a non-administrative user. 
-> Ideally, the MSI would be compiled with the Privileged property 
-> https://learn.microsoft.com/en-us/windows/win32/msi/privileged 
-> <https://learn.microsoft.com/en-us/windows/win32/msi/privileged> or 
-> AdminUser property 
-> https://learn.microsoft.com/en-us/windows/win32/msi/adminuser 
-> <https://learn.microsoft.com/en-us/windows/win32/msi/adminuser> or 
-> InstallPrivileges="Elevated" 
-> https://wixtoolset.org/docs/v3/xsd/wix/package/ 
-> <https://wixtoolset.org/docs/v3/xsd/wix/package/> or similar privilege 
-> check that which would help ensure the user has proper privileges to 
-> perform the repair or change action. However, since the QEMU build 
-> process leverages WiXL from msitools, many of the WiX property types are 
-> not currently supported to leverage as solutions ( i.e. (wixl:1077): 
-> GLib-GObject-WARNING **: 17:49:05.477: g_object_set_is_valid_property: 
-> object class 'WixlWixPackage' has no property named 'InstallPrivileges' 
-> ). This similar to wixl issue 40 
-> https://gitlab.gnome.org/GNOME/msitools/-/issues/40 
-> <https://gitlab.gnome.org/GNOME/msitools/-/issues/40>.
-> 
-> I do see that Wixl appears to support the custom action JScriptCall. 
-> This might provide for a facility for a script could be run to check if 
-> the user has the proper privileges before privileged actions are taken 
-> in the repair process, but this is not an ideal solution.
+Signed-off-by: Fam Zheng <fam.zheng@bytedance.com>
+---
+ backends/hostmem-file.c | 20 ++++++++++++++++++++
+ include/exec/memory.h   |  3 +++
+ qapi/qom.json           |  3 +++
+ qemu-options.hx         |  4 +++-
+ softmmu/physmem.c       |  6 +++++-
+ 5 files changed, 34 insertions(+), 2 deletions(-)
 
-Does that mean this patchset is, although "not ideal", sufficient
-to fix CVE-2023-0664? Or does this need more work?
-(IOW, do we feel happy enough and want to merge this and forget about it?)
+diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
+index 25141283c4..f7468d24ce 100644
+--- a/backends/hostmem-file.c
++++ b/backends/hostmem-file.c
+@@ -30,6 +30,7 @@ struct HostMemoryBackendFile {
+     bool discard_data;
+     bool is_pmem;
+     bool readonly;
++    bool clear;
+ };
+ 
+ static void
+@@ -56,6 +57,7 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+     ram_flags = backend->share ? RAM_SHARED : 0;
+     ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
+     ram_flags |= fb->is_pmem ? RAM_PMEM : 0;
++    ram_flags |= fb->clear ? RAM_CLEAR : 0;
+     memory_region_init_ram_from_file(&backend->mr, OBJECT(backend), name,
+                                      backend->size, fb->align, ram_flags,
+                                      fb->mem_path, fb->readonly, errp);
+@@ -168,6 +170,21 @@ static void file_memory_backend_set_readonly(Object *obj, bool value,
+     fb->readonly = value;
+ }
+ 
++static bool file_memory_backend_get_clear(Object *obj, Error **errp)
++{
++    HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(obj);
++
++    return fb->clear;
++}
++
++static void file_memory_backend_set_clear(Object *obj, bool value,
++                                             Error **errp)
++{
++    HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(obj);
++
++    fb->clear = value;
++}
++
+ static void file_backend_unparent(Object *obj)
+ {
+     HostMemoryBackend *backend = MEMORY_BACKEND(obj);
+@@ -204,6 +221,9 @@ file_backend_class_init(ObjectClass *oc, void *data)
+     object_class_property_add_bool(oc, "readonly",
+         file_memory_backend_get_readonly,
+         file_memory_backend_set_readonly);
++    object_class_property_add_bool(oc, "clear",
++        file_memory_backend_get_clear,
++        file_memory_backend_set_clear);
+ }
+ 
+ static void file_backend_instance_finalize(Object *o)
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 2e602a2fad..3345db5241 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -232,6 +232,9 @@ typedef struct IOMMUTLBEvent {
+ /* RAM that isn't accessible through normal means. */
+ #define RAM_PROTECTED (1 << 8)
+ 
++/* Clear these pages when mapping */
++#define RAM_CLEAR (1 << 9)
++
+ static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
+                                        IOMMUNotifierFlag flags,
+                                        hwaddr start, hwaddr end,
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 30e76653ad..2c4aa5b0d5 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -629,6 +629,8 @@
+ #         specify the required alignment via this option.
+ #         0 selects a default alignment (currently the page size). (default: 0)
+ #
++# @clear: if true, the memory is memset to 0 during init. (default: false)
++#
+ # @discard-data: if true, the file contents can be destroyed when QEMU exits,
+ #                to avoid unnecessarily flushing data to the backing file. Note
+ #                that ``discard-data`` is only an optimization, and QEMU might
+@@ -649,6 +651,7 @@
+ { 'struct': 'MemoryBackendFileProperties',
+   'base': 'MemoryBackendProperties',
+   'data': { '*align': 'size',
++            '*clear': 'bool',
+             '*discard-data': 'bool',
+             'mem-path': 'str',
+             '*pmem': { 'type': 'bool', 'if': 'CONFIG_LIBPMEM' },
+diff --git a/qemu-options.hx b/qemu-options.hx
+index beeb4475ba..6c8345c62e 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4859,7 +4859,7 @@ SRST
+     they are specified. Note that the 'id' property must be set. These
+     objects are placed in the '/objects' path.
+ 
+-    ``-object memory-backend-file,id=id,size=size,mem-path=dir,share=on|off,discard-data=on|off,merge=on|off,dump=on|off,prealloc=on|off,host-nodes=host-nodes,policy=default|preferred|bind|interleave,align=align,readonly=on|off``
++    ``-object memory-backend-file,id=id,size=size,mem-path=dir,share=on|off,clear=on|off,discard-data=on|off,merge=on|off,dump=on|off,prealloc=on|off,host-nodes=host-nodes,policy=default|preferred|bind|interleave,align=align,readonly=on|off``
+         Creates a memory file backend object, which can be used to back
+         the guest RAM with huge pages.
+ 
+@@ -4886,6 +4886,8 @@ SRST
+         Documentation/vm/numa\_memory\_policy.txt on the Linux kernel
+         source tree for additional details.
+ 
++        Setting clear=on will make QEMU memset the backend to 0.
++
+         Setting the ``discard-data`` boolean option to on indicates that
+         file contents can be destroyed when QEMU exits, to avoid
+         unnecessarily flushing data to the backing file. Note that
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index df54b917a9..573c686fd1 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1409,6 +1409,10 @@ static void *file_ram_alloc(RAMBlock *block,
+         return NULL;
+     }
+ 
++    if (block->flags & RAM_CLEAR) {
++        memset(area, 0, memory);
++    }
++
+     block->fd = fd;
+     return area;
+ }
+@@ -1868,7 +1872,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+ 
+     /* Just support these ram flags by now. */
+     assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_NORESERVE |
+-                          RAM_PROTECTED)) == 0);
++                          RAM_PROTECTED | RAM_CLEAR)) == 0);
+ 
+     if (xen_enabled()) {
+         error_setg(errp, "-mem-path not supported with Xen");
+-- 
+2.20.1
 
-Konstantin, you use "Fixes: CVE-2023-0664" in two different patches.
-I'm worried a downstream distrib only pick one and feel safe. Maybe
-use something like "Fixes: CVE-2023-0664 (part 1 of 2)".
 
