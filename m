@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B05E6A870A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E726A86D7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 17:38:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXlur-0001ly-3D; Thu, 02 Mar 2023 11:36:25 -0500
+	id 1pXlum-0001ZX-As; Thu, 02 Mar 2023 11:36:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pXlu6-0000jQ-Dw
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:35:49 -0500
+ id 1pXltv-0000bx-4F
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:35:29 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pXltz-00089f-3i
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:35:34 -0500
+ id 1pXltr-000854-Kd
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 11:35:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677774928;
+ s=mimecast20190719; t=1677774922;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MNO5JPVXQVsOJKTImGsW6K0gJUshCvfuJpxAhcKoniU=;
- b=MJcgseQO8+MJB5WJMBtFoUfOw1xlhuUsYoGFMa0AP/Prdw8dV+DEZGh9gNhaEUe+5CiK8E
- h5VNeAZhrv/D/WNFq/dmr6XGlMJ9NR7HAEBOeFysOfTEYHemBd+CMNCyqzTmA137ZgYTpJ
- tQH4ahbzmHFoS/hAIRdl4cfJmzvRbDE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5gmqO07UE2HYZtRxbtwedSz7QCPj0b1AsY/WPaBdgvQ=;
+ b=P6a6zaBBctWTVd95EQLBR47yazWNRtauBfP3xUwA7mNbmtcI/TnYs5/r0J9DQbcQ7dB5Gb
+ Jak3wIyP8UvbmtVycImbBvA7jNPHLSoWcqGCfKgWzqnCRoJ42Dxva0CQyz9YmlQ/fOIDu4
+ F1eE2tulcD96rSglkUdNt59qB+WI1gE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-85-UKy7z9oMOXag1pdR5l11Gg-1; Thu, 02 Mar 2023 11:35:17 -0500
-X-MC-Unique: UKy7z9oMOXag1pdR5l11Gg-1
+ us-mta-79-ajKmaQH2MIqP_ibwiKHsyA-1; Thu, 02 Mar 2023 11:35:19 -0500
+X-MC-Unique: ajKmaQH2MIqP_ibwiKHsyA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0CA51C3D380;
- Thu,  2 Mar 2023 16:35:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22E378027FD;
+ Thu,  2 Mar 2023 16:35:19 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED409492C3E;
- Thu,  2 Mar 2023 16:35:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 317EB492C3E;
+ Thu,  2 Mar 2023 16:35:17 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -52,9 +52,9 @@ Cc: David Hildenbrand <david@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Eric Blake <eblake@redhat.com>
-Subject: [PATCH 22/43] migration: Create migrate_checkpoint_delay()
-Date: Thu,  2 Mar 2023 17:33:49 +0100
-Message-Id: <20230302163410.11399-23-quintela@redhat.com>
+Subject: [PATCH 23/43] migration: Create migrate_max_cpu_throttle()
+Date: Thu,  2 Mar 2023 17:33:50 +0100
+Message-Id: <20230302163410.11399-24-quintela@redhat.com>
 In-Reply-To: <20230302163410.11399-1-quintela@redhat.com>
 References: <20230302163410.11399-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -86,66 +86,70 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/options.h | 1 +
- migration/colo.c    | 5 ++---
- migration/options.c | 9 +++++++++
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ migration/migration.h | 2 --
+ migration/options.h   | 1 +
+ migration/options.c   | 9 +++++++++
+ migration/ram.c       | 2 +-
+ 4 files changed, 11 insertions(+), 3 deletions(-)
 
+diff --git a/migration/migration.h b/migration/migration.h
+index bf24a0d471..8ee70cec76 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -412,8 +412,6 @@ bool migrate_postcopy(void);
+ 
+ int migrate_use_tls(void);
+ 
+-int migrate_max_cpu_throttle(void);
+-
+ uint64_t ram_get_total_transferred_pages(void);
+ 
+ /* Sending on the return path - generic and then for each message type */
 diff --git a/migration/options.h b/migration/options.h
-index c9955e87f8..ccdeebfee7 100644
+index ccdeebfee7..0e026bc150 100644
 --- a/migration/options.h
 +++ b/migration/options.h
-@@ -48,6 +48,7 @@ bool migrate_cap_set(int cap, bool value, Error **errp);
- /* parameters */
- 
- bool migrate_block_incremental(void);
-+uint32_t migrate_checkpoint_delay(void);
- int migrate_compress_level(void);
+@@ -53,6 +53,7 @@ int migrate_compress_level(void);
  int migrate_compress_threads(void);
  int migrate_compress_wait_thread(void);
-diff --git a/migration/colo.c b/migration/colo.c
-index 93b78c9270..07bfa21fea 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -576,7 +576,7 @@ static void colo_process_checkpoint(MigrationState *s)
-     trace_colo_vm_state_change("stop", "run");
- 
-     timer_mod(s->colo_delay_timer, qemu_clock_get_ms(QEMU_CLOCK_HOST) +
--              s->parameters.x_checkpoint_delay);
-+              migrate_checkpoint_delay());
- 
-     while (s->state == MIGRATION_STATUS_COLO) {
-         if (failover_get_state() != FAILOVER_STATUS_NONE) {
-@@ -651,8 +651,7 @@ void colo_checkpoint_notify(void *opaque)
- 
-     qemu_event_set(&s->colo_checkpoint_event);
-     s->colo_checkpoint_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
--    next_notify_time = s->colo_checkpoint_time +
--                    s->parameters.x_checkpoint_delay;
-+    next_notify_time = s->colo_checkpoint_time + migrate_checkpoint_delay();
-     timer_mod(s->colo_delay_timer, next_notify_time);
- }
- 
+ int migrate_decompress_threads(void);
++uint8_t migrate_max_cpu_throttle(void);
+ int64_t migrate_max_postcopy_bandwidth(void);
+ int migrate_multifd_channels(void);
+ MultiFDCompression migrate_multifd_compression(void);
 diff --git a/migration/options.c b/migration/options.c
-index 50d982673c..0dbc4bdea8 100644
+index 0dbc4bdea8..472982f91e 100644
 --- a/migration/options.c
 +++ b/migration/options.c
-@@ -474,6 +474,15 @@ bool migrate_block_incremental(void)
-     return s->parameters.block_incremental;
+@@ -519,6 +519,15 @@ int migrate_decompress_threads(void)
+     return s->parameters.decompress_threads;
  }
  
-+uint32_t migrate_checkpoint_delay(void)
++uint8_t migrate_max_cpu_throttle(void)
 +{
 +    MigrationState *s;
 +
 +    s = migrate_get_current();
 +
-+    return s->parameters.x_checkpoint_delay;
++    return s->parameters.max_cpu_throttle;
 +}
 +
- int migrate_compress_level(void)
+ int64_t migrate_max_postcopy_bandwidth(void)
  {
      MigrationState *s;
+diff --git a/migration/ram.c b/migration/ram.c
+index fc456074ee..daa880fb80 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -721,7 +721,7 @@ static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
+     uint64_t pct_initial = s->parameters.cpu_throttle_initial;
+     uint64_t pct_increment = s->parameters.cpu_throttle_increment;
+     bool pct_tailslow = s->parameters.cpu_throttle_tailslow;
+-    int pct_max = s->parameters.max_cpu_throttle;
++    int pct_max = migrate_max_cpu_throttle();
+ 
+     uint64_t throttle_now = cpu_throttle_get_percentage();
+     uint64_t cpu_now, cpu_ideal, throttle_inc;
 -- 
 2.39.2
 
