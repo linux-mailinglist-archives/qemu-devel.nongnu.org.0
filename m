@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662B16A82F0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 13:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6F46A8316
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Mar 2023 14:02:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pXiTY-0003ZB-72; Thu, 02 Mar 2023 07:56:01 -0500
+	id 1pXiZM-00032y-8s; Thu, 02 Mar 2023 08:02:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pXiTD-0003IT-6A
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:55:41 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pXiYv-0002tB-Hr
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:01:40 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1pXiT7-00054q-E5
- for qemu-devel@nongnu.org; Thu, 02 Mar 2023 07:55:38 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ED70A1FE6D;
- Thu,  2 Mar 2023 12:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677761726; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=C3ZKipHeBw2cLW36H/cj7pto0EjtkEk84LPJgfE9WaY=;
- b=qwxTRLgkTfnpM+ftp58G8eoz84RrPzw1UZKju0JxRIILad2NhTL2hEYiliLZ+Cdk3ZISUe
- EZqVHSycLoAhzp9rtWZ1eIU8+5gkS/yKjN80oqm50ATDMlrMrtoc1SZjIkIOFQgByKlDex
- ozUcE3udP139PIQi7EFUqKJynmKQCCQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677761726;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=C3ZKipHeBw2cLW36H/cj7pto0EjtkEk84LPJgfE9WaY=;
- b=W145sNsZWz5UNhjx1crJjwxtAKhUmSkjl3Y/vNckcEvtws6oiTZUG5SqwcgQPeSdYN/ZRN
- aqP59gxGb/g3hyDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7DE9B13349;
- Thu,  2 Mar 2023 12:55:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ynAyEr6cAGQnMAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 02 Mar 2023 12:55:26 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, ani@anisinha.ca, berrange@redhat.com,
- thuth@redhat.com
-Subject: Re: [PATCH 14/33] tests: acpi: update expected blobs
-In-Reply-To: <20230302130251.4ef53268@imammedo.users.ipa.redhat.com>
-References: <20230224153812.4176226-1-imammedo@redhat.com>
- <20230224153812.4176226-15-imammedo@redhat.com>
- <20230301192428-mutt-send-email-mst@kernel.org>
- <20230302130251.4ef53268@imammedo.users.ipa.redhat.com>
-Date: Thu, 02 Mar 2023 09:55:24 -0300
-Message-ID: <87a60vwbwj.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pXiYt-00015E-H5
+ for qemu-devel@nongnu.org; Thu, 02 Mar 2023 08:01:32 -0500
+Received: by mail-pg1-x530.google.com with SMTP id 130so9720389pgg.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Mar 2023 05:01:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677762090;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=g2swlh73GjDI3O6ctw5HieBknwuaqrxEbvtnWF2Lals=;
+ b=YdYk933yO2AmVAcR9C4R4z8+6yArYkvMAf5RxJAFXClND84x2foT2ioOF7pCVWDEcx
+ CiypfrpgX5uMqkJ+A6eLcpkHVTZ1GapzIYXZA4+JtS5RyQdK3v1We5WebFkWoTLMBUTy
+ ASPkqy0diSekLyEghg1EscVEaY44jTnxXkLml+MvCMrHekA8xRy6EnhRpYtxlQoYSTJa
+ rZKOB+jprAjSEqvg4BDk7dJYcLmfnSbYUtPAV3I2QjzJ34hRKQtbUSQYpaaOfqaWF5tX
+ oxXfbI6S9zqZCGK6bT9Upey/Kpln8lhsoK6VLqWbOYd2G+dGKhrzr1K4oh1V4ZBRVPdk
+ v/CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677762090;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g2swlh73GjDI3O6ctw5HieBknwuaqrxEbvtnWF2Lals=;
+ b=VekcEZrzDzJlQHiFfXXYiPO+LDZJHrdDL3rdmZ4lIRifQaExWLN5L1hKlfPKwosKru
+ MXByq9r9Hu4a2bLw29FhmrwjAuHhC81Nxed+7eRKecU32zFauaKE4uQqqXq/moREG3Am
+ /l+k7AdjpYdyRXud5qoATupeFpyewQzsPvYpstERnCXX6pcCjw2vOA3fgqSG6+xk0/rM
+ QIqAkVkwlrXLUtMDb9oQzMZqADIwBSFcjRBFyQ5k+7NuwB37Z1cDO6brjFZNvIT6m5An
+ DByh46Bh8rkYCG+qjArNmLWgwqUHnWFkzRhwTBKStZ8Qv5k8O74n46vLKFjn/TCfuGgE
+ UKyQ==
+X-Gm-Message-State: AO0yUKW6+aDsbfoLzfzr5lCqU9jXZBSgQn8qyJzjoI3I1mqyCnAwUmzf
+ YUcSQ43Ostx6CTsPW39fHB0sgsqSnQs+qzGBdUnPqA==
+X-Google-Smtp-Source: AK7set8mRvGdVI9dpBM7TtSZaZCAwawvipDxlYT4lkesqNtewRnhflRi1ynZmh0khV/2DJrnEhuT7nml9OAogslNkSU=
+X-Received: by 2002:a65:6a94:0:b0:503:a7:d244 with SMTP id
+ q20-20020a656a94000000b0050300a7d244mr3348733pgu.9.1677762089951; 
+ Thu, 02 Mar 2023 05:01:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230302070700.2998086-1-armbru@redhat.com>
+In-Reply-To: <20230302070700.2998086-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 2 Mar 2023 13:01:17 +0000
+Message-ID: <CAFEAcA9VKsLTyeSNEs9RsmUN+T3jw=gXd7oeSR0=Hiq=QbX2ZQ@mail.gmail.com>
+Subject: Re: [PULL 0/5] Monitor patches for 2023-03-02
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,81 +83,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Igor Mammedov <imammedo@redhat.com> writes:
-
-> On Wed, 1 Mar 2023 19:27:33 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Thu, 2 Mar 2023 at 07:07, Markus Armbruster <armbru@redhat.com> wrote:
 >
->> On Fri, Feb 24, 2023 at 04:37:53PM +0100, Igor Mammedov wrote:
->> > only following context change:
->> >  -  Local1 = Zero
->> >     If ((Arg0 != ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d") /* Device Labeling Interface */))
->> >     {
->> >         Return (Local0)
->> >  ...
->> >         Return (Local0)
->> >     }
->> > 
->> >  +  Local1 = Zero
->> >     Local2 = AIDX (DerefOf (Arg4 [Zero]), DerefOf (Arg4 [One]
->> > 
->> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
->> 
->> Nope:
->> 
->> diff -ru -N -IDisassembly -IChecksum '-I*     Length           ' old/asl/tests/data/acpi/q35/DSDT.viot.dsl new/asl/tests/data/acpi/q35/DSDT.viot.dsl
->> :--- old/asl/tests/data/acpi/q35/DSDT.viot.dsl  2023-03-01 19:22:57.636454958 -0500
->> :+++ new/asl/tests/data/acpi/q35/DSDT.viot.dsl  2023-03-01 19:22:58.451460462 -0500
->> :@@ -148,7 +148,6 @@
->>                      {
->>                           0x00                                             // .
->>                      }
->> -                Local1 = Zero
->>                  If ((Arg0 != ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d") /* Device Labeling Interface */))
->>                  {
->>                      Return (Local0)
->> :@@ -159,12 +158,14 @@
->>                      Return (Local0)
->>                  }
->>  
->> +                Local1 = Zero
->>                  Local2 = AIDX (DerefOf (Arg4 [Zero]), DerefOf (Arg4 [One]
->>                      ))
->>                  If (!((Local2 == Zero) | (Local2 == 0xFFFFFFFF)))
->>                  {
->>                      Local1 |= One
->>                      Local1 |= (One << 0x07)
->> +                    Local1 |= (One << 0x05)
->>                  }
->>  
->>                  Local0 [Zero] = Local1
->> 
->> 
->> and the funny thing is, the second change is in the expected
->> file but not in the code so this patch causes the test to fail.
+> The following changes since commit 627634031092e1514f363fd8659a579398de0f0e:
 >
-> above diff is remnants of some old version of the patch before
-> patches were reshuffled.
+>   Merge tag 'buildsys-qom-qdev-ui-20230227' of https://github.com/philmd/qemu into staging (2023-02-28 15:09:18 +0000)
 >
-> for some reason q35/viot test gets skipped => no table rebuild => stale DSDT.viot table
+> are available in the Git repository at:
 >
-> reverting recently merged commit c471eb4f40, I can get q35/viot test back:
+>   https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2023-03-02
 >
-> commit c471eb4f40445908c1be7bb11a37ac676a0edae7
-> Author: Fabiano Rosas <farosas@suse.de>
-> Date:   Wed Feb 8 16:46:57 2023 -0300
+> for you to fetch changes up to 0f3fea217164e3925db91d46f21fc9fa11708e66:
 >
->     tests/qtest: Check for devices in bios-tables-test
+>   target/ppc: Restrict 'qapi-commands-machine.h' to system emulation (2023-03-02 07:51:33 +0100)
 >
-> so checks aren't working as expected on my host for some reason
+> ----------------------------------------------------------------
+> Monitor patches for 2023-03-02
 >
 
-Was this a legitimate skip or do we have a bug in the way we check for
-devices? I.e. did you have CONFIG_VIRTIO_IOMMU in the build?
 
-If we avoid the checks during rebuild and a device is not present in the
-build anyway, then that QEMU invocation would crash.
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-
+-- PMM
 
